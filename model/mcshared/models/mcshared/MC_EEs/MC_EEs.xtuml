@@ -941,7 +941,7 @@ INSERT INTO S_BRG
 	0,
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
-	3,
+	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES ("1203a3de-acbf-4ab2-99d1-2bd14503147f",
@@ -960,6 +960,37 @@ INSERT INTO S_BPARM
 	0,
 	'',
 	"1203a3de-acbf-4ab2-99d1-2bd14503147f",
+	'');
+INSERT INTO S_BRG
+	VALUES ("9fced7a5-892c-4f70-8963-5f9550294058",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'getword',
+	'returns the first word in the input string s starting at index i.
+if no identifier is found, or i is an invalid index, empty string is returned.
+
+words are delimited by whitespace, commas, and parentheses',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("a0b5e259-b7bb-47ee-8243-7ad1643e7bcb",
+	"9fced7a5-892c-4f70-8963-5f9550294058",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("33507f1a-3fea-433a-900f-b01982eafae6",
+	"9fced7a5-892c-4f70-8963-5f9550294058",
+	'i',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"a0b5e259-b7bb-47ee-8243-7ad1643e7bcb",
 	'');
 INSERT INTO PE_PE
 	VALUES ("bb9efba5-486a-4a39-a358-d0e112844c11",

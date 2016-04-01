@@ -472,6 +472,9 @@ for each o_obj in o_objs
     ::statemachine2statemachine( o_obj:o_obj, sm_sm:sm_sm, type:"assigner" );
   end if;
   
+  // render the pragmas to SMASL
+  ::parsepragmas( s:o_obj.Descrip );
+  
   out::populate( element:"object", value:emptyvalue );
 end for;
 ',
@@ -1922,6 +1925,55 @@ INSERT INTO S_DT_PROXY
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
 INSERT INTO PE_PE
 	VALUES ("c1f44339-d7c8-438a-90fa-2e8cb41d36a7",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e2293e1c-01c0-451d-87fb-8b85845690a5",
+	"00000000-0000-0000-0000-000000000000",
+	'parsepragmas',
+	'',
+	'// parse a pragma string to SMASL
+value[7]=""; value[6]=""; value[5]=""; value[4]=""; value[3]=""; value[2]=""; value[1]=""; value[0]="";
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+string = param.s;
+
+i = STRING::indexof( haystack:string, needle:"pragma" );
+string = STRING::substr( s:string, begin:i, end:-1 );
+while ( -1 != i )	// keep looping as long as we find the keyword pragma
+
+  value[0] = STRING::getword( s:string, i:i+6 );		// get the name
+  out::populate( element:"pragma", value:value );
+  
+  j = STRING::indexof( haystack:string, needle:"(" );
+  k = STRING::indexof( haystack:string, needle:")" );
+  while ( not ( -1 == j or j > k ) and -1 != k )
+    value[0] = STRING::getword( s:string, i:j+1 );
+    out::populate( element:"pragmaitem", value:value );
+    j = STRING::indexof( haystack:string, needle:"," );
+  end while;
+  
+  out::populate( element:"pragma", value:emptyvalue );
+  i = STRING::indexof( haystack:string, needle:"pragma" );
+  string = STRING::substr( s:string, begin:i, end:-1 );
+
+end while;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7fdffef0-2545-4311-aa2f-475c306cf786",
+	"e2293e1c-01c0-451d-87fb-8b85845690a5",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e2293e1c-01c0-451d-87fb-8b85845690a5",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
