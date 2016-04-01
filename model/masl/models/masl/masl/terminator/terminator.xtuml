@@ -110,24 +110,6 @@ end for;
 return valid;',
 	1,
 	'',
-	"533eba17-3c81-4eb9-add6-3224cafd497f");
-INSERT INTO O_TFR
-	VALUES ("533eba17-3c81-4eb9-add6-3224cafd497f",
-	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7",
-	'render_project',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'T::include( file:"masl/t.terminator_begin.masl" );
-select many routine_activities related by self->routine[R3791.''sends'']->activity[R3704];
-for each activity in routine_activities
-  activity.render();
-end for;
-T::include( file:"masl/t.terminator_end.masl" );
-select one markable related by self->markable[R3783];
-markable.render_marking( list:"project" );',
-	1,
-	'',
 	"d5232840-adc7-4197-8452-034e5bebae67");
 INSERT INTO O_NBATTR
 	VALUES ("261b125f-8711-4ac9-aeef-33aea0c6c424",

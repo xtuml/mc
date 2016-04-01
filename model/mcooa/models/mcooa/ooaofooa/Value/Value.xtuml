@@ -30,7 +30,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	0,
-	'3.2.0',
+	'4.1.17',
 	'mcooa::ooaofooa::Value');
 INSERT INTO GD_GE
 	VALUES ("26965a9f-0954-4c4a-ab07-6813a4d8d34d",
@@ -14936,7 +14936,7 @@ INSERT INTO R_PART
 	"5dfb3f30-e59e-43da-929a-77a4eaec2bb1",
 	"297ddbb7-9fbc-41b7-9501-22f12c20fd0f",
 	0,
-	0,
+	1,
 	'has');
 INSERT INTO O_RTIDA
 	VALUES ("5cdd7449-254e-495b-9dc3-1eeb34212190",

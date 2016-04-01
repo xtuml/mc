@@ -20,7 +20,6 @@ static i_t current_tbuf = 0;
 static i_t buffer_index = 0;
 static char buffer[ 256000 ];
 static char tbuf[ T_number_of_bufs ][ T_tbuf_size ];
-FILE * outputfile;
 
 
 /*
@@ -34,6 +33,29 @@ T_s( const i_t p_i )
   return "";
 }
 
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+static void _mkdir(const char *);
+static void _mkdir(const char *dir) {
+  char tmp[256];
+  char *p = NULL;
+  size_t len;
+
+  snprintf(tmp, sizeof(tmp),"%s",dir);
+  len = strlen(tmp);
+  if(tmp[len - 1] == '/')
+    tmp[len - 1] = 0;
+  for(p = tmp + 1; *p; p++)
+    if(*p == '/') {
+      *p = 0;
+      mkdir(tmp, S_IRWXU);
+      *p = '/';
+    }
+}
+
 
 /*
  * Bridge:  emit
@@ -41,24 +63,21 @@ T_s( const i_t p_i )
 void
 T_emit( c_t * p_file )
 {
-	//printf("Emitting to file: %s\n", p_file);
-  static int first = 0;
-  if ( first == 0 ) {
-    first = 1;
-    if ( strcmp( "stdout", p_file ) == 0 ) {
-      outputfile = stdout;
-    } else if ( 0 == ( outputfile = fopen( p_file, "w" ) ) ) {
+  FILE * outputfile;
+  if ( strcmp( "stdout", p_file ) == 0 ) {
+    outputfile = stdout;
+  } else {
+    // Create directories as needed.
+    _mkdir( p_file );
+    // Open file.
+    if ( 0 == ( outputfile = fopen( p_file, "w" ) ) ) {
       T_print( "bad news could not open output file" );
       T_exit( 1 );
     }
   }
   fprintf( outputfile, "%s", buffer );
-//  printf("---\n");
-//  printf("%s", buffer);
-//  printf("---\n");
   T_clear();
 }
-
 
 /*
  * Bridge:  clear
@@ -367,3 +386,82 @@ T_t( c_t * p_s )
   }
   return result;
 }
+
+
+static int cp(const char *, const char *);
+/*
+ * Bridge:  copyfile
+ */
+void
+T_copyfile( c_t * p_destination, c_t * p_source )
+{
+  if ( 0 == cp( p_destination, p_source ) ) {
+    fprintf( stderr, "SUCCESSFUL copy - " );
+  } else {
+    fprintf( stderr, "FAILED copy - " );
+  }
+  fprintf( stderr, "copyfile:  source:%s, destination:%s\n", p_source, p_destination );
+}
+
+#include <fcntl.h>
+#include <errno.h>
+
+static int cp(const char *to, const char *from)
+{
+    int fd_to, fd_from;
+    char buf[4096];
+    ssize_t nread;
+    int saved_errno;
+
+    fd_from = open(from, O_RDONLY);
+    if (fd_from < 0)
+        return -1;
+
+    fd_to = open(to, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+    if (fd_to < 0)
+        goto out_error;
+
+    while (nread = read(fd_from, buf, sizeof buf), nread > 0)
+    {
+        char *out_ptr = buf;
+        ssize_t nwritten;
+
+        do {
+            nwritten = write(fd_to, out_ptr, nread);
+
+            if (nwritten >= 0)
+            {
+                nread -= nwritten;
+                out_ptr += nwritten;
+            }
+            else if (errno != EINTR)
+            {
+                goto out_error;
+            }
+        } while (nread > 0);
+    }
+
+    if (nread == 0)
+    {
+        if (close(fd_to) < 0)
+        {
+            fd_to = -1;
+            goto out_error;
+        }
+        close(fd_from);
+
+        /* Success! */
+        return 0;
+    }
+
+  out_error:
+    saved_errno = errno;
+
+    close(fd_from);
+    if (fd_to >= 0)
+        close(fd_to);
+
+    errno = saved_errno;
+    return -1;
+}
+

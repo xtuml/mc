@@ -88,57 +88,6 @@ Description: This is a description of the class as entered by the user.',
 	'');
 INSERT INTO O_REF
 	VALUES ("e545984c-062c-43fd-9deb-1a46d657e094",
-	"3b20dde8-2eec-47fb-8a8d-cf719b4446be",
-	0,
-	"0417f3e9-b8ec-4b51-9bf6-0d947972890a",
-	"d7311b61-6b2a-484a-834d-070b64e17f2c",
-	"537c49d5-43be-46ed-83b3-91810d47ff65",
-	"03f6e918-5d87-4d1d-8ede-04a50f4c8efb",
-	"12f7963e-4e12-491b-8592-b55b72fe74c1",
-	"55cbed2b-61dc-4e9a-81cf-e205caf9faef",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Subsystem',
-	'SS_ID',
-	'R2.''is contained in''');
-INSERT INTO R_RGO_PROXY
-	VALUES ("e545984c-062c-43fd-9deb-1a46d657e094",
-	"d7311b61-6b2a-484a-834d-070b64e17f2c",
-	"537c49d5-43be-46ed-83b3-91810d47ff65",
-	'../../Domain/Domain.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("0417f3e9-b8ec-4b51-9bf6-0d947972890a",
-	"3b20dde8-2eec-47fb-8a8d-cf719b4446be",
-	0,
-	"d7311b61-6b2a-484a-834d-070b64e17f2c",
-	"03f6e918-5d87-4d1d-8ede-04a50f4c8efb",
-	'../../Domain/Domain.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("12f7963e-4e12-491b-8592-b55b72fe74c1",
-	"e545984c-062c-43fd-9deb-1a46d657e094",
-	"0417f3e9-b8ec-4b51-9bf6-0d947972890a",
-	"3b20dde8-2eec-47fb-8a8d-cf719b4446be",
-	1,
-	'SS_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("0417f3e9-b8ec-4b51-9bf6-0d947972890a",
-	"3b20dde8-2eec-47fb-8a8d-cf719b4446be",
-	'../../Domain/Subsystem/Subsystem.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("12f7963e-4e12-491b-8592-b55b72fe74c1",
-	"e545984c-062c-43fd-9deb-1a46d657e094",
-	"09fc4d92-268a-40bc-8fa9-0ce3b3423a62",
-	'SS_ID',
-	'',
-	'',
-	'SS_ID',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
-	'',
-	'');
-INSERT INTO O_REF
-	VALUES ("e545984c-062c-43fd-9deb-1a46d657e094",
 	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
 	0,
 	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
@@ -186,6 +135,24 @@ INSERT INTO O_ATTR
 	'Obj_ID',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d2ea937b-0f9d-454c-86d6-a94052bc2dcb",
+	"e545984c-062c-43fd-9deb-1a46d657e094");
+INSERT INTO O_BATTR
+	VALUES ("d2ea937b-0f9d-454c-86d6-a94052bc2dcb",
+	"e545984c-062c-43fd-9deb-1a46d657e094");
+INSERT INTO O_ATTR
+	VALUES ("d2ea937b-0f9d-454c-86d6-a94052bc2dcb",
+	"e545984c-062c-43fd-9deb-1a46d657e094",
+	"09fc4d92-268a-40bc-8fa9-0ce3b3423a62",
+	'SS_IDdeprecated',
+	'',
+	'',
+	'SS_IDdeprecated',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID

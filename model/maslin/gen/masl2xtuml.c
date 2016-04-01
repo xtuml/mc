@@ -17,6 +17,43 @@
 /*
  * Interface:  serial
  * Provided Port:  in
+ * To Provider Message:  end
+ */
+void
+masl2xtuml_in_end()
+{
+  masl2xtuml_referentialAttribute * ref=0;masl2xtuml_ooaelement * element=0;Escher_ObjectSet_s refs_space={0}; Escher_ObjectSet_s * refs = &refs_space;Escher_ObjectSet_s elements_space={0}; Escher_ObjectSet_s * elements = &elements_space;
+  /* SELECT many elements FROM INSTANCES OF ooaelement */
+  Escher_CopySet( elements, &pG_masl2xtuml_ooaelement_extent.active );
+  /* FOR EACH element IN elements */
+  { Escher_Iterator_s iterelement;
+  masl2xtuml_ooaelement * iielement;
+  Escher_IteratorReset( &iterelement, elements );
+  while ( (iielement = (masl2xtuml_ooaelement *)Escher_IteratorNext( &iterelement )) != 0 ) {
+    element = iielement; {
+    /* element.destruct() */
+    masl2xtuml_ooaelement_op_destruct( element );
+  }}}
+  /* SELECT many refs FROM INSTANCES OF referentialAttribute */
+  Escher_CopySet( refs, &pG_masl2xtuml_referentialAttribute_extent.active );
+  /* FOR EACH ref IN refs */
+  { Escher_Iterator_s iterref;
+  masl2xtuml_referentialAttribute * iiref;
+  Escher_IteratorReset( &iterref, refs );
+  while ( (iiref = (masl2xtuml_referentialAttribute *)Escher_IteratorNext( &iterref )) != 0 ) {
+    ref = iiref; {
+    /* DELETE OBJECT INSTANCE ref */
+    if ( 0 == ref ) {
+      XTUML_EMPTY_HANDLE_TRACE( "referentialAttribute", "Escher_DeleteInstance" );
+    }
+    Escher_DeleteInstance( (Escher_iHandle_t) ref, masl2xtuml_DOMAIN_ID, masl2xtuml_referentialAttribute_CLASS_NUMBER );
+  }}}
+  Escher_ClearSet( refs );Escher_ClearSet( elements );
+}
+
+/*
+ * Interface:  serial
+ * Provided Port:  in
  * To Provider Message:  populate
  */
 void
@@ -79,7 +116,6 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_COMM_LNK_instancedumper,
   masl2xtuml_O_TFR_instancedumper,
   masl2xtuml_O_TPARM_instancedumper,
-  masl2xtuml_O_RAVR_instancedumper,
   masl2xtuml_S_UDT_instancedumper,
   masl2xtuml_UC_UCA_instancedumper,
   masl2xtuml_UC_BA_instancedumper,
@@ -102,7 +138,6 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_S_SPARM_instancedumper,
   masl2xtuml_S_SYS_instancedumper,
   masl2xtuml_G_EIS_instancedumper,
-  masl2xtuml_S_DOM_instancedumper,
   masl2xtuml_R_REL_instancedumper,
   masl2xtuml_R_OIR_instancedumper,
   masl2xtuml_R_RTO_instancedumper,
@@ -133,26 +168,25 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_I_EQE_instancedumper,
   masl2xtuml_I_SQE_instancedumper,
   masl2xtuml_I_MON_instancedumper,
-  masl2xtuml_CSME_CLM_instancedumper,
   masl2xtuml_I_VSF_instancedumper,
   masl2xtuml_I_LIP_instancedumper,
   masl2xtuml_I_RCH_instancedumper,
   masl2xtuml_I_CIN_instancedumper,
   masl2xtuml_I_ICQE_instancedumper,
-  masl2xtuml_CSME_CIE_instancedumper,
-  masl2xtuml_CSME_CIS_instancedumper,
-  masl2xtuml_S_SS_instancedumper,
-  masl2xtuml_BP_BP_instancedumper,
-  masl2xtuml_BP_OAL_instancedumper,
-  masl2xtuml_BP_EV_instancedumper,
-  masl2xtuml_BP_CON_instancedumper,
-  masl2xtuml_BP_ST_instancedumper,
   masl2xtuml_S_AW_instancedumper,
   masl2xtuml_S_IRDT_instancedumper,
   masl2xtuml_S_SDT_instancedumper,
   masl2xtuml_S_MBR_instancedumper,
   masl2xtuml_S_DIM_instancedumper,
   masl2xtuml_ooapopulation_instancedumper,
+  masl2xtuml_ooaparticipation_instancedumper,
+  masl2xtuml_ooaelement_instancedumper,
+  masl2xtuml_referentialAttribute_instancedumper,
+  masl2xtuml_ooapragma_list_instancedumper,
+  masl2xtuml_ooapragma_instancedumper,
+  masl2xtuml_ooapragma_item_instancedumper,
+  masl2xtuml_ooamarkable_instancedumper,
+  masl2xtuml_ooaunmarkable_instancedumper,
   masl2xtuml_S_EE_instancedumper,
   masl2xtuml_C_C_instancedumper,
   masl2xtuml_C_I_instancedumper,
@@ -167,18 +201,6 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_C_DG_instancedumper,
   masl2xtuml_C_PO_instancedumper,
   masl2xtuml_C_RID_instancedumper,
-  masl2xtuml_CA_COMM_instancedumper,
-  masl2xtuml_CA_EESMC_instancedumper,
-  masl2xtuml_CA_SMSMC_instancedumper,
-  masl2xtuml_CA_SMEEC_instancedumper,
-  masl2xtuml_CA_EESME_instancedumper,
-  masl2xtuml_CA_SMSME_instancedumper,
-  masl2xtuml_CA_SMEEE_instancedumper,
-  masl2xtuml_CA_ACC_instancedumper,
-  masl2xtuml_CA_SMOA_instancedumper,
-  masl2xtuml_CA_SMEEA_instancedumper,
-  masl2xtuml_CA_SMOAA_instancedumper,
-  masl2xtuml_CA_SMEED_instancedumper,
   masl2xtuml_SPR_REP_instancedumper,
   masl2xtuml_SPR_PEP_instancedumper,
   masl2xtuml_SPR_RO_instancedumper,
@@ -209,8 +231,6 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_SM_AH_instancedumper,
   masl2xtuml_SM_ACT_instancedumper,
   masl2xtuml_SM_EVTDI_instancedumper,
-  masl2xtuml_SM_SUPDT_instancedumper,
-  masl2xtuml_SM_SDI_instancedumper,
   masl2xtuml_SM_ISM_instancedumper,
   masl2xtuml_SM_ASM_instancedumper,
   masl2xtuml_SM_PEVT_instancedumper,
@@ -219,7 +239,6 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_SM_LEVT_instancedumper,
   masl2xtuml_SM_SGEVT_instancedumper,
   masl2xtuml_SM_TAH_instancedumper,
-  masl2xtuml_S_EEDI_instancedumper,
   masl2xtuml_ACT_BLK_instancedumper,
   masl2xtuml_ACT_ACT_instancedumper,
   masl2xtuml_ACT_SMT_instancedumper,
@@ -263,22 +282,18 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_ACT_BIC_instancedumper,
   masl2xtuml_ACT_TAB_instancedumper,
   masl2xtuml_ACT_BIE_instancedumper,
-  masl2xtuml_S_EEEVT_instancedumper,
   masl2xtuml_E_CEI_instancedumper,
   masl2xtuml_E_GEN_instancedumper,
   masl2xtuml_E_GPR_instancedumper,
   masl2xtuml_E_CEA_instancedumper,
   masl2xtuml_E_GAR_instancedumper,
   masl2xtuml_E_GEC_instancedumper,
-  masl2xtuml_E_CEE_instancedumper,
-  masl2xtuml_E_GEE_instancedumper,
   masl2xtuml_E_CEC_instancedumper,
   masl2xtuml_E_ESS_instancedumper,
   masl2xtuml_E_CES_instancedumper,
   masl2xtuml_E_GES_instancedumper,
   masl2xtuml_E_CSME_instancedumper,
   masl2xtuml_E_GSME_instancedumper,
-  masl2xtuml_S_EEEDI_instancedumper,
   masl2xtuml_PE_PE_instancedumper,
   masl2xtuml_PE_VIS_instancedumper,
   masl2xtuml_PE_CVS_instancedumper,
@@ -314,7 +329,6 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_V_MSV_instancedumper,
   masl2xtuml_V_EPR_instancedumper,
   masl2xtuml_V_SCV_instancedumper,
-  masl2xtuml_S_EEEDT_instancedumper,
   masl2xtuml_PA_SIC_instancedumper,
   masl2xtuml_PA_DIC_instancedumper,
   masl2xtuml_SQ_LS_instancedumper,
@@ -334,26 +348,6 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_SQ_IAV_instancedumper,
   masl2xtuml_IA_UCP_instancedumper,
   masl2xtuml_SQ_PP_instancedumper,
-  masl2xtuml_SEN_E_instancedumper,
-  masl2xtuml_SEN_ALE_instancedumper,
-  masl2xtuml_SEN_DE_instancedumper,
-  masl2xtuml_SEN_DCE_instancedumper,
-  masl2xtuml_SEN_RE_instancedumper,
-  masl2xtuml_SQU_Q_instancedumper,
-  masl2xtuml_SQU_D_instancedumper,
-  masl2xtuml_SQU_R_instancedumper,
-  masl2xtuml_SQU_DE_instancedumper,
-  masl2xtuml_SQU_A_instancedumper,
-  masl2xtuml_SP_SP_instancedumper,
-  masl2xtuml_SP_SE_instancedumper,
-  masl2xtuml_SP_NS_instancedumper,
-  masl2xtuml_SP_ALS_instancedumper,
-  masl2xtuml_SP_DS_instancedumper,
-  masl2xtuml_SR_SR_instancedumper,
-  masl2xtuml_SR_M_instancedumper,
-  masl2xtuml_SR_CM_instancedumper,
-  masl2xtuml_SR_NM_instancedumper,
-  masl2xtuml_SR_CMR_instancedumper,
   masl2xtuml_S_DT_instancedumper
 };
 /* xtUML class info (collections, sizes, etc.) */
@@ -405,7 +399,6 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_COMM_LNK_extent,
   &pG_masl2xtuml_O_TFR_extent,
   &pG_masl2xtuml_O_TPARM_extent,
-  &pG_masl2xtuml_O_RAVR_extent,
   &pG_masl2xtuml_S_UDT_extent,
   &pG_masl2xtuml_UC_UCA_extent,
   &pG_masl2xtuml_UC_BA_extent,
@@ -428,7 +421,6 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_S_SPARM_extent,
   &pG_masl2xtuml_S_SYS_extent,
   &pG_masl2xtuml_G_EIS_extent,
-  &pG_masl2xtuml_S_DOM_extent,
   &pG_masl2xtuml_R_REL_extent,
   &pG_masl2xtuml_R_OIR_extent,
   &pG_masl2xtuml_R_RTO_extent,
@@ -459,26 +451,25 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_I_EQE_extent,
   &pG_masl2xtuml_I_SQE_extent,
   &pG_masl2xtuml_I_MON_extent,
-  &pG_masl2xtuml_CSME_CLM_extent,
   &pG_masl2xtuml_I_VSF_extent,
   &pG_masl2xtuml_I_LIP_extent,
   &pG_masl2xtuml_I_RCH_extent,
   &pG_masl2xtuml_I_CIN_extent,
   &pG_masl2xtuml_I_ICQE_extent,
-  &pG_masl2xtuml_CSME_CIE_extent,
-  &pG_masl2xtuml_CSME_CIS_extent,
-  &pG_masl2xtuml_S_SS_extent,
-  &pG_masl2xtuml_BP_BP_extent,
-  &pG_masl2xtuml_BP_OAL_extent,
-  &pG_masl2xtuml_BP_EV_extent,
-  &pG_masl2xtuml_BP_CON_extent,
-  &pG_masl2xtuml_BP_ST_extent,
   &pG_masl2xtuml_S_AW_extent,
   &pG_masl2xtuml_S_IRDT_extent,
   &pG_masl2xtuml_S_SDT_extent,
   &pG_masl2xtuml_S_MBR_extent,
   &pG_masl2xtuml_S_DIM_extent,
   &pG_masl2xtuml_ooapopulation_extent,
+  &pG_masl2xtuml_ooaparticipation_extent,
+  &pG_masl2xtuml_ooaelement_extent,
+  &pG_masl2xtuml_referentialAttribute_extent,
+  &pG_masl2xtuml_ooapragma_list_extent,
+  &pG_masl2xtuml_ooapragma_extent,
+  &pG_masl2xtuml_ooapragma_item_extent,
+  &pG_masl2xtuml_ooamarkable_extent,
+  &pG_masl2xtuml_ooaunmarkable_extent,
   &pG_masl2xtuml_S_EE_extent,
   &pG_masl2xtuml_C_C_extent,
   &pG_masl2xtuml_C_I_extent,
@@ -493,18 +484,6 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_C_DG_extent,
   &pG_masl2xtuml_C_PO_extent,
   &pG_masl2xtuml_C_RID_extent,
-  &pG_masl2xtuml_CA_COMM_extent,
-  &pG_masl2xtuml_CA_EESMC_extent,
-  &pG_masl2xtuml_CA_SMSMC_extent,
-  &pG_masl2xtuml_CA_SMEEC_extent,
-  &pG_masl2xtuml_CA_EESME_extent,
-  &pG_masl2xtuml_CA_SMSME_extent,
-  &pG_masl2xtuml_CA_SMEEE_extent,
-  &pG_masl2xtuml_CA_ACC_extent,
-  &pG_masl2xtuml_CA_SMOA_extent,
-  &pG_masl2xtuml_CA_SMEEA_extent,
-  &pG_masl2xtuml_CA_SMOAA_extent,
-  &pG_masl2xtuml_CA_SMEED_extent,
   &pG_masl2xtuml_SPR_REP_extent,
   &pG_masl2xtuml_SPR_PEP_extent,
   &pG_masl2xtuml_SPR_RO_extent,
@@ -535,8 +514,6 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_SM_AH_extent,
   &pG_masl2xtuml_SM_ACT_extent,
   &pG_masl2xtuml_SM_EVTDI_extent,
-  &pG_masl2xtuml_SM_SUPDT_extent,
-  &pG_masl2xtuml_SM_SDI_extent,
   &pG_masl2xtuml_SM_ISM_extent,
   &pG_masl2xtuml_SM_ASM_extent,
   &pG_masl2xtuml_SM_PEVT_extent,
@@ -545,7 +522,6 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_SM_LEVT_extent,
   &pG_masl2xtuml_SM_SGEVT_extent,
   &pG_masl2xtuml_SM_TAH_extent,
-  &pG_masl2xtuml_S_EEDI_extent,
   &pG_masl2xtuml_ACT_BLK_extent,
   &pG_masl2xtuml_ACT_ACT_extent,
   &pG_masl2xtuml_ACT_SMT_extent,
@@ -589,22 +565,18 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_ACT_BIC_extent,
   &pG_masl2xtuml_ACT_TAB_extent,
   &pG_masl2xtuml_ACT_BIE_extent,
-  &pG_masl2xtuml_S_EEEVT_extent,
   &pG_masl2xtuml_E_CEI_extent,
   &pG_masl2xtuml_E_GEN_extent,
   &pG_masl2xtuml_E_GPR_extent,
   &pG_masl2xtuml_E_CEA_extent,
   &pG_masl2xtuml_E_GAR_extent,
   &pG_masl2xtuml_E_GEC_extent,
-  &pG_masl2xtuml_E_CEE_extent,
-  &pG_masl2xtuml_E_GEE_extent,
   &pG_masl2xtuml_E_CEC_extent,
   &pG_masl2xtuml_E_ESS_extent,
   &pG_masl2xtuml_E_CES_extent,
   &pG_masl2xtuml_E_GES_extent,
   &pG_masl2xtuml_E_CSME_extent,
   &pG_masl2xtuml_E_GSME_extent,
-  &pG_masl2xtuml_S_EEEDI_extent,
   &pG_masl2xtuml_PE_PE_extent,
   &pG_masl2xtuml_PE_VIS_extent,
   &pG_masl2xtuml_PE_CVS_extent,
@@ -640,7 +612,6 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_V_MSV_extent,
   &pG_masl2xtuml_V_EPR_extent,
   &pG_masl2xtuml_V_SCV_extent,
-  &pG_masl2xtuml_S_EEEDT_extent,
   &pG_masl2xtuml_PA_SIC_extent,
   &pG_masl2xtuml_PA_DIC_extent,
   &pG_masl2xtuml_SQ_LS_extent,
@@ -660,26 +631,6 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_SQ_IAV_extent,
   &pG_masl2xtuml_IA_UCP_extent,
   &pG_masl2xtuml_SQ_PP_extent,
-  &pG_masl2xtuml_SEN_E_extent,
-  &pG_masl2xtuml_SEN_ALE_extent,
-  &pG_masl2xtuml_SEN_DE_extent,
-  &pG_masl2xtuml_SEN_DCE_extent,
-  &pG_masl2xtuml_SEN_RE_extent,
-  &pG_masl2xtuml_SQU_Q_extent,
-  &pG_masl2xtuml_SQU_D_extent,
-  &pG_masl2xtuml_SQU_R_extent,
-  &pG_masl2xtuml_SQU_DE_extent,
-  &pG_masl2xtuml_SQU_A_extent,
-  &pG_masl2xtuml_SP_SP_extent,
-  &pG_masl2xtuml_SP_SE_extent,
-  &pG_masl2xtuml_SP_NS_extent,
-  &pG_masl2xtuml_SP_ALS_extent,
-  &pG_masl2xtuml_SP_DS_extent,
-  &pG_masl2xtuml_SR_SR_extent,
-  &pG_masl2xtuml_SR_M_extent,
-  &pG_masl2xtuml_SR_CM_extent,
-  &pG_masl2xtuml_SR_NM_extent,
-  &pG_masl2xtuml_SR_CMR_extent,
   &pG_masl2xtuml_S_DT_extent
 };
 

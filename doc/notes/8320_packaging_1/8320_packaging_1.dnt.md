@@ -10,7 +10,7 @@ This work is licensed under the Creative Commons CC0 License
 
 1. Abstract
 -----------
-The basic solution provides import/convert and export utilities for MASL models. These
+BridgePoint shall provide import/convert and export utilities for MASL models. These
 utilities will need to be packaged in a build of BridgePoint to be delivered to the user.
 
 2. Document References
@@ -31,6 +31,9 @@ HOWTO build and run the MASL parser.
 This is the parent issue.  
 
 <a id="2.6"></a>2.6 [MASL file packaging design note](https://github.com/leviathan747/mc/blob/8320_packaging/doc/notes/8074_files_dnt.md)  
+
+<a id="2.7"></a>2.7 [Build export UI elements](https://support.onefact.net/issues/8334)  
+Issue for integrating the export utility into the BridgePoint UI.
 
 3. Background
 -------------
@@ -60,7 +63,7 @@ See 8019 analysis note [[2.1]](#2.1)
 
 ### 6.1 Core components
 
-The implementation of the basic solution consists of four independently runnable components.
+The implementation of the utilities consists of four independently runnable components.
 A description of these four components can be found in section 6.1 of the 8019 design note
 [[2.2]](#2.2). The inputs and outputs of each are outlined below.
 
@@ -73,19 +76,30 @@ parser HOWTO [[2.4]](#2.4).
 
 6.1.2.1 Inputs
 
-`masl` reads serial MASL from standard input until the end of the file is reached. It also takes
-an optional validation flag and optional output directory.
+`masl` reads serial MASL from standard input until the end of the
+file is reached. It also takes an optional validation flag and
+optional output directory.
 
 6.1.2.2 Outputs
 
-`masl` writes MASL to the output directory or the current working directory if no output directory
-is specified. If the validation flag (`-v`) is set, it first validates the
-model and writes any validation failures to standard error. If the validate only flag (`-vo`) is
-set, it only validates the model (writing validation failures to standard error), and no output
-MASL is written. Any other error messages are written to standard error.
+`masl` writes MASL to the output directory (`-o`)or the current working
+directory if no output directory is specified.  An input project root
+folder is normally needed using (`-i`).
+
+If the validation flag (`-v`) is set,
+it first validates the model and writes any validation failures to standard
+error. If the validate only flag (`-V`) is set, it only validates the model
+(writing validation failures to standard error), and no output MASL is written.
+Any other error messages are written to standard error.
+
+Rendering of projects and domains is controlled with the respective
+flags (`-p`) or (`-d`).  The name of a project or domain optionally
+can be provided with flag.  When no name is provided all projects
+or all domains are rendered.  When no project or domain flag is provided,
+then all projects and all domains are rendered.
 
 ```sh
-./masl [-v | -vo] [ -o <output directory> ] < input_file
+./masl [-v | -V] [ -p [project name] | -d [domain name] ] [ -i <input project root directory> ] [ -o <output directory> ] < input_file
 ```
 
 #### 6.1.3 `m2x`
@@ -107,21 +121,24 @@ MASL is written. Any other error messages are written to standard error.
 6.1.4.1 Inputs
 
 `x2m` reads xtUML from standard input until the end of the file is reached. It also takes
-a project (`-p`) or domain (`-d`) directive.
+a project (`-p`) or domain (`-d`) directive.  The name of the project or domain can be
+supplied.
 
 6.1.4.2 Outputs
 
 `x2m` outputs serial MASL to standard out. Any error messages are written to standard error.
 
 ```sh
-./x2m <-p | -d> < input_file > output_file
+./x2m <-p [project name] | -d [domain name]> < input_file > output_file
 ```
 
 ### 6.2 Use case flows
 
 #### 6.2.1 Interfaces
 
-The following illustrations reference the four core components along with five interfaces.
+The following illustrations reference the four core components along with five interfaces. These
+are described below. Note that the interface connections on the diagrams represent conceptual flows
+and not an actual xtUML message passing between the components.
 
 6.2.1.1 serial
 
@@ -143,6 +160,8 @@ established naming convention. These naming conventions are outlined here [[2.6]
 The gen interface refers to a control interface specific to the `masl` component. This interface
 determines what to do with the model of MASL in memory once populated. It contains messages to
 render and validate the model and can be extended to allow other operations on the data in memory.
+In short, the gen interface shall be the entry point for any future manipulations of a populated
+model of MASL.
 
 6.2.1.5 error
 
@@ -170,16 +189,15 @@ specified). If no source directories are specified, no output will be produced a
 exit normally. Any error messages are written to standard error.
 
 ```sh
-./masl2xtuml [-p <project source directory(s) ...> ] \
-    [-d <domain source directory(s) ...> ] [ -o <output directory> ]
+masl2xtuml -d <domain source directory(s) ...> [-o <output directory>]
+masl2xtuml -p <project source directory(s) ...> [-o <output directory>]
 ```
-(command split on two lines for readability)
 
 #### 6.2.3 `xtuml2masl` (export)
 ![xtuml2masl](xtuml2masl.png)
 
 The `xtuml2masl` export utility will reside in a plugin in the installation and be invocable
-through the BridgePoint CLI or via a CME in eclipse.
+from the command line.
 
 6.2.3.1 Inputs
 
@@ -201,21 +219,20 @@ any validation failures to standard error. If the validate only flag (`-vo`) is 
 only validate, and not render any output. Any other error messages are written to standard error.
 
 ```sh
-./xtuml2masl [-v | -vo] [-p <xtUML file(s) ...> ] [-d <xtUML file(s) ...> ] \
-    [ -o <output directory> ]
+xtuml2masl [-v | -V] [-e] -i <eclipse project> -d <domain component> [-o <output directory>]
+xtuml2masl [-v | -V] [-e] -i <eclipse project> -p <project package> [-o <output directory>]
 ```
-(command split on two lines for readability)
 
 6.2.3.4 Eclipse UI
 
 The packaging design for exporting from within BridgePoint will be covered in a separate design
-note.
+note [[2.7]](#2.7).
 
 #### 6.2.4 `maslvalidate`
 ![maslvalidate](maslvalidate.png)
 
 The `maslvalidate` utility will reside in a plugin in the installation and be invocable
-through the BridgePoint CLI. A separate plugin for validation of MASL is necessary because
+from the command line. A separate utility for validation of MASL is necessary because
 the convert flow does not naturally pass through the syntax model of MASL. In `xtuml2masl`, validation
 is included "for free" because the model of MASL must be populated in order to render anyway.
 
@@ -240,7 +257,7 @@ to standard error.
 
 7.1 Implementation with shell scripts
 
-Each of the use case flows will be implemented as a shell script. This approach combines convenience
+Each of the use case flows will be implemented as a Linux shell script. This approach combines convenience
 and flexibility.
 
 7.1.1 Core component design

@@ -1,0 +1,327 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	'diagram',
+	3901,
+	'diagram',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("f658dabc-0ca0-414e-ba26-8fc03415c812",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	'populate',
+	'',
+	"a9916f4f-fba5-4d73-b797-c78730cb0054",
+	0,
+	'graph::populate(); // Initialize overall graphics system.
+create object instance diagram of diagram;
+diagram.ID = graph::id(); // factory
+diagram.name = param.name;
+diagram.Model_Type = param.Model_Type;
+diagram.OOA_Type = param.OOA_Type;
+diagram.ooaofooa_ID = T::idtoi( id:param.ooaofooa_ID );
+diagram.path = param.path;
+diagram.figurecount = 0; // number of figures on the diagram for placement calculations
+return diagram;
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("dd6e0ea3-2389-4720-9c7d-fea2d04fe0ba",
+	"f658dabc-0ca0-414e-ba26-8fc03415c812",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("62c43128-68e3-4f73-bd1d-655c5a6a2682",
+	"f658dabc-0ca0-414e-ba26-8fc03415c812",
+	'ooaofooa_ID',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"dd6e0ea3-2389-4720-9c7d-fea2d04fe0ba",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("7a98eb27-de60-4c46-9496-6444fc596114",
+	"f658dabc-0ca0-414e-ba26-8fc03415c812",
+	'OOA_Type',
+	"696e9a94-513e-4efa-9b34-1178961cf1f7",
+	0,
+	'',
+	"fb01fe32-6ea1-4680-983f-aa41caf04f8d",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("696e9a94-513e-4efa-9b34-1178961cf1f7",
+	"00000000-0000-0000-0000-000000000000",
+	'OOAType',
+	'',
+	'',
+	'../x2g.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("dbeb8e74-79ab-4f93-a590-700b4658e126",
+	"f658dabc-0ca0-414e-ba26-8fc03415c812",
+	'path',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7a98eb27-de60-4c46-9496-6444fc596114",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("fb01fe32-6ea1-4680-983f-aa41caf04f8d",
+	"f658dabc-0ca0-414e-ba26-8fc03415c812",
+	'Model_Type',
+	"673c2686-995f-4b58-a4ee-65a4a883049e",
+	0,
+	'',
+	"62c43128-68e3-4f73-bd1d-655c5a6a2682",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("673c2686-995f-4b58-a4ee-65a4a883049e",
+	"00000000-0000-0000-0000-000000000000",
+	'ModelType',
+	'',
+	'',
+	'../x2g.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("a9916f4f-fba5-4d73-b797-c78730cb0054",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<diagram>',
+	'',
+	'',
+	'../x2g.xtuml');
+INSERT INTO O_TFR
+	VALUES ("3ab5f0ed-5a07-4481-a6d1-1d975a01bcff",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'diagram = self;
+T::include( file:"t/t.diagram.sql" );
+select many figures related by self->widget[R3901]->figure[R3902];
+for each figure in figures
+  figure.render();
+end for;
+select many couplers related by self->widget[R3901]->coupler[R3902];
+for each coupler in couplers
+  coupler.render();
+end for;',
+	1,
+	'',
+	"f658dabc-0ca0-414e-ba26-8fc03415c812");
+INSERT INTO O_TFR
+	VALUES ("19594dd0-2e0b-4f26-93fa-18948d3f39cf",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	'xy',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'// Supply x and y for figure.
+// When 0 is supplied as the figure, it means we are creating a new figure.
+// Otherwise, we are just getting coordinates.
+figurenumber = param.figurenumber; 
+if ( 0 == figurenumber )
+  // Add a new figure.
+  // Bump number and return coordinates.
+  self.figurecount = self.figurecount + 1;
+  figurenumber = self.figurecount;
+end if;
+param.x = 1000 + ( figurenumber % 4 ) * 400;
+param.y = 1000 + ( figurenumber / 4 ) * 400;
+return figurenumber;',
+	1,
+	'',
+	"3ab5f0ed-5a07-4481-a6d1-1d975a01bcff");
+INSERT INTO O_TPARM
+	VALUES ("8c2224b6-c71e-4030-b219-52efa8916a37",
+	"19594dd0-2e0b-4f26-93fa-18948d3f39cf",
+	'x',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("0b7c3d71-1e06-411a-8db5-5723e7b77da0",
+	"19594dd0-2e0b-4f26-93fa-18948d3f39cf",
+	'y',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"8c2224b6-c71e-4030-b219-52efa8916a37",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("04f61bcf-d2d1-4e06-83c0-4b637437a556",
+	"19594dd0-2e0b-4f26-93fa-18948d3f39cf",
+	'figurenumber',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"0b7c3d71-1e06-411a-8db5-5723e7b77da0",
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("eb3f6611-b265-4116-8e84-58cc03b07274",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("eb3f6611-b265-4116-8e84-58cc03b07274",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("eb3f6611-b265-4116-8e84-58cc03b07274",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"00000000-0000-0000-0000-000000000000",
+	'ID',
+	'',
+	'',
+	'ID',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("68ae699f-8534-4e8a-8357-4988cec5b93d",
+	"00000000-0000-0000-0000-000000000000",
+	'IDtype',
+	'',
+	'',
+	'../x2g.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("6ef0c095-b483-4902-a45f-beb2dc63a12d",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("6ef0c095-b483-4902-a45f-beb2dc63a12d",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("6ef0c095-b483-4902-a45f-beb2dc63a12d",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"30cf3c57-9916-42e8-9bbb-9d9221afeb79",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("30cf3c57-9916-42e8-9bbb-9d9221afeb79",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("30cf3c57-9916-42e8-9bbb-9d9221afeb79",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("30cf3c57-9916-42e8-9bbb-9d9221afeb79",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"31805763-6c56-4578-a752-b7d47f3d4319",
+	'OOA_Type',
+	'',
+	'',
+	'OOA_Type',
+	0,
+	"696e9a94-513e-4efa-9b34-1178961cf1f7",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8947e478-855f-4dc4-8787-9f74e5288b73",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("8947e478-855f-4dc4-8787-9f74e5288b73",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("8947e478-855f-4dc4-8787-9f74e5288b73",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"6ef0c095-b483-4902-a45f-beb2dc63a12d",
+	'ooaofooa_ID',
+	'',
+	'',
+	'ooaofooa_ID',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("44cb555d-9928-4d3a-8e20-86096f35497b",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("44cb555d-9928-4d3a-8e20-86096f35497b",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("44cb555d-9928-4d3a-8e20-86096f35497b",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"8947e478-855f-4dc4-8787-9f74e5288b73",
+	'path',
+	'',
+	'',
+	'path',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d869b2c5-d93c-4a2a-a8a9-b4d928539de0",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("d869b2c5-d93c-4a2a-a8a9-b4d928539de0",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("d869b2c5-d93c-4a2a-a8a9-b4d928539de0",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"44cb555d-9928-4d3a-8e20-86096f35497b",
+	'figurecount',
+	'',
+	'',
+	'figurecount',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("31805763-6c56-4578-a752-b7d47f3d4319",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("31805763-6c56-4578-a752-b7d47f3d4319",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("31805763-6c56-4578-a752-b7d47f3d4319",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"eb3f6611-b265-4116-8e84-58cc03b07274",
+	'Model_Type',
+	'',
+	'',
+	'Model_Type',
+	0,
+	"673c2686-995f-4b58-a4ee-65a4a883049e",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_OIDA
+	VALUES ("eb3f6611-b265-4116-8e84-58cc03b07274",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	0,
+	'ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ID
+	VALUES (2,
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO PE_PE
+	VALUES ("406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	"7f685551-3fe6-4c32-a2a4-d1cac568d8c7",
+	'x2g',
+	'',
+	0,
+	'../x2g.xtuml');

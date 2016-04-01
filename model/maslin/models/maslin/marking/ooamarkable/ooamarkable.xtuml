@@ -1,0 +1,207 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("58655153-e185-42f5-ad5a-f0a2de593288",
+	'ooamarkable',
+	3807,
+	'ooamarkable',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("caccf6fc-4565-4ff7-8016-0d44f19acfc7",
+	"58655153-e185-42f5-ad5a-f0a2de593288",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'element = param.element;
+create object instance markable of ooamarkable;
+relate markable to element across R3806;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("5dbb2a2e-72cd-442d-8243-e9ef84ba9c68",
+	"caccf6fc-4565-4ff7-8016-0d44f19acfc7",
+	'element',
+	"67d44486-874e-43aa-a2a2-0487451e2390",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("67d44486-874e-43aa-a2a2-0487451e2390",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooaelement>',
+	'',
+	'',
+	'../marking.xtuml');
+INSERT INTO O_TFR
+	VALUES ("2c4de3d3-9067-41fb-8fce-5f88627cdbf9",
+	"58655153-e185-42f5-ad5a-f0a2de593288",
+	'render_pragmas',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// render the pragma string
+pragma_string = "";
+select many pragma_lists related by self->ooapragma_list[R3802];
+for each list in pragma_lists
+	pragma_string = pragma_string + list.render();
+end for;
+
+// select the proper OOA instance to edit the description
+select one element related by self->ooaelement[R3806];
+select one population related by self->ooaelement[R3806]->ooapopulation[R3801];
+if ( not_empty population )
+
+	// check to see if we have any pragmas
+	if ( "" != pragma_string )
+
+		// put the pragmas in the description of the right object
+		if ( "project" == element.type )
+			project = population.current_component;
+			if ( not_empty project )
+			  project.Descrip = project.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:60, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		elif ( "domain" == element.type )
+			domain = population.current_component;
+			if ( not_empty domain )
+			  domain.Descrip = domain.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:61, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		elif ( "terminator" == element.type )
+			interface = population.current_interface;
+			select any terminator related by interface->C_IR[R4012]->C_R[R4009];
+			if ( not_empty terminator )
+			  terminator.Descrip = terminator.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:62, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		elif ( "object" == element.type )
+			obj = population.current_class;
+			if ( not_empty obj )
+			  obj.Descrip = obj.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:63, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		elif ( "routine" == element.type )
+			routine = population.current_domain_function;
+			if ( not_empty routine )
+			  routine.Descrip = routine.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:64, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		elif ( "operation" == element.type )
+			operation = population.current_class_op;
+			if ( not_empty operation )
+			  operation.Descrip = operation.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:65, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		elif ( "state" == element.type )
+			state = population.current_state;
+			select one sm_act related by state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
+			if ( not_empty sm_act )
+			  sm_act.Descrip = sm_act.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:66, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		elif ( "attribute" == element.type )
+			attr = population.current_attribute;
+			if ( not_empty attr )
+			  attr.Descrip = attr.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:67, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		elif ( "transitiontable" == element.type )
+			obj = population.current_class;
+  			select one sm_sm related by obj->SM_ISM[R518]->SM_SM[R517];
+  			if ( not_empty sm_sm )
+  				sm_sm.Descrip = sm_sm.Descrip + pragma_string;
+  			else
+  				select one sm_sm related by obj->SM_ASM[R519]->SM_SM[R517];
+  				if ( not_empty sm_sm )
+  					sm_sm.Descrip = sm_sm.Descrip + pragma_string;
+			    else
+    		      TRACE::log( flavor:"failure", id:68, message:"Could not obtain markable." );
+    		      ooaelement::trace( population: population );
+  				end if;
+  			end if;
+		elif ( "event" == element.type )
+			evt = population.current_event;
+			if ( not_empty evt )
+			  evt.Descrip = evt.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:69, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		elif ( "type" == element.type )
+			type = population.current_type;
+			if ( not_empty type )
+			  type.Descrip = type.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:70, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		else
+		  TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + element.type + "''" );
+		end if;
+
+	end if;
+
+end if;',
+	1,
+	'',
+	"caccf6fc-4565-4ff7-8016-0d44f19acfc7");
+INSERT INTO O_TFR
+	VALUES ("9652d627-db61-490e-b9eb-dfa636990c8d",
+	"58655153-e185-42f5-ad5a-f0a2de593288",
+	'destruct',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select many lists related by self->ooapragma_list[R3802];
+for each pragma_list in lists
+	unrelate self from pragma_list across R3802;
+	pragma_list.destruct();
+end for;
+
+delete object instance self;',
+	1,
+	'',
+	"2c4de3d3-9067-41fb-8fce-5f88627cdbf9");
+INSERT INTO O_ID
+	VALUES (0,
+	"58655153-e185-42f5-ad5a-f0a2de593288");
+INSERT INTO O_ID
+	VALUES (1,
+	"58655153-e185-42f5-ad5a-f0a2de593288");
+INSERT INTO O_ID
+	VALUES (2,
+	"58655153-e185-42f5-ad5a-f0a2de593288");
+INSERT INTO PE_PE
+	VALUES ("58655153-e185-42f5-ad5a-f0a2de593288",
+	1,
+	"14d75964-4149-4868-8a33-9a696539a4fa",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("14d75964-4149-4868-8a33-9a696539a4fa",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'marking',
+	'',
+	0,
+	'../marking.xtuml');

@@ -9,7 +9,6 @@
 
 #include "sys_sys_types.h"
 #include "ooaofooa.h"
-#include "TRACE_bridge.h"
 #include "STRING_bridge.h"
 #include "T_bridge.h"
 #include "POP_bridge.h"
@@ -11134,13 +11133,11 @@ ooaofooa_docgen_classes( ooaofooa_DOC_SEC * p_doc_sec, ooaofooa_EP_PKG * p_ep_pk
             o_tfr = iio_tfr; {
             /* IF ( ( (  != o_tfr.Descrip ) or (  != o_tfr.Action_Semantics_internal ) ) ) */
             if ( ( ( Escher_strcmp( "", o_tfr->Descrip ) != 0 ) || ( Escher_strcmp( "", o_tfr->Action_Semantics_internal ) != 0 ) ) ) {
-              ooaofooa_DOC_PAR * doc_par5;ooaofooa_DOC_PAR * doc_par4;ooaofooa_DOC_SEC * doc_sec4;c_t * title=0;ooaofooa_C_C * c_c=0;ooaofooa_S_SS * s_ss=0;
+              ooaofooa_DOC_PAR * doc_par5;ooaofooa_DOC_PAR * doc_par4;ooaofooa_DOC_SEC * doc_sec4;c_t * title=0;ooaofooa_C_C * c_c=0;
               /* ASSIGN title =  */
               title = Escher_strcpy( title, "" );
               /* SELECT one o_obj RELATED BY o_tfr->O_OBJ[R115] */
               o_obj = ( 0 != o_tfr ) ? o_tfr->O_OBJ_R115_is_associated_with : 0;
-              /* SELECT one s_ss RELATED BY o_obj->S_SS[R2] */
-              s_ss = ( 0 != o_obj ) ? o_obj->S_SS_R2_is_contained_in : 0;
               /* SELECT one ep_pkg RELATED BY o_obj->PE_PE[R8001]->EP_PKG[R8000] */
               ep_pkg = 0;
               {              if ( 0 != o_obj ) {
@@ -11155,14 +11152,6 @@ ooaofooa_docgen_classes( ooaofooa_DOC_SEC * p_doc_sec, ooaofooa_EP_PKG * p_ep_pk
               if ( 0 != PE_PE_R8001 ) {
               c_c = PE_PE_R8001->C_C_R8003_contained_in;
 }}}
-              /* IF ( not_empty s_ss ) */
-              if ( ( 0 != s_ss ) ) {
-                ooaofooa_S_DOM * s_dom=0;
-                /* SELECT one s_dom RELATED BY s_ss->S_DOM[R1] */
-                s_dom = ( 0 != s_ss ) ? s_ss->S_DOM_R1_is_first_level_of_partitioning_for : 0;
-                /* ASSIGN title = ( ( ( ( ( ( s_dom.Name + : ) + s_ss.Name ) + : ) + o_obj.Name ) + :   ) + o_tfr.Name ) */
-                title = Escher_strcpy( title, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( s_dom->Name, ":" ), s_ss->Name ), ":" ), o_obj->Name ), ":  " ), o_tfr->Name ) );
-              }
               /* IF ( not_empty ep_pkg ) */
               if ( ( 0 != ep_pkg ) ) {
                 /* ASSIGN title = ( ( ( ( ep_pkg.Name + : ) + o_obj.Name ) + :   ) + o_tfr.Name ) */
@@ -11205,13 +11194,11 @@ ooaofooa_docgen_classes( ooaofooa_DOC_SEC * p_doc_sec, ooaofooa_EP_PKG * p_ep_pk
 }}}
             /* IF ( (  != o_dbattr.Action_Semantics_internal ) ) */
             if ( ( Escher_strcmp( "", o_dbattr->Action_Semantics_internal ) != 0 ) ) {
-              ooaofooa_DOC_PAR * doc_par5;ooaofooa_DOC_PAR * doc_par4;ooaofooa_DOC_SEC * doc_sec4;c_t * title=0;ooaofooa_C_C * c_c=0;ooaofooa_S_SS * s_ss=0;
+              ooaofooa_DOC_PAR * doc_par5;ooaofooa_DOC_PAR * doc_par4;ooaofooa_DOC_SEC * doc_sec4;c_t * title=0;ooaofooa_C_C * c_c=0;
               /* ASSIGN title =  */
               title = Escher_strcpy( title, "" );
               /* SELECT one o_obj RELATED BY o_attr->O_OBJ[R102] */
               o_obj = ( 0 != o_attr ) ? o_attr->O_OBJ_R102_abstracts_characteristics_of : 0;
-              /* SELECT one s_ss RELATED BY o_obj->S_SS[R2] */
-              s_ss = ( 0 != o_obj ) ? o_obj->S_SS_R2_is_contained_in : 0;
               /* SELECT one ep_pkg RELATED BY o_obj->PE_PE[R8001]->EP_PKG[R8000] */
               ep_pkg = 0;
               {              if ( 0 != o_obj ) {
@@ -11226,11 +11213,6 @@ ooaofooa_docgen_classes( ooaofooa_DOC_SEC * p_doc_sec, ooaofooa_EP_PKG * p_ep_pk
               if ( 0 != PE_PE_R8001 ) {
               c_c = PE_PE_R8001->C_C_R8003_contained_in;
 }}}
-              /* IF ( not_empty s_ss ) */
-              if ( ( 0 != s_ss ) ) {
-                /* ASSIGN title = ( ( ( ( s_ss.Name + : ) + o_obj.Name ) + :   ) + o_attr.Name ) */
-                title = Escher_strcpy( title, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( s_ss->Name, ":" ), o_obj->Name ), ":  " ), o_attr->Name ) );
-              }
               /* IF ( not_empty ep_pkg ) */
               if ( ( 0 != ep_pkg ) ) {
                 /* ASSIGN title = ( ( ( ( ep_pkg.Name + : ) + o_obj.Name ) + :   ) + o_attr.Name ) */
@@ -27522,7 +27504,6 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_COMM_LNK_instancedumper,
   ooaofooa_O_TFR_instancedumper,
   ooaofooa_O_TPARM_instancedumper,
-  ooaofooa_O_RAVR_instancedumper,
   ooaofooa_S_UDT_instancedumper,
   ooaofooa_UC_UCA_instancedumper,
   ooaofooa_UC_BA_instancedumper,
@@ -27545,7 +27526,6 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_S_SPARM_instancedumper,
   ooaofooa_S_SYS_instancedumper,
   ooaofooa_G_EIS_instancedumper,
-  ooaofooa_S_DOM_instancedumper,
   ooaofooa_TE_SWC_instancedumper,
   ooaofooa_TE_CI_instancedumper,
   ooaofooa_TE_OIR_instancedumper,
@@ -27692,20 +27672,11 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_I_EQE_instancedumper,
   ooaofooa_I_SQE_instancedumper,
   ooaofooa_I_MON_instancedumper,
-  ooaofooa_CSME_CLM_instancedumper,
   ooaofooa_I_VSF_instancedumper,
   ooaofooa_I_LIP_instancedumper,
   ooaofooa_I_RCH_instancedumper,
   ooaofooa_I_CIN_instancedumper,
   ooaofooa_I_ICQE_instancedumper,
-  ooaofooa_CSME_CIE_instancedumper,
-  ooaofooa_CSME_CIS_instancedumper,
-  ooaofooa_S_SS_instancedumper,
-  ooaofooa_BP_BP_instancedumper,
-  ooaofooa_BP_OAL_instancedumper,
-  ooaofooa_BP_EV_instancedumper,
-  ooaofooa_BP_CON_instancedumper,
-  ooaofooa_BP_ST_instancedumper,
   ooaofooa_S_AW_instancedumper,
   ooaofooa_S_IRDT_instancedumper,
   ooaofooa_S_SDT_instancedumper,
@@ -27725,18 +27696,6 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_C_DG_instancedumper,
   ooaofooa_C_PO_instancedumper,
   ooaofooa_C_RID_instancedumper,
-  ooaofooa_CA_COMM_instancedumper,
-  ooaofooa_CA_EESMC_instancedumper,
-  ooaofooa_CA_SMSMC_instancedumper,
-  ooaofooa_CA_SMEEC_instancedumper,
-  ooaofooa_CA_EESME_instancedumper,
-  ooaofooa_CA_SMSME_instancedumper,
-  ooaofooa_CA_SMEEE_instancedumper,
-  ooaofooa_CA_ACC_instancedumper,
-  ooaofooa_CA_SMOA_instancedumper,
-  ooaofooa_CA_SMEEA_instancedumper,
-  ooaofooa_CA_SMOAA_instancedumper,
-  ooaofooa_CA_SMEED_instancedumper,
   ooaofooa_SPR_REP_instancedumper,
   ooaofooa_SPR_PEP_instancedumper,
   ooaofooa_SPR_RO_instancedumper,
@@ -27767,8 +27726,6 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_SM_AH_instancedumper,
   ooaofooa_SM_ACT_instancedumper,
   ooaofooa_SM_EVTDI_instancedumper,
-  ooaofooa_SM_SUPDT_instancedumper,
-  ooaofooa_SM_SDI_instancedumper,
   ooaofooa_SM_ISM_instancedumper,
   ooaofooa_SM_ASM_instancedumper,
   ooaofooa_SM_PEVT_instancedumper,
@@ -27777,7 +27734,6 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_SM_LEVT_instancedumper,
   ooaofooa_SM_SGEVT_instancedumper,
   ooaofooa_SM_TAH_instancedumper,
-  ooaofooa_S_EEDI_instancedumper,
   ooaofooa_ACT_BLK_instancedumper,
   ooaofooa_ACT_ACT_instancedumper,
   ooaofooa_ACT_SMT_instancedumper,
@@ -27821,22 +27777,18 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_ACT_BIC_instancedumper,
   ooaofooa_ACT_TAB_instancedumper,
   ooaofooa_ACT_BIE_instancedumper,
-  ooaofooa_S_EEEVT_instancedumper,
   ooaofooa_E_CEI_instancedumper,
   ooaofooa_E_GEN_instancedumper,
   ooaofooa_E_GPR_instancedumper,
   ooaofooa_E_CEA_instancedumper,
   ooaofooa_E_GAR_instancedumper,
   ooaofooa_E_GEC_instancedumper,
-  ooaofooa_E_CEE_instancedumper,
-  ooaofooa_E_GEE_instancedumper,
   ooaofooa_E_CEC_instancedumper,
   ooaofooa_E_ESS_instancedumper,
   ooaofooa_E_CES_instancedumper,
   ooaofooa_E_GES_instancedumper,
   ooaofooa_E_CSME_instancedumper,
   ooaofooa_E_GSME_instancedumper,
-  ooaofooa_S_EEEDI_instancedumper,
   ooaofooa_PE_PE_instancedumper,
   ooaofooa_PE_VIS_instancedumper,
   ooaofooa_PE_CVS_instancedumper,
@@ -27872,7 +27824,6 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_V_MSV_instancedumper,
   ooaofooa_V_EPR_instancedumper,
   ooaofooa_V_SCV_instancedumper,
-  ooaofooa_S_EEEDT_instancedumper,
   ooaofooa_PA_SIC_instancedumper,
   ooaofooa_PA_DIC_instancedumper,
   ooaofooa_SQ_LS_instancedumper,
@@ -27892,26 +27843,6 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_SQ_IAV_instancedumper,
   ooaofooa_IA_UCP_instancedumper,
   ooaofooa_SQ_PP_instancedumper,
-  ooaofooa_SEN_E_instancedumper,
-  ooaofooa_SEN_ALE_instancedumper,
-  ooaofooa_SEN_DE_instancedumper,
-  ooaofooa_SEN_DCE_instancedumper,
-  ooaofooa_SEN_RE_instancedumper,
-  ooaofooa_SQU_Q_instancedumper,
-  ooaofooa_SQU_D_instancedumper,
-  ooaofooa_SQU_R_instancedumper,
-  ooaofooa_SQU_DE_instancedumper,
-  ooaofooa_SQU_A_instancedumper,
-  ooaofooa_SP_SP_instancedumper,
-  ooaofooa_SP_SE_instancedumper,
-  ooaofooa_SP_NS_instancedumper,
-  ooaofooa_SP_ALS_instancedumper,
-  ooaofooa_SP_DS_instancedumper,
-  ooaofooa_SR_SR_instancedumper,
-  ooaofooa_SR_M_instancedumper,
-  ooaofooa_SR_CM_instancedumper,
-  ooaofooa_SR_NM_instancedumper,
-  ooaofooa_SR_CMR_instancedumper,
   ooaofooa_S_DT_instancedumper
 };
 /* xtUML class info (collections, sizes, etc.) */
@@ -27963,7 +27894,6 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_COMM_LNK_extent,
   &pG_ooaofooa_O_TFR_extent,
   &pG_ooaofooa_O_TPARM_extent,
-  &pG_ooaofooa_O_RAVR_extent,
   &pG_ooaofooa_S_UDT_extent,
   &pG_ooaofooa_UC_UCA_extent,
   &pG_ooaofooa_UC_BA_extent,
@@ -27986,7 +27916,6 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_S_SPARM_extent,
   &pG_ooaofooa_S_SYS_extent,
   &pG_ooaofooa_G_EIS_extent,
-  &pG_ooaofooa_S_DOM_extent,
   &pG_ooaofooa_TE_SWC_extent,
   &pG_ooaofooa_TE_CI_extent,
   &pG_ooaofooa_TE_OIR_extent,
@@ -28133,20 +28062,11 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_I_EQE_extent,
   &pG_ooaofooa_I_SQE_extent,
   &pG_ooaofooa_I_MON_extent,
-  &pG_ooaofooa_CSME_CLM_extent,
   &pG_ooaofooa_I_VSF_extent,
   &pG_ooaofooa_I_LIP_extent,
   &pG_ooaofooa_I_RCH_extent,
   &pG_ooaofooa_I_CIN_extent,
   &pG_ooaofooa_I_ICQE_extent,
-  &pG_ooaofooa_CSME_CIE_extent,
-  &pG_ooaofooa_CSME_CIS_extent,
-  &pG_ooaofooa_S_SS_extent,
-  &pG_ooaofooa_BP_BP_extent,
-  &pG_ooaofooa_BP_OAL_extent,
-  &pG_ooaofooa_BP_EV_extent,
-  &pG_ooaofooa_BP_CON_extent,
-  &pG_ooaofooa_BP_ST_extent,
   &pG_ooaofooa_S_AW_extent,
   &pG_ooaofooa_S_IRDT_extent,
   &pG_ooaofooa_S_SDT_extent,
@@ -28166,18 +28086,6 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_C_DG_extent,
   &pG_ooaofooa_C_PO_extent,
   &pG_ooaofooa_C_RID_extent,
-  &pG_ooaofooa_CA_COMM_extent,
-  &pG_ooaofooa_CA_EESMC_extent,
-  &pG_ooaofooa_CA_SMSMC_extent,
-  &pG_ooaofooa_CA_SMEEC_extent,
-  &pG_ooaofooa_CA_EESME_extent,
-  &pG_ooaofooa_CA_SMSME_extent,
-  &pG_ooaofooa_CA_SMEEE_extent,
-  &pG_ooaofooa_CA_ACC_extent,
-  &pG_ooaofooa_CA_SMOA_extent,
-  &pG_ooaofooa_CA_SMEEA_extent,
-  &pG_ooaofooa_CA_SMOAA_extent,
-  &pG_ooaofooa_CA_SMEED_extent,
   &pG_ooaofooa_SPR_REP_extent,
   &pG_ooaofooa_SPR_PEP_extent,
   &pG_ooaofooa_SPR_RO_extent,
@@ -28208,8 +28116,6 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_SM_AH_extent,
   &pG_ooaofooa_SM_ACT_extent,
   &pG_ooaofooa_SM_EVTDI_extent,
-  &pG_ooaofooa_SM_SUPDT_extent,
-  &pG_ooaofooa_SM_SDI_extent,
   &pG_ooaofooa_SM_ISM_extent,
   &pG_ooaofooa_SM_ASM_extent,
   &pG_ooaofooa_SM_PEVT_extent,
@@ -28218,7 +28124,6 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_SM_LEVT_extent,
   &pG_ooaofooa_SM_SGEVT_extent,
   &pG_ooaofooa_SM_TAH_extent,
-  &pG_ooaofooa_S_EEDI_extent,
   &pG_ooaofooa_ACT_BLK_extent,
   &pG_ooaofooa_ACT_ACT_extent,
   &pG_ooaofooa_ACT_SMT_extent,
@@ -28262,22 +28167,18 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_ACT_BIC_extent,
   &pG_ooaofooa_ACT_TAB_extent,
   &pG_ooaofooa_ACT_BIE_extent,
-  &pG_ooaofooa_S_EEEVT_extent,
   &pG_ooaofooa_E_CEI_extent,
   &pG_ooaofooa_E_GEN_extent,
   &pG_ooaofooa_E_GPR_extent,
   &pG_ooaofooa_E_CEA_extent,
   &pG_ooaofooa_E_GAR_extent,
   &pG_ooaofooa_E_GEC_extent,
-  &pG_ooaofooa_E_CEE_extent,
-  &pG_ooaofooa_E_GEE_extent,
   &pG_ooaofooa_E_CEC_extent,
   &pG_ooaofooa_E_ESS_extent,
   &pG_ooaofooa_E_CES_extent,
   &pG_ooaofooa_E_GES_extent,
   &pG_ooaofooa_E_CSME_extent,
   &pG_ooaofooa_E_GSME_extent,
-  &pG_ooaofooa_S_EEEDI_extent,
   &pG_ooaofooa_PE_PE_extent,
   &pG_ooaofooa_PE_VIS_extent,
   &pG_ooaofooa_PE_CVS_extent,
@@ -28313,7 +28214,6 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_V_MSV_extent,
   &pG_ooaofooa_V_EPR_extent,
   &pG_ooaofooa_V_SCV_extent,
-  &pG_ooaofooa_S_EEEDT_extent,
   &pG_ooaofooa_PA_SIC_extent,
   &pG_ooaofooa_PA_DIC_extent,
   &pG_ooaofooa_SQ_LS_extent,
@@ -28333,26 +28233,6 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_SQ_IAV_extent,
   &pG_ooaofooa_IA_UCP_extent,
   &pG_ooaofooa_SQ_PP_extent,
-  &pG_ooaofooa_SEN_E_extent,
-  &pG_ooaofooa_SEN_ALE_extent,
-  &pG_ooaofooa_SEN_DE_extent,
-  &pG_ooaofooa_SEN_DCE_extent,
-  &pG_ooaofooa_SEN_RE_extent,
-  &pG_ooaofooa_SQU_Q_extent,
-  &pG_ooaofooa_SQU_D_extent,
-  &pG_ooaofooa_SQU_R_extent,
-  &pG_ooaofooa_SQU_DE_extent,
-  &pG_ooaofooa_SQU_A_extent,
-  &pG_ooaofooa_SP_SP_extent,
-  &pG_ooaofooa_SP_SE_extent,
-  &pG_ooaofooa_SP_NS_extent,
-  &pG_ooaofooa_SP_ALS_extent,
-  &pG_ooaofooa_SP_DS_extent,
-  &pG_ooaofooa_SR_SR_extent,
-  &pG_ooaofooa_SR_M_extent,
-  &pG_ooaofooa_SR_CM_extent,
-  &pG_ooaofooa_SR_NM_extent,
-  &pG_ooaofooa_SR_CMR_extent,
   &pG_ooaofooa_S_DT_extent
 };
 

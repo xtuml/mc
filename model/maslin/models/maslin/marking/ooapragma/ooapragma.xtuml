@@ -1,0 +1,157 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("2003b9b8-5dce-495f-86ad-c9d13b042228",
+	'ooapragma',
+	3805,
+	'ooapragma',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("d64a003a-b2ff-4559-9727-2d1b67d5423a",
+	"2003b9b8-5dce-495f-86ad-c9d13b042228",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'ret = "pragma " + self.name + "( ";
+separator = "";
+select many pragma_items related by self->ooapragma_item[R3804];
+for each item in pragma_items
+	ret = ret + separator + item.render();
+	separator = ", ";
+end for;
+ret = ret + " );\n";
+
+return ret;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("e0fc114d-2b34-4427-9705-7b3a1bd3a064",
+	"2003b9b8-5dce-495f-86ad-c9d13b042228",
+	'populate',
+	'',
+	"150bb385-2132-4200-960b-2be5599a2b59",
+	0,
+	'markable = param.markable;
+
+// get the pragma list
+list_name = "";
+if ( "" == param.list )
+  list_name = "default";
+else
+  list_name = param.list;
+end if;
+select any pragma_list related by markable->ooapragma_list[R3802] where ( selected.name == list_name );
+if ( empty pragma_list )
+  pragma_list = ooapragma_list::populate( name:list_name, markable:markable );
+end if;
+
+create object instance pragma of ooapragma;
+pragma.name = param.name;
+relate pragma to pragma_list across R3803;
+
+return pragma;',
+	1,
+	'',
+	"d64a003a-b2ff-4559-9727-2d1b67d5423a");
+INSERT INTO O_TPARM
+	VALUES ("8933895e-023e-4a2b-8057-7e5fb253af56",
+	"e0fc114d-2b34-4427-9705-7b3a1bd3a064",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("ed248ccf-fb9d-4b9a-93fe-c3043cecd3f9",
+	"e0fc114d-2b34-4427-9705-7b3a1bd3a064",
+	'list',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"8933895e-023e-4a2b-8057-7e5fb253af56",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("e3748286-4340-49f8-bb02-5670ebfdaade",
+	"e0fc114d-2b34-4427-9705-7b3a1bd3a064",
+	'markable',
+	"a912efec-064d-41ba-bff2-bd8bd01c29aa",
+	0,
+	'',
+	"ed248ccf-fb9d-4b9a-93fe-c3043cecd3f9",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a912efec-064d-41ba-bff2-bd8bd01c29aa",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooamarkable>',
+	'',
+	'',
+	'../marking.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("150bb385-2132-4200-960b-2be5599a2b59",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooapragma>',
+	'',
+	'',
+	'../marking.xtuml');
+INSERT INTO O_TFR
+	VALUES ("46e68c25-92ed-4eaf-965e-83a5a7923602",
+	"2003b9b8-5dce-495f-86ad-c9d13b042228",
+	'destruct',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select many items related by self->ooapragma_item[R3804];
+for each pragma_item in items
+	unrelate self from pragma_item across R3804;
+	pragma_item.destruct();
+end for;
+
+delete object instance self;',
+	1,
+	'',
+	"e0fc114d-2b34-4427-9705-7b3a1bd3a064");
+INSERT INTO O_NBATTR
+	VALUES ("40ba5d83-0c21-40bf-984d-70dd87401a85",
+	"2003b9b8-5dce-495f-86ad-c9d13b042228");
+INSERT INTO O_BATTR
+	VALUES ("40ba5d83-0c21-40bf-984d-70dd87401a85",
+	"2003b9b8-5dce-495f-86ad-c9d13b042228");
+INSERT INTO O_ATTR
+	VALUES ("40ba5d83-0c21-40bf-984d-70dd87401a85",
+	"2003b9b8-5dce-495f-86ad-c9d13b042228",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"2003b9b8-5dce-495f-86ad-c9d13b042228");
+INSERT INTO O_ID
+	VALUES (1,
+	"2003b9b8-5dce-495f-86ad-c9d13b042228");
+INSERT INTO O_ID
+	VALUES (2,
+	"2003b9b8-5dce-495f-86ad-c9d13b042228");
+INSERT INTO PE_PE
+	VALUES ("2003b9b8-5dce-495f-86ad-c9d13b042228",
+	1,
+	"14d75964-4149-4868-8a33-9a696539a4fa",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("14d75964-4149-4868-8a33-9a696539a4fa",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'marking',
+	'',
+	0,
+	'../marking.xtuml');

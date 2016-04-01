@@ -1,0 +1,237 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	'ooaelement',
+	3803,
+	'ooaelement',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("03266923-721c-4844-976a-fd6752d4055a",
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'population = param.population;
+type = param.type;
+
+select one current_element related by population->ooaelement[R3801];
+if ( not_empty current_element  and ( "associative" == type or "participation" == type ) and type == current_element.type )
+	// only associative and participation can be called multiple times without being closed
+	// by an end tag
+	//TRACE::log( flavor:"info", id:83, message:"duplicate element" );
+else
+	// create instance
+	create object instance element of ooaelement;
+	element.type = type;
+
+	if ( empty current_element )
+		// first element 
+		relate population to element across R3801;
+	else
+		// push this element on the stack
+		unrelate population from current_element across R3801;
+		relate element to current_element across R3805.''child of'';
+		relate population to element across R3801;
+	end if;
+
+	// check if it''s a valid markable type and create proper subtype
+	if ( ooaelement::ismarkable( type: param.type) )
+		ooamarkable::populate( element: element );
+	else
+		ooaunmarkable::populate( element: element );
+	end if;
+
+end if;
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("d176430c-e434-40cd-9aae-4f1c34e03165",
+	"03266923-721c-4844-976a-fd6752d4055a",
+	'population',
+	"6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooapopulation>',
+	'',
+	'',
+	'../../masl2xtuml/masl2xtuml.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("9e985e36-479b-4ec5-a602-93cd3975cca3",
+	"03266923-721c-4844-976a-fd6752d4055a",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d176430c-e434-40cd-9aae-4f1c34e03165",
+	'');
+INSERT INTO O_TFR
+	VALUES ("2fa79bfe-dcc7-426a-a905-e511c2bf55b8",
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	'ismarkable',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'// check if it is a valid markable element
+if ( "project" == param.type or
+	 "domain" == param.type or
+     "object" == param.type or
+     "terminator" == param.type or
+     "routine" == param.type or
+     "operation" == param.type or
+     "state" == param.type or
+     "attribute" == param.type or
+     //"identifier" == param.type or			// TODO not implemented
+     "transitiontable" == param.type or
+     "event" == param.type or
+     //"regularrel" == param.type or			// TODO not implemented
+     //"associative" == param.type or			// TODO not implemented
+     //"subsuper" == param.type or				// TODO not implemented
+     "type" == param.type
+     //"exception" == param.type or				// TODO not implemented
+    )
+  return true;
+else
+  return false;
+end if;',
+	1,
+	'',
+	"03266923-721c-4844-976a-fd6752d4055a");
+INSERT INTO O_TPARM
+	VALUES ("96868822-d59b-4b7f-8643-2a6e7abd3dc0",
+	"2fa79bfe-dcc7-426a-a905-e511c2bf55b8",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("b77a5ea3-11c0-4a7c-9b37-4a06db26b0be",
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	'pop_stack',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// pop from the stack
+select one population related by self->ooapopulation[R3801];
+if ( not_empty population )
+
+	select one parent_element related by self->ooaelement[R3805.''child of''];
+	unrelate population from self across R3801;
+	if ( not_empty parent_element )
+		relate population to parent_element across R3801;
+		unrelate self from parent_element across R3805.''child of'';
+	end if;
+
+	// delete self and children
+	//self.destruct();
+
+end if;',
+	1,
+	'',
+	"2fa79bfe-dcc7-426a-a905-e511c2bf55b8");
+INSERT INTO O_TFR
+	VALUES ("484739eb-c4b6-4e69-abb1-f7f9c3d36118",
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	'trace',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'population = param.population;
+
+TRACE::log( flavor:"stack_trace", id:82, message:"outputting element stack:" );
+select one current_element related by population->ooaelement[R3801];
+
+c = 0;
+while ( not_empty current_element and c < 100 );
+  TRACE::log( flavor:"stack_trace", id:82, message:current_element.type );
+  select one current_element related by current_element->ooaelement[R3805.''child of''];
+  c = c + 1;
+end while;
+
+TRACE::log( flavor:"stack_trace", id:82, message:"done." );',
+	1,
+	'',
+	"b77a5ea3-11c0-4a7c-9b37-4a06db26b0be");
+INSERT INTO O_TPARM
+	VALUES ("d484c15d-a7c7-4044-b0b3-65c872afd115",
+	"484739eb-c4b6-4e69-abb1-f7f9c3d36118",
+	'population',
+	"6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("cead7cad-d634-458c-87d6-120f28937c66",
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	'destruct',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one markable related by self->ooamarkable[R3806];
+if ( not_empty markable )
+	unrelate self from markable across R3806;
+	markable.destruct();
+end if;
+select one unmarkable related by self->ooaunmarkable[R3806];
+if ( not_empty unmarkable )
+	unrelate self from unmarkable across R3806;
+	unmarkable.destruct();
+end if;
+
+delete object instance self;',
+	1,
+	'',
+	"484739eb-c4b6-4e69-abb1-f7f9c3d36118");
+INSERT INTO O_NBATTR
+	VALUES ("44a3f8d4-50ae-4b23-b6fd-291d4d873ba6",
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e");
+INSERT INTO O_BATTR
+	VALUES ("44a3f8d4-50ae-4b23-b6fd-291d4d873ba6",
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e");
+INSERT INTO O_ATTR
+	VALUES ("44a3f8d4-50ae-4b23-b6fd-291d4d873ba6",
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	"00000000-0000-0000-0000-000000000000",
+	'type',
+	'',
+	'',
+	'type',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e");
+INSERT INTO O_ID
+	VALUES (1,
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e");
+INSERT INTO O_ID
+	VALUES (2,
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e");
+INSERT INTO PE_PE
+	VALUES ("ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	1,
+	"14d75964-4149-4868-8a33-9a696539a4fa",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("14d75964-4149-4868-8a33-9a696539a4fa",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'marking',
+	'',
+	0,
+	'../marking.xtuml');

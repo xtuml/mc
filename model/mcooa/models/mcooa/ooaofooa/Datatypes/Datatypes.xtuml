@@ -1489,146 +1489,146 @@ INSERT INTO S_DT
 	VALUES ("4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"00000000-0000-0000-0000-000000000000",
 	'ElementTypeConstants',
-	'',
+	'Hardcoded all of the values for the enum to match those produced by MC-Java. See issue #8392 LPS',
 	'');
 INSERT INTO S_EDT
 	VALUES ("4bba1170-0de5-4efc-b4c5-95951acdc289");
 INSERT INTO S_ENUM
 	VALUES ("6f0cd188-241c-4424-a991-bc2af0b9c220",
 	'FUNCTION',
-	'',
+	'value:1',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO S_ENUM
 	VALUES ("ecf397ad-61c4-49cc-951c-1b56175f7309",
 	'COMPONENT',
-	'',
+	'value:2',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"f7dc2533-9602-49b2-990d-f397a68bc772");
 INSERT INTO S_ENUM
 	VALUES ("f7dc2533-9602-49b2-990d-f397a68bc772",
 	'DATATYPE',
-	'',
+	'value:3',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"6a9ed3c6-e2ed-4e25-8069-6203042ad238");
 INSERT INTO S_ENUM
 	VALUES ("6a9ed3c6-e2ed-4e25-8069-6203042ad238",
 	'CLASS',
-	'',
+	'value:4',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"6f0cd188-241c-4424-a991-bc2af0b9c220");
 INSERT INTO S_ENUM
 	VALUES ("0d2f2323-34eb-4eac-b1be-6941bd4b6165",
 	'EE',
-	'',
+	'value:5',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"ecf397ad-61c4-49cc-951c-1b56175f7309");
 INSERT INTO S_ENUM
 	VALUES ("be483dff-b4b0-49ce-a125-b1c9b2023009",
 	'INTERFACE',
-	'',
+	'value:6',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"0d2f2323-34eb-4eac-b1be-6941bd4b6165");
 INSERT INTO S_ENUM
 	VALUES ("f85c1f2d-42fc-4923-8828-60521cd47620",
 	'PACKAGE',
-	'',
+	'value:7',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"be483dff-b4b0-49ce-a125-b1c9b2023009");
 INSERT INTO S_ENUM
 	VALUES ("542608cc-80b2-4421-b9b9-308047d15870",
 	'PORT',
-	'',
+	'value:8',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"f85c1f2d-42fc-4923-8828-60521cd47620");
 INSERT INTO S_ENUM
 	VALUES ("b701eb4e-b825-4a75-b3bf-2d84bed3f4e0",
 	'ASSOCIATION',
-	'',
+	'value:9',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"542608cc-80b2-4421-b9b9-308047d15870");
 INSERT INTO S_ENUM
 	VALUES ("38472cc2-78de-4342-a46b-eae4d6e923e0",
 	'CONSTANT',
-	'',
+	'value:10',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"b701eb4e-b825-4a75-b3bf-2d84bed3f4e0");
 INSERT INTO S_ENUM
 	VALUES ("46da90dd-58de-4fc6-bc3f-79f3edd386d5",
 	'ACTIVITY_PARTITION',
-	'',
+	'value:11',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"38472cc2-78de-4342-a46b-eae4d6e923e0");
 INSERT INTO S_ENUM
 	VALUES ("ac499556-31e4-4a4c-b369-dd7c7398993d",
 	'ACTIVITY_EDGE',
-	'This enumeration may need to be replaced with several more specific ones.',
+	'value:12',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"46da90dd-58de-4fc6-bc3f-79f3edd386d5");
 INSERT INTO S_ENUM
 	VALUES ("22074a8f-db30-4f72-bcd8-7ad993564595",
 	'TIMING_MARK',
-	'',
+	'value:13',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"ac499556-31e4-4a4c-b369-dd7c7398993d");
 INSERT INTO S_ENUM
 	VALUES ("073d8786-6763-48a2-86ed-a715d86e5f6c",
 	'INTERACTION_PARTICIPANT',
-	'This enumeration may need to be replaced with several more specific ones.',
+	'value:14',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"22074a8f-db30-4f72-bcd8-7ad993564595");
 INSERT INTO S_ENUM
 	VALUES ("e344c36c-fc57-4d57-bbc3-9660ef63563f",
 	'TIME_SPAN',
-	'',
+	'value:15',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"073d8786-6763-48a2-86ed-a715d86e5f6c");
 INSERT INTO S_ENUM
 	VALUES ("fcf3c170-d94f-464b-bdea-8cdedd797f0d",
 	'USE_CASE_ASSOCIATION',
-	'',
+	'value:16',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"e344c36c-fc57-4d57-bbc3-9660ef63563f");
 INSERT INTO S_ENUM
 	VALUES ("8fc9646a-8c85-408d-acd5-e9be3a7cb7ce",
 	'MESSAGE',
-	'This enumeration may need to be replaced with several more specific ones.',
+	'value:17',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"fcf3c170-d94f-464b-bdea-8cdedd797f0d");
 INSERT INTO S_ENUM
 	VALUES ("a93f3409-36ee-4a51-8986-044fd779bccb",
 	'ACTIVITY_NODE',
-	'This enumeration may need to be replaced with several more specific ones.',
+	'value:18',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"8fc9646a-8c85-408d-acd5-e9be3a7cb7ce");
 INSERT INTO S_ENUM
 	VALUES ("309ee726-5447-48c3-ab76-5e8f93ad812f",
 	'IMPORTED_CLASS',
-	'',
+	'value:19',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"a93f3409-36ee-4a51-8986-044fd779bccb");
 INSERT INTO S_ENUM
 	VALUES ("677ddfb3-138b-47c5-a1ae-5c6012cc6f8e",
 	'INTERFACE_REFERENCE',
-	'',
+	'value:20',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"309ee726-5447-48c3-ab76-5e8f93ad812f");
 INSERT INTO S_ENUM
 	VALUES ("4aecef7b-b139-4e9f-a06d-16404134370f",
 	'COMPONENT_REFERENCE',
-	'',
+	'value:21',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"677ddfb3-138b-47c5-a1ae-5c6012cc6f8e");
 INSERT INTO S_ENUM
 	VALUES ("8c3e091d-b011-48d9-80e4-c7b3f9a5512d",
 	'SATISFACTION',
-	'',
+	'value:22',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"4aecef7b-b139-4e9f-a06d-16404134370f");
 INSERT INTO S_ENUM
 	VALUES ("edec2739-eaf4-4249-a3f5-f7c9fa5fa0d9",
 	'DELEGATION',
-	'',
+	'value:23',
 	"4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"8c3e091d-b011-48d9-80e4-c7b3f9a5512d");
 INSERT INTO PE_PE
@@ -1645,7 +1645,7 @@ INSERT INTO S_DT
 	'');
 INSERT INTO S_UDT
 	VALUES ("8e648c99-3845-44e9-9226-9bf00c7350e3",
-	"ba5eda7a-def5-0000-0000-00000000000b",
+	"ba5eda7a-def5-0000-0000-000000000002",
 	0);
 INSERT INTO PE_PE
 	VALUES ("8e648c99-3845-44e9-9226-9bf00c7350e3",
