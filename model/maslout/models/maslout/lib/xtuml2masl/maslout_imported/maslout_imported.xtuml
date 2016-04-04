@@ -143,6 +143,9 @@ for each c_c in c_cs;
   ::class2object( c_c:c_c );
   ::association2relationship( c_c:c_c );
   
+  // Populate pragmas
+  ::parsepragmas( s:c_c.Descrip, list:"" );
+  
   out::populate( element:"domain", value:emptyvalue );
 end for;
       ',
@@ -197,6 +200,10 @@ for each ep_pkg in ep_pkgs
   select many referred_c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
   ::component2domain( c_cs:referred_c_cs, project:true );
 
+  // Populate pragmas
+  select any c_c related by ep_pkg->PE_PE[R8000]->C_C[R8001];
+  ::parsepragmas( s:c_c.Descrip, list:"" );
+
 end for;
 
 // end project
@@ -242,6 +249,13 @@ for each c_po in c_pos
   value[0] = c_po.Name;
   out::populate( element:"terminator", value:value );
   ::message2routine( c_c:c_c, c_po:c_po, project:param.project );
+
+  // Populate pragmas
+  select any c_r related by c_po->C_IR[R4016]->C_R[R4009];
+  if ( not_empty c_r )
+    ::parsepragmas( s:c_r.Descrip, list:"" );
+  end if;
+
   // end terminator
   out::populate( element:"terminator", value:emptyvalue );
 end for;
@@ -335,6 +349,9 @@ for each c_ep in c_eps
   // Populate the action langauge body.
   ::body2code_block( name:path + "/" + c_po.Name + "_" + c_ep.Name, text:"spr_*.Action_Semantics" );
   
+  // Populate pragmas
+  ::parsepragmas( s:c_ep.Descrip, list: "" );
+
   out::populate( element:"routine", value:emptyvalue );
   
 end for;
@@ -473,7 +490,7 @@ for each o_obj in o_objs
   end if;
   
   // render the pragmas to SMASL
-  ::parsepragmas( s:o_obj.Descrip );
+  ::parsepragmas( s:o_obj.Descrip, list:"definition" );
   
   out::populate( element:"object", value:emptyvalue );
 end for;
@@ -567,6 +584,9 @@ for each o_attr in o_attrs
       value[3] = "";
       value[4] = "";
     end if;
+    
+    // Populate pragmas
+    ::parsepragmas( s:o_attr.Descrip, list:"" );
   
     out::populate( element:"attribute", value:emptyvalue );
   end if;
@@ -676,6 +696,7 @@ for each r_rel in r_rels
   if ( not_empty r_simp )
     out::populate( element:"regularrel", value:value );
     ::simpleass2regularrel( c_c:c_c, r_simp:r_simp );
+    ::parsepragmas( s:r_rel.Descrip, list:"" );
     out::populate( element:"regularrel", value:emptyvalue );
   end if;
   
@@ -688,6 +709,7 @@ for each r_rel in r_rels
     out::populate( element:"associative", value:value );
     ::associative2associative( c_c:c_c, r_assoc:r_assoc );
     out::populate( element:"associative", value:value ); // 2nd call for using
+    ::parsepragmas( s:r_rel.Descrip, list:"" );
     out::populate( element:"associative", value:emptyvalue );
   end if;
   
@@ -695,6 +717,7 @@ for each r_rel in r_rels
   if ( not_empty r_subsup )
     out::populate( element:"subsuper", value:value );
     ::subsuper2subsuper( c_c:c_c, r_subsup:r_subsup );
+    ::parsepragmas( s:r_rel.Descrip, list:"" );
     out::populate( element:"subsuper", value:emptyvalue );
   end if;
 end for;
@@ -920,6 +943,9 @@ for each s_sync in s_syncs
   // Populate the action langauge body.
   ::body2code_block( name:path + "/" + s_sync.Name, text:s_sync.Action_Semantics );
   
+  // Populate pragmas
+  ::parsepragmas( s:s_sync.Descrip, list:"" );
+  
   out::populate( element:"routine", value:emptyvalue );
   
 end for;
@@ -1049,6 +1075,9 @@ for each sm_state in sm_states
   end for;
 end for;
 
+// Populate pragmas
+::parsepragmas( s:sm_sm.Descrip, list:"" );
+
 out::populate( element:"transitiontable", value:emptyvalue );',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -1116,6 +1145,9 @@ for each sm_evt in sm_evts
     select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''precedes''];
   end while;
   ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi );
+  
+  // Populate pragmas
+  ::parsepragmas( s:sm_evt.Descrip, list:"" );
   
   out::populate( element:"event", value:emptyvalue );
 end for;',
@@ -1201,6 +1233,8 @@ for each sm_state in sm_states
   // Populate the action langauge body.
   ::body2code_block( name:path + "/" + sm_state.Name, text:"sm_act.Action_Semantics" );
   
+  // Populae pragmas
+  ::parsepragmas( s:sm_act.Descrip, list:"" );
   
   out::populate( element:"state", value:emptyvalue );
 end for;',
@@ -1490,6 +1524,9 @@ for each o_tfr in o_tfrs
   path = ::class_get_path( o_obj:o_obj );
   // Populate the action langauge body.
   ::body2code_block( name:path + "/" + o_tfr.Name, text:o_tfr.Action_Semantics );
+  
+  // Populate pragmas
+  ::parsepragmas( s:o_tfr.Descrip, list:"" );
   
   out::populate( element:"operation", value:emptyvalue );
   
@@ -1939,21 +1976,27 @@ value[7]=""; value[6]=""; value[5]=""; value[4]=""; value[3]=""; value[2]=""; va
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 string = param.s;
+list = param.list;
 
 i = STRING::indexof( haystack:string, needle:"pragma" );
 string = STRING::substr( s:string, begin:i, end:-1 );
 while ( -1 != i )	// keep looping as long as we find the keyword pragma
 
-  value[0] = STRING::getword( s:string, i:i+6 );		// get the name
+  value[0] = STRING::getword( s:string, i:6 );			// get the name
+  value[1] = list;
   out::populate( element:"pragma", value:value );
   
   j = STRING::indexof( haystack:string, needle:"(" );
   k = STRING::indexof( haystack:string, needle:")" );
   while ( not ( -1 == j or j > k ) and -1 != k )
-    value[0] = STRING::getword( s:string, i:j+1 );
+    string = STRING::substr( s:string, begin:j+1, end:-1 );
+    value[0] = STRING::getword( s:string, i:1 );
+    value[1] = "";
     out::populate( element:"pragmaitem", value:value );
     j = STRING::indexof( haystack:string, needle:"," );
   end while;
+  k = STRING::indexof( haystack:string, needle:")" );
+  string = STRING::substr( s:string, begin:k, end:-1 );
   
   out::populate( element:"pragma", value:emptyvalue );
   i = STRING::indexof( haystack:string, needle:"pragma" );
@@ -1971,6 +2014,15 @@ INSERT INTO S_SPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("84e5e4fc-3020-4c2d-a1cb-ecbcb3068609",
+	"e2293e1c-01c0-451d-87fb-8b85845690a5",
+	'list',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7fdffef0-2545-4311-aa2f-475c306cf786",
 	'');
 INSERT INTO PE_PE
 	VALUES ("e2293e1c-01c0-451d-87fb-8b85845690a5",
