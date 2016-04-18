@@ -4,10 +4,9 @@ CREATE TABLE ACT_ACT (
     LoopLevel INTEGER,
     Block_ID UNIQUE_ID,
     CurrentScope_ID UNIQUE_ID,
+    return_value INTEGER,
     Label STRING,
-    Parsed_Block_ID UNIQUE_ID,
-    ReturnFound BOOLEAN
-);
+    Parsed_Block_ID UNIQUE_ID );
 CREATE TABLE ACT_AI (
     Statement_ID UNIQUE_ID,
     r_Value_ID UNIQUE_ID,
