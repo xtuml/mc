@@ -14,6 +14,7 @@
 #include "STRING_bridge.h"
 #include "TRACE_bridge.h"
 #include "V_bridge.h"
+#include "masl_url.h"
 
 /*
  * Bridge:  v
@@ -22,9 +23,13 @@ void
 V_v( c_t * p_element, c_t * p_value[8] )
 {
   int i;
+  char arg[2048];
   printf( "%s", p_element );
   for ( i = 0; i < 8; i++ ) {
-    if ( p_value[i] && 0 != *p_value[i] ) { printf( ",%s", p_value[i] ); }
+    if ( p_value[i] && 0 != *p_value[i] ) {
+        masl_url_encode( arg, p_value[i] );
+        printf( ",%s", arg );
+    }
     else { printf( "," ); }
   }
   printf( "\n" );
