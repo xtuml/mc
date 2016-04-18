@@ -643,7 +643,11 @@ for each s_dt in s_dts
   if ( empty s_irdt )
     value[0] = s_dt.Name;
     value[1] = "private";
-    value[2] = s_dt.Descrip;  // body of type
+
+    // get body of type
+    index = STRING::indexof( haystack:s_dt.Descrip, needle:"definition:" );
+    value[2] = STRING::substr( s:s_dt.Descrip, begin:index+11, end:-1 );
+
     out::populate( element:"type", value:value );
     out::populate( element:"type", value:emptyvalue );
   end if;
@@ -655,7 +659,11 @@ select many s_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001];
 for each s_dt in s_dts
   value[0] = s_dt.Name;
   value[1] = "public";
-  value[2] = s_dt.Descrip;  // body of type
+
+  // get body of type
+  index = STRING::indexof( haystack:s_dt.Descrip, needle:"definition:" );
+  value[2] = STRING::substr( s:s_dt.Descrip, begin:index+11, end:-1 );
+
   out::populate( element:"type", value:value );
   out::populate( element:"type", value:emptyvalue );
 end for;
