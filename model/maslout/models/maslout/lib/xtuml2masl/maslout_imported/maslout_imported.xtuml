@@ -643,9 +643,15 @@ for each s_dt in s_dts
   if ( empty s_irdt )
     value[0] = s_dt.Name;
     value[1] = "private";
-    value[2] = s_dt.Descrip;  // body of type
-    out::populate( element:"type", value:value );
-    out::populate( element:"type", value:emptyvalue );
+
+    // get body of type
+    index = STRING::indexof( haystack:s_dt.Descrip, needle:"definition:" );
+    if ( -1 != index )	// only output types if there is a definition
+      value[2] = STRING::substr( s:s_dt.Descrip, begin:index+11, end:-1 );
+  
+      out::populate( element:"type", value:value );
+      out::populate( element:"type", value:emptyvalue );
+    end if;
   end if;
 end for;
 
@@ -655,10 +661,36 @@ select many s_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001];
 for each s_dt in s_dts
   value[0] = s_dt.Name;
   value[1] = "public";
-  value[2] = s_dt.Descrip;  // body of type
-  out::populate( element:"type", value:value );
-  out::populate( element:"type", value:emptyvalue );
+
+  // get body of type
+  index = STRING::indexof( haystack:s_dt.Descrip, needle:"definition:" );
+  if ( -1 != index )	// only output types if there is a definition
+    value[2] = STRING::substr( s:s_dt.Descrip, begin:index+11, end:-1 );
+
+    out::populate( element:"type", value:value );
+    out::populate( element:"type", value:emptyvalue );
+  end if;
 end for;
+
+// Data types in subpackages of the system packages are also considered public
+select many sub_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001];
+while ( not_empty sub_pkgs )
+  select many s_dts related by sub_pkgs->PE_PE[R8000]->S_DT[R8001];
+  for each s_dt in s_dts
+	value[0] = s_dt.Name;
+	value[1] = "public";
+
+	// get body of type
+	index = STRING::indexof( haystack:s_dt.Descrip, needle:"definition:" );
+	if ( -1 != index )	// only output types if there is a definition
+	  value[2] = STRING::substr( s:s_dt.Descrip, begin:index+11, end:-1 );
+
+	  out::populate( element:"type", value:value );
+	  out::populate( element:"type", value:emptyvalue );
+	end if;
+  end for;
+  select many sub_pkgs related by sub_pkgs->PE_PE[R8000]->EP_PKG[R8001];
+end while;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
