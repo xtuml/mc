@@ -3192,8 +3192,8 @@ masl2xtuml_ooapopulation_op_transformTransition( masl2xtuml_ooapopulation * self
     sm_sm = SM_ASM_R519->SM_SM_R517;
 }}}
   }
-  /* IF ( ( ( Non_Existent == PARAM.startState ) or ( Non_Existant == PARAM.startState ) ) ) */
-  if ( ( ( Escher_strcmp( "Non_Existent", p_startState ) == 0 ) || ( Escher_strcmp( "Non_Existant", p_startState ) == 0 ) ) ) {
+  /* IF ( ( ( ( Non_Existent == PARAM.startState ) or ( Non_Existant == PARAM.startState ) ) or ( non_existent == PARAM.startState ) ) ) */
+  if ( ( ( ( Escher_strcmp( "Non_Existent", p_startState ) == 0 ) || ( Escher_strcmp( "Non_Existant", p_startState ) == 0 ) ) || ( Escher_strcmp( "non_existent", p_startState ) == 0 ) ) ) {
     /* self.StateMachine_newCreationTransition( endState:PARAM.endState, eventName:PARAM.eventName, sm_sm:sm_sm ) */
     masl2xtuml_ooapopulation_op_StateMachine_newCreationTransition( self,  p_endState, p_eventName, sm_sm );
   }
@@ -3254,7 +3254,7 @@ masl2xtuml_ooapopulation_op_StateMachine_newTransition( masl2xtuml_ooapopulation
     /* self.StateEventMatrixEntry_migrateChToEi( sm_seme:seme ) */
     masl2xtuml_ooapopulation_op_StateEventMatrixEntry_migrateChToEi( self,  seme );
   }
-  else if ( ( Escher_strcmp( "Cannot_Happen", p_endState ) == 0 ) ) {
+  else if ( ( ( Escher_strcmp( "Cannot_Happen", p_endState ) == 0 ) || ( Escher_strcmp( "cannot_happen", p_endState ) == 0 ) ) ) {
     masl2xtuml_SM_SEME * seme=0;
     /* SELECT any seme RELATED BY sm_evt->SM_SEVT[R525]->SM_SEME[R503] WHERE ( ( SELECTED.SMstt_ID == fromState.SMstt_ID ) ) */
     seme = 0;
@@ -3360,7 +3360,7 @@ masl2xtuml_ooapopulation_op_StateMachine_newCreationTransition( masl2xtuml_ooapo
   /* IF ( ( Ignore == PARAM.endState ) ) */
   if ( ( Escher_strcmp( "Ignore", p_endState ) == 0 ) ) {
   }
-  else if ( ( Escher_strcmp( "Cannot_Happen", p_endState ) == 0 ) ) {
+  else if ( ( ( Escher_strcmp( "Cannot_Happen", p_endState ) == 0 ) || ( Escher_strcmp( "cannot_happen", p_endState ) == 0 ) ) ) {
   }
   else {
     masl2xtuml_SM_STATE * state=0;
@@ -3377,7 +3377,7 @@ masl2xtuml_ooapopulation_op_StateMachine_newCreationTransition( masl2xtuml_ooapo
     }}}
     /* IF ( not_empty state ) */
     if ( ( 0 != state ) ) {
-      masl2xtuml_SM_CRTXN * ct;masl2xtuml_SM_TXN * tr;
+      masl2xtuml_SM_CRTXN * ct;masl2xtuml_SM_TXN * tr;masl2xtuml_SM_EVT * sm_evt=0;
       /* CREATE OBJECT INSTANCE tr OF SM_TXN */
       tr = (masl2xtuml_SM_TXN *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_TXN_CLASS_NUMBER );
       tr->Trans_ID = (Escher_UniqueID_t) tr;
@@ -3394,6 +3394,22 @@ ct->SM_ID = (Escher_UniqueID_t) ct;
       masl2xtuml_SM_TXN_R505_Link_contains( sm_sm, tr );
       /* self.Transition_initialize( sm_txn:tr ) */
       masl2xtuml_ooapopulation_op_Transition_initialize( self,  tr );
+      /* SELECT any sm_evt RELATED BY sm_sm->SM_EVT[R502] WHERE ( ( SELECTED.Mning == PARAM.eventName ) ) */
+      sm_evt = 0;
+      if ( 0 != sm_sm ) {
+        masl2xtuml_SM_EVT * selected;
+        Escher_Iterator_s iSM_EVT_R502_can_be_communicated_to_via;
+        Escher_IteratorReset( &iSM_EVT_R502_can_be_communicated_to_via, &sm_sm->SM_EVT_R502_can_be_communicated_to_via );
+        while ( 0 != ( selected = (masl2xtuml_SM_EVT *) Escher_IteratorNext( &iSM_EVT_R502_can_be_communicated_to_via ) ) ) {
+          if ( ( Escher_strcmp( selected->Mning, p_eventName ) == 0 ) ) {
+            sm_evt = selected;
+            break;
+      }}}
+      /* IF ( not_empty sm_evt ) */
+      if ( ( 0 != sm_evt ) ) {
+        /* self.Transition_addEvent( sm_evt:sm_evt, sm_sm:sm_sm, sm_txn:tr ) */
+        masl2xtuml_ooapopulation_op_Transition_addEvent( self,  sm_evt, sm_sm, tr );
+      }
     }
   }
 }
