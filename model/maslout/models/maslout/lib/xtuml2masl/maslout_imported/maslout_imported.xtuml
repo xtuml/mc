@@ -543,8 +543,8 @@ for each o_attr in o_attrs
       value[1] = "preferred";
     end if;
     value[2] = "";
-    // See if the type of this attribute is unique_id.
-    if ( "unique_id" == s_dt.Name )
+    // See if the type of this attribute is unique_id or MASLunique.
+    if ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name )
       value[2] = "unique";
     end if;
     // CDS - Coerce inst_ref<Timer>
@@ -566,7 +566,11 @@ for each o_attr in o_attrs
     end if;
   
     // Populate the type referred to by this attribute as a type reference.
-    value[0] = s_dt.Name;
+    if ( s_dt.Name == "MASLunique" )	// MASLunique is always an integer
+      value[0] = "integer";
+    else
+      value[0] = s_dt.Name;
+    end if;
     out::populate( element:"typeref", value:value );
     out::populate( element:"typeref", value:emptyvalue );
     
