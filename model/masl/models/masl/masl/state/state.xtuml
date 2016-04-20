@@ -62,6 +62,7 @@ if ( "non_existent" == name or
 	activity = activity::populate( name:name );
 	create object instance state of state;
 	state.type = type;
+	state.non_existent = true;
 	relate state to parent_object across R3750;
 	relate state to activity across R3704;
   end if;

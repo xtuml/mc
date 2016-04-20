@@ -2989,21 +2989,36 @@ moah->SMstt_ID = (Escher_UniqueID_t) moah;
   Escher_IteratorReset( &iterevent, event_set );
   while ( (iievent = (masl2xtuml_SM_SEVT *)Escher_IteratorNext( &iterevent )) != 0 ) {
     event = iievent; {
-    masl2xtuml_SM_CH * ch;masl2xtuml_SM_SEME * sem;
-    /* CREATE OBJECT INSTANCE sem OF SM_SEME */
-    sem = (masl2xtuml_SM_SEME *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SEME_CLASS_NUMBER );
-    sem->SMstt_ID = (Escher_UniqueID_t) sem;
+    masl2xtuml_SM_SEME * sem=0;
+    /* SELECT any sem RELATED BY event->SM_SEME[R503] WHERE ( ( SELECTED.SMstt_ID == sm_state.SMstt_ID ) ) */
+    sem = 0;
+    if ( 0 != event ) {
+      masl2xtuml_SM_SEME * selected;
+      Escher_Iterator_s iSM_SEME_R503;
+      Escher_IteratorReset( &iSM_SEME_R503, &event->SM_SEME_R503 );
+      while ( 0 != ( selected = (masl2xtuml_SM_SEME *) Escher_IteratorNext( &iSM_SEME_R503 ) ) ) {
+        if ( ( selected->SMstt_ID == sm_state->SMstt_ID ) ) {
+          sem = selected;
+          break;
+    }}}
+    /* IF ( empty sem ) */
+    if ( ( 0 == sem ) ) {
+      masl2xtuml_SM_CH * ch;
+      /* CREATE OBJECT INSTANCE sem OF SM_SEME */
+      sem = (masl2xtuml_SM_SEME *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SEME_CLASS_NUMBER );
+      sem->SMstt_ID = (Escher_UniqueID_t) sem;
 sem->SMevt_ID = (Escher_UniqueID_t) sem;
 sem->SM_ID = (Escher_UniqueID_t) sem;
-    /* CREATE OBJECT INSTANCE ch OF SM_CH */
-    ch = (masl2xtuml_SM_CH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CH_CLASS_NUMBER );
-    ch->SMstt_ID = (Escher_UniqueID_t) ch;
+      /* CREATE OBJECT INSTANCE ch OF SM_CH */
+      ch = (masl2xtuml_SM_CH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CH_CLASS_NUMBER );
+      ch->SMstt_ID = (Escher_UniqueID_t) ch;
 ch->SMevt_ID = (Escher_UniqueID_t) ch;
 ch->SM_ID = (Escher_UniqueID_t) ch;
-    /* RELATE sm_state TO event ACROSS R503 USING sem */
-    masl2xtuml_SM_SEME_R503_Link( sm_state, event, sem );
-    /* RELATE ch TO sem ACROSS R504 */
-    masl2xtuml_SM_CH_R504_Link( sem, ch );
+      /* RELATE sm_state TO event ACROSS R503 USING sem */
+      masl2xtuml_SM_SEME_R503_Link( sm_state, event, sem );
+      /* RELATE ch TO sem ACROSS R504 */
+      masl2xtuml_SM_CH_R504_Link( sem, ch );
+    }
   }}}
   /* ASSIGN act.Suc_Pars = parseInitial */
   act->Suc_Pars = masl2xtuml_ParseStatus_parseInitial_e;
@@ -3143,21 +3158,36 @@ masl2xtuml_ooapopulation_op_SEMEvent_createDefaultMatrixEntries( masl2xtuml_ooap
   Escher_IteratorReset( &iterstate, states );
   while ( (iistate = (masl2xtuml_SM_STATE *)Escher_IteratorNext( &iterstate )) != 0 ) {
     state = iistate; {
-    masl2xtuml_SM_CH * cantHappen;masl2xtuml_SM_SEME * entry;
-    /* CREATE OBJECT INSTANCE entry OF SM_SEME */
-    entry = (masl2xtuml_SM_SEME *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SEME_CLASS_NUMBER );
-    entry->SMstt_ID = (Escher_UniqueID_t) entry;
+    masl2xtuml_SM_SEME * entry=0;
+    /* SELECT any entry RELATED BY sm_sevt->SM_SEME[R503] WHERE ( ( SELECTED.SMstt_ID == state.SMstt_ID ) ) */
+    entry = 0;
+    if ( 0 != sm_sevt ) {
+      masl2xtuml_SM_SEME * selected;
+      Escher_Iterator_s iSM_SEME_R503;
+      Escher_IteratorReset( &iSM_SEME_R503, &sm_sevt->SM_SEME_R503 );
+      while ( 0 != ( selected = (masl2xtuml_SM_SEME *) Escher_IteratorNext( &iSM_SEME_R503 ) ) ) {
+        if ( ( selected->SMstt_ID == state->SMstt_ID ) ) {
+          entry = selected;
+          break;
+    }}}
+    /* IF ( empty entry ) */
+    if ( ( 0 == entry ) ) {
+      masl2xtuml_SM_CH * cantHappen;
+      /* CREATE OBJECT INSTANCE entry OF SM_SEME */
+      entry = (masl2xtuml_SM_SEME *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SEME_CLASS_NUMBER );
+      entry->SMstt_ID = (Escher_UniqueID_t) entry;
 entry->SMevt_ID = (Escher_UniqueID_t) entry;
 entry->SM_ID = (Escher_UniqueID_t) entry;
-    /* RELATE state TO sm_sevt ACROSS R503 USING entry */
-    masl2xtuml_SM_SEME_R503_Link( state, sm_sevt, entry );
-    /* CREATE OBJECT INSTANCE cantHappen OF SM_CH */
-    cantHappen = (masl2xtuml_SM_CH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CH_CLASS_NUMBER );
-    cantHappen->SMstt_ID = (Escher_UniqueID_t) cantHappen;
+      /* RELATE state TO sm_sevt ACROSS R503 USING entry */
+      masl2xtuml_SM_SEME_R503_Link( state, sm_sevt, entry );
+      /* CREATE OBJECT INSTANCE cantHappen OF SM_CH */
+      cantHappen = (masl2xtuml_SM_CH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CH_CLASS_NUMBER );
+      cantHappen->SMstt_ID = (Escher_UniqueID_t) cantHappen;
 cantHappen->SMevt_ID = (Escher_UniqueID_t) cantHappen;
 cantHappen->SM_ID = (Escher_UniqueID_t) cantHappen;
-    /* RELATE cantHappen TO entry ACROSS R504 */
-    masl2xtuml_SM_CH_R504_Link( entry, cantHappen );
+      /* RELATE cantHappen TO entry ACROSS R504 */
+      masl2xtuml_SM_CH_R504_Link( entry, cantHappen );
+    }
   }}}
   Escher_ClearSet( states ); 
 }
@@ -3192,8 +3222,8 @@ masl2xtuml_ooapopulation_op_transformTransition( masl2xtuml_ooapopulation * self
     sm_sm = SM_ASM_R519->SM_SM_R517;
 }}}
   }
-  /* IF ( ( ( Non_Existent == PARAM.startState ) or ( Non_Existant == PARAM.startState ) ) ) */
-  if ( ( ( Escher_strcmp( "Non_Existent", p_startState ) == 0 ) || ( Escher_strcmp( "Non_Existant", p_startState ) == 0 ) ) ) {
+  /* IF ( ( ( ( Non_Existent == PARAM.startState ) or ( Non_Existant == PARAM.startState ) ) or ( non_existent == PARAM.startState ) ) ) */
+  if ( ( ( ( Escher_strcmp( "Non_Existent", p_startState ) == 0 ) || ( Escher_strcmp( "Non_Existant", p_startState ) == 0 ) ) || ( Escher_strcmp( "non_existent", p_startState ) == 0 ) ) ) {
     /* self.StateMachine_newCreationTransition( endState:PARAM.endState, eventName:PARAM.eventName, sm_sm:sm_sm ) */
     masl2xtuml_ooapopulation_op_StateMachine_newCreationTransition( self,  p_endState, p_eventName, sm_sm );
   }
@@ -3254,7 +3284,7 @@ masl2xtuml_ooapopulation_op_StateMachine_newTransition( masl2xtuml_ooapopulation
     /* self.StateEventMatrixEntry_migrateChToEi( sm_seme:seme ) */
     masl2xtuml_ooapopulation_op_StateEventMatrixEntry_migrateChToEi( self,  seme );
   }
-  else if ( ( Escher_strcmp( "Cannot_Happen", p_endState ) == 0 ) ) {
+  else if ( ( ( Escher_strcmp( "Cannot_Happen", p_endState ) == 0 ) || ( Escher_strcmp( "cannot_happen", p_endState ) == 0 ) ) ) {
     masl2xtuml_SM_SEME * seme=0;
     /* SELECT any seme RELATED BY sm_evt->SM_SEVT[R525]->SM_SEME[R503] WHERE ( ( SELECTED.SMstt_ID == fromState.SMstt_ID ) ) */
     seme = 0;
@@ -3360,7 +3390,7 @@ masl2xtuml_ooapopulation_op_StateMachine_newCreationTransition( masl2xtuml_ooapo
   /* IF ( ( Ignore == PARAM.endState ) ) */
   if ( ( Escher_strcmp( "Ignore", p_endState ) == 0 ) ) {
   }
-  else if ( ( Escher_strcmp( "Cannot_Happen", p_endState ) == 0 ) ) {
+  else if ( ( ( Escher_strcmp( "Cannot_Happen", p_endState ) == 0 ) || ( Escher_strcmp( "cannot_happen", p_endState ) == 0 ) ) ) {
   }
   else {
     masl2xtuml_SM_STATE * state=0;
@@ -3377,7 +3407,7 @@ masl2xtuml_ooapopulation_op_StateMachine_newCreationTransition( masl2xtuml_ooapo
     }}}
     /* IF ( not_empty state ) */
     if ( ( 0 != state ) ) {
-      masl2xtuml_SM_CRTXN * ct;masl2xtuml_SM_TXN * tr;
+      masl2xtuml_SM_CRTXN * ct;masl2xtuml_SM_TXN * tr;masl2xtuml_SM_EVT * sm_evt=0;
       /* CREATE OBJECT INSTANCE tr OF SM_TXN */
       tr = (masl2xtuml_SM_TXN *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_TXN_CLASS_NUMBER );
       tr->Trans_ID = (Escher_UniqueID_t) tr;
@@ -3394,6 +3424,22 @@ ct->SM_ID = (Escher_UniqueID_t) ct;
       masl2xtuml_SM_TXN_R505_Link_contains( sm_sm, tr );
       /* self.Transition_initialize( sm_txn:tr ) */
       masl2xtuml_ooapopulation_op_Transition_initialize( self,  tr );
+      /* SELECT any sm_evt RELATED BY sm_sm->SM_EVT[R502] WHERE ( ( SELECTED.Mning == PARAM.eventName ) ) */
+      sm_evt = 0;
+      if ( 0 != sm_sm ) {
+        masl2xtuml_SM_EVT * selected;
+        Escher_Iterator_s iSM_EVT_R502_can_be_communicated_to_via;
+        Escher_IteratorReset( &iSM_EVT_R502_can_be_communicated_to_via, &sm_sm->SM_EVT_R502_can_be_communicated_to_via );
+        while ( 0 != ( selected = (masl2xtuml_SM_EVT *) Escher_IteratorNext( &iSM_EVT_R502_can_be_communicated_to_via ) ) ) {
+          if ( ( Escher_strcmp( selected->Mning, p_eventName ) == 0 ) ) {
+            sm_evt = selected;
+            break;
+      }}}
+      /* IF ( not_empty sm_evt ) */
+      if ( ( 0 != sm_evt ) ) {
+        /* self.Transition_addEvent( sm_evt:sm_evt, sm_sm:sm_sm, sm_txn:tr ) */
+        masl2xtuml_ooapopulation_op_Transition_addEvent( self,  sm_evt, sm_sm, tr );
+      }
     }
   }
 }
