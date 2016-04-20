@@ -2805,11 +2805,14 @@ relate sm_state to msm across R511 using moah;
 //
 select many event_set related by sm->SM_EVT[R502]->SM_SEVT[R525];
 for each event in event_set
-  create object instance sem of SM_SEME;
-  // TODO: get default subtype from preferences (SKB Note: this TODO is from the OOAofOOA, not MASLIN)
-  create object instance ch of SM_CH;
-  relate sm_state to event across R503 using sem;
-  relate ch to sem across R504;
+  select any sem related by event->SM_SEME[R503] where (selected.SMstt_ID == sm_state.SMstt_ID);
+  if ( empty sem )
+	create object instance sem of SM_SEME;
+	// TODO: get default subtype from preferences (SKB Note: this TODO is from the OOAofOOA, not MASLIN)
+	create object instance ch of SM_CH;
+	relate sm_state to event across R503 using sem;
+	relate ch to sem across R504;
+  end if;
 end for;
 
 act.Suc_Pars = ParseStatus::parseInitial;',
@@ -3000,16 +3003,18 @@ state machine.
 // for each state in this event''s state machine
 select many states related by sm_sevt->SM_EVT[R525]->SM_SM[R502]->SM_STATE[R501];
 for each state in states
-    // create an event-matrix-entry to relate this state to this event
-    create object instance entry of SM_SEME;
-    relate state to sm_sevt across R503 using entry;
-    
-    // create a can''t-happen entry to classify the event-matrix
-    // entry created above
-    create object instance cantHappen of SM_CH;
-    relate cantHappen to entry across R504;
-end for;
-',
+    select any entry related by sm_sevt->SM_SEME[R503] where (selected.SMstt_ID == state.SMstt_ID);
+    if ( empty entry )
+	  // create an event-matrix-entry to relate this state to this event
+	  create object instance entry of SM_SEME;
+	  relate state to sm_sevt across R503 using entry;
+	  
+	  // create a can''t-happen entry to classify the event-matrix
+	  // entry created above
+	  create object instance cantHappen of SM_CH;
+	  relate cantHappen to entry across R504;
+    end if;
+end for;',
 	1,
 	'',
 	"39307b35-30ec-4d13-95c6-ec00ad55cd77");

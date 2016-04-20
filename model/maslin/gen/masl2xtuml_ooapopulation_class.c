@@ -2989,21 +2989,36 @@ moah->SMstt_ID = (Escher_UniqueID_t) moah;
   Escher_IteratorReset( &iterevent, event_set );
   while ( (iievent = (masl2xtuml_SM_SEVT *)Escher_IteratorNext( &iterevent )) != 0 ) {
     event = iievent; {
-    masl2xtuml_SM_CH * ch;masl2xtuml_SM_SEME * sem;
-    /* CREATE OBJECT INSTANCE sem OF SM_SEME */
-    sem = (masl2xtuml_SM_SEME *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SEME_CLASS_NUMBER );
-    sem->SMstt_ID = (Escher_UniqueID_t) sem;
+    masl2xtuml_SM_SEME * sem=0;
+    /* SELECT any sem RELATED BY event->SM_SEME[R503] WHERE ( ( SELECTED.SMstt_ID == sm_state.SMstt_ID ) ) */
+    sem = 0;
+    if ( 0 != event ) {
+      masl2xtuml_SM_SEME * selected;
+      Escher_Iterator_s iSM_SEME_R503;
+      Escher_IteratorReset( &iSM_SEME_R503, &event->SM_SEME_R503 );
+      while ( 0 != ( selected = (masl2xtuml_SM_SEME *) Escher_IteratorNext( &iSM_SEME_R503 ) ) ) {
+        if ( ( selected->SMstt_ID == sm_state->SMstt_ID ) ) {
+          sem = selected;
+          break;
+    }}}
+    /* IF ( empty sem ) */
+    if ( ( 0 == sem ) ) {
+      masl2xtuml_SM_CH * ch;
+      /* CREATE OBJECT INSTANCE sem OF SM_SEME */
+      sem = (masl2xtuml_SM_SEME *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SEME_CLASS_NUMBER );
+      sem->SMstt_ID = (Escher_UniqueID_t) sem;
 sem->SMevt_ID = (Escher_UniqueID_t) sem;
 sem->SM_ID = (Escher_UniqueID_t) sem;
-    /* CREATE OBJECT INSTANCE ch OF SM_CH */
-    ch = (masl2xtuml_SM_CH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CH_CLASS_NUMBER );
-    ch->SMstt_ID = (Escher_UniqueID_t) ch;
+      /* CREATE OBJECT INSTANCE ch OF SM_CH */
+      ch = (masl2xtuml_SM_CH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CH_CLASS_NUMBER );
+      ch->SMstt_ID = (Escher_UniqueID_t) ch;
 ch->SMevt_ID = (Escher_UniqueID_t) ch;
 ch->SM_ID = (Escher_UniqueID_t) ch;
-    /* RELATE sm_state TO event ACROSS R503 USING sem */
-    masl2xtuml_SM_SEME_R503_Link( sm_state, event, sem );
-    /* RELATE ch TO sem ACROSS R504 */
-    masl2xtuml_SM_CH_R504_Link( sem, ch );
+      /* RELATE sm_state TO event ACROSS R503 USING sem */
+      masl2xtuml_SM_SEME_R503_Link( sm_state, event, sem );
+      /* RELATE ch TO sem ACROSS R504 */
+      masl2xtuml_SM_CH_R504_Link( sem, ch );
+    }
   }}}
   /* ASSIGN act.Suc_Pars = parseInitial */
   act->Suc_Pars = masl2xtuml_ParseStatus_parseInitial_e;
@@ -3143,21 +3158,36 @@ masl2xtuml_ooapopulation_op_SEMEvent_createDefaultMatrixEntries( masl2xtuml_ooap
   Escher_IteratorReset( &iterstate, states );
   while ( (iistate = (masl2xtuml_SM_STATE *)Escher_IteratorNext( &iterstate )) != 0 ) {
     state = iistate; {
-    masl2xtuml_SM_CH * cantHappen;masl2xtuml_SM_SEME * entry;
-    /* CREATE OBJECT INSTANCE entry OF SM_SEME */
-    entry = (masl2xtuml_SM_SEME *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SEME_CLASS_NUMBER );
-    entry->SMstt_ID = (Escher_UniqueID_t) entry;
+    masl2xtuml_SM_SEME * entry=0;
+    /* SELECT any entry RELATED BY sm_sevt->SM_SEME[R503] WHERE ( ( SELECTED.SMstt_ID == state.SMstt_ID ) ) */
+    entry = 0;
+    if ( 0 != sm_sevt ) {
+      masl2xtuml_SM_SEME * selected;
+      Escher_Iterator_s iSM_SEME_R503;
+      Escher_IteratorReset( &iSM_SEME_R503, &sm_sevt->SM_SEME_R503 );
+      while ( 0 != ( selected = (masl2xtuml_SM_SEME *) Escher_IteratorNext( &iSM_SEME_R503 ) ) ) {
+        if ( ( selected->SMstt_ID == state->SMstt_ID ) ) {
+          entry = selected;
+          break;
+    }}}
+    /* IF ( empty entry ) */
+    if ( ( 0 == entry ) ) {
+      masl2xtuml_SM_CH * cantHappen;
+      /* CREATE OBJECT INSTANCE entry OF SM_SEME */
+      entry = (masl2xtuml_SM_SEME *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SEME_CLASS_NUMBER );
+      entry->SMstt_ID = (Escher_UniqueID_t) entry;
 entry->SMevt_ID = (Escher_UniqueID_t) entry;
 entry->SM_ID = (Escher_UniqueID_t) entry;
-    /* RELATE state TO sm_sevt ACROSS R503 USING entry */
-    masl2xtuml_SM_SEME_R503_Link( state, sm_sevt, entry );
-    /* CREATE OBJECT INSTANCE cantHappen OF SM_CH */
-    cantHappen = (masl2xtuml_SM_CH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CH_CLASS_NUMBER );
-    cantHappen->SMstt_ID = (Escher_UniqueID_t) cantHappen;
+      /* RELATE state TO sm_sevt ACROSS R503 USING entry */
+      masl2xtuml_SM_SEME_R503_Link( state, sm_sevt, entry );
+      /* CREATE OBJECT INSTANCE cantHappen OF SM_CH */
+      cantHappen = (masl2xtuml_SM_CH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CH_CLASS_NUMBER );
+      cantHappen->SMstt_ID = (Escher_UniqueID_t) cantHappen;
 cantHappen->SMevt_ID = (Escher_UniqueID_t) cantHappen;
 cantHappen->SM_ID = (Escher_UniqueID_t) cantHappen;
-    /* RELATE cantHappen TO entry ACROSS R504 */
-    masl2xtuml_SM_CH_R504_Link( entry, cantHappen );
+      /* RELATE cantHappen TO entry ACROSS R504 */
+      masl2xtuml_SM_CH_R504_Link( entry, cantHappen );
+    }
   }}}
   Escher_ClearSet( states ); 
 }
