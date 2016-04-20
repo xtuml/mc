@@ -2602,8 +2602,8 @@ end if;
 // Get a handle to the DT that is currently associated with the attribute
 select one cur_s_dt related by o_attr->S_DT[R114];
 
-// If the new DT does not equal the existing DT, continue
-if ( s_dt != cur_s_dt )
+// If the new DT does not equal the existing DT or is not MASLunique, continue
+if ( s_dt != cur_s_dt and cur_s_dt.Name != "MASLunique" )
   // un-relate the existing DT across R114
   unrelate o_attr from cur_s_dt across R114;
   

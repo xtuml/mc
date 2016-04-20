@@ -2787,8 +2787,8 @@ masl2xtuml_ooapopulation_op_Attribute_setType( masl2xtuml_ooapopulation * self, 
   }
   /* SELECT one cur_s_dt RELATED BY o_attr->S_DT[R114] */
   cur_s_dt = ( 0 != o_attr ) ? o_attr->S_DT_R114_defines_type_of : 0;
-  /* IF ( ( s_dt != cur_s_dt ) ) */
-  if ( ( s_dt != cur_s_dt ) ) {
+  /* IF ( ( ( s_dt != cur_s_dt ) and ( cur_s_dt.Name != MASLunique ) ) ) */
+  if ( ( ( s_dt != cur_s_dt ) && ( Escher_strcmp( cur_s_dt->Name, "MASLunique" ) != 0 ) ) ) {
     /* UNRELATE o_attr FROM cur_s_dt ACROSS R114 */
     masl2xtuml_O_ATTR_R114_Unlink_is_defined_by( cur_s_dt, o_attr );
     /* RELATE o_attr TO s_dt ACROSS R114 */
