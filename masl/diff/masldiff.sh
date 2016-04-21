@@ -31,9 +31,17 @@ perl -pe 's/\/\*.*\*\///g' right1 > right2
 tr -d " \t\r\n" < left2 > left3
 tr -d " \t\r\n" < right2 > right3
 
+# replace all instances of "non_existent" and "Non_Existant" with "Non_Existent"
+perl -pe 's/non_existent|Non_Existant/Non_Existent/g' left3 > left4
+perl -pe 's/non_existent|Non_Existant/Non_Existent/g' right3 > right4
+
+# replace all instances of "cannot_happen" and "Cannot_Happen"
+perl -pe 's/cannot_happen/Cannot_Happen/g' left4 > left5
+perl -pe 's/cannot_happen/Cannot_Happen/g' right4 > right5
+
 # break after semicolon
-perl -pe 's/;/;\n/g' left3 > $1.masldiff
-perl -pe 's/;/;\n/g' right3 > $2.masldiff
+perl -pe 's/;/;\n/g' left5 > $1.masldiff
+perl -pe 's/;/;\n/g' right5 > $2.masldiff
 
 # remove temp files
 rm -f left* right*
