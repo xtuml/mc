@@ -220,11 +220,11 @@ ${te_set.scope}${te_slist.remove_node}(
 )
 {
   ${te_set.element_type} * t = set->head; /* Start with first node.           */
+  ${te_set.element_type} * t_old = t;
   /* Find node containing data and unlink from list.                 */
   if ( t->object == d ) {        /* Element found at head.           */
     set->head = t->next;         /* Unlink it from the list.         */
   } else {
-    ${te_set.element_type} * t_old;
     do {                         /* Search for data element.         */
       t_old = t;
       t = t->next;
@@ -234,7 +234,7 @@ ${te_set.scope}${te_slist.remove_node}(
   }
 .if ( te_sys.InstanceLoading )
   if ( set->tail == t ) {
-    set->tail = t->next;
+    set->tail = t_old;
   }
 .end if
   return t;
