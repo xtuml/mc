@@ -2602,8 +2602,8 @@ end if;
 // Get a handle to the DT that is currently associated with the attribute
 select one cur_s_dt related by o_attr->S_DT[R114];
 
-// If the new DT does not equal the existing DT, continue
-if ( s_dt != cur_s_dt )
+// If the new DT does not equal the existing DT or is not MASLunique, continue
+if ( s_dt != cur_s_dt and cur_s_dt.Name != "MASLunique" )
   // un-relate the existing DT across R114
   unrelate o_attr from cur_s_dt across R114;
   
@@ -2805,11 +2805,14 @@ relate sm_state to msm across R511 using moah;
 //
 select many event_set related by sm->SM_EVT[R502]->SM_SEVT[R525];
 for each event in event_set
-  create object instance sem of SM_SEME;
-  // TODO: get default subtype from preferences (SKB Note: this TODO is from the OOAofOOA, not MASLIN)
-  create object instance ch of SM_CH;
-  relate sm_state to event across R503 using sem;
-  relate ch to sem across R504;
+  select any sem related by event->SM_SEME[R503] where (selected.SMstt_ID == sm_state.SMstt_ID);
+  if ( empty sem )
+	create object instance sem of SM_SEME;
+	// TODO: get default subtype from preferences (SKB Note: this TODO is from the OOAofOOA, not MASLIN)
+	create object instance ch of SM_CH;
+	relate sm_state to event across R503 using sem;
+	relate ch to sem across R504;
+  end if;
 end for;
 
 act.Suc_Pars = ParseStatus::parseInitial;',
@@ -3000,16 +3003,18 @@ state machine.
 // for each state in this event''s state machine
 select many states related by sm_sevt->SM_EVT[R525]->SM_SM[R502]->SM_STATE[R501];
 for each state in states
-    // create an event-matrix-entry to relate this state to this event
-    create object instance entry of SM_SEME;
-    relate state to sm_sevt across R503 using entry;
-    
-    // create a can''t-happen entry to classify the event-matrix
-    // entry created above
-    create object instance cantHappen of SM_CH;
-    relate cantHappen to entry across R504;
-end for;
-',
+    select any entry related by sm_sevt->SM_SEME[R503] where (selected.SMstt_ID == state.SMstt_ID);
+    if ( empty entry )
+	  // create an event-matrix-entry to relate this state to this event
+	  create object instance entry of SM_SEME;
+	  relate state to sm_sevt across R503 using entry;
+	  
+	  // create a can''t-happen entry to classify the event-matrix
+	  // entry created above
+	  create object instance cantHappen of SM_CH;
+	  relate cantHappen to entry across R504;
+    end if;
+end for;',
 	1,
 	'',
 	"39307b35-30ec-4d13-95c6-ec00ad55cd77");
@@ -3046,7 +3051,8 @@ else
   select one sm_sm related by current_class->SM_ASM[R519]->SM_SM[R517];
 end if;
 
-if ( ("Non_Existent" == param.startState) or ("Non_Existant" == param.startState) )
+// NON_EXISTENT: ''Non_Existent'' | ''Non_Existant'' | ''non_existent'';
+if ( ("Non_Existent" == param.startState) or ("Non_Existant" == param.startState) or ("non_existent" == param.startState) )
   self.StateMachine_newCreationTransition(sm_sm: sm_sm, eventName:param.eventName, endState:param.endState);
 else
   self.StateMachine_newTransition(sm_sm: sm_sm, eventName:param.eventName, startState:param.startState, endState:param.endState);
@@ -3097,11 +3103,13 @@ INSERT INTO O_TFR
 select any fromState related by sm_sm->SM_STATE[R501] where (selected.Name == param.startState);
 select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
 
+//IGNORE: ''Ignore'';
 if ( "Ignore" == param.endState )
   // change the matrix entry for the event found above from a can''t happen to an ignore
   select any seme related by sm_evt->SM_SEVT[R525]->SM_SEME[R503] where (selected.SMstt_ID == fromState.SMstt_ID);
   self.StateEventMatrixEntry_migrateChToEi(sm_seme:seme);
-elif ( "Cannot_Happen" == param.endState )
+//CANNOT_HAPPEN: ''Cannot_Happen'' | ''cannot_happen'';
+elif ( "Cannot_Happen" == param.endState or "cannot_happen" == param.endState )
   // change the matrix entry for the event found above from an ignore to a can''t happen
   select any seme related by sm_evt->SM_SEVT[R525]->SM_SEME[R503] where (selected.SMstt_ID == fromState.SMstt_ID);
   self.StateEventMatrixEntry_migrateEiToCh(sm_seme:seme);
@@ -3208,10 +3216,12 @@ INSERT INTO O_TFR
 	1,
 	'sm_sm = param.sm_sm;
 
+//IGNORE: ''Ignore'';
 if ( "Ignore" == param.endState )
   // TODO - handle setting the transition type on the event, look at StateMachineEvent ignoreOnState
   //   ...but do we care about this on creation events in xtUML land? 
-elif ( "Cannot_Happen" == param.endState )
+//CANNOT_HAPPEN: ''Cannot_Happen'' | ''cannot_happen'';
+elif ( "Cannot_Happen" == param.endState or "cannot_happen" == param.endState )
   // TODO - handle setting the transition type on the event, look at StateMachineEvent sayCantHappenOnState
   //   ...but do we care about this on creation events in xtUML land? 
 else
@@ -3223,7 +3233,10 @@ else
     relate tr to state across R506;
     relate sm_sm to tr across R505;
     self.Transition_initialize(sm_txn:tr);
-    // TODO - assign the event to the new transition
+	select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
+	if ( not_empty sm_evt )
+      self.Transition_addEvent(sm_txn:tr, sm_sm:sm_sm, sm_evt:sm_evt);
+    end if;
   /*else
       TODO - LOG error message?*/
   end if;
