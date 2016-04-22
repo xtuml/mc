@@ -101,8 +101,8 @@ void masl2xtuml_ooapopulation_op_Interface_addInterfaceOperationToOrder( masl2xt
 void masl2xtuml_ooapopulation_op_Attribute_addToIdentifier( masl2xtuml_ooapopulation *, masl2xtuml_O_ATTR *, const i_t );
 void masl2xtuml_ooapopulation_op_Attribute_setType( masl2xtuml_ooapopulation *, masl2xtuml_O_ATTR *, c_t * );
 masl2xtuml_SM_SM * masl2xtuml_ooapopulation_op_ModelClass_create_sm( masl2xtuml_ooapopulation *, masl2xtuml_O_OBJ *, c_t * );
-void masl2xtuml_ooapopulation_op_StateMachine_newState( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_SM_SM * );
-void masl2xtuml_ooapopulation_op_StateMachineState_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_SM_STATE * );
+void masl2xtuml_ooapopulation_op_StateMachine_newState( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_SM_SM *, c_t * );
+void masl2xtuml_ooapopulation_op_StateMachineState_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_SM_STATE *, c_t * );
 void masl2xtuml_ooapopulation_op_StateMachine_newEvent( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_SM_SM * );
 void masl2xtuml_ooapopulation_op_StateMachineEvent_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_SM_EVT * );
 void masl2xtuml_ooapopulation_op_StateMachineEvent_setUniqueNumber( masl2xtuml_ooapopulation *, const bool, masl2xtuml_SM_EVT * );

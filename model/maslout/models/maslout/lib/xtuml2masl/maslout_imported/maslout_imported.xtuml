@@ -1181,7 +1181,15 @@ sm_sm = param.sm_sm;
 select many sm_evts related by sm_sm->SM_EVT[R502];
 for each sm_evt in sm_evts
   value[0] = sm_evt.Mning;
-  value[1] = param.type; // CDS - creation events?
+  
+  // set event type
+  value[1] = param.type;
+  // check for any creation transition associated with this event
+  select one sm_crtxn related by sm_evt->SM_SEVT[R525]->SM_LEVT[R526]->SM_CRTXN[R509];
+  if ( not_empty sm_crtxn )
+    value[1] = "creation";
+  end if;
+
   out::populate( element:"event", value:value );
   
   // Get first parameter.
@@ -1259,10 +1267,23 @@ value[0] = ""; // domain, grammar allows this but we are not using it
 value[1] = o_obj.Name;
 for each sm_state in sm_states
   value[2] = sm_state.Name;
-  value[3] = param.type;
+  
+  // set state type
+  value[3] = "";
   if ( ( "assigner" == param.type ) and ( lowest == sm_state.Numb ) )
-    value[3] = value[3] + " start";
+    value[3] = "assigner start";
+  elif ( "assigner" == param.type )
+    value[3] = "assigner";
+  elif ( 1 == sm_state.Final )
+    value[3] = "terminal";
+  else
+    // check for any creation transition destined to this state
+    select any sm_crtxn related by sm_state->SM_TXN[R506]->SM_CRTXN[R507];
+    if ( not_empty sm_crtxn )
+      value[3] = "creation";
+    end if;
   end if;
+
   out::populate( element:"state", value:value );
 
   // MASL states declare their parameter signatures.

@@ -1075,7 +1075,7 @@ if ( not_empty current_class )
   end if;
 
   //  Create new xtUML state machine state
-  self.StateMachine_newState(sm_sm:sm_sm, name:param.name);
+  self.StateMachine_newState(sm_sm:sm_sm, name:param.name, type:param.type);
 
   // Cache the current state
   select any sm_state related by sm_sm->SM_STATE[R501] where ( selected.Name == param.name );
@@ -2748,7 +2748,7 @@ INSERT INTO O_TFR
 
 create object instance st of SM_STATE;
 relate sm_sm to st across R501;
-self.StateMachineState_initialize(sm_state:st, name:param.name);',
+self.StateMachineState_initialize(sm_state:st, name:param.name, type:param.type);',
 	1,
 	'',
 	"9bf9cd87-5a44-46e2-b3c6-f4b6d456609d");
@@ -2770,6 +2770,15 @@ INSERT INTO O_TPARM
 	'',
 	"eb358bbe-39dd-408b-9a64-352e1e9cde3f",
 	'');
+INSERT INTO O_TPARM
+	VALUES ("f7e8f766-4839-4e06-9421-9198487b6806",
+	"bc18a8a6-8343-4640-9953-070d98414a12",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"6ffe93b8-03aa-4f14-8796-5c0c36edc240",
+	'');
 INSERT INTO O_TFR
 	VALUES ("8d27a753-f5b1-44d2-9c37-5af98d0b7339",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -2787,17 +2796,38 @@ sm_state.Numb = 1;
 
 // for each state associated with this state''s state machine
 select many states related by sm_state->SM_SM[R501]->SM_STATE[R501];
-for each state in states
-  // if this state equals sm_state, skip it
-  if (state.SMstt_ID == sm_state.SMstt_ID) continue; end if;
+// If it is the assigner start state, the number must be 1. In this case, all other state numbers are incremented.
+// This approach assumes that number 1 has already been taken. This is a safe assumption because the default
+// value for Numb (see line 7 above) is 1. So if there are any states existing, at least one has the number 1.
+if ( "assigner start" == param.type )
+  for each state in states
+	// if this state equals sm_state, skip it
+	if (state.SMstt_ID == sm_state.SMstt_ID) continue; end if;
+	
+	// increment the number
+	state.Numb = state.Numb + 1;
+  end for;
+// If not the assigner start state, iterate to find the next highest state number
+else
+  for each state in states
+	// if this state equals sm_state, skip it
+	if (state.SMstt_ID == sm_state.SMstt_ID) continue; end if;
 
-  // if this other state''s number is greater than this state''s number
-  if ( state.Numb >= sm_state.Numb )
-    // have this state''s number be just greater than this
-    // other state''s number
-    sm_state.Numb = state.Numb + 1;
-  end if;
-end for;
+	// if this other state''s number is greater than this state''s number
+	if ( state.Numb >= sm_state.Numb )
+	  // have this state''s number be just greater than this
+	  // other state''s number
+	  sm_state.Numb = state.Numb + 1;
+	end if;
+  end for;
+end if;
+
+// if it is a terminal state, set Final to 1. Else set it to 0
+if ( "terminal" == param.type )
+  sm_state.Final = 1;
+else
+  sm_state.Final = 0;
+end if;
 
 // Maslin NOTE: The order in this block of code is different than in OOAofOOA.  MC-Java does automatic
 // maintenance of referential IDs, MC-3020 does not.  Thus, for MC-3020 we have to be careful about the 
@@ -2855,6 +2885,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("4600b01a-e18a-4e3c-9bfc-8d591c6a792d",
+	"8d27a753-f5b1-44d2-9c37-5af98d0b7339",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"3f91fa97-9082-4afb-9851-a627ddd6bece",
+	'');
 INSERT INTO O_TFR
 	VALUES ("9bf9cd87-5a44-46e2-b3c6-f4b6d456609d",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
