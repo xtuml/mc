@@ -44,6 +44,7 @@ struct masl2xtuml_ooapopulation {
   bool processingProject;  
   masl2xtuml_sdt_routine_info current_routine_info;  
   masl2xtuml_C_PP * current_interface_param;  
+  masl2xtuml_SM_EVTDI * current_event_dataitem;  
   /* relationship storage */
   masl2xtuml_ooaelement * ooaelement_R3801_has_current;
 };
@@ -168,6 +169,11 @@ void masl2xtuml_ooapopulation_op_InterfaceParameter_initialize( masl2xtuml_ooapo
 void masl2xtuml_ooapopulation_op_Interface_addParameterToOrder( masl2xtuml_ooapopulation *, masl2xtuml_C_EP *, masl2xtuml_C_PP * );
 void masl2xtuml_ooapopulation_op_Interface_createMessageArgumentsForParameter( masl2xtuml_ooapopulation *, masl2xtuml_C_EP *, masl2xtuml_C_PP * );
 void masl2xtuml_ooapopulation_op_InterfaceParameter_setType( masl2xtuml_ooapopulation *, masl2xtuml_C_PP *, c_t * );
+masl2xtuml_SM_EVTDI * masl2xtuml_ooapopulation_op_StateMachineEvent_newParameter( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_SM_EVT * );
+void masl2xtuml_ooapopulation_op_StateMachineEventDataItem_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_SM_EVTDI * );
+void masl2xtuml_ooapopulation_op_StateMachineEvent_addDataItemToOrder( masl2xtuml_ooapopulation *, masl2xtuml_SM_EVT *, masl2xtuml_SM_EVTDI * );
+void masl2xtuml_ooapopulation_op_StateMachineEvent_createMessageArgumentsForParameter( masl2xtuml_ooapopulation *, masl2xtuml_SM_EVT *, masl2xtuml_SM_EVTDI * );
+void masl2xtuml_ooapopulation_op_StateMachineEventDataItem_setType( masl2xtuml_ooapopulation *, masl2xtuml_SM_EVTDI *, c_t * );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10

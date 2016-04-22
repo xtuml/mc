@@ -110,6 +110,8 @@ elif ( "parameter" == element )
     ooapopulation.current_operation_param = o_tparm;
     select any c_pp from instances of C_PP where (false);
     ooapopulation.current_interface_param = c_pp;
+    select any sm_evtdi from instances of SM_EVTDI where (false);
+    ooapopulation.current_event_dataitem = sm_evtdi;
     // TODO - null out other parameter cache values as they are implemented
   else
     ooapopulation.transformParameter(name:param.value[0], direction:param.value[1]);
@@ -194,6 +196,9 @@ elif ( "typeref" == element )
     c_pp = ooapopulation.current_interface_param;
     if ( not_empty c_pp )
       ooapopulation.InterfaceParameter_setType(c_pp:ooapopulation.current_interface_param, type_name:param.value[0]);
+    end if;
+    if ( not_empty c_pp )
+      ooapopulation.StateMachineEventDataItem_setType(sm_evtdi:ooapopulation.current_event_dataitem, type_name:param.value[0]);
     end if;
   end if;
 elif ( "associative" == element )
@@ -958,6 +963,7 @@ INSERT INTO O_TFR
 class_op = self.current_class_op;
 domain_function = self.current_domain_function;
 interface_message = self.current_executable_property;
+evt = self.current_event;
 
 if ( not_empty class_op )
   select any o_tparm related by class_op->O_TPARM[R117] where ( selected.Name == param.name );
@@ -973,6 +979,11 @@ elif ( not_empty interface_message )
   select any c_pp related by interface_message->C_PP[R4006] where ( selected.Name == param.name );
   if ( empty c_pp )
     self.current_interface_param = self.Interface_newParameter(c_ep:interface_message, parameter_name:param.name);
+  end if;
+elif ( not_empty evt )
+  select any sm_evtdi related by evt->SM_EVTDI[R532] where ( selected.Name == param.name );
+  if ( empty sm_evtdi )
+    self.current_event_dataitem = self.StateMachineEvent_newParameter( sm_evt:evt, parameter_name:param.name );
   end if;
 end if;',
 	1,
@@ -2906,7 +2917,7 @@ self.SEMEvent_createDefaultMatrixEntries(sm_sevt:semEvt);
 ',
 	1,
 	'',
-	"4976f346-397d-40d4-b939-c1ab6cc5bbea");
+	"1e8441cf-3fcf-4a4c-893b-31493ce59d96");
 INSERT INTO O_TPARM
 	VALUES ("2727a3e8-9a4d-42d4-bb55-3fd47506d30c",
 	"7275e256-3909-4d82-8c71-c51ad5614ea7",
@@ -2967,7 +2978,7 @@ if(not foundDuplicate and param.checkForDuplicate)
 end if;',
 	1,
 	'',
-	"7275e256-3909-4d82-8c71-c51ad5614ea7");
+	"8b1c235a-9bcf-4b0f-91a0-a53ef24edc4b");
 INSERT INTO O_TPARM
 	VALUES ("b48d203a-25d7-41eb-bec6-fa61194538a9",
 	"fcecf336-d019-41b1-8fed-2d87543e22ec",
@@ -6128,6 +6139,233 @@ INSERT INTO O_TPARM
 	'',
 	"58a063db-aee8-48d5-bc20-c2eea0380815",
 	'');
+INSERT INTO O_TFR
+	VALUES ("8b1c235a-9bcf-4b0f-91a0-a53ef24edc4b",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateMachineEvent_newParameter',
+	'',
+	"9067a5b1-aa5d-499a-b13e-9bde5fc3e2cd",
+	1,
+	'sm_evt = param.sm_evt;
+
+// State Machine Event.newDataItem()
+create object instance newEvtdi of SM_EVTDI;
+relate sm_evt to newEvtdi across R532;
+select one sm related by sm_evt->SM_SM[R502];
+relate newEvtdi to sm across R516;
+self.StateMachineEventDataItem_initialize( sm_evtdi:newEvtdi, parameter_name:param.parameter_name );
+self.StateMachineEvent_createMessageArgumentsForParameter(sm_evtdi:newEvtdi, sm_evt:sm_evt);
+
+return newEvtdi;',
+	1,
+	'',
+	"7275e256-3909-4d82-8c71-c51ad5614ea7");
+INSERT INTO O_TPARM
+	VALUES ("0141f038-b38f-4bff-bb25-22bf626c4ef3",
+	"8b1c235a-9bcf-4b0f-91a0-a53ef24edc4b",
+	'sm_evt',
+	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("550bb9fa-f209-4b9c-a0dd-b60b38d42c8f",
+	"8b1c235a-9bcf-4b0f-91a0-a53ef24edc4b",
+	'parameter_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0141f038-b38f-4bff-bb25-22bf626c4ef3",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9067a5b1-aa5d-499a-b13e-9bde5fc3e2cd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine Event Data Item>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO O_TFR
+	VALUES ("6581bffc-c6e4-4de2-ad2d-b2d5132aa19b",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateMachineEventDataItem_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_evtdi = param.sm_evtdi;
+
+select one sm_evt related by sm_evtdi->SM_EVT[R532];
+self.StateMachineEvent_addDataItemToOrder( sm_evtdi:sm_evtdi, sm_evt:sm_evt );
+
+// TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
+systypes_pkg = self.systypes_pkg;
+select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+// END
+
+relate sm_evtdi to def_dt across R524;
+sm_evtdi.Name = param.parameter_name;',
+	1,
+	'',
+	"052ed84c-221e-4169-bb11-a21a84d84a7b");
+INSERT INTO O_TPARM
+	VALUES ("eb9fa192-45c6-4ef1-bc6e-9ed4cadab872",
+	"6581bffc-c6e4-4de2-ad2d-b2d5132aa19b",
+	'sm_evtdi',
+	"9067a5b1-aa5d-499a-b13e-9bde5fc3e2cd",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("39e21943-9ce6-4a6a-8fe8-2a1a511cc4c6",
+	"6581bffc-c6e4-4de2-ad2d-b2d5132aa19b",
+	'parameter_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"eb9fa192-45c6-4ef1-bc6e-9ed4cadab872",
+	'');
+INSERT INTO O_TFR
+	VALUES ("ef68ef19-5a14-4301-b2e6-e3447b1266c6",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateMachineEvent_addDataItemToOrder',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'item = param.sm_evtdi;
+sm_evt = param.sm_evt;
+
+if(not_empty item)
+  select many peers related by sm_evt->SM_EVTDI[R532];
+  for each peer in peers
+    if (peer != item)
+      select one predecessor related by peer->SM_EVTDI[R533.''precedes''];
+      if (empty predecessor)
+        relate item to peer across R533.''succeeds'';
+      end if;
+    end if;
+  end for;
+end if;',
+	1,
+	'',
+	"4976f346-397d-40d4-b939-c1ab6cc5bbea");
+INSERT INTO O_TPARM
+	VALUES ("aba16aea-19f0-41fb-ac45-a3d6b02a16ca",
+	"ef68ef19-5a14-4301-b2e6-e3447b1266c6",
+	'sm_evtdi',
+	"9067a5b1-aa5d-499a-b13e-9bde5fc3e2cd",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("bd742c75-87f7-4486-ae67-91c7522006db",
+	"ef68ef19-5a14-4301-b2e6-e3447b1266c6",
+	'sm_evt',
+	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	0,
+	'',
+	"aba16aea-19f0-41fb-ac45-a3d6b02a16ca",
+	'');
+INSERT INTO O_TFR
+	VALUES ("052ed84c-221e-4169-bb11-a21a84d84a7b",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateMachineEvent_createMessageArgumentsForParameter',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'parameter = param.sm_evtdi;
+sm_evt = param.sm_evt;
+
+if(not_empty parameter)
+  // for each message associated with this
+  // event, create a message argument.
+  select many messages related by sm_evt->MSG_E[R1009]->MSG_AM[R1019]
+                                                                 ->MSG_M[R1018];
+  for each message in messages
+    create object instance arg of MSG_A;
+    create object instance ea of MSG_EA;
+    relate ea to parameter across R1017;
+    relate ea to arg across R1013;
+    relate message to arg across R1001;
+  end for;
+end if;
+',
+	1,
+	'',
+	"ef68ef19-5a14-4301-b2e6-e3447b1266c6");
+INSERT INTO O_TPARM
+	VALUES ("b62445e9-cf46-4de4-ab69-672bebe498ec",
+	"052ed84c-221e-4169-bb11-a21a84d84a7b",
+	'sm_evtdi',
+	"9067a5b1-aa5d-499a-b13e-9bde5fc3e2cd",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("42aea807-c519-4855-8a8f-e0cf0b5ee0b2",
+	"052ed84c-221e-4169-bb11-a21a84d84a7b",
+	'sm_evt',
+	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	0,
+	'',
+	"b62445e9-cf46-4de4-ab69-672bebe498ec",
+	'');
+INSERT INTO O_TFR
+	VALUES ("1e8441cf-3fcf-4a4c-893b-31493ce59d96",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateMachineEventDataItem_setType',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_evtdi = param.sm_evtdi;
+type_name = param.type_name;
+
+// NOTE: This isn''t really a copied operation from the OOAofOOA, but we''re following the same paradigm for it
+//   as other functions that are from the OOA
+
+// Get a handle to the DT that is named as a parameter, output error if none found
+//   TODO - This is a very broad selection.  Is that OK?  Can we assume that during convert we won''t see data that 
+//     has multiple (different) types with the same name?  Keith thinks so.
+select any s_dt from instances of S_DT where ( selected.Name == type_name );
+if ( empty s_dt )
+  // TODO - what should the ID be set to?
+  TRACE::log( flavor:"failure", id:0, message:"could not find datatype  " + type_name + " to set for attribute " + sm_evtdi.Name);
+end if;
+
+// Get a handle to the DT that is currently associated with the attribute
+select one cur_s_dt related by sm_evtdi->S_DT[R524];
+
+// If the new DT does not equal the existing DT, continue
+if ( s_dt != cur_s_dt )
+  // un-relate the existing DT across R524
+  unrelate sm_evtdi from cur_s_dt across R524;
+  
+  // relate the new attribute across R524
+  relate sm_evtdi to s_dt across R524;
+end if;',
+	1,
+	'',
+	"6581bffc-c6e4-4de2-ad2d-b2d5132aa19b");
+INSERT INTO O_TPARM
+	VALUES ("c7d6f017-8718-4a7f-be22-c4e61f6df311",
+	"1e8441cf-3fcf-4a4c-893b-31493ce59d96",
+	'sm_evtdi',
+	"9067a5b1-aa5d-499a-b13e-9bde5fc3e2cd",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("168a9644-5135-4ce7-8008-7683b0661c10",
+	"1e8441cf-3fcf-4a4c-893b-31493ce59d96",
+	'type_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c7d6f017-8718-4a7f-be22-c4e61f6df311",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
@@ -6561,6 +6799,24 @@ INSERT INTO O_ATTR
 	'current_interface_param',
 	0,
 	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("7f60e0fb-00d4-450d-9815-2fe3c849f298",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("7f60e0fb-00d4-450d-9815-2fe3c849f298",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("7f60e0fb-00d4-450d-9815-2fe3c849f298",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"4687d9e9-533d-409c-87c6-1d83078378cb",
+	'current_event_dataitem',
+	'',
+	'',
+	'current_event_dataitem',
+	0,
+	"9067a5b1-aa5d-499a-b13e-9bde5fc3e2cd",
 	'',
 	'');
 INSERT INTO O_ID
