@@ -1071,25 +1071,28 @@ sm_sm = param.sm_sm;
 value[0] = param.type;
 out::populate( element:"transitiontable", value:value );
 
-// Get all the transitions starting with "Non_Existent" state.
-value[0] = "Non_Existent";
-select many sm_evts related by sm_sm->SM_EVT[R502];
-for each sm_evt in sm_evts
-  value[1] = ""; // domain
-  value[2] = ""; // object
-  value[3] = sm_evt.Mning;
-  value[4] = "Cannot_Happen";		// Non_Existent defaults to Cannot_Happen because this is required
-  									// for creation, terminal, and instance events (see section 8.3.2
-  									// of MASL reference manual)
-  // if a creation transition exists, use the state name as the destination
-  select one sm_crtxn related by sm_evt->SM_SEVT[R525]->SM_LEVT[R526]->SM_CRTXN[R509];
-  if ( not_empty sm_crtxn )
-    select one sm_state related by sm_crtxn->SM_TXN[R507]->SM_STATE[R506];
-    value[4] = sm_state.Name;
-  end if;
-  out::populate( element:"transition", value:value );
-  out::populate( element:"transition", value:emptyvalue );
-end for;
+// only output the Non_Existent row for ISMs
+if ( "assigner" != param.type )
+  // Get all the transitions starting with "Non_Existent" state.
+  value[0] = "Non_Existent";
+  select many sm_evts related by sm_sm->SM_EVT[R502];
+  for each sm_evt in sm_evts
+	value[1] = ""; // domain
+	value[2] = ""; // object
+	value[3] = sm_evt.Mning;
+	value[4] = "Cannot_Happen";		// Non_Existent defaults to Cannot_Happen because this is required
+										// for creation, terminal, and instance events (see section 8.3.2
+										// of MASL reference manual)
+	// if a creation transition exists, use the state name as the destination
+	select one sm_crtxn related by sm_evt->SM_SEVT[R525]->SM_LEVT[R526]->SM_CRTXN[R509];
+	if ( not_empty sm_crtxn )
+	  select one sm_state related by sm_crtxn->SM_TXN[R507]->SM_STATE[R506];
+	  value[4] = sm_state.Name;
+	end if;
+	out::populate( element:"transition", value:value );
+	out::populate( element:"transition", value:emptyvalue );
+  end for;
+end if;
 
 select many sm_states related by sm_sm->SM_STATE[R501];
 for each sm_state in sm_states
