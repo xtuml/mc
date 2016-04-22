@@ -220,7 +220,7 @@ elif ( "regularrel" == element )
   end if;
 elif ( "subsuper" == element )
   if ( "" == param.value[0] )
-    // TODO - subsuper is not yet handled. Will eventually call: ooapopulation.transformAssociation(); 
+    ooapopulation.transformAssociation();
     ooapopulation.clearRelationshipCache();
   else
     ooapopulation.current_rel.type = RELATIONSHIP_TYPE::SUBSUPER;
@@ -4031,6 +4031,8 @@ if (  self.current_rel.type == RELATIONSHIP_TYPE::ASSOCIATIVE )
   self.Package_newAssociative(ep_pkg:internals_pkg);
 elif ( self.current_rel.type == RELATIONSHIP_TYPE::REGULAR )
   self.Package_newAssociation(ep_pkg:internals_pkg); 
+elif ( self.current_rel.type == RELATIONSHIP_TYPE::SUBSUPER )
+  self.Package_newSubsuper(ep_pkg:internals_pkg); 
 end if;
 ',
 	1,
@@ -6419,6 +6421,71 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"c7d6f017-8718-4a7f-be22-c4e61f6df311",
+	'');
+INSERT INTO O_TFR
+	VALUES ("3ae49a72-f7e0-4a00-aaad-f0574cb325be",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Package_newSubsuper',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'ep_pkg = param.ep_pkg;
+select any fromOOAPart from instances of ooaparticipation where (selected.isFirst == true );
+select many toOOAParts from instances of ooaparticipation where (selected.isFirst == false );
+
+// What follows is a heavily modified version of OOAofOOA''s Package::newAssociation()
+// TODO - LPS handle imported classes?
+  
+select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == fromOOAPart.className);
+if ( not_empty fromClass )
+  create object instance assoc of R_REL;
+  // create Packageable Element supertype and hook up to this package.
+  create object instance pe of PE_PE;
+  relate assoc to pe across R8001;
+  relate pe to ep_pkg across R8000;
+  pe.type = ElementTypeConstants::ASSOCIATION;
+  self.PackageableElement_initialize(pe_pe:pe);
+  self.Association_initialize(r_rel:assoc);
+  create object instance subsuper of R_SUBSUP;
+  relate subsuper to assoc across R206;
+  //
+  create object instance fromOIR of R_OIR;
+  relate fromClass to assoc across R201 using fromOIR;
+  create object instance fromRTO of R_RTO;
+  relate fromOIR to fromRTO across R203;
+  create object instance fromSUPER of R_SUPER;
+  relate fromSUPER to fromRTO across R204;
+  relate fromSUPER to subsuper across R212;
+  //
+
+  for each toOOAPart in toOOAParts
+	select any toClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == toOOAPart.className);
+	//
+	if ( not_empty toClass )
+	  create object instance toOIR of R_OIR;
+	  relate toClass to assoc across R201 using toOIR;
+	  create object instance toRGO of R_RGO;
+	  relate toOIR to toRGO across R203;
+	  create object instance toSUB of R_SUB;
+	  relate toSUB to toRGO across R205;
+	  relate toSUB to subsuper across R213;
+	end if;
+
+  end for;
+
+end if;
+',
+	1,
+	'',
+	"9e1603f8-30b3-45e7-a697-d89f16f10bf0");
+INSERT INTO O_TPARM
+	VALUES ("430b2eed-ba2d-44a4-bbbc-002925e4dc59",
+	"3ae49a72-f7e0-4a00-aaad-f0574cb325be",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",

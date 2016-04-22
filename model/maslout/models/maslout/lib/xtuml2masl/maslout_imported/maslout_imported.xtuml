@@ -1498,15 +1498,16 @@ c_c = param.c_c;
 r_subsup = param.r_subsup;
 select one o_obj related by r_subsup->R_SUPER[R212]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]; 
 
-value[0] = c_c.Name;
+value[0] = "";	// c_c.Name;
 value[1] = o_obj.Name;
-value[2] = "is_a";
-value[3] = "unconditionally";
-value[4] = "one";
-value[5] = c_c.Name;
+value[2] = "";	// "is_a";
+value[3] = "";	// "unconditionally";
+value[4] = "";	// "one";
+value[5] = "";	// c_c.Name;
 value[6] = "";
 out::populate( element:"participation", value:value );
 
+value[6] = o_obj.Name;
 select many o_objs related by r_subsup->R_SUB[R213]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]; 
 for each o_obj in o_objs
   value[1] = o_obj.Name;
