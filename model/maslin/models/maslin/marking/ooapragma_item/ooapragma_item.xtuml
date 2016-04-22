@@ -1,0 +1,111 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	'ooapragma_item',
+	3806,
+	'ooapragma_item',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("2850f24e-a4a5-4b1a-be8c-68dc526bb658",
+	"4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'return self.value;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("ed78bbcd-a7c2-4433-97a8-0a9bfb54564d",
+	"4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'pragma = param.pragma;
+create object instance pragma_item of ooapragma_item;
+pragma_item.value = param.value;
+relate pragma_item to pragma across R3804;',
+	1,
+	'',
+	"2850f24e-a4a5-4b1a-be8c-68dc526bb658");
+INSERT INTO O_TPARM
+	VALUES ("f7f2daac-b8a9-4523-8ec3-7574960d74a8",
+	"ed78bbcd-a7c2-4433-97a8-0a9bfb54564d",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("0c88b30b-85f2-4eff-90b2-ea4dfecbdc5e",
+	"ed78bbcd-a7c2-4433-97a8-0a9bfb54564d",
+	'pragma',
+	"150bb385-2132-4200-960b-2be5599a2b59",
+	0,
+	'',
+	"f7f2daac-b8a9-4523-8ec3-7574960d74a8",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("150bb385-2132-4200-960b-2be5599a2b59",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooapragma>',
+	'',
+	'',
+	'../marking.xtuml');
+INSERT INTO O_TFR
+	VALUES ("551cd483-7b76-4004-8521-d58ac7ca39e5",
+	"4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	'destruct',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'delete object instance self;',
+	1,
+	'',
+	"ed78bbcd-a7c2-4433-97a8-0a9bfb54564d");
+INSERT INTO O_NBATTR
+	VALUES ("80398bfc-8853-4497-a949-c69dace126ac",
+	"4bc4dee7-c267-4410-a757-dc2eaa15022a");
+INSERT INTO O_BATTR
+	VALUES ("80398bfc-8853-4497-a949-c69dace126ac",
+	"4bc4dee7-c267-4410-a757-dc2eaa15022a");
+INSERT INTO O_ATTR
+	VALUES ("80398bfc-8853-4497-a949-c69dace126ac",
+	"4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	"00000000-0000-0000-0000-000000000000",
+	'value',
+	'',
+	'',
+	'value',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"4bc4dee7-c267-4410-a757-dc2eaa15022a");
+INSERT INTO O_ID
+	VALUES (1,
+	"4bc4dee7-c267-4410-a757-dc2eaa15022a");
+INSERT INTO O_ID
+	VALUES (2,
+	"4bc4dee7-c267-4410-a757-dc2eaa15022a");
+INSERT INTO PE_PE
+	VALUES ("4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	1,
+	"14d75964-4149-4868-8a33-9a696539a4fa",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("14d75964-4149-4868-8a33-9a696539a4fa",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'marking',
+	'',
+	0,
+	'../marking.xtuml');

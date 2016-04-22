@@ -1,3 +1,4 @@
+.invoke MarkSystemConfigurationPackage( "components" )
 .select many s_syss from instances of S_SYS
 .for each s_sys in s_syss
   .assign s_sys.Name = "sys"

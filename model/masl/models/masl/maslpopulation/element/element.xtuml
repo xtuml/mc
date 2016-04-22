@@ -1,0 +1,120 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("dfdaa333-01c8-4589-a60f-2c7dfa635482",
+	'element',
+	3776,
+	'element',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("906f12fb-9629-4c2b-bea0-71c021db7879",
+	"dfdaa333-01c8-4589-a60f-2c7dfa635482",
+	'populate',
+	'',
+	"3989a0a6-1287-4fd5-9b4c-6f98e273a076",
+	0,
+	'create object instance element of element;
+element.name = param.name;
+file::populate( element:element, name:element.name );
+return element;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("b289718a-9662-4bdb-8918-7b39aaba1bec",
+	"906f12fb-9629-4c2b-bea0-71c021db7879",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("3989a0a6-1287-4fd5-9b4c-6f98e273a076",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<element>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO O_TFR
+	VALUES ("89815004-7e2f-4436-89c2-204ee50fe858",
+	"dfdaa333-01c8-4589-a60f-2c7dfa635482",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+select one markable related by self->markable[R3786];
+select one unmarkable related by self->unmarkable[R3786];
+
+if ( not_empty markable )
+  valid = markable.validate();
+else
+  valid = unmarkable.validate();
+end if;
+
+return valid;',
+	1,
+	'',
+	"9da0ec04-43ec-414d-8a1a-55f2e5b9730b");
+INSERT INTO O_TFR
+	VALUES ("9da0ec04-43ec-414d-8a1a-55f2e5b9730b",
+	"dfdaa333-01c8-4589-a60f-2c7dfa635482",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one markable related by self->markable[R3786];
+select one unmarkable related by self->unmarkable[R3786];
+
+if ( not_empty markable )
+  markable.render();
+else
+  unmarkable.render();
+end if;',
+	1,
+	'',
+	"906f12fb-9629-4c2b-bea0-71c021db7879");
+INSERT INTO O_NBATTR
+	VALUES ("2649f4d8-da5e-48c0-b243-e5b3fbf043f0",
+	"dfdaa333-01c8-4589-a60f-2c7dfa635482");
+INSERT INTO O_BATTR
+	VALUES ("2649f4d8-da5e-48c0-b243-e5b3fbf043f0",
+	"dfdaa333-01c8-4589-a60f-2c7dfa635482");
+INSERT INTO O_ATTR
+	VALUES ("2649f4d8-da5e-48c0-b243-e5b3fbf043f0",
+	"dfdaa333-01c8-4589-a60f-2c7dfa635482",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"dfdaa333-01c8-4589-a60f-2c7dfa635482");
+INSERT INTO O_ID
+	VALUES (1,
+	"dfdaa333-01c8-4589-a60f-2c7dfa635482");
+INSERT INTO O_ID
+	VALUES (2,
+	"dfdaa333-01c8-4589-a60f-2c7dfa635482");
+INSERT INTO PE_PE
+	VALUES ("dfdaa333-01c8-4589-a60f-2c7dfa635482",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpopulation',
+	'',
+	0,
+	'../maslpopulation.xtuml');

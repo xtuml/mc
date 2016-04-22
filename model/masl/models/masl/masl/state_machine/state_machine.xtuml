@@ -1,0 +1,173 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	'state_machine',
+	3726,
+	'state_machine',
+	'State machine is also representative of the transition table in MASL. It 
+provides grouping per object of states events and transition rules.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("bc4dbe48-4b74-418f-8d9a-0f3351e63b7d",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.transitiontable_begin.masl" );
+select many start_states related by self->cell[R3743]->state[R3732];
+select one markable related by self->markable[R3783];
+for each start_state in start_states
+  select one start_state_activity related by start_state->activity[R3704];
+  start_state_name = start_state_activity.name;
+  T::include( file:"masl/t.transitionrow_begin.masl" );
+  select many cells related by start_state->cell[R3732];
+  separator = "";
+  for each cell in cells
+  	T::b( s:separator );
+    cell.render();
+    separator = ",\n";
+  end for;
+  T::include( file:"masl/t.transitionrow_end.masl" );
+  markable.render_marking( list:start_state_name + "_pragmalist" );
+end for;
+T::include( file:"masl/t.transitiontable_end.masl" );
+markable.render_marking( list:"default" );',
+	1,
+	'',
+	"8930d86e-438f-4a56-b595-3a8b60fe9123");
+INSERT INTO O_TFR
+	VALUES ("8930d86e-438f-4a56-b595-3a8b60fe9123",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	'populate',
+	'',
+	"eefb9a09-70e7-4c0f-927f-7758f32e96fc",
+	0,
+	'object = param.object;
+create object instance state_machine of state_machine;
+relate state_machine to object across R3734.''defines lifecycle of'';
+state_machine.type = param.type;
+if ( "assigner" != state_machine.type )
+  // Create the default non-existent state.
+  // One is created for each of the valid spellings in the lexer grammar
+  s = state::populate( name:"non_existent", type:"", object:object );
+  s = state::populate( name:"Non_Existent", type:"", object:object );
+  s = state::populate( name:"Non_Existant", type:"", object:object );
+end if;
+markable = markable::populate( name:"transitiontable" );
+relate state_machine to markable across R3783;
+return state_machine;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("500de992-1102-49b2-9b91-9e17e6fc2154",
+	"8930d86e-438f-4a56-b595-3a8b60fe9123",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("d21b0898-f219-443c-8640-9c9c7f6dba23",
+	"8930d86e-438f-4a56-b595-3a8b60fe9123",
+	'object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"500de992-1102-49b2-9b91-9e17e6fc2154",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("eefb9a09-70e7-4c0f-927f-7758f32e96fc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<state_machine>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("63c2aecf-4d16-43c4-bc75-562e17bd7042",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate type
+if ( "" != self.type and "assigner" != self.type )
+  TRACE::log( flavor:"failure", id:101, message:"invalid type for state_machine: " + self.type );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate cells
+select many child_cells related by self->cell[R3743.''is matrix of''];
+for each cell in child_cells
+  valid = cell.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
+	1,
+	'',
+	"bc4dbe48-4b74-418f-8d9a-0f3351e63b7d");
+INSERT INTO O_NBATTR
+	VALUES ("00f174c6-bf44-4f67-a7bc-b665d72d4119",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525");
+INSERT INTO O_BATTR
+	VALUES ("00f174c6-bf44-4f67-a7bc-b665d72d4119",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525");
+INSERT INTO O_ATTR
+	VALUES ("00f174c6-bf44-4f67-a7bc-b665d72d4119",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	"00000000-0000-0000-0000-000000000000",
+	'type',
+	'',
+	'',
+	'type',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525");
+INSERT INTO O_ID
+	VALUES (1,
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525");
+INSERT INTO O_ID
+	VALUES (2,
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525");
+INSERT INTO PE_PE
+	VALUES ("8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

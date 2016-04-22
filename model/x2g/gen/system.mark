@@ -1,0 +1,5 @@
+.invoke MarkSystemConfigurationPackage( "sysx2g" )
+.invoke TagDynamicMemoryAllocationOn( 10 )
+.invoke TagInstanceLoading()
+.invoke TagMaximumStringLength( 1024 )
+.//

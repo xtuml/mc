@@ -1,0 +1,157 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'project',
+	3701,
+	'project',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("57484f67-1062-40d4-9042-c2cd834a94d5",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.project_begin.masl" );
+select many domains related by self->domain[R3701.''configures''];
+for each domain in domains
+  domain.render_project();
+end for;
+T::include( file:"masl/t.project_end.masl" );
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"default" );',
+	1,
+	'',
+	"e2f67167-96b5-451c-8a07-34573a645fed");
+INSERT INTO O_TFR
+	VALUES ("e2f67167-96b5-451c-8a07-34573a645fed",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'populate',
+	'',
+	"f6bc1fc3-7c5a-4872-a359-b2e25e1712d9",
+	0,
+	'create object instance project of project;
+project.name = param.name;
+markable = markable::populate( name:"project" );
+relate project to markable across R3783;
+return project;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("62bade3b-9f5d-4083-8b3a-a6121ae6a4b4",
+	"e2f67167-96b5-451c-8a07-34573a645fed",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f6bc1fc3-7c5a-4872-a359-b2e25e1712d9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<project>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("90bfd5c6-91ad-47f3-af29-4e7fc6b977d7",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"project has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select many child_domains related by self->domain[R3701.''configures''];
+for each domain in child_domains
+  valid = domain.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
+	1,
+	'',
+	"777ea3b3-5800-4366-929f-6b25c189a72c");
+INSERT INTO O_TFR
+	VALUES ("777ea3b3-5800-4366-929f-6b25c189a72c",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
+value[0] = self.name;
+out::tostring( element:"project", value:value );
+select many domains related by self->domain[R3701.''configures''];
+for each domain in domains
+  domain.tostring();
+end for;
+out::tostring( element:"project", value:emptyvalue );
+',
+	1,
+	'',
+	"57484f67-1062-40d4-9042-c2cd834a94d5");
+INSERT INTO O_NBATTR
+	VALUES ("33280c57-b6f9-4c0a-85ca-27880c727a15",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4");
+INSERT INTO O_BATTR
+	VALUES ("33280c57-b6f9-4c0a-85ca-27880c727a15",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4");
+INSERT INTO O_ATTR
+	VALUES ("33280c57-b6f9-4c0a-85ca-27880c727a15",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4");
+INSERT INTO O_ID
+	VALUES (1,
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4");
+INSERT INTO O_ID
+	VALUES (2,
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4");
+INSERT INTO PE_PE
+	VALUES ("1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

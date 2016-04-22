@@ -1,0 +1,154 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("572e27b9-e3a8-4cb2-9a74-c331a409c6a7",
+	'terminator',
+	3703,
+	'terminator',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("9d4928ce-a77c-493e-8754-575b9eb1494c",
+	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7",
+	'populate',
+	'',
+	"a2661e87-6030-4167-bef8-2ff6c815e67e",
+	0,
+	'domain = param.domain;
+create object instance terminator of terminator;
+terminator.name = param.name;
+relate domain to terminator across R3702.''sends through'';
+markable = markable::populate( name:"terminator" );
+relate terminator to markable across R3783;
+return terminator;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("482ed084-339f-448f-bf07-47c5f631d477",
+	"9d4928ce-a77c-493e-8754-575b9eb1494c",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("47423e57-669f-40fd-b841-be11188b2f41",
+	"9d4928ce-a77c-493e-8754-575b9eb1494c",
+	'domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"482ed084-339f-448f-bf07-47c5f631d477",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("a2661e87-6030-4167-bef8-2ff6c815e67e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<terminator>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("d5232840-adc7-4197-8452-034e5bebae67",
+	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.terminator_begin.masl" );
+select many routine_activities related by self->routine[R3791.''sends'']->activity[R3704];
+for each activity in routine_activities
+  activity.render();
+end for;
+T::include( file:"masl/t.terminator_end.masl" );
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"default" );',
+	1,
+	'',
+	"9d4928ce-a77c-493e-8754-575b9eb1494c");
+INSERT INTO O_TFR
+	VALUES ("afc0ed77-3169-4d13-8804-a4f224cf9f1e",
+	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"terminator has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select many child_routines related by self->routine[R3791.''sends''];
+for each routine in child_routines
+  valid = routine.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
+	1,
+	'',
+	"d5232840-adc7-4197-8452-034e5bebae67");
+INSERT INTO O_NBATTR
+	VALUES ("261b125f-8711-4ac9-aeef-33aea0c6c424",
+	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7");
+INSERT INTO O_BATTR
+	VALUES ("261b125f-8711-4ac9-aeef-33aea0c6c424",
+	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7");
+INSERT INTO O_ATTR
+	VALUES ("261b125f-8711-4ac9-aeef-33aea0c6c424",
+	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7");
+INSERT INTO O_ID
+	VALUES (1,
+	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7");
+INSERT INTO O_ID
+	VALUES (2,
+	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7");
+INSERT INTO PE_PE
+	VALUES ("572e27b9-e3a8-4cb2-9a74-c331a409c6a7",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

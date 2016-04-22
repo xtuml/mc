@@ -1,0 +1,4 @@
+T_b(separator);
+T_b(" ");
+T_b(other_object->name);
+T_b("");

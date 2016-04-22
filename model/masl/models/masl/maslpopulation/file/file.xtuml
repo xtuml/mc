@@ -1,0 +1,458 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'file',
+	3778,
+	'file',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("4c11d43c-eebe-45da-af8c-2e21b2196111",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'element = param.element;
+name = param.name;
+if ( "project" == element )
+  select many projects from instances of project where ( selected.name == name );
+  if ( ( "*" == name ) or ( "" == name ) )
+    select many projects from instances of project;
+  end if;
+  if ( empty projects )
+    TRACE::log( flavor:"error", id:51, message:"could not render project:  " + name );
+  else
+    for each project in projects
+      project.render();
+      select one file related by project->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        // Project files go into a directory named after the project.
+        file.directory( name:project.name );
+        file.emit( name:project.name + file.suffix );
+      end if;
+      // terminator services
+      select many terminators related by project->domain[R3701]->terminator[R3702];
+      for each terminator in terminators
+        select many activities related by terminator->routine[R3791]->activity[R3704];
+        for each activity in activities
+          select one code_block related by activity->code_block[R3794];
+          select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
+          if ( not_empty file )
+            file.suffix = ".tr";
+            // Project files go into a directory named after the project.
+            file.directory( name:project.name );
+            file.copy( source:code_block.sourcefile, destination:terminator.name + "_" + activity.name + file.suffix );
+          end if;
+        end for;
+      end for;
+    end for;
+  end if;
+elif ( "domain" == element )
+  select many domains from instances of domain where ( selected.name == name );
+  if ( ( "*" == name ) or ( "" == name ) )
+    select many domains from instances of domain;
+  end if;
+  if ( empty domains )
+    TRACE::log( flavor:"error", id:52, message:"could not render domain:  " + name );
+  else
+    for each domain in domains
+      domain.render();
+      select one file related by domain->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        // Domain files go into a directory named after the domain.
+        file.directory( name:domain.name );
+        file.emit( name:domain.name + file.suffix );
+      end if;
+      // CDS - maybe we need null terminator services?
+      // functions
+      select many routines related by domain->routine[R3790];
+      for each routine in routines
+        select one activity related by routine->activity[R3704];
+        select one code_block related by activity->code_block[R3794];
+        select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
+        if ( not_empty file )
+          select one typeref related by routine->typeref[R3792];
+          if ( not_empty typeref )
+            file.suffix = ".fn"; // default is .svc
+          end if;
+          // Domain files go into a directory named after the domain.
+          file.directory( name:domain.name );
+          file.copy( source:code_block.sourcefile, destination:activity.name + file.suffix );
+        end if;
+      end for;
+      select many objects related by domain->object[R3708];
+      for each object in objects
+        // class operations
+        select many activities related by object->operation[R3749]->activity[R3704];
+        for each activity in activities
+          select one code_block related by activity->code_block[R3794];
+          select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
+          if ( not_empty file )
+            select one typeref related by activity->operation[R3704]->typeref[R3741];
+            if ( not_empty typeref )
+              file.suffix = ".fn"; // default is .svc
+            end if;
+            // Domain files go into a directory named after the domain.
+            file.directory( name:domain.name );
+            file.copy( source:code_block.sourcefile, destination:object.name + "_" + activity.name + file.suffix );
+          end if;
+        end for;
+        // state actions
+        select many activities related by object->state[R3750]->activity[R3704];
+        for each activity in activities
+          select one code_block related by activity->code_block[R3794];
+          select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
+          if ( not_empty file )
+            // Domain files go into a directory named after the domain.
+            file.directory( name:domain.name );
+            file.suffix = ".al";
+            file.copy( source:code_block.sourcefile, destination:object.name + "_" + activity.name + file.suffix );
+          end if;
+        end for;
+      end for;
+    end for;
+  end if;
+elif ( "" == element )	// render from the root
+  select any population from instances of population;
+  select one root_element related by population->element[R3785];
+  if ( not_empty root_element )
+    root_element.render();
+  end if;
+else
+  TRACE::log( flavor:"error", id:53, message:"unrecognized element type on render interface:  " + element );
+end if;
+',
+	1,
+	'',
+	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52");
+INSERT INTO O_TPARM
+	VALUES ("e5cf8b40-420d-4501-88bd-ebcfca9f7251",
+	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	'element',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("ef19dc39-fe10-4b07-a157-d4ab1bc5976b",
+	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e5cf8b40-420d-4501-88bd-ebcfca9f7251",
+	'');
+INSERT INTO O_TFR
+	VALUES ("a7863684-8575-4990-b290-dce44c1b53df",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'valid = true;
+
+// get root element
+select any population from instances of population;
+select one root_element related by population->element[R3785];
+if ( empty root_element )
+  TRACE::log( flavor:"warning", id:90, message:"no root element in validate" );
+end if;
+
+// validate
+valid = root_element.validate();
+
+if ( not valid )
+  TRACE::log( flavor:"failure", id:91, message:"model did not validate" );
+end if;',
+	1,
+	'',
+	"4c11d43c-eebe-45da-af8c-2e21b2196111");
+INSERT INTO O_TFR
+	VALUES ("af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'element = param.element;
+name = param.name;
+if ( "project" == name )
+  create object instance file of file;
+  relate file to element across R3795;
+  file.suffix = ".prj";
+elif ( "domain" == name )
+  create object instance file of file;
+  relate file to element across R3795;
+  file.suffix = ".mod";
+elif ( "code_block" == name )
+  create object instance file of file;
+  relate file to element across R3795;
+  file.suffix = ".svc"; // default, likely to change
+else
+  // no file needed
+end if;
+',
+	1,
+	'',
+	"0652aa1a-382c-4f76-b3b5-f382ef04ba69");
+INSERT INTO O_TPARM
+	VALUES ("d350bed6-dabc-4263-9eea-a69fcc05e73e",
+	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
+	'element',
+	"3989a0a6-1287-4fd5-9b4c-6f98e273a076",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("3989a0a6-1287-4fd5-9b4c-6f98e273a076",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<element>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("6c8f49be-0ccb-4b8a-ae38-a983e455e4a4",
+	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d350bed6-dabc-4263-9eea-a69fcc05e73e",
+	'');
+INSERT INTO O_TFR
+	VALUES ("0652aa1a-382c-4f76-b3b5-f382ef04ba69",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'outfolder',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'select many files from instances of file;
+for each file in files
+  if ( "" == file.directory )
+    file.directory = param.name;
+  else
+    file.directory = file.directory + "/" + param.name;
+  end if;
+end for;',
+	1,
+	'',
+	"e5b94764-401e-406c-b9a9-fa2a5bc4fce0");
+INSERT INTO O_TPARM
+	VALUES ("99921c31-1323-40cf-a690-4971823e7fb4",
+	"0652aa1a-382c-4f76-b3b5-f382ef04ba69",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("2f147788-5a86-4450-bedd-f6c445ca097c",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'emit',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'self.name = param.name;
+fullfilename = self.name;
+if ( "stdout" == self.directory )
+  fullfilename = "stdout";
+elif ( "" != self.directory )
+  fullfilename = self.directory + "/" + self.name;
+end if;
+T::emit( file:fullfilename );',
+	1,
+	'',
+	"5cd5b315-bca4-4e80-ba18-2427ea690ab7");
+INSERT INTO O_TPARM
+	VALUES ("1e4e6c03-8024-460f-b234-2e3697d13d06",
+	"2f147788-5a86-4450-bedd-f6c445ca097c",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("5cd5b315-bca4-4e80-ba18-2427ea690ab7",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'directory',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'if ( "" == self.directory )
+  self.directory = param.name;
+else
+  self.directory = self.directory + "/" + param.name;
+end if;',
+	1,
+	'',
+	"e4bb4b34-0329-4346-a4bf-632ffa0ad30b");
+INSERT INTO O_TPARM
+	VALUES ("29043fa1-8c39-4370-9b32-3c885eaddb8a",
+	"5cd5b315-bca4-4e80-ba18-2427ea690ab7",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("e4bb4b34-0329-4346-a4bf-632ffa0ad30b",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'copy',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'source = param.source;
+destination = param.destination;
+if ( "" != self.projectroot )
+  source = self.projectroot + "/models/" + source;
+end if;
+if ( "" != self.directory )
+  destination = self.directory + "/" + destination;
+end if;
+T::copyfile( source:source, destination:destination );',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("f291b218-90cf-440e-82d5-4f62b49dd9fa",
+	"e4bb4b34-0329-4346-a4bf-632ffa0ad30b",
+	'source',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("80fbdb8a-5c53-41f7-943b-5f0d691fd1ad",
+	"e4bb4b34-0329-4346-a4bf-632ffa0ad30b",
+	'destination',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"f291b218-90cf-440e-82d5-4f62b49dd9fa",
+	'');
+INSERT INTO O_TFR
+	VALUES ("e5b94764-401e-406c-b9a9-fa2a5bc4fce0",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'infolder',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'select many files from instances of file;
+for each file in files
+  file.projectroot = param.name;
+end for;',
+	1,
+	'',
+	"2f147788-5a86-4450-bedd-f6c445ca097c");
+INSERT INTO O_TPARM
+	VALUES ("766ebdb8-8e48-489a-8926-e257a758062f",
+	"e5b94764-401e-406c-b9a9-fa2a5bc4fce0",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_BATTR
+	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ATTR
+	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("9cefce8b-496f-41de-bc4f-f7b0cc6613de",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_BATTR
+	VALUES ("9cefce8b-496f-41de-bc4f-f7b0cc6613de",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ATTR
+	VALUES ("9cefce8b-496f-41de-bc4f-f7b0cc6613de",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	"5256ef06-1883-421b-9b6b-05abea717422",
+	'directory',
+	'',
+	'',
+	'directory',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ad78f124-85c3-4822-b5ec-16c2b83db644",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_BATTR
+	VALUES ("ad78f124-85c3-4822-b5ec-16c2b83db644",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ATTR
+	VALUES ("ad78f124-85c3-4822-b5ec-16c2b83db644",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	"9cefce8b-496f-41de-bc4f-f7b0cc6613de",
+	'suffix',
+	'',
+	'',
+	'suffix',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("0ec02753-0eda-42e2-a42a-65c03c9ebc59",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_BATTR
+	VALUES ("0ec02753-0eda-42e2-a42a-65c03c9ebc59",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ATTR
+	VALUES ("0ec02753-0eda-42e2-a42a-65c03c9ebc59",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	"ad78f124-85c3-4822-b5ec-16c2b83db644",
+	'projectroot',
+	'',
+	'',
+	'projectroot',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ID
+	VALUES (1,
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ID
+	VALUES (2,
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO PE_PE
+	VALUES ("687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpopulation',
+	'',
+	0,
+	'../maslpopulation.xtuml');

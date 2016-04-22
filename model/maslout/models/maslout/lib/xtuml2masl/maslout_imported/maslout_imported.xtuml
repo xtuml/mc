@@ -1,0 +1,1950 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	"53107551-b0b9-4155-a13f-41b410f63a54",
+	'maslout_imported',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("77fe7d4d-51d6-4276-af06-63cebf5e0482",
+	112,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	200,
+	150,
+	0,
+	'',
+	'maslout::lib::xtuml2masl::maslout_imported');
+INSERT INTO DIM_DIA
+	VALUES ("77fe7d4d-51d6-4276-af06-63cebf5e0482",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("0c6d00ab-17d3-41f1-8a7a-cb0fdfc9c315",
+	"00000000-0000-0000-0000-000000000000",
+	'masl_domain',
+	'',
+	'TRACE::log( flavor:"info", id:103, message:"Starting domain." );
+
+domain = param.domain;
+
+// Query and Populate
+// Query the xtUML meta-model and populate the MASL meta-model.
+
+select many c_cs from instances of C_C where ( false );
+if ( ( "" == domain ) or ( "*" == domain ) )
+  select many c_cs from instances of C_C;
+else
+  select many c_cs from instances of C_C where ( selected.Name == domain );
+end if;
+if ( empty c_cs )
+  TRACE::log( flavor:"failure", id:1, message:"ERROR:  Component/domain not found in model:  " + domain );
+else
+  ::component2domain( c_cs:c_cs, project:false );
+  for each c_c in c_cs
+    //gen::render( element:"domain", name:c_c.Name );
+  end for;
+end if;
+
+TRACE::log( flavor:"info", id:104, message:"Done." );
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9c8d9c3a-c0a1-4d32-81e0-b96654392cc0",
+	"0c6d00ab-17d3-41f1-8a7a-cb0fdfc9c315",
+	'domain',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("0c6d00ab-17d3-41f1-8a7a-cb0fdfc9c315",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9a5ac824-671b-4cb6-9d93-37b700ffd92c",
+	"00000000-0000-0000-0000-000000000000",
+	'masl_project',
+	'',
+	'TRACE::log( flavor:"info", id:101, message:"Starting Project" );
+
+project = param.project;
+// Query and Populate
+// Query the xtUML meta-model and populate the MASL meta-model.
+
+select many ep_pkgs from instances of EP_PKG where ( false );
+if ( ( "" == project ) or ( "*" == project ) )
+  // CDS - temporary for marking the project
+  select many ep_pkgs from instances of EP_PKG where ( selected.Descrip == project );
+else
+  select many ep_pkgs from instances of EP_PKG where ( selected.Name == project );
+end if;
+if ( empty ep_pkgs )
+  TRACE::log( flavor:"failure", id:1, message:"ERROR:  project package was not found:" + project );
+end if;
+
+::package2project( ep_pkgs:ep_pkgs );
+
+TRACE::log( flavor:"info", id:102, message:"Done" );
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("df408732-1e8c-4be3-bbf2-6c34377e1afe",
+	"9a5ac824-671b-4cb6-9d93-37b700ffd92c",
+	'project',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("9a5ac824-671b-4cb6-9d93-37b700ffd92c",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("84687e5f-e288-4907-9432-62372e5f265f",
+	"00000000-0000-0000-0000-000000000000",
+	'component2domain',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_cs = param.c_cs;
+for each c_c in c_cs;
+  value[0] = c_c.Name;
+  out::populate( element:"domain", value:value );
+  
+  ::type2type( c_c:c_c );
+  ::function2routine( c_c:c_c );
+  ::port2terminator( c_c:c_c, project:param.project );
+  ::class2object( c_c:c_c );
+  ::association2relationship( c_c:c_c );
+  
+  out::populate( element:"domain", value:emptyvalue );
+end for;
+      ',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cf4db11c-a368-4494-9f14-382c45cdc747",
+	"84687e5f-e288-4907-9432-62372e5f265f",
+	'c_cs',
+	"5228eeb5-5532-4f4d-8d56-d20e0a1a6189",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5228eeb5-5532-4f4d-8d56-d20e0a1a6189",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Component>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("75a907fb-78de-49b0-b748-176ee43e0b29",
+	"84687e5f-e288-4907-9432-62372e5f265f",
+	'project',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"cf4db11c-a368-4494-9f14-382c45cdc747",
+	'');
+INSERT INTO PE_PE
+	VALUES ("84687e5f-e288-4907-9432-62372e5f265f",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("bbd421d2-e67f-41ea-be98-398a6baf075d",
+	"00000000-0000-0000-0000-000000000000",
+	'package2project',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+ep_pkgs = param.ep_pkgs;
+for each ep_pkg in ep_pkgs
+
+  value[0] = ep_pkg.Name;
+  out::populate( element:"project", value:value );
+
+  select many referred_c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
+  ::component2domain( c_cs:referred_c_cs, project:true );
+
+end for;
+
+// end project
+out::populate( element:"project", value:emptyvalue );
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e1434ed1-bb84-419d-aa6a-b3a6dcaae855",
+	"bbd421d2-e67f-41ea-be98-398a6baf075d",
+	'ep_pkgs',
+	"2dfbba0c-72a2-4c76-8486-8613e7ea4b99",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2dfbba0c-72a2-4c76-8486-8613e7ea4b99",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Package>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
+INSERT INTO PE_PE
+	VALUES ("bbd421d2-e67f-41ea-be98-398a6baf075d",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("3ddfd9b1-d62f-4fa1-9e31-b48931032ee9",
+	"00000000-0000-0000-0000-000000000000",
+	'port2terminator',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+// (outbound) port -> terminator
+select many c_pos related by c_c->C_PO[R4010]->C_IR[R4016]->C_R[R4009]->C_IR[R4009]->C_PO[R4016];
+for each c_po in c_pos
+  value[0] = c_po.Name;
+  out::populate( element:"terminator", value:value );
+  ::message2routine( c_c:c_c, c_po:c_po, project:param.project );
+  // end terminator
+  out::populate( element:"terminator", value:emptyvalue );
+end for;
+
+  
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e557817d-dd43-43a1-b7c1-a522bda54d2a",
+	"3ddfd9b1-d62f-4fa1-9e31-b48931032ee9",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("67f93d18-1045-4c6c-b0d5-a692023c471c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Component>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("0df5f9f2-ee02-4900-9478-2ee36ce46c1d",
+	"3ddfd9b1-d62f-4fa1-9e31-b48931032ee9",
+	'project',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"e557817d-dd43-43a1-b7c1-a522bda54d2a",
+	'');
+INSERT INTO PE_PE
+	VALUES ("3ddfd9b1-d62f-4fa1-9e31-b48931032ee9",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d9c8ef77-73d8-4253-978c-d7cbf7b9b520",
+	"00000000-0000-0000-0000-000000000000",
+	'message2routine',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+c_po = param.c_po;
+// message -> function/service
+value[0] = c_c.Name;
+value[1] = "";
+
+select many c_eps related by c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003];
+for each c_ep in c_eps
+    
+  value[2] = "private"; // Outbound messages are considered private.
+  value[3] = c_ep.Name;
+  out::populate( element:"routine", value:value );
+  
+  select any c_pp related by c_ep->C_PP[R4006];
+  first_c_pp = c_pp;
+  while ( not_empty c_pp )
+    first_c_pp = c_pp;
+    select one c_pp related by c_pp->C_PP[R4021.''precedes''];
+  end while;
+  ::parameterC_PP2parameter( c_pp:first_c_pp );
+  
+  select one s_dt related by c_ep->C_IO[R4004]->S_DT[R4008];
+  if ( not_empty s_dt )
+    // Do not send a void typeref.  No typeref equals void in MASL.
+    if ( "void" != s_dt.Name )
+      value[0] = s_dt.Name;
+      value[1] = "";
+      value[2] = "";
+      value[3] = "";
+      out::populate( element:"typeref", value:value );
+      out::populate( element:"typeref", value:emptyvalue );
+    end if;
+  end if;
+  
+  path = "";
+  if ( param.project )
+    select any project_c_c related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009]->C_IR[R4009]->C_PO[R4016]->C_C[R4010];
+    path = ::component_get_path( c_c:project_c_c );
+  else
+    path = ::component_get_path( c_c:c_c );
+  end if;
+
+  // Populate the action langauge body.
+  ::body2code_block( name:path + "/" + c_po.Name + "_" + c_ep.Name, text:"spr_*.Action_Semantics" );
+  
+  out::populate( element:"routine", value:emptyvalue );
+  
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8898a959-9ae1-44df-90ff-dcc22215a9db",
+	"d9c8ef77-73d8-4253-978c-d7cbf7b9b520",
+	'c_po',
+	"7956bd81-f6de-4bc8-9851-92214668ced1",
+	0,
+	'',
+	"4b7d90b1-ba1a-44db-b40b-6ee2f036eea4",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("7956bd81-f6de-4bc8-9851-92214668ced1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Port>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("4b7d90b1-ba1a-44db-b40b-6ee2f036eea4",
+	"d9c8ef77-73d8-4253-978c-d7cbf7b9b520",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("bd5f6378-3914-4e0b-98f4-b339368ec422",
+	"d9c8ef77-73d8-4253-978c-d7cbf7b9b520",
+	'project',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"8898a959-9ae1-44df-90ff-dcc22215a9db",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d9c8ef77-73d8-4253-978c-d7cbf7b9b520",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
+	"00000000-0000-0000-0000-000000000000",
+	'parameterC_PP2parameter',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_pp = param.c_pp;
+if ( not_empty c_pp )
+  value[0] = c_pp.Name;
+  if ( 0 == c_pp.By_Ref )
+    value[1] = "in";
+  else
+    value[1] = "out";
+  end if;
+  out::populate( element:"parameter", value:value );
+  select one s_dt related by c_pp->S_DT[R4007];
+  value[0] = s_dt.Name;
+  value[1] = "";
+  out::populate( element:"typeref", value:value );
+  out::populate( element:"typeref", value:emptyvalue );
+  select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
+  ::parameterC_PP2parameter( c_pp:c_pp );
+  out::populate( element:"parameter", value:emptyvalue );
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a476bde7-fb21-4a1f-b22b-46b5fe763364",
+	"dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
+	'c_pp',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Property Parameter>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO PE_PE
+	VALUES ("dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5139df0f-0bdf-49e5-a6c0-bf87d5a4ee4d",
+	"00000000-0000-0000-0000-000000000000",
+	'class2object',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
+for each o_obj in o_objs
+  value[0] = o_obj.Name;
+  out::populate( element:"object", value:value );
+  
+  // Link the attributes to each object.
+  ::attribute2attribute( c_c:c_c, o_obj:o_obj );
+  
+  // Set up the identifiers for this object.
+  ::identifier2identifier( o_obj:o_obj );
+  
+  // class operations
+  ::classop2objectop( c_c:c_c, o_obj:o_obj );
+  
+  select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
+  if ( not_empty sm_sm )
+    // blank type is normal
+    ::state2state( o_obj:o_obj, sm_sm:sm_sm, type:"" );
+    ::event2event( sm_sm:sm_sm, type:"" );
+    ::statemachine2statemachine( o_obj:o_obj, sm_sm:sm_sm, type:"" );
+  end if;
+  
+  select one sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517];
+  if ( not_empty sm_sm )
+    ::state2state( o_obj:o_obj, sm_sm:sm_sm, type:"assigner" );
+    ::event2event( sm_sm:sm_sm, type:"assigner" );
+    ::statemachine2statemachine( o_obj:o_obj, sm_sm:sm_sm, type:"assigner" );
+  end if;
+  
+  out::populate( element:"object", value:emptyvalue );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("15b7c710-66b8-4afc-8a74-5728d734391a",
+	"5139df0f-0bdf-49e5-a6c0-bf87d5a4ee4d",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("5139df0f-0bdf-49e5-a6c0-bf87d5a4ee4d",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("636cf3d3-f72d-4072-b665-cde360ef7edb",
+	"00000000-0000-0000-0000-000000000000",
+	'attribute2attribute',
+	'',
+	'/*
+  Attribute (O_ATTR) -> attribute
+  primary identifier (O_OIDA == 1) -> preferred
+  Attribute type of unique_id (O_ATTR->S_DT) -> unique
+*/
+  
+value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+o_obj = param.o_obj;
+c_c = param.c_c;
+select many o_attrs related by o_obj->O_ATTR[R102];
+for each o_attr in o_attrs
+  select one s_dt related by o_attr->S_DT[R114];
+  if ( ( "current_state" == o_attr.Name ) and ( "state<State_Model>" == s_dt.Name ) )
+    // Do not populate a current_state attribute with type state<State_Model>.
+  else
+    value[0] = o_attr.Name;
+    value[1] = "";
+    // See if this attribute is in the primary identifier.
+    select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 0 );
+    if ( not_empty o_oida )
+      value[1] = "preferred";
+    end if;
+    value[2] = "";
+    // See if the type of this attribute is unique_id.
+    if ( "unique_id" == s_dt.Name )
+      value[2] = "unique";
+    end if;
+    // CDS - Coerce inst_ref<Timer>
+    if ( "inst_ref<Timer>" == value[2] )
+      value[2] = "inst_refTimer";
+    end if;
+    out::populate( element:"attribute", value:value );
+    value[1] = "";
+    value[2] = "";
+  
+    // The default value comes first from the attribute then from its type.
+    value[0] = o_attr.DefaultValue;
+    if ( "" == o_attr.DefaultValue )
+      value[0] = s_dt.DefaultValue;
+    end if;
+    if ( "" != value[0] )
+      // Do not populate expression unless we have something useful.
+      out::populate( element:"expression", value:value );
+    end if;
+  
+    // Populate the type referred to by this attribute as a type reference.
+    value[0] = s_dt.Name;
+    out::populate( element:"typeref", value:value );
+    out::populate( element:"typeref", value:emptyvalue );
+    
+    // See if this attribute is a referential.
+    select any o_ref related by o_attr->O_RATTR[R106]->O_REF[R108];
+    if ( not_empty o_ref )
+      value[0] = o_ref.Rel_Name; // relationship name/number
+      value[1] = c_c.Name; // domain name
+      value[2] = o_ref.RObj_Name; // role or object:  object name always exists
+      value[3] = o_obj.Name; // parent object
+      value[4] = o_attr.Name; // attribute name
+      out::populate( element:"referential", value:value );
+      value[1] = "";
+      value[2] = "";
+      value[3] = "";
+      value[4] = "";
+    end if;
+  
+    out::populate( element:"attribute", value:emptyvalue );
+  end if;
+  
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4488e70f-8f35-4b8b-9c0b-8f144d9acacf",
+	"636cf3d3-f72d-4072-b665-cde360ef7edb",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"44cd8d5d-9f12-4f3a-b2bf-016ed0e68b7f",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Model Class>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("44cd8d5d-9f12-4f3a-b2bf-016ed0e68b7f",
+	"636cf3d3-f72d-4072-b665-cde360ef7edb",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("636cf3d3-f72d-4072-b665-cde360ef7edb",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2f0e3a99-9a8b-44dc-9428-f75cfbd83fdd",
+	"00000000-0000-0000-0000-000000000000",
+	'type2type',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+c_c = param.c_c;
+
+// Data types in packages inside the component are considered private.
+select many s_dts related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001];
+for each s_dt in s_dts
+  select one s_irdt related by s_dt->S_IRDT[R17];
+  // Do not output type definitions for instance reference data types.
+  if ( empty s_irdt )
+    value[0] = s_dt.Name;
+    value[1] = "private";
+    value[2] = s_dt.Descrip;  // body of type
+    out::populate( element:"type", value:value );
+    out::populate( element:"type", value:emptyvalue );
+  end if;
+end for;
+
+// Data types in packages directly off of the system are considered public.
+select many ep_pkgs related by c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1401] where ( selected.Name != "types" );
+select many s_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001];
+for each s_dt in s_dts
+  value[0] = s_dt.Name;
+  value[1] = "public";
+  value[2] = s_dt.Descrip;  // body of type
+  out::populate( element:"type", value:value );
+  out::populate( element:"type", value:emptyvalue );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("07c30bd2-62a1-4290-9717-fc84fa995641",
+	"2f0e3a99-9a8b-44dc-9428-f75cfbd83fdd",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2f0e3a99-9a8b-44dc-9428-f75cfbd83fdd",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("59846fd7-dd0d-4c7a-b24d-c8bad6617b7c",
+	"00000000-0000-0000-0000-000000000000",
+	'association2relationship',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+select many r_rels related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->R_REL[R8001];
+for each r_rel in r_rels
+  value[0] = ""; value[1] = ""; value[2] = ""; value[3] = "";
+  value[4] = ""; value[5] = ""; value[6] = ""; value[7] = "";
+  value[0] = "R" + STRING::itoa( i:r_rel.Numb );  // itoa to form relationship name
+  select one r_simp related by r_rel->R_SIMP[R206];
+  if ( not_empty r_simp )
+    out::populate( element:"regularrel", value:value );
+    ::simpleass2regularrel( c_c:c_c, r_simp:r_simp );
+    out::populate( element:"regularrel", value:emptyvalue );
+  end if;
+  
+  select one r_assoc related by r_rel->R_ASSOC[R206];
+  if ( not_empty r_assoc )
+    // Get the name of the associator.
+    select one o_obj related by r_assoc->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
+    value[1] = c_c.Name;
+    value[2] = o_obj.Name;
+    out::populate( element:"associative", value:value );
+    ::associative2associative( c_c:c_c, r_assoc:r_assoc );
+    out::populate( element:"associative", value:value ); // 2nd call for using
+    out::populate( element:"associative", value:emptyvalue );
+  end if;
+  
+  select one r_subsup related by r_rel->R_SUBSUP[R206];
+  if ( not_empty r_subsup )
+    out::populate( element:"subsuper", value:value );
+    ::subsuper2subsuper( c_c:c_c, r_subsup:r_subsup );
+    out::populate( element:"subsuper", value:emptyvalue );
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("51c46f46-bc0f-4bf0-8fe4-af7d3be1667e",
+	"59846fd7-dd0d-4c7a-b24d-c8bad6617b7c",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("59846fd7-dd0d-4c7a-b24d-c8bad6617b7c",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("09d28e26-8c9d-40c0-b89a-276922023942",
+	"00000000-0000-0000-0000-000000000000",
+	'identifier2identifier',
+	'',
+	'/*
+  Assuming 8 or less identifier attributes.
+*/
+value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+o_obj = param.o_obj;
+// Select the non-primary identifiers.  The primary identifier will be marked as preferred.
+select many o_ids related by o_obj->O_ID[R104] where ( selected.Oid_ID != 0 );
+for each o_id in o_ids
+  value[7] = ""; value[6] = ""; value[5] = ""; value[4] = "";
+  value[3] = ""; value[2] = ""; value[1] = ""; value[0] = "";
+  select many o_attrs related by o_id->O_ATTR[R105];
+  if ( not_empty o_attrs )
+    out::populate( element:"identifier", value:value );
+    for each o_attr in o_attrs
+      value[0] = o_attr.Name;
+      out::populate( element:"attribute", value:value );
+      out::populate( element:"attribute", value:emptyvalue );
+    end for;
+    out::populate( element:"identifier", value:emptyvalue );
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a84bec3f-93e6-496d-aa58-e382e6c4e593",
+	"09d28e26-8c9d-40c0-b89a-276922023942",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("09d28e26-8c9d-40c0-b89a-276922023942",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("844ea9b2-b764-49f9-b6c3-b594fc02b28e",
+	"00000000-0000-0000-0000-000000000000",
+	'simpleass2regularrel',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+r_simp = param.r_simp;
+select many r_parts related by r_simp->R_PART[R207];
+name[7] = ""; phrase[7] = ""; cond[7] = ""; mult[7]= ""; toname[7] = "";
+i = 0;
+for each r_part in r_parts
+  select one o_obj related by r_part->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]; 
+  name[i] = o_obj.Name;
+  phrase[i] = T::underscore( s:r_part.Txt_Phrs );
+  if ( 0 == r_part.Cond )
+    cond[i] = "unconditionally";
+  else
+    cond[i] = "conditionally";
+  end if;
+  if ( 0 == r_part.Mult )
+    mult[i] = "one";
+  else
+    mult[i] = "many";
+  end if;
+  toname[i] = ""; // CDS - get toname
+  i = i + 1;
+end for;
+
+if ( 1 == i )
+  // only one participant, go get the formalizer
+  select one r_form related by r_simp->R_FORM[R208];
+  select one o_obj related by r_form->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]; 
+  name[1] = o_obj.Name;
+  phrase[1] = T::underscore( s:r_form.Txt_Phrs );
+  if ( 0 == r_form.Cond )
+    cond[1] = "unconditionally";
+  else
+    cond[1] = "conditionally";
+  end if;
+  if ( 0 == r_form.Mult )
+    mult[1] = "one";
+  else
+    mult[1] = "many";
+  end if;
+  toname[1] = ""; // CDS - get toname
+end if;
+
+value[0] = c_c.Name;
+value[1] = name[0];
+value[2] = phrase[1];
+value[3] = cond[1];
+value[4] = mult[1];
+value[5] = c_c.Name;
+value[6] = name[1];
+out::populate( element:"participation", value:value );
+
+value[0] = c_c.Name;
+value[1] = name[1];
+value[2] = phrase[0];
+value[3] = cond[0];
+value[4] = mult[0];
+value[5] = c_c.Name;
+value[6] = name[0];
+out::populate( element:"participation", value:value );
+
+out::populate( element:"participation", value:emptyvalue );
+
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("11a9addd-1ac4-4fa9-abbd-0ff170d8e031",
+	"844ea9b2-b764-49f9-b6c3-b594fc02b28e",
+	'r_simp',
+	"322c65da-132b-421a-a1b1-f757cb0acff7",
+	0,
+	'',
+	"4ebc7b0a-e6f4-4dcf-aab8-955aeb9c0826",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("322c65da-132b-421a-a1b1-f757cb0acff7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Simple Association>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("4ebc7b0a-e6f4-4dcf-aab8-955aeb9c0826",
+	"844ea9b2-b764-49f9-b6c3-b594fc02b28e",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("844ea9b2-b764-49f9-b6c3-b594fc02b28e",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("ca010eda-543b-4971-abfb-32b006d6d31c",
+	"00000000-0000-0000-0000-000000000000",
+	'function2routine',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+value[0] = c_c.Name;
+value[1] = "";
+select many c_eps related by c_c->C_PO[R4010]->C_IR[R4016]->C_P[R4009]->C_IR[R4009]->C_I[R4012]->C_EP[R4003];
+select many s_syncs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_SYNC[R8001];
+for each s_sync in s_syncs
+
+  value[2] = "private";
+  // Find a provided port message with this same name.  If found, mark public.
+  for each c_ep in c_eps
+    if ( c_ep.Name == s_sync.Name )
+      value[2] = "public";
+      break;
+    end if;
+  end for;
+  value[3] = s_sync.Name;
+  
+  // Get the first parameter.
+  select any s_sparm related by s_sync->S_SPARM[R24];
+  first_s_sparm = s_sparm;
+  while ( not_empty s_sparm )
+    first_s_sparm = s_sparm;
+    select one s_sparm related by s_sparm->S_SPARM[R54.''precedes''];
+  end while;
+  
+  out::populate( element:"routine", value:value );
+  ::parameterS_SPARM2parameter( s_sparm:first_s_sparm );
+  // find return type if exists
+  select one s_dt related by s_sync->S_DT[R25];
+  if ( not_empty s_dt )
+    // Do not send a void typeref.  No typeref equals void in MASL.
+    if ( "void" != s_dt.Name )
+      value[0] = s_dt.Name;
+      out::populate( element:"typeref", value:value );
+      out::populate( element:"typeref", value:emptyvalue );
+    end if;
+  end if;
+  
+  select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
+  path = ::package_get_path( ep_pkg:ep_pkg );
+  // Populate the action langauge body.
+  ::body2code_block( name:path + "/" + s_sync.Name, text:s_sync.Action_Semantics );
+  
+  out::populate( element:"routine", value:emptyvalue );
+  
+end for;
+  
+
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6f121837-e5ec-493f-a1f1-f42c2bc5c711",
+	"ca010eda-543b-4971-abfb-32b006d6d31c",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("ca010eda-543b-4971-abfb-32b006d6d31c",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("be1ccb4a-cb4a-474d-b0b2-ed38f9f68441",
+	"00000000-0000-0000-0000-000000000000",
+	'parameterS_SPARM2parameter',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+s_sparm = param.s_sparm;
+if ( not_empty s_sparm )
+  value[0] = s_sparm.Name;
+  if ( 0 == s_sparm.By_Ref )
+    value[1] = "in";
+  else
+    value[1] = "out";
+  end if;
+  out::populate( element:"parameter", value:value );
+  select one s_dt related by s_sparm->S_DT[R26];
+  value[0] = s_dt.Name;
+  value[1] = "";
+  out::populate( element:"typeref", value:value );
+  out::populate( element:"typeref", value:emptyvalue );
+  select one s_sparm related by s_sparm->S_SPARM[R54.''succeeds''];
+  ::parameterS_SPARM2parameter( s_sparm:s_sparm );
+  out::populate( element:"parameter", value:emptyvalue );
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("60fb8b97-7f20-4095-b943-e08c3a8e2e31",
+	"be1ccb4a-cb4a-474d-b0b2-ed38f9f68441",
+	's_sparm',
+	"a01a1995-8ff8-44fe-abb1-b11213d98016",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a01a1995-8ff8-44fe-abb1-b11213d98016",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function Parameter>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
+INSERT INTO PE_PE
+	VALUES ("be1ccb4a-cb4a-474d-b0b2-ed38f9f68441",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("78002803-6c30-4367-95a3-30a4b7969a69",
+	"00000000-0000-0000-0000-000000000000",
+	'statemachine2statemachine',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+o_obj = param.o_obj;
+sm_sm = param.sm_sm;
+value[0] = param.type;
+out::populate( element:"transitiontable", value:value );
+
+// Get all the transitions starting with "non_existent" state.
+select many sm_crtxns related by sm_sm->SM_TXN[R505]->SM_CRTXN[R507];
+value[0] = "non_existent";
+for each sm_crtxn in sm_crtxns
+  select one sm_evt related by sm_crtxn->SM_LEVT[R509]->SM_SEVT[R526]->SM_EVT[R525];
+  value[1] = sm_evt.Mning;
+  select one sm_state related by sm_crtxn->SM_TXN[R507]->SM_STATE[R506];
+  value[2] = sm_state.Name;
+end for;
+select many sm_states related by sm_sm->SM_STATE[R501];
+for each sm_state in sm_states
+  value[0] = sm_state.Name;
+  value[1] = ""; // domain
+  value[2] = o_obj.Name;
+  value[3] = ""; value[4] = "";
+  select many sm_semes related by sm_state->SM_SEME[R503]; 
+  for each sm_seme in sm_semes
+    select one sm_evt related by sm_seme->SM_SEVT[R503]->SM_EVT[R525];
+    value[3] = sm_evt.Mning;
+    select one next_sm_state related by sm_seme->SM_NSTXN[R504]->SM_TXN[R507]->SM_STATE[R506];
+    if ( not_empty next_sm_state )
+      value[4] = next_sm_state.Name;
+    else
+      select one sm_eign related by sm_seme->SM_EIGN[R504];
+      if ( not_empty sm_eign )
+        value[4] = "Ignore";
+      else
+        select one sm_ch related by sm_seme->SM_CH[R504];
+        if ( not_empty sm_ch )
+          value[4] = "cannot_happen";
+        else
+          TRACE::log( flavor:"failure", id:102, message:"invalid state machine" );
+        end if;
+      end if;
+    end if;
+    out::populate( element:"transition", value:value );
+    out::populate( element:"transition", value:emptyvalue );
+  end for;
+end for;
+
+out::populate( element:"transitiontable", value:emptyvalue );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5276c784-1f5f-4e92-a593-1c486c8cf8af",
+	"78002803-6c30-4367-95a3-30a4b7969a69",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"fac936f0-5fff-4023-b8c2-2c33c854b8ed",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f6562655-0940-4f4f-a1ae-7094b79949a7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("3072f139-aa6e-4401-8f4d-6ab4cfd561fe",
+	"78002803-6c30-4367-95a3-30a4b7969a69",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"5276c784-1f5f-4e92-a593-1c486c8cf8af",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("fac936f0-5fff-4023-b8c2-2c33c854b8ed",
+	"78002803-6c30-4367-95a3-30a4b7969a69",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("78002803-6c30-4367-95a3-30a4b7969a69",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7b593c09-c6aa-4291-b5ae-af8401687cb2",
+	"00000000-0000-0000-0000-000000000000",
+	'event2event',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+sm_sm = param.sm_sm;
+select many sm_evts related by sm_sm->SM_EVT[R502];
+for each sm_evt in sm_evts
+  value[0] = sm_evt.Mning;
+  value[1] = param.type; // CDS - creation events?
+  out::populate( element:"event", value:value );
+  
+  // Get first parameter.
+  select any sm_evtdi related by sm_evt->SM_EVTDI[R532];
+  first_sm_evtdi = sm_evtdi;
+  while ( not_empty sm_evtdi )
+    first_sm_evtdi = sm_evtdi;
+    select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''precedes''];
+  end while;
+  ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi );
+  
+  out::populate( element:"event", value:emptyvalue );
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9d4415e3-ad34-4d40-883c-8f8647a5f282",
+	"7b593c09-c6aa-4291-b5ae-af8401687cb2",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7d621c7d-0fca-4ab6-9aa2-647b9c85918e",
+	"7b593c09-c6aa-4291-b5ae-af8401687cb2",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9d4415e3-ad34-4d40-883c-8f8647a5f282",
+	'');
+INSERT INTO PE_PE
+	VALUES ("7b593c09-c6aa-4291-b5ae-af8401687cb2",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b22bbb4b-d763-4757-840e-44c5ac1216bd",
+	"00000000-0000-0000-0000-000000000000",
+	'state2state',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+o_obj = param.o_obj;
+sm_sm = param.sm_sm;
+path = ::class_get_path( o_obj:o_obj );
+select many sm_states related by sm_sm->SM_STATE[R501];
+select any sm_state related by sm_sm->SM_STATE[R501];
+lowest = 7777;
+if ( not_empty sm_state )
+  lowest = sm_state.Numb; // any random state number
+end if;
+
+if ( "assigner" == param.type )
+  // Find the lowest numbered state to be ASSIGNER START.
+  for each sm_state in sm_states
+    if ( sm_state.Numb < lowest )
+      lowest = sm_state.Numb;
+    end if;
+  end for;
+  path = path + "/ClassStateMachine";
+else
+  path = path + "/InstanceStateMachine";
+end if;
+
+value[0] = ""; // domain, grammar allows this but we are not using it
+value[1] = o_obj.Name;
+for each sm_state in sm_states
+  value[2] = sm_state.Name;
+  value[3] = param.type;
+  if ( ( "assigner" == param.type ) and ( lowest == sm_state.Numb ) )
+    value[3] = value[3] + " start";
+  end if;
+  out::populate( element:"state", value:value );
+
+  // MASL states declare their parameter signatures.
+  // Traverse to any event transitioning to this state and use its parameters.
+  select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532];
+  // Get first parameter.
+  first_sm_evtdi = sm_evtdi;
+  while ( not_empty sm_evtdi )
+    first_sm_evtdi = sm_evtdi;
+    select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''precedes''];
+  end while;
+  ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi );
+  
+  select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
+  // Populate the action langauge body.
+  ::body2code_block( name:path + "/" + sm_state.Name, text:"sm_act.Action_Semantics" );
+  
+  
+  out::populate( element:"state", value:emptyvalue );
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("39e07600-0fc3-4419-bea9-f719b03957e9",
+	"b22bbb4b-d763-4757-840e-44c5ac1216bd",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"ab128079-dc46-44b1-a1df-f1438a95a38f",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b4d96123-4ced-4577-9028-1ae0b33e681d",
+	"b22bbb4b-d763-4757-840e-44c5ac1216bd",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"39e07600-0fc3-4419-bea9-f719b03957e9",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ab128079-dc46-44b1-a1df-f1438a95a38f",
+	"b22bbb4b-d763-4757-840e-44c5ac1216bd",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("b22bbb4b-d763-4757-840e-44c5ac1216bd",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("45112864-29c1-4db8-9cd5-3121f843a9ff",
+	"00000000-0000-0000-0000-000000000000",
+	'parameterSM_EVTDI2parameter',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+sm_evtdi = param.sm_evtdi;
+if ( not_empty sm_evtdi )
+  value[0] = sm_evtdi.Name;
+  value[1] = "in";
+  out::populate( element:"parameter", value:value );
+  select one s_dt related by sm_evtdi->S_DT[R524];
+  value[0] = s_dt.Name;
+  value[1] = "";
+  out::populate( element:"typeref", value:value );
+  out::populate( element:"typeref", value:emptyvalue );
+  select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''succeeds''];
+  ::parameterSM_EVTDI2parameter( sm_evtdi:sm_evtdi );
+  out::populate( element:"parameter", value:emptyvalue );
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3cc94496-ce2a-4ae7-a208-d9eb28187713",
+	"45112864-29c1-4db8-9cd5-3121f843a9ff",
+	'sm_evtdi',
+	"9067a5b1-aa5d-499a-b13e-9bde5fc3e2cd",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9067a5b1-aa5d-499a-b13e-9bde5fc3e2cd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine Event Data Item>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO PE_PE
+	VALUES ("45112864-29c1-4db8-9cd5-3121f843a9ff",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4202b26a-3a0c-4d52-93bc-ac44e489e824",
+	"00000000-0000-0000-0000-000000000000",
+	'associative2associative',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+r_assoc = param.r_assoc;
+select one r_aone related by r_assoc->R_AONE[R209];
+select one one_o_obj related by r_aone->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]; 
+select one r_aoth related by r_assoc->R_AOTH[R210];
+select one oth_o_obj related by r_aoth->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]; 
+select one r_assr related by r_assoc->R_ASSR[R211];
+select one ass_o_obj related by r_assr->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]; 
+
+onename = one_o_obj.Name;
+othname = oth_o_obj.Name;
+onephrase = T::underscore( s:r_aone.Txt_Phrs );
+othphrase = T::underscore( s:r_aoth.Txt_Phrs );
+onecond = "conditionally";
+othcond = "conditionally";
+onemult = "many";
+othmult = "many";
+if ( 0 == r_aone.Cond )
+  onecond = "unconditionally";
+end if;
+if ( 0 == r_aoth.Cond )
+  othcond = "unconditionally";
+end if;
+if ( 0 == r_aone.Mult )
+  onemult = "one";
+end if;
+if ( 0 == r_aoth.Mult )
+  othmult = "one";
+end if;
+
+value[0] = c_c.Name;
+value[1] = onename;
+value[2] = othphrase;
+value[3] = othcond;
+value[4] = othmult;
+value[5] = c_c.Name;
+value[6] = othname;
+out::populate( element:"participation", value:value );
+
+value[0] = c_c.Name;
+value[1] = othname;
+value[2] = onephrase;
+value[3] = onecond;
+value[4] = onemult;
+value[5] = c_c.Name;
+value[6] = onename;
+out::populate( element:"participation", value:value );
+
+out::populate( element:"participation", value:emptyvalue );
+
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("82f62d53-ef7e-4045-a8b7-e0fd0eeceec7",
+	"4202b26a-3a0c-4d52-93bc-ac44e489e824",
+	'r_assoc',
+	"7f02c6dd-ea5d-4892-801e-a1515764350f",
+	0,
+	'',
+	"aee17374-71d3-47b6-b6f6-e063904f4a3c",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("7f02c6dd-ea5d-4892-801e-a1515764350f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Linked Association>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("aee17374-71d3-47b6-b6f6-e063904f4a3c",
+	"4202b26a-3a0c-4d52-93bc-ac44e489e824",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("4202b26a-3a0c-4d52-93bc-ac44e489e824",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("470c92fd-02d6-42c6-89f5-2309dd2c79e0",
+	"00000000-0000-0000-0000-000000000000",
+	'subsuper2subsuper',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+r_subsup = param.r_subsup;
+select one o_obj related by r_subsup->R_SUPER[R212]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]; 
+
+value[0] = c_c.Name;
+value[1] = o_obj.Name;
+value[2] = "is_a";
+value[3] = "unconditionally";
+value[4] = "one";
+value[5] = c_c.Name;
+value[6] = "";
+out::populate( element:"participation", value:value );
+
+select many o_objs related by r_subsup->R_SUB[R213]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]; 
+for each o_obj in o_objs
+  value[1] = o_obj.Name;
+  out::populate( element:"participation", value:value );
+end for;
+
+out::populate( element:"participation", value:emptyvalue );
+
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cf4ea895-58ef-476c-837b-8dfa3a918c5a",
+	"470c92fd-02d6-42c6-89f5-2309dd2c79e0",
+	'r_subsup',
+	"8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	0,
+	'',
+	"91396840-1014-44dd-9a98-a0b61d9ce38c",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Subtype Supertype Association>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("91396840-1014-44dd-9a98-a0b61d9ce38c",
+	"470c92fd-02d6-42c6-89f5-2309dd2c79e0",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("470c92fd-02d6-42c6-89f5-2309dd2c79e0",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("32848e1b-5a26-4dcf-96a2-9d5ca948d31a",
+	"00000000-0000-0000-0000-000000000000",
+	'classop2objectop',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+o_obj = param.o_obj;
+value[0] = c_c.Name;
+value[1] = o_obj.Name;
+select many o_tfrs related by o_obj->O_TFR[R115];
+for each o_tfr in o_tfrs
+
+  value[2] = "public"; // CDS - dunno how to choose this
+  value[3] = o_tfr.Name;
+  value[4] = "";
+  if ( Scope::Instance == o_tfr.Instance_Based )
+    value[4] = "instance";
+  end if;
+  value[5] = ""; // CDS - not deferred, select to subtypes?
+  
+  // Get the first parameter.
+  select any o_tparm related by o_tfr->O_TPARM[R117];
+  first_o_tparm = o_tparm;
+  while ( not_empty o_tparm )
+    first_o_tparm = o_tparm;
+    select one o_tparm related by o_tparm->O_TPARM[R124.''precedes''];
+  end while;
+  
+  out::populate( element:"operation", value:value );
+  ::parameterO_TPARM2parameter( o_tparm:first_o_tparm );
+  // find return type if exists
+  select one s_dt related by o_tfr->S_DT[R116];
+  if ( "void" != s_dt.Name )
+    // Do not send a void typeref.  No typeref equals void in MASL.
+    value[0] = s_dt.Name;
+    out::populate( element:"typeref", value:value );
+    out::populate( element:"typeref", value:emptyvalue );
+  end if;
+  
+  path = ::class_get_path( o_obj:o_obj );
+  // Populate the action langauge body.
+  ::body2code_block( name:path + "/" + o_tfr.Name, text:o_tfr.Action_Semantics );
+  
+  out::populate( element:"operation", value:emptyvalue );
+  
+end for;
+
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b20d9889-4d3c-4f25-a8db-c0753f2d6cac",
+	"32848e1b-5a26-4dcf-96a2-9d5ca948d31a",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"693ec31b-49ac-47ed-811a-066443a909ce",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("693ec31b-49ac-47ed-811a-066443a909ce",
+	"32848e1b-5a26-4dcf-96a2-9d5ca948d31a",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("32848e1b-5a26-4dcf-96a2-9d5ca948d31a",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1ec46b81-5ac9-470b-8a41-cb1d6fad4f3f",
+	"00000000-0000-0000-0000-000000000000",
+	'parameterO_TPARM2parameter',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+o_tparm = param.o_tparm;
+if ( not_empty o_tparm )
+  value[0] = o_tparm.Name;
+  if ( 0 == o_tparm.By_Ref )
+    value[1] = "in";
+  else
+    value[1] = "out";
+  end if;
+  out::populate( element:"parameter", value:value );
+  select one s_dt related by o_tparm->S_DT[R118];
+  value[0] = s_dt.Name;
+  value[1] = "";
+  out::populate( element:"typeref", value:value );
+  out::populate( element:"typeref", value:emptyvalue );
+  select one o_tparm related by o_tparm->O_TPARM[R124.''succeeds''];
+  ::parameterO_TPARM2parameter( o_tparm:o_tparm );
+  out::populate( element:"parameter", value:emptyvalue );
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("79a8a289-1d1d-4dd0-8a5c-769e1ea19030",
+	"1ec46b81-5ac9-470b-8a41-cb1d6fad4f3f",
+	'o_tparm',
+	"eeb98cba-1a0c-4d36-80f1-c0199a301aaf",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("eeb98cba-1a0c-4d36-80f1-c0199a301aaf",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Operation Parameter>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO PE_PE
+	VALUES ("1ec46b81-5ac9-470b-8a41-cb1d6fad4f3f",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("dc5a9183-9669-4030-a0cb-53de3eabbc6c",
+	"00000000-0000-0000-0000-000000000000",
+	'parameterS_BPARM2parameter',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+s_bparm = param.s_bparm;
+if ( not_empty s_bparm )
+  value[0] = s_bparm.Name;
+  if ( 0 == s_bparm.By_Ref )
+    value[1] = "in";
+  else
+    value[1] = "out";
+  end if;
+  out::populate( element:"parameter", value:value );
+  select one s_dt related by s_bparm->S_DT[R22];
+  value[0] = s_dt.Name;
+  value[1] = "";
+  out::populate( element:"typeref", value:value );
+  out::populate( element:"typeref", value:emptyvalue );
+  select one s_bparm related by s_bparm->S_BPARM[R55.''succeeds''];
+  ::parameterS_BPARM2parameter( s_bparm:s_bparm );
+  out::populate( element:"parameter", value:emptyvalue );
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("571307a8-fb6e-4025-a9da-cce9783b0b83",
+	"dc5a9183-9669-4030-a0cb-53de3eabbc6c",
+	's_bparm',
+	"024c3ad1-7845-4590-9c38-01e43cf1de89",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("024c3ad1-7845-4590-9c38-01e43cf1de89",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Bridge Parameter>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
+INSERT INTO PE_PE
+	VALUES ("dc5a9183-9669-4030-a0cb-53de3eabbc6c",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("3cdbcb50-657d-4b2a-bd28-8cc238ef02a1",
+	"00000000-0000-0000-0000-000000000000",
+	'Descrip2pragma',
+	'',
+	'/*
+Use the parsekeyword feature to extract pragmas from text (Descrip) fields.
+CDS - not...  Let us do something different than parsekeyword.
+*/
+value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+value[0] = "";
+value[1] = "";
+out::populate( element:"pragma", value:value );
+out::populate( element:"pragma", value:emptyvalue );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("02aacd79-8ff9-4fde-aa3b-8f63ce839092",
+	"3cdbcb50-657d-4b2a-bd28-8cc238ef02a1",
+	'text',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("3cdbcb50-657d-4b2a-bd28-8cc238ef02a1",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9feb3491-f835-4302-9628-50c776b209ed",
+	"00000000-0000-0000-0000-000000000000",
+	'body2code_block',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+value[0] = param.name + ".masl";
+out::populate( element:"codeblock", value:value );
+out::populate( element:"codeblock", value:emptyvalue );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8dd08552-fe99-4071-95f5-32ada1023ceb",
+	"9feb3491-f835-4302-9628-50c776b209ed",
+	'text',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"66dfda05-05dc-4065-bbdc-476aa9f06535",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("66dfda05-05dc-4065-bbdc-476aa9f06535",
+	"9feb3491-f835-4302-9628-50c776b209ed",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("9feb3491-f835-4302-9628-50c776b209ed",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
+	"00000000-0000-0000-0000-000000000000",
+	'package_get_path',
+	'',
+	'// Recursively traverse upward to system to form full path.
+ep_pkg = param.ep_pkg;
+parent_path = "";
+select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
+if ( not_empty parent_ep_pkg )
+  // package in package
+  parent_path = ::package_get_path( ep_pkg:parent_ep_pkg );
+else
+  select one s_sys related by ep_pkg->S_SYS[R1401];
+  if ( not_empty s_sys )
+    // package in system
+    parent_path = s_sys.Name;
+  else
+    select one c_c related by ep_pkg->PE_PE[R8001]->C_C[R8003];
+    if ( not_empty c_c )
+      // package in component
+      parent_path = ::component_get_path( c_c:c_c );
+    else
+      TRACE::log( flavor:"failure", id:110, message:"error building path of package" );
+    end if;
+  end if;
+end if;
+return parent_path + "/" + ep_pkg.Name;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("545013fa-458c-405b-a060-d3a4d72e3f2b",
+	"5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Package>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
+INSERT INTO PE_PE
+	VALUES ("5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
+	"00000000-0000-0000-0000-000000000000",
+	'class_get_path',
+	'',
+	'// Append parent path to name to get path to me.
+o_obj = param.o_obj;
+select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
+parent_path = ::package_get_path( ep_pkg:ep_pkg );
+return parent_path + "/" + o_obj.Name;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f8a8a377-b99c-4b33-b380-028d84082c81",
+	"cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("10e28974-45a1-4163-aa99-0edb13366a24",
+	"00000000-0000-0000-0000-000000000000",
+	'component_get_path',
+	'',
+	'// Append name to parent path to form path to me.
+c_c = param.c_c;
+select one ep_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000];
+parent_path = ::package_get_path( ep_pkg:ep_pkg );
+return parent_path + "/" + c_c.Name;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b5b82ab6-5156-4fad-b8a1-6b51309f11a3",
+	"10e28974-45a1-4163-aa99-0edb13366a24",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("10e28974-45a1-4163-aa99-0edb13366a24",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f60ed8df-36cc-47f1-ad6e-b7dcaee6bb4a",
+	"00000000-0000-0000-0000-000000000000",
+	'externalentity2terminator',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+// (outbound) EE -> terminator
+select many s_ees related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_EE[R8001];
+for each s_ee in s_ees
+  value[0] = s_ee.Name;
+  out::populate( element:"terminator", value:value );
+  ::bridge2routine( c_c:c_c, s_ee:s_ee );
+  // end terminator
+  out::populate( element:"terminator", value:emptyvalue );
+end for;
+
+  
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ed8dece4-68f0-484b-8c5c-5d237745ce5a",
+	"f60ed8df-36cc-47f1-ad6e-b7dcaee6bb4a",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f60ed8df-36cc-47f1-ad6e-b7dcaee6bb4a",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c1f44339-d7c8-438a-90fa-2e8cb41d36a7",
+	"00000000-0000-0000-0000-000000000000",
+	'bridge2routine',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+s_ee = param.s_ee;
+// bridge -> function/service
+value[0] = c_c.Name;
+value[1] = "terminator";
+
+select many s_brgs related by s_ee->S_BRG[R19];
+for each s_brg in s_brgs
+    
+  value[2] = "private"; // Messages turn into public services.
+  value[3] = s_brg.Name;
+  out::populate( element:"routine", value:value );
+  
+  select any s_bparm related by s_brg->S_BPARM[R21];
+  first_s_bparm = s_bparm;
+  while ( not_empty s_bparm )
+    first_s_bparm = s_bparm;
+    select one s_bparm related by s_bparm->S_BPARM[R55.''precedes''];
+  end while;
+  ::parameterS_BPARM2parameter( s_bparm:first_s_bparm );
+  
+  select one s_dt related by s_brg->S_DT[R20];
+  if ( not_empty s_dt )
+    // Do not send a void typeref.  No typeref equals void in MASL.
+    if ( "void" != s_dt.Name )
+      value[0] = s_dt.Name;
+      out::populate( element:"typeref", value:value );
+      out::populate( element:"typeref", value:emptyvalue );
+    end if;
+  end if;
+  
+  select one ep_pkg related by s_ee->PE_PE[R8001]->EP_PKG[R8000];
+  path = ::package_get_path( ep_pkg:ep_pkg );
+  // Populate the action langauge body.
+  ::body2code_block( name:path + "/" + s_ee.Name + "_" + s_brg.Name, text:"s_brg.Action_Semantics" );
+  
+  out::populate( element:"routine", value:emptyvalue );
+  
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("518c602c-b34d-4271-a7d1-076725ac98df",
+	"c1f44339-d7c8-438a-90fa-2e8cb41d36a7",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ded9129e-fede-4246-997f-72c0bb9d3ead",
+	"c1f44339-d7c8-438a-90fa-2e8cb41d36a7",
+	's_ee',
+	"fc04695e-75c8-413e-a409-6dbc6465e011",
+	0,
+	'',
+	"518c602c-b34d-4271-a7d1-076725ac98df",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("fc04695e-75c8-413e-a409-6dbc6465e011",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<External Entity>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
+INSERT INTO PE_PE
+	VALUES ("c1f44339-d7c8-438a-90fa-2e8cb41d36a7",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'xtuml2masl',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../xtuml2masl.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("53107551-b0b9-4155-a13f-41b410f63a54",
+	'maslout',
+	1,
+	'../../../maslout.xtuml');

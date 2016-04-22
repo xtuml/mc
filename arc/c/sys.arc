@@ -77,7 +77,6 @@
   .//.invoke r = TE_CLASS_instance_dumper()
   .//${r.body}
   .//.emit to file "../../src/q.class.instance.dump.arc"
-  .//.include "${te_file.arc_path}/schema_gen.arc"
   .//.exit 507
   .//.print "dumping instances ${info.date}"
   .//.include "${te_file.arc_path}/q.class.instance.dump.arc"
@@ -168,9 +167,8 @@
 .assign all_instance_dumpersd = ""
 .assign all_instance_dumpers = ""
 .assign all_max_class_numbers = "0"
-.select many te_cs from instances of TE_C where ( selected.included_in_build )
-.for each te_c in te_cs
-  .if ( te_c.internal_behavior )
+.assign te_c = first_te_c
+.while ( not_empty te_c )
     .select one te_dci related by te_c->TE_DCI[R2090]
     .assign all_domain_include_files = all_domain_include_files + "#include ""${te_c.classes_file}.${te_file.hdr_file_ext}""\n"
     .assign all_instance_loaders = all_instance_loaders + "  ${te_c.Name}_instance_loaders,\n"
@@ -178,8 +176,8 @@
     .assign all_instance_dumpersd = all_instance_dumpersd + "extern ${te_prefix.result}idf ${te_c.Name}_instance_dumpers[ ${te_dci.max} ];\n"
     .assign all_instance_dumpers = all_instance_dumpers + "  ${te_c.Name}_instance_dumpers,\n"
     .assign all_max_class_numbers = ( all_max_class_numbers + " + " ) + te_dci.max
-  .end if
-.end for
+  .select one te_c related by te_c->TE_C[R2017.'succeeds']
+.end while
 .//
 .//
 .//

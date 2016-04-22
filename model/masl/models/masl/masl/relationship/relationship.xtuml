@@ -1,0 +1,190 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("d47576b6-a215-43fb-bb91-bdb6435f137b",
+	'relationship',
+	3725,
+	'relationship',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("d12801c5-5fe6-4b0e-b77a-fd4c687cd875",
+	"d47576b6-a215-43fb-bb91-bdb6435f137b",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one regularrel related by self->regularrel[R3721];
+if ( not_empty regularrel )
+  regularrel.render();
+else
+select one associative related by self->associative[R3721];
+if ( not_empty associative )
+  associative.render();
+else
+select one subsuper related by self->subsuper[R3721];
+if ( not_empty subsuper )
+  subsuper.render();
+else
+  TRACE::log( flavor:"failure", id:82, message:"missing subtype relationship while rendering" );
+end if;
+end if;
+end if;
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"default" );',
+	1,
+	'',
+	"ba9f72fd-fca7-4102-b768-e6f9748221de");
+INSERT INTO O_TFR
+	VALUES ("ba9f72fd-fca7-4102-b768-e6f9748221de",
+	"d47576b6-a215-43fb-bb91-bdb6435f137b",
+	'populate',
+	'',
+	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	0,
+	'domain = param.domain;
+create object instance relationship of relationship;
+relationship.name = param.name;
+relate relationship to domain across R3712;
+return relationship;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("34512c79-e13d-4aad-a93f-b5dbc3058208",
+	"ba9f72fd-fca7-4102-b768-e6f9748221de",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("bac8a22f-cf33-441e-8691-7025b57b381b",
+	"ba9f72fd-fca7-4102-b768-e6f9748221de",
+	'domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"34512c79-e13d-4aad-a93f-b5dbc3058208",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<relationship>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("a9254a47-e3ba-47dc-a7b2-acee4e34ed9e",
+	"d47576b6-a215-43fb-bb91-bdb6435f137b",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"relationship has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select one associative related by self->associative[R3721];
+select one regularrel related by self->regularrel[R3721];
+select one subsuper related by self->subsuper[R3721];
+
+if ( not_empty associative )
+  valid = associative.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+elif ( not_empty regularrel )
+  valid = regularrel.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+elif ( not_empty subsuper )
+  valid = subsuper.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"relationship has no subtype." );
+  valid = false;
+  return valid;
+end if;
+
+select one participation related by self->participation[R3713.''engages''];
+if ( not_empty participation )
+  valid = participation.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"relationship has no participation." );
+  valid = false;
+end if;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
+	1,
+	'',
+	"d12801c5-5fe6-4b0e-b77a-fd4c687cd875");
+INSERT INTO O_NBATTR
+	VALUES ("f63699fb-e6a7-40de-806c-9aef5c959f68",
+	"d47576b6-a215-43fb-bb91-bdb6435f137b");
+INSERT INTO O_BATTR
+	VALUES ("f63699fb-e6a7-40de-806c-9aef5c959f68",
+	"d47576b6-a215-43fb-bb91-bdb6435f137b");
+INSERT INTO O_ATTR
+	VALUES ("f63699fb-e6a7-40de-806c-9aef5c959f68",
+	"d47576b6-a215-43fb-bb91-bdb6435f137b",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"d47576b6-a215-43fb-bb91-bdb6435f137b");
+INSERT INTO O_ID
+	VALUES (1,
+	"d47576b6-a215-43fb-bb91-bdb6435f137b");
+INSERT INTO O_ID
+	VALUES (2,
+	"d47576b6-a215-43fb-bb91-bdb6435f137b");
+INSERT INTO PE_PE
+	VALUES ("d47576b6-a215-43fb-bb91-bdb6435f137b",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

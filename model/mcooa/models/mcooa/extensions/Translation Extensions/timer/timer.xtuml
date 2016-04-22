@@ -1,0 +1,160 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11",
+	'timer',
+	2063,
+	'TE_TIM',
+	'access:te_prefix
+This class holds configuration data for the default TIM implementation.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("3ff91333-27dc-44a8-a4ec-48d22c44bb35",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_BATTR
+	VALUES ("3ff91333-27dc-44a8-a4ec-48d22c44bb35",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_ATTR
+	VALUES ("3ff91333-27dc-44a8-a4ec-48d22c44bb35",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11",
+	"00000000-0000-0000-0000-000000000000",
+	'max_timers',
+	'',
+	'',
+	'max_timers',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.define_u + "SYS_MAX_XTUML_TIMERS"');
+INSERT INTO O_NBATTR
+	VALUES ("cb784fce-ecd9-4676-b5c1-db4a4d949c65",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_BATTR
+	VALUES ("cb784fce-ecd9-4676-b5c1-db4a4d949c65",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_ATTR
+	VALUES ("cb784fce-ecd9-4676-b5c1-db4a4d949c65",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11",
+	"3ff91333-27dc-44a8-a4ec-48d22c44bb35",
+	'keyed_timer_support',
+	'',
+	'',
+	'keyed_timer_support',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'false');
+INSERT INTO O_NBATTR
+	VALUES ("09ffba72-b047-4207-99e2-8af49ec6c992",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_BATTR
+	VALUES ("09ffba72-b047-4207-99e2-8af49ec6c992",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_ATTR
+	VALUES ("09ffba72-b047-4207-99e2-8af49ec6c992",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11",
+	"cb784fce-ecd9-4676-b5c1-db4a4d949c65",
+	'recurring_timer_support',
+	'',
+	'',
+	'recurring_timer_support',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'true');
+INSERT INTO O_NBATTR
+	VALUES ("d3800aba-10d8-4534-810f-b85c58d36210",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_BATTR
+	VALUES ("d3800aba-10d8-4534-810f-b85c58d36210",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_ATTR
+	VALUES ("d3800aba-10d8-4534-810f-b85c58d36210",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11",
+	"2d625563-efe4-485f-948f-ac3593831930",
+	'internal_type',
+	'',
+	'',
+	'internal_type',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'"ETimer_t"');
+INSERT INTO O_NBATTR
+	VALUES ("2d625563-efe4-485f-948f-ac3593831930",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_BATTR
+	VALUES ("2d625563-efe4-485f-948f-ac3593831930",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_ATTR
+	VALUES ("2d625563-efe4-485f-948f-ac3593831930",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11",
+	"09ffba72-b047-4207-99e2-8af49ec6c992",
+	'timer_event_search_and_destroy',
+	'',
+	'',
+	'timer_event_search_and_destroy',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'false');
+INSERT INTO O_NBATTR
+	VALUES ("1b89c74e-aebd-4e8d-92f1-0cbbc94384fb",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_BATTR
+	VALUES ("1b89c74e-aebd-4e8d-92f1-0cbbc94384fb",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_ATTR
+	VALUES ("1b89c74e-aebd-4e8d-92f1-0cbbc94384fb",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11",
+	"d3800aba-10d8-4534-810f-b85c58d36210",
+	'scope',
+	'',
+	'',
+	'scope',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("547956b7-f5ad-4650-a883-3ff07f82002e",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_BATTR
+	VALUES ("547956b7-f5ad-4650-a883-3ff07f82002e",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_ATTR
+	VALUES ("547956b7-f5ad-4650-a883-3ff07f82002e",
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11",
+	"1b89c74e-aebd-4e8d-92f1-0cbbc94384fb",
+	'event_name',
+	'',
+	'',
+	'event_name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_ID
+	VALUES (1,
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_ID
+	VALUES (2,
+	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO PE_PE
+	VALUES ("ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11",
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');

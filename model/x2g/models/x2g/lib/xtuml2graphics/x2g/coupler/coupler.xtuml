@@ -1,0 +1,501 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	'coupler',
+	3904,
+	'coupler',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("26523f26-2f98-401a-b700-cf84c8985e1b",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'diagram = param.diagram;
+OOA_Type = param.OOA_Type;
+name = param.name;
+ooaofooa_ID = param.ooaofooa_ID;
+orig_ID = param.orig_ID;
+dest_ID = param.dest_ID;
+
+// x,y and new number from diagram factory
+x = 0; y = 0;
+widgetnumber = diagram.xy( x:x, y:y, figurenumber:0 );
+
+widget = widget::populate(
+  name:name,
+  number:widgetnumber,
+  ooaofooa_ID:ooaofooa_ID,
+  OOA_Type:OOA_Type,
+  x:x,
+  y:y,
+  diagram:diagram
+);
+
+create object instance coupler of coupler;
+relate widget to coupler across R3902;
+// general use linking identifiers
+coupler.cID1 = graph::id(); coupler.cID2 = graph::id(); coupler.cID3 = graph::id();
+coupler.textID1 = graph::id(); coupler.textID2 = graph::id(); coupler.textID3 = graph::id();
+coupler.lsID1 = graph::id(); coupler.lsID2 = graph::id(); coupler.lsID3 = graph::id();
+coupler.wpID1 = graph::id(); coupler.wpID2 = graph::id(); coupler.wpID3 = graph::id();
+
+// Relate coupler to src and dest widgets. 
+select any orig_widget related by diagram->widget[R3901] where ( selected.ooaofooa_ID == T::idtoi( id:orig_ID ) );
+select any dest_widget related by diagram->widget[R3901] where ( selected.ooaofooa_ID == T::idtoi( id:dest_ID ) );
+if ( ( OOAType::Transition == OOA_Type ) or ( OOAType::Association == OOA_Type ) )
+  // transition
+  select one orig_figure related by orig_widget->figure[R3902];
+  select one dest_figure related by dest_widget->figure[R3902];
+  // For each case, calculate the middle of the edge where the connection will be made.
+  if ( orig_widget.y > dest_widget.y )
+    // dest above
+    coupler.orig_x = orig_widget.x + ( orig_figure.width / 2 );
+    coupler.orig_y = orig_widget.y;
+    coupler.dest_x = dest_widget.x + ( dest_figure.width / 2 );
+    coupler.dest_y = dest_widget.y + dest_figure.height;
+  elif ( orig_widget.y < dest_widget.y )
+    // dest below
+    coupler.orig_x = orig_widget.x + ( orig_figure.width / 2 );
+    coupler.orig_y = orig_widget.y + orig_figure.height;
+    coupler.dest_x = dest_widget.x + ( dest_figure.width / 2 );
+    coupler.dest_y = dest_widget.y;
+  elif ( orig_widget.x < dest_widget.x )
+    // dest right
+    coupler.orig_x = orig_widget.x + orig_figure.width;
+    coupler.orig_y = orig_widget.y + ( orig_figure.height / 2 );
+    coupler.dest_x = dest_widget.x;
+    coupler.dest_y = dest_widget.y + ( dest_figure.height / 2 );
+  else
+    // dest left
+    coupler.orig_x = orig_widget.x;
+    coupler.orig_y = orig_widget.y + ( orig_figure.height / 2 );
+    coupler.dest_x = dest_widget.x + dest_figure.width;
+    coupler.dest_y = dest_widget.y + ( dest_figure.height / 2 );
+  end if;
+  relate coupler to orig_widget across R3904;
+  relate coupler to dest_widget across R3903;
+elif ( OOAType::CreationTransition == OOA_Type )
+  // creation transition
+  /* Do this differently using dst x,y.
+  dest_junction = junction::populate( x:x, y:y, orig_dest:"dest" ); // CDS - xy?
+  relate coupler to dest_widget across R3903 using dest_junction;
+  */
+end if;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("29838aa2-8bdc-49ca-8886-036b146a508e",
+	"26523f26-2f98-401a-b700-cf84c8985e1b",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("29dae068-5d0e-42aa-9db2-d70c1015359d",
+	"26523f26-2f98-401a-b700-cf84c8985e1b",
+	'ooaofooa_ID',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"29838aa2-8bdc-49ca-8886-036b146a508e",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("71e9ed70-0668-465b-936d-c903ce80128f",
+	"26523f26-2f98-401a-b700-cf84c8985e1b",
+	'OOA_Type',
+	"696e9a94-513e-4efa-9b34-1178961cf1f7",
+	0,
+	'',
+	"29dae068-5d0e-42aa-9db2-d70c1015359d",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("696e9a94-513e-4efa-9b34-1178961cf1f7",
+	"00000000-0000-0000-0000-000000000000",
+	'OOAType',
+	'',
+	'',
+	'../x2g.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("97aed95f-a496-448a-9a52-9fdc852b3524",
+	"26523f26-2f98-401a-b700-cf84c8985e1b",
+	'diagram',
+	"a9916f4f-fba5-4d73-b797-c78730cb0054",
+	0,
+	'',
+	"71e9ed70-0668-465b-936d-c903ce80128f",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a9916f4f-fba5-4d73-b797-c78730cb0054",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<diagram>',
+	'',
+	'',
+	'../x2g.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("6c0744f3-0194-42ba-b8e0-56517dc4c9f5",
+	"26523f26-2f98-401a-b700-cf84c8985e1b",
+	'orig_ID',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"97aed95f-a496-448a-9a52-9fdc852b3524",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("191d0108-11b7-406d-ae0e-66bfe3119452",
+	"26523f26-2f98-401a-b700-cf84c8985e1b",
+	'dest_ID',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"6c0744f3-0194-42ba-b8e0-56517dc4c9f5",
+	'');
+INSERT INTO O_TFR
+	VALUES ("50573961-00ac-4987-905e-219aaad33fcb",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'coupler = self;
+select one widget related by self->widget[R3902];
+select one diagram related by widget->diagram[R3901];
+select one orig_widget related by self->widget[R3904];
+select one dest_widget related by self->widget[R3903];
+if ( OOAType::Association == widget.OOA_Type )
+  T::include( file:"t/t.transition.sql" );
+elif ( OOAType::Transition == widget.OOA_Type )
+  T::include( file:"t/t.transition.sql" );
+/*
+elif ( 49 == widget.flavor )
+  // creation transition
+  T::include( file:"t/t.creation_transition.sql" );
+*/
+end if;',
+	1,
+	'',
+	"26523f26-2f98-401a-b700-cf84c8985e1b");
+INSERT INTO O_NBATTR
+	VALUES ("fcf5ce59-008d-4936-976d-e9f603834436",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("fcf5ce59-008d-4936-976d-e9f603834436",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("fcf5ce59-008d-4936-976d-e9f603834436",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"f44e25d6-d5ac-4d1b-a086-595fabaad9be",
+	'cID1',
+	'',
+	'',
+	'cID1',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("68ae699f-8534-4e8a-8357-4988cec5b93d",
+	"00000000-0000-0000-0000-000000000000",
+	'IDtype',
+	'',
+	'',
+	'../x2g.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("2a8ae65d-e086-4f03-9d29-c213b1ab4c04",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("2a8ae65d-e086-4f03-9d29-c213b1ab4c04",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("2a8ae65d-e086-4f03-9d29-c213b1ab4c04",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"fcf5ce59-008d-4936-976d-e9f603834436",
+	'cID2',
+	'',
+	'',
+	'cID2',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5a59add7-bbf9-4512-a94f-4ece85b2d180",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("5a59add7-bbf9-4512-a94f-4ece85b2d180",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("5a59add7-bbf9-4512-a94f-4ece85b2d180",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"2a8ae65d-e086-4f03-9d29-c213b1ab4c04",
+	'cID3',
+	'',
+	'',
+	'cID3',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("46ac7b21-f264-46f3-b6cd-afc3a6beb877",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("46ac7b21-f264-46f3-b6cd-afc3a6beb877",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("46ac7b21-f264-46f3-b6cd-afc3a6beb877",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"5a59add7-bbf9-4512-a94f-4ece85b2d180",
+	'textID1',
+	'',
+	'',
+	'textID1',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("7c241982-c878-4949-9b1b-55a437a54394",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("7c241982-c878-4949-9b1b-55a437a54394",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("7c241982-c878-4949-9b1b-55a437a54394",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"46ac7b21-f264-46f3-b6cd-afc3a6beb877",
+	'textID2',
+	'',
+	'',
+	'textID2',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("7c076616-b1b5-441b-a22c-5c8cad249da1",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("7c076616-b1b5-441b-a22c-5c8cad249da1",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("7c076616-b1b5-441b-a22c-5c8cad249da1",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"7c241982-c878-4949-9b1b-55a437a54394",
+	'textID3',
+	'',
+	'',
+	'textID3',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f849c044-8df1-4f5e-81c5-f39eea836cb9",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("f849c044-8df1-4f5e-81c5-f39eea836cb9",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("f849c044-8df1-4f5e-81c5-f39eea836cb9",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"7c076616-b1b5-441b-a22c-5c8cad249da1",
+	'lsID1',
+	'',
+	'',
+	'lsID1',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("564620af-d07f-48bc-96c4-e8f395ed1888",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("564620af-d07f-48bc-96c4-e8f395ed1888",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("564620af-d07f-48bc-96c4-e8f395ed1888",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"f849c044-8df1-4f5e-81c5-f39eea836cb9",
+	'lsID2',
+	'',
+	'',
+	'lsID2',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("b1d4d398-a126-48fe-9cb4-75f2096379f2",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("b1d4d398-a126-48fe-9cb4-75f2096379f2",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("b1d4d398-a126-48fe-9cb4-75f2096379f2",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"564620af-d07f-48bc-96c4-e8f395ed1888",
+	'lsID3',
+	'',
+	'',
+	'lsID3',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ffbe1740-318c-4868-a5d8-a04ec345b354",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("ffbe1740-318c-4868-a5d8-a04ec345b354",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("ffbe1740-318c-4868-a5d8-a04ec345b354",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"b1d4d398-a126-48fe-9cb4-75f2096379f2",
+	'wpID1',
+	'',
+	'',
+	'wpID1',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("af758943-9463-48aa-b2f5-c1fb7079067d",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("af758943-9463-48aa-b2f5-c1fb7079067d",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("af758943-9463-48aa-b2f5-c1fb7079067d",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"ffbe1740-318c-4868-a5d8-a04ec345b354",
+	'wpID2',
+	'',
+	'',
+	'wpID2',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("09ddafa8-f843-447e-9893-bac7eec7e917",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("09ddafa8-f843-447e-9893-bac7eec7e917",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("09ddafa8-f843-447e-9893-bac7eec7e917",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"af758943-9463-48aa-b2f5-c1fb7079067d",
+	'wpID3',
+	'',
+	'',
+	'wpID3',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("963fcaa4-c23f-4bfe-85d7-ba8bd7594f51",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("963fcaa4-c23f-4bfe-85d7-ba8bd7594f51",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("963fcaa4-c23f-4bfe-85d7-ba8bd7594f51",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"00000000-0000-0000-0000-000000000000",
+	'orig_x',
+	'',
+	'',
+	'orig_x',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("35368ee6-5404-4c33-b6f4-ca46e3815e1a",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("35368ee6-5404-4c33-b6f4-ca46e3815e1a",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("35368ee6-5404-4c33-b6f4-ca46e3815e1a",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"963fcaa4-c23f-4bfe-85d7-ba8bd7594f51",
+	'orig_y',
+	'',
+	'',
+	'orig_y',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8f3ade78-4de2-4da6-8022-74c0a815fad1",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("8f3ade78-4de2-4da6-8022-74c0a815fad1",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("8f3ade78-4de2-4da6-8022-74c0a815fad1",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"35368ee6-5404-4c33-b6f4-ca46e3815e1a",
+	'dest_x',
+	'',
+	'',
+	'dest_x',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f44e25d6-d5ac-4d1b-a086-595fabaad9be",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("f44e25d6-d5ac-4d1b-a086-595fabaad9be",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("f44e25d6-d5ac-4d1b-a086-595fabaad9be",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"8f3ade78-4de2-4da6-8022-74c0a815fad1",
+	'dest_y',
+	'',
+	'',
+	'dest_y',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ID
+	VALUES (1,
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ID
+	VALUES (2,
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO PE_PE
+	VALUES ("6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	"7f685551-3fe6-4c32-a2a4-d1cac568d8c7",
+	'x2g',
+	'',
+	0,
+	'../x2g.xtuml');

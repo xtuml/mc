@@ -1,0 +1,289 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	'object',
+	3710,
+	'object',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("94d08134-61ae-4921-adee-96a5ef2d9522",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.object_begin.masl" );
+
+select many attributes related by self->attribute[R3709.''is characterized by''];
+for each attribute in attributes
+  attribute.render();
+end for;
+
+select many identifiers related by self->identifier[R3711];
+for each identifier in identifiers
+  identifier.render();
+end for;
+
+select many operation_activities related by self->operation[R3749]->activity[R3704];
+for each activity in operation_activities
+  activity.render();
+end for;
+
+select many state_activities related by self->state[R3750]->activity[R3704];
+for each activity in state_activities
+  activity.render();
+end for;
+
+select many events related by self->event[R3736.''is triggered by''];
+for each event in events
+  event.render();
+end for;
+
+select many state_machines related by self->state_machine[R3734];
+for each state_machine in state_machines
+  state_machine.render();
+end for;
+
+T::include( file:"masl/t.object_end.masl" );
+
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"definition" );',
+	1,
+	'',
+	"08a62993-0de5-465c-bb72-ba84e7590350");
+INSERT INTO O_TFR
+	VALUES ("08a62993-0de5-465c-bb72-ba84e7590350",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	'populate',
+	'',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'domain = param.domain;
+name = param.name;
+select any object related by domain->object[R3708.''has abstract''] where ( selected.name == name );
+if ( empty object )
+  create object instance object of object;
+  object.name = param.name;
+  relate domain to object across R3708.''has abstract'';
+  markable = markable::populate( name:"object" );
+  relate object to markable across R3783;
+end if;
+return object;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("fe0bf592-4377-4dcc-8d5c-806c966de9bb",
+	"08a62993-0de5-465c-bb72-ba84e7590350",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("9f200455-a0b6-4610-b986-c1cb925a5fa4",
+	"08a62993-0de5-465c-bb72-ba84e7590350",
+	'domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"fe0bf592-4377-4dcc-8d5c-806c966de9bb",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("3be1d39f-272d-4b30-9333-697e240f8611",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"object has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate attributes
+select many child_attributes related by self->attribute[R3709.''is characterized by''];
+for each attribute in child_attributes
+  valid = attribute.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate identifiers
+select many child_identifiers related by self->identifier[R3711];
+for each identifier in child_identifiers
+  valid = identifier.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate operations
+select many child_operations related by self->operation[R3749];
+for each operation in child_operations
+  valid = operation.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate states
+select many child_states related by self->state[R3750];
+for each state in child_states
+  valid = state.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate events
+select many child_events related by self->event[R3736.''is triggered by''];
+for each event in child_events
+  valid = event.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate state machines
+select many child_state_machines related by self->state_machine[R3734];
+for each state_machine in child_state_machines
+  valid = state_machine.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
+	1,
+	'',
+	"5f2cb104-b641-4a62-a93f-91b78ab62058");
+INSERT INTO O_TFR
+	VALUES ("62436e5d-b2f0-45bd-824c-bf910bc153d7",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	'render_declaration',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.object_declaration.masl" );
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"declaration" );',
+	1,
+	'',
+	"94d08134-61ae-4921-adee-96a5ef2d9522");
+INSERT INTO O_TFR
+	VALUES ("5f2cb104-b641-4a62-a93f-91b78ab62058",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
+value[0] = self.name;
+out::tostring( element:"object", value:value );
+
+select many attributes related by self->attribute[R3709.''is characterized by''];
+for each attribute in attributes
+  attribute.tostring();
+end for;
+select many identifiers related by self->identifier[R3711];
+for each identifier in identifiers
+  //identifier.tostring();
+end for;
+select many operation_activities related by self->operation[R3749]->activity[R3704];
+for each activity in operation_activities
+  //activity.tostring();
+end for;
+select many state_activities related by self->state[R3750]->activity[R3704];
+for each activity in state_activities
+  //activity.tostring();
+end for;
+select many events related by self->event[R3736.''is triggered by''];
+for each event in events
+  //event.tostring();
+end for;
+select many state_machines related by self->state_machine[R3734];
+for each state_machine in state_machines
+  //state_machine.tostring();
+end for;
+select one markable related by self->markable[R3783];
+//markable.tostring( list:"definition" );
+
+out::tostring( element:"object", value:emptyvalue );
+',
+	1,
+	'',
+	"62436e5d-b2f0-45bd-824c-bf910bc153d7");
+INSERT INTO O_NBATTR
+	VALUES ("e4200518-32d3-4bef-abc2-bcb823d3dfe9",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
+INSERT INTO O_BATTR
+	VALUES ("e4200518-32d3-4bef-abc2-bcb823d3dfe9",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
+INSERT INTO O_ATTR
+	VALUES ("e4200518-32d3-4bef-abc2-bcb823d3dfe9",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
+INSERT INTO O_ID
+	VALUES (1,
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
+INSERT INTO O_ID
+	VALUES (2,
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
+INSERT INTO PE_PE
+	VALUES ("c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');
