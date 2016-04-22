@@ -1225,6 +1225,15 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
     if ( ( 0 == o_tparm ) ) {
       /* ASSIGN self.current_operation_param = self.Operation_newParameter(o_tfr:class_op, parameter_name:PARAM.name) */
       self->current_operation_param = masl2xtuml_ooapopulation_op_Operation_newParameter(self, class_op, p_name);
+      /* IF ( ( in == PARAM.direction ) ) */
+      if ( ( Escher_strcmp( "in", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_operation_param.By_Ref = 0 */
+        self->current_operation_param->By_Ref = 0;
+      }
+      else if ( ( Escher_strcmp( "out", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_operation_param.By_Ref = 1 */
+        self->current_operation_param->By_Ref = 1;
+      }
     }
   }
   else if ( ( 0 != domain_function ) ) {
@@ -1244,6 +1253,15 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
     if ( ( 0 == s_sparm ) ) {
       /* ASSIGN self.current_function_param = self.Function_newParameter(parameter_name:PARAM.name, s_sync:domain_function) */
       self->current_function_param = masl2xtuml_ooapopulation_op_Function_newParameter(self, p_name, domain_function);
+      /* IF ( ( in == PARAM.direction ) ) */
+      if ( ( Escher_strcmp( "in", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_function_param.By_Ref = 0 */
+        self->current_function_param->By_Ref = 0;
+      }
+      else if ( ( Escher_strcmp( "out", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_function_param.By_Ref = 1 */
+        self->current_function_param->By_Ref = 1;
+      }
     }
   }
   else if ( ( 0 != interface_message ) ) {
@@ -1263,6 +1281,15 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
     if ( ( 0 == c_pp ) ) {
       /* ASSIGN self.current_interface_param = self.Interface_newParameter(c_ep:interface_message, parameter_name:PARAM.name) */
       self->current_interface_param = masl2xtuml_ooapopulation_op_Interface_newParameter(self, interface_message, p_name);
+      /* IF ( ( in == PARAM.direction ) ) */
+      if ( ( Escher_strcmp( "in", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_interface_param.By_Ref = 0 */
+        self->current_interface_param->By_Ref = 0;
+      }
+      else if ( ( Escher_strcmp( "out", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_interface_param.By_Ref = 1 */
+        self->current_interface_param->By_Ref = 1;
+      }
     }
   }
   else if ( ( 0 != evt ) ) {

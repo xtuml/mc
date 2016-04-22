@@ -969,16 +969,31 @@ if ( not_empty class_op )
   select any o_tparm related by class_op->O_TPARM[R117] where ( selected.Name == param.name );
   if ( empty o_tparm )
     self.current_operation_param = self.Operation_newParameter(o_tfr:class_op, parameter_name:param.name);
+    if ( "in" == param.direction )
+      self.current_operation_param.By_Ref = 0;	// by value
+    elif ( "out" == param.direction )
+      self.current_operation_param.By_Ref = 1;	// by ref
+    end if;
   end if;
 elif ( not_empty domain_function )
   select any s_sparm related by domain_function->S_SPARM[R24] where ( selected.Name == param.name );
   if ( empty  s_sparm )
     self.current_function_param = self.Function_newParameter(s_sync:domain_function, parameter_name:param.name);
+    if ( "in" == param.direction )
+      self.current_function_param.By_Ref = 0;	// by value
+    elif ( "out" == param.direction )
+      self.current_function_param.By_Ref = 1;	// by ref
+    end if;
   end if;
 elif ( not_empty interface_message )
   select any c_pp related by interface_message->C_PP[R4006] where ( selected.Name == param.name );
   if ( empty c_pp )
     self.current_interface_param = self.Interface_newParameter(c_ep:interface_message, parameter_name:param.name);
+    if ( "in" == param.direction )
+      self.current_interface_param.By_Ref = 0;	// by value
+    elif ( "out" == param.direction )
+      self.current_interface_param.By_Ref = 1;	// by ref
+    end if;
   end if;
 elif ( not_empty evt )
   select any sm_evtdi related by evt->SM_EVTDI[R532] where ( selected.Name == param.name );
