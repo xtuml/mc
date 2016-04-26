@@ -91,6 +91,31 @@ ${te_set.scope}${te_set.clear}( ${te_set.base_class} * set )
 .end if
 
 /*
+ * Concatenate set2 onto the end of set1.
+ */
+.// If no containers to manage, do not generate code.
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
+${te_set.base_class} *
+${te_set.scope}${te_set.setadd}( ${te_set.base_class} * set1,  ${te_set.base_class} * set2 )
+{
+  if ( ( set1->head != 0 ) && ( set2->head != 0 ) ) {  /* empty set  */
+    ${te_set.element_type} * slot;
+    for ( slot = set1->head; slot->next != 0; slot = slot->next ); /* Find end of set1.  */
+.if ( te_thread.enabled )
+    ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
+.end if
+    slot->next = set2->head;
+.if ( te_thread.enabled )
+    ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
+.end if
+  }
+  return set1;
+}
+.else
+/* Set addition optimized out.  */
+.end if
+
+/*
  * Insert a single element into the set in no particular order.
  * The element is a data item.  A container node will be allocated
  * to link in the element.

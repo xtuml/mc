@@ -425,6 +425,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
   else if ( ( Escher_strcmp( "subsuper", element ) == 0 ) ) {
     /* IF ( (  == PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
+      /* ooapopulation.transformAssociation() */
+      masl2xtuml_ooapopulation_op_transformAssociation( ooapopulation );
       /* ooapopulation.clearRelationshipCache() */
       masl2xtuml_ooapopulation_op_clearRelationshipCache( ooapopulation );
     }
@@ -1225,6 +1227,15 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
     if ( ( 0 == o_tparm ) ) {
       /* ASSIGN self.current_operation_param = self.Operation_newParameter(o_tfr:class_op, parameter_name:PARAM.name) */
       self->current_operation_param = masl2xtuml_ooapopulation_op_Operation_newParameter(self, class_op, p_name);
+      /* IF ( ( in == PARAM.direction ) ) */
+      if ( ( Escher_strcmp( "in", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_operation_param.By_Ref = 0 */
+        self->current_operation_param->By_Ref = 0;
+      }
+      else if ( ( Escher_strcmp( "out", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_operation_param.By_Ref = 1 */
+        self->current_operation_param->By_Ref = 1;
+      }
     }
   }
   else if ( ( 0 != domain_function ) ) {
@@ -1244,6 +1255,15 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
     if ( ( 0 == s_sparm ) ) {
       /* ASSIGN self.current_function_param = self.Function_newParameter(parameter_name:PARAM.name, s_sync:domain_function) */
       self->current_function_param = masl2xtuml_ooapopulation_op_Function_newParameter(self, p_name, domain_function);
+      /* IF ( ( in == PARAM.direction ) ) */
+      if ( ( Escher_strcmp( "in", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_function_param.By_Ref = 0 */
+        self->current_function_param->By_Ref = 0;
+      }
+      else if ( ( Escher_strcmp( "out", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_function_param.By_Ref = 1 */
+        self->current_function_param->By_Ref = 1;
+      }
     }
   }
   else if ( ( 0 != interface_message ) ) {
@@ -1263,6 +1283,15 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
     if ( ( 0 == c_pp ) ) {
       /* ASSIGN self.current_interface_param = self.Interface_newParameter(c_ep:interface_message, parameter_name:PARAM.name) */
       self->current_interface_param = masl2xtuml_ooapopulation_op_Interface_newParameter(self, interface_message, p_name);
+      /* IF ( ( in == PARAM.direction ) ) */
+      if ( ( Escher_strcmp( "in", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_interface_param.By_Ref = 0 */
+        self->current_interface_param->By_Ref = 0;
+      }
+      else if ( ( Escher_strcmp( "out", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_interface_param.By_Ref = 1 */
+        self->current_interface_param->By_Ref = 1;
+      }
     }
   }
   else if ( ( 0 != evt ) ) {
@@ -4238,6 +4267,10 @@ masl2xtuml_ooapopulation_op_transformAssociation( masl2xtuml_ooapopulation * sel
     /* self.Package_newAssociation( ep_pkg:internals_pkg ) */
     masl2xtuml_ooapopulation_op_Package_newAssociation( self,  internals_pkg );
   }
+  else if ( ( self->current_rel.type == masl2xtuml_RELATIONSHIP_TYPE_SUBSUPER_e ) ) {
+    /* self.Package_newSubsuper( ep_pkg:internals_pkg ) */
+    masl2xtuml_ooapopulation_op_Package_newSubsuper( self,  internals_pkg );
+  }
 }
 
 /*
@@ -6633,6 +6666,148 @@ masl2xtuml_ooapopulation_op_StateMachineEventDataItem_setType( masl2xtuml_ooapop
     /* RELATE sm_evtdi TO s_dt ACROSS R524 */
     masl2xtuml_SM_EVTDI_R524_Link_defines_the_type_of( s_dt, sm_evtdi );
   }
+}
+
+/*
+ * instance operation:  Package_newSubsuper
+ */
+void
+masl2xtuml_ooapopulation_op_Package_newSubsuper( masl2xtuml_ooapopulation * self, masl2xtuml_EP_PKG * p_ep_pkg )
+{
+  masl2xtuml_EP_PKG * ep_pkg;Escher_ObjectSet_s toOOAParts_space={0}; Escher_ObjectSet_s * toOOAParts = &toOOAParts_space;masl2xtuml_ooaparticipation * fromOOAPart=0;masl2xtuml_O_OBJ * fromClass=0;
+  /* ASSIGN ep_pkg = PARAM.ep_pkg */
+  ep_pkg = p_ep_pkg;
+  /* SELECT any fromOOAPart FROM INSTANCES OF ooaparticipation WHERE ( SELECTED.isFirst == TRUE ) */
+  fromOOAPart = 0;
+  { masl2xtuml_ooaparticipation * selected;
+    Escher_Iterator_s iterfromOOAPartmasl2xtuml_ooaparticipation;
+    Escher_IteratorReset( &iterfromOOAPartmasl2xtuml_ooaparticipation, &pG_masl2xtuml_ooaparticipation_extent.active );
+    while ( (selected = (masl2xtuml_ooaparticipation *) Escher_IteratorNext( &iterfromOOAPartmasl2xtuml_ooaparticipation )) != 0 ) {
+      if ( ( selected->isFirst == TRUE ) ) {
+        fromOOAPart = selected;
+        break;
+      }
+    }
+  }
+  /* SELECT many toOOAParts FROM INSTANCES OF ooaparticipation WHERE ( SELECTED.isFirst == FALSE ) */
+  Escher_ClearSet( toOOAParts );
+  { masl2xtuml_ooaparticipation * selected;
+    Escher_Iterator_s itertoOOAPartsmasl2xtuml_ooaparticipation;
+    Escher_IteratorReset( &itertoOOAPartsmasl2xtuml_ooaparticipation, &pG_masl2xtuml_ooaparticipation_extent.active );
+    while ( (selected = (masl2xtuml_ooaparticipation *) Escher_IteratorNext( &itertoOOAPartsmasl2xtuml_ooaparticipation )) != 0 ) {
+      if ( ( selected->isFirst == FALSE ) ) {
+        Escher_SetInsertElement( toOOAParts, selected );
+      }
+    }
+  }
+  /* SELECT any fromClass RELATED BY ep_pkg->PE_PE[R8000]->O_OBJ[R8001] WHERE ( ( SELECTED.Name == fromOOAPart.className ) ) */
+  fromClass = 0;
+  {  if ( 0 != ep_pkg ) {
+  masl2xtuml_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &ep_pkg->PE_PE_R8000_contains );
+  while ( ( 0 == fromClass ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_O_OBJ_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {masl2xtuml_O_OBJ * selected = (masl2xtuml_O_OBJ *) PE_PE_R8000_contains->R8001_subtype;
+  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, fromOOAPart->className ) == 0 ) ) {
+    fromClass = selected;
+  }}
+}}}
+  /* IF ( not_empty fromClass ) */
+  if ( ( 0 != fromClass ) ) {
+    masl2xtuml_ooaparticipation * toOOAPart=0;masl2xtuml_R_SUPER * fromSUPER;masl2xtuml_R_RTO * fromRTO;masl2xtuml_R_OIR * fromOIR;masl2xtuml_R_SUBSUP * subsuper;masl2xtuml_PE_PE * pe;masl2xtuml_R_REL * assoc;
+    /* CREATE OBJECT INSTANCE assoc OF R_REL */
+    assoc = (masl2xtuml_R_REL *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_REL_CLASS_NUMBER );
+    assoc->Rel_ID = (Escher_UniqueID_t) assoc;
+    /* CREATE OBJECT INSTANCE pe OF PE_PE */
+    pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
+    pe->Element_ID = (Escher_UniqueID_t) pe;
+    /* RELATE assoc TO pe ACROSS R8001 */
+    masl2xtuml_R_REL_R8001_Link( pe, assoc );
+    /* RELATE pe TO ep_pkg ACROSS R8000 */
+    masl2xtuml_PE_PE_R8000_Link_contains( ep_pkg, pe );
+    /* ASSIGN pe.type = ASSOCIATION */
+    pe->type = masl2xtuml_ElementTypeConstants_ASSOCIATION_e;
+    /* self.PackageableElement_initialize( pe_pe:pe ) */
+    masl2xtuml_ooapopulation_op_PackageableElement_initialize( self,  pe );
+    /* self.Association_initialize( r_rel:assoc ) */
+    masl2xtuml_ooapopulation_op_Association_initialize( self,  assoc );
+    /* CREATE OBJECT INSTANCE subsuper OF R_SUBSUP */
+    subsuper = (masl2xtuml_R_SUBSUP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_SUBSUP_CLASS_NUMBER );
+    subsuper->Rel_ID = (Escher_UniqueID_t) subsuper;
+    /* RELATE subsuper TO assoc ACROSS R206 */
+    masl2xtuml_R_SUBSUP_R206_Link( assoc, subsuper );
+    /* CREATE OBJECT INSTANCE fromOIR OF R_OIR */
+    fromOIR = (masl2xtuml_R_OIR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_OIR_CLASS_NUMBER );
+    fromOIR->Obj_ID = (Escher_UniqueID_t) fromOIR;
+fromOIR->Rel_ID = (Escher_UniqueID_t) fromOIR;
+fromOIR->OIR_ID = (Escher_UniqueID_t) fromOIR;
+    /* RELATE fromClass TO assoc ACROSS R201 USING fromOIR */
+    masl2xtuml_R_OIR_R201_Link( assoc, fromClass, fromOIR );
+    /* CREATE OBJECT INSTANCE fromRTO OF R_RTO */
+    fromRTO = (masl2xtuml_R_RTO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_RTO_CLASS_NUMBER );
+    fromRTO->Obj_ID = (Escher_UniqueID_t) fromRTO;
+fromRTO->Rel_ID = (Escher_UniqueID_t) fromRTO;
+fromRTO->OIR_ID = (Escher_UniqueID_t) fromRTO;
+    /* RELATE fromOIR TO fromRTO ACROSS R203 */
+    masl2xtuml_R_RTO_R203_Link( fromOIR, fromRTO );
+    /* CREATE OBJECT INSTANCE fromSUPER OF R_SUPER */
+    fromSUPER = (masl2xtuml_R_SUPER *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_SUPER_CLASS_NUMBER );
+    fromSUPER->Obj_ID = (Escher_UniqueID_t) fromSUPER;
+fromSUPER->Rel_ID = (Escher_UniqueID_t) fromSUPER;
+fromSUPER->OIR_ID = (Escher_UniqueID_t) fromSUPER;
+    /* RELATE fromSUPER TO fromRTO ACROSS R204 */
+    masl2xtuml_R_SUPER_R204_Link( fromRTO, fromSUPER );
+    /* RELATE fromSUPER TO subsuper ACROSS R212 */
+    masl2xtuml_R_SUPER_R212_Link_relates( subsuper, fromSUPER );
+    /* FOR EACH toOOAPart IN toOOAParts */
+    { Escher_Iterator_s itertoOOAPart;
+    masl2xtuml_ooaparticipation * iitoOOAPart;
+    Escher_IteratorReset( &itertoOOAPart, toOOAParts );
+    while ( (iitoOOAPart = (masl2xtuml_ooaparticipation *)Escher_IteratorNext( &itertoOOAPart )) != 0 ) {
+      toOOAPart = iitoOOAPart; {
+      masl2xtuml_O_OBJ * toClass=0;
+      /* SELECT any toClass RELATED BY ep_pkg->PE_PE[R8000]->O_OBJ[R8001] WHERE ( ( SELECTED.Name == toOOAPart.className ) ) */
+      toClass = 0;
+      {      if ( 0 != ep_pkg ) {
+      masl2xtuml_PE_PE * PE_PE_R8000_contains;
+      Escher_Iterator_s iPE_PE_R8000_contains;
+      Escher_IteratorReset( &iPE_PE_R8000_contains, &ep_pkg->PE_PE_R8000_contains );
+      while ( ( 0 == toClass ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+      if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_O_OBJ_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )      {masl2xtuml_O_OBJ * selected = (masl2xtuml_O_OBJ *) PE_PE_R8000_contains->R8001_subtype;
+      if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, toOOAPart->className ) == 0 ) ) {
+        toClass = selected;
+      }}
+}}}
+      /* IF ( not_empty toClass ) */
+      if ( ( 0 != toClass ) ) {
+        masl2xtuml_R_SUB * toSUB;masl2xtuml_R_RGO * toRGO;masl2xtuml_R_OIR * toOIR;
+        /* CREATE OBJECT INSTANCE toOIR OF R_OIR */
+        toOIR = (masl2xtuml_R_OIR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_OIR_CLASS_NUMBER );
+        toOIR->Obj_ID = (Escher_UniqueID_t) toOIR;
+toOIR->Rel_ID = (Escher_UniqueID_t) toOIR;
+toOIR->OIR_ID = (Escher_UniqueID_t) toOIR;
+        /* RELATE toClass TO assoc ACROSS R201 USING toOIR */
+        masl2xtuml_R_OIR_R201_Link( assoc, toClass, toOIR );
+        /* CREATE OBJECT INSTANCE toRGO OF R_RGO */
+        toRGO = (masl2xtuml_R_RGO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_RGO_CLASS_NUMBER );
+        toRGO->Obj_ID = (Escher_UniqueID_t) toRGO;
+toRGO->Rel_ID = (Escher_UniqueID_t) toRGO;
+toRGO->OIR_ID = (Escher_UniqueID_t) toRGO;
+        /* RELATE toOIR TO toRGO ACROSS R203 */
+        masl2xtuml_R_RGO_R203_Link( toOIR, toRGO );
+        /* CREATE OBJECT INSTANCE toSUB OF R_SUB */
+        toSUB = (masl2xtuml_R_SUB *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_SUB_CLASS_NUMBER );
+        toSUB->Obj_ID = (Escher_UniqueID_t) toSUB;
+toSUB->Rel_ID = (Escher_UniqueID_t) toSUB;
+toSUB->OIR_ID = (Escher_UniqueID_t) toSUB;
+        /* RELATE toSUB TO toRGO ACROSS R205 */
+        masl2xtuml_R_SUB_R205_Link( toRGO, toSUB );
+        /* RELATE toSUB TO subsuper ACROSS R213 */
+        masl2xtuml_R_SUB_R213_Link_relates( subsuper, toSUB );
+      }
+    }}}
+  }
+  Escher_ClearSet( toOOAParts );
 }
 
 /*

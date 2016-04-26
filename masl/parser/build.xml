@@ -48,6 +48,16 @@
             <arg value="${src-gen}"/>
             <arg value="${src}/MaslWalker.g"/>
         </java>
+        <java classname="org.antlr.Tool">
+            <classpath>
+                <fileset dir="${lib}">
+                    <include name="**/*.jar" />
+                </fileset>
+            </classpath>
+            <arg value="-fo"/>
+            <arg value="${src-gen}"/>
+            <arg value="${src}/MaslSortParser.g"/>
+        </java>
     </target>
 
     <target name="compile" depends="generate" description="compile the source">

@@ -321,7 +321,7 @@ for each c_ep in c_eps
   first_c_pp = c_pp;
   while ( not_empty c_pp )
     first_c_pp = c_pp;
-    select one c_pp related by c_pp->C_PP[R4021.''precedes''];
+    select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
   end while;
   ::parameterC_PP2parameter( c_pp:first_c_pp );
   
@@ -421,7 +421,7 @@ if ( not_empty c_pp )
   value[1] = "";
   out::populate( element:"typeref", value:value );
   out::populate( element:"typeref", value:emptyvalue );
-  select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
+  select one c_pp related by c_pp->C_PP[R4021.''precedes''];
   ::parameterC_PP2parameter( c_pp:c_pp );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
@@ -958,7 +958,7 @@ for each s_sync in s_syncs
   first_s_sparm = s_sparm;
   while ( not_empty s_sparm )
     first_s_sparm = s_sparm;
-    select one s_sparm related by s_sparm->S_SPARM[R54.''precedes''];
+    select one s_sparm related by s_sparm->S_SPARM[R54.''succeeds''];
   end while;
   
   out::populate( element:"routine", value:value );
@@ -1028,7 +1028,7 @@ if ( not_empty s_sparm )
   value[1] = "";
   out::populate( element:"typeref", value:value );
   out::populate( element:"typeref", value:emptyvalue );
-  select one s_sparm related by s_sparm->S_SPARM[R54.''succeeds''];
+  select one s_sparm related by s_sparm->S_SPARM[R54.''precedes''];
   ::parameterS_SPARM2parameter( s_sparm:s_sparm );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
@@ -1200,7 +1200,7 @@ for each sm_evt in sm_evts
   first_sm_evtdi = sm_evtdi;
   while ( not_empty sm_evtdi )
     first_sm_evtdi = sm_evtdi;
-    select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''precedes''];
+    select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''succeeds''];
   end while;
   ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi );
   
@@ -1292,11 +1292,15 @@ for each sm_state in sm_states
   // MASL states declare their parameter signatures.
   // Traverse to any event transitioning to this state and use its parameters.
   select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532];
+  if ( empty sm_evtdi )	// if there are no state to state transitions to this state, it may be a creation
+  						// state. Check the path to an event through a creation transition
+    select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_CRTXN[R507]->SM_LEVT[R509]->SM_SEVT[R526]->SM_EVT[R525]->SM_EVTDI[R532];
+  end if;
   // Get first parameter.
   first_sm_evtdi = sm_evtdi;
   while ( not_empty sm_evtdi )
     first_sm_evtdi = sm_evtdi;
-    select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''precedes''];
+    select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''succeeds''];
   end while;
   ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi );
   
@@ -1363,7 +1367,7 @@ if ( not_empty sm_evtdi )
   value[1] = "";
   out::populate( element:"typeref", value:value );
   out::populate( element:"typeref", value:emptyvalue );
-  select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''succeeds''];
+  select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''precedes''];
   ::parameterSM_EVTDI2parameter( sm_evtdi:sm_evtdi );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
@@ -1498,15 +1502,16 @@ c_c = param.c_c;
 r_subsup = param.r_subsup;
 select one o_obj related by r_subsup->R_SUPER[R212]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]; 
 
-value[0] = c_c.Name;
+value[0] = "";	// c_c.Name;
 value[1] = o_obj.Name;
-value[2] = "is_a";
-value[3] = "unconditionally";
-value[4] = "one";
-value[5] = c_c.Name;
+value[2] = "";	// "is_a";
+value[3] = "";	// "unconditionally";
+value[4] = "";	// "one";
+value[5] = "";	// c_c.Name;
 value[6] = "";
 out::populate( element:"participation", value:value );
 
+value[6] = o_obj.Name;
 select many o_objs related by r_subsup->R_SUB[R213]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]; 
 for each o_obj in o_objs
   value[1] = o_obj.Name;
@@ -1578,7 +1583,7 @@ for each o_tfr in o_tfrs
   first_o_tparm = o_tparm;
   while ( not_empty o_tparm )
     first_o_tparm = o_tparm;
-    select one o_tparm related by o_tparm->O_TPARM[R124.''precedes''];
+    select one o_tparm related by o_tparm->O_TPARM[R124.''succeeds''];
   end while;
   
   out::populate( element:"operation", value:value );
@@ -1653,7 +1658,7 @@ if ( not_empty o_tparm )
   value[1] = "";
   out::populate( element:"typeref", value:value );
   out::populate( element:"typeref", value:emptyvalue );
-  select one o_tparm related by o_tparm->O_TPARM[R124.''succeeds''];
+  select one o_tparm related by o_tparm->O_TPARM[R124.''precedes''];
   ::parameterO_TPARM2parameter( o_tparm:o_tparm );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
@@ -1705,7 +1710,7 @@ if ( not_empty s_bparm )
   value[1] = "";
   out::populate( element:"typeref", value:value );
   out::populate( element:"typeref", value:emptyvalue );
-  select one s_bparm related by s_bparm->S_BPARM[R55.''succeeds''];
+  select one s_bparm related by s_bparm->S_BPARM[R55.''precedes''];
   ::parameterS_BPARM2parameter( s_bparm:s_bparm );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
@@ -1980,7 +1985,7 @@ for each s_brg in s_brgs
   first_s_bparm = s_bparm;
   while ( not_empty s_bparm )
     first_s_bparm = s_bparm;
-    select one s_bparm related by s_bparm->S_BPARM[R55.''precedes''];
+    select one s_bparm related by s_bparm->S_BPARM[R55.''succeeds''];
   end while;
   ::parameterS_BPARM2parameter( s_bparm:first_s_bparm );
   
