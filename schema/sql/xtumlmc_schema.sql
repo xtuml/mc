@@ -2319,6 +2319,7 @@ CREATE TABLE TE_SET (
     init STRING,
     copy STRING,
     clear STRING,
+    setadd STRING,
     insert_element STRING,
     insert_instance STRING,
     insert_block STRING,
