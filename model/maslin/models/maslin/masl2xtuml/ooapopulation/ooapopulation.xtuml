@@ -197,7 +197,8 @@ elif ( "typeref" == element )
     if ( not_empty c_pp )
       ooapopulation.InterfaceParameter_setType(c_pp:ooapopulation.current_interface_param, type_name:param.value[0]);
     end if;
-    if ( not_empty c_pp )
+    sm_evtdi = ooapopulation.current_event_dataitem;
+    if ( not_empty sm_evtdi )
       ooapopulation.StateMachineEventDataItem_setType(sm_evtdi:ooapopulation.current_event_dataitem, type_name:param.value[0]);
     end if;
   end if;
