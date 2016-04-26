@@ -239,6 +239,7 @@
   .assign te_set.module = ""
   .assign te_set.copy = te_prefix.result + "CopySet"
   .assign te_set.clear = te_prefix.result + "ClearSet"
+  .assign te_set.setadd = te_prefix.result + "SetAdd"
   .assign te_set.insert_element = te_prefix.result + "SetInsertElement"
   .assign te_set.element_count = te_prefix.result + "SetCardinality"
   .assign te_set.iterator_class_name = te_prefix.result + "Iterator_s"
