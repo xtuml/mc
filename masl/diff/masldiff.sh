@@ -23,9 +23,14 @@ fi
 
 # remove comments
 perl -pe 's/\/\/.*$//g' $1 > left1
-perl -pe 's/\/\*.*\*\///g' left1 > left2
+perl -pe 's/\/\*.*\*\///g' left1 > left1-5
 perl -pe 's/\/\/.*$//g' $2 > right1
-perl -pe 's/\/\*.*\*\///g' right1 > right2
+perl -pe 's/\/\*.*\*\///g' right1 > right1-5
+
+# squash all whitespace to a single space
+# this keeps the MASL parseable, but makes it consistent for sorting
+perl -pe 's/[ \n\t\r]+/ /g' left1-5 > left2
+perl -pe 's/[ \n\t\r]+/ /g' right1-5 > right2
 
 # run maslsort
 java -cp ../parser/build:../parser/lib/antlr-3.5.2-complete.jar MaslSort < left2 > left2-5
