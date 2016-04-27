@@ -2732,18 +2732,17 @@ masl2xtuml_ooapopulation_op_Interface_newExecutableProperty( masl2xtuml_ooapopul
   masl2xtuml_C_I * c_i;masl2xtuml_C_EP * signal=0;
   /* ASSIGN c_i = PARAM.c_i */
   c_i = p_c_i;
-  /* SELECT any signal FROM INSTANCES OF C_EP WHERE ( SELECTED.Name == PARAM.ep_name ) */
+  /* SELECT any signal RELATED BY c_i->C_EP[R4003] WHERE ( ( SELECTED.Name == PARAM.ep_name ) ) */
   signal = 0;
-  { masl2xtuml_C_EP * selected;
-    Escher_Iterator_s itersignalmasl2xtuml_C_EP;
-    Escher_IteratorReset( &itersignalmasl2xtuml_C_EP, &pG_masl2xtuml_C_EP_extent.active );
-    while ( (selected = (masl2xtuml_C_EP *) Escher_IteratorNext( &itersignalmasl2xtuml_C_EP )) != 0 ) {
+  if ( 0 != c_i ) {
+    masl2xtuml_C_EP * selected;
+    Escher_Iterator_s iC_EP_R4003_is_defined_by;
+    Escher_IteratorReset( &iC_EP_R4003_is_defined_by, &c_i->C_EP_R4003_is_defined_by );
+    while ( 0 != ( selected = (masl2xtuml_C_EP *) Escher_IteratorNext( &iC_EP_R4003_is_defined_by ) ) ) {
       if ( ( Escher_strcmp( selected->Name, p_ep_name ) == 0 ) ) {
         signal = selected;
         break;
-      }
-    }
-  }
+  }}}
   /* IF ( empty signal ) */
   if ( ( 0 == signal ) ) {
     Escher_ObjectSet_s references_space={0}; Escher_ObjectSet_s * references = &references_space;

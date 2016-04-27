@@ -2486,7 +2486,7 @@ INSERT INTO O_TFR
 	1,
 	'c_i = param.c_i;
 
-select any signal from instances of C_EP where ( selected.Name == param.ep_name );
+select any signal related by c_i->C_EP[R4003] where ( selected.Name == param.ep_name );
 if ( empty signal )
   create object instance signal of C_EP;
   signal.Name = param.ep_name;
