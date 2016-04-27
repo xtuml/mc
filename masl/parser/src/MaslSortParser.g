@@ -14,6 +14,7 @@ options
 @header
 {
 import java.util.Collections;
+import java.util.regex.*;
 }
 
 @members
@@ -101,6 +102,7 @@ returns[ String result ]
   ArrayList<String> object_decl = new ArrayList<String>();
   ArrayList<String> type_decl = new ArrayList<String>();
   ArrayList<String> types = new ArrayList<String>();
+  ArrayList<String> exceptions = new ArrayList<String>();
   ArrayList<String> services = new ArrayList<String>();
   ArrayList<String> terminators = new ArrayList<String>();
   ArrayList<String> relationships = new ArrayList<String>();
@@ -112,6 +114,7 @@ returns[ String result ]
   appendChunk( block, object_decl );
   appendChunk( block, type_decl );
   appendChunk( block, types );
+  appendChunk( block, exceptions );
   appendChunk( block, services );
   appendChunk( block, terminators );
   appendChunk( block, relationships );
@@ -120,14 +123,14 @@ returns[ String result ]
 }
                               : domainDefinitionBegin { begin = $domainDefinitionBegin.text; }
                                 (objectDeclaration { addToChunk( object_decl, $objectDeclaration.text ); }
-                                | domainServiceDeclaration { addToChunk( services, $domainServiceDeclaration.text ); }        
-                                | domainFunctionDeclaration { addToChunk( services, $domainFunctionDeclaration.text ); }       
+                                | domainServiceDeclaration { addToChunk( services, $domainServiceDeclaration.result ); }        
+                                | domainFunctionDeclaration { addToChunk( services, $domainFunctionDeclaration.result ); }       
                                 | terminatorDefinition { addToChunk( terminators, $terminatorDefinition.result ); }       
                                 | relationshipDefinition { addToChunk( relationships, $relationshipDefinition.result ); }
                                 | objectDefinition { addToChunk( objects, $objectDefinition.result ); }
                                 | typeForwardDeclaration { addToChunk( type_decl, $typeForwardDeclaration.text ); }
-                                | typeDeclaration { addToChunk( types, $typeDeclaration.text ); }
-                                | exceptionDeclaration { /*addToChunk( exceptions, $exceptionDeclaration.text );*/ } )*
+                                | typeDeclaration { addToChunk( types, $typeDeclaration.result ); }
+                                | exceptionDeclaration { addToChunk( exceptions, $exceptionDeclaration.result ); } )*
                                 domainDefinitionEnd { end = $domainDefinitionEnd.text; }
                               ; 
 
@@ -144,7 +147,18 @@ domainName                    : identifier
 //---------------------------------------------------------
 // Exception Declaration
 //---------------------------------------------------------
-exceptionDeclaration          : exceptionVisibility EXCEPTION exceptionName 
+exceptionDeclaration          
+returns[String result]
+@after {
+    Matcher m = Pattern.compile( "public|private" ).matcher( $text );
+    if ( !m.find() ) {
+        $result = "public " + $text;    // if there is no public or private modifier, it is public
+    }
+    else {
+        $result = $text;
+    }
+}
+                              : exceptionVisibility EXCEPTION exceptionName 
                                 SEMI pragmaList                                           
                               ;
 
@@ -163,7 +177,18 @@ exceptionVisibility           : PRIVATE
 typeForwardDeclaration        : typeVisibility TYPE typeName SEMI pragmaList              
                               ;
 
-typeDeclaration               : typeVisibility TYPE typeName IS
+typeDeclaration
+returns[String result]
+@after {
+    Matcher m = Pattern.compile( "public|private" ).matcher( $text );
+    if ( !m.find() ) {
+        $result = "public " + $text;    // if there is no public or private modifier, it is public
+    }
+    else {
+        $result = $text;
+    }
+}
+                              : typeVisibility TYPE typeName IS
                                 typeDef=typeDefinition SEMI pragmaList                          
                                                                                                 
                               ;
@@ -328,8 +353,8 @@ returns[String result]
   $result = begin + " " + block.toString() + " " + end;
 }
                               : terminatorDefinitionBegin { begin = $terminatorDefinitionBegin.text; }
-                                (terminatorServiceDeclaration { addToChunk( services, $terminatorServiceDeclaration.text ); }
-                                | terminatorFunctionDeclaration { addToChunk( services, $terminatorFunctionDeclaration.text ); } )*
+                                (terminatorServiceDeclaration { addToChunk( services, $terminatorServiceDeclaration.result ); }
+                                | terminatorFunctionDeclaration { addToChunk( services, $terminatorFunctionDeclaration.result ); } )*
                                 terminatorDefinitionEnd { end = $terminatorDefinitionEnd.text; }
                               ;
 
@@ -339,11 +364,33 @@ terminatorDefinitionBegin     : TERMINATOR terminatorName IS
 terminatorDefinitionEnd       : END TERMINATOR? SEMI pragmaList                           
                               ;
 
-terminatorServiceDeclaration  : serviceVisibility SERVICE serviceName 
+terminatorServiceDeclaration  
+returns[String result]
+@after {
+    Matcher m = Pattern.compile( "public|private" ).matcher( $text );
+    if ( !m.find() ) {
+        $result = "public " + $text;    // if there is no public or private modifier, it is public
+    }
+    else {
+        $result = $text;
+    }
+}
+                              : serviceVisibility SERVICE serviceName 
                                   parameterList SEMI pragmaList                           
                               ;
 
-terminatorFunctionDeclaration : serviceVisibility FUNCTION serviceName 
+terminatorFunctionDeclaration 
+returns[String result]
+@after {
+    Matcher m = Pattern.compile( "public|private" ).matcher( $text );
+    if ( !m.find() ) {
+        $result = "public " + $text;    // if there is no public or private modifier, it is public
+    }
+    else {
+        $result = $text;
+    }
+}
+                              : serviceVisibility FUNCTION serviceName 
                                   parameterList RETURN returnType 
                                   SEMI pragmaList                                         
                               ;
@@ -387,8 +434,8 @@ returns[ String result ]
                               : objectDefinitionBegin { begin = $objectDefinitionBegin.text; }
                                 (attributeDefinition { addToChunk( attrs, $attributeDefinition.text ); }
                                 | identifierDefinition { addToChunk( ids, $identifierDefinition.text ); }
-                                | objectServiceDeclaration { addToChunk( services, $objectServiceDeclaration.text ); }
-                                | objectFunctionDeclaration { addToChunk( services, $objectFunctionDeclaration.text ); }
+                                | objectServiceDeclaration { addToChunk( services, $objectServiceDeclaration.result ); }
+                                | objectFunctionDeclaration { addToChunk( services, $objectFunctionDeclaration.result ); }
                                 | eventDefinition { addToChunk( events, $eventDefinition.text ); }
                                 | stateDeclaration { addToChunk( states, $stateDeclaration.text ); }
                                 | transitionTable { addToChunk( trans_tables, $transitionTable.result ); })*
@@ -426,11 +473,33 @@ relationshipSpec              : relationshipName
                               ;
 
 
-objectServiceDeclaration      : serviceVisibility serviceType SERVICE serviceName 
+objectServiceDeclaration      
+returns[String result]
+@after {
+    Matcher m = Pattern.compile( "public|private" ).matcher( $text );
+    if ( !m.find() ) {
+        $result = "public " + $text;    // if there is no public or private modifier, it is public
+    }
+    else {
+        $result = $text;
+    }
+}
+                              : serviceVisibility serviceType SERVICE serviceName 
                                   parameterList SEMI pragmaList                           
                               ;
 
-objectFunctionDeclaration     : serviceVisibility serviceType FUNCTION serviceName 
+objectFunctionDeclaration     
+returns[String result]
+@after {
+    Matcher m = Pattern.compile( "public|private" ).matcher( $text );
+    if ( !m.find() ) {
+        $result = "public " + $text;    // if there is no public or private modifier, it is public
+    }
+    else {
+        $result = $text;
+    }
+}
+                              : serviceVisibility serviceType FUNCTION serviceName 
                                   parameterList 
                                   RETURN returnType SEMI pragmaList                       
                               ;
@@ -542,11 +611,33 @@ endState                      : stateName
 // Service Declaration
 //---------------------------------------------------------
 
-domainServiceDeclaration      : serviceVisibility SERVICE serviceName 
+domainServiceDeclaration      
+returns[String result]
+@after {
+    Matcher m = Pattern.compile( "public|private" ).matcher( $text );
+    if ( !m.find() ) {
+        $result = "public " + $text;    // if there is no public or private modifier, it is public
+    }
+    else {
+        $result = $text;
+    }
+}
+                              : serviceVisibility SERVICE serviceName 
                                   parameterList SEMI pragmaList                           
                               ;
 
-domainFunctionDeclaration     : serviceVisibility FUNCTION serviceName 
+domainFunctionDeclaration     
+returns[String result]
+@after {
+    Matcher m = Pattern.compile( "public|private" ).matcher( $text );
+    if ( !m.find() ) {
+        $result = "public " + $text;    // if there is no public or private modifier, it is public
+    }
+    else {
+        $result = $text;
+    }
+}
+                              : serviceVisibility FUNCTION serviceName 
                                   parameterList 
                                   RETURN returnType SEMI pragmaList                       
                               ;
