@@ -2134,6 +2134,11 @@ masl2xtuml_ooapopulation_op_transformObjectFunction( masl2xtuml_ooapopulation * 
   if ( ( 0 != current_class ) ) {
     /* ASSIGN self.current_class_op = self.ModelClass_newOperation(o_obj:self.current_class, op_name:op_name) */
     self->current_class_op = masl2xtuml_ooapopulation_op_ModelClass_newOperation(self, self->current_class, op_name);
+    /* IF ( ( instance != PARAM.instance ) ) */
+    if ( ( Escher_strcmp( "instance", p_instance ) != 0 ) ) {
+      /* ASSIGN self.current_class_op.Instance_Based = Class */
+      self->current_class_op->Instance_Based = masl2xtuml_Scope_Class_e;
+    }
   }
   else {
     masl2xtuml_C_C * c_c=0;masl2xtuml_O_TFR * o_tfr=0;masl2xtuml_O_OBJ * o_obj=0;masl2xtuml_EP_PKG * ep_pkg=0;

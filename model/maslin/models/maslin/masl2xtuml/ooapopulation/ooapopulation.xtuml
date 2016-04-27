@@ -1818,6 +1818,10 @@ current_class = self.current_class;
 if ( not_empty current_class )
   // We are in the midst of building a class operation inside a class definition.
   self.current_class_op = self.ModelClass_newOperation(o_obj:self.current_class, op_name:op_name);
+  // set instance based or class based appropriately
+  if ( "instance" != param.instance )
+    self.current_class_op.Instance_Based = Scope::Class;
+  end if;
 else
   // No current_class.  That means we just need to find the given class operation and cache it so that the following 
   // SMASL can modify it.
