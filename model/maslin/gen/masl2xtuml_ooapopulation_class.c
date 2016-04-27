@@ -352,7 +352,7 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
   else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
     /* IF ( (  != PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
-      masl2xtuml_C_PP * c_pp;masl2xtuml_O_TPARM * o_tparm;masl2xtuml_S_SPARM * s_sparm;masl2xtuml_O_ATTR * o_attr;
+      masl2xtuml_SM_EVTDI * sm_evtdi;masl2xtuml_C_PP * c_pp;masl2xtuml_O_TPARM * o_tparm;masl2xtuml_S_SPARM * s_sparm;masl2xtuml_O_ATTR * o_attr;
       /* ooapopulation.transformType( definition:, name:PARAM.value[0], visibility:public ) */
       masl2xtuml_ooapopulation_op_transformType( ooapopulation,  "", p_value[0], "public" );
       /* ASSIGN o_attr = ooapopulation.current_attribute */
@@ -383,8 +383,10 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
         /* ooapopulation.InterfaceParameter_setType( c_pp:ooapopulation.current_interface_param, type_name:PARAM.value[0] ) */
         masl2xtuml_ooapopulation_op_InterfaceParameter_setType( ooapopulation,  ooapopulation->current_interface_param, p_value[0] );
       }
-      /* IF ( not_empty c_pp ) */
-      if ( ( 0 != c_pp ) ) {
+      /* ASSIGN sm_evtdi = ooapopulation.current_event_dataitem */
+      sm_evtdi = ooapopulation->current_event_dataitem;
+      /* IF ( not_empty sm_evtdi ) */
+      if ( ( 0 != sm_evtdi ) ) {
         /* ooapopulation.StateMachineEventDataItem_setType( sm_evtdi:ooapopulation.current_event_dataitem, type_name:PARAM.value[0] ) */
         masl2xtuml_ooapopulation_op_StateMachineEventDataItem_setType( ooapopulation,  ooapopulation->current_event_dataitem, p_value[0] );
       }
