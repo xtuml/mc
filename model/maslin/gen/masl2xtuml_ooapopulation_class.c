@@ -352,41 +352,60 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
   else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
     /* IF ( (  != PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
-      masl2xtuml_C_PP * c_pp;masl2xtuml_O_TPARM * o_tparm;masl2xtuml_S_SPARM * s_sparm;masl2xtuml_O_ATTR * o_attr;
+      masl2xtuml_S_SYNC * s_sync;masl2xtuml_C_EP * c_ep;masl2xtuml_O_TFR * o_tfr;masl2xtuml_SM_EVTDI * sm_evtdi;masl2xtuml_C_PP * c_pp;masl2xtuml_O_TPARM * o_tparm;masl2xtuml_S_SPARM * s_sparm;masl2xtuml_O_ATTR * o_attr;masl2xtuml_C_IO * c_io=0;
       /* ooapopulation.transformType( definition:, name:PARAM.value[0], visibility:public ) */
       masl2xtuml_ooapopulation_op_transformType( ooapopulation,  "", p_value[0], "public" );
       /* ASSIGN o_attr = ooapopulation.current_attribute */
       o_attr = ooapopulation->current_attribute;
+      /* ASSIGN s_sparm = ooapopulation.current_function_param */
+      s_sparm = ooapopulation->current_function_param;
+      /* ASSIGN o_tparm = ooapopulation.current_operation_param */
+      o_tparm = ooapopulation->current_operation_param;
+      /* ASSIGN c_pp = ooapopulation.current_interface_param */
+      c_pp = ooapopulation->current_interface_param;
+      /* ASSIGN sm_evtdi = ooapopulation.current_event_dataitem */
+      sm_evtdi = ooapopulation->current_event_dataitem;
+      /* ASSIGN o_tfr = ooapopulation.current_class_op */
+      o_tfr = ooapopulation->current_class_op;
+      /* ASSIGN c_ep = ooapopulation.current_executable_property */
+      c_ep = ooapopulation->current_executable_property;
+      /* ASSIGN s_sync = ooapopulation.current_domain_function */
+      s_sync = ooapopulation->current_domain_function;
+      /* SELECT one c_io RELATED BY c_ep->C_IO[R4004] */
+      c_io = 0;
+      if ( ( 0 != c_ep ) && ( masl2xtuml_C_IO_CLASS_NUMBER == c_ep->R4004_object_id ) )      c_io = ( 0 != c_ep ) ? (masl2xtuml_C_IO *) c_ep->R4004_subtype : 0;
       /* IF ( not_empty o_attr ) */
       if ( ( 0 != o_attr ) ) {
         /* ooapopulation.Attribute_setType( o_attr:ooapopulation.current_attribute, type_name:PARAM.value[0] ) */
         masl2xtuml_ooapopulation_op_Attribute_setType( ooapopulation,  ooapopulation->current_attribute, p_value[0] );
       }
-      /* ASSIGN s_sparm = ooapopulation.current_function_param */
-      s_sparm = ooapopulation->current_function_param;
-      /* IF ( not_empty s_sparm ) */
-      if ( ( 0 != s_sparm ) ) {
+      else if ( ( 0 != s_sparm ) ) {
         /* ooapopulation.FunctionParameter_setType( s_sparm:ooapopulation.current_function_param, type_name:PARAM.value[0] ) */
         masl2xtuml_ooapopulation_op_FunctionParameter_setType( ooapopulation,  ooapopulation->current_function_param, p_value[0] );
       }
-      /* ASSIGN o_tparm = ooapopulation.current_operation_param */
-      o_tparm = ooapopulation->current_operation_param;
-      /* IF ( not_empty o_tparm ) */
-      if ( ( 0 != o_tparm ) ) {
+      else if ( ( 0 != o_tparm ) ) {
         /* ooapopulation.OperationParameter_setType( o_tparm:ooapopulation.current_operation_param, type_name:PARAM.value[0] ) */
         masl2xtuml_ooapopulation_op_OperationParameter_setType( ooapopulation,  ooapopulation->current_operation_param, p_value[0] );
       }
-      /* ASSIGN c_pp = ooapopulation.current_interface_param */
-      c_pp = ooapopulation->current_interface_param;
-      /* IF ( not_empty c_pp ) */
-      if ( ( 0 != c_pp ) ) {
+      else if ( ( 0 != c_pp ) ) {
         /* ooapopulation.InterfaceParameter_setType( c_pp:ooapopulation.current_interface_param, type_name:PARAM.value[0] ) */
         masl2xtuml_ooapopulation_op_InterfaceParameter_setType( ooapopulation,  ooapopulation->current_interface_param, p_value[0] );
       }
-      /* IF ( not_empty c_pp ) */
-      if ( ( 0 != c_pp ) ) {
+      else if ( ( 0 != sm_evtdi ) ) {
         /* ooapopulation.StateMachineEventDataItem_setType( sm_evtdi:ooapopulation.current_event_dataitem, type_name:PARAM.value[0] ) */
         masl2xtuml_ooapopulation_op_StateMachineEventDataItem_setType( ooapopulation,  ooapopulation->current_event_dataitem, p_value[0] );
+      }
+      else if ( ( 0 != o_tfr ) ) {
+        /* ooapopulation.Operation_setReturnType( o_tfr:o_tfr, type_name:PARAM.value[0] ) */
+        masl2xtuml_ooapopulation_op_Operation_setReturnType( ooapopulation,  o_tfr, p_value[0] );
+      }
+      else if ( ( 0 != c_io ) ) {
+        /* ooapopulation.InterfaceOperation_setReturnType( c_io:c_io, type_name:PARAM.value[0] ) */
+        masl2xtuml_ooapopulation_op_InterfaceOperation_setReturnType( ooapopulation,  c_io, p_value[0] );
+      }
+      else if ( ( 0 != s_sync ) ) {
+        /* ooapopulation.Function_setReturnType( s_sync:s_sync, type_name:PARAM.value[0] ) */
+        masl2xtuml_ooapopulation_op_Function_setReturnType( ooapopulation,  s_sync, p_value[0] );
       }
     }
   }
@@ -1237,6 +1256,10 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
         self->current_operation_param->By_Ref = 1;
       }
     }
+    else {
+      /* ASSIGN self.current_operation_param = o_tparm */
+      self->current_operation_param = o_tparm;
+    }
   }
   else if ( ( 0 != domain_function ) ) {
     masl2xtuml_S_SPARM * s_sparm=0;
@@ -1264,6 +1287,10 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
         /* ASSIGN self.current_function_param.By_Ref = 1 */
         self->current_function_param->By_Ref = 1;
       }
+    }
+    else {
+      /* ASSIGN self.current_function_param = s_sparm */
+      self->current_function_param = s_sparm;
     }
   }
   else if ( ( 0 != interface_message ) ) {
@@ -1293,6 +1320,10 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
         self->current_interface_param->By_Ref = 1;
       }
     }
+    else {
+      /* ASSIGN self.current_interface_param = c_pp */
+      self->current_interface_param = c_pp;
+    }
   }
   else if ( ( 0 != evt ) ) {
     masl2xtuml_SM_EVTDI * sm_evtdi=0;
@@ -1311,6 +1342,10 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
     if ( ( 0 == sm_evtdi ) ) {
       /* ASSIGN self.current_event_dataitem = self.StateMachineEvent_newParameter(parameter_name:PARAM.name, sm_evt:evt) */
       self->current_event_dataitem = masl2xtuml_ooapopulation_op_StateMachineEvent_newParameter(self, p_name, evt);
+    }
+    else {
+      /* ASSIGN self.current_event_dataitem = sm_evtdi */
+      self->current_event_dataitem = sm_evtdi;
     }
   }
 }
@@ -2132,6 +2167,11 @@ masl2xtuml_ooapopulation_op_transformObjectFunction( masl2xtuml_ooapopulation * 
   if ( ( 0 != current_class ) ) {
     /* ASSIGN self.current_class_op = self.ModelClass_newOperation(o_obj:self.current_class, op_name:op_name) */
     self->current_class_op = masl2xtuml_ooapopulation_op_ModelClass_newOperation(self, self->current_class, op_name);
+    /* IF ( ( instance != PARAM.instance ) ) */
+    if ( ( Escher_strcmp( "instance", p_instance ) != 0 ) ) {
+      /* ASSIGN self.current_class_op.Instance_Based = Class */
+      self->current_class_op->Instance_Based = masl2xtuml_Scope_Class_e;
+    }
   }
   else {
     masl2xtuml_C_C * c_c=0;masl2xtuml_O_TFR * o_tfr=0;masl2xtuml_O_OBJ * o_obj=0;masl2xtuml_EP_PKG * ep_pkg=0;
@@ -2692,18 +2732,17 @@ masl2xtuml_ooapopulation_op_Interface_newExecutableProperty( masl2xtuml_ooapopul
   masl2xtuml_C_I * c_i;masl2xtuml_C_EP * signal=0;
   /* ASSIGN c_i = PARAM.c_i */
   c_i = p_c_i;
-  /* SELECT any signal FROM INSTANCES OF C_EP WHERE ( SELECTED.Name == PARAM.ep_name ) */
+  /* SELECT any signal RELATED BY c_i->C_EP[R4003] WHERE ( ( SELECTED.Name == PARAM.ep_name ) ) */
   signal = 0;
-  { masl2xtuml_C_EP * selected;
-    Escher_Iterator_s itersignalmasl2xtuml_C_EP;
-    Escher_IteratorReset( &itersignalmasl2xtuml_C_EP, &pG_masl2xtuml_C_EP_extent.active );
-    while ( (selected = (masl2xtuml_C_EP *) Escher_IteratorNext( &itersignalmasl2xtuml_C_EP )) != 0 ) {
+  if ( 0 != c_i ) {
+    masl2xtuml_C_EP * selected;
+    Escher_Iterator_s iC_EP_R4003_is_defined_by;
+    Escher_IteratorReset( &iC_EP_R4003_is_defined_by, &c_i->C_EP_R4003_is_defined_by );
+    while ( 0 != ( selected = (masl2xtuml_C_EP *) Escher_IteratorNext( &iC_EP_R4003_is_defined_by ) ) ) {
       if ( ( Escher_strcmp( selected->Name, p_ep_name ) == 0 ) ) {
         signal = selected;
         break;
-      }
-    }
-  }
+  }}}
   /* IF ( empty signal ) */
   if ( ( 0 == signal ) ) {
     Escher_ObjectSet_s references_space={0}; Escher_ObjectSet_s * references = &references_space;
@@ -6808,6 +6847,132 @@ toSUB->OIR_ID = (Escher_UniqueID_t) toSUB;
     }}}
   }
   Escher_ClearSet( toOOAParts );
+}
+
+/*
+ * instance operation:  Function_setReturnType
+ */
+void
+masl2xtuml_ooapopulation_op_Function_setReturnType( masl2xtuml_ooapopulation * self, masl2xtuml_S_SYNC * p_s_sync, c_t * p_type_name )
+{
+  c_t * type_name=0;masl2xtuml_S_SYNC * s_sync;masl2xtuml_S_DT * s_dt=0;
+  /* ASSIGN s_sync = PARAM.s_sync */
+  s_sync = p_s_sync;
+  /* ASSIGN type_name = PARAM.type_name */
+  type_name = Escher_strcpy( type_name, p_type_name );
+  /* SELECT any s_dt FROM INSTANCES OF S_DT WHERE ( SELECTED.Name == type_name ) */
+  s_dt = 0;
+  { masl2xtuml_S_DT * selected;
+    Escher_Iterator_s iters_dtmasl2xtuml_S_DT;
+    Escher_IteratorReset( &iters_dtmasl2xtuml_S_DT, &pG_masl2xtuml_S_DT_extent.active );
+    while ( (selected = (masl2xtuml_S_DT *) Escher_IteratorNext( &iters_dtmasl2xtuml_S_DT )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, type_name ) == 0 ) ) {
+        s_dt = selected;
+        break;
+      }
+    }
+  }
+  /* IF ( empty s_dt ) */
+  if ( ( 0 == s_dt ) ) {
+    /* TRACE::log( flavor:failure, id:0, message:( ( ( could not find datatype   + type_name ) +  to set for function  ) + s_sync.Name ) ) */
+    TRACE_log( "failure", 0, Escher_stradd( Escher_stradd( Escher_stradd( "could not find datatype  ", type_name ), " to set for function " ), s_sync->Name ) );
+  }
+  else {
+    masl2xtuml_S_DT * old_s_dt=0;
+    /* SELECT one old_s_dt RELATED BY s_sync->S_DT[R25] */
+    old_s_dt = ( 0 != s_sync ) ? s_sync->S_DT_R25_has_return_type_of : 0;
+    /* IF ( not_empty old_s_dt ) */
+    if ( ( 0 != old_s_dt ) ) {
+      /* UNRELATE old_s_dt FROM s_sync ACROSS R25 */
+      masl2xtuml_S_SYNC_R25_Unlink_defines_return_type( old_s_dt, s_sync );
+    }
+    /* RELATE s_dt TO s_sync ACROSS R25 */
+    masl2xtuml_S_SYNC_R25_Link_defines_return_type( s_dt, s_sync );
+  }
+}
+
+/*
+ * instance operation:  Operation_setReturnType
+ */
+void
+masl2xtuml_ooapopulation_op_Operation_setReturnType( masl2xtuml_ooapopulation * self, masl2xtuml_O_TFR * p_o_tfr, c_t * p_type_name )
+{
+  c_t * type_name=0;masl2xtuml_O_TFR * o_tfr;masl2xtuml_S_DT * s_dt=0;
+  /* ASSIGN o_tfr = PARAM.o_tfr */
+  o_tfr = p_o_tfr;
+  /* ASSIGN type_name = PARAM.type_name */
+  type_name = Escher_strcpy( type_name, p_type_name );
+  /* SELECT any s_dt FROM INSTANCES OF S_DT WHERE ( SELECTED.Name == type_name ) */
+  s_dt = 0;
+  { masl2xtuml_S_DT * selected;
+    Escher_Iterator_s iters_dtmasl2xtuml_S_DT;
+    Escher_IteratorReset( &iters_dtmasl2xtuml_S_DT, &pG_masl2xtuml_S_DT_extent.active );
+    while ( (selected = (masl2xtuml_S_DT *) Escher_IteratorNext( &iters_dtmasl2xtuml_S_DT )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, type_name ) == 0 ) ) {
+        s_dt = selected;
+        break;
+      }
+    }
+  }
+  /* IF ( empty s_dt ) */
+  if ( ( 0 == s_dt ) ) {
+    /* TRACE::log( flavor:failure, id:0, message:( ( ( could not find datatype   + type_name ) +  to set for operation  ) + o_tfr.Name ) ) */
+    TRACE_log( "failure", 0, Escher_stradd( Escher_stradd( Escher_stradd( "could not find datatype  ", type_name ), " to set for operation " ), o_tfr->Name ) );
+  }
+  else {
+    masl2xtuml_S_DT * old_s_dt=0;
+    /* SELECT one old_s_dt RELATED BY o_tfr->S_DT[R116] */
+    old_s_dt = ( 0 != o_tfr ) ? o_tfr->S_DT_R116_return_code_is_defined_by : 0;
+    /* IF ( not_empty old_s_dt ) */
+    if ( ( 0 != old_s_dt ) ) {
+      /* UNRELATE old_s_dt FROM o_tfr ACROSS R116 */
+      masl2xtuml_O_TFR_R116_Unlink_defines_the_type_of_return_code( old_s_dt, o_tfr );
+    }
+    /* RELATE s_dt TO o_tfr ACROSS R116 */
+    masl2xtuml_O_TFR_R116_Link_defines_the_type_of_return_code( s_dt, o_tfr );
+  }
+}
+
+/*
+ * instance operation:  InterfaceOperation_setReturnType
+ */
+void
+masl2xtuml_ooapopulation_op_InterfaceOperation_setReturnType( masl2xtuml_ooapopulation * self, masl2xtuml_C_IO * p_c_io, c_t * p_type_name )
+{
+  c_t * type_name=0;masl2xtuml_C_IO * c_io;masl2xtuml_S_DT * s_dt=0;
+  /* ASSIGN c_io = PARAM.c_io */
+  c_io = p_c_io;
+  /* ASSIGN type_name = PARAM.type_name */
+  type_name = Escher_strcpy( type_name, p_type_name );
+  /* SELECT any s_dt FROM INSTANCES OF S_DT WHERE ( SELECTED.Name == type_name ) */
+  s_dt = 0;
+  { masl2xtuml_S_DT * selected;
+    Escher_Iterator_s iters_dtmasl2xtuml_S_DT;
+    Escher_IteratorReset( &iters_dtmasl2xtuml_S_DT, &pG_masl2xtuml_S_DT_extent.active );
+    while ( (selected = (masl2xtuml_S_DT *) Escher_IteratorNext( &iters_dtmasl2xtuml_S_DT )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, type_name ) == 0 ) ) {
+        s_dt = selected;
+        break;
+      }
+    }
+  }
+  /* IF ( empty s_dt ) */
+  if ( ( 0 == s_dt ) ) {
+    /* TRACE::log( flavor:failure, id:0, message:( ( ( could not find datatype   + type_name ) +  to set for function  ) + c_io.Name ) ) */
+    TRACE_log( "failure", 0, Escher_stradd( Escher_stradd( Escher_stradd( "could not find datatype  ", type_name ), " to set for function " ), c_io->Name ) );
+  }
+  else {
+    masl2xtuml_S_DT * old_s_dt=0;
+    /* SELECT one old_s_dt RELATED BY c_io->S_DT[R4008] */
+    old_s_dt = ( 0 != c_io ) ? c_io->S_DT_R4008_has_return_defined_by : 0;
+    /* IF ( not_empty old_s_dt ) */
+    if ( ( 0 != old_s_dt ) ) {
+      /* UNRELATE old_s_dt FROM c_io ACROSS R4008 */
+      masl2xtuml_C_IO_R4008_Unlink_defines_return_type( old_s_dt, c_io );
+    }
+    /* RELATE s_dt TO c_io ACROSS R4008 */
+    masl2xtuml_C_IO_R4008_Link_defines_return_type( s_dt, c_io );
+  }
 }
 
 /*
