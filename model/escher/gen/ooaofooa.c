@@ -15376,6 +15376,8 @@ ooaofooa_set_factory( ooaofooa_TE_SET * p_te_set )
   te_set->copy = Escher_strcpy( te_set->copy, Escher_stradd( te_prefix->result, "CopySet" ) );
   /* ASSIGN te_set.clear = ( te_prefix.result + ClearSet ) */
   te_set->clear = Escher_strcpy( te_set->clear, Escher_stradd( te_prefix->result, "ClearSet" ) );
+  /* ASSIGN te_set.setadd = ( te_prefix.result + SetAdd ) */
+  te_set->setadd = Escher_strcpy( te_set->setadd, Escher_stradd( te_prefix->result, "SetAdd" ) );
   /* ASSIGN te_set.insert_element = ( te_prefix.result + SetInsertElement ) */
   te_set->insert_element = Escher_strcpy( te_set->insert_element, Escher_stradd( te_prefix->result, "SetInsertElement" ) );
   /* ASSIGN te_set.element_count = ( te_prefix.result + SetCardinality ) */
@@ -20848,13 +20850,6 @@ te_c->cId = (Escher_UniqueID_t) te_c;
             if ( ( 0 != s_sys ) ) {
               /* UNRELATE imported_ep_pkg FROM s_sys ACROSS R1401 */
               ooaofooa_EP_PKG_R1401_Unlink_contains( s_sys, imported_ep_pkg );
-            }
-            /* SELECT one s_sys RELATED BY imported_ep_pkg->S_SYS[R1405] */
-            s_sys = ( 0 != imported_ep_pkg ) ? imported_ep_pkg->S_SYS_R1405 : 0;
-            /* IF ( not_empty s_sys ) */
-            if ( ( 0 != s_sys ) ) {
-              /* UNRELATE imported_ep_pkg FROM s_sys ACROSS R1405 */
-              ooaofooa_EP_PKG_R1405_Unlink_contains( s_sys, imported_ep_pkg );
             }
             /* SELECT one pe_pe RELATED BY ep_pkg->PE_PE[R8001] */
             pe_pe = ( 0 != ep_pkg ) ? ep_pkg->PE_PE_R8001 : 0;

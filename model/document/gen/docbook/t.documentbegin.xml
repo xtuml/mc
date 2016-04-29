@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+
+Notes -
+  xsltproc docgen.xsl doc.xml > doc.html
+
+-->
+
+
+<!DOCTYPE article PUBLIC '-//OASIS//DTD DocBook XML V4.5//EN'
+  '${DTD}' [
+]>
+
+<article>
+<title>
+  <trademark class='registered'>BridgePoint</trademark>
+  xtUML Generated Documentation
+</title>
+<articleinfo>
+  <author>
+    <personname>
+      <firstname></firstname><surname></surname>
+    </personname>
+  </author>
+  <publisher>
+  <publishername>company name</publishername>
+  <address>
+  <pob>8005 SW Boeckman Road</pob>
+  <city>Wilsonville</city>, <state>OR</state>
+  <postcode>97070</postcode> <country>USA</country>
+  </address>
+  </publisher>
+</articleinfo>
+<toc></toc>

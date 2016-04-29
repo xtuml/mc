@@ -1,0 +1,3 @@
+<table frame='all'>
+<title>${doc_tbl.title}</title>
+<tgroup cols='$s{doc_tbl.num_cols}' align='left' colsep='0' rowsep='0'>

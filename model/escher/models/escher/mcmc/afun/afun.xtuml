@@ -2953,10 +2953,6 @@ for each c_c in c_cs
           if ( not_empty s_sys )
             unrelate imported_ep_pkg from s_sys across R1401;
           end if;
-          select one s_sys related by imported_ep_pkg->S_SYS[R1405];
-          if ( not_empty s_sys )
-            unrelate imported_ep_pkg from s_sys across R1405;
-          end if;
           select one pe_pe related by ep_pkg->PE_PE[R8001];
           unrelate pe_pe from ep_pkg across R8001;
           relate pe_pe to imported_ep_pkg across R8001;
