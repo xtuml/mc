@@ -284,14 +284,14 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
         }
         else {
           masl2xtuml_O_ATTR * o_attr=0;
-          /* SELECT any o_attr RELATED BY o_obj->O_ATTR[R102] WHERE ( ( SELECTED.Name == PARAM.value[0] ) ) */
+          /* SELECT any o_attr RELATED BY o_obj->O_ATTR[R102] WHERE ( ( SELECTED.Root_Nam == PARAM.value[0] ) ) */
           o_attr = 0;
           if ( 0 != o_obj ) {
             masl2xtuml_O_ATTR * selected;
             Escher_Iterator_s iO_ATTR_R102_has_characteristics_abstracted_by;
             Escher_IteratorReset( &iO_ATTR_R102_has_characteristics_abstracted_by, &o_obj->O_ATTR_R102_has_characteristics_abstracted_by );
             while ( 0 != ( selected = (masl2xtuml_O_ATTR *) Escher_IteratorNext( &iO_ATTR_R102_has_characteristics_abstracted_by ) ) ) {
-              if ( ( Escher_strcmp( selected->Name, p_value[0] ) == 0 ) ) {
+              if ( ( Escher_strcmp( selected->Root_Nam, p_value[0] ) == 0 ) ) {
                 o_attr = selected;
                 break;
           }}}
