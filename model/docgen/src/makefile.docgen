@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wno-pointer-to-int-cast
+CFLAGS=-Wno-pointer-to-int-cast -m32
 SOURCES := $(shell ls *.c)
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=docgen

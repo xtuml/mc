@@ -11,9 +11,7 @@
 
 #include "sys_sys_types.h"
 #include "LOG_bridge.h"
-#include "POP_bridge.h"
 #include "T_bridge.h"
-#include "sys_sys_types.h"
 
 /*
  * Bridge:  LogSuccess
