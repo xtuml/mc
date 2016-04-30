@@ -83,9 +83,8 @@ UserPreOoaInitializationCalloutf( c_t * argv0 )
       if ( 0 || (
            ( i != ooaofooa_TE_VAL_CLASS_NUMBER ) &&
            ! ( ( ooaofooa_V_VAL_CLASS_NUMBER <= i ) && ( i <= ooaofooa_V_SCV_CLASS_NUMBER ) ) &&
-           ( i != ooaofooa_ACT_SMT_CLASS_NUMBER ) &&
+           ! ( ( ooaofooa_ACT_BLK_CLASS_NUMBER <= i ) && ( i <= ooaofooa_ACT_BIE_CLASS_NUMBER ) ) &&
            ( i != ooaofooa_TE_SMT_CLASS_NUMBER ) &&
-           ( i != ooaofooa_V_VAR_CLASS_NUMBER ) &&
            ( i != ooaofooa_TE_VAR_CLASS_NUMBER ) ) )
       Escher_dump_instances( 0, i );
     }

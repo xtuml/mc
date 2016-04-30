@@ -14,7 +14,7 @@
  * callout points.
  *--------------------------------------------------------------------------*/
 
-#include "sys_sys_types.h"
+#include "docgen_sys_types.h"
 #include "sys_user_co.h"
 
 #ifdef SYS_USER_CO_PRINTF_ON

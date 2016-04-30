@@ -8,7 +8,7 @@
  * 
  *--------------------------------------------------------------------------*/
 
-#include "sys_sys_types.h"
+#include "docgen_sys_types.h"
 #include "LOG_bridge.h"
 #include "POP_bridge.h"
 #include "T_bridge.h"
@@ -344,8 +344,8 @@ T_body( void )
 }
 
 
-extern char * template_engine( char * );
-extern int yyparse( void );
+//extern char * template_engine( char * );
+//extern int yyparse( void );
 
 /*
  * Bridge:  t
@@ -359,7 +359,7 @@ T_t( c_t * p_s )
     c_t s[ESCHER_SYS_MAX_STRING_LEN];
     strncpy(s,p_s,ESCHER_SYS_MAX_STRING_LEN-1);strcat(s,"\n");
 #ifdef __x86_64__
-    result = template_engine( s );
+    //result = template_engine( s );
 #endif
   }
   return result;
