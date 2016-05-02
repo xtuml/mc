@@ -179,6 +179,9 @@ void masl2xtuml_ooapopulation_op_Function_setReturnType( masl2xtuml_ooapopulatio
 void masl2xtuml_ooapopulation_op_Operation_setReturnType( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, c_t * );
 void masl2xtuml_ooapopulation_op_InterfaceOperation_setReturnType( masl2xtuml_ooapopulation *, masl2xtuml_C_IO *, c_t * );
 void masl2xtuml_ooapopulation_op_ReferredToClassInAssoc_addAttributeToIdentifier( masl2xtuml_ooapopulation *, masl2xtuml_O_OIDA *, masl2xtuml_R_RTO * );
+void masl2xtuml_ooapopulation_op_Attribute_migrateBaseToReferential( masl2xtuml_ooapopulation *, masl2xtuml_O_ATTR * );
+void masl2xtuml_ooapopulation_op_ReferentialAttribute_setDatatype( masl2xtuml_ooapopulation *, masl2xtuml_O_RATTR * );
+masl2xtuml_S_DT * masl2xtuml_ooapopulation_op_SystemModel_getCoreTypeId( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_S_SYS * );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10

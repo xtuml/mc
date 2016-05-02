@@ -22,7 +22,7 @@
 void
 masl2xtuml_in_end()
 {
-  masl2xtuml_referentialAttribute * ref=0;masl2xtuml_ooaelement * element=0;Escher_ObjectSet_s refs_space={0}; Escher_ObjectSet_s * refs = &refs_space;Escher_ObjectSet_s elements_space={0}; Escher_ObjectSet_s * elements = &elements_space;
+  masl2xtuml_referentialAttribute * ref=0;masl2xtuml_ooaelement * element=0;Escher_ObjectSet_s refs_space={0}; Escher_ObjectSet_s * refs = &refs_space;masl2xtuml_ooapopulation * ooapopulation=0;Escher_ObjectSet_s elements_space={0}; Escher_ObjectSet_s * elements = &elements_space;
   /* SELECT many elements FROM INSTANCES OF ooaelement */
   Escher_CopySet( elements, &pG_masl2xtuml_ooaelement_extent.active );
   /* FOR EACH element IN elements */
@@ -34,6 +34,13 @@ masl2xtuml_in_end()
     /* element.destruct() */
     masl2xtuml_ooaelement_op_destruct( element );
   }}}
+  /* SELECT any ooapopulation FROM INSTANCES OF ooapopulation */
+  ooapopulation = (masl2xtuml_ooapopulation *) Escher_SetGetAny( &pG_masl2xtuml_ooapopulation_extent.active );
+  /* IF ( not_empty ooapopulation ) */
+  if ( ( 0 != ooapopulation ) ) {
+    /* ooapopulation.batchFormalize() */
+    masl2xtuml_ooapopulation_op_batchFormalize( ooapopulation );
+  }
   /* SELECT many refs FROM INSTANCES OF referentialAttribute */
   Escher_CopySet( refs, &pG_masl2xtuml_referentialAttribute_extent.active );
   /* FOR EACH ref IN refs */

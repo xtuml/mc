@@ -415,6 +415,12 @@ for each element in elements
 	element.destruct();
 end for;
 
+// formalize relationships
+select any ooapopulation from instances of ooapopulation;
+if ( not_empty ooapopulation )
+  ooapopulation.batchFormalize();
+end if;
+
 // destruct referentialAttributes
 select many refs from instances of referentialAttribute;
 for each ref in refs
