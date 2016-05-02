@@ -5312,7 +5312,7 @@ for each oida in oida_set
   new_o_rattr = self.ClassIdentifierAttribute_addReference(o_oida:oida, rel:r_rel,
     part_rto:part_rto, part_obj:part_obj,
     form_rgo:form_rgo, form_obj:form_obj,
-    id: param.id_id);
+    id: -1);
 end for;
 ',
 	1,

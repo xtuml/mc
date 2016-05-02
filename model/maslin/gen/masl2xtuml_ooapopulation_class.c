@@ -5868,8 +5868,8 @@ masl2xtuml_ooapopulation_op_SimpleAssociation_formalize( masl2xtuml_ooapopulatio
   while ( (iioida = (masl2xtuml_O_OIDA *)Escher_IteratorNext( &iteroida )) != 0 ) {
     oida = iioida; {
     masl2xtuml_O_RATTR * new_o_rattr;
-    /* ASSIGN new_o_rattr = self.ClassIdentifierAttribute_addReference(form_obj:form_obj, form_rgo:form_rgo, id:PARAM.id_id, o_oida:oida, part_obj:part_obj, part_rto:part_rto, rel:r_rel) */
-    new_o_rattr = masl2xtuml_ooapopulation_op_ClassIdentifierAttribute_addReference(self, form_obj, form_rgo, p_id_id, oida, part_obj, part_rto, r_rel);
+    /* ASSIGN new_o_rattr = self.ClassIdentifierAttribute_addReference(form_obj:form_obj, form_rgo:form_rgo, id:- 1, o_oida:oida, part_obj:part_obj, part_rto:part_rto, rel:r_rel) */
+    new_o_rattr = masl2xtuml_ooapopulation_op_ClassIdentifierAttribute_addReference(self, form_obj, form_rgo, -1, oida, part_obj, part_rto, r_rel);
   }}}
   Escher_ClearSet( oida_set ); 
 }
