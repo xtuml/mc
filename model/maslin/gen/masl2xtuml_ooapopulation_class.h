@@ -174,6 +174,11 @@ void masl2xtuml_ooapopulation_op_StateMachineEventDataItem_initialize( masl2xtum
 void masl2xtuml_ooapopulation_op_StateMachineEvent_addDataItemToOrder( masl2xtuml_ooapopulation *, masl2xtuml_SM_EVT *, masl2xtuml_SM_EVTDI * );
 void masl2xtuml_ooapopulation_op_StateMachineEvent_createMessageArgumentsForParameter( masl2xtuml_ooapopulation *, masl2xtuml_SM_EVT *, masl2xtuml_SM_EVTDI * );
 void masl2xtuml_ooapopulation_op_StateMachineEventDataItem_setType( masl2xtuml_ooapopulation *, masl2xtuml_SM_EVTDI *, c_t * );
+void masl2xtuml_ooapopulation_op_Package_newSubsuper( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG * );
+void masl2xtuml_ooapopulation_op_Function_setReturnType( masl2xtuml_ooapopulation *, masl2xtuml_S_SYNC *, c_t * );
+void masl2xtuml_ooapopulation_op_Operation_setReturnType( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, c_t * );
+void masl2xtuml_ooapopulation_op_InterfaceOperation_setReturnType( masl2xtuml_ooapopulation *, masl2xtuml_C_IO *, c_t * );
+void masl2xtuml_ooapopulation_op_ReferredToClassInAssoc_addAttributeToIdentifier( masl2xtuml_ooapopulation *, masl2xtuml_O_OIDA *, masl2xtuml_R_RTO * );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10

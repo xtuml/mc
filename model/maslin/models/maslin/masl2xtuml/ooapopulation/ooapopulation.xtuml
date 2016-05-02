@@ -2597,11 +2597,10 @@ INSERT INTO O_TFR
 select any oid related by o_attr->O_OBJ[R102]->O_ID[R104] where ( selected.Oid_ID == param.oid );
 create object instance oida of O_OIDA;
 relate o_attr to oid across R105 using oida;
-// TODO SKB - leaving out for now, will need to add back in
-//select many rto_set related by oid->R_RTO[R109];
-//for each rto in rto_set
-//  rto.addAttributeToIdentifier( attr_id: self.Attr_ID );
-//end for;',
+select many rto_set related by oid->R_RTO[R109];
+for each rto in rto_set
+  self.ReferredToClassInAssoc_addAttributeToIdentifier( r_rto:rto, oida:oida );
+end for;',
 	1,
 	'',
 	"5cec88a1-a445-447f-89b0-5f866ba2805b");
@@ -6656,6 +6655,71 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"a026b572-0f74-4261-b6ae-f3e0d1c0b98b",
+	'');
+INSERT INTO O_TFR
+	VALUES ("45db7a44-57f6-46ce-9d82-b22a6c1d990a",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ReferredToClassInAssoc_addAttributeToIdentifier',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_rto = param.r_rto;
+oida = param.oida;
+
+if ( not_empty oida )
+  select many rgo_set related by r_rto->R_OIR[R203]->R_REL[R201]->R_OIR[R201]->R_RGO[R203]
+    where ( selected.OIR_ID != r_rto.OIR_ID and selected.Rel_ID == r_rto.Rel_ID );
+  for each rgo in rgo_set
+    select any ref_attr_id related by rgo->O_REF[R111]->O_RATTR[R108]->O_ATTR[R106]->O_OIDA[R105];
+    id_id = -1;
+    if ( not_empty ref_attr_id )
+      select one assoc related by rgo->R_OIR[R203]->R_REL[R201]->R_ASSOC[R206];
+      select one subsup related by rgo->R_OIR[R203]->R_REL[R201]->R_SUBSUP[R206];
+      if not_empty assoc or not_empty subsup
+        // these associations require the referentials be part of the
+        // identifier.
+         id_id = ref_attr_id.Oid_ID;
+      end if;
+    end if;
+    select one r_rel related by rgo->R_OIR[R203]->R_REL[R201];
+    select one part_obj related by r_rto->R_OIR[R203]->O_OBJ[R201];
+    select one form_obj related by rgo->R_OIR[R203]->O_OBJ[R201];
+    new_o_rattr = self.ClassIdentifierAttribute_addReference(o_oida:oida, rel:r_rel,
+      part_rto:r_rto, part_obj:part_obj,
+      form_rgo:rgo, form_obj:form_obj,
+      id: id_id);
+    if ( id_id != -1 )
+      // we''ve updated the id for the rgo
+      // check if we need to update any referentials referring
+      // to the rgo''s identifier
+      select many rto_set related by ref_attr_id->O_ID[R105]->R_RTO[R109];
+      for each rto in rto_set
+        select any oida related by rto->O_ID[R109]->O_OIDA[R105] where selected.Attr_ID == new_o_rattr.Attr_ID;
+        self.ReferredToClassInAssoc_addAttributeToIdentifier(r_rto:rto, oida:oida);
+      end for;
+    end if;
+  end for;
+end if;',
+	1,
+	'',
+	"3ae49a72-f7e0-4a00-aaad-f0574cb325be");
+INSERT INTO O_TPARM
+	VALUES ("dbec50fb-c029-4cab-b9f7-82f90c3a7677",
+	"45db7a44-57f6-46ce-9d82-b22a6c1d990a",
+	'oida',
+	"08de18fb-cb5f-4d53-9826-375c4dad56f7",
+	0,
+	'',
+	"9bd58609-6d06-4c59-88bb-d61600a00187",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("9bd58609-6d06-4c59-88bb-d61600a00187",
+	"45db7a44-57f6-46ce-9d82-b22a6c1d990a",
+	'r_rto',
+	"893ea6d3-466d-498e-b58a-cf5966da5549",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
