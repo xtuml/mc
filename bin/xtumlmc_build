@@ -668,8 +668,16 @@ sub xtumlmc_gen_erate($)
   } else {
     # If we are running on linux, see if the new python generator 
     # is in place.  If it is, use it.  Otherwise use the old one.
-    if ( -f "$ENV{'ROX_MC_BIN_DIR'}/gen_erate.pyz" ) {
-      $rval = system( "gen_erate.pyz @param_list" );
+    my $gen_pyz = "$ENV{'ROX_MC_BIN_DIR'}/gen_erate.pyz";
+    if ( -f $gen_pyz ) {
+      # Passing the output (here $pypy_cmd) as the command
+      # causes the pypy interpreter to run rather than executing 
+      # gen_erate.pyz. Calling it this way allows generator to run. 
+      $pypy_cmd = `which pypy`;
+      if ( $pypy_cmd ne "" ) {
+        $pypy = "pypy";
+      }
+      $rval = system( "$pypy $gen_pyz @param_list" );
     } else {
       $gencmd = "wine $ENV{'ROX_MC_BIN_DIR'}/gen_erate.exe";
       $rval = system( "$gencmd @param_list" );
@@ -837,6 +845,12 @@ sub xtumlmc_cleanse_for_BridgePoint($$);
 sub xtumlmc_cleanse_for_BridgePoint($$)
 {
   my $input_path = shift;
+
+  # If the first argument is -u, handle the UUID seed argument 
+  if ( $input_path eq '-u' ) { 
+      $nextInternalUniqueID = shift; 
+      $input_path = shift;
+  }
   $SF_Out = xtumlmc_open( ">" . shift );
   @ClassesToRemove = @_;
 
@@ -1217,6 +1231,7 @@ usage:    xtumlmc_build -d <dir> -o <model> -s <f.xtuml> -r <EE> -x <xml> -p <pk
           b       :  MC-2020 build specification (default is vc)
           c       :  perform compile step
           g       :  generate XML file for model debugger
+          u       :  UUID seed number to start at, defaults to 0 if not specified
 
 example:
 
