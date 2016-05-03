@@ -6182,8 +6182,8 @@ masl2xtuml_ooapopulation_op_ModelClass_newReferentialAttribute( masl2xtuml_ooapo
   attr = masl2xtuml_ooapopulation_op_ModelClass_newAttribute(self, "placeholder", o_obj);
   /* self.Attribute_migrateBaseToReferential( o_attr:attr ) */
   masl2xtuml_ooapopulation_op_Attribute_migrateBaseToReferential( self,  attr );
-  /* ASSIGN attr.Root_Nam = id_attr.Name */
-  attr->Root_Nam = Escher_strcpy( attr->Root_Nam, id_attr->Name );
+  /* ASSIGN attr.Root_Nam = id_attr.Root_Nam */
+  attr->Root_Nam = Escher_strcpy( attr->Root_Nam, id_attr->Root_Nam );
   /* SELECT one ref_attr RELATED BY attr->O_RATTR[R106] */
   ref_attr = 0;
   if ( ( 0 != attr ) && ( masl2xtuml_O_RATTR_CLASS_NUMBER == attr->R106_object_id ) )  ref_attr = ( 0 != attr ) ? (masl2xtuml_O_RATTR *) attr->R106_subtype : 0;
@@ -7259,8 +7259,8 @@ masl2xtuml_ooapopulation_op_Attribute_migrateBaseToReferential( masl2xtuml_ooapo
   rattr = (masl2xtuml_O_RATTR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_RATTR_CLASS_NUMBER );
   rattr->Attr_ID = (Escher_UniqueID_t) rattr;
 rattr->Obj_ID = (Escher_UniqueID_t) rattr;
-  /* ASSIGN rattr.Ref_Mode = 1 */
-  rattr->Ref_Mode = 1;
+  /* ASSIGN rattr.Ref_Mode = 0 */
+  rattr->Ref_Mode = 0;
   /* RELATE o_attr TO rattr ACROSS R106 */
   masl2xtuml_O_RATTR_R106_Link( o_attr, rattr );
   /* self.ReferentialAttribute_setDatatype( o_rattr:rattr ) */

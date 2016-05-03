@@ -5720,7 +5720,7 @@ end if;
 //select any attr related by o_obj->O_ATTR[R102] where selected.Attr_ID == newAttr_id;
 attr = self.ModelClass_newAttribute( o_obj:o_obj, attr_name:"placeholder" );
 self.Attribute_migrateBaseToReferential( o_attr:attr );
-attr.Root_Nam = id_attr.Name;
+attr.Root_Nam = id_attr.Root_Nam;
 
 select one ref_attr related by attr->O_RATTR[R106];
 relate ref_attr to base_attr across R113;
@@ -6734,7 +6734,7 @@ if ( not_empty battr )
   self.BaseAttribute_dispose(o_battr:battr);
 end if;
 create object instance rattr of O_RATTR;
-rattr.Ref_Mode = 1;  // use referred to attribute name
+rattr.Ref_Mode = 0;  // LPS set to 0 to use local attribute name
 relate o_attr to rattr across R106;
 
 self.ReferentialAttribute_setDatatype(o_rattr:rattr);
