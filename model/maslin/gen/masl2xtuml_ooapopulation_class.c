@@ -5681,76 +5681,7 @@ ch->SM_ID = (Escher_UniqueID_t) ch;
 void
 masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
 {
-  masl2xtuml_referentialAttribute * ra=0;Escher_ObjectSet_s ras_space={0}; Escher_ObjectSet_s * ras = &ras_space;
-  /* SELECT many ras FROM INSTANCES OF referentialAttribute */
-  Escher_CopySet( ras, &pG_masl2xtuml_referentialAttribute_extent.active );
-  /* FOR EACH ra IN ras */
-  { Escher_Iterator_s iterra;
-  masl2xtuml_referentialAttribute * iira;
-  Escher_IteratorReset( &iterra, ras );
-  while ( (iira = (masl2xtuml_referentialAttribute *)Escher_IteratorNext( &iterra )) != 0 ) {
-    ra = iira; {
-    i_t relNumber;c_t * relNum=0;masl2xtuml_O_OBJ * o_obj;masl2xtuml_R_SIMP * simp=0;masl2xtuml_R_REL * rel=0;masl2xtuml_O_ATTR * curAttr=0;
-    /* ASSIGN o_obj = ra.o_obj */
-    o_obj = ra->o_obj;
-    /* SELECT any curAttr RELATED BY o_obj->O_ATTR[R102] WHERE ( ( SELECTED.Root_Nam == ra.attrName ) ) */
-    curAttr = 0;
-    if ( 0 != o_obj ) {
-      masl2xtuml_O_ATTR * selected;
-      Escher_Iterator_s iO_ATTR_R102_has_characteristics_abstracted_by;
-      Escher_IteratorReset( &iO_ATTR_R102_has_characteristics_abstracted_by, &o_obj->O_ATTR_R102_has_characteristics_abstracted_by );
-      while ( 0 != ( selected = (masl2xtuml_O_ATTR *) Escher_IteratorNext( &iO_ATTR_R102_has_characteristics_abstracted_by ) ) ) {
-        if ( ( Escher_strcmp( selected->Root_Nam, ra->attrName ) == 0 ) ) {
-          curAttr = selected;
-          break;
-    }}}
-    /* IF ( not_empty curAttr ) */
-    if ( ( 0 != curAttr ) ) {
-      /* self.Attribute_dispose( o_attr:curAttr ) */
-      masl2xtuml_ooapopulation_op_Attribute_dispose( self,  curAttr );
-    }
-    /* ASSIGN relNum = STRING::substr(begin:1, end:- 1, s:ra.relationship) */
-    relNum = Escher_strcpy( relNum, STRING_substr( 1, -1, ra->relationship ) );
-    /* ASSIGN relNumber = STRING::atoi(s:relNum) */
-    relNumber = STRING_atoi( relNum );
-    /* SELECT any rel RELATED BY o_obj->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->R_REL[R8001] WHERE ( ( SELECTED.Numb == relNumber ) ) */
-    rel = 0;
-    {    if ( 0 != o_obj ) {
-    masl2xtuml_PE_PE * PE_PE_R8001 = o_obj->PE_PE_R8001;
-    if ( 0 != PE_PE_R8001 ) {
-    masl2xtuml_EP_PKG * EP_PKG_R8000_contained_by = PE_PE_R8001->EP_PKG_R8000_contained_by;
-    if ( 0 != EP_PKG_R8000_contained_by ) {
-    masl2xtuml_PE_PE * PE_PE_R8000_contains;
-    Escher_Iterator_s iPE_PE_R8000_contains;
-    Escher_IteratorReset( &iPE_PE_R8000_contains, &EP_PKG_R8000_contained_by->PE_PE_R8000_contains );
-    while ( ( 0 == rel ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
-    if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_R_REL_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )    {masl2xtuml_R_REL * selected = (masl2xtuml_R_REL *) PE_PE_R8000_contains->R8001_subtype;
-    if ( ( 0 != selected ) && ( selected->Numb == relNumber ) ) {
-      rel = selected;
-    }}
-}}}}}
-    /* SELECT one simp RELATED BY rel->R_SIMP[R206] */
-    simp = 0;
-    if ( ( 0 != rel ) && ( masl2xtuml_R_SIMP_CLASS_NUMBER == rel->R206_object_id ) )    simp = ( 0 != rel ) ? (masl2xtuml_R_SIMP *) rel->R206_subtype : 0;
-    /* IF ( not_empty simp ) */
-    if ( ( 0 != simp ) ) {
-      masl2xtuml_R_PART * r_part=0;
-      /* SELECT any r_part RELATED BY simp->R_PART[R207] WHERE ( ( SELECTED.Txt_Phrs == ra.roleOrObj ) ) */
-      r_part = 0;
-      if ( 0 != simp ) {
-        masl2xtuml_R_PART * selected;
-        Escher_Iterator_s iR_PART_R207_relates;
-        Escher_IteratorReset( &iR_PART_R207_relates, &simp->R_PART_R207_relates );
-        while ( 0 != ( selected = (masl2xtuml_R_PART *) Escher_IteratorNext( &iR_PART_R207_relates ) ) ) {
-          if ( ( Escher_strcmp( selected->Txt_Phrs, ra->roleOrObj ) == 0 ) ) {
-            r_part = selected;
-            break;
-      }}}
-      /* self.SimpleAssociation_formalize( id_id:0, r_part:r_part, r_simp:simp ) */
-      masl2xtuml_ooapopulation_op_SimpleAssociation_formalize( self,  0, r_part, simp );
-    }
-  }}}
-  Escher_ClearSet( ras );
+
 }
 
 /*
@@ -5759,7 +5690,7 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
 void
 masl2xtuml_ooapopulation_op_transformReferential( masl2xtuml_ooapopulation * self, c_t * p_attrName, c_t * p_objName, c_t * p_relationship, c_t * p_roleOrObj )
 {
-  masl2xtuml_O_ID * o_id=0;masl2xtuml_O_ATTR * o_attr;masl2xtuml_referentialAttribute * ra;masl2xtuml_ooapopulation * ooapopulation=0;Escher_ObjectSet_s o_ids_space={0}; Escher_ObjectSet_s * o_ids = &o_ids_space;
+  masl2xtuml_O_ID * o_id=0;i_t relNumber;c_t * relNum=0;masl2xtuml_O_OBJ * o_obj;masl2xtuml_O_ATTR * o_attr;masl2xtuml_referentialAttribute * ra;masl2xtuml_ooapopulation * ooapopulation=0;masl2xtuml_R_SIMP * simp=0;Escher_ObjectSet_s o_ids_space={0}; Escher_ObjectSet_s * o_ids = &o_ids_space;masl2xtuml_R_REL * rel=0;
   /* SELECT any ooapopulation FROM INSTANCES OF ooapopulation */
   ooapopulation = (masl2xtuml_ooapopulation *) Escher_SetGetAny( &pG_masl2xtuml_ooapopulation_extent.active );
   /* CREATE OBJECT INSTANCE ra OF referentialAttribute */
@@ -5815,6 +5746,79 @@ masl2xtuml_ooapopulation_op_transformReferential( masl2xtuml_ooapopulation * sel
       ra->identifier3 = TRUE;
     }
   }}}
+  /* ASSIGN o_obj = ra.o_obj */
+  o_obj = ra->o_obj;
+  /* ASSIGN relNum = STRING::substr(begin:1, end:- 1, s:ra.relationship) */
+  relNum = Escher_strcpy( relNum, STRING_substr( 1, -1, ra->relationship ) );
+  /* ASSIGN relNumber = STRING::atoi(s:relNum) */
+  relNumber = STRING_atoi( relNum );
+  /* SELECT any rel RELATED BY o_obj->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->R_REL[R8001] WHERE ( ( SELECTED.Numb == relNumber ) ) */
+  rel = 0;
+  {  if ( 0 != o_obj ) {
+  masl2xtuml_PE_PE * PE_PE_R8001 = o_obj->PE_PE_R8001;
+  if ( 0 != PE_PE_R8001 ) {
+  masl2xtuml_EP_PKG * EP_PKG_R8000_contained_by = PE_PE_R8001->EP_PKG_R8000_contained_by;
+  if ( 0 != EP_PKG_R8000_contained_by ) {
+  masl2xtuml_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &EP_PKG_R8000_contained_by->PE_PE_R8000_contains );
+  while ( ( 0 == rel ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_R_REL_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {masl2xtuml_R_REL * selected = (masl2xtuml_R_REL *) PE_PE_R8000_contains->R8001_subtype;
+  if ( ( 0 != selected ) && ( selected->Numb == relNumber ) ) {
+    rel = selected;
+  }}
+}}}}}
+  /* SELECT one simp RELATED BY rel->R_SIMP[R206] */
+  simp = 0;
+  if ( ( 0 != rel ) && ( masl2xtuml_R_SIMP_CLASS_NUMBER == rel->R206_object_id ) )  simp = ( 0 != rel ) ? (masl2xtuml_R_SIMP *) rel->R206_subtype : 0;
+  /* IF ( not_empty simp ) */
+  if ( ( 0 != simp ) ) {
+    masl2xtuml_simpleFormalization * simpForm=0;masl2xtuml_formalization * form=0;masl2xtuml_R_PART * r_part=0;
+    /* SELECT any r_part RELATED BY simp->R_PART[R207] WHERE ( ( SELECTED.Txt_Phrs == ra.roleOrObj ) ) */
+    r_part = 0;
+    if ( 0 != simp ) {
+      masl2xtuml_R_PART * selected;
+      Escher_Iterator_s iR_PART_R207_relates;
+      Escher_IteratorReset( &iR_PART_R207_relates, &simp->R_PART_R207_relates );
+      while ( 0 != ( selected = (masl2xtuml_R_PART *) Escher_IteratorNext( &iR_PART_R207_relates ) ) ) {
+        if ( ( Escher_strcmp( selected->Txt_Phrs, ra->roleOrObj ) == 0 ) ) {
+          r_part = selected;
+          break;
+    }}}
+    /* SELECT any simpForm FROM INSTANCES OF simpleFormalization WHERE ( ( ( SELECTED.rel == simp ) and ( SELECTED.form_obj_id == o_obj.Obj_ID ) ) and ( SELECTED.part_obj_id == r_part.Obj_ID ) ) */
+    simpForm = 0;
+    { masl2xtuml_simpleFormalization * selected;
+      Escher_Iterator_s itersimpFormmasl2xtuml_simpleFormalization;
+      Escher_IteratorReset( &itersimpFormmasl2xtuml_simpleFormalization, &pG_masl2xtuml_simpleFormalization_extent.active );
+      while ( (selected = (masl2xtuml_simpleFormalization *) Escher_IteratorNext( &itersimpFormmasl2xtuml_simpleFormalization )) != 0 ) {
+        if ( ( ( ( selected->rel == simp ) && ( selected->form_obj_id == o_obj->Obj_ID ) ) && ( selected->part_obj_id == r_part->Obj_ID ) ) ) {
+          simpForm = selected;
+          break;
+        }
+      }
+    }
+    /* SELECT one form RELATED BY simpForm->formalization[R3810] */
+    form = ( 0 != simpForm ) ? simpForm->formalization_R3810 : 0;
+    /* IF ( empty form ) */
+    if ( ( 0 == form ) ) {
+      /* CREATE OBJECT INSTANCE form OF formalization */
+      form = (masl2xtuml_formalization *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_formalization_CLASS_NUMBER );
+      /* ASSIGN form.type = 0 */
+      form->type = 0;
+      /* CREATE OBJECT INSTANCE simpForm OF simpleFormalization */
+      simpForm = (masl2xtuml_simpleFormalization *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_simpleFormalization_CLASS_NUMBER );
+      /* ASSIGN simpForm.rel = simp */
+      simpForm->rel = simp;
+      /* ASSIGN simpForm.form_obj_id = o_obj.Obj_ID */
+      simpForm->form_obj_id = o_obj->Obj_ID;
+      /* ASSIGN simpForm.part_obj_id = r_part.Obj_ID */
+      simpForm->part_obj_id = r_part->Obj_ID;
+      /* RELATE form TO simpForm ACROSS R3810 */
+      masl2xtuml_simpleFormalization_R3810_Link( form, simpForm );
+    }
+    /* RELATE ra TO form ACROSS R3811 */
+    masl2xtuml_referentialAttribute_R3811_Link( form, ra );
+  }
   Escher_ClearSet( o_ids ); 
 }
 

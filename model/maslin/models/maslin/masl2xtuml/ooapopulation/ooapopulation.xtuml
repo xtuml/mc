@@ -5194,7 +5194,7 @@ For each one
 
 TODO - note that this code, like Package_newAssociation , does not handle imported classes in associations
 */
-
+/*
 select many ras from instances of referentialAttribute;
 for each ra in ras
   o_obj = ra.o_obj;
@@ -5217,6 +5217,7 @@ for each ra in ras
   end if;
   // TODO - handle formalizing linked associations
 end for;
+*/
 
 ',
 	1,
@@ -5257,7 +5258,39 @@ for each o_id in o_ids
 	ra.identifier3 = true;
   end if;
 end for;
-',
+
+// add the referential attribute to a formalization
+o_obj = ra.o_obj;
+relNum = STRING::substr(s:ra.relationship,begin:1,end:-1);
+relNumber = STRING::atoi(s:relNum); 
+select any rel related by o_obj->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->R_REL[R8001] where (selected.Numb == relNumber);
+select one simp related by rel->R_SIMP[R206];
+if ( not_empty simp )
+  // Get the participant with the given phrase
+  // TODO this is too simple, it doesn''t account for all the permutations of relationship spec
+  select any r_part related by simp->R_PART[R207] where ( selected.Txt_Phrs == ra.roleOrObj );
+  
+  // look for an existing formalization
+  select any simpForm from instances of simpleFormalization where ( selected.rel == simp and
+  																	selected.form_obj_id == o_obj.Obj_ID and
+  																	selected.part_obj_id == r_part.Obj_ID );
+  select one form related by simpForm->formalization[R3810];
+  if ( empty form ) // create a formalization if it doesn''t exist
+    create object instance form of formalization;
+    form.type = 0;
+    create object instance simpForm of simpleFormalization;
+    simpForm.rel = simp;
+    simpForm.form_obj_id = o_obj.Obj_ID;
+    simpForm.part_obj_id = r_part.Obj_ID;
+    relate form to simpForm across R3810;
+  end if;
+  
+  // add this referential attribute to the formalization
+  relate ra to form across R3811;
+
+end if;
+// TODO - handle linked associations
+// TODO - handle subsuper associations',
 	1,
 	'',
 	"a442a038-3373-4282-a5fc-098af44e9cbe");
