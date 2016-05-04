@@ -16,7 +16,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("5ff08e8e-782d-41af-850c-1ee8e1f414cd",
 	"c3444c03-ef4a-4796-9a59-dcc972c23be8",
-	"00000000-0000-0000-0000-000000000000",
+	"1eb25471-1dc1-4db6-953f-9c98ce6c2a03",
 	'attrName',
 	'',
 	'',
@@ -52,7 +52,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("77b4973d-a39c-437b-b95d-349f0e9e89ab",
 	"c3444c03-ef4a-4796-9a59-dcc972c23be8",
-	"f2f3d0cc-2ecf-4974-b789-f5b34810368b",
+	"00000000-0000-0000-0000-000000000000",
 	'relationship',
 	'',
 	'',
@@ -88,7 +88,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("d4dd8fef-4eca-4941-9996-cc3463a1465c",
 	"c3444c03-ef4a-4796-9a59-dcc972c23be8",
-	"e218fead-433d-4581-bb1c-20a040f6234e",
+	"f2f3d0cc-2ecf-4974-b789-f5b34810368b",
 	'o_obj',
 	'',
 	'',
@@ -101,6 +101,49 @@ INSERT INTO S_DT_PROXY
 	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<Model Class>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("1eb25471-1dc1-4db6-953f-9c98ce6c2a03",
+	"c3444c03-ef4a-4796-9a59-dcc972c23be8");
+INSERT INTO O_BATTR
+	VALUES ("1eb25471-1dc1-4db6-953f-9c98ce6c2a03",
+	"c3444c03-ef4a-4796-9a59-dcc972c23be8");
+INSERT INTO O_ATTR
+	VALUES ("1eb25471-1dc1-4db6-953f-9c98ce6c2a03",
+	"c3444c03-ef4a-4796-9a59-dcc972c23be8",
+	"e218fead-433d-4581-bb1c-20a040f6234e",
+	'objectName',
+	'',
+	'',
+	'objectName',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("1cef4ff6-3c80-4dcd-b799-1bc3b1650503",
+	"c3444c03-ef4a-4796-9a59-dcc972c23be8");
+INSERT INTO O_BATTR
+	VALUES ("1cef4ff6-3c80-4dcd-b799-1bc3b1650503",
+	"c3444c03-ef4a-4796-9a59-dcc972c23be8");
+INSERT INTO O_ATTR
+	VALUES ("1cef4ff6-3c80-4dcd-b799-1bc3b1650503",
+	"c3444c03-ef4a-4796-9a59-dcc972c23be8",
+	"d4dd8fef-4eca-4941-9996-cc3463a1465c",
+	'o_attr',
+	'',
+	'',
+	'o_attr',
+	0,
+	"579b8247-e153-481d-8926-384cdc722464",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("579b8247-e153-481d-8926-384cdc722464",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Attribute>',
 	'',
 	'',
 	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
@@ -119,3 +162,11 @@ INSERT INTO PE_PE
 	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
 	"00000000-0000-0000-0000-000000000000",
 	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'masl2xtuml',
+	'',
+	0,
+	'../masl2xtuml.xtuml');
