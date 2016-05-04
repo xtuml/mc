@@ -5236,29 +5236,42 @@ for each form in forms
       // in the formalization
       // * rename the referential attribute properly
       // * if needed, add the referential attribute to an identifier
+      // * check for a duplicate that needs to be combined
       select many ras related by form->referentialAttribute[R3811];
       for each ra in ras
         // select the correspoinding new referential attribute
         select any o_attr related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
+        if ( not_empty o_attr )
         
-        // rename the attribute
-        o_attr.Root_Nam = ra.o_attr.Root_Nam;
+		  // rename the attribute
+		  o_attr.Root_Nam = ra.o_attr.Root_Nam;
 
-        // add to identifiers
-        if ( true == ra.identifier1 )
-          self.Attribute_addToIdentifier( o_attr:o_attr, oid:0 );
+		  // add to identifiers
+		  if ( true == ra.identifier1 )
+			self.Attribute_addToIdentifier( o_attr:o_attr, oid:0 );
+		  end if;
+		  if ( true == ra.identifier2 )
+			self.Attribute_addToIdentifier( o_attr:o_attr, oid:1 );
+		  end if;
+		  if ( true == ra.identifier3 )
+			self.Attribute_addToIdentifier( o_attr:o_attr, oid:2 );
+		  end if;
+		  
+		  // search for duplicates
+          select many o_attrs related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
+          for each dup_o_attr in o_attrs
+            if ( dup_o_attr != o_attr and dup_o_attr.Root_Nam == o_attr.Root_Nam )
+              select one o_rattr related by dup_o_attr->O_RATTR[R106];
+              self.ReferentialAttribute_combine_refs( o_rattr:o_rattr, other_attr:o_attr );
+            end if;
+          end for;
+		  
         end if;
-        if ( true == ra.identifier2 )
-          self.Attribute_addToIdentifier( o_attr:o_attr, oid:1 );
-        end if;
-        if ( true == ra.identifier3 )
-          self.Attribute_addToIdentifier( o_attr:o_attr, oid:2 );
-        end if;
+
       end for;
       
       // post processing for the formalizing object
       // * remove any base attributes that have a referential attribute of the same name
-      // * combine any referential attributes that have the same name
       select one form_obj related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
       select many battrs related by form_obj->O_ATTR[R102]->O_BATTR[R106]->O_ATTR[R106];
       select many rattrs related by form_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
@@ -6953,6 +6966,63 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("2e4a3346-5501-4069-8902-2df8989ed4d1",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ReferentialAttribute_combine_refs',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_rattr = param.o_rattr;
+other_attr = param.other_attr;
+
+select one other_rattr related by other_attr->O_RATTR[R106];
+select many other_ref_set related by other_rattr->O_REF[R108];
+   
+   // find last O_REF in o_rattr''s ref list R112
+   select any ref related by o_rattr->O_REF[R108];
+   select one next_ref related by ref->O_REF[R112.''precedes''];
+   while (not_empty next_ref)
+     select one next_ref related by ref->O_REF[R112.''precedes''];
+     if (not_empty next_ref)
+       ref = next_ref;
+     end if;
+   end while;
+   
+   for each other_ref in other_ref_set
+     unrelate other_ref from other_rattr across R108;
+     relate other_ref to o_rattr across R108;  
+     // add other_ref to o_rattr''s ref list R112
+     relate other_ref to ref across R112.''succeeds'';
+     ref = other_ref;    
+   end for;
+   select any oida related by other_attr->O_OIDA[R105];
+   if ( not_empty oida )  // attribute is identifying
+     self.ReferentialAttribute_migrateToBase( o_rattr:other_rattr );
+   else
+     self.Attribute_dispose( o_attr:other_attr );
+   end if;',
+	1,
+	'',
+	"f5223167-a55c-4363-aa92-45c59ad16ea7");
+INSERT INTO O_TPARM
+	VALUES ("e491513b-88fa-4392-af93-9def02121fd2",
+	"2e4a3346-5501-4069-8902-2df8989ed4d1",
+	'o_rattr',
+	"9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("d28cf9d1-7fe3-4d10-bee2-15bd88065dcc",
+	"2e4a3346-5501-4069-8902-2df8989ed4d1",
+	'other_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"e491513b-88fa-4392-af93-9def02121fd2",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
