@@ -5180,115 +5180,100 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'/*
+	'select many forms from instances of formalization;
+num_forms = cardinality forms;
+passes = 0;
 
-Iterate over the stored data for referential attributes
-For each one
-  o Remove the attribute if the name already exists
-  o Formalize the relationship (creating the attribute again, this time as a referential)
-  o For simple associations, check to see if it was specified as being part of an identifier, if 
-      so, add it to that one - // TODO - this code is incomplete (too simple).  It assumes the 
-      attribute is part of only one identifier when it could be part of all 3.  See corresponding 
-      TODO in transformReferential.  If it is a linked association, the ids are automatically made
-      part of I1 and we don''t do anything. 
+// Because of possible dependencies, it is required to pass over the list
+// of formalizations N times where N is the number of formalizations
+// The worst case scenario is if each formalization is dependent on the next
+while ( passes < num_forms )
 
-TODO - note that this code, like Package_newAssociation , does not handle imported classes in associations
-*/
-/*
-select many ras from instances of referentialAttribute;
-for each ra in ras
-  o_obj = ra.o_obj;
-  select any curAttr related by o_obj->O_ATTR[R102] where (selected.Root_Nam == ra.attrName);
-  if ( not_empty curAttr )
-    self.Attribute_dispose(o_attr:curAttr);
-  end if;
-  
-  relNum = STRING::substr(s:ra.relationship,begin:1,end:-1);
-  relNumber = STRING::atoi(s:relNum); 
-  select any rel related by o_obj->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->R_REL[R8001] where (selected.Numb == relNumber);
-  select one simp related by rel->R_SIMP[R206];
-  if ( not_empty simp )
-    // Get the participant with the given phrase
-    select any r_part related by simp->R_PART[R207] where ( selected.Txt_Phrs == ra.roleOrObj );
-    // TODO - We could find out which oid the named attribute is part of via a selection and
-    //   then pass that oid to the following function.  But for now we just assume it is part of I1.
-    self.SimpleAssociation_formalize(r_simp:simp, r_part:r_part, id_id:0);
-    // TODO - now that the relationship is formalized, add the new ref attribute as an identifier if required
-  end if;
-  // TODO - handle formalizing linked associations
-end for;
-*/
+  for each form in forms
 
-select many forms from instances of formalization;
-for each form in forms
-
-  if ( 0 == form.type )
-    select one simpForm related by form->simpleFormalization[R3810];
-    id = simpForm.isComplete();
-    if ( -1 != id )	// the formalization is complete
-      simp = simpForm.rel;
-      select any r_part related by simp->R_PART[R207] where ( selected.Obj_ID == simpForm.part_obj_id );
-      
-      // formalize the relationship
-      self.SimpleAssociation_formalize(r_simp:simp, r_part:r_part, id_id:id);
-      
-      // there is some post processing that needs to be done for each referentialAttribute
-      // in the formalization
-      // * rename the referential attribute properly
-      // * if needed, add the referential attribute to an identifier
-      // * check for a duplicate that needs to be combined
-      select many ras related by form->referentialAttribute[R3811];
-      for each ra in ras
-        // select the correspoinding new referential attribute
-        select any o_attr related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
-        if ( not_empty o_attr )
-        
-		  // rename the attribute
-		  o_attr.Root_Nam = ra.o_attr.Root_Nam;
-
-		  // add to identifiers
-		  if ( true == ra.identifier1 )
-			self.Attribute_addToIdentifier( o_attr:o_attr, oid:0 );
-		  end if;
-		  if ( true == ra.identifier2 )
-			self.Attribute_addToIdentifier( o_attr:o_attr, oid:1 );
-		  end if;
-		  if ( true == ra.identifier3 )
-			self.Attribute_addToIdentifier( o_attr:o_attr, oid:2 );
-		  end if;
+	if ( 0 == form.type )
+	  select one simpForm related by form->simpleFormalization[R3810];
+	  id = simpForm.isComplete();
+	  if ( -1 != id )	// the formalization is complete
+		simp = simpForm.rel;
+		select any r_part related by simp->R_PART[R207] where ( selected.Obj_ID == simpForm.part_obj_id );
+		
+		// formalize the relationship
+		self.SimpleAssociation_formalize(r_simp:simp, r_part:r_part, id_id:id);
+		
+		// there is some post processing that needs to be done for each referentialAttribute
+		// in the formalization
+		// * rename the referential attribute properly
+		// * if needed, add the referential attribute to an identifier
+		// * check for a duplicate that needs to be combined
+		select many ras related by form->referentialAttribute[R3811];
+		for each ra in ras
+		  // select the correspoinding new referential attribute
+		  select any o_attr related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
+		  if ( not_empty o_attr )
 		  
-		  // search for duplicates
-          select many o_attrs related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
-          for each dup_o_attr in o_attrs
-            if ( dup_o_attr != o_attr and dup_o_attr.Root_Nam == o_attr.Root_Nam )
-              select one o_rattr related by dup_o_attr->O_RATTR[R106];
-              self.ReferentialAttribute_combine_refs( o_rattr:o_rattr, other_attr:o_attr );
-            end if;
-          end for;
-		  
-        end if;
+			// rename the attribute
+			o_attr.Root_Nam = ra.o_attr.Root_Nam;
 
-      end for;
-      
-      // post processing for the formalizing object
-      // * remove any base attributes that have a referential attribute of the same name
-      select one form_obj related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
-      select many battrs related by form_obj->O_ATTR[R102]->O_BATTR[R106]->O_ATTR[R106];
-      select many rattrs related by form_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
-      for each battr in battrs
-        for each rattr in rattrs
-          if ( rattr.Root_Nam == battr.Root_Nam )
-            self.Attribute_dispose( o_attr:battr ); // delete any base attribute that has the same name as a referential attribute
-          end if;
-        end for;
-      end for;
+			// add to identifiers
+			if ( true == ra.identifier1 )
+			  self.Attribute_addToIdentifier( o_attr:o_attr, oid:0 );
+			end if;
+			if ( true == ra.identifier2 )
+			  self.Attribute_addToIdentifier( o_attr:o_attr, oid:1 );
+			end if;
+			if ( true == ra.identifier3 )
+			  self.Attribute_addToIdentifier( o_attr:o_attr, oid:2 );
+			end if;
+			
+			// search for duplicates
+			select many o_attrs related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
+			for each dup_o_attr in o_attrs
+			  if ( dup_o_attr != o_attr and dup_o_attr.Root_Nam == o_attr.Root_Nam )
+				select one o_rattr related by dup_o_attr->O_RATTR[R106];
+				self.ReferentialAttribute_combine_refs( o_rattr:o_rattr, other_attr:o_attr );
+			  end if;
+			end for;
+			
+		  end if;
 
-    end if;
-  elif ( 1 == form.type )	// TODO handle subsuper
-  elif ( 2 == form.type )	// TODO handle associatives
-  end if;
+		end for;
+		
+		// post processing for the formalizing object
+		// * remove any base attributes that have a referential attribute of the same name
+		select one form_obj related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
+		select many battrs related by form_obj->O_ATTR[R102]->O_BATTR[R106]->O_ATTR[R106];
+		select many rattrs related by form_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
+		for each battr in battrs
+		  for each rattr in rattrs
+			if ( rattr.Root_Nam == battr.Root_Nam )
+			  self.Attribute_dispose( o_attr:battr ); // delete any base attribute that has the same name as a referential attribute
+			end if;
+		  end for;
+		end for;
+		
+		form.dispose();
 
-end for;',
+	  else
+		//TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on simple association" );
+	  end if;
+	elif ( 1 == form.type )	// TODO handle subsuper
+	elif ( 2 == form.type )	// TODO handle associatives
+	end if;
+
+  end for;
+
+  // increment counter
+  passes = passes + 1;
+
+  // re-select the formalizations
+  select many forms from instances of formalization;
+
+end while;
+
+if ( not_empty forms )
+  TRACE::log( flavor:"failure", id:17, message:"Incomplete formalizations still exist" );
+end if;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -5335,9 +5320,19 @@ relNumber = STRING::atoi(s:relNum);
 select any rel related by o_obj->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->R_REL[R8001] where (selected.Numb == relNumber);
 select one simp related by rel->R_SIMP[R206];
 if ( not_empty simp )
-  // Get the participant with the given phrase
-  // TODO this is too simple, it doesn''t account for all the permutations of relationship spec
-  select any r_part related by simp->R_PART[R207] where ( selected.Txt_Phrs == ra.roleOrObj );
+  // Get the correct participant
+  select any r_part from instances of R_PART where false;
+  if ( "" != ra.objectName )  	// get participant by role phrase AND object name
+    select any ref_obj related by simp->R_PART[R207]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201] where (selected.Name == ra.objectName);
+    select any r_part related by simp->R_PART[R207] where ( selected.Txt_Phrs == ra.roleOrObj and selected.Obj_ID == ref_obj.Obj_ID );
+  else
+    select any ref_obj related by simp->R_PART[R207]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201] where (selected.Name == ra.roleOrObj);
+    if ( not_empty ref_obj ) 	// if we found an object by name, use the object name to get the r_part
+      select any r_part related by simp->R_PART[R207] where ( selected.Obj_ID == ref_obj.Obj_ID );
+    else						// otherwise, select by phrase only
+      select any r_part related by simp->R_PART[R207] where ( selected.Txt_Phrs == ra.roleOrObj );
+    end if;
+  end if;
   
   // look for an existing formalization
   select any simpForm from instances of simpleFormalization where ( selected.rel == simp and

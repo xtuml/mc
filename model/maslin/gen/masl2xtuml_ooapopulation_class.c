@@ -5681,97 +5681,62 @@ ch->SM_ID = (Escher_UniqueID_t) ch;
 void
 masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
 {
-  masl2xtuml_formalization * form=0;Escher_ObjectSet_s forms_space={0}; Escher_ObjectSet_s * forms = &forms_space;
+  i_t passes;i_t num_forms;Escher_ObjectSet_s forms_space={0}; Escher_ObjectSet_s * forms = &forms_space;
   /* SELECT many forms FROM INSTANCES OF formalization */
   Escher_CopySet( forms, &pG_masl2xtuml_formalization_extent.active );
-  /* FOR EACH form IN forms */
-  { Escher_Iterator_s iterform;
-  masl2xtuml_formalization * iiform;
-  Escher_IteratorReset( &iterform, forms );
-  while ( (iiform = (masl2xtuml_formalization *)Escher_IteratorNext( &iterform )) != 0 ) {
-    form = iiform; {
-    /* IF ( ( 0 == form.type ) ) */
-    if ( ( 0 == form->type ) ) {
-      i_t id;masl2xtuml_simpleFormalization * simpForm=0;
-      /* SELECT one simpForm RELATED BY form->simpleFormalization[R3810] */
-      simpForm = 0;
-      if ( ( 0 != form ) && ( masl2xtuml_simpleFormalization_CLASS_NUMBER == form->R3810_object_id ) )      simpForm = ( 0 != form ) ? (masl2xtuml_simpleFormalization *) form->R3810_subtype : 0;
-      /* ASSIGN id = simpForm.isComplete() */
-      id = masl2xtuml_simpleFormalization_op_isComplete(simpForm);
-      /* IF ( ( - 1 != id ) ) */
-      if ( ( -1 != id ) ) {
-        masl2xtuml_O_ATTR * battr=0;masl2xtuml_referentialAttribute * ra=0;masl2xtuml_R_SIMP * simp;Escher_ObjectSet_s rattrs_space={0}; Escher_ObjectSet_s * rattrs = &rattrs_space;Escher_ObjectSet_s battrs_space={0}; Escher_ObjectSet_s * battrs = &battrs_space;masl2xtuml_O_OBJ * form_obj=0;Escher_ObjectSet_s ras_space={0}; Escher_ObjectSet_s * ras = &ras_space;masl2xtuml_R_PART * r_part=0;
-        /* ASSIGN simp = simpForm.rel */
-        simp = simpForm->rel;
-        /* SELECT any r_part RELATED BY simp->R_PART[R207] WHERE ( ( SELECTED.Obj_ID == simpForm.part_obj_id ) ) */
-        r_part = 0;
-        if ( 0 != simp ) {
-          masl2xtuml_R_PART * selected;
-          Escher_Iterator_s iR_PART_R207_relates;
-          Escher_IteratorReset( &iR_PART_R207_relates, &simp->R_PART_R207_relates );
-          while ( 0 != ( selected = (masl2xtuml_R_PART *) Escher_IteratorNext( &iR_PART_R207_relates ) ) ) {
-            if ( ( selected->Obj_ID == simpForm->part_obj_id ) ) {
-              r_part = selected;
-              break;
-        }}}
-        /* self.SimpleAssociation_formalize( id_id:id, r_part:r_part, r_simp:simp ) */
-        masl2xtuml_ooapopulation_op_SimpleAssociation_formalize( self,  id, r_part, simp );
-        /* SELECT many ras RELATED BY form->referentialAttribute[R3811] */
-        Escher_ClearSet( ras );
-        if ( 0 != form ) {
-          Escher_CopySet( ras, &form->referentialAttribute_R3811 );
-        }
-        /* FOR EACH ra IN ras */
-        { Escher_Iterator_s iterra;
-        masl2xtuml_referentialAttribute * iira;
-        Escher_IteratorReset( &iterra, ras );
-        while ( (iira = (masl2xtuml_referentialAttribute *)Escher_IteratorNext( &iterra )) != 0 ) {
-          ra = iira; {
-          masl2xtuml_O_ATTR * o_attr=0;
-          /* SELECT any o_attr RELATED BY simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] WHERE ( ( SELECTED.Root_Nam == ra.attrName ) ) */
-          o_attr = 0;
-          {          if ( 0 != simp ) {
-          masl2xtuml_R_FORM * R_FORM_R208_relates = simp->R_FORM_R208_relates;
-          if ( 0 != R_FORM_R208_relates ) {
-          masl2xtuml_R_RGO * R_RGO_R205 = R_FORM_R208_relates->R_RGO_R205;
-          if ( 0 != R_RGO_R205 ) {
-          masl2xtuml_R_OIR * R_OIR_R203 = R_RGO_R205->R_OIR_R203;
-          if ( 0 != R_OIR_R203 ) {
-          masl2xtuml_O_OBJ * O_OBJ_R201_abstracts_association_between_instances_of = R_OIR_R203->O_OBJ_R201_abstracts_association_between_instances_of;
-          if ( 0 != O_OBJ_R201_abstracts_association_between_instances_of ) {
-          masl2xtuml_O_ATTR * O_ATTR_R102_has_characteristics_abstracted_by;
-          Escher_Iterator_s iO_ATTR_R102_has_characteristics_abstracted_by;
-          Escher_IteratorReset( &iO_ATTR_R102_has_characteristics_abstracted_by, &O_OBJ_R201_abstracts_association_between_instances_of->O_ATTR_R102_has_characteristics_abstracted_by );
-          while ( ( 0 == o_attr ) && ( 0 != ( O_ATTR_R102_has_characteristics_abstracted_by = (masl2xtuml_O_ATTR *) Escher_IteratorNext( &iO_ATTR_R102_has_characteristics_abstracted_by ) ) ) ) {
-          masl2xtuml_O_RATTR * R106_subtype = (masl2xtuml_O_RATTR *) O_ATTR_R102_has_characteristics_abstracted_by->R106_subtype;
-          if ( 0 != R106_subtype )          if ( ( 0 != O_ATTR_R102_has_characteristics_abstracted_by ) && ( masl2xtuml_O_RATTR_CLASS_NUMBER == O_ATTR_R102_has_characteristics_abstracted_by->R106_object_id ) ) {
-          {masl2xtuml_O_ATTR * selected = R106_subtype->O_ATTR_R106;
-          if ( ( 0 != selected ) && ( Escher_strcmp( selected->Root_Nam, ra->attrName ) == 0 ) ) {
-            o_attr = selected;
-          }}
-}}}}}}}}
-          /* IF ( not_empty o_attr ) */
-          if ( ( 0 != o_attr ) ) {
-            masl2xtuml_O_ATTR * dup_o_attr=0;Escher_ObjectSet_s o_attrs_space={0}; Escher_ObjectSet_s * o_attrs = &o_attrs_space;
-            /* ASSIGN o_attr.Root_Nam = ra.o_attr.Root_Nam */
-            o_attr->Root_Nam = Escher_strcpy( o_attr->Root_Nam, ra->o_attr->Root_Nam );
-            /* IF ( ( TRUE == ra.identifier1 ) ) */
-            if ( ( TRUE == ra->identifier1 ) ) {
-              /* self.Attribute_addToIdentifier( o_attr:o_attr, oid:0 ) */
-              masl2xtuml_ooapopulation_op_Attribute_addToIdentifier( self,  o_attr, 0 );
-            }
-            /* IF ( ( TRUE == ra.identifier2 ) ) */
-            if ( ( TRUE == ra->identifier2 ) ) {
-              /* self.Attribute_addToIdentifier( o_attr:o_attr, oid:1 ) */
-              masl2xtuml_ooapopulation_op_Attribute_addToIdentifier( self,  o_attr, 1 );
-            }
-            /* IF ( ( TRUE == ra.identifier3 ) ) */
-            if ( ( TRUE == ra->identifier3 ) ) {
-              /* self.Attribute_addToIdentifier( o_attr:o_attr, oid:2 ) */
-              masl2xtuml_ooapopulation_op_Attribute_addToIdentifier( self,  o_attr, 2 );
-            }
-            /* SELECT many o_attrs RELATED BY simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] */
-            Escher_ClearSet( o_attrs );
+  /* ASSIGN num_forms = cardinality forms */
+  num_forms = Escher_SetCardinality( forms );
+  /* ASSIGN passes = 0 */
+  passes = 0;
+  /* WHILE ( ( passes < num_forms ) ) */
+  while ( ( passes < num_forms ) ) {
+    masl2xtuml_formalization * form=0;
+    /* FOR EACH form IN forms */
+    { Escher_Iterator_s iterform;
+    masl2xtuml_formalization * iiform;
+    Escher_IteratorReset( &iterform, forms );
+    while ( (iiform = (masl2xtuml_formalization *)Escher_IteratorNext( &iterform )) != 0 ) {
+      form = iiform; {
+      /* IF ( ( 0 == form.type ) ) */
+      if ( ( 0 == form->type ) ) {
+        i_t id;masl2xtuml_simpleFormalization * simpForm=0;
+        /* SELECT one simpForm RELATED BY form->simpleFormalization[R3810] */
+        simpForm = 0;
+        if ( ( 0 != form ) && ( masl2xtuml_simpleFormalization_CLASS_NUMBER == form->R3810_object_id ) )        simpForm = ( 0 != form ) ? (masl2xtuml_simpleFormalization *) form->R3810_subtype : 0;
+        /* ASSIGN id = simpForm.isComplete() */
+        id = masl2xtuml_simpleFormalization_op_isComplete(simpForm);
+        /* IF ( ( - 1 != id ) ) */
+        if ( ( -1 != id ) ) {
+          masl2xtuml_O_ATTR * battr=0;masl2xtuml_referentialAttribute * ra=0;masl2xtuml_R_SIMP * simp;Escher_ObjectSet_s rattrs_space={0}; Escher_ObjectSet_s * rattrs = &rattrs_space;Escher_ObjectSet_s battrs_space={0}; Escher_ObjectSet_s * battrs = &battrs_space;masl2xtuml_O_OBJ * form_obj=0;Escher_ObjectSet_s ras_space={0}; Escher_ObjectSet_s * ras = &ras_space;masl2xtuml_R_PART * r_part=0;
+          /* ASSIGN simp = simpForm.rel */
+          simp = simpForm->rel;
+          /* SELECT any r_part RELATED BY simp->R_PART[R207] WHERE ( ( SELECTED.Obj_ID == simpForm.part_obj_id ) ) */
+          r_part = 0;
+          if ( 0 != simp ) {
+            masl2xtuml_R_PART * selected;
+            Escher_Iterator_s iR_PART_R207_relates;
+            Escher_IteratorReset( &iR_PART_R207_relates, &simp->R_PART_R207_relates );
+            while ( 0 != ( selected = (masl2xtuml_R_PART *) Escher_IteratorNext( &iR_PART_R207_relates ) ) ) {
+              if ( ( selected->Obj_ID == simpForm->part_obj_id ) ) {
+                r_part = selected;
+                break;
+          }}}
+          /* self.SimpleAssociation_formalize( id_id:id, r_part:r_part, r_simp:simp ) */
+          masl2xtuml_ooapopulation_op_SimpleAssociation_formalize( self,  id, r_part, simp );
+          /* SELECT many ras RELATED BY form->referentialAttribute[R3811] */
+          Escher_ClearSet( ras );
+          if ( 0 != form ) {
+            Escher_CopySet( ras, &form->referentialAttribute_R3811 );
+          }
+          /* FOR EACH ra IN ras */
+          { Escher_Iterator_s iterra;
+          masl2xtuml_referentialAttribute * iira;
+          Escher_IteratorReset( &iterra, ras );
+          while ( (iira = (masl2xtuml_referentialAttribute *)Escher_IteratorNext( &iterra )) != 0 ) {
+            ra = iira; {
+            masl2xtuml_O_ATTR * o_attr=0;
+            /* SELECT any o_attr RELATED BY simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] WHERE ( ( SELECTED.Root_Nam == ra.attrName ) ) */
+            o_attr = 0;
             {            if ( 0 != simp ) {
             masl2xtuml_R_FORM * R_FORM_R208_relates = simp->R_FORM_R208_relates;
             if ( 0 != R_FORM_R208_relates ) {
@@ -5784,97 +5749,153 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
             masl2xtuml_O_ATTR * O_ATTR_R102_has_characteristics_abstracted_by;
             Escher_Iterator_s iO_ATTR_R102_has_characteristics_abstracted_by;
             Escher_IteratorReset( &iO_ATTR_R102_has_characteristics_abstracted_by, &O_OBJ_R201_abstracts_association_between_instances_of->O_ATTR_R102_has_characteristics_abstracted_by );
-            while ( 0 != ( O_ATTR_R102_has_characteristics_abstracted_by = (masl2xtuml_O_ATTR *) Escher_IteratorNext( &iO_ATTR_R102_has_characteristics_abstracted_by ) ) ) {
+            while ( ( 0 == o_attr ) && ( 0 != ( O_ATTR_R102_has_characteristics_abstracted_by = (masl2xtuml_O_ATTR *) Escher_IteratorNext( &iO_ATTR_R102_has_characteristics_abstracted_by ) ) ) ) {
             masl2xtuml_O_RATTR * R106_subtype = (masl2xtuml_O_RATTR *) O_ATTR_R102_has_characteristics_abstracted_by->R106_subtype;
             if ( 0 != R106_subtype )            if ( ( 0 != O_ATTR_R102_has_characteristics_abstracted_by ) && ( masl2xtuml_O_RATTR_CLASS_NUMBER == O_ATTR_R102_has_characteristics_abstracted_by->R106_object_id ) ) {
-            {masl2xtuml_O_ATTR * O_ATTR_R106 = R106_subtype->O_ATTR_R106;
-            if ( ! Escher_SetContains( (Escher_ObjectSet_s *) o_attrs, O_ATTR_R106 ) ) {
-              Escher_SetInsertElement( (Escher_ObjectSet_s *) o_attrs, O_ATTR_R106 );
-            }}}}}}}}}}
-            /* FOR EACH dup_o_attr IN o_attrs */
-            { Escher_Iterator_s iterdup_o_attr;
-            masl2xtuml_O_ATTR * iidup_o_attr;
-            Escher_IteratorReset( &iterdup_o_attr, o_attrs );
-            while ( (iidup_o_attr = (masl2xtuml_O_ATTR *)Escher_IteratorNext( &iterdup_o_attr )) != 0 ) {
-              dup_o_attr = iidup_o_attr; {
-              /* IF ( ( ( dup_o_attr != o_attr ) and ( dup_o_attr.Root_Nam == o_attr.Root_Nam ) ) ) */
-              if ( ( ( dup_o_attr != o_attr ) && ( Escher_strcmp( dup_o_attr->Root_Nam, o_attr->Root_Nam ) == 0 ) ) ) {
-                masl2xtuml_O_RATTR * o_rattr=0;
-                /* SELECT one o_rattr RELATED BY dup_o_attr->O_RATTR[R106] */
-                o_rattr = 0;
-                if ( ( 0 != dup_o_attr ) && ( masl2xtuml_O_RATTR_CLASS_NUMBER == dup_o_attr->R106_object_id ) )                o_rattr = ( 0 != dup_o_attr ) ? (masl2xtuml_O_RATTR *) dup_o_attr->R106_subtype : 0;
-                /* self.ReferentialAttribute_combine_refs( o_rattr:o_rattr, other_attr:o_attr ) */
-                masl2xtuml_ooapopulation_op_ReferentialAttribute_combine_refs( self,  o_rattr, o_attr );
+            {masl2xtuml_O_ATTR * selected = R106_subtype->O_ATTR_R106;
+            if ( ( 0 != selected ) && ( Escher_strcmp( selected->Root_Nam, ra->attrName ) == 0 ) ) {
+              o_attr = selected;
+            }}
+}}}}}}}}
+            /* IF ( not_empty o_attr ) */
+            if ( ( 0 != o_attr ) ) {
+              masl2xtuml_O_ATTR * dup_o_attr=0;Escher_ObjectSet_s o_attrs_space={0}; Escher_ObjectSet_s * o_attrs = &o_attrs_space;
+              /* ASSIGN o_attr.Root_Nam = ra.o_attr.Root_Nam */
+              o_attr->Root_Nam = Escher_strcpy( o_attr->Root_Nam, ra->o_attr->Root_Nam );
+              /* IF ( ( TRUE == ra.identifier1 ) ) */
+              if ( ( TRUE == ra->identifier1 ) ) {
+                /* self.Attribute_addToIdentifier( o_attr:o_attr, oid:0 ) */
+                masl2xtuml_ooapopulation_op_Attribute_addToIdentifier( self,  o_attr, 0 );
               }
-            }}}
-            Escher_ClearSet( o_attrs ); 
-          }
-        }}}
-        /* SELECT one form_obj RELATED BY simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201] */
-        form_obj = 0;
-        {        if ( 0 != simp ) {
-        masl2xtuml_R_FORM * R_FORM_R208_relates = simp->R_FORM_R208_relates;
-        if ( 0 != R_FORM_R208_relates ) {
-        masl2xtuml_R_RGO * R_RGO_R205 = R_FORM_R208_relates->R_RGO_R205;
-        if ( 0 != R_RGO_R205 ) {
-        masl2xtuml_R_OIR * R_OIR_R203 = R_RGO_R205->R_OIR_R203;
-        if ( 0 != R_OIR_R203 ) {
-        form_obj = R_OIR_R203->O_OBJ_R201_abstracts_association_between_instances_of;
-}}}}}
-        /* SELECT many battrs RELATED BY form_obj->O_ATTR[R102]->O_BATTR[R106]->O_ATTR[R106] */
-        Escher_ClearSet( battrs );
-        {        if ( 0 != form_obj ) {
-        masl2xtuml_O_ATTR * O_ATTR_R102_has_characteristics_abstracted_by;
-        Escher_Iterator_s iO_ATTR_R102_has_characteristics_abstracted_by;
-        Escher_IteratorReset( &iO_ATTR_R102_has_characteristics_abstracted_by, &form_obj->O_ATTR_R102_has_characteristics_abstracted_by );
-        while ( 0 != ( O_ATTR_R102_has_characteristics_abstracted_by = (masl2xtuml_O_ATTR *) Escher_IteratorNext( &iO_ATTR_R102_has_characteristics_abstracted_by ) ) ) {
-        masl2xtuml_O_BATTR * R106_subtype = (masl2xtuml_O_BATTR *) O_ATTR_R102_has_characteristics_abstracted_by->R106_subtype;
-        if ( 0 != R106_subtype )        if ( ( 0 != O_ATTR_R102_has_characteristics_abstracted_by ) && ( masl2xtuml_O_BATTR_CLASS_NUMBER == O_ATTR_R102_has_characteristics_abstracted_by->R106_object_id ) ) {
-        {masl2xtuml_O_ATTR * O_ATTR_R106 = R106_subtype->O_ATTR_R106;
-        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) battrs, O_ATTR_R106 ) ) {
-          Escher_SetInsertElement( (Escher_ObjectSet_s *) battrs, O_ATTR_R106 );
-        }}}}}}
-        /* SELECT many rattrs RELATED BY form_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] */
-        Escher_ClearSet( rattrs );
-        {        if ( 0 != form_obj ) {
-        masl2xtuml_O_ATTR * O_ATTR_R102_has_characteristics_abstracted_by;
-        Escher_Iterator_s iO_ATTR_R102_has_characteristics_abstracted_by;
-        Escher_IteratorReset( &iO_ATTR_R102_has_characteristics_abstracted_by, &form_obj->O_ATTR_R102_has_characteristics_abstracted_by );
-        while ( 0 != ( O_ATTR_R102_has_characteristics_abstracted_by = (masl2xtuml_O_ATTR *) Escher_IteratorNext( &iO_ATTR_R102_has_characteristics_abstracted_by ) ) ) {
-        masl2xtuml_O_RATTR * R106_subtype = (masl2xtuml_O_RATTR *) O_ATTR_R102_has_characteristics_abstracted_by->R106_subtype;
-        if ( 0 != R106_subtype )        if ( ( 0 != O_ATTR_R102_has_characteristics_abstracted_by ) && ( masl2xtuml_O_RATTR_CLASS_NUMBER == O_ATTR_R102_has_characteristics_abstracted_by->R106_object_id ) ) {
-        {masl2xtuml_O_ATTR * O_ATTR_R106 = R106_subtype->O_ATTR_R106;
-        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) rattrs, O_ATTR_R106 ) ) {
-          Escher_SetInsertElement( (Escher_ObjectSet_s *) rattrs, O_ATTR_R106 );
-        }}}}}}
-        /* FOR EACH battr IN battrs */
-        { Escher_Iterator_s iterbattr;
-        masl2xtuml_O_ATTR * iibattr;
-        Escher_IteratorReset( &iterbattr, battrs );
-        while ( (iibattr = (masl2xtuml_O_ATTR *)Escher_IteratorNext( &iterbattr )) != 0 ) {
-          battr = iibattr; {
-          masl2xtuml_O_ATTR * rattr=0;
-          /* FOR EACH rattr IN rattrs */
-          { Escher_Iterator_s iterrattr;
-          masl2xtuml_O_ATTR * iirattr;
-          Escher_IteratorReset( &iterrattr, rattrs );
-          while ( (iirattr = (masl2xtuml_O_ATTR *)Escher_IteratorNext( &iterrattr )) != 0 ) {
-            rattr = iirattr; {
-            /* IF ( ( rattr.Root_Nam == battr.Root_Nam ) ) */
-            if ( ( Escher_strcmp( rattr->Root_Nam, battr->Root_Nam ) == 0 ) ) {
-              /* self.Attribute_dispose( o_attr:battr ) */
-              masl2xtuml_ooapopulation_op_Attribute_dispose( self,  battr );
+              /* IF ( ( TRUE == ra.identifier2 ) ) */
+              if ( ( TRUE == ra->identifier2 ) ) {
+                /* self.Attribute_addToIdentifier( o_attr:o_attr, oid:1 ) */
+                masl2xtuml_ooapopulation_op_Attribute_addToIdentifier( self,  o_attr, 1 );
+              }
+              /* IF ( ( TRUE == ra.identifier3 ) ) */
+              if ( ( TRUE == ra->identifier3 ) ) {
+                /* self.Attribute_addToIdentifier( o_attr:o_attr, oid:2 ) */
+                masl2xtuml_ooapopulation_op_Attribute_addToIdentifier( self,  o_attr, 2 );
+              }
+              /* SELECT many o_attrs RELATED BY simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] */
+              Escher_ClearSet( o_attrs );
+              {              if ( 0 != simp ) {
+              masl2xtuml_R_FORM * R_FORM_R208_relates = simp->R_FORM_R208_relates;
+              if ( 0 != R_FORM_R208_relates ) {
+              masl2xtuml_R_RGO * R_RGO_R205 = R_FORM_R208_relates->R_RGO_R205;
+              if ( 0 != R_RGO_R205 ) {
+              masl2xtuml_R_OIR * R_OIR_R203 = R_RGO_R205->R_OIR_R203;
+              if ( 0 != R_OIR_R203 ) {
+              masl2xtuml_O_OBJ * O_OBJ_R201_abstracts_association_between_instances_of = R_OIR_R203->O_OBJ_R201_abstracts_association_between_instances_of;
+              if ( 0 != O_OBJ_R201_abstracts_association_between_instances_of ) {
+              masl2xtuml_O_ATTR * O_ATTR_R102_has_characteristics_abstracted_by;
+              Escher_Iterator_s iO_ATTR_R102_has_characteristics_abstracted_by;
+              Escher_IteratorReset( &iO_ATTR_R102_has_characteristics_abstracted_by, &O_OBJ_R201_abstracts_association_between_instances_of->O_ATTR_R102_has_characteristics_abstracted_by );
+              while ( 0 != ( O_ATTR_R102_has_characteristics_abstracted_by = (masl2xtuml_O_ATTR *) Escher_IteratorNext( &iO_ATTR_R102_has_characteristics_abstracted_by ) ) ) {
+              masl2xtuml_O_RATTR * R106_subtype = (masl2xtuml_O_RATTR *) O_ATTR_R102_has_characteristics_abstracted_by->R106_subtype;
+              if ( 0 != R106_subtype )              if ( ( 0 != O_ATTR_R102_has_characteristics_abstracted_by ) && ( masl2xtuml_O_RATTR_CLASS_NUMBER == O_ATTR_R102_has_characteristics_abstracted_by->R106_object_id ) ) {
+              {masl2xtuml_O_ATTR * O_ATTR_R106 = R106_subtype->O_ATTR_R106;
+              if ( ! Escher_SetContains( (Escher_ObjectSet_s *) o_attrs, O_ATTR_R106 ) ) {
+                Escher_SetInsertElement( (Escher_ObjectSet_s *) o_attrs, O_ATTR_R106 );
+              }}}}}}}}}}
+              /* FOR EACH dup_o_attr IN o_attrs */
+              { Escher_Iterator_s iterdup_o_attr;
+              masl2xtuml_O_ATTR * iidup_o_attr;
+              Escher_IteratorReset( &iterdup_o_attr, o_attrs );
+              while ( (iidup_o_attr = (masl2xtuml_O_ATTR *)Escher_IteratorNext( &iterdup_o_attr )) != 0 ) {
+                dup_o_attr = iidup_o_attr; {
+                /* IF ( ( ( dup_o_attr != o_attr ) and ( dup_o_attr.Root_Nam == o_attr.Root_Nam ) ) ) */
+                if ( ( ( dup_o_attr != o_attr ) && ( Escher_strcmp( dup_o_attr->Root_Nam, o_attr->Root_Nam ) == 0 ) ) ) {
+                  masl2xtuml_O_RATTR * o_rattr=0;
+                  /* SELECT one o_rattr RELATED BY dup_o_attr->O_RATTR[R106] */
+                  o_rattr = 0;
+                  if ( ( 0 != dup_o_attr ) && ( masl2xtuml_O_RATTR_CLASS_NUMBER == dup_o_attr->R106_object_id ) )                  o_rattr = ( 0 != dup_o_attr ) ? (masl2xtuml_O_RATTR *) dup_o_attr->R106_subtype : 0;
+                  /* self.ReferentialAttribute_combine_refs( o_rattr:o_rattr, other_attr:o_attr ) */
+                  masl2xtuml_ooapopulation_op_ReferentialAttribute_combine_refs( self,  o_rattr, o_attr );
+                }
+              }}}
+              Escher_ClearSet( o_attrs ); 
             }
           }}}
-        }}}
-        Escher_ClearSet( rattrs ); Escher_ClearSet( battrs ); Escher_ClearSet( ras ); 
+          /* SELECT one form_obj RELATED BY simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201] */
+          form_obj = 0;
+          {          if ( 0 != simp ) {
+          masl2xtuml_R_FORM * R_FORM_R208_relates = simp->R_FORM_R208_relates;
+          if ( 0 != R_FORM_R208_relates ) {
+          masl2xtuml_R_RGO * R_RGO_R205 = R_FORM_R208_relates->R_RGO_R205;
+          if ( 0 != R_RGO_R205 ) {
+          masl2xtuml_R_OIR * R_OIR_R203 = R_RGO_R205->R_OIR_R203;
+          if ( 0 != R_OIR_R203 ) {
+          form_obj = R_OIR_R203->O_OBJ_R201_abstracts_association_between_instances_of;
+}}}}}
+          /* SELECT many battrs RELATED BY form_obj->O_ATTR[R102]->O_BATTR[R106]->O_ATTR[R106] */
+          Escher_ClearSet( battrs );
+          {          if ( 0 != form_obj ) {
+          masl2xtuml_O_ATTR * O_ATTR_R102_has_characteristics_abstracted_by;
+          Escher_Iterator_s iO_ATTR_R102_has_characteristics_abstracted_by;
+          Escher_IteratorReset( &iO_ATTR_R102_has_characteristics_abstracted_by, &form_obj->O_ATTR_R102_has_characteristics_abstracted_by );
+          while ( 0 != ( O_ATTR_R102_has_characteristics_abstracted_by = (masl2xtuml_O_ATTR *) Escher_IteratorNext( &iO_ATTR_R102_has_characteristics_abstracted_by ) ) ) {
+          masl2xtuml_O_BATTR * R106_subtype = (masl2xtuml_O_BATTR *) O_ATTR_R102_has_characteristics_abstracted_by->R106_subtype;
+          if ( 0 != R106_subtype )          if ( ( 0 != O_ATTR_R102_has_characteristics_abstracted_by ) && ( masl2xtuml_O_BATTR_CLASS_NUMBER == O_ATTR_R102_has_characteristics_abstracted_by->R106_object_id ) ) {
+          {masl2xtuml_O_ATTR * O_ATTR_R106 = R106_subtype->O_ATTR_R106;
+          if ( ! Escher_SetContains( (Escher_ObjectSet_s *) battrs, O_ATTR_R106 ) ) {
+            Escher_SetInsertElement( (Escher_ObjectSet_s *) battrs, O_ATTR_R106 );
+          }}}}}}
+          /* SELECT many rattrs RELATED BY form_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] */
+          Escher_ClearSet( rattrs );
+          {          if ( 0 != form_obj ) {
+          masl2xtuml_O_ATTR * O_ATTR_R102_has_characteristics_abstracted_by;
+          Escher_Iterator_s iO_ATTR_R102_has_characteristics_abstracted_by;
+          Escher_IteratorReset( &iO_ATTR_R102_has_characteristics_abstracted_by, &form_obj->O_ATTR_R102_has_characteristics_abstracted_by );
+          while ( 0 != ( O_ATTR_R102_has_characteristics_abstracted_by = (masl2xtuml_O_ATTR *) Escher_IteratorNext( &iO_ATTR_R102_has_characteristics_abstracted_by ) ) ) {
+          masl2xtuml_O_RATTR * R106_subtype = (masl2xtuml_O_RATTR *) O_ATTR_R102_has_characteristics_abstracted_by->R106_subtype;
+          if ( 0 != R106_subtype )          if ( ( 0 != O_ATTR_R102_has_characteristics_abstracted_by ) && ( masl2xtuml_O_RATTR_CLASS_NUMBER == O_ATTR_R102_has_characteristics_abstracted_by->R106_object_id ) ) {
+          {masl2xtuml_O_ATTR * O_ATTR_R106 = R106_subtype->O_ATTR_R106;
+          if ( ! Escher_SetContains( (Escher_ObjectSet_s *) rattrs, O_ATTR_R106 ) ) {
+            Escher_SetInsertElement( (Escher_ObjectSet_s *) rattrs, O_ATTR_R106 );
+          }}}}}}
+          /* FOR EACH battr IN battrs */
+          { Escher_Iterator_s iterbattr;
+          masl2xtuml_O_ATTR * iibattr;
+          Escher_IteratorReset( &iterbattr, battrs );
+          while ( (iibattr = (masl2xtuml_O_ATTR *)Escher_IteratorNext( &iterbattr )) != 0 ) {
+            battr = iibattr; {
+            masl2xtuml_O_ATTR * rattr=0;
+            /* FOR EACH rattr IN rattrs */
+            { Escher_Iterator_s iterrattr;
+            masl2xtuml_O_ATTR * iirattr;
+            Escher_IteratorReset( &iterrattr, rattrs );
+            while ( (iirattr = (masl2xtuml_O_ATTR *)Escher_IteratorNext( &iterrattr )) != 0 ) {
+              rattr = iirattr; {
+              /* IF ( ( rattr.Root_Nam == battr.Root_Nam ) ) */
+              if ( ( Escher_strcmp( rattr->Root_Nam, battr->Root_Nam ) == 0 ) ) {
+                /* self.Attribute_dispose( o_attr:battr ) */
+                masl2xtuml_ooapopulation_op_Attribute_dispose( self,  battr );
+              }
+            }}}
+          }}}
+          /* form.dispose() */
+          masl2xtuml_formalization_op_dispose( form );
+          Escher_ClearSet( rattrs ); Escher_ClearSet( battrs ); Escher_ClearSet( ras ); 
+        }
+        else {
+        }
       }
-    }
-    else if ( ( 1 == form->type ) ) {
-    }
-    else if ( ( 2 == form->type ) ) {
-    }
-  }}}
+      else if ( ( 1 == form->type ) ) {
+      }
+      else if ( ( 2 == form->type ) ) {
+      }
+    }}}
+    /* ASSIGN passes = ( passes + 1 ) */
+    passes = ( passes + 1 );
+    /* SELECT many forms FROM INSTANCES OF formalization */
+    Escher_CopySet( forms, &pG_masl2xtuml_formalization_extent.active );
+  }
+  /* IF ( not_empty forms ) */
+  if ( ( ! Escher_SetIsEmpty( forms ) ) ) {
+    /* TRACE::log( flavor:failure, id:17, message:Incomplete formalizations still exist ) */
+    TRACE_log( "failure", 17, "Incomplete formalizations still exist" );
+  }
   Escher_ClearSet( forms );
 }
 
@@ -5967,18 +5988,86 @@ masl2xtuml_ooapopulation_op_transformReferential( masl2xtuml_ooapopulation * sel
   if ( ( 0 != rel ) && ( masl2xtuml_R_SIMP_CLASS_NUMBER == rel->R206_object_id ) )  simp = ( 0 != rel ) ? (masl2xtuml_R_SIMP *) rel->R206_subtype : 0;
   /* IF ( not_empty simp ) */
   if ( ( 0 != simp ) ) {
-    masl2xtuml_simpleFormalization * simpForm=0;masl2xtuml_formalization * form=0;masl2xtuml_R_PART * r_part=0;
-    /* SELECT any r_part RELATED BY simp->R_PART[R207] WHERE ( ( SELECTED.Txt_Phrs == ra.roleOrObj ) ) */
+    masl2xtuml_simpleFormalization * simpForm=0;masl2xtuml_R_PART * r_part=0;masl2xtuml_formalization * form=0;
+    /* SELECT any r_part FROM INSTANCES OF R_PART WHERE FALSE */
     r_part = 0;
-    if ( 0 != simp ) {
-      masl2xtuml_R_PART * selected;
+    /* IF ( (  != ra.objectName ) ) */
+    if ( ( Escher_strcmp( "", ra->objectName ) != 0 ) ) {
+      masl2xtuml_O_OBJ * ref_obj=0;
+      /* SELECT any ref_obj RELATED BY simp->R_PART[R207]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201] WHERE ( ( SELECTED.Name == ra.objectName ) ) */
+      ref_obj = 0;
+      {      if ( 0 != simp ) {
+      masl2xtuml_R_PART * R_PART_R207_relates;
       Escher_Iterator_s iR_PART_R207_relates;
       Escher_IteratorReset( &iR_PART_R207_relates, &simp->R_PART_R207_relates );
-      while ( 0 != ( selected = (masl2xtuml_R_PART *) Escher_IteratorNext( &iR_PART_R207_relates ) ) ) {
-        if ( ( Escher_strcmp( selected->Txt_Phrs, ra->roleOrObj ) == 0 ) ) {
-          r_part = selected;
-          break;
-    }}}
+      while ( ( 0 == ref_obj ) && ( 0 != ( R_PART_R207_relates = (masl2xtuml_R_PART *) Escher_IteratorNext( &iR_PART_R207_relates ) ) ) ) {
+      masl2xtuml_R_RTO * R_RTO_R204 = R_PART_R207_relates->R_RTO_R204;
+      if ( 0 != R_RTO_R204 ) {
+      masl2xtuml_R_OIR * R_OIR_R203 = R_RTO_R204->R_OIR_R203;
+      if ( 0 != R_OIR_R203 ) {
+      {masl2xtuml_O_OBJ * selected = R_OIR_R203->O_OBJ_R201_abstracts_association_between_instances_of;
+      if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, ra->objectName ) == 0 ) ) {
+        ref_obj = selected;
+      }}
+}}}}}
+      /* SELECT any r_part RELATED BY simp->R_PART[R207] WHERE ( ( ( SELECTED.Txt_Phrs == ra.roleOrObj ) and ( SELECTED.Obj_ID == ref_obj.Obj_ID ) ) ) */
+      r_part = 0;
+      if ( 0 != simp ) {
+        masl2xtuml_R_PART * selected;
+        Escher_Iterator_s iR_PART_R207_relates;
+        Escher_IteratorReset( &iR_PART_R207_relates, &simp->R_PART_R207_relates );
+        while ( 0 != ( selected = (masl2xtuml_R_PART *) Escher_IteratorNext( &iR_PART_R207_relates ) ) ) {
+          if ( ( ( Escher_strcmp( selected->Txt_Phrs, ra->roleOrObj ) == 0 ) && ( selected->Obj_ID == ref_obj->Obj_ID ) ) ) {
+            r_part = selected;
+            break;
+      }}}
+    }
+    else {
+      masl2xtuml_O_OBJ * ref_obj=0;
+      /* SELECT any ref_obj RELATED BY simp->R_PART[R207]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201] WHERE ( ( SELECTED.Name == ra.roleOrObj ) ) */
+      ref_obj = 0;
+      {      if ( 0 != simp ) {
+      masl2xtuml_R_PART * R_PART_R207_relates;
+      Escher_Iterator_s iR_PART_R207_relates;
+      Escher_IteratorReset( &iR_PART_R207_relates, &simp->R_PART_R207_relates );
+      while ( ( 0 == ref_obj ) && ( 0 != ( R_PART_R207_relates = (masl2xtuml_R_PART *) Escher_IteratorNext( &iR_PART_R207_relates ) ) ) ) {
+      masl2xtuml_R_RTO * R_RTO_R204 = R_PART_R207_relates->R_RTO_R204;
+      if ( 0 != R_RTO_R204 ) {
+      masl2xtuml_R_OIR * R_OIR_R203 = R_RTO_R204->R_OIR_R203;
+      if ( 0 != R_OIR_R203 ) {
+      {masl2xtuml_O_OBJ * selected = R_OIR_R203->O_OBJ_R201_abstracts_association_between_instances_of;
+      if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, ra->roleOrObj ) == 0 ) ) {
+        ref_obj = selected;
+      }}
+}}}}}
+      /* IF ( not_empty ref_obj ) */
+      if ( ( 0 != ref_obj ) ) {
+        /* SELECT any r_part RELATED BY simp->R_PART[R207] WHERE ( ( SELECTED.Obj_ID == ref_obj.Obj_ID ) ) */
+        r_part = 0;
+        if ( 0 != simp ) {
+          masl2xtuml_R_PART * selected;
+          Escher_Iterator_s iR_PART_R207_relates;
+          Escher_IteratorReset( &iR_PART_R207_relates, &simp->R_PART_R207_relates );
+          while ( 0 != ( selected = (masl2xtuml_R_PART *) Escher_IteratorNext( &iR_PART_R207_relates ) ) ) {
+            if ( ( selected->Obj_ID == ref_obj->Obj_ID ) ) {
+              r_part = selected;
+              break;
+        }}}
+      }
+      else {
+        /* SELECT any r_part RELATED BY simp->R_PART[R207] WHERE ( ( SELECTED.Txt_Phrs == ra.roleOrObj ) ) */
+        r_part = 0;
+        if ( 0 != simp ) {
+          masl2xtuml_R_PART * selected;
+          Escher_Iterator_s iR_PART_R207_relates;
+          Escher_IteratorReset( &iR_PART_R207_relates, &simp->R_PART_R207_relates );
+          while ( 0 != ( selected = (masl2xtuml_R_PART *) Escher_IteratorNext( &iR_PART_R207_relates ) ) ) {
+            if ( ( Escher_strcmp( selected->Txt_Phrs, ra->roleOrObj ) == 0 ) ) {
+              r_part = selected;
+              break;
+        }}}
+      }
+    }
     /* SELECT any simpForm FROM INSTANCES OF simpleFormalization WHERE ( ( ( SELECTED.rel == simp ) and ( SELECTED.form_obj_id == o_obj.Obj_ID ) ) and ( SELECTED.part_obj_id == r_part.Obj_ID ) ) */
     simpForm = 0;
     { masl2xtuml_simpleFormalization * selected;

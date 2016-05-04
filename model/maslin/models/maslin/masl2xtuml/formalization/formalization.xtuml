@@ -16,13 +16,21 @@ INSERT INTO O_TFR
 	0,
 	'// compare a set of attributes in an ID for consistency with
 // a set of referential attributes
+// return true if they match,
+// return false if they do not match
 
 o_attrs = param.o_attrs;
 ras = param.ras;
 
-// default the result to true
-result = true;
+// default the result to false
+result = false;
 
+// if the cardinalities differ, they do not match
+if ( cardinality o_attrs != cardinality ras )
+  return result;
+end if;
+
+// loop through and check each one
 for each o_attr in o_attrs
 
   match = false;
@@ -34,11 +42,13 @@ for each o_attr in o_attrs
   end for;
   
   if ( match == false )  // if no match was found, we have an inconsistency
-    result = false;
-    break;
+    return result;
   end if;
 
 end for;
+
+// if we made it all the way through the for loop with no inconsistencies, it is a match
+result = true;
 
 return result;',
 	1,

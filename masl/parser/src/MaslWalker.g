@@ -767,7 +767,7 @@ attReferential
                                                                 args[0] = $relationshipSpec.spec[1];
                                                                 args[1] = $relationshipSpec.spec[0];
                                                                 args[2] = $relationshipSpec.spec[2];
-                                                                args[3] = $relationshipSpec.spec[3];
+                                                                args[3] = $relationshipSpec.spec[4];
                                                                 args[4] = $attributeName.name;
                                                                 populate( "referential", args );
                                                             }
