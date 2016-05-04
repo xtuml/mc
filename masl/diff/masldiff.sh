@@ -23,13 +23,22 @@ fi
 
 # remove comments
 perl -pe 's/\/\/.*$//g' $1 > left1
-perl -pe 's/\/\*.*\*\///g' left1 > left2
+perl -pe 's/\/\*.*\*\///g' left1 > left1-5
 perl -pe 's/\/\/.*$//g' $2 > right1
-perl -pe 's/\/\*.*\*\///g' right1 > right2
+perl -pe 's/\/\*.*\*\///g' right1 > right1-5
+
+# squash all whitespace to a single space
+# this keeps the MASL parseable, but makes it consistent for sorting
+perl -pe 's/[ \n\t\r]+/ /g' left1-5 > left2
+perl -pe 's/[ \n\t\r]+/ /g' right1-5 > right2
+
+# run maslsort
+java -cp ../parser/build:../parser/lib/antlr-3.5.2-complete.jar MaslSort < left2 > left2-5
+java -cp ../parser/build:../parser/lib/antlr-3.5.2-complete.jar MaslSort < right2 > right2-5
 
 # remove whitespace
-tr -d " \t\r\n" < left2 > left3
-tr -d " \t\r\n" < right2 > right3
+tr -d " \t\r\n" < left2-5 > left3
+tr -d " \t\r\n" < right2-5 > right3
 
 # replace all instances of "non_existent" and "Non_Existant" with "Non_Existent"
 perl -pe 's/non_existent|Non_Existant/Non_Existent/g' left3 > left4
