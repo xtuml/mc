@@ -421,10 +421,10 @@ if ( not_empty ooapopulation )
   ooapopulation.batchFormalize();
 end if;
 
-// destruct referentialAttributes
-select many refs from instances of referentialAttribute;
-for each ref in refs
-	delete object instance ref;
+// dispose formalizations
+select many forms from instances of formalization;
+for each form in forms
+  form.dispose();
 end for;',
 	1);
 INSERT INTO C_EP_PROXY

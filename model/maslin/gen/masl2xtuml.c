@@ -22,7 +22,7 @@
 void
 masl2xtuml_in_end()
 {
-  masl2xtuml_referentialAttribute * ref=0;masl2xtuml_ooaelement * element=0;Escher_ObjectSet_s refs_space={0}; Escher_ObjectSet_s * refs = &refs_space;masl2xtuml_ooapopulation * ooapopulation=0;Escher_ObjectSet_s elements_space={0}; Escher_ObjectSet_s * elements = &elements_space;
+  masl2xtuml_formalization * form=0;masl2xtuml_ooaelement * element=0;Escher_ObjectSet_s forms_space={0}; Escher_ObjectSet_s * forms = &forms_space;masl2xtuml_ooapopulation * ooapopulation=0;Escher_ObjectSet_s elements_space={0}; Escher_ObjectSet_s * elements = &elements_space;
   /* SELECT many elements FROM INSTANCES OF ooaelement */
   Escher_CopySet( elements, &pG_masl2xtuml_ooaelement_extent.active );
   /* FOR EACH element IN elements */
@@ -41,21 +41,18 @@ masl2xtuml_in_end()
     /* ooapopulation.batchFormalize() */
     masl2xtuml_ooapopulation_op_batchFormalize( ooapopulation );
   }
-  /* SELECT many refs FROM INSTANCES OF referentialAttribute */
-  Escher_CopySet( refs, &pG_masl2xtuml_referentialAttribute_extent.active );
-  /* FOR EACH ref IN refs */
-  { Escher_Iterator_s iterref;
-  masl2xtuml_referentialAttribute * iiref;
-  Escher_IteratorReset( &iterref, refs );
-  while ( (iiref = (masl2xtuml_referentialAttribute *)Escher_IteratorNext( &iterref )) != 0 ) {
-    ref = iiref; {
-    /* DELETE OBJECT INSTANCE ref */
-    if ( 0 == ref ) {
-      XTUML_EMPTY_HANDLE_TRACE( "referentialAttribute", "Escher_DeleteInstance" );
-    }
-    Escher_DeleteInstance( (Escher_iHandle_t) ref, masl2xtuml_DOMAIN_ID, masl2xtuml_referentialAttribute_CLASS_NUMBER );
+  /* SELECT many forms FROM INSTANCES OF formalization */
+  Escher_CopySet( forms, &pG_masl2xtuml_formalization_extent.active );
+  /* FOR EACH form IN forms */
+  { Escher_Iterator_s iterform;
+  masl2xtuml_formalization * iiform;
+  Escher_IteratorReset( &iterform, forms );
+  while ( (iiform = (masl2xtuml_formalization *)Escher_IteratorNext( &iterform )) != 0 ) {
+    form = iiform; {
+    /* form.dispose() */
+    masl2xtuml_formalization_op_dispose( form );
   }}}
-  Escher_ClearSet( refs );Escher_ClearSet( elements );
+  Escher_ClearSet( forms );Escher_ClearSet( elements );
 }
 
 /*
