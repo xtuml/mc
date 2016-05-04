@@ -5681,7 +5681,64 @@ ch->SM_ID = (Escher_UniqueID_t) ch;
 void
 masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
 {
-
+  masl2xtuml_formalization * form=0;Escher_ObjectSet_s forms_space={0}; Escher_ObjectSet_s * forms = &forms_space;
+  /* SELECT many forms FROM INSTANCES OF formalization */
+  Escher_CopySet( forms, &pG_masl2xtuml_formalization_extent.active );
+  /* FOR EACH form IN forms */
+  { Escher_Iterator_s iterform;
+  masl2xtuml_formalization * iiform;
+  Escher_IteratorReset( &iterform, forms );
+  while ( (iiform = (masl2xtuml_formalization *)Escher_IteratorNext( &iterform )) != 0 ) {
+    form = iiform; {
+    /* IF ( ( 0 == form.type ) ) */
+    if ( ( 0 == form->type ) ) {
+      i_t id;masl2xtuml_simpleFormalization * simpForm=0;
+      /* SELECT one simpForm RELATED BY form->simpleFormalization[R3810] */
+      simpForm = 0;
+      if ( ( 0 != form ) && ( masl2xtuml_simpleFormalization_CLASS_NUMBER == form->R3810_object_id ) )      simpForm = ( 0 != form ) ? (masl2xtuml_simpleFormalization *) form->R3810_subtype : 0;
+      /* ASSIGN id = simpForm.isComplete() */
+      id = masl2xtuml_simpleFormalization_op_isComplete(simpForm);
+      /* IF ( ( - 1 != id ) ) */
+      if ( ( -1 != id ) ) {
+        masl2xtuml_referentialAttribute * ra=0;masl2xtuml_R_SIMP * simp;Escher_ObjectSet_s ras_space={0}; Escher_ObjectSet_s * ras = &ras_space;masl2xtuml_R_PART * r_part=0;
+        /* ASSIGN simp = simpForm.rel */
+        simp = simpForm->rel;
+        /* SELECT any r_part RELATED BY simp->R_PART[R207] WHERE ( ( SELECTED.Obj_ID == simpForm.part_obj_id ) ) */
+        r_part = 0;
+        if ( 0 != simp ) {
+          masl2xtuml_R_PART * selected;
+          Escher_Iterator_s iR_PART_R207_relates;
+          Escher_IteratorReset( &iR_PART_R207_relates, &simp->R_PART_R207_relates );
+          while ( 0 != ( selected = (masl2xtuml_R_PART *) Escher_IteratorNext( &iR_PART_R207_relates ) ) ) {
+            if ( ( selected->Obj_ID == simpForm->part_obj_id ) ) {
+              r_part = selected;
+              break;
+        }}}
+        /* SELECT many ras RELATED BY form->referentialAttribute[R3811] */
+        Escher_ClearSet( ras );
+        if ( 0 != form ) {
+          Escher_CopySet( ras, &form->referentialAttribute_R3811 );
+        }
+        /* FOR EACH ra IN ras */
+        { Escher_Iterator_s iterra;
+        masl2xtuml_referentialAttribute * iira;
+        Escher_IteratorReset( &iterra, ras );
+        while ( (iira = (masl2xtuml_referentialAttribute *)Escher_IteratorNext( &iterra )) != 0 ) {
+          ra = iira; {
+          /* self.Attribute_dispose( o_attr:ra.o_attr ) */
+          masl2xtuml_ooapopulation_op_Attribute_dispose( self,  ra->o_attr );
+        }}}
+        /* self.SimpleAssociation_formalize( id_id:id, r_part:r_part, r_simp:simp ) */
+        masl2xtuml_ooapopulation_op_SimpleAssociation_formalize( self,  id, r_part, simp );
+        Escher_ClearSet( ras ); 
+      }
+    }
+    else if ( ( 1 == form->type ) ) {
+    }
+    else if ( ( 2 == form->type ) ) {
+    }
+  }}}
+  Escher_ClearSet( forms );
 }
 
 /*

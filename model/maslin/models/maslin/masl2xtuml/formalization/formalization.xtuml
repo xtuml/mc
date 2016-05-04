@@ -107,7 +107,10 @@ select one assocForm related by self->assocFormalization[R3810];
 if ( not_empty assocForm )
   unrelate assocForm from self across R3810;
   delete object instance assocForm;
-end if;',
+end if;
+
+// delete self
+delete object instance self;',
 	1,
 	'',
 	"95192c5f-c6c3-4bfd-b6e1-b55eb6e12ac1");
