@@ -279,8 +279,15 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
         }
         /* IF ( not_empty ref_o_attr ) */
         if ( ( 0 != ref_o_attr ) ) {
-          /* ASSIGN ref_o_attr.identifier = ooapopulation.processingIdentifier */
-          ref_o_attr->identifier = ooapopulation->processingIdentifier;
+          /* IF ( ( 1 == ooapopulation.processingIdentifier ) ) */
+          if ( ( 1 == ooapopulation->processingIdentifier ) ) {
+            /* ASSIGN ref_o_attr.identifier2 = TRUE */
+            ref_o_attr->identifier2 = TRUE;
+          }
+          else if ( ( 2 == ooapopulation->processingIdentifier ) ) {
+            /* ASSIGN ref_o_attr.identifier3 = TRUE */
+            ref_o_attr->identifier3 = TRUE;
+          }
         }
         else {
           masl2xtuml_O_ATTR * o_attr=0;
@@ -306,8 +313,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     }
   }
   else if ( ( Escher_strcmp( "referential", element ) == 0 ) ) {
-    /* ooapopulation.transformReferential( attrName:PARAM.value[4], relationship:PARAM.value[0], roleOrObj:PARAM.value[2] ) */
-    masl2xtuml_ooapopulation_op_transformReferential( ooapopulation,  p_value[4], p_value[0], p_value[2] );
+    /* ooapopulation.transformReferential( attrName:PARAM.value[4], objName:PARAM.value[3], relationship:PARAM.value[0], roleOrObj:PARAM.value[2] ) */
+    masl2xtuml_ooapopulation_op_transformReferential( ooapopulation,  p_value[4], p_value[3], p_value[0], p_value[2] );
   }
   else if ( ( Escher_strcmp( "state", element ) == 0 ) ) {
     /* IF ( (  == PARAM.value[2] ) ) */
@@ -5750,9 +5757,9 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
  * instance operation:  transformReferential
  */
 void
-masl2xtuml_ooapopulation_op_transformReferential( masl2xtuml_ooapopulation * self, c_t * p_attrName, c_t * p_relationship, c_t * p_roleOrObj )
+masl2xtuml_ooapopulation_op_transformReferential( masl2xtuml_ooapopulation * self, c_t * p_attrName, c_t * p_objName, c_t * p_relationship, c_t * p_roleOrObj )
 {
-  masl2xtuml_O_ATTR * o_attr;masl2xtuml_referentialAttribute * ra;masl2xtuml_ooapopulation * ooapopulation=0;masl2xtuml_O_ID * o_id=0;
+  masl2xtuml_O_ID * o_id=0;masl2xtuml_O_ATTR * o_attr;masl2xtuml_referentialAttribute * ra;masl2xtuml_ooapopulation * ooapopulation=0;Escher_ObjectSet_s o_ids_space={0}; Escher_ObjectSet_s * o_ids = &o_ids_space;
   /* SELECT any ooapopulation FROM INSTANCES OF ooapopulation */
   ooapopulation = (masl2xtuml_ooapopulation *) Escher_SetGetAny( &pG_masl2xtuml_ooapopulation_extent.active );
   /* CREATE OBJECT INSTANCE ra OF referentialAttribute */
@@ -5763,28 +5770,52 @@ masl2xtuml_ooapopulation_op_transformReferential( masl2xtuml_ooapopulation * sel
   ra->relationship = Escher_strcpy( ra->relationship, p_relationship );
   /* ASSIGN ra.roleOrObj = PARAM.roleOrObj */
   ra->roleOrObj = Escher_strcpy( ra->roleOrObj, p_roleOrObj );
+  /* ASSIGN ra.objectName = PARAM.objName */
+  ra->objectName = Escher_strcpy( ra->objectName, p_objName );
   /* ASSIGN ra.o_obj = ooapopulation.current_class */
   ra->o_obj = ooapopulation->current_class;
+  /* ASSIGN ra.o_attr = ooapopulation.current_attribute */
+  ra->o_attr = ooapopulation->current_attribute;
+  /* ASSIGN ra.identifier1 = FALSE */
+  ra->identifier1 = FALSE;
+  /* ASSIGN ra.identifier2 = FALSE */
+  ra->identifier2 = FALSE;
+  /* ASSIGN ra.identifier3 = FALSE */
+  ra->identifier3 = FALSE;
   /* ASSIGN o_attr = ooapopulation.current_attribute */
   o_attr = ooapopulation->current_attribute;
-  /* SELECT any o_id RELATED BY o_attr->O_OIDA[R105]->O_ID[R105] */
-  o_id = 0;
+  /* SELECT many o_ids RELATED BY o_attr->O_OIDA[R105]->O_ID[R105] */
+  Escher_ClearSet( o_ids );
   {  if ( 0 != o_attr ) {
   masl2xtuml_O_OIDA * O_OIDA_R105;
   Escher_Iterator_s iO_OIDA_R105;
   Escher_IteratorReset( &iO_OIDA_R105, &o_attr->O_OIDA_R105 );
-  while ( ( 0 == o_id ) && ( 0 != ( O_OIDA_R105 = (masl2xtuml_O_OIDA *) Escher_IteratorNext( &iO_OIDA_R105 ) ) ) ) {
-  o_id = O_OIDA_R105->O_ID_R105_is_part_of_;
-}}}
-  /* IF ( not_empty o_id ) */
-  if ( ( 0 != o_id ) ) {
-    /* ASSIGN ra.identifier = o_id.Oid_ID */
-    ra->identifier = o_id->Oid_ID;
-  }
-  else {
-    /* ASSIGN ra.identifier = - 1 */
-    ra->identifier = -1;
-  }
+  while ( 0 != ( O_OIDA_R105 = (masl2xtuml_O_OIDA *) Escher_IteratorNext( &iO_OIDA_R105 ) ) ) {
+  {masl2xtuml_O_ID * O_ID_R105_is_part_of_ = O_OIDA_R105->O_ID_R105_is_part_of_;
+  if ( ! Escher_SetContains( (Escher_ObjectSet_s *) o_ids, O_ID_R105_is_part_of_ ) ) {
+    Escher_SetInsertElement( (Escher_ObjectSet_s *) o_ids, O_ID_R105_is_part_of_ );
+  }}}}}
+  /* FOR EACH o_id IN o_ids */
+  { Escher_Iterator_s itero_id;
+  masl2xtuml_O_ID * iio_id;
+  Escher_IteratorReset( &itero_id, o_ids );
+  while ( (iio_id = (masl2xtuml_O_ID *)Escher_IteratorNext( &itero_id )) != 0 ) {
+    o_id = iio_id; {
+    /* IF ( ( 0 == o_id.Oid_ID ) ) */
+    if ( ( 0 == o_id->Oid_ID ) ) {
+      /* ASSIGN ra.identifier1 = TRUE */
+      ra->identifier1 = TRUE;
+    }
+    else if ( ( 1 == o_id->Oid_ID ) ) {
+      /* ASSIGN ra.identifier2 = TRUE */
+      ra->identifier2 = TRUE;
+    }
+    else if ( ( 2 == ooapopulation->processingIdentifier ) ) {
+      /* ASSIGN ra.identifier3 = TRUE */
+      ra->identifier3 = TRUE;
+    }
+  }}}
+  Escher_ClearSet( o_ids ); 
 }
 
 /*

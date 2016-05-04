@@ -141,7 +141,11 @@ elif ( "attribute" == element )
       // If it is not a referential, just make the attribute an identifier.
       select any ref_o_attr from instances of referentialAttribute where ( (selected.attrName == param.value[0]) and (selected.o_obj == o_obj));
       if ( not_empty ref_o_attr )
-        ref_o_attr.identifier = ooapopulation.processingIdentifier;
+        if ( 1 == ooapopulation.processingIdentifier )
+          ref_o_attr.identifier2 = true;
+        elif ( 2 == ooapopulation.processingIdentifier )
+          ref_o_attr.identifier3 = true;
+        end if;
       else
         select any o_attr related by o_obj->O_ATTR[R102] where ( selected.Root_Nam == param.value[0] );      
         ooapopulation.Attribute_addToIdentifier(o_attr:o_attr, oid:ooapopulation.processingIdentifier);
@@ -151,7 +155,7 @@ elif ( "attribute" == element )
     end if;
   end if;
 elif ( "referential" == element )
-  ooapopulation.transformReferential(attrName:param.value[4], relationship:param.value[0], roleOrObj:param.value[2]);
+  ooapopulation.transformReferential(attrName:param.value[4], relationship:param.value[0], roleOrObj:param.value[2], objName:param.value[3]);
 elif ( "state" == element )
   if ( "" == param.value[2] )
     select any sm_state from instances of SM_STATE where (false);
@@ -5232,19 +5236,27 @@ create object instance ra of referentialAttribute;
 ra.attrName = param.attrName;
 ra.relationship = param.relationship;
 ra.roleOrObj = param.roleOrObj;
+ra.objectName = param.objName;
 ra.o_obj = ooapopulation.current_class;
+ra.o_attr = ooapopulation.current_attribute;
 
 // Find out if the attribute was specified as being part of an identifier.  Cache
 // that info.
-// TODO - this code is incomplete (too simple).  It assumes the attribute is part 
-//        of only one identifier when it could be part of all 3.
+ra.identifier1 = false;
+ra.identifier2 = false;
+ra.identifier3 = false;
+
 o_attr = ooapopulation.current_attribute;
-select any o_id related by o_attr->O_OIDA[R105]->O_ID[R105];
-if ( not_empty o_id )
-  ra.identifier = o_id.Oid_ID;
-else 
-  ra.identifier = -1;
-end if;
+select many o_ids related by o_attr->O_OIDA[R105]->O_ID[R105];
+for each o_id in o_ids
+  if ( 0 == o_id.Oid_ID )
+	ra.identifier1 = true;
+  elif ( 1 == o_id.Oid_ID )
+	ra.identifier2 = true;
+  elif ( 2 == ooapopulation.processingIdentifier )
+	ra.identifier3 = true;
+  end if;
+end for;
 ',
 	1,
 	'',
@@ -5275,6 +5287,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"a77354c1-c3a6-40cd-930d-d334ae3f1ca7",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("d2c392a8-80d4-4203-94cc-2837c07a66f8",
+	"5834dfc6-c4a1-4b08-8149-5d52a504af4d",
+	'objName',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c9b2199a-7c9f-4092-b2a0-11ea434d798c",
 	'');
 INSERT INTO O_TFR
 	VALUES ("d0873ada-8a66-46eb-8826-5de36bc7e925",

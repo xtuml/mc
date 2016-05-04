@@ -151,7 +151,7 @@ void masl2xtuml_ooapopulation_op_StateEventMatrixEntry_disposeChOrEi( masl2xtuml
 void masl2xtuml_ooapopulation_op_StateEventMatrixEntry_migrateChToEi( masl2xtuml_ooapopulation *, masl2xtuml_SM_SEME * );
 void masl2xtuml_ooapopulation_op_StateEventMatrixEntry_migrateEiToCh( masl2xtuml_ooapopulation *, masl2xtuml_SM_SEME * );
 void masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * );
-void masl2xtuml_ooapopulation_op_transformReferential( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t * );
+void masl2xtuml_ooapopulation_op_transformReferential( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_SimpleAssociation_formalize( masl2xtuml_ooapopulation *, const i_t, masl2xtuml_R_PART *, masl2xtuml_R_SIMP * );
 void masl2xtuml_ooapopulation_op_ClassAsSimpleParticipant_migrateToFormalizer( masl2xtuml_ooapopulation *, masl2xtuml_R_PART * );
 void masl2xtuml_ooapopulation_op_ReferredToClassInAssoc_dispose( masl2xtuml_ooapopulation *, masl2xtuml_R_RTO * );
