@@ -551,7 +551,8 @@ for each o_attr in o_attrs
     end if;
     value[2] = "";
     // See if the type of this attribute is unique_id or MASLunique.
-    if ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name )
+    // ''unique'' is dropped when this is a referential attribute
+    if ( ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name ) and empty o_rattr )
       value[2] = "unique";
     end if;
     // CDS - Coerce inst_ref<Timer>
