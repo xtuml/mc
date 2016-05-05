@@ -5224,7 +5224,7 @@ while ( passes < num_forms )
 	  else
 		//TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on simple association" );
 	  end if;
-	elif ( 1 == form.type )	// TODO handle subsuper
+	elif ( 1 == form.type )
 	  select one subsupForm related by form->subsuperFormalization[R3810];
 	  id = subsupForm.isComplete();
 	  //id = 0;
@@ -5262,7 +5262,39 @@ while ( passes < num_forms )
 	  else
 		//TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on subsuper association" );
 	  end if;
-	elif ( 2 == form.type )	// TODO handle associatives
+	elif ( 2 == form.type )
+	  select one assocForm related by form->assocFormalization[R3810];
+	  //id = subsupForm.isComplete();
+	  one_id = 0;
+	  other_id = 0;
+	  if ( -1 != one_id and -1 != other_id )	// the formalization is complete
+	    linked = assocForm.rel;
+	    
+	    // formalize the relationship
+	    self.LinkedAssociation_formalize( r_assoc:linked, one_id:one_id, oth_id:other_id );
+	    
+		// there is some post processing that needs to be done for each referentialAttribute
+		// in the formalization
+		// * rename the referential attribute properly
+		// * if needed, add the referential attribute to an identifier
+		// * check for a duplicate that needs to be combined
+		select one assr_obj related by linked->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
+		select many ras related by form->referentialAttribute[R3811];
+		for each ra in ras
+		  // select the correspoinding new referential attribute
+		  select any o_attr related by assr_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
+		  select many o_attrs related by assr_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
+		  ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self );
+		end for;
+		
+		// post processing for the formalizing object
+		// * remove any base attributes that have a referential attribute of the same name
+		self.ModelClass_removeDuplicateAttrs(o_obj:assr_obj);
+		
+		form.dispose();
+	  else
+		//TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on subsuper association" );
+	  end if;
 	end if;
 
   end for;
@@ -5359,9 +5391,6 @@ if ( not_empty simp )
 else
   select one subsuper related by rel->R_SUBSUP[R206];
   if ( not_empty subsuper )
-    // get the supertype object
-    select one sup related by subsuper->R_SUPER[R212];
-
     // look for an existing formalization
     select any subsupForm from instances of subsuperFormalization where ( selected.rel == subsuper );
 	select one form related by subsupForm->formalization[R3810];
@@ -5375,10 +5404,25 @@ else
 
     // add this referential attribute to the formalization
     relate ra to form across R3811;
+  else
+    select one linked related by rel->R_ASSOC[R206];
+	if ( not_empty linked )
+	  // look for an existing formalization
+	  select any assocForm from instances of assocFormalization where ( selected.rel == linked );
+	  select one form related by assocForm->formalization[R3810];
+	  if ( empty form ) // create a formalization if it doesn''t exist
+		create object instance form of formalization;
+		form.type = 2;
+		create object instance assocForm of assocFormalization;
+		assocForm.rel = linked;
+		relate form to assocForm across R3810;
+	  end if;
 
+	  // add this referential attribute to the formalization
+	  relate ra to form across R3811;
+	end if;
   end if;
-end if;
-// TODO - handle linked associations',
+end if;',
 	1,
 	'',
 	"a442a038-3373-4282-a5fc-098af44e9cbe");
@@ -7071,10 +7115,8 @@ for each oida in oida_set
 end for;
 for each sub_rgo in sub_rgo_set
   select one sub_obj related by sub_rgo->R_OIR[R203]->O_OBJ[R201];
-  /* TODO - LPS do we need this? With a subsuper formalization, it appears to automatically
-  add the ID of the supertype to the next unused ID of the subtypes
-  unused_oid = sub_obj.findUnusedIdentifier();
-  */
+  // unused_oid = sub_obj.findUnusedIdentifier(); LPS - we do not need to automatically ad to an identifier because this
+  // will be done later by the rest of the MASL convert
   for each oida in oida_set 
     select one rel related by r_subsup->R_REL[R206];
     select one sub_obj related by sub_rgo->R_OIR[R203]->O_OBJ[R201];
@@ -7197,6 +7239,152 @@ INSERT INTO O_TPARM
 	"0bdc1bb3-9d41-48aa-a6ea-85d1a00c0e90",
 	'o_obj',
 	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("cc75ac49-bb5f-40d6-80c1-cc9b23513189",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'LinkedAssociation_formalize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_assoc = param.r_assoc;
+
+if ( self.LinkedAssociation_isFormalized(r_assoc:r_assoc) )
+  self.LinkedAssociation_unformalize(r_assoc:r_assoc);
+end if;
+
+select one aone_rto related by r_assoc->R_AONE[R209]->R_RTO[R204];
+select one aone_obj related by aone_rto->R_OIR[R203]->O_OBJ[R201];
+select any aone_oid related by aone_obj->O_ID[R104] where selected.Oid_ID == param.one_id;
+relate aone_oid to aone_rto across R109;
+
+select one aoth_rto related by r_assoc->R_AOTH[R210]->R_RTO[R204];
+select one aoth_obj related by aoth_rto->R_OIR[R203]->O_OBJ[R201];
+select any aoth_oid related by aoth_obj->O_ID[R104] where selected.Oid_ID == param.oth_id;
+relate aoth_oid to aoth_rto across R109;
+
+select one assr_rgo related by r_assoc->R_ASSR[R211]->R_RGO[R205];
+select one assr_obj related by assr_rgo->R_OIR[R203]->O_OBJ[R201];
+// unused_oid = assr_obj.findUnusedIdentifier(); LPS - we do not need to automatically ad to an identifier because this
+// will be done later by the rest of the MASL convert
+
+select one rel related by r_assoc->R_REL[R206];
+select many aone_oida_set related by aone_oid->O_OIDA[R105];
+for each oida in aone_oida_set
+    newAttr = self.ClassIdentifierAttribute_addReference(o_oida:oida, rel:rel,
+        part_rto: aone_rto, part_obj: aone_obj, 
+        form_rgo: assr_rgo, form_obj: assr_obj,
+        id: -1);
+        //id: unused_oid);
+end for;
+
+select many aoth_oida_set related by aoth_oid->O_OIDA[R105];
+for each oida in aoth_oida_set
+    newAttr = self.ClassIdentifierAttribute_addReference(o_oida:oida, rel:rel,
+        part_rto: aoth_rto, part_obj: aoth_obj, 
+        form_rgo: assr_rgo, form_obj: assr_obj,
+        id: -1);
+        //id: unused_oid);
+end for;
+',
+	1,
+	'',
+	"0bdc1bb3-9d41-48aa-a6ea-85d1a00c0e90");
+INSERT INTO O_TPARM
+	VALUES ("7847e24e-1701-4e4f-bea3-f32a7480776b",
+	"cc75ac49-bb5f-40d6-80c1-cc9b23513189",
+	'one_id',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"0f74d1ed-44ad-4b86-9636-5920222b4e10",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("2de7a292-180f-4f4c-8a65-2a5053042684",
+	"cc75ac49-bb5f-40d6-80c1-cc9b23513189",
+	'oth_id',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"7847e24e-1701-4e4f-bea3-f32a7480776b",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("0f74d1ed-44ad-4b86-9636-5920222b4e10",
+	"cc75ac49-bb5f-40d6-80c1-cc9b23513189",
+	'r_assoc',
+	"7f02c6dd-ea5d-4892-801e-a1515764350f",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("7f02c6dd-ea5d-4892-801e-a1515764350f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Linked Association>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_TFR
+	VALUES ("be35c7fe-77a5-459d-8c2a-4d0aef77aa59",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'LinkedAssociation_isFormalized',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'r_assoc = param.r_assoc;
+
+select one rto1 related by r_assoc->R_AONE[R209]->R_RTO[R204];
+select any rtida1 related by rto1->O_RTIDA[R110];
+select one rto2 related by r_assoc->R_AOTH[R210]->R_RTO[R204];
+select any rtida2 related by rto2->O_RTIDA[R110];
+return not_empty rtida1 and not_empty rtida2;
+',
+	1,
+	'',
+	"cc75ac49-bb5f-40d6-80c1-cc9b23513189");
+INSERT INTO O_TPARM
+	VALUES ("a8f16ce2-bc4d-4fb9-a511-cbc64f6f3171",
+	"be35c7fe-77a5-459d-8c2a-4d0aef77aa59",
+	'r_assoc',
+	"7f02c6dd-ea5d-4892-801e-a1515764350f",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("f8e9c620-45ae-495d-98b3-effcb38fc212",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'LinkedAssociation_unformalize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_assoc = param.r_assoc;
+
+select one aone_rto related by r_assoc->R_AONE[R209]->R_RTO[R204];
+select one aone_oir related by aone_rto->R_OIR[R203];
+select one aoth_rto related by r_assoc->R_AOTH[R210]->R_RTO[R204];
+select one aoth_oir related by aoth_rto->R_OIR[R203];
+
+self.ReferredToClassInAssoc_unformalize(r_rto:aone_rto);
+self.ReferredToClassInAssoc_unformalize(r_rto:aoth_rto);
+
+// have to relate again due to propagation of previous unrelates
+relate aone_oir to aone_rto across R203;
+relate aoth_oir to aoth_rto across R203;
+
+
+',
+	1,
+	'',
+	"be35c7fe-77a5-459d-8c2a-4d0aef77aa59");
+INSERT INTO O_TPARM
+	VALUES ("70badf68-6929-4815-ade3-9bf77294291b",
+	"f8e9c620-45ae-495d-98b3-effcb38fc212",
+	'r_assoc',
+	"7f02c6dd-ea5d-4892-801e-a1515764350f",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",

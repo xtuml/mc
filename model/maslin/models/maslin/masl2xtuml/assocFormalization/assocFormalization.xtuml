@@ -7,6 +7,31 @@ INSERT INTO O_OBJ
 	'assocFormalization',
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("75eab1c1-39e0-401d-8c7b-50ee669c2a66",
+	"67df45b4-54b0-44a6-abdb-3b69a93d9942");
+INSERT INTO O_BATTR
+	VALUES ("75eab1c1-39e0-401d-8c7b-50ee669c2a66",
+	"67df45b4-54b0-44a6-abdb-3b69a93d9942");
+INSERT INTO O_ATTR
+	VALUES ("75eab1c1-39e0-401d-8c7b-50ee669c2a66",
+	"67df45b4-54b0-44a6-abdb-3b69a93d9942",
+	"00000000-0000-0000-0000-000000000000",
+	'rel',
+	'',
+	'',
+	'rel',
+	0,
+	"7f02c6dd-ea5d-4892-801e-a1515764350f",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("7f02c6dd-ea5d-4892-801e-a1515764350f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Linked Association>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"67df45b4-54b0-44a6-abdb-3b69a93d9942");

@@ -187,6 +187,9 @@ void masl2xtuml_ooapopulation_op_SubtypeSupertypeAssociation_formalize( masl2xtu
 bool masl2xtuml_ooapopulation_op_SubtypeSupertypeAssociation_isFormalized( masl2xtuml_ooapopulation *, masl2xtuml_R_SUBSUP * );
 void masl2xtuml_ooapopulation_op_SubtypeSupertypeAssociation_unformalize( masl2xtuml_ooapopulation *, masl2xtuml_R_SUBSUP * );
 void masl2xtuml_ooapopulation_op_ModelClass_removeDuplicateAttrs( masl2xtuml_ooapopulation *, masl2xtuml_O_OBJ * );
+void masl2xtuml_ooapopulation_op_LinkedAssociation_formalize( masl2xtuml_ooapopulation *, const i_t, const i_t, masl2xtuml_R_ASSOC * );
+bool masl2xtuml_ooapopulation_op_LinkedAssociation_isFormalized( masl2xtuml_ooapopulation *, masl2xtuml_R_ASSOC * );
+void masl2xtuml_ooapopulation_op_LinkedAssociation_unformalize( masl2xtuml_ooapopulation *, masl2xtuml_R_ASSOC * );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10
