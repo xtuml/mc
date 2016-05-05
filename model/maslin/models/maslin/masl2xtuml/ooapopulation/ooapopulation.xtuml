@@ -5210,47 +5210,14 @@ while ( passes < num_forms )
 		for each ra in ras
 		  // select the correspoinding new referential attribute
 		  select any o_attr related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
-		  if ( not_empty o_attr )
-		  
-			// rename the attribute
-			o_attr.Root_Nam = ra.o_attr.Root_Nam;
-
-			// add to identifiers
-			if ( true == ra.identifier1 )
-			  self.Attribute_addToIdentifier( o_attr:o_attr, oid:0 );
-			end if;
-			if ( true == ra.identifier2 )
-			  self.Attribute_addToIdentifier( o_attr:o_attr, oid:1 );
-			end if;
-			if ( true == ra.identifier3 )
-			  self.Attribute_addToIdentifier( o_attr:o_attr, oid:2 );
-			end if;
-			
-			// search for duplicates
-			select many o_attrs related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
-			for each dup_o_attr in o_attrs
-			  if ( dup_o_attr != o_attr and dup_o_attr.Root_Nam == o_attr.Root_Nam )
-				select one o_rattr related by dup_o_attr->O_RATTR[R106];
-				self.ReferentialAttribute_combine_refs( o_rattr:o_rattr, other_attr:o_attr );
-			  end if;
-			end for;
-			
-		  end if;
-
+		  select many o_attrs related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
+		  ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self );
 		end for;
 		
 		// post processing for the formalizing object
 		// * remove any base attributes that have a referential attribute of the same name
 		select one form_obj related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
-		select many battrs related by form_obj->O_ATTR[R102]->O_BATTR[R106]->O_ATTR[R106];
-		select many rattrs related by form_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
-		for each battr in battrs
-		  for each rattr in rattrs
-			if ( rattr.Root_Nam == battr.Root_Nam )
-			  self.Attribute_dispose( o_attr:battr ); // delete any base attribute that has the same name as a referential attribute
-			end if;
-		  end for;
-		end for;
+		self.ModelClass_removeDuplicateAttrs(o_obj:form_obj);
 		
 		form.dispose();
 
@@ -5258,6 +5225,43 @@ while ( passes < num_forms )
 		//TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on simple association" );
 	  end if;
 	elif ( 1 == form.type )	// TODO handle subsuper
+	  select one subsupForm related by form->subsuperFormalization[R3810];
+	  id = subsupForm.isComplete();
+	  //id = 0;
+	  if ( -1 != id )	// the formalization is complete
+	    subsuper = subsupForm.rel;
+	    
+	    // formalize the relationship
+	    self.SubtypeSupertypeAssociation_formalize( r_subsup:subsuper, id:id );
+	    
+		// there is some post processing that needs to be done for each referentialAttribute
+		// in the formalization
+		// * rename the referential attribute properly
+		// * if needed, add the referential attribute to an identifier
+		// * check for a duplicate that needs to be combined
+		select many ras related by form->referentialAttribute[R3811];
+		for each ra in ras
+		  // select each subtype object
+		  select many subs related by subsuper->R_SUB[R213]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
+		  for each sub in subs;
+			// select the correspoinding new referential attribute
+			select any o_attr related by sub->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
+			select many o_attrs related by sub->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
+			ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self );
+		  end for;
+		end for;
+		
+		// post processing for the formalizing object
+		// * remove any base attributes that have a referential attribute of the same name
+		select many subs related by subsuper->R_SUB[R213]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
+		for each sub in subs;
+		  self.ModelClass_removeDuplicateAttrs(o_obj:sub);
+		end for;
+		
+		form.dispose();
+	  else
+		//TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on subsuper association" );
+	  end if;
 	elif ( 2 == form.type )	// TODO handle associatives
 	end if;
 
@@ -5352,9 +5356,29 @@ if ( not_empty simp )
   // add this referential attribute to the formalization
   relate ra to form across R3811;
 
+else
+  select one subsuper related by rel->R_SUBSUP[R206];
+  if ( not_empty subsuper )
+    // get the supertype object
+    select one sup related by subsuper->R_SUPER[R212];
+
+    // look for an existing formalization
+    select any subsupForm from instances of subsuperFormalization where ( selected.rel == subsuper );
+	select one form related by subsupForm->formalization[R3810];
+	if ( empty form ) // create a formalization if it doesn''t exist
+	  create object instance form of formalization;
+	  form.type = 1;
+	  create object instance subsupForm of subsuperFormalization;
+	  subsupForm.rel = subsuper;
+	  relate form to subsupForm across R3810;
+	end if;
+
+    // add this referential attribute to the formalization
+    relate ra to form across R3811;
+
+  end if;
 end if;
-// TODO - handle linked associations
-// TODO - handle subsuper associations',
+// TODO - handle linked associations',
 	1,
 	'',
 	"a442a038-3373-4282-a5fc-098af44e9cbe");
@@ -7018,6 +7042,164 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"e491513b-88fa-4392-af93-9def02121fd2",
+	'');
+INSERT INTO O_TFR
+	VALUES ("e52ea129-bc92-40af-8fb9-524ceac7d822",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'SubtypeSupertypeAssociation_formalize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_subsup = param.r_subsup;
+
+if ( self.SubtypeSupertypeAssociation_isFormalized(r_subsup:r_subsup) )
+  self.SubtypeSupertypeAssociation_unformalize(r_subsup:r_subsup);
+end if;
+
+select one sup_rto related by r_subsup->R_SUPER[R212]->R_RTO[R204];
+select one sup_obj related by sup_rto->R_OIR[R203]->O_OBJ[R201];
+select any oid related by sup_obj->O_ID[R104] where selected.Oid_ID == param.id;
+relate oid to sup_rto across R109;
+
+select many oida_set related by oid->O_OIDA[R105];
+select many sub_rgo_set related by r_subsup->R_SUB[R213]->R_RGO[R205];
+// always create the O_RTIDA instances even if the
+// association doesn''t have any subclasses defined at the moment
+for each oida in oida_set 
+  create object instance rtida of O_RTIDA;
+  relate oida to sup_rto across R110 using rtida;
+end for;
+for each sub_rgo in sub_rgo_set
+  select one sub_obj related by sub_rgo->R_OIR[R203]->O_OBJ[R201];
+  /* TODO - LPS do we need this? With a subsuper formalization, it appears to automatically
+  add the ID of the supertype to the next unused ID of the subtypes
+  unused_oid = sub_obj.findUnusedIdentifier();
+  */
+  for each oida in oida_set 
+    select one rel related by r_subsup->R_REL[R206];
+    select one sub_obj related by sub_rgo->R_OIR[R203]->O_OBJ[R201];
+    newAttr = self.ClassIdentifierAttribute_addReference(o_oida:oida, rel: rel,
+        part_rto: sup_rto, part_obj: sup_obj, 
+        form_rgo: sub_rgo, form_obj: sub_obj,
+        id: -1);
+        //id: unused_oid);
+  end for;
+end for;
+',
+	1,
+	'',
+	"2e4a3346-5501-4069-8902-2df8989ed4d1");
+INSERT INTO O_TPARM
+	VALUES ("a6a6045d-f2fc-4eab-9dab-8ca30d39ddf9",
+	"e52ea129-bc92-40af-8fb9-524ceac7d822",
+	'id',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"c9a4b9e7-8b0a-4664-972e-c7b00c6f7e2d",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("c9a4b9e7-8b0a-4664-972e-c7b00c6f7e2d",
+	"e52ea129-bc92-40af-8fb9-524ceac7d822",
+	'r_subsup',
+	"8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Subtype Supertype Association>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_TFR
+	VALUES ("99555050-1f87-4204-b0c5-e018b7bf25c8",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'SubtypeSupertypeAssociation_isFormalized',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'r_subsup = param.r_subsup;
+select one rto related by r_subsup->R_SUPER[R212]->R_RTO[R204];
+select any rtida related by rto->O_RTIDA[R110];
+return not_empty rtida;
+',
+	1,
+	'',
+	"e52ea129-bc92-40af-8fb9-524ceac7d822");
+INSERT INTO O_TPARM
+	VALUES ("7e61512d-6236-45ea-ae23-803897ae1dbf",
+	"99555050-1f87-4204-b0c5-e018b7bf25c8",
+	'r_subsup',
+	"8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("e48a4cae-58eb-40d8-ab5c-d620de2116cc",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'SubtypeSupertypeAssociation_unformalize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_subsup = param.r_subsup;
+
+select one sup_rto related by r_subsup->R_SUPER[R212]->R_RTO[R204];
+select one sup_oir related by sup_rto->R_OIR[R203];
+
+self.ReferredToClassInAssoc_unformalize(r_rto:sup_rto);
+
+// have to relate again due to propagation of previous unrelates
+relate sup_oir to sup_rto across R203;
+
+',
+	1,
+	'',
+	"99555050-1f87-4204-b0c5-e018b7bf25c8");
+INSERT INTO O_TPARM
+	VALUES ("12a26683-138a-4233-bebc-0a1534bf93d4",
+	"e48a4cae-58eb-40d8-ab5c-d620de2116cc",
+	'r_subsup',
+	"8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("0bdc1bb3-9d41-48aa-a6ea-85d1a00c0e90",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ModelClass_removeDuplicateAttrs',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// This is not from the OOAofOOA. This is to support formalization
+o_obj = param.o_obj;
+
+// post processing for the formalizing object
+// * remove any base attributes that have a referential attribute of the same name
+select many battrs related by o_obj->O_ATTR[R102]->O_BATTR[R106]->O_ATTR[R106];
+select many rattrs related by o_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
+for each battr in battrs
+  for each rattr in rattrs
+	if ( rattr.Root_Nam == battr.Root_Nam )
+	  self.Attribute_dispose( o_attr:battr ); // delete any base attribute that has the same name as a referential attribute
+	end if;
+  end for;
+end for;',
+	1,
+	'',
+	"e48a4cae-58eb-40d8-ab5c-d620de2116cc");
+INSERT INTO O_TPARM
+	VALUES ("ee27c9be-3a92-4b18-bab7-05d380deb78b",
+	"0bdc1bb3-9d41-48aa-a6ea-85d1a00c0e90",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",

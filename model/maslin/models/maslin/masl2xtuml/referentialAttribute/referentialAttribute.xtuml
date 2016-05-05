@@ -7,6 +7,98 @@ INSERT INTO O_OBJ
 	'referentialAttribute',
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("945e1205-07ef-4864-8c36-1ad86b2ccc46",
+	"c3444c03-ef4a-4796-9a59-dcc972c23be8",
+	'postProcess',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// there is some post processing that needs to be done for each referentialAttribute
+// in the formalization
+// * rename the referential attribute properly
+// * if needed, add the referential attribute to an identifier
+// * check for a duplicate that needs to be combined
+
+o_attr = param.o_attr;
+o_attrs = param.o_attrs;
+ooapopulation = param.ooapopulation;
+
+if ( not_empty o_attr )
+  // rename the attribute
+  o_attr.Root_Nam = self.o_attr.Root_Nam;
+
+  // add to identifiers
+  if ( true == self.identifier1 )
+	ooapopulation.Attribute_addToIdentifier( o_attr:o_attr, oid:0 );
+  end if;
+  if ( true == self.identifier2 )
+	ooapopulation.Attribute_addToIdentifier( o_attr:o_attr, oid:1 );
+  end if;
+  if ( true == self.identifier3 )
+	ooapopulation.Attribute_addToIdentifier( o_attr:o_attr, oid:2 );
+  end if;
+  
+  // search for duplicates
+  for each dup_o_attr in o_attrs
+	if ( dup_o_attr != o_attr and dup_o_attr.Root_Nam == o_attr.Root_Nam )
+	  select one o_rattr related by dup_o_attr->O_RATTR[R106];
+	  ooapopulation.ReferentialAttribute_combine_refs( o_rattr:o_rattr, other_attr:o_attr );
+	end if;
+  end for;
+  
+end if;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("0e57e868-841a-4b9f-8e2c-2cf852b01ac7",
+	"945e1205-07ef-4864-8c36-1ad86b2ccc46",
+	'o_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("579b8247-e153-481d-8926-384cdc722464",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("15248a74-04d3-4c7c-a712-5950b7f82d33",
+	"945e1205-07ef-4864-8c36-1ad86b2ccc46",
+	'o_attrs',
+	"ceb38606-6f98-4886-aab1-5ae358776d11",
+	0,
+	'',
+	"0e57e868-841a-4b9f-8e2c-2cf852b01ac7",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ceb38606-6f98-4886-aab1-5ae358776d11",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("1974617c-f62f-4bb2-9f6b-bb702c405162",
+	"945e1205-07ef-4864-8c36-1ad86b2ccc46",
+	'ooapopulation',
+	"6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	0,
+	'',
+	"15248a74-04d3-4c7c-a712-5950b7f82d33",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooapopulation>',
+	'',
+	'',
+	'../masl2xtuml.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("5ff08e8e-782d-41af-850c-1ee8e1f414cd",
 	"c3444c03-ef4a-4796-9a59-dcc972c23be8");
@@ -140,13 +232,6 @@ INSERT INTO O_ATTR
 	"579b8247-e153-481d-8926-384cdc722464",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("579b8247-e153-481d-8926-384cdc722464",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Attribute>',
-	'',
-	'',
-	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("2021d50d-d6f1-414d-aa66-1b27d3840fb3",
 	"c3444c03-ef4a-4796-9a59-dcc972c23be8");

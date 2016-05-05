@@ -14,8 +14,10 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	1,
-	'// checks the referential attributes connected to this formalization against
+	'// Checks the referential attributes connected to this formalization against
 // the identifier attributes for the target object
+// A simple formalization is complete when it has one referential attribute
+// for each attribute in an identifier of the participating class
 // returns -1 if incomplete. else, returns the identifier number
 
 ret = -1;
