@@ -6922,7 +6922,10 @@ create object instance rattr of O_RATTR;
 rattr.Ref_Mode = 0;  // LPS set to 0 to use local attribute name
 relate o_attr to rattr across R106;
 
-self.ReferentialAttribute_setDatatype(o_rattr:rattr);
+// LPS - we leave the datatype unset because the datatype same_as<Base Attribute>
+// does not exist. Instead it is incorporated into the instance dumper of O_ATTR
+// to insert the correct unique ID if the O_ATTR is related to an O_RATTR
+//self.ReferentialAttribute_setDatatype(o_rattr:rattr);
 ',
 	1,
 	'',

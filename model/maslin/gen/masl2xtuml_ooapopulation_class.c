@@ -7767,8 +7767,6 @@ rattr->Obj_ID = (Escher_UniqueID_t) rattr;
   rattr->Ref_Mode = 0;
   /* RELATE o_attr TO rattr ACROSS R106 */
   masl2xtuml_O_RATTR_R106_Link( o_attr, rattr );
-  /* self.ReferentialAttribute_setDatatype( o_rattr:rattr ) */
-  masl2xtuml_ooapopulation_op_ReferentialAttribute_setDatatype( self,  rattr );
 }
 
 /*
