@@ -10,7 +10,7 @@ INSERT INTO O_OBJ
 INSERT INTO O_TFR
 	VALUES ("6dc34968-2cac-40ae-b1aa-72692370cf54",
 	"0ad43698-1953-4af6-a1e1-8f9b8e5ad3cf",
-	'isComplete',
+	'getID',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	1,

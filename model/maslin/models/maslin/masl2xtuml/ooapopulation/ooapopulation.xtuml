@@ -5193,7 +5193,7 @@ while ( passes < num_forms )
 
 	if ( 0 == form.type )
 	  select one simpForm related by form->simpleFormalization[R3810];
-	  id = simpForm.isComplete();
+	  id = simpForm.getID();
 	  if ( -1 != id )	// the formalization is complete
 		simp = simpForm.rel;
 		select any r_part related by simp->R_PART[R207] where ( selected.Obj_ID == simpForm.part_obj_id );
@@ -5226,7 +5226,7 @@ while ( passes < num_forms )
 	  end if;
 	elif ( 1 == form.type )
 	  select one subsupForm related by form->subsuperFormalization[R3810];
-	  id = subsupForm.isComplete();
+	  id = subsupForm.getID();
 	  //id = 0;
 	  if ( -1 != id )	// the formalization is complete
 	    subsuper = subsupForm.rel;
@@ -5264,9 +5264,8 @@ while ( passes < num_forms )
 	  end if;
 	elif ( 2 == form.type )
 	  select one assocForm related by form->assocFormalization[R3810];
-	  //id = subsupForm.isComplete();
-	  one_id = 0;
-	  other_id = 0;
+	  one_id = assocForm.getID( target:0 );
+	  other_id = assocForm.getID( target:1 );
 	  if ( -1 != one_id and -1 != other_id )	// the formalization is complete
 	    linked = assocForm.rel;
 	    

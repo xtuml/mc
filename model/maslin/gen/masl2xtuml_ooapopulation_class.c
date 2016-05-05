@@ -5703,8 +5703,8 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
         /* SELECT one simpForm RELATED BY form->simpleFormalization[R3810] */
         simpForm = 0;
         if ( ( 0 != form ) && ( masl2xtuml_simpleFormalization_CLASS_NUMBER == form->R3810_object_id ) )        simpForm = ( 0 != form ) ? (masl2xtuml_simpleFormalization *) form->R3810_subtype : 0;
-        /* ASSIGN id = simpForm.isComplete() */
-        id = masl2xtuml_simpleFormalization_op_isComplete(simpForm);
+        /* ASSIGN id = simpForm.getID() */
+        id = masl2xtuml_simpleFormalization_op_getID(simpForm);
         /* IF ( ( - 1 != id ) ) */
         if ( ( -1 != id ) ) {
           masl2xtuml_referentialAttribute * ra=0;masl2xtuml_R_SIMP * simp;masl2xtuml_O_OBJ * form_obj=0;Escher_ObjectSet_s ras_space={0}; Escher_ObjectSet_s * ras = &ras_space;masl2xtuml_R_PART * r_part=0;
@@ -5807,8 +5807,8 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
         /* SELECT one subsupForm RELATED BY form->subsuperFormalization[R3810] */
         subsupForm = 0;
         if ( ( 0 != form ) && ( masl2xtuml_subsuperFormalization_CLASS_NUMBER == form->R3810_object_id ) )        subsupForm = ( 0 != form ) ? (masl2xtuml_subsuperFormalization *) form->R3810_subtype : 0;
-        /* ASSIGN id = subsupForm.isComplete() */
-        id = masl2xtuml_subsuperFormalization_op_isComplete(subsupForm);
+        /* ASSIGN id = subsupForm.getID() */
+        id = masl2xtuml_subsuperFormalization_op_getID(subsupForm);
         /* IF ( ( - 1 != id ) ) */
         if ( ( -1 != id ) ) {
           masl2xtuml_O_OBJ * sub=0;masl2xtuml_referentialAttribute * ra=0;masl2xtuml_R_SUBSUP * subsuper;Escher_ObjectSet_s subs_space={0}; Escher_ObjectSet_s * subs = &subs_space;Escher_ObjectSet_s ras_space={0}; Escher_ObjectSet_s * ras = &ras_space;
@@ -5919,10 +5919,10 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
         /* SELECT one assocForm RELATED BY form->assocFormalization[R3810] */
         assocForm = 0;
         if ( ( 0 != form ) && ( masl2xtuml_assocFormalization_CLASS_NUMBER == form->R3810_object_id ) )        assocForm = ( 0 != form ) ? (masl2xtuml_assocFormalization *) form->R3810_subtype : 0;
-        /* ASSIGN one_id = 0 */
-        one_id = 0;
-        /* ASSIGN other_id = 0 */
-        other_id = 0;
+        /* ASSIGN one_id = assocForm.getID(target:0) */
+        one_id = masl2xtuml_assocFormalization_op_getID(assocForm, 0);
+        /* ASSIGN other_id = assocForm.getID(target:1) */
+        other_id = masl2xtuml_assocFormalization_op_getID(assocForm, 1);
         /* IF ( ( ( - 1 != one_id ) and ( - 1 != other_id ) ) ) */
         if ( ( ( -1 != one_id ) && ( -1 != other_id ) ) ) {
           masl2xtuml_referentialAttribute * ra=0;masl2xtuml_R_ASSOC * linked;Escher_ObjectSet_s ras_space={0}; Escher_ObjectSet_s * ras = &ras_space;masl2xtuml_O_OBJ * assr_obj=0;
