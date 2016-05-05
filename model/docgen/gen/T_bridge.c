@@ -6,12 +6,12 @@
  *
  * External Entity:  template (T)
  * 
- * your copyright statement can go here (from te_copyright.body)
  *--------------------------------------------------------------------------*/
 
-#include "sys_sys_types.h"
+#include "docgen_sys_types.h"
+#include "LOG_bridge.h"
+#include "POP_bridge.h"
 #include "T_bridge.h"
-#include "ooaofooa_classes.h"
 
 extern bool Escher_run_flag;
 #define T_number_of_bufs 4
@@ -20,6 +20,7 @@ static i_t current_tbuf = 0;
 static i_t buffer_index = 0;
 static char buffer[ 256000 ];
 static char tbuf[ T_number_of_bufs ][ T_tbuf_size ];
+FILE * outputfile;
 
 
 /*
@@ -32,30 +33,6 @@ T_s( const i_t p_i )
   return Escher_itoa( tbuf[ current_tbuf ], p_i );
 }
 
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-static void _mkdir(const char *);
-static void _mkdir(const char *dir) {
-  char tmp[256];
-  char *p = NULL;
-  size_t len;
-
-  snprintf(tmp, sizeof(tmp),"%s",dir);
-  len = strlen(tmp);
-  if(tmp[len - 1] == '/')
-    tmp[len - 1] = 0;
-  for(p = tmp + 1; *p; p++)
-    if(*p == '/') {
-      *p = 0;
-      mkdir(tmp, S_IRWXU);
-      *p = '/';
-    }
-}
-
 
 /*
  * Bridge:  emit
@@ -63,21 +40,22 @@ static void _mkdir(const char *dir) {
 void
 T_emit( c_t * p_file )
 {
-  FILE * outputfile;
-  if ( strcmp( "stdout", p_file ) == 0 ) {
-    outputfile = stdout;
-  } else {
-    // Create directories as needed.
-    _mkdir( p_file );
-    // Open file.
+	//printf("Emitting to file: %s\n", p_file);
+  static int first = 0;
+  if ( first == 0 ) {
+    first = 1;
     if ( 0 == ( outputfile = fopen( p_file, "w" ) ) ) {
       T_print( "bad news could not open output file" );
       T_exit( 1 );
     }
   }
   fprintf( outputfile, "%s", buffer );
+//  printf("---\n");
+//  printf("%s", buffer);
+//  printf("---\n");
   T_clear();
 }
+
 
 /*
  * Bridge:  clear
@@ -366,8 +344,8 @@ T_body( void )
 }
 
 
-extern char * template_engine( char * );
-extern int yyparse( void );
+//extern char * template_engine( char * );
+//extern int yyparse( void );
 
 /*
  * Bridge:  t
@@ -381,7 +359,7 @@ T_t( c_t * p_s )
     c_t s[ESCHER_SYS_MAX_STRING_LEN];
     strncpy(s,p_s,ESCHER_SYS_MAX_STRING_LEN-1);strcat(s,"\n");
 #ifdef __x86_64__
-    result = template_engine( s );
+    //result = template_engine( s );
 #endif
   }
   return result;

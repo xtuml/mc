@@ -2953,10 +2953,6 @@ for each c_c in c_cs
           if ( not_empty s_sys )
             unrelate imported_ep_pkg from s_sys across R1401;
           end if;
-          select one s_sys related by imported_ep_pkg->S_SYS[R1405];
-          if ( not_empty s_sys )
-            unrelate imported_ep_pkg from s_sys across R1405;
-          end if;
           select one pe_pe related by ep_pkg->PE_PE[R8001];
           unrelate pe_pe from ep_pkg across R8001;
           relate pe_pe to imported_ep_pkg across R8001;
@@ -7046,6 +7042,7 @@ select any te_prefix from instances of TE_PREFIX;
 te_set.module = "";
 te_set.copy = te_prefix.result + "CopySet";
 te_set.clear = te_prefix.result + "ClearSet";
+te_set.setadd = te_prefix.result + "SetAdd";
 te_set.insert_element = te_prefix.result + "SetInsertElement";
 te_set.element_count = te_prefix.result + "SetCardinality";
 te_set.iterator_class_name = te_prefix.result + "Iterator_s";

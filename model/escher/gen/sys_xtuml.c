@@ -69,6 +69,20 @@ Escher_ClearSet( Escher_ObjectSet_s * set )
 }
 
 /*
+ * Concatenate set2 onto the end of set1.
+ */
+Escher_ObjectSet_s *
+Escher_SetAdd( Escher_ObjectSet_s * set1,  Escher_ObjectSet_s * set2 )
+{
+  if ( ( set1->head != 0 ) && ( set2->head != 0 ) ) {  /* empty set  */
+    Escher_SetElement_s * slot;
+    for ( slot = set1->head; slot->next != 0; slot = slot->next ); /* Find end of set1.  */
+    slot->next = set2->head;
+  }
+  return set1;
+}
+
+/*
  * Insert a single element into the set in no particular order.
  * The element is a data item.  A container node will be allocated
  * to link in the element.
@@ -149,11 +163,11 @@ Escher_SetRemoveNode(
 )
 {
   Escher_SetElement_s * t = set->head; /* Start with first node.           */
+  Escher_SetElement_s * t_old = t;
   /* Find node containing data and unlink from list.                 */
   if ( t->object == d ) {        /* Element found at head.           */
     set->head = t->next;         /* Unlink it from the list.         */
   } else {
-    Escher_SetElement_s * t_old;
     do {                         /* Search for data element.         */
       t_old = t;
       t = t->next;
@@ -162,7 +176,7 @@ Escher_SetRemoveNode(
     t_old->next = t->next;      /* Unlink element from the list.     */
   }
   if ( set->tail == t ) {
-    set->tail = t->next;
+    set->tail = t_old;
   }
   return t;
 }
@@ -333,7 +347,7 @@ Escher_strcpy( c_t * dst, const c_t * src )
 c_t *
 Escher_stradd( const c_t * left, const c_t * right )
 {
-  i_t i = MAXRECORDLENGTH - 1;
+  Escher_size_t i = MAXRECORDLENGTH - 1;
   c_t * s = Escher_strget();
   c_t * dst = s;
   if ( 0 == left ) left = "";

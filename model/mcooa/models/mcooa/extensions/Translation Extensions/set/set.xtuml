@@ -56,7 +56,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("8c22228b-2ab4-48e9-9beb-7d1b65549e60",
 	"331cf64d-3364-408e-aee3-cf70a09801d9",
-	"78d63f01-fbaf-400c-b0d0-913064f5e092",
+	"e79ea1b4-b356-4d47-9b76-69e872c01470",
 	'insert_element',
 	'Add an arbitrary data element to the collection.',
 	'',
@@ -409,6 +409,24 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("e79ea1b4-b356-4d47-9b76-69e872c01470",
+	"331cf64d-3364-408e-aee3-cf70a09801d9");
+INSERT INTO O_BATTR
+	VALUES ("e79ea1b4-b356-4d47-9b76-69e872c01470",
+	"331cf64d-3364-408e-aee3-cf70a09801d9");
+INSERT INTO O_ATTR
+	VALUES ("e79ea1b4-b356-4d47-9b76-69e872c01470",
+	"331cf64d-3364-408e-aee3-cf70a09801d9",
+	"78d63f01-fbaf-400c-b0d0-913064f5e092",
+	'setadd',
+	'Remove and free up the nodes of a collection.',
+	'',
+	'setadd',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "SetAdd"');
 INSERT INTO O_ID
 	VALUES (0,
 	"331cf64d-3364-408e-aee3-cf70a09801d9");
@@ -427,7 +445,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Translation Extensions',
 	'TRANSLATE:TRUE
 This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',

@@ -18,12 +18,11 @@ Needed:
 - Linux BridgePoint with source MC installed (specifically, the prior official BP release 
   with matching source MC)
 - Enable preference:  Allow operations inside where clauses of select statements
-- Copy <git>/xtuml/mc/etc/org.xtuml.bp.core.function.gen_*.jar to your installation's dropins/ folder
-- xtuml/mc/model/escher
+- xtuml/mc/model/escher, docgen, document, mcooa, MCshared
 - rsl2oal (lives in xtuml/mc/mcmc/arlan)
 - current_list.sh (lives in xtuml/mc/mcmc/arlan)
 - convert_templates.sh (lives in xtuml/mc/mcmc/arlan)
-- golden source from previous build (xtuml/mc/model/escher/src410)
+- golden source from previous build (xtuml/mc/model/escher/src5xx)
 - flex (>=2.5.35) & bison (>=2.5)
 
 Update the RSL-to-OAL translator.
