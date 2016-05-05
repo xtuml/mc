@@ -137,11 +137,12 @@ for each c_c in c_cs;
   value[0] = c_c.Name;
   out::populate( element:"domain", value:value );
   
+  ::class2objectdeclaration( c_c:c_c );
   ::type2type( c_c:c_c );
   ::function2routine( c_c:c_c );
   ::port2terminator( c_c:c_c, project:param.project );
-  ::class2object( c_c:c_c );
   ::association2relationship( c_c:c_c );
+  ::class2object( c_c:c_c );
   
   // Populate pragmas
   ::parsepragmas( s:c_c.Descrip, list:"" );
@@ -2137,6 +2138,40 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("e2293e1c-01c0-451d-87fb-8b85845690a5",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2f459c99-3c8c-4b98-8898-5661cf9e0fbe",
+	"00000000-0000-0000-0000-000000000000",
+	'class2objectdeclaration',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
+for each o_obj in o_objs
+  value[0] = o_obj.Name;
+  out::populate( element:"object", value:value );
+  out::populate( element:"object", value:emptyvalue );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e7e87814-1a70-4e6e-a9fd-7725a64e6126",
+	"2f459c99-3c8c-4b98-8898-5661cf9e0fbe",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2f459c99-3c8c-4b98-8898-5661cf9e0fbe",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
