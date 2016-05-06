@@ -1867,10 +1867,6 @@ for each c_c in c_cs
           if ( not_empty s_sys )
             unrelate imported_ep_pkg from s_sys across R1401;
           end if;
-          select one s_sys related by imported_ep_pkg->S_SYS[R1405];
-          if ( not_empty s_sys )
-            unrelate imported_ep_pkg from s_sys across R1405;
-          end if;
           select one pe_pe related by ep_pkg->PE_PE[R8001];
           unrelate pe_pe from ep_pkg across R8001;
           relate pe_pe to imported_ep_pkg across R8001;
@@ -2604,7 +2600,7 @@ end for;
 select many te_pos from instances of TE_PO;
 for each te_po in te_pos
   select many te_macts related by te_po->TE_MACT[R2006];
-  ::mact_sort( te_macts:te_macts );
+  r = ::mact_sort( te_macts:te_macts );
   te_mact = r;
   if ( not_empty te_mact )
     relate te_po to te_mact across R2099.'has first';
@@ -2613,6 +2609,8 @@ end for;
 //
 //
 // Create the generated links (associations) and connect them.
+// CDS - consider moving this in under the TE_C loop.
+// also consider selecting these from include r_oirs.
 select many r_rels from instances of R_REL;
 for each r_rel in r_rels
   create object instance te_rel of TE_REL;
@@ -2864,7 +2862,7 @@ for each v_var in v_vars
   else
     msg = ( "\nERROR:  Did not find a datatype associated with variable " + v_var.Name ) + ".\n";
     msg = msg + "Check usages of variable for parse errors in the action language.\n";
-    msg = msg + "[Parse All Activies and look for errors in the Problems view.]\n";
+    msg = msg + "[Parse All Activities and look for errors in the Problems view.]\n";
     T::print(s:"${msg}");
   end if;
 end for;
@@ -4514,6 +4512,7 @@ select any te_prefix from instances of TE_PREFIX;
 te_set.module = "";
 te_set.copy = te_prefix.result + "CopySet";
 te_set.clear = te_prefix.result + "ClearSet";
+te_set.setadd = te_prefix.result + "SetAdd";
 te_set.insert_element = te_prefix.result + "SetInsertElement";
 te_set.element_count = te_prefix.result + "SetCardinality";
 te_set.iterator_class_name = te_prefix.result + "Iterator_s";
