@@ -1,0 +1,169 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("d4c27aa5-571c-4afd-ab73-1dbd68c6d74e",
+	'formalization',
+	3809,
+	'formalization',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("95192c5f-c6c3-4bfd-b6e1-b55eb6e12ac1",
+	"d4c27aa5-571c-4afd-ab73-1dbd68c6d74e",
+	'compareAttrSets',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'// compare a set of attributes in an ID for consistency with
+// a set of referential attributes
+// return true if they match,
+// return false if they do not match
+
+o_attrs = param.o_attrs;
+ras = param.ras;
+
+// default the result to false
+result = false;
+
+// if either of the cardinalities are zero, they do not match
+if ( 0 == cardinality o_attrs or 0 == cardinality ras )
+  return result;
+end if;
+
+// loop through and check each one
+for each o_attr in o_attrs
+
+  match = false;
+  for each ra in ras
+    if ( o_attr.Root_Nam == ra.attrName )
+      match = true;
+      break;
+    end if;
+  end for;
+  
+  if ( match == false )  // if no match was found, we have an inconsistency
+    return result;
+  end if;
+
+end for;
+
+// if we made it all the way through the for loop with no inconsistencies, it is a match
+result = true;
+
+return result;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("abd15f92-d96d-4b15-b0b1-04b1a189bafb",
+	"95192c5f-c6c3-4bfd-b6e1-b55eb6e12ac1",
+	'o_attrs',
+	"ceb38606-6f98-4886-aab1-5ae358776d11",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ceb38606-6f98-4886-aab1-5ae358776d11",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("542aede4-55b5-4444-99ee-9ff013c98701",
+	"95192c5f-c6c3-4bfd-b6e1-b55eb6e12ac1",
+	'ras',
+	"02a6cfb7-7bcb-4aef-806e-6cccfc40e5ec",
+	0,
+	'',
+	"abd15f92-d96d-4b15-b0b1-04b1a189bafb",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("02a6cfb7-7bcb-4aef-806e-6cccfc40e5ec",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<referentialAttribute>',
+	'',
+	'',
+	'../masl2xtuml.xtuml');
+INSERT INTO O_TFR
+	VALUES ("c40603c4-2510-4285-898f-494bd9e2f9e7",
+	"d4c27aa5-571c-4afd-ab73-1dbd68c6d74e",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// dispose referentialAttributes
+select many ras related by self->referentialAttribute[R3811];
+for each ra in ras
+  unrelate ra from self across R3811;
+  delete object instance ra;
+end for;
+
+// dispose subtype
+select one simpForm related by self->simpleFormalization[R3810];
+if ( not_empty simpForm )
+  unrelate simpForm from self across R3810;
+  delete object instance simpForm;
+end if;
+
+select one subsuperForm related by self->subsuperFormalization[R3810];
+if ( not_empty subsuperForm )
+  unrelate subsuperForm from self across R3810;
+  delete object instance subsuperForm;
+end if;
+
+select one assocForm related by self->assocFormalization[R3810];
+if ( not_empty assocForm )
+  unrelate assocForm from self across R3810;
+  delete object instance assocForm;
+end if;
+
+// delete self
+delete object instance self;',
+	1,
+	'',
+	"95192c5f-c6c3-4bfd-b6e1-b55eb6e12ac1");
+INSERT INTO O_NBATTR
+	VALUES ("56c06657-eef2-455e-9888-41b81e7afdeb",
+	"d4c27aa5-571c-4afd-ab73-1dbd68c6d74e");
+INSERT INTO O_BATTR
+	VALUES ("56c06657-eef2-455e-9888-41b81e7afdeb",
+	"d4c27aa5-571c-4afd-ab73-1dbd68c6d74e");
+INSERT INTO O_ATTR
+	VALUES ("56c06657-eef2-455e-9888-41b81e7afdeb",
+	"d4c27aa5-571c-4afd-ab73-1dbd68c6d74e",
+	"00000000-0000-0000-0000-000000000000",
+	'type',
+	'0 = simple
+1 = subsuper
+2 = linked',
+	'',
+	'type',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"d4c27aa5-571c-4afd-ab73-1dbd68c6d74e");
+INSERT INTO O_ID
+	VALUES (1,
+	"d4c27aa5-571c-4afd-ab73-1dbd68c6d74e");
+INSERT INTO O_ID
+	VALUES (2,
+	"d4c27aa5-571c-4afd-ab73-1dbd68c6d74e");
+INSERT INTO PE_PE
+	VALUES ("d4c27aa5-571c-4afd-ab73-1dbd68c6d74e",
+	1,
+	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'masl2xtuml',
+	'',
+	0,
+	'../masl2xtuml.xtuml');

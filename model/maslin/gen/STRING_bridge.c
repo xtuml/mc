@@ -82,3 +82,76 @@ STRING_atoi( c_t * p_s )
   return xtumlOALrv;}
 }
 
+/*
+ * Bridge:  substr
+ */
+c_t *
+STRING_substr( const i_t p_begin, const i_t p_end, c_t * p_s )
+{
+  c_t result[ESCHER_SYS_MAX_STRING_LEN];
+  result[0] = '\0';
+
+  // get length of s
+  i_t len = (i_t)Escher_strlen( p_s );
+
+  // check that the indexes are in a valid range
+  i_t begin = p_begin;
+  i_t end = p_end;
+  if ( begin < 0 || begin > len - 1 ) {
+    begin = 0;
+  }
+  if ( end < 1 || end > len ) {
+    end = len;
+  }
+
+  // if we have a string and the end is greater than begin
+  if ( !(len == 0 || end <= begin) ) {
+
+    // copy in the new string
+    c_t * p = p_s + begin;
+    c_t * r = result;
+    while ( p < p_s + end ) {
+      *r++ = *p++;
+    }
+    *r = '\0';  // null terminate
+
+  }
+
+  return result;
+}
+
+
+/*
+ * Bridge:  strlen
+ */
+i_t
+STRING_strlen( c_t * p_s )
+{
+  i_t result = 0;
+  /* Insert your implementation code here... */
+  return result;
+}
+
+
+/*
+ * Bridge:  indexof
+ */
+i_t
+STRING_indexof( c_t * p_haystack, c_t * p_needle )
+{
+  i_t result = 0;
+  /* Insert your implementation code here... */
+  return result;
+}
+
+
+/*
+ * Bridge:  getword
+ */
+c_t *
+STRING_getword( const i_t p_i, c_t * p_s )
+{
+  c_t * result = 0;
+  /* Insert your implementation code here... */
+  return result;
+}
