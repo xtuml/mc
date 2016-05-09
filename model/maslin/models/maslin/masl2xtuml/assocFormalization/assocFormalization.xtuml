@@ -1,0 +1,122 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("67df45b4-54b0-44a6-abdb-3b69a93d9942",
+	'assocFormalization',
+	3812,
+	'assocFormalization',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("f775db31-e84f-461a-81d4-923c03439794",
+	"67df45b4-54b0-44a6-abdb-3b69a93d9942",
+	'getID',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'// Checks the referential attributes connected to this formalization against
+// the identifier attributes for the target object
+// The target object is chosen based on the target parameter
+// one = 0
+// other = 1
+// A linked formalization is complete when it has one referential attribute
+// for each attribute in an identifier of the target class
+// returns -1 if incomplete. else, returns the identifier number
+
+ret = -1;
+
+// select all of the referential attributes
+select many ras related by self->formalization[R3810]->referentialAttribute[R3811];
+
+linked = self.rel;
+select any o_obj from instances of O_OBJ where false;
+if ( 0 == param.target )
+  select one o_obj related by linked->R_AONE[R209]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201];
+elif ( 1 == param.target )
+  select one o_obj related by linked->R_AOTH[R210]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201];
+end if;
+
+// select all attributes for ID1
+select any o_id1 related by o_obj->O_ID[R104] where ( selected.Oid_ID == 0 );
+select many o_attrs related by o_id1->O_ATTR[R105];
+if ( true == formalization::compareAttrSets( o_attrs:o_attrs, ras:ras ) )
+  ret = 0;
+else
+  // check ID2
+  select any o_id2 related by o_obj->O_ID[R104] where ( selected.Oid_ID == 1 );
+  select many o_attrs related by o_id2->O_ATTR[R105];
+  if ( true == formalization::compareAttrSets( o_attrs:o_attrs, ras:ras ) )
+	ret = 1;
+  else
+    // check ID3
+	select any o_id3 related by o_obj->O_ID[R104] where ( selected.Oid_ID == 2 );
+	select many o_attrs related by o_id3->O_ATTR[R105];
+	if ( true == formalization::compareAttrSets( o_attrs:o_attrs, ras:ras ) )
+	  ret = 2;
+	end if;
+  end if;
+end if;
+
+return ret;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("efc19e6f-172e-4f48-a933-306626d14162",
+	"f775db31-e84f-461a-81d4-923c03439794",
+	'target',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'calculate isComplete with respect to the one object or other object
+one = 0
+other = 1');
+INSERT INTO O_NBATTR
+	VALUES ("75eab1c1-39e0-401d-8c7b-50ee669c2a66",
+	"67df45b4-54b0-44a6-abdb-3b69a93d9942");
+INSERT INTO O_BATTR
+	VALUES ("75eab1c1-39e0-401d-8c7b-50ee669c2a66",
+	"67df45b4-54b0-44a6-abdb-3b69a93d9942");
+INSERT INTO O_ATTR
+	VALUES ("75eab1c1-39e0-401d-8c7b-50ee669c2a66",
+	"67df45b4-54b0-44a6-abdb-3b69a93d9942",
+	"00000000-0000-0000-0000-000000000000",
+	'rel',
+	'',
+	'',
+	'rel',
+	0,
+	"7f02c6dd-ea5d-4892-801e-a1515764350f",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("7f02c6dd-ea5d-4892-801e-a1515764350f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Linked Association>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"67df45b4-54b0-44a6-abdb-3b69a93d9942");
+INSERT INTO O_ID
+	VALUES (1,
+	"67df45b4-54b0-44a6-abdb-3b69a93d9942");
+INSERT INTO O_ID
+	VALUES (2,
+	"67df45b4-54b0-44a6-abdb-3b69a93d9942");
+INSERT INTO PE_PE
+	VALUES ("67df45b4-54b0-44a6-abdb-3b69a93d9942",
+	1,
+	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'masl2xtuml',
+	'',
+	0,
+	'../masl2xtuml.xtuml');
