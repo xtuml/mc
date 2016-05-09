@@ -154,19 +154,22 @@ STRING_indexof( c_t * p_haystack, c_t * p_needle )
   // seach through to find first character match
   for ( ; *a != 0; a += 1) {
     if (*a == *b) {
-      break;
-    }
-  }
 
-  // check the rest of the string
-  c = a;
-  while ( *c++ == *b++ ) {
-    if ( *b == '\0' ) {
-      return a - p_haystack;
+      // check the rest of the string
+      c = a;
+      while ( *c++ == *b++ ) {
+        if ( *b == '\0' ) {
+          return a - p_haystack;
+        }
+        if ( *c == '\0' ) {
+          break;
+        }
+      }
+
     }
-    if ( *c == '\0' ) {
-      break;
-    }
+
+    // reset b
+    b = p_needle;
   }
 
   // no match found
