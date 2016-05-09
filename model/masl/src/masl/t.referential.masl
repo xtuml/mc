@@ -8,7 +8,9 @@ if ( 0!=strcmp("",rolephrase) ) {
 T_b(rolephrase);
 T_b(".");
 }
+if ( 0!=strcmp("",objectname) ) {
 T_b(objectname);
 T_b(".");
+}
 T_b(attribute);
 T_b("");
