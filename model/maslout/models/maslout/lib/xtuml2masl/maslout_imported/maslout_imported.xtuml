@@ -611,7 +611,12 @@ for each o_attr in o_attrs
       end if;
       
       if ( "" == textphrase )
-        value[2] = rto_obj.Name; // if there is no text phrase, use the object name
+        select one r_sup related by rto->R_SUPER[R204];
+        if ( not_empty r_sup )	   // if this is a subsuper relationship, exclude the object name
+          value[2] = "";
+        else
+          value[2] = rto_obj.Name; // if there is no text phrase, use the object name
+        end if;
         value[3] = "";
       else
         value[2] = textphrase; // use the phrase and the object name
