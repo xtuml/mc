@@ -17,16 +17,19 @@ INSERT INTO O_TFR
 	'select one referred_to related by self->attribute[R3746.''references''];
 attribute = referred_to.name;
 
-select one object related by referred_to->object[R3709];
-objectname = object.name;
-
 select one relationship related by self->relationship[R3744];
 relationshipname = relationship.name;
+
+objectname = "";
+select one subsuper related by relationship->subsuper[R3721];	// if the relationship is subsuper, we exclude the object name
+if ( empty subsuper )
+  select one object related by referred_to->object[R3709];
+  objectname = object.name;
+end if;
 
 select one domain related by relationship->domain[R3712];
 domainname = "";
 
-// check if subsuper
 rolephrase = self.rolephrase;
 
 T::include( file:"masl/t.referential.masl" );',
