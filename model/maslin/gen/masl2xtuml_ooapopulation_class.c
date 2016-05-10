@@ -104,7 +104,7 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
       masl2xtuml_ooaelement_op_trace( ooapopulation );
     }
   }
-  else if ( !( ( ( ( ( ( Escher_strcmp( "typeref", element ) == 0 ) || ( Escher_strcmp( "referential", element ) == 0 ) ) || ( Escher_strcmp( "pragmaitem", element ) == 0 ) ) || ( Escher_strcmp( "transition", element ) == 0 ) ) || ( Escher_strcmp( "expression", element ) == 0 ) ) || ( Escher_strcmp( "codeblock", element ) == 0 ) ) ) {
+  else if ( !( ( ( ( ( ( ( Escher_strcmp( "typeref", element ) == 0 ) || ( Escher_strcmp( "referential", element ) == 0 ) ) || ( Escher_strcmp( "pragmaitem", element ) == 0 ) ) || ( Escher_strcmp( "transition", element ) == 0 ) ) || ( Escher_strcmp( "expression", element ) == 0 ) ) || ( Escher_strcmp( "description", element ) == 0 ) ) || ( Escher_strcmp( "codeblock", element ) == 0 ) ) ) {
     /* ooaelement::populate( population:ooapopulation, type:element ) */
     masl2xtuml_ooaelement_op_populate( ooapopulation, element );
   }
@@ -674,6 +674,13 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
       /* ooaelement::trace( population:ooapopulation ) */
       masl2xtuml_ooaelement_op_trace( ooapopulation );
     }
+  }
+  else if ( ( Escher_strcmp( "description", element ) == 0 ) ) {
+    masl2xtuml_ooaelement * current_element=0;
+    /* SELECT one current_element RELATED BY ooapopulation->ooaelement[R3801] */
+    current_element = ( 0 != ooapopulation ) ? ooapopulation->ooaelement_R3801_has_current : 0;
+    /* ooapopulation.transformDescription( descrip:value[0], element:current_element, tag:value[1] ) */
+    masl2xtuml_ooapopulation_op_transformDescription( ooapopulation,  value[0], current_element, value[1] );
   }
   else {
     /* TRACE::log( flavor:failure, id:59, message:( masl2xtuml unrecognized element:   + element ) ) */
@@ -8311,6 +8318,32 @@ masl2xtuml_ooapopulation_op_LinkedAssociation_unformalize( masl2xtuml_ooapopulat
   masl2xtuml_R_RTO_R203_Link( aone_oir, aone_rto );
   /* RELATE aoth_oir TO aoth_rto ACROSS R203 */
   masl2xtuml_R_RTO_R203_Link( aoth_oir, aoth_rto );
+}
+
+/*
+ * instance operation:  transformDescription
+ */
+void
+masl2xtuml_ooapopulation_op_transformDescription( masl2xtuml_ooapopulation * self, c_t * p_descrip, masl2xtuml_ooaelement * p_element, c_t * p_tag )
+{
+  c_t * tag=0;c_t * descrip=0;masl2xtuml_ooaelement * element;
+  /* ASSIGN element = PARAM.element */
+  element = p_element;
+  /* ASSIGN descrip = PARAM.descrip */
+  descrip = Escher_strcpy( descrip, p_descrip );
+  /* ASSIGN tag = PARAM.tag */
+  tag = Escher_strcpy( tag, p_tag );
+  /* IF ( ( object == element.type ) ) */
+  if ( ( Escher_strcmp( "object", element->type ) == 0 ) ) {
+    masl2xtuml_O_OBJ * obj;
+    /* ASSIGN obj = self.current_class */
+    obj = self->current_class;
+    /* IF ( not_empty obj ) */
+    if ( ( 0 != obj ) ) {
+      /* ASSIGN obj.Descrip = ( obj.Descrip + descrip ) */
+      obj->Descrip = Escher_strcpy( obj->Descrip, Escher_stradd( obj->Descrip, descrip ) );
+    }
+  }
 }
 
 /*

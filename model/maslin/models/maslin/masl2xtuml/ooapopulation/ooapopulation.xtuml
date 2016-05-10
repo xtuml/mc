@@ -47,6 +47,7 @@ elif ( not ( "typeref" == element or 		// exclude leaf nodes in stack
   	   "pragmaitem" == element or 
   	   "transition" == element or
   	   "expression" == element or
+  	   "description" == element or
   	   "codeblock" == element ) )
   ooaelement::populate( population: ooapopulation, type: element );
 end if;
@@ -341,6 +342,9 @@ elif ( "pragmaitem" == element )
     TRACE::log( flavor:"failure", id:57, message:"Element stack is malformed." );
     ooaelement::trace( population: ooapopulation );
   end if;
+elif ( "description" == element )
+  select one current_element related by ooapopulation->ooaelement[R3801];
+  ooapopulation.transformDescription( element:current_element, descrip:value[0], tag:value[1] );
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
@@ -7390,6 +7394,62 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("2a7c6bb3-a25a-4f91-879b-e7d0557c7647",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformDescription',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'element = param.element;
+descrip = param.descrip;
+tag = param.tag;
+
+// choose where to put the description based on the element type
+if ( "object" == element.type )
+  obj = self.current_class;
+  if ( not_empty obj )
+    obj.Descrip = obj.Descrip + descrip;
+  end if;
+// elif ( ... etc.
+end if;',
+	1,
+	'',
+	"f8e9c620-45ae-495d-98b3-effcb38fc212");
+INSERT INTO O_TPARM
+	VALUES ("79528561-419f-40d2-84d7-937fc54f5dc0",
+	"2a7c6bb3-a25a-4f91-879b-e7d0557c7647",
+	'element',
+	"67d44486-874e-43aa-a2a2-0487451e2390",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("67d44486-874e-43aa-a2a2-0487451e2390",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooaelement>',
+	'',
+	'',
+	'../../marking/marking.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("a95eb209-08f1-46f8-8298-29c16605c8c8",
+	"2a7c6bb3-a25a-4f91-879b-e7d0557c7647",
+	'descrip',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"79528561-419f-40d2-84d7-937fc54f5dc0",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("017dedaa-ec0d-453e-9ed8-007277813d34",
+	"2a7c6bb3-a25a-4f91-879b-e7d0557c7647",
+	'tag',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a95eb209-08f1-46f8-8298-29c16605c8c8",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
