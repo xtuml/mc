@@ -97,11 +97,17 @@ STRING_substr( const i_t p_begin, const i_t p_end, c_t * p_s )
   // check that the indexes are in a valid range
   i_t begin = p_begin;
   i_t end = p_end;
-  if ( begin < 0 || begin > len - 1 ) {
+  if ( begin > len - 1 ) {
+    return result;
+  }
+  if ( begin < 0 ) {
     begin = 0;
   }
-  if ( end < 1 || end > len ) {
+  if ( end < 0 || end > len ) {
     end = len;
+  }
+  if ( end <= begin ) {
+    return result;
   }
 
   // if we have a string and the end is greater than begin

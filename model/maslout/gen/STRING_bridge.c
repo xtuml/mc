@@ -94,11 +94,17 @@ STRING_substr( const i_t p_begin, const i_t p_end, c_t * p_s )
   // check that the indexes are in a valid range
   i_t begin = p_begin;
   i_t end = p_end;
-  if ( begin < 0 || begin > len - 1 ) {
+  if ( begin > len - 1 ) {
+    return result;
+  }
+  if ( begin < 0 ) {
     begin = 0;
   }
-  if ( end < 1 || end > len ) {
+  if ( end < 0 || end > len ) {
     end = len;
+  }
+  if ( end <= begin ) {
+    return result;
   }
 
   // if we have a string and the end is greater than begin
@@ -239,5 +245,40 @@ STRING_getword( const i_t p_i, c_t * p_s )
   }
 
   return result;
+}
+
+/*
+ * Bridge:  trim
+ */
+c_t *
+STRING_trim( c_t * p_s )
+{
+  c_t result[ESCHER_SYS_MAX_STRING_LEN];
+  result[0] = '\0';
+
+  c_t * a;
+  c_t * b;
+
+  // find the first non whitespace character
+  a = p_s;
+  for ( ; *a != '\0'; a++ ) {
+    if ( *a != ' ' && *a != '\r' && *a != '\t' && *a != '\n' ) break;   // found non whitespace
+  }
+
+  // find last non whitespace character
+  i_t len = (i_t)Escher_strlen( p_s );
+  b = p_s + ( len - 1 );
+  for ( ; b != p_s; b-- ) {
+    if ( *a != ' ' && *a != '\r' && *a != '\t' && *a != '\n' ) break;   // found non whitespace
+  }
+
+  // check if they crossed ( all whitespace )
+  if ( b < a ) {
+    return result;
+  }
+  else {
+    return STRING_substr( (const i_t)(a - p_s), (const i_t)(b - p_s), p_s );
+  }
+
 }
 
