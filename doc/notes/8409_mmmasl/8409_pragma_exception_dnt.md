@@ -30,7 +30,7 @@ application model.
 Separately, exceptions are support by MASL but have not been supported
 by xtUML.  This work adds a design of rudimentary exception declaration
 support.  Exception definition and exception handling in the action
-language (MASL or OAL) is beyond the scope of this design note.
+language (MASL or OAL) are beyond the scope of this design note.
 
 4. Requirements
 ---------------
@@ -91,10 +91,16 @@ this association.
 and _Mark_.  
 6.1.3 The classes will be modeled as such:  
 ```
-Markable [M_MBL] ( Name:string {I} ) 1 marks ----- * Mark [M_M] ( Name {I, R}, Path:string {I}, Value:string )
+Markable [M_MBL] ( Name:string {I} ) 1 marks ----- is marked by * Mark [M_M] ( ID? {I}, Name {I2, R}, Path:string {I2}, Value:string )
 ```
-6.1.4 The _path_ attribute is the same xtUML model hierarchy path used to uniquely
-identify logical and graphical elements in the application model.  
+6.1.4 The _Path_ attribute is the same xtUML model hierarchy path used to
+uniquely identify logical and graphical elements in the application model.
+This path is a double-colon ('::') separated list of model elements
+mostly showing containment from the system down through the packages
+to the named model element.  It is unique for every element in a model.  
+6.1.5 The _Name_ attribute on Markable is the key letters of the xtUML
+meta-model that can be marked.  This is supplied in pre-existing instance
+data.
 
 6.2 Exceptions  
 6.2.1 A new class is introduced into the _Body_ package called _Exception_.  
