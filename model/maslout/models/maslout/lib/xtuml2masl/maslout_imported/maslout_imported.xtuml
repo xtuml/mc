@@ -493,6 +493,13 @@ for each o_obj in o_objs
   // render the pragmas to SMASL
   o_obj.Descrip = ::parsepragmas( s:o_obj.Descrip, list:"definition" );
   
+  // output the description
+  if ( "" != STRING::trim( s:o_obj.Descrip ) )
+    value[0] = o_obj.Descrip;
+    value[1] = "";
+    out::populate( element:"description", value:value );
+  end if;
+  
   out::populate( element:"object", value:emptyvalue );
 end for;
 ',
