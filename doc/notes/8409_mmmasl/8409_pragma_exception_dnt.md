@@ -93,18 +93,26 @@ and _Mark_.
 ```
 Markable [M_MBL] ( Name:string {I} ) 1 marks ----- * Mark [M_M] ( Name {I, R}, Path:string {I}, Value:string )
 ```
-6.1.4 The 'path' attribute is the same xtUML model hierarchy path used to uniquely
+6.1.4 The _path_ attribute is the same xtUML model hierarchy path used to uniquely
 identify logical and graphical elements in the application model.  
 
 6.2 Exceptions  
-6.2.1 A new class is introduced into the _Domain_ package called _Exception_.  
+6.2.1 A new class is introduced into the _Body_ package called _Exception_.  
 6.2.2 _Exception_ is a packagable element and participates in R8001.  
+6.2.3 The class is modeled as such:  
+```
+Exception [ACT_EXP] ( Exp_ID:unique_id {I,R8001}, Name:string )
+```
 
 7. Design Comments
 ------------------
 
 8. Unit Test
 ------------
+8.1 Perform MASL round trip test with model containing exceptions and
+pragmas.  
+8.2 Inspect model data to ensure Mark, Markable and Exception instances
+are present.  
 
 End
 ---
