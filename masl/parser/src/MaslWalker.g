@@ -714,6 +714,7 @@ objectDefinition
                                    | stateDeclaration         
                                    | transitionTable          
                                    )*
+                                   description
                                    pragmaList["definition"]                 
                                  )
                                                             {
@@ -1326,6 +1327,20 @@ pragmaName
 returns [ String name ]
                               : ^( PRAGMA_NAME
                                    identifier               { $name = $identifier.name; }
+                                 )
+                              ;
+
+//---------------------------------------------------------
+// Descriptions
+//---------------------------------------------------------
+
+description                   : ^( DESCRIPTION              {   StringBuilder descrip = new StringBuilder(); }
+                                   (Description             {   descrip.append( $Description.text.substring(3) ); }
+                                   )*
+                                                            {
+                                                                args[0] = descrip.toString();
+                                                                populate( "description", args );
+                                                            }
                                  )
                               ;
 

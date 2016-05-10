@@ -29,6 +29,7 @@ tokens
   CONSTRAINED_TYPE;
   CORRELATE;
   CREATE_ARGUMENT;
+  DESCRIPTION;
   DOMAIN_NAME;
   DOMAIN_SERVICE_DECLARATION;
   DOMAIN_SERVICE_DEFINITION;
@@ -448,11 +449,13 @@ objectDeclaration             : OBJECT objectName SEMI pragmaList               
                               ;
 
 
-objectDefinition              : startDec=OBJECT objectName IS
+objectDefinition              : description
+                                startDec=OBJECT objectName IS
                                   objectItem*
                                 END OBJECT? SEMI pragmaList                               -> ^( OBJECT_DEFINITION[$startDec] 
                                                                                                 objectName 
                                                                                                 objectItem* 
+                                                                                                description
                                                                                                 pragmaList?)
                               ;
 
@@ -762,7 +765,13 @@ pragmaName                    : identifier                                      
                                                                                                 identifier )
                               ;
 
+//---------------------------------------------------------
+// Descriptions
+//---------------------------------------------------------
 
+description                   : Description*                                              -> ^( DESCRIPTION
+                                                                                                Description* )
+                              ;
 
 //---------------------------------------------------------
 // Dynamic Behaviour
