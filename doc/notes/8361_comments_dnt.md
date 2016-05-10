@@ -1,0 +1,197 @@
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
+
+# Model element descriptions in MASL convert/load and export
+### xtUML Project Design Note
+
+1. Abstract
+-----------
+Model element descriptions must be populated from MASL at convert time, and they
+must be emitted as comments during MASL export. This note documents the design
+of this flow.
+
+2. Document References
+----------------------
+<a id="2.1"></a>2.1 [serial MASL specification](https://docs.google.com/spreadsheets/d/1tPnk-JC5Idyhz2tUbgDGPlNbmHm2fZyA2cbf7IFYyVY/edit)  
+<a id="2.2"></a>2.2 [#8361 Comment Support](https://support.onefact.net/issues/8361)  
+<a id="2.3"></a>2.3 [#8362 Map comments to model element descriptions](https://support.onefact.net/issues/8362)  
+
+3. Background
+-------------
+xtUML supports adding descriptions to many model elements. MASL, as a textual
+language, does not have description fields like xtUML, but rather has support
+for comments. It is desirable to be able to parse these comments when MASL is
+converted to xtUML and store them in the description fields of the corresponding
+model elements. On the output side, it is desirable to export the description
+fields of model elements and place them appropriately as comments in the textual
+MASL.
+
+
+4. Requirements
+---------------
+4.1 The serial MASL specification shall be extended to support model element
+descriptions  
+4.2 The MASL import parser shall recognize documentation comments and emit
+appropriate lines of serial MASL  
+4.2.1 Documentation comments shall be delimited in such a way to maintain
+backwards compatibility  
+4.3 The MASL to xtUML converter (`m2x`) shall interpret the serial MASL input
+for documentation comments and store them in the description fields of the
+correct model elements  
+4.4 The xtUML to MASL exporter (`x2m`) shall produce serial MASL for description
+fields of supported model elements  
+4.5 The model of MASL shall interpret the serial MASL from the exporter and
+output MASL with properly formed and placed comments for model elements  
+4.6 A mapping document shall be produced which enumerates all supported MASL
+model elements and specifies the location where the comments will be stored in
+the xtUML model data  
+
+5. Analysis
+-----------
+This feature affects four key components of the MASL flow: the parser, the
+converter, the exporter, and the compiler. Each of these components are
+isolated from one another, so they will be analyzed one by one below.
+
+5.1 MASL parser
+
+5.1.1 Grammar changes
+
+The MASL grammar currently ignores all comments and whitespace. Rules will need
+to be added to the grammar to recognize documentation comments.
+
+5.1.2 Comment compatibility
+
+The MASL language supports single line comments. To maintain compatibility with
+the language, documentation comments will be delimited by a lexer rule that is an
+extension of the lexer rule for comments. To state it a different way, it is
+necessary for any MASL grammar that does not support documentation comments to
+recognize them as ordinary comments and throw them away.
+
+5.2 MASL to xtUML converter (`m2x`)
+
+5.2.1 Description mapping (MASL to xtUML)
+
+`m2x` shall map the descriptions received from the parser to the appropriate
+description fields of xtUML model elements. This presents a challenge in a few
+cases
+
+5.2.1.1 Declaration and definition
+
+Some MASL elements have both a declaration and a definition. MASL objects and
+MASL types both have forward declarations. Activities (states, routines, and
+operations have declarations and definitions in separate files. xtUML has no
+notion of declaration and definition because it is not procedural as a textual
+language like MASL. Possible solutions to this problem are to multiplex the
+description field and tag two separate descriptions -- declaration and
+definition. Another solution is to combine the descriptions into one description
+stored in the model element.
+
+5.2.1.2 Identifiers
+
+In xtUML, identifiers do not have a description field. This was concern because
+there would be nowhere to store the description of an identifier. After analysis
+of the iUML dumper, it appears that identifiers do not hold descriptions so it
+is safe to ignore this mapping.
+
+5.3 xtUML to MASL exporter (`x2m`)
+
+5.3.1 Description mapping (xtUML to MASL)
+
+Complementary with section 5.2.1, `x2m` shall map `Descrip` fields in xtUML back
+to MASL descriptions.
+
+5.3.1.1 Declaration and definition
+
+A solution to the declaration/definition problem would be to demultiplex the
+description fields (if using a tagged approach) and output multiple MASL
+descriptions. Alternatively, if the descriptions are consolidated into one
+description, the description could be output with the definition.
+
+5.4 Model of MASL (`masl`)
+
+The model of MASL must populate descriptions from the serial MASL and render
+them to textual MASL
+
+5.4.1 An option is to add a description to each MASL model class that can have a
+description.
+
+5.4.2 Alternatively, a new class `description` could be introduced and related
+to each object that can have a description.
+
+6. Design
+---------
+
+6.1 An element `description` is added to the serial MASL specification with
+the first argument being the text of the description. See [[2.1]](#2.1)
+
+6.2 Parser enhancements
+
+6.2.1 A lex rule is added to the MASL grammar to recognize model element
+descriptions. This rule recognizes lines starting with `//!`. This satisfies
+requirement 4.2.1 since the rule for regular comments is lines starting with
+`//`.
+
+6.2.2 A parse rule is added to read optional blocks of description comments and 
+add AST nodes. This rule is appended to the beginning of the parse rule for each
+model element that can have a description.
+
+6.2.3 A tree grammar (walker) rule is added to produce serial MASL from the
+parsed descriptions according to the serial MASL specification.
+
+6.3 The MASL to xtUML converter consolidates descriptions for object and type
+declarations and definitions and stores them in the `Descrip` fields of the
+corresponding xtUML model element. After inspection of the iUML dumper, it
+appears that descriptions are never added to declarations for objects and types.
+Activity definition files are never modified by the MASL flow, so the
+descriptions will be parsed and exported to the activity declarations.
+
+6.4 The xtUML to MASL exporter exports serial MASL based on `Descrip` fields of
+supported model elements. No further processing is needed due to the decision in
+6.3
+
+4.5 A new class `description` is added to the model of MASL and related to the
+`element` class. This decision gives maximum flexibility as a description can be
+added to any MASL element should more be added to the supported list in the
+future.
+
+4.6 Supported model elements mapping
+
+The following are the supported MASL elements and the corresponding xtUML
+classes in which the Descrip fields will be stored. Note that the MASL elements
+are sometimes more generalized than the xtUML elements. For example, an activity
+will map to SM_ACT if it is a state, but O_TFR if it is an operation, etc.
+
+| MASL element | xtUML element                | Comments |
+|--------------|------------------------------|----------|
+| attribute    | Attribute (O_ATTR)           | N/A      |
+| terminator   | Requirement (C_R)            | N/A      |
+| activity     | Action (SM_ACT)<br>Operation (O_TFR)<br>Function (S_SYNC)<br>Executable Property (C_EP)| state<br>operation<br>domain service/function<br>terminator service/function |
+| type         | Data Type (S_DT)             | N/A      |
+| domain       | Component (C_C)<br>Component Reference (CL_IC) | domain<br>project domain |
+| event        | State Machine Event (SM_EVT) | N/A      |
+| object       | Model Class (O_OBJ)          | N/A      |
+| project      | Component (C_C)              | N/A      |
+| relationship | Association (R_REL)          | N/A      |
+
+This mapping is informed by the iUML dumper source code
+
+
+7. Design Comments
+------------------
+
+8. Unit Test
+------------
+8.1 For each of the nine supported MASL model elements:  
+8.1.1 Add a description to the MASL text  
+8.1.2 Convert and import the MASL models  
+8.1.3 Verify that the comments are in the description field of that model
+element  
+8.1.4 Export the MASL models  
+8.1.5 Verify that the descriptions have been rendered into the MASL
+
+End
+---
+
