@@ -15,7 +15,7 @@ of this flow.
 
 2. Document References
 ----------------------
-<a id="2.1"></a>2.1 [serial MASL specification](https://docs.google.com/spreadsheets/d/1tPnk-JC5Idyhz2tUbgDGPlNbmHm2fZyA2cbf7IFYyVY/edit)  
+<a id="2.1"></a>2.1 [serial MASL specification](8073_masl_parser/8277_serial_masl_spec.md)  
 <a id="2.2"></a>2.2 [#8361 Comment Support](https://support.onefact.net/issues/8361)  
 <a id="2.3"></a>2.3 [#8362 Map comments to model element descriptions](https://support.onefact.net/issues/8362)  
 
