@@ -13,13 +13,13 @@ Present:  Cort, Levi, Bob, Keith
 <pre>
 
 -- Num Type  Who  Section  Comment
-_- 01  min   BM   2        call out that 2.3 is internal
-_- 02  min   CS   3        Update the background with info about how Tower updated the iUML dumper to export descriptions with //!
+x- 01  min   BM   2        call out that 2.3 is internal
+x- 02  min   CS   3        Update the background with info about how Tower updated the iUML dumper to export descriptions with //!
 _- 03  min   CS   general  Send this note to Tristan after review comments addressed
-_- 04  min   BM   4.6      Add note to see section 6.6
-_- 05  min   KB   6        numbering issue in section
-_- 06  min   CS   5.2.1.2  "was concern" > "was a concern"
-_- 07  min   LS   6.2.2    "appended" > "prepended"
+x- 04  min   BM   4.6      Add note to see section 6.6
+x- 05  min   KB   6        numbering issue in section
+x- 06  min   CS   5.2.1.2  "was concern" > "was a concern"
+x- 07  min   LS   6.2.2    "appended" > "prepended"
 _- 08  min   BM   8        Consider automating this test with the Unit Test Generator
 
 </pre>

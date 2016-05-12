@@ -141,6 +141,7 @@ arguments in order and specification of arguments.
 |                   | unique            | required              | "unique" or ""                                              |
 | codeblock*        | sourcefile        | required              | string                                                      |
 | description*      | text              | required              | string                                                      |
+|                   | tag               | optional              | string                                                      |
 | domain            | name              | required              | string                                                      |
 | event             | name              | required              | string                                                      |
 |                   | type              | required              | "assigner", "creation", or ""                               |
