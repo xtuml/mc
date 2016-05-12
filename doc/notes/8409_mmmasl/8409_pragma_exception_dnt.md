@@ -103,11 +103,11 @@ meta-model that can be marked.  This is supplied in pre-existing instance
 data.
 
 6.2 Exceptions  
-6.2.1 A new class is introduced into the _Body_ package called _Exception_.  
+6.2.1 A new class is introduced into the _Domain_ package called _Exception_.  
 6.2.2 _Exception_ is a packagable element and participates in R8001.  
 6.2.3 The class is modeled as such:  
 ```
-Exception [ACT_EXP] ( Exp_ID:unique_id {I,R8001}, Name:string )
+Exception [S_EXP] ( Exception_ID:unique_id {I,R8001}, Name:string )
 ```
 
 7. Design Comments
