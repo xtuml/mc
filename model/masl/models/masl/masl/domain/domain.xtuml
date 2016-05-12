@@ -135,7 +135,7 @@ for each type in child_types
 end for;
 
 // validate exceptions
-select many child_exceptions related by self->exception[R3748.''defines''];
+select many child_exceptions related by self->exception[R3748.''declares''];
 for each exception in child_exceptions
   valid = exception.validate();
   if ( false == valid )
