@@ -14,8 +14,10 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select any descrip related by self->markable[R3783]->element[R3786]->description[R3796];
-descrip.render();
+	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+for each descrip in descrips
+  descrip.render();
+end for;
 
 T::include( file:"masl/t.object_begin.masl" );
 

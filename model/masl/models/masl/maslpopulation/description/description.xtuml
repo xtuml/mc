@@ -81,28 +81,21 @@ prefix = "//!";
 descrip = self.text;
 
 
-have_line = true;
 // for every line
-while ( have_line )
+i = STRING::indexof( haystack:descrip, needle:"\n" );
+while ( -1 != i )
 
   // get a line
-  i = STRING::indexof( haystack:descrip, needle:"\n" );
   line = STRING::substr( s:descrip, begin:0, end:i+1 );
   
-  // check if the line has text
-  if ( "" != STRING::trim( s:line ) )
-	T::b( s:prefix + line );	// if the line has text, add the prefix
-  else
-    T::b( s:line );				// if the line is all whitespace, no need for prefix
-  end if;
+  // prefix the line
+  T::b( s:prefix + line );
  
+  // update the whole string
+  descrip = STRING::substr( s:descrip, begin:i+1, end:-1 );
+
   // check if there are more lines 
-  if ( -1 == i )
-    have_line = false;
-  else
-    // update the whole string
-    descrip = STRING::substr( s:descrip, begin:i+1, end:-1 );
-  end if;
+  i = STRING::indexof( haystack:descrip, needle:"\n" );
 
 end while;',
 	1,
