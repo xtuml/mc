@@ -47,6 +47,7 @@ elif ( not ( "typeref" == element or 		// exclude leaf nodes in stack
   	   "pragmaitem" == element or 
   	   "transition" == element or
   	   "expression" == element or
+  	   "description" == element or
   	   "codeblock" == element ) )
   ooaelement::populate( population: ooapopulation, type: element );
 end if;
@@ -341,6 +342,9 @@ elif ( "pragmaitem" == element )
     TRACE::log( flavor:"failure", id:57, message:"Element stack is malformed." );
     ooaelement::trace( population: ooapopulation );
   end if;
+elif ( "description" == element )
+  select one current_element related by ooapopulation->ooaelement[R3801];
+  ooapopulation.transformDescription( element:current_element, text:value[0], tag:value[1] );
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
@@ -1661,7 +1665,7 @@ self.PackageableElement_initialize(pe_pe:pe);
 
 // For complex MASL types we store the definition in the description
 if ( "" != param.definition )
-  dt.Descrip = dt.Descrip + "definition:" + param.definition + "\n";
+  dt.Descrip = dt.Descrip + "<definition>" + param.definition + "</definition>";
 end if;',
 	1,
 	'',
@@ -3908,6 +3912,7 @@ INSERT INTO O_TFR
 	'self.current_rel.type = RELATIONSHIP_TYPE::NONE;
 self.current_rel.number = "";
 self.current_rel.usingObj = "";
+self.current_rel.description = "";
 
 select many parts from instances of ooaparticipation;
 for each part in parts
@@ -3921,7 +3926,7 @@ INSERT INTO O_TFR
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
 	'Package_newAssociation',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"4480b008-8c74-4f57-9256-08b7365520bc",
 	1,
 	'ep_pkg = param.ep_pkg;
 select any fromOOAPart from instances of ooaparticipation where (selected.isFirst == true );
@@ -3946,6 +3951,8 @@ if (param.toIsImported)
   end if;
 end if;*/
 //
+
+select any assoc from instances of R_REL where false;
 if (not_empty fromClass and not_empty toClass)
   create object instance assoc of R_REL;
   // create Packageable Element supertype and hook up to this package.
@@ -3993,7 +4000,8 @@ if (not_empty fromClass and not_empty toClass)
   toPART.Cond = fromOOAPart.conditionality;
   toPART.Txt_Phrs = fromOOAPart.phrase;
 end if;
-',
+
+return assoc;',
 	1,
 	'',
 	"9c97aa3a-d0d2-409c-86d0-9194db2476c5");
@@ -4006,6 +4014,13 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4480b008-8c74-4f57-9256-08b7365520bc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Association>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
 INSERT INTO O_TFR
 	VALUES ("5cec88a1-a445-447f-89b0-5f866ba2805b",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -4029,13 +4044,6 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("4480b008-8c74-4f57-9256-08b7365520bc",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Association>',
-	'',
-	'',
-	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
 INSERT INTO O_TFR
 	VALUES ("a1b455eb-8d8e-44a5-a755-7bd2a08eaec7",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -4047,15 +4055,21 @@ INSERT INTO O_TFR
 current_component = self.current_component;
 select any internals_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == current_component.Name);
 
+select any assoc from instances of R_REL where false;
 if (  self.current_rel.type == RELATIONSHIP_TYPE::ASSOCIATIVE )
   // Associative links are simple associations that are then migrated to be associative.  So here we 
   // create the simple association first.
-  self.Package_newAssociation(ep_pkg:internals_pkg);
+  assoc = self.Package_newAssociation(ep_pkg:internals_pkg);
   self.Package_newAssociative(ep_pkg:internals_pkg);
 elif ( self.current_rel.type == RELATIONSHIP_TYPE::REGULAR )
-  self.Package_newAssociation(ep_pkg:internals_pkg); 
+  assoc = self.Package_newAssociation(ep_pkg:internals_pkg); 
 elif ( self.current_rel.type == RELATIONSHIP_TYPE::SUBSUPER )
-  self.Package_newSubsuper(ep_pkg:internals_pkg); 
+  assoc = self.Package_newSubsuper(ep_pkg:internals_pkg); 
+end if;
+
+// store the description
+if ( not_empty assoc )
+  assoc.Descrip = assoc.Descrip + self.current_rel.description;
 end if;
 ',
 	1,
@@ -6630,7 +6644,7 @@ INSERT INTO O_TFR
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
 	'Package_newSubsuper',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"4480b008-8c74-4f57-9256-08b7365520bc",
 	1,
 	'ep_pkg = param.ep_pkg;
 select any fromOOAPart from instances of ooaparticipation where (selected.isFirst == true );
@@ -6639,6 +6653,7 @@ select many toOOAParts from instances of ooaparticipation where (selected.isFirs
 // What follows is a heavily modified version of OOAofOOA''s Package::newAssociation()
 // TODO - LPS handle imported classes?
   
+select any assoc from instances of R_REL where false;
 select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == fromOOAPart.className);
 if ( not_empty fromClass )
   create object instance assoc of R_REL;
@@ -6677,6 +6692,8 @@ if ( not_empty fromClass )
   end for;
 
 end if;
+
+return assoc;
 ',
 	1,
 	'',
@@ -7390,6 +7407,124 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("2a7c6bb3-a25a-4f91-879b-e7d0557c7647",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformDescription',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'element = param.element;
+text = param.text;
+tag = param.tag;
+
+// choose where to put the description based on the element type
+if ( "attribute" == element.type )
+  attr = self.current_attribute;
+  if ( not_empty attr )
+    attr.Descrip = attr.Descrip + text;
+  end if;
+elif ( "terminator" == element.type )
+  interface = self.current_interface;
+  select any term related by interface->C_IR[R4012]->C_R[R4009];
+  if ( not_empty term )
+    term.Descrip = term.Descrip + text;
+  end if;
+elif ( "state" == element.type )
+  state = self.current_state;
+  select one sm_act related by state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
+  if ( not_empty sm_act )
+    sm_act.Descrip = sm_act.Descrip + text;
+  end if;
+elif ( "routine" == element.type )
+  routine1 = self.current_domain_function;
+  if ( not_empty routine1 )
+	routine1.Descrip = routine1.Descrip + text;
+  else
+    routine2 = self.current_executable_property;
+	if ( not_empty routine2 )
+	  routine2.Descrip = routine2.Descrip + text;
+	end if;
+  end if;
+elif ( "operation" == element.type )
+  operation = self.current_class_op;
+  if ( not_empty operation )
+	operation.Descrip = operation.Descrip + text;
+  end if;
+elif ( "type" == element.type )
+  type = self.current_type;
+  if ( not_empty type )
+	type.Descrip = type.Descrip + text;
+  end if;
+elif ( "domain" == element.type )
+  if ( self.processingProject )
+    domain = self.current_imported_component;
+    if ( not_empty domain )
+      domain.Descrip = domain.Descrip + text;
+    end if;
+  else
+    domain = self.current_component;
+    if ( not_empty domain )
+      domain.Descrip = domain.Descrip + text;
+    end if;
+  end if;
+elif ( "event" == element.type )
+  evt = self.current_event;
+  if ( not_empty evt )
+	evt.Descrip = evt.Descrip + text;
+  end if;
+elif ( "object" == element.type )
+  obj = self.current_class;
+  if ( not_empty obj )
+    obj.Descrip = obj.Descrip + text;
+  end if;
+elif ( "project" == element.type )
+  project = self.current_component;
+  if ( not_empty project )
+    project.Descrip = project.Descrip + text;
+  end if;
+elif ( "subsuper" == element.type or "regularrel" == element.type or "associative" == element.type )
+  self.current_rel.description = self.current_rel.description + text;
+else
+  // TRACE::log( flavor:"warning", id:11, message:"description found for unsupported element" + element.type );
+end if;',
+	1,
+	'',
+	"f8e9c620-45ae-495d-98b3-effcb38fc212");
+INSERT INTO O_TPARM
+	VALUES ("79528561-419f-40d2-84d7-937fc54f5dc0",
+	"2a7c6bb3-a25a-4f91-879b-e7d0557c7647",
+	'element',
+	"67d44486-874e-43aa-a2a2-0487451e2390",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("67d44486-874e-43aa-a2a2-0487451e2390",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooaelement>',
+	'',
+	'',
+	'../../marking/marking.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("a95eb209-08f1-46f8-8298-29c16605c8c8",
+	"2a7c6bb3-a25a-4f91-879b-e7d0557c7647",
+	'text',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"79528561-419f-40d2-84d7-937fc54f5dc0",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("017dedaa-ec0d-453e-9ed8-007277813d34",
+	"2a7c6bb3-a25a-4f91-879b-e7d0557c7647",
+	'tag',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a95eb209-08f1-46f8-8298-29c16605c8c8",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",

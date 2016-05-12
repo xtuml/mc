@@ -123,7 +123,7 @@ void masl2xtuml_ooapopulation_op_Function_createMessageArgumentsForParameter( ma
 void masl2xtuml_ooapopulation_op_FunctionParameter_setType( masl2xtuml_ooapopulation *, masl2xtuml_S_SPARM *, c_t * );
 void masl2xtuml_ooapopulation_op_OperationParameter_setType( masl2xtuml_ooapopulation *, masl2xtuml_O_TPARM *, c_t * );
 void masl2xtuml_ooapopulation_op_clearRelationshipCache( masl2xtuml_ooapopulation * );
-void masl2xtuml_ooapopulation_op_Package_newAssociation( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG * );
+masl2xtuml_R_REL * masl2xtuml_ooapopulation_op_Package_newAssociation( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG * );
 void masl2xtuml_ooapopulation_op_Association_initialize( masl2xtuml_ooapopulation *, masl2xtuml_R_REL * );
 void masl2xtuml_ooapopulation_op_transformAssociation( masl2xtuml_ooapopulation * );
 void masl2xtuml_ooapopulation_op_Package_newAssociative( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG * );
@@ -174,7 +174,7 @@ void masl2xtuml_ooapopulation_op_StateMachineEventDataItem_initialize( masl2xtum
 void masl2xtuml_ooapopulation_op_StateMachineEvent_addDataItemToOrder( masl2xtuml_ooapopulation *, masl2xtuml_SM_EVT *, masl2xtuml_SM_EVTDI * );
 void masl2xtuml_ooapopulation_op_StateMachineEvent_createMessageArgumentsForParameter( masl2xtuml_ooapopulation *, masl2xtuml_SM_EVT *, masl2xtuml_SM_EVTDI * );
 void masl2xtuml_ooapopulation_op_StateMachineEventDataItem_setType( masl2xtuml_ooapopulation *, masl2xtuml_SM_EVTDI *, c_t * );
-void masl2xtuml_ooapopulation_op_Package_newSubsuper( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG * );
+masl2xtuml_R_REL * masl2xtuml_ooapopulation_op_Package_newSubsuper( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG * );
 void masl2xtuml_ooapopulation_op_Function_setReturnType( masl2xtuml_ooapopulation *, masl2xtuml_S_SYNC *, c_t * );
 void masl2xtuml_ooapopulation_op_Operation_setReturnType( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, c_t * );
 void masl2xtuml_ooapopulation_op_InterfaceOperation_setReturnType( masl2xtuml_ooapopulation *, masl2xtuml_C_IO *, c_t * );
@@ -190,6 +190,7 @@ void masl2xtuml_ooapopulation_op_ModelClass_removeDuplicateAttrs( masl2xtuml_ooa
 void masl2xtuml_ooapopulation_op_LinkedAssociation_formalize( masl2xtuml_ooapopulation *, const i_t, const i_t, masl2xtuml_R_ASSOC * );
 bool masl2xtuml_ooapopulation_op_LinkedAssociation_isFormalized( masl2xtuml_ooapopulation *, masl2xtuml_R_ASSOC * );
 void masl2xtuml_ooapopulation_op_LinkedAssociation_unformalize( masl2xtuml_ooapopulation *, masl2xtuml_R_ASSOC * );
+void masl2xtuml_ooapopulation_op_transformDescription( masl2xtuml_ooapopulation *, masl2xtuml_ooaelement *, c_t *, c_t * );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10

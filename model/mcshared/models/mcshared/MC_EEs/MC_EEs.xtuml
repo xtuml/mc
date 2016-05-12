@@ -874,9 +874,10 @@ INSERT INTO S_BRG
 	VALUES ("24cd0f42-7321-45b1-8c8c-726958e5b8ca",
 	"bb9efba5-486a-4a39-a358-d0e112844c11",
 	'substr',
-	'returns a substring of the giben string s starting at the index begin and ending at the index end - 1.
-if begin < 0 or > the length of s - 1, returns a substring starting at the beginning of s
-if end < 1 or > the length of s, returns a substring starting at begin to the end of s
+	'returns a substring of the given string s starting at the index begin and ending at the index end - 1.
+if begin < 0, returns a substring starting at the beginning of s
+if begin > the length of s - 1, returns an empty string
+if end < 0 or > the length of s, returns a substring starting at begin to the end of s
 if end <= begin, returns empty string
 
 usage examples:
@@ -991,6 +992,26 @@ INSERT INTO S_BPARM
 	0,
 	'',
 	"a0b5e259-b7bb-47ee-8243-7ad1643e7bcb",
+	'');
+INSERT INTO S_BRG
+	VALUES ("76558700-f8ad-4c3a-9aad-2aab091c1410",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'trim',
+	'Returns the input string with whitespace ( '' '', ''\r'', ''\t'', and ''\n'' ) trimmed from the beginning
+and the end of the string. If the input string is only whitespace, empty string is returned',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("bbca5391-f26a-4eed-bbd8-b88e1c393df3",
+	"76558700-f8ad-4c3a-9aad-2aab091c1410",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
 	VALUES ("bb9efba5-486a-4a39-a358-d0e112844c11",

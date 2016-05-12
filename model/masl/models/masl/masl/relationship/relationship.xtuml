@@ -14,7 +14,11 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select one regularrel related by self->regularrel[R3721];
+	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+for each descrip in descrips
+  descrip.render();
+end for;
+select one regularrel related by self->regularrel[R3721];
 if ( not_empty regularrel )
   regularrel.render();
 else
