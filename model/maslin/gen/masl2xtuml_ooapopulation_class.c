@@ -2041,8 +2041,8 @@ masl2xtuml_ooapopulation_op_Package_newDatatype( masl2xtuml_ooapopulation * self
   masl2xtuml_ooapopulation_op_PackageableElement_initialize( self,  pe );
   /* IF ( (  != PARAM.definition ) ) */
   if ( ( Escher_strcmp( "", p_definition ) != 0 ) ) {
-    /* ASSIGN dt.Descrip = ( ( ( dt.Descrip + definition: ) + PARAM.definition ) + \n ) */
-    dt->Descrip = Escher_strcpy( dt->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( dt->Descrip, "definition:" ), p_definition ), "\n" ) );
+    /* ASSIGN dt.Descrip = ( ( ( dt.Descrip + <definition> ) + PARAM.definition ) + </definition> ) */
+    dt->Descrip = Escher_strcpy( dt->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( dt->Descrip, "<definition>" ), p_definition ), "</definition>" ) );
   }
 }
 

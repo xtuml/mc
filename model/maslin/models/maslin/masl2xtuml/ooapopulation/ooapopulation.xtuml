@@ -1665,7 +1665,7 @@ self.PackageableElement_initialize(pe_pe:pe);
 
 // For complex MASL types we store the definition in the description
 if ( "" != param.definition )
-  dt.Descrip = dt.Descrip + "definition:" + param.definition + "\n";
+  dt.Descrip = dt.Descrip + "<definition>" + param.definition + "</definition>";
 end if;',
 	1,
 	'',

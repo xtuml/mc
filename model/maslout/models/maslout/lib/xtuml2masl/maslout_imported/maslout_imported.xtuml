@@ -710,11 +710,16 @@ for each s_dt in s_dts
     value[1] = "private";
 
     // get body of type
-    index = STRING::indexof( haystack:s_dt.Descrip, needle:"definition:" );
-    if ( -1 != index )	// only output types if there is a definition
-      value[2] = STRING::substr( s:s_dt.Descrip, begin:index+11, end:-1 );
+    start_index = STRING::indexof( haystack:s_dt.Descrip, needle:"<definition>" );
+    end_index = STRING::indexof( haystack:s_dt.Descrip, needle:"</definition>" );
+    if ( -1 != start_index and -1 != end_index )	// only output types if there is a definition
+      value[2] = STRING::substr( s:s_dt.Descrip, begin:start_index+12, end:end_index );
+      descrip_start = STRING::substr( s:s_dt.Descrip, begin:0, end:start_index );
+      descrip_end = STRING::substr( s:s_dt.Descrip, begin:end_index+13, end:-1 );
+      s_dt.Descrip = descrip_start + descrip_end;
   
       out::populate( element:"type", value:value );
+      ::Descrip2description( Descrip:s_dt.Descrip );
       out::populate( element:"type", value:emptyvalue );
     end if;
   end if;
@@ -728,11 +733,16 @@ for each s_dt in s_dts
   value[1] = "public";
 
   // get body of type
-  index = STRING::indexof( haystack:s_dt.Descrip, needle:"definition:" );
-  if ( -1 != index )	// only output types if there is a definition
-    value[2] = STRING::substr( s:s_dt.Descrip, begin:index+11, end:-1 );
+  start_index = STRING::indexof( haystack:s_dt.Descrip, needle:"<definition>" );
+  end_index = STRING::indexof( haystack:s_dt.Descrip, needle:"</definition>" );
+  if ( -1 != start_index and -1 != end_index )	// only output types if there is a definition
+	value[2] = STRING::substr( s:s_dt.Descrip, begin:start_index+12, end:end_index );
+	descrip_start = STRING::substr( s:s_dt.Descrip, begin:0, end:start_index );
+	descrip_end = STRING::substr( s:s_dt.Descrip, begin:end_index+13, end:-1 );
+	s_dt.Descrip = descrip_start + descrip_end;
 
     out::populate( element:"type", value:value );
+    ::Descrip2description( Descrip:s_dt.Descrip );
     out::populate( element:"type", value:emptyvalue );
   end if;
 end for;
@@ -746,11 +756,16 @@ while ( not_empty sub_pkgs )
 	value[1] = "public";
 
 	// get body of type
-	index = STRING::indexof( haystack:s_dt.Descrip, needle:"definition:" );
-	if ( -1 != index )	// only output types if there is a definition
-	  value[2] = STRING::substr( s:s_dt.Descrip, begin:index+11, end:-1 );
+    start_index = STRING::indexof( haystack:s_dt.Descrip, needle:"<definition>" );
+    end_index = STRING::indexof( haystack:s_dt.Descrip, needle:"</definition>" );
+    if ( -1 != start_index and -1 != end_index )	// only output types if there is a definition
+      value[2] = STRING::substr( s:s_dt.Descrip, begin:start_index+12, end:end_index );
+      descrip_start = STRING::substr( s:s_dt.Descrip, begin:0, end:start_index );
+      descrip_end = STRING::substr( s:s_dt.Descrip, begin:end_index+13, end:-1 );
+      s_dt.Descrip = descrip_start + descrip_end;
 
 	  out::populate( element:"type", value:value );
+      ::Descrip2description( Descrip:s_dt.Descrip );
 	  out::populate( element:"type", value:emptyvalue );
 	end if;
   end for;
