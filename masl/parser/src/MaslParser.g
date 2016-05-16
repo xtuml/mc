@@ -206,7 +206,6 @@ exceptionVisibility           : PRIVATE                                         
 typeForwardDeclaration        : description typeVisibility TYPE typeName SEMI pragmaList        ->^( TYPE_DECLARATION[$TYPE]
                                                                                                 typeName 
                                                                                                 typeVisibility 
-                                                                                                description
                                                                                                 pragmaList? )
                               ;
 
@@ -457,7 +456,6 @@ attributeName                 : identifier                                      
 
 objectDeclaration             : description OBJECT objectName SEMI pragmaList             -> ^( OBJECT_DECLARATION[$OBJECT] 
                                                                                                 objectName 
-                                                                                                description
                                                                                                 pragmaList?)
                               ;
 
@@ -803,7 +801,8 @@ description                   : Description*                                    
 
 
 
-domainServiceDefinition       : serviceVisibility serv=SERVICE 
+domainServiceDefinition       : description
+                                serviceVisibility serv=SERVICE 
                                 domainName SCOPE serviceName 
                                 parameterList IS 
                                 codeBlock 
@@ -816,7 +815,8 @@ domainServiceDefinition       : serviceVisibility serv=SERVICE
                                                                                                 pragmaList? )                               
                               ;
 
-domainFunctionDefinition      : serviceVisibility func=FUNCTION 
+domainFunctionDefinition      : description
+                                serviceVisibility func=FUNCTION 
                                   domainName SCOPE serviceName 
                                   parameterList 
                                   RETURN returnType IS codeBlock 
@@ -832,7 +832,8 @@ domainFunctionDefinition      : serviceVisibility func=FUNCTION
 
 
 
-objectServiceDefinition       : serviceVisibility INSTANCE? serv=SERVICE 
+objectServiceDefinition       : description
+                                serviceVisibility INSTANCE? serv=SERVICE 
                                   domainName SCOPE objectName DOT serviceName 
                                   parameterList IS codeBlock 
                                 SERVICE? SEMI pragmaList                                  -> ^( OBJECT_SERVICE_DEFINITION[$serv]
@@ -846,7 +847,8 @@ objectServiceDefinition       : serviceVisibility INSTANCE? serv=SERVICE
                                                                                                 pragmaList? )
                               ;
 
-terminatorServiceDefinition   : serviceVisibility serv=SERVICE 
+terminatorServiceDefinition   : description
+                                serviceVisibility serv=SERVICE 
                                 domainName SCOPE terminatorName TERMINATOR_SCOPE serviceName 
                                 parameterList IS 
                                 codeBlock 
@@ -860,7 +862,8 @@ terminatorServiceDefinition   : serviceVisibility serv=SERVICE
                                                                                                 pragmaList? )                               
                               ;
 
-terminatorFunctionDefinition  : serviceVisibility func=FUNCTION 
+terminatorFunctionDefinition  : description
+                                serviceVisibility func=FUNCTION 
                                 domainName SCOPE terminatorName TERMINATOR_SCOPE serviceName 
                                 parameterList RETURN returnType IS 
                                 codeBlock 
@@ -876,7 +879,8 @@ terminatorFunctionDefinition  : serviceVisibility func=FUNCTION
                               ;
 
 
-objectFunctionDefinition      : serviceVisibility serviceType func=FUNCTION 
+objectFunctionDefinition      : description
+                                serviceVisibility serviceType func=FUNCTION 
                                   domainName SCOPE objectName DOT serviceName 
                                   parameterList 
                                   RETURN returnType IS codeBlock 
@@ -893,7 +897,8 @@ objectFunctionDefinition      : serviceVisibility serviceType func=FUNCTION
                               ;
 
 
-stateDefinition               : stateType STATE 
+stateDefinition               : description
+                                stateType STATE 
                                 domainName SCOPE objectName DOT stateName 
                                 parameterList IS codeBlock 
                                 STATE? SEMI pragmaList                                    -> ^( STATE_DEFINITION 

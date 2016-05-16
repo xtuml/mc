@@ -265,7 +265,6 @@ typeForwardDeclaration
                                                                   args[1] = $typeVisibility.visibility;
                                                                   populate( "type", args );
                                                               }
-                                   description
                                    pragmaList[""]				
                                  )                          
                                                               {
@@ -699,7 +698,6 @@ objectDeclaration
                                                                 args[0] = $objectName.name;
                                                                 populate( "object", args );
                                                             }
-                                   description
                                    pragmaList["declaration"]
                                  )                          
                                                             {
