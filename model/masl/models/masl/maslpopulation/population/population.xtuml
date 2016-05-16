@@ -42,6 +42,7 @@ if ( "" == value[0] and "" == value[1] and "" == value[2] and "" == value[3] and
   	   "pragmaitem" == element or 
   	   "transition" == element or
   	   "expression" == element or
+  	   "description" == element or
   	   "codeblock" == element )
     return;
   end if;
@@ -384,6 +385,9 @@ elif ( "codeblock" == element )
 	end if;
     code_block::populate( sourcefile:value[0], parent_activity:parent_activity );
   	// code_block is a leaf node and does not get pushed onto the current element stack
+elif ( "description" == element ) // TODO Levi this is too simple. it does not consider tags or anything but objects
+	select one parent_element related by population->element[R3784.''has current''];
+	descrip = description::populate( element:parent_element, text:value[0], tag:value[1] );
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;
