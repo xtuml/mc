@@ -95,13 +95,13 @@ cases
 5.2.1.1 Declaration and definition
 
 Some MASL elements have both a declaration and a definition. MASL objects and
-MASL types both have forward declarations. Activities (states, routines, and
-operations have declarations and definitions in separate files. xtUML has no
-notion of declaration and definition because it is not procedural as a textual
-language like MASL. Possible solutions to this problem are to multiplex the
-description field and tag two separate descriptions -- declaration and
-definition. Another solution is to combine the descriptions into one description
-stored in the corresponding model element.
+MASL types both have declarations before their definitions. Activities (states,
+routines, and operations have declarations and definitions in separate files.
+xtUML has no notion of declaration and definition because it is not procedural
+as a textual language like MASL. Possible solutions to this problem are to
+multiplex the description field and tag two separate descriptions -- declaration
+and definition. Another solution is to combine the descriptions into one
+description stored in the corresponding model element.
 
 5.2.1.2 Identifiers
 
@@ -121,8 +121,10 @@ to MASL descriptions.
 
 A solution to the declaration/definition problem would be to demultiplex the
 description fields (if using a tagged approach) and output multiple MASL
-descriptions. Alternatively, if the descriptions are consolidated into one
-field, the description could be output with the model element definition.
+descriptions. Alternatively, if the descriptions are consolidated (concatenated)
+into one field, the description could be output with the model element
+definition. A final solution could be to simply choose the description from the
+declaration, or from the definition.
 
 5.4 Model of MASL (`masl`)
 
@@ -138,6 +140,14 @@ to each object that can have a description.
 6. Design
 ---------
 
+6.0 iUML (like xtUML) is not procedural and has no notion of declaration and
+definition. Because of this, documentation comments from the iUML dumper will
+always be duplicated for declaration and definition. Because of this property,
+descriptions attached to declarations of model elements in MASL can safely be
+ignored. Since the declaration and definition of activities are in separate
+files, The documentation comments will be parsed and exported from the
+declaration in the `.mod` or `.prj` file.
+
 6.1 An element `description` is added to the serial MASL specification with the
 first argument being the text of the description and the second argument being
 the string tag. See [[2.1]](#2.1)
@@ -150,11 +160,17 @@ requirement 4.2.1 since the rule for regular comments is lines starting with
 `//`.
 
 6.2.2 A parse rule is added to read optional blocks of description comments and
-add AST nodes. This rule prepends the parse rule for each model element that
-can have a description.
+add AST nodes. A reference to this rule prepends the parse rule for each model
+element that can have a description. Both the declaration and definition rules
+will be prepended by the parse rule.
 
 6.2.3 A tree grammar (walker) rule is added to produce serial MASL from the
-parsed descriptions according to the serial MASL specification.
+parsed descriptions according to the serial MASL specification. A reference to
+this rule prepends the rule for each model element that can have a description.
+In the case of model elements with a declaration and a definition, this rule
+will only be added to the definition. In this way, it will be legal MASL to
+place a documentation comment before a declaration, however no serial MASL will
+be produced from it.
 
 6.3 The MASL to xtUML converter consolidates descriptions for object and type
 declarations and definitions and stores them in the `Descrip` fields of the
