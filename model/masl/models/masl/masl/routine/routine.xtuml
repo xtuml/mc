@@ -17,28 +17,17 @@ INSERT INTO O_TFR
 	'parent_domain = param.parent_domain;
 parent_terminator = param.parent_terminator;
 
-// check if it already exists
-select any activity from instances of activity where false;
+activity = activity::populate( name:param.name );
+create object instance routine of routine;
+routine.visibility = param.visibility;
 if ( not_empty parent_terminator )
-  select any activity related by parent_terminator->routine[R3791.''sends'']->activity[R3704] where ( selected.name == param.name );
+  relate routine to parent_terminator across R3791;
 elif ( not_empty parent_domain )
-  select any activity related by parent_domain->routine[R3790.''provides'']->activity[R3704] where ( selected.name == param.name );
+  relate routine to parent_domain across R3790;
 end if;
-select one routine related by activity->routine[R3704];
-
-if ( empty routine )
-  activity = activity::populate( name:param.name );
-  create object instance routine of routine;
-  routine.visibility = param.visibility;
-  if ( not_empty parent_terminator )
-    relate routine to parent_terminator across R3791;
-  elif ( not_empty parent_domain )
-    relate routine to parent_domain across R3790;
-  end if;
-  relate routine to activity across R3704;
-  markable = markable::populate( name:"routine" );
-  relate activity to markable across R3783;
-end if;
+relate routine to activity across R3704;
+markable = markable::populate( name:"routine" );
+relate activity to markable across R3783;
 
 return routine;',
 	1,
@@ -173,6 +162,29 @@ return valid;',
 	1,
 	'',
 	"f9b377c0-d337-4e40-9132-58d2adc9509f");
+INSERT INTO O_TFR
+	VALUES ("378ca2df-eca4-40ae-a536-94da7f32f53e",
+	"669c9e5d-eb78-45b7-866e-089542dfb839",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// unrelate from parent (domain or terminator) and delete
+
+select one domain related by self->domain[R3790];
+if ( not_empty domain )
+  unrelate self from domain across R3790;
+else
+  select one terminator related by self->terminator[R3791];
+  if ( not_empty terminator )
+    unrelate self from terminator across R3791;
+  end if;
+end if;
+
+delete object instance self;',
+	1,
+	'',
+	"8e678211-5bb7-4f1f-8485-4ab32c2a9867");
 INSERT INTO O_NBATTR
 	VALUES ("8aca0e9a-cee8-4a45-a146-5b9cd6bbe8af",
 	"669c9e5d-eb78-45b7-866e-089542dfb839");
