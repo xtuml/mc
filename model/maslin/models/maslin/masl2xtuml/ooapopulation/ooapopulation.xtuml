@@ -258,6 +258,8 @@ elif ( "participation" == element )
 elif ( "routine" == element )
   //  See if we''re processing inside a domain or terminator.  Then call the appropriate conversion function.
   if ( "" == param.value[3] )
+    // check for duplicate routines
+    ooapopulation.mergeDuplicateRoutines();
     select any s_sync from instances of S_SYNC where ( false );
     ooapopulation.current_domain_function = s_sync;
     select any c_ep from instances of C_EP where ( false );
@@ -1751,43 +1753,35 @@ if ( empty functions_pkg )
   functions_pkg = self.Component_newPackage(c_c:current_component, pkg_name:"functions");
 end if;
 
-// Check to see if the function already exists, if not, create it.
-select any domFunc related by functions_pkg->PE_PE[R8000]->S_SYNC[R8001] where ( selected.Name == param.name );
+// Create a domain function for the incoming function/service
+self.current_domain_function = self.Package_newFunction(ep_pkg:functions_pkg, function_name: param.name);
 
-if ( not_empty domFunc )
-  self.current_domain_function = domFunc;
-else
-  // Create a domain function for the incoming function/service
-  self.current_domain_function = self.Package_newFunction(ep_pkg:functions_pkg, function_name: param.name);
+// If the function/service is public:
+//   a) get the "Shared" package under the library package.
+//   b) see if there is an interface named "<comp name>", formalized to a port named (port name does not matter I think) 
+//        on the component, create if not
+//   c) create an interface operation identical to the domain function/service
+//   d) modify the action body of the operation on the port to call the domain function/service
+if ( "public" == param.visibility )
+  // a
+  lib_pkg = self.lib_pkg;
+  select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
 
-  // If the function/service is public:
-  //   a) get the "Shared" package under the library package.
-  //   b) see if there is an interface named "<comp name>", formalized to a port named (port name does not matter I think) 
-  //        on the component, create if not
-  //   c) create an interface operation identical to the domain function/service
-  //   d) modify the action body of the operation on the port to call the domain function/service
-  if ( "public" == param.visibility )
-    // a
-    lib_pkg = self.lib_pkg;
-    select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
-  
-    // b
-    comp_if_name = current_component.Name;
-    select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
-    if ( empty comp_if )
-      // create the interface
-      comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
-      // create a port & provided interface from the component
-      comp_port_name = current_component.Name;
-      new_ir = self.Component_initializeProvision(c_c:current_component, port_name:comp_port_name, if_name:"");
-      relate comp_if to new_ir across R4012;    // formalize at end tag of domain. for now, just relate it to the C_R
-    end if;
-  
-    // c - Note that we (currently) always create an interface operation, never a signal
-    c_ep = self.Interface_newExecutableProperty(c_i:comp_if, ep_name:param.name, asynchronous:false);
-    c_ep.Direction = IFDirectionType::ClientServer;
-    
+  // b
+  comp_if_name = current_component.Name;
+  select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
+  if ( empty comp_if )
+	// create the interface
+	comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
+	// create a port & provided interface from the component
+	comp_port_name = current_component.Name;
+	new_ir = self.Component_initializeProvision(c_c:current_component, port_name:comp_port_name, if_name:"");
+	relate comp_if to new_ir across R4012;    // formalize at end tag of domain. for now, just relate it to the C_R
   end if;
+
+  // c - Note that we (currently) always create an interface operation, never a signal
+  c_ep = self.Interface_newExecutableProperty(c_i:comp_if, ep_name:param.name, asynchronous:false);
+  c_ep.Direction = IFDirectionType::ClientServer;
 end if;',
 	1,
 	'',
@@ -7525,6 +7519,391 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"a95eb209-08f1-46f8-8298-29c16605c8c8",
+	'');
+INSERT INTO O_TFR
+	VALUES ("3a4da8df-5db0-459c-90a7-bc2da0000b34",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'mergeDuplicateRoutines',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// search for all S_SYNCs or C_EPs in the scope and compare signatures. If the
+// signatures are the same, copy the codeblock from this routine and dispose
+
+function = self.current_domain_function;
+signal = self.current_executable_property;
+
+if ( not_empty function )
+  select many s_syncs related by function->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->S_SYNC[R8001];
+  for each s_sync in s_syncs
+    if ( s_sync != function and self.Function_getSignature( s_sync:function ) == self.Function_getSignature( s_sync:s_sync ) )
+      // copy over the codeblock
+      s_sync.Action_Semantics_internal = function.Action_Semantics_internal;
+      // dispose the function
+      self.Function_dispose( s_sync:function );
+      break;
+    end if;
+  end for;
+elif ( not_empty signal )
+end if;',
+	1,
+	'',
+	"2a7c6bb3-a25a-4f91-879b-e7d0557c7647");
+INSERT INTO O_TFR
+	VALUES ("676154e8-5428-4e24-ab8c-e663a7b91b45",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Function_getSignature',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'/**
+ *  Return a string representation of this functions signature
+ *  Copied from OOAofOOA - LPS
+ */
+s_sync = param.s_sync;
+ 
+signature = s_sync.Name;
+count = 0;
+select many parameters related by s_sync->S_SPARM[R24];
+paramLength = cardinality parameters;
+if(paramLength > 0)
+  signature = signature + "(";
+end if;
+for each parameter in parameters
+  select one type related by parameter->S_DT[R26];
+  if(count > 0 and count != paramLength - 1)
+    signature = signature + ", ";
+  end if;
+  signature = signature + type.Name;
+  count = count + 1;
+end for;
+if(paramLength > 0)
+  signature = signature + ")";
+end if;
+return signature;',
+	1,
+	'',
+	"3a4da8df-5db0-459c-90a7-bc2da0000b34");
+INSERT INTO O_TPARM
+	VALUES ("c970a691-f127-490f-8d1e-eb1db1604940",
+	"676154e8-5428-4e24-ab8c-e663a7b91b45",
+	's_sync',
+	"60690409-5a69-45db-896b-5a63a9103c18",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("46562546-0255-4276-b15c-afac908ce778",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Function_dispose',
+	'The dispose operation for this class.  It also disposes of the associated Function in Package.',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Copied from OOAofOOA - LPS
+s_sync = param.s_sync;
+
+// Domain Subsystem
+select one pe related by s_sync->PE_PE[R8001];
+if(not_empty pe)
+  // PE_PE.dispose() will call back into this function at which time the
+  // rest of the activity will execute.
+  self.PackageableElement_dispose(pe_pe:pe);
+  return;
+end if;
+select many fparms related by s_sync->S_SPARM[R24];
+for each fparm in fparms
+  self.FunctionParameter_dispose(s_sparm:fparm);
+end for;
+select one dt related by s_sync->S_DT[R25];
+unrelate s_sync from dt across R25;
+//
+//Body Subsystem
+/*
+select one body related by s_sync->ACT_FNB[R695]->ACT_ACT[R698];
+if (not_empty body)
+  body.dispose();
+end if;
+//
+// Invocation Subsystem
+select many invs related by s_sync->ACT_FNC[R675];
+for each inv in invs
+  unrelate s_sync from inv across R675;
+end for;
+//
+// Value Subsystem
+select many fvs related by s_sync->V_FNV[R827];
+for each fv in fvs
+  unrelate s_sync from fv across R827;
+end for;
+//
+// Wiring Subsystem
+select many aws related by s_sync->S_AW[R3201];
+for each aw in aws
+  unrelate s_sync from aw across R3201;
+end for;
+// for each message that this function
+// is associated with
+select many fms related by s_sync->MSG_F[R1010];
+for each fm in fms
+  select one message related by fm->MSG_SM[R1020];
+  message.unformalize();
+end for;
+*/
+select many dims related by s_sync->S_DIM[R51];
+for each dim in dims
+  unrelate s_sync from dim across R51;
+  delete object instance dim;
+end for;
+//
+// Finally delete s_sync
+delete object instance s_sync;',
+	1,
+	'',
+	"676154e8-5428-4e24-ab8c-e663a7b91b45");
+INSERT INTO O_TPARM
+	VALUES ("7b27431c-f67a-462e-ae46-9037e1f0681c",
+	"46562546-0255-4276-b15c-afac908ce778",
+	's_sync',
+	"60690409-5a69-45db-896b-5a63a9103c18",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("4674a4f2-d6c3-40d5-a1ce-972563d69338",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'PackageableElement_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Copied from OOAofOOA - LPS
+// Only kept bits for deleting things we need to deleting possible same named activities
+
+// Packageable Element.dispose()
+pe_pe = param.pe_pe;
+ 
+select many ele_vis_links related by pe_pe->PE_VIS[R8002];
+for each ele_vis_link in ele_vis_links
+  select one pkg related by ele_vis_link->EP_PKG[R8002];
+  unrelate pe_pe from pkg across R8002 using ele_vis_link;
+  select one searchResultset related by ele_vis_link->PE_SRS[R8006];
+  unrelate ele_vis_link from searchResultset across R8006;  
+  delete object instance ele_vis_link;
+end for;
+select many com_vis_links related by pe_pe->PE_CVS[R8004];
+for each com_vis_link in com_vis_links
+  select one component related by com_vis_link->C_C[R8004];
+  unrelate pe_pe from component across R8004 using com_vis_link;
+  delete object instance com_vis_link;
+end for;
+/*
+select one modelClass related by pe_pe->O_OBJ[R8001];
+if not_empty modelClass
+  unrelate modelClass from pe_pe across R8001;
+  modelClass.dispose();
+end if;
+select one dt related by pe_pe->S_DT[R8001];
+if not_empty dt
+  // note we do not tear down this association
+  // as the S_DT.dispose() call requires it to
+  // be setup, it will tear it down
+  dt.dispose();
+end if;
+select one intPart related by pe_pe->SQ_P[R8001];
+if not_empty intPart
+  unrelate intPart from pe_pe across R8001;
+  intPart.dispose();
+end if;
+select one ucAssoc related by pe_pe->UC_UCA[R8001];
+if not_empty ucAssoc
+  unrelate ucAssoc from pe_pe across R8001;
+  ucAssoc.dispose();
+end if;
+select one actNode related by pe_pe->A_N[R8001];
+if not_empty actNode
+  unrelate actNode from pe_pe across R8001;
+  actNode.dispose();
+end if;
+select one comp related by pe_pe->C_C[R8001];
+if not_empty comp
+  unrelate comp from pe_pe across R8001;
+  comp.dispose();
+end if;
+select one ic related by pe_pe->CL_IC[R8001];
+if not_empty ic
+  unrelate ic from pe_pe across R8001;
+  ic.dispose();
+end if;
+select one interface related by pe_pe->C_I[R8001];
+if not_empty interface
+  unrelate interface from pe_pe across R8001;
+  interface.dispose();
+end if;
+select one pkg related by pe_pe->EP_PKG[R8001];
+if not_empty pkg
+  unrelate pkg from pe_pe across R8001;
+  pkg.dispose();
+end if;
+select one csp related by pe_pe->CNST_CSP[R8001];
+if not_empty csp
+  unrelate csp from pe_pe across R8001;
+  csp.dispose();
+end if;
+select one ap related by pe_pe->A_AP[R8001];
+if not_empty ap
+  unrelate ap from pe_pe across R8001;
+  ap.dispose();
+end if;
+select one edge related by pe_pe->A_E[R8001];
+if not_empty edge
+  unrelate edge from pe_pe across R8001;
+  edge.dispose();
+end if;
+select one msg related by pe_pe->MSG_M[R8001];
+if not_empty msg
+  unrelate msg from pe_pe across R8001;
+  msg.dispose();
+end if;
+select one rel related by pe_pe->R_REL[R8001];
+if not_empty rel
+  unrelate rel from pe_pe across R8001;
+  rel.dispose();
+end if;
+select one icomp related by pe_pe->O_IOBJ[R8001];
+if not_empty icomp
+  unrelate icomp from pe_pe across R8001;
+  icomp.dispose();
+end if;
+*/
+select one sync related by pe_pe->S_SYNC[R8001];
+if not_empty sync
+  unrelate sync from pe_pe across R8001;
+  self.Function_dispose( s_sync:sync );
+end if;
+/*
+select one ee related by pe_pe->S_EE[R8001];
+if not_empty ee
+  unrelate ee from pe_pe across R8001;
+  ee.dispose();
+end if;
+select one sat related by pe_pe->C_SF[R8001];
+if not_empty sat
+  unrelate sat from pe_pe across R8001;
+  sat.dispose();
+end if;
+select one delg related by pe_pe->C_DG[R8001];
+if not_empty delg
+  unrelate delg from pe_pe across R8001;
+  delg.dispose();
+end if;
+*/
+select many bodyInElements related by pe_pe->ACT_BIE[R640];
+for each bie in bodyInElements
+  select one body related by bie->ACT_ACT[R640];
+  unrelate pe_pe from body across R640 using bie;
+  delete object instance bie;
+end for;
+
+select one package related by pe_pe->EP_PKG[R8000];
+if not_empty package
+  unrelate pe_pe from package across R8000 ;
+end if;
+
+select one component related by pe_pe->C_C[R8003];
+if(not_empty component)
+  unrelate pe_pe from component across R8003;
+end if;
+
+select many elemInSystems related by pe_pe->G_EIS[R9100];
+for each elemInSystem in elemInSystems
+  select one system related by elemInSystem->S_SYS[R9100];
+  unrelate pe_pe from system across R9100 using elemInSystem;
+  delete object instance elemInSystem;
+end for;
+
+delete object instance pe_pe;',
+	1,
+	'',
+	"46562546-0255-4276-b15c-afac908ce778");
+INSERT INTO O_TPARM
+	VALUES ("cd4a9aa0-b911-4794-a6a9-1d0797e5f2cf",
+	"4674a4f2-d6c3-40d5-a1ce-972563d69338",
+	'pe_pe',
+	"e988e223-9ca4-4b6f-a675-001eefe3aa24",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("93050450-3368-4788-ba8d-1955efd49ed1",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'FunctionParameter_dispose',
+	'The dispose operation for this class.',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Copied from OOAofOOA - LPS
+// Function Parameter.dispose()
+//
+s_sparm = param.s_sparm;
+
+// Domain Subsystem
+select one func related by s_sparm->S_SYNC[R24];
+unrelate s_sparm from func across R24;
+select one dt related by s_sparm->S_DT[R26];
+unrelate s_sparm from dt across R26;
+//
+select one successor related by s_sparm->S_SPARM[R54.''precedes''];
+select one predecessor related by s_sparm->S_SPARM[R54.''succeeds''];
+if (not empty successor)
+  unrelate s_sparm from successor across R54.''precedes'';
+end if;
+if (not empty predecessor)
+  unrelate s_sparm from predecessor across R54.''succeeds'';
+end if;
+if (not_empty successor and not_empty predecessor)
+  relate successor to predecessor across R54.''succeeds'';
+end if;
+/*
+//
+// Value Subsystem
+select many pvs related by s_sparm->V_PVL[R832];
+for each pv in pvs
+  unrelate s_sparm from pv across R832;
+end for;
+//
+// Local Subsystem
+select many lcls related by s_sparm->L_LCL[R3007];
+for each lcl in lcls
+  unrelate s_sparm from lcl across R3007;
+  lcl.dispose();
+end for;
+// dispose each message argument
+// associated with this parm
+select many args related by s_sparm->MSG_FA[R1016];
+for each arg in args
+  arg.dispose();
+end for;
+*/
+select many dims related by s_sparm->S_DIM[R52];
+for each dim in dims
+  unrelate s_sparm from dim across R52;
+  delete object instance dim;
+end for;
+//
+// Finally, delete s_sparm
+delete object instance s_sparm;',
+	1,
+	'',
+	"4674a4f2-d6c3-40d5-a1ce-972563d69338");
+INSERT INTO O_TPARM
+	VALUES ("6d20b7e1-f789-405d-a769-80b9b7549aa3",
+	"93050450-3368-4788-ba8d-1955efd49ed1",
+	's_sparm',
+	"a01a1995-8ff8-44fe-abb1-b11213d98016",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
