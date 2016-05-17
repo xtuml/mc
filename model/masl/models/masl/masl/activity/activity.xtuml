@@ -169,7 +169,19 @@ select one routine related by self->routine[R3704];
 select one operation related by self->operation[R3704];
 select one state related by self->state[R3704];
 
-select many activities from instances of activity;
+// select all the activities in the same scope
+select many activities from instances of activity where false;
+if ( not_empty operation )
+  select many activities related by operation->object[R3749]->operation[R3749]->activity[R3704]; // get object operations
+elif ( not_empty routine )
+  select one terminator related by routine->terminator[R3791];
+  if ( not_empty terminator )
+    select many activities related by terminator->routine[R3791]->activity[R3704];  // get terminator activities
+  else
+    select many activities related by routine->domain[R3790]->routine[R3790]->activity[R3704]; // get domain activities
+  end if;
+end if;
+
 for each activity in activities
  
   select one act_routine related by self->routine[R3704];
