@@ -391,6 +391,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
       else if ( ( 0 != s_sparm ) ) {
         /* ooapopulation.FunctionParameter_setType( s_sparm:ooapopulation.current_function_param, type_name:PARAM.value[0] ) */
         masl2xtuml_ooapopulation_op_FunctionParameter_setType( ooapopulation,  ooapopulation->current_function_param, p_value[0] );
+        /* ooapopulation.InterfaceParameter_setType( c_pp:ooapopulation.current_interface_param, type_name:PARAM.value[0] ) */
+        masl2xtuml_ooapopulation_op_InterfaceParameter_setType( ooapopulation,  ooapopulation->current_interface_param, p_value[0] );
       }
       else if ( ( 0 != o_tparm ) ) {
         /* ooapopulation.OperationParameter_setType( o_tparm:ooapopulation.current_operation_param, type_name:PARAM.value[0] ) */
@@ -1305,6 +1307,17 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
         /* ASSIGN self.current_function_param.By_Ref = 1 */
         self->current_function_param->By_Ref = 1;
       }
+      /* ASSIGN self.current_interface_param = self.Interface_newParameter(c_ep:interface_message, parameter_name:PARAM.name) */
+      self->current_interface_param = masl2xtuml_ooapopulation_op_Interface_newParameter(self, interface_message, p_name);
+      /* IF ( ( in == PARAM.direction ) ) */
+      if ( ( Escher_strcmp( "in", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_interface_param.By_Ref = 0 */
+        self->current_interface_param->By_Ref = 0;
+      }
+      else if ( ( Escher_strcmp( "out", p_direction ) == 0 ) ) {
+        /* ASSIGN self.current_interface_param.By_Ref = 1 */
+        self->current_interface_param->By_Ref = 1;
+      }
     }
     else {
       /* ASSIGN self.current_function_param = s_sparm */
@@ -2148,6 +2161,8 @@ masl2xtuml_ooapopulation_op_transformDomainFunction( masl2xtuml_ooapopulation * 
     c_ep = masl2xtuml_ooapopulation_op_Interface_newExecutableProperty(self, FALSE, comp_if, p_name);
     /* ASSIGN c_ep.Direction = ClientServer */
     c_ep->Direction = masl2xtuml_IFDirectionType_ClientServer_e;
+    /* ASSIGN self.current_executable_property = c_ep */
+    self->current_executable_property = c_ep;
   }
 }
 

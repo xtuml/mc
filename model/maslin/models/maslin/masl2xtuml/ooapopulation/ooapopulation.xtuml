@@ -200,6 +200,8 @@ elif ( "typeref" == element )
       ooapopulation.Attribute_setType(o_attr:ooapopulation.current_attribute, type_name:param.value[0]); 
     elif ( not_empty s_sparm )
       ooapopulation.FunctionParameter_setType(s_sparm:ooapopulation.current_function_param, type_name:param.value[0]); 
+      // also set type for the corresponding interface message
+      ooapopulation.InterfaceParameter_setType(c_pp:ooapopulation.current_interface_param, type_name:param.value[0]);
     elif ( not_empty o_tparm )
       ooapopulation.OperationParameter_setType(o_tparm:ooapopulation.current_operation_param, type_name:param.value[0]); 
     elif ( not_empty c_pp )
@@ -1005,6 +1007,13 @@ elif ( not_empty domain_function )
     elif ( "out" == param.direction )
       self.current_function_param.By_Ref = 1;	// by ref
     end if;
+    // also create a parameter for the corresponding interface message
+    self.current_interface_param = self.Interface_newParameter(c_ep:interface_message, parameter_name:param.name);
+    if ( "in" == param.direction )
+      self.current_interface_param.By_Ref = 0;	// by value
+    elif ( "out" == param.direction )
+      self.current_interface_param.By_Ref = 1;	// by ref
+    end if;
   else
     self.current_function_param = s_sparm;
   end if;
@@ -1782,6 +1791,7 @@ if ( "public" == param.visibility )
   // c - Note that we (currently) always create an interface operation, never a signal
   c_ep = self.Interface_newExecutableProperty(c_i:comp_if, ep_name:param.name, asynchronous:false);
   c_ep.Direction = IFDirectionType::ClientServer;
+  self.current_executable_property = c_ep;
 end if;',
 	1,
 	'',
