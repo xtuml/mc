@@ -8558,54 +8558,51 @@ masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * s
 c_t *
 masl2xtuml_ooapopulation_op_Function_getSignature( masl2xtuml_ooapopulation * self, masl2xtuml_S_SYNC * p_s_sync )
 {
-  masl2xtuml_S_SPARM * parameter=0;i_t paramLength;i_t count;c_t * signature=0;masl2xtuml_S_SYNC * s_sync;Escher_ObjectSet_s parameters_space={0}; Escher_ObjectSet_s * parameters = &parameters_space;
+  c_t * separator=0;masl2xtuml_S_SPARM * first_param;c_t * signature=0;masl2xtuml_S_SYNC * s_sync;masl2xtuml_S_SPARM * parameter=0;
   /* ASSIGN s_sync = PARAM.s_sync */
   s_sync = p_s_sync;
   /* ASSIGN signature = s_sync.Name */
   signature = Escher_strcpy( signature, s_sync->Name );
-  /* ASSIGN count = 0 */
-  count = 0;
-  /* SELECT many parameters RELATED BY s_sync->S_SPARM[R24] */
-  Escher_ClearSet( parameters );
-  if ( 0 != s_sync ) {
-    Escher_CopySet( parameters, &s_sync->S_SPARM_R24_defines );
+  /* SELECT any parameter RELATED BY s_sync->S_SPARM[R24] */
+  parameter = ( 0 != s_sync ) ? (masl2xtuml_S_SPARM *) Escher_SetGetAny( &s_sync->S_SPARM_R24_defines ) : 0;
+  /* ASSIGN first_param = parameter */
+  first_param = parameter;
+  /* WHILE ( not_empty parameter ) */
+  while ( ( 0 != parameter ) ) {
+    /* ASSIGN first_param = parameter */
+    first_param = parameter;
+    /* SELECT one parameter RELATED BY parameter->S_SPARM[R54.succeeds] */
+    parameter = ( 0 != parameter ) ? parameter->S_SPARM_R54_succeeds : 0;
   }
-  /* ASSIGN paramLength = cardinality parameters */
-  paramLength = Escher_SetCardinality( parameters );
-  /* IF ( ( paramLength > 0 ) ) */
-  if ( ( paramLength > 0 ) ) {
+  /* IF ( not_empty first_param ) */
+  if ( ( 0 != first_param ) ) {
     /* ASSIGN signature = ( signature + ( ) */
     signature = Escher_strcpy( signature, Escher_stradd( signature, "(" ) );
   }
-  /* FOR EACH parameter IN parameters */
-  { Escher_Iterator_s iterparameter;
-  masl2xtuml_S_SPARM * iiparameter;
-  Escher_IteratorReset( &iterparameter, parameters );
-  while ( (iiparameter = (masl2xtuml_S_SPARM *)Escher_IteratorNext( &iterparameter )) != 0 ) {
-    parameter = iiparameter; {
+  /* ASSIGN separator =  */
+  separator = Escher_strcpy( separator, "" );
+  /* ASSIGN parameter = first_param */
+  parameter = first_param;
+  /* WHILE ( not_empty parameter ) */
+  while ( ( 0 != parameter ) ) {
     masl2xtuml_S_DT * type=0;
     /* SELECT one type RELATED BY parameter->S_DT[R26] */
     type = ( 0 != parameter ) ? parameter->S_DT_R26_is_typed_by_ : 0;
-    /* IF ( ( ( count > 0 ) and ( count != ( paramLength - 1 ) ) ) ) */
-    if ( ( ( count > 0 ) && ( count != ( paramLength - 1 ) ) ) ) {
-      /* ASSIGN signature = ( signature + ,  ) */
-      signature = Escher_strcpy( signature, Escher_stradd( signature, ", " ) );
-    }
-    /* ASSIGN signature = ( signature + type.Name ) */
-    signature = Escher_strcpy( signature, Escher_stradd( signature, type->Name ) );
-    /* ASSIGN count = ( count + 1 ) */
-    count = ( count + 1 );
-  }}}
-  /* IF ( ( paramLength > 0 ) ) */
-  if ( ( paramLength > 0 ) ) {
+    /* ASSIGN signature = ( ( signature + separator ) + type.Name ) */
+    signature = Escher_strcpy( signature, Escher_stradd( Escher_stradd( signature, separator ), type->Name ) );
+    /* ASSIGN separator = ,  */
+    separator = Escher_strcpy( separator, ", " );
+    /* SELECT one parameter RELATED BY parameter->S_SPARM[R54.precedes] */
+    parameter = ( 0 != parameter ) ? parameter->S_SPARM_R54_precedes : 0;
+  }
+  /* IF ( not_empty first_param ) */
+  if ( ( 0 != first_param ) ) {
     /* ASSIGN signature = ( signature + ) ) */
     signature = Escher_strcpy( signature, Escher_stradd( signature, ")" ) );
   }
   /* RETURN signature */
   {c_t * xtumlOALrv = signature;
-  Escher_ClearSet( parameters ); 
   return xtumlOALrv;}
-  Escher_ClearSet( parameters ); 
 }
 
 /*

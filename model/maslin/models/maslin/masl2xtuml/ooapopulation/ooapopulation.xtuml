@@ -7568,26 +7568,32 @@ INSERT INTO O_TFR
 	1,
 	'/**
  *  Return a string representation of this functions signature
- *  Copied from OOAofOOA - LPS
+ *  Heavily adapted from OOAofOOA - LPS
  */
 s_sync = param.s_sync;
  
 signature = s_sync.Name;
-count = 0;
-select many parameters related by s_sync->S_SPARM[R24];
-paramLength = cardinality parameters;
-if(paramLength > 0)
+
+// Get the first parameter.
+select any parameter related by s_sync->S_SPARM[R24];
+first_param = parameter;
+while ( not_empty parameter )
+  first_param = parameter;
+  select one parameter related by parameter->S_SPARM[R54.''succeeds''];
+end while;
+
+if( not_empty first_param )
   signature = signature + "(";
 end if;
-for each parameter in parameters
+separator = "";
+parameter = first_param;
+while ( not_empty parameter )
   select one type related by parameter->S_DT[R26];
-  if(count > 0 and count != paramLength - 1)
-    signature = signature + ", ";
-  end if;
-  signature = signature + type.Name;
-  count = count + 1;
-end for;
-if(paramLength > 0)
+  signature = signature + separator + type.Name;
+  separator = ", ";
+  select one parameter related by parameter->S_SPARM[R54.''precedes''];
+end while;
+if( not_empty first_param )
   signature = signature + ")";
 end if;
 return signature;',
