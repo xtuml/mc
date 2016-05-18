@@ -131,18 +131,19 @@ INSERT INTO O_TFR
 // the OOAofOOA Function.getSignaure
 
 signature = self.name;                                                                                                                        
-select one next_param related by self->parameter[R3705];                                                                                         
-if ( not_empty next_param )                                                                                                                           
+select one parameter related by self->parameter[R3705];                                                                                         
+if ( not_empty parameter )                                                                                                                           
   signature = signature + "(";                                                                                                                
 end if;                                                                                                                                       
 separator = "";
+next_param = parameter;
 while ( not_empty next_param )
   select one typeref related by next_param->typeref[R3742];                                                                                            
   signature = signature + separator + typeref.body;                                                                                                          
   separator = ", ";
   select one next_param related by next_param->parameter[R3706.''precedes''];
 end while;
-if ( not_empty next_param )                                                                                                                           
+if ( not_empty parameter )                                                                                                                           
   signature = signature + ")";                                                                                                                
 end if;                                                                                                                                       
 return signature;',
