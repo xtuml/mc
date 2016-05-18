@@ -196,6 +196,11 @@ c_t * masl2xtuml_ooapopulation_op_Function_getSignature( masl2xtuml_ooapopulatio
 void masl2xtuml_ooapopulation_op_Function_dispose( masl2xtuml_ooapopulation *, masl2xtuml_S_SYNC * );
 void masl2xtuml_ooapopulation_op_PackageableElement_dispose( masl2xtuml_ooapopulation *, masl2xtuml_PE_PE * );
 void masl2xtuml_ooapopulation_op_FunctionParameter_dispose( masl2xtuml_ooapopulation *, masl2xtuml_S_SPARM * );
+void masl2xtuml_ooapopulation_op_ExecutableProperty_dispose( masl2xtuml_ooapopulation *, masl2xtuml_C_EP * );
+void masl2xtuml_ooapopulation_op_InterfaceSignal_dispose( masl2xtuml_ooapopulation *, masl2xtuml_C_AS * );
+void masl2xtuml_ooapopulation_op_InterfaceOperation_dispose( masl2xtuml_ooapopulation *, masl2xtuml_C_IO * );
+void masl2xtuml_ooapopulation_op_PropertyParameter_dispose( masl2xtuml_ooapopulation *, masl2xtuml_C_PP * );
+c_t * masl2xtuml_ooapopulation_op_ExecutableProperty_getSignature( masl2xtuml_ooapopulation *, masl2xtuml_C_EP * );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10

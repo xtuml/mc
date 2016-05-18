@@ -2743,53 +2743,39 @@ masl2xtuml_ooapopulation_op_InterfaceOperation_initialize( masl2xtuml_ooapopulat
 masl2xtuml_C_EP *
 masl2xtuml_ooapopulation_op_Interface_newExecutableProperty( masl2xtuml_ooapopulation * self, const bool p_asynchronous, masl2xtuml_C_I * p_c_i, c_t * p_ep_name )
 {
-  masl2xtuml_C_I * c_i;masl2xtuml_C_EP * signal=0;
+  masl2xtuml_C_I * c_i;masl2xtuml_C_EP * signal;Escher_ObjectSet_s references_space={0}; Escher_ObjectSet_s * references = &references_space;
   /* ASSIGN c_i = PARAM.c_i */
   c_i = p_c_i;
-  /* SELECT any signal RELATED BY c_i->C_EP[R4003] WHERE ( ( SELECTED.Name == PARAM.ep_name ) ) */
-  signal = 0;
+  /* CREATE OBJECT INSTANCE signal OF C_EP */
+  signal = (masl2xtuml_C_EP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_EP_CLASS_NUMBER );
+  signal->Id = (Escher_UniqueID_t) signal;
+  /* ASSIGN signal.Name = PARAM.ep_name */
+  signal->Name = Escher_strcpy( signal->Name, p_ep_name );
+  /* RELATE c_i TO signal ACROSS R4003 */
+  masl2xtuml_C_EP_R4003_Link_is_defined_by( c_i, signal );
+  /* SELECT many references RELATED BY c_i->C_IR[R4012] */
+  Escher_ClearSet( references );
   if ( 0 != c_i ) {
-    masl2xtuml_C_EP * selected;
-    Escher_Iterator_s iC_EP_R4003_is_defined_by;
-    Escher_IteratorReset( &iC_EP_R4003_is_defined_by, &c_i->C_EP_R4003_is_defined_by );
-    while ( 0 != ( selected = (masl2xtuml_C_EP *) Escher_IteratorNext( &iC_EP_R4003_is_defined_by ) ) ) {
-      if ( ( Escher_strcmp( selected->Name, p_ep_name ) == 0 ) ) {
-        signal = selected;
-        break;
-  }}}
-  /* IF ( empty signal ) */
-  if ( ( 0 == signal ) ) {
-    Escher_ObjectSet_s references_space={0}; Escher_ObjectSet_s * references = &references_space;
-    /* CREATE OBJECT INSTANCE signal OF C_EP */
-    signal = (masl2xtuml_C_EP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_EP_CLASS_NUMBER );
-    signal->Id = (Escher_UniqueID_t) signal;
-    /* ASSIGN signal.Name = PARAM.ep_name */
-    signal->Name = Escher_strcpy( signal->Name, p_ep_name );
-    /* RELATE c_i TO signal ACROSS R4003 */
-    masl2xtuml_C_EP_R4003_Link_is_defined_by( c_i, signal );
-    /* SELECT many references RELATED BY c_i->C_IR[R4012] */
-    Escher_ClearSet( references );
-    if ( 0 != c_i ) {
-      Escher_CopySet( references, &c_i->C_IR_R4012_is_formal_definition );
-    }
-    /* IF ( PARAM.asynchronous ) */
-    if ( p_asynchronous ) {
-    }
-    else {
-      masl2xtuml_C_IO * ssignal;
-      /* CREATE OBJECT INSTANCE ssignal OF C_IO */
-      ssignal = (masl2xtuml_C_IO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_IO_CLASS_NUMBER );
-      ssignal->Id = (Escher_UniqueID_t) ssignal;
-      /* RELATE signal TO ssignal ACROSS R4004 */
-      masl2xtuml_C_IO_R4004_Link( signal, ssignal );
-      /* self.InterfaceOperation_initialize( c_io:ssignal, name:PARAM.ep_name ) */
-      masl2xtuml_ooapopulation_op_InterfaceOperation_initialize( self,  ssignal, p_ep_name );
-    }
-    Escher_ClearSet( references ); 
+    Escher_CopySet( references, &c_i->C_IR_R4012_is_formal_definition );
+  }
+  /* IF ( PARAM.asynchronous ) */
+  if ( p_asynchronous ) {
+  }
+  else {
+    masl2xtuml_C_IO * ssignal;
+    /* CREATE OBJECT INSTANCE ssignal OF C_IO */
+    ssignal = (masl2xtuml_C_IO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_IO_CLASS_NUMBER );
+    ssignal->Id = (Escher_UniqueID_t) ssignal;
+    /* RELATE signal TO ssignal ACROSS R4004 */
+    masl2xtuml_C_IO_R4004_Link( signal, ssignal );
+    /* self.InterfaceOperation_initialize( c_io:ssignal, name:PARAM.ep_name ) */
+    masl2xtuml_ooapopulation_op_InterfaceOperation_initialize( self,  ssignal, p_ep_name );
   }
   /* RETURN signal */
   {masl2xtuml_C_EP * xtumlOALrv = signal;
+  Escher_ClearSet( references ); 
   return xtumlOALrv;}
+  Escher_ClearSet( references ); 
 }
 
 /*
@@ -8507,11 +8493,11 @@ masl2xtuml_ooapopulation_op_transformDescription( masl2xtuml_ooapopulation * sel
 void
 masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * self)
 {
-  masl2xtuml_C_EP * signal;masl2xtuml_S_SYNC * function;
+  masl2xtuml_C_EP * message;masl2xtuml_S_SYNC * function;
   /* ASSIGN function = self.current_domain_function */
   function = self->current_domain_function;
-  /* ASSIGN signal = self.current_executable_property */
-  signal = self->current_executable_property;
+  /* ASSIGN message = self.current_executable_property */
+  message = self->current_executable_property;
   /* IF ( not_empty function ) */
   if ( ( 0 != function ) ) {
     masl2xtuml_S_SYNC * s_sync=0;Escher_ObjectSet_s s_syncs_space={0}; Escher_ObjectSet_s * s_syncs = &s_syncs_space;
@@ -8540,6 +8526,8 @@ masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * s
       if ( ( ( s_sync != function ) && ( Escher_strcmp( masl2xtuml_ooapopulation_op_Function_getSignature(self, function), masl2xtuml_ooapopulation_op_Function_getSignature(self, s_sync) ) == 0 ) ) ) {
         /* ASSIGN s_sync.Action_Semantics_internal = function.Action_Semantics_internal */
         s_sync->Action_Semantics_internal = Escher_strcpy( s_sync->Action_Semantics_internal, function->Action_Semantics_internal );
+        /* self.ExecutableProperty_dispose( c_ep:message ) */
+        masl2xtuml_ooapopulation_op_ExecutableProperty_dispose( self,  message );
         /* self.Function_dispose( s_sync:function ) */
         masl2xtuml_ooapopulation_op_Function_dispose( self,  function );
         /* BREAK */
@@ -8548,7 +8536,59 @@ masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * s
     }}}
     Escher_ClearSet( s_syncs ); 
   }
-  else if ( ( 0 != signal ) ) {
+  else if ( ( 0 != message ) ) {
+    masl2xtuml_C_EP * c_ep=0;Escher_ObjectSet_s c_eps_space={0}; Escher_ObjectSet_s * c_eps = &c_eps_space;
+    /* SELECT many c_eps RELATED BY message->C_I[R4003]->C_EP[R4003] */
+    Escher_ClearSet( c_eps );
+    {    if ( 0 != message ) {
+    masl2xtuml_C_I * C_I_R4003_provides_signature_of = message->C_I_R4003_provides_signature_of;
+    if ( 0 != C_I_R4003_provides_signature_of ) {
+    masl2xtuml_C_EP * C_EP_R4003_is_defined_by;
+    Escher_Iterator_s iC_EP_R4003_is_defined_by;
+    Escher_IteratorReset( &iC_EP_R4003_is_defined_by, &C_I_R4003_provides_signature_of->C_EP_R4003_is_defined_by );
+    while ( 0 != ( C_EP_R4003_is_defined_by = (masl2xtuml_C_EP *) Escher_IteratorNext( &iC_EP_R4003_is_defined_by ) ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_eps, C_EP_R4003_is_defined_by ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) c_eps, C_EP_R4003_is_defined_by );
+    }}}}}
+    /* FOR EACH c_ep IN c_eps */
+    { Escher_Iterator_s iterc_ep;
+    masl2xtuml_C_EP * iic_ep;
+    Escher_IteratorReset( &iterc_ep, c_eps );
+    while ( (iic_ep = (masl2xtuml_C_EP *)Escher_IteratorNext( &iterc_ep )) != 0 ) {
+      c_ep = iic_ep; {
+      /* IF ( ( ( c_ep != message ) and ( self.ExecutableProperty_getSignature(message) == self.ExecutableProperty_getSignature(c_ep) ) ) ) */
+      if ( ( ( c_ep != message ) && ( Escher_strcmp( masl2xtuml_ooapopulation_op_ExecutableProperty_getSignature(self, message), masl2xtuml_ooapopulation_op_ExecutableProperty_getSignature(self, c_ep) ) == 0 ) ) ) {
+        masl2xtuml_SPR_RO * spr_ro=0;masl2xtuml_SPR_RO * message_spr_ro=0;
+        /* SELECT any message_spr_ro RELATED BY message->SPR_REP[R4500]->SPR_RO[R4502] */
+        message_spr_ro = 0;
+        {        if ( 0 != message ) {
+        masl2xtuml_SPR_REP * SPR_REP_R4500;
+        Escher_Iterator_s iSPR_REP_R4500;
+        Escher_IteratorReset( &iSPR_REP_R4500, &message->SPR_REP_R4500 );
+        while ( ( 0 == message_spr_ro ) && ( 0 != ( SPR_REP_R4500 = (masl2xtuml_SPR_REP *) Escher_IteratorNext( &iSPR_REP_R4500 ) ) ) ) {
+        if ( ( 0 != SPR_REP_R4500 ) && ( masl2xtuml_SPR_RO_CLASS_NUMBER == SPR_REP_R4500->R4502_object_id ) )        message_spr_ro = (masl2xtuml_SPR_RO *) SPR_REP_R4500->R4502_subtype;
+}}}
+        /* SELECT any spr_ro RELATED BY c_ep->SPR_REP[R4500]->SPR_RO[R4502] */
+        spr_ro = 0;
+        {        if ( 0 != c_ep ) {
+        masl2xtuml_SPR_REP * SPR_REP_R4500;
+        Escher_Iterator_s iSPR_REP_R4500;
+        Escher_IteratorReset( &iSPR_REP_R4500, &c_ep->SPR_REP_R4500 );
+        while ( ( 0 == spr_ro ) && ( 0 != ( SPR_REP_R4500 = (masl2xtuml_SPR_REP *) Escher_IteratorNext( &iSPR_REP_R4500 ) ) ) ) {
+        if ( ( 0 != SPR_REP_R4500 ) && ( masl2xtuml_SPR_RO_CLASS_NUMBER == SPR_REP_R4500->R4502_object_id ) )        spr_ro = (masl2xtuml_SPR_RO *) SPR_REP_R4500->R4502_subtype;
+}}}
+        /* IF ( ( not_empty spr_ro and not_empty message_spr_ro ) ) */
+        if ( ( ( 0 != spr_ro ) && ( 0 != message_spr_ro ) ) ) {
+          /* ASSIGN message_spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal */
+          message_spr_ro->Action_Semantics_internal = Escher_strcpy( message_spr_ro->Action_Semantics_internal, spr_ro->Action_Semantics_internal );
+        }
+        /* self.ExecutableProperty_dispose( c_ep:message ) */
+        masl2xtuml_ooapopulation_op_ExecutableProperty_dispose( self,  message );
+        /* BREAK */
+        break;
+      }
+    }}}
+    Escher_ClearSet( c_eps ); 
   }
 }
 
@@ -8862,6 +8902,295 @@ masl2xtuml_ooapopulation_op_FunctionParameter_dispose( masl2xtuml_ooapopulation 
   }
   Escher_DeleteInstance( (Escher_iHandle_t) s_sparm, masl2xtuml_DOMAIN_ID, masl2xtuml_S_SPARM_CLASS_NUMBER );
   Escher_ClearSet( dims ); 
+}
+
+/*
+ * instance operation:  ExecutableProperty_dispose
+ */
+void
+masl2xtuml_ooapopulation_op_ExecutableProperty_dispose( masl2xtuml_ooapopulation * self, masl2xtuml_C_EP * p_c_ep )
+{
+  masl2xtuml_C_PP * parm=0;masl2xtuml_C_EP * c_ep;masl2xtuml_C_I * interface=0;Escher_ObjectSet_s parms_space={0}; Escher_ObjectSet_s * parms = &parms_space;masl2xtuml_C_IO * synchronousSignal=0;masl2xtuml_C_AS * asynchronousSignal=0;
+  /* ASSIGN c_ep = PARAM.c_ep */
+  c_ep = p_c_ep;
+  /* SELECT one asynchronousSignal RELATED BY c_ep->C_AS[R4004] */
+  asynchronousSignal = 0;
+  if ( ( 0 != c_ep ) && ( masl2xtuml_C_AS_CLASS_NUMBER == c_ep->R4004_object_id ) )  asynchronousSignal = ( 0 != c_ep ) ? (masl2xtuml_C_AS *) c_ep->R4004_subtype : 0;
+  /* SELECT one synchronousSignal RELATED BY c_ep->C_IO[R4004] */
+  synchronousSignal = 0;
+  if ( ( 0 != c_ep ) && ( masl2xtuml_C_IO_CLASS_NUMBER == c_ep->R4004_object_id ) )  synchronousSignal = ( 0 != c_ep ) ? (masl2xtuml_C_IO *) c_ep->R4004_subtype : 0;
+  /* IF ( not_empty asynchronousSignal ) */
+  if ( ( 0 != asynchronousSignal ) ) {
+    /* UNRELATE c_ep FROM asynchronousSignal ACROSS R4004 */
+    masl2xtuml_C_AS_R4004_Unlink( c_ep, asynchronousSignal );
+    /* self.InterfaceSignal_dispose( c_as:asynchronousSignal ) */
+    masl2xtuml_ooapopulation_op_InterfaceSignal_dispose( self,  asynchronousSignal );
+  }
+  else if ( ( 0 != synchronousSignal ) ) {
+    /* UNRELATE c_ep FROM synchronousSignal ACROSS R4004 */
+    masl2xtuml_C_IO_R4004_Unlink( c_ep, synchronousSignal );
+    /* self.InterfaceOperation_dispose( c_io:synchronousSignal ) */
+    masl2xtuml_ooapopulation_op_InterfaceOperation_dispose( self,  synchronousSignal );
+  }
+  /* SELECT many parms RELATED BY c_ep->C_PP[R4006] */
+  Escher_ClearSet( parms );
+  if ( 0 != c_ep ) {
+    Escher_CopySet( parms, &c_ep->C_PP_R4006_is_parameter_to );
+  }
+  /* FOR EACH parm IN parms */
+  { Escher_Iterator_s iterparm;
+  masl2xtuml_C_PP * iiparm;
+  Escher_IteratorReset( &iterparm, parms );
+  while ( (iiparm = (masl2xtuml_C_PP *)Escher_IteratorNext( &iterparm )) != 0 ) {
+    parm = iiparm; {
+    /* UNRELATE c_ep FROM parm ACROSS R4006 */
+    masl2xtuml_C_PP_R4006_Unlink_is_parameter_to( c_ep, parm );
+    /* self.PropertyParameter_dispose( c_pp:parm ) */
+    masl2xtuml_ooapopulation_op_PropertyParameter_dispose( self,  parm );
+  }}}
+  /* SELECT one interface RELATED BY c_ep->C_I[R4003] */
+  interface = ( 0 != c_ep ) ? c_ep->C_I_R4003_provides_signature_of : 0;
+  /* IF ( not_empty interface ) */
+  if ( ( 0 != interface ) ) {
+    /* UNRELATE c_ep FROM interface ACROSS R4003 */
+    masl2xtuml_C_EP_R4003_Unlink_is_defined_by( interface, c_ep );
+  }
+  /* DELETE OBJECT INSTANCE c_ep */
+  if ( 0 == c_ep ) {
+    XTUML_EMPTY_HANDLE_TRACE( "C_EP", "Escher_DeleteInstance" );
+  }
+  Escher_DeleteInstance( (Escher_iHandle_t) c_ep, masl2xtuml_DOMAIN_ID, masl2xtuml_C_EP_CLASS_NUMBER );
+  Escher_ClearSet( parms ); 
+}
+
+/*
+ * instance operation:  InterfaceSignal_dispose
+ */
+void
+masl2xtuml_ooapopulation_op_InterfaceSignal_dispose( masl2xtuml_ooapopulation * self, masl2xtuml_C_AS * p_c_as )
+{
+  masl2xtuml_C_AS * c_as;masl2xtuml_C_AS * predecessor=0;masl2xtuml_C_AS * successor=0;masl2xtuml_C_EP * ep=0;
+  /* ASSIGN c_as = PARAM.c_as */
+  c_as = p_c_as;
+  /* SELECT one ep RELATED BY c_as->C_EP[R4004] */
+  ep = ( 0 != c_as ) ? c_as->C_EP_R4004 : 0;
+  /* IF ( not_empty ep ) */
+  if ( ( 0 != ep ) ) {
+    /* self.ExecutableProperty_dispose( c_ep:ep ) */
+    masl2xtuml_ooapopulation_op_ExecutableProperty_dispose( self,  ep );
+  }
+  /* SELECT one successor RELATED BY c_as->C_AS[R4020.precedes] */
+  successor = ( 0 != c_as ) ? c_as->C_AS_R4020_precedes : 0;
+  /* SELECT one predecessor RELATED BY c_as->C_AS[R4020.succeeds] */
+  predecessor = ( 0 != c_as ) ? c_as->C_AS_R4020_succeeds : 0;
+  /* IF ( not empty successor ) */
+  if ( !( 0 == successor ) ) {
+    /* UNRELATE c_as FROM successor ACROSS R4020 */
+    masl2xtuml_C_AS_R4020_Unlink_precedes( c_as, successor );
+  }
+  /* IF ( not empty predecessor ) */
+  if ( !( 0 == predecessor ) ) {
+    /* UNRELATE c_as FROM predecessor ACROSS R4020 */
+    masl2xtuml_C_AS_R4020_Unlink_succeeds( c_as, predecessor );
+  }
+  /* IF ( ( not_empty successor and not_empty predecessor ) ) */
+  if ( ( ( 0 != successor ) && ( 0 != predecessor ) ) ) {
+    /* RELATE successor TO predecessor ACROSS R4020 */
+    masl2xtuml_C_AS_R4020_Link_succeeds( successor, predecessor );
+  }
+  /* DELETE OBJECT INSTANCE c_as */
+  if ( 0 == c_as ) {
+    XTUML_EMPTY_HANDLE_TRACE( "C_AS", "Escher_DeleteInstance" );
+  }
+  Escher_DeleteInstance( (Escher_iHandle_t) c_as, masl2xtuml_DOMAIN_ID, masl2xtuml_C_AS_CLASS_NUMBER );
+}
+
+/*
+ * instance operation:  InterfaceOperation_dispose
+ */
+void
+masl2xtuml_ooapopulation_op_InterfaceOperation_dispose( masl2xtuml_ooapopulation * self, masl2xtuml_C_IO * p_c_io )
+{
+  masl2xtuml_S_DIM * dim=0;masl2xtuml_C_IO * c_io;Escher_ObjectSet_s dims_space={0}; Escher_ObjectSet_s * dims = &dims_space;masl2xtuml_C_IO * predecessor=0;masl2xtuml_C_IO * successor=0;masl2xtuml_C_EP * ep=0;masl2xtuml_S_DT * dt=0;
+  /* ASSIGN c_io = PARAM.c_io */
+  c_io = p_c_io;
+  /* SELECT one dt RELATED BY c_io->S_DT[R4008] */
+  dt = ( 0 != c_io ) ? c_io->S_DT_R4008_has_return_defined_by : 0;
+  /* IF ( not_empty dt ) */
+  if ( ( 0 != dt ) ) {
+    /* UNRELATE c_io FROM dt ACROSS R4008 */
+    masl2xtuml_C_IO_R4008_Unlink_defines_return_type( dt, c_io );
+  }
+  /* SELECT one ep RELATED BY c_io->C_EP[R4004] */
+  ep = ( 0 != c_io ) ? c_io->C_EP_R4004 : 0;
+  /* IF ( not_empty ep ) */
+  if ( ( 0 != ep ) ) {
+    /* self.ExecutableProperty_dispose( c_ep:ep ) */
+    masl2xtuml_ooapopulation_op_ExecutableProperty_dispose( self,  ep );
+  }
+  /* SELECT one successor RELATED BY c_io->C_IO[R4019.precedes] */
+  successor = ( 0 != c_io ) ? c_io->C_IO_R4019_precedes : 0;
+  /* SELECT one predecessor RELATED BY c_io->C_IO[R4019.succeeds] */
+  predecessor = ( 0 != c_io ) ? c_io->C_IO_R4019_succeeds : 0;
+  /* IF ( not empty successor ) */
+  if ( !( 0 == successor ) ) {
+    /* UNRELATE c_io FROM successor ACROSS R4019 */
+    masl2xtuml_C_IO_R4019_Unlink_precedes( c_io, successor );
+  }
+  /* IF ( not empty predecessor ) */
+  if ( !( 0 == predecessor ) ) {
+    /* UNRELATE c_io FROM predecessor ACROSS R4019 */
+    masl2xtuml_C_IO_R4019_Unlink_succeeds( c_io, predecessor );
+  }
+  /* IF ( ( not_empty successor and not_empty predecessor ) ) */
+  if ( ( ( 0 != successor ) && ( 0 != predecessor ) ) ) {
+    /* RELATE successor TO predecessor ACROSS R4019 */
+    masl2xtuml_C_IO_R4019_Link_succeeds( successor, predecessor );
+  }
+  /* SELECT many dims RELATED BY c_io->S_DIM[R4018] */
+  Escher_ClearSet( dims );
+  if ( 0 != c_io ) {
+    Escher_CopySet( dims, &c_io->S_DIM_R4018_return_value_may_have );
+  }
+  /* FOR EACH dim IN dims */
+  { Escher_Iterator_s iterdim;
+  masl2xtuml_S_DIM * iidim;
+  Escher_IteratorReset( &iterdim, dims );
+  while ( (iidim = (masl2xtuml_S_DIM *)Escher_IteratorNext( &iterdim )) != 0 ) {
+    dim = iidim; {
+    /* UNRELATE c_io FROM dim ACROSS R4018 */
+    masl2xtuml_S_DIM_R4018_Unlink_return_value_may_have( c_io, dim );
+    /* DELETE OBJECT INSTANCE dim */
+    if ( 0 == dim ) {
+      XTUML_EMPTY_HANDLE_TRACE( "S_DIM", "Escher_DeleteInstance" );
+    }
+    Escher_DeleteInstance( (Escher_iHandle_t) dim, masl2xtuml_DOMAIN_ID, masl2xtuml_S_DIM_CLASS_NUMBER );
+  }}}
+  /* DELETE OBJECT INSTANCE c_io */
+  if ( 0 == c_io ) {
+    XTUML_EMPTY_HANDLE_TRACE( "C_IO", "Escher_DeleteInstance" );
+  }
+  Escher_DeleteInstance( (Escher_iHandle_t) c_io, masl2xtuml_DOMAIN_ID, masl2xtuml_C_IO_CLASS_NUMBER );
+  Escher_ClearSet( dims ); 
+}
+
+/*
+ * instance operation:  PropertyParameter_dispose
+ */
+void
+masl2xtuml_ooapopulation_op_PropertyParameter_dispose( masl2xtuml_ooapopulation * self, masl2xtuml_C_PP * p_c_pp )
+{
+  masl2xtuml_S_DIM * dim=0;masl2xtuml_C_PP * c_pp;Escher_ObjectSet_s dims_space={0}; Escher_ObjectSet_s * dims = &dims_space;masl2xtuml_C_PP * predecessor=0;masl2xtuml_C_PP * successor=0;masl2xtuml_C_EP * ep=0;masl2xtuml_S_DT * dt=0;
+  /* ASSIGN c_pp = PARAM.c_pp */
+  c_pp = p_c_pp;
+  /* SELECT one dt RELATED BY c_pp->S_DT[R4007] */
+  dt = ( 0 != c_pp ) ? c_pp->S_DT_R4007_is_typed_by : 0;
+  /* UNRELATE c_pp FROM dt ACROSS R4007 */
+  masl2xtuml_C_PP_R4007_Unlink_Defines_the_type( dt, c_pp );
+  /* SELECT one ep RELATED BY c_pp->C_EP[R4006] */
+  ep = ( 0 != c_pp ) ? c_pp->C_EP_R4006_parameterizes : 0;
+  /* IF ( not_empty ep ) */
+  if ( ( 0 != ep ) ) {
+    /* UNRELATE c_pp FROM ep ACROSS R4006 */
+    masl2xtuml_C_PP_R4006_Unlink_is_parameter_to( ep, c_pp );
+  }
+  /* SELECT one successor RELATED BY c_pp->C_PP[R4021.precedes] */
+  successor = ( 0 != c_pp ) ? c_pp->C_PP_R4021_precedes : 0;
+  /* SELECT one predecessor RELATED BY c_pp->C_PP[R4021.succeeds] */
+  predecessor = ( 0 != c_pp ) ? c_pp->C_PP_R4021_succeeds : 0;
+  /* IF ( not empty successor ) */
+  if ( !( 0 == successor ) ) {
+    /* UNRELATE c_pp FROM successor ACROSS R4021 */
+    masl2xtuml_C_PP_R4021_Unlink_precedes( c_pp, successor );
+  }
+  /* IF ( not empty predecessor ) */
+  if ( !( 0 == predecessor ) ) {
+    /* UNRELATE c_pp FROM predecessor ACROSS R4021 */
+    masl2xtuml_C_PP_R4021_Unlink_succeeds( c_pp, predecessor );
+  }
+  /* IF ( ( not_empty successor and not_empty predecessor ) ) */
+  if ( ( ( 0 != successor ) && ( 0 != predecessor ) ) ) {
+    /* RELATE successor TO predecessor ACROSS R4021 */
+    masl2xtuml_C_PP_R4021_Link_succeeds( successor, predecessor );
+  }
+  /* SELECT many dims RELATED BY c_pp->S_DIM[R4017] */
+  Escher_ClearSet( dims );
+  if ( 0 != c_pp ) {
+    Escher_CopySet( dims, &c_pp->S_DIM_R4017_may_have );
+  }
+  /* FOR EACH dim IN dims */
+  { Escher_Iterator_s iterdim;
+  masl2xtuml_S_DIM * iidim;
+  Escher_IteratorReset( &iterdim, dims );
+  while ( (iidim = (masl2xtuml_S_DIM *)Escher_IteratorNext( &iterdim )) != 0 ) {
+    dim = iidim; {
+    /* UNRELATE c_pp FROM dim ACROSS R4017 */
+    masl2xtuml_S_DIM_R4017_Unlink_may_have( c_pp, dim );
+    /* DELETE OBJECT INSTANCE dim */
+    if ( 0 == dim ) {
+      XTUML_EMPTY_HANDLE_TRACE( "S_DIM", "Escher_DeleteInstance" );
+    }
+    Escher_DeleteInstance( (Escher_iHandle_t) dim, masl2xtuml_DOMAIN_ID, masl2xtuml_S_DIM_CLASS_NUMBER );
+  }}}
+  /* DELETE OBJECT INSTANCE c_pp */
+  if ( 0 == c_pp ) {
+    XTUML_EMPTY_HANDLE_TRACE( "C_PP", "Escher_DeleteInstance" );
+  }
+  Escher_DeleteInstance( (Escher_iHandle_t) c_pp, masl2xtuml_DOMAIN_ID, masl2xtuml_C_PP_CLASS_NUMBER );
+  Escher_ClearSet( dims ); 
+}
+
+/*
+ * instance operation:  ExecutableProperty_getSignature
+ */
+c_t *
+masl2xtuml_ooapopulation_op_ExecutableProperty_getSignature( masl2xtuml_ooapopulation * self, masl2xtuml_C_EP * p_c_ep )
+{
+  c_t * separator=0;masl2xtuml_C_PP * first_param;c_t * signature=0;masl2xtuml_C_EP * c_ep;masl2xtuml_C_PP * parameter=0;
+  /* ASSIGN c_ep = PARAM.c_ep */
+  c_ep = p_c_ep;
+  /* ASSIGN signature = c_ep.Name */
+  signature = Escher_strcpy( signature, c_ep->Name );
+  /* SELECT any parameter RELATED BY c_ep->C_PP[R4006] */
+  parameter = ( 0 != c_ep ) ? (masl2xtuml_C_PP *) Escher_SetGetAny( &c_ep->C_PP_R4006_is_parameter_to ) : 0;
+  /* ASSIGN first_param = parameter */
+  first_param = parameter;
+  /* WHILE ( not_empty parameter ) */
+  while ( ( 0 != parameter ) ) {
+    /* ASSIGN first_param = parameter */
+    first_param = parameter;
+    /* SELECT one parameter RELATED BY parameter->C_PP[R4021.succeeds] */
+    parameter = ( 0 != parameter ) ? parameter->C_PP_R4021_succeeds : 0;
+  }
+  /* IF ( not_empty first_param ) */
+  if ( ( 0 != first_param ) ) {
+    /* ASSIGN signature = ( signature + ( ) */
+    signature = Escher_strcpy( signature, Escher_stradd( signature, "(" ) );
+  }
+  /* ASSIGN separator =  */
+  separator = Escher_strcpy( separator, "" );
+  /* ASSIGN parameter = first_param */
+  parameter = first_param;
+  /* WHILE ( not_empty parameter ) */
+  while ( ( 0 != parameter ) ) {
+    masl2xtuml_S_DT * type=0;
+    /* SELECT one type RELATED BY parameter->S_DT[R4007] */
+    type = ( 0 != parameter ) ? parameter->S_DT_R4007_is_typed_by : 0;
+    /* ASSIGN signature = ( ( signature + separator ) + type.Name ) */
+    signature = Escher_strcpy( signature, Escher_stradd( Escher_stradd( signature, separator ), type->Name ) );
+    /* ASSIGN separator = ,  */
+    separator = Escher_strcpy( separator, ", " );
+    /* SELECT one parameter RELATED BY parameter->C_PP[R4021.precedes] */
+    parameter = ( 0 != parameter ) ? parameter->C_PP_R4021_precedes : 0;
+  }
+  /* IF ( not_empty first_param ) */
+  if ( ( 0 != first_param ) ) {
+    /* ASSIGN signature = ( signature + ) ) */
+    signature = Escher_strcpy( signature, Escher_stradd( signature, ")" ) );
+  }
+  /* RETURN signature */
+  {c_t * xtumlOALrv = signature;
+  return xtumlOALrv;}
 }
 
 /*

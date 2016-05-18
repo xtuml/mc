@@ -2498,21 +2498,18 @@ INSERT INTO O_TFR
 	1,
 	'c_i = param.c_i;
 
-select any signal related by c_i->C_EP[R4003] where ( selected.Name == param.ep_name );
-if ( empty signal )
-  create object instance signal of C_EP;
-  signal.Name = param.ep_name;
-  relate c_i to signal across R4003;
-  select many references related by c_i->C_IR[R4012];
-  if(param.asynchronous)
-    //create object instance asignal of C_AS;
-    //relate signal to asignal across R4004;
-    //asignal.initialize();
-  else
-    create object instance ssignal of C_IO;
-    relate signal to ssignal across R4004;
-    self.InterfaceOperation_initialize(c_io:ssignal, name:param.ep_name);
-  end if;
+create object instance signal of C_EP;
+signal.Name = param.ep_name;
+relate c_i to signal across R4003;
+select many references related by c_i->C_IR[R4012];
+if(param.asynchronous)
+  //create object instance asignal of C_AS;
+  //relate signal to asignal across R4004;
+  //asignal.initialize();
+else
+  create object instance ssignal of C_IO;
+  relate signal to ssignal across R4004;
+  self.InterfaceOperation_initialize(c_io:ssignal, name:param.ep_name);
 end if;
 
 return signal;',
@@ -7541,7 +7538,7 @@ INSERT INTO O_TFR
 // signatures are the same, copy the codeblock from this routine and dispose
 
 function = self.current_domain_function;
-signal = self.current_executable_property;
+message = self.current_executable_property;
 
 if ( not_empty function )
   select many s_syncs related by function->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->S_SYNC[R8001];
@@ -7549,12 +7546,28 @@ if ( not_empty function )
     if ( s_sync != function and self.Function_getSignature( s_sync:function ) == self.Function_getSignature( s_sync:s_sync ) )
       // copy over the codeblock
       s_sync.Action_Semantics_internal = function.Action_Semantics_internal;
+      // dispose corresponding interface message
+      self.ExecutableProperty_dispose( c_ep:message );
       // dispose the function
       self.Function_dispose( s_sync:function );
       break;
     end if;
   end for;
-elif ( not_empty signal )
+elif ( not_empty message )
+select many c_eps related by message->C_I[R4003]->C_EP[R4003];
+  for each c_ep in c_eps
+    if ( c_ep != message and self.ExecutableProperty_getSignature( c_ep:message ) == self.ExecutableProperty_getSignature( c_ep:c_ep ) )
+      // copy over the codeblock
+      select any message_spr_ro related by message->SPR_REP[R4500]->SPR_RO[R4502];
+      select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
+  	  if ( not_empty spr_ro and not_empty message_spr_ro )
+        message_spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal;
+  	  end if;
+      // dispose interface message
+      self.ExecutableProperty_dispose( c_ep:message );
+      break;
+    end if;
+  end for;
 end if;',
 	1,
 	'',
@@ -7917,6 +7930,272 @@ INSERT INTO O_TPARM
 	"93050450-3368-4788-ba8d-1955efd49ed1",
 	's_sparm',
 	"a01a1995-8ff8-44fe-abb1-b11213d98016",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("c701802d-b68a-4783-ba95-ea711cd074a7",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ExecutableProperty_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// copied from the OOAofOOA - LPS
+c_ep = param.c_ep;
+
+select one asynchronousSignal related by c_ep->C_AS[R4004];
+select one synchronousSignal related by c_ep->C_IO[R4004];
+if(not_empty asynchronousSignal)
+  unrelate c_ep from asynchronousSignal across R4004;
+  self.InterfaceSignal_dispose( c_as:asynchronousSignal );
+elif(not_empty synchronousSignal)
+  unrelate c_ep from synchronousSignal across R4004;
+  self.InterfaceOperation_dispose( c_io:synchronousSignal );
+end if;
+select many parms related by c_ep->C_PP[R4006];
+for each parm in parms
+  unrelate c_ep from parm across R4006;
+  self.PropertyParameter_dispose( c_pp:parm );
+end for;
+select one interface related by c_ep->C_I[R4003];
+if(not_empty interface)
+  unrelate c_ep from interface across R4003;
+end if;
+delete object instance c_ep;',
+	1,
+	'',
+	"93050450-3368-4788-ba8d-1955efd49ed1");
+INSERT INTO O_TPARM
+	VALUES ("0c74c4dd-3a42-4c6b-b397-c6800aa0c901",
+	"c701802d-b68a-4783-ba95-ea711cd074a7",
+	'c_ep',
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("c265e2d5-cf12-4883-bb00-198e83377ceb",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'InterfaceSignal_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// copied from the OOAofOOA - LPS
+c_as = param.c_as;
+
+select one ep related by c_as->C_EP[R4004];
+if(not_empty ep)
+  self.ExecutableProperty_dispose( c_ep:ep );
+end if;
+select one successor related by c_as->C_AS[R4020.''precedes''];
+select one predecessor related by c_as->C_AS[R4020.''succeeds''];
+if (not empty successor)
+  unrelate c_as from successor across R4020.''precedes'';
+end if;
+if (not empty predecessor)
+  unrelate c_as from predecessor across R4020.''succeeds'';
+end if;
+if (not_empty successor and not_empty predecessor)
+  relate successor to predecessor across R4020.''succeeds'';
+end if;
+/*
+select many msgs related by c_as->MSG_SIG[R1021]->MSG_AM[R1019]->MSG_M[R1018];
+for each msg in msgs
+  msg.dispose();
+end for;
+*/
+delete object instance c_as;',
+	1,
+	'',
+	"c701802d-b68a-4783-ba95-ea711cd074a7");
+INSERT INTO O_TPARM
+	VALUES ("8170dbb7-8a8c-4ba5-9465-5d486979406b",
+	"c265e2d5-cf12-4883-bb00-198e83377ceb",
+	'c_as',
+	"50196fb3-a630-4359-b9d2-adf4b3946cbc",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("50196fb3-a630-4359-b9d2-adf4b3946cbc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Interface Signal>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO O_TFR
+	VALUES ("20563ecc-c594-48b2-ab21-316489af93a0",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'InterfaceOperation_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// copied from the OOAofOOA - LPS
+c_io = param.c_io;
+
+select one dt related by c_io->S_DT[R4008];
+if(not_empty dt)
+  unrelate c_io from dt across R4008;
+end if;
+select one ep related by c_io->C_EP[R4004];
+if(not_empty ep)
+  self.ExecutableProperty_dispose( c_ep:ep );
+end if;
+select one successor related by c_io->C_IO[R4019.''precedes''];
+select one predecessor related by c_io->C_IO[R4019.''succeeds''];
+if (not empty successor)
+  unrelate c_io from successor across R4019.''precedes'';
+end if;
+if (not empty predecessor)
+  unrelate c_io from predecessor across R4019.''succeeds'';
+end if;
+if (not_empty successor and not_empty predecessor)
+  relate successor to predecessor across R4019.''succeeds'';
+end if;
+/*
+select many msgs related by c_io->MSG_IOP[R1022]->MSG_SM[R1020]->MSG_M[R1018];
+for each msg in msgs
+  msg.dispose();
+end for;
+*/
+select many dims related by c_io->S_DIM[R4018];
+for each dim in dims
+  unrelate c_io from dim across R4018;
+  delete object instance dim;
+end for;
+delete object instance c_io;',
+	1,
+	'',
+	"c265e2d5-cf12-4883-bb00-198e83377ceb");
+INSERT INTO O_TPARM
+	VALUES ("fadd68e8-8ddb-4977-ae47-ac32f360e089",
+	"20563ecc-c594-48b2-ab21-316489af93a0",
+	'c_io',
+	"4e59980a-6ac2-4a28-8ad8-7f1ada83c53a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("266785e6-6f30-49ff-9b55-a610912a3a66",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'PropertyParameter_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// copied from the OOAofOOA - LPS
+c_pp = param.c_pp;
+
+select one dt related by c_pp->S_DT[R4007];
+unrelate c_pp from dt across R4007;
+select one ep related by c_pp->C_EP[R4006];
+if(not_empty ep)
+  unrelate c_pp from ep across R4006;
+end if;
+select one successor related by c_pp->C_PP[R4021.''precedes''];
+select one predecessor related by c_pp->C_PP[R4021.''succeeds''];
+if (not empty successor)
+  unrelate c_pp from successor across R4021.''precedes'';
+end if;
+if (not empty predecessor)
+  unrelate c_pp from predecessor across R4021.''succeeds'';
+end if;
+if (not_empty successor and not_empty predecessor)
+  relate successor to predecessor across R4021.''succeeds'';
+end if;
+/*
+select many parmVals related by c_pp->V_PVL[R843];
+for each pvl in parmVals
+  unrelate c_pp from pvl across R843;
+end for;
+select many evtParmRefs related by c_pp->V_EPR[R847];
+for each evtParmRef in evtParmRefs
+  evtParmRef.dispose();
+end for;
+*/
+select many dims related by c_pp->S_DIM[R4017];
+for each dim in dims
+  unrelate c_pp from dim across R4017;
+  delete object instance dim;
+end for;
+/*
+select many evtDis related by c_pp->I_DIV[R2956];
+for each evtDi in evtDis
+  evtDi.dispose();
+end for;
+select many local_vals related by c_pp->L_LVL[R3017];
+for each local_val in local_vals
+  unrelate local_val from c_pp across R3017;
+  local_val.dispose();
+end for;
+select many participationArgs related by c_pp->MSG_EPA[R1023];
+for each pa in participationArgs
+  unrelate c_pp from pa across R1023;
+  pa.dispose();
+end for;
+*/
+delete object instance c_pp;',
+	1,
+	'',
+	"20563ecc-c594-48b2-ab21-316489af93a0");
+INSERT INTO O_TPARM
+	VALUES ("2288d411-bc1e-4277-9477-38f7f3403a9c",
+	"266785e6-6f30-49ff-9b55-a610912a3a66",
+	'c_pp',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("175697c1-feb8-4ef7-b9f4-1b38b7e692f6",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ExecutableProperty_getSignature',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'/**
+ *  Return a string representation of this functions signature
+ *  Heavily adapted from OOAofOOA - LPS
+ */
+c_ep = param.c_ep;
+ 
+signature = c_ep.Name;
+
+// Get the first parameter.
+select any parameter related by c_ep->C_PP[R4006];
+first_param = parameter;
+while ( not_empty parameter )
+  first_param = parameter;
+  select one parameter related by parameter->C_PP[R4021.''succeeds''];
+end while;
+
+if( not_empty first_param )
+  signature = signature + "(";
+end if;
+separator = "";
+parameter = first_param;
+while ( not_empty parameter )
+  select one type related by parameter->S_DT[R4007];
+  signature = signature + separator + type.Name;
+  separator = ", ";
+  select one parameter related by parameter->C_PP[R4021.''precedes''];
+end while;
+if( not_empty first_param )
+  signature = signature + ")";
+end if;
+return signature;',
+	1,
+	'',
+	"266785e6-6f30-49ff-9b55-a610912a3a66");
+INSERT INTO O_TPARM
+	VALUES ("9e46bc18-9b31-4deb-aa1e-63fa1fef39cc",
+	"175697c1-feb8-4ef7-b9f4-1b38b7e692f6",
+	'c_ep',
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
