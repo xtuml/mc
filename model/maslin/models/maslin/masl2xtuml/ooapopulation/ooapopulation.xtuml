@@ -279,6 +279,8 @@ elif ( "routine" == element )
   end if;
 elif ( "operation" == element )
   if ( "" == param.value[3] )
+    // check for duplicate operations
+    ooapopulation.mergeDuplicateOperations();
     select any o_tfr from instances of O_TFR where (false);
     ooapopulation.current_class_op = o_tfr;
   else
@@ -1843,22 +1845,18 @@ INSERT INTO O_TFR
 current_class = self.current_class;
 
 
-if ( not_empty current_class )
-  // We are in the midst of building a class operation inside a class definition.
-  self.current_class_op = self.ModelClass_newOperation(o_obj:self.current_class, op_name:op_name);
-  // set instance based or class based appropriately
-  if ( "instance" != param.instance )
-    self.current_class_op.Instance_Based = Scope::Class;
-  end if;
-else
-  // No current_class.  That means we just need to find the given class operation and cache it so that the following 
-  // SMASL can modify it.
+if ( empty current_class )
+  // we don''t have a current class, so we have to go find one
   select any c_c from instances of C_C where ( selected.Name == param.domain );
   select any ep_pkg related by c_c->PE_PE[R8003]->EP_PKG[R8001] where ( selected.Name == param.domain );  // Internal behavior package has the same name as the component
-  select any o_obj related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where ( selected.Name == param.obj );
-  
-  select any o_tfr related by o_obj->O_TFR[R115] where ( selected.Name == param.name );
-  self.current_class_op = o_tfr;  
+  select any current_class related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where ( selected.Name == param.obj );
+end if;
+
+// create the new operation
+self.current_class_op = self.ModelClass_newOperation(o_obj:current_class, op_name:op_name);
+// set instance based or class based appropriately
+if ( "instance" != param.instance )
+  self.current_class_op.Instance_Based = Scope::Class;
 end if;',
 	1,
 	'',
@@ -8196,6 +8194,237 @@ INSERT INTO O_TPARM
 	"175697c1-feb8-4ef7-b9f4-1b38b7e692f6",
 	'c_ep',
 	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("85af0f68-95cb-4732-9da6-e249f3041ef5",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'mergeDuplicateOperations',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// search for all O_TFRs in the scope and compare signatures. If the
+// signatures are the same, copy the codeblock from this operation and
+// dispose
+
+op = self.current_class_op;
+
+if ( not_empty op )
+  select many o_tfrs related by op->O_OBJ[R115]->O_TFR[R115];
+  for each o_tfr in o_tfrs 
+    if ( o_tfr != op and self.Operation_getSignature( o_tfr:op ) == self.Operation_getSignature( o_tfr:o_tfr ) )
+      // copy over the codeblock
+      o_tfr.Action_Semantics_internal = op.Action_Semantics_internal;
+      // dispose the operation
+      self.Operation_dispose( o_tfr:op );
+      break;
+    end if;
+  end for;
+end if;',
+	1,
+	'',
+	"175697c1-feb8-4ef7-b9f4-1b38b7e692f6");
+INSERT INTO O_TFR
+	VALUES ("59c4d100-77b1-44d1-b053-5e51a300f2f4",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Operation_getSignature',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'/**
+ *  Return a string representation of this functions signature
+ *  Heavily adapted from OOAofOOA - LPS
+ */
+o_tfr = param.o_tfr;
+ 
+signature = o_tfr.Name;
+
+// Get the first parameter.
+select any parameter related by o_tfr->O_TPARM[R117];
+first_param = parameter;
+while ( not_empty parameter )
+  first_param = parameter;
+  select one parameter related by parameter->O_TPARM[R124.''succeeds''];
+end while;
+
+if( not_empty first_param )
+  signature = signature + "(";
+end if;
+separator = "";
+parameter = first_param;
+while ( not_empty parameter )
+  select one type related by parameter->S_DT[R118];
+  signature = signature + separator + type.Name;
+  separator = ", ";
+  select one parameter related by parameter->O_TPARM[R124.''precedes''];
+end while;
+if( not_empty first_param )
+  signature = signature + ")";
+end if;
+return signature;',
+	1,
+	'',
+	"85af0f68-95cb-4732-9da6-e249f3041ef5");
+INSERT INTO O_TPARM
+	VALUES ("a2be2d1c-f3ac-4c3d-be1a-3967b4ba1749",
+	"59c4d100-77b1-44d1-b053-5e51a300f2f4",
+	'o_tfr',
+	"5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("8ba7d72f-ae8a-4cdd-9e8c-3461b64fdcde",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Operation_dispose',
+	'Dispose this Operation.
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// copied from the OOAofOOA - LPS
+o_tfr = param.o_tfr;
+
+// Subsytem Subsystem
+select one myClass related by o_tfr->O_OBJ[R115];
+unrelate o_tfr from myClass across R115;
+//
+select one successor related by o_tfr->O_TFR[R125.''precedes''];
+select one predecessor related by o_tfr->O_TFR[R125.''succeeds''];
+if (not empty successor)
+  unrelate o_tfr from successor across R125.''precedes'';
+end if;
+if (not empty predecessor)
+  unrelate o_tfr from predecessor across R125.''succeeds'';
+end if;
+if (not_empty successor and not_empty predecessor)
+  relate successor to predecessor across R125.''succeeds'';
+end if;
+//
+select one dt related by o_tfr->S_DT[R116];
+unrelate o_tfr from dt across R116;
+select many oparms related by o_tfr->O_TPARM[R117];
+for each oparm in oparms
+  self.OperationParameter_dispose( o_tparm:oparm );
+end for;
+/*
+//
+// Body Subsystem
+select one body related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698];
+if (not_empty body)
+  body.dispose();
+end if;
+//
+// Invocation Subsystem
+select many invs related by o_tfr->ACT_TFM[R673];
+for each inv in invs
+  unrelate o_tfr from inv across R673;
+end for;
+//
+// Value Subsystem
+select many oprVals related by o_tfr->V_TRV[R829];
+for each oprVal in oprVals
+  unrelate o_tfr from oprVal across R829;
+end for;
+// for each message that this operation
+// is associated with
+select many oms related by o_tfr->MSG_O[R1011];
+for each om in oms
+  select one message related by om->MSG_SM[R1020];
+  message.unformalize();
+end for;
+*/
+select many dims related by o_tfr->S_DIM[R122];
+for each dim in dims
+  unrelate o_tfr from dim across R122;
+  delete object instance dim;
+end for;
+//
+// Finally, delete o_tfr
+delete object instance o_tfr;',
+	1,
+	'',
+	"59c4d100-77b1-44d1-b053-5e51a300f2f4");
+INSERT INTO O_TPARM
+	VALUES ("7e0f6479-b469-4ce6-970e-583dcf3450a5",
+	"8ba7d72f-ae8a-4cdd-9e8c-3461b64fdcde",
+	'o_tfr',
+	"5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("0a620c79-b06e-461b-a454-d7457e58a1a0",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'OperationParameter_dispose',
+	'Dispose this Operation Parameter.
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// copied from the OOAofOOA - LPS
+o_tparm = param.o_tparm;
+
+// Operation Parameter.dispose()
+/*
+//
+// Value Subsystem
+select many pvs related by o_tparm->V_PVL[R833];
+for each pv in pvs
+  unrelate o_tparm from pv across R833;
+end for;
+*/
+//
+// Subsystem Subsystem
+select one operation related by o_tparm->O_TFR[R117];
+unrelate o_tparm from operation across R117;
+select one dt related by o_tparm->S_DT[R118];
+unrelate o_tparm from dt across R118;
+//
+select one successor related by o_tparm->O_TPARM[R124.''precedes''];
+select one predecessor related by o_tparm->O_TPARM[R124.''succeeds''];
+if (not empty successor)
+  unrelate o_tparm from successor across R124.''precedes'';
+end if;
+if (not empty predecessor)
+  unrelate o_tparm from predecessor across R124.''succeeds'';
+end if;
+if (not_empty successor and not_empty predecessor)
+  relate successor to predecessor across R124.''succeeds'';
+end if;
+/*
+// dispose each message argument
+// associated with this parm
+select many args related by o_tparm->MSG_OA[R1015];
+for each arg in args
+  arg.dispose();
+end for;
+//
+// Local Subsystem
+select many lcls related by o_tparm->L_LCL[R3008];
+for each lcl in lcls
+  unrelate o_tparm from lcl across R3008;
+  lcl.dispose();
+end for;
+*/
+select many dims related by o_tparm->S_DIM[R121];
+for each dim in dims
+  unrelate o_tparm from dim across R121;
+  delete object instance dim;
+end for;
+//
+// Finally delete o_tparm
+delete object instance o_tparm;',
+	1,
+	'',
+	"8ba7d72f-ae8a-4cdd-9e8c-3461b64fdcde");
+INSERT INTO O_TPARM
+	VALUES ("1e586f2f-10b0-4bd5-886c-82f5b0b189ef",
+	"0a620c79-b06e-461b-a454-d7457e58a1a0",
+	'o_tparm',
+	"eeb98cba-1a0c-4d36-80f1-c0199a301aaf",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
