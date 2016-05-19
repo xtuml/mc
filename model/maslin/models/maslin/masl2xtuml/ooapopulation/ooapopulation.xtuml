@@ -200,8 +200,10 @@ elif ( "typeref" == element )
       ooapopulation.Attribute_setType(o_attr:ooapopulation.current_attribute, type_name:param.value[0]); 
     elif ( not_empty s_sparm )
       ooapopulation.FunctionParameter_setType(s_sparm:ooapopulation.current_function_param, type_name:param.value[0]); 
-      // also set type for the corresponding interface message
-      ooapopulation.InterfaceParameter_setType(c_pp:ooapopulation.current_interface_param, type_name:param.value[0]);
+      // also set type for the corresponding interface message parameter
+      if ( not_empty c_pp )
+        ooapopulation.InterfaceParameter_setType(c_pp:ooapopulation.current_interface_param, type_name:param.value[0]);
+      end if;
     elif ( not_empty o_tparm )
       ooapopulation.OperationParameter_setType(o_tparm:ooapopulation.current_operation_param, type_name:param.value[0]); 
     elif ( not_empty c_pp )
@@ -210,10 +212,14 @@ elif ( "typeref" == element )
       ooapopulation.StateMachineEventDataItem_setType(sm_evtdi:ooapopulation.current_event_dataitem, type_name:param.value[0]);
     elif ( not_empty o_tfr )
       ooapopulation.Operation_setReturnType(o_tfr:o_tfr, type_name:param.value[0]);
-    elif ( not_empty c_io )
-      ooapopulation.InterfaceOperation_setReturnType(c_io:c_io, type_name:param.value[0]);
     elif ( not_empty s_sync )
       ooapopulation.Function_setReturnType(s_sync:s_sync, type_name:param.value[0]);
+      // also set return type for the corresponding interface message
+      if ( not_empty c_io )
+        ooapopulation.InterfaceOperation_setReturnType(c_io:c_io, type_name:param.value[0]);
+      end if;
+    elif ( not_empty c_io )
+      ooapopulation.InterfaceOperation_setReturnType(c_io:c_io, type_name:param.value[0]);
     end if;
 
   end if;
@@ -1010,11 +1016,13 @@ elif ( not_empty domain_function )
       self.current_function_param.By_Ref = 1;	// by ref
     end if;
     // also create a parameter for the corresponding interface message
-    self.current_interface_param = self.Interface_newParameter(c_ep:interface_message, parameter_name:param.name);
-    if ( "in" == param.direction )
-      self.current_interface_param.By_Ref = 0;	// by value
-    elif ( "out" == param.direction )
-      self.current_interface_param.By_Ref = 1;	// by ref
+    if ( not_empty interface_message )
+	  self.current_interface_param = self.Interface_newParameter(c_ep:interface_message, parameter_name:param.name);
+	  if ( "in" == param.direction )
+		self.current_interface_param.By_Ref = 0;	// by value
+	  elif ( "out" == param.direction )
+		self.current_interface_param.By_Ref = 1;	// by ref
+	  end if;
     end if;
   else
     self.current_function_param = s_sparm;
@@ -7583,8 +7591,16 @@ INSERT INTO O_TFR
  */
 s_sync = param.s_sync;
  
-signature = s_sync.Name;
+signature = "";
 
+// Get return type
+select one returntype related by s_sync->S_DT[R25];
+signature = signature + returntype.Name + " ";
+ 
+// Get name
+signature = signature + s_sync.Name;
+
+// Get parameters
 // Get the first parameter.
 select any parameter related by s_sync->S_SPARM[R24];
 first_param = parameter;
@@ -8161,8 +8177,16 @@ INSERT INTO O_TFR
  */
 c_ep = param.c_ep;
  
-signature = c_ep.Name;
+signature = "";
 
+// Get return type
+select one returntype related by c_ep->C_IO[R4004]->S_DT[R4008];
+signature = signature + returntype.Name + " ";
+ 
+// Get name
+signature = signature + c_ep.Name;
+
+// Get parameters
 // Get the first parameter.
 select any parameter related by c_ep->C_PP[R4006];
 first_param = parameter;
@@ -8238,9 +8262,17 @@ INSERT INTO O_TFR
  *  Heavily adapted from OOAofOOA - LPS
  */
 o_tfr = param.o_tfr;
- 
-signature = o_tfr.Name;
 
+signature = "";
+
+// Get return type
+select one returntype related by o_tfr->S_DT[R116];
+signature = signature + returntype.Name + " ";
+ 
+// Get name
+signature = signature + o_tfr.Name;
+
+// Get parameters
 // Get the first parameter.
 select any parameter related by o_tfr->O_TPARM[R117];
 first_param = parameter;

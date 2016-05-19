@@ -391,8 +391,11 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
       else if ( ( 0 != s_sparm ) ) {
         /* ooapopulation.FunctionParameter_setType( s_sparm:ooapopulation.current_function_param, type_name:PARAM.value[0] ) */
         masl2xtuml_ooapopulation_op_FunctionParameter_setType( ooapopulation,  ooapopulation->current_function_param, p_value[0] );
-        /* ooapopulation.InterfaceParameter_setType( c_pp:ooapopulation.current_interface_param, type_name:PARAM.value[0] ) */
-        masl2xtuml_ooapopulation_op_InterfaceParameter_setType( ooapopulation,  ooapopulation->current_interface_param, p_value[0] );
+        /* IF ( not_empty c_pp ) */
+        if ( ( 0 != c_pp ) ) {
+          /* ooapopulation.InterfaceParameter_setType( c_pp:ooapopulation.current_interface_param, type_name:PARAM.value[0] ) */
+          masl2xtuml_ooapopulation_op_InterfaceParameter_setType( ooapopulation,  ooapopulation->current_interface_param, p_value[0] );
+        }
       }
       else if ( ( 0 != o_tparm ) ) {
         /* ooapopulation.OperationParameter_setType( o_tparm:ooapopulation.current_operation_param, type_name:PARAM.value[0] ) */
@@ -410,13 +413,18 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
         /* ooapopulation.Operation_setReturnType( o_tfr:o_tfr, type_name:PARAM.value[0] ) */
         masl2xtuml_ooapopulation_op_Operation_setReturnType( ooapopulation,  o_tfr, p_value[0] );
       }
-      else if ( ( 0 != c_io ) ) {
-        /* ooapopulation.InterfaceOperation_setReturnType( c_io:c_io, type_name:PARAM.value[0] ) */
-        masl2xtuml_ooapopulation_op_InterfaceOperation_setReturnType( ooapopulation,  c_io, p_value[0] );
-      }
       else if ( ( 0 != s_sync ) ) {
         /* ooapopulation.Function_setReturnType( s_sync:s_sync, type_name:PARAM.value[0] ) */
         masl2xtuml_ooapopulation_op_Function_setReturnType( ooapopulation,  s_sync, p_value[0] );
+        /* IF ( not_empty c_io ) */
+        if ( ( 0 != c_io ) ) {
+          /* ooapopulation.InterfaceOperation_setReturnType( c_io:c_io, type_name:PARAM.value[0] ) */
+          masl2xtuml_ooapopulation_op_InterfaceOperation_setReturnType( ooapopulation,  c_io, p_value[0] );
+        }
+      }
+      else if ( ( 0 != c_io ) ) {
+        /* ooapopulation.InterfaceOperation_setReturnType( c_io:c_io, type_name:PARAM.value[0] ) */
+        masl2xtuml_ooapopulation_op_InterfaceOperation_setReturnType( ooapopulation,  c_io, p_value[0] );
       }
     }
   }
@@ -1309,16 +1317,19 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
         /* ASSIGN self.current_function_param.By_Ref = 1 */
         self->current_function_param->By_Ref = 1;
       }
-      /* ASSIGN self.current_interface_param = self.Interface_newParameter(c_ep:interface_message, parameter_name:PARAM.name) */
-      self->current_interface_param = masl2xtuml_ooapopulation_op_Interface_newParameter(self, interface_message, p_name);
-      /* IF ( ( in == PARAM.direction ) ) */
-      if ( ( Escher_strcmp( "in", p_direction ) == 0 ) ) {
-        /* ASSIGN self.current_interface_param.By_Ref = 0 */
-        self->current_interface_param->By_Ref = 0;
-      }
-      else if ( ( Escher_strcmp( "out", p_direction ) == 0 ) ) {
-        /* ASSIGN self.current_interface_param.By_Ref = 1 */
-        self->current_interface_param->By_Ref = 1;
+      /* IF ( not_empty interface_message ) */
+      if ( ( 0 != interface_message ) ) {
+        /* ASSIGN self.current_interface_param = self.Interface_newParameter(c_ep:interface_message, parameter_name:PARAM.name) */
+        self->current_interface_param = masl2xtuml_ooapopulation_op_Interface_newParameter(self, interface_message, p_name);
+        /* IF ( ( in == PARAM.direction ) ) */
+        if ( ( Escher_strcmp( "in", p_direction ) == 0 ) ) {
+          /* ASSIGN self.current_interface_param.By_Ref = 0 */
+          self->current_interface_param->By_Ref = 0;
+        }
+        else if ( ( Escher_strcmp( "out", p_direction ) == 0 ) ) {
+          /* ASSIGN self.current_interface_param.By_Ref = 1 */
+          self->current_interface_param->By_Ref = 1;
+        }
       }
     }
     else {
@@ -8585,11 +8596,17 @@ masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * s
 c_t *
 masl2xtuml_ooapopulation_op_Function_getSignature( masl2xtuml_ooapopulation * self, masl2xtuml_S_SYNC * p_s_sync )
 {
-  c_t * separator=0;masl2xtuml_S_SPARM * first_param;c_t * signature=0;masl2xtuml_S_SYNC * s_sync;masl2xtuml_S_SPARM * parameter=0;
+  c_t * separator=0;masl2xtuml_S_SPARM * first_param;c_t * signature=0;masl2xtuml_S_SYNC * s_sync;masl2xtuml_S_SPARM * parameter=0;masl2xtuml_S_DT * returntype=0;
   /* ASSIGN s_sync = PARAM.s_sync */
   s_sync = p_s_sync;
-  /* ASSIGN signature = s_sync.Name */
-  signature = Escher_strcpy( signature, s_sync->Name );
+  /* ASSIGN signature =  */
+  signature = Escher_strcpy( signature, "" );
+  /* SELECT one returntype RELATED BY s_sync->S_DT[R25] */
+  returntype = ( 0 != s_sync ) ? s_sync->S_DT_R25_has_return_type_of : 0;
+  /* ASSIGN signature = ( ( signature + returntype.Name ) +   ) */
+  signature = Escher_strcpy( signature, Escher_stradd( Escher_stradd( signature, returntype->Name ), " " ) );
+  /* ASSIGN signature = ( signature + s_sync.Name ) */
+  signature = Escher_strcpy( signature, Escher_stradd( signature, s_sync->Name ) );
   /* SELECT any parameter RELATED BY s_sync->S_SPARM[R24] */
   parameter = ( 0 != s_sync ) ? (masl2xtuml_S_SPARM *) Escher_SetGetAny( &s_sync->S_SPARM_R24_defines ) : 0;
   /* ASSIGN first_param = parameter */
@@ -9133,11 +9150,22 @@ masl2xtuml_ooapopulation_op_PropertyParameter_dispose( masl2xtuml_ooapopulation 
 c_t *
 masl2xtuml_ooapopulation_op_ExecutableProperty_getSignature( masl2xtuml_ooapopulation * self, masl2xtuml_C_EP * p_c_ep )
 {
-  c_t * separator=0;masl2xtuml_C_PP * first_param;c_t * signature=0;masl2xtuml_C_EP * c_ep;masl2xtuml_C_PP * parameter=0;
+  c_t * separator=0;masl2xtuml_C_PP * first_param;c_t * signature=0;masl2xtuml_C_EP * c_ep;masl2xtuml_C_PP * parameter=0;masl2xtuml_S_DT * returntype=0;
   /* ASSIGN c_ep = PARAM.c_ep */
   c_ep = p_c_ep;
-  /* ASSIGN signature = c_ep.Name */
-  signature = Escher_strcpy( signature, c_ep->Name );
+  /* ASSIGN signature =  */
+  signature = Escher_strcpy( signature, "" );
+  /* SELECT one returntype RELATED BY c_ep->C_IO[R4004]->S_DT[R4008] */
+  returntype = 0;
+  {  if ( 0 != c_ep ) {
+  masl2xtuml_C_IO * R4004_subtype = (masl2xtuml_C_IO *) c_ep->R4004_subtype;
+  if ( 0 != R4004_subtype )  if ( ( 0 != c_ep ) && ( masl2xtuml_C_IO_CLASS_NUMBER == c_ep->R4004_object_id ) ) {
+  returntype = R4004_subtype->S_DT_R4008_has_return_defined_by;
+}}}
+  /* ASSIGN signature = ( ( signature + returntype.Name ) +   ) */
+  signature = Escher_strcpy( signature, Escher_stradd( Escher_stradd( signature, returntype->Name ), " " ) );
+  /* ASSIGN signature = ( signature + c_ep.Name ) */
+  signature = Escher_strcpy( signature, Escher_stradd( signature, c_ep->Name ) );
   /* SELECT any parameter RELATED BY c_ep->C_PP[R4006] */
   parameter = ( 0 != c_ep ) ? (masl2xtuml_C_PP *) Escher_SetGetAny( &c_ep->C_PP_R4006_is_parameter_to ) : 0;
   /* ASSIGN first_param = parameter */
@@ -9230,11 +9258,17 @@ masl2xtuml_ooapopulation_op_mergeDuplicateOperations( masl2xtuml_ooapopulation *
 c_t *
 masl2xtuml_ooapopulation_op_Operation_getSignature( masl2xtuml_ooapopulation * self, masl2xtuml_O_TFR * p_o_tfr )
 {
-  c_t * separator=0;masl2xtuml_O_TPARM * first_param;c_t * signature=0;masl2xtuml_O_TFR * o_tfr;masl2xtuml_O_TPARM * parameter=0;
+  c_t * separator=0;masl2xtuml_O_TPARM * first_param;c_t * signature=0;masl2xtuml_O_TFR * o_tfr;masl2xtuml_O_TPARM * parameter=0;masl2xtuml_S_DT * returntype=0;
   /* ASSIGN o_tfr = PARAM.o_tfr */
   o_tfr = p_o_tfr;
-  /* ASSIGN signature = o_tfr.Name */
-  signature = Escher_strcpy( signature, o_tfr->Name );
+  /* ASSIGN signature =  */
+  signature = Escher_strcpy( signature, "" );
+  /* SELECT one returntype RELATED BY o_tfr->S_DT[R116] */
+  returntype = ( 0 != o_tfr ) ? o_tfr->S_DT_R116_return_code_is_defined_by : 0;
+  /* ASSIGN signature = ( ( signature + returntype.Name ) +   ) */
+  signature = Escher_strcpy( signature, Escher_stradd( Escher_stradd( signature, returntype->Name ), " " ) );
+  /* ASSIGN signature = ( signature + o_tfr.Name ) */
+  signature = Escher_strcpy( signature, Escher_stradd( signature, o_tfr->Name ) );
   /* SELECT any parameter RELATED BY o_tfr->O_TPARM[R117] */
   parameter = ( 0 != o_tfr ) ? (masl2xtuml_O_TPARM *) Escher_SetGetAny( &o_tfr->O_TPARM_R117_contains ) : 0;
   /* ASSIGN first_param = parameter */
