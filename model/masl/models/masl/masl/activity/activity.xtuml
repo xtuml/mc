@@ -126,11 +126,29 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'// returns the signature of this activity which includes the name of the activity
-// along with the types of the parameters in order. This is copied and adapted from
-// the OOAofOOA Function.getSignaure
+	'// returns the signature of this activity which includes the return type, the name of 
+// the activity, and the types of the parameters in order. This is copied and adapted
+// from the OOAofOOA Function.getSignaure
 
-signature = self.name;                                                                                                                        
+signature = "";
+
+// get return type
+select one returntype related by self->routine[R3704]->typeref[R3792];
+if ( not_empty returntype )
+  signature = signature + returntype.body + " ";
+else
+  select one returntype related by self->operation[R3704]->typeref[R3741];
+  if ( not_empty returntype )
+	signature = signature + returntype.body + " ";
+  else
+    signature = signature + "void ";
+  end if;
+end if;
+
+// get name
+signature = signature + self.name;                                                                                                                        
+
+// get parameters
 select one parameter related by self->parameter[R3705];                                                                                         
 if ( not_empty parameter )                                                                                                                           
   signature = signature + "(";                                                                                                                
