@@ -180,7 +180,7 @@ time, duplicate names should only be used for producing MASL models.
 ------------------
 During the design phase, it became clear that this issue is more extensive than
 originally hoped. Below are enumerated issues that are not addressed by this
-design but are blockers to the requirments of this issue.
+design but are blockers to the requirements of this issue.
 
 7.1 MASL activities are stored in files. We are currently leveraging existing
 code to get a unique filename based on the name of the activity. The presence of
@@ -202,7 +202,7 @@ this mapping.
 7.3 Activities with duplicate names are not supported in the OAL parser or the
 verifier.
 
-Issues 7.1 and 7.2 block the requirments of this design. More analysis will be
+Issues 7.1 and 7.2 block the requirements of this design. More analysis will be
 required to provide solutions to these problems, however work implemented
 according to this design is still a step forward. The work will be completed as
 designed, however an issue will be raised to revisit these remaining issues
@@ -223,9 +223,10 @@ be found at `/model/masl/test_data/8322_overloaded_functions/` [[2.3]](#2.3).
 expect  
 8.1.4 Export the model to MASL  
 8.1.5 Compare the output MASL with the source MASL using the `masldiff` tool
-[[2.4]](#2.4)  
+[[2.4]](#2.4). There should be zero diffs.  
 
-8.2 Test the BridgePoint editor  
+8.2 Test the BridgePoint editor. For each of the three scopes (domain, terminator
+object):  
 8.2.1 Create two functions with the same name and different signatures in a MASL
 idiom xtUML project  
 8.2.2 Export the model to MASL  
