@@ -176,6 +176,37 @@ time, duplicate names should only be used for producing MASL models.
 
 7. Design Comments
 ------------------
+During the design phase, it became clear that this issue is more extensive than
+originally hoped. Below are enumerated issues that are not addressed by this
+design but are blockers to the requirments of this issue.
+
+7.1 MASL activities are stored in files. We are currently leveraging existing
+code to get a unique filename based on the name of the activity. The presence of
+overloaded activities breaks this mechanism because two activities with the same
+name would load and persist MASL actions from the same file.
+
+7.2 MASL projects do not provide much to the model except to override terminator
+services and functions from the domains. In the xtUML/MASL idiom, this is
+represented by a set of interface references that are formalized with interface
+definitions in the separate domain projects. Because the project does not have
+any access to the model data of the domains at convert time, the loader has been
+modified to search the workspace for interface definitions and formalize them by
+matching the names. In order to make sure the activity files are copied to the
+right place in the model data, a mapping of activity names and activity files is
+stored in the unformalized interface reference. This mechanism is broken because
+of overloaded activities because activity names are no longer a unique key for
+this mapping.
+
+7.3 Activities with duplicate names are not supported in the OAL parser or the
+verifier.
+
+Issues 7.1 and 7.2 block the requirments of this design. More analysis will be
+required to provide solutions to these problems, however work implemented
+according to this design is still a step forward. The work will be completed as
+designed, however an issue will be raised to revisit these remaining issues.
+Analysis will also be done to determine the work required to fully support
+overloaded activities in OAL. This note will be referenced in all future work on
+these issues.
 
 8. Unit Test
 ------------
