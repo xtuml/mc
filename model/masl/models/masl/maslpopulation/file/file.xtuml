@@ -68,6 +68,10 @@ elif ( "domain" == element )
         file.directory( name:domain.name );
         file.emit( name:domain.name + ".mod" );
       end if;
+      domain.render_interface();
+      if ( not_empty file )
+        file.emit( name:domain.name + ".int" );
+      end if;
       
       // render all the activity files
       select many domain_routines related by domain->routine[R3790]->activity[R3704];
