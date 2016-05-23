@@ -19,6 +19,8 @@ supported by MASL convert/import, the editor, and export.
 <a id="2.2">2.2 [MASL parse grammar](../../../masl/parser/src/MaslParser.g)  
 <a id="2.3">2.3 [Provided test data](../../../model/masl/test_data/8322_overloaded_functions/)  
 <a id="2.4">2.4 [masldiff tool](../../../masl/diff/)  
+<a id="2.5">2.5 [#8322 parent issue](https://support.onefact.net/issues/8322)  
+<a id="2.6">2.6 [#8510 followup issue](https://support.onefact.net/issues/8510)  
 
 3. Background
 -------------
@@ -203,10 +205,10 @@ verifier.
 Issues 7.1 and 7.2 block the requirments of this design. More analysis will be
 required to provide solutions to these problems, however work implemented
 according to this design is still a step forward. The work will be completed as
-designed, however an issue will be raised to revisit these remaining issues.
-Analysis will also be done to determine the work required to fully support
-overloaded activities in OAL. This note will be referenced in all future work on
-these issues.
+designed, however an issue will be raised to revisit these remaining issues
+[[2.6]](#2.6). Analysis will also be done to determine the work required to
+fully support overloaded activities in OAL. This note will be referenced in all
+future work on these issues.
 
 8. Unit Test
 ------------
