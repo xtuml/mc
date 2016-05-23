@@ -13,9 +13,9 @@ Present:  Cort, Keith, Levi
 <pre>
 
 -- Num Type  Who  Section  Comment
-_- 01  min   all  7        discussed follow-on issues
-_- 02  min   SKB  5.1.3    question about the return type a part of the signature
-_- 03  min   SKB  7        consider breaking apart into three separate issues
+x- 01  min   all  7        discussed follow-on issues
+x- 02  min   SKB  5.1.3    question about the return type a part of the signature
+x- 03  min   SKB  7        consider breaking apart into three separate issues
 
 </pre>
    
