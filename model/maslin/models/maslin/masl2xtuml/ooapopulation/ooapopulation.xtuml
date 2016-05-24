@@ -93,6 +93,25 @@ elif ( "terminator" == element )
   	comp_if = ooapopulation.current_interface;
   	select any new_ir related by comp_if->C_IR[R4012];
   	ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+  	
+  	// copy the codeblocks into the right locations
+  	select many c_eps related by comp_if->C_EP[R4003];
+  	for each c_ep in c_eps
+      // copy over the codeblock
+      string = c_ep.Descrip;
+      start_index = STRING::indexof( haystack:string, needle:"<codeblock>" );
+      end_index = STRING::indexof( haystack:string, needle:"</codeblock>" );
+      message_cb = "";
+      if ( -1 != start_index and -1 != end_index )
+        message_cb = "codeblock:" + STRING::substr( s:string, begin:start_index+11, end:end_index ) + "\n";
+      end if;
+      c_ep.Descrip = "";
+
+      select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
+  	  if ( not_empty spr_ro )
+        spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
+  	  end if;
+  	end for;
 
     select any c_i from instances of C_I where (false);
     ooapopulation.current_interface = c_i;
@@ -308,10 +327,8 @@ elif ( "codeblock" == element )
 
   c_ep = ooapopulation.current_executable_property;
   if ( not_empty c_ep )
-  	select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
-  	if ( not_empty spr_ro )
-      spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
-  	end if;
+    // stash in Descrip field until formalization or merge
+    c_ep.Descrip = c_ep.Descrip + "<codeblock>" + param.value[0] + "</codeblock>";
   end if;
   
   o_tfr = ooapopulation.current_class_op;
@@ -7563,11 +7580,19 @@ elif ( not_empty message )
 select many c_eps related by message->C_I[R4003]->C_EP[R4003];
   for each c_ep in c_eps
     if ( c_ep != message and self.ExecutableProperty_getSignature( c_ep:message ) == self.ExecutableProperty_getSignature( c_ep:c_ep ) )
+
       // copy over the codeblock
-      select any message_spr_ro related by message->SPR_REP[R4500]->SPR_RO[R4502];
+      string = message.Descrip;
+      start_index = STRING::indexof( haystack:string, needle:"<codeblock>" );
+      end_index = STRING::indexof( haystack:string, needle:"</codeblock>" );
+      message_cb = "";
+      if ( -1 != start_index and -1 != end_index )
+        message_cb = "codeblock:" + STRING::substr( s:string, begin:start_index+11, end:end_index ) + "\n";
+      end if;
+
       select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
-  	  if ( not_empty spr_ro and not_empty message_spr_ro )
-        message_spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal;
+  	  if ( not_empty spr_ro )
+        spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
   	  end if;
       // dispose interface message
       self.ExecutableProperty_dispose( c_ep:message );
