@@ -67,9 +67,7 @@ elif ( "domain" == element )
         // Domain files go into a directory named after the domain.
         file.directory( name:domain.name );
         file.emit( name:domain.name + ".mod" );
-      end if;
-      domain.render_interface();
-      if ( not_empty file )
+        domain.render_interface();
         file.emit( name:domain.name + ".int" );
       end if;
       
