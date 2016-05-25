@@ -145,9 +145,42 @@ STRING_strlen( c_t * p_s )
 i_t
 STRING_indexof( c_t * p_haystack, c_t * p_needle )
 {
-  i_t result = 0;
-  /* Insert your implementation code here... */
-  return result;
+  c_t * a;
+  c_t * b;
+  c_t * c;
+
+  // check arguments
+  if ( !p_needle || !p_haystack ) return -1;
+
+  a = p_haystack;
+  b = p_needle;
+  if (*b == '\0') {
+    return 0;   // if needle is empty string, by definition, the index is 0
+  }
+
+  // seach through to find first character match
+  for ( ; *a != 0; a += 1) {
+    if (*a == *b) {
+
+      // check the rest of the string
+      c = a;
+      while ( *c++ == *b++ ) {
+        if ( *b == '\0' ) {
+          return a - p_haystack;
+        }
+        if ( *c == '\0' ) {
+          break;
+        }
+      }
+
+    }
+
+    // reset b
+    b = p_needle;
+  }
+
+  // no match found
+  return -1;
 }
 
 

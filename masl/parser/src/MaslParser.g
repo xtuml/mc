@@ -534,8 +534,8 @@ objectFunctionDeclaration     : description serviceVisibility serviceType FUNCTI
                                                                                                 serviceVisibility 
                                                                                                 serviceType? 
                                                                                                 serviceName
-                                                                                                parameterList?
                                                                                                 description
+                                                                                                parameterList?
                                                                                                 returnType 
                                                                                                 pragmaList?)
                               ;

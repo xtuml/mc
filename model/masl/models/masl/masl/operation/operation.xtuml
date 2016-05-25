@@ -16,24 +16,19 @@ INSERT INTO O_TFR
 	0,
 	'parent_object = param.parent_object;
 
-select any activity related by parent_object->operation[R3749]->activity[R3704] where ( selected.name == param.name );
-select one operation related by activity->operation[R3704];
-
-if ( empty operation )
-  activity = activity::populate( name:param.name );
-  create object instance operation of operation;
-  operation.visibility = param.visibility;
-  operation.instance = param.instance;
-  relate operation to parent_object across R3749;
-  if ( "" != param.deferred_relationship )
-    select any relationship related by operation->object[R3749]->participation[R3714]->relationship[R3713] where ( selected.name == param.deferred_relationship );
-    select one subsuper related by relationship->subsuper[R3721];
-    relate operation to subsuper across R3793.''defers to'';
-  end if;
-  relate operation to activity across R3704;
-  markable = markable::populate( name:"operation" );
-  relate activity to markable across R3783;
+activity = activity::populate( name:param.name );
+create object instance operation of operation;
+operation.visibility = param.visibility;
+operation.instance = param.instance;
+relate operation to parent_object across R3749;
+if ( "" != param.deferred_relationship )
+  select any relationship related by operation->object[R3749]->participation[R3714]->relationship[R3713] where ( selected.name == param.deferred_relationship );
+  select one subsuper related by relationship->subsuper[R3721];
+  relate operation to subsuper across R3793.''defers to'';
 end if;
+relate operation to activity across R3704;
+markable = markable::populate( name:"operation" );
+relate activity to markable across R3783;
 
 return operation;',
 	1,
@@ -196,6 +191,24 @@ return valid;',
 	1,
 	'',
 	"e889e439-cdfe-4477-b73a-7a33f6c3cbfc");
+INSERT INTO O_TFR
+	VALUES ("854a4e74-62ba-4ac7-9701-206211294e8b",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// unrelate from parent object and delete
+
+select one obj related by self->object[R3749];
+if ( not_empty obj )
+  unrelate self from obj across R3749;
+end if;
+
+delete object instance self;',
+	1,
+	'',
+	"3668380d-531d-4fe0-84c1-4d984a2aaa53");
 INSERT INTO O_NBATTR
 	VALUES ("6874e016-5548-463e-a51a-c63ea78ca5f7",
 	"2a532900-c65a-4b9d-bc79-d836cdc84970");
