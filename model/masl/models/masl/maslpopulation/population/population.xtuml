@@ -34,6 +34,13 @@ if ( "" == value[0] and "" == value[1] and "" == value[2] and "" == value[3] and
     unrelate population from current_element across R3784.''has current'';				// unrelate current element
     relate population to parent_element across R3784.''has current'';						// relate the parent as the new current
     unrelate population from current_element across R3789.''has active'';					// remove from the active collection
+    
+    // for activities, check for duplicates
+    select one activity related by current_element->markable[R3786]->activity[R3783];
+    if ( not_empty activity )
+      activity.merge_duplicate();
+    end if;
+
     return;
   end if;
   // check if it is a leaf node and ignore if there are no args
@@ -385,7 +392,7 @@ elif ( "codeblock" == element )
 	end if;
     code_block::populate( sourcefile:value[0], parent_activity:parent_activity );
   	// code_block is a leaf node and does not get pushed onto the current element stack
-elif ( "description" == element ) // TODO Levi this is too simple. it does not consider tags or anything but objects
+elif ( "description" == element )
 	select one parent_element related by population->element[R3784.''has current''];
 	descrip = description::populate( element:parent_element, text:value[0], tag:value[1] );
 else
