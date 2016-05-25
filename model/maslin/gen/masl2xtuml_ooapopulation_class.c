@@ -8424,13 +8424,16 @@ masl2xtuml_ooapopulation_op_transformDescription( masl2xtuml_ooapopulation * sel
       routine1->Descrip = Escher_strcpy( routine1->Descrip, Escher_stradd( routine1->Descrip, text ) );
     }
     else {
-      masl2xtuml_C_EP * routine2;
+      masl2xtuml_C_EP * routine2;masl2xtuml_C_IO * c_io=0;
       /* ASSIGN routine2 = self.current_executable_property */
       routine2 = self->current_executable_property;
-      /* IF ( not_empty routine2 ) */
-      if ( ( 0 != routine2 ) ) {
-        /* ASSIGN routine2.Descrip = ( routine2.Descrip + text ) */
-        routine2->Descrip = Escher_strcpy( routine2->Descrip, Escher_stradd( routine2->Descrip, text ) );
+      /* SELECT one c_io RELATED BY routine2->C_IO[R4004] */
+      c_io = 0;
+      if ( ( 0 != routine2 ) && ( masl2xtuml_C_IO_CLASS_NUMBER == routine2->R4004_object_id ) )      c_io = ( 0 != routine2 ) ? (masl2xtuml_C_IO *) routine2->R4004_subtype : 0;
+      /* IF ( not_empty c_io ) */
+      if ( ( 0 != c_io ) ) {
+        /* ASSIGN c_io.Descrip = ( c_io.Descrip + text ) */
+        c_io->Descrip = Escher_strcpy( c_io->Descrip, Escher_stradd( c_io->Descrip, text ) );
       }
     }
   }

@@ -7467,8 +7467,9 @@ elif ( "routine" == element.type )
 	routine1.Descrip = routine1.Descrip + text;
   else
     routine2 = self.current_executable_property;
-	if ( not_empty routine2 )
-	  routine2.Descrip = routine2.Descrip + text;
+    select one c_io related by routine2->C_IO[R4004];
+	if ( not_empty c_io )
+	  c_io.Descrip = c_io.Descrip + text;
 	end if;
   end if;
 elif ( "operation" == element.type )
