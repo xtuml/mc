@@ -11,40 +11,50 @@
 #include "LOG_bridge.h"
 #include "STRING_bridge.h"
 #include "TRACE_bridge.h"
+#include "masl2xtuml_IDLINK_bridge.h"
 #include "masl2xtuml_classes.h"
 
 /*
  * Instance Loader (from string data).
  */
-Escher_iHandle_t
+Escher_UniqueID_t
 masl2xtuml_ooapopulation_instanceloader( Escher_iHandle_t instance, const c_t * avlstring[] )
 {
-  Escher_iHandle_t return_identifier = 0;
+  Escher_UniqueID_t return_identifier = 0;
   masl2xtuml_ooapopulation * self = (masl2xtuml_ooapopulation *) instance;
   /* Initialize application analysis class attributes.  */
-  Escher_memset( &self->current_sys, avlstring[ 1 ], sizeof( self->current_sys ) );
-  Escher_memset( &self->lib_pkg, avlstring[ 1 ], sizeof( self->lib_pkg ) );
-  Escher_memset( &self->systypes_pkg, avlstring[ 1 ], sizeof( self->systypes_pkg ) );
-  Escher_memset( &self->current_attribute, avlstring[ 1 ], sizeof( self->current_attribute ) );
-  Escher_memset( &self->current_class, avlstring[ 1 ], sizeof( self->current_class ) );
-  Escher_memset( &self->current_class_op, avlstring[ 1 ], sizeof( self->current_class_op ) );
-  Escher_memset( &self->current_component, avlstring[ 1 ], sizeof( self->current_component ) );
-  Escher_memset( &self->current_domain_function, avlstring[ 1 ], sizeof( self->current_domain_function ) );
-  Escher_memset( &self->current_function_param, avlstring[ 1 ], sizeof( self->current_function_param ) );
-  Escher_memset( &self->current_imported_component, avlstring[ 1 ], sizeof( self->current_imported_component ) );
-  Escher_memset( &self->current_interface, avlstring[ 1 ], sizeof( self->current_interface ) );
-  Escher_memset( &self->current_operation_param, avlstring[ 1 ], sizeof( self->current_operation_param ) );
-  Escher_memset( &self->current_pragma, avlstring[ 1 ], sizeof( self->current_pragma ) );
-  Escher_memset( &self->current_state, avlstring[ 1 ], sizeof( self->current_state ) );
-  self->processingIdentifier = Escher_atoi( avlstring[ 1 ] );
-  self->processingISM = ( '0' != *avlstring[ 2 ] );
-  Escher_memset( &self->current_type, avlstring[ 3 ], sizeof( self->current_type ) );
-  Escher_memset( &self->current_event, avlstring[ 3 ], sizeof( self->current_event ) );
-  Escher_memset( &self->current_executable_property, avlstring[ 3 ], sizeof( self->current_executable_property ) );
-  self->processingProject = ( '0' != *avlstring[ 3 ] );
-  Escher_memset( &self->current_interface_param, avlstring[ 4 ], sizeof( self->current_interface_param ) );
-  Escher_memset( &self->current_event_dataitem, avlstring[ 4 ], sizeof( self->current_event_dataitem ) );
+  self->current_sys = Escher_atoi( avlstring[ 1 ] );
+  self->lib_pkg = Escher_atoi( avlstring[ 2 ] );
+  self->systypes_pkg = Escher_atoi( avlstring[ 3 ] );
+  self->current_attribute = Escher_atoi( avlstring[ 4 ] );
+  self->current_class = Escher_atoi( avlstring[ 5 ] );
+  self->current_class_op = Escher_atoi( avlstring[ 6 ] );
+  self->current_component = Escher_atoi( avlstring[ 7 ] );
+  self->current_domain_function = Escher_atoi( avlstring[ 8 ] );
+  self->current_function_param = Escher_atoi( avlstring[ 9 ] );
+  self->current_imported_component = Escher_atoi( avlstring[ 10 ] );
+  self->current_interface = Escher_atoi( avlstring[ 11 ] );
+  self->current_operation_param = Escher_atoi( avlstring[ 12 ] );
+  self->current_pragma = Escher_atoi( avlstring[ 13 ] );
+  self->current_state = Escher_atoi( avlstring[ 14 ] );
+  self->processingIdentifier = Escher_atoi( avlstring[ 15 ] );
+  self->processingISM = ( '0' != *avlstring[ 16 ] );
+  self->current_type = Escher_atoi( avlstring[ 17 ] );
+  self->current_event = Escher_atoi( avlstring[ 18 ] );
+  self->current_executable_property = Escher_atoi( avlstring[ 19 ] );
+  self->processingProject = ( '0' != *avlstring[ 20 ] );
+  self->current_interface_param = Escher_atoi( avlstring[ 21 ] );
+  self->current_event_dataitem = Escher_atoi( avlstring[ 22 ] );
   return return_identifier;
+}
+
+/*
+ * Select any where using referential/identifying attribute set.
+ * If not_empty, relate this instance to the selected instance.
+ */
+void masl2xtuml_ooapopulation_batch_relate( Escher_iHandle_t instance )
+{
+  masl2xtuml_ooapopulation * masl2xtuml_ooapopulation_instance = (masl2xtuml_ooapopulation *) instance;
 }
 
 /*
@@ -113,7 +123,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     /* ooapopulation::populate_project( element:PARAM.element, ooapopulation:ooapopulation, value:PARAM.value ) */
     masl2xtuml_ooapopulation_op_populate_project( p_element, ooapopulation, p_value );
     /* RETURN  */
-    return;  }
+    return;
+  }
   /* IF ( ( domain == element ) ) */
   if ( ( Escher_strcmp( "domain", element ) == 0 ) ) {
     /* IF ( (  == PARAM.value[0] ) ) */
@@ -755,10 +766,10 @@ masl2xtuml_ooapopulation_op_SystemModel_newPackage( masl2xtuml_ooapopulation * s
   s_sys = p_s_sys;
   /* CREATE OBJECT INSTANCE package OF EP_PKG */
   package = (masl2xtuml_EP_PKG *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_EP_PKG_CLASS_NUMBER );
-  package->Package_ID = (Escher_UniqueID_t) package;
+  package->Package_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE pe OF PE_PE */
   pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-  pe->Element_ID = (Escher_UniqueID_t) pe;
+  pe->Element_ID = Escher_ID_factory();
   /* RELATE pe TO package ACROSS R8001 */
   masl2xtuml_EP_PKG_R8001_Link( pe, package );
   /* RELATE package TO s_sys ACROSS R1401 */
@@ -871,10 +882,10 @@ masl2xtuml_ooapopulation_op_Package_newComponent( masl2xtuml_ooapopulation * sel
   ep_pkg = p_ep_pkg;
   /* CREATE OBJECT INSTANCE component OF C_C */
   component = (masl2xtuml_C_C *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_C_CLASS_NUMBER );
-  component->Id = (Escher_UniqueID_t) component;
+  component->Id = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE pe OF PE_PE */
   pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-  pe->Element_ID = (Escher_UniqueID_t) pe;
+  pe->Element_ID = Escher_ID_factory();
   /* RELATE component TO pe ACROSS R8001 */
   masl2xtuml_C_C_R8001_Link( pe, component );
   /* RELATE pe TO ep_pkg ACROSS R8000 */
@@ -972,13 +983,13 @@ masl2xtuml_ooapopulation_op_ComponentReference_assignToComp( masl2xtuml_ooapopul
           if ( ( 0 != formalInterface ) && ( masl2xtuml_C_P_CLASS_NUMBER == formalInterface->R4009_object_id ) )          provision = ( 0 != formalInterface ) ? (masl2xtuml_C_P *) formalInterface->R4009_subtype : 0;
           /* CREATE OBJECT INSTANCE newImportedRef OF CL_IIR */
           newImportedRef = (masl2xtuml_CL_IIR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_CL_IIR_CLASS_NUMBER );
-          newImportedRef->Id = (Escher_UniqueID_t) newImportedRef;
+          newImportedRef->Id = Escher_ID_factory();
           /* IF ( not_empty provision ) */
           if ( ( 0 != provision ) ) {
             masl2xtuml_CL_IP * importedPro;
             /* CREATE OBJECT INSTANCE importedPro OF CL_IP */
             importedPro = (masl2xtuml_CL_IP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_CL_IP_CLASS_NUMBER );
-            importedPro->Id = (Escher_UniqueID_t) importedPro;
+            importedPro->Id = Escher_ID_factory();
             /* RELATE importedPro TO newImportedRef ACROSS R4703 */
             masl2xtuml_CL_IP_R4703_Link( newImportedRef, importedPro );
           }
@@ -986,13 +997,13 @@ masl2xtuml_ooapopulation_op_ComponentReference_assignToComp( masl2xtuml_ooapopul
             masl2xtuml_CL_IR * importedReq;
             /* CREATE OBJECT INSTANCE importedReq OF CL_IR */
             importedReq = (masl2xtuml_CL_IR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_CL_IR_CLASS_NUMBER );
-            importedReq->Id = (Escher_UniqueID_t) importedReq;
+            importedReq->Id = Escher_ID_factory();
             /* RELATE importedReq TO newImportedRef ACROSS R4703 */
             masl2xtuml_CL_IR_R4703_Link( newImportedRef, importedReq );
           }
           /* CREATE OBJECT INSTANCE portRef OF CL_POR */
           portRef = (masl2xtuml_CL_POR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_CL_POR_CLASS_NUMBER );
-          portRef->Id = (Escher_UniqueID_t) portRef;
+          portRef->Id = Escher_ID_factory();
           /* SELECT one existingPort RELATED BY formalInterface->C_PO[R4016] */
           existingPort = ( 0 != formalInterface ) ? formalInterface->C_PO_R4016_originates_from : 0;
           /* RELATE existingPort TO portRef ACROSS R4709 */
@@ -1063,10 +1074,10 @@ masl2xtuml_ooapopulation_op_Component_newPackage( masl2xtuml_ooapopulation * sel
   c_c = p_c_c;
   /* CREATE OBJECT INSTANCE package OF EP_PKG */
   package = (masl2xtuml_EP_PKG *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_EP_PKG_CLASS_NUMBER );
-  package->Package_ID = (Escher_UniqueID_t) package;
+  package->Package_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE pe OF PE_PE */
   pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-  pe->Element_ID = (Escher_UniqueID_t) pe;
+  pe->Element_ID = Escher_ID_factory();
   /* RELATE package TO pe ACROSS R8001 */
   masl2xtuml_EP_PKG_R8001_Link( pe, package );
   /* ASSIGN rootCompIdInPkg = self.Component_getRootComponentId(c_c:c_c) */
@@ -1147,7 +1158,7 @@ masl2xtuml_ooapopulation_op_createSystem( masl2xtuml_ooapopulation * self)
   if ( ( 0 == s_sys ) ) {
     /* CREATE OBJECT INSTANCE s_sys OF S_SYS */
     s_sys = (masl2xtuml_S_SYS *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_SYS_CLASS_NUMBER );
-    s_sys->Sys_ID = (Escher_UniqueID_t) s_sys;
+    s_sys->Sys_ID = Escher_ID_factory();
     /* ASSIGN s_sys.Name = ConvertedModel */
     s_sys->Name = Escher_strcpy( s_sys->Name, "ConvertedModel" );
     /* ASSIGN self.current_sys = s_sys */
@@ -1614,10 +1625,10 @@ masl2xtuml_ooapopulation_op_Package_newImportedComponent( masl2xtuml_ooapopulati
   ep_pkg = p_ep_pkg;
   /* CREATE OBJECT INSTANCE importedComp OF CL_IC */
   importedComp = (masl2xtuml_CL_IC *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_CL_IC_CLASS_NUMBER );
-  importedComp->Id = (Escher_UniqueID_t) importedComp;
+  importedComp->Id = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE pe OF PE_PE */
   pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-  pe->Element_ID = (Escher_UniqueID_t) pe;
+  pe->Element_ID = Escher_ID_factory();
   /* RELATE importedComp TO pe ACROSS R8001 */
   masl2xtuml_CL_IC_R8001_Link( pe, importedComp );
   /* RELATE pe TO ep_pkg ACROSS R8000 */
@@ -1642,10 +1653,10 @@ masl2xtuml_ooapopulation_op_Package_newClass( masl2xtuml_ooapopulation * self, c
   ep_pkg = p_ep_pkg;
   /* CREATE OBJECT INSTANCE cl OF O_OBJ */
   cl = (masl2xtuml_O_OBJ *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_OBJ_CLASS_NUMBER );
-  cl->Obj_ID = (Escher_UniqueID_t) cl;
+  cl->Obj_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE pe OF PE_PE */
   pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-  pe->Element_ID = (Escher_UniqueID_t) pe;
+  pe->Element_ID = Escher_ID_factory();
   /* RELATE cl TO pe ACROSS R8001 */
   masl2xtuml_O_OBJ_R8001_Link( pe, cl );
   /* ASSIGN pe.type = CLASS */
@@ -1795,7 +1806,7 @@ masl2xtuml_ooapopulation_op_ModelClass_addIdentifiers( masl2xtuml_ooapopulation 
   if ( ( 0 == oid1 ) ) {
     /* CREATE OBJECT INSTANCE oid1 OF O_ID */
     oid1 = (masl2xtuml_O_ID *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_ID_CLASS_NUMBER );
-    oid1->Obj_ID = (Escher_UniqueID_t) oid1;
+    oid1->Obj_ID = Escher_ID_factory();
     /* ASSIGN oid1.Oid_ID = 0 */
     oid1->Oid_ID = 0;
     /* RELATE oid1 TO o_obj ACROSS R104 */
@@ -1816,7 +1827,7 @@ masl2xtuml_ooapopulation_op_ModelClass_addIdentifiers( masl2xtuml_ooapopulation 
   if ( ( 0 == oid2 ) ) {
     /* CREATE OBJECT INSTANCE oid2 OF O_ID */
     oid2 = (masl2xtuml_O_ID *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_ID_CLASS_NUMBER );
-    oid2->Obj_ID = (Escher_UniqueID_t) oid2;
+    oid2->Obj_ID = Escher_ID_factory();
     /* ASSIGN oid2.Oid_ID = 1 */
     oid2->Oid_ID = 1;
     /* RELATE oid2 TO o_obj ACROSS R104 */
@@ -1837,7 +1848,7 @@ masl2xtuml_ooapopulation_op_ModelClass_addIdentifiers( masl2xtuml_ooapopulation 
   if ( ( 0 == oid3 ) ) {
     /* CREATE OBJECT INSTANCE oid3 OF O_ID */
     oid3 = (masl2xtuml_O_ID *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_ID_CLASS_NUMBER );
-    oid3->Obj_ID = (Escher_UniqueID_t) oid3;
+    oid3->Obj_ID = Escher_ID_factory();
     /* ASSIGN oid3.Oid_ID = 2 */
     oid3->Oid_ID = 2;
     /* RELATE oid3 TO o_obj ACROSS R104 */
@@ -1856,8 +1867,8 @@ masl2xtuml_ooapopulation_op_ModelClass_newAttribute( masl2xtuml_ooapopulation * 
   o_obj = p_o_obj;
   /* CREATE OBJECT INSTANCE newAttr OF O_ATTR */
   newAttr = (masl2xtuml_O_ATTR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_ATTR_CLASS_NUMBER );
-  newAttr->Attr_ID = (Escher_UniqueID_t) newAttr;
-newAttr->Obj_ID = (Escher_UniqueID_t) newAttr;
+  newAttr->Attr_ID = Escher_ID_factory();
+newAttr->Obj_ID = Escher_ID_factory();
   /* self.ModelClass_addAttributeToOrdering( newAttr:newAttr, o_obj:o_obj ) */
   masl2xtuml_ooapopulation_op_ModelClass_addAttributeToOrdering( self,  newAttr, o_obj );
   /* RELATE o_obj TO newAttr ACROSS R102 */
@@ -1941,14 +1952,14 @@ masl2xtuml_ooapopulation_op_Attribute_initialize( masl2xtuml_ooapopulation * sel
   masl2xtuml_O_ATTR_R114_Link_is_defined_by( def_dt, o_attr );
   /* CREATE OBJECT INSTANCE ba OF O_BATTR */
   ba = (masl2xtuml_O_BATTR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_BATTR_CLASS_NUMBER );
-  ba->Attr_ID = (Escher_UniqueID_t) ba;
-ba->Obj_ID = (Escher_UniqueID_t) ba;
+  ba->Attr_ID = Escher_ID_factory();
+ba->Obj_ID = Escher_ID_factory();
   /* RELATE o_attr TO ba ACROSS R106 */
   masl2xtuml_O_BATTR_R106_Link( o_attr, ba );
   /* CREATE OBJECT INSTANCE nba OF O_NBATTR */
   nba = (masl2xtuml_O_NBATTR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_NBATTR_CLASS_NUMBER );
-  nba->Attr_ID = (Escher_UniqueID_t) nba;
-nba->Obj_ID = (Escher_UniqueID_t) nba;
+  nba->Attr_ID = Escher_ID_factory();
+nba->Obj_ID = Escher_ID_factory();
   /* RELATE ba TO nba ACROSS R107 */
   masl2xtuml_O_NBATTR_R107_Link( ba, nba );
 }
@@ -2078,17 +2089,17 @@ masl2xtuml_ooapopulation_op_Package_newDatatype( masl2xtuml_ooapopulation * self
   ep_pkg = p_ep_pkg;
   /* CREATE OBJECT INSTANCE dt OF S_DT */
   dt = (masl2xtuml_S_DT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_DT_CLASS_NUMBER );
-  dt->DT_ID = (Escher_UniqueID_t) dt;
+  dt->DT_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE pe OF PE_PE */
   pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-  pe->Element_ID = (Escher_UniqueID_t) pe;
+  pe->Element_ID = Escher_ID_factory();
   /* RELATE dt TO pe ACROSS R8001 */
   masl2xtuml_S_DT_R8001_Link( pe, dt );
   /* RELATE pe TO ep_pkg ACROSS R8000 */
   masl2xtuml_PE_PE_R8000_Link_contains( ep_pkg, pe );
   /* CREATE OBJECT INSTANCE udt OF S_UDT */
   udt = (masl2xtuml_S_UDT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_UDT_CLASS_NUMBER );
-  udt->DT_ID = (Escher_UniqueID_t) udt;
+  udt->DT_ID = Escher_ID_factory();
   /* RELATE dt TO udt ACROSS R17 */
   masl2xtuml_S_UDT_R17_Link( dt, udt );
   /* self.Datatype_initialize( name:PARAM.type_name, s_dt:dt ) */
@@ -2280,7 +2291,7 @@ masl2xtuml_ooapopulation_op_ModelClass_newOperation( masl2xtuml_ooapopulation * 
   o_obj = p_o_obj;
   /* CREATE OBJECT INSTANCE operation OF O_TFR */
   operation = (masl2xtuml_O_TFR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_TFR_CLASS_NUMBER );
-  operation->Tfr_ID = (Escher_UniqueID_t) operation;
+  operation->Tfr_ID = Escher_ID_factory();
   /* RELATE o_obj TO operation ACROSS R115 */
   masl2xtuml_O_TFR_R115_Link_may_contain( o_obj, operation );
   /* self.Operation_initialize( name:PARAM.op_name, o_tfr:operation ) */
@@ -2379,10 +2390,10 @@ masl2xtuml_ooapopulation_op_Package_newFunction( masl2xtuml_ooapopulation * self
   ep_pkg = p_ep_pkg;
   /* CREATE OBJECT INSTANCE fn OF S_SYNC */
   fn = (masl2xtuml_S_SYNC *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_SYNC_CLASS_NUMBER );
-  fn->Sync_ID = (Escher_UniqueID_t) fn;
+  fn->Sync_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE pe OF PE_PE */
   pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-  pe->Element_ID = (Escher_UniqueID_t) pe;
+  pe->Element_ID = Escher_ID_factory();
   /* RELATE fn TO pe ACROSS R8001 */
   masl2xtuml_S_SYNC_R8001_Link( pe, fn );
   /* RELATE pe TO ep_pkg ACROSS R8000 */
@@ -2446,10 +2457,10 @@ masl2xtuml_ooapopulation_op_Package_newPackage( masl2xtuml_ooapopulation * self,
   ep_pkg = p_ep_pkg;
   /* CREATE OBJECT INSTANCE package OF EP_PKG */
   package = (masl2xtuml_EP_PKG *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_EP_PKG_CLASS_NUMBER );
-  package->Package_ID = (Escher_UniqueID_t) package;
+  package->Package_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE pe OF PE_PE */
   pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-  pe->Element_ID = (Escher_UniqueID_t) pe;
+  pe->Element_ID = Escher_ID_factory();
   /* RELATE package TO pe ACROSS R8001 */
   masl2xtuml_EP_PKG_R8001_Link( pe, package );
   /* SELECT one system RELATED BY ep_pkg->S_SYS[R1405] */
@@ -2480,10 +2491,10 @@ masl2xtuml_ooapopulation_op_Package_newInterface( masl2xtuml_ooapopulation * sel
   ep_pkg = p_ep_pkg;
   /* CREATE OBJECT INSTANCE interface OF C_I */
   interface = (masl2xtuml_C_I *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_I_CLASS_NUMBER );
-  interface->Id = (Escher_UniqueID_t) interface;
+  interface->Id = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE pe OF PE_PE */
   pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-  pe->Element_ID = (Escher_UniqueID_t) pe;
+  pe->Element_ID = Escher_ID_factory();
   /* RELATE interface TO pe ACROSS R8001 */
   masl2xtuml_C_I_R8001_Link( pe, interface );
   /* RELATE pe TO ep_pkg ACROSS R8000 */
@@ -2510,13 +2521,13 @@ masl2xtuml_ooapopulation_op_Component_initializeProvision( masl2xtuml_ooapopulat
   c_c = p_c_c;
   /* CREATE OBJECT INSTANCE provision OF C_P */
   provision = (masl2xtuml_C_P *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_P_CLASS_NUMBER );
-  provision->Provision_Id = (Escher_UniqueID_t) provision;
+  provision->Provision_Id = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE interfaceRef OF C_IR */
   interfaceRef = (masl2xtuml_C_IR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_IR_CLASS_NUMBER );
-  interfaceRef->Id = (Escher_UniqueID_t) interfaceRef;
+  interfaceRef->Id = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE port OF C_PO */
   port = (masl2xtuml_C_PO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_PO_CLASS_NUMBER );
-  port->Id = (Escher_UniqueID_t) port;
+  port->Id = Escher_ID_factory();
   /* RELATE provision TO interfaceRef ACROSS R4009 */
   masl2xtuml_C_P_R4009_Link( interfaceRef, provision );
   /* RELATE interfaceRef TO port ACROSS R4016 */
@@ -2624,10 +2635,10 @@ masl2xtuml_ooapopulation_op_InterfaceReference_createSignalsAndOperations( masl2
         ep = ( 0 != signal ) ? signal->C_EP_R4004 : 0;
         /* CREATE OBJECT INSTANCE req_ep OF SPR_REP */
         req_ep = (masl2xtuml_SPR_REP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SPR_REP_CLASS_NUMBER );
-        req_ep->Id = (Escher_UniqueID_t) req_ep;
+        req_ep->Id = Escher_ID_factory();
         /* CREATE OBJECT INSTANCE req_signal OF SPR_RS */
         req_signal = (masl2xtuml_SPR_RS *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SPR_RS_CLASS_NUMBER );
-        req_signal->Id = (Escher_UniqueID_t) req_signal;
+        req_signal->Id = Escher_ID_factory();
         /* ASSIGN req_signal.Suc_Pars = parseInitial */
         req_signal->Suc_Pars = masl2xtuml_ParseStatus_parseInitial_e;
         /* RELATE requirement TO ep ACROSS R4500 USING req_ep */
@@ -2646,10 +2657,10 @@ masl2xtuml_ooapopulation_op_InterfaceReference_createSignalsAndOperations( masl2
         ep = ( 0 != operation ) ? operation->C_EP_R4004 : 0;
         /* CREATE OBJECT INSTANCE req_ep OF SPR_REP */
         req_ep = (masl2xtuml_SPR_REP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SPR_REP_CLASS_NUMBER );
-        req_ep->Id = (Escher_UniqueID_t) req_ep;
+        req_ep->Id = Escher_ID_factory();
         /* CREATE OBJECT INSTANCE req_operation OF SPR_RO */
         req_operation = (masl2xtuml_SPR_RO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SPR_RO_CLASS_NUMBER );
-        req_operation->Id = (Escher_UniqueID_t) req_operation;
+        req_operation->Id = Escher_ID_factory();
         /* ASSIGN req_operation.Suc_Pars = parseInitial */
         req_operation->Suc_Pars = masl2xtuml_ParseStatus_parseInitial_e;
         /* RELATE requirement TO ep ACROSS R4500 USING req_ep */
@@ -2674,10 +2685,10 @@ masl2xtuml_ooapopulation_op_InterfaceReference_createSignalsAndOperations( masl2
         ep = ( 0 != signal ) ? signal->C_EP_R4004 : 0;
         /* CREATE OBJECT INSTANCE pro_ep OF SPR_PEP */
         pro_ep = (masl2xtuml_SPR_PEP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SPR_PEP_CLASS_NUMBER );
-        pro_ep->Id = (Escher_UniqueID_t) pro_ep;
+        pro_ep->Id = Escher_ID_factory();
         /* CREATE OBJECT INSTANCE pro_signal OF SPR_PS */
         pro_signal = (masl2xtuml_SPR_PS *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SPR_PS_CLASS_NUMBER );
-        pro_signal->Id = (Escher_UniqueID_t) pro_signal;
+        pro_signal->Id = Escher_ID_factory();
         /* ASSIGN pro_signal.Suc_Pars = parseInitial */
         pro_signal->Suc_Pars = masl2xtuml_ParseStatus_parseInitial_e;
         /* RELATE provision TO ep ACROSS R4501 USING pro_ep */
@@ -2696,10 +2707,10 @@ masl2xtuml_ooapopulation_op_InterfaceReference_createSignalsAndOperations( masl2
         ep = ( 0 != operation ) ? operation->C_EP_R4004 : 0;
         /* CREATE OBJECT INSTANCE pro_ep OF SPR_PEP */
         pro_ep = (masl2xtuml_SPR_PEP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SPR_PEP_CLASS_NUMBER );
-        pro_ep->Id = (Escher_UniqueID_t) pro_ep;
+        pro_ep->Id = Escher_ID_factory();
         /* CREATE OBJECT INSTANCE pro_operation OF SPR_PO */
         pro_operation = (masl2xtuml_SPR_PO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SPR_PO_CLASS_NUMBER );
-        pro_operation->Id = (Escher_UniqueID_t) pro_operation;
+        pro_operation->Id = Escher_ID_factory();
         /* ASSIGN pro_operation.Suc_Pars = parseInitial */
         pro_operation->Suc_Pars = masl2xtuml_ParseStatus_parseInitial_e;
         /* RELATE provision TO ep ACROSS R4501 USING pro_ep */
@@ -2776,7 +2787,7 @@ masl2xtuml_ooapopulation_op_Interface_newExecutableProperty( masl2xtuml_ooapopul
   c_i = p_c_i;
   /* CREATE OBJECT INSTANCE signal OF C_EP */
   signal = (masl2xtuml_C_EP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_EP_CLASS_NUMBER );
-  signal->Id = (Escher_UniqueID_t) signal;
+  signal->Id = Escher_ID_factory();
   /* ASSIGN signal.Name = PARAM.ep_name */
   signal->Name = Escher_strcpy( signal->Name, p_ep_name );
   /* RELATE c_i TO signal ACROSS R4003 */
@@ -2793,7 +2804,7 @@ masl2xtuml_ooapopulation_op_Interface_newExecutableProperty( masl2xtuml_ooapopul
     masl2xtuml_C_IO * ssignal;
     /* CREATE OBJECT INSTANCE ssignal OF C_IO */
     ssignal = (masl2xtuml_C_IO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_IO_CLASS_NUMBER );
-    ssignal->Id = (Escher_UniqueID_t) ssignal;
+    ssignal->Id = Escher_ID_factory();
     /* RELATE signal TO ssignal ACROSS R4004 */
     masl2xtuml_C_IO_R4004_Link( signal, ssignal );
     /* self.InterfaceOperation_initialize( c_io:ssignal, name:PARAM.ep_name ) */
@@ -2878,8 +2889,8 @@ masl2xtuml_ooapopulation_op_Attribute_addToIdentifier( masl2xtuml_ooapopulation 
 }}}
   /* CREATE OBJECT INSTANCE oida OF O_OIDA */
   oida = (masl2xtuml_O_OIDA *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_OIDA_CLASS_NUMBER );
-  oida->Attr_ID = (Escher_UniqueID_t) oida;
-oida->Obj_ID = (Escher_UniqueID_t) oida;
+  oida->Attr_ID = Escher_ID_factory();
+oida->Obj_ID = Escher_ID_factory();
   /* RELATE o_attr TO oid ACROSS R105 USING oida */
   masl2xtuml_O_OIDA_R105_Link( oid, o_attr, oida );
   /* SELECT many rto_set RELATED BY oid->R_RTO[R109] */
@@ -2965,17 +2976,17 @@ masl2xtuml_ooapopulation_op_ModelClass_create_sm( masl2xtuml_ooapopulation * sel
       masl2xtuml_O_ATTR * newAttr;masl2xtuml_SM_MOORE * moore;masl2xtuml_SM_SM * sm;
       /* CREATE OBJECT INSTANCE ism OF SM_ISM */
       ism = (masl2xtuml_SM_ISM *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_ISM_CLASS_NUMBER );
-      ism->SM_ID = (Escher_UniqueID_t) ism;
+      ism->SM_ID = Escher_ID_factory();
       /* RELATE o_obj TO ism ACROSS R518 */
       masl2xtuml_SM_ISM_R518_Link( o_obj, ism );
       /* CREATE OBJECT INSTANCE sm OF SM_SM */
       sm = (masl2xtuml_SM_SM *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SM_CLASS_NUMBER );
-      sm->SM_ID = (Escher_UniqueID_t) sm;
+      sm->SM_ID = Escher_ID_factory();
       /* RELATE ism TO sm ACROSS R517 */
       masl2xtuml_SM_ISM_R517_Link( sm, ism );
       /* CREATE OBJECT INSTANCE moore OF SM_MOORE */
       moore = (masl2xtuml_SM_MOORE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_MOORE_CLASS_NUMBER );
-      moore->SM_ID = (Escher_UniqueID_t) moore;
+      moore->SM_ID = Escher_ID_factory();
       /* RELATE sm TO moore ACROSS R510 */
       masl2xtuml_SM_MOORE_R510_Link( sm, moore );
       /* ASSIGN newAttr = self.ModelClass_newAttribute(attr_name:current_state, o_obj:o_obj) */
@@ -3002,17 +3013,17 @@ masl2xtuml_ooapopulation_op_ModelClass_create_sm( masl2xtuml_ooapopulation * sel
       masl2xtuml_SM_MOORE * moore;masl2xtuml_SM_SM * sm;
       /* CREATE OBJECT INSTANCE sm_asm OF SM_ASM */
       sm_asm = (masl2xtuml_SM_ASM *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_ASM_CLASS_NUMBER );
-      sm_asm->SM_ID = (Escher_UniqueID_t) sm_asm;
+      sm_asm->SM_ID = Escher_ID_factory();
       /* RELATE o_obj TO sm_asm ACROSS R519 */
       masl2xtuml_SM_ASM_R519_Link( o_obj, sm_asm );
       /* CREATE OBJECT INSTANCE sm OF SM_SM */
       sm = (masl2xtuml_SM_SM *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SM_CLASS_NUMBER );
-      sm->SM_ID = (Escher_UniqueID_t) sm;
+      sm->SM_ID = Escher_ID_factory();
       /* RELATE sm_asm TO sm ACROSS R517 */
       masl2xtuml_SM_ASM_R517_Link( sm, sm_asm );
       /* CREATE OBJECT INSTANCE moore OF SM_MOORE */
       moore = (masl2xtuml_SM_MOORE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_MOORE_CLASS_NUMBER );
-      moore->SM_ID = (Escher_UniqueID_t) moore;
+      moore->SM_ID = Escher_ID_factory();
       /* RELATE sm TO moore ACROSS R510 */
       masl2xtuml_SM_MOORE_R510_Link( sm, moore );
       /* RETURN sm */
@@ -3038,8 +3049,8 @@ masl2xtuml_ooapopulation_op_StateMachine_newState( masl2xtuml_ooapopulation * se
   sm_sm = p_sm_sm;
   /* CREATE OBJECT INSTANCE st OF SM_STATE */
   st = (masl2xtuml_SM_STATE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_STATE_CLASS_NUMBER );
-  st->SMstt_ID = (Escher_UniqueID_t) st;
-st->SM_ID = (Escher_UniqueID_t) st;
+  st->SMstt_ID = Escher_ID_factory();
+st->SM_ID = Escher_ID_factory();
   /* RELATE sm_sm TO st ACROSS R501 */
   masl2xtuml_SM_STATE_R501_Link_is_decomposed_into( sm_sm, st );
   /* self.StateMachineState_initialize( name:PARAM.name, sm_state:st, type:PARAM.type ) */
@@ -3122,19 +3133,19 @@ masl2xtuml_ooapopulation_op_StateMachineState_initialize( masl2xtuml_ooapopulati
   sm = ( 0 != sm_state ) ? sm_state->SM_SM_R501 : 0;
   /* CREATE OBJECT INSTANCE act OF SM_ACT */
   act = (masl2xtuml_SM_ACT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_ACT_CLASS_NUMBER );
-  act->Act_ID = (Escher_UniqueID_t) act;
-act->SM_ID = (Escher_UniqueID_t) act;
+  act->Act_ID = Escher_ID_factory();
+act->SM_ID = Escher_ID_factory();
   /* RELATE act TO sm ACROSS R515 */
   masl2xtuml_SM_ACT_R515_Link_contains( sm, act );
   /* CREATE OBJECT INSTANCE ah OF SM_AH */
   ah = (masl2xtuml_SM_AH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_AH_CLASS_NUMBER );
-  ah->Act_ID = (Escher_UniqueID_t) ah;
-ah->SM_ID = (Escher_UniqueID_t) ah;
+  ah->Act_ID = Escher_ID_factory();
+ah->SM_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE moah OF SM_MOAH */
   moah = (masl2xtuml_SM_MOAH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_MOAH_CLASS_NUMBER );
-  moah->Act_ID = (Escher_UniqueID_t) moah;
-moah->SM_ID = (Escher_UniqueID_t) moah;
-moah->SMstt_ID = (Escher_UniqueID_t) moah;
+  moah->Act_ID = Escher_ID_factory();
+moah->SM_ID = Escher_ID_factory();
+moah->SMstt_ID = Escher_ID_factory();
   /* RELATE act TO ah ACROSS R514 */
   masl2xtuml_SM_AH_R514_Link_resides_in( act, ah );
   /* RELATE ah TO moah ACROSS R513 */
@@ -3178,14 +3189,14 @@ moah->SMstt_ID = (Escher_UniqueID_t) moah;
       masl2xtuml_SM_CH * ch;
       /* CREATE OBJECT INSTANCE sem OF SM_SEME */
       sem = (masl2xtuml_SM_SEME *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SEME_CLASS_NUMBER );
-      sem->SMstt_ID = (Escher_UniqueID_t) sem;
-sem->SMevt_ID = (Escher_UniqueID_t) sem;
-sem->SM_ID = (Escher_UniqueID_t) sem;
+      sem->SMstt_ID = Escher_ID_factory();
+sem->SMevt_ID = Escher_ID_factory();
+sem->SM_ID = Escher_ID_factory();
       /* CREATE OBJECT INSTANCE ch OF SM_CH */
       ch = (masl2xtuml_SM_CH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CH_CLASS_NUMBER );
-      ch->SMstt_ID = (Escher_UniqueID_t) ch;
-ch->SMevt_ID = (Escher_UniqueID_t) ch;
-ch->SM_ID = (Escher_UniqueID_t) ch;
+      ch->SMstt_ID = Escher_ID_factory();
+ch->SMevt_ID = Escher_ID_factory();
+ch->SM_ID = Escher_ID_factory();
       /* RELATE sm_state TO event ACROSS R503 USING sem */
       masl2xtuml_SM_SEME_R503_Link( sm_state, event, sem );
       /* RELATE ch TO sem ACROSS R504 */
@@ -3208,8 +3219,8 @@ masl2xtuml_ooapopulation_op_StateMachine_newEvent( masl2xtuml_ooapopulation * se
   sm_sm = p_sm_sm;
   /* CREATE OBJECT INSTANCE newEvent OF SM_EVT */
   newEvent = (masl2xtuml_SM_EVT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_EVT_CLASS_NUMBER );
-  newEvent->SMevt_ID = (Escher_UniqueID_t) newEvent;
-newEvent->SM_ID = (Escher_UniqueID_t) newEvent;
+  newEvent->SMevt_ID = Escher_ID_factory();
+newEvent->SM_ID = Escher_ID_factory();
   /* RELATE sm_sm TO newEvent ACROSS R502 */
   masl2xtuml_SM_EVT_R502_Link_can_be_communicated_to_via( sm_sm, newEvent );
   /* self.StateMachineEvent_initialize( name:PARAM.name, sm_evt:newEvent ) */
@@ -3235,14 +3246,14 @@ masl2xtuml_ooapopulation_op_StateMachineEvent_initialize( masl2xtuml_ooapopulati
   sm = ( 0 != sm_evt ) ? sm_evt->SM_SM_R502 : 0;
   /* CREATE OBJECT INSTANCE semEvt OF SM_SEVT */
   semEvt = (masl2xtuml_SM_SEVT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SEVT_CLASS_NUMBER );
-  semEvt->SMevt_ID = (Escher_UniqueID_t) semEvt;
-semEvt->SM_ID = (Escher_UniqueID_t) semEvt;
+  semEvt->SMevt_ID = Escher_ID_factory();
+semEvt->SM_ID = Escher_ID_factory();
   /* RELATE sm_evt TO semEvt ACROSS R525 */
   masl2xtuml_SM_SEVT_R525_Link( sm_evt, semEvt );
   /* CREATE OBJECT INSTANCE locEvt OF SM_LEVT */
   locEvt = (masl2xtuml_SM_LEVT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_LEVT_CLASS_NUMBER );
-  locEvt->SMevt_ID = (Escher_UniqueID_t) locEvt;
-locEvt->SM_ID = (Escher_UniqueID_t) locEvt;
+  locEvt->SMevt_ID = Escher_ID_factory();
+locEvt->SM_ID = Escher_ID_factory();
   /* RELATE semEvt TO locEvt ACROSS R526 */
   masl2xtuml_SM_LEVT_R526_Link( semEvt, locEvt );
   /* self.SEMEvent_createDefaultMatrixEntries( sm_sevt:semEvt ) */
@@ -3347,16 +3358,16 @@ masl2xtuml_ooapopulation_op_SEMEvent_createDefaultMatrixEntries( masl2xtuml_ooap
       masl2xtuml_SM_CH * cantHappen;
       /* CREATE OBJECT INSTANCE entry OF SM_SEME */
       entry = (masl2xtuml_SM_SEME *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_SEME_CLASS_NUMBER );
-      entry->SMstt_ID = (Escher_UniqueID_t) entry;
-entry->SMevt_ID = (Escher_UniqueID_t) entry;
-entry->SM_ID = (Escher_UniqueID_t) entry;
+      entry->SMstt_ID = Escher_ID_factory();
+entry->SMevt_ID = Escher_ID_factory();
+entry->SM_ID = Escher_ID_factory();
       /* RELATE state TO sm_sevt ACROSS R503 USING entry */
       masl2xtuml_SM_SEME_R503_Link( state, sm_sevt, entry );
       /* CREATE OBJECT INSTANCE cantHappen OF SM_CH */
       cantHappen = (masl2xtuml_SM_CH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CH_CLASS_NUMBER );
-      cantHappen->SMstt_ID = (Escher_UniqueID_t) cantHappen;
-cantHappen->SMevt_ID = (Escher_UniqueID_t) cantHappen;
-cantHappen->SM_ID = (Escher_UniqueID_t) cantHappen;
+      cantHappen->SMstt_ID = Escher_ID_factory();
+cantHappen->SMevt_ID = Escher_ID_factory();
+cantHappen->SM_ID = Escher_ID_factory();
       /* RELATE cantHappen TO entry ACROSS R504 */
       masl2xtuml_SM_CH_R504_Link( entry, cantHappen );
     }
@@ -3493,12 +3504,12 @@ masl2xtuml_ooapopulation_op_StateMachine_newTransition( masl2xtuml_ooapopulation
       masl2xtuml_SM_NETXN * net;masl2xtuml_SM_TXN * tr;
       /* CREATE OBJECT INSTANCE tr OF SM_TXN */
       tr = (masl2xtuml_SM_TXN *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_TXN_CLASS_NUMBER );
-      tr->Trans_ID = (Escher_UniqueID_t) tr;
-tr->SM_ID = (Escher_UniqueID_t) tr;
+      tr->Trans_ID = Escher_ID_factory();
+tr->SM_ID = Escher_ID_factory();
       /* CREATE OBJECT INSTANCE net OF SM_NETXN */
       net = (masl2xtuml_SM_NETXN *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_NETXN_CLASS_NUMBER );
-      net->Trans_ID = (Escher_UniqueID_t) net;
-net->SM_ID = (Escher_UniqueID_t) net;
+      net->Trans_ID = Escher_ID_factory();
+net->SM_ID = Escher_ID_factory();
       /* RELATE tr TO net ACROSS R507 */
       masl2xtuml_SM_NETXN_R507_Link( tr, net );
       /* RELATE net TO fromState ACROSS R508 */
@@ -3526,20 +3537,20 @@ masl2xtuml_ooapopulation_op_Transition_initialize( masl2xtuml_ooapopulation * se
   sm_txn = p_sm_txn;
   /* CREATE OBJECT INSTANCE ah OF SM_AH */
   ah = (masl2xtuml_SM_AH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_AH_CLASS_NUMBER );
-  ah->Act_ID = (Escher_UniqueID_t) ah;
-ah->SM_ID = (Escher_UniqueID_t) ah;
+  ah->Act_ID = Escher_ID_factory();
+ah->SM_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE tah OF SM_TAH */
   tah = (masl2xtuml_SM_TAH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_TAH_CLASS_NUMBER );
-  tah->Act_ID = (Escher_UniqueID_t) tah;
-tah->SM_ID = (Escher_UniqueID_t) tah;
+  tah->Act_ID = Escher_ID_factory();
+tah->SM_ID = Escher_ID_factory();
   /* RELATE ah TO tah ACROSS R513 */
   masl2xtuml_SM_TAH_R513_Link( ah, tah );
   /* SELECT one sm RELATED BY sm_txn->SM_SM[R505] */
   sm = ( 0 != sm_txn ) ? sm_txn->SM_SM_R505 : 0;
   /* CREATE OBJECT INSTANCE act OF SM_ACT */
   act = (masl2xtuml_SM_ACT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_ACT_CLASS_NUMBER );
-  act->Act_ID = (Escher_UniqueID_t) act;
-act->SM_ID = (Escher_UniqueID_t) act;
+  act->Act_ID = Escher_ID_factory();
+act->SM_ID = Escher_ID_factory();
   /* ASSIGN act.Suc_Pars = parseInitial */
   act->Suc_Pars = masl2xtuml_ParseStatus_parseInitial_e;
   /* RELATE act TO ah ACROSS R514 */
@@ -3582,12 +3593,12 @@ masl2xtuml_ooapopulation_op_StateMachine_newCreationTransition( masl2xtuml_ooapo
       masl2xtuml_SM_CRTXN * ct;masl2xtuml_SM_TXN * tr;masl2xtuml_SM_EVT * sm_evt=0;
       /* CREATE OBJECT INSTANCE tr OF SM_TXN */
       tr = (masl2xtuml_SM_TXN *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_TXN_CLASS_NUMBER );
-      tr->Trans_ID = (Escher_UniqueID_t) tr;
-tr->SM_ID = (Escher_UniqueID_t) tr;
+      tr->Trans_ID = Escher_ID_factory();
+tr->SM_ID = Escher_ID_factory();
       /* CREATE OBJECT INSTANCE ct OF SM_CRTXN */
       ct = (masl2xtuml_SM_CRTXN *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CRTXN_CLASS_NUMBER );
-      ct->Trans_ID = (Escher_UniqueID_t) ct;
-ct->SM_ID = (Escher_UniqueID_t) ct;
+      ct->Trans_ID = Escher_ID_factory();
+ct->SM_ID = Escher_ID_factory();
       /* RELATE tr TO ct ACROSS R507 */
       masl2xtuml_SM_CRTXN_R507_Link( tr, ct );
       /* RELATE tr TO state ACROSS R506 */
@@ -3648,10 +3659,10 @@ masl2xtuml_ooapopulation_op_Transition_addEvent( masl2xtuml_ooapopulation * self
     Escher_DeleteInstance( (Escher_iHandle_t) no_evt_txn, masl2xtuml_DOMAIN_ID, masl2xtuml_SM_NETXN_CLASS_NUMBER );
     /* CREATE OBJECT INSTANCE ns_txn OF SM_NSTXN */
     ns_txn = (masl2xtuml_SM_NSTXN *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_NSTXN_CLASS_NUMBER );
-    ns_txn->Trans_ID = (Escher_UniqueID_t) ns_txn;
-ns_txn->SM_ID = (Escher_UniqueID_t) ns_txn;
-ns_txn->SMstt_ID = (Escher_UniqueID_t) ns_txn;
-ns_txn->SMevt_ID = (Escher_UniqueID_t) ns_txn;
+    ns_txn->Trans_ID = Escher_ID_factory();
+ns_txn->SM_ID = Escher_ID_factory();
+ns_txn->SMstt_ID = Escher_ID_factory();
+ns_txn->SMevt_ID = Escher_ID_factory();
     /* RELATE sm_txn TO ns_txn ACROSS R507 */
     masl2xtuml_SM_NSTXN_R507_Link( sm_txn, ns_txn );
     /* SELECT any seme RELATED BY orig_state->SM_SEME[R503] WHERE ( ( SELECTED.SMevt_ID == sm_evt.SMevt_ID ) ) */
@@ -3684,9 +3695,9 @@ ns_txn->SMevt_ID = (Escher_UniqueID_t) ns_txn;
       orig_state = ( 0 != seme ) ? seme->SM_STATE_R503_is_received_by : 0;
       /* CREATE OBJECT INSTANCE ch OF SM_CH */
       ch = (masl2xtuml_SM_CH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CH_CLASS_NUMBER );
-      ch->SMstt_ID = (Escher_UniqueID_t) ch;
-ch->SMevt_ID = (Escher_UniqueID_t) ch;
-ch->SM_ID = (Escher_UniqueID_t) ch;
+      ch->SMstt_ID = Escher_ID_factory();
+ch->SMevt_ID = Escher_ID_factory();
+ch->SM_ID = Escher_ID_factory();
       /* UNRELATE ns_txn FROM seme ACROSS R504 */
       masl2xtuml_SM_NSTXN_R504_Unlink( seme, ns_txn );
       /* RELATE seme TO ch ACROSS R504 */
@@ -3756,7 +3767,7 @@ masl2xtuml_ooapopulation_op_Operation_newParameter( masl2xtuml_ooapopulation * s
   if ( ( 0 == parm ) ) {
     /* CREATE OBJECT INSTANCE parm OF O_TPARM */
     parm = (masl2xtuml_O_TPARM *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_TPARM_CLASS_NUMBER );
-    parm->TParm_ID = (Escher_UniqueID_t) parm;
+    parm->TParm_ID = Escher_ID_factory();
     /* RELATE o_tfr TO parm ACROSS R117 */
     masl2xtuml_O_TPARM_R117_Link_contains( o_tfr, parm );
     /* self.OperationParameter_initialize( name:PARAM.parameter_name, o_tparm:parm ) */
@@ -3835,10 +3846,10 @@ masl2xtuml_ooapopulation_op_Operation_createParameterInInteractions( masl2xtuml_
     masl2xtuml_MSG_OA * oa;masl2xtuml_MSG_A * arg;
     /* CREATE OBJECT INSTANCE arg OF MSG_A */
     arg = (masl2xtuml_MSG_A *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_MSG_A_CLASS_NUMBER );
-    arg->Arg_ID = (Escher_UniqueID_t) arg;
+    arg->Arg_ID = Escher_ID_factory();
     /* CREATE OBJECT INSTANCE oa OF MSG_OA */
     oa = (masl2xtuml_MSG_OA *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_MSG_OA_CLASS_NUMBER );
-    oa->Arg_ID = (Escher_UniqueID_t) oa;
+    oa->Arg_ID = Escher_ID_factory();
     /* RELATE oa TO o_tparm ACROSS R1015 */
     masl2xtuml_MSG_OA_R1015_Link_represents( o_tparm, oa );
     /* RELATE oa TO arg ACROSS R1013 */
@@ -3914,7 +3925,7 @@ masl2xtuml_ooapopulation_op_Function_newParameter( masl2xtuml_ooapopulation * se
   if ( ( 0 == parm ) ) {
     /* CREATE OBJECT INSTANCE parm OF S_SPARM */
     parm = (masl2xtuml_S_SPARM *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_SPARM_CLASS_NUMBER );
-    parm->SParm_ID = (Escher_UniqueID_t) parm;
+    parm->SParm_ID = Escher_ID_factory();
     /* RELATE s_sync TO parm ACROSS R24 */
     masl2xtuml_S_SPARM_R24_Link_defines( s_sync, parm );
     /* self.FunctionParameter_initialize( name:PARAM.parameter_name, s_sparm:parm ) */
@@ -4037,10 +4048,10 @@ masl2xtuml_ooapopulation_op_Function_createMessageArgumentsForParameter( masl2xt
       masl2xtuml_MSG_FA * fa;masl2xtuml_MSG_A * arg;
       /* CREATE OBJECT INSTANCE arg OF MSG_A */
       arg = (masl2xtuml_MSG_A *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_MSG_A_CLASS_NUMBER );
-      arg->Arg_ID = (Escher_UniqueID_t) arg;
+      arg->Arg_ID = Escher_ID_factory();
       /* CREATE OBJECT INSTANCE fa OF MSG_FA */
       fa = (masl2xtuml_MSG_FA *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_MSG_FA_CLASS_NUMBER );
-      fa->Arg_ID = (Escher_UniqueID_t) fa;
+      fa->Arg_ID = Escher_ID_factory();
       /* RELATE fa TO parameter ACROSS R1016 */
       masl2xtuml_MSG_FA_R1016_Link_represents( parameter, fa );
       /* RELATE fa TO arg ACROSS R1013 */
@@ -4226,10 +4237,10 @@ masl2xtuml_ooapopulation_op_Package_newAssociation( masl2xtuml_ooapopulation * s
     masl2xtuml_R_PART * toPART;masl2xtuml_R_RTO * toRTO;masl2xtuml_R_OIR * toOIR;masl2xtuml_R_PART * fromPART;masl2xtuml_R_RTO * fromRTO;masl2xtuml_R_OIR * fromOIR;masl2xtuml_R_SIMP * simp;masl2xtuml_PE_PE * pe;
     /* CREATE OBJECT INSTANCE assoc OF R_REL */
     assoc = (masl2xtuml_R_REL *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_REL_CLASS_NUMBER );
-    assoc->Rel_ID = (Escher_UniqueID_t) assoc;
+    assoc->Rel_ID = Escher_ID_factory();
     /* CREATE OBJECT INSTANCE pe OF PE_PE */
     pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-    pe->Element_ID = (Escher_UniqueID_t) pe;
+    pe->Element_ID = Escher_ID_factory();
     /* RELATE assoc TO pe ACROSS R8001 */
     masl2xtuml_R_REL_R8001_Link( pe, assoc );
     /* RELATE pe TO ep_pkg ACROSS R8000 */
@@ -4242,28 +4253,28 @@ masl2xtuml_ooapopulation_op_Package_newAssociation( masl2xtuml_ooapopulation * s
     masl2xtuml_ooapopulation_op_Association_initialize( self,  assoc );
     /* CREATE OBJECT INSTANCE simp OF R_SIMP */
     simp = (masl2xtuml_R_SIMP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_SIMP_CLASS_NUMBER );
-    simp->Rel_ID = (Escher_UniqueID_t) simp;
+    simp->Rel_ID = Escher_ID_factory();
     /* RELATE simp TO assoc ACROSS R206 */
     masl2xtuml_R_SIMP_R206_Link( assoc, simp );
     /* CREATE OBJECT INSTANCE fromOIR OF R_OIR */
     fromOIR = (masl2xtuml_R_OIR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_OIR_CLASS_NUMBER );
-    fromOIR->Obj_ID = (Escher_UniqueID_t) fromOIR;
-fromOIR->Rel_ID = (Escher_UniqueID_t) fromOIR;
-fromOIR->OIR_ID = (Escher_UniqueID_t) fromOIR;
+    fromOIR->Obj_ID = Escher_ID_factory();
+fromOIR->Rel_ID = Escher_ID_factory();
+fromOIR->OIR_ID = Escher_ID_factory();
     /* RELATE fromClass TO assoc ACROSS R201 USING fromOIR */
     masl2xtuml_R_OIR_R201_Link( assoc, fromClass, fromOIR );
     /* CREATE OBJECT INSTANCE fromRTO OF R_RTO */
     fromRTO = (masl2xtuml_R_RTO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_RTO_CLASS_NUMBER );
-    fromRTO->Obj_ID = (Escher_UniqueID_t) fromRTO;
-fromRTO->Rel_ID = (Escher_UniqueID_t) fromRTO;
-fromRTO->OIR_ID = (Escher_UniqueID_t) fromRTO;
+    fromRTO->Obj_ID = Escher_ID_factory();
+fromRTO->Rel_ID = Escher_ID_factory();
+fromRTO->OIR_ID = Escher_ID_factory();
     /* RELATE fromOIR TO fromRTO ACROSS R203 */
     masl2xtuml_R_RTO_R203_Link( fromOIR, fromRTO );
     /* CREATE OBJECT INSTANCE fromPART OF R_PART */
     fromPART = (masl2xtuml_R_PART *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_PART_CLASS_NUMBER );
-    fromPART->Obj_ID = (Escher_UniqueID_t) fromPART;
-fromPART->Rel_ID = (Escher_UniqueID_t) fromPART;
-fromPART->OIR_ID = (Escher_UniqueID_t) fromPART;
+    fromPART->Obj_ID = Escher_ID_factory();
+fromPART->Rel_ID = Escher_ID_factory();
+fromPART->OIR_ID = Escher_ID_factory();
     /* RELATE fromPART TO fromRTO ACROSS R204 */
     masl2xtuml_R_PART_R204_Link( fromRTO, fromPART );
     /* RELATE fromPART TO simp ACROSS R207 */
@@ -4276,23 +4287,23 @@ fromPART->OIR_ID = (Escher_UniqueID_t) fromPART;
     fromPART->Txt_Phrs = Escher_strcpy( fromPART->Txt_Phrs, toOOAPart->phrase );
     /* CREATE OBJECT INSTANCE toOIR OF R_OIR */
     toOIR = (masl2xtuml_R_OIR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_OIR_CLASS_NUMBER );
-    toOIR->Obj_ID = (Escher_UniqueID_t) toOIR;
-toOIR->Rel_ID = (Escher_UniqueID_t) toOIR;
-toOIR->OIR_ID = (Escher_UniqueID_t) toOIR;
+    toOIR->Obj_ID = Escher_ID_factory();
+toOIR->Rel_ID = Escher_ID_factory();
+toOIR->OIR_ID = Escher_ID_factory();
     /* RELATE toClass TO assoc ACROSS R201 USING toOIR */
     masl2xtuml_R_OIR_R201_Link( assoc, toClass, toOIR );
     /* CREATE OBJECT INSTANCE toRTO OF R_RTO */
     toRTO = (masl2xtuml_R_RTO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_RTO_CLASS_NUMBER );
-    toRTO->Obj_ID = (Escher_UniqueID_t) toRTO;
-toRTO->Rel_ID = (Escher_UniqueID_t) toRTO;
-toRTO->OIR_ID = (Escher_UniqueID_t) toRTO;
+    toRTO->Obj_ID = Escher_ID_factory();
+toRTO->Rel_ID = Escher_ID_factory();
+toRTO->OIR_ID = Escher_ID_factory();
     /* RELATE toOIR TO toRTO ACROSS R203 */
     masl2xtuml_R_RTO_R203_Link( toOIR, toRTO );
     /* CREATE OBJECT INSTANCE toPART OF R_PART */
     toPART = (masl2xtuml_R_PART *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_PART_CLASS_NUMBER );
-    toPART->Obj_ID = (Escher_UniqueID_t) toPART;
-toPART->Rel_ID = (Escher_UniqueID_t) toPART;
-toPART->OIR_ID = (Escher_UniqueID_t) toPART;
+    toPART->Obj_ID = Escher_ID_factory();
+toPART->Rel_ID = Escher_ID_factory();
+toPART->OIR_ID = Escher_ID_factory();
     /* RELATE toPART TO toRTO ACROSS R204 */
     masl2xtuml_R_PART_R204_Link( toRTO, toPART );
     /* RELATE toPART TO simp ACROSS R207 */
@@ -4473,9 +4484,9 @@ masl2xtuml_ooapopulation_op_SimpleAssociation_migrateToLinked( masl2xtuml_ooapop
   r_simp = p_r_simp;
   /* CREATE OBJECT INSTANCE assr OF R_ASSR */
   assr = (masl2xtuml_R_ASSR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_ASSR_CLASS_NUMBER );
-  assr->Obj_ID = (Escher_UniqueID_t) assr;
-assr->Rel_ID = (Escher_UniqueID_t) assr;
-assr->OIR_ID = (Escher_UniqueID_t) assr;
+  assr->Obj_ID = Escher_ID_factory();
+assr->Rel_ID = Escher_ID_factory();
+assr->OIR_ID = Escher_ID_factory();
   /* IF ( self.SimpleAssociation_isFormalized(r_simp:r_simp) ) */
   if ( masl2xtuml_ooapopulation_op_SimpleAssociation_isFormalized(self, r_simp) ) {
     /* self.SimpleAssociation_unformalize( r_simp:r_simp ) */
@@ -4487,7 +4498,7 @@ assr->OIR_ID = (Escher_UniqueID_t) assr;
   fromClass = p_using;
   /* CREATE OBJECT INSTANCE assoc OF R_ASSOC */
   assoc = (masl2xtuml_R_ASSOC *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_ASSOC_CLASS_NUMBER );
-  assoc->Rel_ID = (Escher_UniqueID_t) assoc;
+  assoc->Rel_ID = Escher_ID_factory();
   /* UNRELATE r_simp FROM toAssoc ACROSS R206 */
   masl2xtuml_R_SIMP_R206_Unlink( toAssoc, r_simp );
   /* RELATE assoc TO toAssoc ACROSS R206 */
@@ -4510,9 +4521,9 @@ assr->OIR_ID = (Escher_UniqueID_t) assr;
     masl2xtuml_R_PART_R207_Unlink_relates( r_simp, part );
     /* CREATE OBJECT INSTANCE aone OF R_AONE */
     aone = (masl2xtuml_R_AONE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_AONE_CLASS_NUMBER );
-    aone->Obj_ID = (Escher_UniqueID_t) aone;
-aone->Rel_ID = (Escher_UniqueID_t) aone;
-aone->OIR_ID = (Escher_UniqueID_t) aone;
+    aone->Obj_ID = Escher_ID_factory();
+aone->Rel_ID = Escher_ID_factory();
+aone->OIR_ID = Escher_ID_factory();
     /* ASSIGN aone.Mult = part.Mult */
     aone->Mult = part->Mult;
     /* ASSIGN aone.Cond = part.Cond */
@@ -4544,16 +4555,16 @@ aone->OIR_ID = (Escher_UniqueID_t) aone;
     masl2xtuml_ooapopulation_op_ReferringClassInAssoc_dispose( self,  rgo );
     /* CREATE OBJECT INSTANCE othRto OF R_RTO */
     othRto = (masl2xtuml_R_RTO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_RTO_CLASS_NUMBER );
-    othRto->Obj_ID = (Escher_UniqueID_t) othRto;
-othRto->Rel_ID = (Escher_UniqueID_t) othRto;
-othRto->OIR_ID = (Escher_UniqueID_t) othRto;
+    othRto->Obj_ID = Escher_ID_factory();
+othRto->Rel_ID = Escher_ID_factory();
+othRto->OIR_ID = Escher_ID_factory();
     /* RELATE oir TO othRto ACROSS R203 */
     masl2xtuml_R_RTO_R203_Link( oir, othRto );
     /* CREATE OBJECT INSTANCE aoth OF R_AOTH */
     aoth = (masl2xtuml_R_AOTH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_AOTH_CLASS_NUMBER );
-    aoth->Obj_ID = (Escher_UniqueID_t) aoth;
-aoth->Rel_ID = (Escher_UniqueID_t) aoth;
-aoth->OIR_ID = (Escher_UniqueID_t) aoth;
+    aoth->Obj_ID = Escher_ID_factory();
+aoth->Rel_ID = Escher_ID_factory();
+aoth->OIR_ID = Escher_ID_factory();
     /* ASSIGN aoth.Mult = form.Mult */
     aoth->Mult = form->Mult;
     /* ASSIGN aoth.Cond = form.Cond */
@@ -4593,9 +4604,9 @@ aoth->OIR_ID = (Escher_UniqueID_t) aoth;
         masl2xtuml_R_PART_R207_Unlink_relates( r_simp, part );
         /* CREATE OBJECT INSTANCE aone OF R_AONE */
         aone = (masl2xtuml_R_AONE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_AONE_CLASS_NUMBER );
-        aone->Obj_ID = (Escher_UniqueID_t) aone;
-aone->Rel_ID = (Escher_UniqueID_t) aone;
-aone->OIR_ID = (Escher_UniqueID_t) aone;
+        aone->Obj_ID = Escher_ID_factory();
+aone->Rel_ID = Escher_ID_factory();
+aone->OIR_ID = Escher_ID_factory();
         /* ASSIGN aone.Mult = part.Mult */
         aone->Mult = part->Mult;
         /* ASSIGN aone.Cond = part.Cond */
@@ -4624,9 +4635,9 @@ aone->OIR_ID = (Escher_UniqueID_t) aone;
         masl2xtuml_R_PART_R207_Unlink_relates( r_simp, part );
         /* CREATE OBJECT INSTANCE aoth OF R_AOTH */
         aoth = (masl2xtuml_R_AOTH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_AOTH_CLASS_NUMBER );
-        aoth->Obj_ID = (Escher_UniqueID_t) aoth;
-aoth->Rel_ID = (Escher_UniqueID_t) aoth;
-aoth->OIR_ID = (Escher_UniqueID_t) aoth;
+        aoth->Obj_ID = Escher_ID_factory();
+aoth->Rel_ID = Escher_ID_factory();
+aoth->OIR_ID = Escher_ID_factory();
         /* ASSIGN aoth.Mult = part.Mult */
         aoth->Mult = part->Mult;
         /* ASSIGN aoth.Cond = part.Cond */
@@ -4647,16 +4658,16 @@ aoth->OIR_ID = (Escher_UniqueID_t) aoth;
   }
   /* CREATE OBJECT INSTANCE oir OF R_OIR */
   oir = (masl2xtuml_R_OIR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_OIR_CLASS_NUMBER );
-  oir->Obj_ID = (Escher_UniqueID_t) oir;
-oir->Rel_ID = (Escher_UniqueID_t) oir;
-oir->OIR_ID = (Escher_UniqueID_t) oir;
+  oir->Obj_ID = Escher_ID_factory();
+oir->Rel_ID = Escher_ID_factory();
+oir->OIR_ID = Escher_ID_factory();
   /* RELATE fromClass TO toAssoc ACROSS R201 USING oir */
   masl2xtuml_R_OIR_R201_Link( toAssoc, fromClass, oir );
   /* CREATE OBJECT INSTANCE rgo OF R_RGO */
   rgo = (masl2xtuml_R_RGO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_RGO_CLASS_NUMBER );
-  rgo->Obj_ID = (Escher_UniqueID_t) rgo;
-rgo->Rel_ID = (Escher_UniqueID_t) rgo;
-rgo->OIR_ID = (Escher_UniqueID_t) rgo;
+  rgo->Obj_ID = Escher_ID_factory();
+rgo->Rel_ID = Escher_ID_factory();
+rgo->OIR_ID = Escher_ID_factory();
   /* RELATE rgo TO oir ACROSS R203 */
   masl2xtuml_R_RGO_R203_Link( oir, rgo );
   /* RELATE rgo TO assr ACROSS R205 */
@@ -4801,14 +4812,14 @@ masl2xtuml_ooapopulation_op_ClassAsSimpleFormalizer_migrateToParticipant( masl2x
   r_form = p_r_form;
   /* CREATE OBJECT INSTANCE rto OF R_RTO */
   rto = (masl2xtuml_R_RTO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_RTO_CLASS_NUMBER );
-  rto->Obj_ID = (Escher_UniqueID_t) rto;
-rto->Rel_ID = (Escher_UniqueID_t) rto;
-rto->OIR_ID = (Escher_UniqueID_t) rto;
+  rto->Obj_ID = Escher_ID_factory();
+rto->Rel_ID = Escher_ID_factory();
+rto->OIR_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE part OF R_PART */
   part = (masl2xtuml_R_PART *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_PART_CLASS_NUMBER );
-  part->Obj_ID = (Escher_UniqueID_t) part;
-part->Rel_ID = (Escher_UniqueID_t) part;
-part->OIR_ID = (Escher_UniqueID_t) part;
+  part->Obj_ID = Escher_ID_factory();
+part->Rel_ID = Escher_ID_factory();
+part->OIR_ID = Escher_ID_factory();
   /* ASSIGN part.Mult = r_form.Mult */
   part->Mult = r_form->Mult;
   /* ASSIGN part.Cond = r_form.Cond */
@@ -5272,14 +5283,14 @@ masl2xtuml_ooapopulation_op_ReferentialAttribute_migrateToBase( masl2xtuml_ooapo
   }
   /* CREATE OBJECT INSTANCE battr OF O_BATTR */
   battr = (masl2xtuml_O_BATTR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_BATTR_CLASS_NUMBER );
-  battr->Attr_ID = (Escher_UniqueID_t) battr;
-battr->Obj_ID = (Escher_UniqueID_t) battr;
+  battr->Attr_ID = Escher_ID_factory();
+battr->Obj_ID = Escher_ID_factory();
   /* RELATE attr TO battr ACROSS R106 */
   masl2xtuml_O_BATTR_R106_Link( attr, battr );
   /* CREATE OBJECT INSTANCE nbattr OF O_NBATTR */
   nbattr = (masl2xtuml_O_NBATTR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_NBATTR_CLASS_NUMBER );
-  nbattr->Attr_ID = (Escher_UniqueID_t) nbattr;
-nbattr->Obj_ID = (Escher_UniqueID_t) nbattr;
+  nbattr->Attr_ID = Escher_ID_factory();
+nbattr->Obj_ID = Escher_ID_factory();
   /* RELATE nbattr TO battr ACROSS R107 */
   masl2xtuml_O_NBATTR_R107_Link( battr, nbattr );
   /* SELECT many rtoRefs RELATED BY attr->O_OIDA[R105]->O_RTIDA[R110]->O_REF[R111]->O_RATTR[R108] */
@@ -5541,7 +5552,7 @@ masl2xtuml_ooapopulation_op_ModelClass_newInstanceReferenceDataType( masl2xtuml_
     masl2xtuml_S_IRDT * irdt;masl2xtuml_S_DT * dt;masl2xtuml_PE_PE * pe;
     /* CREATE OBJECT INSTANCE pe OF PE_PE */
     pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-    pe->Element_ID = (Escher_UniqueID_t) pe;
+    pe->Element_ID = Escher_ID_factory();
     /* RELATE pe TO package ACROSS R8000 */
     masl2xtuml_PE_PE_R8000_Link_contains( package, pe );
     /* self.PackageableElement_initialize( pe_pe:pe ) */
@@ -5550,12 +5561,12 @@ masl2xtuml_ooapopulation_op_ModelClass_newInstanceReferenceDataType( masl2xtuml_
     pe->type = masl2xtuml_ElementTypeConstants_DATATYPE_e;
     /* CREATE OBJECT INSTANCE dt OF S_DT */
     dt = (masl2xtuml_S_DT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_DT_CLASS_NUMBER );
-    dt->DT_ID = (Escher_UniqueID_t) dt;
+    dt->DT_ID = Escher_ID_factory();
     /* RELATE pe TO dt ACROSS R8001 */
     masl2xtuml_S_DT_R8001_Link( pe, dt );
     /* CREATE OBJECT INSTANCE irdt OF S_IRDT */
     irdt = (masl2xtuml_S_IRDT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_IRDT_CLASS_NUMBER );
-    irdt->DT_ID = (Escher_UniqueID_t) irdt;
+    irdt->DT_ID = Escher_ID_factory();
     /* ASSIGN irdt.isSet = FALSE */
     irdt->isSet = FALSE;
     /* RELATE dt TO irdt ACROSS R17 */
@@ -5581,7 +5592,7 @@ masl2xtuml_ooapopulation_op_ModelClass_newInstanceReferenceDataType( masl2xtuml_
     masl2xtuml_S_IRDT * irsdt;masl2xtuml_S_DT * dt2;masl2xtuml_PE_PE * pe;
     /* CREATE OBJECT INSTANCE pe OF PE_PE */
     pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-    pe->Element_ID = (Escher_UniqueID_t) pe;
+    pe->Element_ID = Escher_ID_factory();
     /* RELATE pe TO package ACROSS R8000 */
     masl2xtuml_PE_PE_R8000_Link_contains( package, pe );
     /* self.PackageableElement_initialize( pe_pe:pe ) */
@@ -5590,12 +5601,12 @@ masl2xtuml_ooapopulation_op_ModelClass_newInstanceReferenceDataType( masl2xtuml_
     pe->type = masl2xtuml_ElementTypeConstants_DATATYPE_e;
     /* CREATE OBJECT INSTANCE dt2 OF S_DT */
     dt2 = (masl2xtuml_S_DT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_DT_CLASS_NUMBER );
-    dt2->DT_ID = (Escher_UniqueID_t) dt2;
+    dt2->DT_ID = Escher_ID_factory();
     /* RELATE pe TO dt2 ACROSS R8001 */
     masl2xtuml_S_DT_R8001_Link( pe, dt2 );
     /* CREATE OBJECT INSTANCE irsdt OF S_IRDT */
     irsdt = (masl2xtuml_S_IRDT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_IRDT_CLASS_NUMBER );
-    irsdt->DT_ID = (Escher_UniqueID_t) irsdt;
+    irsdt->DT_ID = Escher_ID_factory();
     /* ASSIGN irsdt.isSet = TRUE */
     irsdt->isSet = TRUE;
     /* RELATE irsdt TO dt2 ACROSS R17 */
@@ -5661,9 +5672,9 @@ masl2xtuml_ooapopulation_op_StateEventMatrixEntry_migrateChToEi( masl2xtuml_ooap
     masl2xtuml_SM_EIGN * ei;
     /* CREATE OBJECT INSTANCE ei OF SM_EIGN */
     ei = (masl2xtuml_SM_EIGN *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_EIGN_CLASS_NUMBER );
-    ei->SMstt_ID = (Escher_UniqueID_t) ei;
-ei->SMevt_ID = (Escher_UniqueID_t) ei;
-ei->SM_ID = (Escher_UniqueID_t) ei;
+    ei->SMstt_ID = Escher_ID_factory();
+ei->SMevt_ID = Escher_ID_factory();
+ei->SM_ID = Escher_ID_factory();
     /* UNRELATE sm_seme FROM ch ACROSS R504 */
     masl2xtuml_SM_CH_R504_Unlink( sm_seme, ch );
     /* RELATE sm_seme TO ei ACROSS R504 */
@@ -5693,9 +5704,9 @@ masl2xtuml_ooapopulation_op_StateEventMatrixEntry_migrateEiToCh( masl2xtuml_ooap
     masl2xtuml_SM_CH * ch;
     /* CREATE OBJECT INSTANCE ch OF SM_CH */
     ch = (masl2xtuml_SM_CH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_CH_CLASS_NUMBER );
-    ch->SMstt_ID = (Escher_UniqueID_t) ch;
-ch->SMevt_ID = (Escher_UniqueID_t) ch;
-ch->SM_ID = (Escher_UniqueID_t) ch;
+    ch->SMstt_ID = Escher_ID_factory();
+ch->SMevt_ID = Escher_ID_factory();
+ch->SM_ID = Escher_ID_factory();
     /* UNRELATE sm_seme FROM ei ACROSS R504 */
     masl2xtuml_SM_EIGN_R504_Unlink( sm_seme, ei );
     /* RELATE sm_seme TO ch ACROSS R504 */
@@ -6422,14 +6433,14 @@ masl2xtuml_ooapopulation_op_ClassAsSimpleParticipant_migrateToFormalizer( masl2x
   r_part = p_r_part;
   /* CREATE OBJECT INSTANCE rgo OF R_RGO */
   rgo = (masl2xtuml_R_RGO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_RGO_CLASS_NUMBER );
-  rgo->Obj_ID = (Escher_UniqueID_t) rgo;
-rgo->Rel_ID = (Escher_UniqueID_t) rgo;
-rgo->OIR_ID = (Escher_UniqueID_t) rgo;
+  rgo->Obj_ID = Escher_ID_factory();
+rgo->Rel_ID = Escher_ID_factory();
+rgo->OIR_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE form OF R_FORM */
   form = (masl2xtuml_R_FORM *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_FORM_CLASS_NUMBER );
-  form->Obj_ID = (Escher_UniqueID_t) form;
-form->Rel_ID = (Escher_UniqueID_t) form;
-form->OIR_ID = (Escher_UniqueID_t) form;
+  form->Obj_ID = Escher_ID_factory();
+form->Rel_ID = Escher_ID_factory();
+form->OIR_ID = Escher_ID_factory();
   /* ASSIGN form.Mult = r_part.Mult */
   form->Mult = r_part->Mult;
   /* ASSIGN form.Cond = r_part.Cond */
@@ -6660,22 +6671,22 @@ masl2xtuml_ooapopulation_op_ClassIdentifierAttribute_addReference( masl2xtuml_oo
   if ( ( 0 == rtida ) ) {
     /* CREATE OBJECT INSTANCE rtida OF O_RTIDA */
     rtida = (masl2xtuml_O_RTIDA *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_RTIDA_CLASS_NUMBER );
-    rtida->Attr_ID = (Escher_UniqueID_t) rtida;
-rtida->Obj_ID = (Escher_UniqueID_t) rtida;
-rtida->Rel_ID = (Escher_UniqueID_t) rtida;
-rtida->OIR_ID = (Escher_UniqueID_t) rtida;
+    rtida->Attr_ID = Escher_ID_factory();
+rtida->Obj_ID = Escher_ID_factory();
+rtida->Rel_ID = Escher_ID_factory();
+rtida->OIR_ID = Escher_ID_factory();
     /* RELATE oida TO rto ACROSS R110 USING rtida */
     masl2xtuml_O_RTIDA_R110_Link( rto, oida, rtida );
   }
   /* CREATE OBJECT INSTANCE ref OF O_REF */
   ref = (masl2xtuml_O_REF *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_REF_CLASS_NUMBER );
-  ref->Obj_ID = (Escher_UniqueID_t) ref;
-ref->RObj_ID = (Escher_UniqueID_t) ref;
-ref->RAttr_ID = (Escher_UniqueID_t) ref;
-ref->Rel_ID = (Escher_UniqueID_t) ref;
-ref->OIR_ID = (Escher_UniqueID_t) ref;
-ref->ROIR_ID = (Escher_UniqueID_t) ref;
-ref->ARef_ID = (Escher_UniqueID_t) ref;
+  ref->Obj_ID = Escher_ID_factory();
+ref->RObj_ID = Escher_ID_factory();
+ref->RAttr_ID = Escher_ID_factory();
+ref->Rel_ID = Escher_ID_factory();
+ref->OIR_ID = Escher_ID_factory();
+ref->ROIR_ID = Escher_ID_factory();
+ref->ARef_ID = Escher_ID_factory();
   /* RELATE ref TO ref_attr ACROSS R108 */
   masl2xtuml_O_REF_R108_Link_resolves_( ref_attr, ref );
   /* RELATE rtida TO rgo ACROSS R111 USING ref */
@@ -6742,8 +6753,8 @@ masl2xtuml_ooapopulation_op_ModelClass_newReferentialAttribute( masl2xtuml_ooapo
     }}}
     /* CREATE OBJECT INSTANCE assr_oida OF O_OIDA */
     assr_oida = (masl2xtuml_O_OIDA *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_OIDA_CLASS_NUMBER );
-    assr_oida->Attr_ID = (Escher_UniqueID_t) assr_oida;
-assr_oida->Obj_ID = (Escher_UniqueID_t) assr_oida;
+    assr_oida->Attr_ID = Escher_ID_factory();
+assr_oida->Obj_ID = Escher_ID_factory();
     /* RELATE attr TO assr_id ACROSS R105 USING assr_oida */
     masl2xtuml_O_OIDA_R105_Link( assr_id, attr, assr_oida );
   }
@@ -6763,13 +6774,13 @@ masl2xtuml_ooapopulation_op_Component_initializeRequirement( masl2xtuml_ooapopul
   c_c = p_c_c;
   /* CREATE OBJECT INSTANCE requirement OF C_R */
   requirement = (masl2xtuml_C_R *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_R_CLASS_NUMBER );
-  requirement->Requirement_Id = (Escher_UniqueID_t) requirement;
+  requirement->Requirement_Id = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE interfaceRef OF C_IR */
   interfaceRef = (masl2xtuml_C_IR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_IR_CLASS_NUMBER );
-  interfaceRef->Id = (Escher_UniqueID_t) interfaceRef;
+  interfaceRef->Id = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE port OF C_PO */
   port = (masl2xtuml_C_PO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_PO_CLASS_NUMBER );
-  port->Id = (Escher_UniqueID_t) port;
+  port->Id = Escher_ID_factory();
   /* RELATE requirement TO interfaceRef ACROSS R4009 */
   masl2xtuml_C_R_R4009_Link( interfaceRef, requirement );
   /* RELATE interfaceRef TO port ACROSS R4016 */
@@ -6970,7 +6981,7 @@ masl2xtuml_ooapopulation_op_Interface_newParameter( masl2xtuml_ooapopulation * s
   if ( ( 0 == parm ) ) {
     /* CREATE OBJECT INSTANCE parm OF C_PP */
     parm = (masl2xtuml_C_PP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_PP_CLASS_NUMBER );
-    parm->PP_Id = (Escher_UniqueID_t) parm;
+    parm->PP_Id = Escher_ID_factory();
     /* RELATE c_ep TO parm ACROSS R4006 */
     masl2xtuml_C_PP_R4006_Link_is_parameter_to( c_ep, parm );
     /* self.InterfaceParameter_initialize( c_pp:parm, name:PARAM.parameter_name ) */
@@ -7113,10 +7124,10 @@ masl2xtuml_ooapopulation_op_Interface_createMessageArgumentsForParameter( masl2x
       masl2xtuml_MSG_EPA * oa;masl2xtuml_MSG_A * arg;
       /* CREATE OBJECT INSTANCE arg OF MSG_A */
       arg = (masl2xtuml_MSG_A *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_MSG_A_CLASS_NUMBER );
-      arg->Arg_ID = (Escher_UniqueID_t) arg;
+      arg->Arg_ID = Escher_ID_factory();
       /* CREATE OBJECT INSTANCE oa OF MSG_EPA */
       oa = (masl2xtuml_MSG_EPA *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_MSG_EPA_CLASS_NUMBER );
-      oa->Arg_ID = (Escher_UniqueID_t) oa;
+      oa->Arg_ID = Escher_ID_factory();
       /* RELATE oa TO parameter ACROSS R1023 */
       masl2xtuml_MSG_EPA_R1023_Link_represents( parameter, oa );
       /* RELATE oa TO arg ACROSS R1013 */
@@ -7178,8 +7189,8 @@ masl2xtuml_ooapopulation_op_StateMachineEvent_newParameter( masl2xtuml_ooapopula
   sm_evt = p_sm_evt;
   /* CREATE OBJECT INSTANCE newEvtdi OF SM_EVTDI */
   newEvtdi = (masl2xtuml_SM_EVTDI *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_EVTDI_CLASS_NUMBER );
-  newEvtdi->SMedi_ID = (Escher_UniqueID_t) newEvtdi;
-newEvtdi->SM_ID = (Escher_UniqueID_t) newEvtdi;
+  newEvtdi->SMedi_ID = Escher_ID_factory();
+newEvtdi->SM_ID = Escher_ID_factory();
   /* RELATE sm_evt TO newEvtdi ACROSS R532 */
   masl2xtuml_SM_EVTDI_R532_Link_carries( sm_evt, newEvtdi );
   /* SELECT one sm RELATED BY sm_evt->SM_SM[R502] */
@@ -7305,10 +7316,10 @@ masl2xtuml_ooapopulation_op_StateMachineEvent_createMessageArgumentsForParameter
       masl2xtuml_MSG_EA * ea;masl2xtuml_MSG_A * arg;
       /* CREATE OBJECT INSTANCE arg OF MSG_A */
       arg = (masl2xtuml_MSG_A *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_MSG_A_CLASS_NUMBER );
-      arg->Arg_ID = (Escher_UniqueID_t) arg;
+      arg->Arg_ID = Escher_ID_factory();
       /* CREATE OBJECT INSTANCE ea OF MSG_EA */
       ea = (masl2xtuml_MSG_EA *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_MSG_EA_CLASS_NUMBER );
-      ea->Arg_ID = (Escher_UniqueID_t) ea;
+      ea->Arg_ID = Escher_ID_factory();
       /* RELATE ea TO parameter ACROSS R1017 */
       masl2xtuml_MSG_EA_R1017_Link_represents( parameter, ea );
       /* RELATE ea TO arg ACROSS R1013 */
@@ -7410,10 +7421,10 @@ masl2xtuml_ooapopulation_op_Package_newSubsuper( masl2xtuml_ooapopulation * self
     masl2xtuml_ooaparticipation * toOOAPart=0;masl2xtuml_R_SUPER * fromSUPER;masl2xtuml_R_RTO * fromRTO;masl2xtuml_R_OIR * fromOIR;masl2xtuml_R_SUBSUP * subsuper;masl2xtuml_PE_PE * pe;
     /* CREATE OBJECT INSTANCE assoc OF R_REL */
     assoc = (masl2xtuml_R_REL *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_REL_CLASS_NUMBER );
-    assoc->Rel_ID = (Escher_UniqueID_t) assoc;
+    assoc->Rel_ID = Escher_ID_factory();
     /* CREATE OBJECT INSTANCE pe OF PE_PE */
     pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-    pe->Element_ID = (Escher_UniqueID_t) pe;
+    pe->Element_ID = Escher_ID_factory();
     /* RELATE assoc TO pe ACROSS R8001 */
     masl2xtuml_R_REL_R8001_Link( pe, assoc );
     /* RELATE pe TO ep_pkg ACROSS R8000 */
@@ -7426,28 +7437,28 @@ masl2xtuml_ooapopulation_op_Package_newSubsuper( masl2xtuml_ooapopulation * self
     masl2xtuml_ooapopulation_op_Association_initialize( self,  assoc );
     /* CREATE OBJECT INSTANCE subsuper OF R_SUBSUP */
     subsuper = (masl2xtuml_R_SUBSUP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_SUBSUP_CLASS_NUMBER );
-    subsuper->Rel_ID = (Escher_UniqueID_t) subsuper;
+    subsuper->Rel_ID = Escher_ID_factory();
     /* RELATE subsuper TO assoc ACROSS R206 */
     masl2xtuml_R_SUBSUP_R206_Link( assoc, subsuper );
     /* CREATE OBJECT INSTANCE fromOIR OF R_OIR */
     fromOIR = (masl2xtuml_R_OIR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_OIR_CLASS_NUMBER );
-    fromOIR->Obj_ID = (Escher_UniqueID_t) fromOIR;
-fromOIR->Rel_ID = (Escher_UniqueID_t) fromOIR;
-fromOIR->OIR_ID = (Escher_UniqueID_t) fromOIR;
+    fromOIR->Obj_ID = Escher_ID_factory();
+fromOIR->Rel_ID = Escher_ID_factory();
+fromOIR->OIR_ID = Escher_ID_factory();
     /* RELATE fromClass TO assoc ACROSS R201 USING fromOIR */
     masl2xtuml_R_OIR_R201_Link( assoc, fromClass, fromOIR );
     /* CREATE OBJECT INSTANCE fromRTO OF R_RTO */
     fromRTO = (masl2xtuml_R_RTO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_RTO_CLASS_NUMBER );
-    fromRTO->Obj_ID = (Escher_UniqueID_t) fromRTO;
-fromRTO->Rel_ID = (Escher_UniqueID_t) fromRTO;
-fromRTO->OIR_ID = (Escher_UniqueID_t) fromRTO;
+    fromRTO->Obj_ID = Escher_ID_factory();
+fromRTO->Rel_ID = Escher_ID_factory();
+fromRTO->OIR_ID = Escher_ID_factory();
     /* RELATE fromOIR TO fromRTO ACROSS R203 */
     masl2xtuml_R_RTO_R203_Link( fromOIR, fromRTO );
     /* CREATE OBJECT INSTANCE fromSUPER OF R_SUPER */
     fromSUPER = (masl2xtuml_R_SUPER *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_SUPER_CLASS_NUMBER );
-    fromSUPER->Obj_ID = (Escher_UniqueID_t) fromSUPER;
-fromSUPER->Rel_ID = (Escher_UniqueID_t) fromSUPER;
-fromSUPER->OIR_ID = (Escher_UniqueID_t) fromSUPER;
+    fromSUPER->Obj_ID = Escher_ID_factory();
+fromSUPER->Rel_ID = Escher_ID_factory();
+fromSUPER->OIR_ID = Escher_ID_factory();
     /* RELATE fromSUPER TO fromRTO ACROSS R204 */
     masl2xtuml_R_SUPER_R204_Link( fromRTO, fromSUPER );
     /* RELATE fromSUPER TO subsuper ACROSS R212 */
@@ -7476,23 +7487,23 @@ fromSUPER->OIR_ID = (Escher_UniqueID_t) fromSUPER;
         masl2xtuml_R_SUB * toSUB;masl2xtuml_R_RGO * toRGO;masl2xtuml_R_OIR * toOIR;
         /* CREATE OBJECT INSTANCE toOIR OF R_OIR */
         toOIR = (masl2xtuml_R_OIR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_OIR_CLASS_NUMBER );
-        toOIR->Obj_ID = (Escher_UniqueID_t) toOIR;
-toOIR->Rel_ID = (Escher_UniqueID_t) toOIR;
-toOIR->OIR_ID = (Escher_UniqueID_t) toOIR;
+        toOIR->Obj_ID = Escher_ID_factory();
+toOIR->Rel_ID = Escher_ID_factory();
+toOIR->OIR_ID = Escher_ID_factory();
         /* RELATE toClass TO assoc ACROSS R201 USING toOIR */
         masl2xtuml_R_OIR_R201_Link( assoc, toClass, toOIR );
         /* CREATE OBJECT INSTANCE toRGO OF R_RGO */
         toRGO = (masl2xtuml_R_RGO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_RGO_CLASS_NUMBER );
-        toRGO->Obj_ID = (Escher_UniqueID_t) toRGO;
-toRGO->Rel_ID = (Escher_UniqueID_t) toRGO;
-toRGO->OIR_ID = (Escher_UniqueID_t) toRGO;
+        toRGO->Obj_ID = Escher_ID_factory();
+toRGO->Rel_ID = Escher_ID_factory();
+toRGO->OIR_ID = Escher_ID_factory();
         /* RELATE toOIR TO toRGO ACROSS R203 */
         masl2xtuml_R_RGO_R203_Link( toOIR, toRGO );
         /* CREATE OBJECT INSTANCE toSUB OF R_SUB */
         toSUB = (masl2xtuml_R_SUB *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_SUB_CLASS_NUMBER );
-        toSUB->Obj_ID = (Escher_UniqueID_t) toSUB;
-toSUB->Rel_ID = (Escher_UniqueID_t) toSUB;
-toSUB->OIR_ID = (Escher_UniqueID_t) toSUB;
+        toSUB->Obj_ID = Escher_ID_factory();
+toSUB->Rel_ID = Escher_ID_factory();
+toSUB->OIR_ID = Escher_ID_factory();
         /* RELATE toSUB TO toRGO ACROSS R205 */
         masl2xtuml_R_SUB_R205_Link( toRGO, toSUB );
         /* RELATE toSUB TO subsuper ACROSS R213 */
@@ -7800,8 +7811,8 @@ masl2xtuml_ooapopulation_op_Attribute_migrateBaseToReferential( masl2xtuml_ooapo
   }
   /* CREATE OBJECT INSTANCE rattr OF O_RATTR */
   rattr = (masl2xtuml_O_RATTR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_RATTR_CLASS_NUMBER );
-  rattr->Attr_ID = (Escher_UniqueID_t) rattr;
-rattr->Obj_ID = (Escher_UniqueID_t) rattr;
+  rattr->Attr_ID = Escher_ID_factory();
+rattr->Obj_ID = Escher_ID_factory();
   /* ASSIGN rattr.Ref_Mode = 0 */
   rattr->Ref_Mode = 0;
   /* RELATE o_attr TO rattr ACROSS R106 */
@@ -8017,10 +8028,10 @@ masl2xtuml_ooapopulation_op_SubtypeSupertypeAssociation_formalize( masl2xtuml_oo
     masl2xtuml_O_RTIDA * rtida;
     /* CREATE OBJECT INSTANCE rtida OF O_RTIDA */
     rtida = (masl2xtuml_O_RTIDA *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_RTIDA_CLASS_NUMBER );
-    rtida->Attr_ID = (Escher_UniqueID_t) rtida;
-rtida->Obj_ID = (Escher_UniqueID_t) rtida;
-rtida->Rel_ID = (Escher_UniqueID_t) rtida;
-rtida->OIR_ID = (Escher_UniqueID_t) rtida;
+    rtida->Attr_ID = Escher_ID_factory();
+rtida->Obj_ID = Escher_ID_factory();
+rtida->Rel_ID = Escher_ID_factory();
+rtida->OIR_ID = Escher_ID_factory();
     /* RELATE oida TO sup_rto ACROSS R110 USING rtida */
     masl2xtuml_O_RTIDA_R110_Link( sup_rto, oida, rtida );
   }}}
@@ -9488,6 +9499,33 @@ masl2xtuml_ooapopulation_op_OperationParameter_dispose( masl2xtuml_ooapopulation
   Escher_ClearSet( dims ); 
 }
 
+/*
+ * RELATE ooaelement TO ooapopulation ACROSS R3801
+ */
+void
+masl2xtuml_ooapopulation_R3801_Link( masl2xtuml_ooaelement * part, masl2xtuml_ooapopulation * form )
+{
+  if ( (part == 0) || (form == 0) ) {
+    XTUML_EMPTY_HANDLE_TRACE( "ooapopulation", "masl2xtuml_ooapopulation_R3801_Link" );
+    return;
+  }
+  form->ooaelement_R3801_has_current = part;
+  part->ooapopulation_R3801 = form;
+}
+
+/*
+ * UNRELATE ooaelement FROM ooapopulation ACROSS R3801
+ */
+void
+masl2xtuml_ooapopulation_R3801_Unlink( masl2xtuml_ooaelement * part, masl2xtuml_ooapopulation * form )
+{
+  if ( (part == 0) || (form == 0) ) {
+    XTUML_EMPTY_HANDLE_TRACE( "ooapopulation", "masl2xtuml_ooapopulation_R3801_Unlink" );
+    return;
+  }
+  form->ooaelement_R3801_has_current = 0;
+  part->ooapopulation_R3801 = 0;
+}
 /*
  * Dump instances in SQL format.
  */

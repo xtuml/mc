@@ -18,6 +18,7 @@
   .invoke oal( "T_clear();" )
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
+  .select any te_prefix from instances of TE_PREFIX
   .select any te_string from instances of TE_STRING
   .select any te_sys from instances of TE_SYS
   .// Be sure we have the first attribute in the class.

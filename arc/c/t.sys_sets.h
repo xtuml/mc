@@ -59,6 +59,7 @@ typedef struct {
 .end if
 } ${te_extent.type};
 
+${te_prefix.type}UniqueID_t ${te_prefix.type}ID_factory( void );
 void ${te_set.factory}( const i_t );
 void ${te_set.copy}( ${te_set.base_class} *,
                 ${te_set.base_class} * const );
