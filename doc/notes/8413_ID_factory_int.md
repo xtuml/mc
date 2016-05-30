@@ -36,25 +36,23 @@ than the cast memory pointers used up until now.
 
 5. Work Required
 ----------------
-5.1 Item 1  
-5.2 Item 2  
-5.3 Item 3  
+5.1 Change `Escher_UniqueID_t` from pointer (iHandle_t) to integer (i_t).  
+5.2 Supply `Escher_ID_factory()` to return a static monotonically incremented
+integer.  
+5.3 Update the attribute value initialization code to call the ID factory
+rather than casting the instance pointer.  
+5.3 Update the instance dumping and loading code to use the integer IDs.  
 
 6. Implementation Comments
 --------------------------
-If the design cannot be implemented as written or if it needs some modification,
-enumerate the changes to the design in this section.  If there was no preceding
-design note, then this section documents any deviations from the implementation
-as presented at the pre-implementation engineering review.
 
 7. Unit Test
 ------------
-Outline all the unit tests that need to pass and describe the method that you
-will use to design and perform the tests.
+7.1 Run maslin on SAC.smasl and PSC.smasl.  
 
 8. Code Changes
 ---------------
-Branch name: < enter your branch name here >
+Branch name:  8411_mmtypes commit 1521dd8
 
 <pre>
 
