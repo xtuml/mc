@@ -54,25 +54,28 @@ built-in types.  Each of the below are added to the Globals.xtuml file
 which contains the model pre-existing instance data for built-in types.  
 6.1.2 The following table lists the types that need to in place.  
 
-MASL Type    | UDT Name      | parent          | UUID                  | parent UUID
--------------|---------------|-----------------|-----------------------|-------------
-             | MASLtype      | string          | ba5eda7a-def5-...0011 | ba5eda...04
-void         | MASLvoid      | void            | ba5eda7a-def5-...0012 | ba5eda...00
-boolean      | MASLboolean   | boolean         | ba5eda7a-def5-...0013 | ba5eda...01
-integer      | MASLinteger   | integer         | ba5eda7a-def5-...0014 | ba5eda...02
-character    | MASLcharacter | integer         | ba5eda7a-def5-...0015 | ba5eda...02
-byte         | MASLbyte      | integer         | ba5eda7a-def5-...0016 | ba5eda...02
-long_integer | MASLlong      | integer         | ba5eda7a-def5-...0017 | ba5eda...02
-real         | MASLreal      | real            | ba5eda7a-def5-...0018 | ba5eda...03
-string       | MASLstring    | string          | ba5eda7a-def5-...0019 | ba5eda...04
-date         | MASLdate      | date            | ba5eda7a-def5-...001a | ba5eda...0e
-duration     | MASLduration  | integer         | ba5eda7a-def5-...001b | ba5eda...02
-timestamp    | MASLtimestamp | timestamp       | ba5eda7a-def5-...001c | ba5eda...10
-timer        | MASLtimer     | inst_ref<Timer> | ba5eda7a-def5-...001d | ba5eda...0f
-device       | MASLdevice    | MASLtype        | ba5eda7a-def5-...001e | ba5eda...11
-enum         | MASLenum      | MASLtype        | ba5eda7a-def5-...001f | ba5eda...11
-structure    | MASLduration  | MASLtype        | ba5eda7a-def5-...0020 | ba5eda...11
-instance     | MASLinstance  | MASLtype        | ba5eda7a-def5-...0021 | ba5eda...11
+MASL Type    | UDT Name       | parent          | UUID                  | parent UUID
+-------------|----------------|-----------------|-----------------------|-------------
+             | MASLtype       | string          | ba5eda7a-def5-...0011 | ba5eda...04
+void         | MASLvoid       | void            | ba5eda7a-def5-...0012 | ba5eda...00
+boolean      | MASLboolean    | boolean         | ba5eda7a-def5-...0013 | ba5eda...01
+integer      | MASLinteger    | integer         | ba5eda7a-def5-...0014 | ba5eda...02
+character    | MASLcharacter  | integer         | ba5eda7a-def5-...0015 | ba5eda...02
+wcharacter   | MASLwcharacter | integer         | ba5eda7a-def5-...0016 | ba5eda...02
+byte         | MASLbyte       | integer         | ba5eda7a-def5-...0017 | ba5eda...02
+long_integer | MASLlong       | integer         | ba5eda7a-def5-...0018 | ba5eda...02
+real         | MASLreal       | real            | ba5eda7a-def5-...0019 | ba5eda...03
+string       | MASLstring     | string          | ba5eda7a-def5-...001a | ba5eda...04
+wstring      | MASLwstring    | string          | ba5eda7a-def5-...001b | ba5eda...04
+date         | MASLdate       | date            | ba5eda7a-def5-...001c | ba5eda...0e
+duration     | MASLduration   | integer         | ba5eda7a-def5-...001d | ba5eda...02
+timestamp    | MASLtimestamp  | timestamp       | ba5eda7a-def5-...001e | ba5eda...10
+timer        | MASLtimer      | inst_ref<Timer> | ba5eda7a-def5-...001f | ba5eda...0f
+event        | MASLevent      | inst_ref<Event> | ba5eda7a-def5-...0020 | ba5eda...0a
+device       | MASLdevice     | MASLtype        | ba5eda7a-def5-...0021 | ba5eda...11
+enum         | MASLenum       | MASLtype        | ba5eda7a-def5-...0022 | ba5eda...11
+structure    | MASLduration   | MASLtype        | ba5eda7a-def5-...0023 | ba5eda...11
+instance     | MASLinstance   | MASLtype        | ba5eda7a-def5-...0024 | ba5eda...11
 
 
 7. Design Comments

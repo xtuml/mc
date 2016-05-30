@@ -89,16 +89,17 @@ void
 masl2xtuml_S_UDT_instancedumper( Escher_iHandle_t instance )
 {
   masl2xtuml_S_UDT * self = (masl2xtuml_S_UDT *) instance;
-  /* Orig
-  printf( "INSERT INTO S_UDT VALUES ( %d,%d,%d );\n",
-    self->DT_ID,
-    self->CDT_DT_ID,
-    self->Gen_Type );*/
-  // Force the parent type to be masltype
-  printf( "INSERT INTO S_UDT VALUES ( %d,\"%s\",%d );\n",
-    self->DT_ID,
-	"ba5eda7a-def5-0000-0000-000000000011",
-    self->Gen_Type );
+  if ( self->CDT_DT_ID < 0xba5e000 ) {
+    printf( "INSERT INTO S_UDT VALUES ( %d,%d,%d );\n",
+      self->DT_ID,
+      self->CDT_DT_ID,
+      self->Gen_Type );
+  } else {
+    printf( "INSERT INTO S_UDT VALUES ( %d,\"ba5eda7a-def5-0000-0000-0000000000%02x\",%d );\n",
+      self->DT_ID,
+      self->CDT_DT_ID - 0xba5ed00,
+      self->Gen_Type );
+  }
 }
 /*
  * Statically allocate space for the instance population for this class.

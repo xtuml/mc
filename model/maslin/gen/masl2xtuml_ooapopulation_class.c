@@ -1156,6 +1156,7 @@ masl2xtuml_ooapopulation_op_createSystem( masl2xtuml_ooapopulation * self)
   s_sys = self->current_sys;
   /* IF ( empty s_sys ) */
   if ( ( 0 == s_sys ) ) {
+    c_t * s[20]={0};i_t i;
     /* CREATE OBJECT INSTANCE s_sys OF S_SYS */
     s_sys = (masl2xtuml_S_SYS *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_SYS_CLASS_NUMBER );
     s_sys->Sys_ID = Escher_ID_factory();
@@ -1165,28 +1166,59 @@ masl2xtuml_ooapopulation_op_createSystem( masl2xtuml_ooapopulation * self)
     self->current_sys = s_sys;
     /* ASSIGN self.systypes_pkg = self.SystemModel_newPackage(pkg_name:types, s_sys:s_sys) */
     self->systypes_pkg = masl2xtuml_ooapopulation_op_SystemModel_newPackage(self, "types", s_sys);
-    /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:void ) */
-    masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, "void" );
-    /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:character ) */
-    masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, "character" );
-    /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:wcharacter ) */
-    masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, "wcharacter" );
-    /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:boolean ) */
-    masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, "boolean" );
-    /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:byte ) */
-    masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, "byte" );
-    /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:string ) */
-    masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, "string" );
-    /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:wstring ) */
-    masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, "wstring" );
-    /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:device ) */
-    masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, "device" );
-    /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:enum ) */
-    masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, "enum" );
-    /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:event ) */
-    masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, "event" );
-    /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:instance ) */
-    masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, "instance" );
+    /* ASSIGN i = 0 */
+    i = 0;
+    /* ASSIGN s[i] =  */
+    s[i] = Escher_strcpy( s[i], "" );
+    /* ASSIGN s[0] = void */
+    s[0] = Escher_strcpy( s[0], "void" );
+    /* ASSIGN s[1] = boolean */
+    s[1] = Escher_strcpy( s[1], "boolean" );
+    /* ASSIGN s[2] = integer */
+    s[2] = Escher_strcpy( s[2], "integer" );
+    /* ASSIGN s[3] = character */
+    s[3] = Escher_strcpy( s[3], "character" );
+    /* ASSIGN s[4] = wcharacter */
+    s[4] = Escher_strcpy( s[4], "wcharacter" );
+    /* ASSIGN s[5] = byte */
+    s[5] = Escher_strcpy( s[5], "byte" );
+    /* ASSIGN s[6] = long_integer */
+    s[6] = Escher_strcpy( s[6], "long_integer" );
+    /* ASSIGN s[7] = real */
+    s[7] = Escher_strcpy( s[7], "real" );
+    /* ASSIGN s[8] = string */
+    s[8] = Escher_strcpy( s[8], "string" );
+    /* ASSIGN s[9] = wstring */
+    s[9] = Escher_strcpy( s[9], "wstring" );
+    /* ASSIGN s[10] = date */
+    s[10] = Escher_strcpy( s[10], "date" );
+    /* ASSIGN s[11] = duration */
+    s[11] = Escher_strcpy( s[11], "duration" );
+    /* ASSIGN s[12] = timestamp */
+    s[12] = Escher_strcpy( s[12], "timestamp" );
+    /* ASSIGN s[13] = timer */
+    s[13] = Escher_strcpy( s[13], "timer" );
+    /* ASSIGN s[14] = event */
+    s[14] = Escher_strcpy( s[14], "event" );
+    /* ASSIGN s[15] = device */
+    s[15] = Escher_strcpy( s[15], "device" );
+    /* ASSIGN s[16] = enum */
+    s[16] = Escher_strcpy( s[16], "enum" );
+    /* ASSIGN s[17] = structure */
+    s[17] = Escher_strcpy( s[17], "structure" );
+    /* ASSIGN s[18] = instance */
+    s[18] = Escher_strcpy( s[18], "instance" );
+    /* ASSIGN s[19] = MASLtype */
+    s[19] = Escher_strcpy( s[19], "MASLtype" );
+    /* ASSIGN i = 19 */
+    i = 19;
+    /* WHILE ( ( i > 0 ) ) */
+    while ( ( i >= 0 ) ) {
+      /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:s[i] ) */
+      masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, s[i] );
+      /* ASSIGN i = ( i - 1 ) */
+      i = ( i - 1 );
+    }
   }
 }
 
@@ -2108,6 +2140,8 @@ masl2xtuml_ooapopulation_op_Package_newDatatype( masl2xtuml_ooapopulation * self
   pe->type = masl2xtuml_ElementTypeConstants_DATATYPE_e;
   /* self.PackageableElement_initialize( pe_pe:pe ) */
   masl2xtuml_ooapopulation_op_PackageableElement_initialize( self,  pe );
+  /* IDLINK::stitchID( name:PARAM.type_name, pe_pe:pe, s_dt:dt, s_udt:udt ) */
+  masl2xtuml_IDLINK_stitchID( p_type_name, pe, dt, udt );
   /* IF ( (  != PARAM.definition ) ) */
   if ( ( Escher_strcmp( "", p_definition ) != 0 ) ) {
     /* ASSIGN dt.Descrip = ( ( ( dt.Descrip + <definition> ) + PARAM.definition ) + </definition> ) */
