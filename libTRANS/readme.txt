@@ -5,6 +5,8 @@ Version:   $Revision: 1.6 $
 Modified:  $Date: 2013/01/10 23:35:13 $
 
 
+2016-May-30:  This set of files is moving to the graveyard as deprectated.
+
 If the dll needs to be rebuilt, then in a console go to the libTRANS 
 project directory and compile libTRANS with the following command: 
 
