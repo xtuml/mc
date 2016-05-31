@@ -40,9 +40,30 @@ of xtUML to the enhanced model.
 
 5. Analysis
 -----------
-5.1 MASL ZZ
-5.2 Item 2  
-5.3 Item 3  
+5.1 Where Built-In Types Come From  
+5.1.1 xtUML as SQL  
+The BridgePoint built-in types are supplied as SQL and are
+imported with each new project created.  
+5.1.2 OAL in `masl2xtuml`  
+The MASL built-in types can be dynamically created during the
+MASL-to-xtUML conversion process.  
+5.1.3 Concrete MASL  
+A list of built-in types could be defined in textual MASL and
+be included as part of the import for every model conversion.  
+
+5.2 Levels of Indirection  
+5.2.1 Direct Use of xtUML Built-In Types  
+xtUML already has a set of built-in types.  Most of the xtUML
+built-ins overlap with MASL built-ins.  It would be good to simply
+recognize and use the overlap.  Then, additional MASL built-ins can
+be added as true (non-derived) built-ins.  
+5.2.2 xtUML Built-In -> MASL Built-In -> User Types  
+It may be useful to distinguish xtUML built-in types from the 
+similar types offered by MASL.  It would be good to derive the
+MASL built-ins from the xtUML equivalents.  This may provide a
+level of indirection that would be useful in the future if distinction
+proved necessary.  In such a scheme new built-ins are created as
+User Defined Types (UDTs) based off of the xtUML built-ins.
 
 6. Design
 ---------
