@@ -37,5 +37,7 @@ Usage:    ./masldiff.sh <file1> <file2> [-n]
 2. Run the MASL diff tool according to the usage
     * The Unix `diff` utility will be used to compare the resulting files by
       default
+    * Optionally specify the `-n` flag to suppress the diff tool
 3. `<file1>.masldiff` and `<file2>.masldiff` will be produced by the tool
-4. Use your favorite diff tool to compare the two files
+    * At this point you can use another diff tool to compare the files if you
+      prefer a tool other than `diff` (e.g. a graphical compare tool)
