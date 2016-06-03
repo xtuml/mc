@@ -364,16 +364,19 @@ for each c_ep in c_eps
     end if;
   end if;
   
+  // Populate the action langauge body.
   path = "";
+  port_name = "";
   if ( param.project )
-    select any project_c_c related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009]->C_IR[R4009]->C_PO[R4016]->C_C[R4010];
+    select any project_c_po related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009]->C_IR[R4009]->C_PO[R4016];
+    select one project_c_c related by project_c_po->C_C[R4010];
     path = ::component_get_path( c_c:project_c_c );
+    port_name = project_c_po.Name;
   else
     path = ::component_get_path( c_c:c_c );
+    port_name = c_po.Name;
   end if;
-
-  // Populate the action langauge body.
-  ::body2code_block( name:path + "/" + c_po.Name + "_" + c_ep.Name, text:"spr_*.Action_Semantics" );
+  ::body2code_block( name:path + "/" + port_name + "_" + c_ep.Name, text:"spr_*.Action_Semantics" );
   
   // Populate pragmas
   c_ep.Descrip = ::parsepragmas( s:c_ep.Descrip, list: "" );
