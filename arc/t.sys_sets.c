@@ -15,6 +15,16 @@ static ${te_set.element_type} node1s[ ${te_set.number_of_containoids} ];
 .end if
 
 /*
+ * Supply a unique integer ID.
+ */
+${te_prefix.type}UniqueID_t
+${te_prefix.type}ID_factory( void )
+{
+  static ${te_prefix.type}UniqueID_t ${te_prefix.type}ID_factory = 1;
+  return ${te_prefix.type}ID_factory++;
+}
+
+/*
  * Initialize the node1 instances by linking them into a collection.
  * These containoids will be collected into a null-terminated,
  * singly linked list (slist).
