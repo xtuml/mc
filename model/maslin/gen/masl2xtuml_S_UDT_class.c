@@ -69,6 +69,22 @@ masl2xtuml_S_UDT_R17_Link( masl2xtuml_S_DT * supertype, masl2xtuml_S_UDT * subty
 
 
 /*
+ * UNRELATE S_DT FROM S_UDT ACROSS R17
+ */
+void
+masl2xtuml_S_UDT_R17_Unlink( masl2xtuml_S_DT * supertype, masl2xtuml_S_UDT * subtype )
+{
+  if ( (supertype == 0) || (subtype == 0) ) {
+    XTUML_EMPTY_HANDLE_TRACE( "S_UDT", "masl2xtuml_S_UDT_R17_Unlink" );
+    return;
+  }
+  /* Note:  S_UDT->S_DT[R17] not navigated */
+  supertype->R17_subtype = 0;
+  supertype->R17_object_id = 0;
+}
+
+
+/*
  * RELATE S_DT TO S_UDT ACROSS R18
  */
 void

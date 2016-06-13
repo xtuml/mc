@@ -376,7 +376,8 @@ for each c_ep in c_eps
     path = ::component_get_path( c_c:c_c );
     port_name = c_po.Name;
   end if;
-  ::body2code_block( name:path + "/" + port_name + "_" + c_ep.Name, text:"spr_*.Action_Semantics" );
+  sig = ::underscore_signature(signature: ::message_getsignature( flavor:1, c_ep:c_ep ));
+  ::body2code_block( name:path + "/" + port_name + "_" + sig, text:"spr_*.Action_Semantics" );
   
   // Populate pragmas
   c_ep.Descrip = ::parsepragmas( s:c_ep.Descrip, list: "" );
@@ -1077,7 +1078,8 @@ for each s_sync in s_syncs
   select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
   path = ::package_get_path( ep_pkg:ep_pkg );
   // Populate the action langauge body.
-  ::body2code_block( name:path + "/" + s_sync.Name, text:s_sync.Action_Semantics );
+  sig = ::underscore_signature(signature: ::function_getsignature( flavor:1, s_sync:s_sync ));
+  ::body2code_block( name:path + "/" + sig, text:s_sync.Action_Semantics );
   
   // Populate pragmas
   s_sync.Descrip = ::parsepragmas( s:s_sync.Descrip, list:"" );
@@ -1708,7 +1710,8 @@ for each o_tfr in o_tfrs
   
   path = ::class_get_path( o_obj:o_obj );
   // Populate the action langauge body.
-  ::body2code_block( name:path + "/" + o_tfr.Name, text:o_tfr.Action_Semantics );
+  sig = ::underscore_signature(signature: ::operation_getsignature( flavor:1, o_tfr:o_tfr ));
+  ::body2code_block( name:path + "/" + sig, text:o_tfr.Action_Semantics );
   
   // Populate pragmas
   o_tfr.Descrip = ::parsepragmas( s:o_tfr.Descrip, list:"" );
@@ -2129,7 +2132,8 @@ for each s_brg in s_brgs
   select one ep_pkg related by s_ee->PE_PE[R8001]->EP_PKG[R8000];
   path = ::package_get_path( ep_pkg:ep_pkg );
   // Populate the action langauge body.
-  ::body2code_block( name:path + "/" + s_ee.Name + "_" + s_brg.Name, text:"s_brg.Action_Semantics" );
+  sig = ::underscore_signature(signature: ::bridge_getsignature( flavor:1, s_brg:s_brg ));
+  ::body2code_block( name:path + "/" + s_ee.Name + "_" + sig, text:"s_brg.Action_Semantics" );
   
   out::populate( element:"routine", value:emptyvalue );
   
@@ -2301,6 +2305,689 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("13a97136-92e4-4982-967e-3a8919a4ecbf",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9d4cc9c5-e05c-4c57-bc22-220ce1b0492d",
+	"00000000-0000-0000-0000-000000000000",
+	'function_getsignature',
+	'',
+	'/**
+ *  Return a string representation of this functions signature
+ *  with the specified flavor
+ *  0 = named parameters
+ *  1 = positional parameters
+ *  named signature = return_type function(param1:type, param2:type, param3:type)
+ *  parameters for the named flavor are sorted alphanumerically
+ *  positional signature = return_type function(param1_type, param2_type, param3_type)
+ */
+ 
+s_sync = param.s_sync;
+ 
+signature = "";
+
+// Get return type
+select one returntype related by s_sync->S_DT[R25];
+signature = signature + returntype.Name + " ";
+ 
+// Get name
+signature = signature + s_sync.Name;
+
+// Get parameters
+
+if ( 1 == param.flavor )
+
+  // Get the first parameter.
+  select any parameter related by s_sync->S_SPARM[R24];
+  first_param = parameter;
+  while ( not_empty parameter )
+	first_param = parameter;
+	select one parameter related by parameter->S_SPARM[R54.''succeeds''];
+  end while;
+
+  if( not_empty first_param )
+	signature = signature + "(";
+  end if;
+  separator = "";
+  parameter = first_param;
+  while ( not_empty parameter )
+	select one type related by parameter->S_DT[R26];
+	signature = signature + separator + type.Name;
+	separator = ", ";
+	select one parameter related by parameter->S_SPARM[R54.''precedes''];
+  end while;
+  if( not_empty first_param )
+	signature = signature + ")";
+  end if;
+
+elif ( 0 == param.flavor )
+
+  // get the parameters in sorted order
+  separator = "";
+  select many parameters related by s_sync->S_SPARM[R24];
+  num_params = cardinality parameters; 
+  if ( num_params > 0 )
+	signature = signature + "(";
+  end if;
+
+  // the following time complexity is n^2
+  count = 0;
+  select any last_param from instances of S_SPARM where false;
+  select any curr_param from instances of S_SPARM where false;
+  while ( count < num_params )
+    for each parameter in parameters
+      if ( ( empty curr_param and empty last_param )
+           or ( empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name )
+           or ( not_empty curr_param and empty last_param and parameter.Name < curr_param.Name )
+           or ( not_empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name and parameter.Name < curr_param.Name ) )
+        curr_param = parameter;
+      end if;
+    end for;
+    
+    select one type related by curr_param->S_DT[R26];
+    signature = signature + separator + curr_param.Name + ":" + type.Name;
+    separator = ", ";
+
+    last_param = curr_param;
+    select any curr_param from instances of S_SPARM where false;
+    count = count + 1;
+  end while;
+
+  if ( num_params > 0 )
+	signature = signature + ")";
+  end if;
+  
+end if;
+
+return signature;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("64bdae58-a63d-4347-9a1f-1157732b8fdb",
+	"9d4cc9c5-e05c-4c57-bc22-220ce1b0492d",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("113b1990-9cd4-45f5-ae9b-33c37ec738d1",
+	"9d4cc9c5-e05c-4c57-bc22-220ce1b0492d",
+	's_sync',
+	"60690409-5a69-45db-896b-5a63a9103c18",
+	0,
+	'',
+	"64bdae58-a63d-4347-9a1f-1157732b8fdb",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("60690409-5a69-45db-896b-5a63a9103c18",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
+INSERT INTO PE_PE
+	VALUES ("9d4cc9c5-e05c-4c57-bc22-220ce1b0492d",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e20eeb1f-4b08-4e07-a92d-c4a50741feb0",
+	"00000000-0000-0000-0000-000000000000",
+	'bridge_getsignature',
+	'',
+	'/**
+ *  Return a string representation of this bridges signature
+ *  with the specified flavor
+ *  0 = named parameters
+ *  1 = positional parameters
+ *  named signature = return_type bridge(param1:type, param2:type, param3:type)
+ *  parameters for the named flavor are sorted alphanumerically
+ *  positional signature = return_type bridge(param1_type, param2_type, param3_type)
+ */
+ 
+s_brg = param.s_brg;
+ 
+signature = "";
+
+// Get return type
+select one returntype related by s_brg->S_DT[R20];
+signature = signature + returntype.Name + " ";
+ 
+// Get name
+signature = signature + s_brg.Name;
+
+// Get parameters
+
+if ( 1 == param.flavor )
+
+  // Get the first parameter.
+  select any parameter related by s_brg->S_BPARM[R21];
+  first_param = parameter;
+  while ( not_empty parameter )
+	first_param = parameter;
+	select one parameter related by parameter->S_BPARM[R55.''succeeds''];
+  end while;
+
+  if( not_empty first_param )
+	signature = signature + "(";
+  end if;
+  separator = "";
+  parameter = first_param;
+  while ( not_empty parameter )
+	select one type related by parameter->S_DT[R22];
+	signature = signature + separator + type.Name;
+	separator = ", ";
+	select one parameter related by parameter->S_BPARM[R55.''precedes''];
+  end while;
+  if( not_empty first_param )
+	signature = signature + ")";
+  end if;
+elif ( 0 == param.flavor )
+
+  // get the parameters in sorted order
+  separator = "";
+  select many parameters related by s_brg->S_BPARM[R21];
+  num_params = cardinality parameters; 
+  if ( num_params > 0 )
+	signature = signature + "(";
+  end if;
+
+  // the following time complexity is n^2
+  count = 0;
+  select any last_param from instances of S_BPARM where false;
+  select any curr_param from instances of S_BPARM where false;
+  while ( count < num_params )
+    for each parameter in parameters
+      if ( ( empty curr_param and empty last_param )
+           or ( empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name )
+           or ( not_empty curr_param and empty last_param and parameter.Name < curr_param.Name )
+           or ( not_empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name and parameter.Name < curr_param.Name ) )
+        curr_param = parameter;
+      end if;
+    end for;
+    
+    select one type related by curr_param->S_DT[R22];
+    signature = signature + separator + curr_param.Name + ":" + type.Name;
+    separator = ", ";
+
+    last_param = curr_param;
+    select any curr_param from instances of S_BPARM where false;
+    count = count + 1;
+  end while;
+
+  if ( num_params > 0 )
+	signature = signature + ")";
+  end if;
+  
+end if;
+
+return signature;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0a6dccf2-1e47-4704-870f-358d8c4334cf",
+	"e20eeb1f-4b08-4e07-a92d-c4a50741feb0",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c89ab0a1-79cd-492d-8314-a979890f9d8e",
+	"e20eeb1f-4b08-4e07-a92d-c4a50741feb0",
+	's_brg',
+	"ecc1ab34-9767-4e8a-82ed-4ab5b2aea2c8",
+	0,
+	'',
+	"0a6dccf2-1e47-4704-870f-358d8c4334cf",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ecc1ab34-9767-4e8a-82ed-4ab5b2aea2c8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Bridge>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
+INSERT INTO PE_PE
+	VALUES ("e20eeb1f-4b08-4e07-a92d-c4a50741feb0",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("97479412-7ded-48c7-8a35-887be07c15e4",
+	"00000000-0000-0000-0000-000000000000",
+	'message_getsignature',
+	'',
+	'c_ep = param.c_ep;
+
+select one c_io related by c_ep->C_IO[R4004];
+if ( not_empty c_io )
+  /**
+   *  Return a string representation of this operations signature
+   *  with the specified flavor
+   *  0 = named parameters
+   *  1 = positional parameters
+   *  named signature = return_type operation(param1:type, param2:type, param3:type)
+   *  parameters for the named flavor are sorted alphanumerically
+   *  positional signature = return_type operation(param1_type, param2_type, param3_type)
+   */
+   
+  signature = "";
+
+  // Get return type
+  select one returntype related by c_io->S_DT[R4008];
+  signature = signature + returntype.Name + " ";
+   
+  // Get name
+  signature = signature + c_io.Name;
+
+  // Get parameters
+
+  if ( 1 == param.flavor )
+
+	// Get the first parameter.
+	select any parameter related by c_io->C_EP[R4004]->C_PP[R4006];
+	first_param = parameter;
+	while ( not_empty parameter )
+	  first_param = parameter;
+	  select one parameter related by parameter->C_PP[R4021.''succeeds''];
+	end while;
+
+	if( not_empty first_param )
+	  signature = signature + "(";
+	end if;
+	separator = "";
+	parameter = first_param;
+	while ( not_empty parameter )
+	  select one type related by parameter->S_DT[R4007];
+	  signature = signature + separator + type.Name;
+	  separator = ", ";
+	  select one parameter related by parameter->C_PP[R4021.''precedes''];
+	end while;
+	if( not_empty first_param )
+	  signature = signature + ")";
+	end if;
+
+  elif ( 0 == param.flavor )
+
+	// get the parameters in sorted order
+	separator = "";
+	select many parameters related by c_io->C_EP[R4004]->C_PP[R4006];
+	num_params = cardinality parameters; 
+	if ( num_params > 0 )
+	  signature = signature + "(";
+	end if;
+
+	// the following time complexity is n^2
+	count = 0;
+	select any last_param from instances of C_PP where false;
+	select any curr_param from instances of C_PP where false;
+	while ( count < num_params )
+	  for each parameter in parameters
+		if ( ( empty curr_param and empty last_param )
+			 or ( empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name )
+			 or ( not_empty curr_param and empty last_param and parameter.Name < curr_param.Name )
+			 or ( not_empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name and parameter.Name < curr_param.Name ) )
+		  curr_param = parameter;
+		end if;
+	  end for;
+	  
+	  select one type related by curr_param->S_DT[R4007];
+	  signature = signature + separator + curr_param.Name + ":" + type.Name;
+	  separator = ", ";
+
+	  last_param = curr_param;
+	  select any curr_param from instances of C_PP where false;
+	  count = count + 1;
+	end while;
+
+	if ( num_params > 0 )
+	  signature = signature + ")";
+	end if;
+	
+  end if;
+
+  return signature;
+else
+  select one c_as related by c_ep->C_AS[R4004];
+  /**
+   *  Return a string representation of this signals signature
+   *  with the specified flavor
+   *  0 = named parameters
+   *  1 = positional parameters
+   *  named signature = signal(param1:type, param2:type, param3:type)
+   *  parameters for the named flavor are sorted alphanumerically
+   *  positional signature = signal(param1_type, param2_type, param3_type)
+   */
+   
+  signature = "";
+
+  // Get name
+  signature = signature + c_as.Name;
+
+  // Get parameters
+
+  if ( 1 == param.flavor )
+
+	// Get the first parameter.
+	select any parameter related by c_as->C_EP[R4004]->C_PP[R4006];
+	first_param = parameter;
+	while ( not_empty parameter )
+	  first_param = parameter;
+	  select one parameter related by parameter->C_PP[R4021.''succeeds''];
+	end while;
+
+	if( not_empty first_param )
+	  signature = signature + "(";
+	end if;
+	separator = "";
+	parameter = first_param;
+	while ( not_empty parameter )
+	  select one type related by parameter->S_DT[R4007];
+	  signature = signature + separator + type.Name;
+	  separator = ", ";
+	  select one parameter related by parameter->C_PP[R4021.''precedes''];
+	end while;
+	if( not_empty first_param )
+	  signature = signature + ")";
+	end if;
+
+  elif ( 0 == param.flavor )
+
+	// get the parameters in sorted order
+	separator = "";
+	select many parameters related by c_as->C_EP[R4004]->C_PP[R4006];
+	num_params = cardinality parameters; 
+	if ( num_params > 0 )
+	  signature = signature + "(";
+	end if;
+
+	// the following time complexity is n^2
+	count = 0;
+	select any last_param from instances of C_PP where false;
+	select any curr_param from instances of C_PP where false;
+	while ( count < num_params )
+	  for each parameter in parameters
+		if ( ( empty curr_param and empty last_param )
+			 or ( empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name )
+			 or ( not_empty curr_param and empty last_param and parameter.Name < curr_param.Name )
+			 or ( not_empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name and parameter.Name < curr_param.Name ) )
+		  curr_param = parameter;
+		end if;
+	  end for;
+	  
+	  select one type related by curr_param->S_DT[R4007];
+	  signature = signature + separator + curr_param.Name + ":" + type.Name;
+	  separator = ", ";
+
+	  last_param = curr_param;
+	  select any curr_param from instances of C_PP where false;
+	  count = count + 1;
+	end while;
+
+	if ( num_params > 0 )
+	  signature = signature + ")";
+	end if;
+	
+  end if;
+
+  return signature;
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("70ae1d69-d2bf-4e80-84f5-ab2c1c7c9814",
+	"97479412-7ded-48c7-8a35-887be07c15e4",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9510c62c-c3b3-4a07-8e60-b8a3e0e6dac1",
+	"97479412-7ded-48c7-8a35-887be07c15e4",
+	'c_ep',
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	0,
+	'',
+	"70ae1d69-d2bf-4e80-84f5-ab2c1c7c9814",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5441230d-b4d6-495f-9e87-84acf5819d26",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Executable Property>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO PE_PE
+	VALUES ("97479412-7ded-48c7-8a35-887be07c15e4",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e766fc2b-8613-441d-8c05-c1b286dbaa1e",
+	"00000000-0000-0000-0000-000000000000",
+	'operation_getsignature',
+	'',
+	'/**
+ *  Return a string representation of this operations signature
+ *  with the specified flavor
+ *  0 = named parameters
+ *  1 = positional parameters
+ *  named signature = return_type operation(param1:type, param2:type, param3:type)
+ *  parameters for the named flavor are sorted alphanumerically
+ *  positional signature = return_type operation(param1_type, param2_type, param3_type)
+ */
+o_tfr = param.o_tfr;
+ 
+signature = "";
+
+// Get return type
+select one returntype related by o_tfr->S_DT[R116];
+signature = signature + returntype.Name + " ";
+ 
+// Get name
+signature = signature + o_tfr.Name;
+
+// Get parameters
+
+if ( 1 == param.flavor )
+
+  // Get the first parameter.
+  select any parameter related by o_tfr->O_TPARM[R117];
+  first_param = parameter;
+  while ( not_empty parameter )
+	first_param = parameter;
+	select one parameter related by parameter->O_TPARM[R124.''succeeds''];
+  end while;
+
+  if( not_empty first_param )
+	signature = signature + "(";
+  end if;
+  separator = "";
+  parameter = first_param;
+  while ( not_empty parameter )
+	select one type related by parameter->S_DT[R118];
+	signature = signature + separator + type.Name;
+	separator = ", ";
+	select one parameter related by parameter->O_TPARM[R124.''precedes''];
+  end while;
+  if( not_empty first_param )
+	signature = signature + ")";
+  end if;
+
+elif ( 0 == param.flavor )
+
+  // get the parameters in sorted order
+  separator = "";
+  select many parameters related by o_tfr->O_TPARM[R117];
+  num_params = cardinality parameters; 
+  if ( num_params > 0 )
+	signature = signature + "(";
+  end if;
+
+  // the following time complexity is n^2
+  count = 0;
+  select any last_param from instances of O_TPARM where false;
+  select any curr_param from instances of O_TPARM where false;
+  while ( count < num_params )
+    for each parameter in parameters
+      if ( ( empty curr_param and empty last_param )
+           or ( empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name )
+           or ( not_empty curr_param and empty last_param and parameter.Name < curr_param.Name )
+           or ( not_empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name and parameter.Name < curr_param.Name ) )
+        curr_param = parameter;
+      end if;
+    end for;
+    
+    select one type related by curr_param->S_DT[R118];
+    signature = signature + separator + curr_param.Name + ":" + type.Name;
+    separator = ", ";
+
+    last_param = curr_param;
+    select any curr_param from instances of O_TPARM where false;
+    count = count + 1;
+  end while;
+
+  if ( num_params > 0 )
+	signature = signature + ")";
+  end if;
+  
+end if;
+
+return signature;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("561b683a-9821-4ef9-b121-5aae212d3c53",
+	"e766fc2b-8613-441d-8c05-c1b286dbaa1e",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("42219095-be3f-434f-9522-0de0ede86b72",
+	"e766fc2b-8613-441d-8c05-c1b286dbaa1e",
+	'o_tfr',
+	"5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	0,
+	'',
+	"561b683a-9821-4ef9-b121-5aae212d3c53",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Operation>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO PE_PE
+	VALUES ("e766fc2b-8613-441d-8c05-c1b286dbaa1e",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1df75660-ed85-437c-a3f5-51c82bce9581",
+	"00000000-0000-0000-0000-000000000000",
+	'underscore_signature',
+	'',
+	'signature = param.signature;
+
+/*
+ while ( (i=name.indexOf(",")) != -1
+	  || (i=name.indexOf("(")) != -1
+	  || (i=name.indexOf(" ")) != -1 ) {
+	 name.setCharAt(i, ''_'');
+ }
+ while ( (i=name.indexOf(")")) != -1 ) {
+	 name.deleteCharAt( i );
+ }
+ while ( (i=name.indexOf("__")) != -1 ) {
+	 name.deleteCharAt( i );
+ }
+ */
+
+// replace commas
+i = STRING::indexof( haystack:signature, needle:"," );
+while ( i != -1 )
+  sig_begin = STRING::substr( s:signature, begin:0, end:i );
+  sig_end = STRING::substr( s:signature, begin:i+1, end:-1 );
+  signature = sig_begin + "_" + sig_end;
+
+  i = STRING::indexof( haystack:signature, needle:"," );
+end while;
+
+// replace open parentheses
+i = STRING::indexof( haystack:signature, needle:"(" );
+while ( i != -1 )
+  sig_begin = STRING::substr( s:signature, begin:0, end:i );
+  sig_end = STRING::substr( s:signature, begin:i+1, end:-1 );
+  signature = sig_begin + "_" + sig_end;
+
+  i = STRING::indexof( haystack:signature, needle:"(" );
+end while;
+
+// replace spaces
+i = STRING::indexof( haystack:signature, needle:" " );
+while ( i != -1 )
+  sig_begin = STRING::substr( s:signature, begin:0, end:i );
+  sig_end = STRING::substr( s:signature, begin:i+1, end:-1 );
+  signature = sig_begin + "_" + sig_end;
+
+  i = STRING::indexof( haystack:signature, needle:" " );
+end while;
+
+// remove close parentheses
+i = STRING::indexof( haystack:signature, needle:")" );
+while ( i != -1 )
+  sig_begin = STRING::substr( s:signature, begin:0, end:i );
+  sig_end = STRING::substr( s:signature, begin:i+1, end:-1 );
+  signature = sig_begin + sig_end;
+
+  i = STRING::indexof( haystack:signature, needle:")" );
+end while;
+
+// remove double underscores
+i = STRING::indexof( haystack:signature, needle:"__" );
+while ( i != -1 )
+  sig_begin = STRING::substr( s:signature, begin:0, end:i );
+  sig_end = STRING::substr( s:signature, begin:i+2, end:-1 );
+  signature = sig_begin + "_" + sig_end;
+
+  i = STRING::indexof( haystack:signature, needle:"__" );
+end while;
+
+return signature;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("86e2811f-8260-4c49-911d-fa6dd78afbef",
+	"1df75660-ed85-437c-a3f5-51c82bce9581",
+	'signature',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1df75660-ed85-437c-a3f5-51c82bce9581",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",

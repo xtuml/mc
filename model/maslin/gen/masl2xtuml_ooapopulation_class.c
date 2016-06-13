@@ -1254,11 +1254,18 @@ masl2xtuml_ooapopulation_op_transformTerminator( masl2xtuml_ooapopulation * self
       clic_name = Escher_strcpy( clic_name, current_imported->Name );
       /* IF ( ( clic_name != PARAM.name ) ) */
       if ( ( Escher_strcmp( clic_name, p_name ) != 0 ) ) {
-        masl2xtuml_C_IR * new_ir;c_t * comp_if_name=0;
+        masl2xtuml_C_IR * new_ir;c_t * comp_if_name=0;masl2xtuml_C_I * c_i;
         /* ASSIGN comp_if_name = ( clic_name + PARAM.name ) */
         comp_if_name = Escher_strcpy( comp_if_name, Escher_stradd( clic_name, p_name ) );
         /* ASSIGN new_ir = self.Component_initializeProvision(c_c:self.current_component, if_name:comp_if_name, port_name:comp_if_name) */
         new_ir = masl2xtuml_ooapopulation_op_Component_initializeProvision(self, self->current_component, comp_if_name, comp_if_name);
+        /* CREATE OBJECT INSTANCE c_i OF C_I */
+        c_i = (masl2xtuml_C_I *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_I_CLASS_NUMBER );
+        c_i->Id = (Escher_UniqueID_t) c_i;
+        /* ASSIGN c_i.Name = comp_if_name */
+        c_i->Name = Escher_strcpy( c_i->Name, comp_if_name );
+        /* ASSIGN self.current_interface = c_i */
+        self->current_interface = c_i;
       }
     }
   }
@@ -2003,10 +2010,6 @@ void
 masl2xtuml_ooapopulation_op_transformType( masl2xtuml_ooapopulation * self, c_t * p_definition, c_t * p_name, c_t * p_visibility )
 {
   masl2xtuml_EP_PKG * systypes_pkg;masl2xtuml_EP_PKG * lib_pkg;masl2xtuml_S_DT * s_dt=0;masl2xtuml_S_DT * sys_s_dt=0;masl2xtuml_EP_PKG * types_pkg=0;
-  /* IF ( self.processingProject ) */
-  if ( self->processingProject ) {
-    /* RETURN  */
-    return;  }
   /* ASSIGN lib_pkg = self.lib_pkg */
   lib_pkg = self->lib_pkg;
   /* SELECT any types_pkg RELATED BY lib_pkg->PE_PE[R8000]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == Shared ) ) */
@@ -6949,42 +6952,135 @@ masl2xtuml_ooapopulation_op_populate_project( c_t * p_element, masl2xtuml_ooapop
     }
   }
   else if ( ( Escher_strcmp( "routine", element ) == 0 ) ) {
-    /* IF ( (  != PARAM.value[3] ) ) */
-    if ( ( Escher_strcmp( "", p_value[3] ) != 0 ) ) {
-      /* ASSIGN ooapopulation.current_routine_info.domain = PARAM.value[0] */
-      ooapopulation->current_routine_info.domain = Escher_strcpy( ooapopulation->current_routine_info.domain, p_value[0] );
-      /* ASSIGN ooapopulation.current_routine_info.terminator = PARAM.value[1] */
-      ooapopulation->current_routine_info.terminator = Escher_strcpy( ooapopulation->current_routine_info.terminator, p_value[1] );
-      /* ASSIGN ooapopulation.current_routine_info.name = PARAM.value[3] */
-      ooapopulation->current_routine_info.name = Escher_strcpy( ooapopulation->current_routine_info.name, p_value[3] );
+    /* IF ( (  == PARAM.value[3] ) ) */
+    if ( ( Escher_strcmp( "", p_value[3] ) == 0 ) ) {
+      c_t * if_name=0;masl2xtuml_C_EP * c_ep;masl2xtuml_C_C * c_c;masl2xtuml_C_I * c_i=0;masl2xtuml_C_P * c_p=0;
+      /* ooapopulation.mergeDuplicateRoutines() */
+      masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( ooapopulation );
+      /* ASSIGN c_c = ooapopulation.current_component */
+      c_c = ooapopulation->current_component;
+      /* ASSIGN c_ep = ooapopulation.current_executable_property */
+      c_ep = ooapopulation->current_executable_property;
+      /* SELECT one c_i RELATED BY c_ep->C_I[R4003] */
+      c_i = ( 0 != c_ep ) ? c_ep->C_I_R4003_provides_signature_of : 0;
+      /* ASSIGN if_name =  */
+      if_name = Escher_strcpy( if_name, "" );
+      /* IF ( not_empty c_i ) */
+      if ( ( 0 != c_i ) ) {
+        /* ASSIGN if_name = c_i.Name */
+        if_name = Escher_strcpy( if_name, c_i->Name );
+      }
+      /* SELECT any c_p RELATED BY c_c->C_PO[R4010]->C_IR[R4016]->C_P[R4009] WHERE ( ( SELECTED.InformalName == if_name ) ) */
+      c_p = 0;
+      {      if ( 0 != c_c ) {
+      masl2xtuml_C_PO * C_PO_R4010_communicates_through;
+      Escher_Iterator_s iC_PO_R4010_communicates_through;
+      Escher_IteratorReset( &iC_PO_R4010_communicates_through, &c_c->C_PO_R4010_communicates_through );
+      while ( ( 0 == c_p ) && ( 0 != ( C_PO_R4010_communicates_through = (masl2xtuml_C_PO *) Escher_IteratorNext( &iC_PO_R4010_communicates_through ) ) ) ) {
+      masl2xtuml_C_IR * C_IR_R4016_exposes;
+      Escher_Iterator_s iC_IR_R4016_exposes;
+      Escher_IteratorReset( &iC_IR_R4016_exposes, &C_PO_R4010_communicates_through->C_IR_R4016_exposes );
+      while ( ( 0 == c_p ) && ( 0 != ( C_IR_R4016_exposes = (masl2xtuml_C_IR *) Escher_IteratorNext( &iC_IR_R4016_exposes ) ) ) ) {
+      if ( ( 0 != C_IR_R4016_exposes ) && ( masl2xtuml_C_P_CLASS_NUMBER == C_IR_R4016_exposes->R4009_object_id ) )      {masl2xtuml_C_P * selected = (masl2xtuml_C_P *) C_IR_R4016_exposes->R4009_subtype;
+      if ( ( 0 != selected ) && ( Escher_strcmp( selected->InformalName, if_name ) == 0 ) ) {
+        c_p = selected;
+      }}
+}}}}
+      /* IF ( ( not_empty c_p and ( c_ep.Descrip !=  ) ) ) */
+      if ( ( ( 0 != c_p ) && ( Escher_strcmp( c_ep->Descrip, "" ) != 0 ) ) ) {
+        /* ASSIGN c_p.Descrip = ( ( ( ( c_p.Descrip + routine: ) + ooapopulation.ExecutableProperty_getSignature(c_ep) ) + , ) + c_ep.Descrip ) */
+        c_p->Descrip = Escher_strcpy( c_p->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( c_p->Descrip, "routine:" ), masl2xtuml_ooapopulation_op_ExecutableProperty_getSignature(ooapopulation, c_ep) ), "," ), c_ep->Descrip ) );
+      }
+      /* SELECT any c_ep FROM INSTANCES OF C_EP WHERE FALSE */
+      c_ep = 0;
+      /* ASSIGN ooapopulation.current_executable_property = c_ep */
+      ooapopulation->current_executable_property = c_ep;
+    }
+    else {
+      bool reset_current_interface;masl2xtuml_C_I * c_i;
+      /* ASSIGN c_i = ooapopulation.current_interface */
+      c_i = ooapopulation->current_interface;
+      /* ASSIGN reset_current_interface = FALSE */
+      reset_current_interface = FALSE;
+      /* IF ( empty c_i ) */
+      if ( ( 0 == c_i ) ) {
+        c_t * comp_if_name=0;
+        /* ASSIGN comp_if_name = ( PARAM.value[0] + PARAM.value[1] ) */
+        comp_if_name = Escher_strcpy( comp_if_name, Escher_stradd( p_value[0], p_value[1] ) );
+        /* SELECT any c_i FROM INSTANCES OF C_I WHERE ( SELECTED.Name == comp_if_name ) */
+        c_i = 0;
+        { masl2xtuml_C_I * selected;
+          Escher_Iterator_s iterc_imasl2xtuml_C_I;
+          Escher_IteratorReset( &iterc_imasl2xtuml_C_I, &pG_masl2xtuml_C_I_extent.active );
+          while ( (selected = (masl2xtuml_C_I *) Escher_IteratorNext( &iterc_imasl2xtuml_C_I )) != 0 ) {
+            if ( ( Escher_strcmp( selected->Name, comp_if_name ) == 0 ) ) {
+              c_i = selected;
+              break;
+            }
+          }
+        }
+        /* ASSIGN ooapopulation.current_interface = c_i */
+        ooapopulation->current_interface = c_i;
+        /* ASSIGN reset_current_interface = TRUE */
+        reset_current_interface = TRUE;
+      }
+      /* ooapopulation.transformTerminatorService( domain:PARAM.value[0], name:PARAM.value[3], terminator:PARAM.value[1], visibility:PARAM.value[2] ) */
+      masl2xtuml_ooapopulation_op_transformTerminatorService( ooapopulation,  p_value[0], p_value[3], p_value[1], p_value[2] );
+      /* IF ( reset_current_interface ) */
+      if ( reset_current_interface ) {
+        /* SELECT any c_i FROM INSTANCES OF C_I WHERE FALSE */
+        c_i = 0;
+        /* ASSIGN ooapopulation.current_interface = c_i */
+        ooapopulation->current_interface = c_i;
+      }
+    }
+  }
+  else if ( ( Escher_strcmp( "parameter", element ) == 0 ) ) {
+    /* IF ( (  == PARAM.value[0] ) ) */
+    if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
+      masl2xtuml_C_PP * c_pp=0;
+      /* SELECT any c_pp FROM INSTANCES OF C_PP WHERE FALSE */
+      c_pp = 0;
+      /* ASSIGN ooapopulation.current_interface_param = c_pp */
+      ooapopulation->current_interface_param = c_pp;
+    }
+    else {
+      /* ooapopulation.transformParameter( direction:PARAM.value[1], name:PARAM.value[0] ) */
+      masl2xtuml_ooapopulation_op_transformParameter( ooapopulation,  p_value[1], p_value[0] );
+    }
+  }
+  else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
+    /* IF ( (  != PARAM.value[0] ) ) */
+    if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
+      masl2xtuml_C_EP * c_ep;masl2xtuml_C_PP * c_pp;masl2xtuml_C_IO * c_io=0;
+      /* ooapopulation.transformType( definition:tmp, name:PARAM.value[0], visibility:public ) */
+      masl2xtuml_ooapopulation_op_transformType( ooapopulation,  "tmp", p_value[0], "public" );
+      /* ASSIGN c_pp = ooapopulation.current_interface_param */
+      c_pp = ooapopulation->current_interface_param;
+      /* ASSIGN c_ep = ooapopulation.current_executable_property */
+      c_ep = ooapopulation->current_executable_property;
+      /* SELECT one c_io RELATED BY c_ep->C_IO[R4004] */
+      c_io = 0;
+      if ( ( 0 != c_ep ) && ( masl2xtuml_C_IO_CLASS_NUMBER == c_ep->R4004_object_id ) )      c_io = ( 0 != c_ep ) ? (masl2xtuml_C_IO *) c_ep->R4004_subtype : 0;
+      /* IF ( not_empty c_pp ) */
+      if ( ( 0 != c_pp ) ) {
+        /* ooapopulation.InterfaceParameter_setType( c_pp:ooapopulation.current_interface_param, type_name:PARAM.value[0] ) */
+        masl2xtuml_ooapopulation_op_InterfaceParameter_setType( ooapopulation,  ooapopulation->current_interface_param, p_value[0] );
+      }
+      else if ( ( 0 != c_io ) ) {
+        /* ooapopulation.InterfaceOperation_setReturnType( c_io:c_io, type_name:PARAM.value[0] ) */
+        masl2xtuml_ooapopulation_op_InterfaceOperation_setReturnType( ooapopulation,  c_io, p_value[0] );
+      }
     }
   }
   else if ( ( Escher_strcmp( "codeblock", element ) == 0 ) ) {
-    c_t * if_name=0;masl2xtuml_C_C * c_c;masl2xtuml_C_P * c_p=0;
-    /* ASSIGN c_c = ooapopulation.current_component */
-    c_c = ooapopulation->current_component;
-    /* ASSIGN if_name = ( ooapopulation.current_routine_info.domain + ooapopulation.current_routine_info.terminator ) */
-    if_name = Escher_strcpy( if_name, Escher_stradd( ooapopulation->current_routine_info.domain, ooapopulation->current_routine_info.terminator ) );
-    /* SELECT any c_p RELATED BY c_c->C_PO[R4010]->C_IR[R4016]->C_P[R4009] WHERE ( ( SELECTED.InformalName == if_name ) ) */
-    c_p = 0;
-    {    if ( 0 != c_c ) {
-    masl2xtuml_C_PO * C_PO_R4010_communicates_through;
-    Escher_Iterator_s iC_PO_R4010_communicates_through;
-    Escher_IteratorReset( &iC_PO_R4010_communicates_through, &c_c->C_PO_R4010_communicates_through );
-    while ( ( 0 == c_p ) && ( 0 != ( C_PO_R4010_communicates_through = (masl2xtuml_C_PO *) Escher_IteratorNext( &iC_PO_R4010_communicates_through ) ) ) ) {
-    masl2xtuml_C_IR * C_IR_R4016_exposes;
-    Escher_Iterator_s iC_IR_R4016_exposes;
-    Escher_IteratorReset( &iC_IR_R4016_exposes, &C_PO_R4010_communicates_through->C_IR_R4016_exposes );
-    while ( ( 0 == c_p ) && ( 0 != ( C_IR_R4016_exposes = (masl2xtuml_C_IR *) Escher_IteratorNext( &iC_IR_R4016_exposes ) ) ) ) {
-    if ( ( 0 != C_IR_R4016_exposes ) && ( masl2xtuml_C_P_CLASS_NUMBER == C_IR_R4016_exposes->R4009_object_id ) )    {masl2xtuml_C_P * selected = (masl2xtuml_C_P *) C_IR_R4016_exposes->R4009_subtype;
-    if ( ( 0 != selected ) && ( Escher_strcmp( selected->InformalName, if_name ) == 0 ) ) {
-      c_p = selected;
-    }}
-}}}}
-    /* IF ( not_empty c_p ) */
-    if ( ( 0 != c_p ) ) {
-      /* ASSIGN c_p.Descrip = ( ( ( ( ( c_p.Descrip + routine: ) + ooapopulation.current_routine_info.name ) + ,codeblock: ) + PARAM.value[0] ) + \n ) */
-      c_p->Descrip = Escher_strcpy( c_p->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( c_p->Descrip, "routine:" ), ooapopulation->current_routine_info.name ), ",codeblock:" ), p_value[0] ), "\n" ) );
+    masl2xtuml_C_EP * c_ep;
+    /* ASSIGN c_ep = ooapopulation.current_executable_property */
+    c_ep = ooapopulation->current_executable_property;
+    /* IF ( not_empty c_ep ) */
+    if ( ( 0 != c_ep ) ) {
+      /* ASSIGN c_ep.Descrip = ( ( <codeblock> + PARAM.value[0] ) + </codeblock> ) */
+      c_ep->Descrip = Escher_strcpy( c_ep->Descrip, Escher_stradd( Escher_stradd( "<codeblock>", p_value[0] ), "</codeblock>" ) );
     }
   }
   else {
@@ -8634,7 +8730,7 @@ masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * s
       c_ep = iic_ep; {
       /* IF ( ( ( c_ep != message ) and ( self.ExecutableProperty_getSignature(message) == self.ExecutableProperty_getSignature(c_ep) ) ) ) */
       if ( ( ( c_ep != message ) && ( Escher_strcmp( masl2xtuml_ooapopulation_op_ExecutableProperty_getSignature(self, message), masl2xtuml_ooapopulation_op_ExecutableProperty_getSignature(self, c_ep) ) == 0 ) ) ) {
-        c_t * message_cb=0;i_t end_index;i_t start_index;c_t * string=0;masl2xtuml_SPR_RO * spr_ro=0;
+        c_t * message_cb=0;i_t end_index;i_t start_index;c_t * string=0;
         /* ASSIGN string = message.Descrip */
         string = Escher_strcpy( string, message->Descrip );
         /* ASSIGN start_index = STRING::indexof(haystack:string, needle:<codeblock>) */
@@ -8648,22 +8744,32 @@ masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * s
           /* ASSIGN message_cb = ( ( codeblock: + STRING::substr(, end_index, string) ) + \n ) */
           message_cb = Escher_strcpy( message_cb, Escher_stradd( Escher_stradd( "codeblock:", STRING_substr( ( start_index + 11 ), end_index, string ) ), "\n" ) );
         }
-        /* SELECT any spr_ro RELATED BY c_ep->SPR_REP[R4500]->SPR_RO[R4502] */
-        spr_ro = 0;
-        {        if ( 0 != c_ep ) {
-        masl2xtuml_SPR_REP * SPR_REP_R4500;
-        Escher_Iterator_s iSPR_REP_R4500;
-        Escher_IteratorReset( &iSPR_REP_R4500, &c_ep->SPR_REP_R4500 );
-        while ( ( 0 == spr_ro ) && ( 0 != ( SPR_REP_R4500 = (masl2xtuml_SPR_REP *) Escher_IteratorNext( &iSPR_REP_R4500 ) ) ) ) {
-        if ( ( 0 != SPR_REP_R4500 ) && ( masl2xtuml_SPR_RO_CLASS_NUMBER == SPR_REP_R4500->R4502_object_id ) )        spr_ro = (masl2xtuml_SPR_RO *) SPR_REP_R4500->R4502_subtype;
+        /* IF ( self.processingProject ) */
+        if ( self->processingProject ) {
+          /* ASSIGN c_ep.Descrip = message_cb */
+          c_ep->Descrip = Escher_strcpy( c_ep->Descrip, message_cb );
+        }
+        else {
+          masl2xtuml_SPR_RO * spr_ro=0;
+          /* SELECT any spr_ro RELATED BY c_ep->SPR_REP[R4500]->SPR_RO[R4502] */
+          spr_ro = 0;
+          {          if ( 0 != c_ep ) {
+          masl2xtuml_SPR_REP * SPR_REP_R4500;
+          Escher_Iterator_s iSPR_REP_R4500;
+          Escher_IteratorReset( &iSPR_REP_R4500, &c_ep->SPR_REP_R4500 );
+          while ( ( 0 == spr_ro ) && ( 0 != ( SPR_REP_R4500 = (masl2xtuml_SPR_REP *) Escher_IteratorNext( &iSPR_REP_R4500 ) ) ) ) {
+          if ( ( 0 != SPR_REP_R4500 ) && ( masl2xtuml_SPR_RO_CLASS_NUMBER == SPR_REP_R4500->R4502_object_id ) )          spr_ro = (masl2xtuml_SPR_RO *) SPR_REP_R4500->R4502_subtype;
 }}}
-        /* IF ( not_empty spr_ro ) */
-        if ( ( 0 != spr_ro ) ) {
-          /* ASSIGN spr_ro.Action_Semantics_internal = ( spr_ro.Action_Semantics_internal + message_cb ) */
-          spr_ro->Action_Semantics_internal = Escher_strcpy( spr_ro->Action_Semantics_internal, Escher_stradd( spr_ro->Action_Semantics_internal, message_cb ) );
+          /* IF ( not_empty spr_ro ) */
+          if ( ( 0 != spr_ro ) ) {
+            /* ASSIGN spr_ro.Action_Semantics_internal = ( spr_ro.Action_Semantics_internal + message_cb ) */
+            spr_ro->Action_Semantics_internal = Escher_strcpy( spr_ro->Action_Semantics_internal, Escher_stradd( spr_ro->Action_Semantics_internal, message_cb ) );
+          }
         }
         /* self.ExecutableProperty_dispose( c_ep:message ) */
         masl2xtuml_ooapopulation_op_ExecutableProperty_dispose( self,  message );
+        /* ASSIGN self.current_executable_property = c_ep */
+        self->current_executable_property = c_ep;
         /* BREAK */
         break;
       }
