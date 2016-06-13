@@ -49,9 +49,8 @@ struct masl2xtuml_ooapopulation {
   masl2xtuml_ooaelement * ooaelement_R3801_has_current;
 };
 void masl2xtuml_ooapopulation_instancedumper( Escher_iHandle_t );
-Escher_iHandle_t masl2xtuml_ooapopulation_instanceloader( Escher_iHandle_t, const c_t * [] );
-/* Allow reference to this function name but cause it to resolve to 0.  */
-#define masl2xtuml_ooapopulation_batch_relate 0
+Escher_UniqueID_t masl2xtuml_ooapopulation_instanceloader( Escher_iHandle_t, const c_t * [] );
+void masl2xtuml_ooapopulation_batch_relate( Escher_iHandle_t );
 void masl2xtuml_ooapopulation_op_populate(  c_t *, c_t [8][ESCHER_SYS_MAX_STRING_LEN] );
 void masl2xtuml_ooapopulation_op_transformProject( masl2xtuml_ooapopulation *, c_t * );
 masl2xtuml_EP_PKG * masl2xtuml_ooapopulation_op_SystemModel_newPackage( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_S_SYS * );
@@ -205,7 +204,8 @@ void masl2xtuml_ooapopulation_op_mergeDuplicateOperations( masl2xtuml_ooapopulat
 c_t * masl2xtuml_ooapopulation_op_Operation_getSignature( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR * );
 void masl2xtuml_ooapopulation_op_Operation_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR * );
 void masl2xtuml_ooapopulation_op_OperationParameter_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_TPARM * );
-
+void masl2xtuml_ooapopulation_R3801_Link( masl2xtuml_ooaelement *, masl2xtuml_ooapopulation * );
+void masl2xtuml_ooapopulation_R3801_Unlink( masl2xtuml_ooaelement *, masl2xtuml_ooapopulation * );
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10
 extern Escher_Extent_t pG_masl2xtuml_ooapopulation_extent;

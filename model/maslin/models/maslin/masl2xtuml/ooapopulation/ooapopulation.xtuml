@@ -897,19 +897,38 @@ if ( empty s_sys )
   self.current_sys = s_sys;
 
   // Create a system level types package and cache it
-  //   TODO - revisit this when we figure out type handling for import into BP
   self.systypes_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"types");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "void", definition:"");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "character", definition:"");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "wcharacter", definition:"");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "boolean", definition:"");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "byte", definition:"");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "string", definition:"");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "wstring", definition:"");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "device", definition:"");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "enum", definition:"");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "event", definition:"");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "instance", definition:"");
+  
+  i = 0;
+  s[ i ] = "";
+  s[ 0 ] = "void";
+  s[ 1 ] = "boolean";
+  s[ 2 ] = "integer";
+  s[ 3 ] = "character";
+  s[ 4 ] = "wcharacter";
+  s[ 5 ] = "byte";
+  s[ 6 ] = "long_integer";
+  s[ 7 ] = "real";
+  s[ 8 ] = "string";
+  s[ 9 ] = "wstring";
+  s[ 10 ] = "date";
+  s[ 11 ] = "duration";
+  s[ 12 ] = "timestamp";
+  s[ 13 ] = "timer";
+  s[ 14 ] = "event";
+  s[ 15 ] = "device";
+  s[ 16 ] = "enum";
+  s[ 17 ] = "structure";
+  s[ 18 ] = "instance";
+  s[ 19 ] = "MASLtype";
+  i = 19;
+
+  while ( i >= 0 )
+    // Create the built-in MASL types.
+    self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name:s[i], definition:"");
+    i = i - 1;
+  end while;
+  
 end if;
 
 ',
@@ -1689,17 +1708,12 @@ relate pe to ep_pkg across R8000;
 create object instance udt of S_UDT;
 relate dt to udt across R17;
 
-// dt_id = STRING::atou(s:"ba5eda7a-def5-0000-0000-000000000011");  // Default to core MASLtype type (ba5eda7a-def5-0000-0000-000000000011)
-// NOTE - The OOA version of this function does a relate of the new UDT to the MASLtype core type.  Here we
-// "relate" by directly assigning the referential attribute.
-//     select any masltype_pe from instances of PE_PE where selected.Element_ID == dt_id;
-//     select one masltype_dt related by masltype_pe->S_DT[R8001]; 
-//     relate udt to masltype_dt across R18;
-// TODO - add back when we allow UUID assignment.  For now we hand edit the id in or override the instance dumper: udt.CDT_DT_ID = dt_id;
-
 self.Datatype_initialize(s_dt:dt, name:param.type_name);
 pe.type = ElementTypeConstants::DATATYPE;
 self.PackageableElement_initialize(pe_pe:pe);
+
+// Link ID to appropriate xtUML core type.
+IDLINK::stitchID( name:param.type_name, pe_pe:pe, s_dt:dt, s_udt:udt );
 
 // For complex MASL types we store the definition in the description
 if ( "" != param.definition )

@@ -65,20 +65,21 @@
   .param boolean  gen_declaration
   .//
   .select any te_dma from instances of TE_DMA
+  .select any te_prefix from instances of TE_PREFIX
   .select any te_string from instances of TE_STRING
   .select any te_instance from instances of TE_INSTANCE
   .select one te_sys related by te_class->TE_C[R2064]->TE_SYS[R2065]
   .if ( gen_declaration )
-${te_instance.handle} ${te_class.GeneratedName}_instanceloader( ${te_instance.handle}, const c_t * [] );
+${te_prefix.type}UniqueID_t ${te_class.GeneratedName}_instanceloader( ${te_instance.handle}, const c_t * [] );
   .else
 
 /*
  * Instance Loader (from string data).
  */
-${te_instance.handle}
+${te_prefix.type}UniqueID_t
 ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const c_t * avlstring[] )
 {
-  ${te_instance.handle} return_identifier = 0;
+  ${te_prefix.type}UniqueID_t return_identifier = 0;
   ${te_class.GeneratedName} * ${te_instance.self} = (${te_class.GeneratedName} *) instance;
   /* Initialize application analysis class attributes.  */
     .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 00 )
@@ -120,7 +121,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
           .assign attribute_number = attribute_number + 1
         .elif ( 5 == te_dt.Core_Typ )
           .// unique_id
-  ${te_instance.self}->${te_attr.GeneratedName} = (${te_instance.handle}) ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
+  ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 0 )
           .select one o_rattr related by o_attr->O_RATTR[R106]
           .if ( ( not_empty o_oida ) and ( empty o_rattr ) )
@@ -131,11 +132,11 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
           .// current_state
         .elif ( 7 == te_dt.Core_Typ )
           .// same as base<Attribute>
-        .elif ( 8 == te_dt.Core_Typ )
+        .elif ( ( 8 == te_dt.Core_Typ ) or ( 20 == te_dt.Core_Typ ) )
           .// inst_ref<Object>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( 9 == te_dt.Core_Typ )
+        .elif ( ( 9 == te_dt.Core_Typ ) or ( 21 == te_dt.Core_Typ ) )
           .// inst_ref_set<Object>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
