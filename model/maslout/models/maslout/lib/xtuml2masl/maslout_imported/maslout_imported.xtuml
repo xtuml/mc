@@ -137,12 +137,16 @@ for each c_c in c_cs;
   value[0] = c_c.Name;
   out::populate( element:"domain", value:value );
   
-  ::class2objectdeclaration( c_c:c_c );
-  ::type2type( c_c:c_c );
-  ::function2routine( c_c:c_c );
-  ::port2terminator( c_c:c_c, project:param.project );
-  ::association2relationship( c_c:c_c );
-  ::class2object( c_c:c_c );
+  if ( param.project )
+      ::port2terminator( c_c:c_c, project:param.project );
+  else
+	::class2objectdeclaration( c_c:c_c );
+	::type2type( c_c:c_c );
+	::function2routine( c_c:c_c );
+	::port2terminator( c_c:c_c, project:param.project );
+	::association2relationship( c_c:c_c );
+	::class2object( c_c:c_c );
+  end if;
   
   // Populate pragmas
   c_c.Descrip = ::parsepragmas( s:c_c.Descrip, list:"" );
@@ -198,24 +202,27 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 ep_pkgs = param.ep_pkgs;
 for each ep_pkg in ep_pkgs
 
-  value[0] = ep_pkg.Name;
-  out::populate( element:"project", value:value );
+  select any project_c_c related by ep_pkg->PE_PE[R8000]->C_C[R8001];
+  if ( not_empty project_c_c )
 
-  select many referred_c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
-  ::component2domain( c_cs:referred_c_cs, project:true );
+	value[0] = ep_pkg.Name;
+	out::populate( element:"project", value:value );
 
-  // Populate pragmas
-  select any c_c related by ep_pkg->PE_PE[R8000]->C_C[R8001];
-  c_c.Descrip = ::parsepragmas( s:c_c.Descrip, list:"" );
+	select many referred_c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
+	::component2domain( c_cs:referred_c_cs, project:true );
 
-  // output the description
-  ::Descrip2description( Descrip:c_c.Descrip );
+	// Populate pragmas
+	project_c_c.Descrip = ::parsepragmas( s:project_c_c.Descrip, list:"" );
 
-end for;
+	// output the description
+	::Descrip2description( Descrip:project_c_c.Descrip );
 
-// end project
-out::populate( element:"project", value:emptyvalue );
-',
+	// end project
+	out::populate( element:"project", value:emptyvalue );
+  
+  end if;
+
+end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
@@ -253,22 +260,30 @@ c_c = param.c_c;
 // (outbound) port -> terminator
 select many c_pos related by c_c->C_PO[R4010]->C_IR[R4016]->C_R[R4009]->C_IR[R4009]->C_PO[R4016];
 for each c_po in c_pos
-  value[0] = c_po.Name;
-  out::populate( element:"terminator", value:value );
-  ::message2routine( c_c:c_c, c_po:c_po, project:param.project );
+  // if we are processing a project, make sure that there is a provision. If not, this terminator was not
+  // defined in the project file and should not be emitted with the project
+  select any provision related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009];
+  if ( not param.project or ( param.project and not_empty provision ) )
 
-  // Populate pragmas
-  select any c_r related by c_po->C_IR[R4016]->C_R[R4009];
-  if ( not_empty c_r )
-    c_r.Descrip = ::parsepragmas( s:c_r.Descrip, list:"" );
+	value[0] = c_po.Name;
+	out::populate( element:"terminator", value:value );
+	::message2routine( c_c:c_c, c_po:c_po, project:param.project );
 
-	// output the description
-        ::Descrip2description( Descrip:c_r.Descrip );
+	// Populate pragmas
+	select any c_r related by c_po->C_IR[R4016]->C_R[R4009];
+	if ( not_empty c_r )
+	  c_r.Descrip = ::parsepragmas( s:c_r.Descrip, list:"" );
+
+	  // output the description
+		  ::Descrip2description( Descrip:c_r.Descrip );
+
+	end if;
+
+	// end terminator
+	out::populate( element:"terminator", value:emptyvalue );
 
   end if;
 
-  // end terminator
-  out::populate( element:"terminator", value:emptyvalue );
 end for;
 
   
@@ -349,16 +364,19 @@ for each c_ep in c_eps
     end if;
   end if;
   
+  // Populate the action langauge body.
   path = "";
+  port_name = "";
   if ( param.project )
-    select any project_c_c related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009]->C_IR[R4009]->C_PO[R4016]->C_C[R4010];
+    select any project_c_po related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009]->C_IR[R4009]->C_PO[R4016];
+    select one project_c_c related by project_c_po->C_C[R4010];
     path = ::component_get_path( c_c:project_c_c );
+    port_name = project_c_po.Name;
   else
     path = ::component_get_path( c_c:c_c );
+    port_name = c_po.Name;
   end if;
-
-  // Populate the action langauge body.
-  ::body2code_block( name:path + "/" + c_po.Name + "_" + c_ep.Name, text:"spr_*.Action_Semantics" );
+  ::body2code_block( name:path + "/" + port_name + "_" + c_ep.Name, text:"spr_*.Action_Semantics" );
   
   // Populate pragmas
   c_ep.Descrip = ::parsepragmas( s:c_ep.Descrip, list: "" );
@@ -1933,7 +1951,12 @@ else
     end if;
   end if;
 end if;
-return parent_path + "/" + ep_pkg.Name;',
+if ( not_empty ep_pkg )
+  return parent_path + "/" + ep_pkg.Name;
+else
+  TRACE::log( flavor:"failure", id:113, message:"error building path of package" );
+  return "";
+end if;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
@@ -1968,7 +1991,12 @@ INSERT INTO S_SYNC
 o_obj = param.o_obj;
 select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
 parent_path = ::package_get_path( ep_pkg:ep_pkg );
-return parent_path + "/" + o_obj.Name;',
+if ( not_empty o_obj )
+  return parent_path + "/" + o_obj.Name;
+else
+  TRACE::log( flavor:"failure", id:114, message:"error building path of object" );
+  return "";
+end if;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
@@ -1996,7 +2024,12 @@ INSERT INTO S_SYNC
 c_c = param.c_c;
 select one ep_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000];
 parent_path = ::package_get_path( ep_pkg:ep_pkg );
-return parent_path + "/" + c_c.Name;',
+if ( not_empty c_c )
+  return parent_path + "/" + c_c.Name;
+else
+  TRACE::log( flavor:"failure", id:114, message:"error building path of component" );
+  return "";
+end if;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
