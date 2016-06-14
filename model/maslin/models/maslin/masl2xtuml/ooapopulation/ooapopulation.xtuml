@@ -974,6 +974,10 @@ if ( self.processingProject )
     if ( clic_name != param.name )
       comp_if_name = clic_name + param.name;
       new_ir = self.Component_initializeProvision(c_c:self.current_component, port_name:comp_if_name, if_name:comp_if_name);
+      // create a temporary interface to store routines so the signature can be calculated
+      create object instance c_i of C_I;
+      c_i.Name = comp_if_name;
+      self.current_interface = c_i;
     end if;
   end if;
 else
@@ -1621,11 +1625,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'if ( self.processingProject )
-  return;
-end if;
- 
-// If the type visibility is public, put it in the package of shared public data.  If private, put it inside the component.
+	'// If the type visibility is public, put it in the package of shared public data.  If private, put it inside the component.
 lib_pkg = self.lib_pkg;
 select any types_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
 
@@ -6145,17 +6145,70 @@ elif ( "terminator" == element )
   end if;
 elif ( "routine" == element )
   //  See if we''re processing inside a domain or terminator.  Then call the appropriate conversion function.
-  if ( "" != param.value[3] )
-    ooapopulation.current_routine_info.domain = param.value[0];
-    ooapopulation.current_routine_info.terminator = param.value[1];
-    ooapopulation.current_routine_info.name = param.value[3];
+  if ( "" == param.value[3] )
+    // check for duplicate routines
+    ooapopulation.mergeDuplicateRoutines();
+
+    // copy the codeblock into the description of the provision
+	c_c = ooapopulation.current_component;
+	c_ep = ooapopulation.current_executable_property;
+	select one c_i related by c_ep->C_I[R4003];
+	if_name = "";
+	if ( not_empty c_i )
+	  if_name = c_i.Name;
+	end if;
+	select any c_p related by c_c->C_PO[R4010]->C_IR[R4016]->C_P[R4009] where (selected.InformalName == if_name);
+	if ( not_empty c_p and c_ep.Descrip != "" )
+	  c_p.Descrip = c_p.Descrip + "routine:" + ooapopulation.ExecutableProperty_getSignature( c_ep:c_ep) +
+								  "," + c_ep.Descrip;
+	end if;
+
+    select any c_ep from instances of C_EP where ( false );
+    ooapopulation.current_executable_property = c_ep;
+  else
+    c_i = ooapopulation.current_interface;
+    reset_current_interface = false;
+    if ( empty c_i )
+      comp_if_name = param.value[0] + param.value[1];
+      select any c_i from instances of C_I where ( selected.Name == comp_if_name );
+      ooapopulation.current_interface = c_i;
+      reset_current_interface = true;  // if we have to artificially set the current_interface we have to flag to unset it
+    end if;
+
+    ooapopulation.transformTerminatorService(visibility:param.value[2], name:param.value[3], domain:param.value[0], terminator:param.value[1]);
+
+    // if we artificially set the current interface, we have to unset it so we don''t mess
+    // up the next routine
+    if ( reset_current_interface )
+      select any c_i from instances of C_I where false;
+      ooapopulation.current_interface = c_i;
+    end if;
+  end if;
+elif ( "parameter" == element )
+  if ( "" == param.value[0] )
+    select any c_pp from instances of C_PP where (false);
+    ooapopulation.current_interface_param = c_pp;
+  else
+    ooapopulation.transformParameter(name:param.value[0], direction:param.value[1]);
+  end if;
+elif ( "typeref" == element )
+  if ( "" != param.value[0] )
+    ooapopulation.transformType(name:param.value[0], visibility:"public", definition:"tmp");
+    
+    c_pp = ooapopulation.current_interface_param;
+    c_ep = ooapopulation.current_executable_property;
+    select one c_io related by c_ep->C_IO[R4004];
+    if ( not_empty c_pp )
+      ooapopulation.InterfaceParameter_setType(c_pp:ooapopulation.current_interface_param, type_name:param.value[0]);
+    elif ( not_empty c_io )
+      ooapopulation.InterfaceOperation_setReturnType(c_io:c_io, type_name:param.value[0]);
+    end if;
+
   end if;
 elif ( "codeblock" == element )
-  c_c = ooapopulation.current_component;
-  if_name = ooapopulation.current_routine_info.domain + ooapopulation.current_routine_info.terminator;
-  select any c_p related by c_c->C_PO[R4010]->C_IR[R4016]->C_P[R4009] where (selected.InformalName == if_name);
-  if ( not_empty c_p )
-    c_p.Descrip = c_p.Descrip + "routine:" + ooapopulation.current_routine_info.name + ",codeblock:" + param.value[0] + "\n";
+  c_ep = ooapopulation.current_executable_property;
+  if ( not_empty c_ep )
+    c_ep.Descrip = "<codeblock>" + param.value[0] + "</codeblock>";
   end if;
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
@@ -7605,12 +7658,19 @@ select many c_eps related by message->C_I[R4003]->C_EP[R4003];
         message_cb = "codeblock:" + STRING::substr( s:string, begin:start_index+11, end:end_index ) + "\n";
       end if;
 
-      select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
-  	  if ( not_empty spr_ro )
-        spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
+      if ( self.processingProject )	// if we are processing a project, there will be no spr_ro
+        c_ep.Descrip = message_cb;
+      else
+		select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
+		if ( not_empty spr_ro )
+		  spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
+		end if;
   	  end if;
       // dispose interface message
       self.ExecutableProperty_dispose( c_ep:message );
+      
+      // update current 
+      self.current_executable_property = c_ep;
       break;
     end if;
   end for;
