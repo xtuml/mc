@@ -15,6 +15,16 @@ static Escher_ObjectSet_s node1_FreeList;
 static Escher_SetElement_s node1s[ SYS_MAX_CONTAINERS ];
 
 /*
+ * Supply a unique integer ID.
+ */
+Escher_UniqueID_t
+Escher_ID_factory( void )
+{
+  static Escher_UniqueID_t Escher_ID_factory = 1;
+  return Escher_ID_factory++;
+}
+
+/*
  * Initialize the node1 instances by linking them into a collection.
  * These containoids will be collected into a null-terminated,
  * singly linked list (slist).
