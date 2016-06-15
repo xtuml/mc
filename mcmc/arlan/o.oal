@@ -18,6 +18,7 @@ instance = param.instance;
 ::oal( s:"T_clear();" );
 select any te_file from instances of TE_FILE;
 select any te_instance from instances of TE_INSTANCE;
+select any te_prefix from instances of TE_PREFIX;
 select any te_string from instances of TE_STRING;
 select any te_sys from instances of TE_SYS;
 // Be sure we have the first attribute in the class.
@@ -2022,7 +2023,7 @@ for each s_cdt in s_cdts
     // unique_id
     te_dt.ExtName = te_prefix.type + "UniqueID_t";
     te_dt.Initial_Value = "0";
-    te_dt.string_format = "%p";
+    te_dt.string_format = "%d";
     //
   elif ( 6 == te_dt.Core_Typ )
     // current_state
@@ -2034,12 +2035,12 @@ for each s_cdt in s_cdts
     te_dt.ExtName = "";
     te_dt.Initial_Value = "";
     te_dt.string_format = "%p";
-  elif ( 8 == te_dt.Core_Typ )
+  elif ( ( 8 == te_dt.Core_Typ ) or ( 20 == te_dt.Core_Typ ) )
     // inst_ref<Object>
     te_dt.ExtName = "void *";
     te_dt.Initial_Value = "";
     te_dt.string_format = "%p";
-  elif ( 9 == te_dt.Core_Typ )
+  elif ( ( 9 == te_dt.Core_Typ ) or ( 21 == te_dt.Core_Typ ) )
     // inst_ref_set<Object>
     te_dt.ExtName = te_set.base_class + " *";
     te_dt.Initial_Value = "";
@@ -3038,7 +3039,7 @@ for each te_c in te_cs
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    ((long)self->" ) + ( te_attr.GeneratedName + " & ESCHER_IDDUMP_MASK)" );
         elif ( "%s" == te_dt.string_format )
           // Place an escaped tick mark around the %s in the attribute format string.
-          te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "''" + te_dt.string_format ) ) + "''";
+          te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "'" + te_dt.string_format ) ) + "'";
           te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( ( te_attr.GeneratedName + " : """ ) + """" ) );
         else
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format;

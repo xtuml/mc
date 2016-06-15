@@ -1,5 +1,18 @@
 if ( 0!=strcmp("",te_assign->array_spec) ) {
 if ( 4 == te_assign->Core_Typ ) {
+if ( te_sys->InstanceLoading ) {
+T_b(ws);
+T_b(te_assign->lval);
+T_b(" = ");
+T_b(te_instance->module);
+T_b(te_string->strcpy);
+T_b("( ");
+T_b(te_assign->lval);
+T_b(", ");
+T_b(te_assign->rval);
+T_b(" );");
+T_b("\n");
+} else {
 T_b(ws);
 T_b(te_instance->module);
 T_b(te_string->strcpy);
@@ -9,6 +22,7 @@ T_b(", ");
 T_b(te_assign->rval);
 T_b(" );");
 T_b("\n");
+}
 } else {
 if ( 0 == te_assign->rval_dimensions ) {
 T_b(ws);
@@ -51,6 +65,30 @@ T_b(", ");
 T_b(te_assign->rval);
 T_b(" );");
 T_b("\n");
+} else if ( 4 == te_assign->Core_Typ ) {
+if ( te_sys->InstanceLoading ) {
+T_b(ws);
+T_b(te_assign->lval);
+T_b(" = ");
+T_b(te_instance->module);
+T_b(te_string->strcpy);
+T_b("( ");
+T_b(te_assign->lval);
+T_b(", ");
+T_b(te_assign->rval);
+T_b(" );");
+T_b("\n");
+} else {
+T_b(ws);
+T_b(te_instance->module);
+T_b(te_string->strcpy);
+T_b("( ");
+T_b(te_assign->lval);
+T_b(", ");
+T_b(te_assign->rval);
+T_b(" );");
+T_b("\n");
+}
 } else {
 T_b(ws);
 T_b(te_assign->lval);
