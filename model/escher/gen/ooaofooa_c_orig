@@ -185,6 +185,8 @@ ooaofooa_AutoInitializeUniqueIDs( c_t * p_instance, ooaofooa_TE_CLASS * p_te_cla
   te_file = (ooaofooa_TE_FILE *) Escher_SetGetAny( &pG_ooaofooa_TE_FILE_extent.active );
   /* SELECT any te_instance FROM INSTANCES OF TE_INSTANCE */
   te_instance = (ooaofooa_TE_INSTANCE *) Escher_SetGetAny( &pG_ooaofooa_TE_INSTANCE_extent.active );
+  /* SELECT any te_prefix FROM INSTANCES OF TE_PREFIX */
+  te_prefix = (ooaofooa_TE_PREFIX *) Escher_SetGetAny( &pG_ooaofooa_TE_PREFIX_extent.active );
   /* SELECT any te_string FROM INSTANCES OF TE_STRING */
   te_string = (ooaofooa_TE_STRING *) Escher_SetGetAny( &pG_ooaofooa_TE_STRING_extent.active );
   /* SELECT any te_sys FROM INSTANCES OF TE_SYS */
@@ -21167,8 +21169,8 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
       te_dt->ExtName = Escher_strcpy( te_dt->ExtName, Escher_stradd( te_prefix->type, "UniqueID_t" ) );
       /* ASSIGN te_dt.Initial_Value = 0 */
       te_dt->Initial_Value = Escher_strcpy( te_dt->Initial_Value, "0" );
-      /* ASSIGN te_dt.string_format = %p */
-      te_dt->string_format = Escher_strcpy( te_dt->string_format, "%p" );
+      /* ASSIGN te_dt.string_format = %d */
+      te_dt->string_format = Escher_strcpy( te_dt->string_format, "%d" );
     }
     else if ( ( 6 == te_dt->Core_Typ ) ) {
       /* ASSIGN te_dt.ExtName =  */
@@ -21186,7 +21188,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
       /* ASSIGN te_dt.string_format = %p */
       te_dt->string_format = Escher_strcpy( te_dt->string_format, "%p" );
     }
-    else if ( ( 8 == te_dt->Core_Typ ) ) {
+    else if ( ( 8 == te_dt->Core_Typ ) || ( 20 == te_dt->Core_Typ ) ) {
       /* ASSIGN te_dt.ExtName = void * */
       te_dt->ExtName = Escher_strcpy( te_dt->ExtName, "void *" );
       /* ASSIGN te_dt.Initial_Value =  */
@@ -21194,7 +21196,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
       /* ASSIGN te_dt.string_format = %p */
       te_dt->string_format = Escher_strcpy( te_dt->string_format, "%p" );
     }
-    else if ( ( 9 == te_dt->Core_Typ ) ) {
+    else if ( ( 9 == te_dt->Core_Typ ) || ( 21 == te_dt->Core_Typ ) ) {
       /* ASSIGN te_dt.ExtName = ( te_set.base_class +  * ) */
       te_dt->ExtName = Escher_strcpy( te_dt->ExtName, Escher_stradd( te_set->base_class, " *" ) );
       /* ASSIGN te_dt.Initial_Value =  */

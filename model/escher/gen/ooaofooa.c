@@ -135,7 +135,7 @@ ooaofooa_AddTemplateParameter( c_t * p_component_name, c_t * p_default_value, c_
     ooaofooa_TM_TP * tm_tp;
     /* CREATE OBJECT INSTANCE tm_tp OF TM_TP */
     tm_tp = (ooaofooa_TM_TP *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TP_CLASS_NUMBER );
-    tm_tp->ID = (Escher_UniqueID_t) tm_tp;
+    tm_tp->ID = Escher_ID_factory();
     /* RELATE tm_tp TO tm_template ACROSS R2801 */
     ooaofooa_TM_TP_R2801_Link( tm_template, tm_tp );
     /* ASSIGN tm_tp.typename = type_name */
@@ -172,7 +172,7 @@ ooaofooa_AssignDirectToUDTPackage( c_t * p_package_name )
 c_t *
 ooaofooa_AutoInitializeUniqueIDs( c_t * p_instance, ooaofooa_TE_CLASS * p_te_class )
 {
-  ooaofooa_TE_ATTR * te_attr;c_t * instance=0;ooaofooa_TE_CLASS * te_class;ooaofooa_TE_SYS * te_sys=0;ooaofooa_TE_STRING * te_string=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_FILE * te_file=0;ooaofooa_TE_ATTR * first_te_attr=0;
+  ooaofooa_TE_ATTR * te_attr;c_t * instance=0;ooaofooa_TE_CLASS * te_class;ooaofooa_TE_SYS * te_sys=0;ooaofooa_TE_STRING * te_string=0;ooaofooa_TE_PREFIX * te_prefix=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_FILE * te_file=0;ooaofooa_TE_ATTR * first_te_attr=0;
   /* ASSIGN te_class = PARAM.te_class */
   te_class = p_te_class;
   /* ASSIGN instance = PARAM.instance */
@@ -183,6 +183,8 @@ T_clear();
   te_file = (ooaofooa_TE_FILE *) Escher_SetGetAny( &pG_ooaofooa_TE_FILE_extent.active );
   /* SELECT any te_instance FROM INSTANCES OF TE_INSTANCE */
   te_instance = (ooaofooa_TE_INSTANCE *) Escher_SetGetAny( &pG_ooaofooa_TE_INSTANCE_extent.active );
+  /* SELECT any te_prefix FROM INSTANCES OF TE_PREFIX */
+  te_prefix = (ooaofooa_TE_PREFIX *) Escher_SetGetAny( &pG_ooaofooa_TE_PREFIX_extent.active );
   /* SELECT any te_string FROM INSTANCES OF TE_STRING */
   te_string = (ooaofooa_TE_STRING *) Escher_SetGetAny( &pG_ooaofooa_TE_STRING_extent.active );
   /* SELECT any te_sys FROM INSTANCES OF TE_SYS */
@@ -826,7 +828,7 @@ ooaofooa_FactoryTE_ABA( c_t * p_name, c_t * p_scope, c_t * p_subtypeKL, ooaofooa
   te_target = (ooaofooa_TE_TARGET *) Escher_SetGetAny( &pG_ooaofooa_TE_TARGET_extent.active );
   /* CREATE OBJECT INSTANCE te_aba OF TE_ABA */
   te_aba = (ooaofooa_TE_ABA *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_ABA_CLASS_NUMBER );
-  te_aba->AbaID = (Escher_UniqueID_t) te_aba;
+  te_aba->AbaID = Escher_ID_factory();
   /* ASSIGN te_aba.SelfEventCount = 0 */
   te_aba->SelfEventCount = 0;
   /* ASSIGN te_aba.NonSelfEventCount = 0 */
@@ -1023,7 +1025,7 @@ ooaofooa_FactoryTE_CLASS( ooaofooa_O_OBJ * p_o_obj, ooaofooa_TE_C * p_te_c )
   te_c = p_te_c;
   /* CREATE OBJECT INSTANCE te_class OF TE_CLASS */
   te_class = (ooaofooa_TE_CLASS *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_CLASS_CLASS_NUMBER );
-  te_class->ID = (Escher_UniqueID_t) te_class;
+  te_class->ID = Escher_ID_factory();
   /* RELATE te_class TO o_obj ACROSS R2019 */
   ooaofooa_TE_CLASS_R2019_Link( o_obj, te_class );
   /* RELATE te_class TO te_c ACROSS R2064 */
@@ -1062,7 +1064,7 @@ ooaofooa_FactoryTE_DIM( ooaofooa_TE_DIM * p_predecessor_te_dim, ooaofooa_S_DIM *
   predecessor_te_dim = p_predecessor_te_dim;
   /* CREATE OBJECT INSTANCE te_dim OF TE_DIM */
   te_dim = (ooaofooa_TE_DIM *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_DIM_CLASS_NUMBER );
-  te_dim->te_dimID = (Escher_UniqueID_t) te_dim;
+  te_dim->te_dimID = Escher_ID_factory();
   /* ASSIGN te_dim.elementCount = s_dim.elementCount */
   te_dim->elementCount = s_dim->elementCount;
   /* IF ( ( 0 == te_dim.elementCount ) ) */
@@ -1098,7 +1100,7 @@ ooaofooa_FactoryTE_LNK( ooaofooa_ACT_LNK * p_act_lnk )
     c_t * rel_phrase=0;ooaofooa_TE_LNK * te_lnk;ooaofooa_R_REL * r_rel=0;ooaofooa_TE_OIR * te_oir=0;
     /* CREATE OBJECT INSTANCE te_lnk OF TE_LNK */
     te_lnk = (ooaofooa_TE_LNK *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_LNK_CLASS_NUMBER );
-    te_lnk->ID = (Escher_UniqueID_t) te_lnk;
+    te_lnk->ID = Escher_ID_factory();
     /* RELATE te_lnk TO act_lnk ACROSS R2042 */
     ooaofooa_TE_LNK_R2042_Link( act_lnk, te_lnk );
     /* ASSIGN te_lnk.rel_phrase = act_lnk.Rel_Phrase */
@@ -1234,8 +1236,8 @@ ooaofooa_FactoryTE_MACT( c_t * p_message_name, c_t * p_subtypeKL, ooaofooa_TE_C 
   te_thread = (ooaofooa_TE_THREAD *) Escher_SetGetAny( &pG_ooaofooa_TE_THREAD_extent.active );
   /* CREATE OBJECT INSTANCE te_mact OF TE_MACT */
   te_mact = (ooaofooa_TE_MACT *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_MACT_CLASS_NUMBER );
-  te_mact->AbaID = (Escher_UniqueID_t) te_mact;
-te_mact->ID = (Escher_UniqueID_t) te_mact;
+  te_mact->AbaID = Escher_ID_factory();
+te_mact->ID = Escher_ID_factory();
   /* RELATE te_mact TO te_c ACROSS R2002 */
   ooaofooa_TE_MACT_R2002_Link( te_c, te_mact );
   /* RELATE te_mact TO te_po ACROSS R2006 */
@@ -1387,7 +1389,7 @@ ooaofooa_FactoryTE_PARM( const i_t p_by_ref, c_t * p_name, c_t * p_prefix, Esche
   by_ref = p_by_ref;
   /* CREATE OBJECT INSTANCE te_parm OF TE_PARM */
   te_parm = (ooaofooa_TE_PARM *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_PARM_CLASS_NUMBER );
-  te_parm->ID = (Escher_UniqueID_t) te_parm;
+  te_parm->ID = Escher_ID_factory();
   /* ASSIGN te_parm.Order = 0 */
   te_parm->Order = 0;
   /* ASSIGN te_parm.ParamBuffer =  */
@@ -1503,7 +1505,7 @@ ooaofooa_FactoryTE_SM( const bool p_is_ism, ooaofooa_SM_SM * p_sm_sm, ooaofooa_T
   te_c = ( 0 != te_class ) ? te_class->TE_C_R2064 : 0;
   /* CREATE OBJECT INSTANCE te_sm OF TE_SM */
   te_sm = (ooaofooa_TE_SM *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_SM_CLASS_NUMBER );
-  te_sm->ID = (Escher_UniqueID_t) te_sm;
+  te_sm->ID = Escher_ID_factory();
   /* RELATE te_sm TO te_class ACROSS R2072 */
   ooaofooa_TE_SM_R2072_Link( te_class, te_sm );
   /* RELATE te_sm TO sm_sm ACROSS R2043 */
@@ -1564,7 +1566,7 @@ ooaofooa_FactoryTE_SM( const bool p_is_ism, ooaofooa_SM_SM * p_sm_sm, ooaofooa_T
 }}}}
     /* CREATE OBJECT INSTANCE te_act OF TE_ACT */
     te_act = (ooaofooa_TE_ACT *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_ACT_CLASS_NUMBER );
-    te_act->AbaID = (Escher_UniqueID_t) te_act;
+    te_act->AbaID = Escher_ID_factory();
     /* RELATE sm_act TO te_act ACROSS R2022 */
     ooaofooa_TE_ACT_R2022_Link( sm_act, te_act );
     /* ASSIGN te_act.GeneratedName = ( ( te_class.GeneratedName + class_based ) + ( _act + T::s(te_state.Numb) ) ) */
@@ -1693,7 +1695,7 @@ ooaofooa_FactoryTE_SM( const bool p_is_ism, ooaofooa_SM_SM * p_sm_sm, ooaofooa_T
     ooaofooa_TE_ABA * te_aba;ooaofooa_TE_ABA * r;ooaofooa_TE_ACT * te_act;ooaofooa_TE_BLK * te_blk=0;
     /* CREATE OBJECT INSTANCE te_act OF TE_ACT */
     te_act = (ooaofooa_TE_ACT *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_ACT_CLASS_NUMBER );
-    te_act->AbaID = (Escher_UniqueID_t) te_act;
+    te_act->AbaID = Escher_ID_factory();
     /* RELATE sm_act TO te_act ACROSS R2022 */
     ooaofooa_TE_ACT_R2022_Link( sm_act, te_act );
     /* SELECT one sm_state RELATED BY sm_act->SM_AH[R514]->SM_TAH[R513]->SM_TXN[R530]->SM_STATE[R506] */
@@ -1754,7 +1756,7 @@ ooaofooa_FactoryTE_SM( const bool p_is_ism, ooaofooa_SM_SM * p_sm_sm, ooaofooa_T
     c_t * suffix=0;ooaofooa_TE_EVT * te_evt;ooaofooa_SM_NLEVT * sm_nlevt=0;
     /* CREATE OBJECT INSTANCE te_evt OF TE_EVT */
     te_evt = (ooaofooa_TE_EVT *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_EVT_CLASS_NUMBER );
-    te_evt->ID = (Escher_UniqueID_t) te_evt;
+    te_evt->ID = Escher_ID_factory();
     /* RELATE te_evt TO te_sm ACROSS R2071 */
     ooaofooa_TE_EVT_R2071_Link( te_sm, te_evt );
     /* ASSIGN te_evt.Name = sm_evt.Mning */
@@ -3587,7 +3589,7 @@ ooaofooa_MarkComponentWithTemplate( c_t * p_component_name, c_t * p_package_name
     }}}
     /* CREATE OBJECT INSTANCE tm_template OF TM_TEMPLATE */
     tm_template = (ooaofooa_TM_TEMPLATE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TEMPLATE_CLASS_NUMBER );
-    tm_template->ID = (Escher_UniqueID_t) tm_template;
+    tm_template->ID = Escher_ID_factory();
     /* ASSIGN tm_template.current = TRUE */
     tm_template->current = TRUE;
     /* RELATE tm_template TO tm_c ACROSS R2800 */
@@ -4137,7 +4139,7 @@ ooaofooa_MarkInterfaceWithTemplate( c_t * p_interface_name, c_t * p_package_name
   }}}
   /* CREATE OBJECT INSTANCE tm_template OF TM_TEMPLATE */
   tm_template = (ooaofooa_TM_TEMPLATE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TEMPLATE_CLASS_NUMBER );
-  tm_template->ID = (Escher_UniqueID_t) tm_template;
+  tm_template->ID = Escher_ID_factory();
   /* ASSIGN tm_template.current = TRUE */
   tm_template->current = TRUE;
   /* RELATE tm_template TO tm_if ACROSS R2802 */
@@ -5071,7 +5073,7 @@ ooaofooa_MarkPortWiringForPort( c_t * p_component, c_t * p_port, Escher_ObjectSe
           ooaofooa_TE_IIR * sibling_te_iir;
           /* CREATE OBJECT INSTANCE sibling_te_iir OF TE_IIR */
           sibling_te_iir = (ooaofooa_TE_IIR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_IIR_CLASS_NUMBER );
-          sibling_te_iir->ID = (Escher_UniqueID_t) sibling_te_iir;
+          sibling_te_iir->ID = Escher_ID_factory();
           /* ASSIGN sibling_te_iir.component_name = component */
           sibling_te_iir->component_name = Escher_strcpy( sibling_te_iir->component_name, component );
           /* ASSIGN sibling_te_iir.port_name = port */
@@ -5093,7 +5095,7 @@ ooaofooa_MarkPortWiringForPort( c_t * p_component, c_t * p_port, Escher_ObjectSe
         if ( ( 0 == sibling_te_iir ) ) {
           /* CREATE OBJECT INSTANCE sibling_te_iir OF TE_IIR */
           sibling_te_iir = (ooaofooa_TE_IIR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_IIR_CLASS_NUMBER );
-          sibling_te_iir->ID = (Escher_UniqueID_t) sibling_te_iir;
+          sibling_te_iir->ID = Escher_ID_factory();
           /* ASSIGN sibling_te_iir.component_name = component */
           sibling_te_iir->component_name = Escher_strcpy( sibling_te_iir->component_name, component );
           /* ASSIGN sibling_te_iir.port_name = port */
@@ -5954,7 +5956,7 @@ ooaofooa_SetTPV( c_t * p_classifier_name, c_t * p_component, c_t * p_package_nam
           ooaofooa_TM_TPV * tm_tpv;
           /* CREATE OBJECT INSTANCE tm_tpv OF TM_TPV */
           tm_tpv = (ooaofooa_TM_TPV *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TPV_CLASS_NUMBER );
-          tm_tpv->ID = (Escher_UniqueID_t) tm_tpv;
+          tm_tpv->ID = Escher_ID_factory();
           /* ASSIGN tm_tpv.instance = component */
           tm_tpv->instance = Escher_strcpy( tm_tpv->instance, component );
           /* ASSIGN tm_tpv.value = value */
@@ -6106,7 +6108,7 @@ ooaofooa_SetTPV_for_channel_connection( const i_t p_flavor, ooaofooa_TE_IIR * p_
     ooaofooa_TE_IIR * satisfied_te_iir=0;
     /* CREATE OBJECT INSTANCE tm_tpv OF TM_TPV */
     tm_tpv = (ooaofooa_TM_TPV *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TPV_CLASS_NUMBER );
-    tm_tpv->ID = (Escher_UniqueID_t) tm_tpv;
+    tm_tpv->ID = Escher_ID_factory();
     /* ASSIGN tm_tpv.instance = te_iir.interface_name */
     tm_tpv->instance = Escher_strcpy( tm_tpv->instance, te_iir->interface_name );
     /* ASSIGN tm_tpv.value = value */
@@ -6756,7 +6758,7 @@ ooaofooa_SetTemplateParameter( c_t * p_instance, c_t * p_package_name, c_t * p_v
           ooaofooa_TM_TPV * tm_tpv;
           /* CREATE OBJECT INSTANCE tm_tpv OF TM_TPV */
           tm_tpv = (ooaofooa_TM_TPV *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TPV_CLASS_NUMBER );
-          tm_tpv->ID = (Escher_UniqueID_t) tm_tpv;
+          tm_tpv->ID = Escher_ID_factory();
           /* ASSIGN tm_tpv.instance = instance */
           tm_tpv->instance = Escher_strcpy( tm_tpv->instance, instance );
           /* ASSIGN tm_tpv.value = value */
@@ -6805,7 +6807,7 @@ ooaofooa_SetTemplateParameter( c_t * p_instance, c_t * p_package_name, c_t * p_v
           ooaofooa_TM_TPV * tm_tpv;
           /* CREATE OBJECT INSTANCE tm_tpv OF TM_TPV */
           tm_tpv = (ooaofooa_TM_TPV *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TPV_CLASS_NUMBER );
-          tm_tpv->ID = (Escher_UniqueID_t) tm_tpv;
+          tm_tpv->ID = Escher_ID_factory();
           /* ASSIGN tm_tpv.instance = instance */
           tm_tpv->instance = Escher_strcpy( tm_tpv->instance, instance );
           /* ASSIGN tm_tpv.value = value */
@@ -6853,7 +6855,7 @@ ooaofooa_SetTemplateParameter( c_t * p_instance, c_t * p_package_name, c_t * p_v
           ooaofooa_TM_TPV * tm_tpv;
           /* CREATE OBJECT INSTANCE tm_tpv OF TM_TPV */
           tm_tpv = (ooaofooa_TM_TPV *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TPV_CLASS_NUMBER );
-          tm_tpv->ID = (Escher_UniqueID_t) tm_tpv;
+          tm_tpv->ID = Escher_ID_factory();
           /* ASSIGN tm_tpv.instance = instance */
           tm_tpv->instance = Escher_strcpy( tm_tpv->instance, instance );
           /* ASSIGN tm_tpv.value = value */
@@ -6895,7 +6897,7 @@ ooaofooa_SetTemplateParameter( c_t * p_instance, c_t * p_package_name, c_t * p_v
           ooaofooa_TM_TPV * tm_tpv;
           /* CREATE OBJECT INSTANCE tm_tpv OF TM_TPV */
           tm_tpv = (ooaofooa_TM_TPV *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TPV_CLASS_NUMBER );
-          tm_tpv->ID = (Escher_UniqueID_t) tm_tpv;
+          tm_tpv->ID = Escher_ID_factory();
           /* ASSIGN tm_tpv.instance = instance */
           tm_tpv->instance = Escher_strcpy( tm_tpv->instance, instance );
           /* ASSIGN tm_tpv.value = value */
@@ -7329,7 +7331,7 @@ ooaofooa_TE_EE_init( ooaofooa_TE_C * p_te_c, ooaofooa_TE_EE * p_te_ee )
     ooaofooa_TE_ABA * te_aba;ooaofooa_TE_ABA * r;ooaofooa_TE_BRG * te_brg;ooaofooa_TE_BLK * te_blk=0;Escher_ObjectSet_s te_parms_space={0}; Escher_ObjectSet_s * te_parms = &te_parms_space;ooaofooa_TE_DT * te_dt=0;
     /* CREATE OBJECT INSTANCE te_brg OF TE_BRG */
     te_brg = (ooaofooa_TE_BRG *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_BRG_CLASS_NUMBER );
-    te_brg->AbaID = (Escher_UniqueID_t) te_brg;
+    te_brg->AbaID = Escher_ID_factory();
     /* RELATE te_brg TO s_brg ACROSS R2025 */
     ooaofooa_TE_BRG_R2025_Link( s_brg, te_brg );
     /* RELATE te_brg TO te_ee ACROSS R2089 */
@@ -7398,7 +7400,7 @@ ooaofooa_TE_PARM_duplicate( ooaofooa_TE_PARM * p_te_parm )
   te_parm = p_te_parm;
   /* CREATE OBJECT INSTANCE duplicate_te_parm OF TE_PARM */
   duplicate_te_parm = (ooaofooa_TE_PARM *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_PARM_CLASS_NUMBER );
-  duplicate_te_parm->ID = (Escher_UniqueID_t) duplicate_te_parm;
+  duplicate_te_parm->ID = Escher_ID_factory();
   /* ASSIGN duplicate_te_parm.Order = te_parm.Order */
   duplicate_te_parm->Order = te_parm->Order;
   /* ASSIGN duplicate_te_parm.ParamBuffer = te_parm.ParamBuffer */
@@ -8906,7 +8908,7 @@ ooaofooa_associator_TE_LNK( ooaofooa_TE_LNK * p_left_te_lnk, ooaofooa_TE_LNK * p
   right_te_lnk = p_right_te_lnk;
   /* CREATE OBJECT INSTANCE te_lnk OF TE_LNK */
   te_lnk = (ooaofooa_TE_LNK *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_LNK_CLASS_NUMBER );
-  te_lnk->ID = (Escher_UniqueID_t) te_lnk;
+  te_lnk->ID = Escher_ID_factory();
   /* ASSIGN te_lnk.rel_phrase =  */
   te_lnk->rel_phrase = Escher_strcpy( te_lnk->rel_phrase, "" );
   /* RELATE te_lnk TO right_te_lnk ACROSS R2075 */
@@ -12503,14 +12505,14 @@ ooaofooa_rel_pseudoformalize()
       r_oir = ( 0 != r_rto ) ? r_rto->R_OIR_R203 : 0;
       /* CREATE OBJECT INSTANCE r_rgo OF R_RGO */
       r_rgo = (ooaofooa_R_RGO *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_R_RGO_CLASS_NUMBER );
-      r_rgo->Obj_ID = (Escher_UniqueID_t) r_rgo;
-r_rgo->Rel_ID = (Escher_UniqueID_t) r_rgo;
-r_rgo->OIR_ID = (Escher_UniqueID_t) r_rgo;
+      r_rgo->Obj_ID = Escher_ID_factory();
+r_rgo->Rel_ID = Escher_ID_factory();
+r_rgo->OIR_ID = Escher_ID_factory();
       /* CREATE OBJECT INSTANCE r_form OF R_FORM */
       r_form = (ooaofooa_R_FORM *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_R_FORM_CLASS_NUMBER );
-      r_form->Obj_ID = (Escher_UniqueID_t) r_form;
-r_form->Rel_ID = (Escher_UniqueID_t) r_form;
-r_form->OIR_ID = (Escher_UniqueID_t) r_form;
+      r_form->Obj_ID = Escher_ID_factory();
+r_form->Rel_ID = Escher_ID_factory();
+r_form->OIR_ID = Escher_ID_factory();
       /* ASSIGN r_form.Mult = r_part.Mult */
       r_form->Mult = r_part->Mult;
       /* ASSIGN r_form.Cond = r_part.Cond */
@@ -15600,7 +15602,7 @@ ooaofooa_smt_select_related( ooaofooa_ACT_SEL * p_act_sel, const bool p_by_where
     c_t * subtypecheck=0;c_t * cast=0;c_t * ws=0;ooaofooa_TE_LNK * assr_te_lnk;ooaofooa_TE_LNK * r;ooaofooa_TE_SELECT_RELATED * te_select_related;ooaofooa_R_REL * sub_r_rel=0;ooaofooa_TE_CLASS * te_class=0;ooaofooa_TE_VAR * result_te_var=0;ooaofooa_V_VAR * result_v_var=0;ooaofooa_TE_LNK * te_lnk=0;ooaofooa_ACT_LNK * act_lnk=0;ooaofooa_TE_VAR * start_te_var=0;
     /* CREATE OBJECT INSTANCE te_select_related OF TE_SELECT_RELATED */
     te_select_related = (ooaofooa_TE_SELECT_RELATED *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_SELECT_RELATED_CLASS_NUMBER );
-    te_select_related->Statement_ID = (Escher_UniqueID_t) te_select_related;
+    te_select_related->Statement_ID = Escher_ID_factory();
     /* ASSIGN te_select_related.by_where = by_where */
     te_select_related->by_where = by_where;
     /* ASSIGN te_select_related.is_implicit = act_sel.is_implicit */
@@ -17319,7 +17321,7 @@ ooaofooa_sys_populate()
   if ( ( 0 == s_sys ) ) {
     /* CREATE OBJECT INSTANCE s_sys OF S_SYS */
     s_sys = (ooaofooa_S_SYS *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_S_SYS_CLASS_NUMBER );
-    s_sys->Sys_ID = (Escher_UniqueID_t) s_sys;
+    s_sys->Sys_ID = Escher_ID_factory();
     /* ASSIGN s_sys.Name = sys */
     s_sys->Name = Escher_strcpy( s_sys->Name, "sys" );
   }
@@ -17493,8 +17495,8 @@ ooaofooa_sys_populate()
     ooaofooa_TE_PO * te_po=0;ooaofooa_C_PO * c_po=0;ooaofooa_CL_IC * cl_ic=0;i_t port_counter;ooaofooa_TE_DCI * te_dci;ooaofooa_TE_C * te_c;ooaofooa_TM_C * tm_c=0;Escher_ObjectSet_s te_pos_space={0}; Escher_ObjectSet_s * te_pos = &te_pos_space;Escher_ObjectSet_s c_pos_space={0}; Escher_ObjectSet_s * c_pos = &c_pos_space;Escher_ObjectSet_s cl_ics_space={0}; Escher_ObjectSet_s * cl_ics = &cl_ics_space;
     /* CREATE OBJECT INSTANCE te_c OF TE_C */
     te_c = (ooaofooa_TE_C *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_C_CLASS_NUMBER );
-    te_c->ID = (Escher_UniqueID_t) te_c;
-te_c->cId = (Escher_UniqueID_t) te_c;
+    te_c->ID = Escher_ID_factory();
+te_c->cId = Escher_ID_factory();
     /* RELATE te_c TO c_c ACROSS R2054 */
     ooaofooa_TE_C_R2054_Link( c_c, te_c );
     /* RELATE te_c TO te_sys ACROSS R2065 */
@@ -17569,7 +17571,7 @@ te_c->cId = (Escher_UniqueID_t) te_c;
       ooaofooa_TE_CI * te_ci;
       /* CREATE OBJECT INSTANCE te_ci OF TE_CI */
       te_ci = (ooaofooa_TE_CI *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_CI_CLASS_NUMBER );
-      te_ci->ID = (Escher_UniqueID_t) te_ci;
+      te_ci->ID = Escher_ID_factory();
       /* ASSIGN te_ci.Name = te_c.Name */
       te_ci->Name = Escher_strcpy( te_ci->Name, te_c->Name );
       /* IF ( (  == cl_ic.ClassifierName ) ) */
@@ -17612,7 +17614,7 @@ te_c->cId = (Escher_UniqueID_t) te_c;
         ooaofooa_C_IR * c_ir=0;ooaofooa_TE_PO * te_po;Escher_ObjectSet_s c_irs_space={0}; Escher_ObjectSet_s * c_irs = &c_irs_space;ooaofooa_C_R * c_r=0;
         /* CREATE OBJECT INSTANCE te_po OF TE_PO */
         te_po = (ooaofooa_TE_PO *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_PO_CLASS_NUMBER );
-        te_po->ID = (Escher_UniqueID_t) te_po;
+        te_po->ID = Escher_ID_factory();
         /* RELATE te_po TO c_po ACROSS R2044 */
         ooaofooa_TE_PO_R2044_Link( c_po, te_po );
         /* RELATE te_po TO te_c ACROSS R2005 */
@@ -17661,7 +17663,7 @@ te_c->cId = (Escher_UniqueID_t) te_c;
           ooaofooa_CL_IIR * cl_iir=0;ooaofooa_TE_IIR * te_iir;Escher_ObjectSet_s cl_iirs_space={0}; Escher_ObjectSet_s * cl_iirs = &cl_iirs_space;
           /* CREATE OBJECT INSTANCE te_iir OF TE_IIR */
           te_iir = (ooaofooa_TE_IIR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_IIR_CLASS_NUMBER );
-          te_iir->ID = (Escher_UniqueID_t) te_iir;
+          te_iir->ID = Escher_ID_factory();
           /* RELATE te_iir TO c_ir ACROSS R2046 */
           ooaofooa_TE_IIR_R2046_Link( c_ir, te_iir );
           /* RELATE te_iir TO te_po ACROSS R2080 */
@@ -17687,7 +17689,7 @@ te_c->cId = (Escher_UniqueID_t) te_c;
             cl_iir = iicl_iir; {
             /* CREATE OBJECT INSTANCE te_iir OF TE_IIR */
             te_iir = (ooaofooa_TE_IIR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_IIR_CLASS_NUMBER );
-            te_iir->ID = (Escher_UniqueID_t) te_iir;
+            te_iir->ID = Escher_ID_factory();
             /* RELATE te_iir TO cl_iir ACROSS R2013 */
             ooaofooa_TE_IIR_R2013_Link( cl_iir, te_iir );
             /* RELATE te_iir TO te_po ACROSS R2080 */
@@ -18224,7 +18226,7 @@ te_c->cId = (Escher_UniqueID_t) te_c;
     ooaofooa_TE_C * te_c;ooaofooa_TE_DT * te_dt;ooaofooa_EP_PKG * ep_pkg=0;
     /* CREATE OBJECT INSTANCE te_dt OF TE_DT */
     te_dt = (ooaofooa_TE_DT *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_DT_CLASS_NUMBER );
-    te_dt->ID = (Escher_UniqueID_t) te_dt;
+    te_dt->ID = Escher_ID_factory();
     /* RELATE te_dt TO s_dt ACROSS R2021 */
     ooaofooa_TE_DT_R2021_Link( s_dt, te_dt );
     /* ASSIGN te_dt.Name = s_dt.Name */
@@ -18346,8 +18348,8 @@ te_c->cId = (Escher_UniqueID_t) te_c;
         te_c->internal_behavior = TRUE;
         /* CREATE OBJECT INSTANCE te_sync OF TE_SYNC */
         te_sync = (ooaofooa_TE_SYNC *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_SYNC_CLASS_NUMBER );
-        te_sync->AbaID = (Escher_UniqueID_t) te_sync;
-te_sync->ID = (Escher_UniqueID_t) te_sync;
+        te_sync->AbaID = Escher_ID_factory();
+te_sync->ID = Escher_ID_factory();
         /* RELATE s_sync TO te_sync ACROSS R2023 */
         ooaofooa_TE_SYNC_R2023_Link( s_sync, te_sync );
         /* RELATE te_sync TO te_c ACROSS R2084 */
@@ -18384,8 +18386,8 @@ te_sync->ID = (Escher_UniqueID_t) te_sync;
       ooaofooa_TE_EE * te_ee;
       /* CREATE OBJECT INSTANCE te_ee OF TE_EE */
       te_ee = (ooaofooa_TE_EE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_EE_CLASS_NUMBER );
-      te_ee->EE_ID = (Escher_UniqueID_t) te_ee;
-te_ee->ID = (Escher_UniqueID_t) te_ee;
+      te_ee->EE_ID = Escher_ID_factory();
+te_ee->ID = Escher_ID_factory();
       /* RELATE te_ee TO s_ee ACROSS R2020 */
       ooaofooa_TE_EE_R2020_Link( s_ee, te_ee );
     }
@@ -18397,8 +18399,8 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
         te_c->internal_behavior = TRUE;
         /* CREATE OBJECT INSTANCE te_ee OF TE_EE */
         te_ee = (ooaofooa_TE_EE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_EE_CLASS_NUMBER );
-        te_ee->EE_ID = (Escher_UniqueID_t) te_ee;
-te_ee->ID = (Escher_UniqueID_t) te_ee;
+        te_ee->EE_ID = Escher_ID_factory();
+te_ee->ID = Escher_ID_factory();
         /* RELATE te_ee TO s_ee ACROSS R2020 */
         ooaofooa_TE_EE_R2020_Link( s_ee, te_ee );
         /* RELATE te_ee TO te_c ACROSS R2085 */
@@ -18498,8 +18500,8 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
       te_dt->ExtName = Escher_strcpy( te_dt->ExtName, Escher_stradd( te_prefix->type, "UniqueID_t" ) );
       /* ASSIGN te_dt.Initial_Value = 0 */
       te_dt->Initial_Value = Escher_strcpy( te_dt->Initial_Value, "0" );
-      /* ASSIGN te_dt.string_format = %p */
-      te_dt->string_format = Escher_strcpy( te_dt->string_format, "%p" );
+      /* ASSIGN te_dt.string_format = %d */
+      te_dt->string_format = Escher_strcpy( te_dt->string_format, "%d" );
     }
     else if ( ( 6 == te_dt->Core_Typ ) ) {
       /* ASSIGN te_dt.ExtName =  */
@@ -18517,7 +18519,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
       /* ASSIGN te_dt.string_format = %p */
       te_dt->string_format = Escher_strcpy( te_dt->string_format, "%p" );
     }
-    else if ( ( 8 == te_dt->Core_Typ ) ) {
+    else if ( ( ( 8 == te_dt->Core_Typ ) || ( 20 == te_dt->Core_Typ ) ) ) {
       /* ASSIGN te_dt.ExtName = void * */
       te_dt->ExtName = Escher_strcpy( te_dt->ExtName, "void *" );
       /* ASSIGN te_dt.Initial_Value =  */
@@ -18525,7 +18527,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
       /* ASSIGN te_dt.string_format = %p */
       te_dt->string_format = Escher_strcpy( te_dt->string_format, "%p" );
     }
-    else if ( ( 9 == te_dt->Core_Typ ) ) {
+    else if ( ( ( 9 == te_dt->Core_Typ ) || ( 21 == te_dt->Core_Typ ) ) ) {
       /* ASSIGN te_dt.ExtName = ( te_set.base_class +  * ) */
       te_dt->ExtName = Escher_strcpy( te_dt->ExtName, Escher_stradd( te_set->base_class, " *" ) );
       /* ASSIGN te_dt.Initial_Value =  */
@@ -18755,7 +18757,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
       ooaofooa_TE_MBR * te_mbr;ooaofooa_TE_DT * mbr_te_dt=0;
       /* CREATE OBJECT INSTANCE te_mbr OF TE_MBR */
       te_mbr = (ooaofooa_TE_MBR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_MBR_CLASS_NUMBER );
-      te_mbr->ID = (Escher_UniqueID_t) te_mbr;
+      te_mbr->ID = Escher_ID_factory();
       /* RELATE s_mbr TO te_mbr ACROSS R2047 */
       ooaofooa_TE_MBR_R2047_Link( s_mbr, te_mbr );
       /* SELECT one mbr_te_dt RELATED BY s_mbr->S_DT[R45]->TE_DT[R2021] */
@@ -19298,7 +19300,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
     ooaofooa_TE_VAL * te_val;
     /* CREATE OBJECT INSTANCE te_val OF TE_VAL */
     te_val = (ooaofooa_TE_VAL *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_VAL_CLASS_NUMBER );
-    te_val->Value_ID = (Escher_UniqueID_t) te_val;
+    te_val->Value_ID = Escher_ID_factory();
     /* RELATE v_val TO te_val ACROSS R2040 */
     ooaofooa_TE_VAL_R2040_Link( v_val, te_val );
     /* ASSIGN te_val.array_spec =  */
@@ -20601,7 +20603,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
     ooaofooa_ACT_SMT * act_smt=0;bool first_smt;ooaofooa_TE_BLK * te_blk;Escher_ObjectSet_s act_smts_space={0}; Escher_ObjectSet_s * act_smts = &act_smts_space;
     /* CREATE OBJECT INSTANCE te_blk OF TE_BLK */
     te_blk = (ooaofooa_TE_BLK *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_BLK_CLASS_NUMBER );
-    te_blk->Block_ID = (Escher_UniqueID_t) te_blk;
+    te_blk->Block_ID = Escher_ID_factory();
     /* RELATE act_blk TO te_blk ACROSS R2016 */
     ooaofooa_TE_BLK_R2016_Link( act_blk, te_blk );
     /* ASSIGN te_blk.declaration =  */
@@ -20626,7 +20628,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
       ooaofooa_TE_SMT * te_smt;
       /* CREATE OBJECT INSTANCE te_smt OF TE_SMT */
       te_smt = (ooaofooa_TE_SMT *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_SMT_CLASS_NUMBER );
-      te_smt->Statement_ID = (Escher_UniqueID_t) te_smt;
+      te_smt->Statement_ID = Escher_ID_factory();
       /* RELATE act_smt TO te_smt ACROSS R2038 */
       ooaofooa_TE_SMT_R2038_Link( act_smt, te_smt );
       /* RELATE te_smt TO te_blk ACROSS R2078 */
@@ -20899,7 +20901,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
     i_t dim_index;ooaofooa_TE_DIM * te_dim;c_t * array_spec=0;ooaofooa_TE_VAR * te_var;ooaofooa_TE_DT * te_dt=0;Escher_ObjectSet_s s_dims_space={0}; Escher_ObjectSet_s * s_dims = &s_dims_space;
     /* CREATE OBJECT INSTANCE te_var OF TE_VAR */
     te_var = (ooaofooa_TE_VAR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_VAR_CLASS_NUMBER );
-    te_var->Var_ID = (Escher_UniqueID_t) te_var;
+    te_var->Var_ID = Escher_ID_factory();
     /* RELATE v_var TO te_var ACROSS R2039 */
     ooaofooa_TE_VAR_R2039_Link( v_var, te_var );
     /* IF ( ( self == T::l(v_var.Name) ) ) */
@@ -21324,7 +21326,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
         c_t * o_attr_Descrip_Persistent=0;i_t dim_index;ooaofooa_TE_DIM * te_dim;c_t * array_spec=0;ooaofooa_TE_ATTR * te_attr;ooaofooa_O_DBATTR * o_dbattr=0;ooaofooa_TE_DT * te_dt=0;Escher_ObjectSet_s s_dims_space={0}; Escher_ObjectSet_s * s_dims = &s_dims_space;
         /* CREATE OBJECT INSTANCE te_attr OF TE_ATTR */
         te_attr = (ooaofooa_TE_ATTR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_ATTR_CLASS_NUMBER );
-        te_attr->ID = (Escher_UniqueID_t) te_attr;
+        te_attr->ID = Escher_ID_factory();
         /* ASSIGN te_attr.Name = o_attr.Name */
         te_attr->Name = Escher_strcpy( te_attr->Name, o_attr->Name );
         /* ASSIGN te_attr.GeneratedName = T::r(s:o_attr.Name) */
@@ -21457,7 +21459,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
           ooaofooa_TE_ABA * te_aba;ooaofooa_TE_ABA * r2;Escher_ObjectSet_s te_parms_space={0}; Escher_ObjectSet_s * te_parms = &te_parms_space;ooaofooa_TE_DBATTR * te_dbattr;
           /* CREATE OBJECT INSTANCE te_dbattr OF TE_DBATTR */
           te_dbattr = (ooaofooa_TE_DBATTR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_DBATTR_CLASS_NUMBER );
-          te_dbattr->AbaID = (Escher_UniqueID_t) te_dbattr;
+          te_dbattr->AbaID = Escher_ID_factory();
           /* ASSIGN te_dbattr.Included = FALSE */
           te_dbattr->Included = FALSE;
           /* ASSIGN te_dbattr.GeneratedName = ( ( te_class.GeneratedName + _MDA_ ) + o_attr.Name ) */
@@ -21543,7 +21545,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
         ooaofooa_TE_ABA * te_aba;ooaofooa_TE_ABA * r2;sys_Scope_t ib;ooaofooa_TE_TFR * te_tfr;Escher_ObjectSet_s te_parms_space={0}; Escher_ObjectSet_s * te_parms = &te_parms_space;ooaofooa_TE_DT * te_dt=0;
         /* CREATE OBJECT INSTANCE te_tfr OF TE_TFR */
         te_tfr = (ooaofooa_TE_TFR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_TFR_CLASS_NUMBER );
-        te_tfr->AbaID = (Escher_UniqueID_t) te_tfr;
+        te_tfr->AbaID = Escher_ID_factory();
         /* ASSIGN te_tfr.Included = FALSE */
         te_tfr->Included = FALSE;
         /* ASSIGN te_tfr.XlateSemantics = TRUE */
@@ -21753,79 +21755,79 @@ ooaofooa_sys_singletons()
   ooaofooa_target_factory( te_target );
   /* CREATE OBJECT INSTANCE te_assign OF TE_ASSIGN */
   te_assign = (ooaofooa_TE_ASSIGN *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_ASSIGN_CLASS_NUMBER );
-  te_assign->Statement_ID = (Escher_UniqueID_t) te_assign;
+  te_assign->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_create_instance OF TE_CREATE_INSTANCE */
   te_create_instance = (ooaofooa_TE_CREATE_INSTANCE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_CREATE_INSTANCE_CLASS_NUMBER );
-  te_create_instance->Statement_ID = (Escher_UniqueID_t) te_create_instance;
+  te_create_instance->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_for OF TE_FOR */
   te_for = (ooaofooa_TE_FOR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_FOR_CLASS_NUMBER );
-  te_for->Statement_ID = (Escher_UniqueID_t) te_for;
+  te_for->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_if OF TE_IF */
   te_if = (ooaofooa_TE_IF *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_IF_CLASS_NUMBER );
-  te_if->Statement_ID = (Escher_UniqueID_t) te_if;
+  te_if->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_while OF TE_WHILE */
   te_while = (ooaofooa_TE_WHILE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_WHILE_CLASS_NUMBER );
-  te_while->Statement_ID = (Escher_UniqueID_t) te_while;
+  te_while->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_elif OF TE_ELIF */
   te_elif = (ooaofooa_TE_ELIF *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_ELIF_CLASS_NUMBER );
-  te_elif->Statement_ID = (Escher_UniqueID_t) te_elif;
+  te_elif->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_delete_instance OF TE_DELETE_INSTANCE */
   te_delete_instance = (ooaofooa_TE_DELETE_INSTANCE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_DELETE_INSTANCE_CLASS_NUMBER );
-  te_delete_instance->Statement_ID = (Escher_UniqueID_t) te_delete_instance;
+  te_delete_instance->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_create_event OF TE_CREATE_EVENT */
   te_create_event = (ooaofooa_TE_CREATE_EVENT *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_CREATE_EVENT_CLASS_NUMBER );
-  te_create_event->Statement_ID = (Escher_UniqueID_t) te_create_event;
+  te_create_event->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_relate OF TE_RELATE */
   te_relate = (ooaofooa_TE_RELATE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_RELATE_CLASS_NUMBER );
-  te_relate->Statement_ID = (Escher_UniqueID_t) te_relate;
+  te_relate->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_relate_using OF TE_RELATE_USING */
   te_relate_using = (ooaofooa_TE_RELATE_USING *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_RELATE_USING_CLASS_NUMBER );
-  te_relate_using->Statement_ID = (Escher_UniqueID_t) te_relate_using;
+  te_relate_using->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_unrelate OF TE_UNRELATE */
   te_unrelate = (ooaofooa_TE_UNRELATE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_UNRELATE_CLASS_NUMBER );
-  te_unrelate->Statement_ID = (Escher_UniqueID_t) te_unrelate;
+  te_unrelate->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_unrelate_using OF TE_UNRELATE_USING */
   te_unrelate_using = (ooaofooa_TE_UNRELATE_USING *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_UNRELATE_USING_CLASS_NUMBER );
-  te_unrelate_using->Statement_ID = (Escher_UniqueID_t) te_unrelate_using;
+  te_unrelate_using->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_select OF TE_SELECT */
   te_select = (ooaofooa_TE_SELECT *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_SELECT_CLASS_NUMBER );
-  te_select->Statement_ID = (Escher_UniqueID_t) te_select;
+  te_select->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_select_where OF TE_SELECT_WHERE */
   te_select_where = (ooaofooa_TE_SELECT_WHERE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_SELECT_WHERE_CLASS_NUMBER );
-  te_select_where->Statement_ID = (Escher_UniqueID_t) te_select_where;
+  te_select_where->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_generate_precreated_event OF TE_GENERATE_PRECREATED_EVENT */
   te_generate_precreated_event = (ooaofooa_TE_GENERATE_PRECREATED_EVENT *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_GENERATE_PRECREATED_EVENT_CLASS_NUMBER );
-  te_generate_precreated_event->Statement_ID = (Escher_UniqueID_t) te_generate_precreated_event;
+  te_generate_precreated_event->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_event_parameters OF TE_EVENT_PARAMETERS */
   te_event_parameters = (ooaofooa_TE_EVENT_PARAMETERS *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_EVENT_PARAMETERS_CLASS_NUMBER );
-  te_event_parameters->Statement_ID = (Escher_UniqueID_t) te_event_parameters;
+  te_event_parameters->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_generate OF TE_GENERATE */
   te_generate = (ooaofooa_TE_GENERATE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_GENERATE_CLASS_NUMBER );
-  te_generate->Statement_ID = (Escher_UniqueID_t) te_generate;
+  te_generate->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_generate_creator_event OF TE_GENERATE_CREATOR_EVENT */
   te_generate_creator_event = (ooaofooa_TE_GENERATE_CREATOR_EVENT *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_GENERATE_CREATOR_EVENT_CLASS_NUMBER );
-  te_generate_creator_event->Statement_ID = (Escher_UniqueID_t) te_generate_creator_event;
+  te_generate_creator_event->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_generate_to_class OF TE_GENERATE_TO_CLASS */
   te_generate_to_class = (ooaofooa_TE_GENERATE_TO_CLASS *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_GENERATE_TO_CLASS_CLASS_NUMBER );
-  te_generate_to_class->Statement_ID = (Escher_UniqueID_t) te_generate_to_class;
+  te_generate_to_class->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_sgn OF TE_SGN */
   te_sgn = (ooaofooa_TE_SGN *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_SGN_CLASS_NUMBER );
-  te_sgn->Statement_ID = (Escher_UniqueID_t) te_sgn;
+  te_sgn->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_iop OF TE_IOP */
   te_iop = (ooaofooa_TE_IOP *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_IOP_CLASS_NUMBER );
-  te_iop->Statement_ID = (Escher_UniqueID_t) te_iop;
+  te_iop->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_operation OF TE_OPERATION */
   te_operation = (ooaofooa_TE_OPERATION *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_OPERATION_CLASS_NUMBER );
-  te_operation->Statement_ID = (Escher_UniqueID_t) te_operation;
+  te_operation->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_bridge OF TE_BRIDGE */
   te_bridge = (ooaofooa_TE_BRIDGE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_BRIDGE_CLASS_NUMBER );
-  te_bridge->Statement_ID = (Escher_UniqueID_t) te_bridge;
+  te_bridge->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_function OF TE_FUNCTION */
   te_function = (ooaofooa_TE_FUNCTION *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_FUNCTION_CLASS_NUMBER );
-  te_function->Statement_ID = (Escher_UniqueID_t) te_function;
+  te_function->Statement_ID = Escher_ID_factory();
   /* CREATE OBJECT INSTANCE te_return OF TE_RETURN */
   te_return = (ooaofooa_TE_RETURN *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_RETURN_CLASS_NUMBER );
-  te_return->Statement_ID = (Escher_UniqueID_t) te_return;
+  te_return->Statement_ID = Escher_ID_factory();
 }
 
 /*
@@ -25015,6 +25017,7 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_S_SDT_instancedumper,
   ooaofooa_S_MBR_instancedumper,
   ooaofooa_S_DIM_instancedumper,
+  ooaofooa_S_EXP_instancedumper,
   ooaofooa_S_EE_instancedumper,
   ooaofooa_C_C_instancedumper,
   ooaofooa_C_I_instancedumper,
@@ -25392,6 +25395,7 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_S_SDT_extent,
   &pG_ooaofooa_S_MBR_extent,
   &pG_ooaofooa_S_DIM_extent,
+  &pG_ooaofooa_S_EXP_extent,
   &pG_ooaofooa_S_EE_extent,
   &pG_ooaofooa_C_C_extent,
   &pG_ooaofooa_C_I_extent,
