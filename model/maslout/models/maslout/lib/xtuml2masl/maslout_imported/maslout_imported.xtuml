@@ -1681,7 +1681,7 @@ value[1] = o_obj.Name;
 select many o_tfrs related by o_obj->O_TFR[R115];
 for each o_tfr in o_tfrs
 
-  value[2] = "public"; // CDS - dunno how to choose this
+  value[2] = "public"; // All class operations are public
   value[3] = o_tfr.Name;
   value[4] = "";
   if ( Scope::Instance == o_tfr.Instance_Based )
