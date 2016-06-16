@@ -120,16 +120,17 @@ then all projects and all domains are rendered.
 
 6.1.4.1 Inputs
 
-`x2m` reads xtUML from standard input until the end of the file is reached. It also takes
-a project (`-p`) or domain (`-d`) directive.  The name of the project or domain can be
-supplied.
+`x2m` reads xtUML from standard input until the end of the file is reached. An
+input project root folder is normally needed using (`-i`).  It also takes a
+project (`-p`) or domain (`-d`) directive.  The name of the project or domain
+can be supplied.
 
 6.1.4.2 Outputs
 
 `x2m` outputs serial MASL to standard out. Any error messages are written to standard error.
 
 ```sh
-./x2m <-p [project name] | -d [domain name]> < input_file > output_file
+./x2m -i<input project root directory> <-p [project name] | -d [domain name]> < input_file > output_file
 ```
 
 ### 6.2 Use case flows
