@@ -1693,8 +1693,8 @@ for each o_tfr in o_tfrs
   deferred = false;
   path = ::class_get_path( o_obj:o_obj );
   sig = ::underscore_signature(signature: ::operation_getsignature( flavor:1, o_tfr:o_tfr ));
-  //if ( not file_exists( name:path + "/" + sig ) )
-  if ( true )
+  select any model from instances of model;
+  if ( not FILE::exists( path:model.projectroot + "/models/" + path + "/" + sig + ".masl" ) )
     // select all supsuper relationships of which o_tfr belongs to the supertype
     select many subsuper_rels related by o_tfr->O_OBJ[R115]->R_OIR[R201]->R_RTO[R203]->R_SUPER[R204]->R_SUBSUP[R212]->R_REL[R206];
     for each subsuper_rel in subsuper_rels
