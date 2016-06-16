@@ -83,7 +83,9 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     while ( ( c = getopt ( argc, argv, "i:d::p::" ) ) != -1 ) {
       switch ( c ) {
         case 'i':
-          xtuml2masl_model_op_setroot( optarg ); break;
+          if ( !optarg ) abort();
+          else xtuml2masl_model_op_setroot( optarg );
+          break;
         case 'd':
           domain = 1;
           if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
