@@ -1681,13 +1681,41 @@ value[1] = o_obj.Name;
 select many o_tfrs related by o_obj->O_TFR[R115];
 for each o_tfr in o_tfrs
 
-  value[2] = "public"; // CDS - dunno how to choose this
+  value[2] = "public"; // All class operations are public
   value[3] = o_tfr.Name;
   value[4] = "";
   if ( Scope::Instance == o_tfr.Instance_Based )
     value[4] = "instance";
   end if;
-  value[5] = ""; // CDS - not deferred, select to subtypes?
+  value[5] = "";
+  
+  // check for deferral -- if there is no action language and subtypes have an operation with matching signature
+  deferred = false;
+  path = ::class_get_path( o_obj:o_obj );
+  sig = ::underscore_signature(signature: ::operation_getsignature( flavor:1, o_tfr:o_tfr ));
+  select any model from instances of model;
+  if ( not_empty model and ( not FILE::exists( path:model.projectroot + "/models/" + path + "/" + sig + ".masl" ) ) )
+    // select all supsuper relationships of which o_tfr belongs to the supertype
+    select many subsuper_rels related by o_tfr->O_OBJ[R115]->R_OIR[R201]->R_RTO[R203]->R_SUPER[R204]->R_SUBSUP[R212]->R_REL[R206];
+    for each subsuper_rel in subsuper_rels
+      select many subtypes related by subsuper_rel->R_OIR[R201]->R_RGO[R203]->R_OIR[R203]->O_OBJ[R201];
+      i = 0;
+      for each subtype in subtypes // check all the operations of each subtype
+        select many sub_o_tfrs related by subtype->O_TFR[R115];
+        for each sub_o_tfr in sub_o_tfrs
+          if ( ::operation_getsignature( flavor:1, o_tfr:o_tfr ) == ::operation_getsignature( flavor:1, o_tfr:sub_o_tfr ) )
+            i = i + 1; // if the subtype has a matching operation, add it to the count
+            break;
+          end if;
+        end for;
+      end for;
+      if ( i == cardinality subtypes ) // every subtype has a matching operation (this is the deferral relationship)
+        value[5] = "R" + STRING::itoa( i:subsuper_rel.Numb );  // itoa to form relationship name
+        deferred = true;
+        break;
+      end if;
+    end for;
+  end if;
   
   // Get the first parameter.
   select any o_tparm related by o_tfr->O_TPARM[R117];
@@ -1708,10 +1736,10 @@ for each o_tfr in o_tfrs
     out::populate( element:"typeref", value:emptyvalue );
   end if;
   
-  path = ::class_get_path( o_obj:o_obj );
   // Populate the action langauge body.
-  sig = ::underscore_signature(signature: ::operation_getsignature( flavor:1, o_tfr:o_tfr ));
-  ::body2code_block( name:path + "/" + sig, text:o_tfr.Action_Semantics );
+  if ( not deferred )	// do not populate a codeblock if this is a deferred operation
+    ::body2code_block( name:path + "/" + sig, text:o_tfr.Action_Semantics );
+  end if;
   
   // Populate pragmas
   o_tfr.Descrip = ::parsepragmas( s:o_tfr.Descrip, list:"" );
