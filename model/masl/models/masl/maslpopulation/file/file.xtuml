@@ -87,7 +87,11 @@ elif ( "domain" == element )
           // Domain files go into a directory named after the domain.
           file.directory( name:domain.name );
           if ( empty code_block )	// generate a file stub
-            file.gen( destination:destination );
+            select one class_op related by activity->operation[R3704];
+            select one deferral related by class_op->subsuper[R3793];
+            if ( empty class_op or ( not_empty class_op and empty deferral ) )
+              file.gen( destination:destination );
+            end if;
           else						// activity exists, copy it
             file.copy( source:code_block.sourcefile, destination:destination );
           end if;
@@ -102,7 +106,11 @@ elif ( "domain" == element )
           // Domain files go into a directory named after the domain.
           file.directory( name:domain.name );
           if ( empty code_block )	// generate a file stub
-            file.gen( destination:destination );
+            select one class_op related by activity->operation[R3704];
+            select one deferral related by class_op->subsuper[R3793];
+            if ( empty class_op or ( not_empty class_op and empty deferral ) )
+              file.gen( destination:destination );
+            end if;
           else						// activity exists, copy it
             file.copy( source:code_block.sourcefile, destination:destination );
           end if;
@@ -117,7 +125,11 @@ elif ( "domain" == element )
           // Domain files go into a directory named after the domain.
           file.directory( name:domain.name );
           if ( empty code_block )	// generate a file stub
-            file.gen( destination:destination );
+            select one class_op related by activity->operation[R3704];
+            select one deferral related by class_op->subsuper[R3793];
+            if ( empty class_op or ( not_empty class_op and empty deferral ) )
+              file.gen( destination:destination );
+            end if;
           else						// activity exists, copy it
             file.copy( source:code_block.sourcefile, destination:destination );
           end if;
@@ -132,7 +144,11 @@ elif ( "domain" == element )
           // Domain files go into a directory named after the domain.
           file.directory( name:domain.name );
           if ( empty code_block )	// generate a file stub
-            file.gen( destination:destination );
+            select one class_op related by activity->operation[R3704];
+            select one deferral related by class_op->subsuper[R3793];
+            if ( empty class_op or ( not_empty class_op and empty deferral ) )
+              file.gen( destination:destination );
+            end if;
           else						// activity exists, copy it
             file.copy( source:code_block.sourcefile, destination:destination );
           end if;
