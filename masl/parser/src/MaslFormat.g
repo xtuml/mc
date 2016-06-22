@@ -25,6 +25,8 @@ private int indent;
 private boolean sort;
 private boolean reorder;
 
+private final int parameterWrap = 1;
+
 private static final String _ASSIGN         = ":=";
 private static final String _CANNOT_HAPPEN  = "Cannot_Happen";
 private static final String _COLON          = ":";
@@ -955,7 +957,6 @@ returns [StringBuilder text]
                                    serviceVisibility
                                    serviceName
                                    description
-                                   parameterList
                                    {
                                        t.append( getText( $description.text ) );
                                        t.append( getTab() );
@@ -965,6 +966,9 @@ returns [StringBuilder text]
                                        t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
                                        t.append( _SPACE );
+                                   }
+                                   parameterList[t]
+                                   {
                                        t.append( getText( $parameterList.text ) );
                                    }
                                    (returnType
@@ -997,7 +1001,6 @@ returns [StringBuilder text]
                                    serviceVisibility
                                    serviceName              
                                    description
-                                   parameterList
                                    {
                                        t.append( getText( $description.text ) );
                                        t.append( getTab() );
@@ -1007,6 +1010,9 @@ returns [StringBuilder text]
                                        t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
                                        t.append( _SPACE );
+                                   }
+                                   parameterList[t]
+                                   {
                                        t.append( getText( $parameterList.text ) );
                                    }
                                    (returnType
@@ -1364,13 +1370,15 @@ returns [StringBuilder text]
                                    )?
                                    serviceName
                                    description
-                                   parameterList
                                    {
                                        t.insert( 0, getText( $description.text ) );
                                        t.append( $OBJECT_SERVICE_DECLARATION.text );
                                        t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
                                        t.append( _SPACE );
+                                   }
+                                   parameterList[t]
+                                   {
                                        t.append( getText( $parameterList.text ) );
                                    }
                                    (returnType
@@ -1434,19 +1442,22 @@ returns [StringBuilder text]
                                    eventName                
                                    eventType                
                                    description
-                                   parameterList
+                                   {
+                                       t.append( getText( $description.text ) );
+                                       t.append( getTab() );
+                                       String evt_type = getText( $eventType.text );
+                                       if ( !evt_type.isEmpty() ) {
+                                           t.append( evt_type + _SPACE );
+                                       }
+                                       t.append( _EVENT + _SPACE );
+                                       t.append( getText( $eventName.text ) );
+                                       t.append( _SPACE );
+                                   }
+                                   parameterList[t]
                                    pragmaList               
                                  )
                               {
-                                  t.append( getText( $description.text ) );
-                                  t.append( getTab() );
-                                  String evt_type = getText( $eventType.text );
-                                  if ( !evt_type.isEmpty() ) {
-                                      t.append( evt_type + _SPACE );
-                                  }
-                                  t.append( _EVENT + _SPACE );
-                                  t.append( getText( $eventName.text ) );
-                                  t.append( _SPACE );
+                                  
                                   t.append( getText( $parameterList.text ) );
                                   t.append( _SEMI + _NEWLINE );
                                   t.append( getText( $pragmaList.text ) );
@@ -1490,19 +1501,21 @@ returns [StringBuilder text]
                                    stateName                
                                    stateType               
                                    description
-                                   parameterList
+                                   {
+                                       t.append( getText( $description.text ) );
+                                       t.append( getTab() );
+                                       String st_type = getText( $stateType.text );
+                                       if ( !st_type.isEmpty() ) {
+                                           t.append( st_type + _SPACE );
+                                       }
+                                       t.append( _STATE + _SPACE );
+                                       t.append( getText( $stateName.text ) );
+                                       t.append( _SPACE );
+                                   }
+                                   parameterList[t]
                                    pragmaList              
                                 )                           
                               {
-                                  t.append( getText( $description.text ) );
-                                  t.append( getTab() );
-                                  String st_type = getText( $stateType.text );
-                                  if ( !st_type.isEmpty() ) {
-                                      t.append( st_type + _SPACE );
-                                  }
-                                  t.append( _STATE + _SPACE );
-                                  t.append( getText( $stateName.text ) );
-                                  t.append( _SPACE );
                                   t.append( getText( $parameterList.text ) );
                                   t.append( _SEMI + _NEWLINE );
                                   t.append( getText( $pragmaList.text ) );
@@ -1722,7 +1735,6 @@ returns [StringBuilder text]
                                    serviceVisibility
                                    serviceName
                                    description
-                                   parameterList
                                    {
                                        t.append( getText( $description.text ) );
                                        t.append( getTab() );
@@ -1732,6 +1744,9 @@ returns [StringBuilder text]
                                        t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
                                        t.append( _SPACE );
+                                   }
+                                   parameterList[t]
+                                   {
                                        t.append( getText( $parameterList.text ) );
                                    }
                                    (returnType
@@ -1772,24 +1787,39 @@ returns [StringBuilder text]
                               }
                               ;
                               
-parameterList
+parameterList[StringBuilder parent]
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
-    String sep = _SPACE;
+    List<String> params = new ArrayList<String>();
+    String sep = "";
     String end = _RPAREN;
-    t.append( _LPAREN );
+    t.append( _LPAREN + _SPACE );
+    int len = t.length();
+    if ( parent != null ) {
+        int last_nl = parent.lastIndexOf( _NEWLINE );
+        if ( last_nl == -1 ) {
+            len += parent.length();
+        }
+        else {
+            len += parent.substring( last_nl+1 ).length();
+        }
+    }
 }
 @after {
+    for ( String s : params ) {
+        t.append( sep + s );
+        if ( params.size() > parameterWrap ) sep = _COMMA + _NEWLINE + getSpace(len);
+        else sep = _COMMA + _SPACE;
+        end = _SPACE + _RPAREN;
+    }
     t.append( end );
     $text = t;
 }
 
                               : ( parameterDefinition       
                               {
-                                  t.append( sep + getText( $parameterDefinition.text ) );
-                                  sep = _COMMA + _SPACE;
-                                  end = _SPACE + _RPAREN;
+                                  params.add( getText( $parameterDefinition.text ) );
                               }
                                )*
                               ;
@@ -2202,7 +2232,7 @@ domainServiceDefinition
                                    serviceVisibility
                                    domainReference
                                    serviceName
-                                   parameterList
+                                   parameterList[null]
                                    returnType?
                                    codeBlock
                                    pragmaList
@@ -2216,7 +2246,7 @@ terminatorServiceDefinition
                                    domainReference
                                    terminatorName
                                    serviceName
-                                   parameterList
+                                   parameterList[null]
                                    returnType?
                                    codeBlock
                                    pragmaList
@@ -2230,7 +2260,7 @@ projectTerminator
                                    domainReference
                                    terminatorName
                                    serviceName
-                                   parameterList
+                                   parameterList[null]
                                    returnType?
                                    codeBlock         
                                    pragmaList
@@ -2245,7 +2275,7 @@ objectServiceDefinition
                                    INSTANCE?
                                    fullObjectReference
                                    serviceName
-                                   parameterList
+                                   parameterList[null]
                                    returnType?
                                    codeBlock
                                    pragmaList
@@ -2258,7 +2288,7 @@ stateDefinition
                                    stateType
                                    fullObjectReference
                                    stateName
-                                   parameterList
+                                   parameterList[null]
                                    codeBlock
                                    pragmaList
                                  )                          
