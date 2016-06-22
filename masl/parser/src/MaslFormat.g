@@ -1827,10 +1827,10 @@ returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
     List<String> params = new ArrayList<String>();
-    String sep = "";
+    String sep = _SPACE;
     String end = _RPAREN;
-    t.append( _LPAREN + _SPACE );
-    int len = t.length();
+    t.append( _LPAREN );
+    int len = t.length() + _SPACE.length();
     if ( parent != null ) {
         int last_nl = parent.lastIndexOf( _NEWLINE );
         if ( last_nl == -1 ) {
