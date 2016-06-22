@@ -41,7 +41,6 @@ private static final String _EXCEPTION      = "exception";
 private static final String _GOES_TO        = "=>";
 private static final String _IDENTIFIER     = "identifier";
 private static final String _IGNORE         = "Ignore";
-private static final String _INSTANCE       = "instance";
 private static final String _IS             = "is";
 private static final String _IS_A           = "is_a";
 private static final String _LPAREN         = "(";
@@ -60,6 +59,7 @@ private static final String _SPACE          = " ";
 private static final String _STATE          = "state";
 private static final String _STRUCTURE      = "structure";
 private static final String _TERMINATOR     = "terminator";
+private static final String _TERMINATOR_SCOPE   = "~>";
 private static final String _TRANSITION     = "transition";
 private static final String _TYPE           = "type";
 private static final String _USING          = "using";
@@ -160,8 +160,31 @@ definition
                               {
                                   print( getText( $domainDefinition.text ) );
                               }
+                              | activityDefinition
+                              {
+                                  print( getText( $activityDefinition.text ) );
+                              }
                               ;
 
+activityDefinition            
+returns [StringBuilder text]
+                              : domainServiceDefinition
+                              {
+                                  $text = $domainServiceDefinition.text;
+                              }
+                              | terminatorServiceDefinition
+                              {
+                                  $text = $terminatorServiceDefinition.text;
+                              }
+                              | objectServiceDefinition
+                              {
+                                  $text = $objectServiceDefinition.text;
+                              }
+                              | stateDefinition
+                              {
+                                  $text = $stateDefinition.text;
+                              }
+                              ;
 
 //---------------------------------------------------------
 // Project Definition
@@ -1068,8 +1091,20 @@ returns [StringBuilder text]
                               ;
 
 fullObjectReference
+returns [StringBuilder text]
+@init {
+    StringBuilder t = new StringBuilder();
+}
+@after {
+    $text = t;
+}
                               : domainReference
                                 objectName                  
+                                {
+                                    t.append( getText( $domainReference.text ) );
+                                    t.append( _SCOPE );
+                                    t.append( getText( $objectName.text ) );
+                                }
                               ;
 
 
@@ -1360,7 +1395,7 @@ returns [StringBuilder text]
                                    }
                                    (INSTANCE
                                    {
-                                       t.append( _INSTANCE + _SPACE );
+                                       t.append( $INSTANCE.text + _SPACE );
                                    }
                                    (relationshipReference
                                    {
@@ -2225,83 +2260,198 @@ returns [StringBuilder text]
 // Dynamic Behaviour
 //---------------------------------------------------------
 
-/*  This rule has been added to allow to parse any activity action body file
-    without knowledge of what type of activity it contained - LPS */
-activityDefinition            
-                              : domainServiceDefinition
-                              | terminatorServiceDefinition
-                              | objectServiceDefinition
-                              | stateDefinition
-                              ;
-
-
 domainServiceDefinition
+returns [StringBuilder text]
+@init {
+    StringBuilder t = new StringBuilder();
+}
+@after {
+    $text = t;
+}
                               : ^( DOMAIN_SERVICE_DEFINITION
+                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    serviceName
-                                   parameterList[null]
-                                   returnType?
+                                   {
+                                       t.append( getTab() );
+                                       t.append( getText( $serviceVisibility.text ) );
+                                       t.append( _SPACE );
+                                       t.append( $SERVICE_TYPE.text );
+                                       t.append( _SPACE );
+                                       t.append( getText( $domainReference.text ) );
+                                       t.append( _SCOPE );
+                                       t.append( getText( $serviceName.text ) );
+                                       t.append( _SPACE );
+                                   }
+                                   parameterList[t]
+                                   {
+                                       t.append( getText( $parameterList.text ) );
+                                   }
+                                   (returnType
+                                   {
+                                       t.append( _SPACE + _RETURN + _SPACE );
+                                       t.append( getText( $returnType.text ) );
+                                   }
+                                   )?
                                    codeBlock
-                                   pragmaList[_SPACE]
+                                   {
+                                       t.append( _SPACE + _IS + _NEWLINE );
+                                       t.append( $DOMAIN_SERVICE_DEFINITION.text );
+                                   }
+                                   pragmaList[_NEWLINE]
+                                   {
+                                       t.append( _SPACE + $SERVICE_TYPE.text + _SEMI + _NEWLINE );
+                                       t.append( getText( $pragmaList.text ) );
+                                   }
                                  )                                                   
                               ;
-
 
 terminatorServiceDefinition
+returns [StringBuilder text]
+@init {
+    StringBuilder t = new StringBuilder();
+}
+@after {
+    $text = t;
+}
                               : ^( TERMINATOR_SERVICE_DEFINITION
+                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    terminatorName
                                    serviceName
-                                   parameterList[null]
-                                   returnType?
+                                   {
+                                       t.append( getTab() );
+                                       t.append( getText( $serviceVisibility.text ) );
+                                       t.append( _SPACE );
+                                       t.append( $SERVICE_TYPE.text );
+                                       t.append( _SPACE );
+                                       t.append( getText( $domainReference.text ) );
+                                       t.append( _SCOPE );
+                                       t.append( getText( $terminatorName.text ) );
+                                       t.append( _TERMINATOR_SCOPE );
+                                       t.append( getText( $serviceName.text ) );
+                                       t.append( _SPACE );
+                                   }
+                                   parameterList[t]
+                                   {
+                                       t.append( getText( $parameterList.text ) );
+                                   }
+                                   (returnType
+                                   {
+                                       t.append( _SPACE + _RETURN + _SPACE );
+                                       t.append( getText( $returnType.text ) );
+                                   }
+                                   )?
                                    codeBlock
-                                   pragmaList[_SPACE]
+                                   {
+                                       t.append( _SPACE + _IS + _NEWLINE );
+                                       t.append( $TERMINATOR_SERVICE_DEFINITION.text );
+                                   }
+                                   pragmaList[_NEWLINE]
+                                   {
+                                       t.append( _SPACE + $SERVICE_TYPE.text + _SEMI + _NEWLINE );
+                                       t.append( getText( $pragmaList.text ) );
+                                   }
                                  )                                                   
                               ;
-
-
-projectTerminator
-                              : ^( TERMINATOR_SERVICE_DEFINITION
-                                   serviceVisibility
-                                   domainReference
-                                   terminatorName
-                                   serviceName
-                                   parameterList[null]
-                                   returnType?
-                                   codeBlock         
-                                   pragmaList[_SPACE]
-                                 )                                                   
-                              ;
-
-
 
 objectServiceDefinition
-                              :^( OBJECT_SERVICE_DEFINITION
+returns [StringBuilder text]
+@init {
+    StringBuilder t = new StringBuilder();
+}
+@after {
+    $text = t;
+}
+                              : ^( OBJECT_SERVICE_DEFINITION
+                                   SERVICE_TYPE
                                    serviceVisibility
-                                   INSTANCE?
+                                   {
+                                       t.append( getTab() );
+                                       t.append( getText( $serviceVisibility.text ) );
+                                       t.append( _SPACE );
+                                   }
+                                   (INSTANCE
+                                   {
+                                       t.append( $INSTANCE.text );
+                                       t.append( _SPACE );
+                                   }
+                                   )?
                                    fullObjectReference
                                    serviceName
-                                   parameterList[null]
-                                   returnType?
+                                   {
+                                       t.append( $SERVICE_TYPE.text );
+                                       t.append( _SPACE );
+                                       t.append( getText( $fullObjectReference.text ) );
+                                       t.append( _DOT );
+                                       t.append( getText( $serviceName.text ) );
+                                       t.append( _SPACE );
+                                   }
+                                   parameterList[t]
+                                   {
+                                       t.append( getText( $parameterList.text ) );
+                                   }
+                                   (returnType
+                                   {
+                                       t.append( _SPACE + _RETURN + _SPACE );
+                                       t.append( getText( $returnType.text ) );
+                                   }
+                                   )?
                                    codeBlock
-                                   pragmaList[_SPACE]
+                                   {
+                                       t.append( _SPACE + _IS + _NEWLINE );
+                                       t.append( $OBJECT_SERVICE_DEFINITION.text );
+                                   }
+                                   pragmaList[_NEWLINE]
+                                   {
+                                       t.append( _SPACE + $SERVICE_TYPE.text + _SEMI + _NEWLINE );
+                                       t.append( getText( $pragmaList.text ) );
+                                   }
                                  )                          
                               ;
 
-
 stateDefinition
+returns [StringBuilder text]
+@init {
+    StringBuilder t = new StringBuilder();
+}
+@after {
+    $text = t;
+}
                               : ^( STATE_DEFINITION
                                    stateType
                                    fullObjectReference
                                    stateName
-                                   parameterList[null]
+                                   {
+                                       t.append( getTab() );
+                                       String st_type = getText( $stateType.text );
+                                       if ( !st_type.isEmpty() ) {
+                                           t.append( st_type + _SPACE );
+                                       }
+                                       t.append( _STATE + _SPACE );
+                                       t.append( getText( $fullObjectReference.text ) );
+                                       t.append( _DOT );
+                                       t.append( getText( $stateName.text ) );
+                                       t.append( _SPACE );
+                                   }
+                                   parameterList[t]
+                                   {
+                                       t.append( getText( $parameterList.text ) );
+                                   }
                                    codeBlock
-                                   pragmaList[_SPACE]
+                                   {
+                                       t.append( _SPACE + _IS + _NEWLINE );
+                                       t.append( $STATE_DEFINITION.text );
+                                   }
+                                   pragmaList[_NEWLINE]
+                                   {
+                                       t.append( _SPACE + _STATE + _SEMI + _NEWLINE );
+                                       t.append( getText( $pragmaList.text ) );
+                                   }
                                  )                          
                               ;
-
 
 
 //---------------------------------------------------------
