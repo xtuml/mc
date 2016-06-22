@@ -1204,6 +1204,21 @@ sub xtuml2masl
     unlink "$i/gen/code_generation/a.xtuml";
   }
 
+  # format MASL
+  my $masl_format_cp = join(":", glob("$masl_bin_dir/*.jar"));
+  opendir my $dh, $out_dir
+    or die "$0: opendir: $!";
+  while (defined(my $format_dir = readdir $dh)) {
+    next unless -d "$out_dir/$format_dir";
+    if ( $format_dir ne "." and $format_dir ne ".." ) {
+      move( "$out_dir/$format_dir", "$out_dir/$format_dir.orig");
+      my $format_cmd = "java -cp $masl_format_cp MaslFormatter -r -i $out_dir/$format_dir.orig -o $out_dir/$format_dir";
+      print STDERR "$format_cmd\n";
+      system( $format_cmd );
+      rmtree("$out_dir/$format_dir.orig");
+    }
+  }
+
   print STDERR "Done.\n";
 
 }
