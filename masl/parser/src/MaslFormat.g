@@ -264,6 +264,15 @@ domainDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> domainItems = new ArrayList<String>();
+    List<String> objDecl = new ArrayList<String>();
+    List<String> servDecl = new ArrayList<String>();
+    List<String> termDef = new ArrayList<String>();
+    List<String> relDef = new ArrayList<String>();
+    List<String> objDef = new ArrayList<String>();
+    List<String> typeDef = new ArrayList<String>();
+    List<String> typeDecl = new ArrayList<String>();
+    List<String> expDecl = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -274,49 +283,106 @@ returns [StringBuilder text]
                                    {
                                         t.append( getText( $description.text ) );
                                         t.append( line( _DOMAIN + _SPACE + getText( $domainName.text ) + _SPACE + _IS ) );
-                                        t.append( line() );
                                         indent++;
                                    }
                                    ( objectDeclaration
                                    {
-                                       t.append( getText( $objectDeclaration.text ) );
+                                       domainItems.add( getText( $objectDeclaration.text ) );
+                                       objDecl.add( getText( $objectDeclaration.text ) );
                                    }
                                    | domainServiceDeclaration
                                    {
-                                       t.append( line() );
-                                       t.append( getText( $domainServiceDeclaration.text ) );
+                                       domainItems.add( getText( $domainServiceDeclaration.text ) );
+                                       servDecl.add( getText( $domainServiceDeclaration.text ) );
                                    }
                                    | domainTerminatorDefinition
                                    {
-                                       t.append( getText( $domainTerminatorDefinition.text ) );
+                                       domainItems.add( getText( $domainTerminatorDefinition.text ) );
+                                       termDef.add( getText( $domainTerminatorDefinition.text ) );
                                    }
                                    | relationshipDefinition
                                    {
-                                       t.append( getText( $relationshipDefinition.text ) );
+                                       domainItems.add( getText( $relationshipDefinition.text ) );
+                                       relDef.add( getText( $relationshipDefinition.text ) );
                                    }
                                    | objectDefinition
                                    {
-                                       t.append( getText( $objectDefinition.text ) );
+                                       domainItems.add( getText( $objectDefinition.text ) );
+                                       objDef.add( getText( $objectDefinition.text ) );
                                    }
                                    | typeDeclaration
                                    {
-                                       t.append( getText( $typeDeclaration.text ) );
+                                       domainItems.add( getText( $typeDeclaration.text ) );
+                                       typeDef.add( getText( $typeDeclaration.text ) );
                                    }
                                    | typeForwardDeclaration
                                    {
-                                       t.append( getText( $typeForwardDeclaration.text ) );
+                                       domainItems.add( getText( $typeForwardDeclaration.text ) );
+                                       typeDecl.add( getText( $typeForwardDeclaration.text ) );
                                    }
                                    | exceptionDeclaration
                                    {
-                                       t.append( getText( $exceptionDeclaration.text ) );
+                                       domainItems.add( getText( $exceptionDeclaration.text ) );
+                                       expDecl.add( getText( $exceptionDeclaration.text ) );
                                    }
                                    )*
                                    {
+                                       if ( !reorder ) {
+                                           t.append( cat( domainItems, false ) );
+                                       }
+                                       else {
+                                           if ( sort ) {
+                                               sort( objDecl );
+                                               sort( servDecl );
+                                               sort( termDef );
+                                               sort( relDef );
+                                               sort( objDef );
+                                               sort( typeDef );
+                                               sort( typeDecl );
+                                               sort( expDecl );
+                                           }
+                                           t.append( line() );
+                                           if ( !objDecl.isEmpty() ) {
+                                               t.append( line( "// OBJECT DECLARATIONS" ) );
+                                               t.append( cat( objDecl, false ) );
+                                               t.append( line() );
+                                           }
+                                           if ( !typeDef.isEmpty() || !typeDecl.isEmpty() ) {
+                                               t.append( line( "// TYPE DEFINITIONS" ) );
+                                               t.append( cat( typeDecl, false ) );
+                                               t.append( cat( typeDef, false ) );
+                                               t.append( line() );
+                                           }
+                                           if ( !expDecl.isEmpty() ) {
+                                               t.append( line( "// EXCEPTION DEFINITIONS" ) );
+                                               t.append( cat( expDecl, false ) );
+                                               t.append( line() );
+                                           }
+                                           if ( !servDecl.isEmpty() ) {
+                                               t.append( line( "// DOMAIN SERVICE DECLARATIONS" ) );
+                                               t.append( cat( servDecl, false ) );
+                                               t.append( line() );
+                                           }
+                                           if ( !termDef.isEmpty() ) {
+                                               t.append( line( "// TERMINATOR DEFINITIONS" ) );
+                                               t.append( cat( termDef, true ) );
+                                               t.append( line() );
+                                           }
+                                           if ( !relDef.isEmpty() ) {
+                                               t.append( line( "// RELATIONSHIP DEFINITIONS" ) );
+                                               t.append( cat( relDef, true ) );
+                                               t.append( line() );
+                                           }
+                                           if ( !objDef.isEmpty() ) {
+                                               t.append( line( "// OBJECT DEFINITIONS" ) );
+                                               t.append( cat( objDef, true ) );
+                                               t.append( line() );
+                                           }
+                                       }
                                        indent--;
                                    }
                                    pragmaList                    
                                    {
-                                       t.append( line() );
                                        t.append( line( _END + _SPACE + _DOMAIN + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
                                    }
@@ -547,6 +613,7 @@ structureTypeDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> comps = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -558,11 +625,13 @@ returns [StringBuilder text]
                               }
                                    ( structureComponentDefinition 
                                    {
-                                       t.append( getText( $structureComponentDefinition.text ) );
+                                       comps.add( getText( $structureComponentDefinition.text ) );
                                    }
                                    )+
                                  )                          
                               {
+                                  if ( sort ) sort( comps );
+                                  t.append( cat( comps, false ) );
                                   indent--;
                                   t.append( getTab() + _END + _SPACE + _STRUCTURE );
                               }
@@ -617,18 +686,22 @@ returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
     String sep = _SPACE;
-    String end = _SPACE + _RPAREN;
     t.append( _ENUM + _SPACE + _LPAREN );
+    List<String> enums = new ArrayList<String>();
 }
 @after {
-    t.append( end );
+    if ( sort ) sort( enums );
+    for ( String s : enums ) {
+        t.append( sep + s );
+        sep = _COMMA + _SPACE;
+    }
+    t.append( _SPACE + _RPAREN );
     $text = t;
 }
                               : ^( ENUM
                                    ( enumerator             
                                    {
-                                       t.append( sep + getText( $enumerator.text ) );
-                                       sep = _COMMA + _SPACE;
+                                       enums.add( getText( $enumerator.text ) );
                                    }
                                    )+
                                  )                          
@@ -801,6 +874,7 @@ domainTerminatorDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> domainTerminatorServices = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -819,13 +893,13 @@ returns [StringBuilder text]
                                    }
                                    ( terminatorServiceDeclaration
                                    {
-                                       t.append( line() );
-                                       t.append( getText( $terminatorServiceDeclaration.text ) );
+                                       domainTerminatorServices.add( getText( $terminatorServiceDeclaration.text ) );
                                    }
                                    )*
                                    {
+                                       if ( sort ) sort( domainTerminatorServices );
+                                       t.append( cat( domainTerminatorServices, false ) );
                                        indent--;
-                                       t.append( line() );
                                        t.append( line( _END + _SPACE + _TERMINATOR + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
                                    }
@@ -1036,6 +1110,13 @@ objectDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> objectItems = new ArrayList<String>();
+    List<String> attDef = new ArrayList<String>();
+    List<String> idDef = new ArrayList<String>();
+    List<String> servDecl = new ArrayList<String>();
+    List<String> evtDef = new ArrayList<String>();
+    List<String> stDecl = new ArrayList<String>();
+    List<String> transTab = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -1048,30 +1129,80 @@ returns [StringBuilder text]
                                    }
                                    ( attributeDefinition
                                    {
-                                       t.append( getText( $attributeDefinition.text ) );
+                                       objectItems.add( getText( $attributeDefinition.text ) );
+                                       attDef.add( getText( $attributeDefinition.text ) );
                                    }
                                    | identifierDefinition
                                    {
-                                       t.append( getText( $identifierDefinition.text ) );
+                                       objectItems.add( getText( $identifierDefinition.text ) );
+                                       idDef.add( getText( $identifierDefinition.text ) );
                                    }
                                    | objectServiceDeclaration
                                    {
-                                       t.append( getText( $objectServiceDeclaration.text ) );
+                                       objectItems.add( getText( $objectServiceDeclaration.text ) );
+                                       servDecl.add( getText( $objectServiceDeclaration.text ) );
                                    }
                                    | eventDefinition
                                    {
-                                       t.append( getText( $eventDefinition.text ) );
+                                       objectItems.add( getText( $eventDefinition.text ) );
+                                       evtDef.add( getText( $eventDefinition.text ) );
                                    }
                                    | stateDeclaration
                                    {
-                                       t.append( getText( $stateDeclaration.text ) );
+                                       objectItems.add( getText( $stateDeclaration.text ) );
+                                       stDecl.add( getText( $stateDeclaration.text ) );
                                    }
                                    | transitionTable
                                    {
-                                       t.append( getText( $transitionTable.text ) );
+                                       objectItems.add( getText( $transitionTable.text ) );
+                                       transTab.add( getText( $transitionTable.text ) );
                                    }
                                    )*
                                    {
+                                       if ( !reorder ) {
+                                           t.append( cat( objectItems, false ) );
+                                       }
+                                       else {
+                                           if ( sort ) {
+                                               sort( attDef );
+                                               sort( idDef );
+                                               sort( servDecl );
+                                               sort( evtDef );
+                                               sort( stDecl );
+                                               sort( transTab );
+                                           }
+                                           t.append( line() );
+                                           if ( !attDef.isEmpty() ) {
+                                               t.append( line( "// ATTRIBUTE DEFINITIONS" ) );
+                                               t.append( cat( attDef, false ) );
+                                               t.append( line() );
+                                           }
+                                           if ( !idDef.isEmpty() ) {
+                                               t.append( line( "// IDENTIFIER DEFINITIONS" ) );
+                                               t.append( cat( idDef, false ) );
+                                               t.append( line() );
+                                           }
+                                           if ( !servDecl.isEmpty() ) {
+                                               t.append( line( "// OBJECT SERVICE DECLARATIONS" ) );
+                                               t.append( cat( servDecl, false ) );
+                                               t.append( line() );
+                                           }
+                                           if ( !stDecl.isEmpty() ) {
+                                               t.append( line( "// STATE DECLARATIONS" ) );
+                                               t.append( cat( stDecl, false ) );
+                                               t.append( line() );
+                                           }
+                                           if ( !evtDef.isEmpty() ) {
+                                               t.append( line( "// EVENT DEFINITIONS" ) );
+                                               t.append( cat( evtDef, false ) );
+                                               t.append( line() );
+                                           }
+                                           if ( !transTab.isEmpty() ) {
+                                               t.append( line( "// TRANSITION TABLES" ) );
+                                               t.append( cat( transTab, false ) );
+                                               t.append( line() );
+                                           }
+                                       }
                                        indent--;
                                    }
                                    description
@@ -1089,6 +1220,7 @@ attributeDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> refs = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -1118,13 +1250,17 @@ returns [StringBuilder text]
                                            t.append( _REFERENTIAL + _SPACE + _LPAREN + _SPACE );
                                            first_ref = false;
                                        }
-                                       t.append( sep + getText( $attReferential.text ) );
-                                       sep = _COMMA + _SPACE;
+                                       refs.add( getText( $attReferential.text ) );
                                    }
                                    )*
                                    description
                                    typeReference
                                    {
+                                       if ( sort ) sort( refs );
+                                       for ( String s : refs ) {
+                                           t.append( sep + s );
+                                           sep = _COMMA + _SPACE;
+                                       }
                                        if ( t.indexOf( _REFERENTIAL ) != -1 ) {
                                            t.append( _SPACE + _RPAREN + _SPACE );
                                        }
@@ -1258,6 +1394,7 @@ identifierDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> attrs = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -1269,12 +1406,16 @@ returns [StringBuilder text]
                                    }
                                    ( attributeName          
                                    {
-                                       t.append( sep + getText( $attributeName.text ) );
-                                       sep = _COMMA + _SPACE;
+                                       attrs.add( getText( $attributeName.text ) );
                                    }
                                    )+
                                    pragmaList
                                    {
+                                       if ( sort ) sort( attrs );
+                                       for ( String s : attrs ) {
+                                           t.append( sep + s );
+                                           sep = _COMMA + _SPACE;
+                                       }
                                        t.append( _SPACE + _RPAREN + _SEMI + _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
@@ -1406,6 +1547,7 @@ transitionTable
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> rows = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -1423,7 +1565,7 @@ returns [StringBuilder text]
                                    }
                                    ( transitionRow          
                                    {
-                                       t.append( getText( $transitionRow.text ) );
+                                       rows.add( getText( $transitionRow.text ) );
                                    }
                                    )+
                                    {
@@ -1431,6 +1573,10 @@ returns [StringBuilder text]
                                    }
                                    pragmaList
                                    {
+                                       if ( sort ) sort( rows );
+                                       for ( String s : rows ) {
+                                           t.append( s );
+                                       }
                                        t.append( line( _END + _SPACE + _TRANSITION + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
                                    }
@@ -1453,6 +1599,7 @@ transitionRow
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> ops = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -1466,12 +1613,16 @@ returns [StringBuilder text]
                                    }
                                    ( transitionOption
                                    {
-                                       t.append( sep + getText( $transitionOption.text ) );
-                                       sep = _COMMA + _NEWLINE + getSpace(len);
+                                       ops.add( getText( $transitionOption.text ) );
                                    }
                                    )+
                                    pragmaList
                                    {
+                                       if ( sort ) sort( ops );
+                                       for ( String s : ops ) {
+                                           t.append( sep + s );
+                                           sep = _COMMA + _NEWLINE + getSpace(len);
+                                       }
                                        t.append( _SPACE + _RPAREN + _SEMI + _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
@@ -1733,6 +1884,7 @@ regularRelationshipDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> halfRels = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -1745,15 +1897,19 @@ returns [StringBuilder text]
                                    pragmaList
                                  )                          
                               {
+                                  halfRels.add( getText( $leftToRight.text ) );
+                                  halfRels.add( getText( $rightToLeft.text ) );
+                                  if ( sort ) sort( halfRels );
+
                                   t.append( getText( $description.text ) );
                                   t.append( getTab() + _RELATIONSHIP + _SPACE );
                                   t.append( getText( $relationshipName.text ) );
                                   t.append( _SPACE + _IS + _SPACE );
                                   int len = t.length();
-                                  t.append( getText( $leftToRight.text ) );
+                                  t.append( halfRels.get(0) );
                                   t.append( _COMMA + _NEWLINE );
                                   t.append( getSpace(len) );
-                                  t.append( getText( $rightToLeft.text ) );
+                                  t.append( halfRels.get(1) );
                                   t.append( _SEMI + _NEWLINE );
                                   t.append( getText( $pragmaList.text ) );
                               }
@@ -1764,6 +1920,7 @@ assocRelationshipDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> halfRels = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -1777,15 +1934,19 @@ returns [StringBuilder text]
                                    pragmaList
                                  )                          
                               {
+                                  halfRels.add( getText( $leftToRight.text ) );
+                                  halfRels.add( getText( $rightToLeft.text ) );
+                                  if ( sort ) sort( halfRels );
+
                                   t.append( getText( $description.text ) );
                                   t.append( getTab() + _RELATIONSHIP + _SPACE );
                                   t.append( getText( $relationshipName.text ) );
                                   t.append( _SPACE + _IS + _SPACE );
                                   int len = t.length();
-                                  t.append( getText( $leftToRight.text ) );
+                                  t.append( halfRels.get(0) );
                                   t.append( _COMMA + _NEWLINE );
                                   t.append( getSpace(len) );
-                                  t.append( getText( $rightToLeft.text ) );
+                                  t.append( halfRels.get(1) );
                                   t.append( _NEWLINE );
                                   t.append( getSpace(len) );
                                   t.append( _USING + _SPACE );
@@ -1828,6 +1989,7 @@ subtypeRelationshipDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> subtypes = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -1843,16 +2005,19 @@ returns [StringBuilder text]
                                         t.append( _SPACE + _IS + _SPACE );
                                         t.append( getText( $supertype.text ) );
                                         t.append( _SPACE + _IS_A + _SPACE + _LPAREN + _SPACE );
-                                        int len = t.length();
                                         String sep = "";
                                    }
                                    (subtype=objectReference   
                                    {
-                                       t.append( sep + getText( $subtype.text ) );
-                                       sep = _COMMA + _SPACE;
+                                       subtypes.add( getText( $subtype.text ) );
                                    }
                                    )+
                                    {
+                                       if ( sort ) sort( subtypes );
+                                       for ( String s : subtypes ) {
+                                           t.append( sep + s );
+                                           sep = _COMMA + _SPACE;
+                                       }
                                        t.append( _SPACE + _RPAREN + _SEMI + _NEWLINE );
                                    }
                                    pragmaList
