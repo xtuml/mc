@@ -20,10 +20,45 @@ import java.io.*;
 {
 // private fields
 private PrintStream out;
-private static final String SPACE = " ";
-private static final String NEWLINE = "\n";
-private static final String TAB = "  ";     // tab is 2 spaces
-private int indent = 0;
+private int indent;
+
+private static final String _ASSIGN         = ":=";
+private static final String _CANNOT_HAPPEN  = "Cannot_Happen";
+private static final String _COLON          = ":";
+private static final String _COMMA          = ",";
+private static final String _DEFERRED       = "deferred";
+private static final String _DOMAIN         = "domain";
+private static final String _DOT            = ".";
+private static final String _END            = "end";
+private static final String _ENUM           = "enum";
+private static final String _EVENT          = "event";
+private static final String _EXCEPTION      = "exception";
+private static final String _GOES_TO        = "=>";
+private static final String _IDENTIFIER     = "identifier";
+private static final String _IGNORE         = "Ignore";
+private static final String _INSTANCE       = "instance";
+private static final String _IS             = "is";
+private static final String _IS_A           = "is_a";
+private static final String _LPAREN         = "(";
+private static final String _NEWLINE        = "\n";
+private static final String _NON_EXISTENT   = "Non_Existent";
+private static final String _OBJECT         = "object";
+private static final String _PRAGMA         = "pragma";
+private static final String _PROJECT        = "project";
+private static final String _REFERENTIAL    = "referential";
+private static final String _RELATIONSHIP   = "relationship";
+private static final String _RETURN         = "return";
+private static final String _RPAREN         = ")";
+private static final String _SCOPE          = "::";
+private static final String _SEMI           = ";";
+private static final String _SPACE          = " ";
+private static final String _STATE          = "state";
+private static final String _STRUCTURE      = "structure";
+private static final String _TAB            = "  ";
+private static final String _TERMINATOR     = "terminator";
+private static final String _TRANSITION     = "transition";
+private static final String _TYPE           = "type";
+private static final String _USING          = "using";
 
 // initilization
 public void init() {
@@ -45,7 +80,7 @@ private void print( String s ) {
 private String getTab() {
     StringBuilder tabstr = new StringBuilder();
     for (int i = 0; i < indent; i++) {
-        tabstr.append( TAB );
+        tabstr.append( _TAB );
     }
     return tabstr.toString();
 }
@@ -53,13 +88,17 @@ private String getTab() {
 private String getSpace( int num ) {
     StringBuilder spcstr = new StringBuilder();
     for (int i = 0; i < num; i++) {
-        spcstr.append( SPACE );
+        spcstr.append( _SPACE );
     }
     return spcstr.toString();
 }
 
 private String line( String s ) {
-    return getTab() + s + NEWLINE;
+    return getTab() + s + _NEWLINE;
+}
+
+private String line() {
+    return getTab() + _NEWLINE;
 }
 
 private String getText( StringBuilder sb ) {
@@ -110,12 +149,12 @@ returns [StringBuilder text]
                                    description
                                    {
                                         t.append( getText( $description.text ) );
-                                        t.append( line( "project " + getText( $projectName.text ) + " is") );
+                                        t.append( line( _PROJECT + _SPACE + getText( $projectName.text ) + _SPACE + _IS ) );
                                         indent++;
                                    }
                                    ( projectDomainDefinition 
                                    {
-                                       t.append( line("") );
+                                       t.append( line() );
                                        t.append( getText( $projectDomainDefinition.text ) );
                                    }
                                    )*
@@ -124,8 +163,8 @@ returns [StringBuilder text]
                                    }
                                    pragmaList
                                    {
-                                       t.append( line("") );
-                                       t.append( line( "end project;" ) );
+                                       t.append( line() );
+                                       t.append( line( _END + _SPACE + _PROJECT + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                    )              
@@ -144,7 +183,7 @@ returns [StringBuilder text]
                                    description
                                    {
                                         t.append( getText( $description.text ) );
-                                        t.append( line( "domain " + getText( $projectDomainReference.text ) + " is") );
+                                        t.append( line( _DOMAIN + _SPACE + getText( $projectDomainReference.text ) + _SPACE + _IS ) );
                                         indent++;
                                    }
                                    ( projectTerminatorDefinition    
@@ -157,7 +196,7 @@ returns [StringBuilder text]
                                    }
                                    pragmaList               
                                    {
-                                       t.append( line( "end domain;" ) );
+                                       t.append( line( _END + _SPACE + _DOMAIN + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                          
@@ -192,8 +231,8 @@ returns [StringBuilder text]
                                    description
                                    {
                                         t.append( getText( $description.text ) );
-                                        t.append( line( "domain " + getText( $domainName.text ) + " is") );
-                                        t.append( line("") );
+                                        t.append( line( _DOMAIN + _SPACE + getText( $domainName.text ) + _SPACE + _IS ) );
+                                        t.append( line() );
                                         indent++;
                                    }
                                    ( objectDeclaration
@@ -202,7 +241,7 @@ returns [StringBuilder text]
                                    }
                                    | domainServiceDeclaration
                                    {
-                                       t.append( line("") );
+                                       t.append( line() );
                                        t.append( getText( $domainServiceDeclaration.text ) );
                                    }
                                    | domainTerminatorDefinition
@@ -235,8 +274,8 @@ returns [StringBuilder text]
                                    }
                                    pragmaList                    
                                    {
-                                       t.append( line("") );
-                                       t.append( line( "end domain;" ) );
+                                       t.append( line() );
+                                       t.append( line( _END + _SPACE + _DOMAIN + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                              
@@ -304,9 +343,9 @@ returns [StringBuilder text]
                               {
                                   t.append( getTab() );
                                   t.append( getText( $exceptionVisibility.text ) );
-                                  t.append( " exception " );
+                                  t.append( _SPACE + _EXCEPTION + _SPACE );
                                   t.append( getText( $exceptionName.text ) );
-                                  t.append( ";" + NEWLINE );
+                                  t.append( _SEMI + _NEWLINE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -358,9 +397,9 @@ returns [StringBuilder text]
                               {
                                   t.append( getTab() );
                                   t.append( getText( $typeVisibility.text ) );
-                                  t.append( " type " );
+                                  t.append( _SPACE + _TYPE + _SPACE );
                                   t.append( getText( $typeName.text ) );
-                                  t.append( ";" + NEWLINE );
+                                  t.append( _SEMI + _NEWLINE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -385,11 +424,11 @@ returns [StringBuilder text]
                                   t.append( getText( $description.text ) );
                                   t.append( getTab() );
                                   t.append( getText( $typeVisibility.text ) );
-                                  t.append( " type " );
+                                  t.append( _SPACE + _TYPE + _SPACE );
                                   t.append( getText( $typeName.text ) );
-                                  t.append( " is " );
+                                  t.append( _SPACE + _IS + _SPACE );
                                   t.append( getText( $typeDefinition.text ) );
-                                  t.append( ";" + NEWLINE );
+                                  t.append( _SEMI + _NEWLINE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -472,7 +511,7 @@ returns [StringBuilder text]
 }
                               : ^( STRUCTURE
                               {
-                                  t.append( "structure" + NEWLINE );
+                                  t.append( _STRUCTURE + _NEWLINE );
                                   indent++;
                               }
                                    ( structureComponentDefinition 
@@ -483,7 +522,7 @@ returns [StringBuilder text]
                                  )                          
                               {
                                   indent--;
-                                  t.append( getTab() + "end structure" );
+                                  t.append( getTab() + _END + _SPACE + _STRUCTURE );
                               }
                               ;
 
@@ -502,18 +541,18 @@ returns [StringBuilder text]
                                    {
                                        t.append( getTab() );
                                        t.append( getText( $componentName.text ) );
-                                       t.append( ": " );
+                                       t.append( _COLON + _SPACE );
                                        t.append( getText( $typeReference.text ) );
                                    }
                                    (expression //TODO finish all expressions
                                    {
-                                       t.append( " := " );
+                                       t.append( _SPACE + _ASSIGN + _SPACE );
                                        t.append( getText( $expression.text ) );
                                    }
                                    )?
                                    pragmaList
                                    {
-                                       t.append( ";" + NEWLINE );
+                                       t.append( _SEMI + _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                          
@@ -535,9 +574,9 @@ enumerationTypeDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
-    String sep = " ";
-    String end = " )";
-    t.append( "enum (" );
+    String sep = _SPACE;
+    String end = _SPACE + _RPAREN;
+    t.append( _ENUM + _SPACE + _LPAREN );
 }
 @after {
     t.append( end );
@@ -547,7 +586,7 @@ returns [StringBuilder text]
                                    ( enumerator             
                                    {
                                        t.append( sep + getText( $enumerator.text ) );
-                                       sep = ", ";
+                                       sep = _COMMA + _SPACE;
                                    }
                                    )+
                                  )                          
@@ -568,7 +607,7 @@ returns [StringBuilder text]
                                    }
                                    (expression
                                    {
-                                       t.append( " := " );
+                                       t.append( _SPACE + _ASSIGN + _SPACE );
                                        t.append( getText( $expression.text ) );
                                    }
                                    )?
@@ -730,7 +769,7 @@ returns [StringBuilder text]
                                    description
                                    {
                                         t.append( getText( $description.text ) );
-                                        t.append( line( "terminator " + getText( $terminatorName.text ) + " is") );
+                                        t.append( line( _TERMINATOR + _SPACE + getText( $terminatorName.text ) + _SPACE + _IS ) );
                                    }
                                    pragmaList                 
                                    {
@@ -738,14 +777,14 @@ returns [StringBuilder text]
                                    }
                                    ( terminatorServiceDeclaration
                                    {
-                                       t.append( line("") );
+                                       t.append( line() );
                                        t.append( getText( $terminatorServiceDeclaration.text ) );
                                    }
                                    )*
                                    {
                                        indent--;
-                                       t.append( line("") );
-                                       t.append( line( "end terminator;" ) );
+                                       t.append( line() );
+                                       t.append( line( _END + _SPACE + _TERMINATOR + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )
@@ -764,7 +803,7 @@ returns [StringBuilder text]
                                    description
                                    {
                                         t.append( getText( $description.text ) );
-                                        t.append( line( "terminator " + getText( $terminatorName.text ) + " is") );
+                                        t.append( line( _TERMINATOR + _SPACE + getText( $terminatorName.text ) + _SPACE + _IS ) );
                                    }
                                    pragmaList                 
                                    {
@@ -772,14 +811,14 @@ returns [StringBuilder text]
                                    }
                                    ( projectTerminatorServiceDeclaration
                                    {
-                                       t.append( line("") );
+                                       t.append( line() );
                                        t.append( getText( $projectTerminatorServiceDeclaration.text ) );
                                    }
                                    )*
                                    {
                                        indent--;
-                                       t.append( line("") );
-                                       t.append( line( "end terminator;" ) );
+                                       t.append( line() );
+                                       t.append( line( _END + _SPACE + _TERMINATOR + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )
@@ -804,25 +843,25 @@ returns [StringBuilder text]
                                        t.append( getText( $description.text ) );
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
-                                       t.append( SPACE );
+                                       t.append( _SPACE );
                                        t.append( $TERMINATOR_SERVICE_DECLARATION.text );
-                                       t.append( SPACE );
+                                       t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
-                                       t.append( SPACE );
+                                       t.append( _SPACE );
                                        t.append( getText( $parameterList.text ) );
                                    }
                                    (returnType
                                    {
-                                       t.append( " return " );
+                                       t.append( _SPACE + _RETURN + _SPACE );
                                        t.append( getText( $returnType.text ) );
                                    }
                                    )?
                                    {
-                                       t.append( ";" );
+                                       t.append( _SEMI );
                                    }
                                    pragmaList
                                    {
-                                       t.append( NEWLINE );
+                                       t.append( _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )
@@ -846,25 +885,25 @@ returns [StringBuilder text]
                                        t.append( getText( $description.text ) );
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
-                                       t.append( SPACE );
+                                       t.append( _SPACE );
                                        t.append( $TERMINATOR_SERVICE_DECLARATION.text );
-                                       t.append( SPACE );
+                                       t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
-                                       t.append( SPACE );
+                                       t.append( _SPACE );
                                        t.append( getText( $parameterList.text ) );
                                    }
                                    (returnType
                                    {
-                                       t.append( " return " );
+                                       t.append( _SPACE + _RETURN + _SPACE );
                                        t.append( getText( $returnType.text ) );
                                    }
                                    )?
                                    {
-                                       t.append( ";" );
+                                       t.append( _SEMI );
                                    }
                                    pragmaList
                                    {
-                                       t.append( NEWLINE );
+                                       t.append( _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )
@@ -898,8 +937,8 @@ returns [StringBuilder text]
                                 objectName                  
                                 {
                                     String dom = getText( $optionalDomainReference.text );
-                                    if ( !dom.equals("") ) {
-                                        t.append( dom + "::" );
+                                    if ( !dom.isEmpty() ) {
+                                        t.append( dom + _SCOPE );
                                     }
                                     t.append( getText( $objectName.text ) );
                                 }
@@ -919,7 +958,7 @@ returns [StringBuilder text]
                               }
                               | /* blank */
                               {
-                                  $text = new StringBuilder("");
+                                  $text = new StringBuilder();
                               }
                               ;
 attributeName
@@ -944,7 +983,7 @@ returns [StringBuilder text]
                                    pragmaList
                                  )                          
                               {
-                                  t.append( line( "object " + getText( $objectName.text ) + ";" ) );
+                                  t.append( line( _OBJECT + _SPACE + getText( $objectName.text ) + _SEMI ) );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -961,7 +1000,7 @@ returns [StringBuilder text]
                               : ^( OBJECT_DEFINITION
                                    objectName               
                                    {
-                                       t.append( line( "object " + getText( $objectName.text ) + " is" ) );
+                                       t.append( line( _OBJECT + _SPACE + getText( $objectName.text ) + _SPACE + _IS ) );
                                        indent++;
                                    }
                                    ( attributeDefinition
@@ -996,7 +1035,7 @@ returns [StringBuilder text]
                                    pragmaList                 
                                    {
                                        t.insert( 0, getText( $description.text ) );
-                                       t.append( line( "end object;" ) );
+                                       t.append( line( _END + _SPACE + _OBJECT + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
                                    }
 
@@ -1014,16 +1053,16 @@ returns [StringBuilder text]
                               : ^( ATTRIBUTE_DEFINITION
                                    attributeName            
                                    {
-                                       t.append( getTab() + getText( $attributeName.text ) + ": " );
+                                       t.append( getTab() + getText( $attributeName.text ) + _COLON + _SPACE );
                                    }
                                    (PREFERRED
                                    {
-                                       t.append( $PREFERRED.text + SPACE );
+                                       t.append( $PREFERRED.text + _SPACE );
                                    }
                                    )?
                                    (UNIQUE
                                    {
-                                       t.append( $UNIQUE.text + SPACE );
+                                       t.append( $UNIQUE.text + _SPACE );
                                    }
                                    )?
                                    {
@@ -1033,31 +1072,31 @@ returns [StringBuilder text]
                                    ( attReferential         
                                    {
                                        if ( first_ref ) {
-                                           t.append( "referential ( " );
+                                           t.append( _REFERENTIAL + _SPACE + _LPAREN + _SPACE );
                                            first_ref = false;
                                        }
                                        t.append( sep + getText( $attReferential.text ) );
-                                       sep = ", ";
+                                       sep = _COMMA + _SPACE;
                                    }
                                    )*
                                    description
                                    typeReference
                                    {
-                                       if ( t.indexOf("referential") != -1 ) {
-                                           t.append( " ) " );
+                                       if ( t.indexOf( _REFERENTIAL ) != -1 ) {
+                                           t.append( _SPACE + _RPAREN + _SPACE );
                                        }
                                        t.insert( 0, getText( $description.text ) );
                                        t.append( getText( $typeReference.text ) );
                                    }
                                    (expression
                                    {
-                                       t.append( " := " );
+                                       t.append( _SPACE + _ASSIGN + _SPACE );
                                        t.append( getText( $expression.text ) );
                                    }
                                    )?
                                    pragmaList
                                    {
-                                       t.append( ";" + NEWLINE );
+                                       t.append( _SEMI + _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                          
@@ -1078,7 +1117,7 @@ returns [StringBuilder text]
                                  )                          
                               {
                                   t.append( getText( $relationshipSpec.text ) );
-                                  t.append( "." );
+                                  t.append( _DOT );
                                   t.append( getText( $attributeName.text ) );
                               }
                               ;
@@ -1099,11 +1138,11 @@ returns [StringBuilder text]
                                    }
                                    ( objOrRole
                                    {
-                                       t.append( "." + getText( $objOrRole.text ) );
+                                       t.append( _DOT + getText( $objOrRole.text ) );
                                    }
                                    ( objectReference
                                    {
-                                       t.append( "." + getText( $objectReference.text ) );
+                                       t.append( _DOT + getText( $objectReference.text ) );
                                    }
                                    )? 
                                    )?
@@ -1132,15 +1171,15 @@ returns [StringBuilder text]
                                    {
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
-                                       t.append( SPACE );
+                                       t.append( _SPACE );
                                    }
                                    (INSTANCE
                                    {
-                                       t.append( "instance " );
+                                       t.append( _INSTANCE + _SPACE );
                                    }
                                    (relationshipReference
                                    {
-                                       t.append( "deferred ( " + getText( $relationshipReference.text ) + " ) " );
+                                       t.append( _DEFERRED + _SPACE + _LPAREN + _SPACE + getText( $relationshipReference.text ) + _SPACE + _RPAREN + _SPACE );
                                    }
                                    )?
                                    )?
@@ -1150,23 +1189,23 @@ returns [StringBuilder text]
                                    {
                                        t.insert( 0, getText( $description.text ) );
                                        t.append( $OBJECT_SERVICE_DECLARATION.text );
-                                       t.append( SPACE );
+                                       t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
-                                       t.append( SPACE );
+                                       t.append( _SPACE );
                                        t.append( getText( $parameterList.text ) );
                                    }
                                    (returnType
                                    {
-                                       t.append( " return " );
+                                       t.append( _SPACE + _RETURN + _SPACE );
                                        t.append( getText( $returnType.text ) );
                                    }
                                    )?
                                    {
-                                       t.append( ";" );
+                                       t.append( _SEMI );
                                    }
                                    pragmaList
                                    {
-                                       t.append( NEWLINE );
+                                       t.append( _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                          
@@ -1182,18 +1221,18 @@ returns [StringBuilder text]
 }
                               : ^( IDENTIFIER
                                    {
-                                       t.append( getTab() + "identifier is ( " );
+                                       t.append( getTab() + _IDENTIFIER + _SPACE + _IS + _SPACE + _LPAREN + _SPACE );
                                        String sep = "";
                                    }
                                    ( attributeName          
                                    {
                                        t.append( sep + getText( $attributeName.text ) );
-                                       sep = ", ";
+                                       sep = _COMMA + _SPACE;
                                    }
                                    )+
                                    pragmaList
                                    {
-                                       t.append( " );" + NEWLINE );
+                                       t.append( _SPACE + _RPAREN + _SEMI + _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                     
@@ -1218,14 +1257,14 @@ returns [StringBuilder text]
                                   t.append( getText( $description.text ) );
                                   t.append( getTab() );
                                   String evt_type = getText( $eventType.text );
-                                  if ( !evt_type.equals("") ) {
-                                      t.append( evt_type + SPACE );
+                                  if ( !evt_type.isEmpty() ) {
+                                      t.append( evt_type + _SPACE );
                                   }
-                                  t.append( "event " );
+                                  t.append( _EVENT + _SPACE );
                                   t.append( getText( $eventName.text ) );
-                                  t.append( SPACE );
+                                  t.append( _SPACE );
                                   t.append( getText( $parameterList.text ) );
-                                  t.append( ";" + NEWLINE );
+                                  t.append( _SEMI + _NEWLINE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -1251,7 +1290,7 @@ returns [StringBuilder text]
                               }
                               | NORMAL                      
                               {
-                                  $text = new StringBuilder( "" );
+                                  $text = new StringBuilder();
                               }
                               ;
 
@@ -1274,14 +1313,14 @@ returns [StringBuilder text]
                                   t.append( getText( $description.text ) );
                                   t.append( getTab() );
                                   String st_type = getText( $stateType.text );
-                                  if ( !st_type.equals("") ) {
-                                      t.append( st_type + SPACE );
+                                  if ( !st_type.isEmpty() ) {
+                                      t.append( st_type + _SPACE );
                                   }
-                                  t.append( "state " );
+                                  t.append( _STATE + _SPACE );
                                   t.append( getText( $stateName.text ) );
-                                  t.append( SPACE );
+                                  t.append( _SPACE );
                                   t.append( getText( $parameterList.text ) );
-                                  t.append( ";" + NEWLINE );
+                                  t.append( _SEMI + _NEWLINE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -1315,7 +1354,7 @@ returns [StringBuilder text]
                               }
                               | NORMAL                      
                               {
-                                  $text = new StringBuilder( "" );
+                                  $text = new StringBuilder();
                               }
                               ;
 
@@ -1333,10 +1372,10 @@ returns [StringBuilder text]
                                    {
                                        t.append( getTab() );
                                        String tabType = getText( $transTableType.text );
-                                       if ( !tabType.equals("") ) {
-                                           t.append( tabType + SPACE );
+                                       if ( !tabType.isEmpty() ) {
+                                           t.append( tabType + _SPACE );
                                        }
-                                       t.append( "transition is" + NEWLINE );
+                                       t.append( _TRANSITION + _SPACE + _IS + _NEWLINE );
                                        indent++;
                                    }
                                    ( transitionRow          
@@ -1349,7 +1388,7 @@ returns [StringBuilder text]
                                    }
                                    pragmaList
                                    {
-                                       t.append( line( "end transition;" ) );
+                                       t.append( line( _END + _SPACE + _TRANSITION + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                          
@@ -1363,7 +1402,7 @@ returns [StringBuilder text]
                               }
                               | NORMAL                      
                               {
-                                  $text = new StringBuilder( "" );
+                                  $text = new StringBuilder();
                               }
                               ;
 
@@ -1378,19 +1417,19 @@ returns [StringBuilder text]
                               : ^( TRANSITION_ROW
                                    startState
                                    {
-                                       t.append( getTab() + getText( $startState.text ) + " ( " );
+                                       t.append( getTab() + getText( $startState.text ) + _SPACE + _LPAREN + _SPACE );
                                        int len = t.length();
                                        String sep = "";
                                    }
                                    ( transitionOption
                                    {
                                        t.append( sep + getText( $transitionOption.text ) );
-                                       sep = "," + NEWLINE + getSpace(len);
+                                       sep = _COMMA + _NEWLINE + getSpace(len);
                                    }
                                    )+
                                    pragmaList
                                    {
-                                       t.append( " );" + NEWLINE );
+                                       t.append( _SPACE + _RPAREN + _SEMI + _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                 )                           
@@ -1410,7 +1449,7 @@ returns [StringBuilder text]
                                  )                          
                               {
                                   t.append( getText( $incomingEvent.text ) );
-                                  t.append( " => " );
+                                  t.append( _SPACE + _GOES_TO + _SPACE );
                                   t.append( getText( $endState.text ) );
                               }
                               ;
@@ -1429,7 +1468,7 @@ startState
 returns [StringBuilder text]
                               : NON_EXISTENT                
                               {
-                                  $text = new StringBuilder("Non_Existent");
+                                  $text = new StringBuilder( _NON_EXISTENT );
                               }
                               | stateName                   
                               {
@@ -1445,11 +1484,11 @@ returns [StringBuilder text]
                               }
                               | IGNORE                      
                               {
-                                  $text = new StringBuilder("Ignore");
+                                  $text = new StringBuilder( _IGNORE );
                               }
                               | CANNOT_HAPPEN               
                               {
-                                  $text = new StringBuilder("Cannot_Happen");
+                                  $text = new StringBuilder( _CANNOT_HAPPEN );
                               }
                               ;
 
@@ -1465,8 +1504,8 @@ returns [StringBuilder text]
                                 eventName                   
                                 {
                                     String obj = getText( $optionalObjectReference.text );
-                                    if ( !obj.equals("") ) {
-                                        t.append( obj + "." );
+                                    if ( !obj.isEmpty() ) {
+                                        t.append( obj + _DOT );
                                     }
                                     t.append( getText( $eventName.text ) );
                                 }
@@ -1494,25 +1533,25 @@ returns [StringBuilder text]
                                        t.append( getText( $description.text ) );
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
-                                       t.append( SPACE );
+                                       t.append( _SPACE );
                                        t.append( $DOMAIN_SERVICE_DECLARATION.text );
-                                       t.append( SPACE );
+                                       t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
-                                       t.append( SPACE );
+                                       t.append( _SPACE );
                                        t.append( getText( $parameterList.text ) );
                                    }
                                    (returnType
                                    {
-                                       t.append( " return " );
+                                       t.append( _SPACE + _RETURN + _SPACE );
                                        t.append( getText( $returnType.text ) );
                                    }
                                    )?
                                    {
-                                       t.append( ";" );
+                                       t.append( _SEMI );
                                    }
                                    pragmaList
                                    {
-                                       t.append( NEWLINE );
+                                       t.append( _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )
@@ -1532,9 +1571,9 @@ returns [StringBuilder text]
                                    parameterType)           
                               {
                                   t.append( getText( $parameterName.text ) );
-                                  t.append( ": " );
+                                  t.append( _COLON + _SPACE );
                                   t.append( getText( $parameterMode.text ) );
-                                  t.append( SPACE );
+                                  t.append( _SPACE );
                                   t.append( getText( $parameterType.text ) );
                               }
                               ;
@@ -1543,9 +1582,9 @@ parameterList
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
-    String sep = " ";
-    String end = ")";
-    t.append( "(" );
+    String sep = _SPACE;
+    String end = _RPAREN;
+    t.append( _LPAREN );
 }
 @after {
     t.append( end );
@@ -1555,8 +1594,8 @@ returns [StringBuilder text]
                               : ( parameterDefinition       
                               {
                                   t.append( sep + getText( $parameterDefinition.text ) );
-                                  sep = ", ";
-                                  end = " )";
+                                  sep = _COMMA + _SPACE;
+                                  end = _SPACE + _RPAREN;
                               }
                                )*
                               ;
@@ -1664,15 +1703,15 @@ returns [StringBuilder text]
                                  )                          
                               {
                                   t.append( getText( $description.text ) );
-                                  t.append( getTab() + "relationship " );
+                                  t.append( getTab() + _RELATIONSHIP + _SPACE );
                                   t.append( getText( $relationshipName.text ) );
-                                  t.append( " is " );
+                                  t.append( _SPACE + _IS + _SPACE );
                                   int len = t.length();
                                   t.append( getText( $leftToRight.text ) );
-                                  t.append( "," + NEWLINE );
+                                  t.append( _COMMA + _NEWLINE );
                                   t.append( getSpace(len) );
                                   t.append( getText( $rightToLeft.text ) );
-                                  t.append( ";" + NEWLINE );
+                                  t.append( _SEMI + _NEWLINE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -1696,19 +1735,19 @@ returns [StringBuilder text]
                                  )                          
                               {
                                   t.append( getText( $description.text ) );
-                                  t.append( getTab() + "relationship " );
+                                  t.append( getTab() + _RELATIONSHIP + _SPACE );
                                   t.append( getText( $relationshipName.text ) );
-                                  t.append( " is " );
+                                  t.append( _SPACE + _IS + _SPACE );
                                   int len = t.length();
                                   t.append( getText( $leftToRight.text ) );
-                                  t.append( "," + NEWLINE );
+                                  t.append( _COMMA + _NEWLINE );
                                   t.append( getSpace(len) );
                                   t.append( getText( $rightToLeft.text ) );
-                                  t.append( NEWLINE );
+                                  t.append( _NEWLINE );
                                   t.append( getSpace(len) );
-                                  t.append( "using " );
+                                  t.append( _USING + _SPACE );
                                   t.append( getText( $assocObj.text ) );
-                                  t.append( ";" + NEWLINE );
+                                  t.append( _SEMI + _NEWLINE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -1730,13 +1769,13 @@ returns [StringBuilder text]
                                  )                          
                               {
                                   t.append( getText( $from.text ) );
-                                  t.append( SPACE );
+                                  t.append( _SPACE );
                                   t.append( getText( $conditionality.text ) );
-                                  t.append( SPACE );
+                                  t.append( _SPACE );
                                   t.append( getText( $rolePhrase.text ) );
-                                  t.append( SPACE );
+                                  t.append( _SPACE );
                                   t.append( getText( $multiplicity.text ) );
-                                  t.append( SPACE );
+                                  t.append( _SPACE );
                                   t.append( getText( $to.text ) );
                               }
                               ;
@@ -1756,22 +1795,22 @@ returns [StringBuilder text]
                                    supertype=objectReference
                                    {
                                         t.append( getText( $description.text ) );
-                                        t.append( getTab() + "relationship " );
+                                        t.append( getTab() + _RELATIONSHIP + _SPACE );
                                         t.append( getText( $relationshipName.text ) );
-                                        t.append( " is " );
+                                        t.append( _SPACE + _IS + _SPACE );
                                         t.append( getText( $supertype.text ) );
-                                        t.append( " is_a ( " );
+                                        t.append( _SPACE + _IS_A + _SPACE + _LPAREN + _SPACE );
                                         int len = t.length();
                                         String sep = "";
                                    }
                                    (subtype=objectReference   
                                    {
                                        t.append( sep + getText( $subtype.text ) );
-                                       sep = ", ";
+                                       sep = _COMMA + _SPACE;
                                    }
                                    )+
                                    {
-                                       t.append( " );" + NEWLINE );
+                                       t.append( _SPACE + _RPAREN + _SEMI + _NEWLINE );
                                    }
                                    pragmaList
                                    {
@@ -1837,8 +1876,8 @@ returns [StringBuilder text]
                                 relationshipName            
                                 {
                                     String dom = getText( $optionalDomainReference.text );
-                                    if ( !dom.equals("") ) {
-                                        t.append( dom + "::" );
+                                    if ( !dom.isEmpty() ) {
+                                        t.append( dom + _SCOPE );
                                     }
                                     t.append( getText( $relationshipName.text ) );
                                 }
@@ -1876,15 +1915,15 @@ returns [StringBuilder text]
                               : ^( PRAGMA
                                    pragmaName               
                                    {
-                                       t.append( "pragma " + getText( $pragmaName.text ) + "(" );
-                                       String sep = " ";
-                                       String end = ");";
+                                       t.append( _PRAGMA + _SPACE + getText( $pragmaName.text ) + _LPAREN );
+                                       String sep = _SPACE;
+                                       String end = _RPAREN + _SEMI;
                                    }
                                    ( pragmaValue            
                                    {
                                        t.append( sep + getText( $pragmaValue.text ) );
-                                       sep = ", ";
-                                       end = " );";
+                                       sep = _COMMA + _SPACE;
+                                       end = _SPACE + _RPAREN + _SEMI;
                                    }
                                    )*
                                    {
