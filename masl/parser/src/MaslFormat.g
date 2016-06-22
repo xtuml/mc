@@ -9,6 +9,7 @@ options
 @header
 {
 import java.io.*;
+import java.util.Collections;
 }
 
 @annotations
@@ -21,6 +22,8 @@ import java.io.*;
 // private fields
 private PrintStream out;
 private int indent;
+private boolean sort;
+private boolean reorder;
 
 private static final String _ASSIGN         = ":=";
 private static final String _CANNOT_HAPPEN  = "Cannot_Happen";
@@ -54,21 +57,41 @@ private static final String _SEMI           = ";";
 private static final String _SPACE          = " ";
 private static final String _STATE          = "state";
 private static final String _STRUCTURE      = "structure";
-private static final String _TAB            = "  ";
 private static final String _TERMINATOR     = "terminator";
 private static final String _TRANSITION     = "transition";
 private static final String _TYPE           = "type";
 private static final String _USING          = "using";
 
+// tab defaults to 2 spaces, but can be set by the user
+private static String _TAB                  = "  ";
+
 // initilization
 public void init() {
     out = System.out;
     indent = 0;
+    sort = false;
+    reorder = false;
 }
 
-// output setter
+// public setters
 public void setOut( PrintStream output ) {
     out = output;
+}
+
+public void setSort( boolean sort ) {
+    this.sort = sort;
+}
+
+public void setReorder( boolean reorder ) {
+    this.reorder = reorder;
+}
+
+public void setTabWidth( int t ) {
+    String tab = "";
+    for ( int i = 0; i < t; i++ ) {
+        tab += " ";
+    }
+    _TAB = tab;
 }
 
 // private methods
@@ -106,6 +129,21 @@ private String getText( StringBuilder sb ) {
     return sb.toString();
 }
 
+private void sort( List<String> l ) {
+    if ( l == null ) return;
+    Collections.sort( l );
+}
+
+private String cat( List<String> l, boolean pad ) {
+    StringBuilder sb = new StringBuilder();
+    if ( pad ) sb.append( line() );
+    for ( String s : l ) {
+        sb.append( s );
+        if ( pad ) sb.append( line() );
+    }
+    return sb.toString();
+}
+
 }
 
 target                        
@@ -140,6 +178,7 @@ projectDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> projectItems = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -154,16 +193,16 @@ returns [StringBuilder text]
                                    }
                                    ( projectDomainDefinition 
                                    {
-                                       t.append( line() );
-                                       t.append( getText( $projectDomainDefinition.text ) );
+                                       projectItems.add( getText( $projectDomainDefinition.text ) );
                                    }
                                    )*
                                    {
+                                       if ( sort ) sort( projectItems );
+                                       t.append( cat( projectItems, true ) );
                                        indent--;
                                    }
                                    pragmaList
                                    {
-                                       t.append( line() );
                                        t.append( line( _END + _SPACE + _PROJECT + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
                                    }
@@ -174,6 +213,7 @@ projectDomainDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> projectDomainItems = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -188,10 +228,12 @@ returns [StringBuilder text]
                                    }
                                    ( projectTerminatorDefinition    
                                    {
-                                       t.append( getText( $projectTerminatorDefinition.text ) );
+                                       projectDomainItems.add( getText( $projectTerminatorDefinition.text ) );
                                    }
                                    )*
                                    {
+                                       if ( sort ) sort( projectDomainItems );
+                                       t.append( cat( projectDomainItems, false ) );
                                        indent--;
                                    }
                                    pragmaList               
@@ -794,6 +836,7 @@ projectTerminatorDefinition
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> projectTerminatorServices = new ArrayList<String>();
 }
 @after {
     $text = t;
@@ -811,13 +854,13 @@ returns [StringBuilder text]
                                    }
                                    ( projectTerminatorServiceDeclaration
                                    {
-                                       t.append( line() );
-                                       t.append( getText( $projectTerminatorServiceDeclaration.text ) );
+                                       projectTerminatorServices.add( getText( $projectTerminatorServiceDeclaration.text ) );
                                    }
                                    )*
                                    {
+                                       if ( sort ) sort( projectTerminatorServices );
+                                       t.append( cat( projectTerminatorServices, false ) );
                                        indent--;
-                                       t.append( line() );
                                        t.append( line( _END + _SPACE + _TERMINATOR + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
                                    }

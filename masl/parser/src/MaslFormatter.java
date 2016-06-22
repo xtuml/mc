@@ -44,6 +44,8 @@ public class MaslFormatter {
         nodes = new CommonTreeNodeStream(tree);
         formatter = new MaslFormat( nodes );
         formatter.init();
+        formatter.setSort(true);
+        formatter.setReorder(true);
 
         // run formatter
         try {
