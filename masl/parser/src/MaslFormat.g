@@ -203,7 +203,7 @@ returns [StringBuilder text]
                                        t.append( cat( projectItems, true ) );
                                        indent--;
                                    }
-                                   pragmaList
+                                   pragmaList[_NEWLINE]
                                    {
                                        t.append( line( _END + _SPACE + _PROJECT + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
@@ -238,7 +238,7 @@ returns [StringBuilder text]
                                        t.append( cat( projectDomainItems, false ) );
                                        indent--;
                                    }
-                                   pragmaList               
+                                   pragmaList[_NEWLINE]
                                    {
                                        t.append( line( _END + _SPACE + _DOMAIN + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
@@ -383,7 +383,7 @@ returns [StringBuilder text]
                                        }
                                        indent--;
                                    }
-                                   pragmaList                    
+                                   pragmaList[_NEWLINE]
                                    {
                                        t.append( line( _END + _SPACE + _DOMAIN + _SEMI ) );
                                        t.append( getText( $pragmaList.text ) );
@@ -448,14 +448,14 @@ returns [StringBuilder text]
                               : ^( EXCEPTION
                                    exceptionName            
                                    exceptionVisibility      
-                                   pragmaList               
+                                   pragmaList[_SPACE]
                                  )                          
                               {
                                   t.append( getTab() );
                                   t.append( getText( $exceptionVisibility.text ) );
                                   t.append( _SPACE + _EXCEPTION + _SPACE );
                                   t.append( getText( $exceptionName.text ) );
-                                  t.append( _SEMI + _NEWLINE );
+                                  t.append( _SEMI + _SPACE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -502,14 +502,14 @@ returns [StringBuilder text]
                               : ^( TYPE_DECLARATION
                                    typeName                 
                                    typeVisibility
-                                   pragmaList				
+                                   pragmaList[_SPACE]
                                  )                          
                               {
                                   t.append( getTab() );
                                   t.append( getText( $typeVisibility.text ) );
                                   t.append( _SPACE + _TYPE + _SPACE );
                                   t.append( getText( $typeName.text ) );
-                                  t.append( _SEMI + _NEWLINE );
+                                  t.append( _SEMI + _SPACE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -527,7 +527,7 @@ returns [StringBuilder text]
                                    typeName                 
                                    typeVisibility
                                    description
-                                   pragmaList				
+                                   pragmaList[_SPACE]
                                    typeDefinition			
                                  )                          
                               {
@@ -538,7 +538,7 @@ returns [StringBuilder text]
                                   t.append( getText( $typeName.text ) );
                                   t.append( _SPACE + _IS + _SPACE );
                                   t.append( getText( $typeDefinition.text ) );
-                                  t.append( _SEMI + _NEWLINE );
+                                  t.append( _SEMI + _SPACE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -663,9 +663,9 @@ returns [StringBuilder text]
                                        t.append( getText( $expression.text ) );
                                    }
                                    )?
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                    {
-                                       t.append( _SEMI + _NEWLINE );
+                                       t.append( _SEMI + _SPACE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                          
@@ -889,7 +889,7 @@ returns [StringBuilder text]
                                         t.append( getText( $description.text ) );
                                         t.append( line( _TERMINATOR + _SPACE + getText( $terminatorName.text ) + _SPACE + _IS ) );
                                    }
-                                   pragmaList                 
+                                   pragmaList[_NEWLINE]
                                    {
                                        indent++;
                                    }
@@ -924,7 +924,7 @@ returns [StringBuilder text]
                                         t.append( getText( $description.text ) );
                                         t.append( line( _TERMINATOR + _SPACE + getText( $terminatorName.text ) + _SPACE + _IS ) );
                                    }
-                                   pragmaList                 
+                                   pragmaList[_NEWLINE]
                                    {
                                        indent++;
                                    }
@@ -980,9 +980,9 @@ returns [StringBuilder text]
                                    {
                                        t.append( _SEMI );
                                    }
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                    {
-                                       t.append( _NEWLINE );
+                                       t.append( _SPACE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )
@@ -1024,9 +1024,9 @@ returns [StringBuilder text]
                                    {
                                        t.append( _SEMI );
                                    }
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                    {
-                                       t.append( _NEWLINE );
+                                       t.append( _SPACE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )
@@ -1103,7 +1103,7 @@ returns [StringBuilder text]
 }
                               : ^( OBJECT_DECLARATION
                                    objectName
-                                   pragmaList
+                                   pragmaList[_NEWLINE]
                                  )                          
                               {
                                   t.append( line( _OBJECT + _SPACE + getText( $objectName.text ) + _SEMI ) );
@@ -1212,7 +1212,7 @@ returns [StringBuilder text]
                                        indent--;
                                    }
                                    description
-                                   pragmaList                 
+                                   pragmaList[_NEWLINE]
                                    {
                                        t.insert( 0, getText( $description.text ) );
                                        t.append( line( _END + _SPACE + _OBJECT + _SEMI ) );
@@ -1279,9 +1279,9 @@ returns [StringBuilder text]
                                        t.append( getText( $expression.text ) );
                                    }
                                    )?
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                    {
-                                       t.append( _SEMI + _NEWLINE );
+                                       t.append( _SEMI + _SPACE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                          
@@ -1390,9 +1390,9 @@ returns [StringBuilder text]
                                    {
                                        t.append( _SEMI );
                                    }
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                    {
-                                       t.append( _NEWLINE );
+                                       t.append( _SPACE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                          
@@ -1417,14 +1417,14 @@ returns [StringBuilder text]
                                        attrs.add( getText( $attributeName.text ) );
                                    }
                                    )+
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                    {
                                        if ( sort ) sort( attrs );
                                        for ( String s : attrs ) {
                                            t.append( sep + s );
                                            sep = _COMMA + _SPACE;
                                        }
-                                       t.append( _SPACE + _RPAREN + _SEMI + _NEWLINE );
+                                       t.append( _SPACE + _RPAREN + _SEMI + _SPACE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                     
@@ -1454,12 +1454,12 @@ returns [StringBuilder text]
                                        t.append( _SPACE );
                                    }
                                    parameterList[t]
-                                   pragmaList               
+                                   pragmaList[_SPACE]
                                  )
                               {
                                   
                                   t.append( getText( $parameterList.text ) );
-                                  t.append( _SEMI + _NEWLINE );
+                                  t.append( _SEMI + _SPACE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -1513,11 +1513,11 @@ returns [StringBuilder text]
                                        t.append( _SPACE );
                                    }
                                    parameterList[t]
-                                   pragmaList              
+                                   pragmaList[_SPACE]
                                 )                           
                               {
                                   t.append( getText( $parameterList.text ) );
-                                  t.append( _SEMI + _NEWLINE );
+                                  t.append( _SEMI + _SPACE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -1584,7 +1584,7 @@ returns [StringBuilder text]
                                    {
                                        indent--;
                                    }
-                                   pragmaList
+                                   pragmaList[_NEWLINE]
                                    {
                                        if ( sort ) sort( rows );
                                        for ( String s : rows ) {
@@ -1629,14 +1629,14 @@ returns [StringBuilder text]
                                        ops.add( getText( $transitionOption.text ) );
                                    }
                                    )+
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                    {
                                        if ( sort ) sort( ops );
                                        for ( String s : ops ) {
                                            t.append( sep + s );
                                            sep = _COMMA + _NEWLINE + getSpace(len);
                                        }
-                                       t.append( _SPACE + _RPAREN + _SEMI + _NEWLINE );
+                                       t.append( _SPACE + _RPAREN + _SEMI + _SPACE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                 )                           
@@ -1758,9 +1758,9 @@ returns [StringBuilder text]
                                    {
                                        t.append( _SEMI );
                                    }
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                    {
-                                       t.append( _NEWLINE );
+                                       t.append( _SPACE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )
@@ -1924,7 +1924,7 @@ returns [StringBuilder text]
                                    description
                                    leftToRight=halfRelationshipDefinition
                                    rightToLeft=halfRelationshipDefinition
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                  )                          
                               {
                                   halfRels.add( getText( $leftToRight.text ) );
@@ -1940,7 +1940,7 @@ returns [StringBuilder text]
                                   t.append( _COMMA + _NEWLINE );
                                   t.append( getSpace(len) );
                                   t.append( halfRels.get(1) );
-                                  t.append( _SEMI + _NEWLINE );
+                                  t.append( _SEMI + _SPACE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -1961,7 +1961,7 @@ returns [StringBuilder text]
                                    leftToRight=halfRelationshipDefinition
                                    rightToLeft=halfRelationshipDefinition
                                    assocObj=objectReference
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                  )                          
                               {
                                   halfRels.add( getText( $leftToRight.text ) );
@@ -1981,7 +1981,7 @@ returns [StringBuilder text]
                                   t.append( getSpace(len) );
                                   t.append( _USING + _SPACE );
                                   t.append( getText( $assocObj.text ) );
-                                  t.append( _SEMI + _NEWLINE );
+                                  t.append( _SEMI + _SPACE );
                                   t.append( getText( $pragmaList.text ) );
                               }
                               ;
@@ -2048,9 +2048,9 @@ returns [StringBuilder text]
                                            t.append( sep + s );
                                            sep = _COMMA + _SPACE;
                                        }
-                                       t.append( _SPACE + _RPAREN + _SEMI + _NEWLINE );
+                                       t.append( _SPACE + _RPAREN + _SEMI + _SPACE );
                                    }
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                    {
                                        t.append( getText( $pragmaList.text ) );
                                    }
@@ -2127,17 +2127,25 @@ returns [StringBuilder text]
 //---------------------------------------------------------
 
 
-pragmaList
+pragmaList[String delim]
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
 }
 @after {
+    if ( !delim.equals( _NEWLINE ) ) {
+        t.append( line() );
+    }
     $text = t;
 }
                               : ( pragma
                                 {
-                                    t.append( line( getText( $pragma.text ) ) );
+                                    if ( delim.equals( _NEWLINE ) ) {
+                                        t.append( line( getText( $pragma.text ) ) );
+                                    }
+                                    else {
+                                        t.append( getText( $pragma.text ) + delim );
+                                    }
                                 }
                                 )*                          
                               ;
@@ -2235,7 +2243,7 @@ domainServiceDefinition
                                    parameterList[null]
                                    returnType?
                                    codeBlock
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                  )                                                   
                               ;
 
@@ -2249,7 +2257,7 @@ terminatorServiceDefinition
                                    parameterList[null]
                                    returnType?
                                    codeBlock
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                  )                                                   
                               ;
 
@@ -2263,7 +2271,7 @@ projectTerminator
                                    parameterList[null]
                                    returnType?
                                    codeBlock         
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                  )                                                   
                               ;
 
@@ -2278,7 +2286,7 @@ objectServiceDefinition
                                    parameterList[null]
                                    returnType?
                                    codeBlock
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                  )                          
                               ;
 
@@ -2290,7 +2298,7 @@ stateDefinition
                                    stateName
                                    parameterList[null]
                                    codeBlock
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                  )                          
                               ;
 
@@ -2322,7 +2330,7 @@ statement
                                    | whileStatement         
                                    |                        
                                    )
-                                   pragmaList
+                                   pragmaList[_SPACE]
                                  )
                               ;
 
@@ -2555,7 +2563,7 @@ variableDeclaration
                                    READONLY?
                                    typeReference
                                    expression?
-                                   pragmaList)
+                                   pragmaList[_SPACE])
                               ;
 
 
