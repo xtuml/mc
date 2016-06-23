@@ -77,6 +77,7 @@ public class MaslFormatter {
                  Pattern.matches( ".*\\.scn", f.getName() ) ||
                  Pattern.matches( ".*\\.al", f.getName() ) ||
                  Pattern.matches( ".*\\.tr", f.getName() ) ||
+                 Pattern.matches( ".*\\.int", f.getName() ) ||
                  Pattern.matches( ".*\\.mod", f.getName() ) ||
                  Pattern.matches( ".*\\.prj", f.getName() ) ) {
 
