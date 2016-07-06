@@ -123,8 +123,7 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     /* ooapopulation::populate_project( element:PARAM.element, ooapopulation:ooapopulation, value:PARAM.value ) */
     masl2xtuml_ooapopulation_op_populate_project( p_element, ooapopulation, p_value );
     /* RETURN  */
-    return;
-  }
+    return;  }
   /* IF ( ( domain == element ) ) */
   if ( ( Escher_strcmp( "domain", element ) == 0 ) ) {
     /* IF ( (  == PARAM.value[0] ) ) */
@@ -738,8 +737,6 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     masl2xtuml_ooapopulation_op_transformDescription( ooapopulation,  current_element, value[1], value[0] );
   }
   else {
-    /* TRACE::log( flavor:failure, id:59, message:( masl2xtuml unrecognized element:   + element ) ) */
-    // TRACE_log( "failure", 59, Escher_stradd( "masl2xtuml unrecognized element:  ", element ) );
   }
 }
 
@@ -1212,7 +1209,7 @@ masl2xtuml_ooapopulation_op_createSystem( masl2xtuml_ooapopulation * self)
     s[19] = Escher_strcpy( s[19], "MASLtype" );
     /* ASSIGN i = 19 */
     i = 19;
-    /* WHILE ( ( i > 0 ) ) */
+    /* WHILE ( ( i >= 0 ) ) */
     while ( ( i >= 0 ) ) {
       /* self.Package_newDatatype( definition:, ep_pkg:self.systypes_pkg, type_name:s[i] ) */
       masl2xtuml_ooapopulation_op_Package_newDatatype( self,  "", self->systypes_pkg, s[i] );
@@ -1261,7 +1258,7 @@ masl2xtuml_ooapopulation_op_transformTerminator( masl2xtuml_ooapopulation * self
         new_ir = masl2xtuml_ooapopulation_op_Component_initializeProvision(self, self->current_component, comp_if_name, comp_if_name);
         /* CREATE OBJECT INSTANCE c_i OF C_I */
         c_i = (masl2xtuml_C_I *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_C_I_CLASS_NUMBER );
-        c_i->Id = (Escher_UniqueID_t) c_i;
+        c_i->Id = Escher_ID_factory();
         /* ASSIGN c_i.Name = comp_if_name */
         c_i->Name = Escher_strcpy( c_i->Name, comp_if_name );
         /* ASSIGN self.current_interface = c_i */
@@ -9639,33 +9636,6 @@ masl2xtuml_ooapopulation_op_OperationParameter_dispose( masl2xtuml_ooapopulation
   Escher_ClearSet( dims ); 
 }
 
-/*
- * RELATE ooaelement TO ooapopulation ACROSS R3801
- */
-void
-masl2xtuml_ooapopulation_R3801_Link( masl2xtuml_ooaelement * part, masl2xtuml_ooapopulation * form )
-{
-  if ( (part == 0) || (form == 0) ) {
-    XTUML_EMPTY_HANDLE_TRACE( "ooapopulation", "masl2xtuml_ooapopulation_R3801_Link" );
-    return;
-  }
-  form->ooaelement_R3801_has_current = part;
-  part->ooapopulation_R3801 = form;
-}
-
-/*
- * UNRELATE ooaelement FROM ooapopulation ACROSS R3801
- */
-void
-masl2xtuml_ooapopulation_R3801_Unlink( masl2xtuml_ooaelement * part, masl2xtuml_ooapopulation * form )
-{
-  if ( (part == 0) || (form == 0) ) {
-    XTUML_EMPTY_HANDLE_TRACE( "ooapopulation", "masl2xtuml_ooapopulation_R3801_Unlink" );
-    return;
-  }
-  form->ooaelement_R3801_has_current = 0;
-  part->ooapopulation_R3801 = 0;
-}
 /*
  * Dump instances in SQL format.
  */

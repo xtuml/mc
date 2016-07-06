@@ -204,8 +204,7 @@ void masl2xtuml_ooapopulation_op_mergeDuplicateOperations( masl2xtuml_ooapopulat
 c_t * masl2xtuml_ooapopulation_op_Operation_getSignature( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR * );
 void masl2xtuml_ooapopulation_op_Operation_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR * );
 void masl2xtuml_ooapopulation_op_OperationParameter_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_TPARM * );
-void masl2xtuml_ooapopulation_R3801_Link( masl2xtuml_ooaelement *, masl2xtuml_ooapopulation * );
-void masl2xtuml_ooapopulation_R3801_Unlink( masl2xtuml_ooaelement *, masl2xtuml_ooapopulation * );
+
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10
 extern Escher_Extent_t pG_masl2xtuml_ooapopulation_extent;
