@@ -142,6 +142,7 @@ for each c_c in c_cs;
   else
 	::class2objectdeclaration( c_c:c_c );
 	::type2type( c_c:c_c );
+	::exception2exception( c_c:c_c );
 	::function2routine( c_c:c_c );
 	::port2terminator( c_c:c_c, project:param.project );
 	::association2relationship( c_c:c_c );
@@ -3016,6 +3017,65 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("1df75660-ed85-437c-a3f5-51c82bce9581",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("bef2c4c8-46d5-4c5e-b08c-26e39f7b0a3c",
+	"00000000-0000-0000-0000-000000000000",
+	'exception2exception',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+c_c = param.c_c;
+
+// Exceptions in packages inside the component are considered private.
+select many s_exps related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_EXP[R8001];
+for each s_exp in s_exps
+  value[0] = s_exp.Name;
+  value[1] = "private";
+  out::populate( element:"exception", value:value );
+  out::populate( element:"exception", value:emptyvalue );
+end for;
+
+// Exceptions in packages directly off of the system are considered public.
+select many ep_pkgs related by c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1401] where ( selected.Name != "types" );
+select many s_exps related by ep_pkgs->PE_PE[R8000]->S_EXP[R8001];
+for each s_exp in s_exps
+  value[0] = s_exp.Name;
+  value[1] = "public";
+  out::populate( element:"exception", value:value );
+  out::populate( element:"exception", value:emptyvalue );
+end for;
+
+// Exceptions in subpackages of the system packages are also considered public
+select many sub_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001];
+while ( not_empty sub_pkgs )
+  select many s_exps related by sub_pkgs->PE_PE[R8000]->S_EXP[R8001];
+  for each s_exp in s_exps
+	value[0] = s_exp.Name;
+	value[1] = "public";
+	out::populate( element:"exception", value:value );
+	out::populate( element:"exception", value:emptyvalue );
+  end for;
+  select many sub_pkgs related by sub_pkgs->PE_PE[R8000]->EP_PKG[R8001];
+end while;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("308fb1dc-110d-445b-a5de-a7d62bff457d",
+	"bef2c4c8-46d5-4c5e-b08c-26e39f7b0a3c",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("bef2c4c8-46d5-4c5e-b08c-26e39f7b0a3c",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",

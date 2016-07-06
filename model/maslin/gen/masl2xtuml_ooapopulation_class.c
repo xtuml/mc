@@ -397,6 +397,13 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
       masl2xtuml_ooapopulation_op_transformEvent( ooapopulation,  p_value[0], p_value[1] );
     }
   }
+  else if ( ( Escher_strcmp( "exception", element ) == 0 ) ) {
+    /* IF ( (  != PARAM.value[0] ) ) */
+    if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
+      /* ooapopulation.transformException( name:PARAM.value[0], visibility:PARAM.value[1] ) */
+      masl2xtuml_ooapopulation_op_transformException( ooapopulation,  p_value[0], p_value[1] );
+    }
+  }
   else if ( ( Escher_strcmp( "type", element ) == 0 ) ) {
     /* IF ( (  == PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
@@ -9634,6 +9641,98 @@ masl2xtuml_ooapopulation_op_OperationParameter_dispose( masl2xtuml_ooapopulation
   }
   Escher_DeleteInstance( (Escher_iHandle_t) o_tparm, masl2xtuml_DOMAIN_ID, masl2xtuml_O_TPARM_CLASS_NUMBER );
   Escher_ClearSet( dims ); 
+}
+
+/*
+ * instance operation:  transformException
+ */
+void
+masl2xtuml_ooapopulation_op_transformException( masl2xtuml_ooapopulation * self, c_t * p_name, c_t * p_visibility )
+{
+  masl2xtuml_EP_PKG * lib_pkg;masl2xtuml_S_EXP * s_exp=0;masl2xtuml_EP_PKG * types_pkg=0;
+  /* ASSIGN lib_pkg = self.lib_pkg */
+  lib_pkg = self->lib_pkg;
+  /* SELECT any types_pkg RELATED BY lib_pkg->PE_PE[R8000]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == Shared ) ) */
+  types_pkg = 0;
+  {  if ( 0 != lib_pkg ) {
+  masl2xtuml_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &lib_pkg->PE_PE_R8000_contains );
+  while ( ( 0 == types_pkg ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_EP_PKG_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {masl2xtuml_EP_PKG * selected = (masl2xtuml_EP_PKG *) PE_PE_R8000_contains->R8001_subtype;
+  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, "Shared" ) == 0 ) ) {
+    types_pkg = selected;
+  }}
+}}}
+  /* IF ( ( private == PARAM.visibility ) ) */
+  if ( ( Escher_strcmp( "private", p_visibility ) == 0 ) ) {
+    masl2xtuml_C_C * current_component;
+    /* ASSIGN current_component = self.current_component */
+    current_component = self->current_component;
+    /* SELECT any types_pkg RELATED BY current_component->PE_PE[R8003]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == types ) ) */
+    types_pkg = 0;
+    {    if ( 0 != current_component ) {
+    masl2xtuml_PE_PE * PE_PE_R8003_contains;
+    Escher_Iterator_s iPE_PE_R8003_contains;
+    Escher_IteratorReset( &iPE_PE_R8003_contains, &current_component->PE_PE_R8003_contains );
+    while ( ( 0 == types_pkg ) && ( 0 != ( PE_PE_R8003_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) ) {
+    if ( ( 0 != PE_PE_R8003_contains ) && ( masl2xtuml_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) )    {masl2xtuml_EP_PKG * selected = (masl2xtuml_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, "types" ) == 0 ) ) {
+      types_pkg = selected;
+    }}
+}}}
+    /* IF ( empty types_pkg ) */
+    if ( ( 0 == types_pkg ) ) {
+      /* ASSIGN types_pkg = self.Component_newPackage(c_c:current_component, pkg_name:types) */
+      types_pkg = masl2xtuml_ooapopulation_op_Component_newPackage(self, current_component, "types");
+    }
+  }
+  /* SELECT any s_exp RELATED BY types_pkg->PE_PE[R8000]->S_EXP[R8001] WHERE ( ( SELECTED.Name == PARAM.name ) ) */
+  s_exp = 0;
+  {  if ( 0 != types_pkg ) {
+  masl2xtuml_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &types_pkg->PE_PE_R8000_contains );
+  while ( ( 0 == s_exp ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_S_EXP_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {masl2xtuml_S_EXP * selected = (masl2xtuml_S_EXP *) PE_PE_R8000_contains->R8001_subtype;
+  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, p_name ) == 0 ) ) {
+    s_exp = selected;
+  }}
+}}}
+  /* IF ( empty s_exp ) */
+  if ( ( 0 == s_exp ) ) {
+    /* self.Package_newException( ep_pkg:types_pkg, name:PARAM.name ) */
+    masl2xtuml_ooapopulation_op_Package_newException( self,  types_pkg, p_name );
+  }
+}
+
+/*
+ * instance operation:  Package_newException
+ */
+void
+masl2xtuml_ooapopulation_op_Package_newException( masl2xtuml_ooapopulation * self, masl2xtuml_EP_PKG * p_ep_pkg, c_t * p_name )
+{
+  c_t * name=0;masl2xtuml_EP_PKG * ep_pkg;masl2xtuml_PE_PE * pe;masl2xtuml_S_EXP * exp;
+  /* ASSIGN ep_pkg = PARAM.ep_pkg */
+  ep_pkg = p_ep_pkg;
+  /* ASSIGN name = PARAM.name */
+  name = Escher_strcpy( name, p_name );
+  /* CREATE OBJECT INSTANCE exp OF S_EXP */
+  exp = (masl2xtuml_S_EXP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_EXP_CLASS_NUMBER );
+  exp->Exception_ID = Escher_ID_factory();
+  /* CREATE OBJECT INSTANCE pe OF PE_PE */
+  pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
+  pe->Element_ID = Escher_ID_factory();
+  /* RELATE exp TO pe ACROSS R8001 */
+  masl2xtuml_S_EXP_R8001_Link( pe, exp );
+  /* RELATE pe TO ep_pkg ACROSS R8000 */
+  masl2xtuml_PE_PE_R8000_Link_contains( ep_pkg, pe );
+  /* ASSIGN pe.type = EXCEPTION */
+  pe->type = masl2xtuml_ElementTypeConstants_EXCEPTION_e;
+  /* self.PackageableElement_initialize( pe_pe:pe ) */
+  masl2xtuml_ooapopulation_op_PackageableElement_initialize( self,  pe );
+  /* ASSIGN exp.Name = name */
+  exp->Name = Escher_strcpy( exp->Name, name );
 }
 
 /*
