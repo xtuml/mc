@@ -6,7 +6,9 @@ CREATE TABLE ACT_ACT (
     CurrentScope_ID UNIQUE_ID,
     return_value INTEGER,
     Label STRING,
-    Parsed_Block_ID UNIQUE_ID );
+    Parsed_Block_ID UNIQUE_ID,
+    ReturnFound BOOLEAN
+);
 CREATE TABLE ACT_AI (
     Statement_ID UNIQUE_ID,
     r_Value_ID UNIQUE_ID,
@@ -1475,7 +1477,8 @@ CREATE TABLE S_ENUM (
 );
 CREATE TABLE S_EXP (
     Exception_ID UNIQUE_ID,
-    Name STRING
+    Name STRING,
+    Descrip STRING
 );
 CREATE TABLE S_IRDT (
     DT_ID UNIQUE_ID,
