@@ -9,6 +9,10 @@
     <property name="build" location="build"/>
     <property name="dist" location="dist"/>
 
+    <pathconvert pathsep=" " property="g.files">
+        <fileset dir="${src}" includes="**/*.g"/>
+    </pathconvert>
+
     <target name="init" depends="clean">
         <!-- Create the time stamp -->
         <tstamp/>
@@ -18,6 +22,7 @@
     </target>
 
     <target name="generate" depends="init" description="generate the language artifacts">
+        <echo>Generating classes from grammars</echo>
         <java classname="org.antlr.Tool">
             <classpath>
                 <fileset dir="${lib}">
@@ -26,37 +31,7 @@
             </classpath>
             <arg value="-fo"/>
             <arg value="${src-gen}"/>
-            <arg value="${src}/MaslLexer.g"/>
-        </java>
-        <java classname="org.antlr.Tool">
-            <classpath>
-                <fileset dir="${lib}">
-                    <include name="**/*.jar" />
-                </fileset>
-            </classpath>
-            <arg value="-fo"/>
-            <arg value="${src-gen}"/>
-            <arg value="${src}/MaslParser.g"/>
-        </java>
-        <java classname="org.antlr.Tool">
-            <classpath>
-                <fileset dir="${lib}">
-                    <include name="**/*.jar" />
-                </fileset>
-            </classpath>
-            <arg value="-fo"/>
-            <arg value="${src-gen}"/>
-            <arg value="${src}/MaslWalker.g"/>
-        </java>
-        <java classname="org.antlr.Tool">
-            <classpath>
-                <fileset dir="${lib}">
-                    <include name="**/*.jar" />
-                </fileset>
-            </classpath>
-            <arg value="-fo"/>
-            <arg value="${src-gen}"/>
-            <arg value="${src}/MaslSortParser.g"/>
+            <arg line="${g.files}"/>
         </java>
     </target>
 

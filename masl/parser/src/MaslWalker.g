@@ -1378,6 +1378,7 @@ domainServiceDefinition//[DomainService service]
 //scope NameScope;
 
                               : ^( DOMAIN_SERVICE_DEFINITION
+                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    serviceName
@@ -1408,6 +1409,7 @@ terminatorServiceDefinition//[DomainTerminatorService service]
 
 
                               : ^( TERMINATOR_SERVICE_DEFINITION
+                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    terminatorName
@@ -1438,6 +1440,7 @@ terminatorServiceDefinition//[DomainTerminatorService service]
 projectTerminatorServiceDefinition//[ProjectTerminatorService service]
 //scope NameScope;
                               : ^( TERMINATOR_SERVICE_DEFINITION
+                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    terminatorName
@@ -1471,6 +1474,7 @@ objectServiceDefinition//[ObjectService service]
 
 
                               :^( OBJECT_SERVICE_DEFINITION
+                                   SERVICE_TYPE
                                    serviceVisibility
                                    INSTANCE?
                                    fullObjectReference

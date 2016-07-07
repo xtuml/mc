@@ -67,6 +67,7 @@ tokens
   RETURN_TYPE;
   ROLE_PHRASE;
   SERVICE_NAME;
+  SERVICE_TYPE;
   SLICE;
   SORT_ORDER_COMPONENT;
   STATE_DEFINITION;
@@ -806,7 +807,8 @@ domainServiceDefinition       : description
                                 domainName SCOPE serviceName 
                                 parameterList IS 
                                 codeBlock 
-                                SERVICE? SEMI pragmaList                                  -> ^( DOMAIN_SERVICE_DEFINITION[$serv]
+                                SERVICE? SEMI pragmaList                                  -> ^( DOMAIN_SERVICE_DEFINITION[$codeBlock.text]
+                                                                                                SERVICE_TYPE[$serv.text]
                                                                                                 serviceVisibility 
                                                                                                 domainName 
                                                                                                 serviceName 
@@ -820,7 +822,8 @@ domainFunctionDefinition      : description
                                   domainName SCOPE serviceName 
                                   parameterList 
                                   RETURN returnType IS codeBlock 
-                                FUNCTION? SEMI pragmaList                                 -> ^( DOMAIN_SERVICE_DEFINITION[$func]
+                                FUNCTION? SEMI pragmaList                                 -> ^( DOMAIN_SERVICE_DEFINITION[$codeBlock.text]
+                                                                                                SERVICE_TYPE[$func.text]
                                                                                                 serviceVisibility 
                                                                                                 domainName 
                                                                                                 serviceName 
@@ -836,7 +839,8 @@ objectServiceDefinition       : description
                                 serviceVisibility INSTANCE? serv=SERVICE 
                                   domainName SCOPE objectName DOT serviceName 
                                   parameterList IS codeBlock 
-                                SERVICE? SEMI pragmaList                                  -> ^( OBJECT_SERVICE_DEFINITION[$serv]
+                                SERVICE? SEMI pragmaList                                  -> ^( OBJECT_SERVICE_DEFINITION[$codeBlock.text]
+                                                                                                SERVICE_TYPE[$serv.text]
                                                                                                 serviceVisibility 
                                                                                                 INSTANCE? 
                                                                                                 domainName 
@@ -852,7 +856,8 @@ terminatorServiceDefinition   : description
                                 domainName SCOPE terminatorName TERMINATOR_SCOPE serviceName 
                                 parameterList IS 
                                 codeBlock 
-                                SERVICE? SEMI pragmaList                                  -> ^( TERMINATOR_SERVICE_DEFINITION[$serv]
+                                SERVICE? SEMI pragmaList                                  -> ^( TERMINATOR_SERVICE_DEFINITION[$codeBlock.text]
+                                                                                                SERVICE_TYPE[$serv.text]
                                                                                                 serviceVisibility 
                                                                                                 domainName
                                                                                                 terminatorName 
@@ -867,7 +872,8 @@ terminatorFunctionDefinition  : description
                                 domainName SCOPE terminatorName TERMINATOR_SCOPE serviceName 
                                 parameterList RETURN returnType IS 
                                 codeBlock 
-                                FUNCTION? SEMI pragmaList                                 -> ^( TERMINATOR_SERVICE_DEFINITION[$func]
+                                FUNCTION? SEMI pragmaList                                 -> ^( TERMINATOR_SERVICE_DEFINITION[$codeBlock.text]
+                                                                                                SERVICE_TYPE[$func.text]
                                                                                                 serviceVisibility 
                                                                                                 domainName
                                                                                                 terminatorName 
@@ -884,7 +890,8 @@ objectFunctionDefinition      : description
                                   domainName SCOPE objectName DOT serviceName 
                                   parameterList 
                                   RETURN returnType IS codeBlock 
-                                FUNCTION? SEMI pragmaList                                 -> ^( OBJECT_SERVICE_DEFINITION[$func]
+                                FUNCTION? SEMI pragmaList                                 -> ^( OBJECT_SERVICE_DEFINITION[$codeBlock.text]
+                                                                                                SERVICE_TYPE[$func.text]
                                                                                                 serviceVisibility 
                                                                                                 serviceType? 
                                                                                                 domainName 
@@ -901,7 +908,7 @@ stateDefinition               : description
                                 stateType STATE 
                                 domainName SCOPE objectName DOT stateName 
                                 parameterList IS codeBlock 
-                                STATE? SEMI pragmaList                                    -> ^( STATE_DEFINITION 
+                                STATE? SEMI pragmaList                                    -> ^( STATE_DEFINITION[$codeBlock.text]
                                                                                                 stateType 
                                                                                                 domainName 
                                                                                                 objectName 
