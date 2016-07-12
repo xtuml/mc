@@ -167,6 +167,25 @@ return valid;',
 	1,
 	'',
 	"0fd206d4-b40b-4ad7-be27-9150e91afb40");
+INSERT INTO O_TFR
+	VALUES ("b9f21bb9-72ba-4bcd-b593-4584c1db203b",
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// get the next parameter, unrelate it and then dispose it
+
+select one next_param related by self->parameter[R3706.''precedes''];
+if ( not_empty next_param )
+  unrelate self from next_param across R3706.''precedes'';
+  next_param.dispose();
+end if;
+
+delete object instance self;',
+	1,
+	'',
+	"532b4a1b-ed1c-4ba7-ac49-47ffc466bf58");
 INSERT INTO O_NBATTR
 	VALUES ("1b90aca9-efb5-4368-b361-a564280cf7f2",
 	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");

@@ -4,6 +4,7 @@ CREATE TABLE ACT_ACT (
     LoopLevel INTEGER,
     Block_ID UNIQUE_ID,
     CurrentScope_ID UNIQUE_ID,
+    return_value INTEGER,
     Label STRING,
     Parsed_Block_ID UNIQUE_ID,
     ReturnFound BOOLEAN
@@ -1474,6 +1475,11 @@ CREATE TABLE S_ENUM (
     EDT_DT_ID UNIQUE_ID,
     Previous_Enum_ID UNIQUE_ID
 );
+CREATE TABLE S_EXP (
+    Exception_ID UNIQUE_ID,
+    Name STRING,
+    Descrip STRING
+);
 CREATE TABLE S_IRDT (
     DT_ID UNIQUE_ID,
     isSet BOOLEAN,
@@ -2320,6 +2326,7 @@ CREATE TABLE TE_SET (
     init STRING,
     copy STRING,
     clear STRING,
+    setadd STRING,
     insert_element STRING,
     insert_instance STRING,
     insert_block STRING,
@@ -3469,6 +3476,7 @@ CREATE ROP REF_ID R8001 FROM 1C S_EE (EE_ID) TO 1 PE_PE (Element_ID);
 CREATE ROP REF_ID R8001 FROM 1C S_SYNC (Sync_ID) TO 1 PE_PE (Element_ID);
 CREATE ROP REF_ID R8001 FROM 1C C_SF (Id) TO 1 PE_PE (Element_ID);
 CREATE ROP REF_ID R8001 FROM 1C C_DG (Id) TO 1 PE_PE (Element_ID);
+CREATE ROP REF_ID R8001 FROM 1C S_EXP (Exception_ID) TO 1 PE_PE (Element_ID);
 CREATE ROP REF_ID R8002 FROM MC PE_VIS (Element_ID) TO 1 PE_PE (Element_ID);
 CREATE ROP REF_ID R8002 FROM MC PE_VIS (Package_ID) TO 1 EP_PKG (Package_ID);
 CREATE ROP REF_ID R8003 FROM MC PE_PE (Component_ID) TO 1C C_C (Id);

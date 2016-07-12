@@ -1,0 +1,1 @@
+${operation.visibility} ${operation.instance} function ${domain.name}::${object.name}.${activity.name} (\

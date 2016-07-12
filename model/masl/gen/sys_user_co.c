@@ -59,66 +59,6 @@ UserPreOoaInitializationCalloutf( void )
   SYS_USER_CO_PRINTF( "UserPreOoaInitializationCallout\n" )
 }
 
-/* 
- * serial_MASL_decode
- *
- * This function decodes a serial MASL string, replacing
- * special characters according to the following table:
- *
- * | Character | Encoding |
- * |:---------:|:--------:|
- * | %         | %25      |
- * | ,         | %2C      |
- * | \n        | %0A      |
- * | \r        | %0D      |
- *
- * Since, all replacements are fewer characters than the
- * original, it can be done in place with no need for 
- * reallocation.
- *
- * expects a well formed (null terminated) string as an
- * argument
- */
-void
-serial_MASL_decode( char * buf )
-{
-    if ( !buf ) return;
-
-    char * b = buf;
-    int buf_len = strlen(buf);
-
-    while ( *b ) {
-
-        // replace '%25' with '%'
-        if ( *b == '%' && *(b+1) && *(b+1) == '2' && *(b+2) && *(b+2) == '5' ) {
-            *b = '%';
-            Escher_strcpy( b+1, b+3 );
-        }
-        // replace '%2C' with ','
-        else if ( *b == '%' && *(b+1) && *(b+1) == '2' && *(b+2) && ( *(b+2) == 'C' || *(b+2) == 'c' ) ) {
-            *b = ',';
-            Escher_strcpy( b+1, b+3 );
-        }
-        // replace '%0A' with '\n'
-        else if ( *b == '%' && *(b+1) && *(b+1) == '0' && *(b+2) && ( *(b+2) == 'A' || *(b+2) == 'a' ) ) {
-            *b = '\n';
-            Escher_strcpy( b+1, b+3 );
-        }
-        // replace '%0D' with '\r'
-        else if ( *b == '%' && *(b+1) && *(b+1) == '0' && *(b+2) && ( *(b+2) == 'D' || *(b+2) == 'd' ) ) {
-            *b = '\r';
-            Escher_strcpy( b+1, b+3 );
-        }
-        else {
-            // nothing
-        }
-
-        b++;
-
-    }
-
-}
-
 /*
  * UserPostOoaInitializationCallout
  *
@@ -132,10 +72,11 @@ serial_MASL_decode( char * buf )
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include "masl_url.h"
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
-  char s[ 1024 ], element[ ESCHER_SYS_MAX_STRING_LEN ], value[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ];
+  char s[ 1024 ], element[ ESCHER_SYS_MAX_STRING_LEN ], value[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ], arg[ ESCHER_SYS_MAX_STRING_LEN ];
   char * p, * q;
   T_clear();
   while ( ( p = fgets( s, 1024, stdin ) ) != NULL ) {
@@ -144,8 +85,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     p[ strlen(p) - 1 ] = 0;
     if ( ( q = strsep( &p, "," ) ) != NULL ) Escher_strcpy( element, q );
     while ( ( q = strsep(&p, ",")) != NULL ) {
-        Escher_strcpy( value[ i ], q );
-        serial_MASL_decode( value[ i ] );
+        masl_url_decode( value[ i ], q );
         i++;
     }
     masl_in_populate( element, value );

@@ -1,0 +1,125 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("0ad43698-1953-4af6-a1e1-8f9b8e5ad3cf",
+	'subsuperFormalization',
+	3811,
+	'subsuperFormalization',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("6dc34968-2cac-40ae-b1aa-72692370cf54",
+	"0ad43698-1953-4af6-a1e1-8f9b8e5ad3cf",
+	'getID',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'// Checks the referential attributes connected to this formalization against
+// the identifier attributes for the target object
+// A subsuper formalization is complete when each subtype has a referential
+// attribute for each attribute in an identifier of the supertype class
+// returns -1 if incomplete. else, returns the identifier number
+
+ret = -1;
+
+subsup = self.rel;
+select one sup_obj related by subsup->R_SUPER[R212]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201];
+select many sub_objs related by subsup->R_SUB[R213]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
+
+// select all attributes for ID1
+select any o_id1 related by sup_obj->O_ID[R104] where ( selected.Oid_ID == 0 );
+select many o_attrs related by o_id1->O_ATTR[R105];
+complete = true;
+for each sub_obj in sub_objs
+  select many ras related by self->formalization[R3810]->referentialAttribute[R3811] where ( selected.o_obj == sub_obj );
+  complete = formalization::compareAttrSets( o_attrs:o_attrs, ras:ras );
+  if ( false == complete )
+    break;
+  end if;
+end for;
+if ( true == complete )
+  ret = 0;
+else
+  // check ID2
+  select any o_id2 related by sup_obj->O_ID[R104] where ( selected.Oid_ID == 1 );
+  select many o_attrs related by o_id2->O_ATTR[R105];
+  complete = true;
+  for each sub_obj in sub_objs
+	select many ras related by self->formalization[R3810]->referentialAttribute[R3811] where ( selected.o_obj == sub_obj );
+	complete = formalization::compareAttrSets( o_attrs:o_attrs, ras:ras );
+	if ( false == complete )
+	  break;
+	end if;
+  end for;
+  if ( true == complete )
+	ret = 1;
+  else
+    // check ID3
+	select any o_id3 related by sup_obj->O_ID[R104] where ( selected.Oid_ID == 2 );
+	select many o_attrs related by o_id3->O_ATTR[R105];
+	complete = true;
+	for each sub_obj in sub_objs
+	  select many ras related by self->formalization[R3810]->referentialAttribute[R3811] where ( selected.o_obj == sub_obj );
+	  complete = formalization::compareAttrSets( o_attrs:o_attrs, ras:ras );
+	  if ( false == complete )
+		break;
+	  end if;
+	end for;
+	if ( true == complete )
+	  ret = 2;
+	end if;
+  end if;
+end if;
+
+return ret;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("c95bd3e1-456c-48be-ad03-ea89ba353d9a",
+	"0ad43698-1953-4af6-a1e1-8f9b8e5ad3cf");
+INSERT INTO O_BATTR
+	VALUES ("c95bd3e1-456c-48be-ad03-ea89ba353d9a",
+	"0ad43698-1953-4af6-a1e1-8f9b8e5ad3cf");
+INSERT INTO O_ATTR
+	VALUES ("c95bd3e1-456c-48be-ad03-ea89ba353d9a",
+	"0ad43698-1953-4af6-a1e1-8f9b8e5ad3cf",
+	"00000000-0000-0000-0000-000000000000",
+	'rel',
+	'',
+	'',
+	'rel',
+	0,
+	"8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Subtype Supertype Association>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"0ad43698-1953-4af6-a1e1-8f9b8e5ad3cf");
+INSERT INTO O_ID
+	VALUES (1,
+	"0ad43698-1953-4af6-a1e1-8f9b8e5ad3cf");
+INSERT INTO O_ID
+	VALUES (2,
+	"0ad43698-1953-4af6-a1e1-8f9b8e5ad3cf");
+INSERT INTO PE_PE
+	VALUES ("0ad43698-1953-4af6-a1e1-8f9b8e5ad3cf",
+	1,
+	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'masl2xtuml',
+	'',
+	0,
+	'../masl2xtuml.xtuml');

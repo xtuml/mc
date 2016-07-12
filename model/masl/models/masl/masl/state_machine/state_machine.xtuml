@@ -48,13 +48,6 @@ INSERT INTO O_TFR
 create object instance state_machine of state_machine;
 relate state_machine to object across R3734.''defines lifecycle of'';
 state_machine.type = param.type;
-if ( "assigner" != state_machine.type )
-  // Create the default non-existent state.
-  // One is created for each of the valid spellings in the lexer grammar
-  s = state::populate( name:"non_existent", type:"", object:object );
-  s = state::populate( name:"Non_Existent", type:"", object:object );
-  s = state::populate( name:"Non_Existant", type:"", object:object );
-end if;
 markable = markable::populate( name:"transitiontable" );
 relate state_machine to markable across R3783;
 return state_machine;',

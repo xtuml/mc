@@ -3810,6 +3810,30 @@ INSERT INTO DIM_ED
 	VALUES ("79e0a327-3850-4b05-b677-6ae7c8be5b19",
 	"ba1f7f81-d321-4d58-a486-b000e35d8762",
 	"35243998-9b49-442a-b89a-741aee24c1c4");
+INSERT INTO GD_GE
+	VALUES ("3aaec975-57a0-44b8-b509-0f03c2ab838d",
+	"3665dfa2-5054-44a1-9c79-da2f3631ab11",
+	"a5c10c35-42fd-4d79-8963-ce0dc4729189",
+	21,
+	0,
+	'mcooa::ooaofooa::Domain::Exception');
+INSERT INTO GD_SHP
+	VALUES ("3aaec975-57a0-44b8-b509-0f03c2ab838d");
+INSERT INTO GD_NCS
+	VALUES ("3aaec975-57a0-44b8-b509-0f03c2ab838d");
+INSERT INTO DIM_ND
+	VALUES (238.000000,
+	127.000000,
+	"3aaec975-57a0-44b8-b509-0f03c2ab838d");
+INSERT INTO DIM_GE
+	VALUES (718.000000,
+	1311.000000,
+	"3aaec975-57a0-44b8-b509-0f03c2ab838d",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("3aaec975-57a0-44b8-b509-0f03c2ab838d",
+	0,
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_DIA
 	VALUES ("3665dfa2-5054-44a1-9c79-da2f3631ab11",
 	'',
@@ -4139,6 +4163,46 @@ INSERT INTO PE_PE
 	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("ecc1ab34-9767-4e8a-82ed-4ab5b2aea2c8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Bridge>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ecc1ab34-9767-4e8a-82ed-4ab5b2aea2c8",
+	0,
+	"4734f5e9-097d-4b0f-a054-6e01e4a6196c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("4734f5e9-097d-4b0f-a054-6e01e4a6196c",
+	'Bridge',
+	12,
+	'S_BRG',
+	'A bridge (S_BRG) is a method associated with an external entity (S_EE).  Bridges can be synchronously called from action specifications.  Each bridge as a return type and zero or more parameters (S_BPARM).',
+	"00000000-0000-0000-0000-000000000000",
+	'./Bridge/Bridge.xtuml');
+INSERT INTO PE_PE
+	VALUES ("ecc1ab34-9767-4e8a-82ed-4ab5b2aea2c8",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("5e48879f-6300-4fed-8c18-3a872b912c34",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Bridge>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("5e48879f-6300-4fed-8c18-3a872b912c34",
+	1,
+	"4734f5e9-097d-4b0f-a054-6e01e4a6196c");
+INSERT INTO PE_PE
+	VALUES ("5e48879f-6300-4fed-8c18-3a872b912c34",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("0ca8fc78-e628-4c9e-8e88-6e48e1758391");
 INSERT INTO R_REL
@@ -4396,14 +4460,6 @@ INSERT INTO R_OIR
 	"b29938e8-577c-4f93-9a13-ba5658f105c1",
 	"e1282481-f225-4736-82b5-f7c25c69e389",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("4734f5e9-097d-4b0f-a054-6e01e4a6196c",
-	'Bridge',
-	12,
-	'S_BRG',
-	'A bridge (S_BRG) is a method associated with an external entity (S_EE).  Bridges can be synchronously called from action specifications.  Each bridge as a return type and zero or more parameters (S_BPARM).',
-	"00000000-0000-0000-0000-000000000000",
-	'./Bridge/Bridge.xtuml');
 INSERT INTO PE_PE
 	VALUES ("b29938e8-577c-4f93-9a13-ba5658f105c1",
 	1,

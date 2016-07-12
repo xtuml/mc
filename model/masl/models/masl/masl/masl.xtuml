@@ -8725,7 +8725,7 @@ INSERT INTO R_PART
 	"03939f1b-cbdf-4f91-af4b-d081cfb15480",
 	1,
 	1,
-	'defines');
+	'declares');
 INSERT INTO R_RTO
 	VALUES ("aa7fe657-6de6-4c75-93c4-792bf649f07a",
 	"43e3f220-8ad8-44b4-9d33-65e374cf3239",

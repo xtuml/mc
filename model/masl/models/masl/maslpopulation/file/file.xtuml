@@ -30,23 +30,26 @@ if ( "project" == element )
       if ( not_empty file )
         // Project files go into a directory named after the project.
         file.directory( name:project.name );
-        file.emit( name:project.name + file.suffix );
+        file.emit( name:project.name + ".prj" );
       end if;
-      // terminator services
-      select many terminators related by project->domain[R3701]->terminator[R3702];
-      for each terminator in terminators
-        select many activities related by terminator->routine[R3791]->activity[R3704];
-        for each activity in activities
-          select one code_block related by activity->code_block[R3794];
-          select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
-          if ( not_empty file )
-            file.suffix = ".tr";
-            // Project files go into a directory named after the project.
-            file.directory( name:project.name );
-            file.copy( source:code_block.sourcefile, destination:terminator.name + "_" + activity.name + file.suffix );
+
+	  // render all the activity files
+      select many terminator_activities related by project->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
+      for each activity in terminator_activities
+        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
+        select one code_block related by activity->code_block[R3794];
+        if ( not_empty file )
+          destination = file.getname();
+          // Domain files go into a directory named after the domain.
+          file.directory( name:project.name );
+          if ( empty code_block )	// generate a file stub
+            file.gen( destination:destination );
+          else						// activity exists, copy it
+            file.copy( source:code_block.sourcefile, destination:destination );
           end if;
-        end for;
+        end if;
       end for;
+
     end for;
   end if;
 elif ( "domain" == element )
@@ -63,55 +66,95 @@ elif ( "domain" == element )
       if ( not_empty file )
         // Domain files go into a directory named after the domain.
         file.directory( name:domain.name );
-        file.emit( name:domain.name + file.suffix );
+        file.emit( name:domain.name + ".mod" );
+        domain.render_interface();
+        file.emit( name:domain.name + ".int" );
       end if;
-      // CDS - maybe we need null terminator services?
-      // functions
-      select many routines related by domain->routine[R3790];
-      for each routine in routines
-        select one activity related by routine->activity[R3704];
+      
+      // render all the activity files
+      select many domain_routines related by domain->routine[R3790]->activity[R3704];
+      select many terminator_routines related by domain->terminator[R3702]->routine[R3791]->activity[R3704];
+      select many class_ops related by domain->object[R3708]->operation[R3749]->activity[R3704];
+      select many states related by domain->object[R3708]->state[R3750]->activity[R3704];
+      // TODO once set addition is in place, I can do this in one for loop - LPS
+      //activities = domain_routines + terminator_routines + class_ops + states;
+      activities = domain_routines;
+      for each activity in activities
+        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
         select one code_block related by activity->code_block[R3794];
-        select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
         if ( not_empty file )
-          select one typeref related by routine->typeref[R3792];
-          if ( not_empty typeref )
-            file.suffix = ".fn"; // default is .svc
-          end if;
+          destination = file.getname();
           // Domain files go into a directory named after the domain.
           file.directory( name:domain.name );
-          file.copy( source:code_block.sourcefile, destination:activity.name + file.suffix );
+          if ( empty code_block )	// generate a file stub
+            select one class_op related by activity->operation[R3704];
+            select one deferral related by class_op->subsuper[R3793];
+            if ( empty class_op or ( not_empty class_op and empty deferral ) )
+              file.gen( destination:destination );
+            end if;
+          else						// activity exists, copy it
+            file.copy( source:code_block.sourcefile, destination:destination );
+          end if;
         end if;
       end for;
-      select many objects related by domain->object[R3708];
-      for each object in objects
-        // class operations
-        select many activities related by object->operation[R3749]->activity[R3704];
-        for each activity in activities
-          select one code_block related by activity->code_block[R3794];
-          select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
-          if ( not_empty file )
-            select one typeref related by activity->operation[R3704]->typeref[R3741];
-            if ( not_empty typeref )
-              file.suffix = ".fn"; // default is .svc
+      activities = terminator_routines;
+      for each activity in activities
+        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
+        select one code_block related by activity->code_block[R3794];
+        if ( not_empty file )
+          destination = file.getname();
+          // Domain files go into a directory named after the domain.
+          file.directory( name:domain.name );
+          if ( empty code_block )	// generate a file stub
+            select one class_op related by activity->operation[R3704];
+            select one deferral related by class_op->subsuper[R3793];
+            if ( empty class_op or ( not_empty class_op and empty deferral ) )
+              file.gen( destination:destination );
             end if;
-            // Domain files go into a directory named after the domain.
-            file.directory( name:domain.name );
-            file.copy( source:code_block.sourcefile, destination:object.name + "_" + activity.name + file.suffix );
+          else						// activity exists, copy it
+            file.copy( source:code_block.sourcefile, destination:destination );
           end if;
-        end for;
-        // state actions
-        select many activities related by object->state[R3750]->activity[R3704];
-        for each activity in activities
-          select one code_block related by activity->code_block[R3794];
-          select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
-          if ( not_empty file )
-            // Domain files go into a directory named after the domain.
-            file.directory( name:domain.name );
-            file.suffix = ".al";
-            file.copy( source:code_block.sourcefile, destination:object.name + "_" + activity.name + file.suffix );
-          end if;
-        end for;
+        end if;
       end for;
+      activities = class_ops;
+      for each activity in activities
+        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
+        select one code_block related by activity->code_block[R3794];
+        if ( not_empty file )
+          destination = file.getname();
+          // Domain files go into a directory named after the domain.
+          file.directory( name:domain.name );
+          if ( empty code_block )	// generate a file stub
+            select one class_op related by activity->operation[R3704];
+            select one deferral related by class_op->subsuper[R3793];
+            if ( empty class_op or ( not_empty class_op and empty deferral ) )
+              file.gen( destination:destination );
+            end if;
+          else						// activity exists, copy it
+            file.copy( source:code_block.sourcefile, destination:destination );
+          end if;
+        end if;
+      end for;
+      activities = states;
+      for each activity in activities
+        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
+        select one code_block related by activity->code_block[R3794];
+        if ( not_empty file )
+          destination = file.getname();
+          // Domain files go into a directory named after the domain.
+          file.directory( name:domain.name );
+          if ( empty code_block )	// generate a file stub
+            select one class_op related by activity->operation[R3704];
+            select one deferral related by class_op->subsuper[R3793];
+            if ( empty class_op or ( not_empty class_op and empty deferral ) )
+              file.gen( destination:destination );
+            end if;
+          else						// activity exists, copy it
+            file.copy( source:code_block.sourcefile, destination:destination );
+          end if;
+        end if;
+      end for;
+
     end for;
   end if;
 elif ( "" == element )	// render from the root
@@ -179,18 +222,11 @@ INSERT INTO O_TFR
 	0,
 	'element = param.element;
 name = param.name;
-if ( "project" == name )
+if ( "project" == name or 
+     "domain" == name or
+     "routine" == name or "operation" == name or "state" == name )
   create object instance file of file;
   relate file to element across R3795;
-  file.suffix = ".prj";
-elif ( "domain" == name )
-  create object instance file of file;
-  relate file to element across R3795;
-  file.suffix = ".mod";
-elif ( "code_block" == name )
-  create object instance file of file;
-  relate file to element across R3795;
-  file.suffix = ".svc"; // default, likely to change
 else
   // no file needed
 end if;
@@ -361,6 +397,275 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO O_TFR
+	VALUES ("5184e566-c21d-4e41-adf8-4be0bb366c90",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'getname',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'/** Naming convention:
+  *
+  * Domain Model: <domain name>.mod
+  * Domain Interface: <domain name>.int
+  *  
+  * Domain Service: <service name>.svc
+  * Domain Function: <function name>.fn
+  * Domain External: <external name>.ext (domain service with pragma external)
+  * Domain Scenario: <external name>.scn (domain service with pragma scenario)
+  *  
+  * Object/Instance Service: <object kl>_<service name>.svc
+  * Object/Instance Function: <object kl>_<function name>.fn
+  * State Action: <object kl>_<state name>.al
+  *  
+  * Terminator Service: <terminator kl>_<service name>.tr
+  * Terminator Function: <terminator kl>_<service name>.tr (yes, this is inconsistent with other functions!)
+  *  
+  * Project Model: <project name>.prj
+  * Project Terminator Service: <domain name>_<terminator kl>_<service name>.tr
+  *
+  * Also, if any of the services and functions have more than one definition with the same name
+  * (but different signatures) the filename has an overload number appended before the
+  * extension for the second and subsequent occurrences.
+  * 
+  * For example:
+  *   public service log ( message : in string );
+  *   public service log ( message : in string, arg1 : in string );
+  *   public service log ( message : in string, arg1 : in string, arg2 : in string );
+  * 
+  * would have files named log.svc, log_1.svc and log_2.svc respectively, as per the order the
+  * definitions occur in the .mod file.
+  * 
+  * Also, a filename can be overridden with a pragma filename("another_file.aaa") after the
+  * declaration in the mod file, which trumps everything else (we tend to do this for overloads,
+  * as it is less flaky)
+  */
+  
+name = "";
+
+select any activity related by self->element[R3795]->markable[R3786]->activity[R3783];
+if ( not_empty activity )
+
+  // check for filename pragma
+  select any filename_pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "filename" );
+  select any pragma_item related by filename_pragma->pragma_item[R3780];
+  if ( not_empty pragma_item )
+    fn_len = STRING::strlen( s:pragma_item.value );
+	name = STRING::substr( s:pragma_item.value, begin: 1, end: fn_len - 1 );
+  else
+	select one routine related by activity->routine[R3704];
+	select one operation related by activity->operation[R3704];
+	select one state related by activity->state[R3704];
+	
+	if ( not_empty routine )
+	  select one terminator related by routine->terminator[R3791];
+	  select one returntype related by routine->typeref[R3792];
+	  if ( empty terminator )			// domain routine
+		select any scn_pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
+		select any ext_pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
+		if ( not_empty scn_pragma )	// domain scenario
+		  name = activity.name + ".scn";
+		elif ( not_empty ext_pragma )	// domain external
+		  name = activity.name + ".ext";
+		elif ( not_empty returntype )	// domain function
+		  name = activity.name + ".fn";
+		else							// domain service
+		  name = activity.name + ".svc";
+		end if;
+	  else							// terminator routine
+		select one project related by terminator->domain[R3702]->project[R3701];
+		select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
+		select any pragma_item related by pragma->pragma_item[R3780];
+		key_letters = "";
+		if ( empty pragma_item )
+		  key_letters = terminator.name;
+		else
+		  kl_len = STRING::strlen( s:pragma_item.value );
+		  key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
+		end if;
+		if ( empty project )			// domain terminator
+		  name = key_letters + "_" + activity.name + ".tr";
+		else							// project terminator
+		  select one domain related by terminator->domain[R3702];
+		  name = domain.name + "_" + key_letters + "_" + activity.name + ".tr";
+		end if;
+	  end if;
+	elif ( not_empty operation )
+	  select one returntype related by operation->typeref[R3741];
+	  select any pragma related by operation->object[R3749]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
+	  select any pragma_item related by pragma->pragma_item[R3780];
+	  key_letters = "";
+	  if ( empty pragma_item )
+		select one obj related by operation->object[R3749];
+		key_letters = obj.name;
+	  else
+		kl_len = STRING::strlen( s:pragma_item.value );
+		key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
+	  end if;
+	  if ( not_empty returntype )			// object function
+		name = key_letters + "_" + activity.name + ".fn";
+	  else								// object service
+		name = key_letters + "_" + activity.name + ".svc";
+	  end if;
+	elif ( not_empty state )
+	  select one returntype related by operation->typeref[R3741];
+	  select any pragma related by state->object[R3750]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
+	  select any pragma_item related by pragma->pragma_item[R3780];
+	  key_letters = "";
+	  if ( empty pragma_item )
+		select one obj related by state->object[R3750];
+		key_letters = obj.name;
+	  else
+		kl_len = STRING::strlen( s:pragma_item.value );
+		key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
+	  end if;
+	  name = key_letters + "_" + activity.name + ".al";
+	end if;
+  
+  end if;
+
+end if;
+
+// check for a duplicate name
+// TODO this handles overloading which is not yet supported in MASL
+select any dup_file from instances of file where ( selected.name == name );
+overload = 1;
+orig_name = name;
+while ( not_empty dup_file )
+
+  // process name
+  i = STRING::indexof( haystack:orig_name, needle:"." );
+  len = STRING::strlen( s:orig_name );
+  base = STRING::substr( s:orig_name, begin:0, end:i );
+  ext = STRING::substr( s:orig_name, begin:i, end:len );
+  str_num = STRING::itoa( i:overload );
+  
+  // set name
+  name = base + "_" + str_num + ext;
+  
+  // increment overload number
+  overload = overload + 1;
+  
+  // retry selection
+  select any dup_file from instances of file where ( selected.name == name );
+
+end while;
+
+self.name = name;
+return name;',
+	1,
+	'',
+	"a7863684-8575-4990-b290-dce44c1b53df");
+INSERT INTO O_TFR
+	VALUES ("f03f6367-a1ba-4db1-a427-380dbbbb9806",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'gen',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'destination = param.destination;
+doEmit = false;
+
+select any activity related by self->element[R3795]->markable[R3786]->activity[R3783];
+if ( not_empty activity )
+
+  select one routine related by activity->routine[R3704];
+  select one operation related by activity->operation[R3704];
+  select one state related by activity->state[R3704];
+  
+  if ( not_empty routine )
+    select one terminator related by routine->terminator[R3791];
+    select one returntype related by routine->typeref[R3792];
+    if ( empty terminator )			// domain routine
+      select one domain related by routine->domain[R3790];
+      if ( not_empty returntype )	// domain function
+		T::include( file:"masl/t.domain_function_stub_begin.masl" );
+		select one parameter related by activity->parameter[R3705];
+		if ( not_empty parameter )
+		  parameter.render();
+		end if;
+		T::include( file:"masl/t.domain_function_stub_end.masl" );
+	    doEmit = true;
+      else							// domain service
+		T::include( file:"masl/t.domain_service_stub_begin.masl" );
+		select one parameter related by activity->parameter[R3705];
+		if ( not_empty parameter )
+		  parameter.render();
+		end if;
+		T::include( file:"masl/t.domain_service_stub_end.masl" );
+	    doEmit = true;
+      end if;
+    else							// terminator routine
+      select one domain related by terminator->domain[R3702];
+      if ( not_empty returntype )	// terminator function
+		T::include( file:"masl/t.terminator_function_stub_begin.masl" );
+		select one parameter related by activity->parameter[R3705];
+		if ( not_empty parameter )
+		  parameter.render();
+		end if;
+		T::include( file:"masl/t.terminator_function_stub_end.masl" );
+	    doEmit = true;
+      else							// terminator service
+		T::include( file:"masl/t.terminator_service_stub_begin.masl" );
+		select one parameter related by activity->parameter[R3705];
+		if ( not_empty parameter )
+		  parameter.render();
+		end if;
+		T::include( file:"masl/t.terminator_service_stub_end.masl" );
+	    doEmit = true;
+      end if;
+    end if;
+  elif ( not_empty operation )
+    select one returntype related by operation->typeref[R3741];
+    select one object related by operation->object[R3749];
+    select one domain related by object->domain[R3708];
+	if ( not_empty returntype )			// object function
+	  T::include( file:"masl/t.object_function_stub_begin.masl" );
+	  select one parameter related by activity->parameter[R3705];
+	  if ( not_empty parameter )
+	    parameter.render();
+	  end if;
+	  T::include( file:"masl/t.object_function_stub_end.masl" );
+	  doEmit = true;
+	else								// object service
+	  T::include( file:"masl/t.object_service_stub_begin.masl" );
+	  select one parameter related by activity->parameter[R3705];
+	  if ( not_empty parameter )
+	    parameter.render();
+	  end if;
+	  T::include( file:"masl/t.object_service_stub_end.masl" );
+	  doEmit = true;
+	end if;
+  elif ( not_empty state and not state.non_existent )
+    select one returntype related by operation->typeref[R3741];
+    select one object related by state->object[R3750];
+    select one domain related by object->domain[R3708];
+	T::include( file:"masl/t.object_state_stub_begin.masl" );
+	select one parameter related by activity->parameter[R3705];
+	if ( not_empty parameter )
+	  parameter.render();
+	end if;
+	T::include( file:"masl/t.object_state_stub_end.masl" );
+	doEmit = true;
+  end if;
+
+end if;
+
+if ( doEmit )
+  self.emit( name:destination );
+end if;',
+	1,
+	'',
+	"5184e566-c21d-4e41-adf8-4be0bb366c90");
+INSERT INTO O_TPARM
+	VALUES ("7bb1295c-b375-4c50-9c1e-efd5bb085697",
+	"f03f6367-a1ba-4db1-a427-380dbbbb9806",
+	'destination',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
@@ -398,33 +703,15 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("ad78f124-85c3-4822-b5ec-16c2b83db644",
+	VALUES ("0ec02753-0eda-42e2-a42a-65c03c9ebc59",
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
 INSERT INTO O_BATTR
-	VALUES ("ad78f124-85c3-4822-b5ec-16c2b83db644",
+	VALUES ("0ec02753-0eda-42e2-a42a-65c03c9ebc59",
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
 INSERT INTO O_ATTR
-	VALUES ("ad78f124-85c3-4822-b5ec-16c2b83db644",
+	VALUES ("0ec02753-0eda-42e2-a42a-65c03c9ebc59",
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
 	"9cefce8b-496f-41de-bc4f-f7b0cc6613de",
-	'suffix',
-	'',
-	'',
-	'suffix',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("0ec02753-0eda-42e2-a42a-65c03c9ebc59",
-	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
-INSERT INTO O_BATTR
-	VALUES ("0ec02753-0eda-42e2-a42a-65c03c9ebc59",
-	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
-INSERT INTO O_ATTR
-	VALUES ("0ec02753-0eda-42e2-a42a-65c03c9ebc59",
-	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
-	"ad78f124-85c3-4822-b5ec-16c2b83db644",
 	'projectroot',
 	'',
 	'',

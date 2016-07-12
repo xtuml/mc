@@ -870,6 +870,149 @@ INSERT INTO S_BPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_BRG
+	VALUES ("24cd0f42-7321-45b1-8c8c-726958e5b8ca",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'substr',
+	'returns a substring of the given string s starting at the index begin and ending at the index end - 1.
+if begin < 0, returns a substring starting at the beginning of s
+if begin > the length of s - 1, returns an empty string
+if end < 0 or > the length of s, returns a substring starting at begin to the end of s
+if end <= begin, returns empty string
+
+usage examples:
+foo = substr( s:"Hello, World!", 4, 8 );	// foo == "o, Wo"
+bar = substr( s:"Hello, World!", 2, -1 );	// bar == "llo, World!"',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("b45c35f4-805a-421a-90ab-be055eb4c0dd",
+	"24cd0f42-7321-45b1-8c8c-726958e5b8ca",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("03bfd9e6-cb9b-4e44-a879-7bfb01ca0d60",
+	"24cd0f42-7321-45b1-8c8c-726958e5b8ca",
+	'begin',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"b45c35f4-805a-421a-90ab-be055eb4c0dd",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("36a3e6af-3981-4946-915d-f1c1ce649714",
+	"24cd0f42-7321-45b1-8c8c-726958e5b8ca",
+	'end',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"03bfd9e6-cb9b-4e44-a879-7bfb01ca0d60",
+	'');
+INSERT INTO S_BRG
+	VALUES ("9b4a754f-c3ab-47ed-9798-df78e185a9a8",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'strlen',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("181f6844-6ad7-4d48-a378-4b6a531da2e6",
+	"9b4a754f-c3ab-47ed-9798-df78e185a9a8",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("a034fc43-c69a-4748-b9df-b3cd04458e8d",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'indexof',
+	'Returns the index of the first occurence of needle in haystack. Returns -1 if no match is found.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("1203a3de-acbf-4ab2-99d1-2bd14503147f",
+	"a034fc43-c69a-4748-b9df-b3cd04458e8d",
+	'haystack',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("c1a72d81-44e8-4171-889e-031c2e3b9349",
+	"a034fc43-c69a-4748-b9df-b3cd04458e8d",
+	'needle',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"1203a3de-acbf-4ab2-99d1-2bd14503147f",
+	'');
+INSERT INTO S_BRG
+	VALUES ("9fced7a5-892c-4f70-8963-5f9550294058",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'getword',
+	'returns the first word in the input string s starting at index i.
+if no identifier is found, or i is an invalid index, empty string is returned.
+
+words are delimited by ",", " ", "\n", "\r", "\t", "(", ")"',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("a0b5e259-b7bb-47ee-8243-7ad1643e7bcb",
+	"9fced7a5-892c-4f70-8963-5f9550294058",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("33507f1a-3fea-433a-900f-b01982eafae6",
+	"9fced7a5-892c-4f70-8963-5f9550294058",
+	'i',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"a0b5e259-b7bb-47ee-8243-7ad1643e7bcb",
+	'');
+INSERT INTO S_BRG
+	VALUES ("76558700-f8ad-4c3a-9aad-2aab091c1410",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'trim',
+	'Returns the input string with whitespace ( '' '', ''\r'', ''\t'', and ''\n'' ) trimmed from the beginning
+and the end of the string. If the input string is only whitespace, empty string is returned',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("bbca5391-f26a-4eed-bbd8-b88e1c393df3",
+	"76558700-f8ad-4c3a-9aad-2aab091c1410",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO PE_PE
 	VALUES ("bb9efba5-486a-4a39-a358-d0e112844c11",
 	1,
