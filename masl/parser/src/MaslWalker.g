@@ -114,6 +114,7 @@ projectDefinition
                                                               args[0] = $projectName.name;
                                                               populate( "project", args );
                                                             }
+                                   description
                                    ( projectDomainDefinition 
                                    )*
                                    pragmaList[""])              
@@ -131,6 +132,7 @@ projectDomainDefinition
                                                                 args[0] = $projectDomainReference.ref;
                                                                 populate( "domain", args );
                                                             }
+                                   description
                                    ( projectTerminatorDefinition    
                                    )*
                                    pragmaList[""]               
@@ -162,6 +164,7 @@ domainDefinition
                                                                 args[0] = $domainName.name;
                                                                 populate( "domain", args );
                                                             }
+                                   description
                                    ( objectDeclaration           
                                    | domainServiceDeclaration    
                                    | domainTerminatorDefinition    
@@ -281,6 +284,7 @@ typeDeclaration
                                                                   args[2] = $TYPE.text;
                                                                   populate( "type", args );
                                                               }
+                                   description
                                    pragmaList[""]				
                                    typeDefinition			
                                  )                          
@@ -554,6 +558,7 @@ domainTerminatorDefinition
                                                                   args[0] = $terminatorName.name;
                                                                   populate( "terminator", args );
                                                               }
+                                   description
                                    pragmaList[""]                 
                                    ( terminatorServiceDeclaration//[terminator] 
                                    )*
@@ -571,6 +576,7 @@ projectTerminatorDefinition
                                                                   args[0] = $terminatorName.name;
                                                                   populate( "terminator", args );
                                                               }
+                                   description
                                    pragmaList[""]                 
                                    ( projectTerminatorServiceDeclaration//[terminator] 
                                    )*
@@ -591,6 +597,7 @@ terminatorServiceDeclaration//[DomainTerminator terminator]
                                                                   args[3] = $serviceName.name;
                                                                   populate( "routine", args );
                                                             }
+                                   description
                                    parameterList
                                    returnType?
                                    pragmaList[""]
@@ -610,6 +617,7 @@ projectTerminatorServiceDeclaration//[ProjectTerminator terminator]
                                                                   args[3] = $serviceName.name;
                                                                   populate( "routine", args );
                                                             }
+                                   description
                                    parameterList
                                    (returnType)?
                                    pragmaList[""]
@@ -714,6 +722,7 @@ objectDefinition
                                    | stateDeclaration         
                                    | transitionTable          
                                    )*
+                                   description
                                    pragmaList["definition"]                 
                                  )
                                                             {
@@ -738,6 +747,7 @@ attributeDefinition
                                                             }
                                    ( attReferential         
                                    )*
+                                   description
                                    typeReference
                                                             {
                                                                 args[0] = $typeReference.type;
@@ -767,7 +777,7 @@ attReferential
                                                                 args[0] = $relationshipSpec.spec[1];
                                                                 args[1] = $relationshipSpec.spec[0];
                                                                 args[2] = $relationshipSpec.spec[2];
-                                                                args[3] = $relationshipSpec.spec[3];
+                                                                args[3] = $relationshipSpec.spec[4];
                                                                 args[4] = $attributeName.name;
                                                                 populate( "referential", args );
                                                             }
@@ -826,6 +836,7 @@ objectServiceDeclaration
                                                                       args[5] = $relationshipReference.ref[1];
                                                                   populate( "operation", args );
                                                             }
+                                   description
                                    parameterList
                                    returnType?
                                    pragmaList[""]
@@ -866,6 +877,7 @@ eventDefinition
                                                                 args[1] = $eventType.type;
                                                                 populate( "event", args );
                                                             }
+                                   description
                                    parameterList
                                    pragmaList[""]               
                                  )
@@ -898,6 +910,7 @@ stateDeclaration
                                                                 args[3] = $stateType.type;
                                                                 populate( "state", args );
                                                             }
+                                   description
                                    parameterList
                                    pragmaList[""]              
                                 )                           
@@ -1030,6 +1043,7 @@ domainServiceDeclaration
                                                                   args[3] = $serviceName.name;
                                                                   populate( "routine", args );
                                                             }
+                                   description
                                    parameterList
                                    returnType?
                                    pragmaList[""]
@@ -1141,6 +1155,7 @@ regularRelationshipDefinition
                                                                 args[0] = $relationshipName.name;
                                                                 populate( "regularrel", args );
                                                             }
+                                   description
                                    leftToRight=halfRelationshipDefinition
                                    rightToLeft=halfRelationshipDefinition
                                                             {
@@ -1161,6 +1176,7 @@ assocRelationshipDefinition
                                                                 args[0] = $relationshipName.name;
                                                                 populate( "associative", args );
                                                             }
+                                   description
                                    leftToRight=halfRelationshipDefinition
                                    rightToLeft=halfRelationshipDefinition
                                    assocObj=objectReference
@@ -1213,6 +1229,7 @@ subtypeRelationshipDefinition
                                                                 args[0] = $relationshipName.name;
                                                                 populate( "subsuper", args );
                                                             }
+                                   description
                                    supertype=objectReference
                                                             {
                                                                 args[0] = $supertype.ref[0];
@@ -1330,6 +1347,20 @@ returns [ String name ]
                               ;
 
 //---------------------------------------------------------
+// Descriptions
+//---------------------------------------------------------
+
+description                   : ^( DESCRIPTION              {   StringBuilder descrip = new StringBuilder(); }
+                                   (Description             {   descrip.append( $Description.text.substring(3) ); }
+                                   )*
+                                                            {
+                                                                args[0] = descrip.toString();
+                                                                populate( "description", args );
+                                                            }
+                                 )
+                              ;
+
+//---------------------------------------------------------
 // Dynamic Behaviour
 //---------------------------------------------------------
 
@@ -1347,6 +1378,7 @@ domainServiceDefinition//[DomainService service]
 //scope NameScope;
 
                               : ^( DOMAIN_SERVICE_DEFINITION
+                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    serviceName
@@ -1377,6 +1409,7 @@ terminatorServiceDefinition//[DomainTerminatorService service]
 
 
                               : ^( TERMINATOR_SERVICE_DEFINITION
+                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    terminatorName
@@ -1407,6 +1440,7 @@ terminatorServiceDefinition//[DomainTerminatorService service]
 projectTerminatorServiceDefinition//[ProjectTerminatorService service]
 //scope NameScope;
                               : ^( TERMINATOR_SERVICE_DEFINITION
+                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    terminatorName
@@ -1440,6 +1474,7 @@ objectServiceDefinition//[ObjectService service]
 
 
                               :^( OBJECT_SERVICE_DEFINITION
+                                   SERVICE_TYPE
                                    serviceVisibility
                                    INSTANCE?
                                    fullObjectReference

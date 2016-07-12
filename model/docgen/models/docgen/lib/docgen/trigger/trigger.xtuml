@@ -1,0 +1,73 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("993df107-3a5e-42cd-a7e0-d6aadab58a09",
+	"00000000-0000-0000-0000-000000000000",
+	"72100ca3-f004-4030-8bd1-cd03a8eca377",
+	'trigger',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("29651884-4c80-4ab3-a65e-03d12c6099d1",
+	112,
+	"993df107-3a5e-42cd-a7e0-d6aadab58a09",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'docgen::lib::docgen::trigger');
+INSERT INTO DIM_DIA
+	VALUES ("29651884-4c80-4ab3-a65e-03d12c6099d1",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("58d911c4-9375-4f1e-b55b-7b96ffad55b3",
+	"00000000-0000-0000-0000-000000000000",
+	'hoover',
+	'',
+	'select any doc_doc from instances of DOC_DOC; // document/Document
+select any o_obj from instances of O_OBJ; // mcooa/ooaofooa',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("58d911c4-9375-4f1e-b55b-7b96ffad55b3",
+	1,
+	"993df107-3a5e-42cd-a7e0-d6aadab58a09",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("993df107-3a5e-42cd-a7e0-d6aadab58a09",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"a90293fd-8aa4-4428-959a-d954840ffe6b",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("a90293fd-8aa4-4428-959a-d954840ffe6b",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'docgen',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../docgen.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("72100ca3-f004-4030-8bd1-cd03a8eca377",
+	'docgen',
+	1,
+	'../../../docgen.xtuml');

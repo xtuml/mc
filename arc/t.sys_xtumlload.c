@@ -13,7 +13,7 @@
 #include "${te_file.xtumlload}.${te_file.hdr_file_ext}"
 ${all_domain_include_files}
 
-typedef ${te_instance.handle} (*LoadInstance_t)( ${te_instance.handle}, const c_t * [] );
+typedef ${te_prefix.type}UniqueID_t (*LoadInstance_t)( ${te_instance.handle}, const c_t * [] );
 
 typedef struct {
   const c_t * s;
@@ -46,7 +46,7 @@ static void Escher_load_instance(
 {
   Escher_ClassNumber_t n;
   ${te_instance.handle} instance;
-  ${te_instance.handle} return_identifier;
+  ${te_prefix.type}UniqueID_t return_identifier;
 
   /* Look up the class number and instance loader using the key letters.  */
   n = lookupclassloader( wordvalues[ 0 ] );

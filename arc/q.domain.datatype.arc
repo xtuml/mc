@@ -81,9 +81,14 @@ ${r.body}\
       .invoke temp_int = STRING_TO_INTEGER( te_dt.Value )
       .assign intvalue = temp_int.result
     .end if
+    .// find the first enumerator
     .select one s_edt related by te_dt->S_DT[R2021]->S_EDT[R17]
-    .select any s_enum related by s_edt->S_ENUM[R27] where ( selected.Previous_Enum_ID == 0 )
-
+    .select any s_enum from instances of S_ENUM where (false)
+    .select any prev_s_enum related by s_edt->S_ENUM[R27]
+    .while (not_empty prev_s_enum)
+      .assign s_enum = prev_s_enum
+      .select one prev_s_enum related by prev_s_enum->S_ENUM[R56.'precedes'];
+    .end while
 /*
  * Enumerated Data Type:  ${te_dt.Name}
  */

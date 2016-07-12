@@ -1,0 +1,57 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("b46b4bc3-a5d2-49b8-a2b6-8b60de40ad3f",
+	"00000000-0000-0000-0000-000000000000",
+	"72100ca3-f004-4030-8bd1-cd03a8eca377",
+	'ooaofooa_imported',
+	'ooaofooa',
+	0);
+INSERT INTO GD_MD
+	VALUES ("07018dba-ded0-4aa1-8691-1bdc3c5eec56",
+	112,
+	"b46b4bc3-a5d2-49b8-a2b6-8b60de40ad3f",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'docgen::lib::docgen::ooaofooa_imported');
+INSERT INTO DIM_DIA
+	VALUES ("07018dba-ded0-4aa1-8691-1bdc3c5eec56",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("b46b4bc3-a5d2-49b8-a2b6-8b60de40ad3f",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"a90293fd-8aa4-4428-959a-d954840ffe6b",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("a90293fd-8aa4-4428-959a-d954840ffe6b",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'docgen',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../docgen.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("72100ca3-f004-4030-8bd1-cd03a8eca377",
+	'docgen',
+	1,
+	'../../../docgen.xtuml');

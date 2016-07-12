@@ -20,7 +20,7 @@ This is the original parent issue.
 This is the analysis note written to cover at a high level the overal project.  
 [3] [MASL to xtUML Mappings](https://docs.google.com/spreadsheets/d/1jsDcOvsGlUynQM9tfcd5jAYbdYyrO1uO7_f2f2UGBdQ/edit#gid=0)  
 This document tracks notes on the mapping of MASL to xtUML and covers some of the conversion process.  
-[4] [MASL serial (DSL)](https://docs.google.com/spreadsheets/d/1tPnk-JC5Idyhz2tUbgDGPlNbmHm2fZyA2cbf7IFYyVY/edit#gid=0)  
+[4] [MASL serial (DSL)](../8073_masl_parser/8277_serial_masl_spec.md)  
 The MASL parser emits serialized MASL as comma separated string values.  
 The following are xtUML models:  
 [5] [Model of MASL](https://github.com/xtuml/mc/model/masl/)  

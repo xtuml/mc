@@ -65,7 +65,11 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.domain_begin.masl" );
+	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+for each descrip in descrips
+  descrip.render();
+end for;
+T::include( file:"masl/t.domain_begin.masl" );
 
 select many objects related by self->object[R3708.''has abstract''];
 // Provide forward declaration of objects for use in relationships.
@@ -135,7 +139,7 @@ for each type in child_types
 end for;
 
 // validate exceptions
-select many child_exceptions related by self->exception[R3748.''defines''];
+select many child_exceptions related by self->exception[R3748.''declares''];
 for each exception in child_exceptions
   valid = exception.validate();
   if ( false == valid )
@@ -243,7 +247,11 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.domain_begin.masl" );
+	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+for each descrip in descrips
+  descrip.render();
+end for;
+T::include( file:"masl/t.domain_begin.masl" );
 
 select many terminators related by self->terminator[R3702.''sends through''];
 for each terminator in terminators
@@ -254,6 +262,48 @@ T::include( file:"masl/t.domain_end.masl" );
 
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"project" );',
+	1,
+	'',
+	"d2c1d212-d763-486a-80db-31abb17f92e1");
+INSERT INTO O_TFR
+	VALUES ("d2c1d212-d763-486a-80db-31abb17f92e1",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	'render_interface',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+for each descrip in descrips
+  descrip.render();
+end for;
+T::include( file:"masl/t.domain_begin.masl" );
+
+select many types related by self->type[R3776];
+for each type in types
+  if ( "public" == type.visibility )
+    type.render();
+  end if;
+end for;
+
+select many exceptions related by self->exception[R3748];
+for each exception in exceptions
+  if ( "public" == exception.visibility )
+    exception.render();
+  end if;
+end for;
+
+select many routine_activities related by self->routine[R3790.''provides'']->activity[R3704];
+for each activity in routine_activities
+  select one routine related by activity->routine[R3704];
+  if ( "public" == routine.visibility )
+    activity.render();
+  end if;
+end for;
+
+T::include( file:"masl/t.domain_end.masl" );
+
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"0d6eab48-8a19-474c-a54c-d16da938995b");

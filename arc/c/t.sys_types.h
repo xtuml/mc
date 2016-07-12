@@ -123,7 +123,7 @@ typedef struct {
 ${inst_id_in_handle}\
 } ${te_instance.base};
 typedef ${te_instance.base} * ${te_instance.handle};
-typedef ${te_instance.handle} ${te_prefix.type}UniqueID_t;
+typedef i_t ${te_prefix.type}UniqueID_t;
 typedef void (*Escher_idf)( Escher_iHandle_t ); 
 
 /* Return code type for dispatch of a polymorphic event (see ${te_file.events}.${te_file.hdr_file_ext}).  */

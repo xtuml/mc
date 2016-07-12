@@ -50,7 +50,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     }}}
     /* IF ( not_empty current_element ) */
     if ( ( 0 != current_element ) ) {
-      masl_element * parent_element=0;
+      masl_activity * activity=0;masl_element * parent_element=0;
       /* SELECT one parent_element RELATED BY current_element->element[R3787.child of] */
       parent_element = ( 0 != current_element ) ? current_element->element_R3787_child_of : 0;
       /* UNRELATE population FROM current_element ACROSS R3784 */
@@ -59,10 +59,22 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       masl_element_R3784_Link_has_current( population, parent_element );
       /* UNRELATE population FROM current_element ACROSS R3789 */
       masl_element_R3789_Unlink_has_active( population, current_element );
+      /* SELECT one activity RELATED BY current_element->markable[R3786]->activity[R3783] */
+      activity = 0;
+      {      if ( 0 != current_element ) {
+      masl_markable * R3786_subtype = (masl_markable *) current_element->R3786_subtype;
+      if ( 0 != R3786_subtype )      if ( ( 0 != current_element ) && ( masl_markable_CLASS_NUMBER == current_element->R3786_object_id ) ) {
+      if ( ( 0 != R3786_subtype ) && ( masl_activity_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )      activity = (masl_activity *) R3786_subtype->R3783_subtype;
+}}}
+      /* IF ( not_empty activity ) */
+      if ( ( 0 != activity ) ) {
+        /* activity.merge_duplicate() */
+        masl_activity_op_merge_duplicate( activity );
+      }
       /* RETURN  */
       return;    }
-    /* IF ( ( ( ( ( ( ( typeref == element ) or ( referential == element ) ) or ( pragmaitem == element ) ) or ( transition == element ) ) or ( expression == element ) ) or ( codeblock == element ) ) ) */
-    if ( ( ( ( ( ( ( Escher_strcmp( "typeref", element ) == 0 ) || ( Escher_strcmp( "referential", element ) == 0 ) ) || ( Escher_strcmp( "pragmaitem", element ) == 0 ) ) || ( Escher_strcmp( "transition", element ) == 0 ) ) || ( Escher_strcmp( "expression", element ) == 0 ) ) || ( Escher_strcmp( "codeblock", element ) == 0 ) ) ) {
+    /* IF ( ( ( ( ( ( ( ( typeref == element ) or ( referential == element ) ) or ( pragmaitem == element ) ) or ( transition == element ) ) or ( expression == element ) ) or ( description == element ) ) or ( codeblock == element ) ) ) */
+    if ( ( ( ( ( ( ( ( Escher_strcmp( "typeref", element ) == 0 ) || ( Escher_strcmp( "referential", element ) == 0 ) ) || ( Escher_strcmp( "pragmaitem", element ) == 0 ) ) || ( Escher_strcmp( "transition", element ) == 0 ) ) || ( Escher_strcmp( "expression", element ) == 0 ) ) || ( Escher_strcmp( "description", element ) == 0 ) ) || ( Escher_strcmp( "codeblock", element ) == 0 ) ) ) {
       /* RETURN  */
       return;    }
   }
@@ -1104,6 +1116,13 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     }
     /* code_block::populate( parent_activity:parent_activity, sourcefile:value[0] ) */
     masl_code_block_op_populate( parent_activity, value[0] );
+  }
+  else if ( ( Escher_strcmp( "description", element ) == 0 ) ) {
+    masl_description * descrip;masl_element * parent_element=0;
+    /* SELECT one parent_element RELATED BY population->element[R3784.has current] */
+    parent_element = ( 0 != population ) ? population->element_R3784_has_current : 0;
+    /* ASSIGN descrip = description::populate(element:parent_element, tag:value[1], text:value[0]) */
+    descrip = masl_description_op_populate(parent_element, value[1], value[0]);
   }
   else {
     /* TRACE::log( flavor:failure, id:39, message:( unrecognized element:   + element ) ) */

@@ -513,6 +513,11 @@
       .else
         .assign te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" )
       .end if
+    .elif ( ( 9 == l_te_dt.Core_Typ ) and ( 9 == r_te_dt.Core_Typ ) )
+      .if ( "+" == "$r{v_bin.Operator}" )
+        .select any te_set from instances of TE_SET
+        .assign te_val.buffer = ( ( ( te_set.module + te_set.setadd ) + ( "( " + l_te_val.buffer ) ) + ( ", " + r_te_val.buffer ) ) + " )"
+      .end if
     .else
       .select any te_target from instances of TE_TARGET
       .if ( "and" == "$r{v_bin.Operator}" )

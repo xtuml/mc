@@ -589,7 +589,7 @@
       .// unique_id
       .assign te_dt.ExtName = te_prefix.type + "UniqueID_t"
       .assign te_dt.Initial_Value = "0"
-      .assign te_dt.string_format = "%p"
+      .assign te_dt.string_format = "%d"
       .//
     .elif ( 6 == te_dt.Core_Typ )
       .// current_state
@@ -601,12 +601,12 @@
       .assign te_dt.ExtName = ""
       .assign te_dt.Initial_Value = ""
       .assign te_dt.string_format = "%p"
-    .elif ( 8 == te_dt.Core_Typ )
+    .elif ( ( 8 == te_dt.Core_Typ ) or ( 20 == te_dt.Core_Typ ) )
       .// inst_ref<Object>
       .assign te_dt.ExtName = "void *"
       .assign te_dt.Initial_Value = ""
       .assign te_dt.string_format = "%p"
-    .elif ( 9 == te_dt.Core_Typ )
+    .elif ( ( 9 == te_dt.Core_Typ ) or ( 21 == te_dt.Core_Typ ) )
       .// inst_ref_set<Object>
       .assign te_dt.ExtName = te_set.base_class + " *"
       .assign te_dt.Initial_Value = ""
@@ -1731,7 +1731,7 @@
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    ((long)self->" ) + ( te_attr.GeneratedName + " & ESCHER_IDDUMP_MASK)" )
           .elif ( "%s" == te_dt.string_format )
             .// Place an escaped tick mark around the %s in the attribute format string.
-            .assign te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "''" + te_dt.string_format ) ) + "''"
+            .assign te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "'" + te_dt.string_format ) ) + "'"
             .assign te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( ( te_attr.GeneratedName + " : """ ) + """" ) )
           .else
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format

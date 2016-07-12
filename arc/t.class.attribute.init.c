@@ -1,7 +1,7 @@
 .if ( 5 == te_dt.Core_Typ )
   .// unique_id
   .if ( not_empty_o_oida )
-${instance}->${te_attr.GeneratedName} = (${te_dt.ExtName}) ${instance};
+${instance}->${te_attr.GeneratedName} = ${te_prefix.type}ID_factory();
   .end if
 .elif ( ( 2 == te_dt.Core_Typ ) or ( 3 == te_dt.Core_Typ ) )
   .// integer or real
