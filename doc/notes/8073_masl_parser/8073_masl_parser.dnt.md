@@ -16,7 +16,7 @@ the ability to read in MASL input files, and populate the model of the MASL synt
 2. Document References
 ----------------------
 <a id="2.1"></a>2.1 [Analysis note](https://github.com/leviathan747/mc/blob/8320_packaging/doc/notes/8073_masl_parser/8073_masl_parser.ant.md)  
-<a id="2.2"></a>2.2 [Serial MASL internal engineering documentation](https://docs.google.com/spreadsheets/d/1tPnk-JC5Idyhz2tUbgDGPlNbmHm2fZyA2cbf7IFYyVY/edit#gid=0)  
+<a id="2.2"></a>2.2 [Serial MASL internal engineering documentation](8277_serial_masl_spec.md)  
 <a id="2.3"></a>2.3 [Raven Basic SRS](https://docs.google.com/document/d/1EzGRGyjIIk1Xx_v83c3zE_OV5pVbdsnEy2TxPasDhCc/edit)  
 <a id="2.4"></a>2.4 [Parser HOWTO](https://github.com/leviathan747/mc/blob/8320_packaging/masl/parser/README.md)  
 <a id="2.5"></a>2.5 [MASL persistence naming conventions]()  

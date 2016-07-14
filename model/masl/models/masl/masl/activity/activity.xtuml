@@ -44,7 +44,11 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select one operation related by self->operation[R3704];
+	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+for each descrip in descrips
+  descrip.render();
+end for;
+select one operation related by self->operation[R3704];
 select one routine related by self->routine[R3704];
 select one state related by self->state[R3704];
 if ( not_empty operation )
@@ -115,6 +119,153 @@ end if;',
 	1,
 	'',
 	"cce75d87-818b-4fc3-a50d-f92d030db143");
+INSERT INTO O_TFR
+	VALUES ("5f25fd7e-5ed0-42f8-be06-c7eb4a9a0c81",
+	"4431e956-be8b-40e7-83ed-ac781e31719b",
+	'get_signature',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'// returns the signature of this activity which includes the return type, the name of 
+// the activity, and the types of the parameters in order. This is copied and adapted
+// from the OOAofOOA Function.getSignaure
+
+signature = "";
+
+// get return type
+select one returntype related by self->routine[R3704]->typeref[R3792];
+if ( not_empty returntype )
+  signature = signature + returntype.body + " ";
+else
+  select one returntype related by self->operation[R3704]->typeref[R3741];
+  if ( not_empty returntype )
+	signature = signature + returntype.body + " ";
+  else
+    signature = signature + "void ";
+  end if;
+end if;
+
+// get name
+signature = signature + self.name;                                                                                                                        
+
+// get parameters
+select one parameter related by self->parameter[R3705];                                                                                         
+if ( not_empty parameter )                                                                                                                           
+  signature = signature + "(";                                                                                                                
+end if;                                                                                                                                       
+separator = "";
+next_param = parameter;
+while ( not_empty next_param )
+  select one typeref related by next_param->typeref[R3742];                                                                                            
+  signature = signature + separator + typeref.body;                                                                                                          
+  separator = ", ";
+  select one next_param related by next_param->parameter[R3706.''precedes''];
+end while;
+if ( not_empty parameter )                                                                                                                           
+  signature = signature + ")";                                                                                                                
+end if;                                                                                                                                       
+return signature;',
+	1,
+	'',
+	"4c53013a-af89-41b3-917d-8832a0def9ef");
+INSERT INTO O_TFR
+	VALUES ("10b40a6e-08ac-4da1-a02e-e573acda7b07",
+	"4431e956-be8b-40e7-83ed-ac781e31719b",
+	'merge_duplicate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Checks if this activity is the duplicate of another activity
+// an activity is duplicated if it has the same signature and
+// subtype as another activity.
+//
+// If the activity is a duplicate:
+// * The codeblock relationship (if
+//   any) is transferred to the found activity
+// * The duplicate activity is disposed
+
+select one routine related by self->routine[R3704];
+select one operation related by self->operation[R3704];
+select one state related by self->state[R3704];
+
+// select all the activities in the same scope
+select many activities from instances of activity where false;
+if ( not_empty operation )
+  select many activities related by operation->object[R3749]->operation[R3749]->activity[R3704]; // get object operations
+elif ( not_empty routine )
+  select one terminator related by routine->terminator[R3791];
+  if ( not_empty terminator )
+    select many activities related by terminator->routine[R3791]->activity[R3704];  // get terminator activities
+  else
+    select many activities related by routine->domain[R3790]->routine[R3790]->activity[R3704]; // get domain activities
+  end if;
+end if;
+
+for each activity in activities
+ 
+  select one act_routine related by self->routine[R3704];
+  select one act_operation related by self->operation[R3704];
+  select one act_state related by self->state[R3704];
+  
+  // if the activity is duplicated
+  if ( activity != self and self.get_signature() == activity.get_signature() and
+       ( empty routine ) == ( empty act_routine ) and
+       ( empty operation ) == ( empty act_operation ) and
+       ( empty state ) )
+       
+    // transfer codeblock relationship
+    select one act_codeblock related by activity->code_block[R3794];
+    select one codeblock related by self->code_block[R3794];
+    unrelate act_codeblock from activity across R3794;
+    relate codeblock to activity across R3794;
+    
+    // dispose self
+    self.dispose();
+    
+    // break from for loop
+    break;
+       
+  end if;
+
+end for;',
+	1,
+	'',
+	"5f25fd7e-5ed0-42f8-be06-c7eb4a9a0c81");
+INSERT INTO O_TFR
+	VALUES ("a6ad3dd1-a91d-4c21-b6a3-dfc034492522",
+	"4431e956-be8b-40e7-83ed-ac781e31719b",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// dispose codeblock
+select one codeblock related by self->code_block[R3794];
+unrelate self from codeblock across R3794;
+delete object instance codeblock;
+
+// dispose parameters
+select one parameter related by self->parameter[R3705];
+unrelate self from parameter across R3705;
+parameter.dispose();
+
+// dispose subtype
+select one routine related by self->routine[R3704];
+if ( not_empty routine )
+  unrelate self from routine across R3704;
+  routine.dispose();
+else
+  select one operation related by self->operation[R3704];
+  if ( not_empty operation )
+	unrelate self from operation across R3704;
+	operation.dispose();
+  end if;
+end if;
+
+// delete self
+delete object instance self;',
+	1,
+	'',
+	"10b40a6e-08ac-4da1-a02e-e573acda7b07");
 INSERT INTO O_NBATTR
 	VALUES ("27d8c431-aa99-4f85-8118-e3c78c95bcdb",
 	"4431e956-be8b-40e7-83ed-ac781e31719b");

@@ -3,11 +3,9 @@ if ( not_empty_o_oida ) {
 T_b(instance);
 T_b("->");
 T_b(te_attr->GeneratedName);
-T_b(" = (");
-T_b(te_dt->ExtName);
-T_b(") ");
-T_b(instance);
-T_b(";");
+T_b(" = ");
+T_b(te_prefix->type);
+T_b("ID_factory();");
 T_b("\n");
 }
 } else if ( ( 2 == te_dt->Core_Typ ) || ( 3 == te_dt->Core_Typ ) ) {

@@ -130,7 +130,7 @@ typedef struct {
   Escher_StateNumber_t current_state;
 } Escher_InstanceBase_t;
 typedef Escher_InstanceBase_t * Escher_iHandle_t;
-typedef Escher_iHandle_t Escher_UniqueID_t;
+typedef i_t Escher_UniqueID_t;
 typedef void (*Escher_idf)( Escher_iHandle_t ); 
 
 /* Return code type for dispatch of a polymorphic event (see sys_events.h).  */
@@ -309,7 +309,6 @@ void Escher_thread_shutdown( void );
 #define ooaofooa_DOMAIN_ID 0
 #define ooaofooa_DOMAIN_ID_text "ooaofooa"
 #include "ooaofooa_classes.h"
-
 /*----------------------------------------------------------------------------
  *
  * Run time instrumentation and tracing declarations are defined here.

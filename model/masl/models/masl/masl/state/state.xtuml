@@ -20,7 +20,7 @@ INSERT INTO O_TFR
 	1,
 	'name = param.name;
 // spellings taken directly from the lexer grammar
-if ( "non_existent" != name and "Non_Existent" != name and "Non_Existant" != name )
+if ( not self.non_existent )
   T::include( file:"masl/t.state_begin.masl" );
   select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
   if ( not_empty parameter )
@@ -47,24 +47,45 @@ INSERT INTO O_TFR
 	'',
 	"69d4ad00-8c78-47f0-95c9-b7519011b8ea",
 	0,
-	'parent_object = param.object;
+	'name = param.name;
+type = param.type;
+parent_object = param.object;
 
-select any activity related by parent_object->state[R3750]->activity[R3704] where ( selected.name == param.name );
-select one state related by activity->state[R3704];
-if ( empty state )
-  activity = activity::populate( name:param.name );
+select any state from instances of state where (false);
+if ( "non_existent" == name or
+     "Non_Existent" == name or
+     "Non_Existant" == name )
+  // only create the non_existent state once
+  select any state related by parent_object->state[R3750] where ( selected.type == type and selected.non_existent );
+  select one activity related by state->activity[R3704];
+  if ( empty state )
+	activity = activity::populate( name:name );
+	create object instance state of state;
+	state.type = type;
+	state.non_existent = true;
+	relate state to parent_object across R3750;
+	relate state to activity across R3704;
+  end if;
+  activity.name = name;
+else
+  select any activity related by parent_object->state[R3750]->activity[R3704] where ( selected.name == name );
+  select one state related by activity->state[R3704];
+  if ( empty state )
+	activity = activity::populate( name:name );
 
-  create object instance state of state;
-  state.type = param.type;
-  relate state to parent_object across R3750;
-  relate state to activity across R3704;
-  markable = markable::populate( name:"state" );
-  relate activity to markable across R3783;
+	create object instance state of state;
+	state.type = type;
+	relate state to parent_object across R3750;
+	relate state to activity across R3704;
+	markable = markable::populate( name:"state" );
+	relate activity to markable across R3783;
 
-end if;
+  end if;
 
-if ( "" != param.type )
-  state.type = param.type;
+  if ( "" != type )
+	state.type = type;
+  end if;
+  state.non_existent = false;
 end if;
 
 return state;',
@@ -161,6 +182,24 @@ INSERT INTO O_ATTR
 	'type',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f4b29a78-2cc9-4b82-808f-e69c16d37468",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1");
+INSERT INTO O_BATTR
+	VALUES ("f4b29a78-2cc9-4b82-808f-e69c16d37468",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1");
+INSERT INTO O_ATTR
+	VALUES ("f4b29a78-2cc9-4b82-808f-e69c16d37468",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1",
+	"4f20ad64-150f-46da-94ac-ab3758b1a3ac",
+	'non_existent',
+	'',
+	'',
+	'non_existent',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
 INSERT INTO O_ID

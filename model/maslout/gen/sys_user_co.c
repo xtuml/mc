@@ -71,6 +71,7 @@ UserPreOoaInitializationCalloutf( void )
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include "xtuml2masl_model_class.h"
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
@@ -79,8 +80,12 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "d::p::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "i:d::p::" ) ) != -1 ) {
       switch ( c ) {
+        case 'i':
+          if ( !optarg ) abort();
+          else xtuml2masl_model_op_setroot( optarg );
+          break;
         case 'd':
           domain = 1;
           if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );

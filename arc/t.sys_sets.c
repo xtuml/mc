@@ -15,6 +15,16 @@ static ${te_set.element_type} node1s[ ${te_set.number_of_containoids} ];
 .end if
 
 /*
+ * Supply a unique integer ID.
+ */
+${te_prefix.type}UniqueID_t
+${te_prefix.type}ID_factory( void )
+{
+  static ${te_prefix.type}UniqueID_t ${te_prefix.type}ID_factory = 1;
+  return ${te_prefix.type}ID_factory++;
+}
+
+/*
  * Initialize the node1 instances by linking them into a collection.
  * These containoids will be collected into a null-terminated,
  * singly linked list (slist).
@@ -88,6 +98,31 @@ ${te_set.scope}${te_set.clear}( ${te_set.base_class} * set )
 }
 .else
 /* Set clearing code optimized out.  */
+.end if
+
+/*
+ * Concatenate set2 onto the end of set1.
+ */
+.// If no containers to manage, do not generate code.
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
+${te_set.base_class} *
+${te_set.scope}${te_set.setadd}( ${te_set.base_class} * set1,  ${te_set.base_class} * set2 )
+{
+  if ( ( set1->head != 0 ) && ( set2->head != 0 ) ) {  /* empty set  */
+    ${te_set.element_type} * slot;
+    for ( slot = set1->head; slot->next != 0; slot = slot->next ); /* Find end of set1.  */
+.if ( te_thread.enabled )
+    ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
+.end if
+    slot->next = set2->head;
+.if ( te_thread.enabled )
+    ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
+.end if
+  }
+  return set1;
+}
+.else
+/* Set addition optimized out.  */
 .end if
 
 /*
@@ -220,11 +255,11 @@ ${te_set.scope}${te_slist.remove_node}(
 )
 {
   ${te_set.element_type} * t = set->head; /* Start with first node.           */
+  ${te_set.element_type} * t_old = t;
   /* Find node containing data and unlink from list.                 */
   if ( t->object == d ) {        /* Element found at head.           */
     set->head = t->next;         /* Unlink it from the list.         */
   } else {
-    ${te_set.element_type} * t_old;
     do {                         /* Search for data element.         */
       t_old = t;
       t = t->next;
@@ -234,7 +269,7 @@ ${te_set.scope}${te_slist.remove_node}(
   }
 .if ( te_sys.InstanceLoading )
   if ( set->tail == t ) {
-    set->tail = t->next;
+    set->tail = t_old;
   }
 .end if
   return t;

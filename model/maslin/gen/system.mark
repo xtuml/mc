@@ -1,7 +1,10 @@
 .invoke MarkSystemConfigurationPackage( "sysmaslin" )
 .invoke TagDynamicMemoryAllocationOn( 10 )
 .invoke TagInstanceLoading()
-.invoke TagMaximumStringLength( 1024 )
+.// Increasing max string length to allow adding of large strings. This is used
+.// when accumulating long lists of information in 'Descrip' fields
+.// See https://support.onefact.net/issues/8538
+.invoke TagMaximumStringLength( 65536 )
 .//============================================================================
 .// File:  system.mark
 .//

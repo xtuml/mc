@@ -40,18 +40,6 @@ char DTD[256];
 void
 UserInitializationCalloutf( c_t * argv0 )
 {
-  /* Starting with the argv[0], add the path to the DocBook DTD.
-     Also use only forward slashes.  */
-  char * continuation;
-  i_t i = 0;
-  strcpy( DTD, argv0 );
-  continuation = strstr( DTD, "docgen" );
-  if ( 0 != continuation ) {
-    strcpy( continuation, "docgen/docbook/docbook-xml-4.5/docbookx.dtd" );
-    for ( i = 0; i < 256, 0 != DTD[ i ]; i++ ) {
-      DTD[ i ] = ( DTD[ i ] == '\\' ) ? '/' : DTD[ i ];
-    }
-  }
   /* Activate this invocation to initialize the example simple TIM.  */
   #if ESCHER_SYS_MAX_XTUML_TIMERS > 0
   TIM_init();
@@ -73,9 +61,7 @@ UserPreOoaInitializationCalloutf( c_t * argv0 )
   static char * a[2] = { "UserPostOoaInitializationCalloutf", "a.xtuml" };
   Escher_xtUML_load( 2, a );
   read_marking_invocations();
-  if ( strstr( argv0, "docgen" ) ) {
-    ooaofooa_docgen();
-  } else if ( strstr( argv0, "mcmc" ) ) {
+  if ( strstr( argv0, "mcmc" ) ) {
     int i;
     ooaofooa_a0();
     ooaofooa_a1();
@@ -83,9 +69,8 @@ UserPreOoaInitializationCalloutf( c_t * argv0 )
       if ( 0 || (
            ( i != ooaofooa_TE_VAL_CLASS_NUMBER ) &&
            ! ( ( ooaofooa_V_VAL_CLASS_NUMBER <= i ) && ( i <= ooaofooa_V_SCV_CLASS_NUMBER ) ) &&
-           ( i != ooaofooa_ACT_SMT_CLASS_NUMBER ) &&
+           ! ( ( ooaofooa_ACT_BLK_CLASS_NUMBER <= i ) && ( i <= ooaofooa_ACT_BIE_CLASS_NUMBER ) ) &&
            ( i != ooaofooa_TE_SMT_CLASS_NUMBER ) &&
-           ( i != ooaofooa_V_VAR_CLASS_NUMBER ) &&
            ( i != ooaofooa_TE_VAR_CLASS_NUMBER ) ) )
       Escher_dump_instances( 0, i );
     }

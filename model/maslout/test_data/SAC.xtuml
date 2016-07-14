@@ -1,0 +1,5502 @@
+-- root-types-contained: SystemModel_c,PackageableElement_c,DataType_c,CoreDataType_c,UserDataType_c
+-- BP 7.1 content: StreamData syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO S_SYS
+	VALUES (1,
+	'SAC',
+	1);
+INSERT INTO EP_PKG
+	VALUES (2,
+	1,
+	1,
+	'types',
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES (3,
+	1,
+	2,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (3,
+	0,
+	'void',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (3,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (5,
+	1,
+	2,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (5,
+	0,
+	'character',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (5,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (6,
+	1,
+	2,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (6,
+	0,
+	'wcharacter',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (6,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (7,
+	1,
+	2,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (7,
+	0,
+	'boolean',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (7,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (8,
+	1,
+	2,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (8,
+	0,
+	'byte',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (8,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (9,
+	1,
+	2,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (9,
+	0,
+	'string',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (9,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (10,
+	1,
+	2,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (10,
+	0,
+	'wstring',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (10,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (11,
+	1,
+	2,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (11,
+	0,
+	'device',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (11,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (12,
+	1,
+	2,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (12,
+	0,
+	'enum',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (12,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (13,
+	1,
+	2,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (13,
+	0,
+	'event',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (13,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (14,
+	1,
+	2,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (14,
+	0,
+	'instance',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (14,
+	4,
+	0);
+INSERT INTO EP_PKG
+	VALUES (15,
+	1,
+	1,
+	'SAC',
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES (16,
+	1,
+	15,
+	0,
+	2);
+INSERT INTO C_C
+	VALUES (16,
+	0,
+	0,
+	'SAC',
+	'pragma number( 59 );
+',
+	0,
+	0,
+	0,
+	'');
+INSERT INTO C_PO
+	VALUES (17,
+	16,
+	'SAC',
+	0,
+	0);
+INSERT INTO C_IR
+	VALUES (18,
+	19,
+	0,
+	17);
+INSERT INTO C_P
+	VALUES (18,
+	'SAC',
+	'Unnamed_Interface',
+	'',
+	'SAC::SAC::SAC');
+INSERT INTO SPR_PEP
+	VALUES (20,
+	21,
+	18);
+INSERT INTO SPR_PO
+	VALUES (20,
+	'user_logon',
+	'',
+	'',
+	1);
+INSERT INTO ACT_POB
+	VALUES (22,
+	20);
+INSERT INTO ACT_ACT
+	VALUES (22,
+	'interface operation',
+	0,
+	23,
+	0,
+	0,
+	'SAC::SAC::user_logon',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (23,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	22,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (24,
+	25,
+	18);
+INSERT INTO SPR_PO
+	VALUES (24,
+	'user_logoff',
+	'',
+	'',
+	1);
+INSERT INTO ACT_POB
+	VALUES (26,
+	24);
+INSERT INTO ACT_ACT
+	VALUES (26,
+	'interface operation',
+	0,
+	27,
+	0,
+	0,
+	'SAC::SAC::user_logoff',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (27,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	26,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (28,
+	29,
+	18);
+INSERT INTO SPR_PO
+	VALUES (28,
+	'add_group',
+	'',
+	'',
+	1);
+INSERT INTO ACT_POB
+	VALUES (30,
+	28);
+INSERT INTO ACT_ACT
+	VALUES (30,
+	'interface operation',
+	0,
+	31,
+	0,
+	0,
+	'SAC::SAC::add_group',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (31,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	30,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (32,
+	33,
+	18);
+INSERT INTO SPR_PO
+	VALUES (32,
+	'add_operation_to_group',
+	'',
+	'',
+	1);
+INSERT INTO ACT_POB
+	VALUES (34,
+	32);
+INSERT INTO ACT_ACT
+	VALUES (34,
+	'interface operation',
+	0,
+	35,
+	0,
+	0,
+	'SAC::SAC::add_operation_to_group',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (35,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	34,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (36,
+	37,
+	18);
+INSERT INTO SPR_PO
+	VALUES (36,
+	'session_active',
+	'',
+	'',
+	1);
+INSERT INTO ACT_POB
+	VALUES (38,
+	36);
+INSERT INTO ACT_ACT
+	VALUES (38,
+	'interface operation',
+	0,
+	39,
+	0,
+	0,
+	'SAC::SAC::session_active',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (39,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	38,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (40,
+	41,
+	18);
+INSERT INTO SPR_PO
+	VALUES (40,
+	'delete_group',
+	'',
+	'',
+	1);
+INSERT INTO ACT_POB
+	VALUES (42,
+	40);
+INSERT INTO ACT_ACT
+	VALUES (42,
+	'interface operation',
+	0,
+	43,
+	0,
+	0,
+	'SAC::SAC::delete_group',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (43,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	42,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (44,
+	45,
+	18);
+INSERT INTO SPR_PO
+	VALUES (44,
+	'delete_group_operation',
+	'',
+	'',
+	1);
+INSERT INTO ACT_POB
+	VALUES (46,
+	44);
+INSERT INTO ACT_ACT
+	VALUES (46,
+	'interface operation',
+	0,
+	47,
+	0,
+	0,
+	'SAC::SAC::delete_group_operation',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (47,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	46,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (48,
+	49,
+	18);
+INSERT INTO SPR_PO
+	VALUES (48,
+	'populate_domain',
+	'',
+	'',
+	1);
+INSERT INTO ACT_POB
+	VALUES (50,
+	48);
+INSERT INTO ACT_ACT
+	VALUES (50,
+	'interface operation',
+	0,
+	51,
+	0,
+	0,
+	'SAC::SAC::populate_domain',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (51,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	50,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (52,
+	53,
+	18);
+INSERT INTO SPR_PO
+	VALUES (52,
+	'resend_infos',
+	'',
+	'',
+	1);
+INSERT INTO ACT_POB
+	VALUES (54,
+	52);
+INSERT INTO ACT_ACT
+	VALUES (54,
+	'interface operation',
+	0,
+	55,
+	0,
+	0,
+	'SAC::SAC::resend_infos',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (55,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	54,
+	0);
+INSERT INTO C_PO
+	VALUES (56,
+	16,
+	'Operator',
+	0,
+	0);
+INSERT INTO C_IR
+	VALUES (57,
+	58,
+	0,
+	56);
+INSERT INTO C_R
+	VALUES (57,
+	'SACOperator',
+	'pragma key_letter( "OP" );
+',
+	'Unnamed_Interface',
+	'SAC::Operator::SACOperator');
+INSERT INTO SPR_REP
+	VALUES (59,
+	60,
+	57);
+INSERT INTO SPR_RO
+	VALUES (59,
+	'login_valid',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (61,
+	59);
+INSERT INTO ACT_ACT
+	VALUES (61,
+	'interface operation',
+	0,
+	62,
+	0,
+	0,
+	'Operator::SACOperator::login_valid',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (62,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	61,
+	0);
+INSERT INTO SPR_REP
+	VALUES (63,
+	64,
+	57);
+INSERT INTO SPR_RO
+	VALUES (63,
+	'report_user',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (65,
+	63);
+INSERT INTO ACT_ACT
+	VALUES (65,
+	'interface operation',
+	0,
+	66,
+	0,
+	0,
+	'Operator::SACOperator::report_user',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (66,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	65,
+	0);
+INSERT INTO SPR_REP
+	VALUES (67,
+	68,
+	57);
+INSERT INTO SPR_RO
+	VALUES (67,
+	'user_removed',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (69,
+	67);
+INSERT INTO ACT_ACT
+	VALUES (69,
+	'interface operation',
+	0,
+	70,
+	0,
+	0,
+	'Operator::SACOperator::user_removed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (70,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	69,
+	0);
+INSERT INTO SPR_REP
+	VALUES (71,
+	72,
+	57);
+INSERT INTO SPR_RO
+	VALUES (71,
+	'report_user_session',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (73,
+	71);
+INSERT INTO ACT_ACT
+	VALUES (73,
+	'interface operation',
+	0,
+	74,
+	0,
+	0,
+	'Operator::SACOperator::report_user_session',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (74,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	73,
+	0);
+INSERT INTO SPR_REP
+	VALUES (75,
+	76,
+	57);
+INSERT INTO SPR_RO
+	VALUES (75,
+	'user_session_deleted',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (77,
+	75);
+INSERT INTO ACT_ACT
+	VALUES (77,
+	'interface operation',
+	0,
+	78,
+	0,
+	0,
+	'Operator::SACOperator::user_session_deleted',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (78,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	77,
+	0);
+INSERT INTO SPR_REP
+	VALUES (79,
+	80,
+	57);
+INSERT INTO SPR_RO
+	VALUES (79,
+	'report_group',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (81,
+	79);
+INSERT INTO ACT_ACT
+	VALUES (81,
+	'interface operation',
+	0,
+	82,
+	0,
+	0,
+	'Operator::SACOperator::report_group',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (82,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	81,
+	0);
+INSERT INTO SPR_REP
+	VALUES (83,
+	84,
+	57);
+INSERT INTO SPR_RO
+	VALUES (83,
+	'group_deleted',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (85,
+	83);
+INSERT INTO ACT_ACT
+	VALUES (85,
+	'interface operation',
+	0,
+	86,
+	0,
+	0,
+	'Operator::SACOperator::group_deleted',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (86,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	85,
+	0);
+INSERT INTO SPR_REP
+	VALUES (87,
+	88,
+	57);
+INSERT INTO SPR_RO
+	VALUES (87,
+	'report_group_operation',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (89,
+	87);
+INSERT INTO ACT_ACT
+	VALUES (89,
+	'interface operation',
+	0,
+	90,
+	0,
+	0,
+	'Operator::SACOperator::report_group_operation',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (90,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	89,
+	0);
+INSERT INTO SPR_REP
+	VALUES (91,
+	92,
+	57);
+INSERT INTO SPR_RO
+	VALUES (91,
+	'group_operation_removed',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (93,
+	91);
+INSERT INTO ACT_ACT
+	VALUES (93,
+	'interface operation',
+	0,
+	94,
+	0,
+	0,
+	'Operator::SACOperator::group_operation_removed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (94,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	93,
+	0);
+INSERT INTO SPR_REP
+	VALUES (95,
+	96,
+	57);
+INSERT INTO SPR_RO
+	VALUES (95,
+	'report_user_operation',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (97,
+	95);
+INSERT INTO ACT_ACT
+	VALUES (97,
+	'interface operation',
+	0,
+	98,
+	0,
+	0,
+	'Operator::SACOperator::report_user_operation',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (98,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	97,
+	0);
+INSERT INTO SPR_REP
+	VALUES (99,
+	100,
+	57);
+INSERT INTO SPR_RO
+	VALUES (99,
+	'user_operation_removed',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (101,
+	99);
+INSERT INTO ACT_ACT
+	VALUES (101,
+	'interface operation',
+	0,
+	102,
+	0,
+	0,
+	'Operator::SACOperator::user_operation_removed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (102,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	101,
+	0);
+INSERT INTO SPR_REP
+	VALUES (103,
+	104,
+	57);
+INSERT INTO SPR_RO
+	VALUES (103,
+	'report_user_group',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (105,
+	103);
+INSERT INTO ACT_ACT
+	VALUES (105,
+	'interface operation',
+	0,
+	106,
+	0,
+	0,
+	'Operator::SACOperator::report_user_group',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (106,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	105,
+	0);
+INSERT INTO SPR_REP
+	VALUES (107,
+	108,
+	57);
+INSERT INTO SPR_RO
+	VALUES (107,
+	'user_group_removed',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (109,
+	107);
+INSERT INTO ACT_ACT
+	VALUES (109,
+	'interface operation',
+	0,
+	110,
+	0,
+	0,
+	'Operator::SACOperator::user_group_removed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (110,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	109,
+	0);
+INSERT INTO SPR_REP
+	VALUES (111,
+	112,
+	57);
+INSERT INTO SPR_RO
+	VALUES (111,
+	'raise_notification',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (113,
+	111);
+INSERT INTO ACT_ACT
+	VALUES (113,
+	'interface operation',
+	0,
+	114,
+	0,
+	0,
+	'Operator::SACOperator::raise_notification',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (114,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	113,
+	0);
+INSERT INTO C_PO
+	VALUES (115,
+	16,
+	'System_Configuration',
+	0,
+	0);
+INSERT INTO C_IR
+	VALUES (116,
+	117,
+	0,
+	115);
+INSERT INTO C_R
+	VALUES (116,
+	'SACSystem_Configuration',
+	'pragma key_letter( "SCON" );
+',
+	'Unnamed_Interface',
+	'SAC::System_Configuration::SACSystem_Configuration');
+INSERT INTO SPR_REP
+	VALUES (118,
+	119,
+	116);
+INSERT INTO SPR_RO
+	VALUES (118,
+	'get_groups',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (120,
+	118);
+INSERT INTO ACT_ACT
+	VALUES (120,
+	'interface operation',
+	0,
+	121,
+	0,
+	0,
+	'System_Configuration::SACSystem_Configuration::get_groups',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (121,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	120,
+	0);
+INSERT INTO SPR_REP
+	VALUES (122,
+	123,
+	116);
+INSERT INTO SPR_RO
+	VALUES (122,
+	'get_session_specification',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (124,
+	122);
+INSERT INTO ACT_ACT
+	VALUES (124,
+	'interface operation',
+	0,
+	125,
+	0,
+	0,
+	'System_Configuration::SACSystem_Configuration::get_session_specification',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (125,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	124,
+	0);
+INSERT INTO SPR_REP
+	VALUES (126,
+	127,
+	116);
+INSERT INTO SPR_RO
+	VALUES (126,
+	'reload_config_files',
+	'',
+	'
+',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (128,
+	126);
+INSERT INTO ACT_ACT
+	VALUES (128,
+	'interface operation',
+	0,
+	129,
+	0,
+	0,
+	'System_Configuration::SACSystem_Configuration::reload_config_files',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (129,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	128,
+	0);
+INSERT INTO PE_PE
+	VALUES (130,
+	1,
+	0,
+	16,
+	7);
+INSERT INTO EP_PKG
+	VALUES (130,
+	0,
+	1,
+	'SAC',
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES (131,
+	1,
+	130,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (131,
+	'Group',
+	1,
+	'Group',
+	'pragma id( 3 );
+pragma key_letter( "G" );
+',
+	0);
+INSERT INTO O_NBATTR
+	VALUES (132,
+	131);
+INSERT INTO O_BATTR
+	VALUES (132,
+	131);
+INSERT INTO O_ATTR
+	VALUES (132,
+	131,
+	0,
+	'group_id',
+	'',
+	'',
+	'group_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (134,
+	131);
+INSERT INTO O_BATTR
+	VALUES (134,
+	131);
+INSERT INTO O_ATTR
+	VALUES (134,
+	131,
+	132,
+	'group_name',
+	'',
+	'',
+	'group_name',
+	0,
+	9,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	131);
+INSERT INTO O_OIDA
+	VALUES (132,
+	131,
+	0,
+	'group_id');
+INSERT INTO O_ID
+	VALUES (1,
+	131);
+INSERT INTO O_ID
+	VALUES (2,
+	131);
+INSERT INTO PE_PE
+	VALUES (135,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (135,
+	0,
+	'inst_ref<Group>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (135,
+	0,
+	131);
+INSERT INTO PE_PE
+	VALUES (136,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (136,
+	0,
+	'inst_ref_set<Group>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (136,
+	1,
+	131);
+INSERT INTO PE_PE
+	VALUES (137,
+	1,
+	130,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (137,
+	'Group_For_Session',
+	2,
+	'Group_For_Session',
+	'pragma id( 6 );
+pragma key_letter( "GFS" );
+',
+	0);
+INSERT INTO O_NBATTR
+	VALUES (138,
+	137);
+INSERT INTO O_BATTR
+	VALUES (138,
+	137);
+INSERT INTO O_ATTR
+	VALUES (138,
+	137,
+	0,
+	'group_id',
+	'',
+	'',
+	'group_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (139,
+	137);
+INSERT INTO O_BATTR
+	VALUES (139,
+	137);
+INSERT INTO O_ATTR
+	VALUES (139,
+	137,
+	138,
+	'session_id',
+	'',
+	'',
+	'session_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	137);
+INSERT INTO O_OIDA
+	VALUES (138,
+	137,
+	0,
+	'group_id');
+INSERT INTO O_OIDA
+	VALUES (139,
+	137,
+	0,
+	'session_id');
+INSERT INTO O_ID
+	VALUES (1,
+	137);
+INSERT INTO O_ID
+	VALUES (2,
+	137);
+INSERT INTO PE_PE
+	VALUES (140,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (140,
+	0,
+	'inst_ref<Group_For_Session>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (140,
+	0,
+	137);
+INSERT INTO PE_PE
+	VALUES (141,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (141,
+	0,
+	'inst_ref_set<Group_For_Session>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (141,
+	1,
+	137);
+INSERT INTO PE_PE
+	VALUES (142,
+	1,
+	130,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (142,
+	'Group_Operation',
+	3,
+	'Group_Operation',
+	'pragma id( 5 );
+pragma key_letter( "GO" );
+',
+	0);
+INSERT INTO O_NBATTR
+	VALUES (143,
+	142);
+INSERT INTO O_BATTR
+	VALUES (143,
+	142);
+INSERT INTO O_ATTR
+	VALUES (143,
+	142,
+	0,
+	'operation_id',
+	'',
+	'',
+	'operation_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (144,
+	142);
+INSERT INTO O_BATTR
+	VALUES (144,
+	142);
+INSERT INTO O_ATTR
+	VALUES (144,
+	142,
+	143,
+	'group_id',
+	'',
+	'',
+	'group_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	142);
+INSERT INTO O_OIDA
+	VALUES (143,
+	142,
+	0,
+	'operation_id');
+INSERT INTO O_OIDA
+	VALUES (144,
+	142,
+	0,
+	'group_id');
+INSERT INTO O_ID
+	VALUES (1,
+	142);
+INSERT INTO O_ID
+	VALUES (2,
+	142);
+INSERT INTO PE_PE
+	VALUES (145,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (145,
+	0,
+	'inst_ref<Group_Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (145,
+	0,
+	142);
+INSERT INTO PE_PE
+	VALUES (146,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (146,
+	0,
+	'inst_ref_set<Group_Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (146,
+	1,
+	142);
+INSERT INTO PE_PE
+	VALUES (147,
+	1,
+	130,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (147,
+	'Operation',
+	4,
+	'Operation',
+	'pragma id( 4 );
+pragma key_letter( "O" );
+',
+	0);
+INSERT INTO O_NBATTR
+	VALUES (148,
+	147);
+INSERT INTO O_BATTR
+	VALUES (148,
+	147);
+INSERT INTO O_ATTR
+	VALUES (148,
+	147,
+	0,
+	'operation_id',
+	'',
+	'',
+	'operation_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (149,
+	147);
+INSERT INTO O_BATTR
+	VALUES (149,
+	147);
+INSERT INTO O_ATTR
+	VALUES (149,
+	147,
+	148,
+	'operation_name',
+	'',
+	'',
+	'operation_name',
+	0,
+	9,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	147);
+INSERT INTO O_OIDA
+	VALUES (148,
+	147,
+	0,
+	'operation_id');
+INSERT INTO O_ID
+	VALUES (1,
+	147);
+INSERT INTO O_ID
+	VALUES (2,
+	147);
+INSERT INTO PE_PE
+	VALUES (150,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (150,
+	0,
+	'inst_ref<Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (150,
+	0,
+	147);
+INSERT INTO PE_PE
+	VALUES (151,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (151,
+	0,
+	'inst_ref_set<Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (151,
+	1,
+	147);
+INSERT INTO PE_PE
+	VALUES (152,
+	1,
+	130,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (152,
+	'Session',
+	5,
+	'Session',
+	'pragma id( 8 );
+pragma key_letter( "S" );
+',
+	0);
+INSERT INTO O_TFR
+	VALUES (153,
+	152,
+	'delete_session',
+	'',
+	3,
+	1,
+	'
+',
+	1,
+	'',
+	0);
+INSERT INTO ACT_OPB
+	VALUES (154,
+	153);
+INSERT INTO ACT_ACT
+	VALUES (154,
+	'operation',
+	0,
+	155,
+	0,
+	0,
+	'Session::delete_session',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (155,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	154,
+	0);
+INSERT INTO O_NBATTR
+	VALUES (156,
+	152);
+INSERT INTO O_BATTR
+	VALUES (156,
+	152);
+INSERT INTO O_ATTR
+	VALUES (156,
+	152,
+	0,
+	'session_id',
+	'',
+	'',
+	'session_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (157,
+	152);
+INSERT INTO O_BATTR
+	VALUES (157,
+	152);
+INSERT INTO O_ATTR
+	VALUES (157,
+	152,
+	156,
+	'logon_time',
+	'',
+	'',
+	'logon_time',
+	0,
+	158,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (159,
+	152);
+INSERT INTO O_BATTR
+	VALUES (159,
+	152);
+INSERT INTO O_ATTR
+	VALUES (159,
+	152,
+	157,
+	'session_heartbeat_timer',
+	'',
+	'',
+	'session_heartbeat_timer',
+	0,
+	160,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (161,
+	152);
+INSERT INTO O_BATTR
+	VALUES (161,
+	152);
+INSERT INTO O_ATTR
+	VALUES (161,
+	152,
+	159,
+	'session_heartbeat_failure',
+	'',
+	'',
+	'session_heartbeat_failure',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (162,
+	152);
+INSERT INTO O_BATTR
+	VALUES (162,
+	152);
+INSERT INTO O_ATTR
+	VALUES (162,
+	152,
+	161,
+	'workstation_id',
+	'',
+	'',
+	'workstation_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (163,
+	152);
+INSERT INTO O_BATTR
+	VALUES (163,
+	152);
+INSERT INTO O_ATTR
+	VALUES (163,
+	152,
+	162,
+	'user_id',
+	'',
+	'',
+	'user_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (164,
+	152);
+INSERT INTO O_BATTR
+	VALUES (164,
+	152);
+INSERT INTO O_ATTR
+	VALUES (164,
+	152,
+	163,
+	'access_specification_id',
+	'',
+	'',
+	'access_specification_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (165,
+	152);
+INSERT INTO O_BATTR
+	VALUES (165,
+	152);
+INSERT INTO O_ATTR
+	VALUES (165,
+	152,
+	164,
+	'has_timed_out',
+	'',
+	'',
+	'has_timed_out',
+	0,
+	7,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (166,
+	152);
+INSERT INTO O_BATTR
+	VALUES (166,
+	152);
+INSERT INTO O_ATTR
+	VALUES (166,
+	152,
+	165,
+	'login_name',
+	'',
+	'',
+	'login_name',
+	0,
+	9,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (167,
+	152);
+INSERT INTO O_BATTR
+	VALUES (167,
+	152);
+INSERT INTO O_ATTR
+	VALUES (167,
+	152,
+	166,
+	'current_state',
+	'',
+	'',
+	'current_state',
+	0,
+	168,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	152);
+INSERT INTO O_OIDA
+	VALUES (156,
+	152,
+	0,
+	'session_id');
+INSERT INTO O_ID
+	VALUES (1,
+	152);
+INSERT INTO O_ID
+	VALUES (2,
+	152);
+INSERT INTO SM_ISM
+	VALUES (169,
+	152);
+INSERT INTO SM_SM
+	VALUES (169,
+	'',
+	0);
+INSERT INTO SM_MOORE
+	VALUES (169);
+INSERT INTO SM_LEVT
+	VALUES (170,
+	169,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (170,
+	169,
+	0);
+INSERT INTO SM_EVT
+	VALUES (170,
+	169,
+	0,
+	1,
+	'user_logged_on',
+	0,
+	'',
+	'Session1',
+	'');
+INSERT INTO SM_LEVT
+	VALUES (171,
+	169,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (171,
+	169,
+	0);
+INSERT INTO SM_EVT
+	VALUES (171,
+	169,
+	0,
+	2,
+	'session_timeout_reached',
+	0,
+	'',
+	'Session2',
+	'');
+INSERT INTO SM_LEVT
+	VALUES (172,
+	169,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (172,
+	169,
+	0);
+INSERT INTO SM_EVT
+	VALUES (172,
+	169,
+	0,
+	3,
+	'heartbeat_timeout_expired',
+	0,
+	'',
+	'Session3',
+	'');
+INSERT INTO SM_STATE
+	VALUES (173,
+	169,
+	0,
+	'Created',
+	1,
+	0);
+INSERT INTO SM_SEME
+	VALUES (173,
+	170,
+	169,
+	0);
+INSERT INTO SM_EIGN
+	VALUES (173,
+	171,
+	169,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (173,
+	171,
+	169,
+	0);
+INSERT INTO SM_EIGN
+	VALUES (173,
+	172,
+	169,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (173,
+	172,
+	169,
+	0);
+INSERT INTO SM_MOAH
+	VALUES (174,
+	169,
+	173);
+INSERT INTO SM_AH
+	VALUES (174,
+	169);
+INSERT INTO SM_ACT
+	VALUES (174,
+	169,
+	1,
+	'
+',
+	'');
+INSERT INTO ACT_SAB
+	VALUES (175,
+	169,
+	174);
+INSERT INTO ACT_ACT
+	VALUES (175,
+	'state',
+	0,
+	176,
+	0,
+	0,
+	'Session::Created',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (176,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	175,
+	0);
+INSERT INTO SM_STATE
+	VALUES (177,
+	169,
+	0,
+	'Session_Established',
+	2,
+	0);
+INSERT INTO SM_EIGN
+	VALUES (177,
+	170,
+	169,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (177,
+	170,
+	169,
+	0);
+INSERT INTO SM_EIGN
+	VALUES (177,
+	171,
+	169,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (177,
+	171,
+	169,
+	0);
+INSERT INTO SM_SEME
+	VALUES (177,
+	172,
+	169,
+	0);
+INSERT INTO SM_MOAH
+	VALUES (178,
+	169,
+	177);
+INSERT INTO SM_AH
+	VALUES (178,
+	169);
+INSERT INTO SM_ACT
+	VALUES (178,
+	169,
+	1,
+	'
+',
+	'');
+INSERT INTO ACT_SAB
+	VALUES (179,
+	169,
+	178);
+INSERT INTO ACT_ACT
+	VALUES (179,
+	'state',
+	0,
+	180,
+	0,
+	0,
+	'Session::Session_Established',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (180,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	179,
+	0);
+INSERT INTO SM_STATE
+	VALUES (181,
+	169,
+	0,
+	'Session_Heartbeat_Failed',
+	3,
+	0);
+INSERT INTO SM_SEME
+	VALUES (181,
+	170,
+	169,
+	0);
+INSERT INTO SM_SEME
+	VALUES (181,
+	171,
+	169,
+	0);
+INSERT INTO SM_SEME
+	VALUES (181,
+	172,
+	169,
+	0);
+INSERT INTO SM_MOAH
+	VALUES (182,
+	169,
+	181);
+INSERT INTO SM_AH
+	VALUES (182,
+	169);
+INSERT INTO SM_ACT
+	VALUES (182,
+	169,
+	1,
+	'
+',
+	'');
+INSERT INTO ACT_SAB
+	VALUES (183,
+	169,
+	182);
+INSERT INTO ACT_ACT
+	VALUES (183,
+	'state',
+	0,
+	184,
+	0,
+	0,
+	'Session::Session_Heartbeat_Failed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (184,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	183,
+	0);
+INSERT INTO SM_STATE
+	VALUES (185,
+	169,
+	0,
+	'Session_Timed_Out',
+	4,
+	0);
+INSERT INTO SM_SEME
+	VALUES (185,
+	170,
+	169,
+	0);
+INSERT INTO SM_EIGN
+	VALUES (185,
+	171,
+	169,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (185,
+	171,
+	169,
+	0);
+INSERT INTO SM_EIGN
+	VALUES (185,
+	172,
+	169,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (185,
+	172,
+	169,
+	0);
+INSERT INTO SM_MOAH
+	VALUES (186,
+	169,
+	185);
+INSERT INTO SM_AH
+	VALUES (186,
+	169);
+INSERT INTO SM_ACT
+	VALUES (186,
+	169,
+	1,
+	'
+',
+	'');
+INSERT INTO ACT_SAB
+	VALUES (187,
+	169,
+	186);
+INSERT INTO ACT_ACT
+	VALUES (187,
+	'state',
+	0,
+	188,
+	0,
+	0,
+	'Session::Session_Timed_Out',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (188,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	187,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (189,
+	169,
+	173,
+	170,
+	0);
+INSERT INTO SM_TAH
+	VALUES (0,
+	169,
+	189);
+INSERT INTO SM_TXN
+	VALUES (189,
+	169,
+	177,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (190,
+	169,
+	177,
+	172,
+	0);
+INSERT INTO SM_TAH
+	VALUES (0,
+	169,
+	190);
+INSERT INTO SM_TXN
+	VALUES (190,
+	169,
+	181,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (191,
+	169,
+	181,
+	170,
+	0);
+INSERT INTO SM_TAH
+	VALUES (0,
+	169,
+	191);
+INSERT INTO SM_TXN
+	VALUES (191,
+	169,
+	177,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (192,
+	169,
+	181,
+	171,
+	0);
+INSERT INTO SM_TAH
+	VALUES (0,
+	169,
+	192);
+INSERT INTO SM_TXN
+	VALUES (192,
+	169,
+	185,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (193,
+	169,
+	181,
+	172,
+	0);
+INSERT INTO SM_TAH
+	VALUES (0,
+	169,
+	193);
+INSERT INTO SM_TXN
+	VALUES (193,
+	169,
+	181,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (194,
+	169,
+	185,
+	170,
+	0);
+INSERT INTO SM_TAH
+	VALUES (0,
+	169,
+	194);
+INSERT INTO SM_TXN
+	VALUES (194,
+	169,
+	177,
+	0);
+INSERT INTO PE_PE
+	VALUES (195,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (195,
+	0,
+	'inst_ref<Session>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (195,
+	0,
+	152);
+INSERT INTO PE_PE
+	VALUES (196,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (196,
+	0,
+	'inst_ref_set<Session>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (196,
+	1,
+	152);
+INSERT INTO PE_PE
+	VALUES (197,
+	1,
+	130,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (197,
+	'Session_Specification',
+	6,
+	'Session_Specification',
+	'pragma id( 9 );
+pragma key_letter( "SS" );
+',
+	0);
+INSERT INTO O_NBATTR
+	VALUES (198,
+	197);
+INSERT INTO O_BATTR
+	VALUES (198,
+	197);
+INSERT INTO O_ATTR
+	VALUES (198,
+	197,
+	0,
+	'access_specification_id',
+	'',
+	'',
+	'access_specification_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (199,
+	197);
+INSERT INTO O_BATTR
+	VALUES (199,
+	197);
+INSERT INTO O_ATTR
+	VALUES (199,
+	197,
+	198,
+	'session_heartbeat_time',
+	'',
+	'',
+	'session_heartbeat_time',
+	0,
+	200,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (201,
+	197);
+INSERT INTO O_BATTR
+	VALUES (201,
+	197);
+INSERT INTO O_ATTR
+	VALUES (201,
+	197,
+	199,
+	'session_heartbeat_failure_threshold',
+	'',
+	'',
+	'session_heartbeat_failure_threshold',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	197);
+INSERT INTO O_OIDA
+	VALUES (198,
+	197,
+	0,
+	'access_specification_id');
+INSERT INTO O_ID
+	VALUES (1,
+	197);
+INSERT INTO O_ID
+	VALUES (2,
+	197);
+INSERT INTO PE_PE
+	VALUES (202,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (202,
+	0,
+	'inst_ref<Session_Specification>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (202,
+	0,
+	197);
+INSERT INTO PE_PE
+	VALUES (203,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (203,
+	0,
+	'inst_ref_set<Session_Specification>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (203,
+	1,
+	197);
+INSERT INTO PE_PE
+	VALUES (204,
+	1,
+	130,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (204,
+	'User',
+	7,
+	'User',
+	'pragma id( 2 );
+pragma key_letter( "U" );
+',
+	0);
+INSERT INTO O_NBATTR
+	VALUES (205,
+	204);
+INSERT INTO O_BATTR
+	VALUES (205,
+	204);
+INSERT INTO O_ATTR
+	VALUES (205,
+	204,
+	0,
+	'user_id',
+	'',
+	'',
+	'user_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (206,
+	204);
+INSERT INTO O_BATTR
+	VALUES (206,
+	204);
+INSERT INTO O_ATTR
+	VALUES (206,
+	204,
+	205,
+	'login_name',
+	'',
+	'',
+	'login_name',
+	0,
+	9,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (207,
+	204);
+INSERT INTO O_BATTR
+	VALUES (207,
+	204);
+INSERT INTO O_ATTR
+	VALUES (207,
+	204,
+	206,
+	'user_name',
+	'',
+	'',
+	'user_name',
+	0,
+	9,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (208,
+	204);
+INSERT INTO O_BATTR
+	VALUES (208,
+	204);
+INSERT INTO O_ATTR
+	VALUES (208,
+	204,
+	207,
+	'is_logged_on',
+	'',
+	'',
+	'is_logged_on',
+	0,
+	209,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	204);
+INSERT INTO O_OIDA
+	VALUES (205,
+	204,
+	0,
+	'user_id');
+INSERT INTO O_OIDA
+	VALUES (206,
+	204,
+	0,
+	'login_name');
+INSERT INTO O_ID
+	VALUES (1,
+	204);
+INSERT INTO O_ID
+	VALUES (2,
+	204);
+INSERT INTO PE_PE
+	VALUES (210,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (210,
+	0,
+	'inst_ref<User>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (210,
+	0,
+	204);
+INSERT INTO PE_PE
+	VALUES (211,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (211,
+	0,
+	'inst_ref_set<User>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (211,
+	1,
+	204);
+INSERT INTO PE_PE
+	VALUES (212,
+	1,
+	130,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (212,
+	'Workstation',
+	8,
+	'Workstation',
+	'pragma id( 7 );
+pragma key_letter( "W" );
+',
+	0);
+INSERT INTO O_NBATTR
+	VALUES (213,
+	212);
+INSERT INTO O_BATTR
+	VALUES (213,
+	212);
+INSERT INTO O_ATTR
+	VALUES (213,
+	212,
+	0,
+	'workstation_id',
+	'',
+	'',
+	'workstation_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (214,
+	212);
+INSERT INTO O_BATTR
+	VALUES (214,
+	212);
+INSERT INTO O_ATTR
+	VALUES (214,
+	212,
+	213,
+	'workstation_hostname',
+	'',
+	'',
+	'workstation_hostname',
+	0,
+	9,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	212);
+INSERT INTO O_OIDA
+	VALUES (213,
+	212,
+	0,
+	'workstation_id');
+INSERT INTO O_ID
+	VALUES (1,
+	212);
+INSERT INTO O_ID
+	VALUES (2,
+	212);
+INSERT INTO PE_PE
+	VALUES (215,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (215,
+	0,
+	'inst_ref<Workstation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (215,
+	0,
+	212);
+INSERT INTO PE_PE
+	VALUES (216,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (216,
+	0,
+	'inst_ref_set<Workstation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (216,
+	1,
+	212);
+INSERT INTO PE_PE
+	VALUES (217,
+	1,
+	130,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (217,
+	'Session_Operation',
+	9,
+	'Session_Operation',
+	'pragma id( 10 );
+pragma key_letter( "SO" );
+',
+	0);
+INSERT INTO O_NBATTR
+	VALUES (218,
+	217);
+INSERT INTO O_BATTR
+	VALUES (218,
+	217);
+INSERT INTO O_ATTR
+	VALUES (218,
+	217,
+	0,
+	'operation_id',
+	'',
+	'',
+	'operation_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (219,
+	217);
+INSERT INTO O_BATTR
+	VALUES (219,
+	217);
+INSERT INTO O_ATTR
+	VALUES (219,
+	217,
+	218,
+	'session_id',
+	'',
+	'',
+	'session_id',
+	0,
+	133,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	217);
+INSERT INTO O_OIDA
+	VALUES (218,
+	217,
+	0,
+	'operation_id');
+INSERT INTO O_OIDA
+	VALUES (219,
+	217,
+	0,
+	'session_id');
+INSERT INTO O_ID
+	VALUES (1,
+	217);
+INSERT INTO O_ID
+	VALUES (2,
+	217);
+INSERT INTO PE_PE
+	VALUES (220,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (220,
+	0,
+	'inst_ref<Session_Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (220,
+	0,
+	217);
+INSERT INTO PE_PE
+	VALUES (221,
+	1,
+	130,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (221,
+	0,
+	'inst_ref_set<Session_Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES (221,
+	1,
+	217);
+INSERT INTO PE_PE
+	VALUES (222,
+	1,
+	130,
+	0,
+	9);
+INSERT INTO R_REL
+	VALUES (222,
+	1,
+	'',
+	0);
+INSERT INTO R_ASSOC
+	VALUES (222);
+INSERT INTO R_AONE
+	VALUES (131,
+	222,
+	223,
+	1,
+	1,
+	'can_be_performed_by');
+INSERT INTO R_RTO
+	VALUES (131,
+	222,
+	223,
+	0);
+INSERT INTO R_OIR
+	VALUES (131,
+	222,
+	223,
+	0);
+INSERT INTO R_AOTH
+	VALUES (147,
+	222,
+	224,
+	1,
+	1,
+	'can_perform');
+INSERT INTO R_RTO
+	VALUES (147,
+	222,
+	224,
+	0);
+INSERT INTO R_OIR
+	VALUES (147,
+	222,
+	224,
+	0);
+INSERT INTO R_ASSR
+	VALUES (142,
+	222,
+	225,
+	0);
+INSERT INTO R_RGO
+	VALUES (142,
+	222,
+	225);
+INSERT INTO R_OIR
+	VALUES (142,
+	222,
+	225,
+	0);
+INSERT INTO PE_PE
+	VALUES (226,
+	1,
+	130,
+	0,
+	9);
+INSERT INTO R_REL
+	VALUES (226,
+	3,
+	'',
+	0);
+INSERT INTO R_ASSOC
+	VALUES (226);
+INSERT INTO R_AONE
+	VALUES (204,
+	226,
+	227,
+	0,
+	0,
+	'is_being_used_by');
+INSERT INTO R_RTO
+	VALUES (204,
+	226,
+	227,
+	0);
+INSERT INTO R_OIR
+	VALUES (204,
+	226,
+	227,
+	0);
+INSERT INTO R_AOTH
+	VALUES (212,
+	226,
+	228,
+	1,
+	1,
+	'is_logged_on_to');
+INSERT INTO R_RTO
+	VALUES (212,
+	226,
+	228,
+	0);
+INSERT INTO R_OIR
+	VALUES (212,
+	226,
+	228,
+	0);
+INSERT INTO R_ASSR
+	VALUES (152,
+	226,
+	229,
+	0);
+INSERT INTO R_RGO
+	VALUES (152,
+	226,
+	229);
+INSERT INTO R_OIR
+	VALUES (152,
+	226,
+	229,
+	0);
+INSERT INTO PE_PE
+	VALUES (230,
+	1,
+	130,
+	0,
+	9);
+INSERT INTO R_REL
+	VALUES (230,
+	2,
+	'',
+	0);
+INSERT INTO R_ASSOC
+	VALUES (230);
+INSERT INTO R_AONE
+	VALUES (152,
+	230,
+	231,
+	1,
+	0,
+	'current_members_are');
+INSERT INTO R_RTO
+	VALUES (152,
+	230,
+	231,
+	0);
+INSERT INTO R_OIR
+	VALUES (152,
+	230,
+	231,
+	0);
+INSERT INTO R_AOTH
+	VALUES (131,
+	230,
+	232,
+	1,
+	0,
+	'is_member_of');
+INSERT INTO R_RTO
+	VALUES (131,
+	230,
+	232,
+	0);
+INSERT INTO R_OIR
+	VALUES (131,
+	230,
+	232,
+	0);
+INSERT INTO R_ASSR
+	VALUES (137,
+	230,
+	233,
+	0);
+INSERT INTO R_RGO
+	VALUES (137,
+	230,
+	233);
+INSERT INTO R_OIR
+	VALUES (137,
+	230,
+	233,
+	0);
+INSERT INTO PE_PE
+	VALUES (234,
+	1,
+	130,
+	0,
+	9);
+INSERT INTO R_REL
+	VALUES (234,
+	4,
+	'',
+	0);
+INSERT INTO R_SIMP
+	VALUES (234);
+INSERT INTO R_PART
+	VALUES (197,
+	234,
+	235,
+	0,
+	0,
+	'rules_are_defined_by');
+INSERT INTO R_RTO
+	VALUES (197,
+	234,
+	235,
+	0);
+INSERT INTO R_OIR
+	VALUES (197,
+	234,
+	235,
+	0);
+INSERT INTO R_PART
+	VALUES (152,
+	234,
+	236,
+	1,
+	1,
+	'defines_rules_for');
+INSERT INTO R_RTO
+	VALUES (152,
+	234,
+	236,
+	0);
+INSERT INTO R_OIR
+	VALUES (152,
+	234,
+	236,
+	0);
+INSERT INTO PE_PE
+	VALUES (237,
+	1,
+	130,
+	0,
+	9);
+INSERT INTO R_REL
+	VALUES (237,
+	5,
+	'',
+	0);
+INSERT INTO R_ASSOC
+	VALUES (237);
+INSERT INTO R_AONE
+	VALUES (152,
+	237,
+	238,
+	1,
+	0,
+	'has_been_allowed_for');
+INSERT INTO R_RTO
+	VALUES (152,
+	237,
+	238,
+	0);
+INSERT INTO R_OIR
+	VALUES (152,
+	237,
+	238,
+	0);
+INSERT INTO R_AOTH
+	VALUES (147,
+	237,
+	239,
+	1,
+	0,
+	'has_allowed');
+INSERT INTO R_RTO
+	VALUES (147,
+	237,
+	239,
+	0);
+INSERT INTO R_OIR
+	VALUES (147,
+	237,
+	239,
+	0);
+INSERT INTO R_ASSR
+	VALUES (217,
+	237,
+	240,
+	0);
+INSERT INTO R_RGO
+	VALUES (217,
+	237,
+	240);
+INSERT INTO R_OIR
+	VALUES (217,
+	237,
+	240,
+	0);
+INSERT INTO PE_PE
+	VALUES (241,
+	1,
+	0,
+	16,
+	7);
+INSERT INTO EP_PKG
+	VALUES (241,
+	0,
+	1,
+	'types',
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES (209,
+	1,
+	241,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (209,
+	0,
+	'logged_on_type',
+	'definition:enum (logged_on,
+                                       suspect)
+',
+	'');
+INSERT INTO S_UDT
+	VALUES (209,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (242,
+	1,
+	241,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (242,
+	0,
+	'group_type',
+	'definition:structure
+    group_name      : string;
+    operation_names : sequence of string;
+  end structure
+',
+	'');
+INSERT INTO S_UDT
+	VALUES (242,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (243,
+	1,
+	0,
+	16,
+	7);
+INSERT INTO EP_PKG
+	VALUES (243,
+	0,
+	1,
+	'functions',
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES (244,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (244,
+	0,
+	'user_logon',
+	'pragma soa_remote( "" );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES (245,
+	244,
+	'user_id',
+	133,
+	0,
+	'',
+	246,
+	'');
+INSERT INTO S_SPARM
+	VALUES (246,
+	244,
+	'login_name',
+	9,
+	0,
+	'',
+	247,
+	'');
+INSERT INTO S_SPARM
+	VALUES (248,
+	244,
+	'user_name',
+	9,
+	0,
+	'',
+	245,
+	'');
+INSERT INTO S_SPARM
+	VALUES (249,
+	244,
+	'workstation_hostname',
+	9,
+	0,
+	'',
+	248,
+	'');
+INSERT INTO S_SPARM
+	VALUES (247,
+	244,
+	'groups',
+	250,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (251,
+	244);
+INSERT INTO ACT_ACT
+	VALUES (251,
+	'function',
+	0,
+	252,
+	0,
+	0,
+	'user_logon',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (252,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	251,
+	0);
+INSERT INTO PE_PE
+	VALUES (253,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (253,
+	0,
+	'user_logoff',
+	'pragma soa_remote( "" );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES (254,
+	253,
+	'session_id',
+	133,
+	0,
+	'',
+	255,
+	'');
+INSERT INTO S_SPARM
+	VALUES (256,
+	253,
+	'user_id',
+	133,
+	0,
+	'',
+	254,
+	'');
+INSERT INTO S_SPARM
+	VALUES (255,
+	253,
+	'login_name',
+	9,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (257,
+	253);
+INSERT INTO ACT_ACT
+	VALUES (257,
+	'function',
+	0,
+	258,
+	0,
+	0,
+	'user_logoff',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (258,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	257,
+	0);
+INSERT INTO PE_PE
+	VALUES (259,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (259,
+	0,
+	'add_group',
+	'pragma soa_remote( "" );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES (260,
+	259,
+	'group_name',
+	9,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (261,
+	259);
+INSERT INTO ACT_ACT
+	VALUES (261,
+	'function',
+	0,
+	262,
+	0,
+	0,
+	'add_group',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (262,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	261,
+	0);
+INSERT INTO PE_PE
+	VALUES (263,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (263,
+	0,
+	'add_operation_to_group',
+	'pragma soa_remote( "" );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES (264,
+	263,
+	'group_name',
+	9,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO S_SPARM
+	VALUES (265,
+	263,
+	'operations',
+	250,
+	0,
+	'',
+	264,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (266,
+	263);
+INSERT INTO ACT_ACT
+	VALUES (266,
+	'function',
+	0,
+	267,
+	0,
+	0,
+	'add_operation_to_group',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (267,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	266,
+	0);
+INSERT INTO PE_PE
+	VALUES (268,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (268,
+	0,
+	'session_active',
+	'pragma soa_remote( "" );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES (269,
+	268,
+	'session_id',
+	133,
+	0,
+	'',
+	270,
+	'');
+INSERT INTO S_SPARM
+	VALUES (271,
+	268,
+	'user_id',
+	133,
+	0,
+	'',
+	269,
+	'');
+INSERT INTO S_SPARM
+	VALUES (270,
+	268,
+	'login_name',
+	9,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (272,
+	268);
+INSERT INTO ACT_ACT
+	VALUES (272,
+	'function',
+	0,
+	273,
+	0,
+	0,
+	'session_active',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (273,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	272,
+	0);
+INSERT INTO PE_PE
+	VALUES (274,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (274,
+	0,
+	'delete_group',
+	'pragma soa_remote( "" );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES (275,
+	274,
+	'group_name',
+	9,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (276,
+	274);
+INSERT INTO ACT_ACT
+	VALUES (276,
+	'function',
+	0,
+	277,
+	0,
+	0,
+	'delete_group',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (277,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	276,
+	0);
+INSERT INTO PE_PE
+	VALUES (278,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (278,
+	0,
+	'delete_group_operation',
+	'pragma soa_remote( "" );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES (279,
+	278,
+	'group_name',
+	9,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO S_SPARM
+	VALUES (280,
+	278,
+	'operations',
+	250,
+	0,
+	'',
+	279,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (281,
+	278);
+INSERT INTO ACT_ACT
+	VALUES (281,
+	'function',
+	0,
+	282,
+	0,
+	0,
+	'delete_group_operation',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (282,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	281,
+	0);
+INSERT INTO PE_PE
+	VALUES (283,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (283,
+	0,
+	'populate_domain',
+	'pragma soa_remote( "" );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES (284,
+	283,
+	'reload_config_files',
+	7,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (285,
+	283);
+INSERT INTO ACT_ACT
+	VALUES (285,
+	'function',
+	0,
+	286,
+	0,
+	0,
+	'populate_domain',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (286,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	285,
+	0);
+INSERT INTO PE_PE
+	VALUES (287,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (287,
+	0,
+	'resend_infos',
+	'pragma soa_remote( "transient" );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (288,
+	287);
+INSERT INTO ACT_ACT
+	VALUES (288,
+	'function',
+	0,
+	289,
+	0,
+	0,
+	'resend_infos',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (289,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	288,
+	0);
+INSERT INTO PE_PE
+	VALUES (290,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (290,
+	0,
+	'populate_domain_1',
+	'pragma scenario( 1 );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (291,
+	290);
+INSERT INTO ACT_ACT
+	VALUES (291,
+	'function',
+	0,
+	292,
+	0,
+	0,
+	'populate_domain_1',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (292,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	291,
+	0);
+INSERT INTO PE_PE
+	VALUES (293,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (293,
+	0,
+	'soa_subscribe_2',
+	'pragma scenario( 2 );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (294,
+	293);
+INSERT INTO ACT_ACT
+	VALUES (294,
+	'function',
+	0,
+	295,
+	0,
+	0,
+	'soa_subscribe_2',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (295,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	294,
+	0);
+INSERT INTO PE_PE
+	VALUES (296,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (296,
+	0,
+	'resend_infos_3',
+	'pragma scenario( 3 );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (297,
+	296);
+INSERT INTO ACT_ACT
+	VALUES (297,
+	'function',
+	0,
+	298,
+	0,
+	0,
+	'resend_infos_3',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (298,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	297,
+	0);
+INSERT INTO PE_PE
+	VALUES (299,
+	1,
+	243,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (299,
+	0,
+	'test_SAC_1',
+	'pragma external( 1 );
+pragma test_only( "true" );
+',
+	'
+',
+	3,
+	1,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (300,
+	299);
+INSERT INTO ACT_ACT
+	VALUES (300,
+	'function',
+	0,
+	301,
+	0,
+	0,
+	'test_SAC_1',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (301,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	300,
+	0);
+INSERT INTO PE_PE
+	VALUES (302,
+	1,
+	15,
+	0,
+	7);
+INSERT INTO EP_PKG
+	VALUES (302,
+	0,
+	1,
+	'Shared',
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES (19,
+	1,
+	302,
+	0,
+	6);
+INSERT INTO C_I
+	VALUES (19,
+	0,
+	'SAC',
+	'');
+INSERT INTO C_EP
+	VALUES (21,
+	19,
+	0,
+	'user_logon',
+	'');
+INSERT INTO C_IO
+	VALUES (21,
+	3,
+	'user_logon',
+	'',
+	0,
+	'',
+	25);
+INSERT INTO C_EP
+	VALUES (25,
+	19,
+	0,
+	'user_logoff',
+	'');
+INSERT INTO C_IO
+	VALUES (25,
+	3,
+	'user_logoff',
+	'',
+	0,
+	'',
+	37);
+INSERT INTO C_EP
+	VALUES (29,
+	19,
+	0,
+	'add_group',
+	'');
+INSERT INTO C_IO
+	VALUES (29,
+	3,
+	'add_group',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (33,
+	19,
+	0,
+	'add_operation_to_group',
+	'');
+INSERT INTO C_IO
+	VALUES (33,
+	3,
+	'add_operation_to_group',
+	'',
+	0,
+	'',
+	29);
+INSERT INTO C_EP
+	VALUES (37,
+	19,
+	0,
+	'session_active',
+	'');
+INSERT INTO C_IO
+	VALUES (37,
+	3,
+	'session_active',
+	'',
+	0,
+	'',
+	53);
+INSERT INTO C_EP
+	VALUES (41,
+	19,
+	0,
+	'delete_group',
+	'');
+INSERT INTO C_IO
+	VALUES (41,
+	3,
+	'delete_group',
+	'',
+	0,
+	'',
+	33);
+INSERT INTO C_EP
+	VALUES (45,
+	19,
+	0,
+	'delete_group_operation',
+	'');
+INSERT INTO C_IO
+	VALUES (45,
+	3,
+	'delete_group_operation',
+	'',
+	0,
+	'',
+	41);
+INSERT INTO C_EP
+	VALUES (49,
+	19,
+	0,
+	'populate_domain',
+	'');
+INSERT INTO C_IO
+	VALUES (49,
+	3,
+	'populate_domain',
+	'',
+	0,
+	'',
+	45);
+INSERT INTO C_EP
+	VALUES (53,
+	19,
+	0,
+	'resend_infos',
+	'');
+INSERT INTO C_IO
+	VALUES (53,
+	3,
+	'resend_infos',
+	'',
+	0,
+	'',
+	49);
+INSERT INTO PE_PE
+	VALUES (133,
+	1,
+	302,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (133,
+	0,
+	'integer',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (133,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (250,
+	1,
+	302,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (250,
+	0,
+	'sequence of string',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (250,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (58,
+	1,
+	302,
+	0,
+	6);
+INSERT INTO C_I
+	VALUES (58,
+	0,
+	'SACOperator',
+	'');
+INSERT INTO C_EP
+	VALUES (60,
+	58,
+	0,
+	'login_valid',
+	'');
+INSERT INTO C_IO
+	VALUES (60,
+	3,
+	'login_valid',
+	'',
+	0,
+	'',
+	92);
+INSERT INTO C_PP
+	VALUES (303,
+	60,
+	133,
+	'session_id',
+	'',
+	0,
+	'',
+	304);
+INSERT INTO C_PP
+	VALUES (305,
+	60,
+	133,
+	'user_id',
+	'',
+	0,
+	'',
+	303);
+INSERT INTO C_PP
+	VALUES (306,
+	60,
+	7,
+	'is_valid',
+	'',
+	0,
+	'',
+	307);
+INSERT INTO C_PP
+	VALUES (307,
+	60,
+	9,
+	'failure_reason',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (308,
+	60,
+	9,
+	'workstation_hostname',
+	'',
+	0,
+	'',
+	305);
+INSERT INTO C_PP
+	VALUES (304,
+	60,
+	9,
+	'login_name',
+	'',
+	0,
+	'',
+	306);
+INSERT INTO C_EP
+	VALUES (64,
+	58,
+	0,
+	'report_user',
+	'');
+INSERT INTO C_IO
+	VALUES (64,
+	3,
+	'report_user',
+	'',
+	0,
+	'',
+	88);
+INSERT INTO C_PP
+	VALUES (309,
+	64,
+	133,
+	'user_id',
+	'',
+	0,
+	'',
+	310);
+INSERT INTO C_PP
+	VALUES (310,
+	64,
+	9,
+	'login_name',
+	'',
+	0,
+	'',
+	311);
+INSERT INTO C_PP
+	VALUES (312,
+	64,
+	9,
+	'user_name',
+	'',
+	0,
+	'',
+	309);
+INSERT INTO C_PP
+	VALUES (311,
+	64,
+	209,
+	'logged_on',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (68,
+	58,
+	0,
+	'user_removed',
+	'');
+INSERT INTO C_IO
+	VALUES (68,
+	3,
+	'user_removed',
+	'',
+	0,
+	'',
+	100);
+INSERT INTO C_PP
+	VALUES (313,
+	68,
+	133,
+	'user_id',
+	'',
+	0,
+	'',
+	314);
+INSERT INTO C_PP
+	VALUES (314,
+	68,
+	9,
+	'login_name',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (72,
+	58,
+	0,
+	'report_user_session',
+	'');
+INSERT INTO C_IO
+	VALUES (72,
+	3,
+	'report_user_session',
+	'',
+	0,
+	'',
+	96);
+INSERT INTO C_PP
+	VALUES (315,
+	72,
+	133,
+	'session_id',
+	'',
+	0,
+	'',
+	316);
+INSERT INTO C_PP
+	VALUES (317,
+	72,
+	133,
+	'user_id',
+	'',
+	0,
+	'',
+	318);
+INSERT INTO C_PP
+	VALUES (316,
+	72,
+	158,
+	'login_time',
+	'',
+	0,
+	'',
+	319);
+INSERT INTO C_PP
+	VALUES (318,
+	72,
+	7,
+	'session_timed_out',
+	'',
+	0,
+	'',
+	315);
+INSERT INTO C_PP
+	VALUES (320,
+	72,
+	9,
+	'workstation_hostname',
+	'',
+	0,
+	'',
+	317);
+INSERT INTO C_PP
+	VALUES (319,
+	72,
+	9,
+	'login_name',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (76,
+	58,
+	0,
+	'user_session_deleted',
+	'');
+INSERT INTO C_IO
+	VALUES (76,
+	3,
+	'user_session_deleted',
+	'',
+	0,
+	'',
+	68);
+INSERT INTO C_PP
+	VALUES (321,
+	76,
+	133,
+	'session_id',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (80,
+	58,
+	0,
+	'report_group',
+	'');
+INSERT INTO C_IO
+	VALUES (80,
+	3,
+	'report_group',
+	'',
+	0,
+	'',
+	112);
+INSERT INTO C_PP
+	VALUES (322,
+	80,
+	9,
+	'group_name',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (84,
+	58,
+	0,
+	'group_deleted',
+	'');
+INSERT INTO C_IO
+	VALUES (84,
+	3,
+	'group_deleted',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (323,
+	84,
+	9,
+	'group_name',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (88,
+	58,
+	0,
+	'report_group_operation',
+	'');
+INSERT INTO C_IO
+	VALUES (88,
+	3,
+	'report_group_operation',
+	'',
+	0,
+	'',
+	80);
+INSERT INTO C_PP
+	VALUES (324,
+	88,
+	9,
+	'group_name',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (325,
+	88,
+	9,
+	'operation_name',
+	'',
+	0,
+	'',
+	324);
+INSERT INTO C_EP
+	VALUES (92,
+	58,
+	0,
+	'group_operation_removed',
+	'');
+INSERT INTO C_IO
+	VALUES (92,
+	3,
+	'group_operation_removed',
+	'',
+	0,
+	'',
+	84);
+INSERT INTO C_PP
+	VALUES (326,
+	92,
+	9,
+	'group_name',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (327,
+	92,
+	9,
+	'operation_name',
+	'',
+	0,
+	'',
+	326);
+INSERT INTO C_EP
+	VALUES (96,
+	58,
+	0,
+	'report_user_operation',
+	'');
+INSERT INTO C_IO
+	VALUES (96,
+	3,
+	'report_user_operation',
+	'',
+	0,
+	'',
+	104);
+INSERT INTO C_PP
+	VALUES (328,
+	96,
+	133,
+	'user_id',
+	'',
+	0,
+	'',
+	329);
+INSERT INTO C_PP
+	VALUES (330,
+	96,
+	9,
+	'operation_name',
+	'',
+	0,
+	'',
+	331);
+INSERT INTO C_PP
+	VALUES (331,
+	96,
+	9,
+	'login_name',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (329,
+	96,
+	133,
+	'session_id',
+	'',
+	0,
+	'',
+	330);
+INSERT INTO C_EP
+	VALUES (100,
+	58,
+	0,
+	'user_operation_removed',
+	'');
+INSERT INTO C_IO
+	VALUES (100,
+	3,
+	'user_operation_removed',
+	'',
+	0,
+	'',
+	108);
+INSERT INTO C_PP
+	VALUES (332,
+	100,
+	133,
+	'user_id',
+	'',
+	0,
+	'',
+	333);
+INSERT INTO C_PP
+	VALUES (334,
+	100,
+	9,
+	'operation_name',
+	'',
+	0,
+	'',
+	335);
+INSERT INTO C_PP
+	VALUES (335,
+	100,
+	9,
+	'login_name',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (333,
+	100,
+	133,
+	'session_id',
+	'',
+	0,
+	'',
+	334);
+INSERT INTO C_EP
+	VALUES (104,
+	58,
+	0,
+	'report_user_group',
+	'');
+INSERT INTO C_IO
+	VALUES (104,
+	3,
+	'report_user_group',
+	'',
+	0,
+	'',
+	64);
+INSERT INTO C_PP
+	VALUES (336,
+	104,
+	133,
+	'uid',
+	'',
+	0,
+	'',
+	337);
+INSERT INTO C_PP
+	VALUES (338,
+	104,
+	9,
+	'group_name',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (339,
+	104,
+	9,
+	'login_name',
+	'',
+	0,
+	'',
+	338);
+INSERT INTO C_PP
+	VALUES (337,
+	104,
+	133,
+	'session_id',
+	'',
+	0,
+	'',
+	339);
+INSERT INTO C_EP
+	VALUES (108,
+	58,
+	0,
+	'user_group_removed',
+	'');
+INSERT INTO C_IO
+	VALUES (108,
+	3,
+	'user_group_removed',
+	'',
+	0,
+	'',
+	72);
+INSERT INTO C_PP
+	VALUES (340,
+	108,
+	133,
+	'uid',
+	'',
+	0,
+	'',
+	341);
+INSERT INTO C_PP
+	VALUES (342,
+	108,
+	9,
+	'group_name',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (343,
+	108,
+	9,
+	'login_name',
+	'',
+	0,
+	'',
+	342);
+INSERT INTO C_PP
+	VALUES (341,
+	108,
+	133,
+	'session_id',
+	'',
+	0,
+	'',
+	343);
+INSERT INTO C_EP
+	VALUES (112,
+	58,
+	0,
+	'raise_notification',
+	'');
+INSERT INTO C_IO
+	VALUES (112,
+	3,
+	'raise_notification',
+	'',
+	0,
+	'',
+	60);
+INSERT INTO C_PP
+	VALUES (344,
+	112,
+	9,
+	'condition_description',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (345,
+	112,
+	9,
+	'condition_name',
+	'',
+	0,
+	'',
+	344);
+INSERT INTO PE_PE
+	VALUES (346,
+	1,
+	302,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (346,
+	0,
+	'logged_on_type',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (346,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (158,
+	1,
+	302,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (158,
+	0,
+	'timestamp',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (158,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (117,
+	1,
+	302,
+	0,
+	6);
+INSERT INTO C_I
+	VALUES (117,
+	0,
+	'SACSystem_Configuration',
+	'');
+INSERT INTO C_EP
+	VALUES (119,
+	117,
+	0,
+	'get_groups',
+	'');
+INSERT INTO C_IO
+	VALUES (119,
+	3,
+	'get_groups',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (347,
+	119,
+	348,
+	'groups',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (123,
+	117,
+	0,
+	'get_session_specification',
+	'');
+INSERT INTO C_IO
+	VALUES (123,
+	3,
+	'get_session_specification',
+	'',
+	0,
+	'',
+	119);
+INSERT INTO C_PP
+	VALUES (349,
+	123,
+	200,
+	'heartbeat_time',
+	'',
+	0,
+	'',
+	350);
+INSERT INTO C_PP
+	VALUES (350,
+	123,
+	133,
+	'heartbeat_failure_threshold',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (127,
+	117,
+	0,
+	'reload_config_files',
+	'');
+INSERT INTO C_IO
+	VALUES (127,
+	3,
+	'reload_config_files',
+	'',
+	0,
+	'',
+	123);
+INSERT INTO PE_PE
+	VALUES (348,
+	1,
+	302,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (348,
+	0,
+	'sequence of group_type',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (348,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (200,
+	1,
+	302,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (200,
+	0,
+	'duration',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (200,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (351,
+	1,
+	302,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (351,
+	0,
+	'MASLunique',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (351,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (160,
+	1,
+	302,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (160,
+	0,
+	'timer',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (160,
+	4,
+	0);
+INSERT INTO PE_PE
+	VALUES (352,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (352,
+	0,
+	'void',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (352,
+	0);
+INSERT INTO PE_PE
+	VALUES (353,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (353,
+	0,
+	'boolean',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (353,
+	1);
+INSERT INTO PE_PE
+	VALUES (354,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (354,
+	0,
+	'integer',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (354,
+	2);
+INSERT INTO PE_PE
+	VALUES (355,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (355,
+	0,
+	'real',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (355,
+	3);
+INSERT INTO PE_PE
+	VALUES (356,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (356,
+	0,
+	'string',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (356,
+	4);
+INSERT INTO PE_PE
+	VALUES (357,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (357,
+	0,
+	'unique_id',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (357,
+	5);
+INSERT INTO PE_PE
+	VALUES (168,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (168,
+	0,
+	'state<State_Model>',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (168,
+	6);
+INSERT INTO PE_PE
+	VALUES (358,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (358,
+	0,
+	'same_as<Base_Attribute>',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (358,
+	7);
+INSERT INTO PE_PE
+	VALUES (359,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (359,
+	0,
+	'inst_ref<Object>',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (359,
+	8);
+INSERT INTO PE_PE
+	VALUES (360,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (360,
+	0,
+	'inst_ref_set<Object>',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (360,
+	9);
+INSERT INTO PE_PE
+	VALUES (361,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (361,
+	0,
+	'inst<Event>',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (361,
+	10);
+INSERT INTO PE_PE
+	VALUES (362,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (362,
+	0,
+	'inst<Mapping>',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (362,
+	11);
+INSERT INTO PE_PE
+	VALUES (363,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (363,
+	0,
+	'inst_ref<Mapping>',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (363,
+	12);
+INSERT INTO PE_PE
+	VALUES (364,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (364,
+	0,
+	'component_ref',
+	'',
+	'');
+INSERT INTO S_CDT
+	VALUES (364,
+	13);
+INSERT INTO PE_PE
+	VALUES (365,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (365,
+	0,
+	'date',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (365,
+	362,
+	1);
+INSERT INTO PE_PE
+	VALUES (366,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (366,
+	0,
+	'inst_ref<Timer>',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (366,
+	363,
+	3);
+INSERT INTO PE_PE
+	VALUES (367,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (367,
+	0,
+	'timestamp',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (367,
+	362,
+	2);
+INSERT INTO PE_PE
+	VALUES (4,
+	1,
+	0,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (4,
+	0,
+	'MASLtype',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES (4,
+	356,
+	0);

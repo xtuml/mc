@@ -1,0 +1,13 @@
+CC=gcc
+CFLAGS=-Wno-pointer-to-int-cast -m32
+SOURCES := $(shell ls *.c)
+OBJECTS=$(SOURCES:.c=.o)
+EXECUTABLE=docgen
+
+all:  $(SOURCES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(CFLAGS) $^ -static -o $@
+
+.o:
+	$(CC) $(CFLAGS) -c $<

@@ -29,6 +29,7 @@ tokens
   CONSTRAINED_TYPE;
   CORRELATE;
   CREATE_ARGUMENT;
+  DESCRIPTION;
   DOMAIN_NAME;
   DOMAIN_SERVICE_DECLARATION;
   DOMAIN_SERVICE_DEFINITION;
@@ -66,6 +67,7 @@ tokens
   RETURN_TYPE;
   ROLE_PHRASE;
   SERVICE_NAME;
+  SERVICE_TYPE;
   SLICE;
   SORT_ORDER_COMPONENT;
   STATE_DEFINITION;
@@ -116,10 +118,12 @@ definition                    : projectDefinition
 // Project Definition
 //---------------------------------------------------------
 
-projectDefinition             : PROJECT projectName IS
+projectDefinition             : description
+                                PROJECT projectName IS
                                  projectItem*
                                 END PROJECT? SEMI pragmaList                              -> ^( PROJECT
                                                                                                 projectName
+                                                                                                description
                                                                                                 projectItem*
                                                                                                 pragmaList?)
                               ;
@@ -128,10 +132,12 @@ projectItem                   : domainPrjDefinition
                               ;
 
 domainPrjDefinition
-                              : DOMAIN domainName IS
+                              : description
+                                DOMAIN domainName IS
                                   domainPrjItem* 
                                 END DOMAIN? SEMI pragmaList                               -> ^( DOMAIN 
                                                                                                 domainName 
+                                                                                                description
                                                                                                 domainPrjItem* 
                                                                                                 pragmaList?)
                               ;
@@ -149,10 +155,12 @@ projectName                   : identifier                                      
 //---------------------------------------------------------
 
 domainDefinition
-                              : DOMAIN domainName IS
+                              : description
+                                DOMAIN domainName IS
                                   domainItem* 
                                 END DOMAIN? SEMI pragmaList                               -> ^( DOMAIN 
                                                                                                 domainName 
+                                                                                                description
                                                                                                 domainItem* 
                                                                                                 pragmaList?
                                                                                                )
@@ -196,16 +204,17 @@ exceptionVisibility           : PRIVATE                                         
 // Type Definition
 //---------------------------------------------------------
 
-typeForwardDeclaration        : typeVisibility TYPE typeName SEMI pragmaList              ->^( TYPE_DECLARATION[$TYPE]
+typeForwardDeclaration        : description typeVisibility TYPE typeName SEMI pragmaList        ->^( TYPE_DECLARATION[$TYPE]
                                                                                                 typeName 
                                                                                                 typeVisibility 
                                                                                                 pragmaList? )
                               ;
 
-typeDeclaration               : typeVisibility TYPE typeName IS
+typeDeclaration               : description typeVisibility TYPE typeName IS
                                 typeDef=typeDefinition SEMI pragmaList                          ->^( TYPE[$typeDef.text]
                                                                                                 typeName 
                                                                                                 typeVisibility 
+                                                                                                description
                                                                                                 pragmaList?
                                                                                                 typeDefinition )
                                                                                                 
@@ -399,10 +408,12 @@ terminatorName                : identifier                                      
                                                                                                 identifier )
                               ;
 
-terminatorDefinition          : startDec=TERMINATOR terminatorName IS
+terminatorDefinition          : description
+                                startDec=TERMINATOR terminatorName IS
                                   terminatorItem*
                                 END TERMINATOR? SEMI pragmaList                           -> ^( TERMINATOR_DEFINITION[$startDec] 
                                                                                                 terminatorName 
+                                                                                                description
                                                                                                 pragmaList?
                                                                                                 terminatorItem* )
                               ;
@@ -412,19 +423,21 @@ terminatorItem                : terminatorServiceDeclaration
                               ;
 
 
-terminatorServiceDeclaration  : serviceVisibility SERVICE serviceName 
+terminatorServiceDeclaration  : description serviceVisibility SERVICE serviceName 
                                   parameterList SEMI pragmaList                           -> ^( TERMINATOR_SERVICE_DECLARATION[$SERVICE] 
                                                                                                 serviceVisibility 
                                                                                                 serviceName 
+                                                                                                description
                                                                                                 parameterList?
                                                                                                 pragmaList? )
                               ;
 
-terminatorFunctionDeclaration : serviceVisibility FUNCTION serviceName 
+terminatorFunctionDeclaration : description serviceVisibility FUNCTION serviceName 
                                   parameterList RETURN returnType 
                                   SEMI pragmaList                                         -> ^( TERMINATOR_SERVICE_DECLARATION[$FUNCTION] 
                                                                                                 serviceVisibility 
                                                                                                 serviceName 
+                                                                                                description
                                                                                                 parameterList?
                                                                                                 returnType
                                                                                                 pragmaList? )
@@ -442,17 +455,19 @@ attributeName                 : identifier                                      
                                                                                                 identifier )
                               ;
 
-objectDeclaration             : OBJECT objectName SEMI pragmaList                         -> ^( OBJECT_DECLARATION[$OBJECT] 
+objectDeclaration             : description OBJECT objectName SEMI pragmaList             -> ^( OBJECT_DECLARATION[$OBJECT] 
                                                                                                 objectName 
                                                                                                 pragmaList?)
                               ;
 
 
-objectDefinition              : startDec=OBJECT objectName IS
+objectDefinition              : description
+                                startDec=OBJECT objectName IS
                                   objectItem*
                                 END OBJECT? SEMI pragmaList                               -> ^( OBJECT_DEFINITION[$startDec] 
                                                                                                 objectName 
                                                                                                 objectItem* 
+                                                                                                description
                                                                                                 pragmaList?)
                               ;
 
@@ -465,13 +480,15 @@ objectItem                    : attributeDefinition
                               | transitionTable
                               ;
 
-attributeDefinition           : attributeName COLON 
+attributeDefinition           : description
+                                attributeName COLON 
                                 attModifiers attReferentials? typeReference 
                                 (ASSIGN defaultValue=constExpression)? 
                                 SEMI pragmaList                                           -> ^( ATTRIBUTE_DEFINITION[$defaultValue.text]
                                                                                                 attributeName 
                                                                                                 attModifiers? 
                                                                                                 attReferentials? 
+                                                                                                description
                                                                                                 typeReference 
                                                                                                 $defaultValue? 
                                                                                                 pragmaList?)
@@ -501,22 +518,24 @@ relationshipSpec              : relationshipName
                               ;
 
 
-objectServiceDeclaration      : serviceVisibility serviceType SERVICE serviceName 
+objectServiceDeclaration      : description serviceVisibility serviceType SERVICE serviceName 
                                   parameterList SEMI pragmaList                           -> ^( OBJECT_SERVICE_DECLARATION[$SERVICE] 
                                                                                                 serviceVisibility 
                                                                                                 serviceType? 
                                                                                                 serviceName 
+                                                                                                description
                                                                                                 parameterList? 
                                                                                                 pragmaList?
                                                                                                 )
                               ;
 
-objectFunctionDeclaration     : serviceVisibility serviceType FUNCTION serviceName 
+objectFunctionDeclaration     : description serviceVisibility serviceType FUNCTION serviceName 
                                   parameterList 
                                   RETURN returnType SEMI pragmaList                       -> ^( OBJECT_SERVICE_DECLARATION[$FUNCTION] 
                                                                                                 serviceVisibility 
                                                                                                 serviceType? 
                                                                                                 serviceName
+                                                                                                description
                                                                                                 parameterList?
                                                                                                 returnType 
                                                                                                 pragmaList?)
@@ -533,9 +552,10 @@ identifierDefinition          : IDENTIFIER IS
                                                                                                 pragmaList?)
                               ;
 
-eventDefinition               : eventType EVENT eventName parameterList SEMI pragmaList   -> ^( EVENT
+eventDefinition               : description eventType EVENT eventName parameterList SEMI pragmaList   -> ^( EVENT
                                                                                                 eventName
                                                                                                 eventType 
+                                                                                                description
                                                                                                 parameterList?
                                                                                                 pragmaList?
                                                                                               )
@@ -548,9 +568,10 @@ eventType                     : ASSIGNER                                        
                               | /* blank */                                               -> NORMAL
                               ;
 
-stateDeclaration              : stateType STATE stateName parameterList SEMI pragmaList  -> ^( STATE 
+stateDeclaration              : description stateType STATE stateName parameterList SEMI pragmaList  -> ^( STATE 
                                                                                                 stateName  
                                                                                                 stateType 
+                                                                                                description
                                                                                                 parameterList?
                                                                                                 pragmaList? )
                               ; 
@@ -611,19 +632,21 @@ endState                      : stateName                                       
 // Service Declaration
 //---------------------------------------------------------
 
-domainServiceDeclaration      : serviceVisibility SERVICE serviceName 
+domainServiceDeclaration      : description serviceVisibility SERVICE serviceName 
                                   parameterList SEMI pragmaList                           -> ^( DOMAIN_SERVICE_DECLARATION[$SERVICE] 
                                                                                                 serviceVisibility 
                                                                                                 serviceName 
+                                                                                                description
                                                                                                 parameterList?
                                                                                                 pragmaList? )
                               ;
 
-domainFunctionDeclaration     : serviceVisibility FUNCTION serviceName 
+domainFunctionDeclaration     : description serviceVisibility FUNCTION serviceName 
                                   parameterList 
                                   RETURN returnType SEMI pragmaList                       -> ^( DOMAIN_SERVICE_DECLARATION[$FUNCTION]
                                                                                                 serviceVisibility 
                                                                                                 serviceName 
+                                                                                                description
                                                                                                 parameterList?
                                                                                                 returnType 
                                                                                                 pragmaList? )
@@ -681,17 +704,20 @@ returnType                    : typeReference                                   
 relationshipName              : RelationshipName                                           -> ^(RELATIONSHIP_NAME RelationshipName)
                               ;
 
-relationshipDefinition        : RELATIONSHIP relationshipName IS
+relationshipDefinition        : description RELATIONSHIP relationshipName IS
                                 ( regularRelationshipDefinition SEMI pragmaList           -> ^( REGULAR_RELATIONSHIP_DEFINITION[$RELATIONSHIP] 
                                                                                                 relationshipName 
+                                                                                                description
                                                                                                 regularRelationshipDefinition 
                                                                                                 pragmaList? )
                                 | assocRelationshipDefinition SEMI pragmaList             -> ^( ASSOCIATIVE_RELATIONSHIP_DEFINITION[$RELATIONSHIP]
                                                                                                 relationshipName 
+                                                                                                description
                                                                                                 assocRelationshipDefinition 
                                                                                                 pragmaList? )
                                 | subtypeRelationshipDefinition SEMI pragmaList           -> ^( SUBTYPE_RELATIONSHIP_DEFINITION[$RELATIONSHIP] 
                                                                                                 relationshipName 
+                                                                                                description
                                                                                                 subtypeRelationshipDefinition 
                                                                                                 pragmaList? )
                                 )
@@ -762,7 +788,13 @@ pragmaName                    : identifier                                      
                                                                                                 identifier )
                               ;
 
+//---------------------------------------------------------
+// Descriptions
+//---------------------------------------------------------
 
+description                   : Description*                                              -> ^( DESCRIPTION
+                                                                                                Description* )
+                              ;
 
 //---------------------------------------------------------
 // Dynamic Behaviour
@@ -770,11 +802,13 @@ pragmaName                    : identifier                                      
 
 
 
-domainServiceDefinition       : serviceVisibility serv=SERVICE 
+domainServiceDefinition       : description
+                                serviceVisibility serv=SERVICE 
                                 domainName SCOPE serviceName 
                                 parameterList IS 
                                 codeBlock 
-                                SERVICE? SEMI pragmaList                                  -> ^( DOMAIN_SERVICE_DEFINITION[$serv]
+                                SERVICE? SEMI pragmaList                                  -> ^( DOMAIN_SERVICE_DEFINITION[$codeBlock.text]
+                                                                                                SERVICE_TYPE[$serv.text]
                                                                                                 serviceVisibility 
                                                                                                 domainName 
                                                                                                 serviceName 
@@ -783,11 +817,13 @@ domainServiceDefinition       : serviceVisibility serv=SERVICE
                                                                                                 pragmaList? )                               
                               ;
 
-domainFunctionDefinition      : serviceVisibility func=FUNCTION 
+domainFunctionDefinition      : description
+                                serviceVisibility func=FUNCTION 
                                   domainName SCOPE serviceName 
                                   parameterList 
                                   RETURN returnType IS codeBlock 
-                                FUNCTION? SEMI pragmaList                                 -> ^( DOMAIN_SERVICE_DEFINITION[$func]
+                                FUNCTION? SEMI pragmaList                                 -> ^( DOMAIN_SERVICE_DEFINITION[$codeBlock.text]
+                                                                                                SERVICE_TYPE[$func.text]
                                                                                                 serviceVisibility 
                                                                                                 domainName 
                                                                                                 serviceName 
@@ -799,10 +835,12 @@ domainFunctionDefinition      : serviceVisibility func=FUNCTION
 
 
 
-objectServiceDefinition       : serviceVisibility INSTANCE? serv=SERVICE 
+objectServiceDefinition       : description
+                                serviceVisibility INSTANCE? serv=SERVICE 
                                   domainName SCOPE objectName DOT serviceName 
                                   parameterList IS codeBlock 
-                                SERVICE? SEMI pragmaList                                  -> ^( OBJECT_SERVICE_DEFINITION[$serv]
+                                SERVICE? SEMI pragmaList                                  -> ^( OBJECT_SERVICE_DEFINITION[$codeBlock.text]
+                                                                                                SERVICE_TYPE[$serv.text]
                                                                                                 serviceVisibility 
                                                                                                 INSTANCE? 
                                                                                                 domainName 
@@ -813,11 +851,13 @@ objectServiceDefinition       : serviceVisibility INSTANCE? serv=SERVICE
                                                                                                 pragmaList? )
                               ;
 
-terminatorServiceDefinition   : serviceVisibility serv=SERVICE 
+terminatorServiceDefinition   : description
+                                serviceVisibility serv=SERVICE 
                                 domainName SCOPE terminatorName TERMINATOR_SCOPE serviceName 
                                 parameterList IS 
                                 codeBlock 
-                                SERVICE? SEMI pragmaList                                  -> ^( TERMINATOR_SERVICE_DEFINITION[$serv]
+                                SERVICE? SEMI pragmaList                                  -> ^( TERMINATOR_SERVICE_DEFINITION[$codeBlock.text]
+                                                                                                SERVICE_TYPE[$serv.text]
                                                                                                 serviceVisibility 
                                                                                                 domainName
                                                                                                 terminatorName 
@@ -827,11 +867,13 @@ terminatorServiceDefinition   : serviceVisibility serv=SERVICE
                                                                                                 pragmaList? )                               
                               ;
 
-terminatorFunctionDefinition  : serviceVisibility func=FUNCTION 
+terminatorFunctionDefinition  : description
+                                serviceVisibility func=FUNCTION 
                                 domainName SCOPE terminatorName TERMINATOR_SCOPE serviceName 
                                 parameterList RETURN returnType IS 
                                 codeBlock 
-                                FUNCTION? SEMI pragmaList                                 -> ^( TERMINATOR_SERVICE_DEFINITION[$func]
+                                FUNCTION? SEMI pragmaList                                 -> ^( TERMINATOR_SERVICE_DEFINITION[$codeBlock.text]
+                                                                                                SERVICE_TYPE[$func.text]
                                                                                                 serviceVisibility 
                                                                                                 domainName
                                                                                                 terminatorName 
@@ -843,11 +885,13 @@ terminatorFunctionDefinition  : serviceVisibility func=FUNCTION
                               ;
 
 
-objectFunctionDefinition      : serviceVisibility serviceType func=FUNCTION 
+objectFunctionDefinition      : description
+                                serviceVisibility serviceType func=FUNCTION 
                                   domainName SCOPE objectName DOT serviceName 
                                   parameterList 
                                   RETURN returnType IS codeBlock 
-                                FUNCTION? SEMI pragmaList                                 -> ^( OBJECT_SERVICE_DEFINITION[$func]
+                                FUNCTION? SEMI pragmaList                                 -> ^( OBJECT_SERVICE_DEFINITION[$codeBlock.text]
+                                                                                                SERVICE_TYPE[$func.text]
                                                                                                 serviceVisibility 
                                                                                                 serviceType? 
                                                                                                 domainName 
@@ -860,10 +904,11 @@ objectFunctionDefinition      : serviceVisibility serviceType func=FUNCTION
                               ;
 
 
-stateDefinition               : stateType STATE 
+stateDefinition               : description
+                                stateType STATE 
                                 domainName SCOPE objectName DOT stateName 
                                 parameterList IS codeBlock 
-                                STATE? SEMI pragmaList                                    -> ^( STATE_DEFINITION 
+                                STATE? SEMI pragmaList                                    -> ^( STATE_DEFINITION[$codeBlock.text]
                                                                                                 stateType 
                                                                                                 domainName 
                                                                                                 objectName 
