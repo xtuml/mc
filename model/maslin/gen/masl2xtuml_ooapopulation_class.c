@@ -45,6 +45,7 @@ masl2xtuml_ooapopulation_instanceloader( Escher_iHandle_t instance, const c_t * 
   self->processingProject = ( '0' != *avlstring[ 20 ] );
   self->current_interface_param = Escher_atoi( avlstring[ 21 ] );
   self->current_event_dataitem = Escher_atoi( avlstring[ 22 ] );
+  self->current_exp = Escher_atoi( avlstring[ 23 ] );
   return return_identifier;
 }
 
@@ -398,8 +399,15 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     }
   }
   else if ( ( Escher_strcmp( "exception", element ) == 0 ) ) {
-    /* IF ( (  != PARAM.value[0] ) ) */
-    if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
+    /* IF ( (  == PARAM.value[0] ) ) */
+    if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
+      masl2xtuml_S_EXP * s_exp=0;
+      /* SELECT any s_exp FROM INSTANCES OF S_EXP WHERE FALSE */
+      s_exp = 0;
+      /* ASSIGN ooapopulation.current_exp = s_exp */
+      ooapopulation->current_exp = s_exp;
+    }
+    else {
       /* ooapopulation.transformException( name:PARAM.value[0], visibility:PARAM.value[1] ) */
       masl2xtuml_ooapopulation_op_transformException( ooapopulation,  p_value[0], p_value[1] );
     }
@@ -9701,15 +9709,17 @@ masl2xtuml_ooapopulation_op_transformException( masl2xtuml_ooapopulation * self,
 }}}
   /* IF ( empty s_exp ) */
   if ( ( 0 == s_exp ) ) {
-    /* self.Package_newException( ep_pkg:types_pkg, name:PARAM.name ) */
-    masl2xtuml_ooapopulation_op_Package_newException( self,  types_pkg, p_name );
+    /* ASSIGN s_exp = self.Package_newException(ep_pkg:types_pkg, name:PARAM.name) */
+    s_exp = masl2xtuml_ooapopulation_op_Package_newException(self, types_pkg, p_name);
   }
+  /* ASSIGN self.current_exp = s_exp */
+  self->current_exp = s_exp;
 }
 
 /*
  * instance operation:  Package_newException
  */
-void
+masl2xtuml_S_EXP *
 masl2xtuml_ooapopulation_op_Package_newException( masl2xtuml_ooapopulation * self, masl2xtuml_EP_PKG * p_ep_pkg, c_t * p_name )
 {
   c_t * name=0;masl2xtuml_EP_PKG * ep_pkg;masl2xtuml_PE_PE * pe;masl2xtuml_S_EXP * exp;
@@ -9733,6 +9743,9 @@ masl2xtuml_ooapopulation_op_Package_newException( masl2xtuml_ooapopulation * sel
   masl2xtuml_ooapopulation_op_PackageableElement_initialize( self,  pe );
   /* ASSIGN exp.Name = name */
   exp->Name = Escher_strcpy( exp->Name, name );
+  /* RETURN exp */
+  {masl2xtuml_S_EXP * xtumlOALrv = exp;
+  return xtumlOALrv;}
 }
 
 /*

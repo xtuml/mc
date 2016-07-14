@@ -191,7 +191,10 @@ elif ( "event" == element )
     ooapopulation.transformEvent(name:param.value[0], type:param.value[1]);
   end if;
 elif ( "exception" == element )
-  if ( "" != param.value[0] )
+  if ( "" == param.value[0] )
+    select any s_exp from instances of S_EXP where ( false );
+    ooapopulation.current_exp = s_exp;
+  else
     ooapopulation.transformException(name:param.value[0], visibility:param.value[1] );
   end if;
 elif ( "type" == element )
@@ -8592,8 +8595,11 @@ select any s_exp related by types_pkg->PE_PE[R8000]->S_EXP[R8001] where (selecte
 
 if ( empty s_exp )
   // The exception doesn''t already exist, create it
-  self.Package_newException(ep_pkg:types_pkg, name:param.name);
+  s_exp = self.Package_newException(ep_pkg:types_pkg, name:param.name);
 end if;
+
+// cache the exception
+self.current_exp = s_exp;
 ',
 	1,
 	'',
@@ -8621,7 +8627,7 @@ INSERT INTO O_TFR
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
 	'Package_newException',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"47b02a5f-ecfb-49c6-bf1a-6e4a2ff6de02",
 	1,
 	'ep_pkg = param.ep_pkg;
 name = param.name;
@@ -8633,7 +8639,9 @@ relate exp to pe across R8001;
 relate pe to ep_pkg across R8000;
 pe.type = ElementTypeConstants::EXCEPTION;
 self.PackageableElement_initialize(pe_pe:pe);
-exp.Name = name;',
+exp.Name = name;
+
+return exp;',
 	1,
 	'',
 	"dff68b05-f692-4f7e-8745-e96def65ae8a");
@@ -8655,6 +8663,13 @@ INSERT INTO O_TPARM
 	'',
 	"912eb408-5d0f-4901-bd62-967f9eba6f23",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("47b02a5f-ecfb-49c6-bf1a-6e4a2ff6de02",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Exception>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
@@ -9108,6 +9123,24 @@ INSERT INTO O_ATTR
 	"9067a5b1-aa5d-499a-b13e-9bde5fc3e2cd",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("56d7bc13-3616-4b03-b542-37bab510c37e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("56d7bc13-3616-4b03-b542-37bab510c37e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("56d7bc13-3616-4b03-b542-37bab510c37e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"7f60e0fb-00d4-450d-9815-2fe3c849f298",
+	'current_exp',
+	'',
+	'',
+	'current_exp',
+	0,
+	"47b02a5f-ecfb-49c6-bf1a-6e4a2ff6de02",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
@@ -9123,3 +9156,11 @@ INSERT INTO PE_PE
 	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
 	"00000000-0000-0000-0000-000000000000",
 	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'masl2xtuml',
+	'',
+	0,
+	'../masl2xtuml.xtuml');

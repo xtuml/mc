@@ -96,8 +96,8 @@ if ( "project" == param.type or
      //"regularrel" == param.type or			// TODO not implemented
      //"associative" == param.type or			// TODO not implemented
      //"subsuper" == param.type or				// TODO not implemented
-     "type" == param.type
-     //"exception" == param.type or				// TODO not implemented
+     "type" == param.type or
+     "exception" == param.type
     )
   return true;
 else
