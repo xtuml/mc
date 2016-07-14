@@ -369,7 +369,7 @@ structureComponentDefinition
                                    componentName
                                    typeReference
                                    expression?
-                                   pragmaList[""]
+                                   pragmaList["omit"]
                                  )                          
                               ;
 
@@ -1317,19 +1317,23 @@ pragma[String list]
                               : ^( PRAGMA
                                    pragmaName               
                                                             {
-                                                                args[0] = $pragmaName.name;
-                                                                args[1] = list;
-                                                                populate( "pragma", args );
+                                                                if ( !list.equals("omit") ) {
+                                                                    args[0] = $pragmaName.name;
+                                                                    args[1] = list;
+                                                                    populate( "pragma", args );
+                                                                }
                                                             }
                                    ( pragmaValue            
                                                             {
-                                                                args[0] = $pragmaValue.value;
-                                                                populate( "pragmaitem", args );
+                                                                if ( !list.equals("omit") ) {
+                                                                    args[0] = $pragmaValue.value;
+                                                                    populate( "pragmaitem", args );
+                                                                }
                                                             } 
                                    )*
                                  )                          
                                                             {
-                                                                populate( "pragma", args ); // end pragma
+                                                                if ( !list.equals("omit") ) populate( "pragma", args ); // end pragma
                                                             }
                               ;
 
@@ -1560,7 +1564,7 @@ statement
                                    | whileStatement         
                                    |                        
                                    )
-                                   pragmaList[""]               
+                                   pragmaList["omit"]               
                                  )
                               ;
 
@@ -1832,7 +1836,7 @@ variableDeclaration
                                    READONLY?
                                    typeReference
                                    expression?
-                                   pragmaList[""] )             
+                                   pragmaList["omit"] )             
                               ;
 
 

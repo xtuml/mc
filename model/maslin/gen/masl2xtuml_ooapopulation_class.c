@@ -2089,39 +2089,53 @@ masl2xtuml_ooapopulation_op_transformType( masl2xtuml_ooapopulation * self, c_t 
   if ( ( ( 0 == sys_s_dt ) && ( 0 == s_dt ) ) ) {
     /* self.Package_newDatatype( definition:PARAM.definition, ep_pkg:types_pkg, type_name:PARAM.name ) */
     masl2xtuml_ooapopulation_op_Package_newDatatype( self,  p_definition, types_pkg, p_name );
-    /* SELECT any sys_s_dt RELATED BY systypes_pkg->PE_PE[R8000]->S_DT[R8001] WHERE ( ( SELECTED.Name == PARAM.name ) ) */
-    sys_s_dt = 0;
-    {    if ( 0 != systypes_pkg ) {
+  }
+  else {
+    /* IF ( (  != PARAM.definition ) ) */
+    if ( ( Escher_strcmp( "", p_definition ) != 0 ) ) {
+      /* IF ( not_empty sys_s_dt ) */
+      if ( ( 0 != sys_s_dt ) ) {
+        /* ASSIGN sys_s_dt.Descrip = ( ( ( sys_s_dt.Descrip + <definition> ) + PARAM.definition ) + </definition>\n ) */
+        sys_s_dt->Descrip = Escher_strcpy( sys_s_dt->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( sys_s_dt->Descrip, "<definition>" ), p_definition ), "</definition>\n" ) );
+      }
+      else {
+        /* ASSIGN s_dt.Descrip = ( ( ( s_dt.Descrip + <definition> ) + PARAM.definition ) + </definition>\n ) */
+        s_dt->Descrip = Escher_strcpy( s_dt->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( s_dt->Descrip, "<definition>" ), p_definition ), "</definition>\n" ) );
+      }
+    }
+  }
+  /* SELECT any sys_s_dt RELATED BY systypes_pkg->PE_PE[R8000]->S_DT[R8001] WHERE ( ( SELECTED.Name == PARAM.name ) ) */
+  sys_s_dt = 0;
+  {  if ( 0 != systypes_pkg ) {
+  masl2xtuml_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &systypes_pkg->PE_PE_R8000_contains );
+  while ( ( 0 == sys_s_dt ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {masl2xtuml_S_DT * selected = (masl2xtuml_S_DT *) PE_PE_R8000_contains->R8001_subtype;
+  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, p_name ) == 0 ) ) {
+    sys_s_dt = selected;
+  }}
+}}}
+  /* IF ( empty sys_s_dt ) */
+  if ( ( 0 == sys_s_dt ) ) {
+    /* SELECT any s_dt RELATED BY types_pkg->PE_PE[R8000]->S_DT[R8001] WHERE ( ( SELECTED.Name == PARAM.name ) ) */
+    s_dt = 0;
+    {    if ( 0 != types_pkg ) {
     masl2xtuml_PE_PE * PE_PE_R8000_contains;
     Escher_Iterator_s iPE_PE_R8000_contains;
-    Escher_IteratorReset( &iPE_PE_R8000_contains, &systypes_pkg->PE_PE_R8000_contains );
-    while ( ( 0 == sys_s_dt ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+    Escher_IteratorReset( &iPE_PE_R8000_contains, &types_pkg->PE_PE_R8000_contains );
+    while ( ( 0 == s_dt ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
     if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )    {masl2xtuml_S_DT * selected = (masl2xtuml_S_DT *) PE_PE_R8000_contains->R8001_subtype;
     if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, p_name ) == 0 ) ) {
-      sys_s_dt = selected;
+      s_dt = selected;
     }}
 }}}
-    /* IF ( empty sys_s_dt ) */
-    if ( ( 0 == sys_s_dt ) ) {
-      /* SELECT any s_dt RELATED BY types_pkg->PE_PE[R8000]->S_DT[R8001] WHERE ( ( SELECTED.Name == PARAM.name ) ) */
-      s_dt = 0;
-      {      if ( 0 != types_pkg ) {
-      masl2xtuml_PE_PE * PE_PE_R8000_contains;
-      Escher_Iterator_s iPE_PE_R8000_contains;
-      Escher_IteratorReset( &iPE_PE_R8000_contains, &types_pkg->PE_PE_R8000_contains );
-      while ( ( 0 == s_dt ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
-      if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )      {masl2xtuml_S_DT * selected = (masl2xtuml_S_DT *) PE_PE_R8000_contains->R8001_subtype;
-      if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, p_name ) == 0 ) ) {
-        s_dt = selected;
-      }}
-}}}
-      /* ASSIGN self.current_type = s_dt */
-      self->current_type = s_dt;
-    }
-    else {
-      /* ASSIGN self.current_type = sys_s_dt */
-      self->current_type = sys_s_dt;
-    }
+    /* ASSIGN self.current_type = s_dt */
+    self->current_type = s_dt;
+  }
+  else {
+    /* ASSIGN self.current_type = sys_s_dt */
+    self->current_type = sys_s_dt;
   }
 }
 
@@ -2159,8 +2173,8 @@ masl2xtuml_ooapopulation_op_Package_newDatatype( masl2xtuml_ooapopulation * self
   masl2xtuml_IDLINK_stitchID( p_type_name, pe, dt, udt );
   /* IF ( (  != PARAM.definition ) ) */
   if ( ( Escher_strcmp( "", p_definition ) != 0 ) ) {
-    /* ASSIGN dt.Descrip = ( ( ( dt.Descrip + <definition> ) + PARAM.definition ) + </definition> ) */
-    dt->Descrip = Escher_strcpy( dt->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( dt->Descrip, "<definition>" ), p_definition ), "</definition>" ) );
+    /* ASSIGN dt.Descrip = ( ( ( dt.Descrip + <definition> ) + PARAM.definition ) + </definition>\n ) */
+    dt->Descrip = Escher_strcpy( dt->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( dt->Descrip, "<definition>" ), p_definition ), "</definition>\n" ) );
   }
 }
 

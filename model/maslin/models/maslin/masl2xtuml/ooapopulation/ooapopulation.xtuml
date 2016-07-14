@@ -1655,15 +1655,24 @@ select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.
 if ( (empty sys_s_dt) and (empty s_dt) )
   // The type doesn''t already exist, create it
   self.Package_newDatatype(ep_pkg:types_pkg, type_name:param.name, definition:param.definition);
-  
-  // Cache the new type
-  select any sys_s_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
-  if ( empty sys_s_dt )
-  	select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
-  	self.current_type = s_dt;
-  else
-  	self.current_type = sys_s_dt;
+else
+  // update the type definition
+  if ( "" != param.definition )
+    if ( not_empty sys_s_dt )
+	  sys_s_dt.Descrip = sys_s_dt.Descrip + "<definition>" + param.definition + "</definition>\n";
+	else
+	  s_dt.Descrip = s_dt.Descrip + "<definition>" + param.definition + "</definition>\n";
+	end if;
   end if;
+end if;
+
+// Cache the new type
+select any sys_s_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
+if ( empty sys_s_dt )
+	select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
+	self.current_type = s_dt;
+else
+	self.current_type = sys_s_dt;
 end if;
 ',
 	1,
@@ -1724,7 +1733,7 @@ IDLINK::stitchID( name:param.type_name, pe_pe:pe, s_dt:dt, s_udt:udt );
 
 // For complex MASL types we store the definition in the description
 if ( "" != param.definition )
-  dt.Descrip = dt.Descrip + "<definition>" + param.definition + "</definition>";
+  dt.Descrip = dt.Descrip + "<definition>" + param.definition + "</definition>\n";
 end if;',
 	1,
 	'',
