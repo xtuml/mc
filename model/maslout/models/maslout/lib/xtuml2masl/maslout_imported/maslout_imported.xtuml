@@ -3036,6 +3036,7 @@ for each s_exp in s_exps
   value[0] = s_exp.Name;
   value[1] = "private";
   out::populate( element:"exception", value:value );
+  s_exp.Descrip = ::parsepragmas( s:s_exp.Descrip, list:"" );
   out::populate( element:"exception", value:emptyvalue );
 end for;
 
@@ -3046,6 +3047,7 @@ for each s_exp in s_exps
   value[0] = s_exp.Name;
   value[1] = "public";
   out::populate( element:"exception", value:value );
+  s_exp.Descrip = ::parsepragmas( s:s_exp.Descrip, list:"" );
   out::populate( element:"exception", value:emptyvalue );
 end for;
 
@@ -3057,6 +3059,7 @@ while ( not_empty sub_pkgs )
 	value[0] = s_exp.Name;
 	value[1] = "public";
 	out::populate( element:"exception", value:value );
+    s_exp.Descrip = ::parsepragmas( s:s_exp.Descrip, list:"" );
 	out::populate( element:"exception", value:emptyvalue );
   end for;
   select many sub_pkgs related by sub_pkgs->PE_PE[R8000]->EP_PKG[R8001];
