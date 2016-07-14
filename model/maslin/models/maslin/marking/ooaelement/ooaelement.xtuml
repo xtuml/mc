@@ -90,7 +90,7 @@ if ( "project" == param.type or
      "operation" == param.type or
      "state" == param.type or
      "attribute" == param.type or
-     //"identifier" == param.type or			// TODO not implemented
+     "identifier" == param.type or
      "transitiontable" == param.type or
      "event" == param.type or
      //"regularrel" == param.type or			// TODO not implemented

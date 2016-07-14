@@ -163,6 +163,20 @@ if ( not_empty population )
     		  TRACE::log( flavor:"failure", id:71, message:"Could not obtain markable." );
     		  ooaelement::trace( population: population );
 			end if;
+		elif ( "identifier" == element.type )
+			obj = population.current_class;
+			if ( not_empty obj )
+			  if ( 1 == population.processingIdentifier )
+			    obj.Descrip = obj.Descrip + "<identifier2>\n  " + pragma_string + "</identifier2>\n\n";
+			  elif ( 2 == population.processingIdentifier )
+			    obj.Descrip = obj.Descrip + "<identifier3>\n  " + pragma_string + "</identifier3>\n\n";
+			  else
+    		    TRACE::log( flavor:"failure", id:73, message:"Invalid identifier number." );
+			  end if;
+			else
+    		  TRACE::log( flavor:"failure", id:72, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
 		else
 		  TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + element.type + "''" );
 		end if;
