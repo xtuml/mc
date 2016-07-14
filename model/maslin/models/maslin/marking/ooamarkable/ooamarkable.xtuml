@@ -68,12 +68,22 @@ if ( not_empty population )
     		  ooaelement::trace( population: population );
 			end if;
 		elif ( "domain" == element.type )
-			domain = population.current_component;
-			if ( not_empty domain )
-			  domain.Descrip = domain.Descrip + pragma_string;
+		    if ( population.processingProject )
+			  domain = population.current_imported_component;
+			  if ( not_empty domain )
+				domain.Descrip = domain.Descrip + pragma_string;
+			  else
+				TRACE::log( flavor:"failure", id:59, message:"Could not obtain markable." );
+				ooaelement::trace( population: population );
+			  end if;
 			else
-    		  TRACE::log( flavor:"failure", id:61, message:"Could not obtain markable." );
-    		  ooaelement::trace( population: population );
+			  domain = population.current_component;
+			  if ( not_empty domain )
+				domain.Descrip = domain.Descrip + pragma_string;
+			  else
+				TRACE::log( flavor:"failure", id:61, message:"Could not obtain markable." );
+				ooaelement::trace( population: population );
+			  end if;
 			end if;
 		elif ( "terminator" == element.type )
 			interface = population.current_interface;

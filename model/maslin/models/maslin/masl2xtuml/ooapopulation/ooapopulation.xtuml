@@ -579,7 +579,7 @@ if ( self.processingProject )
   lib_pkg = self.lib_pkg;
   if ( not_empty lib_pkg )
     cl_ic = self.Package_newImportedComponent(ep_pkg:lib_pkg);
-    cl_ic.Descrip = "name:" + param.name;
+    cl_ic.Descrip = "name:" + param.name + "\n";
     cl_ic.Name = param.name;
     self.current_imported_component = cl_ic;
   end if;
@@ -6216,6 +6216,32 @@ elif ( "codeblock" == element )
   c_ep = ooapopulation.current_executable_property;
   if ( not_empty c_ep )
     c_ep.Descrip = "<codeblock>" + param.value[0] + "</codeblock>";
+  end if;
+elif ( "pragma" == element )
+  if ( "" == param.value[0] )
+    select any pragma from instances of ooapragma where (false);
+    ooapopulation.current_pragma = pragma;
+  else
+  	select one parent_element related by ooapopulation->ooaelement[R3801]->ooaelement[R3805.''child of''];
+  	if ( not_empty parent_element )
+      if ( ooaelement::ismarkable( type: parent_element.type ) )		// ignore pragma if we are not on a markable element
+        select one markable related by parent_element->ooamarkable[R3806];
+        ooapopulation.current_pragma = ooapragma::populate( name:value[0], list:value[1], markable:markable );
+      end if;
+  	else
+      TRACE::log( flavor:"failure", id:56, message:"Element stack is malformed." );
+      ooaelement::trace( population: ooapopulation );
+    end if;
+  end if;
+elif ( "pragmaitem" == element )
+  select one current_element related by ooapopulation->ooaelement[R3801];
+  if ( not_empty current_element )
+    if ( "pragma" == current_element.type )	// ignore if not child of pragma
+      ooapragma_item::populate( value:value[0], pragma:ooapopulation.current_pragma );
+    end if;
+  else
+    TRACE::log( flavor:"failure", id:57, message:"Element stack is malformed." );
+    ooaelement::trace( population: ooapopulation );
   end if;
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
