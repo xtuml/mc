@@ -93,12 +93,18 @@ if ( not_empty population )
     		  ooaelement::trace( population: population );
 			end if;
 		elif ( "routine" == element.type )
-			routine = population.current_domain_function;
-			if ( not_empty routine )
-			  routine.Descrip = routine.Descrip + pragma_string;
+			routine1 = population.current_domain_function;
+			if ( not_empty routine1 )
+			  routine1.Descrip = routine1.Descrip + pragma_string;
 			else
-    		  TRACE::log( flavor:"failure", id:64, message:"Could not obtain markable." );
-    		  ooaelement::trace( population: population );
+			  routine2 = population.current_executable_property;
+			  select one c_io related by routine2->C_IO[R4004];
+			  if ( not_empty c_io )
+				c_io.Descrip = c_io.Descrip + pragma_string;
+			  else
+				TRACE::log( flavor:"failure", id:64, message:"Could not obtain markable." );
+				ooaelement::trace( population: population );
+			  end if;
 			end if;
 		elif ( "operation" == element.type )
 			operation = population.current_class_op;
