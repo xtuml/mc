@@ -177,6 +177,8 @@ if ( not_empty population )
     		  TRACE::log( flavor:"failure", id:72, message:"Could not obtain markable." );
     		  ooaelement::trace( population: population );
 			end if;
+		elif ( "regularrel" == element.type or "associative" == element.type or "subsuper" == element.type )
+		    population.current_rel.description = population.current_rel.description + pragma_string;
 		else
 		  TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + element.type + "''" );
 		end if;

@@ -93,9 +93,9 @@ if ( "project" == param.type or
      "identifier" == param.type or
      "transitiontable" == param.type or
      "event" == param.type or
-     //"regularrel" == param.type or			// TODO not implemented
-     //"associative" == param.type or			// TODO not implemented
-     //"subsuper" == param.type or				// TODO not implemented
+     "regularrel" == param.type or
+     "associative" == param.type or
+     "subsuper" == param.type or
      "type" == param.type or
      "exception" == param.type
     )
