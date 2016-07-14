@@ -87,12 +87,22 @@ if ( not_empty population )
 			end if;
 		elif ( "terminator" == element.type )
 			interface = population.current_interface;
-			select any terminator related by interface->C_IR[R4012]->C_R[R4009];
-			if ( not_empty terminator )
-			  terminator.Descrip = terminator.Descrip + pragma_string;
+			select any terminator1 related by interface->C_IR[R4012]->C_R[R4009];
+			if ( not_empty terminator1 )
+			  terminator1.Descrip = terminator1.Descrip + pragma_string;
 			else
-    		  TRACE::log( flavor:"failure", id:62, message:"Could not obtain markable." );
-    		  ooaelement::trace( population: population );
+			  c_c = population.current_component;
+			  select any c_po from instances of C_PO where ( false );
+			  if ( not_empty interface )
+			    select any c_po related by c_c->C_PO[R4010] where ( selected.Name == interface.Name );
+			  end if;
+			  select any terminator2 related by c_po->C_IR[R4016]->C_P[R4009];
+			  if ( not_empty terminator2 )
+				terminator2.Descrip = terminator2.Descrip + pragma_string;
+			  else
+    		    TRACE::log( flavor:"failure", id:62, message:"Could not obtain markable." );
+    		    ooaelement::trace( population: population );
+    		  end if;
 			end if;
 		elif ( "object" == element.type )
 			obj = population.current_class;
