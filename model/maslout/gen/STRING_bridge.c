@@ -187,18 +187,23 @@ STRING_indexof( c_t * p_haystack, c_t * p_needle )
  * Bridge:  getword
  */
 c_t *
-STRING_getword( const i_t p_i, c_t * p_s )
+STRING_getword( const i_t p_i, const i_t p_j, c_t * p_s )
 {
   c_t result[ESCHER_SYS_MAX_STRING_LEN];
   result[0] = '\0';
 
-  // check arguments
   i_t len = (i_t)Escher_strlen( p_s );
-  if ( !(p_i < 0 || p_i > len - 1) ) {
+
+  i_t lim = p_j;
+  // if j is -1, it just means the full length of the string
+  if ( -1 == lim ) lim = len;
+
+  // check arguments
+  if ( !(p_i < 0 || p_i > len - 1) && !(lim < 0 || lim > len) ) {
 
     c_t * w_begin;
     c_t * w_end;
-    
+
     // find the first non comma, whitespace, or close parenthesis
     w_begin = p_s + p_i;
     while ( w_begin - p_s < len ) {
@@ -225,22 +230,23 @@ STRING_getword( const i_t p_i, c_t * p_s )
       w_end++;
     }
 
-    // copy the substring into the result
-    //Escher_strcpy( result, STRING_substr( (const i_t)(w_begin - p_s), (const i_t)(w_end - p_s), p_s ) );
-    c_t * sub = STRING_substr( (const i_t)(w_begin - p_s), (const i_t)(w_end - p_s), p_s );
+    if ( (w_begin - p_s) < lim && (w_end - p_s) < lim ) {
+      // copy the substring into the result
+      //Escher_strcpy( result, STRING_substr( (const i_t)(w_begin - p_s), (const i_t)(w_end - p_s), p_s ) );
+      c_t * sub = STRING_substr( (const i_t)(w_begin - p_s), (const i_t)(w_end - p_s), p_s );
 
-    // Escher_strcpy
-    c_t * dst = result;
-    c_t * src = sub;
-    if ( 0 != src ) {
-      Escher_size_t i = Escher_strlen( src ) + 1;
-      while ( ( i > 0 ) && ( *src != '\0' ) ) {
-        --i;
-        *dst++ = *src++;
+      // Escher_strcpy
+      c_t * dst = result;
+      c_t * src = sub;
+      if ( 0 != src ) {
+        Escher_size_t i = Escher_strlen( src ) + 1;
+        while ( ( i > 0 ) && ( *src != '\0' ) ) {
+          --i;
+          *dst++ = *src++;
+        }
+        *dst = '\0';  /* Ensure delimiter.  */
       }
-      *dst = '\0';  /* Ensure delimiter.  */
     }
-    //
     
   }
 

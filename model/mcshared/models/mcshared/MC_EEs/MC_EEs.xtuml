@@ -966,8 +966,8 @@ INSERT INTO S_BRG
 	VALUES ("9fced7a5-892c-4f70-8963-5f9550294058",
 	"bb9efba5-486a-4a39-a358-d0e112844c11",
 	'getword',
-	'returns the first word in the input string s starting at index i.
-if no identifier is found, or i is an invalid index, empty string is returned.
+	'returns the first word in the input string s starting at index i, ending at index j
+if no identifier is found, or i/j is an invalid index, empty string is returned.
 
 words are delimited by ",", " ", "\n", "\r", "\t", "(", ")"',
 	0,
@@ -992,6 +992,15 @@ INSERT INTO S_BPARM
 	0,
 	'',
 	"a0b5e259-b7bb-47ee-8243-7ad1643e7bcb",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("06c594bc-27b7-476f-89ea-e97e9496853e",
+	"9fced7a5-892c-4f70-8963-5f9550294058",
+	'j',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"33507f1a-3fea-433a-900f-b01982eafae6",
 	'');
 INSERT INTO S_BRG
 	VALUES ("76558700-f8ad-4c3a-9aad-2aab091c1410",

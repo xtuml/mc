@@ -739,6 +739,7 @@ for each s_dt in s_dts
       s_dt.Descrip = descrip_start + descrip_end;
   
       out::populate( element:"type", value:value );
+      s_dt.Descrip = ::parsepragmas( s:s_dt.Descrip, list:"" );
       ::Descrip2description( Descrip:s_dt.Descrip );
       out::populate( element:"type", value:emptyvalue );
     end if;
@@ -762,6 +763,7 @@ for each s_dt in s_dts
 	s_dt.Descrip = descrip_start + descrip_end;
 
     out::populate( element:"type", value:value );
+    s_dt.Descrip = ::parsepragmas( s:s_dt.Descrip, list:"" );
     ::Descrip2description( Descrip:s_dt.Descrip );
     out::populate( element:"type", value:emptyvalue );
   end if;
@@ -785,6 +787,7 @@ while ( not_empty sub_pkgs )
       s_dt.Descrip = descrip_start + descrip_end;
 
 	  out::populate( element:"type", value:value );
+      s_dt.Descrip = ::parsepragmas( s:s_dt.Descrip, list:"" );
       ::Descrip2description( Descrip:s_dt.Descrip );
 	  out::populate( element:"type", value:emptyvalue );
 	end if;
@@ -2222,7 +2225,7 @@ return_string = STRING::substr( s:string, begin:0, end:i );
 string = STRING::substr( s:string, begin:i, end:-1 );
 while ( -1 != i )	// keep looping as long as we find the keyword pragma
 
-  value[0] = STRING::getword( s:string, i:6 );			// get the name
+  value[0] = STRING::getword( s:string, i:6, j:-1 );			// get the name
   value[1] = list;
   out::populate( element:"pragma", value:value );
   
@@ -2230,9 +2233,12 @@ while ( -1 != i )	// keep looping as long as we find the keyword pragma
   k = STRING::indexof( haystack:string, needle:")" );
   while ( not ( -1 == j or j > k ) and -1 != k )
     string = STRING::substr( s:string, begin:j+1, end:-1 );
-    value[0] = STRING::getword( s:string, i:1 );
+    k = STRING::indexof( haystack:string, needle:")" );
+    value[0] = STRING::getword( s:string, i:0, j:k );
     value[1] = "";
-    out::populate( element:"pragmaitem", value:value );
+    if ( "" != STRING::trim( s:value[0] ) )
+      out::populate( element:"pragmaitem", value:value );
+    end if;
     j = STRING::indexof( haystack:string, needle:"," );
   end while;
   k = STRING::indexof( haystack:string, needle:")" );
