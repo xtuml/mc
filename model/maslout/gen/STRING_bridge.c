@@ -230,7 +230,7 @@ STRING_getword( const i_t p_i, const i_t p_j, c_t * p_s )
       w_end++;
     }
 
-    if ( (w_begin - p_s) < lim && (w_end - p_s) < lim ) {
+    if ( (w_begin - p_s) < lim && (w_end - p_s) <= lim ) {
       // copy the substring into the result
       //Escher_strcpy( result, STRING_substr( (const i_t)(w_begin - p_s), (const i_t)(w_end - p_s), p_s ) );
       c_t * sub = STRING_substr( (const i_t)(w_begin - p_s), (const i_t)(w_end - p_s), p_s );
