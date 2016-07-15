@@ -523,9 +523,19 @@ for each o_obj in o_objs
     ::statemachine2statemachine( o_obj:o_obj, sm_sm:sm_sm, type:"assigner" );
   end if;
   
-  // render the pragmas to SMASL
-  o_obj.Descrip = ::parsepragmas( s:o_obj.Descrip, list:"definition" );
-  
+  // output pragmas
+  search_term = "definition";
+  len = STRING::strlen( s:search_term );
+  i = STRING::indexof( haystack:o_obj.Descrip, needle:"<"+search_term+">" );
+  j = STRING::indexof( haystack:o_obj.Descrip, needle:"</"+search_term+">" );
+  if ( -1 != i and -1 != j and j > i )
+	pragma_string = STRING::substr( s:o_obj.Descrip, begin:i+len+2, end:j );
+	s = ::parsepragmas( s:pragma_string, list:search_term );
+	descrip_begin = STRING::substr( s:o_obj.Descrip, begin:0, end:i );
+	descrip_end = STRING::substr( s:o_obj.Descrip, begin:j+len+3, end:-1 );
+	o_obj.Descrip = descrip_begin + descrip_end;
+  end if;
+
   // output the description
   ::Descrip2description( Descrip:o_obj.Descrip );
   
@@ -2336,6 +2346,20 @@ select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_
 for each o_obj in o_objs
   value[0] = o_obj.Name;
   out::populate( element:"object", value:value );
+
+  // output pragmas
+  search_term = "declaration";
+  len = STRING::strlen( s:search_term );
+  i = STRING::indexof( haystack:o_obj.Descrip, needle:"<"+search_term+">" );
+  j = STRING::indexof( haystack:o_obj.Descrip, needle:"</"+search_term+">" );
+  if ( -1 != i and -1 != j and j > i )
+	pragma_string = STRING::substr( s:o_obj.Descrip, begin:i+len+2, end:j );
+	s = ::parsepragmas( s:pragma_string, list:search_term );
+	descrip_begin = STRING::substr( s:o_obj.Descrip, begin:0, end:i );
+	descrip_end = STRING::substr( s:o_obj.Descrip, begin:j+len+3, end:-1 );
+	o_obj.Descrip = descrip_begin + descrip_end;
+  end if;
+
   out::populate( element:"object", value:emptyvalue );
 end for;
 ',
