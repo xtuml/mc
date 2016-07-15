@@ -969,7 +969,7 @@ transitionRow
                                    startState
                                    ( transitionOption[$startState.name]
                                    )+
-                                   pragmaList[$startState.name + "_pragmalist"]
+                                   pragmaList[$startState.name]
                                 )                           
                               ;
 
