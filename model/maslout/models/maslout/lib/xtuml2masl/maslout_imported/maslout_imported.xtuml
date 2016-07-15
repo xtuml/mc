@@ -1225,22 +1225,22 @@ if ( "assigner" != param.type )
 	  value[4] = sm_state.Name;
 	end if;
 	out::populate( element:"transition", value:value );
-	
-	// output transition row pragmas
-    search_term = "Non_Existent";
-    len = STRING::strlen( s:search_term );
-    i = STRING::indexof( haystack:sm_sm.Descrip, needle:"<"+search_term+">" );
-    j = STRING::indexof( haystack:sm_sm.Descrip, needle:"</"+search_term+">" );
-    if ( -1 != i and -1 != j and j > i )
-      pragma_string = STRING::substr( s:sm_sm.Descrip, begin:i+len+2, end:j );
-      s = ::parsepragmas( s:pragma_string, list:search_term );
-      descrip_begin = STRING::substr( s:sm_sm.Descrip, begin:0, end:i );
-      descrip_end = STRING::substr( s:sm_sm.Descrip, begin:j+len+3, end:-1 );
-      sm_sm.Descrip = descrip_begin + descrip_end;
-    end if;
-	
 	out::populate( element:"transition", value:emptyvalue );
   end for;
+	
+  // output transition row pragmas
+  search_term = "Non_Existent";
+  len = STRING::strlen( s:search_term );
+  i = STRING::indexof( haystack:sm_sm.Descrip, needle:"<"+search_term+">" );
+  j = STRING::indexof( haystack:sm_sm.Descrip, needle:"</"+search_term+">" );
+  if ( -1 != i and -1 != j and j > i )
+	pragma_string = STRING::substr( s:sm_sm.Descrip, begin:i+len+2, end:j );
+	s = ::parsepragmas( s:pragma_string, list:search_term );
+	descrip_begin = STRING::substr( s:sm_sm.Descrip, begin:0, end:i );
+	descrip_end = STRING::substr( s:sm_sm.Descrip, begin:j+len+3, end:-1 );
+	sm_sm.Descrip = descrip_begin + descrip_end;
+  end if;
+
 end if;
 
 select many sm_states related by sm_sm->SM_STATE[R501];
@@ -1270,22 +1270,22 @@ for each sm_state in sm_states
       end if;
     end if;
     out::populate( element:"transition", value:value );
-	
-	// output transition row pragmas
-    search_term = sm_state.Name;
-    len = STRING::strlen( s:search_term );
-    i = STRING::indexof( haystack:sm_sm.Descrip, needle:"<"+search_term+">" );
-    j = STRING::indexof( haystack:sm_sm.Descrip, needle:"</"+search_term+">" );
-    if ( -1 != i and -1 != j and j > i )
-      pragma_string = STRING::substr( s:sm_sm.Descrip, begin:i+len+2, end:j );
-      s = ::parsepragmas( s:pragma_string, list:search_term );
-      descrip_begin = STRING::substr( s:sm_sm.Descrip, begin:0, end:i );
-      descrip_end = STRING::substr( s:sm_sm.Descrip, begin:j+len+3, end:-1 );
-      sm_sm.Descrip = descrip_begin + descrip_end;
-    end if;
-	
     out::populate( element:"transition", value:emptyvalue );
   end for;
+	
+  // output transition row pragmas
+  search_term = sm_state.Name;
+  len = STRING::strlen( s:search_term );
+  i = STRING::indexof( haystack:sm_sm.Descrip, needle:"<"+search_term+">" );
+  j = STRING::indexof( haystack:sm_sm.Descrip, needle:"</"+search_term+">" );
+  if ( -1 != i and -1 != j and j > i )
+	pragma_string = STRING::substr( s:sm_sm.Descrip, begin:i+len+2, end:j );
+	s = ::parsepragmas( s:pragma_string, list:search_term );
+	descrip_begin = STRING::substr( s:sm_sm.Descrip, begin:0, end:i );
+	descrip_end = STRING::substr( s:sm_sm.Descrip, begin:j+len+3, end:-1 );
+	sm_sm.Descrip = descrip_begin + descrip_end;
+  end if;
+	
 end for;
 
 // Populate pragmas
