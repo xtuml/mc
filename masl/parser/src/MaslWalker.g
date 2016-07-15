@@ -265,7 +265,7 @@ typeForwardDeclaration
                                                                   args[1] = $typeVisibility.visibility;
                                                                   populate( "type", args );
                                                               }
-                                   pragmaList[""]				
+                                   pragmaList["declaration"]				
                                  )                          
                                                               {
                                                                   populate( "type", args ); // end type
@@ -285,7 +285,7 @@ typeDeclaration
                                                                   populate( "type", args );
                                                               }
                                    description
-                                   pragmaList[""]				
+                                   pragmaList["definition"]				
                                    typeDefinition			
                                  )                          
                                                               {
