@@ -906,6 +906,22 @@ for each o_id in o_ids
       out::populate( element:"attribute", value:value );
       out::populate( element:"attribute", value:emptyvalue );
     end for;
+
+    // seach class description for pragmas
+    search_term = "identifier2";
+    if ( o_id.Oid_ID == 2 )
+      search_term = "identifier3";
+    end if;
+    i = STRING::indexof( haystack:o_obj.Descrip, needle:"<"+search_term+">" );
+    j = STRING::indexof( haystack:o_obj.Descrip, needle:"</"+search_term+">" );
+    if ( -1 != i and -1 != j and j > i )
+      pragma_string = STRING::substr( s:o_obj.Descrip, begin:i+12, end:j );
+      s = ::parsepragmas( s:pragma_string, list:"" );
+      descrip_begin = STRING::substr( s:o_obj.Descrip, begin:0, end:i );
+      descrip_end = STRING::substr( s:o_obj.Descrip, begin:j+14, end:-1 );
+      o_obj.Descrip = descrip_begin + descrip_end;
+    end if;
+
     out::populate( element:"identifier", value:emptyvalue );
   end if;
 end for;
