@@ -30,7 +30,7 @@ for each start_state in start_states
     separator = ",\n";
   end for;
   T::include( file:"masl/t.transitionrow_end.masl" );
-  markable.render_marking( list:start_state_name + "_pragmalist" );
+  markable.render_marking( list:start_state_name );
 end for;
 T::include( file:"masl/t.transitiontable_end.masl" );
 markable.render_marking( list:"default" );',
