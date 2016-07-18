@@ -285,7 +285,7 @@ typeDeclaration
                                                                   populate( "type", args );
                                                               }
                                    description
-                                   pragmaList["definition"]				
+                                   pragmaList[""]				
                                    typeDefinition			
                                  )                          
                                                               {
@@ -723,7 +723,7 @@ objectDefinition
                                    | transitionTable          
                                    )*
                                    description
-                                   pragmaList["definition"]                 
+                                   pragmaList[""]                 
                                  )
                                                             {
                                                                 populate( "object", args ); // end object
