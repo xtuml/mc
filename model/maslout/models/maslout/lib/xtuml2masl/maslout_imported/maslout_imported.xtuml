@@ -554,17 +554,7 @@ for each o_obj in o_objs
   end if;
   
   // output pragmas
-  search_term = "definition";
-  len = STRING::strlen( s:search_term );
-  i = STRING::indexof( haystack:o_obj.Descrip, needle:"<"+search_term+">" );
-  j = STRING::indexof( haystack:o_obj.Descrip, needle:"</"+search_term+">" );
-  if ( -1 != i and -1 != j and j > i )
-	pragma_string = STRING::substr( s:o_obj.Descrip, begin:i+len+2, end:j );
-	s = ::parsepragmas( s:pragma_string, list:search_term );
-	descrip_begin = STRING::substr( s:o_obj.Descrip, begin:0, end:i );
-	descrip_end = STRING::substr( s:o_obj.Descrip, begin:j+len+3, end:-1 );
-	o_obj.Descrip = descrip_begin + descrip_end;
-  end if;
+  o_obj.Descrip = ::parsepragmas( s:o_obj.Descrip, list:"" );
 
   // output the description
   ::Descrip2description( Descrip:o_obj.Descrip );
@@ -792,17 +782,7 @@ for each s_dt in s_dts
 		descrip_end = STRING::substr( s:s_dt.Descrip, begin:j+len+3, end:-1 );
 		s_dt.Descrip = descrip_begin + descrip_end;
 	  end if;
-	  search_term = "definition";
-	  len = STRING::strlen( s:search_term );
-	  i = STRING::indexof( haystack:s_dt.Descrip, needle:"<"+search_term+">" );
-	  j = STRING::indexof( haystack:s_dt.Descrip, needle:"</"+search_term+">" );
-	  if ( -1 != i and -1 != j and j > i )
-		pragma_string = STRING::substr( s:s_dt.Descrip, begin:i+len+2, end:j );
-		s = ::parsepragmas( s:pragma_string, list:search_term );
-		descrip_begin = STRING::substr( s:s_dt.Descrip, begin:0, end:i );
-		descrip_end = STRING::substr( s:s_dt.Descrip, begin:j+len+3, end:-1 );
-		s_dt.Descrip = descrip_begin + descrip_end;
-	  end if;
+	  s_dt.Descrip = ::parsepragmas( s:s_dt.Descrip, list:"" );
 
       ::Descrip2description( Descrip:s_dt.Descrip );
       out::populate( element:"type", value:emptyvalue );
@@ -840,17 +820,7 @@ for each s_dt in s_dts
 	  descrip_end = STRING::substr( s:s_dt.Descrip, begin:j+len+3, end:-1 );
 	  s_dt.Descrip = descrip_begin + descrip_end;
 	end if;
-	search_term = "definition";
-	len = STRING::strlen( s:search_term );
-	i = STRING::indexof( haystack:s_dt.Descrip, needle:"<"+search_term+">" );
-	j = STRING::indexof( haystack:s_dt.Descrip, needle:"</"+search_term+">" );
-	if ( -1 != i and -1 != j and j > i )
-	  pragma_string = STRING::substr( s:s_dt.Descrip, begin:i+len+2, end:j );
-	  s = ::parsepragmas( s:pragma_string, list:search_term );
-	  descrip_begin = STRING::substr( s:s_dt.Descrip, begin:0, end:i );
-	  descrip_end = STRING::substr( s:s_dt.Descrip, begin:j+len+3, end:-1 );
-	  s_dt.Descrip = descrip_begin + descrip_end;
-	end if;
+	s_dt.Descrip = ::parsepragmas( s:s_dt.Descrip, list:"" );
 
     ::Descrip2description( Descrip:s_dt.Descrip );
     out::populate( element:"type", value:emptyvalue );
@@ -888,17 +858,7 @@ while ( not_empty sub_pkgs )
 		descrip_end = STRING::substr( s:s_dt.Descrip, begin:j+len+3, end:-1 );
 		s_dt.Descrip = descrip_begin + descrip_end;
 	  end if;
-	  search_term = "definition";
-	  len = STRING::strlen( s:search_term );
-	  i = STRING::indexof( haystack:s_dt.Descrip, needle:"<"+search_term+">" );
-	  j = STRING::indexof( haystack:s_dt.Descrip, needle:"</"+search_term+">" );
-	  if ( -1 != i and -1 != j and j > i )
-		pragma_string = STRING::substr( s:s_dt.Descrip, begin:i+len+2, end:j );
-		s = ::parsepragmas( s:pragma_string, list:search_term );
-		descrip_begin = STRING::substr( s:s_dt.Descrip, begin:0, end:i );
-		descrip_end = STRING::substr( s:s_dt.Descrip, begin:j+len+3, end:-1 );
-		s_dt.Descrip = descrip_begin + descrip_end;
-	  end if;
+	  s_dt.Descrip = ::parsepragmas( s:s_dt.Descrip, list:"" );
 
       ::Descrip2description( Descrip:s_dt.Descrip );
 	  out::populate( element:"type", value:emptyvalue );

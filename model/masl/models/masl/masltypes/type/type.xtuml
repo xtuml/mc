@@ -26,7 +26,7 @@ if ( -1 != STRING::indexof( haystack:self.body, needle:self.name ) )
 end if;
 T::include( file:"masl/t.type_begin.masl" );
 T::include( file:"masl/t.type_end.masl" );
-markable.render_marking( list:"definition" );
+markable.render_marking( list:"default" );
 ',
 	1,
 	'',
