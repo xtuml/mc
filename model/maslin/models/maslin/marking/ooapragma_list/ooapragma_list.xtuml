@@ -21,6 +21,10 @@ for each pragma in pragmas
 	ret = ret + pragma.render();
 end for;
 
+if ( "default" != self.name )
+  ret = "<" + self.name + ">\n" + ret + "</" + self.name + ">\n";
+end if;
+
 return ret;',
 	1,
 	'',

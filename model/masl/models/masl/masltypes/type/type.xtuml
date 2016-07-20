@@ -18,8 +18,15 @@ INSERT INTO O_TFR
 for each descrip in descrips
   descrip.render();
 end for;
+select one markable related by self->markable[R3783];
+// check for self reference
+if ( -1 != STRING::indexof( haystack:self.body, needle:self.name ) )
+  T::include( file:"masl/t.type_fwd_decl.masl" );
+  markable.render_marking( list:"declaration" );
+end if;
 T::include( file:"masl/t.type_begin.masl" );
 T::include( file:"masl/t.type_end.masl" );
+markable.render_marking( list:"default" );
 ',
 	1,
 	'',
