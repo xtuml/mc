@@ -149,11 +149,20 @@ for each c_c in c_cs;
 	::class2object( c_c:c_c );
   end if;
   
-  // Populate pragmas
-  c_c.Descrip = ::parsepragmas( s:c_c.Descrip, list:"" );
+  if ( param.project )
+    // Populate pragmas
+    select any cl_ic related by c_c->CL_IC[R4201];
+    cl_ic.Descrip = ::parsepragmas( s:cl_ic.Descrip, list:"project" );
 
-  // output the description
-  ::Descrip2description( Descrip:c_c.Descrip );
+	// output the description
+	::Descrip2description( Descrip:cl_ic.Descrip );
+  else
+    // Populate pragmas
+    c_c.Descrip = ::parsepragmas( s:c_c.Descrip, list:"" );
+
+	// output the description
+	::Descrip2description( Descrip:c_c.Descrip );
+  end if;
   
   out::populate( element:"domain", value:emptyvalue );
 end for;
@@ -271,13 +280,22 @@ for each c_po in c_pos
 	::message2routine( c_c:c_c, c_po:c_po, project:param.project );
 
 	// Populate pragmas
-	select any c_r related by c_po->C_IR[R4016]->C_R[R4009];
-	if ( not_empty c_r )
-	  c_r.Descrip = ::parsepragmas( s:c_r.Descrip, list:"" );
+	if ( param.project )
+      select any c_p related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009];
+	  if ( not_empty c_p )
+		c_p.Descrip = ::parsepragmas( s:c_p.Descrip, list:"" );
 
-	  // output the description
-		  ::Descrip2description( Descrip:c_r.Descrip );
+		// output the description
+		::Descrip2description( Descrip:c_p.Descrip );
+	  end if;
+	else
+	  select any c_r related by c_po->C_IR[R4016]->C_R[R4009];
+	  if ( not_empty c_r )
+		c_r.Descrip = ::parsepragmas( s:c_r.Descrip, list:"" );
 
+		// output the description
+		::Descrip2description( Descrip:c_r.Descrip );
+	  end if;
 	end if;
 
 	// end terminator
@@ -380,11 +398,23 @@ for each c_ep in c_eps
   sig = ::underscore_signature(signature: ::message_getsignature( flavor:1, c_ep:c_ep ));
   ::body2code_block( name:path + "/" + port_name + "_" + sig, text:"spr_*.Action_Semantics" );
   
-  // Populate pragmas
-  c_ep.Descrip = ::parsepragmas( s:c_ep.Descrip, list: "" );
+  if ( param.project )
+    select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
 
-  // output the description
-  ::Descrip2description( Descrip:c_ep.Descrip );
+	// Populate pragmas
+	spr_po.Descrip = ::parsepragmas( s:spr_po.Descrip, list: "" );
+
+	// output the description
+	::Descrip2description( Descrip:spr_po.Descrip );
+  else
+    select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
+
+	// Populate pragmas
+	spr_ro.Descrip = ::parsepragmas( s:spr_ro.Descrip, list: "" );
+
+	// output the description
+	::Descrip2description( Descrip:spr_ro.Descrip );
+  end if;
 
   out::populate( element:"routine", value:emptyvalue );
   
@@ -523,9 +553,9 @@ for each o_obj in o_objs
     ::statemachine2statemachine( o_obj:o_obj, sm_sm:sm_sm, type:"assigner" );
   end if;
   
-  // render the pragmas to SMASL
-  o_obj.Descrip = ::parsepragmas( s:o_obj.Descrip, list:"definition" );
-  
+  // output pragmas
+  o_obj.Descrip = ::parsepragmas( s:o_obj.Descrip, list:"" );
+
   // output the description
   ::Descrip2description( Descrip:o_obj.Descrip );
   
@@ -739,6 +769,21 @@ for each s_dt in s_dts
       s_dt.Descrip = descrip_start + descrip_end;
   
       out::populate( element:"type", value:value );
+
+	  // output pragmas
+	  search_term = "declaration";
+	  len = STRING::strlen( s:search_term );
+	  i = STRING::indexof( haystack:s_dt.Descrip, needle:"<"+search_term+">" );
+	  j = STRING::indexof( haystack:s_dt.Descrip, needle:"</"+search_term+">" );
+	  if ( -1 != i and -1 != j and j > i )
+		pragma_string = STRING::substr( s:s_dt.Descrip, begin:i+len+2, end:j );
+		s = ::parsepragmas( s:pragma_string, list:search_term );
+		descrip_begin = STRING::substr( s:s_dt.Descrip, begin:0, end:i );
+		descrip_end = STRING::substr( s:s_dt.Descrip, begin:j+len+3, end:-1 );
+		s_dt.Descrip = descrip_begin + descrip_end;
+	  end if;
+	  s_dt.Descrip = ::parsepragmas( s:s_dt.Descrip, list:"" );
+
       ::Descrip2description( Descrip:s_dt.Descrip );
       out::populate( element:"type", value:emptyvalue );
     end if;
@@ -762,6 +807,21 @@ for each s_dt in s_dts
 	s_dt.Descrip = descrip_start + descrip_end;
 
     out::populate( element:"type", value:value );
+
+	// output pragmas
+	search_term = "declaration";
+	len = STRING::strlen( s:search_term );
+	i = STRING::indexof( haystack:s_dt.Descrip, needle:"<"+search_term+">" );
+	j = STRING::indexof( haystack:s_dt.Descrip, needle:"</"+search_term+">" );
+	if ( -1 != i and -1 != j and j > i )
+	  pragma_string = STRING::substr( s:s_dt.Descrip, begin:i+len+2, end:j );
+	  s = ::parsepragmas( s:pragma_string, list:search_term );
+	  descrip_begin = STRING::substr( s:s_dt.Descrip, begin:0, end:i );
+	  descrip_end = STRING::substr( s:s_dt.Descrip, begin:j+len+3, end:-1 );
+	  s_dt.Descrip = descrip_begin + descrip_end;
+	end if;
+	s_dt.Descrip = ::parsepragmas( s:s_dt.Descrip, list:"" );
+
     ::Descrip2description( Descrip:s_dt.Descrip );
     out::populate( element:"type", value:emptyvalue );
   end if;
@@ -785,6 +845,21 @@ while ( not_empty sub_pkgs )
       s_dt.Descrip = descrip_start + descrip_end;
 
 	  out::populate( element:"type", value:value );
+
+	  // output pragmas
+	  search_term = "declaration";
+	  len = STRING::strlen( s:search_term );
+	  i = STRING::indexof( haystack:s_dt.Descrip, needle:"<"+search_term+">" );
+	  j = STRING::indexof( haystack:s_dt.Descrip, needle:"</"+search_term+">" );
+	  if ( -1 != i and -1 != j and j > i )
+		pragma_string = STRING::substr( s:s_dt.Descrip, begin:i+len+2, end:j );
+		s = ::parsepragmas( s:pragma_string, list:search_term );
+		descrip_begin = STRING::substr( s:s_dt.Descrip, begin:0, end:i );
+		descrip_end = STRING::substr( s:s_dt.Descrip, begin:j+len+3, end:-1 );
+		s_dt.Descrip = descrip_begin + descrip_end;
+	  end if;
+	  s_dt.Descrip = ::parsepragmas( s:s_dt.Descrip, list:"" );
+
       ::Descrip2description( Descrip:s_dt.Descrip );
 	  out::populate( element:"type", value:emptyvalue );
 	end if;
@@ -903,6 +978,22 @@ for each o_id in o_ids
       out::populate( element:"attribute", value:value );
       out::populate( element:"attribute", value:emptyvalue );
     end for;
+
+    // seach class description for pragmas
+    search_term = "identifier2";
+    if ( o_id.Oid_ID == 2 )
+      search_term = "identifier3";
+    end if;
+    i = STRING::indexof( haystack:o_obj.Descrip, needle:"<"+search_term+">" );
+    j = STRING::indexof( haystack:o_obj.Descrip, needle:"</"+search_term+">" );
+    if ( -1 != i and -1 != j and j > i )
+      pragma_string = STRING::substr( s:o_obj.Descrip, begin:i+12, end:j );
+      s = ::parsepragmas( s:pragma_string, list:"" );
+      descrip_begin = STRING::substr( s:o_obj.Descrip, begin:0, end:i );
+      descrip_end = STRING::substr( s:o_obj.Descrip, begin:j+14, end:-1 );
+      o_obj.Descrip = descrip_begin + descrip_end;
+    end if;
+
     out::populate( element:"identifier", value:emptyvalue );
   end if;
 end for;
@@ -1198,6 +1289,20 @@ if ( "assigner" != param.type )
 	out::populate( element:"transition", value:value );
 	out::populate( element:"transition", value:emptyvalue );
   end for;
+	
+  // output transition row pragmas
+  search_term = "Non_Existent";
+  len = STRING::strlen( s:search_term );
+  i = STRING::indexof( haystack:sm_sm.Descrip, needle:"<"+search_term+">" );
+  j = STRING::indexof( haystack:sm_sm.Descrip, needle:"</"+search_term+">" );
+  if ( -1 != i and -1 != j and j > i )
+	pragma_string = STRING::substr( s:sm_sm.Descrip, begin:i+len+2, end:j );
+	s = ::parsepragmas( s:pragma_string, list:search_term );
+	descrip_begin = STRING::substr( s:sm_sm.Descrip, begin:0, end:i );
+	descrip_end = STRING::substr( s:sm_sm.Descrip, begin:j+len+3, end:-1 );
+	sm_sm.Descrip = descrip_begin + descrip_end;
+  end if;
+
 end if;
 
 select many sm_states related by sm_sm->SM_STATE[R501];
@@ -1229,6 +1334,20 @@ for each sm_state in sm_states
     out::populate( element:"transition", value:value );
     out::populate( element:"transition", value:emptyvalue );
   end for;
+	
+  // output transition row pragmas
+  search_term = sm_state.Name;
+  len = STRING::strlen( s:search_term );
+  i = STRING::indexof( haystack:sm_sm.Descrip, needle:"<"+search_term+">" );
+  j = STRING::indexof( haystack:sm_sm.Descrip, needle:"</"+search_term+">" );
+  if ( -1 != i and -1 != j and j > i )
+	pragma_string = STRING::substr( s:sm_sm.Descrip, begin:i+len+2, end:j );
+	s = ::parsepragmas( s:pragma_string, list:search_term );
+	descrip_begin = STRING::substr( s:sm_sm.Descrip, begin:0, end:i );
+	descrip_end = STRING::substr( s:sm_sm.Descrip, begin:j+len+3, end:-1 );
+	sm_sm.Descrip = descrip_begin + descrip_end;
+  end if;
+	
 end for;
 
 // Populate pragmas
@@ -2222,7 +2341,7 @@ return_string = STRING::substr( s:string, begin:0, end:i );
 string = STRING::substr( s:string, begin:i, end:-1 );
 while ( -1 != i )	// keep looping as long as we find the keyword pragma
 
-  value[0] = STRING::getword( s:string, i:6 );			// get the name
+  value[0] = STRING::getword( s:string, i:6, j:-1 );			// get the name
   value[1] = list;
   out::populate( element:"pragma", value:value );
   
@@ -2230,9 +2349,12 @@ while ( -1 != i )	// keep looping as long as we find the keyword pragma
   k = STRING::indexof( haystack:string, needle:")" );
   while ( not ( -1 == j or j > k ) and -1 != k )
     string = STRING::substr( s:string, begin:j+1, end:-1 );
-    value[0] = STRING::getword( s:string, i:1 );
+    k = STRING::indexof( haystack:string, needle:")" );
+    value[0] = STRING::getword( s:string, i:0, j:k );
     value[1] = "";
-    out::populate( element:"pragmaitem", value:value );
+    if ( "" != STRING::trim( s:value[0] ) )
+      out::populate( element:"pragmaitem", value:value );
+    end if;
     j = STRING::indexof( haystack:string, needle:"," );
   end while;
   k = STRING::indexof( haystack:string, needle:")" );
@@ -2286,6 +2408,20 @@ select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_
 for each o_obj in o_objs
   value[0] = o_obj.Name;
   out::populate( element:"object", value:value );
+
+  // output pragmas
+  search_term = "declaration";
+  len = STRING::strlen( s:search_term );
+  i = STRING::indexof( haystack:o_obj.Descrip, needle:"<"+search_term+">" );
+  j = STRING::indexof( haystack:o_obj.Descrip, needle:"</"+search_term+">" );
+  if ( -1 != i and -1 != j and j > i )
+	pragma_string = STRING::substr( s:o_obj.Descrip, begin:i+len+2, end:j );
+	s = ::parsepragmas( s:pragma_string, list:search_term );
+	descrip_begin = STRING::substr( s:o_obj.Descrip, begin:0, end:i );
+	descrip_end = STRING::substr( s:o_obj.Descrip, begin:j+len+3, end:-1 );
+	o_obj.Descrip = descrip_begin + descrip_end;
+  end if;
+
   out::populate( element:"object", value:emptyvalue );
 end for;
 ',
@@ -3036,6 +3172,7 @@ for each s_exp in s_exps
   value[0] = s_exp.Name;
   value[1] = "private";
   out::populate( element:"exception", value:value );
+  s_exp.Descrip = ::parsepragmas( s:s_exp.Descrip, list:"" );
   out::populate( element:"exception", value:emptyvalue );
 end for;
 
@@ -3046,6 +3183,7 @@ for each s_exp in s_exps
   value[0] = s_exp.Name;
   value[1] = "public";
   out::populate( element:"exception", value:value );
+  s_exp.Descrip = ::parsepragmas( s:s_exp.Descrip, list:"" );
   out::populate( element:"exception", value:emptyvalue );
 end for;
 
@@ -3057,6 +3195,7 @@ while ( not_empty sub_pkgs )
 	value[0] = s_exp.Name;
 	value[1] = "public";
 	out::populate( element:"exception", value:value );
+    s_exp.Descrip = ::parsepragmas( s:s_exp.Descrip, list:"" );
 	out::populate( element:"exception", value:emptyvalue );
   end for;
   select many sub_pkgs related by sub_pkgs->PE_PE[R8000]->EP_PKG[R8001];

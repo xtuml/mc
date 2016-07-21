@@ -54,7 +54,7 @@ end for;
 T::include( file:"masl/t.object_end.masl" );
 
 select one markable related by self->markable[R3783];
-markable.render_marking( list:"definition" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"08a62993-0de5-465c-bb72-ba84e7590350");

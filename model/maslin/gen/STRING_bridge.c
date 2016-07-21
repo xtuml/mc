@@ -188,7 +188,7 @@ STRING_indexof( c_t * p_haystack, c_t * p_needle )
  * Bridge:  getword
  */
 c_t *
-STRING_getword( const i_t p_i, c_t * p_s )
+STRING_getword( const i_t p_i, const i_t p_j, c_t * p_s )
 {
   c_t * result = 0;
   /* Insert your implementation code here... */

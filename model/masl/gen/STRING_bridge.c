@@ -186,7 +186,7 @@ STRING_indexof( c_t p_haystack[ESCHER_SYS_MAX_STRING_LEN], c_t p_needle[ESCHER_S
  * Bridge:  getword
  */
 c_t *
-STRING_getword( c_t A0xtumlsret[ESCHER_SYS_MAX_STRING_LEN], const i_t p_i, c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+STRING_getword( c_t A0xtumlsret[ESCHER_SYS_MAX_STRING_LEN], const i_t p_i, const i_t p_j, c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   c_t * result = 0;
   /* Insert your implementation code here... */

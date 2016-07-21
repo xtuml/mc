@@ -68,21 +68,41 @@ if ( not_empty population )
     		  ooaelement::trace( population: population );
 			end if;
 		elif ( "domain" == element.type )
-			domain = population.current_component;
-			if ( not_empty domain )
-			  domain.Descrip = domain.Descrip + pragma_string;
+		    if ( population.processingProject )
+			  domain = population.current_imported_component;
+			  if ( not_empty domain )
+				domain.Descrip = domain.Descrip + pragma_string;
+			  else
+				TRACE::log( flavor:"failure", id:59, message:"Could not obtain markable." );
+				ooaelement::trace( population: population );
+			  end if;
 			else
-    		  TRACE::log( flavor:"failure", id:61, message:"Could not obtain markable." );
-    		  ooaelement::trace( population: population );
+			  domain = population.current_component;
+			  if ( not_empty domain )
+				domain.Descrip = domain.Descrip + pragma_string;
+			  else
+				TRACE::log( flavor:"failure", id:61, message:"Could not obtain markable." );
+				ooaelement::trace( population: population );
+			  end if;
 			end if;
 		elif ( "terminator" == element.type )
 			interface = population.current_interface;
-			select any terminator related by interface->C_IR[R4012]->C_R[R4009];
-			if ( not_empty terminator )
-			  terminator.Descrip = terminator.Descrip + pragma_string;
+			select any terminator1 related by interface->C_IR[R4012]->C_R[R4009];
+			if ( not_empty terminator1 )
+			  terminator1.Descrip = terminator1.Descrip + pragma_string;
 			else
-    		  TRACE::log( flavor:"failure", id:62, message:"Could not obtain markable." );
-    		  ooaelement::trace( population: population );
+			  c_c = population.current_component;
+			  select any c_po from instances of C_PO where ( false );
+			  if ( not_empty interface )
+			    select any c_po related by c_c->C_PO[R4010] where ( selected.Name == interface.Name );
+			  end if;
+			  select any terminator2 related by c_po->C_IR[R4016]->C_P[R4009];
+			  if ( not_empty terminator2 )
+				terminator2.Descrip = terminator2.Descrip + pragma_string;
+			  else
+    		    TRACE::log( flavor:"failure", id:62, message:"Could not obtain markable." );
+    		    ooaelement::trace( population: population );
+    		  end if;
 			end if;
 		elif ( "object" == element.type )
 			obj = population.current_class;
@@ -93,12 +113,18 @@ if ( not_empty population )
     		  ooaelement::trace( population: population );
 			end if;
 		elif ( "routine" == element.type )
-			routine = population.current_domain_function;
-			if ( not_empty routine )
-			  routine.Descrip = routine.Descrip + pragma_string;
+			routine1 = population.current_domain_function;
+			if ( not_empty routine1 )
+			  routine1.Descrip = routine1.Descrip + pragma_string;
 			else
-    		  TRACE::log( flavor:"failure", id:64, message:"Could not obtain markable." );
-    		  ooaelement::trace( population: population );
+			  routine2 = population.current_executable_property;
+			  select one c_io related by routine2->C_IO[R4004];
+			  if ( not_empty c_io )
+				c_io.Descrip = c_io.Descrip + pragma_string;
+			  else
+				TRACE::log( flavor:"failure", id:64, message:"Could not obtain markable." );
+				ooaelement::trace( population: population );
+			  end if;
 			end if;
 		elif ( "operation" == element.type )
 			operation = population.current_class_op;
@@ -155,6 +181,30 @@ if ( not_empty population )
     		  TRACE::log( flavor:"failure", id:70, message:"Could not obtain markable." );
     		  ooaelement::trace( population: population );
 			end if;
+		elif ( "exception" == element.type )
+			exp = population.current_exp;
+			if ( not_empty exp )
+			  exp.Descrip = exp.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:71, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		elif ( "identifier" == element.type )
+			obj = population.current_class;
+			if ( not_empty obj )
+			  if ( 1 == population.processingIdentifier )
+			    obj.Descrip = obj.Descrip + "<identifier2>\n  " + pragma_string + "</identifier2>\n\n";
+			  elif ( 2 == population.processingIdentifier )
+			    obj.Descrip = obj.Descrip + "<identifier3>\n  " + pragma_string + "</identifier3>\n\n";
+			  else
+    		    TRACE::log( flavor:"failure", id:73, message:"Invalid identifier number." );
+			  end if;
+			else
+    		  TRACE::log( flavor:"failure", id:72, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		elif ( "regularrel" == element.type or "associative" == element.type or "subsuper" == element.type )
+		    population.current_rel.description = population.current_rel.description + pragma_string;
 		else
 		  TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + element.type + "''" );
 		end if;
