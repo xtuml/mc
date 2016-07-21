@@ -24,6 +24,10 @@
 void
 masl2xtuml_IDLINK_stitchID( c_t * p_name, masl2xtuml_PE_PE * p_pe_pe, masl2xtuml_S_DT * p_s_dt, masl2xtuml_S_UDT * p_s_udt )
 {
+  // TODO masltype_id represents the ID of the type 'MASLtype' created by ooapopulation.createSystem.
+  // It is initialized to be the ID of string built in type, and then updated when 'MASLtype' is processed
+  static Escher_UniqueID_t masltype_id = 0xba5ed04;
+
   /* Replace/Insert your implementation code here... */
   masl2xtuml_PE_PE * pe_pe;masl2xtuml_S_DT * s_dt;masl2xtuml_S_UDT * s_udt;
   /* ASSIGN pe_pe = PARAM.pe_pe */
@@ -107,34 +111,31 @@ masl2xtuml_IDLINK_stitchID( c_t * p_name, masl2xtuml_PE_PE * p_pe_pe, masl2xtuml
     s_udt->CDT_DT_ID = 0xba5ed0a;
   }
   else if ( ( Escher_strcmp( "device", p_name ) == 0 ) ) {
-    /* ASSIGN s_udt.CDT_DT_ID = 0xba5ed11 */
-    s_udt->CDT_DT_ID = 0xba5ed11;
+    /* ASSIGN s_udt.CDT_DT_ID = masltype_id */
+    s_udt->CDT_DT_ID = masltype_id;
   }
   else if ( ( Escher_strcmp( "enum", p_name ) == 0 ) ) {
-    /* ASSIGN s_udt.CDT_DT_ID = 0xba5ed11 */
-    s_udt->CDT_DT_ID = 0xba5ed11;
+    /* ASSIGN s_udt.CDT_DT_ID = masltype_id */
+    s_udt->CDT_DT_ID = masltype_id;
   }
   else if ( ( Escher_strcmp( "structure", p_name ) == 0 ) ) {
-    /* ASSIGN s_udt.CDT_DT_ID = 0xba5ed11 */
-    s_udt->CDT_DT_ID = 0xba5ed11;
+    /* ASSIGN s_udt.CDT_DT_ID = masltype_id */
+    s_udt->CDT_DT_ID = masltype_id;
   }
   else if ( ( Escher_strcmp( "instance", p_name ) == 0 ) ) {
-    /* ASSIGN s_udt.CDT_DT_ID = 0xba5ed11 */
-    s_udt->CDT_DT_ID = 0xba5ed11;
+    /* ASSIGN s_udt.CDT_DT_ID = masltype_id */
+    s_udt->CDT_DT_ID = masltype_id;
   }
   else if ( ( Escher_strcmp( "MASLtype", p_name ) == 0 ) ) {
-    /* ASSIGN pe_pe.Element_ID = 0xba5ed11 */
-    pe_pe->Element_ID = 0xba5ed11;
-    /* ASSIGN s_dt.DT_ID = 0xba5ed11 */
-    s_dt->DT_ID = 0xba5ed11;
-    /* ASSIGN s_udt.DT_ID = 0xba5ed11 */
-    s_udt->DT_ID = 0xba5ed11;
     /* ASSIGN s_udt.CDT_DT_ID = 0xba5ed04 */
     s_udt->CDT_DT_ID = 0xba5ed04;
+
+    // set masltype_id to be the ID of this type
+    masltype_id = s_dt->DT_ID;
   }
   else {
-    /* ASSIGN s_udt.CDT_DT_ID = 0xba5ed11 */
-    s_udt->CDT_DT_ID = 0xba5ed11;
+    /* ASSIGN s_udt.CDT_DT_ID = masltype_id */
+    s_udt->CDT_DT_ID = masltype_id;
   }
 }
 
