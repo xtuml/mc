@@ -39,6 +39,16 @@ when debugging.
 This covers the primary use case of null handle reference leading to
 segfaults (due to application modeling errors).
 
+Here is an example:  
+<pre>
+BEFORE
+/* ASSIGN a.odometer = 0 */
+a->odometer = 0;
+AFTER
+/* ASSIGN a.odometer = 0 */
+((perf_funcs_A *)xtUML_detect_empty_handle( a, "A", "a.odometer" ))->odometer = 0;
+</pre>
+
 5.2 Add a new trace function that checks the handle, conditionally reports
 an error and returns the handle.  This check can be imbedded anywhere
 in an expression (including left-hand side).
