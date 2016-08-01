@@ -127,6 +127,8 @@ do { \
 do { ${te_callout.empty_handle_detected}( object_keyletters, s ); } while (0)
 #endif
 
+void * xtUML_detect_empty_handle( void *, const char *, const char * );
+
 /*
  * Declare state information structure.
  */

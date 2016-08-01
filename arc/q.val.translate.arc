@@ -240,13 +240,17 @@
     .assign root = ""
     .if ( empty te_var )
       .assign te_val.OAL = ( root_te_val.OAL + "." ) + te_attr.Name
-      .assign te_val.buffer = ( root_te_val.buffer + "->" ) + te_attr.GeneratedName
       .assign root = root_te_val.buffer
     .else
       .assign te_val.OAL = ( te_var.OAL + "." ) + te_attr.Name
-      .assign te_val.buffer = ( te_var.buffer + "->" ) + te_attr.GeneratedName
       .assign root = te_var.buffer
     .end if 
+    .select one te_class related by te_attr->TE_CLASS[R2061]
+    .select one te_c related by te_class->TE_C[R2064]
+    .if ( te_c.DetectEmpty )
+      .assign root = "((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, ""${te_class.Key_Lett}"", ""${te_val.OAL}"" ))"
+    .end if
+    .assign te_val.buffer = ( root + "->" ) + te_attr.GeneratedName
     .assign te_val.dimensions = te_attr.dimensions
     .assign te_val.array_spec = te_attr.array_spec
     .select one te_dim related by te_attr->TE_DIM[R2055]
