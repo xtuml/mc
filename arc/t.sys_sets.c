@@ -25,6 +25,16 @@ ${te_prefix.type}ID_factory( void )
 }
 
 /*
+ * Detect empty handles in expressions.
+ */
+void * xtUML_detect_empty_handle( void * h, const char * s1, const char * s2 )
+{
+  if ( 0 == h ) {
+    ${te_prefix.define_usw}XTUML_EMPTY_HANDLE_TRACE( s1, s2 );
+  }
+}
+
+/*
  * Initialize the node1 instances by linking them into a collection.
  * These containoids will be collected into a null-terminated,
  * singly linked list (slist).
