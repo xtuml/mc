@@ -963,29 +963,22 @@ sub xtumlmc_cleanse_model($$$)
       # awk '/CREATE TABLE/{ print $3 }' | sed "s/_.*/_/" | sort | uniq
       if ( ! ( ( /^INSERT INTO ACT_/ ) ||
                 ( /^INSERT INTO A_/ ) ||
-                ( /^INSERT INTO BP_/ ) ||
                 ( /^INSERT INTO CA_/ ) ||
                 ( /^INSERT INTO CL_/ ) ||
-                ( /^INSERT INTO CN_/ ) ||
                 ( /^INSERT INTO CNST_/ ) ||
                 ( /^INSERT INTO COMM_/ ) ||
-                ( /^INSERT INTO CP_/ ) ||
-                ( /^INSERT INTO CSME_/ ) ||
                 ( /^INSERT INTO C_/ ) ||
                 ( /^INSERT INTO EP_/ ) ||
                 ( /^INSERT INTO E_/ ) ||
                 ( /^INSERT INTO IA_/ ) ||
-                ( /^INSERT INTO IP_/ ) ||
                 ( /^INSERT INTO I_/ ) ||
                 ( /^INSERT INTO L_/ ) ||
                 ( /^INSERT INTO MSG_/ ) ||
                 ( /^INSERT INTO O_/ ) ||
                 ( /^INSERT INTO PA_/ ) ||
                 ( /^INSERT INTO PE_/ ) ||
-                ( /^INSERT INTO PL_/ ) ||
                 ( /^INSERT INTO RV_/ ) ||
                 ( /^INSERT INTO R_/ ) ||
-                ( /^INSERT INTO SLD_/ ) ||
                 ( /^INSERT INTO SM_/ ) ||
                 ( /^INSERT INTO SPR_/ ) ||
                 ( /^INSERT INTO SQ_/ ) ||
