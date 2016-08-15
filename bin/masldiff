@@ -1,0 +1,34 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export MASL_BIN_DIR=$DIR/lib/
+
+#export CLASSPATH=<path_to_parser_jar>:<path_to_antlr_jar>
+
+# check arguments
+if [[ $# != 2 ]]; then
+  echo "Usage:    ./masldiff <input1> <input2>"
+  exit 1
+fi
+
+# get the java classpath
+if [[ $CLASSPATH == "" ]]; then
+  CLASSPATH=$MASL_BIN_DIR/MASLParser.jar:$MASL_BIN_DIR/antlr-3.5.2-complete.jar
+fi
+
+# run MASL formatter
+if [[ -f $1 && -f $2 ]]; then
+  rm -rf left.masldiff right.masldiff
+  java -cp $CLASSPATH MaslFormatter -r -s < $1 > left.masldiff
+  java -cp $CLASSPATH MaslFormatter -r -s < $2 > right.masldiff
+elif [[ -d $1 && -d $2 ]]; then
+  rm -rf left.masldiff right.masldiff
+  java -cp $CLASSPATH MaslFormatter -r -s -i $1 -o left.masldiff
+  java -cp $CLASSPATH MaslFormatter -r -s -i $2 -o right.masldiff
+else
+  echo "Invalid inputs"
+  exit 1
+fi
+
+# diff the directories
+diff left.masldiff right.masldiff
