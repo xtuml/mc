@@ -283,7 +283,7 @@ STRING_trim( c_t * p_s )
     return result;
   }
   else {
-    return STRING_substr( (const i_t)(a - p_s), (const i_t)(b - p_s), p_s );
+    return STRING_substr( (const i_t)(a - p_s), (const i_t)(b - p_s)+1, p_s );
   }
 
 }
