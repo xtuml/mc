@@ -45,7 +45,9 @@ indexes.
 5.2 Rebuild and add new `x2m` executable to the `packaging` repository  
 5.3 Remove extraneous 'trim' implementation from the `masl` project  
 5.4 Add _masldiff_ script to the `bin` directory  
-5.5 Update the `configure_build_process.sh` script in the `bridgepoint`
+5.4.1 Add README contents to the beginning of the masldiff script  
+5.5 Remove `masl/diff/` directory from the `mc` repository  
+5.6 Update the `configure_build_process.sh` script in the `bridgepoint`
 repository to copy the _masldiff_ script into the build from the `mc` repository
 
 6. Implementation Comments
@@ -70,10 +72,9 @@ the bug is present), however the `masl` project never invokes 'trim'. I decided
 to remove the implementation from the `masl` project to avoid maintaining the
 implementation in two places.
 
-6.2 When I moved the _masldiff_ routine from `mc/masl/diff/` to `mc/bin/`, I
-left the original _masldiff_ script in place with a README file. I think these
-should be deprecated and the documentation moved, but I did not want to
-completely remove them for the time being.
+6.2 When I moved the _masldiff_ script from `mc/masl/diff/` to `mc/bin/`, I
+removed the old _masldiff_ script and _README_ from the `diff/` directory and
+copied the contents of the _README_ into the new _masldiff_ script in `mc/bin`
 
 7. Unit Test
 ------------

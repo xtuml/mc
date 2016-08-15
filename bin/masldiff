@@ -1,5 +1,25 @@
 #!/bin/bash
 
+# How to use the MASL diff tool
+# =============================
+
+### Overview
+
+# This utility compares textual MASL by formatting MASL deterministically and then
+# diffing the resultant MASL. The formatter arranges the MASL in a specific
+# sequence and alphanumerically orders all like model elements.
+
+### Usage
+
+# ```
+# Usage:    <BP home>/tools/masl/masldiff <input1> <input2>
+# ```
+
+# Note: `left.masldiff` and `right.masldiff` will be produced by the tool
+#       If diffing single files, they will be regular files
+#       If diffing directories they will be a directory containing all the formatted
+#       MASL files
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export MASL_BIN_DIR=$DIR/lib/
 
