@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# How to use the MASL diff tool
+# =============================
+
+### Overview
+
+# This utility compares textual MASL by formatting MASL deterministically and then
+# diffing the resultant MASL. The formatter arranges the MASL in a specific
+# sequence and alphanumerically orders all like model elements.
+
+### Usage
+
+# ```
+# Usage:    <BP home>/tools/masl/masldiff <input1> <input2>
+# ```
+
+# Note: `left.masldiff` and `right.masldiff` will be produced by the tool
+#       If diffing single files, they will be regular files
+#       If diffing directories they will be a directory containing all the formatted
+#       MASL files
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export MASL_BIN_DIR=$DIR/lib/
+
+#export CLASSPATH=<path_to_parser_jar>:<path_to_antlr_jar>
+
+# check arguments
+if [[ $# != 2 ]]; then
+  echo "Usage:    ./masldiff <input1> <input2>"
+  exit 1
+fi
+
+# get the java classpath
+if [[ $CLASSPATH == "" ]]; then
+  CLASSPATH=$MASL_BIN_DIR/MASLParser.jar:$MASL_BIN_DIR/antlr-3.5.2-complete.jar
+fi
+
+# run MASL formatter
+if [[ -f $1 && -f $2 ]]; then
+  rm -rf left.masldiff right.masldiff
+  java -cp $CLASSPATH MaslFormatter -r -s < $1 > left.masldiff
+  java -cp $CLASSPATH MaslFormatter -r -s < $2 > right.masldiff
+elif [[ -d $1 && -d $2 ]]; then
+  rm -rf left.masldiff right.masldiff
+  java -cp $CLASSPATH MaslFormatter -r -s -i $1 -o left.masldiff
+  java -cp $CLASSPATH MaslFormatter -r -s -i $2 -o right.masldiff
+else
+  echo "Invalid inputs"
+  exit 1
+fi
+
+# diff the directories
+diff left.masldiff right.masldiff
