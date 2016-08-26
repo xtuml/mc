@@ -200,32 +200,8 @@ STRING_getword( c_t A0xtumlsret[ESCHER_SYS_MAX_STRING_LEN], const i_t p_i, const
 c_t *
 STRING_trim( c_t A0xtumlsret[ESCHER_SYS_MAX_STRING_LEN], c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
-
-  c_t result[ESCHER_SYS_MAX_STRING_LEN];
-  Escher_strcpy( result, "" );
-
-  c_t * a;
-  c_t * b;
-
-  // find the first non whitespace character
-  a = p_s;
-  for ( ; *a != '\0'; a++ ) {
-    if ( *a != ' ' && *a != '\r' && *a != '\t' && *a != '\n' ) break;   // found non whitespace
-  }
-
-  // find last non whitespace character
-  i_t len = (i_t)Escher_strlen( p_s );
-  b = p_s + ( len - 1 );
-  for ( ; b != p_s; b-- ) {
-    if ( *a != ' ' && *a != '\r' && *a != '\t' && *a != '\n' ) break;   // found non whitespace
-  }
-
-  // check if they crossed ( all whitespace )
-  if ( b >= a ) { // did not cross
-    STRING_substr( result, (const i_t)(a - p_s), (const i_t)(b - p_s), p_s );
-  }
-
-  return Escher_strcpy( A0xtumlsret, result );
-
+  c_t * result = 0;
+  /* Insert your implementation code here... */
+  return result;
 }
 
