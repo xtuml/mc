@@ -1,0 +1,162 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("55d55565-1750-4967-8834-f462b33478b1",
+	'description',
+	3779,
+	'description',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("5a712d0e-139a-43bb-9157-2da9b19563e3",
+	"55d55565-1750-4967-8834-f462b33478b1",
+	'populate',
+	'',
+	"0bc2b47f-f1c0-4387-8cd4-1a49c448de57",
+	0,
+	'element = param.element;
+text = param.text;
+tag = param.tag;
+
+create object instance descrip of description;
+descrip.text = text;
+descrip.tag = tag;
+relate descrip to element across R3796;
+
+return descrip;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("ae1ea5d1-b56e-46e8-bf14-cace35d4233b",
+	"5a712d0e-139a-43bb-9157-2da9b19563e3",
+	'element',
+	"3989a0a6-1287-4fd5-9b4c-6f98e273a076",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("3989a0a6-1287-4fd5-9b4c-6f98e273a076",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<element>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("9a52a15c-b2a3-4c07-abdd-7a46fe393c04",
+	"5a712d0e-139a-43bb-9157-2da9b19563e3",
+	'text',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ae1ea5d1-b56e-46e8-bf14-cace35d4233b",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("4239754f-e58b-436a-a9cc-9e2b08a5d20c",
+	"5a712d0e-139a-43bb-9157-2da9b19563e3",
+	'tag',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9a52a15c-b2a3-4c07-abdd-7a46fe393c04",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("0bc2b47f-f1c0-4387-8cd4-1a49c448de57",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<description>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO O_TFR
+	VALUES ("9b72736b-c2e9-489a-8335-75b14b5db539",
+	"55d55565-1750-4967-8834-f462b33478b1",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// render a description line by line adding the line prefix
+
+prefix = "//!";
+descrip = self.text;
+
+
+// for every line
+i = STRING::indexof( haystack:descrip, needle:"\n" );
+while ( -1 != i )
+
+  // get a line
+  line = STRING::substr( s:descrip, begin:0, end:i+1 );
+  
+  // prefix the line
+  T::b( s:prefix + line );
+ 
+  // update the whole string
+  descrip = STRING::substr( s:descrip, begin:i+1, end:-1 );
+
+  // check if there are more lines 
+  i = STRING::indexof( haystack:descrip, needle:"\n" );
+
+end while;',
+	1,
+	'',
+	"5a712d0e-139a-43bb-9157-2da9b19563e3");
+INSERT INTO O_NBATTR
+	VALUES ("532696e3-3325-4efe-b2cb-dd358c5e9cbf",
+	"55d55565-1750-4967-8834-f462b33478b1");
+INSERT INTO O_BATTR
+	VALUES ("532696e3-3325-4efe-b2cb-dd358c5e9cbf",
+	"55d55565-1750-4967-8834-f462b33478b1");
+INSERT INTO O_ATTR
+	VALUES ("532696e3-3325-4efe-b2cb-dd358c5e9cbf",
+	"55d55565-1750-4967-8834-f462b33478b1",
+	"00000000-0000-0000-0000-000000000000",
+	'text',
+	'',
+	'',
+	'text',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("a5593fe3-37b4-4e31-bcf7-5b4a9ebf4b0a",
+	"55d55565-1750-4967-8834-f462b33478b1");
+INSERT INTO O_BATTR
+	VALUES ("a5593fe3-37b4-4e31-bcf7-5b4a9ebf4b0a",
+	"55d55565-1750-4967-8834-f462b33478b1");
+INSERT INTO O_ATTR
+	VALUES ("a5593fe3-37b4-4e31-bcf7-5b4a9ebf4b0a",
+	"55d55565-1750-4967-8834-f462b33478b1",
+	"532696e3-3325-4efe-b2cb-dd358c5e9cbf",
+	'tag',
+	'',
+	'',
+	'tag',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"55d55565-1750-4967-8834-f462b33478b1");
+INSERT INTO O_ID
+	VALUES (1,
+	"55d55565-1750-4967-8834-f462b33478b1");
+INSERT INTO O_ID
+	VALUES (2,
+	"55d55565-1750-4967-8834-f462b33478b1");
+INSERT INTO PE_PE
+	VALUES ("55d55565-1750-4967-8834-f462b33478b1",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpopulation',
+	'',
+	0,
+	'../maslpopulation.xtuml');

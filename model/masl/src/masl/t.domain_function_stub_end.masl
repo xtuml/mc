@@ -1,0 +1,11 @@
+T_b(") return ");
+T_b(returntype->body);
+T_b(" is");
+T_b("\n");
+T_b("begin");
+T_b("\n");
+T_b("  ");
+T_b("null;");
+T_b("\n");
+T_b("end function;");
+T_b("\n");

@@ -1,0 +1,10 @@
+T_b(operation->visibility);
+T_b(" ");
+T_b(operation->instance);
+T_b(" function ");
+T_b(domain->name);
+T_b("::");
+T_b(object->name);
+T_b(".");
+T_b(activity->name);
+T_b(" (");

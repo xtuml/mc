@@ -240,13 +240,17 @@
     .assign root = ""
     .if ( empty te_var )
       .assign te_val.OAL = ( root_te_val.OAL + "." ) + te_attr.Name
-      .assign te_val.buffer = ( root_te_val.buffer + "->" ) + te_attr.GeneratedName
       .assign root = root_te_val.buffer
     .else
       .assign te_val.OAL = ( te_var.OAL + "." ) + te_attr.Name
-      .assign te_val.buffer = ( te_var.buffer + "->" ) + te_attr.GeneratedName
       .assign root = te_var.buffer
     .end if 
+    .select one te_class related by te_attr->TE_CLASS[R2061]
+    .select one te_c related by te_class->TE_C[R2064]
+    .if ( te_c.DetectEmpty )
+      .assign root = "((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, ""${te_class.Key_Lett}"", ""${te_val.OAL}"" ))"
+    .end if
+    .assign te_val.buffer = ( root + "->" ) + te_attr.GeneratedName
     .assign te_val.dimensions = te_attr.dimensions
     .assign te_val.array_spec = te_attr.array_spec
     .select one te_dim related by te_attr->TE_DIM[R2055]
@@ -512,6 +516,11 @@
         .assign te_val.buffer = ( ( ( te_instance.module + te_string.stradd ) + ( "( " + l_te_val.buffer ) ) + ( ", " + r_te_val.buffer ) ) + " )"
       .else
         .assign te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" )
+      .end if
+    .elif ( ( 9 == l_te_dt.Core_Typ ) and ( 9 == r_te_dt.Core_Typ ) )
+      .if ( "+" == "$r{v_bin.Operator}" )
+        .select any te_set from instances of TE_SET
+        .assign te_val.buffer = ( ( ( te_set.module + te_set.setadd ) + ( "( " + l_te_val.buffer ) ) + ( ", " + r_te_val.buffer ) ) + " )"
       .end if
     .else
       .select any te_target from instances of TE_TARGET

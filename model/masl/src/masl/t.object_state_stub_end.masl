@@ -1,0 +1,9 @@
+T_b(") is");
+T_b("\n");
+T_b("begin");
+T_b("\n");
+T_b("  ");
+T_b("null;");
+T_b("\n");
+T_b("end state;");
+T_b("\n");

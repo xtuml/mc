@@ -120,16 +120,17 @@ then all projects and all domains are rendered.
 
 6.1.4.1 Inputs
 
-`x2m` reads xtUML from standard input until the end of the file is reached. It also takes
-a project (`-p`) or domain (`-d`) directive.  The name of the project or domain can be
-supplied.
+`x2m` reads xtUML from standard input until the end of the file is reached. An
+input project root folder is normally needed using (`-i`).  It also takes a
+project (`-p`) or domain (`-d`) directive.  The name of the project or domain
+can be supplied.
 
 6.1.4.2 Outputs
 
 `x2m` outputs serial MASL to standard out. Any error messages are written to standard error.
 
 ```sh
-./x2m <-p [project name] | -d [domain name]> < input_file > output_file
+./x2m -i<input project root directory> <-p [project name] | -d [domain name]> < input_file > output_file
 ```
 
 ### 6.2 Use case flows
@@ -189,10 +190,9 @@ specified). If no source directories are specified, no output will be produced a
 exit normally. Any error messages are written to standard error.
 
 ```sh
-./masl2xtuml [-p <project source directory(s) ...> ] \
-    [-d <domain source directory(s) ...> ] [ -o <output directory> ]
+masl2xtuml -d <domain source directory(s) ...> [-o <output directory>]
+masl2xtuml -p <project source directory(s) ...> [-o <output directory>]
 ```
-(command split on two lines for readability)
 
 #### 6.2.3 `xtuml2masl` (export)
 ![xtuml2masl](xtuml2masl.png)
@@ -220,10 +220,9 @@ any validation failures to standard error. If the validate only flag (`-vo`) is 
 only validate, and not render any output. Any other error messages are written to standard error.
 
 ```sh
-./xtuml2masl [-v | -vo] [-p <xtUML file(s) ...> ] [-d <xtUML file(s) ...> ] \
-    [ -o <output directory> ]
+xtuml2masl [-v | -V] [-e] -i <eclipse project> -d <domain component> [-o <output directory>]
+xtuml2masl [-v | -V] [-e] -i <eclipse project> -p <project package> [-o <output directory>]
 ```
-(command split on two lines for readability)
 
 6.2.3.4 Eclipse UI
 

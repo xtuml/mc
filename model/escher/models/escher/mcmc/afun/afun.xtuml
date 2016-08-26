@@ -121,6 +121,7 @@ instance = param.instance;
 ::oal( s:"T_clear();" );
 select any te_file from instances of TE_FILE;
 select any te_instance from instances of TE_INSTANCE;
+select any te_prefix from instances of TE_PREFIX;
 select any te_string from instances of TE_STRING;
 select any te_sys from instances of TE_SYS;
 // Be sure we have the first attribute in the class.
@@ -2953,10 +2954,6 @@ for each c_c in c_cs
           if ( not_empty s_sys )
             unrelate imported_ep_pkg from s_sys across R1401;
           end if;
-          select one s_sys related by imported_ep_pkg->S_SYS[R1405];
-          if ( not_empty s_sys )
-            unrelate imported_ep_pkg from s_sys across R1405;
-          end if;
           select one pe_pe related by ep_pkg->PE_PE[R8001];
           unrelate pe_pe from ep_pkg across R8001;
           relate pe_pe to imported_ep_pkg across R8001;
@@ -3112,7 +3109,7 @@ for each s_cdt in s_cdts
     // unique_id
     te_dt.ExtName = te_prefix.type + "UniqueID_t";
     te_dt.Initial_Value = "0";
-    te_dt.string_format = "%p";
+    te_dt.string_format = "%d";
     //
   elif ( 6 == te_dt.Core_Typ )
     // current_state
@@ -3124,12 +3121,12 @@ for each s_cdt in s_cdts
     te_dt.ExtName = "";
     te_dt.Initial_Value = "";
     te_dt.string_format = "%p";
-  elif ( 8 == te_dt.Core_Typ )
+  elif ( ( 8 == te_dt.Core_Typ ) or ( 20 == te_dt.Core_Typ ) )
     // inst_ref<Object>
     te_dt.ExtName = "void *";
     te_dt.Initial_Value = "";
     te_dt.string_format = "%p";
-  elif ( 9 == te_dt.Core_Typ )
+  elif ( ( 9 == te_dt.Core_Typ ) or ( 21 == te_dt.Core_Typ ) )
     // inst_ref_set<Object>
     te_dt.ExtName = te_set.base_class + " *";
     te_dt.Initial_Value = "";
@@ -7046,6 +7043,7 @@ select any te_prefix from instances of TE_PREFIX;
 te_set.module = "";
 te_set.copy = te_prefix.result + "CopySet";
 te_set.clear = te_prefix.result + "ClearSet";
+te_set.setadd = te_prefix.result + "SetAdd";
 te_set.insert_element = te_prefix.result + "SetInsertElement";
 te_set.element_count = te_prefix.result + "SetCardinality";
 te_set.iterator_class_name = te_prefix.result + "Iterator_s";

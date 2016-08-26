@@ -1,0 +1,75 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("6fb71a1c-7b93-4799-a420-643b89e35198",
+	'model',
+	1,
+	'model',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("82d44f16-ea0a-454d-95b3-38cd5e0b76c5",
+	"6fb71a1c-7b93-4799-a420-643b89e35198",
+	'setroot',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'select any model from instances of model;
+if ( empty model )
+  create object instance model of model;
+end if;
+
+model.projectroot = param.root;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("f97b2fd8-a709-4de4-bd2c-5ee3c41e7b62",
+	"82d44f16-ea0a-454d-95b3-38cd5e0b76c5",
+	'root',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5c53f0b6-9c87-4ede-afc3-2619a8113587",
+	"6fb71a1c-7b93-4799-a420-643b89e35198");
+INSERT INTO O_BATTR
+	VALUES ("5c53f0b6-9c87-4ede-afc3-2619a8113587",
+	"6fb71a1c-7b93-4799-a420-643b89e35198");
+INSERT INTO O_ATTR
+	VALUES ("5c53f0b6-9c87-4ede-afc3-2619a8113587",
+	"6fb71a1c-7b93-4799-a420-643b89e35198",
+	"00000000-0000-0000-0000-000000000000",
+	'projectroot',
+	'',
+	'',
+	'projectroot',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"6fb71a1c-7b93-4799-a420-643b89e35198");
+INSERT INTO O_ID
+	VALUES (1,
+	"6fb71a1c-7b93-4799-a420-643b89e35198");
+INSERT INTO O_ID
+	VALUES (2,
+	"6fb71a1c-7b93-4799-a420-643b89e35198");
+INSERT INTO PE_PE
+	VALUES ("6fb71a1c-7b93-4799-a420-643b89e35198",
+	1,
+	"fc52c455-bf5a-49cb-ba91-3b39d6d97611",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("fc52c455-bf5a-49cb-ba91-3b39d6d97611",
+	"00000000-0000-0000-0000-000000000000",
+	"53107551-b0b9-4155-a13f-41b410f63a54",
+	'model',
+	'',
+	0,
+	'../model.xtuml');

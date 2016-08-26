@@ -14,7 +14,12 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.object_begin.masl" );
+	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+for each descrip in descrips
+  descrip.render();
+end for;
+
+T::include( file:"masl/t.object_begin.masl" );
 
 select many attributes related by self->attribute[R3709.''is characterized by''];
 for each attribute in attributes
@@ -49,7 +54,7 @@ end for;
 T::include( file:"masl/t.object_end.masl" );
 
 select one markable related by self->markable[R3783];
-markable.render_marking( list:"definition" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"08a62993-0de5-465c-bb72-ba84e7590350");

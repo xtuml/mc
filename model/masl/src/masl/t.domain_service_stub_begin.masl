@@ -1,0 +1,6 @@
+T_b(routine->visibility);
+T_b(" service ");
+T_b(domain->name);
+T_b("::");
+T_b(activity->name);
+T_b(" (");
