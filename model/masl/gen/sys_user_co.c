@@ -94,10 +94,11 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   int validate = 0; int Validateonly = 0;
   char * indirname = 0; char * outdirname = 0; char * projectdomain = 0;
   int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
+  bool key_lett = FALSE;
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "vVi:o:d::p::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "vVi:o:d::p::k::" ) ) != -1 ) {
       switch ( c ) {
         case 'v':
           validate = 1; break;
@@ -114,6 +115,9 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
         case 'p':
           projectdomain = "project";
           if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
+          break;
+        case 'k':
+          key_lett = TRUE;
           break;
         case '?':
           if ( 'o' == optopt ) {
@@ -141,10 +145,10 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     if ( projectdomain ) {
       int i = 0;
       while ( i < namecount )
-        masl_gen_render( projectdomain, name[ i++ ] );
+        masl_gen_render( projectdomain, name[ i++ ], key_lett );
     } else {
-      masl_gen_render( "project", "" );
-      masl_gen_render( "domain", "" );
+      masl_gen_render( "project", "", key_lett );
+      masl_gen_render( "domain", "", key_lett );
     }
   }
   exit(0);

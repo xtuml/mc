@@ -458,7 +458,14 @@ INSERT INTO SPR_PS
 	VALUES ("fb7bb327-37da-4312-9cff-c3d42aa49d79",
 	'render',
 	'',
-	'file::render( element:param.element, name:param.name );',
+	'// get the population singleton object
+select any population from instances of population;
+if ( empty population )
+  create object instance population of population;
+end if;
+population.output_kl = param.output_kl;
+
+file::render( element:param.element, name:param.name );',
 	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("bf2670be-70c3-4455-a751-ecc960ffedb8",
