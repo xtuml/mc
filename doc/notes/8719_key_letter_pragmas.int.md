@@ -47,24 +47,14 @@ description field. If the current markable is an object and the pragma name is
 5.2.1 Add `STRING::quote` bridge to get a literal quote in OAL  
 5.2.2 Add statements in `class2object` function to output a pragma for the class
 key letters  
-
-5.3 `masl`
-5.3.1 Update command line usage to take a new optional argument `-k`. If `-k` is
+5.2.3 Update command line usage to take a new optional argument `-k`. If `-k` is
 present, key letter pragmas are generated. If `-k` is absent, no key letter
 pragmas are generated.  
-5.3.2 Add parameter to the `render` message on the `gen` interface. This
-parameter is passed from the command line value.  
-5.3.3 Add boolean attribute to the `population` singleton object. This attribute
-will get set by the `render` message and be referenced by the pragma render
-routine.  
-5.3.4 Add check in the `render` operation on the `pragma` class before
-generating the pragma. If the pragma name is  a "key_letter" pragma applied to
-an object, the attribute on the `population` object is queried. If the option
-to output key letter pragmas is enabled the pragma is generated. If it is
-disabled, the pragma is not generated.  
+5.2.4 Add a parameter to several functions that get called to pass the boolean
+argument to the export code from the command line.  
 
-5.4 Update the `xtuml2masl` function in the `xtumlmc_build` script to call
-`masl` with the `-k` option enabled. To configure the exporter to suppress
+5.3 Update the `xtuml2masl` function in the `xtumlmc_build` script to call
+`x2m` with the `-k` option enabled. To configure the exporter to suppress
 generation of key letter pragmas, the `-k` option can be removed from the
 script. This satisfies requirement 4.3.
 
@@ -94,18 +84,15 @@ Branch name: 8719_key_lett_pragmas
 
 <pre>
 
- bin/xtumlmc_build                                                                   |  2 +-
- model/masl/gen/sys_user_co.c                                                        | 12 ++++++++----
- model/masl/models/masl/lib/gen/gen.xtuml                                            |  9 +++++++++
- model/masl/models/masl/lib/masl/masl.xtuml                                          |  9 ++++++++-
- model/masl/models/masl/maslpopulation/population/population.xtuml                   | 18 ++++++++++++++++++
- model/masl/models/masl/maslpopulation/pragma/pragma.xtuml                           | 33 ++++++++++++++++++++++++---------
- model/maslin/gen/STRING_bridge.c                                                    |  4 +++-
- model/maslin/models/maslin/marking/ooapragma_item/ooapragma_item.xtuml              | 23 ++++++++++++++++++++---
- model/maslout/gen/STRING_bridge.c                                                   | 13 +++++++++++++
- model/maslout/models/maslout/lib/xtuml2masl/maslout_imported/maslout_imported.xtuml |  8 ++++++++
- model/mcshared/models/mcshared/MC_EEs/MC_EEs.xtuml                                  | 10 ++++++++++
- 11 files changed, 122 insertions(+), 19 deletions(-)
+ bin/xtumlmc_build                                                                   |   2 +-
+ doc/notes/8719_key_letter_pragmas.int.md                                            | 104 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ model/maslin/gen/STRING_bridge.c                                                    |   4 ++-
+ model/maslin/models/maslin/marking/ooapragma_item/ooapragma_item.xtuml              |  23 ++++++++++++++--
+ model/maslout/gen/STRING_bridge.c                                                   |  13 +++++++++
+ model/maslout/gen/sys_user_co.c                                                     |  10 +++++--
+ model/maslout/models/maslout/lib/xtuml2masl/maslout_imported/maslout_imported.xtuml | 128 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ model/mcshared/models/mcshared/MC_EEs/MC_EEs.xtuml                                  |  10 +++++++
+ 8 files changed, 280 insertions(+), 14 deletions(-)
 
 </pre>
 
