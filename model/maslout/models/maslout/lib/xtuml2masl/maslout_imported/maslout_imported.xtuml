@@ -158,13 +158,13 @@ for each c_c in c_cs;
   out::populate( element:"domain", value:value );
   
   if ( param.project )
-      ::port2terminator( c_c:c_c, project:param.project );
+      ::port2terminator( c_c:c_c, project:param.project, kl:param.kl );
   else
 	::class2objectdeclaration( c_c:c_c );
 	::type2type( c_c:c_c );
 	::exception2exception( c_c:c_c );
 	::function2routine( c_c:c_c );
-	::port2terminator( c_c:c_c, project:param.project );
+	::port2terminator( c_c:c_c, project:param.project, kl:param.kl );
 	::association2relationship( c_c:c_c );
 	::class2object( c_c:c_c, kl:param.kl );
   end if;
@@ -323,6 +323,9 @@ for each c_po in c_pos
 	if ( param.project )
       select any c_p related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009];
 	  if ( not_empty c_p )
+	    if ( not param.kl )
+		  c_p.Descrip = ::remove_kl( s:c_p.Descrip );
+		end if;
 		c_p.Descrip = ::parsepragmas( s:c_p.Descrip, list:"" );
 
 		// output the description
@@ -331,6 +334,9 @@ for each c_po in c_pos
 	else
 	  select any c_r related by c_po->C_IR[R4016]->C_R[R4009];
 	  if ( not_empty c_r )
+	    if ( not param.kl )
+		  c_r.Descrip = ::remove_kl( s:c_r.Descrip );
+		end if;
 		c_r.Descrip = ::parsepragmas( s:c_r.Descrip, list:"" );
 
 		// output the description
@@ -375,6 +381,16 @@ INSERT INTO S_SPARM
 	'',
 	"e557817d-dd43-43a1-b7c1-a522bda54d2a",
 	'');
+INSERT INTO S_SPARM
+	VALUES ("86f1e636-f893-4b66-9d8c-eb882fb3568f",
+	"3ddfd9b1-d62f-4fa1-9e31-b48931032ee9",
+	'kl',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"0df5f9f2-ee02-4900-9478-2ee36ce46c1d",
+	'Flag for outputting class key letters. If set to "true", key letters will be output as pragmas on the object definition
+If set to "false", no pragmas will be generated for key letters');
 INSERT INTO PE_PE
 	VALUES ("3ddfd9b1-d62f-4fa1-9e31-b48931032ee9",
 	1,
@@ -3275,6 +3291,46 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("bef2c4c8-46d5-4c5e-b08c-26e39f7b0a3c",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1d772117-8637-4071-8966-b5fffae70670",
+	"00000000-0000-0000-0000-000000000000",
+	'remove_kl',
+	'',
+	'string = param.s;
+
+start_index = STRING::indexof( haystack:string, needle:"pragma key_letter" );
+while ( -1 != start_index )
+  substr_begin = STRING::substr( s:string, begin:0, end:start_index );
+  temp_str = STRING::substr( s:string, begin:start_index, end:-1 );
+  end_index = STRING::indexof( haystack:temp_str, needle:";" );
+  if ( -1 != end_index )
+    substr_end = STRING::substr( s:temp_str, begin:end_index+1, end:-1 );
+    string = substr_begin + substr_end;
+    start_index = STRING::indexof( haystack:string, needle:"pragma key_letter" );
+  else
+    start_index = -1;
+  end if;
+end while;
+
+return string;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("de5a1558-1109-424e-9d38-e853780dbfea",
+	"1d772117-8637-4071-8966-b5fffae70670",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1d772117-8637-4071-8966-b5fffae70670",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
