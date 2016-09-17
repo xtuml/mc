@@ -504,24 +504,6 @@ TRACE::log( flavor:"stack_trace", id:82, message:"done." );',
 	1,
 	'',
 	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9");
-INSERT INTO O_NBATTR
-	VALUES ("7a63d058-a807-43c5-ab33-ce574c899f8a",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("7a63d058-a807-43c5-ab33-ce574c899f8a",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("7a63d058-a807-43c5-ab33-ce574c899f8a",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"00000000-0000-0000-0000-000000000000",
-	'output_kl',
-	'output_kl is a boolean flag that determines whether or not to render class key letter pragmas',
-	'',
-	'output_kl',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000001",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"7b8b1d90-b801-4fda-bfce-b400c0d94add");

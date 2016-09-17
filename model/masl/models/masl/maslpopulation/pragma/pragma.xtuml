@@ -14,30 +14,15 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'output_pragma = true;
-
-// check if this is object key letters that we suppress
-if ( "key_letter" == self.name ) // if this is a key letter pragma
-  select one element related by self->pragma_list[R3781]->markable[R3782]->element[R3786];
-  if ( "object" == element.name ) // if attached to an object
-    select any population from instances of population;
-    if ( not_empty population )
-      output_pragma = population.output_kl;
-    end if;
-  end if;
-end if;
-
-if ( output_pragma )
-  T::include( file:"masl/t.pragma_begin.masl" );
-  select many pragma_items related by self->pragma_item[R3780];
-  separator = "";
-  for each pragma_item in pragma_items
-	T::b( s:separator );
-	pragma_item.render();
-	separator = ", ";
-  end for;
-  T::include( file:"masl/t.pragma_end.masl" );
-end if;',
+	'T::include( file:"masl/t.pragma_begin.masl" );
+select many pragma_items related by self->pragma_item[R3780];
+separator = "";
+for each pragma_item in pragma_items
+  T::b( s:separator );
+  pragma_item.render();
+  separator = ", ";
+end for;
+T::include( file:"masl/t.pragma_end.masl" );',
 	1,
 	'',
 	"a2751ebc-236b-471c-85b9-3fa412f91703");

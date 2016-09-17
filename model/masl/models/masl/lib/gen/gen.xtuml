@@ -35,15 +35,6 @@ INSERT INTO C_PP
 	0,
 	'',
 	"f2788bfa-df95-493f-ad9c-d49df056e94f");
-INSERT INTO C_PP
-	VALUES ("1bb047a6-4a50-4d2a-8f34-94b85eb14d8c",
-	"bf2670be-70c3-4455-a751-ecc960ffedb8",
-	"ba5eda7a-def5-0000-0000-000000000001",
-	'output_kl',
-	'',
-	0,
-	'',
-	"d3d4383f-d614-4d80-9998-712c2977b460");
 INSERT INTO C_EP
 	VALUES ("4f3928ea-6523-484f-8d57-340cf7fe859b",
 	"965609b5-99d9-40ca-bc70-74dd6acccf34",
