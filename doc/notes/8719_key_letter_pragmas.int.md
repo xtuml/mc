@@ -26,10 +26,14 @@ None
 
 4.1 On MASL import use the pragma to populate the key letters field of the
 class and discard the pragma (do not carry it around in the model).  
+4.1.1 For terminators, import the key letters pragma into the description.  
 4.2 On MASL export use the value of the class key letters field to generate the
 pragma statement for object key letters.  
 4.3 Provide some form of configuration option enabling the user to disable
-generation of the pragma statement for object key letters.  
+generation of the pragma statement for key letters for both classes and
+terminators.  
+4.3.1 When this option is active, the full name for classes and terminators is
+used for naming files.  
 
 5. Work Required
 ----------------
@@ -53,10 +57,11 @@ parameter is passed from the command line value.
 5.3.3 Add boolean attribute to the `population` singleton object. This attribute
 will get set by the `render` message and be referenced by the pragma render
 routine.  
-5.3.4 Add check in the `render` operation on the `pragma` class to generate the
-pragma. If the pragma name is "key_letter" and the current markable is an
-"object" and the output key letters option is not enabled, no pragma is
-generated.  
+5.3.4 Add check in the `render` operation on the `pragma` class before
+generating the pragma. If the pragma name is  a "key_letter" pragma applied to
+an object, the attribute on the `population` object is queried. If the option
+to output key letter pragmas is enabled the pragma is generated. If it is
+disabled, the pragma is not generated.  
 
 5.4 Update the `xtuml2masl` function in the `xtumlmc_build` script to call
 `masl` with the `-k` option enabled. To configure the exporter to suppress
@@ -65,8 +70,7 @@ script. This satisfies requirement 4.3.
 
 6. Implementation Comments
 --------------------------
-6.1 This change is limited to class key letters. MASL "key_letter" pragmas
-continue to exist for terminators.
+None
 
 7. Unit Test
 ------------
