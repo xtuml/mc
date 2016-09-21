@@ -285,6 +285,19 @@ STRING_trim( c_t * p_s )
   else {
     return STRING_substr( (const i_t)(a - p_s), (const i_t)(b - p_s)+1, p_s );
   }
+}
 
+
+/*
+ * Bridge:  quote
+ */
+c_t *
+STRING_quote()
+{
+  c_t result[ESCHER_SYS_MAX_STRING_LEN];
+  result[0] = '"';
+  result[1] = '\0';
+
+  return result;
 }
 

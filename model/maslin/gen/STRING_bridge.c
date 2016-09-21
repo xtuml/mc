@@ -134,7 +134,9 @@ i_t
 STRING_strlen( c_t * p_s )
 {
   i_t result = 0;
-  /* Insert your implementation code here... */
+
+  result = (i_t)Escher_strlen( p_s );
+
   return result;
 }
 
