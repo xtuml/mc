@@ -16,6 +16,7 @@ eliminated and the key letters can be stored in xtUML class key letters field.
 2. Document References
 ----------------------
 <a id=2.1></a>2.1 [#8719 Class keyletters and associated pragma](https://support.onefact.net/issues/8719)  
+<a id=2.2></a>2.2 [#8753 Squash blanks from classes, role phrases, etc on MASL export](https://support.onefact.net/issues/8753)  
 
 3. Background
 -------------
@@ -60,7 +61,10 @@ script. This satisfies requirement 4.3.
 
 6. Implementation Comments
 --------------------------
-None
+
+6.1 Discussion of requirement 4.3.1 raised an issue of spaces in class names in
+relation to requirement 4.3.1 An issue has been raised to track this problem
+[[2.2]](#2.2)
 
 7. Unit Test
 ------------
