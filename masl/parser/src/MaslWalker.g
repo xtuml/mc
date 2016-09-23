@@ -1396,7 +1396,8 @@ domainServiceDefinition//[DomainService service]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                args[0] = getFile();
+                                                                //args[0] = getFile();
+                                                                args[0] = $DOMAIN_SERVICE_DEFINITION.text;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
@@ -1427,7 +1428,8 @@ terminatorServiceDefinition//[DomainTerminatorService service]
                                                             }
                                    parameterList
                                                             {
-                                                                args[0] = getFile();
+                                                                //args[0] = getFile();
+                                                                args[0] = $TERMINATOR_SERVICE_DEFINITION.text;
                                                                 populate( "codeblock", args );
                                                             }
                                    returnType?
@@ -1460,7 +1462,8 @@ projectTerminatorServiceDefinition//[ProjectTerminatorService service]
                                    returnType?
                                    codeBlock         
                                                             {
-                                                                args[0] = getFile();
+                                                                //args[0] = getFile();
+                                                                args[0] = $TERMINATOR_SERVICE_DEFINITION.text;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
@@ -1496,7 +1499,8 @@ objectServiceDefinition//[ObjectService service]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                args[0] = getFile();
+                                                                //args[0] = getFile();
+                                                                args[0] = $OBJECT_SERVICE_DEFINITION.text;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                           
@@ -1525,7 +1529,8 @@ stateDefinition//[State stateDef]
                                    parameterList
                                    codeBlock
                                                             {
-                                                                args[0] = getFile();
+                                                                //args[0] = getFile();
+                                                                args[0] = $STATE_DEFINITION.text;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                
