@@ -141,6 +141,9 @@ to the other representations.
 
 6. Work Required
 ----------------
+The following work assumes the strategy of 5.1.3 above (Persisted Structural
+MASL) and using the file system for synchornization (5.2 File System API).
+ 
 6.1 Highlight syntax on all MASL statements.
 
 6.2 Validate identifiers against `.dom` files located in `/masl` folder.  
