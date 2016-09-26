@@ -226,8 +226,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
         message_cb = Escher_strcpy( message_cb, "" );
         /* IF ( ( ( - 1 != start_index ) and ( - 1 != end_index ) ) ) */
         if ( ( ( -1 != start_index ) && ( -1 != end_index ) ) ) {
-          /* ASSIGN message_cb = ( ( codeblock: + STRING::substr(, end_index, string) ) + \n ) */
-          message_cb = Escher_strcpy( message_cb, Escher_stradd( Escher_stradd( "codeblock:", STRING_substr( ( start_index + 11 ), end_index, string ) ), "\n" ) );
+          /* ASSIGN message_cb = STRING::substr(begin:( start_index + 11 ), end:end_index, s:string) */
+          message_cb = Escher_strcpy( message_cb, STRING_substr( ( start_index + 11 ), end_index, string ) );
         }
         /* ASSIGN c_ep.Descrip =  */
         c_ep->Descrip = Escher_strcpy( c_ep->Descrip, "" );
@@ -649,8 +649,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     s_sync = ooapopulation->current_domain_function;
     /* IF ( not_empty s_sync ) */
     if ( ( 0 != s_sync ) ) {
-      /* ASSIGN s_sync.Action_Semantics_internal = ( ( ( s_sync.Action_Semantics_internal + codeblock: ) + PARAM.value[0] ) + \n ) */
-      s_sync->Action_Semantics_internal = Escher_strcpy( s_sync->Action_Semantics_internal, Escher_stradd( Escher_stradd( Escher_stradd( s_sync->Action_Semantics_internal, "codeblock:" ), p_value[0] ), "\n" ) );
+      /* ASSIGN s_sync.Action_Semantics_internal = ( s_sync.Action_Semantics_internal + PARAM.value[0] ) */
+      s_sync->Action_Semantics_internal = Escher_strcpy( s_sync->Action_Semantics_internal, Escher_stradd( s_sync->Action_Semantics_internal, p_value[0] ) );
     }
     /* ASSIGN c_ep = ooapopulation.current_executable_property */
     c_ep = ooapopulation->current_executable_property;
@@ -663,8 +663,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     o_tfr = ooapopulation->current_class_op;
     /* IF ( not_empty o_tfr ) */
     if ( ( 0 != o_tfr ) ) {
-      /* ASSIGN o_tfr.Action_Semantics_internal = ( ( ( o_tfr.Action_Semantics_internal + codeblock: ) + PARAM.value[0] ) + \n ) */
-      o_tfr->Action_Semantics_internal = Escher_strcpy( o_tfr->Action_Semantics_internal, Escher_stradd( Escher_stradd( Escher_stradd( o_tfr->Action_Semantics_internal, "codeblock:" ), p_value[0] ), "\n" ) );
+      /* ASSIGN o_tfr.Action_Semantics_internal = ( o_tfr.Action_Semantics_internal + PARAM.value[0] ) */
+      o_tfr->Action_Semantics_internal = Escher_strcpy( o_tfr->Action_Semantics_internal, Escher_stradd( o_tfr->Action_Semantics_internal, p_value[0] ) );
     }
     /* ASSIGN sm_state = ooapopulation.current_state */
     sm_state = ooapopulation->current_state;
@@ -682,8 +682,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
 }}}}
       /* IF ( not_empty sm_act ) */
       if ( ( 0 != sm_act ) ) {
-        /* ASSIGN sm_act.Action_Semantics_internal = ( ( ( sm_act.Action_Semantics_internal + codeblock: ) + PARAM.value[0] ) + \n ) */
-        sm_act->Action_Semantics_internal = Escher_strcpy( sm_act->Action_Semantics_internal, Escher_stradd( Escher_stradd( Escher_stradd( sm_act->Action_Semantics_internal, "codeblock:" ), p_value[0] ), "\n" ) );
+        /* ASSIGN sm_act.Action_Semantics_internal = ( sm_act.Action_Semantics_internal + PARAM.value[0] ) */
+        sm_act->Action_Semantics_internal = Escher_strcpy( sm_act->Action_Semantics_internal, Escher_stradd( sm_act->Action_Semantics_internal, p_value[0] ) );
       }
     }
   }

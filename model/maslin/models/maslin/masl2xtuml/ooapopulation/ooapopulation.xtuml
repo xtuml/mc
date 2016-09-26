@@ -103,7 +103,7 @@ elif ( "terminator" == element )
       end_index = STRING::indexof( haystack:string, needle:"</codeblock>" );
       message_cb = "";
       if ( -1 != start_index and -1 != end_index )
-        message_cb = "codeblock:" + STRING::substr( s:string, begin:start_index+11, end:end_index ) + "\n";
+        message_cb = STRING::substr( s:string, begin:start_index+11, end:end_index );
       end if;
       c_ep.Descrip = "";
 
@@ -329,7 +329,7 @@ elif ( "transition" == element )
 elif ( "codeblock" == element )
   s_sync = ooapopulation.current_domain_function;
   if ( not_empty s_sync )
-    s_sync.Action_Semantics_internal = s_sync.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
+    s_sync.Action_Semantics_internal = s_sync.Action_Semantics_internal + param.value[0];
   end if;
 
   c_ep = ooapopulation.current_executable_property;
@@ -340,14 +340,14 @@ elif ( "codeblock" == element )
   
   o_tfr = ooapopulation.current_class_op;
   if ( not_empty o_tfr )
-    o_tfr.Action_Semantics_internal = o_tfr.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
+    o_tfr.Action_Semantics_internal = o_tfr.Action_Semantics_internal + param.value[0];
   end if;
   
   sm_state = ooapopulation.current_state;
   if ( not_empty sm_state )
     select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
     if ( not_empty sm_act )
-      sm_act.Action_Semantics_internal = sm_act.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
+      sm_act.Action_Semantics_internal = sm_act.Action_Semantics_internal + param.value[0];
     end if;
   end if;
   
