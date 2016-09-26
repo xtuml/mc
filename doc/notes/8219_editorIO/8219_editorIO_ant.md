@@ -1,0 +1,141 @@
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
+
+# Editor I/O - Indexing Structural MASL for Activity Cross-Reference
+### xtUML Project Analysis Note
+
+1. Abstract
+-----------
+BridgePoint supports importing, editing and exporting xtUML/OAL.  This note
+analyzes the cross-referencing of MASL activities with structural xtUML
+while editing.
+
+2. Document References
+----------------------
+[1] [8219 Parent Task for Editor](https://support.onefact.net/issues/8219)  
+[2] [8258 MASL activity editor](https://support.onefact.net/issues/8258)  
+[3] [8259 MASL user defined identifier validation](https://support.onefact.net/issues/8259)  
+[4] [8260 MASL xtUML context-sensitive edit/completion assistance](https://support.onefact.net/issues/8260)  
+[5] [8261 MASL automatic reference maintenance](https://support.onefact.net/issues/8260)  
+
+3. Background
+-------------
+MASL is a modeling language inspired by the Action Specification Language
+used in a heritage UML tool.  MASL supports a rich syntax for encoding
+Shlaer-Mellor (S-M) model activities, and it also expresses the structural
+(domains, classes, associations, state machines) elements of S-M models.
+
+A syntax-highlighting and xtUML-aware MASL activity editor has
+been developed [2].  
+
+4. Requirements
+---------------
+4.1 The MASL activity editor shall support syntax highlighting similar to
+other widely used source code editors like those found in the Eclipse JDT.  
+
+4.2 The MASL editor shall validate user-defined identifiers within MASL
+activities.  Validation shall be provided against the local activity as
+well as against structural elements within scope.
+
+4.3 Context-sensitive completion assistance shall be provided for MASL actions.
+Completion assistance includes MASL keywords and user-defined identifiers.
+As with validation, assistance shall leverage local elements and structural
+elements within scope.
+
+4.4 As structural model elements are modified, the MASL activity editor shall
+support maintenance of the affected model-element references contained
+within MASL activities.
+
+5. Analysis
+-----------
+BridgePoint edits Shlaer-Mellor Executable UML models by supporting a
+mixed graphical and textual modeling language.  Components, class diagrams
+and state machines are modeled using a graphical modeling language based
+on the UML2 standard.  Activities are modeled using textual action language.
+As of 2016 BridgePoint support two action language, OAL and MASL.
+
+We often refer to "structural xtUML" and "textual xtUML".  Structural xtUML
+is (presently) modeled graphically.  Textual xtUML is (presently) confined
+to action bodies, but this may change in the future.  In all cases, textual
+xtUML (OAL or MASL) must be parsed.  Once parsed, operations on it can
+validate it, provide editing assistance and deal with refactoring.
+
+MASL has textual syntax for almost all of xtUML.  It is possible to validate
+all of MASL by parsing complete MASL models.
+
+5.1 Interfacing a MASL Activity Editor into the Structural BridgePoint Editor
+
+There are options for interfacing a textual editor into
+Papyrus-xtUML (BridgePoint).
+
+5.1.1 Direct Access to Existing Java API  
+The xtUML metamodel is translated into Java and exposes a consistent
+API for creating, deleting, (un)relating, reading and writing instance data.
+The AST of the MASL activity editor could be decorated with Java actions
+that call into this API.  This approach is simple and straight-forward
+but suffers from being low-level, brittle and tightly coupled.
+
+5.1.2 Instance-Based Component API  
+Instead of providing direct access to the generated metamodel as described
+above, a more formal and more loosely coupled interface could be supplied.
+Such an interface would be through messages between an _Activity Editor_
+component and an _OOAofOOA_ component.  This interface might be similar
+to the interface between _OOAofOOA_ and _Graphics_.  Or it could be similar
+to the _Serial MASL_ interface.  It would consist of a set of messages that
+would be sent/received between the editor and the structural metamodel.
+
+5.1.3 Persisted Structural MASL  
+There exists a utility `x2m` which converts xtUML to MASL and exports it.
+This capability can be leveraged to maintain a MASL representation of
+structural xtUML.  The Activity Editor can parse the structural
+MASL into its own AST.  All validation, edit assistance and refactoring
+then occurs within the AST-level representation of textual MASL.
+Such an interface can work well through the file system and thus
+minimizing the requirement for direct communication between the activity
+editor application and the structural/graphical editor application.
+See File System API below.
+
+5.1.4 EMF Facade of Structural xtUML/MASL  
+A facade in a form easily traversable by the editor could be projected
+from _OOAofOOA_.  Such a facade model could be generated.  The facade
+would contain only the subset of elements needed to provide editor
+validation and assitance functionality.  The technology of the facade
+model (EMF) would be compatible with the technology of the editor (Xtext).
+
+5.2 File System API  
+The primary interface between the structural (graphical) editor and the
+textual activity editor can be the file system.  Changes to these
+resources can be detected by either side (graphical editor and textual
+editor).
+
+
+6. Work Required
+----------------
+6.1 Highlight syntax on all MASL statements.
+
+6.2 Validate identifiers against `.dom` files located in `/masl` folder.  
+
+6.3 Provide edit assistance against `.dom` files located in `/masl` folder.
+
+6.4 Provide refactoring against `.dom` files located in `/masl` folder.
+
+6.5 Support multi-activity editing in a single file.
+
+6.6 Extract signatures from multi-activity files and load via serialized MASL.
+
+6.7 Persist structural MASL  
+6.7.1 Optimize `x2m` to skip prebuilder and run the file system scooper.  
+6.7.2 Run `x2m` at activity open before activity editor is launched.  
+6.7.3 Store structural MASL at top of activity file.  
+6.7.4 Port `x2m` from C to Java.  
+
+
+7. Acceptance Test
+------------------
+
+End
+---
+
