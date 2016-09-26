@@ -66,7 +66,7 @@ validate it, provide editing assistance and deal with refactoring.
 MASL has textual syntax for almost all of xtUML.  It is possible to validate
 all of MASL by parsing complete MASL models.
 
-5.1 Interfacing a MASL Activity Editor into the Structural BridgePoint Editor
+### 5.1 Interfacing a MASL Activity Editor into the Structural BridgePoint Editor
 
 There are options for interfacing a textual editor into
 Papyrus-xtUML (BridgePoint).
@@ -105,12 +105,39 @@ would contain only the subset of elements needed to provide editor
 validation and assitance functionality.  The technology of the facade
 model (EMF) would be compatible with the technology of the editor (Xtext).
 
-5.2 File System API  
+### 5.2 File System API  
 The primary interface between the structural (graphical) editor and the
 textual activity editor can be the file system.  Changes to these
 resources can be detected by either side (graphical editor and textual
 editor).
 
+### 5.3 Who Is King of Signatures?
+
+5.3.1 Structure Is King  
+When structure is king, the structural representation of an activity
+signature (name, parameters, types, return type) is the master.  The
+signatures in the activity files are read-only copies.  When structure
+is king, the signature is edited and maintained in Model Explorer.
+When structure is king, the signature in the activity file is validated
+against the `.dom` MASL representation and either "marked with squigglies"
+or actually synchronized automatically by the editor.
+
+5.3.2 Text Is King  
+When text is king, the signatures in the MASL activity file are the
+definitive master copy.  The structural representation must be synchronized
+from this textual definition.
+
+5.3.3 Most Recent Is King  
+Eventually, we need the best of both worlds.  The file with the most
+recent timestamp will push its changes to other.  So, when the signature
+is edited in Model Explorer, it gets pushed into the activity file.
+When the signature is edited in the activity file, upon save, it gets
+pushed into the structural (in-memory) representation in Model Explorer.
+
+It will be acceptable to choose a temporary king and later end up in
+a more cooperative and peer-collaborative world where the most
+recently updated signature is the master and synchronizes outwards
+to the other representations.
 
 6. Work Required
 ----------------
@@ -122,9 +149,18 @@ editor).
 
 6.4 Provide refactoring against `.dom` files located in `/masl` folder.
 
-6.5 Support multi-activity editing in a single file.
+6.5 Support multi-activity editing in a single file.  
+Group all activities into a single file along the following boundaries:  
+6.5.1 all functions and bridges in a package  
+6.5.2 all operations on a class  
+6.5.3 all states and transitions in a state machine  
+6.5.4 all messages in a component  
 
-6.6 Extract signatures from multi-activity files and load via serialized MASL.
+6.6 Choose a King  
+6.6.1 Stop persisting signatures in structural (instance-based) xtUML.  
+6.6.2 Extract signatures from activity files and load via serialized MASL.  
+6.6.3 Synchronize signatures from most recent change in Activity Editor or
+Model Explorer.
 
 6.7 Persist structural MASL  
 6.7.1 Optimize `x2m` to skip prebuilder and run the file system scooper.  
