@@ -19,7 +19,7 @@ while editing.
 [2] [8258 MASL activity editor](https://support.onefact.net/issues/8258)  
 [3] [8259 MASL user defined identifier validation](https://support.onefact.net/issues/8259)  
 [4] [8260 MASL xtUML context-sensitive edit/completion assistance](https://support.onefact.net/issues/8260)  
-[5] [8261 MASL automatic reference maintenance](https://support.onefact.net/issues/8260)  
+[5] [8261 MASL automatic reference maintenance](https://support.onefact.net/issues/8261)  
 
 3. Background
 -------------
