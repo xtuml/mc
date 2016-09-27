@@ -20,6 +20,8 @@ while editing.
 [3] [8259 MASL user defined identifier validation](https://support.onefact.net/issues/8259)  
 [4] [8260 MASL xtUML context-sensitive edit/completion assistance](https://support.onefact.net/issues/8260)  
 [5] [8261 MASL automatic reference maintenance](https://support.onefact.net/issues/8261)  
+[6] [Raven Advanced SRS (restricted access)](https://docs.google.com/document/d/1hi6TnVgNQj51zt9Ce1C3H6DHJI_kCjF1CDMBXxoe7wo/edit)  
+[7] [x2m and xtuml2masl (a.k.a. maslout)](https://github.com/xtuml/mc/tree/master/model/maslout)  
 
 3. Background
 -------------
@@ -33,21 +35,22 @@ been developed [2].
 
 4. Requirements
 ---------------
-4.1 The MASL activity editor shall support syntax highlighting similar to
-other widely used source code editors like those found in the Eclipse JDT.  
+4.1 [6 - E1] The MASL activity editor shall support syntax highlighting
+similar to other widely used source code editors like those found in the
+Eclipse JDT.  
 
-4.2 The MASL editor shall validate user-defined identifiers within MASL
-activities.  Validation shall be provided against the local activity as
+4.2 [6 - E2] The MASL editor shall validate user-defined identifiers within
+MASL activities.  Validation shall be provided against the local activity as
 well as against structural elements within scope.
 
-4.3 Context-sensitive completion assistance shall be provided for MASL actions.
-Completion assistance includes MASL keywords and user-defined identifiers.
-As with validation, assistance shall leverage local elements and structural
-elements within scope.
+4.3 [6 - E3, E4] Context-sensitive completion assistance shall be provided
+for MASL actions.  Completion assistance includes MASL keywords and
+user-defined identifiers.  As with validation, assistance shall leverage
+local elements and structural elements within scope.
 
-4.4 As structural model elements are modified, the MASL activity editor shall
-support maintenance of the affected model-element references contained
-within MASL activities.
+4.4 [6 - M1] As structural model elements are modified, the MASL activity
+editor shall support automatic maintenance of the affected model-element
+references contained within MASL activities.
 
 5. Analysis
 -----------
@@ -55,7 +58,7 @@ BridgePoint edits Shlaer-Mellor Executable UML models by supporting a
 mixed graphical and textual modeling language.  Components, class diagrams
 and state machines are modeled using a graphical modeling language based
 on the UML2 standard.  Activities are modeled using textual action language.
-As of 2016 BridgePoint support two action language, OAL and MASL.
+As of 2016 BridgePoint support two action languages, OAL and MASL.
 
 We often refer to "structural xtUML" and "textual xtUML".  Structural xtUML
 is (presently) modeled graphically.  Textual xtUML is (presently) confined
@@ -82,10 +85,11 @@ but suffers from being low-level, brittle and tightly coupled.
 Instead of providing direct access to the generated metamodel as described
 above, a more formal and more loosely coupled interface could be supplied.
 Such an interface would be through messages between an _Activity Editor_
-component and an _OOAofOOA_ component.  This interface might be similar
-to the interface between _OOAofOOA_ and _Graphics_.  Or it could be similar
-to the _Serial MASL_ interface.  It would consist of a set of messages that
-would be sent/received between the editor and the structural metamodel.
+component and an _OOAofOOA_ (xtUML metamodel) component.  This interface
+might be similar to the interface between _OOAofOOA_ and _Graphics_.
+Or it could be similar to the _Serial MASL_ interface.  It would consist
+of a set of messages that would be sent/received between the editor and
+the structural metamodel.
 
 5.1.3 Persisted Structural MASL  
 There exists a utility `x2m` which converts xtUML to MASL and exports it.
@@ -97,6 +101,9 @@ Such an interface can work well through the file system and thus
 minimizing the requirement for direct communication between the activity
 editor application and the structural/graphical editor application.
 See File System API below.
+
+Note, that when adding a feature to Papyrus-xtUML (BridgePoint), we will
+need to update both the structural editor and the text activity editor(s).
 
 5.1.4 EMF Facade of Structural xtUML/MASL  
 A facade in a form easily traversable by the editor could be projected
@@ -119,13 +126,17 @@ signature (name, parameters, types, return type) is the master.  The
 signatures in the activity files are read-only copies.  When structure
 is king, the signature is edited and maintained in Model Explorer.
 When structure is king, the signature in the activity file is validated
-against the `.dom` MASL representation and either "marked with squigglies"
+against the `.mod` MASL representation and either "marked with squigglies"
 or actually synchronized automatically by the editor.
 
 5.3.2 Text Is King  
 When text is king, the signatures in the MASL activity file are the
 definitive master copy.  The structural representation must be synchronized
-from this textual definition.
+from this textual definition.  Note that this type of synchronization
+is a challenge in the presence of "UUID-based" structural models.  So,
+careful consideration needs to be made about attempting this before
+a "natural, naming identifier" -based structural modeling language is
+in place.
 
 5.3.3 Most Recent Is King  
 Eventually, we need the best of both worlds.  The file with the most
@@ -142,38 +153,42 @@ to the other representations.
 6. Work Required
 ----------------
 The following work assumes the strategy of 5.1.3 above (Persisted Structural
-MASL) and using the file system for synchornization (5.2 File System API).
+MASL), using the file system for synchornization (5.2 File System API) and
+declaring the structure is king (for now).
  
 6.1 Highlight syntax on all MASL statements.
 
-6.2 Validate identifiers against `.dom` files located in `/masl` folder.  
+6.2 Validate identifiers against `.mod` files located in `/masl` folder (or
+new location to be supplied).  
 
-6.3 Provide edit assistance against `.dom` files located in `/masl` folder.
+6.3 Provide edit assistance against `.mod` files located in `/masl` (or
+new location to be supplied) folder.
 
-6.4 Provide refactoring against `.dom` files located in `/masl` folder.
+6.4 Provide refactoring against `.mod` files located in `/masl` (or
+new location to be supplied) folder.
 
 6.5 Support multi-activity editing in a single file.  
 Group all activities into a single file along the following boundaries:  
-6.5.1 all functions and bridges in a package  
+6.5.1 all functions and bridges in a package (grouped by type)  
 6.5.2 all operations on a class  
 6.5.3 all states and transitions in a state machine  
-6.5.4 all messages in a component  
+6.5.4 all messages in a component (grouped by port)  
 
 6.6 Choose a King  
-6.6.1 Stop persisting signatures in structural (instance-based) xtUML.  
-6.6.2 Extract signatures from activity files and load via serialized MASL.  
-6.6.3 Synchronize signatures from most recent change in Activity Editor or
-Model Explorer.
+Structure is King (for now).  
+6.6.1 Validate activity signatures against the structural MASL.  Indicate
+errors in the normal way.  Provide quick-fixing and/or other utilities
+to make keeping the signature consistent.
 
 6.7 Persist structural MASL  
 6.7.1 Optimize `x2m` to skip prebuilder and run the file system scooper.  
 6.7.2 Run `x2m` at activity open before activity editor is launched.  
-6.7.3 Store structural MASL at top of activity file.  
-6.7.4 Port `x2m` from C to Java.  
-
+6.7.3 (later) Consider storing structural MASL at top of activity file.  
+6.7.4 (later) Consider porting `x2m` from C to Java.  
 
 7. Acceptance Test
 ------------------
+Acceptance test will be defined in the Design Note.
 
 End
 ---
