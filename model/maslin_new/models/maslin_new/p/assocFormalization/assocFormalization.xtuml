@@ -39,7 +39,7 @@ end if;
 // select all attributes for ID1
 select any o_id1 related by o_obj->O_ID[R104] where ( selected.Oid_ID == 0 );
 select many o_attrs related by o_id1->O_ATTR[R105];
-if ( true == formalization::compareAttrSets( o_attrs:o_attrs, ras:ras ) )
+if ( true == formalization::compareAttrSets( o_attrs:o_attrs, ras:ras ) ) 
   ret = 0;
 else
   // check ID2

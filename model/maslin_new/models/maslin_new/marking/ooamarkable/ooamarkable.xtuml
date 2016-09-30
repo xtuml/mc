@@ -65,7 +65,7 @@ if ( not_empty population )
 			  project.Descrip = project.Descrip + pragma_string;
 			else
     		  TRACE::log( flavor:"failure", id:60, message:"Could not obtain markable." );
-    		  ooaelement::trace( population: population );
+    		  ooaelement::trace( population: population ); 
 			end if;
 		elif ( "domain" == element.type )
 		    if ( population.processingProject )

@@ -32,7 +32,7 @@ select many o_attrs related by o_id1->O_ATTR[R105];
 complete = true;
 for each sub_obj in sub_objs
   select many ras related by self->formalization[R3810]->referentialAttribute[R3811] where ( selected.o_obj == sub_obj );
-  complete = formalization::compareAttrSets( o_attrs:o_attrs, ras:ras );
+  complete = formalization::compareAttrSets( o_attrs:o_attrs, ras:ras ); 
   if ( false == complete )
     break;
   end if;

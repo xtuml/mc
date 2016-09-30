@@ -1013,6 +1013,46 @@ INSERT INTO PE_PE
 	"1800b076-78da-4923-9981-c067ad8e1b87",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("c38d98e1-41cc-4895-a1fc-c77e3db40e67",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<referentialAttribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("c38d98e1-41cc-4895-a1fc-c77e3db40e67",
+	0,
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	'referentialAttribute',
+	3803,
+	'referentialAttribute',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./referentialAttribute/referentialAttribute.xtuml');
+INSERT INTO PE_PE
+	VALUES ("c38d98e1-41cc-4895-a1fc-c77e3db40e67",
+	1,
+	"1800b076-78da-4923-9981-c067ad8e1b87",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("c1013647-e651-42fe-bc79-6e45c353f225",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<referentialAttribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("c1013647-e651-42fe-bc79-6e45c353f225",
+	1,
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO PE_PE
+	VALUES ("c1013647-e651-42fe-bc79-6e45c353f225",
+	1,
+	"1800b076-78da-4923-9981-c067ad8e1b87",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("4295d359-8d9e-49de-adda-d38faa13af17");
 INSERT INTO R_REL
@@ -1037,14 +1077,6 @@ INSERT INTO R_OIR
 	"4295d359-8d9e-49de-adda-d38faa13af17",
 	"08c7d6e4-a699-4f86-b0ae-15d4d6d67dbf",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("12011a2c-08f6-42a5-866b-950fa9e50b3b",
-	'referentialAttribute',
-	3803,
-	'referentialAttribute',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./referentialAttribute/referentialAttribute.xtuml');
 INSERT INTO R_PART
 	VALUES ("3a8c6f0d-c062-4472-9f8d-0eef874936be",
 	"4295d359-8d9e-49de-adda-d38faa13af17",

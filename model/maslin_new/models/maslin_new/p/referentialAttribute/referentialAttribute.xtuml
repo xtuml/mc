@@ -30,7 +30,7 @@ if ( not_empty o_attr )
 
   // add to identifiers
   if ( true == self.identifier1 )
-	ooapopulation.Attribute_addToIdentifier( o_attr:o_attr, oid:0 );
+	ooapopulation.Attribute_addToIdentifier( o_attr:o_attr, oid:0 ); 
   end if;
   if ( true == self.identifier2 )
 	ooapopulation.Attribute_addToIdentifier( o_attr:o_attr, oid:1 );
@@ -87,18 +87,18 @@ INSERT INTO O_TPARM
 	VALUES ("16b8f3de-ab74-4f2e-9741-e6cac277ef9b",
 	"9514835b-6634-4671-b201-0b0b30efcc45",
 	'ooapopulation',
-	"6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	"cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
 	0,
 	'',
 	"0f12f28d-3bcf-4fb4-9d14-f6e35cbd5ef1",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	VALUES ("cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<ooapopulation>',
 	'',
 	'',
-	'../../../../../maslin/models/maslin/masl2xtuml/masl2xtuml.xtuml');
+	'../p.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("b198409d-c85e-4b50-a6b7-59f50790ea63",
 	"12011a2c-08f6-42a5-866b-950fa9e50b3b");

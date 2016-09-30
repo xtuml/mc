@@ -35,7 +35,7 @@ for each o_attr in o_attrs
 
   match = false;
   for each ra in ras
-    if ( o_attr.Root_Nam == ra.attrName )
+    if ( o_attr.Root_Nam == ra.attrName ) 
       match = true;
       break;
     end if;
@@ -74,18 +74,18 @@ INSERT INTO O_TPARM
 	VALUES ("4ca5327f-1109-41bc-a301-eb005383ad6b",
 	"18a49c09-d035-4bad-a130-dff62a357d68",
 	'ras',
-	"02a6cfb7-7bcb-4aef-806e-6cccfc40e5ec",
+	"c1013647-e651-42fe-bc79-6e45c353f225",
 	0,
 	'',
 	"38175d81-bce5-49ca-ada2-781b66e12b0f",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("02a6cfb7-7bcb-4aef-806e-6cccfc40e5ec",
+	VALUES ("c1013647-e651-42fe-bc79-6e45c353f225",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref_set<referentialAttribute>',
 	'',
 	'',
-	'../../../../../maslin/models/maslin/masl2xtuml/masl2xtuml.xtuml');
+	'../p.xtuml');
 INSERT INTO O_TFR
 	VALUES ("374c1fc1-802d-4e21-b151-f83530f4006c",
 	"3a8c6f0d-c062-4472-9f8d-0eef874936be",

@@ -6681,7 +6681,7 @@ while ( passes < num_forms )
 		  // select the correspoinding new referential attribute
 		  select any o_attr related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
 		  select many o_attrs related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
-		  ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self );
+		  ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self );  
 		end for;
 		
 		// post processing for the formalizing object
@@ -6976,7 +6976,7 @@ if ( "" == value[0] and "" == value[1] and "" == value[2] and "" == value[3] and
     current_element.pop_stack();
   else
     TRACE::log( flavor:"failure", id:55, message:"Element stack is malformed." );
-    ooaelement::trace( population: ooapopulation );
+    ooaelement::trace( population: ooapopulation ); 
   end if;
 elif ( not ( "typeref" == element or 		// exclude leaf nodes in stack
   	   "referential" == element or
@@ -7650,7 +7650,7 @@ text = param.text;
 tag = param.tag;
 
 // choose where to put the description based on the element type
-if ( "attribute" == element.type )
+if ( "attribute" == element.type ) 
   attr = self.current_attribute;
   if ( not_empty attr )
     attr.Descrip = attr.Descrip + text;
@@ -7727,18 +7727,18 @@ INSERT INTO O_TPARM
 	VALUES ("d0952a9d-8ed2-4e03-9864-bebba9777dbe",
 	"5a7f2bf8-f192-420a-9e7b-bdec80b58b53",
 	'element',
-	"67d44486-874e-43aa-a2a2-0487451e2390",
+	"e5dfdb84-9b56-40db-b9da-9bfde06c573c",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("67d44486-874e-43aa-a2a2-0487451e2390",
+	VALUES ("e5dfdb84-9b56-40db-b9da-9bfde06c573c",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<ooaelement>',
 	'',
 	'',
-	'../../../../../maslin/models/maslin/marking/marking.xtuml');
+	'../../marking/marking.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("77ccac14-0ec6-4ce8-a5f3-50105c3f2740",
 	"5a7f2bf8-f192-420a-9e7b-bdec80b58b53",

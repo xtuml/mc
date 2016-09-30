@@ -14,7 +14,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
-	'population = param.population;
+	'population = param.population; 
 type = param.type;
 
 select one current_element related by population->ooaelement[R3801];
@@ -147,7 +147,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
-	'population = param.population;
+	'population = param.population; 
 
 TRACE::log( flavor:"stack_trace", id:82, message:"outputting element stack:" );
 select one current_element related by population->ooaelement[R3801];
@@ -167,18 +167,11 @@ INSERT INTO O_TPARM
 	VALUES ("5af53177-aff0-4af5-818f-6db43adea17b",
 	"e1d32348-091f-45b1-8108-e733725f7826",
 	'population',
-	"6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	"cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("6b004b50-6faf-4d6c-84e5-1972ed5ff094",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<ooapopulation>',
-	'',
-	'',
-	'../../../../../maslin/models/maslin/masl2xtuml/masl2xtuml.xtuml');
 INSERT INTO O_TFR
 	VALUES ("98900e47-44f9-4f74-a987-2f416ef054c6",
 	"079bf2c7-58dc-498f-a0ee-f3840b5f5599",
