@@ -7535,18 +7535,18 @@ INSERT INTO O_TPARM
 	VALUES ("89616648-196e-41b8-a199-0b051ccab6d7",
 	"5e51dc0b-b8d8-446e-b61c-8a799b2b7b17",
 	'ooapopulation',
-	"6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	"cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
 	0,
 	'',
 	"9f515f51-f14a-4e24-bccd-7faaa577d8fe",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	VALUES ("cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<ooapopulation>',
 	'',
 	'',
-	'../../../../../maslin/models/maslin/masl2xtuml/masl2xtuml.xtuml');
+	'../p.xtuml');
 INSERT INTO O_TFR
 	VALUES ("f042b447-76dc-44d3-89ad-50afd7f4eb80",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
@@ -8936,16 +8936,16 @@ INSERT INTO O_ATTR
 	'',
 	'current_pragma',
 	0,
-	"150bb385-2132-4200-960b-2be5599a2b59",
+	"e09ea014-4e29-4685-9e51-04ec59136f92",
 	'',
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("150bb385-2132-4200-960b-2be5599a2b59",
+	VALUES ("e09ea014-4e29-4685-9e51-04ec59136f92",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<ooapragma>',
 	'',
 	'',
-	'../../../../../maslin/models/maslin/marking/marking.xtuml');
+	'../../marking/marking.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("80d1652d-6e68-49f6-8cb0-ec888d5f5a95",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");

@@ -973,6 +973,46 @@ INSERT INTO PE_PE
 	"1800b076-78da-4923-9981-c067ad8e1b87",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooapopulation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
+	0,
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'ooapopulation',
+	3801,
+	'ooapopulation',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./ooapopulation/ooapopulation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
+	1,
+	"1800b076-78da-4923-9981-c067ad8e1b87",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("ec0ff367-594e-4ced-ab59-490a5f130423",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<ooapopulation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ec0ff367-594e-4ced-ab59-490a5f130423",
+	1,
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
+INSERT INTO PE_PE
+	VALUES ("ec0ff367-594e-4ced-ab59-490a5f130423",
+	1,
+	"1800b076-78da-4923-9981-c067ad8e1b87",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("4295d359-8d9e-49de-adda-d38faa13af17");
 INSERT INTO R_REL
@@ -1000,7 +1040,7 @@ INSERT INTO R_OIR
 INSERT INTO O_OBJ_PROXY
 	VALUES ("12011a2c-08f6-42a5-866b-950fa9e50b3b",
 	'referentialAttribute',
-	3,
+	3803,
 	'referentialAttribute',
 	'',
 	"00000000-0000-0000-0000-000000000000",
@@ -1025,7 +1065,7 @@ INSERT INTO R_OIR
 INSERT INTO O_OBJ_PROXY
 	VALUES ("3a8c6f0d-c062-4472-9f8d-0eef874936be",
 	'formalization',
-	4,
+	3809,
 	'formalization',
 	'',
 	"00000000-0000-0000-0000-000000000000",
@@ -1073,7 +1113,7 @@ INSERT INTO R_OIR
 INSERT INTO O_OBJ_PROXY
 	VALUES ("085bc8af-95d3-40f3-a532-dc21ffe7ec6d",
 	'simpleFormalization',
-	5,
+	3810,
 	'simpleFormalization',
 	'',
 	"00000000-0000-0000-0000-000000000000",
@@ -1094,7 +1134,7 @@ INSERT INTO R_OIR
 INSERT INTO O_OBJ_PROXY
 	VALUES ("3205deaa-b245-4320-a2cb-a70c46f74b2d",
 	'assocFormalization',
-	7,
+	3812,
 	'assocFormalization',
 	'',
 	"00000000-0000-0000-0000-000000000000",
@@ -1115,7 +1155,7 @@ INSERT INTO R_OIR
 INSERT INTO O_OBJ_PROXY
 	VALUES ("2186ed42-35da-4479-92f1-941a1bd6c790",
 	'subsuperFormalization',
-	6,
+	3811,
 	'subsuperFormalization',
 	'',
 	"00000000-0000-0000-0000-000000000000",
