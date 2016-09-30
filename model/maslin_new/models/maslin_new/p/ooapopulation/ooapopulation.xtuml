@@ -9176,24 +9176,6 @@ INSERT INTO O_ATTR
 	"47b02a5f-ecfb-49c6-bf1a-6e4a2ff6de02",
 	'',
 	'');
-INSERT INTO O_NBATTR
-	VALUES ("c9e0961f-397b-4779-9bf1-24539a4a9f39",
-	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
-INSERT INTO O_BATTR
-	VALUES ("c9e0961f-397b-4779-9bf1-24539a4a9f39",
-	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
-INSERT INTO O_ATTR
-	VALUES ("c9e0961f-397b-4779-9bf1-24539a4a9f39",
-	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
-	"a9e16f91-ac24-4273-9b33-4e0bbc364ac1",
-	'tododelete',
-	'',
-	'',
-	'tododelete',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000002",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
