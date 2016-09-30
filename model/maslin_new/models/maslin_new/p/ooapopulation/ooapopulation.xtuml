@@ -8970,7 +8970,7 @@ INSERT INTO S_DT_PROXY
 	'relationship_data',
 	'',
 	'',
-	'../../../../../maslin/models/maslin/masl2xtuml/masl2xtuml.xtuml');
+	'../p.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("9a9d4bea-ee3c-4a9c-b146-7a8d78c608a9",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
@@ -9121,7 +9121,7 @@ INSERT INTO S_DT_PROXY
 	'routine_info',
 	'',
 	'',
-	'../../../../../maslin/models/maslin/masl2xtuml/masl2xtuml.xtuml');
+	'../p.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("c1793732-f9d7-4012-8b28-d453f9eebad4",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
@@ -9174,6 +9174,24 @@ INSERT INTO O_ATTR
 	'current_exp',
 	0,
 	"47b02a5f-ecfb-49c6-bf1a-6e4a2ff6de02",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("c9e0961f-397b-4779-9bf1-24539a4a9f39",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
+INSERT INTO O_BATTR
+	VALUES ("c9e0961f-397b-4779-9bf1-24539a4a9f39",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
+INSERT INTO O_ATTR
+	VALUES ("c9e0961f-397b-4779-9bf1-24539a4a9f39",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	"a9e16f91-ac24-4273-9b33-4e0bbc364ac1",
+	'tododelete',
+	'',
+	'',
+	'tododelete',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID
