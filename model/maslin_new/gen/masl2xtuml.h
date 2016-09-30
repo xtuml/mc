@@ -12,7 +12,7 @@
 extern	"C"	{
 #endif
 
-#include "maslin_sys_types.h"
+#include "maslin_new_sys_types.h"
 void masl2xtuml_in_end( void );
 void masl2xtuml_in_populate( c_t *, c_t [8][ESCHER_SYS_MAX_STRING_LEN] );
 
