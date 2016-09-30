@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("3205deaa-b245-4320-a2cb-a70c46f74b2d",
 	'assocFormalization',
-	7,
+	3812,
 	'assocFormalization',
 	'',
 	"00000000-0000-0000-0000-000000000000");

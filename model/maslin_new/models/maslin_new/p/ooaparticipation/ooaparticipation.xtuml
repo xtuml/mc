@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("fd2227fc-c811-4a08-bfd3-938556401f81",
 	'ooaparticipation',
-	1,
+	3802,
 	'ooaparticipation',
 	'',
 	"00000000-0000-0000-0000-000000000000");

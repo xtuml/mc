@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("d83a32f7-3bab-45d1-822a-1b39cbf519e7",
 	'ooapopulation',
-	2,
+	3801,
 	'ooapopulation',
 	'',
 	"00000000-0000-0000-0000-000000000000");

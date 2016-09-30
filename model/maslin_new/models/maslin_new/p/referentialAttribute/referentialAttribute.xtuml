@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("12011a2c-08f6-42a5-866b-950fa9e50b3b",
 	'referentialAttribute',
-	3,
+	3803,
 	'referentialAttribute',
 	'',
 	"00000000-0000-0000-0000-000000000000");
