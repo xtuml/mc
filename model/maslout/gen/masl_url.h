@@ -15,8 +15,9 @@
  *              the user with enough memory to store the
  *              encoded string
  * @arg src     Well formed string to encode
+ * @arg max_len Max length of the string to encode
  */
-void masl_url_encode( char * dst, const char * src );
+void masl_url_encode( char * dst, const char * src, int max_len );
 
 /* 
  * masl_url_decode
@@ -35,5 +36,6 @@ void masl_url_encode( char * dst, const char * src );
  *              the user with enough memory to store the
  *              decoded string
  * @arg src     Well formed string to decode
+ * @arg max_len Max length of the string to encode
  */
-void masl_url_decode( char * dst, const char * src );
+void masl_url_decode( char * dst, const char * src, int max_len );

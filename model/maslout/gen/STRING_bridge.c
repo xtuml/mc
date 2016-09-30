@@ -301,3 +301,30 @@ STRING_quote()
   return result;
 }
 
+/*
+ * Bridge:  unescapetics
+ */
+c_t *
+STRING_unescapetics( c_t * p_s )
+{
+  c_t result[ESCHER_SYS_MAX_STRING_LEN];
+  result[0] = '\0';
+
+  c_t * p = p_s;
+  c_t * q = result;
+
+  while ( p != 0 && *p != '\0' && (q - result) < ESCHER_SYS_MAX_STRING_LEN ) {
+      if ( *p == '\'' && *(p+1) == '\'' ) {
+          *q = *p;      // copy one tic
+          p++;          // skip the other
+      }
+      else {
+          *q = *p;      // copy the character
+      }
+      q++;
+      p++;
+  }
+  *q = '\0';            // null terminate
+
+  return result;
+}
