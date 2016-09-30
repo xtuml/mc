@@ -119,7 +119,7 @@ INSERT INTO EP_PKG_PROXY
 	VALUES ("1800b076-78da-4923-9981-c067ad8e1b87",
 	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
 	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
-	'p',
+	'm2x',
 	'',
 	0,
-	'../p.xtuml');
+	'../m2x.xtuml');

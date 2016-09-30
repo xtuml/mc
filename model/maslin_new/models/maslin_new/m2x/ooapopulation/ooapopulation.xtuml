@@ -7546,7 +7546,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<ooapopulation>',
 	'',
 	'',
-	'../p.xtuml');
+	'../m2x.xtuml');
 INSERT INTO O_TFR
 	VALUES ("f042b447-76dc-44d3-89ad-50afd7f4eb80",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
@@ -8970,7 +8970,7 @@ INSERT INTO S_DT_PROXY
 	'relationship_data',
 	'',
 	'',
-	'../p.xtuml');
+	'../m2x.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("9a9d4bea-ee3c-4a9c-b146-7a8d78c608a9",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
@@ -9121,7 +9121,7 @@ INSERT INTO S_DT_PROXY
 	'routine_info',
 	'',
 	'',
-	'../p.xtuml');
+	'../m2x.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("c1793732-f9d7-4012-8b28-d453f9eebad4",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
@@ -9195,7 +9195,7 @@ INSERT INTO EP_PKG_PROXY
 	VALUES ("1800b076-78da-4923-9981-c067ad8e1b87",
 	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
 	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
-	'p',
+	'm2x',
 	'',
 	0,
-	'../p.xtuml');
+	'../m2x.xtuml');

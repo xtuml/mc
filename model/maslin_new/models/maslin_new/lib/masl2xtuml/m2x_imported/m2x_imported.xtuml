@@ -4,7 +4,7 @@ INSERT INTO EP_PKG
 	VALUES ("d906b2ef-dfdc-496b-aeef-260d5369a267",
 	"00000000-0000-0000-0000-000000000000",
 	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
-	'masl2xtuml_imported',
+	'm2x_imported',
 	'masl2xtuml',
 	0);
 INSERT INTO GD_MD
@@ -25,7 +25,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'maslin_new::lib::masl2xtuml::masl2xtuml_imported');
+	'maslin_new::lib::masl2xtuml::m2x_imported');
 INSERT INTO DIM_DIA
 	VALUES ("dd659b98-a99c-4549-9680-26d74cd8b8cc",
 	'',

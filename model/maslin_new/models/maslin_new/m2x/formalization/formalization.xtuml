@@ -85,7 +85,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref_set<referentialAttribute>',
 	'',
 	'',
-	'../p.xtuml');
+	'../m2x.xtuml');
 INSERT INTO O_TFR
 	VALUES ("374c1fc1-802d-4e21-b151-f83530f4006c",
 	"3a8c6f0d-c062-4472-9f8d-0eef874936be",
@@ -163,7 +163,7 @@ INSERT INTO EP_PKG_PROXY
 	VALUES ("1800b076-78da-4923-9981-c067ad8e1b87",
 	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
 	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
-	'p',
+	'm2x',
 	'',
 	0,
-	'../p.xtuml');
+	'../m2x.xtuml');

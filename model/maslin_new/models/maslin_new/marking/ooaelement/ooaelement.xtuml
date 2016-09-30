@@ -64,7 +64,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<ooapopulation>',
 	'',
 	'',
-	'../../p/p.xtuml');
+	'../../m2x/m2x.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("f3964665-03f4-441f-9f1c-4baf33b36ab2",
 	"09c0ff42-b83a-4720-b837-bbd50a7a8f07",

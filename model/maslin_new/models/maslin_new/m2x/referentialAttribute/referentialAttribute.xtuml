@@ -98,7 +98,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<ooapopulation>',
 	'',
 	'',
-	'../p.xtuml');
+	'../m2x.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("b198409d-c85e-4b50-a6b7-59f50790ea63",
 	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
@@ -287,7 +287,7 @@ INSERT INTO EP_PKG_PROXY
 	VALUES ("1800b076-78da-4923-9981-c067ad8e1b87",
 	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
 	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
-	'p',
+	'm2x',
 	'',
 	0,
-	'../p.xtuml');
+	'../m2x.xtuml');
