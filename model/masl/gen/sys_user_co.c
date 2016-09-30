@@ -76,10 +76,10 @@ UserPreOoaInitializationCalloutf( void )
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
-  char s[ 1024 ], element[ ESCHER_SYS_MAX_STRING_LEN ], value[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ], arg[ ESCHER_SYS_MAX_STRING_LEN ];
+  char s[ ESCHER_SYS_MAX_STRING_LEN ], element[ ESCHER_SYS_MAX_STRING_LEN ], value[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ], arg[ ESCHER_SYS_MAX_STRING_LEN ];
   char * p, * q;
   T_clear();
-  while ( ( p = fgets( s, 1024, stdin ) ) != NULL ) {
+  while ( ( p = fgets( s, ESCHER_SYS_MAX_STRING_LEN, stdin ) ) != NULL ) {
     int i, j;
     i = 0;
     p[ strlen(p) - 1 ] = 0;
