@@ -1022,6 +1022,16 @@ INSERT INTO S_BPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_BRG
+	VALUES ("faac7122-4b72-4253-92ed-a5a8428f1016",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'quote',
+	'Returns a literal double quote character as a string',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	1,
+	'');
 INSERT INTO PE_PE
 	VALUES ("bb9efba5-486a-4a39-a358-d0e112844c11",
 	1,

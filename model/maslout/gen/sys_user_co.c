@@ -76,11 +76,12 @@ void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
   int project = 0; int domain = 0;
+  bool key_lett = FALSE;
   int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "i:d::p::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "i:d::p::k::" ) ) != -1 ) {
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
@@ -94,6 +95,9 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
           project = 1;
           if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
+        case 'k':
+          key_lett = TRUE;
+          break;
         case '?':
             fprintf( stderr, "Unknown option character '%c'.\n", optopt );
             break;
@@ -104,9 +108,9 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   }
   int i = 0;
   if ( project ) {
-    while ( i < namecount ) xtuml2masl_masl_project( name[ i++ ] );
+    while ( i < namecount ) xtuml2masl_masl_project( (const bool)key_lett, name[ i++ ] );
   } else if ( domain ) {
-    while ( i < namecount ) xtuml2masl_masl_domain( name[ i++ ] );
+    while ( i < namecount ) xtuml2masl_masl_domain( name[ i++ ], (const bool)key_lett );
   }
 }
 
