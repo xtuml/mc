@@ -102,7 +102,115 @@ Branch name: 8523_repair_maslin
 
 <pre>
 
-< Put the file list here >
+doc/notes/8523_fix_maslin.md
+
+maslin/.settings/com.mentor.nucleus.bp.ui.project.preferences.prefs
+
+maslin_new/.externalToolBuilders/Model Compiler.launch
+maslin_new/.externalToolBuilders/
+    org.eclipse.cdt.managedbuilder.core.genmakebuilder (3).launch
+maslin_new/.externalToolBuilders/
+    org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder (3).launch
+maslin_new/.settings/com.mentor.nucleus.bp.ui.project.preferences.prefs
+maslin_new/gen/.gitignore
+maslin_new/gen/bridge.mark
+maslin_new/gen/class.mark
+maslin_new/gen/datatype.mark
+maslin_new/gen/domain.mark
+maslin_new/gen/event.mark
+maslin_new/gen/HOWTO_test_maslin.md
+maslin_new/gen/LOG_bridge.c
+maslin_new/gen/masl_url.c
+maslin_new/gen/masl_url.h
+maslin_new/gen/masl2xtuml_IDLINK_bridge.c
+maslin_new/gen/masl2xtuml_O_ATTR_class.c
+maslin_new/gen/masl2xtuml_ooapopulation_class.c
+maslin_new/gen/masl2xtuml_ooapopulation_class.h
+maslin_new/gen/masl2xtuml_S_UDT_class.c
+maslin_new/gen/masl2xtuml.c
+maslin_new/gen/masl2xtuml.h
+maslin_new/gen/STRING_bridge.c
+maslin_new/gen/sys_user_co.c
+maslin_new/gen/sys_user_co.h
+maslin_new/gen/system.mark
+maslin_new/models/maslin_new/maslin_new.xtuml
+maslin_new/models/maslin_new/lib/lib.xtuml
+maslin_new/models/maslin_new/lib/masl2xtuml/masl2xtuml.xtuml
+maslin_new/models/maslin_new/lib/masl2xtuml/m2x_imported/m2x_imported.xtuml
+maslin_new/models/maslin_new/lib/masl2xtuml/marking_imported/
+    marking_imported.xtuml
+maslin_new/models/maslin_new/lib/masl2xtuml/ooaofooa_imported/
+    ooaofooa_imported.xtuml
+maslin_new/models/maslin_new/lib/test/test.xtuml
+maslin_new/models/maslin_new/lib/test/ib/ib.xtuml
+maslin_new/models/maslin_new/lib/test/ib/test/test.xtuml
+maslin_new/models/maslin_new/m2x/m2x.xtuml
+maslin_new/models/maslin_new/m2x/assocFormalization/assocFormalization.xtuml
+maslin_new/models/maslin_new/m2x/formalization/formalization.xtuml
+maslin_new/models/maslin_new/m2x/ooaparticipation/ooaparticipation.xtuml
+maslin_new/models/maslin_new/m2x/ooapopulation/ooapopulation.xtuml
+maslin_new/models/maslin_new/m2x/referentialAttribute/referentialAttribute.xtuml
+maslin_new/models/maslin_new/m2x/simpleFormalization/simpleFormalization.xtuml
+maslin_new/models/maslin_new/m2x/subsuperFormalization/
+    subsuperFormalization.xtuml
+maslin_new/models/maslin_new/marking/marking.xtuml
+maslin_new/models/maslin_new/marking/ooaelement/ooaelement.xtuml
+maslin_new/models/maslin_new/marking/ooamarkable/ooamarkable.xtuml
+maslin_new/models/maslin_new/marking/ooapragma/ooapragma.xtuml
+maslin_new/models/maslin_new/marking/ooapragma_item/ooapragma_item.xtuml
+maslin_new/models/maslin_new/marking/ooapragma_list/ooapragma_list.xtuml
+maslin_new/models/maslin_new/marking/ooaunmarkable/ooaunmarkable.xtuml
+maslin_new/models/maslin_new/sysmaslin/sysmaslin.xtuml
+maslin_new/models/maslin_new/systest/systest.xtuml
+maslin_new/src/.gitignore
+maslin_new/src/makefile.maslin
+maslin_new/test_data/GPSWatch.smasl
+maslin_new/test_data/GPSWatch.sql
+maslin_new/test_data/GPSWatch.xtuml
+maslin_new/test_data/HeartRateMonitor.smasl
+maslin_new/test_data/HeartRateMonitor.sql
+maslin_new/test_data/HeartRateMonitor.xtuml
+maslin_new/test_data/Location.smasl
+maslin_new/test_data/Location.sql
+maslin_new/test_data/Location.xtuml
+maslin_new/test_data/PSC.smasl
+maslin_new/test_data/SAC_from_m2x.sql
+maslin_new/test_data/SAC_PROC.smasl
+maslin_new/test_data/SAC.smasl
+maslin_new/test_data/Tracking.smasl
+maslin_new/test_data/Tracking.sql
+maslin_new/test_data/Tracking.xtuml
+maslin_new/test_data/UI.smasl
+maslin_new/test_data/UI.sql
+maslin_new/test_data/UI.xtuml
+maslin_new/test_data/pragmas/PragTest/bar.fn
+maslin_new/test_data/pragmas/PragTest/foo.svc
+maslin_new/test_data/pragmas/PragTest/obj1_bar.fn
+maslin_new/test_data/pragmas/PragTest/obj1_foo.svc
+maslin_new/test_data/pragmas/PragTest/obj1_st1.al
+maslin_new/test_data/pragmas/PragTest/PragTest.int
+maslin_new/test_data/pragmas/PragTest/PragTest.mod
+maslin_new/test_data/pragmas/PragTest/term1_bar.tr
+maslin_new/test_data/pragmas/PragTest/term1_foo.tr
+maslin_new/test_data/pragmas/PragTestProj/PragTest_term1_bar.tr
+maslin_new/test_data/pragmas/PragTestProj/PragTest_term1_foo.tr
+maslin_new/test_data/pragmas/PragTestProj/PragTestProj.prj
+maslin_new/test_data/referentials/assocREF.mod
+maslin_new/test_data/referentials/assocREF.smasl
+maslin_new/test_data/referentials/combinedREF.mod
+maslin_new/test_data/referentials/combinedREF.smasl
+maslin_new/test_data/referentials/dependREF.mod
+maslin_new/test_data/referentials/dependREF.smasl
+maslin_new/test_data/referentials/REF.mod
+maslin_new/test_data/referentials/REF.smasl
+maslin_new/test_data/referentials/subsuperREF.mod
+maslin_new/test_data/referentials/subsuperREF.smasl
+maslin_new/.cproject
+maslin_new/.project
+
+maslout/.settings/com.mentor.nucleus.bp.ui.project.preferences.prefs
+maslout/models/maslout/lib/xtuml2masl/xtuml2masl.xtuml
+
 
 </pre>
 
