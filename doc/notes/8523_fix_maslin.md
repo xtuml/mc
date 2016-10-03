@@ -17,7 +17,7 @@ in maslin.
 ----------------------
 [1] [BridgePoint DEI #8523](https://support.onefact.net/issues/8523)  
 [2] [GPS MASL example model](https://github.com/xtuml/models/tree/master/masl/gps)   
-[1] [BridgePoint DEI #8770](https://support.onefact.net/issues/8770) - Clean up maslin duplication   
+[3] [BridgePoint DEI #8770](https://support.onefact.net/issues/8770) - Clean up maslin duplication   
 
 3. Background
 -------------
@@ -41,7 +41,7 @@ process when doing maslin work.
 5. Work Required
 ----------------
 5.1. The process of fixing maslin involved some failed attempts before a working
-  method was found.  The failed attempts are captured here:
+  method was found.  The failed attempts are captured here:  
 5.1.1 Attempt 1
   * created new package masl2xtuml_new in maslin project
   * created new classes in masl2xtuml_new  
@@ -62,7 +62,8 @@ process when doing maslin work.
   * Move datatypes and EE from maslin/masl2xtuml to maslin_new/p  
   * Rename "p" to "m2x"  
   * Restart BridgePoint
-  * __SUCCESS!__ Classes do not disappear    
+  * __SUCCESS!__ Classes do not disappear      
+  
 5.2.1  Add and attribute in ooapopulation, restart, make sure class is still there.  
 5.2.2  Delete new attribute in ooapopulation, restart, make sure class is still there.  
 
