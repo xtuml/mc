@@ -322,7 +322,7 @@ INSERT INTO GD_GE
 	"fc52c455-bf5a-49cb-ba91-3b39d6d97611",
 	108,
 	0,
-	'maslout::lib::xtuml2masl::project');
+	'maslout::lib::xtuml2masl::model');
 INSERT INTO GD_SHP
 	VALUES ("8fb7e7c7-d335-477c-8aec-0558f135deb8");
 INSERT INTO GD_NCS
