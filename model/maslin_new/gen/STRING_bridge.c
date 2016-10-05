@@ -196,3 +196,32 @@ STRING_getword( const i_t p_i, const i_t p_j, c_t * p_s )
   /* Insert your implementation code here... */
   return result;
 }
+/*
+ * Bridge:  escapetics
+ */
+c_t *
+STRING_escapetics( c_t * p_s )
+{
+  c_t result[ESCHER_SYS_MAX_STRING_LEN];
+  result[0] = '\0';
+
+  c_t * p = p_s;
+  c_t * q = result;
+
+  while ( p != 0 && *p != '\0' && (q - result) < ESCHER_SYS_MAX_STRING_LEN ) {
+      if ( *p == '\'' ) {
+          *q = *p;      // copy the character
+          q++;
+          *q = '\'';    // add an extra tic to escape it
+      }
+      else {
+          *q = *p;      // copy the character
+      }
+      q++;
+      p++;
+  }
+  *q = '\0';            // null terminate
+
+  return result;
+}
+
