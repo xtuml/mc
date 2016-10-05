@@ -1,0 +1,139 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("085bc8af-95d3-40f3-a532-dc21ffe7ec6d",
+	'simpleFormalization',
+	3810,
+	'simpleFormalization',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("d309da98-654c-43b8-83b8-241922a29926",
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d",
+	'getID',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'// Checks the referential attributes connected to this formalization against
+// the identifier attributes for the target object
+// A simple formalization is complete when it has one referential attribute
+// for each attribute in an identifier of the participating class
+// returns -1 if incomplete. else, returns the identifier number
+
+ret = -1;
+
+// select all of the referential attributes
+select many ras related by self->formalization[R3810]->referentialAttribute[R3811];
+
+simp = self.rel;
+select any o_obj related by simp->R_PART[R207]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201] where ( selected.Obj_ID == self.part_obj_id );
+
+// select all attributes for ID1
+select any o_id1 related by o_obj->O_ID[R104] where ( selected.Oid_ID == 0 );
+select many o_attrs related by o_id1->O_ATTR[R105];
+if ( true == formalization::compareAttrSets( o_attrs:o_attrs, ras:ras ) ) 
+  ret = 0;
+else
+  // check ID2
+  select any o_id2 related by o_obj->O_ID[R104] where ( selected.Oid_ID == 1 );
+  select many o_attrs related by o_id2->O_ATTR[R105];
+  if ( true == formalization::compareAttrSets( o_attrs:o_attrs, ras:ras ) )
+	ret = 1;
+  else
+    // check ID3
+	select any o_id3 related by o_obj->O_ID[R104] where ( selected.Oid_ID == 2 );
+	select many o_attrs related by o_id3->O_ATTR[R105];
+	if ( true == formalization::compareAttrSets( o_attrs:o_attrs, ras:ras ) )
+	  ret = 2;
+	end if;
+  end if;
+end if;
+
+return ret;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("16a1c475-5980-4ef4-9e0b-2a6c682f6e16",
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d");
+INSERT INTO O_BATTR
+	VALUES ("16a1c475-5980-4ef4-9e0b-2a6c682f6e16",
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d");
+INSERT INTO O_ATTR
+	VALUES ("16a1c475-5980-4ef4-9e0b-2a6c682f6e16",
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d",
+	"00000000-0000-0000-0000-000000000000",
+	'rel',
+	'',
+	'',
+	'rel',
+	0,
+	"322c65da-132b-421a-a1b1-f757cb0acff7",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("322c65da-132b-421a-a1b1-f757cb0acff7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Simple Association>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("35603549-c011-448c-8300-045b732423cd",
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d");
+INSERT INTO O_BATTR
+	VALUES ("35603549-c011-448c-8300-045b732423cd",
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d");
+INSERT INTO O_ATTR
+	VALUES ("35603549-c011-448c-8300-045b732423cd",
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d",
+	"16a1c475-5980-4ef4-9e0b-2a6c682f6e16",
+	'form_obj_id',
+	'',
+	'',
+	'form_obj_id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("036cd5a0-5210-4909-b91e-2bb6476bf9c7",
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d");
+INSERT INTO O_BATTR
+	VALUES ("036cd5a0-5210-4909-b91e-2bb6476bf9c7",
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d");
+INSERT INTO O_ATTR
+	VALUES ("036cd5a0-5210-4909-b91e-2bb6476bf9c7",
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d",
+	"35603549-c011-448c-8300-045b732423cd",
+	'part_obj_id',
+	'',
+	'',
+	'part_obj_id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d");
+INSERT INTO O_ID
+	VALUES (1,
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d");
+INSERT INTO O_ID
+	VALUES (2,
+	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d");
+INSERT INTO PE_PE
+	VALUES ("085bc8af-95d3-40f3-a532-dc21ffe7ec6d",
+	1,
+	"1800b076-78da-4923-9981-c067ad8e1b87",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1800b076-78da-4923-9981-c067ad8e1b87",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	'm2x',
+	'',
+	0,
+	'../m2x.xtuml');
