@@ -402,6 +402,46 @@ INSERT INTO DIM_DIA
 	3862.000000,
 	2650.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Package>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	"2523569d-5e3f-4631-86db-f922e6305318");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("2523569d-5e3f-4631-86db-f922e6305318",
+	'Package',
+	1400,
+	'EP_PKG',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Package/Package.xtuml');
+INSERT INTO PE_PE
+	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
+	1,
+	"fbcca70c-0d56-4076-9cd2-2335a9215fb1",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("2dfbba0c-72a2-4c76-8486-8613e7ea4b99",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Package>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("2dfbba0c-72a2-4c76-8486-8613e7ea4b99",
+	1,
+	"2523569d-5e3f-4631-86db-f922e6305318");
+INSERT INTO PE_PE
+	VALUES ("2dfbba0c-72a2-4c76-8486-8613e7ea4b99",
+	1,
+	"fbcca70c-0d56-4076-9cd2-2335a9215fb1",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("c52fb23c-ded3-4ae0-8185-7e1fd3090a08");
 INSERT INTO R_REL
@@ -468,14 +508,6 @@ INSERT INTO R_OIR
 	"c52fb23c-ded3-4ae0-8185-7e1fd3090a08",
 	"6008410c-5aa4-4a85-aa2b-baaac29a6b52",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("2523569d-5e3f-4631-86db-f922e6305318",
-	'Package',
-	1400,
-	'EP_PKG',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Package/Package.xtuml');
 INSERT INTO PE_PE
 	VALUES ("c52fb23c-ded3-4ae0-8185-7e1fd3090a08",
 	1,
@@ -547,46 +579,6 @@ INSERT INTO PE_PE
 	"fbcca70c-0d56-4076-9cd2-2335a9215fb1",
 	"00000000-0000-0000-0000-000000000000",
 	19);
-INSERT INTO S_DT
-	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Package>',
-	'',
-	'');
-INSERT INTO S_IRDT
-	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
-	0,
-	"2523569d-5e3f-4631-86db-f922e6305318");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("2523569d-5e3f-4631-86db-f922e6305318",
-	'Package',
-	1400,
-	'EP_PKG',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'../Element Packaging/Package/Package.xtuml');
-INSERT INTO PE_PE
-	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
-	1,
-	"fbcca70c-0d56-4076-9cd2-2335a9215fb1",
-	"00000000-0000-0000-0000-000000000000",
-	3);
-INSERT INTO S_DT
-	VALUES ("2dfbba0c-72a2-4c76-8486-8613e7ea4b99",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Package>',
-	'',
-	'');
-INSERT INTO S_IRDT
-	VALUES ("2dfbba0c-72a2-4c76-8486-8613e7ea4b99",
-	1,
-	"2523569d-5e3f-4631-86db-f922e6305318");
-INSERT INTO PE_PE
-	VALUES ("2dfbba0c-72a2-4c76-8486-8613e7ea4b99",
-	1,
-	"fbcca70c-0d56-4076-9cd2-2335a9215fb1",
-	"00000000-0000-0000-0000-000000000000",
-	3);
 INSERT INTO PE_PE
 	VALUES ("fbcca70c-0d56-4076-9cd2-2335a9215fb1",
 	1,
@@ -598,24 +590,7 @@ INSERT INTO EP_PKG_PROXY
 	"00c718a4-fada-4398-be36-d920a6735b6a",
 	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
-	'========================================================================
-
-File:          $RCSfile: ooaofooa.xtuml,v $
-Version:   $Revision: 1.127 $
-Modified:  $Date: 2006/09/26 15:10:20 $
-
-(c) Copyright 2004-2012 by Mentor Graphics Corp. All rights reserved.
-
-========================================================================
-This document contains information proprietary and confidential to
-Mentor Graphics Corp. and is not for external distribution.
-========================================================================
-
-This is the application domain for the Tiger project.
-
-The processing in this model describes the activities
-for model capture.
-
+	'
 
 
 ',
