@@ -1083,6 +1083,11 @@ masl2xtuml_ooapopulation_op_Component_initializeRequirement( masl2xtuml_ooapopul
   }
   /* self.Port_initialize( c_po:port, name:PARAM.port_name ) */
   masl2xtuml_ooapopulation_op_Port_initialize( self,  port, p_port_name );
+  /* IF ( self.processingProject ) */
+  if ( self->processingProject ) {
+    /* ASSIGN requirement.Descrip = ( requirement.Descrip + formalize ) */
+    requirement->Descrip = Escher_strcpy( requirement->Descrip, Escher_stradd( requirement->Descrip, "formalize" ) );
+  }
   /* RETURN interfaceRef */
   {masl2xtuml_C_IR * xtumlOALrv = interfaceRef;
   return xtumlOALrv;}
@@ -8189,6 +8194,8 @@ masl2xtuml_ooapopulation_op_populate_project( c_t * p_element, masl2xtuml_ooapop
       new_ir = ( 0 != comp_if ) ? (masl2xtuml_C_IR *) Escher_SetGetAny( &comp_if->C_IR_R4012_is_formal_definition ) : 0;
       /* ooapopulation.InterfaceReference_formalize( c_i:comp_if, c_ir:new_ir ) */
       masl2xtuml_ooapopulation_op_InterfaceReference_formalize( ooapopulation,  comp_if, new_ir );
+      /* ASSIGN comp_if.Descrip = ( comp_if.Descrip + temporary ) */
+      comp_if->Descrip = Escher_strcpy( comp_if->Descrip, Escher_stradd( comp_if->Descrip, "temporary" ) );
       /* SELECT many c_eps RELATED BY comp_if->C_EP[R4003] */
       Escher_ClearSet( c_eps );
       if ( 0 != comp_if ) {
@@ -9168,10 +9175,18 @@ masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation * self,
 void
 masl2xtuml_ooapopulation_op_transformProject( masl2xtuml_ooapopulation * self, c_t * p_name )
 {
+  masl2xtuml_EP_PKG * lib_pkg;
   /* self.createSystem() */
   masl2xtuml_ooapopulation_op_createSystem( self );
   /* self.transformDomain( name:PARAM.name ) */
   masl2xtuml_ooapopulation_op_transformDomain( self,  p_name );
+  /* ASSIGN lib_pkg = self.lib_pkg */
+  lib_pkg = self->lib_pkg;
+  /* IF ( not_empty lib_pkg ) */
+  if ( ( 0 != lib_pkg ) ) {
+    /* ASSIGN lib_pkg.Descrip = ( lib_pkg.Descrip + masl_project ) */
+    lib_pkg->Descrip = Escher_strcpy( lib_pkg->Descrip, Escher_stradd( lib_pkg->Descrip, "masl_project" ) );
+  }
 }
 
 /*

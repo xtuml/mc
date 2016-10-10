@@ -1136,6 +1136,12 @@ else
 end if;
 self.Port_initialize(c_po:port, name:param.port_name);
 
+if ( self.processingProject )
+  // Add "formalize" to the description so the MASL
+  // import processor knows to formalize this interface
+  requirement.Descrip = requirement.Descrip + "formalize";
+end if;
+
 return interfaceRef;',
 	1,
 	'',
@@ -7407,6 +7413,11 @@ elif ( "terminator" == element )
   	select any new_ir related by comp_if->C_IR[R4012];
   	ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
   	
+    // Add "temporary" to the description so the MASL
+    // import processor knows to swap this interface
+    // with the corresponding interface in the domain
+  	comp_if.Descrip = comp_if.Descrip + "temporary";
+  	
   	// copy the codeblocks into the right locations
   	select many c_eps related by comp_if->C_EP[R4003];
   	for each c_ep in c_eps
@@ -8244,6 +8255,13 @@ self.createSystem();
 // Create a package named the same as the project and cache it
 self.transformDomain(name:param.name);
 
+lib_pkg = self.lib_pkg;
+if ( not_empty lib_pkg )
+  // Add "masl_project" to the description so the MASL
+  // import processor knows to resolve the component
+  // references and to create satisfactions automatically
+  lib_pkg.Descrip = lib_pkg.Descrip + "masl_project";
+end if;
 ',
 	1,
 	'',
