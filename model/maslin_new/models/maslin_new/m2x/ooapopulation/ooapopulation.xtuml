@@ -7681,7 +7681,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'element = param.element;
-text = param.text;
+text = STRING::escapetics(s:param.text);
 tag = param.tag;
 
 // choose where to put the description based on the element type

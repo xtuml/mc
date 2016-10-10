@@ -2531,7 +2531,7 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 // output the description
 if ( "" != STRING::trim( s:param.Descrip ) )
-  value[0] = param.Descrip;
+  value[0] = STRING::unescapetics(s:param.Descrip);
   out::populate( element:"description", value:value );
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",

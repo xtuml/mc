@@ -8501,8 +8501,8 @@ masl2xtuml_ooapopulation_op_transformDescription( masl2xtuml_ooapopulation * sel
   c_t * tag=0;c_t * text=0;masl2xtuml_ooaelement * element;
   /* ASSIGN element = PARAM.element */
   element = p_element;
-  /* ASSIGN text = PARAM.text */
-  text = Escher_strcpy( text, p_text );
+  /* ASSIGN text = STRING::escapetics(s:PARAM.text) */
+  text = Escher_strcpy( text, STRING_escapetics( p_text ) );
   /* ASSIGN tag = PARAM.tag */
   tag = Escher_strcpy( tag, p_tag );
   /* IF ( ( attribute == element.type ) ) */
