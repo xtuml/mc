@@ -153,24 +153,6 @@ INSERT INTO S_DT_PROXY
 	'Indicates the status of the parse for an action specification in the attribute Action_Semantics',
 	'',
 	'../../../Datatypes/Datatypes.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("7b062e80-4244-43ec-9f64-133118a7616b",
-	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
-INSERT INTO O_BATTR
-	VALUES ("7b062e80-4244-43ec-9f64-133118a7616b",
-	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
-INSERT INTO O_ATTR
-	VALUES ("7b062e80-4244-43ec-9f64-133118a7616b",
-	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1",
-	"9dad5ac2-51bf-4a2f-ab6c-5a78db323976",
-	'Dialect',
-	'',
-	'',
-	'Dialect',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
