@@ -19,8 +19,8 @@ architecture.
 ----------------------
 <a id="2.1"></a>2.1 [#8756 Update MASL tooling to utilize updated persistence structure](https://support.onefact.net/issues/8756) -- This is the parent issue.  
 <a id="2.2"></a>2.2 [#8417 Storing activities as dialect files](https://support.onefact.net/issues/8417) -- This is the issue to update the persistence mechanism.  
-<a id="2.3"></a>2.3 [#8417 design note](https://github.com/leviathan747/bridgepoint/blob/master/doc-bridgepoint/notes/8417_action_dialect_files/8417_action_dialect_files.dnt.md)  
-<a id="2.4"></a>2.4 [#8417 implementation note](https://github.com/leviathan747/bridgepoint/blob/master/doc-bridgepoint/notes/8417_action_dialect_files/8417_action_dialect_files.int.md)  
+<a id="2.3"></a>2.3 [#8417 design note](https://github.com/xtuml/bridgepoint/blob/master/doc-bridgepoint/notes/8417_action_dialect_files/8417_action_dialect_files.dnt.md)  
+<a id="2.4"></a>2.4 [#8417 implementation note](https://github.com/xtuml/bridgepoint/blob/master/doc-bridgepoint/notes/8417_action_dialect_files/8417_action_dialect_files.int.md)  
 <a id="2.5"></a>2.5 [#8739 MASL is not displayed on state model canvas](https://support.onefact.net/issues/8739)  
 <a id="2.6"></a>2.6 [#8738 Service signatures](https://support.onefact.net/issues/8738)  
 <a id="2.7"></a>2.7 [#8515 string fields are not escaped by the instance dumper](https://support.onefact.net/issues/8515)  
@@ -64,9 +64,9 @@ The BridgePoint editor does this already in the importer and exporter, allowing
 tics to be used in comments and description fields, but the instance
 dumper/loader in MC3020 does not bother to do this.
 
-The tic part of the grammar of MASL activities, so this issue must be addressed
-for MASL action bodies to be stored in the `Action_Semantics` field and be
-persisted as SQL for import into BridgePoint.
+The tic is part of the grammar of MASL activities (and OAL activities), so this
+issue must be addressed for MASL action bodies to be stored in the
+`Action_Semantics` field and be persisted as SQL for import into BridgePoint.
 
 #### [[2.8]](#2.8) MASL editor not opened from the canvas
 
@@ -97,14 +97,7 @@ string as input and produce a string that has tics escaped by doubling (or
 vice-versa). This routine will be used any time a `Descrip` or
 `Action_Semantics` field is populated from SMASL or output to SMASL. 
 
-5.2 "Dialect" attribute
-
-The "Dialect" attribute has been added to the meta-model on each class that has
-`Action_Semantics`. `m2x` always sets this string value to be "masl". In future
-work, this attribute will be used to choose which editor to open for a given
-action.
-
-5.3 Interface swapping
+5.2 Interface swapping
 
 During convert, projects have no knowledge of domain data. For this reason,
 component references and interface references on projects have been left
@@ -127,41 +120,25 @@ action is implemented.
 
 ### 6.1 BridgePoint changes
 
-6.1.1 Added "Dialect" string attribute to all classes with `Action_Semantics`  
-6.1.1.1 Updated schema accordingly  
-6.1.1.2 Files associated with this change category  
-```
- src/MC-Java/ooa_schema.sql                                                                                       |  27 +++--
- src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Domain/Bridge/Bridge.xtuml                               |  18 ++++
- src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Domain/Function/Function.xtuml                           |  18 ++++
- src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/State Machine/Action/Action.xtuml                        |  18 ++++
- .../models/org.xtuml.bp.core/ooaofooa/Subsystem/Derived Base Attribute/Derived Base Attribute.xtuml              |  18 ++++
- src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Subsystem/Operation/Operation.xtuml                      |  18 ++++
- .../ooaofooa/Component/Signal Provisions and Requirements/Provided Operation/Provided Operation.xtuml            |  18 ++++
- .../ooaofooa/Component/Signal Provisions and Requirements/Provided Signal/Provided Signal.xtuml                  |  18 ++++
- .../ooaofooa/Component/Signal Provisions and Requirements/Required Operation/Required Operation.xtuml            |  18 ++++
- .../ooaofooa/Component/Signal Provisions and Requirements/Required Signal/Required Signal.xtuml                  |  18 ++++
-```
-
-6.1.2 Added abstract `getSignature` routine to "Executable Property" class  
-6.1.2.1 Files associated with this change category  
+6.1.1 Added abstract `getSignature` routine to "Executable Property" class  
+6.1.1.1 Files associated with this change category  
 ```
  src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Component/Executable Property/Executable Property.xtuml  |  40 +++++++
 ```
 
-6.1.3 Added `replaceFormalInterface` function to swap interfaces without
+6.1.2 Added `replaceFormalInterface` function to swap interfaces without
 deleting the messages  
-6.1.3.1 Files associated with this change category  
+6.1.2.1 Files associated with this change category  
 ```
  src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Functions/Functions.xtuml                                |  80 +++++++++++++-
 ```
 
-6.1.4 Updated `ImportHelper`  
-6.1.4.1 Removed code that copies MASL files into the project  
-6.1.4.2 Added code to swap out the formal interfaces for terminators  
-6.1.4.3 Updated component assigning code to only try to assign component
+6.1.3 Updated `ImportHelper`  
+6.1.3.1 Removed code that copies MASL files into the project  
+6.1.3.2 Added code to swap out the formal interfaces for terminators  
+6.1.3.3 Updated component assigning code to only try to assign component
 references if in a MASL project package  
-6.1.4.4 Files associated with this change category  
+6.1.3.4 Files associated with this change category  
 ```
  src/org.xtuml.bp.io.core/src/org/xtuml/bp/io/core/ImportHelper.java                                              | 324 +++++++++++++++++----------------------------------------
  src/org.xtuml.bp.io.mdl/src/org/xtuml/bp/io/mdl/wizards/ModelImportWizard.java                                   |   6 +-
@@ -183,11 +160,11 @@ of simply outputting file names
 6.2.2.1 Implement `escapetics` routine in the STRING bridge  
 6.2.2.2 Add call to `escapetics` in each place where `Action_Semantics` are set  
 6.2.2.3 Fix max string problem in `sys_user_co.c`  
-6.2.2.3 Update projects to create a new interface for terminators and not delete
+6.2.2.4 Update projects to create a new interface for terminators and not delete
 it at the end  
-6.2.2.4 Several of these changes were completed in the `maslin` project and
+6.2.2.5 Several of these changes were completed in the `maslin` project and
 copied to the `maslin_new` project  
-6.2.2.5 Files associated with this change category
+6.2.2.6 Files associated with this change category
 ```
  model/maslin/gen/STRING_bridge.c                                                                                           |  29 +++++++++++++++++++++++
  model/maslin/gen/masl2xtuml.c                                                                                              |  34 ++-------------------------
@@ -237,23 +214,11 @@ copied to the `maslin_new` project
 #### 6.2.5 Other changes
 
 6.2.5.1 Update `masl2xtuml` script to stop copying action files  
-6.2.5.2 Added "Dialect" string attribute to all classes with `Action_Semantics`  
-6.2.5.3 Updated schema accordingly
-6.2.5.4 Added `escapetics` and `unescapetics` to STRING bridge  
-6.2.5.5 Files associated with this change category
+6.2.5.2 Added `escapetics` and `unescapetics` to STRING bridge  
+6.2.5.3 Files associated with this change category
 ```
  bin/masl2xtuml                                                                                                             |   6 -----
- model/mcooa/models/mcooa/ooaofooa/Component/Signal Provisions and Requirements/Provided Operation/Provided Operation.xtuml |  18 ++++++++++++++
- model/mcooa/models/mcooa/ooaofooa/Component/Signal Provisions and Requirements/Provided Signal/Provided Signal.xtuml       |  18 ++++++++++++++
- model/mcooa/models/mcooa/ooaofooa/Component/Signal Provisions and Requirements/Required Operation/Required Operation.xtuml |  18 ++++++++++++++
- model/mcooa/models/mcooa/ooaofooa/Component/Signal Provisions and Requirements/Required Signal/Required Signal.xtuml       |  18 ++++++++++++++
- model/mcooa/models/mcooa/ooaofooa/Domain/Bridge/Bridge.xtuml                                                               |  18 ++++++++++++++
- model/mcooa/models/mcooa/ooaofooa/Domain/Function/Function.xtuml                                                           |  18 ++++++++++++++
- model/mcooa/models/mcooa/ooaofooa/State Machine/Action/Action.xtuml                                                        |  18 ++++++++++++++
- model/mcooa/models/mcooa/ooaofooa/Subsystem/Derived Base Attribute/Derived Base Attribute.xtuml                            |  18 ++++++++++++++
- model/mcooa/models/mcooa/ooaofooa/Subsystem/Operation/Operation.xtuml                                                      |  18 ++++++++++++++
  model/mcshared/models/mcshared/MC_EEs/MC_EEs.xtuml                                                                         |  39 +++++++++++++++++++++++++++++++
- schema/sql/xtumlmc_schema.sql                                                                                              |  27 ++++++++++++++-------
 ``` 
 
 7. Implementation Comments
