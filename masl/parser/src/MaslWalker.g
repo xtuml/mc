@@ -1396,7 +1396,6 @@ domainServiceDefinition//[DomainService service]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                //args[0] = getFile();
                                                                 args[0] = $DOMAIN_SERVICE_DEFINITION.text;
                                                                 populate( "codeblock", args );
                                                             }
@@ -1428,7 +1427,6 @@ terminatorServiceDefinition//[DomainTerminatorService service]
                                                             }
                                    parameterList
                                                             {
-                                                                //args[0] = getFile();
                                                                 args[0] = $TERMINATOR_SERVICE_DEFINITION.text;
                                                                 populate( "codeblock", args );
                                                             }
@@ -1462,7 +1460,6 @@ projectTerminatorServiceDefinition//[ProjectTerminatorService service]
                                    returnType?
                                    codeBlock         
                                                             {
-                                                                //args[0] = getFile();
                                                                 args[0] = $TERMINATOR_SERVICE_DEFINITION.text;
                                                                 populate( "codeblock", args );
                                                             }
@@ -1499,7 +1496,6 @@ objectServiceDefinition//[ObjectService service]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                //args[0] = getFile();
                                                                 args[0] = $OBJECT_SERVICE_DEFINITION.text;
                                                                 populate( "codeblock", args );
                                                             }
@@ -1529,7 +1525,6 @@ stateDefinition//[State stateDef]
                                    parameterList
                                    codeBlock
                                                             {
-                                                                //args[0] = getFile();
                                                                 args[0] = $STATE_DEFINITION.text;
                                                                 populate( "codeblock", args );
                                                             }
