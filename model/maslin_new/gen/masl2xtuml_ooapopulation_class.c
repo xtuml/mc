@@ -7279,8 +7279,6 @@ masl2xtuml_ooapopulation_op_mergeDuplicateOperations( masl2xtuml_ooapopulation *
       if ( ( ( o_tfr != op ) && ( Escher_strcmp( masl2xtuml_ooapopulation_op_Operation_getSignature(self, op), masl2xtuml_ooapopulation_op_Operation_getSignature(self, o_tfr) ) == 0 ) ) ) {
         /* ASSIGN o_tfr.Action_Semantics_internal = op.Action_Semantics_internal */
         o_tfr->Action_Semantics_internal = Escher_strcpy( o_tfr->Action_Semantics_internal, op->Action_Semantics_internal );
-        /* ASSIGN o_tfr.Dialect = masl */
-        o_tfr->Dialect = Escher_strcpy( o_tfr->Dialect, "masl" );
         /* self.Operation_dispose( o_tfr:op ) */
         masl2xtuml_ooapopulation_op_Operation_dispose( self,  op );
         /* BREAK */
@@ -7330,8 +7328,6 @@ masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * s
       if ( ( ( s_sync != function ) && ( Escher_strcmp( masl2xtuml_ooapopulation_op_Function_getSignature(self, function), masl2xtuml_ooapopulation_op_Function_getSignature(self, s_sync) ) == 0 ) ) ) {
         /* ASSIGN s_sync.Action_Semantics_internal = function.Action_Semantics_internal */
         s_sync->Action_Semantics_internal = Escher_strcpy( s_sync->Action_Semantics_internal, function->Action_Semantics_internal );
-        /* ASSIGN s_sync.Dialect = masl */
-        s_sync->Dialect = Escher_strcpy( s_sync->Dialect, "masl" );
         /* self.ExecutableProperty_dispose( c_ep:message ) */
         masl2xtuml_ooapopulation_op_ExecutableProperty_dispose( self,  message );
         /* self.Function_dispose( s_sync:function ) */
@@ -7397,8 +7393,6 @@ masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * s
           if ( ( 0 != spr_po ) ) {
             /* ASSIGN spr_po.Action_Semantics_internal = ( spr_po.Action_Semantics_internal + message_cb ) */
             spr_po->Action_Semantics_internal = Escher_strcpy( spr_po->Action_Semantics_internal, Escher_stradd( spr_po->Action_Semantics_internal, message_cb ) );
-            /* ASSIGN spr_po.Dialect = masl */
-            spr_po->Dialect = Escher_strcpy( spr_po->Dialect, "masl" );
           }
         }
         else {
@@ -7416,8 +7410,6 @@ masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * s
           if ( ( 0 != spr_ro ) ) {
             /* ASSIGN spr_ro.Action_Semantics_internal = ( spr_ro.Action_Semantics_internal + message_cb ) */
             spr_ro->Action_Semantics_internal = Escher_strcpy( spr_ro->Action_Semantics_internal, Escher_stradd( spr_ro->Action_Semantics_internal, message_cb ) );
-            /* ASSIGN spr_ro.Dialect = masl */
-            spr_ro->Dialect = Escher_strcpy( spr_ro->Dialect, "masl" );
           }
         }
         /* self.ExecutableProperty_dispose( c_ep:message ) */
@@ -7621,8 +7613,6 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
         if ( ( 0 != spr_ro ) ) {
           /* ASSIGN spr_ro.Action_Semantics_internal = ( spr_ro.Action_Semantics_internal + message_cb ) */
           spr_ro->Action_Semantics_internal = Escher_strcpy( spr_ro->Action_Semantics_internal, Escher_stradd( spr_ro->Action_Semantics_internal, message_cb ) );
-          /* ASSIGN spr_ro.Dialect = masl */
-          spr_ro->Dialect = Escher_strcpy( spr_ro->Dialect, "masl" );
         }
       }}}
       /* SELECT any c_i FROM INSTANCES OF C_I WHERE FALSE */
@@ -8030,8 +8020,6 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     if ( ( 0 != s_sync ) ) {
       /* ASSIGN s_sync.Action_Semantics_internal = ( s_sync.Action_Semantics_internal + STRING::escapetics(PARAM.value[0]) ) */
       s_sync->Action_Semantics_internal = Escher_strcpy( s_sync->Action_Semantics_internal, Escher_stradd( s_sync->Action_Semantics_internal, STRING_escapetics( p_value[0] ) ) );
-      /* ASSIGN s_sync.Dialect = masl */
-      s_sync->Dialect = Escher_strcpy( s_sync->Dialect, "masl" );
     }
     /* ASSIGN c_ep = ooapopulation.current_executable_property */
     c_ep = ooapopulation->current_executable_property;
@@ -8046,8 +8034,6 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     if ( ( 0 != o_tfr ) ) {
       /* ASSIGN o_tfr.Action_Semantics_internal = ( o_tfr.Action_Semantics_internal + STRING::escapetics(PARAM.value[0]) ) */
       o_tfr->Action_Semantics_internal = Escher_strcpy( o_tfr->Action_Semantics_internal, Escher_stradd( o_tfr->Action_Semantics_internal, STRING_escapetics( p_value[0] ) ) );
-      /* ASSIGN o_tfr.Dialect = masl */
-      o_tfr->Dialect = Escher_strcpy( o_tfr->Dialect, "masl" );
     }
     /* ASSIGN sm_state = ooapopulation.current_state */
     sm_state = ooapopulation->current_state;
@@ -8067,8 +8053,6 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
       if ( ( 0 != sm_act ) ) {
         /* ASSIGN sm_act.Action_Semantics_internal = ( sm_act.Action_Semantics_internal + STRING::escapetics(PARAM.value[0]) ) */
         sm_act->Action_Semantics_internal = Escher_strcpy( sm_act->Action_Semantics_internal, Escher_stradd( sm_act->Action_Semantics_internal, STRING_escapetics( p_value[0] ) ) );
-        /* ASSIGN sm_act.Dialect = masl */
-        sm_act->Dialect = Escher_strcpy( sm_act->Dialect, "masl" );
       }
     }
   }
@@ -8239,8 +8223,6 @@ masl2xtuml_ooapopulation_op_populate_project( c_t * p_element, masl2xtuml_ooapop
         if ( ( 0 != spr_po ) ) {
           /* ASSIGN spr_po.Action_Semantics_internal = ( spr_po.Action_Semantics_internal + message_cb ) */
           spr_po->Action_Semantics_internal = Escher_strcpy( spr_po->Action_Semantics_internal, Escher_stradd( spr_po->Action_Semantics_internal, message_cb ) );
-          /* ASSIGN spr_po.Dialect = masl */
-          spr_po->Dialect = Escher_strcpy( spr_po->Dialect, "masl" );
         }
       }}}
       /* SELECT any c_i FROM INSTANCES OF C_I WHERE FALSE */
