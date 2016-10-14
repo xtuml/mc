@@ -25,6 +25,9 @@ architecture.
 <a id="2.6"></a>2.6 [#8738 Service signatures](https://support.onefact.net/issues/8738)  
 <a id="2.7"></a>2.7 [#8515 string fields are not escaped by the instance dumper](https://support.onefact.net/issues/8515)  
 <a id="2.8"></a>2.8 [#8363 MASL editor not opened from the canvas](https://support.onefact.net/issues/8363)  
+<a id="2.9"></a>2.9 [#8801 MASL round trip test](https://support.onefact.net/issues/8801)  
+<a id="2.10"></a>2.10 [#8802 Test use of tics in string fields in MASL flow](https://support.onefact.net/issues/8802)  
+<a id="2.11"></a>2.10 [#8796 turn on dynamic strings in masl](https://support.onefact.net/issues/8796)  
 
 3. Background
 -------------
@@ -76,14 +79,15 @@ are now stored the same as OAL, this will come for free.
 
 4. Requirements
 ---------------
-4.1 `m2x` shall populate `Action_Semantics` fields with MASL action bodies  
-4.2 `x2m` shall populate the model of MASL with action bodies from
+4.1 There shall be no reliance on file copying in the MASL flow  
+4.1.1 `m2x` shall populate `Action_Semantics` fields with MASL action bodies  
+4.1.2 `x2m` shall populate the model of MASL with action bodies from
 `Action_Semantics` fields  
-4.3 `masl` shall generate activity files from structural MASL and action body
+4.1.3 `masl` shall generate activity files from structural MASL and action body
 text  
-4.4 There shall be no reliance on file copying in the MASL flow  
-4.5 The implementation shall resolve #8739 [[2.5]](#2.5), #8738 [[2.6]](#2.6), #8515 [[2.7]](#2.7), and #8363 [[2.8]](#2.8)  
-4.6 MASL round trip shall continue to produce no differences  
+4.2 The implementation shall resolve #8739 [[2.5]](#2.5), #8738 [[2.6]](#2.6),
+#8515 [[2.7]](#2.7), and #8363 [[2.8]](#2.8)  
+4.3 MASL round trip shall continue to produce no differences  
 
 5. Design
 ---------
@@ -223,11 +227,24 @@ copied to the `maslin_new` project
 
 7. Implementation Comments
 --------------------------
-None
+
+7.1 Long string fields
+
+Since we are now holding whole action bodies in `Action_Semantics` fields, we
+are running to problems of maximum string length in MC3020. Simply increasing
+the maximum is not a viable solution because strings are statically allocated
+and this will result in exhaustion of memory. Because of this problem, the
+round trip test with SAC will fail unless a particularly long function is
+removed (see section 8.1 for the test). Issue #8796 [[2.11]](#2.11) has been
+raised to handle this problem.
 
 8. Unit Test
 ------------
-8.1 Round trip test with SAC and SAC_PROC
+8.1 Round trip test with SAC and SAC_PROC  
+8.1.1 See [[2.9]](#2.9)  
+
+8.2 Test tics use cases  
+8.2.1 See [[2.10]](#2.10)  
 
 9. User Documentation
 ---------------------
