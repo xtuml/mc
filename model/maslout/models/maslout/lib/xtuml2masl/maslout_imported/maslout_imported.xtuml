@@ -452,10 +452,10 @@ for each c_ep in c_eps
     port_name = c_po.Name;
   end if;
   sig = ::underscore_signature(signature: ::message_getsignature( flavor:1, c_ep:c_ep ));
-  ::body2code_block( name:path + "/" + port_name + "_" + sig, text:"spr_*.Action_Semantics" );
   
   if ( param.project )
     select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
+    ::body2code_block( name:path + "/" + port_name + "_" + sig, text:STRING::unescapetics(s:spr_po.Action_Semantics_internal) );
 
 	// Populate pragmas
 	spr_po.Descrip = ::parsepragmas( s:spr_po.Descrip, list: "" );
@@ -464,6 +464,7 @@ for each c_ep in c_eps
 	::Descrip2description( Descrip:spr_po.Descrip );
   else
     select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
+    ::body2code_block( name:path + "/" + port_name + "_" + sig, text:STRING::unescapetics(s:spr_ro.Action_Semantics_internal) );
 
 	// Populate pragmas
 	spr_ro.Descrip = ::parsepragmas( s:spr_ro.Descrip, list: "" );
@@ -1247,7 +1248,7 @@ for each s_sync in s_syncs
   path = ::package_get_path( ep_pkg:ep_pkg );
   // Populate the action langauge body.
   sig = ::underscore_signature(signature: ::function_getsignature( flavor:1, s_sync:s_sync ));
-  ::body2code_block( name:path + "/" + sig, text:s_sync.Action_Semantics );
+  ::body2code_block( name:path + "/" + sig, text:STRING::unescapetics(s:s_sync.Action_Semantics_internal) );
   
   // Populate pragmas
   s_sync.Descrip = ::parsepragmas( s:s_sync.Descrip, list:"" );
@@ -1610,7 +1611,7 @@ for each sm_state in sm_states
   
   select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
   // Populate the action langauge body.
-  ::body2code_block( name:path + "/" + sm_state.Name, text:"sm_act.Action_Semantics" );
+  ::body2code_block( name:path + "/" + sm_state.Name, text:STRING::unescapetics(s:sm_act.Action_Semantics_internal) );
   
   // Populae pragmas
   sm_act.Descrip = ::parsepragmas( s:sm_act.Descrip, list:"" );
@@ -1934,7 +1935,7 @@ for each o_tfr in o_tfrs
   
   // Populate the action langauge body.
   if ( not deferred )	// do not populate a codeblock if this is a deferred operation
-    ::body2code_block( name:path + "/" + sig, text:o_tfr.Action_Semantics );
+    ::body2code_block( name:path + "/" + sig, text:STRING::unescapetics(s:o_tfr.Action_Semantics_internal) );
   end if;
   
   // Populate pragmas
@@ -2121,7 +2122,8 @@ INSERT INTO S_SYNC
 	'value[7] = ""; // initialize length
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
-value[0] = param.name + ".masl";
+//value[0] = param.name + ".masl";
+value[0] = param.text;
 out::populate( element:"codeblock", value:value );
 out::populate( element:"codeblock", value:emptyvalue );',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -2357,7 +2359,7 @@ for each s_brg in s_brgs
   path = ::package_get_path( ep_pkg:ep_pkg );
   // Populate the action langauge body.
   sig = ::underscore_signature(signature: ::bridge_getsignature( flavor:1, s_brg:s_brg ));
-  ::body2code_block( name:path + "/" + s_ee.Name + "_" + sig, text:"s_brg.Action_Semantics" );
+  ::body2code_block( name:path + "/" + s_ee.Name + "_" + sig, text:STRING::unescapetics(s:s_brg.Action_Semantics_internal) );
   
   out::populate( element:"routine", value:emptyvalue );
   
@@ -2529,7 +2531,7 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 // output the description
 if ( "" != STRING::trim( s:param.Descrip ) )
-  value[0] = param.Descrip;
+  value[0] = STRING::unescapetics(s:param.Descrip);
   out::populate( element:"description", value:value );
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",

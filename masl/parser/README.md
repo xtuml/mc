@@ -3,7 +3,9 @@ HOWTO build and run the MASL parser
 
 ## Build the parser
 
-(Be sure to have a jdk installed.  On ubuntu, `sudo apt-get install default-jdk`.)
+* Be sure to have a jdk installed.  On ubuntu, `sudo apt-get install default-jdk`.
+* Download the ANTLR tool. See `lib/README.md` for further instructions
+
 From the `parser` directory, run:
 ```bash
 ant

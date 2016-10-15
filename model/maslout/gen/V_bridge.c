@@ -23,11 +23,11 @@ void
 V_v( c_t * p_element, c_t * p_value[8] )
 {
   int i;
-  char arg[2048];
+  char arg[ESCHER_SYS_MAX_STRING_LEN];
   printf( "%s", p_element );
   for ( i = 0; i < 8; i++ ) {
     if ( p_value[i] && 0 != *p_value[i] ) {
-        masl_url_encode( arg, p_value[i] );
+        masl_url_encode( arg, p_value[i], sizeof(arg) );
         printf( ",%s", arg );
     }
     else { printf( "," ); }
