@@ -37,16 +37,11 @@ if ( "project" == element )
       select many terminator_activities related by project->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
       for each activity in terminator_activities
         select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        select one code_block related by activity->code_block[R3794];
         if ( not_empty file )
           destination = file.getname();
           // Domain files go into a directory named after the domain.
           file.directory( name:project.name );
-          if ( empty code_block )	// generate a file stub
-            file.gen( destination:destination );
-          else						// activity exists, copy it
-            file.copy( source:code_block.sourcefile, destination:destination );
-          end if;
+          file.gen( destination:destination );
         end if;
       end for;
 
@@ -81,77 +76,57 @@ elif ( "domain" == element )
       activities = domain_routines;
       for each activity in activities
         select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        select one code_block related by activity->code_block[R3794];
         if ( not_empty file )
           destination = file.getname();
           // Domain files go into a directory named after the domain.
           file.directory( name:domain.name );
-          if ( empty code_block )	// generate a file stub
-            select one class_op related by activity->operation[R3704];
-            select one deferral related by class_op->subsuper[R3793];
-            if ( empty class_op or ( not_empty class_op and empty deferral ) )
-              file.gen( destination:destination );
-            end if;
-          else						// activity exists, copy it
-            file.copy( source:code_block.sourcefile, destination:destination );
-          end if;
+		  select one class_op related by activity->operation[R3704];
+		  select one deferral related by class_op->subsuper[R3793];
+		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
+			file.gen( destination:destination );
+		  end if;
         end if;
       end for;
       activities = terminator_routines;
       for each activity in activities
         select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        select one code_block related by activity->code_block[R3794];
         if ( not_empty file )
           destination = file.getname();
           // Domain files go into a directory named after the domain.
           file.directory( name:domain.name );
-          if ( empty code_block )	// generate a file stub
-            select one class_op related by activity->operation[R3704];
-            select one deferral related by class_op->subsuper[R3793];
-            if ( empty class_op or ( not_empty class_op and empty deferral ) )
-              file.gen( destination:destination );
-            end if;
-          else						// activity exists, copy it
-            file.copy( source:code_block.sourcefile, destination:destination );
+		  select one class_op related by activity->operation[R3704];
+		  select one deferral related by class_op->subsuper[R3793];
+		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
+			file.gen( destination:destination );
           end if;
         end if;
       end for;
       activities = class_ops;
       for each activity in activities
         select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        select one code_block related by activity->code_block[R3794];
         if ( not_empty file )
           destination = file.getname();
           // Domain files go into a directory named after the domain.
           file.directory( name:domain.name );
-          if ( empty code_block )	// generate a file stub
-            select one class_op related by activity->operation[R3704];
-            select one deferral related by class_op->subsuper[R3793];
-            if ( empty class_op or ( not_empty class_op and empty deferral ) )
-              file.gen( destination:destination );
-            end if;
-          else						// activity exists, copy it
-            file.copy( source:code_block.sourcefile, destination:destination );
-          end if;
+		  select one class_op related by activity->operation[R3704];
+		  select one deferral related by class_op->subsuper[R3793];
+		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
+			file.gen( destination:destination );
+		  end if;
         end if;
       end for;
       activities = states;
       for each activity in activities
         select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        select one code_block related by activity->code_block[R3794];
         if ( not_empty file )
           destination = file.getname();
           // Domain files go into a directory named after the domain.
           file.directory( name:domain.name );
-          if ( empty code_block )	// generate a file stub
-            select one class_op related by activity->operation[R3704];
-            select one deferral related by class_op->subsuper[R3793];
-            if ( empty class_op or ( not_empty class_op and empty deferral ) )
-              file.gen( destination:destination );
-            end if;
-          else						// activity exists, copy it
-            file.copy( source:code_block.sourcefile, destination:destination );
-          end if;
+		  select one class_op related by activity->operation[R3704];
+		  select one deferral related by class_op->subsuper[R3793];
+		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
+			file.gen( destination:destination );
+		  end if;
         end if;
       end for;
 
@@ -567,6 +542,7 @@ INSERT INTO O_TFR
 doEmit = false;
 
 select any activity related by self->element[R3795]->markable[R3786]->activity[R3783];
+select one code_block related by activity->code_block[R3794];
 if ( not_empty activity )
 
   select one routine related by activity->routine[R3704];
@@ -579,39 +555,63 @@ if ( not_empty activity )
     if ( empty terminator )			// domain routine
       select one domain related by routine->domain[R3790];
       if ( not_empty returntype )	// domain function
-		T::include( file:"masl/t.domain_function_stub_begin.masl" );
+		T::include( file:"masl/t.domain_function_def_begin.masl" );
 		select one parameter related by activity->parameter[R3705];
 		if ( not_empty parameter )
 		  parameter.render();
 		end if;
-		T::include( file:"masl/t.domain_function_stub_end.masl" );
+		T::include( file:"masl/t.function_def_middle.masl" );
+		if (not_empty code_block)
+		  T::b(s:code_block.sourcefile);
+		else
+		  T::include( file:"masl/t.code_block_stub.masl" );
+		end if;
+		T::include( file:"masl/t.function_def_end.masl" );
 	    doEmit = true;
       else							// domain service
-		T::include( file:"masl/t.domain_service_stub_begin.masl" );
+		T::include( file:"masl/t.domain_service_def_begin.masl" );
 		select one parameter related by activity->parameter[R3705];
 		if ( not_empty parameter )
 		  parameter.render();
 		end if;
-		T::include( file:"masl/t.domain_service_stub_end.masl" );
+		T::include( file:"masl/t.service_def_middle.masl" );
+		if (not_empty code_block)
+		  T::b(s:code_block.sourcefile);
+		else
+		  T::include( file:"masl/t.code_block_stub.masl" );
+		end if;
+		T::include( file:"masl/t.service_def_end.masl" );
 	    doEmit = true;
       end if;
     else							// terminator routine
       select one domain related by terminator->domain[R3702];
       if ( not_empty returntype )	// terminator function
-		T::include( file:"masl/t.terminator_function_stub_begin.masl" );
+		T::include( file:"masl/t.terminator_function_def_begin.masl" );
 		select one parameter related by activity->parameter[R3705];
 		if ( not_empty parameter )
 		  parameter.render();
 		end if;
-		T::include( file:"masl/t.terminator_function_stub_end.masl" );
+		T::include( file:"masl/t.function_def_middle.masl" );
+		if (not_empty code_block)
+		  T::b(s:code_block.sourcefile);
+		else
+		  T::include( file:"masl/t.code_block_stub.masl" );
+		end if;
+		T::include( file:"masl/t.function_def_end.masl" );
 	    doEmit = true;
       else							// terminator service
-		T::include( file:"masl/t.terminator_service_stub_begin.masl" );
+		T::include( file:"masl/t.terminator_service_def_begin.masl" );
 		select one parameter related by activity->parameter[R3705];
 		if ( not_empty parameter )
 		  parameter.render();
 		end if;
-		T::include( file:"masl/t.terminator_service_stub_end.masl" );
+		T::include( file:"masl/t.service_def_middle.masl" );
+		if (not_empty code_block)
+		  T::b(s:code_block.sourcefile);
+		else
+		  T::include( file:"masl/t.code_block_stub.masl" );
+		end if;
+		T::include( file:"masl/t.service_def_end.masl" );
 	    doEmit = true;
       end if;
     end if;
@@ -620,32 +620,50 @@ if ( not_empty activity )
     select one object related by operation->object[R3749];
     select one domain related by object->domain[R3708];
 	if ( not_empty returntype )			// object function
-	  T::include( file:"masl/t.object_function_stub_begin.masl" );
+	  T::include( file:"masl/t.object_function_def_begin.masl" );
 	  select one parameter related by activity->parameter[R3705];
 	  if ( not_empty parameter )
 	    parameter.render();
 	  end if;
-	  T::include( file:"masl/t.object_function_stub_end.masl" );
+	  T::include( file:"masl/t.function_def_middle.masl" );
+	  if (not_empty code_block)
+		T::b(s:code_block.sourcefile);
+	  else
+		T::include( file:"masl/t.code_block_stub.masl" );
+	  end if;
+	  T::include( file:"masl/t.function_def_end.masl" );
 	  doEmit = true;
 	else								// object service
-	  T::include( file:"masl/t.object_service_stub_begin.masl" );
+	  T::include( file:"masl/t.object_service_def_begin.masl" );
 	  select one parameter related by activity->parameter[R3705];
 	  if ( not_empty parameter )
 	    parameter.render();
 	  end if;
-	  T::include( file:"masl/t.object_service_stub_end.masl" );
+	  T::include( file:"masl/t.service_def_middle.masl" );
+	  if (not_empty code_block)
+		T::b(s:code_block.sourcefile);
+	  else
+		T::include( file:"masl/t.code_block_stub.masl" );
+	  end if;
+	  T::include( file:"masl/t.service_def_end.masl" );
 	  doEmit = true;
 	end if;
   elif ( not_empty state and not state.non_existent )
     select one returntype related by operation->typeref[R3741];
     select one object related by state->object[R3750];
     select one domain related by object->domain[R3708];
-	T::include( file:"masl/t.object_state_stub_begin.masl" );
+	T::include( file:"masl/t.object_state_def_begin.masl" );
 	select one parameter related by activity->parameter[R3705];
 	if ( not_empty parameter )
 	  parameter.render();
 	end if;
-	T::include( file:"masl/t.object_state_stub_end.masl" );
+	T::include( file:"masl/t.state_def_middle.masl" );
+	if (not_empty code_block)
+	  T::b(s:code_block.sourcefile);
+	else
+	  T::include( file:"masl/t.code_block_stub.masl" );
+	end if;
+	T::include( file:"masl/t.state_def_end.masl" );
 	doEmit = true;
   end if;
 

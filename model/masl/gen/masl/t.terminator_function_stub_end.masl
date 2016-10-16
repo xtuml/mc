@@ -1,4 +1,0 @@
-) return ${returntype.body} is
-begin
-  null;
-end function;

@@ -27,10 +27,7 @@ Generating the Schema
 * python .../xtuml<fork>/pyxtuml/examples/gen_ooaofooa_schema.py .../xtuml<fork>/mc/model/mcooa/models/ | sed "s/Action_Semantics_internal/Action_Semantics/" > .../xtuml<fork>/mc/schema/sql/xtumlmc_schema.sql
 * Compare (git diff) the newly created schema file with the existing version.
   Make sure all the changes make sense.
-  There may be an attribute that does not get generated (ACT_ACT:return_type),
-  because it is something not supported by pyxtuml, yet.
-   
-   
+
 
 Exporting the Model for Customers
 ----------------------------------
