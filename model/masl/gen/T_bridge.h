@@ -15,13 +15,12 @@
 extern	"C"	{
 #endif
 
-#include <string.h>
 #include "masl_sys_types.h"
 c_t * T_s( const i_t );
 void T_emit( c_t * );
 void T_clear( void );
-void T_b( c_t[ESCHER_SYS_MAX_STRING_LEN] );
-void T_print( c_t[ESCHER_SYS_MAX_STRING_LEN] );
+void T_b( c_t * );
+void T_print( c_t * );
 void T_exit( const i_t );
 void T_include( c_t * );
 c_t * T_r( c_t * );
@@ -35,6 +34,7 @@ c_t * T_parsekeyword( c_t *, c_t * );
 c_t * T_body( void );
 c_t * T_t( c_t * );
 void T_copyfile( c_t *, c_t * );
+i_t T_idtoi( Escher_UniqueID_t );
 
 #ifdef	__cplusplus
 }

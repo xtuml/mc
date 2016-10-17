@@ -23,7 +23,7 @@ FILE * outputfile = 0;
  * Bridge:  tostring
  */
 void
-out_tostring( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_value[8][ESCHER_SYS_MAX_STRING_LEN] )
+out_tostring( c_t * p_element, c_t * p_value[8] )
 {
   int i;
   if ( ! outputfile ) { outputfile = fopen( "tostring.txt", "w" ); }
