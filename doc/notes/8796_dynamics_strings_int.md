@@ -90,6 +90,23 @@ Branch:  8796_dynamicstrings2
 
 <pre>
 
+ doc/notes/8796_dynamics_strings_int.md                             |  98 ++++++++++++++++++++++++
+ model/masl/.externalToolBuilders/Model Compiler.launch             |   4 +-
+ model/masl/gen/STRING_bridge.c                                     | 226 ++++++++++++++++++++++++++++++++++++++++++++++---------
+ model/masl/gen/T_bridge.c                                          |  19 ++++-
+ model/masl/gen/T_bridge.h                                          |   6 +-
+ model/masl/gen/masl_population_class.c                             |  64 ++++++++++------
+ model/masl/gen/out_bridge.c                                        |   2 +-
+ model/masl/gen/sys_user_co.c                                       |  12 +--
+ model/masl/gen/system.mark                                         |   3 +-
+ model/maslin_new/gen/STRING_bridge.c                               | 154 ++++++++++++++++++++++++++++++++++---
+ model/maslin_new/gen/system.mark                                   |   2 +-
+ model/maslin_new/models/maslin_new/lib/masl2xtuml/masl2xtuml.xtuml |   6 +-
+ model/maslout/.externalToolBuilders/Model Compiler.launch          |   4 +-
+ model/maslout/gen/STRING_bridge.c                                  |  47 ++++++++++--
+ model/maslout/gen/system.mark                                      |   2 +-
+ 15 files changed, 553 insertions(+), 96 deletions(-)
+
 </pre>
 
 
