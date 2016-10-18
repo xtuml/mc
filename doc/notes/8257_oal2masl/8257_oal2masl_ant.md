@@ -82,6 +82,8 @@ Following this guidance by simply substituting the "MASL Way" for the
 example that is simply modified in place.  
 5.2.1.2 The compelling benefit of this approach is expedience.  This is
 probably the quickest and easiest way to meet the stated requirements.
+A big part of why this is quickest is because it generates only the
+subset of MASL necessary to represent OAL.  
 
 5.2.2 Cons  
 5.2.2.1 The work to build this translator would not advance the art of
@@ -115,7 +117,7 @@ MASL.  This approach has been working well to export MASL from xtUML
 models.
 
 This model could be extended to include MASL activities.  Functions would
-be added to `maslout` to serialize xtUML instances and serialized MASL.
+be added to `maslout` to serialize OAL instances as serialized MASL.
 `masl` could be extended to populate a model of MASL Activity.  Templating
 could be used to emit legal MASL.
 
@@ -126,8 +128,8 @@ tree) which could be imported into BridgePoint and graphically reconciled.
 Layout of the class diagram would need to be done manually.
 
 5.4.1 Pros  
-5.4.1.1 This approach is consistent with our current approach and a
-natural extension.  
+5.4.1.1 This approach is consistent with and a natural exension of
+our current approach.  
 5.4.1.2 elegance  
 5.4.1.3 The model of MASL is a valuable asset.  Completing it by
 supplying the model of Activity increases its value.  
@@ -139,6 +141,9 @@ technology forward.
 5.4.2 Cons  
 5.4.2.1 This approach will take much longer than previous options.  
 5.4.2.2 Making small modifications in this approach may be more expensive.  
+5.4.2.3 One of the fundamental reasons that makes this approach more
+expensive is that it implements all of MASL.  The requirements can be
+met by implementing only the parts of MASL necessary to map OAL.  
 
 ### 5.5 Parser-Based Conversion  
 There exists an antlr grammar of OAL.  We have antlr and Xtext grammars
