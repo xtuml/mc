@@ -2,14 +2,15 @@
 #include <stdio.h>
 
 // masl_url_encode
-void masl_url_encode( char * dst, const char * src ) {
+void masl_url_encode( char * dst, const char * src, int max_len ) {
     // check argument
     if ( !src ) return;
 
     char * s = (char *)src;
+    char * og_dst = dst;
 
     // copy character by character checking for encodings
-    while ( *s != '\0' ) {
+    while ( *s != '\0' && (dst-og_dst) < (max_len-1) ) {
 
         switch ( *s ) {
             case '%':
@@ -52,14 +53,15 @@ void masl_url_encode( char * dst, const char * src ) {
 }
 
 // masl_url_decode
-void masl_url_decode( char * dst, const char * src ) {
+void masl_url_decode( char * dst, const char * src, int max_len ) {
     // check argument
     if ( !src ) return;
 
     char * s = (char *)src;
+    char * og_dst = dst;
 
     // copy character by character checking for encodings
-    while ( *s != '\0' ) {
+    while ( *s != '\0' && (dst-og_dst) < (max_len-1) ) {
 
         switch ( *s ) {
             case '%':

@@ -26,9 +26,26 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
 	'pragma = param.pragma;
-create object instance pragma_item of ooapragma_item;
-pragma_item.value = param.value;
-relate pragma_item to pragma across R3804;',
+
+// check if this is a class key letters pragma. If it is, we do not create
+// a pragma item, we simply set the class key letters
+select one element related by pragma->ooapragma_list[R3803]->ooamarkable[R3802]->ooaelement[R3806];
+if ( "object" == element.type and "key_letter" == pragma.name )
+  select any population from instances of ooapopulation;
+  current_object = population.current_class;
+  value_len = STRING::strlen(s:param.value);
+  new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);
+  current_object.Key_Lett = new_val;
+  
+  // clean up
+  select one pragma_list related by pragma->ooapragma_list[R3803];
+  unrelate pragma from pragma_list across R3803;
+  delete object instance pragma;
+else
+  create object instance pragma_item of ooapragma_item;
+  pragma_item.value = param.value;
+  relate pragma_item to pragma across R3804;
+end if;',
 	1,
 	'',
 	"2850f24e-a4a5-4b1a-be8c-68dc526bb658");

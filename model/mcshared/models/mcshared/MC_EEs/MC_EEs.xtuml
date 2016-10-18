@@ -1022,6 +1022,55 @@ INSERT INTO S_BPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_BRG
+	VALUES ("faac7122-4b72-4253-92ed-a5a8428f1016",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'quote',
+	'Returns a literal double quote character as a string',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	1,
+	'');
+INSERT INTO S_BRG
+	VALUES ("7d0983b0-9838-4037-96f9-a3915bb8860c",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'escapetics',
+	'replaces all instances of '' with '''' to escape the tics for SQL. Assumes that the result will still fit in the max
+string',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("e57ebaf2-f0df-440a-a441-acbea5429c6d",
+	"7d0983b0-9838-4037-96f9-a3915bb8860c",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("0ef0927a-f7cb-4676-bfcc-a082719296a0",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'unescapetics',
+	'replaces all instances of '''' with '' to un-escape the tics for SQL',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("8eeee9e7-966f-4bc9-8f17-06d767dfc320",
+	"0ef0927a-f7cb-4676-bfcc-a082719296a0",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO PE_PE
 	VALUES ("bb9efba5-486a-4a39-a358-d0e112844c11",
 	1,

@@ -1,6 +1,7 @@
 .invoke MarkSystemConfigurationPackage( "sysmasl" )
 .invoke TagDynamicMemoryAllocationOn( 10 )
-.invoke TagMaximumStringLength( 1204 )
+.invoke TagInstanceLoading()
+.invoke TagMaximumStringLength( 65535 )
 .//===========================================================================
 .// File:  system.mark
 .//
