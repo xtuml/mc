@@ -16,6 +16,10 @@ requirements are explored.
 2. Document References
 ----------------------
 [1] [8257 OAL to MASL](https://support.onefact.net/issues/8257) parent issue tracking this work  
+[2] [MASL reference documentation on github](https://github.com/xtuml/bridgepoint/tree/master/src/org.xtuml.bp.doc/Reference/MASL)  
+[3] [OAL reference manual source html on github](https://github.com/xtuml/bridgepoint/tree/master/src/org.xtuml.bp.doc/Reference/OAL/HTML/bpalref.book.htm)  
+
+[2] and [3] can also be found in the Help in a BridgePoint installation.
 
 3. Background
 -------------
@@ -97,7 +101,7 @@ in RSL, the xtUML model of MC-3020 would be modified directly.
 `mcmc` is a C model compiler compiled from a model.  It is focused
 on translating action language.
 
-5.3.1 Pros
+5.3.1 Pros  
 This approach is a bit slower to work with than the previous option.
 It requires a compile step for testing.
 
@@ -158,15 +162,45 @@ AST of OAL and populating an AST of MASL.
 5.5.2.2 This approach is a bit slower and more cumbersome than some of
 the other options.  
 
+### 5.6 Selected Option
+5.2, RSL-based Translation, is the selected option with the potential
+to convert it to 5.3, MCMC Variant, upon functional completeness.
+
+Cost is the deciding factor.  Option 5.4 would involve adding more than
+100 classes to the model of MASL.  The full model of MASL Activity is not
+needed for this work, so until a complete model is necessary, it cannot
+be justified to build an OAL to MASL translator.
+
 
 6. Work Required
 ----------------
-6.1 Variable Declarations  
-6.1.1 OAL uses implicit typing.  MASL uses explicit typing.
+6.1 Prepare Environment  
+6.1.1 branch  
+6.1.2 style requirement for RSL2OAL conversion  
+6.1.3 command line build  
+6.1.4 turning off C  
+6.1.5 packaging query  
+6.2 Expression  
+6.2.1 Update the archetypes and templates "in place" for the Value
+subsystem.  
+6.3 Statement  
+6.3.1 Update the archetypes and templates for the Body
+and related subsystems.  
+6.4 Testing  
+6.4.1 As each expression or statement type is tested, edit the
+generated MASL with the syntax highlighting and validating editor
+inside BridgePoint.  Note and correct errors.  
+6.4 Capturing the Work  
+6.4.1 Once the work is complete, consider compiling a special `mcmc`
+to be used in production.  Perhaps we could package it like `docgen`.  
+6.3 Maintain Mapping Table  
+
+6.x Variable Declarations  
+6.x.1 OAL uses implicit typing.  MASL uses explicit typing.
 Type declarations need to be produced for the output MASL.
 This has been done for the C model compiler by accumulating
 declarations into TE_BLK instances.  
-6.1.2 Provide initializers based on defaults for the types.  
+6.x.2 Provide initializers based on defaults for the types.  
 
 7. Acceptance Test
 ------------------
