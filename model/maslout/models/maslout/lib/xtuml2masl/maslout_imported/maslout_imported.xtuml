@@ -833,17 +833,35 @@ for each s_dt in s_dts
   select one s_irdt related by s_dt->S_IRDT[R17];
   // Do not output type definitions for instance reference data types.
   if ( empty s_irdt )
+    select one s_udt related by s_dt->S_UDT[R17];
+    
+    // For now, only translate UDTs
+    if ( not_empty s_udt )
     value[0] = s_dt.Name;
     value[1] = "private";
 
+    // see what type the UDT is based on
+    select one base_s_dt related by s_udt->S_DT[R18];
+    
     // get body of type
     start_index = STRING::indexof( haystack:s_dt.Descrip, needle:"<definition>" );
     end_index = STRING::indexof( haystack:s_dt.Descrip, needle:"</definition>" );
-    if ( -1 != start_index and -1 != end_index )	// only output types if there is a definition
+    if ( -1 != start_index and -1 != end_index )
+      // handle case where there is a definition
       value[2] = STRING::substr( s:s_dt.Descrip, begin:start_index+12, end:end_index );
       descrip_start = STRING::substr( s:s_dt.Descrip, begin:0, end:start_index );
       descrip_end = STRING::substr( s:s_dt.Descrip, begin:end_index+13, end:-1 );
       s_dt.Descrip = descrip_start + descrip_end;
+    else
+      // There is no definition, use the underlying type.  If the underlying type
+      // is MASLtype, treat this as a typeref and do not output it.  Otherwise
+      // output using the underlying type as the definition.
+      if ( (base_s_dt.Name == "MASLtype") or (s_dt.Name == "MASLtype") )
+        continue;
+      else
+        value[2] = base_s_dt.Name;
+      end if;
+    end if;
   
       out::populate( element:"type", value:value );
 
