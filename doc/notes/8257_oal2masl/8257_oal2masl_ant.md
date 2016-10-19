@@ -211,6 +211,10 @@ the activity editor and be sure there are no syntax errors highlighted.
 7.1.2 Visually inspect the generated MASL to be comfortable that
 translation preserved the original OAL functionality.  
 
+7.2 Functional Tests  
+7.2.1 The OAL that we translate will test itself.  We can use examples
+from our test models.  
+
 End
 ---
 
