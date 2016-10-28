@@ -872,7 +872,8 @@ CREATE TABLE O_DBATTR (
     Attr_ID UNIQUE_ID,
     Obj_ID UNIQUE_ID,
     Action_Semantics STRING,
-    Suc_Pars INTEGER
+    Suc_Pars INTEGER,
+    Dialect STRING
 );
 CREATE TABLE O_ID (
     Oid_ID INTEGER,
@@ -946,7 +947,8 @@ CREATE TABLE O_TFR (
     Action_Semantics STRING,
     Suc_Pars INTEGER,
     Return_Dimensions STRING,
-    Previous_Tfr_ID UNIQUE_ID
+    Previous_Tfr_ID UNIQUE_ID,
+    Dialect STRING
 );
 CREATE TABLE O_TPARM (
     TParm_ID UNIQUE_ID,
@@ -1102,7 +1104,8 @@ CREATE TABLE SM_ACT (
     SM_ID UNIQUE_ID,
     Suc_Pars INTEGER,
     Action_Semantics STRING,
-    Descrip STRING
+    Descrip STRING,
+    Dialect STRING
 );
 CREATE TABLE SM_AH (
     Act_ID UNIQUE_ID,
@@ -1261,14 +1264,16 @@ CREATE TABLE SPR_PO (
     Name STRING,
     Descrip STRING,
     Action_Semantics STRING,
-    Suc_Pars INTEGER
+    Suc_Pars INTEGER,
+    Dialect STRING
 );
 CREATE TABLE SPR_PS (
     Id UNIQUE_ID,
     Name STRING,
     Descrip STRING,
     Action_Semantics STRING,
-    Suc_Pars INTEGER
+    Suc_Pars INTEGER,
+    Dialect STRING
 );
 CREATE TABLE SPR_REP (
     Id UNIQUE_ID,
@@ -1280,14 +1285,16 @@ CREATE TABLE SPR_RO (
     Name STRING,
     Descrip STRING,
     Action_Semantics STRING,
-    Suc_Pars INTEGER
+    Suc_Pars INTEGER,
+    Dialect STRING
 );
 CREATE TABLE SPR_RS (
     Id UNIQUE_ID,
     Name STRING,
     Descrip STRING,
     Action_Semantics STRING,
-    Suc_Pars INTEGER
+    Suc_Pars INTEGER,
+    Dialect STRING
 );
 CREATE TABLE SQ_AP (
     Part_ID UNIQUE_ID,
@@ -1413,7 +1420,8 @@ CREATE TABLE S_BRG (
     DT_ID UNIQUE_ID,
     Action_Semantics STRING,
     Suc_Pars INTEGER,
-    Return_Dimensions STRING
+    Return_Dimensions STRING,
+    Dialect STRING
 );
 CREATE TABLE S_CDT (
     DT_ID UNIQUE_ID,
@@ -1512,7 +1520,8 @@ CREATE TABLE S_SYNC (
     Action_Semantics STRING,
     DT_ID UNIQUE_ID,
     Suc_Pars INTEGER,
-    Return_Dimensions STRING
+    Return_Dimensions STRING,
+    Dialect STRING
 );
 CREATE TABLE S_SYS (
     Sys_ID UNIQUE_ID,
