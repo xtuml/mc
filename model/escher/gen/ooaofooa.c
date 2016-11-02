@@ -1480,7 +1480,8 @@ void
 ooaofooa_FactoryTE_SM( const bool p_is_ism, ooaofooa_SM_SM * p_sm_sm, ooaofooa_TE_CLASS * p_te_class )
 {
   ooaofooa_TE_EVT * te_evt=0;ooaofooa_TE_EVT * item1=0;ooaofooa_SM_EVT * sm_evt=0;ooaofooa_SM_ACT * sm_act=0;ooaofooa_TE_STATE * te_state=0;ooaofooa_TE_STATE * item=0;ooaofooa_SM_STATE * sm_state=0;i_t last_event_number;Escher_ObjectSet_s item_set1_copy_space={0}; Escher_ObjectSet_s * item_set1_copy = &item_set1_copy_space;Escher_ObjectSet_s item_set1_space={0}; Escher_ObjectSet_s * item_set1 = &item_set1_space;i_t counter;Escher_ObjectSet_s item_set_copy_space={0}; Escher_ObjectSet_s * item_set_copy = &item_set_copy_space;
-  Escher_ObjectSet_s item_set_space={0}; Escher_ObjectSet_s * item_set = &item_set_space;c_t * class_based=0;ooaofooa_TE_CLASS * te_class;ooaofooa_SM_SM * sm_sm;bool is_ism;ooaofooa_TE_SM * te_sm;Escher_ObjectSet_s empty_te_parms_space={0}; Escher_ObjectSet_s * empty_te_parms = &empty_te_parms_space;ooaofooa_TE_DT * void_te_dt=0;Escher_ObjectSet_s poly_te_evts_space={0}; Escher_ObjectSet_s * poly_te_evts = &poly_te_evts_space;Escher_ObjectSet_s true_te_evts_space={0}; Escher_ObjectSet_s * true_te_evts = &true_te_evts_space;Escher_ObjectSet_s sm_nlevts_space={0}; Escher_ObjectSet_s * sm_nlevts = &sm_nlevts_space;Escher_ObjectSet_s signal_te_evts_space={0}; Escher_ObjectSet_s * signal_te_evts = &signal_te_evts_space;Escher_ObjectSet_s sm_sgevts_space={0}; Escher_ObjectSet_s * sm_sgevts = &sm_sgevts_space;Escher_ObjectSet_s local_te_evts_space={0}; Escher_ObjectSet_s * local_te_evts = &local_te_evts_space;Escher_ObjectSet_s sm_levts_space={0}; Escher_ObjectSet_s * sm_levts = &sm_levts_space;Escher_ObjectSet_s sm_evts_space={0}; Escher_ObjectSet_s * sm_evts = &sm_evts_space;Escher_ObjectSet_s sm_acts_space={0}; Escher_ObjectSet_s * sm_acts = &sm_acts_space;Escher_ObjectSet_s te_states_space={0}; Escher_ObjectSet_s * te_states = &te_states_space;Escher_ObjectSet_s sm_states_space={0}; Escher_ObjectSet_s * sm_states = &sm_states_space;ooaofooa_TE_C * te_c=0;
+  Escher_ObjectSet_s item_set_space={0}; Escher_ObjectSet_s * item_set = &item_set_space;c_t * class_based=0;ooaofooa_TE_CLASS * te_class;ooaofooa_SM_SM * sm_sm;bool is_ism;ooaofooa_TE_SM * te_sm;Escher_ObjectSet_s empty_te_parms_space={0}; Escher_ObjectSet_s * empty_te_parms = &empty_te_parms_space;ooaofooa_TE_DT * void_te_dt=0;Escher_ObjectSet_s poly_te_evts_space={0}; Escher_ObjectSet_s * poly_te_evts = &poly_te_evts_space;Escher_ObjectSet_s true_te_evts_space={0}; Escher_ObjectSet_s * true_te_evts = &true_te_evts_space;Escher_ObjectSet_s sm_nlevts_space={0}; Escher_ObjectSet_s * sm_nlevts = &sm_nlevts_space;Escher_ObjectSet_s signal_te_evts_space={0}; Escher_ObjectSet_s * signal_te_evts = &signal_te_evts_space;Escher_ObjectSet_s sm_sgevts_space={0}; Escher_ObjectSet_s * sm_sgevts = &sm_sgevts_space;
+  Escher_ObjectSet_s local_te_evts_space={0}; Escher_ObjectSet_s * local_te_evts = &local_te_evts_space;Escher_ObjectSet_s sm_levts_space={0}; Escher_ObjectSet_s * sm_levts = &sm_levts_space;Escher_ObjectSet_s sm_evts_space={0}; Escher_ObjectSet_s * sm_evts = &sm_evts_space;Escher_ObjectSet_s sm_acts_space={0}; Escher_ObjectSet_s * sm_acts = &sm_acts_space;Escher_ObjectSet_s te_states_space={0}; Escher_ObjectSet_s * te_states = &te_states_space;Escher_ObjectSet_s sm_states_space={0}; Escher_ObjectSet_s * sm_states = &sm_states_space;ooaofooa_TE_C * te_c=0;
   /* ASSIGN is_ism = PARAM.is_ism */
   is_ism = p_is_ism;
   /* ASSIGN sm_sm = PARAM.sm_sm */
@@ -24864,6 +24865,7 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_A_AEA_instancedumper,
   ooaofooa_S_BPARM_instancedumper,
   ooaofooa_EP_PKG_instancedumper,
+  ooaofooa_EP_PKGREF_instancedumper,
   ooaofooa_S_EDT_instancedumper,
   ooaofooa_CNST_CSP_instancedumper,
   ooaofooa_CNST_SYC_instancedumper,
@@ -25242,6 +25244,7 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_A_AEA_extent,
   &pG_ooaofooa_S_BPARM_extent,
   &pG_ooaofooa_EP_PKG_extent,
+  &pG_ooaofooa_EP_PKGREF_extent,
   &pG_ooaofooa_S_EDT_extent,
   &pG_ooaofooa_CNST_CSP_extent,
   &pG_ooaofooa_CNST_SYC_extent,
