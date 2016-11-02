@@ -388,10 +388,8 @@
   .assign te_file.types = ( te_sys.Name + "_" ) + te_file.types
   .assign te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main
   .//
-  .// Select "Imported" Packages and link them to their imports to the
-  .// appropriate component.
-  .// Imported packages are empty packages imbedded within components
-  .// that have the name of the target package as their description.
+  .// Select through package references to imported packages and link them to the
+  .// importing component.
   .// Get the components that are part of the project.
   .select many te_cs from instances of TE_C where ( selected.included_in_build )
   .select many c_cs related by te_cs->C_C[R2054]
@@ -402,9 +400,12 @@
       .// Get the packages that are empty (having no elements inside).
       .select any pe_pe related by ep_pkg->PE_PE[R8000]
       .if ( empty pe_pe )
-        .// We found an empty package, now check to see if it is marked as imported.
-        .if ( "" != ep_pkg.Descrip )
+        .// We found an empty package, now check to see if it is serving as a package reference.
+        .select one imported_ep_pkg related by ep_pkg->EP_PKG[R1402.'refers to']
+        .if ( ( empty imported_ep_pkg ) and ( "" != ep_pkg.Descrip ) )
+          .// CDS - This is the old hack way... supporting it for now.
           .select any imported_ep_pkg from instances of EP_PKG where ( selected.Name == ep_pkg.Descrip )
+        .end if
           .if ( not_empty imported_ep_pkg )
             .// We found a package that has a name as specified in the embedded package Descrip.
             .// Disconnect the embedded package.  Relate the imported package.
@@ -422,7 +423,6 @@
             .assign pe_pe.Element_ID = imported_ep_pkg.Package_ID
             .// end relate
           .end if
-        .end if
       .end if
     .end for
   .end for
