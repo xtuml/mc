@@ -350,6 +350,7 @@
 {"te_c_CollectLimits","te_c"},
 {"TE_C_CreateIncludeList","te_c"},
 {"TE_C_getContainingComponent","ep_pkg"},
+{"TE_C_getContainingComponents","ep_pkg"},
 {"TE_C_GetOtherWayConnection","te_c","te_ci","te_po","pkg","parent_c_c"},
 {"TE_C_insert","head_te_c","te_c"},
 {"TE_C_ipxact_busInterfaces","te_c"},

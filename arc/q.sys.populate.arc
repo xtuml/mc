@@ -401,12 +401,25 @@
       .select any pe_pe related by ep_pkg->PE_PE[R8000]
       .if ( empty pe_pe )
         .// We found an empty package, now check to see if it is serving as a package reference.
-        .select one imported_ep_pkg related by ep_pkg->EP_PKG[R1402.'refers to']
+        .select one imported_ep_pkg related by ep_pkg->EP_PKGREF[R1402.'is referenced by']->EP_PKG[R1402.'is referenced by']
         .if ( ( empty imported_ep_pkg ) and ( "" != ep_pkg.Descrip ) )
           .// CDS - This is the old hack way... supporting it for now.
           .select any imported_ep_pkg from instances of EP_PKG where ( selected.Name == ep_pkg.Descrip )
-        .end if
           .if ( not_empty imported_ep_pkg )
+            .// CDS - Create and relate an instance of EP_PKGREF to simulate what the editor will do.
+            .create object instance ep_pkgref of EP_PKGREF
+            .// relate ep_pkg to imported_ep_pkg across R1402.'refers to' using ep_pkgref;
+            .assign ep_pkgref.Referring_Package_ID = ep_pkg.Package_ID
+            .assign ep_pkgref.Referred_Package_ID = imported_ep_pkg.Package_ID
+            .// end relate
+          .end if
+        .end if
+        .// The reflexive phrase will get swapped.
+        .select one imported_ep_pkg related by ep_pkg->EP_PKGREF[R1402.'is referenced by']->EP_PKG[R1402.'is referenced by']
+          .if ( not_empty imported_ep_pkg )
+.print "Found imported_ep_pkg ${imported_ep_pkg.Name}"
+          .end if
+          .if ( false )
             .// We found a package that has a name as specified in the embedded package Descrip.
             .// Disconnect the embedded package.  Relate the imported package.
             .select one s_sys related by imported_ep_pkg->S_SYS[R1401]
@@ -465,9 +478,9 @@
   .for each o_obj in o_objs
     .assign te_c = empty_te_c
     .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
-    .invoke r = TE_C_getContainingComponent( ep_pkg )
-    .assign te_c = r.result
-    .if ( not_empty te_c )
+    .invoke r = TE_C_getContainingComponents( ep_pkg )
+    .assign te_cs = r.result
+    .for each te_c in te_cs
       .if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
         .assign te_c.internal_behavior = true
         .// Create the Generated Class instance and link it to the real one.
@@ -476,31 +489,34 @@
         .if ( "C++" == te_target.language )
           .assign te_class.scope = te_class.GeneratedName + "::"
         .end if
+        .// CDS - Break here, because MC-3020 does not support more than one containing component.
+        .break for
       .end if
-    .end if
+    .end for
   .end for
   .//
   .select many s_syncs from instances of S_SYNC
   .for each s_sync in s_syncs
-    .assign te_c = empty_te_c
     .select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000]
-    .invoke r = TE_C_getContainingComponent( ep_pkg )
-    .assign te_c = r.result
-    .if ( not_empty te_c )
+    .invoke r = TE_C_getContainingComponents( ep_pkg )
+    .assign te_cs = r.result
+    .for each te_c in te_cs
       .if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
-      .assign te_c.internal_behavior = true
-      .// Create the Extended Function instance and link it to the real one.
-      .create object instance te_sync of TE_SYNC
-      .// relate s_sync to te_sync across R2023;
-      .assign te_sync.Sync_ID = s_sync.Sync_ID
-      .// end relate
-      .// relate te_sync to te_c across R2084;
-      .assign te_sync.te_cID = te_c.ID
-      .// end relate
-      .assign te_sync.Name = s_sync.Name
-      .assign te_sync.GeneratedName = ( te_c.Name + "_" ) + te_sync.Name
+        .assign te_c.internal_behavior = true
+        .// Create the Extended Function instance and link it to the real one.
+        .create object instance te_sync of TE_SYNC
+        .// relate s_sync to te_sync across R2023;
+        .assign te_sync.Sync_ID = s_sync.Sync_ID
+        .// end relate
+        .// relate te_sync to te_c across R2084;
+        .assign te_sync.te_cID = te_c.ID
+        .// end relate
+        .assign te_sync.Name = s_sync.Name
+        .assign te_sync.GeneratedName = ( te_c.Name + "_" ) + te_sync.Name
+        .// CDS - Break here, because MC-3020 does not support more than one containing component.
+        .break for
       .end if
-    .end if
+    .end for
   .end for
   .//
   .select many s_ees from instances of S_EE
@@ -2666,6 +2682,24 @@
     .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
     .invoke TE_C_mark_nested_system( nested_te_cs )
   .end for
+.end function
+.//
+.// Recursively search upwards through the package hierarchy to find the
+.// containing (parent/owning) components traversing package references.
+.function TE_C_getContainingComponents .// te_cs
+  .param inst_ref ep_pkg
+  .select many te_cs related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
+  .if ( empty te_cs )
+    .// CDS - Role phrase will be reversed in OAL.
+    .select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.'refers to']->EP_PKG[R1402.'refers to']
+    .select many te_cs related by referring_ep_pkgs->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
+    .if ( empty te_cs )
+      .select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000]
+      .invoke r = TE_C_getContainingComponents( parent_ep_pkg )
+      .assign te_cs = r.result
+    .end if
+  .end if
+  .assign attr_result = te_cs
 .end function
 .//
 .// Recursively search upwards through the package hierarchy to find the
