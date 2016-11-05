@@ -2991,9 +2991,8 @@ select any converted_bool_te_dt from instances of TE_DT where ( selected.Name ==
 //
 select many o_objs from instances of O_OBJ;
 for each o_obj in o_objs
-  te_c = empty_te_c;
   select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
-  r = ::TE_C_getContainingComponent( ep_pkg:ep_pkg );
+  r = ::TE_C_getContainingComponents( ep_pkg:ep_pkg );
   te_c = r;
   if ( not_empty te_c )
     if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
@@ -3010,9 +3009,8 @@ end for;
 //
 select many s_syncs from instances of S_SYNC;
 for each s_sync in s_syncs
-  te_c = empty_te_c;
   select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
-  r = ::TE_C_getContainingComponent( ep_pkg:ep_pkg );
+  r = ::TE_C_getContainingComponents( ep_pkg:ep_pkg );
   te_c = r;
   if ( not_empty te_c )
     if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
@@ -7540,7 +7538,6 @@ INSERT INTO S_SYNC
 ep_pkg = param.ep_pkg;
 select one te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054];
 if ( empty te_c )
-  // CDS - Role phrase will be reversed in OAL.
   select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.''is referenced by'']->EP_PKG[R1402.''is referenced by''];
   select any te_c related by referring_ep_pkgs->PE_PE[R8001]->C_C[R8003]->TE_C[R2054];
   if ( empty te_c )
