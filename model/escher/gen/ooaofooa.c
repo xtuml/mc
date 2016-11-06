@@ -6932,7 +6932,7 @@ ooaofooa_TE_ABA_rollup()
   /* ::oal( s:char b[1000000]; // Ccode ) */
   char b[1000000]; // Ccode
   /* ASSIGN parseSuccessful = parseSuccessful */
-  parseSuccessful = ooaofooa_ParseStatus_parseSuccessful_e;
+  parseSuccessful = sys_ParseStatus_parseSuccessful_e;
   /* SELECT any empty_act_blk FROM INSTANCES OF ACT_BLK WHERE FALSE */
   empty_act_blk = 0;
   /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE SELECTED.included_in_build */
@@ -12454,7 +12454,7 @@ ooaofooa_q_render_msg( const bool p_is_statement, c_t * p_sretvar, ooaofooa_TE_B
     if ( te_po->Provision ) {
       sys_IFDirectionType_t direction;
       /* ASSIGN direction = ServerClient */
-      direction = ooaofooa_IFDirectionType_ServerClient_e;
+      direction = sys_IFDirectionType_ServerClient_e;
       /* IF ( ( direction == te_mact.Direction ) ) */
       if ( ( direction == te_mact->Direction ) ) {
         /* ASSIGN name = ( ( te_mact.PortName + -> ) + name ) */
@@ -12478,7 +12478,7 @@ ooaofooa_q_render_msg( const bool p_is_statement, c_t * p_sretvar, ooaofooa_TE_B
     else {
       sys_IFDirectionType_t direction;
       /* ASSIGN direction = ClientServer */
-      direction = ooaofooa_IFDirectionType_ClientServer_e;
+      direction = sys_IFDirectionType_ClientServer_e;
       /* IF ( ( direction == te_mact.Direction ) ) */
       if ( ( direction == te_mact->Direction ) ) {
         /* ASSIGN name = ( ( te_mact.PortName + -> ) + name ) */
@@ -21614,7 +21614,7 @@ te_ee->ID = Escher_ID_factory();
         /* ASSIGN te_tfr.XlateSemantics = TRUE */
         te_tfr->XlateSemantics = TRUE;
         /* ASSIGN ib = Instance */
-        ib = ooaofooa_Scope_Instance_e;
+        ib = sys_Scope_Instance_e;
         /* IF ( ( ib == o_tfr.Instance_Based ) ) */
         if ( ( ib == o_tfr->Instance_Based ) ) {
           /* ASSIGN te_tfr.Instance_Based = 1 */
