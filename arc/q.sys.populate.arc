@@ -455,7 +455,6 @@
   .//
   .select many o_objs from instances of O_OBJ
   .for each o_obj in o_objs
-    .assign te_c = empty_te_c
     .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
     .// CDS - We eventually need to support many returning from this function.
     .invoke r = TE_C_getContainingComponents( ep_pkg )
@@ -1232,7 +1231,7 @@
     .invoke r = mact_sort( te_macts )
     .assign te_mact = r.result
     .if ( not_empty te_mact )
-      .// relate te_po to te_mact across R2099.'has first';
+      .// relate te_po to te_mact across R2099;
       .assign te_po.first_te_mactID = te_mact.ID
       .// end relate
     .end if

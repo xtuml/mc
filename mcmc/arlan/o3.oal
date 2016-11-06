@@ -397,7 +397,7 @@ T::print(s:"rolling up statements into action bodies");
 ::TE_ABA_rollup();
 T::print(s:"done translating statements");
 @@@
-smt_fors@void@@@
+     smt_fors@void@@@
 //====================================================================
 // $RCSfile: q.smt.generate.arc,v $
 //

@@ -7109,6 +7109,72 @@ ooaofooa_TE_C_getContainingComponent( ooaofooa_EP_PKG * p_ep_pkg )
 }
 
 /*
+ * Domain Function:  TE_C_getContainingComponents
+ */
+ooaofooa_TE_C *
+ooaofooa_TE_C_getContainingComponents( ooaofooa_EP_PKG * p_ep_pkg )
+{
+  ooaofooa_EP_PKG * ep_pkg;ooaofooa_TE_C * te_c=0;
+  /* ASSIGN ep_pkg = PARAM.ep_pkg */
+  ep_pkg = p_ep_pkg;
+  /* SELECT one te_c RELATED BY ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054] */
+  te_c = 0;
+  {  if ( 0 != ep_pkg ) {
+  ooaofooa_PE_PE * PE_PE_R8001 = ep_pkg->PE_PE_R8001;
+  if ( 0 != PE_PE_R8001 ) {
+  ooaofooa_C_C * C_C_R8003_contained_in = PE_PE_R8001->C_C_R8003_contained_in;
+  if ( 0 != C_C_R8003_contained_in ) {
+  te_c = C_C_R8003_contained_in->TE_C_R2054;
+}}}}
+  /* IF ( empty te_c ) */
+  if ( ( 0 == te_c ) ) {
+    Escher_ObjectSet_s referring_ep_pkgs_space={0}; Escher_ObjectSet_s * referring_ep_pkgs = &referring_ep_pkgs_space;
+    /* SELECT many referring_ep_pkgs RELATED BY ep_pkg->EP_PKGREF[R1402.is referenced by]->EP_PKG[R1402.is referenced by] */
+    Escher_ClearSet( referring_ep_pkgs );
+    {    if ( 0 != ep_pkg ) {
+    ooaofooa_EP_PKGREF * EP_PKGREF_R1402_is_referenced_by;
+    Escher_Iterator_s iEP_PKGREF_R1402_is_referenced_by;
+    Escher_IteratorReset( &iEP_PKGREF_R1402_is_referenced_by, &ep_pkg->EP_PKGREF_R1402_is_referenced_by );
+    while ( 0 != ( EP_PKGREF_R1402_is_referenced_by = (ooaofooa_EP_PKGREF *) Escher_IteratorNext( &iEP_PKGREF_R1402_is_referenced_by ) ) ) {
+    {ooaofooa_EP_PKG * EP_PKG_R1402_is_referenced_by = EP_PKGREF_R1402_is_referenced_by->EP_PKG_R1402_is_referenced_by;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) referring_ep_pkgs, EP_PKG_R1402_is_referenced_by ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) referring_ep_pkgs, EP_PKG_R1402_is_referenced_by );
+    }}}}}
+    /* SELECT any te_c RELATED BY referring_ep_pkgs->PE_PE[R8001]->C_C[R8003]->TE_C[R2054] */
+    te_c = 0;
+    {    ooaofooa_EP_PKG * ooaofooa_EP_PKG_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, referring_ep_pkgs );
+    while ( ( 0 == te_c ) && ( 0 != ( ooaofooa_EP_PKG_linkage = (ooaofooa_EP_PKG *) Escher_IteratorNext( &start_many_iterator ) ) ) ) {
+    ooaofooa_PE_PE * PE_PE_R8001 = ooaofooa_EP_PKG_linkage->PE_PE_R8001;
+    if ( 0 != PE_PE_R8001 ) {
+    ooaofooa_C_C * C_C_R8003_contained_in = PE_PE_R8001->C_C_R8003_contained_in;
+    if ( 0 != C_C_R8003_contained_in ) {
+    te_c = C_C_R8003_contained_in->TE_C_R2054;
+}}}}
+    /* IF ( empty te_c ) */
+    if ( ( 0 == te_c ) ) {
+      ooaofooa_TE_C * r;ooaofooa_EP_PKG * parent_ep_pkg=0;
+      /* SELECT one parent_ep_pkg RELATED BY ep_pkg->PE_PE[R8001]->EP_PKG[R8000] */
+      parent_ep_pkg = 0;
+      {      if ( 0 != ep_pkg ) {
+      ooaofooa_PE_PE * PE_PE_R8001 = ep_pkg->PE_PE_R8001;
+      if ( 0 != PE_PE_R8001 ) {
+      parent_ep_pkg = PE_PE_R8001->EP_PKG_R8000_contained_by;
+}}}
+      /* ASSIGN r = ::TE_C_getContainingComponents(ep_pkg:parent_ep_pkg) */
+      r = ooaofooa_TE_C_getContainingComponents( parent_ep_pkg );
+      /* ASSIGN te_c = r */
+      te_c = r;
+    }
+    Escher_ClearSet( referring_ep_pkgs ); 
+  }
+  /* RETURN te_c */
+  {ooaofooa_TE_C * xtumlOALrv = te_c;
+  return xtumlOALrv;}
+}
+
+/*
  * Domain Function:  TE_C_insert
  */
 ooaofooa_TE_C *
@@ -18181,9 +18247,16 @@ te_c->cId = Escher_ID_factory();
       pe_pe = ( 0 != ep_pkg ) ? (ooaofooa_PE_PE *) Escher_SetGetAny( &ep_pkg->PE_PE_R8000_contains ) : 0;
       /* IF ( empty pe_pe ) */
       if ( ( 0 == pe_pe ) ) {
-        /* IF ( (  != ep_pkg.Descrip ) ) */
-        if ( ( Escher_strcmp( "", ep_pkg->Descrip ) != 0 ) ) {
-          ooaofooa_EP_PKG * imported_ep_pkg=0;
+        ooaofooa_EP_PKG * imported_ep_pkg=0;
+        /* SELECT one imported_ep_pkg RELATED BY ep_pkg->EP_PKGREF[R1402.refers to]->EP_PKG[R1402.refers to] */
+        imported_ep_pkg = 0;
+        {        if ( 0 != ep_pkg ) {
+        ooaofooa_EP_PKGREF * EP_PKGREF_R1402_refers_to = ep_pkg->EP_PKGREF_R1402_refers_to;
+        if ( 0 != EP_PKGREF_R1402_refers_to ) {
+        imported_ep_pkg = EP_PKGREF_R1402_refers_to->EP_PKG_R1402_refers_to;
+}}}
+        /* IF ( ( empty imported_ep_pkg and (  != ep_pkg.Descrip ) ) ) */
+        if ( ( ( 0 == imported_ep_pkg ) && ( Escher_strcmp( "", ep_pkg->Descrip ) != 0 ) ) ) {
           /* SELECT any imported_ep_pkg FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == ep_pkg.Descrip ) */
           imported_ep_pkg = 0;
           { ooaofooa_EP_PKG * selected;
@@ -18198,19 +18271,12 @@ te_c->cId = Escher_ID_factory();
           }
           /* IF ( not_empty imported_ep_pkg ) */
           if ( ( 0 != imported_ep_pkg ) ) {
-            /* SELECT one s_sys RELATED BY imported_ep_pkg->S_SYS[R1401] */
-            s_sys = ( 0 != imported_ep_pkg ) ? imported_ep_pkg->S_SYS_R1401_directly_contained_under : 0;
-            /* IF ( not_empty s_sys ) */
-            if ( ( 0 != s_sys ) ) {
-              /* UNRELATE imported_ep_pkg FROM s_sys ACROSS R1401 */
-              ooaofooa_EP_PKG_R1401_Unlink_contains( s_sys, imported_ep_pkg );
-            }
-            /* SELECT one pe_pe RELATED BY ep_pkg->PE_PE[R8001] */
-            pe_pe = ( 0 != ep_pkg ) ? ep_pkg->PE_PE_R8001 : 0;
-            /* UNRELATE pe_pe FROM ep_pkg ACROSS R8001 */
-            ooaofooa_EP_PKG_R8001_Unlink( pe_pe, ep_pkg );
-            /* RELATE pe_pe TO imported_ep_pkg ACROSS R8001 */
-            ooaofooa_EP_PKG_R8001_Link( pe_pe, imported_ep_pkg );
+            ooaofooa_EP_PKGREF * ep_pkgref;
+            /* CREATE OBJECT INSTANCE ep_pkgref OF EP_PKGREF */
+            ep_pkgref = (ooaofooa_EP_PKGREF *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_EP_PKGREF_CLASS_NUMBER );
+            ep_pkgref->Referring_Package_ID = Escher_ID_factory();
+            /* RELATE ep_pkg TO imported_ep_pkg ACROSS R1402 USING ep_pkgref */
+            ooaofooa_EP_PKGREF_R1402_Link_refers_to( ep_pkg, imported_ep_pkg, ep_pkgref );
           }
         }
       }
@@ -18285,9 +18351,7 @@ te_c->cId = Escher_ID_factory();
   Escher_IteratorReset( &itero_obj, o_objs );
   while ( (iio_obj = (ooaofooa_O_OBJ *)Escher_IteratorNext( &itero_obj )) != 0 ) {
     o_obj = iio_obj; {
-    ooaofooa_TE_C * r;ooaofooa_TE_C * te_c;ooaofooa_EP_PKG * ep_pkg=0;
-    /* ASSIGN te_c = empty_te_c */
-    te_c = empty_te_c;
+    ooaofooa_TE_C * te_c;ooaofooa_TE_C * r;ooaofooa_EP_PKG * ep_pkg=0;
     /* SELECT one ep_pkg RELATED BY o_obj->PE_PE[R8001]->EP_PKG[R8000] */
     ep_pkg = 0;
     {    if ( 0 != o_obj ) {
@@ -18295,8 +18359,8 @@ te_c->cId = Escher_ID_factory();
     if ( 0 != PE_PE_R8001 ) {
     ep_pkg = PE_PE_R8001->EP_PKG_R8000_contained_by;
 }}}
-    /* ASSIGN r = ::TE_C_getContainingComponent(ep_pkg:ep_pkg) */
-    r = ooaofooa_TE_C_getContainingComponent( ep_pkg );
+    /* ASSIGN r = ::TE_C_getContainingComponents(ep_pkg:ep_pkg) */
+    r = ooaofooa_TE_C_getContainingComponents( ep_pkg );
     /* ASSIGN te_c = r */
     te_c = r;
     /* IF ( not_empty te_c ) */
@@ -18326,9 +18390,7 @@ te_c->cId = Escher_ID_factory();
   Escher_IteratorReset( &iters_sync, s_syncs );
   while ( (iis_sync = (ooaofooa_S_SYNC *)Escher_IteratorNext( &iters_sync )) != 0 ) {
     s_sync = iis_sync; {
-    ooaofooa_TE_C * r;ooaofooa_TE_C * te_c;ooaofooa_EP_PKG * ep_pkg=0;
-    /* ASSIGN te_c = empty_te_c */
-    te_c = empty_te_c;
+    ooaofooa_TE_C * te_c;ooaofooa_TE_C * r;ooaofooa_EP_PKG * ep_pkg=0;
     /* SELECT one ep_pkg RELATED BY s_sync->PE_PE[R8001]->EP_PKG[R8000] */
     ep_pkg = 0;
     {    if ( 0 != s_sync ) {
@@ -18336,8 +18398,8 @@ te_c->cId = Escher_ID_factory();
     if ( 0 != PE_PE_R8001 ) {
     ep_pkg = PE_PE_R8001->EP_PKG_R8000_contained_by;
 }}}
-    /* ASSIGN r = ::TE_C_getContainingComponent(ep_pkg:ep_pkg) */
-    r = ooaofooa_TE_C_getContainingComponent( ep_pkg );
+    /* ASSIGN r = ::TE_C_getContainingComponents(ep_pkg:ep_pkg) */
+    r = ooaofooa_TE_C_getContainingComponents( ep_pkg );
     /* ASSIGN te_c = r */
     te_c = r;
     /* IF ( not_empty te_c ) */
@@ -20989,8 +21051,8 @@ te_ee->ID = Escher_ID_factory();
       msg = Escher_strcpy( msg, Escher_stradd( Escher_stradd( "\nERROR:  Did not find a datatype associated with variable ", v_var->Name ), ".\n" ) );
       /* ASSIGN msg = ( msg + Check usages of variable for parse errors in the action language.\n ) */
       msg = Escher_strcpy( msg, Escher_stradd( msg, "Check usages of variable for parse errors in the action language.\n" ) );
-      /* ASSIGN msg = ( msg + [Parse All Activies and look for errors in the Problems view.]\n ) */
-      msg = Escher_strcpy( msg, Escher_stradd( msg, "[Parse All Activies and look for errors in the Problems view.]\n" ) );
+      /* ASSIGN msg = ( msg + [Parse All Activities and look for errors in the Problems view.]\n ) */
+      msg = Escher_strcpy( msg, Escher_stradd( msg, "[Parse All Activities and look for errors in the Problems view.]\n" ) );
       /* T::print( s:${msg} ) */
       T_print( ({c_t*s=Escher_strget();T_T(msg);}) );
     }
