@@ -41,6 +41,7 @@
     .end if
     .assign iterator = "iter" + te_for.loop_variable
     .assign current_instance = "ii" + te_for.loop_variable
+    .// oal2masl:  Use MASL instead of C.
     .include "${te_file.arc_path}/t.smt.for.c"
     .assign te_smt.OAL = "FOR EACH ${v_var.Name} IN ${set_v_var.Name}"
   .end if

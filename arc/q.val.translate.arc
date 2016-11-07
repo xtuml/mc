@@ -114,6 +114,7 @@
   .select many v_lsts from instances of V_LST
   .for each v_lst in v_lsts
     .select one te_val related by v_lst->V_VAL[R801]->TE_VAL[R2040]
+    .// oal2masl:  Use MASL instead of C.
     .// s = T::t( s:v_lst.Value );
     .assign s = v_lst.Value
     .invoke oal( "s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode" )
