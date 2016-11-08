@@ -34,15 +34,14 @@
     .assign te_for.loop_variable = te_var.buffer
     .assign te_for.set_variable = set_te_var.buffer
     .assign ws = te_blk.indentation
-    .assign te_smt.buffer2 = ws + "}}}"
+    .assign te_smt.buffer2 = ws + "end loop"
     .if ( te_for.isImplicit )
-      .assign d = ( te_for.class_name + " * " ) + ( te_for.loop_variable + "=0;" )
+      .assign d = ( te_for.loop_variable + " : " ) + ( te_for.class_name + ";" ) )
       .invoke blk_declaration_append( te_blk, d )
     .end if
-    .assign iterator = "iter" + te_for.loop_variable
-    .assign current_instance = "ii" + te_for.loop_variable
     .// oal2masl:  Use MASL instead of C.
-    .include "${te_file.arc_path}/t.smt.for.c"
+for each te_for.loop_variable in te_for.set_variable
+  begin
     .assign te_smt.OAL = "FOR EACH ${v_var.Name} IN ${set_v_var.Name}"
   .end if
 .end function
