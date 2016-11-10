@@ -36,12 +36,11 @@
     .assign ws = te_blk.indentation
     .assign te_smt.buffer2 = ws + "end loop"
     .if ( te_for.isImplicit )
-      .assign d = ( te_for.loop_variable + " : " ) + ( te_for.class_name + ";" ) )
+      .assign d = ( ( te_for.loop_variable + " : " ) + ( te_for.class_name + ";" ) )
       .invoke blk_declaration_append( te_blk, d )
     .end if
     .// oal2masl:  Use MASL instead of C.
-for each te_for.loop_variable in te_for.set_variable
-  begin
+${ws}for each ${te_for.loop_variable} in ${te_for.set_variable} loop
     .assign te_smt.OAL = "FOR EACH ${v_var.Name} IN ${set_v_var.Name}"
   .end if
 .end function
