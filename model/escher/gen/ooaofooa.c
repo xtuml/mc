@@ -7127,7 +7127,7 @@ ooaofooa_TE_C_getContainingComponents( ooaofooa_EP_PKG * p_ep_pkg )
   te_c = C_C_R8003_contained_in->TE_C_R2054;
 }}}}
   /* IF ( ( empty te_c ) and ( not_empty ep_pkg ) ) */
-  if ( ( 0 == te_c ) and ( 0 != ep_pkg ) ) {
+  if ( ( 0 == te_c ) && ( 0 != ep_pkg ) ) {
     Escher_ObjectSet_s referring_ep_pkgs_space={0}; Escher_ObjectSet_s * referring_ep_pkgs = &referring_ep_pkgs_space;
     /* SELECT many referring_ep_pkgs RELATED BY ep_pkg->EP_PKGREF[R1402.is referenced by]->EP_PKG[R1402.is referenced by] */
     Escher_ClearSet( referring_ep_pkgs );
