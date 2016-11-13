@@ -2666,7 +2666,7 @@
 .function TE_C_getContainingComponents .// te_c
   .param inst_ref ep_pkg
   .select one te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
-  .if ( empty te_c )
+  .if ( ( empty te_c ) and ( not_empty ep_pkg ) )
     .// CDS - Role phrase will be reversed in OAL.
     .select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.'refers to']->EP_PKG[R1402.'refers to']
     .select any te_c related by referring_ep_pkgs->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
