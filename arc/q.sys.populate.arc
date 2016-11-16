@@ -388,10 +388,8 @@
   .assign te_file.types = ( te_sys.Name + "_" ) + te_file.types
   .assign te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main
   .//
-  .// Select "Imported" Packages and link them to their imports to the
-  .// appropriate component.
-  .// Imported packages are empty packages imbedded within components
-  .// that have the name of the target package as their description.
+  .// Select through package references to imported packages and link them to the
+  .// importing component.
   .// Get the components that are part of the project.
   .select many te_cs from instances of TE_C where ( selected.included_in_build )
   .select many c_cs related by te_cs->C_C[R2054]
@@ -402,24 +400,18 @@
       .// Get the packages that are empty (having no elements inside).
       .select any pe_pe related by ep_pkg->PE_PE[R8000]
       .if ( empty pe_pe )
-        .// We found an empty package, now check to see if it is marked as imported.
-        .if ( "" != ep_pkg.Descrip )
+        .// We found an empty package, now check to see if it is serving as a package reference.
+        .select one imported_ep_pkg related by ep_pkg->EP_PKGREF[R1402.'is referenced by']->EP_PKG[R1402.'is referenced by']
+        .if ( ( empty imported_ep_pkg ) and ( "" != ep_pkg.Descrip ) )
+          .// CDS - This is the old hack way... supporting it for now.
           .select any imported_ep_pkg from instances of EP_PKG where ( selected.Name == ep_pkg.Descrip )
           .if ( not_empty imported_ep_pkg )
-            .// We found a package that has a name as specified in the embedded package Descrip.
-            .// Disconnect the embedded package.  Relate the imported package.
-            .select one s_sys related by imported_ep_pkg->S_SYS[R1401]
-            .if ( not_empty s_sys )
-              .// unrelate imported_ep_pkg from s_sys across R1401;
-              .assign imported_ep_pkg.Sys_ID = 0
-              .// end unrelate
-            .end if
-            .select one pe_pe related by ep_pkg->PE_PE[R8001]
-            .// unrelate pe_pe from ep_pkg across R8001;
-            .assign pe_pe.Element_ID = 0
-            .// end unrelate
-            .// relate pe_pe to imported_ep_pkg across R8001;
-            .assign pe_pe.Element_ID = imported_ep_pkg.Package_ID
+            .// CDS - Create and relate an instance of EP_PKGREF to simulate what the editor will do.
+            .create object instance ep_pkgref of EP_PKGREF
+            .// Relate ep_pkg to imported_ep_pkg across R1402.'refers to' using ep_pkgref;
+            .// relate ep_pkg to imported_ep_pkg across R1402;
+            .assign ep_pkgref.Referring_Package_ID = ep_pkg.Package_ID
+            .assign ep_pkgref.Referred_Package_ID = imported_ep_pkg.Package_ID
             .// end relate
           .end if
         .end if
@@ -463,9 +455,9 @@
   .//
   .select many o_objs from instances of O_OBJ
   .for each o_obj in o_objs
-    .assign te_c = empty_te_c
     .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
-    .invoke r = TE_C_getContainingComponent( ep_pkg )
+    .// CDS - We eventually need to support many returning from this function.
+    .invoke r = TE_C_getContainingComponents( ep_pkg )
     .assign te_c = r.result
     .if ( not_empty te_c )
       .if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
@@ -482,23 +474,23 @@
   .//
   .select many s_syncs from instances of S_SYNC
   .for each s_sync in s_syncs
-    .assign te_c = empty_te_c
     .select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000]
-    .invoke r = TE_C_getContainingComponent( ep_pkg )
+    .// CDS - We eventually need to support many returning from this function.
+    .invoke r = TE_C_getContainingComponents( ep_pkg )
     .assign te_c = r.result
     .if ( not_empty te_c )
       .if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
-      .assign te_c.internal_behavior = true
-      .// Create the Extended Function instance and link it to the real one.
-      .create object instance te_sync of TE_SYNC
-      .// relate s_sync to te_sync across R2023;
-      .assign te_sync.Sync_ID = s_sync.Sync_ID
-      .// end relate
-      .// relate te_sync to te_c across R2084;
-      .assign te_sync.te_cID = te_c.ID
-      .// end relate
-      .assign te_sync.Name = s_sync.Name
-      .assign te_sync.GeneratedName = ( te_c.Name + "_" ) + te_sync.Name
+        .assign te_c.internal_behavior = true
+        .// Create the Extended Function instance and link it to the real one.
+        .create object instance te_sync of TE_SYNC
+        .// relate s_sync to te_sync across R2023;
+        .assign te_sync.Sync_ID = s_sync.Sync_ID
+        .// end relate
+        .// relate te_sync to te_c across R2084;
+        .assign te_sync.te_cID = te_c.ID
+        .// end relate
+        .assign te_sync.Name = s_sync.Name
+        .assign te_sync.GeneratedName = ( te_c.Name + "_" ) + te_sync.Name
       .end if
     .end if
   .end for
@@ -1239,7 +1231,7 @@
     .invoke r = mact_sort( te_macts )
     .assign te_mact = r.result
     .if ( not_empty te_mact )
-      .// relate te_po to te_mact across R2099.'has first';
+      .// relate te_po to te_mact across R2099;
       .assign te_po.first_te_mactID = te_mact.ID
       .// end relate
     .end if
@@ -2666,6 +2658,25 @@
     .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
     .invoke TE_C_mark_nested_system( nested_te_cs )
   .end for
+.end function
+.//
+.// Recursively search upwards through the package hierarchy to find the
+.// containing (parent/owning) components traversing package references.
+.// CDS - For now, we return only one, because we do not know how to support many.
+.function TE_C_getContainingComponents .// te_c
+  .param inst_ref ep_pkg
+  .select one te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
+  .if ( ( empty te_c ) and ( not_empty ep_pkg ) )
+    .// CDS - Role phrase will be reversed in OAL.
+    .select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.'refers to']->EP_PKG[R1402.'refers to']
+    .select any te_c related by referring_ep_pkgs->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
+    .if ( empty te_c )
+      .select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000]
+      .invoke r = TE_C_getContainingComponents( parent_ep_pkg )
+      .assign te_c = r.result
+    .end if
+  .end if
+  .assign attr_result = te_c
 .end function
 .//
 .// Recursively search upwards through the package hierarchy to find the

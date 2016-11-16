@@ -547,6 +547,10 @@ CREATE TABLE EP_PKG (
     Descrip STRING,
     Num_Rng INTEGER
 );
+CREATE TABLE EP_PKGREF (
+    Referring_Package_ID UNIQUE_ID,
+    Referred_Package_ID UNIQUE_ID
+);
 CREATE TABLE E_CEA (
     Statement_ID UNIQUE_ID
 );
@@ -872,7 +876,8 @@ CREATE TABLE O_DBATTR (
     Attr_ID UNIQUE_ID,
     Obj_ID UNIQUE_ID,
     Action_Semantics STRING,
-    Suc_Pars INTEGER
+    Suc_Pars INTEGER,
+    Dialect STRING
 );
 CREATE TABLE O_ID (
     Oid_ID INTEGER,
@@ -946,7 +951,8 @@ CREATE TABLE O_TFR (
     Action_Semantics STRING,
     Suc_Pars INTEGER,
     Return_Dimensions STRING,
-    Previous_Tfr_ID UNIQUE_ID
+    Previous_Tfr_ID UNIQUE_ID,
+    Dialect STRING
 );
 CREATE TABLE O_TPARM (
     TParm_ID UNIQUE_ID,
@@ -1102,7 +1108,8 @@ CREATE TABLE SM_ACT (
     SM_ID UNIQUE_ID,
     Suc_Pars INTEGER,
     Action_Semantics STRING,
-    Descrip STRING
+    Descrip STRING,
+    Dialect STRING
 );
 CREATE TABLE SM_AH (
     Act_ID UNIQUE_ID,
@@ -1261,14 +1268,16 @@ CREATE TABLE SPR_PO (
     Name STRING,
     Descrip STRING,
     Action_Semantics STRING,
-    Suc_Pars INTEGER
+    Suc_Pars INTEGER,
+    Dialect STRING
 );
 CREATE TABLE SPR_PS (
     Id UNIQUE_ID,
     Name STRING,
     Descrip STRING,
     Action_Semantics STRING,
-    Suc_Pars INTEGER
+    Suc_Pars INTEGER,
+    Dialect STRING
 );
 CREATE TABLE SPR_REP (
     Id UNIQUE_ID,
@@ -1280,14 +1289,16 @@ CREATE TABLE SPR_RO (
     Name STRING,
     Descrip STRING,
     Action_Semantics STRING,
-    Suc_Pars INTEGER
+    Suc_Pars INTEGER,
+    Dialect STRING
 );
 CREATE TABLE SPR_RS (
     Id UNIQUE_ID,
     Name STRING,
     Descrip STRING,
     Action_Semantics STRING,
-    Suc_Pars INTEGER
+    Suc_Pars INTEGER,
+    Dialect STRING
 );
 CREATE TABLE SQ_AP (
     Part_ID UNIQUE_ID,
@@ -1413,7 +1424,8 @@ CREATE TABLE S_BRG (
     DT_ID UNIQUE_ID,
     Action_Semantics STRING,
     Suc_Pars INTEGER,
-    Return_Dimensions STRING
+    Return_Dimensions STRING,
+    Dialect STRING
 );
 CREATE TABLE S_CDT (
     DT_ID UNIQUE_ID,
@@ -1512,7 +1524,8 @@ CREATE TABLE S_SYNC (
     Action_Semantics STRING,
     DT_ID UNIQUE_ID,
     Suc_Pars INTEGER,
-    Return_Dimensions STRING
+    Return_Dimensions STRING,
+    Dialect STRING
 );
 CREATE TABLE S_SYS (
     Sys_ID UNIQUE_ID,
@@ -2968,6 +2981,8 @@ CREATE ROP REF_ID R123 FROM MC S_IRDT (Obj_ID) TO 1 O_OBJ (Obj_ID);
 CREATE ROP REF_ID R124 FROM 1C O_TPARM (Previous_TParm_ID) PHRASE 'succeeds' TO 1C O_TPARM (TParm_ID) PHRASE 'precedes';
 CREATE ROP REF_ID R125 FROM 1C O_TFR (Previous_Tfr_ID) PHRASE 'succeeds' TO 1C O_TFR (Tfr_ID) PHRASE 'precedes';
 CREATE ROP REF_ID R1401 FROM MC EP_PKG (Sys_ID) TO 1C S_SYS (Sys_ID);
+CREATE ROP REF_ID R1402 FROM MC EP_PKGREF (Referred_Package_ID) PHRASE 'refers to' TO 1 EP_PKG (Package_ID) PHRASE 'is referenced by';
+CREATE ROP REF_ID R1402 FROM 1C EP_PKGREF (Referring_Package_ID) PHRASE 'is referenced by' TO 1 EP_PKG (Package_ID) PHRASE 'refers to';
 CREATE ROP REF_ID R1405 FROM MC EP_PKG (Direct_Sys_ID) TO 1 S_SYS (Sys_ID);
 CREATE ROP REF_ID R1500 FROM MC CNST_SYC (DT_ID) TO 1 S_DT (DT_ID);
 CREATE ROP REF_ID R1502 FROM 1C CNST_LFSC (Const_ID, DT_ID) TO 1 CNST_SYC (Const_ID, DT_ID);
