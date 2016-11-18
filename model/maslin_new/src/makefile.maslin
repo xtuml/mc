@@ -1,6 +1,5 @@
 CC=gcc
-# gdb - CFLAGS=-Wno-pointer-to-int-cast -g 
-CFLAGS=-Wno-pointer-to-int-cast 
+CFLAGS=-Wno-pointer-to-int-cast #-g
 SOURCES := $(shell ls *.c)
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=m2x

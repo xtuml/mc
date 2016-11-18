@@ -294,13 +294,8 @@ STRING_trim( c_t * p_s )
 
 /*
  * Bridge:  quote
+ * implemented as macro
  */
-c_t *
-STRING_quote()
-{
-  c_t result[2] = {'"',0};
-  return result;
-}
 
 
 /*
