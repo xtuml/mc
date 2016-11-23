@@ -34,7 +34,7 @@ struct masl2xtuml_ooapopulation {
   masl2xtuml_C_I * current_interface;  
   masl2xtuml_O_TPARM * current_operation_param;  
   masl2xtuml_ooapragma * current_pragma;  
-  masl2xtuml_sdt_relationship_data current_rel;  
+  maslin_new_sdt_relationship_data current_rel;  
   masl2xtuml_SM_STATE * current_state;  
   i_t processingIdentifier;  
   bool processingISM;  
@@ -42,7 +42,7 @@ struct masl2xtuml_ooapopulation {
   masl2xtuml_SM_EVT * current_event;  
   masl2xtuml_C_EP * current_executable_property;  
   bool processingProject;  
-  masl2xtuml_sdt_routine_info current_routine_info;  
+  maslin_new_sdt_routine_info current_routine_info;  
   masl2xtuml_C_PP * current_interface_param;  
   masl2xtuml_SM_EVTDI * current_event_dataitem;  
   masl2xtuml_S_EXP * current_exp;  
@@ -187,8 +187,8 @@ void masl2xtuml_ooapopulation_op_clearRelationshipCache( masl2xtuml_ooapopulatio
 void masl2xtuml_ooapopulation_op_createSystem( masl2xtuml_ooapopulation * );
 void masl2xtuml_ooapopulation_op_mergeDuplicateOperations( masl2xtuml_ooapopulation * );
 void masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * );
-void masl2xtuml_ooapopulation_op_populate(  c_t *, c_t [8][ESCHER_SYS_MAX_STRING_LEN] );
-void masl2xtuml_ooapopulation_op_populate_project(  c_t *, masl2xtuml_ooapopulation *, c_t [8][ESCHER_SYS_MAX_STRING_LEN] );
+void masl2xtuml_ooapopulation_op_populate(  c_t *, c_t *[8] );
+void masl2xtuml_ooapopulation_op_populate_project(  c_t *, masl2xtuml_ooapopulation *, c_t *[8] );
 void masl2xtuml_ooapopulation_op_transformActivity( masl2xtuml_ooapopulation * );
 void masl2xtuml_ooapopulation_op_transformAssociation( masl2xtuml_ooapopulation * );
 void masl2xtuml_ooapopulation_op_transformAttribute( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t * );
