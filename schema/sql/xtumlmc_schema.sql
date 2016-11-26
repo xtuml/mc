@@ -821,7 +821,8 @@ CREATE TABLE MSG_ISM (
 CREATE TABLE MSG_M (
     Msg_ID UNIQUE_ID,
     Receiver_Part_ID UNIQUE_ID,
-    Sender_Part_ID UNIQUE_ID
+    Sender_Part_ID UNIQUE_ID,
+    participatesInCommunication BOOLEAN
 );
 CREATE TABLE MSG_O (
     Msg_ID UNIQUE_ID,
