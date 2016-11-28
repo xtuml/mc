@@ -1136,6 +1136,12 @@ else
 end if;
 self.Port_initialize(c_po:port, name:param.port_name);
 
+if ( self.processingProject )
+  // Add "formalize" to the description so the MASL
+  // import processor knows to formalize this interface
+  requirement.Descrip = requirement.Descrip + "formalize";
+end if;
+
 return interfaceRef;',
 	1,
 	'',
@@ -6874,6 +6880,7 @@ if ( not_empty op )
     if ( o_tfr != op and self.Operation_getSignature( o_tfr:op ) == self.Operation_getSignature( o_tfr:o_tfr ) )
       // copy over the codeblock
       o_tfr.Action_Semantics_internal = op.Action_Semantics_internal;
+      o_tfr.Dialect = "masl";
       // dispose the operation
       self.Operation_dispose( o_tfr:op );
       break;
@@ -6902,6 +6909,7 @@ if ( not_empty function )
     if ( s_sync != function and self.Function_getSignature( s_sync:function ) == self.Function_getSignature( s_sync:s_sync ) )
       // copy over the codeblock
       s_sync.Action_Semantics_internal = function.Action_Semantics_internal;
+      s_sync.Dialect = "masl";
       // dispose corresponding interface message
       self.ExecutableProperty_dispose( c_ep:message );
       // dispose the function
@@ -6920,15 +6928,21 @@ select many c_eps related by message->C_I[R4003]->C_EP[R4003];
       end_index = STRING::indexof( haystack:string, needle:"</codeblock>" );
       message_cb = "";
       if ( -1 != start_index and -1 != end_index )
-        message_cb = "codeblock:" + STRING::substr( s:string, begin:start_index+11, end:end_index ) + "\n";
+        temp_cb = STRING::substr( s:string, begin:start_index+11, end:end_index );
+        message_cb = STRING::escapetics(s:temp_cb);
       end if;
 
-      if ( self.processingProject )	// if we are processing a project, there will be no spr_ro
-        c_ep.Descrip = message_cb;
+      if ( self.processingProject )
+		select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
+		if ( not_empty spr_po )
+		  spr_po.Action_Semantics_internal = spr_po.Action_Semantics_internal + message_cb;
+		  spr_po.Dialect = "masl";
+		end if;
       else
 		select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
 		if ( not_empty spr_ro )
 		  spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
+		  spr_ro.Dialect = "masl";
 		end if;
   	  end if;
       // dispose interface message
@@ -7039,13 +7053,15 @@ elif ( "terminator" == element )
       end_index = STRING::indexof( haystack:string, needle:"</codeblock>" );
       message_cb = "";
       if ( -1 != start_index and -1 != end_index )
-        message_cb = "codeblock:" + STRING::substr( s:string, begin:start_index+11, end:end_index ) + "\n";
+        temp_cb = STRING::substr( s:string, begin:start_index+11, end:end_index );
+        message_cb = STRING::escapetics( s:temp_cb);
       end if;
       c_ep.Descrip = "";
 
       select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
   	  if ( not_empty spr_ro )
         spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
+        spr_ro.Dialect = "masl";
   	  end if;
   	end for;
 
@@ -7265,7 +7281,8 @@ elif ( "transition" == element )
 elif ( "codeblock" == element )
   s_sync = ooapopulation.current_domain_function;
   if ( not_empty s_sync )
-    s_sync.Action_Semantics_internal = s_sync.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
+    s_sync.Action_Semantics_internal = s_sync.Action_Semantics_internal + STRING::escapetics(s:param.value[0]);
+    s_sync.Dialect = "masl";
   end if;
 
   c_ep = ooapopulation.current_executable_property;
@@ -7276,14 +7293,16 @@ elif ( "codeblock" == element )
   
   o_tfr = ooapopulation.current_class_op;
   if ( not_empty o_tfr )
-    o_tfr.Action_Semantics_internal = o_tfr.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
+    o_tfr.Action_Semantics_internal = o_tfr.Action_Semantics_internal + STRING::escapetics(s:param.value[0]);
+    o_tfr.Dialect = "masl";
   end if;
   
   sm_state = ooapopulation.current_state;
   if ( not_empty sm_state )
     select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
     if ( not_empty sm_act )
-      sm_act.Action_Semantics_internal = sm_act.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
+      sm_act.Action_Semantics_internal = sm_act.Action_Semantics_internal + STRING::escapetics(s:param.value[0]);
+      sm_act.Dialect = "masl";
     end if;
   end if;
   
@@ -7389,6 +7408,37 @@ elif ( "domain" == element )
   end if;
 elif ( "terminator" == element )
   if ( "" == param.value[0] )
+    // formalize the new interface reference to it
+  	comp_if = ooapopulation.current_interface;
+  	select any new_ir related by comp_if->C_IR[R4012];
+  	ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+  	
+    // Add "temporary" to the description so the MASL
+    // import processor knows to swap this interface
+    // with the corresponding interface in the domain
+  	comp_if.Descrip = comp_if.Descrip + "temporary";
+  	
+  	// copy the codeblocks into the right locations
+  	select many c_eps related by comp_if->C_EP[R4003];
+  	for each c_ep in c_eps
+      // copy over the codeblock
+      string = c_ep.Descrip;
+      start_index = STRING::indexof( haystack:string, needle:"<codeblock>" );
+      end_index = STRING::indexof( haystack:string, needle:"</codeblock>" );
+      message_cb = "";
+      if ( -1 != start_index and -1 != end_index )
+        temp_cb = STRING::substr( s:string, begin:start_index+11, end:end_index );
+        message_cb = STRING::escapetics( s:temp_cb);
+      end if;
+      c_ep.Descrip = "";
+
+      select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
+  	  if ( not_empty spr_po )
+        spr_po.Action_Semantics_internal = spr_po.Action_Semantics_internal + message_cb;
+        spr_po.Dialect = "masl";
+  	  end if;
+  	end for;
+
     select any c_i from instances of C_I where (false);
     ooapopulation.current_interface = c_i;
   else
@@ -7399,21 +7449,6 @@ elif ( "routine" == element )
   if ( "" == param.value[3] )
     // check for duplicate routines
     ooapopulation.mergeDuplicateRoutines();
-
-    // copy the codeblock into the description of the provision
-	c_c = ooapopulation.current_component;
-	c_ep = ooapopulation.current_executable_property;
-	select one c_i related by c_ep->C_I[R4003];
-	if_name = "";
-	if ( not_empty c_i )
-	  if_name = c_i.Name;
-	end if;
-	select any c_p related by c_c->C_PO[R4010]->C_IR[R4016]->C_P[R4009] where (selected.InformalName == if_name);
-	if ( not_empty c_p and c_ep.Descrip != "" )
-	  c_p.Descrip = c_p.Descrip + "routine:" + ooapopulation.ExecutableProperty_getSignature( c_ep:c_ep) +
-								  "," + c_ep.Descrip;
-	end if;
-
     select any c_ep from instances of C_EP where ( false );
     ooapopulation.current_executable_property = c_ep;
   else
@@ -7646,7 +7681,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'element = param.element;
-text = param.text;
+text = STRING::escapetics(s:param.text);
 tag = param.tag;
 
 // choose where to put the description based on the element type
@@ -8220,6 +8255,13 @@ self.createSystem();
 // Create a package named the same as the project and cache it
 self.transformDomain(name:param.name);
 
+lib_pkg = self.lib_pkg;
+if ( not_empty lib_pkg )
+  // Add "masl_project" to the description so the MASL
+  // import processor knows to resolve the component
+  // references and to create satisfactions automatically
+  lib_pkg.Descrip = lib_pkg.Descrip + "masl_project";
+end if;
 ',
 	1,
 	'',
@@ -8477,12 +8519,19 @@ if ( self.processingProject )
     clic_name = current_imported.Name;
     if ( clic_name != param.name )
       comp_if_name = clic_name + param.name;
-      new_ir = self.Component_initializeProvision(c_c:self.current_component, port_name:comp_if_name, if_name:comp_if_name);
-      // create a temporary interface to store routines so the signature can be calculated
-      create object instance c_i of C_I;
-      c_i.Name = comp_if_name;
-      self.current_interface = c_i;
-    end if;
+
+	  select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
+
+	  select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
+	  if ( empty comp_if )
+		// create the interface
+		comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
+		new_ir = self.Component_initializeProvision(c_c:self.current_component, port_name:comp_if_name, if_name:comp_if_name);
+		relate comp_if to new_ir across R4012;    // formalize at end tag. for now, just relate it to the C_P
+	  end if;
+
+	  self.current_interface = comp_if;
+	end if;
   end if;
 else
   comp_if_name = self.current_component.Name + param.name;

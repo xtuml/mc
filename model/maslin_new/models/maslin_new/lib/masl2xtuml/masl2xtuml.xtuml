@@ -293,7 +293,7 @@ INSERT INTO GD_GE
 	"d906b2ef-dfdc-496b-aeef-260d5369a267",
 	108,
 	0,
-	'maslin_new::lib::masl2xtuml::masl2xtuml_imported');
+	'maslin_new::lib::masl2xtuml::m2x_imported');
 INSERT INTO GD_SHP
 	VALUES ("2490cb5b-f723-4ae1-8448-947528c36c7f");
 INSERT INTO GD_NCS
@@ -350,7 +350,7 @@ INSERT INTO C_PO
 	0);
 INSERT INTO C_IR
 	VALUES ("235748ab-d2c8-41d2-891e-99d5ee07cd11",
-	"ec7fcbf8-5370-41be-ac69-66b30c6ed2b0",
+	"aae114c8-5690-4023-a3d0-05fff0c36f37",
 	"00000000-0000-0000-0000-000000000000",
 	"19b5ed78-2c82-4ca3-a8bb-e5c7c8525ee7");
 INSERT INTO C_P
@@ -360,11 +360,11 @@ INSERT INTO C_P
 	'',
 	'masl2xtuml::persist::SQL');
 INSERT INTO C_I_PROXY
-	VALUES ("ec7fcbf8-5370-41be-ac69-66b30c6ed2b0",
+	VALUES ("aae114c8-5690-4023-a3d0-05fff0c36f37",
 	"00000000-0000-0000-0000-000000000000",
 	'SQL',
 	'',
-	'../../../../../masldoc/models/masldoc/lib/SQL/SQL.xtuml');
+	'../../../../../mcshared/models/mcshared/lib/SQL/SQL.xtuml');
 INSERT INTO C_PO
 	VALUES ("00025c9a-f9c3-4db0-930b-4141e56b2246",
 	"e3cafb9d-02e0-4035-b5f2-b0cdbefc0a46",
@@ -429,15 +429,6 @@ end for;
 
 // dispose temporary elements if processing project
 if ( not_empty ooapopulation and ooapopulation.processingProject )
-  // dispose temporary interface definitions and all their executable properties
-  select many c_is from instances of C_I;
-  for each c_i in c_is
-    select many c_eps related by c_i->C_EP[R4003];
-    for each c_ep in c_eps
-      ooapopulation.ExecutableProperty_dispose( c_ep:c_ep );
-    end for;
-    delete object instance c_i;
-  end for;
   lib_pkg = ooapopulation.lib_pkg;
   select any types_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
   select many s_dts related by types_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Descrip == "<definition>tmp</definition>" );

@@ -429,15 +429,6 @@ end for;
 
 // dispose temporary elements if processing project
 if ( not_empty ooapopulation and ooapopulation.processingProject )
-  // dispose temporary interface definitions and all their executable properties
-  select many c_is from instances of C_I;
-  for each c_i in c_is
-    select many c_eps related by c_i->C_EP[R4003];
-    for each c_ep in c_eps
-      ooapopulation.ExecutableProperty_dispose( c_ep:c_ep );
-    end for;
-    delete object instance c_i;
-  end for;
   lib_pkg = ooapopulation.lib_pkg;
   select any types_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
   select many s_dts related by types_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Descrip == "<definition>tmp</definition>" );

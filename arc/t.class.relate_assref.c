@@ -80,7 +80,7 @@ ${reset_referentials}\
   .else
   assr->${aone_te_oir.data_member} = 0; /* RAU 3 */
   assr->${aoth_te_oir.data_member} = 0; /* RAU 4 */
-  .end if  .// not towards_aone 
+  .end if  .// not towards_aone
   .if ( aone.Mult == 0 )
     .if ( towards_aone )
   left->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase} = 0; /* RAU 5 */
@@ -92,19 +92,19 @@ ${reset_referentials}\
   ${te_set.module}${te_set.remove_element}( &left->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase}, assr ); /* RAU 7 */
     .else
   ${te_set.module}${te_set.remove_element}( &right->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase}, assr ); /* RAU 8 */
-  .end if
+    .end if
   .end if
   .if ( aoth.Mult == 0 )
     .if ( towards_aone )
-  right->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase} = 0; /* RAU 9 */
+  right->${assr_te_oir.data_member}_${aoth_te_oir.rel_phrase} = 0; /* RAU 9 */
     .else
-  left->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase} = 0; /* RAU 10 */
+  left->${assr_te_oir.data_member}_${aoth_te_oir.rel_phrase} = 0; /* RAU 10 */
     .end if
   .else
     .if ( towards_aone )
-  ${te_set.module}${te_set.remove_element}( &right->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase}, assr ); /* RAU 11 */
+  ${te_set.module}${te_set.remove_element}( &right->${assr_te_oir.data_member}_${aoth_te_oir.rel_phrase}, assr ); /* RAU 11 */
     .else
-  ${te_set.module}${te_set.remove_element}( &left->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase}, assr ); /* RAU 12 */
+  ${te_set.module}${te_set.remove_element}( &left->${assr_te_oir.data_member}_${aoth_te_oir.rel_phrase}, assr ); /* RAU 12 */
     .end if
   .end if
 ${persist_unrelate.body}\
