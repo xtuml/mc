@@ -72,8 +72,8 @@ UserPreOoaInitializationCalloutf( void )
 void
 UserPostOoaInitializationCalloutf( void )
 {
-  char s[ ESCHER_SYS_MAX_STRING_LEN ], element[ ESCHER_SYS_MAX_STRING_LEN ], value[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ], arg[ ESCHER_SYS_MAX_STRING_LEN ];
-  char * p, * q;
+  char s[ ESCHER_SYS_MAX_STRING_LEN ], e[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ], arg[ ESCHER_SYS_MAX_STRING_LEN ];
+  char * p, * q, * element = e, * value[ 8 ] = { v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7] };
   int i, j;
   while ( ( p = fgets( s, ESCHER_SYS_MAX_STRING_LEN, stdin ) ) != NULL ) {
     i = 0;
