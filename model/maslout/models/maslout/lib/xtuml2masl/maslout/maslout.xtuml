@@ -4,7 +4,7 @@ INSERT INTO EP_PKG
 	VALUES ("19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
 	"53107551-b0b9-4155-a13f-41b410f63a54",
-	'maslout_imported',
+	'maslout',
 	'',
 	0);
 INSERT INTO GD_MD
@@ -25,7 +25,7 @@ INSERT INTO GD_MD
 	150,
 	0,
 	'',
-	'maslout::lib::xtuml2masl::maslout_imported');
+	'maslout::lib::xtuml2masl::maslout');
 INSERT INTO DIM_DIA
 	VALUES ("77fe7d4d-51d6-4276-af06-63cebf5e0482",
 	'',
