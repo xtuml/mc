@@ -56,14 +56,18 @@ For each of the models listed in section 4, do the following:
 --------------------------
 6.1 When recompiling models, some updates to the generated code needed
 to be made around string processing.
+
+6.2 Added `gen_erate.exe` and `gen_erate.pyz` to the packaging repository
+on behalf of issue 8891, since this issue was already updating binaries.
   
 7. Unit Test
 ------------
 7.1 Build and compare  
   * Build docgen, escher, `maslin_new` and maslout  
   * Compile the source code.  
-  * __R__ docgen, docgen.exe, mcmc, mcmc64, mcmc.exe, m2x and x2m are created  
+  * __R__ docgen, docgen.exe, mcmc, mcmc64, mcmc.exe, m2x and x2m are created.  
   * Put the new executables into a BridgePoint environment.  
+  * Add `gen_erate.exe` to a Windows environment and add `gen_erate.pyz` to Linux.  
   * Convert GPS Watch MASL model [3] into xtuml using masl2xtuml and the new m2x  
   * Import the converted GPS Watch projects into BridgePoint  
   * Export the GPS Watch components back to MASL using BridgePoint tooling  
@@ -82,8 +86,56 @@ to be made around string processing.
 <pre>
 
 Fork: cortlandstarrett/mc   
+Fork: cortlandstarrett/packaging   
+
 Branch name: 8844_unhack_packref
 
+xtuml/mc
+ arc/q.sys.populate.arc                                                                   |    31 -
+ doc/notes/8844_unhack_packref_int.md                                                     |    92 +
+ model/docgen/.externalToolBuilders/Model Compiler.launch                                 |     4 +-
+ model/docgen/.settings/com.mentor.nucleus.bp.ui.project.preferences.prefs                |     1 +
+ model/docgen/models/docgen/lib/docgen/DocGen_imported/DocGen_imported.xtuml              |    15 +-
+ model/docgen/models/docgen/lib/docgen/Document_imported/Document_imported.xtuml          |    16 +-
+ model/docgen/models/docgen/lib/docgen/docgen.xtuml                                       |    24 -
+ model/docgen/models/docgen/lib/docgen/ooaofooa_imported/ooaofooa_imported.xtuml          |    33 +-
+ model/docgen/models/docgen/lib/docgen/trigger/trigger.xtuml                              |    73 -
+ model/document/.settings/com.mentor.nucleus.bp.ui.project.preferences.prefs              |     1 +
+ model/masl/.settings/com.mentor.nucleus.bp.ui.project.preferences.prefs                  |     1 +
+ model/masl/models/masl/lib/masl/init/init.xtuml                                          |    79 -
+ model/masl/models/masl/lib/masl/masl.xtuml                                               |    24 -
+ model/masl/models/masl/lib/masl/masl_imported/masl_imported.xtuml                        |    13 +-
+ model/masl/models/masl/lib/masl/maslpopulation_imported/maslpopulation_imported.xtuml    |    13 +-
+ model/masl/models/masl/lib/masl/masltypes_imported/masltypes_imported.xtuml              |    13 +-
+ .../org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder.launch                      |     7 -
+ .../.externalToolBuilders/org.eclipse.cdt.managedbuilder.core.genmakebuilder.launch      |     7 -
+ model/maslin_new/.externalToolBuilders/Model Compiler.launch                             |     4 +-
+ model/maslin_new/gen/{masl2xtuml_IDLINK_bridge.c => IDLINK_bridge.c}                     |     9 +-
+ model/maslin_new/gen/STRING_bridge.c                                                     |     7 +-
+ model/maslin_new/gen/STRING_bridge.h                                                     |    33 +
+ model/maslin_new/gen/masl2xtuml.c                                                        |     6 +-
+ model/maslin_new/gen/masl2xtuml.h                                                        |    22 -
+ model/maslin_new/gen/masl2xtuml_O_ATTR_class.c                                           |     2 +-
+ model/maslin_new/gen/masl2xtuml_S_UDT_class.c                                            |     2 +-
+ model/maslin_new/gen/masl2xtuml_ooapopulation_class.c                                    |    78 +-
+ model/maslin_new/gen/masl2xtuml_ooapopulation_class.h                                    |   220 -
+ model/maslin_new/gen/sys_user_co.c                                                       |     4 +-
+ model/maslin_new/models/maslin_new/lib/masl2xtuml/m2x_imported/m2x_imported.xtuml        |    13 +-
+ .../maslin_new/models/maslin_new/lib/masl2xtuml/marking_imported/marking_imported.xtuml  |    13 +-
+ .../models/maslin_new/lib/masl2xtuml/ooaofooa_imported/ooaofooa_imported.xtuml           |    33 +-
+ model/maslout/.externalToolBuilders/Model Compiler.launch                                |     4 +-
+ model/maslout/gen/LOG_bridge.c                                                           |    23 +-
+ model/maslout/gen/T_bridge.c                                                             |    19 +-
+ model/maslout/gen/T_bridge.h                                                             |    42 -
+ .../lib/xtuml2masl/{maslout_imported/maslout_imported.xtuml => maslout/maslout.xtuml}    |     4 +-
+ model/maslout/models/maslout/lib/xtuml2masl/mcooa_imported/mcooa_imported.xtuml          |    33 +-
+ model/maslout/models/maslout/lib/xtuml2masl/xtuml2masl.xtuml                             |     6 +-
+ model/mcooa/.settings/com.mentor.nucleus.bp.ui.project.preferences.prefs                 |     1 +
+ model/mcshared/.settings/com.mentor.nucleus.bp.ui.project.preferences.prefs              |     1 +
+
+xtuml/packaging
+ build/extra_files/gen_erate.exe | Bin 5732783 -> 5732889 bytes
+ build/extra_files/gen_erate.pyz | Bin 312484 -> 460422 bytes
 
 </pre>
 
