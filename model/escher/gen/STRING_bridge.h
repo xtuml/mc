@@ -16,8 +16,16 @@ extern	"C"	{
 #endif
 
 #include "sys_sys_types.h"
-c_t * STRING_itoa( c_t[ESCHER_SYS_MAX_STRING_LEN], const i_t );
-i_t STRING_atoi( c_t[ESCHER_SYS_MAX_STRING_LEN] );
+c_t * STRING_itoa( const i_t );
+i_t STRING_atoi( c_t * );
+c_t * STRING_substr( const i_t, const i_t, c_t * );
+i_t STRING_strlen( c_t * );
+i_t STRING_indexof( c_t *, c_t * );
+c_t * STRING_getword( const i_t, const i_t, c_t * );
+c_t * STRING_trim( c_t * );
+#define STRING_quote() "\""
+c_t * STRING_escapetics( c_t * );
+c_t * STRING_unescapetics( c_t * );
 
 #ifdef	__cplusplus
 }
