@@ -524,7 +524,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("142406bf-e9a4-4a79-8914-4f25563bd8eb",
 	"71288336-d2cf-4dbe-b4f9-b28b34d84c37",
-	'../../../ooaofooa/Translation Extensions/Extended Class/Extended Class.xtuml');
+	'../../Translation Extensions/Extended Class/Extended Class.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("5d62aead-fffd-4dd1-b608-72b4b0728088",
 	"c2c9fa0c-082f-41ff-9813-4e3f3b092d3f",
@@ -560,7 +560,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("04e90aa8-ed7d-405a-9a83-0e8aef728977",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Translation OAL',
 	'',
 	2070,

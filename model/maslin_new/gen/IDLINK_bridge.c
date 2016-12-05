@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- * File:  masl2xtuml_IDLINK_bridge.c
+ * File:  IDLINK_bridge.c
  *
  * Description:
  * Methods for bridging to an external entity.
@@ -13,23 +13,22 @@
 #include "LOG_bridge.h"
 #include "STRING_bridge.h"
 #include "TRACE_bridge.h"
-#include "masl2xtuml_IDLINK_bridge.h"
+#include "IDLINK_bridge.h"
 #include "masl2xtuml_classes.h"
-#include "masl2xtuml_IDLINK_bridge.h"
 #include "maslin_new_sys_types.h"
 
 /*
  * Bridge:  stitchID
  */
 void
-masl2xtuml_IDLINK_stitchID( c_t * p_name, masl2xtuml_PE_PE * p_pe_pe, masl2xtuml_S_DT * p_s_dt, masl2xtuml_S_UDT * p_s_udt )
+IDLINK_stitchID( c_t * p_name, masl2xtuml_PE_PE * p_pe_pe, masl2xtuml_S_DT * p_s_dt, masl2xtuml_S_UDT * p_s_udt )
 {
   // TODO masltype_id represents the ID of the type 'MASLtype' created by ooapopulation.createSystem.
   // It is initialized to be the ID of string built in type, and then updated when 'MASLtype' is processed
   static Escher_UniqueID_t masltype_id = 0xba5ed04;
 
   /* Replace/Insert your implementation code here... */
-  masl2xtuml_PE_PE * pe_pe;masl2xtuml_S_DT * s_dt;masl2xtuml_S_UDT * s_udt;
+  masl2xtuml_S_UDT * s_udt;masl2xtuml_S_DT * s_dt;masl2xtuml_PE_PE * pe_pe;
   /* ASSIGN pe_pe = PARAM.pe_pe */
   pe_pe = p_pe_pe;
   /* ASSIGN s_dt = PARAM.s_dt */

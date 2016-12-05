@@ -1,4 +1,5 @@
 .invoke MarkFirstPassOptimizationsOff( "*" )
+.invoke MarkEmptyHandleDetectionOn( "*" )
 .//
 .//
 .//
