@@ -1480,7 +1480,8 @@ void
 ooaofooa_FactoryTE_SM( const bool p_is_ism, ooaofooa_SM_SM * p_sm_sm, ooaofooa_TE_CLASS * p_te_class )
 {
   ooaofooa_TE_EVT * te_evt=0;ooaofooa_TE_EVT * item1=0;ooaofooa_SM_EVT * sm_evt=0;ooaofooa_SM_ACT * sm_act=0;ooaofooa_TE_STATE * te_state=0;ooaofooa_TE_STATE * item=0;ooaofooa_SM_STATE * sm_state=0;i_t last_event_number;Escher_ObjectSet_s item_set1_copy_space={0}; Escher_ObjectSet_s * item_set1_copy = &item_set1_copy_space;Escher_ObjectSet_s item_set1_space={0}; Escher_ObjectSet_s * item_set1 = &item_set1_space;i_t counter;Escher_ObjectSet_s item_set_copy_space={0}; Escher_ObjectSet_s * item_set_copy = &item_set_copy_space;
-  Escher_ObjectSet_s item_set_space={0}; Escher_ObjectSet_s * item_set = &item_set_space;c_t * class_based=0;ooaofooa_TE_CLASS * te_class;ooaofooa_SM_SM * sm_sm;bool is_ism;ooaofooa_TE_SM * te_sm;Escher_ObjectSet_s empty_te_parms_space={0}; Escher_ObjectSet_s * empty_te_parms = &empty_te_parms_space;ooaofooa_TE_DT * void_te_dt=0;Escher_ObjectSet_s poly_te_evts_space={0}; Escher_ObjectSet_s * poly_te_evts = &poly_te_evts_space;Escher_ObjectSet_s true_te_evts_space={0}; Escher_ObjectSet_s * true_te_evts = &true_te_evts_space;Escher_ObjectSet_s sm_nlevts_space={0}; Escher_ObjectSet_s * sm_nlevts = &sm_nlevts_space;Escher_ObjectSet_s signal_te_evts_space={0}; Escher_ObjectSet_s * signal_te_evts = &signal_te_evts_space;Escher_ObjectSet_s sm_sgevts_space={0}; Escher_ObjectSet_s * sm_sgevts = &sm_sgevts_space;Escher_ObjectSet_s local_te_evts_space={0}; Escher_ObjectSet_s * local_te_evts = &local_te_evts_space;Escher_ObjectSet_s sm_levts_space={0}; Escher_ObjectSet_s * sm_levts = &sm_levts_space;Escher_ObjectSet_s sm_evts_space={0}; Escher_ObjectSet_s * sm_evts = &sm_evts_space;Escher_ObjectSet_s sm_acts_space={0}; Escher_ObjectSet_s * sm_acts = &sm_acts_space;Escher_ObjectSet_s te_states_space={0}; Escher_ObjectSet_s * te_states = &te_states_space;Escher_ObjectSet_s sm_states_space={0}; Escher_ObjectSet_s * sm_states = &sm_states_space;ooaofooa_TE_C * te_c=0;
+  Escher_ObjectSet_s item_set_space={0}; Escher_ObjectSet_s * item_set = &item_set_space;c_t * class_based=0;ooaofooa_TE_CLASS * te_class;ooaofooa_SM_SM * sm_sm;bool is_ism;ooaofooa_TE_SM * te_sm;Escher_ObjectSet_s empty_te_parms_space={0}; Escher_ObjectSet_s * empty_te_parms = &empty_te_parms_space;ooaofooa_TE_DT * void_te_dt=0;Escher_ObjectSet_s poly_te_evts_space={0}; Escher_ObjectSet_s * poly_te_evts = &poly_te_evts_space;Escher_ObjectSet_s true_te_evts_space={0}; Escher_ObjectSet_s * true_te_evts = &true_te_evts_space;Escher_ObjectSet_s sm_nlevts_space={0}; Escher_ObjectSet_s * sm_nlevts = &sm_nlevts_space;Escher_ObjectSet_s signal_te_evts_space={0}; Escher_ObjectSet_s * signal_te_evts = &signal_te_evts_space;Escher_ObjectSet_s sm_sgevts_space={0}; Escher_ObjectSet_s * sm_sgevts = &sm_sgevts_space;
+  Escher_ObjectSet_s local_te_evts_space={0}; Escher_ObjectSet_s * local_te_evts = &local_te_evts_space;Escher_ObjectSet_s sm_levts_space={0}; Escher_ObjectSet_s * sm_levts = &sm_levts_space;Escher_ObjectSet_s sm_evts_space={0}; Escher_ObjectSet_s * sm_evts = &sm_evts_space;Escher_ObjectSet_s sm_acts_space={0}; Escher_ObjectSet_s * sm_acts = &sm_acts_space;Escher_ObjectSet_s te_states_space={0}; Escher_ObjectSet_s * te_states = &te_states_space;Escher_ObjectSet_s sm_states_space={0}; Escher_ObjectSet_s * sm_states = &sm_states_space;ooaofooa_TE_C * te_c=0;
   /* ASSIGN is_ism = PARAM.is_ism */
   is_ism = p_is_ism;
   /* ASSIGN sm_sm = PARAM.sm_sm */
@@ -6931,7 +6932,7 @@ ooaofooa_TE_ABA_rollup()
   /* ::oal( s:char b[1000000]; // Ccode ) */
   char b[1000000]; // Ccode
   /* ASSIGN parseSuccessful = parseSuccessful */
-  parseSuccessful = ooaofooa_ParseStatus_parseSuccessful_e;
+  parseSuccessful = sys_ParseStatus_parseSuccessful_e;
   /* SELECT any empty_act_blk FROM INSTANCES OF ACT_BLK WHERE FALSE */
   empty_act_blk = 0;
   /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE SELECTED.included_in_build */
@@ -7101,6 +7102,72 @@ ooaofooa_TE_C_getContainingComponent( ooaofooa_EP_PKG * p_ep_pkg )
         te_c = r;
       }
     }
+  }
+  /* RETURN te_c */
+  {ooaofooa_TE_C * xtumlOALrv = te_c;
+  return xtumlOALrv;}
+}
+
+/*
+ * Domain Function:  TE_C_getContainingComponents
+ */
+ooaofooa_TE_C *
+ooaofooa_TE_C_getContainingComponents( ooaofooa_EP_PKG * p_ep_pkg )
+{
+  ooaofooa_EP_PKG * ep_pkg;ooaofooa_TE_C * te_c=0;
+  /* ASSIGN ep_pkg = PARAM.ep_pkg */
+  ep_pkg = p_ep_pkg;
+  /* SELECT one te_c RELATED BY ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054] */
+  te_c = 0;
+  {  if ( 0 != ep_pkg ) {
+  ooaofooa_PE_PE * PE_PE_R8001 = ep_pkg->PE_PE_R8001;
+  if ( 0 != PE_PE_R8001 ) {
+  ooaofooa_C_C * C_C_R8003_contained_in = PE_PE_R8001->C_C_R8003_contained_in;
+  if ( 0 != C_C_R8003_contained_in ) {
+  te_c = C_C_R8003_contained_in->TE_C_R2054;
+}}}}
+  /* IF ( ( empty te_c ) and ( not_empty ep_pkg ) ) */
+  if ( ( 0 == te_c ) && ( 0 != ep_pkg ) ) {
+    Escher_ObjectSet_s referring_ep_pkgs_space={0}; Escher_ObjectSet_s * referring_ep_pkgs = &referring_ep_pkgs_space;
+    /* SELECT many referring_ep_pkgs RELATED BY ep_pkg->EP_PKGREF[R1402.is referenced by]->EP_PKG[R1402.is referenced by] */
+    Escher_ClearSet( referring_ep_pkgs );
+    {    if ( 0 != ep_pkg ) {
+    ooaofooa_EP_PKGREF * EP_PKGREF_R1402_is_referenced_by;
+    Escher_Iterator_s iEP_PKGREF_R1402_is_referenced_by;
+    Escher_IteratorReset( &iEP_PKGREF_R1402_is_referenced_by, &ep_pkg->EP_PKGREF_R1402_is_referenced_by );
+    while ( 0 != ( EP_PKGREF_R1402_is_referenced_by = (ooaofooa_EP_PKGREF *) Escher_IteratorNext( &iEP_PKGREF_R1402_is_referenced_by ) ) ) {
+    {ooaofooa_EP_PKG * EP_PKG_R1402_is_referenced_by = EP_PKGREF_R1402_is_referenced_by->EP_PKG_R1402_is_referenced_by;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) referring_ep_pkgs, EP_PKG_R1402_is_referenced_by ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) referring_ep_pkgs, EP_PKG_R1402_is_referenced_by );
+    }}}}}
+    /* SELECT any te_c RELATED BY referring_ep_pkgs->PE_PE[R8001]->C_C[R8003]->TE_C[R2054] */
+    te_c = 0;
+    {    ooaofooa_EP_PKG * ooaofooa_EP_PKG_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, referring_ep_pkgs );
+    while ( ( 0 == te_c ) && ( 0 != ( ooaofooa_EP_PKG_linkage = (ooaofooa_EP_PKG *) Escher_IteratorNext( &start_many_iterator ) ) ) ) {
+    ooaofooa_PE_PE * PE_PE_R8001 = ooaofooa_EP_PKG_linkage->PE_PE_R8001;
+    if ( 0 != PE_PE_R8001 ) {
+    ooaofooa_C_C * C_C_R8003_contained_in = PE_PE_R8001->C_C_R8003_contained_in;
+    if ( 0 != C_C_R8003_contained_in ) {
+    te_c = C_C_R8003_contained_in->TE_C_R2054;
+}}}}
+    /* IF ( empty te_c ) */
+    if ( ( 0 == te_c ) ) {
+      ooaofooa_TE_C * r;ooaofooa_EP_PKG * parent_ep_pkg=0;
+      /* SELECT one parent_ep_pkg RELATED BY ep_pkg->PE_PE[R8001]->EP_PKG[R8000] */
+      parent_ep_pkg = 0;
+      {      if ( 0 != ep_pkg ) {
+      ooaofooa_PE_PE * PE_PE_R8001 = ep_pkg->PE_PE_R8001;
+      if ( 0 != PE_PE_R8001 ) {
+      parent_ep_pkg = PE_PE_R8001->EP_PKG_R8000_contained_by;
+}}}
+      /* ASSIGN r = ::TE_C_getContainingComponents(ep_pkg:parent_ep_pkg) */
+      r = ooaofooa_TE_C_getContainingComponents( parent_ep_pkg );
+      /* ASSIGN te_c = r */
+      te_c = r;
+    }
+    Escher_ClearSet( referring_ep_pkgs ); 
   }
   /* RETURN te_c */
   {ooaofooa_TE_C * xtumlOALrv = te_c;
@@ -12387,7 +12454,7 @@ ooaofooa_q_render_msg( const bool p_is_statement, c_t * p_sretvar, ooaofooa_TE_B
     if ( te_po->Provision ) {
       sys_IFDirectionType_t direction;
       /* ASSIGN direction = ServerClient */
-      direction = ooaofooa_IFDirectionType_ServerClient_e;
+      direction = sys_IFDirectionType_ServerClient_e;
       /* IF ( ( direction == te_mact.Direction ) ) */
       if ( ( direction == te_mact->Direction ) ) {
         /* ASSIGN name = ( ( te_mact.PortName + -> ) + name ) */
@@ -12411,7 +12478,7 @@ ooaofooa_q_render_msg( const bool p_is_statement, c_t * p_sretvar, ooaofooa_TE_B
     else {
       sys_IFDirectionType_t direction;
       /* ASSIGN direction = ClientServer */
-      direction = ooaofooa_IFDirectionType_ClientServer_e;
+      direction = sys_IFDirectionType_ClientServer_e;
       /* IF ( ( direction == te_mact.Direction ) ) */
       if ( ( direction == te_mact->Direction ) ) {
         /* ASSIGN name = ( ( te_mact.PortName + -> ) + name ) */
@@ -12524,10 +12591,16 @@ r_form->OIR_ID = Escher_ID_factory();
       /* UNRELATE r_part FROM r_simp ACROSS R207 */
       ooaofooa_R_PART_R207_Unlink_relates( r_simp, r_part );
       /* DELETE OBJECT INSTANCE r_part */
+      if ( 0 == r_part ) {
+        XTUML_EMPTY_HANDLE_TRACE( "R_PART", "Escher_DeleteInstance" );
+      }
       Escher_DeleteInstance( (Escher_iHandle_t) r_part, ooaofooa_DOMAIN_ID, ooaofooa_R_PART_CLASS_NUMBER );
       /* UNRELATE r_rto FROM r_oir ACROSS R203 */
       ooaofooa_R_RTO_R203_Unlink( r_oir, r_rto );
       /* DELETE OBJECT INSTANCE r_rto */
+      if ( 0 == r_rto ) {
+        XTUML_EMPTY_HANDLE_TRACE( "R_RTO", "Escher_DeleteInstance" );
+      }
       Escher_DeleteInstance( (Escher_iHandle_t) r_rto, ooaofooa_DOMAIN_ID, ooaofooa_R_RTO_CLASS_NUMBER );
       /* RELATE r_rgo TO r_oir ACROSS R203 */
       ooaofooa_R_RGO_R203_Link( r_oir, r_rgo );
@@ -18180,9 +18253,16 @@ te_c->cId = Escher_ID_factory();
       pe_pe = ( 0 != ep_pkg ) ? (ooaofooa_PE_PE *) Escher_SetGetAny( &ep_pkg->PE_PE_R8000_contains ) : 0;
       /* IF ( empty pe_pe ) */
       if ( ( 0 == pe_pe ) ) {
-        /* IF ( (  != ep_pkg.Descrip ) ) */
-        if ( ( Escher_strcmp( "", ep_pkg->Descrip ) != 0 ) ) {
-          ooaofooa_EP_PKG * imported_ep_pkg=0;
+        ooaofooa_EP_PKG * imported_ep_pkg=0;
+        /* SELECT one imported_ep_pkg RELATED BY ep_pkg->EP_PKGREF[R1402.refers to]->EP_PKG[R1402.refers to] */
+        imported_ep_pkg = 0;
+        {        if ( 0 != ep_pkg ) {
+        ooaofooa_EP_PKGREF * EP_PKGREF_R1402_refers_to = ep_pkg->EP_PKGREF_R1402_refers_to;
+        if ( 0 != EP_PKGREF_R1402_refers_to ) {
+        imported_ep_pkg = EP_PKGREF_R1402_refers_to->EP_PKG_R1402_refers_to;
+}}}
+        /* IF ( ( empty imported_ep_pkg and (  != ep_pkg.Descrip ) ) ) */
+        if ( ( ( 0 == imported_ep_pkg ) && ( Escher_strcmp( "", ep_pkg->Descrip ) != 0 ) ) ) {
           /* SELECT any imported_ep_pkg FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == ep_pkg.Descrip ) */
           imported_ep_pkg = 0;
           { ooaofooa_EP_PKG * selected;
@@ -18197,19 +18277,12 @@ te_c->cId = Escher_ID_factory();
           }
           /* IF ( not_empty imported_ep_pkg ) */
           if ( ( 0 != imported_ep_pkg ) ) {
-            /* SELECT one s_sys RELATED BY imported_ep_pkg->S_SYS[R1401] */
-            s_sys = ( 0 != imported_ep_pkg ) ? imported_ep_pkg->S_SYS_R1401_directly_contained_under : 0;
-            /* IF ( not_empty s_sys ) */
-            if ( ( 0 != s_sys ) ) {
-              /* UNRELATE imported_ep_pkg FROM s_sys ACROSS R1401 */
-              ooaofooa_EP_PKG_R1401_Unlink_contains( s_sys, imported_ep_pkg );
-            }
-            /* SELECT one pe_pe RELATED BY ep_pkg->PE_PE[R8001] */
-            pe_pe = ( 0 != ep_pkg ) ? ep_pkg->PE_PE_R8001 : 0;
-            /* UNRELATE pe_pe FROM ep_pkg ACROSS R8001 */
-            ooaofooa_EP_PKG_R8001_Unlink( pe_pe, ep_pkg );
-            /* RELATE pe_pe TO imported_ep_pkg ACROSS R8001 */
-            ooaofooa_EP_PKG_R8001_Link( pe_pe, imported_ep_pkg );
+            ooaofooa_EP_PKGREF * ep_pkgref;
+            /* CREATE OBJECT INSTANCE ep_pkgref OF EP_PKGREF */
+            ep_pkgref = (ooaofooa_EP_PKGREF *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_EP_PKGREF_CLASS_NUMBER );
+            ep_pkgref->Referring_Package_ID = Escher_ID_factory();
+            /* RELATE ep_pkg TO imported_ep_pkg ACROSS R1402 USING ep_pkgref */
+            ooaofooa_EP_PKGREF_R1402_Link_refers_to( ep_pkg, imported_ep_pkg, ep_pkgref );
           }
         }
       }
@@ -18284,9 +18357,7 @@ te_c->cId = Escher_ID_factory();
   Escher_IteratorReset( &itero_obj, o_objs );
   while ( (iio_obj = (ooaofooa_O_OBJ *)Escher_IteratorNext( &itero_obj )) != 0 ) {
     o_obj = iio_obj; {
-    ooaofooa_TE_C * r;ooaofooa_TE_C * te_c;ooaofooa_EP_PKG * ep_pkg=0;
-    /* ASSIGN te_c = empty_te_c */
-    te_c = empty_te_c;
+    ooaofooa_TE_C * te_c;ooaofooa_TE_C * r;ooaofooa_EP_PKG * ep_pkg=0;
     /* SELECT one ep_pkg RELATED BY o_obj->PE_PE[R8001]->EP_PKG[R8000] */
     ep_pkg = 0;
     {    if ( 0 != o_obj ) {
@@ -18294,8 +18365,8 @@ te_c->cId = Escher_ID_factory();
     if ( 0 != PE_PE_R8001 ) {
     ep_pkg = PE_PE_R8001->EP_PKG_R8000_contained_by;
 }}}
-    /* ASSIGN r = ::TE_C_getContainingComponent(ep_pkg:ep_pkg) */
-    r = ooaofooa_TE_C_getContainingComponent( ep_pkg );
+    /* ASSIGN r = ::TE_C_getContainingComponents(ep_pkg:ep_pkg) */
+    r = ooaofooa_TE_C_getContainingComponents( ep_pkg );
     /* ASSIGN te_c = r */
     te_c = r;
     /* IF ( not_empty te_c ) */
@@ -18325,9 +18396,7 @@ te_c->cId = Escher_ID_factory();
   Escher_IteratorReset( &iters_sync, s_syncs );
   while ( (iis_sync = (ooaofooa_S_SYNC *)Escher_IteratorNext( &iters_sync )) != 0 ) {
     s_sync = iis_sync; {
-    ooaofooa_TE_C * r;ooaofooa_TE_C * te_c;ooaofooa_EP_PKG * ep_pkg=0;
-    /* ASSIGN te_c = empty_te_c */
-    te_c = empty_te_c;
+    ooaofooa_TE_C * te_c;ooaofooa_TE_C * r;ooaofooa_EP_PKG * ep_pkg=0;
     /* SELECT one ep_pkg RELATED BY s_sync->PE_PE[R8001]->EP_PKG[R8000] */
     ep_pkg = 0;
     {    if ( 0 != s_sync ) {
@@ -18335,8 +18404,8 @@ te_c->cId = Escher_ID_factory();
     if ( 0 != PE_PE_R8001 ) {
     ep_pkg = PE_PE_R8001->EP_PKG_R8000_contained_by;
 }}}
-    /* ASSIGN r = ::TE_C_getContainingComponent(ep_pkg:ep_pkg) */
-    r = ooaofooa_TE_C_getContainingComponent( ep_pkg );
+    /* ASSIGN r = ::TE_C_getContainingComponents(ep_pkg:ep_pkg) */
+    r = ooaofooa_TE_C_getContainingComponents( ep_pkg );
     /* ASSIGN te_c = r */
     te_c = r;
     /* IF ( not_empty te_c ) */
@@ -20988,8 +21057,8 @@ te_ee->ID = Escher_ID_factory();
       msg = Escher_strcpy( msg, Escher_stradd( Escher_stradd( "\nERROR:  Did not find a datatype associated with variable ", v_var->Name ), ".\n" ) );
       /* ASSIGN msg = ( msg + Check usages of variable for parse errors in the action language.\n ) */
       msg = Escher_strcpy( msg, Escher_stradd( msg, "Check usages of variable for parse errors in the action language.\n" ) );
-      /* ASSIGN msg = ( msg + [Parse All Activies and look for errors in the Problems view.]\n ) */
-      msg = Escher_strcpy( msg, Escher_stradd( msg, "[Parse All Activies and look for errors in the Problems view.]\n" ) );
+      /* ASSIGN msg = ( msg + [Parse All Activities and look for errors in the Problems view.]\n ) */
+      msg = Escher_strcpy( msg, Escher_stradd( msg, "[Parse All Activities and look for errors in the Problems view.]\n" ) );
       /* T::print( s:${msg} ) */
       T_print( ({c_t*s=Escher_strget();T_T(msg);}) );
     }
@@ -21551,7 +21620,7 @@ te_ee->ID = Escher_ID_factory();
         /* ASSIGN te_tfr.XlateSemantics = TRUE */
         te_tfr->XlateSemantics = TRUE;
         /* ASSIGN ib = Instance */
-        ib = ooaofooa_Scope_Instance_e;
+        ib = sys_Scope_Instance_e;
         /* IF ( ( ib == o_tfr.Instance_Based ) ) */
         if ( ( ib == o_tfr->Instance_Based ) ) {
           /* ASSIGN te_tfr.Instance_Based = 1 */
@@ -24864,6 +24933,7 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_A_AEA_instancedumper,
   ooaofooa_S_BPARM_instancedumper,
   ooaofooa_EP_PKG_instancedumper,
+  ooaofooa_EP_PKGREF_instancedumper,
   ooaofooa_S_EDT_instancedumper,
   ooaofooa_CNST_CSP_instancedumper,
   ooaofooa_CNST_SYC_instancedumper,
@@ -25242,6 +25312,7 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_A_AEA_extent,
   &pG_ooaofooa_S_BPARM_extent,
   &pG_ooaofooa_EP_PKG_extent,
+  &pG_ooaofooa_EP_PKGREF_extent,
   &pG_ooaofooa_S_EDT_extent,
   &pG_ooaofooa_CNST_CSP_extent,
   &pG_ooaofooa_CNST_SYC_extent,

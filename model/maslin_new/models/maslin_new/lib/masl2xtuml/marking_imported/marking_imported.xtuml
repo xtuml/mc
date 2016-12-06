@@ -5,7 +5,7 @@ INSERT INTO EP_PKG
 	"00000000-0000-0000-0000-000000000000",
 	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
 	'marking_imported',
-	'marking',
+	'',
 	0);
 INSERT INTO GD_MD
 	VALUES ("ffab239d-2542-4df8-8986-2de907a64015",
@@ -33,6 +33,17 @@ INSERT INTO DIM_DIA
 	4000.000000,
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("fb9b416b-3cb6-4abb-9731-03dddc4de544",
+	"a436d690-d535-4111-926b-af7c5717f2da");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a436d690-d535-4111-926b-af7c5717f2da",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	'marking',
+	'',
+	0,
+	'../../../marking/marking.xtuml');
 INSERT INTO PE_PE
 	VALUES ("fb9b416b-3cb6-4abb-9731-03dddc4de544",
 	1,

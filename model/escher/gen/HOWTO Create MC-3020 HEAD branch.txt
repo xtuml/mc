@@ -24,11 +24,10 @@ Generating the Schema
 ---------------------
 * Clone xtuml/pyxtuml (git clone https://github.com/xtuml/pyxtuml.git)
 * sudo setup.py
-* python -m bridgepoint.gen_sql_schema -o xtumlmc_schema.sql git/mc/model/mcooa/models/mcooa/
-* Compare the newly created schema file with the existing version.  Make sure 
-  all the changes make sense.
-   
-   
+* python .../xtuml<fork>/pyxtuml/examples/gen_ooaofooa_schema.py .../xtuml<fork>/mc/model/mcooa/models/ | sed "s/Action_Semantics_internal/Action_Semantics/" > .../xtuml<fork>/mc/schema/sql/xtumlmc_schema.sql
+* Compare (git diff) the newly created schema file with the existing version.
+  Make sure all the changes make sense.
+
 
 Exporting the Model for Customers
 ----------------------------------

@@ -9,10 +9,10 @@
 
 #include "maslin_new_sys_types.h"
 #include "masl2xtuml.h"
-#include "masl2xtuml_IDLINK_bridge.h"
 #include "TRACE_bridge.h"
 #include "STRING_bridge.h"
 #include "LOG_bridge.h"
+#include "IDLINK_bridge.h"
 #include "masl2xtuml_classes.h"
 
 /*
@@ -55,37 +55,7 @@ masl2xtuml_in_end()
   }}}
   /* IF ( ( not_empty ooapopulation and ooapopulation.processingProject ) ) */
   if ( ( ( 0 != ooapopulation ) && ooapopulation->processingProject ) ) {
-    masl2xtuml_S_DT * s_dt=0;masl2xtuml_C_I * c_i=0;masl2xtuml_EP_PKG * lib_pkg;Escher_ObjectSet_s c_is_space={0}; Escher_ObjectSet_s * c_is = &c_is_space;Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;masl2xtuml_EP_PKG * types_pkg=0;
-    /* SELECT many c_is FROM INSTANCES OF C_I */
-    Escher_CopySet( c_is, &pG_masl2xtuml_C_I_extent.active );
-    /* FOR EACH c_i IN c_is */
-    { Escher_Iterator_s iterc_i;
-    masl2xtuml_C_I * iic_i;
-    Escher_IteratorReset( &iterc_i, c_is );
-    while ( (iic_i = (masl2xtuml_C_I *)Escher_IteratorNext( &iterc_i )) != 0 ) {
-      c_i = iic_i; {
-      masl2xtuml_C_EP * c_ep=0;Escher_ObjectSet_s c_eps_space={0}; Escher_ObjectSet_s * c_eps = &c_eps_space;
-      /* SELECT many c_eps RELATED BY c_i->C_EP[R4003] */
-      Escher_ClearSet( c_eps );
-      if ( 0 != c_i ) {
-        Escher_CopySet( c_eps, &c_i->C_EP_R4003_is_defined_by );
-      }
-      /* FOR EACH c_ep IN c_eps */
-      { Escher_Iterator_s iterc_ep;
-      masl2xtuml_C_EP * iic_ep;
-      Escher_IteratorReset( &iterc_ep, c_eps );
-      while ( (iic_ep = (masl2xtuml_C_EP *)Escher_IteratorNext( &iterc_ep )) != 0 ) {
-        c_ep = iic_ep; {
-        /* ooapopulation.ExecutableProperty_dispose( c_ep:c_ep ) */
-        masl2xtuml_ooapopulation_op_ExecutableProperty_dispose( ooapopulation,  c_ep );
-      }}}
-      /* DELETE OBJECT INSTANCE c_i */
-      if ( 0 == c_i ) {
-        XTUML_EMPTY_HANDLE_TRACE( "C_I", "Escher_DeleteInstance" );
-      }
-      Escher_DeleteInstance( (Escher_iHandle_t) c_i, masl2xtuml_DOMAIN_ID, masl2xtuml_C_I_CLASS_NUMBER );
-      Escher_ClearSet( c_eps ); 
-    }}}
+    masl2xtuml_S_DT * s_dt=0;masl2xtuml_EP_PKG * lib_pkg;Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;masl2xtuml_EP_PKG * types_pkg=0;
     /* ASSIGN lib_pkg = ooapopulation.lib_pkg */
     lib_pkg = ooapopulation->lib_pkg;
     /* SELECT any types_pkg RELATED BY lib_pkg->PE_PE[R8000]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == Shared ) ) */
@@ -149,7 +119,7 @@ masl2xtuml_in_end()
       }
       Escher_DeleteInstance( (Escher_iHandle_t) s_dt, masl2xtuml_DOMAIN_ID, masl2xtuml_S_DT_CLASS_NUMBER );
     }}}
-    Escher_ClearSet( c_is );Escher_ClearSet( s_dts ); 
+    Escher_ClearSet( s_dts ); 
   }
   Escher_ClearSet( forms );Escher_ClearSet( elements );
 }
@@ -160,7 +130,7 @@ masl2xtuml_in_end()
  * To Provider Message:  populate
  */
 void
-masl2xtuml_in_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX_STRING_LEN] )
+masl2xtuml_in_populate( c_t * p_element, c_t * p_value[8] )
 {
 	/* ooapopulation::populate( element:PARAM.element, value:PARAM.value ) */
 	masl2xtuml_ooapopulation_op_populate( p_element, p_value );
@@ -231,6 +201,7 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_A_AEA_instancedumper,
   masl2xtuml_S_BPARM_instancedumper,
   masl2xtuml_EP_PKG_instancedumper,
+  masl2xtuml_EP_PKGREF_instancedumper,
   masl2xtuml_S_EDT_instancedumper,
   masl2xtuml_CNST_CSP_instancedumper,
   masl2xtuml_CNST_SYC_instancedumper,
@@ -519,6 +490,7 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_A_AEA_extent,
   &pG_masl2xtuml_S_BPARM_extent,
   &pG_masl2xtuml_EP_PKG_extent,
+  &pG_masl2xtuml_EP_PKGREF_extent,
   &pG_masl2xtuml_S_EDT_extent,
   &pG_masl2xtuml_CNST_CSP_extent,
   &pG_masl2xtuml_CNST_SYC_extent,

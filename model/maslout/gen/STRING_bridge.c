@@ -72,10 +72,13 @@ STRING_itoa( const i_t p_i )
 i_t
 STRING_atoi( c_t * p_s )
 {
-  /* Replace/Insert the following instructions with your implementation code.  */
-  /* RETURN 0 */
-  {i_t xtumlOALrv = 0;
-  return xtumlOALrv;}
+  i_t xtumlOALrv = 0;
+  if ( *p_s == 'R' ) {
+    xtumlOALrv = atoi(p_s + 1);
+  } else {
+    xtumlOALrv = atoi(p_s);
+  }
+  return xtumlOALrv;
 }
 
 
@@ -157,7 +160,7 @@ STRING_indexof( c_t * p_haystack, c_t * p_needle )
     return 0;   // if needle is empty string, by definition, the index is 0
   }
 
-  // seach through to find first character match
+  // search through to find first character match
   for ( ; *a != 0; a += 1) {
     if (*a == *b) {
 
@@ -253,6 +256,7 @@ STRING_getword( const i_t p_i, const i_t p_j, c_t * p_s )
   return result;
 }
 
+
 /*
  * Bridge:  trim
  */
@@ -290,13 +294,64 @@ STRING_trim( c_t * p_s )
 
 /*
  * Bridge:  quote
+ * implemented as macro
+ */
+
+
+/*
+ * Bridge:  escapetics
  */
 c_t *
-STRING_quote()
+STRING_escapetics( c_t * p_s )
 {
   c_t result[ESCHER_SYS_MAX_STRING_LEN];
-  result[0] = '"';
-  result[1] = '\0';
+  result[0] = '\0';
+
+  c_t * p = p_s;
+  c_t * q = result;
+
+  while ( p != 0 && *p != '\0' && (q - result) < ESCHER_SYS_MAX_STRING_LEN ) {
+      if ( *p == '\'' ) {
+          *q = *p;      // copy the character
+          q++;
+          *q = '\'';    // add an extra tic to escape it
+      }
+      else {
+          *q = *p;      // copy the character
+      }
+      q++;
+      p++;
+  }
+  *q = '\0';            // null terminate
+
+  return result;
+}
+
+
+/*
+ * Bridge:  unescapetics
+ */
+c_t *
+STRING_unescapetics( c_t * p_s )
+{
+  c_t result[ESCHER_SYS_MAX_STRING_LEN];
+  result[0] = '\0';
+
+  c_t * p = p_s;
+  c_t * q = result;
+
+  while ( p != 0 && *p != '\0' && (q - result) < ESCHER_SYS_MAX_STRING_LEN ) {
+      if ( *p == '\'' && *(p+1) == '\'' ) {
+          *q = *p;      // copy one tic
+          p++;          // skip the other
+      }
+      else {
+          *q = *p;      // copy the character
+      }
+      q++;
+      p++;
+  }
+  *q = '\0';            // null terminate
 
   return result;
 }

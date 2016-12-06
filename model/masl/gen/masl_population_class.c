@@ -9,29 +9,42 @@
 
 #include "masl_sys_types.h"
 #include "LOG_bridge.h"
+#include "out_bridge.h"
 #include "STRING_bridge.h"
 #include "T_bridge.h"
 #include "TRACE_bridge.h"
 #include "masl_classes.h"
 
 /*
+ * Instance Loader (from string data).
+ */
+Escher_UniqueID_t
+masl_population_instanceloader( Escher_iHandle_t instance, const c_t * avlstring[] )
+{
+  Escher_UniqueID_t return_identifier = 0;
+  masl_population * self = (masl_population *) instance;
+  /* Initialize application analysis class attributes.  */
+  return return_identifier;
+}
+
+/*
  * class operation:  populate
  */
 void
-masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_value[8][ESCHER_SYS_MAX_STRING_LEN] )
+masl_population_op_populate( c_t * p_element, c_t * p_value[8] )
 {
-  c_t element_name[ESCHER_SYS_MAX_STRING_LEN];c_t * value[8]={0,0,0,0,0,0,0,0};c_t element[ESCHER_SYS_MAX_STRING_LEN];masl_population * population=0;masl_element * root_element=0;
+  c_t * value[8]={0,0,0,0,0,0,0,0};c_t * element=0;masl_population * population=0;masl_element * root_element=0;
   /* ASSIGN element = PARAM.element */
-  Escher_strcpy( element, p_element );
+  element = Escher_strcpy( element, p_element );
   /* ASSIGN value = PARAM.value */
-  value[0] = p_value[0];
-  value[1] = p_value[1];
-  value[2] = p_value[2];
-  value[3] = p_value[3];
-  value[4] = p_value[4];
-  value[5] = p_value[5];
-  value[6] = p_value[6];
-  value[7] = p_value[7];
+  value[0] = Escher_strcpy( value[0], p_value[0] );
+  value[1] = Escher_strcpy( value[1], p_value[1] );
+  value[2] = Escher_strcpy( value[2], p_value[2] );
+  value[3] = Escher_strcpy( value[3], p_value[3] );
+  value[4] = Escher_strcpy( value[4], p_value[4] );
+  value[5] = Escher_strcpy( value[5], p_value[5] );
+  value[6] = Escher_strcpy( value[6], p_value[6] );
+  value[7] = Escher_strcpy( value[7], p_value[7] );
   /* SELECT any population FROM INSTANCES OF population */
   population = (masl_population *) Escher_SetGetAny( &pG_masl_population_extent.active );
   /* IF ( empty population ) */
@@ -514,17 +527,17 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "referential", element ) == 0 ) ) {
-    c_t rolephrase[ESCHER_SYS_MAX_STRING_LEN];c_t attr[ESCHER_SYS_MAX_STRING_LEN];c_t obj[ESCHER_SYS_MAX_STRING_LEN];c_t roleOrObj[ESCHER_SYS_MAX_STRING_LEN];c_t relationship_name[ESCHER_SYS_MAX_STRING_LEN];c_t domain_name[ESCHER_SYS_MAX_STRING_LEN];masl_attribute * referred_to=0;masl_object * target_object=0;masl_relationship * relationship=0;masl_domain * parent_domain=0;masl_attribute * parent_attribute=0;masl_object * current_object=0;
+    c_t * rolephrase=0;c_t * attr=0;c_t * obj=0;c_t * roleOrObj=0;c_t * relationship_name=0;c_t * domain_name=0;masl_attribute * referred_to=0;masl_object * target_object=0;masl_relationship * relationship=0;masl_domain * parent_domain=0;masl_attribute * parent_attribute=0;masl_object * current_object=0;
     /* ASSIGN domain_name = value[1] */
-    Escher_strcpy( domain_name, value[1] );
+    domain_name = Escher_strcpy( domain_name, value[1] );
     /* ASSIGN relationship_name = value[0] */
-    Escher_strcpy( relationship_name, value[0] );
+    relationship_name = Escher_strcpy( relationship_name, value[0] );
     /* ASSIGN roleOrObj = value[2] */
-    Escher_strcpy( roleOrObj, value[2] );
+    roleOrObj = Escher_strcpy( roleOrObj, value[2] );
     /* ASSIGN obj = value[3] */
-    Escher_strcpy( obj, value[3] );
+    obj = Escher_strcpy( obj, value[3] );
     /* ASSIGN attr = value[4] */
-    Escher_strcpy( attr, value[4] );
+    attr = Escher_strcpy( attr, value[4] );
     /* SELECT any current_object RELATED BY population->element[R3789.has active]->markable[R3786]->object[R3783] */
     current_object = 0;
     {    if ( 0 != population ) {
@@ -583,7 +596,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       }}}
     }
     /* ASSIGN rolephrase =  */
-    Escher_strcpy( rolephrase, "" );
+    rolephrase = Escher_strcpy( rolephrase, "" );
     /* SELECT any target_object FROM INSTANCES OF object WHERE FALSE */
     target_object = 0;
     /* IF ( not_empty relationship ) */
@@ -605,13 +618,13 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
         /* IF ( ( participation.otherphrase == roleOrObj ) ) */
         if ( ( Escher_strcmp( participation->otherphrase, roleOrObj ) == 0 ) ) {
           /* ASSIGN rolephrase = participation.otherphrase */
-          Escher_strcpy( rolephrase, participation->otherphrase );
+          rolephrase = Escher_strcpy( rolephrase, participation->otherphrase );
           /* SELECT one target_object RELATED BY participation->object[R3714] */
           target_object = ( 0 != participation ) ? participation->object_R3714_one : 0;
         }
         else if ( ( Escher_strcmp( participation->onephrase, roleOrObj ) == 0 ) ) {
           /* ASSIGN rolephrase = participation.onephrase */
-          Escher_strcpy( rolephrase, participation->onephrase );
+          rolephrase = Escher_strcpy( rolephrase, participation->onephrase );
           /* IF ( (  != obj ) ) */
           if ( ( Escher_strcmp( "", obj ) != 0 ) ) {
             /* SELECT any target_object RELATED BY participation->object[R3720] WHERE ( ( SELECTED.name == obj ) ) */
@@ -1193,6 +1206,15 @@ masl_population_op_stack_trace( masl_population * self)
   TRACE_log( "stack_trace", 82, "done." );
 }
 
+/*
+ * Dump instances in SQL format.
+ */
+void
+masl_population_instancedumper( Escher_iHandle_t instance )
+{
+  masl_population * self = (masl_population *) instance;
+  printf( "INSERT INTO population VALUES (  );\n" );
+}
 
 /*----------------------------------------------------------------------------
  * Operation action methods implementation for the following class:
@@ -1209,7 +1231,7 @@ masl_population_op_stack_trace( masl_population * self)
 static Escher_SetElement_s masl_population_container[ masl_population_MAX_EXTENT_SIZE ];
 static masl_population masl_population_instances[ masl_population_MAX_EXTENT_SIZE ];
 Escher_Extent_t pG_masl_population_extent = {
-  {0}, {0}, &masl_population_container[ 0 ],
+  {0,0}, {0,0}, &masl_population_container[ 0 ],
   (Escher_iHandle_t) &masl_population_instances,
   sizeof( masl_population ), 0, masl_population_MAX_EXTENT_SIZE
   };

@@ -181,8 +181,8 @@ void UserEventFreeListEmptyCalloutf( void );
 void UserEmptyHandleDetectedCalloutf( c_t *, c_t * );
 /* The following empty definition renders the callout hook invisible.
    Delete or comment out the following define to activate the in line
-   hook for this callout.  */
 #define UserEmptyHandleDetectedCallout( s1, s2 )
+   hook for this callout.  */
 
 #ifndef UserEmptyHandleDetectedCallout
 #define UserEmptyHandleDetectedCallout( s1, s2 ) UserEmptyHandleDetectedCalloutf( (c_t *) s1, (c_t *) s2 )
