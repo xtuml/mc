@@ -9,13 +9,13 @@
  * your copyright statement can go here (from te_copyright.body)
  *--------------------------------------------------------------------------*/
 
-#include "maslin_new_sys_types.h"
+#include "maslin_sys_types.h"
 #include "LOG_bridge.h"
 #include "STRING_bridge.h"
 #include "TRACE_bridge.h"
 #include "IDLINK_bridge.h"
 #include "masl2xtuml_classes.h"
-#include "maslin_new_sys_types.h"
+#include "maslin_sys_types.h"
 
 /*
  * Bridge:  stitchID

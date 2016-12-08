@@ -7,7 +7,7 @@
  * your copyright statement can go here (from te_copyright.body)
  *--------------------------------------------------------------------------*/
 
-#include "maslin_new_sys_types.h"
+#include "maslin_sys_types.h"
 #include "masl2xtuml.h"
 #include "TRACE_bridge.h"
 #include "STRING_bridge.h"

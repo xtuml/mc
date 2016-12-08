@@ -15,7 +15,7 @@
 extern	"C"	{
 #endif
 
-#include "maslin_new_sys_types.h"
+#include "maslin_sys_types.h"
 c_t * STRING_itoa( const i_t );
 i_t STRING_atoi( c_t * );
 c_t * STRING_substr( const i_t, const i_t, c_t * );
