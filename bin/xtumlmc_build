@@ -963,7 +963,6 @@ sub xtumlmc_cleanse_model($$$)
       # awk '/CREATE TABLE/{ print $3 }' | sed "s/_.*/_/" | sort | uniq
       if ( ! ( ( /^INSERT INTO ACT_/ ) ||
                 ( /^INSERT INTO A_/ ) ||
-                ( /^INSERT INTO CA_/ ) ||
                 ( /^INSERT INTO CL_/ ) ||
                 ( /^INSERT INTO CNST_/ ) ||
                 ( /^INSERT INTO COMM_/ ) ||
