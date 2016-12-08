@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'maslin_new::m2x');
+	'maslin::m2x');
 INSERT INTO GD_GE
 	VALUES ("164630b9-00ca-49b5-b0ed-63e56e30df6e",
 	"4cac2cc5-ca8b-4745-b3e1-7eab4c055d95",
 	"fd2227fc-c811-4a08-bfd3-938556401f81",
 	21,
 	0,
-	'maslin_new::m2x::ooaparticipation');
+	'maslin::m2x::ooaparticipation');
 INSERT INTO GD_SHP
 	VALUES ("164630b9-00ca-49b5-b0ed-63e56e30df6e");
 INSERT INTO GD_NCS
@@ -56,7 +56,7 @@ INSERT INTO GD_GE
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
 	21,
 	0,
-	'maslin_new::m2x::ooapopulation');
+	'maslin::m2x::ooapopulation');
 INSERT INTO GD_SHP
 	VALUES ("7f849bfa-a61e-47c6-95ff-09885035ac24");
 INSERT INTO GD_NCS
@@ -80,7 +80,7 @@ INSERT INTO GD_GE
 	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
 	21,
 	0,
-	'maslin_new::m2x::referentialAttribute');
+	'maslin::m2x::referentialAttribute');
 INSERT INTO GD_SHP
 	VALUES ("e070ce53-02a0-479f-b76d-655ebb02b179");
 INSERT INTO GD_NCS
@@ -109,7 +109,7 @@ INSERT INTO GD_GE
 	"3a8c6f0d-c062-4472-9f8d-0eef874936be",
 	21,
 	0,
-	'maslin_new::m2x::formalization');
+	'maslin::m2x::formalization');
 INSERT INTO GD_SHP
 	VALUES ("ca0de719-aaa0-430d-9f3b-ffefd4b49cf7");
 INSERT INTO GD_NCS
@@ -143,7 +143,7 @@ INSERT INTO GD_GE
 	"4295d359-8d9e-49de-adda-d38faa13af17",
 	24,
 	0,
-	'maslin_new::m2x::R3811');
+	'maslin::m2x::R3811');
 INSERT INTO GD_CON
 	VALUES ("a24e100c-0eff-4a63-bdc4-05acb0023327",
 	"00000000-0000-0000-0000-000000000000");
@@ -243,7 +243,7 @@ INSERT INTO GD_GE
 	"085bc8af-95d3-40f3-a532-dc21ffe7ec6d",
 	21,
 	0,
-	'maslin_new::m2x::simpleFormalization');
+	'maslin::m2x::simpleFormalization');
 INSERT INTO GD_SHP
 	VALUES ("802717b6-3546-4fc9-8418-a705821d5c7d");
 INSERT INTO GD_NCS
@@ -272,7 +272,7 @@ INSERT INTO GD_GE
 	"2186ed42-35da-4479-92f1-941a1bd6c790",
 	21,
 	0,
-	'maslin_new::m2x::subsuperFormalization');
+	'maslin::m2x::subsuperFormalization');
 INSERT INTO GD_SHP
 	VALUES ("6b43e2c5-cae8-4dcb-a712-be81c5f41272");
 INSERT INTO GD_NCS
@@ -301,7 +301,7 @@ INSERT INTO GD_GE
 	"3205deaa-b245-4320-a2cb-a70c46f74b2d",
 	21,
 	0,
-	'maslin_new::m2x::assocFormalization');
+	'maslin::m2x::assocFormalization');
 INSERT INTO GD_SHP
 	VALUES ("c08ccbc2-1697-4b97-9c19-32b3e24bffeb");
 INSERT INTO GD_NCS
@@ -330,7 +330,7 @@ INSERT INTO GD_GE
 	"7beed956-cb06-41b1-b4f5-6ae0e8db5652",
 	36,
 	0,
-	'maslin_new::m2x::R3810');
+	'maslin::m2x::R3810');
 INSERT INTO GD_CON
 	VALUES ("72e2b73e-8ca3-45a8-bd90-ea0b6301a5a0",
 	"00000000-0000-0000-0000-000000000000");
@@ -454,7 +454,7 @@ INSERT INTO GD_GE
 	"77c58f2a-bf7c-4404-997a-170b55721946",
 	35,
 	0,
-	'maslin_new::m2x::R3810::simpleFormalization');
+	'maslin::m2x::R3810::simpleFormalization');
 INSERT INTO GD_CON
 	VALUES ("560dc90d-742b-4d54-8c41-50f81d088d7f",
 	"00000000-0000-0000-0000-000000000000");
@@ -554,7 +554,7 @@ INSERT INTO GD_GE
 	"9f33ad95-49cc-44ea-991e-96252ed2aacb",
 	35,
 	0,
-	'maslin_new::m2x::R3810::assocFormalization');
+	'maslin::m2x::R3810::assocFormalization');
 INSERT INTO GD_CON
 	VALUES ("619b6641-94ac-492e-b0c3-2728078763d8",
 	"00000000-0000-0000-0000-000000000000");
@@ -654,7 +654,7 @@ INSERT INTO GD_GE
 	"b45f3918-825f-4a0d-be17-f9cf32b4ae5a",
 	35,
 	0,
-	'maslin_new::m2x::R3810::subsuperFormalization');
+	'maslin::m2x::R3810::subsuperFormalization');
 INSERT INTO GD_CON
 	VALUES ("31bd53e4-6941-449f-82fe-417103c307e6",
 	"00000000-0000-0000-0000-000000000000");
@@ -754,7 +754,7 @@ INSERT INTO GD_GE
 	"b0a30ecf-251c-4dbf-acc2-01af3e42e1a2",
 	52,
 	0,
-	'maslin_new::m2x::RELATIONSHIP_TYPE');
+	'maslin::m2x::RELATIONSHIP_TYPE');
 INSERT INTO GD_SHP
 	VALUES ("1d57d8b3-00f4-4a17-b238-b90aee4225ab");
 INSERT INTO GD_NCS
@@ -778,7 +778,7 @@ INSERT INTO GD_GE
 	"adf5f27c-f258-4227-9506-a77e056789cf",
 	101,
 	0,
-	'maslin_new::m2x::relationship_data');
+	'maslin::m2x::relationship_data');
 INSERT INTO GD_SHP
 	VALUES ("18a82dcb-edd2-43af-97ba-a7e9e2745c00");
 INSERT INTO GD_NCS
@@ -802,7 +802,7 @@ INSERT INTO GD_GE
 	"97487c7a-2635-4fbd-9f27-1c7dc29cf1a3",
 	101,
 	0,
-	'maslin_new::m2x::routine_info');
+	'maslin::m2x::routine_info');
 INSERT INTO GD_SHP
 	VALUES ("d372fa8a-c263-462d-9761-cb960cb95c0c");
 INSERT INTO GD_NCS
@@ -826,7 +826,7 @@ INSERT INTO GD_GE
 	"6f8a6a28-2657-4111-b977-e5943b6b79cc",
 	12,
 	0,
-	'maslin_new::m2x::IDLINK');
+	'maslin::m2x::IDLINK');
 INSERT INTO GD_SHP
 	VALUES ("62a0a7db-995a-436a-9f3f-90f965de1741");
 INSERT INTO GD_NCS
@@ -1341,6 +1341,6 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO S_SYS_PROXY
 	VALUES ("c14b4fcc-99ce-417f-85d7-ac22e2d20288",
-	'maslin_new',
+	'maslin',
 	1,
-	'../maslin_new.xtuml');
+	'../maslin.xtuml');

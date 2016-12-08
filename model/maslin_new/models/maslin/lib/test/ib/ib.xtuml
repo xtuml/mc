@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	150,
 	0,
 	'4.1.17',
-	'maslin_new::lib::test::ib');
+	'maslin::lib::test::ib');
 INSERT INTO GD_GE
 	VALUES ("9388546c-5e4b-43ea-91a2-143ba52c94c2",
 	"a0c2c209-8809-4e60-a041-384297f6e4ba",
 	"3a4316b4-bc74-4493-8483-d4c0798296c4",
 	21,
 	0,
-	'maslin_new::lib::test::ib::test');
+	'maslin::lib::test::ib::test');
 INSERT INTO GD_SHP
 	VALUES ("9388546c-5e4b-43ea-91a2-143ba52c94c2");
 INSERT INTO GD_NCS
@@ -213,6 +213,6 @@ INSERT INTO C_C_PROXY
 	'../test.xtuml');
 INSERT INTO S_SYS_PROXY
 	VALUES ("c14b4fcc-99ce-417f-85d7-ac22e2d20288",
-	'maslin_new',
+	'maslin',
 	1,
-	'../../../maslin_new.xtuml');
+	'../../../maslin.xtuml');

@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'maslin_new::marking');
+	'maslin::marking');
 INSERT INTO GD_GE
 	VALUES ("9bb82f53-39c0-4e17-be5a-737df03e7d31",
 	"71d01528-6556-429f-be46-53666645e4e1",
 	"079bf2c7-58dc-498f-a0ee-f3840b5f5599",
 	21,
 	0,
-	'maslin_new::marking::ooaelement');
+	'maslin::marking::ooaelement');
 INSERT INTO GD_SHP
 	VALUES ("9bb82f53-39c0-4e17-be5a-737df03e7d31");
 INSERT INTO GD_NCS
@@ -81,7 +81,7 @@ INSERT INTO GD_GE
 	"bc40ed9e-d379-42a4-a571-c4db0c416a69",
 	21,
 	0,
-	'maslin_new::marking::ooapragma_list');
+	'maslin::marking::ooapragma_list');
 INSERT INTO GD_SHP
 	VALUES ("f1ab93d7-c44a-4e3a-be15-0f2fb12083fd");
 INSERT INTO GD_NCS
@@ -125,7 +125,7 @@ INSERT INTO GD_GE
 	"6a51ddc3-6210-4add-8bbd-799b68ae824d",
 	23,
 	0,
-	'maslin_new::marking::ooapopulation');
+	'maslin::marking::ooapopulation');
 INSERT INTO GD_SHP
 	VALUES ("3ac4bbd8-0068-40da-ad58-97aa4e879cc7");
 INSERT INTO GD_NCS
@@ -154,7 +154,7 @@ INSERT INTO GD_GE
 	"7623b7c8-fd73-43d3-b970-93281fcf1400",
 	21,
 	0,
-	'maslin_new::marking::ooapragma_item');
+	'maslin::marking::ooapragma_item');
 INSERT INTO GD_SHP
 	VALUES ("50b06c66-1fb4-4e8e-b9d3-3a42ced2adba");
 INSERT INTO GD_NCS
@@ -183,7 +183,7 @@ INSERT INTO GD_GE
 	"e8c56dd8-d47f-4353-8863-5bd0cb48f680",
 	21,
 	0,
-	'maslin_new::marking::ooapragma');
+	'maslin::marking::ooapragma');
 INSERT INTO GD_SHP
 	VALUES ("3eda78da-fa94-47ea-b099-853e0b93a293");
 INSERT INTO GD_NCS
@@ -222,7 +222,7 @@ INSERT INTO GD_GE
 	"aa11b589-e593-4f62-8343-db49b47b77f2",
 	24,
 	0,
-	'maslin_new::marking::R3804');
+	'maslin::marking::R3804');
 INSERT INTO GD_CON
 	VALUES ("6feeb2f9-00e2-47f8-9db2-92cf7c4962e8",
 	"00000000-0000-0000-0000-000000000000");
@@ -322,7 +322,7 @@ INSERT INTO GD_GE
 	"0338a2d0-2473-4a99-b534-3aafaf2b44c3",
 	24,
 	0,
-	'maslin_new::marking::R3803');
+	'maslin::marking::R3803');
 INSERT INTO GD_CON
 	VALUES ("d1709c55-d865-433b-b20c-f42651a904cf",
 	"00000000-0000-0000-0000-000000000000");
@@ -422,7 +422,7 @@ INSERT INTO GD_GE
 	"49176aec-386d-47ca-beda-ae23447bbe40",
 	24,
 	0,
-	'maslin_new::marking::R3801');
+	'maslin::marking::R3801');
 INSERT INTO GD_CON
 	VALUES ("9f85eeed-4348-43d9-9dcd-af614090d820",
 	"00000000-0000-0000-0000-000000000000");
@@ -522,7 +522,7 @@ INSERT INTO GD_GE
 	"b287604b-5882-49af-9b94-4c6159bc4d46",
 	24,
 	0,
-	'maslin_new::marking::R3805');
+	'maslin::marking::R3805');
 INSERT INTO GD_CON
 	VALUES ("46dc08ad-d0f8-415b-87c8-c575ace56be8",
 	"00000000-0000-0000-0000-000000000000");
@@ -648,7 +648,7 @@ INSERT INTO GD_GE
 	"bd177ec5-0ad3-41d1-9c11-fb0e159afe26",
 	21,
 	0,
-	'maslin_new::marking::ooamarkable');
+	'maslin::marking::ooamarkable');
 INSERT INTO GD_SHP
 	VALUES ("1bda8821-6476-483b-a271-1ba25976351c");
 INSERT INTO GD_NCS
@@ -682,7 +682,7 @@ INSERT INTO GD_GE
 	"ea86b498-3a65-4347-bf1a-07df06996998",
 	21,
 	0,
-	'maslin_new::marking::ooaunmarkable');
+	'maslin::marking::ooaunmarkable');
 INSERT INTO GD_SHP
 	VALUES ("cd0de43c-1abb-4426-9025-1268b6acf9aa");
 INSERT INTO GD_NCS
@@ -711,7 +711,7 @@ INSERT INTO GD_GE
 	"e4b23b21-0f13-4615-902e-94273826fe5e",
 	36,
 	0,
-	'maslin_new::marking::R3806');
+	'maslin::marking::R3806');
 INSERT INTO GD_CON
 	VALUES ("2ed2e946-7152-4871-8877-6c9271ddd26a",
 	"00000000-0000-0000-0000-000000000000");
@@ -827,7 +827,7 @@ INSERT INTO GD_GE
 	"e76e997c-b45c-430b-bee1-e21efe338298",
 	35,
 	0,
-	'maslin_new::marking::R3806::ooamarkable');
+	'maslin::marking::R3806::ooamarkable');
 INSERT INTO GD_CON
 	VALUES ("42bbb30e-9915-48a2-9167-256ad912bce2",
 	"00000000-0000-0000-0000-000000000000");
@@ -940,7 +940,7 @@ INSERT INTO GD_GE
 	"b1706f92-73e9-4058-a1b5-0491505376ac",
 	35,
 	0,
-	'maslin_new::marking::R3806::ooaunmarkable');
+	'maslin::marking::R3806::ooaunmarkable');
 INSERT INTO GD_CON
 	VALUES ("7aa29892-93fd-44e9-89c2-977b75d03366",
 	"00000000-0000-0000-0000-000000000000");
@@ -1053,7 +1053,7 @@ INSERT INTO GD_GE
 	"c0e73af9-2476-4c5c-b468-775bfdd8f108",
 	24,
 	0,
-	'maslin_new::marking::R3802');
+	'maslin::marking::R3802');
 INSERT INTO GD_CON
 	VALUES ("84a72c36-230b-4df1-9967-e6a0d371470d",
 	"00000000-0000-0000-0000-000000000000");
@@ -1460,11 +1460,11 @@ INSERT INTO R_OIR
 INSERT INTO O_OBJ_PROXY
 	VALUES ("d83a32f7-3bab-45d1-822a-1b39cbf519e7",
 	'ooapopulation',
-	2,
+	3801,
 	'ooapopulation',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'../p/ooapopulation/ooapopulation.xtuml');
+	'../m2x/ooapopulation/ooapopulation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("49176aec-386d-47ca-beda-ae23447bbe40",
 	1,
@@ -1647,6 +1647,6 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO S_SYS_PROXY
 	VALUES ("c14b4fcc-99ce-417f-85d7-ac22e2d20288",
-	'maslin_new',
+	'maslin',
 	1,
-	'../maslin_new.xtuml');
+	'../maslin.xtuml');

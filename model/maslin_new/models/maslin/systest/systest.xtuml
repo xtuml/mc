@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'maslin_new::systest');
+	'maslin::systest');
 INSERT INTO GD_GE
 	VALUES ("c106d5c8-3a74-4d63-952a-0338556ce4c5",
 	"04d9b0d3-a2bb-4190-80a2-7e389149df59",
 	"e0c0bc33-8559-4183-807c-50033990ed7d",
 	100,
 	0,
-	'maslin_new::systest::maslin_new::lib::test');
+	'maslin::systest::maslin::lib::test');
 INSERT INTO GD_SHP
 	VALUES ("c106d5c8-3a74-4d63-952a-0338556ce4c5");
 INSERT INTO GD_NCS
@@ -61,7 +61,7 @@ INSERT INTO GD_GE
 	"9057cf20-cd29-4ce2-8409-d0b4dd629de9",
 	100,
 	0,
-	'maslin_new::systest::maslin_new::lib::masl2xtuml');
+	'maslin::systest::maslin::lib::masl2xtuml');
 INSERT INTO GD_SHP
 	VALUES ("2ebfa8b1-3695-4907-b2f1-24cecee060c1");
 INSERT INTO GD_NCS
@@ -95,7 +95,7 @@ INSERT INTO GD_GE
 	"bc000576-ca41-41e5-8ff5-6199b84acd00",
 	106,
 	0,
-	'maslin_new::systest::maslin_new::lib::test::out::serial');
+	'maslin::systest::maslin::lib::test::out::serial');
 INSERT INTO GD_CON
 	VALUES ("6240ebe6-6bad-4158-a77b-65a60aa57882",
 	"00000000-0000-0000-0000-000000000000");
@@ -195,7 +195,7 @@ INSERT INTO GD_GE
 	"b9258595-5cff-4201-8f62-77684ae01f3e",
 	105,
 	0,
-	'maslin_new::systest::maslin_new::lib::masl2xtuml::persist::SQL');
+	'maslin::systest::maslin::lib::masl2xtuml::persist::SQL');
 INSERT INTO GD_CON
 	VALUES ("51c55c97-f1da-4465-914c-9c24d34139e2",
 	"00000000-0000-0000-0000-000000000000");
@@ -295,7 +295,7 @@ INSERT INTO GD_GE
 	"eb43576e-28dc-46ba-8f09-0d9f4adbfed9",
 	105,
 	0,
-	'maslin_new::systest::maslin_new::lib::masl2xtuml::in::serial');
+	'maslin::systest::maslin::lib::masl2xtuml::in::serial');
 INSERT INTO GD_CON
 	VALUES ("46f581d7-6a4c-4f06-9737-f7d4c9951e14",
 	"00000000-0000-0000-0000-000000000000");
@@ -411,7 +411,7 @@ INSERT INTO CL_IC
 	"00000000-0000-0000-0000-000000000000",
 	0,
 	'',
-	'maslin_new::lib::test',
+	'maslin::lib::test',
 	'');
 INSERT INTO CL_POR
 	VALUES ("e0c0bc33-8559-4183-807c-50033990ed7d",
@@ -467,7 +467,7 @@ INSERT INTO CL_IC
 	"00000000-0000-0000-0000-000000000000",
 	0,
 	'',
-	'maslin_new::lib::masl2xtuml',
+	'maslin::lib::masl2xtuml',
 	'');
 INSERT INTO CL_POR
 	VALUES ("9057cf20-cd29-4ce2-8409-d0b4dd629de9",
@@ -487,7 +487,7 @@ INSERT INTO CL_IP
 	'');
 INSERT INTO C_IR_PROXY
 	VALUES ("235748ab-d2c8-41d2-891e-99d5ee07cd11",
-	"ec7fcbf8-5370-41be-ac69-66b30c6ed2b0",
+	"aae114c8-5690-4023-a3d0-05fff0c36f37",
 	"00000000-0000-0000-0000-000000000000",
 	"19b5ed78-2c82-4ca3-a8bb-e5c7c8525ee7",
 	'../lib/masl2xtuml/masl2xtuml.xtuml');
@@ -581,6 +581,6 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO S_SYS_PROXY
 	VALUES ("c14b4fcc-99ce-417f-85d7-ac22e2d20288",
-	'maslin_new',
+	'maslin',
 	1,
-	'../maslin_new.xtuml');
+	'../maslin.xtuml');

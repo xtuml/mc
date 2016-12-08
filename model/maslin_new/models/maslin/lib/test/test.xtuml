@@ -28,14 +28,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'maslin_new::lib::test');
+	'maslin::lib::test');
 INSERT INTO GD_GE
 	VALUES ("a11853ce-0d32-4eaa-a9bf-86141311dc8e",
 	"b544374f-7d1f-451d-822a-6cada20cc60d",
 	"1fa8f3ff-bbbb-45d4-9ce9-911126559756",
 	103,
 	0,
-	'maslin_new::lib::test');
+	'maslin::lib::test');
 INSERT INTO GD_SHP
 	VALUES ("a11853ce-0d32-4eaa-a9bf-86141311dc8e");
 INSERT INTO GD_CTR
@@ -64,7 +64,7 @@ INSERT INTO GD_GE
 	"ebab31dc-ebf3-4aa7-b403-df9c2fc10e33",
 	93,
 	0,
-	'maslin_new::lib::test::out::serial');
+	'maslin::lib::test::out::serial');
 INSERT INTO GD_CON
 	VALUES ("ffdbc5ee-e1c3-4e19-9dd7-26b66b09f23b",
 	"00000000-0000-0000-0000-000000000000");
@@ -164,7 +164,7 @@ INSERT INTO GD_GE
 	"63af5f88-b069-406b-9074-18784cf17a16",
 	108,
 	0,
-	'maslin_new::lib::test::ib');
+	'maslin::lib::test::ib');
 INSERT INTO GD_SHP
 	VALUES ("5b8718ee-ad6c-47ea-a5d7-be6f14ace81a");
 INSERT INTO GD_NCS

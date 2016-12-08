@@ -25,7 +25,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'maslin_new::lib::masl2xtuml::ooaofooa_imported');
+	'maslin::lib::masl2xtuml::ooaofooa_imported');
 INSERT INTO DIM_DIA
 	VALUES ("b20ac82d-195d-4bb7-94eb-04b7e804793e",
 	'',
@@ -83,6 +83,6 @@ INSERT INTO C_C_PROXY
 	'../masl2xtuml.xtuml');
 INSERT INTO S_SYS_PROXY
 	VALUES ("c14b4fcc-99ce-417f-85d7-ac22e2d20288",
-	'maslin_new',
+	'maslin',
 	1,
-	'../../../maslin_new.xtuml');
+	'../../../maslin.xtuml');

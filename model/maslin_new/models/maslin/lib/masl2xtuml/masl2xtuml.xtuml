@@ -28,14 +28,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'maslin_new::lib::masl2xtuml');
+	'maslin::lib::masl2xtuml');
 INSERT INTO GD_GE
 	VALUES ("07e573a5-a6b0-4700-b124-0910ee1a3e96",
 	"f46d6f9e-b370-4f84-a833-8d835c0aedda",
 	"e3cafb9d-02e0-4035-b5f2-b0cdbefc0a46",
 	103,
 	0,
-	'maslin_new::lib::masl2xtuml');
+	'maslin::lib::masl2xtuml');
 INSERT INTO GD_SHP
 	VALUES ("07e573a5-a6b0-4700-b124-0910ee1a3e96");
 INSERT INTO GD_CTR
@@ -69,7 +69,7 @@ INSERT INTO GD_GE
 	"235748ab-d2c8-41d2-891e-99d5ee07cd11",
 	94,
 	0,
-	'maslin_new::lib::masl2xtuml::persist::SQL');
+	'maslin::lib::masl2xtuml::persist::SQL');
 INSERT INTO GD_CON
 	VALUES ("10924442-5f4c-427a-8658-bae4c385742a",
 	"00000000-0000-0000-0000-000000000000");
@@ -169,7 +169,7 @@ INSERT INTO GD_GE
 	"43fd7d4c-17e7-496c-a157-468e2cb21bac",
 	94,
 	0,
-	'maslin_new::lib::masl2xtuml::in::serial');
+	'maslin::lib::masl2xtuml::in::serial');
 INSERT INTO GD_CON
 	VALUES ("b832de8f-b44b-423f-a685-03275c21b24f",
 	"00000000-0000-0000-0000-000000000000");
@@ -269,7 +269,7 @@ INSERT INTO GD_GE
 	"c2231770-6ac8-40c1-a555-f34ffd7c67b7",
 	108,
 	0,
-	'maslin_new::lib::masl2xtuml::ooaofooa_imported');
+	'maslin::lib::masl2xtuml::ooaofooa_imported');
 INSERT INTO GD_SHP
 	VALUES ("c39c9406-8b64-41de-84d5-cc7a0d8eae0a");
 INSERT INTO GD_NCS
@@ -293,7 +293,7 @@ INSERT INTO GD_GE
 	"d906b2ef-dfdc-496b-aeef-260d5369a267",
 	108,
 	0,
-	'maslin_new::lib::masl2xtuml::m2x_imported');
+	'm2x_imported');
 INSERT INTO GD_SHP
 	VALUES ("2490cb5b-f723-4ae1-8448-947528c36c7f");
 INSERT INTO GD_NCS
@@ -317,7 +317,7 @@ INSERT INTO GD_GE
 	"fb9b416b-3cb6-4abb-9731-03dddc4de544",
 	108,
 	0,
-	'maslin_new::lib::masl2xtuml::marking_imported');
+	'maslin::lib::masl2xtuml::marking_imported');
 INSERT INTO GD_SHP
 	VALUES ("f719abbf-25c9-431a-963b-e66cbde32c19");
 INSERT INTO GD_NCS
