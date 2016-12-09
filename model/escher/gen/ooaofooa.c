@@ -12591,10 +12591,16 @@ r_form->OIR_ID = Escher_ID_factory();
       /* UNRELATE r_part FROM r_simp ACROSS R207 */
       ooaofooa_R_PART_R207_Unlink_relates( r_simp, r_part );
       /* DELETE OBJECT INSTANCE r_part */
+      if ( 0 == r_part ) {
+        XTUML_EMPTY_HANDLE_TRACE( "R_PART", "Escher_DeleteInstance" );
+      }
       Escher_DeleteInstance( (Escher_iHandle_t) r_part, ooaofooa_DOMAIN_ID, ooaofooa_R_PART_CLASS_NUMBER );
       /* UNRELATE r_rto FROM r_oir ACROSS R203 */
       ooaofooa_R_RTO_R203_Unlink( r_oir, r_rto );
       /* DELETE OBJECT INSTANCE r_rto */
+      if ( 0 == r_rto ) {
+        XTUML_EMPTY_HANDLE_TRACE( "R_RTO", "Escher_DeleteInstance" );
+      }
       Escher_DeleteInstance( (Escher_iHandle_t) r_rto, ooaofooa_DOMAIN_ID, ooaofooa_R_RTO_CLASS_NUMBER );
       /* RELATE r_rgo TO r_oir ACROSS R203 */
       ooaofooa_R_RGO_R203_Link( r_oir, r_rgo );

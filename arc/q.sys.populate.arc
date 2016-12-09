@@ -388,37 +388,6 @@
   .assign te_file.types = ( te_sys.Name + "_" ) + te_file.types
   .assign te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main
   .//
-  .// Select through package references to imported packages and link them to the
-  .// importing component.
-  .// Get the components that are part of the project.
-  .select many te_cs from instances of TE_C where ( selected.included_in_build )
-  .select many c_cs related by te_cs->C_C[R2054]
-  .for each c_c in c_cs
-    .// Get the packages contained in this component.
-    .select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001]
-    .for each ep_pkg in ep_pkgs
-      .// Get the packages that are empty (having no elements inside).
-      .select any pe_pe related by ep_pkg->PE_PE[R8000]
-      .if ( empty pe_pe )
-        .// We found an empty package, now check to see if it is serving as a package reference.
-        .select one imported_ep_pkg related by ep_pkg->EP_PKGREF[R1402.'is referenced by']->EP_PKG[R1402.'is referenced by']
-        .if ( ( empty imported_ep_pkg ) and ( "" != ep_pkg.Descrip ) )
-          .// CDS - This is the old hack way... supporting it for now.
-          .select any imported_ep_pkg from instances of EP_PKG where ( selected.Name == ep_pkg.Descrip )
-          .if ( not_empty imported_ep_pkg )
-            .// CDS - Create and relate an instance of EP_PKGREF to simulate what the editor will do.
-            .create object instance ep_pkgref of EP_PKGREF
-            .// Relate ep_pkg to imported_ep_pkg across R1402.'refers to' using ep_pkgref;
-            .// relate ep_pkg to imported_ep_pkg across R1402;
-            .assign ep_pkgref.Referring_Package_ID = ep_pkg.Package_ID
-            .assign ep_pkgref.Referred_Package_ID = imported_ep_pkg.Package_ID
-            .// end relate
-          .end if
-        .end if
-      .end if
-    .end for
-  .end for
-  .//
   .// Create and link the Extended model compiler instances.
   .// Do not fully initialize, yet.  Create and link and mark.
   .// These artifacts contain important naming that must propagate.

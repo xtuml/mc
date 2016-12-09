@@ -9,10 +9,10 @@
 
 #include "maslin_sys_types.h"
 #include "masl2xtuml.h"
-#include "masl2xtuml_IDLINK_bridge.h"
 #include "TRACE_bridge.h"
 #include "STRING_bridge.h"
 #include "LOG_bridge.h"
+#include "IDLINK_bridge.h"
 #include "masl2xtuml_classes.h"
 
 /*
@@ -130,7 +130,7 @@ masl2xtuml_in_end()
  * To Provider Message:  populate
  */
 void
-masl2xtuml_in_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX_STRING_LEN] )
+masl2xtuml_in_populate( c_t * p_element, c_t * p_value[8] )
 {
 	/* ooapopulation::populate( element:PARAM.element, value:PARAM.value ) */
 	masl2xtuml_ooapopulation_op_populate( p_element, p_value );
@@ -201,6 +201,7 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_A_AEA_instancedumper,
   masl2xtuml_S_BPARM_instancedumper,
   masl2xtuml_EP_PKG_instancedumper,
+  masl2xtuml_EP_PKGREF_instancedumper,
   masl2xtuml_S_EDT_instancedumper,
   masl2xtuml_CNST_CSP_instancedumper,
   masl2xtuml_CNST_SYC_instancedumper,
@@ -489,6 +490,7 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_A_AEA_extent,
   &pG_masl2xtuml_S_BPARM_extent,
   &pG_masl2xtuml_EP_PKG_extent,
+  &pG_masl2xtuml_EP_PKGREF_extent,
   &pG_masl2xtuml_S_EDT_extent,
   &pG_masl2xtuml_CNST_CSP_extent,
   &pG_masl2xtuml_CNST_SYC_extent,

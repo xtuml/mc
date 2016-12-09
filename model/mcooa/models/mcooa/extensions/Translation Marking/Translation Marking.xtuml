@@ -26,14 +26,14 @@ INSERT INTO GD_MD
 	150,
 	0,
 	'3.2.3',
-	'mcooa::ooaofooa::Translation Marking');
+	'mcooa::extensions::Translation Marking');
 INSERT INTO GD_GE
 	VALUES ("0b9244e7-0915-4546-aabd-7c126ef30d6d",
 	"048775d3-4caf-4949-bcba-d1604b1d530e",
 	"cc81652c-bad9-48d2-b648-d4bac5e4f54b",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Component Mark');
+	'mcooa::extensions::Translation Marking::Component Mark');
 INSERT INTO GD_SHP
 	VALUES ("0b9244e7-0915-4546-aabd-7c126ef30d6d");
 INSERT INTO GD_NCS
@@ -67,7 +67,7 @@ INSERT INTO GD_GE
 	"7f67959e-ee11-43cc-b49e-649696498591",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Function Mark');
+	'mcooa::extensions::Translation Marking::Function Mark');
 INSERT INTO GD_SHP
 	VALUES ("0e2664e2-e4cf-44de-b164-2e8bf5165e37");
 INSERT INTO GD_NCS
@@ -91,7 +91,7 @@ INSERT INTO GD_GE
 	"dec5edcd-a050-4c02-a0fa-8ae7508036f1",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Data Type Pointer');
+	'mcooa::extensions::Translation Marking::Data Type Pointer');
 INSERT INTO GD_SHP
 	VALUES ("b879a9d4-9b1d-4bd7-ab3d-2174e2fe9099");
 INSERT INTO GD_NCS
@@ -115,7 +115,7 @@ INSERT INTO GD_GE
 	"91bf3a7b-3776-4c7a-9394-1898bcbab0dc",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Data Type Precision');
+	'mcooa::extensions::Translation Marking::Data Type Precision');
 INSERT INTO GD_SHP
 	VALUES ("5339a2be-316f-4cba-9da8-f187d49ed02d");
 INSERT INTO GD_NCS
@@ -139,7 +139,7 @@ INSERT INTO GD_GE
 	"a53b479c-d2af-4f25-b11c-3e369b10cbee",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Enumerator Value');
+	'mcooa::extensions::Translation Marking::Enumerator Value');
 INSERT INTO GD_SHP
 	VALUES ("d73af1f3-c2b7-40da-9873-d015233169da");
 INSERT INTO GD_NCS
@@ -163,7 +163,7 @@ INSERT INTO GD_GE
 	"3a199f15-2b15-4412-a730-eefc7d9558e7",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Enumeration Init');
+	'mcooa::extensions::Translation Marking::Enumeration Init');
 INSERT INTO GD_SHP
 	VALUES ("bd766929-0056-4b83-af3a-732eedaa8387");
 INSERT INTO GD_NCS
@@ -187,7 +187,7 @@ INSERT INTO GD_GE
 	"fee0932a-fc96-48a4-bd5d-97f94b18fe36",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Tasking Mark');
+	'mcooa::extensions::Translation Marking::Tasking Mark');
 INSERT INTO GD_SHP
 	VALUES ("94a4b3dd-2a76-41e3-b1a9-bc5b7dfb9a1a");
 INSERT INTO GD_NCS
@@ -211,7 +211,7 @@ INSERT INTO GD_GE
 	"fa363aa4-f325-484c-816f-cc8b9b95c909",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::System Tags');
+	'mcooa::extensions::Translation Marking::System Tags');
 INSERT INTO GD_SHP
 	VALUES ("3d0a6d9a-a73e-4193-89c4-745c6a512bd6");
 INSERT INTO GD_NCS
@@ -235,7 +235,7 @@ INSERT INTO GD_GE
 	"bf38c82b-6e83-4fb3-ac4b-e9c0128a44c7",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::build');
+	'mcooa::extensions::Translation Marking::build');
 INSERT INTO GD_SHP
 	VALUES ("80485579-ea71-47bb-8aa6-93980b85ec7d");
 INSERT INTO GD_NCS
@@ -259,7 +259,7 @@ INSERT INTO GD_GE
 	"baf60b8d-e26c-4740-8365-2bf8277905f9",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::CPP Template');
+	'mcooa::extensions::Translation Marking::CPP Template');
 INSERT INTO GD_SHP
 	VALUES ("60aab3bb-b485-4948-848a-774e6f531cd0");
 INSERT INTO GD_NCS
@@ -298,7 +298,7 @@ INSERT INTO GD_GE
 	"d4d87339-b0f7-40d8-a086-e2abc605e0a1",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Template Parameter');
+	'mcooa::extensions::Translation Marking::Template Parameter');
 INSERT INTO GD_SHP
 	VALUES ("051511e5-ddba-4e5b-b379-59e9bf1f8407");
 INSERT INTO GD_NCS
@@ -362,7 +362,7 @@ INSERT INTO GD_GE
 	"41d69ea0-f3a3-4f37-a5c3-a698e7977f83",
 	24,
 	0,
-	'mcooa::ooaofooa::Translation Marking::R2800');
+	'mcooa::extensions::Translation Marking::R2800');
 INSERT INTO GD_CON
 	VALUES ("2f20514a-64b9-4fc4-b300-d4498e613b67",
 	"00000000-0000-0000-0000-000000000000");
@@ -462,7 +462,7 @@ INSERT INTO GD_GE
 	"15691132-dc0f-4d78-972a-1aa3431c69a6",
 	24,
 	0,
-	'mcooa::ooaofooa::Translation Marking::R2801');
+	'mcooa::extensions::Translation Marking::R2801');
 INSERT INTO GD_CON
 	VALUES ("bced57e3-5340-4bdb-83b1-3cbd691b1af7",
 	"00000000-0000-0000-0000-000000000000");
@@ -562,7 +562,7 @@ INSERT INTO GD_GE
 	"ce408740-cf9e-4b93-a2fd-b06c1be3193c",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Interface Mark');
+	'mcooa::extensions::Translation Marking::Interface Mark');
 INSERT INTO GD_SHP
 	VALUES ("7cbccf5d-4b21-4c56-901c-7137b9d629ac");
 INSERT INTO GD_NCS
@@ -596,7 +596,7 @@ INSERT INTO GD_GE
 	"818dc175-a95c-40fb-b193-0753dd78d096",
 	24,
 	0,
-	'mcooa::ooaofooa::Translation Marking::R2802');
+	'mcooa::extensions::Translation Marking::R2802');
 INSERT INTO GD_CON
 	VALUES ("c15ec71c-e225-48c5-897c-d83b52e52f65",
 	"00000000-0000-0000-0000-000000000000");
@@ -696,7 +696,7 @@ INSERT INTO GD_GE
 	"805e3acf-11eb-45f2-ad9d-c1a4433e181e",
 	21,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Template Parameter Value');
+	'mcooa::extensions::Translation Marking::Template Parameter Value');
 INSERT INTO GD_SHP
 	VALUES ("5b8114fb-d01b-4570-8cf3-4b7c1706ea60");
 INSERT INTO GD_NCS
@@ -765,7 +765,7 @@ INSERT INTO GD_GE
 	"732c3985-4238-42ed-b2b9-01cf8f7e04f0",
 	23,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Extended Component');
+	'mcooa::extensions::Translation Marking::Extended Component');
 INSERT INTO GD_SHP
 	VALUES ("a8c04342-5def-4ba9-a7b6-7b0898114b13");
 INSERT INTO GD_NCS
@@ -799,7 +799,7 @@ INSERT INTO GD_GE
 	"f12979c5-a9ac-44e6-b22d-695da7d2e64b",
 	24,
 	0,
-	'mcooa::ooaofooa::Translation Marking::R2804');
+	'mcooa::extensions::Translation Marking::R2804');
 INSERT INTO GD_CON
 	VALUES ("ea95db0b-aa09-4aa0-bf4c-9321bba0d65a",
 	"00000000-0000-0000-0000-000000000000");
@@ -899,7 +899,7 @@ INSERT INTO GD_GE
 	"117c9e36-9275-4e5f-b614-b2405734568a",
 	23,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Component Instance');
+	'mcooa::extensions::Translation Marking::Component Instance');
 INSERT INTO GD_SHP
 	VALUES ("540d6523-0f4f-46b0-8893-6d4798ea1d41");
 INSERT INTO GD_NCS
@@ -938,7 +938,7 @@ INSERT INTO GD_GE
 	"c4df7d15-9647-4769-9e4a-54dba0b73082",
 	23,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Interface');
+	'mcooa::extensions::Translation Marking::Interface');
 INSERT INTO GD_SHP
 	VALUES ("470d78d8-aaf6-4587-9982-e3c9f445b7c0");
 INSERT INTO GD_NCS
@@ -967,7 +967,7 @@ INSERT INTO GD_GE
 	"cfe7abfc-1f49-45d4-a9d8-c135f8314b48",
 	24,
 	0,
-	'mcooa::ooaofooa::Translation Marking::R2807');
+	'mcooa::extensions::Translation Marking::R2807');
 INSERT INTO GD_CON
 	VALUES ("7699bbd4-deaf-4456-9e22-c75ce61c970c",
 	"00000000-0000-0000-0000-000000000000");
@@ -1067,7 +1067,7 @@ INSERT INTO GD_GE
 	"165dc7d3-0d3a-4744-8b88-a7958c1fceb2",
 	24,
 	0,
-	'mcooa::ooaofooa::Translation Marking::R2808');
+	'mcooa::extensions::Translation Marking::R2808');
 INSERT INTO GD_CON
 	VALUES ("f023deef-549e-415e-abb7-cb7ef85e27d1",
 	"00000000-0000-0000-0000-000000000000");
@@ -1167,7 +1167,7 @@ INSERT INTO GD_GE
 	"372b2205-2de4-48d1-a6e4-11beef640a0b",
 	23,
 	0,
-	'mcooa::ooaofooa::Translation Marking::Interface Instance');
+	'mcooa::extensions::Translation Marking::Interface Instance');
 INSERT INTO GD_SHP
 	VALUES ("460fcc51-f5ec-4955-b763-ebd7ed6c4a58");
 INSERT INTO GD_NCS
@@ -1196,7 +1196,7 @@ INSERT INTO GD_GE
 	"d0693e64-625f-488c-b193-4fd3c14faef2",
 	24,
 	0,
-	'mcooa::ooaofooa::Translation Marking::R2806');
+	'mcooa::extensions::Translation Marking::R2806');
 INSERT INTO GD_CON
 	VALUES ("4c19afb3-1d77-432e-b959-3b3896ea2999",
 	"00000000-0000-0000-0000-000000000000");
@@ -1296,7 +1296,7 @@ INSERT INTO GD_GE
 	"f844b4be-00ac-4ccd-bc93-e2008ac69044",
 	24,
 	0,
-	'mcooa::ooaofooa::Translation Marking::R2805');
+	'mcooa::extensions::Translation Marking::R2805');
 INSERT INTO GD_CON
 	VALUES ("c57d123f-8c3e-4b1f-822c-08897524813c",
 	"00000000-0000-0000-0000-000000000000");
@@ -2089,9 +2089,9 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("c1941e17-7482-4223-bb05-a7e4ab891696",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'ooaofooa',
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'extensions',
 	'',
 	0,
 	'../extensions.xtuml');

@@ -5,7 +5,7 @@ INSERT INTO EP_PKG
 	"00000000-0000-0000-0000-000000000000",
 	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
 	'extensions_imported',
-	'extensions',
+	'',
 	0);
 INSERT INTO GD_MD
 	VALUES ("3e2f5452-3ba5-4c59-9091-a80b357449ed",
@@ -33,6 +33,17 @@ INSERT INTO DIM_DIA
 	4000.000000,
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("cfed61c4-f5e3-4210-9a39-7c94c29e7787",
+	"c1941e17-7482-4223-bb05-a7e4ab891696");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("c1941e17-7482-4223-bb05-a7e4ab891696",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'extensions',
+	'',
+	0,
+	'../../../../../../mcooa/models/mcooa/extensions/extensions.xtuml');
 INSERT INTO PE_PE
 	VALUES ("cfed61c4-f5e3-4210-9a39-7c94c29e7787",
 	1,
