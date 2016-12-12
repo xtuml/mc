@@ -6911,7 +6911,11 @@ if ( not_empty function )
       s_sync.Action_Semantics_internal = function.Action_Semantics_internal;
       s_sync.Dialect = "masl";
       // dispose corresponding interface message
-      self.ExecutableProperty_dispose( c_ep:message );
+      if ( not_empty message )
+        // in the case of "private" domain services, there will not be a corresponding c_ep instance
+        // we need to check empty to keep from attempting to dispose an empty message
+        self.ExecutableProperty_dispose( c_ep:message );
+      end if;
       // dispose the function
       self.Function_dispose( s_sync:function );
       break;
