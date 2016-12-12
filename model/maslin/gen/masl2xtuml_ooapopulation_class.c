@@ -7332,8 +7332,11 @@ masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * s
         s_sync->Action_Semantics_internal = Escher_strcpy( s_sync->Action_Semantics_internal, function->Action_Semantics_internal );
         /* ASSIGN s_sync.Dialect = masl */
         s_sync->Dialect = Escher_strcpy( s_sync->Dialect, "masl" );
-        /* self.ExecutableProperty_dispose( c_ep:message ) */
-        masl2xtuml_ooapopulation_op_ExecutableProperty_dispose( self,  message );
+        /* IF ( not_empty message ) */
+        if ( ( 0 != message ) ) {
+          /* self.ExecutableProperty_dispose( c_ep:message ) */
+          masl2xtuml_ooapopulation_op_ExecutableProperty_dispose( self,  message );
+        }
         /* self.Function_dispose( s_sync:function ) */
         masl2xtuml_ooapopulation_op_Function_dispose( self,  function );
         /* BREAK */
