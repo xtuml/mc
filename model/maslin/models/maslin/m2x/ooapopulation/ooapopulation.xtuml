@@ -6875,7 +6875,7 @@ if ( not_empty op )
     if ( o_tfr != op and self.Operation_getSignature( o_tfr:op ) == self.Operation_getSignature( o_tfr:o_tfr ) )
       // copy over the codeblock
       o_tfr.Action_Semantics_internal = op.Action_Semantics_internal;
-      o_tfr.Dialect = "masl";
+      o_tfr.Dialect = ActionDialect::masl;
       // dispose the operation
       self.Operation_dispose( o_tfr:op );
       break;
@@ -6904,7 +6904,7 @@ if ( not_empty function )
     if ( s_sync != function and self.Function_getSignature( s_sync:function ) == self.Function_getSignature( s_sync:s_sync ) )
       // copy over the codeblock
       s_sync.Action_Semantics_internal = function.Action_Semantics_internal;
-      s_sync.Dialect = "masl";
+      s_sync.Dialect = ActionDialect::masl;
       // dispose corresponding interface message
       if ( not_empty message )
         // in the case of "private" domain services, there will not be a corresponding c_ep instance
@@ -6935,13 +6935,13 @@ select many c_eps related by message->C_I[R4003]->C_EP[R4003];
 		select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
 		if ( not_empty spr_po )
 		  spr_po.Action_Semantics_internal = spr_po.Action_Semantics_internal + message_cb;
-		  spr_po.Dialect = "masl";
+		  spr_po.Dialect = ActionDialect::masl;
 		end if;
       else
 		select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
 		if ( not_empty spr_ro )
 		  spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
-		  spr_ro.Dialect = "masl";
+		  spr_ro.Dialect = ActionDialect::masl;
 		end if;
   	  end if;
       // dispose interface message
@@ -7060,7 +7060,7 @@ elif ( "terminator" == element )
       select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
   	  if ( not_empty spr_ro )
         spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
-        spr_ro.Dialect = "masl";
+        spr_ro.Dialect = ActionDialect::masl;
   	  end if;
   	end for;
 
@@ -7281,7 +7281,7 @@ elif ( "codeblock" == element )
   s_sync = ooapopulation.current_domain_function;
   if ( not_empty s_sync )
     s_sync.Action_Semantics_internal = s_sync.Action_Semantics_internal + STRING::escapetics(s:param.value[0]);
-    s_sync.Dialect = "masl";
+    s_sync.Dialect = ActionDialect::masl;
   end if;
 
   c_ep = ooapopulation.current_executable_property;
@@ -7293,7 +7293,7 @@ elif ( "codeblock" == element )
   o_tfr = ooapopulation.current_class_op;
   if ( not_empty o_tfr )
     o_tfr.Action_Semantics_internal = o_tfr.Action_Semantics_internal + STRING::escapetics(s:param.value[0]);
-    o_tfr.Dialect = "masl";
+    o_tfr.Dialect = ActionDialect::masl;
   end if;
   
   sm_state = ooapopulation.current_state;
@@ -7301,7 +7301,7 @@ elif ( "codeblock" == element )
     select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
     if ( not_empty sm_act )
       sm_act.Action_Semantics_internal = sm_act.Action_Semantics_internal + STRING::escapetics(s:param.value[0]);
-      sm_act.Dialect = "masl";
+      sm_act.Dialect = ActionDialect::masl;
     end if;
   end if;
   
@@ -7434,7 +7434,7 @@ elif ( "terminator" == element )
       select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
   	  if ( not_empty spr_po )
         spr_po.Action_Semantics_internal = spr_po.Action_Semantics_internal + message_cb;
-        spr_po.Dialect = "masl";
+        spr_po.Dialect = ActionDialect::masl;
   	  end if;
   	end for;
 

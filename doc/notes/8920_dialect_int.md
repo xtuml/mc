@@ -17,6 +17,7 @@ Follow this lead in mcooa.
 ----------------------
 [1] [8920](https://support.onefact.net/issues/8920) - Update Dialect in MC  
 [2] [8887](https://support.onefact.net/issues/8887) - Clean up MASL persistence  
+[3] [8912](https://support.onefact.net/issues/8912) - Test for empty on `C_EPs`    
 
 3. Background
 -------------
@@ -41,7 +42,8 @@ mcmc.exe, m2x and x2m).
   
 6. Implementation Comments
 --------------------------
-6.1 Found and fixed a typo in [2].
+6.1 Found and fixed a typo in [2].  
+6.2 Pulled in issue [3] to this work.  
   
 7. Unit Test
 ------------
@@ -74,15 +76,36 @@ Fork: cortlandstarrett/packaging
 Branch name: 8920_dialect
 
 xtuml/mc
+ doc/notes/8844_unhack_packref_int.md                                        |  2 +-
+ doc/notes/8920_dialect_int.md                                               | 91 +++++++++++++++++++++++++++++++++++++
+ model/docgen/gen/docgen.c                                                   | 15 ------
+ model/escher/gen/ooaofooa.c                                                 |  6 +--
+ model/maslin/.externalToolBuilders/Model Compiler.launch                    |  4 +-
+ model/maslin/gen/masl2xtuml.c                                               |  6 +--
+ model/maslin/gen/masl2xtuml_ooapopulation_class.c                           | 25 +++++-----
+ model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml            | 24 ++++++----
+ .../Provided Operation/Provided Operation.xtuml                             |  9 +++-
+ .../Provided Signal/Provided Signal.xtuml                                   |  9 +++-
+ .../Required Operation/Required Operation.xtuml                             |  9 +++-
+ .../Required Signal/Required Signal.xtuml                                   |  9 +++-
+ model/mcooa/models/mcooa/ooaofooa/Datatypes/Datatypes.xtuml                 | 54 +++++++++++++++++++++-
+ model/mcooa/models/mcooa/ooaofooa/Domain/Bridge/Bridge.xtuml                |  9 +++-
+ model/mcooa/models/mcooa/ooaofooa/Domain/Function/Function.xtuml            |  9 +++-
+ model/mcooa/models/mcooa/ooaofooa/State Machine/Action/Action.xtuml         |  9 +++-
+ .../ooaofooa/Subsystem/Derived Base Attribute/Derived Base Attribute.xtuml  |  9 +++-
+ model/mcooa/models/mcooa/ooaofooa/Subsystem/Operation/Operation.xtuml       |  9 +++-
+ schema/sql/xtumlmc_schema.sql                                               | 18 ++++----
+ 19 files changed, 260 insertions(+), 66 deletions(-)
 
 xtuml/packaging
- build/extra_files/docgen        | Bin 1217807 -> 1299727 bytes
- build/extra_files/docgen.exe    | Bin 571847 -> 653767 bytes
- build/extra_files/m2x           | Bin 1845235 -> 647183 bytes
- build/extra_files/mcmc          | Bin 1754355 -> 1856996 bytes
- build/extra_files/mcmc.exe      | Bin 1072774 -> 1177125 bytes
- build/extra_files/mcmc64        | Bin 2068125 -> 2170830 bytes
- build/extra_files/x2m           | Bin 6512915 -> 685380 bytes
+ build/extra_files/docgen     | Bin 1299727 -> 1295014 bytes
+ build/extra_files/docgen.exe | Bin 653767 -> 651939 bytes
+ build/extra_files/m2x        | Bin 647183 -> 646585 bytes
+ build/extra_files/mcmc       | Bin 1856996 -> 1856419 bytes
+ build/extra_files/mcmc.exe   | Bin 1177125 -> 1175308 bytes
+ build/extra_files/mcmc64     | Bin 2170830 -> 2170101 bytes
+ build/extra_files/x2m        | Bin 685380 -> 680533 bytes
+ 7 files changed, 0 insertions(+), 0 deletions(-)
 
 </pre>
 
