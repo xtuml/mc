@@ -1717,11 +1717,6 @@ for each fv in fvs
   unrelate s_sync from fv across R827;
 end for;
 //
-// Wiring Subsystem
-select many aws related by s_sync->S_AW[R3201];
-for each aw in aws
-  unrelate s_sync from aw across R3201;
-end for;
 // for each message that this function
 // is associated with
 select many fms related by s_sync->MSG_F[R1010];
