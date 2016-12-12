@@ -257,9 +257,16 @@ INSERT INTO O_ATTR
 	'',
 	'Dialect',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
 	'',
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	"00000000-0000-0000-0000-000000000000",
+	'ActionDialect',
+	'Enumerator for available action dialects',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"259423d7-4bec-4988-a8db-ed2761a9e68e");
