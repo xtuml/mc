@@ -2654,19 +2654,6 @@ docgen_getContainerListForS_SYS( c_t * p_container_list, docgen_S_SYS * p_sys )
   {c_t * xtumlOALrv = list;
   return xtumlOALrv;}
 }
-
-/*
- * Domain Function:  hoover
- */
-void
-docgen_hoover()
-{
-  docgen_O_OBJ * o_obj=0;docgen_DOC_DOC * doc_doc=0;
-  /* SELECT any doc_doc FROM INSTANCES OF DOC_DOC */
-  doc_doc = (docgen_DOC_DOC *) Escher_SetGetAny( &pG_docgen_DOC_DOC_extent.active );
-  /* SELECT any o_obj FROM INSTANCES OF O_OBJ */
-  o_obj = (docgen_O_OBJ *) Escher_SetGetAny( &pG_docgen_O_OBJ_extent.active );
-}
 Escher_idf docgen_instance_dumpers[ docgen_MAX_CLASS_NUMBERS ] = {
   docgen_MSG_M_instancedumper,
   docgen_MSG_A_instancedumper,
@@ -2786,7 +2773,6 @@ Escher_idf docgen_instance_dumpers[ docgen_MAX_CLASS_NUMBERS ] = {
   docgen_I_RCH_instancedumper,
   docgen_I_CIN_instancedumper,
   docgen_I_ICQE_instancedumper,
-  docgen_S_AW_instancedumper,
   docgen_S_IRDT_instancedumper,
   docgen_S_SDT_instancedumper,
   docgen_S_MBR_instancedumper,
@@ -3075,7 +3061,6 @@ Escher_Extent_t * const docgen_class_info[ docgen_MAX_CLASS_NUMBERS ] = {
   &pG_docgen_I_RCH_extent,
   &pG_docgen_I_CIN_extent,
   &pG_docgen_I_ICQE_extent,
-  &pG_docgen_S_AW_extent,
   &pG_docgen_S_IRDT_extent,
   &pG_docgen_S_SDT_extent,
   &pG_docgen_S_MBR_extent,
