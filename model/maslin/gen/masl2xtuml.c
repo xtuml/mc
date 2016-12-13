@@ -132,8 +132,8 @@ masl2xtuml_in_end()
 void
 masl2xtuml_in_populate( c_t * p_element, c_t * p_value[8] )
 {
-	/* ooapopulation::populate( element:PARAM.element, value:PARAM.value ) */
-	masl2xtuml_ooapopulation_op_populate( p_element, p_value );
+  /* ooapopulation::populate( element:PARAM.element, value:PARAM.value ) */
+  masl2xtuml_ooapopulation_op_populate( p_element, p_value );
 }
 extern void mark_pass( c_t * );
 #define T_T(x) ( 0 == x ) ? s : strcat(s,x)
@@ -247,7 +247,6 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_I_RCH_instancedumper,
   masl2xtuml_I_CIN_instancedumper,
   masl2xtuml_I_ICQE_instancedumper,
-  masl2xtuml_S_AW_instancedumper,
   masl2xtuml_S_IRDT_instancedumper,
   masl2xtuml_S_SDT_instancedumper,
   masl2xtuml_S_MBR_instancedumper,
@@ -536,7 +535,6 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_I_RCH_extent,
   &pG_masl2xtuml_I_CIN_extent,
   &pG_masl2xtuml_I_ICQE_extent,
-  &pG_masl2xtuml_S_AW_extent,
   &pG_masl2xtuml_S_IRDT_extent,
   &pG_masl2xtuml_S_SDT_extent,
   &pG_masl2xtuml_S_MBR_extent,
