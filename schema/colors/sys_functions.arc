@@ -5,8 +5,6 @@
 .// This archetype file contains system level user definable archetype
 .// functions.
 .//
-.// Notice:
-.// Enhancements provided by TOYO Corporation.
 .//============================================================================
 .//
 .//

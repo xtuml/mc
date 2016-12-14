@@ -119,7 +119,7 @@ power cycles.</para></highlights>
   <para>The implementation and deployment of the Non-Volatile Store (NVS)
   domain is the responsibility of the user.  &escher; supplies one or more
   sample implementations of this domain to serve as design examples and
-  source code "head starts".  &mgc; will develop and collect
+  source code "head starts".  &xorg; will develop and collect
   additional samples over time and make these available to users.
   However, with the variety of non-volatile storage technologies available
   and broadly differing platform requirements this deployment is left to
