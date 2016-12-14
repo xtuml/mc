@@ -21,7 +21,7 @@ in the model compiler models.
 
 3. Background
 -------------
-Pacakge references were introduced into the model compiler models in [2].
+Package references were introduced into the model compiler models in [2].
 For the first pass of this work, a "hack" method was used that employed
 the `Descrip` field of an empty package.  This allowed package references
 to work before they were fully supported in the BridgePoint editor.  The
