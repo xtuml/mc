@@ -1644,7 +1644,7 @@ $arcdir = $ENV{'ROX_MC_ARC_DIR'};
 # Check for compiled model-based model compiler executable.
 # If it exists, use it.  Otherwise, use archetypes.
 $mccmd = "$ENV{'ROX_MC_BIN_DIR'}/mcmc";
-if ( -f $mccmd ) {
+if ( (-f $mccmd) && ( $mc_type =~ /l3/ ) ) {
   # Get the marks from the marking files to be parsed by mcmc.
   # grep '^ *\.invoke ' *.mark > m.txt
   my $outFile = xtumlmc_open( ">" . "m.txt" );
