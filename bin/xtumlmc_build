@@ -1394,7 +1394,6 @@ for ( my $i = 0; $i < @ARGV; $i++ ) {
   elsif ( $k =~ /^(l3s)$/ ) { $mc_type = " -l3s "; }
   elsif ( $k =~ /^(l3b)$/ ) { $mc_type = " -l3b "; }
   elsif ( $k =~ /^(lSCs)$/ ) { $mc_type = " -lSCs "; }
-  elsif ( $k =~ /^(lVHs)$/ ) { $mc_type = " -lVHs "; }
   elsif ( $k =~ /^(m)$/ ) { $i++; @sqls = ( @sqls, $ARGV[$i] ); }
   elsif ( $k =~ /^(o)$/ ) { $i++; @ooas = ( @ooas, $ARGV[$i] ); }
   elsif ( $k =~ /^(O)$/ ) { $i++; $output_src = $ARGV[$i]; }
