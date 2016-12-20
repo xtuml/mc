@@ -54,9 +54,9 @@ serializing from memory.
 When using the scoop method, the global native xtUML types must be considered.
 These are stored in `org.xtuml.bp.pkg/globals/Globals.xtuml`.
 
-5.4 `Export MASL Domain` plugin  
-The plugin for exporting a MASL domain will need to change to refer to the
-correct files.
+5.4 IPRs  
+References to model elements in other projects (IPRs) will need to be resolved
+or otherwise worked around.
 
 6. Design
 ---------
@@ -64,15 +64,12 @@ correct files.
 
 7. Design Comments
 ------------------
-If research carried out during this phase shows that a requirement stated in the
-analysis note is infeasible or needs some modification, enumerate those changes
-here. If there was no preceding analysis note, then this section documents any
-deviations from the design as presented at the design review.
+7.1 EmptyHandleDetected  
+During development, a bug was identified in `masl_ooapopulation` in which
+an empty instance was being related and unrelated.
 
 8. Unit Test
 ------------
-Outline all the unit tests that need to pass and describe the method that you
-will use to design and perform the tests.
 
 End
 ---

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export MASL_BIN_DIR=$DIR/lib/
+export MASL_BIN_DIR=$DIR/
 
-EXE="../../mc/bin/xtumlmc_build"
+EXE="xtumlmc_build.exe"
 
 $DIR/$EXE xtuml2masl $@

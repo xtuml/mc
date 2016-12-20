@@ -1178,13 +1178,14 @@ sub xtuml2masl
 
     # cleanse the prebuilder output
     system( "cat $i/gen/code_generation/*.sql > $i/gen/code_generation/z.xtuml" );
-    &xtumlmc_cleanse_for_BridgePoint ( "$i/gen/code_generation/z.xtuml", "$i/gen/code_generation/a.xtuml" );
+    #&xtumlmc_cleanse_for_BridgePoint ( "$i/gen/code_generation/z.xtuml", "$i/gen/code_generation/a.xtuml", "GD_", "DIM_" );
+    &xtumlmc_cleanse_for_BridgePoint ( "$i/models", "$i/gen/code_generation/a.xtuml", "GD_", "DIM_" );
 
     # call the utilities
     # Note: The -k option here specifies that key letter pragmas will be produced by
     # the exporter. Remove the -k option to suppress generation of any "key_letter"
     # pragmas.
-    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m -i$i $command -k | masl $validate -i$i $command -o$out_dir";
+    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | ./x2m -i$i $command -k | ./masl $validate -i$i $command -o$out_dir";
     print STDERR "$sys_cmd\n";
     system( $sys_cmd );
 
