@@ -3,6 +3,6 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export MASL_BIN_DIR=$DIR/lib/
 
-EXE="../../eclipse/plugins/org.xtuml.bp.mc.c.source*/mc3020/bin/xtumlmc_build.exe"
+EXE="../../mc/bin/xtumlmc_build"
 
 $DIR/$EXE xtuml2masl $@
