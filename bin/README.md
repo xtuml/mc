@@ -4,8 +4,8 @@
 -----------
 This note describes the steps for creating the xtumlmc_build.exe using 
 Strawberry Perl and put it where it will be picked up by the nightly
-build process.  One Fact employees should reference [this document](https://docs.google.com/document/d/1Uvg1rBdwkKGNo0dZSyhT13mpYhz5EUyj7WmJ1rQYJFw/edit) for information 
-about a pre-configured Windows AWS instance.   
+build process.  A pre-configured AWS instance is set up with limited
+access.  More information is about that is available in [this document](https://docs.google.com/document/d/1Uvg1rBdwkKGNo0dZSyhT13mpYhz5EUyj7WmJ1rQYJFw/edit).   
 
 2. Document References
 ----------------------
