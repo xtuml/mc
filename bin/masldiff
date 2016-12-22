@@ -21,7 +21,7 @@
 #       MASL files
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export MASL_BIN_DIR=$DIR/lib/
+export MASL_BIN_DIR=$DIR/
 
 #export CLASSPATH=<path_to_parser_jar>:<path_to_antlr_jar>
 
