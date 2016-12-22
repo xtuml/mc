@@ -32,7 +32,9 @@ if ( "" == value[0] and "" == value[1] and "" == value[2] and "" == value[3] and
   if ( not_empty current_element )
     select one parent_element related by current_element->element[R3787.''child of''];	// select parent
     unrelate population from current_element across R3784.''has current'';				// unrelate current element
-    relate population to parent_element across R3784.''has current'';						// relate the parent as the new current
+    if ( not_empty parent_element )
+      relate population to parent_element across R3784.''has current'';					// relate the parent as the new current
+    end if;
     unrelate population from current_element across R3789.''has active'';					// remove from the active collection
     
     // for activities, check for duplicates
@@ -407,7 +409,8 @@ if ( empty root_element )
 end if;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("23f9c3b1-bb74-489b-8f70-28c707ffcd40",
 	"0b670cc8-7c15-43ad-acfe-044fce10d262",
@@ -461,14 +464,19 @@ end if;
 if ( current_element == new_element )
   //TRACE::log( flavor:"info", id:75, message:"duplicate element not pushed: " + new_element.name );
 else
-  unrelate self from current_element across R3784.''has current'';	// unrelate current element
+  if ( not_empty current_element )
+    unrelate self from current_element across R3784.''has current'';  // unrelate current element
+  end if;
   relate self to new_element across R3784.''has current'';			// relate the new as the current
-  relate new_element to current_element across R3787.''child of'';
+  if ( not_empty current_element )
+    relate new_element to current_element across R3787.''child of'';
+  end if;
   relate self to new_element across R3789.''has active'';			// add to the active collection
 end if;',
 	1,
 	'',
-	"0b670cc8-7c15-43ad-acfe-044fce10d262");
+	"0b670cc8-7c15-43ad-acfe-044fce10d262",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("7df6c973-3a73-457e-9609-81c16160dc30",
 	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9",
@@ -503,7 +511,8 @@ end while;
 TRACE::log( flavor:"stack_trace", id:82, message:"done." );',
 	1,
 	'',
-	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9");
+	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9",
+	0);
 INSERT INTO O_ID
 	VALUES (0,
 	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
