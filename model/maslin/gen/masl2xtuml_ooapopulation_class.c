@@ -3265,11 +3265,8 @@ masl2xtuml_ooapopulation_op_ModelClass_removeDuplicateAttrs( masl2xtuml_ooapopul
       if ( ( Escher_strcmp( rattr->Root_Nam, battr->Root_Nam ) == 0 ) ) {
         /* self.Attribute_dispose( o_attr:battr ) */
         masl2xtuml_ooapopulation_op_Attribute_dispose( self,  battr );
-        /* IF ( ( ( rattr.Root_Nam ==  ) or ( battr.Root_Nam ==  ) ) ) */
-        if ( ( ( Escher_strcmp( rattr->Root_Nam, "" ) == 0 ) || ( Escher_strcmp( battr->Root_Nam, "" ) == 0 ) ) ) {
-          /* TRACE::log( flavor:debug, id:105, message:found attribute with no root name ) */
-          TRACE_log( "debug", 105, "found attribute with no root name" );
-        }
+        /* BREAK */
+        break;
       }
     }}}
   }}}
