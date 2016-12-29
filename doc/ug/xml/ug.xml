@@ -109,6 +109,7 @@
 <!ENTITY nukeplus "Nucleus PLUS">
 <!ENTITY pt "Project Technology">
 <!ENTITY sm "Shlaer-Mellor">
+<!ENTITY xorg "xtUML.org">
 <!ENTITY UserGuideUsage SYSTEM "c1.xml">
 <!ENTITY FeaturesAndComponents SYSTEM "c2.xml">
 <!ENTITY MCGUIChapter SYSTEM "mcgui.xml">
