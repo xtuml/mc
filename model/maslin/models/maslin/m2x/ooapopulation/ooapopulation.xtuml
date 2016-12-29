@@ -4787,13 +4787,14 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'o_rattr = param.o_rattr;
+	'o_attr = param.o_attr;
 other_attr = param.other_attr;
 
+select one o_rattr related by o_attr->O_RATTR[R106];
 select one other_rattr related by other_attr->O_RATTR[R106];
 select many other_ref_set related by other_rattr->O_REF[R108];
    
-   // find last O_REF in o_rattr''s ref list R112
+   // find last O_REF in o_rattr ref list R112
    select any ref related by o_rattr->O_REF[R108];
    select one next_ref related by ref->O_REF[R112.''precedes''];
    while (not_empty next_ref)
@@ -4806,7 +4807,7 @@ select many other_ref_set related by other_rattr->O_REF[R108];
    for each other_ref in other_ref_set
      unrelate other_ref from other_rattr across R108;
      relate other_ref to o_rattr across R108;  
-     // add other_ref to o_rattr''s ref list R112
+     // add other_ref to o_rattr ref list R112
      relate other_ref to ref across R112.''succeeds'';
      ref = other_ref;    
    end for;
@@ -4822,8 +4823,8 @@ select many other_ref_set related by other_rattr->O_REF[R108];
 INSERT INTO O_TPARM
 	VALUES ("36b82853-6f2e-45dd-8de4-445fa038b7e0",
 	"628f594b-0e0c-4a22-911d-5c0fd4bbecc0",
-	'o_rattr',
-	"9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	'o_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
@@ -5526,6 +5527,8 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'r_simp = param.r_simp;
+
+TRACE::log( flavor:"info", id:110, message:"SimpleAssociation_unformalize:  Why are we here?" );
 
 select any part_rto related by r_simp->R_PART[R207]->R_RTO[R204];  // there is only one
 
@@ -6698,7 +6701,7 @@ while ( passes < num_forms )
 		form.dispose();
 
 	  else
-		//TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on simple association" );
+		TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on simple association" );
 	  end if;
 	elif ( 1 == form.type )
 	  select one subsupForm related by form->subsuperFormalization[R3810];
@@ -6736,7 +6739,7 @@ while ( passes < num_forms )
 		
 		form.dispose();
 	  else
-		//TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on subsuper association" );
+		TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on subsuper association" );
 	  end if;
 	elif ( 2 == form.type )
 	  select one assocForm related by form->assocFormalization[R3810];
@@ -6768,7 +6771,7 @@ while ( passes < num_forms )
 		
 		form.dispose();
 	  else
-		//TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on subsuper association" );
+		TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on subsuper association" );
 	  end if;
 	end if;
 

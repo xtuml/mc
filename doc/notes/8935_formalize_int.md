@@ -51,19 +51,58 @@ attributes.  We "pulled the carpet out from under ourselves".
 `SimpleAssociate_isFormalized` has dead code.
 
 Why does `SimpleAssociate_formalize` first unformalize?
+Keith:  This makes sense in OOAofOOA, because you can reformalize from the UI.
 
 simple test model is missing OIDA for Aid in B.
 
 The following code looks dubious.
-<pre>
+```
    select any oida related by other_attr->O_OIDA[R105];
    if ( not_empty oida )  // attribute is identifying
      self.ReferentialAttribute_migrateToBase( o_rattr:other_rattr );
    else
      self.Attribute_dispose( o_attr:other_attr );
    end if;
-</pre>
+```
+I do not think we will ever migrate a referential to a base attribute.  Can anyone think of a scenario?
 
+It occurs to me that we may be combining referentials into the wrong one.
+Aid and Aid; one of them is an identifier, and the other is not.
+
+What is this?  (ooapopulate.processingIdentifier)
+```
+  if ( 0 == o_id.Oid_ID )
+  ra.identifier1 = true;
+  elif ( 1 == o_id.Oid_ID )
+  ra.identifier2 = true;
+  elif ( 2 == ooapopulation.processingIdentifier )
+  ra.identifier3 = true;
+  end if;
+```
+
+I am beginning to think the fundamental problem is in `combine_refs`.
+We need to choose the best candidate ref to keep of the two supplied.
+The best one to keep is the one that has an `O_OIDA`.
+
+This poses a challenge for the way we loop through.
+
+This is dubious code:  
+```
+    for each ra in ras
+      // select the corresponding new referential attribute
+      select any o_attr related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
+```
+It will result in stopping at the first attribute with the name and never get another one.
+Or it will get the "wrong one", because it gets the one that is not used as an identifier.
+Hmm, it seems that refs that needed to be combined would all have their identifiers the same (if preferred).
+But maybe not when other than the preferred.
+
+Maybe it is because we formalize one association and then do post processing on its referential attributes.  And then we formalize another and do post processing...  ????
+
+I am not sure about how `O_OIDA`s get set up.  It seems that they get set up by Attribute not by Ref.  So, the adding to Identifier may be superfluous.
+
+
+I wonder if we could detect a complete formalization before doing any work.
 
 7. Unit Test
 ------------

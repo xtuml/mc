@@ -31,6 +31,14 @@ select any o_obj related by simp->R_PART[R207]->R_RTO[R204]->R_OIR[R203]->O_OBJ[
 // select all attributes for ID1
 select any o_id1 related by o_obj->O_ID[R104] where ( selected.Oid_ID == 0 );
 select many o_attrs related by o_id1->O_ATTR[R105];
+
+for each o_attr in o_attrs
+  select any refattr from instances of referentialAttribute where ( selected.o_attr == o_attr );
+  if ( not_empty refattr )
+    return -1;
+  end if;
+end for;
+
 if ( true == formalization::compareAttrSets( o_attrs:o_attrs, ras:ras ) ) 
   ret = 0;
 else

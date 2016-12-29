@@ -3024,6 +3024,7 @@ newAttr->Obj_ID = Escher_ID_factory();
   /* self.Attribute_initialize( name:PARAM.attr_name, o_attr:newAttr ) */
   masl2xtuml_ooapopulation_op_Attribute_initialize( self,  p_attr_name, newAttr );
   /* RETURN newAttr */
+fprintf( stderr, "newAttribute Attr_ID %d Obj_ID %d passed Name %s Root_Nam %s\n", newAttr->Attr_ID, newAttr->Obj_ID, p_attr_name, newAttr->Root_Nam );
   {masl2xtuml_O_ATTR * xtumlOALrv = newAttr;
   return xtumlOALrv;}
 }
@@ -4650,13 +4651,17 @@ masl2xtuml_ooapopulation_op_PropertyParameter_dispose( masl2xtuml_ooapopulation 
  * instance operation:  ReferentialAttribute_combine_refs
  */
 void
-masl2xtuml_ooapopulation_op_ReferentialAttribute_combine_refs( masl2xtuml_ooapopulation * self, masl2xtuml_O_RATTR * p_o_rattr, masl2xtuml_O_ATTR * p_other_attr )
+masl2xtuml_ooapopulation_op_ReferentialAttribute_combine_refs( masl2xtuml_ooapopulation * self, masl2xtuml_O_ATTR * p_o_attr, masl2xtuml_O_ATTR * p_other_attr )
 {
-  masl2xtuml_O_REF * other_ref=0;masl2xtuml_O_ATTR * other_attr;masl2xtuml_O_RATTR * o_rattr;masl2xtuml_O_OIDA * oida=0;masl2xtuml_O_REF * next_ref=0;masl2xtuml_O_REF * ref=0;Escher_ObjectSet_s other_ref_set_space={0}; Escher_ObjectSet_s * other_ref_set = &other_ref_set_space;masl2xtuml_O_RATTR * other_rattr=0;
-  /* ASSIGN o_rattr = PARAM.o_rattr */
-  o_rattr = p_o_rattr;
+  masl2xtuml_O_REF * other_ref=0;masl2xtuml_O_ATTR * other_attr;masl2xtuml_O_ATTR * o_attr;masl2xtuml_O_OIDA * oida=0;masl2xtuml_O_REF * next_ref=0;masl2xtuml_O_REF * ref=0;Escher_ObjectSet_s other_ref_set_space={0}; Escher_ObjectSet_s * other_ref_set = &other_ref_set_space;masl2xtuml_O_RATTR * other_rattr=0;masl2xtuml_O_RATTR * o_rattr=0;
+  /* ASSIGN o_attr = PARAM.o_attr */
+  o_attr = p_o_attr;
   /* ASSIGN other_attr = PARAM.other_attr */
   other_attr = p_other_attr;
+fprintf( stderr, "combine_refs:  o_attr:%s %d other_attr:%s %d\n", o_attr->Root_Nam, o_attr->Attr_ID, other_attr->Root_Nam, other_attr->Attr_ID );
+  /* SELECT one o_rattr RELATED BY o_attr->O_RATTR[R106] */
+  o_rattr = 0;
+  if ( ( 0 != o_attr ) && ( masl2xtuml_O_RATTR_CLASS_NUMBER == o_attr->R106_object_id ) )  o_rattr = ( 0 != o_attr ) ? (masl2xtuml_O_RATTR *) o_attr->R106_subtype : 0;
   /* SELECT one other_rattr RELATED BY other_attr->O_RATTR[R106] */
   other_rattr = 0;
   if ( ( 0 != other_attr ) && ( masl2xtuml_O_RATTR_CLASS_NUMBER == other_attr->R106_object_id ) )  other_rattr = ( 0 != other_attr ) ? (masl2xtuml_O_RATTR *) other_attr->R106_subtype : 0;
@@ -5678,6 +5683,8 @@ masl2xtuml_ooapopulation_op_SimpleAssociation_unformalize( masl2xtuml_ooapopulat
   masl2xtuml_R_SIMP * r_simp;masl2xtuml_R_FORM * form=0;masl2xtuml_R_RTO * part_rto=0;
   /* ASSIGN r_simp = PARAM.r_simp */
   r_simp = p_r_simp;
+  /* TRACE::log( flavor:info, id:110, message:SimpleAssociation_unformalize:  Why are we here? ) */
+  TRACE_log( "info", 110, "SimpleAssociation_unformalize:  Why are we here?" );
   /* SELECT any part_rto RELATED BY r_simp->R_PART[R207]->R_RTO[R204] */
   part_rto = 0;
   {  if ( 0 != r_simp ) {
@@ -6833,6 +6840,7 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
     Escher_IteratorReset( &iterform, forms );
     while ( (iiform = (masl2xtuml_formalization *)Escher_IteratorNext( &iterform )) != 0 ) {
       form = iiform; {
+fprintf( stderr, "batchFormalize simple PASS %d form %d\n", passes, form->type );
       /* IF ( ( 0 == form.type ) ) */
       if ( ( 0 == form->type ) ) {
         i_t id;masl2xtuml_simpleFormalization * simpForm=0;
@@ -6870,6 +6878,7 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
           Escher_IteratorReset( &iterra, ras );
           while ( (iira = (masl2xtuml_referentialAttribute *)Escher_IteratorNext( &iterra )) != 0 ) {
             ra = iira; {
+fprintf( stderr, "batchFormalize simple ra:%s %s\n", ra->relationship, ra->attrName );
             Escher_ObjectSet_s o_attrs_space={0}; Escher_ObjectSet_s * o_attrs = &o_attrs_space;masl2xtuml_O_ATTR * o_attr=0;
             /* SELECT any o_attr RELATED BY simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] WHERE ( ( SELECTED.Root_Nam == ra.attrName ) ) */
             o_attr = 0;
@@ -6915,6 +6924,7 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
               Escher_SetInsertElement( (Escher_ObjectSet_s *) o_attrs, O_ATTR_R106 );
             }}}}}}}}}}
             /* ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self ) */
+fprintf( stderr, "batchFormalize simple postProcess with ra:%s, o_attr:%s and a set of attributes\n", ra->attrName, o_attr->Root_Nam );
             masl2xtuml_referentialAttribute_op_postProcess( ra,  o_attr, o_attrs, self );
             Escher_ClearSet( o_attrs ); 
           }}}
@@ -6936,6 +6946,8 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
           Escher_ClearSet( ras ); 
         }
         else {
+          /* TRACE::log( flavor:failure, id:17, message:Incomplete formalization on simple association ) */
+          TRACE_log( "failure", 17, "Incomplete formalization on simple association" );
         }
       }
       else if ( ( 1 == form->type ) ) {
@@ -7048,6 +7060,8 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
           Escher_ClearSet( subs ); Escher_ClearSet( ras ); 
         }
         else {
+          /* TRACE::log( flavor:failure, id:17, message:Incomplete formalization on subsuper association ) */
+          TRACE_log( "failure", 17, "Incomplete formalization on subsuper association" );
         }
       }
       else if ( ( 2 == form->type ) ) {
@@ -7088,6 +7102,7 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
           Escher_IteratorReset( &iterra, ras );
           while ( (iira = (masl2xtuml_referentialAttribute *)Escher_IteratorNext( &iterra )) != 0 ) {
             ra = iira; {
+fprintf( stderr, "batchFormalize ra:%s\n", ra->attrName );
             Escher_ObjectSet_s o_attrs_space={0}; Escher_ObjectSet_s * o_attrs = &o_attrs_space;masl2xtuml_O_ATTR * o_attr=0;
             /* SELECT any o_attr RELATED BY assr_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] WHERE ( ( SELECTED.Root_Nam == ra.attrName ) ) */
             o_attr = 0;
@@ -7117,6 +7132,7 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
               Escher_SetInsertElement( (Escher_ObjectSet_s *) o_attrs, O_ATTR_R106 );
             }}}}}}
             /* ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self ) */
+fprintf( stderr, "batchFormalize calling postProcess with ra:%s, o_attr:%s and a set of attributes\n", ra->attrName, o_attr->Root_Nam );
             masl2xtuml_referentialAttribute_op_postProcess( ra,  o_attr, o_attrs, self );
             Escher_ClearSet( o_attrs ); 
           }}}
@@ -7127,6 +7143,8 @@ masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * self)
           Escher_ClearSet( ras ); 
         }
         else {
+          /* TRACE::log( flavor:failure, id:17, message:Incomplete formalization on subsuper association ) */
+          TRACE_log( "failure", 17, "Incomplete formalization on subsuper association" );
         }
       }
     }}}
