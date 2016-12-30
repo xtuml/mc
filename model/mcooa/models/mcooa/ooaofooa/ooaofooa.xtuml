@@ -5,24 +5,7 @@ INSERT INTO EP_PKG
 	"00c718a4-fada-4398-be36-d920a6735b6a",
 	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
-	'========================================================================
-
-File:          $RCSfile: ooaofooa.xtuml,v $
-Version:   $Revision: 1.127 $
-Modified:  $Date: 2006/09/26 15:10:20 $
-
-(c) Copyright 2004-2012 by Mentor Graphics Corp. All rights reserved.
-
-========================================================================
-This document contains information proprietary and confidential to
-Mentor Graphics Corp. and is not for external distribution.
-========================================================================
-
-This is the application domain for the Tiger project.
-
-The processing in this model describes the activities
-for model capture.
-
+	'
 
 
 ',
@@ -476,30 +459,6 @@ INSERT INTO DIM_GE
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_ELE
 	VALUES ("13acaece-67d3-48a1-a99d-4c2147b083c5",
-	0,
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO GD_GE
-	VALUES ("b925c3ec-cb37-4eb9-8880-d259b7584ddb",
-	"35ddcfbf-e37c-4295-9148-b87594d61d6e",
-	"94674484-bc76-4e12-8176-095bdd0af187",
-	108,
-	0,
-	'mcooa::ooaofooa::Wiring');
-INSERT INTO GD_SHP
-	VALUES ("b925c3ec-cb37-4eb9-8880-d259b7584ddb");
-INSERT INTO GD_NCS
-	VALUES ("b925c3ec-cb37-4eb9-8880-d259b7584ddb");
-INSERT INTO DIM_ND
-	VALUES (216.000000,
-	132.000000,
-	"b925c3ec-cb37-4eb9-8880-d259b7584ddb");
-INSERT INTO DIM_GE
-	VALUES (3336.000000,
-	1140.000000,
-	"b925c3ec-cb37-4eb9-8880-d259b7584ddb",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_ELE
-	VALUES ("b925c3ec-cb37-4eb9-8880-d259b7584ddb",
 	0,
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO GD_GE

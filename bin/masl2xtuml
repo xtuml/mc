@@ -11,7 +11,7 @@ print_usage () {
 }
 
 # set up paths
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/lib/"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/"
 export PATH=$DIR:$PATH
 TMPCP="$DIR/*.jar"
 CP=.

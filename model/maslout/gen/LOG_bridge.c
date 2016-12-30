@@ -15,7 +15,7 @@
  * Bridge:  LogSuccess
  */
 void
-LOG_LogSuccess( c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
+LOG_LogSuccess( c_t * p_message )
 {
   fprintf( stderr, "%s\n", p_message );
 }
@@ -25,7 +25,7 @@ LOG_LogSuccess( c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  LogFailure
  */
 void
-LOG_LogFailure( c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
+LOG_LogFailure( c_t * p_message )
 {
   fprintf( stderr, "%s\n", p_message );
 }
@@ -35,7 +35,7 @@ LOG_LogFailure( c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  LogInfo
  */
 void
-LOG_LogInfo( c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
+LOG_LogInfo( c_t * p_message )
 {
   fprintf( stderr, "%s\n", p_message );
 }
@@ -45,11 +45,9 @@ LOG_LogInfo( c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  LogDate
  */
 void
-LOG_LogDate( Escher_Date_t p_d, c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
+LOG_LogDate( Escher_Date_t p_d, c_t * p_message )
 {
-  /* Replace the following instructions with your implementation code.  */
-  {
-  }
+  /* Replace/Insert your implementation code here... */
 }
 
 
@@ -57,11 +55,9 @@ LOG_LogDate( Escher_Date_t p_d, c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  LogTime
  */
 void
-LOG_LogTime( c_t p_message[ESCHER_SYS_MAX_STRING_LEN], Escher_TimeStamp_t p_t)
+LOG_LogTime( c_t * p_message, Escher_TimeStamp_t p_t )
 {
-  /* Replace the following instructions with your implementation code.  */
-  {
-  }
+  /* Replace/Insert your implementation code here... */
 }
 
 
@@ -69,7 +65,7 @@ LOG_LogTime( c_t p_message[ESCHER_SYS_MAX_STRING_LEN], Escher_TimeStamp_t p_t)
  * Bridge:  LogReal
  */
 void
-LOG_LogReal( c_t p_message[ESCHER_SYS_MAX_STRING_LEN], r_t p_r)
+LOG_LogReal( c_t * p_message, const r_t p_r )
 {
   fprintf( stderr, "%s, %f\n", p_message, p_r );
 }
@@ -79,9 +75,8 @@ LOG_LogReal( c_t p_message[ESCHER_SYS_MAX_STRING_LEN], r_t p_r)
  * Bridge:  LogInteger
  */
 void
-LOG_LogInteger( i_t p_message)
+LOG_LogInteger( const i_t p_message )
 {
   fprintf( stderr, "%d\n", p_message );
 }
-
 
