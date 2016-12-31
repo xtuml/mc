@@ -4811,12 +4811,8 @@ select many other_ref_set related by other_rattr->O_REF[R108];
      relate other_ref to ref across R112.''succeeds'';
      ref = other_ref;    
    end for;
-   select any oida related by other_attr->O_OIDA[R105];
-   if ( not_empty oida )  // attribute is identifying
-     self.ReferentialAttribute_migrateToBase( o_rattr:other_rattr );
-   else
-     self.Attribute_dispose( o_attr:other_attr );
-   end if;',
+      
+   self.Attribute_dispose( o_attr:other_attr );',
 	1,
 	'',
 	"ba2cc878-1f2c-4eaf-9cb1-06d1dfc8a80e");
@@ -6689,8 +6685,7 @@ while ( passes < num_forms )
 		for each ra in ras
 		  // select the corresponding new referential attribute
 		  select any o_attr related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
-		  select many o_attrs related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
-		  ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self );  
+          ra.postProcess( o_attr:o_attr, ooapopulation:self );  
 		end for;
 		
 		// post processing for the formalizing object
@@ -6699,9 +6694,6 @@ while ( passes < num_forms )
 		self.ModelClass_removeDuplicateAttrs(o_obj:form_obj);
 		
 		form.dispose();
-
-	  else
-		TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on simple association" );
 	  end if;
 	elif ( 1 == form.type )
 	  select one subsupForm related by form->subsuperFormalization[R3810];
@@ -6723,10 +6715,9 @@ while ( passes < num_forms )
 		  // select each subtype object
 		  select many subs related by subsuper->R_SUB[R213]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
 		  for each sub in subs;
-			// select the correspoinding new referential attribute
+			// select the corresponding new referential attribute
 			select any o_attr related by sub->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
-			select many o_attrs related by sub->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
-			ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self );
+			ra.postProcess( o_attr:o_attr, ooapopulation:self );
 		  end for;
 		end for;
 		
@@ -6738,8 +6729,6 @@ while ( passes < num_forms )
 		end for;
 		
 		form.dispose();
-	  else
-		TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on subsuper association" );
 	  end if;
 	elif ( 2 == form.type )
 	  select one assocForm related by form->assocFormalization[R3810];
@@ -6759,10 +6748,9 @@ while ( passes < num_forms )
 		select one assr_obj related by linked->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
 		select many ras related by form->referentialAttribute[R3811];
 		for each ra in ras
-		  // select the correspoinding new referential attribute
+		  // select the corresponding new referential attribute
 		  select any o_attr related by assr_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
-		  select many o_attrs related by assr_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
-		  ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self );
+		  ra.postProcess( o_attr:o_attr, ooapopulation:self );
 		end for;
 		
 		// post processing for the formalizing object
@@ -6770,8 +6758,6 @@ while ( passes < num_forms )
 		self.ModelClass_removeDuplicateAttrs(o_obj:assr_obj);
 		
 		form.dispose();
-	  else
-		TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on subsuper association" );
 	  end if;
 	end if;
 
@@ -7118,7 +7104,7 @@ elif ( "attribute" == element )
       o_obj = ooapopulation.current_class;
       // Check if the identifier specified is a referential attribute.   If it is, put the identifier number into the cache.
       // If it is not a referential, just make the attribute an identifier.
-      select any ref_o_attr from instances of referentialAttribute where ( (selected.o_attr.Root_Nam == param.value[0]) and (selected.o_obj == o_obj));
+      select any ref_o_attr from instances of referentialAttribute where ( (selected.Name == param.value[0]) and (selected.o_obj == o_obj));
       if ( not_empty ref_o_attr )
         if ( 1 == ooapopulation.processingIdentifier )
           ref_o_attr.identifier2 = true;
@@ -8298,7 +8284,7 @@ ra.relationship = param.relationship;
 ra.roleOrObj = param.roleOrObj;
 ra.objectName = param.objName;
 ra.o_obj = ooapopulation.current_class;
-ra.o_attr = ooapopulation.current_attribute;
+ra.Name = ooapopulation.current_attribute.Root_Nam;
 
 // Find out if the attribute was specified as being part of an identifier.  Cache
 // that info.

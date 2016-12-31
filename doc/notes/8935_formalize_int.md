@@ -102,7 +102,11 @@ Maybe it is because we formalize one association and then do post processing on 
 I am not sure about how `O_OIDA`s get set up.  It seems that they get set up by Attribute not by Ref.  So, the adding to Identifier may be superfluous.
 
 
-I wonder if we could detect a complete formalization before doing any work.
+I wonder if we could detect a complete formalization before doing any work.  [Yes, we can!  getID is smart enough to do this with the small newly added bit.]
+
+
+Go back and fix getID.  The selection for the referentialAttributes is not quite correct, yet.
+
 
 7. Unit Test
 ------------
