@@ -10,24 +10,31 @@ This work is licensed under the Creative Commons CC0 License
 
 1. Abstract
 -----------
-When a model with combined referentials, the mast2xtuml translator
+When converting a model with combined referentials, the mast2xtuml translator
 crashes. This is due to the use of merged referential attributes being
 part of the preferred identifier.
 
 2. Document References
 ----------------------
-[1] [8935](https://support.onefact.net/issues/8935) - masl2xtuml crashes  
+[1] [8935](https://support.onefact.net/issues/8935) - masl2xtuml core dumps when translating preferred identifiers that are merged referentials  
+[2] [8694](https://support.onefact.net/issues/8694) - masl2xtuml crash  
 
 3. Background
 -------------
+MASL models associations as formalized relationships exclusively.  All
+classes participating in associations carry a combination of identifiers
+and referential attributes.  A model with a reflexive association with
+one combined referential that was also part of the identifier revealed
+the problem.
 
 4. Requirements
 ---------------
-4.1 
+4.1 Successfully convert and import the model pasted into [1].  
 
 5. Work Required
 ----------------
-5.1. 
+5.1 Solve the crash.  
+5.2 Get good imported model.  
   
 6. Implementation Comments
 --------------------------
@@ -41,21 +48,17 @@ to `InterfaceReference_formalize`.
 
 6.3 Unrelating R112 during the dispose of `O_REF` (`AttributeReferenceInClass`)
 was triggering the empty handle detection.  Another stanza was put in place
-to deal with the situation when there is only one `O_REF`.
+to deal with the situation in which there is only one `O_REF`.
 
 6.4 In `removeDuplicateAttrs` the nested loop iterated over deleted
-attributes.  We "pulled the carpet out from under ourselves".
+attributes.  We "pulled the carpet out from under ourselves".  A `break`
+statement was added.
 
+6.5 `SimpleAssociate_isFormalized` has dead code.  However, this was
+left in place.
 
-
-`SimpleAssociate_isFormalized` has dead code.
-
-Why does `SimpleAssociate_formalize` first unformalize?
-Keith:  This makes sense in OOAofOOA, because you can reformalize from the UI.
-
-simple test model is missing OIDA for Aid in B.
-
-The following code looks dubious.
+6.6 Dubious Code  
+The following code looked dubious.
 ```
    select any oida related by other_attr->O_OIDA[R105];
    if ( not_empty oida )  // attribute is identifying
@@ -64,11 +67,10 @@ The following code looks dubious.
      self.Attribute_dispose( o_attr:other_attr );
    end if;
 ```
-I do not think we will ever migrate a referential to a base attribute.  Can anyone think of a scenario?
+We will never migrate a referential to a base attribute.  The dispose
+is now done unconditionally.
 
-It occurs to me that we may be combining referentials into the wrong one.
-Aid and Aid; one of them is an identifier, and the other is not.
-
+6.7 Question  
 What is this?  (ooapopulate.processingIdentifier)
 ```
   if ( 0 == o_id.Oid_ID )
@@ -80,36 +82,26 @@ What is this?  (ooapopulate.processingIdentifier)
   end if;
 ```
 
-I am beginning to think the fundamental problem is in `combine_refs`.
-We need to choose the best candidate ref to keep of the two supplied.
-The best one to keep is the one that has an `O_OIDA`.
-
-This poses a challenge for the way we loop through.
-
-This is dubious code:  
-```
-    for each ra in ras
-      // select the corresponding new referential attribute
-      select any o_attr related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
-```
-It will result in stopping at the first attribute with the name and never get another one.
-Or it will get the "wrong one", because it gets the one that is not used as an identifier.
-Hmm, it seems that refs that needed to be combined would all have their identifiers the same (if preferred).
-But maybe not when other than the preferred.
-
-Maybe it is because we formalize one association and then do post processing on its referential attributes.  And then we formalize another and do post processing...  ????
-
-I am not sure about how `O_OIDA`s get set up.  It seems that they get set up by Attribute not by Ref.  So, the adding to Identifier may be superfluous.
-
-
-I wonder if we could detect a complete formalization before doing any work.  [Yes, we can!  getID is smart enough to do this with the small newly added bit.]
-
-
-Go back and fix getID.  The selection for the referentialAttributes is not quite correct, yet.
-
+6.8 `getID`  
+The primary fix was to successfully detect when an association is "ready"
+to be formalized.  This was accomplished by recognizing the following:  
+* All of the model input, and the formalization and referential information
+is cached.
+* During model input, all class attributes are created as base attributes.
+* At the end, the cached referential information is applied.
+* A formalization is complete when a class referential (`O_RATTR`) exists
+in a formalizer for each identifier attribute in the participant.  
+A query to detect and short-circuit the formalization (and wait until
+the next "round") was added.
 
 7. Unit Test
 ------------
+7.1 Convert  
+Convert the model pasted into comment #8 of [1] using `masl2xtuml`  
+7.2 Import  
+Import the resulting model into BridgePoint.  
+7.3 View  
+View the model and see the correct class diagram.
 
 8. Code Changes
 ---------------
@@ -120,6 +112,13 @@ Fork: cortlandstarrett/mc
 Branch name: 8935_formalize
 
 xtuml/mc
+ doc/notes/8935_formalize_int.md                                                | 128 +++++++++++++++++++++++++++++++++++
+ model/maslin/gen/masl2xtuml_ooapopulation_class.c                              | 156 ++++++++++++++++---------------------------
+ model/maslin/models/maslin/m2x/m2x.xtuml                                       |   2 +-
+ model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml               |  79 +++++++++++-----------
+ model/maslin/models/maslin/m2x/referentialAttribute/referentialAttribute.xtuml |  41 ++++--------
+ model/maslin/models/maslin/m2x/simpleFormalization/simpleFormalization.xtuml   |  47 ++++++++++++-
+ 6 files changed, 281 insertions(+), 172 deletions(-)
 
 </pre>
 
