@@ -53,14 +53,14 @@ if ( not_empty next_ref and not_empty prior_ref )
   unrelate o_ref from next_ref across R112.''precedes'';
   unrelate prior_ref from o_ref across R112.''precedes'';
   relate prior_ref to next_ref across R112.''precedes'';
+elif ( not_empty prior_ref and empty next_ref )
+  // last in list
+  unrelate prior_ref from o_ref across R112.''precedes'';
+elif ( empty prior_ref and not_empty next_ref )
+  // first in list
+  unrelate o_ref from next_ref across R112.''precedes'';
 else
-  if ( not_empty prior_ref and empty next_ref )
-    // we''re last in list
-    unrelate prior_ref from o_ref across R112.''precedes'';
-  else
-    // we''re first in list
-    unrelate o_ref from next_ref across R112.''precedes'';
-  end if;
+  // only one in the list
 end if;
 select one owningReferential related by o_ref->O_RATTR[R108];
 if not_empty owningReferential
@@ -199,7 +199,9 @@ if (not_empty battr)
   self.BaseAttribute_dispose(o_battr:battr);
 else
   select one rattr related by o_attr->O_RATTR[R106];
-  self.ReferentialAttribute_dispose(o_rattr:rattr);
+  if ( not_empty rattr )
+    self.ReferentialAttribute_dispose(o_rattr:rattr);
+  end if;
 end if;
 select one dt related by o_attr->S_DT[R114];
 if ( not_empty dt )
@@ -2285,8 +2287,10 @@ c_ir = param.c_ir;
 // This version is nothing like the OOAofOOA InterfaceReference::formalize().  We have cut out functionality that isn''t needed for MASL
 // convert (e.g. handling of delegations, formalizing the other side of a satisfaction, etc)
 
-self.InterfaceReference_createSignalsAndOperations(c_i:c_i, c_ir:c_ir);
-relate c_i to c_ir across R4012;
+if ( not_empty c_i and not_empty c_ir )
+  self.InterfaceReference_createSignalsAndOperations(c_i:c_i, c_ir:c_ir);
+  relate c_i to c_ir across R4012;
+end if;
 ',
 	1,
 	'',
@@ -3296,6 +3300,7 @@ for each battr in battrs
   for each rattr in rattrs
 	if ( rattr.Root_Nam == battr.Root_Nam )
 	  self.Attribute_dispose( o_attr:battr ); // delete any base attribute that has the same name as a referential attribute
+      break;
 	end if;
   end for;
 end for;',
@@ -4782,13 +4787,14 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'o_rattr = param.o_rattr;
+	'o_attr = param.o_attr;
 other_attr = param.other_attr;
 
+select one o_rattr related by o_attr->O_RATTR[R106];
 select one other_rattr related by other_attr->O_RATTR[R106];
 select many other_ref_set related by other_rattr->O_REF[R108];
    
-   // find last O_REF in o_rattr''s ref list R112
+   // find last O_REF in o_rattr ref list R112
    select any ref related by o_rattr->O_REF[R108];
    select one next_ref related by ref->O_REF[R112.''precedes''];
    while (not_empty next_ref)
@@ -4801,24 +4807,20 @@ select many other_ref_set related by other_rattr->O_REF[R108];
    for each other_ref in other_ref_set
      unrelate other_ref from other_rattr across R108;
      relate other_ref to o_rattr across R108;  
-     // add other_ref to o_rattr''s ref list R112
+     // add other_ref to o_rattr ref list R112
      relate other_ref to ref across R112.''succeeds'';
      ref = other_ref;    
    end for;
-   select any oida related by other_attr->O_OIDA[R105];
-   if ( not_empty oida )  // attribute is identifying
-     self.ReferentialAttribute_migrateToBase( o_rattr:other_rattr );
-   else
-     self.Attribute_dispose( o_attr:other_attr );
-   end if;',
+      
+   self.Attribute_dispose( o_attr:other_attr );',
 	1,
 	'',
 	"ba2cc878-1f2c-4eaf-9cb1-06d1dfc8a80e");
 INSERT INTO O_TPARM
 	VALUES ("36b82853-6f2e-45dd-8de4-445fa038b7e0",
 	"628f594b-0e0c-4a22-911d-5c0fd4bbecc0",
-	'o_rattr',
-	"9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	'o_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
@@ -5521,6 +5523,8 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'r_simp = param.r_simp;
+
+TRACE::log( flavor:"info", id:110, message:"SimpleAssociation_unformalize:  Why are we here?" );
 
 select any part_rto related by r_simp->R_PART[R207]->R_RTO[R204];  // there is only one
 
@@ -6679,10 +6683,9 @@ while ( passes < num_forms )
 		// * check for a duplicate that needs to be combined
 		select many ras related by form->referentialAttribute[R3811];
 		for each ra in ras
-		  // select the correspoinding new referential attribute
+		  // select the corresponding new referential attribute
 		  select any o_attr related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
-		  select many o_attrs related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
-		  ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self );  
+          ra.postProcess( o_attr:o_attr, ooapopulation:self );  
 		end for;
 		
 		// post processing for the formalizing object
@@ -6691,9 +6694,6 @@ while ( passes < num_forms )
 		self.ModelClass_removeDuplicateAttrs(o_obj:form_obj);
 		
 		form.dispose();
-
-	  else
-		//TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on simple association" );
 	  end if;
 	elif ( 1 == form.type )
 	  select one subsupForm related by form->subsuperFormalization[R3810];
@@ -6715,10 +6715,9 @@ while ( passes < num_forms )
 		  // select each subtype object
 		  select many subs related by subsuper->R_SUB[R213]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
 		  for each sub in subs;
-			// select the correspoinding new referential attribute
+			// select the corresponding new referential attribute
 			select any o_attr related by sub->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
-			select many o_attrs related by sub->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
-			ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self );
+			ra.postProcess( o_attr:o_attr, ooapopulation:self );
 		  end for;
 		end for;
 		
@@ -6730,8 +6729,6 @@ while ( passes < num_forms )
 		end for;
 		
 		form.dispose();
-	  else
-		//TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on subsuper association" );
 	  end if;
 	elif ( 2 == form.type )
 	  select one assocForm related by form->assocFormalization[R3810];
@@ -6751,10 +6748,9 @@ while ( passes < num_forms )
 		select one assr_obj related by linked->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
 		select many ras related by form->referentialAttribute[R3811];
 		for each ra in ras
-		  // select the correspoinding new referential attribute
+		  // select the corresponding new referential attribute
 		  select any o_attr related by assr_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
-		  select many o_attrs related by assr_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
-		  ra.postProcess( o_attr:o_attr, o_attrs:o_attrs, ooapopulation:self );
+		  ra.postProcess( o_attr:o_attr, ooapopulation:self );
 		end for;
 		
 		// post processing for the formalizing object
@@ -6762,8 +6758,6 @@ while ( passes < num_forms )
 		self.ModelClass_removeDuplicateAttrs(o_obj:assr_obj);
 		
 		form.dispose();
-	  else
-		//TRACE::log( flavor:"failure", id:17, message:"Incomplete formalization on subsuper association" );
 	  end if;
 	end if;
 
@@ -7110,7 +7104,7 @@ elif ( "attribute" == element )
       o_obj = ooapopulation.current_class;
       // Check if the identifier specified is a referential attribute.   If it is, put the identifier number into the cache.
       // If it is not a referential, just make the attribute an identifier.
-      select any ref_o_attr from instances of referentialAttribute where ( (selected.o_attr.Root_Nam == param.value[0]) and (selected.o_obj == o_obj));
+      select any ref_o_attr from instances of referentialAttribute where ( (selected.Name == param.value[0]) and (selected.o_obj == o_obj));
       if ( not_empty ref_o_attr )
         if ( 1 == ooapopulation.processingIdentifier )
           ref_o_attr.identifier2 = true;
@@ -7336,7 +7330,7 @@ elif ( "description" == element )
   select one current_element related by ooapopulation->ooaelement[R3801];
   ooapopulation.transformDescription( element:current_element, text:value[0], tag:value[1] );
 else
-  // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
+  TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
 ',
 	1,
@@ -8290,7 +8284,7 @@ ra.relationship = param.relationship;
 ra.roleOrObj = param.roleOrObj;
 ra.objectName = param.objName;
 ra.o_obj = ooapopulation.current_class;
-ra.o_attr = ooapopulation.current_attribute;
+ra.Name = ooapopulation.current_attribute.Root_Nam;
 
 // Find out if the attribute was specified as being part of an identifier.  Cache
 // that info.
@@ -8328,6 +8322,9 @@ if ( not_empty simp )
       select any r_part related by simp->R_PART[R207] where ( selected.Obj_ID == ref_obj.Obj_ID );
     else						// otherwise, select by phrase only
       select any r_part related by simp->R_PART[R207] where ( selected.Txt_Phrs == ra.roleOrObj );
+      if ( empty r_part )
+        TRACE::log( flavor:"failure", id:101, message:"did not find formalization participant for " + ra.relationship );
+      end if;
     end if;
   end if;
   
@@ -8381,6 +8378,8 @@ else
 
 	  // add this referential attribute to the formalization
 	  relate ra to form across R3811;
+	else
+	  TRACE::log( flavor:"failure", id:102, message:"did not find relationship for " + ra.relationship );
 	end if;
   end if;
 end if;',
