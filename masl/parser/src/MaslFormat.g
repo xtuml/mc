@@ -2172,8 +2172,11 @@ pragmaList[String delim]
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> pragmas = new ArrayList<String>();
 }
 @after {
+    if ( sort ) sort( pragmas );
+    t.append( cat( pragmas, false ) );
     if ( !delim.equals( _NEWLINE ) ) {
         t.append( line() );
     }
@@ -2182,10 +2185,10 @@ returns [StringBuilder text]
                               : ( pragma
                                 {
                                     if ( delim.equals( _NEWLINE ) ) {
-                                        t.append( line( getText( $pragma.text ) ) );
+                                        pragmas.add( line( getText( $pragma.text ) ) );
                                     }
                                     else {
-                                        t.append( getText( $pragma.text ) + delim );
+                                        pragmas.add( getText( $pragma.text ) + delim );
                                     }
                                 }
                                 )*                          
