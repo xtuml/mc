@@ -125,7 +125,7 @@ INSERT INTO GD_GE
 	"d432b434-2811-4b2d-92d2-5c964f00b191",
 	108,
 	0,
-	'masl::maslpragmas');
+	'masl::maslpopulation');
 INSERT INTO GD_SHP
 	VALUES ("8df4f311-2e0d-42f3-8e28-aec58e968520");
 INSERT INTO GD_NCS

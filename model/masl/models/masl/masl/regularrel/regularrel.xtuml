@@ -25,7 +25,8 @@ T::include( file:"masl/t.regularrel.masl" );
 ',
 	1,
 	'',
-	"5e9cac57-f962-4093-b1d1-7d06e81fd27d");
+	"5e9cac57-f962-4093-b1d1-7d06e81fd27d",
+	0);
 INSERT INTO O_TFR
 	VALUES ("5e9cac57-f962-4093-b1d1-7d06e81fd27d",
 	"c90bc4fd-5a83-4406-96cd-3c3e3a99dca9",
@@ -42,7 +43,8 @@ relate relationship to markable across R3783;
 return regularrel;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("46cb7c75-cd77-457d-a3ef-6ea1abb5183e",
 	"5e9cac57-f962-4093-b1d1-7d06e81fd27d",
@@ -86,7 +88,8 @@ INSERT INTO O_TFR
 return valid;',
 	1,
 	'',
-	"afcc243a-f54c-4f52-bd7b-f6d298a24668");
+	"afcc243a-f54c-4f52-bd7b-f6d298a24668",
+	0);
 INSERT INTO O_ID
 	VALUES (0,
 	"c90bc4fd-5a83-4406-96cd-3c3e3a99dca9");

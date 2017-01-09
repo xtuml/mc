@@ -21,7 +21,8 @@ end for;
 T::b( s:"\n" );',
 	1,
 	'',
-	"dfc45d22-6737-433d-87a3-2b9da3a4c108");
+	"dfc45d22-6737-433d-87a3-2b9da3a4c108",
+	0);
 INSERT INTO O_TFR
 	VALUES ("dfc45d22-6737-433d-87a3-2b9da3a4c108",
 	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
@@ -36,7 +37,8 @@ relate pragma_list to element across R3782;
 return pragma_list;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("d77c1061-a228-48bb-83f3-84535d403e4c",
 	"dfc45d22-6737-433d-87a3-2b9da3a4c108",
@@ -97,7 +99,8 @@ end for;
 return valid;',
 	1,
 	'',
-	"0ac83b8c-f011-4483-9f58-9cc3b3836bff");
+	"0ac83b8c-f011-4483-9f58-9cc3b3836bff",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("85851714-b158-4a69-8af4-11efa63aad7a",
 	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c");

@@ -19,7 +19,8 @@ T::include( file:"masl/t.object_end.masl" );
 ',
 	1,
 	'',
-	"57a011f2-c04a-45fa-bdbd-0db2f5cec977");
+	"57a011f2-c04a-45fa-bdbd-0db2f5cec977",
+	0);
 INSERT INTO O_TFR
 	VALUES ("57a011f2-c04a-45fa-bdbd-0db2f5cec977",
 	"54176d77-0b85-469c-855f-6b9b6c71e924",
@@ -38,7 +39,8 @@ end if;
 return enumeration;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("9f48d1aa-8538-489a-a439-f70477e673c6",
 	"57a011f2-c04a-45fa-bdbd-0db2f5cec977",
@@ -46,7 +48,7 @@ INSERT INTO O_TPARM
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"00000000-0000-0000-0000-000000000000",
+	"528283ab-b8f0-4f67-bd81-4283ed5039d3",
 	'');
 INSERT INTO O_TPARM
 	VALUES ("528283ab-b8f0-4f67-bd81-4283ed5039d3",
@@ -91,7 +93,8 @@ return valid;
 ',
 	1,
 	'',
-	"e0cdbc94-1b66-44db-9406-bca56ac24665");
+	"e0cdbc94-1b66-44db-9406-bca56ac24665",
+	0);
 INSERT INTO O_TFR
 	VALUES ("e0cdbc94-1b66-44db-9406-bca56ac24665",
 	"54176d77-0b85-469c-855f-6b9b6c71e924",
@@ -104,7 +107,8 @@ value[0] = self.name;
 //out::( element:"template_class", value:value );',
 	1,
 	'',
-	"b04b612b-5c4a-4c80-8bc7-ceac37217cf3");
+	"b04b612b-5c4a-4c80-8bc7-ceac37217cf3",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("2625d38f-3b3e-40bd-86ba-31bf7071fb68",
 	"54176d77-0b85-469c-855f-6b9b6c71e924");
