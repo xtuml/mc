@@ -20,8 +20,7 @@ file::populate( element:element, name:element.name );
 return element;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
 	VALUES ("b289718a-9662-4bdb-8918-7b39aaba1bec",
 	"906f12fb-9629-4c2b-bea0-71c021db7879",
@@ -59,8 +58,7 @@ end if;
 return valid;',
 	1,
 	'',
-	"9da0ec04-43ec-414d-8a1a-55f2e5b9730b",
-	0);
+	"9da0ec04-43ec-414d-8a1a-55f2e5b9730b");
 INSERT INTO O_TFR
 	VALUES ("9da0ec04-43ec-414d-8a1a-55f2e5b9730b",
 	"dfdaa333-01c8-4589-a60f-2c7dfa635482",
@@ -78,8 +76,7 @@ else
 end if;',
 	1,
 	'',
-	"906f12fb-9629-4c2b-bea0-71c021db7879",
-	0);
+	"906f12fb-9629-4c2b-bea0-71c021db7879");
 INSERT INTO O_NBATTR
 	VALUES ("2649f4d8-da5e-48c0-b243-e5b3fbf043f0",
 	"dfdaa333-01c8-4589-a60f-2c7dfa635482");

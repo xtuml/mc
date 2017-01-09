@@ -369,7 +369,7 @@ INSERT INTO GD_GE
 	"965609b5-99d9-40ca-bc70-74dd6acccf34",
 	96,
 	0,
-	'masl::lib::gen');
+	'masl::lib::control');
 INSERT INTO GD_SHP
 	VALUES ("a6edcc71-da0d-4d7f-a6ef-7d2df981a8b8");
 INSERT INTO GD_NCS
@@ -393,7 +393,7 @@ INSERT INTO GD_GE
 	"4ebc1bcb-73d2-443e-a865-ff6c9398aa16",
 	94,
 	0,
-	'masl::lib::masl::gen::gen');
+	'masl::lib::masl::Port1::Unnamed Interface');
 INSERT INTO GD_CON
 	VALUES ("3546608e-8c4f-40fd-abd9-8f36f6426498",
 	"00000000-0000-0000-0000-000000000000");
@@ -512,8 +512,7 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'',
-	0);
+	'');
 INSERT INTO S_BPARM
 	VALUES ("fcd8749f-aa29-4871-9495-f71e16b46af6",
 	"a925002c-7d9e-4f09-824c-473e55bd3f7c",

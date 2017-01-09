@@ -17,8 +17,7 @@ INSERT INTO O_TFR
 	'T::include( file:"masl/t.typeref.masl" );',
 	1,
 	'',
-	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5",
-	0);
+	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5");
 INSERT INTO O_TFR
 	VALUES ("d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5",
 	"46656013-39ba-446e-bd49-34aabd941dac",
@@ -54,8 +53,7 @@ else
 end if;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
 	VALUES ("58cc5a01-d644-42d2-9d46-ebada9ca0958",
 	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5",
@@ -63,7 +61,7 @@ INSERT INTO O_TPARM
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"275d29d6-7596-46f3-9c0a-fa1d4497a189",
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TPARM
 	VALUES ("275d29d6-7596-46f3-9c0a-fa1d4497a189",
@@ -173,8 +171,7 @@ end if;
 return valid;',
 	1,
 	'',
-	"33c31fc6-9275-430e-955f-f3e08966cd22",
-	0);
+	"33c31fc6-9275-430e-955f-f3e08966cd22");
 INSERT INTO O_TFR
 	VALUES ("33c31fc6-9275-430e-955f-f3e08966cd22",
 	"46656013-39ba-446e-bd49-34aabd941dac",
@@ -190,8 +187,7 @@ out::tostring( element:"typeref", value:value );
 out::tostring( element:"typeref", value:emptyvalue );',
 	1,
 	'',
-	"4c31359f-e19b-4e4e-b98a-d9189bcb5da5",
-	0);
+	"4c31359f-e19b-4e4e-b98a-d9189bcb5da5");
 INSERT INTO O_NBATTR
 	VALUES ("95f6e568-a7a1-4ac6-90e0-38f447a641d9",
 	"46656013-39ba-446e-bd49-34aabd941dac");

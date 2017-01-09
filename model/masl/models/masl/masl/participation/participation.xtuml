@@ -17,8 +17,7 @@ INSERT INTO O_TFR
 	'// Rendering for participation is in each subtype of relationship.',
 	1,
 	'',
-	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
-	0);
+	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d");
 INSERT INTO O_TFR
 	VALUES ("b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
 	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9",
@@ -83,8 +82,7 @@ end if;
 return participation;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
 	VALUES ("8ecbb5ae-bc6e-4f7a-940f-65fcd5e5bad0",
 	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
@@ -246,8 +244,7 @@ end if;
 return valid;',
 	1,
 	'',
-	"cf42fb5a-3aad-4c33-af67-0d26c26e746f",
-	0);
+	"cf42fb5a-3aad-4c33-af67-0d26c26e746f");
 INSERT INTO O_NBATTR
 	VALUES ("6e4199ac-c077-4cf0-bbf4-58f2ece2d2cc",
 	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");

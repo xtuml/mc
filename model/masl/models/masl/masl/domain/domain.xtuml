@@ -25,8 +25,7 @@ relate domain to markable across R3783;
 return domain;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
 	VALUES ("11b21edf-33b3-49d7-8a2d-c247985704d7",
 	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4",
@@ -113,8 +112,7 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
 	'',
-	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4",
-	0);
+	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4");
 INSERT INTO O_TFR
 	VALUES ("923d7453-ca83-4d45-8c3f-abdabf2d922c",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
@@ -196,8 +194,7 @@ end for;
 return valid;',
 	1,
 	'',
-	"e6bc5a45-5a39-4d36-8cfb-9189cb568011",
-	0);
+	"e6bc5a45-5a39-4d36-8cfb-9189cb568011");
 INSERT INTO O_TFR
 	VALUES ("e6bc5a45-5a39-4d36-8cfb-9189cb568011",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
@@ -242,8 +239,7 @@ out::tostring( element:"domain", value:emptyvalue );
 ',
 	1,
 	'',
-	"892cc2c0-a74a-40f1-99c2-f7a70d95e67f",
-	0);
+	"892cc2c0-a74a-40f1-99c2-f7a70d95e67f");
 INSERT INTO O_TFR
 	VALUES ("892cc2c0-a74a-40f1-99c2-f7a70d95e67f",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
@@ -268,8 +264,7 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"project" );',
 	1,
 	'',
-	"d2c1d212-d763-486a-80db-31abb17f92e1",
-	0);
+	"d2c1d212-d763-486a-80db-31abb17f92e1");
 INSERT INTO O_TFR
 	VALUES ("d2c1d212-d763-486a-80db-31abb17f92e1",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
@@ -311,8 +306,7 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
 	'',
-	"0d6eab48-8a19-474c-a54c-d16da938995b",
-	0);
+	"0d6eab48-8a19-474c-a54c-d16da938995b");
 INSERT INTO O_NBATTR
 	VALUES ("4fc1a43d-5822-49e1-b600-7ff700768a17",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");

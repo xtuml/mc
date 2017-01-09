@@ -57,8 +57,7 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
 	'',
-	"08a62993-0de5-465c-bb72-ba84e7590350",
-	0);
+	"08a62993-0de5-465c-bb72-ba84e7590350");
 INSERT INTO O_TFR
 	VALUES ("08a62993-0de5-465c-bb72-ba84e7590350",
 	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
@@ -79,8 +78,7 @@ end if;
 return object;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
 	VALUES ("fe0bf592-4377-4dcc-8d5c-806c966de9bb",
 	"08a62993-0de5-465c-bb72-ba84e7590350",
@@ -194,8 +192,7 @@ end for;
 return valid;',
 	1,
 	'',
-	"5f2cb104-b641-4a62-a93f-91b78ab62058",
-	0);
+	"5f2cb104-b641-4a62-a93f-91b78ab62058");
 INSERT INTO O_TFR
 	VALUES ("62436e5d-b2f0-45bd-824c-bf910bc153d7",
 	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
@@ -208,8 +205,7 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"declaration" );',
 	1,
 	'',
-	"94d08134-61ae-4921-adee-96a5ef2d9522",
-	0);
+	"94d08134-61ae-4921-adee-96a5ef2d9522");
 INSERT INTO O_TFR
 	VALUES ("5f2cb104-b641-4a62-a93f-91b78ab62058",
 	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
@@ -254,8 +250,7 @@ out::tostring( element:"object", value:emptyvalue );
 ',
 	1,
 	'',
-	"62436e5d-b2f0-45bd-824c-bf910bc153d7",
-	0);
+	"62436e5d-b2f0-45bd-824c-bf910bc153d7");
 INSERT INTO O_NBATTR
 	VALUES ("e4200518-32d3-4bef-abc2-bcb823d3dfe9",
 	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");

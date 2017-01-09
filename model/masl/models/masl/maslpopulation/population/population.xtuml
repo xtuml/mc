@@ -407,8 +407,7 @@ if ( empty root_element )
 end if;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
 	VALUES ("23f9c3b1-bb74-489b-8f70-28c707ffcd40",
 	"0b670cc8-7c15-43ad-acfe-044fce10d262",
@@ -469,8 +468,7 @@ else
 end if;',
 	1,
 	'',
-	"0b670cc8-7c15-43ad-acfe-044fce10d262",
-	0);
+	"0b670cc8-7c15-43ad-acfe-044fce10d262");
 INSERT INTO O_TPARM
 	VALUES ("7df6c973-3a73-457e-9609-81c16160dc30",
 	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9",
@@ -505,8 +503,7 @@ end while;
 TRACE::log( flavor:"stack_trace", id:82, message:"done." );',
 	1,
 	'',
-	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9",
-	0);
+	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9");
 INSERT INTO O_ID
 	VALUES (0,
 	"7b8b1d90-b801-4fda-bfce-b400c0d94add");

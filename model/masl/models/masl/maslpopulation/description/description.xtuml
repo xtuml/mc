@@ -26,8 +26,7 @@ relate descrip to element across R3796;
 return descrip;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
 	VALUES ("ae1ea5d1-b56e-46e8-bf14-cace35d4233b",
 	"5a712d0e-139a-43bb-9157-2da9b19563e3",
@@ -101,8 +100,7 @@ while ( -1 != i )
 end while;',
 	1,
 	'',
-	"5a712d0e-139a-43bb-9157-2da9b19563e3",
-	0);
+	"5a712d0e-139a-43bb-9157-2da9b19563e3");
 INSERT INTO O_NBATTR
 	VALUES ("532696e3-3325-4efe-b2cb-dd358c5e9cbf",
 	"55d55565-1750-4967-8834-f462b33478b1");

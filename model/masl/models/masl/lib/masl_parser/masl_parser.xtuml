@@ -191,8 +191,7 @@ INSERT INTO SPR_RO
 	'populate',
 	'',
 	'',
-	1,
-	0);
+	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("6e3df598-100b-4d34-b3d2-2a4ecdb2ac3c",
 	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
@@ -209,8 +208,7 @@ INSERT INTO SPR_RS
 	'end',
 	'',
 	'',
-	3,
-	0);
+	3);
 INSERT INTO C_EP_PROXY
 	VALUES ("0ea72257-0ebc-46e1-ab27-94d34a5b47cc",
 	"c221853e-39ef-4a21-8a0f-9730c3b2f618",

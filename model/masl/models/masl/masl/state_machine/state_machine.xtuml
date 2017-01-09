@@ -36,8 +36,7 @@ T::include( file:"masl/t.transitiontable_end.masl" );
 markable.render_marking( list:"default" );',
 	1,
 	'',
-	"8930d86e-438f-4a56-b595-3a8b60fe9123",
-	0);
+	"8930d86e-438f-4a56-b595-3a8b60fe9123");
 INSERT INTO O_TFR
 	VALUES ("8930d86e-438f-4a56-b595-3a8b60fe9123",
 	"8acb394f-39a0-4e91-bf6e-50ba9286e525",
@@ -54,8 +53,7 @@ relate state_machine to markable across R3783;
 return state_machine;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
 	VALUES ("500de992-1102-49b2-9b91-9e17e6fc2154",
 	"8930d86e-438f-4a56-b595-3a8b60fe9123",
@@ -124,8 +122,7 @@ end for;
 return valid;',
 	1,
 	'',
-	"bc4dbe48-4b74-418f-8d9a-0f3351e63b7d",
-	0);
+	"bc4dbe48-4b74-418f-8d9a-0f3351e63b7d");
 INSERT INTO O_NBATTR
 	VALUES ("00f174c6-bf44-4f67-a7bc-b665d72d4119",
 	"8acb394f-39a0-4e91-bf6e-50ba9286e525");

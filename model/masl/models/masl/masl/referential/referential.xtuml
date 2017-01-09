@@ -35,8 +35,7 @@ rolephrase = self.rolephrase;
 T::include( file:"masl/t.referential.masl" );',
 	1,
 	'',
-	"b4c92004-4eda-4905-8e5a-1e4ee121b90a",
-	0);
+	"b4c92004-4eda-4905-8e5a-1e4ee121b90a");
 INSERT INTO O_TFR
 	VALUES ("b4c92004-4eda-4905-8e5a-1e4ee121b90a",
 	"4edb2c3e-b86b-4835-9c39-392a9b29eba6",
@@ -56,8 +55,7 @@ relate referential to relationship across R3744;
 relate referring to referred_to across R3746.''references'' using referential;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
 	VALUES ("db14bfd5-5404-4504-b5ed-5491fe046331",
 	"b4c92004-4eda-4905-8e5a-1e4ee121b90a",
@@ -151,8 +149,7 @@ end if;
 return valid;',
 	1,
 	'',
-	"29b4edbe-2a0d-41ae-846f-5b961e250517",
-	0);
+	"29b4edbe-2a0d-41ae-846f-5b961e250517");
 INSERT INTO O_NBATTR
 	VALUES ("9c9bd5cd-cca2-4346-8912-408d2a45128f",
 	"4edb2c3e-b86b-4835-9c39-392a9b29eba6");

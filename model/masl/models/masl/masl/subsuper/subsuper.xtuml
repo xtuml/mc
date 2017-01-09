@@ -31,8 +31,7 @@ T::include( file:"masl/t.subsuper_end.masl" );
 ',
 	1,
 	'',
-	"bf6b990a-0c43-4fcb-ab3f-c0ac06ee8ac7",
-	0);
+	"bf6b990a-0c43-4fcb-ab3f-c0ac06ee8ac7");
 INSERT INTO O_TFR
 	VALUES ("bf6b990a-0c43-4fcb-ab3f-c0ac06ee8ac7",
 	"3e82ef73-92f1-464a-9961-915da3477b00",
@@ -49,8 +48,7 @@ relate relationship to markable across R3783;
 return subsuper;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
 	VALUES ("85980317-2e31-48e5-9292-2f0f1460093a",
 	"bf6b990a-0c43-4fcb-ab3f-c0ac06ee8ac7",
@@ -94,8 +92,7 @@ INSERT INTO O_TFR
 return valid;',
 	1,
 	'',
-	"4c2a935c-9f82-483a-8ea4-76b47f7b44ab",
-	0);
+	"4c2a935c-9f82-483a-8ea4-76b47f7b44ab");
 INSERT INTO O_ID
 	VALUES (0,
 	"3e82ef73-92f1-464a-9961-915da3477b00");
