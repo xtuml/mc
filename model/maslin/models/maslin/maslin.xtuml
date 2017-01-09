@@ -29,7 +29,7 @@ INSERT INTO GD_GE
 	"251b6d33-c62d-4b4f-b09e-ce33bd988f9f",
 	108,
 	0,
-	'maslin_new::lib');
+	'maslin::lib');
 INSERT INTO GD_SHP
 	VALUES ("76e99e9c-130b-48c5-821d-c50e6a2d3d50");
 INSERT INTO GD_NCS
@@ -53,7 +53,7 @@ INSERT INTO GD_GE
 	"848def90-29e6-4377-957a-4e89663e5268",
 	108,
 	0,
-	'maslin_new::sysmaslin');
+	'maslin::sysmaslin');
 INSERT INTO GD_SHP
 	VALUES ("96e95f2f-d8f5-4a08-bb3e-cbd6ad3cb74c");
 INSERT INTO GD_NCS
@@ -77,7 +77,7 @@ INSERT INTO GD_GE
 	"041d3e35-2744-4671-86f2-e4321703bdd8",
 	108,
 	0,
-	'maslin_new::systest');
+	'maslin::systest');
 INSERT INTO GD_SHP
 	VALUES ("d7056ee7-3af6-45d5-aeed-280c4562123d");
 INSERT INTO GD_NCS
@@ -101,7 +101,7 @@ INSERT INTO GD_GE
 	"1800b076-78da-4923-9981-c067ad8e1b87",
 	108,
 	0,
-	'maslin_new::p');
+	'maslin::m2x');
 INSERT INTO GD_SHP
 	VALUES ("e1201f65-7779-4387-ae5e-36d83daf3d51");
 INSERT INTO GD_NCS
@@ -125,7 +125,7 @@ INSERT INTO GD_GE
 	"a436d690-d535-4111-926b-af7c5717f2da",
 	108,
 	0,
-	'maslin_new::marking');
+	'maslin::marking');
 INSERT INTO GD_SHP
 	VALUES ("a7a704fc-6d9c-45b2-bb54-c3ffff88deed");
 INSERT INTO GD_NCS

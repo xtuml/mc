@@ -32,7 +32,7 @@ INSERT INTO GD_GE
 	"22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
 	98,
 	0,
-	'maslout::lib::maslout');
+	'maslout::lib::xtuml2masl');
 INSERT INTO GD_SHP
 	VALUES ("81229e28-5c49-4bb8-a03f-ea7827c32f16");
 INSERT INTO GD_NCS
@@ -71,7 +71,7 @@ INSERT INTO GD_GE
 	"83a3a961-5780-4ae6-b4a0-42325ff7fcfe",
 	94,
 	0,
-	'maslout::lib::maslout::load::SQL');
+	'maslout::lib::xtuml2masl::load::SQL');
 INSERT INTO GD_CON
 	VALUES ("475b75dc-217d-4914-a594-93f792eb77cb",
 	"00000000-0000-0000-0000-000000000000");
@@ -171,7 +171,7 @@ INSERT INTO GD_GE
 	"04bf518d-e85d-4b8f-9871-d8efa29d9f5b",
 	93,
 	0,
-	'maslout::lib::maslout::out::serial');
+	'maslout::lib::xtuml2masl::out::serial');
 INSERT INTO GD_CON
 	VALUES ("00e63d9b-fcdd-4307-94d0-36bf3d6d23cc",
 	"00000000-0000-0000-0000-000000000000");

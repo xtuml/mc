@@ -19,7 +19,8 @@ create object instance unmarkable of ooaunmarkable;
 relate unmarkable to element across R3806;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("9e066073-934c-4e29-8a1b-63be1f102ea9",
 	"9462e501-aea4-4acd-9c3a-80f461ae98ee",
@@ -46,7 +47,8 @@ INSERT INTO O_TFR
 	'delete object instance self;',
 	1,
 	'',
-	"9462e501-aea4-4acd-9c3a-80f461ae98ee");
+	"9462e501-aea4-4acd-9c3a-80f461ae98ee",
+	0);
 INSERT INTO O_ID
 	VALUES (0,
 	"ea86b498-3a65-4347-bf1a-07df06996998");

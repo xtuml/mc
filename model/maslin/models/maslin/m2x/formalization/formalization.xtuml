@@ -53,7 +53,8 @@ result = true;
 return result;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("38175d81-bce5-49ca-ada2-781b66e12b0f",
 	"18a49c09-d035-4bad-a130-dff62a357d68",
@@ -123,7 +124,8 @@ end if;
 delete object instance self;',
 	1,
 	'',
-	"18a49c09-d035-4bad-a130-dff62a357d68");
+	"18a49c09-d035-4bad-a130-dff62a357d68",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("10bfa032-1db1-48bc-a3c0-b03ea630a284",
 	"3a8c6f0d-c062-4472-9f8d-0eef874936be");

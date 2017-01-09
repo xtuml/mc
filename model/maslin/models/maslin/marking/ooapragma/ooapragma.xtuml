@@ -26,7 +26,8 @@ ret = ret + " );\n";
 return ret;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TFR
 	VALUES ("6eaebdb2-2a51-4120-8bd0-14fa3d89c8ef",
 	"e8c56dd8-d47f-4353-8863-5bd0cb48f680",
@@ -55,7 +56,8 @@ relate pragma to pragma_list across R3803;
 return pragma;',
 	1,
 	'',
-	"1880ce2c-05b3-4505-bd02-c44b9a6aca17");
+	"1880ce2c-05b3-4505-bd02-c44b9a6aca17",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("ab7bb4f6-f34e-4934-90f2-eb4f262b879b",
 	"6eaebdb2-2a51-4120-8bd0-14fa3d89c8ef",
@@ -113,7 +115,8 @@ end for;
 delete object instance self;',
 	1,
 	'',
-	"6eaebdb2-2a51-4120-8bd0-14fa3d89c8ef");
+	"6eaebdb2-2a51-4120-8bd0-14fa3d89c8ef",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("1d8ddd95-4e1a-44e2-ad43-2fceeabc8dd7",
 	"e8c56dd8-d47f-4353-8863-5bd0cb48f680");

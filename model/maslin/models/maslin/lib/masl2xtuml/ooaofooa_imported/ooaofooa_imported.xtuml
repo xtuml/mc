@@ -41,24 +41,7 @@ INSERT INTO EP_PKG_PROXY
 	"00c718a4-fada-4398-be36-d920a6735b6a",
 	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
-	'========================================================================
-
-File:          $RCSfile: ooaofooa.xtuml,v $
-Version:   $Revision: 1.127 $
-Modified:  $Date: 2006/09/26 15:10:20 $
-
-(c) Copyright 2004-2012 by Mentor Graphics Corp. All rights reserved.
-
-========================================================================
-This document contains information proprietary and confidential to
-Mentor Graphics Corp. and is not for external distribution.
-========================================================================
-
-This is the application domain for the Tiger project.
-
-The processing in this model describes the activities
-for model capture.
-
+	'
 
 
 ',
