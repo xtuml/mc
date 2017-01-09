@@ -33,7 +33,8 @@ end if;
 ',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TFR
 	VALUES ("0df830d5-f576-4d67-b2d5-f041297c2ede",
 	"a2b45e1c-4eb2-4328-a14b-67b3ce893cab",
@@ -53,7 +54,8 @@ relate doc_par to doc_cell across R2318;
 return doc_cell;',
 	1,
 	'',
-	"054b3327-4d01-4a0c-a4d3-86a5bf4044a2");
+	"054b3327-4d01-4a0c-a4d3-86a5bf4044a2",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("7d26e983-c275-4005-b41c-203f9fe0f15a",
 	"0df830d5-f576-4d67-b2d5-f041297c2ede",
@@ -101,7 +103,8 @@ doc_img.target = param.image;
 return doc_cell;',
 	1,
 	'',
-	"0df830d5-f576-4d67-b2d5-f041297c2ede");
+	"0df830d5-f576-4d67-b2d5-f041297c2ede",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("ac0c1bf0-f653-41ed-9701-f60390d02817",
 	"f3efb632-6314-46cf-bdc9-e9d966d68f09",
