@@ -81,7 +81,8 @@ INSERT INTO S_SYNC
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("1f57e189-9a1e-4a0f-9166-4a94dcd37588",
 	1,
@@ -153,7 +154,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("ffd326c7-71b4-4f74-8eb4-b3a01b46523e",
 	"a0ac8e4e-efdb-4051-a7cb-9443779b3633",
@@ -191,7 +193,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("3afbde45-b3c2-4a01-857e-c00b3323774e",
 	1,
@@ -227,7 +230,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("f740e12a-f734-4590-be26-5a3ec835f3d1",
 	1,
@@ -249,7 +253,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("266fd87a-1e97-4782-b92c-95d0b08051c8",
 	1,
@@ -271,7 +276,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("d177565b-47c0-435d-bd39-8d9beb9364a0",
 	1,
@@ -294,7 +300,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("43d99221-4057-48a2-b2e3-b244030ab12e",
 	1,
@@ -327,7 +334,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("520cd889-3e1f-431b-9334-11490bafdb2b",
 	1,
@@ -358,7 +366,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("14aa17a7-8fb3-4bdc-996b-62b8ddc888a6",
 	1,
@@ -386,7 +395,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("5ed35862-eb1b-47c3-aa21-45d58975db6f",
 	1,
@@ -406,7 +416,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("eec5b030-a68e-454f-8ec2-62949149941e",
 	1,
@@ -471,7 +482,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("4a0080ef-cdaa-497c-92fa-7f4ccb939ea4",
 	"0fd01864-707b-4f26-973a-a101d912ae17",
@@ -507,7 +519,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("cbf7538a-4341-4a8f-a33a-4ad2a9a872a1",
 	1,
@@ -542,7 +555,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("d89ba83c-8555-41bd-8203-ed76302641b6",
 	"f25eae6d-e1a3-43d3-abbd-84242e3553d9",
@@ -588,7 +602,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("45015d27-d331-4572-af55-7ce8fcf9e525",
 	1,
@@ -610,7 +625,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("5ca3fa26-eaaa-4b53-8825-d68cc06bbdb6",
 	1,
@@ -633,7 +649,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("5257badc-beaf-42a5-b04f-a248d28629f1",
 	1,
@@ -676,7 +693,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("5f8801d6-4624-4100-a6ab-3158e31d94de",
 	1,
@@ -721,7 +739,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("aad05982-8ad0-471c-9290-07cf85b84cf8",
 	1,
@@ -741,7 +760,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("d4d74471-610c-4688-b2dd-9bc020f3276c",
 	1,
@@ -808,7 +828,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("6edcbf61-5a4e-435b-8652-321aa209427c",
 	"c2336862-93eb-4255-b64a-d2a2631cb15a",
@@ -844,7 +865,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("44d5e919-497d-4652-94ff-b8d0f24385e4",
 	1,
@@ -911,7 +933,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("adb47120-e4a2-4ef8-9207-31a587ae3cd1",
 	"139c869b-e6e8-497a-822b-281a4da7df02",
@@ -947,7 +970,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("0e20c1ee-eb5a-4547-a233-ea65d3671af1",
 	1,
@@ -986,7 +1010,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("7580be3e-b9a5-4256-902d-15bf806e70ab",
 	"de40693f-0166-48b6-ab27-41d96301df39",
@@ -1022,7 +1047,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("0f6ca242-c71e-49fc-84e3-d22e0044f03a",
 	1,
@@ -1096,7 +1122,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("56a4cd23-a4b5-4bbc-a6bb-4db67827bb99",
 	"58edc54f-f35d-492d-a044-7393d64a9cac",
@@ -1132,7 +1159,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("dc122a63-d160-42b7-8fc8-d3cb1ef27713",
 	1,
@@ -1220,7 +1248,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("f01c45d3-607f-4ace-911c-11b253eb9535",
 	"dd1c0e4c-ec59-40a3-8e53-a52bf6e9bd0b",
@@ -1256,7 +1285,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("1f89a6a6-15a6-40d0-996f-a953a0a8296c",
 	1,
@@ -1317,7 +1347,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("2980e46b-b12b-426b-90b9-541cee98662f",
 	"ce9034fe-dd42-433f-a6a3-f0910e167584",
@@ -1353,7 +1384,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("7e81e23f-f957-4616-bc6d-8066b79530fc",
 	1,
@@ -1394,7 +1426,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("63fa8c1b-10bf-45ab-b9c6-ec28dfe15365",
 	"1e86c8f4-bdc0-4b6e-a5c5-1596fe1933d4",
@@ -1430,7 +1463,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("0d5f97fd-f460-4e30-9538-65341a47783e",
 	1,
@@ -1469,7 +1503,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	3,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("6763839f-5d49-4c6d-8016-d5bba23f2e2b",
 	"030eac82-0399-4847-8d0c-dcee4d2c4226",
