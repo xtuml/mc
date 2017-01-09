@@ -48,7 +48,8 @@ end if;
 ',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("39f8ed38-4bcd-4159-be01-fcd5617a5eee",
 	"09c0ff42-b83a-4720-b837-bbd50a7a8f07",
@@ -105,7 +106,8 @@ else
 end if;',
 	1,
 	'',
-	"09c0ff42-b83a-4720-b837-bbd50a7a8f07");
+	"09c0ff42-b83a-4720-b837-bbd50a7a8f07",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("6f73321f-87b9-4171-9afe-c51c2d5c1c1b",
 	"6a3fc26e-1b5e-485b-958f-5f2ac3ac6339",
@@ -139,7 +141,8 @@ if ( not_empty population )
 end if;',
 	1,
 	'',
-	"6a3fc26e-1b5e-485b-958f-5f2ac3ac6339");
+	"6a3fc26e-1b5e-485b-958f-5f2ac3ac6339",
+	0);
 INSERT INTO O_TFR
 	VALUES ("e1d32348-091f-45b1-8108-e733725f7826",
 	"079bf2c7-58dc-498f-a0ee-f3840b5f5599",
@@ -162,7 +165,8 @@ end while;
 TRACE::log( flavor:"stack_trace", id:82, message:"done." );',
 	1,
 	'',
-	"dd34ad72-1c2e-4bf1-9b90-5375e1af52b4");
+	"dd34ad72-1c2e-4bf1-9b90-5375e1af52b4",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("5af53177-aff0-4af5-818f-6db43adea17b",
 	"e1d32348-091f-45b1-8108-e733725f7826",
@@ -193,7 +197,8 @@ end if;
 delete object instance self;',
 	1,
 	'',
-	"e1d32348-091f-45b1-8108-e733725f7826");
+	"e1d32348-091f-45b1-8108-e733725f7826",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("33f8929c-beed-4b8e-8ec7-1e5b4045a4a5",
 	"079bf2c7-58dc-498f-a0ee-f3840b5f5599");

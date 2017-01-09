@@ -28,7 +28,8 @@ end if;
 return ret;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TFR
 	VALUES ("af6e36a5-475b-46c6-8821-6bc984140734",
 	"bc40ed9e-d379-42a4-a571-c4db0c416a69",
@@ -43,7 +44,8 @@ relate pragma_list to markable across R3802;
 return pragma_list;',
 	1,
 	'',
-	"c713659d-d9b2-449e-8953-1b60e7df74ae");
+	"c713659d-d9b2-449e-8953-1b60e7df74ae",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("a53e532d-bcf2-405b-9fe6-f885e2b85547",
 	"af6e36a5-475b-46c6-8821-6bc984140734",
@@ -92,7 +94,8 @@ end for;
 delete object instance self;',
 	1,
 	'',
-	"af6e36a5-475b-46c6-8821-6bc984140734");
+	"af6e36a5-475b-46c6-8821-6bc984140734",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("06c04d01-4906-4e07-8c70-18ffabff5ee3",
 	"bc40ed9e-d379-42a4-a571-c4db0c416a69");
