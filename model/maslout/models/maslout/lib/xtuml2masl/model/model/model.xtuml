@@ -22,7 +22,8 @@ end if;
 model.projectroot = param.root;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("f97b2fd8-a709-4de4-bd2c-5ee3c41e7b62",
 	"82d44f16-ea0a-454d-95b3-38cd5e0b76c5",

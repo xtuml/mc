@@ -83,7 +83,7 @@ INSERT INTO GD_GE
 	"5e5fb09e-106a-41ab-8384-79bb51b352a9",
 	108,
 	0,
-	'docgen::lib::docgen::DocGen_imported');
+	'DocGen_imported');
 INSERT INTO GD_SHP
 	VALUES ("c11280de-4f7b-4b3f-b542-6699ce835964");
 INSERT INTO GD_NCS

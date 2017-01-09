@@ -25,7 +25,8 @@ T::include( file:"docbook/t.figureend.xml" );
 ',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TFR
 	VALUES ("3a69c897-b6b9-4edc-a425-5ffbb7e7067e",
 	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2",
@@ -49,7 +50,8 @@ return doc_fig;
 ',
 	1,
 	'',
-	"9c09387a-239f-43ed-b769-475642e624f4");
+	"9c09387a-239f-43ed-b769-475642e624f4",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("79974fb7-c4dd-4f0f-8999-59bbab5c7a2c",
 	"3a69c897-b6b9-4edc-a425-5ffbb7e7067e",
