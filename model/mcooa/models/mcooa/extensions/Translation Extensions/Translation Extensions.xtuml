@@ -13376,21 +13376,6 @@ INSERT INTO S_DT
 	'inst_ref<user callout>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("8b12b37d-a579-4e36-b42c-4511700e39a0",
-	0,
-	"9cbe6de0-9b4f-4d8e-875e-d685b791c7d5");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("9cbe6de0-9b4f-4d8e-875e-d685b791c7d5",
-	'user callout',
-	2044,
-	'TE_CALLOUT',
-	'access:te_prefix
-System user callouts are routines With calls interspersed throughout the
-generated code.  These routines give the user control at various important
-points during execution of the generated system.',
-	"00000000-0000-0000-0000-000000000000",
-	'./user callout/user callout.xtuml');
 INSERT INTO PE_PE
 	VALUES ("8b12b37d-a579-4e36-b42c-4511700e39a0",
 	1,
@@ -13407,6 +13392,17 @@ INSERT INTO S_IRDT
 	VALUES ("c6f808e0-04ac-4e5c-ae12-abd5ef56778d",
 	1,
 	"9cbe6de0-9b4f-4d8e-875e-d685b791c7d5");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("9cbe6de0-9b4f-4d8e-875e-d685b791c7d5",
+	'user callout',
+	2044,
+	'TE_CALLOUT',
+	'access:te_prefix
+System user callouts are routines With calls interspersed throughout the
+generated code.  These routines give the user control at various important
+points during execution of the generated system.',
+	"00000000-0000-0000-0000-000000000000",
+	'./user callout/user callout.xtuml');
 INSERT INTO PE_PE
 	VALUES ("c6f808e0-04ac-4e5c-ae12-abd5ef56778d",
 	1,
@@ -13419,18 +13415,6 @@ INSERT INTO S_DT
 	'inst_ref<type map>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("f008920f-6cdd-4a52-8391-9b3ae344af15",
-	0,
-	"7ad55534-8614-47ba-ae5e-5e8a6a0ba446");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("7ad55534-8614-47ba-ae5e-5e8a6a0ba446",
-	'type map',
-	2064,
-	'TE_TYPEMAP',
-	'access:te_prefix',
-	"00000000-0000-0000-0000-000000000000",
-	'./type map/type map.xtuml');
 INSERT INTO PE_PE
 	VALUES ("f008920f-6cdd-4a52-8391-9b3ae344af15",
 	1,
@@ -13447,6 +13431,14 @@ INSERT INTO S_IRDT
 	VALUES ("85db5724-f81f-4474-b704-64983fee21b3",
 	1,
 	"7ad55534-8614-47ba-ae5e-5e8a6a0ba446");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("7ad55534-8614-47ba-ae5e-5e8a6a0ba446",
+	'type map',
+	2064,
+	'TE_TYPEMAP',
+	'access:te_prefix',
+	"00000000-0000-0000-0000-000000000000",
+	'./type map/type map.xtuml');
 INSERT INTO PE_PE
 	VALUES ("85db5724-f81f-4474-b704-64983fee21b3",
 	1,
@@ -13459,19 +13451,6 @@ INSERT INTO S_DT
 	'inst_ref<trace>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("6d2ab5ff-8b45-4cc3-940b-790cfde85eef",
-	0,
-	"6ac78f06-be94-4b91-a142-0a7c908d34f2");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("6ac78f06-be94-4b91-a142-0a7c908d34f2",
-	'trace',
-	2046,
-	'TE_TRACE',
-	'access:te_prefix
-This class captures implementation artifacts for tracing.',
-	"00000000-0000-0000-0000-000000000000",
-	'./trace/trace.xtuml');
 INSERT INTO PE_PE
 	VALUES ("6d2ab5ff-8b45-4cc3-940b-790cfde85eef",
 	1,
@@ -13488,6 +13467,15 @@ INSERT INTO S_IRDT
 	VALUES ("35ef4698-ed2d-40c9-a4d7-b2cefac07529",
 	1,
 	"6ac78f06-be94-4b91-a142-0a7c908d34f2");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("6ac78f06-be94-4b91-a142-0a7c908d34f2",
+	'trace',
+	2046,
+	'TE_TRACE',
+	'access:te_prefix
+This class captures implementation artifacts for tracing.',
+	"00000000-0000-0000-0000-000000000000",
+	'./trace/trace.xtuml');
 INSERT INTO PE_PE
 	VALUES ("35ef4698-ed2d-40c9-a4d7-b2cefac07529",
 	1,
@@ -13500,19 +13488,6 @@ INSERT INTO S_DT
 	'inst_ref<timer>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("63d8c028-de06-497a-ab26-a7b9d13d597a",
-	0,
-	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11",
-	'timer',
-	2063,
-	'TE_TIM',
-	'access:te_prefix
-This class holds configuration data for the default TIM implementation.',
-	"00000000-0000-0000-0000-000000000000",
-	'./timer/timer.xtuml');
 INSERT INTO PE_PE
 	VALUES ("63d8c028-de06-497a-ab26-a7b9d13d597a",
 	1,
@@ -13529,6 +13504,15 @@ INSERT INTO S_IRDT
 	VALUES ("660b77cf-8ee8-49bf-8db1-57909f202455",
 	1,
 	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11",
+	'timer',
+	2063,
+	'TE_TIM',
+	'access:te_prefix
+This class holds configuration data for the default TIM implementation.',
+	"00000000-0000-0000-0000-000000000000",
+	'./timer/timer.xtuml');
 INSERT INTO PE_PE
 	VALUES ("660b77cf-8ee8-49bf-8db1-57909f202455",
 	1,
@@ -13541,21 +13525,6 @@ INSERT INTO S_DT
 	'inst_ref<thread>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("35a81922-4700-49ad-9a7c-0c4c28565fe0",
-	0,
-	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("98e15137-db61-4d7d-bfc9-c69ede3022c8",
-	'thread',
-	2042,
-	'TE_THREAD',
-	'access:te_prefix
-This class defines the methods and data used in tasking/threading.
-Various flavors of tasking are provided such as Nucleus PLUS, POSIX
-and others.',
-	"00000000-0000-0000-0000-000000000000",
-	'./thread/thread.xtuml');
 INSERT INTO PE_PE
 	VALUES ("35a81922-4700-49ad-9a7c-0c4c28565fe0",
 	1,
@@ -13572,6 +13541,17 @@ INSERT INTO S_IRDT
 	VALUES ("06ff141f-8996-4d33-96dc-f3f2e13b6358",
 	1,
 	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	'thread',
+	2042,
+	'TE_THREAD',
+	'access:te_prefix
+This class defines the methods and data used in tasking/threading.
+Various flavors of tasking are provided such as Nucleus PLUS, POSIX
+and others.',
+	"00000000-0000-0000-0000-000000000000",
+	'./thread/thread.xtuml');
 INSERT INTO PE_PE
 	VALUES ("06ff141f-8996-4d33-96dc-f3f2e13b6358",
 	1,
@@ -13584,18 +13564,6 @@ INSERT INTO S_DT
 	'inst_ref<target>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("1a42f48f-6b7e-4a25-999f-5865842990eb",
-	0,
-	"eb87cf44-2300-407b-8478-6fffc8b609de");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("eb87cf44-2300-407b-8478-6fffc8b609de",
-	'target',
-	2054,
-	'TE_TARGET',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./target/target.xtuml');
 INSERT INTO PE_PE
 	VALUES ("1a42f48f-6b7e-4a25-999f-5865842990eb",
 	1,
@@ -13612,6 +13580,14 @@ INSERT INTO S_IRDT
 	VALUES ("23a1e49f-3e9e-407e-937c-50e8180beb6c",
 	1,
 	"eb87cf44-2300-407b-8478-6fffc8b609de");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("eb87cf44-2300-407b-8478-6fffc8b609de",
+	'target',
+	2054,
+	'TE_TARGET',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./target/target.xtuml');
 INSERT INTO PE_PE
 	VALUES ("23a1e49f-3e9e-407e-937c-50e8180beb6c",
 	1,
@@ -13624,22 +13600,6 @@ INSERT INTO S_DT
 	'inst_ref<string>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("95324c98-2506-45ec-a1b4-fd4c3dcf8dbb",
-	0,
-	"855c829b-2adf-4281-a5f9-14194b41aecf");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("855c829b-2adf-4281-a5f9-14194b41aecf",
-	'string',
-	2045,
-	'TE_STRING',
-	'access:te_prefix
-The model compiler supplies its own string manipulation routines.
-This is because some embedded C compilers do not supply the string
-library or supply one that is not satisfactory.
-',
-	"00000000-0000-0000-0000-000000000000",
-	'./string/string.xtuml');
 INSERT INTO PE_PE
 	VALUES ("95324c98-2506-45ec-a1b4-fd4c3dcf8dbb",
 	1,
@@ -13656,6 +13616,18 @@ INSERT INTO S_IRDT
 	VALUES ("6a5716d3-fb64-4858-9a18-255047955e91",
 	1,
 	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("855c829b-2adf-4281-a5f9-14194b41aecf",
+	'string',
+	2045,
+	'TE_STRING',
+	'access:te_prefix
+The model compiler supplies its own string manipulation routines.
+This is because some embedded C compilers do not supply the string
+library or supply one that is not satisfactory.
+',
+	"00000000-0000-0000-0000-000000000000",
+	'./string/string.xtuml');
 INSERT INTO PE_PE
 	VALUES ("6a5716d3-fb64-4858-9a18-255047955e91",
 	1,
@@ -13668,20 +13640,6 @@ INSERT INTO S_DT
 	'inst_ref<slist>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("8e304392-ee5f-498c-a184-298022c7907f",
-	0,
-	"bc2eba42-a1ca-4c38-8522-0855df1f4d50");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("bc2eba42-a1ca-4c38-8522-0855df1f4d50",
-	'slist',
-	2053,
-	'TE_SLIST',
-	'access:te_prefix
-One type of container is a singly-linked list.  Container specializations
-specific to singly-linked lists are defined here.',
-	"00000000-0000-0000-0000-000000000000",
-	'./slist/slist.xtuml');
 INSERT INTO PE_PE
 	VALUES ("8e304392-ee5f-498c-a184-298022c7907f",
 	1,
@@ -13698,6 +13656,16 @@ INSERT INTO S_IRDT
 	VALUES ("ba93dca5-91b0-4c2a-80aa-ade65710240f",
 	1,
 	"bc2eba42-a1ca-4c38-8522-0855df1f4d50");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("bc2eba42-a1ca-4c38-8522-0855df1f4d50",
+	'slist',
+	2053,
+	'TE_SLIST',
+	'access:te_prefix
+One type of container is a singly-linked list.  Container specializations
+specific to singly-linked lists are defined here.',
+	"00000000-0000-0000-0000-000000000000",
+	'./slist/slist.xtuml');
 INSERT INTO PE_PE
 	VALUES ("ba93dca5-91b0-4c2a-80aa-ade65710240f",
 	1,
@@ -13710,22 +13678,6 @@ INSERT INTO S_DT
 	'inst_ref<set>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("e7f51310-65ec-4540-987b-28bd08436f67",
-	0,
-	"331cf64d-3364-408e-aee3-cf70a09801d9");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("331cf64d-3364-408e-aee3-cf70a09801d9",
-	'set',
-	2038,
-	'TE_SET',
-	'access:te_prefix
-This is the collections class.  It manages sets of instances of anything.
-It knows about strategies for maintaining these collections and can
-insert, remove and find specific elements within a collection.  It knows
-how many elements are in a collection and can help iterate.',
-	"00000000-0000-0000-0000-000000000000",
-	'./set/set.xtuml');
 INSERT INTO PE_PE
 	VALUES ("e7f51310-65ec-4540-987b-28bd08436f67",
 	1,
@@ -13742,6 +13694,18 @@ INSERT INTO S_IRDT
 	VALUES ("cae3b837-6727-457b-8935-65f1e8c2fe25",
 	1,
 	"331cf64d-3364-408e-aee3-cf70a09801d9");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("331cf64d-3364-408e-aee3-cf70a09801d9",
+	'set',
+	2038,
+	'TE_SET',
+	'access:te_prefix
+This is the collections class.  It manages sets of instances of anything.
+It knows about strategies for maintaining these collections and can
+insert, remove and find specific elements within a collection.  It knows
+how many elements are in a collection and can help iterate.',
+	"00000000-0000-0000-0000-000000000000",
+	'./set/set.xtuml');
 INSERT INTO PE_PE
 	VALUES ("cae3b837-6727-457b-8935-65f1e8c2fe25",
 	1,
@@ -13754,18 +13718,6 @@ INSERT INTO S_DT
 	'inst_ref<relationship storage>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("60fd9c8e-e6ac-4c8a-ae6d-65aa2fa3166a",
-	0,
-	"4efc2858-f08e-43bf-8100-13e805f43493");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("4efc2858-f08e-43bf-8100-13e805f43493",
-	'relationship storage',
-	2061,
-	'TE_RELSTORE',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./relationship storage/relationship storage.xtuml');
 INSERT INTO PE_PE
 	VALUES ("60fd9c8e-e6ac-4c8a-ae6d-65aa2fa3166a",
 	1,
@@ -13782,6 +13734,14 @@ INSERT INTO S_IRDT
 	VALUES ("07206760-3bc4-48f8-bfd2-efec14ef2aa0",
 	1,
 	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("4efc2858-f08e-43bf-8100-13e805f43493",
+	'relationship storage',
+	2061,
+	'TE_RELSTORE',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./relationship storage/relationship storage.xtuml');
 INSERT INTO PE_PE
 	VALUES ("07206760-3bc4-48f8-bfd2-efec14ef2aa0",
 	1,
@@ -13794,18 +13754,6 @@ INSERT INTO S_DT
 	'inst_ref<relationship information>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("c737ff7f-2b3a-46c8-aea3-48c6dc6a449d",
-	0,
-	"49998e71-4ba8-433a-aff0-33cd64127a6d");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("49998e71-4ba8-433a-aff0-33cd64127a6d",
-	'relationship information',
-	2060,
-	'TE_RELINFO',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./relationship information/relationship information.xtuml');
 INSERT INTO PE_PE
 	VALUES ("c737ff7f-2b3a-46c8-aea3-48c6dc6a449d",
 	1,
@@ -13822,6 +13770,14 @@ INSERT INTO S_IRDT
 	VALUES ("0ba08dd9-7778-4658-9a06-4f1c8a322c29",
 	1,
 	"49998e71-4ba8-433a-aff0-33cd64127a6d");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("49998e71-4ba8-433a-aff0-33cd64127a6d",
+	'relationship information',
+	2060,
+	'TE_RELINFO',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./relationship information/relationship information.xtuml');
 INSERT INTO PE_PE
 	VALUES ("0ba08dd9-7778-4658-9a06-4f1c8a322c29",
 	1,
@@ -13834,20 +13790,6 @@ INSERT INTO S_DT
 	'inst_ref<prefix>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("7cfb8b97-95b3-42bf-80d6-6a750f6e0bfd",
-	0,
-	"b8dec0e8-72ea-4f0b-b8be-3e5fc3174a8c");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("b8dec0e8-72ea-4f0b-b8be-3e5fc3174a8c",
-	'prefix',
-	2037,
-	'TE_PREFIX',
-	'This class defines a special set of naming strings to be pre-pended to the
-beginning of other names to make a unique namespace or to follow coding
-conventions.',
-	"00000000-0000-0000-0000-000000000000",
-	'./prefix/prefix.xtuml');
 INSERT INTO PE_PE
 	VALUES ("7cfb8b97-95b3-42bf-80d6-6a750f6e0bfd",
 	1,
@@ -13864,6 +13806,16 @@ INSERT INTO S_IRDT
 	VALUES ("613c576c-7ca3-4bea-9faa-78f29f77196d",
 	1,
 	"b8dec0e8-72ea-4f0b-b8be-3e5fc3174a8c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("b8dec0e8-72ea-4f0b-b8be-3e5fc3174a8c",
+	'prefix',
+	2037,
+	'TE_PREFIX',
+	'This class defines a special set of naming strings to be pre-pended to the
+beginning of other names to make a unique namespace or to follow coding
+conventions.',
+	"00000000-0000-0000-0000-000000000000",
+	'./prefix/prefix.xtuml');
 INSERT INTO PE_PE
 	VALUES ("613c576c-7ca3-4bea-9faa-78f29f77196d",
 	1,
@@ -13876,20 +13828,6 @@ INSERT INTO S_DT
 	'inst_ref<persistence>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("5990799b-8703-4533-848d-90abdf8df5ba",
-	0,
-	"952273fc-c345-4010-a010-7ff5203a1ba7");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("952273fc-c345-4010-a010-7ff5203a1ba7",
-	'persistence',
-	2039,
-	'TE_PERSIST',
-	'access:te_prefix
-Persistence provides a way to persist/restore instance data and association
-links in non-volatile storage (NVS).',
-	"00000000-0000-0000-0000-000000000000",
-	'./persistence/persistence.xtuml');
 INSERT INTO PE_PE
 	VALUES ("5990799b-8703-4533-848d-90abdf8df5ba",
 	1,
@@ -13906,6 +13844,16 @@ INSERT INTO S_IRDT
 	VALUES ("15043587-a1be-41f1-97c8-34eded6bacf3",
 	1,
 	"952273fc-c345-4010-a010-7ff5203a1ba7");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("952273fc-c345-4010-a010-7ff5203a1ba7",
+	'persistence',
+	2039,
+	'TE_PERSIST',
+	'access:te_prefix
+Persistence provides a way to persist/restore instance data and association
+links in non-volatile storage (NVS).',
+	"00000000-0000-0000-0000-000000000000",
+	'./persistence/persistence.xtuml');
 INSERT INTO PE_PE
 	VALUES ("15043587-a1be-41f1-97c8-34eded6bacf3",
 	1,
@@ -13918,20 +13866,6 @@ INSERT INTO S_DT
 	'inst_ref<instance>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("de4b7b15-2e0b-4599-a8c8-84984bbfef73",
-	0,
-	"6aaa9a40-a2ad-4b3c-8d61-f057f66bc158");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("6aaa9a40-a2ad-4b3c-8d61-f057f66bc158",
-	'instance',
-	2062,
-	'TE_INSTANCE',
-	'access:te_prefix
-This class contains factory methods for class instances along with other
-variables used by instance accessors.',
-	"00000000-0000-0000-0000-000000000000",
-	'./instance/instance.xtuml');
 INSERT INTO PE_PE
 	VALUES ("de4b7b15-2e0b-4599-a8c8-84984bbfef73",
 	1,
@@ -13948,6 +13882,16 @@ INSERT INTO S_IRDT
 	VALUES ("13444fd9-b1e9-404c-bdd1-3b0be4feb2a4",
 	1,
 	"6aaa9a40-a2ad-4b3c-8d61-f057f66bc158");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("6aaa9a40-a2ad-4b3c-8d61-f057f66bc158",
+	'instance',
+	2062,
+	'TE_INSTANCE',
+	'access:te_prefix
+This class contains factory methods for class instances along with other
+variables used by instance accessors.',
+	"00000000-0000-0000-0000-000000000000",
+	'./instance/instance.xtuml');
 INSERT INTO PE_PE
 	VALUES ("13444fd9-b1e9-404c-bdd1-3b0be4feb2a4",
 	1,
@@ -13960,20 +13904,6 @@ INSERT INTO S_DT
 	'inst_ref<file>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("ca7699b5-df14-4eb3-94c2-012654a3804a",
-	0,
-	"d935b648-9c8e-421c-81f0-67628d2972c2");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("d935b648-9c8e-421c-81f0-67628d2972c2",
-	'file',
-	2043,
-	'TE_FILE',
-	'access:te_prefix
-This class defines the names and characteristics of files in the
-generated code.',
-	"00000000-0000-0000-0000-000000000000",
-	'./file/file.xtuml');
 INSERT INTO PE_PE
 	VALUES ("ca7699b5-df14-4eb3-94c2-012654a3804a",
 	1,
@@ -13990,6 +13920,16 @@ INSERT INTO S_IRDT
 	VALUES ("29094a2d-6ff4-4a08-b877-0d9bac0ba821",
 	1,
 	"d935b648-9c8e-421c-81f0-67628d2972c2");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("d935b648-9c8e-421c-81f0-67628d2972c2",
+	'file',
+	2043,
+	'TE_FILE',
+	'access:te_prefix
+This class defines the names and characteristics of files in the
+generated code.',
+	"00000000-0000-0000-0000-000000000000",
+	'./file/file.xtuml');
 INSERT INTO PE_PE
 	VALUES ("29094a2d-6ff4-4a08-b877-0d9bac0ba821",
 	1,
@@ -14002,21 +13942,6 @@ INSERT INTO S_DT
 	'inst_ref<extent>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("516530a6-7571-45b3-af9c-e01411a5151b",
-	0,
-	"283e2394-4461-48e7-95e3-d8478d79b3d5");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("283e2394-4461-48e7-95e3-d8478d79b3d5",
-	'extent',
-	2065,
-	'TE_EXTENT',
-	'access:te_prefix
-access:te_set
-Extent contains the code generation artifacts for maintaining
-collections of instances of classes.',
-	"00000000-0000-0000-0000-000000000000",
-	'./extent/extent.xtuml');
 INSERT INTO PE_PE
 	VALUES ("516530a6-7571-45b3-af9c-e01411a5151b",
 	1,
@@ -14033,6 +13958,17 @@ INSERT INTO S_IRDT
 	VALUES ("e64453b9-2bcc-4b92-8839-0f044b964771",
 	1,
 	"283e2394-4461-48e7-95e3-d8478d79b3d5");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("283e2394-4461-48e7-95e3-d8478d79b3d5",
+	'extent',
+	2065,
+	'TE_EXTENT',
+	'access:te_prefix
+access:te_set
+Extent contains the code generation artifacts for maintaining
+collections of instances of classes.',
+	"00000000-0000-0000-0000-000000000000",
+	'./extent/extent.xtuml');
 INSERT INTO PE_PE
 	VALUES ("e64453b9-2bcc-4b92-8839-0f044b964771",
 	1,
@@ -14045,20 +13981,6 @@ INSERT INTO S_DT
 	'inst_ref<container>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("c0e44014-c8a7-43c6-a2f3-0fc646cc1ad2",
-	0,
-	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("62c3106f-47e7-4e2f-8947-c0e1bfdd2a67",
-	'container',
-	2049,
-	'TE_CONTAINER',
-	'Collections can be maintained in more than one variety of container.
-Singly-linked lists and doubly-linked lists are two varieties.  The
-container is the mechanism used to keep sets of elements together.',
-	"00000000-0000-0000-0000-000000000000",
-	'./container/container.xtuml');
 INSERT INTO PE_PE
 	VALUES ("c0e44014-c8a7-43c6-a2f3-0fc646cc1ad2",
 	1,
@@ -14075,6 +13997,16 @@ INSERT INTO S_IRDT
 	VALUES ("80f518d0-9764-4f18-a0f8-41cbb682a1c6",
 	1,
 	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("62c3106f-47e7-4e2f-8947-c0e1bfdd2a67",
+	'container',
+	2049,
+	'TE_CONTAINER',
+	'Collections can be maintained in more than one variety of container.
+Singly-linked lists and doubly-linked lists are two varieties.  The
+container is the mechanism used to keep sets of elements together.',
+	"00000000-0000-0000-0000-000000000000",
+	'./container/container.xtuml');
 INSERT INTO PE_PE
 	VALUES ("80f518d0-9764-4f18-a0f8-41cbb682a1c6",
 	1,
@@ -14087,19 +14019,6 @@ INSERT INTO S_DT
 	'inst_ref<copyright>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("0f110072-3d76-4383-b41a-f718a1bc505d",
-	0,
-	"ded92321-4379-4014-9fd4-0c040e1cd6dc");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("ded92321-4379-4014-9fd4-0c040e1cd6dc",
-	'copyright',
-	2047,
-	'TE_COPYRIGHT',
-	'The body to the copyright is define here.  The years listed must be 
-updated each year.',
-	"00000000-0000-0000-0000-000000000000",
-	'./copyright/copyright.xtuml');
 INSERT INTO PE_PE
 	VALUES ("0f110072-3d76-4383-b41a-f718a1bc505d",
 	1,
@@ -14116,6 +14035,15 @@ INSERT INTO S_IRDT
 	VALUES ("7917281b-357d-45c2-a4e7-9b8afe90b6c5",
 	1,
 	"ded92321-4379-4014-9fd4-0c040e1cd6dc");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("ded92321-4379-4014-9fd4-0c040e1cd6dc",
+	'copyright',
+	2047,
+	'TE_COPYRIGHT',
+	'The body to the copyright is define here.  The years listed must be 
+updated each year.',
+	"00000000-0000-0000-0000-000000000000",
+	'./copyright/copyright.xtuml');
 INSERT INTO PE_PE
 	VALUES ("7917281b-357d-45c2-a4e7-9b8afe90b6c5",
 	1,
@@ -14128,20 +14056,6 @@ INSERT INTO S_DT
 	'inst_ref<dlist>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("d6733a38-5b27-4a85-a132-227bcad2de8b",
-	0,
-	"5b711d83-8063-4320-a8d8-47be0b2b3f36");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("5b711d83-8063-4320-a8d8-47be0b2b3f36",
-	'dlist',
-	2050,
-	'TE_DLIST',
-	'access:te_prefix
-One type of container is a doubly-linked list.  Container specializations
-specific to doubly-linked lists are defined here.',
-	"00000000-0000-0000-0000-000000000000",
-	'./dlist/dlist.xtuml');
 INSERT INTO PE_PE
 	VALUES ("d6733a38-5b27-4a85-a132-227bcad2de8b",
 	1,
@@ -14158,6 +14072,16 @@ INSERT INTO S_IRDT
 	VALUES ("a930808b-4f32-4cde-834f-72a362ea2165",
 	1,
 	"5b711d83-8063-4320-a8d8-47be0b2b3f36");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("5b711d83-8063-4320-a8d8-47be0b2b3f36",
+	'dlist',
+	2050,
+	'TE_DLIST',
+	'access:te_prefix
+One type of container is a doubly-linked list.  Container specializations
+specific to doubly-linked lists are defined here.',
+	"00000000-0000-0000-0000-000000000000",
+	'./dlist/dlist.xtuml');
 INSERT INTO PE_PE
 	VALUES ("a930808b-4f32-4cde-834f-72a362ea2165",
 	1,
@@ -14170,22 +14094,6 @@ INSERT INTO S_DT
 	'inst_ref<dynamic memory allocation>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("4954e1b6-37ae-4dc4-8de9-e6ad79dc5b34",
-	0,
-	"63968e94-c9be-4c21-8b40-803de2d3c524");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("63968e94-c9be-4c21-8b40-803de2d3c524",
-	'dynamic memory allocation',
-	2048,
-	'TE_DMA',
-	'access:te_prefix
-This class defines dynamic memory allocation if it is needed.  Most of
-the time, MC-3020 does not use dynamic memory allocation.
-Note, that no specific garbage collection or defragmentation is supplied
-by generated code.',
-	"00000000-0000-0000-0000-000000000000",
-	'./dynamic memory allocation/dynamic memory allocation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("4954e1b6-37ae-4dc4-8de9-e6ad79dc5b34",
 	1,
@@ -14202,6 +14110,18 @@ INSERT INTO S_IRDT
 	VALUES ("7d1dff15-2b3f-4b34-91b7-672177fc669f",
 	1,
 	"63968e94-c9be-4c21-8b40-803de2d3c524");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("63968e94-c9be-4c21-8b40-803de2d3c524",
+	'dynamic memory allocation',
+	2048,
+	'TE_DMA',
+	'access:te_prefix
+This class defines dynamic memory allocation if it is needed.  Most of
+the time, MC-3020 does not use dynamic memory allocation.
+Note, that no specific garbage collection or defragmentation is supplied
+by generated code.',
+	"00000000-0000-0000-0000-000000000000",
+	'./dynamic memory allocation/dynamic memory allocation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("7d1dff15-2b3f-4b34-91b7-672177fc669f",
 	1,
@@ -14214,9 +14134,21 @@ INSERT INTO S_DT
 	'inst_ref<event queue>',
 	'',
 	'');
-INSERT INTO S_IRDT
+INSERT INTO PE_PE
 	VALUES ("3115cecb-d2fa-45d7-aeac-f6559c8e3393",
-	0,
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("00a5da3c-10a3-4134-9ac3-f565908afbc2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<event queue>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("00a5da3c-10a3-4134-9ac3-f565908afbc2",
+	1,
 	"7be58787-280e-4793-9c47-9165e7459edf");
 INSERT INTO O_OBJ_PROXY
 	VALUES ("7be58787-280e-4793-9c47-9165e7459edf",
@@ -14236,22 +14168,6 @@ This class provides the method names for:
 	"00000000-0000-0000-0000-000000000000",
 	'./event queue/event queue.xtuml');
 INSERT INTO PE_PE
-	VALUES ("3115cecb-d2fa-45d7-aeac-f6559c8e3393",
-	1,
-	"08381c43-a334-45bd-a718-37cccb80c24f",
-	"00000000-0000-0000-0000-000000000000",
-	3);
-INSERT INTO S_DT
-	VALUES ("00a5da3c-10a3-4134-9ac3-f565908afbc2",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<event queue>',
-	'',
-	'');
-INSERT INTO S_IRDT
-	VALUES ("00a5da3c-10a3-4134-9ac3-f565908afbc2",
-	1,
-	"7be58787-280e-4793-9c47-9165e7459edf");
-INSERT INTO PE_PE
 	VALUES ("00a5da3c-10a3-4134-9ac3-f565908afbc2",
 	1,
 	"08381c43-a334-45bd-a718-37cccb80c24f",
@@ -14263,9 +14179,21 @@ INSERT INTO S_DT
 	'inst_ref<interleaved bridge>',
 	'',
 	'');
-INSERT INTO S_IRDT
+INSERT INTO PE_PE
 	VALUES ("202ecd97-a6b9-4753-a14d-6289c9bfd0ca",
-	0,
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("bff674c4-77a4-40b8-b9d7-5552872a74fb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<interleaved bridge>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("bff674c4-77a4-40b8-b9d7-5552872a74fb",
+	1,
 	"69197098-f632-4b7b-81a2-9fd5406666c5");
 INSERT INTO O_OBJ_PROXY
 	VALUES ("69197098-f632-4b7b-81a2-9fd5406666c5",
@@ -14284,22 +14212,6 @@ arguments).',
 	"00000000-0000-0000-0000-000000000000",
 	'./interleaved bridge/interleaved bridge.xtuml');
 INSERT INTO PE_PE
-	VALUES ("202ecd97-a6b9-4753-a14d-6289c9bfd0ca",
-	1,
-	"08381c43-a334-45bd-a718-37cccb80c24f",
-	"00000000-0000-0000-0000-000000000000",
-	3);
-INSERT INTO S_DT
-	VALUES ("bff674c4-77a4-40b8-b9d7-5552872a74fb",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<interleaved bridge>',
-	'',
-	'');
-INSERT INTO S_IRDT
-	VALUES ("bff674c4-77a4-40b8-b9d7-5552872a74fb",
-	1,
-	"69197098-f632-4b7b-81a2-9fd5406666c5");
-INSERT INTO PE_PE
 	VALUES ("bff674c4-77a4-40b8-b9d7-5552872a74fb",
 	1,
 	"08381c43-a334-45bd-a718-37cccb80c24f",
@@ -14311,18 +14223,6 @@ INSERT INTO S_DT
 	'inst_ref<Extended Data Type>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("b38f65e4-3751-44ac-a43f-142a02d52c3a",
-	0,
-	"c3d93283-8e2e-4f7a-981b-c8fdde8c95c2");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("c3d93283-8e2e-4f7a-981b-c8fdde8c95c2",
-	'Extended Data Type',
-	2016,
-	'TE_DT',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended Data Type/Extended Data Type.xtuml');
 INSERT INTO PE_PE
 	VALUES ("b38f65e4-3751-44ac-a43f-142a02d52c3a",
 	1,
@@ -14339,6 +14239,14 @@ INSERT INTO S_IRDT
 	VALUES ("5633bdc4-032d-4297-ae17-da800e77bffa",
 	1,
 	"c3d93283-8e2e-4f7a-981b-c8fdde8c95c2");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("c3d93283-8e2e-4f7a-981b-c8fdde8c95c2",
+	'Extended Data Type',
+	2016,
+	'TE_DT',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended Data Type/Extended Data Type.xtuml');
 INSERT INTO PE_PE
 	VALUES ("5633bdc4-032d-4297-ae17-da800e77bffa",
 	1,
@@ -14351,18 +14259,6 @@ INSERT INTO S_DT
 	'inst_ref<Extended System>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("9c3c2949-6ecb-4cf4-9013-792d37160584",
-	0,
-	"a0733adc-3cb1-4788-969e-339a74e0d2fc");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("a0733adc-3cb1-4788-969e-339a74e0d2fc",
-	'Extended System',
-	2004,
-	'TE_SYS',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended System/Extended System.xtuml');
 INSERT INTO PE_PE
 	VALUES ("9c3c2949-6ecb-4cf4-9013-792d37160584",
 	1,
@@ -14379,6 +14275,14 @@ INSERT INTO S_IRDT
 	VALUES ("f3e06537-fe23-4a51-89ab-c6ae6ee7952a",
 	1,
 	"a0733adc-3cb1-4788-969e-339a74e0d2fc");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("a0733adc-3cb1-4788-969e-339a74e0d2fc",
+	'Extended System',
+	2004,
+	'TE_SYS',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended System/Extended System.xtuml');
 INSERT INTO PE_PE
 	VALUES ("f3e06537-fe23-4a51-89ab-c6ae6ee7952a",
 	1,
@@ -14431,18 +14335,6 @@ INSERT INTO S_DT
 	'inst_ref<Extended Parameter>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("7a7c55de-19e8-42d0-81a9-1d26e33982ad",
-	0,
-	"827bfb20-5406-487d-bac2-eef5e285683c");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("827bfb20-5406-487d-bac2-eef5e285683c",
-	'Extended Parameter',
-	2023,
-	'TE_PARM',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended Parameter/Extended Parameter.xtuml');
 INSERT INTO PE_PE
 	VALUES ("7a7c55de-19e8-42d0-81a9-1d26e33982ad",
 	1,
@@ -14455,10 +14347,6 @@ INSERT INTO S_DT
 	'inst_ref_set<Extended Parameter>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("70195573-bee1-46b0-a3f6-afce8594f5f5",
-	1,
-	"827bfb20-5406-487d-bac2-eef5e285683c");
 INSERT INTO PE_PE
 	VALUES ("70195573-bee1-46b0-a3f6-afce8594f5f5",
 	1,
@@ -14591,18 +14479,6 @@ INSERT INTO S_DT
 	'inst_ref<Action Block Anchor>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("044779c7-f309-4b44-a24c-2b497f1c2c80",
-	0,
-	"5b072f43-3be6-47a3-abc1-8a8c504036b7");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("5b072f43-3be6-47a3-abc1-8a8c504036b7",
-	'Action Block Anchor',
-	2008,
-	'TE_ABA',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Action Block Anchor/Action Block Anchor.xtuml');
 INSERT INTO PE_PE
 	VALUES ("044779c7-f309-4b44-a24c-2b497f1c2c80",
 	1,
@@ -14619,6 +14495,14 @@ INSERT INTO S_IRDT
 	VALUES ("d492a096-e96d-448f-8675-5759550d8290",
 	1,
 	"5b072f43-3be6-47a3-abc1-8a8c504036b7");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("5b072f43-3be6-47a3-abc1-8a8c504036b7",
+	'Action Block Anchor',
+	2008,
+	'TE_ABA',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Action Block Anchor/Action Block Anchor.xtuml');
 INSERT INTO PE_PE
 	VALUES ("d492a096-e96d-448f-8675-5759550d8290",
 	1,
@@ -14631,18 +14515,6 @@ INSERT INTO S_DT
 	'inst_ref<Extended Message Action>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("026512d0-8760-4cb8-9267-673322497da6",
-	0,
-	"ff19e93f-39a8-4a13-af46-1b7ee8317135");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("ff19e93f-39a8-4a13-af46-1b7ee8317135",
-	'Extended Message Action',
-	2069,
-	'TE_MACT',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended Message Action/Extended Message Action.xtuml');
 INSERT INTO PE_PE
 	VALUES ("026512d0-8760-4cb8-9267-673322497da6",
 	1,
@@ -14655,10 +14527,6 @@ INSERT INTO S_DT
 	'inst_ref_set<Extended Message Action>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("2cddf1e0-844d-4c61-bc2c-879ff2f006f3",
-	1,
-	"ff19e93f-39a8-4a13-af46-1b7ee8317135");
 INSERT INTO PE_PE
 	VALUES ("2cddf1e0-844d-4c61-bc2c-879ff2f006f3",
 	1,
@@ -14671,18 +14539,6 @@ INSERT INTO S_DT
 	'inst_ref<Extended Component>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("1a67c2f6-b8b4-421a-a4f5-d999e2cdd281",
-	0,
-	"c9cd9732-9a12-4230-8455-ccdc03ac51a9");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("c9cd9732-9a12-4230-8455-ccdc03ac51a9",
-	'Extended Component',
-	2012,
-	'TE_C',
-	'access:te_dom',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended Component/Extended Component.xtuml');
 INSERT INTO PE_PE
 	VALUES ("1a67c2f6-b8b4-421a-a4f5-d999e2cdd281",
 	1,
@@ -14695,10 +14551,6 @@ INSERT INTO S_DT
 	'inst_ref_set<Extended Component>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("e95ad139-5ff9-4970-b88f-913d324aa2aa",
-	1,
-	"c9cd9732-9a12-4230-8455-ccdc03ac51a9");
 INSERT INTO PE_PE
 	VALUES ("e95ad139-5ff9-4970-b88f-913d324aa2aa",
 	1,
@@ -14711,18 +14563,6 @@ INSERT INTO S_DT
 	'inst_ref<Extended External Entity>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("b2d4d12f-d262-45d3-b989-4d5a579921b1",
-	0,
-	"d4f2642e-541b-447e-b436-7c81a8876583");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("d4f2642e-541b-447e-b436-7c81a8876583",
-	'Extended External Entity',
-	2015,
-	'TE_EE',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended External Entity/Extended External Entity.xtuml');
 INSERT INTO PE_PE
 	VALUES ("b2d4d12f-d262-45d3-b989-4d5a579921b1",
 	1,
@@ -14735,10 +14575,6 @@ INSERT INTO S_DT
 	'inst_ref_set<Extended External Entity>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("75c7fff6-17bd-417a-98a3-59f9bca1070f",
-	1,
-	"d4f2642e-541b-447e-b436-7c81a8876583");
 INSERT INTO PE_PE
 	VALUES ("75c7fff6-17bd-417a-98a3-59f9bca1070f",
 	1,
@@ -14751,18 +14587,6 @@ INSERT INTO S_DT
 	'inst_ref<Extended Dimension>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("5ee47065-5cc5-4da1-a87d-6b0d76386786",
-	0,
-	"88d7fab2-ac63-471c-8601-37374c5207ee");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("88d7fab2-ac63-471c-8601-37374c5207ee",
-	'Extended Dimension',
-	2067,
-	'TE_DIM',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended Dimension/Extended Dimension.xtuml');
 INSERT INTO PE_PE
 	VALUES ("5ee47065-5cc5-4da1-a87d-6b0d76386786",
 	1,
@@ -14779,6 +14603,14 @@ INSERT INTO S_IRDT
 	VALUES ("f37a13b1-7501-4234-ba14-65414122add4",
 	1,
 	"88d7fab2-ac63-471c-8601-37374c5207ee");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("88d7fab2-ac63-471c-8601-37374c5207ee",
+	'Extended Dimension',
+	2067,
+	'TE_DIM',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended Dimension/Extended Dimension.xtuml');
 INSERT INTO PE_PE
 	VALUES ("f37a13b1-7501-4234-ba14-65414122add4",
 	1,
@@ -14791,18 +14623,6 @@ INSERT INTO S_DT
 	'inst_ref<Extended Class>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("a4c72a7c-2bdb-49fd-8096-759f23d860e2",
-	0,
-	"71288336-d2cf-4dbe-b4f9-b28b34d84c37");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("71288336-d2cf-4dbe-b4f9-b28b34d84c37",
-	'Extended Class',
-	2036,
-	'TE_CLASS',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended Class/Extended Class.xtuml');
 INSERT INTO PE_PE
 	VALUES ("a4c72a7c-2bdb-49fd-8096-759f23d860e2",
 	1,
@@ -14815,10 +14635,6 @@ INSERT INTO S_DT
 	'inst_ref_set<Extended Class>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("f76e163a-e9e5-4b43-9fb2-aeeda16e3740",
-	1,
-	"71288336-d2cf-4dbe-b4f9-b28b34d84c37");
 INSERT INTO PE_PE
 	VALUES ("f76e163a-e9e5-4b43-9fb2-aeeda16e3740",
 	1,
@@ -14831,18 +14647,6 @@ INSERT INTO S_DT
 	'inst_ref<Extended Port>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("d303200c-a4c1-4436-8fd1-9f684c9509a9",
-	0,
-	"617d51f7-fc07-4abe-89b9-cc83f5c36ebd");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("617d51f7-fc07-4abe-89b9-cc83f5c36ebd",
-	'Extended Port',
-	2030,
-	'TE_PO',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended Port/Extended Port.xtuml');
 INSERT INTO PE_PE
 	VALUES ("d303200c-a4c1-4436-8fd1-9f684c9509a9",
 	1,
@@ -14855,10 +14659,6 @@ INSERT INTO S_DT
 	'inst_ref_set<Extended Port>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("eafae685-f05e-4f3d-ad38-35b2a8c9b758",
-	1,
-	"617d51f7-fc07-4abe-89b9-cc83f5c36ebd");
 INSERT INTO PE_PE
 	VALUES ("eafae685-f05e-4f3d-ad38-35b2a8c9b758",
 	1,
@@ -14871,18 +14671,6 @@ INSERT INTO S_DT
 	'inst_ref<Interface Instance>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("a765e935-11b6-42b5-a506-6c5c576bec7f",
-	0,
-	"f4dd3013-34a9-489d-b8c2-b465001a79ea");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("f4dd3013-34a9-489d-b8c2-b465001a79ea",
-	'Interface Instance',
-	2070,
-	'TE_IIR',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Interface Instance/Interface Instance.xtuml');
 INSERT INTO PE_PE
 	VALUES ("a765e935-11b6-42b5-a506-6c5c576bec7f",
 	1,
@@ -14899,6 +14687,14 @@ INSERT INTO S_IRDT
 	VALUES ("f36408d9-9584-4fca-97de-818ede84b08e",
 	1,
 	"f4dd3013-34a9-489d-b8c2-b465001a79ea");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("f4dd3013-34a9-489d-b8c2-b465001a79ea",
+	'Interface Instance',
+	2070,
+	'TE_IIR',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Interface Instance/Interface Instance.xtuml');
 INSERT INTO PE_PE
 	VALUES ("f36408d9-9584-4fca-97de-818ede84b08e",
 	1,
@@ -14911,18 +14707,6 @@ INSERT INTO S_DT
 	'inst_ref<Extended Function>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("431d4f13-03e4-4577-9b2b-164216735801",
-	0,
-	"8ab91611-0fcb-486b-94e5-805e3fdf7ddb");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("8ab91611-0fcb-486b-94e5-805e3fdf7ddb",
-	'Extended Function',
-	2018,
-	'TE_SYNC',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended Function/Extended Function.xtuml');
 INSERT INTO PE_PE
 	VALUES ("431d4f13-03e4-4577-9b2b-164216735801",
 	1,
@@ -14935,10 +14719,6 @@ INSERT INTO S_DT
 	'inst_ref_set<Extended Function>',
 	'',
 	'');
-INSERT INTO S_IRDT
-	VALUES ("422f437a-4ca4-42ef-9ff8-6cdeacc2a875",
-	1,
-	"8ab91611-0fcb-486b-94e5-805e3fdf7ddb");
 INSERT INTO PE_PE
 	VALUES ("422f437a-4ca4-42ef-9ff8-6cdeacc2a875",
 	1,
@@ -15156,6 +14936,14 @@ INSERT INTO R_OIR
 	"227c8041-de10-44f7-8567-97647edfd114",
 	"c30f6752-41bd-4f08-a6c8-331b47187e88",
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("8ab91611-0fcb-486b-94e5-805e3fdf7ddb",
+	'Extended Function',
+	2018,
+	'TE_SYNC',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended Function/Extended Function.xtuml');
 INSERT INTO R_SUB
 	VALUES ("dce3130b-3998-4faf-b957-d77e3e6bf84c",
 	"227c8041-de10-44f7-8567-97647edfd114",
@@ -15232,6 +15020,14 @@ INSERT INTO R_OIR
 	"227c8041-de10-44f7-8567-97647edfd114",
 	"32df90e7-7ccf-4f48-ac36-968df6e4d8ed",
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("ff19e93f-39a8-4a13-af46-1b7ee8317135",
+	'Extended Message Action',
+	2069,
+	'TE_MACT',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended Message Action/Extended Message Action.xtuml');
 INSERT INTO PE_PE
 	VALUES ("227c8041-de10-44f7-8567-97647edfd114",
 	1,
@@ -15955,6 +15751,14 @@ INSERT INTO R_OIR
 	"8c1dc65f-4119-4b0d-8871-ffca36bf30c9",
 	"3735e246-377c-47d1-bbbf-2a9db3ceee91",
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("d4f2642e-541b-447e-b436-7c81a8876583",
+	'Extended External Entity',
+	2015,
+	'TE_EE',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended External Entity/Extended External Entity.xtuml');
 INSERT INTO R_PART
 	VALUES ("239df24f-295d-41f2-8bc5-72c6538640fd",
 	"8c1dc65f-4119-4b0d-8871-ffca36bf30c9",
@@ -16025,6 +15829,14 @@ INSERT INTO R_OIR
 	"e3d91de4-afb6-4ebf-ab19-46f3c2cdf71f",
 	"5857f686-cc9a-4c8c-af79-9967b7c0ee55",
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("827bfb20-5406-487d-bac2-eef5e285683c",
+	'Extended Parameter',
+	2023,
+	'TE_PARM',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended Parameter/Extended Parameter.xtuml');
 INSERT INTO R_PART
 	VALUES ("7a7b2427-5d60-45d3-a284-be1f7cff0741",
 	"e3d91de4-afb6-4ebf-ab19-46f3c2cdf71f",
@@ -16563,6 +16375,14 @@ INSERT INTO R_OIR
 	"ea8c9f6e-cba7-4343-bbe8-23120942d0b7",
 	"631e4c6d-94c1-4bc1-8e2d-c61093591f7c",
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("71288336-d2cf-4dbe-b4f9-b28b34d84c37",
+	'Extended Class',
+	2036,
+	'TE_CLASS',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended Class/Extended Class.xtuml');
 INSERT INTO R_PART
 	VALUES ("e545984c-062c-43fd-9deb-1a46d657e094",
 	"ea8c9f6e-cba7-4343-bbe8-23120942d0b7",
@@ -18081,6 +17901,14 @@ INSERT INTO R_OIR
 	"0257d564-dd66-4628-a38c-4a41fcce46e6",
 	"7a563176-c083-4a85-8bd3-ce8059a0c35a",
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("c9cd9732-9a12-4230-8455-ccdc03ac51a9",
+	'Extended Component',
+	2012,
+	'TE_C',
+	'access:te_dom',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended Component/Extended Component.xtuml');
 INSERT INTO R_FORM
 	VALUES ("71288336-d2cf-4dbe-b4f9-b28b34d84c37",
 	"0257d564-dd66-4628-a38c-4a41fcce46e6",
@@ -18619,6 +18447,14 @@ INSERT INTO R_OIR
 	"1e421d34-5239-469f-bea8-85ef1883f32f",
 	"5017d633-5439-4518-8f09-ea5edbff0332",
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("617d51f7-fc07-4abe-89b9-cc83f5c36ebd",
+	'Extended Port',
+	2030,
+	'TE_PO',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended Port/Extended Port.xtuml');
 INSERT INTO PE_PE
 	VALUES ("1e421d34-5239-469f-bea8-85ef1883f32f",
 	1,
