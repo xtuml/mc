@@ -17,7 +17,8 @@ INSERT INTO O_TFR
 	'T::include( file:"masl/t.expression.masl" );',
 	1,
 	'',
-	"39e326a5-5f64-4332-9def-67d310d39f3e");
+	"39e326a5-5f64-4332-9def-67d310d39f3e",
+	0);
 INSERT INTO O_TFR
 	VALUES ("39e326a5-5f64-4332-9def-67d310d39f3e",
 	"8e83f3d0-9312-48bd-803d-f55634d8f9e7",
@@ -41,7 +42,8 @@ expression.body = param.body;
 return expression;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("3298e035-b738-484c-8e96-65dad108a5de",
 	"39e326a5-5f64-4332-9def-67d310d39f3e",
@@ -93,7 +95,8 @@ end if;
 return valid;',
 	1,
 	'',
-	"bdd852cd-1211-4881-b3ec-e0d41e154c8e");
+	"bdd852cd-1211-4881-b3ec-e0d41e154c8e",
+	0);
 INSERT INTO O_TFR
 	VALUES ("bdd852cd-1211-4881-b3ec-e0d41e154c8e",
 	"8e83f3d0-9312-48bd-803d-f55634d8f9e7",
@@ -106,7 +109,8 @@ INSERT INTO O_TFR
 //out::( element:"template_class", value:value );',
 	1,
 	'',
-	"facd2db5-480c-4340-a131-96baaae2e92a");
+	"facd2db5-480c-4340-a131-96baaae2e92a",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("513dda12-e8ae-40e7-b517-edc138f8eb6b",
 	"8e83f3d0-9312-48bd-803d-f55634d8f9e7");

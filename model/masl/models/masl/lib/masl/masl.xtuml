@@ -378,7 +378,8 @@ INSERT INTO SPR_PO
 	'populate',
 	'',
 	'population::populate( element:param.element, value:param.value );',
-	1);
+	1,
+	0);
 INSERT INTO C_EP_PROXY
 	VALUES ("6e3df598-100b-4d34-b3d2-2a4ecdb2ac3c",
 	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
@@ -395,7 +396,8 @@ INSERT INTO SPR_PS
 	'end',
 	'',
 	'',
-	3);
+	3,
+	0);
 INSERT INTO C_EP_PROXY
 	VALUES ("0ea72257-0ebc-46e1-ab27-94d34a5b47cc",
 	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
@@ -435,7 +437,8 @@ INSERT INTO SPR_PS
 	'render',
 	'',
 	'file::render( element:param.element, name:param.name );',
-	1);
+	1,
+	0);
 INSERT INTO C_EP_PROXY
 	VALUES ("bf2670be-70c3-4455-a751-ecc960ffedb8",
 	"965609b5-99d9-40ca-bc70-74dd6acccf34",
@@ -462,7 +465,8 @@ elif ( "domain" == param.element )
     domain.tostring();
   end if;
 end if;',
-	1);
+	1,
+	0);
 INSERT INTO C_EP_PROXY
 	VALUES ("4f3928ea-6523-484f-8d57-340cf7fe859b",
 	"965609b5-99d9-40ca-bc70-74dd6acccf34",
@@ -479,7 +483,8 @@ INSERT INTO SPR_PS
 	'validate',
 	'',
 	'file::validate();',
-	1);
+	1,
+	0);
 INSERT INTO C_EP_PROXY
 	VALUES ("f49538b2-41b6-4418-8b44-e9e8230876a5",
 	"965609b5-99d9-40ca-bc70-74dd6acccf34",

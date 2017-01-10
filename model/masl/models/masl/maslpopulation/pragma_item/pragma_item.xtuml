@@ -17,7 +17,8 @@ INSERT INTO O_TFR
 	'T::include( file:"masl/t.pragmaitem.masl" );',
 	1,
 	'',
-	"dbfe2180-cdec-46ab-af99-d99b13ede7b2");
+	"dbfe2180-cdec-46ab-af99-d99b13ede7b2",
+	0);
 INSERT INTO O_TFR
 	VALUES ("dbfe2180-cdec-46ab-af99-d99b13ede7b2",
 	"5a21b94f-788a-4b1e-9641-6e9c160bcf75",
@@ -31,7 +32,8 @@ pragma_item.value = param.value;
 relate pragma_item to pragma across R3780;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("646339c0-d3e1-46c8-a478-0afaa1744d0c",
 	"dbfe2180-cdec-46ab-af99-d99b13ede7b2",
@@ -76,7 +78,8 @@ end if;
 return valid;',
 	1,
 	'',
-	"9b7874e3-4cb3-45a3-a0c6-a4d5b38e6f53");
+	"9b7874e3-4cb3-45a3-a0c6-a4d5b38e6f53",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("9e22e8a7-0fd0-4095-abda-f6acf176a38f",
 	"5a21b94f-788a-4b1e-9641-6e9c160bcf75");
