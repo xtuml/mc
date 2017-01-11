@@ -8079,6 +8079,13 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t * p_value[8] )
       masl2xtuml_ooaelement_op_trace( ooapopulation );
     }
   }
+  else if ( ( Escher_strcmp( "expression", element ) == 0 ) ) {
+    masl2xtuml_ooaelement * current_element=0;
+    /* SELECT one current_element RELATED BY ooapopulation->ooaelement[R3801] */
+    current_element = ( 0 != ooapopulation ) ? ooapopulation->ooaelement_R3801_has_current : 0;
+    /* ooapopulation.transformExpression( element:current_element, text:value[0] ) */
+    masl2xtuml_ooapopulation_op_transformExpression( ooapopulation,  current_element, value[0] );
+  }
   else if ( ( Escher_strcmp( "description", element ) == 0 ) ) {
     masl2xtuml_ooaelement * current_element=0;
     /* SELECT one current_element RELATED BY ooapopulation->ooaelement[R3801] */
@@ -8607,6 +8614,8 @@ masl2xtuml_ooapopulation_op_transformDescription( masl2xtuml_ooapopulation * sel
     self->current_rel.description = Escher_strcpy( self->current_rel.description, Escher_stradd( self->current_rel.description, text ) );
   }
   else {
+    /* TRACE::log( flavor:warning, id:11, message:( description found for unsupported element + element.type ) ) */
+    TRACE_log( "warning", 11, Escher_stradd( "description found for unsupported element", element->type ) );
   }
 }
 
@@ -9874,6 +9883,34 @@ masl2xtuml_ooapopulation_op_transformType( masl2xtuml_ooapopulation * self, c_t 
   else {
     /* ASSIGN self.current_type = sys_s_dt */
     self->current_type = sys_s_dt;
+  }
+}
+
+/*
+ * instance operation:  transformExpression
+ */
+void
+masl2xtuml_ooapopulation_op_transformExpression( masl2xtuml_ooapopulation * self, masl2xtuml_ooaelement * p_element, c_t * p_text )
+{
+  c_t * text=0;masl2xtuml_ooaelement * element;
+  /* ASSIGN element = PARAM.element */
+  element = p_element;
+  /* ASSIGN text = STRING::escapetics(s:PARAM.text) */
+  text = Escher_strcpy( text, STRING_escapetics( p_text ) );
+  /* IF ( ( attribute == element.type ) ) */
+  if ( ( Escher_strcmp( "attribute", element->type ) == 0 ) ) {
+    masl2xtuml_O_ATTR * attr;
+    /* ASSIGN attr = self.current_attribute */
+    attr = self->current_attribute;
+    /* IF ( not_empty attr ) */
+    if ( ( 0 != attr ) ) {
+      /* ASSIGN attr.DefaultValue = text */
+      attr->DefaultValue = Escher_strcpy( attr->DefaultValue, text );
+    }
+  }
+  else {
+    /* TRACE::log( flavor:warning, id:111, message:( expression found for unsupported element + element.type ) ) */
+    TRACE_log( "warning", 111, Escher_stradd( "expression found for unsupported element", element->type ) );
   }
 }
 
