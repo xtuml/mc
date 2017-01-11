@@ -7461,6 +7461,9 @@ elif ( "pragmaitem" == element )
     TRACE::log( flavor:"failure", id:57, message:"Element stack is malformed." );
     ooaelement::trace( population: ooapopulation );
   end if;
+elif ( "expression" == element )
+  select one current_element related by ooapopulation->ooaelement[R3801];
+  ooapopulation.transformExpression( element:current_element, text:value[0] );
 elif ( "description" == element )
   select one current_element related by ooapopulation->ooaelement[R3801];
   ooapopulation.transformDescription( element:current_element, text:value[0], tag:value[1] );
@@ -7886,7 +7889,7 @@ elif ( "project" == element.type )
 elif ( "subsuper" == element.type or "regularrel" == element.type or "associative" == element.type )
   self.current_rel.description = self.current_rel.description + text;
 else
-  // TRACE::log( flavor:"warning", id:11, message:"description found for unsupported element" + element.type );
+  TRACE::log( flavor:"warning", id:11, message:"description found for unsupported element" + element.type );
 end if;',
 	1,
 	'',
@@ -8200,7 +8203,7 @@ end if;
 //   later, we basically just do nothing and return.',
 	1,
 	'',
-	"4d1a8157-4489-4b5b-9f75-6d745600639f",
+	"c3d66243-5c19-4457-aff7-0febc9498428",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("a210dbee-805b-46d2-b616-1f5524ddf658",
@@ -8906,6 +8909,48 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"9a44268b-b384-4692-8f79-30b65cf7e927",
+	'');
+INSERT INTO O_TFR
+	VALUES ("c3d66243-5c19-4457-aff7-0febc9498428",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'transformExpression',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'element = param.element;
+text = STRING::escapetics(s:param.text);
+
+// choose where to put the expression based on the element type
+if ( "attribute" == element.type ) 
+  attr = self.current_attribute;
+  if ( not_empty attr )
+    attr.DefaultValue = text;
+  end if;
+else
+  TRACE::log( flavor:"warning", id:111, message:"expression found for unsupported element" + element.type );
+end if;
+',
+	1,
+	'',
+	"4d1a8157-4489-4b5b-9f75-6d745600639f",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("da42c5db-51eb-476b-b3bd-58a0495a75c9",
+	"c3d66243-5c19-4457-aff7-0febc9498428",
+	'element',
+	"e5dfdb84-9b56-40db-b9da-9bfde06c573c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("eba96f10-3d87-41d9-9a89-2940daa7574b",
+	"c3d66243-5c19-4457-aff7-0febc9498428",
+	'text',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"da42c5db-51eb-476b-b3bd-58a0495a75c9",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("65062455-b226-4503-a876-a0cbd652b56e",
