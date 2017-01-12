@@ -1162,9 +1162,9 @@ end if;
 self.Port_initialize(c_po:port, name:param.port_name);
 
 if ( self.processingProject )
-  // Add "formalize" to the description so the MASL
+  // Add "masl_formalize" to the description so the MASL
   // import processor knows to formalize this interface
-  requirement.Descrip = requirement.Descrip + "formalize";
+  requirement.Descrip = requirement.Descrip + "masl_formalize";
 end if;
 
 return interfaceRef;',
@@ -7953,9 +7953,13 @@ if ( self.processingProject )
 else
   // Create a package named the same as the domain and cache it
   self.lib_pkg = self.SystemModel_newPackage(s_sys:self.current_sys, pkg_name:param.name);
+  lib_pkg = self.lib_pkg;
+
+  // Add "masl_domain" to the description so the MASL
+  // import processor knows to perform MASL-specific processing.
+  lib_pkg.Descrip = "masl_domain";
 
   // Create a component in the library package if it doesn''t already exist
-  lib_pkg = self.lib_pkg;
   select any c_c related by lib_pkg->PE_PE[R8000]->C_C[R8001] where ( param.name == selected.Name );
 
   if ( empty c_c )
@@ -8404,7 +8408,7 @@ if ( not_empty lib_pkg )
   // Add "masl_project" to the description so the MASL
   // import processor knows to resolve the component
   // references and to create satisfactions automatically
-  lib_pkg.Descrip = lib_pkg.Descrip + "masl_project";
+  lib_pkg.Descrip = "masl_project";
 end if;
 ',
 	1,
