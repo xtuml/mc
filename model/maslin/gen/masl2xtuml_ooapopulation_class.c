@@ -1087,8 +1087,8 @@ masl2xtuml_ooapopulation_op_Component_initializeRequirement( masl2xtuml_ooapopul
   masl2xtuml_ooapopulation_op_Port_initialize( self,  port, p_port_name );
   /* IF ( self.processingProject ) */
   if ( self->processingProject ) {
-    /* ASSIGN requirement.Descrip = ( requirement.Descrip + formalize ) */
-    requirement->Descrip = Escher_strcpy( requirement->Descrip, Escher_stradd( requirement->Descrip, "formalize" ) );
+    /* ASSIGN requirement.Descrip = ( requirement.Descrip + masl_formalize ) */
+    requirement->Descrip = Escher_strcpy( requirement->Descrip, Escher_stradd( requirement->Descrip, "masl_formalize" ) );
   }
   /* RETURN interfaceRef */
   {masl2xtuml_C_IR * xtumlOALrv = interfaceRef;
@@ -8653,6 +8653,8 @@ masl2xtuml_ooapopulation_op_transformDomain( masl2xtuml_ooapopulation * self, c_
     self->lib_pkg = masl2xtuml_ooapopulation_op_SystemModel_newPackage(self, p_name, self->current_sys);
     /* ASSIGN lib_pkg = self.lib_pkg */
     lib_pkg = self->lib_pkg;
+    /* ASSIGN lib_pkg.Descrip = masl_domain */
+    lib_pkg->Descrip = Escher_strcpy( lib_pkg->Descrip, "masl_domain" );
     /* SELECT any c_c RELATED BY lib_pkg->PE_PE[R8000]->C_C[R8001] WHERE ( ( PARAM.name == SELECTED.Name ) ) */
     c_c = 0;
     {    if ( 0 != lib_pkg ) {
@@ -9145,8 +9147,8 @@ masl2xtuml_ooapopulation_op_transformProject( masl2xtuml_ooapopulation * self, c
   lib_pkg = self->lib_pkg;
   /* IF ( not_empty lib_pkg ) */
   if ( ( 0 != lib_pkg ) ) {
-    /* ASSIGN lib_pkg.Descrip = ( lib_pkg.Descrip + masl_project ) */
-    lib_pkg->Descrip = Escher_strcpy( lib_pkg->Descrip, Escher_stradd( lib_pkg->Descrip, "masl_project" ) );
+    /* ASSIGN lib_pkg.Descrip = masl_project */
+    lib_pkg->Descrip = Escher_strcpy( lib_pkg->Descrip, "masl_project" );
   }
 }
 
