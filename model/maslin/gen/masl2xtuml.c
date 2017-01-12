@@ -55,7 +55,7 @@ masl2xtuml_in_end()
   }}}
   /* IF ( ( not_empty ooapopulation and ooapopulation.processingProject ) ) */
   if ( ( ( 0 != ooapopulation ) && ooapopulation->processingProject ) ) {
-    masl2xtuml_S_DT * s_dt=0;masl2xtuml_EP_PKG * lib_pkg;Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;masl2xtuml_EP_PKG * types_pkg=0;
+    masl2xtuml_S_DT * s_dt=0;masl2xtuml_EP_PKG * lib_pkg;Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;Escher_ObjectSet_s s_udts_space={0}; Escher_ObjectSet_s * s_udts = &s_udts_space;masl2xtuml_EP_PKG * types_pkg=0;
     /* ASSIGN lib_pkg = ooapopulation.lib_pkg */
     lib_pkg = ooapopulation->lib_pkg;
     /* SELECT any types_pkg RELATED BY lib_pkg->PE_PE[R8000]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == Shared ) ) */
@@ -70,19 +70,31 @@ masl2xtuml_in_end()
       types_pkg = selected;
     }}
 }}}
-    /* SELECT many s_dts RELATED BY types_pkg->PE_PE[R8000]->S_DT[R8001] WHERE ( ( SELECTED.Descrip == <definition>tmp</definition> ) ) */
-    Escher_ClearSet( s_dts );
+    /* SELECT many s_udts RELATED BY types_pkg->PE_PE[R8000]->S_DT[R8001]->S_UDT[R17] WHERE ( ( SELECTED.Definition == tmp ) ) */
+    Escher_ClearSet( s_udts );
     {    if ( 0 != types_pkg ) {
     masl2xtuml_PE_PE * PE_PE_R8000_contains;
     Escher_Iterator_s iPE_PE_R8000_contains;
     Escher_IteratorReset( &iPE_PE_R8000_contains, &types_pkg->PE_PE_R8000_contains );
     while ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
-    if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )    {masl2xtuml_S_DT * selected = PE_PE_R8000_contains->R8001_subtype;
-    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Descrip, "<definition>tmp</definition>" ) == 0 ) ) {
-      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) s_dts, selected ) ) {
-        Escher_SetInsertElement( (Escher_ObjectSet_s *) s_dts, selected );
+    masl2xtuml_S_DT * R8001_subtype = (masl2xtuml_S_DT *) PE_PE_R8000_contains->R8001_subtype;
+    if ( 0 != R8001_subtype )    if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) ) {
+    if ( ( 0 != R8001_subtype ) && ( masl2xtuml_S_UDT_CLASS_NUMBER == R8001_subtype->R17_object_id ) )    {masl2xtuml_S_UDT * selected = R8001_subtype->R17_subtype;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Definition, "tmp" ) == 0 ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) s_udts, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) s_udts, selected );
     }}}
-}}}
+}}}}
+    /* SELECT many s_dts RELATED BY s_udts->S_DT[R17] */
+    Escher_ClearSet( s_dts );
+    {masl2xtuml_S_UDT * masl2xtuml_S_UDT_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, s_udts );
+    while ( 0 != ( masl2xtuml_S_UDT_linkage = (masl2xtuml_S_UDT *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+      {masl2xtuml_S_DT * S_DT_R17 = masl2xtuml_S_UDT_linkage->S_DT_R17;
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) s_dts, S_DT_R17 ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) s_dts, S_DT_R17 );
+    }}}}
     /* FOR EACH s_dt IN s_dts */
     { Escher_Iterator_s iters_dt;
     masl2xtuml_S_DT * iis_dt;
@@ -119,7 +131,7 @@ masl2xtuml_in_end()
       }
       Escher_DeleteInstance( (Escher_iHandle_t) s_dt, masl2xtuml_DOMAIN_ID, masl2xtuml_S_DT_CLASS_NUMBER );
     }}}
-    Escher_ClearSet( s_dts ); 
+    Escher_ClearSet( s_dts ); Escher_ClearSet( s_udts ); 
   }
   Escher_ClearSet( forms );Escher_ClearSet( elements );
 }
