@@ -1697,6 +1697,8 @@ masl2xtuml_ooapopulation_op_Function_initialize( masl2xtuml_ooapopulation * self
   s_sync->Name = Escher_strcpy( s_sync->Name, p_name );
   /* ASSIGN s_sync.Suc_Pars = parseInitial */
   s_sync->Suc_Pars = maslin_ParseStatus_parseInitial_e;
+  /* ASSIGN s_sync.Dialect = c */
+  s_sync->Dialect = maslin_ActionDialect_c_e;
 }
 
 /*
@@ -7226,8 +7228,8 @@ masl2xtuml_ooapopulation_op_mergeDuplicateOperations( masl2xtuml_ooapopulation *
       if ( ( ( o_tfr != op ) && ( Escher_strcmp( masl2xtuml_ooapopulation_op_Operation_getSignature(self, op), masl2xtuml_ooapopulation_op_Operation_getSignature(self, o_tfr) ) == 0 ) ) ) {
         /* ASSIGN o_tfr.Action_Semantics_internal = op.Action_Semantics_internal */
         o_tfr->Action_Semantics_internal = Escher_strcpy( o_tfr->Action_Semantics_internal, op->Action_Semantics_internal );
-        /* ASSIGN o_tfr.Dialect = masl */
-        o_tfr->Dialect = maslin_ActionDialect_masl_e;
+        /* ASSIGN o_tfr.Dialect = op.Dialect */
+        o_tfr->Dialect = op->Dialect;
         /* self.Operation_dispose( o_tfr:op ) */
         masl2xtuml_ooapopulation_op_Operation_dispose( self,  op );
         /* BREAK */
@@ -7277,8 +7279,8 @@ masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * s
       if ( ( ( s_sync != function ) && ( Escher_strcmp( masl2xtuml_ooapopulation_op_Function_getSignature(self, function), masl2xtuml_ooapopulation_op_Function_getSignature(self, s_sync) ) == 0 ) ) ) {
         /* ASSIGN s_sync.Action_Semantics_internal = function.Action_Semantics_internal */
         s_sync->Action_Semantics_internal = Escher_strcpy( s_sync->Action_Semantics_internal, function->Action_Semantics_internal );
-        /* ASSIGN s_sync.Dialect = masl */
-        s_sync->Dialect = maslin_ActionDialect_masl_e;
+        /* ASSIGN s_sync.Dialect = function.Dialect */
+        s_sync->Dialect = function->Dialect;
         /* IF ( not_empty message ) */
         if ( ( 0 != message ) ) {
           /* self.ExecutableProperty_dispose( c_ep:message ) */
@@ -8153,8 +8155,8 @@ masl2xtuml_ooapopulation_op_populate_project( c_t * p_element, masl2xtuml_ooapop
       new_ir = ( 0 != comp_if ) ? (masl2xtuml_C_IR *) Escher_SetGetAny( &comp_if->C_IR_R4012_is_formal_definition ) : 0;
       /* ooapopulation.InterfaceReference_formalize( c_i:comp_if, c_ir:new_ir ) */
       masl2xtuml_ooapopulation_op_InterfaceReference_formalize( ooapopulation,  comp_if, new_ir );
-      /* ASSIGN comp_if.Descrip = ( comp_if.Descrip + temporary ) */
-      comp_if->Descrip = Escher_strcpy( comp_if->Descrip, Escher_stradd( comp_if->Descrip, "temporary" ) );
+      /* ASSIGN comp_if.Descrip = ( comp_if.Descrip + masl_temporary ) */
+      comp_if->Descrip = Escher_strcpy( comp_if->Descrip, Escher_stradd( comp_if->Descrip, "masl_temporary" ) );
       /* SELECT many c_eps RELATED BY comp_if->C_EP[R4003] */
       Escher_ClearSet( c_eps );
       if ( 0 != comp_if ) {
@@ -8704,6 +8706,11 @@ masl2xtuml_ooapopulation_op_transformDomainFunction( masl2xtuml_ooapopulation * 
           break;
         }
       }
+    }
+    /* IF ( empty current_component ) */
+    if ( ( 0 == current_component ) ) {
+      /* TRACE::log( flavor:failure, id:121, message:( Service is defined with unrecognized domain:   + PARAM.domain ) ) */
+      TRACE_log( "failure", 121, Escher_stradd( "Service is defined with unrecognized domain:  ", p_domain ) );
     }
   }
   /* SELECT any functions_pkg RELATED BY current_component->PE_PE[R8003]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == functions ) ) */

@@ -1862,6 +1862,11 @@ relate s_sync to def_dt across R25;
 
 s_sync.Name = param.name;
 s_sync.Suc_Pars = ParseStatus::parseInitial;
+
+// Initialize Dialect to C (realized C code).  This will get changed
+// to MASL when a codeblock is supplied.  If no codeblock is supplied,
+// it means that the routine is implemented as C.
+s_sync.Dialect = ActionDialect::c;
 ',
 	1,
 	'',
@@ -7002,7 +7007,7 @@ if ( not_empty op )
     if ( o_tfr != op and self.Operation_getSignature( o_tfr:op ) == self.Operation_getSignature( o_tfr:o_tfr ) )
       // copy over the codeblock
       o_tfr.Action_Semantics_internal = op.Action_Semantics_internal;
-      o_tfr.Dialect = ActionDialect::masl;
+      o_tfr.Dialect = op.Dialect;
       // dispose the operation
       self.Operation_dispose( o_tfr:op );
       break;
@@ -7032,7 +7037,7 @@ if ( not_empty function )
     if ( s_sync != function and self.Function_getSignature( s_sync:function ) == self.Function_getSignature( s_sync:s_sync ) )
       // copy over the codeblock
       s_sync.Action_Semantics_internal = function.Action_Semantics_internal;
-      s_sync.Dialect = ActionDialect::masl;
+      s_sync.Dialect = function.Dialect;
       // dispose corresponding interface message
       if ( not_empty message )
         // in the case of "private" domain services, there will not be a corresponding c_ep instance
@@ -7998,6 +8003,9 @@ INSERT INTO O_TFR
 current_component = self.current_component;
 if ( empty current_component )
   select any current_component from instances of C_C where ( selected.Name == param.domain );
+  if ( empty current_component )
+    TRACE::log( flavor:"failure", id:121, message:"Service is defined with unrecognized domain:  " + param.domain );
+  end if;
 end if;
 
 select any functions_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == "functions");
