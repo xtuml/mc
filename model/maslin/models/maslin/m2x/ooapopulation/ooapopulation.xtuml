@@ -7545,10 +7545,10 @@ elif ( "terminator" == element )
   	select any new_ir related by comp_if->C_IR[R4012];
   	ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
   	
-    // Add "temporary" to the description so the MASL
+    // Add "masl_temporary" to the description so the MASL
     // import processor knows to swap this interface
     // with the corresponding interface in the domain
-  	comp_if.Descrip = comp_if.Descrip + "temporary";
+  	comp_if.Descrip = comp_if.Descrip + "masl_temporary";
   	
   	// copy the codeblocks into the right locations
   	select many c_eps related by comp_if->C_EP[R4003];
