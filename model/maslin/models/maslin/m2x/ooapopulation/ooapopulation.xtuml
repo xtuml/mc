@@ -4261,7 +4261,7 @@ IDLINK::stitchID( name:param.type_name, pe_pe:pe, s_dt:dt, s_udt:udt );
 
 // For complex MASL types we store the definition in the description
 if ( "" != param.definition )
-  dt.Descrip = dt.Descrip + "<definition>" + param.definition + "</definition>\n";
+  udt.Definition = param.definition;
 end if;',
 	1,
 	'',
@@ -8874,10 +8874,9 @@ if ( (empty sys_s_dt) and (empty s_dt) )
 else
   // update the type definition
   if ( "" != param.definition )
-    if ( not_empty sys_s_dt )
-	  sys_s_dt.Descrip = sys_s_dt.Descrip + "<definition>" + param.definition + "</definition>\n";
-	else
-	  s_dt.Descrip = s_dt.Descrip + "<definition>" + param.definition + "</definition>\n";
+    select one s_udt related by s_dt->S_UDT[R17];
+    if ( not_empty s_udt )
+	  s_udt.Definition = param.definition;
 	end if;
   end if;
 end if;

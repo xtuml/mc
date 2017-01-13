@@ -4114,8 +4114,8 @@ masl2xtuml_ooapopulation_op_Package_newDatatype( masl2xtuml_ooapopulation * self
   IDLINK_stitchID( p_type_name, pe, dt, udt );
   /* IF ( (  != PARAM.definition ) ) */
   if ( ( Escher_strcmp( "", p_definition ) != 0 ) ) {
-    /* ASSIGN dt.Descrip = ( ( ( dt.Descrip + <definition> ) + PARAM.definition ) + </definition>\n ) */
-    dt->Descrip = Escher_strcpy( dt->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( dt->Descrip, "<definition>" ), p_definition ), "</definition>\n" ) );
+    /* ASSIGN udt.Definition = PARAM.definition */
+    udt->Definition = Escher_strcpy( udt->Definition, p_definition );
   }
 }
 
@@ -9849,14 +9849,14 @@ masl2xtuml_ooapopulation_op_transformType( masl2xtuml_ooapopulation * self, c_t 
   else {
     /* IF ( (  != PARAM.definition ) ) */
     if ( ( Escher_strcmp( "", p_definition ) != 0 ) ) {
-      /* IF ( not_empty sys_s_dt ) */
-      if ( ( 0 != sys_s_dt ) ) {
-        /* ASSIGN sys_s_dt.Descrip = ( ( ( sys_s_dt.Descrip + <definition> ) + PARAM.definition ) + </definition>\n ) */
-        sys_s_dt->Descrip = Escher_strcpy( sys_s_dt->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( sys_s_dt->Descrip, "<definition>" ), p_definition ), "</definition>\n" ) );
-      }
-      else {
-        /* ASSIGN s_dt.Descrip = ( ( ( s_dt.Descrip + <definition> ) + PARAM.definition ) + </definition>\n ) */
-        s_dt->Descrip = Escher_strcpy( s_dt->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( s_dt->Descrip, "<definition>" ), p_definition ), "</definition>\n" ) );
+      masl2xtuml_S_UDT * s_udt=0;
+      /* SELECT one s_udt RELATED BY s_dt->S_UDT[R17] */
+      s_udt = 0;
+      if ( ( 0 != s_dt ) && ( masl2xtuml_S_UDT_CLASS_NUMBER == s_dt->R17_object_id ) )      s_udt = ( 0 != s_dt ) ? (masl2xtuml_S_UDT *) s_dt->R17_subtype : 0;
+      /* IF ( not_empty s_udt ) */
+      if ( ( 0 != s_udt ) ) {
+        /* ASSIGN s_udt.Definition = PARAM.definition */
+        s_udt->Definition = Escher_strcpy( s_udt->Definition, p_definition );
       }
     }
   }

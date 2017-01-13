@@ -293,7 +293,7 @@ INSERT INTO GD_GE
 	"d906b2ef-dfdc-496b-aeef-260d5369a267",
 	108,
 	0,
-	'm2x_imported');
+	'maslin::lib::masl2xtuml::m2x_imported');
 INSERT INTO GD_SHP
 	VALUES ("2490cb5b-f723-4ae1-8448-947528c36c7f");
 INSERT INTO GD_NCS
@@ -432,7 +432,8 @@ end for;
 if ( not_empty ooapopulation and ooapopulation.processingProject )
   lib_pkg = ooapopulation.lib_pkg;
   select any types_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
-  select many s_dts related by types_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Descrip == "<definition>tmp</definition>" );
+  select many s_udts related by types_pkg->PE_PE[R8000]->S_DT[R8001]->S_UDT[R17] where ( selected.Definition == "tmp" );
+  select many s_dts related by s_udts->S_DT[R17];
   // dispose temporary datatypes used for typerefs
   for each s_dt in s_dts
     select one s_udt related by s_dt->S_UDT[R17];
