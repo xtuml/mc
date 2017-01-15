@@ -1287,11 +1287,13 @@ for each s_sync in s_syncs
     end if;
   end if;
   
-  select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
-  path = ::package_get_path( ep_pkg:ep_pkg );
-  // Populate the action langauge body.
-  sig = ::underscore_signature(signature: ::function_getsignature( flavor:1, s_sync:s_sync ));
-  ::body2code_block( name:path + "/" + sig, text:STRING::unescapetics(s:s_sync.Action_Semantics_internal) );
+  if ( ActionDialect::masl == s_sync.Dialect )
+    select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
+    path = ::package_get_path( ep_pkg:ep_pkg );
+    // Populate the action langauge body.
+    sig = ::underscore_signature(signature: ::function_getsignature( flavor:1, s_sync:s_sync ));
+    ::body2code_block( name:path + "/" + sig, text:STRING::unescapetics(s:s_sync.Action_Semantics_internal) );
+  end if;
   
   // Populate pragmas
   s_sync.Descrip = ::parsepragmas( s:s_sync.Descrip, list:"" );

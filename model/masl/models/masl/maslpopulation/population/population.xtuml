@@ -30,9 +30,11 @@ if ( "" == value[0] and "" == value[1] and "" == value[2] and "" == value[3] and
 	 "" == value[4] and "" == value[5] and "" == value[6] and "" == value[7] )
   select one current_element related by population->element[R3784.''has current''] where ( selected.name == element );
   if ( not_empty current_element )
-    select one parent_element related by current_element->element[R3787.''child of''];	// select parent
-    unrelate population from current_element across R3784.''has current'';				// unrelate current element
-    relate population to parent_element across R3784.''has current'';						// relate the parent as the new current
+    select one parent_element related by current_element->element[R3787.''child of''];
+    unrelate population from current_element across R3784.''has current'';
+    if ( not_empty parent_element )                                                     // check for top of stack
+      relate population to parent_element across R3784.''has current'';					// relate the parent as the new current
+    end if;
     unrelate population from current_element across R3789.''has active'';					// remove from the active collection
     
     // for activities, check for duplicates
@@ -462,9 +464,11 @@ end if;
 if ( current_element == new_element )
   //TRACE::log( flavor:"info", id:75, message:"duplicate element not pushed: " + new_element.name );
 else
-  unrelate self from current_element across R3784.''has current'';	// unrelate current element
+  if ( not_empty current_element )  // unless this is the first element
+    unrelate self from current_element across R3784.''has current'';
+    relate new_element to current_element across R3787.''child of'';
+  end if;
   relate self to new_element across R3784.''has current'';			// relate the new as the current
-  relate new_element to current_element across R3787.''child of'';
   relate self to new_element across R3789.''has active'';			// add to the active collection
 end if;',
 	1,

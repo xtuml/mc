@@ -68,8 +68,11 @@ masl_population_op_populate( c_t * p_element, c_t * p_value[8] )
       parent_element = ( 0 != current_element ) ? current_element->element_R3787_child_of : 0;
       /* UNRELATE population FROM current_element ACROSS R3784 */
       masl_element_R3784_Unlink_has_current( population, current_element );
-      /* RELATE population TO parent_element ACROSS R3784 */
-      masl_element_R3784_Link_has_current( population, parent_element );
+      /* IF ( not_empty parent_element ) */
+      if ( ( 0 != parent_element ) ) {
+        /* RELATE population TO parent_element ACROSS R3784 */
+        masl_element_R3784_Link_has_current( population, parent_element );
+      }
       /* UNRELATE population FROM current_element ACROSS R3789 */
       masl_element_R3789_Unlink_has_active( population, current_element );
       /* SELECT one activity RELATED BY current_element->markable[R3786]->activity[R3783] */
@@ -1173,12 +1176,15 @@ masl_population_op_push_element( masl_population * self, masl_element * p_new_el
   if ( ( current_element == new_element ) ) {
   }
   else {
-    /* UNRELATE self FROM current_element ACROSS R3784 */
-    masl_element_R3784_Unlink_has_current( self, current_element );
+    /* IF ( not_empty current_element ) */
+    if ( ( 0 != current_element ) ) {
+      /* UNRELATE self FROM current_element ACROSS R3784 */
+      masl_element_R3784_Unlink_has_current( self, current_element );
+      /* RELATE new_element TO current_element ACROSS R3787 */
+      masl_element_R3787_Link_child_of( new_element, current_element );
+    }
     /* RELATE self TO new_element ACROSS R3784 */
     masl_element_R3784_Link_has_current( self, new_element );
-    /* RELATE new_element TO current_element ACROSS R3787 */
-    masl_element_R3787_Link_child_of( new_element, current_element );
     /* RELATE self TO new_element ACROSS R3789 */
     masl_element_R3789_Link_has_active( self, new_element );
   }

@@ -562,35 +562,37 @@ if ( not_empty activity )
     select one terminator related by routine->terminator[R3791];
     select one returntype related by routine->typeref[R3792];
     if ( empty terminator )			// domain routine
-      select one domain related by routine->domain[R3790];
-      if ( not_empty returntype )	// domain function
-		T::include( file:"masl/t.domain_function_def_begin.masl" );
-		select one parameter related by activity->parameter[R3705];
-		if ( not_empty parameter )
-		  parameter.render();
-		end if;
-		T::include( file:"masl/t.function_def_middle.masl" );
-		if (not_empty code_block)
-		  T::b(s:code_block.sourcefile);
-		else
-		  T::include( file:"masl/t.code_block_stub.masl" );
-		end if;
-		T::include( file:"masl/t.function_def_end.masl" );
-	    doEmit = true;
-      else							// domain service
-		T::include( file:"masl/t.domain_service_def_begin.masl" );
-		select one parameter related by activity->parameter[R3705];
-		if ( not_empty parameter )
-		  parameter.render();
-		end if;
-		T::include( file:"masl/t.service_def_middle.masl" );
-		if (not_empty code_block)
-		  T::b(s:code_block.sourcefile);
-		else
-		  T::include( file:"masl/t.code_block_stub.masl" );
-		end if;
-		T::include( file:"masl/t.service_def_end.masl" );
-	    doEmit = true;
+      if ( not_empty code_block )
+        select one domain related by routine->domain[R3790];
+        if ( not_empty returntype )	// domain function
+          T::include( file:"masl/t.domain_function_def_begin.masl" );
+          select one parameter related by activity->parameter[R3705];
+          if ( not_empty parameter )
+            parameter.render();
+          end if;
+          T::include( file:"masl/t.function_def_middle.masl" );
+          if (not_empty code_block)
+            T::b(s:code_block.sourcefile);
+          else
+            T::include( file:"masl/t.code_block_stub.masl" );
+          end if;
+          T::include( file:"masl/t.function_def_end.masl" );
+          doEmit = true;
+        else							// domain service
+          T::include( file:"masl/t.domain_service_def_begin.masl" );
+          select one parameter related by activity->parameter[R3705];
+          if ( not_empty parameter )
+            parameter.render();
+          end if;
+          T::include( file:"masl/t.service_def_middle.masl" );
+          if (not_empty code_block)
+            T::b(s:code_block.sourcefile);
+          else
+            T::include( file:"masl/t.code_block_stub.masl" );
+          end if;
+		  T::include( file:"masl/t.service_def_end.masl" );
+		  doEmit = true;
+        end if;
       end if;
     else							// terminator routine
       select one domain related by terminator->domain[R3702];
