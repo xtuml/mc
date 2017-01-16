@@ -23,7 +23,7 @@ to keep these.
 -------------
 We were considering using IPRs for shared types.  But in MASL we must
 keep explicity Typerefs.  We were "luckily" failing to delete them until
-we fixed them during the work adding a `defition` field to `S_UDT`.  Now
+we fixed them during the work adding a `Definition` field to `S_UDT`.  Now
 we successfully delete them incorrectly.
 
 4. Requirements
