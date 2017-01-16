@@ -7616,7 +7616,7 @@ elif ( "parameter" == element )
   end if;
 elif ( "typeref" == element )
   if ( "" != param.value[0] )
-    ooapopulation.transformType(name:param.value[0], visibility:"public", definition:"tmp");
+    ooapopulation.transformType(name:param.value[0], visibility:"public", definition:"");
     
     c_pp = ooapopulation.current_interface_param;
     c_ep = ooapopulation.current_executable_property;

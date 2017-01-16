@@ -8283,8 +8283,8 @@ masl2xtuml_ooapopulation_op_populate_project( c_t * p_element, masl2xtuml_ooapop
     /* IF ( (  != PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
       masl2xtuml_C_EP * c_ep;masl2xtuml_C_PP * c_pp;masl2xtuml_C_IO * c_io=0;
-      /* ooapopulation.transformType( definition:tmp, name:PARAM.value[0], visibility:public ) */
-      masl2xtuml_ooapopulation_op_transformType( ooapopulation,  "tmp", p_value[0], "public" );
+      /* ooapopulation.transformType( definition:, name:PARAM.value[0], visibility:public ) */
+      masl2xtuml_ooapopulation_op_transformType( ooapopulation,  "", p_value[0], "public" );
       /* ASSIGN c_pp = ooapopulation.current_interface_param */
       c_pp = ooapopulation->current_interface_param;
       /* ASSIGN c_ep = ooapopulation.current_executable_property */
