@@ -10,7 +10,7 @@ This work is licensed under the Creative Commons CC0 License
 1. Abstract
 -----------
 This work documents the design of importing new format marking data into
-a project as part of MASL-to-xtUML conversionand supplying these marks
+a project as part of MASL-to-xtUML conversion and supplying these marks
 downsteam in the xtUML-to-MASL flow.
 
 2. Document References
@@ -24,7 +24,7 @@ downsteam in the xtUML-to-MASL flow.
 -------------
 MASL models have been marked with pragmas in Descrip fields until the
 recent advent of the Marking Editor [3].  Now marking data is kept
-separate from the model data text files.
+separate from the model data in text files.
 
 4. Requirements
 ---------------
@@ -42,7 +42,7 @@ Instead of finding marks in Descrip fields within model data, find
 the marks in the separately persisted marking files.
 
 4.2.2 pragmas  
-Emit pragmas into the generated MASL as before.
+Emit pragmas into the generated MASL as before changing only x2m and not masl.
 
 5. Analysis
 -----------
@@ -69,8 +69,12 @@ to the BridgePoint `Import` process:
 5.3.1 Add marking model to OOA and enable persistence.  Select and serialize
 to gen files on Import.  
 5.3.2 m2x fills a Descrip field which Import then writes into the gen folder.  
-5.3.3 m2x creates features.mark and application.mark files.  Import copies
-them to the gen/ folder.  
+5.3.3 m2x creates features.mark and application.mark files and programmatically
+copies them into the gen/ folder.  
+5.3.4 m2x creates features.mark and application.mark files and leaves them
+to be copied into the project gen/ folder.
+
+5.3.4 is the alternative selected.
 
 6. Design
 ---------
@@ -80,10 +84,7 @@ and maintain model element associations.
 6.1.2 Create and relate instances in the model of marking.  Create feature
 and markable element type instances as needed.  
 6.1.3 At the end of the m2x processing, serialize the model of marking
-into a Descrip field per 5.3.2.  
-6.1.4 During Import, serialize the Descrip fields from the previous step
-into the marking files in the gen/ folder.  Consider reusing persistence
-code from the marking plugin.  
+into files per 5.3.4.  
 
 6.2 x2m  
 6.2.1 Launch and load SQL format xtUML instances.  
