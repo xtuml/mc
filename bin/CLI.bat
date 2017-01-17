@@ -33,8 +33,6 @@ echo.
 goto exit
 :ArgsOK
 
-:ArgsOK
-
 if not "%WORKSPACE%"=="" goto RunApp
   ::
   :: Since the workspace to use is not set, use the standard location.  Users may
@@ -43,9 +41,6 @@ if not "%WORKSPACE%"=="" goto RunApp
   ::
   set WORKSPACE=%~dp0\..\..\..\workspace
 goto RunApp
-
-:RunApp
-
 
 :RunApp
 echo Using WORKSPACE=%WORKSPACE%
@@ -71,9 +66,6 @@ echo %COMMAND%
 
 :: Change back to users directory and restore the PATH
 popd
-
-:exit
-
 
 :exit
 
