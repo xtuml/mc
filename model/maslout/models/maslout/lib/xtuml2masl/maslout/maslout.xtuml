@@ -3410,6 +3410,27 @@ INSERT INTO PE_PE
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("e52c3d5d-6ae1-4f44-bc29-389f96a873d2",
+	"00000000-0000-0000-0000-000000000000",
+	'init',
+	'',
+	'/*
+Load features and markable elements from the features.mark marking file.
+Load marks from application.mark in the gen/ folder.
+*/
+Feature::load();
+Mark::load();',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("e52c3d5d-6ae1-4f44-bc29-389f96a873d2",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	1,

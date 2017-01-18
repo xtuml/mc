@@ -1,3 +1,4 @@
+.invoke MarkInitializationFunction( "xtuml2masl", "init" )
 .invoke MarkFirstPassOptimizationsOff( "*" )
 .invoke MarkEmptyHandleDetectionOn( "*" )
 .//
