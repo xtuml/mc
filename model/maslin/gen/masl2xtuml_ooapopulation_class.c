@@ -1087,8 +1087,8 @@ masl2xtuml_ooapopulation_op_Component_initializeRequirement( masl2xtuml_ooapopul
   masl2xtuml_ooapopulation_op_Port_initialize( self,  port, p_port_name );
   /* IF ( self.processingProject ) */
   if ( self->processingProject ) {
-    /* ASSIGN requirement.Descrip = ( requirement.Descrip + formalize ) */
-    requirement->Descrip = Escher_strcpy( requirement->Descrip, Escher_stradd( requirement->Descrip, "formalize" ) );
+    /* ASSIGN requirement.Descrip = ( requirement.Descrip + masl_formalize ) */
+    requirement->Descrip = Escher_strcpy( requirement->Descrip, Escher_stradd( requirement->Descrip, "masl_formalize" ) );
   }
   /* RETURN interfaceRef */
   {masl2xtuml_C_IR * xtumlOALrv = interfaceRef;
@@ -1697,6 +1697,8 @@ masl2xtuml_ooapopulation_op_Function_initialize( masl2xtuml_ooapopulation * self
   s_sync->Name = Escher_strcpy( s_sync->Name, p_name );
   /* ASSIGN s_sync.Suc_Pars = parseInitial */
   s_sync->Suc_Pars = maslin_ParseStatus_parseInitial_e;
+  /* ASSIGN s_sync.Dialect = c */
+  s_sync->Dialect = maslin_ActionDialect_c_e;
 }
 
 /*
@@ -4112,8 +4114,8 @@ masl2xtuml_ooapopulation_op_Package_newDatatype( masl2xtuml_ooapopulation * self
   IDLINK_stitchID( p_type_name, pe, dt, udt );
   /* IF ( (  != PARAM.definition ) ) */
   if ( ( Escher_strcmp( "", p_definition ) != 0 ) ) {
-    /* ASSIGN dt.Descrip = ( ( ( dt.Descrip + <definition> ) + PARAM.definition ) + </definition>\n ) */
-    dt->Descrip = Escher_strcpy( dt->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( dt->Descrip, "<definition>" ), p_definition ), "</definition>\n" ) );
+    /* ASSIGN udt.Definition = PARAM.definition */
+    udt->Definition = Escher_strcpy( udt->Definition, p_definition );
   }
 }
 
@@ -7226,8 +7228,8 @@ masl2xtuml_ooapopulation_op_mergeDuplicateOperations( masl2xtuml_ooapopulation *
       if ( ( ( o_tfr != op ) && ( Escher_strcmp( masl2xtuml_ooapopulation_op_Operation_getSignature(self, op), masl2xtuml_ooapopulation_op_Operation_getSignature(self, o_tfr) ) == 0 ) ) ) {
         /* ASSIGN o_tfr.Action_Semantics_internal = op.Action_Semantics_internal */
         o_tfr->Action_Semantics_internal = Escher_strcpy( o_tfr->Action_Semantics_internal, op->Action_Semantics_internal );
-        /* ASSIGN o_tfr.Dialect = masl */
-        o_tfr->Dialect = maslin_ActionDialect_masl_e;
+        /* ASSIGN o_tfr.Dialect = op.Dialect */
+        o_tfr->Dialect = op->Dialect;
         /* self.Operation_dispose( o_tfr:op ) */
         masl2xtuml_ooapopulation_op_Operation_dispose( self,  op );
         /* BREAK */
@@ -7277,8 +7279,8 @@ masl2xtuml_ooapopulation_op_mergeDuplicateRoutines( masl2xtuml_ooapopulation * s
       if ( ( ( s_sync != function ) && ( Escher_strcmp( masl2xtuml_ooapopulation_op_Function_getSignature(self, function), masl2xtuml_ooapopulation_op_Function_getSignature(self, s_sync) ) == 0 ) ) ) {
         /* ASSIGN s_sync.Action_Semantics_internal = function.Action_Semantics_internal */
         s_sync->Action_Semantics_internal = Escher_strcpy( s_sync->Action_Semantics_internal, function->Action_Semantics_internal );
-        /* ASSIGN s_sync.Dialect = masl */
-        s_sync->Dialect = maslin_ActionDialect_masl_e;
+        /* ASSIGN s_sync.Dialect = function.Dialect */
+        s_sync->Dialect = function->Dialect;
         /* IF ( not_empty message ) */
         if ( ( 0 != message ) ) {
           /* self.ExecutableProperty_dispose( c_ep:message ) */
@@ -8079,6 +8081,13 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t * p_value[8] )
       masl2xtuml_ooaelement_op_trace( ooapopulation );
     }
   }
+  else if ( ( Escher_strcmp( "expression", element ) == 0 ) ) {
+    masl2xtuml_ooaelement * current_element=0;
+    /* SELECT one current_element RELATED BY ooapopulation->ooaelement[R3801] */
+    current_element = ( 0 != ooapopulation ) ? ooapopulation->ooaelement_R3801_has_current : 0;
+    /* ooapopulation.transformExpression( element:current_element, text:value[0] ) */
+    masl2xtuml_ooapopulation_op_transformExpression( ooapopulation,  current_element, value[0] );
+  }
   else if ( ( Escher_strcmp( "description", element ) == 0 ) ) {
     masl2xtuml_ooaelement * current_element=0;
     /* SELECT one current_element RELATED BY ooapopulation->ooaelement[R3801] */
@@ -8146,8 +8155,8 @@ masl2xtuml_ooapopulation_op_populate_project( c_t * p_element, masl2xtuml_ooapop
       new_ir = ( 0 != comp_if ) ? (masl2xtuml_C_IR *) Escher_SetGetAny( &comp_if->C_IR_R4012_is_formal_definition ) : 0;
       /* ooapopulation.InterfaceReference_formalize( c_i:comp_if, c_ir:new_ir ) */
       masl2xtuml_ooapopulation_op_InterfaceReference_formalize( ooapopulation,  comp_if, new_ir );
-      /* ASSIGN comp_if.Descrip = ( comp_if.Descrip + temporary ) */
-      comp_if->Descrip = Escher_strcpy( comp_if->Descrip, Escher_stradd( comp_if->Descrip, "temporary" ) );
+      /* ASSIGN comp_if.Descrip = ( comp_if.Descrip + masl_temporary ) */
+      comp_if->Descrip = Escher_strcpy( comp_if->Descrip, Escher_stradd( comp_if->Descrip, "masl_temporary" ) );
       /* SELECT many c_eps RELATED BY comp_if->C_EP[R4003] */
       Escher_ClearSet( c_eps );
       if ( 0 != comp_if ) {
@@ -8274,8 +8283,8 @@ masl2xtuml_ooapopulation_op_populate_project( c_t * p_element, masl2xtuml_ooapop
     /* IF ( (  != PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
       masl2xtuml_C_EP * c_ep;masl2xtuml_C_PP * c_pp;masl2xtuml_C_IO * c_io=0;
-      /* ooapopulation.transformType( definition:tmp, name:PARAM.value[0], visibility:public ) */
-      masl2xtuml_ooapopulation_op_transformType( ooapopulation,  "tmp", p_value[0], "public" );
+      /* ooapopulation.transformType( definition:, name:PARAM.value[0], visibility:public ) */
+      masl2xtuml_ooapopulation_op_transformType( ooapopulation,  "", p_value[0], "public" );
       /* ASSIGN c_pp = ooapopulation.current_interface_param */
       c_pp = ooapopulation->current_interface_param;
       /* ASSIGN c_ep = ooapopulation.current_executable_property */
@@ -8607,6 +8616,8 @@ masl2xtuml_ooapopulation_op_transformDescription( masl2xtuml_ooapopulation * sel
     self->current_rel.description = Escher_strcpy( self->current_rel.description, Escher_stradd( self->current_rel.description, text ) );
   }
   else {
+    /* TRACE::log( flavor:warning, id:11, message:( description found for unsupported element + element.type ) ) */
+    TRACE_log( "warning", 11, Escher_stradd( "description found for unsupported element", element->type ) );
   }
 }
 
@@ -8644,6 +8655,8 @@ masl2xtuml_ooapopulation_op_transformDomain( masl2xtuml_ooapopulation * self, c_
     self->lib_pkg = masl2xtuml_ooapopulation_op_SystemModel_newPackage(self, p_name, self->current_sys);
     /* ASSIGN lib_pkg = self.lib_pkg */
     lib_pkg = self->lib_pkg;
+    /* ASSIGN lib_pkg.Descrip = masl_domain */
+    lib_pkg->Descrip = Escher_strcpy( lib_pkg->Descrip, "masl_domain" );
     /* SELECT any c_c RELATED BY lib_pkg->PE_PE[R8000]->C_C[R8001] WHERE ( ( PARAM.name == SELECTED.Name ) ) */
     c_c = 0;
     {    if ( 0 != lib_pkg ) {
@@ -8693,6 +8706,11 @@ masl2xtuml_ooapopulation_op_transformDomainFunction( masl2xtuml_ooapopulation * 
           break;
         }
       }
+    }
+    /* IF ( empty current_component ) */
+    if ( ( 0 == current_component ) ) {
+      /* TRACE::log( flavor:failure, id:121, message:( Service is defined with unrecognized domain:   + PARAM.domain ) ) */
+      TRACE_log( "failure", 121, Escher_stradd( "Service is defined with unrecognized domain:  ", p_domain ) );
     }
   }
   /* SELECT any functions_pkg RELATED BY current_component->PE_PE[R8003]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == functions ) ) */
@@ -9136,8 +9154,8 @@ masl2xtuml_ooapopulation_op_transformProject( masl2xtuml_ooapopulation * self, c
   lib_pkg = self->lib_pkg;
   /* IF ( not_empty lib_pkg ) */
   if ( ( 0 != lib_pkg ) ) {
-    /* ASSIGN lib_pkg.Descrip = ( lib_pkg.Descrip + masl_project ) */
-    lib_pkg->Descrip = Escher_strcpy( lib_pkg->Descrip, Escher_stradd( lib_pkg->Descrip, "masl_project" ) );
+    /* ASSIGN lib_pkg.Descrip = masl_project */
+    lib_pkg->Descrip = Escher_strcpy( lib_pkg->Descrip, "masl_project" );
   }
 }
 
@@ -9831,14 +9849,14 @@ masl2xtuml_ooapopulation_op_transformType( masl2xtuml_ooapopulation * self, c_t 
   else {
     /* IF ( (  != PARAM.definition ) ) */
     if ( ( Escher_strcmp( "", p_definition ) != 0 ) ) {
-      /* IF ( not_empty sys_s_dt ) */
-      if ( ( 0 != sys_s_dt ) ) {
-        /* ASSIGN sys_s_dt.Descrip = ( ( ( sys_s_dt.Descrip + <definition> ) + PARAM.definition ) + </definition>\n ) */
-        sys_s_dt->Descrip = Escher_strcpy( sys_s_dt->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( sys_s_dt->Descrip, "<definition>" ), p_definition ), "</definition>\n" ) );
-      }
-      else {
-        /* ASSIGN s_dt.Descrip = ( ( ( s_dt.Descrip + <definition> ) + PARAM.definition ) + </definition>\n ) */
-        s_dt->Descrip = Escher_strcpy( s_dt->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( s_dt->Descrip, "<definition>" ), p_definition ), "</definition>\n" ) );
+      masl2xtuml_S_UDT * s_udt=0;
+      /* SELECT one s_udt RELATED BY s_dt->S_UDT[R17] */
+      s_udt = 0;
+      if ( ( 0 != s_dt ) && ( masl2xtuml_S_UDT_CLASS_NUMBER == s_dt->R17_object_id ) )      s_udt = ( 0 != s_dt ) ? (masl2xtuml_S_UDT *) s_dt->R17_subtype : 0;
+      /* IF ( not_empty s_udt ) */
+      if ( ( 0 != s_udt ) ) {
+        /* ASSIGN s_udt.Definition = PARAM.definition */
+        s_udt->Definition = Escher_strcpy( s_udt->Definition, p_definition );
       }
     }
   }
@@ -9874,6 +9892,34 @@ masl2xtuml_ooapopulation_op_transformType( masl2xtuml_ooapopulation * self, c_t 
   else {
     /* ASSIGN self.current_type = sys_s_dt */
     self->current_type = sys_s_dt;
+  }
+}
+
+/*
+ * instance operation:  transformExpression
+ */
+void
+masl2xtuml_ooapopulation_op_transformExpression( masl2xtuml_ooapopulation * self, masl2xtuml_ooaelement * p_element, c_t * p_text )
+{
+  c_t * text=0;masl2xtuml_ooaelement * element;
+  /* ASSIGN element = PARAM.element */
+  element = p_element;
+  /* ASSIGN text = STRING::escapetics(s:PARAM.text) */
+  text = Escher_strcpy( text, STRING_escapetics( p_text ) );
+  /* IF ( ( attribute == element.type ) ) */
+  if ( ( Escher_strcmp( "attribute", element->type ) == 0 ) ) {
+    masl2xtuml_O_ATTR * attr;
+    /* ASSIGN attr = self.current_attribute */
+    attr = self->current_attribute;
+    /* IF ( not_empty attr ) */
+    if ( ( 0 != attr ) ) {
+      /* ASSIGN attr.DefaultValue = text */
+      attr->DefaultValue = Escher_strcpy( attr->DefaultValue, text );
+    }
+  }
+  else {
+    /* TRACE::log( flavor:warning, id:111, message:( expression found for unsupported element + element.type ) ) */
+    TRACE_log( "warning", 111, Escher_stradd( "expression found for unsupported element", element->type ) );
   }
 }
 

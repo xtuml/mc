@@ -1763,6 +1763,27 @@ INSERT INTO S_ENUM
 Full Name: MASL',
 	"6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
 	"86e1c42c-6a52-431d-a534-4e2d83f2f075");
+INSERT INTO S_ENUM
+	VALUES ("27d00b32-4f32-40d2-b10f-6756f70dc173",
+	'alf',
+	'Value: 2
+Full Name: Alf',
+	"6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	"5ddfb803-9487-4008-ba8f-51aba40e1fd1");
+INSERT INTO S_ENUM
+	VALUES ("6aec190c-bf42-49a9-8b0b-e9a86c4bc8ac",
+	'java',
+	'Value: 3
+Full Name: Java',
+	"6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	"27d00b32-4f32-40d2-b10f-6756f70dc173");
+INSERT INTO S_ENUM
+	VALUES ("22f4c71d-d1b1-407c-86f7-00cb4327f23a",
+	'c',
+	'Value: 4
+Full Name: C',
+	"6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	"6aec190c-bf42-49a9-8b0b-e9a86c4bc8ac");
 INSERT INTO PE_PE
 	VALUES ("6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
 	1,

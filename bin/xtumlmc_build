@@ -25,6 +25,7 @@ use File::Copy;
 use File::Path;
 use File::Compare;
 use File::Find;
+use File::Basename;
 use Cwd;
 
 my $osplatform;
@@ -1157,7 +1158,10 @@ sub xtuml2masl
     print STDERR "Invoking BridgePoint pre-builder...\n";
     # the WORKSPACE env variable is expected to be set properly
     my ($volume, $directory, $file) = File::Spec->splitpath(__FILE__);
-    system( "$directory/../../../../CLI.sh Build -prebuildOnly" );
+    foreach my $inproj (@inputs) {
+      my $proj = basename($inproj);
+      system( "$directory/CLI.sh Build -prebuildOnly -doNotParse -project $proj " );
+    }
   }
 
   # process command

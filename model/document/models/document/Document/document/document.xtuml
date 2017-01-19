@@ -28,7 +28,8 @@ LOG::LogInfo( message:"document finish" );
 ',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TFR
 	VALUES ("ca13f4aa-f412-4d70-a71e-a8f586f00efd",
 	"5fa1e958-322e-4789-b7e3-2be66306459a",
@@ -56,7 +57,8 @@ DOC_ROW::validate();
 ',
 	1,
 	'',
-	"0eda650a-a410-43ad-a42e-3f49e0761a4a");
+	"0eda650a-a410-43ad-a42e-3f49e0761a4a",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("628315c4-9ddc-456d-b099-6a452a2d24de",
 	"5fa1e958-322e-4789-b7e3-2be66306459a");

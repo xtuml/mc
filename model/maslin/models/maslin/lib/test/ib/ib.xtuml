@@ -187,7 +187,8 @@ send out::populate(element:"object", value:emptyarr);
 send out::populate(element:"domain", value:emptyarr);',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("d1801f70-8b8e-403e-b12c-21010ef63b02",
 	1,

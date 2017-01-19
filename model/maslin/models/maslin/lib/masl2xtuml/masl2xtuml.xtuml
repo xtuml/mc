@@ -293,7 +293,7 @@ INSERT INTO GD_GE
 	"d906b2ef-dfdc-496b-aeef-260d5369a267",
 	108,
 	0,
-	'm2x_imported');
+	'maslin::lib::masl2xtuml::m2x_imported');
 INSERT INTO GD_SHP
 	VALUES ("2490cb5b-f723-4ae1-8448-947528c36c7f");
 INSERT INTO GD_NCS
@@ -391,7 +391,8 @@ INSERT INTO SPR_PO
 	'populate',
 	'',
 	'',
-	1);
+	1,
+	0);
 INSERT INTO C_EP_PROXY
 	VALUES ("6e3df598-100b-4d34-b3d2-2a4ecdb2ac3c",
 	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
@@ -426,26 +427,9 @@ select many forms from instances of formalization;
 for each form in forms
   form.dispose();
 end for;
-
-// dispose temporary elements if processing project
-if ( not_empty ooapopulation and ooapopulation.processingProject )
-  lib_pkg = ooapopulation.lib_pkg;
-  select any types_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
-  select many s_dts related by types_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Descrip == "<definition>tmp</definition>" );
-  // dispose temporary datatypes used for typerefs
-  for each s_dt in s_dts
-    select one s_udt related by s_dt->S_UDT[R17];
-    unrelate s_dt from s_udt across R17;
-    delete object instance s_udt;
-    select one pe_pe related by s_dt->PE_PE[R8001];
-    select one ep_pkg related by pe_pe->EP_PKG[R8000];
-    unrelate pe_pe from ep_pkg across R8000;
-    unrelate s_dt from pe_pe across R8001;
-    delete object instance pe_pe;
-    delete object instance s_dt;
-  end for;
-end if;',
-	1);
+',
+	1,
+	0);
 INSERT INTO C_EP_PROXY
 	VALUES ("0ea72257-0ebc-46e1-ab27-94d34a5b47cc",
 	"c221853e-39ef-4a21-8a0f-9730c3b2f618",

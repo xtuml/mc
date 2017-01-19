@@ -64,7 +64,8 @@ TRACE::log( flavor:"info", id:104, message:"Done." );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("9c8d9c3a-c0a1-4d32-81e0-b96654392cc0",
 	"0c6d00ab-17d3-41f1-8a7a-cb0fdfc9c315",
@@ -118,7 +119,8 @@ TRACE::log( flavor:"info", id:102, message:"Done" );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("df408732-1e8c-4be3-bbf2-6c34377e1afe",
 	"9a5ac824-671b-4cb6-9d93-37b700ffd92c",
@@ -189,7 +191,8 @@ end for;
       ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("cf4db11c-a368-4494-9f14-382c45cdc747",
 	"84687e5f-e288-4907-9432-62372e5f265f",
@@ -265,7 +268,8 @@ for each ep_pkg in ep_pkgs
 end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("e1434ed1-bb84-419d-aa6a-b3a6dcaae855",
 	"bbd421d2-e67f-41ea-be98-398a6baf075d",
@@ -355,7 +359,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("e557817d-dd43-43a1-b7c1-a522bda54d2a",
 	"3ddfd9b1-d62f-4fa1-9e31-b48931032ee9",
@@ -479,7 +484,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("8898a959-9ae1-44df-90ff-dcc22215a9db",
 	"d9c8ef77-73d8-4253-978c-d7cbf7b9b520",
@@ -549,7 +555,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("a476bde7-fb21-4a1f-b22b-46b5fe763364",
 	"dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
@@ -631,7 +638,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("15b7c710-66b8-4afc-8a74-5728d734391a",
 	"5139df0f-0bdf-49e5-a6c0-bf87d5a4ee4d",
@@ -786,7 +794,8 @@ for each o_attr in o_attrs
 end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("4488e70f-8f35-4b8b-9c0b-8f144d9acacf",
 	"636cf3d3-f72d-4072-b665-cde360ef7edb",
@@ -844,14 +853,9 @@ for each s_dt in s_dts
       select one base_s_dt related by s_udt->S_DT[R18];
     
       // get body of type
-      start_index = STRING::indexof( haystack:s_dt.Descrip, needle:"<definition>" );
-      end_index = STRING::indexof( haystack:s_dt.Descrip, needle:"</definition>" );
-      if ( -1 != start_index and -1 != end_index )
+      if ( s_udt.Definition != "" )
         // handle case where there is a definition
-        value[2] = STRING::substr( s:s_dt.Descrip, begin:start_index+12, end:end_index );
-        descrip_start = STRING::substr( s:s_dt.Descrip, begin:0, end:start_index );
-        descrip_end = STRING::substr( s:s_dt.Descrip, begin:end_index+13, end:-1 );
-        s_dt.Descrip = descrip_start + descrip_end;
+        value[2] = s_udt.Definition;
       else
         // There is no definition, use the underlying type.  If the underlying type
         // is MASLtype, treat this as a typeref and do not output it.  Otherwise
@@ -918,13 +922,9 @@ for each s_dt in s_dts
   value[1] = "public";
 
   // get body of type
-  start_index = STRING::indexof( haystack:s_dt.Descrip, needle:"<definition>" );
-  end_index = STRING::indexof( haystack:s_dt.Descrip, needle:"</definition>" );
-  if ( -1 != start_index and -1 != end_index )	// only output types if there is a definition
-	value[2] = STRING::substr( s:s_dt.Descrip, begin:start_index+12, end:end_index );
-	descrip_start = STRING::substr( s:s_dt.Descrip, begin:0, end:start_index );
-	descrip_end = STRING::substr( s:s_dt.Descrip, begin:end_index+13, end:-1 );
-	s_dt.Descrip = descrip_start + descrip_end;
+  select one s_udt related by s_dt->S_UDT[R17];
+  if ( s_udt.Definition != "" )	// only output types if there is a definition
+    value[2] = s_udt.Definition;
 
     out::populate( element:"type", value:value );
 
@@ -956,13 +956,9 @@ while ( not_empty sub_pkgs )
 	value[1] = "public";
 
 	// get body of type
-    start_index = STRING::indexof( haystack:s_dt.Descrip, needle:"<definition>" );
-    end_index = STRING::indexof( haystack:s_dt.Descrip, needle:"</definition>" );
-    if ( -1 != start_index and -1 != end_index )	// only output types if there is a definition
-      value[2] = STRING::substr( s:s_dt.Descrip, begin:start_index+12, end:end_index );
-      descrip_start = STRING::substr( s:s_dt.Descrip, begin:0, end:start_index );
-      descrip_end = STRING::substr( s:s_dt.Descrip, begin:end_index+13, end:-1 );
-      s_dt.Descrip = descrip_start + descrip_end;
+	select one s_udt related by s_dt->S_UDT[R17];
+    if ( s_udt.Definition != "" )	// only output types if there is a definition
+      value[2] = s_udt.Definition;
 
 	  out::populate( element:"type", value:value );
 
@@ -989,7 +985,8 @@ end while;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("07c30bd2-62a1-4290-9717-fc84fa995641",
 	"2f0e3a99-9a8b-44dc-9428-f75cfbd83fdd",
@@ -1057,7 +1054,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("51c46f46-bc0f-4bf0-8fe4-af7d3be1667e",
 	"59846fd7-dd0d-4c7a-b24d-c8bad6617b7c",
@@ -1120,7 +1118,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("a84bec3f-93e6-496d-aa58-e382e6c4e593",
 	"09d28e26-8c9d-40c0-b89a-276922023942",
@@ -1209,7 +1208,8 @@ out::populate( element:"participation", value:emptyvalue );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("11a9addd-1ac4-4fa9-abbd-0ff170d8e031",
 	"844ea9b2-b764-49f9-b6c3-b594fc02b28e",
@@ -1287,11 +1287,13 @@ for each s_sync in s_syncs
     end if;
   end if;
   
-  select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
-  path = ::package_get_path( ep_pkg:ep_pkg );
-  // Populate the action langauge body.
-  sig = ::underscore_signature(signature: ::function_getsignature( flavor:1, s_sync:s_sync ));
-  ::body2code_block( name:path + "/" + sig, text:STRING::unescapetics(s:s_sync.Action_Semantics_internal) );
+  if ( ActionDialect::masl == s_sync.Dialect )
+    select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
+    path = ::package_get_path( ep_pkg:ep_pkg );
+    // Populate the action langauge body.
+    sig = ::underscore_signature(signature: ::function_getsignature( flavor:1, s_sync:s_sync ));
+    ::body2code_block( name:path + "/" + sig, text:STRING::unescapetics(s:s_sync.Action_Semantics_internal) );
+  end if;
   
   // Populate pragmas
   s_sync.Descrip = ::parsepragmas( s:s_sync.Descrip, list:"" );
@@ -1307,7 +1309,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("6f121837-e5ec-493f-a1f1-f42c2bc5c711",
 	"ca010eda-543b-4971-abfb-32b006d6d31c",
@@ -1352,7 +1355,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("60fb8b97-7f20-4095-b943-e08c3a8e2e31",
 	"be1ccb4a-cb4a-474d-b0b2-ed38f9f68441",
@@ -1476,7 +1480,8 @@ sm_sm.Descrip = ::parsepragmas( s:sm_sm.Descrip, list:"" );
 out::populate( element:"transitiontable", value:emptyvalue );',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("5276c784-1f5f-4e92-a593-1c486c8cf8af",
 	"78002803-6c30-4367-95a3-30a4b7969a69",
@@ -1559,7 +1564,8 @@ for each sm_evt in sm_evts
 end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("9d4415e3-ad34-4d40-883c-8f8647a5f282",
 	"7b593c09-c6aa-4291-b5ae-af8401687cb2",
@@ -1666,7 +1672,8 @@ for each sm_state in sm_states
 end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("39e07600-0fc3-4419-bea9-f719b03957e9",
 	"b22bbb4b-d763-4757-840e-44c5ac1216bd",
@@ -1725,7 +1732,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("3cc94496-ce2a-4ae7-a208-d9eb28187713",
 	"45112864-29c1-4db8-9cd5-3121f843a9ff",
@@ -1809,7 +1817,8 @@ out::populate( element:"participation", value:emptyvalue );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("82f62d53-ef7e-4045-a8b7-e0fd0eeceec7",
 	"4202b26a-3a0c-4d52-93bc-ac44e489e824",
@@ -1874,7 +1883,8 @@ out::populate( element:"participation", value:emptyvalue );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("cf4ea895-58ef-476c-837b-8dfa3a918c5a",
 	"470c92fd-02d6-42c6-89f5-2309dd2c79e0",
@@ -1994,7 +2004,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("b20d9889-4d3c-4f25-a8db-c0753f2d6cac",
 	"32848e1b-5a26-4dcf-96a2-9d5ca948d31a",
@@ -2048,7 +2059,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("79a8a289-1d1d-4dd0-8a5c-769e1ea19030",
 	"1ec46b81-5ac9-470b-8a41-cb1d6fad4f3f",
@@ -2100,7 +2112,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("571307a8-fb6e-4025-a9da-cce9783b0b83",
 	"dc5a9183-9669-4030-a0cb-53de3eabbc6c",
@@ -2141,7 +2154,8 @@ out::populate( element:"pragma", value:value );
 out::populate( element:"pragma", value:emptyvalue );',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("02aacd79-8ff9-4fde-aa3b-8f63ce839092",
 	"3cdbcb50-657d-4b2a-bd28-8cc238ef02a1",
@@ -2171,7 +2185,8 @@ out::populate( element:"codeblock", value:value );
 out::populate( element:"codeblock", value:emptyvalue );',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("8dd08552-fe99-4071-95f5-32ada1023ceb",
 	"9feb3491-f835-4302-9628-50c776b209ed",
@@ -2231,7 +2246,8 @@ else
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("545013fa-458c-405b-a060-d3a4d72e3f2b",
 	"5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
@@ -2271,7 +2287,8 @@ else
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("f8a8a377-b99c-4b33-b380-028d84082c81",
 	"cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
@@ -2304,7 +2321,8 @@ else
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("b5b82ab6-5156-4fad-b8a1-6b51309f11a3",
 	"10e28974-45a1-4163-aa99-0edb13366a24",
@@ -2343,7 +2361,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("ed8dece4-68f0-484b-8c5c-5d237745ce5a",
 	"f60ed8df-36cc-47f1-ad6e-b7dcaee6bb4a",
@@ -2410,7 +2429,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("518c602c-b34d-4271-a7d1-076725ac98df",
 	"c1f44339-d7c8-438a-90fa-2e8cb41d36a7",
@@ -2491,7 +2511,8 @@ end while;
 return return_string;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("7fdffef0-2545-4311-aa2f-475c306cf786",
 	"e2293e1c-01c0-451d-87fb-8b85845690a5",
@@ -2548,7 +2569,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("e7e87814-1a70-4e6e-a9fd-7725a64e6126",
 	"2f459c99-3c8c-4b98-8898-5661cf9e0fbe",
@@ -2579,7 +2601,8 @@ if ( "" != STRING::trim( s:param.Descrip ) )
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("f2aa1161-9f0e-499c-8a7d-df804ac3f56a",
 	"13a97136-92e4-4982-967e-3a8919a4ecbf",
@@ -2690,7 +2713,8 @@ end if;
 return signature;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("64bdae58-a63d-4347-9a1f-1157732b8fdb",
 	"9d4cc9c5-e05c-4c57-bc22-220ce1b0492d",
@@ -2816,7 +2840,8 @@ end if;
 return signature;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("0a6dccf2-1e47-4704-870f-358d8c4334cf",
 	"e20eeb1f-4b08-4e07-a92d-c4a50741feb0",
@@ -3030,7 +3055,8 @@ else
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("70ae1d69-d2bf-4e80-84f5-ab2c1c7c9814",
 	"97479412-7ded-48c7-8a35-887be07c15e4",
@@ -3156,7 +3182,8 @@ end if;
 return signature;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("561b683a-9821-4ef9-b121-5aae212d3c53",
 	"e766fc2b-8613-441d-8c05-c1b286dbaa1e",
@@ -3262,7 +3289,8 @@ end while;
 return signature;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("86e2811f-8260-4c49-911d-fa6dd78afbef",
 	"1df75660-ed85-437c-a3f5-51c82bce9581",
@@ -3324,7 +3352,8 @@ end while;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("308fb1dc-110d-445b-a5de-a7d62bff457d",
 	"bef2c4c8-46d5-4c5e-b08c-26e39f7b0a3c",
@@ -3364,7 +3393,8 @@ end while;
 return string;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("de5a1558-1109-424e-9d38-e853780dbfea",
 	"1d772117-8637-4071-8966-b5fffae70670",

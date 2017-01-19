@@ -1269,7 +1269,8 @@ else
   s = "s_udt.CDT_DT_ID = 0xba5ed11";
 end if;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("96544c85-51cb-4947-9c5e-b0185db11dae",
 	"522df57b-c599-4ebf-98d8-2a51735cdc4e",
