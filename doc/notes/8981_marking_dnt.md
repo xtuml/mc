@@ -90,7 +90,7 @@ into files per 5.3.4.
 6.2.1 Launch and load SQL format xtUML instances.  
 6.2.2 Using EE, read features.mark file and load/relate instances.  
 6.2.3 Using EE, read application.mark file and load/relate instances.  
-6.2.4 Maintain links to the application model be by name and path lookup.  
+6.2.4 Maintain links to the application model by name and path lookup.  
 6.2.5 During xtUML-to-MASL processing, pragmas in the form of serialized
 MASL are translated from the marking model.  
 6.2.6 Unmatched marks shall be logged (in the Console).  
