@@ -46,9 +46,14 @@ Load marks from application.mark in the gen/ folder.
 */
 select any model from instances of model;
 if ( not_empty model )
+  i = 0; values[7] = "";
+  while ( i < 8 )
+    values[i] = "                                                                                                                                                                                          ";
+    i = i + 1;
+  end while;
   TRACE::log( flavor:"info", id:103, message:"Loading marking data." );
-  Feature::load( filename:model.projectroot + "/gen/features.mark" );
-  Mark::load( filename: model.projectroot + "/gen/application.mark" );
+  Feature::load( filename:model.projectroot + "/gen/features.mark", values:values );
+  Mark::load( filename: model.projectroot + "/gen/application.mark", values:values );
 end if;',
 	1,
 	'',
@@ -67,9 +72,14 @@ Dump marks to application.mark in the gen/ folder.
 */
 select any model from instances of model;
 if ( not_empty model )
+    i = 0; values[7] = "";
+  while ( i < 8 )
+    values[i] = "                                                                                                                                                                                                              ";
+    i = i + 1;
+  end while;
   TRACE::log( flavor:"info", id:103, message:"Persisting marking data." );
-  Feature::persist( filename:model.projectroot + "/gen/features.mark" );
-  Mark::persist( filename: model.projectroot + "/gen/application.mark" );
+  Feature::persist( filename:model.projectroot + "/gen/features.mark", values:values );
+  Mark::persist( filename: model.projectroot + "/gen/application.mark", values:values );
 end if;',
 	1,
 	'',
