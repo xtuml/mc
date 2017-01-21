@@ -445,22 +445,19 @@ for each c_ep in c_eps
   end if;
   
   // Populate the action langauge body.
-  path = "";
   port_name = "";
   if ( param.project )
     select any project_c_po related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009]->C_IR[R4009]->C_PO[R4016];
     select one project_c_c related by project_c_po->C_C[R4010];
-    path = ::component_get_path( c_c:project_c_c );
     port_name = project_c_po.Name;
   else
-    path = ::component_get_path( c_c:c_c );
     port_name = c_po.Name;
   end if;
   sig = ::underscore_signature(signature: ::message_getsignature( flavor:1, c_ep:c_ep ));
   
   if ( param.project )
     select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
-    ::body2code_block( name:path + "/" + port_name + "_" + sig, text:STRING::unescapetics(s:spr_po.Action_Semantics_internal) );
+    ::body2code_block( name:"", text:STRING::unescapetics(s:spr_po.Action_Semantics_internal) );
 
 	// Populate pragmas
 	spr_po.Descrip = ::parsepragmas( s:spr_po.Descrip, list: "" );
@@ -469,7 +466,7 @@ for each c_ep in c_eps
 	::Descrip2description( Descrip:spr_po.Descrip );
   else
     select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
-    ::body2code_block( name:path + "/" + port_name + "_" + sig, text:STRING::unescapetics(s:spr_ro.Action_Semantics_internal) );
+    ::body2code_block( name:"", text:STRING::unescapetics(s:spr_ro.Action_Semantics_internal) );
 
 	// Populate pragmas
 	spr_ro.Descrip = ::parsepragmas( s:spr_ro.Descrip, list: "" );
@@ -1289,10 +1286,9 @@ for each s_sync in s_syncs
   
   if ( ActionDialect::masl == s_sync.Dialect )
     select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
-    path = ::package_get_path( ep_pkg:ep_pkg );
     // Populate the action langauge body.
     sig = ::underscore_signature(signature: ::function_getsignature( flavor:1, s_sync:s_sync ));
-    ::body2code_block( name:path + "/" + sig, text:STRING::unescapetics(s:s_sync.Action_Semantics_internal) );
+    ::body2code_block( name:"", text:STRING::unescapetics(s:s_sync.Action_Semantics_internal) );
   end if;
   
   // Populate pragmas
@@ -1600,7 +1596,6 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 o_obj = param.o_obj;
 sm_sm = param.sm_sm;
-path = ::class_get_path( o_obj:o_obj );
 select many sm_states related by sm_sm->SM_STATE[R501];
 select any sm_state related by sm_sm->SM_STATE[R501];
 lowest = 7777;
@@ -1615,9 +1610,8 @@ if ( "assigner" == param.type )
       lowest = sm_state.Numb;
     end if;
   end for;
-  path = path + "/ClassStateMachine";
 else
-  path = path + "/InstanceStateMachine";
+  //
 end if;
 
 value[0] = ""; // domain, grammar allows this but we are not using it
@@ -1660,7 +1654,7 @@ for each sm_state in sm_states
   
   select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
   // Populate the action langauge body.
-  ::body2code_block( name:path + "/" + sm_state.Name, text:STRING::unescapetics(s:sm_act.Action_Semantics_internal) );
+  ::body2code_block( name:"", text:STRING::unescapetics(s:sm_act.Action_Semantics_internal) );
   
   // Populae pragmas
   sm_act.Descrip = ::parsepragmas( s:sm_act.Descrip, list:"" );
@@ -1941,10 +1935,9 @@ for each o_tfr in o_tfrs
   
   // check for deferral -- if there is no action language and subtypes have an operation with matching signature
   deferred = false;
-  path = ::class_get_path( o_obj:o_obj );
   sig = ::underscore_signature(signature: ::operation_getsignature( flavor:1, o_tfr:o_tfr ));
   select any model from instances of model;
-  if ( not_empty model and ( not FILE::exists( path:model.projectroot + "/models/" + path + "/" + sig + ".masl" ) ) )
+  if ( not_empty model and ( not FILE::exists( path:"deprecated path" ) ) )
     // select all supsuper relationships of which o_tfr belongs to the supertype
     select many subsuper_rels related by o_tfr->O_OBJ[R115]->R_OIR[R201]->R_RTO[R203]->R_SUPER[R204]->R_SUBSUP[R212]->R_REL[R206];
     for each subsuper_rel in subsuper_rels
@@ -1988,7 +1981,7 @@ for each o_tfr in o_tfrs
   
   // Populate the action langauge body.
   if ( not deferred )	// do not populate a codeblock if this is a deferred operation
-    ::body2code_block( name:path + "/" + sig, text:STRING::unescapetics(s:o_tfr.Action_Semantics_internal) );
+    ::body2code_block( name:"", text:STRING::unescapetics(s:o_tfr.Action_Semantics_internal) );
   end if;
   
   // Populate pragmas
@@ -2218,32 +2211,36 @@ INSERT INTO S_SYNC
 	'',
 	'// Recursively traverse upward to system to form full path.
 ep_pkg = param.ep_pkg;
-parent_path = "";
+pathkey = "";
 select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
 if ( not_empty parent_ep_pkg )
   // package in package
-  parent_path = ::package_get_path( ep_pkg:parent_ep_pkg );
+  pathkey = ::package_get_path( ep_pkg:parent_ep_pkg, child:"" );
 else
   select one s_sys related by ep_pkg->S_SYS[R1401];
   if ( not_empty s_sys )
     // package in system
-    parent_path = s_sys.Name;
+    pathkey = s_sys.Name;
   else
     select one c_c related by ep_pkg->PE_PE[R8001]->C_C[R8003];
     if ( not_empty c_c )
       // package in component
-      parent_path = ::component_get_path( c_c:c_c );
+      pathkey = ::component_get_path( c_c:c_c, child:"" );
     else
       TRACE::log( flavor:"failure", id:110, message:"error building path of package" );
     end if;
   end if;
 end if;
 if ( not_empty ep_pkg )
-  return parent_path + "/" + ep_pkg.Name;
+  pathkey = pathkey + "::" + ep_pkg.Name;
+  if ( "" != param.child )
+    pathkey = pathkey + "::" + param.child;
+  end if;
 else
   TRACE::log( flavor:"failure", id:113, message:"error building path of package" );
-  return "";
-end if;',
+  pathkey = "";
+end if;
+return pathkey;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
@@ -2264,6 +2261,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("e94835d1-2d76-4ae5-aadd-ea36b29a34bd",
+	"5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
+	'child',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"545013fa-458c-405b-a060-d3a4d72e3f2b",
+	'');
 INSERT INTO PE_PE
 	VALUES ("5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
 	1,
@@ -2278,13 +2284,17 @@ INSERT INTO S_SYNC
 	'// Append parent path to name to get path to me.
 o_obj = param.o_obj;
 select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
-parent_path = ::package_get_path( ep_pkg:ep_pkg );
+pathkey = ::package_get_path( ep_pkg:ep_pkg, child:"" );
 if ( not_empty o_obj )
-  return parent_path + "/" + o_obj.Name;
+  pathkey = pathkey + "::" + o_obj.Name;
+  if ( "" != param.child )
+    pathkey = pathkey + "::" + param.child;
+  end if;
 else
   TRACE::log( flavor:"failure", id:114, message:"error building path of object" );
-  return "";
-end if;',
+  pathkey = "";
+end if;
+return pathkey;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
@@ -2297,6 +2307,15 @@ INSERT INTO S_SPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2b02d275-fe37-4378-a75e-65fdf54ded70",
+	"cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
+	'child',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"f8a8a377-b99c-4b33-b380-028d84082c81",
 	'');
 INSERT INTO PE_PE
 	VALUES ("cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
@@ -2312,13 +2331,17 @@ INSERT INTO S_SYNC
 	'// Append name to parent path to form path to me.
 c_c = param.c_c;
 select one ep_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000];
-parent_path = ::package_get_path( ep_pkg:ep_pkg );
+pathkey = ::package_get_path( ep_pkg:ep_pkg, child:"" );
 if ( not_empty c_c )
-  return parent_path + "/" + c_c.Name;
+  pathkey = pathkey + "::" + c_c.Name;
+  if ( "" != param.child )
+    pathkey = pathkey + "::" + param.child;
+  end if;
 else
   TRACE::log( flavor:"failure", id:114, message:"error building path of component" );
-  return "";
-end if;',
+  pathkey = "";
+end if;
+return pathkey;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
@@ -2331,6 +2354,15 @@ INSERT INTO S_SPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5c55c690-46a5-4edf-ab0e-37f032b52751",
+	"10e28974-45a1-4163-aa99-0edb13366a24",
+	'child',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b5b82ab6-5156-4fad-b8a1-6b51309f11a3",
 	'');
 INSERT INTO PE_PE
 	VALUES ("10e28974-45a1-4163-aa99-0edb13366a24",
@@ -2417,11 +2449,8 @@ for each s_brg in s_brgs
     end if;
   end if;
   
-  select one ep_pkg related by s_ee->PE_PE[R8001]->EP_PKG[R8000];
-  path = ::package_get_path( ep_pkg:ep_pkg );
   // Populate the action langauge body.
-  sig = ::underscore_signature(signature: ::bridge_getsignature( flavor:1, s_brg:s_brg ));
-  ::body2code_block( name:path + "/" + s_ee.Name + "_" + sig, text:STRING::unescapetics(s:s_brg.Action_Semantics_internal) );
+  ::body2code_block( name:"", text:STRING::unescapetics(s:s_brg.Action_Semantics_internal) );
   
   out::populate( element:"routine", value:emptyvalue );
   
@@ -3406,6 +3435,41 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("1d772117-8637-4071-8966-b5fffae70670",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4f7faf8b-f0da-4aae-80e2-2018ff927926",
+	"00000000-0000-0000-0000-000000000000",
+	'mark2pragma',
+	'',
+	'// Look up the mark and convert it to a pragma.
+select many marks from instances of Mark where ( selected.path == param.pathkey );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("eb5bd7be-545c-4312-bf85-9d4c097f6cca",
+	"4f7faf8b-f0da-4aae-80e2-2018ff927926",
+	'markable',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("568d603f-636d-4311-910f-ef57c6a92bcb",
+	"4f7faf8b-f0da-4aae-80e2-2018ff927926",
+	'pathkey',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"eb5bd7be-545c-4312-bf85-9d4c097f6cca",
+	'');
+INSERT INTO PE_PE
+	VALUES ("4f7faf8b-f0da-4aae-80e2-2018ff927926",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
