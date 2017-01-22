@@ -863,7 +863,6 @@ sub internal_cleanse_for_bp($$);
 sub internal_cleanse_for_bp($$)
 {
   if ( /\.xtuml$/ ) {
-    print STDERR "TODO - remove - Processing $_\n";
     my $I = xtumlmc_open( "<" . $_ );
 
     MCJAVAOUTER: while ( <$I> ) {
@@ -885,7 +884,6 @@ sub internal_cleanse_for_bp($$)
         print $SF_Out "$_";
         next MCJAVAOUTER;
       } else {
-        if ( /^-- BP/ ) { next MCJAVAOUTER; }
         # Just a normal line, send it on through.
         $_ = &internal_replace_uuid( $_ );
         print $SF_Out "$_";
@@ -1199,8 +1197,8 @@ sub xtuml2masl
     } else {
       # Scoop data directly from the models folder
       print STDERR "Scooping from $i/models\n";
-      #TODO - make sure code_generation/ exists, create it if not
-      # TODO - my globals has UUIDs!  This is wrong!
+      # TODO - make sure code_generation/ exists, create it if not
+      # TODO - Need to add in Globals.xtuml somehow so it gets included and part of the cleanse
       &xtumlmc_cleanse_for_BridgePoint ( "$i/models", "$i/gen/code_generation/a.xtuml", "GD_", "DIM_" );
     }
 
@@ -1208,17 +1206,13 @@ sub xtuml2masl
     # Note: The -k option here specifies that key letter pragmas will be produced by
     # the exporter. Remove the -k option to suppress generation of any "key_letter"
     # pragmas.
-    # TODO - note my old attempt to cat globals into the file ...my $sys_cmd = "cat $i/gen/code_generation/header.xtuml $i/gen/code_generation/a.xtuml | ./x2m -i$i $command -k | ./masl $validate -i$i $command -o$out_dir";
     my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | ./x2m -i$i $command -k | ./masl $validate -i$i $command -o$out_dir";
     print STDERR "$sys_cmd\n";
     system( $sys_cmd );
 
     # clean up
-  my $FILE1 = xtumlmc_open( ">/tmp/maslout.log" );
-  print $FILE1 $sys_cmd;
-
-    # TODO - put back - unlink "$i/gen/code_generation/z.xtuml";
-    # TODO - put back - unlink "$i/gen/code_generation/a.xtuml";
+    unlink "$i/gen/code_generation/z.xtuml";
+    unlink "$i/gen/code_generation/a.xtuml";
   }
 
   if ( $skipformatter eq "" ) {
