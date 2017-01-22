@@ -453,7 +453,6 @@ for each c_ep in c_eps
   else
     port_name = c_po.Name;
   end if;
-  sig = ::underscore_signature(signature: ::message_getsignature( flavor:1, c_ep:c_ep ));
   
   if ( param.project )
     select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
@@ -1285,9 +1284,7 @@ for each s_sync in s_syncs
   end if;
   
   if ( ActionDialect::masl == s_sync.Dialect )
-    select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
     // Populate the action langauge body.
-    sig = ::underscore_signature(signature: ::function_getsignature( flavor:1, s_sync:s_sync ));
     ::body2code_block( name:"", text:STRING::unescapetics(s:s_sync.Action_Semantics_internal) );
   end if;
   
@@ -1935,7 +1932,6 @@ for each o_tfr in o_tfrs
   
   // check for deferral -- if there is no action language and subtypes have an operation with matching signature
   deferred = false;
-  sig = ::underscore_signature(signature: ::operation_getsignature( flavor:1, o_tfr:o_tfr ));
   select any model from instances of model;
   if ( not_empty model and ( not FILE::exists( path:"deprecated path" ) ) )
     // select all supsuper relationships of which o_tfr belongs to the supertype
@@ -3240,97 +3236,6 @@ INSERT INTO S_DT_PROXY
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
 INSERT INTO PE_PE
 	VALUES ("e766fc2b-8613-441d-8c05-c1b286dbaa1e",
-	1,
-	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("1df75660-ed85-437c-a3f5-51c82bce9581",
-	"00000000-0000-0000-0000-000000000000",
-	'underscore_signature',
-	'',
-	'signature = param.signature;
-
-/*
- while ( (i=name.indexOf(",")) != -1
-	  || (i=name.indexOf("(")) != -1
-	  || (i=name.indexOf(" ")) != -1 ) {
-	 name.setCharAt(i, ''_'');
- }
- while ( (i=name.indexOf(")")) != -1 ) {
-	 name.deleteCharAt( i );
- }
- while ( (i=name.indexOf("__")) != -1 ) {
-	 name.deleteCharAt( i );
- }
- */
-
-// replace commas
-i = STRING::indexof( haystack:signature, needle:"," );
-while ( i != -1 )
-  sig_begin = STRING::substr( s:signature, begin:0, end:i );
-  sig_end = STRING::substr( s:signature, begin:i+1, end:-1 );
-  signature = sig_begin + "_" + sig_end;
-
-  i = STRING::indexof( haystack:signature, needle:"," );
-end while;
-
-// replace open parentheses
-i = STRING::indexof( haystack:signature, needle:"(" );
-while ( i != -1 )
-  sig_begin = STRING::substr( s:signature, begin:0, end:i );
-  sig_end = STRING::substr( s:signature, begin:i+1, end:-1 );
-  signature = sig_begin + "_" + sig_end;
-
-  i = STRING::indexof( haystack:signature, needle:"(" );
-end while;
-
-// replace spaces
-i = STRING::indexof( haystack:signature, needle:" " );
-while ( i != -1 )
-  sig_begin = STRING::substr( s:signature, begin:0, end:i );
-  sig_end = STRING::substr( s:signature, begin:i+1, end:-1 );
-  signature = sig_begin + "_" + sig_end;
-
-  i = STRING::indexof( haystack:signature, needle:" " );
-end while;
-
-// remove close parentheses
-i = STRING::indexof( haystack:signature, needle:")" );
-while ( i != -1 )
-  sig_begin = STRING::substr( s:signature, begin:0, end:i );
-  sig_end = STRING::substr( s:signature, begin:i+1, end:-1 );
-  signature = sig_begin + sig_end;
-
-  i = STRING::indexof( haystack:signature, needle:")" );
-end while;
-
-// remove double underscores
-i = STRING::indexof( haystack:signature, needle:"__" );
-while ( i != -1 )
-  sig_begin = STRING::substr( s:signature, begin:0, end:i );
-  sig_end = STRING::substr( s:signature, begin:i+2, end:-1 );
-  signature = sig_begin + "_" + sig_end;
-
-  i = STRING::indexof( haystack:signature, needle:"__" );
-end while;
-
-return signature;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'',
-	0);
-INSERT INTO S_SPARM
-	VALUES ("86e2811f-8260-4c49-911d-fa6dd78afbef",
-	"1df75660-ed85-437c-a3f5-51c82bce9581",
-	'signature',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO PE_PE
-	VALUES ("1df75660-ed85-437c-a3f5-51c82bce9581",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
