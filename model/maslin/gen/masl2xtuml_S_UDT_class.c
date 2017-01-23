@@ -8,10 +8,10 @@
  *--------------------------------------------------------------------------*/
 
 #include "maslin_sys_types.h"
+#include "IDLINK_bridge.h"
 #include "LOG_bridge.h"
 #include "STRING_bridge.h"
 #include "TRACE_bridge.h"
-#include "masl2xtuml_IDLINK_bridge.h"
 #include "masl2xtuml_classes.h"
 
 /*
@@ -26,6 +26,7 @@ masl2xtuml_S_UDT_instanceloader( Escher_iHandle_t instance, const c_t * avlstrin
   self->DT_ID = Escher_atoi( avlstring[ 1 ] );
   self->CDT_DT_ID = Escher_atoi( avlstring[ 2 ] );
   self->Gen_Type = Escher_atoi( avlstring[ 3 ] );
+  self->Definition = Escher_strcpy( self->Definition, avlstring[ 4 ] );
   return return_identifier;
 }
 
@@ -69,22 +70,6 @@ masl2xtuml_S_UDT_R17_Link( masl2xtuml_S_DT * supertype, masl2xtuml_S_UDT * subty
 
 
 /*
- * UNRELATE S_DT FROM S_UDT ACROSS R17
- */
-void
-masl2xtuml_S_UDT_R17_Unlink( masl2xtuml_S_DT * supertype, masl2xtuml_S_UDT * subtype )
-{
-  if ( (supertype == 0) || (subtype == 0) ) {
-    XTUML_EMPTY_HANDLE_TRACE( "S_UDT", "masl2xtuml_S_UDT_R17_Unlink" );
-    return;
-  }
-  /* Note:  S_UDT->S_DT[R17] not navigated */
-  supertype->R17_subtype = 0;
-  supertype->R17_object_id = 0;
-}
-
-
-/*
  * RELATE S_DT TO S_UDT ACROSS R18
  */
 void
@@ -106,15 +91,17 @@ masl2xtuml_S_UDT_instancedumper( Escher_iHandle_t instance )
 {
   masl2xtuml_S_UDT * self = (masl2xtuml_S_UDT *) instance;
   if ( self->CDT_DT_ID < 0xba5e000 ) {
-    printf( "INSERT INTO S_UDT VALUES ( %d,%d,%d );\n",
+    printf( "INSERT INTO S_UDT VALUES ( %d,%d,%d,'%s' );\n",
       self->DT_ID,
       self->CDT_DT_ID,
-      self->Gen_Type );
+      self->Gen_Type,
+    ( 0 != self->Definition ) ? self->Definition : "" );
   } else {
-    printf( "INSERT INTO S_UDT VALUES ( %d,\"ba5eda7a-def5-0000-0000-0000000000%02x\",%d );\n",
+    printf( "INSERT INTO S_UDT VALUES ( %d,\"ba5eda7a-def5-0000-0000-0000000000%02x\",%d,'%s' );\n",
       self->DT_ID,
       self->CDT_DT_ID - 0xba5ed00,
-      self->Gen_Type );
+      self->Gen_Type,
+      ( 0 != self->Definition ) ? self->Definition : "" );
   }
 }
 /*

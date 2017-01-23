@@ -53,7 +53,6 @@ UserInitializationCalloutf( void )
 void
 UserPreOoaInitializationCalloutf( void )
 {
-  /* Insert implementation specific code here.  */
   static char * a[2] = { "UserPreOoaInitializationCalloutf", "a.xtuml" };
   Escher_xtUML_load( 2, a );
 }
@@ -212,8 +211,7 @@ UserEventFreeListEmptyCalloutf( void )
 void
 UserEmptyHandleDetectedCalloutf( c_t * object_keyletters, c_t * s )
 {
-  /* Insert implementation specific code here.  */
-  SYS_USER_CO_PRINTF( "UserEmptyHandleDetectedCallout\n" )
+  fprintf( stderr, "UserEmptyHandleDetectedCallout %s %s.\n", object_keyletters, s );
 }
 
 /*

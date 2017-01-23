@@ -30,7 +30,8 @@ if ( not self.non_existent )
 end if;',
 	1,
 	'',
-	"b5fb225a-420f-41b5-b16e-930a5ff3ea82");
+	"b5fb225a-420f-41b5-b16e-930a5ff3ea82",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("fa419d69-899b-493c-9c2e-267e26ec23d3",
 	"3831770b-0142-457e-9e20-b77e34cfaa75",
@@ -91,7 +92,8 @@ end if;
 return state;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("daab49b8-c192-4486-9062-252eb12909ec",
 	"b5fb225a-420f-41b5-b16e-930a5ff3ea82",
@@ -165,7 +167,8 @@ end if;
 return valid;',
 	1,
 	'',
-	"3831770b-0142-457e-9e20-b77e34cfaa75");
+	"3831770b-0142-457e-9e20-b77e34cfaa75",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
 	"64886a99-6942-49c6-b7d7-2dc495c52db1");

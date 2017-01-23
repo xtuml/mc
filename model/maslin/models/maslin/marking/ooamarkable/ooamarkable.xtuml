@@ -1,15 +1,15 @@
 -- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO O_OBJ
-	VALUES ("58655153-e185-42f5-ad5a-f0a2de593288",
+	VALUES ("bd177ec5-0ad3-41d1-9c11-fb0e159afe26",
 	'ooamarkable',
 	3807,
 	'ooamarkable',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
-	VALUES ("caccf6fc-4565-4ff7-8016-0d44f19acfc7",
-	"58655153-e185-42f5-ad5a-f0a2de593288",
+	VALUES ("d7f8ac8f-c88f-4de2-b756-5ce8aa4e0ce5",
+	"bd177ec5-0ad3-41d1-9c11-fb0e159afe26",
 	'populate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -19,26 +19,27 @@ create object instance markable of ooamarkable;
 relate markable to element across R3806;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
-	VALUES ("5dbb2a2e-72cd-442d-8243-e9ef84ba9c68",
-	"caccf6fc-4565-4ff7-8016-0d44f19acfc7",
+	VALUES ("76939ae5-af0e-43a7-ab1d-d73f10119920",
+	"d7f8ac8f-c88f-4de2-b756-5ce8aa4e0ce5",
 	'element',
-	"67d44486-874e-43aa-a2a2-0487451e2390",
+	"e5dfdb84-9b56-40db-b9da-9bfde06c573c",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("67d44486-874e-43aa-a2a2-0487451e2390",
+	VALUES ("e5dfdb84-9b56-40db-b9da-9bfde06c573c",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<ooaelement>',
 	'',
 	'',
 	'../marking.xtuml');
 INSERT INTO O_TFR
-	VALUES ("2c4de3d3-9067-41fb-8fce-5f88627cdbf9",
-	"58655153-e185-42f5-ad5a-f0a2de593288",
+	VALUES ("c60ac9e3-33a0-4770-8424-eacd1704aeec",
+	"bd177ec5-0ad3-41d1-9c11-fb0e159afe26",
 	'render_pragmas',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -65,7 +66,7 @@ if ( not_empty population )
 			  project.Descrip = project.Descrip + pragma_string;
 			else
     		  TRACE::log( flavor:"failure", id:60, message:"Could not obtain markable." );
-    		  ooaelement::trace( population: population );
+    		  ooaelement::trace( population: population ); 
 			end if;
 		elif ( "domain" == element.type )
 		    if ( population.processingProject )
@@ -214,10 +215,11 @@ if ( not_empty population )
 end if;',
 	1,
 	'',
-	"caccf6fc-4565-4ff7-8016-0d44f19acfc7");
+	"d7f8ac8f-c88f-4de2-b756-5ce8aa4e0ce5",
+	0);
 INSERT INTO O_TFR
-	VALUES ("9652d627-db61-490e-b9eb-dfa636990c8d",
-	"58655153-e185-42f5-ad5a-f0a2de593288",
+	VALUES ("be37306f-a1c5-4665-9dd5-0fa0221f0612",
+	"bd177ec5-0ad3-41d1-9c11-fb0e159afe26",
 	'destruct',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -231,26 +233,27 @@ end for;
 delete object instance self;',
 	1,
 	'',
-	"2c4de3d3-9067-41fb-8fce-5f88627cdbf9");
+	"c60ac9e3-33a0-4770-8424-eacd1704aeec",
+	0);
 INSERT INTO O_ID
 	VALUES (0,
-	"58655153-e185-42f5-ad5a-f0a2de593288");
+	"bd177ec5-0ad3-41d1-9c11-fb0e159afe26");
 INSERT INTO O_ID
 	VALUES (1,
-	"58655153-e185-42f5-ad5a-f0a2de593288");
+	"bd177ec5-0ad3-41d1-9c11-fb0e159afe26");
 INSERT INTO O_ID
 	VALUES (2,
-	"58655153-e185-42f5-ad5a-f0a2de593288");
+	"bd177ec5-0ad3-41d1-9c11-fb0e159afe26");
 INSERT INTO PE_PE
-	VALUES ("58655153-e185-42f5-ad5a-f0a2de593288",
+	VALUES ("bd177ec5-0ad3-41d1-9c11-fb0e159afe26",
 	1,
-	"14d75964-4149-4868-8a33-9a696539a4fa",
+	"a436d690-d535-4111-926b-af7c5717f2da",
 	"00000000-0000-0000-0000-000000000000",
 	4);
 INSERT INTO EP_PKG_PROXY
-	VALUES ("14d75964-4149-4868-8a33-9a696539a4fa",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	VALUES ("a436d690-d535-4111-926b-af7c5717f2da",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
 	'marking',
 	'',
 	0,

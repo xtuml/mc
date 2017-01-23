@@ -1,15 +1,15 @@
 -- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO O_OBJ
-	VALUES ("4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	VALUES ("7623b7c8-fd73-43d3-b970-93281fcf1400",
 	'ooapragma_item',
 	3806,
 	'ooapragma_item',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
-	VALUES ("2850f24e-a4a5-4b1a-be8c-68dc526bb658",
-	"4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	VALUES ("61801d85-1e3a-414c-857d-25ad1ecf4a60",
+	"7623b7c8-fd73-43d3-b970-93281fcf1400",
 	'render',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -17,10 +17,11 @@ INSERT INTO O_TFR
 	'return self.value;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TFR
-	VALUES ("ed78bbcd-a7c2-4433-97a8-0a9bfb54564d",
-	"4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	VALUES ("db52defc-b9dc-4155-a563-e8b6b30796ac",
+	"7623b7c8-fd73-43d3-b970-93281fcf1400",
 	'populate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -48,10 +49,11 @@ else
 end if;',
 	1,
 	'',
-	"2850f24e-a4a5-4b1a-be8c-68dc526bb658");
+	"61801d85-1e3a-414c-857d-25ad1ecf4a60",
+	0);
 INSERT INTO O_TPARM
-	VALUES ("f7f2daac-b8a9-4523-8ec3-7574960d74a8",
-	"ed78bbcd-a7c2-4433-97a8-0a9bfb54564d",
+	VALUES ("9d5fd992-2728-4e4d-86a8-791124954024",
+	"db52defc-b9dc-4155-a563-e8b6b30796ac",
 	'value',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -59,24 +61,24 @@ INSERT INTO O_TPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TPARM
-	VALUES ("0c88b30b-85f2-4eff-90b2-ea4dfecbdc5e",
-	"ed78bbcd-a7c2-4433-97a8-0a9bfb54564d",
+	VALUES ("a0f4547f-708a-4c9d-8f86-85d3d50e9056",
+	"db52defc-b9dc-4155-a563-e8b6b30796ac",
 	'pragma',
-	"150bb385-2132-4200-960b-2be5599a2b59",
+	"e09ea014-4e29-4685-9e51-04ec59136f92",
 	0,
 	'',
-	"f7f2daac-b8a9-4523-8ec3-7574960d74a8",
+	"9d5fd992-2728-4e4d-86a8-791124954024",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("150bb385-2132-4200-960b-2be5599a2b59",
+	VALUES ("e09ea014-4e29-4685-9e51-04ec59136f92",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<ooapragma>',
 	'',
 	'',
 	'../marking.xtuml');
 INSERT INTO O_TFR
-	VALUES ("551cd483-7b76-4004-8521-d58ac7ca39e5",
-	"4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	VALUES ("1d4a14e0-3f5e-401e-b0a9-28fedceb119f",
+	"7623b7c8-fd73-43d3-b970-93281fcf1400",
 	'destruct',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -84,16 +86,17 @@ INSERT INTO O_TFR
 	'delete object instance self;',
 	1,
 	'',
-	"ed78bbcd-a7c2-4433-97a8-0a9bfb54564d");
+	"db52defc-b9dc-4155-a563-e8b6b30796ac",
+	0);
 INSERT INTO O_NBATTR
-	VALUES ("80398bfc-8853-4497-a949-c69dace126ac",
-	"4bc4dee7-c267-4410-a757-dc2eaa15022a");
+	VALUES ("a61e48fa-a69d-4ae7-85df-504717394339",
+	"7623b7c8-fd73-43d3-b970-93281fcf1400");
 INSERT INTO O_BATTR
-	VALUES ("80398bfc-8853-4497-a949-c69dace126ac",
-	"4bc4dee7-c267-4410-a757-dc2eaa15022a");
+	VALUES ("a61e48fa-a69d-4ae7-85df-504717394339",
+	"7623b7c8-fd73-43d3-b970-93281fcf1400");
 INSERT INTO O_ATTR
-	VALUES ("80398bfc-8853-4497-a949-c69dace126ac",
-	"4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	VALUES ("a61e48fa-a69d-4ae7-85df-504717394339",
+	"7623b7c8-fd73-43d3-b970-93281fcf1400",
 	"00000000-0000-0000-0000-000000000000",
 	'value',
 	'',
@@ -105,23 +108,23 @@ INSERT INTO O_ATTR
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	"4bc4dee7-c267-4410-a757-dc2eaa15022a");
+	"7623b7c8-fd73-43d3-b970-93281fcf1400");
 INSERT INTO O_ID
 	VALUES (1,
-	"4bc4dee7-c267-4410-a757-dc2eaa15022a");
+	"7623b7c8-fd73-43d3-b970-93281fcf1400");
 INSERT INTO O_ID
 	VALUES (2,
-	"4bc4dee7-c267-4410-a757-dc2eaa15022a");
+	"7623b7c8-fd73-43d3-b970-93281fcf1400");
 INSERT INTO PE_PE
-	VALUES ("4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	VALUES ("7623b7c8-fd73-43d3-b970-93281fcf1400",
 	1,
-	"14d75964-4149-4868-8a33-9a696539a4fa",
+	"a436d690-d535-4111-926b-af7c5717f2da",
 	"00000000-0000-0000-0000-000000000000",
 	4);
 INSERT INTO EP_PKG_PROXY
-	VALUES ("14d75964-4149-4868-8a33-9a696539a4fa",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	VALUES ("a436d690-d535-4111-926b-af7c5717f2da",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
 	'marking',
 	'',
 	0,

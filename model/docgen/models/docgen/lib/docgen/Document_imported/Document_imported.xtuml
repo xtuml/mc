@@ -5,7 +5,7 @@ INSERT INTO EP_PKG
 	"00000000-0000-0000-0000-000000000000",
 	"72100ca3-f004-4030-8bd1-cd03a8eca377",
 	'Document_imported',
-	'Document',
+	'',
 	0);
 INSERT INTO GD_MD
 	VALUES ("b3d4e581-7aba-4e0e-ab12-989e390f27eb",
@@ -33,6 +33,20 @@ INSERT INTO DIM_DIA
 	4000.000000,
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("c45b8cd6-c455-4d4d-a152-1a1ef6d1a040",
+	"1dafa938-86ba-4b87-94bf-ef40d8074cbf");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../../../../../../document/models/document/Document/Document.xtuml');
 INSERT INTO PE_PE
 	VALUES ("c45b8cd6-c455-4d4d-a152-1a1ef6d1a040",
 	1,

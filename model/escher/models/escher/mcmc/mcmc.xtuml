@@ -32,7 +32,7 @@ INSERT INTO GD_GE
 	"92ad83ae-9fba-40f1-bf46-bdbe8834ae74",
 	108,
 	0,
-	'escher::mcmc::afun');
+	'afun');
 INSERT INTO GD_SHP
 	VALUES ("8a5fb3a2-81ee-401a-b07f-8423ce5ed94a");
 INSERT INTO GD_NCS

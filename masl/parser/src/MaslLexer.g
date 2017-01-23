@@ -202,8 +202,8 @@ FALSE                         : 'false';
 
 
 
-LINE_NO                       : '#LINE#' { setText(""+$line); $type=IntegerLiteral; };
-FILE_NAME                     : '#FILE#' { setText("\"" + getFileName() + "\""); $type=StringLiteral; };
+LINE_NO                       : '#LINE#' { setText("#LINE#"); $type=IntegerLiteral; };
+FILE_NAME                     : '#FILE#' { setText("#FILE#"); $type=StringLiteral; };
 
 
 // Numeric Literals

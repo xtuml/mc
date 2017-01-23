@@ -23,7 +23,8 @@ relate terminator to markable across R3783;
 return terminator;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("482ed084-339f-448f-bf07-47c5f631d477",
 	"9d4928ce-a77c-493e-8754-575b9eb1494c",
@@ -77,7 +78,8 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
 	'',
-	"9d4928ce-a77c-493e-8754-575b9eb1494c");
+	"9d4928ce-a77c-493e-8754-575b9eb1494c",
+	0);
 INSERT INTO O_TFR
 	VALUES ("afc0ed77-3169-4d13-8804-a4f224cf9f1e",
 	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7",
@@ -114,7 +116,8 @@ end for;
 return valid;',
 	1,
 	'',
-	"d5232840-adc7-4197-8452-034e5bebae67");
+	"d5232840-adc7-4197-8452-034e5bebae67",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("261b125f-8711-4ac9-aeef-33aea0c6c424",
 	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7");

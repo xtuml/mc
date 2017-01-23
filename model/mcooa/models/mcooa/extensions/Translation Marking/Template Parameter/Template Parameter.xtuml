@@ -153,7 +153,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("81da0a01-baff-4b20-9ddb-851a1ffd35c5",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Translation Marking',
 	'This subsystem contains classes intended for marking or coloring the user
 model to guide the translation process.',

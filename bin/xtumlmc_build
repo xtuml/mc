@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #===========================================================================
-my $file_version = '1.60';
+my $file_version = '1.61';
 #
 # Description:
 # Run this file to build using SQL and marking input alone.  No
@@ -25,22 +25,22 @@ use File::Copy;
 use File::Path;
 use File::Compare;
 use File::Find;
+use File::Basename;
 use Cwd;
 
 my $osplatform;
-my $model_compiler = "MC-3020";      # Default to C model compiler.
 my $windbase = "";
 my %env_vars; # Perl can't export variables directly.  This
               # will hold the variables we would normally export
               # and we'll use system to export them later.
 
 # Preprocess the command line for which mc we're using and the home directory
-my $mc = "mc3020";
+my $mc = "mc";
 my $home_dir = "";
 for ( my $i = 0; $i < @ARGV; $i++ ) {
   my $k = $ARGV[$i];
   if ( $k =~ /^(-2)$/ ) { $mc = "mc2020"; }
-  elsif ( $k =~ /^(-3)$/ ) { $mc = "mc3020"; }
+  elsif ( $k =~ /^(-3)$/ ) { $mc = "mc"; }
   elsif ( $k =~ /^(-home)$/ ) { 
     $i++; 
     if ( $ARGV[$i] =~ m/^\.\./ ) {
@@ -61,11 +61,6 @@ $ENV{'ROX_MC_BIN_DIR'} = "$ENV{'XTUMLMC_HOME'}/$mc/bin" if ( ! exists $ENV{'ROX_
 my @system_arr = uname();
 my $system = "$system_arr[0]";
 my $root_dir = $ENV{'ROX_MC_ROOT_DIR'};
-if ( $root_dir =~ m/3020/i ) {
-  $model_compiler = "MC-3020";
-} elsif ( $root_dir =~ m/2020/i ) {
-  $model_compiler = "MC-2020";
-}
 
 # Set up platform specific environment.
 if ( $system =~ m/windows/i ) {
@@ -963,7 +958,6 @@ sub xtumlmc_cleanse_model($$$)
       # awk '/CREATE TABLE/{ print $3 }' | sed "s/_.*/_/" | sort | uniq
       if ( ! ( ( /^INSERT INTO ACT_/ ) ||
                 ( /^INSERT INTO A_/ ) ||
-                ( /^INSERT INTO CA_/ ) ||
                 ( /^INSERT INTO CL_/ ) ||
                 ( /^INSERT INTO CNST_/ ) ||
                 ( /^INSERT INTO COMM_/ ) ||
@@ -1164,7 +1158,10 @@ sub xtuml2masl
     print STDERR "Invoking BridgePoint pre-builder...\n";
     # the WORKSPACE env variable is expected to be set properly
     my ($volume, $directory, $file) = File::Spec->splitpath(__FILE__);
-    system( "$directory/../../../../CLI.sh Build -prebuildOnly" );
+    foreach my $inproj (@inputs) {
+      my $proj = basename($inproj);
+      system( "$directory/CLI.sh Build -prebuildOnly -doNotParse -project $proj " );
+    }
   }
 
   # process command
@@ -1373,7 +1370,7 @@ my $build_directory = $serial;
 my $output_src = "../../src";
 my $debug_output_dir = "../../Debug/Output";
 my $xmiarc = "";
-my $license_type = "";
+my $mc_type = "";
 my @xmls;
 my $CONCATENATED_FILE;
 
@@ -1384,7 +1381,7 @@ my $CONCATENATED_FILE;
 for ( my $i = 0; $i < @ARGV; $i++ ) {
   my $k = $ARGV[$i] if ( $ARGV[$i] =~ s/^-// );
   if ( $k =~ /^(2)$/ ) { $mc = "mc2020"; }
-  elsif ( $k =~ /^(3)$/ ) { $mc = "mc3020"; }
+  elsif ( $k =~ /^(3)$/ ) { $mc = "mc"; }
   elsif ( $k =~ /^(b)$/ ) { $i++; $build_spec = $ARGV[$i]; }
   elsif ( $k =~ /^(d)$/ ) { $i++; $build_directory = $ARGV[$i]; }
   elsif ( $k =~ /^(e)$/ ) { $called_from_eclipse=1; }
@@ -1396,12 +1393,11 @@ for ( my $i = 0; $i < @ARGV; $i++ ) {
   }
   elsif ( $k =~ /^(home)$/ ) { $i++; }
   elsif ( $k =~ /^(i)$/ ) { $xmiarc = "$ENV{'XTUMLMC_HOME'}/$mc/arc/xtuml_xmi2.1_export.arc"; }
-  elsif ( $k =~ /^(l2s)$/ ) { $license_type = " -l2s "; }
-  elsif ( $k =~ /^(l2b)$/ ) { $license_type = " -l2b "; }
-  elsif ( $k =~ /^(l3s)$/ ) { $license_type = " -l3s "; }
-  elsif ( $k =~ /^(l3b)$/ ) { $license_type = " -l3b "; }
-  elsif ( $k =~ /^(lSCs)$/ ) { $license_type = " -lSCs "; }
-  elsif ( $k =~ /^(lVHs)$/ ) { $license_type = " -lVHs "; }
+  elsif ( $k =~ /^(l2s)$/ ) { $mc_type = " -l2s "; }
+  elsif ( $k =~ /^(l2b)$/ ) { $mc_type = " -l2b "; }
+  elsif ( $k =~ /^(l3s)$/ ) { $mc_type = " -l3s "; }
+  elsif ( $k =~ /^(l3b)$/ ) { $mc_type = " -l3b "; }
+  elsif ( $k =~ /^(lSCs)$/ ) { $mc_type = " -lSCs "; }
   elsif ( $k =~ /^(m)$/ ) { $i++; @sqls = ( @sqls, $ARGV[$i] ); }
   elsif ( $k =~ /^(o)$/ ) { $i++; @ooas = ( @ooas, $ARGV[$i] ); }
   elsif ( $k =~ /^(O)$/ ) { $i++; $output_src = $ARGV[$i]; }
@@ -1451,7 +1447,7 @@ if ( $current_path =~ /;/ ) {
 #---------------------------------------------------------------------------
 # Create system build directory.
 #---------------------------------------------------------------------------
-if ( "mc3020" eq $mc ) {
+if ( "mc" eq $mc ) {
   xtumlmc_init_workspace_3020( $build_directory, "" );
 } else {
   usage();
@@ -1585,7 +1581,7 @@ if ( ( scalar(@arcs) > 0 ) || ( $xmiarc ne "" ) ) {
   if ( $xmiarc ne "" ) {
     $archcmd = " -arch $xmiarc";
   }
-  xtumlmc_gen_erate( "$license_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} $archcmd" );
+  xtumlmc_gen_erate( "$mc_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} $archcmd" );
 
   if ( 0 == $called_from_eclipse ) {
     my $root_node = rox_path( "-m", "." );
@@ -1609,32 +1605,41 @@ if ( ( scalar(@arcs) > 0 ) || ( $xmiarc ne "" ) ) {
 #---------------------------------------------------------------------------
 # Handle the situation where the user has new-style archetype folder
 #---------------------------------------------------------------------------
+# create arc dir under code_generation
+my $build_arcdir = "$ENV{'ROX_APP_ROOT_DIR'}/arc";
+xtumlmc_mkdir($build_arcdir);
+
+# copy arc/* to code_gen/arc
+my $DIR = xtumlmc_opendir( $arcdir ); my @entries = readdir $DIR;
+foreach $entry ( @entries ) {
+  if ( -f "$arcdir/$entry" ) {
+    xtumlmc_copy( "$arcdir/$entry", "$build_arcdir/$entry" );
+  }
+}
+    
+# If they have a specialized folder use that, otherwise look at the 
+# mc_type flag
 my $specialized_arcdir = "$arcdir/specialized";
 if ( -d "$specialized_arcdir" ) {
-    # create arc dir under code_generation
-    my $build_arcdir = "$ENV{'ROX_APP_ROOT_DIR'}/arc";
-    xtumlmc_mkdir($build_arcdir);
-
-    # copy arc/* to code_gen/arc
-    my $DIR = xtumlmc_opendir( $arcdir ); my @entries = readdir $DIR;
-    foreach $entry ( @entries ) {
-      if ( -f "$arcdir/$entry" ) {
-        xtumlmc_copy( "$arcdir/$entry", "$build_arcdir/$entry" );
-      }
-    }
-    
-    # copy arc/specialized/* to code_gen/arc
-    $DIR = xtumlmc_opendir( $specialized_arcdir ); @entries = readdir $DIR;
-    foreach $entry ( @entries ) {
-      if ( -f "$specialized_arcdir/$entry" ) {
-        xtumlmc_copy( "$specialized_arcdir/$entry", "$build_arcdir/$entry" );
-      }
-    }
-    
-    # use new arc dir
-    $ENV{'ROX_MC_ARC_DIR'} = "$build_arcdir";
-    $arcdir = $ENV{'ROX_MC_ARC_DIR'};
+  # no variable mod needed, copy arc/specialized/* to code_gen/arc
+} else {
+  if ( $mc_type eq " -l2s " ) { $specialized_arcdir = "$arcdir/sysc" }
+  elsif ( $mc_type eq " -l2b " ) { $specialized_arcdir = "$arcdir/sysc" }
+  elsif ( $mc_type eq " -l3s " ) { $specialized_arcdir = "$arcdir/c" }
+  elsif ( $mc_type eq " -l3b " ) { $specialized_arcdir = "$arcdir/c" }
+  elsif ( $mc_type eq " -lSCs " ) { $specialized_arcdir = "$arcdir/sysc" }
+  else { $specialized_arcdir = "$arcdir/c" }
 }
+$DIR = xtumlmc_opendir( $specialized_arcdir ); @entries = readdir $DIR;
+foreach $entry ( @entries ) {
+  if ( -f "$specialized_arcdir/$entry" ) {
+    xtumlmc_copy( "$specialized_arcdir/$entry", "$build_arcdir/$entry" );
+  }
+}
+    
+# use new arc dir
+$ENV{'ROX_MC_ARC_DIR'} = "$build_arcdir";
+$arcdir = $ENV{'ROX_MC_ARC_DIR'};
 
 #---------------------------------------------------------------------------
 # Generate the system node and then compile.
@@ -1642,7 +1647,7 @@ if ( -d "$specialized_arcdir" ) {
 # Check for compiled model-based model compiler executable.
 # If it exists, use it.  Otherwise, use archetypes.
 $mccmd = "$ENV{'ROX_MC_BIN_DIR'}/mcmc";
-if ( -f $mccmd ) {
+if ( (-f $mccmd) && ( $mc_type =~ /l3/ ) ) {
   # Get the marks from the marking files to be parsed by mcmc.
   # grep '^ *\.invoke ' *.mark > m.txt
   my $outFile = xtumlmc_open( ">" . "m.txt" );
@@ -1682,7 +1687,7 @@ if ( -f $mccmd ) {
     close $inFile
   }
 }
-xtumlmc_gen_erate( "$license_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} -arch \"$arcdir/sys.arc\"" );
+xtumlmc_gen_erate( "$mc_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} -arch \"$arcdir/sys.arc\"" );
 
 #---------------------------------------------------------------------------
 # Copy the C files into the correct locations.
@@ -1736,7 +1741,7 @@ if ( -d $output_src ) {
 }
 
 if ( 1 == $do_compile ) {
-  if ( "mc3020" eq $mc ) {
+  if ( "mc" eq $mc ) {
     system( "make all_no_gen" );
   }
 }

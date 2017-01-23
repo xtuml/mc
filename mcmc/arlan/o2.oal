@@ -237,13 +237,17 @@ if ( "" == te_val.buffer )
     root = "";
     if ( empty te_var )
       te_val.OAL = ( root_te_val.OAL + "." ) + te_attr.Name;
-      te_val.buffer = ( root_te_val.buffer + "->" ) + te_attr.GeneratedName;
       root = root_te_val.buffer;
     else
       te_val.OAL = ( te_var.OAL + "." ) + te_attr.Name;
-      te_val.buffer = ( te_var.buffer + "->" ) + te_attr.GeneratedName;
       root = te_var.buffer;
     end if;
+    select one te_class related by te_attr->TE_CLASS[R2061];
+    select one te_c related by te_class->TE_C[R2064];
+    if ( te_c.DetectEmpty )
+      root = "((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, ""${te_class.Key_Lett}"", ""${te_val.OAL}"" ))";
+    end if;
+    te_val.buffer = ( root + "->" ) + te_attr.GeneratedName;
     te_val.dimensions = te_attr.dimensions;
     te_val.array_spec = te_attr.array_spec;
     select one te_dim related by te_attr->TE_DIM[R2055];

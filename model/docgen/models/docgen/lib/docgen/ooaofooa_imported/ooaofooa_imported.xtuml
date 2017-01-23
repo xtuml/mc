@@ -5,7 +5,7 @@ INSERT INTO EP_PKG
 	"00000000-0000-0000-0000-000000000000",
 	"72100ca3-f004-4030-8bd1-cd03a8eca377",
 	'ooaofooa_imported',
-	'ooaofooa',
+	'',
 	0);
 INSERT INTO GD_MD
 	VALUES ("07018dba-ded0-4aa1-8691-1bdc3c5eec56",
@@ -33,6 +33,20 @@ INSERT INTO DIM_DIA
 	4000.000000,
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("b46b4bc3-a5d2-49b8-a2b6-8b60de40ad3f",
+	"53c53174-40a3-4d71-a2d9-4d8fbbf1e693");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'ooaofooa',
+	'
+
+
+',
+	0,
+	'../../../../../../mcooa/models/mcooa/ooaofooa/ooaofooa.xtuml');
 INSERT INTO PE_PE
 	VALUES ("b46b4bc3-a5d2-49b8-a2b6-8b60de40ad3f",
 	1,

@@ -9,10 +9,10 @@
 
 #include "maslin_sys_types.h"
 #include "masl2xtuml.h"
-#include "masl2xtuml_IDLINK_bridge.h"
 #include "TRACE_bridge.h"
 #include "STRING_bridge.h"
 #include "LOG_bridge.h"
+#include "IDLINK_bridge.h"
 #include "masl2xtuml_classes.h"
 
 /*
@@ -53,74 +53,6 @@ masl2xtuml_in_end()
     /* form.dispose() */
     masl2xtuml_formalization_op_dispose( form );
   }}}
-  /* IF ( ( not_empty ooapopulation and ooapopulation.processingProject ) ) */
-  if ( ( ( 0 != ooapopulation ) && ooapopulation->processingProject ) ) {
-    masl2xtuml_S_DT * s_dt=0;masl2xtuml_EP_PKG * lib_pkg;Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;masl2xtuml_EP_PKG * types_pkg=0;
-    /* ASSIGN lib_pkg = ooapopulation.lib_pkg */
-    lib_pkg = ooapopulation->lib_pkg;
-    /* SELECT any types_pkg RELATED BY lib_pkg->PE_PE[R8000]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == Shared ) ) */
-    types_pkg = 0;
-    {    if ( 0 != lib_pkg ) {
-    masl2xtuml_PE_PE * PE_PE_R8000_contains;
-    Escher_Iterator_s iPE_PE_R8000_contains;
-    Escher_IteratorReset( &iPE_PE_R8000_contains, &lib_pkg->PE_PE_R8000_contains );
-    while ( ( 0 == types_pkg ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
-    if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_EP_PKG_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )    {masl2xtuml_EP_PKG * selected = (masl2xtuml_EP_PKG *) PE_PE_R8000_contains->R8001_subtype;
-    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, "Shared" ) == 0 ) ) {
-      types_pkg = selected;
-    }}
-}}}
-    /* SELECT many s_dts RELATED BY types_pkg->PE_PE[R8000]->S_DT[R8001] WHERE ( ( SELECTED.Descrip == <definition>tmp</definition> ) ) */
-    Escher_ClearSet( s_dts );
-    {    if ( 0 != types_pkg ) {
-    masl2xtuml_PE_PE * PE_PE_R8000_contains;
-    Escher_Iterator_s iPE_PE_R8000_contains;
-    Escher_IteratorReset( &iPE_PE_R8000_contains, &types_pkg->PE_PE_R8000_contains );
-    while ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
-    if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )    {masl2xtuml_S_DT * selected = PE_PE_R8000_contains->R8001_subtype;
-    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Descrip, "<definition>tmp</definition>" ) == 0 ) ) {
-      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) s_dts, selected ) ) {
-        Escher_SetInsertElement( (Escher_ObjectSet_s *) s_dts, selected );
-    }}}
-}}}
-    /* FOR EACH s_dt IN s_dts */
-    { Escher_Iterator_s iters_dt;
-    masl2xtuml_S_DT * iis_dt;
-    Escher_IteratorReset( &iters_dt, s_dts );
-    while ( (iis_dt = (masl2xtuml_S_DT *)Escher_IteratorNext( &iters_dt )) != 0 ) {
-      s_dt = iis_dt; {
-      masl2xtuml_EP_PKG * ep_pkg=0;masl2xtuml_PE_PE * pe_pe=0;masl2xtuml_S_UDT * s_udt=0;
-      /* SELECT one s_udt RELATED BY s_dt->S_UDT[R17] */
-      s_udt = 0;
-      if ( ( 0 != s_dt ) && ( masl2xtuml_S_UDT_CLASS_NUMBER == s_dt->R17_object_id ) )      s_udt = ( 0 != s_dt ) ? (masl2xtuml_S_UDT *) s_dt->R17_subtype : 0;
-      /* UNRELATE s_dt FROM s_udt ACROSS R17 */
-      masl2xtuml_S_UDT_R17_Unlink( s_dt, s_udt );
-      /* DELETE OBJECT INSTANCE s_udt */
-      if ( 0 == s_udt ) {
-        XTUML_EMPTY_HANDLE_TRACE( "S_UDT", "Escher_DeleteInstance" );
-      }
-      Escher_DeleteInstance( (Escher_iHandle_t) s_udt, masl2xtuml_DOMAIN_ID, masl2xtuml_S_UDT_CLASS_NUMBER );
-      /* SELECT one pe_pe RELATED BY s_dt->PE_PE[R8001] */
-      pe_pe = ( 0 != s_dt ) ? s_dt->PE_PE_R8001 : 0;
-      /* SELECT one ep_pkg RELATED BY pe_pe->EP_PKG[R8000] */
-      ep_pkg = ( 0 != pe_pe ) ? pe_pe->EP_PKG_R8000_contained_by : 0;
-      /* UNRELATE pe_pe FROM ep_pkg ACROSS R8000 */
-      masl2xtuml_PE_PE_R8000_Unlink_contains( ep_pkg, pe_pe );
-      /* UNRELATE s_dt FROM pe_pe ACROSS R8001 */
-      masl2xtuml_S_DT_R8001_Unlink( pe_pe, s_dt );
-      /* DELETE OBJECT INSTANCE pe_pe */
-      if ( 0 == pe_pe ) {
-        XTUML_EMPTY_HANDLE_TRACE( "PE_PE", "Escher_DeleteInstance" );
-      }
-      Escher_DeleteInstance( (Escher_iHandle_t) pe_pe, masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
-      /* DELETE OBJECT INSTANCE s_dt */
-      if ( 0 == s_dt ) {
-        XTUML_EMPTY_HANDLE_TRACE( "S_DT", "Escher_DeleteInstance" );
-      }
-      Escher_DeleteInstance( (Escher_iHandle_t) s_dt, masl2xtuml_DOMAIN_ID, masl2xtuml_S_DT_CLASS_NUMBER );
-    }}}
-    Escher_ClearSet( s_dts ); 
-  }
   Escher_ClearSet( forms );Escher_ClearSet( elements );
 }
 
@@ -130,10 +62,10 @@ masl2xtuml_in_end()
  * To Provider Message:  populate
  */
 void
-masl2xtuml_in_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX_STRING_LEN] )
+masl2xtuml_in_populate( c_t * p_element, c_t * p_value[8] )
 {
-	/* ooapopulation::populate( element:PARAM.element, value:PARAM.value ) */
-	masl2xtuml_ooapopulation_op_populate( p_element, p_value );
+  /* ooapopulation::populate( element:PARAM.element, value:PARAM.value ) */
+  masl2xtuml_ooapopulation_op_populate( p_element, p_value );
 }
 extern void mark_pass( c_t * );
 #define T_T(x) ( 0 == x ) ? s : strcat(s,x)
@@ -201,6 +133,7 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_A_AEA_instancedumper,
   masl2xtuml_S_BPARM_instancedumper,
   masl2xtuml_EP_PKG_instancedumper,
+  masl2xtuml_EP_PKGREF_instancedumper,
   masl2xtuml_S_EDT_instancedumper,
   masl2xtuml_CNST_CSP_instancedumper,
   masl2xtuml_CNST_SYC_instancedumper,
@@ -246,7 +179,6 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_I_RCH_instancedumper,
   masl2xtuml_I_CIN_instancedumper,
   masl2xtuml_I_ICQE_instancedumper,
-  masl2xtuml_S_AW_instancedumper,
   masl2xtuml_S_IRDT_instancedumper,
   masl2xtuml_S_SDT_instancedumper,
   masl2xtuml_S_MBR_instancedumper,
@@ -489,6 +421,7 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_A_AEA_extent,
   &pG_masl2xtuml_S_BPARM_extent,
   &pG_masl2xtuml_EP_PKG_extent,
+  &pG_masl2xtuml_EP_PKGREF_extent,
   &pG_masl2xtuml_S_EDT_extent,
   &pG_masl2xtuml_CNST_CSP_extent,
   &pG_masl2xtuml_CNST_SYC_extent,
@@ -534,7 +467,6 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_I_RCH_extent,
   &pG_masl2xtuml_I_CIN_extent,
   &pG_masl2xtuml_I_ICQE_extent,
-  &pG_masl2xtuml_S_AW_extent,
   &pG_masl2xtuml_S_IRDT_extent,
   &pG_masl2xtuml_S_SDT_extent,
   &pG_masl2xtuml_S_MBR_extent,
