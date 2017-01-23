@@ -9,4 +9,4 @@ mcmc/arlan/y.tab.h
 
 code_generation/
 
-*.oal
+*.oal_err
