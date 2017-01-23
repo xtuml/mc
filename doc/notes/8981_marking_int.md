@@ -72,6 +72,10 @@ Also, `Non_Existent` is markable.
 6.9 Identifiers  
 I am not sure how we will mark identifiers.
 
+6.10 `key_letters`  
+There is an options `-k` to `xtuml2masl` for key letters.  This needs to be
+explored.
+
 7. Unit Test
 ------------
 
