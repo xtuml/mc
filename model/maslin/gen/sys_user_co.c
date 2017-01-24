@@ -67,6 +67,7 @@ UserPreOoaInitializationCalloutf( void )
  */
 #include <string.h>
 #include "masl_url.h"
+void Escher_dump_instances( const Escher_DomainNumber_t, const Escher_ClassNumber_t );
 void
 UserPostOoaInitializationCalloutf( void )
 {

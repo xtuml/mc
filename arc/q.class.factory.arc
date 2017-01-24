@@ -80,6 +80,8 @@ ${te_prefix.type}UniqueID_t
 ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const c_t * avlstring[] )
 {
   ${te_prefix.type}UniqueID_t return_identifier = 0;
+.// hack to help the build of maslin
+.if ( "ooapopulation" != te_class.Key_Lett )
   ${te_class.GeneratedName} * ${te_instance.self} = (${te_class.GeneratedName} *) instance;
   /* Initialize application analysis class attributes.  */
     .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 00 )
@@ -160,6 +162,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
       .// Advance to the next object attribute, if any.
       .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
     .end while
+.end if
   return return_identifier;
 }
   .end if  .// gen_declaration
