@@ -1405,7 +1405,7 @@ for each sm_state in sm_states
 	
   // output transition row pragmas
   if ( "assigner" == param.type )
-    ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Assigner State Machine::" + sm_state.Name ) );
+    ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Class State Machine::" + sm_state.Name ) );
   else
     ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Instance State Machine::" + sm_state.Name ) );
   end if;
@@ -1414,7 +1414,7 @@ end for;
 
 // Populate pragmas
 if ( "assigner" == param.type )
-  ::mark2pragma( markable:"State Machine", pathkey: ::class_get_path( o_obj:o_obj, child:"Assigner State Machine" ) );
+  ::mark2pragma( markable:"State Machine", pathkey: ::class_get_path( o_obj:o_obj, child:"Class State Machine" ) );
 else
   ::mark2pragma( markable:"State Machine", pathkey: ::class_get_path( o_obj:o_obj, child:"Instance State Machine" ) );
 end if;
@@ -1499,7 +1499,7 @@ for each sm_evt in sm_evts
   
   // Populate pragmas
   if ( "assigner" == param.type )
-    ::mark2pragma( markable:"State Machine Event", pathkey: ::class_get_path( o_obj:o_obj, child:"Assigner State Machine::" + sm_evt.Drv_Lbl + ":" + sm_evt.Mning ) );
+    ::mark2pragma( markable:"State Machine Event", pathkey: ::class_get_path( o_obj:o_obj, child:"Class State Machine::" + sm_evt.Drv_Lbl + ":" + sm_evt.Mning ) );
   else
     ::mark2pragma( markable:"State Machine Event", pathkey: ::class_get_path( o_obj:o_obj, child:"Instance State Machine::" + sm_evt.Drv_Lbl + ":" + sm_evt.Mning ) );
   end if;
@@ -1623,7 +1623,7 @@ for each sm_state in sm_states
   ::Descrip2description( Descrip:sm_act.Descrip );
   
   if ( "assigner" == param.type )
-    ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Assigner State Machine::" + sm_state.Name ) );
+    ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Class State Machine::" + sm_state.Name ) );
   else
     ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Instance State Machine::" + sm_state.Name ) );
   end if;
