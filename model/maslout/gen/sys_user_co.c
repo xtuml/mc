@@ -114,7 +114,6 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   } else if ( domain ) {
     while ( i < namecount ) xtuml2masl_masl_domain( name[ i++ ], (const bool)key_lett );
   }
-  xtuml2masl_model_op_persist_marking_data();
 }
 
 /*

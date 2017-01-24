@@ -3234,8 +3234,10 @@ INSERT INTO S_SYNC
 value[7]=""; value[6]=""; value[5]=""; value[4]=""; value[3]=""; value[2]=""; value[1]=""; value[0]="";
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
-select many marks from instances of Mark where ( selected.path == param.pathkey );
+select any markable from instances of Markable where ( selected.name == param.markable );
+select many marks related by markable->Mark[R2821] where ( selected.path == param.pathkey );
 for each mark in marks
+  
   value[0] = mark.feature_name;
   value[1] = "";
   out::populate( element:"pragma", value:value );
@@ -3245,6 +3247,7 @@ for each mark in marks
   out::populate( element:"pragmaitem", value:emptyvalue );
 
   out::populate( element:"pragma", value:emptyvalue );
+
 end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
