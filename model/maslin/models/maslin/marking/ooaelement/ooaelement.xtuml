@@ -199,6 +199,126 @@ delete object instance self;',
 	'',
 	"e1d32348-091f-45b1-8108-e733725f7826",
 	0);
+INSERT INTO O_TFR
+	VALUES ("278bf844-c690-428e-b214-f7ebc3598ff8",
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599",
+	'masl2xtuml',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'// Return the xtUML element type name for the given MASL element type name.
+xtumlname = "no xtUML name for " + param.maslname;
+if ( "project" == param.maslname )
+  xtumlname = "Component";
+elif ( "domain" == param.maslname )
+  xtumlname = "Component";
+elif ( "object" == param.maslname )
+  xtumlname = "Model Class";
+elif ( "terminator" == param.maslname )
+  xtumlname = "Port";
+elif ( "routine" == param.maslname )
+  xtumlname = "Function";
+elif ( "operation" == param.maslname )
+  xtumlname = "Operation";
+elif ( "state" == param.maslname )
+  xtumlname = "State Model State";
+elif ( "attribute" == param.maslname )
+  xtumlname = "Attribute";
+elif ( "identifier" == param.maslname )
+elif ( "transitiontable" == param.maslname )
+  xtumlname = "State Machine";
+elif ( "event" == param.maslname )
+  xtumlname = "State Machine Event";
+elif ( "regularrel" == param.maslname )
+  xtumlname = "Association";
+elif ( "associative" == param.maslname )
+  xtumlname = "Association";
+elif ( "subsuper" == param.maslname )
+  xtumlname = "Association";
+elif ( "type" == param.maslname )
+  xtumlname = "User Data Type";
+elif ( "exception" == param.maslname )
+  xtumlname = "Exception";
+else
+  // default will inform user
+end if;
+return xtumlname;',
+	1,
+	'',
+	"98900e47-44f9-4f74-a987-2f416ef054c6",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("b505f2d2-e104-4f5a-b14c-a1dbaead3f41",
+	"278bf844-c690-428e-b214-f7ebc3598ff8",
+	'maslname',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("55e351f1-68ba-44a1-a1da-8e8ab9a54429",
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599",
+	'get_path',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'pathkey = "no xtUML pathkey for " + self.type;
+select one ooapopulation related by self->ooapopulation[R3801];
+if ( not_empty ooapopulation )
+  if ( "project" == self.type )
+    pathkey = ::component_get_path( c_c:ooapopulation.current_component, child:"" );
+  elif ( "domain" == self.type )
+    pathkey = ::component_get_path( c_c:ooapopulation.current_component, child:"" );
+  elif ( "object" == self.type )
+    pathkey = ::class_get_path( o_obj:ooapopulation.current_class, child:"" );
+  elif ( "terminator" == self.type )
+    pathkey = ::component_get_path( c_c:ooapopulation.current_component, child:"" );
+  elif ( "routine" == self.type )
+    s_sync = ooapopulation.current_domain_function;
+    select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
+    pathkey = ::package_get_path( ep_pkg:ep_pkg, child:s_sync.Name );
+  elif ( "operation" == self.type )
+    o_tfr = ooapopulation.current_class_op;
+    select one o_obj related by o_tfr->O_OBJ[R115];
+    pathkey = ::class_get_path( o_obj:o_obj, child:o_tfr.Name );
+  elif ( "state" == self.type )
+    sm_state = ooapopulation.current_state;
+    select one o_obj related by sm_state->SM_SM[R501]->SM_ISM[R517]->O_OBJ[R518];
+    child = "::Instance State Machine::";
+    if ( empty o_obj )
+      select one o_obj related by sm_state->SM_SM[R501]->SM_ASM[R517]->O_OBJ[R519];
+      child = "::Class State Machine::";
+    end if;
+    child = child + sm_state.Name;
+    pathkey = ::class_get_path( o_obj:o_obj, child:child );
+  elif ( "attribute" == self.type )
+    o_attr = ooapopulation.current_attribute;
+    select one o_obj related by o_attr->O_OBJ[R102];
+    pathkey = ::class_get_path( o_obj:o_obj, child:o_attr.Name );
+  elif ( "identifier" == self.type )
+  elif ( "transitiontable" == self.type )
+  elif ( "event" == self.type )
+    pathkey = "State Machine Event";
+  elif ( "regularrel" == self.type )
+    pathkey = "Association";
+  elif ( "associative" == self.type )
+    pathkey = "Association";
+  elif ( "subsuper" == self.type )
+    pathkey = "Association";
+  elif ( "type" == self.type )
+    pathkey = "User Data Type";
+  elif ( "exception" == self.type )
+    pathkey = "Exception";
+  else
+    // default will inform user
+  end if;
+end if;
+return pathkey;',
+	1,
+	'',
+	"278bf844-c690-428e-b214-f7ebc3598ff8",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("33f8929c-beed-4b8e-8ec7-1e5b4045a4a5",
 	"079bf2c7-58dc-498f-a0ee-f3840b5f5599");
