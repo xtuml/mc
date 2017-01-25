@@ -1208,10 +1208,10 @@ sub xtuml2masl
 
     if ( $skip_action_language ne "" ) {
       foreach $idom (@dom_names) {
-        unlink glob("$out_dir/$idom/*.scn $out_dir/$idom/*.tr $out_dir/$idom/*.scn $out_dir/$idom/*.svc $out_dir/$idom/*.al $out_dir/$idom/*.ext");
+        unlink glob("$out_dir/$idom/*.scn $out_dir/$idom/*.tr $out_dir/$idom/*.scn $out_dir/$idom/*.svc $out_dir/$idom/*.al $out_dir/$idom/*.ext $out_dir/$idom/*.fn");
       }
       foreach $iproj (@proj_names) {
-        unlink glob("$out_dir/$iproj/*.scn $out_dir/$iproj/*.tr $out_dir/$iproj/*.scn $out_dir/$iproj/*.svc $out_dir/$iproj/*.al $out_dir/$iproj/*.ext");
+        unlink glob("$out_dir/$iproj/*.scn $out_dir/$iproj/*.tr $out_dir/$iproj/*.scn $out_dir/$iproj/*.svc $out_dir/$iproj/*.al $out_dir/$iproj/*.ext $out_dir/$iproj/*.fn");
       }
     }
   }
