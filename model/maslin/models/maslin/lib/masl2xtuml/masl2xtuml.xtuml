@@ -479,10 +479,32 @@ for each form in forms
 end for;
 
 // Output the marking data into files.
-/*
-Feature::persist( filename:"fff.mark", values );
-Mark::persist( filename:"mmm.mark", values );
-*/
+// Dump features and markable elements to the features.mark marking file.
+// Dump marks to application.mark.
+i = 0; values[7] = "";
+while ( i < 8 )
+  values[i] = "                                                                                                                                                                                                              ";
+  i = i + 1;
+end while;
+TRACE::log( flavor:"info", id:103, message:"Persisting marking data." );
+Feature::persist( filename:"features.mark", values:values );
+Mark::persist( filename:"application.mark", values:values );
+
+// Delete the instances from the model of mark.
+select many marks from instances of Mark;
+for each mark in marks
+  mark.dispose();
+end for;
+select many features from instances of Feature;
+for each feature in features
+  feature.dispose();
+end for;
+select many markables from instances of Markable;
+for each markable in markables
+  markable.dispose();
+end for;
+
+
 ',
 	1,
 	0);

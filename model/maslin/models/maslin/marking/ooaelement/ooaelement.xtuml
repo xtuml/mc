@@ -313,6 +313,9 @@ if ( not_empty ooapopulation )
     pathkey = "User Data Type";
   elif ( "exception" == self.type )
     pathkey = "Exception";
+    s_exp = ooapopulation.current_exp;
+    select one ep_pkg related by s_exp->PE_PE[R8001]->EP_PKG[R8000];
+    pathkey = ::package_get_path( ep_pkg:ep_pkg, child:s_exp.Name );   
   else
     // default will inform user
   end if;

@@ -1,1 +1,2 @@
 .invoke MarkEmptyHandleDetectionOn( "*" )
+.//.invoke MarkActionStatementTracingOn( "*" )

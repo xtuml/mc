@@ -7441,28 +7441,17 @@ elif ( "codeblock" == element )
   
   // TODO - handle code blocks for routines that are terminator services
 elif ( "pragma" == element )
-  select one parent_element related by ooapopulation->ooaelement[R3801]->ooaelement[R3805.''child of''];
-  if ( not_empty parent_element )
-    if ( ooaelement::ismarkable( type: parent_element.type ) )
-      select one markable related by parent_element->ooamarkable[R3806];
-      if ( "" == param.value[0] )
-        // Set up marking.
-        ooapragma = ooapopulation.current_pragma;
-        if ( not_empty ooapragma )
-          ooapragma.pragma2mark( ooaelement:parent_element );
-        end if;
-        // Clear out the current pragma.
-        select any pragma from instances of ooapragma where (false);
-        ooapopulation.current_pragma = pragma;
-      else
+  if ( "" == param.value[0] )
+    select any pragma from instances of ooapragma where (false);
+    ooapopulation.current_pragma = pragma;
+  else
+  	select one parent_element related by ooapopulation->ooaelement[R3801]->ooaelement[R3805.''child of''];
+  	if ( not_empty parent_element )
+      if ( ooaelement::ismarkable( type: parent_element.type ) )		// ignore pragma if we are not on a markable element
+        select one markable related by parent_element->ooamarkable[R3806];
         ooapopulation.current_pragma = ooapragma::populate( name:param.value[0], list:param.value[1], markable:markable );
       end if;
-    else
-      TRACE::log( flavor:"warning", id:56, message:"Pragma found on unmarkable element:  " + parent_element.type );
-      ooaelement::trace( population: ooapopulation );
-    end if;
-  else
-    if ( "" != param.value[0] )
+  	else
       TRACE::log( flavor:"failure", id:56, message:"Element stack is malformed." );
       ooaelement::trace( population: ooapopulation );
     end if;
