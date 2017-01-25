@@ -478,6 +478,11 @@ for each form in forms
   form.dispose();
 end for;
 
+// Output the marking data into files.
+/*
+Feature::persist( filename:"fff.mark", values );
+Mark::persist( filename:"mmm.mark", values );
+*/
 ',
 	1,
 	0);

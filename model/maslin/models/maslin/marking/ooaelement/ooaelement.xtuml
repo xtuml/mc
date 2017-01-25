@@ -265,6 +265,9 @@ INSERT INTO O_TFR
 	1,
 	'pathkey = "no xtUML pathkey for " + self.type;
 select one ooapopulation related by self->ooapopulation[R3801];
+if ( empty ooapopulation )
+  select any ooapopulation from instances of ooapopulation;
+end if;
 if ( not_empty ooapopulation )
   if ( "project" == self.type )
     pathkey = ::component_get_path( c_c:ooapopulation.current_component, child:"" );

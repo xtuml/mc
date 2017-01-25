@@ -124,7 +124,12 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//
+	'// Populate the Markable, Feature and Mark extents.
+// Relate features to markables.
+// The pragma name is the feature.
+// The markable is found by mapping the maslname to the xtUML element type.
+// The path is calculated from the xtUML element instance.
+// The value comes from the pragma items.
 ooaelement = param.ooaelement;
 if ( not_empty ooaelement )
 
@@ -136,8 +141,16 @@ if ( not_empty ooaelement )
     relate markable to feature across R2822;
   end if;
   
+  // Get the pragma items.
+  items = ""; separator = "";
+  select many pragmaitems related by self->ooapragma_item[R3804];
+  for each pragmaitem in pragmaitems
+    items = items + separator + pragmaitem.value;
+    separator = ",";
+  end for;
+  
   if ( not_empty feature and not_empty markable )
-    mark = Mark::populate( markable_name:markable.name, feature_name:feature.name, path:ooaelement.get_path(), value:"" );
+    mark = Mark::populate( markable_name:markable.name, feature_name:feature.name, path:ooaelement.get_path(), value:items );
   end if; 
   
 end if;',
