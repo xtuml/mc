@@ -503,16 +503,7 @@ for each form in forms
 end for;
 
 // Output the marking data into files.
-// Dump features and markable elements to the features.mark marking file.
-// Dump marks to application.mark.
-i = 0; values[7] = "";
-while ( i < 8 )
-  values[i] = "                                                                                                                                                                                                              ";
-  i = i + 1;
-end while;
-
-Feature::persist( filename:"features.mark", values:values );
-Mark::persist( filename:"application.mark", values:values );
+model::persist_marking_data();
 
 // Delete the instances from the model of mark.
 select many marks from instances of Mark;

@@ -32,22 +32,22 @@ See [5].
 
 5. Work Required
 ----------------
-6.1 m2x
-6.1.1 Detect pragma messages among the stream of serialized MASL.  Recognize
+5.1 m2x
+5.1.1 Detect pragma messages among the stream of serialized MASL.  Recognize
 and maintain model element associations.  This can be done in
 `ooapopulation::populate` in the "pragma" if clause.  At this point, the
 OOA element has been created and linked, so its path can be calculated.
-6.1.2 Create and relate instances in the model of marking.  Create feature
+5.1.2 Create and relate instances in the model of marking.  Create feature
 and markable element type instances as needed.  The pragma SMASL statement
 has the feature name of the pragma.  Prama items follow.  These become the
 features and marks.
-6.1.2.1 Upon detection of a pragma `Feature::populate`, `Markable:populate`
+5.1.2.1 Upon detection of a pragma `Feature::populate`, `Markable:populate`
 and relate the two instances across R2822.
-6.1.2.2 Locate the `ooapopulation.current*` the instance being marked,
+5.1.2.2 Locate the `ooapopulation.current*` the instance being marked,
 and `*_get_path` for it.
-6.1.2.3 `Mark::populate` with the `markable_name`, `feature_name`, pathkey
+5.1.2.3 `Mark::populate` with the `markable_name`, `feature_name`, pathkey
 and value (from pragma items).  Related together across R2821.
-6.1.3 At the end of the m2x processing, serialize the model of marking
+5.1.3 At the end of the m2x processing, serialize the model of marking
 into files per 5.3.4.
 
   
@@ -76,10 +76,17 @@ Where do we put marks found on transition table row?
 Feature and Mark. 
 Default (empty) mc3020 marking files are removed.  
 
+6.6 `model` model  
+Factored `model` out of maslout and into mcshared.  Added it as
+a package reference to maslin.  Note, I used model element move
+to accomplish this, and it seems to have worked perfectly as
+attested by the commit showing that git recognized the move.
+
 7. Unit Test
 ------------
 7.1 MASL Round Trip Test  
-Run [4].
+Run [4].  
+Expect some pragmas to be missing.
 
 8. Code Changes
 ---------------
@@ -89,8 +96,45 @@ Fork: cortlandstarrett/mc  8980_marking
 Fork: cortlandstarrett/bridgepoint  8980_marking
 
 xtuml/mc
+ doc/notes/8980_marking_int.md                                               |   99 -
+ doc/notes/8981_marking_dnt.md                                               |   14 +-
+ model/maslin/gen/CSV_bridge.c                                               |   83 -
+ model/maslin/gen/STRING_bridge.c                                            |   28 +-
+ model/maslin/gen/bridge.mark                                                |   59 +
+ model/maslin/gen/class.mark                                                 |  250 +
+ model/maslin/gen/datatype.mark                                              |  166 +
+ model/maslin/gen/domain.mark                                                |  219 +-
+ model/maslin/gen/event.mark                                                 |   43 +
+ model/maslin/gen/masl2xtuml.c                                               |  655 +++
+ model/maslin/gen/masl2xtuml_ooapopulation_class.c                           | 9981 +++++++++++++++++++++++++++++++++++
+ model/maslin/gen/sys_user_co.c                                              |   29 +-
+ model/maslin/gen/sys_user_co.h                                              |   13 +-
+ model/maslin/models/maslin/lib/masl2xtuml/masl2xtuml.xtuml                  |  136 +-
+ model/maslin/models/maslin/lib/masl2xtuml/mcfunctions/mcfunctions.xtuml     |   68 -
+ model/maslin/models/maslin/lib/masl2xtuml/model/model.xtuml                 |   68 -
+ model/maslin/models/maslin/lib/masl2xtuml/ooaofmarking/ooaofmarking.xtuml   |   68 -
+ model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml            |   52 +-
+ model/maslin/models/maslin/marking/ooaelement/ooaelement.xtuml              |   69 -
+ model/maslin/models/maslin/marking/ooamarkable/ooamarkable.xtuml            |  395 +-
+ model/maslin/models/maslin/marking/ooapragma/ooapragma.xtuml                |   56 -
+ model/maslin/test_data/pragmas/PragTest/t.smasl                             |  171 -
+ model/maslout/gen/CSV_bridge.c                                              |   86 -
+ model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml           |  170 +-
+ model/maslout/models/maslout/lib/xtuml2masl/mcfunctions/mcfunctions.xtuml   |   68 -
+ model/maslout/models/maslout/lib/xtuml2masl/model/model.xtuml               |   49 +-
+ .../models/maslout/lib/xtuml2masl}/model/model/model.xtuml                  |    4 +-
+ model/maslout/models/maslout/lib/xtuml2masl/xtuml2masl.xtuml                |   72 +-
+ model/mcshared/models/mcshared/functions/functions.xtuml                    |  222 -
+ model/mcshared/models/mcshared/mcshared.xtuml                               |   52 +-
+ model/mcshared/models/mcshared/model/model.xtuml                            |   20 -
+ 31 files changed, 11814 insertions(+), 1651 deletions(-)
 
 xtuml/bridgepoint
+ .../models/org.xtuml.bp.ui.marking/ooaofmarking/Feature/Feature.xtuml       | 174 ++++++++++++++++
+ .../models/org.xtuml.bp.ui.marking/ooaofmarking/Mark/Mark.xtuml             | 209 ++++++++++++++++++-
+ .../ooaofmarking/Markable Element Type/Markable Element Type.xtuml          |  50 +++++
+ .../models/org.xtuml.bp.ui.marking/ooaofmarking/ooaofmarking.xtuml          | 402 +++++++++++++++++++++++++++++-------
+ 4 files changed, 751 insertions(+), 84 deletions(-)
 
 </pre>
 

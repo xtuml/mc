@@ -80,15 +80,15 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "d" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "i:o:" ) ) != -1 ) {
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
-          //else masl2xtuml_model_op_setroot( optarg );
+          else masl2xtuml_model_op_setroot( optarg );
           break;
         case 'o':
           if ( !optarg ) abort();
-          //else masl2xtuml_model_op_setroot( optarg );
+          else masl2xtuml_model_op_setroot( optarg );
           break;
         case '?':
           fprintf( stderr, "Unknown option character '%c'.\n", optopt );
