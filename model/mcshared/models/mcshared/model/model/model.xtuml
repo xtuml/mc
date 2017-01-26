@@ -72,14 +72,13 @@ Dump marks to application.mark in the gen/ folder.
 */
 select any model from instances of model;
 if ( not_empty model )
-    i = 0; values[7] = "";
+  i = 0; values[7] = "";
   while ( i < 8 )
     values[i] = "                                                                                                                                                                                                              ";
     i = i + 1;
   end while;
-  TRACE::log( flavor:"info", id:103, message:"Persisting marking data." );
-  Feature::persist( filename:model.projectroot + "/gen/features.mark", values:values );
-  Mark::persist( filename: model.projectroot + "/gen/application.mark", values:values );
+  Feature::persist( filename:model.projectroot + "/features.mark", values:values );
+  Mark::persist( filename: model.projectroot + "/application.mark", values:values );
 end if;',
 	1,
 	'',
@@ -120,8 +119,8 @@ INSERT INTO PE_PE
 	4);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("fc52c455-bf5a-49cb-ba91-3b39d6d97611",
-	"00000000-0000-0000-0000-000000000000",
-	"53107551-b0b9-4155-a13f-41b410f63a54",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
 	'model',
 	'',
 	0,

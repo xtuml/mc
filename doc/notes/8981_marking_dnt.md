@@ -80,9 +80,19 @@ to be copied into the project gen/ folder.
 ---------
 6.1 m2x  
 6.1.1 Detect pragma messages among the stream of serialized MASL.  Recognize
-and maintain model element associations.  
+and maintain model element associations.  This can be done in
+`ooapopulation::populate` in the "pragma" if clause.  At this point, the
+OOA element has been created and linked, so its path can be calculated.  
 6.1.2 Create and relate instances in the model of marking.  Create feature
-and markable element type instances as needed.  
+and markable element type instances as needed.  The pragma SMASL statement
+has the feature name of the pragma.  Prama items follow.  These become the
+features and marks.  
+6.1.2.1 Upon detection of a pragma `Feature::populate`, `Markable:populate`
+and relate the two instances across R2822.  
+6.1.2.2 Locate the `ooapopulation.current*` the instance being marked,
+and `*_get_path` for it.  
+6.1.2.3 `Mark::populate` with the `markable_name`, `feature_name`, pathkey
+and value (from pragma items).  Related together across R2821.  
 6.1.3 At the end of the m2x processing, serialize the model of marking
 into files per 5.3.4.  
 

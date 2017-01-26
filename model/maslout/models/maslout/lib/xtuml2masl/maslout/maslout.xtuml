@@ -1405,7 +1405,7 @@ for each sm_state in sm_states
 	
   // output transition row pragmas
   if ( "assigner" == param.type )
-    ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Assigner State Machine::" + sm_state.Name ) );
+    ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Class State Machine::" + sm_state.Name ) );
   else
     ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Instance State Machine::" + sm_state.Name ) );
   end if;
@@ -1414,7 +1414,7 @@ end for;
 
 // Populate pragmas
 if ( "assigner" == param.type )
-  ::mark2pragma( markable:"State Machine", pathkey: ::class_get_path( o_obj:o_obj, child:"Assigner State Machine" ) );
+  ::mark2pragma( markable:"State Machine", pathkey: ::class_get_path( o_obj:o_obj, child:"Class State Machine" ) );
 else
   ::mark2pragma( markable:"State Machine", pathkey: ::class_get_path( o_obj:o_obj, child:"Instance State Machine" ) );
 end if;
@@ -1499,7 +1499,7 @@ for each sm_evt in sm_evts
   
   // Populate pragmas
   if ( "assigner" == param.type )
-    ::mark2pragma( markable:"State Machine Event", pathkey: ::class_get_path( o_obj:o_obj, child:"Assigner State Machine::" + sm_evt.Drv_Lbl + ":" + sm_evt.Mning ) );
+    ::mark2pragma( markable:"State Machine Event", pathkey: ::class_get_path( o_obj:o_obj, child:"Class State Machine::" + sm_evt.Drv_Lbl + ":" + sm_evt.Mning ) );
   else
     ::mark2pragma( markable:"State Machine Event", pathkey: ::class_get_path( o_obj:o_obj, child:"Instance State Machine::" + sm_evt.Drv_Lbl + ":" + sm_evt.Mning ) );
   end if;
@@ -1623,7 +1623,7 @@ for each sm_state in sm_states
   ::Descrip2description( Descrip:sm_act.Descrip );
   
   if ( "assigner" == param.type )
-    ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Assigner State Machine::" + sm_state.Name ) );
+    ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Class State Machine::" + sm_state.Name ) );
   else
     ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Instance State Machine::" + sm_state.Name ) );
   end if;
@@ -2165,168 +2165,6 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("9feb3491-f835-4302-9628-50c776b209ed",
-	1,
-	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
-	"00000000-0000-0000-0000-000000000000",
-	'package_get_path',
-	'',
-	'// Recursively traverse upward to system to form full path.
-ep_pkg = param.ep_pkg;
-pathkey = "";
-select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
-if ( not_empty parent_ep_pkg )
-  // package in package
-  pathkey = ::package_get_path( ep_pkg:parent_ep_pkg, child:"" );
-else
-  select one c_c related by ep_pkg->PE_PE[R8001]->C_C[R8003];
-  if ( not_empty c_c )
-    // package in component
-    pathkey = ::component_get_path( c_c:c_c, child:"" );
-  end if;
-end if;
-if ( not_empty ep_pkg )
-  if ( "" == pathkey )
-    pathkey = ep_pkg.Name;
-  else
-    pathkey = pathkey + "::" + ep_pkg.Name;
-  end if;
-  if ( "" != param.child )
-    pathkey = pathkey + "::" + param.child;
-  end if;
-else
-  TRACE::log( flavor:"failure", id:113, message:"error building path of package" );
-  pathkey = "";
-end if;
-return pathkey;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'',
-	0);
-INSERT INTO S_SPARM
-	VALUES ("545013fa-458c-405b-a060-d3a4d72e3f2b",
-	"5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
-	'ep_pkg',
-	"9939c670-a721-4742-a824-ed4b0df4acd6",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Package>',
-	'',
-	'',
-	'../../../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("e94835d1-2d76-4ae5-aadd-ea36b29a34bd",
-	"5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
-	'child',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"545013fa-458c-405b-a060-d3a4d72e3f2b",
-	'');
-INSERT INTO PE_PE
-	VALUES ("5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
-	1,
-	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
-	"00000000-0000-0000-0000-000000000000",
-	'class_get_path',
-	'',
-	'// Append parent path to name to get path to me.
-o_obj = param.o_obj;
-select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
-pathkey = ::package_get_path( ep_pkg:ep_pkg, child:"" );
-if ( not_empty o_obj )
-  pathkey = pathkey + "::" + o_obj.Name;
-  if ( "" != param.child )
-    pathkey = pathkey + "::" + param.child;
-  end if;
-else
-  TRACE::log( flavor:"failure", id:114, message:"error building path of object" );
-  pathkey = "";
-end if;
-return pathkey;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'',
-	0);
-INSERT INTO S_SPARM
-	VALUES ("f8a8a377-b99c-4b33-b380-028d84082c81",
-	"cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
-	'o_obj',
-	"63f4ff99-f127-443b-a678-30ace41da702",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("2b02d275-fe37-4378-a75e-65fdf54ded70",
-	"cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
-	'child',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"f8a8a377-b99c-4b33-b380-028d84082c81",
-	'');
-INSERT INTO PE_PE
-	VALUES ("cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
-	1,
-	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("10e28974-45a1-4163-aa99-0edb13366a24",
-	"00000000-0000-0000-0000-000000000000",
-	'component_get_path',
-	'',
-	'// Append name to parent path to form path to me.
-c_c = param.c_c;
-select one ep_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000];
-pathkey = ::package_get_path( ep_pkg:ep_pkg, child:"" );
-if ( not_empty c_c )
-  pathkey = pathkey + "::" + c_c.Name;
-  if ( "" != param.child )
-    pathkey = pathkey + "::" + param.child;
-  end if;
-else
-  TRACE::log( flavor:"failure", id:114, message:"error building path of component" );
-  pathkey = "";
-end if;
-return pathkey;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'',
-	0);
-INSERT INTO S_SPARM
-	VALUES ("b5b82ab6-5156-4fad-b8a1-6b51309f11a3",
-	"10e28974-45a1-4163-aa99-0edb13366a24",
-	'c_c',
-	"67f93d18-1045-4c6c-b0d5-a692023c471c",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("5c55c690-46a5-4edf-ab0e-37f032b52751",
-	"10e28974-45a1-4163-aa99-0edb13366a24",
-	'child',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"b5b82ab6-5156-4fad-b8a1-6b51309f11a3",
-	'');
-INSERT INTO PE_PE
-	VALUES ("10e28974-45a1-4163-aa99-0edb13366a24",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
@@ -3235,6 +3073,7 @@ value[7]=""; value[6]=""; value[5]=""; value[4]=""; value[3]=""; value[2]=""; va
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 select any markable from instances of Markable where ( selected.name == param.markable );
+if ( not_empty markable ) // CDS - this protecting if statement can go away after mcmc is built again
 select many marks related by markable->Mark[R2821] where ( selected.path == param.pathkey );
 for each mark in marks
   
@@ -3248,7 +3087,8 @@ for each mark in marks
 
   out::populate( element:"pragma", value:emptyvalue );
 
-end for;',
+end for;
+end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',

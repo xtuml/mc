@@ -117,6 +117,62 @@ delete object instance self;',
 	'',
 	"6eaebdb2-2a51-4120-8bd0-14fa3d89c8ef",
 	0);
+INSERT INTO O_TFR
+	VALUES ("04dde210-4229-47b6-8ef6-7778e1a2ef65",
+	"e8c56dd8-d47f-4353-8863-5bd0cb48f680",
+	'pragma2mark',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Populate the Markable, Feature and Mark extents.
+
+// Get the pragma items.
+items = ""; separator = "";
+select many pragmaitems related by self->ooapragma_item[R3804];
+for each pragmaitem in pragmaitems
+  items = items + separator + pragmaitem.value;
+  separator = ",";
+end for;
+
+// Relate features to markables.
+// The pragma name is the feature.
+// The markable is found by mapping the maslname to the xtUML element type.
+// The path is calculated from the xtUML element instance.
+// The value comes from the pragma items.
+markable = Markable::populate( name:param.markable_name );
+feature = Feature::populate( name:self.name );
+select any related_feature related by markable->Feature[R2822] where ( selected.name == feature.name );
+if ( empty related_feature )
+  relate markable to feature across R2822;
+end if;
+
+if ( not_empty feature and not_empty markable )
+  mark = Mark::populate( markable_name:markable.name, feature_name:feature.name, path:param.pathkey, value:items );
+end if; 
+  
+',
+	1,
+	'',
+	"df935a92-ec5a-4525-8d0a-13517d646778",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("94f68fc6-d0b1-415b-ab62-2446f18eea40",
+	"04dde210-4229-47b6-8ef6-7778e1a2ef65",
+	'markable_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("d00dc0c8-60b6-4390-a605-f2ea76fe8174",
+	"04dde210-4229-47b6-8ef6-7778e1a2ef65",
+	'pathkey',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"94f68fc6-d0b1-415b-ab62-2446f18eea40",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("1d8ddd95-4e1a-44e2-ad43-2fceeabc8dd7",
 	"e8c56dd8-d47f-4353-8863-5bd0cb48f680");

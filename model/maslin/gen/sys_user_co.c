@@ -54,7 +54,6 @@ void
 UserPreOoaInitializationCalloutf( void )
 {
   /* Insert implementation specific code here.  */
-  SYS_USER_CO_PRINTF( "UserPreOoaInitializationCallout\n" )
 }
 
 /*
@@ -66,13 +65,39 @@ UserPreOoaInitializationCalloutf( void )
  * xtUML application analysis state models to start consuming events.
  */
 #include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include "masl_url.h"
+void Escher_dump_instances( const Escher_DomainNumber_t, const Escher_ClassNumber_t );
 void
-UserPostOoaInitializationCalloutf( void )
+UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
   char s[ ESCHER_SYS_MAX_STRING_LEN ], e[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ], arg[ ESCHER_SYS_MAX_STRING_LEN ];
   char * p, * q, * element = e, * value[ 8 ] = { v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7] };
   int i, j;
+  {
+    int c;
+    opterr = 0;
+    while ( ( c = getopt ( argc, argv, "i:o:" ) ) != -1 ) {
+      switch ( c ) {
+        case 'i':
+          if ( !optarg ) abort();
+          else masl2xtuml_model_op_setroot( optarg );
+          break;
+        case 'o':
+          if ( !optarg ) abort();
+          else masl2xtuml_model_op_setroot( optarg );
+          break;
+        case '?':
+          fprintf( stderr, "Unknown option character '%c'.\n", optopt );
+          break;
+        default:
+          abort (); // die ignominiously
+      }
+    }
+  }
   while ( ( p = fgets( s, ESCHER_SYS_MAX_STRING_LEN, stdin ) ) != NULL ) {
     i = 0;
     p[ strlen(p) - 1 ] = 0;

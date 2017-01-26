@@ -6952,6 +6952,7 @@ if ( empty s_sys )
   self.systypes_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"types");
   
   i = 0;
+  s[ 19 ] = "initializing array length";
   s[ i ] = "";
   s[ 0 ] = "void";
   s[ 1 ] = "boolean";
@@ -7016,7 +7017,7 @@ if ( not_empty op )
 end if;',
 	1,
 	'',
-	"d575fa93-3488-4bc0-ab38-d6aff10a2894",
+	"95a50e75-8e96-4057-9cb6-a2a5cea06b80",
 	0);
 INSERT INTO O_TFR
 	VALUES ("2ca94e70-3338-4ad6-9234-cad3073182f7",
@@ -7100,7 +7101,6 @@ INSERT INTO O_TFR
 	'// Populate OOAofOOA
 
 element = param.element;
-value = param.value;
 
 select any ooapopulation from instances of ooapopulation;
 if ( empty ooapopulation )
@@ -7111,8 +7111,8 @@ if ( empty ooapopulation )
 end if;
 
 // deal with pragma stack
-if ( "" == value[0] and "" == value[1] and "" == value[2] and "" == value[3] and	// If all values are empty, it is
-	 "" == value[4] and "" == value[5] and "" == value[6] and "" == value[7] )		// an end tag
+if ( "" == param.value[0] and "" == param.value[1] and "" == param.value[2] and "" == param.value[3] and	// If all values are empty, it is
+	 "" == param.value[4] and "" == param.value[5] and "" == param.value[6] and "" == param.value[7] )		// an end tag
   select one current_element related by ooapopulation->ooaelement[R3801];
   if ( not_empty current_element )
     if ( ooaelement::ismarkable( type: element ) )
@@ -7449,7 +7449,7 @@ elif ( "pragma" == element )
   	if ( not_empty parent_element )
       if ( ooaelement::ismarkable( type: parent_element.type ) )		// ignore pragma if we are not on a markable element
         select one markable related by parent_element->ooamarkable[R3806];
-        ooapopulation.current_pragma = ooapragma::populate( name:value[0], list:value[1], markable:markable );
+        ooapopulation.current_pragma = ooapragma::populate( name:param.value[0], list:param.value[1], markable:markable );
       end if;
   	else
       TRACE::log( flavor:"failure", id:56, message:"Element stack is malformed." );
@@ -7460,7 +7460,7 @@ elif ( "pragmaitem" == element )
   select one current_element related by ooapopulation->ooaelement[R3801];
   if ( not_empty current_element )
     if ( "pragma" == current_element.type )	// ignore if not child of pragma
-      ooapragma_item::populate( value:value[0], pragma:ooapopulation.current_pragma );
+      ooapragma_item::populate( value:param.value[0], pragma:ooapopulation.current_pragma );
     end if;
   else
     TRACE::log( flavor:"failure", id:57, message:"Element stack is malformed." );
@@ -7468,10 +7468,10 @@ elif ( "pragmaitem" == element )
   end if;
 elif ( "expression" == element )
   select one current_element related by ooapopulation->ooaelement[R3801];
-  ooapopulation.transformExpression( element:current_element, text:value[0] );
+  ooapopulation.transformExpression( element:current_element, text:param.value[0] );
 elif ( "description" == element )
   select one current_element related by ooapopulation->ooaelement[R3801];
-  ooapopulation.transformDescription( element:current_element, text:value[0], tag:value[1] );
+  ooapopulation.transformDescription( element:current_element, text:param.value[0], tag:param.value[1] );
 else
   TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
@@ -7526,16 +7526,14 @@ INSERT INTO O_TFR
 	0,
 	'// Populate OOAofOOA.
 
-element = param.element;
-value = param.value;
 ooapopulation = param.ooapopulation;
 
-if ( "project" == element )
+if ( "project" == param.element )
   if ( "" != param.value[0] )
     ooapopulation.transformProject(name:param.value[0]);
     ooapopulation.processingProject = true;
   end if;
-elif ( "domain" == element )
+elif ( "domain" == param.element )
   if ( "" == param.value[0] )
     // If we are processing a project, all domains we see are handled as imported components, so clear that cache attribute
     select any cl_ic from instances of CL_IC where (false);
@@ -7543,7 +7541,7 @@ elif ( "domain" == element )
   else
     ooapopulation.transformDomain(name:param.value[0]);
   end if;
-elif ( "terminator" == element )
+elif ( "terminator" == param.element )
   if ( "" == param.value[0] )
     // formalize the new interface reference to it
   	comp_if = ooapopulation.current_interface;
@@ -7581,7 +7579,7 @@ elif ( "terminator" == element )
   else
     ooapopulation.transformTerminator(name:param.value[0]);
   end if;
-elif ( "routine" == element )
+elif ( "routine" == param.element )
   //  See if we''re processing inside a domain or terminator.  Then call the appropriate conversion function.
   if ( "" == param.value[3] )
     // check for duplicate routines
@@ -7607,14 +7605,14 @@ elif ( "routine" == element )
       ooapopulation.current_interface = c_i;
     end if;
   end if;
-elif ( "parameter" == element )
+elif ( "parameter" == param.element )
   if ( "" == param.value[0] )
     select any c_pp from instances of C_PP where (false);
     ooapopulation.current_interface_param = c_pp;
   else
     ooapopulation.transformParameter(name:param.value[0], direction:param.value[1]);
   end if;
-elif ( "typeref" == element )
+elif ( "typeref" == param.element )
   if ( "" != param.value[0] )
     ooapopulation.transformType(name:param.value[0], visibility:"public", definition:"");
     
@@ -7628,12 +7626,12 @@ elif ( "typeref" == element )
     end if;
 
   end if;
-elif ( "codeblock" == element )
+elif ( "codeblock" == param.element )
   c_ep = ooapopulation.current_executable_property;
   if ( not_empty c_ep )
     c_ep.Descrip = "<codeblock>" + param.value[0] + "</codeblock>";
   end if;
-elif ( "pragma" == element )
+elif ( "pragma" == param.element )
   if ( "" == param.value[0] )
     select any pragma from instances of ooapragma where (false);
     ooapopulation.current_pragma = pragma;
@@ -7642,18 +7640,18 @@ elif ( "pragma" == element )
   	if ( not_empty parent_element )
       if ( ooaelement::ismarkable( type: parent_element.type ) )		// ignore pragma if we are not on a markable element
         select one markable related by parent_element->ooamarkable[R3806];
-        ooapopulation.current_pragma = ooapragma::populate( name:value[0], list:value[1], markable:markable );
+        ooapopulation.current_pragma = ooapragma::populate( name:param.value[0], list:param.value[1], markable:markable );
       end if;
   	else
       TRACE::log( flavor:"failure", id:56, message:"Element stack is malformed." );
       ooaelement::trace( population: ooapopulation );
     end if;
   end if;
-elif ( "pragmaitem" == element )
+elif ( "pragmaitem" == param.element )
   select one current_element related by ooapopulation->ooaelement[R3801];
   if ( not_empty current_element )
     if ( "pragma" == current_element.type )	// ignore if not child of pragma
-      ooapragma_item::populate( value:value[0], pragma:ooapopulation.current_pragma );
+      ooapragma_item::populate( value:param.value[0], pragma:ooapopulation.current_pragma );
     end if;
   else
     TRACE::log( flavor:"failure", id:57, message:"Element stack is malformed." );
@@ -8963,6 +8961,18 @@ INSERT INTO O_TPARM
 	'',
 	"da42c5db-51eb-476b-b3bd-58a0495a75c9",
 	'');
+INSERT INTO O_TFR
+	VALUES ("95a50e75-8e96-4057-9cb6-a2a5cea06b80",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'delete object instance self;',
+	1,
+	'',
+	"d575fa93-3488-4bc0-ab38-d6aff10a2894",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("65062455-b226-4503-a876-a0cbd652b56e",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
