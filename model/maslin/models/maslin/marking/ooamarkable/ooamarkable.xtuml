@@ -102,10 +102,9 @@ if ( not_empty population )
       if ( not_empty terminator1 )
         select one c_po related by terminator1->C_IR[R4009]->C_PO[R4016];
         select one c_c related by c_po->C_C[R4010];
-        child = c_po.Name + "::" + terminator1.Name;
-        pathkey = ::component_get_path( c_c:c_c, child:child );
+        pathkey = ::component_get_path( c_c:c_c, child:c_po.Name );
         for each pragma in pragmas
-          pragma.pragma2mark( markable_name:"Requirement", pathkey:pathkey );
+          pragma.pragma2mark( markable_name:"Port", pathkey:pathkey );
         end for;
       else
         c_c = population.current_component;
@@ -148,7 +147,17 @@ if ( not_empty population )
         routine2 = population.current_executable_property;
         select one c_io related by routine2->C_IO[R4004];
         if ( not_empty c_io )
-          c_io.Descrip = c_io.Descrip + pragma_string;
+          interface = population.current_interface;
+          select any terminator1 related by interface->C_IR[R4012]->C_R[R4009];
+          if ( not_empty terminator1 )
+            select one c_po related by terminator1->C_IR[R4009]->C_PO[R4016];
+            select one c_c related by c_po->C_C[R4010];
+            child = c_po.Name + "::" + interface.Name + "::" + routine2.Name;
+            pathkey = ::component_get_path( c_c:c_c, child:child );
+            for each pragma in pragmas
+              pragma.pragma2mark( markable_name:"Required Operation", pathkey:pathkey );
+            end for;
+          end if;
         else
           TRACE::log( flavor:"failure", id:64, message:"Could not obtain markable." );
           ooaelement::trace( population: population );
