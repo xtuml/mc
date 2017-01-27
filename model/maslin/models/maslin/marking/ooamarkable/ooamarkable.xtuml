@@ -169,7 +169,7 @@ if ( not_empty population )
         select one o_obj related by operation->O_OBJ[R115];
         pathkey = ::class_get_path( o_obj:o_obj, child:operation.Name );
         for each pragma in pragmas
-          pragma.pragma2mark( markable_name:"Model Class", pathkey:pathkey );
+          pragma.pragma2mark( markable_name:"Operation", pathkey:pathkey );
         end for;
       else
         TRACE::log( flavor:"failure", id:65, message:"Could not obtain markable." );
@@ -186,6 +186,9 @@ if ( not_empty population )
         end if;
         child = child + state.Name;
         pathkey = ::class_get_path( o_obj:o_obj, child:child );
+        for each pragma in pragmas
+          pragma.pragma2mark( markable_name:"State Machine State", pathkey:pathkey );
+        end for;
       else
         TRACE::log( flavor:"failure", id:66, message:"Could not obtain markable." );
         ooaelement::trace( population: population );
@@ -196,7 +199,7 @@ if ( not_empty population )
         select one o_obj related by attr->O_OBJ[R102];
         pathkey = ::class_get_path( o_obj:o_obj, child:attr.Name );
         for each pragma in pragmas
-          pragma.pragma2mark( markable_name:"Model Class", pathkey:pathkey );
+          pragma.pragma2mark( markable_name:"Attribute", pathkey:pathkey );
         end for;
       else
         TRACE::log( flavor:"failure", id:67, message:"Could not obtain markable." );
@@ -285,7 +288,7 @@ if ( not_empty population )
         select one ep_pkg related by r_rel->PE_PE[R8001]->EP_PKG[R8000];
         pathkey = ::package_get_path( ep_pkg:ep_pkg, child: "R" + T::s(i:r_rel.Numb) );
         for each pragma in pragmas
-          pragma.pragma2mark( markable_name:"Exception", pathkey:pathkey );
+          pragma.pragma2mark( markable_name:"Association", pathkey:pathkey );
         end for;
       end if;
       */
