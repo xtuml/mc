@@ -84,11 +84,11 @@ for domain in ${DOM_DIRS[*]}; do
     # be much better.
     echo "Preparing workspace $WORKSPACE"
     rm -rf $WORKSPACE
-    unzip -q importwork.zip -d /tmp/
+    unzip -q $DIR/importworkspace.zip -d /tmp/
 
-    # First import doesn't work.  Second does. 
+    # First import doesn't work.  Second does. So we suppress the output from the first. 
     echo "Round trip is now importing"
-    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject importProj
+    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject importProj >/dev/null 2>&1
     CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject importProj
     cp $CONVERTDIR/$domname/*.mark $WORKSPACE/importProj/gen/
 
@@ -101,13 +101,14 @@ for domain in ${DOM_DIRS[*]}; do
     xtuml2masl -i $WORKSPACE/importProj/ -d $compname -o $MASLOUTDIR
 
     # Now diff
-    echo "Diff'ing input and output MASL. Diff report is in $OUT_DIR/$compname/diff_report.txt"
+    echo "Diff'ing input and output MASL."
     masldiff $domain $MASLOUTDIR/$compname > $MASLOUTDIR/$compname/diff_report.txt
     mv $MASLOUTDIR/$compname $OUT_DIR
+    echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
 
-    echo "Cleaning up diff artifacts"
     rm -rf left.masldiff
     rm -rf right.masldiff
 done
 
+echo -e "\n"
 
