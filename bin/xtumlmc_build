@@ -1114,7 +1114,7 @@ sub xtuml2masl
       $directive = "$arg";
     }
     elsif ( $arg eq "-xl" and $skip_action_language eq "" ) {         # if we encounter flag indicating skip output of MASL activities
-      $skip_action_language = "$arg";
+      $skip_action_language = "-s";
       $directive = "";
     }
     elsif ( $directive eq "-i" ) {                                  # add an input
@@ -1199,22 +1199,13 @@ sub xtuml2masl
     # pragmas should be produced by the exporter. By default the -k 
     # option is not used in order to suppress generation of "key_letter"
     # pragmas.
-    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | ./x2m -i$i $command | ./masl $validate -i$i $command -o$out_dir";
+    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | ./x2m -i$i $command | ./masl $validate $skip_action_language -i$i $command -o$out_dir";
     print STDERR "$sys_cmd\n";
     system( $sys_cmd );
 
     # clean up
     unlink "$i/gen/code_generation/z.xtuml";
     unlink "$i/gen/code_generation/a.xtuml";
-
-    if ( $skip_action_language ne "" ) {
-      foreach $idom (@dom_names) {
-        unlink glob("$out_dir/$idom/*.scn $out_dir/$idom/*.tr $out_dir/$idom/*.scn $out_dir/$idom/*.svc $out_dir/$idom/*.al $out_dir/$idom/*.ext $out_dir/$idom/*.fn");
-      }
-      foreach $iproj (@proj_names) {
-        unlink glob("$out_dir/$iproj/*.scn $out_dir/$iproj/*.tr $out_dir/$iproj/*.scn $out_dir/$iproj/*.svc $out_dir/$iproj/*.al $out_dir/$iproj/*.ext $out_dir/$iproj/*.fn");
-      }
-    }
   }
 
   if ( $skip_formatter eq "" ) {
