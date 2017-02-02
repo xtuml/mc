@@ -81,7 +81,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "i:d::p::k::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "i:d::p::s::k::" ) ) != -1 ) {
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
@@ -94,6 +94,9 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
         case 'p':
           project = 1;
           if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
+          break;
+        case 's':
+          xtuml2masl_model_op_setoutputcodeblocks( FALSE );
           break;
         case 'k':
           key_lett = TRUE;
