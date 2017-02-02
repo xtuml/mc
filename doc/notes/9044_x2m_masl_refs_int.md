@@ -60,6 +60,10 @@ The first value is now set to "symbolic".
 Fork: cortlandstarrett/mc  9044_x2m_masl_refs
 
 xtuml/mc
+ bin/x2m                                                         | Bin 695808 -> 695808 bytes
+ doc/notes/9044_x2m_masl_refs_int.md                             |  68 ++++++++++++++++++++++++++++
+ .../maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml |  16 ++++---
+ 3 files changed, 78 insertions(+), 6 deletions(-)
 
 </pre>
 
