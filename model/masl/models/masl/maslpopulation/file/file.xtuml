@@ -16,6 +16,7 @@ INSERT INTO O_TFR
 	0,
 	'element = param.element;
 name = param.name;
+structuralOnly = param.structuralOnly;
 if ( "project" == element )
   select many projects from instances of project where ( selected.name == name );
   if ( ( "*" == name ) or ( "" == name ) )
@@ -33,6 +34,11 @@ if ( "project" == element )
         file.emit( name:project.name + ".prj" );
       end if;
 
+      if ( structuralOnly == true )
+        // we already output the project structural bits, so skip activites
+        continue;
+      end if;
+      
 	  // render all the activity files
       select many terminator_activities related by project->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
       for each activity in terminator_activities
@@ -65,7 +71,12 @@ elif ( "domain" == element )
         domain.render_interface();
         file.emit( name:domain.name + ".int" );
       end if;
-      
+
+      if ( structuralOnly == true )
+        // we have output the domain structural bits, so skip activites
+        continue;
+      end if;
+            
       // render all the activity files
       select many domain_routines related by domain->routine[R3790]->activity[R3704];
       select many terminator_routines related by domain->terminator[R3702]->routine[R3791]->activity[R3704];
@@ -163,6 +174,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"e5cf8b40-420d-4501-88bd-ebcfca9f7251",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("4a7f2d74-9dad-42b5-b5dc-82be182a4ad1",
+	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	'structuralOnly',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"ef19dc39-fe10-4b07-a157-d4ab1bc5976b",
 	'');
 INSERT INTO O_TFR
 	VALUES ("a7863684-8575-4990-b290-dce44c1b53df",
