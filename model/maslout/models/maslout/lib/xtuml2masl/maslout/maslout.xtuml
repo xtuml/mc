@@ -683,10 +683,13 @@ c_c = param.c_c;
 select many o_attrs related by o_obj->O_ATTR[R102];
 for each o_attr in o_attrs
   select one s_dt related by o_attr->S_DT[R114];
-  // if it''s a referential attribute, get the datatype of the base attribute
+  // if it is a referential attribute, get the name and datatype of the base attribute
   select one o_rattr related by o_attr->O_RATTR[R106];
+  baseattr = "";
   if ( not_empty o_rattr )
-    select one s_dt related by o_rattr->O_BATTR[R113]->O_ATTR[R106]->S_DT[R114];
+    select one base_o_attr related by o_rattr->O_BATTR[R113]->O_ATTR[R106];
+    select one s_dt related by base_o_attr->S_DT[R114];
+    baseattr = base_o_attr.Name;
   end if;
 
   if ( ( "current_state" == o_attr.Name ) and ( "state<State_Model>" == s_dt.Name ) )
@@ -733,8 +736,8 @@ for each o_attr in o_attrs
     out::populate( element:"typeref", value:emptyvalue );
     
     // See if this attribute is a referential.
-    select any o_ref related by o_attr->O_RATTR[R106]->O_REF[R108];
-    if ( not_empty o_ref )
+    select many o_refs related by o_attr->O_RATTR[R106]->O_REF[R108];
+    for each o_ref in o_refs
 
       select one rto related by o_ref->O_RTIDA[R111]->R_RTO[R110];
       select one rel related by rto->R_OIR[R203]->R_REL[R201];
@@ -773,13 +776,13 @@ for each o_attr in o_attrs
         value[3] = rto_obj.Name; // referred to object name object
       end if;
 
-      value[4] = o_attr.Name; // attribute name
+      value[4] = baseattr; // attribute name
       out::populate( element:"referential", value:value );
       value[1] = "";
       value[2] = "";
       value[3] = "";
       value[4] = "";
-    end if;
+    end for;
     
     // Populate pragmas
     ::mark2pragma( markable:"Attribute", pathkey: ::class_get_path( o_obj:o_obj, child:o_attr.Name ) );
@@ -1058,6 +1061,7 @@ for each o_id in o_ids
   value[3] = ""; value[2] = ""; value[1] = ""; value[0] = "";
   select many o_attrs related by o_id->O_ATTR[R105];
   if ( not_empty o_attrs )
+    value[0] = "symbolic"; // non-empty string to indicate start of identifier
     out::populate( element:"identifier", value:value );
     for each o_attr in o_attrs
       value[0] = o_attr.Name;
