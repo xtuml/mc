@@ -1,0 +1,222 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("bf81735d-197a-4cd8-acfa-23d7cd84f28b",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	'functions',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("bca34c9c-a70e-4c55-bab3-b0d17f32d94e",
+	112,
+	"bf81735d-197a-4cd8-acfa-23d7cd84f28b",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'mcshared::functions');
+INSERT INTO DIM_DIA
+	VALUES ("bca34c9c-a70e-4c55-bab3-b0d17f32d94e",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("788b2da6-24a0-48a2-b89f-86537adef30e",
+	"00000000-0000-0000-0000-000000000000",
+	'class_get_path',
+	'',
+	'// Append parent path to name to get path to me.
+o_obj = param.o_obj;
+select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
+pathkey = ::package_get_path( ep_pkg:ep_pkg, child:"" );
+if ( not_empty o_obj )
+  pathkey = pathkey + "::" + o_obj.Name;
+  if ( "" != param.child )
+    pathkey = pathkey + "::" + param.child;
+  end if;
+else
+  TRACE::log( flavor:"failure", id:114, message:"error building path of object" );
+  pathkey = "";
+end if;
+return pathkey;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("4797e125-d9d8-4272-8b0d-6613a06594aa",
+	"788b2da6-24a0-48a2-b89f-86537adef30e",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Model Class>',
+	'',
+	'',
+	'../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("778d2009-ab9e-41a1-a703-b876e33eddf2",
+	"788b2da6-24a0-48a2-b89f-86537adef30e",
+	'child',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"4797e125-d9d8-4272-8b0d-6613a06594aa",
+	'');
+INSERT INTO PE_PE
+	VALUES ("788b2da6-24a0-48a2-b89f-86537adef30e",
+	1,
+	"bf81735d-197a-4cd8-acfa-23d7cd84f28b",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("8005e674-0d9e-42b4-a476-b92c5d75b342",
+	"00000000-0000-0000-0000-000000000000",
+	'component_get_path',
+	'',
+	'// Append name to parent path to form path to me.
+c_c = param.c_c;
+select one ep_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000];
+pathkey = ::package_get_path( ep_pkg:ep_pkg, child:"" );
+if ( not_empty c_c )
+  pathkey = pathkey + "::" + c_c.Name;
+  if ( "" != param.child )
+    pathkey = pathkey + "::" + param.child;
+  end if;
+else
+  TRACE::log( flavor:"failure", id:114, message:"error building path of component" );
+  pathkey = "";
+end if;
+return pathkey;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("3d774c17-c5c1-4548-b773-717361cb03f8",
+	"8005e674-0d9e-42b4-a476-b92c5d75b342",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("67f93d18-1045-4c6c-b0d5-a692023c471c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Component>',
+	'',
+	'',
+	'../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("f2d7b40a-baa5-485e-a5f0-c1b0eb40b61e",
+	"8005e674-0d9e-42b4-a476-b92c5d75b342",
+	'child',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"3d774c17-c5c1-4548-b773-717361cb03f8",
+	'');
+INSERT INTO PE_PE
+	VALUES ("8005e674-0d9e-42b4-a476-b92c5d75b342",
+	1,
+	"bf81735d-197a-4cd8-acfa-23d7cd84f28b",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("23dd04d0-3c1e-4941-bbb5-3aa75b0b4e22",
+	"00000000-0000-0000-0000-000000000000",
+	'package_get_path',
+	'',
+	'// Recursively traverse upward to system to form full path.
+ep_pkg = param.ep_pkg;
+pathkey = "";
+select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
+if ( not_empty parent_ep_pkg )
+  // package in package
+  pathkey = ::package_get_path( ep_pkg:parent_ep_pkg, child:"" );
+else
+  select one c_c related by ep_pkg->PE_PE[R8001]->C_C[R8003];
+  if ( not_empty c_c )
+    // package in component
+    pathkey = ::component_get_path( c_c:c_c, child:"" );
+  end if;
+end if;
+if ( not_empty ep_pkg )
+  if ( "" == pathkey )
+    pathkey = ep_pkg.Name;
+  else
+    pathkey = pathkey + "::" + ep_pkg.Name;
+  end if;
+  if ( "" != param.child )
+    pathkey = pathkey + "::" + param.child;
+  end if;
+else
+  TRACE::log( flavor:"failure", id:113, message:"error building path of package" );
+  pathkey = "";
+end if;
+return pathkey;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("734cdadc-b02b-43c0-a8f7-f20aa1c429ac",
+	"23dd04d0-3c1e-4941-bbb5-3aa75b0b4e22",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Package>',
+	'',
+	'',
+	'../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("9361d122-9f31-4ce5-a78f-efab0b9e6a92",
+	"23dd04d0-3c1e-4941-bbb5-3aa75b0b4e22",
+	'child',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"734cdadc-b02b-43c0-a8f7-f20aa1c429ac",
+	'');
+INSERT INTO PE_PE
+	VALUES ("23dd04d0-3c1e-4941-bbb5-3aa75b0b4e22",
+	1,
+	"bf81735d-197a-4cd8-acfa-23d7cd84f28b",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("bf81735d-197a-4cd8-acfa-23d7cd84f28b",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO S_SYS_PROXY
+	VALUES ("0d4431d1-5f65-4845-a834-f0112f4585cd",
+	'mcshared',
+	1,
+	'../mcshared.xtuml');

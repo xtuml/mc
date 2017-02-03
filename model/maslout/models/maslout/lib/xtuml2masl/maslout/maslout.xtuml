@@ -160,30 +160,33 @@ for each c_c in c_cs;
   out::populate( element:"domain", value:value );
   
   if ( param.project )
-      ::port2terminator( c_c:c_c, project:param.project, kl:param.kl );
+    ::port2terminator( c_c:c_c, project:param.project, kl:param.kl );
   else
-	::class2objectdeclaration( c_c:c_c );
-	::type2type( c_c:c_c );
-	::exception2exception( c_c:c_c );
-	::function2routine( c_c:c_c );
-	::port2terminator( c_c:c_c, project:param.project, kl:param.kl );
-	::association2relationship( c_c:c_c );
-	::class2object( c_c:c_c, kl:param.kl );
+    ::class2objectdeclaration( c_c:c_c );
+    ::type2type( c_c:c_c );
+    ::exception2exception( c_c:c_c );
+    ::function2routine( c_c:c_c );
+    ::port2terminator( c_c:c_c, project:param.project, kl:param.kl );
+    ::association2relationship( c_c:c_c );
+    ::class2object( c_c:c_c, kl:param.kl );
   end if;
   
   if ( param.project )
     // Populate pragmas
     select any cl_ic related by c_c->CL_IC[R4201];
-    cl_ic.Descrip = ::parsepragmas( s:cl_ic.Descrip, list:"project" );
+    if ( not_empty cl_ic )
+      select one ep_pkg related by cl_ic->PE_PE[R8001]->EP_PKG[R8000];
+      ::mark2pragma( markable:"Component Reference", pathkey: ::package_get_path( ep_pkg:ep_pkg, child:cl_ic.Name ) );
+    end if;
 
-	// output the description
-	::Descrip2description( Descrip:cl_ic.Descrip );
+    // output the description
+    ::Descrip2description( Descrip:cl_ic.Descrip );
   else
     // Populate pragmas
-    c_c.Descrip = ::parsepragmas( s:c_c.Descrip, list:"" );
+    ::mark2pragma( markable:"Component", pathkey: ::component_get_path( c_c:c_c, child:"" ) );
 
-	// output the description
-	::Descrip2description( Descrip:c_c.Descrip );
+    // output the description
+    ::Descrip2description( Descrip:c_c.Descrip );
   end if;
   
   out::populate( element:"domain", value:emptyvalue );
@@ -248,20 +251,20 @@ for each ep_pkg in ep_pkgs
   select any project_c_c related by ep_pkg->PE_PE[R8000]->C_C[R8001];
   if ( not_empty project_c_c )
 
-	value[0] = ep_pkg.Name;
-	out::populate( element:"project", value:value );
+    value[0] = ep_pkg.Name;
+    out::populate( element:"project", value:value );
 
-	select many referred_c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
-	::component2domain( c_cs:referred_c_cs, project:true, kl:param.kl );
+    select many referred_c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
+    ::component2domain( c_cs:referred_c_cs, project:true, kl:param.kl );
 
-	// Populate pragmas
-	project_c_c.Descrip = ::parsepragmas( s:project_c_c.Descrip, list:"" );
+    // Populate pragmas
+    ::mark2pragma( markable:"Component", pathkey: ::component_get_path( c_c:project_c_c, child:"" ) );
 
-	// output the description
-	::Descrip2description( Descrip:project_c_c.Descrip );
+    // output the description
+    ::Descrip2description( Descrip:project_c_c.Descrip );
 
-	// end project
-	out::populate( element:"project", value:emptyvalue );
+    // end project
+    out::populate( element:"project", value:emptyvalue );
   
   end if;
 
@@ -330,7 +333,7 @@ for each c_po in c_pos
 	    if ( not param.kl )
 		  c_p.Descrip = ::remove_kl( s:c_p.Descrip );
 		end if;
-		c_p.Descrip = ::parsepragmas( s:c_p.Descrip, list:"" );
+        ::mark2pragma( markable:"Provision", pathkey: ::component_get_path( c_c:c_c, child:c_p.Name ) );
 
 		// output the description
 		::Descrip2description( Descrip:c_p.Descrip );
@@ -341,7 +344,7 @@ for each c_po in c_pos
 	    if ( not param.kl )
 		  c_r.Descrip = ::remove_kl( s:c_r.Descrip );
 		end if;
-		c_r.Descrip = ::parsepragmas( s:c_r.Descrip, list:"" );
+        ::mark2pragma( markable:"Requirement", pathkey: ::component_get_path( c_c:c_c, child:c_r.Name ) );
 
 		// output the description
 		::Descrip2description( Descrip:c_r.Descrip );
@@ -445,34 +448,30 @@ for each c_ep in c_eps
   end if;
   
   // Populate the action langauge body.
-  path = "";
   port_name = "";
   if ( param.project )
     select any project_c_po related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009]->C_IR[R4009]->C_PO[R4016];
     select one project_c_c related by project_c_po->C_C[R4010];
-    path = ::component_get_path( c_c:project_c_c );
     port_name = project_c_po.Name;
   else
-    path = ::component_get_path( c_c:c_c );
     port_name = c_po.Name;
   end if;
-  sig = ::underscore_signature(signature: ::message_getsignature( flavor:1, c_ep:c_ep ));
   
   if ( param.project )
     select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
-    ::body2code_block( name:path + "/" + port_name + "_" + sig, text:STRING::unescapetics(s:spr_po.Action_Semantics_internal) );
+    ::body2code_block( name:"", text:STRING::unescapetics(s:spr_po.Action_Semantics_internal) );
 
 	// Populate pragmas
-	spr_po.Descrip = ::parsepragmas( s:spr_po.Descrip, list: "" );
+        ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child: c_po.Name + "::" + spr_po.Name ) );
 
 	// output the description
 	::Descrip2description( Descrip:spr_po.Descrip );
   else
     select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
-    ::body2code_block( name:path + "/" + port_name + "_" + sig, text:STRING::unescapetics(s:spr_ro.Action_Semantics_internal) );
+    ::body2code_block( name:"", text:STRING::unescapetics(s:spr_ro.Action_Semantics_internal) );
 
 	// Populate pragmas
-	spr_ro.Descrip = ::parsepragmas( s:spr_ro.Descrip, list: "" );
+        ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child: c_po.Name + "::" + spr_ro.Name ) );
 
 	// output the description
 	::Descrip2description( Descrip:spr_ro.Descrip );
@@ -606,14 +605,14 @@ for each o_obj in o_objs
   if ( not_empty sm_sm )
     // blank type is normal
     ::state2state( o_obj:o_obj, sm_sm:sm_sm, type:"" );
-    ::event2event( sm_sm:sm_sm, type:"" );
+    ::event2event( o_obj:o_obj, sm_sm:sm_sm, type:"" );
     ::statemachine2statemachine( o_obj:o_obj, sm_sm:sm_sm, type:"" );
   end if;
   
   select one sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517];
   if ( not_empty sm_sm )
     ::state2state( o_obj:o_obj, sm_sm:sm_sm, type:"assigner" );
-    ::event2event( sm_sm:sm_sm, type:"assigner" );
+    ::event2event( o_obj:o_obj, sm_sm:sm_sm, type:"assigner" );
     ::statemachine2statemachine( o_obj:o_obj, sm_sm:sm_sm, type:"assigner" );
   end if;
   
@@ -628,7 +627,7 @@ for each o_obj in o_objs
   end if;
   
   // output pragmas
-  o_obj.Descrip = ::parsepragmas( s:o_obj.Descrip, list:"" );
+  ::mark2pragma( markable:"Model Class", pathkey: ::class_get_path( o_obj:o_obj, child:"" ) );
 
   // output the description
   ::Descrip2description( Descrip:o_obj.Descrip );
@@ -684,10 +683,13 @@ c_c = param.c_c;
 select many o_attrs related by o_obj->O_ATTR[R102];
 for each o_attr in o_attrs
   select one s_dt related by o_attr->S_DT[R114];
-  // if it''s a referential attribute, get the datatype of the base attribute
+  // if it is a referential attribute, get the name and datatype of the base attribute
   select one o_rattr related by o_attr->O_RATTR[R106];
+  baseattr = "";
   if ( not_empty o_rattr )
-    select one s_dt related by o_rattr->O_BATTR[R113]->O_ATTR[R106]->S_DT[R114];
+    select one base_o_attr related by o_rattr->O_BATTR[R113]->O_ATTR[R106];
+    select one s_dt related by base_o_attr->S_DT[R114];
+    baseattr = base_o_attr.Name;
   end if;
 
   if ( ( "current_state" == o_attr.Name ) and ( "state<State_Model>" == s_dt.Name ) )
@@ -734,8 +736,8 @@ for each o_attr in o_attrs
     out::populate( element:"typeref", value:emptyvalue );
     
     // See if this attribute is a referential.
-    select any o_ref related by o_attr->O_RATTR[R106]->O_REF[R108];
-    if ( not_empty o_ref )
+    select many o_refs related by o_attr->O_RATTR[R106]->O_REF[R108];
+    for each o_ref in o_refs
 
       select one rto related by o_ref->O_RTIDA[R111]->R_RTO[R110];
       select one rel related by rto->R_OIR[R203]->R_REL[R201];
@@ -774,19 +776,19 @@ for each o_attr in o_attrs
         value[3] = rto_obj.Name; // referred to object name object
       end if;
 
-      value[4] = o_attr.Name; // attribute name
+      value[4] = baseattr; // attribute name
       out::populate( element:"referential", value:value );
       value[1] = "";
       value[2] = "";
       value[3] = "";
       value[4] = "";
-    end if;
+    end for;
     
     // Populate pragmas
-    o_attr.Descrip = ::parsepragmas( s:o_attr.Descrip, list:"" );
+    ::mark2pragma( markable:"Attribute", pathkey: ::class_get_path( o_obj:o_obj, child:o_attr.Name ) );
 
-	// output the description
-        ::Descrip2description( Descrip:o_attr.Descrip );
+    // output the description
+    ::Descrip2description( Descrip:o_attr.Descrip );
   
     out::populate( element:"attribute", value:emptyvalue );
   end if;
@@ -893,30 +895,20 @@ for each s_dt in s_dts
       continue;
     end if;
   
-      out::populate( element:"type", value:value );
+    out::populate( element:"type", value:value );
 
-	  // output pragmas
-	  search_term = "declaration";
-	  len = STRING::strlen( s:search_term );
-	  i = STRING::indexof( haystack:s_dt.Descrip, needle:"<"+search_term+">" );
-	  j = STRING::indexof( haystack:s_dt.Descrip, needle:"</"+search_term+">" );
-	  if ( -1 != i and -1 != j and j > i )
-		pragma_string = STRING::substr( s:s_dt.Descrip, begin:i+len+2, end:j );
-		s = ::parsepragmas( s:pragma_string, list:search_term );
-		descrip_begin = STRING::substr( s:s_dt.Descrip, begin:0, end:i );
-		descrip_end = STRING::substr( s:s_dt.Descrip, begin:j+len+3, end:-1 );
-		s_dt.Descrip = descrip_begin + descrip_end;
-	  end if;
-	  s_dt.Descrip = ::parsepragmas( s:s_dt.Descrip, list:"" );
+    select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
+    ::mark2pragma( markable:"User Data Type", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: s_dt.Name ) );
 
-      ::Descrip2description( Descrip:s_dt.Descrip );
-      out::populate( element:"type", value:emptyvalue );
+    ::Descrip2description( Descrip:s_dt.Descrip );
+    out::populate( element:"type", value:emptyvalue );
   end if;
 end for;
 
 // Data types in packages directly off of the system are considered public.
 select many ep_pkgs related by c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1401] where ( selected.Name != "types" );
-select many s_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001];
+for each ep_pkg in ep_pkgs
+select many s_dts related by ep_pkg->PE_PE[R8000]->S_DT[R8001];
 for each s_dt in s_dts
   value[0] = s_dt.Name;
   value[1] = "public";
@@ -928,23 +920,12 @@ for each s_dt in s_dts
 
     out::populate( element:"type", value:value );
 
-	// output pragmas
-	search_term = "declaration";
-	len = STRING::strlen( s:search_term );
-	i = STRING::indexof( haystack:s_dt.Descrip, needle:"<"+search_term+">" );
-	j = STRING::indexof( haystack:s_dt.Descrip, needle:"</"+search_term+">" );
-	if ( -1 != i and -1 != j and j > i )
-	  pragma_string = STRING::substr( s:s_dt.Descrip, begin:i+len+2, end:j );
-	  s = ::parsepragmas( s:pragma_string, list:search_term );
-	  descrip_begin = STRING::substr( s:s_dt.Descrip, begin:0, end:i );
-	  descrip_end = STRING::substr( s:s_dt.Descrip, begin:j+len+3, end:-1 );
-	  s_dt.Descrip = descrip_begin + descrip_end;
-	end if;
-	s_dt.Descrip = ::parsepragmas( s:s_dt.Descrip, list:"" );
+    ::mark2pragma( markable:"User Data Type", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: s_dt.Name ) );
 
     ::Descrip2description( Descrip:s_dt.Descrip );
     out::populate( element:"type", value:emptyvalue );
   end if;
+end for;
 end for;
 
 // Data types in subpackages of the system packages are also considered public
@@ -960,25 +941,14 @@ while ( not_empty sub_pkgs )
     if ( s_udt.Definition != "" )	// only output types if there is a definition
       value[2] = s_udt.Definition;
 
-	  out::populate( element:"type", value:value );
+      out::populate( element:"type", value:value );
 
-	  // output pragmas
-	  search_term = "declaration";
-	  len = STRING::strlen( s:search_term );
-	  i = STRING::indexof( haystack:s_dt.Descrip, needle:"<"+search_term+">" );
-	  j = STRING::indexof( haystack:s_dt.Descrip, needle:"</"+search_term+">" );
-	  if ( -1 != i and -1 != j and j > i )
-		pragma_string = STRING::substr( s:s_dt.Descrip, begin:i+len+2, end:j );
-		s = ::parsepragmas( s:pragma_string, list:search_term );
-		descrip_begin = STRING::substr( s:s_dt.Descrip, begin:0, end:i );
-		descrip_end = STRING::substr( s:s_dt.Descrip, begin:j+len+3, end:-1 );
-		s_dt.Descrip = descrip_begin + descrip_end;
-	  end if;
-	  s_dt.Descrip = ::parsepragmas( s:s_dt.Descrip, list:"" );
+      select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
+      ::mark2pragma( markable:"User Data Type", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: s_dt.Name ) );
 
       ::Descrip2description( Descrip:s_dt.Descrip );
-	  out::populate( element:"type", value:emptyvalue );
-	end if;
+      out::populate( element:"type", value:emptyvalue );
+    end if;
   end for;
   select many sub_pkgs related by sub_pkgs->PE_PE[R8000]->EP_PKG[R8001];
 end while;
@@ -1016,11 +986,12 @@ for each r_rel in r_rels
   value[0] = ""; value[1] = ""; value[2] = ""; value[3] = "";
   value[4] = ""; value[5] = ""; value[6] = ""; value[7] = "";
   value[0] = "R" + STRING::itoa( i:r_rel.Numb );  // itoa to form relationship name
+  select one ep_pkg related by r_rel->PE_PE[R8001]->EP_PKG[R8000];
   select one r_simp related by r_rel->R_SIMP[R206];
   if ( not_empty r_simp )
     out::populate( element:"regularrel", value:value );
     ::simpleass2regularrel( c_c:c_c, r_simp:r_simp );
-    r_rel.Descrip = ::parsepragmas( s:r_rel.Descrip, list:"" );
+    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + T::s( i:r_rel.Numb ) ) );
     // output the description
     ::Descrip2description( Descrip:r_rel.Descrip );
     out::populate( element:"regularrel", value:emptyvalue );
@@ -1035,7 +1006,7 @@ for each r_rel in r_rels
     out::populate( element:"associative", value:value );
     ::associative2associative( c_c:c_c, r_assoc:r_assoc );
     out::populate( element:"associative", value:value ); // 2nd call for using
-    r_rel.Descrip = ::parsepragmas( s:r_rel.Descrip, list:"" );
+    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + T::s( i:r_rel.Numb ) ) );
     // output the description
     ::Descrip2description( Descrip:r_rel.Descrip );
     out::populate( element:"associative", value:emptyvalue );
@@ -1045,7 +1016,7 @@ for each r_rel in r_rels
   if ( not_empty r_subsup )
     out::populate( element:"subsuper", value:value );
     ::subsuper2subsuper( c_c:c_c, r_subsup:r_subsup );
-    r_rel.Descrip = ::parsepragmas( s:r_rel.Descrip, list:"" );
+    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + T::s( i:r_rel.Numb ) ) );
     // output the description
     ::Descrip2description( Descrip:r_rel.Descrip );
     out::populate( element:"subsuper", value:emptyvalue );
@@ -1090,6 +1061,7 @@ for each o_id in o_ids
   value[3] = ""; value[2] = ""; value[1] = ""; value[0] = "";
   select many o_attrs related by o_id->O_ATTR[R105];
   if ( not_empty o_attrs )
+    value[0] = "symbolic"; // non-empty string to indicate start of identifier
     out::populate( element:"identifier", value:value );
     for each o_attr in o_attrs
       value[0] = o_attr.Name;
@@ -1097,20 +1069,8 @@ for each o_id in o_ids
       out::populate( element:"attribute", value:emptyvalue );
     end for;
 
-    // seach class description for pragmas
-    search_term = "identifier2";
-    if ( o_id.Oid_ID == 2 )
-      search_term = "identifier3";
-    end if;
-    i = STRING::indexof( haystack:o_obj.Descrip, needle:"<"+search_term+">" );
-    j = STRING::indexof( haystack:o_obj.Descrip, needle:"</"+search_term+">" );
-    if ( -1 != i and -1 != j and j > i )
-      pragma_string = STRING::substr( s:o_obj.Descrip, begin:i+12, end:j );
-      s = ::parsepragmas( s:pragma_string, list:"" );
-      descrip_begin = STRING::substr( s:o_obj.Descrip, begin:0, end:i );
-      descrip_end = STRING::substr( s:o_obj.Descrip, begin:j+14, end:-1 );
-      o_obj.Descrip = descrip_begin + descrip_end;
-    end if;
+    // CDS - identifiers are not actually selectable from the marking editor
+    ::mark2pragma( markable:"Class Identifier", pathkey: ::class_get_path( o_obj:o_obj, child: T::s( i:o_id.Oid_ID ) ) );
 
     out::populate( element:"identifier", value:emptyvalue );
   end if;
@@ -1288,15 +1248,13 @@ for each s_sync in s_syncs
   end if;
   
   if ( ActionDialect::masl == s_sync.Dialect )
-    select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
-    path = ::package_get_path( ep_pkg:ep_pkg );
     // Populate the action langauge body.
-    sig = ::underscore_signature(signature: ::function_getsignature( flavor:1, s_sync:s_sync ));
-    ::body2code_block( name:path + "/" + sig, text:STRING::unescapetics(s:s_sync.Action_Semantics_internal) );
+    ::body2code_block( name:"", text:STRING::unescapetics(s:s_sync.Action_Semantics_internal) );
   end if;
   
   // Populate pragmas
-  s_sync.Descrip = ::parsepragmas( s:s_sync.Descrip, list:"" );
+  select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
+  ::mark2pragma( markable:"Function", pathkey: ::package_get_path( ep_pkg:ep_pkg, child:s_sync.Name ) );
 
   // output the description
   ::Descrip2description( Descrip:s_sync.Descrip );
@@ -1415,17 +1373,7 @@ if ( "assigner" != param.type )
   end for;
 	
   // output transition row pragmas
-  search_term = "Non_Existent";
-  len = STRING::strlen( s:search_term );
-  i = STRING::indexof( haystack:sm_sm.Descrip, needle:"<"+search_term+">" );
-  j = STRING::indexof( haystack:sm_sm.Descrip, needle:"</"+search_term+">" );
-  if ( -1 != i and -1 != j and j > i )
-	pragma_string = STRING::substr( s:sm_sm.Descrip, begin:i+len+2, end:j );
-	s = ::parsepragmas( s:pragma_string, list:search_term );
-	descrip_begin = STRING::substr( s:sm_sm.Descrip, begin:0, end:i );
-	descrip_end = STRING::substr( s:sm_sm.Descrip, begin:j+len+3, end:-1 );
-	sm_sm.Descrip = descrip_begin + descrip_end;
-  end if;
+  ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Instance State Machine::Non_Existent" ) );
 
 end if;
 
@@ -1460,22 +1408,20 @@ for each sm_state in sm_states
   end for;
 	
   // output transition row pragmas
-  search_term = sm_state.Name;
-  len = STRING::strlen( s:search_term );
-  i = STRING::indexof( haystack:sm_sm.Descrip, needle:"<"+search_term+">" );
-  j = STRING::indexof( haystack:sm_sm.Descrip, needle:"</"+search_term+">" );
-  if ( -1 != i and -1 != j and j > i )
-	pragma_string = STRING::substr( s:sm_sm.Descrip, begin:i+len+2, end:j );
-	s = ::parsepragmas( s:pragma_string, list:search_term );
-	descrip_begin = STRING::substr( s:sm_sm.Descrip, begin:0, end:i );
-	descrip_end = STRING::substr( s:sm_sm.Descrip, begin:j+len+3, end:-1 );
-	sm_sm.Descrip = descrip_begin + descrip_end;
+  if ( "assigner" == param.type )
+    ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Class State Machine::" + sm_state.Name ) );
+  else
+    ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Instance State Machine::" + sm_state.Name ) );
   end if;
 	
 end for;
 
 // Populate pragmas
-sm_sm.Descrip = ::parsepragmas( s:sm_sm.Descrip, list:"" );
+if ( "assigner" == param.type )
+  ::mark2pragma( markable:"State Machine", pathkey: ::class_get_path( o_obj:o_obj, child:"Class State Machine" ) );
+else
+  ::mark2pragma( markable:"State Machine", pathkey: ::class_get_path( o_obj:o_obj, child:"Instance State Machine" ) );
+end if;
 
 out::populate( element:"transitiontable", value:emptyvalue );',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -1530,6 +1476,7 @@ INSERT INTO S_SYNC
 	'value[7] = ""; // initialize length
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
+o_obj = param.o_obj;
 sm_sm = param.sm_sm;
 select many sm_evts related by sm_sm->SM_EVT[R502];
 for each sm_evt in sm_evts
@@ -1555,7 +1502,11 @@ for each sm_evt in sm_evts
   ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi );
   
   // Populate pragmas
-  sm_evt.Descrip = ::parsepragmas( s:sm_evt.Descrip, list:"" );
+  if ( "assigner" == param.type )
+    ::mark2pragma( markable:"State Machine Event", pathkey: ::class_get_path( o_obj:o_obj, child:"Class State Machine::" + sm_evt.Drv_Lbl + ":" + sm_evt.Mning ) );
+  else
+    ::mark2pragma( markable:"State Machine Event", pathkey: ::class_get_path( o_obj:o_obj, child:"Instance State Machine::" + sm_evt.Drv_Lbl + ":" + sm_evt.Mning ) );
+  end if;
 
   // output the description
   ::Descrip2description( Descrip:sm_evt.Descrip );
@@ -1573,7 +1524,7 @@ INSERT INTO S_SPARM
 	"f6562655-0940-4f4f-a1ae-7094b79949a7",
 	0,
 	'',
-	"00000000-0000-0000-0000-000000000000",
+	"d1a4cfaf-538b-4560-bfef-2d391a79d4d6",
 	'');
 INSERT INTO S_SPARM
 	VALUES ("7d621c7d-0fca-4ab6-9aa2-647b9c85918e",
@@ -1583,6 +1534,15 @@ INSERT INTO S_SPARM
 	0,
 	'',
 	"9d4415e3-ad34-4d40-883c-8f8647a5f282",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d1a4cfaf-538b-4560-bfef-2d391a79d4d6",
+	"7b593c09-c6aa-4291-b5ae-af8401687cb2",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
 	VALUES ("7b593c09-c6aa-4291-b5ae-af8401687cb2",
@@ -1600,7 +1560,6 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 o_obj = param.o_obj;
 sm_sm = param.sm_sm;
-path = ::class_get_path( o_obj:o_obj );
 select many sm_states related by sm_sm->SM_STATE[R501];
 select any sm_state related by sm_sm->SM_STATE[R501];
 lowest = 7777;
@@ -1615,9 +1574,8 @@ if ( "assigner" == param.type )
       lowest = sm_state.Numb;
     end if;
   end for;
-  path = path + "/ClassStateMachine";
 else
-  path = path + "/InstanceStateMachine";
+  //
 end if;
 
 value[0] = ""; // domain, grammar allows this but we are not using it
@@ -1660,14 +1618,20 @@ for each sm_state in sm_states
   
   select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
   // Populate the action langauge body.
-  ::body2code_block( name:path + "/" + sm_state.Name, text:STRING::unescapetics(s:sm_act.Action_Semantics_internal) );
+  ::body2code_block( name:"", text:STRING::unescapetics(s:sm_act.Action_Semantics_internal) );
   
-  // Populae pragmas
-  sm_act.Descrip = ::parsepragmas( s:sm_act.Descrip, list:"" );
+  // Populate pragmas
+  ::mark2pragma( markable:"Action", pathkey: ::class_get_path( o_obj:o_obj, child:"InstanceStateMachine::" + sm_state.Name + "::State Action" ) );
 
   // output the description
   ::Descrip2description( Descrip:sm_act.Descrip );
   
+  if ( "assigner" == param.type )
+    ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Class State Machine::" + sm_state.Name ) );
+  else
+    ::mark2pragma( markable:"State Machine State", pathkey: ::class_get_path( o_obj:o_obj, child: "::Instance State Machine::" + sm_state.Name ) );
+  end if;
+
   out::populate( element:"state", value:emptyvalue );
 end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -1941,10 +1905,8 @@ for each o_tfr in o_tfrs
   
   // check for deferral -- if there is no action language and subtypes have an operation with matching signature
   deferred = false;
-  path = ::class_get_path( o_obj:o_obj );
-  sig = ::underscore_signature(signature: ::operation_getsignature( flavor:1, o_tfr:o_tfr ));
   select any model from instances of model;
-  if ( not_empty model and ( not FILE::exists( path:model.projectroot + "/models/" + path + "/" + sig + ".masl" ) ) )
+  if ( not_empty model and ( not FILE::exists( path:"deprecated path" ) ) )
     // select all supsuper relationships of which o_tfr belongs to the supertype
     select many subsuper_rels related by o_tfr->O_OBJ[R115]->R_OIR[R201]->R_RTO[R203]->R_SUPER[R204]->R_SUBSUP[R212]->R_REL[R206];
     for each subsuper_rel in subsuper_rels
@@ -1988,11 +1950,11 @@ for each o_tfr in o_tfrs
   
   // Populate the action langauge body.
   if ( not deferred )	// do not populate a codeblock if this is a deferred operation
-    ::body2code_block( name:path + "/" + sig, text:STRING::unescapetics(s:o_tfr.Action_Semantics_internal) );
+    ::body2code_block( name:"", text:STRING::unescapetics(s:o_tfr.Action_Semantics_internal) );
   end if;
   
   // Populate pragmas
-  o_tfr.Descrip = ::parsepragmas( s:o_tfr.Descrip, list:"" );
+  ::mark2pragma( markable:"Operation", pathkey: ::class_get_path( o_obj:o_obj, child:o_tfr.Name ) );
 
   // output the description
   ::Descrip2description( Descrip:o_tfr.Descrip );
@@ -2212,133 +2174,6 @@ INSERT INTO PE_PE
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
-	"00000000-0000-0000-0000-000000000000",
-	'package_get_path',
-	'',
-	'// Recursively traverse upward to system to form full path.
-ep_pkg = param.ep_pkg;
-parent_path = "";
-select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
-if ( not_empty parent_ep_pkg )
-  // package in package
-  parent_path = ::package_get_path( ep_pkg:parent_ep_pkg );
-else
-  select one s_sys related by ep_pkg->S_SYS[R1401];
-  if ( not_empty s_sys )
-    // package in system
-    parent_path = s_sys.Name;
-  else
-    select one c_c related by ep_pkg->PE_PE[R8001]->C_C[R8003];
-    if ( not_empty c_c )
-      // package in component
-      parent_path = ::component_get_path( c_c:c_c );
-    else
-      TRACE::log( flavor:"failure", id:110, message:"error building path of package" );
-    end if;
-  end if;
-end if;
-if ( not_empty ep_pkg )
-  return parent_path + "/" + ep_pkg.Name;
-else
-  TRACE::log( flavor:"failure", id:113, message:"error building path of package" );
-  return "";
-end if;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'',
-	0);
-INSERT INTO S_SPARM
-	VALUES ("545013fa-458c-405b-a060-d3a4d72e3f2b",
-	"5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
-	'ep_pkg',
-	"9939c670-a721-4742-a824-ed4b0df4acd6",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Package>',
-	'',
-	'',
-	'../../../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
-INSERT INTO PE_PE
-	VALUES ("5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
-	1,
-	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
-	"00000000-0000-0000-0000-000000000000",
-	'class_get_path',
-	'',
-	'// Append parent path to name to get path to me.
-o_obj = param.o_obj;
-select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
-parent_path = ::package_get_path( ep_pkg:ep_pkg );
-if ( not_empty o_obj )
-  return parent_path + "/" + o_obj.Name;
-else
-  TRACE::log( flavor:"failure", id:114, message:"error building path of object" );
-  return "";
-end if;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'',
-	0);
-INSERT INTO S_SPARM
-	VALUES ("f8a8a377-b99c-4b33-b380-028d84082c81",
-	"cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
-	'o_obj',
-	"63f4ff99-f127-443b-a678-30ace41da702",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO PE_PE
-	VALUES ("cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
-	1,
-	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("10e28974-45a1-4163-aa99-0edb13366a24",
-	"00000000-0000-0000-0000-000000000000",
-	'component_get_path',
-	'',
-	'// Append name to parent path to form path to me.
-c_c = param.c_c;
-select one ep_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000];
-parent_path = ::package_get_path( ep_pkg:ep_pkg );
-if ( not_empty c_c )
-  return parent_path + "/" + c_c.Name;
-else
-  TRACE::log( flavor:"failure", id:114, message:"error building path of component" );
-  return "";
-end if;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'',
-	0);
-INSERT INTO S_SPARM
-	VALUES ("b5b82ab6-5156-4fad-b8a1-6b51309f11a3",
-	"10e28974-45a1-4163-aa99-0edb13366a24",
-	'c_c',
-	"67f93d18-1045-4c6c-b0d5-a692023c471c",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO PE_PE
-	VALUES ("10e28974-45a1-4163-aa99-0edb13366a24",
-	1,
-	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
 	VALUES ("f60ed8df-36cc-47f1-ad6e-b7dcaee6bb4a",
 	"00000000-0000-0000-0000-000000000000",
 	'externalentity2terminator',
@@ -2417,11 +2252,8 @@ for each s_brg in s_brgs
     end if;
   end if;
   
-  select one ep_pkg related by s_ee->PE_PE[R8001]->EP_PKG[R8000];
-  path = ::package_get_path( ep_pkg:ep_pkg );
   // Populate the action langauge body.
-  sig = ::underscore_signature(signature: ::bridge_getsignature( flavor:1, s_brg:s_brg ));
-  ::body2code_block( name:path + "/" + s_ee.Name + "_" + sig, text:STRING::unescapetics(s:s_brg.Action_Semantics_internal) );
+  ::body2code_block( name:"", text:STRING::unescapetics(s:s_brg.Action_Semantics_internal) );
   
   out::populate( element:"routine", value:emptyvalue );
   
@@ -2463,81 +2295,6 @@ INSERT INTO PE_PE
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("e2293e1c-01c0-451d-87fb-8b85845690a5",
-	"00000000-0000-0000-0000-000000000000",
-	'parsepragmas',
-	'',
-	'// parse a pragma string to SMASL
-// returns the string without the pragmas
-value[7]=""; value[6]=""; value[5]=""; value[4]=""; value[3]=""; value[2]=""; value[1]=""; value[0]="";
-emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
-
-string = param.s;
-list = param.list;
-
-return_string = "";
-
-i = STRING::indexof( haystack:string, needle:"pragma" );
-return_string = STRING::substr( s:string, begin:0, end:i );
-string = STRING::substr( s:string, begin:i, end:-1 );
-while ( -1 != i )	// keep looping as long as we find the keyword pragma
-
-  value[0] = STRING::getword( s:string, i:6, j:-1 );			// get the name
-  value[1] = list;
-  out::populate( element:"pragma", value:value );
-  
-  j = STRING::indexof( haystack:string, needle:"(" );
-  k = STRING::indexof( haystack:string, needle:")" );
-  while ( not ( -1 == j or j > k ) and -1 != k )
-    string = STRING::substr( s:string, begin:j+1, end:-1 );
-    k = STRING::indexof( haystack:string, needle:")" );
-    value[0] = STRING::getword( s:string, i:0, j:k );
-    value[1] = "";
-    if ( "" != STRING::trim( s:value[0] ) )
-      out::populate( element:"pragmaitem", value:value );
-    end if;
-    j = STRING::indexof( haystack:string, needle:"," );
-  end while;
-  k = STRING::indexof( haystack:string, needle:")" );
-  string = STRING::substr( s:string, begin:k, end:-1 );
-  
-  out::populate( element:"pragma", value:emptyvalue );
-  i = STRING::indexof( haystack:string, needle:"pragma" );
-  return_string = return_string + STRING::substr( s:string, begin:2, end:i );
-  string = STRING::substr( s:string, begin:i, end:-1 );
-
-end while;
-
-return return_string;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'',
-	0);
-INSERT INTO S_SPARM
-	VALUES ("7fdffef0-2545-4311-aa2f-475c306cf786",
-	"e2293e1c-01c0-451d-87fb-8b85845690a5",
-	's',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("84e5e4fc-3020-4c2d-a1cb-ecbcb3068609",
-	"e2293e1c-01c0-451d-87fb-8b85845690a5",
-	'list',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"7fdffef0-2545-4311-aa2f-475c306cf786",
-	'');
-INSERT INTO PE_PE
-	VALUES ("e2293e1c-01c0-451d-87fb-8b85845690a5",
-	1,
-	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
 	VALUES ("2f459c99-3c8c-4b98-8898-5661cf9e0fbe",
 	"00000000-0000-0000-0000-000000000000",
 	'class2objectdeclaration',
@@ -2550,20 +2307,7 @@ select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_
 for each o_obj in o_objs
   value[0] = o_obj.Name;
   out::populate( element:"object", value:value );
-
-  // output pragmas
-  search_term = "declaration";
-  len = STRING::strlen( s:search_term );
-  i = STRING::indexof( haystack:o_obj.Descrip, needle:"<"+search_term+">" );
-  j = STRING::indexof( haystack:o_obj.Descrip, needle:"</"+search_term+">" );
-  if ( -1 != i and -1 != j and j > i )
-	pragma_string = STRING::substr( s:o_obj.Descrip, begin:i+len+2, end:j );
-	s = ::parsepragmas( s:pragma_string, list:search_term );
-	descrip_begin = STRING::substr( s:o_obj.Descrip, begin:0, end:i );
-	descrip_end = STRING::substr( s:o_obj.Descrip, begin:j+len+3, end:-1 );
-	o_obj.Descrip = descrip_begin + descrip_end;
-  end if;
-
+  // Note:  No marking occurs on the declaration, even though the grammar allows it.
   out::populate( element:"object", value:emptyvalue );
 end for;
 ',
@@ -3216,97 +2960,6 @@ INSERT INTO PE_PE
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("1df75660-ed85-437c-a3f5-51c82bce9581",
-	"00000000-0000-0000-0000-000000000000",
-	'underscore_signature',
-	'',
-	'signature = param.signature;
-
-/*
- while ( (i=name.indexOf(",")) != -1
-	  || (i=name.indexOf("(")) != -1
-	  || (i=name.indexOf(" ")) != -1 ) {
-	 name.setCharAt(i, ''_'');
- }
- while ( (i=name.indexOf(")")) != -1 ) {
-	 name.deleteCharAt( i );
- }
- while ( (i=name.indexOf("__")) != -1 ) {
-	 name.deleteCharAt( i );
- }
- */
-
-// replace commas
-i = STRING::indexof( haystack:signature, needle:"," );
-while ( i != -1 )
-  sig_begin = STRING::substr( s:signature, begin:0, end:i );
-  sig_end = STRING::substr( s:signature, begin:i+1, end:-1 );
-  signature = sig_begin + "_" + sig_end;
-
-  i = STRING::indexof( haystack:signature, needle:"," );
-end while;
-
-// replace open parentheses
-i = STRING::indexof( haystack:signature, needle:"(" );
-while ( i != -1 )
-  sig_begin = STRING::substr( s:signature, begin:0, end:i );
-  sig_end = STRING::substr( s:signature, begin:i+1, end:-1 );
-  signature = sig_begin + "_" + sig_end;
-
-  i = STRING::indexof( haystack:signature, needle:"(" );
-end while;
-
-// replace spaces
-i = STRING::indexof( haystack:signature, needle:" " );
-while ( i != -1 )
-  sig_begin = STRING::substr( s:signature, begin:0, end:i );
-  sig_end = STRING::substr( s:signature, begin:i+1, end:-1 );
-  signature = sig_begin + "_" + sig_end;
-
-  i = STRING::indexof( haystack:signature, needle:" " );
-end while;
-
-// remove close parentheses
-i = STRING::indexof( haystack:signature, needle:")" );
-while ( i != -1 )
-  sig_begin = STRING::substr( s:signature, begin:0, end:i );
-  sig_end = STRING::substr( s:signature, begin:i+1, end:-1 );
-  signature = sig_begin + sig_end;
-
-  i = STRING::indexof( haystack:signature, needle:")" );
-end while;
-
-// remove double underscores
-i = STRING::indexof( haystack:signature, needle:"__" );
-while ( i != -1 )
-  sig_begin = STRING::substr( s:signature, begin:0, end:i );
-  sig_end = STRING::substr( s:signature, begin:i+2, end:-1 );
-  signature = sig_begin + "_" + sig_end;
-
-  i = STRING::indexof( haystack:signature, needle:"__" );
-end while;
-
-return signature;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'',
-	0);
-INSERT INTO S_SPARM
-	VALUES ("86e2811f-8260-4c49-911d-fa6dd78afbef",
-	"1df75660-ed85-437c-a3f5-51c82bce9581",
-	'signature',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO PE_PE
-	VALUES ("1df75660-ed85-437c-a3f5-51c82bce9581",
-	1,
-	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
 	VALUES ("bef2c4c8-46d5-4c5e-b08c-26e39f7b0a3c",
 	"00000000-0000-0000-0000-000000000000",
 	'exception2exception',
@@ -3321,7 +2974,8 @@ for each s_exp in s_exps
   value[0] = s_exp.Name;
   value[1] = "private";
   out::populate( element:"exception", value:value );
-  s_exp.Descrip = ::parsepragmas( s:s_exp.Descrip, list:"" );
+  select one ep_pkg related by s_exp->PE_PE[R8001]->EP_PKG[R8000];
+  ::mark2pragma( markable:"Exception", pathkey: ::package_get_path( ep_pkg:ep_pkg, child:s_exp.Name ) );
   out::populate( element:"exception", value:emptyvalue );
 end for;
 
@@ -3332,7 +2986,8 @@ for each s_exp in s_exps
   value[0] = s_exp.Name;
   value[1] = "public";
   out::populate( element:"exception", value:value );
-  s_exp.Descrip = ::parsepragmas( s:s_exp.Descrip, list:"" );
+  select one ep_pkg related by s_exp->PE_PE[R8001]->EP_PKG[R8000];
+  ::mark2pragma( markable:"Exception", pathkey: ::package_get_path( ep_pkg:ep_pkg, child:s_exp.Name ) );
   out::populate( element:"exception", value:emptyvalue );
 end for;
 
@@ -3341,11 +2996,12 @@ select many sub_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001];
 while ( not_empty sub_pkgs )
   select many s_exps related by sub_pkgs->PE_PE[R8000]->S_EXP[R8001];
   for each s_exp in s_exps
-	value[0] = s_exp.Name;
-	value[1] = "public";
-	out::populate( element:"exception", value:value );
-    s_exp.Descrip = ::parsepragmas( s:s_exp.Descrip, list:"" );
-	out::populate( element:"exception", value:emptyvalue );
+    value[0] = s_exp.Name;
+    value[1] = "public";
+    out::populate( element:"exception", value:value );
+    select one ep_pkg related by s_exp->PE_PE[R8001]->EP_PKG[R8000];
+    ::mark2pragma( markable:"Exception", pathkey: ::package_get_path( ep_pkg:ep_pkg, child:s_exp.Name ) );
+    out::populate( element:"exception", value:emptyvalue );
   end for;
   select many sub_pkgs related by sub_pkgs->PE_PE[R8000]->EP_PKG[R8001];
 end while;
@@ -3406,6 +3062,61 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("1d772117-8637-4071-8966-b5fffae70670",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4f7faf8b-f0da-4aae-80e2-2018ff927926",
+	"00000000-0000-0000-0000-000000000000",
+	'mark2pragma',
+	'',
+	'// Look up the mark and convert it to a pragma.
+
+value[7]=""; value[6]=""; value[5]=""; value[4]=""; value[3]=""; value[2]=""; value[1]=""; value[0]="";
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+select any markable from instances of Markable where ( selected.name == param.markable );
+if ( not_empty markable ) // CDS - this protecting if statement can go away after mcmc is built again
+select many marks related by markable->Mark[R2821] where ( selected.path == param.pathkey );
+for each mark in marks
+  
+  value[0] = mark.feature_name;
+  value[1] = "";
+  out::populate( element:"pragma", value:value );
+
+  value[0] = mark.value;
+  out::populate( element:"pragmaitem", value:value );
+  out::populate( element:"pragmaitem", value:emptyvalue );
+
+  out::populate( element:"pragma", value:emptyvalue );
+
+end for;
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("568d603f-636d-4311-910f-ef57c6a92bcb",
+	"4f7faf8b-f0da-4aae-80e2-2018ff927926",
+	'pathkey',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"38afae16-9fdc-48bc-852d-4bbe7e60127d",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("38afae16-9fdc-48bc-852d-4bbe7e60127d",
+	"4f7faf8b-f0da-4aae-80e2-2018ff927926",
+	'markable',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("4f7faf8b-f0da-4aae-80e2-2018ff927926",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",

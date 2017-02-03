@@ -71,6 +71,7 @@ elif ( not_empty parent_identifier )
   if ( empty attribute )
 	create object instance attribute of attribute;
 	attribute.name = param.name;
+	select one parent_object related by attribute->object[R3709];
 	relate parent_object to attribute across R3709.''is characterized by'';
 	markable = markable::populate( name:"attribute" );
   	relate attribute to markable across R3783;

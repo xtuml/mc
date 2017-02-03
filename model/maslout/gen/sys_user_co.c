@@ -15,6 +15,7 @@
  *--------------------------------------------------------------------------*/
 
 #include "maslout_sys_types.h"
+#include "sys_xtumlload.h"
 #include "sys_user_co.h"
 
 #ifdef SYS_USER_CO_PRINTF_ON
@@ -105,6 +106,8 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       }
     }
   }
+  /* Load the feature and application marks from files.  */
+  xtuml2masl_model_op_load_marking_data();
   int i = 0;
   if ( project ) {
     while ( i < namecount ) xtuml2masl_masl_project( (const bool)key_lett, name[ i++ ] );

@@ -1,16 +1,16 @@
 -- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO EP_PKG
-	VALUES ("6ce5496e-4e04-4a6b-bdf6-7553ae57b1c2",
+	VALUES ("10ac2c61-0d49-444a-8199-83e01b90dd2e",
 	"00000000-0000-0000-0000-000000000000",
-	"53107551-b0b9-4155-a13f-41b410f63a54",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
 	'model',
 	'',
 	0);
 INSERT INTO GD_MD
-	VALUES ("198483bf-c6bb-4d7e-99d1-67c63769a2e2",
+	VALUES ("a7fa335f-c077-4785-87e2-0bfd2bfd8ba1",
 	112,
-	"6ce5496e-4e04-4a6b-bdf6-7553ae57b1c2",
+	"10ac2c61-0d49-444a-8199-83e01b90dd2e",
 	108,
 	0,
 	0,
@@ -25,16 +25,16 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'maslout::lib::xtuml2masl::model');
+	'maslin::lib::masl2xtuml::model');
 INSERT INTO DIM_DIA
-	VALUES ("198483bf-c6bb-4d7e-99d1-67c63769a2e2",
+	VALUES ("a7fa335f-c077-4785-87e2-0bfd2bfd8ba1",
 	'',
 	1.000000,
 	0.000000,
 	0.000000,
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO EP_PKGREF
-	VALUES ("6ce5496e-4e04-4a6b-bdf6-7553ae57b1c2",
+	VALUES ("10ac2c61-0d49-444a-8199-83e01b90dd2e",
 	"fc52c455-bf5a-49cb-ba91-3b39d6d97611");
 INSERT INTO EP_PKG_PROXY
 	VALUES ("fc52c455-bf5a-49cb-ba91-3b39d6d97611",
@@ -45,24 +45,24 @@ INSERT INTO EP_PKG_PROXY
 	0,
 	'../../../../../../mcshared/models/mcshared/model/model.xtuml');
 INSERT INTO PE_PE
-	VALUES ("6ce5496e-4e04-4a6b-bdf6-7553ae57b1c2",
+	VALUES ("10ac2c61-0d49-444a-8199-83e01b90dd2e",
 	1,
 	"00000000-0000-0000-0000-000000000000",
-	"22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
+	"e3cafb9d-02e0-4035-b5f2-b0cdbefc0a46",
 	7);
 INSERT INTO C_C_PROXY
-	VALUES ("22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
+	VALUES ("e3cafb9d-02e0-4035-b5f2-b0cdbefc0a46",
 	"00000000-0000-0000-0000-000000000000",
 	"00000000-0000-0000-0000-000000000000",
-	'xtuml2masl',
+	'masl2xtuml',
 	'',
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	0,
 	'',
-	'../xtuml2masl.xtuml');
+	'../masl2xtuml.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("53107551-b0b9-4155-a13f-41b410f63a54",
-	'maslout',
+	VALUES ("c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	'maslin',
 	1,
-	'../../../maslout.xtuml');
+	'../../../maslin.xtuml');
