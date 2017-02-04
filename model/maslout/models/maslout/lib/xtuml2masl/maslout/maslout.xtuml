@@ -683,13 +683,11 @@ c_c = param.c_c;
 select many o_attrs related by o_obj->O_ATTR[R102];
 for each o_attr in o_attrs
   select one s_dt related by o_attr->S_DT[R114];
-  // if it is a referential attribute, get the name and datatype of the base attribute
+  // if it is a referential attribute, get the datatype of the base attribute
   select one o_rattr related by o_attr->O_RATTR[R106];
-  baseattr = "";
   if ( not_empty o_rattr )
     select one base_o_attr related by o_rattr->O_BATTR[R113]->O_ATTR[R106];
     select one s_dt related by base_o_attr->S_DT[R114];
-    baseattr = base_o_attr.Name;
   end if;
 
   if ( ( "current_state" == o_attr.Name ) and ( "state<State_Model>" == s_dt.Name ) )
@@ -742,6 +740,7 @@ for each o_attr in o_attrs
       select one rto related by o_ref->O_RTIDA[R111]->R_RTO[R110];
       select one rel related by rto->R_OIR[R203]->R_REL[R201];
       select one rto_obj related by rto->R_OIR[R203]->O_OBJ[R201];
+      select one ref_o_attr related by o_ref->O_RTIDA[R111]->O_OIDA[R110]->O_ATTR[R105];
 
       value[0] = "R" + STRING::itoa( i:rel.Numb );	// relationship number
       value[1] = ""; //value[1] = c_c.Name; // domain name
@@ -776,7 +775,7 @@ for each o_attr in o_attrs
         value[3] = rto_obj.Name; // referred to object name object
       end if;
 
-      value[4] = baseattr; // attribute name
+      value[4] = ref_o_attr.Root_Nam; // referred to attribute name
       out::populate( element:"referential", value:value );
       value[1] = "";
       value[2] = "";
