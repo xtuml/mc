@@ -413,12 +413,10 @@ INSERT INTO O_TFR
   * Domain Interface: <domain name>.int
   *  
   * Domain Service: <service name>.svc
-  * Domain Function: <function name>.fn
   * Domain External: <external name>.ext (domain service with pragma external)
   * Domain Scenario: <external name>.scn (domain service with pragma scenario)
   *  
   * Object/Instance Service: <object kl>_<service name>.svc
-  * Object/Instance Function: <object kl>_<function name>.fn
   * State Action: <object kl>_<state name>.al
   *  
   * Terminator Service: <terminator kl>_<service name>.tr
@@ -470,8 +468,6 @@ if ( not_empty activity )
 		  name = activity.name + ".scn";
 		elif ( not_empty ext_pragma )	// domain external
 		  name = activity.name + ".ext";
-		elif ( not_empty returntype )	// domain function
-		  name = activity.name + ".fn";
 		else							// domain service
 		  name = activity.name + ".svc";
 		end if;
@@ -505,11 +501,7 @@ if ( not_empty activity )
 		kl_len = STRING::strlen( s:pragma_item.value );
 		key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
 	  end if;
-	  if ( not_empty returntype )			// object function
-		name = key_letters + "_" + activity.name + ".fn";
-	  else								// object service
-		name = key_letters + "_" + activity.name + ".svc";
-	  end if;
+      name = key_letters + "_" + activity.name + ".svc";
 	elif ( not_empty state )
 	  select one returntype related by operation->typeref[R3741];
 	  select any pragma related by state->object[R3750]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );

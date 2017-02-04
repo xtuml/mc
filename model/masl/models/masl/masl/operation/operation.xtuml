@@ -113,7 +113,6 @@ if ( not_empty relationship )
 end if;
 select one returntyperef related by self->typeref[R3741];
 if ( not_empty returntyperef )
-  flavor = "function";
   returntype = returntyperef.body;
 end if;
 T::include( file:"masl/t.operation_begin.masl" );

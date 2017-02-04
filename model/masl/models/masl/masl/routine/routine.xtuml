@@ -104,7 +104,6 @@ flavor = "service";
 returntype = "";
 select one returntyperef related by self->typeref[R3792];
 if ( not_empty returntyperef )
-  flavor = "function";
   returntype = returntyperef.body;
 end if;
 T::include( file:"masl/t.routine_begin.masl" );
