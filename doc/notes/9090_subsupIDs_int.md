@@ -41,6 +41,8 @@ in the referential attribute instance.
 --------------------------
 6.1 Why navigate when `o_obj` is cached in `referentialAttribute.o_obj`?  
 It seems we could simplify other parts of this routine the same way.
+Associatives may be fine as they are, but in the simple associations
+we could save a traversal.  It might not be worth the change.
 
 7. Unit Test
 ------------
@@ -54,6 +56,10 @@ It seems we could simplify other parts of this routine the same way.
 Fork: cortlandstarrett/mc  9090_subsupIDs
 
 xtuml/mc
+ bin/m2x                                                         | Bin 679312 -> 679376 bytes
+ doc/notes/9090_subsupIDs_int.md                                 |  62 ++++++++++++++++++++++++++++
+ .../maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml  |   8 +---
+ 3 files changed, 64 insertions(+), 6 deletions(-)
 
 </pre>
 
