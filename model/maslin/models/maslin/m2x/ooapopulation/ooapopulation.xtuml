@@ -6847,13 +6847,9 @@ while ( passes < num_forms )
 		// * check for a duplicate that needs to be combined
 		select many ras related by form->referentialAttribute[R3811];
 		for each ra in ras
-		  // select each subtype object
-		  select many subs related by subsuper->R_SUB[R213]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
-		  for each sub in subs;
-			// select the corresponding new referential attribute
-			select any o_attr related by sub->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
+		  o_obj = ra.o_obj;
+			select any o_attr related by o_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
 			ra.postProcess( o_attr:o_attr, ooapopulation:self );
-		  end for;
 		end for;
 		
 		// post processing for the formalizing object
