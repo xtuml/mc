@@ -29,7 +29,7 @@ None
 'service'  
 4.2 The MASL tooling shall stop using the keyword 'function' in favor of
 'service'  
-4.2.1 The persistence mechanism in BridgePoint shall not use the keyword
+4.2.1 The persistence mechanism in BridgePoint shall use the keyword
 'service' when persisting routines with a return value  
 4.2.2 The model of masl shall not emit 'function' for routines with a return
 value  
