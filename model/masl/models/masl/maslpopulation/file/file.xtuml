@@ -413,12 +413,10 @@ INSERT INTO O_TFR
   * Domain Interface: <domain name>.int
   *  
   * Domain Service: <service name>.svc
-  * Domain Function: <function name>.fn
   * Domain External: <external name>.ext (domain service with pragma external)
   * Domain Scenario: <external name>.scn (domain service with pragma scenario)
   *  
   * Object/Instance Service: <object kl>_<service name>.svc
-  * Object/Instance Function: <object kl>_<function name>.fn
   * State Action: <object kl>_<state name>.al
   *  
   * Terminator Service: <terminator kl>_<service name>.tr
@@ -470,8 +468,6 @@ if ( not_empty activity )
 		  name = activity.name + ".scn";
 		elif ( not_empty ext_pragma )	// domain external
 		  name = activity.name + ".ext";
-		elif ( not_empty returntype )	// domain function
-		  name = activity.name + ".fn";
 		else							// domain service
 		  name = activity.name + ".svc";
 		end if;
@@ -505,11 +501,7 @@ if ( not_empty activity )
 		kl_len = STRING::strlen( s:pragma_item.value );
 		key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
 	  end if;
-	  if ( not_empty returntype )			// object function
-		name = key_letters + "_" + activity.name + ".fn";
-	  else								// object service
-		name = key_letters + "_" + activity.name + ".svc";
-	  end if;
+      name = key_letters + "_" + activity.name + ".svc";
 	elif ( not_empty state )
 	  select one returntype related by operation->typeref[R3741];
 	  select any pragma related by state->object[R3750]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
@@ -572,135 +564,8 @@ doEmit = false;
 
 select any activity related by self->element[R3795]->markable[R3786]->activity[R3783];
 select one code_block related by activity->code_block[R3794];
-if ( not_empty activity )
-
-  select one routine related by activity->routine[R3704];
-  select one operation related by activity->operation[R3704];
-  select one state related by activity->state[R3704];
-  
-  if ( not_empty routine )
-    select one terminator related by routine->terminator[R3791];
-    select one returntype related by routine->typeref[R3792];
-    if ( empty terminator )			// domain routine
-      if ( not_empty code_block )
-        select one domain related by routine->domain[R3790];
-        if ( not_empty returntype )	// domain function
-          T::include( file:"masl/t.domain_function_def_begin.masl" );
-          select one parameter related by activity->parameter[R3705];
-          if ( not_empty parameter )
-            parameter.render();
-          end if;
-          T::include( file:"masl/t.function_def_middle.masl" );
-          if (not_empty code_block)
-            T::b(s:code_block.sourcefile);
-          else
-            T::include( file:"masl/t.code_block_stub.masl" );
-          end if;
-          T::include( file:"masl/t.function_def_end.masl" );
-          doEmit = true;
-        else							// domain service
-          T::include( file:"masl/t.domain_service_def_begin.masl" );
-          select one parameter related by activity->parameter[R3705];
-          if ( not_empty parameter )
-            parameter.render();
-          end if;
-          T::include( file:"masl/t.service_def_middle.masl" );
-          if (not_empty code_block)
-            T::b(s:code_block.sourcefile);
-          else
-            T::include( file:"masl/t.code_block_stub.masl" );
-          end if;
-		  T::include( file:"masl/t.service_def_end.masl" );
-		  doEmit = true;
-        end if;
-      end if;
-    else							// terminator routine
-      select one domain related by terminator->domain[R3702];
-      if ( not_empty returntype )	// terminator function
-		T::include( file:"masl/t.terminator_function_def_begin.masl" );
-		select one parameter related by activity->parameter[R3705];
-		if ( not_empty parameter )
-		  parameter.render();
-		end if;
-		T::include( file:"masl/t.function_def_middle.masl" );
-		if (not_empty code_block)
-		  T::b(s:code_block.sourcefile);
-		else
-		  T::include( file:"masl/t.code_block_stub.masl" );
-		end if;
-		T::include( file:"masl/t.function_def_end.masl" );
-	    doEmit = true;
-      else							// terminator service
-		T::include( file:"masl/t.terminator_service_def_begin.masl" );
-		select one parameter related by activity->parameter[R3705];
-		if ( not_empty parameter )
-		  parameter.render();
-		end if;
-		T::include( file:"masl/t.service_def_middle.masl" );
-		if (not_empty code_block)
-		  T::b(s:code_block.sourcefile);
-		else
-		  T::include( file:"masl/t.code_block_stub.masl" );
-		end if;
-		T::include( file:"masl/t.service_def_end.masl" );
-	    doEmit = true;
-      end if;
-    end if;
-  elif ( not_empty operation )
-    select one returntype related by operation->typeref[R3741];
-    select one object related by operation->object[R3749];
-    select one domain related by object->domain[R3708];
-	if ( not_empty returntype )			// object function
-	  T::include( file:"masl/t.object_function_def_begin.masl" );
-	  select one parameter related by activity->parameter[R3705];
-	  if ( not_empty parameter )
-	    parameter.render();
-	  end if;
-	  T::include( file:"masl/t.function_def_middle.masl" );
-	  if (not_empty code_block)
-		T::b(s:code_block.sourcefile);
-	  else
-		T::include( file:"masl/t.code_block_stub.masl" );
-	  end if;
-	  T::include( file:"masl/t.function_def_end.masl" );
-	  doEmit = true;
-	else								// object service
-	  T::include( file:"masl/t.object_service_def_begin.masl" );
-	  select one parameter related by activity->parameter[R3705];
-	  if ( not_empty parameter )
-	    parameter.render();
-	  end if;
-	  T::include( file:"masl/t.service_def_middle.masl" );
-	  if (not_empty code_block)
-		T::b(s:code_block.sourcefile);
-	  else
-		T::include( file:"masl/t.code_block_stub.masl" );
-	  end if;
-	  T::include( file:"masl/t.service_def_end.masl" );
-	  doEmit = true;
-	end if;
-  elif ( not_empty state and not state.non_existent )
-    select one returntype related by operation->typeref[R3741];
-    select one object related by state->object[R3750];
-    select one domain related by object->domain[R3708];
-	T::include( file:"masl/t.object_state_def_begin.masl" );
-	select one parameter related by activity->parameter[R3705];
-	if ( not_empty parameter )
-	  parameter.render();
-	end if;
-	T::include( file:"masl/t.state_def_middle.masl" );
-	if (not_empty code_block)
-	  T::b(s:code_block.sourcefile);
-	else
-	  T::include( file:"masl/t.code_block_stub.masl" );
-	end if;
-	T::include( file:"masl/t.state_def_end.masl" );
-	doEmit = true;
-  end if;
-
-end if;
-
-if ( doEmit )
+if ( not_empty activity and not_empty code_block )
+  activity.render_definition();
   self.emit( name:destination );
 end if;',
 	1,

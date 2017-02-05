@@ -115,9 +115,19 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select one code_block related by self->code_block[R3794];
-if ( not_empty code_block )
-  code_block.render();
+	'select one routine related by self->routine[R3704];
+if ( not_empty routine )
+  routine.render_definition( activity:self );
+else
+  select one operation related by self->operation[R3704];
+  if ( not_empty operation )
+	operation.render_definition( activity:self );
+  else
+	select one state related by self->state[R3704];
+	if ( not_empty state )
+	  state.render_definition( activity:self );
+	end if;
+  end if;
 end if;',
 	1,
 	'',

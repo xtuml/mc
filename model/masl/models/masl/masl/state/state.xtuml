@@ -167,8 +167,64 @@ end if;
 return valid;',
 	1,
 	'',
+	"48ab0d39-1cd9-45e7-9b4d-0ea626b5be67",
+	0);
+INSERT INTO O_TFR
+	VALUES ("48ab0d39-1cd9-45e7-9b4d-0ea626b5be67",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1",
+	'render_definition',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'state = self;
+activity = param.activity;
+
+if ( not_empty state and not_empty activity )
+  // render name
+  select one object related by self->object[R3750];
+  select one domain related by object->domain[R3708];
+  if ( not_empty object and not_empty domain )
+	T::include( file:"masl/t.object_state_def_begin.masl" );
+  end if;
+
+  // render parameters
+  select one parameter related by activity->parameter[R3705.''carries first''];
+  if ( not_empty parameter )
+	parameter.render();
+  end if;
+  
+  // render middle
+  T::include( file:"masl/t.state_def_middle.masl" );
+  
+  // render code block
+  select one code_block related by activity->code_block[R3794];
+  if ( not_empty code_block )
+    code_block.render();
+  end if;
+  
+  // render end
+  T::include( file:"masl/t.state_def_end.masl" );
+end if;',
+	1,
+	'',
 	"3831770b-0142-457e-9e20-b77e34cfaa75",
 	0);
+INSERT INTO O_TPARM
+	VALUES ("50227937-7562-41ca-8b9b-24f4ec8ffd45",
+	"48ab0d39-1cd9-45e7-9b4d-0ea626b5be67",
+	'activity',
+	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<activity>',
+	'',
+	'',
+	'../masl.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
 	"64886a99-6942-49c6-b7d7-2dc495c52db1");

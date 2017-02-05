@@ -56,6 +56,7 @@ private static final String _RETURN         = "return";
 private static final String _RPAREN         = ")";
 private static final String _SCOPE          = "::";
 private static final String _SEMI           = ";";
+private static final String _SERVICE        = "service";
 private static final String _SPACE          = " ";
 private static final String _STATE          = "state";
 private static final String _STRUCTURE      = "structure";
@@ -991,7 +992,7 @@ returns [StringBuilder text]
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
                                        t.append( _SPACE );
-                                       t.append( $TERMINATOR_SERVICE_DECLARATION.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
                                        t.append( _SPACE );
@@ -1035,7 +1036,7 @@ returns [StringBuilder text]
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
                                        t.append( _SPACE );
-                                       t.append( $TERMINATOR_SERVICE_DECLARATION.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
                                        t.append( _SPACE );
@@ -1413,7 +1414,7 @@ returns [StringBuilder text]
                                    description
                                    {
                                        t.insert( 0, getText( $description.text ) );
-                                       t.append( $OBJECT_SERVICE_DECLARATION.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
                                        t.append( _SPACE );
@@ -1781,7 +1782,7 @@ returns [StringBuilder text]
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
                                        t.append( _SPACE );
-                                       t.append( $DOMAIN_SERVICE_DECLARATION.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
                                        t.append( _SPACE );
@@ -2278,7 +2279,6 @@ returns [StringBuilder text]
     $text = t;
 }
                               : ^( DOMAIN_SERVICE_DEFINITION
-                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    serviceName
@@ -2286,7 +2286,7 @@ returns [StringBuilder text]
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
                                        t.append( _SPACE );
-                                       t.append( $SERVICE_TYPE.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $domainReference.text ) );
                                        t.append( _SCOPE );
@@ -2310,7 +2310,7 @@ returns [StringBuilder text]
                                    }
                                    pragmaList[_NEWLINE]
                                    {
-                                       t.append( _SPACE + $SERVICE_TYPE.text + _SEMI + _NEWLINE );
+                                       t.append( _SPACE + _SERVICE + _SEMI + _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                                                   
@@ -2325,7 +2325,6 @@ returns [StringBuilder text]
     $text = t;
 }
                               : ^( TERMINATOR_SERVICE_DEFINITION
-                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    terminatorName
@@ -2334,7 +2333,7 @@ returns [StringBuilder text]
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
                                        t.append( _SPACE );
-                                       t.append( $SERVICE_TYPE.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $domainReference.text ) );
                                        t.append( _SCOPE );
@@ -2360,7 +2359,7 @@ returns [StringBuilder text]
                                    }
                                    pragmaList[_NEWLINE]
                                    {
-                                       t.append( _SPACE + $SERVICE_TYPE.text + _SEMI + _NEWLINE );
+                                       t.append( _SPACE + _SERVICE + _SEMI + _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                                                   
@@ -2375,7 +2374,6 @@ returns [StringBuilder text]
     $text = t;
 }
                               : ^( OBJECT_SERVICE_DEFINITION
-                                   SERVICE_TYPE
                                    serviceVisibility
                                    {
                                        t.append( getTab() );
@@ -2391,7 +2389,7 @@ returns [StringBuilder text]
                                    fullObjectReference
                                    serviceName
                                    {
-                                       t.append( $SERVICE_TYPE.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $fullObjectReference.text ) );
                                        t.append( _DOT );
@@ -2415,7 +2413,7 @@ returns [StringBuilder text]
                                    }
                                    pragmaList[_NEWLINE]
                                    {
-                                       t.append( _SPACE + $SERVICE_TYPE.text + _SEMI + _NEWLINE );
+                                       t.append( _SPACE + _SERVICE + _SEMI + _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                          
