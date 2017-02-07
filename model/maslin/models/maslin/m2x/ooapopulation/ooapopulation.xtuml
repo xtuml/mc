@@ -5404,6 +5404,18 @@ end if;
 // select using OIR_ID so that we get a different instance in the reflexive case
 select any form_part related by r_simp->R_PART[R207]
   where selected.OIR_ID != part.OIR_ID;
+if ( part.Obj_ID == form_part.Obj_ID )
+  // reflexive - 
+  // Above, we simplistically chose the other participant to be the formalizer.
+  // However, in the reflexive case, the participant will have a Txt_Phrs
+  // that matches the role phrase in the referential attribute(s).
+  if ( param.rolephrase == form_part.Txt_Phrs )
+    // swap
+    temp = part;
+    part = form_part;
+    form_part = temp;
+  end if;
+end if;
 self.ClassAsSimpleParticipant_migrateToFormalizer(r_part:form_part);
 select one form related by r_simp->R_FORM[R208];
 
@@ -5461,6 +5473,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"b557eb0c-7b21-464a-bea8-3fadf2ca17ec",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("5bb3dab1-bc9b-4ebe-b43e-e4ea90a00d66",
+	"2459e6f3-25a3-44f0-96e6-283d25258fb4",
+	'rolephrase',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"11da617f-ca0b-449d-9c83-e6f24a53bc28",
 	'');
 INSERT INTO O_TFR
 	VALUES ("637f67a3-d4bc-437a-b10a-3be1a34ef6a6",
@@ -6809,7 +6830,8 @@ while ( passes < num_forms )
 		select any r_part related by simp->R_PART[R207] where ( selected.Obj_ID == simpForm.part_obj_id );
 		
 		// formalize the relationship
-		self.SimpleAssociation_formalize(r_simp:simp, r_part:r_part, id_id:id);
+		select any ra related by form->referentialAttribute[R3811];
+		self.SimpleAssociation_formalize(r_simp:simp, r_part:r_part, id_id:id, rolephrase:ra.roleOrObj);
 		
 		// there is some post processing that needs to be done for each referentialAttribute
 		// in the formalization
