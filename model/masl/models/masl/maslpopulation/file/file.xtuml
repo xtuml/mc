@@ -16,6 +16,7 @@ INSERT INTO O_TFR
 	0,
 	'element = param.element;
 name = param.name;
+structuralOnly = param.structuralOnly;
 if ( "project" == element )
   select many projects from instances of project where ( selected.name == name );
   if ( ( "*" == name ) or ( "" == name ) )
@@ -33,6 +34,11 @@ if ( "project" == element )
         file.emit( name:project.name + ".prj" );
       end if;
 
+      if ( structuralOnly == true )
+        // we already output the project structural bits, so skip activites
+        continue;
+      end if;
+      
 	  // render all the activity files
       select many terminator_activities related by project->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
       for each activity in terminator_activities
@@ -65,7 +71,12 @@ elif ( "domain" == element )
         domain.render_interface();
         file.emit( name:domain.name + ".int" );
       end if;
-      
+
+      if ( structuralOnly == true )
+        // we have output the domain structural bits, so skip activites
+        continue;
+      end if;
+            
       // render all the activity files
       select many domain_routines related by domain->routine[R3790]->activity[R3704];
       select many terminator_routines related by domain->terminator[R3702]->routine[R3791]->activity[R3704];
@@ -144,7 +155,8 @@ end if;
 ',
 	1,
 	'',
-	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52");
+	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("e5cf8b40-420d-4501-88bd-ebcfca9f7251",
 	"4c11d43c-eebe-45da-af8c-2e21b2196111",
@@ -162,6 +174,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"e5cf8b40-420d-4501-88bd-ebcfca9f7251",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("4a7f2d74-9dad-42b5-b5dc-82be182a4ad1",
+	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	'structuralOnly',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"ef19dc39-fe10-4b07-a157-d4ab1bc5976b",
 	'');
 INSERT INTO O_TFR
 	VALUES ("a7863684-8575-4990-b290-dce44c1b53df",
@@ -187,7 +208,8 @@ if ( not valid )
 end if;',
 	1,
 	'',
-	"4c11d43c-eebe-45da-af8c-2e21b2196111");
+	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	0);
 INSERT INTO O_TFR
 	VALUES ("af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
@@ -208,7 +230,8 @@ end if;
 ',
 	1,
 	'',
-	"0652aa1a-382c-4f76-b3b5-f382ef04ba69");
+	"0652aa1a-382c-4f76-b3b5-f382ef04ba69",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("d350bed6-dabc-4263-9eea-a69fcc05e73e",
 	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
@@ -251,7 +274,8 @@ for each file in files
 end for;',
 	1,
 	'',
-	"e5b94764-401e-406c-b9a9-fa2a5bc4fce0");
+	"e5b94764-401e-406c-b9a9-fa2a5bc4fce0",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("99921c31-1323-40cf-a690-4971823e7fb4",
 	"0652aa1a-382c-4f76-b3b5-f382ef04ba69",
@@ -278,7 +302,8 @@ end if;
 T::emit( file:fullfilename );',
 	1,
 	'',
-	"5cd5b315-bca4-4e80-ba18-2427ea690ab7");
+	"5cd5b315-bca4-4e80-ba18-2427ea690ab7",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("1e4e6c03-8024-460f-b234-2e3697d13d06",
 	"2f147788-5a86-4450-bedd-f6c445ca097c",
@@ -302,7 +327,8 @@ else
 end if;',
 	1,
 	'',
-	"e4bb4b34-0329-4346-a4bf-632ffa0ad30b");
+	"e4bb4b34-0329-4346-a4bf-632ffa0ad30b",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("29043fa1-8c39-4370-9b32-3c885eaddb8a",
 	"5cd5b315-bca4-4e80-ba18-2427ea690ab7",
@@ -330,7 +356,8 @@ end if;
 T::copyfile( source:source, destination:destination );',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("f291b218-90cf-440e-82d5-4f62b49dd9fa",
 	"e4bb4b34-0329-4346-a4bf-632ffa0ad30b",
@@ -362,7 +389,8 @@ for each file in files
 end for;',
 	1,
 	'',
-	"2f147788-5a86-4450-bedd-f6c445ca097c");
+	"2f147788-5a86-4450-bedd-f6c445ca097c",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("766ebdb8-8e48-489a-8926-e257a758062f",
 	"e5b94764-401e-406c-b9a9-fa2a5bc4fce0",
@@ -385,12 +413,10 @@ INSERT INTO O_TFR
   * Domain Interface: <domain name>.int
   *  
   * Domain Service: <service name>.svc
-  * Domain Function: <function name>.fn
   * Domain External: <external name>.ext (domain service with pragma external)
   * Domain Scenario: <external name>.scn (domain service with pragma scenario)
   *  
   * Object/Instance Service: <object kl>_<service name>.svc
-  * Object/Instance Function: <object kl>_<function name>.fn
   * State Action: <object kl>_<state name>.al
   *  
   * Terminator Service: <terminator kl>_<service name>.tr
@@ -442,8 +468,6 @@ if ( not_empty activity )
 		  name = activity.name + ".scn";
 		elif ( not_empty ext_pragma )	// domain external
 		  name = activity.name + ".ext";
-		elif ( not_empty returntype )	// domain function
-		  name = activity.name + ".fn";
 		else							// domain service
 		  name = activity.name + ".svc";
 		end if;
@@ -477,11 +501,7 @@ if ( not_empty activity )
 		kl_len = STRING::strlen( s:pragma_item.value );
 		key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
 	  end if;
-	  if ( not_empty returntype )			// object function
-		name = key_letters + "_" + activity.name + ".fn";
-	  else								// object service
-		name = key_letters + "_" + activity.name + ".svc";
-	  end if;
+      name = key_letters + "_" + activity.name + ".svc";
 	elif ( not_empty state )
 	  select one returntype related by operation->typeref[R3741];
 	  select any pragma related by state->object[R3750]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
@@ -530,7 +550,8 @@ self.name = name;
 return name;',
 	1,
 	'',
-	"a7863684-8575-4990-b290-dce44c1b53df");
+	"a7863684-8575-4990-b290-dce44c1b53df",
+	0);
 INSERT INTO O_TFR
 	VALUES ("f03f6367-a1ba-4db1-a427-380dbbbb9806",
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
@@ -543,138 +564,14 @@ doEmit = false;
 
 select any activity related by self->element[R3795]->markable[R3786]->activity[R3783];
 select one code_block related by activity->code_block[R3794];
-if ( not_empty activity )
-
-  select one routine related by activity->routine[R3704];
-  select one operation related by activity->operation[R3704];
-  select one state related by activity->state[R3704];
-  
-  if ( not_empty routine )
-    select one terminator related by routine->terminator[R3791];
-    select one returntype related by routine->typeref[R3792];
-    if ( empty terminator )			// domain routine
-      select one domain related by routine->domain[R3790];
-      if ( not_empty returntype )	// domain function
-		T::include( file:"masl/t.domain_function_def_begin.masl" );
-		select one parameter related by activity->parameter[R3705];
-		if ( not_empty parameter )
-		  parameter.render();
-		end if;
-		T::include( file:"masl/t.function_def_middle.masl" );
-		if (not_empty code_block)
-		  T::b(s:code_block.sourcefile);
-		else
-		  T::include( file:"masl/t.code_block_stub.masl" );
-		end if;
-		T::include( file:"masl/t.function_def_end.masl" );
-	    doEmit = true;
-      else							// domain service
-		T::include( file:"masl/t.domain_service_def_begin.masl" );
-		select one parameter related by activity->parameter[R3705];
-		if ( not_empty parameter )
-		  parameter.render();
-		end if;
-		T::include( file:"masl/t.service_def_middle.masl" );
-		if (not_empty code_block)
-		  T::b(s:code_block.sourcefile);
-		else
-		  T::include( file:"masl/t.code_block_stub.masl" );
-		end if;
-		T::include( file:"masl/t.service_def_end.masl" );
-	    doEmit = true;
-      end if;
-    else							// terminator routine
-      select one domain related by terminator->domain[R3702];
-      if ( not_empty returntype )	// terminator function
-		T::include( file:"masl/t.terminator_function_def_begin.masl" );
-		select one parameter related by activity->parameter[R3705];
-		if ( not_empty parameter )
-		  parameter.render();
-		end if;
-		T::include( file:"masl/t.function_def_middle.masl" );
-		if (not_empty code_block)
-		  T::b(s:code_block.sourcefile);
-		else
-		  T::include( file:"masl/t.code_block_stub.masl" );
-		end if;
-		T::include( file:"masl/t.function_def_end.masl" );
-	    doEmit = true;
-      else							// terminator service
-		T::include( file:"masl/t.terminator_service_def_begin.masl" );
-		select one parameter related by activity->parameter[R3705];
-		if ( not_empty parameter )
-		  parameter.render();
-		end if;
-		T::include( file:"masl/t.service_def_middle.masl" );
-		if (not_empty code_block)
-		  T::b(s:code_block.sourcefile);
-		else
-		  T::include( file:"masl/t.code_block_stub.masl" );
-		end if;
-		T::include( file:"masl/t.service_def_end.masl" );
-	    doEmit = true;
-      end if;
-    end if;
-  elif ( not_empty operation )
-    select one returntype related by operation->typeref[R3741];
-    select one object related by operation->object[R3749];
-    select one domain related by object->domain[R3708];
-	if ( not_empty returntype )			// object function
-	  T::include( file:"masl/t.object_function_def_begin.masl" );
-	  select one parameter related by activity->parameter[R3705];
-	  if ( not_empty parameter )
-	    parameter.render();
-	  end if;
-	  T::include( file:"masl/t.function_def_middle.masl" );
-	  if (not_empty code_block)
-		T::b(s:code_block.sourcefile);
-	  else
-		T::include( file:"masl/t.code_block_stub.masl" );
-	  end if;
-	  T::include( file:"masl/t.function_def_end.masl" );
-	  doEmit = true;
-	else								// object service
-	  T::include( file:"masl/t.object_service_def_begin.masl" );
-	  select one parameter related by activity->parameter[R3705];
-	  if ( not_empty parameter )
-	    parameter.render();
-	  end if;
-	  T::include( file:"masl/t.service_def_middle.masl" );
-	  if (not_empty code_block)
-		T::b(s:code_block.sourcefile);
-	  else
-		T::include( file:"masl/t.code_block_stub.masl" );
-	  end if;
-	  T::include( file:"masl/t.service_def_end.masl" );
-	  doEmit = true;
-	end if;
-  elif ( not_empty state and not state.non_existent )
-    select one returntype related by operation->typeref[R3741];
-    select one object related by state->object[R3750];
-    select one domain related by object->domain[R3708];
-	T::include( file:"masl/t.object_state_def_begin.masl" );
-	select one parameter related by activity->parameter[R3705];
-	if ( not_empty parameter )
-	  parameter.render();
-	end if;
-	T::include( file:"masl/t.state_def_middle.masl" );
-	if (not_empty code_block)
-	  T::b(s:code_block.sourcefile);
-	else
-	  T::include( file:"masl/t.code_block_stub.masl" );
-	end if;
-	T::include( file:"masl/t.state_def_end.masl" );
-	doEmit = true;
-  end if;
-
-end if;
-
-if ( doEmit )
+if ( not_empty activity and not_empty code_block )
+  activity.render_definition();
   self.emit( name:destination );
 end if;',
 	1,
 	'',
-	"5184e566-c21d-4e41-adf8-4be0bb366c90");
+	"5184e566-c21d-4e41-adf8-4be0bb366c90",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("7bb1295c-b375-4c50-9c1e-efd5bb085697",
 	"f03f6367-a1ba-4db1-a427-380dbbbb9806",

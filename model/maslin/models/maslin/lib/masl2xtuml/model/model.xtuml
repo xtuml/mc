@@ -1,0 +1,68 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("10ac2c61-0d49-444a-8199-83e01b90dd2e",
+	"00000000-0000-0000-0000-000000000000",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	'model',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("a7fa335f-c077-4785-87e2-0bfd2bfd8ba1",
+	112,
+	"10ac2c61-0d49-444a-8199-83e01b90dd2e",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'maslin::lib::masl2xtuml::model');
+INSERT INTO DIM_DIA
+	VALUES ("a7fa335f-c077-4785-87e2-0bfd2bfd8ba1",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("10ac2c61-0d49-444a-8199-83e01b90dd2e",
+	"fc52c455-bf5a-49cb-ba91-3b39d6d97611");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("fc52c455-bf5a-49cb-ba91-3b39d6d97611",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	'model',
+	'',
+	0,
+	'../../../../../../mcshared/models/mcshared/model/model.xtuml');
+INSERT INTO PE_PE
+	VALUES ("10ac2c61-0d49-444a-8199-83e01b90dd2e",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"e3cafb9d-02e0-4035-b5f2-b0cdbefc0a46",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("e3cafb9d-02e0-4035-b5f2-b0cdbefc0a46",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'masl2xtuml',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../masl2xtuml.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	'maslin',
+	1,
+	'../../../maslin.xtuml');

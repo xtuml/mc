@@ -21,12 +21,11 @@ INSERT INTO O_TFR
 // * check for a duplicate that needs to be combined
 
 o_attr = param.o_attr;
-o_attrs = param.o_attrs;
 ooapopulation = param.ooapopulation;
 
 if ( not_empty o_attr )
-  // rename the attribute
-  o_attr.Root_Nam = self.o_attr.Root_Nam;
+  // rename the attribute to the final name of the attribute (not the participant ID name)
+  o_attr.Root_Nam = self.Name;
 
   // add to identifiers
   if ( true == self.identifier1 )
@@ -40,17 +39,18 @@ if ( not_empty o_attr )
   end if;
   
   // search for duplicates
+  select many o_attrs related by o_attr->O_OBJ[R102]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
   for each dup_o_attr in o_attrs
 	if ( dup_o_attr != o_attr and dup_o_attr.Root_Nam == o_attr.Root_Nam )
-	  select one o_rattr related by dup_o_attr->O_RATTR[R106];
-	  ooapopulation.ReferentialAttribute_combine_refs( o_rattr:o_rattr, other_attr:o_attr );
+	  ooapopulation.ReferentialAttribute_combine_refs( o_attr:o_attr, other_attr:dup_o_attr );
 	end if;
   end for;
-  
+
 end if;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("3629ab4c-2864-4724-acfb-4f85e4566e8b",
 	"9514835b-6634-4671-b201-0b0b30efcc45",
@@ -68,29 +68,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
 INSERT INTO O_TPARM
-	VALUES ("0f12f28d-3bcf-4fb4-9d14-f6e35cbd5ef1",
-	"9514835b-6634-4671-b201-0b0b30efcc45",
-	'o_attrs',
-	"ceb38606-6f98-4886-aab1-5ae358776d11",
-	0,
-	'',
-	"3629ab4c-2864-4724-acfb-4f85e4566e8b",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("ceb38606-6f98-4886-aab1-5ae358776d11",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Attribute>',
-	'',
-	'',
-	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
-INSERT INTO O_TPARM
 	VALUES ("16b8f3de-ab74-4f2e-9741-e6cac277ef9b",
 	"9514835b-6634-4671-b201-0b0b30efcc45",
 	'ooapopulation',
 	"cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
 	0,
 	'',
-	"0f12f28d-3bcf-4fb4-9d14-f6e35cbd5ef1",
+	"3629ab4c-2864-4724-acfb-4f85e4566e8b",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
@@ -251,21 +235,21 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
 INSERT INTO O_NBATTR
-	VALUES ("a94a892a-4f67-49e6-9dd2-df48629d2e98",
+	VALUES ("cad53b9e-27ed-458a-b656-9fcbc79cdc31",
 	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
 INSERT INTO O_BATTR
-	VALUES ("a94a892a-4f67-49e6-9dd2-df48629d2e98",
+	VALUES ("cad53b9e-27ed-458a-b656-9fcbc79cdc31",
 	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
 INSERT INTO O_ATTR
-	VALUES ("a94a892a-4f67-49e6-9dd2-df48629d2e98",
+	VALUES ("cad53b9e-27ed-458a-b656-9fcbc79cdc31",
 	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
 	"67663a0a-0f62-48d6-b600-5035605973dc",
-	'o_attr',
+	'Name',
 	'',
 	'',
-	'o_attr',
+	'Name',
 	0,
-	"579b8247-e153-481d-8926-384cdc722464",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
 INSERT INTO O_ID

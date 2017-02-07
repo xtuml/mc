@@ -1,6 +1,6 @@
 T_b("    ");
 T_b(")");
-if ( 0==strcmp("function",flavor) ) {
+if ( 0!=strcmp("",returntype) ) {
 T_b(" ");
 T_b("return ");
 T_b(returntype);

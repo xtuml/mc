@@ -15,6 +15,7 @@
  *--------------------------------------------------------------------------*/
 
 #include "maslout_sys_types.h"
+#include "sys_xtumlload.h"
 #include "sys_user_co.h"
 
 #ifdef SYS_USER_CO_PRINTF_ON
@@ -80,7 +81,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "i:d::p::k::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "i:d::p::s::k::" ) ) != -1 ) {
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
@@ -94,6 +95,9 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
           project = 1;
           if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
+        case 's':
+          xtuml2masl_model_op_setoutputcodeblocks( FALSE );
+          break;
         case 'k':
           key_lett = TRUE;
           break;
@@ -105,6 +109,8 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       }
     }
   }
+  /* Load the feature and application marks from files.  */
+  xtuml2masl_model_op_load_marking_data();
   int i = 0;
   if ( project ) {
     while ( i < namecount ) xtuml2masl_masl_project( (const bool)key_lett, name[ i++ ] );

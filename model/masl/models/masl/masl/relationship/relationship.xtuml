@@ -38,7 +38,8 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
 	'',
-	"ba9f72fd-fca7-4102-b768-e6f9748221de");
+	"ba9f72fd-fca7-4102-b768-e6f9748221de",
+	0);
 INSERT INTO O_TFR
 	VALUES ("ba9f72fd-fca7-4102-b768-e6f9748221de",
 	"d47576b6-a215-43fb-bb91-bdb6435f137b",
@@ -53,7 +54,8 @@ relate relationship to domain across R3712;
 return relationship;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("34512c79-e13d-4aad-a93f-b5dbc3058208",
 	"ba9f72fd-fca7-4102-b768-e6f9748221de",
@@ -150,7 +152,8 @@ end for;
 return valid;',
 	1,
 	'',
-	"d12801c5-5fe6-4b0e-b77a-fd4c687cd875");
+	"d12801c5-5fe6-4b0e-b77a-fd4c687cd875",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("f63699fb-e6a7-40de-806c-9aef5c959f68",
 	"d47576b6-a215-43fb-bb91-bdb6435f137b");

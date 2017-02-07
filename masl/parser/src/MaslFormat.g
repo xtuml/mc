@@ -24,6 +24,7 @@ private PrintStream out;
 private int indent;
 private boolean sort;
 private boolean reorder;
+private boolean comments;
 
 private final int parameterWrap = 1;
 
@@ -55,6 +56,7 @@ private static final String _RETURN         = "return";
 private static final String _RPAREN         = ")";
 private static final String _SCOPE          = "::";
 private static final String _SEMI           = ";";
+private static final String _SERVICE        = "service";
 private static final String _SPACE          = " ";
 private static final String _STATE          = "state";
 private static final String _STRUCTURE      = "structure";
@@ -73,6 +75,7 @@ public void init() {
     indent = 0;
     sort = false;
     reorder = false;
+    comments = false;
 }
 
 // public setters
@@ -86,6 +89,10 @@ public void setSort( boolean sort ) {
 
 public void setReorder( boolean reorder ) {
     this.reorder = reorder;
+}
+
+public void setComments( boolean comments ) {
+    this.comments = comments;
 }
 
 public void setTabWidth( int t ) {
@@ -368,38 +375,38 @@ returns [StringBuilder text]
                                            }
                                            t.append( line() );
                                            if ( !objDecl.isEmpty() ) {
-                                               t.append( line( "// OBJECT DECLARATIONS" ) );
+                                               if ( comments ) t.append( line( "// OBJECT DECLARATIONS" ) );
                                                t.append( cat( objDecl, false ) );
                                                t.append( line() );
                                            }
                                            if ( !typeDef.isEmpty() || !typeDecl.isEmpty() ) {
-                                               t.append( line( "// TYPE DEFINITIONS" ) );
+                                               if ( comments ) t.append( line( "// TYPE DEFINITIONS" ) );
                                                t.append( cat( typeDecl, false ) );
                                                t.append( cat( typeDef, false ) );
                                                t.append( line() );
                                            }
                                            if ( !expDecl.isEmpty() ) {
-                                               t.append( line( "// EXCEPTION DEFINITIONS" ) );
+                                               if ( comments ) t.append( line( "// EXCEPTION DEFINITIONS" ) );
                                                t.append( cat( expDecl, false ) );
                                                t.append( line() );
                                            }
                                            if ( !servDecl.isEmpty() ) {
-                                               t.append( line( "// DOMAIN SERVICE DECLARATIONS" ) );
+                                               if ( comments ) t.append( line( "// DOMAIN SERVICE DECLARATIONS" ) );
                                                t.append( cat( servDecl, false ) );
                                                t.append( line() );
                                            }
                                            if ( !termDef.isEmpty() ) {
-                                               t.append( line( "// TERMINATOR DEFINITIONS" ) );
+                                               if ( comments ) t.append( line( "// TERMINATOR DEFINITIONS" ) );
                                                t.append( cat( termDef, true ) );
                                                t.append( line() );
                                            }
                                            if ( !relDef.isEmpty() ) {
-                                               t.append( line( "// RELATIONSHIP DEFINITIONS" ) );
+                                               if ( comments ) t.append( line( "// RELATIONSHIP DEFINITIONS" ) );
                                                t.append( cat( relDef, true ) );
                                                t.append( line() );
                                            }
                                            if ( !objDef.isEmpty() ) {
-                                               t.append( line( "// OBJECT DEFINITIONS" ) );
+                                               if ( comments ) t.append( line( "// OBJECT DEFINITIONS" ) );
                                                t.append( cat( objDef, true ) );
                                                t.append( line() );
                                            }
@@ -985,7 +992,7 @@ returns [StringBuilder text]
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
                                        t.append( _SPACE );
-                                       t.append( $TERMINATOR_SERVICE_DECLARATION.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
                                        t.append( _SPACE );
@@ -1029,7 +1036,7 @@ returns [StringBuilder text]
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
                                        t.append( _SPACE );
-                                       t.append( $TERMINATOR_SERVICE_DECLARATION.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
                                        t.append( _SPACE );
@@ -1214,32 +1221,32 @@ returns [StringBuilder text]
                                            }
                                            t.append( line() );
                                            if ( !attDef.isEmpty() ) {
-                                               t.append( line( "// ATTRIBUTE DEFINITIONS" ) );
+                                               if ( comments ) t.append( line( "// ATTRIBUTE DEFINITIONS" ) );
                                                t.append( cat( attDef, false ) );
                                                t.append( line() );
                                            }
                                            if ( !idDef.isEmpty() ) {
-                                               t.append( line( "// IDENTIFIER DEFINITIONS" ) );
+                                               if ( comments ) t.append( line( "// IDENTIFIER DEFINITIONS" ) );
                                                t.append( cat( idDef, false ) );
                                                t.append( line() );
                                            }
                                            if ( !servDecl.isEmpty() ) {
-                                               t.append( line( "// OBJECT SERVICE DECLARATIONS" ) );
+                                               if ( comments ) t.append( line( "// OBJECT SERVICE DECLARATIONS" ) );
                                                t.append( cat( servDecl, false ) );
                                                t.append( line() );
                                            }
                                            if ( !stDecl.isEmpty() ) {
-                                               t.append( line( "// STATE DECLARATIONS" ) );
+                                               if ( comments ) t.append( line( "// STATE DECLARATIONS" ) );
                                                t.append( cat( stDecl, false ) );
                                                t.append( line() );
                                            }
                                            if ( !evtDef.isEmpty() ) {
-                                               t.append( line( "// EVENT DEFINITIONS" ) );
+                                               if ( comments ) t.append( line( "// EVENT DEFINITIONS" ) );
                                                t.append( cat( evtDef, false ) );
                                                t.append( line() );
                                            }
                                            if ( !transTab.isEmpty() ) {
-                                               t.append( line( "// TRANSITION TABLES" ) );
+                                               if ( comments ) t.append( line( "// TRANSITION TABLES" ) );
                                                t.append( cat( transTab, false ) );
                                                t.append( line() );
                                            }
@@ -1407,7 +1414,7 @@ returns [StringBuilder text]
                                    description
                                    {
                                        t.insert( 0, getText( $description.text ) );
-                                       t.append( $OBJECT_SERVICE_DECLARATION.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
                                        t.append( _SPACE );
@@ -1775,7 +1782,7 @@ returns [StringBuilder text]
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
                                        t.append( _SPACE );
-                                       t.append( $DOMAIN_SERVICE_DECLARATION.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $serviceName.text ) );
                                        t.append( _SPACE );
@@ -2166,8 +2173,11 @@ pragmaList[String delim]
 returns [StringBuilder text]
 @init {
     StringBuilder t = new StringBuilder();
+    List<String> pragmas = new ArrayList<String>();
 }
 @after {
+    if ( sort ) sort( pragmas );
+    t.append( cat( pragmas, false ) );
     if ( !delim.equals( _NEWLINE ) ) {
         t.append( line() );
     }
@@ -2176,10 +2186,10 @@ returns [StringBuilder text]
                               : ( pragma
                                 {
                                     if ( delim.equals( _NEWLINE ) ) {
-                                        t.append( line( getText( $pragma.text ) ) );
+                                        pragmas.add( line( getText( $pragma.text ) ) );
                                     }
                                     else {
-                                        t.append( getText( $pragma.text ) + delim );
+                                        pragmas.add( getText( $pragma.text ) + delim );
                                     }
                                 }
                                 )*                          
@@ -2269,7 +2279,6 @@ returns [StringBuilder text]
     $text = t;
 }
                               : ^( DOMAIN_SERVICE_DEFINITION
-                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    serviceName
@@ -2277,7 +2286,7 @@ returns [StringBuilder text]
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
                                        t.append( _SPACE );
-                                       t.append( $SERVICE_TYPE.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $domainReference.text ) );
                                        t.append( _SCOPE );
@@ -2301,7 +2310,7 @@ returns [StringBuilder text]
                                    }
                                    pragmaList[_NEWLINE]
                                    {
-                                       t.append( _SPACE + $SERVICE_TYPE.text + _SEMI + _NEWLINE );
+                                       t.append( _SPACE + _SERVICE + _SEMI + _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                                                   
@@ -2316,7 +2325,6 @@ returns [StringBuilder text]
     $text = t;
 }
                               : ^( TERMINATOR_SERVICE_DEFINITION
-                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    terminatorName
@@ -2325,7 +2333,7 @@ returns [StringBuilder text]
                                        t.append( getTab() );
                                        t.append( getText( $serviceVisibility.text ) );
                                        t.append( _SPACE );
-                                       t.append( $SERVICE_TYPE.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $domainReference.text ) );
                                        t.append( _SCOPE );
@@ -2351,7 +2359,7 @@ returns [StringBuilder text]
                                    }
                                    pragmaList[_NEWLINE]
                                    {
-                                       t.append( _SPACE + $SERVICE_TYPE.text + _SEMI + _NEWLINE );
+                                       t.append( _SPACE + _SERVICE + _SEMI + _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                                                   
@@ -2366,7 +2374,6 @@ returns [StringBuilder text]
     $text = t;
 }
                               : ^( OBJECT_SERVICE_DEFINITION
-                                   SERVICE_TYPE
                                    serviceVisibility
                                    {
                                        t.append( getTab() );
@@ -2382,7 +2389,7 @@ returns [StringBuilder text]
                                    fullObjectReference
                                    serviceName
                                    {
-                                       t.append( $SERVICE_TYPE.text );
+                                       t.append( _SERVICE );
                                        t.append( _SPACE );
                                        t.append( getText( $fullObjectReference.text ) );
                                        t.append( _DOT );
@@ -2406,7 +2413,7 @@ returns [StringBuilder text]
                                    }
                                    pragmaList[_NEWLINE]
                                    {
-                                       t.append( _SPACE + $SERVICE_TYPE.text + _SEMI + _NEWLINE );
+                                       t.append( _SPACE + _SERVICE + _SEMI + _NEWLINE );
                                        t.append( getText( $pragmaList.text ) );
                                    }
                                  )                          

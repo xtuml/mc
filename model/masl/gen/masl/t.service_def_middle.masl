@@ -1,1 +1,5 @@
-) is 
+) \
+.if ( "" != returntype )
+return ${returntype} \
+.end if
+is

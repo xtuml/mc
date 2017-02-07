@@ -42,7 +42,8 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
 	'',
-	"4c9d4539-8201-424e-84cc-ac2ce8b70c71");
+	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
+	0);
 INSERT INTO O_TFR
 	VALUES ("4c9d4539-8201-424e-84cc-ac2ce8b70c71",
 	"514b84aa-197a-464c-a09e-e7f135680958",
@@ -70,6 +71,7 @@ elif ( not_empty parent_identifier )
   if ( empty attribute )
 	create object instance attribute of attribute;
 	attribute.name = param.name;
+	select one parent_object related by attribute->object[R3709];
 	relate parent_object to attribute across R3709.''is characterized by'';
 	markable = markable::populate( name:"attribute" );
   	relate attribute to markable across R3783;
@@ -81,7 +83,8 @@ end if;
 return attribute;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("f87125ba-42aa-4a4d-912d-a8e86fe9600d",
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
@@ -218,7 +221,8 @@ end for;
 return valid;',
 	1,
 	'',
-	"fd542ea4-7e21-4c67-ad18-2c26e8875a97");
+	"fd542ea4-7e21-4c67-ad18-2c26e8875a97",
+	0);
 INSERT INTO O_TFR
 	VALUES ("65a587c5-8adb-485c-b877-28413cb9bbff",
 	"514b84aa-197a-464c-a09e-e7f135680958",
@@ -229,7 +233,8 @@ INSERT INTO O_TFR
 	'T::include( file:"masl/t.attribute_name.masl" );',
 	1,
 	'',
-	"fb972f5f-d2bd-4c5f-afe9-7eadca2ff059");
+	"fb972f5f-d2bd-4c5f-afe9-7eadca2ff059",
+	0);
 INSERT INTO O_TFR
 	VALUES ("fd542ea4-7e21-4c67-ad18-2c26e8875a97",
 	"514b84aa-197a-464c-a09e-e7f135680958",
@@ -266,7 +271,8 @@ out::tostring( element:"attribute", value:emptyvalue );
 ',
 	1,
 	'',
-	"65a587c5-8adb-485c-b877-28413cb9bbff");
+	"65a587c5-8adb-485c-b877-28413cb9bbff",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("6ed52915-ba48-441a-83a8-e2427e0b0ca2",
 	"514b84aa-197a-464c-a09e-e7f135680958");

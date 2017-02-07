@@ -1,2 +1,8 @@
-T_b(") is ");
+T_b(") ");
+if ( 0!=strcmp("",returntype) ) {
+T_b("return ");
+T_b(returntype);
+T_b(" ");
+}
+T_b("is");
 T_b("\n");

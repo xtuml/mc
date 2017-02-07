@@ -91,18 +91,20 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     masl_in_populate( element, value );
   }
 
-  int validate = 0; int Validateonly = 0;
+  int validate = 0; int Validateonly = 0; bool structuralOnly = FALSE;
   char * indirname = 0; char * outdirname = 0; char * projectdomain = 0;
   int namecount = 0; char name[8][ESCHER_SYS_MAX_STRING_LEN] = {0,0,0,0,0,0,0,0};
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "vVi:o:d::p::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "vVsi:o:d::p::" ) ) != -1 ) {
       switch ( c ) {
         case 'v':
           validate = 1; break;
         case 'V':
           Validateonly = 1; break;
+        case 's':
+          structuralOnly = TRUE; break;
         case 'i':
           indirname = optarg; break;
         case 'o':
@@ -141,10 +143,10 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     if ( projectdomain ) {
       int i = 0;
       while ( i < namecount )
-        masl_gen_render( projectdomain, name[ i++ ] );
+        masl_gen_render( projectdomain, name[ i++ ], (const bool)structuralOnly );
     } else {
-      masl_gen_render( "project", "" );
-      masl_gen_render( "domain", "" );
+      masl_gen_render( "project", "", (const bool)structuralOnly );
+      masl_gen_render( "domain", "", (const bool)structuralOnly );
     }
   }
   exit(0);
