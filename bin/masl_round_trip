@@ -83,21 +83,30 @@ for domain in ${DOM_DIRS[*]}; do
     # because CLI Import can't create a project for a single file model itself.  The latter would
     # be much better.
     echo "Preparing workspace $WORKSPACE"
-    rm -rf $WORKSPACE
+    if [[ -d $WORKSPACE ]]; then
+        rm -rf $WORKSPACE
+    fi
     unzip -q $DIR/importworkspace.zip -d /tmp/
 
     # First import doesn't work.  Second does. So we suppress the output from the first. 
     echo "Round trip is now importing"
     CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject importProj >/dev/null 2>&1
     CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject importProj
-    cp $CONVERTDIR/$domname/*.mark $WORKSPACE/importProj/gen/
+    if [[ -f $CONVERTDIR/$domname/features.mark ]]; then
+        cp $CONVERTDIR/$domname/features.mark $WORKSPACE/importProj/gen/
+    fi
+    if [[ -f $CONVERTDIR/$domname/application.mark ]]; then
+        cp $CONVERTDIR/$domname/application.mark $WORKSPACE/importProj/gen/
+    fi
 
     # The component name (from the .mod file) may not be the same as the domain folder we 
     # used during the processing.  So we calculate it from the .mod file name.
     compfile=$(ls $domain/*.mod)
     compname=$(basename -s .mod $compfile)
     echo "Converting $compname from xtUML to MASL"
-    rm -rf $MASLOUTDIR
+    if [[ -d $MASLOUTDIR ]]; then
+       rm -rf $MASLOUTDIR
+    fi
     xtuml2masl -i $WORKSPACE/importProj/ -d $compname -o $MASLOUTDIR
 
     # Now diff
