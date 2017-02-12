@@ -112,8 +112,16 @@ for domain in ${DOM_DIRS[*]}; do
     # Now diff
     echo "Diff'ing input and output MASL."
     masldiff $domain $MASLOUTDIR/$compname > $MASLOUTDIR/$compname/diff_report.txt
+    if [[ -d $OUT_DIR/$compname ]]; then
+       rm -rf $OUT_DIR/$compname
+    fi
     mv $MASLOUTDIR/$compname $OUT_DIR
-    echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
+
+    if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
+      echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
+    else
+      echo -e "\nThe MASL output is idential to the input." 
+    fi
 
     rm -rf left.masldiff
     rm -rf right.masldiff
