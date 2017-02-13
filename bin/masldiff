@@ -51,4 +51,4 @@ else
 fi
 
 # diff the directories
-diff left.masldiff right.masldiff
+diff -Bb left.masldiff right.masldiff
