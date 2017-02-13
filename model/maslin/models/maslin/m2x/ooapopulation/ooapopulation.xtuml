@@ -6781,14 +6781,14 @@ INSERT INTO O_TFR
 
 // Transition.initialize()
 // Create the action home
-create object instance ah of SM_AH;
-create object instance tah of SM_TAH;
-relate ah to tah across R513;
 select one sm related by sm_txn->SM_SM[R505];  
 create object instance act of SM_ACT;
 act.Suc_Pars = ParseStatus::parseInitial;
-relate act to ah across R514;
 relate act to sm across R515;
+create object instance ah of SM_AH;
+relate act to ah across R514;
+create object instance tah of SM_TAH;
+relate ah to tah across R513;
 relate sm_txn to tah across R530;
 ',
 	1,
