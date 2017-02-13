@@ -1347,6 +1347,10 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 o_obj = param.o_obj;
 sm_sm = param.sm_sm;
 value[0] = param.type;
+
+select many sm_states related by sm_sm->SM_STATE[R501];
+if ( not_empty sm_states )
+
 out::populate( element:"transitiontable", value:value );
 
 // only output the Non_Existent row for ISMs
@@ -1376,7 +1380,6 @@ if ( "assigner" != param.type )
 
 end if;
 
-select many sm_states related by sm_sm->SM_STATE[R501];
 for each sm_state in sm_states
   value[0] = sm_state.Name;
   value[1] = ""; // domain
@@ -1422,7 +1425,9 @@ else
   ::mark2pragma( markable:"State Machine", pathkey: ::class_get_path( o_obj:o_obj, child:"Instance State Machine" ) );
 end if;
 
-out::populate( element:"transitiontable", value:emptyvalue );',
+out::populate( element:"transitiontable", value:emptyvalue );
+
+end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
