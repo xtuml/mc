@@ -422,7 +422,7 @@ value[1] = "";
 select many c_eps related by c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003];
 for each c_ep in c_eps
     
-  value[2] = "private"; // Outbound messages are considered private.
+  value[2] = "public"; // Outbound messages are considered public.
   value[3] = c_ep.Name;
   out::populate( element:"routine", value:value );
   
