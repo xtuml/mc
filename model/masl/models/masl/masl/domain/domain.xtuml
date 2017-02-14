@@ -305,6 +305,11 @@ for each activity in routine_activities
   end if;
 end for;
 
+select many terminators related by self->terminator[R3702.''sends through''];
+for each terminator in terminators
+  terminator.render();
+end for;
+
 T::include( file:"masl/t.domain_end.masl" );
 
 select one markable related by self->markable[R3783];
