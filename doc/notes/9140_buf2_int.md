@@ -32,7 +32,7 @@ is a string addition buffer that was limited.
 ----------------
 5.1 `T_bridge`  
 5.1.1 Increase temporary buffer from 64k to 250k.  
-5.1.2 Increase primary buffer from 250k to 512k.  
+5.1.2 Increase primary buffer from 250k to 1M.  
 5.2 `masl`  
 5.2.1 Increase maximum string from 64k to 250k.  
 5.2.2 Change a string arithmetic to two separate posts to the buffer
