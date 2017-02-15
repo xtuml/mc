@@ -15,10 +15,10 @@
 
 extern bool Escher_run_flag;
 #define T_number_of_bufs 4
-#define T_tbuf_size 64000
+#define T_tbuf_size 250000
 static i_t current_tbuf = 0;
 static i_t buffer_index = 0;
-static char buffer[ 256000 ];
+static char buffer[ 512000 ];
 static char tbuf[ T_number_of_bufs ][ T_tbuf_size ];
 
 
@@ -29,8 +29,7 @@ c_t *
 T_s( const i_t p_i )
 {
   current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
-  //return Escher_itoa( tbuf[ current_tbuf ], p_i );
-  return "";
+  return Escher_itoa( tbuf[ current_tbuf ], p_i );
 }
 
 #include <string.h>

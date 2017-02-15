@@ -72,11 +72,12 @@ UserPreOoaInitializationCalloutf( void )
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <ctype.h>
 #include "masl_url.h"
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
-  char s[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ], arg[ ESCHER_SYS_MAX_STRING_LEN ];
+  char s[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ];
   char * p, * q, * element, * value[8] = {v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7]};
   T_clear();
   while ( ( p = fgets( s, ESCHER_SYS_MAX_STRING_LEN, stdin ) ) != NULL ) {
@@ -93,7 +94,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
 
   int validate = 0; int Validateonly = 0; bool structuralOnly = FALSE;
   char * indirname = 0; char * outdirname = 0; char * projectdomain = 0;
-  int namecount = 0; char name[8][ESCHER_SYS_MAX_STRING_LEN] = {0,0,0,0,0,0,0,0};
+  int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
   {
     int c;
     opterr = 0;
@@ -111,11 +112,11 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
           outdirname = optarg; break;
         case 'd':
           projectdomain = "domain";
-          if ( optarg ) strncpy( name[ namecount++ ], optarg, ESCHER_SYS_MAX_STRING_LEN );
+          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case 'p':
           projectdomain = "project";
-          if ( optarg ) strncpy( name[ namecount++ ], optarg, ESCHER_SYS_MAX_STRING_LEN );
+          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case '?':
           if ( 'o' == optopt ) {
