@@ -81,24 +81,24 @@ INSERT INTO O_TFR
 prefix = "//!";
 descrip = self.text;
 
+while ( "" != descrip )
 
-// for every line
-i = STRING::indexof( haystack:descrip, needle:"\n" );
-while ( -1 != i )
-
-  // get a line
-  line = STRING::substr( s:descrip, begin:0, end:i+1 );
-  
-  // prefix the line
-  T::b( s:prefix + line );
- 
-  // update the whole string
-  descrip = STRING::substr( s:descrip, begin:i+1, end:-1 );
-
-  // check if there are more lines 
+  line = "";
   i = STRING::indexof( haystack:descrip, needle:"\n" );
+  if ( -1 == i )
+    // last line with no endline
+    descrip = descrip + "\n";
+    line = STRING::substr( s:descrip, begin:0, end:i );
+    descrip = "";
+  else
+    line = STRING::substr( s:descrip, begin:0, end:i+1 );
+    descrip = STRING::substr( s:descrip, begin:i+1, end:-1 );
+  end if;
+  T::b( s:prefix );
+  T::b( s:line );
 
-end while;',
+end while;
+',
 	1,
 	'',
 	"5a712d0e-139a-43bb-9157-2da9b19563e3",

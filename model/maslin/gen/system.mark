@@ -4,7 +4,7 @@
 .// Increasing max string length to allow adding of large strings. This is used
 .// when accumulating long lists of information in 'Descrip' fields
 .// See https://support.onefact.net/issues/8538
-.invoke TagMaximumStringLength( 65535 )
+.invoke TagMaximumStringLength( 250000 )
 .//============================================================================
 .// File:  system.mark
 .//

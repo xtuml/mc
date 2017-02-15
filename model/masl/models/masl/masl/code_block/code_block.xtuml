@@ -84,7 +84,7 @@ INSERT INTO O_TFR
 
 // validate sourcefile
 if ( "" == self.sourcefile )
-  TRACE::log( flavor:"failure", id:101, message:"code_block has no sourcefile." );
+  TRACE::log( flavor:"failure", id:101, message:"code_block has no source." );
   valid = false;
   return valid;		// short circuit
 end if;

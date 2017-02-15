@@ -88,10 +88,14 @@ for domain in ${DOM_DIRS[*]}; do
     fi
     unzip -q $DIR/importworkspace.zip -d /tmp/
 
-    # First import doesn't work.  Second does. So we suppress the output from the first. 
     echo "Round trip is now importing"
-    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject importProj >/dev/null 2>&1
-    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject importProj
+    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject importProj 
+    if [[ ! -e $WORKSPACE/importProj/models/importProj/types/types.xtuml ]]; then
+      # First import didn't work. Import again. 
+      echo "Failed to import first time through.  Importing again."
+      CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject importProj
+    fi
+
     if [[ -f $CONVERTDIR/$domname/features.mark ]]; then
         cp $CONVERTDIR/$domname/features.mark $WORKSPACE/importProj/gen/
     fi
