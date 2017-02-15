@@ -16,13 +16,19 @@ We are seeing output string data being mixed up.
 ----------------------
 [1] [9129](https://support.onefact.net/redmine/issues/9129) Corruption in output from masl process during round trip testing  
 [2] [9140](https://support.onefact.net/redmine/issues/9140) Corruption in output from masl process during round trip testing  
+[3] [9142](https://support.onefact.net/redmine/issues/9142) terminator services generated as private  
 
 3. Background
 -------------
+`m2x`, `x2m` and `masl` have limitations on string size.  The limitation
+going in to this work is 64k.  In user models, a codeblock on a service
+or operation can be larger than this.  When a too-large code block is
+processed, the buffer overruns and is truncated.  Results are unexpected
+and unpredictable.
 
 4. Requirements
 ---------------
-4.1 Get clean data in round trip.  
+4.1 Get clean data in round trip testing.  
 
 5. Work Required
 ----------------
@@ -53,6 +59,12 @@ There was an arithmetic occuring here.  Simplified it.
 6.5 `maslout::Descrip2pragma`  
 Nobody uses this any more.  Delete it.  
 
+6.6 terminators need to be public  
+[3] is merged in with this work.  This makes terminators public instead
+of private.  This included deprecating routines that translated EEs and
+bridges.
+
+
 7. Unit Test
 ------------
 7.1 `masl_round_trip` regression  
@@ -70,6 +82,17 @@ models in xtuml/models/masl/test/.  Run a round trip on the model.
 Fork: cortlandstarrett/mc  9140_buffers
 
 xtuml/mc
+ bin/masl_round_trip                                                 |  10 +-
+ doc/notes/9140_buffer_int.md                                        |  78 +++++++++++++
+ model/masl/gen/system.mark                                          |   2 +-
+ model/masl/models/masl/masl/activity/activity.xtuml                 |  10 +-
+ model/masl/models/masl/masl/code_block/code_block.xtuml             |   2 +-
+ model/masl/models/masl/masl/domain/domain.xtuml                     |   5 +
+ model/masl/models/masl/maslpopulation/description/description.xtuml |  30 ++---
+ model/maslin/gen/system.mark                                        |   2 +-
+ model/maslout/gen/system.mark                                       |   2 +-
+ model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml   | 339 +-----------------------------------------------------
+ 10 files changed, 118 insertions(+), 362 deletions(-)
 
 </pre>
 
