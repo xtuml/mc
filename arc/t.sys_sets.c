@@ -530,11 +530,11 @@ ${te_set.scope}${te_string.strget}( void )
 {
   c_t * r;
   static u1_t i = 0;
-  static c_t s[ 16 ][ ${te_string.max_string_length} ];
+  static c_t s[ 32 ][ ${te_string.max_string_length} ];
 .if ( te_thread.enabled )
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_ILB );
 .end if
-  i = ( i + 1 ) % 16;
+  i = ( i + 1 ) % 32;
   r = &s[ i ][ 0 ];
   *r = 0;
 .if ( te_thread.enabled )
