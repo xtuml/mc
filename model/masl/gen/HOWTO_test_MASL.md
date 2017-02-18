@@ -6,11 +6,18 @@ with the rest of BridgePoint or even with ooaofooa.
 
 Build the masl project in isolation.  
 
-The C compiler is turned off, so you will need to compile the generated C code.  
-`gcc *.c`
+Make sure the workspace includes escher, mcooa, and mcshared projects from the 
+mc repository.  The workspace must also have imported into it the org.xtuml.bp.ui.marking 
+project from the bridgepoint repository.
+  
+The C compiler is turned off, so you will need to compile the generated C code.
+Run BridgePoint's "Build Project" command.  Then open a terminal and navigate to
+the project's src/ folder. Run:
+
+`make -f makefile.masl`
 
 Run the executable.  
-`a.out`
+`mcmasl`
 
 
 Provide input by typing into the standard input.  

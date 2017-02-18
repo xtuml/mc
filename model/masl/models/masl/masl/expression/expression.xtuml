@@ -87,7 +87,7 @@ INSERT INTO O_TFR
 
 // validate body
 if ( "" == self.body )
-  TRACE::log( flavor:"failure", id:101, message:"typeref has no body." );
+  TRACE::log( flavor:"failure", id:101, message:"expression has no body." );
   valid = false;
   return valid;		// short circuit
 end if;

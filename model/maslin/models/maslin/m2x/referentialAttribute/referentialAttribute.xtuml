@@ -42,6 +42,8 @@ if ( not_empty o_attr )
   select many o_attrs related by o_attr->O_OBJ[R102]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
   for each dup_o_attr in o_attrs
 	if ( dup_o_attr != o_attr and dup_o_attr.Root_Nam == o_attr.Root_Nam )
+	  // Copy over the description field from the attribute being combined.
+	  o_attr.Descrip = o_attr.Descrip + dup_o_attr.Descrip;
 	  ooapopulation.ReferentialAttribute_combine_refs( o_attr:o_attr, other_attr:dup_o_attr );
 	end if;
   end for;

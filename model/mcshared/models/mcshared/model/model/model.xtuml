@@ -84,6 +84,32 @@ end if;',
 	'',
 	"f0c43f71-62ef-4cea-a61d-d718a6b55aa1",
 	0);
+INSERT INTO O_TFR
+	VALUES ("deb00883-b349-4133-85ea-908e03e8e71e",
+	"6fb71a1c-7b93-4799-a420-643b89e35198",
+	'setoutputcodeblocks',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'select any model from instances of model;
+if ( empty model )
+  create object instance model of model;
+end if;
+
+model.outputcodeblocks = param.outputcodeblocks;',
+	1,
+	'',
+	"82d44f16-ea0a-454d-95b3-38cd5e0b76c5",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("f017ecbf-5629-4a39-8ae7-131276482ff2",
+	"deb00883-b349-4133-85ea-908e03e8e71e",
+	'outputcodeblocks',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("5c53f0b6-9c87-4ede-afc3-2619a8113587",
 	"6fb71a1c-7b93-4799-a420-643b89e35198");
@@ -102,6 +128,24 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("da43f5a5-a594-45a7-a179-0b178fbc68c9",
+	"6fb71a1c-7b93-4799-a420-643b89e35198");
+INSERT INTO O_BATTR
+	VALUES ("da43f5a5-a594-45a7-a179-0b178fbc68c9",
+	"6fb71a1c-7b93-4799-a420-643b89e35198");
+INSERT INTO O_ATTR
+	VALUES ("da43f5a5-a594-45a7-a179-0b178fbc68c9",
+	"6fb71a1c-7b93-4799-a420-643b89e35198",
+	"5c53f0b6-9c87-4ede-afc3-2619a8113587",
+	'outputcodeblocks',
+	'',
+	'',
+	'outputcodeblocks',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'true');
 INSERT INTO O_ID
 	VALUES (0,
 	"6fb71a1c-7b93-4799-a420-643b89e35198");
