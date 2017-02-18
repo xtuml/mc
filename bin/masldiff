@@ -44,6 +44,7 @@ if [[ -f $1 && -f $2 ]]; then
 elif [[ -d $1 && -d $2 ]]; then
   rm -rf left.masldiff right.masldiff
   java -cp $CLASSPATH MaslFormatter -r -s -i $1 -o left.masldiff
+  # NOTE:  sed -i is not very portable.  It uses temporary files somewhere.  However, it sure is convenient.
   find left.masldiff -type f -exec sed -i "s/^ *//" {} \;
   find left.masldiff -type f -exec sed -i "s/ *$//" {} \;
   java -cp $CLASSPATH MaslFormatter -r -s -i $2 -o right.masldiff
