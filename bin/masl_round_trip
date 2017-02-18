@@ -126,9 +126,6 @@ for domain in ${DOM_DIRS[*]}; do
     else
       echo -e "\nThe MASL output is idential to the input." 
     fi
-
-    rm -rf left.masldiff
-    rm -rf right.masldiff
 done
 
 echo -e "\n"
