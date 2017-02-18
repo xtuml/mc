@@ -2767,6 +2767,9 @@ returns [StringBuilder text]
                               | sliceExpression             
                               | primeExpression             
                               | nameExpression              
+                              {
+                                  $text = new StringBuilder( $nameExpression.text );
+                              }
                               | literalExpression           
                               {
                                   $text = new StringBuilder( $literalExpression.text );
@@ -2950,9 +2953,13 @@ callExpression
                               ;
 
 nameExpression
+returns [StringBuilder text]
                               : ^( NAME
                                    identifier
                                  )                                
+                              {
+                                  $text = new StringBuilder( $identifier.text );
+                              }
                               | ^( NAME
                                    domainReference
                                    identifier
