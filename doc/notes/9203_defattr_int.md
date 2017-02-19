@@ -7,11 +7,10 @@ This work is licensed under the Creative Commons CC0 License
 # Default attribute values with enum type are not present in exported MASL
 ### xtUML Project Implementation Note
 
-
 1. Abstract
 -----------
-Default value expressions come through when the expression value is a
-literal.  However symbolic values are left empty.
+Default value expressions come through when the expression value is
+a literal.  However symbolic values are left empty.
 
 2. Document References
 ----------------------
@@ -23,14 +22,13 @@ literal.  However symbolic values are left empty.
 -------------
 The output from the xtUML to MASL conversion process is piped through
 a formatter.  The formatter is a "pass-thru" validator and outputs
-consistently spaced MASL.  The rule for expressions as default value
-assignments for attributes was missing.  Actually, the rule was present,
+consistently spaced MASL.  The rule for expression as default value
+assignment for attribute was missing.  Actually, the rule was present,
 but it was not returning a value.  This work fixes that.
 
 4. Requirements
 ---------------
 4.1 Output symbolic enumerators as attribute default value assignments.
-references of user data types.
 
 5. Work Required
 ----------------
@@ -60,6 +58,11 @@ through expression.
 Fork: cortlandstarrett/mc  9203_defattr
 
 xtuml/mc
+ bin/MASLParser.jar            | Bin 279371 -> 279423 bytes
+ bin/masl                      | Bin 243848 -> 243848 bytes
+ doc/notes/9203_defattr_int.md |  68 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ masl/parser/src/MaslFormat.g  |   7 +++++++
+ 4 files changed, 75 insertions(+)
 
 </pre>
 
