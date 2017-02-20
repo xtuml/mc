@@ -6904,8 +6904,19 @@ while ( passes < num_forms )
 		select many ras related by form->referentialAttribute[R3811];
 		for each ra in ras
 		  // select the corresponding new referential attribute
-		  select any o_attr related by assr_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
-		  ra.postProcess( o_attr:o_attr, ooapopulation:self );
+		  // At this point, there may be several referentials that would match by name.
+		  // This is because the names are still the name found on the identifying attribute.
+		  // Be sure that the o_attr is connected to a participant with the correct role phrase.
+		  select many o_attrs related by assr_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
+		  for each o_attr in o_attrs
+		    select many r_rtos related by o_attr->O_RATTR[R106]->O_REF[R108]->O_RTIDA[R111]->R_RTO[R110];
+		    select any r_aone related by r_rtos->R_AONE[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
+		    select any r_aoth related by r_rtos->R_AOTH[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
+		    if ( not_empty r_aone or not_empty r_aoth )
+		      ra.postProcess( o_attr:o_attr, ooapopulation:self );
+		      break;
+		    end if;
+		  end for;
 		end for;
 		
 		// post processing for the formalizing object
