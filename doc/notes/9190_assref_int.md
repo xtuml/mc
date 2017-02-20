@@ -59,8 +59,7 @@ the matching role phrase.
 
 7.2 `masl_round_trip` regression  
 7.2.1 Run `regression_test`.  
-7.2.2 See empty diff files.  
-
+7.2.2 See empty diff files.
 
 8. Code Changes
 ---------------
@@ -69,6 +68,10 @@ the matching role phrase.
 Fork: cortlandstarrett/mc  9190_assref
 
 xtuml/mc
+ bin/m2x                                                          | Bin 683472 -> 683472 bytes
+ doc/notes/9190_assref_int.md                                     |  77 ++++++++++++++++++++++
+ model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml |  15 +++++++++--
+ 3 files changed, 90 insertions(+), 2 deletions(-)
 
 </pre>
 
