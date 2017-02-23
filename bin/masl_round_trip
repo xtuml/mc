@@ -86,7 +86,7 @@ for domain in ${DOM_DIRS[*]}; do
     if [[ -d $WORKSPACE ]]; then
         rm -rf $WORKSPACE
     fi
-    unzip -q $DIR/importworkspace.zip -d /tmp/
+    unzip -q -o $DIR/importworkspace.zip -d /tmp/
 
     echo "Round trip is now importing"
     CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject importProj 
@@ -121,10 +121,12 @@ for domain in ${DOM_DIRS[*]}; do
     fi
     mv $MASLOUTDIR/$compname $OUT_DIR
 
-    if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
-      echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
-    else
-      echo -e "\nThe MASL output is idential to the input." 
+    if [[ -f $OUT_DIR/$compname/diff_report.txt ]]; then
+      if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
+        echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
+      else
+        echo -e "\nThe MASL output is identical to the input." 
+      fi
     fi
 done
 
