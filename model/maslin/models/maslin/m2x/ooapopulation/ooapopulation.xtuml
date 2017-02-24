@@ -3371,7 +3371,71 @@ for each battr in battrs
     if ( rattr.Root_Nam == battr.Root_Nam )
       // Copy over the description field from the attribute being combined.
       rattr.Descrip = rattr.Descrip + battr.Descrip;
-      self.Attribute_dispose( o_attr:battr ); // delete any base attribute that has the same name as a referential attribute
+
+      // copy the ordering information to the new referential attribute
+
+      // remove rattr from ordering (logic borrowed from Attribute_dispose)
+	  select one rattr_next related by rattr->O_ATTR[R103.''precedes''];
+	  if(not_empty rattr_next)
+		select one rattr_prev related by rattr->O_ATTR[R103.''succeeds''];
+		if ( empty rattr_prev )
+		  // this attribute is at the top of the list
+		  unrelate rattr from rattr_next across R103.''precedes'';
+		else
+		  // otherwise this attribute is somewhere in the middle
+		  // or at the end
+		  select many attrs related by o_obj->O_ATTR[R102];
+		  for each attr in attrs
+			select one thisAttr related by attr->O_ATTR[R103.''precedes''];
+			if (rattr == thisAttr)
+			  // now tell the next attribute that this is not
+			  // the attribute that it succeeds anymore
+			  unrelate rattr from rattr_next across R103.''precedes'';
+			  // and tell this attribute that it no longer succeeds
+			  // any attribute. 
+			  // *NOTE* this is not really required for deletion but
+			  // more for restoration
+			  unrelate rattr from attr across R103.''succeeds'';
+			  // finally connect the two attributes that this
+			  // attribute was between
+			  relate rattr_next to attr across R103.''succeeds'';
+			  break;
+			end if;
+		  end for;
+		end if;
+	  else
+		// we are at the end of the list
+		select one rattr_prev related by rattr->O_ATTR[R103.''succeeds''];
+		if ( not_empty rattr_prev )
+		  unrelate rattr from rattr_prev across R103.''succeeds'';
+		end if;
+	  end if;
+	  unrelate rattr from o_obj across R102; // have to remove from object to prevent problems deleting the attribute with unordered attributes present
+
+      // select the base attributes previous and next
+      select one battr_prev related by battr->O_ATTR[R103.''succeeds''];
+      select one battr_next related by battr->O_ATTR[R103.''precedes''];
+
+      // delete any base attribute that has the same name as a referential attribute
+      self.Attribute_dispose( o_attr:battr );
+
+      // reintroduce the referential attribute into the order
+      relate rattr to o_obj across R102;
+      select one battr_prev_next related by battr_prev->O_ATTR[R103.''precedes''];
+      if ( not_empty battr_prev_next )
+        unrelate battr_prev from battr_prev_next across R103.''precedes'';
+      end if;
+      select one battr_next_prev related by battr_next->O_ATTR[R103.''succeeds''];
+      if ( not_empty battr_next_prev )
+        unrelate battr_next from battr_next_prev across R103.''succeeds'';
+      end if;
+      if ( not_empty battr_prev )
+        relate rattr to battr_prev across R103.''succeeds'';
+      end if;
+      if ( not_empty battr_next )
+        relate rattr to battr_next across R103.''precedes'';
+      end if;
+
       break;
     end if;
   end for;
