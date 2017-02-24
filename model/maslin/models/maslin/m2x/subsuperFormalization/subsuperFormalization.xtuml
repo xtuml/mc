@@ -32,9 +32,15 @@ select many o_attrs related by o_id1->O_ATTR[R105];
 select many identifier_ras from instances of referentialAttribute where
   ( ( selected.o_obj == sup_obj ) and
   ( selected.identifier1 or selected.identifier2 or selected.identifier3 ) );  
+
+// If a formalization exists for these identifier_ras, then they are NOT ready.
+select any formalization related by identifier_ras->formalization[R3811];
+if ( not_empty formalization )
+  return -1;
+end if;
+
 complete = true;
 for each sub_obj in sub_objs
-  select many ras related by self->formalization[R3810]->referentialAttribute[R3811] where ( selected.o_obj == sub_obj );
   // Detect when formalization is NOT ready.
   // If a referential attribute that is an identifier attribute has not
   // been processed (by migrating from O_ATTR to O_RATTR as part of this
@@ -49,6 +55,7 @@ for each sub_obj in sub_objs
       end if;
     end for;
   end for;
+  select many ras related by self->formalization[R3810]->referentialAttribute[R3811] where ( selected.o_obj == sub_obj );
   complete = formalization::compareAttrSets( o_attrs:o_attrs, ras:ras ); 
   if ( false == complete )
     break;

@@ -42,6 +42,19 @@ select many identifier_ras from instances of referentialAttribute where
   ( ( selected.o_obj == o_obj ) and
     ( selected.identifier1 or selected.identifier2 or selected.identifier3 ) );
 
+// If a formalization exists for these identifier_ras, then they are NOT ready,
+// unless this formalization is reflexive.
+select any formalization related by identifier_ras->formalization[R3811];
+if ( not_empty formalization )
+  // If we are reflexive, do not short-circuit.
+  r_assoc = self.rel;
+  select one r_aone related by r_assoc->R_AONE[R209];
+  select one r_aoth related by r_assoc->R_AOTH[R210];
+  if ( r_aone.Obj_ID != r_aoth.Obj_ID )
+    return -1;
+  end if;
+end if;
+
 // select all attributes for ID1
 select any o_id1 related by o_obj->O_ID[R104] where ( selected.Oid_ID == 0 );
 select many o_attrs related by o_id1->O_ATTR[R105];
