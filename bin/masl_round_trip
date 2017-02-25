@@ -50,9 +50,9 @@ fi
 if [[ $OUT_DIR == "" ]]; then OUT_DIR=.; fi
 
 # echo Args:
-echo PROJ_DIR=$PROJ_DIR
-echo DOM_DIRS=${DOM_DIRS[*]}
-echo OUT_DIR=$OUT_DIR
+#echo PROJ_DIR=$PROJ_DIR
+#echo DOM_DIRS=${DOM_DIRS[*]}
+#echo OUT_DIR=$OUT_DIR
 
 # make the output directory if there is one
 if [[ $OUT_DIR != "" ]]; then
@@ -92,7 +92,7 @@ echo "Preparing workspace $WORKSPACE"
 if [[ -d $WORKSPACE ]]; then
     rm -rf $WORKSPACE
 fi
-unzip -q $DIR/importworkspace.zip -d /tmp/
+unzip -q -o $DIR/importworkspace.zip -d /tmp/
 
 domNum=0
 for domain in ${DOM_DIRS[*]}; do
@@ -104,11 +104,11 @@ for domain in ${DOM_DIRS[*]}; do
     domProj=d$domNum
 
     echo "Round trip is now importing"
-    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj 
+    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj >/tmp/import_log_$domProj.txt 2>&1
     if [[ ! -e $WORKSPACE/$domProj/models/$domProj/types/types.xtuml ]]; then
       # First import didn't work. Import again. 
       echo "Failed to import first time through.  Importing again."
-      CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj
+      CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj >>/tmp/import_log_$domProj.txt 2>&1
     fi
 
     if [[ -f $CONVERTDIR/$domname/features.mark ]]; then
@@ -137,11 +137,15 @@ for domain in ${DOM_DIRS[*]}; do
          rm -rf $OUT_DIR/$compname
       fi
       mv $MASLOUTDIR/$compname $OUT_DIR
+      mv left.masldiff $OUT_DIR/$compname
+      mv right.masldiff $OUT_DIR/$compname
 
-      if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
-        echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
-      else
-        echo -e "\nThe MASL output is idential to the input." 
+      if [[ -f $OUT_DIR/$compname/diff_report.txt ]]; then
+        if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
+          echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
+        else
+          echo -e "\nThe MASL output is idential to the input." 
+        fi
       fi
     fi
 done
@@ -152,11 +156,11 @@ if [[ $PROJ_DIR != "" ]]; then
     projname=$(basename $PROJ_DIR)
 
     echo "Round trip is now importing"
-    CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 
+    CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 >/tmp/import_log_p1.txt 2>&1
     if [[ ! -e $WORKSPACE/p1/models/p1/types/types.xtuml ]]; then
       # First import didn't work. Import again. 
       echo "Failed to import first time through.  Importing again."
-      CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1
+      CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 >>/tmp/import_log_p1.txt 2>&1
     fi
 
     if [[ -f $CONVERTDIR/$projname/features.mark ]]; then
@@ -183,11 +187,15 @@ if [[ $PROJ_DIR != "" ]]; then
        rm -rf $OUT_DIR/$compname
     fi
     mv $MASLOUTDIR/$compname $OUT_DIR
+    mv left.masldiff $OUT_DIR/$compname
+    mv right.masldiff $OUT_DIR/$compname
 
-    if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
-      echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
-    else
-      echo -e "\nThe MASL output is idential to the input." 
+    if [[ -f $OUT_DIR/$compname/diff_report.txt ]]; then
+      if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
+        echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
+      else
+        echo -e "\nThe MASL output is idential to the input." 
+      fi
     fi
 fi
 
