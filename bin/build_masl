@@ -9,6 +9,12 @@
 BPTOOLS=
 OUT_DIR=
 
+# check BPTOOLS var
+if [[ $BPTOOLS == "" ]]; then
+    echo "You must edit the BPTOOLS variable in this script to point to the bin folder in your BP installation"
+    exit 1
+fi
+
 # USAGE
 print_usage () { 
     echo "Usage:"
