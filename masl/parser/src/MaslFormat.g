@@ -2751,6 +2751,12 @@ variableName
 
 expression
 returns [StringBuilder text]
+@init {
+    StringBuilder t = new StringBuilder();
+}
+@after {
+    $text = t;
+}
                               : binaryExpression            
                               | unaryExpression             
                               | rangeExpression             
@@ -2767,9 +2773,12 @@ returns [StringBuilder text]
                               | sliceExpression             
                               | primeExpression             
                               | nameExpression              
+                              {
+                                  t.append( getText( $nameExpression.text ) );
+                              }
                               | literalExpression           
                               {
-                                  $text = new StringBuilder( $literalExpression.text );
+                                  t.append( getText( $literalExpression.text ) );
                               }
                               ;
 
@@ -2950,9 +2959,19 @@ callExpression
                               ;
 
 nameExpression
+returns [StringBuilder text]
+@init {
+    StringBuilder t = new StringBuilder();
+}
+@after {
+    $text = t;
+}
                               : ^( NAME
                                    identifier
                                  )                                
+                              {
+                                  t.append( getText( $identifier.text ) );
+                              }
                               | ^( NAME
                                    domainReference
                                    identifier
