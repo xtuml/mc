@@ -15,6 +15,7 @@ Polymorphic events are mishandled in a few ways.
 2. Document References
 ----------------------
 [1] [9187](https://support.onefact.net/redmine/issues/9187) MASL polymorphic events and transition tables  
+[2] [9242](https://support.onefact.net/redmine/issues/9242) scope poly event with dot  
 
 3. Background
 -------------
@@ -43,6 +44,27 @@ polymorphic event names using dot notation.
 
 5. Work Required
 ----------------
+
+Stop creating the default SEMEs until the state machine is fully in place.
+This way we can avoid needing to dispose of them upon poly migration.
+Default all new events to be poly events?
+Migrate them to SEVT when found in a transition.
+
+Detect when an event is not found.
+
+O.K.  So, I think the main issue is to know how to create the poly
+and migrate the sevt to poly and deal with the SEMEs.
+I would be nice to not have a bunch of SEMEs to discard when migrating
+SEVT to PEVT.  Maybe it is not a big deal.
+I think I will stick close to what is there... meaning the SEMEs need
+to be cleaned up.  But it only happens when a poly is discovered.
+
+Initialize as today.
+When a poly transition is discovered (for the first time), migrate the parent SEVT to PEVT cleaning up.
+Create the local SEVT, NLEVT and link to PEVT.
+Initialize the SEMEs.
+Let the transition fall into the following code.
+
 
 6. Implementation Comments
 --------------------------

@@ -6065,7 +6065,6 @@ sm_evt.Numb = 1;
 // give this event a unique number
 self.StateMachineEvent_setUniqueNumber(sm_evt:sm_evt, checkForDuplicate:false);
 
-select one sm related by sm_evt->SM_SM[R502];                                   
 create object instance semEvt of SM_SEVT;
 relate sm_evt to semEvt across R525;
 create object instance locEvt of SM_LEVT;
@@ -6380,9 +6379,12 @@ INSERT INTO O_TFR
 	1,
 	'sm_sm = param.sm_sm;
 
-create object instance newEvent of SM_EVT;
-relate sm_sm to newEvent across R502;
-self.StateMachineEvent_initialize(sm_evt:newEvent, name:param.name);
+select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.name );
+if ( empty sm_evt )
+  create object instance newEvent of SM_EVT;
+  relate sm_sm to newEvent across R502;
+  self.StateMachineEvent_initialize(sm_evt:newEvent, name:param.name);
+end if;
 ',
 	1,
 	'',
@@ -6463,6 +6465,65 @@ INSERT INTO O_TFR
 
 select any fromState related by sm_sm->SM_STATE[R501] where (selected.Name == param.startState);
 select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
+if ( empty sm_evt )
+  TRACE::log( flavor:"failure", id:156, message:"Event for transition not found for event:  " + param.eventName );
+  // Event not found, so it must be a poly that has not been created yet.
+  // Find the event in the supertype hierarchy.
+  // Migrate it from SM_SEVT to SM_PEVT.
+  // Clean up the parent SEMEs.
+  // Create the SEVT and non-local event in this state machine and relate it upwards.
+  // This processing depends on the supertype being in place before the subtype.
+  select any o_obj from instances of O_OBJ where ( selected.Name == param.object );
+  select one parent_sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
+  select any parent_sm_evt related by parent_sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
+  if ( empty parent_sm_evt )
+    TRACE::log( flavor:"failure", id:157, message:"Event for transition still not found for event:  " + param.eventName );
+  else
+    // Migrate to poly.  CDS - make a subroutine for this
+    select one sm_sevt related by parent_sm_evt->SM_SEVT[R525];
+    // Dispose of the event matrix entries.
+    select many sm_semes related by sm_sevt->SM_SEME[R503];
+    for each sm_seme in sm_semes
+      select one sm_state related by sm_seme->SM_STATE[R503];
+      unrelate sm_state from sm_sevt across R503 using sm_seme;
+      select one sm_ch related by sm_seme->SM_CH[R504];
+      if ( not_empty sm_ch )
+        unrelate sm_ch from sm_seme across R504;
+        delete object instance sm_ch;
+        delete object instance sm_seme;
+      else
+        TRACE::log( flavor:"failure", id:158, message:"Did not find SM_SEME when we thought we should migrating event:  " + param.eventName );
+      end if;
+    end for;
+    select one sm_levt related by sm_sevt->SM_LEVT[R526];
+    if ( not_empty sm_levt )
+      unrelate sm_levt from sm_sevt across R526;
+      delete object instance sm_levt;
+    else
+      TRACE::log( flavor:"failure", id:159, message:"Did not find SM_LEVT when we thought we should migrating event:  " + param.eventName );
+    end if;
+    unrelate parent_sm_evt from sm_sevt across R525;    
+    delete object instance sm_sevt;
+    create object instance sm_pevt of SM_PEVT;
+    relate parent_sm_evt to sm_pevt across R525;
+    
+    // Create a local representation of the parent poly in the this state machine.
+    create object instance sm_evt of SM_EVT;
+    relate sm_evt to sm_sm across R502;
+    sm_evt.Mning = param.eventName;
+    sm_evt.Numb = 1;
+    // give this event a unique number
+    self.StateMachineEvent_setUniqueNumber(sm_evt:sm_evt, checkForDuplicate:false);
+    create object instance sm_sevt of SM_SEVT;
+    relate sm_evt to sm_sevt across R525;
+    create object instance sm_nlevt of SM_NLEVT;
+    relate sm_sevt to sm_nlevt across R526;
+    relate sm_nlevt to sm_pevt across R527;
+    //
+    self.SEMEvent_createDefaultMatrixEntries(sm_sevt:sm_sevt);
+
+  end if; 
+end if;
 
 //IGNORE: ''Ignore'';
 if ( "Ignore" == param.endState )
@@ -6528,6 +6589,24 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("af57cf53-47c2-4f52-9461-e2d9f8450988",
+	"9441f59a-81c9-4794-b2f6-7bc381db1928",
+	'domain',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7209d71b-3f46-411d-ae84-8bdcddfad63f",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a078a089-66c5-444b-b56f-d28157f61d17",
+	"9441f59a-81c9-4794-b2f6-7bc381db1928",
+	'object',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"af57cf53-47c2-4f52-9461-e2d9f8450988",
 	'');
 INSERT INTO O_TFR
 	VALUES ("d3b32af4-b567-4dd3-9fa1-3b553b2b76ad",
@@ -7505,7 +7584,7 @@ elif ( "transitiontable" == element )
     ooapopulation.processingISM = true;
   end if;
 elif ( "transition" == element )
-  ooapopulation.transformTransition(eventName:param.value[3], startState:param.value[0], endState:param.value[4]);
+  ooapopulation.transformTransition(eventName:param.value[3], startState:param.value[0], endState:param.value[4], domain:param.value[1], object:param.value[2]);
 elif ( "codeblock" == element )
   s_sync = ooapopulation.current_domain_function;
   if ( not_empty s_sync )
@@ -8900,7 +8979,7 @@ end if;
 if ( ("Non_Existent" == param.startState) or ("Non_Existant" == param.startState) or ("non_existent" == param.startState) )
   self.StateMachine_newCreationTransition(sm_sm: sm_sm, eventName:param.eventName, endState:param.endState);
 else
-  self.StateMachine_newTransition(sm_sm: sm_sm, eventName:param.eventName, startState:param.startState, endState:param.endState);
+  self.StateMachine_newTransition(sm_sm: sm_sm, eventName:param.eventName, startState:param.startState, endState:param.endState, domain:param.domain, object:param.object);
 end if;
 ',
 	1,
@@ -8933,6 +9012,24 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"0e60c7c6-3d6b-4b45-8d8f-1cca8ab0963e",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("6d935ac3-9bca-4ce4-8628-ad616c14626b",
+	"36eeccdf-c8b7-428f-9d44-bb36f2619b92",
+	'domain',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a53f2614-67a8-4993-8d58-ec3d02e6b4fc",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("fde78567-6be0-4ebc-8e1a-76b392cfb029",
+	"36eeccdf-c8b7-428f-9d44-bb36f2619b92",
+	'object',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"6d935ac3-9bca-4ce4-8628-ad616c14626b",
 	'');
 INSERT INTO O_TFR
 	VALUES ("2d5d9e9c-ab6b-473f-93bf-90f3fe4e48e8",
