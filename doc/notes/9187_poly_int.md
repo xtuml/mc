@@ -41,11 +41,13 @@ raised to track the work to address the action language editor.
 4. Requirements
 ---------------
 4.1 `m2x`  
-4.1.1 Import polymorphic transitions even when not on new state transitions.
+4.1.1 Import polymorphic transitions even when not on new state transitions.  
 4.2 `x2m`  
-4.2.1 Export MASL polymorphic event transition with fully qualified
-polymorphic event names using dot notation.
-4.2 `masl`  
+4.2.1 Export MASL polymorphic event transitions with fully qualified
+polymorphic event names using dot notation.  
+4.2.2 Define polymorphic events (only) in the supertype.  
+4.3 `masl`  
+4.3.1 Qualify polymorphic transition events with supertype class name scoping.  
 
 5. Work Required
 ----------------
