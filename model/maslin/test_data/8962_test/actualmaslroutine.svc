@@ -1,5 +1,0 @@
-public service mydom::actualmaslroutine( p1 : in integer ) is
-i : integer;
-begin
-  i := p1;
-end service;

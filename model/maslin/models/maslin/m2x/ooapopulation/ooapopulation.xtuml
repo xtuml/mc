@@ -2264,6 +2264,10 @@ if(not_empty interface)
       create object instance req_ep of SPR_REP;
       create object instance req_signal of SPR_RS;
       req_signal.Suc_Pars = ParseStatus::parseInitial;
+      // Initialize Dialect to C (realized C code).  This will get changed
+      // to MASL when a codeblock is supplied.  If no codeblock is supplied,
+      // it means that the routine is implemented as C.
+      req_signal.Dialect = ActionDialect::c;
       relate requirement to ep across R4500 using req_ep;
       relate req_signal to req_ep across R4502;
     end for;
@@ -2272,6 +2276,10 @@ if(not_empty interface)
       create object instance req_ep of SPR_REP;
       create object instance req_operation of SPR_RO;
       req_operation.Suc_Pars = ParseStatus::parseInitial;
+      // Initialize Dialect to C (realized C code).  This will get changed
+      // to MASL when a codeblock is supplied.  If no codeblock is supplied,
+      // it means that the routine is implemented as C.
+      req_operation.Dialect = ActionDialect::c;
       relate requirement to ep across R4500 using req_ep;
       relate req_operation to req_ep across R4502;
     end for;
@@ -7342,7 +7350,9 @@ elif ( "terminator" == element )
       select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
   	  if ( not_empty spr_ro )
         spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
-        spr_ro.Dialect = ActionDialect::masl;
+        if ( "" != spr_ro.Action_Semantics_internal )
+          spr_ro.Dialect = ActionDialect::masl;
+        end if;
   	  end if;
   	end for;
 
