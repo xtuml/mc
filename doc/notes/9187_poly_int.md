@@ -84,6 +84,7 @@ for it in a supertype using the given supertype object name.
 
 6. Implementation Comments
 --------------------------
+Fixed spelling error in `masl_round_trip`.  
 
 7. Unit Test
 ------------
@@ -100,20 +101,22 @@ for it in a supertype using the given supertype object name.
 <pre>
 
 Fork: cortlandstarrett/mc  9187_poly
-Fork: cortlandstarrett/models  9187_poly
 
 xtuml/mc
- doc/notes/9187_poly_int.md                                        | 108 ++++++++++++++++++++++++++++
- model/masl/gen/masl/t.cell.masl                                   |   2 +-
- model/masl/gen/masl_population_class.c                            |   5 ++-
- model/masl/models/masl/masl/cell/cell.xtuml                       |  41 ++++++++++++++++---
- model/masl/models/masl/maslpopulation/population/population.xtuml |   3 +-
- model/masl/src/masl/t.cell.masl                                   |   1 +
- model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml  | 111 +++++++++++++++++++++++++---
- model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml |  16 ++++++++
- 8 files changed, 271 insertions(+), 16 deletions(-)
-
-xtuml/models
+ bin/m2x                                                             | Bin 671184 -> 687984 bytes
+ bin/masl                                                            | Bin 243848 -> 243848 bytes
+ bin/masl_round_trip                                                 |   2 +-
+ bin/x2m                                                             | Bin 691496 -> 691496 bytes
+ doc/notes/9187_poly_int.md                                          | 122 +++++++++++++++++++++++
+ model/masl/gen/masl/t.cell.masl                                     |   2 +-
+ model/masl/gen/masl_population_class.c                              |   5 +-
+ model/masl/models/masl/masl/cell/cell.xtuml                         |  41 ++++++++++++++--
+ model/masl/models/masl/maslpopulation/population/population.xtuml   |   3 +-
+ model/masl/src/masl/t.cell.masl                                     |   1 +
+ model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml    | 140 +++++++++++++++++++++---
+ model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml   |  16 +++++++
+ model/mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml |  48 +++++++++++++++----
+ 13 files changed, 354 insertions(+), 26 deletions(-)
 
 </pre>
 
