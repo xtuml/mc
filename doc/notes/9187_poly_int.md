@@ -34,6 +34,10 @@ appear in the transition row.  This may not be strictly erroneous, but
 the MASL reference guide states that the supertype object should be
 named using dot notation in the transtion table.
 
+During research into this issue, it was discovered that the action
+language editor did not scope polymorphic events correctly.  [2] was
+raised to track the work to address the action language editor.
+
 4. Requirements
 ---------------
 4.1 `m2x`  
@@ -41,30 +45,40 @@ named using dot notation in the transtion table.
 4.2 `x2m`  
 4.2.1 Export MASL polymorphic event transition with fully qualified
 polymorphic event names using dot notation.
+4.2 `masl`  
 
 5. Work Required
 ----------------
+5.1 `m2x`  
+5.1.1 Make the creation of an event robust to being created from
+multiple points of discovery (event declaration or during state table
+creation).  
+5.1.2 Pass the given domain and object information from the serial
+MASL into the population routines.  
+5.1.3 When an event is not found while building the state table for a
+class, assume that the event is a polymorphic event.  NOTE:  This is
+an important assumption.  MASL models for the iUML dumper must dump
+the supertypes first.  If this assumption proves false, there will be
+significant work to cache the event and wait for the supertype class
+to be created.  
+5.1.3.1 Find the event by name in the named supertype class.  
+5.1.3.2 Migrate the supertype event from `SM_SEVT` to `SM_PEVT`.
+Clean up the previous SEMEs in the supertype.  
+5.1.3.3 Create a new non-local event in the subtype.  Link it to the
+polymorphic event created (or discovered) in the supertype.  
 
-Stop creating the default SEMEs until the state machine is fully in place.
-This way we can avoid needing to dispose of them upon poly migration.
-Default all new events to be poly events?
-Migrate them to SEVT when found in a transition.
+5.2 `x2m`  
+5.2.1 Skip the output declararation of non-local events in subtypes.  
+5.2.2 During the transition population, interrogate events to discover if
+they are non-local.  If so, provide the supertype class name in the
+transition serial MASL.  
 
-Detect when an event is not found.
-
-O.K.  So, I think the main issue is to know how to create the poly
-and migrate the sevt to poly and deal with the SEMEs.
-I would be nice to not have a bunch of SEMEs to discard when migrating
-SEVT to PEVT.  Maybe it is not a big deal.
-I think I will stick close to what is there... meaning the SEMEs need
-to be cleaned up.  But it only happens when a poly is discovered.
-
-Initialize as today.
-When a poly transition is discovered (for the first time), migrate the parent SEVT to PEVT cleaning up.
-Create the local SEVT, NLEVT and link to PEVT.
-Initialize the SEMEs.
-Let the transition fall into the following code.
-
+5.3 `masl`  
+5.3.1 Pass the domain and object name population parameters coming
+from the serial MASL.  
+5.3.2 When a transition event is not found in a state machine, look
+for it in a supertype using the given supertype object name.  
+5.2.3 Add scoping to masl cell template.  
 
 6. Implementation Comments
 --------------------------
