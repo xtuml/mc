@@ -1372,6 +1372,11 @@ if ( "assigner" != param.type )
 	  select one sm_state related by sm_crtxn->SM_TXN[R507]->SM_STATE[R506];
 	  value[4] = sm_state.Name;
 	end if;
+	// If event is non-local, then get the name of the supertype.
+	select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
+    if ( not_empty poly_o_obj )
+      value[2] = poly_o_obj.Name;
+    end if;
 	out::populate( element:"transition", value:value );
 	out::populate( element:"transition", value:emptyvalue );
   end for;
@@ -1390,6 +1395,10 @@ for each sm_state in sm_states
   for each sm_seme in sm_semes
     select one sm_evt related by sm_seme->SM_SEVT[R503]->SM_EVT[R525];
     value[3] = sm_evt.Mning;
+    select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
+    if ( not_empty poly_o_obj )
+      value[2] = poly_o_obj.Name;
+    end if;
     select one next_sm_state related by sm_seme->SM_NSTXN[R504]->SM_TXN[R507]->SM_STATE[R506];
     if ( not_empty next_sm_state )
       value[4] = next_sm_state.Name;
@@ -1483,8 +1492,15 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 o_obj = param.o_obj;
 sm_sm = param.sm_sm;
+// Get the events for this class, and filter out polys.
 select many sm_evts related by sm_sm->SM_EVT[R502];
 for each sm_evt in sm_evts
+
+  select one sm_nlevt related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526];
+  if ( not_empty sm_nlevt )
+    continue; // skip to the next event in the iteration
+  end if;
+
   value[0] = sm_evt.Mning;
   
   // set event type

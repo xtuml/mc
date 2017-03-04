@@ -6958,6 +6958,46 @@ INSERT INTO PE_PE
 	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("a3a5646e-4d65-483e-a54f-449c5e6fe097",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Polymorphic Event>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("a3a5646e-4d65-483e-a54f-449c5e6fe097",
+	0,
+	"06b0f6ef-e655-49f3-9e5b-f995a1e199dd");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("06b0f6ef-e655-49f3-9e5b-f995a1e199dd",
+	'Polymorphic Event',
+	522,
+	'SM_PEVT',
+	'A polymorphic event (SM_PEVT) is one that is defined in a super-type state machine  and used in one or more sub-type state machines.  Each polymorphic event has one or more aliases (SM_NLEVT) in one or more sub-types.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Polymorphic Event/Polymorphic Event.xtuml');
+INSERT INTO PE_PE
+	VALUES ("a3a5646e-4d65-483e-a54f-449c5e6fe097",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("23568247-39b2-40a7-990c-028ad1c52736",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Polymorphic Event>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("23568247-39b2-40a7-990c-028ad1c52736",
+	1,
+	"06b0f6ef-e655-49f3-9e5b-f995a1e199dd");
+INSERT INTO PE_PE
+	VALUES ("23568247-39b2-40a7-990c-028ad1c52736",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("13d08a46-4678-4d63-824c-fb651cd2e4eb");
 INSERT INTO R_REL
@@ -8423,14 +8463,6 @@ INSERT INTO R_OIR
 	"46a6caa1-6369-4674-aa54-1ed19b66a52f",
 	"e1a9e6bd-e8e3-475f-87e4-e4b49e6ad708",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("06b0f6ef-e655-49f3-9e5b-f995a1e199dd",
-	'Polymorphic Event',
-	522,
-	'SM_PEVT',
-	'A polymorphic event (SM_PEVT) is one that is defined in a super-type state machine  and used in one or more sub-type state machines.  Each polymorphic event has one or more aliases (SM_NLEVT) in one or more sub-types.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Polymorphic Event/Polymorphic Event.xtuml');
 INSERT INTO PE_PE
 	VALUES ("46a6caa1-6369-4674-aa54-1ed19b66a52f",
 	1,
