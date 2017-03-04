@@ -19,8 +19,8 @@ Polymorphic events are mishandled in a few ways.
 
 3. Background
 -------------
-The semantics of polymorphic events are consistent between xtUML and
-MASL Shlaer-Mellor dialects.  However, the semantics are not being
+The semantics of polymorphic events are mostly consistent between xtUML
+and MASL dialects of Shlaer-Mellor.  However, the semantics are not being
 transferred between the dialects quite right in certain scenarios.
 
 The biggest hole is that polys are not handled when not assigned to
@@ -98,8 +98,20 @@ for it in a supertype using the given supertype object name.
 <pre>
 
 Fork: cortlandstarrett/mc  9187_poly
+Fork: cortlandstarrett/models  9187_poly
 
 xtuml/mc
+ doc/notes/9187_poly_int.md                                        | 108 ++++++++++++++++++++++++++++
+ model/masl/gen/masl/t.cell.masl                                   |   2 +-
+ model/masl/gen/masl_population_class.c                            |   5 ++-
+ model/masl/models/masl/masl/cell/cell.xtuml                       |  41 ++++++++++++++++---
+ model/masl/models/masl/maslpopulation/population/population.xtuml |   3 +-
+ model/masl/src/masl/t.cell.masl                                   |   1 +
+ model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml  | 111 +++++++++++++++++++++++++---
+ model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml |  16 ++++++++
+ 8 files changed, 271 insertions(+), 16 deletions(-)
+
+xtuml/models
 
 </pre>
 
