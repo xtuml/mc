@@ -309,8 +309,7 @@ elif ( "transition" == element )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
 	  population.stack_trace();
 	end if;
-	// TODO optional domain
-    cell::populate( startstate:value[0], event:value[3], endstate:value[4], statemachine:parent_state_machine );
+    cell::populate( startstate:value[0], domain:value[1], object:value[2], event:value[3], endstate:value[4], statemachine:parent_state_machine );
     // transition is a leaf node and does not get pushed onto the current element stack
 elif ( "regularrel" == element )
 	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];

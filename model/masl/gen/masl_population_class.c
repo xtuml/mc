@@ -8,6 +8,7 @@
  *--------------------------------------------------------------------------*/
 
 #include "masl_sys_types.h"
+#include "CSV_bridge.h"
 #include "LOG_bridge.h"
 #include "out_bridge.h"
 #include "STRING_bridge.h"
@@ -857,8 +858,8 @@ masl_population_op_populate( c_t * p_element, c_t * p_value[8] )
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
-    /* cell::populate( endstate:value[4], event:value[3], startstate:value[0], statemachine:parent_state_machine ) */
-    masl_cell_op_populate( value[4], value[3], value[0], parent_state_machine );
+    /* cell::populate( domain:value[1], endstate:value[4], event:value[3], object:value[2], startstate:value[0], statemachine:parent_state_machine ) */
+    masl_cell_op_populate( value[1], value[4], value[3], value[2], value[0], parent_state_machine );
   }
   else if ( ( Escher_strcmp( "regularrel", element ) == 0 ) ) {
     masl_regularrel * regularrel;masl_element * new_element=0;masl_domain * parent_domain=0;
