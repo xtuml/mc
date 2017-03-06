@@ -17,16 +17,26 @@ This work is licensed under the Creative Commons CC0 License
 
 3. Background
 -------------
+When formalizing an association an identifier in the participant is chosen.
+There can be many (up to three).  Any identifier is eligible.  In the given
+model, the secondary identifier is chosen to be the reference in the
+formalizing class.  Also interesting in this issue is that the secondary
+identifier is a _superset_ of the primary (which may be a bit dubious but
+syntactically legal and perhaps useful to further constrain a related
+instance set).  Because of the superset nature of the secondary key, the
+weak search algorithm found the primary key first.
 
 4. Requirements
 ---------------
 4.1 `m2x`  
-4.1.1 
+4.1.1 Identify the correct foreign key when formalizing against a
+superset identifier.
 
 5. Work Required
 ----------------
 5.1 `m2x`  
-5.1.1 
+4.1.1 Strengthen the search for the correct key.  Exhaustively match the
+referential attribute set against the identifier attribute set.
 
 6. Implementation Comments
 --------------------------

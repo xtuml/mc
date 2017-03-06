@@ -25,8 +25,10 @@ ras = param.ras;
 // default the result to false
 result = false;
 
-// if either of the cardinalities are zero, they do not match
-if ( 0 == cardinality o_attrs or 0 == cardinality ras )
+// Cardinalities need to match and be non-zero.
+ocount = cardinality o_attrs;
+rcount = cardinality ras;
+if ( ( ocount == 0 ) or ( ocount != rcount ) )
   return result;
 end if;
 
