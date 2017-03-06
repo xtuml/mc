@@ -24,8 +24,6 @@ o_attr = param.o_attr;
 ooapopulation = param.ooapopulation;
 
 if ( not_empty o_attr )
-  // rename the attribute to the final name of the attribute (not the participant ID name)
-  o_attr.Root_Nam = self.Name;
   
   // search for duplicates to combine
   select many o_attrs related by o_attr->O_OBJ[R102]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
