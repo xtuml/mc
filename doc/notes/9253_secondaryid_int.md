@@ -58,6 +58,11 @@ referential attribute set against the identifier attribute set.
 Fork: cortlandstarrett/mc  9253_secondaryid
 
 xtuml/mc
+ bin/m2x                                                          | Bin 692080 -> 692080 bytes
+ doc/notes/9253_secondaryid_int.md                                |  66 ++++++++++++++++++++++
+ model/maslin/models/maslin/m2x/formalization/formalization.xtuml |   6 ++++--
+ model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml |   8 +++++--
+ 4 files changed, 76 insertions(+), 4 deletions(-)
 
 </pre>
 
