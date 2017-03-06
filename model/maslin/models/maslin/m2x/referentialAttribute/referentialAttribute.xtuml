@@ -24,8 +24,6 @@ o_attr = param.o_attr;
 ooapopulation = param.ooapopulation;
 
 if ( not_empty o_attr )
-  // rename the attribute to the final name of the attribute (not the participant ID name)
-  o_attr.Root_Nam = self.Name;
   
   // search for duplicates to combine
   select many o_attrs related by o_attr->O_OBJ[R102]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
@@ -34,8 +32,7 @@ if ( not_empty o_attr )
 	  // Copy over the description field from the attribute being combined.
 	  o_attr.Descrip = o_attr.Descrip + dup_o_attr.Descrip;
       // combine deleting the most recent referential attribute
-	  ooapopulation.ReferentialAttribute_combine_refs( o_attr:dup_o_attr, other_attr:o_attr );
-	  o_attr = dup_o_attr;
+	  o_attr = ooapopulation.ReferentialAttribute_combine_refs( o_attr:dup_o_attr, other_attr:o_attr );
 	end if;
   end for;
 
