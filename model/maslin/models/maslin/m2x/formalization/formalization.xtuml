@@ -22,14 +22,11 @@ INSERT INTO O_TFR
 o_attrs = param.o_attrs;
 ras = param.ras;
 
-// default the result to false
-result = false;
-
 // Cardinalities need to match and be non-zero.
 ocount = cardinality o_attrs;
 rcount = cardinality ras;
-if ( ( ocount == 0 ) or ( ocount != rcount ) )
-  return result;
+if ( ( 0 == ocount ) or ( 0 == rcount ) )
+  return false;
 end if;
 
 // loop through and check each one
@@ -37,22 +34,37 @@ for each o_attr in o_attrs
 
   match = false;
   for each ra in ras
-    if ( o_attr.Root_Nam == ra.attrName ) 
+    if ( o_attr.Root_Nam == ra.attrName )
       match = true;
       break;
     end if;
   end for;
-  
+
   if ( match == false )  // if no match was found, we have an inconsistency
-    return result;
+    return false;
+  end if;
+
+end for;
+
+// loop through the other way
+for each ra in ras
+
+  match = false;
+  for each o_attr in o_attrs
+    if ( o_attr.Root_Nam == ra.attrName )
+      match = true;
+      break;
+    end if;
+  end for;
+
+  if ( match == false )  // if no match was found, we have an inconsistency
+    return false;
   end if;
 
 end for;
 
 // if we made it all the way through the for loop with no inconsistencies, it is a match
-result = true;
-
-return result;',
+return true;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
