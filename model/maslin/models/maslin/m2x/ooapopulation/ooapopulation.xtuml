@@ -6911,6 +6911,7 @@ INSERT INTO O_TFR
 select one sm related by sm_txn->SM_SM[R505];  
 create object instance act of SM_ACT;
 act.Suc_Pars = ParseStatus::parseInitial;
+act.Dialect = ActionDialect::none;
 relate act to sm across R515;
 create object instance ah of SM_AH;
 relate act to ah across R514;
@@ -7308,6 +7309,15 @@ if ( "domain" == element )
         select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
   		select any new_ir related by comp_if->C_IR[R4012];
   		ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+  		// set the dialect of all the signals and operations of the provided domain interface to "None"
+  		select many spr_pos related by new_ir->C_P[R4009]->SPR_PEP[R4501]->SPR_PO[R4503];
+  		for each spr_po in spr_pos
+  		  spr_po.Dialect = ActionDialect::none;
+  		end for;
+  		select many spr_pss related by new_ir->C_P[R4009]->SPR_PEP[R4501]->SPR_PO[R4503];
+  		for each spr_ps in spr_pss
+  		  spr_ps.Dialect = ActionDialect::none;
+  		end for;
   	  end if;
 
       select any c_c from instances of C_C where (false);
