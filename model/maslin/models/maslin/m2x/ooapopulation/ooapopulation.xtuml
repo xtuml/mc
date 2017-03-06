@@ -4957,13 +4957,18 @@ INSERT INTO O_TFR
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
 	'ReferentialAttribute_combine_refs',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"579b8247-e153-481d-8926-384cdc722464",
 	1,
 	'o_attr = param.o_attr;
 other_attr = param.other_attr;
 
 select one o_rattr related by o_attr->O_RATTR[R106];
 select one other_rattr related by other_attr->O_RATTR[R106];
+if ( o_rattr.BAttr_ID == other_rattr.BAttr_ID )
+  // These two referentials are pointing to the same attribute.
+  // They are not duplicates we want to combine.
+  return other_attr;
+end if;
 select many other_ref_set related by other_rattr->O_REF[R108];
    
    // find last O_REF in o_rattr ref list R112
@@ -4984,7 +4989,8 @@ select many other_ref_set related by other_rattr->O_REF[R108];
      ref = other_ref;    
    end for;
       
-   self.Attribute_dispose( o_attr:other_attr );',
+   self.Attribute_dispose( o_attr:other_attr );
+return o_attr;',
 	1,
 	'',
 	"ba2cc878-1f2c-4eaf-9cb1-06d1dfc8a80e",
