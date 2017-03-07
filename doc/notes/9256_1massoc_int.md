@@ -53,6 +53,11 @@ In such a case, resolve the target using the object name.
 Fork: cortlandstarrett/mc  9254_1tomassoc
 
 xtuml/mc
+ bin/masl                                                          | Bin 243848 -> 243848 bytes
+ doc/notes/9256_1massoc_int.md                                     |  61 +++++++++++++++++++
+ model/masl/gen/masl_population_class.c                            |  71 ++++++++++++++++++++++
+ model/masl/models/masl/maslpopulation/population/population.xtuml |  31 +++++++++++++++++
+ 4 files changed, 163 insertions(+)
 
 </pre>
 
