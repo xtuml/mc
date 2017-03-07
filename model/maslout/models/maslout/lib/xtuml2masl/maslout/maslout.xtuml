@@ -1145,6 +1145,10 @@ if ( 1 == i )
   toname[1] = ""; // CDS - get toname
 end if;
 
+if ( ( "" == phrase[0] ) or ( "" == phrase[1] ) )
+  TRACE::log( flavor:"failure", id:12, message:"no role phrase for:  " + name[0] + " to " + name[1] );
+end if;
+
 value[0] = c_c.Name;
 value[1] = name[0];
 value[2] = phrase[1];
@@ -1777,6 +1781,10 @@ if ( 0 == r_aone.Mult )
 end if;
 if ( 0 == r_aoth.Mult )
   othmult = "one";
+end if;
+
+if ( ( "" == onephrase ) or ( "" == othphrase ) )
+  TRACE::log( flavor:"failure", id:11, message:"no role phrase for:  " + onename + " to " + othname );
 end if;
 
 value[0] = c_c.Name;
