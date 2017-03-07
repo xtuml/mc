@@ -8449,6 +8449,12 @@ self.current_class_op = self.ModelClass_newOperation(o_obj:current_class, op_nam
 // set instance based or class based appropriately
 if ( "instance" != param.instance )
   self.current_class_op.Instance_Based = Scope::Class;
+end if;
+
+// if deferred operation, set the dialect to None
+if ( "" != param.relationship )
+  self.current_class_op.Dialect = ActionDialect::none;
+  self.current_class_op.Action_Semantics_internal = "Operation deferred to " + param.relationship;
 end if;',
 	1,
 	'',
