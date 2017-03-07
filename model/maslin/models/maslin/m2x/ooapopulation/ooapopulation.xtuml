@@ -8436,6 +8436,12 @@ self.current_class_op = self.ModelClass_newOperation(o_obj:current_class, op_nam
 // set instance based or class based appropriately
 if ( "instance" != param.instance )
   self.current_class_op.Instance_Based = Scope::Class;
+end if;
+
+// if deferred operation, set the dialect to None
+if ( "" != param.relationship )
+  self.current_class_op.Dialect = ActionDialect::none;
+  self.current_class_op.Action_Semantics_internal = "Operation deferred to " + param.relationship;
 end if;',
 	1,
 	'',
@@ -8877,7 +8883,7 @@ if ( self.processingProject )
 	  if ( empty comp_if )
 		// create the interface
 		comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
-		new_ir = self.Component_initializeProvision(c_c:self.current_component, port_name:comp_if_name, if_name:comp_if_name);
+		new_ir = self.Component_initializeProvision(c_c:self.current_component, port_name:clic_name + "__" + param.name, if_name:comp_if_name);
 		relate comp_if to new_ir across R4012;    // formalize at end tag. for now, just relate it to the C_P
 	  end if;
 

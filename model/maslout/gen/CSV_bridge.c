@@ -12,7 +12,6 @@
 #include "maslout_sys_types.h"
 #include "CSV_bridge.h"
 #include "LOG_bridge.h"
-#include "FILE_bridge.h"
 #include "STRING_bridge.h"
 #include "T_bridge.h"
 #include "TRACE_bridge.h"
