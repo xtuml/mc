@@ -618,6 +618,77 @@ masl_population_op_populate( c_t * p_element, c_t * p_value[8] )
           target_object = ( 0 != participation ) ? (masl_object *) Escher_SetGetAny( &participation->object_R3720_other ) : 0;
         }
       }
+      else if ( ( ( Escher_strcmp( "", roleOrObj ) != 0 ) && ( Escher_strcmp( "", obj ) != 0 ) ) ) {
+        /* IF ( ( ( participation.onephrase != roleOrObj ) and ( participation.otherphrase == roleOrObj ) ) ) */
+        if ( ( ( Escher_strcmp( participation->onephrase, roleOrObj ) != 0 ) && ( Escher_strcmp( participation->otherphrase, roleOrObj ) == 0 ) ) ) {
+          /* ASSIGN rolephrase = participation.otherphrase */
+          rolephrase = Escher_strcpy( rolephrase, participation->otherphrase );
+          /* SELECT one target_object RELATED BY participation->object[R3714] WHERE ( ( SELECTED.name == obj ) ) */
+          {target_object = 0;
+          {masl_object * selected = ( 0 != participation ) ? participation->object_R3714_one : 0;
+          if ( ( 0 != selected ) && ( Escher_strcmp( selected->name, obj ) == 0 ) ) {
+            target_object = selected;
+          }}}
+          /* IF ( empty target_object ) */
+          if ( ( 0 == target_object ) ) {
+            /* TRACE::log( flavor:failure, id:144, message:( ( ( bad role phrase and object name:   + roleOrObj ) + ,  ) + obj ) ) */
+            TRACE_log( "failure", 144, Escher_stradd( Escher_stradd( Escher_stradd( "bad role phrase and object name:  ", roleOrObj ), ", " ), obj ) );
+          }
+        }
+        else if ( ( ( Escher_strcmp( participation->onephrase, roleOrObj ) == 0 ) && ( Escher_strcmp( participation->otherphrase, roleOrObj ) != 0 ) ) ) {
+          /* ASSIGN rolephrase = participation.onephrase */
+          rolephrase = Escher_strcpy( rolephrase, participation->onephrase );
+          /* SELECT any target_object RELATED BY participation->object[R3720] WHERE ( ( SELECTED.name == obj ) ) */
+          target_object = 0;
+          if ( 0 != participation ) {
+            masl_object * selected;
+            Escher_Iterator_s iobject_R3720_other;
+            Escher_IteratorReset( &iobject_R3720_other, &participation->object_R3720_other );
+            while ( 0 != ( selected = (masl_object *) Escher_IteratorNext( &iobject_R3720_other ) ) ) {
+              if ( ( Escher_strcmp( selected->name, obj ) == 0 ) ) {
+                target_object = selected;
+                break;
+          }}}
+          /* IF ( empty target_object ) */
+          if ( ( 0 == target_object ) ) {
+            /* TRACE::log( flavor:failure, id:145, message:( ( ( bad role phrase and object name:   + roleOrObj ) + ,  ) + obj ) ) */
+            TRACE_log( "failure", 145, Escher_stradd( Escher_stradd( Escher_stradd( "bad role phrase and object name:  ", roleOrObj ), ", " ), obj ) );
+          }
+        }
+        else if ( ( ( Escher_strcmp( participation->onephrase, roleOrObj ) == 0 ) && ( Escher_strcmp( participation->otherphrase, roleOrObj ) == 0 ) ) ) {
+          /* SELECT one target_object RELATED BY participation->object[R3714] WHERE ( ( SELECTED.name == obj ) ) */
+          {target_object = 0;
+          {masl_object * selected = ( 0 != participation ) ? participation->object_R3714_one : 0;
+          if ( ( 0 != selected ) && ( Escher_strcmp( selected->name, obj ) == 0 ) ) {
+            target_object = selected;
+          }}}
+          /* ASSIGN rolephrase = roleOrObj */
+          rolephrase = Escher_strcpy( rolephrase, roleOrObj );
+          /* IF ( empty target_object ) */
+          if ( ( 0 == target_object ) ) {
+            /* SELECT any target_object RELATED BY participation->object[R3720] WHERE ( ( SELECTED.name == obj ) ) */
+            target_object = 0;
+            if ( 0 != participation ) {
+              masl_object * selected;
+              Escher_Iterator_s iobject_R3720_other;
+              Escher_IteratorReset( &iobject_R3720_other, &participation->object_R3720_other );
+              while ( 0 != ( selected = (masl_object *) Escher_IteratorNext( &iobject_R3720_other ) ) ) {
+                if ( ( Escher_strcmp( selected->name, obj ) == 0 ) ) {
+                  target_object = selected;
+                  break;
+            }}}
+            /* IF ( empty target_object ) */
+            if ( ( 0 == target_object ) ) {
+              /* TRACE::log( flavor:failure, id:146, message:( ( ( bad role phrase and object name:   + roleOrObj ) + ,  ) + obj ) ) */
+              TRACE_log( "failure", 146, Escher_stradd( Escher_stradd( Escher_stradd( "bad role phrase and object name:  ", roleOrObj ), ", " ), obj ) );
+            }
+          }
+        }
+        else {
+          /* TRACE::log( flavor:failure, id:147, message:( ( ( bad role phrase and object name:   + roleOrObj ) + ,  ) + obj ) ) */
+          TRACE_log( "failure", 147, Escher_stradd( Escher_stradd( Escher_stradd( "bad role phrase and object name:  ", roleOrObj ), ", " ), obj ) );
+        }
+      }
       else if ( ( Escher_strcmp( "", roleOrObj ) != 0 ) ) {
         /* IF ( ( participation.otherphrase == roleOrObj ) ) */
         if ( ( Escher_strcmp( participation->otherphrase, roleOrObj ) == 0 ) ) {

@@ -222,6 +222,37 @@ elif ( "referential" == element )
       	  // not the one we''re looking for (reflexives will require a role phrase, so we can be sure that the target object is not the current object)
       	  select any target_object related by participation->object[R3720];
       	end if;
+      elif ( ( "" != roleOrObj ) and ( "" != obj ) )
+        // given both role and object
+        if ( ( participation.onephrase != roleOrObj ) and ( participation.otherphrase == roleOrObj ) )
+          // current object is the other
+          // the target object is the one
+          rolephrase = participation.otherphrase;
+          select one target_object related by participation->object[R3714] where ( selected.name == obj );
+          if ( empty target_object )
+            TRACE::log( flavor:"failure", id:144, message:"bad role phrase and object name:  " + roleOrObj + ", " + obj );
+          end if;
+        elif ( ( participation.onephrase == roleOrObj ) and ( participation.otherphrase != roleOrObj ) )
+          // current object is the one
+          // the target object is the other
+          rolephrase = participation.onephrase;
+          select any target_object related by participation->object[R3720] where ( selected.name == obj );
+          if ( empty target_object )
+            TRACE::log( flavor:"failure", id:145, message:"bad role phrase and object name:  " + roleOrObj + ", " + obj );
+          end if;
+        elif ( ( participation.onephrase == roleOrObj ) and ( participation.otherphrase == roleOrObj ) )
+          // symmetric role phrases... sort it out using object name
+          select one target_object related by participation->object[R3714] where ( selected.name == obj );
+          rolephrase = roleOrObj;
+          if ( empty target_object )
+            select any target_object related by participation->object[R3720] where ( selected.name == obj );
+            if ( empty target_object )
+              TRACE::log( flavor:"failure", id:146, message:"bad role phrase and object name:  " + roleOrObj + ", " + obj );
+            end if;
+          end if;
+        else
+          TRACE::log( flavor:"failure", id:147, message:"bad role phrase and object name:  " + roleOrObj + ", " + obj );
+        end if;
       elif ( "" != roleOrObj )
         // given roleOrObj
         if ( participation.otherphrase == roleOrObj )
