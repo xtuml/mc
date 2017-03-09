@@ -687,10 +687,10 @@ returns [StringBuilder text]
                                        t.append( _COLON + _SPACE );
                                        t.append( getText( $typeReference.text ) );
                                    }
-                                   (expression //TODO finish all expressions
+                                   (expression
                                    {
                                        t.append( _SPACE + _ASSIGN + _SPACE );
-                                       t.append( getText( $expression.text ) );
+                                       t.append( $COMPONENT_DEFINITION.text );
                                    }
                                    )?
                                    pragmaList[_SPACE]
@@ -755,7 +755,7 @@ returns [StringBuilder text]
                                    (expression
                                    {
                                        t.append( _SPACE + _ASSIGN + _SPACE );
-                                       t.append( getText( $expression.text ) );
+                                       t.append( $ENUMERATOR.text );
                                    }
                                    )?
                                  )                          
