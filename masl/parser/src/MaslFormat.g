@@ -1318,7 +1318,7 @@ returns [StringBuilder text]
                                    (expression
                                    {
                                        t.append( _SPACE + _ASSIGN + _SPACE );
-                                       t.append( getText( $expression.text ) );
+                                       t.append( $ATTRIBUTE_DEFINITION.text );
                                    }
                                    )?
                                    pragmaList[_SPACE]
