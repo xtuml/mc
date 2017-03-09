@@ -2990,31 +2990,19 @@ if (param.sm_type == "ISM")
     create object instance moore of SM_MOORE;
     relate sm to moore across R510;
     // add current state attribute
-    newAttr = self.ModelClass_newAttribute(o_obj:o_obj, attr_name:"current_state");
+    o_attr = self.ModelClass_newAttribute(o_obj:o_obj, attr_name:"current_state");
 
-    // TODO - Another type issue here ... when creating an ISM, a new class attribute is created "current_state" whose
-    //        type is state<State Model>, thus we need this type as a PEI that we can use during this assignment.
-      // if the state model dt was not found check the system level
-      // dts, traversing through a package or through the domain if it is the
-      // formal content of a component.
-      /*select one system related by o_obj->PE_PE[R8001]->
-                                                    EP_PKG[R8000]->S_SYS[R1405];
-
-      dt_id = GD::NULL_UNIQUE_ID();
-      if not_empty system
-        dt_id = system.getCoreTypeId(name:"state<State_Model>");
-      end if;
-      select any pe from instances of PE_PE where selected.Element_ID == dt_id;
-      select one dt related by pe->S_DT[R8001];
-
-    if (not_empty dt)
-      select one oldDT related by attr->S_DT[R114];
-      unrelate attr from oldDT across R114;
-      relate attr to dt across R114;
+    // Reassign the attribute to a data type of void, which is not valid for an attribute.
+    // Then this can be keyed upon at instance dumping time to distinguish state model
+    // current_state from user assigned current_state.
+    select any s_dt from instances of S_DT where ( selected.Name == "void" );
+    if ( not_empty s_dt )
+      select one old_s_dt related by o_attr->S_DT[R114];
+      unrelate o_attr from old_s_dt across R114;
+      relate o_attr to s_dt across R114;
     else
-      // TODO - assign different ID?
-      TRACE::log( flavor:"failure", id:59, message:"Unable to locate expected data type: state<State_Model> while creating state machine for " + o_obj.Name );
-    end if;*/
+      TRACE::log( flavor:"failure", id:59, message:"Unable to locate expected data type: void while creating state machine for " + o_obj.Name );
+    end if;
     return sm;
   end if;
 elif (param.sm_type == "ASM")
@@ -7143,7 +7131,7 @@ if ( empty s_sys )
   self.systypes_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"types");
   
   i = 0;
-  s[ 19 ] = "initializing array length";
+  s[ 18 ] = "initializing array length";
   s[ i ] = "";
   s[ 0 ] = "void";
   s[ 1 ] = "boolean";
@@ -7163,9 +7151,8 @@ if ( empty s_sys )
   s[ 15 ] = "device";
   s[ 16 ] = "enum";
   s[ 17 ] = "structure";
-  s[ 18 ] = "instance";
-  s[ 19 ] = "MASLtype";
-  i = 19;
+  s[ 18 ] = "MASLtype";
+  i = 18;
 
   while ( i >= 0 )
     // Create the built-in MASL types.
