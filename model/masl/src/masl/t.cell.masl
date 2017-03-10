@@ -1,4 +1,5 @@
 T_b("        ");
+T_b(scope);
 T_b(transition_event->name);
 T_b(" => ");
 T_b(endstate);

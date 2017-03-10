@@ -2264,6 +2264,10 @@ if(not_empty interface)
       create object instance req_ep of SPR_REP;
       create object instance req_signal of SPR_RS;
       req_signal.Suc_Pars = ParseStatus::parseInitial;
+      // Initialize Dialect to C (realized C code).  This will get changed
+      // to MASL when a codeblock is supplied.  If no codeblock is supplied,
+      // it means that the routine is implemented as C.
+      req_signal.Dialect = ActionDialect::c;
       relate requirement to ep across R4500 using req_ep;
       relate req_signal to req_ep across R4502;
     end for;
@@ -2272,6 +2276,10 @@ if(not_empty interface)
       create object instance req_ep of SPR_REP;
       create object instance req_operation of SPR_RO;
       req_operation.Suc_Pars = ParseStatus::parseInitial;
+      // Initialize Dialect to C (realized C code).  This will get changed
+      // to MASL when a codeblock is supplied.  If no codeblock is supplied,
+      // it means that the routine is implemented as C.
+      req_operation.Dialect = ActionDialect::c;
       relate requirement to ep across R4500 using req_ep;
       relate req_operation to req_ep across R4502;
     end for;
@@ -2982,31 +2990,19 @@ if (param.sm_type == "ISM")
     create object instance moore of SM_MOORE;
     relate sm to moore across R510;
     // add current state attribute
-    newAttr = self.ModelClass_newAttribute(o_obj:o_obj, attr_name:"current_state");
+    o_attr = self.ModelClass_newAttribute(o_obj:o_obj, attr_name:"current_state");
 
-    // TODO - Another type issue here ... when creating an ISM, a new class attribute is created "current_state" whose
-    //        type is state<State Model>, thus we need this type as a PEI that we can use during this assignment.
-      // if the state model dt was not found check the system level
-      // dts, traversing through a package or through the domain if it is the
-      // formal content of a component.
-      /*select one system related by o_obj->PE_PE[R8001]->
-                                                    EP_PKG[R8000]->S_SYS[R1405];
-
-      dt_id = GD::NULL_UNIQUE_ID();
-      if not_empty system
-        dt_id = system.getCoreTypeId(name:"state<State_Model>");
-      end if;
-      select any pe from instances of PE_PE where selected.Element_ID == dt_id;
-      select one dt related by pe->S_DT[R8001];
-
-    if (not_empty dt)
-      select one oldDT related by attr->S_DT[R114];
-      unrelate attr from oldDT across R114;
-      relate attr to dt across R114;
+    // Reassign the attribute to a data type of void, which is not valid for an attribute.
+    // Then this can be keyed upon at instance dumping time to distinguish state model
+    // current_state from user assigned current_state.
+    select any s_dt from instances of S_DT where ( selected.Name == "void" );
+    if ( not_empty s_dt )
+      select one old_s_dt related by o_attr->S_DT[R114];
+      unrelate o_attr from old_s_dt across R114;
+      relate o_attr to s_dt across R114;
     else
-      // TODO - assign different ID?
-      TRACE::log( flavor:"failure", id:59, message:"Unable to locate expected data type: state<State_Model> while creating state machine for " + o_obj.Name );
-    end if;*/
+      TRACE::log( flavor:"failure", id:59, message:"Unable to locate expected data type: void while creating state machine for " + o_obj.Name );
+    end if;
     return sm;
   end if;
 elif (param.sm_type == "ASM")
@@ -4949,7 +4945,7 @@ INSERT INTO O_TFR
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
 	'ReferentialAttribute_combine_refs',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"579b8247-e153-481d-8926-384cdc722464",
 	1,
 	'o_attr = param.o_attr;
 other_attr = param.other_attr;
@@ -4976,7 +4972,8 @@ select many other_ref_set related by other_rattr->O_REF[R108];
      ref = other_ref;    
    end for;
       
-   self.Attribute_dispose( o_attr:other_attr );',
+   self.Attribute_dispose( o_attr:other_attr );
+return o_attr;',
 	1,
 	'',
 	"ba2cc878-1f2c-4eaf-9cb1-06d1dfc8a80e",
@@ -6065,7 +6062,6 @@ sm_evt.Numb = 1;
 // give this event a unique number
 self.StateMachineEvent_setUniqueNumber(sm_evt:sm_evt, checkForDuplicate:false);
 
-select one sm related by sm_evt->SM_SM[R502];                                   
 create object instance semEvt of SM_SEVT;
 relate sm_evt to semEvt across R525;
 create object instance locEvt of SM_LEVT;
@@ -6115,7 +6111,7 @@ self.StateMachineEvent_createMessageArgumentsForParameter(sm_evtdi:newEvtdi, sm_
 return newEvtdi;',
 	1,
 	'',
-	"5329e43f-743a-4151-83c3-5cc30b20d505",
+	"88689cb1-bdb5-4c16-8ee5-3518ac8b2fa6",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("d927ecb0-f4b0-47ab-bd8e-ef51b30216f6",
@@ -6380,9 +6376,12 @@ INSERT INTO O_TFR
 	1,
 	'sm_sm = param.sm_sm;
 
-create object instance newEvent of SM_EVT;
-relate sm_sm to newEvent across R502;
-self.StateMachineEvent_initialize(sm_evt:newEvent, name:param.name);
+select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.name );
+if ( empty sm_evt )
+  create object instance newEvent of SM_EVT;
+  relate sm_sm to newEvent across R502;
+  self.StateMachineEvent_initialize(sm_evt:newEvent, name:param.name);
+end if;
 ',
 	1,
 	'',
@@ -6463,6 +6462,39 @@ INSERT INTO O_TFR
 
 select any fromState related by sm_sm->SM_STATE[R501] where (selected.Name == param.startState);
 select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
+if ( empty sm_evt )
+  // Event not found, so it must be a poly that has not been created yet.
+  // Find the event in the supertype hierarchy using the given name.
+  // If necessary, migrate the event in the supertype from SM_SEVT to SM_PEVT.
+  // Clean up the parent SEMEs.
+  // Create the SEVT and non-local event in this state machine and relate it upwards.
+  // This processing depends on the supertype being in place before the subtype.
+  select any o_obj from instances of O_OBJ where ( selected.Name == param.object );
+  select one parent_sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
+  select any parent_sm_evt related by parent_sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
+  if ( empty parent_sm_evt )
+    TRACE::log( flavor:"failure", id:157, message:"Event for transition not found for event:  " + param.eventName );
+  else
+    // If not already done so, migrate to poly.
+    select one sm_pevt related by parent_sm_evt->SM_PEVT[R525];
+    if ( empty sm_pevt )
+      sm_pevt = self.StateMachineEvent_migrateToPoly( sm_evt:parent_sm_evt );
+    end if;
+    // Create a local representation of the parent poly in the this state machine.
+    create object instance sm_evt of SM_EVT;
+    relate sm_evt to sm_sm across R502;
+    sm_evt.Mning = param.eventName;
+    sm_evt.Numb = 1;
+    // give this event a unique number
+    self.StateMachineEvent_setUniqueNumber(sm_evt:sm_evt, checkForDuplicate:false);
+    create object instance sm_sevt of SM_SEVT;
+    relate sm_evt to sm_sevt across R525;
+    create object instance sm_nlevt of SM_NLEVT;
+    relate sm_sevt to sm_nlevt across R526;
+    relate sm_nlevt to sm_pevt across R527;
+    self.SEMEvent_createDefaultMatrixEntries(sm_sevt:sm_sevt);
+  end if; 
+end if;
 
 //IGNORE: ''Ignore'';
 if ( "Ignore" == param.endState )
@@ -6528,6 +6560,24 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("af57cf53-47c2-4f52-9461-e2d9f8450988",
+	"9441f59a-81c9-4794-b2f6-7bc381db1928",
+	'domain',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7209d71b-3f46-411d-ae84-8bdcddfad63f",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a078a089-66c5-444b-b56f-d28157f61d17",
+	"9441f59a-81c9-4794-b2f6-7bc381db1928",
+	'object',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"af57cf53-47c2-4f52-9461-e2d9f8450988",
 	'');
 INSERT INTO O_TFR
 	VALUES ("d3b32af4-b567-4dd3-9fa1-3b553b2b76ad",
@@ -6850,6 +6900,7 @@ INSERT INTO O_TFR
 select one sm related by sm_txn->SM_SM[R505];  
 create object instance act of SM_ACT;
 act.Suc_Pars = ParseStatus::parseInitial;
+act.Dialect = ActionDialect::none;
 relate act to sm across R515;
 create object instance ah of SM_AH;
 relate act to ah across R514;
@@ -6908,6 +6959,14 @@ while ( passes < num_forms )
 		for each ra in ras
 		  // select the corresponding new referential attribute
 		  select any o_attr related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
+		  // rename the attribute to the final name of the attribute (not the participant ID name)
+		  if ( not_empty o_attr )
+		    o_attr.Root_Nam = ra.Name;
+		  end if;
+		end for;
+		for each ra in ras
+		  // select the corresponding new referential attribute
+		  select any o_attr related by simp->R_FORM[R208]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.Name );
           ra.postProcess( o_attr:o_attr, ooapopulation:self );  
 		end for;
 		
@@ -6936,8 +6995,16 @@ while ( passes < num_forms )
 		select many ras related by form->referentialAttribute[R3811];
 		for each ra in ras
 		  o_obj = ra.o_obj;
-			select any o_attr related by o_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
-			ra.postProcess( o_attr:o_attr, ooapopulation:self );
+		  select any o_attr related by o_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
+		  // rename the attribute to the final name of the attribute (not the participant ID name)
+		  if ( not_empty o_attr )
+		    o_attr.Root_Nam = ra.Name;
+		  end if;
+		end for;
+		for each ra in ras
+		  o_obj = ra.o_obj;
+		  select any o_attr related by o_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.Name );
+		  ra.postProcess( o_attr:o_attr, ooapopulation:self );
 		end for;
 		
 		// post processing for the formalizing object
@@ -6972,6 +7039,23 @@ while ( passes < num_forms )
 		  // This is because the names are still the name found on the identifying attribute.
 		  // Be sure that the o_attr is connected to a participant with the correct role phrase.
 		  select many o_attrs related by assr_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.attrName );
+		  for each o_attr in o_attrs
+		    select many r_rtos related by o_attr->O_RATTR[R106]->O_REF[R108]->O_RTIDA[R111]->R_RTO[R110];
+		    select any r_aone related by r_rtos->R_AONE[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
+		    select any r_aoth related by r_rtos->R_AOTH[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
+		    if ( not_empty r_aone or not_empty r_aoth )
+		      // rename the attribute to the final name of the attribute (not the participant ID name)
+		      o_attr.Root_Nam = ra.Name;
+		      break;
+		    end if;
+		  end for;
+		end for;
+		for each ra in ras
+		  // select the corresponding new referential attribute
+		  // At this point, there may be several referentials that would match by name.
+		  // This is because the names are still the name found on the identifying attribute.
+		  // Be sure that the o_attr is connected to a participant with the correct role phrase.
+		  select many o_attrs related by assr_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106] where ( selected.Root_Nam == ra.Name );
 		  for each o_attr in o_attrs
 		    select many r_rtos related by o_attr->O_RATTR[R106]->O_REF[R108]->O_RTIDA[R111]->R_RTO[R110];
 		    select any r_aone related by r_rtos->R_AONE[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
@@ -7047,7 +7131,7 @@ if ( empty s_sys )
   self.systypes_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"types");
   
   i = 0;
-  s[ 19 ] = "initializing array length";
+  s[ 18 ] = "initializing array length";
   s[ i ] = "";
   s[ 0 ] = "void";
   s[ 1 ] = "boolean";
@@ -7067,9 +7151,8 @@ if ( empty s_sys )
   s[ 15 ] = "device";
   s[ 16 ] = "enum";
   s[ 17 ] = "structure";
-  s[ 18 ] = "instance";
-  s[ 19 ] = "MASLtype";
-  i = 19;
+  s[ 18 ] = "MASLtype";
+  i = 18;
 
   while ( i >= 0 )
     // Create the built-in MASL types.
@@ -7247,6 +7330,15 @@ if ( "domain" == element )
         select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
   		select any new_ir related by comp_if->C_IR[R4012];
   		ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+  		// set the dialect of all the signals and operations of the provided domain interface to "None"
+  		select many spr_pos related by new_ir->C_P[R4009]->SPR_PEP[R4501]->SPR_PO[R4503];
+  		for each spr_po in spr_pos
+  		  spr_po.Dialect = ActionDialect::none;
+  		end for;
+  		select many spr_pss related by new_ir->C_P[R4009]->SPR_PEP[R4501]->SPR_PO[R4503];
+  		for each spr_ps in spr_pss
+  		  spr_ps.Dialect = ActionDialect::none;
+  		end for;
   	  end if;
 
       select any c_c from instances of C_C where (false);
@@ -7289,7 +7381,9 @@ elif ( "terminator" == element )
       select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
   	  if ( not_empty spr_ro )
         spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
-        spr_ro.Dialect = ActionDialect::masl;
+        if ( "" != spr_ro.Action_Semantics_internal )
+          spr_ro.Dialect = ActionDialect::masl;
+        end if;
   	  end if;
   	end for;
 
@@ -7505,7 +7599,7 @@ elif ( "transitiontable" == element )
     ooapopulation.processingISM = true;
   end if;
 elif ( "transition" == element )
-  ooapopulation.transformTransition(eventName:param.value[3], startState:param.value[0], endState:param.value[4]);
+  ooapopulation.transformTransition(eventName:param.value[3], startState:param.value[0], endState:param.value[4], domain:param.value[1], object:param.value[2]);
 elif ( "codeblock" == element )
   s_sync = ooapopulation.current_domain_function;
   if ( not_empty s_sync )
@@ -8342,6 +8436,12 @@ self.current_class_op = self.ModelClass_newOperation(o_obj:current_class, op_nam
 // set instance based or class based appropriately
 if ( "instance" != param.instance )
   self.current_class_op.Instance_Based = Scope::Class;
+end if;
+
+// if deferred operation, set the dialect to None
+if ( "" != param.relationship )
+  self.current_class_op.Dialect = ActionDialect::none;
+  self.current_class_op.Action_Semantics_internal = "Operation deferred to " + param.relationship;
 end if;',
 	1,
 	'',
@@ -8783,7 +8883,7 @@ if ( self.processingProject )
 	  if ( empty comp_if )
 		// create the interface
 		comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
-		new_ir = self.Component_initializeProvision(c_c:self.current_component, port_name:comp_if_name, if_name:comp_if_name);
+		new_ir = self.Component_initializeProvision(c_c:self.current_component, port_name:clic_name + "__" + param.name, if_name:comp_if_name);
 		relate comp_if to new_ir across R4012;    // formalize at end tag. for now, just relate it to the C_P
 	  end if;
 
@@ -8900,7 +9000,7 @@ end if;
 if ( ("Non_Existent" == param.startState) or ("Non_Existant" == param.startState) or ("non_existent" == param.startState) )
   self.StateMachine_newCreationTransition(sm_sm: sm_sm, eventName:param.eventName, endState:param.endState);
 else
-  self.StateMachine_newTransition(sm_sm: sm_sm, eventName:param.eventName, startState:param.startState, endState:param.endState);
+  self.StateMachine_newTransition(sm_sm: sm_sm, eventName:param.eventName, startState:param.startState, endState:param.endState, domain:param.domain, object:param.object);
 end if;
 ',
 	1,
@@ -8933,6 +9033,24 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"0e60c7c6-3d6b-4b45-8d8f-1cca8ab0963e",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("6d935ac3-9bca-4ce4-8628-ad616c14626b",
+	"36eeccdf-c8b7-428f-9d44-bb36f2619b92",
+	'domain',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a53f2614-67a8-4993-8d58-ec3d02e6b4fc",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("fde78567-6be0-4ebc-8e1a-76b392cfb029",
+	"36eeccdf-c8b7-428f-9d44-bb36f2619b92",
+	'object',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"6d935ac3-9bca-4ce4-8628-ad616c14626b",
 	'');
 INSERT INTO O_TFR
 	VALUES ("2d5d9e9c-ab6b-473f-93bf-90f3fe4e48e8",
@@ -9068,6 +9186,61 @@ INSERT INTO O_TFR
 	'',
 	"d575fa93-3488-4bc0-ab38-d6aff10a2894",
 	0);
+INSERT INTO O_TFR
+	VALUES ("88689cb1-bdb5-4c16-8ee5-3518ac8b2fa6",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'StateMachineEvent_migrateToPoly',
+	'',
+	"a3a5646e-4d65-483e-a54f-449c5e6fe097",
+	1,
+	'sm_evt = param.sm_evt;
+select one sm_sevt related by sm_evt->SM_SEVT[R525];
+// Dispose of the event matrix entries.
+select many sm_semes related by sm_sevt->SM_SEME[R503];
+for each sm_seme in sm_semes
+  select one sm_state related by sm_seme->SM_STATE[R503];
+  unrelate sm_state from sm_sevt across R503 using sm_seme;
+  select one sm_ch related by sm_seme->SM_CH[R504];
+  if ( not_empty sm_ch )
+    unrelate sm_ch from sm_seme across R504;
+    delete object instance sm_ch;
+    delete object instance sm_seme;
+  else
+    TRACE::log( flavor:"failure", id:158, message:"Did not find SM_SEME when we thought we should migrating event:  " + sm_evt.Mning );
+  end if;
+end for;
+select one sm_levt related by sm_sevt->SM_LEVT[R526];
+if ( not_empty sm_levt )
+  unrelate sm_levt from sm_sevt across R526;
+  delete object instance sm_levt;
+else
+  TRACE::log( flavor:"failure", id:159, message:"Did not find SM_LEVT when we thought we should migrating event:  " + sm_evt.Mning );
+end if;
+unrelate sm_evt from sm_sevt across R525;
+delete object instance sm_sevt;
+create object instance sm_pevt of SM_PEVT;
+relate sm_evt to sm_pevt across R525;
+return sm_pevt;',
+	1,
+	'',
+	"5329e43f-743a-4151-83c3-5cc30b20d505",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("21630e04-b4cf-44bb-97ff-46516ea20a5d",
+	"88689cb1-bdb5-4c16-8ee5-3518ac8b2fa6",
+	'sm_evt',
+	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a3a5646e-4d65-483e-a54f-449c5e6fe097",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Polymorphic Event>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("65062455-b226-4503-a876-a0cbd652b56e",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");

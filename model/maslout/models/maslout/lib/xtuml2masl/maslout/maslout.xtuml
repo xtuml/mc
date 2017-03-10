@@ -1145,6 +1145,10 @@ if ( 1 == i )
   toname[1] = ""; // CDS - get toname
 end if;
 
+if ( ( "" == phrase[0] ) or ( "" == phrase[1] ) )
+  TRACE::log( flavor:"failure", id:12, message:"no role phrase for:  " + name[0] + " to " + name[1] );
+end if;
+
 value[0] = c_c.Name;
 value[1] = name[0];
 value[2] = phrase[1];
@@ -1372,6 +1376,11 @@ if ( "assigner" != param.type )
 	  select one sm_state related by sm_crtxn->SM_TXN[R507]->SM_STATE[R506];
 	  value[4] = sm_state.Name;
 	end if;
+	// If event is non-local, then get the name of the supertype.
+	select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
+    if ( not_empty poly_o_obj )
+      value[2] = poly_o_obj.Name;
+    end if;
 	out::populate( element:"transition", value:value );
 	out::populate( element:"transition", value:emptyvalue );
   end for;
@@ -1390,6 +1399,10 @@ for each sm_state in sm_states
   for each sm_seme in sm_semes
     select one sm_evt related by sm_seme->SM_SEVT[R503]->SM_EVT[R525];
     value[3] = sm_evt.Mning;
+    select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
+    if ( not_empty poly_o_obj )
+      value[2] = poly_o_obj.Name;
+    end if;
     select one next_sm_state related by sm_seme->SM_NSTXN[R504]->SM_TXN[R507]->SM_STATE[R506];
     if ( not_empty next_sm_state )
       value[4] = next_sm_state.Name;
@@ -1483,8 +1496,15 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 o_obj = param.o_obj;
 sm_sm = param.sm_sm;
+// Get the events for this class, and filter out polys.
 select many sm_evts related by sm_sm->SM_EVT[R502];
 for each sm_evt in sm_evts
+
+  select one sm_nlevt related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526];
+  if ( not_empty sm_nlevt )
+    continue; // skip to the next event in the iteration
+  end if;
+
   value[0] = sm_evt.Mning;
   
   // set event type
@@ -1612,6 +1632,9 @@ for each sm_state in sm_states
   if ( empty sm_evtdi )	// if there are no state to state transitions to this state, it may be a creation
   						// state. Check the path to an event through a creation transition
     select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_CRTXN[R507]->SM_LEVT[R509]->SM_SEVT[R526]->SM_EVT[R525]->SM_EVTDI[R532];
+    if ( empty sm_evtdi )
+      select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_EVTDI[R532];
+    end if;
   end if;
   // Get first parameter.
   first_sm_evtdi = sm_evtdi;
@@ -1763,6 +1786,10 @@ if ( 0 == r_aoth.Mult )
   othmult = "one";
 end if;
 
+if ( ( "" == onephrase ) or ( "" == othphrase ) )
+  TRACE::log( flavor:"failure", id:11, message:"no role phrase for:  " + onename + " to " + othname );
+end if;
+
 value[0] = c_c.Name;
 value[1] = onename;
 value[2] = othphrase;
@@ -1908,10 +1935,9 @@ for each o_tfr in o_tfrs
   end if;
   value[5] = "";
   
-  // check for deferral -- if there is no action language and subtypes have an operation with matching signature
+  // check for deferral -- if there is no action language or the dialect is none and subtypes have an operation with matching signature
   deferred = false;
-  select any model from instances of model;
-  if ( not_empty model and ( not FILE::exists( path:"deprecated path" ) ) )
+  if ( "" == o_tfr.Action_Semantics_internal or ActionDialect::none == o_tfr.Dialect )
     // select all supsuper relationships of which o_tfr belongs to the supertype
     select many subsuper_rels related by o_tfr->O_OBJ[R115]->R_OIR[R201]->R_RTO[R203]->R_SUPER[R204]->R_SUBSUP[R212]->R_REL[R206];
     for each subsuper_rel in subsuper_rels
