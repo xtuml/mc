@@ -4,7 +4,12 @@
 #  export, diff) on MASL domains.  The diff report that is produced helps
 #  users validate that the BridgePoint MASL flow works.
 #
-#   masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]
+#  Please note that the BridgePoint CLI Import uses a graphical eclipse workbench which
+#  will capture focus as this script runs.  To run this script completely headlessly,
+#  install the xvfb package for your distribution and call this script using xvfb-run.
+#
+#   ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]
+#   xvfb-run ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]
 
 # USAGE
 print_usage () { 
@@ -12,6 +17,7 @@ print_usage () {
     echo "        masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]";
     echo " ";
     echo "  Up to five domains may be specified. If a project is specified, only the project is diff'd.";
+    echo "  Consider installing xvfb and calling this script with xvfb-run to execute headlessly.";
 }
 
 # set up paths
