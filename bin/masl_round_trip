@@ -16,8 +16,9 @@ print_usage () {
     echo "Usage:"
     echo "        masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]";
     echo " ";
-    echo "  Up to five domains may be specified. If a project is specified, only the project is diff'd.";
-    echo "  Consider installing xvfb and calling this script with xvfb-run to execute headlessly.";
+    echo "  - Up to five domains may be specified. If a project is specified, only the project is diff'd.";
+    echo "  - Consider installing xvfb and calling this script with xvfb-run to execute headlessly. See info in this script's header.";
+    echo -e "\n";
 }
 
 # set up paths
