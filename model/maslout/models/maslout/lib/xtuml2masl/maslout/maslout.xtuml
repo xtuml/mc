@@ -1377,9 +1377,13 @@ if ( "assigner" != param.type )
 	  value[4] = sm_state.Name;
 	end if;
 	// If event is non-local, then get the name of the supertype.
-	select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
-    if ( not_empty poly_o_obj )
-      value[2] = poly_o_obj.Name;
+    poly = T::parsekeyword(s:sm_evt.Descrip,key:"poly");
+    if ( "" != poly )
+      value[2] = poly;
+      period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
+      if ( -1 != period )
+        value[3] = STRING::substr( s:sm_evt.Mning, begin:period+1, end:-1 );
+      end if;
     end if;
 	out::populate( element:"transition", value:value );
 	out::populate( element:"transition", value:emptyvalue );
@@ -1399,10 +1403,18 @@ for each sm_state in sm_states
   for each sm_seme in sm_semes
     select one sm_evt related by sm_seme->SM_SEVT[R503]->SM_EVT[R525];
     value[3] = sm_evt.Mning;
-    select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
-    if ( not_empty poly_o_obj )
-      value[2] = poly_o_obj.Name;
+
+    // If event is non-local, then get the name of the supertype.
+    poly = T::parsekeyword(s:sm_evt.Descrip,key:"poly");
+    if ( "" != poly )
+      value[2] = poly;
+      period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
+      message_cb = "";
+      if ( -1 != period )
+        value[3] = STRING::substr( s:sm_evt.Mning, begin:period+1, end:-1 );
+      end if;
     end if;
+
     select one next_sm_state related by sm_seme->SM_NSTXN[R504]->SM_TXN[R507]->SM_STATE[R506];
     if ( not_empty next_sm_state )
       value[4] = next_sm_state.Name;
@@ -1500,8 +1512,8 @@ sm_sm = param.sm_sm;
 select many sm_evts related by sm_sm->SM_EVT[R502];
 for each sm_evt in sm_evts
 
-  select one sm_nlevt related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526];
-  if ( not_empty sm_nlevt )
+  poly = T::parsekeyword(s:sm_evt.Descrip,key:"poly");
+  if ( "" != poly )
     continue; // skip to the next event in the iteration
   end if;
 
