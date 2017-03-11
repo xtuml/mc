@@ -51,6 +51,8 @@ event in the subtype.  If it is there, use it.  If it is not, look for it
 in the supertype and create the local inherited version of it.
 
 5.3 `x2m`  
+Find poly events by supertype class name and event name.  After finding
+them, connect parameters as necessary.
 
 5.4 `masl`  
 

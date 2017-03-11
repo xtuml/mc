@@ -1641,11 +1641,29 @@ for each sm_state in sm_states
   // MASL states declare their parameter signatures.
   // Traverse to any event transitioning to this state and use its parameters.
   select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532];
-  if ( empty sm_evtdi )	// if there are no state to state transitions to this state, it may be a creation
-  						// state. Check the path to an event through a creation transition
+  if ( empty sm_evtdi ) // if there are no state to state transitions to this state, it may be a creation
+    // state. Check the path to an event through a creation transition
     select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_CRTXN[R507]->SM_LEVT[R509]->SM_SEVT[R526]->SM_EVT[R525]->SM_EVTDI[R532];
     if ( empty sm_evtdi )
-      select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_EVTDI[R532];
+      // Find the polymorphic event from which this event inherits.
+      // Select the sm_evts entering this state.
+      // Look for one with a period in the name.
+      // Select the poly event by class name and event name.
+      // Select any of its event data items.
+      select many sm_evts related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525];
+      for each sm_evt in sm_evts
+        period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
+        if ( 0 < period )
+          poly_class_name = STRING::substr( s:sm_evt.Mning, begin:0, end:period );
+          poly_event_name = STRING::substr( s:sm_evt.Mning, begin:period + 1, end:-1 );
+          select any poly_o_obj from instances of O_OBJ where ( selected.Name == poly_class_name );
+          select any poly_sm_evt related by poly_o_obj->SM_ISM[R518]->SM_SM[R517]->SM_EVT[R502] where ( selected.Mning == poly_event_name );
+          select any sm_evtdi related by poly_sm_evt->SM_EVTDI[R532];
+          if ( not_empty sm_evtdi )
+            break;
+          end if;
+        end if;
+      end for;
     end if;
   end if;
   // Get first parameter.

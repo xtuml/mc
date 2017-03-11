@@ -6486,8 +6486,6 @@ if ( empty sm_evt )
     // The inherited event is named with the supertype class name.
     // CDS - This will change when concrete polymorphic events are supported in the xtUML MM.
     sm_evt.Mning = o_obj.Name + "." + param.eventName;
-    // Stow the supertype class name in the Descrip field.
-    sm_evt.Descrip = "poly:" + param.object;
     sm_evt.Numb = 1;
     // give this event a unique number
     self.StateMachineEvent_setUniqueNumber(sm_evt:sm_evt, checkForDuplicate:false);
