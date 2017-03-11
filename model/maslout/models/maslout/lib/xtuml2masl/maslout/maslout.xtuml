@@ -1377,13 +1377,10 @@ if ( "assigner" != param.type )
 	  value[4] = sm_state.Name;
 	end if;
 	// If event is non-local, then get the name of the supertype.
-    poly = T::parsekeyword(s:sm_evt.Descrip,key:"poly");
-    if ( "" != poly )
-      value[2] = poly;
-      period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
-      if ( -1 != period )
-        value[3] = STRING::substr( s:sm_evt.Mning, begin:period+1, end:-1 );
-      end if;
+    period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
+    if ( 0 < period )
+      value[2] = STRING::substr( s:sm_evt.Mning, begin:0, end:period );
+      value[3] = STRING::substr( s:sm_evt.Mning, begin:period + 1, end:-1 );
     end if;
 	out::populate( element:"transition", value:value );
 	out::populate( element:"transition", value:emptyvalue );
@@ -1405,14 +1402,10 @@ for each sm_state in sm_states
     value[3] = sm_evt.Mning;
 
     // If event is non-local, then get the name of the supertype.
-    poly = T::parsekeyword(s:sm_evt.Descrip,key:"poly");
-    if ( "" != poly )
-      value[2] = poly;
-      period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
-      message_cb = "";
-      if ( -1 != period )
-        value[3] = STRING::substr( s:sm_evt.Mning, begin:period+1, end:-1 );
-      end if;
+    period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
+    if ( 0 < period )
+      value[2] = STRING::substr( s:sm_evt.Mning, begin:0, end:period );
+      value[3] = STRING::substr( s:sm_evt.Mning, begin:period + 1, end:-1 );
     end if;
 
     select one next_sm_state related by sm_seme->SM_NSTXN[R504]->SM_TXN[R507]->SM_STATE[R506];
@@ -1512,9 +1505,9 @@ sm_sm = param.sm_sm;
 select many sm_evts related by sm_sm->SM_EVT[R502];
 for each sm_evt in sm_evts
 
-  poly = T::parsekeyword(s:sm_evt.Descrip,key:"poly");
-  if ( "" != poly )
-    continue; // skip to the next event in the iteration
+  period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
+  if ( 0 < period )
+    continue; // polymorphic - skip to the next event in the iteration
   end if;
 
   value[0] = sm_evt.Mning;
