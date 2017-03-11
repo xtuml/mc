@@ -1644,6 +1644,9 @@ for each sm_state in sm_states
   if ( empty sm_evtdi )	// if there are no state to state transitions to this state, it may be a creation
   						// state. Check the path to an event through a creation transition
     select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_CRTXN[R507]->SM_LEVT[R509]->SM_SEVT[R526]->SM_EVT[R525]->SM_EVTDI[R532];
+    if ( empty sm_evtdi )
+      select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_EVTDI[R532];
+    end if;
   end if;
   // Get first parameter.
   first_sm_evtdi = sm_evtdi;
