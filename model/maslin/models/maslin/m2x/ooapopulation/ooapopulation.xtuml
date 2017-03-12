@@ -6111,7 +6111,7 @@ self.StateMachineEvent_createMessageArgumentsForParameter(sm_evtdi:newEvtdi, sm_
 return newEvtdi;',
 	1,
 	'',
-	"88689cb1-bdb5-4c16-8ee5-3518ac8b2fa6",
+	"5329e43f-743a-4151-83c3-5cc30b20d505",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("d927ecb0-f4b0-47ab-bd8e-ef51b30216f6",
@@ -6461,12 +6461,17 @@ INSERT INTO O_TFR
 // not really a state but is "Ignore" or "Cannot_Happen"
 
 select any fromState related by sm_sm->SM_STATE[R501] where (selected.Name == param.startState);
+// Give preference to finding an inherited event (by overwriting a local find).
+// This allows a dubious possibility of having a local event with the
+// same name as an event in the supertype.
 select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
+if ( "" != param.object )
+  inherited_event_name = param.object + "." + param.eventName;
+  select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == inherited_event_name );
+end if;
 if ( empty sm_evt )
   // Event not found, so it must be a poly that has not been created yet.
   // Find the event in the supertype hierarchy using the given name.
-  // If necessary, migrate the event in the supertype from SM_SEVT to SM_PEVT.
-  // Clean up the parent SEMEs.
   // Create the SEVT and non-local event in this state machine and relate it upwards.
   // This processing depends on the supertype being in place before the subtype.
   select any o_obj from instances of O_OBJ where ( selected.Name == param.object );
@@ -6475,23 +6480,21 @@ if ( empty sm_evt )
   if ( empty parent_sm_evt )
     TRACE::log( flavor:"failure", id:157, message:"Event for transition not found for event:  " + param.eventName );
   else
-    // If not already done so, migrate to poly.
-    select one sm_pevt related by parent_sm_evt->SM_PEVT[R525];
-    if ( empty sm_pevt )
-      sm_pevt = self.StateMachineEvent_migrateToPoly( sm_evt:parent_sm_evt );
-    end if;
     // Create a local representation of the parent poly in the this state machine.
     create object instance sm_evt of SM_EVT;
     relate sm_evt to sm_sm across R502;
-    sm_evt.Mning = param.eventName;
+    // The inherited event is named with the supertype class name.
+    // CDS - This will change when concrete polymorphic events are supported in the xtUML MM.
+    sm_evt.Mning = o_obj.Name + "." + param.eventName;
     sm_evt.Numb = 1;
     // give this event a unique number
     self.StateMachineEvent_setUniqueNumber(sm_evt:sm_evt, checkForDuplicate:false);
     create object instance sm_sevt of SM_SEVT;
     relate sm_evt to sm_sevt across R525;
-    create object instance sm_nlevt of SM_NLEVT;
-    relate sm_sevt to sm_nlevt across R526;
-    relate sm_nlevt to sm_pevt across R527;
+    create object instance sm_levt of SM_LEVT; // CDS - will be SM_NLEVT for concrete polys
+    relate sm_sevt to sm_levt across R526;
+    // CDS - We will relate sm_nlevt to the parent sm_levt for concrete polys.
+    // relate sm_nlevt to sm_levt across R523
     self.SEMEvent_createDefaultMatrixEntries(sm_sevt:sm_sevt);
   end if; 
 end if;
@@ -8280,9 +8283,6 @@ INSERT INTO O_TFR
 	1,
 	'current_class = self.current_class;
 
-//  TODO - This currently doesn''t do anything with values other than assigner in the "type" parameter.  Needs to be
-//    enhanced to handle these.
-
 select any sm_sm from instances of SM_SM where ( false );
 if ( "assigner" == param.type )
   sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ASM");
@@ -9186,61 +9186,6 @@ INSERT INTO O_TFR
 	'',
 	"d575fa93-3488-4bc0-ab38-d6aff10a2894",
 	0);
-INSERT INTO O_TFR
-	VALUES ("88689cb1-bdb5-4c16-8ee5-3518ac8b2fa6",
-	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
-	'StateMachineEvent_migrateToPoly',
-	'',
-	"a3a5646e-4d65-483e-a54f-449c5e6fe097",
-	1,
-	'sm_evt = param.sm_evt;
-select one sm_sevt related by sm_evt->SM_SEVT[R525];
-// Dispose of the event matrix entries.
-select many sm_semes related by sm_sevt->SM_SEME[R503];
-for each sm_seme in sm_semes
-  select one sm_state related by sm_seme->SM_STATE[R503];
-  unrelate sm_state from sm_sevt across R503 using sm_seme;
-  select one sm_ch related by sm_seme->SM_CH[R504];
-  if ( not_empty sm_ch )
-    unrelate sm_ch from sm_seme across R504;
-    delete object instance sm_ch;
-    delete object instance sm_seme;
-  else
-    TRACE::log( flavor:"failure", id:158, message:"Did not find SM_SEME when we thought we should migrating event:  " + sm_evt.Mning );
-  end if;
-end for;
-select one sm_levt related by sm_sevt->SM_LEVT[R526];
-if ( not_empty sm_levt )
-  unrelate sm_levt from sm_sevt across R526;
-  delete object instance sm_levt;
-else
-  TRACE::log( flavor:"failure", id:159, message:"Did not find SM_LEVT when we thought we should migrating event:  " + sm_evt.Mning );
-end if;
-unrelate sm_evt from sm_sevt across R525;
-delete object instance sm_sevt;
-create object instance sm_pevt of SM_PEVT;
-relate sm_evt to sm_pevt across R525;
-return sm_pevt;',
-	1,
-	'',
-	"5329e43f-743a-4151-83c3-5cc30b20d505",
-	0);
-INSERT INTO O_TPARM
-	VALUES ("21630e04-b4cf-44bb-97ff-46516ea20a5d",
-	"88689cb1-bdb5-4c16-8ee5-3518ac8b2fa6",
-	'sm_evt',
-	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("a3a5646e-4d65-483e-a54f-449c5e6fe097",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Polymorphic Event>',
-	'',
-	'',
-	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("65062455-b226-4503-a876-a0cbd652b56e",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
