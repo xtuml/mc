@@ -7045,11 +7045,17 @@ while ( passes < num_forms )
 		  for each o_attr in o_attrs
 		    select many r_rtos related by o_attr->O_RATTR[R106]->O_REF[R108]->O_RTIDA[R111]->R_RTO[R110];
 		    select any r_aone related by r_rtos->R_AONE[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
-		    select any r_aoth related by r_rtos->R_AOTH[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
-		    if ( not_empty r_aone or not_empty r_aoth )
-		      // rename the attribute to the final name of the attribute (not the participant ID name)
-		      o_attr.Root_Nam = ra.Name;
-		      break;
+		    select one o_obj related by r_aone->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201];
+		    if ( empty o_obj )
+		      select any r_aoth related by r_rtos->R_AOTH[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
+		      select one o_obj related by r_aoth->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201];
+		    end if;
+		    if ( not_empty o_obj )
+		      if ( o_obj.Name == ra.objectName )
+		        // rename the attribute to the final name of the attribute (not the participant ID name)
+		        o_attr.Root_Nam = ra.Name;
+		        break;
+		      end if;
 		    end if;
 		  end for;
 		end for;
