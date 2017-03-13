@@ -21,6 +21,7 @@ This work is licensed under the Creative Commons CC0 License
 
 3. Background
 -------------
+3.1 general  
 BridgePoint supports abstract polymorphic events as defined in [2] and [4].
 iUML supports concrete polymorphic events as described in [3].  This work
 moves to a strategy of concrete polymorphic events using a name-based
@@ -28,6 +29,25 @@ strategy.  Inherited events are named with the MASL dotted syntax
 (super.eventName).  The presence of the dot in the name is the key to
 distinguishing events inherited from supertypes from events locally
 defined within the (present) subtype.
+
+For clarity, the following definitions will apply (which can be gleaned
+from [2], [3] and [4].
+
+3.2 abstract polymorphic event  
+An _abstract polymorphic event_ is one which defines the "shape" of an event
+but does not actually implement it in the present (supertype) state machine.
+An abstract polymorphic event is received at exactly one subtype at exactly
+one specific level somewhere below the supertype where it is defined.
+Sibling subtypes or the children of sibling subtypes receive this abstract
+polymorphic event at exactly one level, also.
+
+3.3 concrete polymorphic event  
+A _concrete polymorphic event_ is one which is defined and received in the
+supertype state machine and also at any (and/or all) subtype and sibling
+subtype state machines below the supertype.  A concrete polymorphic event
+shows up in the state table of the supertype and all suptypes.  The event
+must be explicitly transitioned, ignored or errored with `Cannot_Happen`
+in each state machine in the hierarchy.
 
 4. Requirements
 ---------------
