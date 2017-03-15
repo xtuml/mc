@@ -775,7 +775,7 @@ for each o_attr in o_attrs
         value[3] = rto_obj.Name; // referred to object name object
       end if;
 
-      value[4] = ref_o_attr.Root_Nam; // referred to attribute name
+      value[4] = ref_o_attr.Name; // referred to attribute name
       out::populate( element:"referential", value:value );
       value[1] = "";
       value[2] = "";
