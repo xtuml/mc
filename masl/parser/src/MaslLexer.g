@@ -30,6 +30,16 @@ private String getFileName() {
     return f.getName();
 }
 
+private ErrorHandler handler = null;
+public void setErrorHandler( ErrorHandler handler ) {
+    this.handler = handler;
+}
+@Override
+public void emitErrorMessage( String msg ) {
+    System.err.println(msg);
+    handler.handleError(msg);
+}
+
 }
 
 //==============================================================================================================

@@ -4,7 +4,7 @@ import org.antlr.runtime.tree.*;
 import java.util.regex.Pattern;
 import java.util.Arrays;
 
-public class MaslFormatter {
+public class MaslFormatter implements ErrorHandler {
 
     // public fields
     public static final int FILE = 0;
@@ -17,6 +17,8 @@ public class MaslFormatter {
     private int tabwidth;
     private PrintStream outStream;
 
+    private int exitCode;
+
     // public constructor
     public MaslFormatter() {
         sort = false;
@@ -24,6 +26,7 @@ public class MaslFormatter {
         comments = false;
         tabwidth = -1;
         outStream = null;
+        exitCode = 0;
     }
 
     // setup method
@@ -133,8 +136,12 @@ public class MaslFormatter {
             return;
         }
 
+        lex.setErrorHandler(this);
+
         tokens = new CommonTokenStream( lex );
         parser = new MaslParser( tokens );
+
+        parser.setErrorHandler(this);
 
         try {
             tree = ( CommonTree )parser.target().getTree();
@@ -153,6 +160,8 @@ public class MaslFormatter {
         if ( tabwidth >= 0 ) formatter.setTabWidth( tabwidth );
         if ( outStream != null ) formatter.setOut( outStream );
 
+        formatter.setErrorHandler(this);
+
         // run formatter
         try {
             formatter.target();
@@ -161,6 +170,14 @@ public class MaslFormatter {
             return;
         }
 
+    }
+
+    public void handleError(String msg) {
+        exitCode = 1;
+    }
+
+    public int exitCode() {
+        return exitCode;
     }
 
     // print usage
@@ -220,6 +237,8 @@ public class MaslFormatter {
         else {
             formatter.printUsage();
         }
+
+        System.exit(formatter.exitCode());
 
     }
 }
