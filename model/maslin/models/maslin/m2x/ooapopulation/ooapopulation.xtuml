@@ -6976,7 +6976,13 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many forms from instances of formalization;
+	'// detect baseless (recursive) referentials
+select many ras from instances of referentialAttribute;
+for each ra in ras
+  ra.detectRecursive(ra:ra);
+end for;
+
+select many forms from instances of formalization;
 num_forms = cardinality forms;
 passes = 0;
 
@@ -8693,6 +8699,7 @@ ra.roleOrObj = param.roleOrObj;
 ra.objectName = param.objName;
 ra.o_obj = ooapopulation.current_class;
 ra.Name = ooapopulation.current_attribute.Root_Nam;
+ra.baseless = false;
 
 // Find out if the attribute was specified as being part of an identifier.  Cache
 // that info.
