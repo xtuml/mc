@@ -4941,6 +4941,51 @@ INSERT INTO O_TPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TFR
+	VALUES ("b41bee99-f3be-445d-aad9-310d036d86ec",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'ReferentialAttribute_collapse_ref',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_attr = param.o_attr;
+battr = param.battr;
+
+select one o_rattr related by o_attr->O_RATTR[R106];
+select one o_battr related by battr->O_BATTR[R106];
+select one rattr_base related by o_rattr->O_BATTR[R113];
+if ( not_empty o_rattr and not_empty o_battr and not_empty rattr_base and rattr_base.Attr_ID == o_battr.Attr_ID )
+  // make each rattr in the chain baseless
+  select many o_rattrs related by rattr_base->O_RATTR[R113];
+  for each rattr in o_rattrs
+    unrelate rattr from rattr_base across R113;
+  end for;
+
+  // delete the base attribute
+  self.Attribute_dispose( o_attr:battr );
+end if;',
+	1,
+	'',
+	"ba2cc878-1f2c-4eaf-9cb1-06d1dfc8a80e",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("74b5313a-367f-4373-90b5-075d7346d925",
+	"b41bee99-f3be-445d-aad9-310d036d86ec",
+	'o_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("23dec44a-d0a8-4a6a-a0f8-f5bb6bb03c5d",
+	"b41bee99-f3be-445d-aad9-310d036d86ec",
+	'battr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"74b5313a-367f-4373-90b5-075d7346d925",
+	'');
+INSERT INTO O_TFR
 	VALUES ("628f594b-0e0c-4a22-911d-5c0fd4bbecc0",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
 	'ReferentialAttribute_combine_refs',
@@ -4976,7 +5021,7 @@ select many other_ref_set related by other_rattr->O_REF[R108];
 return o_attr;',
 	1,
 	'',
-	"ba2cc878-1f2c-4eaf-9cb1-06d1dfc8a80e",
+	"b41bee99-f3be-445d-aad9-310d036d86ec",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("36b82853-6f2e-45dd-8de4-445fa038b7e0",
