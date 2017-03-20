@@ -4954,14 +4954,11 @@ select one o_rattr related by o_attr->O_RATTR[R106];
 select one o_battr related by battr->O_BATTR[R106];
 select one rattr_base related by o_rattr->O_BATTR[R113];
 if ( not_empty o_rattr and not_empty o_battr and not_empty rattr_base and rattr_base.Attr_ID == o_battr.Attr_ID )
-  // make each rattr in the chain baseless
-  select many o_rattrs related by rattr_base->O_RATTR[R113];
-  for each rattr in o_rattrs
-    unrelate rattr from rattr_base across R113;
-  end for;
-
-  // delete the base attribute
-  self.Attribute_dispose( o_attr:battr );
+  // migrate the base attribute to referential
+  self.Attribute_migrateBaseToReferential(o_attr:battr);
+  
+  // combine the referentials
+  attr = self.ReferentialAttribute_combine_refs( o_attr:battr, other_attr:o_attr );
 end if;',
 	1,
 	'',
@@ -5013,7 +5010,9 @@ select many other_ref_set related by other_rattr->O_REF[R108];
      unrelate other_ref from other_rattr across R108;
      relate other_ref to o_rattr across R108;  
      // add other_ref to o_rattr ref list R112
-     relate other_ref to ref across R112.''succeeds'';
+     if ( not_empty ref )
+       relate other_ref to ref across R112.''succeeds'';
+     end if;
      ref = other_ref;    
    end for;
       
