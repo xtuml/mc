@@ -422,6 +422,17 @@ value[1] = "";
 select many c_eps related by c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003];
 for each c_ep in c_eps
     
+  if ( param.project )
+    select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
+    if ( not_empty spr_po )
+      if ( ActionDialect::none == spr_po.Dialect )
+        // A project can skip supplying a terminator service.  A dialect
+        // of ActionDialect::none means no terminator service was provided.
+        continue;
+      end if;
+    end if;
+  end if;
+
   value[2] = "public"; // Outbound messages are considered public.
   value[3] = c_ep.Name;
   out::populate( element:"routine", value:value );
