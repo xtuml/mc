@@ -16,26 +16,15 @@ INSERT INTO O_TFR
 	1,
 	'// there is some post processing that needs to be done for each referentialAttribute
 // in the formalization
-// * rename the referential attribute properly
 // * if needed, add the referential attribute to an identifier
-// * check for a duplicate that needs to be combined
+// * if baseless, check for base attributes that need to be collapsed
+// * check for referentials that need to be combined 
 
 o_attr = param.o_attr;
 ooapopulation = param.ooapopulation;
 
 if ( not_empty o_attr )
   
-  // search for duplicates to combine
-  select many o_attrs related by o_attr->O_OBJ[R102]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
-  for each dup_o_attr in o_attrs
-	if ( dup_o_attr != o_attr and dup_o_attr.Root_Nam == o_attr.Root_Nam )
-	  // Copy over the description field from the attribute being combined.
-	  o_attr.Descrip = o_attr.Descrip + dup_o_attr.Descrip;
-      // combine deleting the most recent referential attribute
-	  o_attr = ooapopulation.ReferentialAttribute_combine_refs( o_attr:dup_o_attr, other_attr:o_attr );
-	end if;
-  end for;
-
   // add to identifiers (if not already in them)
   if ( true == self.identifier1 )
     select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 0 );
@@ -55,6 +44,30 @@ if ( not_empty o_attr )
 	  ooapopulation.Attribute_addToIdentifier( o_attr:o_attr, oid:2 ); 
     end if;
   end if;
+
+  // if baseless, check for base attributes that need to be collapsed
+  if ( self.baseless )
+    select many o_attrs related by o_attr->O_OBJ[R102]->O_ATTR[R102]->O_BATTR[R106]->O_ATTR[R106];
+    for each dup_o_attr in o_attrs
+	  if ( dup_o_attr != o_attr and dup_o_attr.Root_Nam == o_attr.Root_Nam )
+	    // Copy over the description field from the attribute being collapsed
+	    o_attr.Descrip = o_attr.Descrip + dup_o_attr.Descrip;
+	    // collapse the battr into the new rattr
+	    ooapopulation.ReferentialAttribute_collapse_ref( o_attr:o_attr, battr:dup_o_attr );
+	  end if;
+    end for;
+  end if;
+
+  // search for duplicates to combine
+  select many o_attrs related by o_attr->O_OBJ[R102]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
+  for each dup_o_attr in o_attrs
+	if ( dup_o_attr != o_attr and dup_o_attr.Root_Nam == o_attr.Root_Nam )
+	  // Copy over the description field from the attribute being combined.
+	  o_attr.Descrip = o_attr.Descrip + dup_o_attr.Descrip;
+	  // combine deleting the most recent referential attribute
+	  o_attr = ooapopulation.ReferentialAttribute_combine_refs( o_attr:dup_o_attr, other_attr:o_attr );
+	end if;
+  end for;
 
 end if;',
 	1,
