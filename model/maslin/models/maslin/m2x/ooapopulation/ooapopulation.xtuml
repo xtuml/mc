@@ -6998,20 +6998,16 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'// detect baseless (recursive) referentials
-select many ras from instances of referentialAttribute;
-for each ra in ras
-  ra.detectRecursive(ra:ra);
-end for;
-
-select many forms from instances of formalization;
+	'select many forms from instances of formalization;
 num_forms = cardinality forms;
+previous_formalization_count = num_forms;
 passes = 0;
 
 // Because of possible dependencies, it is required to pass over the list
 // of formalizations N times where N is the number of formalizations
 // The worst case scenario is if each formalization is dependent on the next
-while ( passes < num_forms )
+// Loop an extra time to acount for detection of recursive referentials.
+while ( passes <= num_forms )
 
   for each form in forms
 
@@ -7164,6 +7160,16 @@ while ( passes < num_forms )
 
   // re-select the formalizations
   select many forms from instances of formalization;
+
+  current_formalization_count = cardinality forms;
+  if ( current_formalization_count == previous_formalization_count )
+    // detect baseless (recursive) referentials
+    select many ras from instances of referentialAttribute;
+    for each ra in ras
+      ra.detectRecursive(ra:ra);
+    end for;
+  end if;
+  previous_formalization_count = current_formalization_count;
 
 end while;
 
