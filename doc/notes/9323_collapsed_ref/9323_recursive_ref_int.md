@@ -48,6 +48,21 @@ See [[2.1]].
 Fork: cortlandstarrett/mc  9323_recursive_ref
 
 xtuml/mc
+ bin/m2x                                                                          | Bin 691664 -> 691824 bytes
+ bin/x2m                                                                          | Bin 691376 -> 691376 bytes
+ doc/notes/9323_collapsed_ref/9323_recursive_ref_dnt.md                           | 143 ++++++++++++++++++++++++
+ doc/notes/9323_collapsed_ref/9323_recursive_ref_int.md                           |  56 ++++++++++++
+ doc/notes/9323_collapsed_ref/attr.png                                            | Bin 0 -> 85730 bytes
+ model/maslin/gen/masl2xtuml_O_ATTR_class.c                                       |   2 +-
+ model/maslin/models/maslin/m2x/assocFormalization/assocFormalization.xtuml       |   6 +-
+ model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml                 |  88 +++++++++++++++++++--
+ model/maslin/models/maslin/m2x/referentialAttribute/referentialAttribute.xtuml   | 141 ++++++++++++++++++++----
+ model/maslin/models/maslin/m2x/simpleFormalization/simpleFormalization.xtuml     |  15 ++---
+ model/maslin/models/maslin/m2x/subsuperFormalization/subsuperFormalization.xtuml |   6 +-
+ model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml                |   4 +-
+ model/mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml                      |   2 +-
+ schema/sql/xtumlmc_schema.sql                                                    |   2 +-
+ 14 files changed, 427 insertions(+), 38 deletions(-)
 
 </pre>
 
