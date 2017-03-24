@@ -698,7 +698,9 @@ for each o_attr in o_attrs
   select one o_rattr related by o_attr->O_RATTR[R106];
   if ( not_empty o_rattr )
     select one base_o_attr related by o_rattr->O_BATTR[R113]->O_ATTR[R106];
-    select one s_dt related by base_o_attr->S_DT[R114];
+    if ( not_empty base_o_attr )
+      select one s_dt related by base_o_attr->S_DT[R114];
+    end if;
   end if;
 
   if ( ( "current_state" == o_attr.Name ) and ( "state<State_Model>" == s_dt.Name ) )
