@@ -3311,7 +3311,9 @@ self.Attribute_migrateBaseToReferential( o_attr:attr );
 attr.Root_Nam = id_attr.Root_Nam;
 
 select one ref_attr related by attr->O_RATTR[R106];
-relate ref_attr to base_attr across R113;
+if ( not_empty base_attr )
+  relate ref_attr to base_attr across R113;
+end if;
 
 if ( param.id != -1 )
   select any assr_id related by o_obj->O_ID[R104] where selected.Oid_ID == param.id;
@@ -5131,8 +5133,12 @@ select many rtoRefs related by attr->O_OIDA[R105]->
                              O_RTIDA[R110]->O_REF[R111]->O_RATTR[R108];
 for each ref in rtoRefs
   select one oldBattr related by ref->O_BATTR[R113];
-  unrelate ref from oldBattr across R113;
-  relate ref to battr across R113;
+  if ( not_empty oldBattr )
+    unrelate ref from oldBattr across R113;
+  end if;
+  if ( not_empty battr )
+    relate ref to battr across R113;
+  end if;
 end for;
 self.ReferentialAttribute_dispose(o_rattr:o_rattr);
 ',
@@ -7165,8 +7171,9 @@ while ( passes <= num_forms )
   if ( current_formalization_count == previous_formalization_count )
     // detect baseless (recursive) referentials
     select many ras from instances of referentialAttribute;
+    max_depth = cardinality ras;
     for each ra in ras
-      ra.detectRecursive(ra:ra);
+      ra.detectRecursive(ra:ra, current_depth:0, max_depth:max_depth);
     end for;
   end if;
   previous_formalization_count = current_formalization_count;
