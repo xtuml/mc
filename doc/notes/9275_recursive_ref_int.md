@@ -43,14 +43,21 @@ marking anyone who depends upon it as baseless.  This uses graph
 coloring rather than traversal.  
 - Instead of recursive graph traversal, use relational combinational
 queries.  
+- Debug detectRecursive  
+It looks like detectRecusive only checks the immediate neighbor
+to be the same.  It is passing in the next ra rather than self.  
+Er, no, this is fine.  self is implictly passed.  
 
 experiments:  
-1) Making detectRecursion always return true did not work.
-Even for the spur model, the order of processing was key.  
-2) Detecting a single reflexive baseless referential and
-marking it baseless allowed the spur model to convert correctly.  
-3) Marking all attributes in complex as baseless allowed it
-convert, but we lost some attributes in `Environment_Variable_for_Process`
+1) Make detectRecursion always return true.  
+*result:*  This did not work.  Even for the spur model, the order of
+processing is key.  
+2) Detect a single reflexive baseless referential.  
+*result:*  This allowed the spur model to convert correctly.  The
+complex model still did not convert.  
+3) Mark all attributes as baseless.  
+*result:*  In the complex model, this experiment allowed it
+convert, but it lost attributes in `Environment_Variable_for_Process`
 and `Process_Specification`.  
 
 4. Requirements
