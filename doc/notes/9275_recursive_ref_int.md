@@ -41,32 +41,42 @@ ideas:
 - Identify one baseless attribute, and then "fan out" from there
 marking anyone who depends upon it as baseless.  This uses graph
 coloring rather than traversal.  
-- Instead of recursive graph traversal, use relational combinational
-queries.  
-- Debug detectRecursive  
-It looks like detectRecusive only checks the immediate neighbor
-to be the same.  It is passing in the next ra rather than self.  
-Er, no, this is fine.  self is implictly passed.  
+Actually, this is precisely what the current approach does.  
+- spur detection  
+It is possible to detect spurs by getting infinity back from
+`detectRecursive`.  In the proper loop will see itself.  
 
 experiments:  
 1) Make detectRecursion always return true.  
 *result:*  This did not work.  Even for the spur model, the order of
-processing is key.  
+formalization is critical.  
 2) Detect a single reflexive baseless referential.  
 *result:*  This allowed the spur model to convert correctly.  The
 complex model still did not convert.  
 3) Mark all attributes as baseless.  
 *result:*  In the complex model, this experiment allowed it
 convert, but it lost attributes in `Environment_Variable_for_Process`
-and `Process_Specification`.  
+and `Process_Specification` due to incorrect formalization order.  
 
 4. Requirements
 ---------------
-See [[2.1]].
+See [3].
 
 5. Work Required
 ----------------
-See [[2.1]].
+5.1 See [3].
+
+5.2 `R113`  
+There are still places in `m2x` that have not embraced the conditional
+association between `O_RATTR` and `O_BATTR`.  Deal with these by ensuring
+that a legit data type is linked to `O_ATTR` any time there is a baseless
+referential.
+
+5.3 Ordering of Formalization  
+Give priority to formalizations that are part of a baseless referential
+loop.  This can be done by selecting formalizations that are associated
+with referential-attributes-as-identifer.  Such referenentials are on
+the loop of associations rather than on a leading or trailing "spur".
 
 6. Implementation Comments
 --------------------------

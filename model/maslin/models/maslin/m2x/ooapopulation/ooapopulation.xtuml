@@ -3313,6 +3313,14 @@ attr.Root_Nam = id_attr.Root_Nam;
 select one ref_attr related by attr->O_RATTR[R106];
 if ( not_empty base_attr )
   relate ref_attr to base_attr across R113;
+else
+  // baseless referential - get the data type from the referred-to identifier attribute
+  select one id_s_dt related by id_attr->S_DT[R114];
+  select one ref_s_dt related by attr->S_DT[R114];
+  if ( not_empty ref_s_dt )
+    unrelate ref_s_dt from attr across R114;
+  end if;
+  relate id_s_dt to attr across R114;
 end if;
 
 if ( param.id != -1 )
@@ -7177,6 +7185,14 @@ while ( passes <= num_forms )
     end for;
   end if;
   previous_formalization_count = current_formalization_count;
+
+  // Give preference to formalizations that have referentials-as-identifiers.
+  // This will formalize associations in baseless loops before the baseless spurs.
+  select many identifier_ras from instances of referentialAttribute where ( selected.identifier1 or selected.identifier2 or selected.identifier3 );
+  select many forms related by identifier_ras->formalization[R3811];
+  if ( empty forms )
+    select many forms from instances of formalization;
+  end if;
 
 end while;
 
