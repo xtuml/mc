@@ -78,6 +78,14 @@ loop.  This can be done by selecting formalizations that are associated
 with referential-attributes-as-identifer.  Such referenentials are on
 the loop of associations rather than on a leading or trailing "spur".
 
+5.4 `detectRecursive` Cap  
+Enhance `detectRecursive` to not spin forever.  This is done by
+keeping track of the depth of recursion.  The depth of recursion
+can never exceed the a number equal to the total number of rerenential
+attributes being traversed.  This value is passed to the detection
+routine which marks a branch as `baseless` if infinite recursion (loop)
+is detected.
+
 6. Implementation Comments
 --------------------------
 
