@@ -98,6 +98,11 @@ the loop of associations rather than on a leading or trailing "spur".
 Fork: cortlandstarrett/mc  9275_spur
 
 xtuml/mc
+ bin/m2x                                                                        | Bin 691824 -> 695920 bytes
+ doc/notes/9275_recursive_ref_int.md                                            | 106 ++++++++++++++++++++++
+ model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml               |  31 +++++++++++--
+ model/maslin/models/maslin/m2x/referentialAttribute/referentialAttribute.xtuml |  37 +++++++++++++--
+ 4 files changed, 165 insertions(+), 9 deletions(-)
 
 </pre>
 
