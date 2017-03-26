@@ -32,10 +32,7 @@ interchangeably. These terms refer to the specific case in which a referential
 attribute is combined (merged, collapsed) with the very base attribute to which
 it refers. This necessarily means there is an endless reference loop in the
 model (i.e. recursive) and that there is no longer a base attribute referenced
-(i.e. baseless). A user has coined the term "recursive referential" to
-distinguish this situation from "combined referentials" where two referential
-attributes are combined into one attribute with the union set of the references
-and identifiers of the two combined attributes.
+(i.e. baseless).
 
 4. Requirements
 ---------------
@@ -85,6 +82,29 @@ Since these baseless referentials create an infinite loop of reference, the
 formalization mechanism does not ever think they are "ready" to formalize.
 
 5.3 BridgePoint
+
+5.3.1 Viewing
+
+BridgePoint needs to be able to display models containing recursive
+referentials. Specifically, the data type of a recursive referential needs to be
+selected from the referential attribute itself and not the base attribute.
+
+5.3.2 Editing
+
+BridgePoint supports combining two referential attributes which refer to
+the same base attribute. Once combined, these attributes can also be split
+apart. This facility must be extended to allow users to combine attributes to
+create recursive referentials and to separate them again.
+
+5.3.2.1 Definition of combining attributes
+
+The following definition is used to determine if two attributes can be combined:
+
+_Attributes can be combined if and only if_
+* _Two attributes in the same class are referentials and they refer to the same
+  base attribute **OR**_  
+* _A referential attribute refers to an identifying base attribute in the same
+  class_  
 
 6. Design
 ---------
@@ -150,6 +170,78 @@ typing of referential attributes explicitly.
 6.2.1 Update `attribute2attribute` to select the type of the base attribute for
 referentials only if the base attribute across R113 is not empty.
 
+6.3 BridgePoint
+
+6.3.1 Modify OOA of OOA
+
+Change the O_BATTR side of R113 to be conditional, update schema accordingly
+
+6.3.2 Change O_RATTR `newReferentialAttribute`
+
+Update this operation to check whether a base attribute exists across R113
+before setting the data type to "same_as<Base_Attribute>". This assures that
+recursive referentials keep their data type.
+
+6.3.3 Update property source and O_OBJ `get_compartment_text`
+
+Both the attribute property page and `get_compartment_text` on Model Class were
+assuming a base attribute across R113. They must be changed to get the local
+data type in the case where there is no base attribute.
+
+6.3.4 Update O_ATTR `actionFilter`
+
+The action filter for attribute must be updated to allow combining of attributes
+in both cases specified in 5.3.2.1. Additionally, fork "can split" into "can
+split ref" and "can split base" to filter for attributes that can be split in
+both ways.
+
+Because two different types of split are being introduced (splitting into a base
+and a ref, and splitting into two refs), the "can split base" filter is further
+narrowed to only allow splitting if there is exactly one O_REF. This prevents
+both from being active at the same time.
+
+6.3.5 Add O_ATTR `canCombineWith` operation
+
+This operation is introduced to handle the added complexity of selecting the set
+of candidate attributes to combine with. It now selects the attribute set based
+on the definition in 5.3.2.1
+
+6.3.6 Update `O_ATTR_CombineWith` context menu function
+
+Update the select statement in the function to call `canCombineWith`
+
+6.3.7 Add `O_ATTR_ReferentialSplit` and `O_ATTR_BaseAndRefSplit` context menu
+functions
+
+Move `O_ATTR_Split` to `O_ATTR_ReferentialSplit` and introduce the new function
+`O_ATTR_BaseAndRefSplit`. These functions correspond to the two types of split
+mentioned in 6.3.4. The new function calls `split_base_and_ref` in O_ATTR to
+perform the split.
+
+6.3.8 Move O_RATTR `combine_refs` into O_ATTR
+
+This operation should be moved because now base attributes can participate in
+combinations
+
+6.3.9 Add O_ATTR `split_base_and_ref` operation
+
+The split operation for recursive referentials works as follows:  
+1. Create a new referential attribute with the single O_REF instance  
+2. Migrate the original referential attribute to a base attribute  
+3. Set the data type of the new base attribute to that of the original attribute  
+4. Set all referentials in the chain to point to the new base attribute across
+R113  
+
+6.3.10 Add O_RATTR `propagateBaseAttr` operation
+
+This new operation is a recursive operation used to traverse a referential chain
+and set the base attribute for each O_RATTR. It is used for step 4 above
+
+6.3.11 Update CME PEI data
+
+Update the PEI data for context menu entries to create two different entries for
+the two types of split
+
 7. Design Comments
 ------------------
 
@@ -168,6 +260,8 @@ referentials only if the base attribute across R113 is not empty.
 7.2.1 Run `regression_test`.  
 7.2.2 See empty diff files.  
 
+7.3 BridgePoint test  
+7.3.1 See [[2.1]](#2.1) comment #3  
 
 End
 ---
