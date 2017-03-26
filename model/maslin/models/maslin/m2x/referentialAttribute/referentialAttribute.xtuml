@@ -115,17 +115,24 @@ INSERT INTO O_TFR
 	1,
 	'// General algorithm:
 //   1. Start with an instance of referentialAttribute. If there is none provided, use self
-//   2. Use the information in the referentialAttribute instance to select all of the referentialAttribute
+//   2. Check that we have not exceeded the maximum depth of recursive search.
+//   3. Use the information in the referentialAttribute instance to select all of the referentialAttribute
 //      instances connected to the referred to attribute
-//   3. For each instance in the selected set
-//      3a. If the selected referentialAttribute instance is self or has already been set baseless,
+//   4. For each instance in the selected set
+//      4a. If the selected referentialAttribute instance is self or has already been set baseless,
 //          we have a reference loop and "baseless" is set true; break out of loop
-//      3b. Else, recursively invoke "detectRecursive" using the selected instance as the starting
+//      4b. Else, recursively invoke "detectRecursive" using the selected instance as the starting
 //          point. If "baseless" is set true after the recursive call, break out of the loop.
 
 ra = param.ra;
 if ( empty ra )
   ra = self;
+end if;
+
+if ( param.current_depth >= param.max_depth )
+  // We are looping, which means we are baseless.
+  self.baseless = true;
+  return;
 end if;
 
 if ( not self.baseless )
@@ -160,7 +167,9 @@ if ( not self.baseless )
         break;
       else
         // recurse to the next ra
-        self.detectRecursive(ra:cand_ra);
+        self.detectRecursive(ra:cand_ra,
+          current_depth:param.current_depth + 1,
+          max_depth:param.max_depth );
         if ( self.baseless )
           // if baselessness was detected lower in the recursion, break out
           break;
@@ -190,6 +199,24 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../m2x.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("7052f513-8b89-4440-a493-ab2b949aa14b",
+	"fb4fa599-0ec4-4f7d-891b-e3b9d703b3b9",
+	'current_depth',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"4b7089ff-de4d-41ab-adbe-9df84b21a069",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("29288d88-6fd1-444d-ad5a-dce64b3a310f",
+	"fb4fa599-0ec4-4f7d-891b-e3b9d703b3b9",
+	'max_depth',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"7052f513-8b89-4440-a493-ab2b949aa14b",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("b198409d-c85e-4b50-a6b7-59f50790ea63",
 	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
