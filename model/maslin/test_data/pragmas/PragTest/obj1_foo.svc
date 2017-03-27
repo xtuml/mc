@@ -1,4 +1,0 @@
-public instance service PragTest::obj1.foo () is
-begin
-  null;
-end service;
