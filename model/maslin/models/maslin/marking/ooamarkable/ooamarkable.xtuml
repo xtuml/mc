@@ -152,7 +152,7 @@ if ( not_empty population )
           if ( not_empty terminator1 )
             select one c_po related by terminator1->C_IR[R4009]->C_PO[R4016];
             select one c_c related by c_po->C_C[R4010];
-            child = c_po.Name + "::" + interface.Name + "::" + population.Message_getSignature( c_ep:routine2 );
+            child = c_po.Name + "::" + interface.Name + "::" + population.ExecutableProperty_getSignature( c_ep:routine2 );
             pathkey = ::component_get_path( c_c:c_c, child:child );
             for each pragma in pragmas
               pragma.pragma2mark( markable_name:"Required Operation", pathkey:pathkey );
