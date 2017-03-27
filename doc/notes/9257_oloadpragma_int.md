@@ -77,6 +77,15 @@ updated to include signature
 Fork: cortlandstarrett/mc  9257_oloadpragma
 
 xtuml/mc
+ bin/m2x                                                           | Bin 695920 -> 695920 bytes
+ bin/x2m                                                           | Bin 691376 -> 691376 bytes
+ doc/notes/9257_oloadpragma_int.md                                 |  85 ++++++++++++++++++++++
+ model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml  |   6 ++--
+ model/maslin/models/maslin/marking/ooaelement/ooaelement.xtuml    |   4 +--
+ model/maslin/models/maslin/marking/ooamarkable/ooamarkable.xtuml  |   6 ++--
+ model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml |  20 +++++++------
+ 7 files changed, 105 insertions(+), 16 deletions(-)
+
 
 </pre>
 
