@@ -1,4 +1,0 @@
-public service PragTest::foo () is
-begin
-  null;
-end service;

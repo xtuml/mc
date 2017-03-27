@@ -1,4 +1,0 @@
-public function PragTest::bar () return integer is
-begin
-  null;
-end function;
