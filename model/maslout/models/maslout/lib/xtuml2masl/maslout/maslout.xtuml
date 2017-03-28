@@ -468,13 +468,14 @@ for each c_ep in c_eps
     port_name = c_po.Name;
   end if;
   
+  select any c_i related by c_po->C_IR[R4016]->C_I[R4012];
   if ( param.project )
     select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
     ::body2code_block( name:"", text:STRING::unescapetics(s:spr_po.Action_Semantics_internal) );
 
 	// Populate pragmas
         select one c_ep related by spr_po->SPR_PEP[R4503]->C_EP[R4501];
-        child = c_po.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
+        child = c_po.Name + "::" + c_i.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
         ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
 
 	// output the description
@@ -485,8 +486,8 @@ for each c_ep in c_eps
 
 	// Populate pragmas
         select one c_ep related by spr_ro->SPR_REP[R4502]->C_EP[R4500];
-        child = c_po.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
-        ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
+        child = c_po.Name + "::" + c_i.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
+        ::mark2pragma( markable:"Required Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
 
 	// output the description
 	::Descrip2description( Descrip:spr_ro.Descrip );
