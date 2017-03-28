@@ -54,7 +54,7 @@ for each o_attr in o_attrs
   for each identifier_ra in identifier_ras
     if ( identifier_ra.Name == o_attr.Root_Nam )
       select one o_rattr related by o_attr->O_RATTR[R106];
-      if ( empty o_rattr and not identifier_ra.baseless )
+      if ( not identifier_ra.o_rattrReady(o_rattr:o_rattr) )
         return -1; // participant identifier referential is not in place yet
       end if;
     end if;
@@ -72,7 +72,7 @@ else
 	for each identifier_ra in identifier_ras
 	  if ( identifier_ra.Name == o_attr.Root_Nam )
 		select one o_rattr related by o_attr->O_RATTR[R106];
-        if ( empty o_rattr and not identifier_ra.baseless )
+        if ( not identifier_ra.o_rattrReady(o_rattr:o_rattr) )
 		  return -1; // participant identifier referential is not in place yet
 		end if;
 	  end if;
@@ -89,7 +89,7 @@ else
 	  for each identifier_ra in identifier_ras
 		if ( identifier_ra.Name == o_attr.Root_Nam )
 		  select one o_rattr related by o_attr->O_RATTR[R106];
-          if ( empty o_rattr and not identifier_ra.baseless )
+          if ( not identifier_ra.o_rattrReady(o_rattr:o_rattr) )
 			return -1; // participant identifier referential is not in place yet
 		  end if;
 		end if;
