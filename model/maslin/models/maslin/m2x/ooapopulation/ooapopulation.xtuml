@@ -4973,12 +4973,9 @@ if ( not_empty o_rattr and not_empty o_battr and not_empty rattr_base and rattr_
   for each ref_o_attr in ref_o_attrs
     select one old_s_dt related by ref_o_attr->S_DT[R114];
     if ( not_empty old_s_dt )
-//CDS - Perhaps here we check for uniqueid together with integer and keep uniqueid.
-TRACE::log( flavor:"info", id:999, message:"collapse_ref1:  old " + old_s_dt.Name );
       unrelate old_s_dt from ref_o_attr across R114;
     end if;
     if ( not_empty s_dt )
-TRACE::log( flavor:"info", id:999, message:"collapse_ref2:  s_dt" + s_dt.Name );
       relate s_dt to ref_o_attr across R114;
     end if;
   end for;
@@ -4990,12 +4987,9 @@ TRACE::log( flavor:"info", id:999, message:"collapse_ref2:  s_dt" + s_dt.Name );
   attr = self.ReferentialAttribute_combine_refs( o_attr:battr, other_attr:o_attr );
   select one old_s_dt related by attr->S_DT[R114];
   if ( not_empty old_s_dt )
-//CDS - Perhaps here we check for uniqueid together with integer and keep uniqueid.
-TRACE::log( flavor:"info", id:999, message:"collapse_ref3:  old " + old_s_dt.Name );
 	unrelate old_s_dt from attr across R114;
   end if;
   if ( not_empty s_dt )
-TRACE::log( flavor:"info", id:999, message:"collapse_ref4:  s_dt" + s_dt.Name );
 	relate s_dt to attr across R114;
   end if;
 end if;',
@@ -5055,7 +5049,6 @@ select many other_ref_set related by other_rattr->O_REF[R108];
      ref = other_ref;    
    end for;
       
-//CDS - Perhaps here we check for uniqueid together with integer and keep uniqueid.
    self.Attribute_dispose( o_attr:other_attr );
 return o_attr;',
 	1,
