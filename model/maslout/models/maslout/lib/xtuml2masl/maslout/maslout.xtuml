@@ -705,6 +705,11 @@ for each o_attr in o_attrs
     select one base_o_attr related by o_rattr->O_BATTR[R113]->O_ATTR[R106];
     if ( not_empty base_o_attr )
       select one s_dt related by base_o_attr->S_DT[R114];
+      if ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name )
+        // referentials referring to a "MASLunique" type should not propagate
+        // "unique"-ness ot the referential
+        select any s_dt from instances of S_DT where ( selected.Name == "integer" );
+      end if;
     end if;
   end if;
 

@@ -45,8 +45,16 @@ attributes
 
 5.1 `x2m`
 
-`attribute2attribute` in `x2m` was modified to allow the "unique" tag if the
+5.1.1 `attribute2attribute` in `x2m` was modified to allow the "unique" tag if the
 attribute is not a referential _OR_ the attribute is part of an identifier
+
+5.1.2 `attribute2attribute` in `x2m` was modified to get the right data type for
+normal referentials. With normal referentials, the data type is
+`same_as<Base_Attribute>` and the output data type is selected through R113. We
+do not want "MASLunique" to be propagated to attributes that are not truly
+unique (namely normal referential attributes). In the case where the data type
+on the other side of R113 is "MASLunique", the data type "integer" is selected
+instead.
 
 5.2 `m2x`
 
