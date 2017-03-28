@@ -383,7 +383,7 @@ end if;
 // Get a handle to the DT that is currently associated with the attribute
 select one cur_s_dt related by o_attr->S_DT[R114];
 
-// If the new DT does not equal the existing DT or is not MASLunique, continue
+// If the new DT does not equal the existing DT and is not MASLunique, relink
 if ( s_dt != cur_s_dt and cur_s_dt.Name != "MASLunique" )
   // un-relate the existing DT across R114
   unrelate o_attr from cur_s_dt across R114;
@@ -5028,7 +5028,7 @@ other_attr = param.other_attr;
 select one o_rattr related by o_attr->O_RATTR[R106];
 select one other_rattr related by other_attr->O_RATTR[R106];
 select many other_ref_set related by other_rattr->O_REF[R108];
-   
+
    // find last O_REF in o_rattr ref list R112
    select any ref related by o_rattr->O_REF[R108];
    select one next_ref related by ref->O_REF[R112.''precedes''];
@@ -5048,7 +5048,14 @@ select many other_ref_set related by other_rattr->O_REF[R108];
      end if;
      ref = other_ref;    
    end for;
-      
+
+   // Just like the refs, we need to bring over the IDs from the attribute
+   // that is about to be disposed.
+   select many other_o_oidas related by other_attr->O_OIDA[R105];
+   for each other_o_oida in other_o_oidas
+     self.Attribute_addToIdentifier( o_attr:o_attr, oid:other_o_oida.Oid_ID );
+   end for;
+
    self.Attribute_dispose( o_attr:other_attr );
 return o_attr;',
 	1,
