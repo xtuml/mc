@@ -720,8 +720,12 @@ for each o_attr in o_attrs
     value[2] = "";
     // See if the type of this attribute is unique_id or MASLunique.
     // ''unique'' is dropped when this is a referential attribute
-    if ( ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name ) and empty o_rattr )
-      value[2] = "unique";
+    if ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name )
+      select any o_oida related by o_attr->O_OIDA[R105];
+      if ( ( empty o_rattr ) or ( not_empty o_oida ) )
+        // unless it is part of an identifier
+        value[2] = "unique";
+      end if;
     end if;
     // CDS - Coerce inst_ref<Timer>
     if ( "inst_ref<Timer>" == value[2] )

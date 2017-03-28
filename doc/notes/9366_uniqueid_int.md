@@ -28,6 +28,11 @@ This work is licensed under the Creative Commons CC0 License
 
 6. Implementation Comments
 --------------------------
+`Attribute_setType`
+```
+// If the new DT does not equal the existing DT or is not MASLunique, continue
+if ( s_dt != cur_s_dt and cur_s_dt.Name != "MASLunique" )
+```
 
 7. Unit Test
 ------------
