@@ -468,13 +468,14 @@ for each c_ep in c_eps
     port_name = c_po.Name;
   end if;
   
+  select any c_i related by c_po->C_IR[R4016]->C_I[R4012];
   if ( param.project )
     select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
     ::body2code_block( name:"", text:STRING::unescapetics(s:spr_po.Action_Semantics_internal) );
 
 	// Populate pragmas
         select one c_ep related by spr_po->SPR_PEP[R4503]->C_EP[R4501];
-        child = c_po.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
+        child = c_po.Name + "::" + c_i.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
         ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
 
 	// output the description
@@ -485,8 +486,8 @@ for each c_ep in c_eps
 
 	// Populate pragmas
         select one c_ep related by spr_ro->SPR_REP[R4502]->C_EP[R4500];
-        child = c_po.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
-        ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
+        child = c_po.Name + "::" + c_i.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
+        ::mark2pragma( markable:"Required Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
 
 	// output the description
 	::Descrip2description( Descrip:spr_ro.Descrip );
@@ -704,6 +705,11 @@ for each o_attr in o_attrs
     select one base_o_attr related by o_rattr->O_BATTR[R113]->O_ATTR[R106];
     if ( not_empty base_o_attr )
       select one s_dt related by base_o_attr->S_DT[R114];
+      if ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name )
+        // referentials referring to a "MASLunique" type should not propagate
+        // "unique"-ness ot the referential
+        select any s_dt from instances of S_DT where ( selected.Name == "integer" );
+      end if;
     end if;
   end if;
 
@@ -720,8 +726,12 @@ for each o_attr in o_attrs
     value[2] = "";
     // See if the type of this attribute is unique_id or MASLunique.
     // ''unique'' is dropped when this is a referential attribute
-    if ( ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name ) and empty o_rattr )
-      value[2] = "unique";
+    if ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name )
+      select any o_oida related by o_attr->O_OIDA[R105];
+      if ( ( empty o_rattr ) or ( not_empty o_oida ) )
+        // unless it is part of an identifier
+        value[2] = "unique";
+      end if;
     end if;
     // CDS - Coerce inst_ref<Timer>
     if ( "inst_ref<Timer>" == value[2] )
