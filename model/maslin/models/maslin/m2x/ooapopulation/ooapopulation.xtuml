@@ -3381,7 +3381,7 @@ for each battr in battrs
       // Copy over the description field from the original attribute
       rattr.Descrip = rattr.Descrip + battr.Descrip;
       
-      // copy the data type from the original attribute if the O_RATTR does not have a base
+      // copy the data type from the original attribute
       select one s_dt related by battr->S_DT[R114];
       select one old_dt related by rattr->S_DT[R114];
       if ( not_empty old_dt )
