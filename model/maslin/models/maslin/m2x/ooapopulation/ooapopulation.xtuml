@@ -3378,8 +3378,18 @@ select many rattrs related by o_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
 for each battr in battrs
   for each rattr in rattrs
     if ( rattr.Root_Nam == battr.Root_Nam )
-      // Copy over the description field from the attribute being combined.
+      // Copy over the description field from the original attribute
       rattr.Descrip = rattr.Descrip + battr.Descrip;
+      
+      // copy the data type from the original attribute
+      select one s_dt related by battr->S_DT[R114];
+      select one old_dt related by rattr->S_DT[R114];
+      if ( not_empty old_dt )
+        unrelate old_dt from rattr across R114;
+      end if;
+      if ( not_empty s_dt )
+        relate s_dt to rattr across R114;
+      end if;
 
       // copy the ordering information to the new referential attribute
 
@@ -4967,18 +4977,9 @@ select one o_rattr related by o_attr->O_RATTR[R106];
 select one o_battr related by battr->O_BATTR[R106];
 select one rattr_base related by o_rattr->O_BATTR[R113];
 if ( not_empty o_rattr and not_empty o_battr and not_empty rattr_base and rattr_base.Attr_ID == o_battr.Attr_ID )
-  // set the data type of each referring O_RATTR to the datatype of the base attribute
-  select many ref_o_attrs related by o_battr->O_RATTR[R113]->O_ATTR[R106];
+
+  // cache old dt
   select one s_dt related by battr->S_DT[R114];
-  for each ref_o_attr in ref_o_attrs
-    select one old_s_dt related by ref_o_attr->S_DT[R114];
-    if ( not_empty old_s_dt )
-      unrelate old_s_dt from ref_o_attr across R114;
-    end if;
-    if ( not_empty s_dt )
-      relate s_dt to ref_o_attr across R114;
-    end if;
-  end for;
   
   // migrate the base attribute to referential
   self.Attribute_migrateBaseToReferential(o_attr:battr);

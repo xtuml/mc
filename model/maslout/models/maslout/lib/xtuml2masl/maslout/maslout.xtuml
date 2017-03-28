@@ -705,6 +705,11 @@ for each o_attr in o_attrs
     select one base_o_attr related by o_rattr->O_BATTR[R113]->O_ATTR[R106];
     if ( not_empty base_o_attr )
       select one s_dt related by base_o_attr->S_DT[R114];
+      if ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name )
+        // referentials referring to a "MASLunique" type should not propagate
+        // "unique"-ness ot the referential
+        select any s_dt from instances of S_DT where ( selected.Name == "integer" );
+      end if;
     end if;
   end if;
 
@@ -721,8 +726,12 @@ for each o_attr in o_attrs
     value[2] = "";
     // See if the type of this attribute is unique_id or MASLunique.
     // ''unique'' is dropped when this is a referential attribute
-    if ( ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name ) and empty o_rattr )
-      value[2] = "unique";
+    if ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name )
+      select any o_oida related by o_attr->O_OIDA[R105];
+      if ( ( empty o_rattr ) or ( not_empty o_oida ) )
+        // unless it is part of an identifier
+        value[2] = "unique";
+      end if;
     end if;
     // CDS - Coerce inst_ref<Timer>
     if ( "inst_ref<Timer>" == value[2] )
