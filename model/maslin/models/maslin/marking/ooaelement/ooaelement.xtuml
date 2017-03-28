@@ -223,11 +223,11 @@ if ( not_empty ooapopulation )
   elif ( "routine" == self.type )
     s_sync = ooapopulation.current_domain_function;
     select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
-    pathkey = ::package_get_path( ep_pkg:ep_pkg, child:s_sync.Name );
+    pathkey = ::package_get_path( ep_pkg:ep_pkg, child:ooapopulation.Function_getSignature( s_sync:s_sync ) );
   elif ( "operation" == self.type )
     o_tfr = ooapopulation.current_class_op;
     select one o_obj related by o_tfr->O_OBJ[R115];
-    pathkey = ::class_get_path( o_obj:o_obj, child:o_tfr.Name );
+    pathkey = ::class_get_path( o_obj:o_obj, child:ooapopulation.Operation_getSignature( o_tfr:o_tfr ) );
   elif ( "state" == self.type )
     sm_state = ooapopulation.current_state;
     select one o_obj related by sm_state->SM_SM[R501]->SM_ISM[R517]->O_OBJ[R518];

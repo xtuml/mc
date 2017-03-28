@@ -1422,7 +1422,7 @@ parameter = first_param;
 while ( not_empty parameter )
   select one type related by parameter->S_DT[R4007];
   signature = signature + separator + type.Name;
-  separator = ", ";
+  separator = " ";
   select one parameter related by parameter->C_PP[R4021.''precedes''];
 end while;
 if( not_empty first_param )
@@ -1824,7 +1824,7 @@ parameter = first_param;
 while ( not_empty parameter )
   select one type related by parameter->S_DT[R26];
   signature = signature + separator + type.Name;
-  separator = ", ";
+  separator = " ";
   select one parameter related by parameter->S_SPARM[R54.''precedes''];
 end while;
 if( not_empty first_param )
@@ -3880,7 +3880,7 @@ parameter = first_param;
 while ( not_empty parameter )
   select one type related by parameter->S_DT[R118];
   signature = signature + separator + type.Name;
-  separator = ", ";
+  separator = " ";
   select one parameter related by parameter->O_TPARM[R124.''precedes''];
 end while;
 if( not_empty first_param )

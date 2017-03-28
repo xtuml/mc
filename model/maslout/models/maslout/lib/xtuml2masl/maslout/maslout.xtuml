@@ -473,7 +473,9 @@ for each c_ep in c_eps
     ::body2code_block( name:"", text:STRING::unescapetics(s:spr_po.Action_Semantics_internal) );
 
 	// Populate pragmas
-        ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child: c_po.Name + "::" + spr_po.Name ) );
+        select one c_ep related by spr_po->SPR_PEP[R4503]->C_EP[R4501];
+        child = c_po.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
+        ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
 
 	// output the description
 	::Descrip2description( Descrip:spr_po.Descrip );
@@ -482,7 +484,9 @@ for each c_ep in c_eps
     ::body2code_block( name:"", text:STRING::unescapetics(s:spr_ro.Action_Semantics_internal) );
 
 	// Populate pragmas
-        ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child: c_po.Name + "::" + spr_ro.Name ) );
+        select one c_ep related by spr_ro->SPR_REP[R4502]->C_EP[R4500];
+        child = c_po.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
+        ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
 
 	// output the description
 	::Descrip2description( Descrip:spr_ro.Descrip );
@@ -1271,7 +1275,7 @@ for each s_sync in s_syncs
   
   // Populate pragmas
   select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
-  ::mark2pragma( markable:"Function", pathkey: ::package_get_path( ep_pkg:ep_pkg, child:s_sync.Name ) );
+  ::mark2pragma( markable:"Function", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: ::function_getsignature( flavor:1, s_sync:s_sync ) ) );
 
   // output the description
   ::Descrip2description( Descrip:s_sync.Descrip );
@@ -1995,7 +1999,7 @@ for each o_tfr in o_tfrs
       end if;
     end for;
   end if;
-  
+
   // Get the first parameter.
   select any o_tparm related by o_tfr->O_TPARM[R117];
   first_o_tparm = o_tparm;
@@ -2021,7 +2025,7 @@ for each o_tfr in o_tfrs
   end if;
   
   // Populate pragmas
-  ::mark2pragma( markable:"Operation", pathkey: ::class_get_path( o_obj:o_obj, child:o_tfr.Name ) );
+  ::mark2pragma( markable:"Operation", pathkey: ::class_get_path( o_obj:o_obj, child: ::operation_getsignature( flavor:1, o_tfr:o_tfr ) ) );
 
   // output the description
   ::Descrip2description( Descrip:o_tfr.Descrip );
@@ -2271,7 +2275,7 @@ if ( 1 == param.flavor )
   while ( not_empty parameter )
 	select one type related by parameter->S_DT[R26];
 	signature = signature + separator + type.Name;
-	separator = ", ";
+	separator = " ";
 	select one parameter related by parameter->S_SPARM[R54.''precedes''];
   end while;
   if( not_empty first_param )
@@ -2304,7 +2308,7 @@ elif ( 0 == param.flavor )
     
     select one type related by curr_param->S_DT[R26];
     signature = signature + separator + curr_param.Name + ":" + type.Name;
-    separator = ", ";
+    separator = " ";
 
     last_param = curr_param;
     select any curr_param from instances of S_SPARM where false;
@@ -2401,7 +2405,7 @@ if ( not_empty c_io )
 	while ( not_empty parameter )
 	  select one type related by parameter->S_DT[R4007];
 	  signature = signature + separator + type.Name;
-	  separator = ", ";
+	  separator = " ";
 	  select one parameter related by parameter->C_PP[R4021.''precedes''];
 	end while;
 	if( not_empty first_param )
