@@ -1,0 +1,12 @@
+        <COMPOSITION-SW-COMPONENT-TYPE UUID="${pe_pe.Package_ID}">
+          <SHORT-NAME>cz_default</SHORT-NAME>
+          <COMPONENTS>
+${ar_composition_component_list}\
+          </COMPONENTS>
+          <CONNECTORS>
+${ar_composition_assembly_list}\
+          </CONNECTORS>
+          <DATA-TYPE-MAPPING-REFS>
+            <DATA-TYPE-MAPPING-REF DEST="DATA-TYPE-MAPPING-SET">/${te_sys.Name}/DataTMappingSet</DATA-TYPE-MAPPING-REF>
+          </DATA-TYPE-MAPPING-REFS>
+        </COMPOSITION-SW-COMPONENT-TYPE>

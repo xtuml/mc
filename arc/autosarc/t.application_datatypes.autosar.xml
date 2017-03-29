@@ -1,0 +1,14 @@
+        <APPLICATION-PRIMITIVE-DATA-TYPE UUID="${te_dt.DT_ID}">
+          <SHORT-NAME>${te_dt.ExtName}</SHORT-NAME>
+          <CATEGORY>${ar_datatype_category_name}</CATEGORY>
+          <SW-DATA-DEF-PROPS>
+            <SW-DATA-DEF-PROPS-VARIANTS>
+              <SW-DATA-DEF-PROPS-CONDITIONAL>
+                <SW-CALIBRATION-ACCESS>NOT-ACCESSIBLE</SW-CALIBRATION-ACCESS>
+              </SW-DATA-DEF-PROPS-CONDITIONAL>
+            </SW-DATA-DEF-PROPS-VARIANTS>
+          </SW-DATA-DEF-PROPS>
+.if ( "" != ar_datatype_precision )
+${ar_datatype_precision}\
+.end if
+        </APPLICATION-PRIMITIVE-DATA-TYPE>

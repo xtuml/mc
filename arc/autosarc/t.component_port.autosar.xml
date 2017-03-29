@@ -1,0 +1,4 @@
+            <${msg_dir_letter}-PORT-PROTOTYPE UUID="${c_ir.Id}">
+              <SHORT-NAME>${msg_dir_small_letter}p_${msg_name}</SHORT-NAME>
+              <${msg_dir}-INTERFACE-TREF DEST="CLIENT-SERVER-INTERFACE">/${te_sys.Name}/${msg_name}</${msg_dir}-INTERFACE-TREF>
+            </${msg_dir_letter}-PORT-PROTOTYPE>

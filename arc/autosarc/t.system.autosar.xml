@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 autosar_4-0-3.xsd">
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="${te_sys.SystemID}">
+      <SHORT-NAME>${te_sys.Name}</SHORT-NAME>
+      <ELEMENTS>
+${ar_datatypes}\
+.if ( "" != ar_datatype_mapping_set )
+        <DATA-TYPE-MAPPING-SET UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+          <SHORT-NAME>DataTMappingSet</SHORT-NAME>
+          <DATA-TYPE-MAPS>
+${ar_datatype_mapping_set}\
+          </DATA-TYPE-MAPS>
+          <MODE-REQUEST-TYPE-MAPS>
+${ar_mode_type_map}\
+          </MODE-REQUEST-TYPE-MAPS>
+        </DATA-TYPE-MAPPING-SET>
+.end if
+${ar_interfaces}\
+${ar_system_msi}\
+${ar_components}\
+${ar_system_composition}\
+      </ELEMENTS>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

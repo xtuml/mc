@@ -1,0 +1,4 @@
+            <DATA-TYPE-MAP>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/${te_sys.Name}/${te_dt.ExtName}</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/${ar_base_datatype_name}</IMPLEMENTATION-DATA-TYPE-REF>
+            </DATA-TYPE-MAP>

@@ -1,0 +1,4 @@
+            <R-PORT-PROTOTYPE UUID="${c_po.Id}">
+              <SHORT-NAME>rp_ModeSWC</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="MODE-SWITCH-INTERFACE">/${te_sys.Name}/ModeSWC</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>

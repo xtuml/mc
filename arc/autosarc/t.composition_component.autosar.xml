@@ -1,0 +1,4 @@
+            <SW-COMPONENT-PROTOTYPE UUID="${cl_ic.Id}">
+              <SHORT-NAME>swc_${te_c.Name}</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-SW-COMPONENT-TYPE">/${te_sys.Name}/Swc${te_c.Name}</TYPE-TREF>
+            </SW-COMPONENT-PROTOTYPE>
