@@ -225,14 +225,14 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'o_rattr = param.o_rattr;
-ready = false;
+ready = self.baseless;
 
 if ( not_empty o_rattr )
   select any r_rel related by o_rattr->O_REF[R108]->O_RTIDA[R111]->R_RTO[R110]->R_OIR[R203]->R_REL[R201]
     where ( selected.Numb == STRING::atoi(s:STRING::substr(s:self.relationship,begin:1,end:-1)) );
-  ready = not_empty r_rel;
-else
-  ready = self.baseless;
+  if ( not_empty r_rel )
+    ready = true;
+  end if;
 end if;
 
 return ready;',
