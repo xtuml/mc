@@ -217,6 +217,45 @@ INSERT INTO O_TPARM
 	'',
 	"7052f513-8b89-4440-a493-ab2b949aa14b",
 	'');
+INSERT INTO O_TFR
+	VALUES ("0a67ef7f-bb7d-4171-9967-fa9f4d5113c9",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	'o_rattrReady',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'o_rattr = param.o_rattr;
+ready = self.baseless;
+
+if ( not_empty o_rattr )
+  select any r_rel related by o_rattr->O_REF[R108]->O_RTIDA[R111]->R_RTO[R110]->R_OIR[R203]->R_REL[R201]
+    where ( selected.Numb == STRING::atoi(s:STRING::substr(s:self.relationship,begin:1,end:-1)) );
+  if ( not_empty r_rel )
+    ready = true;
+  end if;
+end if;
+
+return ready;',
+	1,
+	'',
+	"fb4fa599-0ec4-4f7d-891b-e3b9d703b3b9",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("ad834b41-9452-49dd-900d-f842844cdb6e",
+	"0a67ef7f-bb7d-4171-9967-fa9f4d5113c9",
+	'o_rattr',
+	"9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Referential Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("b198409d-c85e-4b50-a6b7-59f50790ea63",
 	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
