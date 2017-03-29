@@ -5052,7 +5052,7 @@ select many other_ref_set related by other_rattr->O_REF[R108];
 
    // Just like the refs, we need to bring over the IDs from the attribute
    // that is about to be disposed.
-   select many other_o_oidas related by other_attr->O_OIDA[R105];
+   select many other_o_oidas related by other_attr->O_OIDA[R105] where ( selected.Oid_ID > 0 );
    for each other_o_oida in other_o_oidas
      self.Attribute_addToIdentifier( o_attr:o_attr, oid:other_o_oida.Oid_ID );
    end for;
