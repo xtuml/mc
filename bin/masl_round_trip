@@ -70,6 +70,20 @@ if [[ $OUT_DIR != "" ]]; then
 fi
 
 ###########################
+# Setup 
+###########################
+export WORKSPACE="/tmp/importwork"
+
+# If there is not already an eclipse instance started, start one
+LOCAL_CLI="false"
+stat $DIR/CLI_PORT.txt &> /dev/null
+if [[ $? != 0 ]]; then
+    echo "Launching an Eclipse command line instance..."
+    CLI.sh Launch
+    LOCAL_CLI="true"
+fi
+
+###########################
 # Convert
 ###########################
 CONVERTDIR="/tmp/convertdir"
@@ -89,17 +103,7 @@ fi
 ###########################
 # Import, Export, Diff
 ###########################
-export WORKSPACE="/tmp/importwork"
 MASLOUTDIR="/tmp/maslout"
-
-# We have to create a workspace from a previously zipped one that contains a project 
-# because CLI Import can't create a project for a single file model itself.  The latter would
-# be much better.
-echo "Preparing workspace $WORKSPACE"
-if [[ -d $WORKSPACE ]]; then
-    rm -rf $WORKSPACE
-fi
-unzip -q -o $DIR/importworkspace.zip -d /tmp/
 
 domNum=0
 for domain in ${DOM_DIRS[*]}; do
@@ -111,17 +115,19 @@ for domain in ${DOM_DIRS[*]}; do
     domProj=d$domNum
 
     echo "Round trip is now importing"
-    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj >/tmp/import_log_$domProj.txt 2>&1
+    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj -deleteExisting >/tmp/import_log_$domProj.txt 2>&1
     if [[ ! -e $WORKSPACE/$domProj/models/$domProj/types/types.xtuml ]]; then
       # First import didn't work. Import again. 
       echo "Failed to import first time through.  Importing again."
-      CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj >>/tmp/import_log_$domProj.txt 2>&1
+      CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj -deleteExisting >>/tmp/import_log_$domProj.txt 2>&1
     fi
 
     if [[ -f $CONVERTDIR/$domname/features.mark ]]; then
+        mkdir -p $WORKSPACE/$domProj/gen/
         cp $CONVERTDIR/$domname/features.mark $WORKSPACE/$domProj/gen/
     fi
     if [[ -f $CONVERTDIR/$domname/application.mark ]]; then
+        mkdir -p $WORKSPACE/$domProj/gen/
         cp $CONVERTDIR/$domname/application.mark $WORKSPACE/$domProj/gen/
     fi
 
@@ -163,11 +169,11 @@ if [[ $PROJ_DIR != "" ]]; then
     projname=$(basename $PROJ_DIR)
 
     echo "Round trip is now importing"
-    CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 >/tmp/import_log_p1.txt 2>&1
+    CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 -deleteExisting -allowIPRs >/tmp/import_log_p1.txt 2>&1
     if [[ ! -e $WORKSPACE/p1/models/p1/types/types.xtuml ]]; then
       # First import didn't work. Import again. 
       echo "Failed to import first time through.  Importing again."
-      CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 >>/tmp/import_log_p1.txt 2>&1
+      CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 -deleteExisting -allowIPRs >>/tmp/import_log_p1.txt 2>&1
     fi
 
     if [[ -f $CONVERTDIR/$projname/features.mark ]]; then
@@ -204,6 +210,11 @@ if [[ $PROJ_DIR != "" ]]; then
         echo -e "\nThe MASL output is idential to the input." 
       fi
     fi
+fi
+
+# if a local eclipse instance was started, shut it down
+if [[ $LOCAL_CLI == "true" ]]; then
+    CLI.sh Launch -exit
 fi
 
 echo -e "\n"
