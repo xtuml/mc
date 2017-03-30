@@ -337,11 +337,14 @@ create object instance rattr of O_RATTR;
 rattr.Ref_Mode = 0;  // LPS set to 0 to use local attribute name
 relate o_attr to rattr across R106;
 
-// LPS - we leave the datatype unset because the datatype same_as<Base Attribute>
-// does not exist. Instead it is incorporated into the instance dumper of O_ATTR
-// to insert the correct unique ID if the O_ATTR is related to an O_RATTR
-//self.ReferentialAttribute_setDatatype(o_rattr:rattr);
-',
+// Give referential attributes a default type of string.
+// This should be changed later
+select one old_s_dt related by o_attr->S_DT[R114];
+if ( not_empty old_s_dt )
+  unrelate old_s_dt from o_attr across R114;
+end if;
+select any s_dt from instances of S_DT where ( selected.Name == "string" );
+relate s_dt to o_attr across R114;',
 	1,
 	'',
 	"5c2fdc5a-5635-47f3-a8a0-55c3e3f15fe6",
@@ -380,7 +383,7 @@ end if;
 // Get a handle to the DT that is currently associated with the attribute
 select one cur_s_dt related by o_attr->S_DT[R114];
 
-// If the new DT does not equal the existing DT or is not MASLunique, continue
+// If the new DT does not equal the existing DT and is not MASLunique, relink
 if ( s_dt != cur_s_dt and cur_s_dt.Name != "MASLunique" )
   // un-relate the existing DT across R114
   unrelate o_attr from cur_s_dt across R114;
@@ -1419,7 +1422,7 @@ parameter = first_param;
 while ( not_empty parameter )
   select one type related by parameter->S_DT[R4007];
   signature = signature + separator + type.Name;
-  separator = ", ";
+  separator = " ";
   select one parameter related by parameter->C_PP[R4021.''precedes''];
 end while;
 if( not_empty first_param )
@@ -1821,7 +1824,7 @@ parameter = first_param;
 while ( not_empty parameter )
   select one type related by parameter->S_DT[R26];
   signature = signature + separator + type.Name;
-  separator = ", ";
+  separator = " ";
   select one parameter related by parameter->S_SPARM[R54.''precedes''];
 end while;
 if( not_empty first_param )
@@ -3308,7 +3311,17 @@ self.Attribute_migrateBaseToReferential( o_attr:attr );
 attr.Root_Nam = id_attr.Root_Nam;
 
 select one ref_attr related by attr->O_RATTR[R106];
-relate ref_attr to base_attr across R113;
+if ( not_empty base_attr )
+  relate ref_attr to base_attr across R113;
+else
+  // baseless referential - get the data type from the referred-to identifier attribute
+  select one id_s_dt related by id_attr->S_DT[R114];
+  select one ref_s_dt related by attr->S_DT[R114];
+  if ( not_empty ref_s_dt )
+    unrelate ref_s_dt from attr across R114;
+  end if;
+  relate id_s_dt to attr across R114;
+end if;
 
 if ( param.id != -1 )
   select any assr_id related by o_obj->O_ID[R104] where selected.Oid_ID == param.id;
@@ -3365,8 +3378,18 @@ select many rattrs related by o_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
 for each battr in battrs
   for each rattr in rattrs
     if ( rattr.Root_Nam == battr.Root_Nam )
-      // Copy over the description field from the attribute being combined.
+      // Copy over the description field from the original attribute
       rattr.Descrip = rattr.Descrip + battr.Descrip;
+      
+      // copy the data type from the original attribute
+      select one s_dt related by battr->S_DT[R114];
+      select one old_dt related by rattr->S_DT[R114];
+      if ( not_empty old_dt )
+        unrelate old_dt from rattr across R114;
+      end if;
+      if ( not_empty s_dt )
+        relate s_dt to rattr across R114;
+      end if;
 
       // copy the ordering information to the new referential attribute
 
@@ -3867,7 +3890,7 @@ parameter = first_param;
 while ( not_empty parameter )
   select one type related by parameter->S_DT[R118];
   signature = signature + separator + type.Name;
-  separator = ", ";
+  separator = " ";
   select one parameter related by parameter->O_TPARM[R124.''precedes''];
 end while;
 if( not_empty first_param )
@@ -4941,6 +4964,59 @@ INSERT INTO O_TPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TFR
+	VALUES ("b41bee99-f3be-445d-aad9-310d036d86ec",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'ReferentialAttribute_collapse_ref',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_attr = param.o_attr;
+battr = param.battr;
+
+select one o_rattr related by o_attr->O_RATTR[R106];
+select one o_battr related by battr->O_BATTR[R106];
+select one rattr_base related by o_rattr->O_BATTR[R113];
+if ( not_empty o_rattr and not_empty o_battr and not_empty rattr_base and rattr_base.Attr_ID == o_battr.Attr_ID )
+
+  // cache old dt
+  select one s_dt related by battr->S_DT[R114];
+  
+  // migrate the base attribute to referential
+  self.Attribute_migrateBaseToReferential(o_attr:battr);
+  
+  // combine the referentials
+  attr = self.ReferentialAttribute_combine_refs( o_attr:battr, other_attr:o_attr );
+  select one old_s_dt related by attr->S_DT[R114];
+  if ( not_empty old_s_dt )
+	unrelate old_s_dt from attr across R114;
+  end if;
+  if ( not_empty s_dt )
+	relate s_dt to attr across R114;
+  end if;
+end if;',
+	1,
+	'',
+	"ba2cc878-1f2c-4eaf-9cb1-06d1dfc8a80e",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("74b5313a-367f-4373-90b5-075d7346d925",
+	"b41bee99-f3be-445d-aad9-310d036d86ec",
+	'o_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("23dec44a-d0a8-4a6a-a0f8-f5bb6bb03c5d",
+	"b41bee99-f3be-445d-aad9-310d036d86ec",
+	'battr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"74b5313a-367f-4373-90b5-075d7346d925",
+	'');
+INSERT INTO O_TFR
 	VALUES ("628f594b-0e0c-4a22-911d-5c0fd4bbecc0",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
 	'ReferentialAttribute_combine_refs',
@@ -4953,7 +5029,7 @@ other_attr = param.other_attr;
 select one o_rattr related by o_attr->O_RATTR[R106];
 select one other_rattr related by other_attr->O_RATTR[R106];
 select many other_ref_set related by other_rattr->O_REF[R108];
-   
+
    // find last O_REF in o_rattr ref list R112
    select any ref related by o_rattr->O_REF[R108];
    select one next_ref related by ref->O_REF[R112.''precedes''];
@@ -4968,15 +5044,24 @@ select many other_ref_set related by other_rattr->O_REF[R108];
      unrelate other_ref from other_rattr across R108;
      relate other_ref to o_rattr across R108;  
      // add other_ref to o_rattr ref list R112
-     relate other_ref to ref across R112.''succeeds'';
+     if ( not_empty ref )
+       relate other_ref to ref across R112.''succeeds'';
+     end if;
      ref = other_ref;    
    end for;
-      
+
+   // Just like the refs, we need to bring over the IDs from the attribute
+   // that is about to be disposed.
+   select many other_o_oidas related by other_attr->O_OIDA[R105] where ( selected.Oid_ID > 0 );
+   for each other_o_oida in other_o_oidas
+     self.Attribute_addToIdentifier( o_attr:o_attr, oid:other_o_oida.Oid_ID );
+   end for;
+
    self.Attribute_dispose( o_attr:other_attr );
 return o_attr;',
 	1,
 	'',
-	"ba2cc878-1f2c-4eaf-9cb1-06d1dfc8a80e",
+	"b41bee99-f3be-445d-aad9-310d036d86ec",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("36b82853-6f2e-45dd-8de4-445fa038b7e0",
@@ -5064,8 +5149,12 @@ select many rtoRefs related by attr->O_OIDA[R105]->
                              O_RTIDA[R110]->O_REF[R111]->O_RATTR[R108];
 for each ref in rtoRefs
   select one oldBattr related by ref->O_BATTR[R113];
-  unrelate ref from oldBattr across R113;
-  relate ref to battr across R113;
+  if ( not_empty oldBattr )
+    unrelate ref from oldBattr across R113;
+  end if;
+  if ( not_empty battr )
+    relate ref to battr across R113;
+  end if;
 end for;
 self.ReferentialAttribute_dispose(o_rattr:o_rattr);
 ',
@@ -6933,12 +7022,14 @@ INSERT INTO O_TFR
 	1,
 	'select many forms from instances of formalization;
 num_forms = cardinality forms;
+previous_formalization_count = num_forms;
 passes = 0;
 
 // Because of possible dependencies, it is required to pass over the list
 // of formalizations N times where N is the number of formalizations
 // The worst case scenario is if each formalization is dependent on the next
-while ( passes < num_forms )
+// Loop an extra time to acount for detection of recursive referentials.
+while ( passes <= num_forms )
 
   for each form in forms
 
@@ -7091,6 +7182,25 @@ while ( passes < num_forms )
 
   // re-select the formalizations
   select many forms from instances of formalization;
+
+  current_formalization_count = cardinality forms;
+  if ( current_formalization_count == previous_formalization_count )
+    // detect baseless (recursive) referentials
+    select many ras from instances of referentialAttribute;
+    max_depth = cardinality ras;
+    for each ra in ras
+      ra.detectRecursive(ra:ra, current_depth:0, max_depth:max_depth);
+    end for;
+  end if;
+  previous_formalization_count = current_formalization_count;
+
+  // Give preference to formalizations that have referentials-as-identifiers.
+  // This will formalize associations in baseless loops before the baseless spurs.
+  select many identifier_ras from instances of referentialAttribute where ( selected.identifier1 or selected.identifier2 or selected.identifier3 );
+  select many forms related by identifier_ras->formalization[R3811];
+  if ( empty forms )
+    select many forms from instances of formalization;
+  end if;
 
 end while;
 
@@ -7855,6 +7965,9 @@ elif ( "pragmaitem" == param.element )
     TRACE::log( flavor:"failure", id:57, message:"Element stack is malformed." );
     ooaelement::trace( population: ooapopulation );
   end if;
+elif ( "description" == param.element )
+  select one current_element related by ooapopulation->ooaelement[R3801];
+  ooapopulation.transformDescription( element:current_element, text:param.value[0], tag:param.value[1] );
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
@@ -8648,6 +8761,7 @@ ra.roleOrObj = param.roleOrObj;
 ra.objectName = param.objName;
 ra.o_obj = ooapopulation.current_class;
 ra.Name = ooapopulation.current_attribute.Root_Nam;
+ra.baseless = false;
 
 // Find out if the attribute was specified as being part of an identifier.  Cache
 // that info.
