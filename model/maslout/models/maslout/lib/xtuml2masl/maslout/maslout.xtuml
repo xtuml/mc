@@ -2829,23 +2829,21 @@ value[7]=""; value[6]=""; value[5]=""; value[4]=""; value[3]=""; value[2]=""; va
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 select any markable from instances of Markable where ( selected.name == param.markable );
-if ( not_empty markable )
-  select many marks related by markable->Mark[R2821] where ( selected.path == param.pathkey );
-  for each mark in marks
+if ( not_empty markable ) // CDS - this protecting if statement can go away after mcmc is built again
+select many marks related by markable->Mark[R2821] where ( selected.path == param.pathkey );
+for each mark in marks
   
-    value[0] = mark.feature_name;
-    value[1] = "";
-    out::populate( element:"pragma", value:value );
+  value[0] = mark.feature_name;
+  value[1] = "";
+  out::populate( element:"pragma", value:value );
 
-    value[0] = mark.value;
-    out::populate( element:"pragmaitem", value:value );
-    out::populate( element:"pragmaitem", value:emptyvalue );
+  value[0] = mark.value;
+  out::populate( element:"pragmaitem", value:value );
+  out::populate( element:"pragmaitem", value:emptyvalue );
 
-    out::populate( element:"pragma", value:emptyvalue );
+  out::populate( element:"pragma", value:emptyvalue );
 
-  end for;
-else
-  // We always check for marks.  No work here.
+end for;
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
