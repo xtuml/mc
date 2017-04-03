@@ -48,7 +48,7 @@ select any model from instances of model;
 if ( not_empty model )
   i = 0; values[7] = "";
   while ( i < 8 )
-    values[i] = "                                                                                                                                                                                          ";
+    values[i] = "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ";
     i = i + 1;
   end while;
   TRACE::log( flavor:"info", id:103, message:"Loading marking data." );
