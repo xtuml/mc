@@ -301,15 +301,15 @@
     .select any te_instance from instances of TE_INSTANCE
     .invoke r = GetDomainTypeIDFromString( te_c.Name )
     .assign dom_id = r.result
-    .invoke r = AutoInitializeUniqueIDs( te_class, te_var.buffer )
-    .assign init_uniques = r.body
     .create object instance te_var of TE_VAR
     .assign te_var.buffer = te_class.GeneratedName + "_novar"
+    .invoke r = AutoInitializeUniqueIDs( te_class, te_var.buffer )
+    .assign init_uniques = r.body
     .assign d = ( te_class.GeneratedName + " * " ) + ( te_var.buffer + ";" )
     .invoke blk_declaration_append( te_blk, d )
     .include "${te_file.arc_path}/t.smt.create_instance.c"
     .assign te_smt.OAL = "CREATE OBJECT INSTANCE OF ${te_class.Key_Lett}"
-    .// delete object instance te_var
+    .// delete object instance te_var;
   .end if
 .end function
 .//
