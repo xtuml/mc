@@ -506,7 +506,7 @@ ${top_module_inits}\
       .// --- 3- Check if you are a Component Reference, then aquire the cl_iir
       .if(not_empty te_ci)
         .select one cl_iir_requirer related by te_ci->CL_IC[R2009]->CL_POR[R4707]->CL_IIR[R4708] where (selected.Ref_Id == c_ir.Id)
-        .select one cl_ic_provider related by cl_iir_requirer->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->CL_POR[R4707]->CL_IIR[R4708] where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id ) or ( "${selected.ParentComp_Id}" == parent_c_c_id ) )
+        .select one cl_ic_provider related by cl_iir_requirer->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->CL_POR[R4708]->CL_IIR[R4708] where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id ) or ( "${selected.ParentComp_Id}" == parent_c_c_id ) )
         .select one cn_cic_provider related by cl_iir_requirer->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->PE_PE[R8001]->C_C[R8003] where ( "${selected.Id}" == parent_c_c_id )
         .assign cn_cic_provider_id = ""
         .if( not_empty cn_cic_provider)
