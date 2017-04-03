@@ -59,8 +59,8 @@ ${key_word_endfunction}
 .//
 .// query
 .//
-.select any ss from instances of S_SS where ( selected.Name == "Translation Extensions" )
-.select many cs related by ss->O_OBJ[R2] where ( selected.Numb > 2035 )
+.select any ep_pkg from instances of EP_PKG where ( selected.Name == "Translation Extensions" )
+.select many cs related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where ( selected.Numb > 2035 )
 .invoke SortAscendingByNumbAttr( cs )
 .assign count = cardinality cs
 .assign number = 0
