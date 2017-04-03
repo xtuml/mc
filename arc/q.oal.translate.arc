@@ -41,6 +41,7 @@
 .function smt_translate_other_statements
   .invoke smt_assigns()
   .invoke smt_create_instances()
+  .invoke smt_create_instance_novars()
   .invoke smt_delete_instances()
   .invoke smt_create_events_to_instance()
   .invoke smt_create_events_to_class()
