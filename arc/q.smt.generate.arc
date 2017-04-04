@@ -274,6 +274,44 @@
   .assign attr_result = result
 .end function
 .//
+.// --------------------------------------------------------
+.// create instance no variable statements
+.// --------------------------------------------------------
+.function smt_create_instance_novars
+  .select many act_cnvs from instances of ACT_CNV
+  .for each act_cnv in act_cnvs
+    .select one te_smt related by act_cnv->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_create_instance_novar( te_smt, act_cnv )
+    .invoke smt_buffer_append( te_smt, r.body )
+  .end for
+.end function
+.//
+.// --------------------------------------------------------
+.// create instance no variable statement
+.// --------------------------------------------------------
+.function smt_create_instance_novar
+  .param inst_ref te_smt
+  .param inst_ref act_cnv
+  .select one te_class related by act_cnv->O_OBJ[R672]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
+  .if ( not_empty te_class )
+    .select any te_file from instances of TE_FILE
+    .select one te_blk related by te_smt->TE_BLK[R2078]
+    .assign ws = te_blk.indentation
+    .select one te_c related by te_class->TE_C[R2064]
+    .select any te_instance from instances of TE_INSTANCE
+    .invoke r = GetDomainTypeIDFromString( te_c.Name )
+    .assign dom_id = r.result
+    .create object instance te_var of TE_VAR
+    .assign te_var.buffer = te_class.GeneratedName + "_novar"
+    .invoke r = AutoInitializeUniqueIDs( te_class, te_var.buffer )
+    .assign init_uniques = r.body
+    .assign d = ( te_class.GeneratedName + " * " ) + ( te_var.buffer + ";" )
+    .invoke blk_declaration_append( te_blk, d )
+    .include "${te_file.arc_path}/t.smt.create_instance.c"
+    .assign te_smt.OAL = "CREATE OBJECT INSTANCE OF ${te_class.Key_Lett}"
+    .// delete object instance te_var;
+  .end if
+.end function
 .//
 .// --------------------------------------------------------
 .// create instance statements
