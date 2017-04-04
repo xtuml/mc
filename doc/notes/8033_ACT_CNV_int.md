@@ -20,7 +20,7 @@ creating instances.
 3. Background
 -------------
 'Create object instance no variable (`ACT_CNV`)' is an action language
-statement that creates an instance without returning an object instance.
+statement that creates an instance without returning an instance handle.
 MC-3020 has been ignoring this statement.  It is not used much (maybe
 at all), but it is a legal statement.  It should not be ignored.
 
@@ -55,6 +55,20 @@ model updated with rsl2oal translated action language.
 Fork: cortlandstarrett/mc  8033_ACT_CNV  
 
 xtuml/mc
+ arc/q.oal.translate.arc                                                 |   1 +
+ arc/q.smt.generate.arc                                                  |  38 +++++++++++
+ bin/mcmc                                                                | Bin 1856419 -> 1884688 bytes
+ bin/mcmc.exe                                                            | Bin 1175308 -> 1188795 bytes
+ bin/mcmc64                                                              | Bin 2170101 -> 2220232 bytes
+ doc/notes/8033_ACT_CNV_int.md                                           |  63 +++++++++++++++++
+ mcmc/arlan/funcsigs.h                                                   |   2 +
+ mcmc/arlan/o.oal                                                        |  31 +--------
+ mcmc/arlan/o3.oal                                                       |  42 +++++++++++-
+ model/escher/gen/ooaofooa.c                                             | 186 +++++++++++++++++--------
+ model/escher/models/escher/mcmc/afun/afun.xtuml                         |  28 --------
+ model/escher/models/escher/mcmc/afunsmt/afunsmt.xtuml                   |  95 ++++++++++++++++++++++++-
+ model/mcooa/models/mcooa/ooaofooa/Instance Access/Instance Access.xtuml |  48 ++++++++++---
+ 13 files changed, 381 insertions(+), 153 deletions(-)
 
 </pre>
 
