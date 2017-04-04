@@ -9,6 +9,8 @@
 
 #include "sys_sys_types.h"
 #include "ooaofooa.h"
+#include "CSV_bridge.h"
+#include "TRACE_bridge.h"
 #include "STRING_bridge.h"
 #include "T_bridge.h"
 #include "LOG_bridge.h"
@@ -13800,6 +13802,103 @@ ooaofooa_smt_create_instance( ooaofooa_ACT_CR * p_act_cr, ooaofooa_TE_SMT * p_te
 }
 
 /*
+ * Domain Function:  smt_create_instance_novar
+ */
+c_t *
+ooaofooa_smt_create_instance_novar( ooaofooa_ACT_CNV * p_act_cnv, ooaofooa_TE_SMT * p_te_smt )
+{
+  ooaofooa_ACT_CNV * act_cnv;ooaofooa_TE_SMT * te_smt;ooaofooa_TE_CLASS * te_class=0;
+  /* ASSIGN te_smt = PARAM.te_smt */
+  te_smt = p_te_smt;
+  /* ASSIGN act_cnv = PARAM.act_cnv */
+  act_cnv = p_act_cnv;
+  /* SELECT one te_class RELATED BY act_cnv->O_OBJ[R672]->TE_CLASS[R2019] WHERE ( not SELECTED.ExcludeFromGen ) */
+  te_class = 0;
+  {  if ( 0 != act_cnv ) {
+  ooaofooa_O_OBJ * O_OBJ_R672_instance_of = act_cnv->O_OBJ_R672_instance_of;
+  if ( 0 != O_OBJ_R672_instance_of ) {
+  {ooaofooa_TE_CLASS * selected = O_OBJ_R672_instance_of->TE_CLASS_R2019;
+  if ( ( 0 != selected ) && !selected->ExcludeFromGen ) {
+    te_class = selected;
+  }}
+}}}
+  /* IF ( not_empty te_class ) */
+  if ( ( 0 != te_class ) ) {
+    c_t * d=0;c_t * init_uniques=0;c_t * dom_id=0;c_t * r=0;c_t * ws=0;ooaofooa_TE_VAR * te_var;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_FILE * te_file=0;ooaofooa_TE_C * te_c=0;ooaofooa_TE_BLK * te_blk=0;
+    /* SELECT any te_file FROM INSTANCES OF TE_FILE */
+    te_file = (ooaofooa_TE_FILE *) Escher_SetGetAny( &pG_ooaofooa_TE_FILE_extent.active );
+    /* SELECT one te_blk RELATED BY te_smt->TE_BLK[R2078] */
+    te_blk = ( 0 != te_smt ) ? te_smt->TE_BLK_R2078_is_in : 0;
+    /* ASSIGN ws = te_blk.indentation */
+    ws = Escher_strcpy( ws, te_blk->indentation );
+    /* SELECT one te_c RELATED BY te_class->TE_C[R2064] */
+    te_c = ( 0 != te_class ) ? te_class->TE_C_R2064 : 0;
+    /* SELECT any te_instance FROM INSTANCES OF TE_INSTANCE */
+    te_instance = (ooaofooa_TE_INSTANCE *) Escher_SetGetAny( &pG_ooaofooa_TE_INSTANCE_extent.active );
+    /* ASSIGN r = ::GetDomainTypeIDFromString(dom_name:te_c.Name) */
+    r = Escher_strcpy( r, ooaofooa_GetDomainTypeIDFromString( te_c->Name ) );
+    /* ASSIGN dom_id = r */
+    dom_id = Escher_strcpy( dom_id, r );
+    /* CREATE OBJECT INSTANCE te_var OF TE_VAR */
+    te_var = (ooaofooa_TE_VAR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_VAR_CLASS_NUMBER );
+    te_var->Var_ID = Escher_ID_factory();
+    /* ASSIGN te_var.buffer = ( te_class.GeneratedName + _novar ) */
+    te_var->buffer = Escher_strcpy( te_var->buffer, Escher_stradd( te_class->GeneratedName, "_novar" ) );
+    /* ASSIGN r = ::AutoInitializeUniqueIDs(instance:te_var.buffer, te_class:te_class) */
+    r = Escher_strcpy( r, ooaofooa_AutoInitializeUniqueIDs( te_var->buffer, te_class ) );
+    /* ASSIGN init_uniques = r */
+    init_uniques = Escher_strcpy( init_uniques, r );
+    /* ASSIGN d = ( ( te_class.GeneratedName +  *  ) + ( te_var.buffer + ; ) ) */
+    d = Escher_strcpy( d, Escher_stradd( Escher_stradd( te_class->GeneratedName, " * " ), Escher_stradd( te_var->buffer, ";" ) ) );
+    /* ::blk_declaration_append( s:d, te_blk:te_blk ) */
+    ooaofooa_blk_declaration_append( d, te_blk );
+    /* T::include( file:c/t.smt.create_instance.c ) */
+#include "c/t.smt.create_instance.c"
+    /* ASSIGN te_smt.OAL = CREATE OBJECT INSTANCE OF ${te_class.Key_Lett} */
+    te_smt->OAL = Escher_strcpy( te_smt->OAL, ({c_t*s=Escher_strget();T_T("CREATE OBJECT INSTANCE OF ");T_T(te_class->Key_Lett);}) );
+    /* DELETE OBJECT INSTANCE te_var */
+    if ( 0 == te_var ) {
+      XTUML_EMPTY_HANDLE_TRACE( "TE_VAR", "Escher_DeleteInstance" );
+    }
+    Escher_DeleteInstance( (Escher_iHandle_t) te_var, ooaofooa_DOMAIN_ID, ooaofooa_TE_VAR_CLASS_NUMBER );
+  }
+  /* RETURN T::body() */
+  {c_t * xtumlOALrv = T_body();
+  return xtumlOALrv;}
+}
+
+/*
+ * Domain Function:  smt_create_instance_novars
+ */
+void
+ooaofooa_smt_create_instance_novars()
+{
+  ooaofooa_ACT_CNV * act_cnv=0;Escher_ObjectSet_s act_cnvs_space={0}; Escher_ObjectSet_s * act_cnvs = &act_cnvs_space;
+  /* SELECT many act_cnvs FROM INSTANCES OF ACT_CNV */
+  Escher_CopySet( act_cnvs, &pG_ooaofooa_ACT_CNV_extent.active );
+  /* FOR EACH act_cnv IN act_cnvs */
+  { Escher_Iterator_s iteract_cnv;
+  ooaofooa_ACT_CNV * iiact_cnv;
+  Escher_IteratorReset( &iteract_cnv, act_cnvs );
+  while ( (iiact_cnv = (ooaofooa_ACT_CNV *)Escher_IteratorNext( &iteract_cnv )) != 0 ) {
+    act_cnv = iiact_cnv; {
+    c_t * r=0;ooaofooa_TE_SMT * te_smt=0;
+    /* SELECT one te_smt RELATED BY act_cnv->ACT_SMT[R603]->TE_SMT[R2038] */
+    te_smt = 0;
+    {    if ( 0 != act_cnv ) {
+    ooaofooa_ACT_SMT * ACT_SMT_R603 = act_cnv->ACT_SMT_R603;
+    if ( 0 != ACT_SMT_R603 ) {
+    te_smt = ACT_SMT_R603->TE_SMT_R2038;
+}}}
+    /* ASSIGN r = ::smt_create_instance_novar(act_cnv:act_cnv, te_smt:te_smt) */
+    r = Escher_strcpy( r, ooaofooa_smt_create_instance_novar( act_cnv, te_smt ) );
+    /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
+    ooaofooa_smt_buffer_append( r, te_smt );
+  }}}
+  Escher_ClearSet( act_cnvs );
+}
+
+/*
  * Domain Function:  smt_create_instances
  */
 void
@@ -16621,6 +16720,8 @@ ooaofooa_smt_translate_other_statements()
   ooaofooa_smt_assigns();
   /* ::smt_create_instances(  ) */
   ooaofooa_smt_create_instances();
+  /* ::smt_create_instance_novars(  ) */
+  ooaofooa_smt_create_instance_novars();
   /* ::smt_delete_instances(  ) */
   ooaofooa_smt_delete_instances();
   /* ::smt_create_events_to_instance(  ) */
@@ -18203,91 +18304,6 @@ te_c->cId = Escher_ID_factory();
   te_file->types = Escher_strcpy( te_file->types, Escher_stradd( Escher_stradd( te_sys->Name, "_" ), te_file->types ) );
   /* ASSIGN te_file.sys_main = ( ( te_sys.Name + _ ) + te_file.sys_main ) */
   te_file->sys_main = Escher_strcpy( te_file->sys_main, Escher_stradd( Escher_stradd( te_sys->Name, "_" ), te_file->sys_main ) );
-  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE SELECTED.included_in_build */
-  Escher_ClearSet( te_cs );
-  { ooaofooa_TE_C * selected;
-    Escher_Iterator_s iterte_csooaofooa_TE_C;
-    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
-    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
-      if ( selected->included_in_build ) {
-        Escher_SetInsertElement( te_cs, selected );
-      }
-    }
-  }
-  /* SELECT many c_cs RELATED BY te_cs->C_C[R2054] */
-  Escher_ClearSet( c_cs );
-  {ooaofooa_TE_C * ooaofooa_TE_C_linkage;
-  Escher_Iterator_s start_many_iterator;
-  Escher_IteratorReset( &start_many_iterator, te_cs );
-  while ( 0 != ( ooaofooa_TE_C_linkage = (ooaofooa_TE_C *) Escher_IteratorNext( &start_many_iterator ) ) ) {
-    {ooaofooa_C_C * C_C_R2054 = ooaofooa_TE_C_linkage->C_C_R2054;
-    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_cs, C_C_R2054 ) ) {
-      Escher_SetInsertElement( (Escher_ObjectSet_s *) c_cs, C_C_R2054 );
-  }}}}
-  /* FOR EACH c_c IN c_cs */
-  { Escher_Iterator_s iterc_c;
-  ooaofooa_C_C * iic_c;
-  Escher_IteratorReset( &iterc_c, c_cs );
-  while ( (iic_c = (ooaofooa_C_C *)Escher_IteratorNext( &iterc_c )) != 0 ) {
-    c_c = iic_c; {
-    ooaofooa_EP_PKG * ep_pkg=0;
-    /* SELECT many ep_pkgs RELATED BY c_c->PE_PE[R8003]->EP_PKG[R8001] */
-    Escher_ClearSet( ep_pkgs );
-    {    if ( 0 != c_c ) {
-    ooaofooa_PE_PE * PE_PE_R8003_contains;
-    Escher_Iterator_s iPE_PE_R8003_contains;
-    Escher_IteratorReset( &iPE_PE_R8003_contains, &c_c->PE_PE_R8003_contains );
-    while ( 0 != ( PE_PE_R8003_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) {
-    if ( ( 0 != PE_PE_R8003_contains ) && ( ooaofooa_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) )    {ooaofooa_EP_PKG * R8001_subtype = PE_PE_R8003_contains->R8001_subtype;
-    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) ep_pkgs, R8001_subtype ) ) {
-      Escher_SetInsertElement( (Escher_ObjectSet_s *) ep_pkgs, R8001_subtype );
-    }}}}}
-    /* FOR EACH ep_pkg IN ep_pkgs */
-    { Escher_Iterator_s iterep_pkg;
-    ooaofooa_EP_PKG * iiep_pkg;
-    Escher_IteratorReset( &iterep_pkg, ep_pkgs );
-    while ( (iiep_pkg = (ooaofooa_EP_PKG *)Escher_IteratorNext( &iterep_pkg )) != 0 ) {
-      ep_pkg = iiep_pkg; {
-      ooaofooa_PE_PE * pe_pe=0;
-      /* SELECT any pe_pe RELATED BY ep_pkg->PE_PE[R8000] */
-      pe_pe = ( 0 != ep_pkg ) ? (ooaofooa_PE_PE *) Escher_SetGetAny( &ep_pkg->PE_PE_R8000_contains ) : 0;
-      /* IF ( empty pe_pe ) */
-      if ( ( 0 == pe_pe ) ) {
-        ooaofooa_EP_PKG * imported_ep_pkg=0;
-        /* SELECT one imported_ep_pkg RELATED BY ep_pkg->EP_PKGREF[R1402.refers to]->EP_PKG[R1402.refers to] */
-        imported_ep_pkg = 0;
-        {        if ( 0 != ep_pkg ) {
-        ooaofooa_EP_PKGREF * EP_PKGREF_R1402_refers_to = ep_pkg->EP_PKGREF_R1402_refers_to;
-        if ( 0 != EP_PKGREF_R1402_refers_to ) {
-        imported_ep_pkg = EP_PKGREF_R1402_refers_to->EP_PKG_R1402_refers_to;
-}}}
-        /* IF ( ( empty imported_ep_pkg and (  != ep_pkg.Descrip ) ) ) */
-        if ( ( ( 0 == imported_ep_pkg ) && ( Escher_strcmp( "", ep_pkg->Descrip ) != 0 ) ) ) {
-          /* SELECT any imported_ep_pkg FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == ep_pkg.Descrip ) */
-          imported_ep_pkg = 0;
-          { ooaofooa_EP_PKG * selected;
-            Escher_Iterator_s iterimported_ep_pkgooaofooa_EP_PKG;
-            Escher_IteratorReset( &iterimported_ep_pkgooaofooa_EP_PKG, &pG_ooaofooa_EP_PKG_extent.active );
-            while ( (selected = (ooaofooa_EP_PKG *) Escher_IteratorNext( &iterimported_ep_pkgooaofooa_EP_PKG )) != 0 ) {
-              if ( ( Escher_strcmp( selected->Name, ep_pkg->Descrip ) == 0 ) ) {
-                imported_ep_pkg = selected;
-                break;
-              }
-            }
-          }
-          /* IF ( not_empty imported_ep_pkg ) */
-          if ( ( 0 != imported_ep_pkg ) ) {
-            ooaofooa_EP_PKGREF * ep_pkgref;
-            /* CREATE OBJECT INSTANCE ep_pkgref OF EP_PKGREF */
-            ep_pkgref = (ooaofooa_EP_PKGREF *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_EP_PKGREF_CLASS_NUMBER );
-            ep_pkgref->Referring_Package_ID = Escher_ID_factory();
-            /* RELATE ep_pkg TO imported_ep_pkg ACROSS R1402 USING ep_pkgref */
-            ooaofooa_EP_PKGREF_R1402_Link_refers_to( ep_pkg, imported_ep_pkg, ep_pkgref );
-          }
-        }
-      }
-    }}}
-  }}}
   /* SELECT many s_dts FROM INSTANCES OF S_DT */
   Escher_CopySet( s_dts, &pG_ooaofooa_S_DT_extent.active );
   /* FOR EACH s_dt IN s_dts */
