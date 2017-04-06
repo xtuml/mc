@@ -177,9 +177,11 @@ if [[ $PROJ_DIR != "" ]]; then
     fi
 
     if [[ -f $CONVERTDIR/$projname/features.mark ]]; then
+        mkdir -p $WORKSPACE/p1/gen/
         cp $CONVERTDIR/$projname/features.mark $WORKSPACE/p1/gen/
     fi
     if [[ -f $CONVERTDIR/$projname/application.mark ]]; then
+        mkdir -p $WORKSPACE/p1/gen/
         cp $CONVERTDIR/$projname/application.mark $WORKSPACE/p1/gen/
     fi
 
