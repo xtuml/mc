@@ -83,8 +83,14 @@ if [ "$1" == "Launch" ]; then
         fi
     # launch an instance
     elif [ $# -eq 1 ]; then
-        python $DIR/launch-cli.py launch $CLI_FILE
-        chmod 400 $CLI_FILE
+        stat $CLI_FILE &> /dev/null
+        if [ $? -eq 0 ]; then
+            echo "Command line instance already running"
+            exit 1
+        else
+            python $DIR/launch-cli.py launch $CLI_FILE
+            chmod 400 $CLI_FILE
+        fi
     # show launch command help
     elif [[ $# -eq 2 && "$2" == "-help" ]]; then
         echo "USAGE:"
