@@ -2,7 +2,7 @@ import socket
 import sys
 import os
 
-def launch(port_file, test=False):
+def launch(port_file, opts, debug):
     # create and bind server socket
     server = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
     server.bind(("localhost",0))
@@ -10,12 +10,12 @@ def launch(port_file, test=False):
 
     # fork and launch a CLI process
     addr, port = server.getsockname()
-    if test:
+    if debug:
         print port
     else:
         pid = os.fork()
         if 0 == pid:
-            os.system( "$BPHOME/bridgepoint --launcher.suppressErrors $JVM_ARG -clean -noSplash -data $WORKSPACE -application org.xtuml.bp.cli.Launch -port " + str(port) + " &" )
+            os.system( "$BPHOME/bridgepoint --launcher.suppressErrors $JVM_ARG -clean -noSplash -data $WORKSPACE -application org.xtuml.bp.cli.Launch -port " + str(port) + " " + opts + " &" )
 
     # accept a connection
     conn, addr = server.accept()
@@ -96,7 +96,10 @@ def usage(incorrect=""):
 
 if len(sys.argv) > 2:
     if "launch" == sys.argv[1].lower():
-        code = launch(sys.argv[2], "test" == sys.argv[3] if len(sys.argv)>3 else False)
+        opts = ""
+        if len(sys.argv) > 3:
+            opts = " ".join(sys.argv[4:]) if "-debug" == sys.argv[3] else " ".join(sys.argv[3:])
+        code = launch(sys.argv[2], opts, "-debug" == sys.argv[3] if len(sys.argv)>3 else False)
         sys.exit(code)
     elif "cmd" == sys.argv[1].lower():
         if len(sys.argv) > 3:

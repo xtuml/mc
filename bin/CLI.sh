@@ -81,21 +81,11 @@ if [ "$1" == "Launch" ]; then
             echo "No command line instance running"
             exit 1
         fi
-    # launch an instance
-    elif [ $# -eq 1 ]; then
-        stat $CLI_FILE &> /dev/null
-        if [ $? -eq 0 ]; then
-            echo "Command line instance already running"
-            exit 1
-        else
-            python $DIR/launch-cli.py launch $CLI_FILE
-            chmod 400 $CLI_FILE
-        fi
     # show launch command help
     elif [[ $# -eq 2 && "$2" == "-help" ]]; then
         echo "USAGE:"
         echo
-        echo "./CLI.sh Launch"
+        echo "./CLI.sh Launch [options]"
         echo
         echo "    Launch a command line instance of BridgePoint in the background. Following"
         echo "    calls to CLI.sh will attach to this instance."
@@ -107,8 +97,16 @@ if [ "$1" == "Launch" ]; then
         echo "./CLI.sh Launch -help"
         echo
         echo "    Display command help"
+    # launch an instance
     else
-        displayHelp
+        stat $CLI_FILE &> /dev/null
+        if [ $? -eq 0 ]; then
+            echo "Command line instance already running"
+            exit 1
+        else
+            python $DIR/launch-cli.py launch $CLI_FILE ${@:2}
+            chmod 400 $CLI_FILE
+        fi
     fi
 else
     stat $CLI_FILE &> /dev/null
