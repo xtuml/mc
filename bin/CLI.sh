@@ -69,13 +69,14 @@ fi
 
 # handle Launch commands
 export BPHOME=$BPHOMEDIR
-CLI_FILE=$DIR/CLI_PORT.txt
+mkdir -p $WORKSPACE
+CLI_FILE=$WORKSPACE/.cli_info
 if [ "$1" == "Launch" ]; then
     # exit the launched eclipse instance
     if [[ $# -eq 2 && "$2" == "-exit" ]]; then
         stat $CLI_FILE &> /dev/null
         if [ $? -eq 0 ]; then
-            python $DIR/launch-cli.py cmd `cat $CLI_FILE` exit
+            python $DIR/launch-cli.py cmd `cat $CLI_FILE | awk '/PORT: ([0-9]+)$/ {print $2}'` exit
             rm -f $CLI_FILE
         else
             echo "No command line instance running"
@@ -112,7 +113,7 @@ else
     stat $CLI_FILE &> /dev/null
     if [ $? -eq 0 ]; then
         # an instance is running, attach to it
-        python $DIR/launch-cli.py cmd `cat $CLI_FILE` ${@:1}
+        python $DIR/launch-cli.py cmd `cat $CLI_FILE | awk '/PORT: ([0-9]+)$/ {print $2}'` ${@:1}
     else
         # run the normal way
         $BPHOMEDIR/bridgepoint --launcher.suppressErrors $JVM_ARG -clean -noSplash -data $WORKSPACE -application $APPLICATION $2 "$3" $4 "$5" $6 "$7" $8 "$9"

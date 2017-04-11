@@ -1,6 +1,7 @@
 import socket
 import sys
 import os
+import subprocess
 
 def launch(port_file, opts, debug):
     # create and bind server socket
@@ -8,24 +9,27 @@ def launch(port_file, opts, debug):
     server.bind(("localhost",0))
     server.listen(1)
 
+    # buffer for output file
+    output = ""
+
     # fork and launch a CLI process
     addr, port = server.getsockname()
     if debug:
         print port
     else:
-        pid = os.fork()
-        if 0 == pid:
-            os.system( "$BPHOME/bridgepoint --launcher.suppressErrors $JVM_ARG -clean -noSplash -data $WORKSPACE -application org.xtuml.bp.cli.Launch -port " + str(port) + " " + opts + " &" )
+        proc = subprocess.Popen( "$BPHOME/bridgepoint --launcher.suppressErrors $JVM_ARG -clean -noSplash -data $WORKSPACE -application org.xtuml.bp.cli.Launch -port " + str(port) + " " + opts, shell=True )
+        output += "PID: " + str(proc.pid) + "\n"
 
     # accept a connection
     conn, addr = server.accept()
 
     # receive data
     port = recvline(conn)
+    output += "PORT: " + port + "\n"
 
     # output the data
     f = open(port_file, "w")
-    f.write(port)
+    f.write(output)
     f.close()
 
     # close sockets
