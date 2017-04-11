@@ -69,52 +69,72 @@ fi
 
 # handle Launch commands
 export BPHOME=$BPHOMEDIR
-CLI_FILE=$DIR/CLI_PORT.txt
+mkdir -p $WORKSPACE
+CLI_FILE=$WORKSPACE/.cli_info
 if [ "$1" == "Launch" ]; then
     # exit the launched eclipse instance
     if [[ $# -eq 2 && "$2" == "-exit" ]]; then
         stat $CLI_FILE &> /dev/null
         if [ $? -eq 0 ]; then
-            python $DIR/launch-cli.py cmd `cat $CLI_FILE` exit
+            python $DIR/launch-cli.py cmd `cat $CLI_FILE | awk '/PORT: ([0-9]+)$/ {print $2}'` exit
             rm -f $CLI_FILE
         else
             echo "No command line instance running"
             exit 1
         fi
-    # launch an instance
-    elif [ $# -eq 1 ]; then
+    # abort the launched eclipse instance
+    elif [[ $# -eq 2 && "$2" == "-abort" ]]; then
         stat $CLI_FILE &> /dev/null
         if [ $? -eq 0 ]; then
-            echo "Command line instance already running"
-            exit 1
-        else
-            python $DIR/launch-cli.py launch $CLI_FILE
-            chmod 400 $CLI_FILE
+            kill -KILL `cat $CLI_FILE | awk '/PID: ([0-9]+)$/ {print $2}'`
+            rm -f $CLI_FILE
         fi
+    # check if an instance is running
+    elif [[ $# -eq 2 && "$2" == "-checkRunning" ]]; then
+        stat $CLI_FILE &> /dev/null
+        exit $?
     # show launch command help
     elif [[ $# -eq 2 && "$2" == "-help" ]]; then
         echo "USAGE:"
         echo
-        echo "./CLI.sh Launch"
+        echo "./CLI.sh Launch [options]"
         echo
         echo "    Launch a command line instance of BridgePoint in the background. Following"
         echo "    calls to CLI.sh will attach to this instance."
+        echo
+        echo "./CLI.sh Launch -checkRunning"
+        echo
+        echo "    Check if a command line instance is running. Returns 0 if true, 1 if false"
         echo
         echo "./CLI.sh Launch -exit"
         echo
         echo "    Terminate the current running CLI instance"
         echo
+        echo "./CLI.sh Launch -abort"
+        echo
+        echo "    Forcefully terminate the current instance and cleanup"
+        echo
         echo "./CLI.sh Launch -help"
         echo
         echo "    Display command help"
+    # launch an instance
     else
-        displayHelp
+        stat $CLI_FILE &> /dev/null
+        if [ $? -eq 0 ]; then
+            echo "Command line instance already running"
+            exit 1
+        else
+            python $DIR/launch-cli.py launch $CLI_FILE ${@:2}
+            if [ $? -eq 0 ]; then
+                chmod 400 $CLI_FILE
+            fi
+        fi
     fi
 else
     stat $CLI_FILE &> /dev/null
     if [ $? -eq 0 ]; then
         # an instance is running, attach to it
-        python $DIR/launch-cli.py cmd `cat $CLI_FILE` ${@:1}
+        python $DIR/launch-cli.py cmd `cat $CLI_FILE | awk '/PORT: ([0-9]+)$/ {print $2}'` ${@:1}
     else
         # run the normal way
         $BPHOMEDIR/bridgepoint --launcher.suppressErrors $JVM_ARG -clean -noSplash -data $WORKSPACE -application $APPLICATION $2 "$3" $4 "$5" $6 "$7" $8 "$9"

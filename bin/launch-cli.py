@@ -1,38 +1,46 @@
 import socket
 import sys
 import os
+import subprocess
 
-def launch(port_file, test=False):
+def launch(port_file, opts, debug):
     # create and bind server socket
     server = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
     server.bind(("localhost",0))
     server.listen(1)
 
+    # buffer for output file
+    output = ""
+
     # fork and launch a CLI process
     addr, port = server.getsockname()
-    if test:
+    if debug:
         print port
     else:
-        pid = os.fork()
-        if 0 == pid:
-            os.system( "$BPHOME/bridgepoint --launcher.suppressErrors $JVM_ARG -clean -noSplash -data $WORKSPACE -application org.xtuml.bp.cli.Launch -port " + str(port) + " &" )
+        proc = subprocess.Popen( "$BPHOME/bridgepoint --launcher.suppressErrors $JVM_ARG -clean -noSplash -data $WORKSPACE -application org.xtuml.bp.cli.Launch -port " + str(port) + " " + opts, shell=True )
+        output += "PID: " + str(proc.pid) + "\n"
 
-    # accept a connection
-    conn, addr = server.accept()
+    try:
+        # accept a connection
+        conn, addr = server.accept()
 
-    # receive data
-    port = recvline(conn)
+        # receive data
+        port = recvline(conn)
+        output += "PORT: " + port + "\n"
 
-    # output the data
-    f = open(port_file, "w")
-    f.write(port)
-    f.close()
+        # output the data
+        f = open(port_file, "w")
+        f.write(output)
+        f.close()
 
-    # close sockets
-    server.close()
-    conn.close()
+        # close sockets
+        server.close()
+        conn.close()
+        return 0
 
-    return 0
+    except ( KeyboardInterrupt, SystemExit ):
+        proc.kill()
+        return 1
 
 def cmd(cmd, port):
     # create the socket and connect
@@ -96,7 +104,10 @@ def usage(incorrect=""):
 
 if len(sys.argv) > 2:
     if "launch" == sys.argv[1].lower():
-        code = launch(sys.argv[2], "test" == sys.argv[3] if len(sys.argv)>3 else False)
+        opts = ""
+        if len(sys.argv) > 3:
+            opts = " ".join(sys.argv[4:]) if "-debug" == sys.argv[3] else " ".join(sys.argv[3:])
+        code = launch(sys.argv[2], opts, "-debug" == sys.argv[3] if len(sys.argv)>3 else False)
         sys.exit(code)
     elif "cmd" == sys.argv[1].lower():
         if len(sys.argv) > 3:
