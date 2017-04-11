@@ -25,6 +25,17 @@ print_usage () {
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/"
 export PATH=$DIR:$PATH
 
+# abort
+LOCAL_CLI="false"
+abort () {
+    if [[ "true" == $LOCAL_CLI ]]; then
+        echo "Aborting..."
+        CLI.sh Launch -abort
+        exit 1
+    fi
+}
+trap abort SIGINT SIGTERM
+
 # input variables
 DOM_DIRS=()
 PROJ_DIR=
@@ -75,8 +86,7 @@ fi
 export WORKSPACE="/tmp/importwork"
 
 # If there is not already an eclipse instance started, start one
-LOCAL_CLI="false"
-stat $DIR/CLI_PORT.txt &> /dev/null
+CLI.sh Launch -checkRunning
 if [[ $? != 0 ]]; then
     echo "Launching an Eclipse command line instance..."
     CLI.sh Launch

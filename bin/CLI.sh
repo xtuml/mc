@@ -89,6 +89,10 @@ if [ "$1" == "Launch" ]; then
             kill -KILL `cat $CLI_FILE | awk '/PID: ([0-9]+)$/ {print $2}'`
             rm -f $CLI_FILE
         fi
+    # check if an instance is running
+    elif [[ $# -eq 2 && "$2" == "-checkRunning" ]]; then
+        stat $CLI_FILE &> /dev/null
+        return $?
     # show launch command help
     elif [[ $# -eq 2 && "$2" == "-help" ]]; then
         echo "USAGE:"
@@ -97,6 +101,10 @@ if [ "$1" == "Launch" ]; then
         echo
         echo "    Launch a command line instance of BridgePoint in the background. Following"
         echo "    calls to CLI.sh will attach to this instance."
+        echo
+        echo "./CLI.sh Launch -checkRunning"
+        echo
+        echo "    Check if a command line instance is running. Returns 0 if true, 1 if false"
         echo
         echo "./CLI.sh Launch -exit"
         echo
