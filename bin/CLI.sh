@@ -92,7 +92,7 @@ if [ "$1" == "Launch" ]; then
     # check if an instance is running
     elif [[ $# -eq 2 && "$2" == "-checkRunning" ]]; then
         stat $CLI_FILE &> /dev/null
-        return $?
+        exit $?
     # show launch command help
     elif [[ $# -eq 2 && "$2" == "-help" ]]; then
         echo "USAGE:"
