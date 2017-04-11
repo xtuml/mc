@@ -82,6 +82,13 @@ if [ "$1" == "Launch" ]; then
             echo "No command line instance running"
             exit 1
         fi
+    # abort the launched eclipse instance
+    elif [[ $# -eq 2 && "$2" == "-abort" ]]; then
+        stat $CLI_FILE &> /dev/null
+        if [ $? -eq 0 ]; then
+            kill -KILL `cat $CLI_FILE | awk '/PID: ([0-9]+)$/ {print $2}'`
+            rm -f $CLI_FILE
+        fi
     # show launch command help
     elif [[ $# -eq 2 && "$2" == "-help" ]]; then
         echo "USAGE:"
@@ -95,6 +102,10 @@ if [ "$1" == "Launch" ]; then
         echo
         echo "    Terminate the current running CLI instance"
         echo
+        echo "./CLI.sh Launch -abort"
+        echo
+        echo "    Forcefully terminate the current instance and cleanup"
+        echo
         echo "./CLI.sh Launch -help"
         echo
         echo "    Display command help"
@@ -106,7 +117,9 @@ if [ "$1" == "Launch" ]; then
             exit 1
         else
             python $DIR/launch-cli.py launch $CLI_FILE ${@:2}
-            chmod 400 $CLI_FILE
+            if [ $? -eq 0 ]; then
+                chmod 400 $CLI_FILE
+            fi
         fi
     fi
 else

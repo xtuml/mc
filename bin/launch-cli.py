@@ -20,23 +20,27 @@ def launch(port_file, opts, debug):
         proc = subprocess.Popen( "$BPHOME/bridgepoint --launcher.suppressErrors $JVM_ARG -clean -noSplash -data $WORKSPACE -application org.xtuml.bp.cli.Launch -port " + str(port) + " " + opts, shell=True )
         output += "PID: " + str(proc.pid) + "\n"
 
-    # accept a connection
-    conn, addr = server.accept()
+    try:
+        # accept a connection
+        conn, addr = server.accept()
 
-    # receive data
-    port = recvline(conn)
-    output += "PORT: " + port + "\n"
+        # receive data
+        port = recvline(conn)
+        output += "PORT: " + port + "\n"
 
-    # output the data
-    f = open(port_file, "w")
-    f.write(output)
-    f.close()
+        # output the data
+        f = open(port_file, "w")
+        f.write(output)
+        f.close()
 
-    # close sockets
-    server.close()
-    conn.close()
+        # close sockets
+        server.close()
+        conn.close()
+        return 0
 
-    return 0
+    except ( KeyboardInterrupt, SystemExit ):
+        proc.kill()
+        return 1
 
 def cmd(cmd, port):
     # create the socket and connect
