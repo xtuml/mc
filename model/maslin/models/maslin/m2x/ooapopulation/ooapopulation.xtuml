@@ -3379,7 +3379,9 @@ for each battr in battrs
   for each rattr in rattrs
     if ( rattr.Root_Nam == battr.Root_Nam )
       // Copy over the description field from the original attribute
-      rattr.Descrip = rattr.Descrip + battr.Descrip;
+      if ( ( "" != battr.Descrip ) and ( rattr.Descrip != battr.Descrip ) )
+        rattr.Descrip = rattr.Descrip + battr.Descrip;
+      end if;
       
       // copy the data type from the original attribute
       select one s_dt related by battr->S_DT[R114];
