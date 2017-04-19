@@ -26,6 +26,22 @@
 #define SYS_USER_CO_PRINTF( s )
 #endif
 
+// we write our own implementation of strsep so it works on windows
+#include <string.h>
+char *_strsep(char **stringp, const char *delim) {
+    if ( !stringp || !*stringp ) return NULL;
+    char* start = *stringp;
+    char* p = strpbrk( start, delim );
+    if ( !p ) {
+        *stringp = NULL;
+    }
+    else {
+        *p = '\0';
+        *stringp = p+1;
+    }
+    return start;
+}
+
 /*
  * UserInitializationCallout
  *
@@ -67,7 +83,6 @@ UserPreOoaInitializationCalloutf( void )
  * When this callout function returns, the system dispatcher will allow the
  * xtUML application analysis state models to start consuming events.
  */
-#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -84,8 +99,8 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     int i, j;
     i = 0;
     p[ strlen(p) - 1 ] = 0;
-    if ( ( q = strsep( &p, "," ) ) != NULL ) element = Escher_strcpy( element, q );
-    while ( ( q = strsep(&p, ",")) != NULL ) {
+    if ( ( q = _strsep( &p, "," ) ) != NULL ) element = Escher_strcpy( element, q );
+    while ( ( q = _strsep(&p, ",")) != NULL ) {
         masl_url_decode( value[ i ], q );
         i++;
     }
