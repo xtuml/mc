@@ -1,12 +1,12 @@
 #!/bin/bash
 # 
 #  This utility is used to build the executable model compiler tools:
-#    - mcmc
-#    - docgen
-#    - m2x
-#    - x2m
-#    - masl
-#    - MASLParser.jar
+#    * mcmc
+#    * docgen
+#    * m2x
+#    * x2m
+#    * masl
+#    * MASLParser.jar
 #
 #   build_mc [-w <working directory>] -t <osxcross target dir> -bp <BP home> -o <output directory>
 
@@ -60,7 +60,7 @@ for arg in $@; do
     fi
 done
 
-# check out dir
+# check arguments
 if [[ $OUT_DIR == "" || $OSXCROSS_TARGET == "" || $BPHOME == "" ]]; then
     print_usage
     exit 1
@@ -88,13 +88,6 @@ cd $GIT_DIR
 git clone https://github.com/xtuml/mc.git --depth 1
 git clone https://github.com/xtuml/bridgepoint.git --depth 1
 
-# due to a bug with S_IRDT instances, a proxy instance must be removed from the
-# escher project for it to build properly (https://support.onefact.net/issues/8976)
-echo "Fixing escher project..."
-TE_FILE="$GIT_DIR/mc/model/mcooa/models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml"
-cat "$TE_FILE" | sed '/INSERT.*S_SYS_PROXY/,/);/d' > $WORKING_DIR/temp_te
-mv $WORKING_DIR/temp_te "$TE_FILE"
-
 # prepare mcmc and docgen for build
 echo "Preparing mcmc and docgen templates..."
 cd $GIT_DIR/mc/mcmc/arlan
@@ -120,35 +113,37 @@ $BPHOME/tools/mc/bin/CLI.sh Import -project $GIT_DIR/mc/model/mcshared/
 $BPHOME/tools/mc/bin/CLI.sh Import -project $GIT_DIR/mc/model/document/
 $BPHOME/tools/mc/bin/CLI.sh Import -project $GIT_DIR/mc/model/docgen/
 $BPHOME/tools/mc/bin/CLI.sh Import -project $GIT_DIR/mc/model/escher/
-#$BPHOME/tools/mc/bin/CLI.sh Import -project $GIT_DIR/mc/model/masl/
-#$BPHOME/tools/mc/bin/CLI.sh Import -project $GIT_DIR/mc/model/maslin/
-#$BPHOME/tools/mc/bin/CLI.sh Import -project $GIT_DIR/mc/model/maslout/
+$BPHOME/tools/mc/bin/CLI.sh Import -project $GIT_DIR/mc/model/masl/
+$BPHOME/tools/mc/bin/CLI.sh Import -project $GIT_DIR/mc/model/maslin/
+$BPHOME/tools/mc/bin/CLI.sh Import -project $GIT_DIR/mc/model/maslout/
 
 # build the projects
 echo "Building projects..."
 $BPHOME/tools/mc/bin/CLI.sh Build -project docgen
-$BPHOME/tools/mc/bin/CLI.sh Build -project escher
-#$BPHOME/tools/mc/bin/CLI.sh Build -project masl
-#$BPHOME/tools/mc/bin/CLI.sh Build -project maslin
-#$BPHOME/tools/mc/bin/CLI.sh Build -project maslout
+#$BPHOME/tools/mc/bin/CLI.sh Build -project escher
+$BPHOME/tools/mc/bin/CLI.sh Build -project masl
+$BPHOME/tools/mc/bin/CLI.sh Build -project maslin
+$BPHOME/tools/mc/bin/CLI.sh Build -project maslout
 
 # shutdown eclipse instance
 $BPHOME/tools/mc/bin/CLI.sh Launch -exit
 
-# build the MASL parser
-cd $GIT_DIR/mc/masl/parser
-wget -O lib/antlr-3.5.2-complete.jar http://www.antlr3.org/download/antlr-3.5.2-complete.jar
-ant dist
-
 # archive the source
+echo "Archiving the source..."
 cd $WORKSPACE
 mkdir src
 cp -r $WORKSPACE/docgen/src src/docgen-src
-cp -r $WORKSPACE/escher/src src/mcmc-src
-#cp -r $WORKSPACE/masl/src src/masl-src
-#cp -r $WORKSPACE/maslin/src src/maslin-src
-#cp -r $WORKSPACE/maslout/src src/maslout-src
+#cp -r $WORKSPACE/escher/src src/mcmc-src
+cp -r $WORKSPACE/masl/src src/masl-src
+cp -r $WORKSPACE/maslin/src src/maslin-src
+cp -r $WORKSPACE/maslout/src src/maslout-src
 zip -qr mcsrc.zip src/
+
+# build the MASL parser
+echo "Building the MASL parser..."
+cd $GIT_DIR/mc/masl/parser
+wget -O lib/antlr-3.5.2-complete.jar http://www.antlr3.org/download/antlr-3.5.2-complete.jar
+ant dist
 
 # make the output directory
 mkdir $OUT_DIR
@@ -172,25 +167,36 @@ make -f makefile.docgen EXECUTABLE=docgen.linux.64
 rm -f *.o
 make -f makefile.docgen EXECUTABLE=docgen.mac.64 CC=o64-clang
 
-cd $WORKSPACE/escher/src
-make -f makefile.mcmc EXECUTABLE=mcmc.linux.64
-rm -f *.o
-make -f makefile.mcmc EXECUTABLE=mcmc.mac.64 CC=o64-clang LFLAGS=-L$OSXCROSS_TARGET/SDK/*/usr/lib -ll
+#cd $WORKSPACE/escher/src
+#make -f makefile.mcmc EXECUTABLE=mcmc.linux.64
+#rm -f *.o
+#make -f makefile.mcmc EXECUTABLE=mcmc.mac.64 CC=o64-clang LFLAGS=-L$OSXCROSS_TARGET/SDK/*/usr/lib -ll
 
-#cd $WORKSPACE/masl/src
-#make -f makefile.masl
-#cd $WORKSPACE/maslin/src
-#make -f makefile.maslin
-#cd $WORKSPACE/maslout/src
-#make -f makefile.maslout
+cd $WORKSPACE/masl/src
+make -f makefile.masl EXECUTABLE=masl.linux.64
+rm -f *.o
+make -f makefile.masl EXECUTABLE=masl.mac.64 CC=o64-clang
+
+cd $WORKSPACE/maslin/src
+make -f makefile.maslin EXECUTABLE=m2x.linux.64
+rm -f *.o
+make -f makefile.maslin EXECUTABLE=m2x.mac.64 CC=o64-clang
+
+cd $WORKSPACE/maslout/src
+make -f makefile.maslout EXECUTABLE=x2m.linux.64
+rm -f *.o
+make -f makefile.maslout EXECUTABLE=x2m.mac.64 CC=o64-clang
 
 # copy the executables
 cp $WORKSPACE/docgen/src/docgen.linux.64 $OUT_DIR
 cp $WORKSPACE/docgen/src/docgen.mac.64 $OUT_DIR
-cp $WORKSPACE/maslin/src/mcmc.linux.64 $OUT_DIR
-cp $WORKSPACE/maslin/src/mcmc.mac.64 $OUT_DIR
-#cp $WORKSPACE/masl/src/masl $OUT_DIR
-#cp $WORKSPACE/maslin/src/m2x $OUT_DIR
-#cp $WORKSPACE/maslout/src/x2m $OUT_DIR
+#cp $WORKSPACE/escher/src/mcmc.linux.64 $OUT_DIR
+#cp $WORKSPACE/escher/src/mcmc.mac.64 $OUT_DIR
+cp $WORKSPACE/masl/src/masl.linux.64 $OUT_DIR
+cp $WORKSPACE/masl/src/masl.mac.64 $OUT_DIR
+cp $WORKSPACE/maslin/src/m2x.linux.64 $OUT_DIR
+cp $WORKSPACE/maslin/src/m2x.mac.64 $OUT_DIR
+cp $WORKSPACE/maslout/src/x2m.linux.64 $OUT_DIR
+cp $WORKSPACE/maslout/src/x2m.mac.64 $OUT_DIR
 
 echo "Done."
