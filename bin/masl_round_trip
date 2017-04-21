@@ -219,7 +219,7 @@ if [[ $PROJ_DIR != "" ]]; then
       if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
         echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
       else
-        echo -e "\nThe MASL output is idential to the input." 
+        echo -e "\nThe MASL output is identical to the input." 
       fi
     fi
 fi
