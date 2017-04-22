@@ -272,9 +272,10 @@ structureTypeDefinition       : STRUCTURE
                                                                                                 structureComponentDefinition+)
                               ;
 
-structureComponentDefinition  : componentName COLON typeReference 
+structureComponentDefinition  : description componentName COLON typeReference
                                 (ASSIGN defaultValue=constExpression)?
                                 SEMI pragmaList                                           -> ^( COMPONENT_DEFINITION[$defaultValue.text]
+                                                                                                // description
                                                                                                 componentName 
                                                                                                 typeReference 
                                                                                                 $defaultValue?
@@ -292,7 +293,8 @@ enumerationTypeDefinition     : ENUM LPAREN
                                                                                                 enumerator+)
                               ;
 
-enumerator                    : enumeratorName ( (EQUAL|ASSIGN) constExpression )?        -> ^( ENUMERATOR[$constExpression.text]
+enumerator                    : description enumeratorName ( (EQUAL|ASSIGN) constExpression )?        -> ^( ENUMERATOR[$constExpression.text]
+                                                                                                // description
                                                                                                 enumeratorName 
                                                                                                 constExpression? )
                               ;
