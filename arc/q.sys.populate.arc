@@ -50,8 +50,8 @@
     .create object instance te_sys of TE_SYS
     .assign te_sys.SystemID = 1
   .end if
-  .// relate s_sys to te_sys across R2018;
-  .assign te_sys.Sys_ID = s_sys.Sys_ID
+  .relate s_sys to te_sys across R2018
+  .//.assign te_sys.Sys_ID = s_sys.Sys_ID
   .// end relate
   .assign te_sys.Name = "$r{s_sys.Name}"
   .if ( "" == te_sys.Name )
@@ -107,8 +107,8 @@
   .if ( empty te_disp )
     .create object instance te_disp of TE_DISP
     .assign te_disp.Dispatcher_ID = 1
-    .// relate te_disp to te_sys across R2003;
-    .assign te_disp.SystemID = te_sys.SystemID
+    .relate te_disp to te_sys across R2003
+    .//.assign te_disp.SystemID = te_sys.SystemID
     .// end relate
   .end if
   .assign te_disp.Descrip = "dispatcher"
@@ -118,13 +118,13 @@
   .if ( empty te_queue )
     .create object instance te_queue of TE_QUEUE
     .assign te_queue.Queue_ID = 1
-    .// relate te_queue to te_disp across R2004;
-    .assign te_queue.Dispatcher_ID = te_disp.Dispatcher_ID
+    .relate te_queue to te_disp across R2004
+    .//.assign te_queue.Dispatcher_ID = te_disp.Dispatcher_ID
     .// end relate
     .create object instance nonself_te_queue of TE_QUEUE
     .assign nonself_te_queue.Queue_ID = 2
-    .// relate nonself_te_queue to te_disp across R2004;
-    .assign nonself_te_queue.Dispatcher_ID = te_disp.Dispatcher_ID
+    .relate nonself_te_queue to te_disp across R2004
+    .//.assign nonself_te_queue.Dispatcher_ID = te_disp.Dispatcher_ID
     .// end relate
   .end if
   .// Self Queue
@@ -152,11 +152,11 @@
   .select many c_cs from instances of C_C
   .for each c_c in c_cs
     .create object instance te_c of TE_C
-    .// relate te_c to c_c across R2054;
-    .assign te_c.cId = c_c.Id
+    .relate te_c to c_c across R2054
+    .//.assign te_c.cId = c_c.Id
     .// end relate
-    .// relate te_c to te_sys across R2065;
-    .assign te_c.SystemID = te_sys.SystemID
+    .relate te_c to te_sys across R2065
+    .//.assign te_c.SystemID = te_sys.SystemID
     .// end relate
     .assign te_c.Name = "$r{c_c.Name}"
     .assign te_c.Descrip = c_c.Descrip
@@ -179,8 +179,8 @@
     .// Create and relate the domain class info to carry details about
     .// class extents for this component.
     .create object instance te_dci of TE_DCI
-    .// relate te_dci to te_c across R2090;
-    .assign te_dci.te_cId = te_c.ID
+    .relate te_dci to te_c across R2090
+    .//.assign te_dci.te_cId = te_c.ID
     .// end relate
     .assign te_dci.class_numbers = te_c.Name + "_CLASS_NUMBERS"
     .assign te_dci.persist_union = te_c.Name + "_CLASS_U"
@@ -200,11 +200,11 @@
       .else
         .assign te_ci.ClassifierName = "$r{cl_ic.ClassifierName}"
       .end if
-      .// relate te_ci to te_c across R2008;
-      .assign te_ci.te_cID = te_c.ID
+      .relate te_ci to te_c across R2008
+      .//.assign te_ci.te_cID = te_c.ID
       .// end relate
-      .// relate te_ci to cl_ic across R2009;
-      .assign te_ci.cl_icID = cl_ic.Id
+      .relate te_ci to cl_ic across R2009
+      .//.assign te_ci.cl_icID = cl_ic.Id
       .// end relate
     .end for
     .// Create the Extended Ports.
@@ -213,14 +213,14 @@
       .select any c_i related by c_po->C_IR[R4016]->C_I[R4012]
       .if ( not_empty c_i )
         .create object instance te_po of TE_PO
-        .// relate te_po to c_po across R2044;
-        .assign te_po.c_poId = c_po.Id
+        .relate te_po to c_po across R2044
+        .//.assign te_po.c_poId = c_po.Id
         .// end relate
-        .// relate te_po to te_c across R2005;
-        .assign te_po.te_cID = te_c.ID
+        .relate te_po to te_c across R2005
+        .//.assign te_po.te_cID = te_c.ID
         .// end relate
-        .// relate te_po to c_i across R2007;
-        .assign te_po.c_iId = c_i.Id
+        .relate te_po to c_i across R2007
+        .//.assign te_po.c_iId = c_i.Id
         .// end relate
         .assign te_po.InterfaceName = "$r{c_i.Name}"
         .select any c_r related by c_po->C_IR[R4016]->C_R[R4009]
@@ -239,11 +239,11 @@
           .create object instance te_iir of TE_IIR
           .assign te_iir.provider_te_iirID = 00
           .assign te_iir.cl_iirID = 00
-          .// relate te_iir to c_ir across R2046;
-          .assign te_iir.c_irId = c_ir.Id
+          .relate te_iir to c_ir across R2046
+          .//.assign te_iir.c_irId = c_ir.Id
           .// end relate
-          .// relate te_iir to te_po across R2080;
-          .assign te_iir.te_poID = te_po.ID
+          .relate te_iir to te_po across R2080
+          .//.assign te_iir.te_poID = te_po.ID
           .// end relate
           .assign te_iir.component_name = c_c.Name
           .assign te_iir.port_name = te_po.Name
@@ -254,11 +254,11 @@
             .create object instance te_iir of TE_IIR
             .assign te_iir.provider_te_iirID = 00
             .assign te_iir.c_irID = 00
-            .// relate te_iir to cl_iir across R2013;
-            .assign te_iir.cl_iirId = cl_iir.Id
+            .relate te_iir to cl_iir across R2013
+            .//.assign te_iir.cl_iirId = cl_iir.Id
             .// end relate
-            .// relate te_iir to te_po across R2080;
-            .assign te_iir.te_poID = te_po.ID
+            .relate te_iir to te_po across R2080
+            .//.assign te_iir.te_poID = te_po.ID
             .// end relate
             .assign te_iir.port_name = te_po.Name
             .assign te_iir.interface_name = te_po.InterfaceName
@@ -396,8 +396,8 @@
   .select many s_dts from instances of S_DT
   .for each s_dt in s_dts
     .create object instance te_dt of TE_DT
-    .// relate te_dt to s_dt across R2021;
-    .assign te_dt.DT_ID = s_dt.DT_ID
+    .relate te_dt to s_dt across R2021
+    .//.assign te_dt.DT_ID = s_dt.DT_ID
     .// end relate
     .assign te_dt.Name = s_dt.Name
     .assign te_dt.Core_Typ = -1
@@ -415,8 +415,8 @@
       .assign te_dt.Owning_Dom_Name = te_sys.Name
     .else
       .assign te_dt.Owning_Dom_Name = te_c.Name
-      .// relate te_dt to te_c across R2086;
-      .assign te_dt.te_cID = te_c.ID
+      .relate te_dt to te_c across R2086
+      .//.assign te_dt.te_cID = te_c.ID
       .// end relate
     .end if
   .end for
@@ -452,11 +452,11 @@
         .assign te_c.internal_behavior = true
         .// Create the Extended Function instance and link it to the real one.
         .create object instance te_sync of TE_SYNC
-        .// relate s_sync to te_sync across R2023;
-        .assign te_sync.Sync_ID = s_sync.Sync_ID
+        .relate s_sync to te_sync across R2023
+        .//.assign te_sync.Sync_ID = s_sync.Sync_ID
         .// end relate
-        .// relate te_sync to te_c across R2084;
-        .assign te_sync.te_cID = te_c.ID
+        .relate te_sync to te_c across R2084
+        .//.assign te_sync.te_cID = te_c.ID
         .// end relate
         .assign te_sync.Name = s_sync.Name
         .assign te_sync.GeneratedName = ( te_c.Name + "_" ) + te_sync.Name
@@ -472,8 +472,8 @@
     .if ( empty te_c )
       .// Here we have an EE in a package outside of a component.
       .create object instance te_ee of TE_EE
-      .// relate te_ee to s_ee across R2020;
-      .assign te_ee.EE_ID = s_ee.EE_ID
+      .relate te_ee to s_ee across R2020
+      .//.assign te_ee.EE_ID = s_ee.EE_ID
       .// end relate
       .// Be sure we are not related to any te_c across R2085
       .assign te_ee.te_cID = 00
@@ -482,11 +482,11 @@
         .assign te_c.internal_behavior = true
         .// Create the Extended EE instance and link it to the real one.
         .create object instance te_ee of TE_EE
-        .// relate te_ee to s_ee across R2020;
-        .assign te_ee.EE_ID = s_ee.EE_ID
+        .relate te_ee to s_ee across R2020
+        .//.assign te_ee.EE_ID = s_ee.EE_ID
         .// end relate
-        .// relate te_ee to te_c across R2085;
-        .assign te_ee.te_cID = te_c.ID
+        .relate te_ee to te_c across R2085
+        .//.assign te_ee.te_cID = te_c.ID
         .// end relate
       .end if
     .end if
@@ -671,8 +671,8 @@
     .select many s_enums related by s_edt->S_ENUM[R27]
     .for each s_enum in s_enums
       .create object instance te_enum of TE_ENUM
-      .// relate s_enum to te_enum across R2027;
-      .assign te_enum.Enum_ID = s_enum.Enum_ID
+      .relate s_enum to te_enum across R2027
+      .//.assign te_enum.Enum_ID = s_enum.Enum_ID
       .// end relate
       .assign te_enum.Name = s_enum.Name
       .assign te_enum.GeneratedName = ( ( te_dt.Owning_Dom_Name + "_" ) + ( te_dt.Name + "_" ) ) + ( "$r{te_enum.Name}" + "_e" )
@@ -696,13 +696,13 @@
     .select many s_mbrs related by s_sdt->S_MBR[R44]
     .for each s_mbr in s_mbrs
       .create object instance te_mbr of TE_MBR
-      .// relate s_mbr to te_mbr across R2047;
-      .assign te_mbr.Member_ID = s_mbr.Member_ID
-      .assign te_mbr.DT_ID = s_mbr.Parent_DT_DT_ID
+      .relate s_mbr to te_mbr across R2047
+      .//.assign te_mbr.Member_ID = s_mbr.Member_ID
+      .//.assign te_mbr.DT_ID = s_mbr.Parent_DT_DT_ID
       .// end relate
       .select one mbr_te_dt related by s_mbr->S_DT[R45]->TE_DT[R2021]
-      .// relate te_mbr to mbr_te_dt across R2068;
-      .assign te_mbr.te_dtID = mbr_te_dt.ID
+      .relate te_mbr to mbr_te_dt across R2068
+      .//.assign te_mbr.te_dtID = mbr_te_dt.ID
       .// end relate
     .end for
     .for each s_mbr in s_mbrs
@@ -727,8 +727,8 @@
         .invoke r1 = FactoryTE_DIM( s_dim, te_dim )
         .assign te_dim = r1.result
         .if ( dim_index == 0 )
-          .// relate te_dim to te_mbr across R2059;
-          .assign te_mbr.te_dimID = te_dim.te_dimID
+          .relate te_dim to te_mbr across R2059
+          .//.assign te_mbr.te_dimID = te_dim.te_dimID
           .// end relate
         .end if
         .assign array_spec = ( array_spec + "[" ) + ( "$t{te_dim.elementCount}" + "]" )
@@ -881,8 +881,8 @@
   .select many v_vals from instances of V_VAL
   .for each v_val in v_vals
     .create object instance te_val of TE_VAL
-    .// relate v_val to te_val across R2040;
-    .assign te_val.Value_ID = v_val.Value_ID
+    .relate v_val to te_val across R2040
+    .//.assign te_val.Value_ID = v_val.Value_ID
     .// end relate
     .assign te_val.array_spec = ""
     .assign te_val.dimensions = 0
@@ -894,8 +894,8 @@
     .create object instance te_par of TE_PAR
     .assign te_par.Name = v_par.Name
     .assign te_par.By_Ref = 0
-    .// relate te_par to v_par across R2063;
-    .assign te_par.Value_ID = v_par.Value_ID
+    .relate te_par to v_par across R2063
+    .//.assign te_par.Value_ID = v_par.Value_ID
     .// end relate
   .end for
   .//
@@ -911,21 +911,21 @@
     .invoke r = FactoryTE_PARM( s_dims, te_dt, "p_", s_bparm.Name, s_bparm.By_Ref )
     .assign te_parm = r.result
     .assign te_parm.Descrip = s_bparm.Descrip
-    .// relate s_bparm to te_parm across R2028;
-    .assign te_parm.BParm_ID = s_bparm.BParm_ID
+    .relate s_bparm to te_parm across R2028
+    .//.assign te_parm.BParm_ID = s_bparm.BParm_ID
     .// end relate
     .select many te_pars related by s_bparm->S_BRG[R21]->ACT_BRG[R674]->V_PAR[R628]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
     .for each te_par in te_pars
       .assign te_par.By_Ref = te_parm.By_Ref
-      .// relate te_par to te_parm across R2091;
-      .assign te_par.te_parmID = te_parm.ID
+      .relate te_par to te_parm across R2091
+      .//.assign te_par.te_parmID = te_parm.ID
       .// end relate
     .end for
     .select many te_pars related by s_bparm->S_BRG[R21]->V_BRV[R828]->V_PAR[R810]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
     .for each te_par in te_pars
       .assign te_par.By_Ref = te_parm.By_Ref
-      .// relate te_par to te_parm across R2091;
-      .assign te_par.te_parmID = te_parm.ID
+      .relate te_par to te_parm across R2091
+      .//.assign te_par.te_parmID = te_parm.ID
       .// end relate
     .end for
   .end for
@@ -946,21 +946,21 @@
     .invoke r = FactoryTE_PARM( s_dims, te_dt, "p_", o_tparm.Name, o_tparm.By_Ref )
     .assign te_parm = r.result
     .assign te_parm.Descrip = o_tparm.Descrip
-    .// relate o_tparm to te_parm across R2029;
-    .assign te_parm.TParm_ID = o_tparm.TParm_ID
+    .relate o_tparm to te_parm across R2029
+    .//.assign te_parm.TParm_ID = o_tparm.TParm_ID
     .// end relate
     .select many te_pars related by o_tparm->O_TFR[R117]->ACT_TFM[R673]->V_PAR[R627]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
     .for each te_par in te_pars
       .assign te_par.By_Ref = te_parm.By_Ref
-      .// relate te_par to te_parm across R2091;
-      .assign te_par.te_parmID = te_parm.ID
+      .relate te_par to te_parm across R2091
+      .//.assign te_par.te_parmID = te_parm.ID
       .// end relate
     .end for
     .select many te_pars related by o_tparm->O_TFR[R117]->V_TRV[R829]->V_PAR[R811]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
     .for each te_par in te_pars
       .assign te_par.By_Ref = te_parm.By_Ref
-      .// relate te_par to te_parm across R2091;
-      .assign te_par.te_parmID = te_parm.ID
+      .relate te_par to te_parm across R2091
+      .//.assign te_par.te_parmID = te_parm.ID
       .// end relate
     .end for
   .end for
@@ -981,21 +981,21 @@
     .invoke r = FactoryTE_PARM( s_dims, te_dt, "p_", s_sparm.Name, s_sparm.By_Ref )
     .assign te_parm = r.result
     .assign te_parm.Descrip = s_sparm.Descrip
-    .// relate s_sparm to te_parm across R2030;
-    .assign te_parm.SParm_ID = s_sparm.SParm_ID
+    .relate s_sparm to te_parm across R2030
+    .//.assign te_parm.SParm_ID = s_sparm.SParm_ID
     .// end relate
     .select many te_pars related by s_sparm->S_SYNC[R24]->ACT_FNC[R675]->V_PAR[R669]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
     .for each te_par in te_pars
       .assign te_par.By_Ref = te_parm.By_Ref
-      .// relate te_par to te_parm across R2091;
-      .assign te_par.te_parmID = te_parm.ID
+      .relate te_par to te_parm across R2091
+      .//.assign te_par.te_parmID = te_parm.ID
       .// end relate
     .end for
     .select many te_pars related by s_sparm->S_SYNC[R24]->V_FNV[R827]->V_PAR[R817]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
     .for each te_par in te_pars
       .assign te_par.By_Ref = te_parm.By_Ref
-      .// relate te_par to te_parm across R2091;
-      .assign te_par.te_parmID = te_parm.ID
+      .relate te_par to te_parm across R2091
+      .//.assign te_par.te_parmID = te_parm.ID
       .// end relate
     .end for
   .end for
@@ -1017,9 +1017,9 @@
     .invoke r = FactoryTE_PARM( s_dims, te_dt, "p_", sm_evtdi.Name, 0 )
     .assign te_parm = r.result
     .assign te_parm.Descrip = sm_evtdi.Descrip
-    .// relate te_parm to sm_evtdi across R2031;
-    .assign te_parm.SMedi_ID = sm_evtdi.SMedi_ID
-    .assign te_parm.SM_ID = sm_evtdi.SM_ID
+    .relate te_parm to sm_evtdi across R2031
+    .//.assign te_parm.SMedi_ID = sm_evtdi.SMedi_ID
+    .//.assign te_parm.SM_ID = sm_evtdi.SM_ID
     .// end relate
   .end for
   .// Link the event parameters into order.
@@ -1049,30 +1049,30 @@
     .invoke r = FactoryTE_PARM( s_dims, te_dt, "p_", c_pp_name, c_pp.By_Ref )
     .assign te_parm = r.result
     .assign te_parm.Descrip = c_pp.Descrip
-    .// relate c_pp to te_parm across R2048;
-    .assign te_parm.PP_Id = c_pp.PP_Id
+    .relate c_pp to te_parm across R2048
+    .//.assign te_parm.PP_Id = c_pp.PP_Id
     .// end relate
     .select many spr_reps related by c_pp->C_EP[R4006]->SPR_REP[R4500]
     .if ( not_empty spr_reps )
       .select many te_pars related by spr_reps->SPR_RS[R4502]->ACT_SGN[R660]->V_PAR[R662]->TE_PAR[R2063] where ( selected.Name == c_pp.Name )
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
-        .// relate te_par to te_parm across R2091;
-        .assign te_par.te_parmID = te_parm.ID
+        .relate te_par to te_parm across R2091
+        .//.assign te_par.te_parmID = te_parm.ID
         .// end relate
       .end for
       .select many te_pars related by spr_reps->SPR_RO[R4502]->ACT_IOP[R657]->V_PAR[R679]->TE_PAR[R2063] where ( selected.Name == c_pp.Name )
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
-        .// relate te_par to te_parm across R2091;
-        .assign te_par.te_parmID = te_parm.ID
+        .relate te_par to te_parm across R2091
+        .//.assign te_par.te_parmID = te_parm.ID
         .// end relate
       .end for
       .select many te_pars related by spr_reps->V_MSV[R845]->V_PAR[R842]->TE_PAR[R2063] where ( selected.Name == c_pp.Name )
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
-        .// relate te_par to te_parm across R2091;
-        .assign te_par.te_parmID = te_parm.ID
+        .relate te_par to te_parm across R2091
+        .//.assign te_par.te_parmID = te_parm.ID
         .// end relate
       .end for
     .end if
@@ -1081,22 +1081,22 @@
       .select many te_pars related by spr_peps->SPR_PS[R4503]->ACT_SGN[R663]->V_PAR[R662]->TE_PAR[R2063] where ( selected.Name == c_pp.Name )
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
-        .// relate te_par to te_parm across R2091;
-        .assign te_par.te_parmID = te_parm.ID
+        .relate te_par to te_parm across R2091
+        .//.assign te_par.te_parmID = te_parm.ID
         .// end relate
       .end for
       .select many te_pars related by spr_peps->SPR_PO[R4503]->ACT_IOP[R680]->V_PAR[R679]->TE_PAR[R2063] where ( selected.Name == c_pp.Name )
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
-        .// relate te_par to te_parm across R2091;
-        .assign te_par.te_parmID = te_parm.ID
+        .relate te_par to te_parm across R2091
+        .//.assign te_par.te_parmID = te_parm.ID
         .// end relate
       .end for
       .select many te_pars related by spr_peps->V_MSV[R841]->V_PAR[R842]->TE_PAR[R2063] where ( selected.Name == c_pp.Name )
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
-        .// relate te_par to te_parm across R2091;
-        .assign te_par.te_parmID = te_parm.ID
+        .relate te_par to te_parm across R2091
+        .//.assign te_par.te_parmID = te_parm.ID
         .// end relate
       .end for
     .end if
@@ -1137,8 +1137,8 @@
     .assign te_mact = r.result
     .assign te_mact.Descrip = c_io.Descrip
     .assign te_mact.Direction = c_io.Direction
-    .// relate te_mact to spr_ro across R2052;
-    .assign te_mact.SPR_ROId = spr_ro.Id
+    .relate te_mact to spr_ro across R2052
+    .//.assign te_mact.SPR_ROId = spr_ro.Id
     .// end relate
   .end for
   .select many spr_rss from instances of SPR_RS
@@ -1152,8 +1152,8 @@
     .assign te_mact = r.result
     .assign te_mact.Descrip = c_as.Descrip
     .assign te_mact.Direction = c_as.Direction
-    .// relate te_mact to spr_rs across R2053;
-    .assign te_mact.SPR_RSId = spr_rs.Id
+    .relate te_mact to spr_rs across R2053
+    .//.assign te_mact.SPR_RSId = spr_rs.Id
     .// end relate
   .end for
   .select many spr_pos from instances of SPR_PO
@@ -1174,8 +1174,8 @@
     .assign te_mact = r.result
     .assign te_mact.Descrip = c_io.Descrip
     .assign te_mact.Direction = c_io.Direction
-    .// relate te_mact to spr_po across R2050;
-    .assign te_mact.SPR_POId = spr_po.Id
+    .relate te_mact to spr_po across R2050
+    .//.assign te_mact.SPR_POId = spr_po.Id
     .// end relate
   .end for
   .select many spr_pss from instances of SPR_PS
@@ -1189,8 +1189,8 @@
     .assign te_mact = r.result
     .assign te_mact.Descrip = c_as.Descrip
     .assign te_mact.Direction = c_as.Direction
-    .// relate te_mact to spr_ps across R2051;
-    .assign te_mact.SPR_PSId = spr_ps.Id
+    .relate te_mact to spr_ps across R2051
+    .//.assign te_mact.SPR_PSId = spr_ps.Id
     .// end relate
   .end for
   .// All the te_pos and te_macts are created now.  Order the te_macts alphabetically inside the ports.
@@ -1200,8 +1200,8 @@
     .invoke r = mact_sort( te_macts )
     .assign te_mact = r.result
     .if ( not_empty te_mact )
-      .// relate te_po to te_mact across R2099;
-      .assign te_po.first_te_mactID = te_mact.ID
+      .relate te_po to te_mact across R2099
+      .//.assign te_po.first_te_mactID = te_mact.ID
       .// end relate
     .end if
   .end for
@@ -1223,8 +1223,8 @@
     .assign te_rel.Navigated = false
     .assign te_rel.Order = 0
     .assign te_rel.storage_needed = false
-    .// relate r_rel to te_rel across R2034;
-    .assign te_rel.Rel_ID = r_rel.Rel_ID
+    .relate r_rel to te_rel across R2034
+    .//.assign te_rel.Rel_ID = r_rel.Rel_ID
     .// end relate
   .end for
   .//
@@ -1240,10 +1240,10 @@
     .assign te_oir.rel_phrase = ""
     .assign te_oir.object_id = ""
     .assign te_oir.NavigatedTo = false
-    .// relate r_oir to te_oir across R2035;
-    .assign te_oir.Obj_ID = r_oir.Obj_ID
-    .assign te_oir.Rel_ID = r_oir.Rel_ID
-    .assign te_oir.OIR_ID = r_oir.OIR_ID
+    .relate r_oir to te_oir across R2035
+    .//.assign te_oir.Obj_ID = r_oir.Obj_ID
+    .//.assign te_oir.Rel_ID = r_oir.Rel_ID
+    .//.assign te_oir.OIR_ID = r_oir.OIR_ID
     .// end relate
   .end for
   .select many r_parts related by r_rels->R_SIMP[R206]->R_PART[R207]
@@ -1310,8 +1310,8 @@
   .select many act_blks from instances of ACT_BLK
   .for each act_blk in act_blks
     .create object instance te_blk of TE_BLK
-    .// relate act_blk to te_blk across R2016;
-    .assign te_blk.Block_ID = act_blk.Block_ID
+    .relate act_blk to te_blk across R2016
+    .//.assign te_blk.Block_ID = act_blk.Block_ID
     .// end relate
     .assign te_blk.AbaID = 00
     .assign te_blk.declaration = ""
@@ -1322,17 +1322,17 @@
     .select many act_smts related by act_blk->ACT_SMT[R602]
     .for each act_smt in act_smts
       .create object instance te_smt of TE_SMT
-      .// relate act_smt to te_smt across R2038;
-      .assign te_smt.Statement_ID = act_smt.Statement_ID
+      .relate act_smt to te_smt across R2038
+      .//.assign te_smt.Statement_ID = act_smt.Statement_ID
       .// end relate
       .// Connect the statement to its parent block.
-      .// relate te_smt to te_blk across R2078;
-      .assign te_smt.parent_Block_ID = te_blk.Block_ID
+      .relate te_smt to te_blk across R2078
+      .//.assign te_smt.parent_Block_ID = te_blk.Block_ID
       .// end relate
       .if ( first_smt )
         .// CDS WARNING!! This assumes the gen_erate will give us the first statement first!
-        .// relate te_blk to te_smt across R2014;
-        .assign te_blk.first_Statement_ID = te_smt.Statement_ID
+        .relate te_blk to te_smt across R2014
+        .//.assign te_blk.first_Statement_ID = te_smt.Statement_ID
         .// end relate
         .assign first_smt = false
       .end if
@@ -1365,8 +1365,8 @@
   .for each act_for in act_fors
     .select one te_smt related by act_for->ACT_SMT[R603]->TE_SMT[R2038]
     .select one te_blk related by act_for->ACT_BLK[R605]->TE_BLK[R2016]
-    .// relate te_smt to te_blk across R2015;
-    .assign te_smt.sub_Block_ID = te_blk.Block_ID
+    .relate te_smt to te_blk across R2015
+    .//.assign te_smt.sub_Block_ID = te_blk.Block_ID
     .// end relate
     .assign te_smt.subtypeKL = "TE_FOR"
   .end for
@@ -1374,8 +1374,8 @@
   .for each act_whl in act_whls
     .select one te_smt related by act_whl->ACT_SMT[R603]->TE_SMT[R2038]
     .select one te_blk related by act_whl->ACT_BLK[R608]->TE_BLK[R2016]
-    .// relate te_smt to te_blk across R2015;
-    .assign te_smt.sub_Block_ID = te_blk.Block_ID
+    .relate te_smt to te_blk across R2015
+    .//.assign te_smt.sub_Block_ID = te_blk.Block_ID
     .// end relate
     .assign te_smt.subtypeKL = "TE_WHL"
   .end for
@@ -1383,8 +1383,8 @@
   .for each act_if in act_ifs
     .select one te_smt related by act_if->ACT_SMT[R603]->TE_SMT[R2038]
     .select one te_blk related by act_if->ACT_BLK[R607]->TE_BLK[R2016]
-    .// relate te_smt to te_blk across R2015;
-    .assign te_smt.sub_Block_ID = te_blk.Block_ID
+    .relate te_smt to te_blk across R2015
+    .//.assign te_smt.sub_Block_ID = te_blk.Block_ID
     .// end relate
     .assign te_smt.subtypeKL = "TE_IF"
   .end for
@@ -1392,8 +1392,8 @@
   .for each act_el in act_els
     .select one te_smt related by act_el->ACT_SMT[R603]->TE_SMT[R2038]
     .select one te_blk related by act_el->ACT_BLK[R658]->TE_BLK[R2016]
-    .// relate te_smt to te_blk across R2015;
-    .assign te_smt.sub_Block_ID = te_blk.Block_ID
+    .relate te_smt to te_blk across R2015
+    .//.assign te_smt.sub_Block_ID = te_blk.Block_ID
     .// end relate
     .assign te_smt.subtypeKL = "TE_EL"
   .end for
@@ -1401,8 +1401,8 @@
   .for each act_e in act_es
     .select one te_smt related by act_e->ACT_SMT[R603]->TE_SMT[R2038]
     .select one te_blk related by act_e->ACT_BLK[R606]->TE_BLK[R2016]
-    .// relate te_smt to te_blk across R2015;
-    .assign te_smt.sub_Block_ID = te_blk.Block_ID
+    .relate te_smt to te_blk across R2015
+    .//.assign te_smt.sub_Block_ID = te_blk.Block_ID
     .// end relate
     .assign te_smt.subtypeKL = "TE_E"
   .end for
@@ -1453,8 +1453,8 @@
   .select many v_vars from instances of V_VAR
   .for each v_var in v_vars
     .create object instance te_var of TE_VAR
-    .// relate v_var to te_var across R2039;
-    .assign te_var.Var_ID = v_var.Var_ID
+    .relate v_var to te_var across R2039
+    .//.assign te_var.Var_ID = v_var.Var_ID
     .// end relate
     .if ( "self" == "$l{v_var.Name}" )
       .assign te_var.OAL = "self"
@@ -1477,8 +1477,8 @@
       .invoke r = FactoryTE_DIM( s_dim, te_dim )
       .assign te_dim = r.result
       .if ( dim_index == 0 )
-        .// relate te_dim to te_var across R2057;
-        .assign te_var.te_dimID = te_dim.te_dimID
+        .relate te_dim to te_var across R2057
+        .//.assign te_var.te_dimID = te_dim.te_dimID
         .// end relate
       .end if
       .assign array_spec = ( array_spec + "[" ) + ( "$t{te_dim.elementCount}" + "]" )
@@ -1512,8 +1512,8 @@
     .invoke r = sync_sort( te_syncs )
     .assign te_sync = r.result
     .if ( not_empty te_sync )
-      .// relate te_c to te_sync across R2097;
-      .assign te_c.first_syncID = te_sync.ID
+      .relate te_c to te_sync across R2097
+      .//.assign te_c.first_syncID = te_sync.ID
       .// end relate
     .end if
     .for each te_sync in te_syncs
@@ -1545,13 +1545,13 @@
       .select many te_parms related by s_sync->S_SPARM[R24]->TE_PARM[R2030]
       .invoke r1 = FactoryTE_ABA( te_c, te_parms, te_c.Name, te_sync.GeneratedName, "S_SYNC", te_dt )
       .assign te_aba = r1.result
-      .// relate te_sync to te_aba across R2010;
-      .assign te_sync.AbaID = te_aba.AbaID
+      .relate te_sync to te_aba across R2010
+      .//.assign te_sync.AbaID = te_aba.AbaID
       .// end relate
       .select one te_blk related by s_sync->ACT_FNB[R695]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
       .if ( not_empty te_blk )
-        .// relate te_blk to te_aba across R2011;
-        .assign te_blk.AbaID = te_aba.AbaID
+        .relate te_blk to te_aba across R2011
+        .//.assign te_blk.AbaID = te_aba.AbaID
         .// end relate
       .end if
     .end for
@@ -1564,8 +1564,8 @@
     .invoke r1 = ee_sort( te_ees )
     .assign te_ee = r1.result
     .if ( not_empty te_ee )
-      .// relate te_c to te_ee across R2098;
-      .assign te_c.first_eeID = te_ee.ID
+      .relate te_c to te_ee across R2098
+      .//.assign te_c.first_eeID = te_ee.ID
       .// end relate
     .end if
     .//
@@ -1583,8 +1583,8 @@
         .select one te_blk related by te_mact->SPR_RS[R2053]->ACT_RSB[R684]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
       .end if
       .if ( not_empty te_blk )
-        .// relate te_blk to te_aba across R2011;
-        .assign te_blk.AbaID = te_aba.AbaID
+        .relate te_blk to te_aba across R2011
+        .//.assign te_blk.AbaID = te_aba.AbaID
         .// end relate
       .end if
     .end for
@@ -1646,12 +1646,12 @@
         .assign te_attr.Order = 0
         .assign te_attr.ParamBuffer = ""
         .assign te_attr.translate = true
-        .// relate te_attr to o_attr across R2033;
-        .assign te_attr.Obj_ID = o_attr.Obj_ID
-        .assign te_attr.Attr_ID = o_attr.Attr_ID
+        .relate te_attr to o_attr across R2033
+        .//.assign te_attr.Obj_ID = o_attr.Obj_ID
+        .//.assign te_attr.Attr_ID = o_attr.Attr_ID
         .// end relate
-        .// relate te_attr to te_class across R2061;
-        .assign te_attr.te_classGeneratedName = te_class.GeneratedName
+        .relate te_attr to te_class across R2061
+        .//.assign te_attr.te_classGeneratedName = te_class.GeneratedName
         .// end relate
         .assign te_attr.prevID = 00
         .if ( not_empty prev_te_attr )
@@ -1669,8 +1669,8 @@
           .invoke r2 = FactoryTE_DIM( s_dim, te_dim )
           .assign te_dim = r2.result
           .if ( dim_index == 0 )
-            .// relate te_dim to te_attr across R2055;
-            .assign te_attr.te_dimID = te_dim.te_dimID
+            .relate te_dim to te_attr across R2055
+            .//.assign te_attr.te_dimID = te_dim.te_dimID
             .// end relate
           .end if
           .assign array_spec = ( array_spec + "[" ) + ( "$t{te_dim.elementCount}" + "]" )
@@ -1714,21 +1714,21 @@
           .create object instance te_dbattr of TE_DBATTR
           .assign te_dbattr.Included = false
           .assign te_dbattr.GeneratedName = ( te_class.GeneratedName + "_MDA_" ) + o_attr.Name
-          .// relate o_dbattr to te_dbattr across R2026;
-          .assign te_dbattr.Attr_ID = o_dbattr.Attr_ID
-          .assign te_dbattr.Obj_ID = o_dbattr.Obj_ID
+          .relate o_dbattr to te_dbattr across R2026
+          .//.assign te_dbattr.Attr_ID = o_dbattr.Attr_ID
+          .//.assign te_dbattr.Obj_ID = o_dbattr.Obj_ID
           .// end relate
           .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
           .assign te_parms = empty_te_parms
           .invoke r2 = FactoryTE_ABA( te_c, te_parms, "", te_dbattr.GeneratedName, "O_DBATTR", te_dt )
           .assign te_aba = r2.result
-          .// relate te_dbattr to te_aba across R2010;
-          .assign te_dbattr.AbaID = te_aba.AbaID
+          .relate te_dbattr to te_aba across R2010
+          .//.assign te_dbattr.AbaID = te_aba.AbaID
           .// end relate
           .select one te_blk related by o_dbattr->ACT_DAB[R693]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
           .if ( not_empty te_blk )
-            .// relate te_blk to te_aba across R2011;
-            .assign te_blk.AbaID = te_aba.AbaID
+            .relate te_blk to te_aba across R2011
+            .//.assign te_blk.AbaID = te_aba.AbaID
             .// end relate
           .end if
         .end if
@@ -1762,20 +1762,20 @@
         .assign te_tfr.Key_Lett = te_class.Key_Lett
         .assign te_tfr.Name = o_tfr.Name
         .assign te_tfr.GeneratedName = ( ( te_c.Name + "_" ) + ( te_tfr.Key_Lett + "_op_" ) ) + te_tfr.Name
-        .// relate o_tfr to te_tfr across R2024;
-        .assign te_tfr.Tfr_ID = o_tfr.Tfr_ID
+        .relate o_tfr to te_tfr across R2024
+        .//.assign te_tfr.Tfr_ID = o_tfr.Tfr_ID
         .// end relate
         .select one te_dt related by o_tfr->S_DT[R116]->TE_DT[R2021]
         .select many te_parms related by o_tfr->O_TPARM[R117]->TE_PARM[R2029]
         .invoke r2 = FactoryTE_ABA( te_c, te_parms, te_class.GeneratedName, te_tfr.GeneratedName, "O_TFR", te_dt )
         .assign te_aba = r2.result
-        .// relate te_tfr to te_aba across R2010;
-        .assign te_tfr.AbaID = te_aba.AbaID
+        .relate te_tfr to te_aba across R2010
+        .//.assign te_tfr.AbaID = te_aba.AbaID
         .// end relate
         .select one te_blk related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
         .if ( not_empty te_blk )
-          .// relate te_blk to te_aba across R2011;
-          .assign te_blk.AbaID = te_aba.AbaID
+          .relate te_blk to te_aba across R2011
+          .//.assign te_blk.AbaID = te_aba.AbaID
           .// end relate
         .end if
       .end for
@@ -1785,9 +1785,9 @@
       .for each o_id in o_ids
         .create object instance te_where of TE_WHERE
         .assign te_where.WhereKey = false
-        .// relate te_where to o_id across R2032;
-        .assign te_where.Obj_ID = o_id.Obj_ID
-        .assign te_where.Oid_ID = o_id.Oid_ID
+        .relate te_where to o_id across R2032
+        .//.assign te_where.Obj_ID = o_id.Obj_ID
+        .//.assign te_where.Oid_ID = o_id.Oid_ID
         .// end relate
         .assign number = te_where.Oid_ID + 1
         .assign te_where.select_any_where = ( te_class.GeneratedName + "_AnyWhere" ) + "$t{number}"
@@ -1814,11 +1814,11 @@
   .param inst_ref te_c
   .// Create the Generated Class instance and link it to the model one.
   .create object instance te_class of TE_CLASS
-  .// relate te_class to o_obj across R2019;
-  .assign te_class.Obj_ID = o_obj.Obj_ID
+  .relate te_class to o_obj across R2019
+  .//.assign te_class.Obj_ID = o_obj.Obj_ID
   .// end relate
-  .// relate te_class to te_c across R2064;
-  .assign te_class.te_cID = te_c.ID
+  .relate te_class to te_c across R2064
+  .//.assign te_class.te_cID = te_c.ID
   .// end relate
   .// Copy the Numb attribute for sorting purposes.
   .assign te_class.Numb = o_obj.Numb
@@ -1870,11 +1870,11 @@
   .select many empty_te_parms from instances of TE_PARM where ( false )
   .select one te_c related by te_class->TE_C[R2064]
   .create object instance te_sm of TE_SM
-  .// relate te_sm to te_class across R2072;
-  .assign te_sm.te_classGeneratedName = te_class.GeneratedName
+  .relate te_sm to te_class across R2072
+  .//.assign te_sm.te_classGeneratedName = te_class.GeneratedName
   .// end relate
-  .// relate te_sm to sm_sm across R2043;
-  .assign te_sm.SM_ID = sm_sm.SM_ID
+  .relate te_sm to sm_sm across R2043
+  .//.assign te_sm.SM_ID = sm_sm.SM_ID
   .// end relate
   .assign te_sm.complete = false
   .assign class_based = "_CB"
@@ -1895,30 +1895,30 @@
     .create object instance te_state of TE_STATE
     .assign te_state.Name = sm_state.Name
     .assign te_state.Numb = sm_state.Numb
-    .// relate te_state to sm_state across R2037;
-    .assign te_state.SM_ID = sm_state.SM_ID
-    .assign te_state.SMstt_ID = sm_state.SMstt_ID
+    .relate te_state to sm_state across R2037
+    .//.assign te_state.SM_ID = sm_state.SM_ID
+    .//.assign te_state.SMstt_ID = sm_state.SMstt_ID
     .// end relate
     .assign te_state.enumerator =  ( te_class.GeneratedName + class_based ) + ( "_STATE_" + "$t{te_state.Numb}" )
     .//
     .// Create the Extended Actions (TE_ACT) and connect them to SM_ACT.
     .select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514]
     .create object instance te_act of TE_ACT
-    .// relate sm_act to te_act across R2022;
-    .assign te_act.Act_ID = sm_act.Act_ID
-    .assign te_act.SM_ID = sm_act.SM_ID
+    .relate sm_act to te_act across R2022
+    .//.assign te_act.Act_ID = sm_act.Act_ID
+    .//.assign te_act.SM_ID = sm_act.SM_ID
     .// end relate
     .assign te_act.GeneratedName = ( te_class.GeneratedName + class_based ) + ( "_act" + "$t{te_state.Numb}" )
     .//.select many te_parms related by sm_state->SM_SEME[R503]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532]->TE_PARM[R2031]
     .invoke r = FactoryTE_ABA( te_c, empty_te_parms, "", te_act.GeneratedName, "SM_ACT", void_te_dt )
     .assign te_aba = r.result
-    .// relate te_act to te_aba across R2010;
-    .assign te_act.AbaID = te_aba.AbaID
+    .relate te_act to te_aba across R2010
+    .//.assign te_act.AbaID = te_aba.AbaID
     .// end relate
     .select one te_blk related by sm_act->ACT_SAB[R691]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
     .if ( not_empty te_blk )
-      .// relate te_blk to te_aba across R2011;
-      .assign te_blk.AbaID = te_aba.AbaID
+      .relate te_blk to te_aba across R2011
+      .//.assign te_blk.AbaID = te_aba.AbaID
       .// end relate
     .end if
   .end for
@@ -1962,9 +1962,9 @@
   .for each sm_act in sm_acts
     .// Create the Extended Actions (TE_ACT) and connect them to SM_ACT.
     .create object instance te_act of TE_ACT
-    .// relate sm_act to te_act across R2022;
-    .assign te_act.Act_ID = sm_act.Act_ID
-    .assign te_act.SM_ID = sm_act.SM_ID
+    .relate sm_act to te_act across R2022
+    .//.assign te_act.Act_ID = sm_act.Act_ID
+    .//.assign te_act.SM_ID = sm_act.SM_ID
     .// end relate
     .select one sm_state related by sm_act->SM_AH[R514]->SM_TAH[R513]->SM_TXN[R530]->SM_STATE[R506]
     .assign te_act.GeneratedName = ( ( te_class.GeneratedName + class_based ) + ( "_xact_to_" + "$t{sm_state.Numb}" ) ) + ( "_" + "$t{counter}" )
@@ -1972,13 +1972,13 @@
     .//.select many te_parms related by sm_act->SM_AH[R514]->SM_TAH[R513]->SM_TXN[R530]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532]->TE_PARM[R2031]
     .invoke r = FactoryTE_ABA( te_c, empty_te_parms, "", te_act.GeneratedName, "SM_ACT", void_te_dt )
     .assign te_aba = r.result
-    .// relate te_act to te_aba across R2010;
-    .assign te_act.AbaID = te_aba.AbaID
+    .relate te_act to te_aba across R2010
+    .//.assign te_act.AbaID = te_aba.AbaID
     .// end relate
     .select one te_blk related by sm_act->ACT_TAB[R688]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
     .if ( not_empty te_blk )
-      .// relate te_blk to te_aba across R2011;
-      .assign te_blk.AbaID = te_aba.AbaID
+      .relate te_blk to te_aba across R2011
+      .//.assign te_blk.AbaID = te_aba.AbaID
       .// end relate
     .end if
     .assign counter = counter + 1
@@ -1990,8 +1990,8 @@
   .assign te_sm.num_events = cardinality sm_evts
   .for each sm_evt in sm_evts
     .create object instance te_evt of TE_EVT
-    .// relate te_evt to te_sm across R2071;
-    .assign te_evt.te_smID = te_sm.ID
+    .relate te_evt to te_sm across R2071
+    .//.assign te_evt.te_smID = te_sm.ID
     .// end relate
     .assign te_evt.Name = sm_evt.Mning
     .assign te_evt.Numb = sm_evt.Numb
@@ -1999,9 +1999,9 @@
     .assign te_evt.Used = false
     .assign te_evt.UsedCount = 0
     .assign te_evt.Priority = 0
-    .// relate te_evt to sm_evt across R2036;
-    .assign te_evt.SMevt_ID = sm_evt.SMevt_ID
-    .assign te_evt.SM_ID = sm_evt.SM_ID
+    .relate te_evt to sm_evt across R2036
+    .//.assign te_evt.SMevt_ID = sm_evt.SMevt_ID
+    .//.assign te_evt.SM_ID = sm_evt.SM_ID
     .// end relate
     .assign suffix = "$t{te_evt.Numb}"
     .select one sm_nlevt related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]
@@ -2057,8 +2057,8 @@
       .select one te_mact related by te_evt->SM_EVT[R2036]->SM_SEVT[R525]->SM_SGEVT[R526]->SPR_RS[R529]->TE_MACT[R2053]
     .end if
     .if ( not_empty te_mact )
-      .// relate te_mact to te_evt across R2082;
-      .assign te_mact.te_evtID = te_evt.ID
+      .relate te_mact to te_evt across R2082
+      .//.assign te_mact.te_evtID = te_evt.ID
       .// end relate
     .end if
   .end for
@@ -2101,11 +2101,11 @@
   .select any te_thread from instances of TE_THREAD
   .create object instance te_mact of TE_MACT
   .assign te_mact.nextID = 00
-  .// relate te_mact to te_c across R2002;
-  .assign te_mact.te_cID = te_c.ID
+  .relate te_mact to te_c across R2002
+  .//.assign te_mact.te_cID = te_c.ID
   .// end relate
-  .// relate te_mact to te_po across R2006;
-  .assign te_mact.te_poID = te_po.ID
+  .relate te_mact to te_po across R2006
+  .//.assign te_mact.te_poID = te_po.ID
   .// end relate
   .assign te_mact.te_evtID = 00
   .// We cannot just look to see if this port is polymorphic, we have to go to the
@@ -2137,8 +2137,8 @@
       .// If we are using TLM ports, convert booleans to integers
       .select one param_te_dt related by te_parm->TE_DT[R2049]
       .if ( 1 == param_te_dt.Core_Typ )
-        .// relate te_parm to converted_bool_te_dt across R2049;
-        .assign te_parm.te_dtID = converted_bool_te_dt.ID
+        .relate te_parm to converted_bool_te_dt across R2049
+        .//.assign te_parm.te_dtID = converted_bool_te_dt.ID
         .// end relate
       .end if
     .end for
@@ -2162,8 +2162,8 @@
   .end if
   .invoke r = FactoryTE_ABA( te_c, te_parms, te_mact.ComponentName, te_mact.GeneratedName, "TE_MACT", te_dt )
   .assign te_aba = r.result
-  .// relate te_mact to te_aba across R2010;
-  .assign te_mact.AbaID = te_aba.AbaID
+  .relate te_mact to te_aba across R2010
+  .//.assign te_mact.AbaID = te_aba.AbaID
   .// end relate
   .assign attr_result = te_mact
 .end function
@@ -2207,11 +2207,11 @@
   .select many s_brgs related by s_ee->S_BRG[R19]
   .for each s_brg in s_brgs
     .create object instance te_brg of TE_BRG
-    .// relate te_brg to s_brg across R2025;
-    .assign te_brg.Brg_ID = s_brg.Brg_ID
+    .relate te_brg to s_brg across R2025
+    .//.assign te_brg.Brg_ID = s_brg.Brg_ID
     .// end relate
-    .// relate te_brg to te_ee across R2089;
-    .assign te_brg.EE_ID = te_ee.EE_ID
+    .relate te_brg to te_ee across R2089
+    .//.assign te_brg.EE_ID = te_ee.EE_ID
     .// end relate
     .assign te_brg.EEkeyletters = s_ee.Key_Lett
     .assign te_brg.EEname = s_ee.Name
@@ -2221,13 +2221,13 @@
     .select many te_parms related by s_brg->S_BPARM[R21]->TE_PARM[R2028]
     .invoke r = FactoryTE_ABA( te_c, te_parms, te_ee.RegisteredName, te_brg.GeneratedName, "S_BRG", te_dt )
     .assign te_aba = r.result
-    .// relate te_brg to te_aba across R2010;
-    .assign te_brg.AbaID = te_aba.AbaID
+    .relate te_brg to te_aba across R2010
+    .//.assign te_brg.AbaID = te_aba.AbaID
     .// end relate
     .select one te_blk related by s_brg->ACT_BRB[R697]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
     .if ( not_empty te_blk )
-      .// relate te_blk to te_aba across R2011;
-      .assign te_blk.AbaID = te_aba.AbaID
+      .relate te_blk to te_aba across R2011
+      .//.assign te_blk.AbaID = te_aba.AbaID
       .// end relate
     .end if
   .end for
@@ -2251,8 +2251,8 @@
   .assign te_aba.subtypeKL = subtypeKL
   .assign te_aba.te_cID = 00
   .if ( not_empty te_c )
-    .// relate te_aba to te_c across R2088;
-    .assign te_aba.te_cID = te_c.ID
+    .relate te_aba to te_c across R2088
+    .//.assign te_aba.te_cID = te_c.ID
     .// end relate
   .end if
   .assign duplicates_needed = false
@@ -2260,8 +2260,8 @@
   .for each te_parm in te_parms
     .select one existing_te_aba related by te_parm->TE_ABA[R2062]
     .if ( empty existing_te_aba )
-      .// relate te_parm to te_aba across R2062;
-      .assign te_parm.AbaID = te_aba.AbaID
+      .relate te_parm to te_aba across R2062
+      .//.assign te_parm.AbaID = te_aba.AbaID
       .// end relate
     .else
       .assign duplicates_needed = true
@@ -2288,8 +2288,8 @@
     .while ( not_empty te_parm )
       .invoke r = TE_PARM_duplicate( te_parm )
       .assign duplicate_te_parm = r.result
-      .// relate duplicate_te_parm to te_aba across R2062;
-      .assign duplicate_te_parm.AbaID = te_aba.AbaID
+      .relate duplicate_te_parm to te_aba across R2062
+      .//.assign duplicate_te_parm.AbaID = te_aba.AbaID
       .// end relate
       .if ( not_empty prev_te_parm )
         .// relate prev_te_parm to duplicate_te_parm across R2041.'precedes';
@@ -2310,8 +2310,8 @@
       .invoke r = TE_PARM_duplicate( string_te_parm )
       .assign duplicate_te_parm = r.result
       .assign duplicate_te_parm.Descrip = "xtuml string return parm"
-      .// relate duplicate_te_parm to te_aba across R2062;
-      .assign duplicate_te_parm.AbaID = te_aba.AbaID
+      .relate duplicate_te_parm to te_aba across R2062
+      .//.assign duplicate_te_parm.AbaID = te_aba.AbaID
       .// end relate
       .if ( not_empty first_te_parm )
         .// relate duplicate_te_parm to first_te_parm across R2041.'precedes';
@@ -2374,8 +2374,8 @@
   .assign te_parm.AbaID = 00
   .assign te_parm.nextID = 00
   .assign te_parm.te_dimID = 00
-  .// relate te_parm to te_dt across R2049;
-  .assign te_parm.te_dtID = te_dt.ID
+  .relate te_parm to te_dt across R2049
+  .//.assign te_parm.te_dtID = te_dt.ID
   .// end relate
   .// Set up the array dimensions for the parameter.
   .assign te_parm.dimensions = cardinality s_dims
@@ -2388,8 +2388,8 @@
         .invoke r = FactoryTE_DIM( s_dim, te_dim )
         .assign te_dim = r.result
         .if ( dim_index == 0 )
-          .// relate te_parm to te_dim across R2056;
-          .assign te_parm.te_dimID = te_dim.te_dimID
+          .relate te_parm to te_dim across R2056
+          .//.assign te_parm.te_dimID = te_dim.te_dimID
           .// end relate
         .end if
         .assign array_spec = ( array_spec + "[" ) + ( "$t{te_dim.elementCount}" + "]" )
@@ -2428,14 +2428,14 @@
   .assign duplicate_te_parm.By_Ref = te_parm.By_Ref
   .assign duplicate_te_parm.GeneratedName = te_parm.GeneratedName
   .select one te_dt related by te_parm->TE_DT[R2049]
-  .// relate duplicate_te_parm to te_dt across R2049;
-  .assign duplicate_te_parm.te_dtID = te_dt.ID
+  .relate duplicate_te_parm to te_dt across R2049
+  .//.assign duplicate_te_parm.te_dtID = te_dt.ID
   .// end relate
   .assign duplicate_te_parm.dimensions = te_parm.dimensions
   .select one te_dim related by te_parm->TE_DIM[R2056]
   .if ( not_empty te_dim )
-    .// relate duplicate_te_parm to te_dim across R2056;
-    .assign duplicate_te_parm.te_dimID = te_dim.te_dimID
+    .relate duplicate_te_parm to te_dim across R2056
+    .//.assign duplicate_te_parm.te_dimID = te_dim.te_dimID
     .// end relate
   .else
     .assign duplicate_te_parm.te_dimID = 00
@@ -2454,15 +2454,15 @@
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
     .create object instance te_lnk of TE_LNK
-    .// relate te_lnk to act_lnk across R2042;
-    .assign te_lnk.Link_ID = act_lnk.Link_ID
+    .relate te_lnk to act_lnk across R2042
+    .//.assign te_lnk.Link_ID = act_lnk.Link_ID
     .// end relate
     .assign te_lnk.rel_phrase = act_lnk.Rel_Phrase
     .assign te_lnk.next_ID = 00
     .select one r_rel related by act_lnk->R_REL[R681]
     .assign te_lnk.rel_number = r_rel.Numb
-    .// relate te_lnk to te_class across R2076;
-    .assign te_lnk.te_classGeneratedName = te_class.GeneratedName
+    .relate te_lnk to te_class across R2076
+    .//.assign te_lnk.te_classGeneratedName = te_class.GeneratedName
     .// end relate
     .assign te_lnk.OAL = ( ( "->" + te_class.Key_Lett ) + ( "[R" + "$t{te_lnk.rel_number}" ) )
     .if ( "" != te_lnk.rel_phrase )
@@ -2517,8 +2517,8 @@
   .select one r_rel related by right_te_lnk->ACT_LNK[R2042]->R_REL[R681]
   .assign te_lnk.rel_number = right_te_lnk.rel_number
   .select one te_class related by r_rel->R_ASSOC[R206]->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->TE_CLASS[R2019]
-  .// relate te_lnk to te_class across R2076;
-  .assign te_lnk.te_classGeneratedName = te_class.GeneratedName
+  .relate te_lnk to te_class across R2076
+  .//.assign te_lnk.te_classGeneratedName = te_class.GeneratedName
   .// end relate
   .// Leave OAL blank, because real OAL is not showing this link.
   .assign te_lnk.OAL = ""
