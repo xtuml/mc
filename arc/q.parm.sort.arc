@@ -4,10 +4,7 @@
   .for each s_sparm in s_sparms
     .select one prev_s_sparm related by s_sparm->S_SPARM[R54.'precedes']
     .if ( not_empty prev_s_sparm )
-      .// unrelate s_sparm from prev_s_sparm across R54.'succeeds';
-      .assign s_sparm.Previous_SParm_ID = 00
-      .assign s_sparm.Previous_SParm_ID = 00
-      .// end unrelate
+      .unrelate s_sparm from prev_s_sparm across R54.'succeeds'
     .end if
   .end for
   .// Declare an empty instance reference.
@@ -25,9 +22,7 @@
     .// Just starting.  Return s_sparm as head.
   .elif ( s_sparm.Name <= head_s_sparm.Name )
     .// insert before
-    .// relate s_sparm to head_s_sparm across R54.'precedes';
-    .assign head_s_sparm.Previous_SParm_ID = s_sparm.SParm_ID
-    .// end relate
+    .relate s_sparm to head_s_sparm across R54.'precedes'
   .else
     .// find bigger
     .assign result = head_s_sparm
@@ -41,13 +36,10 @@
         .select one cursor_s_sparm related by cursor_s_sparm->S_SPARM[R54.'succeeds']
       .end if
     .end while
-    .// relate prev_s_sparm to s_sparm across R54.'precedes';
-    .assign s_sparm.Previous_SParm_ID = prev_s_sparm.SParm_ID
-    .// end relate
+    .unrelate prev_s_sparm from cursor_s_sparm across R54.'precedes'
+    .relate prev_s_sparm to s_sparm across R54.'precedes'
     .if ( not_empty cursor_s_sparm )
-      .// relate s_sparm to cursor_s_sparm across R54.'precedes';
-      .assign cursor_s_sparm.Previous_SParm_ID = s_sparm.SParm_ID
-      .// end relate
+      .relate s_sparm to cursor_s_sparm across R54.'precedes'
     .end if
   .end if
   .assign attr_result = result
@@ -59,10 +51,7 @@
   .for each s_bparm in s_bparms
     .select one prev_s_bparm related by s_bparm->S_BPARM[R55.'precedes']
     .if ( not_empty prev_s_bparm )
-      .// unrelate s_bparm from prev_s_bparm across R55.'succeeds';
-      .assign s_bparm.Previous_BParm_ID = 00
-      .assign s_bparm.Previous_BParm_ID = 00
-      .// end unrelate
+      .unrelate s_bparm from prev_s_bparm across R55.'succeeds'
     .end if
   .end for
   .// Declare an empty instance reference.
@@ -80,9 +69,7 @@
     .// Just starting.  Return s_bparm as head.
   .elif ( s_bparm.Name <= head_s_bparm.Name )
     .// insert before
-    .// relate s_bparm to head_s_bparm across R55.'precedes';
-    .assign head_s_bparm.Previous_BParm_ID = s_bparm.BParm_ID
-    .// end relate
+    .relate s_bparm to head_s_bparm across R55.'precedes'
   .else
     .// find bigger
     .assign result = head_s_bparm
@@ -96,13 +83,10 @@
         .select one cursor_s_bparm related by cursor_s_bparm->S_BPARM[R55.'succeeds']
       .end if
     .end while
-    .// relate prev_s_bparm to s_bparm across R55.'precedes';
-    .assign s_bparm.Previous_BParm_ID = prev_s_bparm.BParm_ID
-    .// end relate
+    .unrelate prev_s_bparm from cursor_s_bparm across R55.'precedes'
+    .relate prev_s_bparm to s_bparm across R55.'precedes'
     .if ( not_empty cursor_s_bparm )
-      .// relate s_bparm to cursor_s_bparm across R55.'precedes';
-      .assign cursor_s_bparm.Previous_BParm_ID = s_bparm.BParm_ID
-      .// end relate
+      .relate s_bparm to cursor_s_bparm across R55.'precedes'
     .end if
   .end if
   .assign attr_result = result
@@ -114,10 +98,7 @@
   .for each o_tparm in o_tparms
     .select one prev_o_tparm related by o_tparm->O_TPARM[R124.'precedes']
     .if ( not_empty prev_o_tparm )
-      .// unrelate o_tparm from prev_o_tparm across R124.'succeeds';
-      .assign o_tparm.Previous_TParm_ID = 00
-      .assign o_tparm.Previous_TParm_ID = 00
-      .// end unrelate
+      .unrelate o_tparm from prev_o_tparm across R124.'succeeds'
     .end if
   .end for
   .// Declare an empty instance reference.
@@ -135,9 +116,7 @@
     .// Just starting.  Return o_tparm as head.
   .elif ( o_tparm.Name <= head_o_tparm.Name )
     .// insert before
-    .// relate o_tparm to head_o_tparm across R124.'precedes';
-    .assign head_o_tparm.Previous_TParm_ID = o_tparm.TParm_ID
-    .// end relate
+    .relate o_tparm to head_o_tparm across R124.'precedes'
   .else
     .// find bigger
     .assign result = head_o_tparm
@@ -151,13 +130,10 @@
         .select one cursor_o_tparm related by cursor_o_tparm->O_TPARM[R124.'succeeds']
       .end if
     .end while
-    .// relate prev_o_tparm to o_tparm across R124.'precedes';
-    .assign o_tparm.Previous_TParm_ID = prev_o_tparm.TParm_ID
-    .// end relate
+    .unrelate prev_o_tparm from cursor_o_tparm across R124.'precedes'
+    .relate prev_o_tparm to o_tparm across R124.'precedes'
     .if ( not_empty cursor_o_tparm )
-      .// relate o_tparm to cursor_o_tparm across R124.'precedes';
-      .assign cursor_o_tparm.Previous_TParm_ID = o_tparm.TParm_ID
-      .// end relate
+      .relate o_tparm to cursor_o_tparm across R124.'precedes'
     .end if
   .end if
   .assign attr_result = result
@@ -169,10 +145,7 @@
   .for each sm_evtdi in sm_evtdis
     .select one prev_sm_evtdi related by sm_evtdi->SM_EVTDI[R533.'precedes']
     .if ( not_empty prev_sm_evtdi )
-      .// unrelate sm_evtdi from prev_sm_evtdi across R533.'succeeds';
-      .assign sm_evtdi.Previous_SMedi_ID = 00
-      .assign sm_evtdi.Previous_SMedi_ID = 00
-      .// end unrelate
+      .unrelate sm_evtdi from prev_sm_evtdi across R533.'succeeds'
     .end if
   .end for
   .// Declare an empty instance reference.
@@ -190,9 +163,7 @@
     .// Just starting.  Return sm_evtdi as head.
   .elif ( sm_evtdi.Name <= head_sm_evtdi.Name )
     .// insert before
-    .// relate sm_evtdi to head_sm_evtdi across R533.'precedes';
-    .assign head_sm_evtdi.Previous_SMedi_ID = sm_evtdi.SMedi_ID
-    .// end relate
+    .relate sm_evtdi to head_sm_evtdi across R533.'precedes'
   .else
     .// find bigger
     .assign result = head_sm_evtdi
@@ -206,13 +177,10 @@
         .select one cursor_sm_evtdi related by cursor_sm_evtdi->SM_EVTDI[R533.'succeeds']
       .end if
     .end while
-    .// relate prev_sm_evtdi to sm_evtdi across R533.'precedes';
-    .assign sm_evtdi.Previous_SMedi_ID = prev_sm_evtdi.SMedi_ID
-    .// end relate
+    .unrelate prev_sm_evtdi from cursor_sm_evtdi across R533.'precedes'
+    .relate prev_sm_evtdi to sm_evtdi across R533.'precedes'
     .if ( not_empty cursor_sm_evtdi )
-      .// relate sm_evtdi to cursor_sm_evtdi across R533.'precedes';
-      .assign cursor_sm_evtdi.Previous_SMedi_ID = sm_evtdi.SMedi_ID
-      .// end relate
+      .relate sm_evtdi to cursor_sm_evtdi across R533.'precedes'
     .end if
   .end if
   .assign attr_result = result
@@ -224,10 +192,7 @@
   .for each c_pp in c_pps
     .select one prev_c_pp related by c_pp->C_PP[R4021.'precedes']
     .if ( not_empty prev_c_pp )
-      .// unrelate c_pp from prev_c_pp across R4021.'succeeds';
-      .assign c_pp.Previous_PP_Id = 00
-      .assign c_pp.Previous_PP_Id = 00
-      .// end unrelate
+      .unrelate c_pp from prev_c_pp across R4021.'succeeds'
     .end if
   .end for
   .// Declare an empty instance reference.
@@ -245,9 +210,7 @@
     .// Just starting.  Return c_pp as head.
   .elif ( c_pp.Name <= head_c_pp.Name )
     .// insert before
-    .// relate c_pp to head_c_pp across R4021.'precedes';
-    .assign head_c_pp.Previous_PP_Id = c_pp.PP_Id
-    .// end relate
+    .relate c_pp to head_c_pp across R4021.'precedes'
   .else
     .// find bigger
     .assign result = head_c_pp
@@ -261,13 +224,10 @@
         .select one cursor_c_pp related by cursor_c_pp->C_PP[R4021.'succeeds']
       .end if
     .end while
-    .// relate prev_c_pp to c_pp across R4021.'precedes';
-    .assign c_pp.Previous_PP_Id = prev_c_pp.PP_Id
-    .// end relate
+    .unrelate prev_c_pp from cursor_c_pp across R4021.'precedes'
+    .relate prev_c_pp to c_pp across R4021.'precedes'
     .if ( not_empty cursor_c_pp )
-      .// relate c_pp to cursor_c_pp across R4021.'precedes';
-      .assign cursor_c_pp.Previous_PP_Id = c_pp.PP_Id
-      .// end relate
+      .relate c_pp to cursor_c_pp across R4021.'precedes'
     .end if
   .end if
   .assign attr_result = result
