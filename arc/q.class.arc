@@ -65,7 +65,15 @@ ${te_target.c2cplusplus_linkage_end}
 .function CreateObjectAttrDataDeclaration
   .param inst_ref te_class
   .select any te_string from instances of TE_STRING
-  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 00 )
+  .// get first attribute
+  .select any te_attr related by te_class->TE_ATTR[R2061]
+  .while ( not_empty te_attr )
+    .select one prev_te_attr related by te_attr->TE_ATTR[R2087.'precedes']
+    .if ( empty prev_te_attr )
+      .break while
+    .end if
+    .assign te_attr = prev_te_attr
+  .end while
   .while ( not_empty te_attr )
     .select one o_attr related by te_attr->O_ATTR[R2033]
     .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
