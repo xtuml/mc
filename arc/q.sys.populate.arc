@@ -2565,10 +2565,8 @@
         .select one cursor_te_sync related by cursor_te_sync->TE_SYNC[R2095.'succeeds']
       .end if
     .end while
-    .if ( "pyrsl v0.6.1-dirty (2017-04-23) with pyxtuml v0.10.0-dirty (2017-04-23)" == info.interpreter_version )
+    .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
       .unrelate prev_te_sync from cursor_te_sync across R2095.'precedes'
-    .elif ( "pyrsl v0.6.0 (2016-09-03)" == info.interpreter_version )
-      .assign prev_te_sync.nextID = te_sync.ID
     .else
       .assign prev_te_sync.nextID = te_sync.ID
     .end if

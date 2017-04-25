@@ -177,7 +177,11 @@
         .select one cursor_sm_evtdi related by cursor_sm_evtdi->SM_EVTDI[R533.'succeeds']
       .end if
     .end while
-    .unrelate prev_sm_evtdi from cursor_sm_evtdi across R533.'precedes'
+    .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
+      .unrelate prev_sm_evtdi from cursor_sm_evtdi across R533.'precedes'
+    .else
+      .assign sm_evtdi.Previous_SMedi_ID = cursor_sm_evtdi.SMedi_ID
+    .end if
     .relate prev_sm_evtdi to sm_evtdi across R533.'precedes'
     .if ( not_empty cursor_sm_evtdi )
       .relate sm_evtdi to cursor_sm_evtdi across R533.'precedes'
