@@ -1344,7 +1344,6 @@
     .select many te_syncs related by te_c->TE_SYNC[R2084]
     .invoke r = sync_sort( te_syncs )
     .assign te_sync = r.result
-.print "first te_sync ${te_sync.Name} ${te_sync.ID} ${te_sync.nextID}"
     .if ( not_empty te_sync )
       .relate te_c to te_sync across R2097
     .end if
@@ -2418,11 +2417,11 @@
         .select one cursor_te_c related by cursor_te_c->TE_C[R2017.'succeeds']
       .end if
     .end while
-    .unrelate prev_te_c from cursor_te_c across R2017.'precedes'
-    .relate prev_te_c to te_c across R2017.'precedes'
     .if ( not_empty cursor_te_c )
+      .unrelate prev_te_c from cursor_te_c across R2017.'precedes'
       .relate te_c to cursor_te_c across R2017.'precedes'
     .end if
+    .relate prev_te_c to te_c across R2017.'precedes'
   .end if
   .assign attr_result = result
 .end function
@@ -2464,11 +2463,11 @@
         .select one cursor_te_class related by cursor_te_class->TE_CLASS[R2092.'succeeds']
       .end if
     .end while
-    .unrelate prev_te_class from cursor_te_class across R2092.'precedes'
-    .relate prev_te_class to te_class across R2092.'precedes'
     .if ( not_empty cursor_te_class )
+      .unrelate prev_te_class from cursor_te_class across R2092.'precedes'
       .relate te_class to cursor_te_class across R2092.'precedes'
     .end if
+    .relate prev_te_class to te_class across R2092.'precedes'
   .end if
   .end if
   .assign attr_result = result
@@ -2518,11 +2517,11 @@
         .select one cursor_te_mact related by cursor_te_mact->TE_MACT[R2083.'succeeds']
       .end if
     .end while
-    .unrelate prev_te_mact from cursor_te_mact across R2083.'precedes'
-    .relate prev_te_mact to te_mact across R2083.'precedes'
     .if ( not_empty cursor_te_mact )
+      .unrelate prev_te_mact from cursor_te_mact across R2083.'precedes'
       .relate te_mact to cursor_te_mact across R2083.'precedes'
     .end if
+    .relate prev_te_mact to te_mact across R2083.'precedes'
   .end if
   .end if
   .assign attr_result = result
@@ -2565,15 +2564,11 @@
         .select one cursor_te_sync related by cursor_te_sync->TE_SYNC[R2095.'succeeds']
       .end if
     .end while
-    .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
-      .unrelate prev_te_sync from cursor_te_sync across R2095.'precedes'
-    .else
-      .assign prev_te_sync.nextID = te_sync.ID
-    .end if
-    .relate prev_te_sync to te_sync across R2095.'precedes'
     .if ( not_empty cursor_te_sync )
+      .unrelate prev_te_sync from cursor_te_sync across R2095.'precedes'
       .relate te_sync to cursor_te_sync across R2095.'precedes'
     .end if
+    .relate prev_te_sync to te_sync across R2095.'precedes'
   .end if
   .end if
   .assign attr_result = result
@@ -2622,11 +2617,11 @@
         .select one cursor_te_ee related by cursor_te_ee->TE_EE[R2096.'succeeds']
       .end if
     .end while
-    .unrelate prev_te_ee from cursor_te_ee across R2096.'precedes'
-    .relate prev_te_ee to te_ee across R2096.'precedes'
     .if ( not_empty cursor_te_ee )
+      .unrelate prev_te_ee from cursor_te_ee across R2096.'precedes'
       .relate te_ee to cursor_te_ee across R2096.'precedes'
     .end if
+    .relate prev_te_ee to te_ee across R2096.'precedes'
   .end if
   .end if
   .assign attr_result = result

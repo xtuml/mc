@@ -36,11 +36,11 @@
         .select one cursor_s_sparm related by cursor_s_sparm->S_SPARM[R54.'succeeds']
       .end if
     .end while
-    .unrelate prev_s_sparm from cursor_s_sparm across R54.'precedes'
-    .relate prev_s_sparm to s_sparm across R54.'precedes'
     .if ( not_empty cursor_s_sparm )
+      .unrelate prev_s_sparm from cursor_s_sparm across R54.'precedes'
       .relate s_sparm to cursor_s_sparm across R54.'precedes'
     .end if
+    .relate prev_s_sparm to s_sparm across R54.'precedes'
   .end if
   .assign attr_result = result
 .end function
@@ -83,11 +83,11 @@
         .select one cursor_s_bparm related by cursor_s_bparm->S_BPARM[R55.'succeeds']
       .end if
     .end while
-    .unrelate prev_s_bparm from cursor_s_bparm across R55.'precedes'
-    .relate prev_s_bparm to s_bparm across R55.'precedes'
     .if ( not_empty cursor_s_bparm )
+      .unrelate prev_s_bparm from cursor_s_bparm across R55.'precedes'
       .relate s_bparm to cursor_s_bparm across R55.'precedes'
     .end if
+    .relate prev_s_bparm to s_bparm across R55.'precedes'
   .end if
   .assign attr_result = result
 .end function
@@ -130,11 +130,15 @@
         .select one cursor_o_tparm related by cursor_o_tparm->O_TPARM[R124.'succeeds']
       .end if
     .end while
-    .unrelate prev_o_tparm from cursor_o_tparm across R124.'precedes'
-    .relate prev_o_tparm to o_tparm across R124.'precedes'
     .if ( not_empty cursor_o_tparm )
+      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
+        .unrelate prev_o_tparm from cursor_o_tparm across R124.'precedes'
+      .else
+        .assign cursor_o_tparm.Previous_TParm_ID = 00
+      .end if
       .relate o_tparm to cursor_o_tparm across R124.'precedes'
     .end if
+    .relate prev_o_tparm to o_tparm across R124.'precedes'
   .end if
   .assign attr_result = result
 .end function
@@ -177,11 +181,11 @@
         .select one cursor_sm_evtdi related by cursor_sm_evtdi->SM_EVTDI[R533.'succeeds']
       .end if
     .end while
-    .unrelate prev_sm_evtdi from cursor_sm_evtdi across R533.'precedes'
-    .relate prev_sm_evtdi to sm_evtdi across R533.'precedes'
     .if ( not_empty cursor_sm_evtdi )
+      .unrelate prev_sm_evtdi from cursor_sm_evtdi across R533.'precedes'
       .relate sm_evtdi to cursor_sm_evtdi across R533.'precedes'
     .end if
+    .relate prev_sm_evtdi to sm_evtdi across R533.'precedes'
   .end if
   .assign attr_result = result
 .end function
@@ -224,11 +228,11 @@
         .select one cursor_c_pp related by cursor_c_pp->C_PP[R4021.'succeeds']
       .end if
     .end while
-    .unrelate prev_c_pp from cursor_c_pp across R4021.'precedes'
-    .relate prev_c_pp to c_pp across R4021.'precedes'
     .if ( not_empty cursor_c_pp )
+      .unrelate prev_c_pp from cursor_c_pp across R4021.'precedes'
       .relate c_pp to cursor_c_pp across R4021.'precedes'
     .end if
+    .relate prev_c_pp to c_pp across R4021.'precedes'
   .end if
   .assign attr_result = result
 .end function
