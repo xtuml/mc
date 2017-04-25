@@ -2464,7 +2464,11 @@
       .end if
     .end while
     .if ( not_empty cursor_te_class )
-      .unrelate prev_te_class from cursor_te_class across R2092.'precedes'
+      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
+        .unrelate prev_te_class from cursor_te_class across R2092.'precedes'
+      .else
+        .assign prev_te_class.nextID = 00
+      .end if
       .relate te_class to cursor_te_class across R2092.'precedes'
     .end if
     .relate prev_te_class to te_class across R2092.'precedes'
