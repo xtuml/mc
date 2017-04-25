@@ -350,9 +350,7 @@
         .assign sibling_te_iir.cl_iirId = 00
         .assign sibling_te_iir.c_irId = 00
         .assign sibling_te_iir.te_poID = 00
-        .// relate sibling_te_iir to te_iir across R2081.'requires or delegates';
-        .assign sibling_te_iir.provider_te_iirID = te_iir.ID
-        .// end relate
+        .relate sibling_te_iir to te_iir across R2081.'requires or delegates'
       .end if
     .else
       .select one sibling_te_iir related by te_iir->TE_IIR[R2081.'requires or delegates']
@@ -365,9 +363,7 @@
         .assign sibling_te_iir.cl_iirId = 00
         .assign sibling_te_iir.c_irId = 00
         .assign sibling_te_iir.te_poID = 00
-        .// relate sibling_te_iir to te_iir across R2081.'requires or delegates';
-        .assign sibling_te_iir.provider_te_iirID = te_iir.ID
-        .// end relate
+        .relate sibling_te_iir to te_iir across R2081.'requires or delegates'
       .end if
     .end if
   .end for
