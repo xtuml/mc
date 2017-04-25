@@ -260,7 +260,7 @@ ${methods.body}\
   .end if
   .//
   .assign associative_reflexive = false
-  .if ( aone.Obj_Id == aoth.Obj_Id )
+  .if ( aone.Obj_ID == aoth.Obj_ID )
     .assign associative_reflexive = true
   .end if
   .//
