@@ -347,9 +347,6 @@
         .assign sibling_te_iir.port_name = port
         .assign sibling_te_iir.interface_name = te_po.InterfaceName
         .assign sibling_te_iir.polymorphic = false
-        .assign sibling_te_iir.cl_iirId = 00
-        .assign sibling_te_iir.c_irId = 00
-        .assign sibling_te_iir.te_poID = 00
         .relate sibling_te_iir to te_iir across R2081.'requires or delegates'
       .end if
     .else
@@ -360,9 +357,6 @@
         .assign sibling_te_iir.port_name = port
         .assign sibling_te_iir.interface_name = te_po.InterfaceName
         .assign sibling_te_iir.polymorphic = false
-        .assign sibling_te_iir.cl_iirId = 00
-        .assign sibling_te_iir.c_irId = 00
-        .assign sibling_te_iir.te_poID = 00
         .relate sibling_te_iir to te_iir across R2081.'requires or delegates'
       .end if
     .end if
