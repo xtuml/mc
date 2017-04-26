@@ -2418,10 +2418,10 @@
       .end if
     .end while
     .if ( not_empty cursor_te_c )
-      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
-        .unrelate prev_te_c from cursor_te_c across R2017.'precedes'
-      .else
+      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > info.interpreter_version )
         .assign prev_te_c.nextID = 00
+      .else
+        .unrelate prev_te_c from cursor_te_c across R2017.'precedes'
       .end if
       .relate te_c to cursor_te_c across R2017.'precedes'
     .end if
@@ -2468,10 +2468,10 @@
       .end if
     .end while
     .if ( not_empty cursor_te_class )
-      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
-        .unrelate prev_te_class from cursor_te_class across R2092.'precedes'
-      .else
+      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > info.interpreter_version )
         .assign prev_te_class.nextID = 00
+      .else
+        .unrelate prev_te_class from cursor_te_class across R2092.'precedes'
       .end if
       .relate te_class to cursor_te_class across R2092.'precedes'
     .end if
@@ -2526,10 +2526,10 @@
       .end if
     .end while
     .if ( not_empty cursor_te_mact )
-      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
-        .unrelate prev_te_mact from cursor_te_mact across R2083.'precedes'
-      .else
+      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > info.interpreter_version )
         .assign prev_te_mact.nextID = 00
+      .else
+        .unrelate prev_te_mact from cursor_te_mact across R2083.'precedes'
       .end if
       .relate te_mact to cursor_te_mact across R2083.'precedes'
     .end if
@@ -2577,10 +2577,10 @@
       .end if
     .end while
     .if ( not_empty cursor_te_sync )
-      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
-        .unrelate prev_te_sync from cursor_te_sync across R2095.'precedes'
-      .else
+      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > info.interpreter_version )
         .assign prev_te_sync.nextID = 00
+      .else
+        .unrelate prev_te_sync from cursor_te_sync across R2095.'precedes'
       .end if
       .relate te_sync to cursor_te_sync across R2095.'precedes'
     .end if
@@ -2634,10 +2634,10 @@
       .end if
     .end while
     .if ( not_empty cursor_te_ee )
-      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
-        .unrelate prev_te_ee from cursor_te_ee across R2096.'precedes'
-      .else
+      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > info.interpreter_version )
         .assign prev_te_ee.nextID = 00
+      .else
+        .unrelate prev_te_ee from cursor_te_ee across R2096.'precedes'
       .end if
       .relate te_ee to cursor_te_ee across R2096.'precedes'
     .end if

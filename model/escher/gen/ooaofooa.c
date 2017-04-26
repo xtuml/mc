@@ -7218,13 +7218,20 @@ ooaofooa_TE_C_insert( ooaofooa_TE_C * p_head_te_c, ooaofooa_TE_C * p_te_c )
         cursor_te_c = ( 0 != cursor_te_c ) ? cursor_te_c->TE_C_R2017_precedes : 0;
       }
     }
-    /* RELATE prev_te_c TO te_c ACROSS R2017 */
-    ooaofooa_TE_C_R2017_Link_precedes( prev_te_c, te_c );
     /* IF ( not_empty cursor_te_c ) */
     if ( ( 0 != cursor_te_c ) ) {
+      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      }
+      else {
+        /* UNRELATE prev_te_c FROM cursor_te_c ACROSS R2017 */
+        ooaofooa_TE_C_R2017_Unlink_precedes( prev_te_c, cursor_te_c );
+      }
       /* RELATE te_c TO cursor_te_c ACROSS R2017 */
       ooaofooa_TE_C_R2017_Link_precedes( te_c, cursor_te_c );
     }
+    /* RELATE prev_te_c TO te_c ACROSS R2017 */
+    ooaofooa_TE_C_R2017_Link_precedes( prev_te_c, te_c );
   }
   /* RETURN result */
   {ooaofooa_TE_C * xtumlOALrv = result;
@@ -9682,13 +9689,20 @@ ooaofooa_bparm_insert( ooaofooa_S_BPARM * p_head_s_bparm, ooaofooa_S_BPARM * p_s
         cursor_s_bparm = ( 0 != cursor_s_bparm ) ? cursor_s_bparm->S_BPARM_R55_precedes : 0;
       }
     }
-    /* RELATE prev_s_bparm TO s_bparm ACROSS R55 */
-    ooaofooa_S_BPARM_R55_Link_precedes( prev_s_bparm, s_bparm );
     /* IF ( not_empty cursor_s_bparm ) */
     if ( ( 0 != cursor_s_bparm ) ) {
+      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      }
+      else {
+        /* UNRELATE prev_s_bparm FROM cursor_s_bparm ACROSS R55 */
+        ooaofooa_S_BPARM_R55_Unlink_precedes( prev_s_bparm, cursor_s_bparm );
+      }
       /* RELATE s_bparm TO cursor_s_bparm ACROSS R55 */
       ooaofooa_S_BPARM_R55_Link_precedes( s_bparm, cursor_s_bparm );
     }
+    /* RELATE prev_s_bparm TO s_bparm ACROSS R55 */
+    ooaofooa_S_BPARM_R55_Link_precedes( prev_s_bparm, s_bparm );
   }
   /* RETURN result */
   {ooaofooa_S_BPARM * xtumlOALrv = result;
@@ -9843,13 +9857,20 @@ ooaofooa_class_insert( ooaofooa_TE_CLASS * p_head_te_class, ooaofooa_TE_CLASS * 
           cursor_te_class = ( 0 != cursor_te_class ) ? cursor_te_class->TE_CLASS_R2092_precedes : 0;
         }
       }
-      /* RELATE prev_te_class TO te_class ACROSS R2092 */
-      ooaofooa_TE_CLASS_R2092_Link_precedes( prev_te_class, te_class );
       /* IF ( not_empty cursor_te_class ) */
       if ( ( 0 != cursor_te_class ) ) {
+        /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
+        if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+        }
+        else {
+          /* UNRELATE prev_te_class FROM cursor_te_class ACROSS R2092 */
+          ooaofooa_TE_CLASS_R2092_Unlink_precedes( prev_te_class, cursor_te_class );
+        }
         /* RELATE te_class TO cursor_te_class ACROSS R2092 */
         ooaofooa_TE_CLASS_R2092_Link_precedes( te_class, cursor_te_class );
       }
+      /* RELATE prev_te_class TO te_class ACROSS R2092 */
+      ooaofooa_TE_CLASS_R2092_Link_precedes( prev_te_class, te_class );
     }
   }
   /* RETURN result */
@@ -10034,13 +10055,6 @@ ooaofooa_class_sort( Escher_ObjectSet_s * p_te_classs )
     if ( ( 0 != selected ) && FALSE ) {
       head_te_class = selected;
       break;
-  }}}
-  /* FOR EACH te_class IN te_classs */
-  { Escher_Iterator_s iterte_class;
-  ooaofooa_TE_CLASS * iite_class;
-  Escher_IteratorReset( &iterte_class, te_classs );
-  while ( (iite_class = (ooaofooa_TE_CLASS *)Escher_IteratorNext( &iterte_class )) != 0 ) {
-    te_class = iite_class; {
   }}}
   /* FOR EACH te_class IN te_classs */
   { Escher_Iterator_s iterte_class;
@@ -10421,13 +10435,20 @@ ooaofooa_ee_insert( ooaofooa_TE_EE * p_head_te_ee, ooaofooa_TE_EE * p_te_ee )
           cursor_te_ee = ( 0 != cursor_te_ee ) ? cursor_te_ee->TE_EE_R2096_precedes : 0;
         }
       }
-      /* RELATE prev_te_ee TO te_ee ACROSS R2096 */
-      ooaofooa_TE_EE_R2096_Link_precedes( prev_te_ee, te_ee );
       /* IF ( not_empty cursor_te_ee ) */
       if ( ( 0 != cursor_te_ee ) ) {
+        /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
+        if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+        }
+        else {
+          /* UNRELATE prev_te_ee FROM cursor_te_ee ACROSS R2096 */
+          ooaofooa_TE_EE_R2096_Unlink_precedes( prev_te_ee, cursor_te_ee );
+        }
         /* RELATE te_ee TO cursor_te_ee ACROSS R2096 */
         ooaofooa_TE_EE_R2096_Link_precedes( te_ee, cursor_te_ee );
       }
+      /* RELATE prev_te_ee TO te_ee ACROSS R2096 */
+      ooaofooa_TE_EE_R2096_Link_precedes( prev_te_ee, te_ee );
     }
   }
   /* RETURN result */
@@ -10466,8 +10487,8 @@ ooaofooa_ee_sort( Escher_ObjectSet_s * p_te_ees )
     next_te_ee = ( 0 != te_ee ) ? te_ee->TE_EE_R2096_precedes : 0;
     /* IF ( not_empty next_te_ee ) */
     if ( ( 0 != next_te_ee ) ) {
-      /* UNRELATE te_ee FROM te_ee ACROSS R2096 */
-      ooaofooa_TE_EE_R2096_Unlink_precedes( te_ee, te_ee );
+      /* UNRELATE te_ee FROM next_te_ee ACROSS R2096 */
+      ooaofooa_TE_EE_R2096_Unlink_precedes( te_ee, next_te_ee );
     }
   }}}
   /* FOR EACH te_ee IN te_ees */
@@ -10768,13 +10789,20 @@ ooaofooa_evtdi_insert( ooaofooa_SM_EVTDI * p_head_sm_evtdi, ooaofooa_SM_EVTDI * 
         cursor_sm_evtdi = ( 0 != cursor_sm_evtdi ) ? cursor_sm_evtdi->SM_EVTDI_R533_precedes : 0;
       }
     }
-    /* RELATE prev_sm_evtdi TO sm_evtdi ACROSS R533 */
-    ooaofooa_SM_EVTDI_R533_Link_precedes( prev_sm_evtdi, sm_evtdi );
     /* IF ( not_empty cursor_sm_evtdi ) */
     if ( ( 0 != cursor_sm_evtdi ) ) {
+      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      }
+      else {
+        /* UNRELATE prev_sm_evtdi FROM cursor_sm_evtdi ACROSS R533 */
+        ooaofooa_SM_EVTDI_R533_Unlink_precedes( prev_sm_evtdi, cursor_sm_evtdi );
+      }
       /* RELATE sm_evtdi TO cursor_sm_evtdi ACROSS R533 */
       ooaofooa_SM_EVTDI_R533_Link_precedes( sm_evtdi, cursor_sm_evtdi );
     }
+    /* RELATE prev_sm_evtdi TO sm_evtdi ACROSS R533 */
+    ooaofooa_SM_EVTDI_R533_Link_precedes( prev_sm_evtdi, sm_evtdi );
   }
   /* RETURN result */
   {ooaofooa_SM_EVTDI * xtumlOALrv = result;
@@ -11420,13 +11448,20 @@ ooaofooa_mact_insert( ooaofooa_TE_MACT * p_head_te_mact, ooaofooa_TE_MACT * p_te
           cursor_te_mact = ( 0 != cursor_te_mact ) ? cursor_te_mact->TE_MACT_R2083_precedes : 0;
         }
       }
-      /* RELATE prev_te_mact TO te_mact ACROSS R2083 */
-      ooaofooa_TE_MACT_R2083_Link_precedes( prev_te_mact, te_mact );
       /* IF ( not_empty cursor_te_mact ) */
       if ( ( 0 != cursor_te_mact ) ) {
+        /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
+        if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+        }
+        else {
+          /* UNRELATE prev_te_mact FROM cursor_te_mact ACROSS R2083 */
+          ooaofooa_TE_MACT_R2083_Unlink_precedes( prev_te_mact, cursor_te_mact );
+        }
         /* RELATE te_mact TO cursor_te_mact ACROSS R2083 */
         ooaofooa_TE_MACT_R2083_Link_precedes( te_mact, cursor_te_mact );
       }
+      /* RELATE prev_te_mact TO te_mact ACROSS R2083 */
+      ooaofooa_TE_MACT_R2083_Link_precedes( prev_te_mact, te_mact );
     }
   }
   /* RETURN result */
@@ -11453,13 +11488,6 @@ ooaofooa_mact_sort( Escher_ObjectSet_s * p_te_macts )
     if ( ( 0 != selected ) && FALSE ) {
       head_te_mact = selected;
       break;
-  }}}
-  /* FOR EACH te_mact IN te_macts */
-  { Escher_Iterator_s iterte_mact;
-  ooaofooa_TE_MACT * iite_mact;
-  Escher_IteratorReset( &iterte_mact, te_macts );
-  while ( (iite_mact = (ooaofooa_TE_MACT *)Escher_IteratorNext( &iterte_mact )) != 0 ) {
-    te_mact = iite_mact; {
   }}}
   /* FOR EACH te_mact IN te_macts */
   { Escher_Iterator_s iterte_mact;
@@ -12232,13 +12260,20 @@ ooaofooa_pp_insert( ooaofooa_C_PP * p_c_pp, ooaofooa_C_PP * p_head_c_pp )
         cursor_c_pp = ( 0 != cursor_c_pp ) ? cursor_c_pp->C_PP_R4021_precedes : 0;
       }
     }
-    /* RELATE prev_c_pp TO c_pp ACROSS R4021 */
-    ooaofooa_C_PP_R4021_Link_precedes( prev_c_pp, c_pp );
     /* IF ( not_empty cursor_c_pp ) */
     if ( ( 0 != cursor_c_pp ) ) {
+      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      }
+      else {
+        /* UNRELATE prev_c_pp FROM cursor_c_pp ACROSS R4021 */
+        ooaofooa_C_PP_R4021_Unlink_precedes( prev_c_pp, cursor_c_pp );
+      }
       /* RELATE c_pp TO cursor_c_pp ACROSS R4021 */
       ooaofooa_C_PP_R4021_Link_precedes( c_pp, cursor_c_pp );
     }
+    /* RELATE prev_c_pp TO c_pp ACROSS R4021 */
+    ooaofooa_C_PP_R4021_Link_precedes( prev_c_pp, c_pp );
   }
   /* RETURN result */
   {ooaofooa_C_PP * xtumlOALrv = result;
@@ -12590,8 +12625,13 @@ r_form->OIR_ID = Escher_ID_factory();
       r_form->Txt_Phrs = Escher_strcpy( r_form->Txt_Phrs, r_part->Txt_Phrs );
       /* UNRELATE r_part FROM r_rto ACROSS R204 */
       ooaofooa_R_PART_R204_Unlink( r_rto, r_part );
-      /* UNRELATE r_part FROM r_simp ACROSS R207 */
-      ooaofooa_R_PART_R207_Unlink_relates( r_simp, r_part );
+      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      }
+      else {
+        /* UNRELATE r_part FROM r_simp ACROSS R207 */
+        ooaofooa_R_PART_R207_Unlink_relates( r_simp, r_part );
+      }
       /* DELETE OBJECT INSTANCE r_part */
       if ( 0 == r_part ) {
         XTUML_EMPTY_HANDLE_TRACE( "R_PART", "Escher_DeleteInstance" );
@@ -17198,13 +17238,20 @@ ooaofooa_sparm_insert( ooaofooa_S_SPARM * p_head_s_sparm, ooaofooa_S_SPARM * p_s
         cursor_s_sparm = ( 0 != cursor_s_sparm ) ? cursor_s_sparm->S_SPARM_R54_precedes : 0;
       }
     }
-    /* RELATE prev_s_sparm TO s_sparm ACROSS R54 */
-    ooaofooa_S_SPARM_R54_Link_precedes( prev_s_sparm, s_sparm );
     /* IF ( not_empty cursor_s_sparm ) */
     if ( ( 0 != cursor_s_sparm ) ) {
+      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      }
+      else {
+        /* UNRELATE prev_s_sparm FROM cursor_s_sparm ACROSS R54 */
+        ooaofooa_S_SPARM_R54_Unlink_precedes( prev_s_sparm, cursor_s_sparm );
+      }
       /* RELATE s_sparm TO cursor_s_sparm ACROSS R54 */
       ooaofooa_S_SPARM_R54_Link_precedes( s_sparm, cursor_s_sparm );
     }
+    /* RELATE prev_s_sparm TO s_sparm ACROSS R54 */
+    ooaofooa_S_SPARM_R54_Link_precedes( prev_s_sparm, s_sparm );
   }
   /* RETURN result */
   {ooaofooa_S_SPARM * xtumlOALrv = result;
@@ -17347,13 +17394,20 @@ ooaofooa_sync_insert( ooaofooa_TE_SYNC * p_head_te_sync, ooaofooa_TE_SYNC * p_te
           cursor_te_sync = ( 0 != cursor_te_sync ) ? cursor_te_sync->TE_SYNC_R2095_precedes : 0;
         }
       }
-      /* RELATE prev_te_sync TO te_sync ACROSS R2095 */
-      ooaofooa_TE_SYNC_R2095_Link_precedes( prev_te_sync, te_sync );
       /* IF ( not_empty cursor_te_sync ) */
       if ( ( 0 != cursor_te_sync ) ) {
+        /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
+        if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+        }
+        else {
+          /* UNRELATE prev_te_sync FROM cursor_te_sync ACROSS R2095 */
+          ooaofooa_TE_SYNC_R2095_Unlink_precedes( prev_te_sync, cursor_te_sync );
+        }
         /* RELATE te_sync TO cursor_te_sync ACROSS R2095 */
         ooaofooa_TE_SYNC_R2095_Link_precedes( te_sync, cursor_te_sync );
       }
+      /* RELATE prev_te_sync TO te_sync ACROSS R2095 */
+      ooaofooa_TE_SYNC_R2095_Link_precedes( prev_te_sync, te_sync );
     }
   }
   /* RETURN result */
@@ -17380,13 +17434,6 @@ ooaofooa_sync_sort( Escher_ObjectSet_s * p_te_syncs )
     if ( ( 0 != selected ) && FALSE ) {
       head_te_sync = selected;
       break;
-  }}}
-  /* FOR EACH te_sync IN te_syncs */
-  { Escher_Iterator_s iterte_sync;
-  ooaofooa_TE_SYNC * iite_sync;
-  Escher_IteratorReset( &iterte_sync, te_syncs );
-  while ( (iite_sync = (ooaofooa_TE_SYNC *)Escher_IteratorNext( &iterte_sync )) != 0 ) {
-    te_sync = iite_sync; {
   }}}
   /* FOR EACH te_sync IN te_syncs */
   { Escher_Iterator_s iterte_sync;
@@ -17448,7 +17495,7 @@ ooaofooa_sys_populate()
 {
   ooaofooa_TE_EE * te_ee=0;ooaofooa_TE_C * te_c=0;ooaofooa_V_VAR * v_var=0;ooaofooa_TE_LNK * te_lnk=0;ooaofooa_ACT_LNK * act_lnk=0;ooaofooa_TE_BLK * te_blk=0;ooaofooa_ACT_E * act_e=0;ooaofooa_ACT_EL * act_el=0;ooaofooa_ACT_IF * act_if=0;ooaofooa_ACT_WHL * act_whl=0;ooaofooa_ACT_FOR * act_for=0;ooaofooa_ACT_BLK * act_blk=0;ooaofooa_R_SUPER * r_super=0;ooaofooa_R_SUB * r_sub=0;ooaofooa_R_ASSR * r_assr=0;ooaofooa_R_AOTH * r_aoth=0;ooaofooa_R_AONE * r_aone=0;ooaofooa_R_FORM * r_form=0;ooaofooa_R_PART * r_part=0;ooaofooa_R_OIR * r_oir=0;ooaofooa_R_REL * r_rel=0;ooaofooa_SPR_PS * spr_ps=0;ooaofooa_SPR_PO * spr_po=0;ooaofooa_SPR_RS * spr_rs=0;ooaofooa_SPR_RO * spr_ro=0;ooaofooa_C_PP * c_pp=0;ooaofooa_SM_EVTDI * sm_evtdi=0;ooaofooa_S_SPARM * s_sparm=0;ooaofooa_O_TPARM * o_tparm=0;ooaofooa_S_BPARM * s_bparm=0;ooaofooa_V_PAR * v_par=0;ooaofooa_V_VAL * v_val=0;ooaofooa_TM_ENUMINIT * tm_enuminit=0;ooaofooa_TM_ENUMVAL * tm_enumval=0;ooaofooa_TM_POINTER * tm_pointer=0;ooaofooa_TM_PRECISION * tm_precision=0;ooaofooa_S_IRDT * s_irdt=0;ooaofooa_S_SDT * s_sdt=0;ooaofooa_S_EDT * s_edt=0;ooaofooa_S_UDT * s_udt=0;ooaofooa_S_CDT * s_cdt=0;ooaofooa_S_EE * s_ee=0;ooaofooa_S_SYNC * s_sync=0;ooaofooa_O_OBJ * o_obj=0;ooaofooa_S_DT * s_dt=0;ooaofooa_TE_PO * te_po=0;ooaofooa_C_C * c_c=0;ooaofooa_TE_PARM * te_parm;ooaofooa_TE_PARM * r3;i_t markedsystems;c_t * package_to_build=0;Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;ooaofooa_TE_CIA * te_cia;Escher_ObjectSet_s te_ees_space={0}; Escher_ObjectSet_s * te_ees = &te_ees_space;Escher_ObjectSet_s v_vars_space={0}; Escher_ObjectSet_s * v_vars = &v_vars_space;Escher_ObjectSet_s te_lnks_space={0}; Escher_ObjectSet_s * te_lnks = &te_lnks_space;Escher_ObjectSet_s act_lnks_space={0}; Escher_ObjectSet_s * act_lnks = &act_lnks_space;Escher_ObjectSet_s te_blks_space={0}; Escher_ObjectSet_s * te_blks = &te_blks_space;Escher_ObjectSet_s act_es_space={0}; Escher_ObjectSet_s * act_es = &act_es_space;Escher_ObjectSet_s act_els_space={0}; Escher_ObjectSet_s * act_els = &act_els_space;Escher_ObjectSet_s act_ifs_space={0}; Escher_ObjectSet_s * act_ifs = &act_ifs_space;Escher_ObjectSet_s act_whls_space={0}; Escher_ObjectSet_s * act_whls = &act_whls_space;Escher_ObjectSet_s act_fors_space={0}; Escher_ObjectSet_s * act_fors = &act_fors_space;Escher_ObjectSet_s act_blks_space={0}; Escher_ObjectSet_s * act_blks = &act_blks_space;Escher_ObjectSet_s r_supers_space={0}; Escher_ObjectSet_s * r_supers = &r_supers_space;Escher_ObjectSet_s r_subs_space={0}; Escher_ObjectSet_s * r_subs = &r_subs_space;Escher_ObjectSet_s r_assrs_space={0}; Escher_ObjectSet_s * r_assrs = &r_assrs_space;Escher_ObjectSet_s r_aoths_space={0}; Escher_ObjectSet_s * r_aoths = &r_aoths_space;Escher_ObjectSet_s r_aones_space={0}; Escher_ObjectSet_s * r_aones = &r_aones_space;Escher_ObjectSet_s r_forms_space={0}; Escher_ObjectSet_s * r_forms = &r_forms_space;Escher_ObjectSet_s r_oirs_space={0}; Escher_ObjectSet_s * r_oirs = &r_oirs_space;Escher_ObjectSet_s r_rels_space={0}; Escher_ObjectSet_s * r_rels = &r_rels_space;Escher_ObjectSet_s spr_pss_space={0}; Escher_ObjectSet_s * spr_pss = &spr_pss_space;
   Escher_ObjectSet_s spr_pos_space={0}; Escher_ObjectSet_s * spr_pos = &spr_pos_space;Escher_ObjectSet_s spr_rss_space={0}; Escher_ObjectSet_s * spr_rss = &spr_rss_space;Escher_ObjectSet_s spr_ros_space={0}; Escher_ObjectSet_s * spr_ros = &spr_ros_space;Escher_ObjectSet_s c_pps_space={0}; Escher_ObjectSet_s * c_pps = &c_pps_space;Escher_ObjectSet_s sm_evtdis_space={0}; Escher_ObjectSet_s * sm_evtdis = &sm_evtdis_space;Escher_ObjectSet_s s_sparms_space={0}; Escher_ObjectSet_s * s_sparms = &s_sparms_space;Escher_ObjectSet_s o_tparms_space={0}; Escher_ObjectSet_s * o_tparms = &o_tparms_space;Escher_ObjectSet_s s_bparms_space={0}; Escher_ObjectSet_s * s_bparms = &s_bparms_space;Escher_ObjectSet_s v_pars_space={0}; Escher_ObjectSet_s * v_pars = &v_pars_space;Escher_ObjectSet_s v_vals_space={0}; Escher_ObjectSet_s * v_vals = &v_vals_space;Escher_ObjectSet_s tm_enuminits_space={0}; Escher_ObjectSet_s * tm_enuminits = &tm_enuminits_space;Escher_ObjectSet_s tm_enumvals_space={0}; Escher_ObjectSet_s * tm_enumvals = &tm_enumvals_space;Escher_ObjectSet_s tm_pointers_space={0}; Escher_ObjectSet_s * tm_pointers = &tm_pointers_space;Escher_ObjectSet_s tm_precisions_space={0}; Escher_ObjectSet_s * tm_precisions = &tm_precisions_space;Escher_ObjectSet_s s_irdts_space={0}; Escher_ObjectSet_s * s_irdts = &s_irdts_space;Escher_ObjectSet_s s_sdts_space={0}; Escher_ObjectSet_s * s_sdts = &s_sdts_space;Escher_ObjectSet_s s_edts_space={0}; Escher_ObjectSet_s * s_edts = &s_edts_space;Escher_ObjectSet_s s_udts_space={0}; Escher_ObjectSet_s * s_udts = &s_udts_space;Escher_ObjectSet_s s_cdts_space={0}; Escher_ObjectSet_s * s_cdts = &s_cdts_space;Escher_ObjectSet_s s_ees_space={0}; Escher_ObjectSet_s * s_ees = &s_ees_space;Escher_ObjectSet_s s_syncs_space={0}; Escher_ObjectSet_s * s_syncs = &s_syncs_space;Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;ooaofooa_TM_BUILD * tm_build=0;Escher_ObjectSet_s te_pos_space={0}; Escher_ObjectSet_s * te_pos = &te_pos_space;Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;ooaofooa_TE_QUEUE * nonself_te_queue=0;ooaofooa_TE_QUEUE * te_queue=0;ooaofooa_TE_DISP * te_disp=0;ooaofooa_TM_THREAD * tm_thread=0;ooaofooa_TM_SYSTAG * tm_systag=0;ooaofooa_TE_SYS * te_sys=0;ooaofooa_S_SYS * s_sys=0;ooaofooa_TE_TYPEMAP * te_typemap=0;
-  ooaofooa_TE_TIM * te_tim=0;ooaofooa_TE_THREAD * te_thread=0;ooaofooa_TE_TARGET * te_target=0;ooaofooa_TE_STRING * te_string=0;ooaofooa_TE_SET * te_set=0;ooaofooa_TE_PREFIX * te_prefix=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_EXTENT * te_extent=0;ooaofooa_TE_EQ * te_eq=0;ooaofooa_TE_FILE * te_file=0;ooaofooa_TE_DT * void_te_dt=0;ooaofooa_TE_DT * string_te_dt=0;ooaofooa_TE_DT * converted_bool_te_dt=0;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;Escher_ObjectSet_s empty_te_parms_space={0}; Escher_ObjectSet_s * empty_te_parms = &empty_te_parms_space;Escher_ObjectSet_s empty_te_dts_space={0}; Escher_ObjectSet_s * empty_te_dts = &empty_te_dts_space;ooaofooa_TE_MACT * empty_te_mact=0;ooaofooa_TE_ATTR * empty_te_attr=0;ooaofooa_O_OBJ * empty_o_obj=0;Escher_ObjectSet_s empty_s_dims_space={0}; Escher_ObjectSet_s * empty_s_dims = &empty_s_dims_space;ooaofooa_TE_DIM * empty_te_dim=0;ooaofooa_TE_C * empty_te_c=0;Escher_ObjectSet_s empty_ep_pkgs_space={0}; Escher_ObjectSet_s * empty_ep_pkgs = &empty_ep_pkgs_space;Escher_ObjectSet_s r_parts_space={0}; Escher_ObjectSet_s * r_parts = &r_parts_space;
+  ooaofooa_TE_TIM * te_tim=0;ooaofooa_TE_THREAD * te_thread=0;ooaofooa_TE_TARGET * te_target=0;ooaofooa_TE_STRING * te_string=0;ooaofooa_TE_SET * te_set=0;ooaofooa_TE_PREFIX * te_prefix=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_EXTENT * te_extent=0;ooaofooa_TE_EQ * te_eq=0;ooaofooa_TE_FILE * te_file=0;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;ooaofooa_TE_DT * void_te_dt=0;ooaofooa_TE_DT * string_te_dt=0;ooaofooa_TE_DT * converted_bool_te_dt=0;Escher_ObjectSet_s empty_te_parms_space={0}; Escher_ObjectSet_s * empty_te_parms = &empty_te_parms_space;Escher_ObjectSet_s empty_te_dts_space={0}; Escher_ObjectSet_s * empty_te_dts = &empty_te_dts_space;ooaofooa_TE_MACT * empty_te_mact=0;ooaofooa_TE_ATTR * empty_te_attr=0;ooaofooa_O_OBJ * empty_o_obj=0;Escher_ObjectSet_s empty_s_dims_space={0}; Escher_ObjectSet_s * empty_s_dims = &empty_s_dims_space;ooaofooa_TE_DIM * empty_te_dim=0;ooaofooa_TE_C * empty_te_c=0;Escher_ObjectSet_s empty_ep_pkgs_space={0}; Escher_ObjectSet_s * empty_ep_pkgs = &empty_ep_pkgs_space;Escher_ObjectSet_s r_parts_space={0}; Escher_ObjectSet_s * r_parts = &r_parts_space;
   /* SELECT any te_file FROM INSTANCES OF TE_FILE */
   te_file = (ooaofooa_TE_FILE *) Escher_SetGetAny( &pG_ooaofooa_TE_FILE_extent.active );
   /* SELECT any te_eq FROM INSTANCES OF TE_EQ */
@@ -18875,8 +18922,6 @@ te_ee->ID = Escher_ID_factory();
       if ( ( 0 != previous_te_mbr ) ) {
         /* RELATE te_mbr TO previous_te_mbr ACROSS R2067 */
         ooaofooa_TE_MBR_R2067_Link_succeeds( te_mbr, previous_te_mbr );
-      }
-      else {
       }
       /* ASSIGN te_mbr.Name = s_mbr.Name */
       te_mbr->Name = Escher_strcpy( te_mbr->Name, s_mbr->Name );
@@ -22690,13 +22735,20 @@ ooaofooa_tparm_insert( ooaofooa_O_TPARM * p_head_o_tparm, ooaofooa_O_TPARM * p_o
         cursor_o_tparm = ( 0 != cursor_o_tparm ) ? cursor_o_tparm->O_TPARM_R124_precedes : 0;
       }
     }
-    /* RELATE prev_o_tparm TO o_tparm ACROSS R124 */
-    ooaofooa_O_TPARM_R124_Link_precedes( prev_o_tparm, o_tparm );
     /* IF ( not_empty cursor_o_tparm ) */
     if ( ( 0 != cursor_o_tparm ) ) {
+      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      }
+      else {
+        /* UNRELATE prev_o_tparm FROM cursor_o_tparm ACROSS R124 */
+        ooaofooa_O_TPARM_R124_Unlink_precedes( prev_o_tparm, cursor_o_tparm );
+      }
       /* RELATE o_tparm TO cursor_o_tparm ACROSS R124 */
       ooaofooa_O_TPARM_R124_Link_precedes( o_tparm, cursor_o_tparm );
     }
+    /* RELATE prev_o_tparm TO o_tparm ACROSS R124 */
+    ooaofooa_O_TPARM_R124_Link_precedes( prev_o_tparm, o_tparm );
   }
   /* RETURN result */
   {ooaofooa_O_TPARM * xtumlOALrv = result;
@@ -23015,8 +23067,6 @@ ooaofooa_val_array_element_reference( ooaofooa_V_AER * p_v_aer )
       /* RELATE te_val TO next_te_dim ACROSS R2079 */
       ooaofooa_TE_VAL_R2079_Link( next_te_dim, te_val );
     }
-    else {
-    }
   }
 }
 
@@ -23162,26 +23212,31 @@ ooaofooa_val_attribute_value( ooaofooa_V_AVL * p_v_avl )
     te_attr = ( 0 != o_attr ) ? o_attr->TE_ATTR_R2033 : 0;
     /* IF ( not_empty te_attr ) */
     if ( ( 0 != te_attr ) ) {
-      c_t * root=0;ooaofooa_O_DBATTR * o_dbattr=0;ooaofooa_TE_DIM * te_dim=0;
+      c_t * root=0;ooaofooa_O_DBATTR * o_dbattr=0;ooaofooa_TE_DIM * te_dim=0;ooaofooa_TE_C * te_c=0;ooaofooa_TE_CLASS * te_class=0;
       /* ASSIGN root =  */
       root = Escher_strcpy( root, "" );
       /* IF ( empty te_var ) */
       if ( ( 0 == te_var ) ) {
         /* ASSIGN te_val.OAL = ( ( root_te_val.OAL + . ) + te_attr.Name ) */
         te_val->OAL = Escher_strcpy( te_val->OAL, Escher_stradd( Escher_stradd( root_te_val->OAL, "." ), te_attr->Name ) );
-        /* ASSIGN te_val.buffer = ( ( root_te_val.buffer + -> ) + te_attr.GeneratedName ) */
-        te_val->buffer = Escher_strcpy( te_val->buffer, Escher_stradd( Escher_stradd( root_te_val->buffer, "->" ), te_attr->GeneratedName ) );
         /* ASSIGN root = root_te_val.buffer */
         root = Escher_strcpy( root, root_te_val->buffer );
       }
       else {
         /* ASSIGN te_val.OAL = ( ( te_var.OAL + . ) + te_attr.Name ) */
         te_val->OAL = Escher_strcpy( te_val->OAL, Escher_stradd( Escher_stradd( te_var->OAL, "." ), te_attr->Name ) );
-        /* ASSIGN te_val.buffer = ( ( te_var.buffer + -> ) + te_attr.GeneratedName ) */
-        te_val->buffer = Escher_strcpy( te_val->buffer, Escher_stradd( Escher_stradd( te_var->buffer, "->" ), te_attr->GeneratedName ) );
         /* ASSIGN root = te_var.buffer */
         root = Escher_strcpy( root, te_var->buffer );
       }
+      /* SELECT one te_class RELATED BY te_attr->TE_CLASS[R2061] */
+      te_class = ( 0 != te_attr ) ? te_attr->TE_CLASS_R2061_is_characteristic_of : 0;
+      /* SELECT one te_c RELATED BY te_class->TE_C[R2064] */
+      te_c = ( 0 != te_class ) ? te_class->TE_C_R2064 : 0;
+      /* IF ( te_c.DetectEmpty ) */
+      if ( te_c->DetectEmpty ) {
+      }
+      /* ASSIGN te_val.buffer = ( ( root + -> ) + te_attr.GeneratedName ) */
+      te_val->buffer = Escher_strcpy( te_val->buffer, Escher_stradd( Escher_stradd( root, "->" ), te_attr->GeneratedName ) );
       /* ASSIGN te_val.dimensions = te_attr.dimensions */
       te_val->dimensions = te_attr->dimensions;
       /* ASSIGN te_val.array_spec = te_attr.array_spec */
@@ -23192,8 +23247,6 @@ ooaofooa_val_attribute_value( ooaofooa_V_AVL * p_v_avl )
       if ( ( 0 != te_dim ) ) {
         /* RELATE te_val TO te_dim ACROSS R2079 */
         ooaofooa_TE_VAL_R2079_Link( te_dim, te_val );
-      }
-      else {
       }
       /* SELECT one o_dbattr RELATED BY o_attr->O_BATTR[R106]->O_DBATTR[R107] */
       o_dbattr = 0;
@@ -23229,8 +23282,6 @@ ooaofooa_val_attribute_value( ooaofooa_V_AVL * p_v_avl )
           if ( ( 0 != te_dim ) ) {
             /* RELATE te_val TO te_dim ACROSS R2079 */
             ooaofooa_TE_VAL_R2079_Link( te_dim, te_val );
-          }
-          else {
           }
         }
       }
@@ -23327,6 +23378,16 @@ ooaofooa_val_binary_op_value( ooaofooa_V_BIN * p_v_bin )
         te_val->buffer = Escher_strcpy( te_val->buffer, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "( ", te_instance->module ), Escher_stradd( te_string->strcmp, "( " ) ), Escher_stradd( Escher_stradd( l_te_val->buffer, ", " ), Escher_stradd( r_te_val->buffer, " ) " ) ) ), Escher_stradd( v_bin->Operator, " 0 )" ) ) );
       }
     }
+    else if ( ( ( 9 == l_te_dt->Core_Typ ) && ( 9 == r_te_dt->Core_Typ ) ) ) {
+      /* IF ( ( + == T::r(v_bin.Operator) ) ) */
+      if ( ( Escher_strcmp( "+", T_r( v_bin->Operator ) ) == 0 ) ) {
+        ooaofooa_TE_SET * te_set=0;
+        /* SELECT any te_set FROM INSTANCES OF TE_SET */
+        te_set = (ooaofooa_TE_SET *) Escher_SetGetAny( &pG_ooaofooa_TE_SET_extent.active );
+        /* ASSIGN te_val.buffer = ( ( ( ( te_set.module + te_set.setadd ) + ( (  + l_te_val.buffer ) ) + ( ,  + r_te_val.buffer ) ) +  ) ) */
+        te_val->buffer = Escher_strcpy( te_val->buffer, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( te_set->module, te_set->setadd ), Escher_stradd( "( ", l_te_val->buffer ) ), Escher_stradd( ", ", r_te_val->buffer ) ), " )" ) );
+      }
+    }
     else {
       ooaofooa_TE_TARGET * te_target=0;
       /* SELECT any te_target FROM INSTANCES OF TE_TARGET */
@@ -23369,8 +23430,6 @@ ooaofooa_val_binary_op_value( ooaofooa_V_BIN * p_v_bin )
     if ( ( 0 != te_dim ) ) {
       /* RELATE te_val TO te_dim ACROSS R2079 */
       ooaofooa_TE_VAL_R2079_Link( te_dim, te_val );
-    }
-    else {
     }
     /* ASSIGN te_val.OAL = ( ( ( (  + l_te_val.OAL ) + (   + v_bin.Operator ) ) + ( (   + r_te_val.OAL ) +  ) ) ) */
     te_val->OAL = Escher_strcpy( te_val->OAL, Escher_stradd( Escher_stradd( Escher_stradd( "( ", l_te_val->OAL ), Escher_stradd( " ", v_bin->Operator ) ), Escher_stradd( Escher_stradd( " ", r_te_val->OAL ), " )" ) ) );
@@ -23529,8 +23588,6 @@ ooaofooa_val_bridge_value( ooaofooa_V_BRV * p_v_brv )
       if ( ( 0 != te_dim ) ) {
         /* RELATE te_val TO te_dim ACROSS R2079 */
         ooaofooa_TE_VAL_R2079_Link( te_dim, te_val );
-      }
-      else {
       }
       Escher_ClearSet( v_pars ); 
     }
@@ -23699,8 +23756,6 @@ ooaofooa_val_event_values()
     if ( ( 0 != te_dim ) ) {
       /* RELATE te_val TO te_dim ACROSS R2079 */
       ooaofooa_TE_VAL_R2079_Link( te_dim, te_val );
-    }
-    else {
     }
   }}}
   Escher_ClearSet( v_edvs );
@@ -24021,8 +24076,6 @@ ooaofooa_val_member_value( ooaofooa_V_MVL * p_v_mvl )
       /* RELATE te_val TO te_dim ACROSS R2079 */
       ooaofooa_TE_VAL_R2079_Link( te_dim, te_val );
     }
-    else {
-    }
     /* ASSIGN te_val.OAL = ( ( root_te_val.OAL + . ) + te_mbr.Name ) */
     te_val->OAL = Escher_strcpy( te_val->OAL, Escher_stradd( Escher_stradd( root_te_val->OAL, "." ), te_mbr->Name ) );
     /* ASSIGN te_val.buffer = ( ( root_te_val.buffer + . ) + te_mbr.GeneratedName ) */
@@ -24120,8 +24173,6 @@ ooaofooa_val_message_value( ooaofooa_V_MSV * p_v_msv )
     if ( ( 0 != te_dim ) ) {
       /* RELATE te_val TO te_dim ACROSS R2079 */
       ooaofooa_TE_VAL_R2079_Link( te_dim, te_val );
-    }
-    else {
     }
     Escher_ClearSet( v_pars ); 
   }
@@ -24227,8 +24278,6 @@ ooaofooa_val_parameter_values()
     if ( ( 0 != te_dim ) ) {
       /* RELATE te_val TO te_dim ACROSS R2079 */
       ooaofooa_TE_VAL_R2079_Link( te_dim, te_val );
-    }
-    else {
     }
     /* IF ( ( 1 == te_parm.By_Ref ) ) */
     if ( ( 1 == te_parm->By_Ref ) ) {
@@ -24370,8 +24419,6 @@ ooaofooa_val_synch_service_value( ooaofooa_V_FNV * p_v_fnv )
       if ( ( 0 != te_dim ) ) {
         /* RELATE te_val TO te_dim ACROSS R2079 */
         ooaofooa_TE_VAL_R2079_Link( te_dim, te_val );
-      }
-      else {
       }
       Escher_ClearSet( v_pars ); 
     }
@@ -24559,8 +24606,6 @@ ooaofooa_val_transform_value( ooaofooa_V_TRV * p_v_trv )
         /* RELATE te_val TO te_dim ACROSS R2079 */
         ooaofooa_TE_VAL_R2079_Link( te_dim, te_val );
       }
-      else {
-      }
       Escher_ClearSet( v_pars ); 
     }
   }
@@ -24628,8 +24673,6 @@ ooaofooa_val_transient_values()
     if ( ( 0 != te_dim ) ) {
       /* RELATE te_val TO te_dim ACROSS R2079 */
       ooaofooa_TE_VAL_R2079_Link( te_dim, te_val );
-    }
-    else {
     }
   }}}
   Escher_ClearSet( v_tvls );
@@ -24791,8 +24834,6 @@ ooaofooa_val_unary_op_value( ooaofooa_V_UNY * p_v_uny )
     if ( ( 0 != te_dim ) ) {
       /* RELATE te_val TO te_dim ACROSS R2079 */
       ooaofooa_TE_VAL_R2079_Link( te_dim, te_val );
-    }
-    else {
     }
   }
 }

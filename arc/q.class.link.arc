@@ -1053,12 +1053,12 @@ ${aoth_fundamentals.body}\
 .//============================================================================
 .function FiniRelStorageFragment
   .param inst_ref te_relstore
-  .// delete object instance te_relstore;
   .assign te_relstore.data_declare = ""
   .assign te_relstore.data_init    = ""
   .assign te_relstore.data_fini    = ""
   .assign te_relstore.link_calls   = ""
   .assign te_relstore.link_index   = 0
+  .delete object instance te_relstore
 .end function
 .//
 .//============================================================================

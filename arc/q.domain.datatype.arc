@@ -87,7 +87,7 @@ ${r.body}\
     .select any prev_s_enum related by s_edt->S_ENUM[R27]
     .while (not_empty prev_s_enum)
       .assign s_enum = prev_s_enum
-      .select one prev_s_enum related by prev_s_enum->S_ENUM[R56.'precedes'];
+      .select one prev_s_enum related by prev_s_enum->S_ENUM[R56.'precedes']
     .end while
 /*
  * Enumerated Data Type:  ${te_dt.Name}

@@ -452,7 +452,7 @@
     .assign te_val.array_spec = root_te_val.array_spec
     .select one te_dim related by root_te_val->TE_DIM[R2079]
     .if ( not_empty te_dim )
-      .relate te_val to te_dim across R2079;
+      .relate te_val to te_dim across R2079
     .end if
   .end if
 .end function

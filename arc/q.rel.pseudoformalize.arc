@@ -31,7 +31,8 @@
       .assign r_form.Txt_Phrs = r_part.Txt_Phrs
       .//
       .unrelate r_part from r_rto across R204
-      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
+      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > info.interpreter_version )
+      .else
         .unrelate r_part from r_simp across R207
       .end if
       .delete object instance r_part
@@ -42,10 +43,6 @@
       .relate r_rgo to r_oir across R203
       .relate r_form to r_rgo across R205
       .relate r_form to r_simp across R208
-      .if ( r_form.Rel_ID != r_simp.Rel_ID )
-        .print "ERROR:  Pseudoformalization of relationship failed."
-      .end if
-      .// end relate
     .end if
   .end for
 .end function

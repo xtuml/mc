@@ -309,7 +309,7 @@
     .invoke blk_declaration_append( te_blk, d )
     .include "${te_file.arc_path}/t.smt.create_instance.c"
     .assign te_smt.OAL = "CREATE OBJECT INSTANCE OF ${te_class.Key_Lett}"
-    .// delete object instance te_var;
+    .delete object instance te_var
   .end if
 .end function
 .//
