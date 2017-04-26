@@ -254,7 +254,14 @@ class ${te_c.Name}; // forward reference
     .if ( ( "C" != te_target.language ) and ( not_empty te_c ) )
 #include "${te_c.Name}.${te_file.hdr_file_ext}"
     .end if
-    .select many te_ees from instances of TE_EE where ( ( selected.te_cID == 00 ) and ( selected.Included ) )
+    .// Get the TE_EEs that are not connected to any component.
+    .select many te_ees from instances of TE_EE where ( selected.Included )
+    .for each te_ee in te_ees
+      .select one my_te_c related by te_ee->TE_C[R2085]
+      .if ( not_empty my_te_c )
+        .assign te_ees = te_ees - te_ee
+      .end if
+    .end for
     .invoke r = ee_sort( te_ees )
     .assign te_ee = r.result
     .while ( not_empty te_ee )

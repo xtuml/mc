@@ -37,7 +37,11 @@
       .end if
     .end while
     .if ( not_empty cursor_s_sparm )
-      .unrelate prev_s_sparm from cursor_s_sparm across R54.'precedes'
+      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
+        .unrelate prev_s_sparm from cursor_s_sparm across R54.'precedes'
+      .else
+        .assign cursor_s_sparm.Previous_SParm_ID = 00
+      .end if
       .relate s_sparm to cursor_s_sparm across R54.'precedes'
     .end if
     .relate prev_s_sparm to s_sparm across R54.'precedes'
@@ -229,7 +233,11 @@
       .end if
     .end while
     .if ( not_empty cursor_c_pp )
-      .unrelate prev_c_pp from cursor_c_pp across R4021.'precedes'
+      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" == info.interpreter_version )
+        .unrelate prev_c_pp from cursor_c_pp across R4021.'precedes'
+      .else
+        .assign cursor_c_pp.Previous_PP_ID = 00
+      .end if
       .relate c_pp to cursor_c_pp across R4021.'precedes'
     .end if
     .relate prev_c_pp to c_pp across R4021.'precedes'
