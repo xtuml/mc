@@ -79,7 +79,7 @@ R2093 and R2094 had incorrect multiplicity.
 7.1 Run Important Models  
 7.1.1 Translate Three Times  
 Translate a model three times.  Generate once with the generator
-currently shipping with BridgePoint, once with the 0.6.0 version and
+currently shipping with BridgePoint (0.5.0), once with the 0.6.0 version and
 finally with the newest generator.  
 7.1.3 Copy `src`  
 Copy the generated source folder to directories that can be later
