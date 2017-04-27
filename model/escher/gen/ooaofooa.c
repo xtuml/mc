@@ -7645,6 +7645,7 @@ ooaofooa_TM_SYSTAG_select()
 i_t
 ooaofooa_T_atoi( c_t * p_s )
 {
+  /* ::oal( s:return strtol( p_s, 0, 10 ); ) */
 return strtol( p_s, 0, 10 ); // Ccode
 }
 
@@ -8565,6 +8566,7 @@ ooaofooa_UserSuppliedDataTypeIncludes()
   Escher_IteratorReset( &iterspecial_te_dt, special_te_dts );
   while ( (iispecial_te_dt = (ooaofooa_TE_DT *)Escher_IteratorNext( &iterspecial_te_dt )) != 0 ) {
     special_te_dt = iispecial_te_dt; {
+    /* ::oal */
     /* ASSIGN s = ( ( s + #include \" ) + ( special_te_dt.Include_File + \"\n ) ) */
     s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, "#include \"" ), Escher_stradd( special_te_dt->Include_File, "\"\n" ) ) ); // Ccode
   }}}
@@ -8754,9 +8756,11 @@ ooaofooa_a0()
     ooaofooa_MapDataTypeAsPointer( "*", "stringpointer", "", "c_t" );
     Escher_ClearSet( o_attrs );
   }
+  /* ::oal */
 mark_pass("1"); // Ccode
   /* ::sys_populate(  ) */
   ooaofooa_sys_populate();
+  /* ::oal */
 mark_pass("2"); // Ccode
   /* SELECT any te_sys FROM INSTANCES OF TE_SYS */
   te_sys = (ooaofooa_TE_SYS *) Escher_SetGetAny( &pG_ooaofooa_TE_SYS_extent.active );
@@ -9347,6 +9351,7 @@ ooaofooa_blck_xlate( ooaofooa_TE_ABA * p_te_aba, ooaofooa_TE_BLK * p_te_blk, con
         /* IF ( trace ) */
         if ( trace ) {
           c_t * statement_trace=0;
+          /* ::oal */
           /* ASSIGN statement_trace = ( ( ( te_blk.indentation + XTUML_OAL_STMT_TRACE(  ) + ( T::s(te_blk.depth) + , \" ) ) + ( te_smt.OAL + \" );\n ) ) */
           statement_trace = Escher_strcpy( statement_trace, Escher_stradd( Escher_stradd( Escher_stradd( te_blk->indentation, "XTUML_OAL_STMT_TRACE( " ), Escher_stradd( T_s( te_blk->depth ), ", \"" ) ), Escher_stradd( te_smt->OAL, "\" );\n" ) ) );
           /* ::aba_code_append( s:statement_trace, te_aba:te_aba ) */
@@ -9611,6 +9616,7 @@ ooaofooa_blk_declaration_append( c_t * p_s, ooaofooa_TE_BLK * p_te_blk )
   te_blk = p_te_blk;
   /* ASSIGN s = PARAM.s */
   s = Escher_strcpy( s, p_s );
+  /* ::oal */
   if ( strlen( te_blk->declaration ) > 400 ) {
     static char counter = 0;
     if ( counter++ > 32 ) {
@@ -12905,6 +12911,7 @@ ooaofooa_slist_factory( ooaofooa_TE_SLIST * p_te_slist )
 c_t *
 ooaofooa_smt_assign( ooaofooa_ACT_AI * p_act_ai, ooaofooa_TE_SMT * p_te_smt )
 {
+  /* ::oal */
   bool is_parameter;i_t element_count;ooaofooa_V_VAL * root_v_val;ooaofooa_V_VAL * r;c_t * ws=0;ooaofooa_ACT_AI * act_ai;ooaofooa_TE_SMT * te_smt;ooaofooa_TE_SYS * te_sys=0;ooaofooa_TE_STRING * te_string=0;ooaofooa_TE_SET * te_set=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_FILE * te_file=0;ooaofooa_TE_ASSIGN * te_assign=0;ooaofooa_V_PVL * v_pvl=0;ooaofooa_TE_DIM * r_te_dim=0;ooaofooa_TE_VAL * l_te_val=0;ooaofooa_TE_VAL * r_te_val=0;ooaofooa_TE_DT * l_te_dt=0;ooaofooa_TE_DT * r_te_dt=0;
   ooaofooa_V_VAL * l_v_val=0;ooaofooa_V_VAL * r_v_val=0;ooaofooa_TE_BLK * te_blk=0;
   /* ASSIGN te_smt = PARAM.te_smt */
@@ -21556,6 +21563,7 @@ te_ee->ID = Escher_ID_factory();
             te_class->attribute_dump = Escher_strcpy( te_class->attribute_dump, Escher_stradd( Escher_stradd( te_class->attribute_dump, ",\n    ((long)self->" ), Escher_stradd( te_attr->GeneratedName, " & ESCHER_IDDUMP_MASK)" ) ) );
           }
           else if ( ( Escher_strcmp( "%s", te_dt->string_format ) == 0 ) ) {
+            /* ::oal */
             /* ASSIGN te_class.attribute_format = ( ( ( te_class.attribute_format + delimiter ) + ( '' + te_dt.string_format ) ) + '' ) */
             te_class->attribute_format = Escher_strcpy( te_class->attribute_format, Escher_stradd( Escher_stradd( Escher_stradd( te_class->attribute_format, delimiter ), Escher_stradd( "''", te_dt->string_format ) ), "''" ) );
             /* ASSIGN te_class.attribute_dump = ( ( ( te_class.attribute_dump + ,\n    ( 0 != self-> ) + ( te_attr.GeneratedName +  ) ? self-> ) ) + ( ( te_attr.GeneratedName +  : \\" ) + \\" ) ) */
@@ -22014,6 +22022,7 @@ ooaofooa_target_factory( ooaofooa_TE_TARGET * p_te_target )
   te_target = p_te_target;
   /* ASSIGN te_target.language = C */
   te_target->language = Escher_strcpy( te_target->language, "C" );
+  /* ::oal */
   /* ASSIGN te_target.c2cplusplus_linkage_begin = #ifdef\t__cplusplus\nextern\t\"C\"\t{\n#endif */
   te_target->c2cplusplus_linkage_begin = Escher_strcpy( te_target->c2cplusplus_linkage_begin, "#ifdef\t__cplusplus\nextern\t\"C\"\t{\n#endif" );
   /* ASSIGN te_target.c2cplusplus_linkage_end = #ifdef\t__cplusplus\n}\n#endif */
@@ -23232,6 +23241,7 @@ ooaofooa_val_attribute_value( ooaofooa_V_AVL * p_v_avl )
       te_c = ( 0 != te_class ) ? te_class->TE_C_R2064 : 0;
       /* IF ( te_c.DetectEmpty ) */
       if ( te_c->DetectEmpty ) {
+        /* ::oal */
         /* ASSIGN root = ((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, \\"\\"${te_class.Key_Lett}\\"\\", \\"\\"${te_val.OAL}\\"\\" )) */
         root = Escher_strcpy( root, ({c_t*s=Escher_strget();T_T("((");T_T(te_class->GeneratedName);T_T(" *)xtUML_detect_empty_handle( ");T_T(root);T_T(", \"");T_T(te_class->Key_Lett);T_T("\", \"");T_T(te_val->OAL);T_T("\" ))");}) );
       }
