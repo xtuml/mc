@@ -102,6 +102,42 @@ Perform the above steps on maslout.
 <pre>
 Branch:  cortlandstarrett/mc 8514_relate
 
+ arc/c/q.component.arc                                                              |   39 +-
+ arc/c/sys.arc                                                                      |    9 +-
+ arc/m.component.arc                                                                |   80 +--
+ arc/m.domain.arc                                                                   |   14 +-
+ arc/q.class.arc                                                                    |   19 +-
+ arc/q.class.factory.arc                                                            |   18 +-
+ arc/q.class.link.arc                                                               |    4 +-
+ arc/q.class.where.arc                                                              |    9 +-
+ arc/q.domain.classes.arc                                                           |    9 +-
+ arc/q.domain.datatype.arc                                                          |    2 +-
+ arc/q.oal.utils.arc                                                                |   16 +-
+ arc/q.parm.sort.arc                                                                |  110 ++--
+ arc/q.rel.pseudoformalize.arc                                                      |   40 +-
+ arc/q.smt.generate.arc                                                             |   26 +-
+ arc/q.sys.populate.arc                                                             |  657 +++++--------------
+ arc/q.val.translate.arc                                                            |   78 +--
+ arc/sysc/q.component.arc                                                           |    9 +-
+ bin/mcmc                                                                           |  Bin 1884688 -> 1884688 bytes
+ bin/mcmc.exe                                                                       |  Bin 1188795 -> 1189307 bytes
+ bin/mcmc64                                                                         |  Bin 2220232 -> 2220232 bytes
+ doc/notes/8415_relate_int.md                                                       |  110 ++++
+ mcmc/arlan/o.oal                                                                   |  102 ++-
+ mcmc/arlan/o2.oal                                                                  |   39 +-
+ mcmc/arlan/o3.oal                                                                  |    0
+ mcmc/arlan/o4.oal                                                                  |   16 +-
+ mcmc/arlan/rsl2oal.l                                                               |    8 +-
+ mcmc/arlan/rsl2oal.y                                                               |    8 +-
+ mcmc/arlan/swapreflex.sh                                                           |    1 +
+ model/escher/gen/ooaofooa.c                                                        |  199 +++---
+ model/escher/models/escher/mcmc/afun/afun.xtuml                                    | 1042 +++++++++++++++---------------
+ model/escher/models/escher/mcmc/afunmark/afunmark.xtuml                            | 1325 +++++++++++++++++++-------------------
+ model/escher/models/escher/mcmc/afunval/afunval.xtuml                              |  306 +++++----
+ .../models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml    |    4 +-
+ model/mcooa/models/mcooa/extensions/Translation OAL/Translation OAL.xtuml          |    4 +-
+ schema/sql/xtumlmc_schema.sql                                                      |    8 +-
+ 35 files changed, 2047 insertions(+), 2264 deletions(-)
 
 </pre>
 
