@@ -7504,8 +7504,6 @@ ooaofooa_TE_PARM_duplicate( ooaofooa_TE_PARM * p_te_parm )
     /* RELATE duplicate_te_parm TO te_dim ACROSS R2056 */
     ooaofooa_TE_PARM_R2056_Link_diments( te_dim, duplicate_te_parm );
   }
-  else {
-  }
   /* ASSIGN duplicate_te_parm.array_spec = te_parm.array_spec */
   duplicate_te_parm->array_spec = Escher_strcpy( duplicate_te_parm->array_spec, te_parm->array_spec );
   /* RETURN duplicate_te_parm */
@@ -23234,6 +23232,8 @@ ooaofooa_val_attribute_value( ooaofooa_V_AVL * p_v_avl )
       te_c = ( 0 != te_class ) ? te_class->TE_C_R2064 : 0;
       /* IF ( te_c.DetectEmpty ) */
       if ( te_c->DetectEmpty ) {
+        /* ASSIGN root = ((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, \\"\\"${te_class.Key_Lett}\\"\\", \\"\\"${te_val.OAL}\\"\\" )) */
+        root = Escher_strcpy( root, ({c_t*s=Escher_strget();T_T("((");T_T(te_class->GeneratedName);T_T(" *)xtUML_detect_empty_handle( ");T_T(root);T_T(", \"");T_T(te_class->Key_Lett);T_T("\", \"");T_T(te_val->OAL);T_T("\" ))");}) );
       }
       /* ASSIGN te_val.buffer = ( ( root + -> ) + te_attr.GeneratedName ) */
       te_val->buffer = Escher_strcpy( te_val->buffer, Escher_stradd( Escher_stradd( root, "->" ), te_attr->GeneratedName ) );

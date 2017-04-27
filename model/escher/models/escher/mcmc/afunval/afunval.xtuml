@@ -453,7 +453,7 @@ if ( "" == te_val.buffer )
     select one te_class related by te_attr->TE_CLASS[R2061];
     select one te_c related by te_class->TE_C[R2064];
     if ( te_c.DetectEmpty )
-      //root = "((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, ""${te_class.Key_Lett}"", ""${te_val.OAL}"" ))";
+      root = "((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, &quot;${te_class.Key_Lett}&quot;, &quot;${te_val.OAL}&quot; ))";
     end if;
     te_val.buffer = ( root + "->" ) + te_attr.GeneratedName;
     te_val.dimensions = te_attr.dimensions;
