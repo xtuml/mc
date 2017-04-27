@@ -309,7 +309,7 @@
     .invoke blk_declaration_append( te_blk, d )
     .include "${te_file.arc_path}/t.smt.create_instance.c"
     .assign te_smt.OAL = "CREATE OBJECT INSTANCE OF ${te_class.Key_Lett}"
-    .// delete object instance te_var;
+    .delete object instance te_var
   .end if
 .end function
 .//
@@ -1600,9 +1600,7 @@
   .assign te_select_related.by_where = by_where
   .assign te_select_related.is_implicit = act_sel.is_implicit
   .assign te_select_related.multiplicity = act_sel.cardinality
-  .// relate te_select_related to start_te_class across R2077;
-  .assign te_select_related.te_classGeneratedName = start_te_class.GeneratedName
-  .// end relate
+  .relate te_select_related to start_te_class across R2077
   .select one start_te_var related by start_v_var->TE_VAR[R2039]
   .assign te_select_related.start_var = start_te_val.buffer
   .assign te_select_related.start_var_OAL = start_te_val.OAL
@@ -1637,24 +1635,14 @@
   .end if
   .if ( te_select_related.by_where )
     .select one where_te_val related by act_sel->ACT_SRW[R664]->V_VAL[R611]->TE_VAL[R2040]
-    .// relate where_te_val to te_select_related across R2074;
-    .assign te_select_related.where_clause_Value_ID = where_te_val.Value_ID
-    .// end relate
+    .relate where_te_val to te_select_related across R2074
     .assign te_select_related.where_clause = where_te_val.buffer
     .assign te_select_related.where_clause_OAL = where_te_val.OAL
   .end if
-  .// relate te_select_related to te_smt across R2069;
-  .assign te_select_related.Statement_ID = te_smt.Statement_ID
-  .// end relate
-  .// relate te_select_related to start_te_val across R2070;
-  .assign te_select_related.starting_Value_ID = start_te_val.Value_ID
-  .// end relate
-  .// relate te_select_related to start_te_var across R2094;
-  .assign te_select_related.starting_Var_ID = start_te_var.Var_ID
-  .// end relate
-  .// relate te_select_related to te_lnk across R2073;
-  .assign te_select_related.link_ID = te_lnk.ID
-  .// end relate
+  .relate te_select_related to te_smt across R2069
+  .relate te_select_related to start_te_val across R2070
+  .relate te_select_related to start_te_var across R2094
+  .relate te_select_related to te_lnk across R2073
   .//
   .// RENDER
   .// Truth Table

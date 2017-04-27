@@ -774,7 +774,7 @@ else
         tm_tpv.value = value;
         relate tm_tpv to tm_tp across R2808;
         relate tm_tpv to te_ci across R2805;
-              else
+      else
         T::print(s:"ERROR:  SetTemplateParameter - no component instance for ${package_name}::${instance} with name ${variable_name}.");
       end if;
     elif ( not_empty tm_if )
@@ -785,7 +785,7 @@ else
         tm_tpv.value = value;
         relate tm_tpv to tm_tp across R2808;
         relate tm_tpv to te_iir across R2806;
-              end for;
+      end for;
       select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->CL_POR[R4707]->CL_IIR[R4708]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
       for each te_iir in te_iirs
         create object instance tm_tpv of TM_TPV;
@@ -793,7 +793,7 @@ else
         tm_tpv.value = value;
         relate tm_tpv to tm_tp across R2808;
         relate tm_tpv to te_iir across R2806;
-              end for;
+      end for;
       select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->C_PO[R4010]->C_IR[R4016]->TE_IIR[R2046] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
       for each te_iir in te_iirs
         create object instance tm_tpv of TM_TPV;
@@ -801,7 +801,7 @@ else
         tm_tpv.value = value;
         relate tm_tpv to tm_tp across R2808;
         relate tm_tpv to te_iir across R2806;
-              end for;
+      end for;
     else
       T::print(s:"ERROR:  SetTemplateParameter - Found a template parameter for a template that is orphaned.");
     end if;
@@ -865,7 +865,7 @@ else
         tm_tpv.value = value;
         relate tm_tpv to tm_tp across R2808;
         relate tm_tpv to te_ci across R2805;
-              else
+      else
         T::print(s:"WARNING:  SetTPV - Template parameter not found for ${package_name}::${parent_component}::${component}:${classifier_name}.");
       end if;
     end for;
@@ -923,7 +923,7 @@ if ( ( ( ( empty tm_tpv ) and ( not_empty tm_tp ) ) and ( not isChannel ) ) or (
   tm_tpv.value = value;
   relate tm_tpv to tm_tp across R2808;
   relate tm_tpv to te_iir across R2806;
-    //
+  //
   // Find a satisfaction or delegation.  Recursively apply the same template parameter value to the connections.
   select one satisfied_te_iir related by te_iir->TE_IIR[R2081.'requires or delegates'] where ( false );
   if ( ( 0 == flavor ) or ( 2 == flavor ) )
@@ -1609,7 +1609,7 @@ for each te_po in te_pos
         sibling_te_iir.port_name = port;
         sibling_te_iir.interface_name = te_po.InterfaceName;
         sibling_te_iir.polymorphic = false;
-                                relate sibling_te_iir to te_iir across R2081.'requires or delegates';
+        relate sibling_te_iir to te_iir across R2081.'requires or delegates';
       end if;
     else
       select one sibling_te_iir related by te_iir->TE_IIR[R2081.'requires or delegates'];
@@ -1619,7 +1619,7 @@ for each te_po in te_pos
         sibling_te_iir.port_name = port;
         sibling_te_iir.interface_name = te_po.InterfaceName;
         sibling_te_iir.polymorphic = false;
-                                relate sibling_te_iir to te_iir across R2081.'requires or delegates';
+        relate sibling_te_iir to te_iir across R2081.'requires or delegates';
       end if;
     end if;
   end for;

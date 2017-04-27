@@ -79,7 +79,7 @@ static int aparmindex, literaldetected, infunction, strcnt, svi;
 %token CLEARTOK        INVOKE          IN              UOP
 %token RELTRAV         ALXLATE         SPECIALWHERE    DELETEOBJ
 %token WHILE           ENDWHILE        BREAKWHILE
-%token RELATE ENDRELATE UNRELATE ENDUNRELATE TO FROM ACROSS
+%token RELATE          UNRELATE        TO FROM ACROSS
 %token WORD            LITERAL         REALconstant    INTconstant
 %token ARROW                    /*  ->                               */
 %token LE GE EQ NE              /*  <=       >=        ==        !=  */
@@ -149,9 +149,9 @@ statement:
         | ALXLATE activity_type inst_ref_var '\n' {$$=P4($1,$2,$3,";\n");}
         | SPECIALWHERE WORD WORD '\n' {$$=P4($1,$2,$3,$4);}
         | CREATEOBJ inst_ref_var OF obj_keyletters '\n' {$$=P8($1," ",$2," ",$3," ",$4,";\n");}
-        | DELETEOBJ inst_ref_var ';' '\n' {$$=P4("delete object instance ",$2,$3,$4);}
-        | RELATE inst_ref_var TO inst_ref_var ACROSS reltraversal ';' '\n' code ENDRELATE '\n' {$$=P12("relate ",$2," ",$3," ",$4," ",$5," ",$6,$7,$8);}
-        | UNRELATE inst_ref_var FROM inst_ref_var ACROSS reltraversal ';' '\n' code ENDUNRELATE '\n' {$$=P12("unrelate ",$2," ",$3," ",$4," ",$5," ",$6,$7,$8);}
+        | DELETEOBJ inst_ref_var '\n' {$$=P4($1," ",$2,";\n");}
+        | RELATE inst_ref_var TO inst_ref_var ACROSS reltraversal '\n' {$$=P12($1," ",$2," ",$3," ",$4," ",$5," ",$6,";\n");}
+        | UNRELATE inst_ref_var FROM inst_ref_var ACROSS reltraversal '\n' {$$=P12($1," ",$2," ",$3," ",$4," ",$5," ",$6,";\n");}
         ;
 
 selectstatement:
