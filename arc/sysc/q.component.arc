@@ -21,8 +21,15 @@
       .assign attr_include_files = attr_include_files + "#include ""${local_te_c.Name}.${te_file.hdr_file_ext}""\n"
     .end if
   .end for
+  .// Get the TE_EEs that are not connected to a component.
+  .select many global_te_ees from instances of TE_EE where ( selected.Included )
+  .for each te_ee in global_te_ees
+    .select one my_te_c related by te_ee->TE_C[R2085]
+    .if ( not_empty my_te_c )
+      .assign global_te_ees = global_te_ees - te_ee
+    .end if
+  .end for
   .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )
-  .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 00 ) and ( selected.Included ) )
   .assign te_ees = te_ees | global_te_ees
   .for each te_ee in te_ees
     .assign attr_include_files = attr_include_files + "#include ""${te_ee.Include_File}""\n"

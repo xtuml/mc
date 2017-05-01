@@ -22,8 +22,15 @@
       .assign attr_include_files = attr_include_files + "#include ""${local_te_c.Name}.${te_file.hdr_file_ext}""\n"
     .end if
   .end for
+  .// Get the TE_EEs that are not connected to a component.
+  .select many global_te_ees from instances of TE_EE where ( selected.Included )
+  .for each te_ee in global_te_ees
+    .select one my_te_c related by te_ee->TE_C[R2085]
+    .if ( not_empty my_te_c )
+      .assign global_te_ees = global_te_ees - te_ee
+    .end if
+  .end for
   .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )
-  .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 00 ) and ( selected.Included ) )
   .assign te_ees = te_ees | global_te_ees
   .for each te_ee in te_ees
     .assign attr_include_files = attr_include_files + "#include ""${te_ee.Include_File}""\n"
@@ -311,10 +318,10 @@
           .select one s_sdt related by te_dt->S_DT[R2021]->S_SDT[R17]
           .select one te_dim related by te_parm->TE_DIM[R2056]
           .if(not_empty s_sdt)
-            .assign memory_size = 0;
+            .assign memory_size = 0
             .select many s_mbrs related by s_sdt->S_MBR[R44]
             .for each s_mbr in s_mbrs
-              .assign memory_size = memory_size + 4;
+              .assign memory_size = memory_size + 4
             .end for
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_${te_parm.Name}_MEM_OFFSET"
@@ -330,7 +337,7 @@
             .assign attr_register_declaration = attr_register_declaration + "  declare_memory ${memory_name} ${te_po.name}_i ${memory_offset_name} ${memory_size}\n"
           .elif ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
             .select any te_sys from instances of TE_SYS
-            .assign memory_size = te_sys.MaxStringLen;
+            .assign memory_size = te_sys.MaxStringLen
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_${te_parm.Name}_MEM_OFFSET"
             .assign memory_description = "${memory_name} description ${te_mact.Descrip} - ${te_parm.Descrip} field"
@@ -348,10 +355,10 @@
           .select any te_dt_return from instances of TE_DT where ( selected.ExtName == "${te_aba.ReturnDataType}" )
           .select one s_sdt_return related by te_dt_return->S_DT[R2021]->S_SDT[R17]
           .if (not_empty s_sdt_return )
-            .assign memory_size = 0;
+            .assign memory_size = 0
             .select many s_mbrs related by s_sdt_return->S_MBR[R44]
             .for each s_mbr in s_mbrs
-              .assign memory_size = memory_size + 4;
+              .assign memory_size = memory_size + 4
             .end for
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_return"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_return_MEM_OFFSET"
@@ -361,7 +368,7 @@
             .// returning array here not supported
           .elif ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
             .select any te_sys from instances of TE_SYS
-            .assign memory_size = te_sys.MaxStringLen;
+            .assign memory_size = te_sys.MaxStringLen
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_return"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_return_MEM_OFFSET"
             .assign memory_description = "${memory_name} description field"
@@ -376,7 +383,7 @@
         .end if
       .else
         .//.for each te_parm in te_parms
-        .//  .assign register_address = register_address + 4;
+        .//  .assign register_address = register_address + 4
         .//.end for
       .end if
       .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
@@ -547,7 +554,7 @@
       .if ( ( te_mact.subtypeKL == "SPR_RO" ) or ( te_mact.subtypeKL == "SPR_PO" ) )
         .select one te_aba related by te_mact->TE_ABA[R2010]
         .select any operation from instances of C_IO where ( selected.Name == "${te_mact.MessageName}")
-        .select any te_parm related by operation->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048];
+        .select any te_parm related by operation->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
         .if ( te_mact.subtypeKL == "SPR_RO" )
           .select one spr_ro related by te_mact->SPR_RO[R2052]
           .select many spr_pos related by spr_ro->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PO[R4503] where ( selected.Name == spr_ro.Name )
@@ -559,7 +566,7 @@
         .end if
         .for each foreign_te_mact in foreign_te_macts
         .if (  not_empty te_parm  )
-          .select one dt related by te_parm->TE_DT[R2049];
+          .select one dt related by te_parm->TE_DT[R2049]
           .if ( 0 == te_parm.By_Ref )
             .assign parameters_with_dt = " ${dt.ExtName} ${te_parm.GeneratedName}"
           .else
@@ -595,14 +602,14 @@
           .select many foreign_te_macts related by spr_pss->TE_MACT[R2051]
         .end if
         .select any signal from instances of C_AS where ( selected.Name == "${te_mact.MessageName}")
-        .select any te_parm related by signal->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048];
+        .select any te_parm related by signal->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
         .select one te_aba related by te_mact->TE_ABA[R2010]
         .if ( empty te_parm ) 
           .assign parameters_with_dt = "${parameterdt} ${parameteri}"
           .assign parameters_with_dt_ref = "${parameterdt} * ${parameteri}"
           .assign parameters = "${parameteri}" 
         .else
-          .select one dt related by te_parm->TE_DT[R2049];
+          .select one dt related by te_parm->TE_DT[R2049]
           .if ( 0 == te_parm.By_Ref )
             .assign parameters_with_dt = " ${dt.ExtName} ${te_parm.GeneratedName}"
           .else
@@ -659,7 +666,7 @@
       .if ( ( te_mact.subtypeKL == "SPR_RO" ) or ( te_mact.subtypeKL == "SPR_PO" ) )
         .select one te_aba related by te_mact->TE_ABA[R2010]
         .select any operation from instances of C_IO where ( selected.Name == te_mact.MessageName )
-        .select any te_parm related by operation->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048];
+        .select any te_parm related by operation->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
         .if ( te_mact.subtypeKL == "SPR_RO" )
           .select one spr_ro related by te_mact->SPR_RO[R2052]
           .select one spr_po related by spr_ro->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PO[R4503] where ( selected.Name == spr_ro.Name )
@@ -672,7 +679,7 @@
           .assign foreign_te_mact = temp_foreign_te_mact
         .end if
         .if ( not_empty te_parm )
-          .select one dt related by te_parm->TE_DT[R2049];
+          .select one dt related by te_parm->TE_DT[R2049]
           .if ( 0 == te_parm.By_Ref )
             .assign parameters_with_dt = " ${dt.ExtName} ${te_parm.GeneratedName}"
           .else
@@ -713,14 +720,14 @@
           .assign foreign_te_mact = temp_foreign_te_mact
         .end if
         .select any signal from instances of C_AS where ( selected.Name == "${te_mact.MessageName}")
-        .select any te_parm related by signal->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048];
+        .select any te_parm related by signal->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
         .select one te_aba related by te_mact->TE_ABA[R2010]
         .if ( empty te_parm )
           .assign parameters_with_dt = "${parameterdt} ${parameteri}"
           .assign parameters_with_dt_ref = "${parameterdt} * ${parameteri}"
           .assign parameters = "${parameteri}" 
         .else
-          .select one dt related by te_parm->TE_DT[R2049];
+          .select one dt related by te_parm->TE_DT[R2049]
           .if ( 0 == te_parm.By_Ref )
             .assign parameters_with_dt = " ${dt.ExtName} ${te_parm.GeneratedName}"
           .else

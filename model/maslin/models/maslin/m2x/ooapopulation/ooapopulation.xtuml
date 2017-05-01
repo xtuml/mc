@@ -8991,12 +8991,10 @@ INSERT INTO O_TFR
 	'lib_pkg = self.lib_pkg;
 
 if ( self.processingProject )
-  // Create provided interface off of the system wiring (project) component for this terminator, unless the name matches the "imported" 
-  // domain we''re processing.  In that case we have already created a required interface when we saw the domain itself
+  // Create provided interface off of the system wiring (project) component for this terminator.
   current_imported = self.current_imported_component;
   if ( not_empty current_imported )
     clic_name = current_imported.Name;
-    if ( clic_name != param.name )
       comp_if_name = clic_name + param.name;
 
 	  select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
@@ -9005,12 +9003,11 @@ if ( self.processingProject )
 	  if ( empty comp_if )
 		// create the interface
 		comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
+	  end if;
 		new_ir = self.Component_initializeProvision(c_c:self.current_component, port_name:clic_name + "__" + param.name, if_name:comp_if_name);
 		relate comp_if to new_ir across R4012;    // formalize at end tag. for now, just relate it to the C_P
-	  end if;
 
 	  self.current_interface = comp_if;
-	end if;
   end if;
 else
   comp_if_name = self.current_component.Name + param.name;
@@ -9056,6 +9053,9 @@ if ( empty c_i )
   select any c_c from instances of C_C where ( selected.Name == param.domain );
   select any c_po related by c_c->C_PO[R4010] where ( selected.Name == param.terminator );
   select any c_i related by c_po->C_IR[R4016]->C_I[R4012];
+end if;
+if ( empty c_i )
+  TRACE::log( flavor:"warning", id:259, message:"empty interface:  " + param.domain + " " + param.terminator );
 end if;
 
 c_ep = self.Interface_newExecutableProperty(c_i:c_i, ep_name:param.name, asynchronous:false);

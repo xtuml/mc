@@ -65,7 +65,15 @@ ${te_target.c2cplusplus_linkage_end}
 .function CreateObjectAttrDataDeclaration
   .param inst_ref te_class
   .select any te_string from instances of TE_STRING
-  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 00 )
+  .// get first attribute
+  .select any te_attr related by te_class->TE_ATTR[R2061]
+  .while ( not_empty te_attr )
+    .select one prev_te_attr related by te_attr->TE_ATTR[R2087.'precedes']
+    .if ( empty prev_te_attr )
+      .break while
+    .end if
+    .assign te_attr = prev_te_attr
+  .end while
   .while ( not_empty te_attr )
     .select one o_attr related by te_attr->O_ATTR[R2033]
     .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
@@ -246,7 +254,14 @@ class ${te_c.Name}; // forward reference
     .if ( ( "C" != te_target.language ) and ( not_empty te_c ) )
 #include "${te_c.Name}.${te_file.hdr_file_ext}"
     .end if
-    .select many te_ees from instances of TE_EE where ( ( selected.te_cID == 00 ) and ( selected.Included ) )
+    .// Get the TE_EEs that are not connected to any component.
+    .select many te_ees from instances of TE_EE where ( selected.Included )
+    .for each te_ee in te_ees
+      .select one my_te_c related by te_ee->TE_C[R2085]
+      .if ( not_empty my_te_c )
+        .assign te_ees = te_ees - te_ee
+      .end if
+    .end for
     .invoke r = ee_sort( te_ees )
     .assign te_ee = r.result
     .while ( not_empty te_ee )
