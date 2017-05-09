@@ -832,6 +832,13 @@ ${aoth_fundamentals.body}\
     .select one ref_te_attr related by ref_o_attr->TE_ATTR[R2033]
     .if ( ref_te_attr.translate )
       .select one ident_te_attr related by o_attr->TE_ATTR[R2033]
+      .assign ident_accessor = ( ${part_ptr} + "->" ) + ${ident_te_attr.GeneratedName}
+      .select one o_dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107]
+      .if ( not_empty o_dbattr )
+        .// derived attributes should be accessed via the accessor function
+        .select one te_dbattr related by o_dbattr->TE_DBATTR[R2026]
+        .assign ident_accessor = ( ${te_dbattr.GeneratedName} + "( " ) + ( ${part_ptr} + " )" )
+      .end if
       .invoke r = GetAttributeCodeGenType( ref_o_attr )
       .assign te_dt = r.result
       .include "${te_file.arc_path}/t.class.set_refs.c"
