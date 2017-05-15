@@ -1153,8 +1153,7 @@
     .select one te_mact related by act_sgn->SPR_RS[R660]->TE_MACT[R2053]
   .end if
   .select many v_pars related by act_sgn->V_PAR[R662]
-  .invoke is_struct = q_struct_sgn( act_sgn )
-  .invoke r = q_render_msg( te_mact, v_pars, te_blk, "", true, is_struct.result )
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk, "", true )
   .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
@@ -1178,8 +1177,7 @@
     .select one te_mact related by act_iop->SPR_PO[R680]->TE_MACT[R2050]
   .end if
   .select many v_pars related by act_iop->V_PAR[R679]
-  .invoke is_struct = q_struct_iop( act_iop )
-  .invoke r = q_render_msg( te_mact, v_pars, te_blk, "", true, is_struct.result )
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk, "", true )
   .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
@@ -1193,7 +1191,6 @@
   .param inst_ref te_blk
   .param string sretvar
   .param boolean is_statement
-  .param boolean is_struct
   .select any te_file from instances of TE_FILE
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
@@ -1250,36 +1247,7 @@
       .end if
     .end if
   .end if
-  .if ( is_struct )
-    .assign name = "struct_" + name
-  .end if
   .include "${te_file.arc_path}/t.smt.iop.c"
-.end function
-.//
-.// --------------------------------------------------------
-.// check if a signal uses a channel implementation
-.// --------------------------------------------------------
-.function q_struct_sgn
-  .param inst_ref act_sgn
-  .select one c_sf related by act_sgn->SPR_PS[R663]->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]
-  .if ( empty c_sf )
-    .select one c_sf related by act_sgn->SPR_RS[R660]->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]
-  .end if
-  .select any tm_sf from instances of tm_sf where ( selected.satisfaction_label == c_sf.Label )
-  .assign attr_result = ( not_empty tm_sf )
-.end function
-.//
-.// --------------------------------------------------------
-.// check if an interface op uses a channel implementation
-.// --------------------------------------------------------
-.function q_struct_iop
-  .param inst_ref act_iop
-  .select one c_sf related by act_iop->SPR_PO[R680]->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]
-  .if ( empty c_sf )
-    .select one c_sf related by act_iop->SPR_RO[R657]->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]
-  .end if
-  .select any tm_sf from instances of tm_sf where ( selected.satisfaction_label == c_sf.Label )
-  .assign attr_result = ( not_empty tm_sf )
 .end function
 .//
 .// --------------------------------------------------------
