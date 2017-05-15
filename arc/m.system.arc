@@ -253,9 +253,8 @@
   .if ( "*" == satisfaction_label )
     .select many c_sfs from instances of c_sf
     .for each c_sf in c_sfs
-      .select any tm_sf from instances of TM_SF where ( selected.component_name == component_name and
-                                                        selected.satisfaction_label == c_sf.Label )
-      .if ( empty tm_sf
+      .select any tm_sf from instances of TM_SF where ( selected.component_name == component_name and selected.satisfaction_label == c_sf.Label )
+      .if ( empty tm_sf )
         .create object instance tm_sf of TM_SF
       .end if
       .assign tm_sf.component_name = component_name
@@ -263,9 +262,8 @@
     .end for
     .print "All channels set to be implemented by ${component_name}."
   .else
-    .select any tm_sf from instances of TM_SF where ( selected.component_name == component_name and
-                                                      selected.satisfaction_label == satisfaction_label )
-    .if ( empty tm_sf
+    .select any tm_sf from instances of TM_SF where ( selected.component_name == component_name and selected.satisfaction_label == satisfaction_label )
+    .if ( empty tm_sf )
       .create object instance tm_sf of TM_SF
     .end if
     .assign tm_sf.component_name = component_name

@@ -337,6 +337,9 @@
     .invoke TE_C_mark_nested_system( te_cs )
     .select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
     .invoke TE_C_mark_nested_system( te_cs )
+    .select many tm_sfs from instances of TM_SF
+    .select many c_sfs related by ep_pkgs->PE_PE[R8000]->C_SF[R8001]
+    .invoke C_SF_mark_channel_components( c_sfs, tm_sfs )
     .// Uncomment the line below to use package name instead of project for the top-level files.
     .//.assign te_sys.Name = "$r{package_to_build}"
   .else
@@ -2329,6 +2332,26 @@
     .invoke TE_C_mark_nested_system( nested_te_cs )
     .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
     .invoke TE_C_mark_nested_system( nested_te_cs )
+  .end for
+.end function
+.//
+.// Recursive call to drill down and get all of the components marked for satisfactions
+.// in the system package
+.function C_SF_mark_channel_components
+  .param inst_ref_set c_sfs
+  .param inst_ref_set tm_sfs
+  .for each tm_sf in tm_sfs
+    .for each c_sf in c_sfs
+      .if ( c_sf.Label == tm_sf.satisfaction_label )
+        .select any c_c from instances of C_C where ( selected.Name == tm_sf.component_name )
+        .select one te_c related by c_c->TE_C[R2054]
+        .assign te_c.included_in_build = true
+        .select many nested_c_sfs related by c_sf->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_SF[R8001]
+        .invoke C_SF_mark_channel_components( nested_c_sfs, tm_sfs )
+        .select many nested_c_sfs related by c_sf->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->C_SF[R8001]
+        .invoke C_SF_mark_channel_components( nested_c_sfs, tm_sfs )
+      .end if
+    .end for
   .end for
 .end function
 .//
