@@ -245,6 +245,28 @@
 .end function
 .//
 .//============================================================================
+.// Mark Channel Implementation
+.//============================================================================
+.function MarkChannelImplementation
+  .param string component_name
+  .param string satisfaction_label
+  .if ( "*" == satisfaction_label )
+    .select many c_sfs from instances of c_sf
+    .for each c_sf in c_sfs
+      .create object instance tm_sf of TM_SF
+      .assign tm_sf.component_name = component_name
+      .assign tm_sf.satisfaction_label = c_sf.Label
+    .end for
+    .print "All channels set to be implemented by ${component_name}."
+  .else
+    .create object instance tm_sf of TM_SF
+    .assign tm_sf.component_name = component_name
+    .assign tm_sf.satisfaction_label = satisfaction_label
+    .print "Channel ${satisfaction_label} set to be implemented by ${component_name}."
+  end if
+.end function
+.//
+.//============================================================================
 .// Force all ports to be polymorphic (where a component implements the same 
 .// interface going in the same direction more than once). 
 .//============================================================================
