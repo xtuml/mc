@@ -2602,6 +2602,10 @@ CREATE TABLE TM_BUILD (
     package_obj_name STRING,
     package_inst_name STRING
 );
+CREATE TABLE TM_SF (
+    component_name STRING,
+    satisfaction_label STRING
+);
 CREATE TABLE TM_C (
     Package STRING,
     Name STRING,
