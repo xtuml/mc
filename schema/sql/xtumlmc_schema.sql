@@ -2086,7 +2086,8 @@ CREATE TABLE TE_MACT (
     te_cID UNIQUE_ID,
     te_poID UNIQUE_ID,
     te_evtID UNIQUE_ID,
-    nextID UNIQUE_ID
+    nextID UNIQUE_ID,
+    satisfaction_Id UNIQUE_ID
 );
 CREATE TABLE TE_MBR (
     ID UNIQUE_ID,
@@ -2351,6 +2352,10 @@ CREATE TABLE TE_SET (
     element_type STRING,
     scope STRING,
     module STRING
+);
+CREATE TABLE TE_SF (
+    Label STRING,
+    satisfaction_Id UNIQUE_ID
 );
 CREATE TABLE TE_SGN (
     sm_evt UNIQUE_ID,
