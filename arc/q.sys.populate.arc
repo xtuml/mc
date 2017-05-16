@@ -1919,6 +1919,20 @@
   .assign te_aba = r.result
   .relate te_mact to te_aba across R2010
   .assign attr_result = te_mact
+  .// relate to TE_SF
+  .select one te_sf related by te_mact->SPR_PS[R2051]->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->TE_SF[R2201]
+  .if ( empty te_sf )
+    .select one te_sf related by te_mact->SPR_RS[R2053]->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->TE_SF[R2201]
+    .if ( empty te_sf )
+      .select one te_sf related by te_mact->SPR_PO[R2050]->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->TE_SF[R2201]
+      .if ( empty te_sf )
+        .select one te_sf related by te_mact->SPR_RO[R2052]->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->TE_SF[R2201]
+      .end if
+    .end if
+  .end if
+  .if ( not_empty te_sf )
+    .relate te_mact to te_sf across R2200
+  .end if
 .end function
 .//
 .//============================================================================
@@ -2340,18 +2354,23 @@
 .function C_SF_mark_channel_components
   .param inst_ref_set c_sfs
   .param inst_ref_set tm_sfs
-  .for each tm_sf in tm_sfs
-    .for each c_sf in c_sfs
+  .for each c_sf in c_sfs
+    .for each tm_sf in tm_sfs
       .if ( c_sf.Label == tm_sf.satisfaction_label )
         .select any c_c from instances of C_C where ( selected.Name == tm_sf.component_name )
         .select one te_c related by c_c->TE_C[R2054]
-        .assign te_c.included_in_build = true
+        .if ( not_empty te_c )
+          .assign te_c.included_in_build = true
+        .end if
         .select many nested_c_sfs related by c_sf->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_SF[R8001]
         .invoke C_SF_mark_channel_components( nested_c_sfs, tm_sfs )
         .select many nested_c_sfs related by c_sf->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->C_SF[R8001]
         .invoke C_SF_mark_channel_components( nested_c_sfs, tm_sfs )
       .end if
     .end for
+    .create object instance te_sf of TE_SF
+    .assign te_sf.Label = c_sf.Label
+    .relate te_sf to c_sf across R2201
   .end for
 .end function
 .//
