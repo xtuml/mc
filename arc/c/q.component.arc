@@ -98,6 +98,8 @@
     .assign sm_evt = empty_sm_evt
     .assign foreign_te_macts = empty_te_macts
     .select one te_aba related by te_mact->TE_ABA[R2010]
+    .select one implementation_te_c related by te_mact->TE_SF[R2200]->TE_C[R2202]
+    .select one implementation_c_c related by implementation_te_c->C_C[R2054]
     .if ( te_mact.subtypeKL == "SPR_PO" )
     .elif ( te_mact.subtypeKL == "SPR_RO" )
     .elif ( te_mact.subtypeKL == "SPR_PS" )
@@ -122,19 +124,18 @@
       .if ( empty foreign_te_macts )
         .select many foreign_te_macts related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080]->TE_MACT[R2006] where ( selected.MessageName == te_mact.MessageName )
       .end if
-      .select one te_sf related by te_mact->TE_SF[R2200]
-      .if ( not_empty te_sf )
+      .if ( not_empty implementation_te_c )
         .if ( te_mact.subtypeKL == "SPR_RS" )
-          .select any foreign_te_po related by te_sf->TE_C[R2202]->TE_PO[R2005] where ( selected.Name == "INTERFACE_REQUIRER" )
+          .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == "INTERFACE_REQUIRER" )
           .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == "send_sgn" )
         .elif ( te_mact.subtypeKL == "SPR_RO" )
-          .select any foreign_te_po related by te_sf->TE_C[R2202]->TE_PO[R2005] where ( selected.Name == "INTERFACE_REQUIRER" )
+          .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == "INTERFACE_REQUIRER" )
           .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == "send_op" )
         .elif ( te_mact.subtypeKL == "SPR_PS" )
-          .select any foreign_te_po related by te_sf->TE_C[R2202]->TE_PO[R2005] where ( selected.Name == "INTERFACE_PROVIDER" )
+          .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == "INTERFACE_PROVIDER" )
           .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == "send_sgn" )
         .elif ( te_mact.subtypeKL == "SPR_PO" )
-          .select any foreign_te_po related by te_sf->TE_C[R2202]->TE_PO[R2005] where ( selected.Name == "INTERFACE_PROVIDER" )
+          .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == "INTERFACE_PROVIDER" )
           .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == "send_op" )
         .end if
       .end if

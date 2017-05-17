@@ -13,6 +13,9 @@ Port:  ${te_mact.PortName}
  * From Provider \
 .end if
 Message:  ${te_mact.MessageName}
+.if ( not_empty implementation_c_c )
+ * Implemented by component:  ${implementation_c_c.Name}
+.end if
  */
 ${te_aba.ReturnDataType}
 ${te_aba.scope}${te_aba.GeneratedName}(${te_aba.ParameterDefinition})
