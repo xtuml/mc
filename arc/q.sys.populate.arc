@@ -1019,6 +1019,10 @@
     .assign te_mact.Descrip = c_io.Descrip
     .assign te_mact.Direction = c_io.Direction
     .relate te_mact to spr_ro across R2052
+    .select one te_sf related by te_mact->SPR_RO[R2052]->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->TE_SF[R2201]
+    .if ( not_empty te_sf )
+      .relate te_mact to te_sf across R2200
+    .end if
   .end for
   .select many spr_rss from instances of SPR_RS
   .for each spr_rs in spr_rss
@@ -1032,6 +1036,10 @@
     .assign te_mact.Descrip = c_as.Descrip
     .assign te_mact.Direction = c_as.Direction
     .relate te_mact to spr_rs across R2053
+    .select one te_sf related by te_mact->SPR_RS[R2053]->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->TE_SF[R2201]
+    .if ( not_empty te_sf )
+      .relate te_mact to te_sf across R2200
+    .end if
   .end for
   .select many spr_pos from instances of SPR_PO
   .for each spr_po in spr_pos
@@ -1052,6 +1060,10 @@
     .assign te_mact.Descrip = c_io.Descrip
     .assign te_mact.Direction = c_io.Direction
     .relate te_mact to spr_po across R2050
+    .select one te_sf related by te_mact->SPR_PO[R2050]->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->TE_SF[R2201]
+    .if ( not_empty te_sf )
+      .relate te_mact to te_sf across R2200
+    .end if
   .end for
   .select many spr_pss from instances of SPR_PS
   .for each spr_ps in spr_pss
@@ -1065,6 +1077,10 @@
     .assign te_mact.Descrip = c_as.Descrip
     .assign te_mact.Direction = c_as.Direction
     .relate te_mact to spr_ps across R2051
+    .select one te_sf related by te_mact->SPR_PS[R2051]->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->TE_SF[R2201]
+    .if ( not_empty te_sf )
+      .relate te_mact to te_sf across R2200
+    .end if
   .end for
   .// All the te_pos and te_macts are created now.  Order the te_macts alphabetically inside the ports.
   .select many te_pos from instances of TE_PO
@@ -1919,20 +1935,6 @@
   .assign te_aba = r.result
   .relate te_mact to te_aba across R2010
   .assign attr_result = te_mact
-  .// relate to TE_SF
-  .select one te_sf related by te_mact->SPR_PS[R2051]->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->TE_SF[R2201]
-  .if ( empty te_sf )
-    .select one te_sf related by te_mact->SPR_RS[R2053]->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->TE_SF[R2201]
-    .if ( empty te_sf )
-      .select one te_sf related by te_mact->SPR_PO[R2050]->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->TE_SF[R2201]
-      .if ( empty te_sf )
-        .select one te_sf related by te_mact->SPR_RO[R2052]->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->TE_SF[R2201]
-      .end if
-    .end if
-  .end if
-  .if ( not_empty te_sf )
-    .relate te_mact to te_sf across R2200
-  .end if
 .end function
 .//
 .//============================================================================
