@@ -2355,12 +2355,16 @@
   .param inst_ref_set c_sfs
   .param inst_ref_set tm_sfs
   .for each c_sf in c_sfs
+    .create object instance te_sf of TE_SF
+    .assign te_sf.Label = c_sf.Label
+    .relate te_sf to c_sf across R2201
     .for each tm_sf in tm_sfs
       .if ( c_sf.Label == tm_sf.satisfaction_label )
         .select any c_c from instances of C_C where ( selected.Name == tm_sf.component_name )
         .select one te_c related by c_c->TE_C[R2054]
         .if ( not_empty te_c )
           .assign te_c.included_in_build = true
+          .relate te_c to te_sf across R2202
         .end if
         .select many nested_c_sfs related by c_sf->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_SF[R8001]
         .invoke C_SF_mark_channel_components( nested_c_sfs, tm_sfs )
@@ -2368,9 +2372,6 @@
         .invoke C_SF_mark_channel_components( nested_c_sfs, tm_sfs )
       .end if
     .end for
-    .create object instance te_sf of TE_SF
-    .assign te_sf.Label = c_sf.Label
-    .relate te_sf to c_sf across R2201
   .end for
 .end function
 .//

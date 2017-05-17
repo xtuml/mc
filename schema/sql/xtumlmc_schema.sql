@@ -2354,8 +2354,9 @@ CREATE TABLE TE_SET (
     module STRING
 );
 CREATE TABLE TE_SF (
+    satisfaction_Id UNIQUE_ID,
     Label STRING,
-    satisfaction_Id UNIQUE_ID
+    implementation_component_ID UNIQUE_ID
 );
 CREATE TABLE TE_SGN (
     sm_evt UNIQUE_ID,
@@ -3608,3 +3609,4 @@ CREATE ROP REF_ID R955 FROM MC SQ_COP (Component_Id) TO 1C C_C (Id);
 CREATE ROP REF_ID R956 FROM MC SQ_PP (Package_ID) TO 1C EP_PKG (Package_ID);
 CREATE ROP REF_ID R2200 FROM MC TE_MACT (satisfaction_Id) TO 1C TE_SF (satisfaction_Id);
 CREATE ROP REF_ID R2201 FROM 1C TE_SF (satisfaction_Id) TO 1 C_SF (Id);
+CREATE ROP REF_ID R2202 FROM 1C TE_SF (implementation_component_ID) TO 1C TE_C (ID);
