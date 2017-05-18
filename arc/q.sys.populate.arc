@@ -2360,6 +2360,9 @@
     .create object instance te_sf of TE_SF
     .assign te_sf.Label = c_sf.Label
     .relate te_sf to c_sf across R2201
+    .select one prov_te_c related by c_sf->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->TE_C[R2054]
+    .select one req_te_c related by c_sf->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->TE_C[R2054]
+    .relate prov_te_c to req_te_c across R2203.'has provision connected to' using te_sf
     .for each tm_sf in tm_sfs
       .if ( c_sf.Label == tm_sf.satisfaction_label )
         .select any c_c from instances of C_C where ( selected.Name == tm_sf.component_name )

@@ -3612,5 +3612,5 @@ CREATE ROP REF_ID R956 FROM MC SQ_PP (Package_ID) TO 1C EP_PKG (Package_ID);
 CREATE ROP REF_ID R2200 FROM MC TE_MACT (satisfaction_Id) TO 1C TE_SF (satisfaction_Id);
 CREATE ROP REF_ID R2201 FROM 1C TE_SF (satisfaction_Id) TO 1 C_SF (Id);
 CREATE ROP REF_ID R2202 FROM 1C TE_SF (implementation_component_ID) TO 1C TE_C (ID);
-CREATE ROP REF_ID R2203 FROM MC TE_SF (provider_component_ID) TO 1 TE_C (ID);
-CREATE ROP REF_ID R2203 FROM MC TE_SF (requirer_component_ID) TO 1 TE_C (ID);
+CREATE ROP REF_ID R2203 FROM MC TE_SF (provider_component_ID) PHRASE 'has requirement connected to' TO 1 TE_C (ID) PHRASE 'has provision connected to';
+CREATE ROP REF_ID R2203 FROM MC TE_SF (requirer_component_ID) PHRASE 'has provision connected to' TO 1 TE_C (ID) PHRASE 'has requirement connected to';
