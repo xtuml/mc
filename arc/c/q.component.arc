@@ -48,6 +48,11 @@
   .select many prov_foreign_te_cs related by te_c->TE_SF[R2203.'has provision connected to']->TE_C[R2202]->TE_SF[R2202]->TE_C[R2203.'has provision connected to']
   .select many req_foreign_te_cs related by te_c->TE_SF[R2203.'has requirement connected to']->TE_C[R2202]->TE_SF[R2202]->TE_C[R2203.'has requirement connected to']
   .assign te_cs = ( te_cs | prov_imp_te_cs | req_imp_te_cs ) - prov_foreign_te_cs - req_foreign_te_cs
+  .// If the component itself is implementing a channel, get all 
+  .// the components that use it
+  .select many prov_foreign_te_cs related by te_c->TE_SF[R2202]->TE_C[R2203.'has requirement connected to']
+  .select many req_foreign_te_cs related by te_c->TE_SF[R2202]->TE_C[R2203.'has provision connected to']
+  .assign te_cs = ( te_cs | prov_foreign_te_cs | req_foreign_te_cs )
   .for each connected_te_c in te_cs
     .assign attr_include_files = attr_include_files + "#include ""${connected_te_c.module_file}.${te_file.hdr_file_ext}""\n"
   .end for
