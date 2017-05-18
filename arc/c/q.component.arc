@@ -41,6 +41,13 @@
   .select many required_te_cs related by local_te_iirs->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080]->TE_C[R2005] where ( selected.included_in_build )
   .select many provided_te_cs related by local_te_iirs->TE_IIR[R2081.'provides or is delegated']->TE_PO[R2080]->TE_C[R2005] where ( selected.included_in_build )
   .assign te_cs = required_te_cs | provided_te_cs
+  .// If the channel is implemented by another component,
+  .// include the implementing components
+  .select many prov_imp_te_cs related by te_c->TE_SF[R2203.'has provision connected to']->TE_C[R2202]
+  .select many req_imp_te_cs related by te_c->TE_SF[R2203.'has requirement connected to']->TE_C[R2202]
+  .select many prov_foreign_te_cs related by te_c->TE_SF[R2203.'has provision connected to']->TE_C[R2202]->TE_SF[R2202]->TE_C[R2203.'has provision connected to']
+  .select many req_foreign_te_cs related by te_c->TE_SF[R2203.'has requirement connected to']->TE_C[R2202]->TE_SF[R2202]->TE_C[R2203.'has requirement connected to']
+  .assign te_cs = ( te_cs | prov_imp_te_cs | req_imp_te_cs ) - prov_foreign_te_cs - req_foreign_te_cs
   .for each connected_te_c in te_cs
     .assign attr_include_files = attr_include_files + "#include ""${connected_te_c.module_file}.${te_file.hdr_file_ext}""\n"
   .end for
