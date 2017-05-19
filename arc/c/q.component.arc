@@ -167,6 +167,10 @@
           .select one foreign_te_c related by foreign_te_mact->TE_C[R2002]
           .if ( foreign_te_c.included_in_build )
             .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, te_aba.ParameterInvocation, "  ", true )
+            .if ( not_empty implementation_te_c )
+              .assign structured_parameters = """${te_mact.ComponentName}_${te_mact.PortName}"", ""${foreign_te_mact.GeneratedName}"", params_${te_aba.GeneratedName}, ""${foreign_te_mact.ComponentName}_${foreign_te_mact.PortName}"""
+              .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, structured_parameters, "  ", true )
+            .end if
             .if ( "void" != te_aba.ReturnDataType )
               .assign action_body = "return "
             .end if
