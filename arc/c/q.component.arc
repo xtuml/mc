@@ -185,6 +185,12 @@
               .assign structured_parameters = """${te_mact.ComponentName}_${te_mact.PortName}"", ""${foreign_te_mact.GeneratedName}"", params_${te_aba.GeneratedName}, ""${foreign_te_mact.ComponentName}_${foreign_te_mact.PortName}"""
               .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, structured_parameters, "  ", true )
             .end if
+            .if ( is_channel_component )
+              .select many te_parms related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]
+              .select any base_te_parm related by te_aba->TE_PARM[R2062] where ( selected.Name == "parameters" )
+              .invoke r = te_parm_UnpackStructuredParameterInvocation( base_te_parm, te_parms )
+              .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, r.body, "  ", true )
+            .end if
             .if ( "void" != te_aba.ReturnDataType )
               .assign action_body = "return "
             .end if

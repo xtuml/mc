@@ -112,7 +112,7 @@
   .end while
   // Create parameter structure
   ${raw_data_dt.ExtName} params_${te_aba.GeneratedName};
-  ${te_string.memset}( params_${te_aba.GeneratedName}, 0, sizeof(${raw_data_dt.ExtName}) );
+  ${te_string.memset}( (void*)&params_${te_aba.GeneratedName}, 0, sizeof(${raw_data_dt.ExtName}) );
 
   .assign counter = 0
   .while ( not_empty te_parm )
@@ -120,10 +120,47 @@
     .select one te_dt related by te_parm->TE_DT[R2049]
     .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
     .select any te_size_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "size" )
+    .assign size_of = "sizeof"
+    .if ( te_dt.Name == "string" )
+      .assign size_of = te_string.strlen
+    .end if
     .include "${te_file.arc_path}/t.component.message.param.c"
     .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
     .assign counter = counter + 1
 
+  .end while
+.end function
+.//
+.// Unpack structured parameters
+.function te_parm_UnpackStructuredParameterInvocation
+  .param inst_ref base_te_parm
+  .param inst_ref_set te_parms
+  .// Be sure we have the first parameter.
+  .select any te_parm from instances of TE_PARM where (false)
+  .for each te_parm in te_parms
+    .break for
+  .end for
+  .while ( not_empty te_parm )
+    .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes']
+    .if ( empty prev_te_parm )
+      .break while
+    .else
+      .assign te_parm = prev_te_parm
+    .end if
+  .end while
+  .assign counter = 0
+  .assign param_delim = ""
+  .while ( not_empty te_parm )
+    .select one te_dt related by te_parm->TE_DT[R2049]
+    .select any te_data_mbr related by base_te_parm->TE_DT[R2049]->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
+    .assign param_qual = ""
+    .if ( "" != te_parm.array_spec )
+      .assign param_qual = "*"
+    .end if
+${param_delim}(${te_dt.ExtName}${param_qual})${base_te_parm.GeneratedName}.${te_data_mbr.GeneratedName}[${counter}]\
+    .assign param_delim = ", "
+    .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
+    .assign counter = counter + 1
   .end while
 .end function
 .//
