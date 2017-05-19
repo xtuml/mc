@@ -104,6 +104,8 @@
   .select any te_parm from instances of TE_PARM where ( false )
   .select any empty_sm_evt from instances of SM_EVT where ( false )
   .select many empty_te_macts from instances of TE_MACT where ( false )
+  .select one te_sf related by te_c->TE_SF[R2202]
+  .assign is_channel_component = ( not_empty te_sf )
   .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
   .for each te_mact in first_te_macts
     .while ( not_empty te_mact )
@@ -151,6 +153,17 @@
           .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == "send_op" )
         .end if
       .end if
+      .if ( is_channel_component )
+        .if ( ( "recv_op" == te_mact.MessageName ) and ( "INTERFACE_PROVIDER" == te_mact.PortName ) )
+          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 1 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 0 == selected.Direction ) ) ) and ( "SPR_PO" == selected.subtypeKL ) )
+        .elif ( ( "recv_op" == te_mact.MessageName ) and ( "INTERFACE_REQUIRER" == te_mact.PortName ) )
+          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 1 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 0 == selected.Direction ) ) ) and ( "SPR_RO" == selected.subtypeKL ) )
+        .elif ( ( "recv_sgn" == te_mact.MessageName ) and ( "INTERFACE_PROVIDER" == te_mact.PortName ) )
+          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 1 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 0 == selected.Direction ) ) ) and ( "SPR_PS" == selected.subtypeKL ) )
+        .elif ( ( "recv_sgn" == te_mact.MessageName ) and ( "INTERFACE_REQUIRER" == te_mact.PortName ) )
+          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 1 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 0 == selected.Direction ) ) ) and ( "SPR_RS" == selected.subtypeKL ) )
+        .end if
+      .end if
       .if ( not_empty foreign_te_macts )
         .assign action_body = ""
         .if ( not_empty implementation_te_c )
@@ -163,6 +176,7 @@
           .invoke r = te_parm_BuildStructuredParameterInvocation( te_parms, te_aba, raw_data_dt )
           .assign action_body = action_body + r.body
         .end if
+        .assign conditional_test = "  if"
         .for each foreign_te_mact in foreign_te_macts
           .select one foreign_te_c related by foreign_te_mact->TE_C[R2002]
           .if ( foreign_te_c.included_in_build )
@@ -174,7 +188,15 @@
             .if ( "void" != te_aba.ReturnDataType )
               .assign action_body = "return "
             .end if
-            .assign action_body = action_body + s.body
+            .if ( is_channel_component )
+              .select any te_string from instances of TE_STRING
+              .assign condition = conditional_test + " ( !${te_string.strcmp}( ""${foreign_te_mact.ComponentName}_${foreign_te_mact.PortName}"", p_to ) && "
+              .assign condition = condition + "!${te_string.strcmp}( ""${foreign_te_mact.GeneratedName}"", p_name ) ) {\n  "
+              .assign conditional_test = "  else if"
+              .assign action_body = ( action_body + condition ) + ( s.body + "  }\n" )
+            .else
+              .assign action_body = action_body + s.body
+            .end if
           .end if
         .end for
       .else
