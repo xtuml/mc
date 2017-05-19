@@ -153,6 +153,16 @@
       .end if
       .if ( not_empty foreign_te_macts )
         .assign action_body = ""
+        .if ( not_empty implementation_te_c )
+          .select many te_parms related by te_aba->TE_PARM[R2062]
+          .select any raw_data_dt from instances of TE_DT where ( false )
+          .for each foreign_te_mact in foreign_te_macts
+            .select any raw_data_dt related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
+            .break for
+          .end for
+          .invoke r = te_parm_BuildStructuredParameterInvocation( te_parms, te_aba, raw_data_dt )
+          .assign action_body = action_body + r.body
+        .end if
         .for each foreign_te_mact in foreign_te_macts
           .select one foreign_te_c related by foreign_te_mact->TE_C[R2002]
           .if ( foreign_te_c.included_in_build )

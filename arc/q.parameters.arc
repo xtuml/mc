@@ -90,3 +90,40 @@
   .assign te_aba.ParameterAssignmentBase = assnbase
 .end function
 .//
+.// Build structured parameter invocation
+.function te_parm_BuildStructuredParameterInvocation
+  .param inst_ref_set te_parms
+  .param inst_ref te_aba
+  .param inst_ref raw_data_dt
+  .select any te_string from instances of TE_STRING
+  .select any te_file from instances of TE_FILE
+  .// Be sure we have the first parameter.
+  .select any te_parm from instances of TE_PARM where (false)
+  .for each te_parm in te_parms
+    .break for
+  .end for
+  .while ( not_empty te_parm )
+    .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes']
+    .if ( empty prev_te_parm )
+      .break while
+    .else
+      .assign te_parm = prev_te_parm
+    .end if
+  .end while
+  // Create parameter structure
+  ${raw_data_dt.ExtName} params_${te_aba.GeneratedName};
+  ${te_string.memset}( params_${te_aba.GeneratedName}, 0, sizeof(${raw_data_dt.ExtName}) );
+
+  .assign counter = 0
+  .while ( not_empty te_parm )
+  // Package ${te_parm.Name}
+    .select one te_dt related by te_parm->TE_DT[R2049]
+    .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
+    .select any te_size_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "size" )
+    .include "${te_file.arc_path}/t.component.message.param.c"
+    .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
+    .assign counter = counter + 1
+
+  .end while
+.end function
+.//
