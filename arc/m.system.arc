@@ -248,6 +248,7 @@
 .// Mark Channel Implementation
 .//============================================================================
 .function MarkChannelImplementation
+  .// TODO-LPS validate an implementation component
   .param string component_name
   .param string satisfaction_label
   .if ( "*" == satisfaction_label )

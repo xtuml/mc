@@ -154,14 +154,11 @@
         .end if
       .end if
       .if ( is_channel_component )
-        .if ( ( "recv_op" == te_mact.MessageName ) and ( "INTERFACE_PROVIDER" == te_mact.PortName ) )
-          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 1 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 0 == selected.Direction ) ) ) and ( "SPR_PO" == selected.subtypeKL ) )
-        .elif ( ( "recv_op" == te_mact.MessageName ) and ( "INTERFACE_REQUIRER" == te_mact.PortName ) )
-          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 1 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 0 == selected.Direction ) ) ) and ( "SPR_RO" == selected.subtypeKL ) )
-        .elif ( ( "recv_sgn" == te_mact.MessageName ) and ( "INTERFACE_PROVIDER" == te_mact.PortName ) )
-          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 1 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 0 == selected.Direction ) ) ) and ( "SPR_PS" == selected.subtypeKL ) )
-        .elif ( ( "recv_sgn" == te_mact.MessageName ) and ( "INTERFACE_REQUIRER" == te_mact.PortName ) )
-          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 1 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 0 == selected.Direction ) ) ) and ( "SPR_RS" == selected.subtypeKL ) )
+        .// TODO-LPS narrow this selection to avoid duplicate code
+        .if ( "recv_op" == te_mact.MessageName )
+          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( ( "SPR_PO" == selected.subtypeKL ) or ( "SPR_RO" == selected.subtypeKL ) ) )
+        .elif ( "recv_sgn" == te_mact.MessageName )
+          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( ( "SPR_PS" == selected.subtypeKL ) or ( "SPR_RS" == selected.subtypeKL ) ) )
         .end if
       .end if
       .if ( not_empty foreign_te_macts )
@@ -182,7 +179,11 @@
           .if ( foreign_te_c.included_in_build )
             .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, te_aba.ParameterInvocation, "  ", true )
             .if ( not_empty implementation_te_c )
-              .assign structured_parameters = """${te_mact.ComponentName}_${te_mact.PortName}"", ""${foreign_te_mact.GeneratedName}"", params_${te_aba.GeneratedName}, ""${foreign_te_mact.ComponentName}_${foreign_te_mact.PortName}"""
+              .select any target_te_mact related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']->TE_PO[R2080]->TE_MACT[R2006] where ( selected.MessageName == te_mact.MessageName )
+              .if ( empty target_te_mact )
+                .select any target_te_mact related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080]->TE_MACT[R2006] where ( selected.MessageName == te_mact.MessageName )
+              .end if
+              .assign structured_parameters = """${te_mact.ComponentName}_${te_mact.PortName}"", ""${target_te_mact.MessageName}"", params_${te_aba.GeneratedName}, ""${target_te_mact.ComponentName}_${target_te_mact.PortName}"""
               .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, structured_parameters, "  ", true )
             .end if
             .if ( is_channel_component )
@@ -197,7 +198,7 @@
             .if ( is_channel_component )
               .select any te_string from instances of TE_STRING
               .assign condition = conditional_test + " ( !${te_string.strcmp}( ""${foreign_te_mact.ComponentName}_${foreign_te_mact.PortName}"", p_to ) && "
-              .assign condition = condition + "!${te_string.strcmp}( ""${foreign_te_mact.GeneratedName}"", p_name ) ) {\n  "
+              .assign condition = condition + "!${te_string.strcmp}( ""${foreign_te_mact.MessageName}"", p_name ) ) {\n  "
               .assign conditional_test = "  else if"
               .assign action_body = ( action_body + condition ) + ( s.body + "  }\n" )
             .else

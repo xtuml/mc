@@ -92,6 +92,7 @@
 .//
 .// Build structured parameter invocation
 .function te_parm_BuildStructuredParameterInvocation
+  .// TODO-LPS check parameter overflow
   .param inst_ref_set te_parms
   .param inst_ref te_aba
   .param inst_ref raw_data_dt
@@ -133,6 +134,7 @@
 .//
 .// Unpack structured parameters
 .function te_parm_UnpackStructuredParameterInvocation
+  .// TODO-LPS check parameter overflow
   .param inst_ref base_te_parm
   .param inst_ref_set te_parms
   .// Be sure we have the first parameter.
