@@ -215,6 +215,9 @@
                 .select one foreign_te_aba related by foreign_te_mact->TE_ABA[R2010]
                 .invoke r = te_aba_StructuredReturn( te_aba, s.body, raw_data_dt, foreign_te_aba )
                 .assign action_body = ( action_body + condition ) + ( r.body + "  }\n" )
+                .if ( last foreign_te_macts )
+                  .assign action_body = ( action_body + "\n  return return_" ) + ( te_aba.GeneratedName + ";\n" )
+                .end if
               .else
                 .assign action_body = ( action_body + condition ) + ( s.body + "  }\n" )
               .end if
@@ -227,6 +230,10 @@
             .end if
           .end if
         .end for
+      .elif ( ( empty foreign_te_macts ) and ( is_channel_component ) )
+        .if ( "void" != te_aba.ReturnDataType )
+          .assign action_body = "  {" + te_aba.ReturnDataType + " A0xtumlret;\n  return A0xtumlret;}\n"
+        .end if
       .else
         .// CDS agilegc
         .// Check to see if any "virtual" connections (TE_IIRs) have been made to foreign components via marking.
