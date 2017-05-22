@@ -152,8 +152,7 @@
           .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == "INTERFACE_PROVIDER" )
           .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == "send_op" )
         .end if
-      .end if
-      .if ( is_channel_component )
+      .elif ( is_channel_component )
         .// TODO-LPS narrow this selection to avoid duplicate code
         .if ( "recv_op" == te_mact.MessageName )
           .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( ( "SPR_PO" == selected.subtypeKL ) or ( "SPR_RO" == selected.subtypeKL ) ) )
@@ -172,8 +171,7 @@
           .end for
           .invoke r = te_parm_BuildStructuredParameterInvocation( te_parms, te_aba, raw_data_dt )
           .assign action_body = action_body + r.body
-        .end if
-        .if ( is_channel_component )
+        .elif ( is_channel_component )
           .select any raw_data_dt from instances of TE_DT where ( false )
           .for each foreign_te_mact in foreign_te_macts
             .select any raw_data_dt related by te_aba->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
@@ -186,7 +184,6 @@
         .for each foreign_te_mact in foreign_te_macts
           .select one foreign_te_c related by foreign_te_mact->TE_C[R2002]
           .if ( foreign_te_c.included_in_build )
-            .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, te_aba.ParameterInvocation, "  ", true )
             .if ( not_empty implementation_te_c )
               .select any target_te_mact related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']->TE_PO[R2080]->TE_MACT[R2006] where ( selected.MessageName == te_mact.MessageName )
               .if ( empty target_te_mact )
@@ -194,8 +191,14 @@
               .end if
               .assign structured_parameters = """${te_mact.ComponentName}_${te_mact.PortName}"", ""${target_te_mact.MessageName}"", params_${te_aba.GeneratedName}, ""${target_te_mact.ComponentName}_${target_te_mact.PortName}"""
               .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, structured_parameters, "  ", true )
-            .end if
-            .if ( is_channel_component )
+              .if ( "void" != te_aba.ReturnDataType )
+                .select any raw_data_dt related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
+                .invoke r = te_aba_StructuredReturn2( te_aba, raw_data_dt, s.body )
+                .assign action_body = action_body + r.body
+              .else
+                .assign action_body = action_body + s.body
+              .end if
+            .elif ( is_channel_component )
               .select many te_parms related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]
               .select any base_te_parm related by te_aba->TE_PARM[R2062] where ( selected.Name == "parameters" )
               .invoke r = te_parm_UnpackStructuredParameterInvocation( base_te_parm, te_parms, te_aba )
@@ -213,6 +216,7 @@
                 .assign action_body = ( action_body + condition ) + ( s.body + "  }\n" )
               .end if
             .else
+              .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, te_aba.ParameterInvocation, "  ", true )
               .if ( "void" != te_aba.ReturnDataType )
                 .assign action_body = "return "
               .end if
@@ -353,7 +357,7 @@
 .end function
 .//
 .//============================================================================
-.// Generate the return assignment for structured messaging
+.// Generate the return assignment for structured messaging (into the struct)
 .//============================================================================
 .function te_aba_StructuredReturn
   .param inst_ref te_aba
@@ -389,6 +393,24 @@
   ${te_string.memset}( (void*)&return_${te_aba.GeneratedName}, 0, sizeof(${raw_data_dt.ExtName}) );
 
   .end if
+.end function
+.//
+.//============================================================================
+.// Generate the return assignment for structured messaging (from the struct)
+.//============================================================================
+.function te_aba_StructuredReturn2
+  .param inst_ref te_aba
+  .param inst_ref raw_data_dt
+  .param string te_mact_invocation
+  .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
+  .assign return_deref = "*"
+  .assign return_qual = "*"
+  .if ( "" != te_aba.array_spec )
+    .assign return_deref = ""
+    .assign return_qual = ""
+  .end if
+  ${raw_data_dt.ExtName} return_${te_aba.GeneratedName} = ${te_mact_invocation}
+  return ${return_deref}((${te_aba.ReturnDataType}${return_qual})return_${te_aba.GeneratedName}.${te_data_mbr.GeneratedName}[0]);
 .end function
 .//
 .//============================================================================
