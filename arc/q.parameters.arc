@@ -91,8 +91,8 @@
 .end function
 .//
 .// Build structured parameter invocation
+.// TODO-LPS check parameter overflow
 .function te_parm_BuildStructuredParameterInvocation
-  .// TODO-LPS check parameter overflow
   .param inst_ref_set te_parms
   .param inst_ref te_aba
   .param inst_ref raw_data_dt
@@ -125,6 +125,10 @@
     .if ( te_dt.Name == "string" )
       .assign size_of = te_string.strlen
     .end if
+    .assign data_pointer = "&" + te_parm.GeneratedName
+    .if ( "" != te_parm.array_spec )
+      .assign data_pointer = te_parm.GeneratedName
+    .end if
     .include "${te_file.arc_path}/t.component.message.param.c"
     .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
     .assign counter = counter + 1
@@ -133,8 +137,8 @@
 .end function
 .//
 .// Unpack structured parameters
+.// TODO-LPS check parameter overflow
 .function te_parm_UnpackStructuredParameterInvocation
-  .// TODO-LPS check parameter overflow
   .param inst_ref base_te_parm
   .param inst_ref_set te_parms
   .// Be sure we have the first parameter.
@@ -155,11 +159,11 @@
   .while ( not_empty te_parm )
     .select one te_dt related by te_parm->TE_DT[R2049]
     .select any te_data_mbr related by base_te_parm->TE_DT[R2049]->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
-    .assign param_qual = ""
+    .assign param_deref = "*"
     .if ( "" != te_parm.array_spec )
-      .assign param_qual = "*"
+      .assign param_deref = ""
     .end if
-${param_delim}(${te_dt.ExtName}${param_qual})${base_te_parm.GeneratedName}.${te_data_mbr.GeneratedName}[${counter}]\
+${param_delim}${param_deref}((${te_dt.ExtName}*)${base_te_parm.GeneratedName}.${te_data_mbr.GeneratedName}[${counter}])\
     .assign param_delim = ", "
     .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
     .assign counter = counter + 1
