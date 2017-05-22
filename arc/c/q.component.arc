@@ -173,6 +173,15 @@
           .invoke r = te_parm_BuildStructuredParameterInvocation( te_parms, te_aba, raw_data_dt )
           .assign action_body = action_body + r.body
         .end if
+        .if ( is_channel_component )
+          .select any raw_data_dt from instances of TE_DT where ( false )
+          .for each foreign_te_mact in foreign_te_macts
+            .select any raw_data_dt related by te_aba->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
+            .break for
+          .end for
+          .invoke r = te_aba_StructuredReturnDeclaration( raw_data_dt, te_aba )
+          .assign action_body = action_body + r.body
+        .end if
         .assign conditional_test = "  if"
         .for each foreign_te_mact in foreign_te_macts
           .select one foreign_te_c related by foreign_te_mact->TE_C[R2002]
@@ -189,19 +198,24 @@
             .if ( is_channel_component )
               .select many te_parms related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]
               .select any base_te_parm related by te_aba->TE_PARM[R2062] where ( selected.Name == "parameters" )
-              .invoke r = te_parm_UnpackStructuredParameterInvocation( base_te_parm, te_parms )
+              .invoke r = te_parm_UnpackStructuredParameterInvocation( base_te_parm, te_parms, te_aba )
               .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, r.body, "  ", true )
-            .end if
-            .if ( "void" != te_aba.ReturnDataType )
-              .assign action_body = "return "
-            .end if
-            .if ( is_channel_component )
               .select any te_string from instances of TE_STRING
               .assign condition = conditional_test + " ( !${te_string.strcmp}( ""${foreign_te_mact.ComponentName}_${foreign_te_mact.PortName}"", p_to ) && "
-              .assign condition = condition + "!${te_string.strcmp}( ""${foreign_te_mact.MessageName}"", p_name ) ) {\n  "
+              .assign condition = condition + "!${te_string.strcmp}( ""${foreign_te_mact.MessageName}"", p_name ) ) {\n"
               .assign conditional_test = "  else if"
-              .assign action_body = ( action_body + condition ) + ( s.body + "  }\n" )
+              .if ( "void" != te_aba.ReturnDataType )
+                .select any raw_data_dt related by te_aba->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
+                .select one foreign_te_aba related by foreign_te_mact->TE_ABA[R2010]
+                .invoke r = te_aba_StructuredReturn( te_aba, s.body, raw_data_dt, foreign_te_aba )
+                .assign action_body = ( action_body + condition ) + ( r.body + "  }\n" )
+              .else
+                .assign action_body = ( action_body + condition ) + ( s.body + "  }\n" )
+              .end if
             .else
+              .if ( "void" != te_aba.ReturnDataType )
+                .assign action_body = "return "
+              .end if
               .assign action_body = action_body + s.body
             .end if
           .end if
@@ -336,6 +350,45 @@
       .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
     .end while
   .end for
+.end function
+.//
+.//============================================================================
+.// Generate the return assignment for structured messaging
+.//============================================================================
+.function te_aba_StructuredReturn
+  .param inst_ref te_aba
+  .param string te_mact_invocation
+  .param inst_ref raw_data_dt
+  .param inst_ref foreign_te_aba
+  .select any te_string from instances of TE_STRING
+  .select any te_file from instances of TE_FILE
+  .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
+  .select any te_size_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "size" )
+  .assign size_of = "sizeof"
+  .if ( foreign_te_aba.ReturnDataType == "string" )
+    .assign size_of = te_string.strlen
+  .end if
+  .assign data_pointer = ( "&" + "return_" ) + ( te_aba.GeneratedName + "_val" )
+  .if ( "" != te_aba.array_spec )
+    .assign data_pointer = te_parm.GeneratedName
+    .assign data_pointer = "return_" + ( te_aba.GeneratedName + "_val" )
+  .end if
+  .include "${te_file.arc_path}/t.component.message.return.c"
+.end function
+.//
+.//============================================================================
+.// Generate declaration of return data for structured messaging
+.//============================================================================
+.function te_aba_StructuredReturnDeclaration
+  .param inst_ref raw_data_dt
+  .param inst_ref te_aba
+  .if ( "void" != te_aba.ReturnDataType )
+    .select any te_string from instances of TE_STRING
+  // Create return data structure
+  ${raw_data_dt.ExtName} return_${te_aba.GeneratedName};
+  ${te_string.memset}( (void*)&return_${te_aba.GeneratedName}, 0, sizeof(${raw_data_dt.ExtName}) );
+
+  .end if
 .end function
 .//
 .//============================================================================

@@ -129,7 +129,7 @@
     .if ( "" != te_parm.array_spec )
       .assign data_pointer = te_parm.GeneratedName
     .end if
-    .include "${te_file.arc_path}/t.component.message.param.c"
+    .include "${te_file.arc_path}/t.component.message.data.c"
     .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
     .assign counter = counter + 1
 
