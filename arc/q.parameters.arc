@@ -112,10 +112,10 @@
     .end if
   .end while
   // Create parameter structure
-  ${raw_data_dt.ExtName} params_${te_aba.GeneratedName};
-  ${te_string.memset}( (void*)&params_${te_aba.GeneratedName}, 0, sizeof(${raw_data_dt.ExtName}) );
+  ${raw_data_dt.ExtName} parameters;
+  ${te_string.memset}( (void*)&parameters, 0, sizeof(${raw_data_dt.ExtName}) );
 
-  .assign counter = 0
+  .assign counter = 1
   .while ( not_empty te_parm )
   // Package ${te_parm.Name}
     .select one te_dt related by te_parm->TE_DT[R2049]
@@ -158,7 +158,12 @@
       .assign te_parm = prev_te_parm
     .end if
   .end while
-  .assign counter = 0
+  .assign parms_name = base_te_parm.GeneratedName
+  .select one te_aba related by base_te_parm->TE_ABA[R2062]
+  .if ( "void" != te_aba.ReturnDataType )
+    .assign parms_name = "parameters"
+  .end if
+  .assign counter = 1
   .assign param_delim = ""
   .while ( not_empty te_parm )
     .select one te_dt related by te_parm->TE_DT[R2049]
@@ -167,7 +172,7 @@
     .if ( "" != te_parm.array_spec )
       .assign param_deref = ""
     .end if
-${param_delim}${param_deref}((${te_dt.ExtName}*)${base_te_parm.GeneratedName}.${te_data_mbr.GeneratedName}[${counter}])\
+${param_delim}${param_deref}((${te_dt.ExtName}*)${parms_name}.${te_data_mbr.GeneratedName}[${counter}])\
     .assign param_delim = ", "
     .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
     .assign counter = counter + 1

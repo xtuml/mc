@@ -192,7 +192,7 @@
               .if ( empty target_te_mact )
                 .select any target_te_mact related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080]->TE_MACT[R2006] where ( selected.MessageName == te_mact.MessageName )
               .end if
-              .assign structured_parameters = """${te_mact.ComponentName}_${te_mact.PortName}"", ""${target_te_mact.MessageName}"", params_${te_aba.GeneratedName}, ""${target_te_mact.ComponentName}_${target_te_mact.PortName}"""
+              .assign structured_parameters = """${te_mact.ComponentName}_${te_mact.PortName}"", ""${target_te_mact.MessageName}"", parameters, ""${target_te_mact.ComponentName}_${target_te_mact.PortName}"""
               .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, structured_parameters, "  ", true )
               .if ( "void" != te_aba.ReturnDataType )
                 .select any raw_data_dt related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
@@ -216,10 +216,10 @@
                 .invoke r = te_aba_StructuredReturn( te_aba, s.body, raw_data_dt, foreign_te_aba )
                 .assign action_body = ( action_body + condition ) + ( r.body + "  }\n" )
                 .if ( last foreign_te_macts )
-                  .assign action_body = ( action_body + "\n  return return_" ) + ( te_aba.GeneratedName + ";\n" )
+                  .assign action_body = action_body + "\n  return parameters;\n"
                 .end if
               .else
-                .assign action_body = ( action_body + condition ) + ( s.body + "  }\n" )
+                .assign action_body = ( action_body + condition ) + ( "  " + s.body ) + "  }\n"
               .end if
             .else
               .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, te_aba.ParameterInvocation, "  ", true )
@@ -379,13 +379,16 @@
   .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
   .select any te_size_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "size" )
   .assign size_of = "sizeof"
-  .if ( foreign_te_aba.ReturnDataType == "string" )
+  .select one ret_te_dt related by foreign_te_aba->TE_MACT[R2010]->SPR_PO[R2050]->SPR_PEP[R4503]->C_EP[R4501]->C_IO[R4004]->S_DT[R4008]->TE_DT[R2021]
+  .if ( empty ret_te_dt )
+    .select one ret_te_dt related by foreign_te_aba->TE_MACT[R2010]->SPR_RO[R2052]->SPR_REP[R4502]->C_EP[R4500]->C_IO[R4004]->S_DT[R4008]->TE_DT[R2021]
+  .end if
+  .if ( ( not_empty ret_te_dt ) and ( ret_te_dt.Name == "string" ) )
     .assign size_of = te_string.strlen
   .end if
-  .assign data_pointer = ( "&" + "return_" ) + ( te_aba.GeneratedName + "_val" )
-  .if ( "" != te_aba.array_spec )
-    .assign data_pointer = te_parm.GeneratedName
-    .assign data_pointer = "return_" + ( te_aba.GeneratedName + "_val" )
+  .assign data_pointer = "&" + "return_val"
+  .if ( ( "" != te_aba.array_spec ) or ( ( not_empty ret_te_dt ) and ( ret_te_dt.Name == "string" ) ) )
+    .assign data_pointer = "return_val"
   .end if
   .include "${te_file.arc_path}/t.component.message.return.c"
 .end function
@@ -397,10 +400,9 @@
   .param inst_ref raw_data_dt
   .param inst_ref te_aba
   .if ( "void" != te_aba.ReturnDataType )
-    .select any te_string from instances of TE_STRING
+    .select any te_parm related by te_aba->TE_PARM[R2062] where ( selected.Name == "parameters" )
   // Create return data structure
-  ${raw_data_dt.ExtName} return_${te_aba.GeneratedName};
-  ${te_string.memset}( (void*)&return_${te_aba.GeneratedName}, 0, sizeof(${raw_data_dt.ExtName}) );
+  ${raw_data_dt.ExtName} parameters = ${te_parm.GeneratedName};
 
   .end if
 .end function
@@ -414,13 +416,20 @@
   .param string te_mact_invocation
   .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
   .assign return_deref = "*"
-  .assign return_qual = "*"
+  .assign return_qual = " *"
   .if ( "" != te_aba.array_spec )
     .assign return_deref = ""
     .assign return_qual = ""
   .end if
-  ${raw_data_dt.ExtName} return_${te_aba.GeneratedName} = ${te_mact_invocation}
-  return ${return_deref}((${te_aba.ReturnDataType}${return_qual})return_${te_aba.GeneratedName}.${te_data_mbr.GeneratedName}[0]);
+  parameters = ${te_mact_invocation}
+  .select any sret_te_parm related by te_aba->TE_PARM[R2062] where ( selected.Name == "A0xtumlsret" )
+  .if ( not_empty sret_te_parm )
+    .select any te_string from instances of TE_STRING
+  ${te_string.memmove}( A0xtumlsret, &parameters.${te_data_mbr.GeneratedName}[0], ${te_string.strlen}(parameters.${te_data_mbr.GeneratedName}[0]) );
+  return A0xtumlsret;
+  .else
+  return ${return_deref}((${te_aba.ReturnDataType}${return_qual})parameters.${te_data_mbr.GeneratedName}[0]);
+  .end if
 .end function
 .//
 .//============================================================================
