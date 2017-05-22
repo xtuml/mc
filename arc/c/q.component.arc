@@ -172,7 +172,7 @@
             .select any raw_data_dt related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
             .break for
           .end for
-          .invoke r = te_parm_BuildStructuredParameterInvocation( te_parms, te_aba, raw_data_dt )
+          .invoke r = te_parm_BuildStructuredParameterInvocation( te_parms, raw_data_dt )
           .assign action_body = action_body + r.body
         .elif ( is_channel_component )
           .select any raw_data_dt from instances of TE_DT where ( false )
@@ -194,12 +194,18 @@
               .end if
               .assign structured_parameters = """${te_mact.ComponentName}_${te_mact.PortName}"", ""${target_te_mact.MessageName}"", parameters, ""${target_te_mact.ComponentName}_${target_te_mact.PortName}"""
               .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, structured_parameters, "  ", true )
-              .if ( "void" != te_aba.ReturnDataType )
-                .select any raw_data_dt related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
-                .invoke r = te_aba_StructuredReturn2( te_aba, raw_data_dt, s.body )
-                .assign action_body = action_body + r.body
+              .select any raw_data_dt related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
+              .select one foreign_te_aba related by foreign_te_mact->TE_ABA[R2010]
+              .if ( "void" != foreign_te_aba.ReturnDataType )
+                .select many te_parms related by te_aba->TE_PARM[R2062]
+                .invoke r = te_parm_ByRefStructuredParameters( te_parms, raw_data_dt )
+                .assign action_body = action_body + "  parameters = " + s.body + "\n" + r.body
               .else
                 .assign action_body = action_body + s.body
+              .end if
+              .if ( "void" != te_aba.ReturnDataType )
+                .invoke r = te_aba_StructuredReturn2( te_aba, raw_data_dt )
+                .assign action_body = action_body + r.body
               .end if
             .elif ( is_channel_component )
               .select many te_parms related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]
@@ -210,16 +216,16 @@
               .assign condition = conditional_test + " ( !${te_string.strcmp}( ""${foreign_te_mact.ComponentName}_${foreign_te_mact.PortName}"", p_to ) && "
               .assign condition = condition + "!${te_string.strcmp}( ""${foreign_te_mact.MessageName}"", p_name ) ) {\n"
               .assign conditional_test = "  else if"
-              .if ( "void" != te_aba.ReturnDataType )
+              .select one foreign_te_aba related by foreign_te_mact->TE_ABA[R2010]
+              .if ( "void" != foreign_te_aba.ReturnDataType )
                 .select any raw_data_dt related by te_aba->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
-                .select one foreign_te_aba related by foreign_te_mact->TE_ABA[R2010]
                 .invoke r = te_aba_StructuredReturn( te_aba, s.body, raw_data_dt, foreign_te_aba )
                 .assign action_body = ( action_body + condition ) + ( r.body + "  }\n" )
-                .if ( last foreign_te_macts )
-                  .assign action_body = action_body + "\n  return parameters;\n"
-                .end if
               .else
                 .assign action_body = ( action_body + condition ) + ( "  " + s.body ) + "  }\n"
+              .end if
+              .if ( ( last foreign_te_macts ) and ( "void" != te_aba.ReturnDataType ) )
+                .assign action_body = action_body + "\n  return parameters;\n"
               .end if
             .else
               .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, te_aba.ParameterInvocation, "  ", true )
@@ -413,7 +419,6 @@
 .function te_aba_StructuredReturn2
   .param inst_ref te_aba
   .param inst_ref raw_data_dt
-  .param string te_mact_invocation
   .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
   .assign return_deref = "*"
   .assign return_qual = " *"
@@ -421,7 +426,6 @@
     .assign return_deref = ""
     .assign return_qual = ""
   .end if
-  parameters = ${te_mact_invocation}
   .select any sret_te_parm related by te_aba->TE_PARM[R2062] where ( selected.Name == "A0xtumlsret" )
   .if ( not_empty sret_te_parm )
     .select any te_string from instances of TE_STRING
