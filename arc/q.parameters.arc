@@ -126,8 +126,12 @@
       .assign size_of = te_string.strlen
     .end if
     .assign data_pointer = "&" + te_parm.GeneratedName
-    .if ( "" != te_parm.array_spec )
+    .if ( ( "" != te_parm.array_spec ) or ( 0 != te_parm.By_Ref ) )
       .assign data_pointer = te_parm.GeneratedName
+    .end if
+    .assign dereference = ""
+    .if ( 0 != te_parm.By_Ref )
+      .assign dereference = "*"
     .end if
     .include "${te_file.arc_path}/t.component.message.data.c"
     .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
