@@ -153,11 +153,14 @@
           .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == "send_op" )
         .end if
       .elif ( is_channel_component )
-        .// TODO-LPS narrow this selection to avoid duplicate code
-        .if ( "recv_op" == te_mact.MessageName )
-          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( ( "SPR_PO" == selected.subtypeKL ) or ( "SPR_RO" == selected.subtypeKL ) ) )
-        .elif ( "recv_sgn" == te_mact.MessageName )
-          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( ( "SPR_PS" == selected.subtypeKL ) or ( "SPR_RS" == selected.subtypeKL ) ) )
+        .if ( ( "recv_op" == te_mact.MessageName ) and ( "INTERFACE_PROVIDER" == te_mact.PortName ) )
+          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( "SPR_PO" == selected.subtypeKL ) )
+        .elif ( ( "recv_op" == te_mact.MessageName ) and ( "INTERFACE_REQUIRER" == te_mact.PortName ) )
+          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( "SPR_RO" == selected.subtypeKL ) )
+        .elif ( ( "recv_sgn" == te_mact.MessageName ) and ( "INTERFACE_PROVIDER" == te_mact.PortName ) )
+          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( "SPR_PS" == selected.subtypeKL ) )
+        .elif ( ( "recv_sgn" == te_mact.MessageName ) and ( "INTERFACE_REQUIRER" == te_mact.PortName ) )
+          .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( "SPR_RS" == selected.subtypeKL ) )
         .end if
       .end if
       .if ( not_empty foreign_te_macts )
