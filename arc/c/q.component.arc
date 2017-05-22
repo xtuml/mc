@@ -217,12 +217,17 @@
               .assign condition = condition + "!${te_string.strcmp}( ""${foreign_te_mact.MessageName}"", p_name ) ) {\n"
               .assign conditional_test = "  else if"
               .select one foreign_te_aba related by foreign_te_mact->TE_ABA[R2010]
+              .select any raw_data_dt related by te_aba->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
+              .assign resize = ""
+              .if ( "void" != te_aba.ReturnDataType )
+                .invoke r = te_parm_ByRefStructuredParametersResize( te_parms, raw_data_dt )
+                .assign resize = r.body
+              .end if
               .if ( "void" != foreign_te_aba.ReturnDataType )
-                .select any raw_data_dt related by te_aba->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
                 .invoke r = te_aba_StructuredReturn( te_aba, s.body, raw_data_dt, foreign_te_aba )
-                .assign action_body = ( action_body + condition ) + ( r.body + "  }\n" )
+                .assign action_body = ( ( action_body + condition ) + ( ( "    " + foreign_te_aba.ReturnDataType ) + ( " return_val = " + s.body ) ) ) + ( ( resize + r.body ) + "  }\n" )
               .else
-                .assign action_body = ( action_body + condition ) + ( "  " + s.body ) + "  }\n"
+                .assign action_body = ( ( action_body + condition ) + ( "  " + s.body ) ) + ( resize + "  }\n" )
               .end if
               .if ( ( last foreign_te_macts ) and ( "void" != te_aba.ReturnDataType ) )
                 .assign action_body = action_body + "\n  return parameters;\n"
