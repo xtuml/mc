@@ -1090,7 +1090,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("a7cc1517-6d8e-4135-a704-5e65c95f2d3b",
 	"a0afeff8-523e-4832-969b-33a7e4df88af",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -1104,7 +1104,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("b2871778-36aa-4862-a91a-ec07ca2ad7c2",
 	"a0afeff8-523e-4832-969b-33a7e4df88af",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -1118,7 +1118,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("54548d58-965d-4698-b0e2-89660c1f26d9",
 	"a0afeff8-523e-4832-969b-33a7e4df88af",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -1140,14 +1140,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine');
 INSERT INTO GD_GE
 	VALUES ("cc10bbe1-9073-41c8-b87d-65c1dca798d0",
 	"d2c419f2-9335-4117-8603-bcd0ab126e1c",
 	"79aae956-9b61-46dd-8b65-19f84132c175",
 	41,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::initializing');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::initializing');
 INSERT INTO GD_SHP
 	VALUES ("cc10bbe1-9073-41c8-b87d-65c1dca798d0");
 INSERT INTO GD_NCS
@@ -1196,7 +1196,7 @@ INSERT INTO GD_GE
 	"8fcbc657-bd64-40e4-8a51-3aab47ba2328",
 	41,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::listening');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::listening');
 INSERT INTO GD_SHP
 	VALUES ("14a36d5a-b339-4fbc-a939-d313712388a3");
 INSERT INTO GD_NCS
@@ -1265,7 +1265,7 @@ INSERT INTO GD_GE
 	"807457aa-ebf7-40e8-9e76-122a3c4ef7c2",
 	41,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::accepting');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::accepting');
 INSERT INTO GD_SHP
 	VALUES ("9477771c-c0f5-484d-8304-a4be93bf6839");
 INSERT INTO GD_NCS
@@ -1304,7 +1304,7 @@ INSERT INTO GD_GE
 	"741589b9-5f61-4127-a52b-ab4e22abfd25",
 	41,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::closing');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::closing');
 INSERT INTO GD_SHP
 	VALUES ("4ccc01c2-09a9-4e82-bd56-c892b77e0c26");
 INSERT INTO GD_NCS
@@ -1358,7 +1358,7 @@ INSERT INTO GD_GE
 	"64c6766b-5658-4eac-83e9-4d9ca7b6e83d",
 	41,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::stopped');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::stopped');
 INSERT INTO GD_SHP
 	VALUES ("a1fc2c7a-5902-4463-a864-894d5af51741");
 INSERT INTO GD_NCS
@@ -1397,7 +1397,7 @@ INSERT INTO GD_GE
 	"fae9e0f6-24b0-4686-b19b-a5714a67e3a3",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::listening::serversocket3: accept');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::listening::serversocket3: accept');
 INSERT INTO GD_CON
 	VALUES ("53f0a61e-a43c-427e-a6f5-eb7c7273bfbb",
 	"00000000-0000-0000-0000-000000000000");
@@ -1510,7 +1510,7 @@ INSERT INTO GD_GE
 	"06bc1b7f-ca59-4559-b608-613919b2a164",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::accepting::serversocket2: listen');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::accepting::serversocket2: listen');
 INSERT INTO GD_CON
 	VALUES ("8aa83dc0-7480-45f5-a370-73814a90839b",
 	"00000000-0000-0000-0000-000000000000");
@@ -1610,7 +1610,7 @@ INSERT INTO GD_GE
 	"73c6ca60-7bb1-43f1-baec-0aa1e3a0dbac",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::listening::serversocket4: close');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::listening::serversocket4: close');
 INSERT INTO GD_CON
 	VALUES ("113a3f36-4536-4755-8416-7e42b74e9171",
 	"00000000-0000-0000-0000-000000000000");
@@ -1723,7 +1723,7 @@ INSERT INTO GD_GE
 	"73278df4-a3d4-45ef-9d04-f97b0997d3a7",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::closing::serversocket5: closed');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::closing::serversocket5: closed');
 INSERT INTO GD_CON
 	VALUES ("5c99c213-cd06-407c-b1b1-84c2eae24c8e",
 	"00000000-0000-0000-0000-000000000000");
@@ -1936,7 +1936,7 @@ INSERT INTO GD_GE
 	"65899302-81a1-4d93-91c9-adaa96f2873d",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::initializing::serversocket6: error');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::initializing::serversocket6: error');
 INSERT INTO GD_CON
 	VALUES ("1f54c4a1-c863-4460-ad0c-ca25014ec15a",
 	"00000000-0000-0000-0000-000000000000");
@@ -2036,7 +2036,7 @@ INSERT INTO GD_GE
 	"81188cbd-72c0-4734-ae12-8a3f2299be16",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::accepting::serversocket6: error');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::accepting::serversocket6: error');
 INSERT INTO GD_CON
 	VALUES ("1df5b519-e5e1-4f30-a5df-a8dac531b126",
 	"00000000-0000-0000-0000-000000000000");
@@ -2136,7 +2136,7 @@ INSERT INTO GD_GE
 	"f5b7566b-6f62-42f6-8c20-1effd3f7f785",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::listening::serversocket6: error');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::listening::serversocket6: error');
 INSERT INTO GD_CON
 	VALUES ("2fa48858-7f10-4e04-ba1b-69c82d2d6139",
 	"00000000-0000-0000-0000-000000000000");
@@ -2249,7 +2249,7 @@ INSERT INTO GD_GE
 	"801b9f8e-7200-414e-8233-76324e78ee1f",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::closing::serversocket6: error');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::closing::serversocket6: error');
 INSERT INTO GD_CON
 	VALUES ("71340cbb-0137-48ae-80b7-6ff6beda3a03",
 	"00000000-0000-0000-0000-000000000000");
@@ -2349,7 +2349,7 @@ INSERT INTO GD_GE
 	"efcdfda8-9119-4fe6-bf78-c8f26216763c",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::listening::serversocket2: listen');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::listening::serversocket2: listen');
 INSERT INTO GD_CON
 	VALUES ("a1692611-c00d-4e2d-a44d-335475f21177",
 	"00000000-0000-0000-0000-000000000000");
@@ -2488,7 +2488,7 @@ INSERT INTO GD_GE
 	"f6b2df33-9f6b-4023-896d-4c2cd2eac009",
 	41,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::binding');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::binding');
 INSERT INTO GD_SHP
 	VALUES ("82ae5652-8757-4a50-b1e4-48f429b2fdb4");
 INSERT INTO GD_NCS
@@ -2527,7 +2527,7 @@ INSERT INTO GD_GE
 	"096e0fac-4fdf-44b1-8007-fe977d81ff7f",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::binding::serversocket6: error');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::binding::serversocket6: error');
 INSERT INTO GD_CON
 	VALUES ("31f326e7-48a7-4910-a1ff-883c46c00782",
 	"00000000-0000-0000-0000-000000000000");
@@ -2627,7 +2627,7 @@ INSERT INTO GD_GE
 	"18625aa6-3bd0-4319-8e58-4d4c6a182038",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::initializing::serversocket7: bind');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::initializing::serversocket7: bind');
 INSERT INTO GD_CON
 	VALUES ("83d0ec59-c007-4dbb-952c-00c385eb4894",
 	"00000000-0000-0000-0000-000000000000");
@@ -2727,7 +2727,7 @@ INSERT INTO GD_GE
 	"a426c6c6-dc8c-478f-8d96-7b249d1e4838",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::serversocket::Instance State Machine::binding::serversocket2: listen');
+	'mcshared::channel::socket::sockets::server socket::Instance State Machine::binding::serversocket2: listen');
 INSERT INTO GD_CON
 	VALUES ("fa82440f-adb0-4df8-994f-ca4caefbbaf8",
 	"00000000-0000-0000-0000-000000000000");
@@ -2843,9 +2843,9 @@ INSERT INTO DIM_DIA
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_OBJ_PROXY
 	VALUES ("7a3208a7-8b9f-4aac-9e68-6b77f12afc18",
-	'serversocket',
+	'server socket',
 	6,
 	'serversocket',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'../serversocket.xtuml');
+	'../server socket.xtuml');
