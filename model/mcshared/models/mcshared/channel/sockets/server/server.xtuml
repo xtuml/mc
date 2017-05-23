@@ -1,0 +1,50 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("bcae45da-9504-42cd-a2c0-6fc048636abb",
+	'server',
+	5,
+	'server',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("51764de3-aa1d-4ccf-beef-79d61771e761",
+	"bcae45da-9504-42cd-a2c0-6fc048636abb");
+INSERT INTO O_BATTR
+	VALUES ("51764de3-aa1d-4ccf-beef-79d61771e761",
+	"bcae45da-9504-42cd-a2c0-6fc048636abb");
+INSERT INTO O_ATTR
+	VALUES ("51764de3-aa1d-4ccf-beef-79d61771e761",
+	"bcae45da-9504-42cd-a2c0-6fc048636abb",
+	"00000000-0000-0000-0000-000000000000",
+	'current_state',
+	'',
+	'',
+	'current_state',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000006",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"bcae45da-9504-42cd-a2c0-6fc048636abb");
+INSERT INTO O_ID
+	VALUES (1,
+	"bcae45da-9504-42cd-a2c0-6fc048636abb");
+INSERT INTO O_ID
+	VALUES (2,
+	"bcae45da-9504-42cd-a2c0-6fc048636abb");
+INSERT INTO PE_PE
+	VALUES ("bcae45da-9504-42cd-a2c0-6fc048636abb",
+	1,
+	"672b9371-298d-4aae-8224-838c70b66b52",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("672b9371-298d-4aae-8224-838c70b66b52",
+	"00000000-0000-0000-0000-000000000000",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	'sockets',
+	'',
+	0,
+	'../sockets.xtuml');
