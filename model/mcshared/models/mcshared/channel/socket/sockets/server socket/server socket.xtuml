@@ -2,7 +2,7 @@
 
 INSERT INTO O_OBJ
 	VALUES ("7a3208a7-8b9f-4aac-9e68-6b77f12afc18",
-	'serversocket',
+	'server socket',
 	6,
 	'serversocket',
 	'',
