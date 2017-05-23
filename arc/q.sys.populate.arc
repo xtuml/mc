@@ -2156,6 +2156,8 @@
   .if ( not_empty te_dim )
     .relate duplicate_te_parm to te_dim across R2056
   .end if
+  .select one c_pp related by te_parm->C_PP[R2048]
+  .relate duplicate_te_parm to c_pp across R2048
   .assign duplicate_te_parm.array_spec = te_parm.array_spec
   .assign attr_result = duplicate_te_parm
 .end function
