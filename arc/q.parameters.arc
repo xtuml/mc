@@ -244,9 +244,12 @@ ${param_delim}${param_deref}((${te_dt.ExtName} *)${address}${parms_name}.${te_da
   .while ( not_empty te_parm )
     .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
     .select any te_size_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "size" )
+    .select one c_pp related by te_parm->C_PP[R2048]
     .select one te_dt related by te_parm->TE_DT[R2049]
-    .if ( te_dt.Name == "string" )
+    .if ( not_empty c_pp )
+      .if ( ( 0 != c_pp.By_Ref ) and ( te_dt.Name == "string" ) )
     parameters.${te_size_mbr.GeneratedName}[${counter}] = ${te_string.strlen}(parameters.${te_data_mbr.GeneratedName}[${counter}]);
+      .end if
     .end if
     .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
     .assign counter = counter + 1
