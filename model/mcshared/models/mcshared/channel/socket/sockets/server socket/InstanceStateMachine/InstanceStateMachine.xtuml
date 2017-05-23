@@ -817,7 +817,7 @@ self.backlog = param.backlog;
 server = param.server;
 relate self to server across R6502;
 create object instance socket of socket;
-socket.host = "localhost";
+socket.host = "127.0.0.1";
 socket.port = param.port;
 socket.descriptor = ERR;
 relate self to socket across R6501;
@@ -829,7 +829,7 @@ if ( ERR == socket.descriptor )
   generate serversocket6:error( code:error ) to self;
 else
   LOG::LogInfo( message:"Socket created." );
-  generate serversocket2:listen() to self;
+  generate serversocket7:bind() to self;
 end if;',
 	'',
 	0);
@@ -886,7 +886,8 @@ INSERT INTO SM_ACT
 	VALUES ("267967e3-39d6-4cf6-a913-76fcf177e08e",
 	"a0afeff8-523e-4832-969b-33a7e4df88af",
 	1,
-	'server::log_exit( code:param.code );
+	'LOG::LogInfo( message:"Closing socket..." );
+server::log_exit( code:param.code );
 select one socket related by self->socket[R6501];
 error = OK;
 ret_val = SYS::close( file_descriptor:socket.descriptor, error:error );
@@ -908,7 +909,8 @@ INSERT INTO SM_ACT
 	VALUES ("6f1d0420-8ade-4b13-890c-e6a68122c501",
 	"a0afeff8-523e-4832-969b-33a7e4df88af",
 	1,
-	'server::log_exit( code:param.code );',
+	'LOG::LogInfo( message:"Socket closed." );
+server::log_exit( code:param.code );',
 	'',
 	0);
 INSERT INTO SM_TAH

@@ -16,6 +16,12 @@ INSERT INTO O_TFR
 	0,
 	'if ( OK == param.code )
   // silent
+elif ( EAGAIN == param.code )
+  ERR::report( message:"EAGAIN No more processes", code:param.code );
+elif ( EWOULDBLOCK == param.code )
+  ERR::report( message:"EWOULDBLOCK Operation would block", code:param.code );
+elif ( EADDRNOTAVAIL == param.code )
+  ERR::report( message:"EADDRNOTAVAIL Can''t assign requested address", code:param.code );
 else
   ERR::report( message:"Unrecognized error code", code:param.code );
 end if;',

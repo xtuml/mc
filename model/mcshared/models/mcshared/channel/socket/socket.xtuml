@@ -444,8 +444,7 @@ INSERT INTO SPR_PS
 	'initialize',
 	'',
 	'// TODO get these options from a config file
-
-server_port = 8080;
+server_port = 9876;
 backlog = 5;
 
 generate server1:start( port:server_port, backlog:backlog ) to server creator;',
