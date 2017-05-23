@@ -1,0 +1,45 @@
+-- BP 7.1.6 content: InstanceStateMachine syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO SM_ISM
+	VALUES ("988be64f-53d5-4794-9a61-febd268083b4",
+	"bcae45da-9504-42cd-a2c0-6fc048636abb");
+INSERT INTO SM_SM
+	VALUES ("988be64f-53d5-4794-9a61-febd268083b4",
+	'',
+	0);
+INSERT INTO SM_MOORE
+	VALUES ("988be64f-53d5-4794-9a61-febd268083b4");
+INSERT INTO GD_MD
+	VALUES ("974853be-4bfe-4339-b330-c3b0ad6ed3ae",
+	8,
+	"988be64f-53d5-4794-9a61-febd268083b4",
+	40,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'mcshared::channel::sockets::server::Instance State Machine');
+INSERT INTO DIM_DIA
+	VALUES ("974853be-4bfe-4339-b330-c3b0ad6ed3ae",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("bcae45da-9504-42cd-a2c0-6fc048636abb",
+	'server',
+	5,
+	'server',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'../server.xtuml');
