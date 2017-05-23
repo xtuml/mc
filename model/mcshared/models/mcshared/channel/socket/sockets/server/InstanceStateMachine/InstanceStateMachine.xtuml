@@ -9,6 +9,24 @@ INSERT INTO SM_SM
 	0);
 INSERT INTO SM_MOORE
 	VALUES ("3e7d13c0-41a8-4f00-b3ec-79e01a281d64");
+INSERT INTO SM_EVTDI
+	VALUES ("f26909bf-117a-4e19-84d6-5e6948617103",
+	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
+	'port',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	"5559ff08-03ee-4818-a5ea-c2ec48a19429",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO SM_EVTDI
+	VALUES ("27d68fcd-cc73-4782-889d-8035865058d7",
+	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
+	'backlog',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	"5559ff08-03ee-4818-a5ea-c2ec48a19429",
+	"f26909bf-117a-4e19-84d6-5e6948617103");
 INSERT INTO SM_LEVT
 	VALUES ("5559ff08-03ee-4818-a5ea-c2ec48a19429",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
@@ -224,7 +242,9 @@ INSERT INTO SM_ACT
 	VALUES ("f0559140-23be-47f2-a243-f8ce16556349",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	1,
-	'',
+	'// create a server socket
+LOG::LogInfo( message:"Creating server..." );
+generate serversocket1:start( port:param.port, backlog:param.backlog, server:self ) to serversocket creator;',
 	'',
 	0);
 INSERT INTO SM_MOAH
@@ -307,7 +327,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("de8a7848-e8b2-49b0-9bd6-f95921219d17",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -543,7 +563,7 @@ INSERT INTO GD_GE
 	"885d5a31-5dfe-4189-aaa6-4666412e21dc",
 	49,
 	0,
-	'server1: start');
+	'server1: start(port, backlog)');
 INSERT INTO GD_CON
 	VALUES ("60706273-aae9-41e5-b7fd-41e7fea4d5e6",
 	"00000000-0000-0000-0000-000000000000");

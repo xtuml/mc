@@ -443,7 +443,12 @@ INSERT INTO SPR_PS
 	VALUES ("80f03fd3-32d4-4c7b-81b3-6488ce7d0a02",
 	'initialize',
 	'',
-	'',
+	'// TODO get these options from a config file
+
+server_port = 8080;
+backlog = 5;
+
+generate server1:start( port:server_port, backlog:backlog ) to server creator;',
 	1,
 	0);
 INSERT INTO SPR_PEP

@@ -1,0 +1,313 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("a71eb18d-d518-4811-b19a-2c54f621f9cc",
+	"00000000-0000-0000-0000-000000000000",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	'EEs',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("8ab09682-2218-4cd2-a978-d6a601851221",
+	112,
+	"a71eb18d-d518-4811-b19a-2c54f621f9cc",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'mcshared::channel::socket::EEs');
+INSERT INTO DIM_DIA
+	VALUES ("8ab09682-2218-4cd2-a978-d6a601851221",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_EE
+	VALUES ("d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'socket',
+	'This EE is based on the POSIX socket API',
+	'SOCK',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'socket',
+	1);
+INSERT INTO S_BRG
+	VALUES ("051efa5f-72a5-4fa7-a936-6eddb0f08f99",
+	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'socket',
+	'Create a TCP internet socket. Returns the file descriptor for the socket if successful, -1 if not successful and sets error to the error code.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("b3678d45-1f17-430c-8663-e3fdf087c0e9",
+	"051efa5f-72a5-4fa7-a936-6eddb0f08f99",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("b15d85c5-4b4e-4615-b685-3e30abd07995",
+	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'bind',
+	'Bind the given socket to the given hostname and port. Returns -1 if unsuccessful and sets error to the error code.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("b9225997-a4f2-4d3c-afe0-ffdbd59c0f52",
+	"b15d85c5-4b4e-4615-b685-3e30abd07995",
+	'socket',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("746ff73a-98fc-498f-82a4-495b04131f10",
+	"b15d85c5-4b4e-4615-b685-3e30abd07995",
+	'host',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b9225997-a4f2-4d3c-afe0-ffdbd59c0f52",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("786c266f-13f9-41b8-a13f-7f023c27af1b",
+	"b15d85c5-4b4e-4615-b685-3e30abd07995",
+	'port',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"746ff73a-98fc-498f-82a4-495b04131f10",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("f4c20063-378d-4447-a1f7-b076bf04bed2",
+	"b15d85c5-4b4e-4615-b685-3e30abd07995",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"786c266f-13f9-41b8-a13f-7f023c27af1b",
+	'');
+INSERT INTO S_BRG
+	VALUES ("9bb52d24-7d8e-497e-af13-839ce5e3565c",
+	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'listen',
+	'Listen on the specified socket with a queue length of backlog. Returns -1 if unsuccessful and sets error to the error code.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("5ea324f2-a52d-4bf2-ad7f-5aab3781dbe8",
+	"9bb52d24-7d8e-497e-af13-839ce5e3565c",
+	'socket',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("b84f10bf-5aed-43a2-a263-d61b072e560b",
+	"9bb52d24-7d8e-497e-af13-839ce5e3565c",
+	'backlog',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"5ea324f2-a52d-4bf2-ad7f-5aab3781dbe8",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("3f334670-6096-4ffc-9789-6f6c171a255f",
+	"9bb52d24-7d8e-497e-af13-839ce5e3565c",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"b84f10bf-5aed-43a2-a263-d61b072e560b",
+	'');
+INSERT INTO S_BRG
+	VALUES ("e880a909-d3d4-4ca0-a092-5d7905702ce1",
+	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'accept',
+	'Accept a connection on the specified socket. Set the foreign_host and foreign_port values appropriately.
+This operation is non blocking. Returns -1 if unssuccessful and sets error to the error code.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("d1de8ea2-ca8d-419f-b411-3e653af4856c",
+	"e880a909-d3d4-4ca0-a092-5d7905702ce1",
+	'socket',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("9ad053cb-4fe0-4208-a23c-f2fd3576958a",
+	"e880a909-d3d4-4ca0-a092-5d7905702ce1",
+	'foreign_port',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"9714069f-fe0d-466f-a2c1-75d56ddb91de",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("3f386bc7-4537-46c7-acb0-ed271047b54a",
+	"e880a909-d3d4-4ca0-a092-5d7905702ce1",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"9ad053cb-4fe0-4208-a23c-f2fd3576958a",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("9714069f-fe0d-466f-a2c1-75d56ddb91de",
+	"e880a909-d3d4-4ca0-a092-5d7905702ce1",
+	'foreign_host',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	"d1de8ea2-ca8d-419f-b411-3e653af4856c",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	1,
+	"a71eb18d-d518-4811-b19a-2c54f621f9cc",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO S_EE
+	VALUES ("6db7a528-01af-4b9c-ac96-8b84fe9478ae",
+	'system',
+	'This external entity is for system calls',
+	'SYS',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'system',
+	1);
+INSERT INTO S_BRG
+	VALUES ("f64c93d2-74e7-4580-89d8-fe378034429a",
+	"6db7a528-01af-4b9c-ac96-8b84fe9478ae",
+	'close',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	3,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("46292965-9ccb-42fd-bbb3-fa350b0a70ac",
+	"f64c93d2-74e7-4580-89d8-fe378034429a",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"9da704ba-4171-4316-8b27-f58d4d1b1a04",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("9da704ba-4171-4316-8b27-f58d4d1b1a04",
+	"f64c93d2-74e7-4580-89d8-fe378034429a",
+	'file_descriptor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6db7a528-01af-4b9c-ac96-8b84fe9478ae",
+	1,
+	"a71eb18d-d518-4811-b19a-2c54f621f9cc",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO S_EE
+	VALUES ("f0f84c90-2dcc-4cb4-aa2b-df5e903d0a4c",
+	'error',
+	'',
+	'ERR',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'error',
+	1);
+INSERT INTO S_BRG
+	VALUES ("30567ce8-a6f5-492b-932c-ff11028b51f8",
+	"f0f84c90-2dcc-4cb4-aa2b-df5e903d0a4c",
+	'report',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	3,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("e662d8af-e12b-4f3d-8683-c128287efb7f",
+	"30567ce8-a6f5-492b-932c-ff11028b51f8",
+	'message',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("ceedd097-d88a-4f96-9b32-0d225019ba84",
+	"30567ce8-a6f5-492b-932c-ff11028b51f8",
+	'code',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"e662d8af-e12b-4f3d-8683-c128287efb7f",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f0f84c90-2dcc-4cb4-aa2b-df5e903d0a4c",
+	1,
+	"a71eb18d-d518-4811-b19a-2c54f621f9cc",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO PE_PE
+	VALUES ("a71eb18d-d518-4811-b19a-2c54f621f9cc",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"90e78d35-e981-4b6c-84d6-15126a79aa49",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("90e78d35-e981-4b6c-84d6-15126a79aa49",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'socket',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../socket.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("0d4431d1-5f65-4845-a834-f0112f4585cd",
+	'mcshared',
+	1,
+	'../../../mcshared.xtuml');
