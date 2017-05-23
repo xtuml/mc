@@ -1,18 +1,18 @@
 -- BP 7.1.6 content: InstanceStateMachine syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO SM_ISM
-	VALUES ("d1562ba3-cfd6-4f0a-9935-e527414625ac",
-	"cb3431af-1ab1-48ad-a268-da08c88642ac");
+	VALUES ("a0afeff8-523e-4832-969b-33a7e4df88af",
+	"7a3208a7-8b9f-4aac-9e68-6b77f12afc18");
 INSERT INTO SM_SM
-	VALUES ("d1562ba3-cfd6-4f0a-9935-e527414625ac",
+	VALUES ("a0afeff8-523e-4832-969b-33a7e4df88af",
 	'',
 	0);
 INSERT INTO SM_MOORE
-	VALUES ("d1562ba3-cfd6-4f0a-9935-e527414625ac");
+	VALUES ("a0afeff8-523e-4832-969b-33a7e4df88af");
 INSERT INTO GD_MD
-	VALUES ("827d0e78-80c8-477a-885b-6fef47b9361a",
+	VALUES ("d2c419f2-9335-4117-8603-bcd0ab126e1c",
 	8,
-	"d1562ba3-cfd6-4f0a-9935-e527414625ac",
+	"a0afeff8-523e-4832-969b-33a7e4df88af",
 	40,
 	0,
 	0,
@@ -27,16 +27,16 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'mcshared::channel::sockets::serversocket::Instance State Machine');
+	'mcshared::channel::socket::sockets::serversocket::Instance State Machine');
 INSERT INTO DIM_DIA
-	VALUES ("827d0e78-80c8-477a-885b-6fef47b9361a",
+	VALUES ("d2c419f2-9335-4117-8603-bcd0ab126e1c",
 	'',
 	1.000000,
 	0.000000,
 	0.000000,
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_OBJ_PROXY
-	VALUES ("cb3431af-1ab1-48ad-a268-da08c88642ac",
+	VALUES ("7a3208a7-8b9f-4aac-9e68-6b77f12afc18",
 	'serversocket',
 	4,
 	'serversocket',
