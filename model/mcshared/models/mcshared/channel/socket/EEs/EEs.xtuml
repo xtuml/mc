@@ -150,9 +150,9 @@ INSERT INTO S_BPARM
 INSERT INTO S_BRG
 	VALUES ("e880a909-d3d4-4ca0-a092-5d7905702ce1",
 	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
-	'accept',
-	'Accept a connection on the specified socket. Set the foreign_host and foreign_port values appropriately.
-This operation is non blocking. Returns -1 if unssuccessful and sets error to the error code.',
+	'sendhandshake',
+	'Send a handshake consisting of two strings, name of self (i.e. client name) and name of peer (i.e. target server name).
+0 returned if successful, -1 returned if not, error set to the appropriate value',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
@@ -171,9 +171,9 @@ INSERT INTO S_BPARM
 INSERT INTO S_BPARM
 	VALUES ("9ad053cb-4fe0-4208-a23c-f2fd3576958a",
 	"e880a909-d3d4-4ca0-a092-5d7905702ce1",
-	'foreign_port',
-	"ba5eda7a-def5-0000-0000-000000000002",
-	1,
+	'peer',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
 	'',
 	"9714069f-fe0d-466f-a2c1-75d56ddb91de",
 	'');
@@ -189,9 +189,9 @@ INSERT INTO S_BPARM
 INSERT INTO S_BPARM
 	VALUES ("9714069f-fe0d-466f-a2c1-75d56ddb91de",
 	"e880a909-d3d4-4ca0-a092-5d7905702ce1",
-	'foreign_host',
+	'self',
 	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
+	0,
 	'',
 	"d1de8ea2-ca8d-419f-b411-3e653af4856c",
 	'');
@@ -272,6 +272,103 @@ INSERT INTO S_BPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("f68a9654-d619-4730-9c02-67c58fea29da",
+	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'accept',
+	'Accept a connection on the specified socket. Set the foreign_host and foreign_port values appropriately.
+This operation is non blocking. Returns -1 if unssuccessful and sets error to the error code.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("fde9bb90-093c-447d-bcb0-8fbb37477e04",
+	"f68a9654-d619-4730-9c02-67c58fea29da",
+	'socket',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("52626a13-64f4-455e-adb9-acdd9f8f5ff9",
+	"f68a9654-d619-4730-9c02-67c58fea29da",
+	'foreign_port',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"63c9e0b0-fdf0-4ef1-94f3-09a34d1ca42e",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("bb432f65-6141-4eb7-b5cf-abf5bdb0faa7",
+	"f68a9654-d619-4730-9c02-67c58fea29da",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"52626a13-64f4-455e-adb9-acdd9f8f5ff9",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("63c9e0b0-fdf0-4ef1-94f3-09a34d1ca42e",
+	"f68a9654-d619-4730-9c02-67c58fea29da",
+	'foreign_host',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	"fde9bb90-093c-447d-bcb0-8fbb37477e04",
+	'');
+INSERT INTO S_BRG
+	VALUES ("07da72d5-75b7-4c7b-ad24-acb93cf21bb4",
+	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'recvhandshake',
+	'Receive a handshake consisting of two strings, name of self (i.e. server name) and name of peer (i.e. connecting client name).
+0 returned if successful, -1 returned if not, error set to the appropriate value. This is a non-blocking operation. If the socket
+cannot receive data, EWOULDBLOCK will be set as the error code.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("8e3adf00-3d4c-41f5-9540-2afe88196d71",
+	"07da72d5-75b7-4c7b-ad24-acb93cf21bb4",
+	'socket',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("5786bc44-d44e-43bb-a38c-c29276061758",
+	"07da72d5-75b7-4c7b-ad24-acb93cf21bb4",
+	'peer',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	"85d040ff-08c7-489c-8a18-2b32b5bafae3",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("52277141-f64b-436b-a70a-af229a6a8179",
+	"07da72d5-75b7-4c7b-ad24-acb93cf21bb4",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"5786bc44-d44e-43bb-a38c-c29276061758",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("85d040ff-08c7-489c-8a18-2b32b5bafae3",
+	"07da72d5-75b7-4c7b-ad24-acb93cf21bb4",
+	'self',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	"8e3adf00-3d4c-41f5-9540-2afe88196d71",
 	'');
 INSERT INTO PE_PE
 	VALUES ("d146f3ad-535e-440e-95cd-63fdd58fbc52",

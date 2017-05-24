@@ -54,6 +54,8 @@ elif ( EINVAL == param.code )
   ERR::report( message:"EINVAL Invalid argument", code:param.code );
 elif ( ETIMEDOUT == param.code )
   ERR::report( message:"ETIMEDOUT Timeout reached", code:param.code );
+elif ( S_UNKNOWNENDPOINT == param.code )
+  ERR::report( message:"S_UNKNOWNENDPOINT Unknown server endpoint", code:param.code );
 else
   ERR::report( message:"Unrecognized error code", code:param.code );
 end if;',
