@@ -253,9 +253,7 @@ INSERT INTO SM_ACT
 	VALUES ("000a4d30-6fe9-445b-9743-4786c4548d3e",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	1,
-	'LOG::LogInfo( message:"Server running." );
-select one serversocket related by self->serversocket[R6502];
-generate serversocket2:listen() to serversocket;',
+	'LOG::LogInfo( message:"Server running." );',
 	'',
 	0);
 INSERT INTO SM_MOAH

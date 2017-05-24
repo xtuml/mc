@@ -337,7 +337,11 @@ INSERT INTO SPR_PS
 	VALUES ("bdeb02ae-e89d-40d6-9ee7-22d93ccc2e30",
 	'initialize',
 	'',
-	'',
+	'// TODO get these options from a config file
+server_host = "127.0.0.1";
+server_port = 9876;
+server_to = "A_Bport";
+//generate client1:start( to:server_to, host:server_host, port:server_port ) to client creator;',
 	1,
 	0);
 INSERT INTO C_EP_PROXY
@@ -446,7 +450,6 @@ INSERT INTO SPR_PS
 	'// TODO get these options from a config file
 server_port = 9876;
 backlog = 5;
-
 generate server1:start( port:server_port, backlog:backlog ) to server creator;',
 	1,
 	0);
