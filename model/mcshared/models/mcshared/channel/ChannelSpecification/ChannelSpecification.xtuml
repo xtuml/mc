@@ -81,6 +81,15 @@ INSERT INTO C_PP
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO C_PP
+	VALUES ("d7737ce8-99d4-47a4-a3da-4341d5dc7d8f",
+	"5f9dda80-2839-4d7b-8b18-c5d37f584f7f",
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'peer_name',
+	'',
+	0,
+	'',
+	"fd5c79e3-1ffe-4a27-a1c4-159e5c185875");
 INSERT INTO C_EP
 	VALUES ("3422bd7f-825e-420d-b3bb-b85adfed22a5",
 	"0cc28c47-437f-41d5-bca7-7e4a82a605df",
