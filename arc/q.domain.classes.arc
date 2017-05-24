@@ -20,11 +20,13 @@
   .end while
   .select any prov_init_sgn related by te_c->TE_SF[R2203.'has requirement connected to']->TE_C[R2202]->TE_PO[R2005]->TE_MACT[R2006] where ( ( selected.MessageName == "initialize" ) and ( selected.PortName == "INTERFACE_PROVIDER" ) )
   .if ( not_empty prov_init_sgn )
-  ${prov_init_sgn.GeneratedName}();
+    .select any foreign_te_po related by te_c->TE_SF[R2203.'has requirement connected to']->TE_MACT[R2200]->TE_PO[R2006] where ( selected.Provision )
+  ${prov_init_sgn.GeneratedName}( "${te_c.Name}_${foreign_te_po.Name}" );
   .end if
   .select any req_init_sgn related by te_c->TE_SF[R2203.'has provision connected to']->TE_C[R2202]->TE_PO[R2005]->TE_MACT[R2006] where ( ( selected.MessageName == "initialize" ) and ( selected.PortName == "INTERFACE_REQUIRER" ) )
   .if ( not_empty req_init_sgn )
-  ${req_init_sgn.GeneratedName}();
+    .select any foreign_te_po related by te_c->TE_SF[R2203.'has provision connected to']->TE_MACT[R2200]->TE_PO[R2006] where ( not selected.Provision )
+  ${req_init_sgn.GeneratedName}( "${te_c.Name}_${foreign_te_po.Name}" );
   .end if
 .end function
 .//
