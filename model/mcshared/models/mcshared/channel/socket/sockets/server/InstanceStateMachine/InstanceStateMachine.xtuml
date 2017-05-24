@@ -17,7 +17,7 @@ INSERT INTO SM_EVTDI
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	"5559ff08-03ee-4818-a5ea-c2ec48a19429",
-	"00000000-0000-0000-0000-000000000000");
+	"6bd73bd7-07a0-455f-9982-380d373ec0f2");
 INSERT INTO SM_EVTDI
 	VALUES ("27d68fcd-cc73-4782-889d-8035865058d7",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
@@ -27,6 +27,15 @@ INSERT INTO SM_EVTDI
 	'',
 	"5559ff08-03ee-4818-a5ea-c2ec48a19429",
 	"f26909bf-117a-4e19-84d6-5e6948617103");
+INSERT INTO SM_EVTDI
+	VALUES ("6bd73bd7-07a0-455f-9982-380d373ec0f2",
+	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
+	'name',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	"5559ff08-03ee-4818-a5ea-c2ec48a19429",
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_LEVT
 	VALUES ("5559ff08-03ee-4818-a5ea-c2ec48a19429",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
@@ -238,8 +247,17 @@ INSERT INTO SM_ACT
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	1,
 	'// create a server socket
-LOG::LogInfo( message:"Creating server..." );
-generate serversocket1:start( port:param.port, backlog:param.backlog, server:self ) to serversocket creator;',
+LOG::LogInfo( message:"Creating server for ''" + param.name + "''..." );
+self.name = param.name;
+select any serversocket from instances of serversocket;
+if ( empty serversocket )
+  // create a server socket if it does not exist
+  generate serversocket1:start( port:param.port, backlog:param.backlog, server:self ) to serversocket creator;
+else
+  // attach to the existing serversocket
+  relate self to serversocket across R6502;
+  generate server2:initialized() to self;
+end if;',
 	'',
 	0);
 INSERT INTO SM_MOAH
@@ -558,7 +576,7 @@ INSERT INTO GD_GE
 	"885d5a31-5dfe-4189-aaa6-4666412e21dc",
 	49,
 	0,
-	'server1: start(port, backlog)');
+	'server1: start(name, port, backlog)');
 INSERT INTO GD_CON
 	VALUES ("60706273-aae9-41e5-b7fd-41e7fea4d5e6",
 	"00000000-0000-0000-0000-000000000000");

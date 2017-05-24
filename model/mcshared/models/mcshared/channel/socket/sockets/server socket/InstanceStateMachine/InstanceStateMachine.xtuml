@@ -659,8 +659,7 @@ if ( ERR == data_socket )
   end if;
 else
   LOG::LogInfo( message:"Connection accepted" );
-  select one server related by self->server[R6502];
-  generate datasocket10:pair( socket:data_socket, host:foreign_host, port:foreign_port, server:server ) to datasocket creator;
+  generate datasocket10:pair( socket:data_socket, host:foreign_host, port:foreign_port ) to datasocket creator;
   create event instance e of serversocket2:listen() to self;
   t = TIM::timer_start( microseconds:100000, event_inst:e );
 end if;',
@@ -702,8 +701,10 @@ INSERT INTO SM_ACT
 	1,
 	'LOG::LogInfo( message:"Socket closed." );
 ::log_exit( code:param.code );
-select one server related by self->server[R6502];
-generate server3:stop() to server;',
+select many servers related by self->server[R6502];
+for each server in servers
+  generate server3:stop() to server;
+end for;',
 	'',
 	0);
 INSERT INTO SM_TAH
@@ -814,8 +815,10 @@ else
     generate serversocket6:error( code:error ) to self;
   else
     LOG::LogInfo( message:"Server socket listening." );
-    select one server related by self->server[R6502];
-    generate server2:initialized() to server;
+    select many servers related by self->server[R6502];
+    for each server in servers
+      generate server2:initialized() to server;
+    end for;
     generate serversocket2:listen() to self;
   end if;
 end if;',

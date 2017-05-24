@@ -98,22 +98,6 @@ INSERT INTO SM_EVTDI
 	"ec17281f-c3d7-4e7c-a32d-4ba1d64065c7",
 	"044b9997-f933-4cba-b2c5-7e257809b07d");
 INSERT INTO SM_EVTDI
-	VALUES ("95177221-6893-4e19-aefe-ba5ba69ae659",
-	"571e4736-532a-47f8-b681-9d922251f5cb",
-	'server',
-	'',
-	"3045181d-ed52-470f-8748-a6a3bd2b0a44",
-	'',
-	"ec17281f-c3d7-4e7c-a32d-4ba1d64065c7",
-	"42d4e66b-587e-41b3-81df-97b3f8abe15c");
-INSERT INTO S_DT_PROXY
-	VALUES ("3045181d-ed52-470f-8748-a6a3bd2b0a44",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<server>',
-	'',
-	'',
-	'../../sockets.xtuml');
-INSERT INTO SM_EVTDI
 	VALUES ("8d4d066e-fa9f-4149-955b-11a5737acb3f",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	'socket',
@@ -1392,6 +1376,10 @@ if ( ERR == ret_val )
   end if;
 else
   LOG::LogInfo( message:"Socket connected." );
+  select one client related by self->client[R6509];
+  if ( not_empty client )
+    generate client2:initialized() to client;
+  end if;
   generate datasocket3:ready() to self;
 end if;',
 	'',
@@ -1668,7 +1656,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("c5eabac0-87ec-4325-9475-071db6d42d87",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -1682,7 +1670,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("e9ab32f2-816b-45de-84de-2be6cda709df",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -1696,7 +1684,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("b6754288-8c62-460d-92c8-11bfcfae62f0",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -1710,7 +1698,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("41b16547-c4f9-4aa9-85f3-07e2d3191d61",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -1724,7 +1712,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("ecf87021-320a-49b6-914a-b6a8ec628f1c",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -3765,7 +3753,7 @@ INSERT INTO GD_GE
 	"5e15788d-769a-40eb-9964-456766a383cf",
 	49,
 	0,
-	'datasocket10: pair(socket, host, port, server)');
+	'datasocket10: pair(socket, host, port)');
 INSERT INTO GD_CON
 	VALUES ("df72976e-79b4-465e-8ca3-391e3b6254a9",
 	"00000000-0000-0000-0000-000000000000");
