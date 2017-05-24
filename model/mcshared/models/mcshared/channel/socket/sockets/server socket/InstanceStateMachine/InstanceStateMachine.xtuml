@@ -850,7 +850,7 @@ foreign_port = 0;
 error = OK;
 data_socket = SOCK::accept( socket:socket.descriptor, foreign_host:foreign_host, foreign_port:foreign_port, error:error );
 if ( ERR == data_socket )
-  if ( EWOULDBLOCK == error )
+  if ( ( EWOULDBLOCK == error) or ( EAGAIN == error ) )
     generate serversocket2:listen() to self;
   else
     generate serversocket6:error( code:error ) to self;
@@ -887,7 +887,7 @@ INSERT INTO SM_ACT
 	"a0afeff8-523e-4832-969b-33a7e4df88af",
 	1,
 	'LOG::LogInfo( message:"Closing socket..." );
-server::log_exit( code:param.code );
+::log_exit( code:param.code );
 select one socket related by self->socket[R6501];
 error = OK;
 ret_val = SYS::close( file_descriptor:socket.descriptor, error:error );
@@ -910,7 +910,9 @@ INSERT INTO SM_ACT
 	"a0afeff8-523e-4832-969b-33a7e4df88af",
 	1,
 	'LOG::LogInfo( message:"Socket closed." );
-server::log_exit( code:param.code );',
+::log_exit( code:param.code );
+select one server related by self->server[R6502];
+generate server3:stop() to server;',
 	'',
 	0);
 INSERT INTO SM_TAH
@@ -1077,7 +1079,8 @@ else
     generate serversocket6:error( code:error ) to self;
   else
     LOG::LogInfo( message:"Server socket listening." );
-    generate serversocket2:listen() to self;
+    select one server related by self->server[R6502];
+    generate server2:initialized() to server;
   end if;
 end if;',
 	'',

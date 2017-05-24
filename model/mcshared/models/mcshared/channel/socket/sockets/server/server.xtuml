@@ -7,37 +7,6 @@ INSERT INTO O_OBJ
 	'server',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_TFR
-	VALUES ("ac3cfed7-0d1f-4ec6-aed0-9fcf47e116fb",
-	"564d7b90-871b-45c7-af12-873131c0bcda",
-	'log_exit',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	0,
-	'if ( OK == param.code )
-  // silent
-elif ( EAGAIN == param.code )
-  ERR::report( message:"EAGAIN No more processes", code:param.code );
-elif ( EWOULDBLOCK == param.code )
-  ERR::report( message:"EWOULDBLOCK Operation would block", code:param.code );
-elif ( EADDRNOTAVAIL == param.code )
-  ERR::report( message:"EADDRNOTAVAIL Can''t assign requested address", code:param.code );
-else
-  ERR::report( message:"Unrecognized error code", code:param.code );
-end if;',
-	1,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
-INSERT INTO O_TPARM
-	VALUES ("2250bb0d-d75b-4028-8b48-fd5fde7368ec",
-	"ac3cfed7-0d1f-4ec6-aed0-9fcf47e116fb",
-	'code',
-	"ba5eda7a-def5-0000-0000-000000000002",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
 INSERT INTO O_NBATTR
 	VALUES ("267574ce-f6da-47d6-abc2-a926b80bc5c0",
 	"564d7b90-871b-45c7-af12-873131c0bcda");

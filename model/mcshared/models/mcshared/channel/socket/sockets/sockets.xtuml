@@ -61,7 +61,7 @@ INSERT INTO GD_GE
 	"7a3208a7-8b9f-4aac-9e68-6b77f12afc18",
 	21,
 	0,
-	'mcshared::channel::socket::sockets::serversocket');
+	'mcshared::channel::socket::sockets::server socket');
 INSERT INTO GD_SHP
 	VALUES ("808032ca-190e-4559-b685-8e66a4253986");
 INSERT INTO GD_NCS
@@ -219,7 +219,7 @@ INSERT INTO GD_GE
 	"440ddf6a-f766-4d74-a340-2a19ab13a8ad",
 	35,
 	0,
-	'mcshared::channel::socket::sockets::R6501::serversocket');
+	'mcshared::channel::socket::sockets::R6501::server socket');
 INSERT INTO GD_CON
 	VALUES ("c147bd49-64ee-4fa3-bcef-1b02386630b0",
 	"00000000-0000-0000-0000-000000000000");
@@ -1825,12 +1825,12 @@ INSERT INTO R_OIR
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_OBJ_PROXY
 	VALUES ("7a3208a7-8b9f-4aac-9e68-6b77f12afc18",
-	'serversocket',
+	'server socket',
 	6,
 	'serversocket',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'./serversocket/serversocket.xtuml');
+	'./server socket/server socket.xtuml');
 INSERT INTO R_SUB
 	VALUES ("8a82ba15-97f1-4143-96a4-a16a9a8be705",
 	"025356b7-76e9-4ed7-8170-2e3d80d5165e",
