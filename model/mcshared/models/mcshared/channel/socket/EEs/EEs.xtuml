@@ -243,6 +243,36 @@ INSERT INTO S_BPARM
 	'',
 	"1c54c8ea-034b-4720-bc29-d9509d4fa23d",
 	'');
+INSERT INTO S_BRG
+	VALUES ("79281004-355d-4914-aa8b-1ab128c10678",
+	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'checkconnected',
+	'Loosely based on the select system call, this bridge checks if the given socket ready for writing and for socket errors. If it is ready, 0 is returned.
+Otherwise, -1 is returned and error is set appropriately. This bridge is non-blocking. Sets error EWOULDBLOCK if socket is not ready',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("8a2fdb62-579c-40bc-b7f4-490195bb3a89",
+	"79281004-355d-4914-aa8b-1ab128c10678",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"65c82fa6-599c-443d-b132-b921a41840f3",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("65c82fa6-599c-443d-b132-b921a41840f3",
+	"79281004-355d-4914-aa8b-1ab128c10678",
+	'socket',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO PE_PE
 	VALUES ("d146f3ad-535e-440e-95cd-63fdd58fbc52",
 	1,
@@ -259,7 +289,7 @@ INSERT INTO S_EE
 	'system',
 	1);
 INSERT INTO S_BRG
-	VALUES ("f64c93d2-74e7-4580-89d8-fe378034429a",
+	VALUES ("2c810bc5-f15d-4248-b925-c030a8b0fa23",
 	"6db7a528-01af-4b9c-ac96-8b84fe9478ae",
 	'close',
 	'',
@@ -270,17 +300,17 @@ INSERT INTO S_BRG
 	'',
 	0);
 INSERT INTO S_BPARM
-	VALUES ("46292965-9ccb-42fd-bbb3-fa350b0a70ac",
-	"f64c93d2-74e7-4580-89d8-fe378034429a",
+	VALUES ("0a3e4b15-6b46-44ba-a83f-4b72298fb1d7",
+	"2c810bc5-f15d-4248-b925-c030a8b0fa23",
 	'error',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	1,
 	'',
-	"9da704ba-4171-4316-8b27-f58d4d1b1a04",
+	"24898141-dcbf-41a7-807b-a2ba4c944c13",
 	'');
 INSERT INTO S_BPARM
-	VALUES ("9da704ba-4171-4316-8b27-f58d4d1b1a04",
-	"f64c93d2-74e7-4580-89d8-fe378034429a",
+	VALUES ("24898141-dcbf-41a7-807b-a2ba4c944c13",
+	"2c810bc5-f15d-4248-b925-c030a8b0fa23",
 	'file_descriptor',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
