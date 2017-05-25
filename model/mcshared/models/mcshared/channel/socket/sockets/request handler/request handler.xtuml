@@ -1,0 +1,112 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("2d25b1f7-cc70-4108-857f-f4bdaf7409ca",
+	'request handler',
+	8,
+	'requesthandler',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("e24e859e-6aa9-4b89-b4ea-4f8a1d7789b2",
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca");
+INSERT INTO O_BATTR
+	VALUES ("e24e859e-6aa9-4b89-b4ea-4f8a1d7789b2",
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca");
+INSERT INTO O_ATTR
+	VALUES ("e24e859e-6aa9-4b89-b4ea-4f8a1d7789b2",
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca",
+	"00000000-0000-0000-0000-000000000000",
+	'current_state',
+	'',
+	'',
+	'current_state',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000006",
+	'',
+	'');
+INSERT INTO O_DBATTR
+	VALUES ("fa0fd75c-0e57-425a-b7a7-82c6ac7e2687",
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca",
+	'select one client related by self->client[R6513];
+if ( not_empty client )
+  self.name = client.name;
+else
+  select one server related by self->server[R6513];
+  if ( not_empty server )
+    self.name = server.name;
+  else
+    self.name = "";
+  end if;
+end if;',
+	1,
+	0);
+INSERT INTO O_BATTR
+	VALUES ("fa0fd75c-0e57-425a-b7a7-82c6ac7e2687",
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca");
+INSERT INTO O_ATTR
+	VALUES ("fa0fd75c-0e57-425a-b7a7-82c6ac7e2687",
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca",
+	"e24e859e-6aa9-4b89-b4ea-4f8a1d7789b2",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_DBATTR
+	VALUES ("17f594b2-6e9a-482a-bd2e-edc4d882d7bc",
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca",
+	'select one client related by self->client[R6513];
+if ( not_empty client )
+  self.peer_name = client.peer_name;
+else
+  select one server related by self->server[R6513];
+  if ( not_empty server )
+    self.peer_name = server.peer_name;
+  else
+    self.peer_name = "";
+  end if;
+end if;',
+	1,
+	0);
+INSERT INTO O_BATTR
+	VALUES ("17f594b2-6e9a-482a-bd2e-edc4d882d7bc",
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca");
+INSERT INTO O_ATTR
+	VALUES ("17f594b2-6e9a-482a-bd2e-edc4d882d7bc",
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca",
+	"fa0fd75c-0e57-425a-b7a7-82c6ac7e2687",
+	'peer_name',
+	'',
+	'',
+	'peer_name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca");
+INSERT INTO O_ID
+	VALUES (1,
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca");
+INSERT INTO O_ID
+	VALUES (2,
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca");
+INSERT INTO PE_PE
+	VALUES ("2d25b1f7-cc70-4108-857f-f4bdaf7409ca",
+	1,
+	"109f1b96-5079-41b0-b8f8-9ae863863ce0",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("109f1b96-5079-41b0-b8f8-9ae863863ce0",
+	"00000000-0000-0000-0000-000000000000",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	'sockets',
+	'',
+	0,
+	'../sockets.xtuml');

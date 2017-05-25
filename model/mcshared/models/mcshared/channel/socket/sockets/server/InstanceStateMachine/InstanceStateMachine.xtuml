@@ -257,6 +257,8 @@ INSERT INTO SM_ACT
 	1,
 	'// create a server
 LOG::LogInfo( message:"Creating server for ''" + param.name + "''..." );
+create object instance handler of requesthandler;
+relate self to handler across R6513;
 self.name = param.name;
 self.peer_name = param.peer_name;
 select any serversocket from instances of serversocket;
@@ -620,8 +622,8 @@ INSERT INTO DIM_ND
 	36.000000,
 	"ff24398c-dc3b-4048-9908-2c785af30539");
 INSERT INTO DIM_GE
-	VALUES (3900.000000,
-	3186.000000,
+	VALUES (3911.000000,
+	3173.000000,
 	"ff24398c-dc3b-4048-9908-2c785af30539",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_ELE
