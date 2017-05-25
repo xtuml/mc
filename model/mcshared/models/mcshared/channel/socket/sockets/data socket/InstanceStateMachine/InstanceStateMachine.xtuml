@@ -1297,9 +1297,9 @@ INSERT INTO SM_ACT
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	1,
 	'select one socket related by self->socket[R6501];
-select one client related by self->requesthandler[R6516]->client[R6513];
+select one handler related by self->requesthandler[R6516];
 error = OK;
-ret_val = SOCK::sendhandshake( socket:socket.descriptor, self:client.name, peer:client.peer_name, error:error );
+ret_val = SOCK::sendhandshake( socket:socket.descriptor, self:handler.name, peer:handler.peer_name, error:error );
 if ( ERR == ret_val )
   generate datasocket9:error( code:error ) to self;
 else

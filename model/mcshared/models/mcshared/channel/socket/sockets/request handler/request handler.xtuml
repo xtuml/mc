@@ -25,22 +25,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000006",
 	'',
 	'');
-INSERT INTO O_DBATTR
+INSERT INTO O_NBATTR
 	VALUES ("fa0fd75c-0e57-425a-b7a7-82c6ac7e2687",
-	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca",
-	'select one client related by self->client[R6513];
-if ( not_empty client )
-  self.name = client.name;
-else
-  select one server related by self->server[R6513];
-  if ( not_empty server )
-    self.name = server.name;
-  else
-    self.name = "";
-  end if;
-end if;',
-	1,
-	0);
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca");
 INSERT INTO O_BATTR
 	VALUES ("fa0fd75c-0e57-425a-b7a7-82c6ac7e2687",
 	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca");
@@ -56,22 +43,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
-INSERT INTO O_DBATTR
+INSERT INTO O_NBATTR
 	VALUES ("17f594b2-6e9a-482a-bd2e-edc4d882d7bc",
-	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca",
-	'select one client related by self->client[R6513];
-if ( not_empty client )
-  self.peer_name = client.peer_name;
-else
-  select one server related by self->server[R6513];
-  if ( not_empty server )
-    self.peer_name = server.peer_name;
-  else
-    self.peer_name = "";
-  end if;
-end if;',
-	1,
-	0);
+	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca");
 INSERT INTO O_BATTR
 	VALUES ("17f594b2-6e9a-482a-bd2e-edc4d882d7bc",
 	"2d25b1f7-cc70-4108-857f-f4bdaf7409ca");

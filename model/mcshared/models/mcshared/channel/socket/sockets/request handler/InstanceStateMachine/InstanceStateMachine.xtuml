@@ -45,6 +45,40 @@ INSERT INTO SM_EVT
 	'',
 	'requesthandler2',
 	'');
+INSERT INTO SM_PEVT
+	VALUES ("427960a4-b427-498e-822a-4534565b252f",
+	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
+	"00000000-0000-0000-0000-000000000000",
+	'request handler',
+	'requesthandler',
+	'initialized');
+INSERT INTO SM_EVT
+	VALUES ("427960a4-b427-498e-822a-4534565b252f",
+	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
+	"00000000-0000-0000-0000-000000000000",
+	3,
+	'initialized',
+	0,
+	'',
+	'requesthandler3',
+	'');
+INSERT INTO SM_PEVT
+	VALUES ("0a7cf361-c0b4-40af-9cba-dc75b8bca32d",
+	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
+	"00000000-0000-0000-0000-000000000000",
+	'request handler',
+	'requesthandler',
+	'terminate');
+INSERT INTO SM_EVT
+	VALUES ("0a7cf361-c0b4-40af-9cba-dc75b8bca32d",
+	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
+	"00000000-0000-0000-0000-000000000000",
+	4,
+	'terminate',
+	0,
+	'',
+	'requesthandler4',
+	'');
 INSERT INTO SM_STATE
 	VALUES ("60906d8e-ac45-413e-a690-0d0a912bd261",
 	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
@@ -123,7 +157,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("8cee78f1-867f-4a54-b5ea-ab1bc9f674a1",
 	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -137,7 +171,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("05530b8a-db49-464d-abe9-845b355163fb",
 	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -151,7 +185,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("d305f968-9e65-416d-8d71-3423359d8754",
 	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -165,7 +199,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("08c0c09f-9655-40de-bc6a-48d8da82156a",
 	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
-	3,
+	1,
 	'',
 	'',
 	0);

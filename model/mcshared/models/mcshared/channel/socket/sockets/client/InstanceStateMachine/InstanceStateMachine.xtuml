@@ -267,9 +267,9 @@ INSERT INTO SM_ACT
 	'// create a client
 LOG::LogInfo( message:"Creating client for ''" + param.name + "''..." );
 create object instance handler of requesthandler;
+handler.name = param.name;
+handler.peer_name = param.peer_name;
 relate self to handler across R6513;
-self.name = param.name;
-self.peer_name = param.peer_name;
 generate datasocket1:start( to:param.peer_name, host:param.host, port:param.port, timeout:param.timeout, handler:handler ) to datasocket creator;',
 	'',
 	0);

@@ -63,41 +63,65 @@ INSERT INTO SM_EVT
 	'',
 	'server1',
 	'');
-INSERT INTO SM_LEVT
-	VALUES ("94bf1041-c695-42ab-a764-151611ad173e",
-	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO SM_SEVT
-	VALUES ("94bf1041-c695-42ab-a764-151611ad173e",
-	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO SM_EVT
-	VALUES ("94bf1041-c695-42ab-a764-151611ad173e",
+INSERT INTO SM_NLEVT
+	VALUES ("a1028cde-e748-4a46-ac6c-a786c7bc47d0",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"00000000-0000-0000-0000-000000000000",
-	2,
-	'initialized',
-	0,
-	'',
-	'server2',
+	"427960a4-b427-498e-822a-4534565b252f",
+	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
+	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO SM_LEVT
-	VALUES ("fd067008-3d63-4033-a9f4-ef7a90bfd2dd",
-	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
-	"00000000-0000-0000-0000-000000000000");
+INSERT INTO SM_PEVT_PROXY
+	VALUES ("427960a4-b427-498e-822a-4534565b252f",
+	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
+	"00000000-0000-0000-0000-000000000000",
+	'request handler',
+	'requesthandler',
+	'initialized',
+	'../../request handler/InstanceStateMachine/InstanceStateMachine.xtuml');
 INSERT INTO SM_SEVT
-	VALUES ("fd067008-3d63-4033-a9f4-ef7a90bfd2dd",
+	VALUES ("a1028cde-e748-4a46-ac6c-a786c7bc47d0",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_EVT
-	VALUES ("fd067008-3d63-4033-a9f4-ef7a90bfd2dd",
+	VALUES ("a1028cde-e748-4a46-ac6c-a786c7bc47d0",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"00000000-0000-0000-0000-000000000000",
 	3,
-	'stop',
+	'initialized',
 	0,
 	'',
-	'server3',
+	'requesthandler3*',
+	'');
+INSERT INTO SM_NLEVT
+	VALUES ("8c1a6f0b-0264-49ee-9b67-d74eab5cdfbf",
+	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
+	"00000000-0000-0000-0000-000000000000",
+	"0a7cf361-c0b4-40af-9cba-dc75b8bca32d",
+	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO SM_PEVT_PROXY
+	VALUES ("0a7cf361-c0b4-40af-9cba-dc75b8bca32d",
+	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
+	"00000000-0000-0000-0000-000000000000",
+	'request handler',
+	'requesthandler',
+	'terminate',
+	'../../request handler/InstanceStateMachine/InstanceStateMachine.xtuml');
+INSERT INTO SM_SEVT
+	VALUES ("8c1a6f0b-0264-49ee-9b67-d74eab5cdfbf",
+	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO SM_EVT
+	VALUES ("8c1a6f0b-0264-49ee-9b67-d74eab5cdfbf",
+	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
+	"00000000-0000-0000-0000-000000000000",
+	4,
+	'terminate',
+	0,
+	'',
+	'requesthandler4*',
 	'');
 INSERT INTO SM_STATE
 	VALUES ("5e52ff23-870e-49c9-8d9b-e8a55a3049c9",
@@ -119,12 +143,12 @@ INSERT INTO SM_SEME
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_SEME
 	VALUES ("5e52ff23-870e-49c9-8d9b-e8a55a3049c9",
-	"94bf1041-c695-42ab-a764-151611ad173e",
+	"a1028cde-e748-4a46-ac6c-a786c7bc47d0",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_SEME
 	VALUES ("5e52ff23-870e-49c9-8d9b-e8a55a3049c9",
-	"fd067008-3d63-4033-a9f4-ef7a90bfd2dd",
+	"8c1a6f0b-0264-49ee-9b67-d74eab5cdfbf",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_STATE
@@ -147,18 +171,18 @@ INSERT INTO SM_SEME
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_CH
 	VALUES ("54edbdcd-ca73-413e-9d11-00a5c0c935e2",
-	"94bf1041-c695-42ab-a764-151611ad173e",
+	"a1028cde-e748-4a46-ac6c-a786c7bc47d0",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO SM_SEME
 	VALUES ("54edbdcd-ca73-413e-9d11-00a5c0c935e2",
-	"94bf1041-c695-42ab-a764-151611ad173e",
+	"a1028cde-e748-4a46-ac6c-a786c7bc47d0",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_SEME
 	VALUES ("54edbdcd-ca73-413e-9d11-00a5c0c935e2",
-	"fd067008-3d63-4033-a9f4-ef7a90bfd2dd",
+	"8c1a6f0b-0264-49ee-9b67-d74eab5cdfbf",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_STATE
@@ -181,31 +205,31 @@ INSERT INTO SM_SEME
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_CH
 	VALUES ("dc7fb8fe-58bd-476b-9043-95f4da0aebb0",
-	"94bf1041-c695-42ab-a764-151611ad173e",
+	"a1028cde-e748-4a46-ac6c-a786c7bc47d0",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO SM_SEME
 	VALUES ("dc7fb8fe-58bd-476b-9043-95f4da0aebb0",
-	"94bf1041-c695-42ab-a764-151611ad173e",
+	"a1028cde-e748-4a46-ac6c-a786c7bc47d0",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_CH
 	VALUES ("dc7fb8fe-58bd-476b-9043-95f4da0aebb0",
-	"fd067008-3d63-4033-a9f4-ef7a90bfd2dd",
+	"8c1a6f0b-0264-49ee-9b67-d74eab5cdfbf",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO SM_SEME
 	VALUES ("dc7fb8fe-58bd-476b-9043-95f4da0aebb0",
-	"fd067008-3d63-4033-a9f4-ef7a90bfd2dd",
+	"8c1a6f0b-0264-49ee-9b67-d74eab5cdfbf",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_NSTXN
 	VALUES ("6e9bf081-5fb4-4391-882b-6659fba2f612",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"5e52ff23-870e-49c9-8d9b-e8a55a3049c9",
-	"94bf1041-c695-42ab-a764-151611ad173e",
+	"a1028cde-e748-4a46-ac6c-a786c7bc47d0",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_TXN
 	VALUES ("6e9bf081-5fb4-4391-882b-6659fba2f612",
@@ -226,7 +250,7 @@ INSERT INTO SM_NSTXN
 	VALUES ("dea50e3c-6416-4ae4-a67c-6aedf313b25c",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"54edbdcd-ca73-413e-9d11-00a5c0c935e2",
-	"fd067008-3d63-4033-a9f4-ef7a90bfd2dd",
+	"8c1a6f0b-0264-49ee-9b67-d74eab5cdfbf",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_TXN
 	VALUES ("dea50e3c-6416-4ae4-a67c-6aedf313b25c",
@@ -237,7 +261,7 @@ INSERT INTO SM_NSTXN
 	VALUES ("76bb0434-6b5e-4b06-bb67-235e2d41426d",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	"5e52ff23-870e-49c9-8d9b-e8a55a3049c9",
-	"fd067008-3d63-4033-a9f4-ef7a90bfd2dd",
+	"8c1a6f0b-0264-49ee-9b67-d74eab5cdfbf",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_TXN
 	VALUES ("76bb0434-6b5e-4b06-bb67-235e2d41426d",
@@ -258,9 +282,9 @@ INSERT INTO SM_ACT
 	'// create a server
 LOG::LogInfo( message:"Creating server for ''" + param.name + "''..." );
 create object instance handler of requesthandler;
+handler.name = param.name;
+handler.peer_name = param.peer_name;
 relate self to handler across R6513;
-self.name = param.name;
-self.peer_name = param.peer_name;
 select any serversocket from instances of serversocket;
 if ( empty serversocket )
   // create a server socket if it does not exist
@@ -268,7 +292,7 @@ if ( empty serversocket )
 else
   // attach to the existing serversocket
   relate self to serversocket across R6502;
-  generate server2:initialized() to self;
+  generate requesthandler3:initialized() to self;
 end if;',
 	'',
 	0);
@@ -488,7 +512,7 @@ INSERT INTO GD_GE
 	"6e9bf081-5fb4-4391-882b-6659fba2f612",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::server::Instance State Machine::initializing::server2: initialized');
+	'mcshared::channel::socket::sockets::server::Instance State Machine::initializing::initialized::request handler');
 INSERT INTO GD_CON
 	VALUES ("883bd4a8-e483-41bf-940e-33cdfe161ebb",
 	"00000000-0000-0000-0000-000000000000");
@@ -518,12 +542,12 @@ INSERT INTO GD_CTXT
 	0.000000,
 	0.000000);
 INSERT INTO DIM_ND
-	VALUES (0.000000,
-	0.000000,
+	VALUES (107.000000,
+	36.000000,
 	"376eb08e-90cd-4481-aa35-76c898f4ab77");
 INSERT INTO DIM_GE
-	VALUES (3988.000000,
-	3384.000000,
+	VALUES (3990.000000,
+	3374.000000,
 	"376eb08e-90cd-4481-aa35-76c898f4ab77",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_ELE
@@ -688,7 +712,7 @@ INSERT INTO GD_GE
 	"dea50e3c-6416-4ae4-a67c-6aedf313b25c",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::server::Instance State Machine::running::server3: stop');
+	'mcshared::channel::socket::sockets::server::Instance State Machine::running::terminate::request handler');
 INSERT INTO GD_CON
 	VALUES ("2c97357d-203f-43c0-9912-15ee7128996d",
 	"00000000-0000-0000-0000-000000000000");
@@ -718,12 +742,12 @@ INSERT INTO GD_CTXT
 	0.000000,
 	0.000000);
 INSERT INTO DIM_ND
-	VALUES (0.000000,
-	0.000000,
+	VALUES (107.000000,
+	36.000000,
 	"21fc3735-b3bb-449e-b6b3-4b64c7876030");
 INSERT INTO DIM_GE
 	VALUES (4296.000000,
-	3549.500000,
+	3549.000000,
 	"21fc3735-b3bb-449e-b6b3-4b64c7876030",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_ELE
@@ -801,7 +825,7 @@ INSERT INTO GD_GE
 	"76bb0434-6b5e-4b06-bb67-235e2d41426d",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::server::Instance State Machine::initializing::server3: stop');
+	'mcshared::channel::socket::sockets::server::Instance State Machine::initializing::terminate::request handler');
 INSERT INTO GD_CON
 	VALUES ("63304220-b340-4771-80bc-59091890f107",
 	"00000000-0000-0000-0000-000000000000");
@@ -831,12 +855,12 @@ INSERT INTO GD_CTXT
 	0.000000,
 	0.000000);
 INSERT INTO DIM_ND
-	VALUES (0.000000,
-	0.000000,
+	VALUES (107.000000,
+	36.000000,
 	"e8fedc72-14db-46ca-8c76-b1e5790af126");
 INSERT INTO DIM_GE
-	VALUES (4296.000000,
-	3215.000000,
+	VALUES (4295.000000,
+	3206.000000,
 	"e8fedc72-14db-46ca-8c76-b1e5790af126",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_ELE
