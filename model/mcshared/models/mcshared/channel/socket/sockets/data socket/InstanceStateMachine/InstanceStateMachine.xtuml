@@ -57,16 +57,16 @@ INSERT INTO SM_EVTDI
 INSERT INTO SM_EVTDI
 	VALUES ("3496badc-e15e-4550-865f-291c64b0ac38",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
-	'client',
+	'handler',
 	'',
-	"f618faba-439b-4472-a805-2cd1b536f7eb",
+	"285c1859-e0c5-4df1-9ee7-3390dea6846c",
 	'',
 	"18e1f5a9-b183-43c5-b2dc-0e3e1f10054c",
 	"20013f4e-223e-4248-ad81-fdb171a96c09");
 INSERT INTO S_DT_PROXY
-	VALUES ("f618faba-439b-4472-a805-2cd1b536f7eb",
+	VALUES ("285c1859-e0c5-4df1-9ee7-3390dea6846c",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<client>',
+	'inst_ref<request handler>',
 	'',
 	'',
 	'../../sockets.xtuml');
@@ -1238,8 +1238,8 @@ self.connection_timeout = param.timeout;
 self.tries = 0;
 
 // relate self to the client or server and socket
-client = param.client;
-relate self to client across R6509;
+handler = param.handler;
+relate self to handler across R6516;
 create object instance socket of socket;
 socket.host = param.host;
 socket.port = param.port;
@@ -1279,7 +1279,7 @@ if ( ERR == ret_val )
   end if;
 else
   LOG::LogInfo( message:"Socket connected." );
-  select one client related by self->client[R6509];
+  select one client related by self->requesthandler[R6516]->client[R6513];
   generate client2:initialized() to client;
   generate datasocket3:ready() to self;
 end if;',
@@ -1297,7 +1297,7 @@ INSERT INTO SM_ACT
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	1,
 	'select one socket related by self->socket[R6501];
-select one client related by self->client[R6509];
+select one client related by self->requesthandler[R6516]->client[R6513];
 error = OK;
 ret_val = SOCK::sendhandshake( socket:socket.descriptor, self:client.name, peer:client.peer_name, error:error );
 if ( ERR == ret_val )
@@ -1344,7 +1344,7 @@ INSERT INTO SM_ACT
 	1,
 	'LOG::LogInfo( message:"Socket closed." );
 ::log_exit( code:param.code );
-select one client related by self->client[R6509];
+select one client related by self->requesthandler[R6516]->client[R6513];
 if ( not_empty client )
   generate client3:stop() to client;
 end if;',
@@ -1527,7 +1527,7 @@ if ( ERR == ret_val )
   end if;
 else
   LOG::LogInfo( message:"Socket connected." );
-  select one client related by self->client[R6509];
+  select one client related by self->requesthandler[R6516]->client[R6513];
   generate client2:initialized() to client;
   generate datasocket3:ready() to self;
 end if;',
@@ -1615,9 +1615,9 @@ if ( ERR == ret_val )
 else
   LOG::LogInfo( message:"Handshake received." );
   self.to = peer_name;
-  select any server from instances of server where ( selected.name == name );
-  if ( not_empty server )
-    relate self to server across R6507;
+  select any handler from instances of requesthandler where ( selected.name == name );
+  if ( not_empty handler )
+    relate self to handler across R6516;
   else
     generate datasocket9:error( code:S_UNKNOWNENDPOINT ) to self;
   end if;
@@ -1692,14 +1692,9 @@ INSERT INTO SM_ACT
 	VALUES ("b2f94c3a-4ad2-4541-8901-4a4dc50cef11",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	1,
-	'LOG::LogInfo( message:"Data socket setup. Peer: " + self.to );
-select one client related by self->client[R6509];
-if ( not_empty client )
-  LOG::LogInfo( message:"Client: " + client.name );
-else
-  select one server related by self->server[R6507];
-  LOG::LogInfo( message:"Server: " + server.name );
-end if;',
+	'select one handler related by self->requesthandler[R6516];
+LOG::LogInfo( message:"Name: " + handler.name );
+LOG::LogInfo( message:"Data socket setup. Peer: " + self.to );',
 	'',
 	0);
 INSERT INTO SM_TAH
@@ -2291,7 +2286,7 @@ INSERT INTO GD_GE
 	"749db02c-16a4-4195-b62d-d3b7c6c9c0ed",
 	49,
 	0,
-	'datasocket1: start(to, host, port, timeout, client)');
+	'datasocket1: start(to, host, port, timeout, handler)');
 INSERT INTO GD_CON
 	VALUES ("a11e78b0-1eba-4a66-8644-2f13dcfc146e",
 	"00000000-0000-0000-0000-000000000000");
