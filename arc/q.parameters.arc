@@ -137,6 +137,8 @@
     .assign counter = counter + 1
 
   .end while
+  .select any te_len_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "len" )
+  parameters.${te_len_mbr.GeneratedName} = ${counter};
 .end function
 .//
 .// Unpack structured parameters
