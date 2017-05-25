@@ -703,7 +703,7 @@ INSERT INTO SM_ACT
 ::log_exit( code:param.code );
 select many servers related by self->server[R6502];
 for each server in servers
-  generate server3:stop() to server;
+  generate requesthandler4:terminate() to server;
 end for;',
 	'',
 	0);
@@ -817,7 +817,7 @@ else
     LOG::LogInfo( message:"Server socket listening." );
     select many servers related by self->server[R6502];
     for each server in servers
-      generate server2:initialized() to server;
+      generate requesthandler3:initialized() to server;
     end for;
     generate serversocket2:listen() to self;
   end if;
