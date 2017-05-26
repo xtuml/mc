@@ -1811,7 +1811,7 @@ if ( ERR == ret_val )
   generate datasocket9:error( code:error ) to self;
 else
   LOG::LogInfo( message:"Handshake sent." );
-  LOG::LogInfo( message:"Data socket setup. Name: + " + handler.name + "Peer: " + self.to );
+  LOG::LogInfo( message:"Data socket setup. Name: + " + handler.name + ", Peer: " + self.to );
   self.ready = true;
   generate datasocket3:ready() to self;
   select one handler related by self->requesthandler[R6516];
@@ -1858,7 +1858,6 @@ INSERT INTO SM_ACT
 select one handler related by self->requesthandler[R6516]->client[R6513]->requesthandler[R6513];
 self.dispose();
 if ( not_empty handler )
-  LOG::LogInfo( message:"terminating client" );
   generate requesthandler4:terminate() to handler;
 end if;',
 	'',
@@ -2134,7 +2133,7 @@ else
   else
     generate datasocket9:error( code:S_UNKNOWNENDPOINT ) to self;
   end if;
-  LOG::LogInfo( message:"Data socket setup. Name: + " + handler.name + "Peer: " + self.to );
+  LOG::LogInfo( message:"Data socket setup. Name: + " + handler.name + ", Peer: " + self.to );
   self.ready = true;
   generate datasocket3:ready() to self;
 end if;',
@@ -2335,17 +2334,17 @@ if ( not_empty message )
     generate datasocket9:error( code:error ) to self;
   else
     if ( -3 == message.index )
-      message.name = data;
+      message.name = UTIL::datatostring( data:data, size:size );
     elif ( -2 == message.index )
-      message.to = data;
+      message.to = UTIL::datatostring( data:data, size:size );
     elif ( -1 == message.index )
-      message.from = data;
+      message.from = UTIL::datatostring( data:data, size:size );
     else
       message.parameters.data[message.index] = data;
       message.parameters.size[message.index] = size;
     end if;
     message.index = message.index + 1;
-    if ( message.index == message.len );
+    if ( message.index == message.parameters.len );
       // message is complete create inbound request
       generate request1:create( name:message.name, parameters:message.parameters, to:message.to, from:message.from, inbound:true ) to request creator;
       unrelate message from self across R6517;
@@ -2365,7 +2364,7 @@ else
       generate datasocket9:error( code:S_CORRUPTDATA ) to self;
     else
       create object instance message of message;
-      message.len = len;
+      message.parameters.len = len;
       message.index = -3;
       relate message to self across R6517;
       generate datasocket3:ready() to self;
