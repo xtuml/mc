@@ -289,7 +289,7 @@ INSERT INTO SM_ACT
 	"45abbad3-4b84-4ff3-819a-674410ec6ce6",
 	1,
 	'// create a client
-LOG::LogInfo( message:"Creating client for ''" + param.name + "''..." );
+UTIL::print( s:"Creating client for ''" + param.name + "''..." );
 create object instance handler of requesthandler;
 handler.name = param.name;
 handler.peer_name = param.peer_name;
@@ -308,7 +308,7 @@ INSERT INTO SM_ACT
 	VALUES ("ab5a8d67-db13-4bc8-97cc-d06b9d2f7bff",
 	"45abbad3-4b84-4ff3-819a-674410ec6ce6",
 	1,
-	'LOG::LogInfo( message:"Client running." );
+	'UTIL::print( s:"Client running." );
 select one handler related by self->requesthandler[R6513];
 generate requesthandler7:handle() to handler;',
 	'',
@@ -324,7 +324,7 @@ INSERT INTO SM_ACT
 	VALUES ("ed7d91c0-d10a-4717-94e7-dbba2eb0ac57",
 	"45abbad3-4b84-4ff3-819a-674410ec6ce6",
 	1,
-	'LOG::LogInfo( message:"Client stopped." );
+	'UTIL::print( s:"Client stopped." );
 self.dispose();',
 	'',
 	0);

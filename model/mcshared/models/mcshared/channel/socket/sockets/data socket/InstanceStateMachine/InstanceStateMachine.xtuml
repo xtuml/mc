@@ -1738,7 +1738,7 @@ INSERT INTO SM_ACT
 	VALUES ("52216224-2cc5-4116-85ad-1cf2f9ba7444",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	1,
-	'LOG::LogInfo( message:"Creating data socket..." );
+	'UTIL::print( s:"Creating data socket..." );
 
 // set attributes
 self.to = param.to;
@@ -1761,7 +1761,7 @@ socket.descriptor = SOCK::socket( error:error );
 if ( ERR == socket.descriptor )
   generate datasocket9:error( code:error ) to self;
 else
-  LOG::LogInfo( message:"Socket created." );
+  UTIL::print( s:"Socket created." );
   generate datasocket2:connect() to self;
 end if;',
 	'',
@@ -1787,7 +1787,7 @@ if ( ERR == ret_val )
     generate datasocket9:error( code:error ) to self;
   end if;
 else
-  LOG::LogInfo( message:"Socket connected." );
+  UTIL::print( s:"Socket connected." );
   generate datasocket3:ready() to self;
 end if;',
 	'',
@@ -1810,8 +1810,8 @@ ret_val = SOCK::sendhandshake( socket:socket.descriptor, self:handler.name, peer
 if ( ERR == ret_val )
   generate datasocket9:error( code:error ) to self;
 else
-  LOG::LogInfo( message:"Handshake sent." );
-  LOG::LogInfo( message:"Data socket setup. Name: + " + handler.name + ", Peer: " + self.to );
+  UTIL::print( s:"Handshake sent." );
+  UTIL::print( s:"Data socket setup. Name: + " + handler.name + ", Peer: " + self.to );
   self.ready = true;
   generate datasocket3:ready() to self;
   select one handler related by self->requesthandler[R6516];
@@ -1830,7 +1830,7 @@ INSERT INTO SM_ACT
 	VALUES ("2ee7fe07-aa25-47a2-b8a4-08b717aafd85",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	1,
-	'LOG::LogInfo( message:"Closing socket..." );
+	'UTIL::print( s:"Closing socket..." );
 ::log_exit( code:param.code );
 select one socket related by self->socket[R6501];
 error = OK;
@@ -1853,7 +1853,7 @@ INSERT INTO SM_ACT
 	VALUES ("68138c0b-98d5-4390-b8d0-8be54b572074",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	1,
-	'LOG::LogInfo( message:"Socket closed." );
+	'UTIL::print( s:"Socket closed." );
 ::log_exit( code:param.code );
 select one handler related by self->requesthandler[R6516]->client[R6513]->requesthandler[R6513];
 self.dispose();
@@ -1985,7 +1985,7 @@ INSERT INTO SM_ACT
 	VALUES ("e9ab32f2-816b-45de-84de-2be6cda709df",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	1,
-	'LOG::LogInfo( message:"Creating data socket from server end..." );
+	'UTIL::print( s:"Creating data socket from server end..." );
 
 self.ready = false;
 
@@ -2040,7 +2040,7 @@ if ( ERR == ret_val )
     generate datasocket9:error( code:error ) to self;
   end if;
 else
-  LOG::LogInfo( message:"Socket connected." );
+  UTIL::print( s:"Socket connected." );
   generate datasocket3:ready() to self;
 end if;',
 	'',
@@ -2125,7 +2125,7 @@ if ( ERR == ret_val )
     generate datasocket9:error( code:error ) to self;
   end if;
 else
-  LOG::LogInfo( message:"Handshake received." );
+  UTIL::print( s:"Handshake received." );
   self.to = peer_name;
   select any handler from instances of requesthandler where ( selected.name == name );
   if ( not_empty handler )
@@ -2133,7 +2133,7 @@ else
   else
     generate datasocket9:error( code:S_UNKNOWNENDPOINT ) to self;
   end if;
-  LOG::LogInfo( message:"Data socket setup. Name: + " + handler.name + ", Peer: " + self.to );
+  UTIL::print( s:"Data socket setup. Name: + " + handler.name + ", Peer: " + self.to );
   self.ready = true;
   generate datasocket3:ready() to self;
 end if;',
@@ -2267,7 +2267,7 @@ INSERT INTO SM_ACT
 	VALUES ("b781f04b-f85b-448d-85b2-39f655728de0",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	1,
-	'LOG::LogInfo( message:"Sending message..." );
+	'UTIL::print( s:"Sending message..." );
 select one request related by self->request[R6508];
 select one socket related by self->socket[R6501];
 

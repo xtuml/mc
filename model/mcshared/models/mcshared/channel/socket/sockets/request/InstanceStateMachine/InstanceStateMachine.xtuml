@@ -592,7 +592,7 @@ INSERT INTO SM_ACT
 	VALUES ("87634e5c-c809-4b55-a61c-bc962bdd68b6",
 	"2b5e2182-5e08-4ac9-9fb7-0944ba25803d",
 	1,
-	'LOG::LogInfo( message:"Creating request..." );
+	'UTIL::print( s:"Creating request..." );
 self.to = param.to;
 self.from = param.from;
 self.message_name = param.name;
@@ -643,7 +643,7 @@ INSERT INTO SM_ACT
 	VALUES ("0bb03159-bd0b-4929-aea3-09863111a553",
 	"2b5e2182-5e08-4ac9-9fb7-0944ba25803d",
 	1,
-	'LOG::LogInfo( message:"Request waiting." );
+	'UTIL::print( s:"Request waiting." );
 self.initialized = true;',
 	'',
 	0);
@@ -658,7 +658,7 @@ INSERT INTO SM_ACT
 	VALUES ("007c445d-c8f6-4df1-bab0-72c29aff06e7",
 	"2b5e2182-5e08-4ac9-9fb7-0944ba25803d",
 	1,
-	'LOG::LogInfo( message:"Request completed." );
+	'UTIL::print( s:"Request completed." );
 select one handler related by self->requesthandler[R6518];
 self.dispose();
 if ( not_empty handler )
@@ -692,7 +692,7 @@ INSERT INTO SM_ACT
 	"2b5e2182-5e08-4ac9-9fb7-0944ba25803d",
 	1,
 	'//attach to handler
-LOG::LogInfo( message:"Attaching request to a handler..." );
+UTIL::print( s:"Attaching request to a handler..." );
 select any handler from instances of requesthandler where ( selected.name == self.from );
 if ( self.inbound )
   select any handler from instances of requesthandler where ( selected.name == self.to );
@@ -716,7 +716,7 @@ else
     create event instance e of request7:attach( tries:param.tries + 1 ) to self;
     t = TIM::timer_start( microseconds:100000, event_inst:e );
   else
-    LOG::LogInfo( message:"Request did not match a client or server" );
+    UTIL::print( s:"Request did not match a client or server" );
     generate request8:cancel() to self;
   end if;
 end if;',
