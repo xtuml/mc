@@ -280,7 +280,7 @@ INSERT INTO SM_ACT
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	1,
 	'// create a server
-LOG::LogInfo( message:"Creating server for ''" + param.name + "''..." );
+UTIL::print( s:"Creating server for ''" + param.name + "''..." );
 create object instance handler of requesthandler;
 handler.name = param.name;
 handler.peer_name = param.peer_name;
@@ -307,7 +307,7 @@ INSERT INTO SM_ACT
 	VALUES ("000a4d30-6fe9-445b-9743-4786c4548d3e",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	1,
-	'LOG::LogInfo( message:"Server running." );
+	'UTIL::print( s:"Server running." );
 select one handler related by self->requesthandler[R6513];
 generate requesthandler7:handle() to handler;',
 	'',
@@ -323,7 +323,7 @@ INSERT INTO SM_ACT
 	VALUES ("3ceac50e-cdee-49d9-bd7a-829c3ed25aa4",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	1,
-	'LOG::LogInfo( message:"Server stopped." );
+	'UTIL::print( s:"Server stopped." );
 self.dispose();',
 	'',
 	0);

@@ -279,7 +279,7 @@ INSERT INTO SM_ACT
 	VALUES ("20561067-f370-4c5f-a5b9-fcdc0fc24ab8",
 	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
 	1,
-	'LOG::LogInfo( message:"Delivering request..." );
+	'UTIL::print( s:"Delivering request..." );
 select one request related by self->request[R6514];
 
 // build parameters to deliver
@@ -315,7 +315,7 @@ INSERT INTO SM_ACT
 	VALUES ("1a27d8ff-f105-40eb-a746-39f00673cd0d",
 	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
 	1,
-	'LOG::LogInfo( message:"Sending request..." );
+	'UTIL::print( s:"Sending request..." );
 select one request related by self->request[R6514];
 
 // select a data socket to send the request
@@ -323,7 +323,7 @@ select any datasocket related by self->datasocket[R6516] where ( selected.ready 
 if ( not_empty datasocket )
   relate request to datasocket across R6508;
 else
-  LOG::LogInfo( message:"No data socket found to service request" );
+  UTIL::print( s:"No data socket found to service request" );
   generate request8:cancel() to request;
 end if;',
 	'',
