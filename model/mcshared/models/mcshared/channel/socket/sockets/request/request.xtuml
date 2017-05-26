@@ -66,12 +66,18 @@ elif ( not_empty prev_request )
   select one handler related by self->requesthandler[R6515];
   unrelate self from handler across R6515;
   relate prev_request to handler across R6515;
-else
+elif ( not_empty next_request )
   // start of queue
   unrelate self from next_request across R6512.''precedes'';
   select one handler related by self->requesthandler[R6514];
   unrelate self from handler across R6514;
   relate next_request to handler across R6514;
+else
+  // only one in the queue
+  select one handler related by self->requesthandler[R6514];
+  unrelate self from handler across R6514;
+  select one handler related by self->requesthandler[R6515];
+  unrelate self from handler across R6515;
 end if;
 select one handler related by self->requesthandler[R6518];
 if ( not_empty handler )
