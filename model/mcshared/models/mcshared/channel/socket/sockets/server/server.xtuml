@@ -7,6 +7,23 @@ INSERT INTO O_OBJ
 	'server',
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("ba3e2a18-cca1-4a37-8ff3-5764665bc19e",
+	"564d7b90-871b-45c7-af12-873131c0bcda",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one serversocket related by self->serversocket[R6502];
+unrelate self from serversocket across R6502;
+select one handler related by self->requesthandler[R6513];
+unrelate self from handler across R6513;
+handler.dispose();
+delete object instance handler;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("267574ce-f6da-47d6-abc2-a926b80bc5c0",
 	"564d7b90-871b-45c7-af12-873131c0bcda");

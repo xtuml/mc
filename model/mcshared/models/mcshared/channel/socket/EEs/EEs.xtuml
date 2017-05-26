@@ -370,6 +370,210 @@ INSERT INTO S_BPARM
 	'',
 	"8e3adf00-3d4c-41f5-9540-2afe88196d71",
 	'');
+INSERT INTO S_BRG
+	VALUES ("529b1f00-6c19-4b1f-8f49-63e9f12c3d57",
+	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'recvchunk',
+	'Receive a chunk of data consisting of a size and data value.
+0 returned if successful, -1 returned if not, error set to the appropriate value',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("61fe580e-4921-4623-87f9-5567faadc959",
+	"529b1f00-6c19-4b1f-8f49-63e9f12c3d57",
+	'socket',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("48a49eae-c43d-4161-9744-001175624722",
+	"529b1f00-6c19-4b1f-8f49-63e9f12c3d57",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"69532051-d36f-4d7d-8af6-3dc8199cd5d8",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("22e85b1b-747d-4cfa-8736-bdaa7e1ebe6b",
+	"529b1f00-6c19-4b1f-8f49-63e9f12c3d57",
+	'size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"61fe580e-4921-4623-87f9-5567faadc959",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("69532051-d36f-4d7d-8af6-3dc8199cd5d8",
+	"529b1f00-6c19-4b1f-8f49-63e9f12c3d57",
+	'data',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	"22e85b1b-747d-4cfa-8736-bdaa7e1ebe6b",
+	'');
+INSERT INTO S_BRG
+	VALUES ("a1b68e2d-a855-458d-99d7-fda5635b5f9a",
+	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'recvlength',
+	'Receive the number of chunks in the message
+0 returned if successful, -1 returned if not, error set to the appropriate value',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("23d1ce68-9124-4d63-8171-ee3443c82210",
+	"a1b68e2d-a855-458d-99d7-fda5635b5f9a",
+	'socket',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("b4ff0332-97fc-4833-94ca-e5775d28efe5",
+	"a1b68e2d-a855-458d-99d7-fda5635b5f9a",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"1d8ace2c-abf0-4dc7-bd68-2f846fb34103",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("1d8ace2c-abf0-4dc7-bd68-2f846fb34103",
+	"a1b68e2d-a855-458d-99d7-fda5635b5f9a",
+	'len',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"23d1ce68-9124-4d63-8171-ee3443c82210",
+	'');
+INSERT INTO S_BRG
+	VALUES ("6b2ae87a-0249-4e82-b756-706538cfbbb9",
+	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'checkread',
+	'Loosely based on the select system call, this bridge checks if the given socket ready for reading and for socket errors. If it is ready, 0 is returned.
+Otherwise, -1 is returned and error is set appropriately. This bridge is non-blocking. Sets error EWOULDBLOCK if socket is not ready',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("0e8ad9ed-2879-4f55-9f59-48a1edefea31",
+	"6b2ae87a-0249-4e82-b756-706538cfbbb9",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"7db08a55-b1a8-4862-bec1-7df8dffb820d",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("7db08a55-b1a8-4862-bec1-7df8dffb820d",
+	"6b2ae87a-0249-4e82-b756-706538cfbbb9",
+	'socket',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("820b3127-0a50-4b70-a33f-3b3ff5a05014",
+	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'sendlength',
+	'Send the number of chunks in the message
+0 returned if successful, -1 returned if not, error set to the appropriate value',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("d5ac63f5-d6b4-4a2b-8909-80b4ea3f2996",
+	"820b3127-0a50-4b70-a33f-3b3ff5a05014",
+	'socket',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("2433c01d-ab9c-4b63-a1b9-8e669f2912b2",
+	"820b3127-0a50-4b70-a33f-3b3ff5a05014",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"584125fe-4046-4149-957f-d787f56ab224",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("584125fe-4046-4149-957f-d787f56ab224",
+	"820b3127-0a50-4b70-a33f-3b3ff5a05014",
+	'len',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"d5ac63f5-d6b4-4a2b-8909-80b4ea3f2996",
+	'');
+INSERT INTO S_BRG
+	VALUES ("3db8d8af-45b1-4ea4-a7bd-74ae81959617",
+	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
+	'sendchunk',
+	'Send a chunk of data consisting of a size and data value
+0 returned if successful, -1 returned if not, error set to the appropriate value',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("d7e8a180-c897-4450-998f-03ff0444b2a6",
+	"3db8d8af-45b1-4ea4-a7bd-74ae81959617",
+	'socket',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("bac06c80-2dff-4137-85e1-3aae45fc2bc1",
+	"3db8d8af-45b1-4ea4-a7bd-74ae81959617",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"ea788f80-f05b-4258-8b7f-8aacdeccd41b",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("3a92aa89-2b90-4e4b-87ea-97b3f5cd9117",
+	"3db8d8af-45b1-4ea4-a7bd-74ae81959617",
+	'size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"d7e8a180-c897-4450-998f-03ff0444b2a6",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("ea788f80-f05b-4258-8b7f-8aacdeccd41b",
+	"3db8d8af-45b1-4ea4-a7bd-74ae81959617",
+	'data',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"3a92aa89-2b90-4e4b-87ea-97b3f5cd9117",
+	'');
 INSERT INTO PE_PE
 	VALUES ("d146f3ad-535e-440e-95cd-63fdd58fbc52",
 	1,

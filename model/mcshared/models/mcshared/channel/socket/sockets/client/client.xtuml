@@ -7,6 +7,21 @@ INSERT INTO O_OBJ
 	'client',
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("6a6c799f-bdbd-4f35-a657-75553850ba8b",
+	"2ef02306-0be2-4396-8e9b-f368292c2903",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one handler related by self->requesthandler[R6513];
+unrelate self from handler across R6513;
+handler.dispose();
+delete object instance handler;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("37e06546-3e5e-44f1-a90f-378ddae00254",
 	"2ef02306-0be2-4396-8e9b-f368292c2903");

@@ -701,9 +701,10 @@ INSERT INTO SM_ACT
 	1,
 	'LOG::LogInfo( message:"Socket closed." );
 ::log_exit( code:param.code );
-select many servers related by self->server[R6502];
-for each server in servers
-  generate requesthandler4:terminate() to server;
+select many handlers related by self->server[R6502]->requesthandler[R6513];
+self.dispose();
+for each handler in handlers
+  generate requesthandler4:terminate() to handler;
 end for;',
 	'',
 	0);
@@ -815,9 +816,9 @@ else
     generate serversocket6:error( code:error ) to self;
   else
     LOG::LogInfo( message:"Server socket listening." );
-    select many servers related by self->server[R6502];
-    for each server in servers
-      generate requesthandler3:initialized() to server;
+    select many handlers related by self->server[R6502]->requesthandler[R6513];
+    for each handler in handlers
+      generate requesthandler3:initialized() to handler;
     end for;
     generate serversocket2:listen() to self;
   end if;
