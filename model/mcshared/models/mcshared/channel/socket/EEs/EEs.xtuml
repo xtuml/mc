@@ -1077,7 +1077,7 @@ INSERT INTO S_BRG
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
-	3,
+	1,
 	'',
 	0);
 INSERT INTO S_BPARM
@@ -1097,6 +1097,26 @@ INSERT INTO S_BPARM
 	0,
 	'',
 	"4c6a9653-7fd2-41e7-ba5d-b1bceb3618b8",
+	'');
+INSERT INTO S_BRG
+	VALUES ("1c30b6f2-4cbb-490a-9ada-a3b61287d22d",
+	"b4f067d8-6c16-4b60-9d62-f48000a8f558",
+	'print',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	3,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("331a2ec6-303f-4afe-b4ac-24d52eedf971",
+	"1c30b6f2-4cbb-490a-9ada-a3b61287d22d",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
 	VALUES ("b4f067d8-6c16-4b60-9d62-f48000a8f558",
