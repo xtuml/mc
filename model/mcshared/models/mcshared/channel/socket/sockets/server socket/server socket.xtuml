@@ -7,6 +7,24 @@ INSERT INTO O_OBJ
 	'serversocket',
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("73473a2f-87d1-45fb-bc01-b0801da09687",
+	"7a3208a7-8b9f-4aac-9e68-6b77f12afc18",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one socket related by self->socket[R6501];
+unrelate self from socket across R6501;
+delete object instance socket;
+select many servers related by self->server[R6502];
+for each server in servers
+  unrelate self from server across R6502;
+end for;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("c4804bac-204d-4957-b39d-45f5412c86a9",
 	"7a3208a7-8b9f-4aac-9e68-6b77f12afc18");

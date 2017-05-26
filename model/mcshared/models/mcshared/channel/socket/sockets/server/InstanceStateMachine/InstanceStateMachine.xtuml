@@ -292,7 +292,7 @@ if ( empty serversocket )
 else
   // attach to the existing serversocket
   relate self to serversocket across R6502;
-  generate requesthandler3:initialized() to self;
+  generate requesthandler3:initialized() to handler;
 end if;',
 	'',
 	0);
@@ -307,7 +307,9 @@ INSERT INTO SM_ACT
 	VALUES ("000a4d30-6fe9-445b-9743-4786c4548d3e",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	1,
-	'LOG::LogInfo( message:"Server running." );',
+	'LOG::LogInfo( message:"Server running." );
+select one handler related by self->requesthandler[R6513];
+generate requesthandler7:handle() to handler;',
 	'',
 	0);
 INSERT INTO SM_MOAH
@@ -321,7 +323,8 @@ INSERT INTO SM_ACT
 	VALUES ("3ceac50e-cdee-49d9-bd7a-829c3ed25aa4",
 	"3e7d13c0-41a8-4f00-b3ec-79e01a281d64",
 	1,
-	'LOG::LogInfo( message:"Server stopped." );',
+	'LOG::LogInfo( message:"Server stopped." );
+self.dispose();',
 	'',
 	0);
 INSERT INTO SM_TAH
