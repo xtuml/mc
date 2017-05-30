@@ -22,9 +22,17 @@ INSERT INTO O_ATTR
 	'',
 	'data',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
 	'',
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
+	"00000000-0000-0000-0000-000000000000",
+	'bstring',
+	'binary data represented as a string. WARNING regular string operations that require well defined strings (e.g. string concatenation) are
+unsafe with this type',
+	'',
+	'../../../channel.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("13759e74-a671-4b1c-a88a-5f42f9932d67",
 	"7ec4c25d-85cc-4597-b8e4-074a952d3788");

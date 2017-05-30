@@ -413,11 +413,19 @@ INSERT INTO S_BPARM
 	VALUES ("69532051-d36f-4d7d-8af6-3dc8199cd5d8",
 	"529b1f00-6c19-4b1f-8f49-63e9f12c3d57",
 	'data',
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
 	1,
 	'',
 	"22e85b1b-747d-4cfa-8736-bdaa7e1ebe6b",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
+	"00000000-0000-0000-0000-000000000000",
+	'bstring',
+	'binary data represented as a string. WARNING regular string operations that require well defined strings (e.g. string concatenation) are
+unsafe with this type',
+	'',
+	'../../channel.xtuml');
 INSERT INTO S_BRG
 	VALUES ("a1b68e2d-a855-458d-99d7-fda5635b5f9a",
 	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
@@ -569,7 +577,7 @@ INSERT INTO S_BPARM
 	VALUES ("ea788f80-f05b-4258-8b7f-8aacdeccd41b",
 	"3db8d8af-45b1-4ea4-a7bd-74ae81959617",
 	'data',
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
 	0,
 	'',
 	"3a92aa89-2b90-4e4b-87ea-97b3f5cd9117",
@@ -1084,7 +1092,7 @@ INSERT INTO S_BPARM
 	VALUES ("4c6a9653-7fd2-41e7-ba5d-b1bceb3618b8",
 	"9f489371-0ea6-4b21-b414-8a295e25fae5",
 	'data',
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
@@ -1106,7 +1114,7 @@ INSERT INTO S_BRG
 	0,
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
-	3,
+	1,
 	'',
 	0);
 INSERT INTO S_BPARM
