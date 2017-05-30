@@ -633,50 +633,6 @@ INSERT INTO PE_PE
 	"00000000-0000-0000-0000-000000000000",
 	5);
 INSERT INTO S_EE
-	VALUES ("f0f84c90-2dcc-4cb4-aa2b-df5e903d0a4c",
-	'error',
-	'',
-	'ERR',
-	"00000000-0000-0000-0000-000000000000",
-	'',
-	'error',
-	1);
-INSERT INTO S_BRG
-	VALUES ("30567ce8-a6f5-492b-932c-ff11028b51f8",
-	"f0f84c90-2dcc-4cb4-aa2b-df5e903d0a4c",
-	'report',
-	'',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000000",
-	'',
-	1,
-	'',
-	0);
-INSERT INTO S_BPARM
-	VALUES ("e662d8af-e12b-4f3d-8683-c128287efb7f",
-	"30567ce8-a6f5-492b-932c-ff11028b51f8",
-	'message',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_BPARM
-	VALUES ("ceedd097-d88a-4f96-9b32-0d225019ba84",
-	"30567ce8-a6f5-492b-932c-ff11028b51f8",
-	'code',
-	"ba5eda7a-def5-0000-0000-000000000002",
-	0,
-	'',
-	"e662d8af-e12b-4f3d-8683-c128287efb7f",
-	'');
-INSERT INTO PE_PE
-	VALUES ("f0f84c90-2dcc-4cb4-aa2b-df5e903d0a4c",
-	1,
-	"a71eb18d-d518-4811-b19a-2c54f621f9cc",
-	"00000000-0000-0000-0000-000000000000",
-	5);
-INSERT INTO S_EE
 	VALUES ("88a10f01-435c-4433-9d96-839f19bcaddc",
 	'Time',
 	'The Time external entity provides date, timestamp, and timer related operations.',
@@ -1126,6 +1082,42 @@ INSERT INTO S_BPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_BRG
+	VALUES ("1d731e32-21b1-4e56-9ebf-e361c1c6521c",
+	"b4f067d8-6c16-4b60-9d62-f48000a8f558",
+	'report_error',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("0fc8b3c6-317e-4e89-976f-e506c57d420f",
+	"1d731e32-21b1-4e56-9ebf-e361c1c6521c",
+	'code',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("98f97a41-728d-426f-89be-60a4206d923e",
+	"1d731e32-21b1-4e56-9ebf-e361c1c6521c",
+	'level',
+	"f1b76959-8e17-4543-bcdc-0409a8236d18",
+	0,
+	'',
+	"0fc8b3c6-317e-4e89-976f-e506c57d420f",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f1b76959-8e17-4543-bcdc-0409a8236d18",
+	"00000000-0000-0000-0000-000000000000",
+	'error_levels',
+	'',
+	'',
+	'../types/types.xtuml');
 INSERT INTO PE_PE
 	VALUES ("b4f067d8-6c16-4b60-9d62-f48000a8f558",
 	1,
