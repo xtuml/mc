@@ -963,7 +963,7 @@ else
     create event instance e of request7:attach( tries:param.tries + 1 ) to self;
     t = TIM::timer_start( microseconds:1000, event_inst:e );
   else
-    UTIL::print( s:"Request did not match a client or server" );
+    UTIL::report_error( code:S_REQUESTDROPPED, level:error_levels::fatal );
     generate request8:cancel() to self;
   end if;
 end if;',
@@ -1113,7 +1113,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("1066eb47-8aa0-4dad-8dee-0b2bdaa5b3e3",
 	"2b5e2182-5e08-4ac9-9fb7-0944ba25803d",
-	3,
+	1,
 	'',
 	'',
 	0);

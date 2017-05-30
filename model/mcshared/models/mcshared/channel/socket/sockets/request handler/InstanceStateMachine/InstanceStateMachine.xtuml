@@ -327,7 +327,7 @@ else
   select many datasockets related by self->datasocket[R6516] where ( selected.ready and selected.to == request.to );
 end if;
 if ( cardinality datasockets < 1 )
-  UTIL::print( s:"No data socket found to service request" );
+  UTIL::report_error( code:S_NOTCONNECTED, level:error_levels::fatal );
   generate request8:cancel() to request;
 end if;
 for each datasocket in datasockets

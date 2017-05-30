@@ -677,7 +677,7 @@ INSERT INTO SM_ACT
 	"a0afeff8-523e-4832-969b-33a7e4df88af",
 	1,
 	'UTIL::print( s:"Closing socket..." );
-::log_exit( code:param.code );
+UTIL::report_error( code:param.code, level:error_levels::debug );
 select one socket related by self->socket[R6501];
 error = OK;
 ret_val = SYS::close( file_descriptor:socket.descriptor, error:error );
@@ -700,7 +700,7 @@ INSERT INTO SM_ACT
 	"a0afeff8-523e-4832-969b-33a7e4df88af",
 	1,
 	'UTIL::print( s:"Socket closed." );
-::log_exit( code:param.code );
+UTIL::report_error( code:param.code, level:error_levels::debug );
 select many handlers related by self->server[R6502]->requesthandler[R6513];
 self.dispose();
 for each handler in handlers
