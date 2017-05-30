@@ -436,7 +436,7 @@ INSERT INTO SPR_PS
 	VALUES ("111bdde3-e5d1-4fb2-b555-6f65e5dbc472",
 	'request_sgn',
 	'',
-	'generate request1:create( name:param.name, parameters:param.parameters, to:param.to, from:param.from, inbound:false ) to request creator;',
+	'generate request1:create( name:param.name, parameters:param.parameters, to:"", from:param.from, inbound:false ) to request creator;',
 	1,
 	0);
 INSERT INTO SPR_PEP
@@ -450,7 +450,7 @@ INSERT INTO SPR_PS
 	'// TODO get these options from a config file
 server_port = 9876;
 backlog = 5;
-generate server1:start( name:param.name, peer_name:param.peer_name, port:server_port, backlog:backlog ) to server creator;',
+generate server1:start( name:param.name, port:server_port, backlog:backlog ) to server creator;',
 	1,
 	0);
 INSERT INTO SPR_PEP

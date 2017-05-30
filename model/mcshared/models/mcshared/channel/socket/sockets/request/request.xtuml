@@ -46,12 +46,12 @@ while ( not_empty chunk )
   delete object instance chunk;
   chunk = next_chunk;
 end while;
-// unrelate from data socket
-select one datasocket related by self->datasocket[R6508];
-if ( not_empty datasocket )
+// unrelate from data sockets
+select many datasockets related by self->datasocket[R6508];
+for each datasocket in datasockets
   unrelate self from datasocket across R6508;
   generate datasocket3:ready() to datasocket;
-end if;
+end for;
 // remove from request queue
 select one prev_request related by self->request[R6512.''succeeds''];
 select one next_request related by self->request[R6512.''precedes''];

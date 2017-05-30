@@ -318,14 +318,21 @@ INSERT INTO SM_ACT
 	'UTIL::print( s:"Sending request..." );
 select one request related by self->request[R6514];
 
-// select a data socket to send the request
-select any datasocket related by self->datasocket[R6516] where ( selected.ready and selected.to == request.to );
-if ( not_empty datasocket )
-  relate request to datasocket across R6508;
+// select data sockets to send the request
+select many datasockets from instances of datasocket where false;
+select one server related by self->server[R6513];
+if ( not_empty server )
+  select many datasockets related by self->datasocket[R6516] where ( selected.ready );
 else
+  select many datasockets related by self->datasocket[R6516] where ( selected.ready and selected.to == request.to );
+end if;
+if ( cardinality datasockets < 1 )
   UTIL::print( s:"No data socket found to service request" );
   generate request8:cancel() to request;
-end if;',
+end if;
+for each datasocket in datasockets
+  relate request to datasocket across R6508;
+end for;',
 	'',
 	0);
 INSERT INTO SM_TAH

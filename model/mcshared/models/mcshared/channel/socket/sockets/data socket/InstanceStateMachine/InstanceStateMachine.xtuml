@@ -2303,7 +2303,7 @@ else
         end while;
         if ( ERR != ret_val )
           // complete the request
-          generate request4:done() to request;
+          generate request9:sent( socket:self ) to request;
         end if;
       end if;
     end if;
@@ -2337,6 +2337,10 @@ if ( not_empty message )
       message.name = UTIL::datatostring( data:data, size:size );
     elif ( -2 == message.index )
       message.to = UTIL::datatostring( data:data, size:size );
+      if ( message.to == "" )
+        select one handler related by self->requesthandler[R6516];
+        message.to = handler.name;
+      end if;
     elif ( -1 == message.index )
       message.from = UTIL::datatostring( data:data, size:size );
     else
