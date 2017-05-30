@@ -958,10 +958,10 @@ if ( not_empty handler )
   end if;
   generate request2:initialized() to self;
 else
-  // try 10 times (10s), then give up
-  if ( param.tries < 10 )
+  // try 10000 times (10s), then give up
+  if ( param.tries < 10000 )
     create event instance e of request7:attach( tries:param.tries + 1 ) to self;
-    t = TIM::timer_start( microseconds:100000, event_inst:e );
+    t = TIM::timer_start( microseconds:1000, event_inst:e );
   else
     UTIL::print( s:"Request did not match a client or server" );
     generate request8:cancel() to self;

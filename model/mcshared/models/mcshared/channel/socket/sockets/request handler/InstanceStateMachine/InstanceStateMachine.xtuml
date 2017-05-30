@@ -264,7 +264,7 @@ if ( not_empty request and request.initialized )
   end if;
 else
   create event instance e of requesthandler7:handle() to self;
-  t = TIM::timer_start( microseconds:10000, event_inst:e );
+  t = TIM::timer_start( microseconds:1000, event_inst:e );
 end if;',
 	'',
 	0);

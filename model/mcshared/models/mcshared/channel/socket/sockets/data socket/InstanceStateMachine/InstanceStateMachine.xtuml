@@ -2218,7 +2218,7 @@ else
   if ( ERR == ret_val )
     if ( EWOULDBLOCK == error )
       create event instance e of datasocket3:ready() to self;
-      t = TIM::timer_start( microseconds:100000, event_inst:e );
+      t = TIM::timer_start( microseconds:1000, event_inst:e );
     else
       generate datasocket9:error( code:error ) to self;
     end if;
