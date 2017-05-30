@@ -39,7 +39,7 @@ if ( not_empty last_chunk )
 end if;
 select one chunk related by self->chunk[R6503];
 while ( not_empty chunk )
-  select one next_chunk related by chunk->chunk[R6504.''succeeds''];
+  select one next_chunk related by chunk->chunk[R6504.''precedes''];
   if ( not_empty next_chunk )
     unrelate chunk from next_chunk across R6504.''precedes'';
   end if;
