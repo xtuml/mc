@@ -328,7 +328,7 @@ INSERT INTO S_MBR
 	'data',
 	'',
 	"427a2e87-38ca-4d2b-a66d-eabf304ff889",
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
 	"00000000-0000-0000-0000-000000000000",
 	'[32]');
 INSERT INTO S_DIM
@@ -387,6 +387,24 @@ INSERT INTO S_MBR
 	'');
 INSERT INTO PE_PE
 	VALUES ("427a2e87-38ca-4d2b-a66d-eabf304ff889",
+	1,
+	"8fad7e1a-57e6-4894-bac2-b04fd7e15a52",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
+	"00000000-0000-0000-0000-000000000000",
+	'bstring',
+	'binary data represented as a string. WARNING regular string operations that require well defined strings (e.g. string concatenation) are
+unsafe with this type',
+	'');
+INSERT INTO S_UDT
+	VALUES ("7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'');
+INSERT INTO PE_PE
+	VALUES ("7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
 	1,
 	"8fad7e1a-57e6-4894-bac2-b04fd7e15a52",
 	"00000000-0000-0000-0000-000000000000",
