@@ -188,11 +188,14 @@
           .select one foreign_te_c related by foreign_te_mact->TE_C[R2002]
           .if ( foreign_te_c.included_in_build )
             .if ( not_empty implementation_te_c )
+              .assign target_name = ""
               .select any target_te_mact related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']->TE_PO[R2080]->TE_MACT[R2006] where ( selected.MessageName == te_mact.MessageName )
               .if ( empty target_te_mact )
                 .select any target_te_mact related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080]->TE_MACT[R2006] where ( selected.MessageName == te_mact.MessageName )
+              .else
+                .assign target_name = "${target_te_mact.ComponentName}_${target_te_mact.PortName}"
               .end if
-              .assign structured_parameters = """${te_mact.ComponentName}_${te_mact.PortName}"", ""${target_te_mact.MessageName}"", parameters, ""${target_te_mact.ComponentName}_${target_te_mact.PortName}"""
+              .assign structured_parameters = """${te_mact.ComponentName}_${te_mact.PortName}"", ""${target_te_mact.MessageName}"", parameters, ""${target_name}"""
               .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, structured_parameters, "  ", true )
               .select any raw_data_dt related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
               .select one foreign_te_aba related by foreign_te_mact->TE_ABA[R2010]
