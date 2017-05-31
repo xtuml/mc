@@ -397,7 +397,7 @@ INSERT INTO SPR_PO
 	VALUES ("a9197c94-b674-4c7f-8fb1-6ac900b9c474",
 	'request_op',
 	'',
-	'return INTERFACE_PROVIDER::deliver_op(name:param.name, parameters:param.parameters, to:param.to, from:param.from );',
+	'',
 	1,
 	0);
 INSERT INTO C_EP_PROXY
@@ -510,7 +510,8 @@ INSERT INTO SPR_PO
 	VALUES ("2b973f45-9609-4be7-ba9c-cb186fa701cd",
 	'request_op',
 	'',
-	'return INTERFACE_REQUIRER::deliver_op(name:param.name, parameters:param.parameters, to:param.to, from:param.from );',
+	'UTIL::report_error( code:S_ILLEGALOP, level:error_levels::fatal );
+return param.parameters;',
 	1,
 	0);
 INSERT INTO SPR_PEP
