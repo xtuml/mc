@@ -1180,6 +1180,12 @@ INSERT INTO SM_SEME
 	"c7c6386f-b131-4ba2-abf2-53e4966c8545",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO SM_CH
+	VALUES ("665738d8-86d7-4eea-ae2c-6b06ffb270b1",
+	"8117e281-891e-4d4f-8b64-aa8266308ab6",
+	"571e4736-532a-47f8-b681-9d922251f5cb",
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO SM_SEME
 	VALUES ("665738d8-86d7-4eea-ae2c-6b06ffb270b1",
 	"8117e281-891e-4d4f-8b64-aa8266308ab6",
@@ -1201,12 +1207,6 @@ INSERT INTO SM_SEME
 	"ec17281f-c3d7-4e7c-a32d-4ba1d64065c7",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO SM_CH
-	VALUES ("665738d8-86d7-4eea-ae2c-6b06ffb270b1",
-	"9d7c8138-68f8-44e2-aae6-ab4c97a4a8c9",
-	"571e4736-532a-47f8-b681-9d922251f5cb",
-	"00000000-0000-0000-0000-000000000000",
-	'');
 INSERT INTO SM_SEME
 	VALUES ("665738d8-86d7-4eea-ae2c-6b06ffb270b1",
 	"9d7c8138-68f8-44e2-aae6-ab4c97a4a8c9",
@@ -1294,7 +1294,7 @@ INSERT INTO SM_SEME
 	"ec17281f-c3d7-4e7c-a32d-4ba1d64065c7",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO SM_CH
+INSERT INTO SM_EIGN
 	VALUES ("9e1c4b30-c106-4ff2-b058-298f256d0a11",
 	"9d7c8138-68f8-44e2-aae6-ab4c97a4a8c9",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
@@ -1720,7 +1720,7 @@ INSERT INTO SM_NSTXN
 	VALUES ("5ad868da-c065-464a-8f0f-ec7b99b28bdc",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	"665738d8-86d7-4eea-ae2c-6b06ffb270b1",
-	"8117e281-891e-4d4f-8b64-aa8266308ab6",
+	"9d7c8138-68f8-44e2-aae6-ab4c97a4a8c9",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO SM_TXN
 	VALUES ("5ad868da-c065-464a-8f0f-ec7b99b28bdc",
@@ -2206,25 +2206,19 @@ INSERT INTO SM_ACT
 	VALUES ("b2f94c3a-4ad2-4541-8901-4a4dc50cef11",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
 	1,
-	'// check if there is a request waiting
-select one current_request related by self->request[R6508];
-if ( not_empty current_request )
-  generate datasocket13:send() to self;
-else
-  // check if data needs receiving
-  select one socket related by self->socket[R6501];
-  error = OK;
-  ret_val = SOCK::checkread( socket:socket.descriptor, error:error );
-  if ( ERR == ret_val )
-    if ( EWOULDBLOCK == error )
-      create event instance e of datasocket3:ready() to self;
-      t = TIM::timer_start( microseconds:1000, event_inst:e );
-    else
-      generate datasocket9:error( code:error ) to self;
-    end if;
+	'// check if data needs receiving
+select one socket related by self->socket[R6501];
+error = OK;
+ret_val = SOCK::checkread( socket:socket.descriptor, error:error );
+if ( ERR == ret_val )
+  if ( EWOULDBLOCK == error )
+    create event instance e of datasocket11:wait() to self;
+    t = TIM::timer_start( microseconds:1000, event_inst:e );
   else
-    generate datasocket12:receive() to self;
+    generate datasocket9:error( code:error ) to self;
   end if;
+else
+  generate datasocket12:receive() to self;
 end if;',
 	'',
 	0);
@@ -6037,7 +6031,7 @@ INSERT INTO GD_GE
 	"5ad868da-c065-464a-8f0f-ec7b99b28bdc",
 	42,
 	0,
-	'mcshared::channel::socket::sockets::data socket::Instance State Machine::idle::datasocket3: ready');
+	'mcshared::channel::socket::sockets::data socket::Instance State Machine::idle::datasocket11: wait');
 INSERT INTO GD_CON
 	VALUES ("82a91a53-39c3-4658-a6f2-57d042fb9980",
 	"00000000-0000-0000-0000-000000000000");

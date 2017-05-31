@@ -957,6 +957,7 @@ if ( not_empty handler )
     relate self to handler across R6515;
   end if;
   generate request2:initialized() to self;
+  generate requesthandler9:''new request''() to handler;
 else
   // try 10000 times (10s), then give up
   if ( param.tries < 10000 )
