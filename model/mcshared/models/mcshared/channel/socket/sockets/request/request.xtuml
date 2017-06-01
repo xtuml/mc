@@ -73,11 +73,15 @@ elif ( not_empty next_request )
   unrelate self from handler across R6514;
   relate next_request to handler across R6514;
 else
-  // only one in the queue
+  // only one in the queue or not in queue
   select one handler related by self->requesthandler[R6514];
-  unrelate self from handler across R6514;
+  if ( not_empty handler )
+    unrelate self from handler across R6514;
+  end if;
   select one handler related by self->requesthandler[R6515];
-  unrelate self from handler across R6515;
+  if ( not_empty handler )
+    unrelate self from handler across R6515;
+  end if;
 end if;
 select one handler related by self->requesthandler[R6518];
 if ( not_empty handler )
@@ -236,6 +240,24 @@ INSERT INTO O_ATTR
 	'sync_id',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("b53f5fdb-9976-49c3-ae6f-f6d40a20e3fe",
+	"435809c9-13b2-407b-8cdd-29a0e1858730");
+INSERT INTO O_BATTR
+	VALUES ("b53f5fdb-9976-49c3-ae6f-f6d40a20e3fe",
+	"435809c9-13b2-407b-8cdd-29a0e1858730");
+INSERT INTO O_ATTR
+	VALUES ("b53f5fdb-9976-49c3-ae6f-f6d40a20e3fe",
+	"435809c9-13b2-407b-8cdd-29a0e1858730",
+	"201ad168-4cd9-4e63-9dc5-301611b39db7",
+	'is_reply',
+	'',
+	'',
+	'is_reply',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
 INSERT INTO O_ID

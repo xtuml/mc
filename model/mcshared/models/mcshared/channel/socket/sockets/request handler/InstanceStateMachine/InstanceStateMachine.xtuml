@@ -542,7 +542,8 @@ else
   // deliver the parameters (sync messages only allowed requirer to provider)
   return_parameters = INTERFACE_PROVIDER::deliver_op( name:request.message_name, parameters:request.raw_data, to:request.to, from:request.from );
   // create the return request with the same sync_id
-  generate request1:create( name:request.message_name, parameters:return_parameters, to:request.from, from:request.to, inbound:false, sync_id:request.sync_id ) to request creator;
+  create object instance reply_request of request;
+  generate request1:create( name:request.message_name, parameters:return_parameters, to:request.from, from:request.to, inbound:false, sync_id:request.sync_id, is_reply:true ) to reply_request;
 end if;
 
 // generate event
