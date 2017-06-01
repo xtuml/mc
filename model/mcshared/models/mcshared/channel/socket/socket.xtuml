@@ -319,7 +319,8 @@ INSERT INTO SPR_PS
 	VALUES ("21d71257-f80f-45e1-9541-decb0b504a95",
 	'request_sgn',
 	'',
-	'generate request1:create( name:param.name, parameters:param.parameters, to:param.to, from:param.from, inbound:false, sync_id:0 ) to request creator;',
+	'create object instance request of request;
+generate request1:create( name:param.name, parameters:param.parameters, to:param.to, from:param.from, inbound:false, sync_id:0, is_reply:false ) to request;',
 	1,
 	0);
 INSERT INTO C_EP_PROXY
@@ -400,7 +401,7 @@ INSERT INTO SPR_PO
 	'// create the request
 sync_id = UTIL::id_factory();
 create object instance request of request;
-generate request1:create( name:param.name, parameters:param.parameters, to:param.to, from:param.from, inbound:false, sync_id:sync_id ) to request;
+generate request1:create( name:param.name, parameters:param.parameters, to:param.to, from:param.from, inbound:false, sync_id:sync_id, is_reply:false ) to request;
 
 // wait for the return request
 select one return_request related by request->request[R6519.''has return''];
@@ -491,7 +492,8 @@ INSERT INTO SPR_PS
 	VALUES ("111bdde3-e5d1-4fb2-b555-6f65e5dbc472",
 	'request_sgn',
 	'',
-	'generate request1:create( name:param.name, parameters:param.parameters, to:"", from:param.from, inbound:false, sync_id:0 ) to request creator;',
+	'create object instance request of request;
+generate request1:create( name:param.name, parameters:param.parameters, to:"", from:param.from, inbound:false, sync_id:0, is_reply:false ) to request;',
 	1,
 	0);
 INSERT INTO SPR_PEP
