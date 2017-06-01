@@ -521,6 +521,7 @@ select one request related by self->request[R6514];
 i = 0;
 select one chunk related by request->chunk[R6503];
 while ( not_empty chunk and i < 32 )
+  request.raw_data.len = request.length();
   request.raw_data.data[i] = chunk.data;
   request.raw_data.size[i] = chunk.size;
   select one next_chunk related by chunk->chunk[R6504.''precedes''];
@@ -528,14 +529,23 @@ while ( not_empty chunk and i < 32 )
   i = i + 1;
 end while;
 
-// deliver the parameters
-if ( self.provider )
-  send INTERFACE_PROVIDER::deliver_sgn( name:request.message_name, parameters:request.raw_data, to:request.to, from:request.from );
+if ( 0 == request.sync_id )
+  // async message
+  // deliver the parameters
+  if ( self.provider )
+    send INTERFACE_PROVIDER::deliver_sgn( name:request.message_name, parameters:request.raw_data, to:request.to, from:request.from );
+  else
+    send INTERFACE_REQUIRER::deliver_sgn( name:request.message_name, parameters:request.raw_data, to:request.to, from:request.from );
+  end if;
 else
-  send INTERFACE_REQUIRER::deliver_sgn( name:request.message_name, parameters:request.raw_data, to:request.to, from:request.from );
+  // sync message
+  // deliver the parameters (sync messages only allowed requirer to provider)
+  return_parameters = INTERFACE_PROVIDER::deliver_op( name:request.message_name, parameters:request.raw_data, to:request.to, from:request.from );
+  // create the return request with the same sync_id
+  generate request1:create( name:request.message_name, parameters:return_parameters, to:request.from, from:request.to, inbound:false, sync_id:request.sync_id ) to request creator;
 end if;
 
-// generate events
+// generate event
 generate request4:done() to request;',
 	'',
 	0);
@@ -679,7 +689,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("db99b8bc-c532-4d55-b00f-2010679bd601",
 	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
-	3,
+	1,
 	'',
 	'',
 	0);
@@ -693,7 +703,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("2a5c825f-2846-4783-8735-31217dd65ae1",
 	"4181f82f-e67b-4dc8-ba3c-8a22e2a4a137",
-	3,
+	1,
 	'',
 	'',
 	0);

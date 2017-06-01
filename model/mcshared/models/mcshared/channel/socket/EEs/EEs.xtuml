@@ -373,7 +373,7 @@ INSERT INTO S_BPARM
 INSERT INTO S_BRG
 	VALUES ("529b1f00-6c19-4b1f-8f49-63e9f12c3d57",
 	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
-	'recvchunk',
+	'recvdata',
 	'Receive a chunk of data consisting of a size and data value.
 0 returned if successful, -1 returned if not, error set to the appropriate value',
 	0,
@@ -429,7 +429,7 @@ unsafe with this type',
 INSERT INTO S_BRG
 	VALUES ("a1b68e2d-a855-458d-99d7-fda5635b5f9a",
 	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
-	'recvlength',
+	'recvint',
 	'Receive the number of chunks in the message
 0 returned if successful, -1 returned if not, error set to the appropriate value',
 	0,
@@ -459,7 +459,7 @@ INSERT INTO S_BPARM
 INSERT INTO S_BPARM
 	VALUES ("1d8ace2c-abf0-4dc7-bd68-2f846fb34103",
 	"a1b68e2d-a855-458d-99d7-fda5635b5f9a",
-	'len',
+	'value',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	1,
 	'',
@@ -498,7 +498,7 @@ INSERT INTO S_BPARM
 INSERT INTO S_BRG
 	VALUES ("820b3127-0a50-4b70-a33f-3b3ff5a05014",
 	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
-	'sendlength',
+	'sendint',
 	'Send the number of chunks in the message
 0 returned if successful, -1 returned if not, error set to the appropriate value',
 	0,
@@ -528,7 +528,7 @@ INSERT INTO S_BPARM
 INSERT INTO S_BPARM
 	VALUES ("584125fe-4046-4149-957f-d787f56ab224",
 	"820b3127-0a50-4b70-a33f-3b3ff5a05014",
-	'len',
+	'value',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
@@ -537,7 +537,7 @@ INSERT INTO S_BPARM
 INSERT INTO S_BRG
 	VALUES ("3db8d8af-45b1-4ea4-a7bd-74ae81959617",
 	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
-	'sendchunk',
+	'senddata',
 	'Send a chunk of data consisting of a size and data value
 0 returned if successful, -1 returned if not, error set to the appropriate value',
 	0,
@@ -625,6 +625,35 @@ INSERT INTO S_BPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("bb17394c-53a1-415a-a36e-8b4ff9161fe6",
+	"6db7a528-01af-4b9c-ac96-8b84fe9478ae",
+	'sleep',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("c28aff93-af47-477a-aabc-6740c562a774",
+	"bb17394c-53a1-415a-a36e-8b4ff9161fe6",
+	'milliseconds',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("cb4b161c-2f15-4cff-ad3f-c5730d27ba01",
+	"bb17394c-53a1-415a-a36e-8b4ff9161fe6",
+	'error',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"c28aff93-af47-477a-aabc-6740c562a774",
 	'');
 INSERT INTO PE_PE
 	VALUES ("6db7a528-01af-4b9c-ac96-8b84fe9478ae",
@@ -1118,6 +1147,17 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../types/types.xtuml');
+INSERT INTO S_BRG
+	VALUES ("feaf97d5-c0b9-4ebe-8b87-ef02d3b1cc7f",
+	"b4f067d8-6c16-4b60-9d62-f48000a8f558",
+	'id_factory',
+	'returns an integer value starting at 1, incrementing by 1 for each additional call',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("b4f067d8-6c16-4b60-9d62-f48000a8f558",
 	1,
