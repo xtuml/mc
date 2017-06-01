@@ -319,7 +319,7 @@ INSERT INTO SPR_PS
 	VALUES ("21d71257-f80f-45e1-9541-decb0b504a95",
 	'request_sgn',
 	'',
-	'generate request1:create( name:param.name, parameters:param.parameters, to:param.to, from:param.from, inbound:false ) to request creator;',
+	'generate request1:create( name:param.name, parameters:param.parameters, to:param.to, from:param.from, inbound:false, sync_id:0 ) to request creator;',
 	1,
 	0);
 INSERT INTO C_EP_PROXY
@@ -397,7 +397,42 @@ INSERT INTO SPR_PO
 	VALUES ("a9197c94-b674-4c7f-8fb1-6ac900b9c474",
 	'request_op',
 	'',
-	'',
+	'// create the request
+sync_id = UTIL::id_factory();
+create object instance request of request;
+generate request1:create( name:param.name, parameters:param.parameters, to:param.to, from:param.from, inbound:false, sync_id:sync_id ) to request;
+
+// wait for the return request
+select one return_request related by request->request[R6519.''has return''];
+while ( empty return_request )
+  error = OK;
+  ret_val = SYS::sleep( milliseconds:100, error:error );
+  if ( -1 == ret_val )
+    UTIL::report_error( code:error, level:error_levels::fatal );
+    return param.parameters;
+  end if;
+  select one return_request related by request->request[R6519.''has return''];
+end while;
+
+// build parameters to deliver
+i = 0;
+select one chunk related by return_request->chunk[R6503];
+while ( not_empty chunk and i < 32 )
+  return_request.raw_data.len = request.length();
+  return_request.raw_data.data[i] = chunk.data;
+  return_request.raw_data.size[i] = chunk.size;
+  select one next_chunk related by chunk->chunk[R6504.''precedes''];
+  chunk = next_chunk;
+  i = i + 1;
+end while;
+return_parameters = return_request.raw_data;
+
+// clean up
+return_request.dispose();
+generate request4:done() to request;
+
+// return
+return return_parameters;',
 	1,
 	0);
 INSERT INTO C_EP_PROXY
@@ -456,7 +491,7 @@ INSERT INTO SPR_PS
 	VALUES ("111bdde3-e5d1-4fb2-b555-6f65e5dbc472",
 	'request_sgn',
 	'',
-	'generate request1:create( name:param.name, parameters:param.parameters, to:"", from:param.from, inbound:false ) to request creator;',
+	'generate request1:create( name:param.name, parameters:param.parameters, to:"", from:param.from, inbound:false, sync_id:0 ) to request creator;',
 	1,
 	0);
 INSERT INTO SPR_PEP

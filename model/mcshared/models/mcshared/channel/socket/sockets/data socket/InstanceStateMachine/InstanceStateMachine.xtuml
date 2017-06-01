@@ -1811,7 +1811,7 @@ if ( ERR == ret_val )
   generate datasocket9:error( code:error ) to self;
 else
   UTIL::print( s:"Handshake sent." );
-  UTIL::print( s:"Data socket setup. Name: + " + handler.name + ", Peer: " + self.to );
+  UTIL::print( s:"Data socket setup. Name: " + handler.name + ", Peer: " + self.to );
   self.ready = true;
   generate datasocket3:ready() to self;
   select one handler related by self->requesthandler[R6516];
@@ -2133,7 +2133,7 @@ else
   else
     generate datasocket9:error( code:S_UNKNOWNENDPOINT ) to self;
   end if;
-  UTIL::print( s:"Data socket setup. Name: + " + handler.name + ", Peer: " + self.to );
+  UTIL::print( s:"Data socket setup. Name: " + handler.name + ", Peer: " + self.to );
   self.ready = true;
   generate datasocket3:ready() to self;
 end if;',
@@ -2267,37 +2267,43 @@ select one socket related by self->socket[R6501];
 
 // send the length
 error = OK;
-ret_val = SOCK::sendlength( socket:socket.descriptor, len:request.length(), error:error );
+ret_val = SOCK::sendint( socket:socket.descriptor, value:request.length(), error:error );
 if ( ERR == ret_val )
   generate datasocket9:error( code:error ) to self;
 else
-  // send name
-  ret_val = SOCK::sendchunk( socket:socket.descriptor, size:STRING::strlen(s:request.message_name), data:request.message_name, error:error );
+  // send sync id
+  ret_val = SOCK::sendint( socket:socket.descriptor, value:request.sync_id, error:error );
   if ( ERR == ret_val )
     generate datasocket9:error( code:error ) to self;
   else
-    // send to
-    ret_val = SOCK::sendchunk( socket:socket.descriptor, size:STRING::strlen(s:request.to), data:request.to, error:error );
+    // send name
+    ret_val = SOCK::senddata( socket:socket.descriptor, size:STRING::strlen(s:request.message_name), data:request.message_name, error:error );
     if ( ERR == ret_val )
       generate datasocket9:error( code:error ) to self;
     else
-      // send from
-      ret_val = SOCK::sendchunk( socket:socket.descriptor, size:STRING::strlen(s:request.from), data:request.from, error:error );
+      // send to
+      ret_val = SOCK::senddata( socket:socket.descriptor, size:STRING::strlen(s:request.to), data:request.to, error:error );
       if ( ERR == ret_val )
         generate datasocket9:error( code:error ) to self;
       else
-        // send all chunks
-        select one chunk related by request->chunk[R6503];
-        while ( not_empty chunk and ERR != ret_val )
-          ret_val = SOCK::sendchunk( socket:socket.descriptor, size:chunk.size, data:chunk.data, error:error );
-          if ( ERR == ret_val )
-            generate datasocket9:error( code:error ) to self;
+        // send from
+        ret_val = SOCK::senddata( socket:socket.descriptor, size:STRING::strlen(s:request.from), data:request.from, error:error );
+        if ( ERR == ret_val )
+          generate datasocket9:error( code:error ) to self;
+        else
+          // send all chunks
+          select one chunk related by request->chunk[R6503];
+          while ( not_empty chunk and ERR != ret_val )
+            ret_val = SOCK::senddata( socket:socket.descriptor, size:chunk.size, data:chunk.data, error:error );
+            if ( ERR == ret_val )
+              generate datasocket9:error( code:error ) to self;
+            end if;
+            select one chunk related by chunk->chunk[R6504.''precedes''];
+          end while;
+          if ( ERR != ret_val )
+            // complete the request
+            generate request9:sent( socket:self ) to request;
           end if;
-          select one chunk related by chunk->chunk[R6504.''precedes''];
-        end while;
-        if ( ERR != ret_val )
-          // complete the request
-          generate request9:sent( socket:self ) to request;
         end if;
       end if;
     end if;
@@ -2318,43 +2324,60 @@ INSERT INTO SM_ACT
 	1,
 	'select one socket related by self->socket[R6501];
 select one message related by self->message[R6517];
+error = OK;
 if ( not_empty message )
-  // receive a chunk of data. The first three chunks are special (name, to, from)
-  size = 0;
-  data = "";
-  error = OK;
-  ret_val = SOCK::recvchunk( socket:socket.descriptor, size:size, data:data, error:error );
-  if ( ERR == ret_val )
-    generate datasocket9:error( code:error ) to self;
-  else
-    if ( -3 == message.index )
-      message.name = UTIL::datatostring( data:data, size:size );
-    elif ( -2 == message.index )
-      message.to = UTIL::datatostring( data:data, size:size );
-      if ( message.to == "" )
-        select one handler related by self->requesthandler[R6516];
-        message.to = handler.name;
-      end if;
-    elif ( -1 == message.index )
-      message.from = UTIL::datatostring( data:data, size:size );
+  if ( -4 == message.index )
+    UTIL::print( s:"Receiving sync_id" );
+    sync_id = 0;
+    ret_val = SOCK::recvint( socket:socket.descriptor, value:sync_id, error:error );
+    if ( ERR == ret_val )
+      generate datasocket9:error( code:error ) to self;
     else
-      message.parameters.data[message.index] = data;
-      message.parameters.size[message.index] = size;
+      message.sync_id = sync_id;
+      message.index = message.index + 1;
+      generate datasocket3:ready() to self;
     end if;
-    message.index = message.index + 1;
-    if ( message.index == message.parameters.len );
-      // message is complete create inbound request
-      generate request1:create( name:message.name, parameters:message.parameters, to:message.to, from:message.from, inbound:true ) to request creator;
-      unrelate message from self across R6517;
-      delete object instance message;
+  else
+    // receive a chunk of data. The first three chunks are special (name, to, from)
+    size = 0;
+    data = "";
+    ret_val = SOCK::recvdata( socket:socket.descriptor, size:size, data:data, error:error );
+    if ( ERR == ret_val )
+      generate datasocket9:error( code:error ) to self;
+    else
+      if ( -3 == message.index )
+        UTIL::print( s:"Receiving message name" );
+        message.name = UTIL::datatostring( data:data, size:size );
+      elif ( -2 == message.index )
+        UTIL::print( s:"Receiving to" );
+        message.to = UTIL::datatostring( data:data, size:size );
+        if ( message.to == "" )
+          select one handler related by self->requesthandler[R6516];
+          message.to = handler.name;
+        end if;
+      elif ( -1 == message.index )
+        UTIL::print( s:"Receiving from" );
+        message.from = UTIL::datatostring( data:data, size:size );
+      else
+        UTIL::print( s:"Receiving data chunk" );
+        message.parameters.data[message.index] = data;
+        message.parameters.size[message.index] = size;
+      end if;
+      message.index = message.index + 1;
+      if ( message.index == message.parameters.len );
+        // message is complete create inbound request
+        generate request1:create( name:message.name, parameters:message.parameters, to:message.to, from:message.from, inbound:true, sync_id:message.sync_id ) to request creator;
+        unrelate message from self across R6517;
+        delete object instance message;
+      end if;
+      generate datasocket3:ready() to self;
     end if;
-    generate datasocket3:ready() to self;
   end if;
 else
   // receive the length of the message
+  UTIL::print( s:"Receiving length" );
   len = 0;
-  error = OK;
-  ret_val = SOCK::recvlength( socket:socket.descriptor, len:len, error:error );
+  ret_val = SOCK::recvint( socket:socket.descriptor, value:len, error:error );
   if ( ERR == ret_val )
     generate datasocket9:error( code:error ) to self;
   else
@@ -2363,7 +2386,7 @@ else
     else
       create object instance message of message;
       message.parameters.len = len;
-      message.index = -3;
+      message.index = -4;
       relate message to self across R6517;
       generate datasocket3:ready() to self;
     end if;
