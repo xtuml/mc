@@ -374,7 +374,7 @@ INSERT INTO S_BRG
 	VALUES ("529b1f00-6c19-4b1f-8f49-63e9f12c3d57",
 	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
 	'recvdata',
-	'Receive a chunk of data consisting of a size and data value.
+	'Receive a data consisting of a size and data value.
 0 returned if successful, -1 returned if not, error set to the appropriate value',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000002",
@@ -430,7 +430,7 @@ INSERT INTO S_BRG
 	VALUES ("a1b68e2d-a855-458d-99d7-fda5635b5f9a",
 	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
 	'recvint',
-	'Receive the number of chunks in the message
+	'Receive a four byte integer
 0 returned if successful, -1 returned if not, error set to the appropriate value',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000002",
@@ -499,7 +499,7 @@ INSERT INTO S_BRG
 	VALUES ("820b3127-0a50-4b70-a33f-3b3ff5a05014",
 	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
 	'sendint',
-	'Send the number of chunks in the message
+	'Send a four byte integer
 0 returned if successful, -1 returned if not, error set to the appropriate value',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000002",
@@ -538,7 +538,7 @@ INSERT INTO S_BRG
 	VALUES ("3db8d8af-45b1-4ea4-a7bd-74ae81959617",
 	"d146f3ad-535e-440e-95cd-63fdd58fbc52",
 	'senddata',
-	'Send a chunk of data consisting of a size and data value
+	'Send a data consisting of a size and data value
 0 returned if successful, -1 returned if not, error set to the appropriate value',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000002",

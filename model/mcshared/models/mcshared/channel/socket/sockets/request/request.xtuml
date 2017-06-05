@@ -8,45 +8,13 @@ INSERT INTO O_OBJ
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
-	VALUES ("4bdf65fb-01d3-45d6-b9a9-44a1d6cd76bf",
-	"435809c9-13b2-407b-8cdd-29a0e1858730",
-	'length',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000002",
-	1,
-	'length = 0;
-select one chunk related by self->chunk[R6503];
-while ( not_empty chunk )
-  length = length + 1;
-  select one chunk related by chunk->chunk[R6504.''precedes''];
-end while;
-return length;',
-	1,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
-INSERT INTO O_TFR
 	VALUES ("ce67a925-7751-4dee-8104-29f736ffcebd",
 	"435809c9-13b2-407b-8cdd-29a0e1858730",
 	'dispose',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'// delete data chunks
-select one last_chunk related by self->chunk[R6510];
-if ( not_empty last_chunk )
-  unrelate self from last_chunk across R6510;
-end if;
-select one chunk related by self->chunk[R6503];
-while ( not_empty chunk )
-  select one next_chunk related by chunk->chunk[R6504.''precedes''];
-  if ( not_empty next_chunk )
-    unrelate chunk from next_chunk across R6504.''precedes'';
-  end if;
-  delete object instance chunk;
-  chunk = next_chunk;
-end while;
-// unrelate from data sockets
+	'// unrelate from data sockets
 select many datasockets related by self->datasocket[R6508];
 for each datasocket in datasockets
   unrelate self from datasocket across R6508;
@@ -89,7 +57,7 @@ if ( not_empty handler )
 end if;',
 	1,
 	'',
-	"4bdf65fb-01d3-45d6-b9a9-44a1d6cd76bf",
+	"00000000-0000-0000-0000-000000000000",
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("2610111a-3960-4955-b759-df15db9fe400",
@@ -101,10 +69,10 @@ INSERT INTO O_ATTR
 	VALUES ("2610111a-3960-4955-b759-df15db9fe400",
 	"435809c9-13b2-407b-8cdd-29a0e1858730",
 	"14e6cf96-46a9-44a7-84ea-14afbbcd314b",
-	'to',
+	'target',
 	'',
 	'',
-	'to',
+	'target',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
@@ -119,10 +87,10 @@ INSERT INTO O_ATTR
 	VALUES ("51a4a08a-1f9a-4993-9ac4-97dbd29ba348",
 	"435809c9-13b2-407b-8cdd-29a0e1858730",
 	"2610111a-3960-4955-b759-df15db9fe400",
-	'from',
+	'origin',
 	'',
 	'',
-	'from',
+	'origin',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
@@ -146,37 +114,19 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("0cc054cc-7f3d-4d90-aa7a-70cee44adcf7",
+	VALUES ("b78f51c6-240e-4931-b8d9-5f9a8427122e",
 	"435809c9-13b2-407b-8cdd-29a0e1858730");
 INSERT INTO O_BATTR
-	VALUES ("0cc054cc-7f3d-4d90-aa7a-70cee44adcf7",
+	VALUES ("b78f51c6-240e-4931-b8d9-5f9a8427122e",
 	"435809c9-13b2-407b-8cdd-29a0e1858730");
 INSERT INTO O_ATTR
-	VALUES ("0cc054cc-7f3d-4d90-aa7a-70cee44adcf7",
+	VALUES ("b78f51c6-240e-4931-b8d9-5f9a8427122e",
 	"435809c9-13b2-407b-8cdd-29a0e1858730",
 	"51a4a08a-1f9a-4993-9ac4-97dbd29ba348",
-	'message_name',
+	'data',
 	'',
 	'',
-	'message_name',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("b78f51c6-240e-4931-b8d9-5f9a8427122e",
-	"435809c9-13b2-407b-8cdd-29a0e1858730");
-INSERT INTO O_BATTR
-	VALUES ("b78f51c6-240e-4931-b8d9-5f9a8427122e",
-	"435809c9-13b2-407b-8cdd-29a0e1858730");
-INSERT INTO O_ATTR
-	VALUES ("b78f51c6-240e-4931-b8d9-5f9a8427122e",
-	"435809c9-13b2-407b-8cdd-29a0e1858730",
-	"0cc054cc-7f3d-4d90-aa7a-70cee44adcf7",
-	'raw_data',
-	'',
-	'',
-	'raw_data',
+	'data',
 	0,
 	"427a2e87-38ca-4d2b-a66d-eabf304ff889",
 	'',

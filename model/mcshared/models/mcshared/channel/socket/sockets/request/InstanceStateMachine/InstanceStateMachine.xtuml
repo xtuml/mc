@@ -10,23 +10,14 @@ INSERT INTO SM_SM
 INSERT INTO SM_MOORE
 	VALUES ("2b5e2182-5e08-4ac9-9fb7-0944ba25803d");
 INSERT INTO SM_EVTDI
-	VALUES ("1ab7d9f9-e81e-4b3d-856e-966886266e63",
-	"2b5e2182-5e08-4ac9-9fb7-0944ba25803d",
-	'name',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	"ef11c88b-0994-40b2-9cc9-11f8fe0e97bb",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO SM_EVTDI
 	VALUES ("d47ed0cc-b25c-47ba-932c-cced40fedf45",
 	"2b5e2182-5e08-4ac9-9fb7-0944ba25803d",
-	'parameters',
+	'data',
 	'',
 	"427a2e87-38ca-4d2b-a66d-eabf304ff889",
 	'',
 	"ef11c88b-0994-40b2-9cc9-11f8fe0e97bb",
-	"1ab7d9f9-e81e-4b3d-856e-966886266e63");
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO S_DT_PROXY
 	VALUES ("427a2e87-38ca-4d2b-a66d-eabf304ff889",
 	"00000000-0000-0000-0000-000000000000",
@@ -37,7 +28,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO SM_EVTDI
 	VALUES ("99fbca5f-5ed5-4722-9f48-f7bf97e4ed61",
 	"2b5e2182-5e08-4ac9-9fb7-0944ba25803d",
-	'to',
+	'target',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
@@ -46,7 +37,7 @@ INSERT INTO SM_EVTDI
 INSERT INTO SM_EVTDI
 	VALUES ("ebded225-f94f-4b15-9ea7-614eca8fc773",
 	"2b5e2182-5e08-4ac9-9fb7-0944ba25803d",
-	'from',
+	'origin',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
@@ -872,30 +863,13 @@ INSERT INTO SM_ACT
 	"2b5e2182-5e08-4ac9-9fb7-0944ba25803d",
 	1,
 	'UTIL::print( s:"Creating request..." );
-self.to = param.to;
-self.from = param.from;
-self.message_name = param.name;
+self.data = param.data;
+self.target = param.target;
+self.origin = param.origin;
 self.inbound = param.inbound;
 self.sync_id = param.sync_id;
 self.is_reply = param.is_reply;
 self.initialized = false;
-i = 0;
-while ( ( i < param.parameters.len ) and ( i < param.parameters.data.length ) )
-  create object instance chunk of chunk;
-  chunk.data = param.parameters.data[i];
-  chunk.size = param.parameters.size[i];
-  select one last_chunk related by self->chunk[R6510];
-  if ( empty last_chunk )
-    // first chunk
-    relate chunk to self across R6510;
-    relate chunk to self across R6503;
-  else
-    relate chunk to last_chunk across R6504.''succeeds'';
-    unrelate last_chunk from self across R6510;
-    relate chunk to self across R6510;
-  end if;
-  i = i + 1;
-end while;
 
 select any matching_request from instances of request where false;
 if ( self.inbound and 0 != self.sync_id )
@@ -958,9 +932,9 @@ INSERT INTO SM_ACT
 	1,
 	'//attach to handler
 UTIL::print( s:"Attaching request to a handler..." );
-select any handler from instances of requesthandler where ( selected.name == self.from );
+select any handler from instances of requesthandler where ( selected.name == self.origin );
 if ( self.inbound )
-  select any handler from instances of requesthandler where ( selected.name == self.to );
+  select any handler from instances of requesthandler where ( selected.name == self.target );
 end if;
 if ( not_empty handler )
   relate self to handler across R6518;

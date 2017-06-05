@@ -294,7 +294,7 @@ create object instance handler of requesthandler;
 handler.name = param.name;
 handler.peer_name = param.peer_name;
 relate self to handler across R6513;
-generate datasocket1:start( to:param.peer_name, host:param.host, port:param.port, timeout:param.timeout, handler:handler ) to datasocket creator;',
+generate datasocket1:start( target:param.peer_name, host:param.host, port:param.port, timeout:param.timeout, handler:handler ) to datasocket creator;',
 	'',
 	0);
 INSERT INTO SM_MOAH
