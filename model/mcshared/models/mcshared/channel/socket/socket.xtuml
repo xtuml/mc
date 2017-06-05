@@ -69,7 +69,7 @@ INSERT INTO GD_GE
 	"0a723b81-b04c-48cf-94b2-24b112bba7c9",
 	94,
 	0,
-	'mcshared::channel::socket::INTERFACE_REQUIRER::ChannelSpecification');
+	'mcshared::channel::socket::R::ChannelSpecification');
 INSERT INTO GD_CON
 	VALUES ("a059b19b-60c1-4a28-bcf4-8f4f41ba7f91",
 	"00000000-0000-0000-0000-000000000000");
@@ -169,7 +169,7 @@ INSERT INTO GD_GE
 	"bd2b9ab3-dba1-4753-b139-0b5e947a917c",
 	94,
 	0,
-	'mcshared::channel::socket::INTERFACE_PROVIDER::ChannelSpecification');
+	'mcshared::channel::socket::P::ChannelSpecification');
 INSERT INTO GD_CON
 	VALUES ("945ec54c-9991-4a3e-bfc9-9e1451b476f1",
 	"00000000-0000-0000-0000-000000000000");
@@ -297,7 +297,7 @@ INSERT INTO DIM_DIA
 INSERT INTO C_PO
 	VALUES ("f74f52f7-38e1-4bdb-a1d7-7f935797617d",
 	"90e78d35-e981-4b6c-84d6-15126a79aa49",
-	'INTERFACE_REQUIRER',
+	'R',
 	0,
 	0);
 INSERT INTO C_IR
@@ -310,7 +310,7 @@ INSERT INTO C_P
 	'ChannelSpecification',
 	'Unnamed Interface',
 	'',
-	'socket::INTERFACE_REQUIRER::ChannelSpecification');
+	'socket::R::ChannelSpecification');
 INSERT INTO SPR_PEP
 	VALUES ("21d71257-f80f-45e1-9541-decb0b504a95",
 	"147e3841-4e59-414e-9035-cd2d888a405b",
@@ -320,7 +320,7 @@ INSERT INTO SPR_PS
 	'request_sgn',
 	'',
 	'create object instance request of request;
-generate request1:create( name:param.name, parameters:param.parameters, to:param.to, from:param.from, inbound:false, sync_id:0, is_reply:false ) to request;',
+generate request1:create( data:param.data, target:param.target, origin:param.origin, inbound:false, sync_id:0, is_reply:false ) to request;',
 	1,
 	0);
 INSERT INTO C_EP_PROXY
@@ -401,7 +401,7 @@ INSERT INTO SPR_PO
 	'// create the request
 sync_id = UTIL::id_factory();
 create object instance request of request;
-generate request1:create( name:param.name, parameters:param.parameters, to:param.to, from:param.from, inbound:false, sync_id:sync_id, is_reply:false ) to request;
+generate request1:create( data:param.data, target:param.target, origin:param.origin, inbound:false, sync_id:sync_id, is_reply:false ) to request;
 
 // wait for the return request
 select one return_request related by request->request[R6519.''has return''];
@@ -410,30 +410,20 @@ while ( empty return_request )
   ret_val = SYS::sleep( milliseconds:100, error:error );
   if ( -1 == ret_val )
     UTIL::report_error( code:error, level:error_levels::fatal );
-    return param.parameters;
+    return param.data;
   end if;
   select one return_request related by request->request[R6519.''has return''];
 end while;
 
-// build parameters to deliver
-i = 0;
-select one chunk related by return_request->chunk[R6503];
-while ( not_empty chunk and i < 32 )
-  return_request.raw_data.len = request.length();
-  return_request.raw_data.data[i] = chunk.data;
-  return_request.raw_data.size[i] = chunk.size;
-  select one next_chunk related by chunk->chunk[R6504.''precedes''];
-  chunk = next_chunk;
-  i = i + 1;
-end while;
-return_parameters = return_request.raw_data;
+// cache data to deliver
+return_data = return_request.data;
 
 // clean up
 return_request.dispose();
 generate request4:done() to request;
 
 // return
-return return_parameters;',
+return return_data;',
 	1,
 	0);
 INSERT INTO C_EP_PROXY
@@ -470,7 +460,7 @@ INSERT INTO C_I_PROXY
 INSERT INTO C_PO
 	VALUES ("31454c73-bc63-494a-9cbe-a0f28d222f20",
 	"90e78d35-e981-4b6c-84d6-15126a79aa49",
-	'INTERFACE_PROVIDER',
+	'P',
 	0,
 	0);
 INSERT INTO C_IR
@@ -483,7 +473,7 @@ INSERT INTO C_P
 	'ChannelSpecification',
 	'Unnamed Interface',
 	'',
-	'socket::INTERFACE_PROVIDER::ChannelSpecification');
+	'socket::P::ChannelSpecification');
 INSERT INTO SPR_PEP
 	VALUES ("111bdde3-e5d1-4fb2-b555-6f65e5dbc472",
 	"147e3841-4e59-414e-9035-cd2d888a405b",
@@ -493,7 +483,7 @@ INSERT INTO SPR_PS
 	'request_sgn',
 	'',
 	'create object instance request of request;
-generate request1:create( name:param.name, parameters:param.parameters, to:"", from:param.from, inbound:false, sync_id:0, is_reply:false ) to request;',
+generate request1:create( data:param.data, target:"", origin:param.origin, inbound:false, sync_id:0, is_reply:false ) to request;',
 	1,
 	0);
 INSERT INTO SPR_PEP
@@ -548,7 +538,7 @@ INSERT INTO SPR_PO
 	'request_op',
 	'',
 	'UTIL::report_error( code:S_ILLEGALOP, level:error_levels::fatal );
-return param.parameters;',
+return param.data;',
 	1,
 	0);
 INSERT INTO SPR_PEP

@@ -100,7 +100,7 @@ INSERT INTO SM_EVTDI
 INSERT INTO SM_EVTDI
 	VALUES ("cfbdfdbf-0776-4eed-a3f8-7dfc3141d440",
 	"571e4736-532a-47f8-b681-9d922251f5cb",
-	'to',
+	'target',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
@@ -1741,7 +1741,7 @@ INSERT INTO SM_ACT
 	'UTIL::print( s:"Creating data socket..." );
 
 // set attributes
-self.to = param.to;
+self.target = param.target;
 self.connection_timeout = param.timeout;
 self.tries = 0;
 self.ready = false;
@@ -1811,7 +1811,7 @@ if ( ERR == ret_val )
   generate datasocket9:error( code:error ) to self;
 else
   UTIL::print( s:"Handshake sent." );
-  UTIL::print( s:"Data socket setup. Name: " + handler.name + ", Peer: " + self.to );
+  UTIL::print( s:"Data socket setup. Name: " + handler.name + ", Peer: " + self.target );
   self.ready = true;
   generate datasocket3:ready() to self;
   select one handler related by self->requesthandler[R6516];
@@ -2126,14 +2126,14 @@ if ( ERR == ret_val )
   end if;
 else
   UTIL::print( s:"Handshake received." );
-  self.to = peer_name;
+  self.target = peer_name;
   select any handler from instances of requesthandler where ( selected.name == name );
   if ( not_empty handler )
     relate self to handler across R6516;
   else
     generate datasocket9:error( code:S_UNKNOWNENDPOINT ) to self;
   end if;
-  UTIL::print( s:"Data socket setup. Name: " + handler.name + ", Peer: " + self.to );
+  UTIL::print( s:"Data socket setup. Name: " + handler.name + ", Peer: " + self.target );
   self.ready = true;
   generate datasocket3:ready() to self;
 end if;',
@@ -2265,46 +2265,30 @@ INSERT INTO SM_ACT
 select one request related by self->request[R6508];
 select one socket related by self->socket[R6501];
 
-// send the length
 error = OK;
-ret_val = SOCK::sendint( socket:socket.descriptor, value:request.length(), error:error );
+
+// send sync id
+ret_val = SOCK::sendint( socket:socket.descriptor, value:request.sync_id, error:error );
 if ( ERR == ret_val )
   generate datasocket9:error( code:error ) to self;
 else
-  // send sync id
-  ret_val = SOCK::sendint( socket:socket.descriptor, value:request.sync_id, error:error );
+  // send target
+  ret_val = SOCK::senddata( socket:socket.descriptor, size:STRING::strlen(s:request.target), data:request.target, error:error );
   if ( ERR == ret_val )
     generate datasocket9:error( code:error ) to self;
   else
-    // send name
-    ret_val = SOCK::senddata( socket:socket.descriptor, size:STRING::strlen(s:request.message_name), data:request.message_name, error:error );
+    // send origin
+    ret_val = SOCK::senddata( socket:socket.descriptor, size:STRING::strlen(s:request.origin), data:request.origin, error:error );
     if ( ERR == ret_val )
       generate datasocket9:error( code:error ) to self;
     else
-      // send to
-      ret_val = SOCK::senddata( socket:socket.descriptor, size:STRING::strlen(s:request.to), data:request.to, error:error );
+      // send data
+      ret_val = SOCK::senddata( socket:socket.descriptor, size:request.data.size, data:request.data.data, error:error );
       if ( ERR == ret_val )
         generate datasocket9:error( code:error ) to self;
       else
-        // send from
-        ret_val = SOCK::senddata( socket:socket.descriptor, size:STRING::strlen(s:request.from), data:request.from, error:error );
-        if ( ERR == ret_val )
-          generate datasocket9:error( code:error ) to self;
-        else
-          // send all chunks
-          select one chunk related by request->chunk[R6503];
-          while ( not_empty chunk and ERR != ret_val )
-            ret_val = SOCK::senddata( socket:socket.descriptor, size:chunk.size, data:chunk.data, error:error );
-            if ( ERR == ret_val )
-              generate datasocket9:error( code:error ) to self;
-            end if;
-            select one chunk related by chunk->chunk[R6504.''precedes''];
-          end while;
-          if ( ERR != ret_val )
-            // complete the request
-            generate request9:sent( socket:self ) to request;
-          end if;
-        end if;
+        // complete the request
+        generate request9:sent( socket:self ) to request;
       end if;
     end if;
   end if;
@@ -2324,73 +2308,56 @@ INSERT INTO SM_ACT
 	1,
 	'select one socket related by self->socket[R6501];
 select one message related by self->message[R6517];
-error = OK;
+
 if ( not_empty message )
-  if ( -4 == message.index )
-    UTIL::print( s:"Receiving sync_id" );
-    sync_id = 0;
-    ret_val = SOCK::recvint( socket:socket.descriptor, value:sync_id, error:error );
-    if ( ERR == ret_val )
-      generate datasocket9:error( code:error ) to self;
-    else
-      message.sync_id = sync_id;
-      message.index = message.index + 1;
-      generate datasocket3:ready() to self;
-    end if;
-  else
-    // receive a chunk of data. The first three chunks are special (name, to, from)
-    size = 0;
-    data = "";
-    ret_val = SOCK::recvdata( socket:socket.descriptor, size:size, data:data, error:error );
-    if ( ERR == ret_val )
-      generate datasocket9:error( code:error ) to self;
-    else
-      if ( -3 == message.index )
-        UTIL::print( s:"Receiving message name" );
-        message.name = UTIL::datatostring( data:data, size:size );
-      elif ( -2 == message.index )
-        UTIL::print( s:"Receiving to" );
-        message.to = UTIL::datatostring( data:data, size:size );
-        if ( message.to == "" )
-          select one handler related by self->requesthandler[R6516];
-          message.to = handler.name;
-        end if;
-      elif ( -1 == message.index )
-        UTIL::print( s:"Receiving from" );
-        message.from = UTIL::datatostring( data:data, size:size );
-      else
-        UTIL::print( s:"Receiving data chunk" );
-        message.parameters.data[message.index] = data;
-        message.parameters.size[message.index] = size;
-      end if;
-      message.index = message.index + 1;
-      if ( message.index == message.parameters.len );
-        // message is complete create inbound request
-        create object instance request of request;
-        generate request1:create( name:message.name, parameters:message.parameters, to:message.to, from:message.from, inbound:true, sync_id:message.sync_id, is_reply:false ) to request;
-        unrelate message from self across R6517;
-        delete object instance message;
-      end if;
-      generate datasocket3:ready() to self;
-    end if;
-  end if;
-else
-  // receive the length of the message
-  UTIL::print( s:"Receiving length" );
-  len = 0;
-  ret_val = SOCK::recvint( socket:socket.descriptor, value:len, error:error );
+  create object instance message of message;
+  message.index = 0;
+  relate message to self across R6517;
+end if;
+
+error = OK;
+
+if ( 0 == message.index )
+  UTIL::print( s:"Receiving sync_id" );
+  sync_id = 0;
+  ret_val = SOCK::recvint( socket:socket.descriptor, value:sync_id, error:error );
   if ( ERR == ret_val )
     generate datasocket9:error( code:error ) to self;
   else
-    if ( len > 32 )
-      generate datasocket9:error( code:S_CORRUPTDATA ) to self;
+    message.sync_id = sync_id;
+    message.index = message.index + 1;
+    generate datasocket3:ready() to self;
+  end if;
+else
+  // receive data
+  size = 0;
+  data = "";
+  ret_val = SOCK::recvdata( socket:socket.descriptor, size:size, data:data, error:error );
+  if ( ERR == ret_val )
+    generate datasocket9:error( code:error ) to self;
+  else
+    if ( 1 == message.index )
+      UTIL::print( s:"Receiving target" );
+      message.target = UTIL::datatostring( data:data, size:size );
+      if ( message.target == "" )
+        select one handler related by self->requesthandler[R6516];
+        message.target = handler.name;
+      end if;
+    elif ( 2 == message.index )
+      UTIL::print( s:"Receiving origin" );
+      message.origin = UTIL::datatostring( data:data, size:size );
     else
-      create object instance message of message;
-      message.parameters.len = len;
-      message.index = -4;
-      relate message to self across R6517;
-      generate datasocket3:ready() to self;
+      UTIL::print( s:"Receiving data" );
+      message.data.data = data;
+      message.data.size = size;
+      // message is complete create inbound request
+      create object instance request of request;
+      generate request1:create( data:message.data, target:message.target, origin:message.origin, inbound:true, sync_id:message.sync_id, is_reply:false ) to request;
+      unrelate message from self across R6517;
+      delete object instance message;
     end if;
+    message.index = message.index + 1;
+    generate datasocket3:ready() to self;
   end if;
 end if;',
 	'',
@@ -3083,7 +3050,7 @@ INSERT INTO GD_GE
 	"749db02c-16a4-4195-b62d-d3b7c6c9c0ed",
 	49,
 	0,
-	'datasocket1: start(to, host, port, timeout, handler)');
+	'datasocket1: start(target, host, port, timeout, handler)');
 INSERT INTO GD_CON
 	VALUES ("a11e78b0-1eba-4a66-8644-2f13dcfc146e",
 	"00000000-0000-0000-0000-000000000000");

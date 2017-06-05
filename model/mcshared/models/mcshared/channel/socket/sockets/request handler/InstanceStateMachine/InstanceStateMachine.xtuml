@@ -491,7 +491,7 @@ INSERT INTO SM_ACT
 	1,
 	'select one request related by self->request[R6514];
 if ( not_empty request and request.initialized )
-  if ( self.name == request.to )
+  if ( self.name == request.target )
     // received data
     generate requesthandler5:deliver() to self;
   else
@@ -517,33 +517,21 @@ INSERT INTO SM_ACT
 	'UTIL::print( s:"Delivering request..." );
 select one request related by self->request[R6514];
 
-// build parameters to deliver
-i = 0;
-select one chunk related by request->chunk[R6503];
-while ( not_empty chunk and i < 32 )
-  request.raw_data.len = request.length();
-  request.raw_data.data[i] = chunk.data;
-  request.raw_data.size[i] = chunk.size;
-  select one next_chunk related by chunk->chunk[R6504.''precedes''];
-  chunk = next_chunk;
-  i = i + 1;
-end while;
-
 if ( 0 == request.sync_id )
   // async message
   // deliver the parameters
   if ( self.provider )
-    send INTERFACE_PROVIDER::deliver_sgn( name:request.message_name, parameters:request.raw_data, to:request.to, from:request.from );
+    send P::deliver_sgn( data:request.data, target:request.target, origin:request.origin );
   else
-    send INTERFACE_REQUIRER::deliver_sgn( name:request.message_name, parameters:request.raw_data, to:request.to, from:request.from );
+    send R::deliver_sgn( data:request.data, target:request.target, origin:request.origin );
   end if;
 else
   // sync message
   // deliver the parameters (sync messages only allowed requirer to provider)
-  return_parameters = INTERFACE_PROVIDER::deliver_op( name:request.message_name, parameters:request.raw_data, to:request.to, from:request.from );
+  return_parameters = P::deliver_op( data:request.data, target:request.target, origin:request.origin );
   // create the return request with the same sync_id
   create object instance reply_request of request;
-  generate request1:create( name:request.message_name, parameters:return_parameters, to:request.from, from:request.to, inbound:false, sync_id:request.sync_id, is_reply:true ) to reply_request;
+  generate request1:create( data:return_parameters, target:request.origin, origin:request.target, inbound:false, sync_id:request.sync_id, is_reply:true ) to reply_request;
 end if;
 
 // generate event
@@ -570,7 +558,7 @@ select one server related by self->server[R6513];
 if ( not_empty server )
   select many datasockets related by self->datasocket[R6516] where ( selected.ready );
 else
-  select many datasockets related by self->datasocket[R6516] where ( selected.ready and selected.to == request.to );
+  select many datasockets related by self->datasocket[R6516] where ( selected.ready and selected.target == request.target );
 end if;
 if ( cardinality datasockets < 1 )
   UTIL::report_error( code:S_NOTCONNECTED, level:error_levels::fatal );
