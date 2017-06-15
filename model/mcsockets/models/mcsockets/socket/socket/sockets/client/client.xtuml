@@ -1,0 +1,65 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("41ab8dba-f2e5-4ef7-8ead-79c325b6bdae",
+	'client',
+	2,
+	'client',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("ae635095-1cfb-4189-9353-cf2514af63dd",
+	"41ab8dba-f2e5-4ef7-8ead-79c325b6bdae",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one courier related by self->courier[R6513];
+unrelate self from courier across R6513;
+courier.dispose();
+delete object instance courier;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_NBATTR
+	VALUES ("55983568-27a2-4a00-8c6a-015c437bc561",
+	"41ab8dba-f2e5-4ef7-8ead-79c325b6bdae");
+INSERT INTO O_BATTR
+	VALUES ("55983568-27a2-4a00-8c6a-015c437bc561",
+	"41ab8dba-f2e5-4ef7-8ead-79c325b6bdae");
+INSERT INTO O_ATTR
+	VALUES ("55983568-27a2-4a00-8c6a-015c437bc561",
+	"41ab8dba-f2e5-4ef7-8ead-79c325b6bdae",
+	"00000000-0000-0000-0000-000000000000",
+	'current_state',
+	'',
+	'',
+	'current_state',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000006",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"41ab8dba-f2e5-4ef7-8ead-79c325b6bdae");
+INSERT INTO O_ID
+	VALUES (1,
+	"41ab8dba-f2e5-4ef7-8ead-79c325b6bdae");
+INSERT INTO O_ID
+	VALUES (2,
+	"41ab8dba-f2e5-4ef7-8ead-79c325b6bdae");
+INSERT INTO PE_PE
+	VALUES ("41ab8dba-f2e5-4ef7-8ead-79c325b6bdae",
+	1,
+	"326814d5-c8d3-4592-aa8d-14658c4f155c",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("326814d5-c8d3-4592-aa8d-14658c4f155c",
+	"00000000-0000-0000-0000-000000000000",
+	"fcc009f4-22ed-4091-b6e3-bced238b1692",
+	'sockets',
+	'',
+	0,
+	'../sockets.xtuml');

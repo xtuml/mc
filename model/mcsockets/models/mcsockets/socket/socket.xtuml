@@ -1,0 +1,46 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("b0bd254c-7c89-4fbe-b8c4-09cee1d9d28c",
+	"fcc009f4-22ed-4091-b6e3-bced238b1692",
+	"fcc009f4-22ed-4091-b6e3-bced238b1692",
+	'socket',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("7bab1bd5-9d93-46c1-89b2-fcd939f0b63e",
+	112,
+	"b0bd254c-7c89-4fbe-b8c4-09cee1d9d28c",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'mcsockets::socket');
+INSERT INTO DIM_DIA
+	VALUES ("7bab1bd5-9d93-46c1-89b2-fcd939f0b63e",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("b0bd254c-7c89-4fbe-b8c4-09cee1d9d28c",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO S_SYS_PROXY
+	VALUES ("fcc009f4-22ed-4091-b6e3-bced238b1692",
+	'mcsockets',
+	1,
+	'../mcsockets.xtuml');
