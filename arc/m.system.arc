@@ -271,6 +271,7 @@
     .assign tm_sf.satisfaction_label = satisfaction_label
     .print "Channel ${satisfaction_label} set to be implemented by ${component_name}."
   .end if
+  .invoke MapDataTypeAsPointer( "*", "bstring", "void", "" )
 .end function
 .//
 .//============================================================================

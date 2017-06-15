@@ -788,7 +788,25 @@ INSERT INTO O_ATTR
 	'',
 	'satisfaction_Id',
 	2,
-	"ba5eda7a-def5-0000-0000-000000000002",
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("27f4a450-c633-48d8-8d40-54f24d28cba4",
+	"ff19e93f-39a8-4a13-af46-1b7ee8317135");
+INSERT INTO O_BATTR
+	VALUES ("27f4a450-c633-48d8-8d40-54f24d28cba4",
+	"ff19e93f-39a8-4a13-af46-1b7ee8317135");
+INSERT INTO O_ATTR
+	VALUES ("27f4a450-c633-48d8-8d40-54f24d28cba4",
+	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
+	"9fd95234-4a84-4bcc-8b81-ff2b68bf141e",
+	'marshalled_message_len',
+	'',
+	'',
+	'marshalled_message_len',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
 INSERT INTO O_ID

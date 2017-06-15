@@ -286,6 +286,31 @@
 .end function
 .//
 .//
+.function chanspec_factory
+  .param inst_ref te_chanspec
+  .assign te_chanspec.prov_port = "PROV"
+  .assign te_chanspec.req_port = "REQ"
+  .assign te_chanspec.post_sgn = "post_sgn"
+  .assign te_chanspec.post_op = "post_op"
+  .assign te_chanspec.deliver_sgn = "deliver_sgn"
+  .assign te_chanspec.deliver_op = "deliver_op"
+  .assign te_chanspec.init = "initialize"
+  .assign te_chanspec.data_mbr = "data"
+  .assign te_chanspec.size_mbr = "size"
+  .assign te_chanspec.raw_data = "raw_data"
+.end function
+.//
+.//
+.function marshalling_factory
+  .param inst_ref te_marshalling
+  .select any te_prefix from instances of TE_PREFIX
+  .assign te_marshalling.marshall = te_prefix.result + "marshall"
+  .assign te_marshalling.unmarshall = te_prefix.result + "unmarshall"
+  .assign te_marshalling.remarshall = te_prefix.result + "remarshall"
+  .assign te_marshalling.get_size = te_prefix.result + "marshalllen"
+.end function
+.//
+.//
 .function thread_factory
   .param inst_ref te_thread
   .select any te_prefix from instances of TE_PREFIX
@@ -419,6 +444,10 @@
   .invoke slist_factory( te_slist )
   .create object instance te_string of TE_STRING
   .invoke string_factory( te_string )
+  .create object instance te_chanspec of TE_CHANSPEC
+  .invoke chanspec_factory( te_chanspec )
+  .create object instance te_marshalling of TE_MSHL
+  .invoke marshalling_factory( te_marshalling )
   .create object instance te_thread of TE_THREAD
   .invoke thread_factory( te_thread )
   .create object instance te_tim of TE_TIM

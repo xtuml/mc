@@ -10,6 +10,10 @@
 #define $u{te_file.factory}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
 
+.select any tm_sf from instances of TM_SF
+.if ( not_empty tm_sf )
+  .include "${te_file.arc_path}/t.sys_marshalling.h"
+.end if
 .include "${te_file.arc_path}/t.sys_sets.h"
 .if ( te_sys.PersistentClassCount > 0 )
 #include "${te_file.persist}.${te_file.hdr_file_ext}"

@@ -114,6 +114,7 @@
     .select one te_aba related by te_mact->TE_ABA[R2010]
     .select one implementation_te_c related by te_mact->TE_SF[R2200]->TE_C[R2202]
     .select one implementation_c_c related by implementation_te_c->C_C[R2054]
+    .select any te_chanspec from instances of TE_CHANSPEC
     .if ( te_mact.subtypeKL == "SPR_PO" )
     .elif ( te_mact.subtypeKL == "SPR_RO" )
     .elif ( te_mact.subtypeKL == "SPR_PS" )
@@ -140,26 +141,26 @@
       .end if
       .if ( not_empty implementation_te_c )
         .if ( te_mact.subtypeKL == "SPR_RS" )
-          .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == "INTERFACE_REQUIRER" )
-          .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == "request_sgn" )
+          .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == te_chanspec.req_port )
+          .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == te_chanspec.post_sgn )
         .elif ( te_mact.subtypeKL == "SPR_RO" )
-          .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == "INTERFACE_REQUIRER" )
-          .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == "request_op" )
+          .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == te_chanspec.req_port )
+          .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == te_chanspec.post_op )
         .elif ( te_mact.subtypeKL == "SPR_PS" )
-          .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == "INTERFACE_PROVIDER" )
-          .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == "request_sgn" )
+          .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == te_chanspec.prov_port )
+          .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == te_chanspec.post_sgn )
         .elif ( te_mact.subtypeKL == "SPR_PO" )
-          .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == "INTERFACE_PROVIDER" )
-          .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == "request_op" )
+          .select any foreign_te_po related by implementation_te_c->TE_PO[R2005] where ( selected.Name == te_chanspec.prov_port )
+          .select many foreign_te_macts related by foreign_te_po->TE_MACT[R2006] where ( selected.MessageName == te_chanspec.post_op )
         .end if
       .elif ( is_channel_component )
-        .if ( ( "deliver_op" == te_mact.MessageName ) and ( "INTERFACE_PROVIDER" == te_mact.PortName ) )
+        .if ( ( te_chanspec.deliver_op == te_mact.MessageName ) and ( te_chanspec.prov_port == te_mact.PortName ) )
           .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( "SPR_PO" == selected.subtypeKL ) )
-        .elif ( ( "deliver_op" == te_mact.MessageName ) and ( "INTERFACE_REQUIRER" == te_mact.PortName ) )
+        .elif ( ( te_chanspec.deliver_op == te_mact.MessageName ) and ( te_chanspec.req_port == te_mact.PortName ) )
           .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( "SPR_RO" == selected.subtypeKL ) )
-        .elif ( ( "deliver_sgn" == te_mact.MessageName ) and ( "INTERFACE_PROVIDER" == te_mact.PortName ) )
+        .elif ( ( te_chanspec.deliver_sgn == te_mact.MessageName ) and ( te_chanspec.prov_port == te_mact.PortName ) )
           .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( "SPR_PS" == selected.subtypeKL ) )
-        .elif ( ( "deliver_sgn" == te_mact.MessageName ) and ( "INTERFACE_REQUIRER" == te_mact.PortName ) )
+        .elif ( ( te_chanspec.deliver_sgn == te_mact.MessageName ) and ( te_chanspec.req_port == te_mact.PortName ) )
           .select many foreign_te_macts related by te_c->TE_SF[R2202]->TE_MACT[R2200] where ( ( ( ( selected.Provision ) and ( 0 == selected.Direction ) ) or ( ( not selected.Provision ) and ( 1 == selected.Direction ) ) ) and ( "SPR_RS" == selected.subtypeKL ) )
         .end if
       .end if
@@ -172,16 +173,19 @@
             .select any raw_data_dt related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
             .break for
           .end for
-          .invoke r = te_parm_BuildStructuredParameterInvocation( te_parms, raw_data_dt )
+          .invoke r = te_parm_BuildStructuredParameterInvocation( te_aba, te_parms, raw_data_dt )
           .assign action_body = action_body + r.body
         .elif ( is_channel_component )
-          .select any raw_data_dt from instances of TE_DT where ( false )
-          .for each foreign_te_mact in foreign_te_macts
-            .select any raw_data_dt related by te_aba->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
-            .break for
-          .end for
-          .invoke r = te_aba_StructuredReturnDeclaration( raw_data_dt, te_aba )
-          .assign action_body = action_body + r.body
+          .select any te_string from instances of TE_STRING
+          .select any te_string_dt from instances of TE_DT where ( selected.Name == "string" )
+          .select any base_te_parm related by te_aba->TE_PARM[R2062] where ( selected.Name == "data" )
+          .select any raw_data_dt related by te_aba->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == te_chanspec.raw_data )
+          .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
+          .select any te_marshalling from instances of TE_MSHL
+          .assign unmarshall_name = "  ${te_string_dt.ExtName} message_name[${te_string.max_string_length}]; "
+          .assign unmarshall_name = unmarshall_name + "${te_string.memset}( message_name, 0, ${te_string.max_string_length} ); "
+          .assign unmarshall_name = unmarshall_name + "${te_marshalling.unmarshall}( ${base_te_parm.GeneratedName}.${te_data_mbr.GeneratedName}, message_name, 0 );\n"
+          .assign action_body = action_body + unmarshall_name
         .end if
         .assign conditional_test = "  if"
         .for each foreign_te_mact in foreign_te_macts
@@ -195,7 +199,7 @@
               .else
                 .assign target_name = "${target_te_mact.ComponentName}_${target_te_mact.PortName}"
               .end if
-              .assign structured_parameters = """${te_mact.ComponentName}_${te_mact.PortName}"", ""${target_te_mact.MessageName}"", parameters, ""${target_name}"""
+              .assign structured_parameters = "parameters, ""${te_mact.ComponentName}_${te_mact.PortName}"", ""${target_name}"""
               .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, structured_parameters, "  ", true )
               .select any raw_data_dt related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
               .select one foreign_te_aba related by foreign_te_mact->TE_ABA[R2010]
@@ -212,28 +216,33 @@
               .end if
             .elif ( is_channel_component )
               .select many te_parms related by foreign_te_mact->TE_ABA[R2010]->TE_PARM[R2062]
-              .select any base_te_parm related by te_aba->TE_PARM[R2062] where ( selected.Name == "parameters" )
+              .select any base_te_parm related by te_aba->TE_PARM[R2062] where ( selected.Name == "data" )
               .invoke r = te_parm_UnpackStructuredParameterInvocation( base_te_parm, te_parms, te_aba )
-              .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, r.body, "  ", true )
+              .assign unmarshall = r.body
+              .assign repack = r.repack
+              .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, r.invo, "  ", true )
               .select any te_string from instances of TE_STRING
-              .assign condition = conditional_test + " ( !${te_string.strcmp}( ""${foreign_te_mact.ComponentName}_${foreign_te_mact.PortName}"", p_to ) && "
-              .assign condition = condition + "!${te_string.strcmp}( ""${foreign_te_mact.MessageName}"", p_name ) ) {\n"
+              .assign condition = conditional_test + " ( "
+              .if ( foreign_te_mact.Provision )
+                .assign condition = condition + "!${te_string.strcmp}( ""${foreign_te_mact.ComponentName}_${foreign_te_mact.PortName}"", p_target ) && "
+              .end if
+              .assign condition = condition + "!${te_string.strcmp}( ""${foreign_te_mact.MessageName}"", message_name ) ) {\n"
               .assign conditional_test = "  else if"
               .select one foreign_te_aba related by foreign_te_mact->TE_ABA[R2010]
-              .select any raw_data_dt related by te_aba->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == "raw_data" )
+              .select any raw_data_dt related by te_aba->TE_PARM[R2062]->TE_DT[R2049] where ( selected.Name == te_chanspec.raw_data )
               .assign resize = ""
-              .if ( "void" != te_aba.ReturnDataType )
-                .invoke r = te_parm_ByRefStructuredParametersResize( te_parms, raw_data_dt )
-                .assign resize = r.body
-              .end if
+              .assign message_invo = "  " + s.body
               .if ( "void" != foreign_te_aba.ReturnDataType )
-                .invoke r = te_aba_StructuredReturn( te_aba, s.body, raw_data_dt, foreign_te_aba )
-                .assign action_body = ( ( action_body + condition ) + ( ( "    " + foreign_te_aba.ReturnDataType ) + ( " return_val = " + s.body ) ) ) + ( ( resize + r.body ) + "  }\n" )
-              .else
-                .assign action_body = ( ( action_body + condition ) + ( "  " + s.body ) ) + ( resize + "  }\n" )
+                .invoke r = te_aba_StructuredReturn( base_te_parm, te_aba, raw_data_dt, foreign_te_aba )
+                .assign message_invo = ( ( ( "    " + foreign_te_aba.ReturnDataType ) + ( " return_val = " + s.body ) ) + r.body )
               .end if
+              .assign action_body = action_body + condition + unmarshall + message_invo + repack + "  }\n"
               .if ( ( last foreign_te_macts ) and ( "void" != te_aba.ReturnDataType ) )
-                .assign action_body = action_body + "\n  return parameters;\n"
+                .select any te_marshalling from instances of TE_MSHL
+                .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
+                .select any te_size_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "size" )
+                .assign action_body = ( ( ( action_body + "  " ) + ( base_te_parm.GeneratedName + "." ) ) + ( ( te_size_mbr.GeneratedName + " = " ) + ( te_marshalling.get_size + "(" ) ) ) + ( ( base_te_parm.GeneratedName + "." ) + ( te_data_mbr.GeneratedName + ");\n" ) ) 
+                .assign action_body = ( ( action_body + "  return " ) + ( base_te_parm.GeneratedName + ";\n" ) )
               .end if
             .else
               .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, te_aba.ParameterInvocation, "  ", true )
@@ -384,41 +393,32 @@
 .// Generate the return assignment for structured messaging (into the struct)
 .//============================================================================
 .function te_aba_StructuredReturn
+  .param inst_ref base_te_parm
   .param inst_ref te_aba
-  .param string te_mact_invocation
   .param inst_ref raw_data_dt
   .param inst_ref foreign_te_aba
   .select any te_string from instances of TE_STRING
-  .select any te_file from instances of TE_FILE
+  .select any te_marshalling from instances of TE_MSHL
   .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
-  .select any te_size_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "size" )
   .assign size_of = "sizeof"
   .select one ret_te_dt related by foreign_te_aba->TE_MACT[R2010]->SPR_PO[R2050]->SPR_PEP[R4503]->C_EP[R4501]->C_IO[R4004]->S_DT[R4008]->TE_DT[R2021]
   .if ( empty ret_te_dt )
     .select one ret_te_dt related by foreign_te_aba->TE_MACT[R2010]->SPR_RO[R2052]->SPR_REP[R4502]->C_EP[R4500]->C_IO[R4004]->S_DT[R4008]->TE_DT[R2021]
   .end if
-  .if ( ( not_empty ret_te_dt ) and ( ret_te_dt.Name == "string" ) )
-    .assign size_of = te_string.strlen
+  .if ( not_empty ret_te_dt )
+    .if ( ret_te_dt.Name == "string" )
+      .assign size_of = te_string.strlen
+    .end if
   .end if
-  .assign data_pointer = "&" + "return_val"
-  .if ( ( "" != te_aba.array_spec ) or ( ( not_empty ret_te_dt ) and ( ret_te_dt.Name == "string" ) ) )
+  .assign data_pointer = "&return_val"
+  .if ( "" != te_aba.array_spec )
     .assign data_pointer = "return_val"
+  .elif ( not_empty ret_te_dt )
+    .if ( ret_te_dt.Name == "string" )
+      .assign data_pointer = "return_val"
+    .end if
   .end if
-  .include "${te_file.arc_path}/t.component.message.return.c"
-.end function
-.//
-.//============================================================================
-.// Generate declaration of return data for structured messaging
-.//============================================================================
-.function te_aba_StructuredReturnDeclaration
-  .param inst_ref raw_data_dt
-  .param inst_ref te_aba
-  .if ( "void" != te_aba.ReturnDataType )
-    .select any te_parm related by te_aba->TE_PARM[R2062] where ( selected.Name == "parameters" )
-  // Create return data structure
-  ${raw_data_dt.ExtName} parameters = ${te_parm.GeneratedName};
-
-  .end if
+    ${te_marshalling.remarshall}( ${base_te_parm.GeneratedName}.${te_data_mbr.GeneratedName}, ${data_pointer}, ${size_of}(return_val), 1 );
 .end function
 .//
 .//============================================================================
@@ -437,10 +437,11 @@
   .select any sret_te_parm related by te_aba->TE_PARM[R2062] where ( selected.Name == "A0xtumlsret" )
   .if ( not_empty sret_te_parm )
     .select any te_string from instances of TE_STRING
-  ${te_string.memmove}( A0xtumlsret, &parameters.${te_data_mbr.GeneratedName}[0], ${te_string.strlen}(parameters.${te_data_mbr.GeneratedName}[0]) );
+  //${te_string.memmove}( A0xtumlsret, &parameters.${te_data_mbr.GeneratedName}[0], ${te_string.strlen}(parameters.${te_data_mbr.GeneratedName}[0]) );
   return A0xtumlsret;
   .else
-  return ${return_deref}((${te_aba.ReturnDataType}${return_qual})parameters.${te_data_mbr.GeneratedName}[0]);
+  //return ${return_deref}((${te_aba.ReturnDataType}${return_qual})parameters.${te_data_mbr.GeneratedName}[0]);
+  return 0;
   .end if
 .end function
 .//

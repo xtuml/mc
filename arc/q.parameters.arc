@@ -91,8 +91,8 @@
 .end function
 .//
 .// Build structured parameter invocation
-.// TODO-LPS check parameter overflow
 .function te_parm_BuildStructuredParameterInvocation
+  .param inst_ref te_aba
   .param inst_ref_set te_parms
   .param inst_ref raw_data_dt
   .select any te_string from instances of TE_STRING
@@ -110,16 +110,30 @@
       .assign te_parm = prev_te_parm
     .end if
   .end while
+  .select any te_chanspec from instances of TE_CHANSPEC
+  .select any te_marshalling from instances of TE_MSHL
+  .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == te_chanspec.data_mbr )
+  .select any te_size_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == te_chanspec.size_mbr )
+  .select any int_te_dt from instances of TE_DT where ( selected.Name == "integer" )
+  .select one te_mact related by te_aba->TE_MACT[R2010]
+  .assign num_parameters = ( cardinality te_parms ) + 2
   // Create parameter structure
+  u1_t marshalled_data[${te_mact.marshalled_message_len}];
+  ${te_string.memset}( marshalled_data, 0, ${te_mact.marshalled_message_len} );
   ${raw_data_dt.ExtName} parameters;
-  ${te_string.memset}( (void*)&parameters, 0, sizeof(${raw_data_dt.ExtName}) );
+  parameters.${te_data_mbr.GeneratedName} = marshalled_data;
+  parameters.${te_size_mbr.GeneratedName} = 0;
 
-  .assign counter = 1
+  // Package message name
+  ${te_marshalling.marshall}( parameters.${te_data_mbr.GeneratedName}, "${te_mact.MessageName}", ${te_string.strlen}("${te_mact.MessageName}") );
+  parameters.${te_size_mbr.GeneratedName} += 8 + ${te_string.strlen}("${te_mact.MessageName}");
+
+  // Package return value
+  ${te_marshalling.marshall}( parameters.${te_data_mbr.GeneratedName}, "", 0 );
+  parameters.${te_size_mbr.GeneratedName} += 4;
+
   .while ( not_empty te_parm )
-  // Package parameter: ${te_parm.Name}
     .select one te_dt related by te_parm->TE_DT[R2049]
-    .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
-    .select any te_size_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "size" )
     .assign size_of = "sizeof"
     .if ( te_dt.Name == "string" )
       .assign size_of = te_string.strlen
@@ -132,20 +146,26 @@
     .if ( 0 != te_parm.By_Ref )
       .assign dereference = "*"
     .end if
-    .include "${te_file.arc_path}/t.component.message.data.c"
-    .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
-    .assign counter = counter + 1
+    .if  ( "A0xtumlsret" != te_parm.GeneratedName )
+  // Package parameter: ${te_parm.Name}
+  ${te_marshalling.marshall}( parameters.${te_data_mbr.GeneratedName}, ((void*)${data_pointer}), ${size_of}(${dereference}${te_parm.GeneratedName}) );
+  parameters.${te_size_mbr.GeneratedName} += 4 + ${size_of}(${dereference}${te_parm.GeneratedName});
 
+    .end if
+    .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
   .end while
-  .select any te_len_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "len" )
-  parameters.${te_len_mbr.GeneratedName} = ${counter};
 .end function
 .//
 .// Unpack structured parameters
-.// TODO-LPS check parameter overflow
 .function te_parm_UnpackStructuredParameterInvocation
   .param inst_ref base_te_parm
   .param inst_ref_set te_parms
+  .assign attr_invo = ""
+  .assign attr_repack = ""
+  .select any te_marshalling from instances of TE_MSHL
+  .select any te_chanspec from instances of TE_CHANSPEC
+  .select any te_string from instances of TE_STRING
+  .select any te_data_mbr related by base_te_parm->TE_DT[R2049]->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == te_chanspec.data_mbr )
   .// Be sure we have the first parameter.
   .select any te_parm from instances of TE_PARM where (false)
   .for each te_parm in te_parms
@@ -159,33 +179,36 @@
       .assign te_parm = prev_te_parm
     .end if
   .end while
-  .assign parms_name = base_te_parm.GeneratedName
-  .select one te_aba related by base_te_parm->TE_ABA[R2062]
-  .if ( "void" != te_aba.ReturnDataType )
-    .assign parms_name = "parameters"
-  .end if
-  .assign counter = 1
+  .assign counter = 2
   .assign param_delim = ""
   .while ( not_empty te_parm )
     .select one te_dt related by te_parm->TE_DT[R2049]
-    .select any te_data_mbr related by base_te_parm->TE_DT[R2049]->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
-    .assign param_deref = "*"
-    .if ( ( "" != te_parm.array_spec ) or ( 0 != te_parm.By_Ref ) )
-      .assign param_deref = ""
+    .assign parm_invo = "data_" + te_parm.GeneratedName
+    .if ( 0 != te_parm.By_Ref )
+      .assign parm_invo = "&" + parm_invo
     .end if
-    .assign address = ""
-    .if ( ( 0 != te_parm.By_Ref ) and ( "" == te_parm.array_spec ) )
-      .assign address = "&"
+    .assign size = ( "sizeof(" + te_dt.ExtName ) + ")"
+    .if ( "string" == te_dt.Name )
+      .assign size = te_string.max_string_length
+    .end if;
+    .assign data_pointer = "data_" + te_parm.GeneratedName
+    .if ( "" == te_parm.array_spec )
+      .assign data_pointer = "&" + data_pointer
     .end if
-${param_delim}${param_deref}((${te_dt.ExtName} *)${address}${parms_name}.${te_data_mbr.GeneratedName}[${counter}])\
+    ${te_dt.ExtName} data_${te_parm.GeneratedName}${te_parm.array_spec}; \
+${te_string.memset}( ${data_pointer}, 0, ${size} ); \
+    .if ( "A0xtumlsret" != te_parm.GeneratedName )
+${te_marshalling.unmarshall}( ${base_te_parm.GeneratedName}.${te_data_mbr.GeneratedName}, ${data_pointer}, ${counter} );
+      .assign counter = counter + 1
+    .else
+
+    .end if;
+    .assign attr_invo = ( attr_invo + param_delim ) + parm_invo
     .assign param_delim = ", "
     .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
-    .assign counter = counter + 1
   .end while
 .end function
-.//
 .// Unpack by reference structured parameters and assign them
-.// TODO-LPS check parameter overflow
 .function te_parm_ByRefStructuredParameters
   .param inst_ref_set te_parms
   .param inst_ref raw_data_dt
@@ -203,7 +226,7 @@ ${param_delim}${param_deref}((${te_dt.ExtName} *)${address}${parms_name}.${te_da
       .assign te_parm = prev_te_parm
     .end if
   .end while
-  // assign "by ref" parameters
+.//  // assign "by ref" parameters
   .assign counter = 1
   .while ( not_empty te_parm )
     .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
@@ -212,45 +235,10 @@ ${param_delim}${param_deref}((${te_dt.ExtName} *)${address}${parms_name}.${te_da
     .select one te_dt related by te_parm->TE_DT[R2049]
     .if ( not_empty c_pp )
       .if ( 0 != c_pp.By_Ref )
-  ${te_string.memmove}( ${te_parm.GeneratedName}, parameters.${te_data_mbr.GeneratedName}[${counter}], parameters.${te_size_mbr.GeneratedName}[${counter}] );
+.//  ${te_string.memmove}( ${te_parm.GeneratedName}, parameters.${te_data_mbr.GeneratedName}[${counter}], parameters.${te_size_mbr.GeneratedName}[${counter}] );
         .if ( te_dt.Name == "string" )
-  ${te_parm.GeneratedName}[parameters.${te_size_mbr.GeneratedName}[${counter}]] = '\0';
+.//  ${te_parm.GeneratedName}[parameters.${te_size_mbr.GeneratedName}[${counter}]] = '\0';
         .end if
-      .end if
-    .end if
-    .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
-    .assign counter = counter + 1
-  .end while
-.end function
-.//
-.// Recalculate the size of string parameters that are by ref
-.// TODO-LPS check parameter overflow
-.function te_parm_ByRefStructuredParametersResize
-  .param inst_ref_set te_parms
-  .param inst_ref raw_data_dt
-  .select any te_string from instances of TE_STRING
-  .// Be sure we have the first parameter.
-  .select any te_parm from instances of TE_PARM where (false)
-  .for each te_parm in te_parms
-    .break for
-  .end for
-  .while ( not_empty te_parm )
-    .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes']
-    .if ( empty prev_te_parm )
-      .break while
-    .else
-      .assign te_parm = prev_te_parm
-    .end if
-  .end while
-  .assign counter = 1
-  .while ( not_empty te_parm )
-    .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
-    .select any te_size_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "size" )
-    .select one c_pp related by te_parm->C_PP[R2048]
-    .select one te_dt related by te_parm->TE_DT[R2049]
-    .if ( not_empty c_pp )
-      .if ( ( 0 != c_pp.By_Ref ) and ( te_dt.Name == "string" ) )
-    parameters.${te_size_mbr.GeneratedName}[${counter}] = ${te_string.strlen}(parameters.${te_data_mbr.GeneratedName}[${counter}]);
       .end if
     .end if
     .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']

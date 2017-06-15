@@ -1934,6 +1934,24 @@
   .invoke r = FactoryTE_ABA( te_c, te_parms, te_mact.ComponentName, te_mact.GeneratedName, "TE_MACT", te_dt )
   .assign te_aba = r.result
   .relate te_mact to te_aba across R2010
+  .select any te_string from instances of TE_STRING
+  .assign te_mact.marshalled_message_len = "( 8 + ${te_string.strlen}(""${te_mact.MessageName}"")"
+  .if ( "string" == te_dt.Name )
+    .assign te_mact.marshalled_message_len = ( ( te_mact.marshalled_message_len + " + 4 + " ) + te_string.max_string_length )
+  .elif ( "void" == te_dt.Name )
+    .assign te_mact.marshalled_message_len = ( te_mact.marshalled_message_len + " + 4" )
+  .else
+    .assign te_mact.marshalled_message_len = ( ( te_mact.marshalled_message_len + " + 4 + sizeof(" ) + ( te_dt.ExtName + ")" ) )
+  .end if
+  .for each te_parm in te_parms
+    .select one te_dt related by te_parm->TE_DT[R2049]
+    .if ( "string" == te_dt.Name )
+      .assign te_mact.marshalled_message_len = ( ( te_mact.marshalled_message_len + " + 4 + " ) + te_string.max_string_length )
+    .else
+      .assign te_mact.marshalled_message_len = ( ( te_mact.marshalled_message_len + " + 4 + sizeof(" ) + ( te_dt.ExtName + ")" ) )
+    .end if
+  .end for
+  .assign te_mact.marshalled_message_len = te_mact.marshalled_message_len + " )"
   .assign attr_result = te_mact
 .end function
 .//

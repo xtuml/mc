@@ -1680,6 +1680,18 @@ CREATE TABLE TE_CALLOUT (
     non_self_event_queue_empty STRING,
     persistence_error STRING
 );
+CREATE TABLE TE_CHANSPEC (
+    prov_port STRING,
+    req_port STRING,
+    post_sgn STRING,
+    post_op STRING,
+    deliver_sgn STRING,
+    deliver_op STRING,
+    init STRING,
+    data_mbr STRING,
+    size_mbr STRING,
+    raw_data STRING
+);
 CREATE TABLE TE_CI (
     ID UNIQUE_ID,
     Name STRING,
@@ -2087,7 +2099,8 @@ CREATE TABLE TE_MACT (
     te_poID UNIQUE_ID,
     te_evtID UNIQUE_ID,
     nextID UNIQUE_ID,
-    satisfaction_Id UNIQUE_ID
+    satisfaction_Id UNIQUE_ID,
+    marshalled_message_len INTEGER
 );
 CREATE TABLE TE_MBR (
     ID UNIQUE_ID,
@@ -2100,6 +2113,12 @@ CREATE TABLE TE_MBR (
     te_dtID UNIQUE_ID,
     Member_ID UNIQUE_ID,
     DT_ID UNIQUE_ID
+);
+CREATE TABLE TE_MSHL (
+    marshall STRING,
+    unmarshall STRING,
+    remarshall STRING,
+    get_size STRING
 );
 CREATE TABLE TE_OIR (
     data_member STRING,

@@ -105,6 +105,7 @@
 .select any te_set from instances of TE_SET
 .select any te_slist from instances of TE_SLIST
 .select any te_string from instances of TE_STRING
+.select any te_marshalling from instances of TE_MSHL
 .select any te_target from instances of TE_TARGET
 .select any te_thread from instances of TE_THREAD
 .select any te_tim from instances of TE_TIM

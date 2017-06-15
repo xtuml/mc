@@ -9,6 +9,12 @@
 .if ( "C" == te_target.language )
 ${all_domain_include_files}
 .end if
+.//
+.select any tm_sf from instances of TM_SF
+.if ( not_empty tm_sf )
+  
+  .include "${te_file.arc_path}/t.sys_marshalling.c"
+.end if
 
 .include "${te_file.arc_path}/t.sys_sets.c"
 .if ( te_sys.InstanceLoading )
