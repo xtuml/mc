@@ -1,0 +1,592 @@
+-- BP 7.1.6 content: Component syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO C_C
+	VALUES ("c899e5c4-386f-4888-a6ac-e44cb7b924ef",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'socket',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'');
+INSERT INTO GD_MD
+	VALUES ("ff918817-46a9-4f5c-aa9e-0bf3a1f7f584",
+	111,
+	"c899e5c4-386f-4888-a6ac-e44cb7b924ef",
+	98,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	200,
+	150,
+	0,
+	'4.1.17',
+	'mcsockets::socket::socket');
+INSERT INTO GD_GE
+	VALUES ("ef90c973-0dde-40e9-936f-a2e8dfd8962f",
+	"ff918817-46a9-4f5c-aa9e-0bf3a1f7f584",
+	"c899e5c4-386f-4888-a6ac-e44cb7b924ef",
+	103,
+	0,
+	'mcsockets::socket::socket');
+INSERT INTO GD_SHP
+	VALUES ("ef90c973-0dde-40e9-936f-a2e8dfd8962f");
+INSERT INTO GD_CTR
+	VALUES ("ef90c973-0dde-40e9-936f-a2e8dfd8962f");
+INSERT INTO DIM_ND
+	VALUES (1032.000000,
+	800.000000,
+	"ef90c973-0dde-40e9-936f-a2e8dfd8962f");
+INSERT INTO DIM_GE
+	VALUES (4100.000000,
+	3100.000000,
+	"ef90c973-0dde-40e9-936f-a2e8dfd8962f",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("ef90c973-0dde-40e9-936f-a2e8dfd8962f",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_CON
+	VALUES ("e8bca16b-e1ed-4606-905e-2d73367c02dd",
+	5132.000000,
+	3384.000000,
+	"ef90c973-0dde-40e9-936f-a2e8dfd8962f");
+INSERT INTO DIM_CON
+	VALUES ("5e74a753-02b1-4907-8f31-63b70bd7dfb9",
+	4100.000000,
+	3384.000000,
+	"ef90c973-0dde-40e9-936f-a2e8dfd8962f");
+INSERT INTO GD_GE
+	VALUES ("ab8aaa62-1692-42ca-b376-3d73dd6ad4b4",
+	"ff918817-46a9-4f5c-aa9e-0bf3a1f7f584",
+	"ee235910-5508-4767-9683-c8455e2127fa",
+	94,
+	0,
+	'mcsockets::socket::socket::REQ::ChannelSpecification');
+INSERT INTO GD_CON
+	VALUES ("ab8aaa62-1692-42ca-b376-3d73dd6ad4b4",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_CTXT
+	VALUES ("fbcdf459-3a92-4997-bd99-6d3c93e3a877",
+	"ab8aaa62-1692-42ca-b376-3d73dd6ad4b4",
+	1,
+	0.000000,
+	0.000000);
+INSERT INTO DIM_ND
+	VALUES (0.000000,
+	0.000000,
+	"fbcdf459-3a92-4997-bd99-6d3c93e3a877");
+INSERT INTO DIM_GE
+	VALUES (0.000000,
+	0.000000,
+	"fbcdf459-3a92-4997-bd99-6d3c93e3a877",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("fbcdf459-3a92-4997-bd99-6d3c93e3a877",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_CTXT
+	VALUES ("0185dc36-4a5a-4979-9dd6-843c6ea0b609",
+	"ab8aaa62-1692-42ca-b376-3d73dd6ad4b4",
+	3,
+	0.000000,
+	0.000000);
+INSERT INTO DIM_ND
+	VALUES (0.000000,
+	0.000000,
+	"0185dc36-4a5a-4979-9dd6-843c6ea0b609");
+INSERT INTO DIM_GE
+	VALUES (5142.000000,
+	3346.000000,
+	"0185dc36-4a5a-4979-9dd6-843c6ea0b609",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("0185dc36-4a5a-4979-9dd6-843c6ea0b609",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_CTXT
+	VALUES ("95b0a92c-3742-4fc2-8504-ef03a463fc6b",
+	"ab8aaa62-1692-42ca-b376-3d73dd6ad4b4",
+	2,
+	0.000000,
+	0.000000);
+INSERT INTO DIM_ND
+	VALUES (0.000000,
+	0.000000,
+	"95b0a92c-3742-4fc2-8504-ef03a463fc6b");
+INSERT INTO DIM_GE
+	VALUES (0.000000,
+	0.000000,
+	"95b0a92c-3742-4fc2-8504-ef03a463fc6b",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("95b0a92c-3742-4fc2-8504-ef03a463fc6b",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_LS
+	VALUES ("1cfa1f97-09da-496b-a6ce-90fa763a8e58",
+	"ab8aaa62-1692-42ca-b376-3d73dd6ad4b4",
+	"00000000-0000-0000-0000-000000000000",
+	"121dbef4-f7ae-46c0-92a0-950c6342f0e7",
+	"fc7eb9e5-7705-4244-9539-aea22444f230");
+INSERT INTO DIM_WAY
+	VALUES ("121dbef4-f7ae-46c0-92a0-950c6342f0e7",
+	5132.000000,
+	3384.000000,
+	"ab8aaa62-1692-42ca-b376-3d73dd6ad4b4",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_WAY
+	VALUES ("fc7eb9e5-7705-4244-9539-aea22444f230",
+	5248.000000,
+	3384.000000,
+	"ab8aaa62-1692-42ca-b376-3d73dd6ad4b4",
+	"00000000-0000-0000-0000-000000000000",
+	"121dbef4-f7ae-46c0-92a0-950c6342f0e7");
+INSERT INTO DIM_GE
+	VALUES (0.000000,
+	0.000000,
+	"ab8aaa62-1692-42ca-b376-3d73dd6ad4b4",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("ab8aaa62-1692-42ca-b376-3d73dd6ad4b4",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ED
+	VALUES ("e8bca16b-e1ed-4606-905e-2d73367c02dd",
+	"00000000-0000-0000-0000-000000000000",
+	"ab8aaa62-1692-42ca-b376-3d73dd6ad4b4");
+INSERT INTO GD_GE
+	VALUES ("6b3f085e-c3bb-4f0a-8dbf-0a6cd8d4c858",
+	"ff918817-46a9-4f5c-aa9e-0bf3a1f7f584",
+	"c682e383-eccd-480c-a44b-6a66e766c760",
+	94,
+	0,
+	'mcsockets::socket::socket::PROV::ChannelSpecification');
+INSERT INTO GD_CON
+	VALUES ("6b3f085e-c3bb-4f0a-8dbf-0a6cd8d4c858",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_CTXT
+	VALUES ("e6d72ccc-20f6-437d-a44d-42343be48943",
+	"6b3f085e-c3bb-4f0a-8dbf-0a6cd8d4c858",
+	1,
+	0.000000,
+	0.000000);
+INSERT INTO DIM_ND
+	VALUES (0.000000,
+	0.000000,
+	"e6d72ccc-20f6-437d-a44d-42343be48943");
+INSERT INTO DIM_GE
+	VALUES (0.000000,
+	0.000000,
+	"e6d72ccc-20f6-437d-a44d-42343be48943",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("e6d72ccc-20f6-437d-a44d-42343be48943",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_CTXT
+	VALUES ("b175a8d9-13ea-40ba-b1be-0a45414e46be",
+	"6b3f085e-c3bb-4f0a-8dbf-0a6cd8d4c858",
+	3,
+	0.000000,
+	0.000000);
+INSERT INTO DIM_ND
+	VALUES (0.000000,
+	0.000000,
+	"b175a8d9-13ea-40ba-b1be-0a45414e46be");
+INSERT INTO DIM_GE
+	VALUES (3988.000000,
+	3346.000000,
+	"b175a8d9-13ea-40ba-b1be-0a45414e46be",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("b175a8d9-13ea-40ba-b1be-0a45414e46be",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_CTXT
+	VALUES ("b107faad-5929-413c-9aa5-afcd150734ce",
+	"6b3f085e-c3bb-4f0a-8dbf-0a6cd8d4c858",
+	2,
+	0.000000,
+	0.000000);
+INSERT INTO DIM_ND
+	VALUES (0.000000,
+	0.000000,
+	"b107faad-5929-413c-9aa5-afcd150734ce");
+INSERT INTO DIM_GE
+	VALUES (0.000000,
+	0.000000,
+	"b107faad-5929-413c-9aa5-afcd150734ce",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("b107faad-5929-413c-9aa5-afcd150734ce",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_LS
+	VALUES ("420add6b-5eb8-4383-a6fa-c8e58ddd2c26",
+	"6b3f085e-c3bb-4f0a-8dbf-0a6cd8d4c858",
+	"00000000-0000-0000-0000-000000000000",
+	"ba73107a-446b-4152-bf45-185eb81e2959",
+	"abb56aa2-f58f-4e3c-affd-ed1f2d0db11a");
+INSERT INTO DIM_WAY
+	VALUES ("ba73107a-446b-4152-bf45-185eb81e2959",
+	4100.000000,
+	3384.000000,
+	"6b3f085e-c3bb-4f0a-8dbf-0a6cd8d4c858",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_WAY
+	VALUES ("abb56aa2-f58f-4e3c-affd-ed1f2d0db11a",
+	3972.000000,
+	3384.000000,
+	"6b3f085e-c3bb-4f0a-8dbf-0a6cd8d4c858",
+	"00000000-0000-0000-0000-000000000000",
+	"ba73107a-446b-4152-bf45-185eb81e2959");
+INSERT INTO DIM_GE
+	VALUES (0.000000,
+	0.000000,
+	"6b3f085e-c3bb-4f0a-8dbf-0a6cd8d4c858",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("6b3f085e-c3bb-4f0a-8dbf-0a6cd8d4c858",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ED
+	VALUES ("5e74a753-02b1-4907-8f31-63b70bd7dfb9",
+	"00000000-0000-0000-0000-000000000000",
+	"6b3f085e-c3bb-4f0a-8dbf-0a6cd8d4c858");
+INSERT INTO GD_GE
+	VALUES ("7fbb8a3a-63f2-4f4d-b318-e2ead4dd3091",
+	"ff918817-46a9-4f5c-aa9e-0bf3a1f7f584",
+	"326814d5-c8d3-4592-aa8d-14658c4f155c",
+	108,
+	0,
+	'mcsockets::socket::socket::sockets');
+INSERT INTO GD_SHP
+	VALUES ("7fbb8a3a-63f2-4f4d-b318-e2ead4dd3091");
+INSERT INTO GD_NCS
+	VALUES ("7fbb8a3a-63f2-4f4d-b318-e2ead4dd3091");
+INSERT INTO DIM_ND
+	VALUES (200.000000,
+	150.000000,
+	"7fbb8a3a-63f2-4f4d-b318-e2ead4dd3091");
+INSERT INTO DIM_GE
+	VALUES (4572.000000,
+	3144.000000,
+	"7fbb8a3a-63f2-4f4d-b318-e2ead4dd3091",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("7fbb8a3a-63f2-4f4d-b318-e2ead4dd3091",
+	0,
+	"ef90c973-0dde-40e9-936f-a2e8dfd8962f");
+INSERT INTO DIM_DIA
+	VALUES ("ff918817-46a9-4f5c-aa9e-0bf3a1f7f584",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO C_PO
+	VALUES ("c41c4e73-6a3c-4d3a-bfd7-9defb2835430",
+	"c899e5c4-386f-4888-a6ac-e44cb7b924ef",
+	'REQ',
+	0,
+	0);
+INSERT INTO C_IR
+	VALUES ("ee235910-5508-4767-9683-c8455e2127fa",
+	"0cc28c47-437f-41d5-bca7-7e4a82a605df",
+	"00000000-0000-0000-0000-000000000000",
+	"c41c4e73-6a3c-4d3a-bfd7-9defb2835430");
+INSERT INTO C_P
+	VALUES ("ee235910-5508-4767-9683-c8455e2127fa",
+	'ChannelSpecification',
+	'Unnamed Interface',
+	'',
+	'socket::REQ::ChannelSpecification');
+INSERT INTO SPR_PEP
+	VALUES ("5ea9c57f-84db-43a4-b815-df0e0fe2428d",
+	"5ba08c66-61b4-4f36-9c00-6c6d423b277c",
+	"ee235910-5508-4767-9683-c8455e2127fa");
+INSERT INTO SPR_PO
+	VALUES ("5ea9c57f-84db-43a4-b815-df0e0fe2428d",
+	'post_op',
+	'',
+	'// create the request
+sync_id = UTIL::id_factory();
+create object instance request of request;
+generate request1:create( data:param.data, target:param.target, origin:param.origin, inbound:false, sync_id:sync_id, is_reply:false ) to request;
+
+// wait for the return request
+select one return_request related by request->request[R6519.''has return''];
+while ( empty return_request )
+  error = OK;
+  ret_val = SYS::sleep( milliseconds:100, error:error );
+  if ( -1 == ret_val )
+    UTIL::report_error( code:error, level:error_levels::fatal );
+    return param.data;
+  end if;
+  select one return_request related by request->request[R6519.''has return''];
+end while;
+
+// cache data to deliver
+return_data = return_request.data;
+
+// clean up
+return_request.dispose();
+generate request4:done() to request;
+
+// return
+return return_data;',
+	1,
+	0);
+INSERT INTO C_EP_PROXY
+	VALUES ("5ba08c66-61b4-4f36-9c00-6c6d423b277c",
+	"0cc28c47-437f-41d5-bca7-7e4a82a605df",
+	-1,
+	'post_op',
+	'',
+	'../../../../../mcshared/models/mcshared/channel/ChannelSpecification/ChannelSpecification.xtuml');
+INSERT INTO SPR_PEP
+	VALUES ("5ff89c29-6cb3-4dd4-a338-5159cf76bbcb",
+	"9581376b-8218-48b8-9261-92c5e3da9510",
+	"ee235910-5508-4767-9683-c8455e2127fa");
+INSERT INTO SPR_PO
+	VALUES ("5ff89c29-6cb3-4dd4-a338-5159cf76bbcb",
+	'deliver_op',
+	'',
+	'',
+	1,
+	0);
+INSERT INTO C_EP_PROXY
+	VALUES ("9581376b-8218-48b8-9261-92c5e3da9510",
+	"0cc28c47-437f-41d5-bca7-7e4a82a605df",
+	-1,
+	'deliver_op',
+	'',
+	'../../../../../mcshared/models/mcshared/channel/ChannelSpecification/ChannelSpecification.xtuml');
+INSERT INTO SPR_PEP
+	VALUES ("41019cf6-1f35-44b1-8e75-18541f4928ec",
+	"147e3841-4e59-414e-9035-cd2d888a405b",
+	"ee235910-5508-4767-9683-c8455e2127fa");
+INSERT INTO SPR_PS
+	VALUES ("41019cf6-1f35-44b1-8e75-18541f4928ec",
+	'post_sgn',
+	'',
+	'create object instance request of request;
+generate request1:create( data:param.data, target:param.target, origin:param.origin, inbound:false, sync_id:0, is_reply:false ) to request;',
+	1,
+	0);
+INSERT INTO C_EP_PROXY
+	VALUES ("147e3841-4e59-414e-9035-cd2d888a405b",
+	"0cc28c47-437f-41d5-bca7-7e4a82a605df",
+	-1,
+	'post_sgn',
+	'',
+	'../../../../../mcshared/models/mcshared/channel/ChannelSpecification/ChannelSpecification.xtuml');
+INSERT INTO SPR_PEP
+	VALUES ("56eaddcf-119d-4b1d-ab40-c938273ac24d",
+	"5f9dda80-2839-4d7b-8b18-c5d37f584f7f",
+	"ee235910-5508-4767-9683-c8455e2127fa");
+INSERT INTO SPR_PS
+	VALUES ("56eaddcf-119d-4b1d-ab40-c938273ac24d",
+	'initialize',
+	'',
+	'server_host = "";
+server_port = 0;
+timeout = 0;
+
+values[7] = "";
+done = false;
+while ( not done )
+  // Read a line from the config file
+  count = CSV::readline( filename:"socket.config", values:values );
+  if ( count > 0 )
+    if ( count == 2 ) // valid non-comment line
+      if ( "server_host" == values[0] )
+        server_host = STRING::trim( s:values[1] );
+      elif ( "server_port" == values[0] )
+        server_port = STRING::atoi( s:STRING::trim( s:values[1] ) );
+      elif ( "timeout" == values[0] )
+        timeout = STRING::atoi( s:STRING::trim( s:values[1] ) );
+      end if;
+    end if;
+  else
+    done = true;
+  end if;
+end while;
+
+generate client1:start( name:param.name, peer_name:param.peer_name, host:server_host, port:server_port, timeout:timeout ) to client creator;',
+	1,
+	0);
+INSERT INTO C_EP_PROXY
+	VALUES ("5f9dda80-2839-4d7b-8b18-c5d37f584f7f",
+	"0cc28c47-437f-41d5-bca7-7e4a82a605df",
+	-1,
+	'initialize',
+	'',
+	'../../../../../mcshared/models/mcshared/channel/ChannelSpecification/ChannelSpecification.xtuml');
+INSERT INTO SPR_PEP
+	VALUES ("b02af63d-c91e-482e-b226-9108bf48a917",
+	"3422bd7f-825e-420d-b3bb-b85adfed22a5",
+	"ee235910-5508-4767-9683-c8455e2127fa");
+INSERT INTO SPR_PS
+	VALUES ("b02af63d-c91e-482e-b226-9108bf48a917",
+	'deliver_sgn',
+	'',
+	'',
+	1,
+	0);
+INSERT INTO C_EP_PROXY
+	VALUES ("3422bd7f-825e-420d-b3bb-b85adfed22a5",
+	"0cc28c47-437f-41d5-bca7-7e4a82a605df",
+	-1,
+	'deliver_sgn',
+	'',
+	'../../../../../mcshared/models/mcshared/channel/ChannelSpecification/ChannelSpecification.xtuml');
+INSERT INTO C_I_PROXY
+	VALUES ("0cc28c47-437f-41d5-bca7-7e4a82a605df",
+	"00000000-0000-0000-0000-000000000000",
+	'ChannelSpecification',
+	'',
+	'../../../../../mcshared/models/mcshared/channel/ChannelSpecification/ChannelSpecification.xtuml');
+INSERT INTO C_PO
+	VALUES ("9ee06b44-2878-49a2-8bee-f758f8172023",
+	"c899e5c4-386f-4888-a6ac-e44cb7b924ef",
+	'PROV',
+	0,
+	0);
+INSERT INTO C_IR
+	VALUES ("c682e383-eccd-480c-a44b-6a66e766c760",
+	"0cc28c47-437f-41d5-bca7-7e4a82a605df",
+	"00000000-0000-0000-0000-000000000000",
+	"9ee06b44-2878-49a2-8bee-f758f8172023");
+INSERT INTO C_P
+	VALUES ("c682e383-eccd-480c-a44b-6a66e766c760",
+	'ChannelSpecification',
+	'Unnamed Interface',
+	'',
+	'socket::PROV::ChannelSpecification');
+INSERT INTO SPR_PEP
+	VALUES ("7caee1fa-6ea1-47a6-b17a-aab8f48e7658",
+	"5ba08c66-61b4-4f36-9c00-6c6d423b277c",
+	"c682e383-eccd-480c-a44b-6a66e766c760");
+INSERT INTO SPR_PO
+	VALUES ("7caee1fa-6ea1-47a6-b17a-aab8f48e7658",
+	'post_op',
+	'',
+	'// create the request
+sync_id = UTIL::id_factory();
+create object instance request of request;
+generate request1:create( data:param.data, target:param.target, origin:param.origin, inbound:false, sync_id:sync_id, is_reply:false ) to request;
+
+// wait for the return request
+select one return_request related by request->request[R6519.''has return''];
+while ( empty return_request )
+  error = OK;
+  ret_val = SYS::sleep( milliseconds:100, error:error );
+  if ( -1 == ret_val )
+    UTIL::report_error( code:error, level:error_levels::fatal );
+    return param.data;
+  end if;
+  select one return_request related by request->request[R6519.''has return''];
+end while;
+
+// cache data to deliver
+return_data = return_request.data;
+
+// clean up
+return_request.dispose();
+generate request4:done() to request;
+
+// return
+return return_data;',
+	1,
+	0);
+INSERT INTO SPR_PEP
+	VALUES ("17326caa-0709-4fe1-8b85-719157da4872",
+	"9581376b-8218-48b8-9261-92c5e3da9510",
+	"c682e383-eccd-480c-a44b-6a66e766c760");
+INSERT INTO SPR_PO
+	VALUES ("17326caa-0709-4fe1-8b85-719157da4872",
+	'deliver_op',
+	'',
+	'',
+	1,
+	0);
+INSERT INTO SPR_PEP
+	VALUES ("9e927030-f728-41ce-9cc4-ee29d7b791a1",
+	"147e3841-4e59-414e-9035-cd2d888a405b",
+	"c682e383-eccd-480c-a44b-6a66e766c760");
+INSERT INTO SPR_PS
+	VALUES ("9e927030-f728-41ce-9cc4-ee29d7b791a1",
+	'post_sgn',
+	'',
+	'create object instance request of request;
+generate request1:create( data:param.data, target:"", origin:param.origin, inbound:false, sync_id:0, is_reply:false ) to request;',
+	1,
+	0);
+INSERT INTO SPR_PEP
+	VALUES ("330ff967-3cda-4e57-b2ab-854ad8b67517",
+	"5f9dda80-2839-4d7b-8b18-c5d37f584f7f",
+	"c682e383-eccd-480c-a44b-6a66e766c760");
+INSERT INTO SPR_PS
+	VALUES ("330ff967-3cda-4e57-b2ab-854ad8b67517",
+	'initialize',
+	'',
+	'server_port = 0;
+backlog = 0;
+
+values[7] = "";
+done = false;
+while ( not done )
+  // Read a line from the config file
+  count = CSV::readline( filename:"socket.config", values:values );
+  if ( count > 0 )
+    if ( count == 2 ) // valid non-comment line
+      if ( "server_port" == values[0] )
+        server_port = STRING::atoi( s:STRING::trim( s:values[1] ) );
+      elif ( "backlog" == values[0] )
+        backlog = STRING::atoi( s:STRING::trim( s:values[1] ) );
+      end if;
+    end if;
+  else
+    done = true;
+  end if;
+end while;
+
+generate server1:start( name:param.name, port:server_port, backlog:backlog ) to server creator;',
+	1,
+	0);
+INSERT INTO SPR_PEP
+	VALUES ("29f36201-b6bf-44fc-aea7-f35231e354b6",
+	"3422bd7f-825e-420d-b3bb-b85adfed22a5",
+	"c682e383-eccd-480c-a44b-6a66e766c760");
+INSERT INTO SPR_PS
+	VALUES ("29f36201-b6bf-44fc-aea7-f35231e354b6",
+	'deliver_sgn',
+	'',
+	'',
+	1,
+	0);
+INSERT INTO PE_PE
+	VALUES ("c899e5c4-386f-4888-a6ac-e44cb7b924ef",
+	1,
+	"b0bd254c-7c89-4fbe-b8c4-09cee1d9d28c",
+	"00000000-0000-0000-0000-000000000000",
+	2);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("b0bd254c-7c89-4fbe-b8c4-09cee1d9d28c",
+	"fcc009f4-22ed-4091-b6e3-bced238b1692",
+	"fcc009f4-22ed-4091-b6e3-bced238b1692",
+	'socket',
+	'',
+	0,
+	'../socket.xtuml');
