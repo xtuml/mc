@@ -428,20 +428,18 @@
   .param inst_ref te_aba
   .param inst_ref raw_data_dt
   .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
-  .assign return_deref = "*"
-  .assign return_qual = " *"
-  .if ( "" != te_aba.array_spec )
-    .assign return_deref = ""
-    .assign return_qual = ""
-  .end if
+  .select any te_string from instances of TE_STRING
+  .select any te_marshalling from instances of TE_MSHL
   .select any sret_te_parm related by te_aba->TE_PARM[R2062] where ( selected.Name == "A0xtumlsret" )
   .if ( not_empty sret_te_parm )
-    .select any te_string from instances of TE_STRING
-  //${te_string.memmove}( A0xtumlsret, &parameters.${te_data_mbr.GeneratedName}[0], ${te_string.strlen}(parameters.${te_data_mbr.GeneratedName}[0]) );
+  ${te_string.memset}( A0xtumlsret, 0, ${te_string.max_string_length} ); \
+${te_marshalling.unmarshall}( parameters.${te_data_mbr.GeneratedName}, A0xtumlsret, 1 );
   return A0xtumlsret;
   .else
-  //return ${return_deref}((${te_aba.ReturnDataType}${return_qual})parameters.${te_data_mbr.GeneratedName}[0]);
-  return 0;
+  ${te_aba.ReturnDataType} return_val; \
+${te_string.memset}( &return_val, 0, sizeof(${te_aba.ReturnDataType}) ); \
+${te_marshalling.unmarshall}( parameters.${te_data_mbr.GeneratedName}, &return_val, 1 );
+  return return_val;
   .end if
 .end function
 .//

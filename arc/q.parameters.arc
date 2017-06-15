@@ -187,18 +187,26 @@
     .if ( 0 != te_parm.By_Ref )
       .assign parm_invo = "&" + parm_invo
     .end if
-    .assign size = ( "sizeof(" + te_dt.ExtName ) + ")"
-    .if ( "string" == te_dt.Name )
-      .assign size = te_string.max_string_length
-    .end if;
     .assign data_pointer = "data_" + te_parm.GeneratedName
     .if ( "" == te_parm.array_spec )
       .assign data_pointer = "&" + data_pointer
     .end if
+    .assign size = ( "sizeof(" + te_dt.ExtName ) + ")"
+    .assign new_size = size
+    .if ( "string" == te_dt.Name )
+      .assign size = te_string.max_string_length
+      .assign new_size = te_string.strlen + "(" + data_pointer + ")"
+    .end if;
     ${te_dt.ExtName} data_${te_parm.GeneratedName}${te_parm.array_spec}; \
 ${te_string.memset}( ${data_pointer}, 0, ${size} ); \
     .if ( "A0xtumlsret" != te_parm.GeneratedName )
 ${te_marshalling.unmarshall}( ${base_te_parm.GeneratedName}.${te_data_mbr.GeneratedName}, ${data_pointer}, ${counter} );
+      .select one c_pp related by te_parm->C_PP[R2048]
+      .if ( not_empty c_pp )
+        .if ( 0 != c_pp.By_Ref )
+          .assign attr_repack = attr_repack + "    ${te_marshalling.remarshall}( ${base_te_parm.GeneratedName}.${te_data_mbr.GeneratedName}, ${data_pointer}, ${new_size}, ${counter} );\n"
+        .end if
+      .end if
       .assign counter = counter + 1
     .else
 
@@ -213,6 +221,7 @@ ${te_marshalling.unmarshall}( ${base_te_parm.GeneratedName}.${te_data_mbr.Genera
   .param inst_ref_set te_parms
   .param inst_ref raw_data_dt
   .select any te_string from instances of TE_STRING
+  .select any te_marshalling from instances of TE_MSHL
   .// Be sure we have the first parameter.
   .select any te_parm from instances of TE_PARM where (false)
   .for each te_parm in te_parms
@@ -226,22 +235,25 @@ ${te_marshalling.unmarshall}( ${base_te_parm.GeneratedName}.${te_data_mbr.Genera
       .assign te_parm = prev_te_parm
     .end if
   .end while
-.//  // assign "by ref" parameters
-  .assign counter = 1
+  .assign counter = 2
   .while ( not_empty te_parm )
-    .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
-    .select any te_size_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "size" )
-    .select one c_pp related by te_parm->C_PP[R2048]
-    .select one te_dt related by te_parm->TE_DT[R2049]
-    .if ( not_empty c_pp )
-      .if ( 0 != c_pp.By_Ref )
-.//  ${te_string.memmove}( ${te_parm.GeneratedName}, parameters.${te_data_mbr.GeneratedName}[${counter}], parameters.${te_size_mbr.GeneratedName}[${counter}] );
-        .if ( te_dt.Name == "string" )
-.//  ${te_parm.GeneratedName}[parameters.${te_size_mbr.GeneratedName}[${counter}]] = '\0';
+    .if ( "A0xtumlsret" != te_parm.GeneratedName )
+      .select any te_data_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "data" )
+      .select any te_size_mbr related by raw_data_dt->S_DT[R2021]->S_SDT[R17]->S_MBR[R44]->TE_MBR[R2047] where ( selected.Name == "size" )
+      .select one c_pp related by te_parm->C_PP[R2048]
+      .select one te_dt related by te_parm->TE_DT[R2049]
+      .if ( not_empty c_pp )
+        .if ( 0 != c_pp.By_Ref )
+          .assign size = ( "sizeof(" + te_dt.ExtName ) + ")"
+          .if ( "string" == te_dt.Name )
+            .assign size = te_string.max_string_length
+          .end if;
+  ${te_string.memset}( ${te_parm.GeneratedName}, 0, ${size} ); \
+${te_marshalling.unmarshall}( parameters.${te_data_mbr.GeneratedName}, ${te_parm.GeneratedName}, ${counter} );
         .end if
       .end if
+      .assign counter = counter + 1
     .end if
     .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
-    .assign counter = counter + 1
   .end while
 .end function
