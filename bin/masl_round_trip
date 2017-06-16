@@ -4,19 +4,37 @@
 #  export, diff) on MASL domains.  The diff report that is produced helps
 #  users validate that the BridgePoint MASL flow works.
 #
-#   masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]
+#  Please note that the BridgePoint CLI Import uses a graphical eclipse workbench which
+#  will capture focus as this script runs.  To run this script completely headlessly,
+#  install the xvfb package for your distribution and call this script using xvfb-run.
+#
+#   ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]
+#   xvfb-run ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]
 
 # USAGE
 print_usage () { 
     echo "Usage:"
     echo "        masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]";
     echo " ";
-    echo "  Up to five domains may be specified. If a project is specified, only the project is diff'd.";
+    echo "  - Up to twenty domains may be specified. If a project is specified, only the project is diff'd.";
+    echo "  - Consider installing xvfb and calling this script with xvfb-run to execute headlessly. See info in this script's header.";
+    echo -e "\n";
 }
 
 # set up paths
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/"
 export PATH=$DIR:$PATH
+
+# abort
+LOCAL_CLI="false"
+abort () {
+    if [[ "true" == $LOCAL_CLI ]]; then
+        echo "Aborting..."
+        CLI.sh Launch -abort
+        exit 1
+    fi
+}
+trap abort SIGINT SIGTERM
 
 # input variables
 DOM_DIRS=()
@@ -63,6 +81,19 @@ if [[ $OUT_DIR != "" ]]; then
 fi
 
 ###########################
+# Setup 
+###########################
+export WORKSPACE="/tmp/importwork"
+
+# If there is not already an eclipse instance started, start one
+CLI.sh Launch -checkRunning
+if [[ $? != 0 ]]; then
+    echo "Launching an Eclipse command line instance..."
+    CLI.sh Launch
+    LOCAL_CLI="true"
+fi
+
+###########################
 # Convert
 ###########################
 CONVERTDIR="/tmp/convertdir"
@@ -82,17 +113,7 @@ fi
 ###########################
 # Import, Export, Diff
 ###########################
-export WORKSPACE="/tmp/importwork"
 MASLOUTDIR="/tmp/maslout"
-
-# We have to create a workspace from a previously zipped one that contains a project 
-# because CLI Import can't create a project for a single file model itself.  The latter would
-# be much better.
-echo "Preparing workspace $WORKSPACE"
-if [[ -d $WORKSPACE ]]; then
-    rm -rf $WORKSPACE
-fi
-unzip -q -o $DIR/importworkspace.zip -d /tmp/
 
 domNum=0
 for domain in ${DOM_DIRS[*]}; do
@@ -104,17 +125,19 @@ for domain in ${DOM_DIRS[*]}; do
     domProj=d$domNum
 
     echo "Round trip is now importing"
-    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj >/tmp/import_log_$domProj.txt 2>&1
+    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj -deleteExisting >/tmp/import_log_$domProj.txt 2>&1
     if [[ ! -e $WORKSPACE/$domProj/models/$domProj/types/types.xtuml ]]; then
       # First import didn't work. Import again. 
       echo "Failed to import first time through.  Importing again."
-      CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj >>/tmp/import_log_$domProj.txt 2>&1
+      CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj -deleteExisting >>/tmp/import_log_$domProj.txt 2>&1
     fi
 
     if [[ -f $CONVERTDIR/$domname/features.mark ]]; then
+        mkdir -p $WORKSPACE/$domProj/gen/
         cp $CONVERTDIR/$domname/features.mark $WORKSPACE/$domProj/gen/
     fi
     if [[ -f $CONVERTDIR/$domname/application.mark ]]; then
+        mkdir -p $WORKSPACE/$domProj/gen/
         cp $CONVERTDIR/$domname/application.mark $WORKSPACE/$domProj/gen/
     fi
 
@@ -156,17 +179,19 @@ if [[ $PROJ_DIR != "" ]]; then
     projname=$(basename $PROJ_DIR)
 
     echo "Round trip is now importing"
-    CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 >/tmp/import_log_p1.txt 2>&1
+    CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 -deleteExisting -allowIPRs >/tmp/import_log_p1.txt 2>&1
     if [[ ! -e $WORKSPACE/p1/models/p1/types/types.xtuml ]]; then
       # First import didn't work. Import again. 
       echo "Failed to import first time through.  Importing again."
-      CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 >>/tmp/import_log_p1.txt 2>&1
+      CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 -deleteExisting -allowIPRs >>/tmp/import_log_p1.txt 2>&1
     fi
 
     if [[ -f $CONVERTDIR/$projname/features.mark ]]; then
+        mkdir -p $WORKSPACE/p1/gen/
         cp $CONVERTDIR/$projname/features.mark $WORKSPACE/p1/gen/
     fi
     if [[ -f $CONVERTDIR/$projname/application.mark ]]; then
+        mkdir -p $WORKSPACE/p1/gen/
         cp $CONVERTDIR/$projname/application.mark $WORKSPACE/p1/gen/
     fi
 
@@ -194,9 +219,14 @@ if [[ $PROJ_DIR != "" ]]; then
       if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
         echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
       else
-        echo -e "\nThe MASL output is idential to the input." 
+        echo -e "\nThe MASL output is identical to the input." 
       fi
     fi
+fi
+
+# if a local eclipse instance was started, shut it down
+if [[ $LOCAL_CLI == "true" ]]; then
+    CLI.sh Launch -exit
 fi
 
 echo -e "\n"

@@ -14,20 +14,21 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
-for each descrip in descrips
-  descrip.render();
-end for;
-select one markable related by self->markable[R3783];
+	'select one markable related by self->markable[R3783];
 // check for self reference
 // This is not a complete check.  We are using a pattern that is reasonably
 // likely to match a nested type.  A nested type will likely have a trailing
 // semicolon.  This is an improvement until the bodies of complex types are
 // parsed.
-if ( -1 != STRING::indexof( haystack:self.body, needle:self.name + ";" ) )
+if ( -1 != STRING::indexof( haystack:self.body, needle:" " + self.name + ";" ) )
   T::include( file:"masl/t.type_fwd_decl.masl" );
   markable.render_marking( list:"declaration" );
 end if;
+// Add the Descrip field as a comment.
+select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+for each descrip in descrips
+  descrip.render();
+end for;
 T::include( file:"masl/t.type_begin.masl" );
 T::include( file:"masl/t.type_end.masl" );
 markable.render_marking( list:"default" );

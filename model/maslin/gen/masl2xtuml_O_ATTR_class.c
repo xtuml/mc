@@ -229,7 +229,7 @@ masl2xtuml_O_ATTR_instancedumper( Escher_iHandle_t instance )
 	    ( 0 != self->Dimensions ) ? self->Dimensions : "",
 	    ( 0 != self->DefaultValue ) ? self->DefaultValue : "" );
 
-  } else if ( masl2xtuml_O_RATTR_CLASS_NUMBER == self->R106_object_id ) {
+  } else if ( masl2xtuml_O_RATTR_CLASS_NUMBER == self->R106_object_id && ( self->R106_subtype ? ((masl2xtuml_O_RATTR*)self->R106_subtype)->O_BATTR_R113_navigates_back_to : NULL ) ) {
   printf( "INSERT INTO O_ATTR VALUES ( %d,%d,%d,'%s','%s','%s','%s',%d,\"%s\",'%s','%s' );\n",
     self->Attr_ID,
     self->Obj_ID,

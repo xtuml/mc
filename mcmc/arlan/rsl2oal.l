@@ -152,11 +152,9 @@ dbl_dollar    "$$"
 <str>{h_white}+                         {TEXT_RETURN(TEXT);}
 {h_white}+                              {WHITE_RETURN(' ');}
 
-<pc>".// delete object instance"        {CONTROL_RETURN(DELETEOBJ);}
-<pc>".// unrelate"                      {CONTROL_RETURN(UNRELATE);}
-<pc>".// relate"                        {CONTROL_RETURN(RELATE);}
-<pc>".// end unrelate"                  {CONTROL_RETURN(ENDUNRELATE);}
-<pc>".// end relate"                    {CONTROL_RETURN(ENDRELATE);}
+<pc>".delete object instance"           {CONTROL_RETURN(DELETEOBJ);}
+<pc>".unrelate"                         {CONTROL_RETURN(UNRELATE);}
+<pc>".relate"                           {CONTROL_RETURN(RELATE);}
 <pc,control>".//"                       {COMMENT_RETURN(COMMENT);}
 <pc,control>".comment"|".COMMENT"       {COMMENT_RETURN(COMMENT);}
 <pc>".function"|".FUNCTION"             {i0 = 0; i1= 1;

@@ -337,11 +337,14 @@ create object instance rattr of O_RATTR;
 rattr.Ref_Mode = 0;  // LPS set to 0 to use local attribute name
 relate o_attr to rattr across R106;
 
-// LPS - we leave the datatype unset because the datatype same_as<Base Attribute>
-// does not exist. Instead it is incorporated into the instance dumper of O_ATTR
-// to insert the correct unique ID if the O_ATTR is related to an O_RATTR
-//self.ReferentialAttribute_setDatatype(o_rattr:rattr);
-',
+// Give referential attributes a default type of string.
+// This should be changed later
+select one old_s_dt related by o_attr->S_DT[R114];
+if ( not_empty old_s_dt )
+  unrelate old_s_dt from o_attr across R114;
+end if;
+select any s_dt from instances of S_DT where ( selected.Name == "string" );
+relate s_dt to o_attr across R114;',
 	1,
 	'',
 	"5c2fdc5a-5635-47f3-a8a0-55c3e3f15fe6",
@@ -380,7 +383,7 @@ end if;
 // Get a handle to the DT that is currently associated with the attribute
 select one cur_s_dt related by o_attr->S_DT[R114];
 
-// If the new DT does not equal the existing DT or is not MASLunique, continue
+// If the new DT does not equal the existing DT and is not MASLunique, relink
 if ( s_dt != cur_s_dt and cur_s_dt.Name != "MASLunique" )
   // un-relate the existing DT across R114
   unrelate o_attr from cur_s_dt across R114;
@@ -1419,7 +1422,7 @@ parameter = first_param;
 while ( not_empty parameter )
   select one type related by parameter->S_DT[R4007];
   signature = signature + separator + type.Name;
-  separator = ", ";
+  separator = " ";
   select one parameter related by parameter->C_PP[R4021.''precedes''];
 end while;
 if( not_empty first_param )
@@ -1821,7 +1824,7 @@ parameter = first_param;
 while ( not_empty parameter )
   select one type related by parameter->S_DT[R26];
   signature = signature + separator + type.Name;
-  separator = ", ";
+  separator = " ";
   select one parameter related by parameter->S_SPARM[R54.''precedes''];
 end while;
 if( not_empty first_param )
@@ -3308,7 +3311,17 @@ self.Attribute_migrateBaseToReferential( o_attr:attr );
 attr.Root_Nam = id_attr.Root_Nam;
 
 select one ref_attr related by attr->O_RATTR[R106];
-relate ref_attr to base_attr across R113;
+if ( not_empty base_attr )
+  relate ref_attr to base_attr across R113;
+else
+  // baseless referential - get the data type from the referred-to identifier attribute
+  select one id_s_dt related by id_attr->S_DT[R114];
+  select one ref_s_dt related by attr->S_DT[R114];
+  if ( not_empty ref_s_dt )
+    unrelate ref_s_dt from attr across R114;
+  end if;
+  relate id_s_dt to attr across R114;
+end if;
 
 if ( param.id != -1 )
   select any assr_id related by o_obj->O_ID[R104] where selected.Oid_ID == param.id;
@@ -3365,8 +3378,20 @@ select many rattrs related by o_obj->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
 for each battr in battrs
   for each rattr in rattrs
     if ( rattr.Root_Nam == battr.Root_Nam )
-      // Copy over the description field from the attribute being combined.
-      rattr.Descrip = rattr.Descrip + battr.Descrip;
+      // Copy over the description field from the original attribute
+      if ( ( "" != battr.Descrip ) and ( rattr.Descrip != battr.Descrip ) )
+        rattr.Descrip = rattr.Descrip + battr.Descrip;
+      end if;
+      
+      // copy the data type from the original attribute
+      select one s_dt related by battr->S_DT[R114];
+      select one old_dt related by rattr->S_DT[R114];
+      if ( not_empty old_dt )
+        unrelate old_dt from rattr across R114;
+      end if;
+      if ( not_empty s_dt )
+        relate s_dt to rattr across R114;
+      end if;
 
       // copy the ordering information to the new referential attribute
 
@@ -3867,7 +3892,7 @@ parameter = first_param;
 while ( not_empty parameter )
   select one type related by parameter->S_DT[R118];
   signature = signature + separator + type.Name;
-  separator = ", ";
+  separator = " ";
   select one parameter related by parameter->O_TPARM[R124.''precedes''];
 end while;
 if( not_empty first_param )
@@ -4941,6 +4966,59 @@ INSERT INTO O_TPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TFR
+	VALUES ("b41bee99-f3be-445d-aad9-310d036d86ec",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'ReferentialAttribute_collapse_ref',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_attr = param.o_attr;
+battr = param.battr;
+
+select one o_rattr related by o_attr->O_RATTR[R106];
+select one o_battr related by battr->O_BATTR[R106];
+select one rattr_base related by o_rattr->O_BATTR[R113];
+if ( not_empty o_rattr and not_empty o_battr and not_empty rattr_base and rattr_base.Attr_ID == o_battr.Attr_ID )
+
+  // cache old dt
+  select one s_dt related by battr->S_DT[R114];
+  
+  // migrate the base attribute to referential
+  self.Attribute_migrateBaseToReferential(o_attr:battr);
+  
+  // combine the referentials
+  attr = self.ReferentialAttribute_combine_refs( o_attr:battr, other_attr:o_attr );
+  select one old_s_dt related by attr->S_DT[R114];
+  if ( not_empty old_s_dt )
+	unrelate old_s_dt from attr across R114;
+  end if;
+  if ( not_empty s_dt )
+	relate s_dt to attr across R114;
+  end if;
+end if;',
+	1,
+	'',
+	"ba2cc878-1f2c-4eaf-9cb1-06d1dfc8a80e",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("74b5313a-367f-4373-90b5-075d7346d925",
+	"b41bee99-f3be-445d-aad9-310d036d86ec",
+	'o_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("23dec44a-d0a8-4a6a-a0f8-f5bb6bb03c5d",
+	"b41bee99-f3be-445d-aad9-310d036d86ec",
+	'battr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"74b5313a-367f-4373-90b5-075d7346d925",
+	'');
+INSERT INTO O_TFR
 	VALUES ("628f594b-0e0c-4a22-911d-5c0fd4bbecc0",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
 	'ReferentialAttribute_combine_refs',
@@ -4953,7 +5031,7 @@ other_attr = param.other_attr;
 select one o_rattr related by o_attr->O_RATTR[R106];
 select one other_rattr related by other_attr->O_RATTR[R106];
 select many other_ref_set related by other_rattr->O_REF[R108];
-   
+
    // find last O_REF in o_rattr ref list R112
    select any ref related by o_rattr->O_REF[R108];
    select one next_ref related by ref->O_REF[R112.''precedes''];
@@ -4968,15 +5046,24 @@ select many other_ref_set related by other_rattr->O_REF[R108];
      unrelate other_ref from other_rattr across R108;
      relate other_ref to o_rattr across R108;  
      // add other_ref to o_rattr ref list R112
-     relate other_ref to ref across R112.''succeeds'';
+     if ( not_empty ref )
+       relate other_ref to ref across R112.''succeeds'';
+     end if;
      ref = other_ref;    
    end for;
-      
+
+   // Just like the refs, we need to bring over the IDs from the attribute
+   // that is about to be disposed.
+   select many other_o_oidas related by other_attr->O_OIDA[R105] where ( selected.Oid_ID > 0 );
+   for each other_o_oida in other_o_oidas
+     self.Attribute_addToIdentifier( o_attr:o_attr, oid:other_o_oida.Oid_ID );
+   end for;
+
    self.Attribute_dispose( o_attr:other_attr );
 return o_attr;',
 	1,
 	'',
-	"ba2cc878-1f2c-4eaf-9cb1-06d1dfc8a80e",
+	"b41bee99-f3be-445d-aad9-310d036d86ec",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("36b82853-6f2e-45dd-8de4-445fa038b7e0",
@@ -5064,8 +5151,12 @@ select many rtoRefs related by attr->O_OIDA[R105]->
                              O_RTIDA[R110]->O_REF[R111]->O_RATTR[R108];
 for each ref in rtoRefs
   select one oldBattr related by ref->O_BATTR[R113];
-  unrelate ref from oldBattr across R113;
-  relate ref to battr across R113;
+  if ( not_empty oldBattr )
+    unrelate ref from oldBattr across R113;
+  end if;
+  if ( not_empty battr )
+    relate ref to battr across R113;
+  end if;
 end for;
 self.ReferentialAttribute_dispose(o_rattr:o_rattr);
 ',
@@ -6111,7 +6202,7 @@ self.StateMachineEvent_createMessageArgumentsForParameter(sm_evtdi:newEvtdi, sm_
 return newEvtdi;',
 	1,
 	'',
-	"88689cb1-bdb5-4c16-8ee5-3518ac8b2fa6",
+	"5329e43f-743a-4151-83c3-5cc30b20d505",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("d927ecb0-f4b0-47ab-bd8e-ef51b30216f6",
@@ -6461,12 +6552,17 @@ INSERT INTO O_TFR
 // not really a state but is "Ignore" or "Cannot_Happen"
 
 select any fromState related by sm_sm->SM_STATE[R501] where (selected.Name == param.startState);
+// Give preference to finding an inherited event (by overwriting a local find).
+// This allows a dubious possibility of having a local event with the
+// same name as an event in the supertype.
 select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
+if ( "" != param.object )
+  inherited_event_name = param.object + "." + param.eventName;
+  select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == inherited_event_name );
+end if;
 if ( empty sm_evt )
   // Event not found, so it must be a poly that has not been created yet.
   // Find the event in the supertype hierarchy using the given name.
-  // If necessary, migrate the event in the supertype from SM_SEVT to SM_PEVT.
-  // Clean up the parent SEMEs.
   // Create the SEVT and non-local event in this state machine and relate it upwards.
   // This processing depends on the supertype being in place before the subtype.
   select any o_obj from instances of O_OBJ where ( selected.Name == param.object );
@@ -6475,23 +6571,21 @@ if ( empty sm_evt )
   if ( empty parent_sm_evt )
     TRACE::log( flavor:"failure", id:157, message:"Event for transition not found for event:  " + param.eventName );
   else
-    // If not already done so, migrate to poly.
-    select one sm_pevt related by parent_sm_evt->SM_PEVT[R525];
-    if ( empty sm_pevt )
-      sm_pevt = self.StateMachineEvent_migrateToPoly( sm_evt:parent_sm_evt );
-    end if;
     // Create a local representation of the parent poly in the this state machine.
     create object instance sm_evt of SM_EVT;
     relate sm_evt to sm_sm across R502;
-    sm_evt.Mning = param.eventName;
+    // The inherited event is named with the supertype class name.
+    // CDS - This will change when concrete polymorphic events are supported in the xtUML MM.
+    sm_evt.Mning = o_obj.Name + "." + param.eventName;
     sm_evt.Numb = 1;
     // give this event a unique number
     self.StateMachineEvent_setUniqueNumber(sm_evt:sm_evt, checkForDuplicate:false);
     create object instance sm_sevt of SM_SEVT;
     relate sm_evt to sm_sevt across R525;
-    create object instance sm_nlevt of SM_NLEVT;
-    relate sm_sevt to sm_nlevt across R526;
-    relate sm_nlevt to sm_pevt across R527;
+    create object instance sm_levt of SM_LEVT; // CDS - will be SM_NLEVT for concrete polys
+    relate sm_sevt to sm_levt across R526;
+    // CDS - We will relate sm_nlevt to the parent sm_levt for concrete polys.
+    // relate sm_nlevt to sm_levt across R523
     self.SEMEvent_createDefaultMatrixEntries(sm_sevt:sm_sevt);
   end if; 
 end if;
@@ -6930,12 +7024,14 @@ INSERT INTO O_TFR
 	1,
 	'select many forms from instances of formalization;
 num_forms = cardinality forms;
+previous_formalization_count = num_forms;
 passes = 0;
 
 // Because of possible dependencies, it is required to pass over the list
 // of formalizations N times where N is the number of formalizations
 // The worst case scenario is if each formalization is dependent on the next
-while ( passes < num_forms )
+// Loop an extra time to acount for detection of recursive referentials.
+while ( passes <= num_forms )
 
   for each form in forms
 
@@ -7042,11 +7138,17 @@ while ( passes < num_forms )
 		  for each o_attr in o_attrs
 		    select many r_rtos related by o_attr->O_RATTR[R106]->O_REF[R108]->O_RTIDA[R111]->R_RTO[R110];
 		    select any r_aone related by r_rtos->R_AONE[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
-		    select any r_aoth related by r_rtos->R_AOTH[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
-		    if ( not_empty r_aone or not_empty r_aoth )
-		      // rename the attribute to the final name of the attribute (not the participant ID name)
-		      o_attr.Root_Nam = ra.Name;
-		      break;
+		    select one o_obj related by r_aone->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201];
+		    if ( empty o_obj )
+		      select any r_aoth related by r_rtos->R_AOTH[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
+		      select one o_obj related by r_aoth->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201];
+		    end if;
+		    if ( not_empty o_obj )
+		      if ( o_obj.Name == ra.objectName )
+		        // rename the attribute to the final name of the attribute (not the participant ID name)
+		        o_attr.Root_Nam = ra.Name;
+		        break;
+		      end if;
 		    end if;
 		  end for;
 		end for;
@@ -7082,6 +7184,25 @@ while ( passes < num_forms )
 
   // re-select the formalizations
   select many forms from instances of formalization;
+
+  current_formalization_count = cardinality forms;
+  if ( current_formalization_count == previous_formalization_count )
+    // detect baseless (recursive) referentials
+    select many ras from instances of referentialAttribute;
+    max_depth = cardinality ras;
+    for each ra in ras
+      ra.detectRecursive(ra:ra, current_depth:0, max_depth:max_depth);
+    end for;
+  end if;
+  previous_formalization_count = current_formalization_count;
+
+  // Give preference to formalizations that have referentials-as-identifiers.
+  // This will formalize associations in baseless loops before the baseless spurs.
+  select many identifier_ras from instances of referentialAttribute where ( selected.identifier1 or selected.identifier2 or selected.identifier3 );
+  select many forms related by identifier_ras->formalization[R3811];
+  if ( empty forms )
+    select many forms from instances of formalization;
+  end if;
 
 end while;
 
@@ -7846,6 +7967,9 @@ elif ( "pragmaitem" == param.element )
     TRACE::log( flavor:"failure", id:57, message:"Element stack is malformed." );
     ooaelement::trace( population: ooapopulation );
   end if;
+elif ( "description" == param.element )
+  select one current_element related by ooapopulation->ooaelement[R3801];
+  ooapopulation.transformDescription( element:current_element, text:param.value[0], tag:param.value[1] );
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
@@ -8280,9 +8404,6 @@ INSERT INTO O_TFR
 	1,
 	'current_class = self.current_class;
 
-//  TODO - This currently doesn''t do anything with values other than assigner in the "type" parameter.  Needs to be
-//    enhanced to handle these.
-
 select any sm_sm from instances of SM_SM where ( false );
 if ( "assigner" == param.type )
   sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ASM");
@@ -8642,6 +8763,7 @@ ra.roleOrObj = param.roleOrObj;
 ra.objectName = param.objName;
 ra.o_obj = ooapopulation.current_class;
 ra.Name = ooapopulation.current_attribute.Root_Nam;
+ra.baseless = false;
 
 // Find out if the attribute was specified as being part of an identifier.  Cache
 // that info.
@@ -8869,12 +8991,10 @@ INSERT INTO O_TFR
 	'lib_pkg = self.lib_pkg;
 
 if ( self.processingProject )
-  // Create provided interface off of the system wiring (project) component for this terminator, unless the name matches the "imported" 
-  // domain we''re processing.  In that case we have already created a required interface when we saw the domain itself
+  // Create provided interface off of the system wiring (project) component for this terminator.
   current_imported = self.current_imported_component;
   if ( not_empty current_imported )
     clic_name = current_imported.Name;
-    if ( clic_name != param.name )
       comp_if_name = clic_name + param.name;
 
 	  select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
@@ -8883,12 +9003,11 @@ if ( self.processingProject )
 	  if ( empty comp_if )
 		// create the interface
 		comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
+	  end if;
 		new_ir = self.Component_initializeProvision(c_c:self.current_component, port_name:clic_name + "__" + param.name, if_name:comp_if_name);
 		relate comp_if to new_ir across R4012;    // formalize at end tag. for now, just relate it to the C_P
-	  end if;
 
 	  self.current_interface = comp_if;
-	end if;
   end if;
 else
   comp_if_name = self.current_component.Name + param.name;
@@ -8934,6 +9053,9 @@ if ( empty c_i )
   select any c_c from instances of C_C where ( selected.Name == param.domain );
   select any c_po related by c_c->C_PO[R4010] where ( selected.Name == param.terminator );
   select any c_i related by c_po->C_IR[R4016]->C_I[R4012];
+end if;
+if ( empty c_i )
+  TRACE::log( flavor:"warning", id:259, message:"empty interface:  " + param.domain + " " + param.terminator );
 end if;
 
 c_ep = self.Interface_newExecutableProperty(c_i:c_i, ep_name:param.name, asynchronous:false);
@@ -9186,61 +9308,6 @@ INSERT INTO O_TFR
 	'',
 	"d575fa93-3488-4bc0-ab38-d6aff10a2894",
 	0);
-INSERT INTO O_TFR
-	VALUES ("88689cb1-bdb5-4c16-8ee5-3518ac8b2fa6",
-	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
-	'StateMachineEvent_migrateToPoly',
-	'',
-	"a3a5646e-4d65-483e-a54f-449c5e6fe097",
-	1,
-	'sm_evt = param.sm_evt;
-select one sm_sevt related by sm_evt->SM_SEVT[R525];
-// Dispose of the event matrix entries.
-select many sm_semes related by sm_sevt->SM_SEME[R503];
-for each sm_seme in sm_semes
-  select one sm_state related by sm_seme->SM_STATE[R503];
-  unrelate sm_state from sm_sevt across R503 using sm_seme;
-  select one sm_ch related by sm_seme->SM_CH[R504];
-  if ( not_empty sm_ch )
-    unrelate sm_ch from sm_seme across R504;
-    delete object instance sm_ch;
-    delete object instance sm_seme;
-  else
-    TRACE::log( flavor:"failure", id:158, message:"Did not find SM_SEME when we thought we should migrating event:  " + sm_evt.Mning );
-  end if;
-end for;
-select one sm_levt related by sm_sevt->SM_LEVT[R526];
-if ( not_empty sm_levt )
-  unrelate sm_levt from sm_sevt across R526;
-  delete object instance sm_levt;
-else
-  TRACE::log( flavor:"failure", id:159, message:"Did not find SM_LEVT when we thought we should migrating event:  " + sm_evt.Mning );
-end if;
-unrelate sm_evt from sm_sevt across R525;
-delete object instance sm_sevt;
-create object instance sm_pevt of SM_PEVT;
-relate sm_evt to sm_pevt across R525;
-return sm_pevt;',
-	1,
-	'',
-	"5329e43f-743a-4151-83c3-5cc30b20d505",
-	0);
-INSERT INTO O_TPARM
-	VALUES ("21630e04-b4cf-44bb-97ff-46516ea20a5d",
-	"88689cb1-bdb5-4c16-8ee5-3518ac8b2fa6",
-	'sm_evt',
-	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("a3a5646e-4d65-483e-a54f-449c5e6fe097",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Polymorphic Event>',
-	'',
-	'',
-	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("65062455-b226-4503-a876-a0cbd652b56e",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
