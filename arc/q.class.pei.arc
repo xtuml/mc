@@ -1,9 +1,9 @@
 .//============================================================================
-.// $RCSfile: q.class.pei.arc,v $
-.//
-.// Description:
 .// This archetype file contains the functions for generating
 .// preexisting instances initialization code.
+.//
+.// Note:  This archetype is not presently in the test cycle.
+.// It must be run with a schema that includes CSME_CIE, R2961 and R2962.
 .//============================================================================
 .//
 .//

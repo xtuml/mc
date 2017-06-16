@@ -260,7 +260,7 @@ ${methods.body}\
   .end if
   .//
   .assign associative_reflexive = false
-  .if ( aone.Obj_Id == aoth.Obj_Id )
+  .if ( aone.Obj_ID == aoth.Obj_ID )
     .assign associative_reflexive = true
   .end if
   .//
@@ -832,6 +832,13 @@ ${aoth_fundamentals.body}\
     .select one ref_te_attr related by ref_o_attr->TE_ATTR[R2033]
     .if ( ref_te_attr.translate )
       .select one ident_te_attr related by o_attr->TE_ATTR[R2033]
+      .assign ident_accessor = ( ${part_ptr} + "->" ) + ${ident_te_attr.GeneratedName}
+      .select one o_dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107]
+      .if ( not_empty o_dbattr )
+        .// derived attributes should be accessed via the accessor function
+        .select one te_dbattr related by o_dbattr->TE_DBATTR[R2026]
+        .assign ident_accessor = ( ${te_dbattr.GeneratedName} + "( " ) + ( ${part_ptr} + " )" )
+      .end if
       .invoke r = GetAttributeCodeGenType( ref_o_attr )
       .assign te_dt = r.result
       .include "${te_file.arc_path}/t.class.set_refs.c"
@@ -1053,12 +1060,12 @@ ${aoth_fundamentals.body}\
 .//============================================================================
 .function FiniRelStorageFragment
   .param inst_ref te_relstore
-  .// delete object instance te_relstore;
   .assign te_relstore.data_declare = ""
   .assign te_relstore.data_init    = ""
   .assign te_relstore.data_fini    = ""
   .assign te_relstore.link_calls   = ""
   .assign te_relstore.link_index   = 0
+  .delete object instance te_relstore
 .end function
 .//
 .//============================================================================

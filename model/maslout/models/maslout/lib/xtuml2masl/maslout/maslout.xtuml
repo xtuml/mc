@@ -422,6 +422,17 @@ value[1] = "";
 select many c_eps related by c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003];
 for each c_ep in c_eps
     
+  if ( param.project )
+    select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
+    if ( not_empty spr_po )
+      if ( ActionDialect::none == spr_po.Dialect )
+        // A project can skip supplying a terminator service.  A dialect
+        // of ActionDialect::none means no terminator service was provided.
+        continue;
+      end if;
+    end if;
+  end if;
+
   value[2] = "public"; // Outbound messages are considered public.
   value[3] = c_ep.Name;
   out::populate( element:"routine", value:value );
@@ -457,12 +468,15 @@ for each c_ep in c_eps
     port_name = c_po.Name;
   end if;
   
+  select any c_i related by c_po->C_IR[R4016]->C_I[R4012];
   if ( param.project )
     select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
     ::body2code_block( name:"", text:STRING::unescapetics(s:spr_po.Action_Semantics_internal) );
 
 	// Populate pragmas
-        ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child: c_po.Name + "::" + spr_po.Name ) );
+        select one c_ep related by spr_po->SPR_PEP[R4503]->C_EP[R4501];
+        child = c_po.Name + "::" + c_i.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
+        ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
 
 	// output the description
 	::Descrip2description( Descrip:spr_po.Descrip );
@@ -471,7 +485,9 @@ for each c_ep in c_eps
     ::body2code_block( name:"", text:STRING::unescapetics(s:spr_ro.Action_Semantics_internal) );
 
 	// Populate pragmas
-        ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child: c_po.Name + "::" + spr_ro.Name ) );
+        select one c_ep related by spr_ro->SPR_REP[R4502]->C_EP[R4500];
+        child = c_po.Name + "::" + c_i.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
+        ::mark2pragma( markable:"Required Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
 
 	// output the description
 	::Descrip2description( Descrip:spr_ro.Descrip );
@@ -687,7 +703,14 @@ for each o_attr in o_attrs
   select one o_rattr related by o_attr->O_RATTR[R106];
   if ( not_empty o_rattr )
     select one base_o_attr related by o_rattr->O_BATTR[R113]->O_ATTR[R106];
-    select one s_dt related by base_o_attr->S_DT[R114];
+    if ( not_empty base_o_attr )
+      select one s_dt related by base_o_attr->S_DT[R114];
+      if ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name )
+        // referentials referring to a "MASLunique" type should not propagate
+        // "unique"-ness ot the referential
+        select any s_dt from instances of S_DT where ( selected.Name == "integer" );
+      end if;
+    end if;
   end if;
 
   if ( ( "current_state" == o_attr.Name ) and ( "state<State_Model>" == s_dt.Name ) )
@@ -703,8 +726,12 @@ for each o_attr in o_attrs
     value[2] = "";
     // See if the type of this attribute is unique_id or MASLunique.
     // ''unique'' is dropped when this is a referential attribute
-    if ( ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name ) and empty o_rattr )
-      value[2] = "unique";
+    if ( "unique_id" == s_dt.Name or "MASLunique" == s_dt.Name )
+      select any o_oida related by o_attr->O_OIDA[R105];
+      if ( ( empty o_rattr ) or ( not_empty o_oida ) )
+        // unless it is part of an identifier
+        value[2] = "unique";
+      end if;
     end if;
     // CDS - Coerce inst_ref<Timer>
     if ( "inst_ref<Timer>" == value[2] )
@@ -775,7 +802,7 @@ for each o_attr in o_attrs
         value[3] = rto_obj.Name; // referred to object name object
       end if;
 
-      value[4] = ref_o_attr.Root_Nam; // referred to attribute name
+      value[4] = ref_o_attr.Name; // referred to attribute name
       out::populate( element:"referential", value:value );
       value[1] = "";
       value[2] = "";
@@ -1258,7 +1285,7 @@ for each s_sync in s_syncs
   
   // Populate pragmas
   select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
-  ::mark2pragma( markable:"Function", pathkey: ::package_get_path( ep_pkg:ep_pkg, child:s_sync.Name ) );
+  ::mark2pragma( markable:"Function", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: ::function_getsignature( flavor:1, s_sync:s_sync ) ) );
 
   // output the description
   ::Descrip2description( Descrip:s_sync.Descrip );
@@ -1354,7 +1381,9 @@ sm_sm = param.sm_sm;
 value[0] = param.type;
 
 select many sm_states related by sm_sm->SM_STATE[R501];
-if ( not_empty sm_states )
+select any sm_evt related by sm_sm->SM_EVT[R502];
+// We must have at least one state and one event to have a table.
+if ( ( not_empty sm_states ) and ( not_empty sm_evt ) )
 
 out::populate( element:"transitiontable", value:value );
 
@@ -1377,9 +1406,10 @@ if ( "assigner" != param.type )
 	  value[4] = sm_state.Name;
 	end if;
 	// If event is non-local, then get the name of the supertype.
-	select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
-    if ( not_empty poly_o_obj )
-      value[2] = poly_o_obj.Name;
+    period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
+    if ( 0 < period )
+      value[2] = STRING::substr( s:sm_evt.Mning, begin:0, end:period );
+      value[3] = STRING::substr( s:sm_evt.Mning, begin:period + 1, end:-1 );
     end if;
 	out::populate( element:"transition", value:value );
 	out::populate( element:"transition", value:emptyvalue );
@@ -1399,10 +1429,14 @@ for each sm_state in sm_states
   for each sm_seme in sm_semes
     select one sm_evt related by sm_seme->SM_SEVT[R503]->SM_EVT[R525];
     value[3] = sm_evt.Mning;
-    select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
-    if ( not_empty poly_o_obj )
-      value[2] = poly_o_obj.Name;
+
+    // If event is non-local, then get the name of the supertype.
+    period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
+    if ( 0 < period )
+      value[2] = STRING::substr( s:sm_evt.Mning, begin:0, end:period );
+      value[3] = STRING::substr( s:sm_evt.Mning, begin:period + 1, end:-1 );
     end if;
+
     select one next_sm_state related by sm_seme->SM_NSTXN[R504]->SM_TXN[R507]->SM_STATE[R506];
     if ( not_empty next_sm_state )
       value[4] = next_sm_state.Name;
@@ -1500,9 +1534,9 @@ sm_sm = param.sm_sm;
 select many sm_evts related by sm_sm->SM_EVT[R502];
 for each sm_evt in sm_evts
 
-  select one sm_nlevt related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526];
-  if ( not_empty sm_nlevt )
-    continue; // skip to the next event in the iteration
+  period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
+  if ( 0 < period )
+    continue; // polymorphic - skip to the next event in the iteration
   end if;
 
   value[0] = sm_evt.Mning;
@@ -1629,11 +1663,29 @@ for each sm_state in sm_states
   // MASL states declare their parameter signatures.
   // Traverse to any event transitioning to this state and use its parameters.
   select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532];
-  if ( empty sm_evtdi )	// if there are no state to state transitions to this state, it may be a creation
-  						// state. Check the path to an event through a creation transition
+  if ( empty sm_evtdi ) // if there are no state to state transitions to this state, it may be a creation
+    // state. Check the path to an event through a creation transition
     select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_CRTXN[R507]->SM_LEVT[R509]->SM_SEVT[R526]->SM_EVT[R525]->SM_EVTDI[R532];
     if ( empty sm_evtdi )
-      select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_EVTDI[R532];
+      // Find the polymorphic event from which this event inherits.
+      // Select the sm_evts entering this state.
+      // Look for one with a period in the name.
+      // Select the poly event by class name and event name.
+      // Select any of its event data items.
+      select many sm_evts related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525];
+      for each sm_evt in sm_evts
+        period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
+        if ( 0 < period )
+          poly_class_name = STRING::substr( s:sm_evt.Mning, begin:0, end:period );
+          poly_event_name = STRING::substr( s:sm_evt.Mning, begin:period + 1, end:-1 );
+          select any poly_o_obj from instances of O_OBJ where ( selected.Name == poly_class_name );
+          select any poly_sm_evt related by poly_o_obj->SM_ISM[R518]->SM_SM[R517]->SM_EVT[R502] where ( selected.Mning == poly_event_name );
+          select any sm_evtdi related by poly_sm_evt->SM_EVTDI[R532];
+          if ( not_empty sm_evtdi )
+            break;
+          end if;
+        end if;
+      end for;
     end if;
   end if;
   // Get first parameter.
@@ -1959,7 +2011,7 @@ for each o_tfr in o_tfrs
       end if;
     end for;
   end if;
-  
+
   // Get the first parameter.
   select any o_tparm related by o_tfr->O_TPARM[R117];
   first_o_tparm = o_tparm;
@@ -1985,7 +2037,7 @@ for each o_tfr in o_tfrs
   end if;
   
   // Populate pragmas
-  ::mark2pragma( markable:"Operation", pathkey: ::class_get_path( o_obj:o_obj, child:o_tfr.Name ) );
+  ::mark2pragma( markable:"Operation", pathkey: ::class_get_path( o_obj:o_obj, child: ::operation_getsignature( flavor:1, o_tfr:o_tfr ) ) );
 
   // output the description
   ::Descrip2description( Descrip:o_tfr.Descrip );
@@ -2235,7 +2287,7 @@ if ( 1 == param.flavor )
   while ( not_empty parameter )
 	select one type related by parameter->S_DT[R26];
 	signature = signature + separator + type.Name;
-	separator = ", ";
+	separator = " ";
 	select one parameter related by parameter->S_SPARM[R54.''precedes''];
   end while;
   if( not_empty first_param )
@@ -2268,7 +2320,7 @@ elif ( 0 == param.flavor )
     
     select one type related by curr_param->S_DT[R26];
     signature = signature + separator + curr_param.Name + ":" + type.Name;
-    separator = ", ";
+    separator = " ";
 
     last_param = curr_param;
     select any curr_param from instances of S_SPARM where false;
@@ -2365,7 +2417,7 @@ if ( not_empty c_io )
 	while ( not_empty parameter )
 	  select one type related by parameter->S_DT[R4007];
 	  signature = signature + separator + type.Name;
-	  separator = ", ";
+	  separator = " ";
 	  select one parameter related by parameter->C_PP[R4021.''precedes''];
 	end while;
 	if( not_empty first_param )
