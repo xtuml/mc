@@ -151,6 +151,13 @@ for domain in ${DOM_DIRS[*]}; do
       if [[ -d $MASLOUTDIR ]]; then
          rm -rf $MASLOUTDIR
       fi
+      mkdir -p $MASLOUTDIR/$compname
+
+      # Copy extra .int files to the output.  Note that we do this _before_ running 
+      # xtuml2masl so that xtuml2masl will overwrite the int for the domain being converted,
+      # which we want to happen so that we are checking the int created by the x2m process.
+      cp $domain/*.int $MASLOUTDIR/$compname
+
       xtuml2masl -i $WORKSPACE/$domProj/ -d $compname -o $MASLOUTDIR
 
       # Now diff
@@ -203,6 +210,12 @@ if [[ $PROJ_DIR != "" ]]; then
     if [[ -d $MASLOUTDIR ]]; then
        rm -rf $MASLOUTDIR
     fi
+    mkdir -p $MASLOUTDIR/$compname
+
+    # Copy extra INT files from the original source to the MASL output dir 
+    echo "Copying $PROJ_DIR/*.int to $MASLOUTDIR/$compname"
+    cp $PROJ_DIR/*.int $MASLOUTDIR/$compname
+
     xtuml2masl -i $WORKSPACE/p1 -p $compname -o $MASLOUTDIR
 
     # Now diff
