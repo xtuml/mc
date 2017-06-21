@@ -2043,7 +2043,7 @@ INSERT INTO SM_ACT
 	'select one socket related by self->socket[R6501];
 select one message related by self->message[R6517];
 
-if ( not_empty message )
+if ( empty message )
   create object instance message of message;
   message.index = 0;
   relate message to self across R6517;
@@ -2086,8 +2086,10 @@ else
       message.data.size = size;
       // message is complete create inbound request
       create object instance request of request;
-      generate request1:create( data:message.data, target:message.target, origin:message.origin, inbound:true, sync_id:message.sync_id, is_reply:false ) to request;
+      received_data = raw_data::duplicate( raw_data:message.data );
+      generate request1:create( data:received_data, target:message.target, origin:message.origin, inbound:true, sync_id:message.sync_id, is_reply:false ) to request;
       unrelate message from self across R6517;
+      SYS::free( ptr:message.data.data );
       delete object instance message;
     end if;
     message.index = message.index + 1;

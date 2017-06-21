@@ -28,22 +28,6 @@ INSERT INTO SM_EVTDI
 	"d04e35a5-35dd-4106-be5f-579863610593",
 	"ce3616d6-8017-4b20-939d-39b021a47249");
 INSERT INTO SM_EVTDI
-	VALUES ("8c0db73d-9b5f-4e01-b5ab-5fa4b20a8ea1",
-	"914e2a13-a21c-42ca-9c14-89979536e12f",
-	'data',
-	'',
-	"427a2e87-38ca-4d2b-a66d-eabf304ff889",
-	'',
-	"9a7e8a41-fa3d-4365-a15f-f9ec4f84d39e",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO S_DT_PROXY
-	VALUES ("427a2e87-38ca-4d2b-a66d-eabf304ff889",
-	"00000000-0000-0000-0000-000000000000",
-	'raw_data',
-	'',
-	'',
-	'../../../../../../../../mcshared/models/mcshared/channel/channel.xtuml');
-INSERT INTO SM_EVTDI
 	VALUES ("acb9539d-9ae8-4183-b830-7835259fa931",
 	"914e2a13-a21c-42ca-9c14-89979536e12f",
 	'tries',
@@ -100,10 +84,17 @@ INSERT INTO SM_EVTDI
 	"914e2a13-a21c-42ca-9c14-89979536e12f",
 	'data',
 	'',
-	"427a2e87-38ca-4d2b-a66d-eabf304ff889",
+	"e12f6fe5-d2f2-4c1f-92e4-d2b011ba4041",
 	'',
 	"d04e35a5-35dd-4106-be5f-579863610593",
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT_PROXY
+	VALUES ("e12f6fe5-d2f2-4c1f-92e4-d2b011ba4041",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<raw_data>',
+	'',
+	'',
+	'../../sockets.xtuml');
 INSERT INTO SM_LEVT
 	VALUES ("e2278ffe-e10d-4f5d-8eb4-017811729b48",
 	"914e2a13-a21c-42ca-9c14-89979536e12f",
@@ -877,14 +868,15 @@ self.is_reply = param.is_reply;
 self.initialized = false;
 
 select any matching_request from instances of request where false;
-if ( self.inbound and 0 != self.sync_id )
+if ( self.inbound and 0 != self.sync_id and self.sync_id % 2 == 0 )
   // check to see if this is a return request
-  select any matching_request from instances of request where ( not selected.inbound and selected.sync_id == self.sync_id );
+  select any matching_request from instances of request where ( not selected.inbound and selected.sync_id + 1 == self.sync_id );
   if ( not_empty matching_request )
     relate self to matching_request across R6519.''is return for'';
     generate request10:wait() to self;
   else
     // silently drop the request
+    UTIL::print( s:"Dropping request...");
     generate request8:cancel() to self;
   end if;
 else
@@ -1161,7 +1153,7 @@ INSERT INTO SM_AH
 INSERT INTO SM_ACT
 	VALUES ("1809e86f-969f-42f5-bd42-1f69409727b3",
 	"914e2a13-a21c-42ca-9c14-89979536e12f",
-	3,
+	1,
 	'',
 	'',
 	0);

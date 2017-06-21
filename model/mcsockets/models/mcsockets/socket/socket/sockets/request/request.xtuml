@@ -54,7 +54,9 @@ end if;
 select one courier related by self->courier[R6518];
 if ( not_empty courier )
   unrelate self from courier across R6518;
-end if;',
+end if;
+data = self.data;
+data.dispose();',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
@@ -128,16 +130,16 @@ INSERT INTO O_ATTR
 	'',
 	'data',
 	0,
-	"427a2e87-38ca-4d2b-a66d-eabf304ff889",
+	"e12f6fe5-d2f2-4c1f-92e4-d2b011ba4041",
 	'',
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("427a2e87-38ca-4d2b-a66d-eabf304ff889",
+	VALUES ("e12f6fe5-d2f2-4c1f-92e4-d2b011ba4041",
 	"00000000-0000-0000-0000-000000000000",
-	'raw_data',
+	'inst_ref<raw_data>',
 	'',
 	'',
-	'../../../../../../../mcshared/models/mcshared/channel/channel.xtuml');
+	'../sockets.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("f53b9fc2-2d48-49e5-8fe4-42e1654db5b4",
 	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
