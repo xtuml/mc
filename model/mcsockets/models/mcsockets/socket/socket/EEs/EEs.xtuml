@@ -24,7 +24,7 @@ INSERT INTO GD_MD
 	200,
 	150,
 	0,
-	'',
+	'4.1.17',
 	'mcsockets::socket::socket::EEs');
 INSERT INTO GD_GE
 	VALUES ("b33fcd06-44e4-45cd-9dd5-bb3d2bef7b77",
@@ -510,7 +510,7 @@ INSERT INTO S_BPARM
 	"ead4ee92-06f4-4f8d-b9d8-b1863bd39a08",
 	'data',
 	"7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
-	0,
+	1,
 	'',
 	"f6666456-a0b4-439c-8c77-628aa1dc46a2",
 	'');
@@ -750,6 +750,84 @@ INSERT INTO S_BPARM
 	1,
 	'',
 	"6be0b988-f3f1-489b-bdb1-fe221c39fcb4",
+	'');
+INSERT INTO S_BRG
+	VALUES ("0952fe85-6d32-4f80-aaf8-37364195eb56",
+	"d841a07c-a625-436b-a01f-ee18a9ad68d8",
+	'malloc',
+	'',
+	0,
+	"7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("69b8cf06-8152-40c1-aee8-8e7b3090d495",
+	"0952fe85-6d32-4f80-aaf8-37364195eb56",
+	'size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("ae70f264-88f9-4d77-ac1f-e4500e2b7f8e",
+	"d841a07c-a625-436b-a01f-ee18a9ad68d8",
+	'free',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("c8d810e6-4e65-491b-abe4-642132ced966",
+	"ae70f264-88f9-4d77-ac1f-e4500e2b7f8e",
+	'ptr',
+	"7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("c2c0bee0-cb68-406c-a391-0eb16c56d3a5",
+	"d841a07c-a625-436b-a01f-ee18a9ad68d8",
+	'memcpy',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("0d887416-8beb-4ea4-b460-a3ce434242ee",
+	"c2c0bee0-cb68-406c-a391-0eb16c56d3a5",
+	'dst',
+	"7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("8ce3444b-49b3-44b2-9cb6-c1c5c16f319e",
+	"c2c0bee0-cb68-406c-a391-0eb16c56d3a5",
+	'src',
+	"7d129d7e-4b5c-4eab-ada9-00ddae08aa7d",
+	0,
+	'',
+	"0d887416-8beb-4ea4-b460-a3ce434242ee",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("7bc25b1d-a9c4-48c7-95b6-7f7d06a31b6f",
+	"c2c0bee0-cb68-406c-a391-0eb16c56d3a5",
+	'size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"8ce3444b-49b3-44b2-9cb6-c1c5c16f319e",
 	'');
 INSERT INTO PE_PE
 	VALUES ("d841a07c-a625-436b-a01f-ee18a9ad68d8",

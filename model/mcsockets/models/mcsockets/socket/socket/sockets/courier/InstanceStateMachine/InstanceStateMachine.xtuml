@@ -390,7 +390,7 @@ INSERT INTO SM_SEME
 	"d9167d72-186c-4ffb-a83d-2a7226d96e47",
 	"86448be2-a55e-4931-a6a4-76762bdc2635",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO SM_CH
+INSERT INTO SM_EIGN
 	VALUES ("2f30bcff-bc6d-41a8-b728-c0816307768c",
 	"f858bb2a-cbb0-4751-a19c-96716a40c69d",
 	"86448be2-a55e-4931-a6a4-76762bdc2635",
@@ -517,25 +517,28 @@ INSERT INTO SM_ACT
 	'UTIL::print( s:"Delivering request..." );
 select one request related by self->request[R6514];
 
+request_raw_data = request.data;
+request_data = request_raw_data.toraw_data();
 if ( 0 == request.sync_id )
   // async message
   // deliver the parameters
   if ( self.provider )
-    send PROV::deliver_sgn( data:request.data, target:request.target, origin:request.origin );
+    send PROV::deliver_sgn( data:request_data, target:request.target, origin:request.origin );
   else
-    send REQ::deliver_sgn( data:request.data, target:request.target, origin:request.origin );
+    send REQ::deliver_sgn( data:request_data, target:request.target, origin:request.origin );
   end if;
 else
   // sync message
-  return_parameters = request.data; // arbitrarily initialize variable
+  return_parameters = request_data; // arbitrarily initialize variable
   if ( self.provider )
-    return_parameters = PROV::deliver_op( data:request.data, target:request.target, origin:request.origin );
+    return_parameters = PROV::deliver_op( data:request_data, target:request.target, origin:request.origin );
   else
-    return_parameters = REQ::deliver_op( data:request.data, target:request.target, origin:request.origin );
+    return_parameters = REQ::deliver_op( data:request_data, target:request.target, origin:request.origin );
   end if;
   // create the return request with the same sync_id
   create object instance reply_request of request;
-  generate request1:create( data:return_parameters, target:request.origin, origin:request.target, inbound:false, sync_id:request.sync_id, is_reply:true ) to reply_request;
+  reply_data = raw_data::duplicate( raw_data:return_parameters );
+  generate request1:create( data:reply_data, target:request.origin, origin:request.target, inbound:false, sync_id:request.sync_id+1, is_reply:true ) to reply_request;
 end if;
 
 // generate event

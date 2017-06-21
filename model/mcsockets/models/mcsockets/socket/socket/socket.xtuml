@@ -370,7 +370,8 @@ INSERT INTO SPR_PO
 	'// create the request
 sync_id = UTIL::id_factory();
 create object instance request of request;
-generate request1:create( data:param.data, target:param.target, origin:param.origin, inbound:false, sync_id:sync_id, is_reply:false ) to request;
+data = raw_data::duplicate( raw_data:param.data );
+generate request1:create( data:data, target:param.target, origin:param.origin, inbound:false, sync_id:sync_id, is_reply:false ) to request;
 
 // wait for the return request
 select one return_request related by request->request[R6519.''has return''];
@@ -385,7 +386,8 @@ while ( empty return_request )
 end while;
 
 // cache data to deliver
-return_data = return_request.data;
+return_raw_data = return_request.data;
+return_data = return_raw_data.toraw_data();
 
 // clean up
 return_request.dispose();
@@ -429,7 +431,8 @@ INSERT INTO SPR_PS
 	'post_sgn',
 	'',
 	'create object instance request of request;
-generate request1:create( data:param.data, target:param.target, origin:param.origin, inbound:false, sync_id:0, is_reply:false ) to request;',
+data = raw_data::duplicate( raw_data:param.data );
+generate request1:create( data:data, target:param.target, origin:param.origin, inbound:false, sync_id:0, is_reply:false ) to request;',
 	1,
 	0);
 INSERT INTO C_EP_PROXY
@@ -533,7 +536,8 @@ INSERT INTO SPR_PO
 	'// create the request
 sync_id = UTIL::id_factory();
 create object instance request of request;
-generate request1:create( data:param.data, target:param.target, origin:param.origin, inbound:false, sync_id:sync_id, is_reply:false ) to request;
+data = raw_data::duplicate( raw_data:param.data );
+generate request1:create( data:data, target:param.target, origin:param.origin, inbound:false, sync_id:sync_id, is_reply:false ) to request;
 
 // wait for the return request
 select one return_request related by request->request[R6519.''has return''];
@@ -548,7 +552,8 @@ while ( empty return_request )
 end while;
 
 // cache data to deliver
-return_data = return_request.data;
+return_raw_data = return_request.data;
+return_data = return_raw_data.toraw_data();
 
 // clean up
 return_request.dispose();
@@ -578,7 +583,8 @@ INSERT INTO SPR_PS
 	'post_sgn',
 	'',
 	'create object instance request of request;
-generate request1:create( data:param.data, target:"", origin:param.origin, inbound:false, sync_id:0, is_reply:false ) to request;',
+data = raw_data::duplicate( raw_data:param.data );
+generate request1:create( data:data, target:"", origin:param.origin, inbound:false, sync_id:0, is_reply:false ) to request;',
 	1,
 	0);
 INSERT INTO SPR_PEP
