@@ -1680,6 +1680,18 @@ CREATE TABLE TE_CALLOUT (
     non_self_event_queue_empty STRING,
     persistence_error STRING
 );
+CREATE TABLE TE_CHANSPEC (
+    prov_port STRING,
+    req_port STRING,
+    post_sgn STRING,
+    post_op STRING,
+    deliver_sgn STRING,
+    deliver_op STRING,
+    init STRING,
+    data_mbr STRING,
+    size_mbr STRING,
+    raw_data STRING
+);
 CREATE TABLE TE_CI (
     ID UNIQUE_ID,
     Name STRING,
@@ -2086,7 +2098,9 @@ CREATE TABLE TE_MACT (
     te_cID UNIQUE_ID,
     te_poID UNIQUE_ID,
     te_evtID UNIQUE_ID,
-    nextID UNIQUE_ID
+    nextID UNIQUE_ID,
+    satisfaction_Id UNIQUE_ID,
+    marshalled_message_len INTEGER
 );
 CREATE TABLE TE_MBR (
     ID UNIQUE_ID,
@@ -2099,6 +2113,12 @@ CREATE TABLE TE_MBR (
     te_dtID UNIQUE_ID,
     Member_ID UNIQUE_ID,
     DT_ID UNIQUE_ID
+);
+CREATE TABLE TE_MSHL (
+    marshall STRING,
+    unmarshall STRING,
+    remarshall STRING,
+    get_size STRING
 );
 CREATE TABLE TE_OIR (
     data_member STRING,
@@ -2352,6 +2372,13 @@ CREATE TABLE TE_SET (
     scope STRING,
     module STRING
 );
+CREATE TABLE TE_SF (
+    satisfaction_Id UNIQUE_ID,
+    Label STRING,
+    implementation_component_ID UNIQUE_ID,
+    provider_component_ID UNIQUE_ID,
+    requirer_component_ID UNIQUE_ID
+);
 CREATE TABLE TE_SGN (
     sm_evt UNIQUE_ID,
     self_directed BOOLEAN,
@@ -2601,6 +2628,10 @@ CREATE TABLE TM_BUILD (
     package_to_build STRING,
     package_obj_name STRING,
     package_inst_name STRING
+);
+CREATE TABLE TM_SF (
+    component_name STRING,
+    satisfaction_label STRING
 );
 CREATE TABLE TM_C (
     Package STRING,
@@ -3059,7 +3090,7 @@ CREATE ROP REF_ID R2045 FROM 1C TE_SLIST (flavor) TO 1 TE_CONTAINER (flavor);
 CREATE ROP REF_ID R2045 FROM 1C TE_DLIST (flavor) TO 1 TE_CONTAINER (flavor);
 CREATE ROP REF_ID R2046 FROM 1C TE_IIR (c_irId) TO 1C C_IR (Id);
 CREATE ROP REF_ID R2047 FROM 1C TE_MBR (DT_ID, Member_ID) TO 1 S_MBR (Parent_DT_DT_ID, Member_ID);
-CREATE ROP REF_ID R2048 FROM 1C TE_PARM (PP_Id) TO 1C C_PP (PP_Id);
+CREATE ROP REF_ID R2048 FROM MC TE_PARM (PP_Id) TO 1C C_PP (PP_Id);
 CREATE ROP REF_ID R2049 FROM MC TE_PARM (te_dtID) TO 1 TE_DT (ID);
 CREATE ROP REF_ID R205 FROM 1C R_SUB (OIR_ID, Rel_ID, Obj_ID) TO 1 R_RGO (OIR_ID, Rel_ID, Obj_ID);
 CREATE ROP REF_ID R205 FROM 1C R_FORM (OIR_ID, Rel_ID, Obj_ID) TO 1 R_RGO (OIR_ID, Rel_ID, Obj_ID);
@@ -3299,7 +3330,6 @@ CREATE ROP REF_ID R513 FROM 1C SM_MEAH (SM_ID, Act_ID) TO 1 SM_AH (SM_ID, Act_ID
 CREATE ROP REF_ID R513 FROM 1C SM_TAH (SM_ID, Act_ID) TO 1 SM_AH (SM_ID, Act_ID);
 CREATE ROP REF_ID R514 FROM 1 SM_AH (SM_ID, Act_ID) TO 1 SM_ACT (SM_ID, Act_ID);
 CREATE ROP REF_ID R515 FROM MC SM_ACT (SM_ID) TO 1 SM_SM (SM_ID);
-CREATE ROP REF_ID R516 FROM MC SM_EVTDI (SM_ID) TO 1 SM_SM (SM_ID);
 CREATE ROP REF_ID R517 FROM 1C SM_ISM (SM_ID) TO 1 SM_SM (SM_ID);
 CREATE ROP REF_ID R517 FROM 1C SM_ASM (SM_ID) TO 1 SM_SM (SM_ID);
 CREATE ROP REF_ID R518 FROM 1C SM_ISM (Obj_ID) TO 1 O_OBJ (Obj_ID);
@@ -3318,7 +3348,7 @@ CREATE ROP REF_ID R53 FROM MC S_DIM (DT_ID, Member_ID) TO 1C S_MBR (Parent_DT_DT
 CREATE ROP REF_ID R530 FROM 1C SM_TAH (SM_ID, Trans_ID) TO 1 SM_TXN (SM_ID, Trans_ID);
 CREATE ROP REF_ID R531 FROM MC S_DIM (SM_ID, SMedi_ID) TO 1C SM_EVTDI (SM_ID, SMedi_ID);
 CREATE ROP REF_ID R532 FROM MC SM_EVTDI (SMevt_ID) TO 1 SM_EVT (SMevt_ID);
-CREATE ROP REF_ID R533 FROM 1C SM_EVTDI (SM_ID, Previous_SMedi_ID) PHRASE 'succeeds' TO 1C SM_EVTDI (SM_ID, SMedi_ID) PHRASE 'precedes';
+CREATE ROP REF_ID R533 FROM 1C SM_EVTDI (Previous_SMedi_ID) PHRASE 'succeeds' TO 1C SM_EVTDI (SMedi_ID) PHRASE 'precedes';
 CREATE ROP REF_ID R54 FROM 1C S_SPARM (Previous_SParm_ID) PHRASE 'succeeds' TO 1C S_SPARM (SParm_ID) PHRASE 'precedes';
 CREATE ROP REF_ID R55 FROM 1C S_BPARM (Previous_BParm_ID) PHRASE 'succeeds' TO 1C S_BPARM (BParm_ID) PHRASE 'precedes';
 CREATE ROP REF_ID R56 FROM 1C S_ENUM (Previous_Enum_ID) PHRASE 'succeeds' TO 1C S_ENUM (Enum_ID) PHRASE 'precedes';
@@ -3597,3 +3627,8 @@ CREATE ROP REF_ID R948 FROM 1C SQ_FAV (Av_ID) TO 1 SQ_AV (Av_ID);
 CREATE ROP REF_ID R949 FROM 1C SQ_AP (LS_Part_ID) TO 1C SQ_LS (Part_ID);
 CREATE ROP REF_ID R955 FROM MC SQ_COP (Component_Id) TO 1C C_C (Id);
 CREATE ROP REF_ID R956 FROM MC SQ_PP (Package_ID) TO 1C EP_PKG (Package_ID);
+CREATE ROP REF_ID R2200 FROM MC TE_MACT (satisfaction_Id) TO 1C TE_SF (satisfaction_Id);
+CREATE ROP REF_ID R2201 FROM 1C TE_SF (satisfaction_Id) TO 1 C_SF (Id);
+CREATE ROP REF_ID R2202 FROM 1C TE_SF (implementation_component_ID) TO 1C TE_C (ID);
+CREATE ROP REF_ID R2203 FROM MC TE_SF (provider_component_ID) PHRASE 'has requirement connected to' TO 1 TE_C (ID) PHRASE 'has provision connected to';
+CREATE ROP REF_ID R2203 FROM MC TE_SF (requirer_component_ID) PHRASE 'has provision connected to' TO 1 TE_C (ID) PHRASE 'has requirement connected to';

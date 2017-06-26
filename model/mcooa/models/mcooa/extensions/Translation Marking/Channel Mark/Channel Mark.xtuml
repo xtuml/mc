@@ -1,0 +1,69 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("8e058254-af50-44da-8809-3651d24377ed",
+	'Channel Mark',
+	2213,
+	'TM_SF',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("dd8536b3-0521-4c6d-a26e-67cdb679fc15",
+	"8e058254-af50-44da-8809-3651d24377ed");
+INSERT INTO O_BATTR
+	VALUES ("dd8536b3-0521-4c6d-a26e-67cdb679fc15",
+	"8e058254-af50-44da-8809-3651d24377ed");
+INSERT INTO O_ATTR
+	VALUES ("dd8536b3-0521-4c6d-a26e-67cdb679fc15",
+	"8e058254-af50-44da-8809-3651d24377ed",
+	"00000000-0000-0000-0000-000000000000",
+	'component_name',
+	'',
+	'',
+	'component_name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("9c5e52bd-495c-4652-b0bd-8dff22892b28",
+	"8e058254-af50-44da-8809-3651d24377ed");
+INSERT INTO O_BATTR
+	VALUES ("9c5e52bd-495c-4652-b0bd-8dff22892b28",
+	"8e058254-af50-44da-8809-3651d24377ed");
+INSERT INTO O_ATTR
+	VALUES ("9c5e52bd-495c-4652-b0bd-8dff22892b28",
+	"8e058254-af50-44da-8809-3651d24377ed",
+	"dd8536b3-0521-4c6d-a26e-67cdb679fc15",
+	'satisfaction_label',
+	'',
+	'',
+	'satisfaction_label',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"8e058254-af50-44da-8809-3651d24377ed");
+INSERT INTO O_ID
+	VALUES (1,
+	"8e058254-af50-44da-8809-3651d24377ed");
+INSERT INTO O_ID
+	VALUES (2,
+	"8e058254-af50-44da-8809-3651d24377ed");
+INSERT INTO PE_PE
+	VALUES ("8e058254-af50-44da-8809-3651d24377ed",
+	1,
+	"81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'Translation Marking',
+	'This subsystem contains classes intended for marking or coloring the user
+model to guide the translation process.',
+	0,
+	'../Translation Marking.xtuml');

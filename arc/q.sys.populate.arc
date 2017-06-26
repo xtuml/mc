@@ -337,6 +337,9 @@
     .invoke TE_C_mark_nested_system( te_cs )
     .select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
     .invoke TE_C_mark_nested_system( te_cs )
+    .select many tm_sfs from instances of TM_SF
+    .select many c_sfs related by ep_pkgs->PE_PE[R8000]->C_SF[R8001]
+    .invoke C_SF_mark_channel_components( c_sfs, tm_sfs )
     .// Uncomment the line below to use package name instead of project for the top-level files.
     .//.assign te_sys.Name = "$r{package_to_build}"
   .else
@@ -1016,6 +1019,10 @@
     .assign te_mact.Descrip = c_io.Descrip
     .assign te_mact.Direction = c_io.Direction
     .relate te_mact to spr_ro across R2052
+    .select one te_sf related by te_mact->SPR_RO[R2052]->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->TE_SF[R2201]
+    .if ( not_empty te_sf )
+      .relate te_mact to te_sf across R2200
+    .end if
   .end for
   .select many spr_rss from instances of SPR_RS
   .for each spr_rs in spr_rss
@@ -1029,6 +1036,10 @@
     .assign te_mact.Descrip = c_as.Descrip
     .assign te_mact.Direction = c_as.Direction
     .relate te_mact to spr_rs across R2053
+    .select one te_sf related by te_mact->SPR_RS[R2053]->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->TE_SF[R2201]
+    .if ( not_empty te_sf )
+      .relate te_mact to te_sf across R2200
+    .end if
   .end for
   .select many spr_pos from instances of SPR_PO
   .for each spr_po in spr_pos
@@ -1049,6 +1060,10 @@
     .assign te_mact.Descrip = c_io.Descrip
     .assign te_mact.Direction = c_io.Direction
     .relate te_mact to spr_po across R2050
+    .select one te_sf related by te_mact->SPR_PO[R2050]->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->TE_SF[R2201]
+    .if ( not_empty te_sf )
+      .relate te_mact to te_sf across R2200
+    .end if
   .end for
   .select many spr_pss from instances of SPR_PS
   .for each spr_ps in spr_pss
@@ -1062,6 +1077,10 @@
     .assign te_mact.Descrip = c_as.Descrip
     .assign te_mact.Direction = c_as.Direction
     .relate te_mact to spr_ps across R2051
+    .select one te_sf related by te_mact->SPR_PS[R2051]->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->TE_SF[R2201]
+    .if ( not_empty te_sf )
+      .relate te_mact to te_sf across R2200
+    .end if
   .end for
   .// All the te_pos and te_macts are created now.  Order the te_macts alphabetically inside the ports.
   .select many te_pos from instances of TE_PO
@@ -1915,6 +1934,24 @@
   .invoke r = FactoryTE_ABA( te_c, te_parms, te_mact.ComponentName, te_mact.GeneratedName, "TE_MACT", te_dt )
   .assign te_aba = r.result
   .relate te_mact to te_aba across R2010
+  .select any te_string from instances of TE_STRING
+  .assign te_mact.marshalled_message_len = "( 8 + ${te_string.strlen}(""${te_mact.MessageName}"")"
+  .if ( "string" == te_dt.Name )
+    .assign te_mact.marshalled_message_len = ( ( te_mact.marshalled_message_len + " + 4 + " ) + te_string.max_string_length )
+  .elif ( "void" == te_dt.Name )
+    .assign te_mact.marshalled_message_len = ( te_mact.marshalled_message_len + " + 4" )
+  .else
+    .assign te_mact.marshalled_message_len = ( ( te_mact.marshalled_message_len + " + 4 + sizeof(" ) + ( te_dt.ExtName + ")" ) )
+  .end if
+  .for each te_parm in te_parms
+    .select one te_dt related by te_parm->TE_DT[R2049]
+    .if ( "string" == te_dt.Name )
+      .assign te_mact.marshalled_message_len = ( ( te_mact.marshalled_message_len + " + 4 + " ) + te_string.max_string_length )
+    .else
+      .assign te_mact.marshalled_message_len = ( ( te_mact.marshalled_message_len + " + 4 + sizeof(" ) + ( te_dt.ExtName + ")" ) )
+    .end if
+  .end for
+  .assign te_mact.marshalled_message_len = te_mact.marshalled_message_len + " )"
   .assign attr_result = te_mact
 .end function
 .//
@@ -2156,6 +2193,8 @@
   .if ( not_empty te_dim )
     .relate duplicate_te_parm to te_dim across R2056
   .end if
+  .select one c_pp related by te_parm->C_PP[R2048]
+  .relate duplicate_te_parm to c_pp across R2048
   .assign duplicate_te_parm.array_spec = te_parm.array_spec
   .assign attr_result = duplicate_te_parm
 .end function
@@ -2329,6 +2368,37 @@
     .invoke TE_C_mark_nested_system( nested_te_cs )
     .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
     .invoke TE_C_mark_nested_system( nested_te_cs )
+  .end for
+.end function
+.//
+.// Recursive call to drill down and get all of the components marked for satisfactions
+.// in the system package
+.function C_SF_mark_channel_components
+  .param inst_ref_set c_sfs
+  .param inst_ref_set tm_sfs
+  .for each c_sf in c_sfs
+    .create object instance te_sf of TE_SF
+    .assign te_sf.Label = c_sf.Label
+    .relate te_sf to c_sf across R2201
+    .select one prov_te_c related by c_sf->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->TE_C[R2054]
+    .select one req_te_c related by c_sf->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->TE_C[R2054]
+    .//.relate prov_te_c to req_te_c across R2203.'has provision connected to' using te_sf
+    .relate prov_te_c to te_sf across R2203.'has provision connected to'
+    .relate req_te_c to te_sf across R2203.'has requirement connected to'
+    .for each tm_sf in tm_sfs
+      .if ( c_sf.Label == tm_sf.satisfaction_label )
+        .select any c_c from instances of C_C where ( selected.Name == tm_sf.component_name )
+        .select one te_c related by c_c->TE_C[R2054]
+        .if ( not_empty te_c )
+          .assign te_c.included_in_build = true
+          .relate te_c to te_sf across R2202
+        .end if
+        .select many nested_c_sfs related by c_sf->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_SF[R8001]
+        .invoke C_SF_mark_channel_components( nested_c_sfs, tm_sfs )
+        .select many nested_c_sfs related by c_sf->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->C_SF[R8001]
+        .invoke C_SF_mark_channel_components( nested_c_sfs, tm_sfs )
+      .end if
+    .end for
   .end for
 .end function
 .//

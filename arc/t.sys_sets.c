@@ -543,7 +543,7 @@ ${te_set.scope}${te_string.strget}( void )
   return ( r );
 }
 
-.if ( ( te_sys.InstanceLoading ) or ( 0 != te_sys.UnitsToDynamicallyAllocate ) )
+.if ( ( ( te_sys.InstanceLoading ) or ( 0 != te_sys.UnitsToDynamicallyAllocate ) ) or ( not_empty channel_te_c ) )
 /*
  * Measure the length of the given string.
  */

@@ -252,5 +252,25 @@
 .//
 .//
 .//============================================================================
+.// Mark Channel Implementations
+.//
+.// This mark is used to specify a modelled implementation of a channel to apply to
+.// specific satisfisfaction(s). The component containing the implementation must
+.// have two provided ports "INTERFACE_PROVIDER" and "INTERFACE_REQUIRER". Both
+.// must implement the "ChannelSpecification" or congruent interface.
+.// 
+.// MarkChannelImplementation ( component_name, satisfaction_label )
+.//
+.// Where the input parameter(s) are:
+.//   component_name = the name of the component that contains the implementation
+.//   satisfaction_label = the label of the satisfaction to apply the implementation
+.//                        or "*" to mark all satisfactions
+.//
+.// Example:
+.//   .invoke MarkChannelImplementation ( "Socket", "UI::UI::UI -o)- Tracking::UI::UI" )
+.//============================================================================
+.//
+.//
+.//============================================================================
 .// Do not add anything at the end of this file!
 .//============================================================================

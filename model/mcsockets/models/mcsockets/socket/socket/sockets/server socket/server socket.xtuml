@@ -1,0 +1,86 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("b98219a8-1410-4583-8b88-43188df6cc5d",
+	'server socket',
+	6,
+	'serversocket',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("c4ade9ea-1962-4bbd-b674-8217b8213e19",
+	"b98219a8-1410-4583-8b88-43188df6cc5d",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one socket related by self->socket[R6501];
+unrelate self from socket across R6501;
+delete object instance socket;
+select many servers related by self->server[R6502];
+for each server in servers
+  unrelate self from server across R6502;
+end for;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_NBATTR
+	VALUES ("17cc8ed6-22eb-4b60-8ad9-1bb4f73dc568",
+	"b98219a8-1410-4583-8b88-43188df6cc5d");
+INSERT INTO O_BATTR
+	VALUES ("17cc8ed6-22eb-4b60-8ad9-1bb4f73dc568",
+	"b98219a8-1410-4583-8b88-43188df6cc5d");
+INSERT INTO O_ATTR
+	VALUES ("17cc8ed6-22eb-4b60-8ad9-1bb4f73dc568",
+	"b98219a8-1410-4583-8b88-43188df6cc5d",
+	"00000000-0000-0000-0000-000000000000",
+	'current_state',
+	'',
+	'',
+	'current_state',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000006",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5723f8bf-8855-47eb-b1ae-ca572fd482b6",
+	"b98219a8-1410-4583-8b88-43188df6cc5d");
+INSERT INTO O_BATTR
+	VALUES ("5723f8bf-8855-47eb-b1ae-ca572fd482b6",
+	"b98219a8-1410-4583-8b88-43188df6cc5d");
+INSERT INTO O_ATTR
+	VALUES ("5723f8bf-8855-47eb-b1ae-ca572fd482b6",
+	"b98219a8-1410-4583-8b88-43188df6cc5d",
+	"17cc8ed6-22eb-4b60-8ad9-1bb4f73dc568",
+	'backlog',
+	'',
+	'',
+	'backlog',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"b98219a8-1410-4583-8b88-43188df6cc5d");
+INSERT INTO O_ID
+	VALUES (1,
+	"b98219a8-1410-4583-8b88-43188df6cc5d");
+INSERT INTO O_ID
+	VALUES (2,
+	"b98219a8-1410-4583-8b88-43188df6cc5d");
+INSERT INTO PE_PE
+	VALUES ("b98219a8-1410-4583-8b88-43188df6cc5d",
+	1,
+	"326814d5-c8d3-4592-aa8d-14658c4f155c",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("326814d5-c8d3-4592-aa8d-14658c4f155c",
+	"00000000-0000-0000-0000-000000000000",
+	"fcc009f4-22ed-4091-b6e3-bced238b1692",
+	'sockets',
+	'',
+	0,
+	'../sockets.xtuml');

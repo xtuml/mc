@@ -105,11 +105,14 @@
 .select any te_set from instances of TE_SET
 .select any te_slist from instances of TE_SLIST
 .select any te_string from instances of TE_STRING
+.select any te_marshalling from instances of TE_MSHL
 .select any te_target from instances of TE_TARGET
 .select any te_thread from instances of TE_THREAD
 .select any te_tim from instances of TE_TIM
 .select any te_trace from instances of TE_TRACE
 .select any te_typemap from instances of TE_TYPEMAP
+.select many te_sfs from instances of TE_SF
+.select any channel_te_c related by te_sfs->TE_C[R2202]
 .//
 .select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
 .invoke r = TE_C_sort( active_te_cs )
