@@ -27,6 +27,34 @@ INSERT INTO O_ATTR
 	'');
 INSERT INTO O_REF
 	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	0,
+	"df4d6ffc-1976-4922-9f36-81680da64d71",
+	"94f37cd4-2432-46ca-ab7a-fd4824abdc45",
+	"93e7812e-8dac-48ba-beb4-7a5d62eafdc3",
+	"8cb641ed-95ad-49e7-ae60-66dbccfa8fe1",
+	"15ef749f-4cad-4701-815b-d50b07a71b2f",
+	"183f3adf-5a9e-4c70-a3fc-1110ecb8b7cc",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'State Machine',
+	'SM_ID',
+	'R516.''is carried on events into''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	"94f37cd4-2432-46ca-ab7a-fd4824abdc45",
+	"93e7812e-8dac-48ba-beb4-7a5d62eafdc3",
+	'../State Machine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	0,
+	"94f37cd4-2432-46ca-ab7a-fd4824abdc45",
+	"8cb641ed-95ad-49e7-ae60-66dbccfa8fe1",
+	'../State Machine.xtuml');
+INSERT INTO O_REF
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
 	"6c915253-c149-490d-ab3f-39be9a2951e9",
 	0,
 	"15ef749f-4cad-4701-815b-d50b07a71b2f",
@@ -35,7 +63,7 @@ INSERT INTO O_REF
 	"98679246-2e86-4e70-a684-d4999be477f0",
 	"15ef749f-4cad-4701-815b-d50b07a71b2f",
 	"f75e92e6-d1b4-405f-8b33-2dd8b012eca8",
-	"00000000-0000-0000-0000-000000000000",
+	"183f3adf-5a9e-4c70-a3fc-1110ecb8b7cc",
 	0,
 	'',
 	'State Machine Event Data Item',

@@ -17134,7 +17134,7 @@ INSERT INTO R_FORM
 	VALUES ("827bfb20-5406-487d-bac2-eef5e285683c",
 	"8bb45b9b-00bf-49d8-8446-ebe52aabd494",
 	"8f1b64c0-767a-42dd-95bf-e9b5d2e09088",
-	1,
+	0,
 	1,
 	'');
 INSERT INTO R_RGO
