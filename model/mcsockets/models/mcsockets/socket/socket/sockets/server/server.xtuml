@@ -1,0 +1,69 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("5b25bc85-6fbc-4f3b-8897-41396ac1dc18",
+	'server',
+	5,
+	'server',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("9034e60c-49e1-4adc-8b65-5cba589203d7",
+	"5b25bc85-6fbc-4f3b-8897-41396ac1dc18",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one serversocket related by self->serversocket[R6502];
+if ( not_empty serversocket )
+  unrelate self from serversocket across R6502;
+end if;
+select one courier related by self->courier[R6513];
+unrelate self from courier across R6513;
+courier.dispose();
+delete object instance courier;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_NBATTR
+	VALUES ("817ce2bc-f4c3-451e-8612-f561c039b1ee",
+	"5b25bc85-6fbc-4f3b-8897-41396ac1dc18");
+INSERT INTO O_BATTR
+	VALUES ("817ce2bc-f4c3-451e-8612-f561c039b1ee",
+	"5b25bc85-6fbc-4f3b-8897-41396ac1dc18");
+INSERT INTO O_ATTR
+	VALUES ("817ce2bc-f4c3-451e-8612-f561c039b1ee",
+	"5b25bc85-6fbc-4f3b-8897-41396ac1dc18",
+	"00000000-0000-0000-0000-000000000000",
+	'current_state',
+	'',
+	'',
+	'current_state',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000006",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"5b25bc85-6fbc-4f3b-8897-41396ac1dc18");
+INSERT INTO O_ID
+	VALUES (1,
+	"5b25bc85-6fbc-4f3b-8897-41396ac1dc18");
+INSERT INTO O_ID
+	VALUES (2,
+	"5b25bc85-6fbc-4f3b-8897-41396ac1dc18");
+INSERT INTO PE_PE
+	VALUES ("5b25bc85-6fbc-4f3b-8897-41396ac1dc18",
+	1,
+	"326814d5-c8d3-4592-aa8d-14658c4f155c",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("326814d5-c8d3-4592-aa8d-14658c4f155c",
+	"00000000-0000-0000-0000-000000000000",
+	"fcc009f4-22ed-4091-b6e3-bced238b1692",
+	'sockets',
+	'',
+	0,
+	'../sockets.xtuml');

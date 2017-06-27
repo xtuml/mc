@@ -1,0 +1,237 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("3d3c9575-90f6-460b-aa94-cb89e2ec24a5",
+	'request',
+	4,
+	'request',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("2b0f665b-8dfd-4808-9a30-765ed69caca7",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// unrelate from data sockets
+select many datasockets related by self->datasocket[R6508];
+for each datasocket in datasockets
+  unrelate self from datasocket across R6508;
+  generate datasocket3:ready() to datasocket;
+end for;
+// remove from request queue
+select one prev_request related by self->request[R6512.''succeeds''];
+select one next_request related by self->request[R6512.''precedes''];
+if ( not_empty prev_request and not_empty next_request )
+  // middle of queue
+  unrelate self from prev_request across R6512.''succeeds'';
+  unrelate self from next_request across R6512.''precedes'';
+  relate prev_request to next_request across R6512.''precedes'';
+elif ( not_empty prev_request )
+  // end of queue
+  unrelate self from prev_request across R6512.''succeeds'';
+  select one courier related by self->courier[R6515];
+  unrelate self from courier across R6515;
+  relate prev_request to courier across R6515;
+elif ( not_empty next_request )
+  // start of queue
+  unrelate self from next_request across R6512.''precedes'';
+  select one courier related by self->courier[R6514];
+  unrelate self from courier across R6514;
+  relate next_request to courier across R6514;
+else
+  // only one in the queue or not in queue
+  select one courier related by self->courier[R6514];
+  if ( not_empty courier )
+    unrelate self from courier across R6514;
+  end if;
+  select one courier related by self->courier[R6515];
+  if ( not_empty courier )
+    unrelate self from courier across R6515;
+  end if;
+end if;
+select one courier related by self->courier[R6518];
+if ( not_empty courier )
+  unrelate self from courier across R6518;
+end if;
+data = self.data;
+data.dispose();',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_NBATTR
+	VALUES ("8fd5f805-28ad-4f49-89d5-fba184e04a9b",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_BATTR
+	VALUES ("8fd5f805-28ad-4f49-89d5-fba184e04a9b",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_ATTR
+	VALUES ("8fd5f805-28ad-4f49-89d5-fba184e04a9b",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5",
+	"c18d82bb-51f2-400e-b152-81e0da7f2fb4",
+	'target',
+	'',
+	'',
+	'target',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d8df858e-2a05-4d88-a2e5-3a28471eb5cf",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_BATTR
+	VALUES ("d8df858e-2a05-4d88-a2e5-3a28471eb5cf",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_ATTR
+	VALUES ("d8df858e-2a05-4d88-a2e5-3a28471eb5cf",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5",
+	"8fd5f805-28ad-4f49-89d5-fba184e04a9b",
+	'origin',
+	'',
+	'',
+	'origin',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("c18d82bb-51f2-400e-b152-81e0da7f2fb4",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_BATTR
+	VALUES ("c18d82bb-51f2-400e-b152-81e0da7f2fb4",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_ATTR
+	VALUES ("c18d82bb-51f2-400e-b152-81e0da7f2fb4",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5",
+	"00000000-0000-0000-0000-000000000000",
+	'current_state',
+	'',
+	'',
+	'current_state',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000006",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("4d7f4365-590b-4875-b5e8-eeb7d414d80c",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_BATTR
+	VALUES ("4d7f4365-590b-4875-b5e8-eeb7d414d80c",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_ATTR
+	VALUES ("4d7f4365-590b-4875-b5e8-eeb7d414d80c",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5",
+	"d8df858e-2a05-4d88-a2e5-3a28471eb5cf",
+	'data',
+	'',
+	'',
+	'data',
+	0,
+	"e12f6fe5-d2f2-4c1f-92e4-d2b011ba4041",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("e12f6fe5-d2f2-4c1f-92e4-d2b011ba4041",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<raw_data>',
+	'',
+	'',
+	'../sockets.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("f53b9fc2-2d48-49e5-8fe4-42e1654db5b4",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_BATTR
+	VALUES ("f53b9fc2-2d48-49e5-8fe4-42e1654db5b4",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_ATTR
+	VALUES ("f53b9fc2-2d48-49e5-8fe4-42e1654db5b4",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5",
+	"4d7f4365-590b-4875-b5e8-eeb7d414d80c",
+	'inbound',
+	'',
+	'',
+	'inbound',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("e020be79-cca7-415c-a66d-eb46477c08c6",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_BATTR
+	VALUES ("e020be79-cca7-415c-a66d-eb46477c08c6",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_ATTR
+	VALUES ("e020be79-cca7-415c-a66d-eb46477c08c6",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5",
+	"f53b9fc2-2d48-49e5-8fe4-42e1654db5b4",
+	'initialized',
+	'',
+	'',
+	'initialized',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("4e92a933-9009-47c6-bf65-d0897556de75",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_BATTR
+	VALUES ("4e92a933-9009-47c6-bf65-d0897556de75",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_ATTR
+	VALUES ("4e92a933-9009-47c6-bf65-d0897556de75",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5",
+	"e020be79-cca7-415c-a66d-eb46477c08c6",
+	'sync_id',
+	'',
+	'',
+	'sync_id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("46ec442a-7dac-4473-98cb-ce77b58ae8a6",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_BATTR
+	VALUES ("46ec442a-7dac-4473-98cb-ce77b58ae8a6",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_ATTR
+	VALUES ("46ec442a-7dac-4473-98cb-ce77b58ae8a6",
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5",
+	"4e92a933-9009-47c6-bf65-d0897556de75",
+	'is_reply',
+	'',
+	'',
+	'is_reply',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_ID
+	VALUES (1,
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO O_ID
+	VALUES (2,
+	"3d3c9575-90f6-460b-aa94-cb89e2ec24a5");
+INSERT INTO PE_PE
+	VALUES ("3d3c9575-90f6-460b-aa94-cb89e2ec24a5",
+	1,
+	"326814d5-c8d3-4592-aa8d-14658c4f155c",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("326814d5-c8d3-4592-aa8d-14658c4f155c",
+	"00000000-0000-0000-0000-000000000000",
+	"fcc009f4-22ed-4091-b6e3-bced238b1692",
+	'sockets',
+	'',
+	0,
+	'../sockets.xtuml');
