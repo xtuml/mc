@@ -37,7 +37,7 @@ end for;
   .param string Phrase
 select many $l{From}s from instances of ${From};
 for each ${From}_Instance in $l{From}s
-.if ( ( "" != Phrase ) and ( ${From} == ${To} ) )
+.if ( "" != Phrase )
     select ${Cardinality} ${Cardinality}_${To}_Instance related by ${From}_Instance->${To}[R$t{Numb}.'${Phrase}'];
 .else
     select ${Cardinality} ${Cardinality}_${To}_Instance related by ${From}_Instance->${To}[R$t{Numb}];
@@ -92,21 +92,29 @@ end for;
     .select one source_o_obj related by r_rto->R_OIR[R203]->O_OBJ[R201]
   .end if 
   .if ( not r_part.Cond )
-    .if ( 0 == r_part.Mult )
-      .assign cardinality = "one"
-    .else
+    .if ( r_part.Mult )
       .assign cardinality = "many"
+    .else
+      .assign cardinality = "one"
     .end if
-    .invoke r = atleast_one_tmpl(source_o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, cardinality, r_part.Txt_Phrs)
+    .assign phrase = ""
+    .if ( r_part.Obj_ID == r_form.Obj_ID )
+      .assign phrase = r_part.Txt_Phrs
+    .end if
+    .invoke r = atleast_one_tmpl(source_o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, cardinality, phrase)
     .assign text = text + r.body
   .end if
   .if ( not r_form.Cond )
-    .if ( 0 == r_form.Mult )
-      .assign cardinality = "one"
-    .else
+    .if ( r_form.Mult )
       .assign cardinality = "many"
+    .else
+      .assign cardinality = "one"
     .end if
-    .invoke r = atleast_one_tmpl(target_o_obj.Key_Lett, source_o_obj.Key_Lett, r_rel.Numb, cardinality, r_form.Txt_Phrs)
+    .assign phrase = ""
+    .if ( r_part.Obj_ID == r_form.Obj_ID )
+      .assign phrase = r_form.Txt_Phrs
+    .end if
+    .invoke r = atleast_one_tmpl(target_o_obj.Key_Lett, source_o_obj.Key_Lett, r_rel.Numb, cardinality, phrase)
     .assign text = text + r.body
   .end if
 ${text}
@@ -116,24 +124,26 @@ ${text}
   .param inst_ref side
   .param inst_ref r_rel
   .param inst_ref source_o_obj
+  .param integer Mult
+  .param string phrase
   .select one r_rto related by side->R_RTO[R204]
   .select one target_o_obj related by r_rto->R_OIR[R203]->O_OBJ[R201]
   .assign text = ""
   .assign cardinality = ""
-  .if ( 0 == side.Mult )
-    .assign cardinality = "one"
-  .else
+  .if ( Mult )
     .assign cardinality = "many"
+  .else
+    .assign cardinality = "one"
   .end if
-  .invoke r = atleast_one_tmpl(target_o_obj.Key_Lett, source_o_obj.Key_Lett, r_rel.Numb, cardinality, side.Txt_Phrs)
+  .invoke r = atleast_one_tmpl(target_o_obj.Key_Lett, source_o_obj.Key_Lett, r_rel.Numb, cardinality, phrase)
   .assign text = r.body
   .if ( not side.Cond )
-    .if ( 0 == side.Mult )
-      .assign cardinality = "many"
+    .if ( Mult )
+      .assign cardinality = "one"
     .else
       .assign cardinality = "one"
     .end if
-    .invoke r = atleast_one_tmpl(source_o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, cardinality, side.Txt_Phrs)
+    .invoke r = atleast_one_tmpl(source_o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, cardinality, phrase)
     .assign text = text + r.body
   .end if
 ${text}
@@ -146,8 +156,18 @@ ${text}
   .select one source_o_obj related by r_rgo->R_OIR[R203]->O_OBJ[R201]
   .select one r_aone related by r_assoc->R_AONE[R209]
   .select one r_aoth related by r_assoc->R_AOTH[R210]
-  .invoke r1 = check_link( r_aone, r_rel, source_o_obj )
-  .invoke r2 = check_link( r_aoth, r_rel, source_o_obj )
+  .assign phrase = ""
+  .if ( r_aone.Obj_ID == r_aoth.Obj_ID )
+    .// reflexive
+    .assign phrase = r_aoth.Txt_Phrs
+  .end if
+  .invoke r1 = check_link( r_aone, r_rel, source_o_obj, r_aoth.Mult, phrase )
+  .assign phrase = ""
+  .if ( r_aoth.Obj_ID == r_aone.Obj_ID )
+    .// reflexive
+    .assign phrase = r_aone.Txt_Phrs
+  .end if
+  .invoke r2 = check_link( r_aoth, r_rel, source_o_obj, r_aone.Mult, phrase )
 ${r1.body}${r2.body}
 .end function
 .//
@@ -184,15 +204,9 @@ ${text}
   .assign prefix = ""
   .select many o_oidas related by o_id->O_OIDA[R105]
   .for each o_oida in o_oidas
-.//     clause = '(%s.%s == %s_Instance.%s)' % ('selected',
-.//                                             o_oida.localAttributeName,
-.//                                             o_obj.Key_Lett,
-.//                                             o_oida.localAttributeName)
-.//     where_clause += (prefix + clause)
-.//     prefix = ' and '
-.// 
-.// if not where_clause:
-.//     return ""
+    .assign clause = "(selected." + o_oida.localAttributeName + " == " + $l{o_obj.Key_Lett} + "." + o_oida.localAttributeName + ")"
+    .assign where_clause = where_clause + prefix + clause
+    .assign prefix = " and "
   .end for
   .invoke r = constraint_tmpl(o_obj.Key_Lett, where_clause, o_id.Oid_ID + 1)
 ${r.body}
@@ -224,8 +238,11 @@ ${r.body}
   .select many o_objs from instances of O_OBJ
   .select many o_ids related by o_objs->O_ID[R104]
   .for each o_id in o_ids
-    .invoke r = mk_unique_constraint_check(o_id)
-    .assign text = text + r.body
+    .select one o_oida related by o_id->O_OIDA[R105]
+    .if ( not_empty o_oida )
+      .invoke r = mk_unique_constraint_check(o_id)
+      .assign text = text + r.body
+    .end if
   .end for
   .//
   .assign text = ( text + "\n" ) + "return true;"
