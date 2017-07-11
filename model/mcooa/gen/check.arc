@@ -1,5 +1,6 @@
-.// Get rid of 'side'
 .// Get rid of double 'r_form'
+.// Be sure supertype does not allow more than one.
+.// Be sure we are checking atleastone on Sub/Super.
 .//
 .function constraint_tmpl .// string
   .param string key_letters
@@ -7,25 +8,26 @@
   .param integer Numb
 select many $l{key_letters}s from instances of ${key_letters};
 for each $l{key_letters} in $l{key_letters}s
-    select many duplicate_$l{key_letters}s from instances of ${key_letters} where (${Where_Clause});
-    if (cardinality duplicate_$l{key_letters}s) != 1
-        LOG::LogInfo(message: "Uniqueness violation in ${key_letters} I$t{Numb}");
-    end if;
+  select many duplicate_$l{key_letters}s from instances of ${key_letters} where (${Where_Clause});
+  if ( cardinality duplicate_$l{key_letters}s != 1 )
+    LOG::LogInfo(message: "Uniqueness violation in ${key_letters} for identifier $t{Numb}");
+    break;
+  end if;
 end for;
 .end function
 .//
 .function subtype_tmpl .// string
-  .param string From
-  .param string To
+  .param string sub
+  .param string super
   .param integer Numb
-  .param string Cardinality
-select many $l{From}s from instances of ${From};
-for each ${From}_Instance in $l{From}s
-    select ${Cardinality} ${Cardinality}_${To}_Instance related by ${From}_Instance->${To}[R$t{Numb}];
-    if empty ${Cardinality}_${To}_Instance
-        LOG::LogInfo(message: "Integrity violation in ${From}->${To}[R$t{Numb}]");
-        return False;
-    end if;
+  .param string multiplicity
+select many $l{sub}s from instances of ${sub};
+for each $l{sub} in $l{sub}s
+  select ${multiplicity} super_$l{super} related by $l{sub}->${super}[R$t{Numb}];
+  if ( empty super_$l{super} )
+    LOG::LogInfo(message: "Sub/Super integrity violation in ${sub}->${super}[R$t{Numb}]");
+    break;
+  end if;
 end for;
 .end function
 .//
@@ -33,19 +35,19 @@ end for;
   .param string From
   .param string To
   .param integer Numb
-  .param string Cardinality
-  .param string Phrase
+  .param string multiplicity
+  .param string phrase
 select many $l{From}s from instances of ${From};
-for each ${From}_Instance in $l{From}s
-.if ( "" != Phrase )
-    select ${Cardinality} ${Cardinality}_${To}_Instance related by ${From}_Instance->${To}[R$t{Numb}.'${Phrase}'];
+for each $l{From} in $l{From}s
+.if ( "" != phrase )
+  select ${multiplicity} ${multiplicity}_$l{To} related by $l{From}->${To}[R$t{Numb}.'${phrase}'];
 .else
-    select ${Cardinality} ${Cardinality}_${To}_Instance related by ${From}_Instance->${To}[R$t{Numb}];
+  select ${multiplicity} ${multiplicity}_$l{To} related by $l{From}->${To}[R$t{Numb}];
 .end if
-    if empty ${Cardinality}_${To}_Instance
-        LOG::LogInfo(message: "Integrity violation in ${From}->${To}[R$t{Numb}.'${Phrase}']");
-        return False;
-    end if;
+  if ( empty ${multiplicity}_$l{To} )
+    LOG::LogInfo(message: "Integrity violation in ${From}->${To}[R$t{Numb}.'${phrase}']");
+    break;
+  end if;
 end for;
 .end function
 .//
@@ -54,10 +56,10 @@ end for;
   .param integer Numb
   .param string Loop_Body
 select many $l{From}s from instances of ${From};
-for each ${From}_Instance in $l{From}s
-    ${Loop_Body}
-    LOG::LogInfo(message: "Integrity violation in R$t{Numb}");
-    return False;
+for each $l{From} in $l{From}s
+  ${Loop_Body}
+  LOG::LogInfo(message: "Integrity violation in R$t{Numb}");
+  break;
 end for;
 .end function
 .//
@@ -65,10 +67,26 @@ end for;
   .param string From
   .param string To
   .param integer Numb
-    select one one_${To}_Instance related by ${From}_Instance->${To}[R$t{Numb}];
-    if not_empty one_${To}_Instance
-        continue;
-    end if;
+  select one $l{To} related by $l{From}->${To}[R$t{Numb}];
+  if ( not_empty $l{To} )
+    continue;
+  end if;
+.end function
+.//
+.function in_ep_pkg .// boolean
+  .param inst_ref ep_pkg
+  .param string ep_pkg_Name
+  .assign inpkg = false
+  .if ( not_empty ep_pkg )
+    .if ( ep_pkg_Name == ep_pkg.Name )
+      .assign inpkg = true
+    .else
+      .select one ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000]
+      .invoke r = in_ep_pkg( ep_pkg, ep_pkg_Name )
+      .assign inpkg = r.result
+    .end if
+  .end if
+  .assign attr_result = inpkg
 .end function
 .//
 .function mk_simple_association_check .// string
@@ -121,12 +139,12 @@ ${text}
 .end function
 .//
 .function check_link
-  .param inst_ref side
+  .param inst_ref r_rto
   .param inst_ref r_rel
   .param inst_ref source_o_obj
+  .param integer Cond
   .param integer Mult
   .param string phrase
-  .select one r_rto related by side->R_RTO[R204]
   .select one target_o_obj related by r_rto->R_OIR[R203]->O_OBJ[R201]
   .assign text = ""
   .assign cardinality = ""
@@ -137,7 +155,7 @@ ${text}
   .end if
   .invoke r = atleast_one_tmpl(target_o_obj.Key_Lett, source_o_obj.Key_Lett, r_rel.Numb, cardinality, phrase)
   .assign text = r.body
-  .if ( not side.Cond )
+  .if ( not Cond )
     .if ( Mult )
       .assign cardinality = "one"
     .else
@@ -160,14 +178,19 @@ ${text}
   .if ( r_aone.Obj_ID == r_aoth.Obj_ID )
     .// reflexive
     .assign phrase = r_aoth.Txt_Phrs
+.print "1mk_linked ${source_o_obj.Name} ${r_rel.Numb} is reflexive} ${phrase}"
   .end if
-  .invoke r1 = check_link( r_aone, r_rel, source_o_obj, r_aoth.Mult, phrase )
+  .select one r_rto related by r_aone->R_RTO[R204]
+  .invoke r1 = check_link( r_rto, r_rel, source_o_obj, r_aoth.Cond, r_aoth.Mult, phrase )
   .assign phrase = ""
   .if ( r_aoth.Obj_ID == r_aone.Obj_ID )
     .// reflexive
     .assign phrase = r_aone.Txt_Phrs
+.print "2mk_linked ${source_o_obj.Name} ${r_rel.Numb} is reflexive} ${phrase}"
   .end if
-  .invoke r2 = check_link( r_aoth, r_rel, source_o_obj, r_aone.Mult, phrase )
+  .select one r_rto related by r_aoth->R_RTO[R204]
+  .invoke r2 = check_link( r_rto, r_rel, source_o_obj, r_aone.Cond, r_aone.Mult, phrase )
+// associative relationship R$t{r_rel.Numb}:  ${source_o_obj.Name}
 ${r1.body}${r2.body}
 .end function
 .//
@@ -192,11 +215,6 @@ ${r1.body}${r2.body}
 ${text}
 .end function
 .//
-.function mk_derived_association_check .// string
-  .param inst_ref r_comp
-
-.end function
-.//
 .function mk_unique_constraint_check .// string
   .param inst_ref o_id
   .select one o_obj related by o_id->O_OBJ[R104]
@@ -216,32 +234,42 @@ ${r.body}
   .assign text = ""
   .select many r_rels from instances of R_REL
   .for each r_rel in r_rels
-    .select one r_simp related by r_rel->R_SIMP[R206]
-    .if ( not_empty r_simp )
-      .invoke r = mk_simple_association_check( r_simp )
-      .assign text = text + r.body
-    .else
-      .select one r_assoc related by r_rel->R_ASSOC[R206]
-      .if ( not_empty r_assoc )
-        .invoke r = mk_linked_association_check( r_assoc )
+    .select one ep_pkg related by r_rel->PE_PE[R8001]->EP_PKG[R8000]
+    .invoke r = in_ep_pkg( ep_pkg, "ooaofooa" )
+    .if ( r.result )
+      .select one r_simp related by r_rel->R_SIMP[R206]
+      .if ( not_empty r_simp )
+        .invoke r = mk_simple_association_check( r_simp )
         .assign text = text + r.body
       .else
-        .select one r_subsup related by r_rel->R_SUBSUP[R206]
-        .if ( not_empty r_subsup )
-          .invoke r = mk_subsuper_association_check( r_subsup )
+        .select one r_assoc related by r_rel->R_ASSOC[R206]
+        .if ( not_empty r_assoc )
+          .invoke r = mk_linked_association_check( r_assoc )
           .assign text = text + r.body
+        .else
+          .select one r_subsup related by r_rel->R_SUBSUP[R206]
+          .if ( not_empty r_subsup )
+            .invoke r = mk_subsuper_association_check( r_subsup )
+            .assign text = text + r.body
+          .end if
         .end if
       .end if
     .end if
   .end for
   .//
   .select many o_objs from instances of O_OBJ
-  .select many o_ids related by o_objs->O_ID[R104]
-  .for each o_id in o_ids
-    .select one o_oida related by o_id->O_OIDA[R105]
-    .if ( not_empty o_oida )
-      .invoke r = mk_unique_constraint_check(o_id)
-      .assign text = text + r.body
+  .for each o_obj in o_objs
+    .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
+    .invoke r = in_ep_pkg( ep_pkg, "ooaofooa" )
+    .if ( r.result )
+      .select many o_ids related by o_obj->O_ID[R104]
+      .for each o_id in o_ids
+        .select one o_oida related by o_id->O_OIDA[R105]
+        .if ( not_empty o_oida )
+          .invoke r = mk_unique_constraint_check(o_id)
+          .assign text = text + r.body
+        .end if
+      .end for
     .end if
   .end for
   .//
