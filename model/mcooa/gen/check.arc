@@ -1,34 +1,40 @@
+.// Select R_OIRs instead of R_RELs and figure out how to avoid repeatedly selecting classes?
 .// Get rid of double 'r_form'
 .// Be sure supertype does not allow more than one.
 .// Be sure we are checking atleastone on Sub/Super.
+.//
+.function class_instance_iteration1 .// string
+  .param string key_letters
+  .param string inner_body
+select many $l{key_letters}s from instances of ${key_letters};
+for each $l{key_letters} in $l{key_letters}s
+${inner_body}\
+.end function
+.//
+.function class_instance_iteration2 .// string
+end for;
+.end function
 .//
 .function constraint_tmpl .// string
   .param string key_letters
   .param string Where_Clause
   .param integer Numb
-select many $l{key_letters}s from instances of ${key_letters};
-for each $l{key_letters} in $l{key_letters}s
   select many duplicate_$l{key_letters}s from instances of ${key_letters} where (${Where_Clause});
   if ( cardinality duplicate_$l{key_letters}s != 1 )
-    LOG::LogInfo(message: "Uniqueness violation in ${key_letters} for identifier $t{Numb}");
+    LOG::LogInfo(message: "uniqueness violation in ${key_letters} for identifier $t{Numb}");
     break;
   end if;
-end for;
 .end function
 .//
-.function subtype_tmpl .// string
+.function sub_to_super .// string
   .param string sub
   .param string super
   .param integer Numb
-  .param string multiplicity
-select many $l{sub}s from instances of ${sub};
-for each $l{sub} in $l{sub}s
-  select ${multiplicity} super_$l{super} related by $l{sub}->${super}[R$t{Numb}];
+  select one super_$l{super} related by $l{sub}->${super}[R$t{Numb}];
   if ( empty super_$l{super} )
-    LOG::LogInfo(message: "Sub/Super integrity violation in ${sub}->${super}[R$t{Numb}]");
+    LOG::LogInfo(message: "supertype not found across ${sub}->${super}[R$t{Numb}]");
     break;
   end if;
-end for;
 .end function
 .//
 .function atleast_one_tmpl .// string
@@ -55,15 +61,12 @@ end for;
   .param string From
   .param integer Numb
   .param string Loop_Body
-select many $l{From}s from instances of ${From};
-for each $l{From} in $l{From}s
-  ${Loop_Body}
-  LOG::LogInfo(message: "Integrity violation in R$t{Numb}");
+${Loop_Body}
+  LOG::LogInfo(message: "subtype not found from ${From} across R$t{Numb}");
   break;
-end for;
 .end function
 .//
-.function supertype_body_tmpl .// string
+.function super_to_sub .// string
   .param string From
   .param string To
   .param integer Numb
@@ -101,8 +104,7 @@ end for;
   .select one r_form related by r_simp->R_FORM[R208]
   .if ( not_empty r_form )
     .// formalized
-    .select one r_rgo related by r_form->R_RGO[R205]
-    .select one source_o_obj related by r_rgo->R_OIR[R203]->O_OBJ[R201]
+    .select one source_o_obj related by r_form->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
   .else
     .// not formalized
     .select one r_form related by r_simp->R_PART[R207] where ( selected != r_part )
@@ -135,6 +137,7 @@ end for;
     .invoke r = atleast_one_tmpl(target_o_obj.Key_Lett, source_o_obj.Key_Lett, r_rel.Numb, cardinality, phrase)
     .assign text = text + r.body
   .end if
+// simple association ${source_o_obj.Name}(${source_o_obj.Key_Lett}) --- R$t{r_rel.Numb} --- ${target_o_obj.Name}(${target_o_obj.Key_Lett})
 ${text}
 .end function
 .//
@@ -149,19 +152,19 @@ ${text}
   .assign text = ""
   .assign cardinality = ""
   .if ( Mult )
-    .assign cardinality = "many"
+    .assign cardinality = "one"
   .else
     .assign cardinality = "one"
   .end if
-  .invoke r = atleast_one_tmpl(target_o_obj.Key_Lett, source_o_obj.Key_Lett, r_rel.Numb, cardinality, phrase)
+  .invoke r = atleast_one_tmpl(source_o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, cardinality, phrase)
   .assign text = r.body
   .if ( not Cond )
     .if ( Mult )
-      .assign cardinality = "one"
+      .assign cardinality = "many"
     .else
       .assign cardinality = "one"
     .end if
-    .invoke r = atleast_one_tmpl(source_o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, cardinality, phrase)
+    .invoke r = atleast_one_tmpl(target_o_obj.Key_Lett, source_o_obj.Key_Lett, r_rel.Numb, cardinality, phrase)
     .assign text = text + r.body
   .end if
 ${text}
@@ -178,7 +181,6 @@ ${text}
   .if ( r_aone.Obj_ID == r_aoth.Obj_ID )
     .// reflexive
     .assign phrase = r_aoth.Txt_Phrs
-.print "1mk_linked ${source_o_obj.Name} ${r_rel.Numb} is reflexive} ${phrase}"
   .end if
   .select one r_rto related by r_aone->R_RTO[R204]
   .invoke r1 = check_link( r_rto, r_rel, source_o_obj, r_aoth.Cond, r_aoth.Mult, phrase )
@@ -186,33 +188,52 @@ ${text}
   .if ( r_aoth.Obj_ID == r_aone.Obj_ID )
     .// reflexive
     .assign phrase = r_aone.Txt_Phrs
-.print "2mk_linked ${source_o_obj.Name} ${r_rel.Numb} is reflexive} ${phrase}"
   .end if
   .select one r_rto related by r_aoth->R_RTO[R204]
   .invoke r2 = check_link( r_rto, r_rel, source_o_obj, r_aone.Cond, r_aone.Mult, phrase )
-// associative relationship R$t{r_rel.Numb}:  ${source_o_obj.Name}
+// associative relationship R$t{r_rel.Numb}:  ${source_o_obj.Name}(${source_o_obj.Key_Lett})
 ${r1.body}${r2.body}
 .end function
 .//
-.function mk_subsuper_association_check .// string
-  .param inst_ref r_subsup
-  .select one r_rel related by r_subsup->R_REL[R206]
-  .select one r_rto related by r_subsup->R_SUPER[R212]->R_RTO[R204]
-  .select one target_o_obj related by r_rto->R_OIR[R203]->O_OBJ[R201]
-  .assign text = ""
+.//
+.function supertype_participation .// string
+  .param inst_ref o_obj
   .assign loop_body = ""
-  .select many r_subs related by r_subsup->R_SUB[R213]
-  .for each r_sub in r_subs
-    .select one r_rgo related by r_sub->R_RGO[R205]
-    .select one source_o_obj related by r_rgo->R_OIR[R203]->O_OBJ[R201]
-    .invoke r = subtype_tmpl(source_o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, "one")
-    .assign text = text + r.body
-    .invoke r = supertype_body_tmpl(target_o_obj.Key_Lett, source_o_obj.Key_Lett, r_rel.Numb)
-    .assign loop_body = loop_body + r.body
+  .select many r_supers related by o_obj->R_OIR[R201]->R_RTO[R203]->R_SUPER[R204]
+  .for each r_super in r_supers
+    .select one r_subsup related by r_super->R_SUBSUP[R212]
+    .select one r_rel related by r_subsup->R_REL[R206]
+    .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
+    .invoke r = in_ep_pkg( ep_pkg, "ooaofooa" )
+    .if ( r.result )
+      .select many r_subs related by r_subsup->R_SUB[R213]
+      .for each r_sub in r_subs
+        .select one source_o_obj related by r_sub->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
+        .invoke r = super_to_sub( o_obj.Key_Lett, source_o_obj.Key_Lett, r_rel.Numb )
+        .assign loop_body = loop_body + r.body
+      .end for
+      .invoke r = supertype_loop_tmpl( o_obj.Key_Lett, r_rel.Numb, loop_body )
+  // super to sub participation R$t{r_rel.Numb}:  supertype ${o_obj.Name}(${o_obj.Key_Lett})
+${r.body}
+    .end if
   .end for
-  .invoke r = supertype_loop_tmpl(target_o_obj.Key_Lett, r_rel.Numb, loop_body)
-  .assign text = text + r.body
-${text}
+.end function
+.//
+.function subtype_participation .// string
+  .param inst_ref o_obj
+  .select many r_subs related by o_obj->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]
+  .for each r_sub in r_subs
+    .select one r_subsup related by r_sub->R_SUBSUP[R213]
+    .select one r_rel related by r_subsup->R_REL[R206]
+    .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
+    .invoke r = in_ep_pkg( ep_pkg, "ooaofooa" )
+    .if ( r.result )
+      .select one target_o_obj related by r_subsup->R_SUPER[R212]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]
+      .invoke r = sub_to_super( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb )
+  // sub to super participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${target_o_obj.Name}(${target_o_obj.Key_Lett})
+${r.body}
+    .end if
+  .end for
 .end function
 .//
 .function mk_unique_constraint_check .// string
@@ -246,22 +267,20 @@ ${r.body}
         .if ( not_empty r_assoc )
           .invoke r = mk_linked_association_check( r_assoc )
           .assign text = text + r.body
-        .else
-          .select one r_subsup related by r_rel->R_SUBSUP[R206]
-          .if ( not_empty r_subsup )
-            .invoke r = mk_subsuper_association_check( r_subsup )
-            .assign text = text + r.body
-          .end if
         .end if
       .end if
     .end if
   .end for
   .//
+  .assign text = ( text + "\n" ) + "// instance uniqueness queries\n"
   .select many o_objs from instances of O_OBJ
   .for each o_obj in o_objs
     .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
     .invoke r = in_ep_pkg( ep_pkg, "ooaofooa" )
     .if ( r.result )
+      .invoke r = class_instance_iteration1( o_obj.Key_Lett, "" )
+      .assign text = text + r.body
+      .assign text = text + "  // instance uniqueness query\n"
       .select many o_ids related by o_obj->O_ID[R104]
       .for each o_id in o_ids
         .select one o_oida related by o_id->O_OIDA[R105]
@@ -270,6 +289,14 @@ ${r.body}
           .assign text = text + r.body
         .end if
       .end for
+      .// subtype
+      .invoke r = subtype_participation( o_obj )
+      .assign text = text + r.body
+      .// supertype
+      .invoke r = supertype_participation( o_obj )
+      .assign text = text + r.body
+      .invoke r = class_instance_iteration2()
+      .assign text = text + r.body
     .end if
   .end for
   .//
