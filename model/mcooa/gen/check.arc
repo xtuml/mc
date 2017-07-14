@@ -1,5 +1,15 @@
-.// TODO - compare referential attribute values
-.// TODO - _exactly_ one subtype
+.// still a bug in aoth reference checking
+.//
+.// For each class in the model do the following:
+.//   Search for duplicate identifiers in the instance extent.
+.//   Match referential attribute values with identifier attribute values.
+.//   Find unconditional formalizer from a participant in a simple association.
+.//   Find unconditional participant from a formalizer in a simple association.
+.//   For an associator in a linked association ensure both ends have an instance.
+.//   From the one end of an associative, find the unconditional associator.
+.//   From the other end of an associative, find the unconditional associator.
+.//   For a subtype, ensure a supertype is present.
+.//   For a supertype, ensure exactly one subtype is present.
 .//
 .// Iterate over the given class.
 .function t_class_instance_iteration .// string
@@ -58,9 +68,17 @@ end for;
   .param string super
   .param integer Numb
   .param string Loop_Body
+  subtype_count = 0;
 ${Loop_Body}
-  LOG::LogInfo( message: "subtype not found from ${super} across R$t{Numb}" );
-  break;
+  if ( subtype_count < 1 )
+    LOG::LogInfo( message: "subtype not found from ${super} across R$t{Numb}" );
+    break;
+  elif ( subtype_count > 1 )
+    LOG::LogInfo( message: "more than one subtype found from ${super} across R$t{Numb}" );
+    break;
+  else
+    // nop
+  end if;
 .end function
 .//
 .// Be sure supertype is present.
@@ -82,7 +100,7 @@ ${Loop_Body}
   .param integer Numb
   select one $l{sub} related by $l{super}->${sub}[R$t{Numb}];
   if ( not_empty $l{sub} )
-    continue;
+    subtype_count = subtype_count + 1;
   end if;
 .end function
 .//
@@ -102,10 +120,10 @@ ${r.body}
 .end function
 .//
 .function compare_referentials_to_identifiers
-  .param string rto_name
   .param string rgo_name
-  .param inst_ref r_rto
+  .param string rto_name
   .param inst_ref r_rgo
+  .param inst_ref r_rto
   .//
   .assign where_clause = ""
   .assign conjunction = ""
@@ -122,7 +140,7 @@ ${r.body}
     .select one ref_o_attr related by o_ref->O_RATTR[R108]->O_ATTR[R106]
     .select one o_dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107]
     .// template here
-    .assign clause = rto_name + "." + o_attr.Name + " == " + rgo_name + "." + ref_o_attr.Name
+    .assign clause = rto_name + "." + o_oida.localAttributeName + " == " + rgo_name + "." + ref_o_attr.Name
     .assign where_clause = where_clause + conjunction + clause
     .assign conjunction = " and "
   .end for
@@ -152,7 +170,7 @@ ${where_clause}\
             .assign phrase = r_form.Txt_Phrs
           .end if
           .select one r_rto related by r_part->R_RTO[R204]
-          .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{target_o_obj.Key_Lett}, r_rto, r_rgo )
+          .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{target_o_obj.Key_Lett}, r_rgo, r_rto )
           .assign comparison = r.body
           .invoke r = t_participation( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, card, phrase, comparison )
   // participant participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${target_o_obj.Name}(${target_o_obj.Key_Lett})
@@ -176,7 +194,8 @@ ${r.body}
     .if ( r.result )
       .select one r_part related by r_simp->R_PART[R207]
       .if ( not r_part.Cond )
-        .select one target_o_obj related by r_part->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]
+        .select one r_rto related by r_part->R_RTO[R204]
+        .select one target_o_obj related by r_rto->R_OIR[R203]->O_OBJ[R201]
         .assign card = "one"
         .if ( r_part.Mult )
           .assign card = "any"
@@ -185,7 +204,10 @@ ${r.body}
         .if ( r_part.Obj_ID == r_form.Obj_ID )
           .assign phrase = r_part.Txt_Phrs
         .end if
-        .invoke r = t_participation( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, card, phrase, "" )
+        .select one r_rgo related by r_form->R_RGO[R205]
+        .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{target_o_obj.Key_Lett}, r_rgo, r_rto )
+        .assign comparison = r.body
+        .invoke r = t_participation( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, card, phrase, comparison )
   // formalizer participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${target_o_obj.Name}(${target_o_obj.Key_Lett})
 ${r.body}
       .end if
@@ -204,20 +226,27 @@ ${r.body}
     .if ( r.result )
       .select one r_aone related by r_assoc->R_AONE[R209]
       .select one r_aoth related by r_assoc->R_AOTH[R210]
-      .select one aone_o_obj related by r_aone->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]
-      .select one aoth_o_obj related by r_aoth->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]
+      .select one aone_r_rto related by r_aone->R_RTO[R204]
+      .select one aone_o_obj related by aone_r_rto->R_OIR[R203]->O_OBJ[R201]
+      .select one aoth_r_rto related by r_aoth->R_RTO[R204]
+      .select one aoth_o_obj related by aoth_r_rto->R_OIR[R203]->O_OBJ[R201]
       .assign phrase = ""
       .if ( r_aone.Obj_ID == r_aoth.Obj_ID )
         .assign phrase = r_aone.Txt_Phrs
       .end if
-      .invoke r = t_participation( o_obj.Key_Lett, aone_o_obj.Key_Lett, r_rel.Numb, "one", phrase, "" )
+      .select one r_rgo related by r_assr->R_RGO[R205]
+      .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{aone_o_obj.Key_Lett}, r_rgo, aone_r_rto )
+      .assign comparison = r.body
+      .invoke r = t_participation( o_obj.Key_Lett, aone_o_obj.Key_Lett, r_rel.Numb, "one", phrase, comparison )
   // associator one participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${aone_o_obj.Name}(${aone_o_obj.Key_Lett})
 ${r.body}
       .assign phrase = ""
       .if ( r_aone.Obj_ID == r_aoth.Obj_ID )
         .assign phrase = r_aoth.Txt_Phrs
       .end if
-      .invoke r = t_participation( o_obj.Key_Lett, aoth_o_obj.Key_Lett, r_rel.Numb, "one", phrase, "" )
+      .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{aoth_o_obj.Key_Lett}, r_rgo, aoth_r_rto )
+      .assign comparison = r.body
+      .invoke r = t_participation( o_obj.Key_Lett, aoth_o_obj.Key_Lett, r_rel.Numb, "one", phrase, comparison )
   // associator other participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${aoth_o_obj.Name}(${aoth_o_obj.Key_Lett})
 ${r.body}
     .end if
@@ -235,7 +264,8 @@ ${r.body}
     .if ( r.result )
       .select one r_aoth related by r_assoc->R_AOTH[R210]
       .if ( not r_aoth.Cond )
-        .select one target_o_obj related by r_assoc->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
+        .select one r_rgo related by r_assoc->R_ASSR[R211]->R_RGO[R205]
+        .select one target_o_obj related by r_rgo->R_OIR[R203]->O_OBJ[R201]
         .assign phrase = ""
         .if ( r_aone.Obj_ID == r_aoth.Obj_ID )
           .assign phrase = r_aoth.Txt_Phrs
@@ -244,7 +274,10 @@ ${r.body}
         .if ( r_aoth.Mult )
           .assign card = "any"
         .end if
-        .invoke r = t_participation( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, card, phrase, "" )
+        .select one r_rto related by r_aone->R_RTO[R204]
+        .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{target_o_obj.Key_Lett}, r_rgo, r_rto )
+        .assign comparison = r.body
+        .invoke r = t_participation( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, card, phrase, comparison )
   // aone participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${target_o_obj.Name}(${target_o_obj.Key_Lett})
 ${r.body}
       .end if
@@ -263,7 +296,8 @@ ${r.body}
     .if ( r.result )
       .select one r_aone related by r_assoc->R_AONE[R209]
       .if ( not r_aone.Cond )
-        .select one target_o_obj related by r_assoc->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
+        .select one r_rgo related by r_assoc->R_ASSR[R211]->R_RGO[R205]
+        .select one target_o_obj related by r_rgo->R_OIR[R203]->O_OBJ[R201]
         .assign phrase = ""
         .if ( r_aone.Obj_ID == r_aoth.Obj_ID )
           .assign phrase = r_aone.Txt_Phrs
@@ -272,7 +306,10 @@ ${r.body}
         .if ( r_aone.Mult )
           .assign card = "any"
         .end if
-        .invoke r = t_participation( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, card, phrase, "" )
+        .select one r_rto related by r_aoth->R_RTO[R204]
+        .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{target_o_obj.Key_Lett}, r_rgo, r_rto )
+        .assign comparison = r.body
+        .invoke r = t_participation( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, card, phrase, comparison )
   // aoth participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${target_o_obj.Name}(${target_o_obj.Key_Lett})
 ${r.body}
       .end if
