@@ -1,5 +1,3 @@
-.// still a bug in aoth reference checking
-.//
 .// For each class in the model do the following:
 .//   Search for duplicate identifiers in the instance extent.
 .//   Match referential attribute values with identifier attribute values.
@@ -15,8 +13,18 @@
 .function t_class_instance_iteration .// string
   .param string key_letters
   .param string inner_body
+  .param string trace_attribute
+  .param string name
 select many $l{key_letters}s from instances of ${key_letters};
 for each $l{key_letters} in $l{key_letters}s
+  .if ( "" == trace_attribute )
+  trace = "";
+  .else
+  trace = "${trace_attribute} " + STRING::itoa( i:T::idtoi( id:$l{key_letters}.${trace_attribute} ) );
+  .end if
+  .if ( "" != name )
+  trace = trace + " " + $l{key_letters}.${name};
+  .end if
 ${inner_body}
 end for;
 .end function
@@ -28,7 +36,7 @@ end for;
   .param integer Numb
   select many duplicate_$l{key_letters}s from instances of ${key_letters} where ( ${where_clause} );
   if ( cardinality duplicate_$l{key_letters}s != 1 )
-    LOG::LogInfo( message: "uniqueness violation in ${key_letters} for identifier $t{Numb}" );
+    LOG::LogInfo( message: "uniqueness violation in ${key_letters} for identifier $t{Numb}:  " + trace );
     break;
   end if;
 .end function
@@ -48,15 +56,15 @@ end for;
   .end if
   if ( empty $l{right_side} )
   .if ( "" != phrase )
-    LOG::LogInfo( message: "instance not found ${left_side}->${right_side}[R$t{Numb}.'${phrase}']" );
+    LOG::LogInfo( message: "instance not found ${left_side}->${right_side}[R$t{Numb}.'${phrase}']:  " + trace );
   .else
-    LOG::LogInfo( message: "instance not found ${left_side}->${right_side}[R$t{Numb}]" );
+    LOG::LogInfo( message: "instance not found ${left_side}->${right_side}[R$t{Numb}]:  " + trace );
   .end if
     break;
   .if ( "" != attribute_comparison )
   else
     if ( not ( ${attribute_comparison} ) )
-      LOG::LogInfo( message: "referentials do not match identifiers between ${left_side} and ${right_side}" );
+      LOG::LogInfo( message: "referentials do not match identifiers between ${left_side} and ${right_side}:  " + trace );
       break;
     end if;
   .end if
@@ -71,10 +79,10 @@ end for;
   subtype_count = 0;
 ${Loop_Body}
   if ( subtype_count < 1 )
-    LOG::LogInfo( message: "subtype not found from ${super} across R$t{Numb}" );
+    LOG::LogInfo( message: "subtype not found from ${super} across R$t{Numb}:  " + trace );
     break;
   elif ( subtype_count > 1 )
-    LOG::LogInfo( message: "more than one subtype found from ${super} across R$t{Numb}" );
+    LOG::LogInfo( message: "more than one subtype found from ${super} across R$t{Numb}:  " + trace );
     break;
   else
     // nop
@@ -88,7 +96,7 @@ ${Loop_Body}
   .param integer Numb
   select one $l{super} related by $l{sub}->${super}[R$t{Numb}];
   if ( empty $l{super} )
-    LOG::LogInfo( message: "supertype not found across ${sub}->${super}[R$t{Numb}]" );
+    LOG::LogInfo( message: "supertype not found across ${sub}->${super}[R$t{Numb}]:" + trace );
     break;
   end if;
 .end function
@@ -275,7 +283,7 @@ ${r.body}
           .assign card = "any"
         .end if
         .select one r_rto related by r_aone->R_RTO[R204]
-        .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{target_o_obj.Key_Lett}, r_rgo, r_rto )
+        .invoke r = compare_referentials_to_identifiers( $l{target_o_obj.Key_Lett}, $l{o_obj.Key_Lett}, r_rgo, r_rto )
         .assign comparison = r.body
         .invoke r = t_participation( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, card, phrase, comparison )
   // aone participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${target_o_obj.Name}(${target_o_obj.Key_Lett})
@@ -307,7 +315,7 @@ ${r.body}
           .assign card = "any"
         .end if
         .select one r_rto related by r_aoth->R_RTO[R204]
-        .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{target_o_obj.Key_Lett}, r_rgo, r_rto )
+        .invoke r = compare_referentials_to_identifiers( $l{target_o_obj.Key_Lett}, $l{o_obj.Key_Lett}, r_rgo, r_rto )
         .assign comparison = r.body
         .invoke r = t_participation( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, card, phrase, comparison )
   // aoth participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${target_o_obj.Name}(${target_o_obj.Key_Lett})
@@ -319,9 +327,9 @@ ${r.body}
 .//
 .function supertype_participation .// string
   .param inst_ref o_obj
-  .assign loop_body = ""
   .select many r_supers related by o_obj->R_OIR[R201]->R_RTO[R203]->R_SUPER[R204]
   .for each r_super in r_supers
+    .assign loop_body = ""
     .select one r_subsup related by r_super->R_SUBSUP[R212]
     .select one r_rel related by r_subsup->R_REL[R206]
     .select one ep_pkg related by r_rel->PE_PE[R8001]->EP_PKG[R8000]
@@ -387,6 +395,8 @@ ${r.body}
 // Show only the first violation of any particular rule in each extent.
   .select many o_objs from instances of O_OBJ
   .for each o_obj in o_objs
+    .assign trace_attribute = ""
+    .assign name = ""
     .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
     .invoke r = in_ep_pkg( ep_pkg, "ooaofooa" )
     .if ( r.result )
@@ -397,8 +407,24 @@ ${r.body}
         .if ( not_empty o_oida )
           .invoke r = instance_uniqueness( o_id )
           .assign text = text + r.body
+          .// Find an identifying attribute to use to provide the user some way
+          .// to locate the erroneous element.
+          .select one s_dt related by o_oida->O_ATTR[R105]->S_DT[R114] where ( selected.Name == "unique_id" )
+          .if ( not_empty s_dt )
+            .assign trace_attribute = o_oida.localAttributeName
+          .else
+            .select one s_dt related by o_oida->O_ATTR[R105]->O_RATTR[R106]->O_BATTR[R113]->O_ATTR[R106]->S_DT[R114] where ( selected.Name == "unique_id" )
+            .if ( not_empty s_dt )
+              .assign trace_attribute = o_oida.localAttributeName
+            .end if
+          .end if
         .end if
       .end for
+      .// If class has an attribute named "Name", use it for tracing purposes.
+      .select any o_attr related by o_obj->O_ATTR[R102] where ( selected.Root_Nam == "Name" )
+      .if ( not_empty o_attr )
+        .assign name = o_attr.Root_Nam
+      .end if
       .// participant
       .invoke r = participant_participation( o_obj )
       .assign text = text + r.body
@@ -421,7 +447,7 @@ ${r.body}
       .invoke r = supertype_participation( o_obj )
       .assign text = text + r.body
       .// iterate
-      .invoke r = t_class_instance_iteration( o_obj.Key_Lett, text )
+      .invoke r = t_class_instance_iteration( o_obj.Key_Lett, text, trace_attribute, name )
 ${r.body}
     .end if
   .end for
