@@ -1,0 +1,46 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("7a3dbf38-0566-4178-845a-85477c443a10",
+	"ac72a1fd-c7b6-4d22-bf49-996f2af2ffad",
+	"ac72a1fd-c7b6-4d22-bf49-996f2af2ffad",
+	'sysintegrity',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("075dcf46-43a5-4c35-a456-dc2fdabe9f32",
+	112,
+	"7a3dbf38-0566-4178-845a-85477c443a10",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'integrity::sysintegrity');
+INSERT INTO DIM_DIA
+	VALUES ("075dcf46-43a5-4c35-a456-dc2fdabe9f32",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("7a3dbf38-0566-4178-845a-85477c443a10",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO S_SYS_PROXY
+	VALUES ("ac72a1fd-c7b6-4d22-bf49-996f2af2ffad",
+	'integrity',
+	1,
+	'../integrity.xtuml');
