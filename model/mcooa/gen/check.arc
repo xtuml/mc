@@ -17,16 +17,20 @@
   .param string name
 select many $l{key_letters}s from instances of ${key_letters};
 for each $l{key_letters} in $l{key_letters}s
+  instance_count = instance_count + 1;
   .if ( "" == trace_attribute )
   trace = "";
   .else
-  trace = "${trace_attribute} " + STRING::itoa( i:T::idtoi( id:$l{key_letters}.${trace_attribute} ) );
-  .end if
-  .if ( "" != name )
-  trace = trace + " " + $l{key_letters}.${name};
+  trace = ::check_trace( trace_attribute:"${trace_attribute}", trace_id:$l{key_letters}.${trace_attribute}, name:\
+    .if ( "" == name )
+"" );
+    .else
+$l{key_letters}.${name} );
+    .end if
   .end if
 ${inner_body}
 end for;
+::check_log( message:"done" );
 .end function
 .//
 .// Ensure no duplicate instance identifiers.
@@ -36,7 +40,7 @@ end for;
   .param integer Numb
   select many duplicate_$l{key_letters}s from instances of ${key_letters} where ( ${where_clause} );
   if ( cardinality duplicate_$l{key_letters}s != 1 )
-    LOG::LogInfo( message: "uniqueness violation in ${key_letters} for identifier $t{Numb}:  " + trace );
+    ::check_log( message: "uniqueness violation in ${key_letters} for identifier $t{Numb}", trace:trace );
     break;
   end if;
 .end function
@@ -49,22 +53,26 @@ end for;
   .param string multiplicity
   .param string phrase
   .param string attribute_comparison
-  .if ( "" != phrase )
-  select ${multiplicity} $l{right_side} related by $l{left_side}->${right_side}[R$t{Numb}.'${phrase}'];
-  .else
+  .assign right = ""
+  .if ( "" == phrase )
   select ${multiplicity} $l{right_side} related by $l{left_side}->${right_side}[R$t{Numb}];
-  .end if
-  if ( empty $l{right_side} )
-  .if ( "" != phrase )
-    LOG::LogInfo( message: "instance not found ${left_side}->${right_side}[R$t{Numb}.'${phrase}']:  " + trace );
   .else
-    LOG::LogInfo( message: "instance not found ${left_side}->${right_side}[R$t{Numb}]:  " + trace );
+    .if ( left_side == right_side )
+      .assign right = "right_"
+    .end if
+  select ${multiplicity} ${right}$l{right_side} related by $l{left_side}->${right_side}[R$t{Numb}.'${phrase}'];
+  .end if
+  if ( empty ${right}$l{right_side} )
+  .if ( "" != phrase )
+    ::check_log( message: "instance not found ${left_side}->${right_side}[R$t{Numb}.'${phrase}']", trace:trace );
+  .else
+    ::check_log( message: "instance not found ${left_side}->${right_side}[R$t{Numb}]", trace:trace );
   .end if
     break;
   .if ( "" != attribute_comparison )
   else
     if ( not ( ${attribute_comparison} ) )
-      LOG::LogInfo( message: "referentials do not match identifiers between ${left_side} and ${right_side}:  " + trace );
+      ::check_log( message: "referentials do not match identifiers between ${left_side} and ${right_side}", trace:trace );
       break;
     end if;
   .end if
@@ -79,10 +87,10 @@ end for;
   subtype_count = 0;
 ${Loop_Body}
   if ( subtype_count < 1 )
-    LOG::LogInfo( message: "subtype not found from ${super} across R$t{Numb}:  " + trace );
+    ::check_log( message: "subtype not found from ${super} across R$t{Numb}", trace:trace );
     break;
   elif ( subtype_count > 1 )
-    LOG::LogInfo( message: "more than one subtype found from ${super} across R$t{Numb}:  " + trace );
+    ::check_log( message: "more than one subtype found from ${super} across R$t{Numb}", trace:trace );
     break;
   else
     // nop
@@ -96,7 +104,7 @@ ${Loop_Body}
   .param integer Numb
   select one $l{super} related by $l{sub}->${super}[R$t{Numb}];
   if ( empty $l{super} )
-    LOG::LogInfo( message: "supertype not found across ${sub}->${super}[R$t{Numb}]:  " + trace );
+    ::check_log( message: "supertype not found across ${sub}->${super}[R$t{Numb}]", trace:trace );
     break;
   end if;
 .end function
@@ -136,6 +144,10 @@ ${r.body}
   .assign where_clause = ""
   .assign conjunction = ""
   .assign referential_attribute = ""
+  .// Deal with reflexive names.
+  .if ( rgo_name == rto_name )
+    .assign rto_name = "right_" + rto_name
+  .end if
   .select many o_oidas related by r_rto->O_ID[R109]->O_OIDA[R105]
   .for each o_oida in o_oidas
     .// Get the identifying attribute corresponding to this <o_oida> instance.
@@ -150,7 +162,12 @@ ${r.body}
     .select one o_dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107]
     .select one s_dt related by ref_o_attr->O_RATTR[R106]->O_BATTR[R113]->O_ATTR[R106]->S_DT[R114] where ( selected.Name == "unique_id" )
     .if ( not_empty s_dt )
-      .assign referential_attribute = ref_o_attr.Name
+      .select many o_refs related by ref_o_attr->O_RATTR[R106]->O_REF[R108]
+      .assign n = cardinality o_refs
+      .if ( 1 == n )
+        .// Do not attempty with combined referential.
+        .assign referential_attribute = ref_o_attr.Name
+      .end if
     .end if
     .assign clause = rto_name + "." + o_oida.localAttributeName + " == " + rgo_name + "." + ref_o_attr.Name
     .assign where_clause = where_clause + conjunction + clause
@@ -224,9 +241,11 @@ ${r.body}
   // formalizer participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${target_o_obj.Name}(${target_o_obj.Key_Lett})
       .if ( r_part.Cond and ( "" != referential_attribute ) )
   // checking conditional link only if referential attribute is non-null
-  if ( 0 != T::idtoi( id:$l{o_obj.Key_Lett}.${referential_attribute} ) )
+  if ( ::non_null_id( id:$l{o_obj.Key_Lett}.${referential_attribute} ) )
       .end if
+      .if ( ( not r_part.Cond ) or ( "" != referential_attribute ) )
 ${r.body}
+      .end if
       .if ( r_part.Cond and ( "" != referential_attribute ) )
   end if;
       .end if
@@ -261,9 +280,11 @@ ${r.body}
   // associator one participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${aone_o_obj.Name}(${aone_o_obj.Key_Lett})
       .if ( r_aone.Cond and ( "" != referential_attribute ) )
   // checking conditional link only if referential attribute is non-null
-  if ( 0 != T::idtoi( id:$l{o_obj.Key_Lett}.${referential_attribute} ) )
+  if ( ::non_null_id( id:$l{o_obj.Key_Lett}.${referential_attribute} ) )
       .end if
+      .if ( ( not r_aone.Cond ) or ( "" != referential_attribute ) )
 ${r.body}
+      .end if
       .if ( r_aone.Cond and ( "" != referential_attribute ) )
   end if;
       .end if
@@ -278,9 +299,11 @@ ${r.body}
   // associator other participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${aoth_o_obj.Name}(${aoth_o_obj.Key_Lett})
       .if ( r_aoth.Cond and ( "" != referential_attribute ) )
   // checking conditional link only if referential attribute is non-null
-  if ( 0 != T::idtoi( id:$l{o_obj.Key_Lett}.${referential_attribute} ) )
+  if ( ::non_null_id( id:$l{o_obj.Key_Lett}.${referential_attribute} ) )
       .end if
+      .if ( ( not r_aone.Cond ) or ( "" != referential_attribute ) )
 ${r.body}
+      .end if
       .if ( r_aoth.Cond and ( "" != referential_attribute ) )
   end if;
       .end if
@@ -427,6 +450,10 @@ ${r.body}
 //   For a subtype, be sure a supertype is present.
 //   For a supertype, be sure exactly one subtype is present.
 // Show only the first violation of any particular rule in each extent.
+instance_count = 0;
+check_count = 0;
+subtype_count = 0;
+trace = "";
   .select many o_objs from instances of O_OBJ
   .for each o_obj in o_objs
     .assign trace_attribute = ""
