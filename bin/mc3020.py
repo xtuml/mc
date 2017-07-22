@@ -11,8 +11,8 @@ import logging
 import sys
 import os
 
-# use pyxtuml and pyrsl bundled in gen_erate.pyz
-sys.path.append(os.path.dirname(__file__) + '/gen_erate.pyz') 
+# use ply, pyxtuml and pyrsl bundled in gen_erate.pyz
+sys.path.insert(0, os.path.dirname(__file__) + '/gen_erate.pyz') 
 
 import xtuml
 import rsl
