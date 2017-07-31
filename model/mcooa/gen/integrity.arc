@@ -30,7 +30,6 @@ $l{key_letters}.${name} );
   .end if
 ${inner_body}
 end for;
-::check_log( message:"done" );
 .end function
 .//
 .// Ensure no duplicate instance identifiers.
@@ -43,6 +42,7 @@ end for;
     ::check_log( message: "uniqueness violation in ${key_letters} for identifier $t{Numb}", trace:trace );
     break;
   end if;
+  check_count = check_count + 1;
 .end function
 .//
 .// Select across link to required instance.
@@ -77,6 +77,7 @@ end for;
     end if;
   .end if
   end if;
+  check_count = check_count + 1;
 .end function
 .//
 .// Loop through looking for a subtype.
@@ -95,6 +96,7 @@ ${Loop_Body}
   else
     // nop
   end if;
+  check_count = check_count + 1;
 .end function
 .//
 .// Be sure supertype is present.
@@ -118,6 +120,7 @@ ${Loop_Body}
   if ( not_empty $l{sub} )
     subtype_count = subtype_count + 1;
   end if;
+  check_count = check_count + 1;
 .end function
 .//
 .function instance_uniqueness .// string
@@ -142,8 +145,9 @@ ${r.body}
   .param inst_ref r_rto
   .//
   .assign where_clause = ""
+  .assign null_where_clause = ""
   .assign conjunction = ""
-  .assign referential_attribute = ""
+  .assign null_conjunction = ""
   .// Deal with reflexive names.
   .if ( rgo_name == rto_name )
     .assign rto_name = "right_" + rto_name
@@ -165,15 +169,17 @@ ${r.body}
       .select many o_refs related by ref_o_attr->O_RATTR[R106]->O_REF[R108]
       .assign n = cardinality o_refs
       .if ( 1 == n )
-        .// Do not attempty with combined referential.
-        .assign referential_attribute = ref_o_attr.Name
+        .// Do not attempt with combined referential.
+        .assign null_clause = "::is_null_id( id:" + rgo_name + "." + ref_o_attr.Name + " )"
+        .assign null_where_clause = null_where_clause + null_conjunction + null_clause
+        .assign null_conjunction = " and "
       .end if
     .end if
     .assign clause = rto_name + "." + o_oida.localAttributeName + " == " + rgo_name + "." + ref_o_attr.Name
     .assign where_clause = where_clause + conjunction + clause
     .assign conjunction = " and "
   .end for
-  .assign attr_result = referential_attribute
+  .assign attr_null_where_clause = null_where_clause
 ${where_clause}\
 .end function
 .//
@@ -236,17 +242,17 @@ ${r.body}
       .select one r_rgo related by r_form->R_RGO[R205]
       .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{target_o_obj.Key_Lett}, r_rgo, r_rto )
       .assign comparison = r.body
-      .assign referential_attribute = r.result
+      .assign null_where_clause = r.result
       .invoke r = t_participation( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, card, phrase, comparison )
   // formalizer participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${target_o_obj.Name}(${target_o_obj.Key_Lett})
-      .if ( r_part.Cond and ( "" != referential_attribute ) )
+      .if ( r_part.Cond and ( "" != null_where_clause ) )
   // checking conditional link only if referential attribute is non-null
-  if ( ::non_null_id( id:$l{o_obj.Key_Lett}.${referential_attribute} ) )
+  if ( not ( ${null_where_clause} ) )
       .end if
-      .if ( ( not r_part.Cond ) or ( "" != referential_attribute ) )
+      .if ( ( not r_part.Cond ) or ( "" != null_where_clause ) )
 ${r.body}
       .end if
-      .if ( r_part.Cond and ( "" != referential_attribute ) )
+      .if ( r_part.Cond and ( "" != null_where_clause ) )
   end if;
       .end if
     .end if
@@ -275,17 +281,17 @@ ${r.body}
       .select one r_rgo related by r_assr->R_RGO[R205]
       .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{aone_o_obj.Key_Lett}, r_rgo, aone_r_rto )
       .assign comparison = r.body
-      .assign referential_attribute = r.result
+      .assign null_where_clause = r.result
       .invoke r = t_participation( o_obj.Key_Lett, aone_o_obj.Key_Lett, r_rel.Numb, "one", phrase, comparison )
   // associator one participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${aone_o_obj.Name}(${aone_o_obj.Key_Lett})
-      .if ( r_aone.Cond and ( "" != referential_attribute ) )
+      .if ( r_aone.Cond and ( "" != null_where_clause ) )
   // checking conditional link only if referential attribute is non-null
-  if ( ::non_null_id( id:$l{o_obj.Key_Lett}.${referential_attribute} ) )
+  if ( not ( ${null_where_clause} ) )
       .end if
-      .if ( ( not r_aone.Cond ) or ( "" != referential_attribute ) )
+      .if ( ( not r_aone.Cond ) or ( "" != null_where_clause ) )
 ${r.body}
       .end if
-      .if ( r_aone.Cond and ( "" != referential_attribute ) )
+      .if ( r_aone.Cond and ( "" != null_where_clause ) )
   end if;
       .end if
       .assign phrase = ""
@@ -294,17 +300,17 @@ ${r.body}
       .end if
       .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{aoth_o_obj.Key_Lett}, r_rgo, aoth_r_rto )
       .assign comparison = r.body
-      .assign referential_attribute = r.result
+      .assign null_where_clause = r.result
       .invoke r = t_participation( o_obj.Key_Lett, aoth_o_obj.Key_Lett, r_rel.Numb, "one", phrase, comparison )
   // associator other participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${aoth_o_obj.Name}(${aoth_o_obj.Key_Lett})
-      .if ( r_aoth.Cond and ( "" != referential_attribute ) )
+      .if ( r_aoth.Cond and ( "" != null_where_clause ) )
   // checking conditional link only if referential attribute is non-null
-  if ( ::non_null_id( id:$l{o_obj.Key_Lett}.${referential_attribute} ) )
+  if ( not ( ${null_where_clause} ) )
       .end if
-      .if ( ( not r_aone.Cond ) or ( "" != referential_attribute ) )
+      .if ( ( not r_aone.Cond ) or ( "" != null_where_clause ) )
 ${r.body}
       .end if
-      .if ( r_aoth.Cond and ( "" != referential_attribute ) )
+      .if ( r_aoth.Cond and ( "" != null_where_clause ) )
   end if;
       .end if
     .end if
@@ -512,6 +518,8 @@ trace = "";
 ${r.body}
     .end if
   .end for
+::check_log_integer( message:"instances checked:  ", i:instance_count );
+::check_log_integer( message:"checks made:  ", i:check_count );
   .//
 .end function
 .//
