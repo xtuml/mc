@@ -48,7 +48,7 @@ void
 UserPreOoaInitializationCalloutf( c_t * argv0 )
 {
   /* Insert implementation specific code here.  */
-  static char * a[2] = { "UserPostOoaInitializationCalloutf", "a.xtuml" };
+  static char * a[2] = { "", "" };
   Escher_xtUML_load( 2, a );
   integrity_check_referential_integrity();
 }
