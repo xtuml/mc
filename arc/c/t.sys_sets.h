@@ -59,6 +59,7 @@ typedef struct {
 .end if
 } ${te_extent.type};
 
+#define $u{te_prefix.type}GET_BITS(v,b,m) (b < sizeof(v)*8 ? (m & (v >> b)) : 0)
 ${te_prefix.type}UniqueID_t ${te_prefix.type}ID_factory( void );
 ${te_prefix.type}UniqueID_t ${te_prefix.type}ID_deserialize( const c_t * );
 void ${te_set.factory}( const i_t );
