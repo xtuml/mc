@@ -1116,11 +1116,9 @@ sub xtuml_integrity
     exit 1;
   }
 
-  print STDERR "Beginning referential integrity check...\n";
-
   # Get the global native types.
   if ( !$skip_globals ) {
-    push @inputs, glob("$mc_bin_dir\/..\/..\/..\/plugins\/org.xtuml.bp.pkg\*\/globals\/Globals\.xtuml");
+    push @inputs, glob("$mc_bin_dir/../../../plugins/org.xtuml.bp.pkg*/globals/Globals.xtuml");
   }
 
   # Accumulate model data.
@@ -1147,8 +1145,6 @@ sub xtuml_integrity
   if ( $delete_model_file ) {
     xtumlmc_rm( $model_file );
   }
-
-  print STDERR "Done with referential integrity check.\n";
 }
 
 #---------------------------------------------------------------------------
