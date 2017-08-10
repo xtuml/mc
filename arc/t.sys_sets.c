@@ -25,6 +25,43 @@ ${te_prefix.type}ID_factory( void )
 }
 
 /*
+ * Deserialize a GUID into a unique integer ID.
+ */
+${te_prefix.type}UniqueID_t
+${te_prefix.type}ID_deserialize( const c_t * s )
+{
+  u1_t b;
+  ${te_prefix.type}UniqueID_t v = 0;
+
+  while(*s) {
+    b = *s++;
+
+    switch(b) {
+    case '0'...'9':
+      b -= '0';
+      break;
+
+    case 'a'...'f':
+      b -= 'a';
+      b += 10;
+      break;
+
+    case 'A'...'F':
+      b -= 'A';
+      b += 10;
+    break;
+
+    default:
+      continue;
+    }
+    v = (v << 4) | (b & 0xF);
+  }
+
+  return v;
+}
+
+
+/*
  * Detect empty handles in expressions.
  */
 void * xtUML_detect_empty_handle( void * h, const char * s1, const char * s2 )
