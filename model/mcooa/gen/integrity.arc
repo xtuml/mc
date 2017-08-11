@@ -40,7 +40,10 @@ end for;
   select many duplicate_$l{key_letters}s from instances of ${key_letters} where ( ${where_clause} );
   if ( cardinality duplicate_$l{key_letters}s != 1 )
     ::check_log( message: "uniqueness violation in ${key_letters} for identifier $t{Numb}", trace:trace );
-    break;
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
   end if;
   check_count = check_count + 1;
 .end function
@@ -64,16 +67,22 @@ end for;
   .end if
   if ( empty ${right}$l{right_side} )
   .if ( "" != phrase )
-    ::check_log( message: "instance not found ${left_side}->${right_side}[R$t{Numb}.'${phrase}']", trace:trace );
+    ::check_log( message: "${multiplicity} instance not found ${left_side}->${right_side}[R$t{Numb}.'${phrase}']", trace:trace );
   .else
-    ::check_log( message: "instance not found ${left_side}->${right_side}[R$t{Numb}]", trace:trace );
+    ::check_log( message: "${multiplicity} instance not found ${left_side}->${right_side}[R$t{Numb}]", trace:trace );
   .end if
-    break;
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
   .if ( "" != attribute_comparison )
   else
     if ( not ( ${attribute_comparison} ) )
       ::check_log( message: "referentials do not match identifiers between ${left_side} and ${right_side}", trace:trace );
-      break;
+      local_error_count = local_error_count + 1;
+      if ( 10 < local_error_count )
+        break;
+      end if;
     end if;
   .end if
   end if;
@@ -89,10 +98,16 @@ end for;
 ${Loop_Body}
   if ( subtype_count < 1 )
     ::check_log( message: "subtype not found from ${super} across R$t{Numb}", trace:trace );
-    break;
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
   elif ( subtype_count > 1 )
     ::check_log( message: "more than one subtype found from ${super} across R$t{Numb}", trace:trace );
-    break;
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
   else
     // nop
   end if;
@@ -107,7 +122,19 @@ ${Loop_Body}
   select one $l{super} related by $l{sub}->${super}[R$t{Numb}];
   if ( empty $l{super} )
     ::check_log( message: "supertype not found across ${sub}->${super}[R$t{Numb}]", trace:trace );
-    break;
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  else
+    select one myself_$l{sub} related by $l{super}->${sub}[R$t{Numb}];
+    if ( empty myself_$l{sub} or ( myself_$l{sub} != $l{sub} ) )
+      ::check_log( message: "same subtype not found looping back across ${sub}->${super}[R$t{Numb}]->${sub}[R$t{Numb}]", trace:trace );
+      local_error_count = local_error_count + 1;
+      if ( 10 < local_error_count )
+        break;
+      end if;
+    end if;
   end if;
 .end function
 .//
@@ -242,7 +269,7 @@ ${r.body}
       .select one r_rgo related by r_form->R_RGO[R205]
       .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{target_o_obj.Key_Lett}, r_rgo, r_rto )
       .assign comparison = r.body
-      .assign null_where_clause = r.result
+      .assign null_where_clause = r.null_where_clause
       .invoke r = t_participation( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, card, phrase, comparison )
   // formalizer participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${target_o_obj.Name}(${target_o_obj.Key_Lett})
       .if ( r_part.Cond and ( "" != null_where_clause ) )
@@ -281,7 +308,7 @@ ${r.body}
       .select one r_rgo related by r_assr->R_RGO[R205]
       .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{aone_o_obj.Key_Lett}, r_rgo, aone_r_rto )
       .assign comparison = r.body
-      .assign null_where_clause = r.result
+      .assign null_where_clause = r.null_where_clause
       .invoke r = t_participation( o_obj.Key_Lett, aone_o_obj.Key_Lett, r_rel.Numb, "one", phrase, comparison )
   // associator one participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${aone_o_obj.Name}(${aone_o_obj.Key_Lett})
       .if ( r_aone.Cond and ( "" != null_where_clause ) )
@@ -300,7 +327,7 @@ ${r.body}
       .end if
       .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{aoth_o_obj.Key_Lett}, r_rgo, aoth_r_rto )
       .assign comparison = r.body
-      .assign null_where_clause = r.result
+      .assign null_where_clause = r.null_where_clause
       .invoke r = t_participation( o_obj.Key_Lett, aoth_o_obj.Key_Lett, r_rel.Numb, "one", phrase, comparison )
   // associator other participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${aoth_o_obj.Name}(${aoth_o_obj.Key_Lett})
       .if ( r_aoth.Cond and ( "" != null_where_clause ) )
@@ -458,6 +485,7 @@ ${r.body}
 // Show only the first violation of any particular rule in each extent.
 instance_count = 0;
 check_count = 0;
+total_error_count = 0;
 subtype_count = 0;
 trace = "";
   .select many o_objs from instances of O_OBJ
@@ -515,11 +543,14 @@ trace = "";
       .assign text = text + r.body
       .// iterate
       .invoke r = t_class_instance_iteration( o_obj.Key_Lett, text, trace_attribute, name )
+local_error_count = 0;
 ${r.body}
+total_error_count = total_error_count + local_error_count;
     .end if
   .end for
 ::check_log_integer( message:"instances checked:  ", i:instance_count );
 ::check_log_integer( message:"checks made:  ", i:check_count );
+::check_log_integer( message:"errors found:  ", i:total_error_count );
   .//
 .end function
 .//
