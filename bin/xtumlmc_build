@@ -27,6 +27,7 @@ use File::Compare;
 use File::Find;
 use File::Basename;
 use Cwd;
+use Cwd 'abs_path';
 
 my $osplatform;
 my $windbase = "";
@@ -1073,8 +1074,8 @@ sub xtuml_integrity
 
   # set the path
   my $current_path = $ENV{'PATH'};
-  my $mc_bin_dir = dirname(__FILE__);
-  $ENV{'PATH'} = "$mc_bin_dir:$current_path";
+  my $mc_bin_dir = abs_path( dirname($0) );
+  add_to_path( $mc_bin_dir );
 
   my @tt = localtime();
   my $serial = "$tt[5]$tt[4]$tt[6]$tt[2]$tt[1]_$$";
@@ -1127,16 +1128,16 @@ sub xtuml_integrity
   }
 
   # Filter graphics and proxy entries and non-ASCII characters from the model file.
-  &xtumlmc_cleanse_model( $tmp_file1, ">$tmp_file2", 'true' );
+  &xtumlmc_cleanse_model( $tmp_file1, "$tmp_file2", 'true' );
 
   # Replace UUIDs with integer values.
   &ReplaceUUIDWithLong( $tmp_file2, $model_file );
 
   # Run the check referential integrity binary.
   if ( "" eq $out_file ) {
-    system( "integrity < $model_file" );
+    system( "integrity $model_file" );
   } else {
-    system( "integrity < $model_file > $out_file" );
+    system( "integrity $model_file > $out_file" );
   }
 
   # Remove the temporary files.

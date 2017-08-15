@@ -45,10 +45,12 @@ UserInitializationCalloutf( c_t * argv0 )
  * initialization functions.
  */
 void
-UserPreOoaInitializationCalloutf( c_t * argv0 )
+UserPreOoaInitializationCalloutf( int argc, c_t ** argv )
 {
-  /* Insert implementation specific code here.  */
   static char * a[2] = { "", "" };
+  if ( 1 < argc ) {
+    a[1] = argv[1];
+  }
   Escher_xtUML_load( 2, a );
   integrity_check_referential_integrity();
 }
