@@ -1,0 +1,4 @@
+There is a makefile in the src folder.  Use it.
+
+But for Windows, compile on Linux using:
+i686-w64-mingw32-gcc -Wno-pointer-to-int-cast *.c -static -o integrity.exe

@@ -5739,7 +5739,7 @@ INSERT INTO R_AOTH
 	"bd483fe7-1f2e-4730-b05a-8564822fff65",
 	"e449ffaf-023c-4b9d-8a23-7d0a020cb159",
 	1,
-	0,
+	1,
 	'is identified in this association by');
 INSERT INTO O_RTIDA
 	VALUES ("792441ab-1523-4920-9d26-cee3e9b2a92c",
