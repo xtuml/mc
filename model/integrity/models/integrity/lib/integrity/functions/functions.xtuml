@@ -1,0 +1,68 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("abc21e06-73c4-4798-a3a4-925f56e0622f",
+	"00000000-0000-0000-0000-000000000000",
+	"ac72a1fd-c7b6-4d22-bf49-996f2af2ffad",
+	'functions',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("8a778bbd-18b2-434a-981d-8d3badc2c2a8",
+	112,
+	"abc21e06-73c4-4798-a3a4-925f56e0622f",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'integrity::lib::integrity::functions');
+INSERT INTO DIM_DIA
+	VALUES ("8a778bbd-18b2-434a-981d-8d3badc2c2a8",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("abc21e06-73c4-4798-a3a4-925f56e0622f",
+	"bf81735d-197a-4cd8-acfa-23d7cd84f28b");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("bf81735d-197a-4cd8-acfa-23d7cd84f28b",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	'functions',
+	'',
+	0,
+	'../../../../../../mcshared/models/mcshared/functions/functions.xtuml');
+INSERT INTO PE_PE
+	VALUES ("abc21e06-73c4-4798-a3a4-925f56e0622f",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"09361e04-407a-440f-a11a-061e4fb17257",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("09361e04-407a-440f-a11a-061e4fb17257",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'integrity',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../integrity.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("ac72a1fd-c7b6-4d22-bf49-996f2af2ffad",
+	'integrity',
+	1,
+	'../../../integrity.xtuml');
