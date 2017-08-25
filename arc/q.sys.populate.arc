@@ -490,7 +490,7 @@
       .// unique_id
       .assign te_dt.ExtName = te_prefix.type + "UniqueID_t"
       .assign te_dt.Initial_Value = "0"
-      .assign te_dt.string_format = "\""%08lx-%04x-%04x-%04x-%04x%08lx\"""
+      .assign te_dt.string_format = "&quot;%08lx-%04x-%04x-%04x-%04x%08lx&quot;"
       .//
     .elif ( 6 == te_dt.Core_Typ )
       .// current_state
@@ -1503,7 +1503,7 @@
           .if ( "%p" == te_dt.string_format )
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld"
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    ((long)self->" ) + ( te_attr.GeneratedName + " & ESCHER_IDDUMP_MASK)" )
-          .elif ( 5 == te_dt.Core_Typ ) .// unique_id
+          .elif ( 5 == te_dt.Core_Typ )
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    (u4_t)$u{te_prefix.type}GET_BITS(self->${te_attr.GeneratedName}, 96, 0xffffffff)" )
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    (u2_t)$u{te_prefix.type}GET_BITS(self->${te_attr.GeneratedName}, 80, 0xffff)" )

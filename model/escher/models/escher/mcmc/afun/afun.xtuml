@@ -3139,6 +3139,7 @@ for each s_cdt in s_cdts
     te_dt.ExtName = te_prefix.type + "UniqueID_t";
     te_dt.Initial_Value = "0";
     te_dt.string_format = "%d";
+    te_dt.string_format = "&quot;%08lx-%04x-%04x-%04x-%04x%08lx&quot;";
     //
   elif ( 6 == te_dt.Core_Typ )
     // current_state
