@@ -128,7 +128,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
           .assign attribute_number = attribute_number + 1
         .elif ( 5 == te_dt.Core_Typ )
           .// unique_id
-  ${te_instance.self}->${te_attr.GeneratedName} = ${te_prefix.type}ID_deserialize( avlstring[ ${attribute_number} ] );
+  ${te_instance.self}->${te_attr.GeneratedName} = ${te_string.uuidtou128}( avlstring[ ${attribute_number} ] );
           .select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 0 )
           .select one o_rattr related by o_attr->O_RATTR[R106]
           .if ( ( not_empty o_oida ) and ( empty o_rattr ) )
@@ -263,7 +263,9 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
             .end for
             .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
           .end while
-          .if ( ( ( 0 == o_id.Oid_ID ) and ( 1 == o_rtida_count ) ) and nonreferential )
+          .// CDS - disabling instance cache feature
+          .//.if ( ( ( 0 == o_id.Oid_ID ) and ( 1 == o_rtida_count ) ) and nonreferential )
+          .if ( false )
   ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance$t{r_rto_count} = (${part_te_class.GeneratedName} *) Escher_instance_cache[ (intptr_t) ${param_list} ];
           .else
   ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance$t{r_rto_count} = ${te_where.select_any_where}( ${param_list} );

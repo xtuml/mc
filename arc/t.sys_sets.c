@@ -24,11 +24,11 @@ ${te_prefix.type}ID_factory( void )
   return ${te_prefix.type}ID_factory++;
 }
 
+.if ( te_sys.InstanceLoading )
 /*
- * Deserialize a GUID into a unique integer ID.
+ * Deserialize a UUID into a unique integer ID.
  */
-${te_prefix.type}UniqueID_t
-${te_prefix.type}ID_deserialize( const c_t * s )
+${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( c_t * s )
 {
   u1_t b;
   ${te_prefix.type}UniqueID_t v = 0;
@@ -61,6 +61,24 @@ ${te_prefix.type}ID_deserialize( const c_t * s )
 }
 
 
+#define $u{te_prefix.type}GET_BITS(v,b,m) (b < sizeof(v)*8 ? (m & (v >> b)) : 0)
+/*
+ * Serialize an unsigned 128-bit integer into a string format UUID.
+ */
+c_t * ${te_string.u128touuid}( c_t * s, ${te_prefix.type}UniqueID_t i );
+{
+  u4_t uuid1 = (u4_t) ${te_prefix.define_u}GET_BITS( i, 96, 0xffffffff );
+  u2_t uuid2 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 80, 0xffff );
+  u2_t uuid3 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 64, 0xffff );
+  u2_t uuid4 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 48, 0xffff );
+  u2_t uuid5 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 32, 0xffff );
+  u4_t uuid6 = (u4_t) ${te_prefix.define_u}GET_BITS( i, 0, 0xffffffff );
+  sprintf( s, "\"%08lx-%04x-%04x-%04x-%04x%08lx\"", uuid1, uuid2, uuid3, uuid4, uuid5, uuid6 );
+  return s;
+}
+
+
+.end if
 /*
  * Detect empty handles in expressions.
  */

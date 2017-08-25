@@ -2412,7 +2412,9 @@ CREATE TABLE TE_STRING (
     itoa STRING,
     atoi STRING,
     max_string_length STRING,
-    debug_buffer_depth STRING
+    debug_buffer_depth STRING,
+    u128touuid STRING,
+    uuidtou128 STRING
 );
 CREATE TABLE TE_SWC (
     Obj_Kl STRING,
