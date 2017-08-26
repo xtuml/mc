@@ -65,7 +65,7 @@ ${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( c_t * s )
 /*
  * Serialize an unsigned 128-bit integer into a string format UUID.
  */
-c_t * ${te_string.u128touuid}( c_t * s, ${te_prefix.type}UniqueID_t i );
+c_t * ${te_string.u128touuid}( c_t * s, ${te_prefix.type}UniqueID_t i )
 {
   u4_t uuid1 = (u4_t) ${te_prefix.define_u}GET_BITS( i, 96, 0xffffffff );
   u2_t uuid2 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 80, 0xffff );
