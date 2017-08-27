@@ -25,6 +25,7 @@ c_t * STRING_trim( c_t * );
 #define STRING_quote() "\""
 c_t * STRING_escapetics( c_t * );
 c_t * STRING_unescapetics( c_t * );
+c_t * STRING_idtoa( c_t *, Escher_UniqueID_t );
 
 #ifdef	__cplusplus
 }

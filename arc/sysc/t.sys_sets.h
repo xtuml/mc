@@ -177,7 +177,7 @@ c_t * ${te_string.strget}( void );
 .// not used but good stuff
 .if ( te_sys.InstanceLoading )
 c_t * ${te_string.u128touuid}( c_t *, ${te_prefix.prefix}UniqueID_t );
-${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( c_t * );
+${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( const c_t * );
 c_t * ${te_string.itoa}( c_t *, s4_t );
 s4_t ${te_string.atoi}( const c_t * );
 .end if

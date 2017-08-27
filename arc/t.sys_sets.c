@@ -28,7 +28,7 @@ ${te_prefix.type}ID_factory( void )
 /*
  * Deserialize a UUID into a unique integer ID.
  */
-${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( c_t * s )
+${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( const c_t * s )
 {
   u1_t b;
   ${te_prefix.type}UniqueID_t v = 0;
