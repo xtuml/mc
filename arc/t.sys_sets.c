@@ -73,7 +73,7 @@ c_t * ${te_string.u128touuid}( c_t * s, ${te_prefix.type}UniqueID_t i )
   u2_t uuid4 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 48, 0xffff );
   u2_t uuid5 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 32, 0xffff );
   u4_t uuid6 = (u4_t) ${te_prefix.define_u}GET_BITS( i, 0, 0xffffffff );
-  sprintf( s, "\"%08lx-%04x-%04x-%04x-%04x%08lx\"", uuid1, uuid2, uuid3, uuid4, uuid5, uuid6 );
+  snprintf( s, 40, "\"%08lx-%04x-%04x-%04x-%04x%08lx\"", uuid1, uuid2, uuid3, uuid4, uuid5, uuid6 );
   return s;
 }
 

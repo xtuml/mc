@@ -1088,7 +1088,6 @@ sub xtuml_integrity
 
   my $delete_model_file = 1; # Default to deleting accumulated model file when not supplied on command line.
   my $tmp_file1 = "xtuml_integrity_temp1_${serial}";
-  my $tmp_file2 = "xtuml_integrity_temp2_${serial}";
 
   # parse arguments
   my $directive = "";
@@ -1128,10 +1127,7 @@ sub xtuml_integrity
   }
 
   # Filter graphics and proxy entries and non-ASCII characters from the model file.
-  &xtumlmc_cleanse_model( $tmp_file1, "$tmp_file2", 'true' );
-
-  # Replace UUIDs with integer values.
-  &ReplaceUUIDWithLong( $tmp_file2, $model_file );
+  &xtumlmc_cleanse_model( $tmp_file1, $model_file, 'true' );
 
   # Run the check referential integrity binary.
   if ( "" eq $out_file ) {
@@ -1142,7 +1138,6 @@ sub xtuml_integrity
 
   # Remove the temporary files.
   xtumlmc_rm( $tmp_file1 );
-  xtumlmc_rm( $tmp_file2 );
   if ( $delete_model_file ) {
     xtumlmc_rm( $model_file );
   }
