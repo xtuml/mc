@@ -621,20 +621,27 @@ ${te_set.scope}${te_string.strlen}( const c_t * s )
 .if ( te_sys.InstanceLoading )
 #define ${te_prefix.define_u}ATOI_RADIX 10
 c_t *
+#ifdef __SIZEOF_INT128__
+${te_set.scope}${te_string.itoa}( c_t * string, u128_t value )
+#else
 ${te_set.scope}${te_string.itoa}( c_t * string, s4_t value )
+#endif
 {
-  c_t tmp[16];
+  c_t tmp[64];
   c_t * sp, * tp = tmp;
+  bool sign = 0;
   s4_t i;
-  bool sign;
+#ifdef __SIZEOF_INT128__
+  u128_t v = value;
+#else
   u4_t v;
-
   sign = ( value < 0 );
   if ( sign ) {
     v = -value;
   } else {
     v = (unsigned) value;
   }
+#endif
   while ( ( v != 0 ) || ( tp == tmp ) ) {
     i = v % ${te_prefix.define_u}ATOI_RADIX;
     v = v / ${te_prefix.define_u}ATOI_RADIX;
