@@ -51,12 +51,12 @@ is made, and it is used only when instance loading is enabled.  So now
 5.2 detect integer and string `unique_id`s  
 Detect string UUIDs by looking forward for a '-' character at position 8.
 If it is found, convert the string UUID to a 128-bit integer.  Otherwise,
-assume that this `unique_id` is already represented as an integer (as has
-been the case coming from `xtumlmc_build`.
+assume that this `unique_id` is already represented as an integer as has
+been the case coming from `xtumlmc_build` cleansing.
 
 5.3 conversion routines  
 Conversion routines are introduced that convert between string `unique_id`s
-(UUIDs) and 128-bit integers.
+(UUIDs) and (128-bit) integers.
 
 5.4 instance cache removal  
 A nifty optimization (of batch relate) was previously implemented in MC-3020.
@@ -68,7 +68,7 @@ performance is detected so far.  More testing should be done.
 5.5 compiled binaries  
 Compile the `integrity` binary for Linux, Mac and Windows and place them
 into the appropriate location in `mc/bin` (to be copied into `mc/tools/bin`
-in the resulting products.
+in the resulting products).
 
 ### 6. Implementation Comments
 
