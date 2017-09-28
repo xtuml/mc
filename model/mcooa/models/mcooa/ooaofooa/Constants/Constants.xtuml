@@ -1076,18 +1076,6 @@ INSERT INTO O_OIDA_PROXY
 	0,
 	'Const_ID',
 	'./Symbolic Constant/Symbolic Constant.xtuml');
-INSERT INTO O_RTIDA
-	VALUES ("1d28741f-2580-48a6-8d94-47a588f9b2b2",
-	"048e2c81-d117-4565-b3c0-c27282cd54fc",
-	0,
-	"05ff65bc-8390-4592-b815-c297b3aed059",
-	"f89d0d09-b332-462e-ba12-6ac6ed766ab8");
-INSERT INTO O_OIDA_PROXY
-	VALUES ("1d28741f-2580-48a6-8d94-47a588f9b2b2",
-	"048e2c81-d117-4565-b3c0-c27282cd54fc",
-	0,
-	'DT_ID',
-	'./Symbolic Constant/Symbolic Constant.xtuml');
 INSERT INTO R_RTO
 	VALUES ("048e2c81-d117-4565-b3c0-c27282cd54fc",
 	"05ff65bc-8390-4592-b815-c297b3aed059",
@@ -1143,28 +1131,16 @@ INSERT INTO R_SUPER
 	"15e1edc8-1038-4f07-b558-804e83d90297",
 	"391b94e3-ec6d-4de6-87a6-e62d21dedc71");
 INSERT INTO O_RTIDA
-	VALUES ("2dd905d6-264e-46e3-a024-79cfe60cae7d",
+	VALUES ("44abf3a9-d53f-4e1b-8d0a-295fc02736c6",
 	"32148681-2ca7-4818-8f4f-ae5fdcb91432",
 	0,
 	"15e1edc8-1038-4f07-b558-804e83d90297",
 	"391b94e3-ec6d-4de6-87a6-e62d21dedc71");
 INSERT INTO O_OIDA_PROXY
-	VALUES ("2dd905d6-264e-46e3-a024-79cfe60cae7d",
+	VALUES ("44abf3a9-d53f-4e1b-8d0a-295fc02736c6",
 	"32148681-2ca7-4818-8f4f-ae5fdcb91432",
 	0,
 	'Const_ID',
-	'./Leaf Symbolic Constant/Leaf Symbolic Constant.xtuml');
-INSERT INTO O_RTIDA
-	VALUES ("ff9ebb53-ac89-4c35-9d53-647a74f3cbac",
-	"32148681-2ca7-4818-8f4f-ae5fdcb91432",
-	0,
-	"15e1edc8-1038-4f07-b558-804e83d90297",
-	"391b94e3-ec6d-4de6-87a6-e62d21dedc71");
-INSERT INTO O_OIDA_PROXY
-	VALUES ("ff9ebb53-ac89-4c35-9d53-647a74f3cbac",
-	"32148681-2ca7-4818-8f4f-ae5fdcb91432",
-	0,
-	'DT_ID',
 	'./Leaf Symbolic Constant/Leaf Symbolic Constant.xtuml');
 INSERT INTO R_RTO
 	VALUES ("32148681-2ca7-4818-8f4f-ae5fdcb91432",
@@ -1297,12 +1273,6 @@ INSERT INTO R_PART
 	'succeeds');
 INSERT INTO O_RTIDA
 	VALUES ("780b9f28-d03e-4cce-8eec-3ca292b3da7a",
-	"048e2c81-d117-4565-b3c0-c27282cd54fc",
-	0,
-	"6404ec3c-1ca6-4473-9436-dd13c7341d1e",
-	"47933199-3046-477a-8aec-c3ad1ad868b0");
-INSERT INTO O_RTIDA
-	VALUES ("1d28741f-2580-48a6-8d94-47a588f9b2b2",
 	"048e2c81-d117-4565-b3c0-c27282cd54fc",
 	0,
 	"6404ec3c-1ca6-4473-9436-dd13c7341d1e",
