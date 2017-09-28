@@ -19,7 +19,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("b7492a54-c3f8-4785-a1a7-c71a2c006e95",
 	"dcf0f2bb-4371-44ac-85a8-ceccc8217307",
-	"121b564b-8773-4b7b-a264-3992cd3e67ba",
+	"c54406d7-9d2a-43c6-aa30-d595c025da71",
 	'Value',
 	'Full Name: Value
 Description: The value of this constant',
@@ -33,12 +33,12 @@ INSERT INTO O_REF
 	VALUES ("dcf0f2bb-4371-44ac-85a8-ceccc8217307",
 	"32148681-2ca7-4818-8f4f-ae5fdcb91432",
 	0,
-	"2dd905d6-264e-46e3-a024-79cfe60cae7d",
+	"44abf3a9-d53f-4e1b-8d0a-295fc02736c6",
 	"15e1edc8-1038-4f07-b558-804e83d90297",
 	"20d65501-684a-4b56-b3ac-bd442c307a85",
 	"391b94e3-ec6d-4de6-87a6-e62d21dedc71",
-	"23e890c8-86c6-463d-adf4-cda1a5bfb669",
-	"1986414d-ff2c-4ff2-92a8-7824e637d961",
+	"1b06a745-f318-42e2-bb70-65c4f469850e",
+	"aa88abc2-7bbe-45aa-b6fb-edf94682b852",
 	"00000000-0000-0000-0000-000000000000",
 	0,
 	'',
@@ -51,14 +51,14 @@ INSERT INTO R_RGO_PROXY
 	"20d65501-684a-4b56-b3ac-bd442c307a85",
 	'../Constants.xtuml');
 INSERT INTO O_RTIDA_PROXY
-	VALUES ("2dd905d6-264e-46e3-a024-79cfe60cae7d",
+	VALUES ("44abf3a9-d53f-4e1b-8d0a-295fc02736c6",
 	"32148681-2ca7-4818-8f4f-ae5fdcb91432",
 	0,
 	"15e1edc8-1038-4f07-b558-804e83d90297",
 	"391b94e3-ec6d-4de6-87a6-e62d21dedc71",
 	'../Constants.xtuml');
 INSERT INTO O_RATTR
-	VALUES ("23e890c8-86c6-463d-adf4-cda1a5bfb669",
+	VALUES ("1b06a745-f318-42e2-bb70-65c4f469850e",
 	"dcf0f2bb-4371-44ac-85a8-ceccc8217307",
 	"780b9f28-d03e-4cce-8eec-3ca292b3da7a",
 	"048e2c81-d117-4565-b3c0-c27282cd54fc",
@@ -69,7 +69,7 @@ INSERT INTO O_BATTR_PROXY
 	"048e2c81-d117-4565-b3c0-c27282cd54fc",
 	'../Symbolic Constant/Symbolic Constant.xtuml');
 INSERT INTO O_ATTR
-	VALUES ("23e890c8-86c6-463d-adf4-cda1a5bfb669",
+	VALUES ("1b06a745-f318-42e2-bb70-65c4f469850e",
 	"dcf0f2bb-4371-44ac-85a8-ceccc8217307",
 	"00000000-0000-0000-0000-000000000000",
 	'Const_ID',
@@ -77,68 +77,35 @@ INSERT INTO O_ATTR
 	'',
 	'Const_ID',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
-INSERT INTO O_REF
-	VALUES ("dcf0f2bb-4371-44ac-85a8-ceccc8217307",
-	"32148681-2ca7-4818-8f4f-ae5fdcb91432",
-	0,
-	"ff9ebb53-ac89-4c35-9d53-647a74f3cbac",
-	"15e1edc8-1038-4f07-b558-804e83d90297",
-	"20d65501-684a-4b56-b3ac-bd442c307a85",
-	"391b94e3-ec6d-4de6-87a6-e62d21dedc71",
-	"121b564b-8773-4b7b-a264-3992cd3e67ba",
-	"951fd3b0-abe0-40bc-8d11-2a434c43f494",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Leaf Symbolic Constant',
-	'DT_ID',
-	'R1503');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("ff9ebb53-ac89-4c35-9d53-647a74f3cbac",
-	"32148681-2ca7-4818-8f4f-ae5fdcb91432",
-	0,
-	"15e1edc8-1038-4f07-b558-804e83d90297",
-	"391b94e3-ec6d-4de6-87a6-e62d21dedc71",
-	'../Constants.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("121b564b-8773-4b7b-a264-3992cd3e67ba",
-	"dcf0f2bb-4371-44ac-85a8-ceccc8217307",
-	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
-	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
-	1,
-	'Element_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
-	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
-	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("c54406d7-9d2a-43c6-aa30-d595c025da71",
+	"dcf0f2bb-4371-44ac-85a8-ceccc8217307");
+INSERT INTO O_BATTR
+	VALUES ("c54406d7-9d2a-43c6-aa30-d595c025da71",
+	"dcf0f2bb-4371-44ac-85a8-ceccc8217307");
 INSERT INTO O_ATTR
-	VALUES ("121b564b-8773-4b7b-a264-3992cd3e67ba",
+	VALUES ("c54406d7-9d2a-43c6-aa30-d595c025da71",
 	"dcf0f2bb-4371-44ac-85a8-ceccc8217307",
-	"23e890c8-86c6-463d-adf4-cda1a5bfb669",
-	'DT_ID',
+	"1b06a745-f318-42e2-bb70-65c4f469850e",
+	'DT_ID_Deprecated',
 	'',
 	'',
-	'ID',
-	2,
-	"ba5eda7a-def5-0000-0000-000000000007",
+	'DT_ID_Deprecated',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"dcf0f2bb-4371-44ac-85a8-ceccc8217307");
 INSERT INTO O_OIDA
-	VALUES ("23e890c8-86c6-463d-adf4-cda1a5bfb669",
+	VALUES ("1b06a745-f318-42e2-bb70-65c4f469850e",
 	"dcf0f2bb-4371-44ac-85a8-ceccc8217307",
 	0,
 	'Const_ID');
-INSERT INTO O_OIDA
-	VALUES ("121b564b-8773-4b7b-a264-3992cd3e67ba",
-	"dcf0f2bb-4371-44ac-85a8-ceccc8217307",
-	0,
-	'DT_ID');
 INSERT INTO O_ID
 	VALUES (1,
 	"dcf0f2bb-4371-44ac-85a8-ceccc8217307");
