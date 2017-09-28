@@ -16821,7 +16821,7 @@ INSERT INTO S_SYNC
 	'check_trace',
 	'',
 	'trace = param.trace_attribute;
-uuid = "";
+uuid = "00000000-0000-0000-0000-000000000000";
 trace = trace + " " + STRING::idtoa( a:uuid, id:param.trace_id );
 trace = trace + " " + param.name;
 return trace;',
