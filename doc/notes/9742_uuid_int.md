@@ -105,8 +105,50 @@ to find the referenced element with an integrity violation.
 ### 9. Code Changes
 
 <pre>
-Fork/Repository: cortlandstarrett/bridgepoint, cortlandstarrett/mc, cortlandstarrett/models
+Fork/Repository: cortlandstarrett/bridgepoint, cortlandstarrett/mc
 Branch:  9742_uuid
+
+xtuml/bridgepoint:
+ src/org.xtuml.bp.doc/Reference/UserInterface/xtuml_integrity/xtuml_integrity.html | 6 ++++--
+ src/org.xtuml.bp.doc/Reference/UserInterface/xtuml_integrity/xtuml_integrity.md   | 5 +++--
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+
+xtuml/mc:
+ arc/c/q.sys.singletons.arc                                                     |     6 +-
+ arc/c/sys.arc                                                                  |     4 +
+ arc/c/t.sys_factory.h                                                          |     3 -
+ arc/c/t.sys_sets.h                                                             |     6 +
+ arc/c/t.sys_types.h                                                            |     8 +
+ arc/q.class.factory.arc                                                        |    11 +-
+ arc/q.sys.populate.arc                                                         |     8 +-
+ arc/sysc/q.sys.singletons.arc                                                  |     6 +-
+ arc/sysc/t.sys_factory.h                                                       |     3 -
+ arc/sysc/t.sys_sets.h                                                          |     6 +
+ arc/t.sys_factory.c                                                            |     3 -
+ arc/t.sys_sets.c                                                               |    68 +-
+ arc/t.sys_xtumlload.c                                                          |     9 +-
+ bin/integrity                                                                  |   Bin 1038480 -> 2069752 bytes
+ bin/mac/integrity                                                              |   Bin 1144212 -> 1333228 bytes
+ bin/win/integrity.exe                                                          |   Bin 1034755 -> 1064640 bytes
+ bin/xtumlmc_build                                                              |     7 +-
+ doc/notes/9742_uuid_int.md                                                     |   123 +
+ mcmc/arlan/o.oal                                                               |    14 +-
+ model/escher/.externalToolBuilders/Model Compiler.launch                       |     9 +-
+ model/escher/gen/ooaofooa.c                                                    |    28 +-
+ model/escher/gen/sys_xtuml.c                                                   |    66 +-
+ model/escher/models/escher/mcmc/afun/afun.xtuml                                |    14 +-
+ model/integrity/.externalToolBuilders/Model Compiler.launch                    |     4 +-
+ model/integrity/gen/STRING_bridge.c                                            |   174 +
+ model/integrity/gen/STRING_bridge.h                                            |    34 +
+ model/integrity/models/integrity/integrity/integrity.xtuml                     |     3 +-
+ model/integrity/src/makefile.integrity                                         |     2 +-
+ model/mcooa/gen/ooa.txt                                                        | 16766 +++++++++++++++++++++++++
+ model/mcooa/models/mcooa/extensions/Translation Extensions/string/string.xtuml |    36 +
+ model/mcshared/gen/STRING_bridge.c                                             |    11 +
+ model/mcshared/gen/STRING_bridge.h                                             |     1 +
+ model/mcshared/models/mcshared/MC_EEs/MC_EEs.xtuml                             |    29 +
+ schema/sql/xtumlmc_schema.sql                                                  |     4 +-
+ 34 files changed, 17396 insertions(+), 70 deletions(-)
 
 </pre>
 
