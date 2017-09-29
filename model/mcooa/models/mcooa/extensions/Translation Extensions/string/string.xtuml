@@ -216,6 +216,42 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'te_prefix.result + "strget"');
+INSERT INTO O_NBATTR
+	VALUES ("cedbd9a9-c602-45b2-b954-50034e7761ec",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("cedbd9a9-c602-45b2-b954-50034e7761ec",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("cedbd9a9-c602-45b2-b954-50034e7761ec",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"eafd7288-ede3-4e40-8cf1-e6b1d1776db1",
+	'uuidtou128',
+	'Convert a string UUID into an unsigned 128-bit integer.',
+	'',
+	'uuidtou128',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "uuidtou128"');
+INSERT INTO O_NBATTR
+	VALUES ("eafd7288-ede3-4e40-8cf1-e6b1d1776db1",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("eafd7288-ede3-4e40-8cf1-e6b1d1776db1",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("eafd7288-ede3-4e40-8cf1-e6b1d1776db1",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"de276dcf-5d97-4b70-8ca1-39ff5bdaba85",
+	'u128touuid',
+	'Convert an unsigned 128-bit integer into a string UUID.',
+	'',
+	'u128touuid',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "u128touuid"');
 INSERT INTO O_ID
 	VALUES (0,
 	"855c829b-2adf-4281-a5f9-14194b41aecf");

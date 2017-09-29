@@ -46,20 +46,15 @@ static void Escher_load_instance(
 {
   Escher_ClassNumber_t n;
   ${te_instance.handle} instance;
-  ${te_prefix.type}UniqueID_t return_identifier;
 
   /* Look up the class number and instance loader using the key letters.  */
   n = lookupclassloader( wordvalues[ 0 ] );
 
   /* Invoke the creation function using the class number.  */
-  instance = Escher_CreateInstance(
-    0, class_string_2_class_number[n].class_number );
+  instance = Escher_CreateInstance( 0, class_string_2_class_number[n].class_number );
 
   /* Convert/Populate the attribute values.  */
-  return_identifier = (*class_string_2_class_number[n].instance_loader)( instance, wordvalues );
-  if ( 0 != return_identifier ) {
-    Escher_instance_cache[ (intptr_t) return_identifier ] = instance;
-  }
+  (*class_string_2_class_number[n].instance_loader)( instance, wordvalues );
 }
 
 /*

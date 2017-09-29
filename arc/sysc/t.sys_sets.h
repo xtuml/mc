@@ -176,7 +176,13 @@ c_t ${te_string.strcmp}( const c_t *, const c_t * );
 c_t * ${te_string.strget}( void );
 .// not used but good stuff
 .if ( te_sys.InstanceLoading )
+c_t * ${te_string.u128touuid}( c_t *, ${te_prefix.prefix}UniqueID_t );
+${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( const c_t * );
+#ifdef __SIZEOF_INT128__
+c_t * ${te_string.itoa}( c_t *, u128_t );
+#else
 c_t * ${te_string.itoa}( c_t *, s4_t );
+#endif
 s4_t ${te_string.atoi}( const c_t * );
 .end if
 .if ( 0 != te_sys.UnitsToDynamicallyAllocate )

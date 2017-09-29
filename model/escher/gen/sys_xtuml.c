@@ -25,6 +25,59 @@ Escher_ID_factory( void )
 }
 
 /*
+ * Deserialize a UUID into a unique integer ID.
+ */
+Escher_UniqueID_t Escher_uuidtou128( const c_t * s )
+{
+  u1_t b;
+  Escher_UniqueID_t v = 0;
+
+  while(*s) {
+    b = *s++;
+
+    switch(b) {
+    case '0'...'9':
+      b -= '0';
+      break;
+
+    case 'a'...'f':
+      b -= 'a';
+      b += 10;
+      break;
+
+    case 'A'...'F':
+      b -= 'A';
+      b += 10;
+    break;
+
+    default:
+      continue;
+    }
+    v = (v << 4) | (b & 0xF);
+  }
+
+  return v;
+}
+
+
+#define ESCHER_GET_BITS(v,b,m) (b < sizeof(v)*8 ? (m & (v >> b)) : 0)
+/*
+ * Serialize an unsigned 128-bit integer into a string format UUID.
+ */
+c_t * Escher_u128touuid( c_t * s, Escher_UniqueID_t i )
+{
+  u4_t uuid1 = (u4_t) ESCHER_GET_BITS( i, 96, 0xffffffff );
+  u2_t uuid2 = (u2_t) ESCHER_GET_BITS( i, 80, 0xffff );
+  u2_t uuid3 = (u2_t) ESCHER_GET_BITS( i, 64, 0xffff );
+  u2_t uuid4 = (u2_t) ESCHER_GET_BITS( i, 48, 0xffff );
+  u2_t uuid5 = (u2_t) ESCHER_GET_BITS( i, 32, 0xffff );
+  u4_t uuid6 = (u4_t) ESCHER_GET_BITS( i, 0, 0xffffffff );
+  snprintf( s, 40, "\"%08lx-%04x-%04x-%04x-%04x%08lx\"", uuid1, uuid2, uuid3, uuid4, uuid5, uuid6 );
+  return s;
+}
+
+
+/*
  * Detect empty handles in expressions.
  */
 void * xtUML_detect_empty_handle( void * h, const char * s1, const char * s2 )
@@ -444,20 +497,27 @@ Escher_strlen( const c_t * s )
 
 #define ESCHER_ATOI_RADIX 10
 c_t *
+#ifdef __SIZEOF_INT128__
+Escher_itoa( c_t * string, u128_t value )
+#else
 Escher_itoa( c_t * string, s4_t value )
+#endif
 {
-  c_t tmp[16];
+  c_t tmp[64];
   c_t * sp, * tp = tmp;
+  bool sign = 0;
   s4_t i;
-  bool sign;
+#ifdef __SIZEOF_INT128__
+  u128_t v = value;
+#else
   u4_t v;
-
   sign = ( value < 0 );
   if ( sign ) {
     v = -value;
   } else {
     v = (unsigned) value;
   }
+#endif
   while ( ( v != 0 ) || ( tp == tmp ) ) {
     i = v % ESCHER_ATOI_RADIX;
     v = v / ESCHER_ATOI_RADIX;

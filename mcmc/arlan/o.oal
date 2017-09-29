@@ -2012,7 +2012,7 @@ for each s_cdt in s_cdts
     // unique_id
     te_dt.ExtName = te_prefix.type + "UniqueID_t";
     te_dt.Initial_Value = "0";
-    te_dt.string_format = "%d";
+    te_dt.string_format = "%s";
     //
   elif ( 6 == te_dt.Core_Typ )
     // current_state
@@ -3022,9 +3022,13 @@ for each te_c in te_cs
       te_attr.GeneratedType = te_dt.ExtName;
       o_attr_Descrip_Persistent = T::parsekeyword(s:o_attr.Descrip,key:"Persistent");
       if ( o_attr_Descrip_Persistent != "false" )
-        if ( "%p" == te_dt.string_format )
+        if ( 5 == te_dt.Core_Typ )
+          te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format;
+          te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    " ) + ( te_string.itoa + "( self->" ) ) + ( te_attr.GeneratedName + " )" ) );
+        elif ( "%p" == te_dt.string_format )
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld";
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    ((long)self->" ) + ( te_attr.GeneratedName + " & ESCHER_IDDUMP_MASK)" );
+          te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
         elif ( "%s" == te_dt.string_format )
           // Place an escaped tick mark around the %s in the attribute format string.
           te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "'" + te_dt.string_format ) ) + "'";
@@ -4571,12 +4575,14 @@ te_string.memmove = te_prefix.result + "memmove";
 te_string.strcpy = te_prefix.result + "strcpy";
 te_string.stradd = te_prefix.result + "stradd";
 te_string.strlen = te_prefix.result + "strlen";
-te_string.itoa = te_prefix.result + "itoa";
-te_string.atoi = te_prefix.result + "atoi";
 te_string.strcmp = te_prefix.result + "strcmp";
 te_string.strget = te_prefix.result + "strget";
+te_string.itoa = te_prefix.result + "itoa";
+te_string.atoi = te_prefix.result + "atoi";
 te_string.max_string_length = te_prefix.define_u + "SYS_MAX_STRING_LEN";
 te_string.debug_buffer_depth = te_prefix.define_u + "DEBUG_BUFFER_DEPTH";
+te_string.u128touuid = te_prefix.result + "u128touuid";
+te_string.uuidtou128 = te_prefix.result + "uuidtou128";
 @@@
 thread_factory@void@@te_thread@inst_ref<thread>@@@
 //

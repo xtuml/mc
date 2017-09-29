@@ -17334,18 +17334,22 @@ ooaofooa_string_factory( ooaofooa_TE_STRING * p_te_string )
   ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.stradd" ))->stradd = Escher_strcpy( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.stradd" ))->stradd, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "stradd" ) );
   /* ASSIGN te_string.strlen = ( te_prefix.result + strlen ) */
   ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.strlen" ))->strlen = Escher_strcpy( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.strlen" ))->strlen, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "strlen" ) );
-  /* ASSIGN te_string.itoa = ( te_prefix.result + itoa ) */
-  ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.itoa" ))->itoa = Escher_strcpy( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.itoa" ))->itoa, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "itoa" ) );
-  /* ASSIGN te_string.atoi = ( te_prefix.result + atoi ) */
-  ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.atoi" ))->atoi = Escher_strcpy( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.atoi" ))->atoi, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "atoi" ) );
   /* ASSIGN te_string.strcmp = ( te_prefix.result + strcmp ) */
   ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.strcmp" ))->strcmp = Escher_strcpy( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.strcmp" ))->strcmp, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "strcmp" ) );
   /* ASSIGN te_string.strget = ( te_prefix.result + strget ) */
   ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.strget" ))->strget = Escher_strcpy( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.strget" ))->strget, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "strget" ) );
+  /* ASSIGN te_string.itoa = ( te_prefix.result + itoa ) */
+  ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.itoa" ))->itoa = Escher_strcpy( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.itoa" ))->itoa, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "itoa" ) );
+  /* ASSIGN te_string.atoi = ( te_prefix.result + atoi ) */
+  ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.atoi" ))->atoi = Escher_strcpy( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.atoi" ))->atoi, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "atoi" ) );
   /* ASSIGN te_string.max_string_length = ( te_prefix.define_u + SYS_MAX_STRING_LEN ) */
   ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.max_string_length" ))->max_string_length = Escher_strcpy( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.max_string_length" ))->max_string_length, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.define_u" ))->define_u, "SYS_MAX_STRING_LEN" ) );
   /* ASSIGN te_string.debug_buffer_depth = ( te_prefix.define_u + DEBUG_BUFFER_DEPTH ) */
   ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.debug_buffer_depth" ))->debug_buffer_depth = Escher_strcpy( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.debug_buffer_depth" ))->debug_buffer_depth, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.define_u" ))->define_u, "DEBUG_BUFFER_DEPTH" ) );
+  /* ASSIGN te_string.u128touuid = ( te_prefix.result + u128touuid ) */
+  ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.u128touuid" ))->u128touuid = Escher_strcpy( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.u128touuid" ))->u128touuid, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "u128touuid" ) );
+  /* ASSIGN te_string.uuidtou128 = ( te_prefix.result + uuidtou128 ) */
+  ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.uuidtou128" ))->uuidtou128 = Escher_strcpy( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.uuidtou128" ))->uuidtou128, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "uuidtou128" ) );
 }
 
 /*
@@ -18637,8 +18641,8 @@ te_ee->ID = Escher_ID_factory();
       ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.type" ))->type, "UniqueID_t" ) );
       /* ASSIGN te_dt.Initial_Value = 0 */
       ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Initial_Value" ))->Initial_Value = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Initial_Value" ))->Initial_Value, "0" );
-      /* ASSIGN te_dt.string_format = %d */
-      ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format, "%d" );
+      /* ASSIGN te_dt.string_format = %s */
+      ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format, "%s" );
     }
     else if ( ( 6 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Core_Typ" ))->Core_Typ ) ) {
       /* ASSIGN te_dt.ExtName =  */
@@ -21555,12 +21559,20 @@ te_ee->ID = Escher_ID_factory();
         o_attr_Descrip_Persistent = Escher_strcpy( o_attr_Descrip_Persistent, T_parsekeyword( "Persistent", ((ooaofooa_O_ATTR *)xtUML_detect_empty_handle( o_attr, "O_ATTR", "o_attr.Descrip" ))->Descrip ) );
         /* IF ( ( o_attr_Descrip_Persistent != false ) ) */
         if ( ( Escher_strcmp( o_attr_Descrip_Persistent, "false" ) != 0 ) ) {
-          /* IF ( ( %p == te_dt.string_format ) ) */
-          if ( ( Escher_strcmp( "%p", ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format ) == 0 ) ) {
+          /* IF ( ( 5 == te_dt.Core_Typ ) ) */
+          if ( ( 5 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Core_Typ" ))->Core_Typ ) ) {
+            /* ASSIGN te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + te_dt.string_format ) */
+            ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_format" ))->attribute_format = Escher_strcpy( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_format" ))->attribute_format, Escher_stradd( Escher_stradd( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_format" ))->attribute_format, delimiter ), ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format ) );
+            /* ASSIGN te_class.attribute_dump = ( ( ( te_class.attribute_dump + ,\n     ) + ( te_string.itoa + ( self-> ) ) + ( te_attr.GeneratedName +  ) ) ) */
+            ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump = Escher_strcpy( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump, Escher_stradd( Escher_stradd( Escher_stradd( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump, ",\n    " ), Escher_stradd( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.itoa" ))->itoa, "( self->" ) ), Escher_stradd( ((ooaofooa_TE_ATTR *)xtUML_detect_empty_handle( te_attr, "TE_ATTR", "te_attr.GeneratedName" ))->GeneratedName, " )" ) ) );
+          }
+          else if ( ( Escher_strcmp( "%p", ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format ) == 0 ) ) {
             /* ASSIGN te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + %ld ) */
             ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_format" ))->attribute_format = Escher_strcpy( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_format" ))->attribute_format, Escher_stradd( Escher_stradd( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_format" ))->attribute_format, delimiter ), "%ld" ) );
             /* ASSIGN te_class.attribute_dump = ( ( te_class.attribute_dump + ,\n    ((long)self-> ) + ( te_attr.GeneratedName +  & ESCHER_IDDUMP_MASK) ) ) */
             ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump = Escher_strcpy( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump, Escher_stradd( Escher_stradd( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump, ",\n    ((long)self->" ), Escher_stradd( ((ooaofooa_TE_ATTR *)xtUML_detect_empty_handle( te_attr, "TE_ATTR", "te_attr.GeneratedName" ))->GeneratedName, " & ESCHER_IDDUMP_MASK)" ) ) );
+            /* ASSIGN te_class.attribute_dump = ( ( te_class.attribute_dump + ,\n    self-> ) + te_attr.GeneratedName ) */
+            ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump = Escher_strcpy( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump, Escher_stradd( Escher_stradd( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump, ",\n    self->" ), ((ooaofooa_TE_ATTR *)xtUML_detect_empty_handle( te_attr, "TE_ATTR", "te_attr.GeneratedName" ))->GeneratedName ) );
           }
           else if ( ( Escher_strcmp( "%s", ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format ) == 0 ) ) {
             /* ::oal */
