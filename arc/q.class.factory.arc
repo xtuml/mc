@@ -128,7 +128,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
           .assign attribute_number = attribute_number + 1
         .elif ( 5 == te_dt.Core_Typ )
           .// unique_id
-  ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
+  ${te_instance.self}->${te_attr.GeneratedName} = ( '-' == *(avlstring[ ${attribute_number} ]+8) ) ? ${te_instance.module}${te_string.uuidtou128}( avlstring[ ${attribute_number} ] ) : ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 0 )
           .select one o_rattr related by o_attr->O_RATTR[R106]
           .if ( ( not_empty o_oida ) and ( empty o_rattr ) )
@@ -234,10 +234,8 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
           .select one part_te_class related by rto_obj->TE_CLASS[R2019]
           .select one te_where related by o_id->TE_WHERE[R2032]
           .select many o_rtidas related by r_rto->O_RTIDA[R110]
-          .assign o_rtida_count = cardinality o_rtidas
           .assign param_list = ""
           .assign delimeter = ""
-          .assign nonreferential = false
           .select any te_attr related by part_te_class->TE_ATTR[R2061]
           .while ( not_empty te_attr )
             .select one prev_te_attr related by te_attr->TE_ATTR[R2087.'precedes']
@@ -252,9 +250,6 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
               .select one o_attr related by o_rtida->O_OIDA[R110]->O_ATTR[R105]
               .if ( o_attr == current_o_attr )
                 .select one o_rattr related by current_o_attr->O_RATTR[R106]
-                .if ( empty o_rattr )
-                  .assign nonreferential = true
-                .end if
                 .select any o_attr related by o_rtida->O_REF[R111]->O_RATTR[R108]->O_ATTR[R106] where ( selected.Obj_ID == r_rgo.Obj_ID )
                 .select one ref_te_attr related by o_attr->TE_ATTR[R2033]
                 .assign param_list = param_list + "${delimeter}${te_class.GeneratedName}_instance->${ref_te_attr.GeneratedName}"
@@ -263,11 +258,7 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
             .end for
             .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
           .end while
-          .if ( ( ( 0 == o_id.Oid_ID ) and ( 1 == o_rtida_count ) ) and nonreferential )
-  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance$t{r_rto_count} = (${part_te_class.GeneratedName} *) Escher_instance_cache[ (intptr_t) ${param_list} ];
-          .else
   ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance$t{r_rto_count} = ${te_where.select_any_where}( ${param_list} );
-          .end if
           .assign null_test = null_test + "${null_test_conjunction}${part_te_class.GeneratedName}related_instance$t{r_rto_count}"
           .assign null_test_conjunction = " && "
           .if ( r_rto_count < 2 )

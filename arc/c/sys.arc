@@ -110,6 +110,10 @@
 .select any te_tim from instances of TE_TIM
 .select any te_trace from instances of TE_TRACE
 .select any te_typemap from instances of TE_TYPEMAP
+.// CDS
+.assign te_string.u128touuid = te_prefix.result + "u128touuid"
+.assign te_string.uuidtou128 = te_prefix.result + "uuidtou128"
+.// CDS
 .//
 .select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
 .invoke r = TE_C_sort( active_te_cs )

@@ -24,6 +24,61 @@ ${te_prefix.type}ID_factory( void )
   return ${te_prefix.type}ID_factory++;
 }
 
+.if ( te_sys.InstanceLoading )
+/*
+ * Deserialize a UUID into a unique integer ID.
+ */
+${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( const c_t * s )
+{
+  u1_t b;
+  ${te_prefix.type}UniqueID_t v = 0;
+
+  while(*s) {
+    b = *s++;
+
+    switch(b) {
+    case '0'...'9':
+      b -= '0';
+      break;
+
+    case 'a'...'f':
+      b -= 'a';
+      b += 10;
+      break;
+
+    case 'A'...'F':
+      b -= 'A';
+      b += 10;
+    break;
+
+    default:
+      continue;
+    }
+    v = (v << 4) | (b & 0xF);
+  }
+
+  return v;
+}
+
+
+#define $u{te_prefix.type}GET_BITS(v,b,m) (b < sizeof(v)*8 ? (m & (v >> b)) : 0)
+/*
+ * Serialize an unsigned 128-bit integer into a string format UUID.
+ */
+c_t * ${te_string.u128touuid}( c_t * s, ${te_prefix.type}UniqueID_t i )
+{
+  u4_t uuid1 = (u4_t) ${te_prefix.define_u}GET_BITS( i, 96, 0xffffffff );
+  u2_t uuid2 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 80, 0xffff );
+  u2_t uuid3 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 64, 0xffff );
+  u2_t uuid4 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 48, 0xffff );
+  u2_t uuid5 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 32, 0xffff );
+  u4_t uuid6 = (u4_t) ${te_prefix.define_u}GET_BITS( i, 0, 0xffffffff );
+  snprintf( s, 40, "\"%08lx-%04x-%04x-%04x-%04x%08lx\"", uuid1, uuid2, uuid3, uuid4, uuid5, uuid6 );
+  return s;
+}
+
+
+.end if
 /*
  * Detect empty handles in expressions.
  */
@@ -566,20 +621,27 @@ ${te_set.scope}${te_string.strlen}( const c_t * s )
 .if ( te_sys.InstanceLoading )
 #define ${te_prefix.define_u}ATOI_RADIX 10
 c_t *
+#ifdef __SIZEOF_INT128__
+${te_set.scope}${te_string.itoa}( c_t * string, u128_t value )
+#else
 ${te_set.scope}${te_string.itoa}( c_t * string, s4_t value )
+#endif
 {
-  c_t tmp[16];
+  c_t tmp[64];
   c_t * sp, * tp = tmp;
+  bool sign = 0;
   s4_t i;
-  bool sign;
+#ifdef __SIZEOF_INT128__
+  u128_t v = value;
+#else
   u4_t v;
-
   sign = ( value < 0 );
   if ( sign ) {
     v = -value;
   } else {
     v = (unsigned) value;
   }
+#endif
   while ( ( v != 0 ) || ( tp == tmp ) ) {
     i = v % ${te_prefix.define_u}ATOI_RADIX;
     v = v / ${te_prefix.define_u}ATOI_RADIX;

@@ -490,7 +490,7 @@
       .// unique_id
       .assign te_dt.ExtName = te_prefix.type + "UniqueID_t"
       .assign te_dt.Initial_Value = "0"
-      .assign te_dt.string_format = "%d"
+      .assign te_dt.string_format = "%s"
       .//
     .elif ( 6 == te_dt.Core_Typ )
       .// current_state
@@ -1500,9 +1500,13 @@
         .assign te_attr.GeneratedType = te_dt.ExtName
         .assign o_attr_Descrip_Persistent = "${o_attr.Descrip:Persistent}"
         .if ( o_attr_Descrip_Persistent != "false" )
-          .if ( "%p" == te_dt.string_format )
+          .if ( 5 == te_dt.Core_Typ )
+            .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
+            .assign te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    " ) + ( te_string.itoa + "( self->" ) ) + ( te_attr.GeneratedName + " )" ) )
+          .elif ( "%p" == te_dt.string_format )
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld"
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    ((long)self->" ) + ( te_attr.GeneratedName + " & ESCHER_IDDUMP_MASK)" )
+            .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
           .elif ( "%s" == te_dt.string_format )
             .// Place an escaped tick mark around the %s in the attribute format string.
             .assign te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "'" + te_dt.string_format ) ) + "'"
