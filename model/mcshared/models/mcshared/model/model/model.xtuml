@@ -52,8 +52,8 @@ if ( not_empty model )
     i = i + 1;
   end while;
   TRACE::log( flavor:"info", id:103, message:"Loading marking data." );
-  Feature::load( filename:model.projectroot + "/gen/features.mark", values:values );
-  Mark::load( filename: model.projectroot + "/gen/application.mark", values:values );
+  //Feature::load( filename:model.projectroot + "/gen/features.mark", values:values );
+  //Mark::load( filename: model.projectroot + "/gen/application.mark", values:values );
 end if;',
 	1,
 	'',
@@ -77,8 +77,8 @@ if ( not_empty model )
     values[i] = "                                                                                                                                                                                                              ";
     i = i + 1;
   end while;
-  Feature::persist( filename:model.projectroot + "/features.mark", values:values );
-  Mark::persist( filename: model.projectroot + "/application.mark", values:values );
+  //Feature::persist( filename:model.projectroot + "/features.mark", values:values );
+  //Mark::persist( filename: model.projectroot + "/application.mark", values:values );
 end if;',
 	1,
 	'',
