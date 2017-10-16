@@ -303,7 +303,7 @@ static bool number( void )
   DEVELOPER_DEBUG( "number() %s\n", cursor );
   if ( ! ( ( ( '0' <= *cursor ) && ( *cursor <= '9' ) ) ||
            ( *cursor == '-' ) ) ) return false;
-  /* Capture unique_id into word.  */
+  /* Capture number into word.  */
   word[ wordindex++ ] = cursor++;
   while ( ( ( ( '0' <= *cursor ) && ( *cursor <= '9' ) ) ||
             ( *cursor == '-' ) ) &&

@@ -89,13 +89,10 @@ Compile the code.
 # not worth keeping a DOS flex library prepared to link in.  So, yywrap.c compiles
 # to a dummy routine to satisfy the link for Windows.
 - cd escher/src
-- i686-w64-mingw32-gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -static -o mcmc.exe
-- gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast -m32 *.c -static -o mcmc
-- gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -static -l:libfl.a -o mcmc64
+- x86_64-w64-mingw32-gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -static -o mcmc.exe
+- gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -static -l:libfl.a -o mcmc
 - gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -L/usr/local/Cellar/flex/2.6.3/lib -lfl -o mcmc64m
 - o64-clang -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -L$OSXCROSS/target/SDK/MacOSX10.11.sdk/usr/lib -ll -o mcmc64m # using osxcross; $OSXCROSS is the osxcross git directory
-# NOTE:  To set up Debian/Ubuntu for 32-bit builds, do this:
-# sudo apt-get install g++-multilib libc6-dev-i386
 
 Commit changes
 # Commit any modifications made to existing parts and pieces in the model or mcmc.  However,
