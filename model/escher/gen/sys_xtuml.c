@@ -514,7 +514,7 @@ Escher_itoa( s4_t value )
 {
   static c_t s[256][256];
   static u1_t bufnum = 0;
-  c_t tmp[64];
+  c_t tmp[256];
   c_t * sp, * tp = tmp;
   bool sign = 0;
   s4_t i;
