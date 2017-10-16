@@ -112,7 +112,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   }
   xtuml2masl_model_op_setoutputcodeblocks( output_activities );
   /* Load the feature and application marks from files.  */
-  xtuml2masl_model_op_load_marking_data();
+  xtuml2masl_load_marking_data();
   int i = 0;
   if ( project ) {
     while ( i < namecount ) xtuml2masl_masl_project( (const bool)key_lett, name[ i++ ] );

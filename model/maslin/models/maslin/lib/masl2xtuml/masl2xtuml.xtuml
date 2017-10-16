@@ -503,7 +503,16 @@ for each form in forms
 end for;
 
 // Output the marking data into files.
-model::persist_marking_data();
+select any model from instances of model;
+if ( not_empty model )
+  i = 0; values[7] = "";
+  while ( i < 8 )
+    values[i] = "                                                                                                                                                                                                              ";
+    i = i + 1;
+  end while;
+  Feature::persist( filename:model.projectroot + "/features.mark", values:values );
+  Mark::persist( filename: model.projectroot + "/application.mark", values:values );
+end if;
 
 // Delete the instances from the model of mark.
 select many marks from instances of Mark;
