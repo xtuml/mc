@@ -1,4 +1,4 @@
-GIT_WS=~/cort/git
+GIT_WS=~/git
 BPHOME=~/xtuml/BridgePoint
 
 echo "launching Bridgepoint..."
