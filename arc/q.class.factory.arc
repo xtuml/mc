@@ -128,7 +128,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
           .assign attribute_number = attribute_number + 1
         .elif ( 5 == te_dt.Core_Typ )
           .// unique_id
-  ${te_instance.self}->${te_attr.GeneratedName} = ( '-' == *(avlstring[ ${attribute_number} ]+8) ) ? ${te_instance.module}${te_string.uuidtou128}( avlstring[ ${attribute_number} ] ) : ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
+  ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.uuidtou128}( avlstring[ ${attribute_number} ] );
           .select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 0 )
           .select one o_rattr related by o_attr->O_RATTR[R106]
           .if ( ( not_empty o_oida ) and ( empty o_rattr ) )

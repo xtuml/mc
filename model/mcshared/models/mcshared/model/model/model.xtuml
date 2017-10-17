@@ -22,7 +22,7 @@ end if;
 model.projectroot = param.root;',
 	1,
 	'',
-	"29cf3544-be86-47a4-b6ef-530422f6d6ee",
+	"00000000-0000-0000-0000-000000000000",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("f97b2fd8-a709-4de4-bd2c-5ee3c41e7b62",
@@ -33,57 +33,6 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO O_TFR
-	VALUES ("f0c43f71-62ef-4cea-a61d-d718a6b55aa1",
-	"6fb71a1c-7b93-4799-a420-643b89e35198",
-	'load_marking_data',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	0,
-	'/*
-Load features and markable elements from the features.mark marking file.
-Load marks from application.mark in the gen/ folder.
-*/
-select any model from instances of model;
-if ( not_empty model )
-  i = 0; values[7] = "";
-  while ( i < 8 )
-    values[i] = "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ";
-    i = i + 1;
-  end while;
-  TRACE::log( flavor:"info", id:103, message:"Loading marking data." );
-  Feature::load( filename:model.projectroot + "/gen/features.mark", values:values );
-  Mark::load( filename: model.projectroot + "/gen/application.mark", values:values );
-end if;',
-	1,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	0);
-INSERT INTO O_TFR
-	VALUES ("29cf3544-be86-47a4-b6ef-530422f6d6ee",
-	"6fb71a1c-7b93-4799-a420-643b89e35198",
-	'persist_marking_data',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	0,
-	'/*
-Dump features and markable elements to the features.mark marking file.
-Dump marks to application.mark in the gen/ folder.
-*/
-select any model from instances of model;
-if ( not_empty model )
-  i = 0; values[7] = "";
-  while ( i < 8 )
-    values[i] = "                                                                                                                                                                                                              ";
-    i = i + 1;
-  end while;
-  Feature::persist( filename:model.projectroot + "/features.mark", values:values );
-  Mark::persist( filename: model.projectroot + "/application.mark", values:values );
-end if;',
-	1,
-	'',
-	"f0c43f71-62ef-4cea-a61d-d718a6b55aa1",
-	0);
 INSERT INTO O_TFR
 	VALUES ("deb00883-b349-4133-85ea-908e03e8e71e",
 	"6fb71a1c-7b93-4799-a420-643b89e35198",

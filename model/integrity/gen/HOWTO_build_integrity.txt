@@ -1,4 +1,8 @@
-There is a makefile in the src folder.  Use it.
+First, generate ooa.txt by running integrity.arc in the mcooa project.
+Paste ooa.txt into the check_referential_integrity in the integrity model.
 
-But for Windows, compile on Linux using:
-i686-w64-mingw32-gcc -Wno-pointer-to-int-cast *.c -static -o integrity.exe
+For Linux and Mac there is a makefile in the src folder that you can use.
+
+For Windows, compile on Linux using:
+x86_64-w64-mingw32-gcc -Wno-pointer-to-int-cast *.c -static -o integrity.exe
+

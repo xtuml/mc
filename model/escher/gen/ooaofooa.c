@@ -9,7 +9,6 @@
 
 #include "sys_sys_types.h"
 #include "ooaofooa.h"
-#include "CSV_bridge.h"
 #include "TRACE_bridge.h"
 #include "STRING_bridge.h"
 #include "T_bridge.h"
@@ -6931,8 +6930,8 @@ void
 ooaofooa_TE_ABA_rollup()
 {
   ooaofooa_TE_EE * te_ee=0;ooaofooa_TE_C * te_c=0;sys_ParseStatus_t parseSuccessful;Escher_ObjectSet_s te_ees_space={0}; Escher_ObjectSet_s * te_ees = &te_ees_space;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;ooaofooa_ACT_BLK * empty_act_blk=0;
-  /* ::oal( s:char b[1000000]; // Ccode ) */
-  char b[1000000]; // Ccode
+  /* ::oal( s:char b[2000000]; // Ccode ) */
+  char b[2000000]; // Ccode
   /* ASSIGN parseSuccessful = parseSuccessful */
   parseSuccessful = sys_ParseStatus_parseSuccessful_e;
   /* SELECT any empty_act_blk FROM INSTANCES OF ACT_BLK WHERE FALSE */
@@ -7642,6 +7641,7 @@ ooaofooa_TM_SYSTAG_select()
 /*
  * Domain Function:  T_atoi
  */
+#include <stdlib.h>
 i_t
 ooaofooa_T_atoi( c_t * p_s )
 {

@@ -12,6 +12,7 @@
 #include <ctype.h>
 #include "masl_sys_types.h"
 #include "T_bridge.h"
+#include "STRING_bridge.h"
 
 extern bool Escher_run_flag;
 #define T_number_of_bufs 4
@@ -28,8 +29,7 @@ static char tbuf[ T_number_of_bufs ][ T_tbuf_size ];
 c_t *
 T_s( const i_t p_i )
 {
-  current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
-  return Escher_itoa( tbuf[ current_tbuf ], p_i );
+  return STRING_itoa( p_i );
 }
 
 #include <string.h>

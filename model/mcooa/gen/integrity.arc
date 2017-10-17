@@ -488,7 +488,11 @@ check_count = 0;
 total_error_count = 0;
 subtype_count = 0;
 trace = "";
-  .select many o_objs from instances of O_OBJ
+  .// Sort the classes by class number for consistent generation (smaller change sets).
+  .assign n = 0
+  .while ( n <= 9999 )
+  .assign n = n + 1
+  .select many o_objs from instances of O_OBJ where ( selected.Numb == n )
   .for each o_obj in o_objs
     .assign trace_attribute = ""
     .assign name = ""
@@ -548,6 +552,7 @@ ${r.body}
 total_error_count = total_error_count + local_error_count;
     .end if
   .end for
+  .end while
 ::check_log_integer( message:"instances checked:  ", i:instance_count );
 ::check_log_integer( message:"checks made:  ", i:check_count );
 ::check_log_integer( message:"errors found:  ", i:total_error_count );

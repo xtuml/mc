@@ -25,11 +25,12 @@ static char tbuf[ T_number_of_bufs ][ T_tbuf_size ];
 /*
  * Bridge:  s
  */
+#include "STRING_bridge.h"
 c_t *
 T_s( const i_t p_i )
 {
-  current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
-  return Escher_itoa( tbuf[ current_tbuf ], p_i );
+  //current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
+  return STRING_itoa( p_i );
 }
 
 #include <ctype.h>
@@ -51,7 +52,7 @@ static void _mkdir(const char *dir) {
   for(p = tmp + 1; *p; p++)
     if(*p == '/') {
       *p = 0;
-#ifdef __x86_64__
+#ifdef __unix__
       mkdir(tmp, S_IRWXU);
 #endif
       *p = '/';
