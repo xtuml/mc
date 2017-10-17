@@ -29,8 +29,7 @@ FILE * outputfile;
 c_t *
 T_s( const i_t p_i )
 {
-  current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
-  return Escher_itoa( tbuf[ current_tbuf ], p_i );
+  return Escher_itoa( p_i );
 }
 
 
