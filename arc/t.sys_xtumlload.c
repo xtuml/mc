@@ -109,6 +109,7 @@ static Escher_ClassNumber_t wordindex;
 */
 #define DEVELOPER_DEBUG( s, c )
 
+void ${te_prefix.result}batch_relate( const ${te_typemap.domain_number_name}, const ${te_typemap.object_number_name} );
 /*
  * Loop through reading the file one record at a time.
  * Parse each record.
@@ -143,7 +144,7 @@ int Escher_xtUML_load(
     }
   }
   for ( i = 0; i < ${all_max_class_numbers}; i++ ) {
-    Escher_batch_relate( 0, i );
+    ${te_prefix.result}batch_relate( 0, i );
   }
   return 0;
 }
