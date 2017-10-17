@@ -33,9 +33,8 @@ ${te_prefix.type}ID_factory( void )
 ${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( const c_t * s )
 {
   u1_t b, isuuid = 0;
-  ${te_prefix.type}UniqueID_t v = 0;
+  ${te_prefix.type}UniqueID_t v = 0; /* 128-bit hex answer */
   s4_t n = 0; /* 32-bit decimal answer */
-  Escher_UniqueID_t v = 0; /* 128-bit hex answer */
 
   while(*s) {
     b = *s++;
