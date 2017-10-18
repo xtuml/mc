@@ -37,10 +37,6 @@ Escher_UniqueID_t Escher_uuidtou128( const c_t * s )
     b = *s++;
 
     switch(b) {
-    case '-':
-      isuuid++;
-      break;
-
     case '0'...'9':
       b -= '0';
       n = n * 10 + b;
@@ -56,6 +52,8 @@ Escher_UniqueID_t Escher_uuidtou128( const c_t * s )
       b += 10;
       break;
 
+    case '-':
+      isuuid++;
     default:
       continue;
     }

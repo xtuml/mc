@@ -23,8 +23,8 @@ masl2xtuml_S_UDT_instanceloader( Escher_iHandle_t instance, const c_t * avlstrin
   Escher_UniqueID_t return_identifier = 0;
   masl2xtuml_S_UDT * self = (masl2xtuml_S_UDT *) instance;
   /* Initialize application analysis class attributes.  */
-  self->DT_ID = Escher_atoi( avlstring[ 1 ] );
-  self->CDT_DT_ID = Escher_atoi( avlstring[ 2 ] );
+  self->DT_ID = Escher_uuidtou128( avlstring[ 1 ] );
+  self->CDT_DT_ID = Escher_uuidtou128( avlstring[ 2 ] );
   self->Gen_Type = Escher_atoi( avlstring[ 3 ] );
   self->Definition = Escher_strcpy( self->Definition, avlstring[ 4 ] );
   return return_identifier;
@@ -91,15 +91,15 @@ masl2xtuml_S_UDT_instancedumper( Escher_iHandle_t instance )
 {
   masl2xtuml_S_UDT * self = (masl2xtuml_S_UDT *) instance;
   if ( self->CDT_DT_ID < 0xba5e000 ) {
-    printf( "INSERT INTO S_UDT VALUES ( %d,%d,%d,'%s' );\n",
-      self->DT_ID,
-      self->CDT_DT_ID,
+    printf( "INSERT INTO S_UDT VALUES ( %s,%s,%d,'%s' );\n",
+      Escher_itoa( self->DT_ID ),
+      Escher_itoa( self->CDT_DT_ID ),
       self->Gen_Type,
     ( 0 != self->Definition ) ? self->Definition : "" );
   } else {
-    printf( "INSERT INTO S_UDT VALUES ( %d,\"ba5eda7a-def5-0000-0000-0000000000%02x\",%d,'%s' );\n",
-      self->DT_ID,
-      self->CDT_DT_ID - 0xba5ed00,
+    printf( "INSERT INTO S_UDT VALUES ( %s,\"ba5eda7a-def5-0000-0000-0000000000%02x\",%d,'%s' );\n",
+      Escher_itoa( self->DT_ID ),
+      (int) self->CDT_DT_ID - 0xba5ed00,
       self->Gen_Type,
       ( 0 != self->Definition ) ? self->Definition : "" );
   }
