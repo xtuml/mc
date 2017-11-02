@@ -4,6 +4,7 @@
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="" value="Console"/>
 </mapAttribute>
+<stringAttribute key="org.eclipse.debug.ui.ATTR_CAPTURE_IN_FILE" value="${project_loc}/gen/code_generation/mcout.txt"/>
 <booleanAttribute key="org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND" value="false"/>
 <booleanAttribute key="org.eclipse.ui.externaltools.ATTR_BUILDER_ENABLED" value="true"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="/media/psf/Home/xtuml/ubp580/eclipse/plugins/org.xtuml.bp.mc.c.source_5.8.0/mc3020/bin/xtumlmc_build.exe"/>
