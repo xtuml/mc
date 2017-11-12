@@ -17,6 +17,7 @@ is not honoring this requirement.
 ### 2. Document References
 
 <a id="2.1"></a>2.1 [9705](https://support.onefact.net/issues/9705) Subtype appears in mod file before supertype when MASL is exported  
+<a id="2.2"></a>2.2 [9928](https://support.onefact.net/issues/9928) 3020 does not recurse instance reference set in while loop  
 
 ### 3. Background
 
@@ -108,10 +109,11 @@ while ( round < maxrounds )
     // determine subtype depth
     // Render the object during the round equal to its depth.
     depth = 0;
-    select many supertypes related by object->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.'engages']->object[R3714.'one'];
+    select many supertypes related by object->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.'engages']->object[R3714];
     while ( not_empty supertypes )
       depth = depth + 1;
-      select many supertypes related by supertypes->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.'engages']->object[R3714.'one'];
+      ss = supertypes;
+      select many supertypes related by ss->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.'engages']->object[R3714];
     end while;
     if ( depth == round )
       object.render();
@@ -122,6 +124,12 @@ end while;
 ```
 
 ### 6. Implementation Comments
+
+6.1 instance reference recursion bug in MC-3020  
+A bug was identified in MC-3020 [2.2].  An instance reference set being
+reused as the starting point of a select-related statement fails.  This
+was worked around by copying the transient variable first.  The referenced
+issue is opened.
 
 ### 7. Unit Test
 
