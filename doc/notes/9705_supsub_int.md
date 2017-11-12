@@ -123,7 +123,7 @@ end while;
 _- Import xtuml/models/VandMCtesting/mc_test/subsuperchain
 _- Navigate to components::sschain
 _- Export MASL Domain
-_R See top and super exported ahead of suba and subb
+_R See super exported ahead of suba and subb
 ```
 
 7.2 MASL Round Trip  
@@ -138,6 +138,11 @@ No documentation changes required.
 <pre>
 Fork/Repository: cortlandstarrett/mc
 Branch: 9705_supsub
+
+doc/notes/9705_supsub_int.md                                      | 146 ++++++++++++++++++++++
+model/masl/models/masl/masl/domain/domain.xtuml                   |  21 ++++++--
+model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml |  19 ++++++++
+3 files changed, 187 insertions(+), 7 deletions(-)
 
 </pre>
 
