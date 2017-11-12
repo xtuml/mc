@@ -2181,14 +2181,33 @@ INSERT INTO S_SYNC
 	'value[7] = ""; // initialize length
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
+// This array keeps track of which classes (O_OBJ) are still unprocessed (raw).
+// BridgePoint imposes a max class number of 9999.
+raw[9999] = true;
+i = 9999;
+while ( i >= 0 );
+  raw[ i ] = true;
+  i = i - 1;
+end while;
+
 c_c = param.c_c;
 select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
+while ( not_empty o_objs )
 for each o_obj in o_objs
+
+  select any raw_super_o_obj related by o_obj->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201] where  ( raw[ selected.Numb ] );
+  if ( empty raw_super_o_obj )
+    raw[ o_obj.Numb ] = false; // mark as no longer raw, now cooked
+
   value[0] = o_obj.Name;
   out::populate( element:"object", value:value );
   // Note:  No marking occurs on the declaration, even though the grammar allows it.
   out::populate( element:"object", value:emptyvalue );
+  end if;
 end for;
+
+  select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001] where ( raw[ selected.Numb ] );
+end while;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
