@@ -154,8 +154,10 @@ No documentation changes required.
 Fork/Repository: cortlandstarrett/mc
 Branch: 9705_supsub
 
-doc/notes/9705_supsub_int.md                                      | 146 ++++++++++++++++++++++++++
-model/masl/models/masl/masl/domain/domain.xtuml                   |  21 ++++++--
+doc/notes/9705_supsub_int.md                        | 164 ++++++++++++++++++++++++++++++++++++++++
+model/masl/models/masl/masl/domain/domain.xtuml     |  26 +++++++++--
+model/masl/models/masl/masl/subsuper/subsuper.xtuml |   4 +-
+3 files changed, 189 insertions(+), 5 deletions(-)
 
 </pre>
 
