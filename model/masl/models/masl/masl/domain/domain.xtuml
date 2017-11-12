@@ -103,8 +103,12 @@ for each relationship in relationships
   relationship.render();
 end for;
 
+// Sequence rendering such that supertypes are rendered before subtypes.
+// The maximum number of rounds required cannot be larger than the
+// total number subtype-supertype relationships in the domain.
 round = 0;
-maxrounds = cardinality objects;
+select many subsupers from instances of subsuper;
+maxrounds = cardinality subsupers;
 while ( round < maxrounds )
   for each object in objects
     // determine subtype depth

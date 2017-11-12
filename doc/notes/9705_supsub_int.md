@@ -58,6 +58,7 @@ raw[9999] = true;
 i = 9999;
 while ( i >= 0 )
   raw[ i ] = true;
+  i = i - 1;
 end while;
 
 select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
@@ -80,10 +81,12 @@ based on their supertype/subtype dependencies.  The query to do so is
 different, only because it is in the masl metamodel rather than the OOA
 of OOA.  The queries in the two models are directly corresponding.
 
-Note that the below solution loops N^2 times where N is the number of
-objects in the MASL application model.  Although this technique is
-inefficient in time, it avoids polluting the model of MASL with a
-bookkeeping attribute.
+Note that the below solution can loop N^2 times where N is the number of
+objects in the MASL application model (assuming all objects were participating
+in sub/super relationships).  Although this technique is inefficient in time,
+it avoids polluting the model of MASL with a bookkeeping attribute.
+
+This is the selected solution.
 
 before:  
 ```
@@ -94,8 +97,12 @@ end for;
 
 after:  
 ```
+// Sequence rendering such that supertypes are rendered before subtypes.
+// The maximum number of rounds required cannot be larger than the
+// total number subtype-supertype relationships in the domain.
 round = 0;
-maxrounds = cardinality objects;
+select many subsupers from instances of subsuper;
+maxrounds = cardinality subsupers;
 while ( round < maxrounds )
   for each object in objects
     // determine subtype depth
@@ -139,10 +146,8 @@ No documentation changes required.
 Fork/Repository: cortlandstarrett/mc
 Branch: 9705_supsub
 
-doc/notes/9705_supsub_int.md                                      | 146 ++++++++++++++++++++++
+doc/notes/9705_supsub_int.md                                      | 146 ++++++++++++++++++++++++++
 model/masl/models/masl/masl/domain/domain.xtuml                   |  21 ++++++--
-model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml |  19 ++++++++
-3 files changed, 187 insertions(+), 7 deletions(-)
 
 </pre>
 
