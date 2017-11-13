@@ -104,7 +104,7 @@ after:
 round = 0;
 select many subsupers from instances of subsuper;
 maxrounds = cardinality subsupers;
-while ( round < maxrounds )
+while ( round <= maxrounds )
   for each object in objects
     // determine subtype depth
     // Render the object during the round equal to its depth.
