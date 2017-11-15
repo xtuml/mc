@@ -23,10 +23,10 @@ masl2xtuml_O_ATTR_instanceloader( Escher_iHandle_t instance, const c_t * avlstri
   Escher_UniqueID_t return_identifier = 0;
   masl2xtuml_O_ATTR * self = (masl2xtuml_O_ATTR *) instance;
   /* Initialize application analysis class attributes.  */
-  self->Attr_ID = Escher_atoi( avlstring[ 1 ] );
+  self->Attr_ID = Escher_uuidtou128( avlstring[ 1 ] );
   return_identifier = self->Attr_ID;
-  self->Obj_ID = Escher_atoi( avlstring[ 2 ] );
-  self->PAttr_ID = Escher_atoi( avlstring[ 3 ] );
+  self->Obj_ID = Escher_uuidtou128( avlstring[ 2 ] );
+  self->PAttr_ID = Escher_uuidtou128( avlstring[ 3 ] );
   self->Name = Escher_strcpy( self->Name, avlstring[ 4 ] );
   {i_t i = avlstring[ 5 + 1 ] - avlstring[ 5 ];
   self->Descrip = ( i > 0 ) ? (c_t *) Escher_malloc( i ) : "";
@@ -35,7 +35,7 @@ masl2xtuml_O_ATTR_instanceloader( Escher_iHandle_t instance, const c_t * avlstri
   self->Prefix = Escher_strcpy( self->Prefix, avlstring[ 6 ] );
   self->Root_Nam = Escher_strcpy( self->Root_Nam, avlstring[ 7 ] );
   self->Pfx_Mode = Escher_atoi( avlstring[ 8 ] );
-  self->DT_ID = Escher_atoi( avlstring[ 9 ] );
+  self->DT_ID = Escher_uuidtou128( avlstring[ 9 ] );
   self->Dimensions = Escher_strcpy( self->Dimensions, avlstring[ 10 ] );
   self->DefaultValue = Escher_strcpy( self->DefaultValue, avlstring[ 11 ] );
   return return_identifier;
@@ -216,10 +216,10 @@ masl2xtuml_O_ATTR_instancedumper( Escher_iHandle_t instance )
   masl2xtuml_O_ATTR * self = (masl2xtuml_O_ATTR *) instance;
 
   if ( ( Escher_strcmp( "current_state", self->Root_Nam ) == 0 ) && ( Escher_strcmp( "void", self->S_DT_R114_defines_type_of->Name ) == 0 ) ) {
-	  printf( "INSERT INTO O_ATTR VALUES ( %d,%d,%d,'%s','%s','%s','%s',%d,\"%s\",'%s','%s' );\n",
-	    self->Attr_ID,
-	    self->Obj_ID,
-	    self->PAttr_ID,
+	  printf( "INSERT INTO O_ATTR VALUES ( %s,%s,%s,'%s','%s','%s','%s',%d,\"%s\",'%s','%s' );\n",
+	    Escher_itoa( self->Attr_ID ),
+	    Escher_itoa( self->Obj_ID ),
+	    Escher_itoa( self->PAttr_ID ),
 	    ( 0 != self->Name ) ? self->Name : "",
 	    ( 0 != self->Descrip ) ? self->Descrip : "",
 	    ( 0 != self->Prefix ) ? self->Prefix : "",
@@ -230,10 +230,10 @@ masl2xtuml_O_ATTR_instancedumper( Escher_iHandle_t instance )
 	    ( 0 != self->DefaultValue ) ? self->DefaultValue : "" );
 
   } else if ( masl2xtuml_O_RATTR_CLASS_NUMBER == self->R106_object_id && ( self->R106_subtype ? ((masl2xtuml_O_RATTR*)self->R106_subtype)->O_BATTR_R113_navigates_back_to : NULL ) ) {
-  printf( "INSERT INTO O_ATTR VALUES ( %d,%d,%d,'%s','%s','%s','%s',%d,\"%s\",'%s','%s' );\n",
-    self->Attr_ID,
-    self->Obj_ID,
-    self->PAttr_ID,
+  printf( "INSERT INTO O_ATTR VALUES ( %s,%s,%s,'%s','%s','%s','%s',%d,\"%s\",'%s','%s' );\n",
+    Escher_itoa( self->Attr_ID ),
+    Escher_itoa( self->Obj_ID ),
+    Escher_itoa( self->PAttr_ID ),
     ( 0 != self->Name ) ? self->Name : "",
     ( 0 != self->Descrip ) ? self->Descrip : "",
     ( 0 != self->Prefix ) ? self->Prefix : "",
@@ -243,16 +243,16 @@ masl2xtuml_O_ATTR_instancedumper( Escher_iHandle_t instance )
     ( 0 != self->Dimensions ) ? self->Dimensions : "",
     ( 0 != self->DefaultValue ) ? self->DefaultValue : "" );
   } else {
-  printf( "INSERT INTO O_ATTR VALUES ( %d,%d,%d,'%s','%s','%s','%s',%d,%d,'%s','%s' );\n",
-    self->Attr_ID,
-    self->Obj_ID,
-    self->PAttr_ID,
+  printf( "INSERT INTO O_ATTR VALUES ( %s,%s,%s,'%s','%s','%s','%s',%d,%s,'%s','%s' );\n",
+    Escher_itoa( self->Attr_ID ),
+    Escher_itoa( self->Obj_ID ),
+    Escher_itoa( self->PAttr_ID ),
     ( 0 != self->Name ) ? self->Name : "",
     ( 0 != self->Descrip ) ? self->Descrip : "",
     ( 0 != self->Prefix ) ? self->Prefix : "",
     ( 0 != self->Root_Nam ) ? self->Root_Nam : "",
     self->Pfx_Mode,
-    self->DT_ID,
+    Escher_itoa( self->DT_ID ),
     ( 0 != self->Dimensions ) ? self->Dimensions : "",
     ( 0 != self->DefaultValue ) ? self->DefaultValue : "" );
   }

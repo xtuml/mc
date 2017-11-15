@@ -109,6 +109,7 @@ static Escher_ClassNumber_t wordindex;
 */
 #define DEVELOPER_DEBUG( s, c )
 
+void ${te_prefix.result}batch_relate( const ${te_typemap.domain_number_name}, const ${te_typemap.object_number_name} );
 /*
  * Loop through reading the file one record at a time.
  * Parse each record.
@@ -143,7 +144,7 @@ int Escher_xtUML_load(
     }
   }
   for ( i = 0; i < ${all_max_class_numbers}; i++ ) {
-    Escher_batch_relate( 0, i );
+    ${te_prefix.result}batch_relate( 0, i );
   }
   return 0;
 }
@@ -164,7 +165,7 @@ static void init( void )
  */
 static bool readrecord( c_t ** r )
 {
-  #define MAXRECORDLENGTH 400000
+  #define MAXRECORDLENGTH 2000000
   static c_t record[ MAXRECORDLENGTH ] = {0};
   #define MAXLINELENGTH 1000
   static c_t line[ MAXLINELENGTH ] = {0};
@@ -303,7 +304,7 @@ static bool number( void )
   DEVELOPER_DEBUG( "number() %s\n", cursor );
   if ( ! ( ( ( '0' <= *cursor ) && ( *cursor <= '9' ) ) ||
            ( *cursor == '-' ) ) ) return false;
-  /* Capture unique_id into word.  */
+  /* Capture number into word.  */
   word[ wordindex++ ] = cursor++;
   while ( ( ( ( '0' <= *cursor ) && ( *cursor <= '9' ) ) ||
             ( *cursor == '-' ) ) &&

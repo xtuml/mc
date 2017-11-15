@@ -27,11 +27,14 @@ ${te_prefix.type}ID_factory( void )
 .if ( te_sys.InstanceLoading )
 /*
  * Deserialize a UUID into a unique integer ID.
+ * This routine also handles 32-bit integers as produced by xtumlmc_build cleanse.
+ * String UUIDs are detected when exactly 4 dashes are found in the input.
  */
 ${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( const c_t * s )
 {
-  u1_t b;
-  ${te_prefix.type}UniqueID_t v = 0;
+  u1_t b, isuuid = 0;
+  ${te_prefix.type}UniqueID_t v = 0; /* 128-bit hex answer */
+  s4_t n = 0; /* 32-bit decimal answer */
 
   while(*s) {
     b = *s++;
@@ -39,6 +42,7 @@ ${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( const c_t * s )
     switch(b) {
     case '0'...'9':
       b -= '0';
+      n = n * 10 + b;
       break;
 
     case 'a'...'f':
@@ -49,15 +53,20 @@ ${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( const c_t * s )
     case 'A'...'F':
       b -= 'A';
       b += 10;
-    break;
+      break;
 
+    case '-':
+      isuuid++;
     default:
       continue;
     }
     v = (v << 4) | (b & 0xF);
   }
 
-  return v;
+  if ( 4 == isuuid )
+    return v;
+  else
+    return n;
 }
 
 
@@ -622,12 +631,14 @@ ${te_set.scope}${te_string.strlen}( const c_t * s )
 #define ${te_prefix.define_u}ATOI_RADIX 10
 c_t *
 #ifdef __SIZEOF_INT128__
-${te_set.scope}${te_string.itoa}( c_t * string, u128_t value )
+${te_set.scope}${te_string.itoa}( u128_t value )
 #else
-${te_set.scope}${te_string.itoa}( c_t * string, s4_t value )
+${te_set.scope}${te_string.itoa}( s4_t value )
 #endif
 {
-  c_t tmp[64];
+  static c_t s[256][256];
+  static u1_t bufnum = 0;
+  c_t tmp[256];
   c_t * sp, * tp = tmp;
   bool sign = 0;
   s4_t i;
@@ -651,7 +662,8 @@ ${te_set.scope}${te_string.itoa}( c_t * string, s4_t value )
       *tp++ = i + 'a' - 10;
     }
   }
-  sp = string;
+  bufnum++; /* byte size will rotate back to 0 */
+  sp = s[ bufnum ];
   if ( sign ) {
     *sp++ = '-';
   }
@@ -659,7 +671,7 @@ ${te_set.scope}${te_string.itoa}( c_t * string, s4_t value )
     *sp++ = *--tp;
   }
   *sp = 0;
-  return string;
+  return s[ bufnum ];
 }
 
 s4_t

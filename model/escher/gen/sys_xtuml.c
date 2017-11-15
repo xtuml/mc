@@ -29,8 +29,9 @@ Escher_ID_factory( void )
  */
 Escher_UniqueID_t Escher_uuidtou128( const c_t * s )
 {
-  u1_t b;
-  Escher_UniqueID_t v = 0;
+  u1_t b, isuuid = 0;
+  s4_t n = 0; /* decimal answer */
+  Escher_UniqueID_t v = 0; /* 128-bit hex answer */
 
   while(*s) {
     b = *s++;
@@ -38,6 +39,7 @@ Escher_UniqueID_t Escher_uuidtou128( const c_t * s )
     switch(b) {
     case '0'...'9':
       b -= '0';
+      n = n * 10 + b;
       break;
 
     case 'a'...'f':
@@ -48,15 +50,20 @@ Escher_UniqueID_t Escher_uuidtou128( const c_t * s )
     case 'A'...'F':
       b -= 'A';
       b += 10;
-    break;
+      break;
 
+    case '-':
+      isuuid++;
     default:
       continue;
     }
     v = (v << 4) | (b & 0xF);
   }
 
-  return v;
+  if ( 4 == isuuid )
+    return v;
+  else
+    return n;
 }
 
 
@@ -414,7 +421,7 @@ Escher_strcpy( c_t * dst, const c_t * src )
   return s;
 }
 
-#define MAXRECORDLENGTH 400000
+#define MAXRECORDLENGTH 2000000
 /*
  * Add two strings.  Allocate a temporary memory variable to return the value.
  */
@@ -498,12 +505,14 @@ Escher_strlen( const c_t * s )
 #define ESCHER_ATOI_RADIX 10
 c_t *
 #ifdef __SIZEOF_INT128__
-Escher_itoa( c_t * string, u128_t value )
+Escher_itoa( u128_t value )
 #else
-Escher_itoa( c_t * string, s4_t value )
+Escher_itoa( s4_t value )
 #endif
 {
-  c_t tmp[64];
+  static c_t s[256][256];
+  static u1_t bufnum = 0;
+  c_t tmp[256];
   c_t * sp, * tp = tmp;
   bool sign = 0;
   s4_t i;
@@ -527,7 +536,8 @@ Escher_itoa( c_t * string, s4_t value )
       *tp++ = i + 'a' - 10;
     }
   }
-  sp = string;
+  bufnum++; /* byte size will rotate back to 0 */
+  sp = s[ bufnum ];
   if ( sign ) {
     *sp++ = '-';
   }
@@ -535,7 +545,7 @@ Escher_itoa( c_t * string, s4_t value )
     *sp++ = *--tp;
   }
   *sp = 0;
-  return string;
+  return s[ bufnum ];
 }
 
 s4_t
@@ -588,7 +598,6 @@ Escher_malloc( const Escher_size_t b )
 
   return new_mem;
 }
-Escher_iHandle_t Escher_instance_cache[ 1000000 ];
 
 /* xtUML class info for all of the components (collections, sizes, etc.) */
 Escher_Extent_t * const * const domain_class_info[ SYSTEM_DOMAIN_COUNT ] = {

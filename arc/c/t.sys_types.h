@@ -125,7 +125,8 @@ ${inst_id_in_handle}\
 typedef ${te_instance.base} * ${te_instance.handle};
   .if ( te_sys.InstanceLoading )
 #ifdef __SIZEOF_INT128__
-typedef unsigned __int128 ${te_prefix.type}UniqueID_t;
+typedef unsigned __int128 u128_t;
+typedef u128_t ${te_prefix.type}UniqueID_t;
 #else
 typedef i_t ${te_prefix.type}UniqueID_t;
 #endif

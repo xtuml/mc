@@ -2873,6 +2873,36 @@ INSERT INTO PE_PE
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("12b0e811-e469-45bb-93a9-70c47457f5d8",
+	"00000000-0000-0000-0000-000000000000",
+	'load_marking_data',
+	'',
+	'/*
+Load features and markable elements from the features.mark marking file.
+Load marks from application.mark in the gen/ folder.
+*/
+select any model from instances of model;
+if ( not_empty model )
+  i = 0; values[7] = "";
+  while ( i < 8 )
+    values[i] = "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ";
+    i = i + 1;
+  end while;
+  TRACE::log( flavor:"info", id:103, message:"Loading marking data." );
+  Feature::load( filename:model.projectroot + "/gen/features.mark", values:values );
+  Mark::load( filename: model.projectroot + "/gen/application.mark", values:values );
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("12b0e811-e469-45bb-93a9-70c47457f5d8",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	1,
