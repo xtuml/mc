@@ -31,7 +31,7 @@
       .assign r_form.Txt_Phrs = r_part.Txt_Phrs
       .//
       .unrelate r_part from r_rto across R204
-      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > info.interpreter_version )
+      .if ( "pyrsl v1.99" > info.interpreter_version )
       .else
         .unrelate r_part from r_simp across R207
       .end if
