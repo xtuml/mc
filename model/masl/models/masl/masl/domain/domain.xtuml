@@ -103,9 +103,29 @@ for each relationship in relationships
   relationship.render();
 end for;
 
-for each object in objects
-  object.render();
-end for;
+// Sequence rendering such that supertypes are rendered before subtypes.
+// The maximum number of rounds required cannot be larger than the
+// total number subtype-supertype relationships in the domain.
+round = 0;
+select many subsupers from instances of subsuper;
+maxrounds = cardinality subsupers;
+while ( round <= maxrounds )
+  for each object in objects
+    // determine subtype depth
+    // Render the object during the round equal to its depth.
+    depth = 0;
+    select many supertypes related by object->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.''engages'']->object[R3714];
+    while ( not_empty supertypes )
+      depth = depth + 1;
+      ss = supertypes;
+      select many supertypes related by ss->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.''engages'']->object[R3714];
+    end while;
+    if ( depth == round )
+      object.render();
+    end if;
+  end for;
+  round = round + 1;
+end while;
 
 T::include( file:"masl/t.domain_end.masl" );
 
