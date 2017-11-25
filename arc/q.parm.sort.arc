@@ -37,7 +37,7 @@
       .end if
     .end while
     .if ( not_empty cursor_s_sparm )
-      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > info.interpreter_version )
+      .if ( "pyrsl v1.99" > info.interpreter_version )
         .assign cursor_s_sparm.Previous_SParm_ID = 00
       .else
         .unrelate prev_s_sparm from cursor_s_sparm across R54.'precedes'
@@ -88,7 +88,7 @@
       .end if
     .end while
     .if ( not_empty cursor_s_bparm )
-      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > info.interpreter_version )
+      .if ( "pyrsl v1.99" > info.interpreter_version )
         .assign cursor_s_bparm.Previous_BParm_ID = 00
       .else
         .unrelate prev_s_bparm from cursor_s_bparm across R55.'precedes'
@@ -139,7 +139,7 @@
       .end if
     .end while
     .if ( not_empty cursor_o_tparm )
-      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > info.interpreter_version )
+      .if ( "pyrsl v1.99" > info.interpreter_version )
         .assign cursor_o_tparm.Previous_TParm_ID = 00
       .else
         .unrelate prev_o_tparm from cursor_o_tparm across R124.'precedes'
@@ -190,7 +190,7 @@
       .end if
     .end while
     .if ( not_empty cursor_sm_evtdi )
-      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > info.interpreter_version )
+      .if ( "pyrsl v1.99" > info.interpreter_version )
         .assign cursor_sm_evtdi.Previous_SMedi_ID = 00
       .else
         .unrelate prev_sm_evtdi from cursor_sm_evtdi across R533.'precedes'
@@ -241,7 +241,7 @@
       .end if
     .end while
     .if ( not_empty cursor_c_pp )
-      .if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > info.interpreter_version )
+      .if ( "pyrsl v1.99" > info.interpreter_version )
         .assign cursor_c_pp.Previous_PP_ID = 00
       .else
         .unrelate prev_c_pp from cursor_c_pp across R4021.'precedes'
