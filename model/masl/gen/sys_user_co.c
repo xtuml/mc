@@ -107,13 +107,14 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     masl_in_populate( element, value );
   }
 
-  int validate = 0; int Validateonly = 0; bool structuralOnly = FALSE;
+  masl_model * model = masl_model_op_create( "masl" );
+  int validate = 0; int Validateonly = 0; bool structuralOnly = FALSE; bool emitTypeDecls = FALSE;
   char * indirname = 0; char * outdirname = 0; char * projectdomain = 0;
   int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "vVsi:o:d::p::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "vVsti:o:d::p::" ) ) != -1 ) {
       switch ( c ) {
         case 'v':
           validate = 1; break;
@@ -121,6 +122,8 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
           Validateonly = 1; break;
         case 's':
           structuralOnly = TRUE; break;
+        case 't':
+          emitTypeDecls = TRUE; break;
         case 'i':
           indirname = optarg; break;
         case 'o':
@@ -146,6 +149,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       }
     }
   }
+  masl_model_op_setoption( model, "emittypeforwarddeclarations", emitTypeDecls ? "true" : "false" );
   if ( validate || Validateonly ) {
     masl_gen_validate( "" );
   }
