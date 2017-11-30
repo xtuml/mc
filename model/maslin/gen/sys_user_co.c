@@ -89,6 +89,7 @@ void Escher_dump_instances( const Escher_DomainNumber_t, const Escher_ClassNumbe
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
+  masl2xtuml_model * model = masl2xtuml_model_op_create( "maslin" );
   char s[ ESCHER_SYS_MAX_STRING_LEN ], e[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ], arg[ ESCHER_SYS_MAX_STRING_LEN ];
   char * p, * q, * element = e, * value[ 8 ] = { v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7] };
   int i, j;
@@ -99,11 +100,11 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
-          else masl2xtuml_model_op_setroot( optarg );
+          else masl2xtuml_model_op_setoption( model, "projectroot", optarg );
           break;
         case 'o':
           if ( !optarg ) abort();
-          else masl2xtuml_model_op_setroot( optarg );
+          else masl2xtuml_model_op_setoption( model, "projectroot", optarg );
           break;
         case '?':
           fprintf( stderr, "Unknown option character '%c'.\n", optopt );
