@@ -79,6 +79,10 @@ for each object in objects
 end for;
 
 select many types related by self->type[R3776];
+// Provide forward declaration of types for use in other types.
+for each type in types
+  type.render_declaration();
+end for;
 for each type in types
   type.render();
 end for;

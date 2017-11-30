@@ -15,15 +15,6 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'select one markable related by self->markable[R3783];
-// check for self reference
-// This is not a complete check.  We are using a pattern that is reasonably
-// likely to match a nested type.  A nested type will likely have a trailing
-// semicolon.  This is an improvement until the bodies of complex types are
-// parsed.
-if ( -1 != STRING::indexof( haystack:self.body, needle:" " + self.name + ";" ) )
-  T::include( file:"masl/t.type_fwd_decl.masl" );
-  markable.render_marking( list:"declaration" );
-end if;
 // Add the Descrip field as a comment.
 select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
@@ -67,7 +58,7 @@ INSERT INTO O_TPARM
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"00000000-0000-0000-0000-000000000000",
+	"304f7b58-e73d-42ac-82b5-77828b9d0959",
 	'');
 INSERT INTO O_TPARM
 	VALUES ("304f7b58-e73d-42ac-82b5-77828b9d0959",
@@ -168,6 +159,20 @@ value[1] = self.visibility;
 value[2] = self.body;
 out::tostring( element:"type", value:value );
 out::tostring( element:"type", value:emptyvalue );',
+	1,
+	'',
+	"cacb729a-36b2-40fc-9e91-315f92e2e59e",
+	0);
+INSERT INTO O_TFR
+	VALUES ("cacb729a-36b2-40fc-9e91-315f92e2e59e",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'render_declaration',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one markable related by self->markable[R3783];
+T::include( file:"masl/t.type_fwd_decl.masl" );
+markable.render_marking( list:"declaration" );',
 	1,
 	'',
 	"b7dd3c52-3a6c-4cea-b528-2625ea83d95d",
