@@ -311,6 +311,15 @@ end for;
 T::include( file:"masl/t.domain_begin.masl" );
 
 select many types related by self->type[R3776];
+// Provide forward declaration of types for use in other types.
+select any model from instances of model where ( selected.name == "masl" );
+if ( not_empty model and "true" == model.getoption( name:"emittypeforwarddeclarations" ) )
+  for each type in types
+    if ( "public" == type.visibility )
+      type.render_declaration();
+    end if;
+  end for;
+end if;
 for each type in types
   if ( "public" == type.visibility )
     type.render();
