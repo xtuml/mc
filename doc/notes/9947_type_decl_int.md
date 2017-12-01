@@ -171,6 +171,17 @@ Branch: 9947_type_decl
 
 </pre>
 
+Fork/Repository: leviathan747/bridgepoint
+Branch: 9947_type_decl
+
+<pre>
+
+ src/org.xtuml.bp.doc/Reference/MASL/xtuml2masl/xtuml2masl.html | 22 +++++++++++++++++-----
+ src/org.xtuml.bp.doc/Reference/MASL/xtuml2masl/xtuml2masl.md   |  7 +++++--
+ 2 files changed, 22 insertions(+), 7 deletions(-)
+
+</pre>
+
 Fork/Repository: leviathan747/models
 Branch: 9947_type_decl
 
