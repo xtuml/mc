@@ -89,9 +89,9 @@ which types reference which other types.
 
 There is a model in the `mcshared` project called `model`. This model currently
 consists of a single class with two options that get set by command line flags.
-The class itself is a singleton class and exists only to carry provide command
-line options to the model. Currently `m2x` and `x2m` are the only projects which
-use this model.
+The class itself is a singleton class and exists only to provide command line
+options to the model. Currently `m2x` and `x2m` are the only projects which use
+this model.
 
 5.3.1 Extending `model`
 
@@ -141,9 +141,37 @@ models to include type forward declarations everywhere.
 
 7.1 MASL round trip shall pass
 
+7.2 Type export test
+
+7.2.1 In a new workspace, create a new project and import `TypeTest.xtuml`
+(download from the issue [[2.1]](#2.1))  
+7.2.2 Expand the project and "TypeTest" package  
+7.2.3 Right click the component and select "Export MASL domain"  
+7.2.4 Verify that the export completes successfully  
+7.2.5 Navigate to the `masl/TypeTest` directory under the project and open
+`TypeTest.mod`  
+7.2.6 Verify that all three user defined types have a type forward declaration
+and a type declaration. It should look something like this:
+```
+domain TypeTest is
+
+  private type status;
+  private type light_array;
+  private type special_status;
+  private type status is enum ( ON, OFF, ERROR );
+  private type light_array is structure
+    light1: status;
+    light2: status;
+    light3: special_status;
+  end structure;
+  private type special_status is enum ( ON, OFF, SUPER, ERROR );
+
+end domain;
+```
+
 ### 8. User Documentation
 
-None.
+8.1 The documentation for `xtuml2masl` was updated in the BridgePoint help
 
 ### 9. Code Changes
 
@@ -152,8 +180,9 @@ Branch: 9947_type_decl
 
 <pre>
 
+ bin/win/xtumlmc_build.exe                                         | Bin 3995868 -> 3995949 bytes
  bin/xtumlmc_build                                                 |  13 ++++++----
- doc/notes/9947_type_decl_int.md                                   | 207 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ doc/notes/9947_type_decl_int.md                                   | 263 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  model/masl/gen/sys_user_co.c                                      |   8 +++++--
  model/masl/models/masl/lib/masl/masl.xtuml                        |  30 ++++++++++++++++++++---
  model/masl/models/masl/lib/masl/model/model.xtuml                 |  68 ++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -167,7 +196,7 @@ Branch: 9947_type_decl
  model/mcshared/models/mcshared/model/model.xtuml                  | 296 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
  model/mcshared/models/mcshared/model/model/model.xtuml            | 143 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------------------
  model/mcshared/models/mcshared/model/option/option.xtuml          | 129 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 15 files changed, 893 insertions(+), 108 deletions(-)
+ 16 files changed, 949 insertions(+), 108 deletions(-)
 
 </pre>
 
