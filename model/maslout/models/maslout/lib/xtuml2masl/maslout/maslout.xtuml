@@ -2136,8 +2136,8 @@ INSERT INTO S_SYNC
 	'value[7] = ""; // initialize length
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
-select any model from instances of model;
-if ( empty model or ( not_empty model and model.outputcodeblocks ) )
+select any model from instances of model where ( selected.name == "maslout" );
+if ( empty model or ( not_empty model and "true" == model.getoption( name:"outputcodeblocks" ) ) )
 
   //value[0] = param.name + ".masl";
   value[0] = param.text;
@@ -2882,7 +2882,7 @@ INSERT INTO S_SYNC
 Load features and markable elements from the features.mark marking file.
 Load marks from application.mark in the gen/ folder.
 */
-select any model from instances of model;
+select any model from instances of model where ( selected.name == "maslout" );
 if ( not_empty model )
   i = 0; values[7] = "";
   while ( i < 8 )
@@ -2890,8 +2890,8 @@ if ( not_empty model )
     i = i + 1;
   end while;
   TRACE::log( flavor:"info", id:103, message:"Loading marking data." );
-  Feature::load( filename:model.projectroot + "/gen/features.mark", values:values );
-  Mark::load( filename: model.projectroot + "/gen/application.mark", values:values );
+  Feature::load( filename:model.getoption( name:"projectroot" ) + "/gen/features.mark", values:values );
+  Mark::load( filename: model.getoption( name:"projectroot" ) + "/gen/application.mark", values:values );
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
