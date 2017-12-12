@@ -4,7 +4,7 @@ This work is licensed under the Creative Commons CC0 License
 
 ---
 
-# type export needs to be ordered
+# Type export needs to be ordered
 ### xtUML Project Analysis Note
 
 
@@ -30,6 +30,7 @@ This work is licensed under the Creative Commons CC0 License
 <a id="2.1"></a>2.1 [#9947 type export needs to be ordered](https://support.onefact.net/issues/9947)  
 <a id="2.2"></a>2.2 [#9947 int from previous work](9947_type_decl_int.md)  
 <a id="2.3"></a>2.3 [SMASL specification](../8073_masl_parser/8277_serial_masl_spec.md)  
+<a id="2.4"></a>2.4 [#9962 type system](https://support.onefact.net/issues/9962)  
 
 ### 3. Background
 
@@ -40,11 +41,25 @@ has produced another issue later in the build chain for MASL users. Types must
 be ordered properly by type export. This note explores options for producing
 properly ordered MASL types.
 
+The fundamental issue here (why there even is an issue at all) due to the
+complexity of the MASL type system as compared to the simplicity of the xtUML
+type system. It was determined that the xtUML type system could not adequately
+represent all MASL types. Because of this, the MASL types are superimposed upon
+the xtUML type system and not all of the critical information that describes the
+types is captured in metamodel instance data.
+
+The final solution to the problem will be realized when the xtUML type system
+moves forward to be rich enough to represent all MASL types. Until that point,
+any solution will be fundamentally incomplete as it is simply a way to interpret
+xtUML model data (as the metamodel stands today) and map that onto MASL types.
+An issue is raised for extending the xtUML type system. The feature request can
+be seen at [[2.4]](#2.4).
+
 ### 4. Requirements
 
 4.1 User defined MASL types shall be exported in an order which minimizes the
 number of forward declarations required  
-4.1.1 Forward references shall be generated only for types which make a self
+4.1.1 Forward references shall be generated only for types which make a cyclic
 reference  
 
 ### 5. Analysis
@@ -94,11 +109,7 @@ The MASL exporter could be modified to honor this new ordering.
 
 Up to this point, types have been considered a black box by BridgePoint and the
 MASL tools. The type name and visibility are parsed, but the contents of the
-type itself is imported as a string field. This decision was largely due to the
-complexity of the MASL type system as compared to the simplicity of the xtUML
-type system. It was determined that the xtUML type system could not adequately
-represent all MASL types. The following will analyze what it would take to
-analyze the types at least enough to determine type ordering.
+type itself is imported as a string field.
 
 5.2.1 Types that reference each other
 
