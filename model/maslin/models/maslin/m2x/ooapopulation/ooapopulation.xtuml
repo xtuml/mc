@@ -6555,23 +6555,33 @@ INSERT INTO O_TFR
 
 select any fromState related by sm_sm->SM_STATE[R501] where (selected.Name == param.startState);
 select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
-if ( empty sm_evt )
+select many o_objs from instances of O_OBJ where ( selected.Name == param.object );
+while ( empty sm_evt )
   // Event not found, so it must be a poly that has not been created yet.
-  // Find the event in the supertype hierarchy using the given name.
-  // If necessary, migrate the event in the supertype from SM_SEVT to SM_PEVT.
-  // Clean up the parent SEMEs.
-  // Create the SEVT and non-local event in this state machine and relate it upwards.
-  // This processing depends on the supertype being in place before the subtype.
-  select any o_obj from instances of O_OBJ where ( selected.Name == param.object );
-  select one parent_sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
-  select any parent_sm_evt related by parent_sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
-  if ( empty parent_sm_evt )
-    TRACE::log( flavor:"failure", id:157, message:"Event for transition not found for event:  " + param.eventName );
-  else
-    evt_id = self.StateMachineEvent_getAssociatedEventForStateMachine( sm_evt:parent_sm_evt, stateMachineId:sm_sm.SM_ID );
-    select any sm_evt from instances of SM_EVT where ( selected.SMevt_ID == evt_id );
-  end if; 
+  // Find the event in any supertype hierarchy using the given name.
+  select many parent_sm_sms related by o_objs->SM_ISM[R518]->SM_SM[R517];
+  select any sm_evt related by parent_sm_sms->SM_EVT[R502] where ( selected.Mning == param.eventName );
+  select many o_objs related by o_objs->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201];
+  if ( empty o_objs )
+    break;
+  end if;
+end while;
+
+// if no event was found, return early
+if ( empty sm_evt )
+  TRACE::log( flavor:"failure", id:157, message:"Event for transition not found for event:  " + param.eventName );
+  return;
 end if;
+
+// if it is a non-local event, get the corresponding poly
+select one polyEvt related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525];
+if ( not_empty polyEvt )
+  sm_evt = polyEvt;
+end if;
+
+// resolve the event for the current state machine
+evt_id = self.StateMachineEvent_getAssociatedEventForStateMachine( sm_evt:sm_evt, stateMachineId:sm_sm.SM_ID );
+select any sm_evt from instances of SM_EVT where ( selected.SMevt_ID == evt_id );
 
 //IGNORE: ''Ignore'';
 if ( "Ignore" == param.endState )
