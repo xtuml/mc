@@ -9463,22 +9463,11 @@ if (not_empty polyEvent)
 else
   // dispose this events associated local and event-matrix event instances
   select one matrixEvent related by sm_evt->SM_SEVT[R525];
-  // before disposing, get any transitions that this event is assigned to
-  select many assignedTxns related by matrixEvent->SM_SEME[R503]->SM_NSTXN[R504]->SM_TXN[R507];
-  self.SEMEvent_dispose(sm_sevt:matrixEvent);
+  self.SEMEvent_migrateToLocalPoly(sm_sevt:matrixEvent);
 
-  // make the event polymorphic
-  create object instance polyEvent of SM_PEVT;
-  relate polyEvent to sm_evt across R525;
+  // get the polymorphic event
+  select one polyEvent related by matrixEvent->SM_NLEVT[R526]->SM_PEVT[R527];
   
-  // re-assign any of the previously assigned transitions
-  evt_id = self.StateMachineEvent_getAssociatedEventForStateMachine( sm_evt:sm_evt, stateMachineId:sm_evt.SM_ID );
-  select any new_evt from instances of SM_EVT where ( selected.SMevt_ID == evt_id );
-  select any sm_sm from instances of SM_SM where ( selected.SM_ID == new_evt.SM_ID );
-  for each assignedTxn in assignedTxns
-    self.Transition_addEvent( sm_txn:assignedTxn, sm_sm:sm_sm, sm_evt:new_evt );
-  end for;
-
   // create a non-local event to alias the above polymorphic event, and return it
   return self.PolymorphicEvent_createNonLocalEventForStateMachine(sm_pevt:polyEvent, stateMachineId:machine.SM_ID);
 end if;',
@@ -9565,81 +9554,50 @@ INSERT INTO O_TPARM
 INSERT INTO O_TFR
 	VALUES ("7d6ac7ae-dc34-4e4c-aa7e-d9c072d06138",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
-	'SEMEvent_dispose',
+	'SEMEvent_migrateToLocalPoly',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'sm_sevt = param.sm_sevt;
-select one evt related by sm_sevt->SM_EVT[R525];
-unrelate sm_sevt from evt across R525;
-select many semes related by sm_sevt->SM_SEME[R503];
-for each seme in semes
-  select one fromState related by seme->SM_STATE[R503];
-  select one event related by seme->SM_SEVT[R503];
-  unrelate fromState from event across R503 using seme;
-  self.StateEventMatrixEntry_disposeChOrEi( sm_seme:seme );
-  select one nstxn related by seme->SM_NSTXN[R504];
-  if (not_empty nstxn)
-    unrelate seme from nstxn across R504;
-    select one txn related by nstxn->SM_TXN[R507];
-    create object instance netxn of SM_NETXN;
-    unrelate nstxn from txn across R507;
-    relate txn to netxn across R507;
-    relate fromState to netxn across R508;
-    delete object instance nstxn;
-  end if;
-  delete object instance seme;
-end for;
-select one levt related by sm_sevt->SM_LEVT[R526];
-if (not_empty levt)
-  select one sevt related by levt->SM_SEVT[R526];
-  unrelate levt from sevt across R526;
-  select one crtxn related by levt->SM_CRTXN[R509];
-  if (not_empty crtxn)
-    unrelate levt from crtxn across R509;
-  end if;
-  delete object instance levt;
-end if;
-select one nlevt related by sm_sevt->SM_NLEVT[R526];
-if (not_empty nlevt)
-  unrelate nlevt from sm_sevt across R526;
-  if(not_empty evt)
-    select many dis related by evt->SM_EVTDI[R532];
-    for each di in dis
-      select one sm related by di->SM_SM[R516];
-      unrelate di from sm across R516;
-      select one dt related by di->S_DT[R524];
-      unrelate di from dt across R524;
-      select one event related by di->SM_EVT[R532];
-      if not_empty event
-        unrelate di from event across R532;
-      end if;
-      select many dims related by di->S_DIM[R531];
-      for each dim in dims
-        unrelate di from dim across R531;
-        delete object instance dim;
-      end for;
-      delete object instance di;
+select one orig_evt related by sm_sevt->SM_EVT[R525];
+
+select one sm_levt related by sm_sevt->SM_LEVT[R526];
+if ( empty sm_levt )
+  TRACE::log( flavor:"failure", id:158, message:"Cannot migrate non-local event to local poly: " + orig_evt.Mning );
+else
+  select one sm_crtxn related by sm_levt->SM_CRTXN[R509];
+  if ( not_empty sm_crtxn )
+    TRACE::log( flavor:"failure", id:157, message:"Cannot migrate event that is assigned to a creation transition: " + orig_evt.Mning );
+  else
+    // unhook local event and dispose
+    unrelate sm_levt from sm_sevt across R526;
+    delete object instance sm_levt;
+    
+    // create polymorphic event
+    create object instance sm_evt of SM_EVT;
+    create object instance sm_pevt of SM_PEVT;
+    sm_evt.Numb = orig_evt.Numb;
+    sm_evt.Mning = orig_evt.Mning;
+    sm_evt.Is_Lbl_U = orig_evt.Is_Lbl_U;
+    sm_evt.Unq_Lbl = orig_evt.Unq_Lbl;
+    sm_evt.Descrip = orig_evt.Descrip;
+    select one sm related by sm_sevt->SM_EVT[R525]->SM_SM[R502];
+    relate sm_evt to sm across R502;
+    relate sm_pevt to sm_evt across R525;
+    
+    // move parameters to the poly
+    select many sm_evtdis related by orig_evt->SM_EVTDI[R532];
+    for each sm_evtdi in sm_evtdis
+      unrelate sm_evtdi from orig_evt across R532;
+      relate sm_evtdi to sm_evt across R532;
     end for;
-    delete object instance evt;
+    
+    // create new non-local event
+    create object instance sm_nlevt of SM_NLEVT;
+    relate sm_nlevt to sm_sevt across R526;
+    relate sm_nlevt to sm_pevt across R527;
   end if;
-  select one pevt related by nlevt->SM_PEVT[R527];
-  if (not_empty pevt)
-    unrelate nlevt from pevt across R527;
-    select many aliases related by pevt->SM_NLEVT[R527];
-    if (empty aliases)
-      select one event related by pevt->SM_EVT[R525];
-      unrelate pevt from event across R525;
-      create object instance matrixEvent of SM_SEVT;
-      relate matrixEvent to event across R525;
-      self.SEMEvent_createDefaultMatrixEntries( sm_sevt:matrixEvent );
-      create object instance localEvent of SM_LEVT;
-      relate localEvent to matrixEvent across R526;
-    end if;
-  end if;
-  delete object instance nlevt;
-end if;
-delete object instance sm_sevt;',
+end if;',
 	1,
 	'',
 	"132437da-61c8-4fe6-a112-744ee0bd386b",
