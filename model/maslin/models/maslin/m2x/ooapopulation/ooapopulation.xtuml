@@ -6469,7 +6469,8 @@ INSERT INTO O_TFR
 	'sm_sm = param.sm_sm;
 
 select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.name );
-if ( empty sm_evt )
+select one sm_nlevt related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526];
+if ( empty sm_evt or ( not_empty sm_evt and not_empty sm_nlevt ) ) // allow duplicate named events if one is a poly
   create object instance newEvent of SM_EVT;
   relate sm_sm to newEvent across R502;
   self.StateMachineEvent_initialize(sm_evt:newEvent, name:param.name);
@@ -6554,18 +6555,14 @@ INSERT INTO O_TFR
 // not really a state but is "Ignore" or "Cannot_Happen"
 
 select any fromState related by sm_sm->SM_STATE[R501] where (selected.Name == param.startState);
-select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
-select many o_objs from instances of O_OBJ where ( selected.Name == param.object );
-while ( empty sm_evt )
-  // Event not found, so it must be a poly that has not been created yet.
-  // Find the event in any supertype hierarchy using the given name.
-  select many parent_sm_sms related by o_objs->SM_ISM[R518]->SM_SM[R517];
-  select any sm_evt related by parent_sm_sms->SM_EVT[R502] where ( selected.Mning == param.eventName );
-  select many o_objs related by o_objs->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201];
-  if ( empty o_objs )
-    break;
-  end if;
-end while;
+select any sm_evt from instances of SM_EVT where false;
+
+if ( "" == param.object ) // must be a local event
+  select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
+else  // referring to a poly event
+  select any o_obj from instances of O_OBJ where ( selected.Name == param.object );
+  select any sm_evt related by o_obj->SM_ISM[R518]->SM_SM[R517]->SM_EVT[R502] where ( selected.Mning == param.eventName );
+end if;
 
 // if no event was found, return early
 if ( empty sm_evt )
