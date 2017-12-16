@@ -86,7 +86,9 @@ body of the type.
 6.3 Ordering Algorithm  
 The ordering algorithm employes the concept of 'leaf' and 'cycle'.
 A leaf is a type that makes no reference to itself or any other
-type.  A cycle a set of one or more types that form a looping chain of
+type.  A type with references becomes a leaf after all of the types
+to which it refers are rendered.
+A cycle is a set of one or more types that form a looping chain of
 references.  Self-reference is a cycle of length one.  Longer cycles are
 formed when one type refers to another (which refers to another which
 refers another) which eventually refers back to the first type.  As
@@ -110,7 +112,7 @@ it participates.  All unprocessed leaf types are rendered.
 The steps of leaf rendering and cycle breaking continue until all types
 have been made eligible for rendering and are exported.  A guard is
 provided to avoid infinitely attempting to break cycles.  However, the
-above algorithm can deterministically succeeded if all legitimate
+above algorithm can deterministically succeed if all legitimate
 referenced types are identified _and_ no false positives were parsed from
 type bodies.
 
