@@ -105,15 +105,14 @@ All leaf types are rendered.
 After leaf types are rendered, remaining types are part of one or more
 cycles.  One dependent reference is selected arbitrarily.  The type it
 refers to is provided a forward declaration which breaks a cycle in which
-it participates.  All leaf type are again rendered.
+it participates.  All unprocessed leaf types are rendered.
 
 The steps of leaf rendering and cycle breaking continue until all types
-have been made eligible for rendering and exported.
-
-A guard is provided to avoid infinitely attempting to break cycles.
-However, the above algorithm can deterministically succeeded if all
-legitimate referenced types are identified _and_ no false positives were
-parsed from type bodies.
+have been made eligible for rendering and are exported.  A guard is
+provided to avoid infinitely attempting to break cycles.  However, the
+above algorithm can deterministically succeeded if all legitimate
+referenced types are identified _and_ no false positives were parsed from
+type bodies.
 
 6.4 Weaknesses  
 This design depends upon successfully identifying referenced type names
@@ -122,8 +121,8 @@ references and also not mistaking extra words as type or enumerator
 identifiers.
 
 6.5 Challenge  
-In MASL, enumerator reference provides a special challenge.  Type
-references within type definitions are found by (single) name for all but
+In MASL, enumerator references pose a special challenge.  Type references
+within type definitions are found by (single) name for all but
 enumerators.  The members of an enumeration represent a set of labels
 that can be imbedded within other type definition bodies in
 initialization expressions.
@@ -136,7 +135,7 @@ of other type field initializers.
 
 ### 8. User Documentation
 
-No changes to user documentation necessary.
+No changes to user documentation are necessary.
 
 ### 9. Unit Test
 
@@ -152,7 +151,7 @@ No changes to user documentation necessary.
 9.2.5 Navigate to the `masl/TypeTest` directory under the project and open
 `TypeTest.mod`  
 9.2.6 Verify that all three user defined types have a type forward declaration
-and a type declaration. It should look something like this:
+and a type declaration.  It should look something like this:  
 ```
 domain TypeTest is
 
