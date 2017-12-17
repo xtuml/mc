@@ -1,3 +1,11 @@
+- Where do I put the query to link the references?
+- Add a query to MC-3020 that reports parse errors.
++ I suspect I cannot select FOI for type references because of project rendering.
++ Also I may need to reset the resolved field in references.
++ I forgot to render forward in interface files.
++ Found a bug.  3776 and 3719 are redundant.
+  Kept 3719 and deleted 3776.
+
 ---
 
 This work is licensed under the Creative Commons CC0 License
@@ -9,20 +17,29 @@ This work is licensed under the Creative Commons CC0 License
 
 ### 1. Abstract
 
-Types need to be output in an intelligent order...
+Implementation and testing of the type ordering are documented here.
 
 ### 2. Document References
 
 <a id="2.1"></a>2.1 [#9947 type export needs to be ordered](https://support.onefact.net/issues/9947)  
+<a id="2.2"></a>2.2 [first try implementation note (now reverted)](https://github.com/cortlandstarrett/mc/blob/9947_typeorder/doc/notes/9947_type_decl/9947_type_decl_int.md)  
+<a id="2.3"></a>2.3 [analysis note for this issue](https://github.com/cortlandstarrett/mc/blob/9947_typeorder/doc/notes/9947_type_decl/9947_type_decl2_ant.md)  
+<a id="2.4"></a>2.4 [design note for this issue](https://github.com/cortlandstarrett/mc/blob/9947_typeorder/doc/notes/9947_type_decl/9947_typeorder_dnt.md)  
 
 ### 3. Background
 
-explain previous work
-give forward way
+For expedience, the parent issue [[2.1]](#2.1) initially was addressed
+using a brute force approach described in [[2.2]](#2.2).  The approach
+simplistically provided forward declarations for all types.  Simple
+is good.  But in this case a simple, brute force approach precipitated
+problems in the downstream model compilation tool chain.
+
+Further analysis of the issue was documented in [[2.2]](#2.2).
+A design is documented in [[2.4]](#2.4).
 
 ### 4. Requirements
 
-4.1 User defined MASL types will be exported into a model (`.mod`) file
+See [[2.3]](#2.3) and [[2.4]](#2.4).
 
 
 ### 5. Work Required
@@ -30,12 +47,19 @@ give forward way
 
 ### 6. Implementation Comments
 
-6.1 Effect on MASL round trip
+6.1 Interface Rendering  
+The design needed a slight change.  Types get rendered more than once.
+All types are rendered for the model (`.mod`) file and public type are
+rendered again for the interface (`.int`) file.  `render_all` is changed
+to take a parameter indicating public types.  Before running, it marks
+all types as not rendered.
 
-Because `masl` will now default to always emit type forward declarations, MASL
-round trip tests will fail because the input models did not have the forward
-declarations in all cases. This will be solved simply by updating the test
-models to include type forward declarations everywhere.
+6.2 R3776  
+I found a bug in the model of masl.  R3776 from domain to type was
+redundant with R3719.  I removed R3776 and then added it back in
+between domain and reference.  This is used to collect references
+against a domain for project renderings.  type.name is a key but
+for private types only valid within the scope of a single domain.
 
 ### 7. Unit Test
 
