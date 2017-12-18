@@ -79,7 +79,7 @@ for each object in objects
 end for;
 
 // Render types in dependent order minimizing forward declarations.
-type::render_all( domain:self, scope:"all" );
+type::render_all( domain:self, scope:"private" );
 
 select many exceptions related by self->exception[R3748];
 for each exception in exceptions

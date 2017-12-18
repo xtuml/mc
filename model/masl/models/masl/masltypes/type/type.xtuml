@@ -228,7 +228,13 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
-	'select many types from instances of type where ( not selected.rendered );
+	'domain = param.domain;
+count = 1;
+select many types related by domain->type[R3719] where ( not selected.rendered );
+if ( "public" == param.scope )
+  // For the interface file, we render only public types.
+  select many types related by domain->type[R3719] where ( ( not selected.rendered ) and ( selected.visibility == param.scope ) );
+end if;
 count = cardinality types;
 prev_count = count + 1;
 while ( count < prev_count )
@@ -236,10 +242,16 @@ while ( count < prev_count )
   for each type in types
     select any reference related by type->reference[R3777.''refers_to''] where ( not selected.resolved );
     if ( empty reference )
-      type.render();
+      if ( ( "public" == type.visibility ) or ( "private" == param.scope ) )
+        type.render();
+      end if;
     end if;
   end for;
-  select many types from instances of type where ( not selected.rendered );
+  select many types related by domain->type[R3719] where ( not selected.rendered );
+  if ( "public" == param.scope )
+    // For the interface file, we render only public types.
+    select many types related by domain->type[R3719] where ( ( not selected.rendered ) and ( selected.visibility == param.scope ) );
+  end if;
   count = cardinality types;
 end while;
 return count;
@@ -248,6 +260,24 @@ return count;
 	'',
 	"e72c6670-d122-49cf-9711-2a3574dcf6b8",
 	0);
+INSERT INTO O_TPARM
+	VALUES ("07e7b7d1-663b-4409-aa30-5000d1e4afd5",
+	"55bd70c6-df59-4a18-8081-b055a6c4bd28",
+	'domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("7cde3b71-156a-4987-bf76-e18d44406de8",
+	"55bd70c6-df59-4a18-8081-b055a6c4bd28",
+	'scope',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"07e7b7d1-663b-4409-aa30-5000d1e4afd5",
+	'');
 INSERT INTO O_TFR
 	VALUES ("5cf062ce-c54b-4592-bfe4-2a50894a96c8",
 	"56998698-5cbd-405c-920e-291faf20126c",
@@ -256,19 +286,19 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
 	'domain = param.domain;
-public = true;
-private = true;
-if ( "public" == param.scope )
-  private = false;
-end if;
 
 // Reset existing references.
 select many references related by domain->reference[R3776.''contains''];
 for each reference in references
   reference.resolved = false;
 end for;
+guard = cardinality references; // Limit the cycles of looping.
 // Link up the references.
 select many types related by domain->type[R3719];
+if ( "public" == param.scope )
+  // For the interface file, we render only public types.
+  select many types related by domain->type[R3719] where ( selected.visibility == param.scope );
+end if;
 for each type in types
   type.rendered = false;
   type.declared_forward = false;
@@ -278,20 +308,21 @@ end for;
 // Provide forward declarations for self-referential types.
 select many references related by domain->reference[R3776.''contains''] where ( selected.parent_name == selected.child_name );
 for each reference in references
-  select one type related by reference->type[R3777.''refers_to''] where ( not selected.rendered );
-  if ( not_empty type )
+  select one type related by reference->type[R3777.''refers_to''];
+  if ( ( not type.rendered ) and ( ( "public" == type.visibility ) or ( "private" == param.scope ) ) )
     type.render_forward();
   end if;
 end for;
 
-// Render leaf types (those not referenced by others).
-guard = label::max;
-while ( 0 < type::render_leaves() )
+// Render leaf types (those with no unresolved references).
+while ( 0 < type::render_leaves( domain:domain, scope:param.scope ) )
   // Break a cycle by selecting any referenced type and resolving it.
-  select any reference from instances of reference where ( not selected.resolved );
+  select any reference related by domain->reference[R3776] where ( not selected.resolved );
   select one type related by reference->type[R3777.''refers_to''];
   if ( not_empty type )
-    type.render_forward();
+    if ( ( "public" == type.visibility ) or ( "private" == param.scope ) )
+      type.render_forward();
+    end if;
   else
     TRACE::log( flavor:"failure", id:121, message:"did not find cyclic unresolved type" );
   end if;
