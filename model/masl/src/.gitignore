@@ -1,5 +1,7 @@
 *.c
 *.h
 *.o
+*.l
+*.y
 a.out
 mcmasl
