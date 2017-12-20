@@ -1,0 +1,1 @@
+#define TYPEMINER_MAX_STR_LEN 1024
