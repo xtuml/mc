@@ -6,6 +6,7 @@
 #include <string.h>
 #define YY_DECL int yylex()
 #include "masl_sys_types.h"
+#include "miner.h"
 #include "miner.tab.h"
 void yyerror( const char * s );
 extern bool typeminer_parse_error;
@@ -80,7 +81,7 @@ extern bool typeminer_parse_error;
 '(\\([btnfr\"\\]|[0-3][0-7][0-7]|[0-7][0-7]|[0-7]|u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])|[^\\'])'      return CHARACTER;
 \"(\\([btnfr\"\\]|[0-3][0-7][0-7]|[0-7][0-7]|[0-7]|u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])|[^\\\"])*\"  return STRING;
 
-[A-Za-z_][A-Za-z_0-9]*  { strncpy( yylval.sval, yytext, ESCHER_SYS_MAX_STRING_LEN ); return IDENTIFIER; }
+[A-Za-z_][A-Za-z_0-9]*  { strncpy( yylval.sval, yytext, TYPEMINER_MAX_STR_LEN ); return IDENTIFIER; }
 
 .                       { printf( "0x%x, '%s'\n", yytext[0], yytext ); yyerror( "Unrecognized token" ); return UNRECOGNIZED_TOKEN; }
 
