@@ -1,20 +1,21 @@
 %{
 #include <string.h>
 #include "masl_sys_types.h"
+#include "miner.h"
 extern int yylex();
 extern int yylex_destroy(void);
 extern int yyparse();
 extern int yylineno;
 extern FILE * yyin;
 void yyerror( const char * s );
-void typeminer_add_label( c_t label[ESCHER_SYS_MAX_STRING_LEN] );
+void typeminer_add_label( c_t label[TYPEMINER_MAX_STR_LEN] );
 %}
 
 %locations
 %expect 2
 
 %union {
-  char sval[ESCHER_SYS_MAX_STRING_LEN];
+  char sval[TYPEMINER_MAX_STR_LEN];
 }
 
 %token<sval> IDENTIFIER
@@ -85,9 +86,9 @@ namedTypeRef                  : ANONYMOUS scopedName { typeminer_add_label( $2 )
                               | IDENTIFIER           { typeminer_add_label( $1 ); }
                               ;
 
-scopedName                    : IDENTIFIER SCOPE IDENTIFIER { strncpy( $$, $1, ESCHER_SYS_MAX_STRING_LEN );
+scopedName                    : IDENTIFIER SCOPE IDENTIFIER { strncpy( $$, $1, TYPEMINER_MAX_STR_LEN );
                                                               strncat( $$, "::", 2 );
-                                                              strncat( $$, $3, ESCHER_SYS_MAX_STRING_LEN - 2 - strlen( $1 ) ); }
+                                                              strncat( $$, $3, TYPEMINER_MAX_STR_LEN - 2 - strlen( $1 ) ); }
                               ;
 
 typeConstraint                : rangeConstraint
