@@ -16,9 +16,9 @@ recognized, but the bodies of the types are free form text.  This text is
 not parsed by the tool.  This free form text may contain references to
 other types defined in the model.  For the model editor to be adequately
 useful, it must be made intelligent enough to render types in an order
-that honors type dependency.  Though free form, the type bodies must be
-parsed to find type references that must be declared in dependent order
-or declared forward when necessary.
+that honors type dependency.  Though free form in the editor, the type
+bodies must be parsed by the export process to find type references that
+must be declared in dependent order or declared forward when necessary.
 
 ### 2. Document References
 
@@ -38,9 +38,7 @@ Further analysis of the issue was documented in [[2.3]](#2.3).  It is
 important to have read the analysis before reviewing this design note.
 
 A different approach is now taken that includes scanning the type bodies
-for references to other types.  The design does not employ a full
-grammar-based parser but does sufficient pattern matching following
-rules of punctuation and spacing.
+for references to other types.  The design employs a flex/bison parser.
 
 ### 4. Requirements
 
@@ -73,10 +71,11 @@ in an order which minimizes forward declarations.
 6.1 Identifying Dependent Types  
 A scanner (`typeminer`) is introduced which takes as input the body of a
 type definition and produces a list of labels that may be the names of
-referenced types found within the body.
+referenced types found within the body.  This parser is implemented in
+flex and bison.  The grammar is derived from the MASL antlr grammar.
 
 6.2 Capturing References  
-A class is added to model of MASL types that provides a reflexive
+A class 'reference' is added to model of MASL types that provides a reflexive
 association from one type to another that refers to it.  This link is
 established between a type and all potential references found inside the
 body of the type.
@@ -84,6 +83,8 @@ body of the type.
 ![Inter-Type Referencing](type_referencing.png)  
 
 6.3 Ordering Algorithm  
+The ordering algorithm employs a form of graph pruning.
+
 The ordering algorithm employes the concept of 'leaf' and 'cycle'.
 A leaf is a type that makes no reference to itself or any other
 type.  A type with references becomes a leaf after all of the types
@@ -98,10 +99,15 @@ cycle.
 6.3.1 Self-Reference  
 Forward declarations are always required for self-referential types.
 The algorithm detects self-reference and initially provides a forward
-declaration for these individually recursive types.
+declaration for these individually recursive types.  These forward
+references resolve the dependency on these types allowing more types
+to become leaf types.
 
 6.3.2 Resolution of Leaf Types  
-All leaf types are rendered.
+All leaf types are rendered.  The leaf rendering loops resolving leaf
+nodes which allow other leaf nodes to be resolved.  When a loop completes
+without achieving additional resolution, it means that the process is
+done or that cycles are present.
 
 6.3.3 Breaking of Cycles  
 After leaf types are rendered, remaining types are part of one or more
@@ -122,7 +128,7 @@ from within type bodies.  Success means identifying actual type
 references and also not mistaking extra words as type or enumerator
 identifiers.
 
-6.5 Challenge  
+6.5 Enumerator References  
 In MASL, enumerator references pose a special challenge.  Type references
 within type definitions are found by (single) name for all but
 enumerators.  The members of an enumeration represent a set of labels
@@ -152,21 +158,18 @@ No changes to user documentation are necessary.
 9.2.4 Verify that the export completes successfully  
 9.2.5 Navigate to the `masl/TypeTest` directory under the project and open
 `TypeTest.mod`  
-9.2.6 Verify that all three user defined types have a type forward declaration
-and a type declaration.  It should look something like this:  
+9.2.6 Verify that the structured type is declared after the enums.  
+It should look something like this:  
 ```
 domain TypeTest is
 
-  private type status;
-  private type light_array;
-  private type special_status;
   private type status is enum ( ON, OFF, ERROR );
+  private type special_status is enum ( ON, OFF, SUPER, ERROR );
   private type light_array is structure
     light1: status;
     light2: status;
     light3: special_status;
   end structure;
-  private type special_status is enum ( ON, OFF, SUPER, ERROR );
 
 end domain;
 ```
