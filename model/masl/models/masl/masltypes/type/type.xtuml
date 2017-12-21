@@ -201,16 +201,8 @@ INSERT INTO O_TFR
 	'// Render a forward declaration and mark myself so.
 if ( not self.declared_forward )
   select one markable related by self->markable[R3783];
-// CDS - leaving this comment and code here until editing is finished
-  // check for self reference
-  // This is not a complete check.  We are using a pattern that is reasonably
-  // likely to match a nested type.  A nested type will likely have a trailing
-  // semicolon.  This is an improvement until the bodies of complex types are
-  // parsed.
-//  if ( -1 != STRING::indexof( haystack:self.body, needle:" " + self.name + ";" ) )
     T::include( file:"masl/t.type_fwd_decl.masl" );
     markable.render_marking( list:"declaration" );
-//  end if;
   self.declared_forward = true;
 end if;
 select many references related by self->reference[R3777.''is_referenced_by''];

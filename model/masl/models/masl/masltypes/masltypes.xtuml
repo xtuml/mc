@@ -8647,8 +8647,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'count = 0;
 if ( "" != param.body )
-  // CDS - So, at this point, all we do is check for self reference.
-  // CDS - but remarkably, this will enable us to pass all of the round trip tests!
+  // All we do is check for self reference.  The realized typeminer does more
+  // substantial parsing.
   if ( -1 != STRING::indexof( haystack:param.body, needle:" " + param.name + ";" ) )
     param.labels[0] = param.name;
     count = count + 1;
