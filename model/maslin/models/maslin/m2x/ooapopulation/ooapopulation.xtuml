@@ -3006,6 +3006,7 @@ if (param.sm_type == "ISM")
     else
       TRACE::log( flavor:"failure", id:59, message:"Unable to locate expected data type: void while creating state machine for " + o_obj.Name );
     end if;
+    self.StateMachine_syncPolymorphicEvents( sm_sm:sm );
     return sm;
   end if;
 elif (param.sm_type == "ASM")
@@ -4866,7 +4867,7 @@ c_po.DoNotShowPortOnCanvas = false;
 c_po.Name = param.name;',
 	1,
 	'',
-	"451f3aa2-7a66-433f-ba52-689d7edd71e8",
+	"132437da-61c8-4fe6-a112-744ee0bd386b",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("0619e083-ec6b-42eb-a9b9-b9aeec8ff958",
@@ -5592,7 +5593,7 @@ end for;
 ',
 	1,
 	'',
-	"017203cc-b51e-4efa-b6c6-7acc8a12c42b",
+	"7d6ac7ae-dc34-4e4c-aa7e-d9c072d06138",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("ab4be28b-c869-4f3a-9f46-4b25940ebf6e",
@@ -6162,7 +6163,7 @@ self.SEMEvent_createDefaultMatrixEntries(sm_sevt:semEvt);
 ',
 	1,
 	'',
-	"1c2e1c38-0c0b-4f89-b68e-e08da29540ea",
+	"a9ad25b0-ca1a-425e-88ba-a16d259a6e9e",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("3554fa99-89d8-4945-bb46-178610950d85",
@@ -6202,7 +6203,7 @@ self.StateMachineEvent_createMessageArgumentsForParameter(sm_evtdi:newEvtdi, sm_
 return newEvtdi;',
 	1,
 	'',
-	"5329e43f-743a-4151-83c3-5cc30b20d505",
+	"88689cb1-bdb5-4c16-8ee5-3518ac8b2fa6",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("d927ecb0-f4b0-47ab-bd8e-ef51b30216f6",
@@ -6468,10 +6469,12 @@ INSERT INTO O_TFR
 	'sm_sm = param.sm_sm;
 
 select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.name );
-if ( empty sm_evt )
+select one sm_nlevt related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526];
+if ( empty sm_evt or ( not_empty sm_evt and not_empty sm_nlevt ) ) // allow duplicate named events if one is a poly
   create object instance newEvent of SM_EVT;
   relate sm_sm to newEvent across R502;
   self.StateMachineEvent_initialize(sm_evt:newEvent, name:param.name);
+  self.StateMachine_syncPolymorphicEvents( sm_sm:sm_sm );
 end if;
 ',
 	1,
@@ -6552,43 +6555,30 @@ INSERT INTO O_TFR
 // not really a state but is "Ignore" or "Cannot_Happen"
 
 select any fromState related by sm_sm->SM_STATE[R501] where (selected.Name == param.startState);
-// Give preference to finding an inherited event (by overwriting a local find).
-// This allows a dubious possibility of having a local event with the
-// same name as an event in the supertype.
-select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
-if ( "" != param.object )
-  inherited_event_name = param.object + "." + param.eventName;
-  select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == inherited_event_name );
-end if;
-if ( empty sm_evt )
-  // Event not found, so it must be a poly that has not been created yet.
-  // Find the event in the supertype hierarchy using the given name.
-  // Create the SEVT and non-local event in this state machine and relate it upwards.
-  // This processing depends on the supertype being in place before the subtype.
+select any sm_evt from instances of SM_EVT where false;
+
+if ( "" == param.object ) // must be a local event
+  select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
+else  // referring to a poly event
   select any o_obj from instances of O_OBJ where ( selected.Name == param.object );
-  select one parent_sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
-  select any parent_sm_evt related by parent_sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
-  if ( empty parent_sm_evt )
-    TRACE::log( flavor:"failure", id:157, message:"Event for transition not found for event:  " + param.eventName );
-  else
-    // Create a local representation of the parent poly in the this state machine.
-    create object instance sm_evt of SM_EVT;
-    relate sm_evt to sm_sm across R502;
-    // The inherited event is named with the supertype class name.
-    // CDS - This will change when concrete polymorphic events are supported in the xtUML MM.
-    sm_evt.Mning = o_obj.Name + "." + param.eventName;
-    sm_evt.Numb = 1;
-    // give this event a unique number
-    self.StateMachineEvent_setUniqueNumber(sm_evt:sm_evt, checkForDuplicate:false);
-    create object instance sm_sevt of SM_SEVT;
-    relate sm_evt to sm_sevt across R525;
-    create object instance sm_levt of SM_LEVT; // CDS - will be SM_NLEVT for concrete polys
-    relate sm_sevt to sm_levt across R526;
-    // CDS - We will relate sm_nlevt to the parent sm_levt for concrete polys.
-    // relate sm_nlevt to sm_levt across R523
-    self.SEMEvent_createDefaultMatrixEntries(sm_sevt:sm_sevt);
-  end if; 
+  select any sm_evt related by o_obj->SM_ISM[R518]->SM_SM[R517]->SM_EVT[R502] where ( selected.Mning == param.eventName );
 end if;
+
+// if no event was found, return early
+if ( empty sm_evt )
+  TRACE::log( flavor:"failure", id:157, message:"Event for transition not found for event:  " + param.eventName );
+  return;
+end if;
+
+// if it is a non-local event, get the corresponding poly
+select one polyEvt related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525];
+if ( not_empty polyEvt )
+  sm_evt = polyEvt;
+end if;
+
+// resolve the event for the current state machine
+evt_id = self.StateMachineEvent_getAssociatedEventForStateMachine( sm_evt:sm_evt, stateMachineId:sm_sm.SM_ID );
+select any sm_evt from instances of SM_EVT where ( selected.SMevt_ID == evt_id );
 
 //IGNORE: ''Ignore'';
 if ( "Ignore" == param.endState )
@@ -6716,7 +6706,7 @@ end for;
 ',
 	1,
 	'',
-	"9441f59a-81c9-4794-b2f6-7bc381db1928",
+	"eaba961e-3074-43c5-84d1-2bc13ddd73f0",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("d49b49e2-281f-41b2-895e-4b8008c484f3",
@@ -8404,6 +8394,9 @@ INSERT INTO O_TFR
 	1,
 	'current_class = self.current_class;
 
+//  TODO - This currently doesn''t do anything with values other than assigner in the "type" parameter.  Needs to be
+//    enhanced to handle these.
+
 select any sm_sm from instances of SM_SM where ( false );
 if ( "assigner" == param.type )
   sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ASM");
@@ -9308,6 +9301,313 @@ INSERT INTO O_TFR
 	'',
 	"d575fa93-3488-4bc0-ab38-d6aff10a2894",
 	0);
+INSERT INTO O_TFR
+	VALUES ("88689cb1-bdb5-4c16-8ee5-3518ac8b2fa6",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'StateMachineEvent_migrateToPoly',
+	'',
+	"a3a5646e-4d65-483e-a54f-449c5e6fe097",
+	1,
+	'sm_evt = param.sm_evt;
+select one sm_sevt related by sm_evt->SM_SEVT[R525];
+// Dispose of the event matrix entries.
+select many sm_semes related by sm_sevt->SM_SEME[R503];
+for each sm_seme in sm_semes
+  select one sm_state related by sm_seme->SM_STATE[R503];
+  unrelate sm_state from sm_sevt across R503 using sm_seme;
+  select one sm_ch related by sm_seme->SM_CH[R504];
+  if ( not_empty sm_ch )
+    unrelate sm_ch from sm_seme across R504;
+    delete object instance sm_ch;
+    delete object instance sm_seme;
+  else
+    TRACE::log( flavor:"failure", id:158, message:"Did not find SM_SEME when we thought we should migrating event:  " + sm_evt.Mning );
+  end if;
+end for;
+select one sm_levt related by sm_sevt->SM_LEVT[R526];
+if ( not_empty sm_levt )
+  unrelate sm_levt from sm_sevt across R526;
+  delete object instance sm_levt;
+else
+  TRACE::log( flavor:"failure", id:159, message:"Did not find SM_LEVT when we thought we should migrating event:  " + sm_evt.Mning );
+end if;
+unrelate sm_evt from sm_sevt across R525;
+delete object instance sm_sevt;
+create object instance sm_pevt of SM_PEVT;
+relate sm_evt to sm_pevt across R525;
+return sm_pevt;',
+	1,
+	'',
+	"5329e43f-743a-4151-83c3-5cc30b20d505",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("21630e04-b4cf-44bb-97ff-46516ea20a5d",
+	"88689cb1-bdb5-4c16-8ee5-3518ac8b2fa6",
+	'sm_evt',
+	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a3a5646e-4d65-483e-a54f-449c5e6fe097",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Polymorphic Event>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO O_TFR
+	VALUES ("eaba961e-3074-43c5-84d1-2bc13ddd73f0",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'StateMachine_syncPolymorphicEvents',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_sm = param.sm_sm;
+
+// When using concrete polymorphic events, all events are polymorphic and
+// should appear in each subtype state event matrix, even if they are not
+// assigned to any transition in the state machine
+select one modelClass related by sm_sm->SM_ISM[R517]->O_OBJ[R518];
+select many supertypes related by modelClass->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201];
+while ( not_empty supertypes )
+  for each supertype in supertypes
+    select one machine related by supertype->SM_ISM[R518]->SM_SM[R517];
+    select many local_evts related by machine->SM_EVT[R502]->SM_SEVT[R525]->SM_LEVT[R526];
+    for each local_evt in local_evts
+      select one crtxn related by local_evt->SM_CRTXN[R509];
+      if ( empty crtxn ) // exclude creation events
+        select one evt related by local_evt->SM_SEVT[R526]->SM_EVT[R525];
+        evt_id = self.StateMachineEvent_getAssociatedEventForStateMachine( sm_evt:evt, stateMachineId:sm_sm.SM_ID ); // this call will cause the SM_NLEVT instance to be created
+                                                                                     // and the SEM column to be initialized if it is not already
+      end if;
+    end for;
+    select many polymorphic_evts related by machine->SM_EVT[R502]->SM_PEVT[R525]->SM_EVT[R525];
+    for each evt in polymorphic_evts
+      evt_id = self.StateMachineEvent_getAssociatedEventForStateMachine( sm_evt:evt, stateMachineId:sm_sm.SM_ID ); // this call will cause the SM_NLEVT instance to be created
+                                                                                   // and the SEM column to be initialized if it is not already
+    end for;
+  end for;
+  select many supertypes related by supertypes->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201];
+end while;
+// sync subtype state machines
+select many subtypes related by modelClass->R_OIR[R201]->R_RTO[R203]->R_SUPER[R204]->R_SUBSUP[R212]->R_SUB[R213]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
+for each subtype in subtypes
+  select one machine related by subtype->SM_ISM[R518]->SM_SM[R517];
+  self.StateMachine_syncPolymorphicEvents( sm_sm:machine );
+end for;',
+	1,
+	'',
+	"9441f59a-81c9-4794-b2f6-7bc381db1928",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("533b6a11-7fdd-4a97-8b5f-4cb6a1eb15c1",
+	"eaba961e-3074-43c5-84d1-2bc13ddd73f0",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("a9ad25b0-ca1a-425e-88ba-a16d259a6e9e",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'StateMachineEvent_getAssociatedEventForStateMachine',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	1,
+	'sm_evt = param.sm_evt;
+
+/*
+Returns an event related to this one that applies to the given state
+machine.  If the given state machine is the one to which this event belongs,
+then this event is returned.  Else, if this event is polymorphic,
+the alias associated with the given state machine is returned (with one being
+created if it doesnt already exist).  Otherwise, this event is made
+polymorphic, and an alias for the given state machine is created and
+returned.
+*/
+
+// if this event is directly associated with the given state machine
+if (sm_evt.SM_ID == param.stateMachineId)
+  // return this event
+  select one poly related by sm_evt->SM_PEVT[R525];
+  if ( empty poly )
+    return sm_evt.SMevt_ID;
+  end if;
+end if;
+
+// if this event is polymorphic
+select any machine from instances of SM_SM
+  where selected.SM_ID == param.stateMachineId;
+select one polyEvent related by sm_evt->SM_PEVT[R525];
+if (not_empty polyEvent)
+  // if there is an aliasing non-local event associated
+  // with the given state machine
+  select any nonLocalEvent related by polyEvent->SM_NLEVT[R527]
+    where selected.SM_ID == machine.SM_ID;
+  if (not_empty nonLocalEvent)
+    // return that event
+    return nonLocalEvent.SMevt_ID;
+
+  // otherwise
+  else
+    // create an aliasing non-local event, and return it
+    return self.PolymorphicEvent_createNonLocalEventForStateMachine(sm_pevt:polyEvent, stateMachineId:machine.SM_ID);
+  end if;
+
+// otherwise
+else
+  // dispose this events associated local and event-matrix event instances
+  select one matrixEvent related by sm_evt->SM_SEVT[R525];
+  self.SEMEvent_migrateToLocalPoly(sm_sevt:matrixEvent);
+
+  // get the polymorphic event
+  select one polyEvent related by matrixEvent->SM_NLEVT[R526]->SM_PEVT[R527];
+  
+  // create a non-local event to alias the above polymorphic event, and return it
+  return self.PolymorphicEvent_createNonLocalEventForStateMachine(sm_pevt:polyEvent, stateMachineId:machine.SM_ID);
+end if;',
+	1,
+	'',
+	"1c2e1c38-0c0b-4f89-b68e-e08da29540ea",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("044e3b34-5bd6-481e-8ffe-500a7d1e1619",
+	"a9ad25b0-ca1a-425e-88ba-a16d259a6e9e",
+	'sm_evt',
+	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("39795ddd-b36d-4f4b-b768-14523d0e3899",
+	"a9ad25b0-ca1a-425e-88ba-a16d259a6e9e",
+	'stateMachineId',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"044e3b34-5bd6-481e-8ffe-500a7d1e1619",
+	'');
+INSERT INTO O_TFR
+	VALUES ("132437da-61c8-4fe6-a112-744ee0bd386b",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'PolymorphicEvent_createNonLocalEventForStateMachine',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	1,
+	'sm_pevt = param.sm_pevt;
+/*
+Creates (and returns the ID of) a non-local event that is an alias of this
+polymorphic event for the given state machine.
+*/
+
+// create a non-local event to alias this polymorphic event
+create object instance nonlocalEvent of SM_NLEVT;
+
+// create the supertype instances of the above non-local event,
+// and copy into them the attribute values of the corresponding
+// instances of this polymorphic event
+create object instance matrixEvent of SM_SEVT;
+create object instance newEvent of SM_EVT;
+select one event related by sm_pevt->SM_EVT[R525];
+newEvent.Numb = event.Numb;
+newEvent.Mning = event.Mning;
+newEvent.Is_Lbl_U = event.Is_Lbl_U;
+newEvent.Unq_Lbl = event.Unq_Lbl;
+newEvent.Descrip = event.Descrip;
+select any machine from instances of SM_SM
+   where selected.SM_ID == param.stateMachineId;
+relate newEvent to machine across R502;
+relate newEvent to matrixEvent across R525;
+relate matrixEvent to nonlocalEvent across R526;
+relate nonlocalEvent to sm_pevt across R527;
+self.SEMEvent_createDefaultMatrixEntries( sm_sevt:matrixEvent );
+
+return newEvent.SMevt_ID;',
+	1,
+	'',
+	"451f3aa2-7a66-433f-ba52-689d7edd71e8",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("6f4cd6f7-bdac-4c4e-8efe-94d86cdb848b",
+	"132437da-61c8-4fe6-a112-744ee0bd386b",
+	'sm_pevt',
+	"a3a5646e-4d65-483e-a54f-449c5e6fe097",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("5ce85523-52a6-4fc4-b8ea-fb905043f293",
+	"132437da-61c8-4fe6-a112-744ee0bd386b",
+	'stateMachineId',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"6f4cd6f7-bdac-4c4e-8efe-94d86cdb848b",
+	'');
+INSERT INTO O_TFR
+	VALUES ("7d6ac7ae-dc34-4e4c-aa7e-d9c072d06138",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'SEMEvent_migrateToLocalPoly',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_sevt = param.sm_sevt;
+select one orig_evt related by sm_sevt->SM_EVT[R525];
+
+select one sm_levt related by sm_sevt->SM_LEVT[R526];
+if ( empty sm_levt )
+  TRACE::log( flavor:"failure", id:158, message:"Cannot migrate non-local event to local poly: " + orig_evt.Mning );
+else
+  select one sm_crtxn related by sm_levt->SM_CRTXN[R509];
+  if ( not_empty sm_crtxn )
+    TRACE::log( flavor:"failure", id:157, message:"Cannot migrate event that is assigned to a creation transition: " + orig_evt.Mning );
+  else
+    // unhook local event and dispose
+    unrelate sm_levt from sm_sevt across R526;
+    delete object instance sm_levt;
+    
+    // create polymorphic event
+    create object instance sm_evt of SM_EVT;
+    create object instance sm_pevt of SM_PEVT;
+    sm_evt.Numb = orig_evt.Numb;
+    sm_evt.Mning = orig_evt.Mning;
+    sm_evt.Is_Lbl_U = orig_evt.Is_Lbl_U;
+    sm_evt.Unq_Lbl = orig_evt.Unq_Lbl;
+    sm_evt.Descrip = orig_evt.Descrip;
+    select one sm related by sm_sevt->SM_EVT[R525]->SM_SM[R502];
+    relate sm_evt to sm across R502;
+    relate sm_pevt to sm_evt across R525;
+    
+    // move parameters to the poly
+    select many sm_evtdis related by orig_evt->SM_EVTDI[R532];
+    for each sm_evtdi in sm_evtdis
+      unrelate sm_evtdi from orig_evt across R532;
+      relate sm_evtdi to sm_evt across R532;
+    end for;
+    
+    // create new non-local event
+    create object instance sm_nlevt of SM_NLEVT;
+    relate sm_nlevt to sm_sevt across R526;
+    relate sm_nlevt to sm_pevt across R527;
+  end if;
+end if;',
+	1,
+	'',
+	"017203cc-b51e-4efa-b6c6-7acc8a12c42b",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("5bdf31bb-4dc0-422d-8c48-e892e99d2888",
+	"7d6ac7ae-dc34-4e4c-aa7e-d9c072d06138",
+	'sm_sevt',
+	"e62eb4e0-7b0c-4f70-877e-0192af434e3a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("65062455-b226-4503-a876-a0cbd652b56e",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");

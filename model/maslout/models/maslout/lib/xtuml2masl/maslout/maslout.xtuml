@@ -1391,7 +1391,7 @@ out::populate( element:"transitiontable", value:value );
 if ( "assigner" != param.type )
   // Get all the transitions starting with "Non_Existent" state.
   value[0] = "Non_Existent";
-  select many sm_evts related by sm_sm->SM_EVT[R502];
+  select many sm_evts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_EVT[R525];
   for each sm_evt in sm_evts
 	value[1] = ""; // domain
 	value[2] = ""; // object
@@ -1406,10 +1406,9 @@ if ( "assigner" != param.type )
 	  value[4] = sm_state.Name;
 	end if;
 	// If event is non-local, then get the name of the supertype.
-    period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
-    if ( 0 < period )
-      value[2] = STRING::substr( s:sm_evt.Mning, begin:0, end:period );
-      value[3] = STRING::substr( s:sm_evt.Mning, begin:period + 1, end:-1 );
+	select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
+    if ( not_empty poly_o_obj and poly_o_obj.Obj_ID != o_obj.Obj_ID )
+      value[2] = poly_o_obj.Name;
     end if;
 	out::populate( element:"transition", value:value );
 	out::populate( element:"transition", value:emptyvalue );
@@ -1423,20 +1422,16 @@ end if;
 for each sm_state in sm_states
   value[0] = sm_state.Name;
   value[1] = ""; // domain
-  value[2] = ""; // object
-  value[3] = ""; value[4] = "";
   select many sm_semes related by sm_state->SM_SEME[R503]; 
   for each sm_seme in sm_semes
+    value[2] = ""; // object
+    value[3] = ""; value[4] = "";
     select one sm_evt related by sm_seme->SM_SEVT[R503]->SM_EVT[R525];
     value[3] = sm_evt.Mning;
-
-    // If event is non-local, then get the name of the supertype.
-    period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
-    if ( 0 < period )
-      value[2] = STRING::substr( s:sm_evt.Mning, begin:0, end:period );
-      value[3] = STRING::substr( s:sm_evt.Mning, begin:period + 1, end:-1 );
+    select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
+    if ( not_empty poly_o_obj and poly_o_obj.Obj_ID != o_obj.Obj_ID )
+      value[2] = poly_o_obj.Name;
     end if;
-
     select one next_sm_state related by sm_seme->SM_NSTXN[R504]->SM_TXN[R507]->SM_STATE[R506];
     if ( not_empty next_sm_state )
       value[4] = next_sm_state.Name;
@@ -1534,9 +1529,9 @@ sm_sm = param.sm_sm;
 select many sm_evts related by sm_sm->SM_EVT[R502];
 for each sm_evt in sm_evts
 
-  period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
-  if ( 0 < period )
-    continue; // polymorphic - skip to the next event in the iteration
+  select one sm_nlevt related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526];
+  if ( not_empty sm_nlevt )
+    continue; // skip to the next event in the iteration
   end if;
 
   value[0] = sm_evt.Mning;
@@ -1663,29 +1658,11 @@ for each sm_state in sm_states
   // MASL states declare their parameter signatures.
   // Traverse to any event transitioning to this state and use its parameters.
   select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532];
-  if ( empty sm_evtdi ) // if there are no state to state transitions to this state, it may be a creation
-    // state. Check the path to an event through a creation transition
+  if ( empty sm_evtdi )	// if there are no state to state transitions to this state, it may be a creation
+  						// state. Check the path to an event through a creation transition
     select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_CRTXN[R507]->SM_LEVT[R509]->SM_SEVT[R526]->SM_EVT[R525]->SM_EVTDI[R532];
     if ( empty sm_evtdi )
-      // Find the polymorphic event from which this event inherits.
-      // Select the sm_evts entering this state.
-      // Look for one with a period in the name.
-      // Select the poly event by class name and event name.
-      // Select any of its event data items.
-      select many sm_evts related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525];
-      for each sm_evt in sm_evts
-        period = STRING::indexof( haystack:sm_evt.Mning, needle:"." );
-        if ( 0 < period )
-          poly_class_name = STRING::substr( s:sm_evt.Mning, begin:0, end:period );
-          poly_event_name = STRING::substr( s:sm_evt.Mning, begin:period + 1, end:-1 );
-          select any poly_o_obj from instances of O_OBJ where ( selected.Name == poly_class_name );
-          select any poly_sm_evt related by poly_o_obj->SM_ISM[R518]->SM_SM[R517]->SM_EVT[R502] where ( selected.Mning == poly_event_name );
-          select any sm_evtdi related by poly_sm_evt->SM_EVTDI[R532];
-          if ( not_empty sm_evtdi )
-            break;
-          end if;
-        end if;
-      end for;
+      select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_EVTDI[R532];
     end if;
   end if;
   // Get first parameter.
