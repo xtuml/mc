@@ -1,11 +1,3 @@
-- Raise follow-on issue for "range" and " := 'a';".
-+ Where do I put the query to link the references?
-+ I suspect I cannot select FOI for type references because of project rendering.
-+ Also I may need to reset the resolved field in references.
-+ I forgot to render forward in interface files.
-+ Found a bug.  3776 and 3719 are redundant.
-  Kept 3719 and linked 3776 to reference.
-
 ---
 
 This work is licensed under the Creative Commons CC0 License
@@ -54,12 +46,12 @@ established between a type and all potential references found inside the
 body of the type.  An attribute on `reference` tracks when the reference
 is resolved by rendering or forward declaration of the referred to type.
 
-6.3 Ordering Algorithm
+6.3 Ordering Algorithm  
 The ordering algorithm employs a form of graph pruning.  An activity
 on `type` runs the following steps:  
 6.3.1 Emit a forward declaration for self-referential types.  
-6.3.2 Prune the type graph of all type without or with resolved type
-references.  
+6.3.2 Prune the type graph of all types without references or with only
+resolved type references.  
 6.3.3 Break cycles by selecting a recursive type and producing a forward
 reference for it.
 
@@ -77,7 +69,7 @@ A bug was identified in the model of masl.  R3776 from domain to type
 was redundant with R3719.  R3776 was removed and then added back
 between domain and reference.  This association is used to collect
 references against a domain for project renderings.  `type.name` is a
-key but for private types only valid within the scope of a single domain.
+key but only for types within the scope of a single domain.
 
 ### 7. Unit Test
 
