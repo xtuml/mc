@@ -20,6 +20,7 @@ Implementation and testing of the type ordering change are documented here.
 <a id="2.5"></a>2.5 [#9443](https://support.onefact.net/issues/9443) `masl_check`: recursive structure causes stack overflow  
 <a id="2.6"></a>2.6 [#9984](https://support.onefact.net/issues/9984) MASL Formatter fails on range constraints  
 <a id="2.7"></a>2.7 [#9985](https://support.onefact.net/issues/9985) MASL round trip trips on character initializer  
+<a id="2.8"></a>2.8 [#9988](https://support.onefact.net/issues/9988) Consider deterministic selection of type to break recursive cycle.  
 
 ### 3. Background
 
@@ -70,6 +71,13 @@ was redundant with R3719.  R3776 was removed and then added back
 between domain and reference.  This association is used to collect
 references against a domain for project renderings.  `type.name` is a
 key but only for types within the scope of a single domain.
+
+6.3 Forward Declaration Grouping  
+It is noted that forward declarations are emitted as needed to break
+cycles.  This results in forward declarations and type definitions being
+emitted in a mixed fashion.  According to the grammar and parsers this
+seems to be O.K.  If it becomes a requirement to group forward declarations
+together ahead of type definitions, additional work will be required.
 
 ### 7. Unit Test
 

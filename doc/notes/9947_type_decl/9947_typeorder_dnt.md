@@ -22,9 +22,10 @@ must be declared in dependent order or declared forward when necessary.
 
 ### 2. Document References
 
-<a id="2.1"></a>2.1 [#9947 type export needs to be ordered](https://support.onefact.net/issues/9947)  
+<a id="2.1"></a>2.1 [#9947](https://support.onefact.net/issues/9947) type export needs to be ordered  
 <a id="2.2"></a>2.2 [first try implementation note (now reverted)](https://github.com/cortlandstarrett/mc/blob/9947_typeorder/doc/notes/9947_type_decl/9947_type_decl_int.md)  
 <a id="2.3"></a>2.3 [analysis note for this issue](https://github.com/cortlandstarrett/mc/blob/9947_typeorder/doc/notes/9947_type_decl/9947_type_decl2_ant.md)  
+<a id="2.4"></a>2.4 [#9986](https://support.onefact.net/issues/9986) Recognize enumerator initializers as references in types  
 
 ### 3. Background
 
@@ -120,7 +121,8 @@ have been made eligible for rendering and are exported.  A guard is
 provided to avoid infinitely attempting to break cycles.  However, the
 above algorithm can deterministically succeed if all legitimate
 referenced types are identified _and_ no false positives were parsed from
-type bodies.
+type bodies.  The guard (loop counter) prevents a hang and reports when
+cycles could not be broken (again, should never happen).
 
 6.4 Weaknesses  
 This design depends upon successfully identifying referenced type names
@@ -133,13 +135,21 @@ In MASL, enumerator references pose a special challenge.  Type references
 within type definitions are found by (single) name for all but
 enumerators.  The members of an enumeration represent a set of labels
 that can be imbedded within other type definition bodies in
-initialization expressions.
+initialization expressions.  Additional explanation of this scenario is
+provided in [[2.3]](#2.3).
 
 ### 7. Design Comments
 
 7.1 Enumerator Initializers  
 The present solution does not recognize enumerators used in expressions
 of other type field initializers.
+
+7.2 Model Verification  
+The above pictured model is a subset of `masltypes` and was used to test
+the algorithm of the above three steps (identifying references, capturing
+references, and ordering output textual MASL).  Work was done interpretively
+in Verifier.  A simple stub version of `typeminer` that used action
+language was used.
 
 ### 8. User Documentation
 
