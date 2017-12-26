@@ -31,7 +31,7 @@ INSERT INTO O_TFR
 // Every encounter with a type reference is a new instance.
 create object instance typeref of typeref;
 typeref.body = param.body;
-select any type related by domain->type[R3776] where ( selected.name == param.name );
+select any type related by domain->type[R3719] where ( selected.name == param.name );
 if ( not_empty type )
   relate typeref to type across R3762.''refers to'';
 end if;
@@ -63,7 +63,7 @@ INSERT INTO O_TPARM
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"00000000-0000-0000-0000-000000000000",
+	"275d29d6-7596-46f3-9c0a-fa1d4497a189",
 	'');
 INSERT INTO O_TPARM
 	VALUES ("275d29d6-7596-46f3-9c0a-fa1d4497a189",

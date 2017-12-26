@@ -17,8 +17,8 @@ INSERT INTO O_TFR
 	'select one relationship related by self->relationship[R3721];
 select one participation related by relationship->participation[R3713.''engages''];
 select one one_object related by participation->object[R3714.''one''];
-if ( ( empty one_object ) )
-  TRACE::log( flavor:"failure", id:55, message:"missing one or other object on associative render" );
+if ( empty one_object )
+  TRACE::log( flavor:"failure", id:55, message:"missing one object on associative render" );
 end if;
 T::include( file:"masl/t.subsuper_begin.masl" );
 select many other_objects related by participation->object[R3720.''other''];

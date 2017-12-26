@@ -14,28 +14,24 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select one markable related by self->markable[R3783];
-// check for self reference
-// This is not a complete check.  We are using a pattern that is reasonably
-// likely to match a nested type.  A nested type will likely have a trailing
-// semicolon.  This is an improvement until the bodies of complex types are
-// parsed.
-if ( -1 != STRING::indexof( haystack:self.body, needle:" " + self.name + ";" ) )
-  T::include( file:"masl/t.type_fwd_decl.masl" );
-  markable.render_marking( list:"declaration" );
-end if;
-// Add the Descrip field as a comment.
+	'// Add the Descrip field as a comment.
 select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
   descrip.render();
 end for;
+self.rendered = true;
+select many references related by self->reference[R3777.''is_referenced_by''];
+for each reference in references
+  reference.resolved = true;
+end for;
+select one markable related by self->markable[R3783];
 T::include( file:"masl/t.type_begin.masl" );
 T::include( file:"masl/t.type_end.masl" );
 markable.render_marking( list:"default" );
 ',
 	1,
 	'',
-	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
+	"2305aec8-9f7e-4a17-aa22-efb75d88ee24",
 	0);
 INSERT INTO O_TFR
 	VALUES ("0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
@@ -45,13 +41,16 @@ INSERT INTO O_TFR
 	"e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
 	0,
 	'domain = param.domain;
-select any type related by domain->type[R3776] where ( selected.name == param.name );
+select any type related by domain->type[R3719] where ( selected.name == param.name );
 if ( empty type )
   create object instance type of type;
   type.name = param.name;
   type.visibility = param.visibility;
   type.body = param.body; // This holds the string body of the type definition.
-  relate type to domain across R3776;
+  type.rendered = false;
+  type.declared_forward = false;
+  type.lcount = typeminer::referreds( name:type.name, body:type.body, labels:type.labels );
+  relate type to domain across R3719;
   markable = markable::populate( name:"type" );
   relate type to markable across R3783;
 end if;
@@ -67,7 +66,7 @@ INSERT INTO O_TPARM
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"00000000-0000-0000-0000-000000000000",
+	"304f7b58-e73d-42ac-82b5-77828b9d0959",
 	'');
 INSERT INTO O_TPARM
 	VALUES ("304f7b58-e73d-42ac-82b5-77828b9d0959",
@@ -170,8 +169,183 @@ out::tostring( element:"type", value:value );
 out::tostring( element:"type", value:emptyvalue );',
 	1,
 	'',
+	"5cf062ce-c54b-4592-bfe4-2a50894a96c8",
+	0);
+INSERT INTO O_TFR
+	VALUES ("2305aec8-9f7e-4a17-aa22-efb75d88ee24",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'populate_references',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'i = self.lcount;
+while ( i > 0 )
+  i = i - 1;
+  // Since name is a key, there can be only one type in this domain matching a given label.
+  select any referred_type related by self->domain[R3719]->type[R3719] where ( selected.name == self.labels[ i ] );
+  if ( not_empty referred_type )
+    r = reference::populate( parent:self, child:referred_type );
+  end if;
+end while;',
+	1,
+	'',
+	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
+	0);
+INSERT INTO O_TFR
+	VALUES ("e72c6670-d122-49cf-9711-2a3574dcf6b8",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'render_forward',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Render a forward declaration and mark myself so.
+if ( not self.declared_forward )
+  select one markable related by self->markable[R3783];
+    T::include( file:"masl/t.type_fwd_decl.masl" );
+    markable.render_marking( list:"declaration" );
+  self.declared_forward = true;
+end if;
+select many references related by self->reference[R3777.''is_referenced_by''];
+for each reference in references
+  reference.resolved = true;
+end for;',
+	1,
+	'',
 	"b7dd3c52-3a6c-4cea-b528-2625ea83d95d",
 	0);
+INSERT INTO O_TFR
+	VALUES ("55bd70c6-df59-4a18-8081-b055a6c4bd28",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'render_leaves',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'domain = param.domain;
+count = 1;
+select many types related by domain->type[R3719] where ( not selected.rendered );
+if ( "public" == param.scope )
+  // For the interface file, we render only public types.
+  select many types related by domain->type[R3719] where ( ( not selected.rendered ) and ( selected.visibility == param.scope ) );
+end if;
+count = cardinality types;
+prev_count = count + 1;
+while ( count < prev_count )
+  prev_count = count;
+  for each type in types
+    select any reference related by type->reference[R3777.''refers_to''] where ( not selected.resolved );
+    if ( empty reference )
+      if ( ( "public" == type.visibility ) or ( "private" == param.scope ) )
+        type.render();
+      end if;
+    end if;
+  end for;
+  select many types related by domain->type[R3719] where ( not selected.rendered );
+  if ( "public" == param.scope )
+    // For the interface file, we render only public types.
+    select many types related by domain->type[R3719] where ( ( not selected.rendered ) and ( selected.visibility == param.scope ) );
+  end if;
+  count = cardinality types;
+end while;
+return count;
+',
+	1,
+	'',
+	"e72c6670-d122-49cf-9711-2a3574dcf6b8",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("07e7b7d1-663b-4409-aa30-5000d1e4afd5",
+	"55bd70c6-df59-4a18-8081-b055a6c4bd28",
+	'domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("7cde3b71-156a-4987-bf76-e18d44406de8",
+	"55bd70c6-df59-4a18-8081-b055a6c4bd28",
+	'scope',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"07e7b7d1-663b-4409-aa30-5000d1e4afd5",
+	'');
+INSERT INTO O_TFR
+	VALUES ("5cf062ce-c54b-4592-bfe4-2a50894a96c8",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'render_all',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'domain = param.domain;
+
+// Reset existing references.
+select many references related by domain->reference[R3776.''contains''];
+for each reference in references
+  reference.resolved = false;
+end for;
+guard = cardinality references; // Limit the cycles of looping.
+// Link up the references.
+select many types related by domain->type[R3719];
+if ( "public" == param.scope )
+  // For the interface file, we render only public types.
+  select many types related by domain->type[R3719] where ( selected.visibility == param.scope );
+end if;
+for each type in types
+  type.rendered = false;
+  type.declared_forward = false;
+  type.populate_references();
+end for;
+
+// Provide forward declarations for self-referential types.
+select many references related by domain->reference[R3776.''contains''] where ( selected.parent_name == selected.child_name );
+for each reference in references
+  select one type related by reference->type[R3777.''refers_to''];
+  if ( ( not type.rendered ) and ( ( "public" == type.visibility ) or ( "private" == param.scope ) ) )
+    type.render_forward();
+  end if;
+end for;
+
+// Render leaf types (those with no unresolved references).
+while ( 0 < type::render_leaves( domain:domain, scope:param.scope ) )
+  // Break a cycle by selecting any referenced type and resolving it.
+  select any reference related by domain->reference[R3776] where ( not selected.resolved );
+  select one type related by reference->type[R3777.''refers_to''];
+  if ( not_empty type )
+    if ( ( "public" == type.visibility ) or ( "private" == param.scope ) )
+      type.render_forward();
+    end if;
+  else
+    TRACE::log( flavor:"failure", id:121, message:"did not find cyclic unresolved type" );
+  end if;
+  guard = guard - 1;
+  if ( 0 == guard )
+    TRACE::log( flavor:"failure", id:122, message:"did not break cycles" );
+    break;
+  end if;
+end while;',
+	1,
+	'',
+	"55bd70c6-df59-4a18-8081-b055a6c4bd28",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("96a97a2b-48c5-4747-9ae6-e1a270e7c154",
+	"5cf062ce-c54b-4592-bfe4-2a50894a96c8",
+	'domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("51c348fc-2494-41c4-9d92-9e81b02cec27",
+	"5cf062ce-c54b-4592-bfe4-2a50894a96c8",
+	'scope',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"96a97a2b-48c5-4747-9ae6-e1a270e7c154",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("5e32207e-907b-433a-96bc-6d26e98067dc",
 	"56998698-5cbd-405c-920e-291faf20126c");
@@ -226,9 +400,105 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("59db881e-073a-4777-b55a-e652d8069752",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_BATTR
+	VALUES ("59db881e-073a-4777-b55a-e652d8069752",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO S_DIM
+	VALUES (1024,
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	"59db881e-073a-4777-b55a-e652d8069752",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"35b0744a-1682-42ec-b6c8-30d1c5b4bcc9",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_ATTR
+	VALUES ("59db881e-073a-4777-b55a-e652d8069752",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	"36193e21-77c9-4afb-8061-b8f18d3807f1",
+	'labels',
+	'',
+	'',
+	'labels',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'[label::max]',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("22c60865-6828-4984-ba13-8084aefbdc26",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_BATTR
+	VALUES ("22c60865-6828-4984-ba13-8084aefbdc26",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_ATTR
+	VALUES ("22c60865-6828-4984-ba13-8084aefbdc26",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	"59db881e-073a-4777-b55a-e652d8069752",
+	'lcount',
+	'',
+	'',
+	'lcount',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("1136ff01-23a8-4358-a765-caa131cbbd5e",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_BATTR
+	VALUES ("1136ff01-23a8-4358-a765-caa131cbbd5e",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_ATTR
+	VALUES ("1136ff01-23a8-4358-a765-caa131cbbd5e",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	"22c60865-6828-4984-ba13-8084aefbdc26",
+	'rendered',
+	'',
+	'',
+	'rendered',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3a4c2e76-b0c8-47dc-a6c9-17c5c7c19fac",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_BATTR
+	VALUES ("3a4c2e76-b0c8-47dc-a6c9-17c5c7c19fac",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_ATTR
+	VALUES ("3a4c2e76-b0c8-47dc-a6c9-17c5c7c19fac",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	"1136ff01-23a8-4358-a765-caa131cbbd5e",
+	'declared_forward',
+	'',
+	'',
+	'declared_forward',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_OIDA
+	VALUES ("5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	0,
+	'name');
 INSERT INTO O_ID
 	VALUES (1,
 	"56998698-5cbd-405c-920e-291faf20126c");

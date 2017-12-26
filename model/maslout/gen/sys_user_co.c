@@ -75,6 +75,7 @@ UserPreOoaInitializationCalloutf( void )
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
+  xtuml2masl_model * model = xtuml2masl_model_op_create( "maslout" );
   int project = 0; int domain = 0;
   bool key_lett = FALSE;
   bool output_activities = TRUE;
@@ -86,7 +87,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
-          else xtuml2masl_model_op_setroot( optarg );
+          else xtuml2masl_model_op_setoption( model, "projectroot", optarg );
           break;
         case 'd':
           domain = 1;
@@ -110,7 +111,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       }
     }
   }
-  xtuml2masl_model_op_setoutputcodeblocks( output_activities );
+  xtuml2masl_model_op_setoption( model, "outputcodeblocks", output_activities ? "true" : "false" );
   /* Load the feature and application marks from files.  */
   xtuml2masl_load_marking_data();
   int i = 0;
