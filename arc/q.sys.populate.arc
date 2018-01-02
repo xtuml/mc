@@ -2423,7 +2423,7 @@
     .end while
     .if ( not_empty cursor_te_c )
       .if ( "pyrsl v1.99" > info.interpreter_version )
-        .assign prev_te_c.nextID = 00
+        .assign prev_te_c.next_ID = 00
       .else
         .unrelate prev_te_c from cursor_te_c across R2017.'precedes'
       .end if
