@@ -272,10 +272,19 @@ parsekeyword:
         | substitutionvariable
         ;
 
-format:
-        /* empty */ {$$=P0;}
-        | FORMAT
-        ;
+formats:
+        FORMAT formats
+        {char * p="i", * f=$1;
+         if (0==strcmp(f,"")) {strcpy(sv[svi],P2(sv[svi],""));}
+         else if (0==strcmp(f,"l")) {p="s";strcpy(sv[svi],P7(sv[svi],"T::",f,"(",p,":",$2));}
+         else if (0==strcmp(f,"c")) {p="s";strcpy(sv[svi],P7(sv[svi],"T::",f,"(",p,":",$2));}
+         else if (0==strcmp(f,"r")) {p="s";strcpy(sv[svi],P7(sv[svi],"T::",f,"(",p,":",$2));}
+         else if (0==strcmp(f,"t")) {f="s";p="i";strcpy(sv[svi],P7(sv[svi],"T::",f,"(",p,":",$2));}
+         else if (0==strcmp(f,"u")) {p="s";strcpy(sv[svi],P7(sv[svi],"T::",f,"(",p,":",$2));}
+         else if (0==strcmp(f,"_")) {f="underscore";p="s";strcpy(sv[svi],P7(sv[svi],"T::",f,"(",p,":",$2));}
+         else {strcpy(sv[svi],P7(sv[svi],"T::",f,"(",p,":",$2));}
+         $$=P2($1,$2);}
+        | /* empty */ {$$=P0;strcpy(sv[svi],"");}
 
 variable:
         identifier
@@ -363,15 +372,11 @@ literalbody:
         ;
 
 substitutionvariable:
-        '$' format '{' term '}'
-        {char * p="i", * f=$2;
-         if (0==strcmp(f,"")) {strcpy(sv[svi],P1($4));}
-         else if (0==strcmp(f,"l")) {p="s";strcpy(sv[svi],P7("T::",f,"(",p,":",$4,")"));}
-         else if (0==strcmp(f,"r")) {p="s";strcpy(sv[svi],P7("T::",f,"(",p,":",$4,")"));}
-         else if (0==strcmp(f,"t")) {f="s";p="i";strcpy(sv[svi],P7("T::",f,"(",p,":",$4,")"));}
-         else if (0==strcmp(f,"u")) {p="s";strcpy(sv[svi],P7("T::",f,"(",p,":",$4,")"));}
-         else if (0==strcmp(f,"_")) {f="underscore";p="s";strcpy(sv[svi],P7("T::",f,"(",p,":",$4,")"));}
-         else {strcpy(sv[svi],P7("T::",f,"(",p,":",$4,")"));}
+        '$' formats '{' term '}'
+        {int i;char buf[1024];
+         strcpy(buf,P2(sv[svi],$4));
+         for(i=0;sv[svi][i];i++) {if (sv[svi][i]=='(') {strcpy(buf,P2(buf,")"));}}
+         strcpy(sv[svi],buf);
          $$=P5($1,$2,$3,$4,$5);}
         ;
 

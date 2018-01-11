@@ -26,6 +26,8 @@ int stringmode = 0;
 int backslash = 0;
 char * SSS = "T_b(";
 char formatcharacter = 0;
+char formatops[256];
+char formatsuffix[256];
 #endif
 
 %}
@@ -225,9 +227,19 @@ parsekeyword:
         | substitutionvariable
         ;
 
-format:
-        /* empty */
-        | FORMAT /* {if ($1) formatcharacter=*$1;} */
+formats:
+        FORMAT
+        {
+          char formatbuffer[256]; memset(formatbuffer,0,256);
+          if ('t'==formatcharacter) {strcat(formatbuffer,"T_s(");}
+          else if ('_'==formatcharacter) {strcat(formatbuffer,"T_underscore(");}
+          else {strcat(formatbuffer,"T_");strncat(formatbuffer,&formatcharacter,1);strcat(formatbuffer,"(");}
+          formatcharacter=0;
+          strcat(formatbuffer,formatops);
+          memcpy(formatops,formatbuffer,256);
+        }
+        formats {strcat(formatsuffix,")");}
+        | /* empty */
         ;
 
 variable:
@@ -300,26 +312,19 @@ literalbody:
         ;
 
 substitutionvariable:
-        '$' format '{' term '}'
+        '$' {memset(formatops,0,256);memset(formatsuffix,0,256);} formats '{' term '}'
          {strcat(b,SSS);
-          if ( '_' == formatcharacter ) {
-            strcat(b,"T_underscore(");
-          } else if ( 't' == formatcharacter ) {
-            strcat(b,"T_s(");
-          }
+          strcat(b,formatops);
           strcat(b,&svar[0][0]);
           if ( svarnum > 1 ) {
             strcat(b,"->");strcat(b,&svar[1][0]);
           }
-          if ( ( '_' == formatcharacter ) || ( 't' == formatcharacter ) ) {
-            strcat(b,")");
-          }
+          strcat(b,formatsuffix);
           strcat(b,");");
           if ( !stringmode ) strcat(b,"\n");
           svarnum = 0;
           svar[ 0 ][ 0 ] = 0;
           svar[ 1 ][ 0 ] = 0;
-          formatcharacter = 0;
         }
         ;
 
