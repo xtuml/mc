@@ -160,6 +160,7 @@ for each c_c in c_cs;
   out::populate( element:"domain", value:value );
   
   if ( param.project )
+    ::type2type( c_c:c_c );
     ::port2terminator( c_c:c_c, project:param.project, kl:param.kl );
   else
     ::class2objectdeclaration( c_c:c_c );
