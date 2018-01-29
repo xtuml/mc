@@ -34,6 +34,7 @@ if ( "project" == element )
         file.emit( name:project.name + ".prj" );
       end if;
 
+      if ( structuralOnly == true )
         // CDS - reusing structuralOnly knowing that it is used when rendering files into the the models folder.
         // Render domain interface files along with the project file.
         select many domains related by project->domain[R3701];
@@ -45,7 +46,6 @@ if ( "project" == element )
             file.emit( name:domain.name + ".int" );
           end if;
         end for;
-      if ( structuralOnly == true )
         // we already output the project structural bits, so skip activites
         continue;
       end if;
