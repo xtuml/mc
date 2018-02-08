@@ -231,7 +231,37 @@ ${te_set.base_class} *
 ${te_set.scope}${te_set.setintersection}( ${te_set.base_class} * const to_set, const void * const set1, const void * const set2, int flags )
 {
   if ( NULL != to_set ) {
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
+    /* Assure that the result set starts empty */
     ${te_set.clear}( to_set );
+    if ( NULL != set1 && NULL != set2) {
+      /* If both sets are single instances, only add to the result set if they are the same instance */
+      if ( ( flags & ${te_prefix.define_u}SET_LHS_IS_INSTANCE ) && ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) ) {
+        if ( set1 == set2 ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+      }
+      /* If set1 is a single instance, add it to the result set if it is contained in set2 */
+      else if ( flags & ${te_prefix.define_u}SET_LHS_IS_INSTANCE ) {
+        if ( ${te_set.scope}${te_set.contains}( set2, set1 ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+      }
+      /* If set2 is a single instance, add it to the result set if it is contained in set1 */
+      else if ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) {
+        if ( ${te_set.scope}${te_set.contains}( set1, set2 ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set2 );
+      }
+      /* For each instance in set1, add it to the result set if it is contained in set2 */
+      else {
+        ${te_set.element_type} * slot;
+        for ( slot = ((${te_extent.sets_type}*)set1)->head; ( slot != 0 ); slot = slot->next ) {
+          if ( ${te_set.scope}${te_set.contains}( set2, slot->object ) ) {
+            ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), slot->object );
+          }
+        }
+      }
+    }
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
   }
   return to_set;
 }
