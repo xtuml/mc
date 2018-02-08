@@ -184,7 +184,37 @@ ${te_set.base_class} *
 ${te_set.scope}${te_set.setunion}( ${te_set.base_class} * const to_set, const void * const set1, const void * const set2, int flags )
 {
   if ( NULL != to_set ) {
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
+    /* Assure that the result set starts empty */
     ${te_set.clear}( to_set );
+    /* Copy set1 to the result set */
+    if ( NULL != set1 ) {
+      if ( flags & ${te_prefix.define_u}SET_LHS_IS_INSTANCE ) {
+        ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+      }
+      else {
+        ${te_set.scope}${te_set.copy}( to_set, set1 );
+      }
+    }
+    /* Add any elements from set2 which are not already in the result set */
+    if ( NULL != set2 ) {
+      if ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) {
+        if ( !${te_set.scope}${te_set.contains}( to_set, set2 ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set2 );
+      }
+      else {
+        ${te_set.element_type} * slot;
+        for ( slot = ((${te_extent.sets_type}*)set2)->head; ( slot != 0 ); slot = slot->next ) {
+          if ( !${te_set.scope}${te_set.contains}( to_set, slot->object ) ) {
+            ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), slot->object );
+          }
+        }
+      }
+    }
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
   }
   return to_set;
 }
