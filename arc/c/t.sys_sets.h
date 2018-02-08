@@ -67,11 +67,11 @@ void ${te_set.clear}( ${te_set.base_class} * );
 #define ${te_prefix.define_u}SET_LHS_IS_INSTANCE 0x01
 #define ${te_prefix.define_u}SET_RHS_IS_INSTANCE 0x02
 ${te_set.base_class} *
-${te_set.scope}${te_set.setunion}( ${te_set.base_class} * const, const void * const, const void * const, int );
+${te_set.setunion}( ${te_set.base_class} * const, const void * const, const void * const, int );
 ${te_set.base_class} *
-${te_set.scope}${te_set.setintersection}( ${te_set.base_class} * const, const void * const, const void * const, int );
+${te_set.setintersection}( ${te_set.base_class} * const, const void * const, const void * const, int );
 ${te_set.base_class} *
-${te_set.scope}${te_set.setdifference}( ${te_set.base_class} * const, const void * const, const void * const, int );
+${te_set.setdifference}( ${te_set.base_class} * const, const void * const, const void * const, int );
 void ${te_set.insert_element}( ${te_set.base_class} *,
                          void * const );
 ${te_set.element_type} *
