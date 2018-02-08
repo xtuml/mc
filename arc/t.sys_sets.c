@@ -134,7 +134,7 @@ ${te_set.scope}${te_set.factory}( const i_t n1_size )
 .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 void 
 ${te_set.scope}${te_set.copy}( ${te_set.base_class} * to_set,
-                ${te_set.base_class} * const from_set )
+                const ${te_set.base_class} * const from_set )
 {
   const ${te_set.element_type} * slot;
 

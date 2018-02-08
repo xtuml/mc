@@ -62,7 +62,7 @@ typedef struct {
 ${te_prefix.type}UniqueID_t ${te_prefix.type}ID_factory( void );
 void ${te_set.factory}( const i_t );
 void ${te_set.copy}( ${te_set.base_class} *,
-                ${te_set.base_class} * const );
+                const ${te_set.base_class} * const );
 void ${te_set.clear}( ${te_set.base_class} * );
 #define ${te_prefix.define_u}SET_LHS_IS_INSTANCE 0x01
 #define ${te_prefix.define_u}SET_RHS_IS_INSTANCE 0x02
