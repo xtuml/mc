@@ -181,7 +181,7 @@ ${te_set.scope}${te_set.clear}( ${te_set.base_class} * set )
 .// If no containers to manage, do not generate code.
 .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 ${te_set.base_class} *
-${te_set.scope}${te_set.setunion}( ${te_set.base_class} * const to_set, const void * const set1, const void * const set2, int flags )
+${te_set.scope}${te_set.setunion}( ${te_set.base_class} * const to_set, void * const set1, void * const set2, int flags )
 {
   if ( NULL != to_set ) {
   .if ( te_thread.enabled )
@@ -228,7 +228,7 @@ ${te_set.scope}${te_set.setunion}( ${te_set.base_class} * const to_set, const vo
 .// If no containers to manage, do not generate code.
 .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 ${te_set.base_class} *
-${te_set.scope}${te_set.setintersection}( ${te_set.base_class} * const to_set, const void * const set1, const void * const set2, int flags )
+${te_set.scope}${te_set.setintersection}( ${te_set.base_class} * const to_set, void * const set1, void * const set2, int flags )
 {
   if ( NULL != to_set ) {
   .if ( te_thread.enabled )
@@ -275,7 +275,7 @@ ${te_set.scope}${te_set.setintersection}( ${te_set.base_class} * const to_set, c
 .// If no containers to manage, do not generate code.
 .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 ${te_set.base_class} *
-${te_set.scope}${te_set.setdifference}( ${te_set.base_class} * const to_set, const void * const set1, const void * const set2, int flags )
+${te_set.scope}${te_set.setdifference}( ${te_set.base_class} * const to_set, void * const set1, void * const set2, int flags )
 {
   if ( NULL != to_set ) {
   .if ( te_thread.enabled )
