@@ -489,37 +489,37 @@
       .else
         .assign te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" )
       .end if
-    .elif ( ( ( ( 21 == l_te_dt.Core_Typ ) or ( 20 == l_te_dt.Core_Typ ) ) and ( ( 21 == r_te_dt.Core_Typ ) or ( 20 == r_te_dt.Core_Typ ) ) ) and ( ( ( ( "+" == "$r{v_bin.Operator}" ) or ( "-" == "$r{v_bin.Operator}" ) ) or ( ( "|" == "$r{v_bin.Operator}" ) or ( "&" == "$r{v_bin.Operator}" ) ) ) or ( "^" == "$r{v_bin.Operator}" ) ) )
+    .elif ( ( ( 21 == l_te_dt.Core_Typ ) or ( 20 == l_te_dt.Core_Typ ) ) and ( ( 21 == r_te_dt.Core_Typ ) or ( 20 == r_te_dt.Core_Typ ) ) and ( ( "+" == "$r{v_bin.Operator}" ) or ( "-" == "$r{v_bin.Operator}" ) or ( "|" == "$r{v_bin.Operator}" ) or ( "&" == "$r{v_bin.Operator}" ) or ( "^" == "$r{v_bin.Operator}" ) ) )
       .select any te_prefix from instances of TE_PREFIX
       .select any te_set from instances of TE_SET
       .select one v_val related by v_bin->V_VAL[R801]
       .select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016]
       .if ( ( "+" == "$r{v_bin.Operator}" ) or ( "|" == "$r{v_bin.Operator}" ) )
-        .assign te_val.buffer = ( ( te_set.scope + te_set.setunion ) + "( " )
+        .assign te_val.buffer = te_set.scope + te_set.setunion + "( "
       .elif ( "&" == "$r{v_bin.Operator}" )
-        .assign te_val.buffer = ( ( te_set.scope + te_set.setintersection ) + "( " )
+        .assign te_val.buffer = te_set.scope + te_set.setintersection + "( "
       .elif ( "-" == "$r{v_bin.Operator}" )
-        .assign te_val.buffer = ( ( te_set.scope + te_set.setdifference ) + "( " )
+        .assign te_val.buffer = te_set.scope + te_set.setdifference + "( "
       .elif ( "^" == "$r{v_bin.Operator}" )
-        .assign te_val.buffer = ( ( te_set.scope + te_set.setsymmetricdifference ) + "( " )
+        .assign te_val.buffer = te_set.scope + te_set.setsymmetricdifference + "( "
       .end if
       .assign return_set = "binop_line$t{v_val.LineNumber}_col$t{v_val.StartPosition}to$t{v_val.EndPosition}"
-      .assign te_val.buffer = ( ( te_val.buffer + return_set ) + ", " )
-      .assign te_val.buffer = ( ( te_val.buffer + l_te_val.buffer ) + ", " )
-      .assign te_val.buffer = ( ( te_val.buffer + r_te_val.buffer ) + ", " )
+      .assign te_val.buffer = te_val.buffer + return_set + ", "
+      .assign te_val.buffer = te_val.buffer + l_te_val.buffer + ", "
+      .assign te_val.buffer = te_val.buffer + r_te_val.buffer + ", "
       .if ( ( 20 == l_te_dt.Core_Typ ) and ( 20 == r_te_dt.Core_Typ ) )
-        .assign te_val.buffer = ( te_val.buffer + "${te_prefix.define_u}SET_LHS_IS_INSTANCE | ${te_prefix.define_u}SET_RHS_IS_INSTANCE )" )
+        .assign te_val.buffer = te_val.buffer + te_prefix.define_u + "SET_LHS_IS_INSTANCE | " + te_prefix.define_u + "SET_RHS_IS_INSTANCE )"
       .elif ( ( 20 == l_te_dt.Core_Typ ) and ( 20 != r_te_dt.Core_Typ ) )
-        .assign te_val.buffer = ( te_val.buffer + "${te_prefix.define_u}SET_LHS_IS_INSTANCE )" )
+        .assign te_val.buffer = te_val.buffer + te_prefix.define_u + "SET_LHS_IS_INSTANCE )"
       .elif ( ( 20 != l_te_dt.Core_Typ ) and ( 20 == r_te_dt.Core_Typ ) )
-        .assign te_val.buffer = ( te_val.buffer + "${te_prefix.define_u}SET_RHS_IS_INSTANCE )" )
+        .assign te_val.buffer = te_val.buffer + te_prefix.define_u + "SET_RHS_IS_INSTANCE )"
       .else
-        .assign te_val.buffer = ( te_val.buffer + "0 )" )
+        .assign te_val.buffer = te_val.buffer + "0 )"
       .end if
       .// add the return set to the declaration deallocation blocks
-      .assign d = "${te_set.scope}${te_set.base_class} ${return_set}_space={0}; ${te_set.scope}${te_set.base_class} * ${return_set} = &${return_set}_space;"
+      .assign d = te_set.scope + te_set.base_class + " " + return_set + "_space={0}; " + te_set.scope + te_set.base_class + " * " + return_set + " = &" + return_set + "_space;"
       .invoke blk_declaration_append( te_blk, d )
-      .assign d = ( ( te_set.module + te_set.clear ) + "( ${return_set} );" )
+      .assign d = te_set.module + te_set.clear + "( " + return_set + " );"
       .invoke blk_deallocation_append( te_blk, d )
     .else
       .select any te_target from instances of TE_TARGET
