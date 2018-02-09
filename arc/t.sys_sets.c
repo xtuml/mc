@@ -320,6 +320,26 @@ ${te_set.scope}${te_set.setdifference}( ${te_set.base_class} * const to_set, voi
 .end if
 
 /*
+ * Take the symmetric difference of set1 and set2 and return to_set
+ */
+.// If no containers to manage, do not generate code.
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
+${te_set.base_class} *
+${te_set.scope}${te_set.setsymmetricdifference}( ${te_set.base_class} * const to_set, void * const set1, void * const set2, int flags )
+{
+  /* Symmetric difference is the difference of the union and the intersection */
+  ${te_set.scope}${te_set.base_class} union_set={0};
+  ${te_set.scope}${te_set.base_class} intersection_set={0};
+  ${te_set.scope}${te_set.setdifference}( to_set, ${te_set.scope}${te_set.setunion}( &union_set, set1, set2, flags ), ${te_set.scope}${te_set.setintersection}( &intersection_set, set1, set2, flags ), 0 );
+  ${te_set.module}${te_set.clear}( &union_set );
+  ${te_set.module}${te_set.clear}( &intersection_set );
+  return to_set;
+}
+.else
+/* Set symmetric difference optimized out.  */
+.end if
+
+/*
  * Insert a single element into the set in no particular order.
  * The element is a data item.  A container node will be allocated
  * to link in the element.

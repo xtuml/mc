@@ -2337,6 +2337,7 @@ CREATE TABLE TE_SET (
     setunion STRING,
     setintersection STRING,
     setdifference STRING,
+    setsymmetricdifference STRING,
     insert_element STRING,
     insert_instance STRING,
     insert_block STRING,

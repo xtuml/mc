@@ -72,6 +72,8 @@ ${te_set.base_class} *
 ${te_set.setintersection}( ${te_set.base_class} * const, void * const, void * const, int );
 ${te_set.base_class} *
 ${te_set.setdifference}( ${te_set.base_class} * const, void * const, void * const, int );
+${te_set.base_class} *
+${te_set.setsymmetricdifference}( ${te_set.base_class} * const, void * const, void * const, int );
 void ${te_set.insert_element}( ${te_set.base_class} *,
                          void * const );
 ${te_set.element_type} *

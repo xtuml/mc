@@ -242,6 +242,7 @@
   .assign te_set.setunion = te_prefix.result + "SetUnion"
   .assign te_set.setintersection = te_prefix.result + "SetIntersection"
   .assign te_set.setdifference = te_prefix.result + "SetDifference"
+  .assign te_set.setsymmetricdifference = te_prefix.result + "SetSymmetricDifference"
   .assign te_set.insert_element = te_prefix.result + "SetInsertElement"
   .assign te_set.element_count = te_prefix.result + "SetCardinality"
   .assign te_set.iterator_class_name = te_prefix.result + "Iterator_s"

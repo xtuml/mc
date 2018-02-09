@@ -489,7 +489,7 @@
       .else
         .assign te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" )
       .end if
-    .elif ( ( ( ( 21 == l_te_dt.Core_Typ ) or ( 20 == l_te_dt.Core_Typ ) ) and ( ( 21 == r_te_dt.Core_Typ ) or ( 20 == r_te_dt.Core_Typ ) ) ) and ( ( ( "+" == "$r{v_bin.Operator}" ) or ( "-" == "$r{v_bin.Operator}" ) ) or ( ( "|" == "$r{v_bin.Operator}" ) or ( "&" == "$r{v_bin.Operator}" ) ) ) )
+    .elif ( ( ( ( 21 == l_te_dt.Core_Typ ) or ( 20 == l_te_dt.Core_Typ ) ) and ( ( 21 == r_te_dt.Core_Typ ) or ( 20 == r_te_dt.Core_Typ ) ) ) and ( ( ( ( "+" == "$r{v_bin.Operator}" ) or ( "-" == "$r{v_bin.Operator}" ) ) or ( ( "|" == "$r{v_bin.Operator}" ) or ( "&" == "$r{v_bin.Operator}" ) ) ) or ( "^" == "$r{v_bin.Operator}" ) ) )
       .select any te_prefix from instances of TE_PREFIX
       .select any te_set from instances of TE_SET
       .select one v_val related by v_bin->V_VAL[R801]
@@ -500,6 +500,8 @@
         .assign te_val.buffer = ( ( te_set.scope + te_set.setintersection ) + "( " )
       .elif ( "-" == "$r{v_bin.Operator}" )
         .assign te_val.buffer = ( ( te_set.scope + te_set.setdifference ) + "( " )
+      .elif ( "^" == "$r{v_bin.Operator}" )
+        .assign te_val.buffer = ( ( te_set.scope + te_set.setsymmetricdifference ) + "( " )
       .end if
       .assign return_set = "binop_line$t{v_val.LineNumber}_col$t{v_val.StartPosition}to$t{v_val.EndPosition}"
       .assign te_val.buffer = ( ( te_val.buffer + return_set ) + ", " )
