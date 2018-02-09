@@ -176,28 +176,54 @@ ${te_set.scope}${te_set.clear}( ${te_set.base_class} * set )
 .end if
 
 /*
- * Concatenate set2 onto the end of set1.
+ * Take the union of set1 and set2 and return to_set
  */
 .// If no containers to manage, do not generate code.
 .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 ${te_set.base_class} *
-${te_set.scope}${te_set.setadd}( ${te_set.base_class} * set1,  ${te_set.base_class} * set2 )
+${te_set.scope}${te_set.setunion}( ${te_set.base_class} * const to_set, const void * const set1, const void * const set2, int flags )
 {
-  if ( ( set1->head != 0 ) && ( set2->head != 0 ) ) {  /* empty set  */
-    ${te_set.element_type} * slot;
-    for ( slot = set1->head; slot->next != 0; slot = slot->next ); /* Find end of set1.  */
-.if ( te_thread.enabled )
-    ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
-.end if
-    slot->next = set2->head;
-.if ( te_thread.enabled )
-    ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
-.end if
+  if ( NULL != to_set ) {
+    ${te_set.clear}( to_set );
   }
-  return set1;
+  return to_set;
 }
 .else
-/* Set addition optimized out.  */
+/* Set union optimized out.  */
+.end if
+
+/*
+ * Take the intersection of set1 and set2 and return to_set
+ */
+.// If no containers to manage, do not generate code.
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
+${te_set.base_class} *
+${te_set.scope}${te_set.setintersection}( ${te_set.base_class} * const to_set, const void * const set1, const void * const set2, int flags )
+{
+  if ( NULL != to_set ) {
+    ${te_set.clear}( to_set );
+  }
+  return to_set;
+}
+.else
+/* Set intersection optimized out.  */
+.end if
+
+/*
+ * Subtract set2 from set1 and return to_set
+ */
+.// If no containers to manage, do not generate code.
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
+${te_set.base_class} *
+${te_set.scope}${te_set.setdifference}( ${te_set.base_class} * const to_set, const void * const set1, const void * const set2, int flags )
+{
+  if ( NULL != to_set ) {
+    ${te_set.clear}( to_set );
+  }
+  return to_set;
+}
+.else
+/* Set difference optimized out.  */
 .end if
 
 /*
