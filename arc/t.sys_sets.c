@@ -278,7 +278,40 @@ ${te_set.base_class} *
 ${te_set.scope}${te_set.setdifference}( ${te_set.base_class} * const to_set, const void * const set1, const void * const set2, int flags )
 {
   if ( NULL != to_set ) {
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
+    /* Assure that the result set starts empty */
     ${te_set.clear}( to_set );
+    if ( NULL != set1 ) {
+      if ( flags & ${te_prefix.define_u}SET_LHS_IS_INSTANCE ) {
+        /* If both sets are single instances, only add set1 to the result set if they are not the same instance */
+        if ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) {
+          if ( set1 != set2 ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+        }
+        /* If set1 is a single instance, only add it to the result set if it is not contained in set2 */
+        else {
+          if ( NULL != set2 && !${te_set.scope}${te_set.contains}( set2, set1 ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+        }
+      }
+      else {
+        /* For each element in set1, check if it is also in set2 */
+        ${te_set.element_type} * slot;
+        for ( slot = ((${te_extent.sets_type}*)set1)->head; ( slot != 0 ); slot = slot->next ) {
+          /* If set2 is a single instance, add the the set1 instance to the result set only if they are not the same instance */
+          if ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) {
+            if ( slot->object != set2 ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), slot->object );
+          }
+          /* Only add the set1 instance to the result set if it is not contained in set2 */
+          else {
+            if ( NULL != set2 && !${te_set.scope}${te_set.contains}( set2, slot->object ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), slot->object );
+          }
+        }
+      }
+    }
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
   }
   return to_set;
 }
