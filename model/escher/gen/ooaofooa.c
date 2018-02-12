@@ -7219,8 +7219,8 @@ ooaofooa_TE_C_insert( ooaofooa_TE_C * p_head_te_c, ooaofooa_TE_C * p_te_c )
     }
     /* IF ( not_empty cursor_te_c ) */
     if ( ( 0 != cursor_te_c ) ) {
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE prev_te_c FROM cursor_te_c ACROSS R2017 */
@@ -9695,8 +9695,8 @@ ooaofooa_bparm_insert( ooaofooa_S_BPARM * p_head_s_bparm, ooaofooa_S_BPARM * p_s
     }
     /* IF ( not_empty cursor_s_bparm ) */
     if ( ( 0 != cursor_s_bparm ) ) {
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE prev_s_bparm FROM cursor_s_bparm ACROSS R55 */
@@ -9863,8 +9863,8 @@ ooaofooa_class_insert( ooaofooa_TE_CLASS * p_head_te_class, ooaofooa_TE_CLASS * 
       }
       /* IF ( not_empty cursor_te_class ) */
       if ( ( 0 != cursor_te_class ) ) {
-        /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-        if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+        /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+        if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
         }
         else {
           /* UNRELATE prev_te_class FROM cursor_te_class ACROSS R2092 */
@@ -10441,8 +10441,8 @@ ooaofooa_ee_insert( ooaofooa_TE_EE * p_head_te_ee, ooaofooa_TE_EE * p_te_ee )
       }
       /* IF ( not_empty cursor_te_ee ) */
       if ( ( 0 != cursor_te_ee ) ) {
-        /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-        if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+        /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+        if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
         }
         else {
           /* UNRELATE prev_te_ee FROM cursor_te_ee ACROSS R2096 */
@@ -10795,8 +10795,8 @@ ooaofooa_evtdi_insert( ooaofooa_SM_EVTDI * p_head_sm_evtdi, ooaofooa_SM_EVTDI * 
     }
     /* IF ( not_empty cursor_sm_evtdi ) */
     if ( ( 0 != cursor_sm_evtdi ) ) {
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE prev_sm_evtdi FROM cursor_sm_evtdi ACROSS R533 */
@@ -11454,8 +11454,8 @@ ooaofooa_mact_insert( ooaofooa_TE_MACT * p_head_te_mact, ooaofooa_TE_MACT * p_te
       }
       /* IF ( not_empty cursor_te_mact ) */
       if ( ( 0 != cursor_te_mact ) ) {
-        /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-        if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+        /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+        if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
         }
         else {
           /* UNRELATE prev_te_mact FROM cursor_te_mact ACROSS R2083 */
@@ -12266,8 +12266,8 @@ ooaofooa_pp_insert( ooaofooa_C_PP * p_c_pp, ooaofooa_C_PP * p_head_c_pp )
     }
     /* IF ( not_empty cursor_c_pp ) */
     if ( ( 0 != cursor_c_pp ) ) {
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE prev_c_pp FROM cursor_c_pp ACROSS R4021 */
@@ -12629,8 +12629,8 @@ r_form->OIR_ID = Escher_ID_factory();
       ((ooaofooa_R_FORM *)xtUML_detect_empty_handle( r_form, "R_FORM", "r_form.Txt_Phrs" ))->Txt_Phrs = Escher_strcpy( ((ooaofooa_R_FORM *)xtUML_detect_empty_handle( r_form, "R_FORM", "r_form.Txt_Phrs" ))->Txt_Phrs, ((ooaofooa_R_PART *)xtUML_detect_empty_handle( r_part, "R_PART", "r_part.Txt_Phrs" ))->Txt_Phrs );
       /* UNRELATE r_part FROM r_rto ACROSS R204 */
       ooaofooa_R_PART_R204_Unlink( r_rto, r_part );
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE r_part FROM r_simp ACROSS R207 */
@@ -17251,8 +17251,8 @@ ooaofooa_sparm_insert( ooaofooa_S_SPARM * p_head_s_sparm, ooaofooa_S_SPARM * p_s
     }
     /* IF ( not_empty cursor_s_sparm ) */
     if ( ( 0 != cursor_s_sparm ) ) {
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE prev_s_sparm FROM cursor_s_sparm ACROSS R54 */
@@ -17411,8 +17411,8 @@ ooaofooa_sync_insert( ooaofooa_TE_SYNC * p_head_te_sync, ooaofooa_TE_SYNC * p_te
       }
       /* IF ( not_empty cursor_te_sync ) */
       if ( ( 0 != cursor_te_sync ) ) {
-        /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-        if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+        /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+        if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
         }
         else {
           /* UNRELATE prev_te_sync FROM cursor_te_sync ACROSS R2095 */
@@ -22762,8 +22762,8 @@ ooaofooa_tparm_insert( ooaofooa_O_TPARM * p_head_o_tparm, ooaofooa_O_TPARM * p_o
     }
     /* IF ( not_empty cursor_o_tparm ) */
     if ( ( 0 != cursor_o_tparm ) ) {
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE prev_o_tparm FROM cursor_o_tparm ACROSS R124 */
