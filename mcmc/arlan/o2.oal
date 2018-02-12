@@ -534,6 +534,12 @@ if ( "" == te_val.buffer )
         element_count = r_te_dim.elementCount;
       end if;
       te_val.buffer = ( ( ( "( memcmp( " + l_te_val.buffer ) + ( ", " + r_te_val.buffer ) ) + ( ( ", sizeof(" + l_te_val.buffer ) + ( "[0]) * " + T::s(i:element_count) ) ) ) + ( ( ") " + v_bin.Operator ) + " 0 )" );
+    elif ( ( ( "==" == T::r(s:v_bin.Operator) ) or ( "!=" == T::r(s:v_bin.Operator) ) ) and ( ( 9 == l_te_dt.Core_Typ ) or ( 21 == l_te_dt.Core_Typ ) ) and ( ( 9 == r_te_dt.Core_Typ ) or ( 21 == r_te_dt.Core_Typ ) ) )
+      select any te_set from instances of TE_SET;
+      te_val.buffer = te_set.scope + te_set.equality + "( " + l_te_val.buffer + ", " + r_te_val.buffer + " )";
+      if ( "!=" == T::r(s:v_bin.Operator) )
+        te_val.buffer = "( !" + te_val.buffer + " )";
+      end if;
     else
       te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.buffer ) + " )" );
     end if;
