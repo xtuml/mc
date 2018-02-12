@@ -534,6 +534,12 @@
           .assign element_count = r_te_dim.elementCount
         .end if
         .assign te_val.buffer = ( ( ( "( memcmp( " + l_te_val.buffer ) + ( ", " + r_te_val.buffer ) ) + ( ( ", sizeof(" + l_te_val.buffer ) + ( "[0]) * " + "$t{element_count}" ) ) ) + ( ( ") " + v_bin.Operator ) + " 0 )" )
+      .elif ( ( ( "==" == "$r{v_bin.Operator}" ) or ( "!=" == "$r{v_bin.Operator}") ) and ( ( 9 == l_te_dt.Core_Typ ) or ( 21 == l_te_dt.Core_Typ ) ) and ( ( 9 == r_te_dt.Core_Typ ) or ( 21 == r_te_dt.Core_Typ ) ) )
+        .select any te_set from instances of TE_SET
+        .assign te_val.buffer = te_set.scope + te_set.equality + "( " + l_te_val.buffer + ", " + r_te_val.buffer + " )"
+        .if ( "!=" == "$r{v_bin.Operator}" )
+          .assign te_val.buffer = "( !" + te_val.buffer + " )"
+        .end if
       .else
         .assign te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.buffer ) + " )" )
       .end if

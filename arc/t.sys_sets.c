@@ -568,20 +568,36 @@ ${te_set.scope}${te_set.element_count}( const ${te_set.base_class} * const set )
 
 /*
  * Return true when the left and right set are equivalent.
- * Note:  This currently is not implemented.
+ * The left set is equal to the right set if and only if
+ * the left set contains all elements of the right set AND
+ * the right set contains all elements of the left set.
  */
 .if ( ( not_empty te_cs ) or ( "C++" == te_target.language ) )
 bool
 ${te_set.scope}${te_set.equality}( ${te_set.base_class} * const left_set,
                     ${te_set.base_class} * const right_set )
 {
-  bool rc = false;
-  if ( (left_set->head == 0) && (right_set->head == 0) ) {
-    rc = true;
-  } else if ( ( (left_set->head != 0) && (right_set->head != 0) ) &&
-    (${te_set.element_count}( left_set ) == ${te_set.element_count}( right_set )) ) {
-    rc = true;
-  } else { /* nop */ }
+  bool rc = true;
+  /* Assure the right set contains all elements in the left set */
+  const ${te_set.element_type} * node = left_set->head;
+  while ( 0 != node ) {
+    if ( 0 == right_set || !${te_set.scope}${te_set.contains}( right_set, node->object ) ) {
+      rc = false;
+      break;
+    }
+    node = node->next;
+  }
+  if ( rc ) {
+    /* Assure the left set contains all elements in the right set */
+    node = right_set->head;
+    while ( 0 != node ) {
+      if ( 0 == left_set || !${te_set.scope}${te_set.contains}( left_set, node->object ) ) {
+        rc = false;
+        break;
+      }
+      node = node->next;
+    }
+  }
   return rc;
 }
 .else
