@@ -1392,6 +1392,18 @@ if ( "assigner" != param.type )
   // Get all the transitions starting with "Non_Existent" state.
   value[0] = "Non_Existent";
   select many sm_evts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_EVT[R525];
+  // also collect creation events from the supertypes
+  select many supertype_isms related by sm_sm->SM_ISM[R517]->O_OBJ[R518]->R_OIR[R201]->R_RGO[R203]
+                                         ->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]
+                                         ->R_OIR[R203]->O_OBJ[R201]->SM_ISM[R518]->SM_SM[R517];
+  while ( not_empty supertype_isms )
+    select many cr_evts related by supertype_isms->SM_EVT[R502]->SM_SEVT[R525]->SM_LEVT[R526]->SM_CRTXN[R509]
+                                     ->SM_LEVT[R509]->SM_SEVT[R526]->SM_EVT[R525];
+    sm_evts = sm_evts | cr_evts;
+    select many supertype_isms related by supertype_isms->SM_ISM[R517]->O_OBJ[R518]->R_OIR[R201]->R_RGO[R203]
+                                           ->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]
+                                           ->R_OIR[R203]->O_OBJ[R201]->SM_ISM[R518]->SM_SM[R517];
+  end while;
   for each sm_evt in sm_evts
 	value[1] = ""; // domain
 	value[2] = ""; // object
@@ -1402,8 +1414,14 @@ if ( "assigner" != param.type )
 	// if a creation transition exists, use the state name as the destination
 	select one sm_crtxn related by sm_evt->SM_SEVT[R525]->SM_LEVT[R526]->SM_CRTXN[R509];
 	if ( not_empty sm_crtxn )
-	  select one sm_state related by sm_crtxn->SM_TXN[R507]->SM_STATE[R506];
-	  value[4] = sm_state.Name;
+      if ( sm_evt.SM_ID == sm_sm.SM_ID ) // creation events from supertype state machines must always go to ''Cannot_Happen''
+        select one sm_state related by sm_crtxn->SM_TXN[R507]->SM_STATE[R506];
+        value[4] = sm_state.Name;
+      else
+        // creation events from supertype state machines must always go to ''Cannot_Happen''
+        select one poly_o_obj related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
+        value[2] = poly_o_obj.Name;
+      end if;
 	end if;
 	// If event is non-local, then get the name of the supertype.
 	select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
@@ -1422,29 +1440,48 @@ end if;
 for each sm_state in sm_states
   value[0] = sm_state.Name;
   value[1] = ""; // domain
-  select many sm_semes related by sm_state->SM_SEME[R503]; 
-  for each sm_seme in sm_semes
+  select many sm_evts related by sm_state->SM_SEME[R503]->SM_SEVT[R503]->SM_EVT[R525];
+  // also collect creation events from the supertypes
+  select many supertype_isms related by sm_sm->SM_ISM[R517]->O_OBJ[R518]->R_OIR[R201]->R_RGO[R203]
+                                         ->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]
+                                         ->R_OIR[R203]->O_OBJ[R201]->SM_ISM[R518]->SM_SM[R517];
+  while ( not_empty supertype_isms )
+    select many cr_evts related by supertype_isms->SM_EVT[R502]->SM_SEVT[R525]->SM_LEVT[R526]->SM_CRTXN[R509]
+                                     ->SM_LEVT[R509]->SM_SEVT[R526]->SM_EVT[R525];
+    sm_evts = sm_evts | cr_evts;
+    select many supertype_isms related by supertype_isms->SM_ISM[R517]->O_OBJ[R518]->R_OIR[R201]->R_RGO[R203]
+                                           ->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]
+                                           ->R_OIR[R203]->O_OBJ[R201]->SM_ISM[R518]->SM_SM[R517];
+  end while;
+  for each sm_evt in sm_evts
     value[2] = ""; // object
     value[3] = ""; value[4] = "";
-    select one sm_evt related by sm_seme->SM_SEVT[R503]->SM_EVT[R525];
     value[3] = sm_evt.Mning;
     select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
     if ( not_empty poly_o_obj and poly_o_obj.Obj_ID != o_obj.Obj_ID )
       value[2] = poly_o_obj.Name;
     end if;
-    select one next_sm_state related by sm_seme->SM_NSTXN[R504]->SM_TXN[R507]->SM_STATE[R506];
-    if ( not_empty next_sm_state )
-      value[4] = next_sm_state.Name;
+    if ( sm_evt.SM_ID != sm_sm.SM_ID )
+      // creation events from supertype state machines must always go to ''Cannot_Happen''
+      select one poly_o_obj related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
+      value[2] = poly_o_obj.Name;
+      value[4] = "Cannot_Happen";
     else
-      select one sm_eign related by sm_seme->SM_EIGN[R504];
-      if ( not_empty sm_eign )
-        value[4] = "Ignore";
+      select any sm_seme related by sm_evt->SM_SEVT[R525]->SM_SEME[R503] where ( selected.SMstt_ID == sm_state.SMstt_ID );
+      select one next_sm_state related by sm_seme->SM_NSTXN[R504]->SM_TXN[R507]->SM_STATE[R506];
+      if ( not_empty next_sm_state )
+        value[4] = next_sm_state.Name;
       else
-        select one sm_ch related by sm_seme->SM_CH[R504];
-        if ( not_empty sm_ch )
-          value[4] = "Cannot_Happen";
+        select one sm_eign related by sm_seme->SM_EIGN[R504];
+        if ( not_empty sm_eign )
+          value[4] = "Ignore";
         else
-          TRACE::log( flavor:"failure", id:102, message:"invalid state machine" );
+          select one sm_ch related by sm_seme->SM_CH[R504];
+          if ( not_empty sm_ch )
+            value[4] = "Cannot_Happen";
+          else
+            TRACE::log( flavor:"failure", id:102, message:"invalid state machine" );
+          end if;
         end if;
       end if;
     end if;
