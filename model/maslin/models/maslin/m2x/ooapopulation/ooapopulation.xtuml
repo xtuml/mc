@@ -6402,30 +6402,46 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'sm_sm = param.sm_sm;
+select one o_obj related by sm_sm->SM_ISM[R517]->O_OBJ[R518];
+if ( empty o_obj )
+  // this should never happen for a creation transition...
+  TRACE::log( id:77, flavor:"warning", message:"Creation transition cannot be defined for class state machine" );
+  select one o_obj related by sm_sm->SM_ASM[R517]->O_OBJ[R519];
+end if;
 
-//IGNORE: ''Ignore'';
-if ( "Ignore" == param.endState )
-  // TODO - handle setting the transition type on the event, look at StateMachineEvent ignoreOnState
-  //   ...but do we care about this on creation events in xtUML land? 
-//CANNOT_HAPPEN: ''Cannot_Happen'' | ''cannot_happen'';
-elif ( "Cannot_Happen" == param.endState or "cannot_happen" == param.endState )
-  // TODO - handle setting the transition type on the event, look at StateMachineEvent sayCantHappenOnState
-  //   ...but do we care about this on creation events in xtUML land? 
+if ( "" != param.objectName and o_obj.Name != param.objectName )
+  if ( "Cannot_Happen" == param.endState or "cannot_happen" == param.endState )
+    // Ignore polymorphic creation transitions. In MASL, they are added for
+    // completeness, however they are always required to transition to
+    // "Cannot_Happen"
+  else
+    TRACE::log( id:78, flavor:"failure", message:"Polymorhpic creation transition must be assigned ''Cannot_Happen''" );
+  end if;
 else
-  select any state related by sm_sm->SM_STATE[R501] where (selected.Name == param.endState);
-  if (not_empty state)
-    create object instance tr of SM_TXN;
-    create object instance ct of SM_CRTXN;
-    relate tr to ct across R507;
-    relate tr to state across R506;
-    relate sm_sm to tr across R505;
-    self.Transition_initialize(sm_txn:tr);
-	select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
-	if ( not_empty sm_evt )
-      self.Transition_addEvent(sm_txn:tr, sm_sm:sm_sm, sm_evt:sm_evt);
+  //IGNORE: ''Ignore'';
+  if ( "Ignore" == param.endState )
+    // TODO - handle setting the transition type on the event, look at StateMachineEvent ignoreOnState
+    //   ...but do we care about this on creation events in xtUML land? 
+  //CANNOT_HAPPEN: ''Cannot_Happen'' | ''cannot_happen'';
+  elif ( "Cannot_Happen" == param.endState or "cannot_happen" == param.endState )
+    // TODO - handle setting the transition type on the event, look at StateMachineEvent sayCantHappenOnState
+    //   ...but do we care about this on creation events in xtUML land? 
+  else
+    select any state related by sm_sm->SM_STATE[R501] where (selected.Name == param.endState);
+    if (not_empty state)
+      create object instance tr of SM_TXN;
+      create object instance ct of SM_CRTXN;
+      relate tr to ct across R507;
+      relate tr to state across R506;
+      relate sm_sm to tr across R505;
+      self.Transition_initialize(sm_txn:tr);
+    select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
+    if ( not_empty sm_evt )
+        self.Transition_addEvent(sm_txn:tr, sm_sm:sm_sm, sm_evt:sm_evt);
+      end if;
+    /*else
+        TODO - LOG error message?*/
     end if;
-  /*else
-      TODO - LOG error message?*/
   end if;
 end if;',
 	1,
@@ -6458,6 +6474,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"64f2199d-a1c0-4fef-a92e-9108e2903bff",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("72e68136-9ad0-488a-b685-f3817469ebd2",
+	"f726dd26-884f-4c3d-864d-0e24146b887c",
+	'objectName',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"757acac7-4610-4ccb-a31f-4a4c366cb6c4",
 	'');
 INSERT INTO O_TFR
 	VALUES ("c05389a8-9886-4c2a-9288-57262c84ce9c",
@@ -6568,6 +6593,19 @@ end if;
 if ( empty sm_evt )
   TRACE::log( flavor:"failure", id:157, message:"Event for transition not found for event:  " + param.eventName );
   return;
+end if;
+
+// Ignore polymorphic creation transitions. In MASL, they are added for
+// completeness, however they are always required to transition to
+// "Cannot_Happen"
+select one sm_crtxn related by sm_evt->SM_SEVT[R525]->SM_LEVT[R526]->SM_CRTXN[R509];
+if ( not_empty sm_crtxn )
+  if ( "Cannot_Happen" == param.endState or "cannot_happen" == param.endState )
+    // Do nothing. This is a valid case.
+  else
+    TRACE::log( id:79, flavor:"failure", message:"Polymorhpic creation transition must be assigned ''Cannot_Happen''" );
+  end if;
+  return; // return early
 end if;
 
 // if it is a non-local event, get the corresponding poly
@@ -9113,7 +9151,7 @@ end if;
 
 // NON_EXISTENT: ''Non_Existent'' | ''Non_Existant'' | ''non_existent'';
 if ( ("Non_Existent" == param.startState) or ("Non_Existant" == param.startState) or ("non_existent" == param.startState) )
-  self.StateMachine_newCreationTransition(sm_sm: sm_sm, eventName:param.eventName, endState:param.endState);
+  self.StateMachine_newCreationTransition(sm_sm: sm_sm, eventName:param.eventName, endState:param.endState, objectName:param.object);
 else
   self.StateMachine_newTransition(sm_sm: sm_sm, eventName:param.eventName, startState:param.startState, endState:param.endState, domain:param.domain, object:param.object);
 end if;
