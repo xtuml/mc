@@ -1231,7 +1231,7 @@ else
     end if;
   end while;
   if ( not_empty cursor_s_sparm )
-    if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > "pyrsl v9.9.9" )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
           else
       unrelate prev_s_sparm from cursor_s_sparm across R54.'precedes';
     end if;
@@ -1281,7 +1281,7 @@ else
     end if;
   end while;
   if ( not_empty cursor_s_bparm )
-    if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > "pyrsl v9.9.9" )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
           else
       unrelate prev_s_bparm from cursor_s_bparm across R55.'precedes';
     end if;
@@ -1331,7 +1331,7 @@ else
     end if;
   end while;
   if ( not_empty cursor_o_tparm )
-    if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > "pyrsl v9.9.9" )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
           else
       unrelate prev_o_tparm from cursor_o_tparm across R124.'precedes';
     end if;
@@ -1381,7 +1381,7 @@ else
     end if;
   end while;
   if ( not_empty cursor_sm_evtdi )
-    if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > "pyrsl v9.9.9" )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
           else
       unrelate prev_sm_evtdi from cursor_sm_evtdi across R533.'precedes';
     end if;
@@ -1431,7 +1431,7 @@ else
     end if;
   end while;
   if ( not_empty cursor_c_pp )
-    if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > "pyrsl v9.9.9" )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
           else
       unrelate prev_c_pp from cursor_c_pp across R4021.'precedes';
     end if;
@@ -1505,7 +1505,7 @@ for each r_simp in r_simps
     r_form.Txt_Phrs = r_part.Txt_Phrs;
     //
     unrelate r_part from r_rto across R204;
-    if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > "pyrsl v9.9.9" )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
     else
       unrelate r_part from r_simp across R207;
     end if;
@@ -3944,7 +3944,7 @@ else
     end if;
   end while;
   if ( not_empty cursor_te_c )
-    if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > "pyrsl v9.9.9" )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
           else
       unrelate prev_te_c from cursor_te_c across R2017.'precedes';
     end if;
@@ -3993,7 +3993,7 @@ else
       end if;
     end while;
     if ( not_empty cursor_te_class )
-      if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > "pyrsl v9.9.9" )
+      if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
               else
         unrelate prev_te_class from cursor_te_class across R2092.'precedes';
       end if;
@@ -4050,7 +4050,7 @@ else
       end if;
     end while;
     if ( not_empty cursor_te_mact )
-      if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > "pyrsl v9.9.9" )
+      if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
               else
         unrelate prev_te_mact from cursor_te_mact across R2083.'precedes';
       end if;
@@ -4100,7 +4100,7 @@ else
       end if;
     end while;
     if ( not_empty cursor_te_sync )
-      if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > "pyrsl v9.9.9" )
+      if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
               else
         unrelate prev_te_sync from cursor_te_sync across R2095.'precedes';
       end if;
@@ -4156,7 +4156,7 @@ else
       end if;
     end while;
     if ( not_empty cursor_te_ee )
-      if ( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)" > "pyrsl v9.9.9" )
+      if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
               else
         unrelate prev_te_ee from cursor_te_ee across R2096.'precedes';
       end if;
@@ -4537,7 +4537,10 @@ select any te_prefix from instances of TE_PREFIX;
 te_set.module = "";
 te_set.copy = te_prefix.result + "CopySet";
 te_set.clear = te_prefix.result + "ClearSet";
-te_set.setadd = te_prefix.result + "SetAdd";
+te_set.setunion = te_prefix.result + "SetUnion";
+te_set.setintersection = te_prefix.result + "SetIntersection";
+te_set.setdifference = te_prefix.result + "SetDifference";
+te_set.setsymmetricdifference = te_prefix.result + "SetSymmetricDifference";
 te_set.insert_element = te_prefix.result + "SetInsertElement";
 te_set.element_count = te_prefix.result + "SetCardinality";
 te_set.iterator_class_name = te_prefix.result + "Iterator_s";

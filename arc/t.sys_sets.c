@@ -134,7 +134,7 @@ ${te_set.scope}${te_set.factory}( const i_t n1_size )
 .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 void 
 ${te_set.scope}${te_set.copy}( ${te_set.base_class} * to_set,
-                ${te_set.base_class} * const from_set )
+                const ${te_set.base_class} * const from_set )
 {
   const ${te_set.element_type} * slot;
 
@@ -176,28 +176,167 @@ ${te_set.scope}${te_set.clear}( ${te_set.base_class} * set )
 .end if
 
 /*
- * Concatenate set2 onto the end of set1.
+ * Take the union of set1 and set2 and return to_set
  */
 .// If no containers to manage, do not generate code.
 .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 ${te_set.base_class} *
-${te_set.scope}${te_set.setadd}( ${te_set.base_class} * set1,  ${te_set.base_class} * set2 )
+${te_set.scope}${te_set.setunion}( ${te_set.base_class} * const to_set, void * const set1, void * const set2, int flags )
 {
-  if ( ( set1->head != 0 ) && ( set2->head != 0 ) ) {  /* empty set  */
-    ${te_set.element_type} * slot;
-    for ( slot = set1->head; slot->next != 0; slot = slot->next ); /* Find end of set1.  */
-.if ( te_thread.enabled )
+  if ( 0 != to_set ) {
+  .if ( te_thread.enabled )
     ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
-.end if
-    slot->next = set2->head;
-.if ( te_thread.enabled )
+  .end if
+    /* Assure that the result set starts empty */
+    ${te_set.clear}( to_set );
+    /* Copy set1 to the result set */
+    if ( 0 != set1 ) {
+      if ( flags & ${te_prefix.define_u}SET_LHS_IS_INSTANCE ) {
+        ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+      }
+      else {
+        ${te_set.scope}${te_set.copy}( to_set, set1 );
+      }
+    }
+    /* Add any elements from set2 which are not already in the result set */
+    if ( 0 != set2 ) {
+      if ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) {
+        if ( !${te_set.scope}${te_set.contains}( to_set, set2 ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set2 );
+      }
+      else {
+        ${te_set.element_type} * slot;
+        for ( slot = ((${te_extent.sets_type}*)set2)->head; ( slot != 0 ); slot = slot->next ) {
+          if ( !${te_set.scope}${te_set.contains}( to_set, slot->object ) ) {
+            ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), slot->object );
+          }
+        }
+      }
+    }
+  .if ( te_thread.enabled )
     ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
-.end if
+  .end if
   }
-  return set1;
+  return to_set;
 }
 .else
-/* Set addition optimized out.  */
+/* Set union optimized out.  */
+.end if
+
+/*
+ * Take the intersection of set1 and set2 and return to_set
+ */
+.// If no containers to manage, do not generate code.
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
+${te_set.base_class} *
+${te_set.scope}${te_set.setintersection}( ${te_set.base_class} * const to_set, void * const set1, void * const set2, int flags )
+{
+  if ( 0 != to_set ) {
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
+    /* Assure that the result set starts empty */
+    ${te_set.clear}( to_set );
+    if ( 0 != set1 && 0 != set2) {
+      /* If both sets are single instances, only add to the result set if they are the same instance */
+      if ( ( flags & ${te_prefix.define_u}SET_LHS_IS_INSTANCE ) && ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) ) {
+        if ( set1 == set2 ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+      }
+      /* If set1 is a single instance, add it to the result set if it is contained in set2 */
+      else if ( flags & ${te_prefix.define_u}SET_LHS_IS_INSTANCE ) {
+        if ( ${te_set.scope}${te_set.contains}( set2, set1 ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+      }
+      /* If set2 is a single instance, add it to the result set if it is contained in set1 */
+      else if ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) {
+        if ( ${te_set.scope}${te_set.contains}( set1, set2 ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set2 );
+      }
+      /* For each instance in set1, add it to the result set if it is contained in set2 */
+      else {
+        ${te_set.element_type} * slot;
+        for ( slot = ((${te_extent.sets_type}*)set1)->head; ( slot != 0 ); slot = slot->next ) {
+          if ( ${te_set.scope}${te_set.contains}( set2, slot->object ) ) {
+            ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), slot->object );
+          }
+        }
+      }
+    }
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
+  }
+  return to_set;
+}
+.else
+/* Set intersection optimized out.  */
+.end if
+
+/*
+ * Subtract set2 from set1 and return to_set
+ */
+.// If no containers to manage, do not generate code.
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
+${te_set.base_class} *
+${te_set.scope}${te_set.setdifference}( ${te_set.base_class} * const to_set, void * const set1, void * const set2, int flags )
+{
+  if ( 0 != to_set ) {
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
+    /* Assure that the result set starts empty */
+    ${te_set.clear}( to_set );
+    if ( 0 != set1 ) {
+      if ( flags & ${te_prefix.define_u}SET_LHS_IS_INSTANCE ) {
+        /* If both sets are single instances, only add set1 to the result set if they are not the same instance */
+        if ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) {
+          if ( set1 != set2 ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+        }
+        /* If set1 is a single instance, only add it to the result set if it is not contained in set2 */
+        else {
+          if ( 0 != set2 && !${te_set.scope}${te_set.contains}( set2, set1 ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+        }
+      }
+      else {
+        /* For each element in set1, check if it is also in set2 */
+        ${te_set.element_type} * slot;
+        for ( slot = ((${te_extent.sets_type}*)set1)->head; ( slot != 0 ); slot = slot->next ) {
+          /* If set2 is a single instance, add the the set1 instance to the result set only if they are not the same instance */
+          if ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) {
+            if ( slot->object != set2 ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), slot->object );
+          }
+          /* Only add the set1 instance to the result set if it is not contained in set2 */
+          else {
+            if ( 0 != set2 && !${te_set.scope}${te_set.contains}( set2, slot->object ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), slot->object );
+          }
+        }
+      }
+    }
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
+  }
+  return to_set;
+}
+.else
+/* Set difference optimized out.  */
+.end if
+
+/*
+ * Take the symmetric difference of set1 and set2 and return to_set
+ */
+.// If no containers to manage, do not generate code.
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
+${te_set.base_class} *
+${te_set.scope}${te_set.setsymmetricdifference}( ${te_set.base_class} * const to_set, void * const set1, void * const set2, int flags )
+{
+  /* Symmetric difference is the difference of the union and the intersection */
+  ${te_set.scope}${te_set.base_class} union_set={0};
+  ${te_set.scope}${te_set.base_class} intersection_set={0};
+  ${te_set.scope}${te_set.setdifference}( to_set, ${te_set.scope}${te_set.setunion}( &union_set, set1, set2, flags ), ${te_set.scope}${te_set.setintersection}( &intersection_set, set1, set2, flags ), 0 );
+  ${te_set.module}${te_set.clear}( &union_set );
+  ${te_set.module}${te_set.clear}( &intersection_set );
+  return to_set;
+}
+.else
+/* Set symmetric difference optimized out.  */
 .end if
 
 /*
@@ -429,20 +568,36 @@ ${te_set.scope}${te_set.element_count}( const ${te_set.base_class} * const set )
 
 /*
  * Return true when the left and right set are equivalent.
- * Note:  This currently is not implemented.
+ * The left set is equal to the right set if and only if
+ * the left set contains all elements of the right set AND
+ * the right set contains all elements of the left set.
  */
 .if ( ( not_empty te_cs ) or ( "C++" == te_target.language ) )
 bool
 ${te_set.scope}${te_set.equality}( ${te_set.base_class} * const left_set,
                     ${te_set.base_class} * const right_set )
 {
-  bool rc = false;
-  if ( (left_set->head == 0) && (right_set->head == 0) ) {
-    rc = true;
-  } else if ( ( (left_set->head != 0) && (right_set->head != 0) ) &&
-    (${te_set.element_count}( left_set ) == ${te_set.element_count}( right_set )) ) {
-    rc = true;
-  } else { /* nop */ }
+  bool rc = true;
+  /* Assure the right set contains all elements in the left set */
+  const ${te_set.element_type} * node = left_set->head;
+  while ( 0 != node ) {
+    if ( 0 == right_set || !${te_set.scope}${te_set.contains}( right_set, node->object ) ) {
+      rc = false;
+      break;
+    }
+    node = node->next;
+  }
+  if ( rc ) {
+    /* Assure the left set contains all elements in the right set */
+    node = right_set->head;
+    while ( 0 != node ) {
+      if ( 0 == left_set || !${te_set.scope}${te_set.contains}( left_set, node->object ) ) {
+        rc = false;
+        break;
+      }
+      node = node->next;
+    }
+  }
   return rc;
 }
 .else
