@@ -24,7 +24,7 @@ creation event in an object that has a subtype.
 Recently, the idiom for editing and maintaining polymorphic events in
 BridgePoint for MASL changed from a purely name based approach to being
 maintained automatically by the model (see [[2.3]](#2.4) and [[2.4]](#2.4)).
-Because of this change, a regression occurred where models that include creation
+Because of this change, a regression occurred against models that include creation
 events in supertype classes.
 
 In both xtUML and MASL idioms of state machines, creation events must be
