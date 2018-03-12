@@ -122,7 +122,7 @@ Escher_SetFactoryInit( const i_t n1_size )
  */
 void 
 Escher_CopySet( Escher_ObjectSet_s * to_set,
-                Escher_ObjectSet_s * const from_set )
+                const Escher_ObjectSet_s * const from_set )
 {
   const Escher_SetElement_s * slot;
 
