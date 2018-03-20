@@ -1527,7 +1527,7 @@ for each r_simp in r_simps
   end if;
 end for;
 @@@
-  sys_populate@void@@@
+sys_populate@void@@@
 //============================================================================
 // This query/transformation archetype file queries the customer model
 // and populates the model compiler extensions to the meta-model.
