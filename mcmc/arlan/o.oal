@@ -157,6 +157,7 @@ GetAttributeCodeGenType@inst_ref<Extended Data Type>@@o_attr@inst_ref<Attribute>
 o_attr = param.o_attr;
 //
 select one s_dt related by o_attr->S_DT[R114];
+select one parent_te_dt related by s_dt->TE_DT[R2021];
 select one s_udt related by s_dt->S_UDT[R17];
 if ( not_empty s_udt )
   r = ::GetBaseTypeForUDT( s_udt:s_udt );
@@ -197,6 +198,12 @@ if ( not_empty s_cdt )
     // Note: the following is a recursive call to this function
     r = ::GetAttributeCodeGenType( o_attr:base_o_attr );
     te_dt = r;
+  end if;
+  if ( 11 == s_cdt.Core_Typ )
+    // inst<Mapping>
+    // Come up one level from bottoming out CDT, because the
+    // code gen information is in the parent for Mappings.
+    te_dt = parent_te_dt;
   end if;
 end if;
 return te_dt;
@@ -1520,7 +1527,7 @@ for each r_simp in r_simps
   end if;
 end for;
 @@@
-sys_populate@void@@@
+  sys_populate@void@@@
 //============================================================================
 // This query/transformation archetype file queries the customer model
 // and populates the model compiler extensions to the meta-model.
