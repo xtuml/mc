@@ -865,6 +865,14 @@ INSERT INTO S_SYNC
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 c_c = param.c_c;
 
+// - If the UDT is based on MASLtype and there is no definition, treat as a
+//   typeref and do not output it.
+// - If the UDT is based on MASLtype and there is a definition, output it as a
+//   type definition
+// - If the UDT is not based on MASLtype, treat as a type definition and output
+//   it as a typedef using the name of the underlying type (i.e. type myUDT is a
+//   string)
+
 // Data types in packages inside the component are considered private.
 select many s_dts related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001];
 for each s_dt in s_dts
@@ -901,7 +909,7 @@ for each s_dt in s_dts
       select any prev_s_enum related by s_edt->S_ENUM[R27];
       while (not_empty prev_s_enum)
         assign s_enum = prev_s_enum;
-        select one prev_s_enum related by s_enum->S_ENUM[R56.''precedes''];
+        select one prev_s_enum related by s_enum->S_ENUM[R56.''succeeds''];
       end while;
       // now iterate over the entries building up the list
       enum_definition = "enum (";
@@ -914,7 +922,7 @@ for each s_dt in s_dts
         first = false;
         enum_definition = enum_definition + next_s_enum.Name;
         assign s_enum = next_s_enum;
-        select one next_s_enum related by s_enum->S_ENUM[R56.''succeeds''];
+        select one next_s_enum related by s_enum->S_ENUM[R56.''precedes''];
       end while;
       enum_definition = enum_definition + ")";      
       value[2] = enum_definition;
@@ -935,39 +943,69 @@ end for;
 // Data types in packages directly off of the system are considered public.
 select many ep_pkgs related by c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1401] where ( selected.Name != "types" );
 for each ep_pkg in ep_pkgs
-select many s_dts related by ep_pkg->PE_PE[R8000]->S_DT[R8001];
-for each s_dt in s_dts
-  value[0] = s_dt.Name;
-  value[1] = "public";
-
-  // get body of type
-  select one s_udt related by s_dt->S_UDT[R17];
-  if ( s_udt.Definition != "" )	// only output types if there is a definition
-    value[2] = s_udt.Definition;
-
-    out::populate( element:"type", value:value );
-
-    ::mark2pragma( markable:"User Data Type", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: s_dt.Name ) );
-
-    ::Descrip2description( Descrip:s_dt.Descrip );
-    out::populate( element:"type", value:emptyvalue );
-  end if;
-end for;
-end for;
-
-// Data types in subpackages of the system packages are also considered public
-select many sub_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001];
-while ( not_empty sub_pkgs )
-  select many s_dts related by sub_pkgs->PE_PE[R8000]->S_DT[R8001];
+  select many s_dts related by ep_pkg->PE_PE[R8000]->S_DT[R8001];
+  // Data types in subpackages of the system packages are also considered public
+  select many sub_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001];
+  while ( not_empty sub_pkgs )
+    select many sub_s_dts related by sub_pkgs->PE_PE[R8000]->S_DT[R8001];
+    s_dts = s_dts | sub_s_dts;
+    select many sub_pkgs related by sub_pkgs->PE_PE[R8000]->EP_PKG[R8001];
+  end while;
   for each s_dt in s_dts
-	value[0] = s_dt.Name;
-	value[1] = "public";
+    select one s_irdt related by s_dt->S_IRDT[R17];
+    // Do not output type definitions for instance reference data types.
+    if ( empty s_irdt )
+      select one s_udt related by s_dt->S_UDT[R17];
+      select one s_edt related by s_dt->S_EDT[R17];
 
-	// get body of type
-	select one s_udt related by s_dt->S_UDT[R17];
-    if ( s_udt.Definition != "" )	// only output types if there is a definition
-      value[2] = s_udt.Definition;
-
+      value[0] = s_dt.Name;
+      value[1] = "public";
+      
+      if ( not_empty s_udt )
+        // see what type the UDT is based on
+        select one base_s_dt related by s_udt->S_DT[R18];
+      
+        // get body of type
+        if ( s_udt.Definition != "" )
+          // handle case where there is a definition
+          value[2] = s_udt.Definition;
+        else
+          // There is no definition, use the underlying type.  If the underlying type
+          // is MASLtype, treat this as a typeref and do not output it.  Otherwise
+          // output using the underlying type as the definition.
+          if ( (base_s_dt.Name == "MASLtype") or (s_dt.Name == "MASLtype") )
+            continue;
+          else
+            value[2] = base_s_dt.Name;
+          end if;
+        end if;
+      elif ( not_empty s_edt )
+        select any s_enum from instances of S_ENUM where (false);
+        // get to the first entry
+        select any prev_s_enum related by s_edt->S_ENUM[R27];
+        while (not_empty prev_s_enum)
+          assign s_enum = prev_s_enum;
+          select one prev_s_enum related by s_enum->S_ENUM[R56.''succeeds''];
+        end while;
+        // now iterate over the entries building up the list
+        enum_definition = "enum (";
+        next_s_enum = s_enum;
+        first = true;
+        while (not_empty next_s_enum)
+          if (not first)
+            enum_definition = enum_definition + ", ";
+          end if;
+          first = false;
+          enum_definition = enum_definition + next_s_enum.Name;
+          assign s_enum = next_s_enum;
+          select one next_s_enum related by s_enum->S_ENUM[R56.''precedes''];
+        end while;
+        enum_definition = enum_definition + ")";      
+        value[2] = enum_definition;
+      else
+        continue;
+      end if;
+    
       out::populate( element:"type", value:value );
 
       select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
@@ -977,8 +1015,7 @@ while ( not_empty sub_pkgs )
       out::populate( element:"type", value:emptyvalue );
     end if;
   end for;
-  select many sub_pkgs related by sub_pkgs->PE_PE[R8000]->EP_PKG[R8001];
-end while;
+end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
