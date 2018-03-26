@@ -40,17 +40,17 @@ any time `x2m` is run.
 ### 4. Requirements
 
 4.1 Provide a consistent and repeatable measurement of MASL model coverage.  
-In the Rapping project Software Requirements Specification [[2.3]] the
+In the Rapping project Software Requirements Specification [2.3] the
 following requirement is found:  "The reference model(s) will maximize
 regression test coverage for both BridgePoint and MASL model compilers."
 This requirement clearly presupposes a coverage metric.
 
 4.2 The coverage tool shall be integrated with the round-trip test.  
-In [[2.3]], "Test coverage for 9847-6 and 9847-7 shall be measured using
+In [2.3], "Test coverage for 9847-6 and 9847-7 shall be measured using
 enhancements to the existing round-trip test mechanism."
 
 4.3 The coveragle tool shall report percentage of model coverage.  
-In [[2.3]], "The updated round trip testing will report the percentage
+In [2.3], "The updated round trip testing will report the percentage
 of meta-model coverage."
 
 ### 5. Work Required
@@ -78,7 +78,7 @@ single component.
 7.1.3 See expected minimal coverage of TBD reported in the export.log.  
 
 7.2 PEI  
-7.2.1 Import the `pei_masl` branch of the PEI model [[2.4]].  
+7.2.1 Import the `pei_masl` branch of the PEI model [2.4].  
 7.2.2 Export MASL Domain  
 7.2.3 See coverage of TBD reported in the export.log.  
 

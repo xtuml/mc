@@ -165,6 +165,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       masl_gen_render( "domain", "", (const bool)structuralOnly );
     }
   }
+  masl_gen_coverage();
   exit(0);
 }
 

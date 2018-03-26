@@ -1,0 +1,190 @@
+.// coverage
+.//
+.//============================================================================
+.// Find the associations that are not formalized.  They are characterized
+.// by the existence of 2 instances of R_PART linked to one R_SIMP.
+.// Migrate the R_PART/R_RTO pair to R_FORM/R_RGO.
+.// It does not matter which participant we choose unless this is a many
+.// association.  Grab the many side of a 1-M or any random R_PART and
+.// migrate it and its parent R_RTO to R_FORM and R_RGO respectively.
+.function rel_pseudoformalize
+  .select many r_simps from instances of R_SIMP
+  .for each r_simp in r_simps
+    .select many r_parts related by r_simp->R_PART[R207]
+    .if ( ( cardinality r_parts ) > 1 )
+      .select any r_part related by r_simp->R_PART[R207] where ( selected.Mult == 1 )
+      .if ( empty r_part )
+        .select any r_part related by r_simp->R_PART[R207]
+      .end if
+      .select one r_rto related by r_part->R_RTO[R204]
+      .select one r_oir related by r_rto->R_OIR[R203]
+      .//
+      .create object instance r_rgo of R_RGO
+      .create object instance r_form of R_FORM
+      .//
+      .// Copy the R_PART to the new R_FORM.
+      .assign r_form.Mult = r_part.Mult
+      .assign r_form.Cond = r_part.Cond
+      .assign r_form.Txt_Phrs = r_part.Txt_Phrs
+      .//
+      .unrelate r_part from r_rto across R204
+      .if ( "pyrsl v1.99" > info.interpreter_version )
+      .else
+        .unrelate r_part from r_simp across R207
+      .end if
+      .delete object instance r_part
+      .//
+      .unrelate r_rto from r_oir across R203
+      .delete object instance r_rto
+      .//
+      .relate r_rgo to r_oir across R203
+      .relate r_form to r_rgo across R205
+      .relate r_form to r_simp across R208
+    .end if
+  .end for
+.end function
+.//
+.// Select across link to required instance.
+.function t_participation .// string
+  .param string left_side
+  .param string right_side
+  .param integer Numb
+  .param string multiplicity
+  .param string phrase
+  .param string attribute_comparison
+  .assign right = ""
+  .if ( "" == phrase )
+  select ${multiplicity} $l{right_side} related by $l{left_side}->${right_side}[R$t{Numb}];
+  .else
+    .if ( left_side == right_side )
+      .assign right = "right_"
+    .end if
+  select ${multiplicity} ${right}$l{right_side} related by $l{left_side}->${right_side}[R$t{Numb}.'${phrase}'];
+  .end if
+  elements = elements + 1;
+  if ( not_empty ${right}$l{right_side} )
+    covered = covered + 1;
+  end if;
+.end function
+.//
+.function formalizer_participation .// string
+  .param inst_ref o_obj
+  .select many r_forms related by o_obj->R_OIR[R201]->R_RGO[R203]->R_FORM[R205]
+  .for each r_form in r_forms
+    .select one r_simp related by r_form->R_SIMP[R208]
+    .select one r_rel related by r_simp->R_REL[R206]
+    .select one ep_pkg related by r_rel->PE_PE[R8001]->EP_PKG[R8000]
+    .invoke r = in_ep_pkg( ep_pkg, "masl" )
+    .if ( r.result )
+      .select one r_part related by r_simp->R_PART[R207]
+      .select one r_rto related by r_part->R_RTO[R204]
+      .select one target_o_obj related by r_rto->R_OIR[R203]->O_OBJ[R201]
+      .assign card = "one"
+      .if ( r_part.Mult )
+        .assign card = "any"
+      .end if
+      .assign phrase = ""
+      .if ( r_part.Obj_ID == r_form.Obj_ID )
+        .assign phrase = r_part.Txt_Phrs
+      .end if
+  // participation R$t{r_rel.Numb}:  ${o_obj.Name} -> ${target_o_obj.Name}
+      .invoke r = t_participation( o_obj.Key_Lett + "s", target_o_obj.Key_Lett, r_rel.Numb, "any", phrase, "" )
+${r.body}
+    .end if
+  .end for
+.end function
+.//
+.// Return true if the element exists (nested) in the given package name.
+.function in_ep_pkg .// boolean
+  .param inst_ref ep_pkg
+  .param string ep_pkg_Name
+  .assign inpkg = false
+  .if ( not_empty ep_pkg )
+    .if ( ep_pkg_Name == ep_pkg.Name )
+      .assign inpkg = true
+    .else
+      .select one ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000]
+      .invoke r = in_ep_pkg( ep_pkg, ep_pkg_Name )
+      .assign inpkg = r.result
+    .end if
+  .end if
+  .assign attr_result = inpkg
+.end function
+.//
+.function generate_actions .// string
+  // Count up representations of semantic classes from the MASL meta-model.
+  // Count representations of semantic associations.
+  covered = 0;
+  elements = 0;
+
+  .select any ep_pkg from instances of EP_PKG where ( selected.name == "masl" )
+  .if ( empty ep_pkg )
+    .print "Did not find masl package.  Exiting..."
+    .exit 101
+  .end if
+  .select many o_objs related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001]
+  .select many referred_o_objs related by ep_pkg->PE_PE[R8000]->O_IOBJ[R8001]->O_OBJ[R101]
+  .assign o_objs = o_objs | referred_o_objs
+  // meta-model class representation
+  .for each o_obj in o_objs
+    .select one containing_ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
+    .invoke r = in_ep_pkg( containing_ep_pkg, "masl" )
+    .if ( r.result )
+  elements = elements + 1;
+  select many ${o_obj.Key_Lett}s from instances of ${o_obj.Key_Lett};
+  if ( not_empty ${o_obj.Key_Lett}s )
+    covered = covered + 1;
+  end if;
+      .// simple association participation
+      .invoke r = formalizer_participation( o_obj )
+${r.body}
+    .end if
+  .end for
+
+  // association participation
+  .select many r_rels related by ep_pkg->PE_PE[R8000]->R_REL[R8001]
+  .for each r_rel in r_rels
+    .select one r_super related by r_rel->R_SUBSUP[R206]->R_SUPER[R212]
+    .if ( not_empty r_super )
+      .select one o_obj related by r_super->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]
+  // supertype association R${r_rel.Numb} with class ${o_obj.Name} represented
+  elements = elements + 1;
+  if ( not_empty ${o_obj.Name}s )
+    covered = covered + 1;
+  end if;
+    .else
+    .select one r_assr related by r_rel->R_ASSOC[R206]->R_ASSR[R211]
+    .if ( not_empty r_assr )
+      .select one o_obj related by r_assr->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
+  // associative R${r_rel.Numb} using class ${o_obj.Name} represented
+  elements = elements + 1;
+  if ( not_empty ${o_obj.Name}s )
+    covered = covered + 1;
+  end if;
+    .else
+    .end if
+    .end if
+  .end for
+
+  // Calculate result.
+  if ( elements > 0 )
+    coverage = 1; // establish integer
+    coverage = 100 * covered / elements;
+    scovered = STRING::itoa( i:covered );
+    selements = STRING::itoa( i:elements );
+    scoverage = STRING::itoa( i:coverage );
+    TRACE::log( flavor:"info", id:410, message:"coverage:  " + scovered + " / " + selements + " = " + scoverage );
+  end if;
+  .//
+.end function
+.//
+.//
+.//
+.// Convert unformalized associations to simplify processing.
+.//
+.print "coverage STARTING"
+.invoke rel_pseudoformalize()
+.invoke r = generate_actions()
+${r.body}
+.emit to file "../coverage.txt"
+.print "coverage ENDING"
