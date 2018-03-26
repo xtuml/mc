@@ -75,20 +75,18 @@ instantiated links of the association in models being processed.
 7.1.1 Starting from scratch, build a model with a single package with a
 single component.  
 7.1.2 Export MASL Domain  
-7.1.3 See expected minimal coverage of TBD reported in the export.log.  
+7.1.3 See expected minimal coverage of 1 / 61 = 1 reported in `code_generation/masl_output.txt`.  
 
 7.2 PEI  
 7.2.1 Import the `pei_masl` branch of the PEI model [2.4].  
 7.2.2 Export MASL Domain  
-7.2.3 See coverage of TBD reported in the export.log.  
+7.2.3 See coverage of 42 / 61 = 68 reported in `code_generation/masl_output.txt`.  
 
 7.3 MASL Round Trip  
 7.3.1 Run MASL Round Trip on the build server and see it pass.  
 7.3.2 See coverage reported.  
 
 ### 8. User Documentation
-
-8.1 Update documentation on Export MASL Domain and on MASL Round Trip.
 
 ### 9. Code Changes
 
@@ -100,11 +98,17 @@ Branch:  10052_coverage
 <pre>
 Fork/Repository:  cortlandstarrett/mc
 Branch:  10052_coverage
-</pre>
-
-<pre>
-Fork/Repository:  cortlandstarrett/models
-Branch:  10052_coverage
+ doc/notes/10052_coverage/10052_coverage_int.md                    |  111 +++++
+ doc/notes/10052_coverage/masl.png                                 |  Bin 0 -> 203177 bytes
+ model/masl/gen/HOWTO_coverage.txt                                 |   10 +
+ model/masl/gen/coverage.ark                                       |  196 +++++++++
+ model/masl/gen/coverage.txt                                       |  484 ++++++++++++++++++++
+ model/masl/gen/masl_population_class.c                            | 1315 -------------------------
+ model/masl/gen/sys_user_co.c                                      |    1 +
+ model/masl/models/masl/lib/gen/gen.xtuml                          |   12 +
+ model/masl/models/masl/lib/masl/masl.xtuml                        |   20 +-
+ model/masl/models/masl/maslpopulation/population/population.xtuml |  505 ++++++++++++++++++++-
+ 10 files changed, 1337 insertions(+), 1317 deletions(-)
 </pre>
 
 ### End
