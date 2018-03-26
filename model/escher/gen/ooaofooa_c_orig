@@ -2033,11 +2033,13 @@ ooaofooa_FactoryTE_SM( const bool p_is_ism, ooaofooa_SM_SM * p_sm_sm, ooaofooa_T
 ooaofooa_TE_DT *
 ooaofooa_GetAttributeCodeGenType( ooaofooa_O_ATTR * p_o_attr )
 {
-  ooaofooa_O_ATTR * o_attr;ooaofooa_S_CDT * s_cdt=0;ooaofooa_TE_DT * te_dt=0;ooaofooa_S_UDT * s_udt=0;ooaofooa_S_DT * s_dt=0;
+  ooaofooa_O_ATTR * o_attr;ooaofooa_S_CDT * s_cdt=0;ooaofooa_TE_DT * te_dt=0;ooaofooa_S_UDT * s_udt=0;ooaofooa_TE_DT * parent_te_dt=0;ooaofooa_S_DT * s_dt=0;
   /* ASSIGN o_attr = PARAM.o_attr */
   o_attr = p_o_attr;
   /* SELECT one s_dt RELATED BY o_attr->S_DT[R114] */
   s_dt = ( 0 != o_attr ) ? o_attr->S_DT_R114_defines_type_of : 0;
+  /* SELECT one parent_te_dt RELATED BY s_dt->TE_DT[R2021] */
+  parent_te_dt = ( 0 != s_dt ) ? s_dt->TE_DT_R2021 : 0;
   /* SELECT one s_udt RELATED BY s_dt->S_UDT[R17] */
   s_udt = 0;
   if ( ( 0 != s_dt ) && ( ooaofooa_S_UDT_CLASS_NUMBER == s_dt->R17_object_id ) )  s_udt = ( 0 != s_dt ) ? (ooaofooa_S_UDT *) s_dt->R17_subtype : 0;
@@ -2128,6 +2130,11 @@ ooaofooa_GetAttributeCodeGenType( ooaofooa_O_ATTR * p_o_attr )
       r = ooaofooa_GetAttributeCodeGenType( base_o_attr );
       /* ASSIGN te_dt = r */
       te_dt = r;
+    }
+    /* IF ( ( 11 == s_cdt.Core_Typ ) ) */
+    if ( ( 11 == ((ooaofooa_S_CDT *)xtUML_detect_empty_handle( s_cdt, "S_CDT", "s_cdt.Core_Typ" ))->Core_Typ ) ) {
+      /* ASSIGN te_dt = parent_te_dt */
+      te_dt = parent_te_dt;
     }
   }
   /* RETURN te_dt */
