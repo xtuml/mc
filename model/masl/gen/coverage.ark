@@ -61,10 +61,12 @@
     .end if
   select ${multiplicity} ${right}$l{right_side} related by $l{left_side}->${right_side}[R$t{Numb}.'${phrase}'];
   .end if
-  elements = elements + 1;
   if ( not_empty ${right}$l{right_side} )
-    covered = covered + 1;
+    covered = covered + 1; element_graph = "*" + element_graph;
+  else
+    element_graph = " " + element_graph;
   end if;
+  elements = elements + 1;
 .end function
 .//
 .function formalizer_participation .// string
@@ -116,6 +118,7 @@ ${r.body}
   // Count representations of semantic associations.
   covered = 0;
   elements = 0;
+  element_graph = "";
 
   .select any ep_pkg from instances of EP_PKG where ( selected.name == "masl" )
   .if ( empty ep_pkg )
@@ -127,18 +130,16 @@ ${r.body}
   .assign o_objs = o_objs | referred_o_objs
   // meta-model class representation
   .for each o_obj in o_objs
-    .select one containing_ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
-    .invoke r = in_ep_pkg( containing_ep_pkg, "masl" )
-    .if ( r.result )
-  elements = elements + 1;
   select many ${o_obj.Key_Lett}s from instances of ${o_obj.Key_Lett};
   if ( not_empty ${o_obj.Key_Lett}s )
-    covered = covered + 1;
+    covered = covered + 1; element_graph = "*" + element_graph;
+  else
+    element_graph = " " + element_graph;
   end if;
-      .// simple association participation
-      .invoke r = formalizer_participation( o_obj )
+  elements = elements + 1;
+    .// simple association participation
+    .invoke r = formalizer_participation( o_obj )
 ${r.body}
-    .end if
   .end for
 
   // association participation
@@ -148,19 +149,23 @@ ${r.body}
     .if ( not_empty r_super )
       .select one o_obj related by r_super->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]
   // supertype association R${r_rel.Numb} with class ${o_obj.Name} represented
-  elements = elements + 1;
   if ( not_empty ${o_obj.Name}s )
-    covered = covered + 1;
+    covered = covered + 1; element_graph = "*" + element_graph;
+  else
+    element_graph = " " + element_graph;
   end if;
+  elements = elements + 1;
     .else
     .select one r_assr related by r_rel->R_ASSOC[R206]->R_ASSR[R211]
     .if ( not_empty r_assr )
       .select one o_obj related by r_assr->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
   // associative R${r_rel.Numb} using class ${o_obj.Name} represented
-  elements = elements + 1;
   if ( not_empty ${o_obj.Name}s )
-    covered = covered + 1;
+    covered = covered + 1; element_graph = "*" + element_graph;
+  else
+    element_graph = " " + element_graph;
   end if;
+  elements = elements + 1;
     .else
     .end if
     .end if
@@ -174,6 +179,7 @@ ${r.body}
     selements = STRING::itoa( i:elements );
     scoverage = STRING::itoa( i:coverage );
     TRACE::log( flavor:"info", id:410, message:"coverage:  " + scovered + " / " + selements + " = " + scoverage );
+    TRACE::log( flavor:"info", id:411, message:"coverage map:  <" + element_graph + ">" );
   end if;
   .//
 .end function
