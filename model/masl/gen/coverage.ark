@@ -59,12 +59,13 @@
     .if ( left_side == right_side )
       .assign right = "right_"
     .end if
+  element_map[ elements ] = "R$t{Numb}";
   select ${multiplicity} ${right}$l{right_side} related by $l{left_side}->${right_side}[R$t{Numb}.'${phrase}'];
   .end if
   if ( not_empty ${right}$l{right_side} )
-    covered = covered + 1; element_graph = "*" + element_graph;
+    element_graph = element_graph + "R"; element_ungraph = element_ungraph + " "; covered = covered + 1;
   else
-    element_graph = " " + element_graph;
+    element_ungraph = element_ungraph + "R"; element_graph = element_graph + " ";
   end if;
   elements = elements + 1;
 .end function
@@ -90,6 +91,7 @@
         .assign phrase = r_part.Txt_Phrs
       .end if
   // participation R$t{r_rel.Numb}:  ${o_obj.Name} -> ${target_o_obj.Name}
+  element_map[ elements ] = "R$t{r_rel.Numb}";
       .invoke r = t_participation( o_obj.Key_Lett + "s", target_o_obj.Key_Lett, r_rel.Numb, "any", phrase, "" )
 ${r.body}
     .end if
@@ -119,6 +121,8 @@ ${r.body}
   covered = 0;
   elements = 0;
   element_graph = "";
+  element_ungraph = "";
+  element_map[128] = "";
 
   .select any ep_pkg from instances of EP_PKG where ( selected.name == "masl" )
   .if ( empty ep_pkg )
@@ -130,11 +134,13 @@ ${r.body}
   .assign o_objs = o_objs | referred_o_objs
   // meta-model class representation
   .for each o_obj in o_objs
+  // object covered:  ${o_obj.Name}
+  element_map[ elements ] = "${o_obj.Name}";
   select many ${o_obj.Key_Lett}s from instances of ${o_obj.Key_Lett};
   if ( not_empty ${o_obj.Key_Lett}s )
-    covered = covered + 1; element_graph = "*" + element_graph;
+    element_graph = element_graph + STRING::substr(s:"${o_obj.Name}",begin:0,end:1); element_ungraph = element_ungraph + " "; covered = covered + 1;
   else
-    element_graph = " " + element_graph;
+    element_ungraph = element_ungraph + STRING::substr(s:"${o_obj.Name}",begin:0,end:1); element_graph = element_graph + " ";
   end if;
   elements = elements + 1;
     .// simple association participation
@@ -149,10 +155,11 @@ ${r.body}
     .if ( not_empty r_super )
       .select one o_obj related by r_super->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]
   // supertype association R${r_rel.Numb} with class ${o_obj.Name} represented
+  element_map[ elements ] = "R${r_rel.Numb}";
   if ( not_empty ${o_obj.Name}s )
-    covered = covered + 1; element_graph = "*" + element_graph;
+    element_graph = element_graph + "S"; element_ungraph = element_ungraph + " "; covered = covered + 1;
   else
-    element_graph = " " + element_graph;
+    element_ungraph = element_ungraph + "S"; element_graph = element_graph + " ";
   end if;
   elements = elements + 1;
     .else
@@ -160,10 +167,11 @@ ${r.body}
     .if ( not_empty r_assr )
       .select one o_obj related by r_assr->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
   // associative R${r_rel.Numb} using class ${o_obj.Name} represented
+  element_map[ elements ] = "R${r_rel.Numb}";
   if ( not_empty ${o_obj.Name}s )
-    covered = covered + 1; element_graph = "*" + element_graph;
+    element_graph = element_graph + "A"; element_ungraph = element_ungraph + " "; covered = covered + 1;
   else
-    element_graph = " " + element_graph;
+    element_ungraph = element_ungraph + "A"; element_graph = element_graph + " ";
   end if;
   elements = elements + 1;
     .else
@@ -178,9 +186,15 @@ ${r.body}
     scovered = STRING::itoa( i:covered );
     selements = STRING::itoa( i:elements );
     scoverage = STRING::itoa( i:coverage );
-    TRACE::log( flavor:"info", id:410, message:"coverage:  " + scovered + " / " + selements + " = " + scoverage );
+    TRACE::log( flavor:"info", id:410, message:"coverage:  " + scovered + " / " + selements + " = " + scoverage + " %" );
     TRACE::log( flavor:"info", id:411, message:"coverage map:  <" + element_graph + ">" );
+    TRACE::log( flavor:"info", id:411, message:"no cover map:  <" + element_ungraph + ">" );
   end if;
+  i = 0;
+  while ( i < elements  )
+    TRACE::log( flavor:"info", id:412, message:element_map[ i ] );
+    i = i + 1;
+  end while;
   .//
 .end function
 .//
