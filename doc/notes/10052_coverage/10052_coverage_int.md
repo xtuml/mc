@@ -124,24 +124,41 @@ single component.
 ### 9. Code Changes
 
 <pre>
-Fork/Repository:  cortlandstarrett/bridgepoint
-Branch:  10052_coverage
-</pre>
-
-<pre>
 Fork/Repository:  cortlandstarrett/mc
 Branch:  10052_coverage
- doc/notes/10052_coverage/10052_coverage_int.md                    |  111 +++++
+ doc/notes/10052_coverage/10052_coverage_int.md                    |  148 +++++++
  doc/notes/10052_coverage/masl.png                                 |  Bin 0 -> 203177 bytes
+ doc/review-minutes/10052_coverage_int_rvm.md                      |   33 ++
  model/masl/gen/HOWTO_coverage.txt                                 |   10 +
- model/masl/gen/coverage.ark                                       |  196 +++++++++
- model/masl/gen/coverage.txt                                       |  484 ++++++++++++++++++++
- model/masl/gen/masl_population_class.c                            | 1315 -------------------------
+ model/masl/gen/coverage.ark                                       |  215 +++++++++
+ model/masl/gen/coverage.txt                                       |  584 ++++++++++++++++++++++++
+ model/masl/gen/masl_population_class.c                            | 1315 ----------------------------------
  model/masl/gen/sys_user_co.c                                      |    1 +
  model/masl/models/masl/lib/gen/gen.xtuml                          |   12 +
  model/masl/models/masl/lib/masl/masl.xtuml                        |   20 +-
- model/masl/models/masl/maslpopulation/population/population.xtuml |  505 ++++++++++++++++++++-
- 10 files changed, 1337 insertions(+), 1317 deletions(-)
+ model/masl/models/masl/maslpopulation/population/population.xtuml |  606 ++++++++++++++++++++++++-
+ 11 files changed, 1627 insertions(+), 1317 deletions(-)
+</pre>
+
+<pre>
+Fork/Repository:  cortlandstarrett/models
+Branch:  10052_coverage
+ masl/test/collectstars.py      |  15 +++
+ masl/test/pei/application.mark |  29 ++++++
+ masl/test/pei/do_creates.svc   | 226 ++++++++++++++++++++++++++++++++++++++++++
+ masl/test/pei/features.mark    |   7 ++
+ masl/test/pei/pei.int          |   6 ++
+ masl/test/pei/pei.mod          | 495 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------
+ masl/test/pei/setup.svc        |  21 ++++
+ masl/test/pei/socket_first.al  |   9 ++
+ masl/test/pei/socket_second.al |   5 +
+ masl/test/pei/socket_third.al  |   5 +
+ masl/test/pei/start_test.svc   |   6 ++
+ masl/test/pei/test.svc         | 472 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ masl/test/pei/test1.svc        |  10 ++
+ masl/test/pei/test2.svc        |  39 ++++++++
+ masl/test/pei/xit.svc          |   5 +
+ 15 files changed, 1153 insertions(+), 197 deletions(-)
 </pre>
 
 ### End
