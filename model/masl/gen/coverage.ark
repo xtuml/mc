@@ -63,9 +63,9 @@
   select ${multiplicity} ${right}$l{right_side} related by $l{left_side}->${right_side}[R$t{Numb}.'${phrase}'];
   .end if
   if ( not_empty ${right}$l{right_side} )
-    element_graph = element_graph + "R"; element_ungraph = element_ungraph + " "; covered = covered + 1;
+    element_graph = element_graph + "*"; covered = covered + 1;
   else
-    element_ungraph = element_ungraph + "R"; element_graph = element_graph + " ";
+    element_graph = element_graph + " ";
   end if;
   elements = elements + 1;
 .end function
@@ -121,7 +121,6 @@ ${r.body}
   covered = 0;
   elements = 0;
   element_graph = "";
-  element_ungraph = "";
   element_map[128] = "";
 
   .select any ep_pkg from instances of EP_PKG where ( selected.name == "masl" )
@@ -138,9 +137,9 @@ ${r.body}
   element_map[ elements ] = "${o_obj.Name}";
   select many ${o_obj.Key_Lett}s from instances of ${o_obj.Key_Lett};
   if ( not_empty ${o_obj.Key_Lett}s )
-    element_graph = element_graph + STRING::substr(s:"${o_obj.Name}",begin:0,end:1); element_ungraph = element_ungraph + " "; covered = covered + 1;
+    element_graph = element_graph + "*"; covered = covered + 1;
   else
-    element_ungraph = element_ungraph + STRING::substr(s:"${o_obj.Name}",begin:0,end:1); element_graph = element_graph + " ";
+    element_graph = element_graph + " ";
   end if;
   elements = elements + 1;
     .// simple association participation
@@ -157,9 +156,9 @@ ${r.body}
   // supertype association R${r_rel.Numb} with class ${o_obj.Name} represented
   element_map[ elements ] = "R${r_rel.Numb}";
   if ( not_empty ${o_obj.Name}s )
-    element_graph = element_graph + "S"; element_ungraph = element_ungraph + " "; covered = covered + 1;
+    element_graph = element_graph + "*"; covered = covered + 1;
   else
-    element_ungraph = element_ungraph + "S"; element_graph = element_graph + " ";
+    element_graph = element_graph + " ";
   end if;
   elements = elements + 1;
     .else
@@ -169,9 +168,9 @@ ${r.body}
   // associative R${r_rel.Numb} using class ${o_obj.Name} represented
   element_map[ elements ] = "R${r_rel.Numb}";
   if ( not_empty ${o_obj.Name}s )
-    element_graph = element_graph + "A"; element_ungraph = element_ungraph + " "; covered = covered + 1;
+    element_graph = element_graph + "*"; covered = covered + 1;
   else
-    element_ungraph = element_ungraph + "A"; element_graph = element_graph + " ";
+    element_graph = element_graph + " ";
   end if;
   elements = elements + 1;
     .else
@@ -188,11 +187,17 @@ ${r.body}
     scoverage = STRING::itoa( i:coverage );
     TRACE::log( flavor:"info", id:410, message:"coverage:  " + scovered + " / " + selements + " = " + scoverage + " %" );
     TRACE::log( flavor:"info", id:411, message:"coverage map:  <" + element_graph + ">" );
-    TRACE::log( flavor:"info", id:411, message:"no cover map:  <" + element_ungraph + ">" );
   end if;
+  s[13]="";
   i = 0;
-  while ( i < elements  )
-    TRACE::log( flavor:"info", id:412, message:element_map[ i ] );
+  while ( i < 13  )
+    j = 0;
+    while ( j < elements )
+      element_map[j] =  element_map[j] + " "; // ensure enough padding
+      s[i] = s[i] + STRING::substr(s:element_map[j],begin:i,end:i+1);
+      j = j + 1;
+    end while;
+    TRACE::log( flavor:"info", id:412, message:"         key:   " + s[i] );
     i = i + 1;
   end while;
   .//
