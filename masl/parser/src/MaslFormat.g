@@ -10,6 +10,7 @@ options
 {
 import java.io.*;
 import java.util.Collections;
+import org.antlr.runtime.RecognitionException;
 }
 
 @annotations
@@ -25,6 +26,7 @@ private int indent;
 private boolean sort;
 private boolean reorder;
 private boolean comments;
+private String fileName;
 
 private final int parameterWrap = 1;
 
@@ -76,6 +78,7 @@ public void init() {
     sort = false;
     reorder = false;
     comments = false;
+    fileName = "";
 }
 
 // public setters
@@ -101,6 +104,10 @@ public void setTabWidth( int t ) {
         tab += " ";
     }
     _TAB = tab;
+}
+
+public void setFileName( String fileName ) {
+    this.fileName = fileName;
 }
 
 // private methods
@@ -161,6 +168,11 @@ public void setErrorHandler( ErrorHandler handler ) {
 public void emitErrorMessage( String msg ) {
     System.err.println(msg);
     handler.handleError(msg);
+}
+@Override
+public void reportError(RecognitionException re) {
+    System.err.println("file: " + fileName);
+    super.reportError(re);
 }
 
 }
