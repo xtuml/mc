@@ -109,7 +109,7 @@ public class MaslFormatter implements ErrorHandler {
                 }
                      
                 // parse the file
-                if ( inStream != null ) parse( inStream );
+                if ( inStream != null ) parse( inStream, f.getName() );
             }
         }
 
@@ -117,7 +117,7 @@ public class MaslFormatter implements ErrorHandler {
     }
 
     // parse a MASL file, output formatted MASL
-    public void parse( InputStream in ) {
+    public void parse( InputStream in, String fileName ) {
         // check args and set current file
         if ( in == null )
             return;
@@ -159,6 +159,7 @@ public class MaslFormatter implements ErrorHandler {
         formatter.setComments( comments );
         if ( tabwidth >= 0 ) formatter.setTabWidth( tabwidth );
         if ( outStream != null ) formatter.setOut( outStream );
+        if ( fileName != null ) formatter.setFileName( fileName );
 
         formatter.setErrorHandler(this);
 
@@ -229,7 +230,7 @@ public class MaslFormatter implements ErrorHandler {
         // run formatter
         formatter.setup( sort, reorder, comments, tabwidth );
         if ( MaslFormatter.FILE == mode ) {
-            formatter.parse( System.in );
+            formatter.parse( System.in, "System.in" );
         }
         else if ( MaslFormatter.DIR == mode ) {
             formatter.parseDir( indir, outdir );
