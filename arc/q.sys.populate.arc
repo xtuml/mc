@@ -228,7 +228,7 @@
         .end for
       .end if
     .end for
-    .// Identify polymorhic ports.
+    .// Identify polymorphic ports.
     .// Polymorphic ports exist more than once in the same orientation on a component.
     .assign port_counter = 0
     .select many te_pos related by te_c->TE_PO[R2005]
@@ -256,34 +256,13 @@
       .end if
     .end for
   .end for
-  .// Here we force all the ports and interface references to be polymorphic.  
-  .// We do this step via a second loop here so that we could set up the 
-  .// sibling values earlier before all the ports potentially get forced to polymorphic.
-  .// This loop also configures the satisfaction shortcut we create between local and
+  .// This loop configures the satisfaction shortcut we create between local and
   .// foreign interface references.
-  .select many te_pos from instances of TE_PO
+  .select many te_pos from instances of TE_PO where ( not selected.Provision )
   .for each te_po in te_pos
     .select many te_iirs related by te_po->TE_IIR[R2080]
     .for each te_iir in te_iirs
       .// Select across the satisfaction to get the related TE_IIR.
-      .if ( te_po.Provision )
-        .// provision side first
-        .// CDS There may be more than one here.
-        .select any foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->CL_IR[R4706]->CL_IIR[R4703]->TE_IIR[R2013]
-        .if ( empty foreign_te_iir )
-          .// We are dealing with TE_IIRs that may be on non-imported interface references (connected to C_Cs).
-          .select any foreign_te_iir related by te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046]
-          .if ( empty foreign_te_iir )
-            .select any foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046]
-            .if ( empty foreign_te_iir )
-              .select any foreign_te_iir related by te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->CL_IR[R4706]->CL_IIR[R4703]->TE_IIR[R2013]
-            .end if
-          .end if
-        .end if
-        .if ( not_empty foreign_te_iir )
-          .relate te_iir to foreign_te_iir across R2081.'provides or is delegated'
-        .end if
-      .else
         .// requirement side first
         .select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
         .if ( empty foreign_te_iir )
@@ -298,7 +277,6 @@
         .if ( not_empty foreign_te_iir )
           .relate te_iir to foreign_te_iir across R2081.'requires or delegates'
         .end if
-      .end if
     .end for
   .end for  
   .//
@@ -2235,11 +2213,18 @@
   .assign te_lnk.linkage = te_oir.data_member
   .assign te_lnk.Mult = te_oir.Mult
   .assign te_lnk.assoc_type = te_oir.assoc_type
-  .// Reflexive associatives put the relationship phrase onto the AONE/AOTH data members.
-  .if ( "" != right_te_lnk.rel_phrase )
-    .assign te_lnk.linkage = ( te_lnk.linkage + "_" ) + "$_{right_te_lnk.rel_phrase}"
-  .end if
   .if ( not_empty left_te_lnk )
+    .// Reflexive associatives put the relationship phrase onto the AONE/AOTH data members.
+    .if ( "" != right_te_lnk.rel_phrase )
+      .if ( left_te_lnk.te_classGeneratedName == right_te_lnk.te_classGeneratedName )
+        .assign te_lnk.linkage = ( te_lnk.linkage + "_" ) + "$_{right_te_lnk.rel_phrase}"
+      .end if
+    .end if
+    .if ( "pyrsl v1.99" > info.interpreter_version )
+      .assign left_te_lnk.next_ID = 00
+    .else
+      .unrelate left_te_lnk from right_te_lnk across R2075.'precedes'
+    .end if
     .relate left_te_lnk to te_lnk across R2075.'precedes'
     .assign te_lnk.left = left_te_lnk.linkage
     .assign te_lnk.first = false
