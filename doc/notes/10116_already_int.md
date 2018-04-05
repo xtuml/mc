@@ -69,10 +69,13 @@ performing the link twice.  The code is changed to link from only one side
 ### 7. Unit Test
 
 7.1 GPS Watch  
-7.1.1 Disable mcmc in your installation (rename `tools/mc/bin/mcmc`).  
-7.1.2 Build GPS Watch.  
-7.1.3 See a clean build.  
-7.1.4 See a clean model compiler Console.  
+7.1.1 Build GPS Watch (in mcmc mode).  
+7.1.2 See a clean build.  
+7.1.3 See a clean model compiler Console.  
+7.1.4 Disable mcmc in your installation (rename `tools/mc/bin/mcmc`).  
+7.1.5 Build GPS Watch (in intepreted pyrsl mode).  
+7.1.6 See a clean build.  
+7.1.7 See a clean model compiler Console.  
 
 ### 8. User Documentation
 
@@ -83,6 +86,16 @@ no documentation changes necessary
 <pre>
 Fork/Repository:  cortlandstarrett
 Branch:  10116_already
+ arc/q.sys.populate.arc                          |  43 ++++------
+ bin/mac/mcmc                                    | Bin 1569800 -> 1569800 bytes
+ bin/mcmc                                        | Bin 2408744 -> 2408744 bytes
+ bin/win/mcmc.exe                                | Bin 1707581 -> 1707069 bytes
+ doc/notes/10116_already_int.md                  |  89 ++++++++++++++++++++
+ mcmc/arlan/o.oal                                |  60 +++++---------
+ model/escher/gen/ooaofooa.c                     | 328 +++++++++++++++++++++++++++++++-------------------------------------------
+ model/escher/gen/ooaofooa_c_orig                | 328 +++++++++++++++++++++++++++++++-------------------------------------------
+ model/escher/models/escher/mcmc/afun/afun.xtuml |  60 +++++---------
+ 9 files changed, 425 insertions(+), 483 deletions(-)
 </pre>
 
 ### End
