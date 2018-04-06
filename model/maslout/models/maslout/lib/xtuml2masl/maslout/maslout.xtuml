@@ -3006,34 +3006,39 @@ if ( not_empty s_dt )
         end while;
         if ( not same_domain ) // foreign type, find owner
           // Otherwise, foreign.  Find owning domain.
-    
-      select any domain_c_c from instances of C_C where false;
-      select one containing_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
-      // if containing_pkg is empty, we are either directly under a system or inside a component.
-      // if inside a component, this type is private anyway (and cannot be referenced from another domain).
-      // if under the system we need to break out to avoid an infinite loop scenario.
-      while ( empty domain_c_c and not_empty containing_pkg )
-        // find the nearest sibling component. if there are more than one, show an error
-        select many domain_c_cs related by containing_pkg->PE_PE[R8000]->C_C[R8001];
-        if ( cardinality domain_c_cs > 1 )
-          TRACE::log( id:76, flavor:"warning", message:"Multiple domain components found for type: " + s_dt.Name );
-          break;
+          select any domain_c_c from instances of C_C where false;
+          select one containing_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
+          // if containing_pkg is empty, we are either directly under a system or inside a component.
+          // if inside a component, this type is private anyway (and cannot be referenced from another domain).
+          // if under the system we need to break out to avoid an infinite loop scenario.
+          while ( empty domain_c_c and not_empty containing_pkg )
+            // find the nearest sibling component. if there are more than one, show an error
+            select many domain_c_cs related by containing_pkg->PE_PE[R8000]->C_C[R8001];
+            if ( cardinality domain_c_cs > 1 )
+              TRACE::log( id:76, flavor:"warning", message:"Multiple domain components found for type: " + s_dt.Name );
+              break;
+            else
+              for each c_c in domain_c_cs
+                domain_c_c = c_c; // because of the above check, this only gets executed once
+              end for;
+            end if;
+            select one containing_pkg related by containing_pkg->PE_PE[R8001]->EP_PKG[R8000];
+            if ( empty containing_pkg and empty domain_c_c )
+              TRACE::log( id:75, flavor:"warning", message:"No domain component found for type: " + s_dt.Name );
+            end if;
+          end while;
+          // qualify the type name with the name of the domain
+          if ( not_empty domain_c_c )
+            value[0] = domain_c_c.Name + "::" + value[0];
+          end if;
         else
-          for each c_c in domain_c_cs
-            domain_c_c = c_c; // because of the above check, this only gets executed once
-          end for;
+          // local to domain, no qualification needed
         end if;
-        select one containing_pkg related by containing_pkg->PE_PE[R8001]->EP_PKG[R8000];
-        if ( empty containing_pkg and empty domain_c_c )
-          TRACE::log( id:75, flavor:"warning", message:"No domain component found for type: " + s_dt.Name );
-        end if;
-      end while;
-      // qualify the type name with the name of the domain
-      if ( not_empty domain_c_c )
-        value[0] = domain_c_c.Name + "::" + value[0];
+      else
+        // private, inside a component
       end if;
-      
-      end if;
+    else
+      // already has qualifier
     end if;
     // special mappings
     if ( s_dt.Name == "MASLunique" )  // MASLunique is always an integer
