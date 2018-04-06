@@ -2988,8 +2988,8 @@ if ( not_empty s_dt )
       select one parent_ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
       select one parent_c_c related by parent_ep_pkg->PE_PE[R8001]->C_C[R8003];
       while ( not_empty parent_ep_pkg and empty parent_c_c )
-        select one parent_c_c related by parent_ep_pkg->PE_PE[R8001]->C_C[R8003];
         select one parent_ep_pkg related by parent_ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
+        select one parent_c_c related by parent_ep_pkg->PE_PE[R8001]->C_C[R8003];
       end while;
       if ( empty parent_c_c ) // not in a component, so keep looking
         // check if this type is defined in the same domain
