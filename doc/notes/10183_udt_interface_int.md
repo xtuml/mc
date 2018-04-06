@@ -47,19 +47,25 @@ command with invocations to `type2typeref`.
 pass the handle to `type2typeref`.  
 
 5.3 Add logic in `type2typeref` to determine the need for a domain qualifier.  
-5.3.1 Select the `S_SYS` instances containing `s_dt` and `containing_c_c`.  
-5.3.2 If the `S_SYS` instances are different and there is not already a
-qualifier in the type name (using string match of "::"), a qualifier is needed.  
-5.3.3 Select the nearest sibling component to the type, first by selecting
+5.3.1 If `void`, skip the emission.  No typeref means void in MASL.  
+5.3.2 If the type name contains the string "::", then it is already qualified,
+go on a emit the type as is.  
+5.3.3 If the type is found inside a component, it is local and does not need
+qualification.  Determin this by navigating upwards through the package
+hierarchy looking for the inside wall of the component (R8003).  
+5.3.4 If the type exists under the same package as the component, it is in
+the same domain and does not need to be qualified.  Search upward comparing
+to the parent package of the component.  
+5.3.5 Select the nearest sibling component to the type, first by selecting
 direct sibling packageable elements in the same package, and traversing
 iteratively up the package tree selecting sibling packageable elements along the
 way.  
-5.3.3.1 If the top level system is reached without finding any sibling
+5.3.5.1 If the top level system is reached without finding any sibling
 components, break out of the search and do not add a qualifier. Log an error to
 the user.  
-5.3.3.2 If two sibling components are found at the same level, break out of the
+5.3.5.2 If two sibling components are found at the same level, break out of the
 search and do not add a qualifier. Log an error to the user.  
-5.3.4 Once the domain component instance is found, prepend the type name with
+5.3.5.3 Once the domain component instance is found, prepend the type name with
 the name of the component and "::".  
 
 5.4 Copy `type2typeref` into the OOA of OOA `x2m_functions`. These functions are
@@ -70,14 +76,20 @@ the same patterns used in `maslout`.
 
 ### 6. Implementation Comments
 
-6.1 The logic in `type2typeref` must assume that there is only one domain
+6.1 A simpler alternative was considered that assumes that single domains are
+defined in Eclipse projects by themselves and that project projects also are
+defined in separate Eclipse projects.  In such a case the following was the
+thinking.  
+6.1.1 The logic in `type2typeref` must assume that there is only one domain
 defined in a single xtUML project. Since public elements like types must be
 defined _outside_ the component itself, there is not another clear way in xtUML
 to mark them as _belonging_ to a particular domain other than defining them in
 the same project as the component. If for example, two domains were in the same
 project and one referred to the other's types, the check in 5.3.2 would show
 that the type is defined in the same system as the referring component so no
-qualifier would be necessary (even though it would produce invalid MASL).
+qualifier would be necessary (even though it would produce invalid MASL).  
+6.1.2 However, the approach above that depends on packaging was chosen and
+implemented.
 
 ### 7. Unit Test
 
