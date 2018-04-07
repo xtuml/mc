@@ -129,7 +129,8 @@ param1: in Domain2Type )`.
 7.2.17 Verify that no new errors appear in the error log view.  
 
 7.2.18 Right click 10183_domain3::Domain3::Domain3 > Export MASL Domain.  
-7.2.19 Verify that no "warning" messages appear in the `export.log`.  
+7.2.19 Verify that only one "warning" message appears in the `export.log`
+stating:  "75 ___ warning ___ No domain component found for type: Domain3Type."   
 7.2.20 Navigate to `masl/Domain3/Domain3.mod` in the `10183_domain3` project
 root.  
 7.2.21 Verify that the signature `public service TermServ ( param1: in
