@@ -178,7 +178,7 @@
         .if ( enumString == cnst_lsc.Value )
           .select one te_enum related by s_enum->TE_ENUM[R2027]
           .assign te_val.buffer = te_enum.GeneratedName
-          .break
+          .break for
         .end if
       .end for
     .elif ( 4 == te_dt.Core_Typ )
