@@ -169,7 +169,19 @@
     .select one te_dt related by cnst_syc->S_DT[R1500]->TE_DT[R2021]
     .assign te_val.OAL = cnst_syc.Name
     .assign te_val.buffer = cnst_lsc.Value
-    .if ( 4 == te_dt.Core_Typ )
+    .select one edt related by te_dt->S_EDT[R17]
+    .if ( not_empty edt )
+      .assign enumString = edt.Name
+      .select many enums related by edt->S_ENUM[R27]
+      .for each enum in enums
+        .assign enumString = enumString + enum.Name
+        .if ( enumString == cnst_lsc.Value )
+          .select one te_enum related by s_enum->TE_ENUM[R2027]
+          .assign te_val.buffer = te_enum.GeneratedName
+          .break
+        .end if
+      .end for
+    .elif ( 4 == te_dt.Core_Typ )
       .select any te_string from instances of TE_STRING
       .assign te_val.buffer = ( """" + cnst_lsc.Value ) + """"
       .invoke oal( " // Ccode" )
