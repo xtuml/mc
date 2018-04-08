@@ -514,7 +514,12 @@ if ( not_empty activity )
 		kl_len = STRING::strlen( s:pragma_item.value );
 		key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
 	  end if;
-	  name = key_letters + "_" + activity.name + ".al";
+	  if ( "assigner" == state.type or "assigner start" == state.type )
+	    // add -A for assigner states
+	    name = key_letters + "-A_" + activity.name + ".al";
+	  else
+	    name = key_letters + "_" + activity.name + ".al";
+	  end if;
 	end if;
   
   end if;

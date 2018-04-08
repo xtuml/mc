@@ -1,0 +1,37 @@
+#!/bin/bash
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+BP_PLUGIN_DIR=$DIR/../../../plugins
+CLASSPATH=''
+
+function addToClasspath {
+  for file in $BP_PLUGIN_DIR/$1_*.jar ; do
+    if [ -z $CLASSPATH ] ; then
+      CLASSPATH=$file
+    else
+      CLASSPATH=$CLASSPATH:$file
+    fi
+  done
+}
+
+addToClasspath 'org.xtuml.bp.xtext.masl'
+addToClasspath 'org.eclipse.xtext'
+addToClasspath 'org.eclipse.xtext.xbase'
+addToClasspath 'org.eclipse.equinox.common'
+addToClasspath 'org.eclipse.emf.ecore'
+addToClasspath 'org.eclipse.xtext.xbase.lib'
+addToClasspath 'org.antlr.runtime'
+addToClasspath 'org.eclipse.xtext.util'
+addToClasspath 'org.eclipse.xtend.lib'
+addToClasspath 'org.eclipse.emf.common'
+addToClasspath 'org.eclipse.emf.ecore.xmi'
+addToClasspath 'org.eclipse.xtext.xbase'
+addToClasspath 'org.eclipse.xtext.common.types'
+addToClasspath 'org.apache.commons.logging'
+addToClasspath 'org.apache.log4j'
+addToClasspath 'com.ibm.icu'
+addToClasspath 'com.google.inject'
+addToClasspath 'com.google.guava'
+addToClasspath 'javax.inject'
+
+java -cp $CLASSPATH org/xtuml/bp/xtext/masl/cli/MaslCliChecker $@

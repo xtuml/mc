@@ -30,37 +30,19 @@
       .assign r_form.Cond = r_part.Cond
       .assign r_form.Txt_Phrs = r_part.Txt_Phrs
       .//
-      .// unrelate r_part from r_rto across R204;
-      .assign r_part.Obj_ID = 00
-      .assign r_part.Rel_ID = 00
-      .assign r_part.OIR_ID = 00
-      .// end unrelate
-      .// unrelate r_part from r_simp across R207;
-      .// end unrelate
-      .// delete object instance r_part;
-      .//
-      .// unrelate r_rto from r_oir across R203;
-      .assign r_rto.Obj_ID = 00
-      .assign r_rto.Rel_ID = 00
-      .assign r_rto.OIR_ID = 00
-      .// end unrelate
-      .// delete object instance r_rto;
-      .//
-      .// relate r_rgo to r_oir across R203;
-      .assign r_rgo.Obj_ID = r_oir.Obj_ID
-      .assign r_rgo.Rel_ID = r_oir.Rel_ID
-      .assign r_rgo.OIR_ID = r_oir.OIR_ID
-      .// end relate
-      .// relate r_form to r_rgo across R205;
-      .assign r_form.Obj_ID = r_rgo.Obj_ID
-      .assign r_form.Rel_ID = r_rgo.Rel_ID
-      .assign r_form.OIR_ID = r_rgo.OIR_ID
-      .// end relate
-      .// relate r_form to r_simp across R208;
-      .if ( r_form.Rel_ID != r_simp.Rel_ID )
-        .print "ERROR:  Pseudoformalization of relationship failed."
+      .unrelate r_part from r_rto across R204
+      .if ( "pyrsl v1.99" > info.interpreter_version )
+      .else
+        .unrelate r_part from r_simp across R207
       .end if
-      .// end relate
+      .delete object instance r_part
+      .//
+      .unrelate r_rto from r_oir across R203
+      .delete object instance r_rto
+      .//
+      .relate r_rgo to r_oir across R203
+      .relate r_form to r_rgo across R205
+      .relate r_form to r_simp across R208
     .end if
   .end for
 .end function

@@ -78,10 +78,8 @@ for each object in objects
   object.render_declaration();
 end for;
 
-select many types related by self->type[R3776];
-for each type in types
-  type.render();
-end for;
+// Render types in dependent order minimizing forward declarations.
+type::render_all( domain:self, scope:"private" );
 
 select many exceptions related by self->exception[R3748];
 for each exception in exceptions
@@ -103,9 +101,29 @@ for each relationship in relationships
   relationship.render();
 end for;
 
-for each object in objects
-  object.render();
-end for;
+// Sequence rendering such that supertypes are rendered before subtypes.
+// The maximum number of rounds required cannot be larger than the
+// total number subtype-supertype relationships in the domain.
+round = 0;
+select many subsupers from instances of subsuper;
+maxrounds = cardinality subsupers;
+while ( round <= maxrounds )
+  for each object in objects
+    // determine subtype depth
+    // Render the object during the round equal to its depth.
+    depth = 0;
+    select many supertypes related by object->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.''engages'']->object[R3714];
+    while ( not_empty supertypes )
+      depth = depth + 1;
+      ss = supertypes;
+      select many supertypes related by ss->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.''engages'']->object[R3714];
+    end while;
+    if ( depth == round )
+      object.render();
+    end if;
+  end for;
+  round = round + 1;
+end while;
 
 T::include( file:"masl/t.domain_end.masl" );
 
@@ -211,7 +229,7 @@ emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; 
 value[0] = self.name;
 out::tostring( element:"domain", value:value );
 
-select many types related by self->type[R3776];
+select many types related by self->type[R3719];
 for each type in types
   type.tostring();
 end for;
@@ -283,12 +301,8 @@ for each descrip in descrips
 end for;
 T::include( file:"masl/t.domain_begin.masl" );
 
-select many types related by self->type[R3776];
-for each type in types
-  if ( "public" == type.visibility )
-    type.render();
-  end if;
-end for;
+// Render types in dependent order minimizing forward declarations.
+type::render_all( domain:self, scope:"public" );
 
 select many exceptions related by self->exception[R3748];
 for each exception in exceptions
@@ -303,6 +317,11 @@ for each activity in routine_activities
   if ( "public" == routine.visibility )
     activity.render();
   end if;
+end for;
+
+select many terminators related by self->terminator[R3702.''sends through''];
+for each terminator in terminators
+  terminator.render();
 end for;
 
 T::include( file:"masl/t.domain_end.masl" );

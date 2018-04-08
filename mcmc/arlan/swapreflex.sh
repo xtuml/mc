@@ -1,3 +1,4 @@
+sed "s/info.interpreter_version/\"pyrsl v9.9.9\"/" | \
 sed "s/'succeeds']/'precEEEEdes']/" | \
 sed "s/'precedes']/'succeeds']/" | \
 sed "s/'precEEEEdes']/'precedes']/"

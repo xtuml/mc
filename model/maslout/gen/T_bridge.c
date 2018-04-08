@@ -51,7 +51,11 @@ static void _mkdir(const char *dir) {
   for(p = tmp + 1; *p; p++)
     if(*p == '/') {
       *p = 0;
+      #ifdef WIN
+      mkdir(tmp);
+      #else
       mkdir(tmp, S_IRWXU);
+      #endif
       *p = '/';
     }
 }

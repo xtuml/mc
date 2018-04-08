@@ -39,7 +39,14 @@
     .assign te_attr.ParamBuffer = "w_${te_attr.Name}"
   .end for
   .//
-  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .select any te_attr related by te_class->TE_ATTR[R2061]
+  .while ( not_empty te_attr )
+    .select one prev_te_attr related by te_attr->TE_ATTR[R2087.'precedes']
+    .if ( empty prev_te_attr )
+      .break while
+    .end if
+    .assign te_attr = prev_te_attr
+  .end while
   .assign oida_count = 0
   .while ( not_empty te_attr )
     .if ( te_attr.Included )

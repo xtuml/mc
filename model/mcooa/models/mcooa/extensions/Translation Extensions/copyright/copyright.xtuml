@@ -5,8 +5,7 @@ INSERT INTO O_OBJ
 	'copyright',
 	2047,
 	'TE_COPYRIGHT',
-	'The body to the copyright is define here.  The years listed must be 
-updated each year.',
+	'The body of a copyright can be defined here.',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_NBATTR
 	VALUES ("aa7f4256-0c25-4b69-9a4d-3fc978d83e26",
@@ -26,7 +25,7 @@ INSERT INTO O_ATTR
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
-	'"(C) Copyright 1998-2011 Mentor Graphics Corporation.  All rights reserved."');
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"ded92321-4379-4014-9fd4-0c040e1cd6dc");

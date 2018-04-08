@@ -24,6 +24,22 @@
 #define SYS_USER_CO_PRINTF( s )
 #endif
 
+// we write our own implementation of strsep so it works on windows
+#include <string.h>
+char *_strsep(char **stringp, const char *delim) {
+    if ( !stringp || !*stringp ) return NULL;
+    char* start = *stringp;
+    char* p = strpbrk( start, delim );
+    if ( !p ) {
+        *stringp = NULL;
+    }
+    else {
+        *p = '\0';
+        *stringp = p+1;
+    }
+    return start;
+}
+
 /*
  * UserInitializationCallout
  *
@@ -64,7 +80,6 @@ UserPreOoaInitializationCalloutf( void )
  * When this callout function returns, the system dispatcher will allow the
  * xtUML application analysis state models to start consuming events.
  */
-#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -74,6 +89,7 @@ void Escher_dump_instances( const Escher_DomainNumber_t, const Escher_ClassNumbe
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
+  masl2xtuml_model * model = masl2xtuml_model_op_create( "maslin" );
   char s[ ESCHER_SYS_MAX_STRING_LEN ], e[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ], arg[ ESCHER_SYS_MAX_STRING_LEN ];
   char * p, * q, * element = e, * value[ 8 ] = { v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7] };
   int i, j;
@@ -84,11 +100,11 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
-          else masl2xtuml_model_op_setroot( optarg );
+          else masl2xtuml_model_op_setoption( model, "projectroot", optarg );
           break;
         case 'o':
           if ( !optarg ) abort();
-          else masl2xtuml_model_op_setroot( optarg );
+          else masl2xtuml_model_op_setoption( model, "projectroot", optarg );
           break;
         case '?':
           fprintf( stderr, "Unknown option character '%c'.\n", optopt );
@@ -101,10 +117,10 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   while ( ( p = fgets( s, ESCHER_SYS_MAX_STRING_LEN, stdin ) ) != NULL ) {
     i = 0;
     p[ strlen(p) - 1 ] = 0;
-    if ( ( q = strsep( &p, "," ) ) != NULL ) { strcpy( element, q ); }
+    if ( ( q = _strsep( &p, "," ) ) != NULL ) { strcpy( element, q ); }
 
     while ( p != NULL ) {
-      q = strsep(&p, ",");
+      q = _strsep(&p, ",");
       masl_url_decode( arg, q );
       strcpy( value[ i++ ], arg );
     }

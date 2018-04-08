@@ -10,6 +10,7 @@ options
 {
 import java.io.*;
 import java.util.Collections;
+import org.antlr.runtime.RecognitionException;
 }
 
 @annotations
@@ -25,6 +26,7 @@ private int indent;
 private boolean sort;
 private boolean reorder;
 private boolean comments;
+private String fileName;
 
 private final int parameterWrap = 1;
 
@@ -76,6 +78,7 @@ public void init() {
     sort = false;
     reorder = false;
     comments = false;
+    fileName = "";
 }
 
 // public setters
@@ -101,6 +104,10 @@ public void setTabWidth( int t ) {
         tab += " ";
     }
     _TAB = tab;
+}
+
+public void setFileName( String fileName ) {
+    this.fileName = fileName;
 }
 
 // private methods
@@ -151,6 +158,21 @@ private String cat( List<String> l, boolean pad ) {
         if ( pad ) sb.append( line() );
     }
     return sb.toString();
+}
+
+private ErrorHandler handler = null;
+public void setErrorHandler( ErrorHandler handler ) {
+    this.handler = handler;
+}
+@Override
+public void emitErrorMessage( String msg ) {
+    System.err.println(msg);
+    handler.handleError(msg);
+}
+@Override
+public void reportError(RecognitionException re) {
+    System.err.println("file: " + fileName);
+    super.reportError(re);
 }
 
 }
@@ -687,10 +709,10 @@ returns [StringBuilder text]
                                        t.append( _COLON + _SPACE );
                                        t.append( getText( $typeReference.text ) );
                                    }
-                                   (expression //TODO finish all expressions
+                                   (expression
                                    {
                                        t.append( _SPACE + _ASSIGN + _SPACE );
-                                       t.append( getText( $expression.text ) );
+                                       t.append( $COMPONENT_DEFINITION.text );
                                    }
                                    )?
                                    pragmaList[_SPACE]
@@ -755,7 +777,7 @@ returns [StringBuilder text]
                                    (expression
                                    {
                                        t.append( _SPACE + _ASSIGN + _SPACE );
-                                       t.append( getText( $expression.text ) );
+                                       t.append( $ENUMERATOR.text );
                                    }
                                    )?
                                  )                          
@@ -1318,7 +1340,7 @@ returns [StringBuilder text]
                                    (expression
                                    {
                                        t.append( _SPACE + _ASSIGN + _SPACE );
-                                       t.append( getText( $expression.text ) );
+                                       t.append( $ATTRIBUTE_DEFINITION.text );
                                    }
                                    )?
                                    pragmaList[_SPACE]
@@ -2750,7 +2772,6 @@ variableName
 
 
 expression
-returns [StringBuilder text]
                               : binaryExpression            
                               | unaryExpression             
                               | rangeExpression             
@@ -2768,9 +2789,6 @@ returns [StringBuilder text]
                               | primeExpression             
                               | nameExpression              
                               | literalExpression           
-                              {
-                                  $text = new StringBuilder( $literalExpression.text );
-                              }
                               ;
 
 binaryExpression

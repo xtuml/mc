@@ -94,10 +94,10 @@
         .assign instance_loaders = instance_loaders + "${delimiter}\\n {""${o_obj.Key_Lett}"", ${type_name}, ${class_name}_instanceloader}"
         .assign batch_relaters = batch_relaters + "${delimiter}\\n ${class_name}_batch_relate"
         .assign attr_instance_dumpers = attr_instance_dumpers + "${delimiter}\n  ${class_name}_instancedumper"
+        .assign class_typedefs = class_typedefs + "\ntypedef ${class_or_struct} ${class_name} ${class_name};"
       .end if
       .assign class_numbers = class_numbers + "#define ${type_name} $t{class_number_count}\n"
       .assign class_number_count = class_number_count + 1
-      .assign class_typedefs = class_typedefs + "\ntypedef ${class_or_struct} ${class_name} ${class_name};"
       .if ( te_class.Persistent )
         .assign class_union = class_union + "\\n  ${class_name} ${class_name}_u;"
       .end if
@@ -121,7 +121,14 @@
   .assign event_unions = r.body
   .// TE_C may have no associated behavior/datatypes, accordingly include ${te_c.datatypes_file} should be omitted
   .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )
-  .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 0 ) and ( selected.Included ) )
+  .// Get the TE_EEs that are not connected to a component.
+  .select many global_te_ees from instances of TE_EE where ( selected.Included )
+  .for each te_ee in global_te_ees
+    .select one my_te_c related by te_ee->TE_C[R2085]
+    .if ( not_empty my_te_c )
+      .assign global_te_ees = global_te_ees - te_ee
+    .end if
+  .end for
   .assign te_ees = te_ees | global_te_ees
   .for each te_ee in te_ees
     .assign ee_includes = ee_includes + "\n#include ""${te_ee.Include_File}"""

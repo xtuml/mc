@@ -27,6 +27,7 @@ use File::Compare;
 use File::Find;
 use File::Basename;
 use Cwd;
+use Cwd 'abs_path';
 
 my $osplatform;
 my $windbase = "";
@@ -99,7 +100,6 @@ $ENV{'OBJ_SUFFIX'} = "o";
 
 my $schema = "$ENV{'ROX_MC_ROOT_DIR'}/$ENV{'ROX_APP_SCHEMA_DIR_NAME'}/$ENV{'ROX_APP_SQL_DIR_NAME'}/$ENV{'ROX_MC_OOA_SCHEMA_FILE'}";
 my $arcdir = $ENV{'ROX_MC_ARC_DIR'};
-
 
 ###########################################################################
 # Start ReplaceUUIDWithLong.
@@ -1062,6 +1062,88 @@ sub modelFinderCallback($$)
 }
 
 #---------------------------------------------------------------------------
+# Run referential integrity checking on the input models (projects).
+#---------------------------------------------------------------------------
+sub xtuml_integrity;
+sub xtuml_integrity
+{
+  my $usage = "Usage:\n\txtuml_integrity -i <model folder or file1> [-i <another folder or file>] [-g] [-m <accumulated model data file>] [-o <report file>]\n";
+
+  # get command line arguments
+  my @param_list = @_;
+
+  # set the path
+  my $current_path = $ENV{'PATH'};
+  my $mc_bin_dir = abs_path( dirname($0) );
+  add_to_path( $mc_bin_dir );
+
+  my @tt = localtime();
+  my $serial = "$tt[5]$tt[4]$tt[6]$tt[2]$tt[1]_$$";
+
+  # input variables
+  my @inputs;
+  my $skip_globals = 0;
+  my $model_file = "xtuml_integrity_model_file_${serial}";
+  my $out_file = ""; # if not out_file, use STDOUT
+
+  my $delete_model_file = 1; # Default to deleting accumulated model file when not supplied on command line.
+  my $tmp_file1 = "xtuml_integrity_temp1_${serial}";
+
+  # parse arguments
+  my $directive = "";
+  foreach my $arg(@param_list) {
+    if ( $arg eq "-i" or $arg eq "-o" or $arg eq "-m" ) {   # set the directive
+      $directive = "$arg";
+    } elsif ( $arg eq "-g" ) {                              # skip globals
+      $directive = "$arg";
+      $skip_globals = 1;
+    } elsif ( $directive eq "-i" ) {                        # add an input
+      push @inputs, $arg;
+    } elsif ( $directive eq "-m" ) {                        # denote accumulation file
+      $model_file = "$arg";
+      $delete_model_file = 0;
+    } elsif ( $directive eq "-o" ) {                        # save report to file
+      $out_file = "$arg";
+    } else {
+      print STDERR $usage;
+      exit 1;
+    }
+  }
+
+  # Check if we have any models to interrogate.
+  if ( !@inputs ) {
+    print STDERR $usage;
+    exit 1;
+  }
+
+  # Get the global native types.
+  if ( !$skip_globals ) {
+    push @inputs, glob("$mc_bin_dir/../../../plugins/org.xtuml.bp.pkg*/globals/Globals.xtuml");
+  }
+
+  # Accumulate model data.
+  foreach $i (@inputs) {
+    &ConvertMultiFileToSingleFile ( $i, $tmp_file1 );
+  }
+
+  # Filter graphics and proxy entries and non-ASCII characters from the model file.
+  &xtumlmc_cleanse_model( $tmp_file1, $model_file, 'true' );
+
+  # Run the check referential integrity binary.
+  if ( "" eq $out_file ) {
+    system( "integrity $model_file" );
+  } else {
+    system( "integrity $model_file > $out_file" );
+  }
+
+  # Remove the temporary files.
+  xtumlmc_rm( $tmp_file1 );
+  if ( $delete_model_file ) {
+    xtumlmc_rm( $model_file );
+  }
+}
+
+#---------------------------------------------------------------------------
 # Export a BridgePoint model to MASL
 #---------------------------------------------------------------------------
 sub xtuml2masl;
@@ -1199,7 +1281,7 @@ sub xtuml2masl
     # pragmas should be produced by the exporter. By default the -k 
     # option is not used in order to suppress generation of "key_letter"
     # pragmas.
-    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m $skip_action_language -i$i $command | masl $validate $skip_action_language -i$i $command -o$out_dir";
+    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m $skip_action_language -i$i $command | tee $i/gen/code_generation/x2m_output.txt | masl $validate $skip_action_language -i$i $command -o$out_dir | tee $i/gen/code_generation/masl_output.txt ";
     print STDERR "$sys_cmd\n";
     system( $sys_cmd );
 
@@ -1220,7 +1302,15 @@ sub xtuml2masl
         my $format_cmd = "java -cp $masl_format_cp MaslFormatter -r -i $out_dir/$format_dir.orig -o $out_dir/$format_dir";
         print STDERR "$format_cmd\n";
         system( $format_cmd );
-        rmtree("$out_dir/$format_dir.orig");
+        # if formatting succeeds, remove the original MASL
+        # if not, move the unformatted back to the output dir
+        if ($? == 0) {
+            rmtree("$out_dir/$format_dir.orig");
+        }
+        else {
+            rmtree("$out_dir/$format_dir");
+            move( "$out_dir/$format_dir.orig", "$out_dir/$format_dir");
+        }
       }
     }
   }
@@ -1336,7 +1426,8 @@ my %xtumlmc_utility_routines = (
   "ConvertMultiFileToSingleFile" => TRUE,
   "xtumlmc_cleanse_model" => TRUE,
   "xtumlmc_cleanse_inserts" => TRUE,
-  "xtumlmc_cleanse_for_BridgePoint" => TRUE );
+  "xtumlmc_cleanse_for_BridgePoint" => TRUE,
+  "xtuml_integrity" => TRUE );
 
 #
 # This condition will succeed only when the user is calling xtumlmc_build

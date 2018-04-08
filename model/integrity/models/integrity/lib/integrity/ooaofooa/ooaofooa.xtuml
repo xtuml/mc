@@ -1,0 +1,71 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("dcde8895-bb17-47ad-bb64-6a25e45d5574",
+	"00000000-0000-0000-0000-000000000000",
+	"ac72a1fd-c7b6-4d22-bf49-996f2af2ffad",
+	'ooaofooa',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("63389508-c633-4a69-bf1d-5b6f391b9516",
+	112,
+	"dcde8895-bb17-47ad-bb64-6a25e45d5574",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'integrity::lib::integrity::ooaofooa');
+INSERT INTO DIM_DIA
+	VALUES ("63389508-c633-4a69-bf1d-5b6f391b9516",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("dcde8895-bb17-47ad-bb64-6a25e45d5574",
+	"53c53174-40a3-4d71-a2d9-4d8fbbf1e693");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'ooaofooa',
+	'
+
+
+',
+	0,
+	'../../../../../../mcooa/models/mcooa/ooaofooa/ooaofooa.xtuml');
+INSERT INTO PE_PE
+	VALUES ("dcde8895-bb17-47ad-bb64-6a25e45d5574",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"09361e04-407a-440f-a11a-061e4fb17257",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("09361e04-407a-440f-a11a-061e4fb17257",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'integrity',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../integrity.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("ac72a1fd-c7b6-4d22-bf49-996f2af2ffad",
+	'integrity',
+	1,
+	'../../../integrity.xtuml');

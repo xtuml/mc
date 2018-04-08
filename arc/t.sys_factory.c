@@ -11,9 +11,6 @@ ${all_domain_include_files}
 .end if
 
 .include "${te_file.arc_path}/t.sys_sets.c"
-.if ( te_sys.InstanceLoading )
-Escher_iHandle_t Escher_instance_cache[ 1000000 ];
-.end if
 
 .if ( "C" == te_target.language )
 ${system_class_array.class_info}

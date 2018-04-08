@@ -192,11 +192,7 @@
     .assign te_val.array_spec = te_var.array_spec
     .select one te_dim related by te_var->TE_DIM[R2057]
     .if ( not_empty te_dim )
-      .// relate te_val to te_dim across R2079;
-      .assign te_val.te_dimID = te_dim.te_dimID
-      .// end relate
-    .else
-      .assign te_val.te_dimID = 00
+      .relate te_val to te_dim across R2079
     .end if
   .end for
 .end function
@@ -255,11 +251,7 @@
     .assign te_val.array_spec = te_attr.array_spec
     .select one te_dim related by te_attr->TE_DIM[R2055]
     .if ( not_empty te_dim )
-      .// relate te_val to te_dim across R2079;
-      .assign te_val.te_dimID = te_dim.te_dimID
-      .// end relate
-    .else
-      .assign te_val.te_dimID = 00
+      .relate te_val to te_dim across R2079
     .end if
     .// Maybe attribute value is actually derived.
     .select one o_dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107]
@@ -273,11 +265,7 @@
         .assign te_val.array_spec = te_aba.array_spec
         .select one te_dim related by te_aba->TE_DIM[R2058]
         .if ( not_empty te_dim )
-          .// relate te_val to te_dim across R2079;
-          .assign te_val.te_dimID = te_dim.te_dimID
-          .// end relate
-        .else
-          .assign te_val.te_dimID = 00
+          .relate te_val to te_dim across R2079
         .end if
       .end if
     .end if
@@ -306,11 +294,7 @@
     .assign te_val.array_spec = te_mbr.array_spec
     .select one te_dim related by te_mbr->TE_DIM[R2059]
     .if ( not_empty te_dim )
-      .// relate te_val to te_dim across R2079;
-      .assign te_val.te_dimID = te_dim.te_dimID
-      .// end relate
-    .else
-      .assign te_val.te_dimID = 00
+      .relate te_val to te_dim across R2079
     .end if
     .assign te_val.OAL = ( root_te_val.OAL + "." ) + te_mbr.Name
     .assign te_val.buffer = ( root_te_val.buffer + "." ) + te_mbr.GeneratedName
@@ -377,11 +361,7 @@
     .assign te_val.array_spec = te_parm.array_spec
     .select one te_dim related by te_parm->TE_DIM[R2056]
     .if ( not_empty te_dim )
-      .// relate te_val to te_dim across R2079;
-      .assign te_val.te_dimID = te_dim.te_dimID
-      .// end relate
-    .else
-      .assign te_val.te_dimID = 00
+      .relate te_val to te_dim across R2079
     .end if
   .end for
 .end function
@@ -409,11 +389,7 @@
     .assign te_val.array_spec = te_parm.array_spec
     .select one te_dim related by te_parm->TE_DIM[R2056]
     .if ( not_empty te_dim )
-      .// relate te_val to te_dim across R2079;
-      .assign te_val.te_dimID = te_dim.te_dimID
-      .// end relate
-    .else
-      .assign te_val.te_dimID = 00
+      .relate te_val to te_dim across R2079
     .end if
     .if ( 1 == te_parm.By_Ref )
       .assign te_val.buffer = ( "(*" + te_parm.GeneratedName ) + ")"
@@ -476,11 +452,7 @@
     .assign te_val.array_spec = root_te_val.array_spec
     .select one te_dim related by root_te_val->TE_DIM[R2079]
     .if ( not_empty te_dim )
-      .// relate te_val to te_dim across R2079;
-      .assign te_val.te_dimID = te_dim.te_dimID
-      .// end relate
-    .else
-      .assign te_val.te_dimID = 00
+      .relate te_val to te_dim across R2079
     .end if
   .end if
 .end function
@@ -517,11 +489,38 @@
       .else
         .assign te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" )
       .end if
-    .elif ( ( 9 == l_te_dt.Core_Typ ) and ( 9 == r_te_dt.Core_Typ ) )
-      .if ( "+" == "$r{v_bin.Operator}" )
-        .select any te_set from instances of TE_SET
-        .assign te_val.buffer = ( ( ( te_set.module + te_set.setadd ) + ( "( " + l_te_val.buffer ) ) + ( ", " + r_te_val.buffer ) ) + " )"
+    .elif ( ( ( 21 == l_te_dt.Core_Typ ) or ( 20 == l_te_dt.Core_Typ ) ) and ( ( 21 == r_te_dt.Core_Typ ) or ( 20 == r_te_dt.Core_Typ ) ) and ( ( "+" == "$r{v_bin.Operator}" ) or ( "-" == "$r{v_bin.Operator}" ) or ( "|" == "$r{v_bin.Operator}" ) or ( "&" == "$r{v_bin.Operator}" ) or ( "^" == "$r{v_bin.Operator}" ) ) )
+      .select any te_prefix from instances of TE_PREFIX
+      .select any te_set from instances of TE_SET
+      .select one v_val related by v_bin->V_VAL[R801]
+      .select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016]
+      .if ( ( "+" == "$r{v_bin.Operator}" ) or ( "|" == "$r{v_bin.Operator}" ) )
+        .assign te_val.buffer = te_set.scope + te_set.setunion + "( "
+      .elif ( "&" == "$r{v_bin.Operator}" )
+        .assign te_val.buffer = te_set.scope + te_set.setintersection + "( "
+      .elif ( "-" == "$r{v_bin.Operator}" )
+        .assign te_val.buffer = te_set.scope + te_set.setdifference + "( "
+      .elif ( "^" == "$r{v_bin.Operator}" )
+        .assign te_val.buffer = te_set.scope + te_set.setsymmetricdifference + "( "
       .end if
+      .assign return_set = "binop_line$t{v_val.LineNumber}_col$t{v_val.StartPosition}to$t{v_val.EndPosition}"
+      .assign te_val.buffer = te_val.buffer + return_set + ", "
+      .assign te_val.buffer = te_val.buffer + l_te_val.buffer + ", "
+      .assign te_val.buffer = te_val.buffer + r_te_val.buffer + ", "
+      .if ( ( 20 == l_te_dt.Core_Typ ) and ( 20 == r_te_dt.Core_Typ ) )
+        .assign te_val.buffer = te_val.buffer + te_prefix.define_u + "SET_LHS_IS_INSTANCE | " + te_prefix.define_u + "SET_RHS_IS_INSTANCE )"
+      .elif ( ( 20 == l_te_dt.Core_Typ ) and ( 20 != r_te_dt.Core_Typ ) )
+        .assign te_val.buffer = te_val.buffer + te_prefix.define_u + "SET_LHS_IS_INSTANCE )"
+      .elif ( ( 20 != l_te_dt.Core_Typ ) and ( 20 == r_te_dt.Core_Typ ) )
+        .assign te_val.buffer = te_val.buffer + te_prefix.define_u + "SET_RHS_IS_INSTANCE )"
+      .else
+        .assign te_val.buffer = te_val.buffer + "0 )"
+      .end if
+      .// add the return set to the declaration deallocation blocks
+      .assign d = te_set.scope + te_set.base_class + " " + return_set + "_space={0}; " + te_set.scope + te_set.base_class + " * " + return_set + " = &" + return_set + "_space;"
+      .invoke blk_declaration_append( te_blk, d )
+      .assign d = te_set.module + te_set.clear + "( " + return_set + " );"
+      .invoke blk_deallocation_append( te_blk, d )
     .else
       .select any te_target from instances of TE_TARGET
       .if ( "and" == "$r{v_bin.Operator}" )
@@ -535,6 +534,12 @@
           .assign element_count = r_te_dim.elementCount
         .end if
         .assign te_val.buffer = ( ( ( "( memcmp( " + l_te_val.buffer ) + ( ", " + r_te_val.buffer ) ) + ( ( ", sizeof(" + l_te_val.buffer ) + ( "[0]) * " + "$t{element_count}" ) ) ) + ( ( ") " + v_bin.Operator ) + " 0 )" )
+      .elif ( ( ( "==" == "$r{v_bin.Operator}" ) or ( "!=" == "$r{v_bin.Operator}") ) and ( ( 9 == l_te_dt.Core_Typ ) or ( 21 == l_te_dt.Core_Typ ) ) and ( ( 9 == r_te_dt.Core_Typ ) or ( 21 == r_te_dt.Core_Typ ) ) )
+        .select any te_set from instances of TE_SET
+        .assign te_val.buffer = te_set.scope + te_set.equality + "( " + l_te_val.buffer + ", " + r_te_val.buffer + " )"
+        .if ( "!=" == "$r{v_bin.Operator}" )
+          .assign te_val.buffer = "( !" + te_val.buffer + " )"
+        .end if
       .else
         .assign te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.buffer ) + " )" )
       .end if
@@ -544,11 +549,7 @@
     .assign te_val.array_spec = r_te_val.array_spec
     .select one te_dim related by r_te_val->TE_DIM[R2079]
     .if ( not_empty te_dim )
-      .// relate te_val to te_dim across R2079;
-      .assign te_val.te_dimID = te_dim.te_dimID
-      .// end relate
-    .else
-      .assign te_val.te_dimID = 00
+      .relate te_val to te_dim across R2079
     .end if
     .assign te_val.OAL = ( ( "( " + l_te_val.OAL ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.OAL ) + " )" )
   .end if
@@ -581,11 +582,7 @@
   .assign te_val.array_spec = te_aba.array_spec
   .select one te_dim related by te_aba->TE_DIM[R2058]
   .if ( not_empty te_dim )
-    .// relate te_val to te_dim across R2079;
-    .assign te_val.te_dimID = te_dim.te_dimID
-    .// end relate
-  .else
-    .assign te_val.te_dimID = 00
+    .relate te_val to te_dim across R2079
   .end if
   .end if
 .end function
@@ -651,11 +648,7 @@
     .assign te_val.array_spec = te_aba.array_spec
     .select one te_dim related by te_aba->TE_DIM[R2058]
     .if ( not_empty te_dim )
-      .// relate te_val to te_dim across R2079;
-      .assign te_val.te_dimID = te_dim.te_dimID
-      .// end relate
-    .else
-      .assign te_val.te_dimID = 00
+      .relate te_val to te_dim across R2079
     .end if
     .end if
   .end if
@@ -736,11 +729,7 @@
       .assign te_val.array_spec = te_aba.array_spec
       .select one te_dim related by te_aba->TE_DIM[R2058]
       .if ( not_empty te_dim )
-        .// relate te_val to te_dim across R2079;
-        .assign te_val.te_dimID = te_dim.te_dimID
-        .// end relate
-      .else
-        .assign te_val.te_dimID = 00
+        .relate te_val to te_dim across R2079
       .end if
     .end if
   .end if
@@ -794,11 +783,7 @@
     .assign te_val.array_spec = te_aba.array_spec
     .select one te_dim related by te_aba->TE_DIM[R2058]
     .if ( not_empty te_dim )
-      .// relate te_val to te_dim across R2079;
-      .assign te_val.te_dimID = te_dim.te_dimID
-      .// end relate
-    .else
-      .assign te_val.te_dimID = 00
+      .relate te_val to te_dim across R2079
     .end if
     .end if
   .end if
@@ -833,11 +818,7 @@
     .assign te_val.dimensions = root_te_val.dimensions - 1
     .select one next_te_dim related by root_te_val->TE_DIM[R2079]->TE_DIM[R2060.'succeeds']
     .if ( not_empty next_te_dim )
-      .// relate te_val to next_te_dim across R2079;
-      .assign te_val.te_dimID = next_te_dim.te_dimID
-      .// end relate
-    .else
-      .assign te_val.te_dimID = 00
+      .relate te_val to next_te_dim across R2079
     .end if
   .end if
 .end function

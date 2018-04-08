@@ -1,0 +1,68 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("df89914f-f38f-442f-98b1-5ec61c6e2da7",
+	"00000000-0000-0000-0000-000000000000",
+	"ac72a1fd-c7b6-4d22-bf49-996f2af2ffad",
+	'integrity',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("e102cf93-dd9f-48f7-bf47-f96d78a59763",
+	112,
+	"df89914f-f38f-442f-98b1-5ec61c6e2da7",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'integrity::lib::integrity::integrity');
+INSERT INTO DIM_DIA
+	VALUES ("e102cf93-dd9f-48f7-bf47-f96d78a59763",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("df89914f-f38f-442f-98b1-5ec61c6e2da7",
+	"e409e116-2060-4994-8235-9f2ecc5db2b9");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("e409e116-2060-4994-8235-9f2ecc5db2b9",
+	"ac72a1fd-c7b6-4d22-bf49-996f2af2ffad",
+	"ac72a1fd-c7b6-4d22-bf49-996f2af2ffad",
+	'integrity',
+	'',
+	0,
+	'../../../integrity/integrity.xtuml');
+INSERT INTO PE_PE
+	VALUES ("df89914f-f38f-442f-98b1-5ec61c6e2da7",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"09361e04-407a-440f-a11a-061e4fb17257",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("09361e04-407a-440f-a11a-061e4fb17257",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'integrity',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../integrity.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("ac72a1fd-c7b6-4d22-bf49-996f2af2ffad",
+	'integrity',
+	1,
+	'../../../integrity.xtuml');
