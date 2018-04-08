@@ -1,0 +1,10 @@
+How to add coverage to masl.
+
+This only needs to be done when the masl semantic model changes
+or when coverage.arc is enhanced.
+
+1. Rename coverage.ark to coverage.arc.
+2. Build masl.
+3. Re-rename coverage.arc to coverage.ark.
+4. Copy the contents of coverage.txt into maslpopulation::population::coverage.
+5. Build masl.

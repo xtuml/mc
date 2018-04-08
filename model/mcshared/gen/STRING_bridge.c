@@ -238,3 +238,14 @@ STRING_getword( const i_t p_i, c_t * p_s )
   return result;
 }
 
+
+/*
+ * Bridge:  idtoa
+ */
+c_t *
+STRING_idtoa( c_t * p_a, Escher_UniqueID_t p_id )
+{
+  // Use only when instance loading is enabled.
+  result = Escher_u128touuid( p_a, p_id );
+}
+

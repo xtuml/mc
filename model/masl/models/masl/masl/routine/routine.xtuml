@@ -230,9 +230,6 @@ if ( not_empty routine and not_empty activity )
   if ( not_empty code_block )
     code_block.render();
   end if;
-  
-  // render end
-  T::include( file:"masl/t.service_def_end.masl" );
 end if;',
 	1,
 	'',

@@ -24,6 +24,70 @@ ${te_prefix.type}ID_factory( void )
   return ${te_prefix.type}ID_factory++;
 }
 
+.if ( te_sys.InstanceLoading )
+/*
+ * Deserialize a UUID into a unique integer ID.
+ * This routine also handles 32-bit integers as produced by xtumlmc_build cleanse.
+ * String UUIDs are detected when exactly 4 dashes are found in the input.
+ */
+${te_prefix.type}UniqueID_t ${te_string.uuidtou128}( const c_t * s )
+{
+  u1_t b, isuuid = 0;
+  ${te_prefix.type}UniqueID_t v = 0; /* 128-bit hex answer */
+  s4_t n = 0; /* 32-bit decimal answer */
+
+  while(*s) {
+    b = *s++;
+
+    switch(b) {
+    case '0'...'9':
+      b -= '0';
+      n = n * 10 + b;
+      break;
+
+    case 'a'...'f':
+      b -= 'a';
+      b += 10;
+      break;
+
+    case 'A'...'F':
+      b -= 'A';
+      b += 10;
+      break;
+
+    case '-':
+      isuuid++;
+    default:
+      continue;
+    }
+    v = (v << 4) | (b & 0xF);
+  }
+
+  if ( 4 == isuuid )
+    return v;
+  else
+    return n;
+}
+
+
+#define $u{te_prefix.type}GET_BITS(v,b,m) (b < sizeof(v)*8 ? (m & (v >> b)) : 0)
+/*
+ * Serialize an unsigned 128-bit integer into a string format UUID.
+ */
+c_t * ${te_string.u128touuid}( c_t * s, ${te_prefix.type}UniqueID_t i )
+{
+  u4_t uuid1 = (u4_t) ${te_prefix.define_u}GET_BITS( i, 96, 0xffffffff );
+  u2_t uuid2 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 80, 0xffff );
+  u2_t uuid3 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 64, 0xffff );
+  u2_t uuid4 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 48, 0xffff );
+  u2_t uuid5 = (u2_t) ${te_prefix.define_u}GET_BITS( i, 32, 0xffff );
+  u4_t uuid6 = (u4_t) ${te_prefix.define_u}GET_BITS( i, 0, 0xffffffff );
+  snprintf( s, 40, "\"%08lx-%04x-%04x-%04x-%04x%08lx\"", uuid1, uuid2, uuid3, uuid4, uuid5, uuid6 );
+  return s;
+}
+
+
+.end if
 /*
  * Detect empty handles in expressions.
  */
@@ -70,7 +134,7 @@ ${te_set.scope}${te_set.factory}( const i_t n1_size )
 .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 void 
 ${te_set.scope}${te_set.copy}( ${te_set.base_class} * to_set,
-                ${te_set.base_class} * const from_set )
+                const ${te_set.base_class} * const from_set )
 {
   const ${te_set.element_type} * slot;
 
@@ -112,28 +176,167 @@ ${te_set.scope}${te_set.clear}( ${te_set.base_class} * set )
 .end if
 
 /*
- * Concatenate set2 onto the end of set1.
+ * Take the union of set1 and set2 and return to_set
  */
 .// If no containers to manage, do not generate code.
 .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 ${te_set.base_class} *
-${te_set.scope}${te_set.setadd}( ${te_set.base_class} * set1,  ${te_set.base_class} * set2 )
+${te_set.scope}${te_set.setunion}( ${te_set.base_class} * const to_set, void * const set1, void * const set2, int flags )
 {
-  if ( ( set1->head != 0 ) && ( set2->head != 0 ) ) {  /* empty set  */
-    ${te_set.element_type} * slot;
-    for ( slot = set1->head; slot->next != 0; slot = slot->next ); /* Find end of set1.  */
-.if ( te_thread.enabled )
+  if ( 0 != to_set ) {
+  .if ( te_thread.enabled )
     ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
-.end if
-    slot->next = set2->head;
-.if ( te_thread.enabled )
+  .end if
+    /* Assure that the result set starts empty */
+    ${te_set.clear}( to_set );
+    /* Copy set1 to the result set */
+    if ( 0 != set1 ) {
+      if ( flags & ${te_prefix.define_u}SET_LHS_IS_INSTANCE ) {
+        ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+      }
+      else {
+        ${te_set.scope}${te_set.copy}( to_set, set1 );
+      }
+    }
+    /* Add any elements from set2 which are not already in the result set */
+    if ( 0 != set2 ) {
+      if ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) {
+        if ( !${te_set.scope}${te_set.contains}( to_set, set2 ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set2 );
+      }
+      else {
+        ${te_set.element_type} * slot;
+        for ( slot = ((${te_extent.sets_type}*)set2)->head; ( slot != 0 ); slot = slot->next ) {
+          if ( !${te_set.scope}${te_set.contains}( to_set, slot->object ) ) {
+            ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), slot->object );
+          }
+        }
+      }
+    }
+  .if ( te_thread.enabled )
     ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
-.end if
+  .end if
   }
-  return set1;
+  return to_set;
 }
 .else
-/* Set addition optimized out.  */
+/* Set union optimized out.  */
+.end if
+
+/*
+ * Take the intersection of set1 and set2 and return to_set
+ */
+.// If no containers to manage, do not generate code.
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
+${te_set.base_class} *
+${te_set.scope}${te_set.setintersection}( ${te_set.base_class} * const to_set, void * const set1, void * const set2, int flags )
+{
+  if ( 0 != to_set ) {
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
+    /* Assure that the result set starts empty */
+    ${te_set.clear}( to_set );
+    if ( 0 != set1 && 0 != set2) {
+      /* If both sets are single instances, only add to the result set if they are the same instance */
+      if ( ( flags & ${te_prefix.define_u}SET_LHS_IS_INSTANCE ) && ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) ) {
+        if ( set1 == set2 ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+      }
+      /* If set1 is a single instance, add it to the result set if it is contained in set2 */
+      else if ( flags & ${te_prefix.define_u}SET_LHS_IS_INSTANCE ) {
+        if ( ${te_set.scope}${te_set.contains}( set2, set1 ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+      }
+      /* If set2 is a single instance, add it to the result set if it is contained in set1 */
+      else if ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) {
+        if ( ${te_set.scope}${te_set.contains}( set1, set2 ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set2 );
+      }
+      /* For each instance in set1, add it to the result set if it is contained in set2 */
+      else {
+        ${te_set.element_type} * slot;
+        for ( slot = ((${te_extent.sets_type}*)set1)->head; ( slot != 0 ); slot = slot->next ) {
+          if ( ${te_set.scope}${te_set.contains}( set2, slot->object ) ) {
+            ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), slot->object );
+          }
+        }
+      }
+    }
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
+  }
+  return to_set;
+}
+.else
+/* Set intersection optimized out.  */
+.end if
+
+/*
+ * Subtract set2 from set1 and return to_set
+ */
+.// If no containers to manage, do not generate code.
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
+${te_set.base_class} *
+${te_set.scope}${te_set.setdifference}( ${te_set.base_class} * const to_set, void * const set1, void * const set2, int flags )
+{
+  if ( 0 != to_set ) {
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
+    /* Assure that the result set starts empty */
+    ${te_set.clear}( to_set );
+    if ( 0 != set1 ) {
+      if ( flags & ${te_prefix.define_u}SET_LHS_IS_INSTANCE ) {
+        /* If both sets are single instances, only add set1 to the result set if they are not the same instance */
+        if ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) {
+          if ( set1 != set2 ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+        }
+        /* If set1 is a single instance, only add it to the result set if it is not contained in set2 */
+        else {
+          if ( 0 != set2 && !${te_set.scope}${te_set.contains}( set2, set1 ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), set1 );
+        }
+      }
+      else {
+        /* For each element in set1, check if it is also in set2 */
+        ${te_set.element_type} * slot;
+        for ( slot = ((${te_extent.sets_type}*)set1)->head; ( slot != 0 ); slot = slot->next ) {
+          /* If set2 is a single instance, add the the set1 instance to the result set only if they are not the same instance */
+          if ( flags & ${te_prefix.define_u}SET_RHS_IS_INSTANCE ) {
+            if ( slot->object != set2 ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), slot->object );
+          }
+          /* Only add the set1 instance to the result set if it is not contained in set2 */
+          else {
+            if ( 0 != set2 && !${te_set.scope}${te_set.contains}( set2, slot->object ) ) ${te_set.insert_element}( ((${te_extent.sets_type}*)to_set), slot->object );
+          }
+        }
+      }
+    }
+  .if ( te_thread.enabled )
+    ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
+  .end if
+  }
+  return to_set;
+}
+.else
+/* Set difference optimized out.  */
+.end if
+
+/*
+ * Take the symmetric difference of set1 and set2 and return to_set
+ */
+.// If no containers to manage, do not generate code.
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
+${te_set.base_class} *
+${te_set.scope}${te_set.setsymmetricdifference}( ${te_set.base_class} * const to_set, void * const set1, void * const set2, int flags )
+{
+  /* Symmetric difference is the difference of the union and the intersection */
+  ${te_set.scope}${te_set.base_class} union_set={0};
+  ${te_set.scope}${te_set.base_class} intersection_set={0};
+  ${te_set.scope}${te_set.setdifference}( to_set, ${te_set.scope}${te_set.setunion}( &union_set, set1, set2, flags ), ${te_set.scope}${te_set.setintersection}( &intersection_set, set1, set2, flags ), 0 );
+  ${te_set.module}${te_set.clear}( &union_set );
+  ${te_set.module}${te_set.clear}( &intersection_set );
+  return to_set;
+}
+.else
+/* Set symmetric difference optimized out.  */
 .end if
 
 /*
@@ -365,20 +568,36 @@ ${te_set.scope}${te_set.element_count}( const ${te_set.base_class} * const set )
 
 /*
  * Return true when the left and right set are equivalent.
- * Note:  This currently is not implemented.
+ * The left set is equal to the right set if and only if
+ * the left set contains all elements of the right set AND
+ * the right set contains all elements of the left set.
  */
 .if ( ( not_empty te_cs ) or ( "C++" == te_target.language ) )
 bool
 ${te_set.scope}${te_set.equality}( ${te_set.base_class} * const left_set,
                     ${te_set.base_class} * const right_set )
 {
-  bool rc = false;
-  if ( (left_set->head == 0) && (right_set->head == 0) ) {
-    rc = true;
-  } else if ( ( (left_set->head != 0) && (right_set->head != 0) ) &&
-    (${te_set.element_count}( left_set ) == ${te_set.element_count}( right_set )) ) {
-    rc = true;
-  } else { /* nop */ }
+  bool rc = true;
+  /* Assure the right set contains all elements in the left set */
+  const ${te_set.element_type} * node = left_set->head;
+  while ( 0 != node ) {
+    if ( 0 == right_set || !${te_set.scope}${te_set.contains}( right_set, node->object ) ) {
+      rc = false;
+      break;
+    }
+    node = node->next;
+  }
+  if ( rc ) {
+    /* Assure the left set contains all elements in the right set */
+    node = right_set->head;
+    while ( 0 != node ) {
+      if ( 0 == left_set || !${te_set.scope}${te_set.contains}( left_set, node->object ) ) {
+        rc = false;
+        break;
+      }
+      node = node->next;
+    }
+  }
   return rc;
 }
 .else
@@ -530,11 +749,11 @@ ${te_set.scope}${te_string.strget}( void )
 {
   c_t * r;
   static u1_t i = 0;
-  static c_t s[ 16 ][ ${te_string.max_string_length} ];
+  static c_t s[ 32 ][ ${te_string.max_string_length} ];
 .if ( te_thread.enabled )
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_ILB );
 .end if
-  i = ( i + 1 ) % 16;
+  i = ( i + 1 ) % 32;
   r = &s[ i ][ 0 ];
   *r = 0;
 .if ( te_thread.enabled )
@@ -566,20 +785,29 @@ ${te_set.scope}${te_string.strlen}( const c_t * s )
 .if ( te_sys.InstanceLoading )
 #define ${te_prefix.define_u}ATOI_RADIX 10
 c_t *
-${te_set.scope}${te_string.itoa}( c_t * string, s4_t value )
+#ifdef __SIZEOF_INT128__
+${te_set.scope}${te_string.itoa}( u128_t value )
+#else
+${te_set.scope}${te_string.itoa}( s4_t value )
+#endif
 {
-  c_t tmp[16];
+  static c_t s[256][256];
+  static u1_t bufnum = 0;
+  c_t tmp[256];
   c_t * sp, * tp = tmp;
+  bool sign = 0;
   s4_t i;
-  bool sign;
+#ifdef __SIZEOF_INT128__
+  u128_t v = value;
+#else
   u4_t v;
-
   sign = ( value < 0 );
   if ( sign ) {
     v = -value;
   } else {
     v = (unsigned) value;
   }
+#endif
   while ( ( v != 0 ) || ( tp == tmp ) ) {
     i = v % ${te_prefix.define_u}ATOI_RADIX;
     v = v / ${te_prefix.define_u}ATOI_RADIX;
@@ -589,7 +817,8 @@ ${te_set.scope}${te_string.itoa}( c_t * string, s4_t value )
       *tp++ = i + 'a' - 10;
     }
   }
-  sp = string;
+  bufnum++; /* byte size will rotate back to 0 */
+  sp = s[ bufnum ];
   if ( sign ) {
     *sp++ = '-';
   }
@@ -597,7 +826,7 @@ ${te_set.scope}${te_string.itoa}( c_t * string, s4_t value )
     *sp++ = *--tp;
   }
   *sp = 0;
-  return string;
+  return s[ bufnum ];
 }
 
 s4_t

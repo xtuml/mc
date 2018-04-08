@@ -26,6 +26,22 @@
 #define SYS_USER_CO_PRINTF( s )
 #endif
 
+// we write our own implementation of strsep so it works on windows
+#include <string.h>
+char *_strsep(char **stringp, const char *delim) {
+    if ( !stringp || !*stringp ) return NULL;
+    char* start = *stringp;
+    char* p = strpbrk( start, delim );
+    if ( !p ) {
+        *stringp = NULL;
+    }
+    else {
+        *p = '\0';
+        *stringp = p+1;
+    }
+    return start;
+}
+
 /*
  * UserInitializationCallout
  *
@@ -67,24 +83,24 @@ UserPreOoaInitializationCalloutf( void )
  * When this callout function returns, the system dispatcher will allow the
  * xtUML application analysis state models to start consuming events.
  */
-#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <ctype.h>
 #include "masl_url.h"
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
-  char s[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ], arg[ ESCHER_SYS_MAX_STRING_LEN ];
+  char s[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ];
   char * p, * q, * element, * value[8] = {v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7]};
   T_clear();
   while ( ( p = fgets( s, ESCHER_SYS_MAX_STRING_LEN, stdin ) ) != NULL ) {
     int i, j;
     i = 0;
     p[ strlen(p) - 1 ] = 0;
-    if ( ( q = strsep( &p, "," ) ) != NULL ) element = Escher_strcpy( element, q );
-    while ( ( q = strsep(&p, ",")) != NULL ) {
+    if ( ( q = _strsep( &p, "," ) ) != NULL ) element = Escher_strcpy( element, q );
+    while ( ( q = _strsep(&p, ",")) != NULL ) {
         masl_url_decode( value[ i ], q );
         i++;
     }
@@ -93,7 +109,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
 
   int validate = 0; int Validateonly = 0; bool structuralOnly = FALSE;
   char * indirname = 0; char * outdirname = 0; char * projectdomain = 0;
-  int namecount = 0; char name[8][ESCHER_SYS_MAX_STRING_LEN] = {0,0,0,0,0,0,0,0};
+  int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
   {
     int c;
     opterr = 0;
@@ -111,11 +127,11 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
           outdirname = optarg; break;
         case 'd':
           projectdomain = "domain";
-          if ( optarg ) strncpy( name[ namecount++ ], optarg, ESCHER_SYS_MAX_STRING_LEN );
+          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case 'p':
           projectdomain = "project";
-          if ( optarg ) strncpy( name[ namecount++ ], optarg, ESCHER_SYS_MAX_STRING_LEN );
+          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case '?':
           if ( 'o' == optopt ) {
@@ -149,6 +165,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       masl_gen_render( "domain", "", (const bool)structuralOnly );
     }
   }
+  masl_gen_coverage();
   exit(0);
 }
 

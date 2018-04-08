@@ -75,17 +75,19 @@ UserPreOoaInitializationCalloutf( void )
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
+  xtuml2masl_model * model = xtuml2masl_model_op_create( "maslout" );
   int project = 0; int domain = 0;
   bool key_lett = FALSE;
+  bool output_activities = TRUE;
   int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "i:d::p::s::k::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "si:d::p::k::" ) ) != -1 ) {
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
-          else xtuml2masl_model_op_setroot( optarg );
+          else xtuml2masl_model_op_setoption( model, "projectroot", optarg );
           break;
         case 'd':
           domain = 1;
@@ -96,7 +98,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
           if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case 's':
-          xtuml2masl_model_op_setoutputcodeblocks( FALSE );
+          output_activities = FALSE;
           break;
         case 'k':
           key_lett = TRUE;
@@ -109,8 +111,9 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       }
     }
   }
+  xtuml2masl_model_op_setoption( model, "outputcodeblocks", output_activities ? "true" : "false" );
   /* Load the feature and application marks from files.  */
-  xtuml2masl_model_op_load_marking_data();
+  xtuml2masl_load_marking_data();
   int i = 0;
   if ( project ) {
     while ( i < namecount ) xtuml2masl_masl_project( (const bool)key_lett, name[ i++ ] );

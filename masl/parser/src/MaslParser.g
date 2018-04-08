@@ -99,6 +99,18 @@ tokens
 {
 @SuppressWarnings("all")
 }
+@members
+{
+private ErrorHandler handler = null;
+public void setErrorHandler( ErrorHandler handler ) {
+    this.handler = handler;
+}
+@Override
+public void emitErrorMessage( String msg ) {
+    System.err.println(msg);
+    handler.handleError(msg);
+}
+}
 
 target                        : definition+;
 
@@ -262,7 +274,7 @@ structureTypeDefinition       : STRUCTURE
 
 structureComponentDefinition  : componentName COLON typeReference 
                                 (ASSIGN defaultValue=constExpression)?
-                                SEMI pragmaList                                           -> ^( COMPONENT_DEFINITION 
+                                SEMI pragmaList                                           -> ^( COMPONENT_DEFINITION[$defaultValue.text]
                                                                                                 componentName 
                                                                                                 typeReference 
                                                                                                 $defaultValue?
@@ -280,7 +292,7 @@ enumerationTypeDefinition     : ENUM LPAREN
                                                                                                 enumerator+)
                               ;
 
-enumerator                    : enumeratorName ( (EQUAL|ASSIGN) constExpression )?        -> ^( ENUMERATOR 
+enumerator                    : enumeratorName ( (EQUAL|ASSIGN) constExpression )?        -> ^( ENUMERATOR[$constExpression.text]
                                                                                                 enumeratorName 
                                                                                                 constExpression? )
                               ;

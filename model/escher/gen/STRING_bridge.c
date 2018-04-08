@@ -32,7 +32,7 @@ STRING_itoa( const i_t p_i )
   /* ASSIGN mapping[5] = 5 */
   mapping[5] = Escher_strcpy( mapping[5], "5" );
   /* ASSIGN mapping[4] = 4 */
-  Escher_strcpy( mapping[4], "4" );
+  mapping[4] = Escher_strcpy( mapping[4], "4" );
   /* ASSIGN mapping[3] = 3 */
   mapping[3] = Escher_strcpy( mapping[3], "3" );
   /* ASSIGN mapping[2] = 2 */

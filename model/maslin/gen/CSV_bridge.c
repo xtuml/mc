@@ -41,7 +41,10 @@ CSV_readline( c_t * p_filename, c_t * p_values[8] )
     if ( ( 0 == strchr( line, '#' ) ) && ( 0 != strchr( line, ',' ) ) ) {
       c_t * token = strtok( line, ",\n" );
       while ( NULL != token ) {
-        strcpy( p_values[ valuecount++ ], token );
+        if ( 1000 < strnlen( token, ESCHER_SYS_MAX_STRING_LEN ) ) {
+          TRACE_log( "warning", 190, "detected marking value of more than 1000 bytes" );
+        }
+        strncpy( p_values[ valuecount++ ], token, 1000 );
         token = strtok( NULL, ",\n" );
       }
       break;

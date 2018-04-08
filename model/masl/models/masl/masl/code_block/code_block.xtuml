@@ -56,7 +56,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::b( s:self.sourcefile + "\n" );',
+	'T::b( s:self.sourcefile );
+T::b( s:"\n" );',
 	1,
 	'',
 	"90761d57-b27a-411d-a943-a1e2a5b22976",
@@ -84,7 +85,7 @@ INSERT INTO O_TFR
 
 // validate sourcefile
 if ( "" == self.sourcefile )
-  TRACE::log( flavor:"failure", id:101, message:"code_block has no sourcefile." );
+  TRACE::log( flavor:"failure", id:101, message:"code_block has no source." );
   valid = false;
   return valid;		// short circuit
 end if;

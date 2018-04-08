@@ -236,6 +236,8 @@
 {"smt_create_events_to_creator"},
 {"smt_create_events_to_instance"},
 {"smt_create_event","te_smt","e_csme","recipient","recipient_OAL"},
+{"smt_create_instance_novars"},
+{"smt_create_instance_novar","te_smt","act_cnv"},
 {"smt_create_instances"},
 {"smt_create_instance","te_smt","act_cr"},
 {"smt_delete_instances"},

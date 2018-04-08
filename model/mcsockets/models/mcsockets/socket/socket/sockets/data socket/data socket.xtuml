@@ -1,0 +1,148 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("a8a23dee-f0fe-495e-b973-729cfbc85fd3",
+	'data socket',
+	3,
+	'datasocket',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("8fe26887-e53d-4e8a-9aed-bca98f766ea2",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one socket related by self->socket[R6501];
+unrelate self from socket across R6501;
+delete object instance socket;
+select one courier related by self->courier[R6516];
+unrelate self from courier across R6516;
+select one request related by self->request[R6508];
+if ( not_empty request )
+  unrelate self from request across R6508;
+  generate request8:cancel() to request;
+end if;
+select one message related by self->message[R6517];
+if ( not_empty message )
+  unrelate self from message across R6517;
+  delete object instance message;
+end if;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_NBATTR
+	VALUES ("6cbe9b68-8c76-4342-8495-0ad2a46bfe81",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO O_BATTR
+	VALUES ("6cbe9b68-8c76-4342-8495-0ad2a46bfe81",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO O_ATTR
+	VALUES ("6cbe9b68-8c76-4342-8495-0ad2a46bfe81",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3",
+	"00000000-0000-0000-0000-000000000000",
+	'current_state',
+	'',
+	'',
+	'current_state',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000006",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("503680c7-92ea-42fd-843e-bece7ee5ee8f",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO O_BATTR
+	VALUES ("503680c7-92ea-42fd-843e-bece7ee5ee8f",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO O_ATTR
+	VALUES ("503680c7-92ea-42fd-843e-bece7ee5ee8f",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3",
+	"6cbe9b68-8c76-4342-8495-0ad2a46bfe81",
+	'target',
+	'',
+	'',
+	'target',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("35f0ca95-f761-49da-853d-dea7d6da9cc1",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO O_BATTR
+	VALUES ("35f0ca95-f761-49da-853d-dea7d6da9cc1",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO O_ATTR
+	VALUES ("35f0ca95-f761-49da-853d-dea7d6da9cc1",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3",
+	"503680c7-92ea-42fd-843e-bece7ee5ee8f",
+	'connection_timeout',
+	'',
+	'',
+	'connection_timeout',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3c450244-aac6-4d5d-8856-e3f6f6f6ea3d",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO O_BATTR
+	VALUES ("3c450244-aac6-4d5d-8856-e3f6f6f6ea3d",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO O_ATTR
+	VALUES ("3c450244-aac6-4d5d-8856-e3f6f6f6ea3d",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3",
+	"35f0ca95-f761-49da-853d-dea7d6da9cc1",
+	'tries',
+	'',
+	'',
+	'tries',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("56812514-588c-489c-8e2f-b78e2698f184",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO O_BATTR
+	VALUES ("56812514-588c-489c-8e2f-b78e2698f184",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO O_ATTR
+	VALUES ("56812514-588c-489c-8e2f-b78e2698f184",
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3",
+	"3c450244-aac6-4d5d-8856-e3f6f6f6ea3d",
+	'ready',
+	'',
+	'',
+	'ready',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO O_ID
+	VALUES (1,
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO O_ID
+	VALUES (2,
+	"a8a23dee-f0fe-495e-b973-729cfbc85fd3");
+INSERT INTO PE_PE
+	VALUES ("a8a23dee-f0fe-495e-b973-729cfbc85fd3",
+	1,
+	"326814d5-c8d3-4592-aa8d-14658c4f155c",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("326814d5-c8d3-4592-aa8d-14658c4f155c",
+	"00000000-0000-0000-0000-000000000000",
+	"fcc009f4-22ed-4091-b6e3-bced238b1692",
+	'sockets',
+	'',
+	0,
+	'../sockets.xtuml');

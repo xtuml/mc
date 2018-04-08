@@ -56,7 +56,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("8c22228b-2ab4-48e9-9beb-7d1b65549e60",
 	"331cf64d-3364-408e-aee3-cf70a09801d9",
-	"e79ea1b4-b356-4d47-9b76-69e872c01470",
+	"e76f6299-d52e-444b-a6d6-ccf99ac5f03e",
 	'insert_element',
 	'Add an arbitrary data element to the collection.',
 	'',
@@ -419,14 +419,68 @@ INSERT INTO O_ATTR
 	VALUES ("e79ea1b4-b356-4d47-9b76-69e872c01470",
 	"331cf64d-3364-408e-aee3-cf70a09801d9",
 	"78d63f01-fbaf-400c-b0d0-913064f5e092",
-	'setadd',
+	'setunion',
 	'Remove and free up the nodes of a collection.',
 	'',
-	'setadd',
+	'setunion',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
-	'te_prefix.result + "SetAdd"');
+	'te_prefix.result + "SetUnion"');
+INSERT INTO O_NBATTR
+	VALUES ("0440dbef-5f96-44db-a4c0-deec2770e77a",
+	"331cf64d-3364-408e-aee3-cf70a09801d9");
+INSERT INTO O_BATTR
+	VALUES ("0440dbef-5f96-44db-a4c0-deec2770e77a",
+	"331cf64d-3364-408e-aee3-cf70a09801d9");
+INSERT INTO O_ATTR
+	VALUES ("0440dbef-5f96-44db-a4c0-deec2770e77a",
+	"331cf64d-3364-408e-aee3-cf70a09801d9",
+	"e79ea1b4-b356-4d47-9b76-69e872c01470",
+	'setintersection',
+	'',
+	'',
+	'setintersection',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "SetIntersection"');
+INSERT INTO O_NBATTR
+	VALUES ("1b4982f0-843d-4a2e-8429-ce7d31f162b1",
+	"331cf64d-3364-408e-aee3-cf70a09801d9");
+INSERT INTO O_BATTR
+	VALUES ("1b4982f0-843d-4a2e-8429-ce7d31f162b1",
+	"331cf64d-3364-408e-aee3-cf70a09801d9");
+INSERT INTO O_ATTR
+	VALUES ("1b4982f0-843d-4a2e-8429-ce7d31f162b1",
+	"331cf64d-3364-408e-aee3-cf70a09801d9",
+	"0440dbef-5f96-44db-a4c0-deec2770e77a",
+	'setdifference',
+	'',
+	'',
+	'setdifference',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "SetDifference"');
+INSERT INTO O_NBATTR
+	VALUES ("e76f6299-d52e-444b-a6d6-ccf99ac5f03e",
+	"331cf64d-3364-408e-aee3-cf70a09801d9");
+INSERT INTO O_BATTR
+	VALUES ("e76f6299-d52e-444b-a6d6-ccf99ac5f03e",
+	"331cf64d-3364-408e-aee3-cf70a09801d9");
+INSERT INTO O_ATTR
+	VALUES ("e76f6299-d52e-444b-a6d6-ccf99ac5f03e",
+	"331cf64d-3364-408e-aee3-cf70a09801d9",
+	"1b4982f0-843d-4a2e-8429-ce7d31f162b1",
+	'setsymmetricdifference',
+	'',
+	'',
+	'setsymmetricdifference',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "SetSymmetricDifference"');
 INSERT INTO O_ID
 	VALUES (0,
 	"331cf64d-3364-408e-aee3-cf70a09801d9");

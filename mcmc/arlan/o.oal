@@ -157,6 +157,7 @@ GetAttributeCodeGenType@inst_ref<Extended Data Type>@@o_attr@inst_ref<Attribute>
 o_attr = param.o_attr;
 //
 select one s_dt related by o_attr->S_DT[R114];
+select one parent_te_dt related by s_dt->TE_DT[R2021];
 select one s_udt related by s_dt->S_UDT[R17];
 if ( not_empty s_udt )
   r = ::GetBaseTypeForUDT( s_udt:s_udt );
@@ -197,6 +198,12 @@ if ( not_empty s_cdt )
     // Note: the following is a recursive call to this function
     r = ::GetAttributeCodeGenType( o_attr:base_o_attr );
     te_dt = r;
+  end if;
+  if ( 11 == s_cdt.Core_Typ )
+    // inst<Mapping>
+    // Come up one level from bottoming out CDT, because the
+    // code gen information is in the parent for Mappings.
+    te_dt = parent_te_dt;
   end if;
 end if;
 return te_dt;
@@ -1230,10 +1237,14 @@ else
       select one cursor_s_sparm related by cursor_s_sparm->S_SPARM[R54.'precedes'];
     end if;
   end while;
-  relate prev_s_sparm to s_sparm across R54.'precedes';
   if ( not_empty cursor_s_sparm )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
+          else
+      unrelate prev_s_sparm from cursor_s_sparm across R54.'precedes';
+    end if;
     relate s_sparm to cursor_s_sparm across R54.'precedes';
   end if;
+  relate prev_s_sparm to s_sparm across R54.'precedes';
 end if;
 return result;
 @@@
@@ -1276,10 +1287,14 @@ else
       select one cursor_s_bparm related by cursor_s_bparm->S_BPARM[R55.'precedes'];
     end if;
   end while;
-  relate prev_s_bparm to s_bparm across R55.'precedes';
   if ( not_empty cursor_s_bparm )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
+          else
+      unrelate prev_s_bparm from cursor_s_bparm across R55.'precedes';
+    end if;
     relate s_bparm to cursor_s_bparm across R55.'precedes';
   end if;
+  relate prev_s_bparm to s_bparm across R55.'precedes';
 end if;
 return result;
 @@@
@@ -1322,10 +1337,14 @@ else
       select one cursor_o_tparm related by cursor_o_tparm->O_TPARM[R124.'precedes'];
     end if;
   end while;
-  relate prev_o_tparm to o_tparm across R124.'precedes';
   if ( not_empty cursor_o_tparm )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
+          else
+      unrelate prev_o_tparm from cursor_o_tparm across R124.'precedes';
+    end if;
     relate o_tparm to cursor_o_tparm across R124.'precedes';
   end if;
+  relate prev_o_tparm to o_tparm across R124.'precedes';
 end if;
 return result;
 @@@
@@ -1368,10 +1387,14 @@ else
       select one cursor_sm_evtdi related by cursor_sm_evtdi->SM_EVTDI[R533.'precedes'];
     end if;
   end while;
-  relate prev_sm_evtdi to sm_evtdi across R533.'precedes';
   if ( not_empty cursor_sm_evtdi )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
+          else
+      unrelate prev_sm_evtdi from cursor_sm_evtdi across R533.'precedes';
+    end if;
     relate sm_evtdi to cursor_sm_evtdi across R533.'precedes';
   end if;
+  relate prev_sm_evtdi to sm_evtdi across R533.'precedes';
 end if;
 return result;
 @@@
@@ -1414,10 +1437,14 @@ else
       select one cursor_c_pp related by cursor_c_pp->C_PP[R4021.'precedes'];
     end if;
   end while;
-  relate prev_c_pp to c_pp across R4021.'precedes';
   if ( not_empty cursor_c_pp )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
+          else
+      unrelate prev_c_pp from cursor_c_pp across R4021.'precedes';
+    end if;
     relate c_pp to cursor_c_pp across R4021.'precedes';
   end if;
+  relate prev_c_pp to c_pp across R4021.'precedes';
 end if;
 return result;
 @@@
@@ -1485,7 +1512,10 @@ for each r_simp in r_simps
     r_form.Txt_Phrs = r_part.Txt_Phrs;
     //
     unrelate r_part from r_rto across R204;
-    unrelate r_part from r_simp across R207;
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
+    else
+      unrelate r_part from r_simp across R207;
+    end if;
     delete object instance r_part;
     //
     unrelate r_rto from r_oir across R203;
@@ -1648,7 +1678,7 @@ for each c_c in c_cs
   te_c.Name = T::r(s:c_c.Name);
   te_c.Descrip = c_c.Descrip;
   te_c.included_in_build = true;
-        select any tm_c from instances of TM_C where ( selected.Name == c_c.Name );
+  select any tm_c from instances of TM_C where ( selected.Name == c_c.Name );
   if ( not_empty tm_c )
     if ( ( tm_c.isRealized ) or ( c_c.isRealized ) )
       // Component is realized, so skip translation of internals.
@@ -1709,7 +1739,7 @@ for each c_c in c_cs
       select many c_irs related by c_po->C_IR[R4016];
       for each c_ir in c_irs
         create object instance te_iir of TE_IIR;
-                        relate te_iir to c_ir across R2046;
+        relate te_iir to c_ir across R2046;
         relate te_iir to te_po across R2080;
         te_iir.component_name = c_c.Name;
         te_iir.port_name = te_po.Name;
@@ -1718,7 +1748,7 @@ for each c_c in c_cs
         select many cl_iirs related by c_ir->CL_IIR[R4701];
         for each cl_iir in cl_iirs
           create object instance te_iir of TE_IIR;
-                              relate te_iir to cl_iir across R2013;
+          relate te_iir to cl_iir across R2013;
           relate te_iir to te_po across R2080;
           te_iir.port_name = te_po.Name;
           te_iir.interface_name = te_po.InterfaceName;
@@ -1844,34 +1874,6 @@ end if;
 te_file.types = ( te_sys.Name + "_" ) + te_file.types;
 te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main;
 //
-// Select through package references to imported packages and link them to the
-// importing component.
-// Get the components that are part of the project.
-select many te_cs from instances of TE_C where ( selected.included_in_build );
-select many c_cs related by te_cs->C_C[R2054];
-for each c_c in c_cs
-  // Get the packages contained in this component.
-  select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
-  for each ep_pkg in ep_pkgs
-    // Get the packages that are empty (having no elements inside).
-    select any pe_pe related by ep_pkg->PE_PE[R8000];
-    if ( empty pe_pe )
-      // We found an empty package, now check to see if it is serving as a package reference.
-      select one imported_ep_pkg related by ep_pkg->EP_PKGREF[R1402.'is referenced by']->EP_PKG[R1402.'is referenced by'];
-      if ( ( empty imported_ep_pkg ) and ( "" != ep_pkg.Descrip ) )
-        // CDS - This is the old hack way... supporting it for now.
-        select any imported_ep_pkg from instances of EP_PKG where ( selected.Name == ep_pkg.Descrip );
-        if ( not_empty imported_ep_pkg )
-          // CDS - Create and relate an instance of EP_PKGREF to simulate what the editor will do.
-          create object instance ep_pkgref of EP_PKGREF;
-          // Relate ep_pkg to imported_ep_pkg across R1402.'refers to' using ep_pkgref;
-          relate ep_pkg to imported_ep_pkg across R1402;
-        end if;
-      end if;
-    end if;
-  end for;
-end for;
-//
 // Create and link the Extended model compiler instances.
 // Do not fully initialize, yet.  Create and link and mark.
 // These artifacts contain important naming that must propagate.
@@ -1884,7 +1886,7 @@ for each s_dt in s_dts
   te_dt.Name = s_dt.Name;
   te_dt.Core_Typ = -1;
   te_dt.string_format = "";
-    // Link the ownership if contained in a component.
+  // Link the ownership if contained in a component.
   te_c = empty_te_c;
   select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
   if ( not_empty ep_pkg )
@@ -1903,7 +1905,6 @@ select any converted_bool_te_dt from instances of TE_DT where ( selected.Name ==
 //
 select many o_objs from instances of O_OBJ;
 for each o_obj in o_objs
-  te_c = empty_te_c;
   select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
   // CDS - We eventually need to support many returning from this function.
   r = ::TE_C_getContainingComponents( ep_pkg:ep_pkg );
@@ -1949,8 +1950,7 @@ for each s_ee in s_ees
     // Here we have an EE in a package outside of a component.
     create object instance te_ee of TE_EE;
     relate te_ee to s_ee across R2020;
-    // Be sure we are not related to any te_c across R2085
-      else
+  else
     if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
       te_c.internal_behavior = true;
       // Create the Extended EE instance and link it to the real one.
@@ -2019,7 +2019,7 @@ for each s_cdt in s_cdts
     // unique_id
     te_dt.ExtName = te_prefix.type + "UniqueID_t";
     te_dt.Initial_Value = "0";
-    te_dt.string_format = "%d";
+    te_dt.string_format = "%s";
     //
   elif ( 6 == te_dt.Core_Typ )
     // current_state
@@ -2172,8 +2172,7 @@ for each s_sdt in s_sdts
     select one previous_te_mbr related by s_mbr->S_MBR[R46.'succeeds']->TE_MBR[R2047];
     if ( not_empty previous_te_mbr )
       relate te_mbr to previous_te_mbr across R2067.'succeeds';
-    else
-          end if;
+    end if;
     te_mbr.Name = s_mbr.Name;
     te_mbr.GeneratedName = T::r(s:s_mbr.Name);
     select many s_dims related by s_mbr->S_DIM[R53];
@@ -2376,7 +2375,7 @@ for each s_bparm in s_bparms
     relate te_par to te_parm across R2091;
   end for;
 end for;
-// Link the event parameters into order.
+// Link the bridge parameters into order.
 for each s_bparm in s_bparms
   select one te_parm related by s_bparm->TE_PARM[R2028];
   select one next_te_parm related by s_bparm->S_BPARM[R55.'precedes']->TE_PARM[R2028];
@@ -2430,7 +2429,7 @@ for each s_sparm in s_sparms
     relate te_par to te_parm across R2091;
   end for;
 end for;
-// Link the event parameters into order.
+// Link the function parameters into order.
 for each s_sparm in s_sparms
   select one te_parm related by s_sparm->TE_PARM[R2030];
   select one next_te_parm related by s_sparm->S_SPARM[R54.'precedes']->TE_PARM[R2030];
@@ -2703,7 +2702,7 @@ select many act_blks from instances of ACT_BLK;
 for each act_blk in act_blks
   create object instance te_blk of TE_BLK;
   relate act_blk to te_blk across R2016;
-    te_blk.declaration = "";
+  te_blk.declaration = "";
   te_blk.deallocation = "";
   te_blk.depth = 1;
   first_smt = true;
@@ -2723,7 +2722,7 @@ for each act_blk in act_blks
     te_smt.buffer = "";
     te_smt.buffer2 = "";
     te_smt.trace = "";
-          end for;
+  end for;
   // Link the te_smts into order like the act_smts.
   for each act_smt in act_smts
     select one te_smt related by act_smt->TE_SMT[R2038];
@@ -3001,7 +3000,7 @@ for each te_c in te_cs
       te_attr.translate = true;
       relate te_attr to o_attr across R2033;
       relate te_attr to te_class across R2061;
-            if ( not_empty prev_te_attr )
+      if ( not_empty prev_te_attr )
         relate prev_te_attr to te_attr across R2087.'precedes';
       end if;
       select many s_dims related by o_attr->S_DIM[R120];
@@ -3030,9 +3029,13 @@ for each te_c in te_cs
       te_attr.GeneratedType = te_dt.ExtName;
       o_attr_Descrip_Persistent = T::parsekeyword(s:o_attr.Descrip,key:"Persistent");
       if ( o_attr_Descrip_Persistent != "false" )
-        if ( "%p" == te_dt.string_format )
+        if ( 5 == te_dt.Core_Typ )
+          te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format;
+          te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    " ) + ( te_string.itoa + "( self->" ) ) + ( te_attr.GeneratedName + " )" ) );
+        elif ( "%p" == te_dt.string_format )
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld";
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    ((long)self->" ) + ( te_attr.GeneratedName + " & ESCHER_IDDUMP_MASK)" );
+          te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
         elif ( "%s" == te_dt.string_format )
           // Place an escaped tick mark around the %s in the attribute format string.
           te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "'" + te_dt.string_format ) ) + "'";
@@ -3685,8 +3688,7 @@ duplicate_te_parm.dimensions = te_parm.dimensions;
 select one te_dim related by te_parm->TE_DIM[R2056];
 if ( not_empty te_dim )
   relate duplicate_te_parm to te_dim across R2056;
-else
-  end if;
+end if;
 duplicate_te_parm.array_spec = te_parm.array_spec;
 return duplicate_te_parm;
 @@@
@@ -3702,7 +3704,7 @@ if ( not_empty te_class )
   create object instance te_lnk of TE_LNK;
   relate te_lnk to act_lnk across R2042;
   te_lnk.rel_phrase = act_lnk.Rel_Phrase;
-    select one r_rel related by act_lnk->R_REL[R681];
+  select one r_rel related by act_lnk->R_REL[R681];
   te_lnk.rel_number = r_rel.Numb;
   relate te_lnk to te_class across R2076;
   te_lnk.OAL = ( ( "->" + te_class.Key_Lett ) + ( "[R" + T::s(i:te_lnk.rel_number) ) );
@@ -3869,7 +3871,7 @@ TE_C_getContainingComponents@inst_ref<Extended Component>@@ep_pkg@inst_ref<Packa
 // CDS - For now, we return only one, because we do not know how to support many.
 ep_pkg = param.ep_pkg;
 select one te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054];
-if ( empty te_c )
+if ( ( empty te_c ) and ( not_empty ep_pkg ) )
   // CDS - Role phrase will be reversed in OAL.
   select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.'refers to']->EP_PKG[R1402.'refers to'];
   select any te_c related by referring_ep_pkgs->PE_PE[R8001]->C_C[R8003]->TE_C[R2054];
@@ -3948,10 +3950,14 @@ else
       select one cursor_te_c related by cursor_te_c->TE_C[R2017.'precedes'];
     end if;
   end while;
-  relate prev_te_c to te_c across R2017.'precedes';
   if ( not_empty cursor_te_c )
+    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
+          else
+      unrelate prev_te_c from cursor_te_c across R2017.'precedes';
+    end if;
     relate te_c to cursor_te_c across R2017.'precedes';
   end if;
+  relate prev_te_c to te_c across R2017.'precedes';
 end if;
 return result;
 @@@
@@ -3961,8 +3967,6 @@ class_sort@inst_ref<Extended Class>@@te_classs@inst_ref_set<Extended Class>@@@
 te_classs = param.te_classs;
 // Declare an empty instance reference.
 select any head_te_class related by te_classs->TE_CLASS[R2092.'precedes'] where ( false );
-for each te_class in te_classs
-  end for;
 for each te_class in te_classs
   r = ::class_insert( head_te_class:head_te_class, te_class:te_class );
   head_te_class = r;
@@ -3995,10 +3999,14 @@ else
         select one cursor_te_class related by cursor_te_class->TE_CLASS[R2092.'precedes'];
       end if;
     end while;
-    relate prev_te_class to te_class across R2092.'precedes';
     if ( not_empty cursor_te_class )
+      if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
+              else
+        unrelate prev_te_class from cursor_te_class across R2092.'precedes';
+      end if;
       relate te_class to cursor_te_class across R2092.'precedes';
     end if;
+    relate prev_te_class to te_class across R2092.'precedes';
   end if;
 end if;
 return result;
@@ -4009,8 +4017,6 @@ mact_sort@inst_ref<Extended Message Action>@@te_macts@inst_ref_set<Extended Mess
 te_macts = param.te_macts;
 // Declare an empty instance reference.
 select any head_te_mact related by te_macts->TE_MACT[R2083.'precedes'] where ( false );
-for each te_mact in te_macts
-  end for;
 for each te_mact in te_macts
   r = ::mact_insert( head_te_mact:head_te_mact, te_mact:te_mact );
   head_te_mact = r;
@@ -4050,10 +4056,14 @@ else
         select one cursor_te_mact related by cursor_te_mact->TE_MACT[R2083.'precedes'];
       end if;
     end while;
-    relate prev_te_mact to te_mact across R2083.'precedes';
     if ( not_empty cursor_te_mact )
+      if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
+              else
+        unrelate prev_te_mact from cursor_te_mact across R2083.'precedes';
+      end if;
       relate te_mact to cursor_te_mact across R2083.'precedes';
     end if;
+    relate prev_te_mact to te_mact across R2083.'precedes';
   end if;
 end if;
 return result;
@@ -4064,8 +4074,6 @@ sync_sort@inst_ref<Extended Function>@@te_syncs@inst_ref_set<Extended Function>@
 te_syncs = param.te_syncs;
 // Declare an empty instance reference.
 select any head_te_sync related by te_syncs->TE_SYNC[R2095.'precedes'] where ( false );
-for each te_sync in te_syncs
-  end for;
 for each te_sync in te_syncs
   r = ::sync_insert( head_te_sync:head_te_sync, te_sync:te_sync );
   head_te_sync = r;
@@ -4098,10 +4106,14 @@ else
         select one cursor_te_sync related by cursor_te_sync->TE_SYNC[R2095.'precedes'];
       end if;
     end while;
-    relate prev_te_sync to te_sync across R2095.'precedes';
     if ( not_empty cursor_te_sync )
+      if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
+              else
+        unrelate prev_te_sync from cursor_te_sync across R2095.'precedes';
+      end if;
       relate te_sync to cursor_te_sync across R2095.'precedes';
     end if;
+    relate prev_te_sync to te_sync across R2095.'precedes';
   end if;
 end if;
 return result;
@@ -4115,7 +4127,7 @@ select any head_te_ee related by te_ees->TE_EE[R2096.'precedes'] where ( false )
 for each te_ee in te_ees
   select one next_te_ee related by te_ee->TE_EE[R2096.'precedes'];
   if ( not_empty next_te_ee )
-    unrelate te_ee from te_ee across R2096.'precedes';
+    unrelate te_ee from next_te_ee across R2096.'precedes';
   end if;
 end for;
 for each te_ee in te_ees
@@ -4150,10 +4162,14 @@ else
         select one cursor_te_ee related by cursor_te_ee->TE_EE[R2096.'precedes'];
       end if;
     end while;
-    relate prev_te_ee to te_ee across R2096.'precedes';
     if ( not_empty cursor_te_ee )
+      if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
+              else
+        unrelate prev_te_ee from cursor_te_ee across R2096.'precedes';
+      end if;
       relate te_ee to cursor_te_ee across R2096.'precedes';
     end if;
+    relate prev_te_ee to te_ee across R2096.'precedes';
   end if;
 end if;
 return result;
@@ -4528,7 +4544,10 @@ select any te_prefix from instances of TE_PREFIX;
 te_set.module = "";
 te_set.copy = te_prefix.result + "CopySet";
 te_set.clear = te_prefix.result + "ClearSet";
-te_set.setadd = te_prefix.result + "SetAdd";
+te_set.setunion = te_prefix.result + "SetUnion";
+te_set.setintersection = te_prefix.result + "SetIntersection";
+te_set.setdifference = te_prefix.result + "SetDifference";
+te_set.setsymmetricdifference = te_prefix.result + "SetSymmetricDifference";
 te_set.insert_element = te_prefix.result + "SetInsertElement";
 te_set.element_count = te_prefix.result + "SetCardinality";
 te_set.iterator_class_name = te_prefix.result + "Iterator_s";
@@ -4566,12 +4585,14 @@ te_string.memmove = te_prefix.result + "memmove";
 te_string.strcpy = te_prefix.result + "strcpy";
 te_string.stradd = te_prefix.result + "stradd";
 te_string.strlen = te_prefix.result + "strlen";
-te_string.itoa = te_prefix.result + "itoa";
-te_string.atoi = te_prefix.result + "atoi";
 te_string.strcmp = te_prefix.result + "strcmp";
 te_string.strget = te_prefix.result + "strget";
+te_string.itoa = te_prefix.result + "itoa";
+te_string.atoi = te_prefix.result + "atoi";
 te_string.max_string_length = te_prefix.define_u + "SYS_MAX_STRING_LEN";
 te_string.debug_buffer_depth = te_prefix.define_u + "DEBUG_BUFFER_DEPTH";
+te_string.u128touuid = te_prefix.result + "u128touuid";
+te_string.uuidtou128 = te_prefix.result + "uuidtou128";
 @@@
 thread_factory@void@@te_thread@inst_ref<thread>@@@
 //

@@ -24,7 +24,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	0,
-	'',
+	'4.1.17',
 	'escher::mcmc::afunsmt');
 INSERT INTO DIM_DIA
 	VALUES ("4b0454b4-8a58-4bef-ab20-476e89adbf7f",
@@ -917,6 +917,7 @@ INSERT INTO S_SYNC
 	'//
 ::smt_assigns();
 ::smt_create_instances();
+::smt_create_instance_novars();
 ::smt_delete_instances();
 ::smt_create_events_to_instance();
 ::smt_create_events_to_class();
@@ -4994,6 +4995,98 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("f1ce3d87-c56d-4c84-ac83-7e675d99778b",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c684cef8-4ad8-49f6-9981-85b30061ad4b",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_create_instance_novars',
+	'',
+	'//
+// --------------------------------------------------------
+// create instance no variable statements
+// --------------------------------------------------------
+select many act_cnvs from instances of ACT_CNV;
+for each act_cnv in act_cnvs
+  select one te_smt related by act_cnv->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_create_instance_novar( te_smt:te_smt, act_cnv:act_cnv );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("c684cef8-4ad8-49f6-9981-85b30061ad4b",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4d379af2-5d36-485c-8c68-500ccfb06fad",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_create_instance_novar',
+	'',
+	'// --------------------------------------------------------
+// create instance no variable statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_cnv = param.act_cnv;
+select one te_class related by act_cnv->O_OBJ[R672]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty te_class )
+  select any te_file from instances of TE_FILE;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  select one te_c related by te_class->TE_C[R2064];
+  select any te_instance from instances of TE_INSTANCE;
+  r = ::GetDomainTypeIDFromString( dom_name:te_c.Name );
+  dom_id = r;
+  create object instance te_var of TE_VAR;
+  te_var.buffer = te_class.GeneratedName + "_novar";
+  r = ::AutoInitializeUniqueIDs( te_class:te_class, instance:te_var.buffer );
+  init_uniques = r;
+  d = ( te_class.GeneratedName + " * " ) + ( te_var.buffer + ";" );
+  ::blk_declaration_append( te_blk:te_blk, s:d );
+  T::include(file:"c/t.smt.create_instance.c");
+  te_smt.OAL = "CREATE OBJECT INSTANCE OF ${te_class.Key_Lett}";
+  delete object instance te_var;
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("4e1e6bf2-f43b-4d53-ac4a-63d415273c7f",
+	"4d379af2-5d36-485c-8c68-500ccfb06fad",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cb8e4202-d265-45ac-8424-3b32be2ecd3a",
+	"4d379af2-5d36-485c-8c68-500ccfb06fad",
+	'act_cnv',
+	"6cab5519-9843-4065-80d9-10e766f232a1",
+	0,
+	'',
+	"4e1e6bf2-f43b-4d53-ac4a-63d415273c7f",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6cab5519-9843-4065-80d9-10e766f232a1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Create No Variable>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Instance Access/Instance Access.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4d379af2-5d36-485c-8c68-500ccfb06fad",
 	1,
 	"3233cd49-1f36-4109-a25a-31502fa991cd",
 	"00000000-0000-0000-0000-000000000000",
