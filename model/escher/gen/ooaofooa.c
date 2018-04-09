@@ -2033,11 +2033,13 @@ ooaofooa_FactoryTE_SM( const bool p_is_ism, ooaofooa_SM_SM * p_sm_sm, ooaofooa_T
 ooaofooa_TE_DT *
 ooaofooa_GetAttributeCodeGenType( ooaofooa_O_ATTR * p_o_attr )
 {
-  ooaofooa_O_ATTR * o_attr;ooaofooa_S_CDT * s_cdt=0;ooaofooa_TE_DT * te_dt=0;ooaofooa_S_UDT * s_udt=0;ooaofooa_S_DT * s_dt=0;
+  ooaofooa_O_ATTR * o_attr;ooaofooa_S_CDT * s_cdt=0;ooaofooa_TE_DT * te_dt=0;ooaofooa_S_UDT * s_udt=0;ooaofooa_TE_DT * parent_te_dt=0;ooaofooa_S_DT * s_dt=0;
   /* ASSIGN o_attr = PARAM.o_attr */
   o_attr = p_o_attr;
   /* SELECT one s_dt RELATED BY o_attr->S_DT[R114] */
   s_dt = ( 0 != o_attr ) ? o_attr->S_DT_R114_defines_type_of : 0;
+  /* SELECT one parent_te_dt RELATED BY s_dt->TE_DT[R2021] */
+  parent_te_dt = ( 0 != s_dt ) ? s_dt->TE_DT_R2021 : 0;
   /* SELECT one s_udt RELATED BY s_dt->S_UDT[R17] */
   s_udt = 0;
   if ( ( 0 != s_dt ) && ( ooaofooa_S_UDT_CLASS_NUMBER == s_dt->R17_object_id ) )  s_udt = ( 0 != s_dt ) ? (ooaofooa_S_UDT *) s_dt->R17_subtype : 0;
@@ -2128,6 +2130,11 @@ ooaofooa_GetAttributeCodeGenType( ooaofooa_O_ATTR * p_o_attr )
       r = ooaofooa_GetAttributeCodeGenType( base_o_attr );
       /* ASSIGN te_dt = r */
       te_dt = r;
+    }
+    /* IF ( ( 11 == s_cdt.Core_Typ ) ) */
+    if ( ( 11 == ((ooaofooa_S_CDT *)xtUML_detect_empty_handle( s_cdt, "S_CDT", "s_cdt.Core_Typ" ))->Core_Typ ) ) {
+      /* ASSIGN te_dt = parent_te_dt */
+      te_dt = parent_te_dt;
     }
   }
   /* RETURN te_dt */
@@ -2906,6 +2913,7 @@ ooaofooa_MarkClassOperationTranslationOff( c_t * p_component_name, c_t * p_obj_k
     msg = Escher_strcpy( msg, "" );
     /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
     Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
     {ooaofooa_TE_CLASS * selected;
     Escher_Iterator_s iTE_CLASS_R2064;
     Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -2913,7 +2921,7 @@ ooaofooa_MarkClassOperationTranslationOff( c_t * p_component_name, c_t * p_obj_k
       if ( FALSE ) {
         if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
           Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-    }}}}
+    }}}}}
     /* IF ( ( * == obj_key_letters ) ) */
     if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
@@ -2925,6 +2933,7 @@ ooaofooa_MarkClassOperationTranslationOff( c_t * p_component_name, c_t * p_obj_k
     else {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
       Escher_ClearSet( te_classes );
+      if ( 0 != te_c ) {
       {ooaofooa_TE_CLASS * selected;
       Escher_Iterator_s iTE_CLASS_R2064;
       Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -2932,7 +2941,7 @@ ooaofooa_MarkClassOperationTranslationOff( c_t * p_component_name, c_t * p_obj_k
         if ( ( Escher_strcmp( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.Key_Lett" ))->Key_Lett, obj_key_letters ) == 0 ) ) {
           if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
             Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-      }}}}
+      }}}}}
     }
     /* IF ( empty te_classes ) */
     if ( Escher_SetIsEmpty( te_classes ) ) {
@@ -3066,6 +3075,7 @@ ooaofooa_MarkClassToTask( c_t * p_component_name, c_t * p_obj_key_letters, c_t *
     ooaofooa_TE_CLASS * te_class=0;Escher_ObjectSet_s te_classes_space={0}; Escher_ObjectSet_s * te_classes = &te_classes_space;
     /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
     Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
     {ooaofooa_TE_CLASS * selected;
     Escher_Iterator_s iTE_CLASS_R2064;
     Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -3073,7 +3083,7 @@ ooaofooa_MarkClassToTask( c_t * p_component_name, c_t * p_obj_key_letters, c_t *
       if ( FALSE ) {
         if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
           Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-    }}}}
+    }}}}}
     /* IF ( ( ( * == package_name ) and ( * == obj_key_letters ) ) ) */
     if ( ( ( Escher_strcmp( "*", package_name ) == 0 ) && ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
@@ -3085,6 +3095,7 @@ ooaofooa_MarkClassToTask( c_t * p_component_name, c_t * p_obj_key_letters, c_t *
     else if ( ( Escher_strcmp( "", package_name ) == 0 ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
       Escher_ClearSet( te_classes );
+      if ( 0 != te_c ) {
       {ooaofooa_TE_CLASS * selected;
       Escher_Iterator_s iTE_CLASS_R2064;
       Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -3092,7 +3103,7 @@ ooaofooa_MarkClassToTask( c_t * p_component_name, c_t * p_obj_key_letters, c_t *
         if ( ( Escher_strcmp( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.Key_Lett" ))->Key_Lett, obj_key_letters ) == 0 ) ) {
           if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
             Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-      }}}}
+      }}}}}
     }
     else if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
       Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
@@ -4316,6 +4327,7 @@ ooaofooa_MarkNonPersistentClass( c_t * p_component_name, c_t * p_obj_key_letters
     msg = Escher_strcpy( msg, "" );
     /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
     Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
     {ooaofooa_TE_CLASS * selected;
     Escher_Iterator_s iTE_CLASS_R2064;
     Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -4323,7 +4335,7 @@ ooaofooa_MarkNonPersistentClass( c_t * p_component_name, c_t * p_obj_key_letters
       if ( FALSE ) {
         if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
           Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-    }}}}
+    }}}}}
     /* IF ( ( ( * == package_name ) and ( * == obj_key_letters ) ) ) */
     if ( ( ( Escher_strcmp( "*", package_name ) == 0 ) && ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
@@ -4335,6 +4347,7 @@ ooaofooa_MarkNonPersistentClass( c_t * p_component_name, c_t * p_obj_key_letters
     else if ( ( Escher_strcmp( "", package_name ) == 0 ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
       Escher_ClearSet( te_classes );
+      if ( 0 != te_c ) {
       {ooaofooa_TE_CLASS * selected;
       Escher_Iterator_s iTE_CLASS_R2064;
       Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -4342,7 +4355,7 @@ ooaofooa_MarkNonPersistentClass( c_t * p_component_name, c_t * p_obj_key_letters
         if ( ( Escher_strcmp( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.Key_Lett" ))->Key_Lett, obj_key_letters ) == 0 ) ) {
           if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
             Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-      }}}}
+      }}}}}
     }
     else if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
       Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
@@ -4708,6 +4721,7 @@ ooaofooa_MarkPEIsDefinedInData( c_t * p_component_name, c_t * p_obj_key_letters,
     msg = Escher_strcpy( msg, "" );
     /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
     Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
     {ooaofooa_TE_CLASS * selected;
     Escher_Iterator_s iTE_CLASS_R2064;
     Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -4715,7 +4729,7 @@ ooaofooa_MarkPEIsDefinedInData( c_t * p_component_name, c_t * p_obj_key_letters,
       if ( FALSE ) {
         if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
           Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-    }}}}
+    }}}}}
     /* IF ( ( ( * == package_name ) and ( * == obj_key_letters ) ) ) */
     if ( ( ( Escher_strcmp( "*", package_name ) == 0 ) && ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
@@ -4727,6 +4741,7 @@ ooaofooa_MarkPEIsDefinedInData( c_t * p_component_name, c_t * p_obj_key_letters,
     else if ( ( Escher_strcmp( "", package_name ) == 0 ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
       Escher_ClearSet( te_classes );
+      if ( 0 != te_c ) {
       {ooaofooa_TE_CLASS * selected;
       Escher_Iterator_s iTE_CLASS_R2064;
       Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -4734,7 +4749,7 @@ ooaofooa_MarkPEIsDefinedInData( c_t * p_component_name, c_t * p_obj_key_letters,
         if ( ( Escher_strcmp( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.Key_Lett" ))->Key_Lett, obj_key_letters ) == 0 ) ) {
           if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
             Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-      }}}}
+      }}}}}
     }
     else if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
       Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
@@ -4865,6 +4880,7 @@ ooaofooa_MarkPersistentClass( c_t * p_component_name, c_t * p_obj_key_letters, c
     msg = Escher_strcpy( msg, "" );
     /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
     Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
     {ooaofooa_TE_CLASS * selected;
     Escher_Iterator_s iTE_CLASS_R2064;
     Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -4872,7 +4888,7 @@ ooaofooa_MarkPersistentClass( c_t * p_component_name, c_t * p_obj_key_letters, c
       if ( FALSE ) {
         if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
           Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-    }}}}
+    }}}}}
     /* IF ( ( ( * == package_name ) and ( * == obj_key_letters ) ) ) */
     if ( ( ( Escher_strcmp( "*", package_name ) == 0 ) && ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
@@ -4884,6 +4900,7 @@ ooaofooa_MarkPersistentClass( c_t * p_component_name, c_t * p_obj_key_letters, c
     else if ( ( Escher_strcmp( "", package_name ) == 0 ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
       Escher_ClearSet( te_classes );
+      if ( 0 != te_c ) {
       {ooaofooa_TE_CLASS * selected;
       Escher_Iterator_s iTE_CLASS_R2064;
       Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -4891,7 +4908,7 @@ ooaofooa_MarkPersistentClass( c_t * p_component_name, c_t * p_obj_key_letters, c
         if ( ( Escher_strcmp( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.Key_Lett" ))->Key_Lett, obj_key_letters ) == 0 ) ) {
           if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
             Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-      }}}}
+      }}}}}
     }
     else if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
       Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
@@ -5282,6 +5299,7 @@ ooaofooa_MarkReadOnly( c_t * p_component_name, c_t * p_obj_key_letters, c_t * p_
     msg = Escher_strcpy( msg, "" );
     /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
     Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
     {ooaofooa_TE_CLASS * selected;
     Escher_Iterator_s iTE_CLASS_R2064;
     Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -5289,7 +5307,7 @@ ooaofooa_MarkReadOnly( c_t * p_component_name, c_t * p_obj_key_letters, c_t * p_
       if ( FALSE ) {
         if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
           Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-    }}}}
+    }}}}}
     /* IF ( ( ( * == package_name ) and ( * == obj_key_letters ) ) ) */
     if ( ( ( Escher_strcmp( "*", package_name ) == 0 ) && ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
@@ -5301,6 +5319,7 @@ ooaofooa_MarkReadOnly( c_t * p_component_name, c_t * p_obj_key_letters, c_t * p_
     else if ( ( Escher_strcmp( "", package_name ) == 0 ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
       Escher_ClearSet( te_classes );
+      if ( 0 != te_c ) {
       {ooaofooa_TE_CLASS * selected;
       Escher_Iterator_s iTE_CLASS_R2064;
       Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -5308,7 +5327,7 @@ ooaofooa_MarkReadOnly( c_t * p_component_name, c_t * p_obj_key_letters, c_t * p_
         if ( ( Escher_strcmp( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.Key_Lett" ))->Key_Lett, obj_key_letters ) == 0 ) ) {
           if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
             Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-      }}}}
+      }}}}}
     }
     else if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
       Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
@@ -5541,6 +5560,7 @@ ooaofooa_MarkStaticInstancePopulation( c_t * p_component_name, c_t * p_obj_key_l
     msg = Escher_strcpy( msg, "" );
     /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
     Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
     {ooaofooa_TE_CLASS * selected;
     Escher_Iterator_s iTE_CLASS_R2064;
     Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -5548,7 +5568,7 @@ ooaofooa_MarkStaticInstancePopulation( c_t * p_component_name, c_t * p_obj_key_l
       if ( FALSE ) {
         if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
           Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-    }}}}
+    }}}}}
     /* IF ( ( ( * == package_name ) and ( * == obj_key_letters ) ) ) */
     if ( ( ( Escher_strcmp( "*", package_name ) == 0 ) && ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
@@ -5560,6 +5580,7 @@ ooaofooa_MarkStaticInstancePopulation( c_t * p_component_name, c_t * p_obj_key_l
     else if ( ( Escher_strcmp( "", package_name ) == 0 ) ) {
       /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
       Escher_ClearSet( te_classes );
+      if ( 0 != te_c ) {
       {ooaofooa_TE_CLASS * selected;
       Escher_Iterator_s iTE_CLASS_R2064;
       Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -5567,7 +5588,7 @@ ooaofooa_MarkStaticInstancePopulation( c_t * p_component_name, c_t * p_obj_key_l
         if ( ( Escher_strcmp( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.Key_Lett" ))->Key_Lett, obj_key_letters ) == 0 ) ) {
           if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
             Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
-      }}}}
+      }}}}}
     }
     else if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
       Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
@@ -7219,8 +7240,8 @@ ooaofooa_TE_C_insert( ooaofooa_TE_C * p_head_te_c, ooaofooa_TE_C * p_te_c )
     }
     /* IF ( not_empty cursor_te_c ) */
     if ( ( 0 != cursor_te_c ) ) {
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE prev_te_c FROM cursor_te_c ACROSS R2017 */
@@ -8790,6 +8811,7 @@ mark_pass("2"); // Ccode
     ooaofooa_te_c_CollectLimits( te_c );
     /* SELECT many te_classs RELATED BY te_c->TE_CLASS[R2064] WHERE ( not SELECTED.ExcludeFromGen ) */
     Escher_ClearSet( te_classs );
+    if ( 0 != te_c ) {
     {ooaofooa_TE_CLASS * selected;
     Escher_Iterator_s iTE_CLASS_R2064;
     Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -8797,7 +8819,7 @@ mark_pass("2"); // Ccode
       if ( !((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.ExcludeFromGen" ))->ExcludeFromGen ) {
         if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classs, selected ) ) {
           Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classs, selected );
-    }}}}
+    }}}}}
     /* ASSIGN c = ::class_sort(te_classs:te_classs) */
     c = ooaofooa_class_sort( te_classs );
     Escher_ClearSet( te_classs ); 
@@ -9038,13 +9060,23 @@ ooaofooa_associator_TE_LNK( ooaofooa_TE_LNK * p_left_te_lnk, ooaofooa_TE_LNK * p
   ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.Mult" ))->Mult = ((ooaofooa_TE_OIR *)xtUML_detect_empty_handle( te_oir, "TE_OIR", "te_oir.Mult" ))->Mult;
   /* ASSIGN te_lnk.assoc_type = te_oir.assoc_type */
   ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.assoc_type" ))->assoc_type = Escher_strcpy( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.assoc_type" ))->assoc_type, ((ooaofooa_TE_OIR *)xtUML_detect_empty_handle( te_oir, "TE_OIR", "te_oir.assoc_type" ))->assoc_type );
-  /* IF ( (  != right_te_lnk.rel_phrase ) ) */
-  if ( ( Escher_strcmp( "", ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( right_te_lnk, "TE_LNK", "right_te_lnk.rel_phrase" ))->rel_phrase ) != 0 ) ) {
-    /* ASSIGN te_lnk.linkage = ( ( te_lnk.linkage + _ ) + T::underscore(right_te_lnk.rel_phrase) ) */
-    ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.linkage" ))->linkage = Escher_strcpy( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.linkage" ))->linkage, Escher_stradd( Escher_stradd( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.linkage" ))->linkage, "_" ), T_underscore( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( right_te_lnk, "TE_LNK", "right_te_lnk.rel_phrase" ))->rel_phrase ) ) );
-  }
   /* IF ( not_empty left_te_lnk ) */
   if ( ( 0 != left_te_lnk ) ) {
+    /* IF ( (  != right_te_lnk.rel_phrase ) ) */
+    if ( ( Escher_strcmp( "", ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( right_te_lnk, "TE_LNK", "right_te_lnk.rel_phrase" ))->rel_phrase ) != 0 ) ) {
+      /* IF ( ( left_te_lnk.te_classGeneratedName == right_te_lnk.te_classGeneratedName ) ) */
+      if ( ( Escher_strcmp( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( left_te_lnk, "TE_LNK", "left_te_lnk.te_classGeneratedName" ))->te_classGeneratedName, ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( right_te_lnk, "TE_LNK", "right_te_lnk.te_classGeneratedName" ))->te_classGeneratedName ) == 0 ) ) {
+        /* ASSIGN te_lnk.linkage = ( ( te_lnk.linkage + _ ) + T::underscore(right_te_lnk.rel_phrase) ) */
+        ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.linkage" ))->linkage = Escher_strcpy( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.linkage" ))->linkage, Escher_stradd( Escher_stradd( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.linkage" ))->linkage, "_" ), T_underscore( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( right_te_lnk, "TE_LNK", "right_te_lnk.rel_phrase" ))->rel_phrase ) ) );
+      }
+    }
+    /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+    if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
+    }
+    else {
+      /* UNRELATE left_te_lnk FROM right_te_lnk ACROSS R2075 */
+      ooaofooa_TE_LNK_R2075_Unlink_precedes( left_te_lnk, right_te_lnk );
+    }
     /* RELATE left_te_lnk TO te_lnk ACROSS R2075 */
     ooaofooa_TE_LNK_R2075_Link_precedes( left_te_lnk, te_lnk );
     /* ASSIGN te_lnk.left = left_te_lnk.linkage */
@@ -9695,8 +9727,8 @@ ooaofooa_bparm_insert( ooaofooa_S_BPARM * p_head_s_bparm, ooaofooa_S_BPARM * p_s
     }
     /* IF ( not_empty cursor_s_bparm ) */
     if ( ( 0 != cursor_s_bparm ) ) {
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE prev_s_bparm FROM cursor_s_bparm ACROSS R55 */
@@ -9863,8 +9895,8 @@ ooaofooa_class_insert( ooaofooa_TE_CLASS * p_head_te_class, ooaofooa_TE_CLASS * 
       }
       /* IF ( not_empty cursor_te_class ) */
       if ( ( 0 != cursor_te_class ) ) {
-        /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-        if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+        /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+        if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
         }
         else {
           /* UNRELATE prev_te_class FROM cursor_te_class ACROSS R2092 */
@@ -10441,8 +10473,8 @@ ooaofooa_ee_insert( ooaofooa_TE_EE * p_head_te_ee, ooaofooa_TE_EE * p_te_ee )
       }
       /* IF ( not_empty cursor_te_ee ) */
       if ( ( 0 != cursor_te_ee ) ) {
-        /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-        if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+        /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+        if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
         }
         else {
           /* UNRELATE prev_te_ee FROM cursor_te_ee ACROSS R2096 */
@@ -10795,8 +10827,8 @@ ooaofooa_evtdi_insert( ooaofooa_SM_EVTDI * p_head_sm_evtdi, ooaofooa_SM_EVTDI * 
     }
     /* IF ( not_empty cursor_sm_evtdi ) */
     if ( ( 0 != cursor_sm_evtdi ) ) {
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE prev_sm_evtdi FROM cursor_sm_evtdi ACROSS R533 */
@@ -11454,8 +11486,8 @@ ooaofooa_mact_insert( ooaofooa_TE_MACT * p_head_te_mact, ooaofooa_TE_MACT * p_te
       }
       /* IF ( not_empty cursor_te_mact ) */
       if ( ( 0 != cursor_te_mact ) ) {
-        /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-        if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+        /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+        if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
         }
         else {
           /* UNRELATE prev_te_mact FROM cursor_te_mact ACROSS R2083 */
@@ -12266,8 +12298,8 @@ ooaofooa_pp_insert( ooaofooa_C_PP * p_c_pp, ooaofooa_C_PP * p_head_c_pp )
     }
     /* IF ( not_empty cursor_c_pp ) */
     if ( ( 0 != cursor_c_pp ) ) {
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE prev_c_pp FROM cursor_c_pp ACROSS R4021 */
@@ -12629,8 +12661,8 @@ r_form->OIR_ID = Escher_ID_factory();
       ((ooaofooa_R_FORM *)xtUML_detect_empty_handle( r_form, "R_FORM", "r_form.Txt_Phrs" ))->Txt_Phrs = Escher_strcpy( ((ooaofooa_R_FORM *)xtUML_detect_empty_handle( r_form, "R_FORM", "r_form.Txt_Phrs" ))->Txt_Phrs, ((ooaofooa_R_PART *)xtUML_detect_empty_handle( r_part, "R_PART", "r_part.Txt_Phrs" ))->Txt_Phrs );
       /* UNRELATE r_part FROM r_rto ACROSS R204 */
       ooaofooa_R_PART_R204_Unlink( r_rto, r_part );
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE r_part FROM r_simp ACROSS R207 */
@@ -12814,7 +12846,7 @@ ooaofooa_selection_whereclause_identify_special()
               Escher_SetInsertElement( (Escher_ObjectSet_s *) identifying_te_attrs, TE_ATTR_R2033 );
             }}}}}}}
             /* IF ( ( te_attrs == identifying_te_attrs ) ) */
-            if ( ( te_attrs == identifying_te_attrs ) ) {
+            if ( Escher_SetEquality( te_attrs, identifying_te_attrs ) ) {
               /* T::print( s:marking SPECIAL where on ${o_obj.Key_Lett}:${o_obj.Name} ) */
               T_print( ({c_t*s=Escher_strget();T_T("marking SPECIAL where on ");T_T(o_obj->Key_Lett);T_T(":");T_T(o_obj->Name);}) );
               /* ASSIGN te_where.WhereKey = TRUE */
@@ -12848,8 +12880,14 @@ ooaofooa_set_factory( ooaofooa_TE_SET * p_te_set )
   ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.copy" ))->copy = Escher_strcpy( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.copy" ))->copy, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "CopySet" ) );
   /* ASSIGN te_set.clear = ( te_prefix.result + ClearSet ) */
   ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.clear" ))->clear = Escher_strcpy( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.clear" ))->clear, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "ClearSet" ) );
-  /* ASSIGN te_set.setadd = ( te_prefix.result + SetAdd ) */
-  ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setadd" ))->setadd = Escher_strcpy( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setadd" ))->setadd, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "SetAdd" ) );
+  /* ASSIGN te_set.setunion = ( te_prefix.result + SetUnion ) */
+  ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setunion" ))->setunion = Escher_strcpy( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setunion" ))->setunion, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "SetUnion" ) );
+  /* ASSIGN te_set.setintersection = ( te_prefix.result + SetIntersection ) */
+  ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setintersection" ))->setintersection = Escher_strcpy( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setintersection" ))->setintersection, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "SetIntersection" ) );
+  /* ASSIGN te_set.setdifference = ( te_prefix.result + SetDifference ) */
+  ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setdifference" ))->setdifference = Escher_strcpy( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setdifference" ))->setdifference, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "SetDifference" ) );
+  /* ASSIGN te_set.setsymmetricdifference = ( te_prefix.result + SetSymmetricDifference ) */
+  ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setsymmetricdifference" ))->setsymmetricdifference = Escher_strcpy( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setsymmetricdifference" ))->setsymmetricdifference, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "SetSymmetricDifference" ) );
   /* ASSIGN te_set.insert_element = ( te_prefix.result + SetInsertElement ) */
   ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.insert_element" ))->insert_element = Escher_strcpy( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.insert_element" ))->insert_element, Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.result" ))->result, "SetInsertElement" ) );
   /* ASSIGN te_set.element_count = ( te_prefix.result + SetCardinality ) */
@@ -17245,8 +17283,8 @@ ooaofooa_sparm_insert( ooaofooa_S_SPARM * p_head_s_sparm, ooaofooa_S_SPARM * p_s
     }
     /* IF ( not_empty cursor_s_sparm ) */
     if ( ( 0 != cursor_s_sparm ) ) {
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE prev_s_sparm FROM cursor_s_sparm ACROSS R54 */
@@ -17405,8 +17443,8 @@ ooaofooa_sync_insert( ooaofooa_TE_SYNC * p_head_te_sync, ooaofooa_TE_SYNC * p_te
       }
       /* IF ( not_empty cursor_te_sync ) */
       if ( ( 0 != cursor_te_sync ) ) {
-        /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-        if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+        /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+        if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
         }
         else {
           /* UNRELATE prev_te_sync FROM cursor_te_sync ACROSS R2095 */
@@ -17503,8 +17541,8 @@ void
 ooaofooa_sys_populate()
 {
   ooaofooa_TE_EE * te_ee=0;ooaofooa_TE_C * te_c=0;ooaofooa_V_VAR * v_var=0;ooaofooa_TE_LNK * te_lnk=0;ooaofooa_ACT_LNK * act_lnk=0;ooaofooa_TE_BLK * te_blk=0;ooaofooa_ACT_E * act_e=0;ooaofooa_ACT_EL * act_el=0;ooaofooa_ACT_IF * act_if=0;ooaofooa_ACT_WHL * act_whl=0;ooaofooa_ACT_FOR * act_for=0;ooaofooa_ACT_BLK * act_blk=0;ooaofooa_R_SUPER * r_super=0;ooaofooa_R_SUB * r_sub=0;ooaofooa_R_ASSR * r_assr=0;ooaofooa_R_AOTH * r_aoth=0;ooaofooa_R_AONE * r_aone=0;ooaofooa_R_FORM * r_form=0;ooaofooa_R_PART * r_part=0;ooaofooa_R_OIR * r_oir=0;ooaofooa_R_REL * r_rel=0;ooaofooa_SPR_PS * spr_ps=0;ooaofooa_SPR_PO * spr_po=0;ooaofooa_SPR_RS * spr_rs=0;ooaofooa_SPR_RO * spr_ro=0;ooaofooa_C_PP * c_pp=0;ooaofooa_SM_EVTDI * sm_evtdi=0;ooaofooa_S_SPARM * s_sparm=0;ooaofooa_O_TPARM * o_tparm=0;ooaofooa_S_BPARM * s_bparm=0;ooaofooa_V_PAR * v_par=0;ooaofooa_V_VAL * v_val=0;ooaofooa_TM_ENUMINIT * tm_enuminit=0;ooaofooa_TM_ENUMVAL * tm_enumval=0;ooaofooa_TM_POINTER * tm_pointer=0;ooaofooa_TM_PRECISION * tm_precision=0;ooaofooa_S_IRDT * s_irdt=0;ooaofooa_S_SDT * s_sdt=0;ooaofooa_S_EDT * s_edt=0;ooaofooa_S_UDT * s_udt=0;ooaofooa_S_CDT * s_cdt=0;ooaofooa_S_EE * s_ee=0;ooaofooa_S_SYNC * s_sync=0;ooaofooa_O_OBJ * o_obj=0;ooaofooa_S_DT * s_dt=0;ooaofooa_TE_PO * te_po=0;ooaofooa_C_C * c_c=0;ooaofooa_TE_PARM * te_parm;ooaofooa_TE_PARM * r3;i_t markedsystems;c_t * package_to_build=0;Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;ooaofooa_TE_CIA * te_cia;Escher_ObjectSet_s te_ees_space={0}; Escher_ObjectSet_s * te_ees = &te_ees_space;Escher_ObjectSet_s v_vars_space={0}; Escher_ObjectSet_s * v_vars = &v_vars_space;Escher_ObjectSet_s te_lnks_space={0}; Escher_ObjectSet_s * te_lnks = &te_lnks_space;Escher_ObjectSet_s act_lnks_space={0}; Escher_ObjectSet_s * act_lnks = &act_lnks_space;Escher_ObjectSet_s te_blks_space={0}; Escher_ObjectSet_s * te_blks = &te_blks_space;Escher_ObjectSet_s act_es_space={0}; Escher_ObjectSet_s * act_es = &act_es_space;Escher_ObjectSet_s act_els_space={0}; Escher_ObjectSet_s * act_els = &act_els_space;Escher_ObjectSet_s act_ifs_space={0}; Escher_ObjectSet_s * act_ifs = &act_ifs_space;Escher_ObjectSet_s act_whls_space={0}; Escher_ObjectSet_s * act_whls = &act_whls_space;Escher_ObjectSet_s act_fors_space={0}; Escher_ObjectSet_s * act_fors = &act_fors_space;Escher_ObjectSet_s act_blks_space={0}; Escher_ObjectSet_s * act_blks = &act_blks_space;Escher_ObjectSet_s r_supers_space={0}; Escher_ObjectSet_s * r_supers = &r_supers_space;Escher_ObjectSet_s r_subs_space={0}; Escher_ObjectSet_s * r_subs = &r_subs_space;Escher_ObjectSet_s r_assrs_space={0}; Escher_ObjectSet_s * r_assrs = &r_assrs_space;Escher_ObjectSet_s r_aoths_space={0}; Escher_ObjectSet_s * r_aoths = &r_aoths_space;Escher_ObjectSet_s r_aones_space={0}; Escher_ObjectSet_s * r_aones = &r_aones_space;Escher_ObjectSet_s r_forms_space={0}; Escher_ObjectSet_s * r_forms = &r_forms_space;Escher_ObjectSet_s r_oirs_space={0}; Escher_ObjectSet_s * r_oirs = &r_oirs_space;Escher_ObjectSet_s r_rels_space={0}; Escher_ObjectSet_s * r_rels = &r_rels_space;Escher_ObjectSet_s spr_pss_space={0}; Escher_ObjectSet_s * spr_pss = &spr_pss_space;
-  Escher_ObjectSet_s spr_pos_space={0}; Escher_ObjectSet_s * spr_pos = &spr_pos_space;Escher_ObjectSet_s spr_rss_space={0}; Escher_ObjectSet_s * spr_rss = &spr_rss_space;Escher_ObjectSet_s spr_ros_space={0}; Escher_ObjectSet_s * spr_ros = &spr_ros_space;Escher_ObjectSet_s c_pps_space={0}; Escher_ObjectSet_s * c_pps = &c_pps_space;Escher_ObjectSet_s sm_evtdis_space={0}; Escher_ObjectSet_s * sm_evtdis = &sm_evtdis_space;Escher_ObjectSet_s s_sparms_space={0}; Escher_ObjectSet_s * s_sparms = &s_sparms_space;Escher_ObjectSet_s o_tparms_space={0}; Escher_ObjectSet_s * o_tparms = &o_tparms_space;Escher_ObjectSet_s s_bparms_space={0}; Escher_ObjectSet_s * s_bparms = &s_bparms_space;Escher_ObjectSet_s v_pars_space={0}; Escher_ObjectSet_s * v_pars = &v_pars_space;Escher_ObjectSet_s v_vals_space={0}; Escher_ObjectSet_s * v_vals = &v_vals_space;Escher_ObjectSet_s tm_enuminits_space={0}; Escher_ObjectSet_s * tm_enuminits = &tm_enuminits_space;Escher_ObjectSet_s tm_enumvals_space={0}; Escher_ObjectSet_s * tm_enumvals = &tm_enumvals_space;Escher_ObjectSet_s tm_pointers_space={0}; Escher_ObjectSet_s * tm_pointers = &tm_pointers_space;Escher_ObjectSet_s tm_precisions_space={0}; Escher_ObjectSet_s * tm_precisions = &tm_precisions_space;Escher_ObjectSet_s s_irdts_space={0}; Escher_ObjectSet_s * s_irdts = &s_irdts_space;Escher_ObjectSet_s s_sdts_space={0}; Escher_ObjectSet_s * s_sdts = &s_sdts_space;Escher_ObjectSet_s s_edts_space={0}; Escher_ObjectSet_s * s_edts = &s_edts_space;Escher_ObjectSet_s s_udts_space={0}; Escher_ObjectSet_s * s_udts = &s_udts_space;Escher_ObjectSet_s s_cdts_space={0}; Escher_ObjectSet_s * s_cdts = &s_cdts_space;Escher_ObjectSet_s s_ees_space={0}; Escher_ObjectSet_s * s_ees = &s_ees_space;Escher_ObjectSet_s s_syncs_space={0}; Escher_ObjectSet_s * s_syncs = &s_syncs_space;Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;ooaofooa_TM_BUILD * tm_build=0;Escher_ObjectSet_s te_pos_space={0}; Escher_ObjectSet_s * te_pos = &te_pos_space;Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;ooaofooa_TE_QUEUE * nonself_te_queue=0;ooaofooa_TE_QUEUE * te_queue=0;ooaofooa_TE_DISP * te_disp=0;ooaofooa_TM_THREAD * tm_thread=0;ooaofooa_TM_SYSTAG * tm_systag=0;ooaofooa_TE_SYS * te_sys=0;ooaofooa_S_SYS * s_sys=0;ooaofooa_TE_TYPEMAP * te_typemap=0;
-  ooaofooa_TE_TIM * te_tim=0;ooaofooa_TE_THREAD * te_thread=0;ooaofooa_TE_TARGET * te_target=0;ooaofooa_TE_STRING * te_string=0;ooaofooa_TE_SET * te_set=0;ooaofooa_TE_PREFIX * te_prefix=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_EXTENT * te_extent=0;ooaofooa_TE_EQ * te_eq=0;ooaofooa_TE_FILE * te_file=0;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;ooaofooa_TE_DT * void_te_dt=0;ooaofooa_TE_DT * string_te_dt=0;ooaofooa_TE_DT * converted_bool_te_dt=0;Escher_ObjectSet_s empty_te_parms_space={0}; Escher_ObjectSet_s * empty_te_parms = &empty_te_parms_space;Escher_ObjectSet_s empty_te_dts_space={0}; Escher_ObjectSet_s * empty_te_dts = &empty_te_dts_space;ooaofooa_TE_MACT * empty_te_mact=0;ooaofooa_TE_ATTR * empty_te_attr=0;ooaofooa_O_OBJ * empty_o_obj=0;Escher_ObjectSet_s empty_s_dims_space={0}; Escher_ObjectSet_s * empty_s_dims = &empty_s_dims_space;ooaofooa_TE_DIM * empty_te_dim=0;ooaofooa_TE_C * empty_te_c=0;Escher_ObjectSet_s empty_ep_pkgs_space={0}; Escher_ObjectSet_s * empty_ep_pkgs = &empty_ep_pkgs_space;Escher_ObjectSet_s r_parts_space={0}; Escher_ObjectSet_s * r_parts = &r_parts_space;
+  Escher_ObjectSet_s spr_pos_space={0}; Escher_ObjectSet_s * spr_pos = &spr_pos_space;Escher_ObjectSet_s spr_rss_space={0}; Escher_ObjectSet_s * spr_rss = &spr_rss_space;Escher_ObjectSet_s spr_ros_space={0}; Escher_ObjectSet_s * spr_ros = &spr_ros_space;Escher_ObjectSet_s c_pps_space={0}; Escher_ObjectSet_s * c_pps = &c_pps_space;Escher_ObjectSet_s sm_evtdis_space={0}; Escher_ObjectSet_s * sm_evtdis = &sm_evtdis_space;Escher_ObjectSet_s s_sparms_space={0}; Escher_ObjectSet_s * s_sparms = &s_sparms_space;Escher_ObjectSet_s o_tparms_space={0}; Escher_ObjectSet_s * o_tparms = &o_tparms_space;Escher_ObjectSet_s s_bparms_space={0}; Escher_ObjectSet_s * s_bparms = &s_bparms_space;Escher_ObjectSet_s v_pars_space={0}; Escher_ObjectSet_s * v_pars = &v_pars_space;Escher_ObjectSet_s v_vals_space={0}; Escher_ObjectSet_s * v_vals = &v_vals_space;Escher_ObjectSet_s tm_enuminits_space={0}; Escher_ObjectSet_s * tm_enuminits = &tm_enuminits_space;Escher_ObjectSet_s tm_enumvals_space={0}; Escher_ObjectSet_s * tm_enumvals = &tm_enumvals_space;Escher_ObjectSet_s tm_pointers_space={0}; Escher_ObjectSet_s * tm_pointers = &tm_pointers_space;Escher_ObjectSet_s tm_precisions_space={0}; Escher_ObjectSet_s * tm_precisions = &tm_precisions_space;Escher_ObjectSet_s s_irdts_space={0}; Escher_ObjectSet_s * s_irdts = &s_irdts_space;Escher_ObjectSet_s s_sdts_space={0}; Escher_ObjectSet_s * s_sdts = &s_sdts_space;Escher_ObjectSet_s s_edts_space={0}; Escher_ObjectSet_s * s_edts = &s_edts_space;Escher_ObjectSet_s s_udts_space={0}; Escher_ObjectSet_s * s_udts = &s_udts_space;Escher_ObjectSet_s s_cdts_space={0}; Escher_ObjectSet_s * s_cdts = &s_cdts_space;Escher_ObjectSet_s s_ees_space={0}; Escher_ObjectSet_s * s_ees = &s_ees_space;Escher_ObjectSet_s s_syncs_space={0}; Escher_ObjectSet_s * s_syncs = &s_syncs_space;Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;ooaofooa_TM_BUILD * tm_build=0;Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;ooaofooa_TE_QUEUE * nonself_te_queue=0;ooaofooa_TE_QUEUE * te_queue=0;ooaofooa_TE_DISP * te_disp=0;ooaofooa_TM_THREAD * tm_thread=0;ooaofooa_TM_SYSTAG * tm_systag=0;ooaofooa_TE_SYS * te_sys=0;ooaofooa_S_SYS * s_sys=0;ooaofooa_TE_TYPEMAP * te_typemap=0;ooaofooa_TE_TIM * te_tim=0;
+  ooaofooa_TE_THREAD * te_thread=0;ooaofooa_TE_TARGET * te_target=0;ooaofooa_TE_STRING * te_string=0;ooaofooa_TE_SET * te_set=0;ooaofooa_TE_PREFIX * te_prefix=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_EXTENT * te_extent=0;ooaofooa_TE_EQ * te_eq=0;ooaofooa_TE_FILE * te_file=0;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;ooaofooa_TE_DT * void_te_dt=0;ooaofooa_TE_DT * string_te_dt=0;ooaofooa_TE_DT * converted_bool_te_dt=0;Escher_ObjectSet_s te_pos_space={0}; Escher_ObjectSet_s * te_pos = &te_pos_space;Escher_ObjectSet_s empty_te_parms_space={0}; Escher_ObjectSet_s * empty_te_parms = &empty_te_parms_space;Escher_ObjectSet_s empty_te_dts_space={0}; Escher_ObjectSet_s * empty_te_dts = &empty_te_dts_space;ooaofooa_TE_MACT * empty_te_mact=0;ooaofooa_TE_ATTR * empty_te_attr=0;ooaofooa_O_OBJ * empty_o_obj=0;Escher_ObjectSet_s empty_s_dims_space={0}; Escher_ObjectSet_s * empty_s_dims = &empty_s_dims_space;ooaofooa_TE_DIM * empty_te_dim=0;ooaofooa_TE_C * empty_te_c=0;Escher_ObjectSet_s empty_ep_pkgs_space={0}; Escher_ObjectSet_s * empty_ep_pkgs = &empty_ep_pkgs_space;Escher_ObjectSet_s r_parts_space={0}; Escher_ObjectSet_s * r_parts = &r_parts_space;
   /* SELECT any te_file FROM INSTANCES OF TE_FILE */
   te_file = (ooaofooa_TE_FILE *) Escher_SetGetAny( &pG_ooaofooa_TE_FILE_extent.active );
   /* SELECT any te_eq FROM INSTANCES OF TE_EQ */
@@ -18012,8 +18050,17 @@ te_c->cId = Escher_ID_factory();
     }}}
     Escher_ClearSet( te_pos ); Escher_ClearSet( c_pos ); Escher_ClearSet( cl_ics ); 
   }}}
-  /* SELECT many te_pos FROM INSTANCES OF TE_PO */
-  Escher_CopySet( te_pos, &pG_ooaofooa_TE_PO_extent.active );
+  /* SELECT many te_pos FROM INSTANCES OF TE_PO WHERE not SELECTED.Provision */
+  Escher_ClearSet( te_pos );
+  { ooaofooa_TE_PO * selected;
+    Escher_Iterator_s iterte_posooaofooa_TE_PO;
+    Escher_IteratorReset( &iterte_posooaofooa_TE_PO, &pG_ooaofooa_TE_PO_extent.active );
+    while ( (selected = (ooaofooa_TE_PO *) Escher_IteratorNext( &iterte_posooaofooa_TE_PO )) != 0 ) {
+      if ( !((ooaofooa_TE_PO *)xtUML_detect_empty_handle( selected, "TE_PO", "SELECTED.Provision" ))->Provision ) {
+        Escher_SetInsertElement( te_pos, selected );
+      }
+    }
+  }
   /* FOR EACH te_po IN te_pos */
   { Escher_Iterator_s iterte_po;
   ooaofooa_TE_PO * iite_po;
@@ -18032,129 +18079,55 @@ te_c->cId = Escher_ID_factory();
     Escher_IteratorReset( &iterte_iir, te_iirs );
     while ( (iite_iir = (ooaofooa_TE_IIR *)Escher_IteratorNext( &iterte_iir )) != 0 ) {
       te_iir = iite_iir; {
-      /* IF ( te_po.Provision ) */
-      if ( ((ooaofooa_TE_PO *)xtUML_detect_empty_handle( te_po, "TE_PO", "te_po.Provision" ))->Provision ) {
-        ooaofooa_TE_IIR * foreign_te_iir=0;
-        /* SELECT any foreign_te_iir RELATED BY te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->CL_IR[R4706]->CL_IIR[R4703]->TE_IIR[R2013] */
+      ooaofooa_TE_IIR * foreign_te_iir=0;
+      /* SELECT one foreign_te_iir RELATED BY te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013] */
+      foreign_te_iir = 0;
+      {      if ( 0 != te_iir ) {
+      ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+      if ( 0 != CL_IIR_R2013 ) {
+      ooaofooa_CL_IR * R4703_subtype = (ooaofooa_CL_IR *) CL_IIR_R2013->R4703_subtype;
+      if ( 0 != R4703_subtype )      if ( ( 0 != CL_IIR_R2013 ) && ( ooaofooa_CL_IR_CLASS_NUMBER == CL_IIR_R2013->R4703_object_id ) ) {
+      ooaofooa_C_SF * C_SF_R4706_provides_satisfaction_through = R4703_subtype->C_SF_R4706_provides_satisfaction_through;
+      if ( 0 != C_SF_R4706_provides_satisfaction_through ) {
+      ooaofooa_CL_IPINS * CL_IPINS_R4705 = C_SF_R4706_provides_satisfaction_through->CL_IPINS_R4705;
+      if ( 0 != CL_IPINS_R4705 ) {
+      ooaofooa_CL_IP * CL_IP_R4705_satisfaction_made_with = CL_IPINS_R4705->CL_IP_R4705_satisfaction_made_with;
+      if ( 0 != CL_IP_R4705_satisfaction_made_with ) {
+      ooaofooa_CL_IIR * CL_IIR_R4703 = CL_IP_R4705_satisfaction_made_with->CL_IIR_R4703;
+      if ( 0 != CL_IIR_R4703 ) {
+      foreign_te_iir = CL_IIR_R4703->TE_IIR_R2013;
+}}}}}}}}
+      /* IF ( empty foreign_te_iir ) */
+      if ( ( 0 == foreign_te_iir ) ) {
+        /* SELECT any foreign_te_iir RELATED BY te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046] */
         foreign_te_iir = 0;
         {        if ( 0 != te_iir ) {
-        ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
-        if ( 0 != CL_IIR_R2013 ) {
-        ooaofooa_CL_IP * R4703_subtype = (ooaofooa_CL_IP *) CL_IIR_R2013->R4703_subtype;
-        if ( 0 != R4703_subtype )        if ( ( 0 != CL_IIR_R2013 ) && ( ooaofooa_CL_IP_CLASS_NUMBER == CL_IIR_R2013->R4703_object_id ) ) {
-        ooaofooa_CL_IPINS * CL_IPINS_R4705;
-        Escher_Iterator_s iCL_IPINS_R4705;
-        Escher_IteratorReset( &iCL_IPINS_R4705, &R4703_subtype->CL_IPINS_R4705 );
-        while ( ( 0 == foreign_te_iir ) && ( 0 != ( CL_IPINS_R4705 = (ooaofooa_CL_IPINS *) Escher_IteratorNext( &iCL_IPINS_R4705 ) ) ) ) {
-        ooaofooa_C_SF * C_SF_R4705_provides_satisfaction_through = CL_IPINS_R4705->C_SF_R4705_provides_satisfaction_through;
-        if ( 0 != C_SF_R4705_provides_satisfaction_through ) {
-        ooaofooa_CL_IR * CL_IR_R4706_satisfaction_made_with = C_SF_R4705_provides_satisfaction_through->CL_IR_R4706_satisfaction_made_with;
-        if ( 0 != CL_IR_R4706_satisfaction_made_with ) {
-        ooaofooa_CL_IIR * CL_IIR_R4703 = CL_IR_R4706_satisfaction_made_with->CL_IIR_R4703;
-        if ( 0 != CL_IIR_R4703 ) {
-        foreign_te_iir = CL_IIR_R4703->TE_IIR_R2013;
-}}}}}}}}
+        ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
+        if ( 0 != C_IR_R2046 ) {
+        ooaofooa_C_R * R4009_subtype = (ooaofooa_C_R *) C_IR_R2046->R4009_subtype;
+        if ( 0 != R4009_subtype )        if ( ( 0 != C_IR_R2046 ) && ( ooaofooa_C_R_CLASS_NUMBER == C_IR_R2046->R4009_object_id ) ) {
+        ooaofooa_C_SF * C_SF_R4002;
+        Escher_Iterator_s iC_SF_R4002;
+        Escher_IteratorReset( &iC_SF_R4002, &R4009_subtype->C_SF_R4002 );
+        while ( ( 0 == foreign_te_iir ) && ( 0 != ( C_SF_R4002 = (ooaofooa_C_SF *) Escher_IteratorNext( &iC_SF_R4002 ) ) ) ) {
+        ooaofooa_C_P * C_P_R4002_satisfies = C_SF_R4002->C_P_R4002_satisfies;
+        if ( 0 != C_P_R4002_satisfies ) {
+        ooaofooa_C_IR * C_IR_R4009 = C_P_R4002_satisfies->C_IR_R4009;
+        if ( 0 != C_IR_R4009 ) {
+        foreign_te_iir = C_IR_R4009->TE_IIR_R2046;
+}}}}}}}
         /* IF ( empty foreign_te_iir ) */
         if ( ( 0 == foreign_te_iir ) ) {
-          /* SELECT any foreign_te_iir RELATED BY te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046] */
+          /* SELECT one foreign_te_iir RELATED BY te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046] */
           foreign_te_iir = 0;
           {          if ( 0 != te_iir ) {
-          ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
-          if ( 0 != C_IR_R2046 ) {
-          ooaofooa_C_P * R4009_subtype = (ooaofooa_C_P *) C_IR_R2046->R4009_subtype;
-          if ( 0 != R4009_subtype )          if ( ( 0 != C_IR_R2046 ) && ( ooaofooa_C_P_CLASS_NUMBER == C_IR_R2046->R4009_object_id ) ) {
-          ooaofooa_C_SF * C_SF_R4002;
-          Escher_Iterator_s iC_SF_R4002;
-          Escher_IteratorReset( &iC_SF_R4002, &R4009_subtype->C_SF_R4002 );
-          while ( ( 0 == foreign_te_iir ) && ( 0 != ( C_SF_R4002 = (ooaofooa_C_SF *) Escher_IteratorNext( &iC_SF_R4002 ) ) ) ) {
-          ooaofooa_C_R * C_R_R4002_defines_required_satisfication = C_SF_R4002->C_R_R4002_defines_required_satisfication;
-          if ( 0 != C_R_R4002_defines_required_satisfication ) {
-          ooaofooa_C_IR * C_IR_R4009 = C_R_R4002_defines_required_satisfication->C_IR_R4009;
-          if ( 0 != C_IR_R4009 ) {
-          foreign_te_iir = C_IR_R4009->TE_IIR_R2046;
-}}}}}}}
-          /* IF ( empty foreign_te_iir ) */
-          if ( ( 0 == foreign_te_iir ) ) {
-            /* SELECT any foreign_te_iir RELATED BY te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046] */
-            foreign_te_iir = 0;
-            {            if ( 0 != te_iir ) {
-            ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
-            if ( 0 != CL_IIR_R2013 ) {
-            ooaofooa_CL_IP * R4703_subtype = (ooaofooa_CL_IP *) CL_IIR_R2013->R4703_subtype;
-            if ( 0 != R4703_subtype )            if ( ( 0 != CL_IIR_R2013 ) && ( ooaofooa_CL_IP_CLASS_NUMBER == CL_IIR_R2013->R4703_object_id ) ) {
-            ooaofooa_CL_IPINS * CL_IPINS_R4705;
-            Escher_Iterator_s iCL_IPINS_R4705;
-            Escher_IteratorReset( &iCL_IPINS_R4705, &R4703_subtype->CL_IPINS_R4705 );
-            while ( ( 0 == foreign_te_iir ) && ( 0 != ( CL_IPINS_R4705 = (ooaofooa_CL_IPINS *) Escher_IteratorNext( &iCL_IPINS_R4705 ) ) ) ) {
-            ooaofooa_C_SF * C_SF_R4705_provides_satisfaction_through = CL_IPINS_R4705->C_SF_R4705_provides_satisfaction_through;
-            if ( 0 != C_SF_R4705_provides_satisfaction_through ) {
-            ooaofooa_C_R * C_R_R4002_defines_required_satisfication = C_SF_R4705_provides_satisfaction_through->C_R_R4002_defines_required_satisfication;
-            if ( 0 != C_R_R4002_defines_required_satisfication ) {
-            ooaofooa_C_IR * C_IR_R4009 = C_R_R4002_defines_required_satisfication->C_IR_R4009;
-            if ( 0 != C_IR_R4009 ) {
-            foreign_te_iir = C_IR_R4009->TE_IIR_R2046;
-}}}}}}}}
-            /* IF ( empty foreign_te_iir ) */
-            if ( ( 0 == foreign_te_iir ) ) {
-              /* SELECT any foreign_te_iir RELATED BY te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->CL_IR[R4706]->CL_IIR[R4703]->TE_IIR[R2013] */
-              foreign_te_iir = 0;
-              {              if ( 0 != te_iir ) {
-              ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
-              if ( 0 != C_IR_R2046 ) {
-              ooaofooa_C_P * R4009_subtype = (ooaofooa_C_P *) C_IR_R2046->R4009_subtype;
-              if ( 0 != R4009_subtype )              if ( ( 0 != C_IR_R2046 ) && ( ooaofooa_C_P_CLASS_NUMBER == C_IR_R2046->R4009_object_id ) ) {
-              ooaofooa_C_SF * C_SF_R4002;
-              Escher_Iterator_s iC_SF_R4002;
-              Escher_IteratorReset( &iC_SF_R4002, &R4009_subtype->C_SF_R4002 );
-              while ( ( 0 == foreign_te_iir ) && ( 0 != ( C_SF_R4002 = (ooaofooa_C_SF *) Escher_IteratorNext( &iC_SF_R4002 ) ) ) ) {
-              ooaofooa_CL_IR * CL_IR_R4706_satisfaction_made_with = C_SF_R4002->CL_IR_R4706_satisfaction_made_with;
-              if ( 0 != CL_IR_R4706_satisfaction_made_with ) {
-              ooaofooa_CL_IIR * CL_IIR_R4703 = CL_IR_R4706_satisfaction_made_with->CL_IIR_R4703;
-              if ( 0 != CL_IIR_R4703 ) {
-              foreign_te_iir = CL_IIR_R4703->TE_IIR_R2013;
-}}}}}}}
-            }
-          }
-        }
-        /* IF ( not_empty foreign_te_iir ) */
-        if ( ( 0 != foreign_te_iir ) ) {
-          /* RELATE te_iir TO foreign_te_iir ACROSS R2081 */
-          ooaofooa_TE_IIR_R2081_Link_provides_or_is_delegated( te_iir, foreign_te_iir );
-        }
-      }
-      else {
-        ooaofooa_TE_IIR * foreign_te_iir=0;
-        /* SELECT one foreign_te_iir RELATED BY te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013] */
-        foreign_te_iir = 0;
-        {        if ( 0 != te_iir ) {
-        ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
-        if ( 0 != CL_IIR_R2013 ) {
-        ooaofooa_CL_IR * R4703_subtype = (ooaofooa_CL_IR *) CL_IIR_R2013->R4703_subtype;
-        if ( 0 != R4703_subtype )        if ( ( 0 != CL_IIR_R2013 ) && ( ooaofooa_CL_IR_CLASS_NUMBER == CL_IIR_R2013->R4703_object_id ) ) {
-        ooaofooa_C_SF * C_SF_R4706_provides_satisfaction_through = R4703_subtype->C_SF_R4706_provides_satisfaction_through;
-        if ( 0 != C_SF_R4706_provides_satisfaction_through ) {
-        ooaofooa_CL_IPINS * CL_IPINS_R4705 = C_SF_R4706_provides_satisfaction_through->CL_IPINS_R4705;
-        if ( 0 != CL_IPINS_R4705 ) {
-        ooaofooa_CL_IP * CL_IP_R4705_satisfaction_made_with = CL_IPINS_R4705->CL_IP_R4705_satisfaction_made_with;
-        if ( 0 != CL_IP_R4705_satisfaction_made_with ) {
-        ooaofooa_CL_IIR * CL_IIR_R4703 = CL_IP_R4705_satisfaction_made_with->CL_IIR_R4703;
-        if ( 0 != CL_IIR_R4703 ) {
-        foreign_te_iir = CL_IIR_R4703->TE_IIR_R2013;
-}}}}}}}}
-        /* IF ( empty foreign_te_iir ) */
-        if ( ( 0 == foreign_te_iir ) ) {
-          /* SELECT any foreign_te_iir RELATED BY te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046] */
-          foreign_te_iir = 0;
-          {          if ( 0 != te_iir ) {
-          ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
-          if ( 0 != C_IR_R2046 ) {
-          ooaofooa_C_R * R4009_subtype = (ooaofooa_C_R *) C_IR_R2046->R4009_subtype;
-          if ( 0 != R4009_subtype )          if ( ( 0 != C_IR_R2046 ) && ( ooaofooa_C_R_CLASS_NUMBER == C_IR_R2046->R4009_object_id ) ) {
-          ooaofooa_C_SF * C_SF_R4002;
-          Escher_Iterator_s iC_SF_R4002;
-          Escher_IteratorReset( &iC_SF_R4002, &R4009_subtype->C_SF_R4002 );
-          while ( ( 0 == foreign_te_iir ) && ( 0 != ( C_SF_R4002 = (ooaofooa_C_SF *) Escher_IteratorNext( &iC_SF_R4002 ) ) ) ) {
-          ooaofooa_C_P * C_P_R4002_satisfies = C_SF_R4002->C_P_R4002_satisfies;
+          ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+          if ( 0 != CL_IIR_R2013 ) {
+          ooaofooa_CL_IR * R4703_subtype = (ooaofooa_CL_IR *) CL_IIR_R2013->R4703_subtype;
+          if ( 0 != R4703_subtype )          if ( ( 0 != CL_IIR_R2013 ) && ( ooaofooa_CL_IR_CLASS_NUMBER == CL_IIR_R2013->R4703_object_id ) ) {
+          ooaofooa_C_SF * C_SF_R4706_provides_satisfaction_through = R4703_subtype->C_SF_R4706_provides_satisfaction_through;
+          if ( 0 != C_SF_R4706_provides_satisfaction_through ) {
+          ooaofooa_C_P * C_P_R4002_satisfies = C_SF_R4706_provides_satisfaction_through->C_P_R4002_satisfies;
           if ( 0 != C_P_R4002_satisfies ) {
           ooaofooa_C_IR * C_IR_R4009 = C_P_R4002_satisfies->C_IR_R4009;
           if ( 0 != C_IR_R4009 ) {
@@ -18162,50 +18135,32 @@ te_c->cId = Escher_ID_factory();
 }}}}}}}
           /* IF ( empty foreign_te_iir ) */
           if ( ( 0 == foreign_te_iir ) ) {
-            /* SELECT one foreign_te_iir RELATED BY te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046] */
+            /* SELECT any foreign_te_iir RELATED BY te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013] */
             foreign_te_iir = 0;
             {            if ( 0 != te_iir ) {
-            ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
-            if ( 0 != CL_IIR_R2013 ) {
-            ooaofooa_CL_IR * R4703_subtype = (ooaofooa_CL_IR *) CL_IIR_R2013->R4703_subtype;
-            if ( 0 != R4703_subtype )            if ( ( 0 != CL_IIR_R2013 ) && ( ooaofooa_CL_IR_CLASS_NUMBER == CL_IIR_R2013->R4703_object_id ) ) {
-            ooaofooa_C_SF * C_SF_R4706_provides_satisfaction_through = R4703_subtype->C_SF_R4706_provides_satisfaction_through;
-            if ( 0 != C_SF_R4706_provides_satisfaction_through ) {
-            ooaofooa_C_P * C_P_R4002_satisfies = C_SF_R4706_provides_satisfaction_through->C_P_R4002_satisfies;
-            if ( 0 != C_P_R4002_satisfies ) {
-            ooaofooa_C_IR * C_IR_R4009 = C_P_R4002_satisfies->C_IR_R4009;
-            if ( 0 != C_IR_R4009 ) {
-            foreign_te_iir = C_IR_R4009->TE_IIR_R2046;
-}}}}}}}
-            /* IF ( empty foreign_te_iir ) */
-            if ( ( 0 == foreign_te_iir ) ) {
-              /* SELECT any foreign_te_iir RELATED BY te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013] */
-              foreign_te_iir = 0;
-              {              if ( 0 != te_iir ) {
-              ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
-              if ( 0 != C_IR_R2046 ) {
-              ooaofooa_C_R * R4009_subtype = (ooaofooa_C_R *) C_IR_R2046->R4009_subtype;
-              if ( 0 != R4009_subtype )              if ( ( 0 != C_IR_R2046 ) && ( ooaofooa_C_R_CLASS_NUMBER == C_IR_R2046->R4009_object_id ) ) {
-              ooaofooa_C_SF * C_SF_R4002;
-              Escher_Iterator_s iC_SF_R4002;
-              Escher_IteratorReset( &iC_SF_R4002, &R4009_subtype->C_SF_R4002 );
-              while ( ( 0 == foreign_te_iir ) && ( 0 != ( C_SF_R4002 = (ooaofooa_C_SF *) Escher_IteratorNext( &iC_SF_R4002 ) ) ) ) {
-              ooaofooa_CL_IPINS * CL_IPINS_R4705 = C_SF_R4002->CL_IPINS_R4705;
-              if ( 0 != CL_IPINS_R4705 ) {
-              ooaofooa_CL_IP * CL_IP_R4705_satisfaction_made_with = CL_IPINS_R4705->CL_IP_R4705_satisfaction_made_with;
-              if ( 0 != CL_IP_R4705_satisfaction_made_with ) {
-              ooaofooa_CL_IIR * CL_IIR_R4703 = CL_IP_R4705_satisfaction_made_with->CL_IIR_R4703;
-              if ( 0 != CL_IIR_R4703 ) {
-              foreign_te_iir = CL_IIR_R4703->TE_IIR_R2013;
+            ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
+            if ( 0 != C_IR_R2046 ) {
+            ooaofooa_C_R * R4009_subtype = (ooaofooa_C_R *) C_IR_R2046->R4009_subtype;
+            if ( 0 != R4009_subtype )            if ( ( 0 != C_IR_R2046 ) && ( ooaofooa_C_R_CLASS_NUMBER == C_IR_R2046->R4009_object_id ) ) {
+            ooaofooa_C_SF * C_SF_R4002;
+            Escher_Iterator_s iC_SF_R4002;
+            Escher_IteratorReset( &iC_SF_R4002, &R4009_subtype->C_SF_R4002 );
+            while ( ( 0 == foreign_te_iir ) && ( 0 != ( C_SF_R4002 = (ooaofooa_C_SF *) Escher_IteratorNext( &iC_SF_R4002 ) ) ) ) {
+            ooaofooa_CL_IPINS * CL_IPINS_R4705 = C_SF_R4002->CL_IPINS_R4705;
+            if ( 0 != CL_IPINS_R4705 ) {
+            ooaofooa_CL_IP * CL_IP_R4705_satisfaction_made_with = CL_IPINS_R4705->CL_IP_R4705_satisfaction_made_with;
+            if ( 0 != CL_IP_R4705_satisfaction_made_with ) {
+            ooaofooa_CL_IIR * CL_IIR_R4703 = CL_IP_R4705_satisfaction_made_with->CL_IIR_R4703;
+            if ( 0 != CL_IIR_R4703 ) {
+            foreign_te_iir = CL_IIR_R4703->TE_IIR_R2013;
 }}}}}}}}
-            }
           }
         }
-        /* IF ( not_empty foreign_te_iir ) */
-        if ( ( 0 != foreign_te_iir ) ) {
-          /* RELATE te_iir TO foreign_te_iir ACROSS R2081 */
-          ooaofooa_TE_IIR_R2081_Link_requires_or_delegates( te_iir, foreign_te_iir );
-        }
+      }
+      /* IF ( not_empty foreign_te_iir ) */
+      if ( ( 0 != foreign_te_iir ) ) {
+        /* RELATE te_iir TO foreign_te_iir ACROSS R2081 */
+        ooaofooa_TE_IIR_R2081_Link_requires_or_delegates( te_iir, foreign_te_iir );
       }
     }}}
     Escher_ClearSet( te_iirs ); 
@@ -19078,6 +19033,7 @@ te_ee->ID = Escher_ID_factory();
       }
       /* SELECT many te_dts RELATED BY te_c->TE_DT[R2086] WHERE ( ( SELECTED.Name == tm_precision.DT_name ) ) */
       Escher_ClearSet( te_dts );
+      if ( 0 != te_c ) {
       {ooaofooa_TE_DT * selected;
       Escher_Iterator_s iTE_DT_R2086;
       Escher_IteratorReset( &iTE_DT_R2086, &te_c->TE_DT_R2086 );
@@ -19085,7 +19041,7 @@ te_ee->ID = Escher_ID_factory();
         if ( ( Escher_strcmp( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( selected, "TE_DT", "SELECTED.Name" ))->Name, ((ooaofooa_TM_PRECISION *)xtUML_detect_empty_handle( tm_precision, "TM_PRECISION", "tm_precision.DT_name" ))->DT_name ) == 0 ) ) {
           if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_dts, selected ) ) {
             Escher_SetInsertElement( (Escher_ObjectSet_s *) te_dts, selected );
-      }}}}
+      }}}}}
     }
     /* FOR EACH te_dt IN te_dts */
     { Escher_Iterator_s iterte_dt;
@@ -19239,6 +19195,7 @@ te_ee->ID = Escher_ID_factory();
       }
       /* SELECT many te_dts RELATED BY te_c->TE_DT[R2086] WHERE ( ( SELECTED.Name == tm_pointer.DT_name ) ) */
       Escher_ClearSet( te_dts );
+      if ( 0 != te_c ) {
       {ooaofooa_TE_DT * selected;
       Escher_Iterator_s iTE_DT_R2086;
       Escher_IteratorReset( &iTE_DT_R2086, &te_c->TE_DT_R2086 );
@@ -19246,7 +19203,7 @@ te_ee->ID = Escher_ID_factory();
         if ( ( Escher_strcmp( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( selected, "TE_DT", "SELECTED.Name" ))->Name, ((ooaofooa_TM_POINTER *)xtUML_detect_empty_handle( tm_pointer, "TM_POINTER", "tm_pointer.DT_name" ))->DT_name ) == 0 ) ) {
           if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_dts, selected ) ) {
             Escher_SetInsertElement( (Escher_ObjectSet_s *) te_dts, selected );
-      }}}}
+      }}}}}
     }
     /* FOR EACH te_dt IN te_dts */
     { Escher_Iterator_s iterte_dt;
@@ -19311,6 +19268,7 @@ te_ee->ID = Escher_ID_factory();
       }
       /* SELECT many te_dts RELATED BY te_c->TE_DT[R2086] WHERE ( ( SELECTED.Name == tm_enumval.enumeration ) ) */
       Escher_ClearSet( te_dts );
+      if ( 0 != te_c ) {
       {ooaofooa_TE_DT * selected;
       Escher_Iterator_s iTE_DT_R2086;
       Escher_IteratorReset( &iTE_DT_R2086, &te_c->TE_DT_R2086 );
@@ -19318,7 +19276,7 @@ te_ee->ID = Escher_ID_factory();
         if ( ( Escher_strcmp( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( selected, "TE_DT", "SELECTED.Name" ))->Name, ((ooaofooa_TM_ENUMVAL *)xtUML_detect_empty_handle( tm_enumval, "TM_ENUMVAL", "tm_enumval.enumeration" ))->enumeration ) == 0 ) ) {
           if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_dts, selected ) ) {
             Escher_SetInsertElement( (Escher_ObjectSet_s *) te_dts, selected );
-      }}}}
+      }}}}}
     }
     /* FOR EACH te_dt IN te_dts */
     { Escher_Iterator_s iterte_dt;
@@ -19392,6 +19350,7 @@ te_ee->ID = Escher_ID_factory();
       }
       /* SELECT many te_dts RELATED BY te_c->TE_DT[R2086] WHERE ( ( SELECTED.Name == tm_enuminit.enumeration ) ) */
       Escher_ClearSet( te_dts );
+      if ( 0 != te_c ) {
       {ooaofooa_TE_DT * selected;
       Escher_Iterator_s iTE_DT_R2086;
       Escher_IteratorReset( &iTE_DT_R2086, &te_c->TE_DT_R2086 );
@@ -19399,7 +19358,7 @@ te_ee->ID = Escher_ID_factory();
         if ( ( Escher_strcmp( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( selected, "TE_DT", "SELECTED.Name" ))->Name, ((ooaofooa_TM_ENUMINIT *)xtUML_detect_empty_handle( tm_enuminit, "TM_ENUMINIT", "tm_enuminit.enumeration" ))->enumeration ) == 0 ) ) {
           if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_dts, selected ) ) {
             Escher_SetInsertElement( (Escher_ObjectSet_s *) te_dts, selected );
-      }}}}
+      }}}}}
     }
     /* FOR EACH te_dt IN te_dts */
     { Escher_Iterator_s iterte_dt;
@@ -21802,7 +21761,7 @@ te_ee->ID = Escher_ID_factory();
       ooaofooa_TE_EE_init( empty_te_c, te_ee );
     }
   }}}
-  Escher_ClearSet( ep_pkgs );Escher_ClearSet( te_ees );Escher_ClearSet( v_vars );Escher_ClearSet( te_lnks );Escher_ClearSet( act_lnks );Escher_ClearSet( te_blks );Escher_ClearSet( act_es );Escher_ClearSet( act_els );Escher_ClearSet( act_ifs );Escher_ClearSet( act_whls );Escher_ClearSet( act_fors );Escher_ClearSet( act_blks );Escher_ClearSet( r_supers );Escher_ClearSet( r_subs );Escher_ClearSet( r_assrs );Escher_ClearSet( r_aoths );Escher_ClearSet( r_aones );Escher_ClearSet( r_forms );Escher_ClearSet( r_oirs );Escher_ClearSet( r_rels );Escher_ClearSet( spr_pss );Escher_ClearSet( spr_pos );Escher_ClearSet( spr_rss );Escher_ClearSet( spr_ros );Escher_ClearSet( c_pps );Escher_ClearSet( sm_evtdis );Escher_ClearSet( s_sparms );Escher_ClearSet( o_tparms );Escher_ClearSet( s_bparms );Escher_ClearSet( v_pars );Escher_ClearSet( v_vals );Escher_ClearSet( tm_enuminits );Escher_ClearSet( tm_enumvals );Escher_ClearSet( tm_pointers );Escher_ClearSet( tm_precisions );Escher_ClearSet( s_irdts );Escher_ClearSet( s_sdts );Escher_ClearSet( s_edts );Escher_ClearSet( s_udts );Escher_ClearSet( s_cdts );Escher_ClearSet( s_ees );Escher_ClearSet( s_syncs );Escher_ClearSet( o_objs );Escher_ClearSet( s_dts );Escher_ClearSet( te_pos );Escher_ClearSet( c_cs );Escher_ClearSet( te_cs );Escher_ClearSet( empty_te_parms );Escher_ClearSet( empty_te_dts );Escher_ClearSet( empty_s_dims );Escher_ClearSet( empty_ep_pkgs );Escher_ClearSet( r_parts ); 
+  Escher_ClearSet( ep_pkgs );Escher_ClearSet( te_ees );Escher_ClearSet( v_vars );Escher_ClearSet( te_lnks );Escher_ClearSet( act_lnks );Escher_ClearSet( te_blks );Escher_ClearSet( act_es );Escher_ClearSet( act_els );Escher_ClearSet( act_ifs );Escher_ClearSet( act_whls );Escher_ClearSet( act_fors );Escher_ClearSet( act_blks );Escher_ClearSet( r_supers );Escher_ClearSet( r_subs );Escher_ClearSet( r_assrs );Escher_ClearSet( r_aoths );Escher_ClearSet( r_aones );Escher_ClearSet( r_forms );Escher_ClearSet( r_oirs );Escher_ClearSet( r_rels );Escher_ClearSet( spr_pss );Escher_ClearSet( spr_pos );Escher_ClearSet( spr_rss );Escher_ClearSet( spr_ros );Escher_ClearSet( c_pps );Escher_ClearSet( sm_evtdis );Escher_ClearSet( s_sparms );Escher_ClearSet( o_tparms );Escher_ClearSet( s_bparms );Escher_ClearSet( v_pars );Escher_ClearSet( v_vals );Escher_ClearSet( tm_enuminits );Escher_ClearSet( tm_enumvals );Escher_ClearSet( tm_pointers );Escher_ClearSet( tm_precisions );Escher_ClearSet( s_irdts );Escher_ClearSet( s_sdts );Escher_ClearSet( s_edts );Escher_ClearSet( s_udts );Escher_ClearSet( s_cdts );Escher_ClearSet( s_ees );Escher_ClearSet( s_syncs );Escher_ClearSet( o_objs );Escher_ClearSet( s_dts );Escher_ClearSet( c_cs );Escher_ClearSet( te_cs );Escher_ClearSet( te_pos );Escher_ClearSet( empty_te_parms );Escher_ClearSet( empty_te_dts );Escher_ClearSet( empty_s_dims );Escher_ClearSet( empty_ep_pkgs );Escher_ClearSet( r_parts ); 
 }
 
 /*
@@ -22056,6 +22015,7 @@ ooaofooa_te_c_CollectLimits( ooaofooa_TE_C * p_te_c )
   te_file = (ooaofooa_TE_FILE *) Escher_SetGetAny( &pG_ooaofooa_TE_FILE_extent.active );
   /* SELECT many te_classs RELATED BY te_c->TE_CLASS[R2064] WHERE ( not SELECTED.ExcludeFromGen ) */
   Escher_ClearSet( te_classs );
+  if ( 0 != te_c ) {
   {ooaofooa_TE_CLASS * selected;
   Escher_Iterator_s iTE_CLASS_R2064;
   Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -22063,7 +22023,7 @@ ooaofooa_te_c_CollectLimits( ooaofooa_TE_C * p_te_c )
     if ( !((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.ExcludeFromGen" ))->ExcludeFromGen ) {
       if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classs, selected ) ) {
         Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classs, selected );
-  }}}}
+  }}}}}
   /* ASSIGN object_class_extents = 0 */
   object_class_extents = 0;
   /* ASSIGN relationship_extents = 0 */
@@ -22321,6 +22281,7 @@ ooaofooa_te_c_CollectLimits( ooaofooa_TE_C * p_te_c )
   max_select_many = r;
   /* SELECT many te_syncs RELATED BY te_c->TE_SYNC[R2084] WHERE ( ( SELECTED.IsSafeForInterrupts and SELECTED.XlateSemantics ) ) */
   Escher_ClearSet( te_syncs );
+  if ( 0 != te_c ) {
   {ooaofooa_TE_SYNC * selected;
   Escher_Iterator_s iTE_SYNC_R2084;
   Escher_IteratorReset( &iTE_SYNC_R2084, &te_c->TE_SYNC_R2084 );
@@ -22328,7 +22289,7 @@ ooaofooa_te_c_CollectLimits( ooaofooa_TE_C * p_te_c )
     if ( ( ((ooaofooa_TE_SYNC *)xtUML_detect_empty_handle( selected, "TE_SYNC", "SELECTED.IsSafeForInterrupts" ))->IsSafeForInterrupts && ((ooaofooa_TE_SYNC *)xtUML_detect_empty_handle( selected, "TE_SYNC", "SELECTED.XlateSemantics" ))->XlateSemantics ) ) {
       if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_syncs, selected ) ) {
         Escher_SetInsertElement( (Escher_ObjectSet_s *) te_syncs, selected );
-  }}}}
+  }}}}}
   /* ASSIGN total_interleaved_bridges = cardinality te_syncs */
   total_interleaved_bridges = Escher_SetCardinality( te_syncs );
   /* SELECT many te_evts FROM INSTANCES OF TE_EVT WHERE ( SELECTED.Priority != 0 ) */
@@ -22346,6 +22307,7 @@ ooaofooa_te_c_CollectLimits( ooaofooa_TE_C * p_te_c )
   total_priority_events = Escher_SetCardinality( te_evts );
   /* SELECT many te_classs RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( not SELECTED.ExcludeFromGen and SELECTED.PEIsDefinedInData ) ) */
   Escher_ClearSet( te_classs );
+  if ( 0 != te_c ) {
   {ooaofooa_TE_CLASS * selected;
   Escher_Iterator_s iTE_CLASS_R2064;
   Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -22353,11 +22315,12 @@ ooaofooa_te_c_CollectLimits( ooaofooa_TE_C * p_te_c )
     if ( ( !((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.ExcludeFromGen" ))->ExcludeFromGen && ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.PEIsDefinedInData" ))->PEIsDefinedInData ) ) {
       if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classs, selected ) ) {
         Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classs, selected );
-  }}}}
+  }}}}}
   /* ASSIGN pei_class_count = cardinality te_classs */
   pei_class_count = Escher_SetCardinality( te_classs );
   /* SELECT many te_classs RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( not SELECTED.ExcludeFromGen and SELECTED.Persistent ) ) */
   Escher_ClearSet( te_classs );
+  if ( 0 != te_c ) {
   {ooaofooa_TE_CLASS * selected;
   Escher_Iterator_s iTE_CLASS_R2064;
   Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
@@ -22365,7 +22328,7 @@ ooaofooa_te_c_CollectLimits( ooaofooa_TE_C * p_te_c )
     if ( ( !((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.ExcludeFromGen" ))->ExcludeFromGen && ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.Persistent" ))->Persistent ) ) {
       if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classs, selected ) ) {
         Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classs, selected );
-  }}}}
+  }}}}}
   /* ASSIGN persist_class_count = cardinality te_classs */
   persist_class_count = Escher_SetCardinality( te_classs );
   /* ASSIGN te_c.MaxObjExtent = object_class_extents */
@@ -22756,8 +22719,8 @@ ooaofooa_tparm_insert( ooaofooa_O_TPARM * p_head_o_tparm, ooaofooa_O_TPARM * p_o
     }
     /* IF ( not_empty cursor_o_tparm ) */
     if ( ( 0 != cursor_o_tparm ) ) {
-      /* IF ( ( pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24) > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v0.6.0-9-ga2640be-dirty (2017-04-24)", "pyrsl v9.9.9" ) > 0 ) ) {
+      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
+      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
       }
       else {
         /* UNRELATE prev_o_tparm FROM cursor_o_tparm ACROSS R124 */
@@ -23400,15 +23363,71 @@ ooaofooa_val_binary_op_value( ooaofooa_V_BIN * p_v_bin )
         ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "( ", ((ooaofooa_TE_INSTANCE *)xtUML_detect_empty_handle( te_instance, "TE_INSTANCE", "te_instance.module" ))->module ), Escher_stradd( ((ooaofooa_TE_STRING *)xtUML_detect_empty_handle( te_string, "TE_STRING", "te_string.strcmp" ))->strcmp, "( " ) ), Escher_stradd( Escher_stradd( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( l_te_val, "TE_VAL", "l_te_val.buffer" ))->buffer, ", " ), Escher_stradd( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( r_te_val, "TE_VAL", "r_te_val.buffer" ))->buffer, " ) " ) ) ), Escher_stradd( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator, " 0 )" ) ) );
       }
     }
-    else if ( ( ( 9 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( l_te_dt, "TE_DT", "l_te_dt.Core_Typ" ))->Core_Typ ) && ( 9 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( r_te_dt, "TE_DT", "r_te_dt.Core_Typ" ))->Core_Typ ) ) ) {
-      /* IF ( ( + == T::r(v_bin.Operator) ) ) */
-      if ( ( Escher_strcmp( "+", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) ) {
-        ooaofooa_TE_SET * te_set=0;
-        /* SELECT any te_set FROM INSTANCES OF TE_SET */
-        te_set = (ooaofooa_TE_SET *) Escher_SetGetAny( &pG_ooaofooa_TE_SET_extent.active );
-        /* ASSIGN te_val.buffer = ( ( ( ( te_set.module + te_set.setadd ) + ( (  + l_te_val.buffer ) ) + ( ,  + r_te_val.buffer ) ) +  ) ) */
-        ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.module" ))->module, ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setadd" ))->setadd ), Escher_stradd( "( ", ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( l_te_val, "TE_VAL", "l_te_val.buffer" ))->buffer ) ), Escher_stradd( ", ", ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( r_te_val, "TE_VAL", "r_te_val.buffer" ))->buffer ) ), " )" ) );
+    else if ( ( ( ( ( 21 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( l_te_dt, "TE_DT", "l_te_dt.Core_Typ" ))->Core_Typ ) || ( 20 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( l_te_dt, "TE_DT", "l_te_dt.Core_Typ" ))->Core_Typ ) ) && ( ( 21 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( r_te_dt, "TE_DT", "r_te_dt.Core_Typ" ))->Core_Typ ) || ( 20 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( r_te_dt, "TE_DT", "r_te_dt.Core_Typ" ))->Core_Typ ) ) ) && ( ( ( ( ( Escher_strcmp( "+", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) || ( Escher_strcmp( "-", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) ) || ( Escher_strcmp( "|", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) ) || ( Escher_strcmp( "&", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) ) || ( Escher_strcmp( "^", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) ) ) ) {
+      c_t * d=0;c_t * return_set=0;ooaofooa_TE_SET * te_set=0;ooaofooa_TE_PREFIX * te_prefix=0;ooaofooa_TE_BLK * te_blk=0;ooaofooa_V_VAL * v_val=0;
+      /* SELECT any te_prefix FROM INSTANCES OF TE_PREFIX */
+      te_prefix = (ooaofooa_TE_PREFIX *) Escher_SetGetAny( &pG_ooaofooa_TE_PREFIX_extent.active );
+      /* SELECT any te_set FROM INSTANCES OF TE_SET */
+      te_set = (ooaofooa_TE_SET *) Escher_SetGetAny( &pG_ooaofooa_TE_SET_extent.active );
+      /* SELECT one v_val RELATED BY v_bin->V_VAL[R801] */
+      v_val = ( 0 != v_bin ) ? v_bin->V_VAL_R801 : 0;
+      /* SELECT one te_blk RELATED BY v_val->ACT_BLK[R826]->TE_BLK[R2016] */
+      te_blk = 0;
+      {      if ( 0 != v_val ) {
+      ooaofooa_ACT_BLK * ACT_BLK_R826_has_scope = v_val->ACT_BLK_R826_has_scope;
+      if ( 0 != ACT_BLK_R826_has_scope ) {
+      te_blk = ACT_BLK_R826_has_scope->TE_BLK_R2016;
+}}}
+      /* IF ( ( ( + == T::r(v_bin.Operator) ) or ( | == T::r(v_bin.Operator) ) ) ) */
+      if ( ( ( Escher_strcmp( "+", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) || ( Escher_strcmp( "|", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) ) ) {
+        /* ASSIGN te_val.buffer = ( ( te_set.scope + te_set.setunion ) + (  ) */
+        ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.scope" ))->scope, ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setunion" ))->setunion ), "( " ) );
       }
+      else if ( ( Escher_strcmp( "&", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) ) {
+        /* ASSIGN te_val.buffer = ( ( te_set.scope + te_set.setintersection ) + (  ) */
+        ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.scope" ))->scope, ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setintersection" ))->setintersection ), "( " ) );
+      }
+      else if ( ( Escher_strcmp( "-", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) ) {
+        /* ASSIGN te_val.buffer = ( ( te_set.scope + te_set.setdifference ) + (  ) */
+        ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.scope" ))->scope, ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setdifference" ))->setdifference ), "( " ) );
+      }
+      else if ( ( Escher_strcmp( "^", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) ) {
+        /* ASSIGN te_val.buffer = ( ( te_set.scope + te_set.setsymmetricdifference ) + (  ) */
+        ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.scope" ))->scope, ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.setsymmetricdifference" ))->setsymmetricdifference ), "( " ) );
+      }
+      /* ASSIGN return_set = binop_line$t{v_val.LineNumber}_col$t{v_val.StartPosition}to$t{v_val.EndPosition} */
+      return_set = Escher_strcpy( return_set, ({c_t*s=Escher_strget();T_T("binop_line");T_T(T_s(v_val->LineNumber));T_T("_col");T_T(T_s(v_val->StartPosition));T_T("to");T_T(T_s(v_val->EndPosition));}) );
+      /* ASSIGN te_val.buffer = ( ( te_val.buffer + return_set ) + ,  ) */
+      ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, return_set ), ", " ) );
+      /* ASSIGN te_val.buffer = ( ( te_val.buffer + l_te_val.buffer ) + ,  ) */
+      ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( l_te_val, "TE_VAL", "l_te_val.buffer" ))->buffer ), ", " ) );
+      /* ASSIGN te_val.buffer = ( ( te_val.buffer + r_te_val.buffer ) + ,  ) */
+      ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( r_te_val, "TE_VAL", "r_te_val.buffer" ))->buffer ), ", " ) );
+      /* IF ( ( ( 20 == l_te_dt.Core_Typ ) and ( 20 == r_te_dt.Core_Typ ) ) ) */
+      if ( ( ( 20 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( l_te_dt, "TE_DT", "l_te_dt.Core_Typ" ))->Core_Typ ) && ( 20 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( r_te_dt, "TE_DT", "r_te_dt.Core_Typ" ))->Core_Typ ) ) ) {
+        /* ASSIGN te_val.buffer = ( ( ( ( te_val.buffer + te_prefix.define_u ) + SET_LHS_IS_INSTANCE |  ) + te_prefix.define_u ) + SET_RHS_IS_INSTANCE ) ) */
+        ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.define_u" ))->define_u ), "SET_LHS_IS_INSTANCE | " ), ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.define_u" ))->define_u ), "SET_RHS_IS_INSTANCE )" ) );
+      }
+      else if ( ( ( 20 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( l_te_dt, "TE_DT", "l_te_dt.Core_Typ" ))->Core_Typ ) && ( 20 != ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( r_te_dt, "TE_DT", "r_te_dt.Core_Typ" ))->Core_Typ ) ) ) {
+        /* ASSIGN te_val.buffer = ( ( te_val.buffer + te_prefix.define_u ) + SET_LHS_IS_INSTANCE ) ) */
+        ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.define_u" ))->define_u ), "SET_LHS_IS_INSTANCE )" ) );
+      }
+      else if ( ( ( 20 != ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( l_te_dt, "TE_DT", "l_te_dt.Core_Typ" ))->Core_Typ ) && ( 20 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( r_te_dt, "TE_DT", "r_te_dt.Core_Typ" ))->Core_Typ ) ) ) {
+        /* ASSIGN te_val.buffer = ( ( te_val.buffer + te_prefix.define_u ) + SET_RHS_IS_INSTANCE ) ) */
+        ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.define_u" ))->define_u ), "SET_RHS_IS_INSTANCE )" ) );
+      }
+      else {
+        /* ASSIGN te_val.buffer = ( te_val.buffer + 0 ) ) */
+        ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, "0 )" ) );
+      }
+      /* ASSIGN d = ( ( ( ( ( ( ( ( ( ( ( te_set.scope + te_set.base_class ) +   ) + return_set ) + _space={0};  ) + te_set.scope ) + te_set.base_class ) +  *  ) + return_set ) +  = & ) + return_set ) + _space; ) */
+      d = Escher_strcpy( d, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.scope" ))->scope, ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.base_class" ))->base_class ), " " ), return_set ), "_space={0}; " ), ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.scope" ))->scope ), ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.base_class" ))->base_class ), " * " ), return_set ), " = &" ), return_set ), "_space;" ) );
+      /* ::blk_declaration_append( s:d, te_blk:te_blk ) */
+      ooaofooa_blk_declaration_append( d, te_blk );
+      /* ASSIGN d = ( ( ( ( te_set.module + te_set.clear ) + (  ) + return_set ) +  ); ) */
+      d = Escher_strcpy( d, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.module" ))->module, ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.clear" ))->clear ), "( " ), return_set ), " );" ) );
+      /* ::blk_deallocation_append( s:d, te_blk:te_blk ) */
+      ooaofooa_blk_deallocation_append( d, te_blk );
     }
     else {
       ooaofooa_TE_TARGET * te_target=0;
@@ -23436,6 +23455,18 @@ ooaofooa_val_binary_op_value( ooaofooa_V_BIN * p_v_bin )
         }
         /* ASSIGN te_val.buffer = ( ( ( ( ( memcmp(  + l_te_val.buffer ) + ( ,  + r_te_val.buffer ) ) + ( ( , sizeof( + l_te_val.buffer ) + ( [0]) *  + T::s(element_count) ) ) ) + ( ( )  + v_bin.Operator ) +  0 ) ) ) */
         ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "( memcmp( ", ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( l_te_val, "TE_VAL", "l_te_val.buffer" ))->buffer ), Escher_stradd( ", ", ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( r_te_val, "TE_VAL", "r_te_val.buffer" ))->buffer ) ), Escher_stradd( Escher_stradd( ", sizeof(", ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( l_te_val, "TE_VAL", "l_te_val.buffer" ))->buffer ), Escher_stradd( "[0]) * ", T_s( element_count ) ) ) ), Escher_stradd( Escher_stradd( ") ", ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ), " 0 )" ) ) );
+      }
+      else if ( ( ( ( ( Escher_strcmp( "==", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) || ( Escher_strcmp( "!=", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) ) && ( ( 9 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( l_te_dt, "TE_DT", "l_te_dt.Core_Typ" ))->Core_Typ ) || ( 21 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( l_te_dt, "TE_DT", "l_te_dt.Core_Typ" ))->Core_Typ ) ) ) && ( ( 9 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( r_te_dt, "TE_DT", "r_te_dt.Core_Typ" ))->Core_Typ ) || ( 21 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( r_te_dt, "TE_DT", "r_te_dt.Core_Typ" ))->Core_Typ ) ) ) ) {
+        ooaofooa_TE_SET * te_set=0;
+        /* SELECT any te_set FROM INSTANCES OF TE_SET */
+        te_set = (ooaofooa_TE_SET *) Escher_SetGetAny( &pG_ooaofooa_TE_SET_extent.active );
+        /* ASSIGN te_val.buffer = ( ( ( ( ( ( te_set.scope + te_set.equality ) + (  ) + l_te_val.buffer ) + ,  ) + r_te_val.buffer ) +  ) ) */
+        ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.scope" ))->scope, ((ooaofooa_TE_SET *)xtUML_detect_empty_handle( te_set, "TE_SET", "te_set.equality" ))->equality ), "( " ), ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( l_te_val, "TE_VAL", "l_te_val.buffer" ))->buffer ), ", " ), ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( r_te_val, "TE_VAL", "r_te_val.buffer" ))->buffer ), " )" ) );
+        /* IF ( ( != == T::r(v_bin.Operator) ) ) */
+        if ( ( Escher_strcmp( "!=", T_r( ((ooaofooa_V_BIN *)xtUML_detect_empty_handle( v_bin, "V_BIN", "v_bin.Operator" ))->Operator ) ) == 0 ) ) {
+          /* ASSIGN te_val.buffer = ( ( ( ! + te_val.buffer ) +  ) ) */
+          ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, Escher_stradd( Escher_stradd( "( !", ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer ), " )" ) );
+        }
       }
       else {
         /* ASSIGN te_val.buffer = ( ( ( (  + l_te_val.buffer ) + (   + v_bin.Operator ) ) + ( (   + r_te_val.buffer ) +  ) ) ) */

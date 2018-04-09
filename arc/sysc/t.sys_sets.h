@@ -81,8 +81,16 @@ typedef struct {
 
 void ${te_set.factory}( const i_t );
 void ${te_set.copy}( ${te_set.base_class} *,
-                ${te_set.base_class} * const );
+                const ${te_set.base_class} * const );
 void ${te_set.clear}( ${te_set.base_class} * );
+${te_set.base_class} *
+${te_set.setunion}( ${te_set.base_class} * const, void * const, void * const, int );
+${te_set.base_class} *
+${te_set.setintersection}( ${te_set.base_class} * const, void * const, void * const, int );
+${te_set.base_class} *
+${te_set.setdifference}( ${te_set.base_class} * const, void * const, void * const, int );
+${te_set.base_class} *
+${te_set.setsymmetricdifference}( ${te_set.base_class} * const, void * const, void * const, int );
 void ${te_set.insert_element}( ${te_set.base_class} *,
                          void * const );
 ${te_set.element_type} *

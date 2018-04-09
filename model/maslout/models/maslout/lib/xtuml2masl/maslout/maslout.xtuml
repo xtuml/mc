@@ -443,31 +443,18 @@ for each c_ep in c_eps
     first_c_pp = c_pp;
     select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
   end while;
-  ::parameterC_PP2parameter( c_pp:first_c_pp );
-  
-  select one s_dt related by c_ep->C_IO[R4004]->S_DT[R4008];
-  if ( not_empty s_dt )
-    // Do not send a void typeref.  No typeref equals void in MASL.
-    if ( "void" != s_dt.Name )
-      value[0] = s_dt.Name;
-      value[1] = "";
-      value[2] = "";
-      value[3] = "";
-      out::populate( element:"typeref", value:value );
-      out::populate( element:"typeref", value:emptyvalue );
-    end if;
+  if ( param.project )
+    select any project_c_c related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009]->C_IR[R4009]->C_PO[R4016]->C_C[R4010];
+    ::parameterC_PP2parameter( c_pp:first_c_pp, containing_c_c:project_c_c );
+    select one s_dt related by c_ep->C_IO[R4004]->S_DT[R4008];
+    ::type2typeref( s_dt:s_dt, containing_c_c:project_c_c );
+  else
+    ::parameterC_PP2parameter( c_pp:first_c_pp, containing_c_c:c_c );
+    select one s_dt related by c_ep->C_IO[R4004]->S_DT[R4008];
+    ::type2typeref( s_dt:s_dt, containing_c_c:c_c );
   end if;
   
   // Populate the action langauge body.
-  port_name = "";
-  if ( param.project )
-    select any project_c_po related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009]->C_IR[R4009]->C_PO[R4016];
-    select one project_c_c related by project_c_po->C_C[R4010];
-    port_name = project_c_po.Name;
-  else
-    port_name = c_po.Name;
-  end if;
-  
   select any c_i related by c_po->C_IR[R4016]->C_I[R4012];
   if ( param.project )
     select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
@@ -559,12 +546,9 @@ if ( not_empty c_pp )
   end if;
   out::populate( element:"parameter", value:value );
   select one s_dt related by c_pp->S_DT[R4007];
-  value[0] = s_dt.Name;
-  value[1] = "";
-  out::populate( element:"typeref", value:value );
-  out::populate( element:"typeref", value:emptyvalue );
+  ::type2typeref( s_dt:s_dt, containing_c_c:param.containing_c_c );
   select one c_pp related by c_pp->C_PP[R4021.''precedes''];
-  ::parameterC_PP2parameter( c_pp:c_pp );
+  ::parameterC_PP2parameter( c_pp:c_pp, containing_c_c:param.containing_c_c );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
 ',
@@ -588,6 +572,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("7bbba2c7-a80f-4386-9423-150b61e9aae9",
+	"dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
+	'containing_c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"a476bde7-fb21-4a1f-b22b-46b5fe763364",
+	'');
 INSERT INTO PE_PE
 	VALUES ("dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
 	1,
@@ -752,13 +745,7 @@ for each o_attr in o_attrs
     end if;
   
     // Populate the type referred to by this attribute as a type reference.
-    if ( s_dt.Name == "MASLunique" )	// MASLunique is always an integer
-      value[0] = "integer";
-    else
-      value[0] = s_dt.Name;
-    end if;
-    out::populate( element:"typeref", value:value );
-    out::populate( element:"typeref", value:emptyvalue );
+    ::type2typeref( s_dt:s_dt, containing_c_c:c_c );
     
     // See if this attribute is a referential.
     select many o_refs related by o_attr->O_RATTR[R106]->O_REF[R108];
@@ -865,6 +852,14 @@ INSERT INTO S_SYNC
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 c_c = param.c_c;
 
+// - If the UDT is based on MASLtype and there is no definition, treat as a
+//   typeref and do not output it.
+// - If the UDT is based on MASLtype and there is a definition, output it as a
+//   type definition
+// - If the UDT is not based on MASLtype, treat as a type definition and output
+//   it as a typedef using the name of the underlying type (i.e. type myUDT is a
+//   string)
+
 // Data types in packages inside the component are considered private.
 select many s_dts related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001];
 for each s_dt in s_dts
@@ -901,7 +896,7 @@ for each s_dt in s_dts
       select any prev_s_enum related by s_edt->S_ENUM[R27];
       while (not_empty prev_s_enum)
         assign s_enum = prev_s_enum;
-        select one prev_s_enum related by s_enum->S_ENUM[R56.''precedes''];
+        select one prev_s_enum related by s_enum->S_ENUM[R56.''succeeds''];
       end while;
       // now iterate over the entries building up the list
       enum_definition = "enum (";
@@ -914,7 +909,7 @@ for each s_dt in s_dts
         first = false;
         enum_definition = enum_definition + next_s_enum.Name;
         assign s_enum = next_s_enum;
-        select one next_s_enum related by s_enum->S_ENUM[R56.''succeeds''];
+        select one next_s_enum related by s_enum->S_ENUM[R56.''precedes''];
       end while;
       enum_definition = enum_definition + ")";      
       value[2] = enum_definition;
@@ -935,39 +930,69 @@ end for;
 // Data types in packages directly off of the system are considered public.
 select many ep_pkgs related by c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1401] where ( selected.Name != "types" );
 for each ep_pkg in ep_pkgs
-select many s_dts related by ep_pkg->PE_PE[R8000]->S_DT[R8001];
-for each s_dt in s_dts
-  value[0] = s_dt.Name;
-  value[1] = "public";
-
-  // get body of type
-  select one s_udt related by s_dt->S_UDT[R17];
-  if ( s_udt.Definition != "" )	// only output types if there is a definition
-    value[2] = s_udt.Definition;
-
-    out::populate( element:"type", value:value );
-
-    ::mark2pragma( markable:"User Data Type", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: s_dt.Name ) );
-
-    ::Descrip2description( Descrip:s_dt.Descrip );
-    out::populate( element:"type", value:emptyvalue );
-  end if;
-end for;
-end for;
-
-// Data types in subpackages of the system packages are also considered public
-select many sub_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001];
-while ( not_empty sub_pkgs )
-  select many s_dts related by sub_pkgs->PE_PE[R8000]->S_DT[R8001];
+  select many s_dts related by ep_pkg->PE_PE[R8000]->S_DT[R8001];
+  // Data types in subpackages of the system packages are also considered public
+  select many sub_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001];
+  while ( not_empty sub_pkgs )
+    select many sub_s_dts related by sub_pkgs->PE_PE[R8000]->S_DT[R8001];
+    s_dts = s_dts | sub_s_dts;
+    select many sub_pkgs related by sub_pkgs->PE_PE[R8000]->EP_PKG[R8001];
+  end while;
   for each s_dt in s_dts
-	value[0] = s_dt.Name;
-	value[1] = "public";
+    select one s_irdt related by s_dt->S_IRDT[R17];
+    // Do not output type definitions for instance reference data types.
+    if ( empty s_irdt )
+      select one s_udt related by s_dt->S_UDT[R17];
+      select one s_edt related by s_dt->S_EDT[R17];
 
-	// get body of type
-	select one s_udt related by s_dt->S_UDT[R17];
-    if ( s_udt.Definition != "" )	// only output types if there is a definition
-      value[2] = s_udt.Definition;
-
+      value[0] = s_dt.Name;
+      value[1] = "public";
+      
+      if ( not_empty s_udt )
+        // see what type the UDT is based on
+        select one base_s_dt related by s_udt->S_DT[R18];
+      
+        // get body of type
+        if ( s_udt.Definition != "" )
+          // handle case where there is a definition
+          value[2] = s_udt.Definition;
+        else
+          // There is no definition, use the underlying type.  If the underlying type
+          // is MASLtype, treat this as a typeref and do not output it.  Otherwise
+          // output using the underlying type as the definition.
+          if ( (base_s_dt.Name == "MASLtype") or (s_dt.Name == "MASLtype") )
+            continue;
+          else
+            value[2] = base_s_dt.Name;
+          end if;
+        end if;
+      elif ( not_empty s_edt )
+        select any s_enum from instances of S_ENUM where (false);
+        // get to the first entry
+        select any prev_s_enum related by s_edt->S_ENUM[R27];
+        while (not_empty prev_s_enum)
+          assign s_enum = prev_s_enum;
+          select one prev_s_enum related by s_enum->S_ENUM[R56.''succeeds''];
+        end while;
+        // now iterate over the entries building up the list
+        enum_definition = "enum (";
+        next_s_enum = s_enum;
+        first = true;
+        while (not_empty next_s_enum)
+          if (not first)
+            enum_definition = enum_definition + ", ";
+          end if;
+          first = false;
+          enum_definition = enum_definition + next_s_enum.Name;
+          assign s_enum = next_s_enum;
+          select one next_s_enum related by s_enum->S_ENUM[R56.''precedes''];
+        end while;
+        enum_definition = enum_definition + ")";      
+        value[2] = enum_definition;
+      else
+        continue;
+      end if;
+    
       out::populate( element:"type", value:value );
 
       select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
@@ -977,8 +1002,7 @@ while ( not_empty sub_pkgs )
       out::populate( element:"type", value:emptyvalue );
     end if;
   end for;
-  select many sub_pkgs related by sub_pkgs->PE_PE[R8000]->EP_PKG[R8001];
-end while;
+end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -1266,17 +1290,10 @@ for each s_sync in s_syncs
   end while;
   
   out::populate( element:"routine", value:value );
-  ::parameterS_SPARM2parameter( s_sparm:first_s_sparm );
+  ::parameterS_SPARM2parameter( s_sparm:first_s_sparm, containing_c_c:c_c );
   // find return type if exists
   select one s_dt related by s_sync->S_DT[R25];
-  if ( not_empty s_dt )
-    // Do not send a void typeref.  No typeref equals void in MASL.
-    if ( "void" != s_dt.Name )
-      value[0] = s_dt.Name;
-      out::populate( element:"typeref", value:value );
-      out::populate( element:"typeref", value:emptyvalue );
-    end if;
-  end if;
+  ::type2typeref( s_dt:s_dt, containing_c_c:c_c );
   
   if ( ActionDialect::masl == s_sync.Dialect )
     // Populate the action langauge body.
@@ -1333,12 +1350,9 @@ if ( not_empty s_sparm )
   end if;
   out::populate( element:"parameter", value:value );
   select one s_dt related by s_sparm->S_DT[R26];
-  value[0] = s_dt.Name;
-  value[1] = "";
-  out::populate( element:"typeref", value:value );
-  out::populate( element:"typeref", value:emptyvalue );
+  ::type2typeref( s_dt:s_dt, containing_c_c:param.containing_c_c );
   select one s_sparm related by s_sparm->S_SPARM[R54.''precedes''];
-  ::parameterS_SPARM2parameter( s_sparm:s_sparm );
+  ::parameterS_SPARM2parameter( s_sparm:s_sparm, containing_c_c:param.containing_c_c );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
 ',
@@ -1362,6 +1376,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("54ea74f9-6a06-4612-ac41-cf1c123f3134",
+	"be1ccb4a-cb4a-474d-b0b2-ed38f9f68441",
+	'containing_c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"60fb8b97-7f20-4095-b943-e08c3a8e2e31",
+	'');
 INSERT INTO PE_PE
 	VALUES ("be1ccb4a-cb4a-474d-b0b2-ed38f9f68441",
 	1,
@@ -1392,6 +1415,18 @@ if ( "assigner" != param.type )
   // Get all the transitions starting with "Non_Existent" state.
   value[0] = "Non_Existent";
   select many sm_evts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_EVT[R525];
+  // also collect creation events from the supertypes
+  select many supertype_isms related by sm_sm->SM_ISM[R517]->O_OBJ[R518]->R_OIR[R201]->R_RGO[R203]
+                                         ->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]
+                                         ->R_OIR[R203]->O_OBJ[R201]->SM_ISM[R518]->SM_SM[R517];
+  while ( not_empty supertype_isms )
+    select many cr_evts related by supertype_isms->SM_EVT[R502]->SM_SEVT[R525]->SM_LEVT[R526]->SM_CRTXN[R509]
+                                     ->SM_LEVT[R509]->SM_SEVT[R526]->SM_EVT[R525];
+    sm_evts = sm_evts | cr_evts;
+    select many supertype_isms related by supertype_isms->SM_ISM[R517]->O_OBJ[R518]->R_OIR[R201]->R_RGO[R203]
+                                           ->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]
+                                           ->R_OIR[R203]->O_OBJ[R201]->SM_ISM[R518]->SM_SM[R517];
+  end while;
   for each sm_evt in sm_evts
 	value[1] = ""; // domain
 	value[2] = ""; // object
@@ -1402,8 +1437,14 @@ if ( "assigner" != param.type )
 	// if a creation transition exists, use the state name as the destination
 	select one sm_crtxn related by sm_evt->SM_SEVT[R525]->SM_LEVT[R526]->SM_CRTXN[R509];
 	if ( not_empty sm_crtxn )
-	  select one sm_state related by sm_crtxn->SM_TXN[R507]->SM_STATE[R506];
-	  value[4] = sm_state.Name;
+      if ( sm_evt.SM_ID == sm_sm.SM_ID ) // creation events from supertype state machines must always go to ''Cannot_Happen''
+        select one sm_state related by sm_crtxn->SM_TXN[R507]->SM_STATE[R506];
+        value[4] = sm_state.Name;
+      else
+        // creation events from supertype state machines must always go to ''Cannot_Happen''
+        select one poly_o_obj related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
+        value[2] = poly_o_obj.Name;
+      end if;
 	end if;
 	// If event is non-local, then get the name of the supertype.
 	select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
@@ -1422,29 +1463,48 @@ end if;
 for each sm_state in sm_states
   value[0] = sm_state.Name;
   value[1] = ""; // domain
-  select many sm_semes related by sm_state->SM_SEME[R503]; 
-  for each sm_seme in sm_semes
+  select many sm_evts related by sm_state->SM_SEME[R503]->SM_SEVT[R503]->SM_EVT[R525];
+  // also collect creation events from the supertypes
+  select many supertype_isms related by sm_sm->SM_ISM[R517]->O_OBJ[R518]->R_OIR[R201]->R_RGO[R203]
+                                         ->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]
+                                         ->R_OIR[R203]->O_OBJ[R201]->SM_ISM[R518]->SM_SM[R517];
+  while ( not_empty supertype_isms )
+    select many cr_evts related by supertype_isms->SM_EVT[R502]->SM_SEVT[R525]->SM_LEVT[R526]->SM_CRTXN[R509]
+                                     ->SM_LEVT[R509]->SM_SEVT[R526]->SM_EVT[R525];
+    sm_evts = sm_evts | cr_evts;
+    select many supertype_isms related by supertype_isms->SM_ISM[R517]->O_OBJ[R518]->R_OIR[R201]->R_RGO[R203]
+                                           ->R_SUB[R205]->R_SUBSUP[R213]->R_SUPER[R212]->R_RTO[R204]
+                                           ->R_OIR[R203]->O_OBJ[R201]->SM_ISM[R518]->SM_SM[R517];
+  end while;
+  for each sm_evt in sm_evts
     value[2] = ""; // object
     value[3] = ""; value[4] = "";
-    select one sm_evt related by sm_seme->SM_SEVT[R503]->SM_EVT[R525];
     value[3] = sm_evt.Mning;
     select one poly_o_obj related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]->SM_PEVT[R527]->SM_EVT[R525]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
     if ( not_empty poly_o_obj and poly_o_obj.Obj_ID != o_obj.Obj_ID )
       value[2] = poly_o_obj.Name;
     end if;
-    select one next_sm_state related by sm_seme->SM_NSTXN[R504]->SM_TXN[R507]->SM_STATE[R506];
-    if ( not_empty next_sm_state )
-      value[4] = next_sm_state.Name;
+    if ( sm_evt.SM_ID != sm_sm.SM_ID )
+      // creation events from supertype state machines must always go to ''Cannot_Happen''
+      select one poly_o_obj related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
+      value[2] = poly_o_obj.Name;
+      value[4] = "Cannot_Happen";
     else
-      select one sm_eign related by sm_seme->SM_EIGN[R504];
-      if ( not_empty sm_eign )
-        value[4] = "Ignore";
+      select any sm_seme related by sm_evt->SM_SEVT[R525]->SM_SEME[R503] where ( selected.SMstt_ID == sm_state.SMstt_ID );
+      select one next_sm_state related by sm_seme->SM_NSTXN[R504]->SM_TXN[R507]->SM_STATE[R506];
+      if ( not_empty next_sm_state )
+        value[4] = next_sm_state.Name;
       else
-        select one sm_ch related by sm_seme->SM_CH[R504];
-        if ( not_empty sm_ch )
-          value[4] = "Cannot_Happen";
+        select one sm_eign related by sm_seme->SM_EIGN[R504];
+        if ( not_empty sm_eign )
+          value[4] = "Ignore";
         else
-          TRACE::log( flavor:"failure", id:102, message:"invalid state machine" );
+          select one sm_ch related by sm_seme->SM_CH[R504];
+          if ( not_empty sm_ch )
+            value[4] = "Cannot_Happen";
+          else
+            TRACE::log( flavor:"failure", id:102, message:"invalid state machine" );
+          end if;
         end if;
       end if;
     end if;
@@ -1525,6 +1585,17 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 o_obj = param.o_obj;
 sm_sm = param.sm_sm;
+select one pe related by o_obj->PE_PE[R8001];
+select any containing_c_c from instances of C_C where false;
+while ( empty containing_c_c and not_empty pe )
+  select one containing_c_c related by pe->C_C[R8003];
+  if ( empty containing_c_c )
+    select one pe related by pe->EP_PKG[R8000]->PE_PE[R8001];
+    // If pe is empty, we break out to avoid an infinite loop.
+    // This is when the top level system is reached without
+    // finding a containing component.
+  end if;
+end while;
 // Get the events for this class, and filter out polys.
 select many sm_evts related by sm_sm->SM_EVT[R502];
 for each sm_evt in sm_evts
@@ -1553,7 +1624,7 @@ for each sm_evt in sm_evts
     first_sm_evtdi = sm_evtdi;
     select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''succeeds''];
   end while;
-  ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi );
+  ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi, containing_c_c: containing_c_c );
   
   // Populate pragmas
   if ( "assigner" == param.type )
@@ -1614,6 +1685,17 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 o_obj = param.o_obj;
 sm_sm = param.sm_sm;
+select one pe related by o_obj->PE_PE[R8001];
+select any containing_c_c from instances of C_C where false;
+while ( empty containing_c_c and not_empty pe )
+  select one containing_c_c related by pe->C_C[R8003];
+  if ( empty containing_c_c )
+    select one pe related by pe->EP_PKG[R8000]->PE_PE[R8001];
+    // If pe is empty, we break out to avoid an infinite loop.
+    // This is when the top level system is reached without
+    // finding a containing component.
+  end if;
+end while;
 select many sm_states related by sm_sm->SM_STATE[R501];
 select any sm_state related by sm_sm->SM_STATE[R501];
 lowest = 7777;
@@ -1671,7 +1753,7 @@ for each sm_state in sm_states
     first_sm_evtdi = sm_evtdi;
     select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''succeeds''];
   end while;
-  ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi );
+  ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi, containing_c_c: containing_c_c );
   
   select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
   // Populate the action langauge body.
@@ -1742,12 +1824,9 @@ if ( not_empty sm_evtdi )
   value[1] = "in";
   out::populate( element:"parameter", value:value );
   select one s_dt related by sm_evtdi->S_DT[R524];
-  value[0] = s_dt.Name;
-  value[1] = "";
-  out::populate( element:"typeref", value:value );
-  out::populate( element:"typeref", value:emptyvalue );
+  ::type2typeref( s_dt:s_dt, containing_c_c:param.containing_c_c );
   select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''precedes''];
-  ::parameterSM_EVTDI2parameter( sm_evtdi:sm_evtdi );
+  ::parameterSM_EVTDI2parameter( sm_evtdi:sm_evtdi, containing_c_c:param.containing_c_c );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
 ',
@@ -1771,6 +1850,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("8c0781f2-8c87-4fa8-8bfc-1b8e635572fa",
+	"45112864-29c1-4db8-9cd5-3121f843a9ff",
+	'containing_c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"3cc94496-ce2a-4ae7-a208-d9eb28187713",
+	'');
 INSERT INTO PE_PE
 	VALUES ("45112864-29c1-4db8-9cd5-3121f843a9ff",
 	1,
@@ -1998,15 +2086,10 @@ for each o_tfr in o_tfrs
   end while;
   
   out::populate( element:"operation", value:value );
-  ::parameterO_TPARM2parameter( o_tparm:first_o_tparm );
+  ::parameterO_TPARM2parameter( o_tparm:first_o_tparm, containing_c_c:c_c );
   // find return type if exists
   select one s_dt related by o_tfr->S_DT[R116];
-  if ( "void" != s_dt.Name )
-    // Do not send a void typeref.  No typeref equals void in MASL.
-    value[0] = s_dt.Name;
-    out::populate( element:"typeref", value:value );
-    out::populate( element:"typeref", value:emptyvalue );
-  end if;
+  ::type2typeref( s_dt:s_dt, containing_c_c:c_c );
   
   // Populate the action langauge body.
   if ( not deferred )	// do not populate a codeblock if this is a deferred operation
@@ -2070,12 +2153,9 @@ if ( not_empty o_tparm )
   end if;
   out::populate( element:"parameter", value:value );
   select one s_dt related by o_tparm->S_DT[R118];
-  value[0] = s_dt.Name;
-  value[1] = "";
-  out::populate( element:"typeref", value:value );
-  out::populate( element:"typeref", value:emptyvalue );
+  ::type2typeref( s_dt:s_dt, containing_c_c:param.containing_c_c );
   select one o_tparm related by o_tparm->O_TPARM[R124.''precedes''];
-  ::parameterO_TPARM2parameter( o_tparm:o_tparm );
+  ::parameterO_TPARM2parameter( o_tparm:o_tparm, containing_c_c:param.containing_c_c );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
 ',
@@ -2099,6 +2179,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("1b1624ab-fdce-44c0-8e1e-83341952cbbc",
+	"1ec46b81-5ac9-470b-8a41-cb1d6fad4f3f",
+	'containing_c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"79a8a289-1d1d-4dd0-8a5c-769e1ea19030",
+	'');
 INSERT INTO PE_PE
 	VALUES ("1ec46b81-5ac9-470b-8a41-cb1d6fad4f3f",
 	1,
@@ -2876,6 +2965,122 @@ end if;',
 	0);
 INSERT INTO PE_PE
 	VALUES ("12b0e811-e469-45bb-93a9-70c47457f5d8",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6c0ff46e-0f2b-48a5-98c2-644ae0cee595",
+	"00000000-0000-0000-0000-000000000000",
+	'type2typeref',
+	'',
+	'value[7]=""; value[6]=""; value[5]=""; value[4]=""; value[3]=""; value[2]=""; value[1]=""; value[0]="";
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+s_dt = param.s_dt;
+containing_c_c = param.containing_c_c;
+if ( not_empty s_dt )
+   // Do not send a void typeref.  No typeref equals void in MASL.
+  if ( "void" != s_dt.Name )
+    value[0] = s_dt.Name;  // typref is the name of the type
+    // if the type is already qualified with a domain name, no need to qualify it again
+    if ( -1 == STRING::indexof( haystack:s_dt.Name, needle:"::" ) )
+      // If type is inside a component, it is local.
+      select one parent_ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
+      select one parent_c_c related by parent_ep_pkg->PE_PE[R8001]->C_C[R8003];
+      while ( not_empty parent_ep_pkg and empty parent_c_c )
+        select one parent_ep_pkg related by parent_ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
+        select one parent_c_c related by parent_ep_pkg->PE_PE[R8001]->C_C[R8003];
+      end while;
+      if ( empty parent_c_c ) // not in a component, so keep looking
+        // check if this type is defined in the same domain
+        // Do this by traversing up from the type to see if ever we hit the domain package (containing the domain component).
+        select one dt_ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
+        select one domain_ep_pkg related by containing_c_c->PE_PE[R8001]->EP_PKG[R8000];
+        same_domain = false;
+        while ( not_empty dt_ep_pkg )
+          if ( dt_ep_pkg == domain_ep_pkg )
+            same_domain = true;
+            break;
+          end if;
+          select one dt_ep_pkg related by dt_ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
+        end while;
+        if ( not same_domain ) // foreign type, find owner
+          // Otherwise, foreign.  Find owning domain.
+          select any domain_c_c from instances of C_C where false;
+          select one containing_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
+          // if containing_pkg is empty, we are either directly under a system or inside a component.
+          // if inside a component, this type is private anyway (and cannot be referenced from another domain).
+          // if under the system we need to break out to avoid an infinite loop scenario.
+          while ( empty domain_c_c and not_empty containing_pkg )
+            // find the nearest sibling component. if there are more than one, show an error
+            select many domain_c_cs related by containing_pkg->PE_PE[R8000]->C_C[R8001];
+            if ( cardinality domain_c_cs > 1 )
+              TRACE::log( id:76, flavor:"warning", message:"Multiple domain components found for type: " + s_dt.Name );
+              break;
+            else
+              for each c_c in domain_c_cs
+                domain_c_c = c_c; // because of the above check, this only gets executed once
+              end for;
+            end if;
+            select one containing_pkg related by containing_pkg->PE_PE[R8001]->EP_PKG[R8000];
+            if ( empty containing_pkg and empty domain_c_c )
+              TRACE::log( id:75, flavor:"warning", message:"No domain component found for type: " + s_dt.Name );
+            end if;
+          end while;
+          // qualify the type name with the name of the domain
+          if ( not_empty domain_c_c )
+            value[0] = domain_c_c.Name + "::" + value[0];
+          end if;
+        else
+          // local to domain, no qualification needed
+        end if;
+      else
+        // private, inside a component
+      end if;
+    else
+      // already has qualifier
+    end if;
+    // special mappings
+    if ( s_dt.Name == "MASLunique" )  // MASLunique is always an integer
+      value[0] = "integer";
+    elif ( s_dt.Name == "inst_ref<Timer>" ) // inst_ref<Timer> maps to MASL timer
+      value[0] = "timer";
+    end if;
+    out::populate( element:"typeref", value:value );
+    out::populate( element:"typeref", value:emptyvalue );
+  end if;
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("a8ee1b9b-1d34-4718-b0d2-e06eaee133c2",
+	"6c0ff46e-0f2b-48a5-98c2-644ae0cee595",
+	's_dt',
+	"4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Data Type>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("dc29636c-1d46-4544-a9e9-ced44060790e",
+	"6c0ff46e-0f2b-48a5-98c2-644ae0cee595",
+	'containing_c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"a8ee1b9b-1d34-4718-b0d2-e06eaee133c2",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6c0ff46e-0f2b-48a5-98c2-644ae0cee595",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
