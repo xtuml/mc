@@ -68,7 +68,7 @@ ${te_target.c2cplusplus_linkage_end}
   .// get first attribute
   .select any te_attr related by te_class->TE_ATTR[R2061]
   .while ( not_empty te_attr )
-    .select one prev_te_attr related by te_attr->TE_ATTR[R2087.'precedes']
+    .select one prev_te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
     .if ( empty prev_te_attr )
       .break while
     .end if
@@ -104,7 +104,7 @@ ${te_target.c2cplusplus_linkage_end}
       .end if
     .end if
     .// Advance to the next object attribute, if any.
-    .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+    .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
   .end while
 .end function
 .//
@@ -266,14 +266,14 @@ class ${te_c.Name}; // forward reference
     .assign te_ee = r.result
     .while ( not_empty te_ee )
 #include "${te_ee.Include_File}"
-      .select one te_ee related by te_ee->TE_EE[R2096.'succeeds']
+      .select one te_ee related by te_ee->TE_EE[R2096.'precedes']
     .end while
     .select one te_ee related by te_c->TE_EE[R2098]
     .while ( not_empty te_ee )
       .if ( te_ee.Included )
 #include "${te_ee.Include_File}"
       .end if
-      .select one te_ee related by te_ee->TE_EE[R2096.'succeeds']
+      .select one te_ee related by te_ee->TE_EE[R2096.'precedes']
     .end while
     .if ( "C" == te_target.language )
       .select any te_sync related by te_c->TE_SYNC[R2084]

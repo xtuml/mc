@@ -16,7 +16,7 @@
     .if ( te_sync.IsInitFunction and te_sync.XlateSemantics )
       .include "${te_file.arc_path}/t.domain_init.te_sync.c"
     .end if
-    .select one te_sync related by te_sync->TE_SYNC[R2095.'succeeds']
+    .select one te_sync related by te_sync->TE_SYNC[R2095.'precedes']
   .end while
 .end function
 .//
@@ -56,7 +56,7 @@
   .assign first_te_class = te_class
   .while ( not_empty te_class )
     .assign first_te_class = te_class
-    .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
+    .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
   .end while
   .assign object_set_type = 0
   .while ( object_set_type < 3 )
@@ -103,7 +103,7 @@
       .end if
       .assign delimiter = ","
       .end if
-      .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
+      .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
     .end while
     .assign object_set_type = object_set_type + 1
   .end while
@@ -114,7 +114,7 @@
   .assign te_class = first_te_class
   .while ( not_empty te_class )
     .assign class_includes = class_includes + "\n#include ""${te_class.class_file}.${te_file.hdr_file_ext}"""
-    .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
+    .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
   .end while
   .assign te_class = first_te_class
   .invoke r = CreateUnionOfDomainEvents( te_c )

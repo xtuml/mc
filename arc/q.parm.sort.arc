@@ -2,13 +2,13 @@
 .function sparm_sort
   .param inst_ref_set s_sparms
   .for each s_sparm in s_sparms
-    .select one prev_s_sparm related by s_sparm->S_SPARM[R54.'precedes']
+    .select one prev_s_sparm related by s_sparm->S_SPARM[R54.'succeeds']
     .if ( not_empty prev_s_sparm )
       .unrelate s_sparm from prev_s_sparm across R54.'succeeds'
     .end if
   .end for
   .// Declare an empty instance reference.
-  .select any head_s_sparm related by s_sparms->S_SPARM[R54.'precedes'] where ( false )
+  .select any head_s_sparm related by s_sparms->S_SPARM[R54.'succeeds'] where ( false )
   .for each s_sparm in s_sparms
     .invoke r = sparm_insert( head_s_sparm, s_sparm )
     .assign head_s_sparm = r.result
@@ -27,21 +27,17 @@
     .// find bigger
     .assign result = head_s_sparm
     .assign prev_s_sparm = head_s_sparm
-    .select one cursor_s_sparm related by head_s_sparm->S_SPARM[R54.'succeeds']
+    .select one cursor_s_sparm related by head_s_sparm->S_SPARM[R54.'precedes']
     .while ( not_empty cursor_s_sparm )
       .if ( s_sparm.Name <= cursor_s_sparm.Name )
         .break while
       .else
         .assign prev_s_sparm = cursor_s_sparm
-        .select one cursor_s_sparm related by cursor_s_sparm->S_SPARM[R54.'succeeds']
+        .select one cursor_s_sparm related by cursor_s_sparm->S_SPARM[R54.'precedes']
       .end if
     .end while
     .if ( not_empty cursor_s_sparm )
-      .if ( "pyrsl v1.99" > info.interpreter_version )
-        .assign cursor_s_sparm.Previous_SParm_ID = 00
-      .else
-        .unrelate prev_s_sparm from cursor_s_sparm across R54.'precedes'
-      .end if
+      .unrelate prev_s_sparm from cursor_s_sparm across R54.'precedes'
       .relate s_sparm to cursor_s_sparm across R54.'precedes'
     .end if
     .relate prev_s_sparm to s_sparm across R54.'precedes'
@@ -53,13 +49,13 @@
 .function bparm_sort
   .param inst_ref_set s_bparms
   .for each s_bparm in s_bparms
-    .select one prev_s_bparm related by s_bparm->S_BPARM[R55.'precedes']
+    .select one prev_s_bparm related by s_bparm->S_BPARM[R55.'succeeds']
     .if ( not_empty prev_s_bparm )
       .unrelate s_bparm from prev_s_bparm across R55.'succeeds'
     .end if
   .end for
   .// Declare an empty instance reference.
-  .select any head_s_bparm related by s_bparms->S_BPARM[R55.'precedes'] where ( false )
+  .select any head_s_bparm related by s_bparms->S_BPARM[R55.'succeeds'] where ( false )
   .for each s_bparm in s_bparms
     .invoke r = bparm_insert( head_s_bparm, s_bparm )
     .assign head_s_bparm = r.result
@@ -78,21 +74,17 @@
     .// find bigger
     .assign result = head_s_bparm
     .assign prev_s_bparm = head_s_bparm
-    .select one cursor_s_bparm related by head_s_bparm->S_BPARM[R55.'succeeds']
+    .select one cursor_s_bparm related by head_s_bparm->S_BPARM[R55.'precedes']
     .while ( not_empty cursor_s_bparm )
       .if ( s_bparm.Name <= cursor_s_bparm.Name )
         .break while
       .else
         .assign prev_s_bparm = cursor_s_bparm
-        .select one cursor_s_bparm related by cursor_s_bparm->S_BPARM[R55.'succeeds']
+        .select one cursor_s_bparm related by cursor_s_bparm->S_BPARM[R55.'precedes']
       .end if
     .end while
     .if ( not_empty cursor_s_bparm )
-      .if ( "pyrsl v1.99" > info.interpreter_version )
-        .assign cursor_s_bparm.Previous_BParm_ID = 00
-      .else
-        .unrelate prev_s_bparm from cursor_s_bparm across R55.'precedes'
-      .end if
+      .unrelate prev_s_bparm from cursor_s_bparm across R55.'precedes'
       .relate s_bparm to cursor_s_bparm across R55.'precedes'
     .end if
     .relate prev_s_bparm to s_bparm across R55.'precedes'
@@ -104,13 +96,13 @@
 .function tparm_sort
   .param inst_ref_set o_tparms
   .for each o_tparm in o_tparms
-    .select one prev_o_tparm related by o_tparm->O_TPARM[R124.'precedes']
+    .select one prev_o_tparm related by o_tparm->O_TPARM[R124.'succeeds']
     .if ( not_empty prev_o_tparm )
       .unrelate o_tparm from prev_o_tparm across R124.'succeeds'
     .end if
   .end for
   .// Declare an empty instance reference.
-  .select any head_o_tparm related by o_tparms->O_TPARM[R124.'precedes'] where ( false )
+  .select any head_o_tparm related by o_tparms->O_TPARM[R124.'succeeds'] where ( false )
   .for each o_tparm in o_tparms
     .invoke r = tparm_insert( head_o_tparm, o_tparm )
     .assign head_o_tparm = r.result
@@ -129,21 +121,17 @@
     .// find bigger
     .assign result = head_o_tparm
     .assign prev_o_tparm = head_o_tparm
-    .select one cursor_o_tparm related by head_o_tparm->O_TPARM[R124.'succeeds']
+    .select one cursor_o_tparm related by head_o_tparm->O_TPARM[R124.'precedes']
     .while ( not_empty cursor_o_tparm )
       .if ( o_tparm.Name <= cursor_o_tparm.Name )
         .break while
       .else
         .assign prev_o_tparm = cursor_o_tparm
-        .select one cursor_o_tparm related by cursor_o_tparm->O_TPARM[R124.'succeeds']
+        .select one cursor_o_tparm related by cursor_o_tparm->O_TPARM[R124.'precedes']
       .end if
     .end while
     .if ( not_empty cursor_o_tparm )
-      .if ( "pyrsl v1.99" > info.interpreter_version )
-        .assign cursor_o_tparm.Previous_TParm_ID = 00
-      .else
-        .unrelate prev_o_tparm from cursor_o_tparm across R124.'precedes'
-      .end if
+      .unrelate prev_o_tparm from cursor_o_tparm across R124.'precedes'
       .relate o_tparm to cursor_o_tparm across R124.'precedes'
     .end if
     .relate prev_o_tparm to o_tparm across R124.'precedes'
@@ -155,13 +143,13 @@
 .function evtdi_sort
   .param inst_ref_set sm_evtdis
   .for each sm_evtdi in sm_evtdis
-    .select one prev_sm_evtdi related by sm_evtdi->SM_EVTDI[R533.'precedes']
+    .select one prev_sm_evtdi related by sm_evtdi->SM_EVTDI[R533.'succeeds']
     .if ( not_empty prev_sm_evtdi )
       .unrelate sm_evtdi from prev_sm_evtdi across R533.'succeeds'
     .end if
   .end for
   .// Declare an empty instance reference.
-  .select any head_sm_evtdi related by sm_evtdis->SM_EVTDI[R533.'precedes'] where ( false )
+  .select any head_sm_evtdi related by sm_evtdis->SM_EVTDI[R533.'succeeds'] where ( false )
   .for each sm_evtdi in sm_evtdis
     .invoke r = evtdi_insert( head_sm_evtdi, sm_evtdi )
     .assign head_sm_evtdi = r.result
@@ -180,21 +168,17 @@
     .// find bigger
     .assign result = head_sm_evtdi
     .assign prev_sm_evtdi = head_sm_evtdi
-    .select one cursor_sm_evtdi related by head_sm_evtdi->SM_EVTDI[R533.'succeeds']
+    .select one cursor_sm_evtdi related by head_sm_evtdi->SM_EVTDI[R533.'precedes']
     .while ( not_empty cursor_sm_evtdi )
       .if ( sm_evtdi.Name <= cursor_sm_evtdi.Name )
         .break while
       .else
         .assign prev_sm_evtdi = cursor_sm_evtdi
-        .select one cursor_sm_evtdi related by cursor_sm_evtdi->SM_EVTDI[R533.'succeeds']
+        .select one cursor_sm_evtdi related by cursor_sm_evtdi->SM_EVTDI[R533.'precedes']
       .end if
     .end while
     .if ( not_empty cursor_sm_evtdi )
-      .if ( "pyrsl v1.99" > info.interpreter_version )
-        .assign cursor_sm_evtdi.Previous_SMedi_ID = 00
-      .else
-        .unrelate prev_sm_evtdi from cursor_sm_evtdi across R533.'precedes'
-      .end if
+      .unrelate prev_sm_evtdi from cursor_sm_evtdi across R533.'precedes'
       .relate sm_evtdi to cursor_sm_evtdi across R533.'precedes'
     .end if
     .relate prev_sm_evtdi to sm_evtdi across R533.'precedes'
@@ -206,13 +190,13 @@
 .function pp_sort
   .param inst_ref_set c_pps
   .for each c_pp in c_pps
-    .select one prev_c_pp related by c_pp->C_PP[R4021.'precedes']
+    .select one prev_c_pp related by c_pp->C_PP[R4021.'succeeds']
     .if ( not_empty prev_c_pp )
       .unrelate c_pp from prev_c_pp across R4021.'succeeds'
     .end if
   .end for
   .// Declare an empty instance reference.
-  .select any head_c_pp related by c_pps->C_PP[R4021.'precedes'] where ( false )
+  .select any head_c_pp related by c_pps->C_PP[R4021.'succeeds'] where ( false )
   .for each c_pp in c_pps
     .invoke r = pp_insert( head_c_pp, c_pp )
     .assign head_c_pp = r.result
@@ -231,21 +215,17 @@
     .// find bigger
     .assign result = head_c_pp
     .assign prev_c_pp = head_c_pp
-    .select one cursor_c_pp related by head_c_pp->C_PP[R4021.'succeeds']
+    .select one cursor_c_pp related by head_c_pp->C_PP[R4021.'precedes']
     .while ( not_empty cursor_c_pp )
       .if ( c_pp.Name <= cursor_c_pp.Name )
         .break while
       .else
         .assign prev_c_pp = cursor_c_pp
-        .select one cursor_c_pp related by cursor_c_pp->C_PP[R4021.'succeeds']
+        .select one cursor_c_pp related by cursor_c_pp->C_PP[R4021.'precedes']
       .end if
     .end while
     .if ( not_empty cursor_c_pp )
-      .if ( "pyrsl v1.99" > info.interpreter_version )
-        .assign cursor_c_pp.Previous_PP_ID = 00
-      .else
-        .unrelate prev_c_pp from cursor_c_pp across R4021.'precedes'
-      .end if
+      .unrelate prev_c_pp from cursor_c_pp across R4021.'precedes'
       .relate c_pp to cursor_c_pp across R4021.'precedes'
     .end if
     .relate prev_c_pp to c_pp across R4021.'precedes'

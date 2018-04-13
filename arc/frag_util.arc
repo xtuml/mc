@@ -24,7 +24,7 @@
   .// Be sure we have the first attribute in the class.
   .select any first_te_attr related by te_class->TE_ATTR[R2061]
   .while ( not_empty first_te_attr )
-    .select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'precedes']
+    .select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds']
     .if ( empty prev_te_attr )
       .break while
     .end if
@@ -49,7 +49,7 @@
     .end if
     .//
     .// Advance to the next object attribute, if any.
-    .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+    .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
   .end while
 .end function
 .//
@@ -69,7 +69,7 @@
     .// Be sure we have the first attribute in the class.
     .select any first_te_attr related by te_class->TE_ATTR[R2061]
     .while ( not_empty first_te_attr )
-      .select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'precedes']
+      .select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds']
       .if ( empty prev_te_attr )
         .break while
       .end if
@@ -85,7 +85,7 @@
       .end if
       .assign compare_stmt = compare_stmt + cmp_element
       .// Advance to the next object attribute, if any.
-      .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+      .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
       .if ( not_empty te_attr )
         .assign compare_stmt = compare_stmt + " && "
       .end if
@@ -108,7 +108,7 @@
   .// Be sure we have the first attribute in the class.
   .select any first_te_attr related by te_class->TE_ATTR[R2061]
   .while ( not_empty first_te_attr )
-    .select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'precedes']
+    .select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds']
     .if ( empty prev_te_attr )
       .break while
     .end if
@@ -123,7 +123,7 @@
         .assign param_list = param_list + ", "
       .end if
     .end if
-    .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+    .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
   .end while
   .//
   .assign attr_result = param_list

@@ -992,7 +992,7 @@
       .if (not_empty sm_evtdi)
       .print "-=m=m=m=-=-=-=-=-=-=-=-=-=- sm_evtdi is ${sm_evtdi.Name}"
       .end if
-      .select one v_par related by v_par->V_PAR[R816.'succeeds']
+      .select one v_par related by v_par->V_PAR[R816.'precedes']
     .end if
   .end while
 .end function
@@ -1903,7 +1903,7 @@ ${ws}{\
       .else
         .include "${te_file.arc_path}/t.smt_sr.chaintom.c"
       .end if
-      .select one te_lnk related by te_lnk->TE_LNK[R2075.'succeeds']
+      .select one te_lnk related by te_lnk->TE_LNK[R2075.'precedes']
     .end while
     .assign te_smt.OAL = te_smt.OAL + te_lnk.OAL
     .assign cast = ""

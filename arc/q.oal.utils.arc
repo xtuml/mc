@@ -116,7 +116,7 @@
         .// Be sure we have the first attribute in the class.
         .select any first_te_attr related by te_class->TE_ATTR[R2061]
         .while ( not_empty first_te_attr )
-          .select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'precedes']
+          .select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds']
           .if ( empty prev_te_attr )
             .break while
           .end if
@@ -134,7 +134,7 @@
             .end if
           .end if
           .//
-          .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+          .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
         .end while
         .//
         .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
@@ -165,7 +165,7 @@
             .end if
           .end if
           .//
-          .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+          .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
         .end while
         .//
         .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
@@ -197,7 +197,7 @@
               .end if
             .end if
             .//
-            .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+            .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
           .end while
           .//
           .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
@@ -225,7 +225,7 @@
               .end if
             .end if
             .//
-            .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+            .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
           .end while
           .//
           .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
