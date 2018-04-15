@@ -18,14 +18,14 @@ to test and get identical code generation.
 
 ### 3. Background
 
-`pyrsl` is the interpreter that process MC-3020 archetype files and
+`pyrsl` is the interpreter that processes MC-3020 archetype files and
 generates C code.  `pyrsl` is used for other model compilers as well.
 MC-3020 ships with BridgePoint.  MC-3020 has been using the 1.0 and
 earlier versions of `pyrsl`.  Version 2 of `pyrsl` is not backwards
 compatible with version 1, because it corrects a flaw in reflexive
-role phrases in `select` statements.  Version 2 of `pyrsl` has improved
-support for 'relate' and 'unrelate' statements as well as other features
-desirable for use in forward maintenance.
+role phrases in `select ... related` statements.  Version 2 of `pyrsl`
+has improved support for 'relate' and 'unrelate' statements as well as
+other features desirable for use in forward maintenance.
 
 The primary change to archetypes using `pyrsl` version 2 is that reflexive
 role phrases in 'select ... related' statements are corrected to be
@@ -37,7 +37,7 @@ gets aligned!
 
 4.1 Update MC-3020 to work with `pyrsl` version 2.  
 4.2 Remove checks for specific versions of `pyrsl` in the archetypes.  
-4.3 Testing must produce identical output.  
+4.3 Testing shall confirm identical output between the two versions.  
 
 ### 5. Work Required
 
@@ -91,7 +91,7 @@ correct `gen_erate.pyz` into your `tools/mc/bin` directory.
 for this work.  E.g. `ln -s ~/git/mc/arc arc` in your `tools/mc` folder.  
 7.1.6 Compile GPS Watch with MC-3020.  
 7.1.7 Copy the generated `src` directory somewhere safe.  
-7.1.8 Compare the src from steps 7.1.3 and 7.1.7 to ensure they equivalence.  
+7.1.8 Compare the src from steps 7.1.3 and 7.1.7 to ensure equivalence.  
 
 7.2 More Models  
 Some of the steps above can be automated for a larger set of models.
@@ -131,9 +131,36 @@ no changes required
 ### 9. Code Changes
 
 <pre>
-Fork/Repository: < enter your fork and repo name name >
-Branch: < enter your branch name here >
-
+Fork/Repository:  cortlandstarrett/mc
+Branch:  9824_mcmc
+ arc/c/q.component.arc           |  16 +++++------
+ arc/c/q.domain_description.xml  |   4 +--
+ arc/c/sys.arc                   |   6 +---
+ arc/frag_util.arc               |  12 ++++----
+ arc/q.class.arc                 |   8 +++---
+ arc/q.class.events.arc          |   8 +++---
+ arc/q.class.factory.arc         |   8 +++---
+ arc/q.class.instance.dumper.arc |   2 +-
+ arc/q.class.pei.arc             |   2 +-
+ arc/q.class.where.arc           |   4 +--
+ arc/q.domain.classes.arc        |   8 +++---
+ arc/q.domain.datatype.arc       |   8 +++---
+ arc/q.domain.sync.arc           |   4 +--
+ arc/q.oal.act_blk.arc           |   6 ++--
+ arc/q.oal.utils.arc             |  10 +++----
+ arc/q.parameters.arc            |   4 +--
+ arc/q.parm.sort.arc             |  70 ++++++++++++++++-----------------------------
+ arc/q.rel.pseudoformalize.arc   |   5 +---
+ arc/q.smt.generate.arc          |   4 +--
+ arc/q.sys.populate.arc          |  96 +++++++++++++++++++++++---------------------------------------
+ arc/q.val.translate.arc         |   2 +-
+ arc/sys_util.arc                |   6 ++--
+ arc/sysc/q.component.arc        |  32 ++++++++++-----------
+ arc/t.sys_events.c              |   8 +++---
+ bin/gen_erate.pyz               | Bin 478010 -> 493311 bytes
+ bin/win/gen_erate.exe           | Bin 5755994 -> 5758686 bytes
+ doc/notes/10204_pyrsl2_int.md   | 140 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 27 files changed, 281 insertions(+), 192 deletions(-)
 </pre>
 
 ### End
