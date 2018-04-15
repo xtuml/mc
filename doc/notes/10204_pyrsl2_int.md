@@ -37,7 +37,8 @@ gets aligned!
 
 4.1 Update MC-3020 to work with `pyrsl` version 2.  
 4.2 Remove checks for specific versions of `pyrsl` in the archetypes.  
-4.3 Testing shall confirm identical output between the two versions.  
+4.3 Stop doing `swapreflex.sh` in RSL-to-OAL conversion.  
+4.4 Testing shall confirm identical output between the two versions.  
 
 ### 5. Work Required
 
@@ -56,7 +57,11 @@ cp $1 /tmp/mc/$1
 which did not fully support 'relate' and 'unrelate'.  We can (and should)
 now stop doing this.  These conditional branches are removed.
 
-5.3 testing  
+5.3 `swapreflex`  
+A script used when converting RSL to OAL for `mcmc` swaps reflexive
+role phrases.  This now stops.
+
+5.4 testing  
 Testing was done that simply `diff`s generated code.  A set of models
 which give good coverage are used to compare the output of `pyrsl` version
 1 and `pyrsl` version 2.  Success requires identical output.
@@ -133,34 +138,36 @@ no changes required
 <pre>
 Fork/Repository:  cortlandstarrett/mc
 Branch:  9824_mcmc
- arc/c/q.component.arc           |  16 +++++------
+ arc/c/q.component.arc           |  16 ++++-----
  arc/c/q.domain_description.xml  |   4 +--
  arc/c/sys.arc                   |   6 +---
- arc/frag_util.arc               |  12 ++++----
- arc/q.class.arc                 |   8 +++---
- arc/q.class.events.arc          |   8 +++---
- arc/q.class.factory.arc         |   8 +++---
+ arc/frag_util.arc               |  12 +++----
+ arc/q.class.arc                 |   8 ++---
+ arc/q.class.events.arc          |   8 ++---
+ arc/q.class.factory.arc         |   8 ++---
  arc/q.class.instance.dumper.arc |   2 +-
  arc/q.class.pei.arc             |   2 +-
  arc/q.class.where.arc           |   4 +--
- arc/q.domain.classes.arc        |   8 +++---
- arc/q.domain.datatype.arc       |   8 +++---
+ arc/q.domain.classes.arc        |   8 ++---
+ arc/q.domain.datatype.arc       |   8 ++---
  arc/q.domain.sync.arc           |   4 +--
  arc/q.oal.act_blk.arc           |   6 ++--
- arc/q.oal.utils.arc             |  10 +++----
+ arc/q.oal.utils.arc             |  10 +++---
  arc/q.parameters.arc            |   4 +--
- arc/q.parm.sort.arc             |  70 ++++++++++++++++-----------------------------
- arc/q.rel.pseudoformalize.arc   |   5 +---
+ arc/q.parm.sort.arc             |  70 ++++++++++++++------------------------
+ arc/q.rel.pseudoformalize.arc   |   5 +--
  arc/q.smt.generate.arc          |   4 +--
- arc/q.sys.populate.arc          |  96 +++++++++++++++++++++++---------------------------------------
+ arc/q.sys.populate.arc          |  96 ++++++++++++++++++++--------------------------------
  arc/q.val.translate.arc         |   2 +-
  arc/sys_util.arc                |   6 ++--
- arc/sysc/q.component.arc        |  32 ++++++++++-----------
- arc/t.sys_events.c              |   8 +++---
+ arc/sysc/q.component.arc        |  32 +++++++++---------
+ arc/t.sys_events.c              |   8 ++---
  bin/gen_erate.pyz               | Bin 478010 -> 493311 bytes
  bin/win/gen_erate.exe           | Bin 5755994 -> 5758686 bytes
- doc/notes/10204_pyrsl2_int.md   | 140 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 27 files changed, 281 insertions(+), 192 deletions(-)
+ doc/notes/10204_pyrsl2_int.md   | 167 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ mcmc/arlan/current_list.sh      |  52 ++++++++++++++--------------
+ mcmc/arlan/swapreflex.sh        |   7 ----
+ 29 files changed, 334 insertions(+), 225 deletions(-)
 </pre>
 
 ### End
