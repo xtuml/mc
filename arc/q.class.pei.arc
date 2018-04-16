@@ -127,7 +127,7 @@
       .end if
       .//
       .// Advance to the next object attribute, if any.
-      .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+      .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
       .//
       .// Generate comma separator.
       .if ( not_empty te_attr )

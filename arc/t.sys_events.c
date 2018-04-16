@@ -33,7 +33,7 @@ static const ${te_typemap.object_number_name} ${te_dci.task_list}[ ${te_dci.max_
   ${te_dci.task_numbers}
 };
       .end if
-      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+      .select one te_c related by te_c->TE_C[R2017.'precedes']
     .end while
 static const ${te_typemap.object_number_name} * const class_thread_assignment[ SYSTEM_DOMAIN_COUNT ] = {
     .assign delimiter = ","
@@ -41,7 +41,7 @@ static const ${te_typemap.object_number_name} * const class_thread_assignment[ S
     .while ( not_empty te_c )
       .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
       .select one te_dci related by te_c->TE_DCI[R2090]
-      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+      .select one te_c related by te_c->TE_C[R2017.'precedes']
       .if ( empty te_c )
         .assign delimiter = ""
       .end if
@@ -74,7 +74,7 @@ typedef union {
     .if ( not_empty te_evt )
   ${te_c.Name}_DomainEvents_u mc_events_in_domain_${te_c.Name};
     .end if
-    .select one te_c related by te_c->TE_C[R2017.'succeeds']
+    .select one te_c related by te_c->TE_C[R2017.'precedes']
   .end while
 } ${te_eq.system_events_union}_t;
 
@@ -569,7 +569,7 @@ static void ooa_loop( void )
       .else
       0\
       .end if
-      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+      .select one te_c related by te_c->TE_C[R2017.'precedes']
       .if ( empty te_c )
 
       .else

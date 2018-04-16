@@ -816,7 +816,7 @@
     .// CDS:  do not know how to do this with array_spec
     .assign te_val.array_spec = root_te_val.array_spec
     .assign te_val.dimensions = root_te_val.dimensions - 1
-    .select one next_te_dim related by root_te_val->TE_DIM[R2079]->TE_DIM[R2060.'succeeds']
+    .select one next_te_dim related by root_te_val->TE_DIM[R2079]->TE_DIM[R2060.'precedes']
     .if ( not_empty next_te_dim )
       .relate te_val to next_te_dim across R2079
     .end if

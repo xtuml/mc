@@ -36,7 +36,7 @@
     .break for
   .end for
   .while ( not_empty te_parm )
-    .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes']
+    .select one prev_te_parm related by te_parm->TE_PARM[R2041.'succeeds']
     .if ( empty prev_te_parm )
       .break while
     .else
@@ -50,7 +50,7 @@
       .select one te_dt related by te_parm->TE_DT[R2049]
   ${te_dt.ExtName} ${te_parm.GeneratedName}${te_parm.array_spec}; /* ${te_parm.Name} */
     .end if
-    .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
+    .select one te_parm related by te_parm->TE_PARM[R2041.'precedes']
   .end while
   .assign attr_result = result
 .end function
@@ -300,7 +300,7 @@ typedef union {
   .assign prev_te_class = te_class
   .while ( not_empty prev_te_class )
     .assign te_class = prev_te_class
-    .select one prev_te_class related by te_class->TE_CLASS[R2092.'precedes']
+    .select one prev_te_class related by te_class->TE_CLASS[R2092.'succeeds']
   .end while
   .while ( not_empty te_class )
     .select one o_obj related by te_class->O_OBJ[R2019]
@@ -322,7 +322,7 @@ typedef union {
     .if ( not_empty te_evt )
       .assign asm_unions = asm_unions + "  ${te_sm.events_union} ${te_sm.events_union}_namespace;\n"
     .end if
-    .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
+    .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
   .end while
   .if ( ( "" != asm_unions ) or ( "" != ism_unions ) )
 

@@ -36,7 +36,7 @@ ${r.body}\
     .// Find the first member of the structure.
     .select any first_te_mbr from instances of TE_MBR where ( false )
     .for each s_mbr in s_mbrs
-      .select one previous_s_mbr related by s_mbr->S_MBR[R46.'precedes']
+      .select one previous_s_mbr related by s_mbr->S_MBR[R46.'succeeds']
       .if ( empty previous_s_mbr )
         .select one first_te_mbr related by s_mbr->TE_MBR[R2047]
         .break for
@@ -51,7 +51,7 @@ ${r.body}\
       .else
         .assign te_dt.Initial_Value = te_dt.Initial_Value + "{${mbr_te_dt.Initial_Value}}"
       .end if
-      .select one te_mbr related by te_mbr->TE_MBR[R2067.'succeeds']
+      .select one te_mbr related by te_mbr->TE_MBR[R2067.'precedes']
       .if ( not_empty te_mbr )
         .assign te_dt.Initial_Value = te_dt.Initial_Value + ","
       .end if
@@ -87,7 +87,7 @@ ${r.body}\
     .select any prev_s_enum related by s_edt->S_ENUM[R27]
     .while (not_empty prev_s_enum)
       .assign s_enum = prev_s_enum
-      .select one prev_s_enum related by prev_s_enum->S_ENUM[R56.'precedes']
+      .select one prev_s_enum related by prev_s_enum->S_ENUM[R56.'succeeds']
     .end while
 /*
  * Enumerated Data Type:  ${te_dt.Name}
@@ -104,7 +104,7 @@ typedef enum {
         .assign intvalue = intvalue + 1
       .end if
  = ${intvalue}\
-      .select one s_enum related by s_enum->S_ENUM[R56.'succeeds']
+      .select one s_enum related by s_enum->S_ENUM[R56.'precedes']
       .if  ( not_empty s_enum )
 ,
       .else
