@@ -76,7 +76,7 @@
         .if ( empty next )
           .select one next related by current_act_if->ACT_E[R683]->ACT_SMT[R603]
           .if ( empty next )
-            .select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'precedes']
+            .select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'succeeds']
           .end if
         .else
           .select many next_elif_act_smts related by current_act_if->ACT_EL[R682]->ACT_SMT[R603] where ( selected.LineNumber > act_smt.LineNumber )
@@ -90,7 +90,7 @@
       .select one else_te_blk related by act_smt->ACT_E[R603]->ACT_BLK[R606]->TE_BLK[R2016]
       .if ( not_empty else_te_blk )
         .invoke blck_xlate( trace, else_te_blk, te_aba )
-        .select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'precedes']
+        .select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'succeeds']
       .end if
       .end if
       .end if
@@ -101,7 +101,7 @@
         .invoke aba_code_append( te_aba, "\n" )
       .end if
       .if ( empty next )
-        .select one next related by act_smt->ACT_SMT[R661.'precedes']
+        .select one next related by act_smt->ACT_SMT[R661.'succeeds']
       .end if
       .assign act_smt = next
     .end while

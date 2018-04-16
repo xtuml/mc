@@ -84,7 +84,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
   /* Initialize application analysis class attributes.  */
     .select any te_attr related by te_class->TE_ATTR[R2061]
     .while ( not_empty te_attr )
-      .select one prev_te_attr related by te_attr->TE_ATTR[R2087.'precedes']
+      .select one prev_te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
       .if ( empty prev_te_attr )
         .break while
       .end if
@@ -165,7 +165,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
       .end if
       .//
       .// Advance to the next object attribute, if any.
-      .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+      .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
     .end while
   return return_identifier;
 }
@@ -238,7 +238,7 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
           .assign delimeter = ""
           .select any te_attr related by part_te_class->TE_ATTR[R2061]
           .while ( not_empty te_attr )
-            .select one prev_te_attr related by te_attr->TE_ATTR[R2087.'precedes']
+            .select one prev_te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
             .if ( empty prev_te_attr )
               .break while
             .end if
@@ -256,7 +256,7 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
                 .assign delimeter = ", "
               .end if
             .end for
-            .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+            .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
           .end while
   ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance$t{r_rto_count} = ${te_where.select_any_where}( ${param_list} );
           .assign null_test = null_test + "${null_test_conjunction}${part_te_class.GeneratedName}related_instance$t{r_rto_count}"

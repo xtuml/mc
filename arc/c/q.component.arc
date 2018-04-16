@@ -71,7 +71,7 @@
     .while ( not_empty te_mact )
       .select one te_aba related by te_mact->TE_ABA[R2010]
       .include "${te_file.arc_path}/t.component.message.h"
-      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+      .select one te_mact related by te_mact->TE_MACT[R2083.'precedes']
     .end while
   .end for
 .end function
@@ -261,7 +261,7 @@
         .include "${te_file.arc_path}/t.component.port.autosar.c"
       .end if
     .end if
-      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+      .select one te_mact related by te_mact->TE_MACT[R2083.'precedes']
     .end while
   .end for
 .end function
@@ -349,7 +349,7 @@
             .assign register_description = "${register_name} description field"
             .assign attr_register_declaration = attr_register_declaration + "  declare_register ${te_po.name}_i ${register_name} ${register_offset_name} {} -rw_access r/w -width 32\n"
           .end if
-          .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
+          .select one te_parm related by te_parm->TE_PARM[R2041.'precedes']
         .end while
         .if( "void" != te_aba.ReturnDataType )
           .select any te_dt_return from instances of TE_DT where ( selected.ExtName == "${te_aba.ReturnDataType}" )
@@ -386,7 +386,7 @@
         .//  .assign register_address = register_address + 4
         .//.end for
       .end if
-      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+      .select one te_mact related by te_mact->TE_MACT[R2083.'precedes']
     .end while
   .end for
   .//
@@ -419,7 +419,7 @@
         .select one te_aba related by te_mact->TE_ABA[R2010]
         .include "${te_file.arc_path}/t.component.port.isr.c"
       .end if
-      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+      .select one te_mact related by te_mact->TE_MACT[R2083.'precedes']
     .end while
   .end for
 .end function
@@ -436,7 +436,7 @@
   .while ( not_empty te_mact )
     .assign attr_message_order = attr_message_order + "#define   ${te_mact.GeneratedName}_order ${message_order}\n"
     .assign message_order = message_order + 1
-    .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+    .select one te_mact related by te_mact->TE_MACT[R2083.'precedes']
   .end while
 .end function
 .//
@@ -455,7 +455,7 @@
   .select any last_c_pp from instances of C_PP where ( false )
   .select many c_pps related by c_io->C_EP[R4004]->C_PP[R4006]
   .for each c_pp in c_pps
-    .select one next_c_pp related by c_pp->C_PP[R4021.'succeeds']
+    .select one next_c_pp related by c_pp->C_PP[R4021.'precedes']
     .if ( empty next_c_pp )
       .assign last_c_pp = c_pp
       .break for
@@ -467,7 +467,7 @@
   .if ( 0 < item_count )
     .assign defn = ""
     .while ( not_empty current_c_pp )
-        .select one previous_c_pp related by current_c_pp->C_PP[R4021.'precedes']
+        .select one previous_c_pp related by current_c_pp->C_PP[R4021.'succeeds']
         .select one te_parm related by current_c_pp->TE_PARM[R2048]
         .select one te_dt related by te_parm->TE_DT[R2049]
         .assign te_dt.Included = true
