@@ -166,15 +166,15 @@
     .select one te_val related by v_scv->V_VAL[R801]->TE_VAL[R2040]
     .select one cnst_syc related by v_scv->CNST_SYC[R850]
     .select one cnst_lsc related by cnst_syc->CNST_LFSC[R1502]->CNST_LSC[R1503]
-    .select one te_dt related by cnst_syc->S_DT[R1500]->TE_DT[R2021]
+    .select one s_dt related by cnst_syc->S_DT[R1500]
+    .select one te_dt related by s_dt->TE_DT[R2021]
     .assign te_val.OAL = cnst_syc.Name
     .assign te_val.buffer = cnst_lsc.Value
-    .select one edt related by te_dt->S_EDT[R17]
+    .select one edt related by s_dt->S_EDT[R17]
     .if ( not_empty edt )
-      .assign enumString = edt.Name
-      .select many enums related by edt->S_ENUM[R27]
-      .for each enum in enums
-        .assign enumString = enumString + enum.Name
+      .select many s_enums related by edt->S_ENUM[R27]
+      .for each s_enum in s_enums
+        .assign enumString = s_dt.Name + "::" + s_enum.Name
         .if ( enumString == cnst_lsc.Value )
           .select one te_enum related by s_enum->TE_ENUM[R2027]
           .assign te_val.buffer = te_enum.GeneratedName
