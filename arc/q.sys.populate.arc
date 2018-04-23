@@ -2213,13 +2213,15 @@
   .assign te_lnk.linkage = te_oir.data_member
   .assign te_lnk.Mult = te_oir.Mult
   .assign te_lnk.assoc_type = te_oir.assoc_type
-  .if ( not_empty left_te_lnk )
-    .// Reflexive associatives put the relationship phrase onto the AONE/AOTH data members.
-    .if ( "" != right_te_lnk.rel_phrase )
-      .if ( left_te_lnk.te_classGeneratedName == right_te_lnk.te_classGeneratedName )
-        .assign te_lnk.linkage = ( te_lnk.linkage + "_" ) + "$_{right_te_lnk.rel_phrase}"
-      .end if
+  .// Reflexive associatives put the relationship phrase onto the AONE/AOTH data members.
+  .if ( "" != right_te_lnk.rel_phrase )
+    .invoke r = is_reflexive( r_rel )
+    .assign reflexive = r.result
+    .if ( reflexive )
+      .assign te_lnk.linkage = ( te_lnk.linkage + "_" ) + "$_{right_te_lnk.rel_phrase}"
     .end if
+  .end if
+  .if ( not_empty left_te_lnk )
     .unrelate left_te_lnk from right_te_lnk across R2075.'precedes'
     .relate left_te_lnk to te_lnk across R2075.'precedes'
     .assign te_lnk.left = left_te_lnk.linkage
