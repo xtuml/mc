@@ -7240,13 +7240,8 @@ ooaofooa_TE_C_insert( ooaofooa_TE_C * p_head_te_c, ooaofooa_TE_C * p_te_c )
     }
     /* IF ( not_empty cursor_te_c ) */
     if ( ( 0 != cursor_te_c ) ) {
-      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
-      }
-      else {
-        /* UNRELATE prev_te_c FROM cursor_te_c ACROSS R2017 */
-        ooaofooa_TE_C_R2017_Unlink_precedes( prev_te_c, cursor_te_c );
-      }
+      /* UNRELATE prev_te_c FROM cursor_te_c ACROSS R2017 */
+      ooaofooa_TE_C_R2017_Unlink_precedes( prev_te_c, cursor_te_c );
       /* RELATE te_c TO cursor_te_c ACROSS R2017 */
       ooaofooa_TE_C_R2017_Link_precedes( te_c, cursor_te_c );
     }
@@ -9060,23 +9055,23 @@ ooaofooa_associator_TE_LNK( ooaofooa_TE_LNK * p_left_te_lnk, ooaofooa_TE_LNK * p
   ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.Mult" ))->Mult = ((ooaofooa_TE_OIR *)xtUML_detect_empty_handle( te_oir, "TE_OIR", "te_oir.Mult" ))->Mult;
   /* ASSIGN te_lnk.assoc_type = te_oir.assoc_type */
   ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.assoc_type" ))->assoc_type = Escher_strcpy( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.assoc_type" ))->assoc_type, ((ooaofooa_TE_OIR *)xtUML_detect_empty_handle( te_oir, "TE_OIR", "te_oir.assoc_type" ))->assoc_type );
+  /* IF ( (  != right_te_lnk.rel_phrase ) ) */
+  if ( ( Escher_strcmp( "", ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( right_te_lnk, "TE_LNK", "right_te_lnk.rel_phrase" ))->rel_phrase ) != 0 ) ) {
+    bool reflexive;bool r;
+    /* ASSIGN r = ::is_reflexive(r_rel:r_rel) */
+    r = ooaofooa_is_reflexive( r_rel );
+    /* ASSIGN reflexive = r */
+    reflexive = r;
+    /* IF ( reflexive ) */
+    if ( reflexive ) {
+      /* ASSIGN te_lnk.linkage = ( ( te_lnk.linkage + _ ) + T::underscore(right_te_lnk.rel_phrase) ) */
+      ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.linkage" ))->linkage = Escher_strcpy( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.linkage" ))->linkage, Escher_stradd( Escher_stradd( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.linkage" ))->linkage, "_" ), T_underscore( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( right_te_lnk, "TE_LNK", "right_te_lnk.rel_phrase" ))->rel_phrase ) ) );
+    }
+  }
   /* IF ( not_empty left_te_lnk ) */
   if ( ( 0 != left_te_lnk ) ) {
-    /* IF ( (  != right_te_lnk.rel_phrase ) ) */
-    if ( ( Escher_strcmp( "", ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( right_te_lnk, "TE_LNK", "right_te_lnk.rel_phrase" ))->rel_phrase ) != 0 ) ) {
-      /* IF ( ( left_te_lnk.te_classGeneratedName == right_te_lnk.te_classGeneratedName ) ) */
-      if ( ( Escher_strcmp( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( left_te_lnk, "TE_LNK", "left_te_lnk.te_classGeneratedName" ))->te_classGeneratedName, ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( right_te_lnk, "TE_LNK", "right_te_lnk.te_classGeneratedName" ))->te_classGeneratedName ) == 0 ) ) {
-        /* ASSIGN te_lnk.linkage = ( ( te_lnk.linkage + _ ) + T::underscore(right_te_lnk.rel_phrase) ) */
-        ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.linkage" ))->linkage = Escher_strcpy( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.linkage" ))->linkage, Escher_stradd( Escher_stradd( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( te_lnk, "TE_LNK", "te_lnk.linkage" ))->linkage, "_" ), T_underscore( ((ooaofooa_TE_LNK *)xtUML_detect_empty_handle( right_te_lnk, "TE_LNK", "right_te_lnk.rel_phrase" ))->rel_phrase ) ) );
-      }
-    }
-    /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
-    if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
-    }
-    else {
-      /* UNRELATE left_te_lnk FROM right_te_lnk ACROSS R2075 */
-      ooaofooa_TE_LNK_R2075_Unlink_precedes( left_te_lnk, right_te_lnk );
-    }
+    /* UNRELATE left_te_lnk FROM right_te_lnk ACROSS R2075 */
+    ooaofooa_TE_LNK_R2075_Unlink_precedes( left_te_lnk, right_te_lnk );
     /* RELATE left_te_lnk TO te_lnk ACROSS R2075 */
     ooaofooa_TE_LNK_R2075_Link_precedes( left_te_lnk, te_lnk );
     /* ASSIGN te_lnk.left = left_te_lnk.linkage */
@@ -9727,13 +9722,8 @@ ooaofooa_bparm_insert( ooaofooa_S_BPARM * p_head_s_bparm, ooaofooa_S_BPARM * p_s
     }
     /* IF ( not_empty cursor_s_bparm ) */
     if ( ( 0 != cursor_s_bparm ) ) {
-      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
-      }
-      else {
-        /* UNRELATE prev_s_bparm FROM cursor_s_bparm ACROSS R55 */
-        ooaofooa_S_BPARM_R55_Unlink_precedes( prev_s_bparm, cursor_s_bparm );
-      }
+      /* UNRELATE prev_s_bparm FROM cursor_s_bparm ACROSS R55 */
+      ooaofooa_S_BPARM_R55_Unlink_precedes( prev_s_bparm, cursor_s_bparm );
       /* RELATE s_bparm TO cursor_s_bparm ACROSS R55 */
       ooaofooa_S_BPARM_R55_Link_precedes( s_bparm, cursor_s_bparm );
     }
@@ -9895,13 +9885,8 @@ ooaofooa_class_insert( ooaofooa_TE_CLASS * p_head_te_class, ooaofooa_TE_CLASS * 
       }
       /* IF ( not_empty cursor_te_class ) */
       if ( ( 0 != cursor_te_class ) ) {
-        /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
-        if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
-        }
-        else {
-          /* UNRELATE prev_te_class FROM cursor_te_class ACROSS R2092 */
-          ooaofooa_TE_CLASS_R2092_Unlink_precedes( prev_te_class, cursor_te_class );
-        }
+        /* UNRELATE prev_te_class FROM cursor_te_class ACROSS R2092 */
+        ooaofooa_TE_CLASS_R2092_Unlink_precedes( prev_te_class, cursor_te_class );
         /* RELATE te_class TO cursor_te_class ACROSS R2092 */
         ooaofooa_TE_CLASS_R2092_Link_precedes( te_class, cursor_te_class );
       }
@@ -10473,13 +10458,8 @@ ooaofooa_ee_insert( ooaofooa_TE_EE * p_head_te_ee, ooaofooa_TE_EE * p_te_ee )
       }
       /* IF ( not_empty cursor_te_ee ) */
       if ( ( 0 != cursor_te_ee ) ) {
-        /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
-        if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
-        }
-        else {
-          /* UNRELATE prev_te_ee FROM cursor_te_ee ACROSS R2096 */
-          ooaofooa_TE_EE_R2096_Unlink_precedes( prev_te_ee, cursor_te_ee );
-        }
+        /* UNRELATE prev_te_ee FROM cursor_te_ee ACROSS R2096 */
+        ooaofooa_TE_EE_R2096_Unlink_precedes( prev_te_ee, cursor_te_ee );
         /* RELATE te_ee TO cursor_te_ee ACROSS R2096 */
         ooaofooa_TE_EE_R2096_Link_precedes( te_ee, cursor_te_ee );
       }
@@ -10827,13 +10807,8 @@ ooaofooa_evtdi_insert( ooaofooa_SM_EVTDI * p_head_sm_evtdi, ooaofooa_SM_EVTDI * 
     }
     /* IF ( not_empty cursor_sm_evtdi ) */
     if ( ( 0 != cursor_sm_evtdi ) ) {
-      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
-      }
-      else {
-        /* UNRELATE prev_sm_evtdi FROM cursor_sm_evtdi ACROSS R533 */
-        ooaofooa_SM_EVTDI_R533_Unlink_precedes( prev_sm_evtdi, cursor_sm_evtdi );
-      }
+      /* UNRELATE prev_sm_evtdi FROM cursor_sm_evtdi ACROSS R533 */
+      ooaofooa_SM_EVTDI_R533_Unlink_precedes( prev_sm_evtdi, cursor_sm_evtdi );
       /* RELATE sm_evtdi TO cursor_sm_evtdi ACROSS R533 */
       ooaofooa_SM_EVTDI_R533_Link_precedes( sm_evtdi, cursor_sm_evtdi );
     }
@@ -11486,13 +11461,8 @@ ooaofooa_mact_insert( ooaofooa_TE_MACT * p_head_te_mact, ooaofooa_TE_MACT * p_te
       }
       /* IF ( not_empty cursor_te_mact ) */
       if ( ( 0 != cursor_te_mact ) ) {
-        /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
-        if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
-        }
-        else {
-          /* UNRELATE prev_te_mact FROM cursor_te_mact ACROSS R2083 */
-          ooaofooa_TE_MACT_R2083_Unlink_precedes( prev_te_mact, cursor_te_mact );
-        }
+        /* UNRELATE prev_te_mact FROM cursor_te_mact ACROSS R2083 */
+        ooaofooa_TE_MACT_R2083_Unlink_precedes( prev_te_mact, cursor_te_mact );
         /* RELATE te_mact TO cursor_te_mact ACROSS R2083 */
         ooaofooa_TE_MACT_R2083_Link_precedes( te_mact, cursor_te_mact );
       }
@@ -12298,13 +12268,8 @@ ooaofooa_pp_insert( ooaofooa_C_PP * p_c_pp, ooaofooa_C_PP * p_head_c_pp )
     }
     /* IF ( not_empty cursor_c_pp ) */
     if ( ( 0 != cursor_c_pp ) ) {
-      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
-      }
-      else {
-        /* UNRELATE prev_c_pp FROM cursor_c_pp ACROSS R4021 */
-        ooaofooa_C_PP_R4021_Unlink_precedes( prev_c_pp, cursor_c_pp );
-      }
+      /* UNRELATE prev_c_pp FROM cursor_c_pp ACROSS R4021 */
+      ooaofooa_C_PP_R4021_Unlink_precedes( prev_c_pp, cursor_c_pp );
       /* RELATE c_pp TO cursor_c_pp ACROSS R4021 */
       ooaofooa_C_PP_R4021_Link_precedes( c_pp, cursor_c_pp );
     }
@@ -12661,13 +12626,8 @@ r_form->OIR_ID = Escher_ID_factory();
       ((ooaofooa_R_FORM *)xtUML_detect_empty_handle( r_form, "R_FORM", "r_form.Txt_Phrs" ))->Txt_Phrs = Escher_strcpy( ((ooaofooa_R_FORM *)xtUML_detect_empty_handle( r_form, "R_FORM", "r_form.Txt_Phrs" ))->Txt_Phrs, ((ooaofooa_R_PART *)xtUML_detect_empty_handle( r_part, "R_PART", "r_part.Txt_Phrs" ))->Txt_Phrs );
       /* UNRELATE r_part FROM r_rto ACROSS R204 */
       ooaofooa_R_PART_R204_Unlink( r_rto, r_part );
-      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
-      }
-      else {
-        /* UNRELATE r_part FROM r_simp ACROSS R207 */
-        ooaofooa_R_PART_R207_Unlink_relates( r_simp, r_part );
-      }
+      /* UNRELATE r_part FROM r_simp ACROSS R207 */
+      ooaofooa_R_PART_R207_Unlink_relates( r_simp, r_part );
       /* DELETE OBJECT INSTANCE r_part */
       if ( 0 == r_part ) {
         XTUML_EMPTY_HANDLE_TRACE( "R_PART", "Escher_DeleteInstance" );
@@ -17283,13 +17243,8 @@ ooaofooa_sparm_insert( ooaofooa_S_SPARM * p_head_s_sparm, ooaofooa_S_SPARM * p_s
     }
     /* IF ( not_empty cursor_s_sparm ) */
     if ( ( 0 != cursor_s_sparm ) ) {
-      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
-      }
-      else {
-        /* UNRELATE prev_s_sparm FROM cursor_s_sparm ACROSS R54 */
-        ooaofooa_S_SPARM_R54_Unlink_precedes( prev_s_sparm, cursor_s_sparm );
-      }
+      /* UNRELATE prev_s_sparm FROM cursor_s_sparm ACROSS R54 */
+      ooaofooa_S_SPARM_R54_Unlink_precedes( prev_s_sparm, cursor_s_sparm );
       /* RELATE s_sparm TO cursor_s_sparm ACROSS R54 */
       ooaofooa_S_SPARM_R54_Link_precedes( s_sparm, cursor_s_sparm );
     }
@@ -17443,13 +17398,8 @@ ooaofooa_sync_insert( ooaofooa_TE_SYNC * p_head_te_sync, ooaofooa_TE_SYNC * p_te
       }
       /* IF ( not_empty cursor_te_sync ) */
       if ( ( 0 != cursor_te_sync ) ) {
-        /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
-        if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
-        }
-        else {
-          /* UNRELATE prev_te_sync FROM cursor_te_sync ACROSS R2095 */
-          ooaofooa_TE_SYNC_R2095_Unlink_precedes( prev_te_sync, cursor_te_sync );
-        }
+        /* UNRELATE prev_te_sync FROM cursor_te_sync ACROSS R2095 */
+        ooaofooa_TE_SYNC_R2095_Unlink_precedes( prev_te_sync, cursor_te_sync );
         /* RELATE te_sync TO cursor_te_sync ACROSS R2095 */
         ooaofooa_TE_SYNC_R2095_Link_precedes( te_sync, cursor_te_sync );
       }
@@ -22719,13 +22669,8 @@ ooaofooa_tparm_insert( ooaofooa_O_TPARM * p_head_o_tparm, ooaofooa_O_TPARM * p_o
     }
     /* IF ( not_empty cursor_o_tparm ) */
     if ( ( 0 != cursor_o_tparm ) ) {
-      /* IF ( ( pyrsl v1.99 > pyrsl v9.9.9 ) ) */
-      if ( ( Escher_strcmp( "pyrsl v1.99", "pyrsl v9.9.9" ) > 0 ) ) {
-      }
-      else {
-        /* UNRELATE prev_o_tparm FROM cursor_o_tparm ACROSS R124 */
-        ooaofooa_O_TPARM_R124_Unlink_precedes( prev_o_tparm, cursor_o_tparm );
-      }
+      /* UNRELATE prev_o_tparm FROM cursor_o_tparm ACROSS R124 */
+      ooaofooa_O_TPARM_R124_Unlink_precedes( prev_o_tparm, cursor_o_tparm );
       /* RELATE o_tparm TO cursor_o_tparm ACROSS R124 */
       ooaofooa_O_TPARM_R124_Link_precedes( o_tparm, cursor_o_tparm );
     }
