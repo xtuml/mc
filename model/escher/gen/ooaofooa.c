@@ -23628,7 +23628,7 @@ ooaofooa_val_constant_values()
   Escher_IteratorReset( &iterv_scv, v_scvs );
   while ( (iiv_scv = (ooaofooa_V_SCV *)Escher_IteratorNext( &iterv_scv )) != 0 ) {
     v_scv = iiv_scv; {
-    ooaofooa_TE_DT * te_dt=0;ooaofooa_CNST_LSC * cnst_lsc=0;ooaofooa_CNST_SYC * cnst_syc=0;ooaofooa_TE_VAL * te_val=0;
+    ooaofooa_S_EDT * edt=0;ooaofooa_TE_DT * te_dt=0;ooaofooa_S_DT * s_dt=0;ooaofooa_CNST_LSC * cnst_lsc=0;ooaofooa_CNST_SYC * cnst_syc=0;ooaofooa_TE_VAL * te_val=0;
     /* SELECT one te_val RELATED BY v_scv->V_VAL[R801]->TE_VAL[R2040] */
     te_val = 0;
     {    if ( 0 != v_scv ) {
@@ -23645,19 +23645,48 @@ ooaofooa_val_constant_values()
     if ( 0 != R1502_subtype )    if ( ( 0 != cnst_syc ) && ( ooaofooa_CNST_LFSC_CLASS_NUMBER == cnst_syc->R1502_object_id ) ) {
     if ( ( 0 != R1502_subtype ) && ( ooaofooa_CNST_LSC_CLASS_NUMBER == R1502_subtype->R1503_object_id ) )    cnst_lsc = (ooaofooa_CNST_LSC *) R1502_subtype->R1503_subtype;
 }}}
-    /* SELECT one te_dt RELATED BY cnst_syc->S_DT[R1500]->TE_DT[R2021] */
-    te_dt = 0;
-    {    if ( 0 != cnst_syc ) {
-    ooaofooa_S_DT * S_DT_R1500_is_defined_by = cnst_syc->S_DT_R1500_is_defined_by;
-    if ( 0 != S_DT_R1500_is_defined_by ) {
-    te_dt = S_DT_R1500_is_defined_by->TE_DT_R2021;
-}}}
+    /* SELECT one s_dt RELATED BY cnst_syc->S_DT[R1500] */
+    s_dt = ( 0 != cnst_syc ) ? cnst_syc->S_DT_R1500_is_defined_by : 0;
+    /* SELECT one te_dt RELATED BY s_dt->TE_DT[R2021] */
+    te_dt = ( 0 != s_dt ) ? s_dt->TE_DT_R2021 : 0;
     /* ASSIGN te_val.OAL = cnst_syc.Name */
     ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.OAL" ))->OAL = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.OAL" ))->OAL, ((ooaofooa_CNST_SYC *)xtUML_detect_empty_handle( cnst_syc, "CNST_SYC", "cnst_syc.Name" ))->Name );
     /* ASSIGN te_val.buffer = cnst_lsc.Value */
     ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ((ooaofooa_CNST_LSC *)xtUML_detect_empty_handle( cnst_lsc, "CNST_LSC", "cnst_lsc.Value" ))->Value );
-    /* IF ( ( 4 == te_dt.Core_Typ ) ) */
-    if ( ( 4 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Core_Typ" ))->Core_Typ ) ) {
+    /* SELECT one edt RELATED BY s_dt->S_EDT[R17] */
+    edt = 0;
+    if ( ( 0 != s_dt ) && ( ooaofooa_S_EDT_CLASS_NUMBER == s_dt->R17_object_id ) )    edt = ( 0 != s_dt ) ? (ooaofooa_S_EDT *) s_dt->R17_subtype : 0;
+    /* IF ( not_empty edt ) */
+    if ( ( 0 != edt ) ) {
+      ooaofooa_S_ENUM * s_enum=0;Escher_ObjectSet_s s_enums_space={0}; Escher_ObjectSet_s * s_enums = &s_enums_space;
+      /* SELECT many s_enums RELATED BY edt->S_ENUM[R27] */
+      Escher_ClearSet( s_enums );
+      if ( 0 != edt ) {
+        Escher_CopySet( s_enums, &edt->S_ENUM_R27_defines );
+      }
+      /* FOR EACH s_enum IN s_enums */
+      { Escher_Iterator_s iters_enum;
+      ooaofooa_S_ENUM * iis_enum;
+      Escher_IteratorReset( &iters_enum, s_enums );
+      while ( (iis_enum = (ooaofooa_S_ENUM *)Escher_IteratorNext( &iters_enum )) != 0 ) {
+        s_enum = iis_enum; {
+        c_t * enumString=0;
+        /* ASSIGN enumString = ( ( s_dt.Name + :: ) + s_enum.Name ) */
+        enumString = Escher_strcpy( enumString, Escher_stradd( Escher_stradd( ((ooaofooa_S_DT *)xtUML_detect_empty_handle( s_dt, "S_DT", "s_dt.Name" ))->Name, "::" ), ((ooaofooa_S_ENUM *)xtUML_detect_empty_handle( s_enum, "S_ENUM", "s_enum.Name" ))->Name ) );
+        /* IF ( ( enumString == cnst_lsc.Value ) ) */
+        if ( ( Escher_strcmp( enumString, ((ooaofooa_CNST_LSC *)xtUML_detect_empty_handle( cnst_lsc, "CNST_LSC", "cnst_lsc.Value" ))->Value ) == 0 ) ) {
+          ooaofooa_TE_ENUM * te_enum=0;
+          /* SELECT one te_enum RELATED BY s_enum->TE_ENUM[R2027] */
+          te_enum = ( 0 != s_enum ) ? s_enum->TE_ENUM_R2027 : 0;
+          /* ASSIGN te_val.buffer = te_enum.GeneratedName */
+          ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ((ooaofooa_TE_ENUM *)xtUML_detect_empty_handle( te_enum, "TE_ENUM", "te_enum.GeneratedName" ))->GeneratedName );
+          /* BREAK */
+          break;
+        }
+      }}}
+      Escher_ClearSet( s_enums ); 
+    }
+    else if ( ( 4 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Core_Typ" ))->Core_Typ ) ) {
       ooaofooa_TE_STRING * te_string=0;
       /* SELECT any te_string FROM INSTANCES OF TE_STRING */
       te_string = (ooaofooa_TE_STRING *) Escher_SetGetAny( &pG_ooaofooa_TE_STRING_extent.active );
