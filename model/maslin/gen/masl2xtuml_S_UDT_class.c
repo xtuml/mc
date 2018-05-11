@@ -8,6 +8,7 @@
  *--------------------------------------------------------------------------*/
 
 #include "maslin_sys_types.h"
+#include "CSV_bridge.h"
 #include "IDLINK_bridge.h"
 #include "LOG_bridge.h"
 #include "STRING_bridge.h"
@@ -47,6 +48,23 @@ void masl2xtuml_S_UDT_batch_relate( Escher_iHandle_t instance )
     masl2xtuml_S_UDT_R18_Link_defines_domain_of( masl2xtuml_S_DTrelated_instance1, masl2xtuml_S_UDT_instance );
   }
   }
+}
+
+/*
+ * Scan the extent for a matching instance.
+ */
+masl2xtuml_S_UDT *
+masl2xtuml_S_UDT_AnyWhere1( Escher_UniqueID_t w_DT_ID )
+{
+  masl2xtuml_S_UDT * w; 
+  Escher_Iterator_s iter_S_UDT;
+  Escher_IteratorReset( &iter_S_UDT, &pG_masl2xtuml_S_UDT_extent.active );
+  while ( (w = (masl2xtuml_S_UDT *) Escher_IteratorNext( &iter_S_UDT )) != 0 ) {
+    if ( w->DT_ID == w_DT_ID ) {
+      return w;
+    }
+  }
+  return 0;
 }
 
 

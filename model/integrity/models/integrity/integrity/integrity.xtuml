@@ -1149,6 +1149,40 @@ for each s_exp in s_exps
 end for;
 total_error_count = total_error_count + local_error_count;
 local_error_count = 0;
+select many s_ranges from instances of S_RANGE;
+for each s_range in s_ranges
+  instance_count = instance_count + 1;
+  trace = ::check_trace( trace_attribute:"DT_ID", trace_id:s_range.DT_ID, name:"" );
+  select many duplicate_s_ranges from instances of S_RANGE where ( selected.DT_ID == s_range.DT_ID );
+  if ( cardinality duplicate_s_ranges != 1 )
+    ::check_log( message: "uniqueness violation in S_RANGE for identifier 1", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  end if;
+  check_count = check_count + 1;
+  // formalizer participation R57:  Range(S_RANGE) -> User Data Type(S_UDT)
+  select one s_udt related by s_range->S_UDT[R57];
+  if ( empty s_udt )
+    ::check_log( message: "one instance not found S_RANGE->S_UDT[R57]", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  else
+    if ( not ( s_udt.DT_ID == s_range.DT_ID ) )
+      ::check_log( message: "referentials do not match identifiers between S_RANGE and S_UDT", trace:trace );
+      local_error_count = local_error_count + 1;
+      if ( 10 < local_error_count )
+        break;
+      end if;
+    end if;
+  end if;
+  check_count = check_count + 1;
+end for;
+total_error_count = total_error_count + local_error_count;
+local_error_count = 0;
 select many o_objs from instances of O_OBJ;
 for each o_obj in o_objs
   instance_count = instance_count + 1;
