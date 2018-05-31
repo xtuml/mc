@@ -40,32 +40,30 @@ next-to-expire ticking timer.
 4.1.2 Non-timer event queues shall be fully serviced ("drained") between 
 interrogations of the ticking timer queue.  Thus, all state machines will
 quiesce between successive timer expirations.  
-4.1.3 When reading the value of the clock (`TIM::current_clock`), the return
-will be a value derived from timers in the ticking timer queue.  
+4.1.3 
+When the real-time clock is accessed (`TIM::current_clock`), the return
+value is derived from timers in the ticking timer queue.  
 4.1.4 A marking shall be supplied to select between the existing _wall clock_
 mode of time and the new _simulated time_ mode.  
 
 4.2 State Save  
 4.2.1 The state save API and functionality shall be supplied through a
-modeled external entity (EE).  
+modeled external entity (EE) which has bridges accessible at the model
+level and from hand-written code.  
 4.2.1.1 A bridge shall be supplied to trigger a state save to occur.  
 4.2.1.2 A bridge shall be supplied to read state save data.  
-4.2.2 A program separate from and co-dependent with the application shall be
-used to convert state save data into a human readable form.  
+4.2.2 A program separate from and codependent with the application
+shall be used to convert state save data into a human readable form.  
 4.2.2.1 The formatting program shall be generated together with the
 application.  
-4.2.2.2 The formatting program shall convert a binary state save file into
-human readable text.  
 4.2.2.3 The format of the human readable state data shall be comma separated
 values with one element per line consisting of strings identifying the
 element traced.  
 4.2.3 State Save Data  
 4.2.3.1 A state save contains encoded information representing the
-`current_state` of each running state machine in the model.  The
-`current_state` is identified with component, class and instance integer
-keys.  
+`current_state` of each running state machine in the model.  
 4.2.3.3 A state save contains encoded information representing the
-events of the event queues.  
+sequences of events on the event queues excluding the parameters.  
 4.2.4 A marking shall be supplied to enable and configure the state save
 feature.  
 4.2.4.1 The size of the buffer allocated for state save shall be configured
@@ -77,9 +75,9 @@ state machine state transitions and to trace individual action language
 statements.  A mechanism shall be provided to enable or disable this
 tracing functionality on a class by class basis.  
 4.3.2 A marking shall be supplied to identify which classes are included
-in or excluded from tracing.  This mark shall affect instrumentation
-generated into the application at build time.  (No run-time configuration
-is supplied.)  
+in or excluded from tracing.  
+4.3.3 The mark shall affect instrumentation generated into the application
+at build time.  (No run-time configuration is supplied.)  
 
 4.4 Tagging Interface Messages as Safe for Interrupts  
 4.4.1 A marking shall be supplied to tag a signal or (void) operation on
@@ -113,13 +111,20 @@ Consider using `non-volatile store (NVS)` EE.
 
 Questions:  
 Do you have a file system or other persistent store?  
-Do I need to care about your mechanism for transport?  (I think, no.)  
-Do you want both instance-states-only and full-instance dump capabilities?  
-What do you anticipate the highest number of instances?  (2^8? 2^16 2^32)?
+[Yes, a pretty big one.]  
+Do I need to care about your mechanism for transport?  
+[No, the message movement will be at the hand-craft level and needs
+a pointer and a length.]  
+Do you want both instance-states-only and full-instance dump capabilities?   
+[yes]  
+What do you anticipate is the highest number of instances?  (2^8? 2^16 2^32)?
+[singletons, then 2^2, then 2^8]  
 
-Have you been using the domain function safe-for-interrupts functionality?  Is it working for you?  
+Have you been using the domain function safe-for-interrupts functionality?  
+[No, but the docs describe it as exactly what we need.]  
 
 Would you rather mark classes as _included in_ or _excluded from_ tracing?  
+[excluded from]  
 
 5.3 Class-Specific Trace  
 5.4 Tagging Interface Messages as Safe for Interrupts  
