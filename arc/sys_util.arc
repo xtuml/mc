@@ -167,7 +167,7 @@ typedef union {
     .// Include a pointer to the component classes only if component has classes.
     .select any te_class related by te_c->TE_CLASS[R2064]
     .select one te_dci related by te_c->TE_DCI[R2090]
-    .select one te_c related by te_c->TE_C[R2017.'succeeds']
+    .select one te_c related by te_c->TE_C[R2017.'precedes']
     .assign delimiter = ""
     .if ( not_empty te_c )
       .assign delimiter = ","
@@ -185,7 +185,7 @@ typedef union {
   .while ( not_empty te_c )
     .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
     .select one te_dci related by te_c->TE_DCI[R2090]
-    .select one te_c related by te_c->TE_C[R2017.'succeeds']
+    .select one te_c related by te_c->TE_C[R2017.'precedes']
     .assign delimiter = ""
     .if ( not_empty te_c )
       .assign delimiter = ","
@@ -243,7 +243,7 @@ typedef union {
       .assign namelist = namelist + "${delimiter}\\n    ""${te_c.Name}"" " 
       .assign delimiter = ","
       .assign enumerated_domain_id = enumerated_domain_id + 1
-      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+      .select one te_c related by te_c->TE_C[R2017.'precedes']
     .end while
   .end if
 .end function

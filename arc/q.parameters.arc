@@ -28,7 +28,7 @@
     .break for
   .end for
   .while ( not_empty te_parm )
-    .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes']
+    .select one prev_te_parm related by te_parm->TE_PARM[R2041.'succeeds']
     .if ( empty prev_te_parm )
       .break while
     .else
@@ -75,7 +75,7 @@
     .end if
     .assign param_delimiter = ", "
     .assign format_delimiter = ","
-    .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
+    .select one te_parm related by te_parm->TE_PARM[R2041.'precedes']
   .end while
   .if ( "" != defn )
     .assign defn = defn + " "

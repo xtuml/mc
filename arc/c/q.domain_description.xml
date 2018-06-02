@@ -18,7 +18,7 @@
   .assign first_te_class = te_class
   .while ( not_empty te_class )
     .assign first_te_class = te_class
-    .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
+    .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
   .end while
   .assign object_set_type = 0
   .assign class_number_count = 0
@@ -53,7 +53,7 @@
   </Class>
       .assign class_number_count = class_number_count + 1
       .end if
-      .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
+      .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
     .end while
     .assign object_set_type = object_set_type + 1
   .end while

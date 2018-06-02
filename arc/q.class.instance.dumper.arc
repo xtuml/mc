@@ -52,7 +52,7 @@ ${delimiter} ${dollarcurly}$l{o_obj.Key_Lett}.${attributename}}\
                   .end if
                   .assign delimiter = ","
                 .end if
-                .select one o_attr related by o_attr->O_ATTR[R103.'succeeds']
+                .select one o_attr related by o_attr->O_ATTR[R103.'precedes']
               .end while
  );
 ..end for

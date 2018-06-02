@@ -228,7 +228,7 @@
         .end for
       .end if
     .end for
-    .// Identify polymorhic ports.
+    .// Identify polymorphic ports.
     .// Polymorphic ports exist more than once in the same orientation on a component.
     .assign port_counter = 0
     .select many te_pos related by te_c->TE_PO[R2005]
@@ -256,34 +256,13 @@
       .end if
     .end for
   .end for
-  .// Here we force all the ports and interface references to be polymorphic.  
-  .// We do this step via a second loop here so that we could set up the 
-  .// sibling values earlier before all the ports potentially get forced to polymorphic.
-  .// This loop also configures the satisfaction shortcut we create between local and
+  .// This loop configures the satisfaction shortcut we create between local and
   .// foreign interface references.
-  .select many te_pos from instances of TE_PO
+  .select many te_pos from instances of TE_PO where ( not selected.Provision )
   .for each te_po in te_pos
     .select many te_iirs related by te_po->TE_IIR[R2080]
     .for each te_iir in te_iirs
       .// Select across the satisfaction to get the related TE_IIR.
-      .if ( te_po.Provision )
-        .// provision side first
-        .// CDS There may be more than one here.
-        .select any foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->CL_IR[R4706]->CL_IIR[R4703]->TE_IIR[R2013]
-        .if ( empty foreign_te_iir )
-          .// We are dealing with TE_IIRs that may be on non-imported interface references (connected to C_Cs).
-          .select any foreign_te_iir related by te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046]
-          .if ( empty foreign_te_iir )
-            .select any foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046]
-            .if ( empty foreign_te_iir )
-              .select any foreign_te_iir related by te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->CL_IR[R4706]->CL_IIR[R4703]->TE_IIR[R2013]
-            .end if
-          .end if
-        .end if
-        .if ( not_empty foreign_te_iir )
-          .relate te_iir to foreign_te_iir across R2081.'provides or is delegated'
-        .end if
-      .else
         .// requirement side first
         .select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
         .if ( empty foreign_te_iir )
@@ -298,7 +277,6 @@
         .if ( not_empty foreign_te_iir )
           .relate te_iir to foreign_te_iir across R2081.'requires or delegates'
         .end if
-      .end if
     .end for
   .end for  
   .//
@@ -640,7 +618,7 @@
     .end for
     .for each s_mbr in s_mbrs
       .select one te_mbr related by s_mbr->TE_MBR[R2047]
-      .select one previous_te_mbr related by s_mbr->S_MBR[R46.'precedes']->TE_MBR[R2047]
+      .select one previous_te_mbr related by s_mbr->S_MBR[R46.'succeeds']->TE_MBR[R2047]
       .if ( not_empty previous_te_mbr )
         .relate te_mbr to previous_te_mbr across R2067.'succeeds'
       .end if
@@ -849,7 +827,7 @@
   .// Link the bridge parameters into order.
   .for each s_bparm in s_bparms
     .select one te_parm related by s_bparm->TE_PARM[R2028]
-    .select one next_te_parm related by s_bparm->S_BPARM[R55.'succeeds']->TE_PARM[R2028]
+    .select one next_te_parm related by s_bparm->S_BPARM[R55.'precedes']->TE_PARM[R2028]
     .if ( not_empty next_te_parm )
       .relate te_parm to next_te_parm across R2041.'precedes'
     .end if
@@ -876,7 +854,7 @@
   .// Link the event parameters into order.
   .for each o_tparm in o_tparms
     .select one te_parm related by o_tparm->TE_PARM[R2029]
-    .select one next_te_parm related by o_tparm->O_TPARM[R124.'succeeds']->TE_PARM[R2029]
+    .select one next_te_parm related by o_tparm->O_TPARM[R124.'precedes']->TE_PARM[R2029]
     .if ( not_empty next_te_parm )
       .relate te_parm to next_te_parm across R2041.'precedes'
     .end if
@@ -903,7 +881,7 @@
   .// Link the function parameters into order.
   .for each s_sparm in s_sparms
     .select one te_parm related by s_sparm->TE_PARM[R2030]
-    .select one next_te_parm related by s_sparm->S_SPARM[R54.'succeeds']->TE_PARM[R2030]
+    .select one next_te_parm related by s_sparm->S_SPARM[R54.'precedes']->TE_PARM[R2030]
     .if ( not_empty next_te_parm )
       .relate te_parm to next_te_parm across R2041.'precedes'
     .end if
@@ -921,7 +899,7 @@
   .// Link the event parameters into order.
   .for each sm_evtdi in sm_evtdis
     .select one te_parm related by sm_evtdi->TE_PARM[R2031]
-    .select one next_te_parm related by sm_evtdi->SM_EVTDI[R533.'succeeds']->TE_PARM[R2031]
+    .select one next_te_parm related by sm_evtdi->SM_EVTDI[R533.'precedes']->TE_PARM[R2031]
     .if ( not_empty next_te_parm )
       .relate te_parm to next_te_parm across R2041.'precedes'
     .end if
@@ -984,7 +962,7 @@
   .// Link the event parameters into order.
   .for each c_pp in c_pps
     .select one te_parm related by c_pp->TE_PARM[R2048]
-    .select one next_te_parm related by c_pp->C_PP[R4021.'succeeds']->TE_PARM[R2048]
+    .select one next_te_parm related by c_pp->C_PP[R4021.'precedes']->TE_PARM[R2048]
     .if ( not_empty next_te_parm )
       .relate te_parm to next_te_parm across R2041.'precedes'
     .end if
@@ -1197,7 +1175,7 @@
     .// Link the te_smts into order like the act_smts.
     .for each act_smt in act_smts
       .select one te_smt related by act_smt->TE_SMT[R2038]
-      .select one next_act_smt related by act_smt->ACT_SMT[R661.'succeeds']
+      .select one next_act_smt related by act_smt->ACT_SMT[R661.'precedes']
       .if ( not_empty next_act_smt )
         .select one next_te_smt related by next_act_smt->TE_SMT[R2038]
         .relate te_smt to next_te_smt across R2012.'precedes'
@@ -1266,7 +1244,7 @@
   .select many te_lnks from instances of TE_LNK
   .for each te_lnk in te_lnks
     .select one act_lnk related by te_lnk->ACT_LNK[R2042]
-    .select one next_act_lnk related by act_lnk->ACT_LNK[R604.'succeeds']
+    .select one next_act_lnk related by act_lnk->ACT_LNK[R604.'precedes']
     .if ( not_empty next_act_lnk )
       .select one next_te_lnk related by next_act_lnk->TE_LNK[R2042]
       .relate te_lnk to next_te_lnk across R2075.'precedes'
@@ -1451,7 +1429,7 @@
       .// Find first o_attr.
       .select any o_attr related by o_obj->O_ATTR[R102]
       .while ( not_empty o_attr )
-        .select one prev_o_attr related by o_attr->O_ATTR[R103.'precedes']
+        .select one prev_o_attr related by o_attr->O_ATTR[R103.'succeeds']
         .if ( empty prev_o_attr )
           .break while
         .end if
@@ -1544,7 +1522,7 @@
         .end if
         .assign delimiter = ","
         .assign prev_te_attr = te_attr
-        .select one o_attr related by o_attr->O_ATTR[R103.'succeeds']
+        .select one o_attr related by o_attr->O_ATTR[R103.'precedes']
       .end while
       .//
       .// Create the Generated State Machines and connect them to SM_SM.
@@ -2012,7 +1990,7 @@
   .if ( duplicates_needed or ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) ) )
     .// Find first te_parm.
     .while ( not_empty te_parm )
-      .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes']
+      .select one prev_te_parm related by te_parm->TE_PARM[R2041.'succeeds']
       .if ( empty prev_te_parm )
         .assign first_te_parm = te_parm
         .break while
@@ -2025,7 +2003,7 @@
   .// interface.  It would be nice to explore a method to avoid duplicating
   .// the parameter instances.
   .if ( duplicates_needed )
-    .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes'] where ( false )
+    .select one prev_te_parm related by te_parm->TE_PARM[R2041.'succeeds'] where ( false )
     .while ( not_empty te_parm )
       .invoke r = TE_PARM_duplicate( te_parm )
       .assign duplicate_te_parm = r.result
@@ -2034,7 +2012,7 @@
         .relate prev_te_parm to duplicate_te_parm across R2041.'precedes'
       .end if
       .assign prev_te_parm = duplicate_te_parm
-      .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
+      .select one te_parm related by te_parm->TE_PARM[R2041.'precedes']
     .end while
     .select many te_parms related by te_aba->TE_PARM[R2062]
   .end if
@@ -2237,9 +2215,14 @@
   .assign te_lnk.assoc_type = te_oir.assoc_type
   .// Reflexive associatives put the relationship phrase onto the AONE/AOTH data members.
   .if ( "" != right_te_lnk.rel_phrase )
-    .assign te_lnk.linkage = ( te_lnk.linkage + "_" ) + "$_{right_te_lnk.rel_phrase}"
+    .invoke r = is_reflexive( r_rel )
+    .assign reflexive = r.result
+    .if ( reflexive )
+      .assign te_lnk.linkage = ( te_lnk.linkage + "_" ) + "$_{right_te_lnk.rel_phrase}"
+    .end if
   .end if
   .if ( not_empty left_te_lnk )
+    .unrelate left_te_lnk from right_te_lnk across R2075.'precedes'
     .relate left_te_lnk to te_lnk across R2075.'precedes'
     .assign te_lnk.left = left_te_lnk.linkage
     .assign te_lnk.first = false
@@ -2392,7 +2375,7 @@
 .function TE_C_sort .// te_c
   .param inst_ref_set te_cs
   .// Declare an empty instance reference.
-  .select any head_te_c related by te_cs->TE_C[R2017.'succeeds'] where ( false )
+  .select any head_te_c related by te_cs->TE_C[R2017.'precedes'] where ( false )
   .for each te_c in te_cs
     .invoke r = TE_C_insert( head_te_c, te_c )
     .assign head_te_c = r.result
@@ -2412,21 +2395,17 @@
     .// find bigger
     .assign result = head_te_c
     .assign prev_te_c = head_te_c
-    .select one cursor_te_c related by head_te_c->TE_C[R2017.'succeeds']
+    .select one cursor_te_c related by head_te_c->TE_C[R2017.'precedes']
     .while ( not_empty cursor_te_c )
       .if ( te_c.Name <= cursor_te_c.Name )
         .break while
       .else
         .assign prev_te_c = cursor_te_c
-        .select one cursor_te_c related by cursor_te_c->TE_C[R2017.'succeeds']
+        .select one cursor_te_c related by cursor_te_c->TE_C[R2017.'precedes']
       .end if
     .end while
     .if ( not_empty cursor_te_c )
-      .if ( "pyrsl v1.99" > info.interpreter_version )
-        .assign prev_te_c.next_ID = 00
-      .else
-        .unrelate prev_te_c from cursor_te_c across R2017.'precedes'
-      .end if
+      .unrelate prev_te_c from cursor_te_c across R2017.'precedes'
       .relate te_c to cursor_te_c across R2017.'precedes'
     .end if
     .relate prev_te_c to te_c across R2017.'precedes'
@@ -2438,7 +2417,7 @@
 .function class_sort .// te_class
   .param inst_ref_set te_classs
   .// Declare an empty instance reference.
-  .select any head_te_class related by te_classs->TE_CLASS[R2092.'succeeds'] where ( false )
+  .select any head_te_class related by te_classs->TE_CLASS[R2092.'precedes'] where ( false )
   .for each te_class in te_classs
     .invoke r = class_insert( head_te_class, te_class )
     .assign head_te_class = r.result
@@ -2461,22 +2440,18 @@
     .// find bigger
     .assign result = head_te_class
     .assign prev_te_class = head_te_class
-    .select one cursor_te_class related by head_te_class->TE_CLASS[R2092.'succeeds']
+    .select one cursor_te_class related by head_te_class->TE_CLASS[R2092.'precedes']
     .while ( not_empty cursor_te_class )
       .assign rkey = "$t{cursor_te_class.Numb}" + cursor_te_class.GeneratedName
       .if ( lkey <= rkey )
         .break while
       .else
         .assign prev_te_class = cursor_te_class
-        .select one cursor_te_class related by cursor_te_class->TE_CLASS[R2092.'succeeds']
+        .select one cursor_te_class related by cursor_te_class->TE_CLASS[R2092.'precedes']
       .end if
     .end while
     .if ( not_empty cursor_te_class )
-      .if ( "pyrsl v1.99" > info.interpreter_version )
-        .assign prev_te_class.nextID = 00
-      .else
-        .unrelate prev_te_class from cursor_te_class across R2092.'precedes'
-      .end if
+      .unrelate prev_te_class from cursor_te_class across R2092.'precedes'
       .relate te_class to cursor_te_class across R2092.'precedes'
     .end if
     .relate prev_te_class to te_class across R2092.'precedes'
@@ -2489,7 +2464,7 @@
 .function mact_sort .// te_mact
   .param inst_ref_set te_macts
   .// Declare an empty instance reference.
-  .select any head_te_mact related by te_macts->TE_MACT[R2083.'succeeds'] where ( false )
+  .select any head_te_mact related by te_macts->TE_MACT[R2083.'precedes'] where ( false )
   .for each te_mact in te_macts
     .invoke r = mact_insert( head_te_mact, te_mact )
     .assign head_te_mact = r.result
@@ -2499,7 +2474,7 @@
   .while ( not_empty te_mact )
     .assign te_mact.Order = counter
     .assign counter = counter + 1
-    .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+    .select one te_mact related by te_mact->TE_MACT[R2083.'precedes']
   .end while
   .assign attr_result = head_te_mact
 .end function
@@ -2519,22 +2494,18 @@
     .// find bigger
     .assign result = head_te_mact
     .assign prev_te_mact = head_te_mact
-    .select one cursor_te_mact related by head_te_mact->TE_MACT[R2083.'succeeds']
+    .select one cursor_te_mact related by head_te_mact->TE_MACT[R2083.'precedes']
     .while ( not_empty cursor_te_mact )
       .assign rkey = cursor_te_mact.Name
       .if ( lkey <= rkey )
         .break while
       .else
         .assign prev_te_mact = cursor_te_mact
-        .select one cursor_te_mact related by cursor_te_mact->TE_MACT[R2083.'succeeds']
+        .select one cursor_te_mact related by cursor_te_mact->TE_MACT[R2083.'precedes']
       .end if
     .end while
     .if ( not_empty cursor_te_mact )
-      .if ( "pyrsl v1.99" > info.interpreter_version )
-        .assign prev_te_mact.nextID = 00
-      .else
-        .unrelate prev_te_mact from cursor_te_mact across R2083.'precedes'
-      .end if
+      .unrelate prev_te_mact from cursor_te_mact across R2083.'precedes'
       .relate te_mact to cursor_te_mact across R2083.'precedes'
     .end if
     .relate prev_te_mact to te_mact across R2083.'precedes'
@@ -2547,7 +2518,7 @@
 .function sync_sort .// te_sync
   .param inst_ref_set te_syncs
   .// Declare an empty instance reference.
-  .select any head_te_sync related by te_syncs->TE_SYNC[R2095.'succeeds'] where ( false )
+  .select any head_te_sync related by te_syncs->TE_SYNC[R2095.'precedes'] where ( false )
   .for each te_sync in te_syncs
     .invoke r = sync_insert( head_te_sync, te_sync )
     .assign head_te_sync = r.result
@@ -2570,22 +2541,18 @@
     .// find bigger
     .assign result = head_te_sync
     .assign prev_te_sync = head_te_sync
-    .select one cursor_te_sync related by head_te_sync->TE_SYNC[R2095.'succeeds']
+    .select one cursor_te_sync related by head_te_sync->TE_SYNC[R2095.'precedes']
     .while ( not_empty cursor_te_sync )
       .assign rkey = cursor_te_sync.Name
       .if ( lkey <= rkey )
         .break while
       .else
         .assign prev_te_sync = cursor_te_sync
-        .select one cursor_te_sync related by cursor_te_sync->TE_SYNC[R2095.'succeeds']
+        .select one cursor_te_sync related by cursor_te_sync->TE_SYNC[R2095.'precedes']
       .end if
     .end while
     .if ( not_empty cursor_te_sync )
-      .if ( "pyrsl v1.99" > info.interpreter_version )
-        .assign prev_te_sync.nextID = 00
-      .else
-        .unrelate prev_te_sync from cursor_te_sync across R2095.'precedes'
-      .end if
+      .unrelate prev_te_sync from cursor_te_sync across R2095.'precedes'
       .relate te_sync to cursor_te_sync across R2095.'precedes'
     .end if
     .relate prev_te_sync to te_sync across R2095.'precedes'
@@ -2598,9 +2565,9 @@
 .function ee_sort .// te_ee
   .param inst_ref_set te_ees
   .// Declare an empty instance reference.
-  .select any head_te_ee related by te_ees->TE_EE[R2096.'succeeds'] where ( false )
+  .select any head_te_ee related by te_ees->TE_EE[R2096.'precedes'] where ( false )
   .for each te_ee in te_ees
-    .select one next_te_ee related by te_ee->TE_EE[R2096.'succeeds']
+    .select one next_te_ee related by te_ee->TE_EE[R2096.'precedes']
     .if ( not_empty next_te_ee )
       .unrelate te_ee from next_te_ee across R2096.'precedes'
     .end if
@@ -2627,22 +2594,18 @@
     .// find bigger
     .assign result = head_te_ee
     .assign prev_te_ee = head_te_ee
-    .select one cursor_te_ee related by head_te_ee->TE_EE[R2096.'succeeds']
+    .select one cursor_te_ee related by head_te_ee->TE_EE[R2096.'precedes']
     .while ( not_empty cursor_te_ee )
       .assign rkey = cursor_te_ee.Name
       .if ( lkey <= rkey )
         .break while
       .else
         .assign prev_te_ee = cursor_te_ee
-        .select one cursor_te_ee related by cursor_te_ee->TE_EE[R2096.'succeeds']
+        .select one cursor_te_ee related by cursor_te_ee->TE_EE[R2096.'precedes']
       .end if
     .end while
     .if ( not_empty cursor_te_ee )
-      .if ( "pyrsl v1.99" > info.interpreter_version )
-        .assign prev_te_ee.nextID = 00
-      .else
-        .unrelate prev_te_ee from cursor_te_ee across R2096.'precedes'
-      .end if
+      .unrelate prev_te_ee from cursor_te_ee across R2096.'precedes'
       .relate te_ee to cursor_te_ee across R2096.'precedes'
     .end if
     .relate prev_te_ee to te_ee across R2096.'precedes'

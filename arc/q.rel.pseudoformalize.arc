@@ -31,10 +31,7 @@
       .assign r_form.Txt_Phrs = r_part.Txt_Phrs
       .//
       .unrelate r_part from r_rto across R204
-      .if ( "pyrsl v1.99" > info.interpreter_version )
-      .else
-        .unrelate r_part from r_simp across R207
-      .end if
+      .unrelate r_part from r_simp across R207
       .delete object instance r_part
       .//
       .unrelate r_rto from r_oir across R203

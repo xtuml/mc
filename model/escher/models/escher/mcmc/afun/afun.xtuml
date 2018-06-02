@@ -2021,10 +2021,7 @@ else
     end if;
   end while;
   if ( not_empty cursor_s_sparm )
-    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
-          else
-      unrelate prev_s_sparm from cursor_s_sparm across R54.''precedes'';
-    end if;
+    unrelate prev_s_sparm from cursor_s_sparm across R54.''precedes'';
     relate s_sparm to cursor_s_sparm across R54.''precedes'';
   end if;
   relate prev_s_sparm to s_sparm across R54.''precedes'';
@@ -2140,10 +2137,7 @@ else
     end if;
   end while;
   if ( not_empty cursor_s_bparm )
-    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
-          else
-      unrelate prev_s_bparm from cursor_s_bparm across R55.''precedes'';
-    end if;
+    unrelate prev_s_bparm from cursor_s_bparm across R55.''precedes'';
     relate s_bparm to cursor_s_bparm across R55.''precedes'';
   end if;
   relate prev_s_bparm to s_bparm across R55.''precedes'';
@@ -2259,10 +2253,7 @@ else
     end if;
   end while;
   if ( not_empty cursor_o_tparm )
-    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
-          else
-      unrelate prev_o_tparm from cursor_o_tparm across R124.''precedes'';
-    end if;
+    unrelate prev_o_tparm from cursor_o_tparm across R124.''precedes'';
     relate o_tparm to cursor_o_tparm across R124.''precedes'';
   end if;
   relate prev_o_tparm to o_tparm across R124.''precedes'';
@@ -2378,10 +2369,7 @@ else
     end if;
   end while;
   if ( not_empty cursor_sm_evtdi )
-    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
-          else
-      unrelate prev_sm_evtdi from cursor_sm_evtdi across R533.''precedes'';
-    end if;
+    unrelate prev_sm_evtdi from cursor_sm_evtdi across R533.''precedes'';
     relate sm_evtdi to cursor_sm_evtdi across R533.''precedes'';
   end if;
   relate prev_sm_evtdi to sm_evtdi across R533.''precedes'';
@@ -2497,10 +2485,7 @@ else
     end if;
   end while;
   if ( not_empty cursor_c_pp )
-    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
-          else
-      unrelate prev_c_pp from cursor_c_pp across R4021.''precedes'';
-    end if;
+    unrelate prev_c_pp from cursor_c_pp across R4021.''precedes'';
     relate c_pp to cursor_c_pp across R4021.''precedes'';
   end if;
   relate prev_c_pp to c_pp across R4021.''precedes'';
@@ -2624,10 +2609,7 @@ for each r_simp in r_simps
     r_form.Txt_Phrs = r_part.Txt_Phrs;
     //
     unrelate r_part from r_rto across R204;
-    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
-    else
-      unrelate r_part from r_simp across R207;
-    end if;
+    unrelate r_part from r_simp across R207;
     delete object instance r_part;
     //
     unrelate r_rto from r_oir across R203;
@@ -2883,7 +2865,7 @@ for each c_c in c_cs
       end for;
     end if;
   end for;
-  // Identify polymorhic ports.
+  // Identify polymorphic ports.
   // Polymorphic ports exist more than once in the same orientation on a component.
   port_counter = 0;
   select many te_pos related by te_c->TE_PO[R2005];
@@ -2911,48 +2893,26 @@ for each c_c in c_cs
     end if;
   end for;
 end for;
-// Here we force all the ports and interface references to be polymorphic.  
-// We do this step via a second loop here so that we could set up the 
-// sibling values earlier before all the ports potentially get forced to polymorphic.
-// This loop also configures the satisfaction shortcut we create between local and
+// This loop configures the satisfaction shortcut we create between local and
 // foreign interface references.
-select many te_pos from instances of TE_PO;
+select many te_pos from instances of TE_PO where ( not selected.Provision );
 for each te_po in te_pos
   select many te_iirs related by te_po->TE_IIR[R2080];
   for each te_iir in te_iirs
     // Select across the satisfaction to get the related TE_IIR.
-    if ( te_po.Provision )
-      // provision side first
-      // CDS There may be more than one here.
-      select any foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->CL_IR[R4706]->CL_IIR[R4703]->TE_IIR[R2013];
+    // requirement side first
+    select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013];
+    if ( empty foreign_te_iir )
+      select any foreign_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046];
       if ( empty foreign_te_iir )
-        // We are dealing with TE_IIRs that may be on non-imported interface references (connected to C_Cs).
-        select any foreign_te_iir related by te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046];
+        select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046];
         if ( empty foreign_te_iir )
-          select any foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046];
-          if ( empty foreign_te_iir )
-            select any foreign_te_iir related by te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->CL_IR[R4706]->CL_IIR[R4703]->TE_IIR[R2013];
-          end if;
+          select any foreign_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013];
         end if;
       end if;
-      if ( not_empty foreign_te_iir )
-        relate te_iir to foreign_te_iir across R2081.''provides or is delegated'';
-      end if;
-    else
-      // requirement side first
-      select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013];
-      if ( empty foreign_te_iir )
-        select any foreign_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046];
-        if ( empty foreign_te_iir )
-          select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046];
-          if ( empty foreign_te_iir )
-            select any foreign_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013];
-          end if;
-        end if;
-      end if;
-      if ( not_empty foreign_te_iir )
-        relate te_iir to foreign_te_iir across R2081.''requires or delegates'';
-      end if;
+    end if;
+    if ( not_empty foreign_te_iir )
+      relate te_iir to foreign_te_iir across R2081.''requires or delegates'';
     end if;
   end for;
 end for;
@@ -5347,9 +5307,14 @@ te_lnk.Mult = te_oir.Mult;
 te_lnk.assoc_type = te_oir.assoc_type;
 // Reflexive associatives put the relationship phrase onto the AONE/AOTH data members.
 if ( "" != right_te_lnk.rel_phrase )
-  te_lnk.linkage = ( te_lnk.linkage + "_" ) + T::underscore(s:right_te_lnk.rel_phrase);
+  r = ::is_reflexive( r_rel:r_rel );
+  reflexive = r;
+  if ( reflexive )
+    te_lnk.linkage = ( te_lnk.linkage + "_" ) + T::underscore(s:right_te_lnk.rel_phrase);
+  end if;
 end if;
 if ( not_empty left_te_lnk )
+  unrelate left_te_lnk from right_te_lnk across R2075.''precedes'';
   relate left_te_lnk to te_lnk across R2075.''precedes'';
   te_lnk.left = left_te_lnk.linkage;
   te_lnk.first = false;
@@ -5766,10 +5731,7 @@ else
     end if;
   end while;
   if ( not_empty cursor_te_c )
-    if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
-          else
-      unrelate prev_te_c from cursor_te_c across R2017.''precedes'';
-    end if;
+    unrelate prev_te_c from cursor_te_c across R2017.''precedes'';
     relate te_c to cursor_te_c across R2017.''precedes'';
   end if;
   relate prev_te_c to te_c across R2017.''precedes'';
@@ -5870,10 +5832,7 @@ else
       end if;
     end while;
     if ( not_empty cursor_te_class )
-      if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
-              else
-        unrelate prev_te_class from cursor_te_class across R2092.''precedes'';
-      end if;
+      unrelate prev_te_class from cursor_te_class across R2092.''precedes'';
       relate te_class to cursor_te_class across R2092.''precedes'';
     end if;
     relate prev_te_class to te_class across R2092.''precedes'';
@@ -5989,10 +5948,7 @@ else
       end if;
     end while;
     if ( not_empty cursor_te_mact )
-      if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
-              else
-        unrelate prev_te_mact from cursor_te_mact across R2083.''precedes'';
-      end if;
+      unrelate prev_te_mact from cursor_te_mact across R2083.''precedes'';
       relate te_mact to cursor_te_mact across R2083.''precedes'';
     end if;
     relate prev_te_mact to te_mact across R2083.''precedes'';
@@ -6108,10 +6064,7 @@ else
       end if;
     end while;
     if ( not_empty cursor_te_sync )
-      if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
-              else
-        unrelate prev_te_sync from cursor_te_sync across R2095.''precedes'';
-      end if;
+      unrelate prev_te_sync from cursor_te_sync across R2095.''precedes'';
       relate te_sync to cursor_te_sync across R2095.''precedes'';
     end if;
     relate prev_te_sync to te_sync across R2095.''precedes'';
@@ -6226,10 +6179,7 @@ else
       end if;
     end while;
     if ( not_empty cursor_te_ee )
-      if ( "pyrsl v1.99" > "pyrsl v9.9.9" )
-              else
-        unrelate prev_te_ee from cursor_te_ee across R2096.''precedes'';
-      end if;
+      unrelate prev_te_ee from cursor_te_ee across R2096.''precedes'';
       relate te_ee to cursor_te_ee across R2096.''precedes'';
     end if;
     relate prev_te_ee to te_ee across R2096.''precedes'';

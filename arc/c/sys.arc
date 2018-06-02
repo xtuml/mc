@@ -110,10 +110,6 @@
 .select any te_tim from instances of TE_TIM
 .select any te_trace from instances of TE_TRACE
 .select any te_typemap from instances of TE_TYPEMAP
-.// CDS
-.assign te_string.u128touuid = te_prefix.result + "u128touuid"
-.assign te_string.uuidtou128 = te_prefix.result + "uuidtou128"
-.// CDS
 .//
 .select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
 .invoke r = TE_C_sort( active_te_cs )
@@ -187,7 +183,7 @@
     .assign all_instance_dumpersd = all_instance_dumpersd + "extern ${te_prefix.result}idf ${te_c.Name}_instance_dumpers[ ${te_dci.max} ];\n"
     .assign all_instance_dumpers = all_instance_dumpers + "  ${te_c.Name}_instance_dumpers,\n"
     .assign all_max_class_numbers = ( all_max_class_numbers + " + " ) + te_dci.max
-  .select one te_c related by te_c->TE_C[R2017.'succeeds']
+  .select one te_c related by te_c->TE_C[R2017.'precedes']
 .end while
 .//
 .//

@@ -166,10 +166,22 @@
     .select one te_val related by v_scv->V_VAL[R801]->TE_VAL[R2040]
     .select one cnst_syc related by v_scv->CNST_SYC[R850]
     .select one cnst_lsc related by cnst_syc->CNST_LFSC[R1502]->CNST_LSC[R1503]
-    .select one te_dt related by cnst_syc->S_DT[R1500]->TE_DT[R2021]
+    .select one s_dt related by cnst_syc->S_DT[R1500]
+    .select one te_dt related by s_dt->TE_DT[R2021]
     .assign te_val.OAL = cnst_syc.Name
     .assign te_val.buffer = cnst_lsc.Value
-    .if ( 4 == te_dt.Core_Typ )
+    .select one edt related by s_dt->S_EDT[R17]
+    .if ( not_empty edt )
+      .select many s_enums related by edt->S_ENUM[R27]
+      .for each s_enum in s_enums
+        .assign enumString = s_dt.Name + "::" + s_enum.Name
+        .if ( enumString == cnst_lsc.Value )
+          .select one te_enum related by s_enum->TE_ENUM[R2027]
+          .assign te_val.buffer = te_enum.GeneratedName
+          .break for
+        .end if
+      .end for
+    .elif ( 4 == te_dt.Core_Typ )
       .select any te_string from instances of TE_STRING
       .assign te_val.buffer = ( """" + cnst_lsc.Value ) + """"
       .invoke oal( " // Ccode" )
@@ -816,7 +828,7 @@
     .// CDS:  do not know how to do this with array_spec
     .assign te_val.array_spec = root_te_val.array_spec
     .assign te_val.dimensions = root_te_val.dimensions - 1
-    .select one next_te_dim related by root_te_val->TE_DIM[R2079]->TE_DIM[R2060.'succeeds']
+    .select one next_te_dim related by root_te_val->TE_DIM[R2079]->TE_DIM[R2060.'precedes']
     .if ( not_empty next_te_dim )
       .relate te_val to next_te_dim across R2079
     .end if

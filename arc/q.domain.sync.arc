@@ -79,7 +79,7 @@ ${te_sync.deferred_method}( void )
   .while ( not_empty te_sync )
     .select one te_aba related by te_sync->TE_ABA[R2010]
     .include "${te_file.arc_path}/t.domain.function.h"
-    .select one te_sync related by te_sync->TE_SYNC[R2095.'succeeds']
+    .select one te_sync related by te_sync->TE_SYNC[R2095.'precedes']
   .end while
 .end function
 .//
@@ -113,7 +113,7 @@ ${te_sync.deferred_method}( void )
       .end if
       .include "${te_file.arc_path}/t.domain.function.c"
     .end if
-    .select one te_sync related by te_sync->TE_SYNC[R2095.'succeeds']
+    .select one te_sync related by te_sync->TE_SYNC[R2095.'precedes']
   .end while
   .//.end for
 .end function
