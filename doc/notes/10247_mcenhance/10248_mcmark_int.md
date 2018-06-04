@@ -62,21 +62,26 @@ an interface as safe for interrupt execution.
 
 5.1 Simulated Time  
 5.1.1 Add boolean attribute `TM_SYSTAG.SimulatedTime` to mark time as
-simulated.  It will default to 'false'.  
+simulated.  Add same attribute to `TE_SYS`.  It will default to 'false'.  
 5.1.2 Add marking function `MarkSimulatedTime` to `m.system.arc`.  
+5.1.3 Find the system mark and copy marks across to `Extended System
+(TE_SYS)` in `q.sys.populate.arc`.  
 
 5.2 State Save  
 5.2.1 Add integer attribute `TM_SYSTAG.StateSaveBufferSize` to mark the
-depth of the state save buffer expressed in bytes.  
+depth of the state save buffer expressed in bytes.  Add same attribute
+to `TE_SYS`.  It will default to zero.  
 5.2.2 Add marking function `MarkStateSave( buffersize )`
 to `m.system.arc`.  
+5.2.3 Find the system mark and copy marks across to `Extended System
+(TE_SYS)` in `q.sys.populate.arc`.  
 
 5.3 Class-Specific Trace  
 5.3.1 `MarkObjectTraceOn` and `MarkObjectTraceOff` already exist but
 are unused.  Use them.  
-5.3.2 Add boolean attribute `TE_CLASS.IsTrace` and populate it with
-input from the marking functions.  Default to 'false'.  
-5.3.2 Add boolean attribute `TE_ABA.IsTrace` and populate with the
+5.3.2 Boolean attribute `TE_CLASS.IsTrace` exists.  It defaults to
+'true'.  Use it.  
+5.3.3 Add boolean attribute `TE_ABA.IsTrace` and populate with the
 conjunction of `TE_CLASS.IsTrace` and `TE_C.StmtTrace`.  
 [This may be difficult, because q.sys.populate runs before these
 marks are applied.]  
@@ -85,16 +90,27 @@ marks are applied.]
 5.4.1 Add a new class `Message Mark (TM_MSG)`.  Supply attribute
 `IsSafeForInterrupts`.  Default this to false.  
 5.4.2 Add marking function `MarkMessageSafeForInterrupts( component,
-port, message )` to `m.domain.arc`.  
+port, message )` to `m.bridge.arc`.  
+5.4.3 Find and relate the message mark to the matching instance of
+`Extended Message Action(TE_MACT)` across R2809 in `q.sys.populate.arc`.  
 
 5.5 Update `funcsigs.h` for the new marking functions following the
-instructions in `mcmc/arlan/funcsigs.readme`.  
+instructions in `mcmc/arlan/funcsigs.readme`.  Update the readme.  
+
 5.6 Update `mark_all` in `m.system.arc` to set the pass number for the
 new markings.  
-5.6 Rebuild `mcmc`.  
+
+5.6 Update the schema (`schema/sql/xtumlmc_schema.sql`).  
+
+5.7 Rebuild `mcmc`.  
 
 ### 6. Implementation Comments
 
+6.1 In `mcooa`, fixed cardinality of R2093 and R2094 from
+`TE_SELECT_RELATED` to `TE_VAR`.  The schema had been edited to be
+correct, but the model was incorrect.  
+
+6.2 Turned off the x bit in the file permissions for a few files.  
 
 ### 7. Unit Test
 

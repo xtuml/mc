@@ -356,6 +356,42 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("8fbb364b-3b0d-4881-8c1b-68617df1a50e",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("8fbb364b-3b0d-4881-8c1b-68617df1a50e",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("8fbb364b-3b0d-4881-8c1b-68617df1a50e",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"2bc8157a-ff8b-434f-ae7a-f2b83db4570a",
+	'SimulatedTime',
+	'',
+	'',
+	'SimulatedTime',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("fbed2890-8dc5-4a5d-a0ca-bca1aff872aa",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("fbed2890-8dc5-4a5d-a0ca-bca1aff872aa",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("fbed2890-8dc5-4a5d-a0ca-bca1aff872aa",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"8fbb364b-3b0d-4881-8c1b-68617df1a50e",
+	'StateSaveBufferSize',
+	'',
+	'',
+	'StateSaveBufferSize',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"fa363aa4-f325-484c-816f-cc8b9b95c909");

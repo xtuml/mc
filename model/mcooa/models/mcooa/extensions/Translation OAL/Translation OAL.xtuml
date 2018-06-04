@@ -7831,7 +7831,7 @@ INSERT INTO R_FORM
 	VALUES ("c2c9fa0c-082f-41ff-9813-4e3f3b092d3f",
 	"54911dd9-ee83-49dc-8b72-6eafe27d7585",
 	"1a688d23-f57a-4451-b690-038b40ee5ef5",
-	0,
+	1,
 	1,
 	'holds start of');
 INSERT INTO R_RGO
@@ -7901,7 +7901,7 @@ INSERT INTO R_FORM
 	VALUES ("c2c9fa0c-082f-41ff-9813-4e3f3b092d3f",
 	"946aaaf1-dffd-43e6-9c6a-aa3c01694c8b",
 	"be112f0f-7c30-4187-9118-3560c4f0b125",
-	0,
+	1,
 	1,
 	'gets result of');
 INSERT INTO R_RGO

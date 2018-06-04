@@ -1546,6 +1546,7 @@ CREATE TABLE TE_ABA (
     te_cID UNIQUE_ID,
     SelfEventCount INTEGER,
     NonSelfEventCount INTEGER,
+    IsTrace BOOLEAN,
     ParameterDeclaration STRING,
     ParameterDefinition STRING,
     ParameterStructure STRING,
@@ -2479,6 +2480,8 @@ CREATE TABLE TE_SYS (
     AllPortsPoly BOOLEAN,
     StructuredMessaging BOOLEAN,
     NetworkSockets BOOLEAN,
+    SimulatedTime BOOLEAN,
+    StateSaveBufferSize INTEGER,
     Sys_ID UNIQUE_ID
 );
 CREATE TABLE TE_TARGET (
@@ -2637,6 +2640,12 @@ CREATE TABLE TM_IF (
     Name STRING,
     c_iId UNIQUE_ID
 );
+CREATE TABLE TM_MSG (
+    Name STRING,
+    ComponentName STRING,
+    PortName STRING,
+    IsSafeForInterrupts INTEGER
+);
 CREATE TABLE TM_POINTER (
     Domain STRING,
     DT_name STRING,
@@ -2673,7 +2682,9 @@ CREATE TABLE TM_SYSTAG (
     SystemCPortsType STRING,
     AllPortsPoly BOOLEAN,
     StructuredMessaging BOOLEAN,
-    NetworkSockets BOOLEAN
+    NetworkSockets BOOLEAN,
+    SimulatedTime BOOLEAN,
+    StateSaveBufferSize INTEGER
 );
 CREATE TABLE TM_TEMPLATE (
     ID UNIQUE_ID,
@@ -3181,7 +3192,8 @@ CREATE ROP REF_ID R2805 FROM MC TM_TPV (te_ciID) TO 1C TE_CI (ID);
 CREATE ROP REF_ID R2806 FROM MC TM_TPV (te_iirID) TO 1C TE_IIR (ID);
 CREATE ROP REF_ID R2807 FROM 1C TM_IF (c_iId) TO 1 C_I (Id);
 CREATE ROP REF_ID R2808 FROM MC TM_TPV (tm_tpID) TO 1 TM_TP (ID);
-CREATE ROP REF_ID R2901 FROM MC I_LNK (Rel_ID, fromInst_ID) TO 1 I_LIP (Rel_ID, Inst_ID);
+CREATE ROP REF_ID R2809 FROM MC TM_MSG (te_mactName, te_mactComponentName, te_mactPortName) TO 1 TE_MACT (Name, ComponentName, PortName);
+CREATE ROP REF_ID R2901 FROM MC I_LNK (fromInst_ID, Rel_ID) TO 1 I_LIP (Inst_ID, Rel_ID);
 CREATE ROP REF_ID R2902 FROM MC I_LNK (toInst_ID, Rel_ID) TO 1 I_LIP (Inst_ID, Rel_ID);
 CREATE ROP REF_ID R2903 FROM MC I_LNK (Rel_ID, assocInst_ID) TO 1C I_LIP (Rel_ID, Inst_ID);
 CREATE ROP REF_ID R2904 FROM MC I_LNK (Rel_ID) TO 1 R_REL (Rel_ID);

@@ -62,6 +62,8 @@
   .assign te_sys.AllPortsPoly = false
   .assign te_sys.StructuredMessaging = false
   .assign te_sys.NetworkSockets = false
+  .assign te_sys.SimulatedTime = false
+  .assign te_sys.StateSaveBufferSize = 0
   .//
   .// Update te_sys with system marks
   .select any tm_systag from instances of TM_SYSTAG
@@ -84,6 +86,8 @@
     .assign te_sys.AllPortsPoly = tm_systag.AllPortsPoly
     .assign te_sys.StructuredMessaging = tm_systag.StructuredMessaging
     .assign te_sys.NetworkSockets = tm_systag.NetworkSockets
+    .assign te_sys.SimulatedTime = tm_systag.SimulatedTime
+    .assign te_sys.StateSaveBufferSize = tm_systag.StateSaveBufferSize
   .else
     .assign te_sys.SystemCPortsType = "sc_interface"
   .end if
@@ -1869,6 +1873,11 @@
   .end if
   .assign te_mact.GeneratedName = "$r{te_mact.GeneratedName}"
   .assign te_mact.Name = te_mact.GeneratedName
+  .// Link marks.
+  .select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == te_mact.ComponentName ) and ( selected.PortName == te_mact.PortName ) and ( selected.Name = te_mact.MessageName ) )
+  .if ( not_empty tm_msg )
+    relate te_mact to tm_msg across R2809
+  .end if
   .select any converted_bool_te_dt from instances of TE_DT where ( selected.Name == "integer" )
   .if ( ( "SystemC" == te_thread.flavor ) and ( te_sys.SystemCPortsType == "TLM" ) )
     .for each te_parm in te_parms

@@ -199,6 +199,25 @@
   .assign tm_systag.NetworkSockets = true
 .end function
 .//
+.//============================================================================
+.// Use simulated time instead of wall clock time.
+.//============================================================================
+.function MarkSimulatedTime
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
+  .assign tm_systag.SimulatedTime = true
+.end function
+.//
+.//============================================================================
+.// Set the state save buffer depth.
+.//============================================================================
+.function MarkStateSave
+  .param integer buffersize
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
+  .assign tm_systag.StateSaveBufferSize = buffersize
+.end function
+.//
 .function TM_SYSTAG_select .// tm_systag
   .select any tm_systag from instances of TM_SYSTAG
   .if ( empty tm_systag )
@@ -276,6 +295,9 @@
     .elif ( "TagSyncServiceSafeForInterrupts" == f )
       .// TagSyncServiceSafeForInterrupts("component_name","function_name")
       .invoke TagSyncServiceSafeForInterrupts(p1,p2)
+    .elif ( "MarkMessageSafeForInterrupts" == f )
+      .// MarkMessageSafeForInterrupts("component_name","port_name","message_name")
+      .invoke MarkMessageSafeForInterrupts(p1,p2,p3)
     .// datatype
     .elif ( "TagDataTypePrecision" == f )
       .// TagDataTypePrecision("component_name","dt_name","tagged_name","initial_value")
@@ -368,6 +390,13 @@
       .invoke MarkStructuredMessaging()
     .elif ( "MarkNetworkSockets" == f )
       .invoke MarkNetworkSockets()
+    .elif ( "MarkSimulatedTime" == f )
+      .invoke MarkSimulatedTime()
+    .elif ( "MarkStateSave" == f )
+      .// MarkStateSave("buffersize":integer)
+      .invoke r = T_atoi( p1 )
+      .assign i1 = r.result
+      .invoke MarkStateSave(i1)
     .elif ( "MarkSystemConfigurationPackage" == f )
       .// MarkSystemConfigurationPackage("package_name")
       .invoke MarkSystemConfigurationPackage(p1)
