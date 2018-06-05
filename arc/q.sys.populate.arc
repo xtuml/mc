@@ -1876,7 +1876,7 @@
   .// Link marks.
   .select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == te_mact.ComponentName ) and ( selected.PortName == te_mact.PortName ) and ( selected.Name == te_mact.MessageName ) )
   .if ( not_empty tm_msg )
-    relate te_mact to tm_msg across R2809
+    .relate te_mact to tm_msg across R2809
     .if ( not_empty te_dt )
       .if ( "void" != te_dt.Name )
         .print "ERROR:  Non-void message marked as safe for interrupts (${te_mact.ComponentName}::${te_mact.PortName}::${te_mact.MessageName})."

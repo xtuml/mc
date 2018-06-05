@@ -66,7 +66,7 @@
   .assign component_name = "$r{component_name}"
   .assign port_name = "$r{port_name}"
   .assign message_name = "$r{message_name}"
-  .select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == component_name ) and ( selected.PortName == port_name ) and ( selected.Name == function_name ) )
+  .select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == component_name ) and ( selected.PortName == port_name ) and ( selected.Name == message_name ) )
   .if ( empty tm_msg )
     .create object instance tm_msg of TM_MSG
     .assign tm_msg.ComponentName = component_name

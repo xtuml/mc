@@ -125,10 +125,71 @@ Also, dos2unix was run on these files.
 7.1 MicrowaveOven Smoke Test  
 Compile and run the MicrowaveOven sample project.  
 
-7.2 script
-Write archetype that queries the values of the markings.
-
-7.3 Test on Windows  
+7.2 RSL scripted marking test  
+7.2.1 Import the GPS Watch (OAL) project in from the QuickStart.  
+7.2.2 Add the following marks to `gen/bridge.mark` (creating the file
+if necessary).
+<pre>
+.invoke MarkMessageSafeForInterrupts( "Tracking", "Tracking", "startStopPressed" )
+.invoke MarkMessageSafeForInterrupts( "Tracking", "Tracking", "lapResetPressed" )
+.invoke MarkMessageSafeForInterrupts( "bogusComponent", "bogusPort", "bogusMessage" )
+</pre>
+7.2.3 Add the following marks to `gen/class.mark`.  
+<pre>
+.invoke MarkClassTraceOn( "Tracking", "TrackLog" )
+.invoke MarkClassTraceOff( "Tracking", "TrackPoint" )
+.invoke MarkClassTraceOff( "Location", "Distance" )
+</pre>
+7.2.4 Add the following marks to `gen/system.mark`.  
+<pre>
+.invoke MarkStateSave( 777777 )
+.invoke MarkSimulatedTime()
+</pre>
+7.2.5 Paste the following into `gen/event.mark` (create the file if
+necessary).  
+<pre>
+.// Marking test.  Remember to turn off mcmc.
+.// Find the message marks and detect a mark that was spelled incorrectly.
+.select many tm_msgs from instances of TM_MSG
+.for each tm_msg in tm_msgs
+  .print "tm_msg:  ${tm_msg.ComponentName}::${tm_msg.PortName}::${tm_msg.Name}"
+  .select one te_mact related by tm_msg->TE_MACT[R2809]
+  .if ( empty te_mact )
+    .print "tm_msg:  No related TE_MACT for ${tm_msg.ComponentName}::${tm_msg.PortName}::${tm_msg.Name}"
+  .else
+    .print "tm_msg:  Found TE_MACT across R2809 for ${tm_msg.ComponentName}::${tm_msg.PortName}::${tm_msg.Name}"
+  .end if
+.end for
+.// Test the new system marks (MarkStateSave and MarkSimulatedTime).
+.select many tm_systags from instances of TM_SYSTAG
+.for each tm_systag in tm_systags
+  .if ( tm_systag.SimulatedTime )
+    .print "tm_systag:  Found simulated time."
+  .end if
+  .print "tm_systag.StateSaveBufferSize is $t{tm_systag.StateSaveBufferSize}"
+.end for
+.// Find classes that were tagged to have tracing turned off.
+.select many te_classs from instances of te_class where ( not selected.IsTrace )
+.for each te_class in te_classs
+  .print "te_class:  IsTrace turned off for ${te_class.Name}(${te_class.Key_Lett})"
+.end for
+.// Bail out early.
+.exit 777
+</pre>
+7.2.6 Build the GPS Watch project.  
+7.2.7 See the following in the code generation Console.  
+<pre>
+event.mark: 3:  INFO:  tm_msg:  Tracking::Tracking::startStopPressed
+event.mark: 8:  INFO:  tm_msg:  Found TE_MACT across R2809 for Tracking::Tracking::startStopPressed
+event.mark: 3:  INFO:  tm_msg:  Tracking::Tracking::lapResetPressed
+event.mark: 8:  INFO:  tm_msg:  Found TE_MACT across R2809 for Tracking::Tracking::lapResetPressed
+event.mark: 3:  INFO:  tm_msg:  bogusComponent::bogusPort::bogusMessage
+event.mark: 6:  INFO:  tm_msg:  No related TE_MACT for bogusComponent::bogusPort::bogusMessage
+event.mark: 14:  INFO:  tm_systag:  Found simulated time.
+event.mark: 16:  INFO:  tm_systag.StateSaveBufferSize is 777777
+event.mark: 20:  INFO:  te_class:  IsTrace turned off for TrackPoint(TrackPoint)
+event.mark: 20:  INFO:  te_class:  IsTrace turned off for Distance(Distance)
+</pre>
 
 ### 8. User Documentation
 
