@@ -126,14 +126,7 @@
 .end function
 .//
 .//============================================================================
-.function TagObjectTraceOff
-  .param string obj_key_letters
-  .select many te_cs from instances of TE_C
-  .for each te_c in te_cs
-    .invoke MarkObjectTraceOff( te_c.Name, obj_key_letters )
-  .end for
-.end function
-.function MarkObjectTraceOff
+.function MarkClassTraceOff
   .param string component_name
   .param string obj_key_letters
   .assign component_name = "$r{component_name}"
@@ -156,7 +149,7 @@
         .assign msg = "Class ${te_class.Name} (${te_class.Key_Lett}) tracing is disabled."
       .else
         .assign msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}."
-        .assign msg = msg + "\n => MarkObjectTraceOff( ${obj_key_letters} )"
+        .assign msg = msg + "\n => MarkClassTraceOff( ${component_name}, ${obj_key_letters} )"
       .end if
     .end if
     .if ( "" != msg )
@@ -166,14 +159,7 @@
 .end function
 .//
 .//============================================================================
-.function TagObjectTraceOn
-  .param string obj_key_letters
-  .select many te_cs from instances of TE_C
-  .for each te_c in te_cs
-    .invoke MarkObjectTraceOn( te_c.Name, obj_key_letters )
-  .end for
-.end function
-.function MarkObjectTraceOn
+.function MarkClassTraceOn
   .param string component_name
   .param string obj_key_letters
   .assign component_name = "$r{component_name}"
@@ -196,7 +182,7 @@
         .assign msg = "Class ${te_class.Name} (${te_class.Key_Lett}) tracing is enabled."
       .else
         .assign msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}."
-        .assign msg = msg + "\n => MarkObjectTraceOn( ${obj_key_letters} )"
+        .assign msg = msg + "\n => MarkClassTraceOn( ${component_name}, ${obj_key_letters} )"
       .end if
     .end if
     .if ( "" != msg )

@@ -1,14 +1,4 @@
 .//============================================================================
-.// File:  bridge.mark
-.//
-.// Description:
-.// This marking file is used to specify inter-domain bridge wiring to the
-.// model compiler.
-.//
-.// Notice:
-.//============================================================================
-.//
-.//============================================================================
 .// Notes:
 .// (1) Marking is specified via archetype function invocation(s) in this file.
 .//     A function invocation statement MUST be specified on a single line.
@@ -27,30 +17,33 @@
 .// handler or other asynchronous activation (one for each synchronous
 .// service):
 .//
-.// TagSyncServiceSafeForInterrupts( "domain", "sync_service" )
+.// TagSyncServiceSafeForInterrupts( "component", "sync_service" )
 .//
 .// Where the input parameters are:
-.//   domain = (registered) xtUML domain name
+.//   component = xtUML component name
 .//   sync_service = name of synchronous service
 .//
 .// Example:
 .//  .invoke TagSyncServiceSafeForInterrupts( "ILB", "PumpReady" )
-.//
 .//============================================================================
 .//
 .//
 .//============================================================================
-.// Wire Bridge Between xtUML Domains using Synchronous Services:
-.// WireSynchServiceOoaBridge( "initiating_dom", "ee_key_letters", "recipient_dom" )
-.// This mark is no longer supported.  Please use components and interfaces.
-.//============================================================================
+.// Mark Message as Safe for Interrupt Execution:
 .//
+.// To indicate to the model compiler that a message may be invoked in a
+.// manner safe for invocation from an interrupt handler or other asynchronous
+.// activation (one for each message):
 .//
-.//============================================================================
-.// Wire Bridge Between xtUML domain and Realized Domain:
-.// WireRealizedExternalEntity( "ooa_domain_name", "ee_key_letters",
-.//                "realized_domain_name", "method_prefix", "include_file" )
-.// This mark is no longer supported.  Please use components and interfaces.
+.// MarkMessageSafeForInterrupts( "component", "port", "message" )
+.//
+.// Where the input parameters are:
+.//   component = xtUML component name
+.//   port = name of the port in which message is found
+.//   message = name of message
+.//
+.// Example:
+.//  .invoke MarkMessageSafeForInterrupts( "Tracking", "UI", "StartStopPressed" )
 .//============================================================================
 .//
 .//

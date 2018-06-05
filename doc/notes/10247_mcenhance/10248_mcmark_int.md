@@ -66,6 +66,7 @@ simulated.  Add same attribute to `TE_SYS`.  It will default to 'false'.
 5.1.2 Add marking function `MarkSimulatedTime` to `m.system.arc`.  
 5.1.3 Find the system mark and copy marks across to `Extended System
 (TE_SYS)` in `q.sys.populate.arc`.  
+5.1.4 Update the default marking file, `schema/colors/system.mark`.  
 
 5.2 State Save  
 5.2.1 Add integer attribute `TM_SYSTAG.StateSaveBufferSize` to mark the
@@ -75,16 +76,18 @@ to `TE_SYS`.  It will default to zero.
 to `m.system.arc`.  
 5.2.3 Find the system mark and copy marks across to `Extended System
 (TE_SYS)` in `q.sys.populate.arc`.  
+5.2.4 Update the default marking file, `schema/colors/system.mark`.  
 
 5.3 Class-Specific Trace  
 5.3.1 `MarkObjectTraceOn` and `MarkObjectTraceOff` already exist but
-are unused.  Use them.  
+are unused.  Use them with name changes (Object --> Class).  
 5.3.2 Boolean attribute `TE_CLASS.IsTrace` exists.  It defaults to
 'true'.  Use it.  
 5.3.3 Add boolean attribute `TE_ABA.IsTrace` and populate with the
 conjunction of `TE_CLASS.IsTrace` and `TE_C.StmtTrace`.  
 [This may be difficult, because q.sys.populate runs before these
 marks are applied.]  
+5.3.4 Update the default marking file, `schema/colors/class.mark`.  
 
 5.4 Tagging Interface Messages as Safe for Interrupts  
 5.4.1 Add a new class `Message Mark (TM_MSG)`.  Supply attribute
@@ -92,7 +95,10 @@ marks are applied.]
 5.4.2 Add marking function `MarkMessageSafeForInterrupts( component,
 port, message )` to `m.bridge.arc`.  
 5.4.3 Find and relate the message mark to the matching instance of
-`Extended Message Action(TE_MACT)` across R2809 in `q.sys.populate.arc`.  
+`Extended Message Action(TE_MACT)` across R2809 in `q.sys.populate.arc`.
+Detect and report non-void message marking, since messages marked
+as safe for interrupt execution cannot return data.  
+5.4.4 Update the default marking file, `schema/colors/bridge.mark`.  
 
 5.5 Update `funcsigs.h` for the new marking functions following the
 instructions in `mcmc/arlan/funcsigs.readme`.  Update the readme.  
@@ -110,7 +116,9 @@ new markings.
 `TE_SELECT_RELATED` to `TE_VAR`.  The schema had been edited to be
 correct, but the model was incorrect.  
 
-6.2 Turned off the x bit in the file permissions for a few files.  
+6.2 Turned off the x bit in the file permissions for a few files.
+And permissions on all of the schema/colors/ files are changed.
+Also, dos2unix was run on these files.  
 
 ### 7. Unit Test
 
@@ -132,14 +140,46 @@ The Marking section of the MC-3020 User Guide is updated.
 Fork/Repository:  cortlandstarrett/mc  
 Branch:  10248_mcmark
 
- Put the file list here 
+ arc/m.bridge.arc                                   |  23 +
+ arc/m.class.arc                                    |  22 +-
+ arc/m.system.arc                                   |  49 +-
+ arc/q.sys.populate.arc                             |  15 +
+ arc/q.val.translate.arc                            |   0
+ arc/t.sys_sets.c                                   |   0
+ doc/notes/10247_mcenhance/10247_mcenhance_ant.md   | 140 +++++
+ doc/notes/10247_mcenhance/10248_mcmark_int.md      | 152 +++++
+ doc/notes/10247_mcenhance/TIM_bridge.c             | 642 +++++++++++++++++++
+ doc/notes/10247_mcenhance/TIM_sim1.png             | Bin 0 -> 117256 bytes
+ doc/notes/10247_mcenhance/TIM_sim2.png             | Bin 0 -> 102178 bytes
+ doc/notes/10247_mcenhance/ss.c                     |  55 ++
+ doc/notes/10247_mcenhance/sys_xtuml.c              | 687 +++++++++++++++++++++
+ mcmc/arlan/funcsigs.h                              |   9 +-
+ mcmc/arlan/funcsigs.readme                         |   2 +-
+ .../Action Block Anchor/Action Block Anchor.xtuml  |  20 +-
+ .../Extended Message Action.xtuml                  |  15 +
+ .../Extended System/Extended System.xtuml          |  38 +-
+ .../Message Mark/Message Mark.xtuml                | 209 +++++++
+ .../System Tags/System Tags.xtuml                  |  36 ++
+ .../Translation Marking/Translation Marking.xtuml  | 275 ++++++++-
+ .../Translation OAL/Translation OAL.xtuml          |   4 +-
+ schema/colors/bridge.jap                           | 101 +--
+ schema/colors/bridge.mark                          | 111 ++--
+ schema/colors/class.mark                           | 524 ++++++++--------
+ schema/colors/datatype.jap                         | 314 +++++-----
+ schema/colors/datatype.mark                        | 332 +++++-----
+ schema/colors/domain.jap                           | 520 ++++++++--------
+ schema/colors/domain.mark                          | 436 ++++++-------
+ schema/colors/event.jap                            |  86 +--
+ schema/colors/event.mark                           |  86 +--
+ schema/colors/object.jap                           | 530 ++++++++--------
+ schema/colors/populate.arc                         | 240 +++----
+ schema/colors/sys_functions.arc                    | 284 ++++-----
+ schema/colors/system.jap                           | 499 ++++++++-------
+ schema/colors/system.mark                          | 545 ++++++++--------
+ schema/colors/system.mark.sysc                     | 516 ++++++++--------
+ schema/sql/xtumlmc_schema.sql                      |  16 +-
+ 38 files changed, 4975 insertions(+), 2558 deletions(-)
 
 </pre>
 
 ### End
-
-
-notes:
-
-Class Trace:
-Add attribute to `TE_ABA`.

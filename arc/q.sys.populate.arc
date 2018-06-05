@@ -1874,9 +1874,15 @@
   .assign te_mact.GeneratedName = "$r{te_mact.GeneratedName}"
   .assign te_mact.Name = te_mact.GeneratedName
   .// Link marks.
-  .select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == te_mact.ComponentName ) and ( selected.PortName == te_mact.PortName ) and ( selected.Name = te_mact.MessageName ) )
+  .select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == te_mact.ComponentName ) and ( selected.PortName == te_mact.PortName ) and ( selected.Name == te_mact.MessageName ) )
   .if ( not_empty tm_msg )
     relate te_mact to tm_msg across R2809
+    .if ( not_empty te_dt )
+      .if ( "void" != te_dt.Name )
+        .print "ERROR:  Non-void message marked as safe for interrupts (${te_mact.ComponentName}::${te_mact.PortName}::${te_mact.MessageName})."
+        .exit 100
+      .end if
+    .end if
   .end if
   .select any converted_bool_te_dt from instances of TE_DT where ( selected.Name == "integer" )
   .if ( ( "SystemC" == te_thread.flavor ) and ( te_sys.SystemCPortsType == "TLM" ) )

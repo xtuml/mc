@@ -39,6 +39,7 @@
 .// Example:
 .//   .invoke EnableTasking( "Nucleus", "", 4 )
 .//   .invoke EnableTasking( "POSIX", "serialize", 2 )
+.//   .invoke EnableTasking( "Windows", "", 3 )
 .//============================================================================
 .//
 .//
@@ -194,18 +195,29 @@
 .//
 .//
 .//============================================================================
-.// TagModelDebuggingOn()
+.// Dynamic Memory Allocation
 .//
-.// TagModelDebuggingOn is used to indicate that model debugging code will be
-.// output in the generated files.
+.// TagDynamicMemoryAllocationOn is used to indicate that operating system
+.// services will be used to allocate memory (when extra memory is needed).
 .//
-.// The generated debugging code can be compiled out by:
-.//     1) Remove the "-DROX_TM_ENABLED" compiler flag in the workspace
-.//        Makefile.user file.
-.//     2) Run 'make all_no_gen' to re-compile and link the workspace.
+.// When dynamic memory allocation is marked off, system user callout
+.// functions are called when a request is made to allocate resources
+.// beyond what is statically available.
+.//
+.// When dynamic memory allocation is marked on, the files sys_memory.h and
+.// sys_memory.c are generated.  sys_memory.h contains the
+.// #define ROX_MALLOC_HEAP_SIZE which allows you to control how much of the
+.// heap is available to your application for consumption.
+.//
+.// To turn on and use dynamic memory allocation: 
+.// .invoke TagDynamicMemoryAllocationOn( additional_instances ); 
+.//
+.// Where the argument:  additional_instances
+.// is the number of additional instances to allocate each time space for new
+.// instances runs out.
 .//
 .// Example:
-.//   .invoke TagModelDebuggingOn()
+.//   .invoke TagDynamicMemoryAllocationOn( 10 )
 .//============================================================================
 .//
 .//
@@ -226,7 +238,24 @@
 .// Note:  The default depth of both cache queues is 128.
 .//
 .// Example:
-.//   .invoke MarkPersistenceCacheDepth( 30 )
+.//   .invoke MarkPersistenceCacheDepth( 300, 220 )
+.//============================================================================
+.//
+.//
+.//============================================================================
+.// Mark Size of State Save Buffer
+.//
+.// To enable state state save capability and to establish the size of the
+.// buffer used to capture state, this marking function can be invoked from
+.// the system.mark marking file.
+.//
+.// MarkStateSave( buffersize )
+.//
+.// Where the input parameter(s) are:
+.//   buffersize = size in bytes of the state save memory buffer
+.//
+.// Example:
+.//   .invoke MarkStateSave( 16000 )
 .//============================================================================
 .//
 .//
