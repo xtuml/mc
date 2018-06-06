@@ -120,6 +120,8 @@ correct, but the model was incorrect.
 And permissions on all of the schema/colors/ files are changed.
 Also, dos2unix was run on these files.  
 
+6.3 Updated the instructions for building the MC-3020 user guide.
+
 ### 7. Unit Test
 
 7.1 MicrowaveOven Smoke Test  
@@ -198,48 +200,73 @@ The Marking section of the MC-3020 User Guide is updated.
 ### 9. Code Changes
 
 <pre>
+Fork/Repository:  cortlandstarrett/bridgepoint  
+Branch:  10248_mcmark
+ src/org.xtuml.help.bp.mc/doc.zip | Bin 461037 -> 458044 bytes
+ src/org.xtuml.help.bp.mc/toc.xml | 568 +++++++++++++++++++++++++++--------------------------
+ 2 files changed, 285 insertions(+), 283 deletions(-)
+
 Fork/Repository:  cortlandstarrett/mc  
 Branch:  10248_mcmark
 
- arc/m.bridge.arc                                   |  23 +
- arc/m.class.arc                                    |  22 +-
- arc/m.system.arc                                   |  49 +-
- arc/q.sys.populate.arc                             |  15 +
- arc/q.val.translate.arc                            |   0
- arc/t.sys_sets.c                                   |   0
- doc/notes/10247_mcenhance/10247_mcenhance_ant.md   | 140 +++++
- doc/notes/10247_mcenhance/10248_mcmark_int.md      | 152 +++++
- doc/notes/10247_mcenhance/TIM_bridge.c             | 642 +++++++++++++++++++
- doc/notes/10247_mcenhance/TIM_sim1.png             | Bin 0 -> 117256 bytes
- doc/notes/10247_mcenhance/TIM_sim2.png             | Bin 0 -> 102178 bytes
- doc/notes/10247_mcenhance/ss.c                     |  55 ++
- doc/notes/10247_mcenhance/sys_xtuml.c              | 687 +++++++++++++++++++++
- mcmc/arlan/funcsigs.h                              |   9 +-
- mcmc/arlan/funcsigs.readme                         |   2 +-
- .../Action Block Anchor/Action Block Anchor.xtuml  |  20 +-
- .../Extended Message Action.xtuml                  |  15 +
- .../Extended System/Extended System.xtuml          |  38 +-
- .../Message Mark/Message Mark.xtuml                | 209 +++++++
- .../System Tags/System Tags.xtuml                  |  36 ++
- .../Translation Marking/Translation Marking.xtuml  | 275 ++++++++-
- .../Translation OAL/Translation OAL.xtuml          |   4 +-
- schema/colors/bridge.jap                           | 101 +--
- schema/colors/bridge.mark                          | 111 ++--
- schema/colors/class.mark                           | 524 ++++++++--------
- schema/colors/datatype.jap                         | 314 +++++-----
- schema/colors/datatype.mark                        | 332 +++++-----
- schema/colors/domain.jap                           | 520 ++++++++--------
- schema/colors/domain.mark                          | 436 ++++++-------
- schema/colors/event.jap                            |  86 +--
- schema/colors/event.mark                           |  86 +--
- schema/colors/object.jap                           | 530 ++++++++--------
- schema/colors/populate.arc                         | 240 +++----
- schema/colors/sys_functions.arc                    | 284 ++++-----
- schema/colors/system.jap                           | 499 ++++++++-------
- schema/colors/system.mark                          | 545 ++++++++--------
- schema/colors/system.mark.sysc                     | 516 ++++++++--------
- schema/sql/xtumlmc_schema.sql                      |  16 +-
- 38 files changed, 4975 insertions(+), 2558 deletions(-)
+ arc/m.bridge.arc                                   |   23 +
+ arc/m.class.arc                                    |   22 +-
+ arc/m.system.arc                                   |   49 +-
+ arc/q.sys.populate.arc                             |   15 +
+ arc/q.val.translate.arc                            |    0
+ arc/t.sys_sets.c                                   |    0
+ bin/mac/mcmc                                       |  Bin 1570440 -> 1575336 bytes
+ bin/mcmc                                           |  Bin 2409384 -> 2418408 bytes
+ bin/win/mcmc.exe                                   |  Bin 1708864 -> 1716017 bytes
+ doc/notes/10247_mcenhance/10247_mcenhance_ant.md   |  140 ++
+ doc/notes/10247_mcenhance/10248_mcmark_int.md      |  248 ++++
+ doc/notes/10247_mcenhance/TIM_bridge.c             |  642 +++++++++
+ doc/notes/10247_mcenhance/TIM_sim1.png             |  Bin 0 -> 117256 bytes
+ doc/notes/10247_mcenhance/TIM_sim2.png             |  Bin 0 -> 102178 bytes
+ doc/notes/10247_mcenhance/ss.c                     |   55 +
+ doc/notes/10247_mcenhance/sys_xtuml.c              |  687 +++++++++
+ doc/ug/xml/HOWTO-publish-this-ug.txt               |   30 +-
+ doc/ug/xml/c2.xml                                  |    2 +-
+ doc/ug/xml/c3.xml                                  |  180 ++-
+ doc/ug/xml/eclipse.xsl                             |    2 +-
+ doc/ug/xml/plugin.xml                              |   14 +-
+ doc/ug/xml/toc.xml                                 |  568 ++++----
+ doc/ug/xml/ug.xml                                  |   13 +-
+ mcmc/arlan/funcsigs.h                              |    9 +-
+ mcmc/arlan/funcsigs.readme                         |    2 +-
+ mcmc/arlan/o.oal                                   |   15 +
+ mcmc/arlan/o4.oal                                  |   94 +-
+ .../.externalToolBuilders/Model Compiler.launch    |    6 +-
+ model/escher/gen/HOWTO Create mcmc-docgen.txt      |    0
+ model/escher/gen/ooaofooa.c                        |  591 ++++----
+ model/escher/gen/ooaofooa_c_orig                   |  591 ++++----
+ model/escher/gen/sys_xtuml.c                       |  162 ++-
+ model/escher/models/escher/mcmc/afun/afun.xtuml    |   15 +
+ .../models/escher/mcmc/afunmark/afunmark.xtuml     | 1506 ++++++++++----------
+ .../Action Block Anchor/Action Block Anchor.xtuml  |   20 +-
+ .../Extended Message Action.xtuml                  |   15 +
+ .../Extended System/Extended System.xtuml          |   38 +-
+ .../Message Mark/Message Mark.xtuml                |  176 +++
+ .../System Tags/System Tags.xtuml                  |   36 +
+ .../Translation Marking/Translation Marking.xtuml  |  251 +++-
+ .../Translation OAL/Translation OAL.xtuml          |    4 +-
+ schema/colors/bridge.jap                           |  101 +-
+ schema/colors/bridge.mark                          |  111 +-
+ schema/colors/class.mark                           |  524 +++----
+ schema/colors/datatype.jap                         |  314 ++--
+ schema/colors/datatype.mark                        |  332 ++---
+ schema/colors/domain.jap                           |  520 +++----
+ schema/colors/domain.mark                          |  436 +++---
+ schema/colors/event.jap                            |   86 +-
+ schema/colors/event.mark                           |   86 +-
+ schema/colors/object.jap                           |  530 +++----
+ schema/colors/populate.arc                         |  240 ++--
+ schema/colors/sys_functions.arc                    |  284 ++--
+ schema/colors/system.jap                           |  499 ++++---
+ schema/colors/system.mark                          |  545 +++----
+ schema/colors/system.mark.sysc                     |  516 +++----
+ schema/sql/xtumlmc_schema.sql                      |   17 +-
+ 57 files changed, 7192 insertions(+), 4170 deletions(-)
 
 </pre>
 

@@ -40,7 +40,7 @@ components is given in an outline format.</para></highlights>
   <section>
     <title>Multi-Tasking/Threading</title>
     <para>Preemptive multi-tasking is supported on the
-    <trademark class='registered'>&nukeplus;</trademark> real-time
+    &nukeplus; real-time
     operation system (RTOS) and on systems supporting POSIX threading.
     Single-task operation (with or without and RTOS) is also supported.
     Tasking supplies a rich means of providing preemptive prioritization

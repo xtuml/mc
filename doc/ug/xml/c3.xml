@@ -23,7 +23,7 @@ into implementation (e.g., C) data types.  This is
 information that does not belong in either the xtUML models or the
 model compiler itself.</para>
 
-<section id="Marking-How-section">
+  <section id="Marking-How-section">
   <title id="Marking-How-section-title">How &escher; Provides for Marking</title>
   <highlights><para>Marking capability can be provided in many
   different ways.  In &escher; marking input is communicated to the
@@ -39,6 +39,7 @@ model compiler itself.</para>
   defaults.  In the case of mandatory marking, the model compiler is
   not capable of divining the intent of the user and will abort the
   translation.</para>
+  </section>
   
   <section>
     <title>Bridge Marking</title>
@@ -46,20 +47,20 @@ model compiler itself.</para>
     
     <section>
       <title>Marking a Bridge Safe for Interrupt Invocation</title>
-      <para>&escher; allows functions
+      <para>&escher; allows functions and messages
       to be marked as
       callable from interrupt handlers or other asynchronous
       sources (such as other tasks, signal handlers, etc).
-      Functions
-      marked here will generate a short stub interface
-      that will defer execution of the function to be between
-      dispatched state actions.  When a function marked
+      Functions and messages
+      marked here will generate a short stub routine
+      that will defer execution of the function or message to be between
+      dispatched state actions.  When a function or message marked
       as safe for interrupts is invoked, its action body is
       posted to a queue for dispatch after any currently running
-      state action completes.  This guarantees architecture
+      state action completes.  This provides architecture
       data mechanism integrity while maintaining application data
       access set consistency.</para>
-      <para>Functions marked safe for interrupts
+      <para>Functions and messages marked safe for interrupts
       cannot return data.  They must be of return type void.
       However, core data type data
       can be passed into these functions.
@@ -92,6 +93,39 @@ model compiler itself.</para>
         <title>Tagging Interrupt Bridges</title>
         <programlisting>
 .invoke TagSyncServiceSafeForInterrupts( "ILB", "kick_start" )
+        </programlisting>
+      </example>
+      </para>
+      <para>To indicate to the model compiler that a
+      message
+      may be invoked in a manner safe for
+      invocation from an interrupt handler or other asynchronous
+      activation (one for each message):
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkMessageSafeForInterrupts</function></funcdef>
+      <paramdef>string <parameter>"component_name"</parameter></paramdef>
+      <paramdef>string <parameter>"port_name"</parameter></paramdef>
+      <paramdef>string <parameter>"message_name"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component_name</term><listitem><para>
+        xtUML component name</para></listitem></varlistentry>
+        <varlistentry><term>port_name</term><listitem><para>
+        name of port on the component labeled in the first parameter</para></listitem></varlistentry>
+        <varlistentry><term>message_name</term><listitem><para>is
+        the name of the message within the port being tagged
+        as safe for calling.</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Tagging Interrupt Bridges</title>
+        <programlisting>
+.invoke MarkMessageSafeForInterrupts( "Tracking", "UI", "startStopButtonPressed" )
         </programlisting>
       </example>
       </para>
@@ -810,6 +844,36 @@ System Wide:
     </section>
 
     <section>
+      <title>Simulated Time</title>
+      <para>Simulated Time in MC-3020 implements a form of discrete event
+      simulation.  In simulated time mode, no external clock is read.  The
+      application runs as fast as the architecture allows.  The time base is
+      derived from timers used to cause functional delays in the modeled
+      application.</para>
+      <para>SystemC and &bpmv; both support modes where time is "simulated".
+      In these environments, "wall clock" is not used.  The timers in the system
+      advance the system time in sequence of expiration.  This is convenient for
+      very fast (short-running) and for very slow (long-running) applications.
+      </para>
+      <para>
+      To switch from the default wall clock time base to simulated time:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkSimulatedTime</function></funcdef>
+      <paramdef></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+
+      <example>
+        <title>Establish Simulated Time Base</title>
+        <programlisting>
+.invoke MarkSimulatedTime()
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+    <section>
       <title>Interleaved Bridges</title>
       <para>Use this mark to expand or reduce the depth of the queue used
       to interleave ``asynchronous'' bridge operations between state
@@ -951,13 +1015,44 @@ System Wide:
       <para>When dynamic memory allocation is marked off, system 
       user callout functions are called when a request is made to allocate 
       resources beyond what is statically available.</para>
+    </section>
+	
+    <section id="MarkingStateSave-section">
+      <title id="MarkingStateSave-section-title">Marking State Save</title>
+      <para>State Save is a feature that captures information present in
+      the running system that may be useful for analysis and debugging
+      purposes.  Upon a state save trigger, information is collected into
+      a buffer of a size specified through marking (this mark).</para>
+      <para>From the application model, state saves are controlled through
+      bridges on an external entity named 'state save' (with key letters
+      'SS').  A default version of this external entity is supplied with
+      the model compiler.  It is expected that users will modify the state
+      save external entity realized code.
+      </para>
+    
+      <para>To enable state save capability and specify the size of the buffer:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkStateSave</function></funcdef>
+      <paramdef>integer <parameter>buffer_size</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
 
-      <para>When dynamic memory allocation is marked on, the files
-      <filename>sys_memory.h</filename> and <filename>sys_memory.c</filename>
-      are generated.  <filename>sys_memory.h</filename> contains the
-      <constant>#define ROX_MALLOC_HEAP_SIZE</constant> which allows you 
-      to control how much of the heap is available to your application
-      for consumption.</para>
+      Where the argument:
+
+      <variablelist>
+        <varlistentry><term>buffer_size</term><listitem><para>is the size
+        expressed in bytes of the buffer where state save information will
+        be stored.</para></listitem></varlistentry>
+      </variablelist>
+
+      <example>
+        <title>Configuring State Save</title>
+        <para>
+        <programlisting>.invoke MarkStateSave( 1024 );</programlisting>
+        </para>
+      </example>
+      </para>
     </section>
 	
     <section id="SystemC-section">
@@ -1983,6 +2078,59 @@ System Wide:
       </para>
     </section>
     
+    <section>
+      <title>Marking Class Tracing</title>
+      <para>&escher; has trace capabilities that are controlled primarily
+      at the system and component level.  However, often this granularity
+      of control is not fine enough.  It can be desirable to trace only
+      a few classes or to omit tracing from a few "uninteresting" or
+      "noisy" classes that clog the trace log with too much information.
+      The marks documented in this section allow trace control on a
+      class by class basis.</para>
+
+      <para>To disable or enable tracing of a specific class,
+      use the following marking commands:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkClassTraceOff</function></funcdef>
+      <paramdef>string <parameter>component</parameter></paramdef>
+      <paramdef>string <parameter>class_keyletters</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkClassTraceOn</function></funcdef>
+      <paramdef>string <parameter>component</parameter></paramdef>
+      <paramdef>string <parameter>class_keyletters</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>
+        name of the component containing the class being marked
+        </para></listitem></varlistentry>
+        <varlistentry><term>class_keyletters</term><listitem><para>
+        key letters of the class for which tracing is to be
+        controlled</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Disabling Tracing for a Class</title>
+        <programlisting>
+.invoke MarkClassTraceOff( "Tracking", "TrackPoint" )
+        </programlisting>
+      </example>
+      <example>
+        <title>Enabling Tracing for a Class</title>
+        <programlisting>
+.invoke MarkClassTraceOn( "Tracking", "TrackLog" )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+    
   </section>
   
   <section>
@@ -2032,9 +2180,7 @@ System Wide:
       </example>
       </para>
     </section>
+&containoids;
   </section>
 
-&containoids;
-  
-</section>
 </chapter>
