@@ -2202,48 +2202,24 @@ INSERT INTO R_PART
 	0,
 	'');
 INSERT INTO O_RTIDA
-	VALUES ("0bb0007d-b3d6-45e1-993b-2e76c778ff72",
+	VALUES ("da41015c-2917-4256-aebd-139fc165a0fc",
 	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
-	2,
+	1,
 	"4400f698-8bf6-4580-b20b-72b3f5e95824",
 	"7374ddde-fa34-434f-b06b-2c418530a031");
 INSERT INTO O_OIDA_PROXY
-	VALUES ("0bb0007d-b3d6-45e1-993b-2e76c778ff72",
+	VALUES ("da41015c-2917-4256-aebd-139fc165a0fc",
 	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
-	2,
-	'Name',
-	'../Translation Extensions/Extended Message Action/Extended Message Action.xtuml');
-INSERT INTO O_RTIDA
-	VALUES ("0181d595-ddd0-445b-95f1-8a48f63838b1",
-	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
-	2,
-	"4400f698-8bf6-4580-b20b-72b3f5e95824",
-	"7374ddde-fa34-434f-b06b-2c418530a031");
-INSERT INTO O_OIDA_PROXY
-	VALUES ("0181d595-ddd0-445b-95f1-8a48f63838b1",
-	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
-	2,
-	'ComponentName',
-	'../Translation Extensions/Extended Message Action/Extended Message Action.xtuml');
-INSERT INTO O_RTIDA
-	VALUES ("2458933e-ec4c-4e7f-b7bc-a8b35d378819",
-	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
-	2,
-	"4400f698-8bf6-4580-b20b-72b3f5e95824",
-	"7374ddde-fa34-434f-b06b-2c418530a031");
-INSERT INTO O_OIDA_PROXY
-	VALUES ("2458933e-ec4c-4e7f-b7bc-a8b35d378819",
-	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
-	2,
-	'PortName',
+	1,
+	'ID',
 	'../Translation Extensions/Extended Message Action/Extended Message Action.xtuml');
 INSERT INTO R_RTO
 	VALUES ("ff19e93f-39a8-4a13-af46-1b7ee8317135",
 	"4400f698-8bf6-4580-b20b-72b3f5e95824",
 	"7374ddde-fa34-434f-b06b-2c418530a031",
-	2);
+	1);
 INSERT INTO O_ID_PROXY
-	VALUES (2,
+	VALUES (1,
 	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
 	'../Translation Extensions/Extended Message Action/Extended Message Action.xtuml');
 INSERT INTO R_OIR

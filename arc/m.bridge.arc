@@ -66,12 +66,12 @@
   .assign component_name = "$r{component_name}"
   .assign port_name = "$r{port_name}"
   .assign message_name = "$r{message_name}"
-  .select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == component_name ) and ( selected.PortName == port_name ) and ( selected.Name == message_name ) )
+  .select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == component_name ) and ( selected.PortName == port_name ) and ( selected.MessageName == message_name ) )
   .if ( empty tm_msg )
     .create object instance tm_msg of TM_MSG
     .assign tm_msg.ComponentName = component_name
     .assign tm_msg.PortName = port_name
-    .assign tm_msg.Name = message_name
+    .assign tm_msg.MessageName = message_name
   .end if
   .assign tm_msg.IsSafeForInterrupts = true
   .print "Message ${message_name} in component ${component_name} on port ${port_name} marked as safe for interrupt invocation."

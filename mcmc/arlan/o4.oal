@@ -53,6 +53,29 @@ end if;
 tm_sync.IsSafeForInterrupts = true;
 T::print(s:"Function ${function_name} in component ${component_name} marked as safe for interrupt invocation.");
 @@@
+MarkMessageSafeForInterrupts@void@@component_name@string@@port_name@string@@message_name@string@@@
+//
+//
+//============================================================================
+// Mark a message as safe for interrupt service routine (ISR) invocation.
+// This is also useful for task communication and multi-context execution.
+//============================================================================
+component_name = param.component_name;
+port_name = param.port_name;
+message_name = param.message_name;
+component_name = T::r(s:component_name);
+port_name = T::r(s:port_name);
+message_name = T::r(s:message_name);
+select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == component_name ) and ( selected.PortName == port_name ) and ( selected.MessageName == message_name ) );
+if ( empty tm_msg )
+  create object instance tm_msg of TM_MSG;
+  tm_msg.ComponentName = component_name;
+  tm_msg.PortName = port_name;
+  tm_msg.MessageName = message_name;
+end if;
+tm_msg.IsSafeForInterrupts = true;
+T::print(s:"Message ${message_name} in component ${component_name} on port ${port_name} marked as safe for interrupt invocation.");
+@@@
 TagSystemObjectDefaultExtentSize@void@@extent_size@integer@@@
 //============================================================================
 // $RCSfile: m.class.arc,v $
@@ -179,16 +202,9 @@ for each te_c in te_cs
   end if;
 end for;
 @@@
-TagObjectTraceOff@void@@obj_key_letters@string@@@
+MarkClassTraceOff@void@@component_name@string@@obj_key_letters@string@@@
 //
 //============================================================================
-obj_key_letters = param.obj_key_letters;
-select many te_cs from instances of TE_C;
-for each te_c in te_cs
-  ::MarkObjectTraceOff( component_name:te_c.Name, obj_key_letters:obj_key_letters );
-end for;
-@@@
-MarkObjectTraceOff@void@@component_name@string@@obj_key_letters@string@@@
 component_name = param.component_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
@@ -211,7 +227,7 @@ for each te_c in te_cs
       msg = "Class ${te_class.Name} (${te_class.Key_Lett}) tracing is disabled.";
     else
       msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}.";
-      msg = msg + "\n => MarkObjectTraceOff( ${obj_key_letters} )";
+      msg = msg + "\n => MarkClassTraceOff( ${component_name}, ${obj_key_letters} )";
     end if;
   end if;
   if ( "" != msg )
@@ -219,16 +235,9 @@ for each te_c in te_cs
   end if;
 end for;
 @@@
-TagObjectTraceOn@void@@obj_key_letters@string@@@
+MarkClassTraceOn@void@@component_name@string@@obj_key_letters@string@@@
 //
 //============================================================================
-obj_key_letters = param.obj_key_letters;
-select many te_cs from instances of TE_C;
-for each te_c in te_cs
-  ::MarkObjectTraceOn( component_name:te_c.Name, obj_key_letters:obj_key_letters );
-end for;
-@@@
-MarkObjectTraceOn@void@@component_name@string@@obj_key_letters@string@@@
 component_name = param.component_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
@@ -251,7 +260,7 @@ for each te_c in te_cs
       msg = "Class ${te_class.Name} (${te_class.Key_Lett}) tracing is enabled.";
     else
       msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}.";
-      msg = msg + "\n => MarkObjectTraceOn( ${obj_key_letters} )";
+      msg = msg + "\n => MarkClassTraceOn( ${component_name}, ${obj_key_letters} )";
     end if;
   end if;
   if ( "" != msg )
@@ -1896,6 +1905,27 @@ r = ::TM_SYSTAG_select();
 tm_systag = r;
 tm_systag.NetworkSockets = true;
 @@@
+MarkSimulatedTime@void@@@
+//
+//============================================================================
+// Use simulated time instead of wall clock time.
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.SimulatedTime = true;
+T::print(s:"MarkSimulatedTime:  Time marked to be simulated (rather than wall clock).");
+@@@
+MarkStateSave@void@@buffersize@integer@@@
+//
+//============================================================================
+// Set the state save buffer depth.
+//============================================================================
+buffersize = param.buffersize;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.StateSaveBufferSize = buffersize;
+T::print(s:"MarkStateSave:  buffer size set to $t{buffersize}.");
+@@@
 TM_SYSTAG_select@inst_ref<System Tags>@@@
 //
 select any tm_systag from instances of TM_SYSTAG;
@@ -1974,6 +2004,9 @@ if ( "1" == pass )
   elif ( "TagSyncServiceSafeForInterrupts" == f )
     // TagSyncServiceSafeForInterrupts("component_name","function_name")
     ::TagSyncServiceSafeForInterrupts( component_name:p1, function_name:p2 );
+  elif ( "MarkMessageSafeForInterrupts" == f )
+    // MarkMessageSafeForInterrupts("component_name","port_name","message_name")
+    ::MarkMessageSafeForInterrupts( component_name:p1, port_name:p2, message_name:p3 );
     // datatype
   elif ( "TagDataTypePrecision" == f )
     // TagDataTypePrecision("component_name","dt_name","tagged_name","initial_value")
@@ -2066,6 +2099,13 @@ if ( "1" == pass )
     ::MarkStructuredMessaging();
   elif ( "MarkNetworkSockets" == f )
     ::MarkNetworkSockets();
+  elif ( "MarkSimulatedTime" == f )
+    ::MarkSimulatedTime();
+  elif ( "MarkStateSave" == f )
+    // MarkStateSave("buffersize":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::MarkStateSave( buffersize:i1 );
   elif ( "MarkSystemConfigurationPackage" == f )
     // MarkSystemConfigurationPackage("package_name")
     ::MarkSystemConfigurationPackage( package_name:p1 );
@@ -2137,18 +2177,12 @@ else
   elif ( "MarkClassOperationTranslationOff" == f )
     // MarkClassOperationTranslationOff("component_name","obj_key_letters","op_name")
     ::MarkClassOperationTranslationOff( component_name:p1, obj_key_letters:p2, op_name:p3 );
-  elif ( "TagObjectTraceOff" == f )
-    // TagObjectTraceOff("obj_key_letters")
-    ::TagObjectTraceOff( obj_key_letters:p1 );
-  elif ( "MarkObjectTraceOff" == f )
-    // MarkObjectTraceOff("component_name","obj_key_letters")
-    ::MarkObjectTraceOff( component_name:p1, obj_key_letters:p2 );
-  elif ( "TagObjectTraceOn" == f )
-    // TagObjectTraceOn("obj_key_letters")
-    ::TagObjectTraceOn( obj_key_letters:p1 );
-  elif ( "MarkObjectTraceOn" == f )
-    // MarkObjectTraceOn("component_name","obj_key_letters")
-    ::MarkObjectTraceOn( component_name:p1, obj_key_letters:p2 );
+  elif ( "MarkClassTraceOff" == f )
+    // MarkClassTraceOff("component_name","obj_key_letters")
+    ::MarkClassTraceOff( component_name:p1, obj_key_letters:p2 );
+  elif ( "MarkClassTraceOn" == f )
+    // MarkClassTraceOn("component_name","obj_key_letters")
+    ::MarkClassTraceOn( component_name:p1, obj_key_letters:p2 );
   elif ( "TagPEIsDefinedInData" == f )
     // TagPEIsDefinedInData("ss_prefix","obj_key_letters")
     ::TagPEIsDefinedInData( ss_prefix:p1, obj_key_letters:p2 );

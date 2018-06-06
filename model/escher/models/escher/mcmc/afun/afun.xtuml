@@ -2699,6 +2699,8 @@ te_sys.AUTOSAR = false;
 te_sys.AllPortsPoly = false;
 te_sys.StructuredMessaging = false;
 te_sys.NetworkSockets = false;
+te_sys.SimulatedTime = false;
+te_sys.StateSaveBufferSize = 0;
 //
 // Update te_sys with system marks
 select any tm_systag from instances of TM_SYSTAG;
@@ -2721,6 +2723,8 @@ if ( not_empty tm_systag )
   te_sys.AllPortsPoly = tm_systag.AllPortsPoly;
   te_sys.StructuredMessaging = tm_systag.StructuredMessaging;
   te_sys.NetworkSockets = tm_systag.NetworkSockets;
+  te_sys.SimulatedTime = tm_systag.SimulatedTime;
+  te_sys.StateSaveBufferSize = tm_systag.StateSaveBufferSize;
 else
   te_sys.SystemCPortsType = "sc_interface";
 end if;
@@ -4646,6 +4650,17 @@ if ( "C++" == te_target.language )
 end if;
 te_mact.GeneratedName = T::r(s:te_mact.GeneratedName);
 te_mact.Name = te_mact.GeneratedName;
+// Link marks.
+select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == te_mact.ComponentName ) and ( selected.PortName == te_mact.PortName ) and ( selected.MessageName == te_mact.MessageName ) );
+if ( not_empty tm_msg )
+  relate te_mact to tm_msg across R2809;
+  if ( not_empty te_dt )
+    if ( "void" != te_dt.Name )
+      T::print(s:"ERROR:  Non-void message marked as safe for interrupts (${te_mact.ComponentName}::${te_mact.PortName}::${te_mact.MessageName}).");
+      T::exit(i:100);
+    end if;
+  end if;
+end if;
 select any converted_bool_te_dt from instances of TE_DT where ( selected.Name == "integer" );
 if ( ( "SystemC" == te_thread.flavor ) and ( te_sys.SystemCPortsType == "TLM" ) )
   for each te_parm in te_parms
