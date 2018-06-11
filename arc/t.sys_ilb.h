@@ -15,7 +15,7 @@ ${te_target.c2cplusplus_linkage_begin}
 
 void * ${te_ilb.interleave_bridge}( void (vfp)(void) );
 void ${te_ilb.interleave_bridge_done}( void );
-void ${te_ilb.dispatch}( void );
+bool ${te_ilb.dispatch}( void );
 void * ${te_ilb.get_data}( void );
 
 ${te_target.c2cplusplus_linkage_end}

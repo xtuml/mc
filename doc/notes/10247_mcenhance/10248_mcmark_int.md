@@ -19,9 +19,9 @@ capabilities added to MC-3020.
 <a id="2.1"></a>2.1 [10247](https://support.onefact.net/issues/10247) MC-3020 Enhancements (project issue)  
 <a id="2.2"></a>2.2 [10252](https://support.onefact.net/issues/10252) Add simulated time to MC-3020.  
 <a id="2.3"></a>2.3 [10253](https://support.onefact.net/issues/10253) Add state save to MC-3020.  
-<a id="2.4"></a>2.3 [10254](https://support.onefact.net/issues/10254) Class-specific Tracing  
-<a id="2.5"></a>2.3 [10255](https://support.onefact.net/issues/10255) Tag interface messages as safe for interrupts.  
-<a id="2.6"></a>2.3 [Project Analysis Note](10247_mcenhance_ant.md) MC Enhancements for Time, Trace, State Save, Messaging  
+<a id="2.4"></a>2.4 [10254](https://support.onefact.net/issues/10254) Class-specific Tracing  
+<a id="2.5"></a>2.5 [10255](https://support.onefact.net/issues/10255) Tag interface messages as safe for interrupts.  
+<a id="2.6"></a>2.6 [Project Analysis Note](10247_mcenhance_ant.md) MC Enhancements for Time, Trace, State Save, Messaging  
 
 ### 3. Background
 
@@ -154,12 +154,12 @@ necessary).
 .// Find the message marks and detect a mark that was spelled incorrectly.
 .select many tm_msgs from instances of TM_MSG
 .for each tm_msg in tm_msgs
-  .print "tm_msg:  ${tm_msg.ComponentName}::${tm_msg.PortName}::${tm_msg.Name}"
+  .print "tm_msg:  ${tm_msg.ComponentName}::${tm_msg.PortName}::${tm_msg.MessageName}"
   .select one te_mact related by tm_msg->TE_MACT[R2809]
   .if ( empty te_mact )
-    .print "tm_msg:  No related TE_MACT for ${tm_msg.ComponentName}::${tm_msg.PortName}::${tm_msg.Name}"
+    .print "tm_msg:  No related TE_MACT for ${tm_msg.ComponentName}::${tm_msg.PortName}::${tm_msg.MessageName}"
   .else
-    .print "tm_msg:  Found TE_MACT across R2809 for ${tm_msg.ComponentName}::${tm_msg.PortName}::${tm_msg.Name}"
+    .print "tm_msg:  Found TE_MACT across R2809 for ${tm_msg.ComponentName}::${tm_msg.PortName}::${tm_msg.MessageName}"
   .end if
 .end for
 .// Test the new system marks (MarkStateSave and MarkSimulatedTime).

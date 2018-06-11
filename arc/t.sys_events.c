@@ -587,14 +587,14 @@ static void ooa_loop( void )
     .end if
   .end if .// te_thread.enabled
   /* Start consuming events and dispatching background processes.  */
-    .if ( ( te_sys.AUTOSAR ) or ( "SystemC" == te_thread.flavor ) )
+  .if ( ( te_sys.AUTOSAR ) or ( "SystemC" == te_thread.flavor ) )
   bool events_remaining_in_queue = true;
   while ( (true == events_remaining_in_queue) && (true == ${te_eq.run_flag}) ) {
-    .elif ( "C++" == te_target.language )
+  .elif ( "C++" == te_target.language )
   if ( true == ${te_eq.run_flag} ) {
-    .else
+  .else
   while ( true == ${te_eq.run_flag} ) {
-    .end if
+  .end if
   .if ( self_event_queue_needed.result )
     event = DequeueOoaSelfEvent(${thread_number}); /* Self first.  */
     if ( 0 == event ) {
@@ -605,7 +605,7 @@ static void ooa_loop( void )
   .end if
   .if ( self_event_queue_needed.result )
     }
-  .end if .// self_event_queue_needed.result
+  .end if
     if ( 0 != event ) {
   .// Set up self reference for use by prioritized events (and others).
   .if ( event_prioritization_needed.result )
@@ -632,6 +632,7 @@ static void ooa_loop( void )
   .end if
       ${te_eq.delete}( event );
     } else {
+      /* event queues empty */
   .if ( ( te_sys.AUTOSAR ) or ( "SystemC" == te_thread.flavor ) )
       events_remaining_in_queue = false;
   .end if
@@ -645,19 +646,27 @@ static void ooa_loop( void )
   .end if
   .assign more_indent = ""
   .if ( te_thread.enabled )
-    if ( t == 0 ) {   /* Is this the default task/thread?  */
+    if ( 0 == t ) {   /* Is this the default task/thread?  */
     .assign more_indent = "  "
-  .end if .// te_thread.enabled
+  .end if
   .if ( te_sys.MaxInterleavedBridges > 0 )
     ${more_indent}/* Launch (interrupt) bridge actions that occurred during state.  */
-    ${more_indent}${te_ilb.dispatch}();
-  .end if .// te_sys.MaxInterleavedBridges > 0
-  .if ( "SystemC" != te_thread.flavor )
-    ${more_indent}${te_callout.background_processing}();
+    ${more_indent}if ( ! ${te_ilb.dispatch}() ) {
+    .assign more_indent = more_indent + "  "
   .end if
+  .if ( te_sys.MaxTimers > 0 )
+    ${more_indent}/* To disable this timer tick, modify TIM_bridge.c in the gen folder.  */
+    ${more_indent}#if ${te_tim.max_timers} > 0
+    ${more_indent}if ( 0 == event ) { TIM_tick(); }
+    ${more_indent}#endif
+  .end if
+  .if ( te_sys.MaxInterleavedBridges > 0 )
+  ${more_indent}}
+  .end if
+    ${more_indent}${te_callout.background_processing}();
   .if ( te_thread.enabled )
     }
-  .end if .// te_thread.enabled
+  .end if
   }
   .if ( te_thread.enabled )
     .if ( ( te_thread.flavor != "Nucleus" ) and ( "SystemC" != te_thread.flavor ) )

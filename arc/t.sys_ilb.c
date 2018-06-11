@@ -34,7 +34,7 @@ ${te_ilb.interleave_bridge}( void (vfp)(void) )
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_ILB );
 .end if
   ${disable_interrupts.result}
-  if ( ( ilb_head == ilb_tail ) && ( ilb_empty != true ) ) {
+  if ( ( ilb_head == ilb_tail ) && ( true != ilb_empty ) ) {
     /* Overflowed array of interleaved bridges.  */
     ${te_callout.interleaved_bridge_overflow}();
   } else {
@@ -66,19 +66,21 @@ ${te_ilb.interleave_bridge_done}( void )
  * Protect the data structures from being clobbered by another context
  * by disabling interrupts around the data access.
  */
-void
+bool
 ${te_ilb.dispatch}( void )
 {
+  bool rakedleaves = false;
 .if ( te_thread.enabled )
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_ILB );
 .end if
   ${disable_interrupts.result}
-  if ( ilb_empty != true ) {
+  if ( true != ilb_empty ) {
     do {
       ${enable_interrupts.result}
 .if ( te_thread.enabled )
       ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_ILB );
 .end if
+      rakedleaves = true;
 .if ( te_thread.serialize )
       #ifdef ESCHER_SERIALIZE_DISPATCH
       ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_DISPATCH );
@@ -103,6 +105,7 @@ ${te_ilb.dispatch}( void )
 .if ( te_thread.enabled )
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_ILB );
 .end if
+  return rakedleaves;
 }
 
 /*
