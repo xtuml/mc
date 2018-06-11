@@ -289,8 +289,7 @@ o_attr.Pfx_Mode = 0;
 o_attr.Root_Nam = param.name;
 
 // TODO - assign a default type to aid in testing.  When attribute types are handled on the populate interface this can be removed to the // END comment
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+select any def_dt from instances of S_DT where ( selected.Name == "string" );
 relate o_attr to def_dt across R114;
 // END
 
@@ -1533,8 +1532,7 @@ select one function related by s_sparm->S_SYNC[R24];
 self.Function_addParameterToOrder(s_sync:function, s_sparm:s_sparm);
 
 // TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+select any def_dt from instances of S_DT where ( selected.Name == "string" );
 // END
 
 relate s_sparm to def_dt across R26;
@@ -1859,8 +1857,7 @@ select one package related by packageableElem->EP_PKG[R8000];
 select one component related by packageableElem->C_C[R8003];
 
 // Since this operation handles both functions and services, and services have void return types, we default to void here.
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
+select any def_dt from instances of S_DT where ( selected.Name == "void" );
 relate s_sync to def_dt across R25;
 
 s_sync.Name = param.name;
@@ -2063,8 +2060,7 @@ select one component related by packageableElem->C_C[R8003];
 select one interface related by c_io->C_EP[R4004]->C_I[R4003];
 self.Interface_addInterfaceOperationToOrder(c_i:interface, c_io:c_io);
 
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
+select any def_dt from instances of S_DT where ( selected.Name == "void" );
 relate c_io to def_dt across R4008;
 
 c_io.Name = param.name;
@@ -2156,8 +2152,7 @@ select one c_ep related by c_pp->C_EP[R4006];
 self.Interface_addParameterToOrder(c_ep:c_ep, c_pp:c_pp);
 
 // TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+select any def_dt from instances of S_DT where ( selected.Name == "string" );
 // END
 
 relate c_pp to def_dt across R4007;
@@ -2994,11 +2989,7 @@ if (param.sm_type == "ISM")
     relate sm to moore across R510;
     // add current state attribute
     o_attr = self.ModelClass_newAttribute(o_obj:o_obj, attr_name:"current_state");
-
-    // Reassign the attribute to a data type of void, which is not valid for an attribute.
-    // Then this can be keyed upon at instance dumping time to distinguish state model
-    // current_state from user assigned current_state.
-    select any s_dt from instances of S_DT where ( selected.Name == "void" );
+    select any s_dt from instances of S_DT where ( selected.Name == "state<State_Model>" );
     if ( not_empty s_dt )
       select one old_s_dt related by o_attr->S_DT[R114];
       unrelate o_attr from old_s_dt across R114;
@@ -3603,8 +3594,7 @@ select one operation related by o_tparm->O_TFR[R117];
 self.Operation_addParameterToOrdering(o_tfr:operation, o_tparm:o_tparm);
 
 // TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+select any def_dt from instances of S_DT where ( selected.Name == "string" );
 // END
 
 relate o_tparm to def_dt across R118;
@@ -3928,8 +3918,7 @@ select one clazz related by o_tfr->O_OBJ[R115];
 self.ModelClass_addOperationToOrdering(o_obj: clazz, newTfr:o_tfr);
 
 // Since this operation handles both functions and services, and services have void return types, we default to void here.
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
+select any def_dt from instances of S_DT where ( selected.Name == "void" );
 relate o_tfr to def_dt across R116;
 
 o_tfr.Name = param.name;
@@ -5950,8 +5939,7 @@ select one sm_evt related by sm_evtdi->SM_EVT[R532];
 self.StateMachineEvent_addDataItemToOrder( sm_evtdi:sm_evtdi, sm_evt:sm_evt );
 
 // TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+select any def_dt from instances of S_DT where ( selected.Name == "string" );
 // END
 
 relate sm_evtdi to def_dt across R524;
@@ -7280,28 +7268,18 @@ if ( empty s_sys )
   self.systypes_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"types");
   
   i = 0;
-  s[ 18 ] = "initializing array length";
+  s[ 8 ] = "initializing array length";
   s[ i ] = "";
-  s[ 0 ] = "void";
-  s[ 1 ] = "boolean";
-  s[ 2 ] = "integer";
-  s[ 3 ] = "character";
-  s[ 4 ] = "wcharacter";
-  s[ 5 ] = "byte";
-  s[ 6 ] = "long_integer";
-  s[ 7 ] = "real";
-  s[ 8 ] = "string";
-  s[ 9 ] = "wstring";
-  s[ 10 ] = "date";
-  s[ 11 ] = "duration";
-  s[ 12 ] = "timestamp";
-  s[ 13 ] = "timer";
-  s[ 14 ] = "event";
-  s[ 15 ] = "device";
-  s[ 16 ] = "enum";
-  s[ 17 ] = "structure";
-  s[ 18 ] = "MASLtype";
-  i = 18;
+  s[ 0 ] = "character";
+  s[ 1 ] = "wcharacter";
+  s[ 2 ] = "byte";
+  s[ 3 ] = "long_integer";
+  s[ 4 ] = "wstring";
+  s[ 5 ] = "duration";
+  s[ 6 ] = "device";
+  s[ 7 ] = "MASLtype";
+  s[ 8 ] = "MASLunique";
+  i = 8;
 
   while ( i >= 0 )
     // Create the built-in MASL types.
@@ -8119,7 +8097,6 @@ if ( "preferred" == param.preferred )
 end if;
 
 if ( "unique" == param.unique )
-  self.transformType(name:"MASLunique", visibility:"public", definition:"");
   self.Attribute_setType(o_attr:self.current_attribute, type_name:"MASLunique");
 end if;',
 	1,
