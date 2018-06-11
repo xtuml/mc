@@ -1002,11 +1002,12 @@ TIM_tick( void )
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_TIMER );
   #endif
   .end if
-  while ( 0 != animate ) {
   .if ( te_sys.SimulatedTime )
+  if ( 0 != animate ) {
     systyme = animate->expiration;
     timer_fire( animate );
   .else
+  while ( 0 != animate ) {
     if ( animate->expiration <= ETimer_msec_time() ) {
       timer_fire( animate );
     } else {
