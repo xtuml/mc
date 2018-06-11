@@ -4334,7 +4334,21 @@ pe.type = ElementTypeConstants::DATATYPE;
 self.PackageableElement_initialize(pe_pe:pe);
 
 // Link ID to appropriate xtUML core type.
-IDLINK::stitchID( name:param.type_name, pe_pe:pe, s_dt:dt, s_udt:udt );
+if ( "character" == param.type_name or
+     "wcharacter" == param.type_name or
+     "byte" == param.type_name or
+     "long_integer" == param.type_name or
+     "duration" == param.type_name )
+  select any integer_dt from instances of S_DT where ( selected.Name == "integer" );
+  relate integer_dt to udt across R18;
+elif ( "wstring" == param.type_name or
+       "MASLtype" == param.type_name )
+  select any string_dt from instances of S_DT where ( selected.Name == "string" );
+  relate string_dt to udt across R18;
+else
+  select any masl_dt from instances of S_DT where ( selected.Name == "MASLtype" );
+  relate masl_dt to udt across R18;
+end if;
 
 // For complex MASL types we store the definition in the description
 if ( "" != param.definition )
@@ -7277,8 +7291,8 @@ if ( empty s_sys )
   s[ 4 ] = "wstring";
   s[ 5 ] = "duration";
   s[ 6 ] = "device";
-  s[ 7 ] = "MASLtype";
-  s[ 8 ] = "MASLunique";
+  s[ 7 ] = "MASLunique";
+  s[ 8 ] = "MASLtype";
   i = 8;
 
   while ( i >= 0 )
