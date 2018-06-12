@@ -1174,6 +1174,42 @@ INSERT INTO PE_PE
 	"1800b076-78da-4923-9981-c067ad8e1b87",
 	"00000000-0000-0000-0000-000000000000",
 	9);
+INSERT INTO S_SYNC
+	VALUES ("cfb19f24-1c30-4d46-a273-309bfe471e3e",
+	"00000000-0000-0000-0000-000000000000",
+	'initialize_globals',
+	'',
+	'// cache the Globals.xtuml core data types
+select any ooapopulation from instances of ooapopulation;
+if ( empty ooapopulation )
+  create object instance ooapopulation of ooapopulation;
+  ooapopulation.processingIdentifier = 0;
+  ooapopulation.processingISM = true;
+  ooapopulation.processingProject = false;
+end if;
+
+// create a new package for the global types
+create object instance pe_pe of PE_PE;
+create object instance ep_pkg of EP_PKG;
+ep_pkg.Name = "_globals";
+
+select many s_dts from instances of S_DT;
+for each s_dt in s_dts
+  select one s_dt_pe related by s_dt->PE_PE[R8001];
+  relate s_dt_pe to ep_pkg across R8000;
+end for;
+
+ooapopulation.globaltypes_pkg = ep_pkg;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("cfb19f24-1c30-4d46-a273-309bfe471e3e",
+	1,
+	"1800b076-78da-4923-9981-c067ad8e1b87",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("1800b076-78da-4923-9981-c067ad8e1b87",
 	1,
