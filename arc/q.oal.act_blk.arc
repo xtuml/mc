@@ -32,7 +32,7 @@
       .if ( "" != te_smt.OAL )
         .assign statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" )
         .invoke aba_code_append( te_aba, statement_comment )
-        .if ( trace )
+        .if ( trace and te_aba.IsTrace )
           .assign statement_trace = ( ( te_blk.indentation + "XTUML_OAL_STMT_TRACE( " ) + ( "$t{te_blk.depth}" + ", """ ) ) + ( te_smt.OAL + """ );\n" )
           .invoke aba_code_append( te_aba, statement_trace )
         .end if

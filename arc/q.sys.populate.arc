@@ -1399,24 +1399,6 @@
     .for each te_class in te_classs
       .select one o_obj related by te_class->O_OBJ[R2019]
       .// Initialize model compiler extension attributes.
-      .assign te_class.SelfCreated    = false
-      .assign te_class.NonSelfCreated = false
-      .assign te_class.Included = false
-      .assign te_class.IsFixedPopulation = false
-      .assign te_class.PEIsDefinedInData = false
-      .assign te_class.IsReadOnly = false
-      .// Default is 10 instances per class.
-      .assign te_class.MaxExtentSize = 10
-      .assign te_class.Persistent = false
-      .assign te_class.ExcludeFromGen = false
-      .assign te_class.IsTrace = true
-      .assign te_class.ContainerIndex = 0
-      .assign te_class.Task = 0
-      .assign te_class.class_file = te_class.GeneratedName + "_class"
-      .assign te_class.system_class_number = te_class.GeneratedName + "_CLASS_NUMBER"
-      .assign te_class.CBsystem_class_number = te_class.GeneratedName + "_CLASS_NUMBER_CB"
-      .assign te_class.dispatcher = ""
-      .assign te_class.CBdispatcher = ""
       .select one sm_ism related by o_obj->SM_ISM[R518]
       .if ( not_empty sm_ism )
         .assign te_class.dispatcher = te_class.GeneratedName + "_Dispatch"
@@ -1425,7 +1407,6 @@
       .if ( not_empty sm_asm )
         .assign te_class.CBdispatcher = te_class.GeneratedName + "_CBDispatch"
       .end if
-      .assign te_class.persist_link = te_class.GeneratedName + "_LinkCentral"
       .//
       .// Create the Generated Attribute instances and link them to the real ones.
       .assign delimiter = ""
@@ -1604,10 +1585,28 @@
   .// Copy other attributes for convenience so we can avoid accessing o_obj.
   .assign te_class.Name = o_obj.Name
   .assign te_class.Key_Lett = o_obj.Key_Lett
-  .assign te_class.Key_Lett = "$r{te_class.Key_Lett}"
   .// Initialize model compiler extension attributes.
   .assign te_class.GeneratedName = ( te_c.Name + "_" ) + te_class.Key_Lett
   .assign te_class.CBGeneratedName = te_class.GeneratedName + "_CB"
+  .assign te_class.SelfCreated = false
+  .assign te_class.NonSelfCreated = false
+  .assign te_class.Included = false
+  .assign te_class.IsFixedPopulation = false
+  .assign te_class.PEIsDefinedInData = false
+  .assign te_class.IsReadOnly = false
+  .// Default is 10 instances per class.
+  .assign te_class.MaxExtentSize = 10
+  .assign te_class.Persistent = false
+  .assign te_class.ExcludeFromGen = false
+  .assign te_class.IsTrace = true
+  .assign te_class.ContainerIndex = 0
+  .assign te_class.Task = 0
+  .assign te_class.class_file = te_class.GeneratedName + "_class"
+  .assign te_class.system_class_number = te_class.GeneratedName + "_CLASS_NUMBER"
+  .assign te_class.CBsystem_class_number = te_class.GeneratedName + "_CLASS_NUMBER_CB"
+  .assign te_class.persist_link = te_class.GeneratedName + "_LinkCentral"
+  .assign te_class.dispatcher = ""
+  .assign te_class.CBdispatcher = ""
   .assign te_class.scope = ""
   .assign te_class.attribute_format = ""
   .assign attr_result = te_class
@@ -1985,6 +1984,7 @@
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .create object instance te_aba of TE_ABA
+  .assign te_aba.IsTrace = true
   .assign te_aba.SelfEventCount = 0
   .assign te_aba.NonSelfEventCount = 0
   .assign te_aba.subtypeKL = subtypeKL

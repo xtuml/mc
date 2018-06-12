@@ -136,22 +136,36 @@
   .end if
   .for each te_c in te_cs
     .assign msg = ""
+    .select many te_abas related by te_c->TE_ABA[R2088] where ( false )
     .if ( "*" == obj_key_letters )
-      .select many te_classes related by te_c->TE_CLASS[R2064]
-      .for each te_class in te_classes
+      .select many te_classs related by te_c->TE_CLASS[R2064]
+      .for each te_class in te_classs
         .assign te_class.IsTrace = false
       .end for
+      .select many te_abas related by te_classs->O_OBJ[R2019]->O_TFR[R115]->TE_TFR[R2024]->TE_ABA[R2010]
+      .select many more_te_abas related by te_classs->O_OBJ[R2019]->O_ATTR[R102]->O_BATTR[R106]->O_DBATTR[R107]->TE_DBATTR[R2026]->TE_ABA[R2010]
+      .assign te_abas = te_abas | more_te_abas
+      .select many more_te_abas related by te_classs->TE_SM[R2072]->SM_SM[R2043]->SM_ACT[R515]->TE_ACT[R2022]->TE_ABA[R2010]
+      .assign te_abas = te_abas | more_te_abas
       .assign msg = "Class tracing for all is disabled in component ${te_c.Name}."
     .else
       .select any te_class related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters )
       .if ( not_empty te_class )
         .assign te_class.IsTrace = false
         .assign msg = "Class ${te_class.Name} (${te_class.Key_Lett}) tracing is disabled."
+        .select many te_abas related by te_class->O_OBJ[R2019]->O_TFR[R115]->TE_TFR[R2024]->TE_ABA[R2010]
+        .select many more_te_abas related by te_class->O_OBJ[R2019]->O_ATTR[R102]->O_BATTR[R106]->O_DBATTR[R107]->TE_DBATTR[R2026]->TE_ABA[R2010]
+        .assign te_abas = te_abas | more_te_abas
+        .select many more_te_abas related by te_class->TE_SM[R2072]->SM_SM[R2043]->SM_ACT[R515]->TE_ACT[R2022]->TE_ABA[R2010]
+        .assign te_abas = te_abas | more_te_abas
       .else
         .assign msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}."
         .assign msg = msg + "\n => MarkClassTraceOff( ${component_name}, ${obj_key_letters} )"
       .end if
     .end if
+    .for each te_aba in te_abas
+      .assign te_aba.IsTrace = false
+    .end for
     .if ( "" != msg )
       .print "${msg}"
     .end if
@@ -169,22 +183,36 @@
   .end if
   .for each te_c in te_cs
     .assign msg = ""
+    .select many te_abas related by te_c->TE_ABA[R2088] where ( false )
     .if ( "*" == obj_key_letters )
-      .select many te_classes related by te_c->TE_CLASS[R2064]
-      .for each te_class in te_classes
+      .select many te_classs related by te_c->TE_CLASS[R2064]
+      .for each te_class in te_classs
         .assign te_class.IsTrace = true
       .end for
+      .select many te_abas related by te_classs->O_OBJ[R2019]->O_TFR[R115]->TE_TFR[R2024]->TE_ABA[R2010]
+      .select many more_te_abas related by te_classs->O_OBJ[R2019]->O_ATTR[R102]->O_BATTR[R106]->O_DBATTR[R107]->TE_DBATTR[R2026]->TE_ABA[R2010]
+      .assign te_abas = te_abas | more_te_abas
+      .select many more_te_abas related by te_classs->TE_SM[R2072]->SM_SM[R2043]->SM_ACT[R515]->TE_ACT[R2022]->TE_ABA[R2010]
+      .assign te_abas = te_abas | more_te_abas
       .assign msg = "Class tracing for all is enabled in component ${te_c.Name}."
     .else
       .select any te_class related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters )
       .if ( not_empty te_class )
         .assign te_class.IsTrace = true
         .assign msg = "Class ${te_class.Name} (${te_class.Key_Lett}) tracing is enabled."
+        .select many te_abas related by te_class->O_OBJ[R2019]->O_TFR[R115]->TE_TFR[R2024]->TE_ABA[R2010]
+        .select many more_te_abas related by te_class->O_OBJ[R2019]->O_ATTR[R102]->O_BATTR[R106]->O_DBATTR[R107]->TE_DBATTR[R2026]->TE_ABA[R2010]
+        .assign te_abas = te_abas | more_te_abas
+        .select many more_te_abas related by te_class->TE_SM[R2072]->SM_SM[R2043]->SM_ACT[R515]->TE_ACT[R2022]->TE_ABA[R2010]
+        .assign te_abas = te_abas | more_te_abas
       .else
         .assign msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}."
         .assign msg = msg + "\n => MarkClassTraceOn( ${component_name}, ${obj_key_letters} )"
       .end if
     .end if
+    .for each te_aba in te_abas
+      .assign te_aba.IsTrace = true
+    .end for
     .if ( "" != msg )
       .print "${msg}"
     .end if
