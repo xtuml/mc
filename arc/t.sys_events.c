@@ -82,10 +82,16 @@ typedef struct {
 /* Pointer to head of list of available event nodes.  */
 static ${te_eq.base_event_type} * free_event_list = 0;
     .if ( non_self_event_queue_needed.result )
-static xtUMLEventQueue_t non_self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
+      .if ( 0 == te_sys.StateSaveBufferSize )
+static \
+      .end if
+xtUMLEventQueue_t non_self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
     .end if
     .if ( self_event_queue_needed.result )
-static xtUMLEventQueue_t self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
+      .if ( 0 == te_sys.StateSaveBufferSize )
+static \
+      .end if
+xtUMLEventQueue_t self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
     .end if
   .end if
 

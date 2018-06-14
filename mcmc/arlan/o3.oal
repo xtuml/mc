@@ -163,7 +163,7 @@ if ( not_empty te_smt )
     if ( "" != te_smt.OAL )
       statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" );
       ::aba_code_append( te_aba:te_aba, s:statement_comment );
-      if ( trace )
+      if ( trace and te_aba.IsTrace )
         statement_trace = ( ( te_blk.indentation + "XTUML_OAL_STMT_TRACE( " ) + ( T::s(i:te_blk.depth) + ", &quot;" ) ) + ( te_smt.OAL + "&quot; );\n" );
         ::aba_code_append( te_aba:te_aba, s:statement_trace );
       end if;

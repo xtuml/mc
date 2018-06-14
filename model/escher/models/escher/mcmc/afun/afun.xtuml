@@ -851,7 +851,10 @@ max_select_many = r;
 //
 // functions
 select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.IsSafeForInterrupts ) and ( selected.XlateSemantics ) );
-total_interleaved_bridges = cardinality te_syncs;
+safe_functions = cardinality te_syncs;
+select many tm_msgs related by te_c->TE_MACT[R2002]->TM_MSG[R2809] where ( selected.IsSafeForInterrupts );
+safe_messages = cardinality tm_msgs;
+total_interleaved_bridges = safe_functions + safe_messages;
 //
 // Count up the priority events.
 select many te_evts from instances of TE_EVT where ( selected.Priority != 0 );
@@ -4036,24 +4039,6 @@ for each te_c in te_cs
   for each te_class in te_classs
     select one o_obj related by te_class->O_OBJ[R2019];
     // Initialize model compiler extension attributes.
-    te_class.SelfCreated = false;
-    te_class.NonSelfCreated = false;
-    te_class.Included = false;
-    te_class.IsFixedPopulation = false;
-    te_class.PEIsDefinedInData = false;
-    te_class.IsReadOnly = false;
-    // Default is 10 instances per class.
-    te_class.MaxExtentSize = 10;
-    te_class.Persistent = false;
-    te_class.ExcludeFromGen = false;
-    te_class.IsTrace = true;
-    te_class.ContainerIndex = 0;
-    te_class.Task = 0;
-    te_class.class_file = te_class.GeneratedName + "_class";
-    te_class.system_class_number = te_class.GeneratedName + "_CLASS_NUMBER";
-    te_class.CBsystem_class_number = te_class.GeneratedName + "_CLASS_NUMBER_CB";
-    te_class.dispatcher = "";
-    te_class.CBdispatcher = "";
     select one sm_ism related by o_obj->SM_ISM[R518];
     if ( not_empty sm_ism )
       te_class.dispatcher = te_class.GeneratedName + "_Dispatch";
@@ -4062,7 +4047,6 @@ for each te_c in te_cs
     if ( not_empty sm_asm )
       te_class.CBdispatcher = te_class.GeneratedName + "_CBDispatch";
     end if;
-    te_class.persist_link = te_class.GeneratedName + "_LinkCentral";
     //
     // Create the Generated Attribute instances and link them to the real ones.
     delimiter = "";
@@ -4255,10 +4239,28 @@ te_class.Numb = o_obj.Numb;
 // Copy other attributes for convenience so we can avoid accessing o_obj.
 te_class.Name = o_obj.Name;
 te_class.Key_Lett = o_obj.Key_Lett;
-te_class.Key_Lett = T::r(s:te_class.Key_Lett);
 // Initialize model compiler extension attributes.
 te_class.GeneratedName = ( te_c.Name + "_" ) + te_class.Key_Lett;
 te_class.CBGeneratedName = te_class.GeneratedName + "_CB";
+te_class.SelfCreated = false;
+te_class.NonSelfCreated = false;
+te_class.Included = false;
+te_class.IsFixedPopulation = false;
+te_class.PEIsDefinedInData = false;
+te_class.IsReadOnly = false;
+// Default is 10 instances per class.
+te_class.MaxExtentSize = 10;
+te_class.Persistent = false;
+te_class.ExcludeFromGen = false;
+te_class.IsTrace = true;
+te_class.ContainerIndex = 0;
+te_class.Task = 0;
+te_class.class_file = te_class.GeneratedName + "_class";
+te_class.system_class_number = te_class.GeneratedName + "_CLASS_NUMBER";
+te_class.CBsystem_class_number = te_class.GeneratedName + "_CLASS_NUMBER_CB";
+te_class.persist_link = te_class.GeneratedName + "_LinkCentral";
+te_class.dispatcher = "";
+te_class.CBdispatcher = "";
 te_class.scope = "";
 te_class.attribute_format = "";
 return te_class;
@@ -4883,6 +4885,7 @@ te_dt = param.te_dt;
 select any te_sys from instances of TE_SYS;
 select any te_target from instances of TE_TARGET;
 create object instance te_aba of TE_ABA;
+te_aba.IsTrace = true;
 te_aba.SelfEventCount = 0;
 te_aba.NonSelfEventCount = 0;
 te_aba.subtypeKL = subtypeKL;
@@ -6792,7 +6795,6 @@ te_file.thread = te_prefix.file + "sys_thread";
 te_file.trace = te_prefix.file + "sys_trace";
 te_file.tim = te_prefix.file + "TIM_bridge";
 te_file.callout = te_prefix.file + "sys_user_co";
-te_file.ilb = te_prefix.file + "sys_ilb";
 te_file.persist = te_prefix.file + "sys_persist";
 te_file.xtumlload = te_prefix.file + "sys_xtumlload";
 te_file.interfaces = te_prefix.file + "sysc_interfaces";
@@ -6904,7 +6906,6 @@ INSERT INTO S_SYNC
 //
 te_ilb = param.te_ilb;
 select any te_prefix from instances of TE_PREFIX;
-te_ilb.file = "sys_ilb";
 te_ilb.interleave_bridge = "InterleaveBridge";
 te_ilb.define_name = te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGES";
 te_ilb.data_define_name = te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGE_DATA";
