@@ -89,7 +89,7 @@
   .select any te_target from instances of TE_TARGET
   .select any te_thread from instances of TE_THREAD
   .select any te_trace from instances of TE_TRACE
-  .select any te_parm from instances of TE_PARM where ( false )
+  .select any tm_msg from instances of TM_MSG
   .select any empty_sm_evt from instances of SM_EVT where ( false )
   .select many empty_te_macts from instances of TE_MACT where ( false )
   .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
@@ -97,19 +97,18 @@
     .while ( not_empty te_mact )
     .assign sm_evt = empty_sm_evt
     .assign foreign_te_macts = empty_te_macts
+    .select one tm_msg related by te_mact->TM_MSG[R2809]
     .select one te_aba related by te_mact->TE_ABA[R2010]
     .if ( te_mact.subtypeKL == "SPR_PO" )
     .elif ( te_mact.subtypeKL == "SPR_RO" )
     .elif ( te_mact.subtypeKL == "SPR_PS" )
       .select one spr_ps related by te_mact->SPR_PS[R2051]
-      .select any te_parm related by spr_ps->SPR_PEP[R4503]->C_EP[R4501]->C_PP[R4006]->TE_PARM[R2048]
       .// Navigate through the satisfaction to find the connected/corresponding message.
       .select many spr_rss related by spr_ps->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->C_R[R4002]->SPR_REP[R4500]->SPR_RS[R4502] where ( selected.Name == spr_ps.Name )
       .// Find a local event mapped onto the signal.
       .select one sm_evt related by spr_ps->SM_SGEVT[R528]->SM_SEVT[R526]->SM_EVT[R525]
     .elif ( te_mact.subtypeKL == "SPR_RS" )
       .select one spr_rs related by te_mact->SPR_RS[R2053]
-      .select any te_parm related by spr_rs->SPR_REP[R4502]->C_EP[R4500]->C_PP[R4006]->TE_PARM[R2048]
       .// Navigate through the satisfaction to find the connected/corresponding message.
       .select many spr_pss related by spr_rs->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PS[R4503] where ( selected.Name == spr_rs.Name )
       .// Find a local event mapped onto the signal.
@@ -216,6 +215,18 @@
         .end if
         .assign action_body = autosar_body + action_body
         .assign action_body = action_body + "  #endif\n"
+      .end if
+    .end if
+    .// Handle messages marked as SafeForInterrupts.
+    .assign deferring = ""
+    .assign unpack_arguments = ""
+    .if ( not_empty tm_msg )
+      .if ( tm_msg.IsSafeForInterrupts )
+        .select many te_parms related by te_aba->TE_PARM[R2062]
+        .invoke r = SyncServiceDefineDeferred( te_parms, te_mact.GeneratedName )
+        .assign deferring = r.body
+        .invoke r = UnpackArgumentMembers( te_parms, te_mact.GeneratedName, "ilbargs" )
+        .assign unpack_arguments = r.body
       .end if
     .end if
     .include "${te_file.arc_path}/t.component.message.c"

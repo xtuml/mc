@@ -6,10 +6,6 @@
 /*
  * Following provides the dispatcher loops for the xtUML event queues.
  */
-
-.if ( te_sys.MaxInterleavedBridges > 0 )
-#include "${te_file.ilb}.${te_file.hdr_file_ext}"
-.end if
 .if ( "C" == te_target.language )
 
 bool ${te_eq.run_flag} = true; /* Turn this off to exit dispatch loop(s).  */

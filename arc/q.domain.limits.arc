@@ -111,7 +111,10 @@
   .//
   .// functions
   .select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.IsSafeForInterrupts ) and ( selected.XlateSemantics ) )
-  .assign total_interleaved_bridges = cardinality te_syncs
+  .assign safe_functions = cardinality te_syncs
+  .select many tm_msgs related by te_c->TE_MACT[R2002]->TM_MSG[R2809] where ( selected.IsSafeForInterrupts )
+  .assign safe_messages = cardinality tm_msgs
+  .assign total_interleaved_bridges = safe_functions + safe_messages
   .//
   .// Count up the priority events.
   .select many te_evts from instances of TE_EVT where ( selected.Priority != 0 )

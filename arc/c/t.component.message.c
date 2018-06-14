@@ -14,6 +14,35 @@ Port:  ${te_mact.PortName}
 .end if
 Message:  ${te_mact.MessageName}
  */
+.if ( not_empty tm_msg )
+  .if ( tm_msg.IsSafeForInterrupts )
+/* deferred routine declaration for posting */
+static ${te_aba.ReturnDataType} ${te_aba.scope}${te_aba.GeneratedName}_deferred( void );
+    .if ( "" != te_aba.ParameterStructure )
+/* package for packing, posting and unpacking arguments */
+typedef struct {
+${te_aba.ParameterStructure}\
+} ${te_mact.GeneratedName}_arguments_t;
+    .end if
+
+/* stub for safe calls from ISRs, threads, signals, etc. */
+${te_aba.ReturnDataType}
+${te_aba.scope}${te_aba.GeneratedName}_safe(${te_aba.ParameterDefinition})
+{
+${deferring}
+}
+
+static ${te_aba.ReturnDataType}
+${te_aba.scope}${te_aba.GeneratedName}_deferred()
+{
+  .// Get and unpack argument data.
+${unpack_arguments}\
+  .// Call the normal method from the deferred body.
+  ${te_mact.GeneratedName}(${te_aba.ParameterInvocation} );
+}
+
+  .end if
+.end if
 ${te_aba.ReturnDataType}
 ${te_aba.scope}${te_aba.GeneratedName}(${te_aba.ParameterDefinition})
 {

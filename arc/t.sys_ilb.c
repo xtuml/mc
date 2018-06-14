@@ -1,15 +1,7 @@
-/*---------------------------------------------------------------------
- * File:  ${te_file.ilb}.${te_file.src_file_ext}
- *
- * Description:
- * This file provides a means to safely receive calls from interrupt
+/*
+ * These routines provides a means to safely receive calls from interrupt
  * handlers or other tasks/threads/contexts.
- *
- * ${te_copyright.body}
- *-------------------------------------------------------------------*/
-
-#include "${te_file.types}.${te_file.hdr_file_ext}"
-#include "${te_file.ilb}.${te_file.hdr_file_ext}"
+ */
 
 typedef void ( * interleaved_bridge_t )( void );
 static interleaved_bridge_t interleaved_bridges[ ${te_ilb.define_name} ];
@@ -124,4 +116,3 @@ ${te_ilb.get_data}( void )
 .end if
   return ilb;
 }
-.//

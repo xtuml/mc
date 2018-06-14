@@ -96,7 +96,6 @@
   .assign te_file.trace = te_prefix.file + "sys_trace"
   .assign te_file.tim = te_prefix.file + "TIM_bridge"
   .assign te_file.callout = te_prefix.file + "sys_user_co"
-  .assign te_file.ilb = te_prefix.file + "sys_ilb"
   .assign te_file.persist = te_prefix.file + "sys_persist"
   .assign te_file.xtumlload = te_prefix.file + "sys_xtumlload"
   .assign te_file.interfaces = te_prefix.file + "sysc_interfaces"
@@ -148,7 +147,6 @@
 .function ilb_factory
   .param inst_ref te_ilb
   .select any te_prefix from instances of TE_PREFIX
-  .assign te_ilb.file = "sys_ilb"
   .assign te_ilb.interleave_bridge = "InterleaveBridge"
   .assign te_ilb.define_name = te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGES"
   .assign te_ilb.data_define_name = te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGE_DATA"

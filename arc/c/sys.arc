@@ -244,22 +244,6 @@
   .emit to file "${te_file.system_source_path}/${te_file.thread}.${te_file.src_file_ext}"
 .end if
 .//
-.if ( te_sys.MaxInterleavedBridges > 0 )
-  .invoke disable_interrupts = UserDisableInterrupts()
-  .invoke enable_interrupts = UserEnableInterrupts()
-  .//===========================================================================
-  .// Generate sys_ilb.h into system gen includes.
-  .//===========================================================================
-  .include "${te_file.arc_path}/t.sys_ilb.h"
-  .emit to file "${te_file.system_include_path}/${te_file.ilb}.${te_file.hdr_file_ext}"
-  .//
-  .//===========================================================================
-  .// Generate sys_ilb.c into system gen source.
-  .//===========================================================================
-  .include "${te_file.arc_path}/t.sys_ilb.c"
-  .emit to file "${te_file.system_source_path}/${te_file.ilb}.${te_file.src_file_ext}"
-.end if
-.//
 .//=============================================================================
 .// Generate sys_factory.h into system gen includes.
 .//=============================================================================
