@@ -3420,7 +3420,7 @@ if ( ( te_mact.polymorphic ) and ( "SystemC" == te_thread.flavor ) )
       relate polymorphic_te_parm to te_parm across R2041.'precedes';
     end if;
   end for;
-  te_parms = te_parms;
+  te_parms = te_parms | polymorphic_te_parm;
 end if;
 r = ::FactoryTE_ABA( te_c:te_c, te_parms:te_parms, scope:te_mact.ComponentName, name:te_mact.GeneratedName, subtypeKL:"TE_MACT", te_dt:te_dt );
 te_aba = r;
