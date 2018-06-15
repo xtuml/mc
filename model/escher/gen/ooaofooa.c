@@ -3334,7 +3334,7 @@ ooaofooa_MarkClassTraceOff( c_t * p_component_name, c_t * p_obj_key_letters )
         Escher_SetInsertElement( (Escher_ObjectSet_s *) more_te_abas, TE_ABA_R2010 );
       }}}}}}}}}
       /* ASSIGN te_abas = te_abas */
-      Escher_CopySet( te_abas, te_abas );
+      Escher_SetUnion( te_abas, te_abas, more_te_abas, 0 );
       /* SELECT many more_te_abas RELATED BY te_classs->TE_SM[R2072]->SM_SM[R2043]->SM_ACT[R515]->TE_ACT[R2022]->TE_ABA[R2010] */
       Escher_ClearSet( more_te_abas );
       {      ooaofooa_TE_CLASS * ooaofooa_TE_CLASS_linkage;
@@ -3358,7 +3358,7 @@ ooaofooa_MarkClassTraceOff( c_t * p_component_name, c_t * p_obj_key_letters )
         Escher_SetInsertElement( (Escher_ObjectSet_s *) more_te_abas, TE_ABA_R2010 );
       }}}}}}}}
       /* ASSIGN te_abas = te_abas */
-      Escher_CopySet( te_abas, te_abas );
+      Escher_SetUnion( te_abas, te_abas, more_te_abas, 0 );
       /* ASSIGN msg = Class tracing for all is disabled in component ${te_c.Name}. */
       msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("Class tracing for all is disabled in component ");T_T(te_c->Name);T_T(".");}) );
       Escher_ClearSet( more_te_abas ); Escher_ClearSet( te_classs ); 
@@ -3418,7 +3418,7 @@ ooaofooa_MarkClassTraceOff( c_t * p_component_name, c_t * p_obj_key_letters )
           Escher_SetInsertElement( (Escher_ObjectSet_s *) more_te_abas, TE_ABA_R2010 );
         }}}}}}}}}
         /* ASSIGN te_abas = te_abas */
-        Escher_CopySet( te_abas, te_abas );
+        Escher_SetUnion( te_abas, te_abas, more_te_abas, 0 );
         /* SELECT many more_te_abas RELATED BY te_class->TE_SM[R2072]->SM_SM[R2043]->SM_ACT[R515]->TE_ACT[R2022]->TE_ABA[R2010] */
         Escher_ClearSet( more_te_abas );
         {        if ( 0 != te_class ) {
@@ -3439,7 +3439,7 @@ ooaofooa_MarkClassTraceOff( c_t * p_component_name, c_t * p_obj_key_letters )
           Escher_SetInsertElement( (Escher_ObjectSet_s *) more_te_abas, TE_ABA_R2010 );
         }}}}}}}}
         /* ASSIGN te_abas = te_abas */
-        Escher_CopySet( te_abas, te_abas );
+        Escher_SetUnion( te_abas, te_abas, more_te_abas, 0 );
         Escher_ClearSet( more_te_abas ); 
       }
       else {
@@ -3575,7 +3575,7 @@ ooaofooa_MarkClassTraceOn( c_t * p_component_name, c_t * p_obj_key_letters )
         Escher_SetInsertElement( (Escher_ObjectSet_s *) more_te_abas, TE_ABA_R2010 );
       }}}}}}}}}
       /* ASSIGN te_abas = te_abas */
-      Escher_CopySet( te_abas, te_abas );
+      Escher_SetUnion( te_abas, te_abas, more_te_abas, 0 );
       /* SELECT many more_te_abas RELATED BY te_classs->TE_SM[R2072]->SM_SM[R2043]->SM_ACT[R515]->TE_ACT[R2022]->TE_ABA[R2010] */
       Escher_ClearSet( more_te_abas );
       {      ooaofooa_TE_CLASS * ooaofooa_TE_CLASS_linkage;
@@ -3599,7 +3599,7 @@ ooaofooa_MarkClassTraceOn( c_t * p_component_name, c_t * p_obj_key_letters )
         Escher_SetInsertElement( (Escher_ObjectSet_s *) more_te_abas, TE_ABA_R2010 );
       }}}}}}}}
       /* ASSIGN te_abas = te_abas */
-      Escher_CopySet( te_abas, te_abas );
+      Escher_SetUnion( te_abas, te_abas, more_te_abas, 0 );
       /* ASSIGN msg = Class tracing for all is enabled in component ${te_c.Name}. */
       msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("Class tracing for all is enabled in component ");T_T(te_c->Name);T_T(".");}) );
       Escher_ClearSet( more_te_abas ); Escher_ClearSet( te_classs ); 
@@ -3659,7 +3659,7 @@ ooaofooa_MarkClassTraceOn( c_t * p_component_name, c_t * p_obj_key_letters )
           Escher_SetInsertElement( (Escher_ObjectSet_s *) more_te_abas, TE_ABA_R2010 );
         }}}}}}}}}
         /* ASSIGN te_abas = te_abas */
-        Escher_CopySet( te_abas, te_abas );
+        Escher_SetUnion( te_abas, te_abas, more_te_abas, 0 );
         /* SELECT many more_te_abas RELATED BY te_class->TE_SM[R2072]->SM_SM[R2043]->SM_ACT[R515]->TE_ACT[R2022]->TE_ABA[R2010] */
         Escher_ClearSet( more_te_abas );
         {        if ( 0 != te_class ) {
@@ -3680,7 +3680,7 @@ ooaofooa_MarkClassTraceOn( c_t * p_component_name, c_t * p_obj_key_letters )
           Escher_SetInsertElement( (Escher_ObjectSet_s *) more_te_abas, TE_ABA_R2010 );
         }}}}}}}}
         /* ASSIGN te_abas = te_abas */
-        Escher_CopySet( te_abas, te_abas );
+        Escher_SetUnion( te_abas, te_abas, more_te_abas, 0 );
         Escher_ClearSet( more_te_abas ); 
       }
       else {
