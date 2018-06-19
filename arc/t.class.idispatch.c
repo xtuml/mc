@@ -71,7 +71,8 @@ ${poly_dispatcher} else\
     .if ( te_c.StateTrace and te_class.IsTrace )
         ${te_trace.state_txn_start}( "${te_class.Key_Lett}", current_state, ${te_sm.state_names_array}[ current_state ] );
     .end if
-        /* Execute the state action and update the current state.  */
+        /* Update the current state and execute the state action.  */
+        instance->${te_instance.current_state} = next_state;
         ( *${te_sm.action_array}[ next_state ] )( instance, event );
     .if ( te_c.StateTrace and te_class.IsTrace )
         ${te_trace.state_txn_end}( "${te_class.Key_Lett}", next_state, ${te_sm.state_names_array}[ next_state ] );
@@ -95,11 +96,7 @@ ${te_instance.delete_persistent}\
 ${te_instance.delete}\
     .end if
 ( instance, ${dom_id}, ${te_class.system_class_number} );
-        } else {
-          instance->${te_instance.current_state} = next_state;
         }
-  .else
-        instance->${te_instance.current_state} = next_state;
   .end if  .// can_self_delete
   .if ( not_empty evt_cant_happen )
       } else if ( next_state == ${te_eq.cant_happen} ) {

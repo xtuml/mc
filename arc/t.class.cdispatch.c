@@ -19,9 +19,9 @@ ${te_class.CBdispatcher}( ${te_eq.base_event_type} * event )
     .if ( te_c.StateTrace and te_class.IsTrace )
     ${te_trace.state_txn_start}( "${te_class.Key_Lett}", current_state, ${te_sm.state_names_array}[ current_state ] );
     .end if
-    /* Execute the state action and update the current state.  */
-    ( *${te_sm.action_array}[ next_state ] )( &class_based_singleton, event );
+    /* Update the current state and execute the state action.  */
     class_based_singleton.${te_instance.current_state} = next_state;
+    ( *${te_sm.action_array}[ next_state ] )( &class_based_singleton, event );
     .if ( te_c.StateTrace and te_class.IsTrace )
     ${te_trace.state_txn_end}( "${te_class.Key_Lett}", next_state, ${te_sm.state_names_array}[ next_state ] );
     .end if
