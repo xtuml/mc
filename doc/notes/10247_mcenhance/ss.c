@@ -34,6 +34,8 @@ static Escher_xtUMLEvent_t * free_event_list = 0;
 extern xtUMLEventQueue_t non_self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
 extern xtUMLEventQueue_t self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
 
+/* The following data structures must be compatible.
+   Be aware of byte alignment.  The structures are united.  */
 typedef struct { u1_t domain, class, instance, state; } ssinstance_t;
 typedef struct { u1_t domain, class, instance, event; } ssevent_t;
 typedef struct { u2_t instances; u1_t sevents, ievents; } ssmeta_t;
@@ -42,7 +44,7 @@ static FILE * ssfile = 0;
 // CDS - The size of this should come from te_sys.StateSaveBufferSize.
 #define SSBUFSIZE 1024
 static ssdata_t ssbuf[ SSBUFSIZE / sizeof( ssdata_t ) ];
-static Escher_size_t ssbuf_index = 0;
+static Escher_size_t ssbuf_index;
 
 static Escher_size_t DumpEventQueue( Escher_xtUMLEvent_t * );
 static Escher_size_t DumpEventQueue( Escher_xtUMLEvent_t * e )
@@ -105,10 +107,13 @@ void ss()
 
 void ss_save()
 {
-  Escher_size_t i, j, instance_count = 0, sevent_count = 0, ievent_count = 0;
+  Escher_size_t i, j;
+  u2_t instance_count = 0;
+  u1_t sevent_count = 0, ievent_count = 0;
   ssinstance_t instance_map;
   ssevent_t event_map;
   ssmeta_t metadata;
+  ssbuf_index = 0; /* Reset buffer to beginning.  */
   printf( "SS trigger to buffer\n" );
   for ( i = 0; i < SYSTEM_DOMAIN_COUNT; i++ ) {
     // CDS - This one is not right.
@@ -127,7 +132,7 @@ void ss_save()
   metadata.instances = instance_count;
   metadata.sevents = sevent_count;
   metadata.ievents = ievent_count;
-  printf( "metadata start %lu,%lu,%lu\n", instance_count, sevent_count, ievent_count );
+  printf( "metadata start %u,%u,%u\n", instance_count, sevent_count, ievent_count );
   fwrite( &metadata, sizeof( ssmeta_t ), 1, ssfile );
   fwrite( ssbuf, sizeof( ssdata_t ), instance_count + sevent_count + ievent_count, ssfile );
 }
@@ -181,8 +186,8 @@ static c_t * events[1][7][256] = {
 void
 ss_show()
 {
-  Escher_size_t instance_count = 0, sevent_count = 0, ievent_count = 0;
   ssmeta_t metadata;
+  ssbuf_index = 0; /* Reset buffer to beginning.  */
   printf( "SS read file\n" );
   if ( 0 == (ssfile = freopen( "ssfile.4bytes", "rb", ssfile )) ) {
     printf( "could not open SS file for reading\n" );
@@ -190,39 +195,28 @@ ss_show()
   }
   /* Read from file and show.  */
   fread( &metadata, sizeof( ssmeta_t ), 1, ssfile );
-  instance_count = metadata.instances;
-  sevent_count = metadata.sevents;
-  ievent_count = metadata.ievents;
+  fread( ssbuf, sizeof( ssdata_t ), metadata.instances + metadata.sevents + metadata.ievents, ssfile );
   printf( "metadata after write and read %u,%u,%u\n", metadata.instances, metadata.sevents, metadata.ievents );
   printf( "domain,class,instance,state\n" );
-  while ( 0 < instance_count ) {
-    ssinstance_t instance_map;
-    u1_t d, c, i, s;
-    fread( &instance_map, sizeof( ssinstance_t ), 1, ssfile );
-    printf( "%u,%u,%u,%u\n", instance_map.domain, instance_map.class, instance_map.instance, instance_map.state );
-    d = instance_map.domain; c = instance_map.class; i = instance_map.instance; s = instance_map.state;
-    printf( "%s,%s,%u,%s\n", domains[d], classes[d][c], instance_map.instance, states[d][c][s] );
-    instance_count--;
+  while ( 0 < metadata.instances ) {
+    ssinstance_t instance_map = ssbuf[ ssbuf_index++ ].i;
+    u1_t d = instance_map.domain, c = instance_map.class, i = instance_map.instance, s = instance_map.state;
+    printf( "%u,%u,%u,%u:%s,%s,%u,%s\n", d, c, i, s, domains[d], classes[d][c], instance_map.instance, states[d][c][s] );
+    metadata.instances--;
   }
   printf( "domain,class,instance,event\n" );
   printf( "SS self event\n" );
-  while ( 0 < sevent_count ) {
-    ssevent_t event_map;
-    u1_t d, c, i, e;
-    fread( &event_map, sizeof( ssevent_t ), 1, ssfile );
-    printf( "%u,%u,%u,%u\n", event_map.domain, event_map.class, event_map.instance, event_map.event );
-    d = event_map.domain; c = event_map.class; i = event_map.instance; e = event_map.event;
-    printf( "%s,%s,%u,%s\n", domains[d], classes[d][c], event_map.instance, events[d][c][e] );
-    sevent_count--;
+  while ( 0 < metadata.sevents ) {
+    ssevent_t event_map = ssbuf[ ssbuf_index++ ].e;
+    u1_t d = event_map.domain, c = event_map.class, i = event_map.instance, e = event_map.event;
+    printf( "%u,%u,%u,%u:%s,%s,%u,%s\n", d, c, i, e, domains[d], classes[d][c], event_map.instance, events[d][c][e] );
+    metadata.sevents--;
   }
   printf( "SS instance event queue\n" );
-  while ( 0 < ievent_count ) {
-    ssevent_t event_map;
-    u1_t d, c, i, e;
-    fread( &event_map, sizeof( ssevent_t ), 1, ssfile );
-    printf( "%u,%u,%u,%u\n", event_map.domain, event_map.class, event_map.instance, event_map.event );
-    d = event_map.domain; c = event_map.class; i = event_map.instance; e = event_map.event;
-    printf( "%s,%s,%u,%s\n", domains[d], classes[d][c], event_map.instance, events[d][c][e] );
-    ievent_count--;
+  while ( 0 < metadata.ievents ) {
+    ssevent_t event_map = ssbuf[ ssbuf_index++ ].e;
+    u1_t d = event_map.domain, c = event_map.class, i = event_map.instance, e = event_map.event;
+    printf( "%u,%u,%u,%u:%s,%s,%u,%s\n", d, c, i, e, domains[d], classes[d][c], event_map.instance, events[d][c][e] );
+    metadata.ievents--;
   }
 }
