@@ -277,7 +277,13 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
               .assign parameters = parameters + "${parameters_delimeter}${part_te_class.GeneratedName}related_instance$t{r_rto_count}"
             .else
               .assign rel_phrase = r_aone.Txt_Phrs
-              .assign parameters = "${part_te_class.GeneratedName}related_instance$t{r_rto_count}${parameters_delimeter}" + parameters
+              .select one r_aoth related by r_aone->R_ASSOC[R209]->R_AOTH[R210]
+              .if ( r_aone.Obj_ID != r_aoth.Obj_ID )
+                .assign parameters = "${part_te_class.GeneratedName}related_instance$t{r_rto_count}${parameters_delimeter}" + parameters
+              .else
+                .// for reflexive associatives, the parameter order always follows the role phrase
+                .assign parameters = parameters + "${parameters_delimeter}${part_te_class.GeneratedName}related_instance$t{r_rto_count}"
+              .end if
             .end if
           .end if
           .assign parameters_delimeter = ", "
