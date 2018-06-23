@@ -58,6 +58,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("282fd5f5-ade3-4fd4-b951-c8879a186eeb",
+	"68c1a6cd-6aef-4bc7-a5af-020c4eb4fead");
 INSERT INTO O_BATTR
 	VALUES ("282fd5f5-ade3-4fd4-b951-c8879a186eeb",
 	"68c1a6cd-6aef-4bc7-a5af-020c4eb4fead");

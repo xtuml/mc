@@ -8,6 +8,9 @@ INSERT INTO O_OBJ
 	'This class represents a class which is participating in a sequence.  The
 participating class is always static and never has a life span.',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("11bc686d-dc5b-4a57-b4c4-a4903ed94cdd",
+	"af4f32dc-20a5-40c8-a905-19137352ef42");
 INSERT INTO O_BATTR
 	VALUES ("11bc686d-dc5b-4a57-b4c4-a4903ed94cdd",
 	"af4f32dc-20a5-40c8-a905-19137352ef42");
@@ -60,6 +63,9 @@ Description: A textual description of this class.',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("3d503e25-8f2f-4586-8a2d-177a6d9a248c",
+	"af4f32dc-20a5-40c8-a905-19137352ef42");
 INSERT INTO O_BATTR
 	VALUES ("3d503e25-8f2f-4586-8a2d-177a6d9a248c",
 	"af4f32dc-20a5-40c8-a905-19137352ef42");

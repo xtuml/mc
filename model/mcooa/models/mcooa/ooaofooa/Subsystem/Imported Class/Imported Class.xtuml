@@ -33,6 +33,9 @@ User_Visible: false',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("0f2d08fd-5c53-41f6-928b-08e49251d6fd",
+	"0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb");
 INSERT INTO O_BATTR
 	VALUES ("0f2d08fd-5c53-41f6-928b-08e49251d6fd",
 	"0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb");
@@ -51,6 +54,9 @@ Description:  This attribute provides identifying information for the Class rela
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("4bccd513-edbb-4386-8bef-0e5650cae2e7",
+	"0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb");
 INSERT INTO O_BATTR
 	VALUES ("4bccd513-edbb-4386-8bef-0e5650cae2e7",
 	"0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb");
