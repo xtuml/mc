@@ -105,6 +105,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("d0de9f08-d828-45b2-99c3-031e57861895",
+	"f53de30e-964b-4fd8-b53a-03ded908f6e4");
 INSERT INTO O_BATTR
 	VALUES ("d0de9f08-d828-45b2-99c3-031e57861895",
 	"f53de30e-964b-4fd8-b53a-03ded908f6e4");
@@ -157,6 +160,9 @@ Description: A textual description of this package.',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("5f09d485-53f2-43ed-8069-e69ca9355546",
+	"f53de30e-964b-4fd8-b53a-03ded908f6e4");
 INSERT INTO O_BATTR
 	VALUES ("5f09d485-53f2-43ed-8069-e69ca9355546",
 	"f53de30e-964b-4fd8-b53a-03ded908f6e4");

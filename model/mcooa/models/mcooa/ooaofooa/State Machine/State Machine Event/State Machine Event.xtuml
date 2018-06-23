@@ -157,6 +157,9 @@ Description: Custom keyletters for the state machine event',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("64085e02-8480-4d39-b572-9d5e212ea066",
+	"a532550b-16f4-4e0e-8849-1a53aa26896f");
 INSERT INTO O_BATTR
 	VALUES ("64085e02-8480-4d39-b572-9d5e212ea066",
 	"a532550b-16f4-4e0e-8849-1a53aa26896f");

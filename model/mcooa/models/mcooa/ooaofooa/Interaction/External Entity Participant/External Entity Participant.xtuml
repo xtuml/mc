@@ -7,6 +7,9 @@ INSERT INTO O_OBJ
 	'SQ_EEP',
 	'This class represents an external entity which is participating in a sequence.',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("a39650e4-4c99-467e-9a20-46dcf918cfc9",
+	"5c657701-17d3-4307-87c9-3624b695e86d");
 INSERT INTO O_BATTR
 	VALUES ("a39650e4-4c99-467e-9a20-46dcf918cfc9",
 	"5c657701-17d3-4307-87c9-3624b695e86d");
@@ -59,6 +62,9 @@ Description: A textual description of this external entity.',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("613757d7-f576-4c43-bb6a-5c4e88ad5044",
+	"5c657701-17d3-4307-87c9-3624b695e86d");
 INSERT INTO O_BATTR
 	VALUES ("613757d7-f576-4c43-bb6a-5c4e88ad5044",
 	"5c657701-17d3-4307-87c9-3624b695e86d");
