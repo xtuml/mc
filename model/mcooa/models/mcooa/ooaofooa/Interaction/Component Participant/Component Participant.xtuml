@@ -26,6 +26,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("41fd7036-5cc9-4189-928b-4e58bf8d9c80",
+	"9ed4eb96-e17b-403f-aee8-7e18bfb0a1e5");
 INSERT INTO O_BATTR
 	VALUES ("41fd7036-5cc9-4189-928b-4e58bf8d9c80",
 	"9ed4eb96-e17b-403f-aee8-7e18bfb0a1e5");
@@ -60,6 +63,9 @@ Description: A textual description of this component participant.',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("76f3e42c-9898-4499-95a5-4db0df9bba81",
+	"9ed4eb96-e17b-403f-aee8-7e18bfb0a1e5");
 INSERT INTO O_BATTR
 	VALUES ("76f3e42c-9898-4499-95a5-4db0df9bba81",
 	"9ed4eb96-e17b-403f-aee8-7e18bfb0a1e5");

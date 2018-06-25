@@ -58,6 +58,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("686164d5-5340-4c2f-8f79-43c5443303fc",
+	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
 INSERT INTO O_BATTR
 	VALUES ("686164d5-5340-4c2f-8f79-43c5443303fc",
 	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
@@ -73,6 +76,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("e7e8d30c-f46e-4d07-898d-21c1f6d0b9ed",
+	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
 INSERT INTO O_BATTR
 	VALUES ("e7e8d30c-f46e-4d07-898d-21c1f6d0b9ed",
 	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
@@ -89,6 +95,9 @@ Description: A textual description of this provided signal.',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("b0e0a6f0-5f98-424c-a465-593349d1ceb8",
+	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
 INSERT INTO O_BATTR
 	VALUES ("b0e0a6f0-5f98-424c-a465-593349d1ceb8",
 	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");

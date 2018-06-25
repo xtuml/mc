@@ -91,6 +91,9 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("c030dfd2-3f84-4b3e-923d-f1ef33f4043d",
+	"2885ad55-db02-484b-a5b1-080cb4a91daa");
 INSERT INTO O_BATTR
 	VALUES ("c030dfd2-3f84-4b3e-923d-f1ef33f4043d",
 	"2885ad55-db02-484b-a5b1-080cb4a91daa");
