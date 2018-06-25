@@ -15,12 +15,11 @@
   .//
   .// Analyze maximums for extents.
   .// The extents should be analyzed only *after* extent size coloring!
-  .select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
   .assign object_class_extents = 0
   .assign relationship_extents = 0
   .assign largest_object_extent = 0
-  .//
-  .for each te_class in te_classs
+  .select one te_class related by te_c->TE_CLASS[R2103]
+  .while ( not_empty te_class )
     .select one o_obj related by te_class->O_OBJ[R2019]
     .assign object_class_extents = object_class_extents + te_class.MaxExtentSize
     .if ( te_class.MaxExtentSize > largest_object_extent )
@@ -57,7 +56,8 @@
         .end if
       .end if
     .end for
-  .end for
+    .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
+  .end while
   .//
   .// analyze timers events selects
   .invoke r = timer_analyze_starts()
@@ -139,5 +139,44 @@
   .assign te_c.PEIClassCount        = pei_class_count
   .assign te_c.PersistentClassCount = persist_class_count
   .//
+.end function
+.//
+.function TE_C_class_strings
+  .param inst_ref te_c
+  .assign s = ""
+  .assign delimiter = ""
+  .select one te_class related by te_c->TE_CLASS[R2103]
+  .while ( not_empty te_class )
+    .assign s = s + delimiter + """" + te_class.Name + """"
+    .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
+    .assign delimiter = ","
+  .end while
+  .assign attr_result = s
+.end function
+.//
+.function TE_SM_state_strings
+  .param inst_ref te_sm
+  .assign s = ""
+  .assign delimiter = ""
+  .select one te_state related by te_sm->TE_STATE[R2100]
+  .while ( not_empty te_state )
+    .assign s = s + delimiter + """" + te_state.Name + """"
+    .select one te_state related by te_state->TE_STATE[R2101.'precedes']
+    .assign delimiter = ","
+  .end while
+  .assign attr_result = s
+.end function
+.//
+.function TE_SM_event_strings
+  .param inst_ref te_sm
+  .assign s = ""
+  .assign delimiter = ""
+  .select one te_evt related by te_sm->TE_EVT[R2104]
+  .while ( not_empty te_evt )
+    .assign s = s + delimiter + """" + te_evt.Name + """"
+    .select one te_evt related by te_evt->TE_EVT[R2102.'precedes']
+    .assign delimiter = ","
+  .end while
+  .assign attr_result = s
 .end function
 .//

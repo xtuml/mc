@@ -1642,7 +1642,6 @@ CREATE TABLE TE_C (
     CodeComments BOOLEAN,
     CollectionsFlavor INTEGER,
     classes_file STRING,
-    functions_file STRING,
     MaxObjExtent INTEGER,
     MaxRelExtent INTEGER,
     MaxSelectExtent INTEGER,
@@ -1654,8 +1653,6 @@ CREATE TABLE TE_C (
     PEIClassCount INTEGER,
     PersistentClassCount INTEGER,
     module_file STRING,
-    port_file STRING,
-    include_file STRING,
     included_in_build BOOLEAN,
     internal_behavior BOOLEAN,
     isRealized BOOLEAN,
@@ -1665,7 +1662,9 @@ CREATE TABLE TE_C (
     first_eeID UNIQUE_ID,
     first_syncID UNIQUE_ID,
     smsg_send STRING,
-    smsg_recv STRING
+    smsg_recv STRING,
+    first_te_class_ID UNIQUE_ID,
+    class_strings STRING
 );
 CREATE TABLE TE_CALLOUT (
     file STRING,
@@ -2390,7 +2389,11 @@ CREATE TABLE TE_SM (
     num_events INTEGER,
     SM_ID UNIQUE_ID,
     te_classGeneratedName STRING,
-    first_te_state_ID UNIQUE_ID
+    first_te_state_ID UNIQUE_ID,
+    state_strings STRING,
+    event_strings STRING,
+    class_based BOOLEAN,
+    first_te_evt_ID UNIQUE_ID
 );
 CREATE TABLE TE_SMT (
     Statement_ID UNIQUE_ID,
@@ -3182,6 +3185,8 @@ CREATE ROP REF_ID R210 FROM 1 R_AOTH (Rel_ID) TO 1 R_ASSOC (Rel_ID);
 CREATE ROP REF_ID R2100 FROM 1C TE_SM (first_te_state_ID) TO 1C TE_STATE (ID);
 CREATE ROP REF_ID R2101 FROM 1C TE_STATE (next_ID) PHRASE 'precedes' TO 1C TE_STATE (ID) PHRASE 'succeeds';
 CREATE ROP REF_ID R2102 FROM 1C TE_EVT (next_ID) PHRASE 'precedes' TO 1C TE_EVT (ID) PHRASE 'succeeds';
+CREATE ROP REF_ID R2103 FROM 1C TE_C (first_te_class_ID) TO 1C TE_CLASS (ID);
+CREATE ROP REF_ID R2104 FROM 1C TE_SM (first_te_evt_ID) TO 1C TE_EVT (ID);
 CREATE ROP REF_ID R211 FROM 1 R_ASSR (Rel_ID) TO 1 R_ASSOC (Rel_ID);
 CREATE ROP REF_ID R212 FROM 1 R_SUPER (Rel_ID) TO 1 R_SUBSUP (Rel_ID);
 CREATE ROP REF_ID R213 FROM MC R_SUB (Rel_ID) TO 1 R_SUBSUP (Rel_ID);

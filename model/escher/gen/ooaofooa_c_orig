@@ -1612,6 +1612,7 @@ ooaofooa_FactoryTE_SM( const bool p_is_ism, ooaofooa_SM_SM * p_sm_sm, ooaofooa_T
     ooaofooa_TE_ABA * te_aba;ooaofooa_TE_ABA * r;ooaofooa_TE_ACT * te_act;ooaofooa_TE_STATE * te_state;ooaofooa_TE_BLK * te_blk=0;ooaofooa_SM_ACT * sm_act=0;
     /* CREATE OBJECT INSTANCE te_state OF TE_STATE */
     te_state = (ooaofooa_TE_STATE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_STATE_CLASS_NUMBER );
+    te_state->ID = Escher_ID_factory();
     /* ASSIGN te_state.Name = sm_state.Name */
     ((ooaofooa_TE_STATE *)xtUML_detect_empty_handle( te_state, "TE_STATE", "te_state.Name" ))->Name = Escher_strcpy( ((ooaofooa_TE_STATE *)xtUML_detect_empty_handle( te_state, "TE_STATE", "te_state.Name" ))->Name, ((ooaofooa_SM_STATE *)xtUML_detect_empty_handle( sm_state, "SM_STATE", "sm_state.Name" ))->Name );
     /* ASSIGN te_state.Numb = sm_state.Numb */

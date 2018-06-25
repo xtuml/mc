@@ -162,7 +162,6 @@
     .end if
     .assign te_c.internal_behavior = false
     .assign te_c.module_file = te_c.Name
-    .assign te_c.port_file = te_c.Name
     .assign te_c.classes_file = te_c.Name + "_classes"
     .assign te_c.CodeComments = true
     .// Create and relate the domain class info to carry details about
@@ -1648,8 +1647,10 @@
   .relate te_sm to te_class across R2072
   .relate te_sm to sm_sm across R2043
   .assign te_sm.complete = false
+  .assign te_sm.class_based = true
   .assign class_based = "_CB"
   .if ( is_ism )
+    .assign te_sm.class_based = false
     .assign class_based = ""
   .end if
   .assign te_sm.SEMname = ( te_class.GeneratedName + class_based ) + "_StateEventMatrix"
@@ -1686,9 +1687,9 @@
   .//
   .// Sort the states for later state event matrix generation.
   .select many te_states related by sm_states->TE_STATE[R2037]
-  .invoke r = state_sort( te_states )
-  .assign first_te_state = r.result
-  .if ( not_empty first_te_state )
+  .if ( not_empty te_states )
+    .invoke r = state_sort( te_states )
+    .assign first_te_state = r.result
     .relate first_te_state to te_sm across R2100
   .end if
   .for each te_state in te_states
@@ -1751,8 +1752,6 @@
   .// events starting with local then true then polys.
   .select many sm_levts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_LEVT[R526]
   .select many local_te_evts related by sm_levts->SM_SEVT[R526]->SM_EVT[R525]->TE_EVT[R2036]
-  .invoke r = event_sort( local_te_evts )
-  .assign first_te_evt = r.result
   .assign last_event_number = cardinality local_te_evts
   .assign last_event_number = last_event_number - 1
   .select many sm_sgevts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_SGEVT[R526]
@@ -1792,6 +1791,16 @@
     .assign last_event_number = last_event_number + 1
     .assign te_evt.Order = last_event_number
   .end for
+  .select many te_evts related by te_sm->TE_EVT[R2071]
+  .if ( not_empty te_evts )
+    .invoke r = event_sort( te_evts )
+    .assign first_te_evt = r.result
+    .relate first_te_evt to te_sm across R2104
+  .end if
+  .invoke r = TE_SM_state_strings( te_sm )
+  .assign te_sm.state_strings = r.result
+  .invoke r = TE_SM_event_strings( te_sm )
+  .assign te_sm.event_strings = r.result
 .end function
 .//
 .//
@@ -2646,7 +2655,7 @@
   .assign attr_result = result
 .end function
 .//
-.// Sort a list of TE_EVTs.
+.// Sort a list of TE_EVTs.  Key is Order then Numb.
 .function event_sort .// te_evt
   .param inst_ref_set te_evts
   .// Declare an empty instance reference.
@@ -2671,8 +2680,8 @@
   .if ( empty head_te_evt )
     .// Just starting.  Return te_evt as head.
   .else
-  .assign lkey = te_evt.Numb
-  .assign rkey = head_te_evt.Numb
+  .assign lkey = ( te_evt.Order * 1000 ) + te_evt.Numb
+  .assign rkey = ( head_te_evt.Order * 1000 ) + head_te_evt.Numb
   .if ( lkey <= rkey )
     .// insert before
     .relate te_evt to head_te_evt across R2102.'precedes'
@@ -2682,7 +2691,7 @@
     .assign prev_te_evt = head_te_evt
     .select one cursor_te_evt related by head_te_evt->TE_EVT[R2102.'precedes']
     .while ( not_empty cursor_te_evt )
-      .assign rkey = cursor_te_evt.Numb
+      .assign rkey = ( cursor_te_evt.Order * 1000 ) + cursor_te_evt.Numb
       .if ( lkey <= rkey )
         .break while
       .else
