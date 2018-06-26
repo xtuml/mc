@@ -2802,7 +2802,6 @@ for each c_c in c_cs
   end if;
   te_c.internal_behavior = false;
   te_c.module_file = te_c.Name;
-  te_c.port_file = te_c.Name;
   te_c.classes_file = te_c.Name + "_classes";
   te_c.CodeComments = true;
   // Create and relate the domain class info to carry details about

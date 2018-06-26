@@ -339,12 +339,16 @@
 #define D$t{d}_CLASSES ${te_c.class_strings}
     .select one te_class related by te_c->TE_CLASS[R2103]
     .while ( not_empty te_class )
-      .// CDS - problem here, we need to order ISM/ASM correctly
-      .select many te_sms related by te_class->TE_SM[R2072]
-      .for each te_sm in te_sms
+      .select any te_sm related by te_class->TE_SM[R2072] where ( not selected.class_based )
+      .if ( not_empty te_sm )
 #define D$t{d}C$t{c}_STATES "",${te_sm.state_strings}
 #define D$t{d}C$t{c}_EVENTS ${te_sm.event_strings}
-      .end for
+      .end if
+      .select any te_sm related by te_class->TE_SM[R2072] where ( selected.class_based )
+      .if ( not_empty te_sm )
+#define D$t{d}C$t{c}_STATES "",${te_sm.state_strings}
+#define D$t{d}C$t{c}_EVENTS ${te_sm.event_strings}
+      .end if
       .assign c = c + 1
       .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
     .end while
