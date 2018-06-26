@@ -80,6 +80,11 @@ ${te_aba.code}\
     .end if
   return;
   .end if
+  .if ( 0 < te_sys.StateSaveBufferSize )
+    .if ( ( "State Save" == te_ee.Name ) and ( "SS" == te_ee.Key_Lett ) and ( "trigger" == te_brg.Name ) )
+  ss();
+    .end if
+  .end if
   /* Replace/Insert your implementation code here... */
 ${te_aba.code}\
 .end if

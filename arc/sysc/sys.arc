@@ -342,5 +342,13 @@
 .include "${te_file.arc_path}/t.sys_xtumlload.c"
 .emit to file "${te_file.system_source_path}/${te_file.xtumlload}.${te_file.src_file_ext}"
 .end if
+.//
+.//=============================================================================
+.// Generate state save constant data.
+.//=============================================================================
+.if ( 0 < te_sys.StateSaveBufferSize )
+.include "${te_file.arc_path}/t.ss_strings.h"
+.emit to file "${te_file.system_source_path}/ss_strings.${te_file.hdr_file_ext}"
+.end if
 .print "ending ${info.date}"
 .//
