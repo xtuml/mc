@@ -1663,8 +1663,8 @@ CREATE TABLE TE_C (
     first_syncID UNIQUE_ID,
     smsg_send STRING,
     smsg_recv STRING,
-    first_te_class_ID UNIQUE_ID,
-    class_strings STRING
+    class_strings STRING,
+    first_te_class_ID UNIQUE_ID
 );
 CREATE TABLE TE_CALLOUT (
     file STRING,
@@ -2390,10 +2390,10 @@ CREATE TABLE TE_SM (
     SM_ID UNIQUE_ID,
     te_classGeneratedName STRING,
     first_te_state_ID UNIQUE_ID,
+    first_te_evt_ID UNIQUE_ID,
     state_strings STRING,
     event_strings STRING,
-    class_based BOOLEAN,
-    first_te_evt_ID UNIQUE_ID
+    class_based BOOLEAN
 );
 CREATE TABLE TE_SMT (
     Statement_ID UNIQUE_ID,
