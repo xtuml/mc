@@ -15,11 +15,14 @@
   .param string inner_body
   .param string trace_attribute
   .param string name
+  .if ( "" == trace_attribute )
+instance_index = 0;
+  .end if
 select many $l{key_letters}s from instances of ${key_letters};
 for each $l{key_letters} in $l{key_letters}s
   instance_count = instance_count + 1;
   .if ( "" == trace_attribute )
-  trace = "";
+  trace = STRING::itoa( i:instance_index );
   .else
   trace = ::check_trace( trace_attribute:"${trace_attribute}", trace_id:$l{key_letters}.${trace_attribute}, name:\
     .if ( "" == name )
@@ -29,6 +32,9 @@ $l{key_letters}.${name} );
     .end if
   .end if
 ${inner_body}
+  .if ( "" == trace_attribute )
+  instance_index = instance_index + 1;
+  .end if
 end for;
 .end function
 .//
@@ -233,7 +239,7 @@ ${where_clause}\
             .assign phrase = r_form.Txt_Phrs
           .end if
           .select one r_rto related by r_part->R_RTO[R204]
-          .invoke r = compare_referentials_to_identifiers( $l{o_obj.Key_Lett}, $l{target_o_obj.Key_Lett}, r_rgo, r_rto )
+          .invoke r = compare_referentials_to_identifiers( $l{target_o_obj.Key_Lett}, $l{o_obj.Key_Lett}, r_rgo, r_rto )
           .assign comparison = r.body
           .invoke r = t_participation( o_obj.Key_Lett, target_o_obj.Key_Lett, r_rel.Numb, card, phrase, comparison )
   // participant participation R$t{r_rel.Numb}:  ${o_obj.Name}(${o_obj.Key_Lett}) -> ${target_o_obj.Name}(${target_o_obj.Key_Lett})
