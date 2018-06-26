@@ -508,21 +508,25 @@ trace = "";
       .assign text = ""
       .select many o_ids related by o_obj->O_ID[R104]
       .for each o_id in o_ids
-        .select one o_oida related by o_id->O_OIDA[R105]
-        .if ( not_empty o_oida )
+        .select many o_oidas related by o_id->O_OIDA[R105]
+        .if ( not_empty o_oidas )
           .invoke r = instance_uniqueness( o_id )
           .assign text = text + r.body
           .// Find an identifying attribute to use to provide the user some way
           .// to locate the erroneous element.
-          .select one s_dt related by o_oida->O_ATTR[R105]->S_DT[R114] where ( selected.Name == "unique_id" )
-          .if ( not_empty s_dt )
-            .assign trace_attribute = o_oida.localAttributeName
-          .else
-            .select one s_dt related by o_oida->O_ATTR[R105]->O_RATTR[R106]->O_BATTR[R113]->O_ATTR[R106]->S_DT[R114] where ( selected.Name == "unique_id" )
+          .for each o_oida in o_oidas
+            .select one s_dt related by o_oida->O_ATTR[R105]->S_DT[R114] where ( selected.Name == "unique_id" )
             .if ( not_empty s_dt )
               .assign trace_attribute = o_oida.localAttributeName
+              .break for
+            .else
+              .select one s_dt related by o_oida->O_ATTR[R105]->O_RATTR[R106]->O_BATTR[R113]->O_ATTR[R106]->S_DT[R114] where ( selected.Name == "unique_id" )
+              .if ( not_empty s_dt )
+                .assign trace_attribute = o_oida.localAttributeName
+                .break for
+              .end if
             .end if
-          .end if
+          .end for
         .end if
       .end for
       .// If class has an attribute named "Name", use it for tracing purposes.
