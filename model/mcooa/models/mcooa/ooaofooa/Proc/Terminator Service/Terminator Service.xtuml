@@ -1,0 +1,237 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	'Terminator Service',
+	1652,
+	'PR_TSVC',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("285e0c6b-3c37-48ea-aa76-5a518c5c2ebe",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_BATTR
+	VALUES ("285e0c6b-3c37-48ea-aa76-5a518c5c2ebe",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_ATTR
+	VALUES ("285e0c6b-3c37-48ea-aa76-5a518c5c2ebe",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	"00000000-0000-0000-0000-000000000000",
+	'Svc_ID',
+	'',
+	'',
+	'Svc_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	"9558cb1f-d2f1-48b6-a1b6-682b4bffc6b5",
+	0,
+	"b405ee87-9ec1-4778-a969-5aaada72ef70",
+	"dd7ed791-e6f9-4e88-8380-cb404814193a",
+	"7d6773d8-ccff-48bd-b25f-1779e308a93e",
+	"f01e97ce-fef9-4e99-8191-bd860934b3bc",
+	"0373c2df-335a-41e1-9d45-b69c79c1f74b",
+	"e8777a75-d7e8-47b9-9fbe-2b683f36b448",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Terminator',
+	'Term_ID',
+	'R1651');
+INSERT INTO R_RGO_PROXY
+	VALUES ("33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	"dd7ed791-e6f9-4e88-8380-cb404814193a",
+	"7d6773d8-ccff-48bd-b25f-1779e308a93e",
+	'../Proc.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("b405ee87-9ec1-4778-a969-5aaada72ef70",
+	"9558cb1f-d2f1-48b6-a1b6-682b4bffc6b5",
+	0,
+	"dd7ed791-e6f9-4e88-8380-cb404814193a",
+	"f01e97ce-fef9-4e99-8191-bd860934b3bc",
+	'../Proc.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("0373c2df-335a-41e1-9d45-b69c79c1f74b",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	"b405ee87-9ec1-4778-a969-5aaada72ef70",
+	"9558cb1f-d2f1-48b6-a1b6-682b4bffc6b5",
+	1,
+	'Term_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("b405ee87-9ec1-4778-a969-5aaada72ef70",
+	"9558cb1f-d2f1-48b6-a1b6-682b4bffc6b5",
+	'../Terminator/Terminator.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("0373c2df-335a-41e1-9d45-b69c79c1f74b",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	"285e0c6b-3c37-48ea-aa76-5a518c5c2ebe",
+	'Term_ID',
+	'',
+	'',
+	'Term_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("2282bf62-9884-4205-a623-93eede40ae7d",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_BATTR
+	VALUES ("2282bf62-9884-4205-a623-93eede40ae7d",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_ATTR
+	VALUES ("2282bf62-9884-4205-a623-93eede40ae7d",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	"0373c2df-335a-41e1-9d45-b69c79c1f74b",
+	'Name',
+	'Full Name: Terminator Service Name',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("c668e5ff-c0c9-4c8f-ba12-6fcfa61f0c4a",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_BATTR
+	VALUES ("c668e5ff-c0c9-4c8f-ba12-6fcfa61f0c4a",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_ATTR
+	VALUES ("c668e5ff-c0c9-4c8f-ba12-6fcfa61f0c4a",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	"2282bf62-9884-4205-a623-93eede40ae7d",
+	'Descrip',
+	'Full Name: Terminator Service Description
+Description: A textual description of this terminator service.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("1d7d91d8-a752-4455-94b1-836da7f73a1d",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_BATTR
+	VALUES ("1d7d91d8-a752-4455-94b1-836da7f73a1d",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_ATTR
+	VALUES ("1d7d91d8-a752-4455-94b1-836da7f73a1d",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	"5fcb8cfa-e566-48c1-964b-46e62be0771e",
+	'Action_Semantics_internal',
+	'User_Visible:false',
+	'',
+	'Action_Semantics_internal',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("dd8d6c28-4934-4c52-81bb-b6bd7300a72c",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_BATTR
+	VALUES ("dd8d6c28-4934-4c52-81bb-b6bd7300a72c",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_ATTR
+	VALUES ("dd8d6c28-4934-4c52-81bb-b6bd7300a72c",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	"1d7d91d8-a752-4455-94b1-836da7f73a1d",
+	'Suc_Pars',
+	'Full Name: Successful Parse Indicator
+Description: Indicates the status of the parse for the action specification in the attribute Action_Semantics
+Data Domain: 0=not parsed, 1 = parse successful, 2 = parse unsuccessful, 3 = parse on apply set but never been parsed
+',
+	'',
+	'Suc_Pars',
+	0,
+	"dbf2d43d-c821-4774-bb01-a5f468a5abe8",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("dbf2d43d-c821-4774-bb01-a5f468a5abe8",
+	"00000000-0000-0000-0000-000000000000",
+	'ParseStatus',
+	'Indicates the status of the parse for an action specification in the attribute Action_Semantics',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("9113b470-2f1e-47a8-b752-d1b3493c062a",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_BATTR
+	VALUES ("9113b470-2f1e-47a8-b752-d1b3493c062a",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_ATTR
+	VALUES ("9113b470-2f1e-47a8-b752-d1b3493c062a",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	"dd8d6c28-4934-4c52-81bb-b6bd7300a72c",
+	'Dialect',
+	'Full Name: Action Dialect',
+	'',
+	'Dialect',
+	0,
+	"6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	"00000000-0000-0000-0000-000000000000",
+	'ActionDialect',
+	'Enumerator for available action dialects',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_DBATTR
+	VALUES ("5fcb8cfa-e566-48c1-964b-46e62be0771e",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	'self.Action_Semantics = self.Action_Semantics_internal;',
+	1,
+	0);
+INSERT INTO O_BATTR
+	VALUES ("5fcb8cfa-e566-48c1-964b-46e62be0771e",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_ATTR
+	VALUES ("5fcb8cfa-e566-48c1-964b-46e62be0771e",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	"c668e5ff-c0c9-4c8f-ba12-6fcfa61f0c4a",
+	'Action_Semantics',
+	'Full Name: Action Semantics Field
+Description: Action Semantics for the operation action
+Persistent:false',
+	'',
+	'Action_Semantics',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_OIDA
+	VALUES ("285e0c6b-3c37-48ea-aa76-5a518c5c2ebe",
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	0,
+	'Svc_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO O_ID
+	VALUES (2,
+	"33dc8d11-0697-4591-8ea3-1b727112f4a1");
+INSERT INTO PE_PE
+	VALUES ("33dc8d11-0697-4591-8ea3-1b727112f4a1",
+	1,
+	"892d9495-a9d5-4ecd-8e5d-3885eac22887",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("892d9495-a9d5-4ecd-8e5d-3885eac22887",
+	"00000000-0000-0000-0000-000000000000",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'Proc',
+	'',
+	0,
+	'../Proc.xtuml');

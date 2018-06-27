@@ -102,18 +102,23 @@ project = param.project;
 // Query and Populate
 // Query the xtUML meta-model and populate the MASL meta-model.
 
-select many ep_pkgs from instances of EP_PKG where ( false );
-if ( ( "" == project ) or ( "*" == project ) )
-  // CDS - temporary for marking the project
-  select many ep_pkgs from instances of EP_PKG where ( selected.Descrip == project );
+select many pr_procs from instances of PR_PROC where ( selected.Name == project );
+if ( not_empty pr_procs )
+  ::proc2project( pr_procs:pr_procs );
 else
-  select many ep_pkgs from instances of EP_PKG where ( selected.Name == project );
+  select many ep_pkgs from instances of EP_PKG where ( false );
+  if ( ( "" == project ) or ( "*" == project ) )
+    // CDS - temporary for marking the project
+    select many ep_pkgs from instances of EP_PKG where ( selected.Descrip == project );
+  else
+    select many ep_pkgs from instances of EP_PKG where ( selected.Name == project );
+  end if;
+  if ( not_empty ep_pkgs )
+    ::package2project( ep_pkgs:ep_pkgs, kl:param.kl );
+  else
+    TRACE::log( flavor:"failure", id:1, message:"ERROR:  project package was not found:" + project );
+  end if;
 end if;
-if ( empty ep_pkgs )
-  TRACE::log( flavor:"failure", id:1, message:"ERROR:  project package was not found:" + project );
-end if;
-
-::package2project( ep_pkgs:ep_pkgs, kl:param.kl );
 
 TRACE::log( flavor:"info", id:102, message:"Done" );
 ',
@@ -3081,6 +3086,214 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("6c0ff46e-0f2b-48a5-98c2-644ae0cee595",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("37b8e256-4792-4a44-a210-bed61e765a1d",
+	"00000000-0000-0000-0000-000000000000",
+	'proc2project',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+pr_procs = param.pr_procs;
+for each pr_proc in pr_procs
+
+  value[0] = pr_proc.Name;
+  out::populate( element:"project", value:value );
+  
+  select many pr_terms related by pr_proc->PR_TERM[R1650];
+  ::terminator2terminator( pr_terms:pr_terms );
+
+  // Populate pragmas
+  select one ep_pkg related by pr_proc->PE_PE[R8001]->EP_PKG[R8000];
+  ::mark2pragma( markable:"Proc", pathkey: ::package_get_path( ep_pkg:ep_pkg, child:pr_proc.Name ) );
+
+  // output the description
+  ::Descrip2description( Descrip:pr_proc.Descrip );
+
+  // end project
+  out::populate( element:"project", value:emptyvalue );
+
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("bdc9f917-fcb4-4d54-98e3-b54cff84fe28",
+	"37b8e256-4792-4a44-a210-bed61e765a1d",
+	'pr_procs',
+	"ac1d5d01-1b44-478c-a925-ea1fe8f39a3c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ac1d5d01-1b44-478c-a925-ea1fe8f39a3c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Proc>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Proc/Proc.xtuml');
+INSERT INTO PE_PE
+	VALUES ("37b8e256-4792-4a44-a210-bed61e765a1d",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("43983355-f611-4bf0-9d00-99e26fa8f9a1",
+	"00000000-0000-0000-0000-000000000000",
+	'terminator2terminator',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+pr_terms = param.pr_terms;
+
+while ( not_empty pr_terms )
+
+  // get any terminator
+  select any any_term from instances of PR_TERM where false;
+  for each pr_term in pr_terms
+    any_term = pr_term;
+    break;
+  end for;
+  
+  // populate the domain
+  value[0] = any_term.Domain_Name;
+  out::populate( element:"domain", value:value );
+  
+  // get all terminators with the same domain
+  select many domain_terms related by pr_terms->PR_PROC[R1650]->PR_TERM[R1650] where ( selected.Domain_Name == any_term.Domain_Name );
+  for each pr_term in domain_terms
+    value[0] = pr_term.Terminator_Name;
+    out::populate( element:"terminator", value:value );
+    ::terminatorservice2routine( pr_term:pr_term );
+    // ::mark2pragma( markable:"Terminator", pathkey: ::_get_path( c_c:c_c, child:c_p.Name ) ); TODO
+    // output the description
+    // ::Descrip2description( Descrip:pr_term.Descrip ); TODO
+    // end terminator
+    out::populate( element:"terminator", value:emptyvalue );
+  end for;
+  pr_terms = pr_terms - domain_terms;
+
+  out::populate( element:"domain", value:emptyvalue );
+
+end while;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("08d56b2b-9f8c-4589-8f5e-a20426a170c6",
+	"43983355-f611-4bf0-9d00-99e26fa8f9a1",
+	'pr_terms',
+	"055f1965-e1ed-43ea-9d02-d735efa2a5bb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("055f1965-e1ed-43ea-9d02-d735efa2a5bb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Terminator>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Proc/Proc.xtuml');
+INSERT INTO PE_PE
+	VALUES ("43983355-f611-4bf0-9d00-99e26fa8f9a1",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("abbb4c9f-65a5-4b3c-b1a7-e28880ce5e9f",
+	"00000000-0000-0000-0000-000000000000",
+	'terminatorservice2routine',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+pr_term = param.pr_term;
+value[0] = pr_term.Domain_Name;
+value[1] = "";
+
+select many pr_tsvcs related by pr_term->PR_TSVC[R1651];
+for each pr_tsvc in pr_tsvcs
+    
+  if ( ActionDialect::none == pr_tsvc.Dialect )
+    // A project can skip supplying a terminator service.  A dialect
+    // of ActionDialect::none means no terminator service was provided.
+    continue;
+  end if;
+
+  value[2] = "public"; // Outbound messages are considered public.
+  value[3] = pr_tsvc.Name;
+  out::populate( element:"routine", value:value );
+  
+  // TODO
+  /*
+  select any c_pp related by c_ep->C_PP[R4006];
+  first_c_pp = c_pp;
+  while ( not_empty c_pp )
+    first_c_pp = c_pp;
+    select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
+  end while;
+  if ( param.project )
+    select any project_c_c related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009]->C_IR[R4009]->C_PO[R4016]->C_C[R4010];
+    ::parameterC_PP2parameter( c_pp:first_c_pp, containing_c_c:project_c_c );
+    select one s_dt related by c_ep->C_IO[R4004]->S_DT[R4008];
+    ::type2typeref( s_dt:s_dt, containing_c_c:project_c_c );
+  else
+    ::parameterC_PP2parameter( c_pp:first_c_pp, containing_c_c:c_c );
+    select one s_dt related by c_ep->C_IO[R4004]->S_DT[R4008];
+    ::type2typeref( s_dt:s_dt, containing_c_c:c_c );
+  end if;
+  */
+  
+  // Populate the action langauge body.
+  ::body2code_block( name:"", text:STRING::unescapetics(s:pr_tsvc.Action_Semantics_internal) );
+
+  // Populate pragmas
+  // TODO
+  /*
+  select one c_ep related by spr_po->SPR_PEP[R4503]->C_EP[R4501];
+  child = c_po.Name + "::" + c_i.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
+  ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
+  */
+
+  // output the description
+  ::Descrip2description( Descrip:pr_tsvc.Descrip );
+
+  out::populate( element:"routine", value:emptyvalue );
+  
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("78fa69cc-b4a3-4096-8c8e-dfd3bfec570e",
+	"abbb4c9f-65a5-4b3c-b1a7-e28880ce5e9f",
+	'pr_term',
+	"b27564eb-27a1-4c45-9a76-8c738fe8f540",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("b27564eb-27a1-4c45-9a76-8c738fe8f540",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Terminator>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Proc/Proc.xtuml');
+INSERT INTO PE_PE
+	VALUES ("abbb4c9f-65a5-4b3c-b1a7-e28880ce5e9f",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
