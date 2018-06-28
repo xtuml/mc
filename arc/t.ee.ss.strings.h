@@ -16,6 +16,8 @@
     .select one first_te_class related by te_c->TE_CLASS[R2103]
     .assign te_class = first_te_class
     .while ( not_empty te_class )
+      .// The switch here orders classes with single state machines ahead
+      .// of class-based state machines ahead of passive classes.
       .if ( ( 0 == pass ) and ( ( "" != te_class.dispatcher ) or ( "" != te_class.CBdispatcher ) ) )
         .// instance-based state machine
         .select any te_sm related by te_class->TE_SM[R2072] where ( not selected.class_based )

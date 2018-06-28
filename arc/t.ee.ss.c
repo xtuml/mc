@@ -63,17 +63,19 @@ ${te_instance.get_dci}(class_num);
 .else
 *(${te_cia.class_info_name}[ domain_num ] + class_num);
 .end if
-  ${te_prefix.result}IteratorReset( &iterator, &dci->active );
-  /* Cycle through the active list of instances of this class.  */
-  while ( 0 != (instance = ${te_prefix.result}IteratorNext( &iterator )) ) {
-    if ( 0 != dci->initial_state ) { /* no passive instances */
-      ssinstance_t instance_map;
-      instance_map.component = domain_num;
-      instance_map.class = class_num;
-      instance_map.instance = ${te_prefix.result}getindex( instance, domain_num, class_num );
-      instance_map.state = instance->current_state;
-      ssbuf[ ssbuf_index++ ].i = instance_map;
-      instance_count++;
+  if ( 0 != dci ) { /* not a class-based state machine */
+    ${te_prefix.result}IteratorReset( &iterator, &dci->active );
+    /* Cycle through the active list of instances of this class.  */
+    while ( 0 != (instance = ${te_prefix.result}IteratorNext( &iterator )) ) {
+      if ( 0 != dci->initial_state ) { /* no passive instances */
+        ssinstance_t instance_map;
+        instance_map.component = domain_num;
+        instance_map.class = class_num;
+        instance_map.instance = ${te_prefix.result}getindex( instance, domain_num, class_num );
+        instance_map.state = instance->current_state;
+        ssbuf[ ssbuf_index++ ].i = instance_map;
+        instance_count++;
+      }
     }
   }
   return instance_count;

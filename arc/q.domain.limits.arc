@@ -150,13 +150,15 @@
   .while ( pass < 3 )
     .assign te_class = first_te_class
     .while ( not_empty te_class )
+      .// The switch here orders classes with single state machines ahead
+      .// of class-based state machines ahead of passive classes.
       .if ( ( 0 == pass ) and ( ( "" != te_class.dispatcher ) or ( "" != te_class.CBdispatcher ) ) )
         .// instance-based state machine
         .assign s = s + delimiter + """" + te_class.Name + """"
         .assign delimiter = ","
       .elif ( ( 1 == pass ) and ( ( "" != te_class.dispatcher ) and ( "" != te_class.CBdispatcher ) ) )
         .// dual state machine
-        .assign s = s + delimiter + """" + te_class.Name + """"
+        .assign s = s + delimiter + """" + te_class.Name + "_CB" + """"
         .assign delimiter = ","
       .elif ( ( 2 == pass ) and ( ( "" == te_class.dispatcher ) and ( "" == te_class.CBdispatcher ) ) )
         .// passive instance
