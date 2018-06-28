@@ -157,12 +157,19 @@ if ( not_empty te_smt )
   // Get empty handles into scope.
   select one current_act_if related by act_smt->ACT_IF[R603] where ( false );
   select one empty_act_smt related by current_act_if->ACT_SMT[R603] where ( false );
+  emit_statement_comments = true;
+  select one te_c related by te_aba->TE_C[R2088];
+  if ( not_empty te_c )
+    emit_statement_comments = te_c.CodeComments;
+  end if;
   while ( not_empty act_smt )
     next = empty_act_smt;
     select one te_smt related by act_smt->TE_SMT[R2038];
     if ( "" != te_smt.OAL )
-      statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" );
-      ::aba_code_append( te_aba:te_aba, s:statement_comment );
+      if ( emit_statement_comments )
+        statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" );
+        ::aba_code_append( te_aba:te_aba, s:statement_comment );
+      end if;
       if ( trace and te_aba.IsTrace )
         statement_trace = ( ( te_blk.indentation + "XTUML_OAL_STMT_TRACE( " ) + ( T::s(i:te_blk.depth) + ", &quot;" ) ) + ( te_smt.OAL + "&quot; );\n" );
         ::aba_code_append( te_aba:te_aba, s:statement_trace );
