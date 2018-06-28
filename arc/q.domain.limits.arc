@@ -145,11 +145,29 @@
   .param inst_ref te_c
   .assign s = ""
   .assign delimiter = ""
-  .select one te_class related by te_c->TE_CLASS[R2103]
-  .while ( not_empty te_class )
-    .assign s = s + delimiter + """" + te_class.Name + """"
-    .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
-    .assign delimiter = ","
+  .select one first_te_class related by te_c->TE_CLASS[R2103]
+  .assign pass = 0
+  .while ( pass < 3 )
+    .assign te_class = first_te_class
+    .while ( not_empty te_class )
+      .if ( ( 0 == pass ) and ( ( "" != te_class.dispatcher ) or ( "" != te_class.CBdispatcher ) ) )
+        .// instance-based state machine
+        .assign s = s + delimiter + """" + te_class.Name + """"
+        .assign delimiter = ","
+      .elif ( ( 1 == pass ) and ( ( "" != te_class.dispatcher ) and ( "" != te_class.CBdispatcher ) ) )
+        .// dual state machine
+        .assign s = s + delimiter + """" + te_class.Name + """"
+        .assign delimiter = ","
+      .elif ( ( 2 == pass ) and ( ( "" == te_class.dispatcher ) and ( "" == te_class.CBdispatcher ) ) )
+        .// passive instance
+        .assign s = s + delimiter + """" + te_class.Name + """"
+        .assign delimiter = ","
+      .else
+        .// empty
+      .end if
+      .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
+    .end while
+    .assign pass = pass + 1
   .end while
   .assign attr_result = s
 .end function

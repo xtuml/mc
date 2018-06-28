@@ -85,7 +85,7 @@ ${te_aba.code}\
   .if ( 0 < te_sys.StateSaveBufferSize )
     .if ( ( "State Save" == te_ee.Name ) and ( "SS" == te_ee.Key_Lett ) and ( "trigger" == te_brg.Name ) )
   #ifndef ${te_prefix.define_u}STATESAVE
-  ss();
+  sstrigger();
   #endif
     .end if
   .end if

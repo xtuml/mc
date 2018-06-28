@@ -90,6 +90,7 @@
 .select any te_sys from instances of TE_SYS
 .// Pull into scope global values from singleton classes.
 .select any te_callout from instances of TE_CALLOUT
+.select any te_cia from instances of TE_CIA
 .select any te_container from instances of TE_CONTAINER
 .select any te_copyright from instances of TE_COPYRIGHT
 .select any te_dlist from instances of TE_DLIST
@@ -121,6 +122,8 @@
 .assign system_parameters = r.body
 .invoke system_class_array = DefineClassInfoArray( first_te_c )
 .invoke domain_ids = DeclareDomainIdentityEnums( first_te_c, num_ooa_doms )
+.invoke non_self_event_queue_needed = GetSystemNonSelfEventQueueNeeded()
+.invoke self_event_queue_needed = GetSystemSelfEventQueueNeeded()
 .//
 .// Get the TE_EEs that are not inside of a component.
 .select many te_ees from instances of TE_EE where ( ( selected.RegisteredName != "TIM" ) and ( selected.Included ) )
@@ -152,13 +155,10 @@
 .invoke main_decl = GetMainTaskEntryDeclaration()
 .invoke r = GetMainTaskEntryReturn()
 .assign return_body = r.body
-.select any te_cia from instances of TE_CIA
 .//
 .// function-based archetype generation
 .//
 .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
-.invoke non_self_event_queue_needed = GetSystemNonSelfEventQueueNeeded()
-.invoke self_event_queue_needed = GetSystemSelfEventQueueNeeded()
 .//
 .assign printf = "printf"
 .if ( te_thread.flavor == "Nucleus" )
