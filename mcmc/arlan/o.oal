@@ -477,7 +477,7 @@ te_c.PEIClassCount = pei_class_count;
 te_c.PersistentClassCount = persist_class_count;
 //
 @@@
-TE_C_class_strings@void@@te_c@inst_ref<Extended Component>@@@
+TE_C_class_strings@string@@te_c@inst_ref<Extended Component>@@@
 //
 te_c = param.te_c;
 s = "";
@@ -491,15 +491,15 @@ while ( pass < 3 )
     // of class-based state machines ahead of passive classes.
     if ( ( 0 == pass ) and ( ( "" != te_class.dispatcher ) or ( "" != te_class.CBdispatcher ) ) )
       // instance-based state machine
-      s = s + delimiter + """" + te_class.Name + """";
+      s = s + delimiter + STRING::quote() + te_class.Name + STRING::quote();
       delimiter = ",";
     elif ( ( 1 == pass ) and ( ( "" != te_class.dispatcher ) and ( "" != te_class.CBdispatcher ) ) )
       // dual state machine
-      s = s + delimiter + """" + te_class.Name + "_CB" + """";
+      s = s + delimiter + STRING::quote() + te_class.Name + "_CB" + STRING::quote();
       delimiter = ",";
     elif ( ( 2 == pass ) and ( ( "" == te_class.dispatcher ) and ( "" == te_class.CBdispatcher ) ) )
       // passive instance
-      s = s + delimiter + """" + te_class.Name + """";
+      s = s + delimiter + STRING::quote() + te_class.Name + STRING::quote();
       delimiter = ",";
     else
       // empty
@@ -510,27 +510,27 @@ while ( pass < 3 )
 end while;
 return s;
 @@@
-TE_SM_state_strings@void@@te_sm@inst_ref<Extended State Machine>@@@
+TE_SM_state_strings@string@@te_sm@inst_ref<Extended State Machine>@@@
 //
 te_sm = param.te_sm;
 s = "";
 delimiter = "";
 select one te_state related by te_sm->TE_STATE[R2100];
 while ( not_empty te_state )
-  s = s + delimiter + """" + te_state.Name + """";
+  s = s + delimiter + STRING::quote() + te_state.Name + STRING::quote();
   select one te_state related by te_state->TE_STATE[R2101.'precedes'];
   delimiter = ",";
 end while;
 return s;
 @@@
-TE_SM_event_strings@void@@te_sm@inst_ref<Extended State Machine>@@@
+TE_SM_event_strings@string@@te_sm@inst_ref<Extended State Machine>@@@
 //
 te_sm = param.te_sm;
 s = "";
 delimiter = "";
 select one te_evt related by te_sm->TE_EVT[R2104];
 while ( not_empty te_evt )
-  s = s + delimiter + """" + te_evt.Name + """";
+  s = s + delimiter + STRING::quote() + te_evt.Name + STRING::quote();
   select one te_evt related by te_evt->TE_EVT[R2102.'precedes'];
   delimiter = ",";
 end while;

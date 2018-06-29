@@ -755,12 +755,11 @@ select any te_file from instances of TE_FILE;
 //
 // Analyze maximums for extents.
 // The extents should be analyzed only *after* extent size coloring!
-select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen );
 object_class_extents = 0;
 relationship_extents = 0;
 largest_object_extent = 0;
-//
-for each te_class in te_classs
+select one te_class related by te_c->TE_CLASS[R2103];
+while ( not_empty te_class )
   select one o_obj related by te_class->O_OBJ[R2019];
   object_class_extents = object_class_extents + te_class.MaxExtentSize;
   if ( te_class.MaxExtentSize > largest_object_extent )
@@ -797,7 +796,8 @@ for each te_class in te_classs
       end if;
     end if;
   end for;
-end for;
+  select one te_class related by te_class->TE_CLASS[R2092.''precedes''];
+end while;
 //
 // analyze timers events selects
 r = ::timer_analyze_starts();
@@ -902,6 +902,141 @@ INSERT INTO S_DT_PROXY
 	'../../../../../mcooa/models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml');
 INSERT INTO PE_PE
 	VALUES ("6803e644-b5c3-45ad-bfb0-feff21243053",
+	1,
+	"92ad83ae-9fba-40f1-bf46-bdbe8834ae74",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f6176ecf-1cee-4c97-8c0b-c92a14f515d1",
+	"00000000-0000-0000-0000-000000000000",
+	'TE_C_class_strings',
+	'',
+	'//
+te_c = param.te_c;
+s = "";
+delimiter = "";
+select one first_te_class related by te_c->TE_CLASS[R2103];
+pass = 0;
+while ( pass < 3 )
+  te_class = first_te_class;
+  while ( not_empty te_class )
+    // The switch here orders classes with single state machines ahead
+    // of class-based state machines ahead of passive classes.
+    if ( ( 0 == pass ) and ( ( "" != te_class.dispatcher ) or ( "" != te_class.CBdispatcher ) ) )
+      // instance-based state machine
+      s = s + delimiter + STRING::quote() + te_class.Name + STRING::quote();
+      delimiter = ",";
+    elif ( ( 1 == pass ) and ( ( "" != te_class.dispatcher ) and ( "" != te_class.CBdispatcher ) ) )
+      // dual state machine
+      s = s + delimiter + STRING::quote() + te_class.Name + "_CB" + STRING::quote();
+      delimiter = ",";
+    elif ( ( 2 == pass ) and ( ( "" == te_class.dispatcher ) and ( "" == te_class.CBdispatcher ) ) )
+      // passive instance
+      s = s + delimiter + STRING::quote() + te_class.Name + STRING::quote();
+      delimiter = ",";
+    else
+      // empty
+    end if;
+    select one te_class related by te_class->TE_CLASS[R2092.''precedes''];
+  end while;
+  pass = pass + 1;
+end while;
+return s;
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("407b073a-0a6c-4b87-89ed-c253370a0e07",
+	"f6176ecf-1cee-4c97-8c0b-c92a14f515d1",
+	'te_c',
+	"1a67c2f6-b8b4-421a-a4f5-d999e2cdd281",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f6176ecf-1cee-4c97-8c0b-c92a14f515d1",
+	1,
+	"92ad83ae-9fba-40f1-bf46-bdbe8834ae74",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a9b247dd-f994-44d0-9db0-39e5c2084532",
+	"00000000-0000-0000-0000-000000000000",
+	'TE_SM_state_strings',
+	'',
+	'//
+te_sm = param.te_sm;
+s = "";
+delimiter = "";
+select one te_state related by te_sm->TE_STATE[R2100];
+while ( not_empty te_state )
+  s = s + delimiter + STRING::quote() + te_state.Name + STRING::quote();
+  select one te_state related by te_state->TE_STATE[R2101.''precedes''];
+  delimiter = ",";
+end while;
+return s;
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("bafa2bd4-c17b-417f-b84c-327cb3a3ff39",
+	"a9b247dd-f994-44d0-9db0-39e5c2084532",
+	'te_sm',
+	"5ca31bc7-d90f-4e49-803d-6b075d6b8893",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5ca31bc7-d90f-4e49-803d-6b075d6b8893",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Extended State Machine>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml');
+INSERT INTO PE_PE
+	VALUES ("a9b247dd-f994-44d0-9db0-39e5c2084532",
+	1,
+	"92ad83ae-9fba-40f1-bf46-bdbe8834ae74",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c1d44651-7b83-49d7-a153-14ccf327f1b1",
+	"00000000-0000-0000-0000-000000000000",
+	'TE_SM_event_strings',
+	'',
+	'//
+te_sm = param.te_sm;
+s = "";
+delimiter = "";
+select one te_evt related by te_sm->TE_EVT[R2104];
+while ( not_empty te_evt )
+  s = s + delimiter + STRING::quote() + te_evt.Name + STRING::quote();
+  select one te_evt related by te_evt->TE_EVT[R2102.''precedes''];
+  delimiter = ",";
+end while;
+return s;
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("aa11b4be-8195-4c83-a7a7-1ddaa1c28e74",
+	"c1d44651-7b83-49d7-a153-14ccf327f1b1",
+	'te_sm',
+	"5ca31bc7-d90f-4e49-803d-6b075d6b8893",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("c1d44651-7b83-49d7-a153-14ccf327f1b1",
 	1,
 	"92ad83ae-9fba-40f1-bf46-bdbe8834ae74",
 	"00000000-0000-0000-0000-000000000000",
@@ -4379,8 +4514,10 @@ create object instance te_sm of TE_SM;
 relate te_sm to te_class across R2072;
 relate te_sm to sm_sm across R2043;
 te_sm.complete = false;
+te_sm.class_based = true;
 class_based = "_CB";
 if ( is_ism )
+  te_sm.class_based = false;
   class_based = "";
 end if;
 te_sm.SEMname = ( te_class.GeneratedName + class_based ) + "_StateEventMatrix";
@@ -4417,28 +4554,11 @@ end for;
 //
 // Sort the states for later state event matrix generation.
 select many te_states related by sm_states->TE_STATE[R2037];
-//   Sort the instances in the instance set <item_set> in ascending numeric
-// order, based on the value of the Numb (integer) attribute value of
-// each instance. The Order (integer) attribute value of each instance will
-// be set to contain a value relative to Numb, indicating the position
-// the instance has in the ordered set.
-//   This function is definately *slow*, but will work with any objects
-// which contain integer attributes <Numb> and <Order>.
-item_set = te_states;
-//
-// Clear the Order attribute of all set members.
-for each item in item_set
-  item.Order = 0;
-end for;
-// simple pseudo bubble sort
-item_set_copy = item_set;
-for each item in item_set
-  for each item_copy in item_set_copy
-    if ( item_copy.Numb > item.Numb )
-      item_copy.Order = item_copy.Order + 1;
-    end if;
-  end for;
-end for;
+if ( not_empty te_states )
+  r = ::state_sort( te_states:te_states );
+  first_te_state = r;
+  relate first_te_state to te_sm across R2100;
+end if;
 for each te_state in te_states
   te_state.number = te_state.Order + 1;
   if ( 0 == te_state.Order )
@@ -4499,28 +4619,6 @@ end for;
 // events starting with local then true then polys.
 select many sm_levts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_LEVT[R526];
 select many local_te_evts related by sm_levts->SM_SEVT[R526]->SM_EVT[R525]->TE_EVT[R2036];
-//   Sort the instances in the instance set <item_set> in ascending numeric
-// order, based on the value of the Numb (integer) attribute value of
-// each instance. The Order (integer) attribute value of each instance will
-// be set to contain a value relative to Numb, indicating the position
-// the instance has in the ordered set.
-//   This function is definately *slow*, but will work with any objects
-// which contain integer attributes <Numb> and <Order>.
-item_set1 = local_te_evts;
-//
-// Clear the Order attribute of all set members.
-for each item1 in item_set1
-  item1.Order = 0;
-end for;
-// simple pseudo bubble sort
-item_set1_copy = item_set1;
-for each item1 in item_set1
-  for each item1_copy in item_set1_copy
-    if ( item1_copy.Numb > item1.Numb )
-      item1_copy.Order = item1_copy.Order + 1;
-    end if;
-  end for;
-end for;
 last_event_number = cardinality local_te_evts;
 last_event_number = last_event_number - 1;
 select many sm_sgevts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_SGEVT[R526];
@@ -4560,6 +4658,16 @@ for each te_evt in poly_te_evts
   last_event_number = last_event_number + 1;
   te_evt.Order = last_event_number;
 end for;
+select many te_evts related by te_sm->TE_EVT[R2071];
+if ( not_empty te_evts )
+  r = ::event_sort( te_evts:te_evts );
+  first_te_evt = r;
+  relate first_te_evt to te_sm across R2104;
+end if;
+r2 = ::TE_SM_state_strings( te_sm:te_sm );
+te_sm.state_strings = r2;
+r2 = ::TE_SM_event_strings( te_sm:te_sm );
+te_sm.event_strings = r2;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -4685,7 +4793,7 @@ if ( ( te_mact.polymorphic ) and ( "SystemC" == te_thread.flavor ) )
       relate polymorphic_te_parm to te_parm across R2041.''precedes'';
     end if;
   end for;
-  te_parms = te_parms;
+  te_parms = te_parms | polymorphic_te_parm;
 end if;
 r = ::FactoryTE_ABA( te_c:te_c, te_parms:te_parms, scope:te_mact.ComponentName, name:te_mact.GeneratedName, subtypeKL:"TE_MACT", te_dt:te_dt );
 te_aba = r;
@@ -6228,6 +6336,252 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("59eaec42-0f36-441a-b01f-d72711e5e49e",
+	1,
+	"92ad83ae-9fba-40f1-bf46-bdbe8834ae74",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("17f5152b-7c3f-4b38-b1e6-e885591e2572",
+	"00000000-0000-0000-0000-000000000000",
+	'state_sort',
+	'',
+	'//
+// Sort a list of TE_STATEs.
+te_states = param.te_states;
+// Declare an empty instance reference.
+select any head_te_state related by te_states->TE_STATE[R2101.''precedes''] where ( false );
+for each te_state in te_states
+  r = ::state_insert( head_te_state:head_te_state, te_state:te_state );
+  head_te_state = r;
+end for;
+counter = 0;
+te_state = head_te_state;
+while ( not_empty te_state )
+  te_state.Order = counter;
+  counter = counter + 1;
+  select one te_state related by te_state->TE_STATE[R2101.''precedes''];
+end while;
+return head_te_state;
+',
+	"c100d1c0-70ae-4b37-b3b1-9629595320b8",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("a2d983d1-b73b-4cb7-8a57-3db830516291",
+	"17f5152b-7c3f-4b38-b1e6-e885591e2572",
+	'te_states',
+	"c12d3c1a-f303-4b0d-a79c-99b088c45b8d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("c12d3c1a-f303-4b0d-a79c-99b088c45b8d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Extended State>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml');
+INSERT INTO PE_PE
+	VALUES ("17f5152b-7c3f-4b38-b1e6-e885591e2572",
+	1,
+	"92ad83ae-9fba-40f1-bf46-bdbe8834ae74",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("c100d1c0-70ae-4b37-b3b1-9629595320b8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Extended State>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("2f6ecd65-472e-452a-93c3-5ac2b84cdcb5",
+	"00000000-0000-0000-0000-000000000000",
+	'state_insert',
+	'',
+	'head_te_state = param.head_te_state;
+te_state = param.te_state;
+result = te_state;
+if ( empty head_te_state )
+  // Just starting.  Return te_state as head.
+else
+  lkey = te_state.Numb;
+  rkey = head_te_state.Numb;
+  if ( lkey <= rkey )
+    // insert before
+    relate te_state to head_te_state across R2101.''precedes'';
+  else
+    // find bigger
+    result = head_te_state;
+    prev_te_state = head_te_state;
+    select one cursor_te_state related by head_te_state->TE_STATE[R2101.''precedes''];
+    while ( not_empty cursor_te_state )
+      rkey = cursor_te_state.Numb;
+      if ( lkey <= rkey )
+        break;
+      else
+        prev_te_state = cursor_te_state;
+        select one cursor_te_state related by cursor_te_state->TE_STATE[R2101.''precedes''];
+      end if;
+    end while;
+    if ( not_empty cursor_te_state )
+      unrelate prev_te_state from cursor_te_state across R2101.''precedes'';
+      relate te_state to cursor_te_state across R2101.''precedes'';
+    end if;
+    relate prev_te_state to te_state across R2101.''precedes'';
+  end if;
+end if;
+return result;
+',
+	"c100d1c0-70ae-4b37-b3b1-9629595320b8",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("3935f0f2-b4e7-4c05-82c1-d3055befbdc0",
+	"2f6ecd65-472e-452a-93c3-5ac2b84cdcb5",
+	'head_te_state',
+	"c100d1c0-70ae-4b37-b3b1-9629595320b8",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6d3bb74d-1278-4999-9212-0aac04c83acd",
+	"2f6ecd65-472e-452a-93c3-5ac2b84cdcb5",
+	'te_state',
+	"c100d1c0-70ae-4b37-b3b1-9629595320b8",
+	0,
+	'',
+	"3935f0f2-b4e7-4c05-82c1-d3055befbdc0",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2f6ecd65-472e-452a-93c3-5ac2b84cdcb5",
+	1,
+	"92ad83ae-9fba-40f1-bf46-bdbe8834ae74",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f8af35cd-830e-4495-966e-3fd56353fba1",
+	"00000000-0000-0000-0000-000000000000",
+	'event_sort',
+	'',
+	'//
+// Sort a list of TE_EVTs.  Key is Order then Numb.
+te_evts = param.te_evts;
+// Declare an empty instance reference.
+select any head_te_evt related by te_evts->TE_EVT[R2102.''precedes''] where ( false );
+for each te_evt in te_evts
+  r = ::evt_insert( head_te_evt:head_te_evt, te_evt:te_evt );
+  head_te_evt = r;
+end for;
+counter = 0;
+te_evt = head_te_evt;
+while ( not_empty te_evt )
+  te_evt.Order = counter;
+  counter = counter + 1;
+  select one te_evt related by te_evt->TE_EVT[R2102.''precedes''];
+end while;
+return head_te_evt;
+',
+	"d3ed36a3-69ce-46e8-b23d-a4270cc9e2e1",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("5c3d0fe3-302a-40c8-a7ca-27fc488552c0",
+	"f8af35cd-830e-4495-966e-3fd56353fba1",
+	'te_evts',
+	"97e3eb1d-11b7-45c4-9a31-86f17221a63a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("97e3eb1d-11b7-45c4-9a31-86f17221a63a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Extended Event>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f8af35cd-830e-4495-966e-3fd56353fba1",
+	1,
+	"92ad83ae-9fba-40f1-bf46-bdbe8834ae74",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("d3ed36a3-69ce-46e8-b23d-a4270cc9e2e1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Extended Event>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("41bae542-0906-411e-831d-68c112ce5a7f",
+	"00000000-0000-0000-0000-000000000000",
+	'evt_insert',
+	'',
+	'head_te_evt = param.head_te_evt;
+te_evt = param.te_evt;
+result = te_evt;
+if ( empty head_te_evt )
+  // Just starting.  Return te_evt as head.
+else
+  lkey = ( te_evt.Order * 1000 ) + te_evt.Numb;
+  rkey = ( head_te_evt.Order * 1000 ) + head_te_evt.Numb;
+  if ( lkey <= rkey )
+    // insert before
+    relate te_evt to head_te_evt across R2102.''precedes'';
+  else
+    // find bigger
+    result = head_te_evt;
+    prev_te_evt = head_te_evt;
+    select one cursor_te_evt related by head_te_evt->TE_EVT[R2102.''precedes''];
+    while ( not_empty cursor_te_evt )
+      rkey = ( cursor_te_evt.Order * 1000 ) + cursor_te_evt.Numb;
+      if ( lkey <= rkey )
+        break;
+      else
+        prev_te_evt = cursor_te_evt;
+        select one cursor_te_evt related by cursor_te_evt->TE_EVT[R2102.''precedes''];
+      end if;
+    end while;
+    if ( not_empty cursor_te_evt )
+      unrelate prev_te_evt from cursor_te_evt across R2102.''precedes'';
+      relate te_evt to cursor_te_evt across R2102.''precedes'';
+    end if;
+    relate prev_te_evt to te_evt across R2102.''precedes'';
+  end if;
+end if;
+return result;
+',
+	"d3ed36a3-69ce-46e8-b23d-a4270cc9e2e1",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("e0f69162-b53c-48bc-aa3f-2f3a4474abdd",
+	"41bae542-0906-411e-831d-68c112ce5a7f",
+	'head_te_evt',
+	"d3ed36a3-69ce-46e8-b23d-a4270cc9e2e1",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e9b0af79-5042-483d-a13e-dd3c3e7231fd",
+	"41bae542-0906-411e-831d-68c112ce5a7f",
+	'te_evt',
+	"d3ed36a3-69ce-46e8-b23d-a4270cc9e2e1",
+	0,
+	'',
+	"e0f69162-b53c-48bc-aa3f-2f3a4474abdd",
+	'');
+INSERT INTO PE_PE
+	VALUES ("41bae542-0906-411e-831d-68c112ce5a7f",
 	1,
 	"92ad83ae-9fba-40f1-bf46-bdbe8834ae74",
 	"00000000-0000-0000-0000-000000000000",

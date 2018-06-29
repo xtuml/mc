@@ -141,7 +141,7 @@
   .//
 .end function
 .//
-.function TE_C_class_strings
+.function TE_C_class_strings .// string
   .param inst_ref te_c
   .assign s = ""
   .assign delimiter = ""
@@ -174,7 +174,7 @@
   .assign attr_result = s
 .end function
 .//
-.function TE_SM_state_strings
+.function TE_SM_state_strings .// string
   .param inst_ref te_sm
   .assign s = ""
   .assign delimiter = ""
@@ -187,7 +187,7 @@
   .assign attr_result = s
 .end function
 .//
-.function TE_SM_event_strings
+.function TE_SM_event_strings .// string
   .param inst_ref te_sm
   .assign s = ""
   .assign delimiter = ""
