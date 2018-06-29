@@ -510,8 +510,6 @@ if ( not_empty te_smt )
     next = empty_act_smt;
     select one te_smt related by act_smt->TE_SMT[R2038];
     if ( "" != te_smt.OAL )
-      statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" );
-      ::aba_code_append( te_aba:te_aba, s:statement_comment );
       if ( emit_statement_comments )
         statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" );
         ::aba_code_append( te_aba:te_aba, s:statement_comment );
