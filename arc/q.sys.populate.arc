@@ -1512,11 +1512,13 @@
       .// Create the Generated State Machines and connect them to SM_SM.
       .select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517]
       .if ( not_empty sm_sm )
-        .invoke FactoryTE_SM( true, sm_sm, te_class )
+        .invoke r2 = FactoryTE_SM( true, sm_sm, te_class )
+        .assign te_sm = r2.result
       .end if
       .select one sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517]
       .if ( not_empty sm_sm )
-        .invoke FactoryTE_SM( false, sm_sm, te_class )
+        .invoke r2 = FactoryTE_SM( false, sm_sm, te_class )
+        .assign te_sm = r2.result
       .end if
       .//
       .// Create and relate the generated class operations.
@@ -1797,10 +1799,11 @@
     .assign first_te_evt = r.result
     .relate first_te_evt to te_sm across R2104
   .end if
-  .invoke r = TE_SM_state_strings( te_sm )
-  .assign te_sm.state_strings = r.result
-  .invoke r = TE_SM_event_strings( te_sm )
-  .assign te_sm.event_strings = r.result
+  .invoke r1 = TE_SM_state_strings( te_sm )
+  .assign te_sm.state_strings = r1.result
+  .invoke r1 = TE_SM_event_strings( te_sm )
+  .assign te_sm.event_strings = r1.result
+  .assign attr_result = te_sm
 .end function
 .//
 .//
@@ -2313,8 +2316,7 @@
   .param inst_ref ep_pkg
   .select one te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
   .if ( ( empty te_c ) and ( not_empty ep_pkg ) )
-    .// CDS - Role phrase will be reversed in OAL.
-    .select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.'refers to']->EP_PKG[R1402.'refers to']
+    .select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.'is referenced by']->EP_PKG[R1402.'is referenced by']
     .select any te_c related by referring_ep_pkgs->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
     .if ( empty te_c )
       .select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000]

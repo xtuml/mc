@@ -3085,11 +3085,13 @@ for each te_c in te_cs
     // Create the Generated State Machines and connect them to SM_SM.
     select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
     if ( not_empty sm_sm )
-      ::FactoryTE_SM( is_ism:true, sm_sm:sm_sm, te_class:te_class );
+      r2 = ::FactoryTE_SM( is_ism:true, sm_sm:sm_sm, te_class:te_class );
+      te_sm = r2;
     end if;
     select one sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517];
     if ( not_empty sm_sm )
-      ::FactoryTE_SM( is_ism:false, sm_sm:sm_sm, te_class:te_class );
+      r2 = ::FactoryTE_SM( is_ism:false, sm_sm:sm_sm, te_class:te_class );
+      te_sm = r2;
     end if;
     //
     // Create and relate the generated class operations.
@@ -3370,10 +3372,11 @@ if ( not_empty te_evts )
   first_te_evt = r;
   relate first_te_evt to te_sm across R2104;
 end if;
-r = ::TE_SM_state_strings( te_sm:te_sm );
-te_sm.state_strings = r;
-r = ::TE_SM_event_strings( te_sm:te_sm );
-te_sm.event_strings = r;
+r1 = ::TE_SM_state_strings( te_sm:te_sm );
+te_sm.state_strings = r1;
+r1 = ::TE_SM_event_strings( te_sm:te_sm );
+te_sm.event_strings = r1;
+return te_sm;
 @@@
 FactoryTE_MACT@inst_ref<Extended Message Action>@@te_parms@inst_ref_set<Extended Parameter>@@te_dt@inst_ref<Extended Data Type>@@te_c@inst_ref<Extended Component>@@te_po@inst_ref<Extended Port>@@message_name@string@@subtypeKL@string@@@
 //
@@ -3886,8 +3889,7 @@ TE_C_getContainingComponents@inst_ref<Extended Component>@@ep_pkg@inst_ref<Packa
 ep_pkg = param.ep_pkg;
 select one te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054];
 if ( ( empty te_c ) and ( not_empty ep_pkg ) )
-  // CDS - Role phrase will be reversed in OAL.
-  select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.'refers to']->EP_PKG[R1402.'refers to'];
+  select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.'is referenced by']->EP_PKG[R1402.'is referenced by'];
   select any te_c related by referring_ep_pkgs->PE_PE[R8001]->C_C[R8003]->TE_C[R2054];
   if ( empty te_c )
     select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000];

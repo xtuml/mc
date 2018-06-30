@@ -64,10 +64,12 @@ select any te_sys from instances of TE_SYS;
 
 select many te_cs from instances of TE_C where ( selected.included_in_build );
 for each te_c in te_cs
+  select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen );
+  first_te_class = ::class_sort( te_classs:te_classs );
+  relate first_te_class to te_c across R2103;
   // Propagate domain information to the system level.
   ::te_c_CollectLimits( te_c:te_c );
-  select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen );
-  c = ::class_sort( te_classs:te_classs );
+  te_c.class_strings = ::TE_C_class_strings( te_c:te_c );
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -4247,7 +4249,7 @@ for each te_c in te_cs
         elif ( "%s" == te_dt.string_format )
           // Place an escaped tick mark around the %s in the attribute format string.
           te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "''" + te_dt.string_format ) ) + "''";
-          te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( te_attr.GeneratedName ) );
+          te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( te_attr.GeneratedName + STRING::quote() ) );
         else
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format;
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
@@ -4287,11 +4289,13 @@ for each te_c in te_cs
     // Create the Generated State Machines and connect them to SM_SM.
     select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
     if ( not_empty sm_sm )
-      ::FactoryTE_SM( is_ism:true, sm_sm:sm_sm, te_class:te_class );
+      r2 = ::FactoryTE_SM( is_ism:true, sm_sm:sm_sm, te_class:te_class );
+      te_sm = r2;
     end if;
     select one sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517];
     if ( not_empty sm_sm )
-      ::FactoryTE_SM( is_ism:false, sm_sm:sm_sm, te_class:te_class );
+      r2 = ::FactoryTE_SM( is_ism:false, sm_sm:sm_sm, te_class:te_class );
+      te_sm = r2;
     end if;
     //
     // Create and relate the generated class operations.
@@ -4664,12 +4668,13 @@ if ( not_empty te_evts )
   first_te_evt = r;
   relate first_te_evt to te_sm across R2104;
 end if;
-r2 = ::TE_SM_state_strings( te_sm:te_sm );
-te_sm.state_strings = r2;
-r2 = ::TE_SM_event_strings( te_sm:te_sm );
-te_sm.event_strings = r2;
+r1 = ::TE_SM_state_strings( te_sm:te_sm );
+te_sm.state_strings = r1;
+r1 = ::TE_SM_event_strings( te_sm:te_sm );
+te_sm.event_strings = r1;
+return te_sm;
 ',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"5ca31bc7-d90f-4e49-803d-6b075d6b8893",
 	1,
 	'',
 	0);
@@ -5671,7 +5676,6 @@ INSERT INTO S_SYNC
 ep_pkg = param.ep_pkg;
 select one te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054];
 if ( ( empty te_c ) and ( not_empty ep_pkg ) )
-  // CDS - Role phrase will be reversed in OAL.
   select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.''is referenced by'']->EP_PKG[R1402.''is referenced by''];
   select any te_c related by referring_ep_pkgs->PE_PE[R8001]->C_C[R8003]->TE_C[R2054];
   if ( empty te_c )
