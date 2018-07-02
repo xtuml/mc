@@ -5,21 +5,34 @@
 .// state save declarations and definitions
 .// common between the application and the formatter
 /* The following data structures must be compatible.
-   Be aware of byte alignment.  The structures are united.  */
+   Be aware of byte alignment.  The structures are united.
+   ssinstance_t is the type of a record that holds an instance
+   of a class keyed by component, class and instance.  The interesting
+   part is the state (current_state).
+   ssevent_t is shapes a record holding an event from one of the event queues.
+   ssmeta_t is the type for the first record in the file.  It provides
+   a count for how many of each record type are in the file.  */
 typedef struct { u1_t component, class, instance, state; } ssinstance_t;
 typedef struct { u1_t component, class, instance, event; } ssevent_t;
 typedef struct { u2_t instances; u1_t sevents, ievents; } ssmeta_t;
 typedef union { ssinstance_t i; ssevent_t e; ssmeta_t m; } ssdata_t;
+/* SSBUFSIZE is derived from the marking (system.mark:MarkStateSave).
+ * SSFILENAME is defined here.  Feel free to change it.  */
 #define SSBUFSIZE ${te_sys.StateSaveBufferSize}
 #define SSFILENAME "ssfile.4bytes"
 
-/* This buffer is used both for collecting and for converting.  */
+/* This buffer is used both for collecting and for converting.
+   When SS::trigger() is invoked, this buffer gets populated.
+   The default functionality presently writes the contents of
+   the buffer to a file.
+   The same data structure is used for the compiled converter application
+   to receive data read from the persisted state save file.  */
 static ssdata_t ssbuf[ SSBUFSIZE / sizeof( ssdata_t ) ];
 static ${te_prefix.type}size_t ssbuf_index;
 
 #ifndef ${te_prefix.define_u}STATESAVE
 
-/* event queue information */
+/* event queue information imported from the generated application */
 typedef struct { ${te_eq.base_event_type} * head, * tail; } xtUMLEventQueue_t;
 extern xtUMLEventQueue_t non_self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
 extern xtUMLEventQueue_t self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
