@@ -4,14 +4,30 @@
 
 .// state save declarations and definitions
 .// common between the application and the formatter
-/* The following data structures must be compatible.
-   Be aware of byte alignment.  The structures are united.
+/*
    ssinstance_t is the type of a record that holds an instance
    of a class keyed by component, class and instance.  The interesting
    part is the state (current_state).
    ssevent_t is shapes a record holding an event from one of the event queues.
    ssmeta_t is the type for the first record in the file.  It provides
-   a count for how many of each record type are in the file.  */
+   a count for how many of each record type are in the file.
+   As defined, each record is exactly 4 bytes wide.
+
+   Here is the data expressed in tabular format:
+
+   (metadata) 2-byte instance count | self event count | instance event count
+   -------------------------v-------+------------------+---------------------
+   (instances)       domain | class | instance         | current_state
+        -            ...    | ...   | ...              | ...
+   (self events)     domain | class | instance         | event
+        -            ...    | ...   | ...              | ...
+   (instance events) domain | class | instance         | event
+        -            ...    | ...   | ...              | ...
+
+ */
+
+/* NOTE:  The following data structures must be compatible.
+   Be aware of byte alignment.  The structures are united into ssdata_t.  */
 typedef struct { u1_t component, class, instance, state; } ssinstance_t;
 typedef struct { u1_t component, class, instance, event; } ssevent_t;
 typedef struct { u2_t instances; u1_t sevents, ievents; } ssmeta_t;
@@ -117,6 +133,8 @@ sstrigger()
   }
 .if ( te_thread.enabled )
   for ( i = 0; i < NUM_OF_XTUML_CLASS_THREADS; i++ ) {
+.else
+  i = 0;
 .end if
 .if ( self_event_queue_needed.result )
   sevent_count = sevent_count + ss_dump_event_queue( self_event_queue[ i ].head );
