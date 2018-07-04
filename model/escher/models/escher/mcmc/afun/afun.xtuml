@@ -65,8 +65,10 @@ select any te_sys from instances of TE_SYS;
 select many te_cs from instances of TE_C where ( selected.included_in_build );
 for each te_c in te_cs
   select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen );
-  first_te_class = ::class_sort( te_classs:te_classs );
-  relate first_te_class to te_c across R2103;
+  if ( not_empty te_classs )
+    first_te_class = ::class_sort( te_classs:te_classs );
+    relate first_te_class to te_c across R2103;
+  end if;
   // Propagate domain information to the system level.
   ::te_c_CollectLimits( te_c:te_c );
   te_c.class_strings = ::TE_C_class_strings( te_c:te_c );
