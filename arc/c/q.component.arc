@@ -104,12 +104,14 @@
     .elif ( te_mact.subtypeKL == "SPR_PS" )
       .select one spr_ps related by te_mact->SPR_PS[R2051]
       .// Navigate through the satisfaction to find the connected/corresponding message.
+      .// CDS - This selection seems unused.  Maybe it should be used?
       .select many spr_rss related by spr_ps->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->C_R[R4002]->SPR_REP[R4500]->SPR_RS[R4502] where ( selected.Name == spr_ps.Name )
       .// Find a local event mapped onto the signal.
       .select one sm_evt related by spr_ps->SM_SGEVT[R528]->SM_SEVT[R526]->SM_EVT[R525]
     .elif ( te_mact.subtypeKL == "SPR_RS" )
       .select one spr_rs related by te_mact->SPR_RS[R2053]
       .// Navigate through the satisfaction to find the connected/corresponding message.
+      .// CDS - This selection seems unused.  Maybe it should be used?
       .select many spr_pss related by spr_rs->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PS[R4503] where ( selected.Name == spr_rs.Name )
       .// Find a local event mapped onto the signal.
       .select one sm_evt related by spr_rs->SM_SGEVT[R529]->SM_SEVT[R526]->SM_EVT[R525]

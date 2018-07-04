@@ -28,6 +28,7 @@
   .select any te_thread from instances of TE_THREAD
   .select any te_tim from instances of TE_TIM
   .select any te_typemap from instances of TE_TYPEMAP
+  .select any empty_ep_pkg from instances of EP_PKG where ( false )
   .select many empty_ep_pkgs from instances of EP_PKG where ( false )
   .select any empty_te_c from instances of TE_C where ( false )
   .select any empty_te_dim from instances of TE_DIM where ( false )
@@ -164,6 +165,56 @@
     .assign te_c.module_file = te_c.Name
     .assign te_c.classes_file = te_c.Name + "_classes"
     .assign te_c.CodeComments = true
+  .end for
+  .//
+  .// By default, select all components to be translated.  However, if
+  .// a package has been marked, translate only the components contained
+  .// in the package (or referenced from it).
+  .assign ep_pkgs = empty_ep_pkgs
+  .assign system_ep_pkg = empty_ep_pkg
+  .assign package_to_build = ""
+  .select any tm_build from instances of TM_BUILD
+  .assign markedsystems = 0
+  .if ( not_empty tm_build )
+    .select any system_ep_pkg from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
+    .select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
+    .assign markedsystems = cardinality ep_pkgs
+    .if ( empty ep_pkgs )
+      .print "ERROR:  Marked configuration package ${tm_build.package_to_build} was not found in model.  Exiting."
+      .exit 11
+    .end if
+    .assign package_to_build = tm_build.package_to_build
+  .end if
+  .if ( markedsystems > 1 )
+    .print "WARNING:  More than one package is marked as a system build... choose only one."
+  .end if
+  .if ( "" != package_to_build )
+    .print "Marked configuration package ${package_to_build} found."
+    .select many te_cs from instances of TE_C
+    .// Clear the build flag for all components and then mark only those
+    .// requested by the marking.
+    .for each te_c in te_cs
+      .assign te_c.included_in_build = false
+    .end for
+    .select many te_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
+    .invoke TE_C_mark_nested_system( te_cs )
+    .select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
+    .invoke TE_C_mark_nested_system( te_cs )
+    .select many te_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
+    .invoke TE_C_mark_nested_system( te_cs )
+    .select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
+    .invoke TE_C_mark_nested_system( te_cs )
+    .// Uncomment the line below to use package name instead of project for the top-level files.
+    .//.assign te_sys.Name = "$r{package_to_build}"
+  .else
+    .// Here we use the default name for the system derived from the project name.
+  .end if
+  .assign te_file.types = ( te_sys.Name + "_" ) + te_file.types
+  .assign te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main
+  .//
+  .select many te_cs from instances of TE_C where ( selected.included_in_build )
+  .for each te_c in te_cs
+    .select one c_c related by te_c->C_C[R2054]
     .// Create and relate the domain class info to carry details about
     .// class extents for this component.
     .create object instance te_dci of TE_DCI
@@ -261,19 +312,23 @@
   .end for
   .// This loop configures the satisfaction shortcut we create between local and
   .// foreign interface references.
-  .select many te_pos from instances of TE_PO where ( not selected.Provision )
+  .select many te_pos related by te_cs->TE_PO[R2005] where ( not selected.Provision )
   .for each te_po in te_pos
     .select many te_iirs related by te_po->TE_IIR[R2080]
     .for each te_iir in te_iirs
       .// Select across the satisfaction to get the related TE_IIR.
         .// requirement side first
-        .select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
+        .select one pe_pe related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->PE_PE[R8001] where ( selected.Package_ID == system_ep_pkg.Package_ID )
+        .select one foreign_te_iir related by pe_pe->C_SF[R8001]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
         .if ( empty foreign_te_iir )
-          .select any foreign_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046]
+          .select any pe_pe related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->PE_PE[R8001] where ( selected.Package_ID == system_ep_pkg.Package_ID )
+          .select one foreign_te_iir related by pe_pe->C_SF[R8001]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046]
           .if ( empty foreign_te_iir )
-            .select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046]
+            .select one pe_pe related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->PE_PE[R8001] where ( selected.Package_ID == system_ep_pkg.Package_ID )
+            .select one foreign_te_iir related by pe_pe->C_SF[R8001]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046]
             .if ( empty foreign_te_iir )
-              .select any foreign_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
+              .select any pe_pe related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->PE_PE[R8001] where ( selected.Package_ID == system_ep_pkg.Package_ID )
+              .select one foreign_te_iir related by pe_pe->C_SF[R8001]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
             .end if
           .end if
         .end if
@@ -282,49 +337,6 @@
         .end if
     .end for
   .end for  
-  .//
-  .// By default, select all components to be translated.  However, if
-  .// a package has been marked, translate only the components contained
-  .// in the package (or referenced from it).
-  .assign ep_pkgs = empty_ep_pkgs
-  .assign package_to_build = ""
-  .select any tm_build from instances of TM_BUILD
-  .assign markedsystems = 0
-  .if ( not_empty tm_build )
-    .select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
-    .assign markedsystems = cardinality ep_pkgs
-    .if ( empty ep_pkgs )
-      .print "ERROR:  Marked configuration package ${tm_build.package_to_build} was not found in model.  Exiting."
-      .exit 11
-    .end if
-    .assign package_to_build = tm_build.package_to_build
-  .end if
-  .if ( markedsystems > 1 )
-    .print "WARNING:  More than one package is marked as a system build... choose only one."
-  .end if
-  .if ( "" != package_to_build )
-    .print "Marked configuration package ${package_to_build} found."
-    .select many te_cs from instances of TE_C
-    .// Clear the build flag for all components and then mark only those
-    .// requested by the marking.
-    .for each te_c in te_cs
-      .assign te_c.included_in_build = false
-    .end for
-    .select many te_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
-    .invoke TE_C_mark_nested_system( te_cs )
-    .select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
-    .invoke TE_C_mark_nested_system( te_cs )
-    .select many te_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
-    .invoke TE_C_mark_nested_system( te_cs )
-    .select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
-    .invoke TE_C_mark_nested_system( te_cs )
-    .// Uncomment the line below to use package name instead of project for the top-level files.
-    .//.assign te_sys.Name = "$r{package_to_build}"
-  .else
-    .// Here we use the default name for the system derived from the project name.
-  .end if
-  .assign te_file.types = ( te_sys.Name + "_" ) + te_file.types
-  .assign te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main
   .//
   .// Create and link the Extended model compiler instances.
   .// Do not fully initialize, yet.  Create and link and mark.
