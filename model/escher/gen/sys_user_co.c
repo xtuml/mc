@@ -40,10 +40,6 @@ char DTD[256];
 void
 UserInitializationCalloutf( c_t * argv0 )
 {
-  /* Activate this invocation to initialize the example simple TIM.  */
-  #if ESCHER_SYS_MAX_XTUML_TIMERS > 0
-  TIM_init();
-  #endif
   /* Insert implementation specific code here.  */
   SYS_USER_CO_PRINTF( "UserInitializationCallout\n" )
 }
@@ -104,10 +100,6 @@ UserPostOoaInitializationCalloutf( void )
 void
 UserBackgroundProcessingCalloutf( void )
 {
-  /* Activate this invocation to periodically tick the example simple TIM.  */
-  #if ESCHER_SYS_MAX_XTUML_TIMERS > 0
-  TIM_tick();
-  #endif
   /* Insert implementation specific code here.  */
 }
 

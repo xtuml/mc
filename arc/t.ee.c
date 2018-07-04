@@ -31,12 +31,10 @@
 ${include_files.body}\
 .if ( ( 0 < te_sys.StateSaveBufferSize ) and ( "State Save" == te_ee.Name ) and ( "SS" == te_ee.Key_Lett ) )
 static void sstrigger( void );
+.include "${te_file.arc_path}/t.ee.ss.c"
 .end if
 .if ( ( "ARCH" == te_ee.Key_Lett ) and ( "C" == te_target.language ) )
 extern bool ${te_eq.run_flag}; /* Turn this false to stop the event queues.  */
 .end if
 ${ee_body.body}
-.if ( ( 0 < te_sys.StateSaveBufferSize ) and ( "State Save" == te_ee.Name ) and ( "SS" == te_ee.Key_Lett ) )
-.include "${te_file.arc_path}/t.ee.ss.c"
-.end if
 .//

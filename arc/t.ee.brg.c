@@ -66,6 +66,13 @@ ${te_aba.code}\
   result = ${te_prefix.result}NVS_version(${parameters.definition});
       .end if
     .end if
+    .if ( 0 < te_sys.StateSaveBufferSize )
+      .if ( ( "State Save" == te_ee.Name ) and ( "SS" == te_ee.Key_Lett ) and ( "access" == te_brg.Name ) )
+  #ifndef ${te_prefix.define_u}STATESAVE
+  result = (c_t *) ssbuf;
+  #endif
+      .end if
+    .end if
   /* Insert your implementation code here... */
   return result;
     .//
