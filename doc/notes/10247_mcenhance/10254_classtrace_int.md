@@ -65,6 +65,24 @@ that function.
 
 ### 7. Unit Test
 
+7.1  MicrowaveOven
+7.1.1 Import the MicrowaveOven project from Help -> Welcome -> QuickStart.  
+7.1.2 Build the project.  
+7.1.3 From a shell, run the built executable.  
+7.1.4 See tracing output and see the program run for 30 seconds before
+exiting on its own.  Notice tracing from all classes with behavior.  
+7.1.5 In `class.mark`, mark class tracing off for two classes:  
+```
+.invoke MarkClassTraceOff( "MicrowaveOven", "MO_O" )
+.invoke MarkClassTraceOff( "MicrowaveOven", "MO_TS" )
+
+```
+7.1.6 Build the project.  
+7.1.7 From the shell, run the built executable.  
+7.1.8 See tracing output and see the program run for 30 seconds before
+exiting on its own.  Notice tracing from all classes (Magnetron Tube
+and Door) except those marked off above.  
+
 ### 8. User Documentation
 
 User documentation was updated for marking for this feature in [[2.4]](2.4).  

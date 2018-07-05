@@ -74,6 +74,21 @@ This is changed to launch all timers that have a currently expired time.
 
 ### 7. Unit Test
 
+7.1  MicrowaveOven  
+7.1.1 Import the MicrowaveOven project from Help -> Welcome -> QuickStart.  
+7.1.2 Build the project.  
+7.1.3 From a shell, run the built executable.  
+7.1.4 See tracing output and see the program run for 30 seconds before
+exiting on its own.  
+7.1.5 Mark simulated time by adding the following to `system.mark`:  
+```
+.invoke MarkSimulatedTime()
+```
+7.1.6 Build the project.  
+7.1.7 From the shell, run the built executable.  
+7.1.8 See tracing output and see the program run for less than 1 second
+before quickly exiting on its own.  
+
 ### 8. User Documentation
 
 Documentation for Simulated Time was updated in branch `10248_mcmark`.
