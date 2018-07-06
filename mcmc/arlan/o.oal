@@ -352,12 +352,11 @@ select any te_file from instances of TE_FILE;
 //
 // Analyze maximums for extents.
 // The extents should be analyzed only *after* extent size coloring!
-select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen );
 object_class_extents = 0;
 relationship_extents = 0;
 largest_object_extent = 0;
-//
-for each te_class in te_classs
+select one te_class related by te_c->TE_CLASS[R2103];
+while ( not_empty te_class )
   select one o_obj related by te_class->O_OBJ[R2019];
   object_class_extents = object_class_extents + te_class.MaxExtentSize;
   if ( te_class.MaxExtentSize > largest_object_extent )
@@ -394,7 +393,8 @@ for each te_class in te_classs
       end if;
     end if;
   end for;
-end for;
+  select one te_class related by te_class->TE_CLASS[R2092.'precedes'];
+end while;
 //
 // analyze timers events selects
 r = ::timer_analyze_starts();
@@ -448,7 +448,10 @@ max_select_many = r;
 //
 // functions
 select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.IsSafeForInterrupts ) and ( selected.XlateSemantics ) );
-total_interleaved_bridges = cardinality te_syncs;
+safe_functions = cardinality te_syncs;
+select many tm_msgs related by te_c->TE_MACT[R2002]->TM_MSG[R2809] where ( selected.IsSafeForInterrupts );
+safe_messages = cardinality tm_msgs;
+total_interleaved_bridges = safe_functions + safe_messages;
 //
 // Count up the priority events.
 select many te_evts from instances of TE_EVT where ( selected.Priority != 0 );
@@ -473,6 +476,65 @@ te_c.InterleavedBridges = total_interleaved_bridges;
 te_c.PEIClassCount = pei_class_count;
 te_c.PersistentClassCount = persist_class_count;
 //
+@@@
+TE_C_class_strings@string@@te_c@inst_ref<Extended Component>@@@
+//
+te_c = param.te_c;
+s = "";
+delimiter = "";
+select one first_te_class related by te_c->TE_CLASS[R2103];
+pass = 0;
+while ( pass < 3 )
+  te_class = first_te_class;
+  while ( not_empty te_class )
+    // The switch here orders classes with single state machines ahead
+    // of class-based state machines ahead of passive classes.
+    if ( ( 0 == pass ) and ( ( "" != te_class.dispatcher ) or ( "" != te_class.CBdispatcher ) ) )
+      // instance-based state machine
+      s = s + delimiter + STRING::quote() + te_class.Name + STRING::quote();
+      delimiter = ",";
+    elif ( ( 1 == pass ) and ( ( "" != te_class.dispatcher ) and ( "" != te_class.CBdispatcher ) ) )
+      // dual state machine
+      s = s + delimiter + STRING::quote() + te_class.Name + "_CB" + STRING::quote();
+      delimiter = ",";
+    elif ( ( 2 == pass ) and ( ( "" == te_class.dispatcher ) and ( "" == te_class.CBdispatcher ) ) )
+      // passive instance
+      s = s + delimiter + STRING::quote() + te_class.Name + STRING::quote();
+      delimiter = ",";
+    else
+      // empty
+    end if;
+    select one te_class related by te_class->TE_CLASS[R2092.'precedes'];
+  end while;
+  pass = pass + 1;
+end while;
+return s;
+@@@
+TE_SM_state_strings@string@@te_sm@inst_ref<Extended State Machine>@@@
+//
+te_sm = param.te_sm;
+s = "";
+delimiter = "";
+select one te_state related by te_sm->TE_STATE[R2100];
+while ( not_empty te_state )
+  s = s + delimiter + STRING::quote() + te_state.Name + STRING::quote();
+  select one te_state related by te_state->TE_STATE[R2101.'precedes'];
+  delimiter = ",";
+end while;
+return s;
+@@@
+TE_SM_event_strings@string@@te_sm@inst_ref<Extended State Machine>@@@
+//
+te_sm = param.te_sm;
+s = "";
+delimiter = "";
+select one te_evt related by te_sm->TE_EVT[R2104];
+while ( not_empty te_evt )
+  s = s + delimiter + STRING::quote() + te_evt.Name + STRING::quote();
+  select one te_evt related by te_evt->TE_EVT[R2102.'precedes'];
+  delimiter = ",";
+end while;
+return s;
 @@@
 selection_whereclause_identify_special@void@@@
 //============================================================================
@@ -1539,6 +1601,7 @@ select any te_target from instances of TE_TARGET;
 select any te_thread from instances of TE_THREAD;
 select any te_tim from instances of TE_TIM;
 select any te_typemap from instances of TE_TYPEMAP;
+select any empty_ep_pkg from instances of EP_PKG where ( false );
 select many empty_ep_pkgs from instances of EP_PKG where ( false );
 select any empty_te_c from instances of TE_C where ( false );
 select any empty_te_dim from instances of TE_DIM where ( false );
@@ -1573,6 +1636,8 @@ te_sys.AUTOSAR = false;
 te_sys.AllPortsPoly = false;
 te_sys.StructuredMessaging = false;
 te_sys.NetworkSockets = false;
+te_sys.SimulatedTime = false;
+te_sys.StateSaveBufferSize = 0;
 //
 // Update te_sys with system marks
 select any tm_systag from instances of TM_SYSTAG;
@@ -1595,6 +1660,8 @@ if ( not_empty tm_systag )
   te_sys.AllPortsPoly = tm_systag.AllPortsPoly;
   te_sys.StructuredMessaging = tm_systag.StructuredMessaging;
   te_sys.NetworkSockets = tm_systag.NetworkSockets;
+  te_sys.SimulatedTime = tm_systag.SimulatedTime;
+  te_sys.StateSaveBufferSize = tm_systag.StateSaveBufferSize;
 else
   te_sys.SystemCPortsType = "sc_interface";
 end if;
@@ -1669,9 +1736,58 @@ for each c_c in c_cs
   end if;
   te_c.internal_behavior = false;
   te_c.module_file = te_c.Name;
-  te_c.port_file = te_c.Name;
   te_c.classes_file = te_c.Name + "_classes";
   te_c.CodeComments = true;
+end for;
+//
+// By default, select all components to be translated.  However, if
+// a package has been marked, translate only the components contained
+// in the package (or referenced from it).
+ep_pkgs = empty_ep_pkgs;
+system_ep_pkg = empty_ep_pkg;
+package_to_build = "";
+select any tm_build from instances of TM_BUILD;
+markedsystems = 0;
+if ( not_empty tm_build )
+  select any system_ep_pkg from instances of EP_PKG where ( selected.Name == tm_build.package_to_build );
+  select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build );
+  markedsystems = cardinality ep_pkgs;
+  if ( empty ep_pkgs )
+    T::print(s:"ERROR:  Marked configuration package ${tm_build.package_to_build} was not found in model.  Exiting.");
+    T::exit(i:11);
+  end if;
+  package_to_build = tm_build.package_to_build;
+end if;
+if ( markedsystems > 1 )
+  T::print(s:"WARNING:  More than one package is marked as a system build... choose only one.");
+end if;
+if ( "" != package_to_build )
+  T::print(s:"Marked configuration package ${package_to_build} found.");
+  select many te_cs from instances of TE_C;
+  // Clear the build flag for all components and then mark only those
+  // requested by the marking.
+  for each te_c in te_cs
+    te_c.included_in_build = false;
+  end for;
+  select many te_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->TE_C[R2054];
+  ::TE_C_mark_nested_system( te_cs:te_cs );
+  select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_C[R8001]->TE_C[R2054];
+  ::TE_C_mark_nested_system( te_cs:te_cs );
+  select many te_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054];
+  ::TE_C_mark_nested_system( te_cs:te_cs );
+  select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054];
+  ::TE_C_mark_nested_system( te_cs:te_cs );
+  // Uncomment the line below to use package name instead of project for the top-level files.
+  //.assign te_sys.Name = "$r{package_to_build}"
+else
+  // Here we use the default name for the system derived from the project name.
+end if;
+te_file.types = ( te_sys.Name + "_" ) + te_file.types;
+te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main;
+//
+select many te_cs from instances of TE_C where ( selected.included_in_build );
+for each te_c in te_cs
+  select one c_c related by te_c->C_C[R2054];
   // Create and relate the domain class info to carry details about
   // class extents for this component.
   create object instance te_dci of TE_DCI;
@@ -1769,19 +1885,23 @@ for each c_c in c_cs
 end for;
 // This loop configures the satisfaction shortcut we create between local and
 // foreign interface references.
-select many te_pos from instances of TE_PO where ( not selected.Provision );
+select many te_pos related by te_cs->TE_PO[R2005] where ( not selected.Provision );
 for each te_po in te_pos
   select many te_iirs related by te_po->TE_IIR[R2080];
   for each te_iir in te_iirs
     // Select across the satisfaction to get the related TE_IIR.
     // requirement side first
-    select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013];
+    select one pe_pe related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->PE_PE[R8001] where ( selected.Package_ID == system_ep_pkg.Package_ID );
+    select one foreign_te_iir related by pe_pe->C_SF[R8001]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013];
     if ( empty foreign_te_iir )
-      select any foreign_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046];
+      select any pe_pe related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->PE_PE[R8001] where ( selected.Package_ID == system_ep_pkg.Package_ID );
+      select one foreign_te_iir related by pe_pe->C_SF[R8001]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046];
       if ( empty foreign_te_iir )
-        select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046];
+        select one pe_pe related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->PE_PE[R8001] where ( selected.Package_ID == system_ep_pkg.Package_ID );
+        select one foreign_te_iir related by pe_pe->C_SF[R8001]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046];
         if ( empty foreign_te_iir )
-          select any foreign_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013];
+          select any pe_pe related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->PE_PE[R8001] where ( selected.Package_ID == system_ep_pkg.Package_ID );
+          select one foreign_te_iir related by pe_pe->C_SF[R8001]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013];
         end if;
       end if;
     end if;
@@ -1790,49 +1910,6 @@ for each te_po in te_pos
     end if;
   end for;
 end for;
-//
-// By default, select all components to be translated.  However, if
-// a package has been marked, translate only the components contained
-// in the package (or referenced from it).
-ep_pkgs = empty_ep_pkgs;
-package_to_build = "";
-select any tm_build from instances of TM_BUILD;
-markedsystems = 0;
-if ( not_empty tm_build )
-  select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build );
-  markedsystems = cardinality ep_pkgs;
-  if ( empty ep_pkgs )
-    T::print(s:"ERROR:  Marked configuration package ${tm_build.package_to_build} was not found in model.  Exiting.");
-    T::exit(i:11);
-  end if;
-  package_to_build = tm_build.package_to_build;
-end if;
-if ( markedsystems > 1 )
-  T::print(s:"WARNING:  More than one package is marked as a system build... choose only one.");
-end if;
-if ( "" != package_to_build )
-  T::print(s:"Marked configuration package ${package_to_build} found.");
-  select many te_cs from instances of TE_C;
-  // Clear the build flag for all components and then mark only those
-  // requested by the marking.
-  for each te_c in te_cs
-    te_c.included_in_build = false;
-  end for;
-  select many te_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->TE_C[R2054];
-  ::TE_C_mark_nested_system( te_cs:te_cs );
-  select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_C[R8001]->TE_C[R2054];
-  ::TE_C_mark_nested_system( te_cs:te_cs );
-  select many te_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054];
-  ::TE_C_mark_nested_system( te_cs:te_cs );
-  select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054];
-  ::TE_C_mark_nested_system( te_cs:te_cs );
-  // Uncomment the line below to use package name instead of project for the top-level files.
-  //.assign te_sys.Name = "$r{package_to_build}"
-else
-  // Here we use the default name for the system derived from the project name.
-end if;
-te_file.types = ( te_sys.Name + "_" ) + te_file.types;
-te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main;
 //
 // Create and link the Extended model compiler instances.
 // Do not fully initialize, yet.  Create and link and mark.
@@ -2906,24 +2983,6 @@ for each te_c in te_cs
   for each te_class in te_classs
     select one o_obj related by te_class->O_OBJ[R2019];
     // Initialize model compiler extension attributes.
-    te_class.SelfCreated = false;
-    te_class.NonSelfCreated = false;
-    te_class.Included = false;
-    te_class.IsFixedPopulation = false;
-    te_class.PEIsDefinedInData = false;
-    te_class.IsReadOnly = false;
-    // Default is 10 instances per class.
-    te_class.MaxExtentSize = 10;
-    te_class.Persistent = false;
-    te_class.ExcludeFromGen = false;
-    te_class.IsTrace = true;
-    te_class.ContainerIndex = 0;
-    te_class.Task = 0;
-    te_class.class_file = te_class.GeneratedName + "_class";
-    te_class.system_class_number = te_class.GeneratedName + "_CLASS_NUMBER";
-    te_class.CBsystem_class_number = te_class.GeneratedName + "_CLASS_NUMBER_CB";
-    te_class.dispatcher = "";
-    te_class.CBdispatcher = "";
     select one sm_ism related by o_obj->SM_ISM[R518];
     if ( not_empty sm_ism )
       te_class.dispatcher = te_class.GeneratedName + "_Dispatch";
@@ -2932,7 +2991,6 @@ for each te_c in te_cs
     if ( not_empty sm_asm )
       te_class.CBdispatcher = te_class.GeneratedName + "_CBDispatch";
     end if;
-    te_class.persist_link = te_class.GeneratedName + "_LinkCentral";
     //
     // Create the Generated Attribute instances and link them to the real ones.
     delimiter = "";
@@ -3039,11 +3097,13 @@ for each te_c in te_cs
     // Create the Generated State Machines and connect them to SM_SM.
     select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
     if ( not_empty sm_sm )
-      ::FactoryTE_SM( is_ism:true, sm_sm:sm_sm, te_class:te_class );
+      r2 = ::FactoryTE_SM( is_ism:true, sm_sm:sm_sm, te_class:te_class );
+      te_sm = r2;
     end if;
     select one sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517];
     if ( not_empty sm_sm )
-      ::FactoryTE_SM( is_ism:false, sm_sm:sm_sm, te_class:te_class );
+      r2 = ::FactoryTE_SM( is_ism:false, sm_sm:sm_sm, te_class:te_class );
+      te_sm = r2;
     end if;
     //
     // Create and relate the generated class operations.
@@ -3111,10 +3171,28 @@ te_class.Numb = o_obj.Numb;
 // Copy other attributes for convenience so we can avoid accessing o_obj.
 te_class.Name = o_obj.Name;
 te_class.Key_Lett = o_obj.Key_Lett;
-te_class.Key_Lett = T::r(s:te_class.Key_Lett);
 // Initialize model compiler extension attributes.
 te_class.GeneratedName = ( te_c.Name + "_" ) + te_class.Key_Lett;
 te_class.CBGeneratedName = te_class.GeneratedName + "_CB";
+te_class.SelfCreated = false;
+te_class.NonSelfCreated = false;
+te_class.Included = false;
+te_class.IsFixedPopulation = false;
+te_class.PEIsDefinedInData = false;
+te_class.IsReadOnly = false;
+// Default is 10 instances per class.
+te_class.MaxExtentSize = 10;
+te_class.Persistent = false;
+te_class.ExcludeFromGen = false;
+te_class.IsTrace = true;
+te_class.ContainerIndex = 0;
+te_class.Task = 0;
+te_class.class_file = te_class.GeneratedName + "_class";
+te_class.system_class_number = te_class.GeneratedName + "_CLASS_NUMBER";
+te_class.CBsystem_class_number = te_class.GeneratedName + "_CLASS_NUMBER_CB";
+te_class.persist_link = te_class.GeneratedName + "_LinkCentral";
+te_class.dispatcher = "";
+te_class.CBdispatcher = "";
 te_class.scope = "";
 te_class.attribute_format = "";
 return te_class;
@@ -3156,8 +3234,10 @@ create object instance te_sm of TE_SM;
 relate te_sm to te_class across R2072;
 relate te_sm to sm_sm across R2043;
 te_sm.complete = false;
+te_sm.class_based = true;
 class_based = "_CB";
 if ( is_ism )
+  te_sm.class_based = false;
   class_based = "";
 end if;
 te_sm.SEMname = ( te_class.GeneratedName + class_based ) + "_StateEventMatrix";
@@ -3194,28 +3274,11 @@ end for;
 //
 // Sort the states for later state event matrix generation.
 select many te_states related by sm_states->TE_STATE[R2037];
-//   Sort the instances in the instance set <item_set> in ascending numeric
-// order, based on the value of the Numb (integer) attribute value of
-// each instance. The Order (integer) attribute value of each instance will
-// be set to contain a value relative to Numb, indicating the position
-// the instance has in the ordered set.
-//   This function is definately *slow*, but will work with any objects
-// which contain integer attributes <Numb> and <Order>.
-item_set = te_states;
-//
-// Clear the Order attribute of all set members.
-for each item in item_set
-  item.Order = 0;
-end for;
-// simple pseudo bubble sort
-item_set_copy = item_set;
-for each item in item_set
-  for each item_copy in item_set_copy
-    if ( item_copy.Numb > item.Numb )
-      item_copy.Order = item_copy.Order + 1;
-    end if;
-  end for;
-end for;
+if ( not_empty te_states )
+  r = ::state_sort( te_states:te_states );
+  first_te_state = r;
+  relate first_te_state to te_sm across R2100;
+end if;
 for each te_state in te_states
   te_state.number = te_state.Order + 1;
   if ( 0 == te_state.Order )
@@ -3276,28 +3339,6 @@ end for;
 // events starting with local then true then polys.
 select many sm_levts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_LEVT[R526];
 select many local_te_evts related by sm_levts->SM_SEVT[R526]->SM_EVT[R525]->TE_EVT[R2036];
-//   Sort the instances in the instance set <item_set> in ascending numeric
-// order, based on the value of the Numb (integer) attribute value of
-// each instance. The Order (integer) attribute value of each instance will
-// be set to contain a value relative to Numb, indicating the position
-// the instance has in the ordered set.
-//   This function is definately *slow*, but will work with any objects
-// which contain integer attributes <Numb> and <Order>.
-item_set1 = local_te_evts;
-//
-// Clear the Order attribute of all set members.
-for each item1 in item_set1
-  item1.Order = 0;
-end for;
-// simple pseudo bubble sort
-item_set1_copy = item_set1;
-for each item1 in item_set1
-  for each item1_copy in item_set1_copy
-    if ( item1_copy.Numb > item1.Numb )
-      item1_copy.Order = item1_copy.Order + 1;
-    end if;
-  end for;
-end for;
 last_event_number = cardinality local_te_evts;
 last_event_number = last_event_number - 1;
 select many sm_sgevts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_SGEVT[R526];
@@ -3337,6 +3378,17 @@ for each te_evt in poly_te_evts
   last_event_number = last_event_number + 1;
   te_evt.Order = last_event_number;
 end for;
+select many te_evts related by te_sm->TE_EVT[R2071];
+if ( not_empty te_evts )
+  r = ::event_sort( te_evts:te_evts );
+  first_te_evt = r;
+  relate first_te_evt to te_sm across R2104;
+end if;
+r1 = ::TE_SM_state_strings( te_sm:te_sm );
+te_sm.state_strings = r1;
+r1 = ::TE_SM_event_strings( te_sm:te_sm );
+te_sm.event_strings = r1;
+return te_sm;
 @@@
 FactoryTE_MACT@inst_ref<Extended Message Action>@@te_parms@inst_ref_set<Extended Parameter>@@te_dt@inst_ref<Extended Data Type>@@te_c@inst_ref<Extended Component>@@te_po@inst_ref<Extended Port>@@message_name@string@@subtypeKL@string@@@
 //
@@ -3380,6 +3432,17 @@ if ( "C++" == te_target.language )
 end if;
 te_mact.GeneratedName = T::r(s:te_mact.GeneratedName);
 te_mact.Name = te_mact.GeneratedName;
+// Link marks.
+select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == te_mact.ComponentName ) and ( selected.PortName == te_mact.PortName ) and ( selected.MessageName == te_mact.MessageName ) );
+if ( not_empty tm_msg )
+  relate te_mact to tm_msg across R2809;
+  if ( not_empty te_dt )
+    if ( "void" != te_dt.Name )
+      T::print(s:"ERROR:  Non-void message marked as safe for interrupts (${te_mact.ComponentName}::${te_mact.PortName}::${te_mact.MessageName}).");
+      T::exit(i:100);
+    end if;
+  end if;
+end if;
 select any converted_bool_te_dt from instances of TE_DT where ( selected.Name == "integer" );
 if ( ( "SystemC" == te_thread.flavor ) and ( te_sys.SystemCPortsType == "TLM" ) )
   for each te_parm in te_parms
@@ -3403,7 +3466,7 @@ if ( ( te_mact.polymorphic ) and ( "SystemC" == te_thread.flavor ) )
       relate polymorphic_te_parm to te_parm across R2041.'precedes';
     end if;
   end for;
-  te_parms = te_parms;
+  te_parms = te_parms | polymorphic_te_parm;
 end if;
 r = ::FactoryTE_ABA( te_c:te_c, te_parms:te_parms, scope:te_mact.ComponentName, name:te_mact.GeneratedName, subtypeKL:"TE_MACT", te_dt:te_dt );
 te_aba = r;
@@ -3481,6 +3544,7 @@ te_dt = param.te_dt;
 select any te_sys from instances of TE_SYS;
 select any te_target from instances of TE_TARGET;
 create object instance te_aba of TE_ABA;
+te_aba.IsTrace = true;
 te_aba.SelfEventCount = 0;
 te_aba.NonSelfEventCount = 0;
 te_aba.subtypeKL = subtypeKL;
@@ -3837,8 +3901,7 @@ TE_C_getContainingComponents@inst_ref<Extended Component>@@ep_pkg@inst_ref<Packa
 ep_pkg = param.ep_pkg;
 select one te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054];
 if ( ( empty te_c ) and ( not_empty ep_pkg ) )
-  // CDS - Role phrase will be reversed in OAL.
-  select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.'refers to']->EP_PKG[R1402.'refers to'];
+  select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.'is referenced by']->EP_PKG[R1402.'is referenced by'];
   select any te_c related by referring_ep_pkgs->PE_PE[R8001]->C_C[R8003]->TE_C[R2054];
   if ( empty te_c )
     select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
@@ -4124,6 +4187,114 @@ else
 end if;
 return result;
 @@@
+state_sort@inst_ref<Extended State>@@te_states@inst_ref_set<Extended State>@@@
+//
+// Sort a list of TE_STATEs.
+te_states = param.te_states;
+// Declare an empty instance reference.
+select any head_te_state related by te_states->TE_STATE[R2101.'precedes'] where ( false );
+for each te_state in te_states
+  r = ::state_insert( head_te_state:head_te_state, te_state:te_state );
+  head_te_state = r;
+end for;
+counter = 0;
+te_state = head_te_state;
+while ( not_empty te_state )
+  te_state.Order = counter;
+  counter = counter + 1;
+  select one te_state related by te_state->TE_STATE[R2101.'precedes'];
+end while;
+return head_te_state;
+@@@
+state_insert@inst_ref<Extended State>@@head_te_state@inst_ref<Extended State>@@te_state@inst_ref<Extended State>@@@
+head_te_state = param.head_te_state;
+te_state = param.te_state;
+result = te_state;
+if ( empty head_te_state )
+  // Just starting.  Return te_state as head.
+else
+  lkey = te_state.Numb;
+  rkey = head_te_state.Numb;
+  if ( lkey <= rkey )
+    // insert before
+    relate te_state to head_te_state across R2101.'precedes';
+  else
+    // find bigger
+    result = head_te_state;
+    prev_te_state = head_te_state;
+    select one cursor_te_state related by head_te_state->TE_STATE[R2101.'precedes'];
+    while ( not_empty cursor_te_state )
+      rkey = cursor_te_state.Numb;
+      if ( lkey <= rkey )
+        break;
+      else
+        prev_te_state = cursor_te_state;
+        select one cursor_te_state related by cursor_te_state->TE_STATE[R2101.'precedes'];
+      end if;
+    end while;
+    if ( not_empty cursor_te_state )
+      unrelate prev_te_state from cursor_te_state across R2101.'precedes';
+      relate te_state to cursor_te_state across R2101.'precedes';
+    end if;
+    relate prev_te_state to te_state across R2101.'precedes';
+  end if;
+end if;
+return result;
+@@@
+event_sort@inst_ref<Extended Event>@@te_evts@inst_ref_set<Extended Event>@@@
+//
+// Sort a list of TE_EVTs.  Key is Order then Numb.
+te_evts = param.te_evts;
+// Declare an empty instance reference.
+select any head_te_evt related by te_evts->TE_EVT[R2102.'precedes'] where ( false );
+for each te_evt in te_evts
+  r = ::evt_insert( head_te_evt:head_te_evt, te_evt:te_evt );
+  head_te_evt = r;
+end for;
+counter = 0;
+te_evt = head_te_evt;
+while ( not_empty te_evt )
+  te_evt.Order = counter;
+  counter = counter + 1;
+  select one te_evt related by te_evt->TE_EVT[R2102.'precedes'];
+end while;
+return head_te_evt;
+@@@
+evt_insert@inst_ref<Extended Event>@@head_te_evt@inst_ref<Extended Event>@@te_evt@inst_ref<Extended Event>@@@
+head_te_evt = param.head_te_evt;
+te_evt = param.te_evt;
+result = te_evt;
+if ( empty head_te_evt )
+  // Just starting.  Return te_evt as head.
+else
+  lkey = ( te_evt.Order * 1000 ) + te_evt.Numb;
+  rkey = ( head_te_evt.Order * 1000 ) + head_te_evt.Numb;
+  if ( lkey <= rkey )
+    // insert before
+    relate te_evt to head_te_evt across R2102.'precedes';
+  else
+    // find bigger
+    result = head_te_evt;
+    prev_te_evt = head_te_evt;
+    select one cursor_te_evt related by head_te_evt->TE_EVT[R2102.'precedes'];
+    while ( not_empty cursor_te_evt )
+      rkey = ( cursor_te_evt.Order * 1000 ) + cursor_te_evt.Numb;
+      if ( lkey <= rkey )
+        break;
+      else
+        prev_te_evt = cursor_te_evt;
+        select one cursor_te_evt related by cursor_te_evt->TE_EVT[R2102.'precedes'];
+      end if;
+    end while;
+    if ( not_empty cursor_te_evt )
+      unrelate prev_te_evt from cursor_te_evt across R2102.'precedes';
+      relate te_evt to cursor_te_evt across R2102.'precedes';
+    end if;
+    relate prev_te_evt to te_evt across R2102.'precedes';
+  end if;
+end if;
+return result;
+@@@
 blk_indentwhitespace@string@@indentation@integer@@@
 //
 // indentation maker
@@ -4351,7 +4522,6 @@ te_file.thread = te_prefix.file + "sys_thread";
 te_file.trace = te_prefix.file + "sys_trace";
 te_file.tim = te_prefix.file + "TIM_bridge";
 te_file.callout = te_prefix.file + "sys_user_co";
-te_file.ilb = te_prefix.file + "sys_ilb";
 te_file.persist = te_prefix.file + "sys_persist";
 te_file.xtumlload = te_prefix.file + "sys_xtumlload";
 te_file.interfaces = te_prefix.file + "sysc_interfaces";
@@ -4403,7 +4573,6 @@ ilb_factory@void@@te_ilb@inst_ref<interleaved bridge>@@@
 //
 te_ilb = param.te_ilb;
 select any te_prefix from instances of TE_PREFIX;
-te_ilb.file = "sys_ilb";
 te_ilb.interleave_bridge = "InterleaveBridge";
 te_ilb.define_name = te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGES";
 te_ilb.data_define_name = te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGE_DATA";

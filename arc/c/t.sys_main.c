@@ -69,6 +69,12 @@ if ( false == lazy_initialized ) {
 .if ( te_sys.PersistentClassCount > 0 )
 ${te_persist.factory_init}();
 .end if
+.if ( "C" == te_target.language )
+  /* Initialize TIM.  To change this, copy TIM_bridge.c to the gen folder.  */
+  #if ${te_tim.max_timers} > 0
+  TIM_init();
+  #endif
+.end if
   ApplicationLevelInitialization();
 .if ( te_sys.PersistentClassCount > 0 )
   ${te_persist.restore}(); /* Restore persistent instances.  */

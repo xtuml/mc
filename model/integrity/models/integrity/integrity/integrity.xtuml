@@ -879,6 +879,8 @@ for each s_dim in s_dims
     end if;
   end if;
   check_count = check_count + 1;
+  // formalizer participation R844:  Dimensions(S_DIM) -> Transient Var(V_TRN)
+  // formalizer participation R849:  Dimensions(S_DIM) -> Variable(V_VAR)
   // formalizer participation R120:  Dimensions(S_DIM) -> Attribute(O_ATTR)
   // checking conditional link only if referential attribute is non-null
   if ( not ( ::is_null_id( id:s_dim.Attr_ID ) and ::is_null_id( id:s_dim.Obj_ID ) ) )
@@ -1110,8 +1112,6 @@ for each s_dim in s_dims
   end if;
   check_count = check_count + 1;
   end if;
-  // formalizer participation R844:  Dimensions(S_DIM) -> Transient Var(V_TRN)
-  // formalizer participation R849:  Dimensions(S_DIM) -> Variable(V_VAR)
 end for;
 total_error_count = total_error_count + local_error_count;
 local_error_count = 0;
@@ -1376,7 +1376,7 @@ local_error_count = 0;
 select many o_ids from instances of O_ID;
 for each o_id in o_ids
   instance_count = instance_count + 1;
-  trace = "";
+  trace = ::check_trace( trace_attribute:"Obj_ID", trace_id:o_id.Obj_ID, name:"" );
   select many duplicate_o_ids from instances of O_ID where ( selected.Oid_ID == o_id.Oid_ID and selected.Obj_ID == o_id.Obj_ID );
   if ( cardinality duplicate_o_ids != 1 )
     ::check_log( message: "uniqueness violation in O_ID for identifier 1", trace:trace );
@@ -1597,7 +1597,7 @@ for each o_rattr in o_rattrs
       break;
     end if;
   else
-    if ( not ( o_ref.Attr_ID == o_rattr.Attr_ID and o_ref.Obj_ID == o_rattr.Obj_ID ) )
+    if ( not ( o_rattr.Attr_ID == o_ref.Attr_ID and o_rattr.Obj_ID == o_ref.Obj_ID ) )
       ::check_log( message: "referentials do not match identifiers between O_RATTR and O_REF", trace:trace );
       local_error_count = local_error_count + 1;
       if ( 10 < local_error_count )
@@ -2333,7 +2333,7 @@ for each r_simp in r_simps
       break;
     end if;
   else
-    if ( not ( r_part.Rel_ID == r_simp.Rel_ID ) )
+    if ( not ( r_simp.Rel_ID == r_part.Rel_ID ) )
       ::check_log( message: "referentials do not match identifiers between R_SIMP and R_PART", trace:trace );
       local_error_count = local_error_count + 1;
       if ( 10 < local_error_count )
@@ -2489,7 +2489,7 @@ for each r_assoc in r_assocs
       break;
     end if;
   else
-    if ( not ( r_aone.Rel_ID == r_assoc.Rel_ID ) )
+    if ( not ( r_assoc.Rel_ID == r_aone.Rel_ID ) )
       ::check_log( message: "referentials do not match identifiers between R_ASSOC and R_AONE", trace:trace );
       local_error_count = local_error_count + 1;
       if ( 10 < local_error_count )
@@ -2507,7 +2507,7 @@ for each r_assoc in r_assocs
       break;
     end if;
   else
-    if ( not ( r_aoth.Rel_ID == r_assoc.Rel_ID ) )
+    if ( not ( r_assoc.Rel_ID == r_aoth.Rel_ID ) )
       ::check_log( message: "referentials do not match identifiers between R_ASSOC and R_AOTH", trace:trace );
       local_error_count = local_error_count + 1;
       if ( 10 < local_error_count )
@@ -2525,7 +2525,7 @@ for each r_assoc in r_assocs
       break;
     end if;
   else
-    if ( not ( r_assr.Rel_ID == r_assoc.Rel_ID ) )
+    if ( not ( r_assoc.Rel_ID == r_assr.Rel_ID ) )
       ::check_log( message: "referentials do not match identifiers between R_ASSOC and R_ASSR", trace:trace );
       local_error_count = local_error_count + 1;
       if ( 10 < local_error_count )
@@ -2733,7 +2733,7 @@ for each r_subsup in r_subsups
       break;
     end if;
   else
-    if ( not ( r_super.Rel_ID == r_subsup.Rel_ID ) )
+    if ( not ( r_subsup.Rel_ID == r_super.Rel_ID ) )
       ::check_log( message: "referentials do not match identifiers between R_SUBSUP and R_SUPER", trace:trace );
       local_error_count = local_error_count + 1;
       if ( 10 < local_error_count )
@@ -2889,7 +2889,7 @@ for each r_comp in r_comps
       break;
     end if;
   else
-    if ( not ( r_cone.Rel_ID == r_comp.Rel_ID ) )
+    if ( not ( r_comp.Rel_ID == r_cone.Rel_ID ) )
       ::check_log( message: "referentials do not match identifiers between R_COMP and R_CONE", trace:trace );
       local_error_count = local_error_count + 1;
       if ( 10 < local_error_count )
@@ -2907,7 +2907,7 @@ for each r_comp in r_comps
       break;
     end if;
   else
-    if ( not ( r_coth.Rel_ID == r_comp.Rel_ID ) )
+    if ( not ( r_comp.Rel_ID == r_coth.Rel_ID ) )
       ::check_log( message: "referentials do not match identifiers between R_COMP and R_COTH", trace:trace );
       local_error_count = local_error_count + 1;
       if ( 10 < local_error_count )
@@ -3941,7 +3941,7 @@ for each sm_act in sm_acts
       break;
     end if;
   else
-    if ( not ( sm_ah.SM_ID == sm_act.SM_ID and sm_ah.Act_ID == sm_act.Act_ID ) )
+    if ( not ( sm_act.SM_ID == sm_ah.SM_ID and sm_act.Act_ID == sm_ah.Act_ID ) )
       ::check_log( message: "referentials do not match identifiers between SM_ACT and SM_AH", trace:trace );
       local_error_count = local_error_count + 1;
       if ( 10 < local_error_count )
@@ -5044,7 +5044,7 @@ for each act_sel in act_sels
       break;
     end if;
   else
-    if ( not ( act_lnk.Statement_ID == act_sel.Statement_ID ) )
+    if ( not ( act_sel.Statement_ID == act_lnk.Statement_ID ) )
       ::check_log( message: "referentials do not match identifiers between ACT_SEL and ACT_LNK", trace:trace );
       local_error_count = local_error_count + 1;
       if ( 10 < local_error_count )
@@ -8463,12 +8463,6 @@ for each v_par in v_pars
     end if;
   end if;
   check_count = check_count + 1;
-  // formalizer participation R669:  Actual Parameter(V_PAR) -> Function Invocation(ACT_FNC)
-  // formalizer participation R628:  Actual Parameter(V_PAR) -> Bridge Invocation(ACT_BRG)
-  // formalizer participation R627:  Actual Parameter(V_PAR) -> Operation Invocation(ACT_TFM)
-  // formalizer participation R679:  Actual Parameter(V_PAR) -> Interface Operation Invocation(ACT_IOP)
-  // formalizer participation R662:  Actual Parameter(V_PAR) -> Signal Invocation(ACT_SGN)
-  // formalizer participation R700:  Actual Parameter(V_PAR) -> Event Specification Statement(E_ESS)
   // formalizer participation R800:  Actual Parameter(V_PAR) -> Value(V_VAL)
   select one v_val related by v_par->V_VAL[R800];
   if ( empty v_val )
@@ -8512,6 +8506,12 @@ for each v_par in v_pars
   check_count = check_count + 1;
   end if;
   // formalizer participation R842:  Actual Parameter(V_PAR) -> Message Value(V_MSV)
+  // formalizer participation R669:  Actual Parameter(V_PAR) -> Function Invocation(ACT_FNC)
+  // formalizer participation R628:  Actual Parameter(V_PAR) -> Bridge Invocation(ACT_BRG)
+  // formalizer participation R627:  Actual Parameter(V_PAR) -> Operation Invocation(ACT_TFM)
+  // formalizer participation R679:  Actual Parameter(V_PAR) -> Interface Operation Invocation(ACT_IOP)
+  // formalizer participation R662:  Actual Parameter(V_PAR) -> Signal Invocation(ACT_SGN)
+  // formalizer participation R700:  Actual Parameter(V_PAR) -> Event Specification Statement(E_ESS)
 end for;
 total_error_count = total_error_count + local_error_count;
 local_error_count = 0;
@@ -13918,7 +13918,7 @@ for each i_exe in i_exes
       break;
     end if;
   else
-    if ( not ( i_stack.Execution_Engine_ID == i_exe.Execution_Engine_ID ) )
+    if ( not ( i_exe.Execution_Engine_ID == i_stack.Execution_Engine_ID ) )
       ::check_log( message: "referentials do not match identifiers between I_EXE and I_STACK", trace:trace );
       local_error_count = local_error_count + 1;
       if ( 10 < local_error_count )
@@ -15274,19 +15274,10 @@ local_error_count = 0;
 select many c_sfs from instances of C_SF;
 for each c_sf in c_sfs
   instance_count = instance_count + 1;
-  trace = ::check_trace( trace_attribute:"Requirement_Id", trace_id:c_sf.Requirement_Id, name:"" );
+  trace = ::check_trace( trace_attribute:"Id", trace_id:c_sf.Id, name:"" );
   select many duplicate_c_sfs from instances of C_SF where ( selected.Id == c_sf.Id );
   if ( cardinality duplicate_c_sfs != 1 )
     ::check_log( message: "uniqueness violation in C_SF for identifier 1", trace:trace );
-    local_error_count = local_error_count + 1;
-    if ( 10 < local_error_count )
-      break;
-    end if;
-  end if;
-  check_count = check_count + 1;
-  select many duplicate_c_sfs from instances of C_SF where ( selected.Requirement_Id == c_sf.Requirement_Id and selected.Provision_Id == c_sf.Provision_Id );
-  if ( cardinality duplicate_c_sfs != 1 )
-    ::check_log( message: "uniqueness violation in C_SF for identifier 2", trace:trace );
     local_error_count = local_error_count + 1;
     if ( 10 < local_error_count )
       break;
@@ -16658,7 +16649,7 @@ local_error_count = 0;
 select many pe_srss from instances of PE_SRS;
 for each pe_srs in pe_srss
   instance_count = instance_count + 1;
-  trace = "";
+  trace = ::check_trace( trace_attribute:"Package_ID", trace_id:pe_srs.Package_ID, name:pe_srs.Name );
   select many duplicate_pe_srss from instances of PE_SRS where ( selected.Name == pe_srs.Name and selected.Type == pe_srs.Type and selected.Package_ID == pe_srs.Package_ID );
   if ( cardinality duplicate_pe_srss != 1 )
     ::check_log( message: "uniqueness violation in PE_SRS for identifier 1", trace:trace );
@@ -16692,7 +16683,7 @@ local_error_count = 0;
 select many pe_crss from instances of PE_CRS;
 for each pe_crs in pe_crss
   instance_count = instance_count + 1;
-  trace = "";
+  trace = ::check_trace( trace_attribute:"Id", trace_id:pe_crs.Id, name:pe_crs.Name );
   select many duplicate_pe_crss from instances of PE_CRS where ( selected.Name == pe_crs.Name and selected.Type == pe_crs.Type and selected.Id == pe_crs.Id );
   if ( cardinality duplicate_pe_crss != 1 )
     ::check_log( message: "uniqueness violation in PE_CRS for identifier 1", trace:trace );

@@ -26,13 +26,20 @@
     .// Get empty handles into scope.
     .select one current_act_if related by act_smt->ACT_IF[R603] where ( false )
     .select one empty_act_smt related by current_act_if->ACT_SMT[R603] where ( false )
+    .assign emit_statement_comments = true
+    .select one te_c related by te_aba->TE_C[R2088]
+    .if ( not_empty te_c )
+      .assign emit_statement_comments = te_c.CodeComments
+    .end if
     .while ( not_empty act_smt )
       .assign next = empty_act_smt
       .select one te_smt related by act_smt->TE_SMT[R2038]
       .if ( "" != te_smt.OAL )
-        .assign statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" )
-        .invoke aba_code_append( te_aba, statement_comment )
-        .if ( trace )
+        .if ( emit_statement_comments )
+          .assign statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" )
+          .invoke aba_code_append( te_aba, statement_comment )
+        .end if
+        .if ( trace and te_aba.IsTrace )
           .assign statement_trace = ( ( te_blk.indentation + "XTUML_OAL_STMT_TRACE( " ) + ( "$t{te_blk.depth}" + ", """ ) ) + ( te_smt.OAL + """ );\n" )
           .invoke aba_code_append( te_aba, statement_trace )
         .end if

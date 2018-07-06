@@ -3793,7 +3793,7 @@ INSERT INTO R_ASSR
 	VALUES ("8c2db466-9cbd-462e-9a17-d509b70ecd20",
 	"ef59acb3-efee-4b39-8a10-2a603ffe5392",
 	"1f9a31aa-f3ff-4587-a659-0ed4b1ad9e7a",
-	0);
+	1);
 INSERT INTO R_RGO
 	VALUES ("8c2db466-9cbd-462e-9a17-d509b70ecd20",
 	"ef59acb3-efee-4b39-8a10-2a603ffe5392",

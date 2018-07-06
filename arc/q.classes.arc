@@ -12,7 +12,8 @@
   .select many o_objs related by te_classes->O_OBJ[R2019]
   .invoke PEIInstanceSubsystemInit( o_objs )
 .end if
-.for each te_class in te_classes
+.select one te_class related by te_c->TE_CLASS[R2103]
+.while ( not_empty te_class )
   .// Generate declaration implementation file.
   .invoke implementation = CreateObjectImplementation( te_class, te_c, true )
 ${implementation.body}
@@ -22,5 +23,6 @@ ${implementation.body}
   .invoke implementation = CreateObjectImplementation( te_class, te_c, false )
 ${implementation.body}
   .emit to file "${te_file.domain_source_path}/${te_class.class_file}.${te_file.src_file_ext}"
-.end for
+  .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
+.end while
 .//

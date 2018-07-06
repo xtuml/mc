@@ -148,6 +148,12 @@ ${te_instance.scope}${te_instance.delete_persistent}(
   Escher_PersistDelete( instance, domain_num, class_num );
 }
 .end if
+.if ( te_sys.MaxInterleavedBridges > 0 )
+  .invoke disable_interrupts = UserDisableInterrupts()
+  .invoke enable_interrupts = UserEnableInterrupts()
+
+  .include "${te_file.arc_path}/t.sys_ilb.c"
+.end if
 .if ( te_sys.InstanceLoading )
 
 typedef void (*brf)( Escher_iHandle_t );

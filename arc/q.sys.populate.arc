@@ -28,6 +28,7 @@
   .select any te_thread from instances of TE_THREAD
   .select any te_tim from instances of TE_TIM
   .select any te_typemap from instances of TE_TYPEMAP
+  .select any empty_ep_pkg from instances of EP_PKG where ( false )
   .select many empty_ep_pkgs from instances of EP_PKG where ( false )
   .select any empty_te_c from instances of TE_C where ( false )
   .select any empty_te_dim from instances of TE_DIM where ( false )
@@ -62,6 +63,8 @@
   .assign te_sys.AllPortsPoly = false
   .assign te_sys.StructuredMessaging = false
   .assign te_sys.NetworkSockets = false
+  .assign te_sys.SimulatedTime = false
+  .assign te_sys.StateSaveBufferSize = 0
   .//
   .// Update te_sys with system marks
   .select any tm_systag from instances of TM_SYSTAG
@@ -84,6 +87,8 @@
     .assign te_sys.AllPortsPoly = tm_systag.AllPortsPoly
     .assign te_sys.StructuredMessaging = tm_systag.StructuredMessaging
     .assign te_sys.NetworkSockets = tm_systag.NetworkSockets
+    .assign te_sys.SimulatedTime = tm_systag.SimulatedTime
+    .assign te_sys.StateSaveBufferSize = tm_systag.StateSaveBufferSize
   .else
     .assign te_sys.SystemCPortsType = "sc_interface"
   .end if
@@ -158,9 +163,58 @@
     .end if
     .assign te_c.internal_behavior = false
     .assign te_c.module_file = te_c.Name
-    .assign te_c.port_file = te_c.Name
     .assign te_c.classes_file = te_c.Name + "_classes"
     .assign te_c.CodeComments = true
+  .end for
+  .//
+  .// By default, select all components to be translated.  However, if
+  .// a package has been marked, translate only the components contained
+  .// in the package (or referenced from it).
+  .assign ep_pkgs = empty_ep_pkgs
+  .assign system_ep_pkg = empty_ep_pkg
+  .assign package_to_build = ""
+  .select any tm_build from instances of TM_BUILD
+  .assign markedsystems = 0
+  .if ( not_empty tm_build )
+    .select any system_ep_pkg from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
+    .select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
+    .assign markedsystems = cardinality ep_pkgs
+    .if ( empty ep_pkgs )
+      .print "ERROR:  Marked configuration package ${tm_build.package_to_build} was not found in model.  Exiting."
+      .exit 11
+    .end if
+    .assign package_to_build = tm_build.package_to_build
+  .end if
+  .if ( markedsystems > 1 )
+    .print "WARNING:  More than one package is marked as a system build... choose only one."
+  .end if
+  .if ( "" != package_to_build )
+    .print "Marked configuration package ${package_to_build} found."
+    .select many te_cs from instances of TE_C
+    .// Clear the build flag for all components and then mark only those
+    .// requested by the marking.
+    .for each te_c in te_cs
+      .assign te_c.included_in_build = false
+    .end for
+    .select many te_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
+    .invoke TE_C_mark_nested_system( te_cs )
+    .select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
+    .invoke TE_C_mark_nested_system( te_cs )
+    .select many te_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
+    .invoke TE_C_mark_nested_system( te_cs )
+    .select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
+    .invoke TE_C_mark_nested_system( te_cs )
+    .// Uncomment the line below to use package name instead of project for the top-level files.
+    .//.assign te_sys.Name = "$r{package_to_build}"
+  .else
+    .// Here we use the default name for the system derived from the project name.
+  .end if
+  .assign te_file.types = ( te_sys.Name + "_" ) + te_file.types
+  .assign te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main
+  .//
+  .select many te_cs from instances of TE_C where ( selected.included_in_build )
+  .for each te_c in te_cs
+    .select one c_c related by te_c->C_C[R2054]
     .// Create and relate the domain class info to carry details about
     .// class extents for this component.
     .create object instance te_dci of TE_DCI
@@ -258,19 +312,23 @@
   .end for
   .// This loop configures the satisfaction shortcut we create between local and
   .// foreign interface references.
-  .select many te_pos from instances of TE_PO where ( not selected.Provision )
+  .select many te_pos related by te_cs->TE_PO[R2005] where ( not selected.Provision )
   .for each te_po in te_pos
     .select many te_iirs related by te_po->TE_IIR[R2080]
     .for each te_iir in te_iirs
       .// Select across the satisfaction to get the related TE_IIR.
         .// requirement side first
-        .select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
+        .select one pe_pe related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->PE_PE[R8001] where ( selected.Package_ID == system_ep_pkg.Package_ID )
+        .select one foreign_te_iir related by pe_pe->C_SF[R8001]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
         .if ( empty foreign_te_iir )
-          .select any foreign_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046]
+          .select any pe_pe related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->PE_PE[R8001] where ( selected.Package_ID == system_ep_pkg.Package_ID )
+          .select one foreign_te_iir related by pe_pe->C_SF[R8001]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046]
           .if ( empty foreign_te_iir )
-            .select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046]
+            .select one pe_pe related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->PE_PE[R8001] where ( selected.Package_ID == system_ep_pkg.Package_ID )
+            .select one foreign_te_iir related by pe_pe->C_SF[R8001]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046]
             .if ( empty foreign_te_iir )
-              .select any foreign_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
+              .select any pe_pe related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->PE_PE[R8001] where ( selected.Package_ID == system_ep_pkg.Package_ID )
+              .select one foreign_te_iir related by pe_pe->C_SF[R8001]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
             .end if
           .end if
         .end if
@@ -279,49 +337,6 @@
         .end if
     .end for
   .end for  
-  .//
-  .// By default, select all components to be translated.  However, if
-  .// a package has been marked, translate only the components contained
-  .// in the package (or referenced from it).
-  .assign ep_pkgs = empty_ep_pkgs
-  .assign package_to_build = ""
-  .select any tm_build from instances of TM_BUILD
-  .assign markedsystems = 0
-  .if ( not_empty tm_build )
-    .select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
-    .assign markedsystems = cardinality ep_pkgs
-    .if ( empty ep_pkgs )
-      .print "ERROR:  Marked configuration package ${tm_build.package_to_build} was not found in model.  Exiting."
-      .exit 11
-    .end if
-    .assign package_to_build = tm_build.package_to_build
-  .end if
-  .if ( markedsystems > 1 )
-    .print "WARNING:  More than one package is marked as a system build... choose only one."
-  .end if
-  .if ( "" != package_to_build )
-    .print "Marked configuration package ${package_to_build} found."
-    .select many te_cs from instances of TE_C
-    .// Clear the build flag for all components and then mark only those
-    .// requested by the marking.
-    .for each te_c in te_cs
-      .assign te_c.included_in_build = false
-    .end for
-    .select many te_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
-    .invoke TE_C_mark_nested_system( te_cs )
-    .select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
-    .invoke TE_C_mark_nested_system( te_cs )
-    .select many te_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
-    .invoke TE_C_mark_nested_system( te_cs )
-    .select many te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
-    .invoke TE_C_mark_nested_system( te_cs )
-    .// Uncomment the line below to use package name instead of project for the top-level files.
-    .//.assign te_sys.Name = "$r{package_to_build}"
-  .else
-    .// Here we use the default name for the system derived from the project name.
-  .end if
-  .assign te_file.types = ( te_sys.Name + "_" ) + te_file.types
-  .assign te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main
   .//
   .// Create and link the Extended model compiler instances.
   .// Do not fully initialize, yet.  Create and link and mark.
@@ -1395,24 +1410,6 @@
     .for each te_class in te_classs
       .select one o_obj related by te_class->O_OBJ[R2019]
       .// Initialize model compiler extension attributes.
-      .assign te_class.SelfCreated    = false
-      .assign te_class.NonSelfCreated = false
-      .assign te_class.Included = false
-      .assign te_class.IsFixedPopulation = false
-      .assign te_class.PEIsDefinedInData = false
-      .assign te_class.IsReadOnly = false
-      .// Default is 10 instances per class.
-      .assign te_class.MaxExtentSize = 10
-      .assign te_class.Persistent = false
-      .assign te_class.ExcludeFromGen = false
-      .assign te_class.IsTrace = true
-      .assign te_class.ContainerIndex = 0
-      .assign te_class.Task = 0
-      .assign te_class.class_file = te_class.GeneratedName + "_class"
-      .assign te_class.system_class_number = te_class.GeneratedName + "_CLASS_NUMBER"
-      .assign te_class.CBsystem_class_number = te_class.GeneratedName + "_CLASS_NUMBER_CB"
-      .assign te_class.dispatcher = ""
-      .assign te_class.CBdispatcher = ""
       .select one sm_ism related by o_obj->SM_ISM[R518]
       .if ( not_empty sm_ism )
         .assign te_class.dispatcher = te_class.GeneratedName + "_Dispatch"
@@ -1421,7 +1418,6 @@
       .if ( not_empty sm_asm )
         .assign te_class.CBdispatcher = te_class.GeneratedName + "_CBDispatch"
       .end if
-      .assign te_class.persist_link = te_class.GeneratedName + "_LinkCentral"
       .//
       .// Create the Generated Attribute instances and link them to the real ones.
       .assign delimiter = ""
@@ -1528,11 +1524,13 @@
       .// Create the Generated State Machines and connect them to SM_SM.
       .select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517]
       .if ( not_empty sm_sm )
-        .invoke FactoryTE_SM( true, sm_sm, te_class )
+        .invoke r2 = FactoryTE_SM( true, sm_sm, te_class )
+        .assign te_sm = r2.result
       .end if
       .select one sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517]
       .if ( not_empty sm_sm )
-        .invoke FactoryTE_SM( false, sm_sm, te_class )
+        .invoke r2 = FactoryTE_SM( false, sm_sm, te_class )
+        .assign te_sm = r2.result
       .end if
       .//
       .// Create and relate the generated class operations.
@@ -1600,10 +1598,28 @@
   .// Copy other attributes for convenience so we can avoid accessing o_obj.
   .assign te_class.Name = o_obj.Name
   .assign te_class.Key_Lett = o_obj.Key_Lett
-  .assign te_class.Key_Lett = "$r{te_class.Key_Lett}"
   .// Initialize model compiler extension attributes.
   .assign te_class.GeneratedName = ( te_c.Name + "_" ) + te_class.Key_Lett
   .assign te_class.CBGeneratedName = te_class.GeneratedName + "_CB"
+  .assign te_class.SelfCreated = false
+  .assign te_class.NonSelfCreated = false
+  .assign te_class.Included = false
+  .assign te_class.IsFixedPopulation = false
+  .assign te_class.PEIsDefinedInData = false
+  .assign te_class.IsReadOnly = false
+  .// Default is 10 instances per class.
+  .assign te_class.MaxExtentSize = 10
+  .assign te_class.Persistent = false
+  .assign te_class.ExcludeFromGen = false
+  .assign te_class.IsTrace = true
+  .assign te_class.ContainerIndex = 0
+  .assign te_class.Task = 0
+  .assign te_class.class_file = te_class.GeneratedName + "_class"
+  .assign te_class.system_class_number = te_class.GeneratedName + "_CLASS_NUMBER"
+  .assign te_class.CBsystem_class_number = te_class.GeneratedName + "_CLASS_NUMBER_CB"
+  .assign te_class.persist_link = te_class.GeneratedName + "_LinkCentral"
+  .assign te_class.dispatcher = ""
+  .assign te_class.CBdispatcher = ""
   .assign te_class.scope = ""
   .assign te_class.attribute_format = ""
   .assign attr_result = te_class
@@ -1645,8 +1661,10 @@
   .relate te_sm to te_class across R2072
   .relate te_sm to sm_sm across R2043
   .assign te_sm.complete = false
+  .assign te_sm.class_based = true
   .assign class_based = "_CB"
   .if ( is_ism )
+    .assign te_sm.class_based = false
     .assign class_based = ""
   .end if
   .assign te_sm.SEMname = ( te_class.GeneratedName + class_based ) + "_StateEventMatrix"
@@ -1683,28 +1701,11 @@
   .//
   .// Sort the states for later state event matrix generation.
   .select many te_states related by sm_states->TE_STATE[R2037]
-  .//   Sort the instances in the instance set <item_set> in ascending numeric
-  .// order, based on the value of the Numb (integer) attribute value of
-  .// each instance. The Order (integer) attribute value of each instance will
-  .// be set to contain a value relative to Numb, indicating the position
-  .// the instance has in the ordered set.
-  .//   This function is definately *slow*, but will work with any objects
-  .// which contain integer attributes <Numb> and <Order>.
-  .assign item_set = te_states
-  .//
-  .// Clear the Order attribute of all set members.
-  .for each item in item_set
-    .assign item.Order = 0
-  .end for
-  .// simple pseudo bubble sort
-  .assign item_set_copy = item_set
-  .for each item in item_set
-    .for each item_copy in item_set_copy
-      .if ( item_copy.Numb > item.Numb )
-        .assign item_copy.Order = item_copy.Order + 1
-      .end if
-    .end for
-  .end for
+  .if ( not_empty te_states )
+    .invoke r = state_sort( te_states )
+    .assign first_te_state = r.result
+    .relate first_te_state to te_sm across R2100
+  .end if
   .for each te_state in te_states
     .assign te_state.number = te_state.Order + 1
     .if ( 0 == te_state.Order )
@@ -1765,28 +1766,6 @@
   .// events starting with local then true then polys.
   .select many sm_levts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_LEVT[R526]
   .select many local_te_evts related by sm_levts->SM_SEVT[R526]->SM_EVT[R525]->TE_EVT[R2036]
-  .//   Sort the instances in the instance set <item_set> in ascending numeric
-  .// order, based on the value of the Numb (integer) attribute value of
-  .// each instance. The Order (integer) attribute value of each instance will
-  .// be set to contain a value relative to Numb, indicating the position
-  .// the instance has in the ordered set.
-  .//   This function is definately *slow*, but will work with any objects
-  .// which contain integer attributes <Numb> and <Order>.
-  .assign item_set1 = local_te_evts
-  .//
-  .// Clear the Order attribute of all set members.
-  .for each item1 in item_set1
-    .assign item1.Order = 0
-  .end for
-  .// simple pseudo bubble sort
-  .assign item_set1_copy = item_set1
-  .for each item1 in item_set1
-    .for each item1_copy in item_set1_copy
-      .if ( item1_copy.Numb > item1.Numb )
-        .assign item1_copy.Order = item1_copy.Order + 1
-      .end if
-    .end for
-  .end for
   .assign last_event_number = cardinality local_te_evts
   .assign last_event_number = last_event_number - 1
   .select many sm_sgevts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_SGEVT[R526]
@@ -1826,6 +1805,17 @@
     .assign last_event_number = last_event_number + 1
     .assign te_evt.Order = last_event_number
   .end for
+  .select many te_evts related by te_sm->TE_EVT[R2071]
+  .if ( not_empty te_evts )
+    .invoke r = event_sort( te_evts )
+    .assign first_te_evt = r.result
+    .relate first_te_evt to te_sm across R2104
+  .end if
+  .invoke r1 = TE_SM_state_strings( te_sm )
+  .assign te_sm.state_strings = r1.result
+  .invoke r1 = TE_SM_event_strings( te_sm )
+  .assign te_sm.event_strings = r1.result
+  .assign attr_result = te_sm
 .end function
 .//
 .//
@@ -1869,6 +1859,17 @@
   .end if
   .assign te_mact.GeneratedName = "$r{te_mact.GeneratedName}"
   .assign te_mact.Name = te_mact.GeneratedName
+  .// Link marks.
+  .select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == te_mact.ComponentName ) and ( selected.PortName == te_mact.PortName ) and ( selected.MessageName == te_mact.MessageName ) )
+  .if ( not_empty tm_msg )
+    .relate te_mact to tm_msg across R2809
+    .if ( not_empty te_dt )
+      .if ( "void" != te_dt.Name )
+        .print "ERROR:  Non-void message marked as safe for interrupts (${te_mact.ComponentName}::${te_mact.PortName}::${te_mact.MessageName})."
+        .exit 100
+      .end if
+    .end if
+  .end if
   .select any converted_bool_te_dt from instances of TE_DT where ( selected.Name == "integer" )
   .if ( ( "SystemC" == te_thread.flavor ) and ( te_sys.SystemCPortsType == "TLM" ) )
     .for each te_parm in te_parms
@@ -1970,6 +1971,7 @@
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .create object instance te_aba of TE_ABA
+  .assign te_aba.IsTrace = true
   .assign te_aba.SelfEventCount = 0
   .assign te_aba.NonSelfEventCount = 0
   .assign te_aba.subtypeKL = subtypeKL
@@ -2326,8 +2328,7 @@
   .param inst_ref ep_pkg
   .select one te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
   .if ( ( empty te_c ) and ( not_empty ep_pkg ) )
-    .// CDS - Role phrase will be reversed in OAL.
-    .select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.'refers to']->EP_PKG[R1402.'refers to']
+    .select many referring_ep_pkgs related by ep_pkg->EP_PKGREF[R1402.'is referenced by']->EP_PKG[R1402.'is referenced by']
     .select any te_c related by referring_ep_pkgs->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
     .if ( empty te_c )
       .select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000]
@@ -2609,6 +2610,114 @@
       .relate te_ee to cursor_te_ee across R2096.'precedes'
     .end if
     .relate prev_te_ee to te_ee across R2096.'precedes'
+  .end if
+  .end if
+  .assign attr_result = result
+.end function
+.//
+.// Sort a list of TE_STATEs.
+.function state_sort .// te_state
+  .param inst_ref_set te_states
+  .// Declare an empty instance reference.
+  .select any head_te_state related by te_states->TE_STATE[R2101.'precedes'] where ( false )
+  .for each te_state in te_states
+    .invoke r = state_insert( head_te_state, te_state )
+    .assign head_te_state = r.result
+  .end for
+  .assign counter = 0
+  .assign te_state = head_te_state
+  .while ( not_empty te_state )
+    .assign te_state.Order = counter
+    .assign counter = counter + 1
+    .select one te_state related by te_state->TE_STATE[R2101.'precedes']
+  .end while
+  .assign attr_result = head_te_state
+.end function
+.function state_insert .// te_state
+  .param inst_ref head_te_state
+  .param inst_ref te_state
+  .assign result = te_state
+  .if ( empty head_te_state )
+    .// Just starting.  Return te_state as head.
+  .else
+  .assign lkey = te_state.Numb
+  .assign rkey = head_te_state.Numb
+  .if ( lkey <= rkey )
+    .// insert before
+    .relate te_state to head_te_state across R2101.'precedes'
+  .else
+    .// find bigger
+    .assign result = head_te_state
+    .assign prev_te_state = head_te_state
+    .select one cursor_te_state related by head_te_state->TE_STATE[R2101.'precedes']
+    .while ( not_empty cursor_te_state )
+      .assign rkey = cursor_te_state.Numb
+      .if ( lkey <= rkey )
+        .break while
+      .else
+        .assign prev_te_state = cursor_te_state
+        .select one cursor_te_state related by cursor_te_state->TE_STATE[R2101.'precedes']
+      .end if
+    .end while
+    .if ( not_empty cursor_te_state )
+      .unrelate prev_te_state from cursor_te_state across R2101.'precedes'
+      .relate te_state to cursor_te_state across R2101.'precedes'
+    .end if
+    .relate prev_te_state to te_state across R2101.'precedes'
+  .end if
+  .end if
+  .assign attr_result = result
+.end function
+.//
+.// Sort a list of TE_EVTs.  Key is Order then Numb.
+.function event_sort .// te_evt
+  .param inst_ref_set te_evts
+  .// Declare an empty instance reference.
+  .select any head_te_evt related by te_evts->TE_EVT[R2102.'precedes'] where ( false )
+  .for each te_evt in te_evts
+    .invoke r = evt_insert( head_te_evt, te_evt )
+    .assign head_te_evt = r.result
+  .end for
+  .assign counter = 0
+  .assign te_evt = head_te_evt
+  .while ( not_empty te_evt )
+    .assign te_evt.Order = counter
+    .assign counter = counter + 1
+    .select one te_evt related by te_evt->TE_EVT[R2102.'precedes']
+  .end while
+  .assign attr_result = head_te_evt
+.end function
+.function evt_insert .// te_evt
+  .param inst_ref head_te_evt
+  .param inst_ref te_evt
+  .assign result = te_evt
+  .if ( empty head_te_evt )
+    .// Just starting.  Return te_evt as head.
+  .else
+  .assign lkey = ( te_evt.Order * 1000 ) + te_evt.Numb
+  .assign rkey = ( head_te_evt.Order * 1000 ) + head_te_evt.Numb
+  .if ( lkey <= rkey )
+    .// insert before
+    .relate te_evt to head_te_evt across R2102.'precedes'
+  .else
+    .// find bigger
+    .assign result = head_te_evt
+    .assign prev_te_evt = head_te_evt
+    .select one cursor_te_evt related by head_te_evt->TE_EVT[R2102.'precedes']
+    .while ( not_empty cursor_te_evt )
+      .assign rkey = ( cursor_te_evt.Order * 1000 ) + cursor_te_evt.Numb
+      .if ( lkey <= rkey )
+        .break while
+      .else
+        .assign prev_te_evt = cursor_te_evt
+        .select one cursor_te_evt related by cursor_te_evt->TE_EVT[R2102.'precedes']
+      .end if
+    .end while
+    .if ( not_empty cursor_te_evt )
+      .unrelate prev_te_evt from cursor_te_evt across R2102.'precedes'
+      .relate te_evt to cursor_te_evt across R2102.'precedes'
+    .end if
+    .relate prev_te_evt to te_evt across R2102.'precedes'
   .end if
   .end if
   .assign attr_result = result

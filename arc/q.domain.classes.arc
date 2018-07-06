@@ -53,11 +53,7 @@
   .// and passive classes.
   .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
   .// Find first te_class.
-  .assign first_te_class = te_class
-  .while ( not_empty te_class )
-    .assign first_te_class = te_class
-    .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
-  .end while
+  .select one first_te_class related by te_c->TE_CLASS[R2103]
   .assign object_set_type = 0
   .while ( object_set_type < 3 )
     .assign te_class = first_te_class

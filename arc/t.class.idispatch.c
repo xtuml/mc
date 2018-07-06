@@ -68,12 +68,13 @@ ${poly_dispatcher} else\
     } else {
       next_state = ${te_sm.SEMname}[ current_state ][ event_number ];
       if ( next_state <= ${te_sm.num_states} ) {
-    .if ( te_c.StateTrace )
+    .if ( te_c.StateTrace and te_class.IsTrace )
         ${te_trace.state_txn_start}( "${te_class.Key_Lett}", current_state, ${te_sm.state_names_array}[ current_state ] );
     .end if
-        /* Execute the state action and update the current state.  */
+        /* Update the current state and execute the state action.  */
+        instance->${te_instance.current_state} = next_state;
         ( *${te_sm.action_array}[ next_state ] )( instance, event );
-    .if ( te_c.StateTrace )
+    .if ( te_c.StateTrace and te_class.IsTrace )
         ${te_trace.state_txn_end}( "${te_class.Key_Lett}", next_state, ${te_sm.state_names_array}[ next_state ] );
     .end if
   .if ( can_self_delete )
@@ -95,37 +96,33 @@ ${te_instance.delete_persistent}\
 ${te_instance.delete}\
     .end if
 ( instance, ${dom_id}, ${te_class.system_class_number} );
-        } else {
-          instance->${te_instance.current_state} = next_state;
         }
-  .else
-        instance->${te_instance.current_state} = next_state;
   .end if  .// can_self_delete
   .if ( not_empty evt_cant_happen )
       } else if ( next_state == ${te_eq.cant_happen} ) {
           /* event cant happen */
           ${te_callout.event_cant_happen}( current_state, next_state, event_number );
-    .if ( te_c.StateTrace )
+    .if ( te_c.StateTrace and te_class.IsTrace )
           ${te_trace.state_txn_cant_happen}( "${te_class.Key_Lett}", current_state );
     .end if
   .end if
   .if ( not_empty evt_ignored )
       } else if ( next_state == ${te_eq.ignored} ) {
           /* event ignored */
-    .if ( te_c.StateTrace )
+    .if ( te_c.StateTrace and te_class.IsTrace )
           ${te_trace.state_txn_event_ignored}( "${te_class.Key_Lett}", current_state );
     .end if
   .end if
       } else {
   .if ( te_sm.txn_action_count > 0 )
-    .if ( te_c.StateTrace )
+    .if ( te_c.StateTrace and te_class.IsTrace )
         ${te_trace.state_txn_start}( "${te_class.Key_Lett}", current_state, ${te_sm.state_names_array}[ current_state ] );
     .end if
         ( *${te_sm.txn_action_array}[ (next_state>>8)-1 ] )( instance, event );
         next_state = next_state & 0x00ff;
         instance->${te_instance.current_state} = next_state;
         ( *${te_sm.action_array}[ next_state ] )( instance, event );
-    .if ( te_c.StateTrace )
+    .if ( te_c.StateTrace and te_class.IsTrace )
         ${te_trace.state_txn_end}( "${te_class.Key_Lett}", next_state, ${te_sm.state_names_array}[ next_state ] );
     .end if
   .else

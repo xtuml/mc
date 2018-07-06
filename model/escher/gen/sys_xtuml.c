@@ -26,12 +26,14 @@ Escher_ID_factory( void )
 
 /*
  * Deserialize a UUID into a unique integer ID.
+ * This routine also handles 32-bit integers as produced by xtumlmc_build cleanse.
+ * String UUIDs are detected when exactly 4 dashes are found in the input.
  */
 Escher_UniqueID_t Escher_uuidtou128( const c_t * s )
 {
   u1_t b, isuuid = 0;
-  s4_t n = 0; /* decimal answer */
   Escher_UniqueID_t v = 0; /* 128-bit hex answer */
+  s4_t n = 0; /* 32-bit decimal answer */
 
   while(*s) {
     b = *s++;
@@ -150,17 +152,129 @@ Escher_ClearSet( Escher_ObjectSet_s * set )
 }
 
 /*
- * Concatenate set2 onto the end of set1.
+ * Take the union of set1 and set2 and return to_set
  */
 Escher_ObjectSet_s *
-Escher_SetAdd( Escher_ObjectSet_s * set1,  Escher_ObjectSet_s * set2 )
+Escher_SetUnion( Escher_ObjectSet_s * const to_set, void * const set1, void * const set2, int flags )
 {
-  if ( ( set1->head != 0 ) && ( set2->head != 0 ) ) {  /* empty set  */
-    Escher_SetElement_s * slot;
-    for ( slot = set1->head; slot->next != 0; slot = slot->next ); /* Find end of set1.  */
-    slot->next = set2->head;
+  if ( 0 != to_set ) {
+    /* Assure that the result set starts empty */
+    Escher_ClearSet( to_set );
+    /* Copy set1 to the result set */
+    if ( 0 != set1 ) {
+      if ( flags & ESCHER_SET_LHS_IS_INSTANCE ) {
+        Escher_SetInsertElement( ((Escher_ObjectSet_s*)to_set), set1 );
+      }
+      else {
+        Escher_CopySet( to_set, set1 );
+      }
+    }
+    /* Add any elements from set2 which are not already in the result set */
+    if ( 0 != set2 ) {
+      if ( flags & ESCHER_SET_RHS_IS_INSTANCE ) {
+        if ( !Escher_SetContains( to_set, set2 ) ) Escher_SetInsertElement( ((Escher_ObjectSet_s*)to_set), set2 );
+      }
+      else {
+        Escher_SetElement_s * slot;
+        for ( slot = ((Escher_ObjectSet_s*)set2)->head; ( slot != 0 ); slot = slot->next ) {
+          if ( !Escher_SetContains( to_set, slot->object ) ) {
+            Escher_SetInsertElement( ((Escher_ObjectSet_s*)to_set), slot->object );
+          }
+        }
+      }
+    }
   }
-  return set1;
+  return to_set;
+}
+
+/*
+ * Take the intersection of set1 and set2 and return to_set
+ */
+Escher_ObjectSet_s *
+Escher_SetIntersection( Escher_ObjectSet_s * const to_set, void * const set1, void * const set2, int flags )
+{
+  if ( 0 != to_set ) {
+    /* Assure that the result set starts empty */
+    Escher_ClearSet( to_set );
+    if ( 0 != set1 && 0 != set2) {
+      /* If both sets are single instances, only add to the result set if they are the same instance */
+      if ( ( flags & ESCHER_SET_LHS_IS_INSTANCE ) && ( flags & ESCHER_SET_RHS_IS_INSTANCE ) ) {
+        if ( set1 == set2 ) Escher_SetInsertElement( ((Escher_ObjectSet_s*)to_set), set1 );
+      }
+      /* If set1 is a single instance, add it to the result set if it is contained in set2 */
+      else if ( flags & ESCHER_SET_LHS_IS_INSTANCE ) {
+        if ( Escher_SetContains( set2, set1 ) ) Escher_SetInsertElement( ((Escher_ObjectSet_s*)to_set), set1 );
+      }
+      /* If set2 is a single instance, add it to the result set if it is contained in set1 */
+      else if ( flags & ESCHER_SET_RHS_IS_INSTANCE ) {
+        if ( Escher_SetContains( set1, set2 ) ) Escher_SetInsertElement( ((Escher_ObjectSet_s*)to_set), set2 );
+      }
+      /* For each instance in set1, add it to the result set if it is contained in set2 */
+      else {
+        Escher_SetElement_s * slot;
+        for ( slot = ((Escher_ObjectSet_s*)set1)->head; ( slot != 0 ); slot = slot->next ) {
+          if ( Escher_SetContains( set2, slot->object ) ) {
+            Escher_SetInsertElement( ((Escher_ObjectSet_s*)to_set), slot->object );
+          }
+        }
+      }
+    }
+  }
+  return to_set;
+}
+
+/*
+ * Subtract set2 from set1 and return to_set
+ */
+Escher_ObjectSet_s *
+Escher_SetDifference( Escher_ObjectSet_s * const to_set, void * const set1, void * const set2, int flags )
+{
+  if ( 0 != to_set ) {
+    /* Assure that the result set starts empty */
+    Escher_ClearSet( to_set );
+    if ( 0 != set1 ) {
+      if ( flags & ESCHER_SET_LHS_IS_INSTANCE ) {
+        /* If both sets are single instances, only add set1 to the result set if they are not the same instance */
+        if ( flags & ESCHER_SET_RHS_IS_INSTANCE ) {
+          if ( set1 != set2 ) Escher_SetInsertElement( ((Escher_ObjectSet_s*)to_set), set1 );
+        }
+        /* If set1 is a single instance, only add it to the result set if it is not contained in set2 */
+        else {
+          if ( 0 != set2 && !Escher_SetContains( set2, set1 ) ) Escher_SetInsertElement( ((Escher_ObjectSet_s*)to_set), set1 );
+        }
+      }
+      else {
+        /* For each element in set1, check if it is also in set2 */
+        Escher_SetElement_s * slot;
+        for ( slot = ((Escher_ObjectSet_s*)set1)->head; ( slot != 0 ); slot = slot->next ) {
+          /* If set2 is a single instance, add the the set1 instance to the result set only if they are not the same instance */
+          if ( flags & ESCHER_SET_RHS_IS_INSTANCE ) {
+            if ( slot->object != set2 ) Escher_SetInsertElement( ((Escher_ObjectSet_s*)to_set), slot->object );
+          }
+          /* Only add the set1 instance to the result set if it is not contained in set2 */
+          else {
+            if ( 0 != set2 && !Escher_SetContains( set2, slot->object ) ) Escher_SetInsertElement( ((Escher_ObjectSet_s*)to_set), slot->object );
+          }
+        }
+      }
+    }
+  }
+  return to_set;
+}
+
+/*
+ * Take the symmetric difference of set1 and set2 and return to_set
+ */
+Escher_ObjectSet_s *
+Escher_SetSymmetricDifference( Escher_ObjectSet_s * const to_set, void * const set1, void * const set2, int flags )
+{
+  /* Symmetric difference is the difference of the union and the intersection */
+  Escher_ObjectSet_s union_set={0};
+  Escher_ObjectSet_s intersection_set={0};
+  Escher_SetDifference( to_set, Escher_SetUnion( &union_set, set1, set2, flags ), Escher_SetIntersection( &intersection_set, set1, set2, flags ), 0 );
+  Escher_ClearSet( &union_set );
+  Escher_ClearSet( &intersection_set );
+  return to_set;
 }
 
 /*
@@ -322,19 +436,35 @@ Escher_SetCardinality( const Escher_ObjectSet_s * const set )
 
 /*
  * Return true when the left and right set are equivalent.
- * Note:  This currently is not implemented.
+ * The left set is equal to the right set if and only if
+ * the left set contains all elements of the right set AND
+ * the right set contains all elements of the left set.
  */
 bool
 Escher_SetEquality( Escher_ObjectSet_s * const left_set,
                     Escher_ObjectSet_s * const right_set )
 {
-  bool rc = false;
-  if ( (left_set->head == 0) && (right_set->head == 0) ) {
-    rc = true;
-  } else if ( ( (left_set->head != 0) && (right_set->head != 0) ) &&
-    (Escher_SetCardinality( left_set ) == Escher_SetCardinality( right_set )) ) {
-    rc = true;
-  } else { /* nop */ }
+  bool rc = true;
+  /* Assure the right set contains all elements in the left set */
+  const Escher_SetElement_s * node = left_set->head;
+  while ( 0 != node ) {
+    if ( 0 == right_set || !Escher_SetContains( right_set, node->object ) ) {
+      rc = false;
+      break;
+    }
+    node = node->next;
+  }
+  if ( rc ) {
+    /* Assure the left set contains all elements in the right set */
+    node = right_set->head;
+    while ( 0 != node ) {
+      if ( 0 == left_set || !Escher_SetContains( left_set, node->object ) ) {
+        rc = false;
+        break;
+      }
+      node = node->next;
+    }
+  }
   return rc;
 }
 

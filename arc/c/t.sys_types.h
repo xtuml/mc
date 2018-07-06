@@ -189,6 +189,10 @@ ${te_typemap.structured_data_types}
 ${domain_ids.body}
 .// Include the macros for tracing.
 .include "${te_file.arc_path}/t.sys_trace.h"
+.if ( te_sys.MaxInterleavedBridges > 0 )
+
+  .include "${te_file.arc_path}/t.sys_ilb.h"
+.end if
 
 ${te_target.c2cplusplus_linkage_end}
 #endif  /* ${te_prefix.define_usw}$u{te_file.types}_$u{te_file.hdr_file_ext} */

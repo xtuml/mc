@@ -42,21 +42,14 @@
   .param inst_ref sm_sm
   .//
   .select one te_sm related by sm_sm->TE_SM[R2043]
-  .select many te_states related by sm_sm->SM_STATE[R501]->TE_STATE[R2037]
-  .if ( not_empty te_states )
+  .select one te_state related by te_sm->TE_STATE[R2100]
+  .if ( not_empty te_state )
 /*
  * enumeration of state model states for class
  */
-    .assign state_count = 0
-    .while ( state_count < te_sm.num_states )
-      .for each te_state in te_states
-        .if ( te_state.Order == state_count )
+    .while ( not_empty te_state )
 #define ${te_state.enumerator} ${te_state.number}  /* state [$t{te_state.Numb}]:  (${te_state.Name}) */
-          .assign max_state_value = te_state.enumerator
-          .break for
-        .end if
-      .end for
-      .assign state_count = state_count + 1
+      .select one te_state related by te_state->TE_STATE[R2101.'precedes']
     .end while
   .else
 /* WARNING! No states defined for state model */
@@ -171,27 +164,20 @@
       .select many te_evts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_EVT[R525]->TE_EVT[R2036]
     .end if
     .assign num_events = cardinality te_evts
-    .select many sm_states related by sm_sm->SM_STATE[R501]
-    .select any sm_state related by sm_sm->SM_STATE[R501]
+    .select one te_state related by te_sm->TE_STATE[R2100]
     .//
     .// Create a row for the initial state (0).
-    .invoke r = CreateStateEventMatrixRow( sm_state, te_evts, state_count, num_events )
+    .invoke r = CreateStateEventMatrixRow( te_state, te_evts, state_count, num_events )
     .assign first_row = r.body
     .assign other_rows = ""
     .//
     .// Create a row for each real state in the SEM
-    .assign state_count = state_count + 1
-    .while ( state_count <= te_sm.num_states )
-      .for each sm_state in sm_states
-        .select one te_state related by sm_state->TE_STATE[R2037]
-        .if ( te_state.number == state_count )
-          .assign comment = "  /* row ${state_count}:  ${te_state.enumerator} (${te_state.Name}) */\n"
-          .invoke r = CreateStateEventMatrixRow( sm_state, te_evts, state_count, num_events )
-          .assign other_rows = ( other_rows + ",\n" ) + ( comment + r.body )
-          .break for
-        .end if
-      .end for
+    .while ( not_empty te_state )
       .assign state_count = state_count + 1
+      .assign comment = "  /* row ${state_count}:  ${te_state.enumerator} (${te_state.Name}) */\n"
+      .invoke r = CreateStateEventMatrixRow( te_state, te_evts, state_count, num_events )
+      .assign other_rows = ( other_rows + ",\n" ) + ( comment + r.body )
+      .select one te_state related by te_state->TE_STATE[R2101.'precedes']
     .end while
     .include "${te_file.arc_path}/t.class.sem.matrix.c"
   .end if
@@ -201,7 +187,7 @@
 .// Create a row in the State Event Matrix (SEM) for a state model.
 .//============================================================================
 .function CreateStateEventMatrixRow
-  .param inst_ref sm_state
+  .param inst_ref te_state
   .param inst_ref_set te_evts
   .param integer order
   .param integer num_events
@@ -212,6 +198,7 @@
   .assign delimiter = ""
   .select any empty_sm_txn from instances of SM_TXN where ( false )
   .select any empty_sm_eign from instances of SM_EIGN where ( false )
+  .select one sm_state related by te_state->SM_STATE[R2037]
   .// Here we use event_count and event_number, because we may skip events
   .// that are not used.  Soon there will be a reflexive on TE_EVT.
   .// Guard by limiting loop to 256 events.
@@ -274,6 +261,7 @@
   .select any te_file from instances of TE_FILE
   .select one te_sm related by sm_sm->TE_SM[R2043]
   .select many te_states related by sm_sm->SM_STATE[R501]->TE_STATE[R2037]
+  .select one te_state related by TE_SM->TE_STATE[R2100]
   .// Watch out for incomplete (or non-active) xtUML models.
   .assign state_space = te_sm.num_states + 1
   .assign state_names = ""
@@ -281,19 +269,15 @@
     .assign delimiter = ","
     .assign state_action_rows = ""
     .assign state_count = 0
-    .while ( state_count < te_sm.num_states )
+    .while ( not_empty te_state )
       .if ( state_count == ( te_sm.num_states - 1 ) )
         .assign delimiter = ""
       .end if
-      .for each te_state in te_states
-        .if ( te_state.Order == state_count )
-          .select one te_act related by te_state->SM_STATE[R2037]->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514]->TE_ACT[R2022]
-          .assign state_action_rows = state_action_rows + "    (${te_sm.action_type}) ${te_act.GeneratedName}${delimiter}  /* ${te_state.Name} */\n"
-          .assign state_names = state_names + "    ""${te_state.Name}""${delimiter}\n"
-          .break for
-        .end if
-      .end for
+      .select one te_act related by te_state->SM_STATE[R2037]->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514]->TE_ACT[R2022]
+      .assign state_action_rows = state_action_rows + "    (${te_sm.action_type}) ${te_act.GeneratedName}${delimiter}  /* ${te_state.Name} */\n"
+      .assign state_names = state_names + "    ""${te_state.Name}""${delimiter}\n"
       .assign state_count = state_count + 1
+      .select one te_state related by te_state->TE_STATE[R2101.'precedes']
     .end while
     .include "${te_file.arc_path}/t.class.sem.state_action_array.c"
   .end if

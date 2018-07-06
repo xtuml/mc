@@ -228,7 +228,6 @@ sexpr:
         | '-' term %prec UMINUS {$$=P2($1,$2);}
         | term bop expr {$$=P5($1," ",$2," ",$3);}
         | term
-        | inst_ref_set_var '|' inst_ref_set_var
         ;
 
 expr:
@@ -333,7 +332,7 @@ identifier:
 
 bop:
         LE | GE | EQ | NE | AND | OR
-        | '>' | '<' | '+' | '-' | '*' | '/'
+        | '>' | '<' | '+' | '-' | '*' | '/' | '|'
         ;
 
 literal:

@@ -15234,19 +15234,10 @@ local_error_count = 0;
 select many c_sfs from instances of C_SF;
 for each c_sf in c_sfs
   instance_count = instance_count + 1;
-  trace = ::check_trace( trace_attribute:"Requirement_Id", trace_id:c_sf.Requirement_Id, name:"" );
+  trace = ::check_trace( trace_attribute:"Id", trace_id:c_sf.Id, name:"" );
   select many duplicate_c_sfs from instances of C_SF where ( selected.Id == c_sf.Id );
   if ( cardinality duplicate_c_sfs != 1 )
     ::check_log( message: "uniqueness violation in C_SF for identifier 1", trace:trace );
-    local_error_count = local_error_count + 1;
-    if ( 10 < local_error_count )
-      break;
-    end if;
-  end if;
-  check_count = check_count + 1;
-  select many duplicate_c_sfs from instances of C_SF where ( selected.Requirement_Id == c_sf.Requirement_Id and selected.Provision_Id == c_sf.Provision_Id );
-  if ( cardinality duplicate_c_sfs != 1 )
-    ::check_log( message: "uniqueness violation in C_SF for identifier 2", trace:trace );
     local_error_count = local_error_count + 1;
     if ( 10 < local_error_count )
       break;
