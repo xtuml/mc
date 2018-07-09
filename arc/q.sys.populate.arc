@@ -212,7 +212,8 @@
   .assign te_file.types = ( te_sys.Name + "_" ) + te_file.types
   .assign te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main
   .//
-  .select many te_cs from instances of TE_C where ( selected.included_in_build )
+  .// Select them all, because we may navigate upward to these from lower level elements.
+  .select many te_cs from instances of TE_C
   .for each te_c in te_cs
     .select one c_c related by te_c->C_C[R2054]
     .// Create and relate the domain class info to carry details about
