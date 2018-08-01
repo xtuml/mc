@@ -1,0 +1,16 @@
+.//.invoke TagDataTypePrecision( "*", "EV3Tone", "uint16_t", "" )
+.//.invoke TagDataTypePrecision( "*", "EV3Button", "button_t", "" )
+.//.invoke TagDataTypePrecision( "*", "EV3Color", "colorid_t", "" )
+.//.invoke TagDataTypePrecision( "*", "EV3Font", "lcdfont_t", "" )
+.//.invoke TagDataTypePrecision( "*", "EV3LcdColor", "lcdcolor_t", "" )
+.//.invoke TagDataTypePrecision( "*", "EV3LedColor", "ledcolor_t", "" )
+.print "----------EV3 ARC------------"
+.invoke MarkMainFunction("xtUMLMain")
+.invoke TagEnumeratorMap("*","EV3Button","","","button_t")
+.invoke TagEnumeratorMap("*","EV3Color","COLOR_","","colorid_t")
+.invoke TagEnumeratorMap("*","EV3Font","EV3_FONT_","ev3api.h","lcdfont_t")
+.invoke TagEnumeratorMap("*","EV3LcdColor","EV3_LCD_","","lcdcolor_t")
+.invoke TagEnumeratorMap("*","EV3LedColor","LED_","ev3api.h","ledcolor_t")
+.invoke TagEnumeratorMap("*","EV3Motor","DEV_MOTOR_","mclm_ev3.h","device_motor_t")
+.invoke TagEnumeratorMap("*","EV3Result","MCLM_RESULT_","mclm_ev3.h","mclm_result_t")
+

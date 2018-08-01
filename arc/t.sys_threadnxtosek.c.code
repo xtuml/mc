@@ -1,0 +1,151 @@
+.//============================================================================
+.// Notice:
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
+.//     All rights reserved.
+.//
+.// This document contains confidential and proprietary information and
+.// property of Mentor Graphics Corp.  No part of this document may be
+.// reproduced without the express written permission of Mentor Graphics Corp.
+.//============================================================================
+.//
+.//
+/*---------------------------------------------------------------------
+ * File:  ${te_file.thread}.${te_file.src_file_ext}
+ *
+ * Description:
+ * This file provides implementation of multi-tasking/threading
+ * capabilities allowing classes/subsystems to run in different
+ * threads on a multi-tasking/threading OS/RTOS.
+ *
+ * ${te_copyright.body}
+ *-------------------------------------------------------------------*/
+/* NXT OSEK Headers */
+#include "kernel.h"
+#include "kernel_id.h"
+#include "ecrobot_interface.h"
+
+#include "${te_file.types}.${te_file.hdr_file_ext}"
+.if ( te_sys.MaxTimers > 0 )
+#include "${te_file.tim}.${te_file.hdr_file_ext}"
+.end if
+
+DeclareResource(rIQueue); 
+DeclareResource(rSQueue);
+DeclareResource(rFreeList);
+DeclareResource(rNonBusy);
+DeclareResource(rInstance);
+//DeclareResource(rTimer);
+DeclareResource(rILib);
+
+DeclareEvent(eExternalEvent);
+
+static ResourceType const *mutices[ SEMAPHORE_FLAVOR_MAX ] = {
+			&rIQueue, 
+            &rSQueue,
+            &rFreeList,
+            &rNonBusy,
+            &rInstance,
+//            &rTimer,
+            &rILib
+};
+
+typedef void (*TaskEntry)(void *);
+static TaskEntry taskEntries[NUM_OF_XTUML_CLASS_THREADS];
+
+/*
+moved to threadinfo.c that is defined per application
+static TaskType nonbusy_wait_cond[ NUM_OF_TOTAL_THREADS ];
+static u1_t threadnumber[ NUM_OF_TOTAL_THREADS ];
+*/
+#include "threadinfo.c"
+
+
+/*
+ * Initialize those structures that need to be set up once at system
+ * bring-up time.
+ */
+void Escher_InitializeThreading( void )
+{
+/* no need to dynamic initialization */
+/*
+	    u1_t i;
+  int rc;
+  for ( i = 0; i < NUM_OF_TOTAL_THREADS; i++ ) {
+    threadnumber[ i ] = i;
+    rc = pthread_cond_init( &nonbusy_wait_cond[ i ], 0 );
+  }
+  for ( i = 0; i < SEMAPHORE_FLAVOR_MAX; i++ ) {
+    rc = pthread_mutex_init( &mutices[ i ], 0 );
+  }
+  rc = rc;
+  */
+}
+
+/*
+ * Obtain a resource lock so that this thread has mutually exclusive
+ * access.
+ */
+void Escher_mutex_lock( const u1_t flavor )
+{
+  int rc = GetResource( *mutices[ flavor ] );
+	rc=rc;
+}
+
+/*
+ * Release a resource lock that was obtained with the lock method.
+ */
+void Escher_mutex_unlock( const u1_t flavor )
+{
+	ReleaseResource( *mutices[ flavor ] );
+}
+
+/*
+ * Go into a non-busy wait state waiting on someone to wake us
+ * up with the nonbusy_wake method.
+ */
+void Escher_nonbusy_wait( const u1_t thread )
+{
+
+    WaitEvent(eExternalEvent);
+ 	ClearEvent(eExternalEvent);
+
+
+}
+
+/*
+ * Wake up a thread that went to sleep waiting for something to happen.
+ */
+void Escher_nonbusy_wake( const u1_t thread )
+{
+	    TaskType dwc = *nonbusy_wait_cond[ thread ];
+	    SetEvent(dwc,eExternalEvent);
+}
+
+/*
+ * Create and spin off a task/thread to run the input routine.
+ */
+void Escher_thread_create( void *(routine)(void *), const u1_t i )
+{
+	taskEntries[i] = (TaskEntry)routine;
+    ActivateTask(*threadnumber[ i ] );
+}
+
+/*
+ * Cleanup the structures initialized in Escher_InitializeThreading.
+ */
+void Escher_thread_shutdown( void )
+{
+	TerminateTask();
+}
+
+/*
+*
+*/
+void runTask(const u1_t i)
+{
+	TaskEntry fp = taskEntries[i];
+	if ( fp ) {
+		(*fp)((void*)&i);
+	}
+	
+}

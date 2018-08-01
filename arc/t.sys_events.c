@@ -218,7 +218,14 @@ ${te_eq.scope}${te_eq.new}( const void * const destination,
   SetEventDestDomainNumber( event, event_info->destination_domain_number );
   SetEventDestObjectNumber( event, event_info->destination_object_number );
   SetOoaEventNumber( event, event_info->event_number );
-  SetOoaEventFlags( event, event_info->event_flags );
+.// MLCM Extension Start
+  if ( destination ) {
+	  /* if destination is not null, that means this is not creation event */
+	  SetOoaEventFlags( event,(~ESCHER_IS_CREATION_EVENT)&event_info->event_flags );
+  } else {
+	  SetOoaEventFlags( event, event_info->event_flags );
+  }
+.// MLCM Extension End
   .if ( event_prioritization_needed.result )
   SetOoaEventPriority( event, event_info->priority );
   .end if

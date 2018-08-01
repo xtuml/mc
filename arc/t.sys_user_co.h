@@ -115,8 +115,9 @@ void ${te_callout.background_processing}f( void );
 void ${te_callout.pre_shutdown}f( void );
 /* The following empty definition renders the callout hook invisible.
    Delete or comment out the following define to activate the in line
-   hook for this callout.  */
+   hook for this callout.  
 #define ${te_callout.pre_shutdown}()
+*/
 
 #ifndef ${te_callout.pre_shutdown}
 #define ${te_callout.pre_shutdown}() ${te_callout.pre_shutdown}f()

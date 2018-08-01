@@ -1825,7 +1825,8 @@ CREATE TABLE TE_DT (
     string_format STRING,
     generated BOOLEAN,
     te_cID UNIQUE_ID,
-    DT_ID UNIQUE_ID
+    DT_ID UNIQUE_ID,
+    Is_Mapped BOOLEAN
 );
 CREATE TABLE TE_EE (
     Name STRING,
@@ -2105,6 +2106,17 @@ CREATE TABLE TE_MBR (
     te_dtID UNIQUE_ID,
     Member_ID UNIQUE_ID,
     DT_ID UNIQUE_ID
+);
+CREATE TABLE TE_MCLM (
+    motor_map_name STRING,
+    motor_map_initializer STRING,
+    motor_invert_name STRING,
+    motor_invert_initializer STRING,
+    color_sensor_port STRING,
+    gyro_sensor_port STRING,
+    gyro_invert_param STRING,
+    touch_sensor_port STRING,
+    ultrasonic_port STRING
 );
 CREATE TABLE TE_OIR (
     data_member STRING,
@@ -2647,12 +2659,31 @@ CREATE TABLE TM_IF (
     Name STRING,
     c_iId UNIQUE_ID
 );
+CREATE TABLE TM_LMDEV (
+    dev_type STRING,
+    name STRING,
+    dev_desc STRING,
+    port STRING,
+    is_invert BOOLEAN
+);
+CREATE TABLE TM_LMENU (
+    Domain STRING,
+    Name STRING,
+    prefix STRING,
+    include_file STRING,
+    data_type STRING
+);
 CREATE TABLE TM_MSG (
     te_mactID UNIQUE_ID,
     ComponentName STRING,
     PortName STRING,
     MessageName STRING,
     IsSafeForInterrupts BOOLEAN
+);
+CREATE TABLE TM_PEEE (
+    Key_Lett STRING,
+    te_cID UNIQUE_ID,
+    template STRING
 );
 CREATE TABLE TM_POINTER (
     Domain STRING,
@@ -2712,6 +2743,11 @@ CREATE TABLE TM_THREAD (
     serialize BOOLEAN,
     number_of_threads INTEGER,
     extra_initialization STRING
+);
+CREATE TABLE TM_THREAD_ELEMENT (
+    thread_no INTEGER,
+    priority STRING,
+    stack_size INTEGER
 );
 CREATE TABLE TM_TP (
     ID UNIQUE_ID,
