@@ -27,7 +27,7 @@
   .else
     .assign tm_thread.serialize = false
   .end if
-  .if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ) ) )
+  .if ((( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ))) or ( "NxtOSEK" == flavor ))  or ("EV3HRP" == flavor) )
     .assign tm_thread.flavor = flavor
     .if ( "SystemC" == flavor )
       .// SystemC uses a single thread inside each component.
@@ -37,6 +37,35 @@
     .else
       .assign tm_thread.enabled = true
     .end if
+.//-- MCLM Extension start
+	.if ( ("NXTOSEK" == flavor) or ( "EV3HRP" == flavor) )
+		.create object instance ev3_body_ee of TM_PEEE
+		.assign ev3_body_ee.Key_Lett = "EV3B"
+		.assign ev3_body_ee.template = "t.EV3B_bridge.c"
+		.create object instance ev3_motor_ee of TM_PEEE
+		.assign ev3_motor_ee.Key_Lett = "EV3M"
+		.assign ev3_motor_ee.template = "t.EV3M_bridge.c"
+		.create object instance ev3_color_ee of TM_PEEE
+		.assign ev3_color_ee.Key_Lett = "EV3COL"
+		.assign ev3_color_ee.template = "t.EV3COL_bridge.c"
+		.create object instance ev3_gyro_ee of TM_PEEE
+		.assign ev3_gyro_ee.Key_Lett = "EV3GYR"
+		.assign ev3_gyro_ee.template = "t.EV3GYR_bridge.c"
+		.create object instance ev3_ultrasonic_ee of TM_PEEE
+		.assign ev3_ultrasonic_ee.Key_Lett = "EV3ULS"
+		.assign ev3_ultrasonic_ee.template = "t.EV3ULS_bridge.c"
+		.create object instance ev3_touch_ee of TM_PEEE
+		.assign ev3_touch_ee.Key_Lett = "EV3TCH"
+		.assign ev3_touch_ee.template = "t.EV3TCH_bridge.c"
+		.//.create object instance ev3_balancer_ee of TM_PEEE
+		.//.assign ev3_balancer_ee.Key_Lett = "EV3BAL"
+		.//.assign ev3_balancer_ee.template = "t.EV3_bridge.c"
+		.invoke MarkMainFunction("xtUMLMain")
+		.invoke r = GET_ENV_VAR( "ROX_MC_ARC_DIR" )
+		.assign arc_path = r.result
+		.include "${arc_path}/ev3.arc"
+	.end if
+.//-- MCLM Extension End		
   .else
     .print "ERROR:  system.mark:EnableTasking has incorrect tasking/threading type:${flavor}.\n"
     .exit 100
@@ -54,9 +83,34 @@
   .if ( empty tm_thread )
     .create object instance tm_thread of TM_THREAD
   .end if
+  .select any tm_thread_element from instances of TM_THREAD_ELEMENT where (selected.thread_no == task_number)
+  .if ( empty tm_thread_element )
+    .create object instance tm_thread_element of TM_THREAD_ELEMENT
+      .assign tm_thread_element.thread_no = task_number
+  .end if
+  .assign tm_thread_element.priority = priority   
   .assign tm_thread.extra_initialization = tm_thread.extra_initialization + "  xtUML_task_priorities[ $t{task_number} ] = ${priority};\n"
 .end function
 .//
+.//============================================================================
+.// Establish task stack size( NXT extension ).
+.//============================================================================
+.function SetTaskStackSize
+  .param integer task_number
+  .param integer stack_size
+  .print "SetTaskStackSize( $t{task_number}, ${stack_size} )"
+  .select any tm_thread from instances of TM_THREAD
+  .if ( empty tm_thread )
+    .create object instance tm_thread of TM_THREAD
+  .end if
+  .select any tm_thread_element from instances of TM_THREAD_ELEMENT where ( selected.thread_no == task_number )
+  .if ( empty tm_thread_element )
+    .create object instance tm_thread_element of TM_THREAD_ELEMENT
+      .assign tm_thread_element.thread_no = task_number
+  .end if
+  .assign tm_thread_element.stack_size = stack_size 
+.end function
+
 .//============================================================================
 .function TagMaximumStringLength
   .param integer max_len
@@ -607,5 +661,104 @@
   .param string s
   .invoke r = STRING_TO_INTEGER( s )
   .assign attr_result = r.result
-  .invoke oal( "return strtol( p_s, 0, 10 );" )
+.end function
+.// MCLM Extension start
+.//============================================================================
+.// Mark Main Function
+.//============================================================================
+.function MarkMainFunction
+  .param string func_name
+  .print "MarkMainFunction ${func_name}"
+  .select any te_target from instances of TE_TARGET
+  .if ( empty te_target )
+    .print "TARGET was not found"
+    .exit 100
+  .end if
+  .assign te_target.main = func_name
+.end function
+.//============================================================================
+.// Tag Motor Config
+.//
+.// position "LEFT","RIGHT","FRONT","TAIL","USER1","USER2"
+.// port "PORT_A","PORT_B","PORT_C","PORT_D"
+.// motor_type "L" "M" "U"
+.// invert FALE:TRUE
+.// 
+.//============================================================================
+.function TagMotorConfig
+  .param string position
+  .param string port
+  .param string motor_type
+  .param boolean invert
+  .//
+  .if ( ((("LEFT" != position) and ("RIGHT" != position )) and (("TAIL" != position) and ("FRONT" != position))) and (( "USER1" != position ) and ("USER2" != position) ))
+  	.print "Motor Postion is not valid = ${position}"
+  	.exit 1
+  .end if
+  .select any motor from instances of TM_LMDEV where ((selected.name == position) and ( "MOTOR" == selected.dev_type) )
+  .if ( not_empty motor )
+    .print "Motor position ${position} is already marked"
+    .exit 1
+  .end if
+  .if ( (("PORT_A" != port) and ("PORT_B" != port)) and (("PORT_C" != port) and ("PORT_D" != port)) )
+    .print "PORT config is invalid"
+    .exit 1
+  .end if
+  .if ( (("L" != motor_type ) and ( "M" != motor_type )) and ( "U" != motor_type ) )
+    .print "Motor type is invalid"
+    .exit 1
+  .end if
+  .create object instance motor of TM_LMDEV
+  .if ( "L" == motor_type )
+  	.assign motor.dev_desc = "LARGE_MOTOR"
+  .elif ( "M" == motor_type )
+  	.assign motor.dev_desc = "MEDIUM_MOTOR"
+  .elif ( "U" == motor_type )
+  	.assign motor.dev_desc = "UNREGULATED_MOTOR"
+  .end if
+  .assign motor.dev_type = "MOTOR"
+  .assign motor.name = position
+.//  .assign motor.dev_desc = motor_type
+  .assign motor.port = port
+  .assign motor.is_invert = invert
+ .end function
+.//============================================================================
+.// Tag Sensor Config
+.//
+.// sensor "COLOR","GYRO","ULTRASONIC","TOUCH"
+.// port   "1","2","3","4"
+.//============================================================================
+.function TagSensorConfig
+  .param string sensor
+  .param string port
+  .//
+  .if ( (( "COLOR" != sensor ) and ( "GYRO" != sensor )) and (("ULTRASONIC" != sensor) and ("TOUCH" != sensor)) )
+    .print "sensor is invalid"
+    .exit 1
+  .end if
+  .if ( (( "1" != port ) and ( "2" != port )) and (( "3" != port ) and ( "4" != port ) ) )
+  	.print "port ${port} is invalid"
+  	.exit 2
+  .end if
+  .select any sensor_inst from instances of TM_LMDEV where ( selected.dev_type == sensor )
+  .if ( not_empty sensor_inst )
+    .print "sensor ${sensor} is already tagged"
+    .exit 1
+  .end if
+  .create object instance sensor_inst of  TM_LMDEV
+  .assign sensor_inst.dev_type = sensor
+  .assign sensor_inst.port = "EV3_PORT_" + port
+  .assign sensor_inst.is_invert = FALSE
+.end function
+ .// MCLM extension end
+.//============================================================================
+.// Tag Gyro Sensor Invert On
+.//============================================================================
+.function TagGyroSensorInvertOn
+.//
+  .select any gyro from instances of TM_LMDEV where (selected.dev_type == "GYRO" )
+  .if ( empty gyro )
+    .print "Gyro Sensor is not configured. set TagaSensorConfig(""GYRO"",xx) first"
+  .end if
+  .assign gyro.is_invert = TRUE
 .end function

@@ -106,6 +106,57 @@
     .end if
   .end if
   .//
+  .//-- MCLM Device Mapping Start
+  .select any te_mclm from instances of TE_MCLM
+  .if ( empty te_mclm )
+  	.create object instance te_mclm of TE_MCLM
+  .end if
+  .select many motors from instances of TM_LMDEV where ( selected.dev_type == "MOTOR" )
+  .assign motor_map_name = "motor_map"
+  .assign motor_invert_name = "motor_invert"
+  .assign motor_port_type = "motor_port_t"
+  .assign te_mclm.motor_map_name = motor_map_name
+  .assign te_mclm.motor_invert_name = "motor_invert"
+  .for each motor in motors
+	  .assign te_mclm.motor_map_initializer = te_mclm.motor_map_initializer + "\n  ${motor_map_name}[DEV_MOTOR_${motor.name}] = EV3_${motor.port};"
+	  .assign te_mclm.motor_map_initializer = te_mclm.motor_map_initializer + "\n  ev3_motor_config(EV3_${motor.port}, ${motor.dev_desc});"
+	  .assign invert_param = 1
+      .if ( motor.is_invert )
+        .assign invert_param = -1
+      .end if
+	  .assign te_mclm.motor_invert_initializer = te_mclm.motor_invert_initializer + "\n  ${motor_invert_name}[DEV_MOTOR_${motor.name}] = ${invert_param};"
+  .end for
+  .assign not_used_sensor_port = "TNUM_SENSOR_PORT"
+  .select any color_sensor from instances of TM_LMDEV where ( selected.dev_type == "COLOR" )
+  .if ( not_empty color_sensor )
+  		.assign te_mclm.color_sensor_port = color_sensor.port
+  .else
+  		.assign te_mclm.color_sensor_port = not_used_sensor_port  
+  .end if
+  .select any touch_sensor from instances of TM_LMDEV where ( selected.dev_type == "TOUCH" )
+  .if ( not_empty touch_sensor )
+  		.assign te_mclm.touch_sensor_port = touch_sensor.port
+  .else
+  		.assign te_mclm.touch_sensor_port = not_used_sensor_port
+  .end if
+  .select any gyro_sensor from instances of TM_LMDEV where ( selected.dev_type == "GYRO" )
+  .if ( not_empty gyro_sensor )
+  		.assign te_mclm.gyro_sensor_port = gyro_sensor.port
+  		.assign te_mclm.gyro_invert_param = "1"
+  		.if ( gyro_sensor.is_invert ) 
+  			.assign te_mclm.gyro_invert_param = "-1"
+  		.end if
+  .else
+  		.assign te_mclm.gyro_sensor_port = not_used_sensor_port
+  		.assign te_mclm.gyro_invert_param = "1"
+  .end if
+  .select any ultrasonic_sensor from instances of TM_LMDEV where ( selected.dev_type == "ULTRASONIC" )
+  .if ( not_empty ultrasonic_sensor )
+  		.assign te_mclm.ultrasonic_port = ultrasonic_sensor.port
+  .else
+  		.assign te_mclm.ultrasonic_port = not_used_sensor_port
+  .end if  
+  .//-- MCLM Device Mapping End
   .select any te_disp from instances of TE_DISP
   .if ( empty te_disp )
     .create object instance te_disp of TE_DISP
@@ -601,6 +652,17 @@
       .assign te_dt.Include_File = ( te_file.types + "." ) + te_file.hdr_file_ext
     .end if
     .//
+.//-- MCLM Add Start
+    .select any tm_lmenu from instances of TM_LMENU where ( (selected.Name == te_dt.Name ) and ( (selected.Domain ==  te_dt.Owning_Dom_Name ) or ( selected.Domain == "*") ) )
+	.if ( not_empty tm_lmenu ) 
+		.assign te_dt.Include_File = tm_lmenu.include_file
+		.assign te_dt.ExtName = tm_lmenu.data_type
+		.assign te_dt.Initial_Value = "0"
+		.assign te_dt.Is_Mapped = TRUE
+	.else
+		.assign te_dt.Is_Mapped = FALSE
+	.end if
+.//-- MCLM Add End	
     .// Create the Generated Enumerators and link them to the real ones.
     .select many s_enums related by s_edt->S_ENUM[R27]
     .for each s_enum in s_enums
@@ -616,6 +678,11 @@
         .end if
       .end if
       .assign te_enum.Value = value
+.//-- MCLM Add Start
+	  .if ( not_empty tm_lmenu )
+		.assign te_enum.GeneratedName = tm_lmenu.prefix + te_enum.Name
+	  .end if
+.//-- MCLM Add End	
     .end for
   .end for
   .//
@@ -1934,6 +2001,22 @@
     .assign te_ee.RegisteredName = "TIM"
     .assign te_ee.Include_File = te_file.tim + ( "." + te_file.hdr_file_ext )
   .end if
+  .// MCLM extension start
+  .select any tm_peee from instances of TM_PEEE where ( selected.Key_Lett == s_ee.Key_Lett )
+  .if ( not_empty tm_peee )
+    .assign te_ee.RegisteredName = s_ee.Key_Lett
+    .assign te_ee.Included = true;
+    .assign te_ee.file = s_ee.Key_Lett + "_bridge"
+    .assign te_ee.Include_File =  te_ee.file + ( "." + te_file.hdr_file_ext )
+  .end if
+  .//-- OLD Extension
+  .if ( ("ECR" == s_ee.Key_Lett) or ("EC_B" == s_ee.Key_Lett) )
+    .// NXT bridges
+    .assign te_ee.RegisteredName = s_ee.Key_Lett
+    .assign te_ee.Include_File =  (s_ee.Key_Lett + "_bridge") + ( "." + te_file.hdr_file_ext )
+    .assign te_ee.file = s_ee.Key_Lett
+  .end if
+  .//-- MCLM Extension End
   .assign bridge_scope = ""
   .if ( "C" == te_target.language )
     .assign bridge_scope = te_ee.RegisteredName + "_"

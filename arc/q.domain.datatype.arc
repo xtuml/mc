@@ -71,6 +71,9 @@ ${r.body}\
   .select any te_target from instances of TE_TARGET
   .assign dtowner = te_sys.Name
   .select one te_c related by te_dt->TE_C[R2086]
+.//-- MCLM Add Start
+.if ( not te_dt.Is_Mapped)
+.//-- MCLM Add End
   .if ( not_empty te_c )
     .assign dtowner = te_c.Name
   .end if
@@ -113,5 +116,8 @@ typedef enum {
     .end while    
 } ${te_dt.ExtName};
   .end if
+.//-- MCLM Add Start
+.end if
+.//-- MCLM Add End
 .end function
 .//

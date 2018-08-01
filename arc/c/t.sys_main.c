@@ -30,6 +30,11 @@ ${system_class_array.class_count}
     }
   }
 .end if
+.//-- MLCM Start
+.if ( te_thread.flavor == "EV3HRP" )
+	EV3B_Initialize();
+.end if
+.//-- MCLM End
 }
 
 /*

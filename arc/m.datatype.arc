@@ -146,4 +146,26 @@
   .print "AssignDirectToUDTPackage is not a supported marking function."
   .exit 1
 .end function
-.//
+.//============================================================================
+.// TagEnumeratorMap
+.// .invoke TagEnumeratorMap("MyDom","MyEnum","ENUM_PREFIX","enum.h","datatype_t")
+.//============================================================================
+.function TagEnumeratorMap
+  .param string component_name
+  .param string enumeration
+  .param string prefix
+  .param string header_file
+  .param string data_type
+  .assign component_name = "$r{component_name}"
+  .select any tm_lmenu from instances of TM_LMENU where ( ( selected.Domain == component_name ) and (selected.Name == enumeration) )
+  .if ( empty tm_lmenu )
+    .create object instance tm_lmenu of TM_LMENU
+  .end if
+  .print "---${enumeration} is mapped ${component_name}"
+  .assign tm_lmenu.Domain = component_name
+  .assign tm_lmenu.Name = enumeration
+  .assign tm_lmenu.prefix = prefix
+  .assign tm_lmenu.include_file = header_file
+  .assign tm_lmenu.data_type = data_type
+.end function
+
