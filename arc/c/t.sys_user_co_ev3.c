@@ -1,14 +1,3 @@
-.//============================================================================
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
-.//
-.//
 /*----------------------------------------------------------------------------
  * File:  ${te_file.callout}.${te_file.src_file_ext}
  *
@@ -43,18 +32,18 @@
 #include <stdio.h>
 #define SYS_USER_CO_PRINTF( s ) printf( s );
 #else
-#define SYS_USER_CO_PRINTF( s ) 
+#define SYS_USER_CO_PRINTF( s )
 #endif
 
-#define TERM_TASK 	ev3_lcd_draw_string("Program Stopped",0,1); \
-					sus_tsk(TSK_SELF);
+#define TERM_TASK   ev3_lcd_draw_string("Program Stopped",0,1); \
+          sus_tsk(TSK_SELF);
 
 
+extern void EV3M_Shutdown(void);
 static void button_clicked_handler(int button)
 {
-	EV3M_Shutdown();
+  EV3M_Shutdown();
 }
-
 
 /*
  * ${te_callout.initialization}
@@ -71,11 +60,11 @@ ${te_callout.initialization}f( void )
 /* Activate this invocation to initialize the example simple TIM.  */
 .if ( "C" == te_target.language )
   #if ${te_tim.max_timers} > 0
-	TIM_init();
+  TIM_init();
   #endif
 .end if
    ev3_button_set_on_clicked(LEFT_BUTTON, button_clicked_handler, LEFT_BUTTON);
-	
+
   /* Insert implementation specific code here.  */
   SYS_USER_CO_PRINTF( "${te_callout.initialization}\n" )
 }
@@ -119,20 +108,6 @@ ${te_callout.post_xtUML_initialization}f( void )
 void
 ${te_callout.background_processing}f( void )
 {
-.if ( "C++" == te_target.language )
-  .if ( "SystemC" != te_thread.flavor )
-  /* Activate this invocation to periodically tick the example simple TIM.  */
-  #if ${te_tim.max_timers} > 0
-  //TIM::tick();
-  #endif
-  .end if
-.elif ( "C" == te_target.language )
-  /* Activate this invocation to periodically tick the example simple TIM.  */
-  #if ${te_tim.max_timers} > 0
-  /* EV3 Timer is called by cyclic handler */
-	/* TIM_tick();*/
-  #endif
-.end if
   /* Insert implementation specific code here.  */
 }
 
@@ -142,15 +117,14 @@ ${te_callout.background_processing}f( void )
  * This function is invoked at termination of the system dispatcher, but
  * prior to performing any xtUML application analysis shutdown sequencing.
  */
-	extern void EV3M_Shutdown(void);
 void
 ${te_callout.pre_shutdown}f( void )
 {
   /* Insert implementation specific code here.  */
   EV3M_Shutdown();
-	sus_tsk(0);
+  sus_tsk(0);
 
-	SYS_USER_CO_PRINTF( "${te_callout.pre_shutdown}\n" )
+  SYS_USER_CO_PRINTF( "${te_callout.pre_shutdown}\n" )
 }
 
 /*
@@ -158,13 +132,11 @@ ${te_callout.pre_shutdown}f( void )
  *
  * This function is invoked immediately before application exit.
  */
-
 void
 ${te_callout.post_shutdown}f( void )
 {
   /* Insert implementation specific code here.  */
   SYS_USER_CO_PRINTF( "${te_callout.post_shutdown}\n" )
-
 }
 
 /*
@@ -180,10 +152,10 @@ ${te_callout.event_cant_happen}f(
   const ${te_typemap.event_number_name} event_number )
 {
   /* Insert implementation specific code here.  */
- 	char buf[256];
-	sprintf(buf,"Cannt Happen c=%d n=%d e=%d",current_state,next_state,event_number);
-	ev3_lcd_draw_string(buf,0,0);
-	TERM_TASK
+   char buf[256];
+  sprintf(buf,"Cannt Happen c=%d n=%d e=%d",current_state,next_state,event_number);
+  ev3_lcd_draw_string(buf,0,0);
+  TERM_TASK
 }
 
 /*
@@ -199,6 +171,7 @@ ${te_callout.event_no_instance}f(
   const ${te_typemap.event_number_name} event_number )
 {
   /* Insert implementation specific code here.  */
+  SYS_USER_CO_PRINTF( "${te_callout.event_no_instance}\n" )
 }
 
 /*
@@ -210,10 +183,10 @@ ${te_callout.event_no_instance}f(
 void
 ${te_callout.event_free_list_empty}f( void )
 {
-	ev3_lcd_draw_string("Event Free List is empty",0,0);
-	TERM_TASK
+  ev3_lcd_draw_string("Event Free List is empty",0,0);
+  TERM_TASK
 
-	/* Insert implementation specific code here.  */
+  /* Insert implementation specific code here.  */
   SYS_USER_CO_PRINTF( "${te_callout.event_free_list_empty}\n" )
 }
 
@@ -227,12 +200,12 @@ void
 ${te_callout.empty_handle_detected}f( c_t * object_keyletters, c_t * s )
 {
   /* Insert implementation specific code here.  */
-	char buf[256];
-	sprintf(buf,"empty handle detected o=%s s=%s",object_keyletters,s);
-	ev3_lcd_draw_string(buf,0,0);
-	TERM_TASK
+  char buf[256];
+  sprintf(buf,"empty handle detected o=%s s=%s",object_keyletters,s);
+  ev3_lcd_draw_string(buf,0,0);
+  TERM_TASK
 
-	SYS_USER_CO_PRINTF( "${te_callout.empty_handle_detected}\n" )
+  SYS_USER_CO_PRINTF( "${te_callout.empty_handle_detected}\n" )
 }
 
 /*
@@ -245,14 +218,12 @@ void
 ${te_callout.object_pool_empty}f( const ${te_typemap.domain_number_name} component_number, const ${te_typemap.object_number_name} class_number )
 {
   /* Insert implementation specific code here.  */
-	char buf[256];
-	sprintf(buf,"object pool empty c=%d class=%d",component_number,class_number);
-	ev3_lcd_draw_string(buf,0,0);
-	TERM_TASK
+  char buf[256];
+  sprintf(buf,"object pool empty c=%d class=%d",component_number,class_number);
+  ev3_lcd_draw_string(buf,0,0);
+  TERM_TASK
 
-	
-	
-	SYS_USER_CO_PRINTF( "${te_callout.object_pool_empty}\n" )
+  SYS_USER_CO_PRINTF( "${te_callout.object_pool_empty}\n" )
 }
 
 /*
@@ -265,8 +236,8 @@ void
 ${te_callout.node_list_empty}f( void )
 {
   /* Insert implementation specific code here.  */
-	ev3_lcd_draw_string("Node List is empty",0,0);
-	TERM_TASK
+  ev3_lcd_draw_string("Node List is empty",0,0);
+  TERM_TASK
 
   SYS_USER_CO_PRINTF( "${te_callout.node_list_empty}\n" )
 }
@@ -282,11 +253,10 @@ void
 ${te_callout.interleaved_bridge_overflow}f( void )
 {
   /* Insert implementation specific code here.  */
-	ev3_lcd_draw_string("Interleaved bridge is empty",0,0);
-	TERM_TASK
+  ev3_lcd_draw_string("Interleaved bridge is empty",0,0);
+  TERM_TASK
 
-	
-	SYS_USER_CO_PRINTF( "${te_callout.interleaved_bridge_overflow}\n" )
+  SYS_USER_CO_PRINTF( "${te_callout.interleaved_bridge_overflow}\n" )
 }
 
 /*
