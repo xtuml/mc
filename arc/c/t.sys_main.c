@@ -77,7 +77,12 @@ ${te_persist.factory_init}();
 .if ( "C" == te_target.language )
   /* Initialize TIM.  To change this, copy TIM_bridge.c to the gen folder.  */
   #if ${te_tim.max_timers} > 0
+  .if ( te_thread.flavor == "EV3HRP" )
+  /* EV3 Timer is called by cyclic handler */
+  /* TIM_init(); */
+  .else
   TIM_init();
+  .end if
   #endif
 .end if
   ApplicationLevelInitialization();

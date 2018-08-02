@@ -682,7 +682,12 @@ static void ooa_loop( void )
   .if ( te_sys.MaxTimers > 0 )
     ${more_indent}/* To disable this timer tick, modify TIM_bridge.c in the gen folder.  */
     ${more_indent}#if ${te_tim.max_timers} > 0
+    .if ( "EV3HRP" == te_thread.flavor )
+    ${more_indent}/* EV3 Timer is called by cyclic handler */
+    ${more_indent}/* if ( 0 == event ) { TIM_tick(); } */
+    .else
     ${more_indent}if ( 0 == event ) { TIM_tick(); }
+    .end if
     ${more_indent}#endif
   .end if
   .if ( te_sys.MaxInterleavedBridges > 0 )
