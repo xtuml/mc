@@ -381,7 +381,7 @@
         .end for
       .else
       .// Search from imported reference across satisfaction to imported reference requirement to provision.
-      .select one satisfied_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
+      .select any satisfied_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
       .if ( not_empty satisfied_te_iir )
         .invoke SetTPV_for_channel_connection( satisfied_te_iir, variable_name, value, " 2${trace}", 1 )
       .else

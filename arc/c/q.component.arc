@@ -97,7 +97,7 @@
     .while ( not_empty te_mact )
     .assign sm_evt = empty_sm_evt
     .assign foreign_te_macts = empty_te_macts
-    .select one tm_msg related by te_mact->TM_MSG[R2809]
+    .select any tm_msg related by te_mact->TM_MSG[R2809]
     .select one te_aba related by te_mact->TE_ABA[R2010]
     .if ( te_mact.subtypeKL == "SPR_PO" )
     .elif ( te_mact.subtypeKL == "SPR_RO" )
@@ -682,7 +682,7 @@
         .select any te_parm related by operation->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
         .if ( te_mact.subtypeKL == "SPR_RO" )
           .select one spr_ro related by te_mact->SPR_RO[R2052]
-          .select one spr_po related by spr_ro->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PO[R4503] where ( selected.Name == spr_ro.Name )
+          .select any spr_po related by spr_ro->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PO[R4503] where ( selected.Name == spr_ro.Name )
           .select one temp_foreign_te_mact related by spr_po->TE_MACT[R2050]
           .assign foreign_te_mact = temp_foreign_te_mact
         .else
