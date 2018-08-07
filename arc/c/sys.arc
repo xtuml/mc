@@ -256,7 +256,7 @@
   	.// For passing the compilation, oil file must be in the directory that make is executed on.
     .emit to file "${te_file.system_source_path}/../../../nxtosek.oil"
   .elif ( te_thread.flavor == "EV3HRP" )
-  	.include "${te_file.arc_path}/mclm_ev3.h"
+  	.include "${te_file.arc_path}/t.mclm_ev3.h"
     .emit to file "${te_file.system_source_path}/mclm_ev3.h"   	
   	.include "${te_file.arc_path}/t.sys_threadev3hrp.cfg"
     .emit to file "${te_file.system_source_path}/app.cfg" 

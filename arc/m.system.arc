@@ -63,7 +63,7 @@
 		.invoke MarkMainFunction("xtUMLMain")
 		.invoke r = GET_ENV_VAR( "ROX_MC_ARC_DIR" )
 		.assign arc_path = r.result
-		.include "${arc_path}/ev3.arc"
+		.include "${arc_path}/m.ev3.arc"
 	.end if
 .//-- MCLM Extension End		
   .else
