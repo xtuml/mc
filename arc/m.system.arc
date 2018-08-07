@@ -721,7 +721,7 @@
 .//  .assign motor.dev_desc = motor_type
   .assign motor.port = port
   .assign motor.is_invert = invert
- .end function
+.end function
 .//============================================================================
 .// Tag Sensor Config
 .//
