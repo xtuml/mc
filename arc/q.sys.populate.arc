@@ -2005,7 +2005,7 @@
   .select any tm_peee from instances of TM_PEEE where ( selected.Key_Lett == s_ee.Key_Lett )
   .if ( not_empty tm_peee )
     .assign te_ee.RegisteredName = s_ee.Key_Lett
-    .assign te_ee.Included = true;
+    .assign te_ee.Included = true
     .assign te_ee.file = s_ee.Key_Lett + "_bridge"
     .assign te_ee.Include_File =  te_ee.file + ( "." + te_file.hdr_file_ext )
   .end if
