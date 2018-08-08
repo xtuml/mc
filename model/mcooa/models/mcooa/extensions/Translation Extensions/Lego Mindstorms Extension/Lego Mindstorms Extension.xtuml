@@ -1,0 +1,195 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("68971836-973d-4864-8c87-7352162b046c",
+	'Lego Mindstorms Extension',
+	2201,
+	'TE_MCLM',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("53888770-7732-440c-8018-50dfabb9ba73",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_BATTR
+	VALUES ("53888770-7732-440c-8018-50dfabb9ba73",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_ATTR
+	VALUES ("53888770-7732-440c-8018-50dfabb9ba73",
+	"68971836-973d-4864-8c87-7352162b046c",
+	"00000000-0000-0000-0000-000000000000",
+	'motor_map_name',
+	'',
+	'',
+	'motor_map_name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("b3d1b939-2de4-48c1-a35c-6601a282ac63",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_BATTR
+	VALUES ("b3d1b939-2de4-48c1-a35c-6601a282ac63",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_ATTR
+	VALUES ("b3d1b939-2de4-48c1-a35c-6601a282ac63",
+	"68971836-973d-4864-8c87-7352162b046c",
+	"53888770-7732-440c-8018-50dfabb9ba73",
+	'motor_map_initializer',
+	'',
+	'',
+	'motor_map_initializer',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("fa8469b0-c068-4350-babd-61ceac3cddf1",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_BATTR
+	VALUES ("fa8469b0-c068-4350-babd-61ceac3cddf1",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_ATTR
+	VALUES ("fa8469b0-c068-4350-babd-61ceac3cddf1",
+	"68971836-973d-4864-8c87-7352162b046c",
+	"b3d1b939-2de4-48c1-a35c-6601a282ac63",
+	'motor_invert_name',
+	'',
+	'',
+	'motor_invert_name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3bea3326-998d-476a-81a5-4698e43117b6",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_BATTR
+	VALUES ("3bea3326-998d-476a-81a5-4698e43117b6",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_ATTR
+	VALUES ("3bea3326-998d-476a-81a5-4698e43117b6",
+	"68971836-973d-4864-8c87-7352162b046c",
+	"fa8469b0-c068-4350-babd-61ceac3cddf1",
+	'motor_invert_initializer',
+	'',
+	'',
+	'motor_invert_initializer',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("97b72a1b-ff0a-4094-acd0-fe0d2b234327",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_BATTR
+	VALUES ("97b72a1b-ff0a-4094-acd0-fe0d2b234327",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_ATTR
+	VALUES ("97b72a1b-ff0a-4094-acd0-fe0d2b234327",
+	"68971836-973d-4864-8c87-7352162b046c",
+	"3bea3326-998d-476a-81a5-4698e43117b6",
+	'color_sensor_port',
+	'',
+	'',
+	'color_sensor_port',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("0b4f1057-2b11-44a9-9d7c-5367b4738c82",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_BATTR
+	VALUES ("0b4f1057-2b11-44a9-9d7c-5367b4738c82",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_ATTR
+	VALUES ("0b4f1057-2b11-44a9-9d7c-5367b4738c82",
+	"68971836-973d-4864-8c87-7352162b046c",
+	"97b72a1b-ff0a-4094-acd0-fe0d2b234327",
+	'gyro_sensor_port',
+	'',
+	'',
+	'gyro_sensor_port',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("cbb19eb5-d647-413c-b5fa-48b24d0b3853",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_BATTR
+	VALUES ("cbb19eb5-d647-413c-b5fa-48b24d0b3853",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_ATTR
+	VALUES ("cbb19eb5-d647-413c-b5fa-48b24d0b3853",
+	"68971836-973d-4864-8c87-7352162b046c",
+	"0b4f1057-2b11-44a9-9d7c-5367b4738c82",
+	'gyro_invert_param',
+	'',
+	'',
+	'gyro_invert_param',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d57168c3-624e-4eb2-821c-ac3a3afc047b",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_BATTR
+	VALUES ("d57168c3-624e-4eb2-821c-ac3a3afc047b",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_ATTR
+	VALUES ("d57168c3-624e-4eb2-821c-ac3a3afc047b",
+	"68971836-973d-4864-8c87-7352162b046c",
+	"cbb19eb5-d647-413c-b5fa-48b24d0b3853",
+	'touch_sensor_port',
+	'',
+	'',
+	'touch_sensor_port',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("e9796800-b1c1-4901-bc60-56e7b6d3a0a9",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_BATTR
+	VALUES ("e9796800-b1c1-4901-bc60-56e7b6d3a0a9",
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_ATTR
+	VALUES ("e9796800-b1c1-4901-bc60-56e7b6d3a0a9",
+	"68971836-973d-4864-8c87-7352162b046c",
+	"d57168c3-624e-4eb2-821c-ac3a3afc047b",
+	'ultrasonic_port',
+	'',
+	'',
+	'ultrasonic_port',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_ID
+	VALUES (1,
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO O_ID
+	VALUES (2,
+	"68971836-973d-4864-8c87-7352162b046c");
+INSERT INTO PE_PE
+	VALUES ("68971836-973d-4864-8c87-7352162b046c",
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');

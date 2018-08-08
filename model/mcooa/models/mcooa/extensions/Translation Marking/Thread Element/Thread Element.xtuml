@@ -1,0 +1,93 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("36fa3eff-11a2-4732-b979-38903e164209",
+	'Thread Element',
+	2217,
+	'TM_THREAD_ELEMENT',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("60aa4b6b-3c30-497c-a08b-3d36754985ce",
+	"36fa3eff-11a2-4732-b979-38903e164209");
+INSERT INTO O_BATTR
+	VALUES ("60aa4b6b-3c30-497c-a08b-3d36754985ce",
+	"36fa3eff-11a2-4732-b979-38903e164209");
+INSERT INTO O_ATTR
+	VALUES ("60aa4b6b-3c30-497c-a08b-3d36754985ce",
+	"36fa3eff-11a2-4732-b979-38903e164209",
+	"00000000-0000-0000-0000-000000000000",
+	'thread_no',
+	'',
+	'',
+	'thread_no',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("a8507406-501c-4a62-b021-c902dab1c729",
+	"36fa3eff-11a2-4732-b979-38903e164209");
+INSERT INTO O_BATTR
+	VALUES ("a8507406-501c-4a62-b021-c902dab1c729",
+	"36fa3eff-11a2-4732-b979-38903e164209");
+INSERT INTO O_ATTR
+	VALUES ("a8507406-501c-4a62-b021-c902dab1c729",
+	"36fa3eff-11a2-4732-b979-38903e164209",
+	"60aa4b6b-3c30-497c-a08b-3d36754985ce",
+	'priority',
+	'',
+	'',
+	'priority',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("a8405d8a-edb3-4847-8e33-5adcdb719ffb",
+	"36fa3eff-11a2-4732-b979-38903e164209");
+INSERT INTO O_BATTR
+	VALUES ("a8405d8a-edb3-4847-8e33-5adcdb719ffb",
+	"36fa3eff-11a2-4732-b979-38903e164209");
+INSERT INTO O_ATTR
+	VALUES ("a8405d8a-edb3-4847-8e33-5adcdb719ffb",
+	"36fa3eff-11a2-4732-b979-38903e164209",
+	"a8507406-501c-4a62-b021-c902dab1c729",
+	'stack_size',
+	'',
+	'',
+	'stack_size',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (1,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_ID
+	VALUES (2,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_ID
+	VALUES (0,
+	"36fa3eff-11a2-4732-b979-38903e164209");
+INSERT INTO O_ID
+	VALUES (1,
+	"36fa3eff-11a2-4732-b979-38903e164209");
+INSERT INTO O_ID
+	VALUES (2,
+	"36fa3eff-11a2-4732-b979-38903e164209");
+INSERT INTO PE_PE
+	VALUES ("36fa3eff-11a2-4732-b979-38903e164209",
+	1,
+	"81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'Translation Marking',
+	'This subsystem contains classes intended for marking or coloring the user
+model to guide the translation process.',
+	0,
+	'../Translation Marking.xtuml');

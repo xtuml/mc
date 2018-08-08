@@ -1,0 +1,123 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("68e897c8-70a1-46c5-bc3d-e1ae599c9a7c",
+	'Lego Mindstorms Enumeration',
+	2215,
+	'TM_LMENU',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("00fd06e6-65bf-41fd-b7f3-8488717ab117",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO O_BATTR
+	VALUES ("00fd06e6-65bf-41fd-b7f3-8488717ab117",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO O_ATTR
+	VALUES ("00fd06e6-65bf-41fd-b7f3-8488717ab117",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c",
+	"00000000-0000-0000-0000-000000000000",
+	'Domain',
+	'',
+	'',
+	'Domain',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("91d31740-a4e6-4589-9fcd-cb79eda531f9",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO O_BATTR
+	VALUES ("91d31740-a4e6-4589-9fcd-cb79eda531f9",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO O_ATTR
+	VALUES ("91d31740-a4e6-4589-9fcd-cb79eda531f9",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c",
+	"00fd06e6-65bf-41fd-b7f3-8488717ab117",
+	'Name',
+	'',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f45dd2d8-b693-4032-9637-4ced798ce6b6",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO O_BATTR
+	VALUES ("f45dd2d8-b693-4032-9637-4ced798ce6b6",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO O_ATTR
+	VALUES ("f45dd2d8-b693-4032-9637-4ced798ce6b6",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c",
+	"91d31740-a4e6-4589-9fcd-cb79eda531f9",
+	'prefix',
+	'',
+	'',
+	'prefix',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5392a3d5-5d44-44e3-8de2-32a26df4acda",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO O_BATTR
+	VALUES ("5392a3d5-5d44-44e3-8de2-32a26df4acda",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO O_ATTR
+	VALUES ("5392a3d5-5d44-44e3-8de2-32a26df4acda",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c",
+	"f45dd2d8-b693-4032-9637-4ced798ce6b6",
+	'include_file',
+	'',
+	'',
+	'include_file',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5d8f3b53-fe99-4a48-983f-02ac63222275",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO O_BATTR
+	VALUES ("5d8f3b53-fe99-4a48-983f-02ac63222275",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO O_ATTR
+	VALUES ("5d8f3b53-fe99-4a48-983f-02ac63222275",
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c",
+	"5392a3d5-5d44-44e3-8de2-32a26df4acda",
+	'data_type',
+	'',
+	'',
+	'data_type',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO O_ID
+	VALUES (1,
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO O_ID
+	VALUES (2,
+	"68e897c8-70a1-46c5-bc3d-e1ae599c9a7c");
+INSERT INTO PE_PE
+	VALUES ("68e897c8-70a1-46c5-bc3d-e1ae599c9a7c",
+	1,
+	"81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'Translation Marking',
+	'This subsystem contains classes intended for marking or coloring the user
+model to guide the translation process.',
+	0,
+	'../Translation Marking.xtuml');
