@@ -38,34 +38,34 @@
       .assign tm_thread.enabled = true
     .end if
 .//-- MCLM Extension start
-	.if ( ("NXTOSEK" == flavor) or ( "EV3HRP" == flavor) )
-		.create object instance ev3_body_ee of TM_PEEE
-		.assign ev3_body_ee.Key_Lett = "EV3B"
-		.assign ev3_body_ee.template = "t.EV3B_bridge.c"
-		.create object instance ev3_motor_ee of TM_PEEE
-		.assign ev3_motor_ee.Key_Lett = "EV3M"
-		.assign ev3_motor_ee.template = "t.EV3M_bridge.c"
-		.create object instance ev3_color_ee of TM_PEEE
-		.assign ev3_color_ee.Key_Lett = "EV3COL"
-		.assign ev3_color_ee.template = "t.EV3COL_bridge.c"
-		.create object instance ev3_gyro_ee of TM_PEEE
-		.assign ev3_gyro_ee.Key_Lett = "EV3GYR"
-		.assign ev3_gyro_ee.template = "t.EV3GYR_bridge.c"
-		.create object instance ev3_ultrasonic_ee of TM_PEEE
-		.assign ev3_ultrasonic_ee.Key_Lett = "EV3ULS"
-		.assign ev3_ultrasonic_ee.template = "t.EV3ULS_bridge.c"
-		.create object instance ev3_touch_ee of TM_PEEE
-		.assign ev3_touch_ee.Key_Lett = "EV3TCH"
-		.assign ev3_touch_ee.template = "t.EV3TCH_bridge.c"
-		.//.create object instance ev3_balancer_ee of TM_PEEE
-		.//.assign ev3_balancer_ee.Key_Lett = "EV3BAL"
-		.//.assign ev3_balancer_ee.template = "t.EV3_bridge.c"
-		.invoke MarkMainFunction("xtUMLMain")
-		.invoke r = GET_ENV_VAR( "ROX_MC_ARC_DIR" )
-		.assign arc_path = r.result
-		.include "${arc_path}/m.ev3.arc"
-	.end if
-.//-- MCLM Extension End		
+  .if ( ("NXTOSEK" == flavor) or ( "EV3HRP" == flavor) )
+    .create object instance ev3_body_ee of TM_PEEE
+    .assign ev3_body_ee.Key_Lett = "EV3B"
+    .assign ev3_body_ee.template = "t.EV3B_bridge.c"
+    .create object instance ev3_motor_ee of TM_PEEE
+    .assign ev3_motor_ee.Key_Lett = "EV3M"
+    .assign ev3_motor_ee.template = "t.EV3M_bridge.c"
+    .create object instance ev3_color_ee of TM_PEEE
+    .assign ev3_color_ee.Key_Lett = "EV3COL"
+    .assign ev3_color_ee.template = "t.EV3COL_bridge.c"
+    .create object instance ev3_gyro_ee of TM_PEEE
+    .assign ev3_gyro_ee.Key_Lett = "EV3GYR"
+    .assign ev3_gyro_ee.template = "t.EV3GYR_bridge.c"
+    .create object instance ev3_ultrasonic_ee of TM_PEEE
+    .assign ev3_ultrasonic_ee.Key_Lett = "EV3ULS"
+    .assign ev3_ultrasonic_ee.template = "t.EV3ULS_bridge.c"
+    .create object instance ev3_touch_ee of TM_PEEE
+    .assign ev3_touch_ee.Key_Lett = "EV3TCH"
+    .assign ev3_touch_ee.template = "t.EV3TCH_bridge.c"
+    .//.create object instance ev3_balancer_ee of TM_PEEE
+    .//.assign ev3_balancer_ee.Key_Lett = "EV3BAL"
+    .//.assign ev3_balancer_ee.template = "t.EV3_bridge.c"
+    .invoke MarkMainFunction("xtUMLMain")
+    .invoke r = GET_ENV_VAR( "ROX_MC_ARC_DIR" )
+    .assign arc_path = r.result
+    .include "${arc_path}/m.ev3.arc"
+  .end if
+.//-- MCLM Extension End
   .else
     .print "ERROR:  system.mark:EnableTasking has incorrect tasking/threading type:${flavor}.\n"
     .exit 100
@@ -692,8 +692,8 @@
   .param boolean invert
   .//
   .if ( ((("LEFT" != position) and ("RIGHT" != position )) and (("TAIL" != position) and ("FRONT" != position))) and (( "USER1" != position ) and ("USER2" != position) ))
-  	.print "Motor Postion is not valid = ${position}"
-  	.exit 1
+    .print "Motor Postion is not valid = ${position}"
+    .exit 1
   .end if
   .select any motor from instances of TM_LMDEV where ((selected.name == position) and ( "MOTOR" == selected.dev_type) )
   .if ( not_empty motor )
@@ -710,11 +710,11 @@
   .end if
   .create object instance motor of TM_LMDEV
   .if ( "L" == motor_type )
-  	.assign motor.dev_desc = "LARGE_MOTOR"
+    .assign motor.dev_desc = "LARGE_MOTOR"
   .elif ( "M" == motor_type )
-  	.assign motor.dev_desc = "MEDIUM_MOTOR"
+    .assign motor.dev_desc = "MEDIUM_MOTOR"
   .elif ( "U" == motor_type )
-  	.assign motor.dev_desc = "UNREGULATED_MOTOR"
+    .assign motor.dev_desc = "UNREGULATED_MOTOR"
   .end if
   .assign motor.dev_type = "MOTOR"
   .assign motor.name = position
@@ -737,8 +737,8 @@
     .exit 1
   .end if
   .if ( (( "1" != port ) and ( "2" != port )) and (( "3" != port ) and ( "4" != port ) ) )
-  	.print "port ${port} is invalid"
-  	.exit 2
+    .print "port ${port} is invalid"
+    .exit 2
   .end if
   .select any sensor_inst from instances of TM_LMDEV where ( selected.dev_type == sensor )
   .if ( not_empty sensor_inst )
