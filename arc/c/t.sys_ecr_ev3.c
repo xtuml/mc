@@ -131,8 +131,7 @@ ECR_display_goto_xy( i_t p_x, i_t p_y )
 void
 ECR_display_clear( i_t p_updateToo )
 {
-    ev3_lcd_fill_rect(0, 0, EV3_LCD_WIDTH, EV3_LCD_HEIGHT, EV3_LCD_WHITE);
-
+  ev3_lcd_fill_rect(0, 0, EV3_LCD_WIDTH, EV3_LCD_HEIGHT, EV3_LCD_WHITE);
 }
 
 /*
@@ -141,8 +140,7 @@ ECR_display_clear( i_t p_updateToo )
 void
 ECR_display_int( i_t p_places, i_t p_value )
 {
-    ev3_lcd_fill_rect(0, 0, EV3_LCD_WIDTH, EV3_LCD_HEIGHT, EV3_LCD_WHITE);
-
+  ev3_lcd_fill_rect(0, 0, EV3_LCD_WIDTH, EV3_LCD_HEIGHT, EV3_LCD_WHITE);
 }
 
 

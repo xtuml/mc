@@ -101,6 +101,7 @@
 .assign te_file.arc_path = arc_path
 .select any te_ilb from instances of TE_ILB
 .select any te_instance from instances of TE_INSTANCE
+.select any te_mclm from instances of TE_MCLM
 .select any te_persist from instances of TE_PERSIST
 .select any te_prefix from instances of TE_PREFIX
 .select any te_set from instances of TE_SET
@@ -111,7 +112,6 @@
 .select any te_tim from instances of TE_TIM
 .select any te_trace from instances of TE_TRACE
 .select any te_typemap from instances of TE_TYPEMAP
-.select any te_mclm from instances of TE_MCLM
 .//
 .select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
 .invoke r = TE_C_sort( active_te_cs )
