@@ -687,6 +687,7 @@
   .param string s
   .invoke r = STRING_TO_INTEGER( s )
   .assign attr_result = r.result
+  .invoke oal( "return strtol( p_s, 0, 10 );" )
 .end function
 .// MCLM Extension start
 .//============================================================================
