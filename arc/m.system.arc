@@ -370,6 +370,9 @@
     .elif ( "AssignDirectToUDTPackage" == f )
       .// AssignDirectToUDTPackage("package_name")
       .invoke AssignDirectToUDTPackage(p1)
+    .elif ( "TagEnumeratorMap" == f )
+      .// TagEnumeratorMap("MyDom","MyEnum","ENUM_PREFIX","enum.h","datatype_t")
+      .invoke TagEnumeratorMap(p1,p2,p3,p4,p5)
     .// system
     .elif ( "EnableTasking" == f )
       .// EnableTasking("flavor","serialize","number_of_threads":integer)
@@ -461,6 +464,29 @@
       .invoke MarkSystemCPortType(p1)
     .elif ( "MarkAllPortsPolymorphic" == f )
       .invoke MarkAllPortsPolymorphic()
+    .elif ( "SetTaskStackSize" == f )
+      .// SetTaskStackSize("task_number":integer,"stack_size":integer)
+      .invoke r = T_atoi( p1 )
+      .assign i1 = r.result
+      .invoke r = T_atoi( p2 )
+      .assign i2 = r.result
+      .invoke SetTaskStackSize(i1,i2)
+    .elif ( "MarkMainFunction" == f )
+      .// MarkMainFunction("func_name")
+      .invoke MarkMainFunction(p1)
+    .elif ( "TagMotorConfig" == f )
+      .// TagMotorConfig("position","port","motor_type","invert":boolean)
+      .assign b4 = true
+      .if ( ("TRUE" == p4) or ("true" == p4) )
+        .assign b4 = false
+      .end if
+      .invoke TagMotorConfig(p1,p2,p3,b4)
+    .elif ( "TagSensorConfig" == f )
+      .// TagSensorConfig("sensor","port")
+      .invoke TagSensorConfig(p1,p2)
+    .elif ( "TagGyroSensorInvertOn" == f )
+      .// TagGyroSensorInvertOn()
+      .invoke TagGyroSensorInvertOn()
     .// component
     .elif ( "MarkAsChannel" == f )
       .// MarkAsChannel("package_name","component_name","inc_file")
