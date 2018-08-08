@@ -146,6 +146,7 @@
   .print "AssignDirectToUDTPackage is not a supported marking function."
   .exit 1
 .end function
+.//
 .//============================================================================
 .// TagEnumeratorMap
 .// .invoke TagEnumeratorMap("MyDom","MyEnum","ENUM_PREFIX","enum.h","datatype_t")
@@ -168,4 +169,4 @@
   .assign tm_lmenu.include_file = header_file
   .assign tm_lmenu.data_type = data_type
 .end function
-
+.//

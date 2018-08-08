@@ -25,10 +25,9 @@
       .emit to file "${te_file.system_source_path}/${te_ee.file}.${te_file.src_file_ext}"
     .end if
     .if ( not_empty tm_peee )
-    	.include "${arc_path}/${tm_peee.template}"
-        .emit to file "${te_file.system_source_path}/${te_ee.file}.${te_file.src_file_ext}"
+      .include "${arc_path}/${tm_peee.template}"
+      .emit to file "${te_file.system_source_path}/${te_ee.file}.${te_file.src_file_ext}"
     .end if
-
-     .//-- MCLM Extension End
+    .//-- MCLM Extension End
 .end for
 .//
