@@ -738,8 +738,7 @@ static ETimer_time_t
 ETimer_msec_time( void )
 {
   ETimer_time_t t;
-	t = ETimer_low_time();
-	
+  t = ETimer_low_time();
   return ( t - tinit );
 }
 

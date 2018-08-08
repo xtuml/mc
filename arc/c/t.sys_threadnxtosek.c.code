@@ -32,7 +32,7 @@ DeclareResource(rILib);
 DeclareEvent(eExternalEvent);
 
 static ResourceType const *mutices[ SEMAPHORE_FLAVOR_MAX ] = {
-			&rIQueue, 
+      &rIQueue, 
             &rSQueue,
             &rFreeList,
             &rNonBusy,
@@ -60,7 +60,7 @@ void Escher_InitializeThreading( void )
 {
 /* no need to dynamic initialization */
 /*
-	    u1_t i;
+      u1_t i;
   int rc;
   for ( i = 0; i < NUM_OF_TOTAL_THREADS; i++ ) {
     threadnumber[ i ] = i;
@@ -80,7 +80,7 @@ void Escher_InitializeThreading( void )
 void Escher_mutex_lock( const u1_t flavor )
 {
   int rc = GetResource( *mutices[ flavor ] );
-	rc=rc;
+  rc=rc;
 }
 
 /*
@@ -88,7 +88,7 @@ void Escher_mutex_lock( const u1_t flavor )
  */
 void Escher_mutex_unlock( const u1_t flavor )
 {
-	ReleaseResource( *mutices[ flavor ] );
+  ReleaseResource( *mutices[ flavor ] );
 }
 
 /*
@@ -99,7 +99,7 @@ void Escher_nonbusy_wait( const u1_t thread )
 {
 
     WaitEvent(eExternalEvent);
- 	ClearEvent(eExternalEvent);
+   ClearEvent(eExternalEvent);
 
 
 }
@@ -109,8 +109,8 @@ void Escher_nonbusy_wait( const u1_t thread )
  */
 void Escher_nonbusy_wake( const u1_t thread )
 {
-	    TaskType dwc = *nonbusy_wait_cond[ thread ];
-	    SetEvent(dwc,eExternalEvent);
+      TaskType dwc = *nonbusy_wait_cond[ thread ];
+      SetEvent(dwc,eExternalEvent);
 }
 
 /*
@@ -118,7 +118,7 @@ void Escher_nonbusy_wake( const u1_t thread )
  */
 void Escher_thread_create( void *(routine)(void *), const u1_t i )
 {
-	taskEntries[i] = (TaskEntry)routine;
+  taskEntries[i] = (TaskEntry)routine;
     ActivateTask(*threadnumber[ i ] );
 }
 
@@ -127,7 +127,7 @@ void Escher_thread_create( void *(routine)(void *), const u1_t i )
  */
 void Escher_thread_shutdown( void )
 {
-	TerminateTask();
+  TerminateTask();
 }
 
 /*
@@ -135,9 +135,9 @@ void Escher_thread_shutdown( void )
 */
 void runTask(const u1_t i)
 {
-	TaskEntry fp = taskEntries[i];
-	if ( fp ) {
-		(*fp)((void*)&i);
-	}
-	
+  TaskEntry fp = taskEntries[i];
+  if ( fp ) {
+    (*fp)((void*)&i);
+  }
+  
 }

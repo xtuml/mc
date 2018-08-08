@@ -29,8 +29,8 @@ static int invert_param = ${te_mclm.gyro_invert_param};
 
 void EV3GYR_Initialize(void)
 {
-	if ( port < TNUM_SENSOR_PORT ) 
-		ev3_sensor_config(port,GYRO_SENSOR);
+  if ( port < TNUM_SENSOR_PORT ) 
+    ev3_sensor_config(port,GYRO_SENSOR);
 }
 /*
  * Bridge:  get_angle
@@ -38,7 +38,7 @@ void EV3GYR_Initialize(void)
 i_t
 EV3GYR_get_angle()
 {
-	return ev3_gyro_sensor_get_angle(port) * invert_param;
+  return ev3_gyro_sensor_get_angle(port) * invert_param;
 }
 
 
@@ -48,7 +48,7 @@ EV3GYR_get_angle()
 i_t
 EV3GYR_get_rate()
 {
-	return ev3_gyro_sensor_get_rate(port) * invert_param;
+  return ev3_gyro_sensor_get_rate(port) * invert_param;
 }
 
 
@@ -58,7 +58,7 @@ EV3GYR_get_rate()
 void
 EV3GYR_reset()
 {
-	ev3_gyro_sensor_reset(port);
+  ev3_gyro_sensor_reset(port);
 }
 
 .end if

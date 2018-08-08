@@ -111,9 +111,7 @@
 .select any te_tim from instances of TE_TIM
 .select any te_trace from instances of TE_TRACE
 .select any te_typemap from instances of TE_TYPEMAP
-.//-- MCLM add Start
 .select any te_mclm from instances of TE_MCLM
-.//-- MCLM add End
 .//
 .select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
 .invoke r = TE_C_sort( active_te_cs )
@@ -246,19 +244,19 @@
   .elif ( te_thread.flavor == "AUTOSAR" )
     .include "${te_file.arc_path}/t.sys_threadautosar.c"
   .elif ( te_thread.flavor == "NxtOSEK" )
-  	.include "${te_file.arc_path}/t.sys_threadnxtosek.c"
+    .include "${te_file.arc_path}/t.sys_threadnxtosek.c"
   .elif ( te_thread.flavor == "EV3HRP" )
-  	.include "${te_file.arc_path}/t.sys_threadev3hrp.c"
+    .include "${te_file.arc_path}/t.sys_threadev3hrp.c"
   .end if
   .emit to file "${te_file.system_source_path}/${te_file.thread}.${te_file.src_file_ext}"
   .if ( te_thread.flavor == "NxtOSEK" )
-  	.include "${te_file.arc_path}/t.sys_threadnxtosek.oil"
-  	.// For passing the compilation, oil file must be in the directory that make is executed on.
+    .include "${te_file.arc_path}/t.sys_threadnxtosek.oil"
+    .// For passing the compilation, oil file must be in the directory that make is executed on.
     .emit to file "${te_file.system_source_path}/../../../nxtosek.oil"
   .elif ( te_thread.flavor == "EV3HRP" )
-  	.include "${te_file.arc_path}/t.mclm_ev3.h"
-    .emit to file "${te_file.system_source_path}/mclm_ev3.h"   	
-  	.include "${te_file.arc_path}/t.sys_threadev3hrp.cfg"
+    .include "${te_file.arc_path}/t.mclm_ev3.h"
+    .emit to file "${te_file.system_source_path}/mclm_ev3.h"
+    .include "${te_file.arc_path}/t.sys_threadev3hrp.cfg"
     .emit to file "${te_file.system_source_path}/app.cfg" 
     .include "${te_file.arc_path}/t.sys_ev3hrp_app.h"
     .emit to file "${te_file.system_source_path}/app.h"
@@ -316,9 +314,9 @@
 .// Generate sys_user_co.c into source directory.
 .//=============================================================================
 .if ( te_thread.flavor == "EV3HRP" )
-	.include "${te_file.arc_path}/t.sys_user_co_ev3.c"
+  .include "${te_file.arc_path}/t.sys_user_co_ev3.c"
 .else
-	.include "${te_file.arc_path}/t.sys_user_co.c"
+  .include "${te_file.arc_path}/t.sys_user_co.c"
 .end if
 .emit to file "${te_file.system_include_path}/${te_file.callout}.${te_file.src_file_ext}"
 .//
@@ -332,11 +330,11 @@
 .//=============================================================================
 .// Generate TIM_bridge.c to system source directory.
 .//=============================================================================
-  .if ( (te_thread.flavor == "NxtOSEK") or (te_thread.flavor == "EV3HRP") )
-    .include "${te_file.arc_path}/t.sys_tim_nxtosek.c"
-  .else
-.include "${te_file.arc_path}/t.sys_tim.c"
-  .end if
+.if ( (te_thread.flavor == "NxtOSEK") or (te_thread.flavor == "EV3HRP") )
+  .include "${te_file.arc_path}/t.sys_tim_nxtosek.c"
+.else
+  .include "${te_file.arc_path}/t.sys_tim.c"
+.end if
 .emit to file "${te_file.system_include_path}/${te_file.tim}.${te_file.src_file_ext}"
 .end if
 .//=============================================================================
@@ -345,7 +343,7 @@
 .if ( false )
 .if ( not_empty ecr_te_ee )
   .if ( te_thread.flavor == "NxtOSEK" )
-	.include "${te_file.arc_path}/t.sys_ecr.c"
+    .include "${te_file.arc_path}/t.sys_ecr.c"
   .elif ( te_thread.flavor == "EV3HRP" )
     .include "${te_file.arc_path}/t.sys_ecr_ev3.c"
   .end if

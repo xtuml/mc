@@ -27,8 +27,8 @@ static sensor_port_t port = ${te_mclm.touch_sensor_port};
 
 void EV3TCH_Initialize(void)
 {
-	if ( port < TNUM_SENSOR_PORT ) 
-		ev3_sensor_config(port,TOUCH_SENSOR);
+  if ( port < TNUM_SENSOR_PORT ) 
+    ev3_sensor_config(port,TOUCH_SENSOR);
 }
 
 /*
@@ -37,7 +37,7 @@ void EV3TCH_Initialize(void)
 bool
 EV3TCH_is_pressed()
 {
-	return ev3_touch_sensor_is_pressed(port);
+  return ev3_touch_sensor_is_pressed(port);
 
 }
 .end if

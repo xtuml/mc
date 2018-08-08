@@ -31,11 +31,11 @@ static int run_flag = 0;
 
 void EV3M_Initialize(void)
 {
-	${te_mclm.motor_map_initializer}
-	${te_mclm.motor_invert_initializer}
+  ${te_mclm.motor_map_initializer}
+  ${te_mclm.motor_invert_initializer}
 
-	run_flag = 1;
-}	
+  run_flag = 1;
+}  
 
 /*
  * Bridge:  get_count
@@ -43,7 +43,7 @@ void EV3M_Initialize(void)
 i_t
 EV3M_get_count( const  device_motor_t p_motor )
 {
-	return ev3_motor_get_counts(${te_mclm.motor_map_name}[p_motor])* ${te_mclm.motor_invert_name}[p_motor];
+  return ev3_motor_get_counts(${te_mclm.motor_map_name}[p_motor])* ${te_mclm.motor_invert_name}[p_motor];
 
 }
 
@@ -54,7 +54,7 @@ EV3M_get_count( const  device_motor_t p_motor )
 void
 EV3M_reset_count( const device_motor_t p_motor )
 {
-	ev3_motor_reset_counts(${te_mclm.motor_map_name}[p_motor]);
+  ev3_motor_reset_counts(${te_mclm.motor_map_name}[p_motor]);
 }
 
 
@@ -64,12 +64,12 @@ EV3M_reset_count( const device_motor_t p_motor )
 mclm_result_t
 EV3M_set_power( const device_motor_t p_motor, const i_t p_power )
 {
-	if ( !run_flag ) return  MCLM_RESULT_OK;
-	
-	if (ev3_motor_set_power(${te_mclm.motor_map_name}[p_motor],p_power*${te_mclm.motor_invert_name}[p_motor]) != E_OK ) {
-		return MCLM_RESULT_ERROR;
-	}
-	return MCLM_RESULT_OK;
+  if ( !run_flag ) return  MCLM_RESULT_OK;
+  
+  if (ev3_motor_set_power(${te_mclm.motor_map_name}[p_motor],p_power*${te_mclm.motor_invert_name}[p_motor]) != E_OK ) {
+    return MCLM_RESULT_ERROR;
+  }
+  return MCLM_RESULT_OK;
 
 }
 
@@ -80,7 +80,7 @@ EV3M_set_power( const device_motor_t p_motor, const i_t p_power )
 i_t
 EV3M_get_power( const device_motor_t p_motor )
 {
-	return ev3_motor_get_power(${te_mclm.motor_map_name}[p_motor])*${te_mclm.motor_invert_name}[p_motor];
+  return ev3_motor_get_power(${te_mclm.motor_map_name}[p_motor])*${te_mclm.motor_invert_name}[p_motor];
 }
 
 
@@ -90,10 +90,10 @@ EV3M_get_power( const device_motor_t p_motor )
 mclm_result_t
 EV3M_stop( const bool p_brake, const device_motor_t p_motor )
 {
-	if ( ev3_motor_stop(${te_mclm.motor_map_name}[p_motor],p_brake) != E_OK ) {
-		return MCLM_RESULT_ERROR;
-	}
-	return MCLM_RESULT_OK;
+  if ( ev3_motor_stop(${te_mclm.motor_map_name}[p_motor],p_brake) != E_OK ) {
+    return MCLM_RESULT_ERROR;
+  }
+  return MCLM_RESULT_OK;
 }
 
 
@@ -103,30 +103,30 @@ EV3M_stop( const bool p_brake, const device_motor_t p_motor )
 mclm_result_t
 EV3M_steer( const i_t p_power, const i_t p_ratio )
 {
-	if ( !run_flag ) return  MCLM_RESULT_OK;
+  if ( !run_flag ) return  MCLM_RESULT_OK;
 
-	if ( ev3_motor_steer(${te_mclm.motor_map_name}[DEV_MOTOR_LEFT],
-			${te_mclm.motor_map_name}[DEV_MOTOR_RIGHT],
-			p_power*${te_mclm.motor_invert_name}[DEV_MOTOR_LEFT],
-	p_ratio*${te_mclm.motor_invert_name}[DEV_MOTOR_LEFT] ) != E_OK ) {
-		return MCLM_RESULT_ERROR;
-	}
-	return MCLM_RESULT_OK;
+  if ( ev3_motor_steer(${te_mclm.motor_map_name}[DEV_MOTOR_LEFT],
+      ${te_mclm.motor_map_name}[DEV_MOTOR_RIGHT],
+      p_power*${te_mclm.motor_invert_name}[DEV_MOTOR_LEFT],
+  p_ratio*${te_mclm.motor_invert_name}[DEV_MOTOR_LEFT] ) != E_OK ) {
+    return MCLM_RESULT_ERROR;
+  }
+  return MCLM_RESULT_OK;
 }
 
 
 void EV3M_Shutdown(void)
 {
-	run_flag = 0;
+  run_flag = 0;
 
-	int pt;
-	for ( pt = 0; pt < TNUM_MOTOR_PORT; pt++ ) {
-		if ( ev3_motor_get_type(pt) != E_ID ) {
-			ev3_motor_stop(pt,true);
-		}
-	}
-	
-	
+  int pt;
+  for ( pt = 0; pt < TNUM_MOTOR_PORT; pt++ ) {
+    if ( ev3_motor_get_type(pt) != E_ID ) {
+      ev3_motor_stop(pt,true);
+    }
+  }
+  
+  
 }
 
 .end if

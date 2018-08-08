@@ -32,7 +32,7 @@ i_t ECR_get_light_sensor_raw( void );
 
 void ECR_initialize( void )
 {
-	// NXT does not need special initialize
+  // NXT does not need special initialize
 
 }
 
@@ -84,12 +84,12 @@ ECR_get_gyro_sensor( void )
 void
 ECR_display_string( c_t p_string[ESCHER_SYS_MAX_STRING_LEN] )
 {
-	display_clear(0);
-	display_goto_xy(0,0);
+  display_clear(0);
+  display_goto_xy(0,0);
 
-    display_string (p_string);
+  display_string (p_string);
 
-    display_update();
+  display_update();
 }
 
 /*
@@ -169,7 +169,7 @@ ECR_get_sonar_sensor(void)
 i_t
 ECR_get_left_motor_count( void )
 {
-	return nxt_motor_get_count(NXT_PORT_C);
+  return nxt_motor_get_count(NXT_PORT_C);
 }
 
 
@@ -182,7 +182,7 @@ ECR_get_left_motor_count( void )
 i_t
 ECR_get_right_motor_count( void )
 {
-	return nxt_motor_get_count(NXT_PORT_B);
+  return nxt_motor_get_count(NXT_PORT_B);
 }
 
 /*
@@ -194,13 +194,13 @@ return 1;
 i_t
 ECR_get_battery_voltage( void )
 {
-	return ecrobot_get_battery_voltage();
+  return ecrobot_get_battery_voltage();
 }
 
 void
 ECR_status_monitor( c_t string[ESCHER_SYS_MAX_STRING_LEN] )
 {
-	ecrobot_status_monitor(string);
+  ecrobot_status_monitor(string);
 }
 
 /*
@@ -244,8 +244,7 @@ ECR_display_string_noClear( c_t p_string[ESCHER_SYS_MAX_STRING_LEN] )
 {
   /* Replace the following instructions with your implementation code.  */
   {
-  	display_string (p_string);
-
+    display_string (p_string);
   }
 }
 
@@ -258,30 +257,29 @@ ECR_display_int_noClear( i_t p_value )
 {
   /* Replace the following instructions with your implementation code.  */
   {
-  	    display_int (p_value, 0);
-
+    display_int (p_value, 0);
   }
 }
 
 void ECR_set_right_motor_count( const i_t val)
 {
-	nxt_motor_set_count(NXT_PORT_B,val);
+  nxt_motor_set_count(NXT_PORT_B,val);
 }
 
 void ECR_set_left_motor_count( const i_t val)
 {
-	nxt_motor_set_count(NXT_PORT_C,val);
+  nxt_motor_set_count(NXT_PORT_C,val);
 }
 
 i_t ECR_get_current_tick( void )
 {
-	i_t	val;
+  i_t val;
 
-	lock_cpu();
-	val = cntcb_curval[SysTimerCnt];
-	unlock_cpu();
+  lock_cpu();
+  val = cntcb_curval[SysTimerCnt];
+  unlock_cpu();
 
-	return val;
+  return val;
 }
 
 /*
@@ -300,7 +298,7 @@ i_t ECR_get_motor_value( const i_t p_port )
 {
   /* Replace/Insert the following instructions with your implementation code.  */
   /* RETURN 0 */
-	return nxt_motor_get_count(p_port);
+  return nxt_motor_get_count(p_port);
 }
 
 
