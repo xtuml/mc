@@ -2,7 +2,7 @@
 .assign task_num = 1;
 .select any tm_thread from instances of TM_THREAD
 .if ( not (empty tm_thread) )
-	.assign task_num = tm_thread.number_of_threads
+  .assign task_num = tm_thread.number_of_threads
 .end if
 .assign default_stack_size = 512
 .assign default_task_priority = "1"
@@ -11,10 +11,10 @@
 .select any tm_thread_element from instances of TM_THREAD_ELEMENT where ( selected.thread_no == 0 )
 .if ( not_empty tm_thread )
   .if ( tm_thread_element.priority != "" )
-	  .assign main_task_priority = tm_thread_element.priority
+    .assign main_task_priority = tm_thread_element.priority
   .end if
   .if ( tm_thread_element.stack_size > 0 )
-	  .assign main_task_stack_size = tm_thread_element.stack_size
+    .assign main_task_stack_size = tm_thread_element.stack_size
   .end if
 .end if
 /*---------------------------------------------------------------------
@@ -60,7 +60,7 @@ DeclareTask(tTask${i});
   .end while
 .end if
 static ResourceType const *mutices[ SEMAPHORE_FLAVOR_MAX ] = {
-			&rIQueue,
+      &rIQueue,
             &rSQueue,
             &rFreeList,
             &rNonBusy,
@@ -78,8 +78,8 @@ static TaskEntry taskEntries[NUM_OF_XTUML_CLASS_THREADS];
 static const TaskType *nonbusy_wait_cond[NUM_OF_TOTAL_THREADS] = {
     &tMainTask /* main */
 .if ( task_num > 1 )
-	/* sub tasks */
-	.assign i = 1;
+  /* sub tasks */
+  .assign i = 1;
   .while ( i < task_num )
     ,&tTask${i}
     .assign i = i + 1
@@ -88,13 +88,13 @@ static const TaskType *nonbusy_wait_cond[NUM_OF_TOTAL_THREADS] = {
 };
 
 static const TaskType *threadnumber[NUM_OF_TOTAL_THREADS] = {
-		&tMainTask /* main */
+    &tMainTask /* main */
 .if ( task_num > 1 )
-	/* sub tasks */
-	.assign i = 1;
-	.while ( i < task_num )
-		,&tTask${i}
-		.assign i = i + 1
+  /* sub tasks */
+  .assign i = 1;
+  .while ( i < task_num )
+    ,&tTask${i}
+    .assign i = i + 1
     .end while
 .end if
 };
@@ -105,9 +105,9 @@ static const TaskType *threadnumber[NUM_OF_TOTAL_THREADS] = {
  */
 void ${te_prefix.result}InitializeThreading( void )
 {
-	/* in nxtOSEK, no need dynamic thread initialization.
-	 * main task is spawned by oil definition.
-	 */
+  /* in nxtOSEK, no need dynamic thread initialization.
+   * main task is spawned by oil definition.
+   */
 
 }
 
@@ -134,11 +134,11 @@ void ${te_thread.mutex_unlock}( const u1_t flavor )
  */
 void ${te_thread.nonbusy_wait}( const u1_t thread )
 {
-	/* Strictly speaking, these callings should be done atomicaly.
-	 *  But these calling will not cause problems.
-	 */
+  /* Strictly speaking, these callings should be done atomicaly.
+   *  But these calling will not cause problems.
+   */
     WaitEvent(eExternalEvent);
- 	ClearEvent(eExternalEvent);
+   ClearEvent(eExternalEvent);
 }
 
 /*
@@ -155,7 +155,7 @@ void ${te_thread.nonbusy_wake}( const u1_t thread )
  */
 void ${te_thread.create}( void *(routine)(void *), const u1_t i )
 {
-	taskEntries[i] = (TaskEntry)routine;
+  taskEntries[i] = (TaskEntry)routine;
     ActivateTask(*threadnumber[ i ] );
 }
 
@@ -164,7 +164,7 @@ void ${te_thread.create}( void *(routine)(void *), const u1_t i )
  */
 void ${te_thread.shutdown}( void )
 {
-	TerminateTask();
+  TerminateTask();
 }
 
 /*
@@ -172,10 +172,10 @@ void ${te_thread.shutdown}( void )
  */
 void runTask(const u1_t i)
 {
-	TaskEntry fp = taskEntries[i];
-	if ( fp ) {
-		(*fp)((void*)&i);
-	}
+  TaskEntry fp = taskEntries[i];
+  if ( fp ) {
+    (*fp)((void*)&i);
+  }
 
 }
 
@@ -186,23 +186,23 @@ extern void ${te_target.main}(void);
 /* This task will be spawned automatically by oil file definition */
 TASK(tMainTask){
 .if ( te_sys.MaxTimers > 0 )
-	/* 1msec alarm for TIM start */
-	SetRelAlarm(xtUMLAlarm,1,1);
+  /* 1msec alarm for TIM start */
+  SetRelAlarm(xtUMLAlarm,1,1);
 .end if
 
-	/* entry point of xtUML */
-	${te_target.main}();
+  /* entry point of xtUML */
+  ${te_target.main}();
 }
 
 .if ( task_num > 1 )
-	/* sub tasks */
-	.assign i = 1;
-	.while ( i < task_num )
+  /* sub tasks */
+  .assign i = 1;
+  .while ( i < task_num )
 TASK(tTask${i}){
    runTask(${i});
 }
-	    .assign i = i + 1;
-	.end while
+      .assign i = i + 1;
+  .end while
 .end if
 
 
@@ -226,7 +226,7 @@ void user_1ms_isr_type2(void){
 /* The entry of xtUML tick */
 void AlarmMainTIM_tick(void)
 {
-	TIM_tick();
+  TIM_tick();
 }
 
 

@@ -5,7 +5,7 @@
  * Methods for bridging to an external entity.
  *
  * External Entity:  EV3ColorSensor (EV3COL)
- * 
+ *
  * your copyright statement can go here (from te_copyright.body)
  *--------------------------------------------------------------------------*/
 
@@ -29,10 +29,10 @@ static sensor_port_t port = ${te_mclm.color_sensor_port};
 
 void EV3COL_Initialize(void)
 {
-	if ( port < TNUM_SENSOR_PORT ) 
-		ev3_sensor_config(port,COLOR_SENSOR);
+  if ( port < TNUM_SENSOR_PORT )
+    ev3_sensor_config(port,COLOR_SENSOR);
 }
-	
+
 
 /*
  * Bridge:  get_color
@@ -40,7 +40,7 @@ void EV3COL_Initialize(void)
 colorid_t
 EV3COL_get_color()
 {
-	return ev3_color_sensor_get_color(port);
+  return ev3_color_sensor_get_color(port);
 }
 
 
@@ -50,7 +50,7 @@ EV3COL_get_color()
 i_t
 EV3COL_get_reflect()
 {
-	return ev3_color_sensor_get_reflect(port);
+  return ev3_color_sensor_get_reflect(port);
 }
 
 
@@ -60,18 +60,18 @@ EV3COL_get_reflect()
 i_t
 EV3COL_get_ambient()
 {
-	return ev3_color_sensor_get_ambient(port);
+  return ev3_color_sensor_get_ambient(port);
 }
 
 void EV3COL_get_rgb_raw( i_t *r, i_t *g, i_t *b )
 {
-	rgb_raw_t raw;
-	
-	ev3_color_sensor_get_rgb_raw(port,&raw);
-	*r = raw.r;
-	*g = raw.g;
-	*b = raw.b;
+  rgb_raw_t raw;
+
+  ev3_color_sensor_get_rgb_raw(port,&raw);
+  *r = raw.r;
+  *g = raw.g;
+  *b = raw.b;
 }
-	
+
 .end if
 

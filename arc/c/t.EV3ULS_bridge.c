@@ -27,8 +27,8 @@ static sensor_port_t port = ${te_mclm.ultrasonic_port};
 
 void EV3ULS_Initialize(void)
 {
-	if ( port < TNUM_SENSOR_PORT ) 
-		ev3_sensor_config(port,ULTRASONIC_SENSOR);
+  if ( port < TNUM_SENSOR_PORT ) 
+    ev3_sensor_config(port,ULTRASONIC_SENSOR);
 }
 
 
@@ -38,7 +38,7 @@ void EV3ULS_Initialize(void)
 i_t
 EV3ULS_get_distance()
 {
-	return ev3_ultrasonic_sensor_get_distance(port);
+  return ev3_ultrasonic_sensor_get_distance(port);
 
 }
 
@@ -49,7 +49,7 @@ EV3ULS_get_distance()
 bool
 EV3ULS_is_detected()
 {
-	return ev3_ultrasonic_sensor_listen(port);
+  return ev3_ultrasonic_sensor_listen(port);
 
 }
 .end if

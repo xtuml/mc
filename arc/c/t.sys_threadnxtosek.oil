@@ -2,7 +2,7 @@
 .assign task_num = 1;
 .select any tm_thread from instances of TM_THREAD
 .if ( not (empty tm_thread) )
-	.assign task_num = tm_thread.number_of_threads
+  .assign task_num = tm_thread.number_of_threads
 .end if
 .assign default_stack_size = 512
 .assign default_task_priority = "1"
@@ -11,10 +11,10 @@
 .select any tm_thread_element from instances of TM_THREAD_ELEMENT where ( selected.thread_no == 0 )
 .if ( not_empty tm_thread )
   .if ( tm_thread_element.priority != "" )
-	  .assign main_task_priority = tm_thread_element.priority
+    .assign main_task_priority = tm_thread_element.priority
   .end if
   .if ( tm_thread_element.stack_size > 0 )
-	  .assign main_task_stack_size = tm_thread_element.stack_size
+    .assign main_task_stack_size = tm_thread_element.stack_size
   .end if
 .end if
 .//
@@ -52,49 +52,49 @@ CPU ATMEL_AT91SAM7S256
   /* Resources(Mutex) */
   RESOURCE rIQueue
   {
-  	RESOURCEPROPERTY = STANDARD;
+    RESOURCEPROPERTY = STANDARD;
   };
 
   RESOURCE rSQueue
   {
-  	RESOURCEPROPERTY = STANDARD;
+    RESOURCEPROPERTY = STANDARD;
 
   };
 
   RESOURCE rFreeList
   {
-  	RESOURCEPROPERTY = STANDARD;
+    RESOURCEPROPERTY = STANDARD;
 
   };
 
   RESOURCE rNonBusy
   {
-  	RESOURCEPROPERTY = STANDARD;
+    RESOURCEPROPERTY = STANDARD;
 
   };
 
   RESOURCE rInstance
   {
-  	RESOURCEPROPERTY = STANDARD;
+    RESOURCEPROPERTY = STANDARD;
 
   };
 
   RESOURCE rTimer
   {
-  	RESOURCEPROPERTY = STANDARD;
+    RESOURCEPROPERTY = STANDARD;
 
   };
 
   RESOURCE rILib
   {
-  	RESOURCEPROPERTY = STANDARD;
+    RESOURCEPROPERTY = STANDARD;
   };
 
 
   /* Events */
   EVENT eExternalEvent
   {
-  	MASK = AUTO;
+    MASK = AUTO;
   };
 
 
@@ -112,7 +112,7 @@ CPU ATMEL_AT91SAM7S256
     ACTIVATION = 1;
     SCHEDULE = FULL;
     STACKSIZE = ${main_task_stack_size}; /* bytes */
-	RESOURCE = rIQueue;
+    RESOURCE = rIQueue;
     RESOURCE = rSQueue;
     RESOURCE = rFreeList;
     RESOURCE = rNonBusy;
@@ -120,8 +120,8 @@ CPU ATMEL_AT91SAM7S256
 .if ( te_sys.MaxTimers > 0 )
     RESOURCE = rTimer;
 .end if
-	RESOURCE = rILib;
-	EVENT    = eExternalEvent;
+    RESOURCE = rILib;
+    EVENT    = eExternalEvent;
   };
 
   /* Definition of OSEK Alarm counter: SysTimerCnt */
@@ -135,27 +135,27 @@ CPU ATMEL_AT91SAM7S256
 
   ALARM xtUMLAlarm
   {
-  	COUNTER = SysTimerCnt;
-  	ACTION = ALARMCALLBACK {
-  		ALARMCALLBACKNAME = "TIM_tick";
-  	};
-  	AUTOSTART = FALSE;
+    COUNTER = SysTimerCnt;
+    ACTION = ALARMCALLBACK {
+      ALARMCALLBACKNAME = "TIM_tick";
+    };
+    AUTOSTART = FALSE;
   };
 
 .if ( task_num > 1 )
-	.assign i = 1;
-	.while ( i < task_num )
-		.assign stack_size = default_stack_size
-		.assign task_priority = default_task_priority
-		.select any tm_thread_element from instances of TM_THREAD_ELEMENT where selected.thread_no == i
-		.if ( not_empty tm_thread_element )
-		  .if ( tm_thread_element.priority != "" )
-			  .assign task_priority = tm_thread_element.priority
-		  .end if
-		  .if ( tm_thread_element.stack_size > 0 )
-			  .assign task_stack_size = tm_thread_element.stack_size
-		  .end if
-		.end if
+  .assign i = 1;
+  .while ( i < task_num )
+    .assign stack_size = default_stack_size
+    .assign task_priority = default_task_priority
+    .select any tm_thread_element from instances of TM_THREAD_ELEMENT where selected.thread_no == i
+    .if ( not_empty tm_thread_element )
+      .if ( tm_thread_element.priority != "" )
+        .assign task_priority = tm_thread_element.priority
+      .end if
+      .if ( tm_thread_element.stack_size > 0 )
+        .assign task_stack_size = tm_thread_element.stack_size
+      .end if
+    .end if
 TASK tTask${i}
 {
    AUTOSTART = FALSE;
@@ -175,7 +175,7 @@ TASK tTask${i}
    RESOURCE = rILib;
    EVENT    = eExternalEvent;
    };
-	  .assign i = i + 1
+    .assign i = i + 1
     .end while
 .end if
 };

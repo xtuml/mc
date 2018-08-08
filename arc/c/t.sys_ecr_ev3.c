@@ -34,7 +34,7 @@ static const int
 
 static void button_clicked_handler(int button)
 {
-	ext_ker();
+  ext_ker();
 }
 
 
@@ -42,7 +42,7 @@ void ECR_initialize(void)
 {
     ev3_button_set_on_clicked(BACK_BUTTON, button_clicked_handler, BACK_BUTTON);
 
-	ev3_sensor_config(sonar_sensor, ULTRASONIC_SENSOR);
+    ev3_sensor_config(sonar_sensor, ULTRASONIC_SENSOR);
     ev3_sensor_config(color_sensor, COLOR_SENSOR);
     ev3_color_sensor_get_reflect(color_sensor);
     ev3_sensor_config(touch_sensor, TOUCH_SENSOR);
@@ -79,7 +79,7 @@ ECR_get_touch_sensor( void )
 void
 ECR_set_light_sensor_active( void )
 {
-	ev3_color_sensor_get_reflect(color_sensor);
+  ev3_color_sensor_get_reflect(color_sensor);
 }
 
 
@@ -111,8 +111,7 @@ ECR_display_string( c_t p_string[ESCHER_SYS_MAX_STRING_LEN] )
 void
 ECR_display_update( void )
 {
-	/* TODO: Not support */
-
+  /* TODO: Not support */
 }
 
 /*
@@ -121,7 +120,7 @@ ECR_display_update( void )
 void
 ECR_display_goto_xy( i_t p_x, i_t p_y )
 {
-	/* TODO: Not support */
+  /* TODO: Not support */
 
 }
 
@@ -153,8 +152,8 @@ ECR_display_int( i_t p_places, i_t p_value )
 void
 ECR_nxt_motor_set_count( i_t p_port, i_t p_value )
 {
-	/* only support reset */
-	ev3_motor_reset_counts(p_port);
+  /* only support reset */
+  ev3_motor_reset_counts(p_port);
 }
 
 /*
@@ -183,7 +182,7 @@ ECR_get_sonar_sensor(void)
 i_t
 ECR_get_left_motor_count( void )
 {
-	return ev3_motor_get_counts(left_motor);
+  return ev3_motor_get_counts(left_motor);
 }
 
 
@@ -196,7 +195,7 @@ ECR_get_left_motor_count( void )
 i_t
 ECR_get_right_motor_count( void )
 {
-	return ev3_motor_get_counts(right_motor);
+  return ev3_motor_get_counts(right_motor);
 }
 
 /*
@@ -208,14 +207,14 @@ return 1;
 i_t
 ECR_get_battery_voltage( void )
 {
-	/* currently ev3 does not support battery */
-	return ev3_battery_voltage_mV();
+  /* currently ev3 does not support battery */
+  return ev3_battery_voltage_mV();
 }
 
 void
 ECR_status_monitor( c_t string[ESCHER_SYS_MAX_STRING_LEN] )
 {
-	/* TODO : Not support */
+  /* TODO : Not support */
 
 }
 
@@ -228,7 +227,7 @@ ECR_bt_data_logger( c_t param1, c_t param2 )
 //  signed char param1 = (signed char)forward;
 //  signed char param2 = (signed char)turn;
   //ecrobot_bt_data_logger(param1, param2);
-	/* TODO : Not support */
+  /* TODO : Not support */
 
   return;
 }
@@ -245,8 +244,8 @@ ECR_device_terminate( void )
 i_t
 ECR_sound_tone( i_t p_freq, i_t p_ms, i_t p_vol )
 {
-	/* TODO : Not support */
-	return 0;
+  /* TODO : Not support */
+  return 0;
 }
 
 
@@ -257,7 +256,7 @@ ECR_sound_tone( i_t p_freq, i_t p_ms, i_t p_vol )
 void
 ECR_display_string_noClear( c_t p_string[ESCHER_SYS_MAX_STRING_LEN] )
 {
-	/* TODO : Not support */
+  /* TODO : Not support */
 
 }
 
@@ -268,27 +267,27 @@ ECR_display_string_noClear( c_t p_string[ESCHER_SYS_MAX_STRING_LEN] )
 void
 ECR_display_int_noClear( i_t p_value )
 {
-	/* TODO : Not support */
+  /* TODO : Not support */
 
 }
 
 void ECR_set_right_motor_count( const i_t val)
 {
-	/* only support reset */
-	ev3_motor_reset_counts(right_motor);
+  /* only support reset */
+  ev3_motor_reset_counts(right_motor);
 }
 
 void ECR_set_left_motor_count( const i_t val)
 {
-	/* only support reset */
-	ev3_motor_reset_counts(left_motor);
+  /* only support reset */
+  ev3_motor_reset_counts(left_motor);
 }
 
 i_t ECR_get_current_tick( void )
 {
-	SYSTIM tim;
-	get_tim(&tim);
-	return tim;
+  SYSTIM tim;
+  get_tim(&tim);
+  return tim;
 }
 
 /*
@@ -297,7 +296,7 @@ i_t ECR_get_current_tick( void )
 void ECR_set_light_sensor_inactive()
 {
   /* Replace/Insert your implementation code here... */
-	/* TODO : Not support */
+  /* TODO : Not support */
 
 
 }
@@ -309,7 +308,7 @@ i_t ECR_get_motor_value( const i_t p_port )
 {
   /* Replace/Insert the following instructions with your implementation code.  */
   /* RETURN 0 */
-	return ev3_motor_get_counts(p_port);
+  return ev3_motor_get_counts(p_port);
 }
 
 
