@@ -2373,65 +2373,65 @@ if ( ( ( ( empty tm_tpv ) and ( not_empty tm_tp ) ) and ( not isChannel ) ) or (
     // IIR IR DG  RID IR
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_DG[R4704]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "7a " + trace;
     end if;
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->CL_IIR[R4704]->TE_IIR[R2013];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "7b " + trace;
     end if;
     //     IR DG  RID IR
     select any delegated_te_iir related by te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8a " + trace;
     end if;
     //     IR RID DG  IR
     select any delegated_te_iir related by te_iir->C_IR[R2046]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8b " + trace;
     end if;
     // IIR IR DG  RID IR
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8c " + trace;
     end if;
     //     IR DG  RID IR IIR
     select any delegated_te_iir related by te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8d " + trace;
     end if;
     // IIR IR RID DG  IR
     select many more_delegated_te_iirs related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046];
     if ( not_empty more_delegated_te_iirs )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | more_delegated_te_iirs;
       trace = "8e " + trace;
     end if;
     //     IR RID DG  IR IIR
     select many more_delegated_te_iirs related by te_iir->C_IR[R2046]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->CL_IIR[R4701]->TE_IIR[R2013];
     if ( not_empty more_delegated_te_iirs )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | more_delegated_te_iirs;
       trace = "8f " + trace;
     end if;
     // IIR IR DG  RID IR IIR
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8g " + trace;
     end if;
     // IIR IR RID DG  IR IIR
     select many more_delegated_te_iirs related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->CL_IIR[R4701]->TE_IIR[R2013];
     if ( not_empty more_delegated_te_iirs )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | more_delegated_te_iirs;
       trace = "8h " + trace;
     end if;
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "B " + trace;
     end if;
     for each delegated_te_iir in delegated_te_iirs
@@ -4176,7 +4176,7 @@ if ( T::l(s:serialize) == "serialize" )
 else
   tm_thread.serialize = false;
 end if;
-if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ) ) )
+if ( ( ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ) ) ) or ( "NxtOSEK" == flavor ) ) or ( "EV3HRP" == flavor ) )
   tm_thread.flavor = flavor;
   if ( "SystemC" == flavor )
     // SystemC uses a single thread inside each component.
@@ -4186,6 +4186,46 @@ if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flav
   else
     tm_thread.enabled = true;
   end if;
+  //-- MCLM Extension start
+  if ( ( "NXTOSEK" == flavor ) or ( "EV3HRP" == flavor ) )
+    create object instance ev3_body_ee of TM_PEEE;
+    ev3_body_ee.Key_Lett = "EV3B";
+    ev3_body_ee.template = "t.EV3B_bridge.c";
+    create object instance ev3_motor_ee of TM_PEEE;
+    ev3_motor_ee.Key_Lett = "EV3M";
+    ev3_motor_ee.template = "t.EV3M_bridge.c";
+    create object instance ev3_color_ee of TM_PEEE;
+    ev3_color_ee.Key_Lett = "EV3COL";
+    ev3_color_ee.template = "t.EV3COL_bridge.c";
+    create object instance ev3_gyro_ee of TM_PEEE;
+    ev3_gyro_ee.Key_Lett = "EV3GYR";
+    ev3_gyro_ee.template = "t.EV3GYR_bridge.c";
+    create object instance ev3_ultrasonic_ee of TM_PEEE;
+    ev3_ultrasonic_ee.Key_Lett = "EV3ULS";
+    ev3_ultrasonic_ee.template = "t.EV3ULS_bridge.c";
+    create object instance ev3_touch_ee of TM_PEEE;
+    ev3_touch_ee.Key_Lett = "EV3TCH";
+    ev3_touch_ee.template = "t.EV3TCH_bridge.c";
+    //.create object instance ev3_balancer_ee of TM_PEEE
+    //.assign ev3_balancer_ee.Key_Lett = "EV3BAL"
+    //.assign ev3_balancer_ee.template = "t.EV3_bridge.c"
+    //.invoke TagDataTypePrecision( "*", "EV3Tone", "uint16_t", "" )
+    //.invoke TagDataTypePrecision( "*", "EV3Button", "button_t", "" )
+    //.invoke TagDataTypePrecision( "*", "EV3Color", "colorid_t", "" )
+    //.invoke TagDataTypePrecision( "*", "EV3Font", "lcdfont_t", "" )
+    //.invoke TagDataTypePrecision( "*", "EV3LcdColor", "lcdcolor_t", "" )
+    //.invoke TagDataTypePrecision( "*", "EV3LedColor", "ledcolor_t", "" )
+    T::print(s:"----------EV3 ARC------------");
+    ::MarkMainFunction( func_name:"xtUMLMain" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3Button", prefix:"", header_file:"", data_type:"button_t" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3Color", prefix:"COLOR_", header_file:"", data_type:"colorid_t" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3Font", prefix:"EV3_FONT_", header_file:"ev3api.h", data_type:"lcdfont_t" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3LcdColor", prefix:"EV3_LCD_", header_file:"", data_type:"lcdcolor_t" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3LedColor", prefix:"LED_", header_file:"ev3api.h", data_type:"ledcolor_t" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3Motor", prefix:"DEV_MOTOR_", header_file:"mclm_ev3.h", data_type:"device_motor_t" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3Result", prefix:"MCLM_RESULT_", header_file:"mclm_ev3.h", data_type:"mclm_result_t" );
+  end if;
+  //-- MCLM Extension End
 else
   T::print(s:"ERROR:  system.mark:EnableTasking has incorrect tasking/threading type:${flavor}.\n");
   T::exit(i:100);
@@ -4244,6 +4284,12 @@ select any tm_thread from instances of TM_THREAD;
 if ( empty tm_thread )
   create object instance tm_thread of TM_THREAD;
 end if;
+select any tm_thread_element from instances of TM_THREAD_ELEMENT where ( selected.thread_no == task_number );
+if ( empty tm_thread_element )
+  create object instance tm_thread_element of TM_THREAD_ELEMENT;
+  tm_thread_element.thread_no = task_number;
+end if;
+tm_thread_element.priority = priority;
 tm_thread.extra_initialization = tm_thread.extra_initialization + "  xtUML_task_priorities[ $t{task_number} ] = ${priority};\n";
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -4974,6 +5020,9 @@ if ( "1" == pass )
   elif ( "AssignDirectToUDTPackage" == f )
     // AssignDirectToUDTPackage("package_name")
     ::AssignDirectToUDTPackage( package_name:p1 );
+  elif ( "TagEnumeratorMap" == f )
+    // TagEnumeratorMap("MyDom","MyEnum","ENUM_PREFIX","enum.h","datatype_t")
+    ::TagEnumeratorMap( component_name:p1, enumeration:p2, prefix:p3, header_file:p4, data_type:p5 );
     // system
   elif ( "EnableTasking" == f )
     // EnableTasking("flavor","serialize","number_of_threads":integer)
@@ -5065,6 +5114,29 @@ if ( "1" == pass )
     ::MarkSystemCPortType( port_type:p1 );
   elif ( "MarkAllPortsPolymorphic" == f )
     ::MarkAllPortsPolymorphic();
+  elif ( "SetTaskStackSize" == f )
+    // SetTaskStackSize("task_number":integer,"stack_size":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    r = ::T_atoi( s:p2 );
+    i2 = r;
+    ::SetTaskStackSize( task_number:i1, stack_size:i2 );
+  elif ( "MarkMainFunction" == f )
+    // MarkMainFunction("func_name")
+    ::MarkMainFunction( func_name:p1 );
+  elif ( "TagMotorConfig" == f )
+    // TagMotorConfig("position","port","motor_type","invert":boolean)
+    b4 = false;
+    if ( ( "TRUE" == p4 ) or ( "true" == p4 ) )
+      b4 = true;
+    end if;
+    ::TagMotorConfig( position:p1, port:p2, motor_type:p3, invert:b4 );
+  elif ( "TagSensorConfig" == f )
+    // TagSensorConfig("sensor","port")
+    ::TagSensorConfig( sensor:p1, port:p2 );
+  elif ( "TagGyroSensorInvertOn" == f )
+    // TagGyroSensorInvertOn()
+    ::TagGyroSensorInvertOn();
     // component
   elif ( "MarkAsChannel" == f )
     // MarkAsChannel("package_name","component_name","inc_file")
@@ -5357,6 +5429,358 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("fc76cc1a-7c14-405f-a85c-b9a000adb73c",
+	1,
+	"27b1810b-e74a-49f0-859b-32fc1c54965f",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5a6d6dff-a981-4589-a62e-0cb276676722",
+	"00000000-0000-0000-0000-000000000000",
+	'TagEnumeratorMap',
+	'',
+	'//
+//============================================================================
+// TagEnumeratorMap
+// .invoke TagEnumeratorMap("MyDom","MyEnum","ENUM_PREFIX","enum.h","datatype_t")
+//============================================================================
+component_name = param.component_name;
+enumeration = param.enumeration;
+prefix = param.prefix;
+header_file = param.header_file;
+data_type = param.data_type;
+component_name = T::r(s:component_name);
+select any tm_lmenu from instances of TM_LMENU where ( ( selected.Domain == component_name ) and ( selected.Name == enumeration ) );
+if ( empty tm_lmenu )
+  create object instance tm_lmenu of TM_LMENU;
+end if;
+T::print(s:"---${enumeration} is mapped ${component_name}");
+tm_lmenu.Domain = component_name;
+tm_lmenu.Name = enumeration;
+tm_lmenu.prefix = prefix;
+tm_lmenu.include_file = header_file;
+tm_lmenu.data_type = data_type;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("e1d4ddb2-ba71-4221-87e4-60da92e200bd",
+	"5a6d6dff-a981-4589-a62e-0cb276676722",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b55da370-a324-41d1-95a3-37e624ff3aed",
+	"5a6d6dff-a981-4589-a62e-0cb276676722",
+	'enumeration',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e1d4ddb2-ba71-4221-87e4-60da92e200bd",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e7b9e15f-3e14-4ab9-a7a9-d5de5cdc2046",
+	"5a6d6dff-a981-4589-a62e-0cb276676722",
+	'prefix',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b55da370-a324-41d1-95a3-37e624ff3aed",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("844720f0-bde0-4abe-81f1-68f9023c0b1a",
+	"5a6d6dff-a981-4589-a62e-0cb276676722",
+	'header_file',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e7b9e15f-3e14-4ab9-a7a9-d5de5cdc2046",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b25cb4bf-ba3e-451c-b62b-b01421b0b4d0",
+	"5a6d6dff-a981-4589-a62e-0cb276676722",
+	'data_type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"844720f0-bde0-4abe-81f1-68f9023c0b1a",
+	'');
+INSERT INTO PE_PE
+	VALUES ("5a6d6dff-a981-4589-a62e-0cb276676722",
+	1,
+	"27b1810b-e74a-49f0-859b-32fc1c54965f",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("323dbbc5-f926-49e2-9cea-69a18d2b8228",
+	"00000000-0000-0000-0000-000000000000",
+	'SetTaskStackSize',
+	'',
+	'//
+//============================================================================
+// Establish task stack size( NXT extension ).
+//============================================================================
+task_number = param.task_number;
+stack_size = param.stack_size;
+T::print(s:"SetTaskStackSize( $t{task_number}, $t{stack_size} )");
+select any tm_thread from instances of TM_THREAD;
+if ( empty tm_thread )
+  create object instance tm_thread of TM_THREAD;
+end if;
+select any tm_thread_element from instances of TM_THREAD_ELEMENT where ( selected.thread_no == task_number );
+if ( empty tm_thread_element )
+  create object instance tm_thread_element of TM_THREAD_ELEMENT;
+  tm_thread_element.thread_no = task_number;
+end if;
+tm_thread_element.stack_size = stack_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("5306e5ea-985f-44cf-8573-c6cc4ffbdefb",
+	"323dbbc5-f926-49e2-9cea-69a18d2b8228",
+	'task_number',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("fced9a81-6261-4960-a896-2adcf2fc5cdb",
+	"323dbbc5-f926-49e2-9cea-69a18d2b8228",
+	'stack_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"5306e5ea-985f-44cf-8573-c6cc4ffbdefb",
+	'');
+INSERT INTO PE_PE
+	VALUES ("323dbbc5-f926-49e2-9cea-69a18d2b8228",
+	1,
+	"27b1810b-e74a-49f0-859b-32fc1c54965f",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e0d2bf8c-f5af-4455-92e9-7b2fb53126ef",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkMainFunction',
+	'',
+	'// MCLM Extension start
+//============================================================================
+// Mark Main Function
+//============================================================================
+func_name = param.func_name;
+T::print(s:"MarkMainFunction ${func_name}");
+select any te_target from instances of TE_TARGET;
+if ( empty te_target )
+  T::print(s:"TARGET was not found");
+  T::exit(i:100);
+end if;
+te_target.main = func_name;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("07cae562-4f07-4a27-8265-bfaa231adbbf",
+	"e0d2bf8c-f5af-4455-92e9-7b2fb53126ef",
+	'func_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e0d2bf8c-f5af-4455-92e9-7b2fb53126ef",
+	1,
+	"27b1810b-e74a-49f0-859b-32fc1c54965f",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9c4ac11e-c416-47ce-aea3-8d66a0773dfd",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMotorConfig',
+	'',
+	'//============================================================================
+// Tag Motor Config
+//
+// position "LEFT","RIGHT","FRONT","TAIL","USER1","USER2"
+// port "PORT_A","PORT_B","PORT_C","PORT_D"
+// motor_type "L" "M" "U"
+// invert FALE:TRUE
+// 
+//============================================================================
+position = param.position;
+port = param.port;
+motor_type = param.motor_type;
+invert = param.invert;
+//
+if ( ( ( ( "LEFT" != position ) and ( "RIGHT" != position ) ) and ( ( "TAIL" != position ) and ( "FRONT" != position ) ) ) and ( ( "USER1" != position ) and ( "USER2" != position ) ) )
+  T::print(s:"Motor Postion is not valid = ${position}");
+  T::exit(i:1);
+end if;
+select any motor from instances of TM_LMDEV where ( ( selected.name == position ) and ( "MOTOR" == selected.dev_type ) );
+if ( not_empty motor )
+  T::print(s:"Motor position ${position} is already marked");
+  T::exit(i:1);
+end if;
+if ( ( ( "PORT_A" != port ) and ( "PORT_B" != port ) ) and ( ( "PORT_C" != port ) and ( "PORT_D" != port ) ) )
+  T::print(s:"PORT config is invalid");
+  T::exit(i:1);
+end if;
+if ( ( ( "L" != motor_type ) and ( "M" != motor_type ) ) and ( "U" != motor_type ) )
+  T::print(s:"Motor type is invalid");
+  T::exit(i:1);
+end if;
+create object instance motor of TM_LMDEV;
+if ( "L" == motor_type )
+  motor.dev_desc = "LARGE_MOTOR";
+elif ( "M" == motor_type )
+  motor.dev_desc = "MEDIUM_MOTOR";
+elif ( "U" == motor_type )
+  motor.dev_desc = "UNREGULATED_MOTOR";
+end if;
+motor.dev_type = "MOTOR";
+motor.name = position;
+//  .assign motor.dev_desc = motor_type
+motor.port = port;
+motor.is_invert = invert;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("158d6c3a-5a4c-4b7e-8d2e-22ffb6f7113b",
+	"9c4ac11e-c416-47ce-aea3-8d66a0773dfd",
+	'position',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cbc4beee-4e34-4d5e-b2d1-b311e96b55d8",
+	"9c4ac11e-c416-47ce-aea3-8d66a0773dfd",
+	'port',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"158d6c3a-5a4c-4b7e-8d2e-22ffb6f7113b",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a827b25c-a8c2-4e99-b1ed-3ee7e65f1264",
+	"9c4ac11e-c416-47ce-aea3-8d66a0773dfd",
+	'motor_type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"cbc4beee-4e34-4d5e-b2d1-b311e96b55d8",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("56450761-c021-48a9-a986-12f865da59fa",
+	"9c4ac11e-c416-47ce-aea3-8d66a0773dfd",
+	'invert',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"a827b25c-a8c2-4e99-b1ed-3ee7e65f1264",
+	'');
+INSERT INTO PE_PE
+	VALUES ("9c4ac11e-c416-47ce-aea3-8d66a0773dfd",
+	1,
+	"27b1810b-e74a-49f0-859b-32fc1c54965f",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f477ac7a-74d9-4ef7-a7e5-c98203373982",
+	"00000000-0000-0000-0000-000000000000",
+	'TagSensorConfig',
+	'',
+	'//============================================================================
+// Tag Sensor Config
+//
+// sensor "COLOR","GYRO","ULTRASONIC","TOUCH"
+// port   "1","2","3","4"
+//============================================================================
+sensor = param.sensor;
+port = param.port;
+//
+if ( ( ( "COLOR" != sensor ) and ( "GYRO" != sensor ) ) and ( ( "ULTRASONIC" != sensor ) and ( "TOUCH" != sensor ) ) )
+  T::print(s:"sensor is invalid");
+  T::exit(i:1);
+end if;
+if ( ( ( "1" != port ) and ( "2" != port ) ) and ( ( "3" != port ) and ( "4" != port ) ) )
+  T::print(s:"port ${port} is invalid");
+  T::exit(i:2);
+end if;
+select any sensor_inst from instances of TM_LMDEV where ( selected.dev_type == sensor );
+if ( not_empty sensor_inst )
+  T::print(s:"sensor ${sensor} is already tagged");
+  T::exit(i:1);
+end if;
+create object instance sensor_inst of TM_LMDEV;
+sensor_inst.dev_type = sensor;
+sensor_inst.port = "EV3_PORT_" + port;
+sensor_inst.is_invert = FALSE;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("755fae4c-542d-4ea1-a75d-f611ba1d5b29",
+	"f477ac7a-74d9-4ef7-a7e5-c98203373982",
+	'sensor',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1392314b-ac28-4b6f-af65-a9459debd6c3",
+	"f477ac7a-74d9-4ef7-a7e5-c98203373982",
+	'port',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"755fae4c-542d-4ea1-a75d-f611ba1d5b29",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f477ac7a-74d9-4ef7-a7e5-c98203373982",
+	1,
+	"27b1810b-e74a-49f0-859b-32fc1c54965f",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("62b64b94-1d7e-4203-bc99-c0982f05eb96",
+	"00000000-0000-0000-0000-000000000000",
+	'TagGyroSensorInvertOn',
+	'',
+	'// MCLM extension end
+//============================================================================
+// Tag Gyro Sensor Invert On
+//============================================================================
+//
+select any gyro from instances of TM_LMDEV where ( selected.dev_type == "GYRO" );
+if ( empty gyro )
+  T::print(s:"Gyro Sensor is not configured. set TagaSensorConfig(" + STRING::quote() + "GYRO" + STRING::quote() + ",xx) first");
+end if;
+gyro.is_invert = TRUE;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("62b64b94-1d7e-4203-bc99-c0982f05eb96",
 	1,
 	"27b1810b-e74a-49f0-859b-32fc1c54965f",
 	"00000000-0000-0000-0000-000000000000",

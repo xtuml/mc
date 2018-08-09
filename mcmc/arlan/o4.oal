@@ -1297,6 +1297,29 @@ package_name = param.package_name;
 T::print(s:"AssignDirectToUDTPackage is not a supported marking function.");
 T::exit(i:1);
 @@@
+TagEnumeratorMap@void@@component_name@string@@enumeration@string@@prefix@string@@header_file@string@@data_type@string@@@
+//
+//============================================================================
+// TagEnumeratorMap
+// .invoke TagEnumeratorMap("MyDom","MyEnum","ENUM_PREFIX","enum.h","datatype_t")
+//============================================================================
+component_name = param.component_name;
+enumeration = param.enumeration;
+prefix = param.prefix;
+header_file = param.header_file;
+data_type = param.data_type;
+component_name = T::r(s:component_name);
+select any tm_lmenu from instances of TM_LMENU where ( ( selected.Domain == component_name ) and ( selected.Name == enumeration ) );
+if ( empty tm_lmenu )
+  create object instance tm_lmenu of TM_LMENU;
+end if;
+T::print(s:"---${enumeration} is mapped ${component_name}");
+tm_lmenu.Domain = component_name;
+tm_lmenu.Name = enumeration;
+tm_lmenu.prefix = prefix;
+tm_lmenu.include_file = header_file;
+tm_lmenu.data_type = data_type;
+@@@
 TagFunctionTranslationOff@void@@function_name@string@@@
 //============================================================================
 // $RCSfile: m.domain.arc,v $
@@ -1762,7 +1785,7 @@ if ( T::l(s:serialize) == "serialize" )
 else
   tm_thread.serialize = false;
 end if;
-if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ) ) )
+if ( ( ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ) ) ) or ( "NxtOSEK" == flavor ) ) or ( "EV3HRP" == flavor ) )
   tm_thread.flavor = flavor;
   if ( "SystemC" == flavor )
     // SystemC uses a single thread inside each component.
@@ -1772,6 +1795,46 @@ if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flav
   else
     tm_thread.enabled = true;
   end if;
+  //-- MCLM Extension start
+  if ( ( "NXTOSEK" == flavor ) or ( "EV3HRP" == flavor ) )
+    create object instance ev3_body_ee of TM_PEEE;
+    ev3_body_ee.Key_Lett = "EV3B";
+    ev3_body_ee.template = "t.EV3B_bridge.c";
+    create object instance ev3_motor_ee of TM_PEEE;
+    ev3_motor_ee.Key_Lett = "EV3M";
+    ev3_motor_ee.template = "t.EV3M_bridge.c";
+    create object instance ev3_color_ee of TM_PEEE;
+    ev3_color_ee.Key_Lett = "EV3COL";
+    ev3_color_ee.template = "t.EV3COL_bridge.c";
+    create object instance ev3_gyro_ee of TM_PEEE;
+    ev3_gyro_ee.Key_Lett = "EV3GYR";
+    ev3_gyro_ee.template = "t.EV3GYR_bridge.c";
+    create object instance ev3_ultrasonic_ee of TM_PEEE;
+    ev3_ultrasonic_ee.Key_Lett = "EV3ULS";
+    ev3_ultrasonic_ee.template = "t.EV3ULS_bridge.c";
+    create object instance ev3_touch_ee of TM_PEEE;
+    ev3_touch_ee.Key_Lett = "EV3TCH";
+    ev3_touch_ee.template = "t.EV3TCH_bridge.c";
+    //.create object instance ev3_balancer_ee of TM_PEEE
+    //.assign ev3_balancer_ee.Key_Lett = "EV3BAL"
+    //.assign ev3_balancer_ee.template = "t.EV3_bridge.c"
+    //.invoke TagDataTypePrecision( "*", "EV3Tone", "uint16_t", "" )
+    //.invoke TagDataTypePrecision( "*", "EV3Button", "button_t", "" )
+    //.invoke TagDataTypePrecision( "*", "EV3Color", "colorid_t", "" )
+    //.invoke TagDataTypePrecision( "*", "EV3Font", "lcdfont_t", "" )
+    //.invoke TagDataTypePrecision( "*", "EV3LcdColor", "lcdcolor_t", "" )
+    //.invoke TagDataTypePrecision( "*", "EV3LedColor", "ledcolor_t", "" )
+    T::print(s:"----------EV3 ARC------------");
+    ::MarkMainFunction( func_name:"xtUMLMain" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3Button", prefix:"", header_file:"", data_type:"button_t" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3Color", prefix:"COLOR_", header_file:"", data_type:"colorid_t" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3Font", prefix:"EV3_FONT_", header_file:"ev3api.h", data_type:"lcdfont_t" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3LcdColor", prefix:"EV3_LCD_", header_file:"", data_type:"lcdcolor_t" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3LedColor", prefix:"LED_", header_file:"ev3api.h", data_type:"ledcolor_t" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3Motor", prefix:"DEV_MOTOR_", header_file:"mclm_ev3.h", data_type:"device_motor_t" );
+    ::TagEnumeratorMap( component_name:"*", enumeration:"EV3Result", prefix:"MCLM_RESULT_", header_file:"mclm_ev3.h", data_type:"mclm_result_t" );
+  end if;
+  //-- MCLM Extension End
 else
   T::print(s:"ERROR:  system.mark:EnableTasking has incorrect tasking/threading type:${flavor}.\n");
   T::exit(i:100);
@@ -1789,7 +1852,32 @@ select any tm_thread from instances of TM_THREAD;
 if ( empty tm_thread )
   create object instance tm_thread of TM_THREAD;
 end if;
+select any tm_thread_element from instances of TM_THREAD_ELEMENT where ( selected.thread_no == task_number );
+if ( empty tm_thread_element )
+  create object instance tm_thread_element of TM_THREAD_ELEMENT;
+  tm_thread_element.thread_no = task_number;
+end if;
+tm_thread_element.priority = priority;
 tm_thread.extra_initialization = tm_thread.extra_initialization + "  xtUML_task_priorities[ $t{task_number} ] = ${priority};\n";
+@@@
+SetTaskStackSize@void@@task_number@integer@@stack_size@integer@@@
+//
+//============================================================================
+// Establish task stack size( NXT extension ).
+//============================================================================
+task_number = param.task_number;
+stack_size = param.stack_size;
+T::print(s:"SetTaskStackSize( $t{task_number}, $t{stack_size} )");
+select any tm_thread from instances of TM_THREAD;
+if ( empty tm_thread )
+  create object instance tm_thread of TM_THREAD;
+end if;
+select any tm_thread_element from instances of TM_THREAD_ELEMENT where ( selected.thread_no == task_number );
+if ( empty tm_thread_element )
+  create object instance tm_thread_element of TM_THREAD_ELEMENT;
+  tm_thread_element.thread_no = task_number;
+end if;
+tm_thread_element.stack_size = stack_size;
 @@@
 TagMaximumStringLength@void@@max_len@integer@@@
 //
@@ -2051,6 +2139,9 @@ if ( "1" == pass )
   elif ( "AssignDirectToUDTPackage" == f )
     // AssignDirectToUDTPackage("package_name")
     ::AssignDirectToUDTPackage( package_name:p1 );
+  elif ( "TagEnumeratorMap" == f )
+    // TagEnumeratorMap("MyDom","MyEnum","ENUM_PREFIX","enum.h","datatype_t")
+    ::TagEnumeratorMap( component_name:p1, enumeration:p2, prefix:p3, header_file:p4, data_type:p5 );
     // system
   elif ( "EnableTasking" == f )
     // EnableTasking("flavor","serialize","number_of_threads":integer)
@@ -2142,6 +2233,29 @@ if ( "1" == pass )
     ::MarkSystemCPortType( port_type:p1 );
   elif ( "MarkAllPortsPolymorphic" == f )
     ::MarkAllPortsPolymorphic();
+  elif ( "SetTaskStackSize" == f )
+    // SetTaskStackSize("task_number":integer,"stack_size":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    r = ::T_atoi( s:p2 );
+    i2 = r;
+    ::SetTaskStackSize( task_number:i1, stack_size:i2 );
+  elif ( "MarkMainFunction" == f )
+    // MarkMainFunction("func_name")
+    ::MarkMainFunction( func_name:p1 );
+  elif ( "TagMotorConfig" == f )
+    // TagMotorConfig("position","port","motor_type","invert":boolean)
+    b4 = false;
+    if ( ( "TRUE" == p4 ) or ( "true" == p4 ) )
+      b4 = true;
+    end if;
+    ::TagMotorConfig( position:p1, port:p2, motor_type:p3, invert:b4 );
+  elif ( "TagSensorConfig" == f )
+    // TagSensorConfig("sensor","port")
+    ::TagSensorConfig( sensor:p1, port:p2 );
+  elif ( "TagGyroSensorInvertOn" == f )
+    // TagGyroSensorInvertOn()
+    ::TagGyroSensorInvertOn();
     // component
   elif ( "MarkAsChannel" == f )
     // MarkAsChannel("package_name","component_name","inc_file")
@@ -2343,4 +2457,104 @@ s = param.s;
 r = ::STRING_TO_INTEGER( component_name:s );
 return r;
 ::oal( s:"return strtol( p_s, 0, 10 );" );
+@@@
+MarkMainFunction@void@@func_name@string@@@
+// MCLM Extension start
+//============================================================================
+// Mark Main Function
+//============================================================================
+func_name = param.func_name;
+T::print(s:"MarkMainFunction ${func_name}");
+select any te_target from instances of TE_TARGET;
+if ( empty te_target )
+  T::print(s:"TARGET was not found");
+  T::exit(i:100);
+end if;
+te_target.main = func_name;
+@@@
+TagMotorConfig@void@@position@string@@port@string@@motor_type@string@@invert@boolean@@@
+//============================================================================
+// Tag Motor Config
+//
+// position "LEFT","RIGHT","FRONT","TAIL","USER1","USER2"
+// port "PORT_A","PORT_B","PORT_C","PORT_D"
+// motor_type "L" "M" "U"
+// invert FALE:TRUE
+// 
+//============================================================================
+position = param.position;
+port = param.port;
+motor_type = param.motor_type;
+invert = param.invert;
+//
+if ( ( ( ( "LEFT" != position ) and ( "RIGHT" != position ) ) and ( ( "TAIL" != position ) and ( "FRONT" != position ) ) ) and ( ( "USER1" != position ) and ( "USER2" != position ) ) )
+  T::print(s:"Motor Postion is not valid = ${position}");
+  T::exit(i:1);
+end if;
+select any motor from instances of TM_LMDEV where ( ( selected.name == position ) and ( "MOTOR" == selected.dev_type ) );
+if ( not_empty motor )
+  T::print(s:"Motor position ${position} is already marked");
+  T::exit(i:1);
+end if;
+if ( ( ( "PORT_A" != port ) and ( "PORT_B" != port ) ) and ( ( "PORT_C" != port ) and ( "PORT_D" != port ) ) )
+  T::print(s:"PORT config is invalid");
+  T::exit(i:1);
+end if;
+if ( ( ( "L" != motor_type ) and ( "M" != motor_type ) ) and ( "U" != motor_type ) )
+  T::print(s:"Motor type is invalid");
+  T::exit(i:1);
+end if;
+create object instance motor of TM_LMDEV;
+if ( "L" == motor_type )
+  motor.dev_desc = "LARGE_MOTOR";
+elif ( "M" == motor_type )
+  motor.dev_desc = "MEDIUM_MOTOR";
+elif ( "U" == motor_type )
+  motor.dev_desc = "UNREGULATED_MOTOR";
+end if;
+motor.dev_type = "MOTOR";
+motor.name = position;
+//  .assign motor.dev_desc = motor_type
+motor.port = port;
+motor.is_invert = invert;
+@@@
+TagSensorConfig@void@@sensor@string@@port@string@@@
+//============================================================================
+// Tag Sensor Config
+//
+// sensor "COLOR","GYRO","ULTRASONIC","TOUCH"
+// port   "1","2","3","4"
+//============================================================================
+sensor = param.sensor;
+port = param.port;
+//
+if ( ( ( "COLOR" != sensor ) and ( "GYRO" != sensor ) ) and ( ( "ULTRASONIC" != sensor ) and ( "TOUCH" != sensor ) ) )
+  T::print(s:"sensor is invalid");
+  T::exit(i:1);
+end if;
+if ( ( ( "1" != port ) and ( "2" != port ) ) and ( ( "3" != port ) and ( "4" != port ) ) )
+  T::print(s:"port ${port} is invalid");
+  T::exit(i:2);
+end if;
+select any sensor_inst from instances of TM_LMDEV where ( selected.dev_type == sensor );
+if ( not_empty sensor_inst )
+  T::print(s:"sensor ${sensor} is already tagged");
+  T::exit(i:1);
+end if;
+create object instance sensor_inst of TM_LMDEV;
+sensor_inst.dev_type = sensor;
+sensor_inst.port = "EV3_PORT_" + port;
+sensor_inst.is_invert = FALSE;
+@@@
+TagGyroSensorInvertOn@void@@@
+// MCLM extension end
+//============================================================================
+// Tag Gyro Sensor Invert On
+//============================================================================
+//
+select any gyro from instances of TM_LMDEV where ( selected.dev_type == "GYRO" );
+if ( empty gyro )
+  T::print(s:"Gyro Sensor is not configured. set TagaSensorConfig(" + STRING::quote() + "GYRO" + STRING::quote() + ",xx) first");
+end if;
+gyro.is_invert = TRUE;
 @@@

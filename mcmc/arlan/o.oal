@@ -1679,6 +1679,57 @@ if ( not_empty tm_thread )
   end if;
 end if;
 //
+//-- MCLM Device Mapping Start
+select any te_mclm from instances of TE_MCLM;
+if ( empty te_mclm )
+  create object instance te_mclm of TE_MCLM;
+end if;
+select many motors from instances of TM_LMDEV where ( selected.dev_type == "MOTOR" );
+motor_map_name = "motor_map";
+motor_invert_name = "motor_invert";
+motor_port_type = "motor_port_t";
+te_mclm.motor_map_name = motor_map_name;
+te_mclm.motor_invert_name = "motor_invert";
+for each motor in motors
+  te_mclm.motor_map_initializer = te_mclm.motor_map_initializer + "\n  ${motor_map_name}[DEV_MOTOR_${motor.name}] = EV3_${motor.port};";
+  te_mclm.motor_map_initializer = te_mclm.motor_map_initializer + "\n  ev3_motor_config(EV3_${motor.port}, ${motor.dev_desc});";
+  invert_param = "1";
+  if ( motor.is_invert )
+    invert_param = "-1";
+  end if;
+  te_mclm.motor_invert_initializer = te_mclm.motor_invert_initializer + "\n  ${motor_invert_name}[DEV_MOTOR_${motor.name}] = ${invert_param};";
+end for;
+not_used_sensor_port = "TNUM_SENSOR_PORT";
+select any color_sensor from instances of TM_LMDEV where ( selected.dev_type == "COLOR" );
+if ( not_empty color_sensor )
+  te_mclm.color_sensor_port = color_sensor.port;
+else
+  te_mclm.color_sensor_port = not_used_sensor_port;
+end if;
+select any touch_sensor from instances of TM_LMDEV where ( selected.dev_type == "TOUCH" );
+if ( not_empty touch_sensor )
+  te_mclm.touch_sensor_port = touch_sensor.port;
+else
+  te_mclm.touch_sensor_port = not_used_sensor_port;
+end if;
+select any gyro_sensor from instances of TM_LMDEV where ( selected.dev_type == "GYRO" );
+if ( not_empty gyro_sensor )
+  te_mclm.gyro_sensor_port = gyro_sensor.port;
+  te_mclm.gyro_invert_param = "1";
+  if ( gyro_sensor.is_invert )
+    te_mclm.gyro_invert_param = "-1";
+  end if;
+else
+  te_mclm.gyro_sensor_port = not_used_sensor_port;
+  te_mclm.gyro_invert_param = "1";
+end if;
+select any ultrasonic_sensor from instances of TM_LMDEV where ( selected.dev_type == "ULTRASONIC" );
+if ( not_empty ultrasonic_sensor )
+  te_mclm.ultrasonic_port = ultrasonic_sensor.port;
+else
+  te_mclm.ultrasonic_port = not_used_sensor_port;
+end if;
+//-- MCLM Device Mapping End
 select any te_disp from instances of TE_DISP;
 if ( empty te_disp )
   create object instance te_disp of TE_DISP;
@@ -2174,6 +2225,17 @@ for each s_edt in s_edts
     te_dt.Include_File = ( te_file.types + "." ) + te_file.hdr_file_ext;
   end if;
   //
+  //-- MCLM Add Start
+  select any tm_lmenu from instances of TM_LMENU where ( ( selected.Name == te_dt.Name ) and ( ( selected.Domain == te_dt.Owning_Dom_Name ) or ( selected.Domain == "*" ) ) );
+  if ( not_empty tm_lmenu )
+    te_dt.Include_File = tm_lmenu.include_file;
+    te_dt.ExtName = tm_lmenu.data_type;
+    te_dt.Initial_Value = "0";
+    te_dt.Is_Mapped = TRUE;
+  else
+    te_dt.Is_Mapped = FALSE;
+  end if;
+  //-- MCLM Add End
   // Create the Generated Enumerators and link them to the real ones.
   select many s_enums related by s_edt->S_ENUM[R27];
   for each s_enum in s_enums
@@ -2189,6 +2251,11 @@ for each s_edt in s_edts
       end if;
     end if;
     te_enum.Value = value;
+    //-- MCLM Add Start
+    if ( not_empty tm_lmenu )
+      te_enum.GeneratedName = tm_lmenu.prefix + te_enum.Name;
+    end if;
+    //-- MCLM Add End
   end for;
 end for;
 //
@@ -3507,6 +3574,22 @@ if ( "TIM" == s_ee.Key_Lett )
   te_ee.RegisteredName = "TIM";
   te_ee.Include_File = te_file.tim + ( "." + te_file.hdr_file_ext );
 end if;
+// MCLM extension start
+select any tm_peee from instances of TM_PEEE where ( selected.Key_Lett == s_ee.Key_Lett );
+if ( not_empty tm_peee )
+  te_ee.RegisteredName = s_ee.Key_Lett;
+  te_ee.Included = true;
+  te_ee.file = s_ee.Key_Lett + "_bridge";
+  te_ee.Include_File = te_ee.file + ( "." + te_file.hdr_file_ext );
+end if;
+//-- OLD Extension
+if ( ( "ECR" == s_ee.Key_Lett ) or ( "EC_B" == s_ee.Key_Lett ) )
+  // NXT bridges
+  te_ee.RegisteredName = s_ee.Key_Lett;
+  te_ee.Include_File = ( s_ee.Key_Lett + "_bridge" ) + ( "." + te_file.hdr_file_ext );
+  te_ee.file = s_ee.Key_Lett;
+end if;
+//-- MCLM Extension End
 bridge_scope = "";
 if ( "C" == te_target.language )
   bridge_scope = te_ee.RegisteredName + "_";
@@ -4739,7 +4822,7 @@ tim_factory@void@@te_tim@inst_ref<timer>@@@
 te_tim = param.te_tim;
 select any te_prefix from instances of TE_PREFIX;
 te_tim.max_timers = te_prefix.define_u + "SYS_MAX_XTUML_TIMERS";
-te_tim.keyed_timer_support = false;
+te_tim.keyed_timer_support = true;
 te_tim.recurring_timer_support = true;
 te_tim.internal_type = "ETimer_t";
 te_tim.timer_event_search_and_destroy = false;
