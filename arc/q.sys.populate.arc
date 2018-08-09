@@ -120,9 +120,9 @@
   .for each motor in motors
     .assign te_mclm.motor_map_initializer = te_mclm.motor_map_initializer + "\n  ${motor_map_name}[DEV_MOTOR_${motor.name}] = EV3_${motor.port};"
     .assign te_mclm.motor_map_initializer = te_mclm.motor_map_initializer + "\n  ev3_motor_config(EV3_${motor.port}, ${motor.dev_desc});"
-    .assign invert_param = 1
+    .assign invert_param = "1"
     .if ( motor.is_invert )
-      .assign invert_param = -1
+      .assign invert_param = "-1"
     .end if
     .assign te_mclm.motor_invert_initializer = te_mclm.motor_invert_initializer + "\n  ${motor_invert_name}[DEV_MOTOR_${motor.name}] = ${invert_param};"
   .end for

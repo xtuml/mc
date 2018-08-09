@@ -60,10 +60,21 @@
     .//.create object instance ev3_balancer_ee of TM_PEEE
     .//.assign ev3_balancer_ee.Key_Lett = "EV3BAL"
     .//.assign ev3_balancer_ee.template = "t.EV3_bridge.c"
+    .//.invoke TagDataTypePrecision( "*", "EV3Tone", "uint16_t", "" )
+    .//.invoke TagDataTypePrecision( "*", "EV3Button", "button_t", "" )
+    .//.invoke TagDataTypePrecision( "*", "EV3Color", "colorid_t", "" )
+    .//.invoke TagDataTypePrecision( "*", "EV3Font", "lcdfont_t", "" )
+    .//.invoke TagDataTypePrecision( "*", "EV3LcdColor", "lcdcolor_t", "" )
+    .//.invoke TagDataTypePrecision( "*", "EV3LedColor", "ledcolor_t", "" )
+    .print "----------EV3 ARC------------"
     .invoke MarkMainFunction("xtUMLMain")
-    .invoke r = GET_ENV_VAR( "ROX_MC_ARC_DIR" )
-    .assign arc_path = r.result
-    .include "${arc_path}/m.ev3.arc"
+    .invoke TagEnumeratorMap("*","EV3Button","","","button_t")
+    .invoke TagEnumeratorMap("*","EV3Color","COLOR_","","colorid_t")
+    .invoke TagEnumeratorMap("*","EV3Font","EV3_FONT_","ev3api.h","lcdfont_t")
+    .invoke TagEnumeratorMap("*","EV3LcdColor","EV3_LCD_","","lcdcolor_t")
+    .invoke TagEnumeratorMap("*","EV3LedColor","LED_","ev3api.h","ledcolor_t")
+    .invoke TagEnumeratorMap("*","EV3Motor","DEV_MOTOR_","mclm_ev3.h","device_motor_t")
+    .invoke TagEnumeratorMap("*","EV3Result","MCLM_RESULT_","mclm_ev3.h","mclm_result_t")
   .end if
 .//-- MCLM Extension End
   .else
@@ -98,7 +109,7 @@
 .function SetTaskStackSize
   .param integer task_number
   .param integer stack_size
-  .print "SetTaskStackSize( $t{task_number}, ${stack_size} )"
+  .print "SetTaskStackSize( $t{task_number}, $t{stack_size} )"
   .select any tm_thread from instances of TM_THREAD
   .if ( empty tm_thread )
     .create object instance tm_thread of TM_THREAD
@@ -476,9 +487,9 @@
       .invoke MarkMainFunction(p1)
     .elif ( "TagMotorConfig" == f )
       .// TagMotorConfig("position","port","motor_type","invert":boolean)
-      .assign b4 = true
+      .assign b4 = false
       .if ( ("TRUE" == p4) or ("true" == p4) )
-        .assign b4 = false
+        .assign b4 = true
       .end if
       .invoke TagMotorConfig(p1,p2,p3,b4)
     .elif ( "TagSensorConfig" == f )
