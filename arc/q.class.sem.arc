@@ -339,7 +339,7 @@
       .for each rel in r_rels
         .invoke method_name = GetSuperTypePolymorphicEventMethodName( te_class, rel )
     /* Propagate event down R${rel.Numb}  */
-    copy = Escher_AllocateOoaEvent();
+    copy = ${te_eq.allocate}();
     ${te_instance.module}${te_string.memmove}( copy, event, sizeof( ${te_sm.events_union} ) );
     ${method_name.result}( instance, copy );
     ${te_instance.module}${te_eq.delete}( copy );

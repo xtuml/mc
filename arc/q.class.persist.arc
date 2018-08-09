@@ -72,11 +72,11 @@
   .assign attr_result = false
   .assign attr_current_state = ""
   .if ( te_class.Persistent )
-    .invoke id = GetPersistentInstanceIdentifierVariable()
-    .assign attr_type = id.dirty_type
-    .assign attr_name = id.dirty_name
-    .assign attr_dirty = id.dirty_dirty
-    .assign attr_clean = id.dirty_clean
+    .select any te_persist from instances of TE_PERSIST
+    .assign attr_type = te_persist.dirty_type
+    .assign attr_name = te_persist.dirty_name
+    .assign attr_dirty = te_persist.dirty_dirty
+    .assign attr_clean = te_persist.dirty_clean
     .assign attr_result = true
     .if ( current_state == "" )
       .// No current state, add a place holder for consistent typing
@@ -101,7 +101,8 @@
   .assign attr_result = ""
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( te_class.Persistent )
-    .invoke link_args = PersistGetLinkFunctionArgs()
+    .select any te_instance from instances of TE_INSTANCE
+    .select any te_typemap from instances of TE_TYPEMAP
     .if ( gen_declaration )
 extern void ${te_class.persist_link}(
   ${te_typemap.instance_index_name},
