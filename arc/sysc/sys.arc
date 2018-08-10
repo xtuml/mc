@@ -230,7 +230,8 @@
 .assign domain_num_var = "domain_num"
 .if ( te_sys.PersistentClassCount > 0 )
   .invoke r = PersistentClassUnion( active_te_cs )
-  .assign persist_class_union = r.result
+  .assign persist_class_union_name = r.result
+  .assign persist_class_union = r.body
   .invoke persist_post_link = GetPersistentPostLinkName()
   .assign inst_id_in_handle = "  ${te_persist.dirty_type} ${te_persist.dirty_name};\n"
   .include "${te_file.arc_path}/t.sys_persist.c"

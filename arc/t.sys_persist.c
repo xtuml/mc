@@ -13,7 +13,7 @@
 #include "${te_file.persist}.${te_file.hdr_file_ext}"
 
 ${persist_class_union}
-#define PERSIST_LARGEST_CLASS sizeof( ${persist_class_union} )
+#define PERSIST_LARGEST_CLASS sizeof( ${persist_class_union_name} )
 #define PERSIST_LINK_TYPE 0
 #define PERSIST_INSTANCE_TYPE 1
 
@@ -88,25 +88,6 @@ ${active_class_counts}\
   return rc;
 }
 #endif
-
-/*
- * Given the instance handle and class number, return the instance index
- * (into the instance collection).
- */
-static ${te_typemap.instance_index_name} ${te_prefix.result}getindex(
-  const ${te_instance.handle},
-  const ${te_typemap.domain_number_name},
-  const ${te_typemap.object_number_name} );
-static ${te_typemap.instance_index_name} ${te_prefix.result}getindex( 
-  const ${te_instance.handle} instance,
-  const ${te_typemap.domain_number_name} ${domain_num_var},
-  const ${te_typemap.object_number_name} class_num
-)
-{
-  ${te_cia.class_info_type} * dci = *( ${te_cia.class_info_name}[ ${domain_num_var} ] + class_num );
-  return ( ((c_t *) instance - (c_t *) dci->pool ) / dci->size );
-}
-
 
 /*
  * Given the class number and the instance index, return the corresponding
