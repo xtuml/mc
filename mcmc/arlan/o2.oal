@@ -166,10 +166,22 @@ for each v_scv in v_scvs
   select one te_val related by v_scv->V_VAL[R801]->TE_VAL[R2040];
   select one cnst_syc related by v_scv->CNST_SYC[R850];
   select one cnst_lsc related by cnst_syc->CNST_LFSC[R1502]->CNST_LSC[R1503];
-  select one te_dt related by cnst_syc->S_DT[R1500]->TE_DT[R2021];
+  select one s_dt related by cnst_syc->S_DT[R1500];
+  select one te_dt related by s_dt->TE_DT[R2021];
   te_val.OAL = cnst_syc.Name;
   te_val.buffer = cnst_lsc.Value;
-  if ( 4 == te_dt.Core_Typ )
+  select one edt related by s_dt->S_EDT[R17];
+  if ( not_empty edt )
+    select many s_enums related by edt->S_ENUM[R27];
+    for each s_enum in s_enums
+      enumString = s_dt.Name + "::" + s_enum.Name;
+      if ( enumString == cnst_lsc.Value )
+        select one te_enum related by s_enum->TE_ENUM[R2027];
+        te_val.buffer = te_enum.GeneratedName;
+        break;
+      end if;
+    end for;
+  elif ( 4 == te_dt.Core_Typ )
     select any te_string from instances of TE_STRING;
     te_val.buffer = ( "&quot;" + cnst_lsc.Value ) + "&quot;";
     ::oal( s:" // Ccode" );
@@ -193,8 +205,7 @@ for each v_tvl in v_tvls
   select one te_dim related by te_var->TE_DIM[R2057];
   if ( not_empty te_dim )
     relate te_val to te_dim across R2079;
-  else
-      end if;
+  end if;
 end for;
 @@@
 val_actual_parameters@void@@@
@@ -237,20 +248,23 @@ if ( "" == te_val.buffer )
     root = "";
     if ( empty te_var )
       te_val.OAL = ( root_te_val.OAL + "." ) + te_attr.Name;
-      te_val.buffer = ( root_te_val.buffer + "->" ) + te_attr.GeneratedName;
       root = root_te_val.buffer;
     else
       te_val.OAL = ( te_var.OAL + "." ) + te_attr.Name;
-      te_val.buffer = ( te_var.buffer + "->" ) + te_attr.GeneratedName;
       root = te_var.buffer;
     end if;
+    select one te_class related by te_attr->TE_CLASS[R2061];
+    select one te_c related by te_class->TE_C[R2064];
+    if ( te_c.DetectEmpty )
+      root = "((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, ""${te_class.Key_Lett}"", ""${te_val.OAL}"" ))";
+    end if;
+    te_val.buffer = ( root + "->" ) + te_attr.GeneratedName;
     te_val.dimensions = te_attr.dimensions;
     te_val.array_spec = te_attr.array_spec;
     select one te_dim related by te_attr->TE_DIM[R2055];
     if ( not_empty te_dim )
       relate te_val to te_dim across R2079;
-    else
-          end if;
+    end if;
     // Maybe attribute value is actually derived.
     select one o_dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107];
     if ( not_empty o_dbattr )
@@ -264,8 +278,7 @@ if ( "" == te_val.buffer )
         select one te_dim related by te_aba->TE_DIM[R2058];
         if ( not_empty te_dim )
           relate te_val to te_dim across R2079;
-        else
-                  end if;
+        end if;
       end if;
     end if;
   end if;
@@ -294,8 +307,7 @@ if ( "" == te_val.buffer )
   select one te_dim related by te_mbr->TE_DIM[R2059];
   if ( not_empty te_dim )
     relate te_val to te_dim across R2079;
-  else
-      end if;
+  end if;
   te_val.OAL = ( root_te_val.OAL + "." ) + te_mbr.Name;
   te_val.buffer = ( root_te_val.buffer + "." ) + te_mbr.GeneratedName;
 end if;
@@ -362,8 +374,7 @@ for each v_edv in v_edvs
   select one te_dim related by te_parm->TE_DIM[R2056];
   if ( not_empty te_dim )
     relate te_val to te_dim across R2079;
-  else
-      end if;
+  end if;
 end for;
 @@@
 val_parameter_values@void@@@
@@ -391,8 +402,7 @@ for each v_pvl in v_pvls
   select one te_dim related by te_parm->TE_DIM[R2056];
   if ( not_empty te_dim )
     relate te_val to te_dim across R2079;
-  else
-      end if;
+  end if;
   if ( 1 == te_parm.By_Ref )
     te_val.buffer = ( "(*" + te_parm.GeneratedName ) + ")";
   end if;
@@ -455,8 +465,7 @@ if ( "" == te_val.buffer )
   select one te_dim related by root_te_val->TE_DIM[R2079];
   if ( not_empty te_dim )
     relate te_val to te_dim across R2079;
-  else
-      end if;
+  end if;
 end if;
 @@@
 val_binary_op_values@void@@@
@@ -492,11 +501,38 @@ if ( "" == te_val.buffer )
     else
       te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" );
     end if;
-  elif ( ( 9 == l_te_dt.Core_Typ ) and ( 9 == r_te_dt.Core_Typ ) )
-    if ( "+" == T::r(s:v_bin.Operator) )
-      select any te_set from instances of TE_SET;
-      te_val.buffer = ( ( ( te_set.module + te_set.setadd ) + ( "( " + l_te_val.buffer ) ) + ( ", " + r_te_val.buffer ) ) + " )";
+  elif ( ( ( 21 == l_te_dt.Core_Typ ) or ( 20 == l_te_dt.Core_Typ ) ) and ( ( 21 == r_te_dt.Core_Typ ) or ( 20 == r_te_dt.Core_Typ ) ) and ( ( "+" == T::r(s:v_bin.Operator) ) or ( "-" == T::r(s:v_bin.Operator) ) or ( "|" == T::r(s:v_bin.Operator) ) or ( "&" == T::r(s:v_bin.Operator) ) or ( "^" == T::r(s:v_bin.Operator) ) ) )
+    select any te_prefix from instances of TE_PREFIX;
+    select any te_set from instances of TE_SET;
+    select one v_val related by v_bin->V_VAL[R801];
+    select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
+    if ( ( "+" == T::r(s:v_bin.Operator) ) or ( "|" == T::r(s:v_bin.Operator) ) )
+      te_val.buffer = te_set.scope + te_set.setunion + "( ";
+    elif ( "&" == T::r(s:v_bin.Operator) )
+      te_val.buffer = te_set.scope + te_set.setintersection + "( ";
+    elif ( "-" == T::r(s:v_bin.Operator) )
+      te_val.buffer = te_set.scope + te_set.setdifference + "( ";
+    elif ( "^" == T::r(s:v_bin.Operator) )
+      te_val.buffer = te_set.scope + te_set.setsymmetricdifference + "( ";
     end if;
+    return_set = "binop_line$t{v_val.LineNumber}_col$t{v_val.StartPosition}to$t{v_val.EndPosition}";
+    te_val.buffer = te_val.buffer + return_set + ", ";
+    te_val.buffer = te_val.buffer + l_te_val.buffer + ", ";
+    te_val.buffer = te_val.buffer + r_te_val.buffer + ", ";
+    if ( ( 20 == l_te_dt.Core_Typ ) and ( 20 == r_te_dt.Core_Typ ) )
+      te_val.buffer = te_val.buffer + te_prefix.define_u + "SET_LHS_IS_INSTANCE | " + te_prefix.define_u + "SET_RHS_IS_INSTANCE )";
+    elif ( ( 20 == l_te_dt.Core_Typ ) and ( 20 != r_te_dt.Core_Typ ) )
+      te_val.buffer = te_val.buffer + te_prefix.define_u + "SET_LHS_IS_INSTANCE )";
+    elif ( ( 20 != l_te_dt.Core_Typ ) and ( 20 == r_te_dt.Core_Typ ) )
+      te_val.buffer = te_val.buffer + te_prefix.define_u + "SET_RHS_IS_INSTANCE )";
+    else
+      te_val.buffer = te_val.buffer + "0 )";
+    end if;
+    // add the return set to the declaration deallocation blocks
+    d = te_set.scope + te_set.base_class + " " + return_set + "_space={0}; " + te_set.scope + te_set.base_class + " * " + return_set + " = &" + return_set + "_space;";
+    ::blk_declaration_append( te_blk:te_blk, s:d );
+    d = te_set.module + te_set.clear + "( " + return_set + " );";
+    ::blk_deallocation_append( te_blk:te_blk, s:d );
   else
     select any te_target from instances of TE_TARGET;
     if ( "and" == T::r(s:v_bin.Operator) )
@@ -510,6 +546,12 @@ if ( "" == te_val.buffer )
         element_count = r_te_dim.elementCount;
       end if;
       te_val.buffer = ( ( ( "( memcmp( " + l_te_val.buffer ) + ( ", " + r_te_val.buffer ) ) + ( ( ", sizeof(" + l_te_val.buffer ) + ( "[0]) * " + T::s(i:element_count) ) ) ) + ( ( ") " + v_bin.Operator ) + " 0 )" );
+    elif ( ( ( "==" == T::r(s:v_bin.Operator) ) or ( "!=" == T::r(s:v_bin.Operator) ) ) and ( ( 9 == l_te_dt.Core_Typ ) or ( 21 == l_te_dt.Core_Typ ) ) and ( ( 9 == r_te_dt.Core_Typ ) or ( 21 == r_te_dt.Core_Typ ) ) )
+      select any te_set from instances of TE_SET;
+      te_val.buffer = te_set.scope + te_set.equality + "( " + l_te_val.buffer + ", " + r_te_val.buffer + " )";
+      if ( "!=" == T::r(s:v_bin.Operator) )
+        te_val.buffer = "( !" + te_val.buffer + " )";
+      end if;
     else
       te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.buffer ) + " )" );
     end if;
@@ -520,8 +562,7 @@ if ( "" == te_val.buffer )
   select one te_dim related by r_te_val->TE_DIM[R2079];
   if ( not_empty te_dim )
     relate te_val to te_dim across R2079;
-  else
-      end if;
+  end if;
   te_val.OAL = ( ( "( " + l_te_val.OAL ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.OAL ) + " )" );
 end if;
 @@@
@@ -554,8 +595,7 @@ if ( "" == te_val.buffer )
   select one te_dim related by te_aba->TE_DIM[R2058];
   if ( not_empty te_dim )
     relate te_val to te_dim across R2079;
-  else
-      end if;
+  end if;
 end if;
 @@@
 val_bridge_values@void@@@
@@ -621,8 +661,7 @@ if ( not_empty te_brg )
     select one te_dim related by te_aba->TE_DIM[R2058];
     if ( not_empty te_dim )
       relate te_val to te_dim across R2079;
-    else
-          end if;
+    end if;
   end if;
 end if;
 @@@
@@ -703,8 +742,7 @@ if ( not_empty te_tfr )
     select one te_dim related by te_aba->TE_DIM[R2058];
     if ( not_empty te_dim )
       relate te_val to te_dim across R2079;
-    else
-          end if;
+    end if;
   end if;
 end if;
 @@@
@@ -758,8 +796,7 @@ if ( not_empty te_sync )
     select one te_dim related by te_aba->TE_DIM[R2058];
     if ( not_empty te_dim )
       relate te_val to te_dim across R2079;
-    else
-          end if;
+    end if;
   end if;
 end if;
 @@@
@@ -794,8 +831,7 @@ if ( "" == te_val.buffer )
   select one next_te_dim related by root_te_val->TE_DIM[R2079]->TE_DIM[R2060.'precedes'];
   if ( not_empty next_te_dim )
     relate te_val to next_te_dim across R2079;
-  else
-      end if;
+  end if;
 end if;
 @@@
 val_array_length_values@void@@@

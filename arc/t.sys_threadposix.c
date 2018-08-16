@@ -66,10 +66,11 @@ void ${te_thread.mutex_unlock}( const u1_t flavor )
  */
 void ${te_thread.nonbusy_wait}( const u1_t thread )
 {
+.if ( not te_sys.SimulatedTime )
   void * vp = 0;
   pthread_cond_t * dwc = &nonbusy_wait_cond[ thread ];
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_NONBUSY );
-.if ( te_sys.MaxTimers > 0 )
+  .if ( te_sys.MaxTimers > 0 )
   if ( thread == 0 ) {
     struct timespec ts;
     vp = TIM_duration_until_next_timer_pop( ( void * ) &ts );
@@ -80,13 +81,14 @@ void ${te_thread.nonbusy_wait}( const u1_t thread )
       }
     }
   }
-.end if
+  .end if
   if ( ( thread != 0 ) || ( vp == 0 ) ) {
     if ( 0 != pthread_cond_wait( dwc, &mutices[ SEMAPHORE_FLAVOR_NONBUSY ] ) ) {
       /* error recovery TBD */
     }
   }
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_NONBUSY );
+.end if
 }
 
 /*

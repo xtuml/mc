@@ -199,6 +199,27 @@
   .assign tm_systag.NetworkSockets = true
 .end function
 .//
+.//============================================================================
+.// Use simulated time instead of wall clock time.
+.//============================================================================
+.function MarkSimulatedTime
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
+  .assign tm_systag.SimulatedTime = true
+  .print "MarkSimulatedTime:  Time marked to be simulated (rather than wall clock)."
+.end function
+.//
+.//============================================================================
+.// Set the state save buffer depth.
+.//============================================================================
+.function MarkStateSave
+  .param integer buffersize
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
+  .assign tm_systag.StateSaveBufferSize = buffersize
+  .print "MarkStateSave:  buffer size set to $t{buffersize}."
+.end function
+.//
 .function TM_SYSTAG_select .// tm_systag
   .select any tm_systag from instances of TM_SYSTAG
   .if ( empty tm_systag )
@@ -276,6 +297,9 @@
     .elif ( "TagSyncServiceSafeForInterrupts" == f )
       .// TagSyncServiceSafeForInterrupts("component_name","function_name")
       .invoke TagSyncServiceSafeForInterrupts(p1,p2)
+    .elif ( "MarkMessageSafeForInterrupts" == f )
+      .// MarkMessageSafeForInterrupts("component_name","port_name","message_name")
+      .invoke MarkMessageSafeForInterrupts(p1,p2,p3)
     .// datatype
     .elif ( "TagDataTypePrecision" == f )
       .// TagDataTypePrecision("component_name","dt_name","tagged_name","initial_value")
@@ -368,6 +392,13 @@
       .invoke MarkStructuredMessaging()
     .elif ( "MarkNetworkSockets" == f )
       .invoke MarkNetworkSockets()
+    .elif ( "MarkSimulatedTime" == f )
+      .invoke MarkSimulatedTime()
+    .elif ( "MarkStateSave" == f )
+      .// MarkStateSave("buffersize":integer)
+      .invoke r = T_atoi( p1 )
+      .assign i1 = r.result
+      .invoke MarkStateSave(i1)
     .elif ( "MarkSystemConfigurationPackage" == f )
       .// MarkSystemConfigurationPackage("package_name")
       .invoke MarkSystemConfigurationPackage(p1)
@@ -439,18 +470,12 @@
     .elif ( "MarkClassOperationTranslationOff" == f )
       .// MarkClassOperationTranslationOff("component_name","obj_key_letters","op_name")
       .invoke MarkClassOperationTranslationOff(p1,p2,p3)
-    .elif ( "TagObjectTraceOff" == f )
-      .// TagObjectTraceOff("obj_key_letters")
-      .invoke TagObjectTraceOff(p1)
-    .elif ( "MarkObjectTraceOff" == f )
-      .// MarkObjectTraceOff("component_name","obj_key_letters")
-      .invoke MarkObjectTraceOff(p1,p2)
-    .elif ( "TagObjectTraceOn" == f )
-      .// TagObjectTraceOn("obj_key_letters")
-      .invoke TagObjectTraceOn(p1)
-    .elif ( "MarkObjectTraceOn" == f )
-      .// MarkObjectTraceOn("component_name","obj_key_letters")
-      .invoke MarkObjectTraceOn(p1,p2)
+    .elif ( "MarkClassTraceOff" == f )
+      .// MarkClassTraceOff("component_name","obj_key_letters")
+      .invoke MarkClassTraceOff(p1,p2)
+    .elif ( "MarkClassTraceOn" == f )
+      .// MarkClassTraceOn("component_name","obj_key_letters")
+      .invoke MarkClassTraceOn(p1,p2)
     .elif ( "TagPEIsDefinedInData" == f )
       .// TagPEIsDefinedInData("ss_prefix","obj_key_letters")
       .invoke TagPEIsDefinedInData(p1,p2)

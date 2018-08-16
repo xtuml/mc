@@ -1,16 +1,16 @@
 -- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO EP_PKG
-	VALUES ("5f0fc929-92e2-4198-bd4c-c94d14821e25",
+	VALUES ("fb9b416b-3cb6-4abb-9731-03dddc4de544",
 	"00000000-0000-0000-0000-000000000000",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
 	'marking_imported',
-	'marking',
+	'',
 	0);
 INSERT INTO GD_MD
-	VALUES ("0f788291-3a5d-42f5-84b8-6212337215ec",
+	VALUES ("ffab239d-2542-4df8-8986-2de907a64015",
 	112,
-	"5f0fc929-92e2-4198-bd4c-c94d14821e25",
+	"fb9b416b-3cb6-4abb-9731-03dddc4de544",
 	108,
 	0,
 	0,
@@ -27,20 +27,31 @@ INSERT INTO GD_MD
 	'4.1.17',
 	'maslin::lib::masl2xtuml::marking_imported');
 INSERT INTO DIM_DIA
-	VALUES ("0f788291-3a5d-42f5-84b8-6212337215ec",
+	VALUES ("ffab239d-2542-4df8-8986-2de907a64015",
 	'',
 	1.000000,
 	4000.000000,
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("fb9b416b-3cb6-4abb-9731-03dddc4de544",
+	"a436d690-d535-4111-926b-af7c5717f2da");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a436d690-d535-4111-926b-af7c5717f2da",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	'marking',
+	'',
+	0,
+	'../../../marking/marking.xtuml');
 INSERT INTO PE_PE
-	VALUES ("5f0fc929-92e2-4198-bd4c-c94d14821e25",
+	VALUES ("fb9b416b-3cb6-4abb-9731-03dddc4de544",
 	1,
 	"00000000-0000-0000-0000-000000000000",
-	"151b01f8-b2a3-40f2-9ea0-e59d1402e141",
+	"e3cafb9d-02e0-4035-b5f2-b0cdbefc0a46",
 	7);
 INSERT INTO C_C_PROXY
-	VALUES ("151b01f8-b2a3-40f2-9ea0-e59d1402e141",
+	VALUES ("e3cafb9d-02e0-4035-b5f2-b0cdbefc0a46",
 	"00000000-0000-0000-0000-000000000000",
 	"00000000-0000-0000-0000-000000000000",
 	'masl2xtuml',
@@ -51,7 +62,7 @@ INSERT INTO C_C_PROXY
 	'',
 	'../masl2xtuml.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("319083ee-ba5f-4645-a409-d6249f9350bd",
+	VALUES ("c14b4fcc-99ce-417f-85d7-ac22e2d20288",
 	'maslin',
 	1,
 	'../../../maslin.xtuml');

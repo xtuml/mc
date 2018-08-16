@@ -5,8 +5,7 @@ INSERT INTO O_OBJ
 	'copyright',
 	2047,
 	'TE_COPYRIGHT',
-	'The body to the copyright is define here.  The years listed must be 
-updated each year.',
+	'The body of a copyright can be defined here.',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_NBATTR
 	VALUES ("aa7f4256-0c25-4b69-9a4d-3fc978d83e26",
@@ -19,14 +18,14 @@ INSERT INTO O_ATTR
 	"ded92321-4379-4014-9fd4-0c040e1cd6dc",
 	"00000000-0000-0000-0000-000000000000",
 	'body',
-	'(C) Copyright 1998-2011 Mentor Graphics Corporation.  All rights reserved.
+	'
 ',
 	'',
 	'body',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
-	'"(C) Copyright 1998-2011 Mentor Graphics Corporation.  All rights reserved."');
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"ded92321-4379-4014-9fd4-0c040e1cd6dc");
@@ -45,7 +44,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Translation Extensions',
 	'TRANSLATE:TRUE
 This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',

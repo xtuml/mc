@@ -22,10 +22,18 @@ if ( not_empty end_state )
   select one end_state_activity related by end_state->activity[R3704];
   endstate = end_state_activity.name;
 end if;
+select one cell_object related by self->state_machine[R3743]->object[R3734.''defines lifecycle of''];
+select one event_object related by transition_event->object[R3736];
+scope = "";
+if ( cell_object.name != event_object.name )
+  // polymorphic event
+  scope = event_object.name + ".";
+end if;
 T::include( file:"masl/t.cell.masl" );',
 	1,
 	'',
-	"3c72dc54-c840-4dad-9e21-e6a9a8521c00");
+	"3c72dc54-c840-4dad-9e21-e6a9a8521c00",
+	0);
 INSERT INTO O_TFR
 	VALUES ("3c72dc54-c840-4dad-9e21-e6a9a8521c00",
 	"c2429e06-c16b-4289-bcbe-3a6f799a7b4b",
@@ -45,12 +53,17 @@ select any start_state_activity related by state_machine->object[R3734]->state[R
 select one start_state related by start_state_activity->state[R3704];
 if ( empty start_state )
   start_state = state::populate( name:param.startstate, type:"", object:parent_object );
-  //TRACE::log( flavor:"failure", id:90, message:"could not find state for state machine with name:  " + param.startstate );
 end if;
 select any transition_event related by state_machine->object[R3734]->event[R3736] where ( selected.name == param.event );
+if ( "" != param.object )
+  select any poly_object from instances of object where ( selected.name == param.object );
+  select any transition_event related by poly_object->event[R3736.''is triggered by''] where ( selected.name == param.event );
+  if ( empty transition_event )
+    transition_event = event::populate( name:param.event, type:"", object:poly_object );
+  end if;
+end if;
 if ( empty transition_event )
-  transition_event = event::populate( name:param.event, type:"", object:parent_object );
-  //TRACE::log( flavor:"failure", id:91, message:"could not find event for state machine with name:  " + param.event );
+  TRACE::log( flavor:"failure", id:91, message:"could not find event in state machine with name:  " + param.event );
 end if;
 cell.notransition = "";
 if ( ( "Ignore" != param.endstate ) and ( "Cannot_Happen" != param.endstate ) and ( "cannot_happen" != param.endstate ) )	// these spellings are taken directly from the lexer grammar
@@ -58,7 +71,7 @@ if ( ( "Ignore" != param.endstate ) and ( "Cannot_Happen" != param.endstate ) an
   select one end_state related by end_state_activity->state[R3704];
   if ( empty end_state )
     end_state = state::populate( name:param.endstate, type:"", object:parent_object );
-    //TRACE::log( flavor:"failure", id:92, message:"could not find state for state machine with name:  " + param.endstate );
+    TRACE::log( flavor:"failure", id:92, message:"could not find state for state machine with name:  " + param.endstate );
   end if;
   relate cell to end_state across R3731.''transitions to'';
 else
@@ -67,7 +80,8 @@ end if;
 relate start_state to transition_event across R3732 using cell;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("f082858f-0ec6-4bad-86a6-623868d5c780",
 	"3c72dc54-c840-4dad-9e21-e6a9a8521c00",
@@ -93,7 +107,7 @@ INSERT INTO O_TPARM
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"8da7128d-34e2-431e-99e7-dd335d043d79",
+	"242b2999-9e5b-4e90-adb2-615dc3ce5421",
 	'');
 INSERT INTO O_TPARM
 	VALUES ("1171aa69-429d-4b17-9783-2bf180ac18f0",
@@ -111,6 +125,24 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("242b2999-9e5b-4e90-adb2-615dc3ce5421",
+	"3c72dc54-c840-4dad-9e21-e6a9a8521c00",
+	'object',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"68b46e6d-f17a-4b93-b5df-eb54a0e680db",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("68b46e6d-f17a-4b93-b5df-eb54a0e680db",
+	"3c72dc54-c840-4dad-9e21-e6a9a8521c00",
+	'domain',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"8da7128d-34e2-431e-99e7-dd335d043d79",
+	'');
 INSERT INTO O_TFR
 	VALUES ("29cfc385-d637-4736-969c-b697b0c4c2c7",
 	"c2429e06-c16b-4289-bcbe-3a6f799a7b4b",
@@ -150,7 +182,8 @@ end if;
 return valid;',
 	1,
 	'',
-	"2014fa3a-0901-4300-92a8-c5a7ea753d0e");
+	"2014fa3a-0901-4300-92a8-c5a7ea753d0e",
+	0);
 INSERT INTO O_TFR
 	VALUES ("2014fa3a-0901-4300-92a8-c5a7ea753d0e",
 	"c2429e06-c16b-4289-bcbe-3a6f799a7b4b",
@@ -163,7 +196,8 @@ INSERT INTO O_TFR
 //out::( element:"template_class", value:value );',
 	1,
 	'',
-	"5a5192a3-53b4-44e7-9aa9-4c7db5fad0a0");
+	"5a5192a3-53b4-44e7-9aa9-4c7db5fad0a0",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("8e841dee-cb71-49c0-aee0-7e46584b572b",
 	"c2429e06-c16b-4289-bcbe-3a6f799a7b4b");

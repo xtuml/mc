@@ -1,0 +1,151 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("39d70038-bd97-42da-9422-3e80db94b4d7",
+	'model',
+	9201,
+	'model',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("75ff08f8-d003-47ae-a464-6fc35a07d112",
+	"39d70038-bd97-42da-9422-3e80db94b4d7",
+	'setoption',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select any option related by self->option[R9200.''applies''] where ( selected.name == param.name );
+if ( empty option )
+  create object instance option of option;
+  option.name = param.name;
+  relate option to self across R9200.''configures'';
+end if;
+option.value = param.value;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("6d26e20c-eb8d-4382-abf2-6e933a07f087",
+	"75ff08f8-d003-47ae-a464-6fc35a07d112",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("188f27a4-ce10-4c5f-9e51-59cf3b6f1905",
+	"75ff08f8-d003-47ae-a464-6fc35a07d112",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"6d26e20c-eb8d-4382-abf2-6e933a07f087",
+	'');
+INSERT INTO O_TFR
+	VALUES ("35294f6e-eccf-4411-b64a-9e11965d5842",
+	"39d70038-bd97-42da-9422-3e80db94b4d7",
+	'getoption',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'select any option related by self->option[R9200.''applies''] where ( selected.name == param.name );
+if ( empty option )
+  LOG::LogFailure( message:"Option ''" + param.name + "'' is not set." );
+  return "";
+else
+  return option.value;
+end if;',
+	1,
+	'',
+	"75ff08f8-d003-47ae-a464-6fc35a07d112",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("90a3f223-175b-4edf-8b5e-a08131b17339",
+	"35294f6e-eccf-4411-b64a-9e11965d5842",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("5815edb2-68d7-4efb-b722-a5ada5d81a89",
+	"39d70038-bd97-42da-9422-3e80db94b4d7",
+	'create',
+	'',
+	"8572d718-789c-40b2-b678-2f7b173d1507",
+	0,
+	'select any model from instances of model where ( selected.name == param.name );
+if ( empty model )
+  create object instance model of model;
+  model.name = param.name;
+end if;
+return model;',
+	1,
+	'',
+	"35294f6e-eccf-4411-b64a-9e11965d5842",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("b83d87ce-5dc6-4b3b-8eb9-96414ef251b1",
+	"5815edb2-68d7-4efb-b722-a5ada5d81a89",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("8572d718-789c-40b2-b678-2f7b173d1507",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<model>',
+	'',
+	'',
+	'../model.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("e3db0a58-b85f-4eca-afca-a00efe8d3201",
+	"39d70038-bd97-42da-9422-3e80db94b4d7");
+INSERT INTO O_BATTR
+	VALUES ("e3db0a58-b85f-4eca-afca-a00efe8d3201",
+	"39d70038-bd97-42da-9422-3e80db94b4d7");
+INSERT INTO O_ATTR
+	VALUES ("e3db0a58-b85f-4eca-afca-a00efe8d3201",
+	"39d70038-bd97-42da-9422-3e80db94b4d7",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"39d70038-bd97-42da-9422-3e80db94b4d7");
+INSERT INTO O_OIDA
+	VALUES ("e3db0a58-b85f-4eca-afca-a00efe8d3201",
+	"39d70038-bd97-42da-9422-3e80db94b4d7",
+	0,
+	'name');
+INSERT INTO O_ID
+	VALUES (1,
+	"39d70038-bd97-42da-9422-3e80db94b4d7");
+INSERT INTO O_ID
+	VALUES (2,
+	"39d70038-bd97-42da-9422-3e80db94b4d7");
+INSERT INTO PE_PE
+	VALUES ("39d70038-bd97-42da-9422-3e80db94b4d7",
+	1,
+	"fc52c455-bf5a-49cb-ba91-3b39d6d97611",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("fc52c455-bf5a-49cb-ba91-3b39d6d97611",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	'model',
+	'',
+	0,
+	'../model.xtuml');

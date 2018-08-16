@@ -1,0 +1,176 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	'Message Mark',
+	2213,
+	'TM_MSG',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("afa4c773-f3ef-40b8-a3d1-169f6a21ccb7",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1");
+INSERT INTO O_BATTR
+	VALUES ("afa4c773-f3ef-40b8-a3d1-169f6a21ccb7",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1");
+INSERT INTO O_ATTR
+	VALUES ("afa4c773-f3ef-40b8-a3d1-169f6a21ccb7",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	"097f4deb-e249-45f2-b5c7-8be1504b9a53",
+	'IsSafeForInterrupts',
+	'',
+	'',
+	'IsSafeForInterrupts',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("dec638b0-08b0-45e7-98af-6ae90fe9ab9b",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1");
+INSERT INTO O_BATTR
+	VALUES ("dec638b0-08b0-45e7-98af-6ae90fe9ab9b",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1");
+INSERT INTO O_ATTR
+	VALUES ("dec638b0-08b0-45e7-98af-6ae90fe9ab9b",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	"9b6cb2d8-5ede-4876-8fa3-683a4f92d95f",
+	'ComponentName',
+	'',
+	'',
+	'ComponentName',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("685947c4-150a-45f0-81b6-95ac271356a8",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1");
+INSERT INTO O_BATTR
+	VALUES ("685947c4-150a-45f0-81b6-95ac271356a8",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1");
+INSERT INTO O_ATTR
+	VALUES ("685947c4-150a-45f0-81b6-95ac271356a8",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	"dec638b0-08b0-45e7-98af-6ae90fe9ab9b",
+	'PortName',
+	'',
+	'',
+	'PortName',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("097f4deb-e249-45f2-b5c7-8be1504b9a53",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1");
+INSERT INTO O_BATTR
+	VALUES ("097f4deb-e249-45f2-b5c7-8be1504b9a53",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1");
+INSERT INTO O_ATTR
+	VALUES ("097f4deb-e249-45f2-b5c7-8be1504b9a53",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	"685947c4-150a-45f0-81b6-95ac271356a8",
+	'MessageName',
+	'',
+	'',
+	'MessageName',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
+	1,
+	"da41015c-2917-4256-aebd-139fc165a0fc",
+	"4400f698-8bf6-4580-b20b-72b3f5e95824",
+	"8932622d-017d-4101-981c-6419a719c824",
+	"7374ddde-fa34-434f-b06b-2c418530a031",
+	"9b6cb2d8-5ede-4876-8fa3-683a4f92d95f",
+	"8f9ccd5d-434b-48a7-982b-787e1efbbf3e",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Extended Message Action',
+	'ID',
+	'R2809');
+INSERT INTO R_RGO_PROXY
+	VALUES ("eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	"4400f698-8bf6-4580-b20b-72b3f5e95824",
+	"8932622d-017d-4101-981c-6419a719c824",
+	'../Translation Marking.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("da41015c-2917-4256-aebd-139fc165a0fc",
+	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
+	1,
+	"4400f698-8bf6-4580-b20b-72b3f5e95824",
+	"7374ddde-fa34-434f-b06b-2c418530a031",
+	'../Translation Marking.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("9b6cb2d8-5ede-4876-8fa3-683a4f92d95f",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	"da41015c-2917-4256-aebd-139fc165a0fc",
+	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
+	1,
+	'ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("da41015c-2917-4256-aebd-139fc165a0fc",
+	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
+	'../../Translation Extensions/Extended Message Action/Extended Message Action.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("9b6cb2d8-5ede-4876-8fa3-683a4f92d95f",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	"00000000-0000-0000-0000-000000000000",
+	'te_mactID',
+	'',
+	'te_mact',
+	'ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1");
+INSERT INTO O_OIDA
+	VALUES ("9b6cb2d8-5ede-4876-8fa3-683a4f92d95f",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	0,
+	'te_mactID');
+INSERT INTO O_ID
+	VALUES (1,
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1");
+INSERT INTO O_OIDA
+	VALUES ("dec638b0-08b0-45e7-98af-6ae90fe9ab9b",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	1,
+	'ComponentName');
+INSERT INTO O_OIDA
+	VALUES ("685947c4-150a-45f0-81b6-95ac271356a8",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	1,
+	'PortName');
+INSERT INTO O_OIDA
+	VALUES ("097f4deb-e249-45f2-b5c7-8be1504b9a53",
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	1,
+	'MessageName');
+INSERT INTO O_ID
+	VALUES (2,
+	"eee50858-9360-4c66-9a85-2d8239d6f6a1");
+INSERT INTO PE_PE
+	VALUES ("eee50858-9360-4c66-9a85-2d8239d6f6a1",
+	1,
+	"81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'Translation Marking',
+	'This subsystem contains classes intended for marking or coloring the user
+model to guide the translation process.',
+	0,
+	'../Translation Marking.xtuml');

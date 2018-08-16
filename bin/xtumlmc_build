@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #===========================================================================
-my $file_version = '1.60';
+my $file_version = '1.61';
 #
 # Description:
 # Run this file to build using SQL and marking input alone.  No
@@ -25,22 +25,23 @@ use File::Copy;
 use File::Path;
 use File::Compare;
 use File::Find;
+use File::Basename;
 use Cwd;
+use Cwd 'abs_path';
 
 my $osplatform;
-my $model_compiler = "MC-3020";      # Default to C model compiler.
 my $windbase = "";
 my %env_vars; # Perl can't export variables directly.  This
               # will hold the variables we would normally export
               # and we'll use system to export them later.
 
 # Preprocess the command line for which mc we're using and the home directory
-my $mc = "mc3020";
+my $mc = "mc";
 my $home_dir = "";
 for ( my $i = 0; $i < @ARGV; $i++ ) {
   my $k = $ARGV[$i];
   if ( $k =~ /^(-2)$/ ) { $mc = "mc2020"; }
-  elsif ( $k =~ /^(-3)$/ ) { $mc = "mc3020"; }
+  elsif ( $k =~ /^(-3)$/ ) { $mc = "mc"; }
   elsif ( $k =~ /^(-home)$/ ) { 
     $i++; 
     if ( $ARGV[$i] =~ m/^\.\./ ) {
@@ -61,11 +62,6 @@ $ENV{'ROX_MC_BIN_DIR'} = "$ENV{'XTUMLMC_HOME'}/$mc/bin" if ( ! exists $ENV{'ROX_
 my @system_arr = uname();
 my $system = "$system_arr[0]";
 my $root_dir = $ENV{'ROX_MC_ROOT_DIR'};
-if ( $root_dir =~ m/3020/i ) {
-  $model_compiler = "MC-3020";
-} elsif ( $root_dir =~ m/2020/i ) {
-  $model_compiler = "MC-2020";
-}
 
 # Set up platform specific environment.
 if ( $system =~ m/windows/i ) {
@@ -104,7 +100,6 @@ $ENV{'OBJ_SUFFIX'} = "o";
 
 my $schema = "$ENV{'ROX_MC_ROOT_DIR'}/$ENV{'ROX_APP_SCHEMA_DIR_NAME'}/$ENV{'ROX_APP_SQL_DIR_NAME'}/$ENV{'ROX_MC_OOA_SCHEMA_FILE'}";
 my $arcdir = $ENV{'ROX_MC_ARC_DIR'};
-
 
 ###########################################################################
 # Start ReplaceUUIDWithLong.
@@ -963,7 +958,6 @@ sub xtumlmc_cleanse_model($$$)
       # awk '/CREATE TABLE/{ print $3 }' | sed "s/_.*/_/" | sort | uniq
       if ( ! ( ( /^INSERT INTO ACT_/ ) ||
                 ( /^INSERT INTO A_/ ) ||
-                ( /^INSERT INTO CA_/ ) ||
                 ( /^INSERT INTO CL_/ ) ||
                 ( /^INSERT INTO CNST_/ ) ||
                 ( /^INSERT INTO COMM_/ ) ||
@@ -1068,13 +1062,95 @@ sub modelFinderCallback($$)
 }
 
 #---------------------------------------------------------------------------
+# Run referential integrity checking on the input models (projects).
+#---------------------------------------------------------------------------
+sub xtuml_integrity;
+sub xtuml_integrity
+{
+  my $usage = "Usage:\n\txtuml_integrity -i <model folder or file1> [-i <another folder or file>] [-g] [-m <accumulated model data file>] [-o <report file>]\n";
+
+  # get command line arguments
+  my @param_list = @_;
+
+  # set the path
+  my $current_path = $ENV{'PATH'};
+  my $mc_bin_dir = abs_path( dirname($0) );
+  add_to_path( $mc_bin_dir );
+
+  my @tt = localtime();
+  my $serial = "$tt[5]$tt[4]$tt[6]$tt[2]$tt[1]_$$";
+
+  # input variables
+  my @inputs;
+  my $skip_globals = 0;
+  my $model_file = "xtuml_integrity_model_file_${serial}";
+  my $out_file = ""; # if not out_file, use STDOUT
+
+  my $delete_model_file = 1; # Default to deleting accumulated model file when not supplied on command line.
+  my $tmp_file1 = "xtuml_integrity_temp1_${serial}";
+
+  # parse arguments
+  my $directive = "";
+  foreach my $arg(@param_list) {
+    if ( $arg eq "-i" or $arg eq "-o" or $arg eq "-m" ) {   # set the directive
+      $directive = "$arg";
+    } elsif ( $arg eq "-g" ) {                              # skip globals
+      $directive = "$arg";
+      $skip_globals = 1;
+    } elsif ( $directive eq "-i" ) {                        # add an input
+      push @inputs, $arg;
+    } elsif ( $directive eq "-m" ) {                        # denote accumulation file
+      $model_file = "$arg";
+      $delete_model_file = 0;
+    } elsif ( $directive eq "-o" ) {                        # save report to file
+      $out_file = "$arg";
+    } else {
+      print STDERR $usage;
+      exit 1;
+    }
+  }
+
+  # Check if we have any models to interrogate.
+  if ( !@inputs ) {
+    print STDERR $usage;
+    exit 1;
+  }
+
+  # Get the global native types.
+  if ( !$skip_globals ) {
+    push @inputs, glob("$mc_bin_dir/../../../plugins/org.xtuml.bp.pkg*/globals/Globals.xtuml");
+  }
+
+  # Accumulate model data.
+  foreach $i (@inputs) {
+    &ConvertMultiFileToSingleFile ( $i, $tmp_file1 );
+  }
+
+  # Filter graphics and proxy entries and non-ASCII characters from the model file.
+  &xtumlmc_cleanse_model( $tmp_file1, $model_file, 'true' );
+
+  # Run the check referential integrity binary.
+  if ( "" eq $out_file ) {
+    system( "integrity $model_file" );
+  } else {
+    system( "integrity $model_file > $out_file" );
+  }
+
+  # Remove the temporary files.
+  xtumlmc_rm( $tmp_file1 );
+  if ( $delete_model_file ) {
+    xtumlmc_rm( $model_file );
+  }
+}
+
+#---------------------------------------------------------------------------
 # Export a BridgePoint model to MASL
 #---------------------------------------------------------------------------
 sub xtuml2masl;
 sub xtuml2masl
 {
-  # xtuml2masl [-v | -V] [-e] -i <eclipse project> -d <domain component> [-o <output directory>]
-  # xtuml2masl [-v | -V] [-e] -i <eclipse project> -p <project package> [-o <output directory>]
+  # xtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -d <domain component> [-o <output directory>]
+  # xtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -p <project package> [-o <output directory>]
 
   # get command line arguments
   my @param_list = @_;
@@ -1088,6 +1164,8 @@ sub xtuml2masl
   my $validate = "";
   my $eclipse = "";
   my $out_dir = "";
+  my $skip_formatter = "";
+  my $skip_action_language = "";
 
   my @inputs;
   my $num_inputs = -1;
@@ -1097,21 +1175,29 @@ sub xtuml2masl
   my @dom_names;
   my @proj_names;
 
-  my $usage = "Usage:\n\txtuml2masl [-v | -V] [-e] -i <eclipse project> -d <domain component> [-o <output directory>]\n\txtuml2masl [-v | -V] [-e] -i <eclipse project> -p <project package> [-o <output directory>]\n";
+  my $usage = "Usage:\n\txtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -d <domain component> [-o <output directory>]\n\txtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -p <project package> [-o <output directory>]\n";
 
   # parse arguments
   my $directive = "";
   foreach my $arg(@param_list) {
     if ( ( $arg eq "-v" or $arg eq "-V" ) and $validate eq "" ) {   # if we encounter a validate flag, set the validation
       $validate = "$arg";
-      $directive = "";                                              # encounterint a validation flag resets the directive because
+      $directive = "";                                              # encountering a validation flag resets the directive because
     }
     elsif ( $arg eq "-e" and $eclipse eq "" ) {                     # if we encounter eclipse flag
       $eclipse = "$arg";
       $directive = "";
     }
+    elsif ( $arg eq "-xf" and $skip_formatter eq "" ) {               # if we encounter flag indicating skip MASL formatting
+      $skip_formatter = "$arg";
+      $directive = "";
+    }
     elsif ( $arg eq "-p" or $arg eq "-d" or $arg eq "-i" or $arg eq "-o" ) {        # set the directive
       $directive = "$arg";
+    }
+    elsif ( $arg eq "-xl" and $skip_action_language eq "" ) {         # if we encounter flag indicating skip output of MASL activities
+      $skip_action_language = "-s";
+      $directive = "";
     }
     elsif ( $directive eq "-i" ) {                                  # add an input
       $num_inputs++;
@@ -1151,7 +1237,7 @@ sub xtuml2masl
   # if no out directory was given, give the current working directory
   if ( $out_dir eq "" ) { $out_dir = "."; }
 
-  # make the output directory if ther is one
+  # make the output directory if there is one
   use File::Path qw(make_path);
   eval { make_path("$out_dir") };
   if ($@) {
@@ -1164,7 +1250,10 @@ sub xtuml2masl
     print STDERR "Invoking BridgePoint pre-builder...\n";
     # the WORKSPACE env variable is expected to be set properly
     my ($volume, $directory, $file) = File::Spec->splitpath(__FILE__);
-    system( "$directory/../../../../CLI.sh Build -prebuildOnly" );
+    foreach my $inproj (@inputs) {
+      my $proj = basename($inproj);
+      system( "$directory/CLI.sh Build -prebuildOnly -doNotParse -project $proj " );
+    }
   }
 
   # process command
@@ -1185,13 +1274,14 @@ sub xtuml2masl
 
     # cleanse the prebuilder output
     system( "cat $i/gen/code_generation/*.sql > $i/gen/code_generation/z.xtuml" );
-    &xtumlmc_cleanse_for_BridgePoint ( "$i/gen/code_generation/z.xtuml", "$i/gen/code_generation/a.xtuml" );
+    &xtumlmc_cleanse_for_BridgePoint ( "$i/gen/code_generation/z.xtuml", "$i/gen/code_generation/a.xtuml", "GD_", "DIM_" );
 
     # call the utilities
-    # Note: The -k option here specifies that key letter pragmas will be produced by
-    # the exporter. Remove the -k option to suppress generation of any "key_letter"
+    # Note: Add the -k option here to x2m to specify that key letter  
+    # pragmas should be produced by the exporter. By default the -k 
+    # option is not used in order to suppress generation of "key_letter"
     # pragmas.
-    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m -i$i $command -k | masl $validate -i$i $command -o$out_dir";
+    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m $skip_action_language -i$i $command | tee $i/gen/code_generation/x2m_output.txt | masl $validate $skip_action_language -i$i $command -o$out_dir | tee $i/gen/code_generation/masl_output.txt ";
     print STDERR "$sys_cmd\n";
     system( $sys_cmd );
 
@@ -1200,18 +1290,28 @@ sub xtuml2masl
     unlink "$i/gen/code_generation/a.xtuml";
   }
 
-  # format MASL
-  my $masl_format_cp = join(":", glob("$masl_bin_dir/*.jar"));
-  opendir my $dh, $out_dir
-    or die "$0: opendir: $!";
-  while (defined(my $format_dir = readdir $dh)) {
-    next unless -d "$out_dir/$format_dir";
-    if ( $format_dir ne "." and $format_dir ne ".." ) {
-      move( "$out_dir/$format_dir", "$out_dir/$format_dir.orig");
-      my $format_cmd = "java -cp $masl_format_cp MaslFormatter -r -i $out_dir/$format_dir.orig -o $out_dir/$format_dir";
-      print STDERR "$format_cmd\n";
-      system( $format_cmd );
-      rmtree("$out_dir/$format_dir.orig");
+  if ( $skip_formatter eq "" ) {
+    # format MASL
+    my $masl_format_cp = join(":", glob("$masl_bin_dir/*.jar"));
+    opendir my $dh, $out_dir
+      or die "$0: opendir: $!";
+    while (defined(my $format_dir = readdir $dh)) {
+      next unless -d "$out_dir/$format_dir";
+      if ( $format_dir ne "." and $format_dir ne ".." ) {
+        move( "$out_dir/$format_dir", "$out_dir/$format_dir.orig");
+        my $format_cmd = "java -cp $masl_format_cp MaslFormatter -r -i $out_dir/$format_dir.orig -o $out_dir/$format_dir";
+        print STDERR "$format_cmd\n";
+        system( $format_cmd );
+        # if formatting succeeds, remove the original MASL
+        # if not, move the unformatted back to the output dir
+        if ($? == 0) {
+            rmtree("$out_dir/$format_dir.orig");
+        }
+        else {
+            rmtree("$out_dir/$format_dir");
+            move( "$out_dir/$format_dir.orig", "$out_dir/$format_dir");
+        }
+      }
     }
   }
 
@@ -1326,7 +1426,8 @@ my %xtumlmc_utility_routines = (
   "ConvertMultiFileToSingleFile" => TRUE,
   "xtumlmc_cleanse_model" => TRUE,
   "xtumlmc_cleanse_inserts" => TRUE,
-  "xtumlmc_cleanse_for_BridgePoint" => TRUE );
+  "xtumlmc_cleanse_for_BridgePoint" => TRUE,
+  "xtuml_integrity" => TRUE );
 
 #
 # This condition will succeed only when the user is calling xtumlmc_build
@@ -1373,7 +1474,7 @@ my $build_directory = $serial;
 my $output_src = "../../src";
 my $debug_output_dir = "../../Debug/Output";
 my $xmiarc = "";
-my $license_type = "";
+my $mc_type = "";
 my @xmls;
 my $CONCATENATED_FILE;
 
@@ -1384,7 +1485,7 @@ my $CONCATENATED_FILE;
 for ( my $i = 0; $i < @ARGV; $i++ ) {
   my $k = $ARGV[$i] if ( $ARGV[$i] =~ s/^-// );
   if ( $k =~ /^(2)$/ ) { $mc = "mc2020"; }
-  elsif ( $k =~ /^(3)$/ ) { $mc = "mc3020"; }
+  elsif ( $k =~ /^(3)$/ ) { $mc = "mc"; }
   elsif ( $k =~ /^(b)$/ ) { $i++; $build_spec = $ARGV[$i]; }
   elsif ( $k =~ /^(d)$/ ) { $i++; $build_directory = $ARGV[$i]; }
   elsif ( $k =~ /^(e)$/ ) { $called_from_eclipse=1; }
@@ -1396,12 +1497,11 @@ for ( my $i = 0; $i < @ARGV; $i++ ) {
   }
   elsif ( $k =~ /^(home)$/ ) { $i++; }
   elsif ( $k =~ /^(i)$/ ) { $xmiarc = "$ENV{'XTUMLMC_HOME'}/$mc/arc/xtuml_xmi2.1_export.arc"; }
-  elsif ( $k =~ /^(l2s)$/ ) { $license_type = " -l2s "; }
-  elsif ( $k =~ /^(l2b)$/ ) { $license_type = " -l2b "; }
-  elsif ( $k =~ /^(l3s)$/ ) { $license_type = " -l3s "; }
-  elsif ( $k =~ /^(l3b)$/ ) { $license_type = " -l3b "; }
-  elsif ( $k =~ /^(lSCs)$/ ) { $license_type = " -lSCs "; }
-  elsif ( $k =~ /^(lVHs)$/ ) { $license_type = " -lVHs "; }
+  elsif ( $k =~ /^(l2s)$/ ) { $mc_type = " -l2s "; }
+  elsif ( $k =~ /^(l2b)$/ ) { $mc_type = " -l2b "; }
+  elsif ( $k =~ /^(l3s)$/ ) { $mc_type = " -l3s "; }
+  elsif ( $k =~ /^(l3b)$/ ) { $mc_type = " -l3b "; }
+  elsif ( $k =~ /^(lSCs)$/ ) { $mc_type = " -lSCs "; }
   elsif ( $k =~ /^(m)$/ ) { $i++; @sqls = ( @sqls, $ARGV[$i] ); }
   elsif ( $k =~ /^(o)$/ ) { $i++; @ooas = ( @ooas, $ARGV[$i] ); }
   elsif ( $k =~ /^(O)$/ ) { $i++; $output_src = $ARGV[$i]; }
@@ -1451,7 +1551,7 @@ if ( $current_path =~ /;/ ) {
 #---------------------------------------------------------------------------
 # Create system build directory.
 #---------------------------------------------------------------------------
-if ( "mc3020" eq $mc ) {
+if ( "mc" eq $mc ) {
   xtumlmc_init_workspace_3020( $build_directory, "" );
 } else {
   usage();
@@ -1585,7 +1685,7 @@ if ( ( scalar(@arcs) > 0 ) || ( $xmiarc ne "" ) ) {
   if ( $xmiarc ne "" ) {
     $archcmd = " -arch $xmiarc";
   }
-  xtumlmc_gen_erate( "$license_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} $archcmd" );
+  xtumlmc_gen_erate( "$mc_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} $archcmd" );
 
   if ( 0 == $called_from_eclipse ) {
     my $root_node = rox_path( "-m", "." );
@@ -1609,32 +1709,41 @@ if ( ( scalar(@arcs) > 0 ) || ( $xmiarc ne "" ) ) {
 #---------------------------------------------------------------------------
 # Handle the situation where the user has new-style archetype folder
 #---------------------------------------------------------------------------
+# create arc dir under code_generation
+my $build_arcdir = "$ENV{'ROX_APP_ROOT_DIR'}/arc";
+xtumlmc_mkdir($build_arcdir);
+
+# copy arc/* to code_gen/arc
+my $DIR = xtumlmc_opendir( $arcdir ); my @entries = readdir $DIR;
+foreach $entry ( @entries ) {
+  if ( -f "$arcdir/$entry" ) {
+    xtumlmc_copy( "$arcdir/$entry", "$build_arcdir/$entry" );
+  }
+}
+    
+# If they have a specialized folder use that, otherwise look at the 
+# mc_type flag
 my $specialized_arcdir = "$arcdir/specialized";
 if ( -d "$specialized_arcdir" ) {
-    # create arc dir under code_generation
-    my $build_arcdir = "$ENV{'ROX_APP_ROOT_DIR'}/arc";
-    xtumlmc_mkdir($build_arcdir);
-
-    # copy arc/* to code_gen/arc
-    my $DIR = xtumlmc_opendir( $arcdir ); my @entries = readdir $DIR;
-    foreach $entry ( @entries ) {
-      if ( -f "$arcdir/$entry" ) {
-        xtumlmc_copy( "$arcdir/$entry", "$build_arcdir/$entry" );
-      }
-    }
-    
-    # copy arc/specialized/* to code_gen/arc
-    $DIR = xtumlmc_opendir( $specialized_arcdir ); @entries = readdir $DIR;
-    foreach $entry ( @entries ) {
-      if ( -f "$specialized_arcdir/$entry" ) {
-        xtumlmc_copy( "$specialized_arcdir/$entry", "$build_arcdir/$entry" );
-      }
-    }
-    
-    # use new arc dir
-    $ENV{'ROX_MC_ARC_DIR'} = "$build_arcdir";
-    $arcdir = $ENV{'ROX_MC_ARC_DIR'};
+  # no variable mod needed, copy arc/specialized/* to code_gen/arc
+} else {
+  if ( $mc_type eq " -l2s " ) { $specialized_arcdir = "$arcdir/sysc" }
+  elsif ( $mc_type eq " -l2b " ) { $specialized_arcdir = "$arcdir/sysc" }
+  elsif ( $mc_type eq " -l3s " ) { $specialized_arcdir = "$arcdir/c" }
+  elsif ( $mc_type eq " -l3b " ) { $specialized_arcdir = "$arcdir/c" }
+  elsif ( $mc_type eq " -lSCs " ) { $specialized_arcdir = "$arcdir/sysc" }
+  else { $specialized_arcdir = "$arcdir/c" }
 }
+$DIR = xtumlmc_opendir( $specialized_arcdir ); @entries = readdir $DIR;
+foreach $entry ( @entries ) {
+  if ( -f "$specialized_arcdir/$entry" ) {
+    xtumlmc_copy( "$specialized_arcdir/$entry", "$build_arcdir/$entry" );
+  }
+}
+    
+# use new arc dir
+$ENV{'ROX_MC_ARC_DIR'} = "$build_arcdir";
+$arcdir = $ENV{'ROX_MC_ARC_DIR'};
 
 #---------------------------------------------------------------------------
 # Generate the system node and then compile.
@@ -1642,7 +1751,7 @@ if ( -d "$specialized_arcdir" ) {
 # Check for compiled model-based model compiler executable.
 # If it exists, use it.  Otherwise, use archetypes.
 $mccmd = "$ENV{'ROX_MC_BIN_DIR'}/mcmc";
-if ( -f $mccmd ) {
+if ( ((-f $mccmd) || (-f "$mccmd.exe")) && ( $mc_type =~ /l3/ ) ) {
   # Get the marks from the marking files to be parsed by mcmc.
   # grep '^ *\.invoke ' *.mark > m.txt
   my $outFile = xtumlmc_open( ">" . "m.txt" );
@@ -1682,7 +1791,7 @@ if ( -f $mccmd ) {
     close $inFile
   }
 }
-xtumlmc_gen_erate( "$license_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} -arch \"$arcdir/sys.arc\"" );
+xtumlmc_gen_erate( "$mc_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} -arch \"$arcdir/sys.arc\"" );
 
 #---------------------------------------------------------------------------
 # Copy the C files into the correct locations.
@@ -1736,7 +1845,7 @@ if ( -d $output_src ) {
 }
 
 if ( 1 == $do_compile ) {
-  if ( "mc3020" eq $mc ) {
+  if ( "mc" eq $mc ) {
     system( "make all_no_gen" );
   }
 }

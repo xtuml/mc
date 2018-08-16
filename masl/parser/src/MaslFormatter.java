@@ -4,7 +4,7 @@ import org.antlr.runtime.tree.*;
 import java.util.regex.Pattern;
 import java.util.Arrays;
 
-public class MaslFormatter {
+public class MaslFormatter implements ErrorHandler {
 
     // public fields
     public static final int FILE = 0;
@@ -13,21 +13,27 @@ public class MaslFormatter {
     // private fields
     private boolean sort;
     private boolean reorder;
+    private boolean comments;
     private int tabwidth;
     private PrintStream outStream;
+
+    private int exitCode;
 
     // public constructor
     public MaslFormatter() {
         sort = false;
         reorder = false;
+        comments = false;
         tabwidth = -1;
         outStream = null;
+        exitCode = 0;
     }
 
     // setup method
-    public void setup( boolean sort, boolean reorder, int tabwidth ) {
+    public void setup( boolean sort, boolean reorder, boolean comments, int tabwidth ) {
         this.sort = sort;
         this.reorder = reorder;
+        this.comments = comments;
         this.tabwidth = tabwidth;
     }
 
@@ -103,7 +109,7 @@ public class MaslFormatter {
                 }
                      
                 // parse the file
-                if ( inStream != null ) parse( inStream );
+                if ( inStream != null ) parse( inStream, f.getName() );
             }
         }
 
@@ -111,7 +117,7 @@ public class MaslFormatter {
     }
 
     // parse a MASL file, output formatted MASL
-    public void parse( InputStream in ) {
+    public void parse( InputStream in, String fileName ) {
         // check args and set current file
         if ( in == null )
             return;
@@ -130,8 +136,12 @@ public class MaslFormatter {
             return;
         }
 
+        lex.setErrorHandler(this);
+
         tokens = new CommonTokenStream( lex );
         parser = new MaslParser( tokens );
+
+        parser.setErrorHandler(this);
 
         try {
             tree = ( CommonTree )parser.target().getTree();
@@ -146,8 +156,12 @@ public class MaslFormatter {
         formatter.init();
         formatter.setSort( sort );
         formatter.setReorder( reorder );
+        formatter.setComments( comments );
         if ( tabwidth >= 0 ) formatter.setTabWidth( tabwidth );
         if ( outStream != null ) formatter.setOut( outStream );
+        if ( fileName != null ) formatter.setFileName( fileName );
+
+        formatter.setErrorHandler(this);
 
         // run formatter
         try {
@@ -159,13 +173,21 @@ public class MaslFormatter {
 
     }
 
+    public void handleError(String msg) {
+        exitCode = 1;
+    }
+
+    public int exitCode() {
+        return exitCode;
+    }
+
     // print usage
     public void printUsage() {
         System.err.println("Usage:\n");
         System.err.println("Format single MASL file:");
-        System.err.println("\tjava -cp <classpath> MaslFormatter [-s] [-r] [-t <tabwidth>] < <input> > <output>\n");
+        System.err.println("\tjava -cp <classpath> MaslFormatter [-s(ort)] [-r(eorder)] [-c(omments)] [-t <tabwidth>] < <input> > <output>\n");
         System.err.println("Format directory:");
-        System.err.println("\tjava -cp <classpath> MaslImportParser [-s] [-r] [-t <tabwidth>] -i <input directory> -o <output directory>\n");
+        System.err.println("\tjava -cp <classpath> MaslImportParser [-s(ort)] [-r(eorder)] [-c(omments)] [-t <tabwidth>] -i <input directory> -o <output directory>\n");
     }
 
     // main method
@@ -175,6 +197,7 @@ public class MaslFormatter {
 
         boolean sort = false;
         boolean reorder = false;
+        boolean comments = false;
         int tabwidth = -1;
         int mode = MaslFormatter.FILE;
 
@@ -187,6 +210,7 @@ public class MaslFormatter {
 
         if ( Arrays.asList(args).contains("-s") ) sort = true;
         if ( Arrays.asList(args).contains("-r") ) reorder = true;
+        if ( Arrays.asList(args).contains("-c") ) comments = true;
 
         i = Arrays.asList(args).indexOf("-t");
         if ( i != -1 && args.length > i+1 ) {
@@ -204,9 +228,9 @@ public class MaslFormatter {
         }
         
         // run formatter
-        formatter.setup( sort, reorder, tabwidth );
+        formatter.setup( sort, reorder, comments, tabwidth );
         if ( MaslFormatter.FILE == mode ) {
-            formatter.parse( System.in );
+            formatter.parse( System.in, "System.in" );
         }
         else if ( MaslFormatter.DIR == mode ) {
             formatter.parseDir( indir, outdir );
@@ -214,6 +238,8 @@ public class MaslFormatter {
         else {
             formatter.printUsage();
         }
+
+        System.exit(formatter.exitCode());
 
     }
 }

@@ -35,6 +35,16 @@ INSERT INTO C_PP
 	0,
 	'',
 	"f2788bfa-df95-493f-ad9c-d49df056e94f");
+INSERT INTO C_PP
+	VALUES ("40706b05-4c0a-468f-9ca8-101484e7dc83",
+	"bf2670be-70c3-4455-a751-ecc960ffedb8",
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'structuralOnly',
+	'Flag to indicate if masl should only output structural bits or should output 
+activities as well.',
+	0,
+	'',
+	"d3d4383f-d614-4d80-9998-712c2977b460");
 INSERT INTO C_EP
 	VALUES ("4f3928ea-6523-484f-8d57-340cf7fe859b",
 	"965609b5-99d9-40ca-bc70-74dd6acccf34",
@@ -86,6 +96,18 @@ INSERT INTO C_PP
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO C_EP
+	VALUES ("8ac11297-2622-4a30-9eec-fc2138b26abd",
+	"965609b5-99d9-40ca-bc70-74dd6acccf34",
+	-1,
+	'coverage',
+	'population::coverage();');
+INSERT INTO C_AS
+	VALUES ("8ac11297-2622-4a30-9eec-fc2138b26abd",
+	'coverage',
+	'population::coverage();',
+	0,
+	"f49538b2-41b6-4418-8b44-e9e8230876a5");
 INSERT INTO PE_PE
 	VALUES ("965609b5-99d9-40ca-bc70-74dd6acccf34",
 	1,

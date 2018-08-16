@@ -19,7 +19,8 @@ T::include( file:"masl/t.object_end.masl" );
 ',
 	1,
 	'',
-	"b679f317-aa17-412d-8a0b-6980ae4b6733");
+	"b679f317-aa17-412d-8a0b-6980ae4b6733",
+	0);
 INSERT INTO O_TFR
 	VALUES ("b679f317-aa17-412d-8a0b-6980ae4b6733",
 	"b172c9d9-1810-42e5-8072-31c681079947",
@@ -38,7 +39,8 @@ end if;
 return array;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("a4184b39-b099-4df0-8abe-4b666e19bc38",
 	"b679f317-aa17-412d-8a0b-6980ae4b6733",
@@ -91,7 +93,8 @@ return valid;
 ',
 	1,
 	'',
-	"bb93400e-75c6-40a6-81b2-e2662880f976");
+	"bb93400e-75c6-40a6-81b2-e2662880f976",
+	0);
 INSERT INTO O_TFR
 	VALUES ("bb93400e-75c6-40a6-81b2-e2662880f976",
 	"b172c9d9-1810-42e5-8072-31c681079947",
@@ -104,7 +107,8 @@ value[0] = self.name;
 //out::( element:"template_class", value:value );',
 	1,
 	'',
-	"ea846f53-fedb-41ab-b46a-0957f6fe6b42");
+	"ea846f53-fedb-41ab-b46a-0957f6fe6b42",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("052c4ccb-36a0-4286-b9ad-7e351b776991",
 	"b172c9d9-1810-42e5-8072-31c681079947");

@@ -14,9 +14,6 @@ ${te_target.c2cplusplus_linkage_begin}
 .if ( te_sys.PersistentClassCount > 0 )
 #include "${te_file.persist}.${te_file.hdr_file_ext}"
 .end if
-.if ( te_sys.InstanceLoading )
-${te_instance.handle} ${te_prefix.result}instance_cache[ 1000000 ];
-.end if
 
 ${te_instance.handle} ${te_instance.create}( const ${te_typemap.domain_number_name}, const ${te_typemap.object_number_name} );
 void ${te_instance.delete}( ${te_instance.handle}, const ${te_typemap.domain_number_name}, const ${te_typemap.object_number_name} );

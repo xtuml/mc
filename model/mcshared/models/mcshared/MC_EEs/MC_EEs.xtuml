@@ -219,7 +219,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'control stop;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("839226d8-b879-4e04-8275-8b3b62db8196",
 	1,
@@ -244,7 +245,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("04bcd089-2994-4423-bc96-3fdb07109547",
 	"3ba42b64-2507-4d2d-b55d-eaefe0383ded",
@@ -263,7 +265,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("adfe2344-d4df-4ae6-b632-8b4f2fa02695",
 	"742225e9-e39d-4315-93b2-7dab284e2d4f",
@@ -282,7 +285,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("bcb46e24-0a73-4bb9-8781-1d69f7981ee0",
 	"0bac13ee-d092-4195-acdd-e9c948db5e2a",
@@ -301,7 +305,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("55f2759b-d4af-4fdb-bf4b-2bbdcacd8b99",
 	"6e97e20c-03a5-4111-9a7c-745e0bc10b9d",
@@ -329,7 +334,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("76da6a21-fae7-4844-8c71-2281e29884ad",
 	"479b3682-cbae-4b90-badd-ce1fe0e0ccad",
@@ -357,7 +363,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("bd173edb-eeca-43dd-8ed5-c1b936b327e5",
 	"c89e32e1-44f0-488e-a967-ea2e395cdd9f",
@@ -385,7 +392,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	0,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("eef399c7-82c0-436c-9a5c-38e8832a3fe9",
 	"6562a30d-32cc-46ef-995f-94315a3b46eb",
@@ -419,7 +427,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("2afe6d03-809a-4784-9b63-a0eac05a74ff",
 	"e88b5ce9-8688-47df-b982-aad1ec798e42",
@@ -454,7 +463,8 @@ INSERT INTO S_BRG
 	'return "123";
 ',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("6006e5ac-f6d8-447f-9881-ab111b8ab45d",
 	"86c4bd90-f04d-4adc-8334-ba3ee34b21c0",
@@ -473,7 +483,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("fb1adf29-5f33-4771-85ec-345360e3d596",
 	"30523f01-263c-4b56-818b-9e05c41f1f4b",
@@ -492,7 +503,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BRG
 	VALUES ("79484aaf-f907-457d-a42a-3124f3c53be7",
 	"d5a9b463-d62b-48e1-be9c-c3e0d84d9c47",
@@ -502,7 +514,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("8a779b8d-0ee5-4198-830a-b5c73ff38e3a",
 	"79484aaf-f907-457d-a42a-3124f3c53be7",
@@ -521,7 +534,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'LOG::LogInfo( message:param.s );',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("ce11ab4b-aff1-45ab-aaab-2cbc9d10bd50",
 	"c863721c-a3e1-4a2e-bae0-2a749d2dd0ca",
@@ -540,7 +554,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("32da1b3f-398e-415b-9444-a127cee56b5f",
 	"11e7aa84-a739-49e4-9bb7-a0961c4a8dca",
@@ -559,7 +574,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("3f6e4507-91d4-4280-8a6a-a487c3bf8357",
 	"5678f2ac-1eee-4035-92f7-0236ad607f28",
@@ -578,7 +594,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'return param.s;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("9e6c579c-03de-47f2-b0e1-809562474801",
 	"4bb94d59-a03f-426f-a1b0-e5f95d1fc728",
@@ -597,7 +614,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'return param.s;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("44392cb5-dbe8-4a78-bd52-d9936b27032b",
 	"9569f488-8b9b-4ad9-87e0-9ebd5bda1257",
@@ -616,7 +634,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'return param.s;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("b88cb2f4-5a77-4bdc-84d8-6656c3cd4dc7",
 	"14905d69-4955-4129-b662-1ea7a059e78d",
@@ -635,7 +654,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'return param.s;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("a1eaa799-5abb-4779-b2db-c2fa56c45255",
 	"c4fd6bfe-f1fd-4536-b7d4-d9976eee231d",
@@ -654,7 +674,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'return param.s;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("29bffcdd-2203-457a-b91d-fa7a8032a2f8",
 	"471b7e38-2c1f-403e-9565-ee24eb726207",
@@ -673,7 +694,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'return param.s;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("e9426f3e-8ad5-40e0-b51f-fe2d51fcc7d3",
 	"5f50ebbc-e28f-4d33-bce1-0679dd93ca43",
@@ -693,7 +715,8 @@ escaped values.',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'return param.s;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("9df63e0f-78ea-47fd-8a74-f42f456093d3",
 	"9b79d179-45ee-42e5-bf87-8e5a56a9ad64",
@@ -712,7 +735,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'return param.s;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("4b2204a0-0077-44f2-90f9-8e017fe14fca",
 	"c0540614-c6ed-45d0-b4ec-ed3ca6848dc1",
@@ -740,7 +764,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BRG
 	VALUES ("a96c3686-9633-4cd0-adfc-c7101fcaa26d",
 	"d5a9b463-d62b-48e1-be9c-c3e0d84d9c47",
@@ -750,7 +775,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("613f3368-b576-44dc-a790-b7aedaebbd0a",
 	"a96c3686-9633-4cd0-adfc-c7101fcaa26d",
@@ -769,7 +795,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("fae37b6f-1698-47e1-8383-6ecf5338bdca",
 	"67ee4dd6-307d-4c42-970b-32ec596feb93",
@@ -797,7 +824,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'return 0;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("331addbd-e217-4b92-ad56-2fee13a8346b",
 	"d85fcc5d-0038-4b0c-abcd-f75663fc1f2d",
@@ -841,7 +869,8 @@ end while;
 
 return s;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("2d55edae-469e-4383-b8d2-93ff5efa8d36",
 	"6275a3df-0891-4797-abeb-67dc2daf14ec",
@@ -860,7 +889,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'return 0;',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("0fe1ca8f-1b97-4bb6-87f8-7ce2b5e21448",
 	"b3a51e75-8038-4102-9860-a9ce3e447b83",
@@ -887,7 +917,8 @@ bar = substr( s:"Hello, World!", 2, -1 );	// bar == "llo, World!"',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("b45c35f4-805a-421a-90ab-be055eb4c0dd",
 	"24cd0f42-7321-45b1-8c8c-726958e5b8ca",
@@ -924,7 +955,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("181f6844-6ad7-4d48-a378-4b6a531da2e6",
 	"9b4a754f-c3ab-47ed-9798-df78e185a9a8",
@@ -943,7 +975,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("1203a3de-acbf-4ab2-99d1-2bd14503147f",
 	"a034fc43-c69a-4748-b9df-b3cd04458e8d",
@@ -974,7 +1007,8 @@ words are delimited by ",", " ", "\n", "\r", "\t", "(", ")"',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("a0b5e259-b7bb-47ee-8243-7ad1643e7bcb",
 	"9fced7a5-892c-4f70-8963-5f9550294058",
@@ -1012,7 +1046,8 @@ and the end of the string. If the input string is only whitespace, empty string 
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("bbca5391-f26a-4eed-bbd8-b88e1c393df3",
 	"76558700-f8ad-4c3a-9aad-2aab091c1410",
@@ -1031,7 +1066,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BRG
 	VALUES ("7d0983b0-9838-4037-96f9-a3915bb8860c",
 	"bb9efba5-486a-4a39-a358-d0e112844c11",
@@ -1042,7 +1078,8 @@ string',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("e57ebaf2-f0df-440a-a441-acbea5429c6d",
 	"7d0983b0-9838-4037-96f9-a3915bb8860c",
@@ -1061,11 +1098,41 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("8eeee9e7-966f-4bc9-8f17-06d767dfc320",
 	"0ef0927a-f7cb-4676-bfcc-a082719296a0",
 	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("555b2745-1457-427d-ba02-d195b2cf776d",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'idtoa',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("b5bdcd64-d89e-4ea8-b891-5263ec2799a4",
+	"555b2745-1457-427d-ba02-d195b2cf776d",
+	'id',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"94c07db0-38a7-45b5-a1d4-1aaff833e82f",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("94c07db0-38a7-45b5-a1d4-1aaff833e82f",
+	"555b2745-1457-427d-ba02-d195b2cf776d",
+	'a',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
@@ -1096,7 +1163,8 @@ INSERT INTO S_BRG
 	's = STRING::itoa( i:param.id ) + " ___ " + param.flavor + " ___ " + param.message;
 LOG::LogInfo( message:s );',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("195420e3-07c2-4636-bc9d-757f12196a2e",
 	"92a3feb2-13f3-491e-b94d-94bacc9a4f7b",
@@ -1148,7 +1216,8 @@ INSERT INTO S_BRG
 	"ba5eda7a-def5-0000-0000-000000000000",
 	'',
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_BPARM
 	VALUES ("7b282e79-8824-4656-8e11-b5df67c333cf",
 	"4378943b-b0a0-42a1-897c-cfb937f34733",

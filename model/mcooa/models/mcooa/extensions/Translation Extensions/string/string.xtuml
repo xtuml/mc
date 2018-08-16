@@ -216,6 +216,42 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'te_prefix.result + "strget"');
+INSERT INTO O_NBATTR
+	VALUES ("cedbd9a9-c602-45b2-b954-50034e7761ec",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("cedbd9a9-c602-45b2-b954-50034e7761ec",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("cedbd9a9-c602-45b2-b954-50034e7761ec",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"eafd7288-ede3-4e40-8cf1-e6b1d1776db1",
+	'uuidtou128',
+	'Convert a string UUID into an unsigned 128-bit integer.',
+	'',
+	'uuidtou128',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "uuidtou128"');
+INSERT INTO O_NBATTR
+	VALUES ("eafd7288-ede3-4e40-8cf1-e6b1d1776db1",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("eafd7288-ede3-4e40-8cf1-e6b1d1776db1",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("eafd7288-ede3-4e40-8cf1-e6b1d1776db1",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"de276dcf-5d97-4b70-8ca1-39ff5bdaba85",
+	'u128touuid',
+	'Convert an unsigned 128-bit integer into a string UUID.',
+	'',
+	'u128touuid',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "u128touuid"');
 INSERT INTO O_ID
 	VALUES (0,
 	"855c829b-2adf-4281-a5f9-14194b41aecf");
@@ -234,7 +270,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Translation Extensions',
 	'TRANSLATE:TRUE
 This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',

@@ -25,7 +25,8 @@ relate domain to markable across R3783;
 return domain;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("11b21edf-33b3-49d7-8a2d-c247985704d7",
 	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4",
@@ -77,10 +78,8 @@ for each object in objects
   object.render_declaration();
 end for;
 
-select many types related by self->type[R3776];
-for each type in types
-  type.render();
-end for;
+// Render types in dependent order minimizing forward declarations.
+type::render_all( domain:self, scope:"private" );
 
 select many exceptions related by self->exception[R3748];
 for each exception in exceptions
@@ -102,9 +101,29 @@ for each relationship in relationships
   relationship.render();
 end for;
 
-for each object in objects
-  object.render();
-end for;
+// Sequence rendering such that supertypes are rendered before subtypes.
+// The maximum number of rounds required cannot be larger than the
+// total number subtype-supertype relationships in the domain.
+round = 0;
+select many subsupers from instances of subsuper;
+maxrounds = cardinality subsupers;
+while ( round <= maxrounds )
+  for each object in objects
+    // determine subtype depth
+    // Render the object during the round equal to its depth.
+    depth = 0;
+    select many supertypes related by object->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.''engages'']->object[R3714];
+    while ( not_empty supertypes )
+      depth = depth + 1;
+      ss = supertypes;
+      select many supertypes related by ss->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.''engages'']->object[R3714];
+    end while;
+    if ( depth == round )
+      object.render();
+    end if;
+  end for;
+  round = round + 1;
+end while;
 
 T::include( file:"masl/t.domain_end.masl" );
 
@@ -112,7 +131,8 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
 	'',
-	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4");
+	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4",
+	0);
 INSERT INTO O_TFR
 	VALUES ("923d7453-ca83-4d45-8c3f-abdabf2d922c",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
@@ -194,7 +214,8 @@ end for;
 return valid;',
 	1,
 	'',
-	"e6bc5a45-5a39-4d36-8cfb-9189cb568011");
+	"e6bc5a45-5a39-4d36-8cfb-9189cb568011",
+	0);
 INSERT INTO O_TFR
 	VALUES ("e6bc5a45-5a39-4d36-8cfb-9189cb568011",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
@@ -208,7 +229,7 @@ emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; 
 value[0] = self.name;
 out::tostring( element:"domain", value:value );
 
-select many types related by self->type[R3776];
+select many types related by self->type[R3719];
 for each type in types
   type.tostring();
 end for;
@@ -239,7 +260,8 @@ out::tostring( element:"domain", value:emptyvalue );
 ',
 	1,
 	'',
-	"892cc2c0-a74a-40f1-99c2-f7a70d95e67f");
+	"892cc2c0-a74a-40f1-99c2-f7a70d95e67f",
+	0);
 INSERT INTO O_TFR
 	VALUES ("892cc2c0-a74a-40f1-99c2-f7a70d95e67f",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
@@ -264,7 +286,8 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"project" );',
 	1,
 	'',
-	"d2c1d212-d763-486a-80db-31abb17f92e1");
+	"d2c1d212-d763-486a-80db-31abb17f92e1",
+	0);
 INSERT INTO O_TFR
 	VALUES ("d2c1d212-d763-486a-80db-31abb17f92e1",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
@@ -278,12 +301,8 @@ for each descrip in descrips
 end for;
 T::include( file:"masl/t.domain_begin.masl" );
 
-select many types related by self->type[R3776];
-for each type in types
-  if ( "public" == type.visibility )
-    type.render();
-  end if;
-end for;
+// Render types in dependent order minimizing forward declarations.
+type::render_all( domain:self, scope:"public" );
 
 select many exceptions related by self->exception[R3748];
 for each exception in exceptions
@@ -300,13 +319,19 @@ for each activity in routine_activities
   end if;
 end for;
 
+select many terminators related by self->terminator[R3702.''sends through''];
+for each terminator in terminators
+  terminator.render();
+end for;
+
 T::include( file:"masl/t.domain_end.masl" );
 
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
 	'',
-	"0d6eab48-8a19-474c-a54c-d16da938995b");
+	"0d6eab48-8a19-474c-a54c-d16da938995b",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("4fc1a43d-5822-49e1-b600-7ff700768a17",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");

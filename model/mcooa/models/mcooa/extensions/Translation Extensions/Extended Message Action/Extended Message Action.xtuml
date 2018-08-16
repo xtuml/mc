@@ -759,6 +759,21 @@ INSERT INTO O_OIDA
 INSERT INTO O_ID
 	VALUES (2,
 	"ff19e93f-39a8-4a13-af46-1b7ee8317135");
+INSERT INTO O_OIDA
+	VALUES ("0181d595-ddd0-445b-95f1-8a48f63838b1",
+	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
+	2,
+	'ComponentName');
+INSERT INTO O_OIDA
+	VALUES ("2458933e-ec4c-4e7f-b7bc-a8b35d378819",
+	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
+	2,
+	'PortName');
+INSERT INTO O_OIDA
+	VALUES ("5a371b18-c6e9-47ab-af6b-9991c1790e7f",
+	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
+	2,
+	'MessageName');
 INSERT INTO PE_PE
 	VALUES ("ff19e93f-39a8-4a13-af46-1b7ee8317135",
 	1,
@@ -768,7 +783,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Translation Extensions',
 	'TRANSLATE:TRUE
 This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',

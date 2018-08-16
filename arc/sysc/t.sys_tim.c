@@ -733,6 +733,7 @@ TIM::timer_fire(
 .if ( "Nucleus" == te_thread.flavor )
   timer_find_and_delete( t );
 .else
+  t->event = 0;                   /* Be sure event is not reused.  */
   animate = animate->next;        /* Remove from active list.      */
   t->next = inanimate;            /* Connect to inactive list.     */
   inanimate = t;

@@ -30,7 +30,8 @@ T::include( file:"docbook/t.tableend.xml" );
 ',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TFR
 	VALUES ("6305e4cf-e558-4a7d-8f2f-0237b8713905",
 	"074a1710-670c-4f5a-b669-fa1b01806cbe",
@@ -46,7 +47,8 @@ doc_tbl.num_cols = param.num_cols;
 return doc_tbl;',
 	1,
 	'',
-	"162a3b1a-d50e-41c9-b46b-c5160fa732b2");
+	"162a3b1a-d50e-41c9-b46b-c5160fa732b2",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("b0db3e17-fae5-4a59-93ad-0ceff708063a",
 	"6305e4cf-e558-4a7d-8f2f-0237b8713905",
@@ -106,7 +108,8 @@ for each doc_tbl in doc_tbls
 end for;',
 	1,
 	'',
-	"6305e4cf-e558-4a7d-8f2f-0237b8713905");
+	"6305e4cf-e558-4a7d-8f2f-0237b8713905",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("4fcd4221-21fa-4f73-a73a-d3fee86ad87e",
 	"074a1710-670c-4f5a-b669-fa1b01806cbe");

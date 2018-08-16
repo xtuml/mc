@@ -39,7 +39,7 @@
 .// Enable Multi-tasking/threading Capability
 .//   To cause MC-3020 to generate multi-tasking/threading code invoke
 .//   the EnableTasking marking function.  Pass it arguments to specify
-.//   the type of multi-tasking environment and whether or not to 
+.//   the type of multi-tasking environment and whether or not to
 .//   serialize all action processing (across all tasks).
 .//
 .// EnableTasking( "type", "serialize_processing", tasks )
@@ -48,8 +48,8 @@
 .//   type = The flavor of RTOS or threading being integrated.
 .//   serialize_processing = When set to serialize, all actions across
 .//     all tasks are forced to be serialized.  Note that serializing
-.//     the action processing reduces data access contention, but 
-.//     can severely reduce the multi-tasking performance of the 
+.//     the action processing reduces data access contention, but
+.//     can severely reduce the multi-tasking performance of the
 .//     generated system.
 .//   tasks = number of threads/tasks in the xtUML generated system
 .//
@@ -248,6 +248,39 @@
 .//
 .// Example:
 .//   .invoke MarkPersistenceCacheDepth( 300, 220 )
+.//============================================================================
+.//
+.//
+.//============================================================================
+.// Mark Size of State Save Buffer
+.//
+.// To enable state state save capability and to establish the size of the
+.// buffer used to capture state, this marking function can be invoked from
+.// the system.mark marking file.
+.//
+.// MarkStateSave( buffersize )
+.//
+.// Where the input parameter(s) are:
+.//   buffersize = size in bytes of the state save memory buffer
+.//
+.// Example:
+.//   .invoke MarkStateSave( 16000 )
+.//============================================================================
+.//
+.//
+.//============================================================================
+.// Mark to Use Simulated Time
+.//
+.// To generate time (TIM) code that uses a simulated time base rather than
+.// wall clock time, invoke the following marking function:
+.//
+.// MarkSimulatedTime()
+.//
+.// Where the input parameter(s) are:
+.//   N/A
+.//
+.// Example:
+.//   .invoke MarkSimulatedTime()
 .//============================================================================
 .//
 .//

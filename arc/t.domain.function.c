@@ -9,14 +9,16 @@ ${s_sync.Action_Semantics}
 .end if
  */
 .if ( te_sync.IsSafeForInterrupts )
-/* Declare deferred routine for posting.  */
+/* deferred routine declaration for posting */
 static void ${te_sync.deferred_method}( void );
   .if ( not_empty s_sparms )
-/* Declare package for packing, posting and unpacking arguments.  */
+/* package for packing, posting and unpacking arguments */
 typedef struct {
 ${te_aba.ParameterStructure}\
 } ${te_sync.GeneratedName}_arguments_t;
   .end if
+
+/* stub for safe calls from ISRs, threads, signals, etc. */
 .end if
 ${te_aba.ReturnDataType}
 ${te_aba.scope}${te_aba.GeneratedName}(${te_aba.ParameterDefinition})
@@ -26,9 +28,14 @@ ${te_aba.scope}${te_aba.GeneratedName}(${te_aba.ParameterDefinition})
   .// Add additional interfaces for deferring and deferred execution.
   .//
   .if ( te_sync.IsSafeForInterrupts )
-${deferred_definition.body}\
+${deferred_definition}\
+}
+
+static void
+${te_aba.GeneratedName}_deferred()
+{
     .// Get and unpack argument data.
-${unpack_arguments.body}\
+${unpack_arguments}\
     .// Call the synchronous method from the deferred body.
   ${te_sync.intraface_method}(${te_aba.ParameterInvocation});
 }
@@ -46,7 +53,7 @@ ${te_sync.intraface_method}(${te_aba.ParameterDefinition})
   .if ( "C++" == te_target.language )
   ${te_c.Name} * thismodule = this;
   .end if
-${function_body}
+${te_aba.code}
 .else
   .print "\n\tWARNING!  Skipping unsuccessful or unparsed function ${te_sync.Name}"
   /* WARNING!  Skipping unsuccessful or unparsed function in '${te_sync.Name}' */

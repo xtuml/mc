@@ -157,13 +157,20 @@ if ( not_empty te_smt )
   // Get empty handles into scope.
   select one current_act_if related by act_smt->ACT_IF[R603] where ( false );
   select one empty_act_smt related by current_act_if->ACT_SMT[R603] where ( false );
+  emit_statement_comments = true;
+  select one te_c related by te_aba->TE_C[R2088];
+  if ( not_empty te_c )
+    emit_statement_comments = te_c.CodeComments;
+  end if;
   while ( not_empty act_smt )
     next = empty_act_smt;
     select one te_smt related by act_smt->TE_SMT[R2038];
     if ( "" != te_smt.OAL )
-      statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" );
-      ::aba_code_append( te_aba:te_aba, s:statement_comment );
-      if ( trace )
+      if ( emit_statement_comments )
+        statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" );
+        ::aba_code_append( te_aba:te_aba, s:statement_comment );
+      end if;
+      if ( trace and te_aba.IsTrace )
         statement_trace = ( ( te_blk.indentation + "XTUML_OAL_STMT_TRACE( " ) + ( T::s(i:te_blk.depth) + ", &quot;" ) ) + ( te_smt.OAL + "&quot; );\n" );
         ::aba_code_append( te_aba:te_aba, s:statement_trace );
       end if;
@@ -355,6 +362,7 @@ smt_translate_other_statements@void@@@
 //
 ::smt_assigns();
 ::smt_create_instances();
+::smt_create_instance_novars();
 ::smt_delete_instances();
 ::smt_create_events_to_instance();
 ::smt_create_events_to_class();
@@ -678,8 +686,47 @@ else
 end if;
 return result;
 @@@
-smt_create_instances@void@@@
+smt_create_instance_novars@void@@@
 //
+// --------------------------------------------------------
+// create instance no variable statements
+// --------------------------------------------------------
+select many act_cnvs from instances of ACT_CNV;
+for each act_cnv in act_cnvs
+  select one te_smt related by act_cnv->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_create_instance_novar( te_smt:te_smt, act_cnv:act_cnv );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+@@@
+smt_create_instance_novar@string@@te_smt@inst_ref<Extended Statement>@@act_cnv@inst_ref<Create No Variable>@@@
+//
+// --------------------------------------------------------
+// create instance no variable statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_cnv = param.act_cnv;
+select one te_class related by act_cnv->O_OBJ[R672]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty te_class )
+  select any te_file from instances of TE_FILE;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  select one te_c related by te_class->TE_C[R2064];
+  select any te_instance from instances of TE_INSTANCE;
+  r = ::GetDomainTypeIDFromString( dom_name:te_c.Name );
+  dom_id = r;
+  create object instance te_var of TE_VAR;
+  te_var.buffer = te_class.GeneratedName + "_novar";
+  r = ::AutoInitializeUniqueIDs( te_class:te_class, instance:te_var.buffer );
+  init_uniques = r;
+  d = ( te_class.GeneratedName + " * " ) + ( te_var.buffer + ";" );
+  ::blk_declaration_append( te_blk:te_blk, s:d );
+  T::include(file:"c/t.smt.create_instance.c");
+  te_smt.OAL = "CREATE OBJECT INSTANCE OF ${te_class.Key_Lett}";
+  delete object instance te_var;
+end if;
+return T::body();
+@@@
+smt_create_instances@void@@@
 //
 // --------------------------------------------------------
 // create instance statements

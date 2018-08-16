@@ -151,7 +151,7 @@ INSERT INTO O_RATTR
 	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
 	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
 	1,
-	'Rel_ID');
+	'Element_ID');
 INSERT INTO O_ATTR
 	VALUES ("37445b3b-c665-490b-b21f-1ac01e8127c0",
 	"b2d78cac-d3aa-4eaa-86d0-429079103620",
@@ -272,7 +272,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Translation Extensions',
 	'TRANSLATE:TRUE
 This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',

@@ -58,6 +58,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("686164d5-5340-4c2f-8f79-43c5443303fc",
+	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
 INSERT INTO O_BATTR
 	VALUES ("686164d5-5340-4c2f-8f79-43c5443303fc",
 	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
@@ -73,6 +76,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("e7e8d30c-f46e-4d07-898d-21c1f6d0b9ed",
+	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
 INSERT INTO O_BATTR
 	VALUES ("e7e8d30c-f46e-4d07-898d-21c1f6d0b9ed",
 	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
@@ -89,6 +95,9 @@ Description: A textual description of this provided signal.',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("b0e0a6f0-5f98-424c-a465-593349d1ceb8",
+	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
 INSERT INTO O_BATTR
 	VALUES ("b0e0a6f0-5f98-424c-a465-593349d1ceb8",
 	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
@@ -151,6 +160,31 @@ INSERT INTO S_DT_PROXY
 	"00000000-0000-0000-0000-000000000000",
 	'ParseStatus',
 	'Indicates the status of the parse for an action specification in the attribute Action_Semantics',
+	'',
+	'../../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("7b062e80-4244-43ec-9f64-133118a7616b",
+	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
+INSERT INTO O_BATTR
+	VALUES ("7b062e80-4244-43ec-9f64-133118a7616b",
+	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1");
+INSERT INTO O_ATTR
+	VALUES ("7b062e80-4244-43ec-9f64-133118a7616b",
+	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1",
+	"9dad5ac2-51bf-4a2f-ab6c-5a78db323976",
+	'Dialect',
+	'',
+	'',
+	'Dialect',
+	0,
+	"6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	"00000000-0000-0000-0000-000000000000",
+	'ActionDialect',
+	'Enumerator for available action dialects',
 	'',
 	'../../../Datatypes/Datatypes.xtuml');
 INSERT INTO O_ID

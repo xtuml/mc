@@ -51,7 +51,11 @@ static void _mkdir(const char *dir) {
   for(p = tmp + 1; *p; p++)
     if(*p == '/') {
       *p = 0;
+      #ifdef WIN
+      mkdir(tmp);
+      #else
       mkdir(tmp, S_IRWXU);
+      #endif
       *p = '/';
     }
 }
@@ -79,6 +83,7 @@ T_emit( c_t * p_file )
   T_clear();
 }
 
+
 /*
  * Bridge:  clear
  */
@@ -100,7 +105,7 @@ T_clear()
  * Bridge:  b
  */
 void
-T_b( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_b( c_t * p_s )
 {
   //printf("Adding to buffer: %s\n", p_s);
   i_t i = 0;
@@ -116,7 +121,7 @@ T_b( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
  * Bridge:  print
  */
 void
-T_print( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_print( c_t * p_s )
 {
   if ( 0 == p_s ) p_s = "";
   fprintf( stderr,"%s\n", p_s );
@@ -355,7 +360,7 @@ T_parsekeyword( c_t * p_key, c_t * p_s )
  * Bridge:  body
  */
 c_t *
-T_body( void )
+T_body()
 {
   /* In case we are called with no data, ensure null buffer contents.  */
   if ( 0 == buffer_index ) {
@@ -463,5 +468,17 @@ static int cp(const char *to, const char *from)
 
     errno = saved_errno;
     return -1;
+}
+
+/*
+ * Bridge:  idtoi
+ */
+i_t
+T_idtoi( Escher_UniqueID_t p_id )
+{
+  /* Replace/Insert the following instructions with your implementation code.  */
+  /* RETURN 0 */
+  {i_t xtumlOALrv = 0;
+  return xtumlOALrv;}
 }
 

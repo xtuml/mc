@@ -13,7 +13,7 @@
 #include "${te_file.persist}.${te_file.hdr_file_ext}"
 
 ${persist_class_union}
-#define PERSIST_LARGEST_CLASS sizeof( ${persist_class_union.uname} )
+#define PERSIST_LARGEST_CLASS sizeof( ${persist_class_union} )
 #define PERSIST_LINK_TYPE 0
 #define PERSIST_INSTANCE_TYPE 1
 
@@ -57,7 +57,7 @@ typedef struct {
   ${te_instance.handle} instance;
 } persist_instance_t;
 typedef struct { u1_t operation; persist_instance_t inst; } op_inst_t;
-typedef struct { u1_t operation; ${link_type_name} link; } op_link_t;
+typedef struct { u1_t operation; ${te_persist.link_type_name} link; } op_link_t;
 typedef union { op_inst_t inst; op_link_t link; } instlink_t;
 static ${te_set.scope}${te_set.base_class} insts_inactive, links_inactive;
 static struct { Escher_SetElement_s * head, * tail; } instlinks_active;
@@ -396,7 +396,7 @@ ${te_persist.commit}( void )
       #endif
 .end if
       if ( ili->link.operation == 0x80 ) {
-        if ( ( rc = NVS_insert( 0, sizeof( ${link_type_name} ),
+        if ( ( rc = NVS_insert( 0, sizeof( ${te_persist.link_type_name} ),
           ( c_t const * ) &ili->link.link, PERSIST_LINK_TYPE ) ) >= 0 ) {
           rc = 0;
         } else {
@@ -404,7 +404,7 @@ ${te_persist.commit}( void )
           break;
         }
       } else if ( ili->link.operation == 0x00 ) {
-        NVS_remove( 0, sizeof( ${link_type_name} ),
+        NVS_remove( 0, sizeof( ${te_persist.link_type_name} ),
           ( c_t const * ) &ili->link.link, PERSIST_LINK_TYPE );
       } else {
         ${te_callout.persistence_error}( 0x88 );
@@ -491,8 +491,8 @@ ${te_persist.restore}( void )
       /* Populate local link structure with info from the NVS buffer.
        * Call the appropriate link routine.
        */
-      ${link_type_name} link;
-      ${te_string.memmove}( &link, buffer, sizeof( ${link_type_name} ) );
+      ${te_persist.link_type_name} link;
+      ${te_string.memmove}( &link, buffer, sizeof( ${te_persist.link_type_name} ) );
       dci = *( ${te_cia.class_info_name}[ link.owner.domainnum ]
         + link.owner.classnum );
       dci->link_function( link.owner.index,

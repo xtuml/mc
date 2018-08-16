@@ -484,7 +484,7 @@ INSERT INTO O_BATTR_PROXY
 INSERT INTO O_ATTR
 	VALUES ("27fdba6b-e099-4063-82d4-cb5182b3e8d0",
 	"a0733adc-3cb1-4788-969e-339a74e0d2fc",
-	"99c5f960-174b-4c20-919d-0dba96347b57",
+	"10f22a2d-0cf3-40aa-9da5-ff2dc9f9d5af",
 	'Sys_ID',
 	'',
 	'',
@@ -583,6 +583,42 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("f4d38cb2-899d-4565-998f-0533c43bf4ae",
+	"a0733adc-3cb1-4788-969e-339a74e0d2fc");
+INSERT INTO O_BATTR
+	VALUES ("f4d38cb2-899d-4565-998f-0533c43bf4ae",
+	"a0733adc-3cb1-4788-969e-339a74e0d2fc");
+INSERT INTO O_ATTR
+	VALUES ("f4d38cb2-899d-4565-998f-0533c43bf4ae",
+	"a0733adc-3cb1-4788-969e-339a74e0d2fc",
+	"99c5f960-174b-4c20-919d-0dba96347b57",
+	'SimulatedTime',
+	'',
+	'',
+	'SimulatedTime',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("10f22a2d-0cf3-40aa-9da5-ff2dc9f9d5af",
+	"a0733adc-3cb1-4788-969e-339a74e0d2fc");
+INSERT INTO O_BATTR
+	VALUES ("10f22a2d-0cf3-40aa-9da5-ff2dc9f9d5af",
+	"a0733adc-3cb1-4788-969e-339a74e0d2fc");
+INSERT INTO O_ATTR
+	VALUES ("10f22a2d-0cf3-40aa-9da5-ff2dc9f9d5af",
+	"a0733adc-3cb1-4788-969e-339a74e0d2fc",
+	"f4d38cb2-899d-4565-998f-0533c43bf4ae",
+	'StateSaveBufferSize',
+	'',
+	'',
+	'StateSaveBufferSize',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"a0733adc-3cb1-4788-969e-339a74e0d2fc");
@@ -606,7 +642,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Translation Extensions',
 	'TRANSLATE:TRUE
 This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',

@@ -22,8 +22,15 @@
       .assign attr_include_files = attr_include_files + "#include ""${local_te_c.Name}.${te_file.hdr_file_ext}""\n"
     .end if
   .end for
+  .// Get the TE_EEs that are not connected to a component.
+  .select many global_te_ees from instances of TE_EE where ( selected.Included )
+  .for each te_ee in global_te_ees
+    .select one my_te_c related by te_ee->TE_C[R2085]
+    .if ( not_empty my_te_c )
+      .assign global_te_ees = global_te_ees - te_ee
+    .end if
+  .end for
   .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )
-  .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 00 ) and ( selected.Included ) )
   .assign te_ees = te_ees | global_te_ees
   .for each te_ee in te_ees
     .assign attr_include_files = attr_include_files + "#include ""${te_ee.Include_File}""\n"
@@ -64,7 +71,7 @@
     .while ( not_empty te_mact )
       .select one te_aba related by te_mact->TE_ABA[R2010]
       .include "${te_file.arc_path}/t.component.message.h"
-      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+      .select one te_mact related by te_mact->TE_MACT[R2083.'precedes']
     .end while
   .end for
 .end function
@@ -82,7 +89,7 @@
   .select any te_target from instances of TE_TARGET
   .select any te_thread from instances of TE_THREAD
   .select any te_trace from instances of TE_TRACE
-  .select any te_parm from instances of TE_PARM where ( false )
+  .select any tm_msg from instances of TM_MSG
   .select any empty_sm_evt from instances of SM_EVT where ( false )
   .select many empty_te_macts from instances of TE_MACT where ( false )
   .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
@@ -90,20 +97,21 @@
     .while ( not_empty te_mact )
     .assign sm_evt = empty_sm_evt
     .assign foreign_te_macts = empty_te_macts
+    .select one tm_msg related by te_mact->TM_MSG[R2809]
     .select one te_aba related by te_mact->TE_ABA[R2010]
     .if ( te_mact.subtypeKL == "SPR_PO" )
     .elif ( te_mact.subtypeKL == "SPR_RO" )
     .elif ( te_mact.subtypeKL == "SPR_PS" )
       .select one spr_ps related by te_mact->SPR_PS[R2051]
-      .select any te_parm related by spr_ps->SPR_PEP[R4503]->C_EP[R4501]->C_PP[R4006]->TE_PARM[R2048]
       .// Navigate through the satisfaction to find the connected/corresponding message.
+      .// CDS - This selection seems unused.  Maybe it should be used?
       .select many spr_rss related by spr_ps->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->C_R[R4002]->SPR_REP[R4500]->SPR_RS[R4502] where ( selected.Name == spr_ps.Name )
       .// Find a local event mapped onto the signal.
       .select one sm_evt related by spr_ps->SM_SGEVT[R528]->SM_SEVT[R526]->SM_EVT[R525]
     .elif ( te_mact.subtypeKL == "SPR_RS" )
       .select one spr_rs related by te_mact->SPR_RS[R2053]
-      .select any te_parm related by spr_rs->SPR_REP[R4502]->C_EP[R4500]->C_PP[R4006]->TE_PARM[R2048]
       .// Navigate through the satisfaction to find the connected/corresponding message.
+      .// CDS - This selection seems unused.  Maybe it should be used?
       .select many spr_pss related by spr_rs->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PS[R4503] where ( selected.Name == spr_rs.Name )
       .// Find a local event mapped onto the signal.
       .select one sm_evt related by spr_rs->SM_SGEVT[R529]->SM_SEVT[R526]->SM_EVT[R525]
@@ -211,6 +219,18 @@
         .assign action_body = action_body + "  #endif\n"
       .end if
     .end if
+    .// Handle messages marked as SafeForInterrupts.
+    .assign deferring = ""
+    .assign unpack_arguments = ""
+    .if ( not_empty tm_msg )
+      .if ( tm_msg.IsSafeForInterrupts )
+        .select many te_parms related by te_aba->TE_PARM[R2062]
+        .invoke r = SyncServiceDefineDeferred( te_parms, te_mact.GeneratedName )
+        .assign deferring = r.body
+        .invoke r = UnpackArgumentMembers( te_parms, te_mact.GeneratedName, "ilbargs" )
+        .assign unpack_arguments = r.body
+      .end if
+    .end if
     .include "${te_file.arc_path}/t.component.message.c"
     .if ( ( te_sys.AUTOSAR ) or ( te_sys.VFB ) )
       .if ( ( ( te_mact.Provision ) and ( 0 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 1 == te_mact.Direction ) ) )
@@ -254,7 +274,7 @@
         .include "${te_file.arc_path}/t.component.port.autosar.c"
       .end if
     .end if
-      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+      .select one te_mact related by te_mact->TE_MACT[R2083.'precedes']
     .end while
   .end for
 .end function
@@ -311,10 +331,10 @@
           .select one s_sdt related by te_dt->S_DT[R2021]->S_SDT[R17]
           .select one te_dim related by te_parm->TE_DIM[R2056]
           .if(not_empty s_sdt)
-            .assign memory_size = 0;
+            .assign memory_size = 0
             .select many s_mbrs related by s_sdt->S_MBR[R44]
             .for each s_mbr in s_mbrs
-              .assign memory_size = memory_size + 4;
+              .assign memory_size = memory_size + 4
             .end for
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_${te_parm.Name}_MEM_OFFSET"
@@ -330,7 +350,7 @@
             .assign attr_register_declaration = attr_register_declaration + "  declare_memory ${memory_name} ${te_po.name}_i ${memory_offset_name} ${memory_size}\n"
           .elif ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
             .select any te_sys from instances of TE_SYS
-            .assign memory_size = te_sys.MaxStringLen;
+            .assign memory_size = te_sys.MaxStringLen
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_${te_parm.Name}_MEM_OFFSET"
             .assign memory_description = "${memory_name} description ${te_mact.Descrip} - ${te_parm.Descrip} field"
@@ -342,16 +362,16 @@
             .assign register_description = "${register_name} description field"
             .assign attr_register_declaration = attr_register_declaration + "  declare_register ${te_po.name}_i ${register_name} ${register_offset_name} {} -rw_access r/w -width 32\n"
           .end if
-          .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
+          .select one te_parm related by te_parm->TE_PARM[R2041.'precedes']
         .end while
         .if( "void" != te_aba.ReturnDataType )
           .select any te_dt_return from instances of TE_DT where ( selected.ExtName == "${te_aba.ReturnDataType}" )
           .select one s_sdt_return related by te_dt_return->S_DT[R2021]->S_SDT[R17]
           .if (not_empty s_sdt_return )
-            .assign memory_size = 0;
+            .assign memory_size = 0
             .select many s_mbrs related by s_sdt_return->S_MBR[R44]
             .for each s_mbr in s_mbrs
-              .assign memory_size = memory_size + 4;
+              .assign memory_size = memory_size + 4
             .end for
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_return"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_return_MEM_OFFSET"
@@ -361,7 +381,7 @@
             .// returning array here not supported
           .elif ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
             .select any te_sys from instances of TE_SYS
-            .assign memory_size = te_sys.MaxStringLen;
+            .assign memory_size = te_sys.MaxStringLen
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_return"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_return_MEM_OFFSET"
             .assign memory_description = "${memory_name} description field"
@@ -376,10 +396,10 @@
         .end if
       .else
         .//.for each te_parm in te_parms
-        .//  .assign register_address = register_address + 4;
+        .//  .assign register_address = register_address + 4
         .//.end for
       .end if
-      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+      .select one te_mact related by te_mact->TE_MACT[R2083.'precedes']
     .end while
   .end for
   .//
@@ -412,7 +432,7 @@
         .select one te_aba related by te_mact->TE_ABA[R2010]
         .include "${te_file.arc_path}/t.component.port.isr.c"
       .end if
-      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+      .select one te_mact related by te_mact->TE_MACT[R2083.'precedes']
     .end while
   .end for
 .end function
@@ -429,7 +449,7 @@
   .while ( not_empty te_mact )
     .assign attr_message_order = attr_message_order + "#define   ${te_mact.GeneratedName}_order ${message_order}\n"
     .assign message_order = message_order + 1
-    .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+    .select one te_mact related by te_mact->TE_MACT[R2083.'precedes']
   .end while
 .end function
 .//
@@ -448,7 +468,7 @@
   .select any last_c_pp from instances of C_PP where ( false )
   .select many c_pps related by c_io->C_EP[R4004]->C_PP[R4006]
   .for each c_pp in c_pps
-    .select one next_c_pp related by c_pp->C_PP[R4021.'succeeds']
+    .select one next_c_pp related by c_pp->C_PP[R4021.'precedes']
     .if ( empty next_c_pp )
       .assign last_c_pp = c_pp
       .break for
@@ -460,7 +480,7 @@
   .if ( 0 < item_count )
     .assign defn = ""
     .while ( not_empty current_c_pp )
-        .select one previous_c_pp related by current_c_pp->C_PP[R4021.'precedes']
+        .select one previous_c_pp related by current_c_pp->C_PP[R4021.'succeeds']
         .select one te_parm related by current_c_pp->TE_PARM[R2048]
         .select one te_dt related by te_parm->TE_DT[R2049]
         .assign te_dt.Included = true
@@ -547,7 +567,7 @@
       .if ( ( te_mact.subtypeKL == "SPR_RO" ) or ( te_mact.subtypeKL == "SPR_PO" ) )
         .select one te_aba related by te_mact->TE_ABA[R2010]
         .select any operation from instances of C_IO where ( selected.Name == "${te_mact.MessageName}")
-        .select any te_parm related by operation->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048];
+        .select any te_parm related by operation->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
         .if ( te_mact.subtypeKL == "SPR_RO" )
           .select one spr_ro related by te_mact->SPR_RO[R2052]
           .select many spr_pos related by spr_ro->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PO[R4503] where ( selected.Name == spr_ro.Name )
@@ -559,7 +579,7 @@
         .end if
         .for each foreign_te_mact in foreign_te_macts
         .if (  not_empty te_parm  )
-          .select one dt related by te_parm->TE_DT[R2049];
+          .select one dt related by te_parm->TE_DT[R2049]
           .if ( 0 == te_parm.By_Ref )
             .assign parameters_with_dt = " ${dt.ExtName} ${te_parm.GeneratedName}"
           .else
@@ -595,14 +615,14 @@
           .select many foreign_te_macts related by spr_pss->TE_MACT[R2051]
         .end if
         .select any signal from instances of C_AS where ( selected.Name == "${te_mact.MessageName}")
-        .select any te_parm related by signal->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048];
+        .select any te_parm related by signal->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
         .select one te_aba related by te_mact->TE_ABA[R2010]
         .if ( empty te_parm ) 
           .assign parameters_with_dt = "${parameterdt} ${parameteri}"
           .assign parameters_with_dt_ref = "${parameterdt} * ${parameteri}"
           .assign parameters = "${parameteri}" 
         .else
-          .select one dt related by te_parm->TE_DT[R2049];
+          .select one dt related by te_parm->TE_DT[R2049]
           .if ( 0 == te_parm.By_Ref )
             .assign parameters_with_dt = " ${dt.ExtName} ${te_parm.GeneratedName}"
           .else
@@ -659,7 +679,7 @@
       .if ( ( te_mact.subtypeKL == "SPR_RO" ) or ( te_mact.subtypeKL == "SPR_PO" ) )
         .select one te_aba related by te_mact->TE_ABA[R2010]
         .select any operation from instances of C_IO where ( selected.Name == te_mact.MessageName )
-        .select any te_parm related by operation->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048];
+        .select any te_parm related by operation->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
         .if ( te_mact.subtypeKL == "SPR_RO" )
           .select one spr_ro related by te_mact->SPR_RO[R2052]
           .select one spr_po related by spr_ro->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PO[R4503] where ( selected.Name == spr_ro.Name )
@@ -672,7 +692,7 @@
           .assign foreign_te_mact = temp_foreign_te_mact
         .end if
         .if ( not_empty te_parm )
-          .select one dt related by te_parm->TE_DT[R2049];
+          .select one dt related by te_parm->TE_DT[R2049]
           .if ( 0 == te_parm.By_Ref )
             .assign parameters_with_dt = " ${dt.ExtName} ${te_parm.GeneratedName}"
           .else
@@ -713,14 +733,14 @@
           .assign foreign_te_mact = temp_foreign_te_mact
         .end if
         .select any signal from instances of C_AS where ( selected.Name == "${te_mact.MessageName}")
-        .select any te_parm related by signal->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048];
+        .select any te_parm related by signal->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
         .select one te_aba related by te_mact->TE_ABA[R2010]
         .if ( empty te_parm )
           .assign parameters_with_dt = "${parameterdt} ${parameteri}"
           .assign parameters_with_dt_ref = "${parameterdt} * ${parameteri}"
           .assign parameters = "${parameteri}" 
         .else
-          .select one dt related by te_parm->TE_DT[R2049];
+          .select one dt related by te_parm->TE_DT[R2049]
           .if ( 0 == te_parm.By_Ref )
             .assign parameters_with_dt = " ${dt.ExtName} ${te_parm.GeneratedName}"
           .else

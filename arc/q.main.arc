@@ -20,9 +20,9 @@
   .// 4) Initiate prefix marking (from system marking file).
   .include "${te_file.system_color_path}/${te_file.system_mark}"
   .//
-  .invoke oal( "mark_pass("1"); // Ccode" )
+  .invoke oal( "mark_pass(1); // Ccode" )
   .invoke sys_populate()
-  .invoke oal( "mark_pass("2"); // Ccode" )
+  .invoke oal( "mark_pass(2); // Ccode" )
   .select any te_sys from instances of TE_SYS
   .//
   .// 5) Perform domain level marking.
@@ -39,10 +39,17 @@
   .invoke CreateSpecialWhereClauseInstances( te_sys )
   .select many te_cs from instances of TE_C where ( selected.included_in_build )
   .for each te_c in te_cs
+    .select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
+    .if ( not_empty te_classs )
+      .invoke r = class_sort( te_classs )
+      .assign first_te_class = r.result
+      .relate first_te_class to te_c across R2103
+    .end if
     .// Propagate domain information to the system level.
     .invoke te_c_CollectLimits( te_c )
-    .select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
-    .invoke class_sort( te_classs )
+    .// Set up list of string class names.
+    .invoke r = TE_C_class_strings( te_c )
+    .assign te_c.class_strings = r.result
   .end for
   .print "translating values/expressions"
   .invoke val_translate()

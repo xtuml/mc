@@ -20,7 +20,8 @@ activity.name = param.name;
 return activity;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("a0bc78f5-fe93-4ba5-bee4-743fb96c6b5a",
 	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
@@ -65,7 +66,8 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
 	'',
-	"7baced44-2e68-4af0-bf91-6ab83eb77f66");
+	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
+	0);
 INSERT INTO O_TFR
 	VALUES ("4c53013a-af89-41b3-917d-8832a0def9ef",
 	"4431e956-be8b-40e7-83ed-ac781e31719b",
@@ -104,7 +106,8 @@ end for;
 return valid;',
 	1,
 	'',
-	"59878c70-2372-4cca-8e50-2da017c40ff6");
+	"59878c70-2372-4cca-8e50-2da017c40ff6",
+	0);
 INSERT INTO O_TFR
 	VALUES ("59878c70-2372-4cca-8e50-2da017c40ff6",
 	"4431e956-be8b-40e7-83ed-ac781e31719b",
@@ -112,13 +115,24 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select one code_block related by self->code_block[R3794];
-if ( not_empty code_block )
-  code_block.render();
+	'select one routine related by self->routine[R3704];
+if ( not_empty routine )
+  routine.render_definition( activity:self );
+else
+  select one operation related by self->operation[R3704];
+  if ( not_empty operation )
+	operation.render_definition( activity:self );
+  else
+	select one state related by self->state[R3704];
+	if ( not_empty state )
+	  state.render_definition( activity:self );
+	end if;
+  end if;
 end if;',
 	1,
 	'',
-	"cce75d87-818b-4fc3-a50d-f92d030db143");
+	"cce75d87-818b-4fc3-a50d-f92d030db143",
+	0);
 INSERT INTO O_TFR
 	VALUES ("5f25fd7e-5ed0-42f8-be06-c7eb4a9a0c81",
 	"4431e956-be8b-40e7-83ed-ac781e31719b",
@@ -167,7 +181,8 @@ end if;
 return signature;',
 	1,
 	'',
-	"4c53013a-af89-41b3-917d-8832a0def9ef");
+	"4c53013a-af89-41b3-917d-8832a0def9ef",
+	0);
 INSERT INTO O_TFR
 	VALUES ("10b40a6e-08ac-4da1-a02e-e573acda7b07",
 	"4431e956-be8b-40e7-83ed-ac781e31719b",
@@ -216,7 +231,9 @@ for each activity in activities
     // transfer codeblock relationship
     select one act_codeblock related by activity->code_block[R3794];
     select one codeblock related by self->code_block[R3794];
-    unrelate act_codeblock from activity across R3794;
+    if ( not_empty act_codeblock )
+      unrelate act_codeblock from activity across R3794;
+    end if;
     relate codeblock to activity across R3794;
     
     // dispose self
@@ -230,7 +247,8 @@ for each activity in activities
 end for;',
 	1,
 	'',
-	"5f25fd7e-5ed0-42f8-be06-c7eb4a9a0c81");
+	"5f25fd7e-5ed0-42f8-be06-c7eb4a9a0c81",
+	0);
 INSERT INTO O_TFR
 	VALUES ("a6ad3dd1-a91d-4c21-b6a3-dfc034492522",
 	"4431e956-be8b-40e7-83ed-ac781e31719b",
@@ -245,8 +263,10 @@ delete object instance codeblock;
 
 // dispose parameters
 select one parameter related by self->parameter[R3705];
-unrelate self from parameter across R3705;
-parameter.dispose();
+if ( not_empty parameter )
+  unrelate self from parameter across R3705;
+  parameter.dispose();
+end if;
 
 // dispose subtype
 select one routine related by self->routine[R3704];
@@ -265,7 +285,8 @@ end if;
 delete object instance self;',
 	1,
 	'',
-	"10b40a6e-08ac-4da1-a02e-e573acda7b07");
+	"10b40a6e-08ac-4da1-a02e-e573acda7b07",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("27d8c431-aa99-4f85-8118-e3c78c95bcdb",
 	"4431e956-be8b-40e7-83ed-ac781e31719b");

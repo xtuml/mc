@@ -14,17 +14,7 @@ components is given in an outline format.</para></highlights>
   can be based.</para>
 
   <section>
-    <title>&escher; Binary and Source Versions</title>
-    <para>The &escher; &mc; is available in two forms: source and binary.  
-    As its name implies, the source version contains the full source code for 
-    the &mc; with rights for the user to modify it to suit their 
-    needs.  The binary version contains full code generation capability, but 
-    does not contain the &mc; source code.  This is manifest in the presence,
-    or not, of the <filename>arc</filename> folder in the installation.</para>
-  </section>
-
-  <section>
-    <title>Multi-Pass Corroborative Translation</title>
+    <title>Multi-Pass Translation</title>
     <para>The translation engine embodied in the &escher; &mc; performs
     two passes across the xtUML model under translation.  The first pass
     analyzes the model structure and action language semantics of each
@@ -39,10 +29,9 @@ components is given in an outline format.</para></highlights>
 
   <section>
     <title>Multi-Tasking/Threading</title>
-    <para>Preemptive multi-tasking is supported on the
-    <trademark class='registered'>&nukeplus;</trademark> real-time
-    operation system (RTOS) and on systems supporting POSIX threading.
-    Single-task operation (with or without and RTOS) is also supported.
+    <para>Preemptive multi-tasking is supported on operating
+    systems supporting POSIX (such as Linux) or Windows threading.
+    Single-task operation with or without an RTOS is also supported.
     Tasking supplies a rich means of providing preemptive prioritization
     among the xtUML classes running in the system.</para>
   </section>
@@ -52,8 +41,7 @@ components is given in an outline format.</para></highlights>
     <para>Preemptive task/thread prioritization is provided in
     the generated C code.  Groups of xtUML classes are mapped to
     tasks running at differing priorities.</para>
-    <para>&escher; also provides for prioritization through the
-    marking of events.  Higher priority xtUML threads of control
+    <para>Higher priority xtUML threads of control
     can run without being preempted by lower priority activities.</para>
   </section>
 
@@ -120,7 +108,7 @@ components is given in an outline format.</para></highlights>
     user-defined
     data types (UDTs) can be supplied by the user.
     &escher; also allows user-defined data types to be
-    implemented as pointers.  The pointer types are very
+    implemented as pointers.  The pointer types are
     convenient for passing across bridges (in both directions).
     Precision and pointer information is provided to the
     model compiler through marking.</para>
@@ -188,59 +176,6 @@ components is given in an outline format.</para></highlights>
     dynamic initialization using an initialization function (or an
     initialization object).</para>
   </section>
-  <section>
-    <title>Target Code Inside Action Language</title>
-    <para>&escher; allows the user to intermix target source code
-    with action language.  These pieces, nicknamed
-    snippets, are delimited by special strings.  Snippets are allowed 
-    anywhere action language is supported: bridge operations, functions, 
-    class and instance-based operations, mathematically-dependent 
-    attributes, and state actions.</para>
-
-    <para>Snippets are delimited by <literal>/*#inline</literal>
-    on a line by itself, followed by the target source code, followed by
-    <literal>*/</literal> on a line by itself.  C++ style comments 
-    (comments preceeded with "<literal>//</literal>") are allowed inside 
-    a snippet.  Here is an example:
-
-    <programlisting>
-    /*#inline
-      // Don't Panic
-      int a = 42;
-      printf( "The answer is %d\n", a ); 
-    */</programlisting></para>
-
-    <para>While the primary use of this feature is to add target code to 
-    action language, it should be noted that &escher; does not 
-    restrict (or care) what is placed inside the snippet.  The key point 
-    is that &escher; simply allows these inline snippets to fall through 
-    the code generation process to the output target code.  No additional 
-    processing of the snippet is provided.</para>
-
-    <para>A compiler directive called <constant>XTUMLMC_INLINE</constant> 
-    is used to allow conditional target compilation of the snippet code.  
-    Each snippet in the generated source code starts with 
-    <programlisting>#if XTUMLMC_INLINE</programlisting> 
-    and ends with 
-    <programlisting>#endif</programlisting>
-    This directive (and, hence, snippet usage) is set active (1) by default 
-    in <filename>sys_user_co.h</filename>.</para>
-
-    <para>Note that entering target-specific code into a model can have 
-    consequences. A good model represents an implementation-independent 
-    specification of the application. Adding target-specific code to the model 
-    can reduce this flexibility.</para>  
-
-    <para>On the other hand, done carefully, code in models can overcome some of
-    the limitations of the action language. For example, code in models can 
-    allow you to access target-specific registers and ISRs, give you access to 
-    unmodelled external code modules, and use target assembler code in an 
-    action.</para>
-
-    <para>In nearly all cases, properly constructed models and action language 
-    can completely describe an application.  Take care when adding code to 
-    models.  Understand the benefits and do not underestimate the costs.</para>
-  </section>
 
   <section>
     <title>Dynamic Memory Allocation (Or Not)</title>
@@ -255,35 +190,24 @@ components is given in an outline format.</para></highlights>
   </section>
 
   <section>
-    <title>XMI Export</title>
-    <para>XMI is an acronym for XML Metadata Interchange.  &bp; &escher; 
-    supports the ability to export your models in XML format using XMI 2.1.  
-    XMI is an Object Management Group (<ulink url="http://www.omg.org">OMG
-    </ulink>) specification for the use of XML in serializing models so 
-    that they can be imported, exported and interchanged.</para> 
-
-    <para>To export your project using XMI: 
-
-    <itemizedlist>
-      <listitem>Open the <GUIMenuItem>Project &gt; Properties</GUIMenuItem> dialog</listitem>
-      <listitem>Select <GUILabel>Builders</GUILabel></listitem>
-      <listitem>Check the box next to <GUILabel>XMI 2.1 Export</GUILabel></listitem>
-      <listitem>Uncheck the box next to <GUILabel>CDT Builder</GUILabel></listitem>
-      <listitem>Select <GUIButton>OK</GUIButton></listitem>
-      <listitem>Right-click on your project and select <GUIMenuItem>Build Project</GUIMenuItem></listitem>
-    </itemizedlist>
-    </para>
-
-    <para>&escher; will run in a special mode that generates an XML file 
-    for each of your domains.  The files will be placed in the 
-    <filename>src</filename> folder of your project.  The file(s) are named 
-    <filename>&lt;domain&gt;_xmi.xml</filename>.</para>
-
-    <para>Once the export is complete, be sure to uncheck the 
-    <GUILabel>XMI Export</GUILabel> builder and check the <GUILabel>CDT 
-    Builder</GUILabel> to put &escher; back into normal code generation mode.
-    </para> 
+    <title>Trace and State Save</title>
+    <para>Tracing and State Save are two common mechanisms used in
+    debugging.  Several modes of tracing are supported in the model
+    compiler.  State machines can be instrumented to trace the transition
+    of one state to the next.  Action language tracing gives an even
+    greater level of detail yet is still at the model level of abstraction.
+    Tracing can be selectively enabled at the component and/or class
+    level.</para>
+    <para>A mechanism to capture the present state of all state machine
+    instances is provided through the State Save feature.  Once triggered,
+    the current state of each running instance state machine is written
+    to a buffer.  Outstanding events from the event queues are also
+    written to the buffer.  This information presents a snapshot of the
+    system at the exact moment in time when the state save was triggered
+    and can be valuable to understand erroneous behavior during
+    development and testing of user models.</para>
   </section>
+
 </section>
 
 <section>
@@ -443,7 +367,7 @@ components is given in an outline format.</para></highlights>
       centralized and documented to be easily controlled by the software
       architect.  Generated file names, directory structure, coding
       conventions and even coding style can be dialed in by the user.
-      (Look for fule files with the word ``name'' in the file name.)
+      (Look for rule files with the word ``name'' in the file name.)
       </para>
     </section>
     

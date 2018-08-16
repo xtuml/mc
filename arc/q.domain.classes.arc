@@ -16,7 +16,7 @@
     .if ( te_sync.IsInitFunction and te_sync.XlateSemantics )
       .include "${te_file.arc_path}/t.domain_init.te_sync.c"
     .end if
-    .select one te_sync related by te_sync->TE_SYNC[R2095.'succeeds']
+    .select one te_sync related by te_sync->TE_SYNC[R2095.'precedes']
   .end while
 .end function
 .//
@@ -53,11 +53,7 @@
   .// and passive classes.
   .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
   .// Find first te_class.
-  .assign first_te_class = te_class
-  .while ( not_empty te_class )
-    .assign first_te_class = te_class
-    .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
-  .end while
+  .select one first_te_class related by te_c->TE_CLASS[R2103]
   .assign object_set_type = 0
   .while ( object_set_type < 3 )
     .assign te_class = first_te_class
@@ -94,16 +90,16 @@
         .assign instance_loaders = instance_loaders + "${delimiter}\\n {""${o_obj.Key_Lett}"", ${type_name}, ${class_name}_instanceloader}"
         .assign batch_relaters = batch_relaters + "${delimiter}\\n ${class_name}_batch_relate"
         .assign attr_instance_dumpers = attr_instance_dumpers + "${delimiter}\n  ${class_name}_instancedumper"
+        .assign class_typedefs = class_typedefs + "\ntypedef ${class_or_struct} ${class_name} ${class_name};"
       .end if
       .assign class_numbers = class_numbers + "#define ${type_name} $t{class_number_count}\n"
       .assign class_number_count = class_number_count + 1
-      .assign class_typedefs = class_typedefs + "\ntypedef ${class_or_struct} ${class_name} ${class_name};"
       .if ( te_class.Persistent )
         .assign class_union = class_union + "\\n  ${class_name} ${class_name}_u;"
       .end if
       .assign delimiter = ","
       .end if
-      .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
+      .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
     .end while
     .assign object_set_type = object_set_type + 1
   .end while
@@ -114,14 +110,21 @@
   .assign te_class = first_te_class
   .while ( not_empty te_class )
     .assign class_includes = class_includes + "\n#include ""${te_class.class_file}.${te_file.hdr_file_ext}"""
-    .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
+    .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
   .end while
   .assign te_class = first_te_class
   .invoke r = CreateUnionOfDomainEvents( te_c )
   .assign event_unions = r.body
   .// TE_C may have no associated behavior/datatypes, accordingly include ${te_c.datatypes_file} should be omitted
   .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )
-  .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 0 ) and ( selected.Included ) )
+  .// Get the TE_EEs that are not connected to a component.
+  .select many global_te_ees from instances of TE_EE where ( selected.Included )
+  .for each te_ee in global_te_ees
+    .select one my_te_c related by te_ee->TE_C[R2085]
+    .if ( not_empty my_te_c )
+      .assign global_te_ees = global_te_ees - te_ee
+    .end if
+  .end for
   .assign te_ees = te_ees | global_te_ees
   .for each te_ee in te_ees
     .assign ee_includes = ee_includes + "\n#include ""${te_ee.Include_File}"""

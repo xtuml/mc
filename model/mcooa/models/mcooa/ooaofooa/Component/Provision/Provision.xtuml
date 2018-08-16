@@ -10,6 +10,9 @@ When they are formal, that is related to a defined interface on an interface
 diagram, an association is setup between the component that provides the
 interface and any number of components that require the same interface.',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("ed28a9e4-3dcf-4b04-b477-5d1680b5f339",
+	"ee8e683d-9df6-4c55-b375-bd8924964052");
 INSERT INTO O_BATTR
 	VALUES ("ed28a9e4-3dcf-4b04-b477-5d1680b5f339",
 	"ee8e683d-9df6-4c55-b375-bd8924964052");
@@ -113,6 +116,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("350a58c5-31d3-42c8-b583-363f9d8edcf7",
+	"ee8e683d-9df6-4c55-b375-bd8924964052");
 INSERT INTO O_BATTR
 	VALUES ("350a58c5-31d3-42c8-b583-363f9d8edcf7",
 	"ee8e683d-9df6-4c55-b375-bd8924964052");

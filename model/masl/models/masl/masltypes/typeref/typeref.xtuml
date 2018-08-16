@@ -17,7 +17,8 @@ INSERT INTO O_TFR
 	'T::include( file:"masl/t.typeref.masl" );',
 	1,
 	'',
-	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5");
+	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5",
+	0);
 INSERT INTO O_TFR
 	VALUES ("d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5",
 	"46656013-39ba-446e-bd49-34aabd941dac",
@@ -30,7 +31,7 @@ INSERT INTO O_TFR
 // Every encounter with a type reference is a new instance.
 create object instance typeref of typeref;
 typeref.body = param.body;
-select any type related by domain->type[R3776] where ( selected.name == param.name );
+select any type related by domain->type[R3719] where ( selected.name == param.name );
 if ( not_empty type )
   relate typeref to type across R3762.''refers to'';
 end if;
@@ -53,7 +54,8 @@ else
 end if;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("58cc5a01-d644-42d2-9d46-ebada9ca0958",
 	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5",
@@ -61,7 +63,7 @@ INSERT INTO O_TPARM
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"00000000-0000-0000-0000-000000000000",
+	"275d29d6-7596-46f3-9c0a-fa1d4497a189",
 	'');
 INSERT INTO O_TPARM
 	VALUES ("275d29d6-7596-46f3-9c0a-fa1d4497a189",
@@ -171,7 +173,8 @@ end if;
 return valid;',
 	1,
 	'',
-	"33c31fc6-9275-430e-955f-f3e08966cd22");
+	"33c31fc6-9275-430e-955f-f3e08966cd22",
+	0);
 INSERT INTO O_TFR
 	VALUES ("33c31fc6-9275-430e-955f-f3e08966cd22",
 	"46656013-39ba-446e-bd49-34aabd941dac",
@@ -187,7 +190,8 @@ out::tostring( element:"typeref", value:value );
 out::tostring( element:"typeref", value:emptyvalue );',
 	1,
 	'',
-	"4c31359f-e19b-4e4e-b98a-d9189bcb5da5");
+	"4c31359f-e19b-4e4e-b98a-d9189bcb5da5",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("95f6e568-a7a1-4ac6-90e0-38f447a641d9",
 	"46656013-39ba-446e-bd49-34aabd941dac");

@@ -6,10 +6,6 @@
 /*
  * Following provides the dispatcher loops for the xtUML event queues.
  */
-
-.if ( te_sys.MaxInterleavedBridges > 0 )
-#include "${te_file.ilb}.${te_file.hdr_file_ext}"
-.end if
 .if ( "C" == te_target.language )
 
 bool ${te_eq.run_flag} = true; /* Turn this off to exit dispatch loop(s).  */
@@ -33,7 +29,7 @@ static const ${te_typemap.object_number_name} ${te_dci.task_list}[ ${te_dci.max_
   ${te_dci.task_numbers}
 };
       .end if
-      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+      .select one te_c related by te_c->TE_C[R2017.'precedes']
     .end while
 static const ${te_typemap.object_number_name} * const class_thread_assignment[ SYSTEM_DOMAIN_COUNT ] = {
     .assign delimiter = ","
@@ -41,7 +37,7 @@ static const ${te_typemap.object_number_name} * const class_thread_assignment[ S
     .while ( not_empty te_c )
       .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
       .select one te_dci related by te_c->TE_DCI[R2090]
-      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+      .select one te_c related by te_c->TE_C[R2017.'precedes']
       .if ( empty te_c )
         .assign delimiter = ""
       .end if
@@ -74,7 +70,7 @@ typedef union {
     .if ( not_empty te_evt )
   ${te_c.Name}_DomainEvents_u mc_events_in_domain_${te_c.Name};
     .end if
-    .select one te_c related by te_c->TE_C[R2017.'succeeds']
+    .select one te_c related by te_c->TE_C[R2017.'precedes']
   .end while
 } ${te_eq.system_events_union}_t;
 
@@ -86,12 +82,34 @@ typedef struct {
 /* Pointer to head of list of available event nodes.  */
 static ${te_eq.base_event_type} * free_event_list = 0;
     .if ( non_self_event_queue_needed.result )
-static xtUMLEventQueue_t non_self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
+      .if ( 0 == te_sys.StateSaveBufferSize )
+static \
+      .end if
+xtUMLEventQueue_t non_self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
     .end if
     .if ( self_event_queue_needed.result )
-static xtUMLEventQueue_t self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
+      .if ( 0 == te_sys.StateSaveBufferSize )
+static \
+      .end if
+xtUMLEventQueue_t self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
     .end if
   .end if
+.if ( ( 0 < te_sys.StateSaveBufferSize ) or ( te_sys.PersistentClassCount > 0 ) )
+
+/*
+ * Given the instance handle and class number, return the instance index
+ * (into the instance collection).
+ */
+${te_typemap.instance_index_name} ${te_prefix.result}getindex(
+  const ${te_instance.handle} instance,
+  const ${te_typemap.domain_number_name} ${domain_num_var},
+  const ${te_typemap.object_number_name} class_num
+)
+{
+  ${te_cia.class_info_type} * dci = *( ${te_cia.class_info_name}[ ${domain_num_var} ] + class_num );
+  return ( ((c_t *) instance - (c_t *) dci->pool ) / dci->size );
+}
+.end if
 
 /*
  * Link the event skeleton nodes together on the free list ready
@@ -569,7 +587,7 @@ static void ooa_loop( void )
       .else
       0\
       .end if
-      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+      .select one te_c related by te_c->TE_C[R2017.'precedes']
       .if ( empty te_c )
 
       .else
@@ -587,14 +605,14 @@ static void ooa_loop( void )
     .end if
   .end if .// te_thread.enabled
   /* Start consuming events and dispatching background processes.  */
-    .if ( ( te_sys.AUTOSAR ) or ( "SystemC" == te_thread.flavor ) )
+  .if ( ( te_sys.AUTOSAR ) or ( "SystemC" == te_thread.flavor ) )
   bool events_remaining_in_queue = true;
   while ( (true == events_remaining_in_queue) && (true == ${te_eq.run_flag}) ) {
-    .elif ( "C++" == te_target.language )
+  .elif ( "C++" == te_target.language )
   if ( true == ${te_eq.run_flag} ) {
-    .else
+  .else
   while ( true == ${te_eq.run_flag} ) {
-    .end if
+  .end if
   .if ( self_event_queue_needed.result )
     event = DequeueOoaSelfEvent(${thread_number}); /* Self first.  */
     if ( 0 == event ) {
@@ -605,7 +623,7 @@ static void ooa_loop( void )
   .end if
   .if ( self_event_queue_needed.result )
     }
-  .end if .// self_event_queue_needed.result
+  .end if
     if ( 0 != event ) {
   .// Set up self reference for use by prioritized events (and others).
   .if ( event_prioritization_needed.result )
@@ -632,6 +650,7 @@ static void ooa_loop( void )
   .end if
       ${te_eq.delete}( event );
     } else {
+      /* event queues empty */
   .if ( ( te_sys.AUTOSAR ) or ( "SystemC" == te_thread.flavor ) )
       events_remaining_in_queue = false;
   .end if
@@ -645,19 +664,27 @@ static void ooa_loop( void )
   .end if
   .assign more_indent = ""
   .if ( te_thread.enabled )
-    if ( t == 0 ) {   /* Is this the default task/thread?  */
+    if ( 0 == t ) {   /* Is this the default task/thread?  */
     .assign more_indent = "  "
-  .end if .// te_thread.enabled
+  .end if
   .if ( te_sys.MaxInterleavedBridges > 0 )
     ${more_indent}/* Launch (interrupt) bridge actions that occurred during state.  */
-    ${more_indent}${te_ilb.dispatch}();
-  .end if .// te_sys.MaxInterleavedBridges > 0
-  .if ( "SystemC" != te_thread.flavor )
-    ${more_indent}${te_callout.background_processing}();
+    ${more_indent}if ( ! ${te_ilb.dispatch}() ) {
+    .assign more_indent = more_indent + "  "
   .end if
+  .if ( te_sys.MaxTimers > 0 )
+    ${more_indent}/* To disable this timer tick, modify TIM_bridge.c in the gen folder.  */
+    ${more_indent}#if ${te_tim.max_timers} > 0
+    ${more_indent}if ( 0 == event ) { TIM_tick(); }
+    ${more_indent}#endif
+  .end if
+  .if ( te_sys.MaxInterleavedBridges > 0 )
+  ${more_indent}}
+  .end if
+    ${more_indent}${te_callout.background_processing}();
   .if ( te_thread.enabled )
     }
-  .end if .// te_thread.enabled
+  .end if
   }
   .if ( te_thread.enabled )
     .if ( ( te_thread.flavor != "Nucleus" ) and ( "SystemC" != te_thread.flavor ) )

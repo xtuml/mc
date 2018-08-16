@@ -78,6 +78,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("76de2a52-a28c-4186-9ec4-741e86db01de",
+	"3a97c092-06a5-4c3c-bd9e-9dab109155e6");
 INSERT INTO O_BATTR
 	VALUES ("76de2a52-a28c-4186-9ec4-741e86db01de",
 	"3a97c092-06a5-4c3c-bd9e-9dab109155e6");
@@ -148,6 +151,9 @@ Description: A textual description of this instance attribute.',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("88c8d4f9-ef73-489d-959b-f6b1535c6c42",
+	"3a97c092-06a5-4c3c-bd9e-9dab109155e6");
 INSERT INTO O_BATTR
 	VALUES ("88c8d4f9-ef73-489d-959b-f6b1535c6c42",
 	"3a97c092-06a5-4c3c-bd9e-9dab109155e6");

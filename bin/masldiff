@@ -21,7 +21,7 @@
 #       MASL files
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export MASL_BIN_DIR=$DIR/lib/
+export MASL_BIN_DIR=$DIR/
 
 #export CLASSPATH=<path_to_parser_jar>:<path_to_antlr_jar>
 
@@ -39,16 +39,21 @@ fi
 # run MASL formatter
 if [[ -f $1 && -f $2 ]]; then
   rm -rf left.masldiff right.masldiff
-  java -cp $CLASSPATH MaslFormatter -r -s < $1 > left.masldiff
-  java -cp $CLASSPATH MaslFormatter -r -s < $2 > right.masldiff
+  sed "s/^ *//" $1 | sed "s/ *$//" | java -cp $CLASSPATH MaslFormatter -r -s > left.masldiff
+  sed "s/^ *//" $2 | sed "s/ *$//" | java -cp $CLASSPATH MaslFormatter -r -s > right.masldiff
 elif [[ -d $1 && -d $2 ]]; then
   rm -rf left.masldiff right.masldiff
   java -cp $CLASSPATH MaslFormatter -r -s -i $1 -o left.masldiff
+  # NOTE:  sed -i is not very portable.  It uses temporary files somewhere.  However, it sure is convenient.
+  find left.masldiff -type f -exec sed -i "s/^ *//" {} \;
+  find left.masldiff -type f -exec sed -i "s/ *$//" {} \;
   java -cp $CLASSPATH MaslFormatter -r -s -i $2 -o right.masldiff
+  find right.masldiff -type f -exec sed -i "s/^ *//" {} \;
+  find right.masldiff -type f -exec sed -i "s/ *$//" {} \;
 else
   echo "Invalid inputs"
   exit 1
 fi
 
 # diff the directories
-diff left.masldiff right.masldiff
+diff -Bb left.masldiff right.masldiff

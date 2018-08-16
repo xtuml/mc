@@ -274,6 +274,44 @@
   .assign attr_result = result
 .end function
 .//
+.// --------------------------------------------------------
+.// create instance no variable statements
+.// --------------------------------------------------------
+.function smt_create_instance_novars
+  .select many act_cnvs from instances of ACT_CNV
+  .for each act_cnv in act_cnvs
+    .select one te_smt related by act_cnv->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_create_instance_novar( te_smt, act_cnv )
+    .invoke smt_buffer_append( te_smt, r.body )
+  .end for
+.end function
+.//
+.// --------------------------------------------------------
+.// create instance no variable statement
+.// --------------------------------------------------------
+.function smt_create_instance_novar
+  .param inst_ref te_smt
+  .param inst_ref act_cnv
+  .select one te_class related by act_cnv->O_OBJ[R672]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
+  .if ( not_empty te_class )
+    .select any te_file from instances of TE_FILE
+    .select one te_blk related by te_smt->TE_BLK[R2078]
+    .assign ws = te_blk.indentation
+    .select one te_c related by te_class->TE_C[R2064]
+    .select any te_instance from instances of TE_INSTANCE
+    .invoke r = GetDomainTypeIDFromString( te_c.Name )
+    .assign dom_id = r.result
+    .create object instance te_var of TE_VAR
+    .assign te_var.buffer = te_class.GeneratedName + "_novar"
+    .invoke r = AutoInitializeUniqueIDs( te_class, te_var.buffer )
+    .assign init_uniques = r.body
+    .assign d = ( te_class.GeneratedName + " * " ) + ( te_var.buffer + ";" )
+    .invoke blk_declaration_append( te_blk, d )
+    .include "${te_file.arc_path}/t.smt.create_instance.c"
+    .assign te_smt.OAL = "CREATE OBJECT INSTANCE OF ${te_class.Key_Lett}"
+    .delete object instance te_var
+  .end if
+.end function
 .//
 .// --------------------------------------------------------
 .// create instance statements
@@ -954,7 +992,7 @@
       .if (not_empty sm_evtdi)
       .print "-=m=m=m=-=-=-=-=-=-=-=-=-=- sm_evtdi is ${sm_evtdi.Name}"
       .end if
-      .select one v_par related by v_par->V_PAR[R816.'succeeds']
+      .select one v_par related by v_par->V_PAR[R816.'precedes']
     .end if
   .end while
 .end function
@@ -1562,9 +1600,7 @@
   .assign te_select_related.by_where = by_where
   .assign te_select_related.is_implicit = act_sel.is_implicit
   .assign te_select_related.multiplicity = act_sel.cardinality
-  .// relate te_select_related to start_te_class across R2077;
-  .assign te_select_related.te_classGeneratedName = start_te_class.GeneratedName
-  .// end relate
+  .relate te_select_related to start_te_class across R2077
   .select one start_te_var related by start_v_var->TE_VAR[R2039]
   .assign te_select_related.start_var = start_te_val.buffer
   .assign te_select_related.start_var_OAL = start_te_val.OAL
@@ -1599,24 +1635,14 @@
   .end if
   .if ( te_select_related.by_where )
     .select one where_te_val related by act_sel->ACT_SRW[R664]->V_VAL[R611]->TE_VAL[R2040]
-    .// relate where_te_val to te_select_related across R2074;
-    .assign te_select_related.where_clause_Value_ID = where_te_val.Value_ID
-    .// end relate
+    .relate where_te_val to te_select_related across R2074
     .assign te_select_related.where_clause = where_te_val.buffer
     .assign te_select_related.where_clause_OAL = where_te_val.OAL
   .end if
-  .// relate te_select_related to te_smt across R2069;
-  .assign te_select_related.Statement_ID = te_smt.Statement_ID
-  .// end relate
-  .// relate te_select_related to start_te_val across R2070;
-  .assign te_select_related.starting_Value_ID = start_te_val.Value_ID
-  .// end relate
-  .// relate te_select_related to start_te_var across R2094;
-  .assign te_select_related.starting_Var_ID = start_te_var.Var_ID
-  .// end relate
-  .// relate te_select_related to te_lnk across R2073;
-  .assign te_select_related.link_ID = te_lnk.ID
-  .// end relate
+  .relate te_select_related to te_smt across R2069
+  .relate te_select_related to start_te_val across R2070
+  .relate te_select_related to start_te_var across R2094
+  .relate te_select_related to te_lnk across R2073
   .//
   .// RENDER
   .// Truth Table
@@ -1877,7 +1903,7 @@ ${ws}{\
       .else
         .include "${te_file.arc_path}/t.smt_sr.chaintom.c"
       .end if
-      .select one te_lnk related by te_lnk->TE_LNK[R2075.'succeeds']
+      .select one te_lnk related by te_lnk->TE_LNK[R2075.'precedes']
     .end while
     .assign te_smt.OAL = te_smt.OAL + te_lnk.OAL
     .assign cast = ""

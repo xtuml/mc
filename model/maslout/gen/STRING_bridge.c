@@ -9,6 +9,7 @@
  * your copyright statement can go here (from te_copyright.body)
  *--------------------------------------------------------------------------*/
 
+#include <stdlib.h>
 #include "maslout_sys_types.h"
 #include "LOG_bridge.h"
 #include "STRING_bridge.h"
@@ -88,11 +89,11 @@ STRING_atoi( c_t * p_s )
 c_t *
 STRING_substr( const i_t p_begin, const i_t p_end, c_t * p_s )
 {
-  c_t result[ESCHER_SYS_MAX_STRING_LEN];
-  result[0] = '\0';
 
   // get length of s
   i_t len = (i_t)Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len + 1 );
+  result[ 0 ] = 0;
 
   // check that the indexes are in a valid range
   i_t begin = p_begin;
@@ -192,10 +193,9 @@ STRING_indexof( c_t * p_haystack, c_t * p_needle )
 c_t *
 STRING_getword( const i_t p_i, const i_t p_j, c_t * p_s )
 {
-  c_t result[ESCHER_SYS_MAX_STRING_LEN];
-  result[0] = '\0';
-
-  i_t len = (i_t)Escher_strlen( p_s );
+  i_t len = Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len + 1 );
+  result[ 0 ] = 0;
 
   i_t lim = p_j;
   // if j is -1, it just means the full length of the string
@@ -263,8 +263,9 @@ STRING_getword( const i_t p_i, const i_t p_j, c_t * p_s )
 c_t *
 STRING_trim( c_t * p_s )
 {
-  c_t result[ESCHER_SYS_MAX_STRING_LEN];
-  result[0] = '\0';
+  i_t len = Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len + 1 );
+  result[ 0 ] = 0;
 
   c_t * a;
   c_t * b;
@@ -276,7 +277,6 @@ STRING_trim( c_t * p_s )
   }
 
   // find last non whitespace character
-  i_t len = (i_t)Escher_strlen( p_s );
   b = p_s + ( len - 1 );
   for ( ; b != p_s; b-- ) {
     if ( *a != ' ' && *a != '\r' && *a != '\t' && *a != '\n' ) break;   // found non whitespace
@@ -294,13 +294,8 @@ STRING_trim( c_t * p_s )
 
 /*
  * Bridge:  quote
+ * implemented as macro
  */
-c_t *
-STRING_quote()
-{
-  c_t result[2] = {'"',0};
-  return result;
-}
 
 
 /*
@@ -309,8 +304,9 @@ STRING_quote()
 c_t *
 STRING_escapetics( c_t * p_s )
 {
-  c_t result[ESCHER_SYS_MAX_STRING_LEN];
-  result[0] = '\0';
+  i_t len = Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len * 2 + 1 );
+  result[ 0 ] = 0;
 
   c_t * p = p_s;
   c_t * q = result;
@@ -339,8 +335,9 @@ STRING_escapetics( c_t * p_s )
 c_t *
 STRING_unescapetics( c_t * p_s )
 {
-  c_t result[ESCHER_SYS_MAX_STRING_LEN];
-  result[0] = '\0';
+  i_t len = Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len + 1 );
+  result[ 0 ] = 0;
 
   c_t * p = p_s;
   c_t * q = result;

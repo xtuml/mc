@@ -171,7 +171,7 @@ INSERT INTO GD_GE
 	"c7749303-ceea-4083-b1e4-8a664716a276",
 	105,
 	0,
-	'masl::sysmasl::masl::lib::masl::::control');
+	'masl::sysmasl::masl::lib::masl::::gen');
 INSERT INTO GD_CON
 	VALUES ("5f20e19e-6767-47ad-ba66-ee829606b903",
 	"00000000-0000-0000-0000-000000000000");
@@ -320,11 +320,11 @@ INSERT INTO CL_IIR
 	"4ebc1bcb-73d2-443e-a865-ff6c9398aa16",
 	"90d54594-cf39-42d6-a4bd-d61045291be6",
 	"00000000-0000-0000-0000-000000000000",
-	'control',
+	'gen',
 	'');
 INSERT INTO CL_IP
 	VALUES ("c7749303-ceea-4083-b1e4-8a664716a276",
-	'control',
+	'gen',
 	'');
 INSERT INTO C_IR_PROXY
 	VALUES ("4ebc1bcb-73d2-443e-a865-ff6c9398aa16",

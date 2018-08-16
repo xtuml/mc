@@ -30,6 +30,16 @@ private String getFileName() {
     return f.getName();
 }
 
+private ErrorHandler handler = null;
+public void setErrorHandler( ErrorHandler handler ) {
+    this.handler = handler;
+}
+@Override
+public void emitErrorMessage( String msg ) {
+    System.err.println(msg);
+    handler.handleError(msg);
+}
+
 }
 
 //==============================================================================================================
@@ -141,7 +151,6 @@ FIND                          : 'find' | 'find_all';
 FIND_ONE                      : 'find_one';
 FIND_ONLY                     : 'find_only';
 FOR                           : 'for';
-FUNCTION                      : 'function';                
 GENERATE                      : 'generate';
 IDENTIFIER                    : 'identifier';
 IF                            : 'if';
@@ -175,7 +184,7 @@ REVERSE                       : 'reverse';
 REVERSE_ORDERED_BY            : 'reverse_ordered_by';
 SCHEDULE                      : 'schedule';
 SEQUENCE                      : 'sequence';
-SERVICE                       : 'service';                 
+SERVICE                       : 'service' | 'function';                 
 SET                           : 'set';
 START                         : 'start';
 STATE                         : 'state';
@@ -202,8 +211,8 @@ FALSE                         : 'false';
 
 
 
-LINE_NO                       : '#LINE#' { setText(""+$line); $type=IntegerLiteral; };
-FILE_NAME                     : '#FILE#' { setText("\"" + getFileName() + "\""); $type=StringLiteral; };
+LINE_NO                       : '#LINE#' { setText("#LINE#"); $type=IntegerLiteral; };
+FILE_NAME                     : '#FILE#' { setText("#FILE#"); $type=StringLiteral; };
 
 
 // Numeric Literals

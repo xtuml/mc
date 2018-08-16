@@ -75,7 +75,11 @@ static bool paused = false;
 #endif
 static ETimer_time_t tinit = 0;
 .if ( "Nucleus" != te_thread.flavor )
+  .if ( te_sys.SimulatedTime )
+static ETimer_time_t systyme;
+  .else
 static struct timeb systyme;
+  .end if
 .end if
 #if ${te_tim.max_timers} > 0
 static ETimer_t swtimers[ ${te_tim.max_timers} ];  /* system.clr color */
@@ -808,6 +812,7 @@ timer_fire(
 .if ( "Nucleus" == te_thread.flavor )
   timer_find_and_delete( t );
 .else
+  t->event = 0;                   /* Be sure event is not reused.  */
   animate = animate->next;        /* Remove from active list.      */
   t->next = inanimate;            /* Connect to inactive list.     */
   inanimate = t;
@@ -844,8 +849,12 @@ ETimer_msec_time( void )
   t = msecCounter * CALL_PERIOD_MS;
   return ( t );
 .else
+  .if ( te_sys.SimulatedTime )
+  t = systyme;
+  .else
   ftime( &systyme );
   t = ( systyme.time * USEC_CONVERT ) + systyme.millitm;
+  .end if
   return ( t - tinit );
 .end if
 
@@ -868,6 +877,7 @@ TIM_update( void )
 void *
 TIM_duration_until_next_timer_pop( void * ts_in )
 {
+    .if ( not te_sys.SimulatedTime )
   struct timespec * ts = ( struct timespec * ) ts_in;
 #if ${te_tim.max_timers} > 0
   ETimer_time_t t = 0UL;
@@ -900,6 +910,9 @@ TIM_duration_until_next_timer_pop( void * ts_in )
   ts = 0;   /* Return zero to indicate no timers (ticking).  */
 #endif   /* if ${te_tim.max_timers} > 0 */
   return ts;
+    .else
+  return 0;
+    .end if
 }
 
   .end if
@@ -962,8 +975,13 @@ TIM_init(\
   ftime( &systyme );            /* Initialize the hardware ticker.   */
   tinit = 0;
 .elif ( not te_sys.AUTOSAR )
+  .if ( te_sys.SimulatedTime )
+  systyme = 0;                  /* Initialize the hardware ticker.   */
+  tinit = 0;
+  .else
   ftime( &systyme );            /* Initialize the hardware ticker.   */
   tinit = ( systyme.time * USEC_CONVERT ) + systyme.millitm;
+  .end if
 .end if
 }
 
@@ -984,10 +1002,18 @@ TIM_tick( void )
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_TIMER );
   #endif
   .end if
+  .if ( te_sys.SimulatedTime )
   if ( 0 != animate ) {
+    systyme = animate->expiration;
+    timer_fire( animate );
+  .else
+  while ( 0 != animate ) {
     if ( animate->expiration <= ETimer_msec_time() ) {
       timer_fire( animate );
+    } else {
+      break;
     }
+  .end if
   }
   .if ( te_thread.enabled )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}

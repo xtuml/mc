@@ -345,6 +345,9 @@ Description: Description of the attribute reference.',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("5e36a70a-cc02-4a68-bc82-ac4a0a4a1810",
+	"b354a8e8-8625-4ae0-a24e-632add00062c");
 INSERT INTO O_BATTR
 	VALUES ("5e36a70a-cc02-4a68-bc82-ac4a0a4a1810",
 	"b354a8e8-8625-4ae0-a24e-632add00062c");
@@ -365,6 +368,9 @@ In Properties: false',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("f6cc0242-b4e8-4b3b-ad06-2263fa1d5cf0",
+	"b354a8e8-8625-4ae0-a24e-632add00062c");
 INSERT INTO O_BATTR
 	VALUES ("f6cc0242-b4e8-4b3b-ad06-2263fa1d5cf0",
 	"b354a8e8-8625-4ae0-a24e-632add00062c");
@@ -385,6 +391,9 @@ In Properties: false',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("8d6ef9b6-94fc-4543-943b-304e99e6ced1",
+	"b354a8e8-8625-4ae0-a24e-632add00062c");
 INSERT INTO O_BATTR
 	VALUES ("8d6ef9b6-94fc-4543-943b-304e99e6ced1",
 	"b354a8e8-8625-4ae0-a24e-632add00062c");

@@ -87,6 +87,9 @@ readonly: true
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("0c34c1f3-881f-487e-b53b-d09a6028e202",
+	"4734f5e9-097d-4b0f-a054-6e01e4a6196c");
 INSERT INTO O_BATTR
 	VALUES ("0c34c1f3-881f-487e-b53b-d09a6028e202",
 	"4734f5e9-097d-4b0f-a054-6e01e4a6196c");
@@ -267,6 +270,31 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("5623ce8f-c6cc-47f3-b1e4-16b6b1b72bfd",
+	"4734f5e9-097d-4b0f-a054-6e01e4a6196c");
+INSERT INTO O_BATTR
+	VALUES ("5623ce8f-c6cc-47f3-b1e4-16b6b1b72bfd",
+	"4734f5e9-097d-4b0f-a054-6e01e4a6196c");
+INSERT INTO O_ATTR
+	VALUES ("5623ce8f-c6cc-47f3-b1e4-16b6b1b72bfd",
+	"4734f5e9-097d-4b0f-a054-6e01e4a6196c",
+	"e60b67bd-8d0f-43d4-846e-2c0f75090560",
+	'Dialect',
+	'',
+	'',
+	'Dialect',
+	0,
+	"6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	"00000000-0000-0000-0000-000000000000",
+	'ActionDialect',
+	'Enumerator for available action dialects',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"4734f5e9-097d-4b0f-a054-6e01e4a6196c");

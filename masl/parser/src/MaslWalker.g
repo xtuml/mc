@@ -1382,7 +1382,6 @@ domainServiceDefinition//[DomainService service]
 //scope NameScope;
 
                               : ^( DOMAIN_SERVICE_DEFINITION
-                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    serviceName
@@ -1396,7 +1395,7 @@ domainServiceDefinition//[DomainService service]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                args[0] = $DOMAIN_SERVICE_DEFINITION.text;
+                                                                args[0] = $DOMAIN_SERVICE_DEFINITION.text + " service;";
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
@@ -1413,7 +1412,6 @@ terminatorServiceDefinition//[DomainTerminatorService service]
 
 
                               : ^( TERMINATOR_SERVICE_DEFINITION
-                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    terminatorName
@@ -1427,7 +1425,7 @@ terminatorServiceDefinition//[DomainTerminatorService service]
                                                             }
                                    parameterList
                                                             {
-                                                                args[0] = $TERMINATOR_SERVICE_DEFINITION.text;
+                                                                args[0] = $TERMINATOR_SERVICE_DEFINITION.text + " service;";
                                                                 populate( "codeblock", args );
                                                             }
                                    returnType?
@@ -1444,7 +1442,6 @@ terminatorServiceDefinition//[DomainTerminatorService service]
 projectTerminatorServiceDefinition//[ProjectTerminatorService service]
 //scope NameScope;
                               : ^( TERMINATOR_SERVICE_DEFINITION
-                                   SERVICE_TYPE
                                    serviceVisibility
                                    domainReference
                                    terminatorName
@@ -1460,7 +1457,7 @@ projectTerminatorServiceDefinition//[ProjectTerminatorService service]
                                    returnType?
                                    codeBlock         
                                                             {
-                                                                args[0] = $TERMINATOR_SERVICE_DEFINITION.text;
+                                                                args[0] = $TERMINATOR_SERVICE_DEFINITION.text + " service;";
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
@@ -1478,7 +1475,6 @@ objectServiceDefinition//[ObjectService service]
 
 
                               :^( OBJECT_SERVICE_DEFINITION
-                                   SERVICE_TYPE
                                    serviceVisibility
                                    INSTANCE?
                                    fullObjectReference
@@ -1496,7 +1492,7 @@ objectServiceDefinition//[ObjectService service]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                args[0] = $OBJECT_SERVICE_DEFINITION.text;
+                                                                args[0] = $OBJECT_SERVICE_DEFINITION.text + " service;";
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                           
@@ -1525,7 +1521,7 @@ stateDefinition//[State stateDef]
                                    parameterList
                                    codeBlock
                                                             {
-                                                                args[0] = $STATE_DEFINITION.text;
+                                                                args[0] = $STATE_DEFINITION.text + " state;";
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                

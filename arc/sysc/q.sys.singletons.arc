@@ -276,12 +276,14 @@
   .assign te_string.strcpy = te_prefix.result + "strcpy"
   .assign te_string.stradd = te_prefix.result + "stradd"
   .assign te_string.strlen = te_prefix.result + "strlen"
-  .assign te_string.itoa = te_prefix.result + "itoa"
-  .assign te_string.atoi = te_prefix.result + "atoi"
   .assign te_string.strcmp = te_prefix.result + "strcmp"
   .assign te_string.strget = te_prefix.result + "strget"
+  .assign te_string.itoa = te_prefix.result + "itoa"
+  .assign te_string.atoi = te_prefix.result + "atoi"
   .assign te_string.max_string_length = te_prefix.define_u + "SYS_MAX_STRING_LEN"
   .assign te_string.debug_buffer_depth = te_prefix.define_u + "DEBUG_BUFFER_DEPTH"
+  .assign te_string.u128touuid = te_prefix.result + "u128touuid"
+  .assign te_string.uuidtou128 = te_prefix.result + "uuidtou128"
 .end function
 .//
 .//
@@ -308,7 +310,7 @@
   .param inst_ref te_tim
   .select any te_prefix from instances of TE_PREFIX
   .assign te_tim.max_timers = te_prefix.define_u + "SYS_MAX_XTUML_TIMERS"
-  .assign te_tim.keyed_timer_support = false
+  .assign te_tim.keyed_timer_support = true
   .assign te_tim.recurring_timer_support = true
   .assign te_tim.internal_type = "ETimer_t"
   .assign te_tim.timer_event_search_and_destroy = false

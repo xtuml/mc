@@ -73,6 +73,9 @@ enum1: Many',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("cfb172a7-c4fc-41d8-9b1e-aa6ea08a1486",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
 INSERT INTO O_BATTR
 	VALUES ("cfb172a7-c4fc-41d8-9b1e-aa6ea08a1486",
 	"efc93ef7-432d-47d5-9541-033eef7f2676");

@@ -123,7 +123,16 @@ typedef struct {
 ${inst_id_in_handle}\
 } ${te_instance.base};
 typedef ${te_instance.base} * ${te_instance.handle};
+  .if ( te_sys.InstanceLoading )
+#ifdef __SIZEOF_INT128__
+typedef unsigned __int128 u128_t;
+typedef u128_t ${te_prefix.type}UniqueID_t;
+#else
 typedef i_t ${te_prefix.type}UniqueID_t;
+#endif
+  .else
+typedef i_t ${te_prefix.type}UniqueID_t;
+  .end if
 typedef void (*Escher_idf)( Escher_iHandle_t ); 
 
 /* Return code type for dispatch of a polymorphic event (see ${te_file.events}.${te_file.hdr_file_ext}).  */
@@ -180,6 +189,10 @@ ${te_typemap.structured_data_types}
 ${domain_ids.body}
 .// Include the macros for tracing.
 .include "${te_file.arc_path}/t.sys_trace.h"
+.if ( te_sys.MaxInterleavedBridges > 0 )
+
+  .include "${te_file.arc_path}/t.sys_ilb.h"
+.end if
 
 ${te_target.c2cplusplus_linkage_end}
 #endif  /* ${te_prefix.define_usw}$u{te_file.types}_$u{te_file.hdr_file_ext} */

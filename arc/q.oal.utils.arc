@@ -116,7 +116,7 @@
         .// Be sure we have the first attribute in the class.
         .select any first_te_attr related by te_class->TE_ATTR[R2061]
         .while ( not_empty first_te_attr )
-          .select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'precedes']
+          .select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds']
           .if ( empty prev_te_attr )
             .break while
           .end if
@@ -134,14 +134,12 @@
             .end if
           .end if
           .//
-          .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+          .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
         .end while
         .//
         .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
         .create object instance te_swc of TE_SWC
-        .// relate te_swc to te_class across R2001;
-        .assign te_swc.GeneratedName = te_class.GeneratedName
-        .// end relate
+        .relate te_swc to te_class across R2001
         .assign te_swc.Obj_Kl = te_class.Key_Lett
         .assign te_swc.Where_Spec = where_spec
         .assign te_swc.Key = where_key
@@ -167,14 +165,12 @@
             .end if
           .end if
           .//
-          .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+          .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
         .end while
         .//
         .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
         .create object instance te_swc of TE_SWC
-        .// relate te_swc to te_class across R2001;
-        .assign te_swc.GeneratedName = te_class.GeneratedName
-        .// end relate
+        .relate te_swc to te_class across R2001
         .assign te_swc.Obj_Kl = te_class.Key_Lett
         .assign te_swc.Where_Spec = where_spec
         .assign te_swc.Key = where_key
@@ -201,14 +197,12 @@
               .end if
             .end if
             .//
-            .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+            .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
           .end while
           .//
           .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
           .create object instance te_swc of TE_SWC
-          .// relate te_swc to te_class across R2001;
-          .assign te_swc.GeneratedName = te_class.GeneratedName
-          .// end relate
+          .relate te_swc to te_class across R2001
           .assign te_swc.Obj_Kl = te_class.Key_Lett
           .assign te_swc.Where_Spec = where_spec
           .assign te_swc.Key = where_key
@@ -231,14 +225,12 @@
               .end if
             .end if
             .//
-            .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+            .select one te_attr related by te_attr->TE_ATTR[R2087.'precedes']
           .end while
           .//
           .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
           .create object instance te_swc of TE_SWC
-          .// relate te_swc to te_class across R2001;
-          .assign te_swc.GeneratedName = te_class.GeneratedName
-          .// end relate
+          .relate te_swc to te_class across R2001
           .assign te_swc.Obj_Kl = te_class.Key_Lett
           .assign te_swc.Where_Spec = where_spec
           .assign te_swc.Key = where_key

@@ -24,7 +24,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	0,
-	'',
+	'4.1.17',
 	'escher::mcmc::afunsmt');
 INSERT INTO DIM_DIA
 	VALUES ("4b0454b4-8a58-4bef-ab20-476e89adbf7f",
@@ -53,7 +53,8 @@ return ( "pG_" + te_class.GeneratedName ) + "_extent";
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("7e727807-43ae-4aae-aec7-acb67f332ae4",
 	"d1c8a8b3-9285-43a2-88a3-9e6184d20a70",
@@ -103,7 +104,8 @@ return result;
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("4a240cfb-4ffd-4869-8f49-d48f782a9132",
 	"3b27712b-2995-45ac-b37f-9793564201ce",
@@ -184,7 +186,8 @@ return result;
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("d851277b-2f9b-4be6-a7ca-ce526966534b",
 	"02e852a7-2395-4a42-9080-2fbbfb5a15ef",
@@ -242,7 +245,8 @@ return result;
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("10b26906-bec6-494e-b117-2c325ef78b95",
 	"f2f07657-65fc-4a0f-ad64-d5794063fb42",
@@ -292,7 +296,8 @@ return te_class.GeneratedName + "_rel_set_lists";
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("469c70f3-697c-48c1-a09c-4bbb48c33b4a",
 	"82bd0277-438a-4b0a-b93f-ad18152383d7",
@@ -323,7 +328,8 @@ return "EventTaker_t";
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("06fe668a-4d94-4090-bd17-3c4aabb46479",
 	"04cb49cb-1583-43a4-9a37-5c8145934901",
@@ -352,7 +358,8 @@ return te_class.GeneratedName + "_R$t{r_rel.Numb}PolymorphicEvent";
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("e4a56ba1-1338-40d4-88fd-c6ffc16622c1",
 	"ece98fbf-d9e0-4c83-8b48-84723824af0b",
@@ -389,7 +396,8 @@ return T::r(s:dom_name) + "_DOMAIN_ID";
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("4441e2e4-e691-43ea-943f-3590867bd347",
 	"c5ccc2da-c5f1-4c0f-90e6-60d43551acfc",
@@ -425,7 +433,8 @@ return "  ${te_instance.handle} instance,\n  const ${te_typemap.domain_number_na
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("998886cd-2ee2-442c-bb33-9f9c0a1a8770",
 	1,
@@ -452,7 +461,8 @@ return "  const s1_t operation, const ${te_typemap.domain_number_name} domain,\n
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("66990586-1fe1-4f79-80c2-47e87e7bae90",
 	1,
@@ -491,13 +501,20 @@ if ( not_empty te_smt )
   // Get empty handles into scope.
   select one current_act_if related by act_smt->ACT_IF[R603] where ( false );
   select one empty_act_smt related by current_act_if->ACT_SMT[R603] where ( false );
+  emit_statement_comments = true;
+  select one te_c related by te_aba->TE_C[R2088];
+  if ( not_empty te_c )
+    emit_statement_comments = te_c.CodeComments;
+  end if;
   while ( not_empty act_smt )
     next = empty_act_smt;
     select one te_smt related by act_smt->TE_SMT[R2038];
     if ( "" != te_smt.OAL )
-      statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" );
-      ::aba_code_append( te_aba:te_aba, s:statement_comment );
-      if ( trace )
+      if ( emit_statement_comments )
+        statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" );
+        ::aba_code_append( te_aba:te_aba, s:statement_comment );
+      end if;
+      if ( trace and te_aba.IsTrace )
         statement_trace = ( ( te_blk.indentation + "XTUML_OAL_STMT_TRACE( " ) + ( T::s(i:te_blk.depth) + ", &quot;" ) ) + ( te_smt.OAL + "&quot; );\n" );
         ::aba_code_append( te_aba:te_aba, s:statement_trace );
       end if;
@@ -579,7 +596,8 @@ end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("91ab8145-c69a-485c-b6f4-bd0d138ac952",
 	"9a8f61e1-582a-4334-9e42-3a7f05776533",
@@ -639,7 +657,8 @@ te_smt.buffer = te_smt.buffer + s;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("b45d813f-d60f-44ae-a222-59430cdd3076",
 	"0ecd7884-0f91-4a1d-8f04-5c602e6dbe54",
@@ -683,7 +702,8 @@ te_blk.declaration = te_blk.declaration + s;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("07b36023-bef1-405f-acd6-32b0a22a9178",
 	"45d81cd4-746a-49b9-8a42-14b04804a86f",
@@ -720,7 +740,8 @@ te_blk.deallocation = te_blk.deallocation + s;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("d5a4c551-3982-417a-91aa-8109953931af",
 	"f2b6cae8-8a7a-44c3-a265-45913fe55d06",
@@ -758,7 +779,8 @@ te_aba.code = te_aba.code + s;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("7b2e72f8-f06e-4fb4-bc83-087df8bbdc6d",
 	"4733f94a-b3f9-482d-a7c0-bc8800ec5a22",
@@ -833,7 +855,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("10a75d3b-df09-407a-b4f4-82249e90616a",
 	1,
@@ -885,7 +908,8 @@ INSERT INTO S_SYNC
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("4f98ec46-daf0-4c66-a03e-de149084827b",
 	1,
@@ -900,6 +924,7 @@ INSERT INTO S_SYNC
 	'//
 ::smt_assigns();
 ::smt_create_instances();
+::smt_create_instance_novars();
 ::smt_delete_instances();
 ::smt_create_events_to_instance();
 ::smt_create_events_to_class();
@@ -928,7 +953,8 @@ INSERT INTO S_SYNC
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("9b2c8b73-d6c1-424c-81ef-8aedf4c2e22d",
 	1,
@@ -957,7 +983,8 @@ T::print(s:"done translating statements");
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("a583ba58-19c4-4842-b20e-2ab5abb0a738",
 	1,
@@ -985,7 +1012,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("4099e37d-c6c1-4b5f-9ff2-07efa73d0e69",
 	1,
@@ -1031,7 +1059,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("cc16f22d-3bbd-4e21-bd69-02fba1302132",
 	"1e9826c1-7244-426a-a7fb-ca2737997ea9",
@@ -1081,7 +1110,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("8ccb4ce1-b5a1-4726-82ad-dc0e72e56531",
 	1,
@@ -1109,7 +1139,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("e77ecf51-365a-4c55-b5a2-9e2146bff227",
 	"196481a5-7312-454c-b784-5b05ffb76b14",
@@ -1158,7 +1189,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("6149aabd-4c64-4890-8e09-f92292148dfa",
 	1,
@@ -1186,7 +1218,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("a1eb39b9-e426-430a-8451-95aa69f94744",
 	"9ba7f867-8e98-42a5-ba4c-d3bbeb7f3334",
@@ -1235,7 +1268,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("05df0d19-1b73-4a1e-9f2d-e0db41d84b8a",
 	1,
@@ -1264,7 +1298,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("d18b8900-ff8e-49c9-acb8-4679bf525071",
 	"0e4f5ec0-eab8-43a8-9d06-91739f544bb3",
@@ -1314,7 +1349,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("81e542f7-9358-41a4-9402-30d972497114",
 	1,
@@ -1344,7 +1380,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("2976e11b-5b62-4aad-b4ab-f08f1adfe941",
 	"5833b34b-3945-4033-8560-c7dac84f48a7",
@@ -1394,7 +1431,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("8ef67a31-55d2-4cba-989f-7044d17cead6",
 	1,
@@ -1500,7 +1538,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("432b8ce5-6bbb-4225-a365-55c05710096c",
 	"b51efbca-3979-4d92-b8b9-b5a41a6f6132",
@@ -1557,7 +1596,8 @@ return result;
 ',
 	"5400d269-ee31-4742-ac70-8532512a854c",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("8cc28903-6670-4512-b9d2-21d474409686",
 	"e8439987-b221-4d80-a129-69cf514bd6d8",
@@ -1599,7 +1639,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("26660229-a463-410a-97c1-488a3656dcdd",
 	1,
@@ -1642,7 +1683,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("53c87d4b-a2d6-4b0e-8565-8e62f4a1749c",
 	"364ece84-f038-4899-8422-eed36fce1406",
@@ -1693,7 +1735,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("16d72313-c96f-49c5-80a5-ee0122c93433",
 	1,
@@ -1729,7 +1772,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("a01ac1e8-46bd-49eb-a2bf-1728226151e1",
 	"e468eb9e-eb35-423a-b098-0ee9f70fa21f",
@@ -1781,7 +1825,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("9813026b-7f77-4303-ad45-7736d405040c",
 	1,
@@ -1807,7 +1852,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("481da654-cf6f-4150-be2b-8c7cdcd491b9",
 	1,
@@ -1833,7 +1879,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("82b593ce-538c-4523-96ba-c1d018431f10",
 	1,
@@ -1910,7 +1957,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("c87bba94-0008-4c94-97b6-a06f79afc3e8",
 	"7847f352-30c9-48f3-862f-7f636e783e1c",
@@ -1978,7 +2026,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("0a354815-6c2e-422a-a3a3-b4d5c6f7fc91",
 	1,
@@ -2031,7 +2080,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("51867a3a-26c9-4b00-8237-8b954b9afed8",
 	"e9d37de9-28e8-414f-bda5-6ec291a17c18",
@@ -2079,7 +2129,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("ca114159-1f46-48cd-a574-f0df490c7824",
 	1,
@@ -2155,7 +2206,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("09ebfd3c-97e2-4e70-9b05-59304d700196",
 	"14af5744-0b96-4bf8-a0b6-8f094d7608ff",
@@ -2203,7 +2255,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("7f9dc803-4f4e-4fa9-848d-adfbbe9202f0",
 	1,
@@ -2254,7 +2307,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("5f047288-2288-4cc4-bc5c-0684fea1ffd4",
 	"2973925c-8582-4978-af12-9be899a7a18e",
@@ -2302,7 +2356,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("6e548026-0a80-4b51-9f3e-21eb7a890532",
 	1,
@@ -2377,7 +2432,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("b0c37c9c-f556-4d6f-b0a4-c9bfcbe6480c",
 	"388666d0-0eb3-450b-90c3-382917d04151",
@@ -2427,7 +2483,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("07cdac0a-c7d8-4aa4-8df8-ff016c9e3752",
 	1,
@@ -2490,7 +2547,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("5dd39f33-9a6f-43e9-85e8-faa5aa4fda74",
 	"c99133b4-3b7a-467a-8402-d2c128aa97c5",
@@ -2540,7 +2598,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("0eb5fd66-2f34-441f-bb70-0b0a904a6056",
 	1,
@@ -2595,7 +2654,8 @@ return result;
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("5cad26b3-862c-4268-9b7a-20190789ff0e",
 	"309cb86c-69a8-4d82-ac66-4dfa9367452a",
@@ -2682,7 +2742,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("42ca7470-8425-4d62-898f-7c85185ccfcc",
 	"426aadad-89b4-4e6b-abd4-cf332d8d0735",
@@ -2732,7 +2793,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("45c07cf1-6db9-4597-9f1a-af717ee336ec",
 	1,
@@ -2758,7 +2820,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("1981a26b-1c71-48a7-bbed-60fcf2cca6a9",
 	1,
@@ -2783,7 +2846,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("c4623245-748b-4f0e-b54c-f279f92af6b5",
 	1,
@@ -2815,7 +2879,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("14e657c2-7753-4ca9-8166-7ea2552606bd",
 	"fcd9fe85-1611-4d3d-9f73-c3fe660c13bf",
@@ -2866,7 +2931,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("c2815c1e-6672-47c9-affa-5bc666ecddcb",
 	1,
@@ -2896,7 +2962,8 @@ end while;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("0df642a1-9f57-4cec-b8fa-56b6a6ac2436",
 	"1934d3e3-127b-4475-b681-c3bfc61ab4f8",
@@ -2969,7 +3036,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("4233efe3-3b88-4bda-ad47-311db3a822ad",
 	"e544fbf4-0202-4417-889f-5c1c3891adc7",
@@ -3017,7 +3085,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("30f82a93-1aa1-4de2-92cb-d45bd464496f",
 	1,
@@ -3039,7 +3108,8 @@ te_smt.OAL = te_smt.OAL + " CREATOR";
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("1719da73-b727-4254-b0ce-db85688d2a70",
 	"a767e5ec-94a2-40ae-97f8-33321c1ee9ed",
@@ -3078,7 +3148,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("f30b3467-c547-4f49-bc46-8785c454b6b8",
 	1,
@@ -3100,7 +3171,8 @@ te_smt.OAL = te_smt.OAL + " CLASS";
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("4c794693-3f46-4f24-8040-40bc6a519b31",
 	"c5f57aad-91f6-43ab-a2fe-03bfc127b82a",
@@ -3186,7 +3258,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("942c79a1-cbe4-438e-814e-481a9fe1e0ac",
 	"f07c403b-a300-4878-be73-f7228df1116b",
@@ -3234,7 +3307,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("7e6dbe70-92d6-476d-9f2b-0d6f67534bf0",
 	1,
@@ -3261,7 +3335,8 @@ te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALPara
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("417952b4-812f-45de-b5b3-cee5d9f0884c",
 	"6c05ce84-7847-48e3-8ff0-ae8b6557de20",
@@ -3300,7 +3375,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("79552a95-38da-429a-b087-a5fd7af7083e",
 	1,
@@ -3327,7 +3403,8 @@ te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuff
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("b7ca3071-7993-4bce-89e0-377b5ba983f0",
 	"5ffdb3ad-73b8-4f3f-9f4e-6392be92af03",
@@ -3425,7 +3502,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("c544698b-61cb-4718-8b97-27fd41996c21",
 	"04c15c15-2533-46d2-b998-18f04eeb2863",
@@ -3509,7 +3587,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("78ec2f34-db1c-49b5-a951-7b7dc46bfd1d",
 	1,
@@ -3571,7 +3650,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("65b47145-2e94-400a-87d5-c54e500c4bf1",
 	"7e3ad1a7-29fe-482b-88bb-52eeff3a65e6",
@@ -3621,7 +3701,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("81aed510-c4ba-4550-89ff-64b2f1e741b6",
 	1,
@@ -3673,7 +3754,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("c8e6b4f4-fc54-4d7f-9ad7-acf8ec3d78c4",
 	"790840a7-9d44-41a6-b5cd-3710f958f869",
@@ -3723,7 +3805,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("098ad207-f2f0-40da-8b3d-c5834fcfe9b5",
 	1,
@@ -3765,7 +3848,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("2e0d7849-b6e7-45ff-b1a3-3a0676acd475",
 	"c022b900-af5f-4101-8002-6f7c4edb2804",
@@ -3815,7 +3899,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("01176c28-6466-48f7-9d42-63d4208c3909",
 	1,
@@ -3888,7 +3973,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("d3624be7-f152-4b6d-a8e4-8b6846b0e020",
 	"a5562f22-3fe6-43a3-abf8-1b739be5a4c4",
@@ -3938,7 +4024,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("826fa08e-11db-4048-861d-431fdff1999e",
 	1,
@@ -3966,7 +4053,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("04b8fc4e-fa9b-4a80-80fd-91ddfdf27111",
 	"8a6282d8-c3e5-42d5-9ce0-96eabb41c917",
@@ -4016,7 +4104,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("cb85aba3-9c2f-417d-97f4-4a3e0b1eaade",
 	1,
@@ -4056,7 +4145,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("59eb1fe2-de1a-4aba-a3ec-af1b3686326a",
 	"9a4f705b-1f1b-4ac6-88e9-2974c3f34562",
@@ -4106,7 +4196,8 @@ end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO PE_PE
 	VALUES ("d97643e5-2ec9-4da5-91a9-8bc2aa5eae2f",
 	1,
@@ -4146,7 +4237,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("c531af40-da35-44e2-bc13-b92c35108206",
 	"bb96d1e3-4e4c-4645-a1da-e72a662e03e2",
@@ -4607,7 +4699,8 @@ return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("6236097e-37c7-4ac0-af13-92fd8ce6d0de",
 	"7acb5291-ff24-4ac2-9da6-49d789a4b7e4",
@@ -4687,7 +4780,8 @@ return obj_id;
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("61ad06c3-fe91-49da-b9b2-5b78f1e6f222",
 	"11008ea2-36c2-4623-ba37-26db74a7e8a9",
@@ -4796,7 +4890,8 @@ return result;
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("8391e8a2-9042-49d7-84c2-d6baef7dcf8e",
 	"43571268-c1ec-4a02-96a7-5a7c9c383833",
@@ -4876,7 +4971,8 @@ return result;
 ',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
-	'');
+	'',
+	0);
 INSERT INTO S_SPARM
 	VALUES ("bd8d46fb-d6d3-4b03-8e94-115e3c0fbf10",
 	"f1ce3d87-c56d-4c84-ac83-7e675d99778b",
@@ -4906,6 +5002,98 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("f1ce3d87-c56d-4c84-ac83-7e675d99778b",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c684cef8-4ad8-49f6-9981-85b30061ad4b",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_create_instance_novars',
+	'',
+	'//
+// --------------------------------------------------------
+// create instance no variable statements
+// --------------------------------------------------------
+select many act_cnvs from instances of ACT_CNV;
+for each act_cnv in act_cnvs
+  select one te_smt related by act_cnv->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_create_instance_novar( te_smt:te_smt, act_cnv:act_cnv );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("c684cef8-4ad8-49f6-9981-85b30061ad4b",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4d379af2-5d36-485c-8c68-500ccfb06fad",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_create_instance_novar',
+	'',
+	'// --------------------------------------------------------
+// create instance no variable statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_cnv = param.act_cnv;
+select one te_class related by act_cnv->O_OBJ[R672]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty te_class )
+  select any te_file from instances of TE_FILE;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  select one te_c related by te_class->TE_C[R2064];
+  select any te_instance from instances of TE_INSTANCE;
+  r = ::GetDomainTypeIDFromString( dom_name:te_c.Name );
+  dom_id = r;
+  create object instance te_var of TE_VAR;
+  te_var.buffer = te_class.GeneratedName + "_novar";
+  r = ::AutoInitializeUniqueIDs( te_class:te_class, instance:te_var.buffer );
+  init_uniques = r;
+  d = ( te_class.GeneratedName + " * " ) + ( te_var.buffer + ";" );
+  ::blk_declaration_append( te_blk:te_blk, s:d );
+  T::include(file:"c/t.smt.create_instance.c");
+  te_smt.OAL = "CREATE OBJECT INSTANCE OF ${te_class.Key_Lett}";
+  delete object instance te_var;
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("4e1e6bf2-f43b-4d53-ac4a-63d415273c7f",
+	"4d379af2-5d36-485c-8c68-500ccfb06fad",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cb8e4202-d265-45ac-8424-3b32be2ecd3a",
+	"4d379af2-5d36-485c-8c68-500ccfb06fad",
+	'act_cnv',
+	"6cab5519-9843-4065-80d9-10e766f232a1",
+	0,
+	'',
+	"4e1e6bf2-f43b-4d53-ac4a-63d415273c7f",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6cab5519-9843-4065-80d9-10e766f232a1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Create No Variable>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Instance Access/Instance Access.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4d379af2-5d36-485c-8c68-500ccfb06fad",
 	1,
 	"3233cd49-1f36-4109-a25a-31502fa991cd",
 	"00000000-0000-0000-0000-000000000000",

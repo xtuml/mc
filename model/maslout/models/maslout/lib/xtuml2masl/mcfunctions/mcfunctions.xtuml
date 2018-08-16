@@ -1,0 +1,68 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("1d764227-38da-4753-ad5f-682871758b8a",
+	"00000000-0000-0000-0000-000000000000",
+	"53107551-b0b9-4155-a13f-41b410f63a54",
+	'mcfunctions',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("c61304b6-d9cd-4021-83b8-87b20dfd2950",
+	112,
+	"1d764227-38da-4753-ad5f-682871758b8a",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'maslout::lib::xtuml2masl::mcfunctions');
+INSERT INTO DIM_DIA
+	VALUES ("c61304b6-d9cd-4021-83b8-87b20dfd2950",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("1d764227-38da-4753-ad5f-682871758b8a",
+	"bf81735d-197a-4cd8-acfa-23d7cd84f28b");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("bf81735d-197a-4cd8-acfa-23d7cd84f28b",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	'functions',
+	'',
+	0,
+	'../../../../../../mcshared/models/mcshared/functions/functions.xtuml');
+INSERT INTO PE_PE
+	VALUES ("1d764227-38da-4753-ad5f-682871758b8a",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'xtuml2masl',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../xtuml2masl.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("53107551-b0b9-4155-a13f-41b410f63a54",
+	'maslout',
+	1,
+	'../../../maslout.xtuml');

@@ -19,7 +19,8 @@ doc_img = self;
 T::include( file:"docbook/t.image.xml" );',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("b5b437b4-ee41-48eb-a772-18ca0c39a358",
 	"443efd9d-9a25-4258-87bb-bf1108fce6b0");

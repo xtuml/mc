@@ -96,7 +96,6 @@
   .assign te_file.trace = te_prefix.file + "sys_trace"
   .assign te_file.tim = te_prefix.file + "TIM_bridge"
   .assign te_file.callout = te_prefix.file + "sys_user_co"
-  .assign te_file.ilb = te_prefix.file + "sys_ilb"
   .assign te_file.persist = te_prefix.file + "sys_persist"
   .assign te_file.xtumlload = te_prefix.file + "sys_xtumlload"
   .assign te_file.interfaces = te_prefix.file + "sysc_interfaces"
@@ -148,7 +147,6 @@
 .function ilb_factory
   .param inst_ref te_ilb
   .select any te_prefix from instances of TE_PREFIX
-  .assign te_ilb.file = "sys_ilb"
   .assign te_ilb.interleave_bridge = "InterleaveBridge"
   .assign te_ilb.define_name = te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGES"
   .assign te_ilb.data_define_name = te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGE_DATA"
@@ -239,7 +237,10 @@
   .assign te_set.module = ""
   .assign te_set.copy = te_prefix.result + "CopySet"
   .assign te_set.clear = te_prefix.result + "ClearSet"
-  .assign te_set.setadd = te_prefix.result + "SetAdd"
+  .assign te_set.setunion = te_prefix.result + "SetUnion"
+  .assign te_set.setintersection = te_prefix.result + "SetIntersection"
+  .assign te_set.setdifference = te_prefix.result + "SetDifference"
+  .assign te_set.setsymmetricdifference = te_prefix.result + "SetSymmetricDifference"
   .assign te_set.insert_element = te_prefix.result + "SetInsertElement"
   .assign te_set.element_count = te_prefix.result + "SetCardinality"
   .assign te_set.iterator_class_name = te_prefix.result + "Iterator_s"
@@ -277,12 +278,14 @@
   .assign te_string.strcpy = te_prefix.result + "strcpy"
   .assign te_string.stradd = te_prefix.result + "stradd"
   .assign te_string.strlen = te_prefix.result + "strlen"
-  .assign te_string.itoa = te_prefix.result + "itoa"
-  .assign te_string.atoi = te_prefix.result + "atoi"
   .assign te_string.strcmp = te_prefix.result + "strcmp"
   .assign te_string.strget = te_prefix.result + "strget"
+  .assign te_string.itoa = te_prefix.result + "itoa"
+  .assign te_string.atoi = te_prefix.result + "atoi"
   .assign te_string.max_string_length = te_prefix.define_u + "SYS_MAX_STRING_LEN"
   .assign te_string.debug_buffer_depth = te_prefix.define_u + "DEBUG_BUFFER_DEPTH"
+  .assign te_string.u128touuid = te_prefix.result + "u128touuid"
+  .assign te_string.uuidtou128 = te_prefix.result + "uuidtou128"
 .end function
 .//
 .//
@@ -309,7 +312,7 @@
   .param inst_ref te_tim
   .select any te_prefix from instances of TE_PREFIX
   .assign te_tim.max_timers = te_prefix.define_u + "SYS_MAX_XTUML_TIMERS"
-  .assign te_tim.keyed_timer_support = false
+  .assign te_tim.keyed_timer_support = true
   .assign te_tim.recurring_timer_support = true
   .assign te_tim.internal_type = "ETimer_t"
   .assign te_tim.timer_event_search_and_destroy = false

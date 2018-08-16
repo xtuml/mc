@@ -1,5 +1,6 @@
 CC=gcc
 CFLAGS=-DTEMPLATE_ENGINE -Wno-pointer-to-int-cast
+LFLAGS=-l:libfl.a
 SOURCES := $(shell ls *.c)
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=mcmc
@@ -7,7 +8,7 @@ EXECUTABLE=mcmc
 all:  $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(CFLAGS) $^ -static -l:libfl.a -o $@
+	$(CC) $(CFLAGS) $^ $(LFLAGS) -o $@
 
 .o:
 	$(CC) $(CFLAGS) -c $<

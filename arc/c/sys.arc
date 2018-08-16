@@ -90,6 +90,7 @@
 .select any te_sys from instances of TE_SYS
 .// Pull into scope global values from singleton classes.
 .select any te_callout from instances of TE_CALLOUT
+.select any te_cia from instances of TE_CIA
 .select any te_container from instances of TE_CONTAINER
 .select any te_copyright from instances of TE_COPYRIGHT
 .select any te_dlist from instances of TE_DLIST
@@ -121,8 +122,17 @@
 .assign system_parameters = r.body
 .invoke system_class_array = DefineClassInfoArray( first_te_c )
 .invoke domain_ids = DeclareDomainIdentityEnums( first_te_c, num_ooa_doms )
+.invoke non_self_event_queue_needed = GetSystemNonSelfEventQueueNeeded()
+.invoke self_event_queue_needed = GetSystemSelfEventQueueNeeded()
 .//
-.select many te_ees from instances of TE_EE where ( ( ( selected.RegisteredName != "TIM" ) and ( selected.te_cID == 0 ) ) and ( selected.Included ) )
+.// Get the TE_EEs that are not inside of a component.
+.select many te_ees from instances of TE_EE where ( ( selected.RegisteredName != "TIM" ) and ( selected.Included ) )
+.for each te_ee in te_ees
+  .select one my_te_c related by te_ee->TE_C[R2085]
+  .if ( not_empty my_te_c )
+    .assign te_ees = te_ees - te_ee
+  .end if
+.end for
 .if ( not_empty te_ees )
   .select any te_c from instances of TE_C where ( false )
   .include "${te_file.arc_path}/q.domain.bridges.arc"
@@ -145,13 +155,10 @@
 .invoke main_decl = GetMainTaskEntryDeclaration()
 .invoke r = GetMainTaskEntryReturn()
 .assign return_body = r.body
-.select any te_cia from instances of TE_CIA
 .//
 .// function-based archetype generation
 .//
 .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
-.invoke non_self_event_queue_needed = GetSystemNonSelfEventQueueNeeded()
-.invoke self_event_queue_needed = GetSystemSelfEventQueueNeeded()
 .//
 .assign printf = "printf"
 .if ( te_thread.flavor == "Nucleus" )
@@ -176,7 +183,7 @@
     .assign all_instance_dumpersd = all_instance_dumpersd + "extern ${te_prefix.result}idf ${te_c.Name}_instance_dumpers[ ${te_dci.max} ];\n"
     .assign all_instance_dumpers = all_instance_dumpers + "  ${te_c.Name}_instance_dumpers,\n"
     .assign all_max_class_numbers = ( all_max_class_numbers + " + " ) + te_dci.max
-  .select one te_c related by te_c->TE_C[R2017.'succeeds']
+  .select one te_c related by te_c->TE_C[R2017.'precedes']
 .end while
 .//
 .//
@@ -235,22 +242,6 @@
     .include "${te_file.arc_path}/t.sys_threadautosar.c"
   .end if
   .emit to file "${te_file.system_source_path}/${te_file.thread}.${te_file.src_file_ext}"
-.end if
-.//
-.if ( te_sys.MaxInterleavedBridges > 0 )
-  .invoke disable_interrupts = UserDisableInterrupts()
-  .invoke enable_interrupts = UserEnableInterrupts()
-  .//===========================================================================
-  .// Generate sys_ilb.h into system gen includes.
-  .//===========================================================================
-  .include "${te_file.arc_path}/t.sys_ilb.h"
-  .emit to file "${te_file.system_include_path}/${te_file.ilb}.${te_file.hdr_file_ext}"
-  .//
-  .//===========================================================================
-  .// Generate sys_ilb.c into system gen source.
-  .//===========================================================================
-  .include "${te_file.arc_path}/t.sys_ilb.c"
-  .emit to file "${te_file.system_source_path}/${te_file.ilb}.${te_file.src_file_ext}"
 .end if
 .//
 .//=============================================================================

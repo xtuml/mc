@@ -1,0 +1,185 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("3a8c6f0d-c062-4472-9f8d-0eef874936be",
+	'formalization',
+	3809,
+	'formalization',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("18a49c09-d035-4bad-a130-dff62a357d68",
+	"3a8c6f0d-c062-4472-9f8d-0eef874936be",
+	'compareAttrSets',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'// compare a set of attributes in an ID for consistency with
+// a set of referential attributes
+// return true if they match,
+// return false if they do not match
+
+o_attrs = param.o_attrs;
+ras = param.ras;
+
+// Cardinalities need to match and be non-zero.
+ocount = cardinality o_attrs;
+rcount = cardinality ras;
+if ( ( 0 == ocount ) or ( 0 == rcount ) )
+  return false;
+end if;
+
+// loop through and check each one
+for each o_attr in o_attrs
+
+  match = false;
+  for each ra in ras
+    if ( o_attr.Root_Nam == ra.attrName )
+      match = true;
+      break;
+    end if;
+  end for;
+
+  if ( match == false )  // if no match was found, we have an inconsistency
+    return false;
+  end if;
+
+end for;
+
+// loop through the other way
+for each ra in ras
+
+  match = false;
+  for each o_attr in o_attrs
+    if ( o_attr.Root_Nam == ra.attrName )
+      match = true;
+      break;
+    end if;
+  end for;
+
+  if ( match == false )  // if no match was found, we have an inconsistency
+    return false;
+  end if;
+
+end for;
+
+// if we made it all the way through the for loop with no inconsistencies, it is a match
+return true;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("38175d81-bce5-49ca-ada2-781b66e12b0f",
+	"18a49c09-d035-4bad-a130-dff62a357d68",
+	'o_attrs',
+	"ceb38606-6f98-4886-aab1-5ae358776d11",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ceb38606-6f98-4886-aab1-5ae358776d11",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("4ca5327f-1109-41bc-a301-eb005383ad6b",
+	"18a49c09-d035-4bad-a130-dff62a357d68",
+	'ras',
+	"c1013647-e651-42fe-bc79-6e45c353f225",
+	0,
+	'',
+	"38175d81-bce5-49ca-ada2-781b66e12b0f",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("c1013647-e651-42fe-bc79-6e45c353f225",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<referentialAttribute>',
+	'',
+	'',
+	'../m2x.xtuml');
+INSERT INTO O_TFR
+	VALUES ("374c1fc1-802d-4e21-b151-f83530f4006c",
+	"3a8c6f0d-c062-4472-9f8d-0eef874936be",
+	'dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// dispose referentialAttributes
+select many ras related by self->referentialAttribute[R3811];
+for each ra in ras
+  unrelate ra from self across R3811;
+  delete object instance ra;
+end for;
+
+// dispose subtype
+select one simpForm related by self->simpleFormalization[R3810];
+if ( not_empty simpForm )
+  unrelate simpForm from self across R3810;
+  delete object instance simpForm;
+end if;
+
+select one subsuperForm related by self->subsuperFormalization[R3810];
+if ( not_empty subsuperForm )
+  unrelate subsuperForm from self across R3810;
+  delete object instance subsuperForm;
+end if;
+
+select one assocForm related by self->assocFormalization[R3810];
+if ( not_empty assocForm )
+  unrelate assocForm from self across R3810;
+  delete object instance assocForm;
+end if;
+
+// delete self
+delete object instance self;',
+	1,
+	'',
+	"18a49c09-d035-4bad-a130-dff62a357d68",
+	0);
+INSERT INTO O_NBATTR
+	VALUES ("10bfa032-1db1-48bc-a3c0-b03ea630a284",
+	"3a8c6f0d-c062-4472-9f8d-0eef874936be");
+INSERT INTO O_BATTR
+	VALUES ("10bfa032-1db1-48bc-a3c0-b03ea630a284",
+	"3a8c6f0d-c062-4472-9f8d-0eef874936be");
+INSERT INTO O_ATTR
+	VALUES ("10bfa032-1db1-48bc-a3c0-b03ea630a284",
+	"3a8c6f0d-c062-4472-9f8d-0eef874936be",
+	"00000000-0000-0000-0000-000000000000",
+	'type',
+	'0 = simple
+1 = subsuper
+2 = linked',
+	'',
+	'type',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"3a8c6f0d-c062-4472-9f8d-0eef874936be");
+INSERT INTO O_ID
+	VALUES (1,
+	"3a8c6f0d-c062-4472-9f8d-0eef874936be");
+INSERT INTO O_ID
+	VALUES (2,
+	"3a8c6f0d-c062-4472-9f8d-0eef874936be");
+INSERT INTO PE_PE
+	VALUES ("3a8c6f0d-c062-4472-9f8d-0eef874936be",
+	1,
+	"1800b076-78da-4923-9981-c067ad8e1b87",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1800b076-78da-4923-9981-c067ad8e1b87",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	'm2x',
+	'',
+	0,
+	'../m2x.xtuml');

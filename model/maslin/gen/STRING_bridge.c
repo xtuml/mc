@@ -9,6 +9,7 @@
  * your copyright statement can go here (from te_copyright.body)
  *--------------------------------------------------------------------------*/
 
+#include <stdlib.h>
 #include "maslin_sys_types.h"
 #include "LOG_bridge.h"
 #include "STRING_bridge.h"
@@ -70,17 +71,15 @@ STRING_itoa( const i_t p_i )
 i_t
 STRING_atoi( c_t * p_s )
 {
-  {i_t xtumlOALrv = 0;
-
+  i_t xtumlOALrv = 0;
   if ( *p_s == 'R' ) {
-	xtumlOALrv = atoi(p_s + 1);
+    xtumlOALrv = atoi(p_s + 1);
   } else {
-	xtumlOALrv = atoi(p_s);
+    xtumlOALrv = atoi(p_s);
   }
-
-
-  return xtumlOALrv;}
+  return xtumlOALrv;
 }
+
 
 /*
  * Bridge:  substr
@@ -88,11 +87,11 @@ STRING_atoi( c_t * p_s )
 c_t *
 STRING_substr( const i_t p_begin, const i_t p_end, c_t * p_s )
 {
-  c_t result[ESCHER_SYS_MAX_STRING_LEN];
-  result[0] = '\0';
 
   // get length of s
   i_t len = (i_t)Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len + 1 );
+  result[ 0 ] = 0;
 
   // check that the indexes are in a valid range
   i_t begin = p_begin;
@@ -160,7 +159,7 @@ STRING_indexof( c_t * p_haystack, c_t * p_needle )
     return 0;   // if needle is empty string, by definition, the index is 0
   }
 
-  // seach through to find first character match
+  // search through to find first character match
   for ( ; *a != 0; a += 1) {
     if (*a == *b) {
 
@@ -192,18 +191,120 @@ STRING_indexof( c_t * p_haystack, c_t * p_needle )
 c_t *
 STRING_getword( const i_t p_i, const i_t p_j, c_t * p_s )
 {
-  c_t * result = 0;
-  /* Insert your implementation code here... */
+  i_t len = Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len + 1 );
+  result[ 0 ] = 0;
+
+  i_t lim = p_j;
+  // if j is -1, it just means the full length of the string
+  if ( -1 == lim ) lim = len;
+
+  // check arguments
+  if ( !(p_i < 0 || p_i > len - 1) && !(lim < 0 || lim > len) ) {
+
+    c_t * w_begin;
+    c_t * w_end;
+
+    // find the first non comma, whitespace, or close parenthesis
+    w_begin = p_s + p_i;
+    while ( w_begin - p_s < len ) {
+      if ( *w_begin != ',' &&
+           *w_begin != ' ' &&
+           *w_begin != '\n' &&
+           *w_begin != '\r' &&
+           *w_begin != '\t' &&
+           *w_begin != '(' &&
+           *w_begin != ')' ) break;
+      w_begin++;
+    }
+
+    // find the first comma, whitespace, or close parenthesis after starting the word
+    w_end = w_begin;
+    while ( w_end - p_s < len ) {
+      if ( *w_end == ',' ||
+           *w_end == ' ' ||
+           *w_end == '\n' ||
+           *w_end == '\r' ||
+           *w_end == '\t' ||
+           *w_end == '(' ||
+           *w_end == ')' ) break;
+      w_end++;
+    }
+
+    if ( (w_begin - p_s) < lim && (w_end - p_s) <= lim ) {
+      // copy the substring into the result
+      //Escher_strcpy( result, STRING_substr( (const i_t)(w_begin - p_s), (const i_t)(w_end - p_s), p_s ) );
+      c_t * sub = STRING_substr( (const i_t)(w_begin - p_s), (const i_t)(w_end - p_s), p_s );
+
+      // Escher_strcpy
+      c_t * dst = result;
+      c_t * src = sub;
+      if ( 0 != src ) {
+        Escher_size_t i = Escher_strlen( src ) + 1;
+        while ( ( i > 0 ) && ( *src != '\0' ) ) {
+          --i;
+          *dst++ = *src++;
+        }
+        *dst = '\0';  /* Ensure delimiter.  */
+      }
+    }
+    
+  }
+
   return result;
 }
+
+
+/*
+ * Bridge:  trim
+ */
+c_t *
+STRING_trim( c_t * p_s )
+{
+  i_t len = Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len + 1 );
+  result[ 0 ] = 0;
+
+  c_t * a;
+  c_t * b;
+
+  // find the first non whitespace character
+  a = p_s;
+  for ( ; *a != '\0'; a++ ) {
+    if ( *a != ' ' && *a != '\r' && *a != '\t' && *a != '\n' ) break;   // found non whitespace
+  }
+
+  // find last non whitespace character
+  b = p_s + ( len - 1 );
+  for ( ; b != p_s; b-- ) {
+    if ( *a != ' ' && *a != '\r' && *a != '\t' && *a != '\n' ) break;   // found non whitespace
+  }
+
+  // check if they crossed ( all whitespace )
+  if ( b < a ) {
+    return result;
+  }
+  else {
+    return STRING_substr( (const i_t)(a - p_s), (const i_t)(b - p_s)+1, p_s );
+  }
+}
+
+
+/*
+ * Bridge:  quote
+ * implemented as macro
+ */
+
+
 /*
  * Bridge:  escapetics
  */
 c_t *
 STRING_escapetics( c_t * p_s )
 {
-  c_t result[ESCHER_SYS_MAX_STRING_LEN];
-  result[0] = '\0';
+  i_t len = Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len * 2 + 1 );
+  result[ 0 ] = 0;
 
   c_t * p = p_s;
   c_t * q = result;
@@ -213,6 +314,36 @@ STRING_escapetics( c_t * p_s )
           *q = *p;      // copy the character
           q++;
           *q = '\'';    // add an extra tic to escape it
+      }
+      else {
+          *q = *p;      // copy the character
+      }
+      q++;
+      p++;
+  }
+  *q = '\0';            // null terminate
+
+  return result;
+}
+
+
+/*
+ * Bridge:  unescapetics
+ */
+c_t *
+STRING_unescapetics( c_t * p_s )
+{
+  i_t len = Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len + 1 );
+  result[ 0 ] = 0;
+
+  c_t * p = p_s;
+  c_t * q = result;
+
+  while ( p != 0 && *p != '\0' && (q - result) < ESCHER_SYS_MAX_STRING_LEN ) {
+      if ( *p == '\'' && *(p+1) == '\'' ) {
+          *q = *p;      // copy one tic
+          p++;          // skip the other
       }
       else {
           *q = *p;      // copy the character

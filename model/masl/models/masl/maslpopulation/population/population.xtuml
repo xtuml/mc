@@ -17,7 +17,14 @@ INSERT INTO O_TFR
 	'// Populate MASL.
 
 element = param.element;
-value = param.value;
+value[7] = param.value[7];
+value[6] = param.value[6];
+value[5] = param.value[5];
+value[4] = param.value[4];
+value[3] = param.value[3];
+value[2] = param.value[2];
+value[1] = param.value[1];
+value[0] = param.value[0];
 
 // get the population singleton object
 select any population from instances of population;
@@ -30,9 +37,11 @@ if ( "" == value[0] and "" == value[1] and "" == value[2] and "" == value[3] and
 	 "" == value[4] and "" == value[5] and "" == value[6] and "" == value[7] )
   select one current_element related by population->element[R3784.''has current''] where ( selected.name == element );
   if ( not_empty current_element )
-    select one parent_element related by current_element->element[R3787.''child of''];	// select parent
-    unrelate population from current_element across R3784.''has current'';				// unrelate current element
-    relate population to parent_element across R3784.''has current'';						// relate the parent as the new current
+    select one parent_element related by current_element->element[R3787.''child of''];
+    unrelate population from current_element across R3784.''has current'';
+    if ( not_empty parent_element )                                                     // check for top of stack
+      relate population to parent_element across R3784.''has current'';					// relate the parent as the new current
+    end if;
     unrelate population from current_element across R3789.''has active'';					// remove from the active collection
     
     // for activities, check for duplicates
@@ -220,6 +229,37 @@ elif ( "referential" == element )
       	  // not the one we''re looking for (reflexives will require a role phrase, so we can be sure that the target object is not the current object)
       	  select any target_object related by participation->object[R3720];
       	end if;
+      elif ( ( "" != roleOrObj ) and ( "" != obj ) )
+        // given both role and object
+        if ( ( participation.onephrase != roleOrObj ) and ( participation.otherphrase == roleOrObj ) )
+          // current object is the other
+          // the target object is the one
+          rolephrase = participation.otherphrase;
+          select one target_object related by participation->object[R3714] where ( selected.name == obj );
+          if ( empty target_object )
+            TRACE::log( flavor:"failure", id:144, message:"bad role phrase and object name:  " + roleOrObj + ", " + obj );
+          end if;
+        elif ( ( participation.onephrase == roleOrObj ) and ( participation.otherphrase != roleOrObj ) )
+          // current object is the one
+          // the target object is the other
+          rolephrase = participation.onephrase;
+          select any target_object related by participation->object[R3720] where ( selected.name == obj );
+          if ( empty target_object )
+            TRACE::log( flavor:"failure", id:145, message:"bad role phrase and object name:  " + roleOrObj + ", " + obj );
+          end if;
+        elif ( ( participation.onephrase == roleOrObj ) and ( participation.otherphrase == roleOrObj ) )
+          // symmetric role phrases... sort it out using object name
+          select one target_object related by participation->object[R3714] where ( selected.name == obj );
+          rolephrase = roleOrObj;
+          if ( empty target_object )
+            select any target_object related by participation->object[R3720] where ( selected.name == obj );
+            if ( empty target_object )
+              TRACE::log( flavor:"failure", id:146, message:"bad role phrase and object name:  " + roleOrObj + ", " + obj );
+            end if;
+          end if;
+        else
+          TRACE::log( flavor:"failure", id:147, message:"bad role phrase and object name:  " + roleOrObj + ", " + obj );
+        end if;
       elif ( "" != roleOrObj )
         // given roleOrObj
         if ( participation.otherphrase == roleOrObj )
@@ -307,8 +347,7 @@ elif ( "transition" == element )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
 	  population.stack_trace();
 	end if;
-	// TODO optional domain
-    cell::populate( startstate:value[0], event:value[3], endstate:value[4], statemachine:parent_state_machine );
+    cell::populate( startstate:value[0], domain:value[1], object:value[2], event:value[3], endstate:value[4], statemachine:parent_state_machine );
     // transition is a leaf node and does not get pushed onto the current element stack
 elif ( "regularrel" == element )
 	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
@@ -407,7 +446,8 @@ if ( empty root_element )
 end if;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("23f9c3b1-bb74-489b-8f70-28c707ffcd40",
 	"0b670cc8-7c15-43ad-acfe-044fce10d262",
@@ -461,14 +501,17 @@ end if;
 if ( current_element == new_element )
   //TRACE::log( flavor:"info", id:75, message:"duplicate element not pushed: " + new_element.name );
 else
-  unrelate self from current_element across R3784.''has current'';	// unrelate current element
+  if ( not_empty current_element )  // unless this is the first element
+    unrelate self from current_element across R3784.''has current'';
+    relate new_element to current_element across R3787.''child of'';
+  end if;
   relate self to new_element across R3784.''has current'';			// relate the new as the current
-  relate new_element to current_element across R3787.''child of'';
   relate self to new_element across R3789.''has active'';			// add to the active collection
 end if;',
 	1,
 	'',
-	"0b670cc8-7c15-43ad-acfe-044fce10d262");
+	"0b670cc8-7c15-43ad-acfe-044fce10d262",
+	0);
 INSERT INTO O_TPARM
 	VALUES ("7df6c973-3a73-457e-9609-81c16160dc30",
 	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9",
@@ -503,7 +546,605 @@ end while;
 TRACE::log( flavor:"stack_trace", id:82, message:"done." );',
 	1,
 	'',
-	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9");
+	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9",
+	0);
+INSERT INTO O_TFR
+	VALUES ("33baf46f-2744-4fd4-99be-5dd4c7cb6258",
+	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
+	'coverage',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'  // Count up representations of semantic classes from the MASL meta-model.
+  // Count representations of semantic associations.
+  covered = 0;
+  elements = 0;
+  element_graph = "";
+  element_map[128] = "";
+
+  // meta-model class representation
+  // object covered:  activity
+  element_map[ elements ] = "activity";
+  select many activitys from instances of activity;
+  if ( not_empty activitys )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3705:  activity -> parameter
+  element_map[ elements ] = "R3705";
+  select any parameter related by activitys->parameter[R3705];
+  if ( not_empty parameter )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  associative
+  element_map[ elements ] = "associative";
+  select many associatives from instances of associative;
+  if ( not_empty associatives )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+
+  // object covered:  attribute
+  element_map[ elements ] = "attribute";
+  select many attributes from instances of attribute;
+  if ( not_empty attributes )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3709:  attribute -> object
+  element_map[ elements ] = "R3709";
+  select any object related by attributes->object[R3709];
+  if ( not_empty object )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3710:  attribute -> identifier
+  element_map[ elements ] = "R3710";
+  select any identifier related by attributes->identifier[R3710];
+  if ( not_empty identifier )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3717:  attribute -> typeref
+  element_map[ elements ] = "R3717";
+  select any typeref related by attributes->typeref[R3717];
+  if ( not_empty typeref )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3745:  attribute -> expression
+  element_map[ elements ] = "R3745";
+  select any expression related by attributes->expression[R3745];
+  if ( not_empty expression )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  cell
+  element_map[ elements ] = "cell";
+  select many cells from instances of cell;
+  if ( not_empty cells )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3731:  cell -> state
+  element_map[ elements ] = "R3731";
+  select any state related by cells->state[R3731];
+  if ( not_empty state )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3743:  cell -> state_machine
+  element_map[ elements ] = "R3743";
+  select any state_machine related by cells->state_machine[R3743];
+  if ( not_empty state_machine )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  code_block
+  element_map[ elements ] = "code_block";
+  select many code_blocks from instances of code_block;
+  if ( not_empty code_blocks )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3794:  code_block -> activity
+  element_map[ elements ] = "R3794";
+  select any activity related by code_blocks->activity[R3794];
+  if ( not_empty activity )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  domain
+  element_map[ elements ] = "domain";
+  select many domains from instances of domain;
+  if ( not_empty domains )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3701:  domain -> project
+  element_map[ elements ] = "R3701";
+  select any project related by domains->project[R3701];
+  if ( not_empty project )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  event
+  element_map[ elements ] = "event";
+  select many events from instances of event;
+  if ( not_empty events )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3727:  event -> parameter
+  element_map[ elements ] = "R3727";
+  select any parameter related by events->parameter[R3727];
+  if ( not_empty parameter )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3736:  event -> object
+  element_map[ elements ] = "R3736";
+  select any object related by events->object[R3736];
+  if ( not_empty object )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  exception
+  element_map[ elements ] = "exception";
+  select many exceptions from instances of exception;
+  if ( not_empty exceptions )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3748:  exception -> domain
+  element_map[ elements ] = "R3748";
+  select any domain related by exceptions->domain[R3748];
+  if ( not_empty domain )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  expression
+  element_map[ elements ] = "expression";
+  select many expressions from instances of expression;
+  if ( not_empty expressions )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+
+  // object covered:  identifier
+  element_map[ elements ] = "identifier";
+  select many identifiers from instances of identifier;
+  if ( not_empty identifiers )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3711:  identifier -> object
+  element_map[ elements ] = "R3711";
+  select any object related by identifiers->object[R3711];
+  if ( not_empty object )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  object
+  element_map[ elements ] = "object";
+  select many objects from instances of object;
+  if ( not_empty objects )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3708:  object -> domain
+  element_map[ elements ] = "R3708";
+  select any domain related by objects->domain[R3708];
+  if ( not_empty domain )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  operation
+  element_map[ elements ] = "operation";
+  select many operations from instances of operation;
+  if ( not_empty operations )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3749:  operation -> object
+  element_map[ elements ] = "R3749";
+  select any object related by operations->object[R3749];
+  if ( not_empty object )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3793:  operation -> subsuper
+  element_map[ elements ] = "R3793";
+  select any subsuper related by operations->subsuper[R3793];
+  if ( not_empty subsuper )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  parameter
+  element_map[ elements ] = "parameter";
+  select many parameters from instances of parameter;
+  if ( not_empty parameters )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3706:  parameter -> parameter
+  element_map[ elements ] = "R3706";
+  element_map[ elements ] = "R3706";
+  select any parameter related by parameters->parameter[R3706.''succeeds''];
+  if ( not_empty parameter )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  participation
+  element_map[ elements ] = "participation";
+  select many participations from instances of participation;
+  if ( not_empty participations )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3714:  participation -> object
+  element_map[ elements ] = "R3714";
+  select any object related by participations->object[R3714];
+  if ( not_empty object )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3720:  participation -> object
+  element_map[ elements ] = "R3720";
+  select any object related by participations->object[R3720];
+  if ( not_empty object )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3715:  participation -> object
+  element_map[ elements ] = "R3715";
+  select any object related by participations->object[R3715];
+  if ( not_empty object )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  project
+  element_map[ elements ] = "project";
+  select many projects from instances of project;
+  if ( not_empty projects )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+
+  // object covered:  referential
+  element_map[ elements ] = "referential";
+  select many referentials from instances of referential;
+  if ( not_empty referentials )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3744:  referential -> relationship
+  element_map[ elements ] = "R3744";
+  select any relationship related by referentials->relationship[R3744];
+  if ( not_empty relationship )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  regularrel
+  element_map[ elements ] = "regularrel";
+  select many regularrels from instances of regularrel;
+  if ( not_empty regularrels )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+
+  // object covered:  relationship
+  element_map[ elements ] = "relationship";
+  select many relationships from instances of relationship;
+  if ( not_empty relationships )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3712:  relationship -> domain
+  element_map[ elements ] = "R3712";
+  select any domain related by relationships->domain[R3712];
+  if ( not_empty domain )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3713:  relationship -> participation
+  element_map[ elements ] = "R3713";
+  select any participation related by relationships->participation[R3713];
+  if ( not_empty participation )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  routine
+  element_map[ elements ] = "routine";
+  select many routines from instances of routine;
+  if ( not_empty routines )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3790:  routine -> domain
+  element_map[ elements ] = "R3790";
+  select any domain related by routines->domain[R3790];
+  if ( not_empty domain )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3791:  routine -> terminator
+  element_map[ elements ] = "R3791";
+  select any terminator related by routines->terminator[R3791];
+  if ( not_empty terminator )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3792:  routine -> typeref
+  element_map[ elements ] = "R3792";
+  select any typeref related by routines->typeref[R3792];
+  if ( not_empty typeref )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  state
+  element_map[ elements ] = "state";
+  select many states from instances of state;
+  if ( not_empty states )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3750:  state -> object
+  element_map[ elements ] = "R3750";
+  select any object related by states->object[R3750];
+  if ( not_empty object )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  state_machine
+  element_map[ elements ] = "state_machine";
+  select many state_machines from instances of state_machine;
+  if ( not_empty state_machines )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3734:  state_machine -> object
+  element_map[ elements ] = "R3734";
+  select any object related by state_machines->object[R3734];
+  if ( not_empty object )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  subsuper
+  element_map[ elements ] = "subsuper";
+  select many subsupers from instances of subsuper;
+  if ( not_empty subsupers )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+
+  // object covered:  terminator
+  element_map[ elements ] = "terminator";
+  select many terminators from instances of terminator;
+  if ( not_empty terminators )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3702:  terminator -> domain
+  element_map[ elements ] = "R3702";
+  select any domain related by terminators->domain[R3702];
+  if ( not_empty domain )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  typeref
+  element_map[ elements ] = "typeref";
+  select many typerefs from instances of typeref;
+  if ( not_empty typerefs )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3741:  typeref -> operation
+  element_map[ elements ] = "R3741";
+  select any operation related by typerefs->operation[R3741];
+  if ( not_empty operation )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3742:  typeref -> parameter
+  element_map[ elements ] = "R3742";
+  select any parameter related by typerefs->parameter[R3742];
+  if ( not_empty parameter )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // object covered:  type
+  element_map[ elements ] = "type";
+  select many types from instances of type;
+  if ( not_empty types )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // participation R3719:  type -> domain
+  element_map[ elements ] = "R3719";
+  select any domain related by types->domain[R3719];
+  if ( not_empty domain )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+
+  // association participation
+  // supertype association R3704 with class activity represented
+  element_map[ elements ] = "R3704";
+  if ( not_empty activitys )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // supertype association R3721 with class relationship represented
+  element_map[ elements ] = "R3721";
+  if ( not_empty relationships )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // associative R3732 using class cell represented
+  element_map[ elements ] = "R3732";
+  if ( not_empty cells )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+  // associative R3746 using class referential represented
+  element_map[ elements ] = "R3746";
+  if ( not_empty referentials )
+    element_graph = element_graph + "*"; covered = covered + 1;
+  else
+    element_graph = element_graph + " ";
+  end if;
+  elements = elements + 1;
+
+  // Calculate result.
+  if ( elements > 0 )
+    coverage = 1; // establish integer
+    coverage = 100 * covered / elements;
+    scovered = STRING::itoa( i:covered );
+    selements = STRING::itoa( i:elements );
+    scoverage = STRING::itoa( i:coverage );
+    TRACE::log( flavor:"info", id:410, message:"coverage:  " + scovered + " / " + selements + " = " + scoverage + " %" );
+    TRACE::log( flavor:"info", id:411, message:"coverage map:  <" + element_graph + ">" );
+  end if;
+  s[13]="";
+  i = 0;
+  while ( i < 13  )
+    j = 0;
+    while ( j < elements )
+      element_map[j] =  element_map[j] + " "; // ensure enough padding
+      s[i] = s[i] + STRING::substr(s:element_map[j],begin:i,end:i+1);
+      j = j + 1;
+    end while;
+    TRACE::log( flavor:"info", id:412, message:"         key:   " + s[i] );
+    i = i + 1;
+  end while;
+
+',
+	1,
+	'',
+	"c73179e4-9bbc-442a-b633-7d7b096f9ba1",
+	0);
 INSERT INTO O_ID
 	VALUES (0,
 	"7b8b1d90-b801-4fda-bfce-b400c0d94add");

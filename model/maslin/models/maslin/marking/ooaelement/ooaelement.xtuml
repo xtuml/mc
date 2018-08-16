@@ -1,20 +1,20 @@
 -- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO O_OBJ
-	VALUES ("ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	VALUES ("079bf2c7-58dc-498f-a0ee-f3840b5f5599",
 	'ooaelement',
 	3803,
 	'ooaelement',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
-	VALUES ("03266923-721c-4844-976a-fd6752d4055a",
-	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	VALUES ("09c0ff42-b83a-4720-b837-bbd50a7a8f07",
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599",
 	'populate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
-	'population = param.population;
+	'population = param.population; 
 type = param.type;
 
 select one current_element related by population->ooaelement[R3801];
@@ -48,35 +48,36 @@ end if;
 ',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_TPARM
-	VALUES ("d176430c-e434-40cd-9aae-4f1c34e03165",
-	"03266923-721c-4844-976a-fd6752d4055a",
+	VALUES ("39f8ed38-4bcd-4159-be01-fcd5617a5eee",
+	"09c0ff42-b83a-4720-b837-bbd50a7a8f07",
 	'population',
-	"6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	"cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	VALUES ("cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<ooapopulation>',
 	'',
 	'',
-	'../../masl2xtuml/masl2xtuml.xtuml');
+	'../../m2x/m2x.xtuml');
 INSERT INTO O_TPARM
-	VALUES ("9e985e36-479b-4ec5-a602-93cd3975cca3",
-	"03266923-721c-4844-976a-fd6752d4055a",
+	VALUES ("f3964665-03f4-441f-9f1c-4baf33b36ab2",
+	"09c0ff42-b83a-4720-b837-bbd50a7a8f07",
 	'type',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"d176430c-e434-40cd-9aae-4f1c34e03165",
+	"39f8ed38-4bcd-4159-be01-fcd5617a5eee",
 	'');
 INSERT INTO O_TFR
-	VALUES ("2fa79bfe-dcc7-426a-a905-e511c2bf55b8",
-	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	VALUES ("6a3fc26e-1b5e-485b-958f-5f2ac3ac6339",
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599",
 	'ismarkable',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
@@ -105,10 +106,11 @@ else
 end if;',
 	1,
 	'',
-	"03266923-721c-4844-976a-fd6752d4055a");
+	"09c0ff42-b83a-4720-b837-bbd50a7a8f07",
+	0);
 INSERT INTO O_TPARM
-	VALUES ("96868822-d59b-4b7f-8643-2a6e7abd3dc0",
-	"2fa79bfe-dcc7-426a-a905-e511c2bf55b8",
+	VALUES ("6f73321f-87b9-4171-9afe-c51c2d5c1c1b",
+	"6a3fc26e-1b5e-485b-958f-5f2ac3ac6339",
 	'type',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -116,8 +118,8 @@ INSERT INTO O_TPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TFR
-	VALUES ("b77a5ea3-11c0-4a7c-9b37-4a06db26b0be",
-	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	VALUES ("dd34ad72-1c2e-4bf1-9b90-5375e1af52b4",
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599",
 	'pop_stack',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -139,15 +141,16 @@ if ( not_empty population )
 end if;',
 	1,
 	'',
-	"2fa79bfe-dcc7-426a-a905-e511c2bf55b8");
+	"6a3fc26e-1b5e-485b-958f-5f2ac3ac6339",
+	0);
 INSERT INTO O_TFR
-	VALUES ("484739eb-c4b6-4e69-abb1-f7f9c3d36118",
-	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	VALUES ("e1d32348-091f-45b1-8108-e733725f7826",
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599",
 	'trace',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
-	'population = param.population;
+	'population = param.population; 
 
 TRACE::log( flavor:"stack_trace", id:82, message:"outputting element stack:" );
 select one current_element related by population->ooaelement[R3801];
@@ -162,19 +165,20 @@ end while;
 TRACE::log( flavor:"stack_trace", id:82, message:"done." );',
 	1,
 	'',
-	"b77a5ea3-11c0-4a7c-9b37-4a06db26b0be");
+	"dd34ad72-1c2e-4bf1-9b90-5375e1af52b4",
+	0);
 INSERT INTO O_TPARM
-	VALUES ("d484c15d-a7c7-4044-b0b3-65c872afd115",
-	"484739eb-c4b6-4e69-abb1-f7f9c3d36118",
+	VALUES ("5af53177-aff0-4af5-818f-6db43adea17b",
+	"e1d32348-091f-45b1-8108-e733725f7826",
 	'population',
-	"6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	"cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TFR
-	VALUES ("cead7cad-d634-458c-87d6-120f28937c66",
-	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	VALUES ("98900e47-44f9-4f74-a987-2f416ef054c6",
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599",
 	'destruct',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -193,16 +197,86 @@ end if;
 delete object instance self;',
 	1,
 	'',
-	"484739eb-c4b6-4e69-abb1-f7f9c3d36118");
+	"e1d32348-091f-45b1-8108-e733725f7826",
+	0);
+INSERT INTO O_TFR
+	VALUES ("55e351f1-68ba-44a1-a1da-8e8ab9a54429",
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599",
+	'get_path',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'pathkey = "no xtUML pathkey for " + self.type;
+select one ooapopulation related by self->ooapopulation[R3801];
+if ( empty ooapopulation )
+  select any ooapopulation from instances of ooapopulation;
+end if;
+if ( not_empty ooapopulation )
+  if ( "project" == self.type )
+    pathkey = ::component_get_path( c_c:ooapopulation.current_component, child:"" );
+  elif ( "domain" == self.type )
+    pathkey = ::component_get_path( c_c:ooapopulation.current_component, child:"" );
+  elif ( "object" == self.type )
+    pathkey = ::class_get_path( o_obj:ooapopulation.current_class, child:"" );
+  elif ( "terminator" == self.type )
+    pathkey = ::component_get_path( c_c:ooapopulation.current_component, child:"" );
+  elif ( "routine" == self.type )
+    s_sync = ooapopulation.current_domain_function;
+    select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
+    pathkey = ::package_get_path( ep_pkg:ep_pkg, child:ooapopulation.Function_getSignature( s_sync:s_sync ) );
+  elif ( "operation" == self.type )
+    o_tfr = ooapopulation.current_class_op;
+    select one o_obj related by o_tfr->O_OBJ[R115];
+    pathkey = ::class_get_path( o_obj:o_obj, child:ooapopulation.Operation_getSignature( o_tfr:o_tfr ) );
+  elif ( "state" == self.type )
+    sm_state = ooapopulation.current_state;
+    select one o_obj related by sm_state->SM_SM[R501]->SM_ISM[R517]->O_OBJ[R518];
+    child = "::Instance State Machine::";
+    if ( empty o_obj )
+      select one o_obj related by sm_state->SM_SM[R501]->SM_ASM[R517]->O_OBJ[R519];
+      child = "::Class State Machine::";
+    end if;
+    child = child + sm_state.Name;
+    pathkey = ::class_get_path( o_obj:o_obj, child:child );
+  elif ( "attribute" == self.type )
+    o_attr = ooapopulation.current_attribute;
+    select one o_obj related by o_attr->O_OBJ[R102];
+    pathkey = ::class_get_path( o_obj:o_obj, child:o_attr.Name );
+  elif ( "identifier" == self.type )
+  elif ( "transitiontable" == self.type )
+  elif ( "event" == self.type )
+    pathkey = "State Machine Event";
+  elif ( "regularrel" == self.type )
+    pathkey = "Association";
+  elif ( "associative" == self.type )
+    pathkey = "Association";
+  elif ( "subsuper" == self.type )
+    pathkey = "Association";
+  elif ( "type" == self.type )
+    pathkey = "User Data Type";
+  elif ( "exception" == self.type )
+    pathkey = "Exception";
+    s_exp = ooapopulation.current_exp;
+    select one ep_pkg related by s_exp->PE_PE[R8001]->EP_PKG[R8000];
+    pathkey = ::package_get_path( ep_pkg:ep_pkg, child:s_exp.Name );   
+  else
+    // default will inform user
+  end if;
+end if;
+return pathkey;',
+	1,
+	'',
+	"98900e47-44f9-4f74-a987-2f416ef054c6",
+	0);
 INSERT INTO O_NBATTR
-	VALUES ("44a3f8d4-50ae-4b23-b6fd-291d4d873ba6",
-	"ed19a1be-ef18-40a2-9d35-d8318986c02e");
+	VALUES ("33f8929c-beed-4b8e-8ec7-1e5b4045a4a5",
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599");
 INSERT INTO O_BATTR
-	VALUES ("44a3f8d4-50ae-4b23-b6fd-291d4d873ba6",
-	"ed19a1be-ef18-40a2-9d35-d8318986c02e");
+	VALUES ("33f8929c-beed-4b8e-8ec7-1e5b4045a4a5",
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599");
 INSERT INTO O_ATTR
-	VALUES ("44a3f8d4-50ae-4b23-b6fd-291d4d873ba6",
-	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	VALUES ("33f8929c-beed-4b8e-8ec7-1e5b4045a4a5",
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599",
 	"00000000-0000-0000-0000-000000000000",
 	'type',
 	'',
@@ -214,23 +288,23 @@ INSERT INTO O_ATTR
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	"ed19a1be-ef18-40a2-9d35-d8318986c02e");
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599");
 INSERT INTO O_ID
 	VALUES (1,
-	"ed19a1be-ef18-40a2-9d35-d8318986c02e");
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599");
 INSERT INTO O_ID
 	VALUES (2,
-	"ed19a1be-ef18-40a2-9d35-d8318986c02e");
+	"079bf2c7-58dc-498f-a0ee-f3840b5f5599");
 INSERT INTO PE_PE
-	VALUES ("ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	VALUES ("079bf2c7-58dc-498f-a0ee-f3840b5f5599",
 	1,
-	"14d75964-4149-4868-8a33-9a696539a4fa",
+	"a436d690-d535-4111-926b-af7c5717f2da",
 	"00000000-0000-0000-0000-000000000000",
 	4);
 INSERT INTO EP_PKG_PROXY
-	VALUES ("14d75964-4149-4868-8a33-9a696539a4fa",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	VALUES ("a436d690-d535-4111-926b-af7c5717f2da",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
 	'marking',
 	'',
 	0,

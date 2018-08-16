@@ -1,0 +1,472 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	'referentialAttribute',
+	3803,
+	'referentialAttribute',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("9514835b-6634-4671-b201-0b0b30efcc45",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	'postProcess',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// there is some post processing that needs to be done for each referentialAttribute
+// in the formalization
+// * if needed, add the referential attribute to an identifier
+// * if baseless, check for base attributes that need to be collapsed
+// * check for referentials that need to be combined 
+
+o_attr = param.o_attr;
+ooapopulation = param.ooapopulation;
+
+if ( not_empty o_attr )
+  
+  // add to identifiers (if not already in them)
+  if ( true == self.identifier1 )
+    select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 0 );
+    if ( empty o_oida )
+	  ooapopulation.Attribute_addToIdentifier( o_attr:o_attr, oid:0 ); 
+    end if;
+  end if;
+  if ( true == self.identifier2 )
+    select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 1 );
+    if ( empty o_oida )
+	  ooapopulation.Attribute_addToIdentifier( o_attr:o_attr, oid:1 ); 
+    end if;
+  end if;
+  if ( true == self.identifier3 )
+    select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 2 );
+    if ( empty o_oida )
+	  ooapopulation.Attribute_addToIdentifier( o_attr:o_attr, oid:2 ); 
+    end if;
+  end if;
+
+  // if baseless, check for base attributes that need to be collapsed
+  if ( self.baseless )
+    select many o_attrs related by o_attr->O_OBJ[R102]->O_ATTR[R102]->O_BATTR[R106]->O_ATTR[R106];
+    for each dup_o_attr in o_attrs
+	  if ( dup_o_attr != o_attr and dup_o_attr.Root_Nam == o_attr.Root_Nam )
+	    // Copy over the description field from the attribute being collapsed
+            if ( ( "" != dup_o_attr.Descrip ) and ( o_attr.Descrip != dup_o_attr.Descrip ) )
+	      o_attr.Descrip = o_attr.Descrip + dup_o_attr.Descrip;
+            end if;
+	    // collapse the battr into the new rattr
+	    ooapopulation.ReferentialAttribute_collapse_ref( o_attr:o_attr, battr:dup_o_attr );
+	  end if;
+    end for;
+  end if;
+
+  // search for duplicates to combine
+  select many o_attrs related by o_attr->O_OBJ[R102]->O_ATTR[R102]->O_RATTR[R106]->O_ATTR[R106];
+  for each dup_o_attr in o_attrs
+	if ( dup_o_attr != o_attr and dup_o_attr.Root_Nam == o_attr.Root_Nam )
+	  // Copy over the description field from the attribute being combined.
+          if ( ( "" != dup_o_attr.Descrip ) and ( o_attr.Descrip != dup_o_attr.Descrip ) )
+	    o_attr.Descrip = o_attr.Descrip + dup_o_attr.Descrip;
+          end if;
+	  // combine deleting the most recent referential attribute
+	  o_attr = ooapopulation.ReferentialAttribute_combine_refs( o_attr:dup_o_attr, other_attr:o_attr );
+	end if;
+  end for;
+
+end if;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("3629ab4c-2864-4724-acfb-4f85e4566e8b",
+	"9514835b-6634-4671-b201-0b0b30efcc45",
+	'o_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("579b8247-e153-481d-8926-384cdc722464",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("16b8f3de-ab74-4f2e-9741-e6cac277ef9b",
+	"9514835b-6634-4671-b201-0b0b30efcc45",
+	'ooapopulation',
+	"cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
+	0,
+	'',
+	"3629ab4c-2864-4724-acfb-4f85e4566e8b",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("cd5b4c41-ae8c-4d2b-b839-88084ebffd0e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooapopulation>',
+	'',
+	'',
+	'../m2x.xtuml');
+INSERT INTO O_TFR
+	VALUES ("fb4fa599-0ec4-4f7d-891b-e3b9d703b3b9",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	'detectRecursive',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// General algorithm:
+//   1. Start with an instance of referentialAttribute. If there is none provided, use self
+//   2. Check that we have not exceeded the maximum depth of recursive search.
+//   3. Use the information in the referentialAttribute instance to select all of the referentialAttribute
+//      instances connected to the referred to attribute
+//   4. For each instance in the selected set
+//      4a. If the selected referentialAttribute instance is self or has already been set baseless,
+//          we have a reference loop and "baseless" is set true; break out of loop
+//      4b. Else, recursively invoke "detectRecursive" using the selected instance as the starting
+//          point. If "baseless" is set true after the recursive call, break out of the loop.
+
+ra = param.ra;
+if ( empty ra )
+  ra = self;
+end if;
+
+if ( param.current_depth >= param.max_depth )
+  // We are looping, which means we are baseless.
+  self.baseless = true;
+  return;
+end if;
+
+if ( not self.baseless )
+  // get r_rel instance
+  o_obj = ra.o_obj;
+  relNum = STRING::substr(s:ra.relationship,begin:1,end:-1);
+  relNumber = STRING::atoi(s:relNum);
+  select any rel related by o_obj->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->R_REL[R8001] where (selected.Numb == relNumber);
+  
+  // get o_obj instance
+  select many rtos related by rel->R_OIR[R201]->R_RTO[R203]->R_OIR[R203]->O_OBJ[R201];
+  select any rto from instances of O_OBJ where false;
+  if ( 1 == cardinality rtos )
+	select any rto related by rel->R_OIR[R201]->R_RTO[R203]->R_OIR[R203]->O_OBJ[R201];
+  else
+	obj_name = ra.objectName;
+	if ( "" == obj_name )
+	  obj_name = ra.roleOrObj;
+	end if;
+	select any rto related by rel->R_OIR[R201]->R_RTO[R203]->R_OIR[R203]->O_OBJ[R201] where ( selected.Name == obj_name );
+  end if;
+  
+  // get referred to ra set
+  if ( not_empty rto )
+    select many ras from instances of referentialAttribute where ( selected.o_obj.Obj_ID == rto.Obj_ID
+                                                                   and selected.Name == ra.attrName );
+    // if any of these are the same instance as self, there is a loop and
+    // the referntial attribute is recursive (baseless)
+    for each cand_ra in ras
+      if ( cand_ra == self or cand_ra.baseless )
+        self.baseless = true;
+        break;
+      else
+        // recurse to the next ra
+        self.detectRecursive(ra:cand_ra,
+          current_depth:param.current_depth + 1,
+          max_depth:param.max_depth );
+        if ( self.baseless )
+          // if baselessness was detected lower in the recursion, break out
+          break;
+        end if;
+      end if;
+    end for;
+  end if;
+
+end if;',
+	1,
+	'',
+	"9514835b-6634-4671-b201-0b0b30efcc45",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("4b7089ff-de4d-41ab-adbe-9df84b21a069",
+	"fb4fa599-0ec4-4f7d-891b-e3b9d703b3b9",
+	'ra',
+	"c38d98e1-41cc-4895-a1fc-c77e3db40e67",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("c38d98e1-41cc-4895-a1fc-c77e3db40e67",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<referentialAttribute>',
+	'',
+	'',
+	'../m2x.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("7052f513-8b89-4440-a493-ab2b949aa14b",
+	"fb4fa599-0ec4-4f7d-891b-e3b9d703b3b9",
+	'current_depth',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"4b7089ff-de4d-41ab-adbe-9df84b21a069",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("29288d88-6fd1-444d-ad5a-dce64b3a310f",
+	"fb4fa599-0ec4-4f7d-891b-e3b9d703b3b9",
+	'max_depth',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"7052f513-8b89-4440-a493-ab2b949aa14b",
+	'');
+INSERT INTO O_TFR
+	VALUES ("0a67ef7f-bb7d-4171-9967-fa9f4d5113c9",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	'o_rattrReady',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'o_rattr = param.o_rattr;
+ready = self.baseless;
+
+if ( not_empty o_rattr )
+  select any r_rel related by o_rattr->O_REF[R108]->O_RTIDA[R111]->R_RTO[R110]->R_OIR[R203]->R_REL[R201]
+    where ( selected.Numb == STRING::atoi(s:STRING::substr(s:self.relationship,begin:1,end:-1)) );
+  if ( not_empty r_rel )
+    ready = true;
+  end if;
+end if;
+
+return ready;',
+	1,
+	'',
+	"fb4fa599-0ec4-4f7d-891b-e3b9d703b3b9",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("ad834b41-9452-49dd-900d-f842844cdb6e",
+	"0a67ef7f-bb7d-4171-9967-fa9f4d5113c9",
+	'o_rattr',
+	"9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Referential Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("b198409d-c85e-4b50-a6b7-59f50790ea63",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_BATTR
+	VALUES ("b198409d-c85e-4b50-a6b7-59f50790ea63",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_ATTR
+	VALUES ("b198409d-c85e-4b50-a6b7-59f50790ea63",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	"00000000-0000-0000-0000-000000000000",
+	'relationship',
+	'',
+	'',
+	'relationship',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("1c48e2e3-bf93-4a60-9869-172b3b2da7fd",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_BATTR
+	VALUES ("1c48e2e3-bf93-4a60-9869-172b3b2da7fd",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_ATTR
+	VALUES ("1c48e2e3-bf93-4a60-9869-172b3b2da7fd",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	"b198409d-c85e-4b50-a6b7-59f50790ea63",
+	'roleOrObj',
+	'',
+	'',
+	'roleOrObj',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("289e7b14-0baf-43d4-ba65-f4f2cc1b5046",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_BATTR
+	VALUES ("289e7b14-0baf-43d4-ba65-f4f2cc1b5046",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_ATTR
+	VALUES ("289e7b14-0baf-43d4-ba65-f4f2cc1b5046",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	"1c48e2e3-bf93-4a60-9869-172b3b2da7fd",
+	'objectName',
+	'',
+	'',
+	'objectName',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("711a0fa6-418f-4d82-9b0e-1ac219f16103",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_BATTR
+	VALUES ("711a0fa6-418f-4d82-9b0e-1ac219f16103",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_ATTR
+	VALUES ("711a0fa6-418f-4d82-9b0e-1ac219f16103",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	"289e7b14-0baf-43d4-ba65-f4f2cc1b5046",
+	'attrName',
+	'',
+	'',
+	'attrName',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("e005ed00-9949-4a42-97b8-f9a497d074cc",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_BATTR
+	VALUES ("e005ed00-9949-4a42-97b8-f9a497d074cc",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_ATTR
+	VALUES ("e005ed00-9949-4a42-97b8-f9a497d074cc",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	"711a0fa6-418f-4d82-9b0e-1ac219f16103",
+	'identifier1',
+	'',
+	'',
+	'identifier1',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("09dc0bae-394e-43a2-b8b5-fedb2c464a8f",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_BATTR
+	VALUES ("09dc0bae-394e-43a2-b8b5-fedb2c464a8f",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_ATTR
+	VALUES ("09dc0bae-394e-43a2-b8b5-fedb2c464a8f",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	"e005ed00-9949-4a42-97b8-f9a497d074cc",
+	'identifier2',
+	'',
+	'',
+	'identifier2',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("aef0843c-eb3f-41ac-9d5a-293196db0f42",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_BATTR
+	VALUES ("aef0843c-eb3f-41ac-9d5a-293196db0f42",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_ATTR
+	VALUES ("aef0843c-eb3f-41ac-9d5a-293196db0f42",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	"09dc0bae-394e-43a2-b8b5-fedb2c464a8f",
+	'identifier3',
+	'',
+	'',
+	'identifier3',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("67663a0a-0f62-48d6-b600-5035605973dc",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_BATTR
+	VALUES ("67663a0a-0f62-48d6-b600-5035605973dc",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_ATTR
+	VALUES ("67663a0a-0f62-48d6-b600-5035605973dc",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	"aef0843c-eb3f-41ac-9d5a-293196db0f42",
+	'o_obj',
+	'',
+	'',
+	'o_obj',
+	0,
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Model Class>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("cad53b9e-27ed-458a-b656-9fcbc79cdc31",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_BATTR
+	VALUES ("cad53b9e-27ed-458a-b656-9fcbc79cdc31",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_ATTR
+	VALUES ("cad53b9e-27ed-458a-b656-9fcbc79cdc31",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	"67663a0a-0f62-48d6-b600-5035605973dc",
+	'Name',
+	'',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8689042a-b5dc-4e53-9d70-c257c7bed51a",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_BATTR
+	VALUES ("8689042a-b5dc-4e53-9d70-c257c7bed51a",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_ATTR
+	VALUES ("8689042a-b5dc-4e53-9d70-c257c7bed51a",
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	"cad53b9e-27ed-458a-b656-9fcbc79cdc31",
+	'baseless',
+	'',
+	'',
+	'baseless',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_ID
+	VALUES (1,
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO O_ID
+	VALUES (2,
+	"12011a2c-08f6-42a5-866b-950fa9e50b3b");
+INSERT INTO PE_PE
+	VALUES ("12011a2c-08f6-42a5-866b-950fa9e50b3b",
+	1,
+	"1800b076-78da-4923-9981-c067ad8e1b87",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1800b076-78da-4923-9981-c067ad8e1b87",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	"c14b4fcc-99ce-417f-85d7-ac22e2d20288",
+	'm2x',
+	'',
+	0,
+	'../m2x.xtuml');

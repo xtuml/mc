@@ -1,12 +1,7 @@
 .//============================================================================
-.// File:  bridge.mark
-.//
 .// Description:
 .// ƒhƒ?ƒCƒ“ŠÔ‚ÌƒuƒŠƒbƒW‚É‘Î‚·‚é?F‚Ã‚¯ƒtƒ@ƒCƒ‹‚Å‚·?B
 .//
-.// Notice:
-.// (C) Copyright 1999-2010 Mentor Graphics Corporation
-.//     All rights reserved.
 .//============================================================================
 .//
 .//============================================================================
@@ -27,15 +22,33 @@
 .// ŽÀŽ{‚ðSynchronous Service‚Å’è‹`‚µ‚Ü‚·?B 
 .// ŠeSynchronous Service–ˆ‚É1‚Â‚Ì’è‹`•¶‚ÅŽw’è‚·‚é?B
 .//
-.// TagSyncServiceSafeForInterrupts( "domain", "sync_service" )
+.// TagSyncServiceSafeForInterrupts( "component", "sync_service" )
 .//
 .// ƒpƒ‰ƒ??[ƒ^“ü—Í‚ÍŽŸ‚Ì’Ê‚è‚Å‚·:
-.//   domain = xtUMLƒhƒ?ƒCƒ“–¼(“o˜^–¼)?B
+.//   component = xtUMLƒhƒ?ƒCƒ“–¼(“o˜^–¼)?B
 .//   sync_service = “¯ŠúƒT?[ƒrƒX–¼
 .//
 .// Example:
 .//  .invoke TagSyncServiceSafeForInterrupts( "ILB", "PumpReady" )
+.//============================================================================
 .//
+.//
+.//============================================================================
+.// Mark Message as Safe for Interrupt Execution:
+.//
+.// To indicate to the model compiler that a message may be invoked in a
+.// manner safe for invocation from an interrupt handler or other asynchronous
+.// activation (one for each message):
+.//
+.// MarkMessageSafeForInterrupts( "component", "port", "message" )
+.//
+.// Where the input parameters are:
+.//   component = xtUML component name
+.//   port = name of the port in which message is found
+.//   message = name of message
+.//
+.// Example:
+.//  .invoke MarkMessageSafeForInterrupts( "Tracking", "UI", "StartStopPressed" )
 .//============================================================================
 .//
 .//

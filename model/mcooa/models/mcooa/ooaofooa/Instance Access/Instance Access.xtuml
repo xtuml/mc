@@ -30,7 +30,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	0,
-	'',
+	'4.1.17',
 	'mcooa::ooaofooa::Instance Access');
 INSERT INTO GD_GE
 	VALUES ("4a654044-2d11-496c-864d-c66da945ebcd",
@@ -1040,6 +1040,46 @@ INSERT INTO PE_PE
 	"f66d207e-f227-4ada-8783-6ff0a2711109",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("6cab5519-9843-4065-80d9-10e766f232a1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Create No Variable>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("6cab5519-9843-4065-80d9-10e766f232a1",
+	0,
+	"89cd1684-8308-4ef0-97c3-f87fb73ef9cd");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("89cd1684-8308-4ef0-97c3-f87fb73ef9cd",
+	'Create No Variable',
+	607,
+	'ACT_CNV',
+	'This class represents a statement that creates a new instance of some class.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Create No Variable/Create No Variable.xtuml');
+INSERT INTO PE_PE
+	VALUES ("6cab5519-9843-4065-80d9-10e766f232a1",
+	1,
+	"f66d207e-f227-4ada-8783-6ff0a2711109",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("8245cf11-e520-4206-a81f-07d811e475ec",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Create No Variable>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("8245cf11-e520-4206-a81f-07d811e475ec",
+	1,
+	"89cd1684-8308-4ef0-97c3-f87fb73ef9cd");
+INSERT INTO PE_PE
+	VALUES ("8245cf11-e520-4206-a81f-07d811e475ec",
+	1,
+	"f66d207e-f227-4ada-8783-6ff0a2711109",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("d8ebe308-3445-46a5-b24a-00b3f97c3c6d");
 INSERT INTO R_REL
@@ -1350,14 +1390,6 @@ INSERT INTO R_OIR
 	"e00a17ef-6771-4949-99cb-6a4a4302cd9d",
 	"ebd272db-e33e-46a0-95ff-1ca39cf9ce14",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("89cd1684-8308-4ef0-97c3-f87fb73ef9cd",
-	'Create No Variable',
-	607,
-	'ACT_CNV',
-	'This class represents a statement that creates a new instance of some class.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Create No Variable/Create No Variable.xtuml');
 INSERT INTO PE_PE
 	VALUES ("e00a17ef-6771-4949-99cb-6a4a4302cd9d",
 	1,
@@ -1466,24 +1498,7 @@ INSERT INTO EP_PKG_PROXY
 	"00c718a4-fada-4398-be36-d920a6735b6a",
 	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
-	'========================================================================
-
-File:          $RCSfile: ooaofooa.xtuml,v $
-Version:   $Revision: 1.127 $
-Modified:  $Date: 2006/09/26 15:10:20 $
-
-(c) Copyright 2004-2012 by Mentor Graphics Corp. All rights reserved.
-
-========================================================================
-This document contains information proprietary and confidential to
-Mentor Graphics Corp. and is not for external distribution.
-========================================================================
-
-This is the application domain for the Tiger project.
-
-The processing in this model describes the activities
-for model capture.
-
+	'
 
 
 ',

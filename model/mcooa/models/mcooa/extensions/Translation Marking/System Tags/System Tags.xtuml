@@ -356,6 +356,42 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("8fbb364b-3b0d-4881-8c1b-68617df1a50e",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("8fbb364b-3b0d-4881-8c1b-68617df1a50e",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("8fbb364b-3b0d-4881-8c1b-68617df1a50e",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"2bc8157a-ff8b-434f-ae7a-f2b83db4570a",
+	'SimulatedTime',
+	'',
+	'',
+	'SimulatedTime',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("fbed2890-8dc5-4a5d-a0ca-bca1aff872aa",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("fbed2890-8dc5-4a5d-a0ca-bca1aff872aa",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("fbed2890-8dc5-4a5d-a0ca-bca1aff872aa",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"8fbb364b-3b0d-4881-8c1b-68617df1a50e",
+	'StateSaveBufferSize',
+	'',
+	'',
+	'StateSaveBufferSize',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"fa363aa4-f325-484c-816f-cc8b9b95c909");
@@ -374,7 +410,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("81da0a01-baff-4b20-9ddb-851a1ffd35c5",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Translation Marking',
 	'This subsystem contains classes intended for marking or coloring the user
 model to guide the translation process.',
