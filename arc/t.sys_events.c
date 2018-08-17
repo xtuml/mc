@@ -94,22 +94,6 @@ static \
 xtUMLEventQueue_t self_event_queue[ NUM_OF_XTUML_CLASS_THREADS ];
     .end if
   .end if
-.if ( ( 0 < te_sys.StateSaveBufferSize ) or ( te_sys.PersistentClassCount > 0 ) )
-
-/*
- * Given the instance handle and class number, return the instance index
- * (into the instance collection).
- */
-${te_typemap.instance_index_name} ${te_prefix.result}getindex(
-  const ${te_instance.handle} instance,
-  const ${te_typemap.domain_number_name} ${domain_num_var},
-  const ${te_typemap.object_number_name} class_num
-)
-{
-  ${te_cia.class_info_type} * dci = *( ${te_cia.class_info_name}[ ${domain_num_var} ] + class_num );
-  return ( ((c_t *) instance - (c_t *) dci->pool ) / dci->size );
-}
-.end if
 
 /*
  * Link the event skeleton nodes together on the free list ready
