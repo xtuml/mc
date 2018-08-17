@@ -5,7 +5,7 @@
 
 typedef void ( * interleaved_bridge_t )( void );
 static interleaved_bridge_t interleaved_bridges[ ${te_ilb.define_name} ];
-typedef struct { u4_t space[ (${te_ilb.data_define_name} + sizeof(u4_t)) / sizeof(u4_t) ]; } ilb_data_t;
+typedef struct { u4_t space[ (${te_ilb.data_define_name} + sizeof(u4_t) - 1) / sizeof(u4_t) ]; } ilb_data_t;
 static ilb_data_t ilb_data[ ${te_ilb.define_name} ];
 static u1_t ilb_head = 0;
 static u1_t ilb_tail = 0;
