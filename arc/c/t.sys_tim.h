@@ -17,6 +17,11 @@
 #define $u{te_file.tim}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
 
+.if ( te_sys.SimulatedTime )
+/* Using simulated real time as opposed to host (or wall-clock) time. */
+#define $u{te_file.tim}_SIMULATED_TIME
+.end if
+
 /*
  * Bridge method to create an analysis specific date instance.
  */
