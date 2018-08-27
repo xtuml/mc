@@ -69,7 +69,7 @@
   .assign ws = te_blk.indentation
   .assign te_smt.buffer2 = ws + "}"
   .include "${te_file.arc_path}/t.smt.if.c"
-  .assign te_smt.OAL = "IF ( ${condition_te_val.OAL} )"
+  .assign te_smt.OAL = "IF ${condition_te_val.OAL}"
 .end function
 .// ----------------------------------------------------------
 .// gen while statements
@@ -94,7 +94,7 @@
   .assign ws = te_blk.indentation
   .assign te_smt.buffer2 = ws + "}"
   .include "${te_file.arc_path}/t.smt.while.c"
-  .assign te_smt.OAL = "WHILE ( ${condition_te_val.OAL} )"
+  .assign te_smt.OAL = "WHILE ${condition_te_val.OAL}"
 .end function
 .// ----------------------------------------------------------
 .// gen else statements
