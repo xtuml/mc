@@ -1990,7 +1990,7 @@ ${subtypecheck}\
 
   .end if
   .if ( te_select_related.by_where )
-    .assign te_smt.OAL = te_smt.OAL + " WHERE ( ${te_select_related.where_clause_OAL} )"
+    .assign te_smt.OAL = te_smt.OAL + " WHERE ${te_select_related.where_clause_OAL}"
   .end if
   .end if
 .end function
