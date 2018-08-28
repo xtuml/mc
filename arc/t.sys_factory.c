@@ -147,6 +147,7 @@ ${te_instance.scope}${te_instance.delete_persistent}(
   ${te_instance.scope}${te_instance.delete}( instance, ${domain_num_var}, class_num );
   Escher_PersistDelete( instance, domain_num, class_num );
 }
+  .include "${te_file.arc_path}/t.sys_persist.c"
 .end if
 .if ( te_sys.MaxInterleavedBridges > 0 )
   .invoke disable_interrupts = UserDisableInterrupts()

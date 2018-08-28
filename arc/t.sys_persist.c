@@ -1,16 +1,7 @@
 /*---------------------------------------------------------------------
- * File:  ${te_file.persist}.${te_file.src_file_ext}
- *
- * Description:
- * This file provides persistence mechanisms to maintain instances and
+ * This code provides persistence mechanisms to maintain instances and
  * associations across power and reset cycles.
- *
- * ${te_copyright.body}
  *-------------------------------------------------------------------*/
-
-#include "${te_file.types}.${te_file.hdr_file_ext}"
-#include "${te_file.nvs_bridge}.${te_file.hdr_file_ext}"
-#include "${te_file.persist}.${te_file.hdr_file_ext}"
 
 ${persist_class_union}
 #define PERSIST_LARGEST_CLASS sizeof( ${persist_class_union_name} )
@@ -352,7 +343,7 @@ ${te_persist.commit}( void )
       if ( ili->inst.operation == 0x81 ) {
         if ( ( rc = NVS_insert( (domain_num << 24) + (class_num << 16) +
           ili->inst.inst.instance_identifier.index, dci->size_no_rel,
-          ( c_t const * ) ili->inst.inst.instance, PERSIST_INSTANCE_TYPE )
+          ( c_t * ) ili->inst.inst.instance, PERSIST_INSTANCE_TYPE )
            ) >= 0 ) {
           ili->inst.inst.instance->${te_persist.dirty_name} = ${te_persist.dirty_clean};
           rc = 0;
@@ -378,7 +369,7 @@ ${te_persist.commit}( void )
 .end if
       if ( ili->link.operation == 0x80 ) {
         if ( ( rc = NVS_insert( 0, sizeof( ${te_persist.link_type_name} ),
-          ( c_t const * ) &ili->link.link, PERSIST_LINK_TYPE ) ) >= 0 ) {
+          ( c_t * ) &ili->link.link, PERSIST_LINK_TYPE ) ) >= 0 ) {
           rc = 0;
         } else {
           ${te_callout.persistence_error}( rc );
@@ -386,7 +377,7 @@ ${te_persist.commit}( void )
         }
       } else if ( ili->link.operation == 0x00 ) {
         NVS_remove( 0, sizeof( ${te_persist.link_type_name} ),
-          ( c_t const * ) &ili->link.link, PERSIST_LINK_TYPE );
+          ( c_t * ) &ili->link.link, PERSIST_LINK_TYPE );
       } else {
         ${te_callout.persistence_error}( 0x88 );
         break;

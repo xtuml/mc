@@ -174,7 +174,10 @@ ${te_typemap.user_supplied_data_types}\
 .if ( te_sys.SystemCPortsType != "BitLevelSignals" )
 #include "${te_file.factory}.${te_file.hdr_file_ext}"
 #include "${te_file.callout}.${te_file.hdr_file_ext}"
-.include "${te_file.arc_path}/t.sys_events.h"
+  .if ( te_sys.PersistentClassCount > 0 )
+    .include "${te_file.arc_path}/t.sys_persist.h"
+  .end if
+  .include "${te_file.arc_path}/t.sys_events.h"
 .end if
 .if( te_sys.AUTOSAR )
 #include "Rte_Type.${te_file.hdr_file_ext}"
