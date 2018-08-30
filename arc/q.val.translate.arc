@@ -453,9 +453,9 @@
       .end if
     .else
       .if ( op == "not" )
-        .assign te_val.buffer = "(!" + root_te_val.buffer + ")"
+        .assign te_val.buffer = "!" + root_te_val.buffer
       .else
-        .assign te_val.buffer = "(" + op + root_te_val.buffer + ")"
+        .assign te_val.buffer = op + root_te_val.buffer
       .end if
     .end if
     .assign te_val.OAL = ( op + " " ) + root_te_val.OAL
