@@ -400,7 +400,7 @@ ${ws}  ${te_set.scope}${te_set.iterator_class_name} ${iterator};
 ${ws}  ${te_set.iterator_reset}( &${iterator}, &${extent_info.extent_var_name} );
 ${ws}  while ( (${te_select_where.selected_var_name} = (${te_select_where.class_name} *) ${te_set.module}${te_set.iterator_next}( &${iterator} )) != 0 ) {
     .if ( not te_select_where.special )
-${ws}    if ${te_select_where.where_clause} \
+${ws}    if ( ${te_select_where.where_clause} ) \
     .else
 ${ws}    if ( ${where_comp.body} ) \
     .end if
