@@ -296,7 +296,6 @@ sys_types_file_name = ( te_file.types + "." ) + te_file.hdr_file_ext;
 select many special_te_dts from instances of TE_DT where ( ( selected.Include_File != "" ) and ( selected.Include_File != sys_types_file_name ) );
 s = "";
 for each special_te_dt in special_te_dts
-  s = ( s + "#include """ ) + ( special_te_dt.Include_File + """\n" );
   ::oal( s:"s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, #include  ), Escher_stradd( special_te_dt->Include_File, \n ) ) ); // Ccode" );
 end for;
 return s;
@@ -4739,7 +4738,7 @@ tim_factory@void@@te_tim@inst_ref<timer>@@@
 te_tim = param.te_tim;
 select any te_prefix from instances of TE_PREFIX;
 te_tim.max_timers = te_prefix.define_u + "SYS_MAX_XTUML_TIMERS";
-te_tim.keyed_timer_support = false;
+te_tim.keyed_timer_support = true;
 te_tim.recurring_timer_support = true;
 te_tim.internal_type = "ETimer_t";
 te_tim.timer_event_search_and_destroy = false;
