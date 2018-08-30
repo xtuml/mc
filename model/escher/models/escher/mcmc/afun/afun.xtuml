@@ -7713,7 +7713,7 @@ INSERT INTO S_SYNC
 te_tim = param.te_tim;
 select any te_prefix from instances of TE_PREFIX;
 te_tim.max_timers = te_prefix.define_u + "SYS_MAX_XTUML_TIMERS";
-te_tim.keyed_timer_support = false;
+te_tim.keyed_timer_support = true;
 te_tim.recurring_timer_support = true;
 te_tim.internal_type = "ETimer_t";
 te_tim.timer_event_search_and_destroy = false;
