@@ -67,9 +67,9 @@ T_b(" )) != 0 ) {");
 T_b("\n");
 if ( ! te_select_where->special ) {
 T_b(ws);
-T_b("    if ");
+T_b("    if ( ");
 T_b(te_select_where->where_clause);
-T_b(" ");
+T_b(" ) ");
 } else {
 T_b(ws);
 T_b("    if ( ");
