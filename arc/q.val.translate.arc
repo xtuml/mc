@@ -8,7 +8,7 @@
 .// These functions set up the implementation of the values (V_VAL on
 .// model of OAL).
 .//
-.//==================================================================== 
+.//====================================================================
 .//
 .//
 .function val_translate
@@ -112,19 +112,19 @@
 .function val_literal_string_values
   .select any te_string from instances of TE_STRING
   .select many v_lsts from instances of V_LST
+  .invoke r = T_quote()
+  .assign quote = r.result
   .for each v_lst in v_lsts
     .select one te_val related by v_lst->V_VAL[R801]->TE_VAL[R2040]
-    .// s = T::t( s:v_lst.Value );
     .assign s = v_lst.Value
-    .invoke oal( "s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode" )
+    .invoke oal( "s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment." )
     .if ( "({" == s )
       .invoke oal( "if ( strstr( s, ({ ) ) { // Ccode" )
       .assign te_val.buffer = s
     .else
-      .assign te_val.buffer = ( """" + v_lst.Value ) + """"
-      .invoke oal( " // Ccode" )
+      .assign te_val.buffer = quote + v_lst.Value + quote
     .end if
-    .assign te_val.OAL = ( "" + v_lst.Value ) + ""
+    .assign te_val.OAL = quote + v_lst.Value + quote
     .assign te_val.dimensions = 1
     .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
     .//TODO assign dimension
@@ -161,6 +161,8 @@
 .//
 .function val_constant_values
   .select many v_scvs from instances of V_SCV
+  .invoke r = T_quote()
+  .assign q = r.result
   .for each v_scv in v_scvs
     .select one te_val related by v_scv->V_VAL[R801]->TE_VAL[R2040]
     .select one cnst_syc related by v_scv->CNST_SYC[R850]
@@ -182,8 +184,7 @@
       .end for
     .elif ( 4 == te_dt.Core_Typ )
       .select any te_string from instances of TE_STRING
-      .assign te_val.buffer = ( """" + cnst_lsc.Value ) + """"
-      .invoke oal( " // Ccode" )
+      .assign te_val.buffer = q + cnst_lsc.Value + q
       .assign te_val.dimensions = 1
       .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
       .//TODO assign dimension
@@ -251,12 +252,11 @@
     .else
       .assign te_val.OAL = ( te_var.OAL + "." ) + te_attr.Name
       .assign root = te_var.buffer
-    .end if 
+    .end if
     .select one te_class related by te_attr->TE_CLASS[R2061]
     .select one te_c related by te_class->TE_C[R2064]
     .if ( te_c.DetectEmpty )
-      .assign root = "((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, ""${te_class.Key_Lett}"", ""${te_val.OAL}"" ))"
-      .invoke oal( "// Ccode escape quotes above" )
+      .assign root = "((" + te_class.GeneratedName + " *)xtUML_detect_empty_handle( " + root + ", " + quote + te_class.Key_Lett + quote + ", " + quote + te_val.OAL + quote + " ))"
     .end if
     .assign te_val.buffer = ( root + "->" ) + te_attr.GeneratedName
     .assign te_val.dimensions = te_attr.dimensions
@@ -282,7 +282,7 @@
       .end if
     .end if
     .end if
-  .end if 
+  .end if
 .end function
 .//
 .function val_member_values
@@ -787,7 +787,7 @@
     .assign te_parm = r.result
     .assign parameters = te_parm.ParamBuffer
     .assign params_OAL = te_parm.OALParamBuffer
-    .assign te_val.OAL = ( ( "::" + te_sync.Name ) + ( "(" + params_OAL ) ) + ")"  
+    .assign te_val.OAL = ( ( "::" + te_sync.Name ) + ( "(" + params_OAL ) ) + ")"
     .if ( "c_t *" == te_aba.ReturnDataType )
       .if ( not te_sys.InstanceLoading )
         .select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016]

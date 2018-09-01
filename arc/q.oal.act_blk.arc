@@ -14,6 +14,8 @@
   .param boolean trace
   .param inst_ref te_blk
   .param inst_ref te_aba
+  .invoke r = T_quote()
+  .assign quote = r.result
   .if ( "" != te_blk.declaration )
     .invoke aba_code_append( te_aba, te_blk.indentation )
     .invoke aba_code_append( te_aba, te_blk.declaration )
@@ -40,8 +42,7 @@
           .invoke aba_code_append( te_aba, statement_comment )
         .end if
         .if ( trace and te_aba.IsTrace )
-          .assign statement_trace = te_blk.indentation + "XTUML_OAL_STMT_TRACE( " + "$t{te_blk.depth}" + ", """ + te_smt.OAL + """ );\n"
-          .invoke oal( "STRING_quote? // Ccode deal with quotes in line above" )
+          .assign statement_trace = te_blk.indentation + "XTUML_OAL_STMT_TRACE( " + "$t{te_blk.depth}" + ", " + quote + te_smt.OAL + quote + " );\n"
           .invoke aba_code_append( te_aba, statement_trace )
         .end if
       .end if

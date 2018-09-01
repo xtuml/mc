@@ -209,19 +209,19 @@ INSERT INTO S_SYNC
 	'//
 select any te_string from instances of TE_STRING;
 select many v_lsts from instances of V_LST;
+r = ::T_quote();
+q = r;
 for each v_lst in v_lsts
   select one te_val related by v_lst->V_VAL[R801]->TE_VAL[R2040];
-  // s = T::t( s:v_lst.Value );
   s = v_lst.Value;
   ::oal( s:"s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment." );
   if ( "({" == s )
     ::oal( s:"if ( strstr( s, ({ ) ) { // Ccode" );
     te_val.buffer = s;
   else
-    te_val.buffer = ( "&quot;" + v_lst.Value ) + "&quot;";
-    ::oal( s:" // Ccode" );
+    te_val.buffer = q + v_lst.Value + q;
   end if;
-  te_val.OAL = ( "" + v_lst.Value ) + "";
+  te_val.OAL = q + v_lst.Value + q;
   te_val.dimensions = 1;
   te_val.array_spec = ( "[" + te_string.max_string_length ) + "]";
   //TODO assign dimension
@@ -314,6 +314,8 @@ INSERT INTO S_SYNC
 	'',
 	'//
 select many v_scvs from instances of V_SCV;
+r = ::T_quote();
+q = r;
 for each v_scv in v_scvs
   select one te_val related by v_scv->V_VAL[R801]->TE_VAL[R2040];
   select one cnst_syc related by v_scv->CNST_SYC[R850];
@@ -335,8 +337,7 @@ for each v_scv in v_scvs
     end for;
   elif ( 4 == te_dt.Core_Typ )
     select any te_string from instances of TE_STRING;
-    te_val.buffer = ( "&quot;" + cnst_lsc.Value ) + "&quot;";
-    ::oal( s:" // Ccode" );
+    te_val.buffer = q + cnst_lsc.Value + q;
     te_val.dimensions = 1;
     te_val.array_spec = ( "[" + te_string.max_string_length ) + "]";
     //TODO assign dimension
