@@ -605,7 +605,7 @@
 .//
 .function T_atoi .// integer
   .param string s
+  .invoke oal( "return strtol( p_s, 0, 10 ); // Ccode" )
   .invoke r = STRING_TO_INTEGER( s )
   .assign attr_result = r.result
-  .invoke oal( "return strtol( p_s, 0, 10 );" )
 .end function

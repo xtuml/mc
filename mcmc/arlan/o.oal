@@ -15,7 +15,7 @@ AutoInitializeUniqueIDs@string@@te_class@inst_ref<Extended Class>@@instance@stri
 te_class = param.te_class;
 instance = param.instance;
 //
-::oal( s:"T_clear();" );
+::oal( s:"T_clear(); // Ccode" );
 select any te_file from instances of TE_FILE;
 select any te_instance from instances of TE_INSTANCE;
 select any te_prefix from instances of TE_PREFIX;
@@ -3056,8 +3056,9 @@ for each te_c in te_cs
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
         elif ( "%s" == te_dt.string_format )
           // Place an escaped tick mark around the %s in the attribute format string.
-          te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "'" + te_dt.string_format ) ) + "'";
-          te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( ( te_attr.GeneratedName + " : """ ) + """" ) );
+          te_class.attribute_format = te_class.attribute_format + delimiter + "'" + te_dt.string_format + "'";
+          te_class.attribute_dump = te_class.attribute_dump + ",\n    ( 0 != self->" + te_attr.GeneratedName + " ) ? self->" + te_attr.GeneratedName + " : " + STRING::quote() + STRING::quote();
+          ::oal( s:"// Ccode The above two lines need single quote and double quote marks." );
         else
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format;
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
@@ -4811,6 +4812,7 @@ target_factory@void@@te_target@inst_ref<target>@@@
 te_target = param.te_target;
 te_target.language = "C";
 te_target.c2cplusplus_linkage_begin = "#ifdef\t__cplusplus\nextern\t&quot;C&quot;\t{\n#endif";
+::oal( s:"// Ccode above line needs escaped quotes." );
 te_target.c2cplusplus_linkage_end = "#ifdef\t__cplusplus\n}\n#endif";
 te_target.main = "main";
 @@@

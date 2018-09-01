@@ -2373,65 +2373,65 @@ if ( ( ( ( empty tm_tpv ) and ( not_empty tm_tp ) ) and ( not isChannel ) ) or (
     // IIR IR DG  RID IR
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_DG[R4704]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "7a " + trace;
     end if;
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->CL_IIR[R4704]->TE_IIR[R2013];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "7b " + trace;
     end if;
     //     IR DG  RID IR
     select any delegated_te_iir related by te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8a " + trace;
     end if;
     //     IR RID DG  IR
     select any delegated_te_iir related by te_iir->C_IR[R2046]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8b " + trace;
     end if;
     // IIR IR DG  RID IR
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8c " + trace;
     end if;
     //     IR DG  RID IR IIR
     select any delegated_te_iir related by te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8d " + trace;
     end if;
     // IIR IR RID DG  IR
     select many more_delegated_te_iirs related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046];
     if ( not_empty more_delegated_te_iirs )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | more_delegated_te_iirs;
       trace = "8e " + trace;
     end if;
     //     IR RID DG  IR IIR
     select many more_delegated_te_iirs related by te_iir->C_IR[R2046]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->CL_IIR[R4701]->TE_IIR[R2013];
     if ( not_empty more_delegated_te_iirs )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | more_delegated_te_iirs;
       trace = "8f " + trace;
     end if;
     // IIR IR DG  RID IR IIR
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8g " + trace;
     end if;
     // IIR IR RID DG  IR IIR
     select many more_delegated_te_iirs related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->CL_IIR[R4701]->TE_IIR[R2013];
     if ( not_empty more_delegated_te_iirs )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | more_delegated_te_iirs;
       trace = "8h " + trace;
     end if;
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "B " + trace;
     end if;
     for each delegated_te_iir in delegated_te_iirs
@@ -5339,8 +5339,10 @@ INSERT INTO S_SYNC
 	'T_atoi',
 	'',
 	'//
-return 0;
-::oal( s:"return strtol( p_s, 0, 10 );" );
+//s = param.s;
+::oal( s:"return strtol( p_s, 0, 10 ); // Ccode" );
+//r = ::STRING_TO_INTEGER( s:s );
+//return r;
 ',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	1,

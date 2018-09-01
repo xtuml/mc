@@ -256,7 +256,8 @@ if ( "" == te_val.buffer )
     select one te_class related by te_attr->TE_CLASS[R2061];
     select one te_c related by te_class->TE_C[R2064];
     if ( te_c.DetectEmpty )
-      root = "((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, ""${te_class.Key_Lett}"", ""${te_val.OAL}"" ))";
+      root = "((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, " + STRING::quote() + te_class.Key_Lett + STRING::quote() + ", " + STRING::quote() + te_val.OAL + STRING::quote() + " ))";
+      ::oal( s:"// Ccode escape quotes above" );
     end if;
     te_val.buffer = ( root + "->" ) + te_attr.GeneratedName;
     te_val.dimensions = te_attr.dimensions;
@@ -573,8 +574,8 @@ if ( "" == te_val.buffer )
       if ( empty act_whl )
         select one act_fiw related by v_val->ACT_FIW[R610];
         if ( empty act_fiw )
-          select one act_sr2 related by v_val->ACT_SRW[R611];
-          if ( empty act_sr2 )
+          select one act_srw related by v_val->ACT_SRW[R611];
+          if ( empty act_srw )
             te_val.OAL = "( " + te_val.OAL + " )";
             te_val.buffer = "( " + te_val.buffer + " )";
           end if;

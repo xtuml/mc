@@ -171,7 +171,8 @@ if ( not_empty te_smt )
         ::aba_code_append( te_aba:te_aba, s:statement_comment );
       end if;
       if ( trace and te_aba.IsTrace )
-        statement_trace = ( ( te_blk.indentation + "XTUML_OAL_STMT_TRACE( " ) + ( T::s(i:te_blk.depth) + ", &quot;" ) ) + ( te_smt.OAL + "&quot; );\n" );
+        statement_trace = te_blk.indentation + "XTUML_OAL_STMT_TRACE( " + T::s(i:te_blk.depth) + ", &quot;" + te_smt.OAL + "&quot; );\n";
+        ::oal( s:"STRING_quote? // Ccode deal with quotes in line above" );
         ::aba_code_append( te_aba:te_aba, s:statement_trace );
       end if;
     end if;
@@ -261,6 +262,7 @@ blk_declaration_append@void@@te_blk@inst_ref<Extended Block>@@s@string@@@
 te_blk = param.te_blk;
 s = param.s;
 te_blk.declaration = te_blk.declaration + s;
+::oal( s:"if ( strlen( te_blk->declaration ) > 400 ) { static char counter = 0; if ( counter++ > 32 ) { counter = 0; s = Escher_stradd( s, quote newline blank blank quote ); } } // Ccode imbed newline blank blank" );
 @@@
 blk_deallocation_append@void@@te_blk@inst_ref<Extended Block>@@s@string@@@
 //
@@ -273,7 +275,7 @@ aba_code_append@void@@te_aba@inst_ref<Action Block Anchor>@@s@string@@@
 te_aba = param.te_aba;
 s = param.s;
 te_aba.code = te_aba.code + s;
-::oal( s:"strcat( te_aba->code, p_s ); // Ccode" );
+::oal( s:"strcat( te_aba->code, p_s ); // Ccode comment out above 2 lines" );
 @@@
 TE_ABA_rollup@void@@@
 //============================================================================
@@ -283,7 +285,7 @@ TE_ABA_rollup@void@@@
 //============================================================================
 //
 //
-::oal( s:"char b[1000000]; // Ccode" );
+::oal( s:"char b[2000000]; // Ccode" );
 parseSuccessful = ParseStatus::parseSuccessful;
 select any empty_act_blk from instances of ACT_BLK where ( false );
 select many te_cs from instances of TE_C where ( selected.included_in_build );

@@ -6,7 +6,7 @@
 .//
 .//
 .function TE_ABA_rollup
-  .invoke oal( "char b[1000000]; // Ccode" )
+  .invoke oal( "char b[2000000]; // Ccode" )
   .assign parseSuccessful = ( 1 ) .COMMENT ParseStatus::parseSuccessful
   .select any empty_act_blk from instances of ACT_BLK where ( false )
   .select many te_cs from instances of TE_C where ( selected.included_in_build )

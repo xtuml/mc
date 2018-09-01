@@ -117,9 +117,8 @@
     .// s = T::t( s:v_lst.Value );
     .assign s = v_lst.Value
     .invoke oal( "s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode" )
-    .// if ( strstr( s, "({" ) )
-    .invoke oal( "if ( strstr( s, ({ ) ) { // Ccode" )
     .if ( "({" == s )
+      .invoke oal( "if ( strstr( s, ({ ) ) { // Ccode" )
       .assign te_val.buffer = s
     .else
       .assign te_val.buffer = ( """" + v_lst.Value ) + """"
@@ -257,6 +256,7 @@
     .select one te_c related by te_class->TE_C[R2064]
     .if ( te_c.DetectEmpty )
       .assign root = "((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, ""${te_class.Key_Lett}"", ""${te_val.OAL}"" ))"
+      .invoke oal( "// Ccode escape quotes above" )
     .end if
     .assign te_val.buffer = ( root + "->" ) + te_attr.GeneratedName
     .assign te_val.dimensions = te_attr.dimensions
