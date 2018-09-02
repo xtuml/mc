@@ -9951,8 +9951,6 @@ ooaofooa_blck_xlate( ooaofooa_TE_ABA * p_te_aba, ooaofooa_TE_BLK * p_te_blk, con
           c_t * statement_trace=0;
           /* ASSIGN statement_trace = ( ( ( ( ( ( ( te_blk.indentation + "XTUML_OAL_STMT_TRACE( " ) + T::s(te_blk.depth) ) + ", " ) + quote ) + te_smt.OAL ) + quote ) + " );\n" ) */
           statement_trace = Escher_strcpy( statement_trace, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ((ooaofooa_TE_BLK *)xtUML_detect_empty_handle( te_blk, "TE_BLK", "te_blk.indentation" ))->indentation, "XTUML_OAL_STMT_TRACE( " ) ), T_s( ((ooaofooa_TE_BLK *)xtUML_detect_empty_handle( te_blk, "TE_BLK", "te_blk.depth" ))->depth ) ) ), ", " ) ), quote ) ), ((ooaofooa_TE_SMT *)xtUML_detect_empty_handle( te_smt, "TE_SMT", "te_smt.OAL" ))->OAL ) ), quote ) ), " );\n" ) ) );
-          /* ::oal( s:"STRING_quote? // Ccode deal with quotes in line above" ) */
-          ooaofooa_oal( "STRING_quote? // Ccode deal with quotes in line above" );
           /* ::aba_code_append( s:statement_trace, te_aba:te_aba ) */
           ooaofooa_aba_code_append( statement_trace, te_aba );
         }
@@ -22337,12 +22335,10 @@ te_ee->ID = Escher_ID_factory();
             ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump = Escher_strcpy( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump, ( Escher_stradd( ( Escher_stradd( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump, ",\n    self->" ) ), ((ooaofooa_TE_ATTR *)xtUML_detect_empty_handle( te_attr, "TE_ATTR", "te_attr.GeneratedName" ))->GeneratedName ) ) );
           }
           else if ( Escher_strcmp( "%s", ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format ) == 0 ) {
-            /* ASSIGN te_class.attribute_format = ( ( ( ( te_class.attribute_format + delimiter ) + tick ) + te_dt.string_format ) + tick ) */
-            ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_format" ))->attribute_format = Escher_strcpy( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_format" ))->attribute_format, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_format" ))->attribute_format, delimiter ) ), "''" ) ), ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format ) ), "''" ) ) );
+            /* ASSIGN te_class.attribute_format = ( ( ( ( ( ( te_class.attribute_format + delimiter ) + tick ) + tick ) + te_dt.string_format ) + tick ) + tick ) */
+            ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_format" ))->attribute_format = Escher_strcpy( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_format" ))->attribute_format, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_format" ))->attribute_format, delimiter ) ), tick ) ), tick ) ), ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format ) ), tick ) ), tick ) ) );
             /* ASSIGN te_class.attribute_dump = ( ( ( ( ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + te_attr.GeneratedName ) + " ) ? self->" ) + te_attr.GeneratedName ) + " : " ) + quote ) + quote ) */
             ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump = Escher_strcpy( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.attribute_dump" ))->attribute_dump, ",\n    ( 0 != self->" ) ), ((ooaofooa_TE_ATTR *)xtUML_detect_empty_handle( te_attr, "TE_ATTR", "te_attr.GeneratedName" ))->GeneratedName ) ), " ) ? self->" ) ), ((ooaofooa_TE_ATTR *)xtUML_detect_empty_handle( te_attr, "TE_ATTR", "te_attr.GeneratedName" ))->GeneratedName ) ), " : " ) ), quote ) ), quote ) ) );
-            /* ::oal( s:"// Ccode The above two lines need single quote and double quote marks." ) */
-            ooaofooa_oal( "// Ccode The above two lines need single quote and double quote marks." );
           }
           else {
             /* ASSIGN te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + te_dt.string_format ) */
@@ -23984,7 +23980,11 @@ ooaofooa_val_attribute_value( ooaofooa_V_AVL * p_v_avl )
   te_val = ( 0 != v_val ) ? v_val->TE_VAL_R2040 : 0;
   /* IF ( "" == te_val.buffer ) */
   if ( Escher_strcmp( "", ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer ) == 0 ) {
-    ooaofooa_TE_ATTR * te_attr=0;ooaofooa_O_ATTR * o_attr=0;ooaofooa_TE_VAR * te_var=0;ooaofooa_TE_VAL * root_te_val=0;ooaofooa_V_VAL * root_v_val=0;
+    c_t * quote=0;c_t * r=0;ooaofooa_TE_ATTR * te_attr=0;ooaofooa_O_ATTR * o_attr=0;ooaofooa_TE_VAR * te_var=0;ooaofooa_TE_VAL * root_te_val=0;ooaofooa_V_VAL * root_v_val=0;
+    /* ASSIGN r = ::T_quote() */
+    r = Escher_strcpy( r, ooaofooa_T_quote() );
+    /* ASSIGN quote = r */
+    quote = Escher_strcpy( quote, r );
     /* SELECT one root_v_val RELATED BY v_avl->V_VAL[R807] */
     root_v_val = ( 0 != v_avl ) ? v_avl->V_VAL_R807_has_root : 0;
     /* SELECT one root_te_val RELATED BY root_v_val->TE_VAL[R2040] */
@@ -24033,10 +24033,8 @@ ooaofooa_val_attribute_value( ooaofooa_V_AVL * p_v_avl )
       te_c = ( 0 != te_class ) ? te_class->TE_C_R2064 : 0;
       /* IF ( te_c.DetectEmpty ) */
       if ( ((ooaofooa_TE_C *)xtUML_detect_empty_handle( te_c, "TE_C", "te_c.DetectEmpty" ))->DetectEmpty ) {
-        /* ASSIGN root = ( ( ( ( ( ( ( ( "((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, " + STRING::quote() ) + te_class.Key_Lett ) + STRING::quote() ) + ", " ) + STRING::quote() ) + te_val.OAL ) + STRING::quote() ) + " ))" ) */
-        root = Escher_strcpy( root, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ({c_t*s=Escher_strget();T_T("((");T_T(te_class->GeneratedName);T_T(" *)xtUML_detect_empty_handle( ");T_T(root);T_T(", ");}), STRING_quote() ) ), ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.Key_Lett" ))->Key_Lett ) ), STRING_quote() ) ), ", " ) ), STRING_quote() ) ), ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.OAL" ))->OAL ) ), STRING_quote() ) ), " ))" ) ) );
-        /* ::oal( s:"// Ccode escape quotes above" ) */
-        ooaofooa_oal( "// Ccode escape quotes above" );
+        /* ASSIGN root = ( ( ( ( ( ( ( ( ( ( ( ( "((" + te_class.GeneratedName ) + " *)xtUML_detect_empty_handle( " ) + root ) + ", " ) + quote ) + te_class.Key_Lett ) + quote ) + ", " ) + quote ) + te_val.OAL ) + quote ) + " ))" ) */
+        root = Escher_strcpy( root, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( "((", ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.GeneratedName" ))->GeneratedName ) ), " *)xtUML_detect_empty_handle( " ) ), root ) ), ", " ) ), quote ) ), ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.Key_Lett" ))->Key_Lett ) ), quote ) ), ", " ) ), quote ) ), ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.OAL" ))->OAL ) ), quote ) ), " ))" ) ) );
       }
       /* ASSIGN te_val.buffer = ( ( root + "->" ) + te_attr.GeneratedName ) */
       ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ( Escher_stradd( ( Escher_stradd( root, "->" ) ), ((ooaofooa_TE_ATTR *)xtUML_detect_empty_handle( te_attr, "TE_ATTR", "te_attr.GeneratedName" ))->GeneratedName ) ) );
@@ -24923,15 +24921,15 @@ ooaofooa_val_literal_real_values()
 void
 ooaofooa_val_literal_string_values()
 {
-  ooaofooa_V_LST * v_lst=0;c_t * q=0;c_t * r=0;Escher_ObjectSet_s v_lsts_space={0}; Escher_ObjectSet_s * v_lsts = &v_lsts_space;ooaofooa_TE_STRING * te_string=0;
+  ooaofooa_V_LST * v_lst=0;c_t * quote=0;c_t * r=0;Escher_ObjectSet_s v_lsts_space={0}; Escher_ObjectSet_s * v_lsts = &v_lsts_space;ooaofooa_TE_STRING * te_string=0;
   /* SELECT any te_string FROM INSTANCES OF TE_STRING */
   te_string = (ooaofooa_TE_STRING *) Escher_SetGetAny( &pG_ooaofooa_TE_STRING_extent.active );
   /* SELECT many v_lsts FROM INSTANCES OF V_LST */
   Escher_CopySet( v_lsts, &pG_ooaofooa_V_LST_extent.active );
   /* ASSIGN r = ::T_quote() */
   r = Escher_strcpy( r, ooaofooa_T_quote() );
-  /* ASSIGN q = r */
-  q = Escher_strcpy( q, r );
+  /* ASSIGN quote = r */
+  quote = Escher_strcpy( quote, r );
   /* FOR EACH v_lst IN v_lsts */
   { Escher_Iterator_s iterv_lst;
   ooaofooa_V_LST * iiv_lst;
@@ -24958,11 +24956,11 @@ ooaofooa_val_literal_string_values()
       ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, s );
     }
     else {
-      /* ASSIGN te_val.buffer = ( ( q + v_lst.Value ) + q ) */
-      ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ( Escher_stradd( ( Escher_stradd( q, ((ooaofooa_V_LST *)xtUML_detect_empty_handle( v_lst, "V_LST", "v_lst.Value" ))->Value ) ), q ) ) );
+      /* ASSIGN te_val.buffer = ( ( quote + v_lst.Value ) + quote ) */
+      ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ( Escher_stradd( ( Escher_stradd( quote, ((ooaofooa_V_LST *)xtUML_detect_empty_handle( v_lst, "V_LST", "v_lst.Value" ))->Value ) ), quote ) ) );
     }
-    /* ASSIGN te_val.OAL = ( ( q + v_lst.Value ) + q ) */
-    ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.OAL" ))->OAL = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.OAL" ))->OAL, ( Escher_stradd( ( Escher_stradd( q, ((ooaofooa_V_LST *)xtUML_detect_empty_handle( v_lst, "V_LST", "v_lst.Value" ))->Value ) ), q ) ) );
+    /* ASSIGN te_val.OAL = ( ( quote + v_lst.Value ) + quote ) */
+    ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.OAL" ))->OAL = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.OAL" ))->OAL, ( Escher_stradd( ( Escher_stradd( quote, ((ooaofooa_V_LST *)xtUML_detect_empty_handle( v_lst, "V_LST", "v_lst.Value" ))->Value ) ), quote ) ) );
     /* ASSIGN te_val.dimensions = 1 */
     ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.dimensions" ))->dimensions = 1;
     /* ASSIGN te_val.array_spec = ( ( "[" + te_string.max_string_length ) + "]" ) */

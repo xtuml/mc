@@ -4277,9 +4277,8 @@ for each te_c in te_cs
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
         elif ( "%s" == te_dt.string_format )
           // Place an escaped tick mark around the %s in the attribute format string.
-          te_class.attribute_format = te_class.attribute_format + delimiter + tick + te_dt.string_format + tick;
+          te_class.attribute_format = te_class.attribute_format + delimiter + tick + tick + te_dt.string_format + tick + tick;
           te_class.attribute_dump = te_class.attribute_dump + ",\n    ( 0 != self->" + te_attr.GeneratedName + " ) ? self->" + te_attr.GeneratedName + " : " + quote + quote;
-          ::oal( s:"// Ccode The above two lines need single quote and double quote marks." );
         else
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format;
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;

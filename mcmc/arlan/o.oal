@@ -1618,10 +1618,10 @@ select any empty_te_attr from instances of TE_ATTR where ( false );
 select any empty_te_mact from instances of TE_MACT where ( false );
 select many empty_te_dts from instances of TE_DT where ( false );
 select many empty_te_parms from instances of TE_PARM where ( false );
-r = ::T_quote();
-quote = r;
-r = ::T_tick();
-tick = r;
+r4 = ::T_quote();
+quote = r4;
+r4 = ::T_tick();
+tick = r4;
 // CDS - Note that in a multiple-system build, we will get lucky, and the
 // s_sys from the local project will be selected first.
 select any s_sys from instances of S_SYS;
@@ -3068,9 +3068,8 @@ for each te_c in te_cs
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
         elif ( "%s" == te_dt.string_format )
           // Place an escaped tick mark around the %s in the attribute format string.
-          te_class.attribute_format = te_class.attribute_format + delimiter + tick + te_dt.string_format + tick;
+          te_class.attribute_format = te_class.attribute_format + delimiter + tick + tick + te_dt.string_format + tick + tick;
           te_class.attribute_dump = te_class.attribute_dump + ",\n    ( 0 != self->" + te_attr.GeneratedName + " ) ? self->" + te_attr.GeneratedName + " : " + quote + quote;
-          ::oal( s:"// Ccode The above two lines need single quote and double quote marks." );
         else
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format;
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;

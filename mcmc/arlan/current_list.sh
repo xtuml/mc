@@ -8,7 +8,7 @@
 ./rsl2oal < ../../arc/q.parameters.arc >> o.oal
 ./rsl2oal < ../../arc/q.parm.sort.arc >> o.oal
 ./rsl2oal < ../../arc/q.rel.pseudoformalize.arc >> o.oal
-./rsl2oal < ../../arc/q.sys.populate.arc >> o.oal
+./rsl2oal < ../../arc/q.sys.populate.arc | sed 's/""""/STRING::quote()/' >> o.oal
 ./rsl2oal < ../../arc/q.utils.arc >> o.oal
 ./rsl2oal < ../../arc/c/q.sys.singletons.arc >> o.oal
 

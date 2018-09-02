@@ -256,6 +256,8 @@
     .select one te_class related by te_attr->TE_CLASS[R2061]
     .select one te_c related by te_class->TE_C[R2064]
     .if ( te_c.DetectEmpty )
+      .invoke r = T_quote()
+      .assign quote = r.result
       .assign root = "((" + te_class.GeneratedName + " *)xtUML_detect_empty_handle( " + root + ", " + quote + te_class.Key_Lett + quote + ", " + quote + te_val.OAL + quote + " ))"
     .end if
     .assign te_val.buffer = ( root + "->" ) + te_attr.GeneratedName
