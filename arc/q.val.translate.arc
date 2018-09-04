@@ -116,12 +116,12 @@
   .assign quote = r.result
   .for each v_lst in v_lsts
     .select one te_val related by v_lst->V_VAL[R801]->TE_VAL[R2040]
-    .assign s = v_lst.Value
-    .invoke oal( "s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment." )
-    .if ( "({" == s )
-      .invoke oal( "if ( strstr( s, ({ ) ) { // Ccode" )
-      .assign te_val.buffer = s
-    .else
+    .assign te_val.buffer = v_lst.Value
+    .invoke oal( "te_val->buffer = Escher_strcpy( te_val->buffer, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment." )
+    .// Here we detect the results of run-time template processing.  Literal
+    .// strings which are processed by the template engine will be transformed
+    .// and expanded.  Do not add quotes to these.
+    .if ( te_val.buffer == v_lst.Value )
       .assign te_val.buffer = quote + v_lst.Value + quote
     .end if
     .assign te_val.OAL = quote + v_lst.Value + quote

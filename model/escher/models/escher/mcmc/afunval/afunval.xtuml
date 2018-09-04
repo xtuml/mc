@@ -213,12 +213,12 @@ r = ::T_quote();
 quote = r;
 for each v_lst in v_lsts
   select one te_val related by v_lst->V_VAL[R801]->TE_VAL[R2040];
-  s = v_lst.Value;
-  ::oal( s:"s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment." );
-  if ( "({" == s )
-    ::oal( s:"if ( strstr( s, ({ ) ) { // Ccode" );
-    te_val.buffer = s;
-  else
+  te_val.buffer = v_lst.Value;
+  ::oal( s:"te_val->buffer = Escher_strcpy( te_val->buffer, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment." );
+  // Here we detect the results of run-time template processing.  Literal
+  // strings which are processed by the template engine will be transformed
+  // and expanded.  Do not add quotes to these.
+  if ( te_val.buffer == v_lst.Value )
     te_val.buffer = quote + v_lst.Value + quote;
   end if;
   te_val.OAL = quote + v_lst.Value + quote;
@@ -445,8 +445,6 @@ v_avl = param.v_avl;
 select one v_val related by v_avl->V_VAL[R801];
 select one te_val related by v_val->TE_VAL[R2040];
 if ( "" == te_val.buffer )
-  r = ::T_quote();
-  quote = r;
   select one root_v_val related by v_avl->V_VAL[R807];
   select one root_te_val related by root_v_val->TE_VAL[R2040];
   if ( "" == root_te_val.buffer )
@@ -467,6 +465,8 @@ if ( "" == te_val.buffer )
     select one te_class related by te_attr->TE_CLASS[R2061];
     select one te_c related by te_class->TE_C[R2064];
     if ( te_c.DetectEmpty )
+      r = ::T_quote();
+      quote = r;
       root = "((" + te_class.GeneratedName + " *)xtUML_detect_empty_handle( " + root + ", " + quote + te_class.Key_Lett + quote + ", " + quote + te_val.OAL + quote + " ))";
     end if;
     te_val.buffer = ( root + "->" ) + te_attr.GeneratedName;

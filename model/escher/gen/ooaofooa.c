@@ -1543,8 +1543,8 @@ ooaofooa_FactoryTE_PARM( const i_t p_by_ref, c_t * p_name, c_t * p_prefix, Esche
 ooaofooa_TE_SM *
 ooaofooa_FactoryTE_SM( const bool p_is_ism, ooaofooa_SM_SM * p_sm_sm, ooaofooa_TE_CLASS * p_te_class )
 {
-  ooaofooa_TE_EVT * te_evt=0;ooaofooa_SM_EVT * sm_evt=0;ooaofooa_SM_ACT * sm_act=0;ooaofooa_TE_STATE * te_state=0;ooaofooa_SM_STATE * sm_state=0;c_t * r1=0;i_t last_event_number;i_t counter;c_t * class_based=0;ooaofooa_TE_CLASS * te_class;ooaofooa_SM_SM * sm_sm;bool is_ism;ooaofooa_TE_SM * te_sm;Escher_ObjectSet_s empty_te_parms_space={0}; Escher_ObjectSet_s * empty_te_parms = &empty_te_parms_space;ooaofooa_TE_DT * void_te_dt=0;Escher_ObjectSet_s te_evts_space={0}; Escher_ObjectSet_s * te_evts = &te_evts_space;
-  Escher_ObjectSet_s poly_te_evts_space={0}; Escher_ObjectSet_s * poly_te_evts = &poly_te_evts_space;Escher_ObjectSet_s true_te_evts_space={0}; Escher_ObjectSet_s * true_te_evts = &true_te_evts_space;Escher_ObjectSet_s sm_nlevts_space={0}; Escher_ObjectSet_s * sm_nlevts = &sm_nlevts_space;Escher_ObjectSet_s signal_te_evts_space={0}; Escher_ObjectSet_s * signal_te_evts = &signal_te_evts_space;Escher_ObjectSet_s sm_sgevts_space={0}; Escher_ObjectSet_s * sm_sgevts = &sm_sgevts_space;Escher_ObjectSet_s local_te_evts_space={0}; Escher_ObjectSet_s * local_te_evts = &local_te_evts_space;Escher_ObjectSet_s sm_levts_space={0}; Escher_ObjectSet_s * sm_levts = &sm_levts_space;Escher_ObjectSet_s sm_evts_space={0}; Escher_ObjectSet_s * sm_evts = &sm_evts_space;Escher_ObjectSet_s sm_acts_space={0}; Escher_ObjectSet_s * sm_acts = &sm_acts_space;Escher_ObjectSet_s te_states_space={0}; Escher_ObjectSet_s * te_states = &te_states_space;Escher_ObjectSet_s sm_states_space={0}; Escher_ObjectSet_s * sm_states = &sm_states_space;ooaofooa_TE_C * te_c=0;
+  ooaofooa_TE_EVT * te_evt=0;ooaofooa_SM_EVT * sm_evt=0;ooaofooa_SM_ACT * sm_act=0;ooaofooa_TE_STATE * te_state=0;ooaofooa_SM_STATE * sm_state=0;c_t * r1=0;i_t last_event_number;i_t counter;c_t * class_based=0;ooaofooa_TE_CLASS * te_class;ooaofooa_SM_SM * sm_sm;bool is_ism;ooaofooa_TE_SM * te_sm;Escher_ObjectSet_s empty_te_parms_space={0}; Escher_ObjectSet_s * empty_te_parms = &empty_te_parms_space;ooaofooa_TE_DT * void_te_dt=0;Escher_ObjectSet_s te_evts_space={0}; Escher_ObjectSet_s * te_evts = &te_evts_space;Escher_ObjectSet_s poly_te_evts_space={0}; Escher_ObjectSet_s * poly_te_evts = &poly_te_evts_space;Escher_ObjectSet_s true_te_evts_space={0}; Escher_ObjectSet_s * true_te_evts = &true_te_evts_space;Escher_ObjectSet_s sm_nlevts_space={0}; Escher_ObjectSet_s * sm_nlevts = &sm_nlevts_space;Escher_ObjectSet_s signal_te_evts_space={0}; Escher_ObjectSet_s * signal_te_evts = &signal_te_evts_space;Escher_ObjectSet_s sm_sgevts_space={0}; Escher_ObjectSet_s * sm_sgevts = &sm_sgevts_space;Escher_ObjectSet_s local_te_evts_space={0}; Escher_ObjectSet_s * local_te_evts = &local_te_evts_space;Escher_ObjectSet_s sm_levts_space={0}; Escher_ObjectSet_s * sm_levts = &sm_levts_space;Escher_ObjectSet_s sm_evts_space={0}; Escher_ObjectSet_s * sm_evts = &sm_evts_space;Escher_ObjectSet_s sm_acts_space={0}; Escher_ObjectSet_s * sm_acts = &sm_acts_space;
+  Escher_ObjectSet_s te_states_space={0}; Escher_ObjectSet_s * te_states = &te_states_space;Escher_ObjectSet_s sm_states_space={0}; Escher_ObjectSet_s * sm_states = &sm_states_space;ooaofooa_TE_C * te_c=0;
   /* ASSIGN is_ism = PARAM.is_ism */
   is_ism = p_is_ism;
   /* ASSIGN sm_sm = PARAM.sm_sm */
@@ -23980,11 +23980,7 @@ ooaofooa_val_attribute_value( ooaofooa_V_AVL * p_v_avl )
   te_val = ( 0 != v_val ) ? v_val->TE_VAL_R2040 : 0;
   /* IF ( "" == te_val.buffer ) */
   if ( Escher_strcmp( "", ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer ) == 0 ) {
-    c_t * quote=0;c_t * r=0;ooaofooa_TE_ATTR * te_attr=0;ooaofooa_O_ATTR * o_attr=0;ooaofooa_TE_VAR * te_var=0;ooaofooa_TE_VAL * root_te_val=0;ooaofooa_V_VAL * root_v_val=0;
-    /* ASSIGN r = ::T_quote() */
-    r = Escher_strcpy( r, ooaofooa_T_quote() );
-    /* ASSIGN quote = r */
-    quote = Escher_strcpy( quote, r );
+    ooaofooa_TE_ATTR * te_attr=0;ooaofooa_O_ATTR * o_attr=0;ooaofooa_TE_VAR * te_var=0;ooaofooa_TE_VAL * root_te_val=0;ooaofooa_V_VAL * root_v_val=0;
     /* SELECT one root_v_val RELATED BY v_avl->V_VAL[R807] */
     root_v_val = ( 0 != v_avl ) ? v_avl->V_VAL_R807_has_root : 0;
     /* SELECT one root_te_val RELATED BY root_v_val->TE_VAL[R2040] */
@@ -24033,6 +24029,11 @@ ooaofooa_val_attribute_value( ooaofooa_V_AVL * p_v_avl )
       te_c = ( 0 != te_class ) ? te_class->TE_C_R2064 : 0;
       /* IF ( te_c.DetectEmpty ) */
       if ( ((ooaofooa_TE_C *)xtUML_detect_empty_handle( te_c, "TE_C", "te_c.DetectEmpty" ))->DetectEmpty ) {
+        c_t * quote=0;c_t * r=0;
+        /* ASSIGN r = ::T_quote() */
+        r = Escher_strcpy( r, ooaofooa_T_quote() );
+        /* ASSIGN quote = r */
+        quote = Escher_strcpy( quote, r );
         /* ASSIGN root = ( ( ( ( ( ( ( ( ( ( ( ( "((" + te_class.GeneratedName ) + " *)xtUML_detect_empty_handle( " ) + root ) + ", " ) + quote ) + te_class.Key_Lett ) + quote ) + ", " ) + quote ) + te_val.OAL ) + quote ) + " ))" ) */
         root = Escher_strcpy( root, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( "((", ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.GeneratedName" ))->GeneratedName ) ), " *)xtUML_detect_empty_handle( " ) ), root ) ), ", " ) ), quote ) ), ((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( te_class, "TE_CLASS", "te_class.Key_Lett" ))->Key_Lett ) ), quote ) ), ", " ) ), quote ) ), ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.OAL" ))->OAL ) ), quote ) ), " ))" ) ) );
       }
@@ -24936,7 +24937,7 @@ ooaofooa_val_literal_string_values()
   Escher_IteratorReset( &iterv_lst, v_lsts );
   while ( (iiv_lst = (ooaofooa_V_LST *)Escher_IteratorNext( &iterv_lst )) != 0 ) {
     v_lst = iiv_lst; {
-    c_t * s=0;ooaofooa_TE_VAL * te_val=0;
+    ooaofooa_TE_VAL * te_val=0;
     /* SELECT one te_val RELATED BY v_lst->V_VAL[R801]->TE_VAL[R2040] */
     te_val = 0;
     {    if ( 0 != v_lst ) {
@@ -24944,18 +24945,12 @@ ooaofooa_val_literal_string_values()
     if ( 0 != V_VAL_R801 ) {
     te_val = V_VAL_R801->TE_VAL_R2040;
 }}}
-    /* ASSIGN s = v_lst.Value */
-    //s = Escher_strcpy( s, ((ooaofooa_V_LST *)xtUML_detect_empty_handle( v_lst, "V_LST", "v_lst.Value" ))->Value );
-    /* ::oal( s:"s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment." ) */
-    s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment.
-    /* IF ( "({" == s ) */
-    //if ( Escher_strcmp( ({, s ) == 0 ) {
-      /* ::oal( s:"if ( strstr( s, ({ ) ) { // Ccode" ) */
-    if ( strstr( s, "({" ) ) { // Ccode
-      /* ASSIGN te_val.buffer = s */
-      ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, s );
-    }
-    else {
+    /* ASSIGN te_val.buffer = "${v_lst.Value}" */
+    //((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ({c_t*s=Escher_strget();T_T(v_lst->Value);}) );
+    /* ::oal( s:"te_val->buffer = Escher_strcpy( te_val->buffer, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment." ) */
+    te_val->buffer = Escher_strcpy( te_val->buffer, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment.
+    /* IF ( te_val.buffer == v_lst.Value ) */
+    if ( Escher_strcmp( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ((ooaofooa_V_LST *)xtUML_detect_empty_handle( v_lst, "V_LST", "v_lst.Value" ))->Value ) == 0 ) {
       /* ASSIGN te_val.buffer = ( ( quote + v_lst.Value ) + quote ) */
       ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ( Escher_stradd( ( Escher_stradd( quote, ((ooaofooa_V_LST *)xtUML_detect_empty_handle( v_lst, "V_LST", "v_lst.Value" ))->Value ) ), quote ) ) );
     }

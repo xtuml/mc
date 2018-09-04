@@ -4321,7 +4321,7 @@ return result;
 @@@
 T_quote@string@@@
 //
-result = """";
+result = STRING::quote();
 return result;
 @@@
 T_tick@string@@@

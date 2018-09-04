@@ -82,7 +82,7 @@ Generate the code.
   2a. Be happy with what you see.  Hopefully all changes come across en masse.
 Here is the important part.
 3. cp ooaofooa.c ooaofooa.c.backup
-4. cp ooaofooa_c_orig ooaofooa.c
+4. sed 's/ooaofooa_oal( "\(.*\)" );$/\1/' < ooaofooa_c_orig > ooaofooa.c
 5. vimdiff ooaofooa.c.backup ooaofooa.c
   5a. /::oal
   5b. Carefully migrate the "::oal" hand-edits into the new ooaofooa.c.
