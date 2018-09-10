@@ -221,7 +221,7 @@ for each v_lst in v_lsts
   if ( te_val.buffer == v_lst.Value )
     te_val.buffer = quote + v_lst.Value + quote;
   end if;
-  te_val.OAL = quote + v_lst.Value + quote;
+  te_val.OAL = v_lst.Value;
   te_val.dimensions = 1;
   te_val.array_spec = ( "[" + te_string.max_string_length ) + "]";
   //TODO assign dimension

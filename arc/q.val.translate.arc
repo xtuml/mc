@@ -124,7 +124,7 @@
     .if ( te_val.buffer == v_lst.Value )
       .assign te_val.buffer = quote + v_lst.Value + quote
     .end if
-    .assign te_val.OAL = quote + v_lst.Value + quote
+    .assign te_val.OAL = v_lst.Value .// Do not include quotes, because this gets imbedded in other strings.
     .assign te_val.dimensions = 1
     .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
     .//TODO assign dimension
