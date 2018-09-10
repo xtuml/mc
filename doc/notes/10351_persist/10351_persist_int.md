@@ -15,7 +15,7 @@ compiler.
 
 ### 2. Document References
 
-<a id="2.1"></a>2.1 [10116](https://support.onefact.net/issues/10351) Bring back MC-3020 persistence  
+<a id="2.1"></a>2.1 [10351](https://support.onefact.net/issues/10351) Bring back MC-3020 persistence  
 <a id="2.2"></a>2.2 [xtuml models assoc_unformal](https://github.com/xtuml/models/tree/master/VandMC_testing/mctest/assoc_unformal) `assoc_unformal` test model  
 <a id="2.3"></a>2.3 [MC-3020 User Guide](https://xtuml.github.io/docs/mcug/) BridgePoint Model Compiler User Guide  
 
