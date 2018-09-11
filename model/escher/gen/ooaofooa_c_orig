@@ -14442,7 +14442,7 @@ ooaofooa_smt_create_events_to_instance()
   Escher_IteratorReset( &itere_cei, e_ceis );
   while ( (iie_cei = (ooaofooa_E_CEI *)Escher_IteratorNext( &itere_cei )) != 0 ) {
     e_cei = iie_cei; {
-    c_t * r=0;ooaofooa_TE_VAR * recipient_te_var=0;ooaofooa_V_VAR * recipient_v_var=0;ooaofooa_TE_SMT * te_smt=0;ooaofooa_E_CSME * e_csme=0;
+    ooaofooa_TE_CLASS * var_te_class=0;ooaofooa_TE_EVT * te_evt=0;ooaofooa_SM_EVT * sm_evt=0;ooaofooa_TE_VAR * recipient_te_var=0;ooaofooa_V_VAR * recipient_v_var=0;ooaofooa_TE_SMT * te_smt=0;ooaofooa_E_CSME * e_csme=0;ooaofooa_TE_CLASS * te_class=0;
     /* SELECT one e_csme RELATED BY e_cei->E_CSME[R704] */
     e_csme = ( 0 != e_cei ) ? e_cei->E_CSME_R704 : 0;
     /* SELECT one te_smt RELATED BY e_csme->E_CES[R702]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038] */
@@ -14460,10 +14460,50 @@ ooaofooa_smt_create_events_to_instance()
     recipient_v_var = ( 0 != e_cei ) ? e_cei->V_VAR_R711_has_recipient : 0;
     /* SELECT one recipient_te_var RELATED BY recipient_v_var->TE_VAR[R2039] */
     recipient_te_var = ( 0 != recipient_v_var ) ? recipient_v_var->TE_VAR_R2039 : 0;
-    /* ASSIGN r = ::smt_create_event(e_csme:e_csme, recipient:recipient_te_var.buffer, recipient_OAL:recipient_v_var.Name, te_smt:te_smt) */
-    r = Escher_strcpy( r, ooaofooa_smt_create_event( e_csme, ((ooaofooa_TE_VAR *)xtUML_detect_empty_handle( recipient_te_var, "TE_VAR", "recipient_te_var.buffer" ))->buffer, ((ooaofooa_V_VAR *)xtUML_detect_empty_handle( recipient_v_var, "V_VAR", "recipient_v_var.Name" ))->Name, te_smt ) );
-    /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( r, te_smt );
+    /* SELECT one sm_evt RELATED BY e_csme->SM_EVT[R706] */
+    sm_evt = ( 0 != e_csme ) ? e_csme->SM_EVT_R706_creates : 0;
+    /* SELECT one te_evt RELATED BY sm_evt->TE_EVT[R2036] */
+    te_evt = ( 0 != sm_evt ) ? sm_evt->TE_EVT_R2036 : 0;
+    /* SELECT one te_class RELATED BY sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019] WHERE ( not SELECTED.ExcludeFromGen ) */
+    te_class = 0;
+    {    if ( 0 != sm_evt ) {
+    ooaofooa_SM_SM * SM_SM_R502 = sm_evt->SM_SM_R502;
+    if ( 0 != SM_SM_R502 ) {
+    ooaofooa_SM_ISM * R517_subtype = (ooaofooa_SM_ISM *) SM_SM_R502->R517_subtype;
+    if ( 0 != R517_subtype )    if ( ( 0 != SM_SM_R502 ) && ( ooaofooa_SM_ISM_CLASS_NUMBER == SM_SM_R502->R517_object_id ) ) {
+    ooaofooa_O_OBJ * O_OBJ_R518 = R517_subtype->O_OBJ_R518;
+    if ( 0 != O_OBJ_R518 ) {
+    {ooaofooa_TE_CLASS * selected = O_OBJ_R518->TE_CLASS_R2019;
+    if ( ( 0 != selected ) && ( !((ooaofooa_TE_CLASS *)xtUML_detect_empty_handle( selected, "TE_CLASS", "SELECTED.ExcludeFromGen" ))->ExcludeFromGen ) ) {
+      te_class = selected;
+    }}
+}}}}}
+    /* SELECT one var_te_class RELATED BY recipient_v_var->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019] */
+    var_te_class = 0;
+    {    if ( 0 != recipient_v_var ) {
+    ooaofooa_V_INT * R814_subtype = (ooaofooa_V_INT *) recipient_v_var->R814_subtype;
+    if ( 0 != R814_subtype )    if ( ( 0 != recipient_v_var ) && ( ooaofooa_V_INT_CLASS_NUMBER == recipient_v_var->R814_object_id ) ) {
+    ooaofooa_O_OBJ * O_OBJ_R818_refers_to = R814_subtype->O_OBJ_R818_refers_to;
+    if ( 0 != O_OBJ_R818_refers_to ) {
+    var_te_class = O_OBJ_R818_refers_to->TE_CLASS_R2019;
+}}}}
+    /* IF ( not_empty te_class and not_empty te_evt ) */
+    if ( ( 0 != te_class ) && ( 0 != te_evt ) ) {
+      c_t * r=0;
+      /* IF ( var_te_class != te_class ) */
+      if ( var_te_class != te_class ) {
+        /* T::print( s:ERROR:  Event ${te_class.Name}(${te_class.Key_Lett}):${te_evt.Name} sent to mismatched instance of ${var_te_class.Name}. ) */
+        T_print( ({c_t*s=Escher_strget();T_T("ERROR:  Event ");T_T(te_class->Name);T_T("(");T_T(te_class->Key_Lett);T_T("):");T_T(te_evt->Name);T_T(" sent to mismatched instance of ");T_T(var_te_class->Name);T_T(".");}) );
+        /* T::print( s:ERROR:  This may be due to lack of support for polys-to-subtypes. ) */
+        T_print( "ERROR:  This may be due to lack of support for polys-to-subtypes." );
+        /* T::exit( i:133 ) */
+        T_exit( 133 );
+      }
+      /* ASSIGN r = ::smt_create_event(e_csme:e_csme, recipient:recipient_te_var.buffer, recipient_OAL:recipient_v_var.Name, te_smt:te_smt) */
+      r = Escher_strcpy( r, ooaofooa_smt_create_event( e_csme, ((ooaofooa_TE_VAR *)xtUML_detect_empty_handle( recipient_te_var, "TE_VAR", "recipient_te_var.buffer" ))->buffer, ((ooaofooa_V_VAR *)xtUML_detect_empty_handle( recipient_v_var, "V_VAR", "recipient_v_var.Name" ))->Name, te_smt ) );
+      /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
+      ooaofooa_smt_buffer_append( r, te_smt );
+    }
   }}}
   Escher_ClearSet( e_ceis );
 }
@@ -15373,7 +15413,7 @@ ooaofooa_smt_generate_event( ooaofooa_E_GEN * p_e_gen, ooaofooa_TE_SMT * p_te_sm
   te_evt = ( 0 != sm_evt ) ? sm_evt->TE_EVT_R2036 : 0;
   /* IF ( not_empty te_class and not_empty te_evt ) */
   if ( ( 0 != te_class ) && ( 0 != te_evt ) ) {
-    c_t * var_name=0;bool self_directed;c_t * parameter_OAL=0;c_t * parameters=0;c_t * ws=0;ooaofooa_TE_THREAD * te_thread=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_EQ * te_eq=0;ooaofooa_TE_FILE * te_file=0;Escher_ObjectSet_s v_pars_space={0}; Escher_ObjectSet_s * v_pars = &v_pars_space;ooaofooa_TE_BLK * te_blk=0;ooaofooa_TE_VAR * te_var=0;ooaofooa_V_VAR * v_var=0;
+    c_t * var_name=0;bool self_directed;c_t * parameter_OAL=0;c_t * parameters=0;c_t * ws=0;ooaofooa_TE_THREAD * te_thread=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_EQ * te_eq=0;ooaofooa_TE_FILE * te_file=0;Escher_ObjectSet_s v_pars_space={0}; Escher_ObjectSet_s * v_pars = &v_pars_space;ooaofooa_TE_BLK * te_blk=0;ooaofooa_TE_CLASS * var_te_class=0;ooaofooa_TE_VAR * te_var=0;ooaofooa_V_VAR * v_var=0;
     /* SELECT any te_file FROM INSTANCES OF TE_FILE */
     te_file = (ooaofooa_TE_FILE *) Escher_SetGetAny( &pG_ooaofooa_TE_FILE_extent.active );
     /* SELECT any te_eq FROM INSTANCES OF TE_EQ */
@@ -15386,6 +15426,24 @@ ooaofooa_smt_generate_event( ooaofooa_E_GEN * p_e_gen, ooaofooa_TE_SMT * p_te_sm
     v_var = ( 0 != e_gen ) ? e_gen->V_VAR_R712_has_recipient : 0;
     /* SELECT one te_var RELATED BY v_var->TE_VAR[R2039] */
     te_var = ( 0 != v_var ) ? v_var->TE_VAR_R2039 : 0;
+    /* SELECT one var_te_class RELATED BY v_var->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019] */
+    var_te_class = 0;
+    {    if ( 0 != v_var ) {
+    ooaofooa_V_INT * R814_subtype = (ooaofooa_V_INT *) v_var->R814_subtype;
+    if ( 0 != R814_subtype )    if ( ( 0 != v_var ) && ( ooaofooa_V_INT_CLASS_NUMBER == v_var->R814_object_id ) ) {
+    ooaofooa_O_OBJ * O_OBJ_R818_refers_to = R814_subtype->O_OBJ_R818_refers_to;
+    if ( 0 != O_OBJ_R818_refers_to ) {
+    var_te_class = O_OBJ_R818_refers_to->TE_CLASS_R2019;
+}}}}
+    /* IF ( var_te_class != te_class ) */
+    if ( var_te_class != te_class ) {
+      /* T::print( s:ERROR:  Event ${te_class.Name}(${te_class.Key_Lett}):${te_evt.Name} sent to mismatched instance of ${var_te_class.Name}. ) */
+      T_print( ({c_t*s=Escher_strget();T_T("ERROR:  Event ");T_T(te_class->Name);T_T("(");T_T(te_class->Key_Lett);T_T("):");T_T(te_evt->Name);T_T(" sent to mismatched instance of ");T_T(var_te_class->Name);T_T(".");}) );
+      /* T::print( s:ERROR:  This may be due to lack of support for polys-to-subtypes. ) */
+      T_print( "ERROR:  This may be due to lack of support for polys-to-subtypes." );
+      /* T::exit( i:134 ) */
+      T_exit( 134 );
+    }
     /* SELECT one te_blk RELATED BY te_smt->TE_BLK[R2078] */
     te_blk = ( 0 != te_smt ) ? te_smt->TE_BLK_R2078_is_in : 0;
     /* ASSIGN ws = te_blk.indentation */
@@ -24946,7 +25004,7 @@ ooaofooa_val_literal_string_values()
     te_val = V_VAL_R801->TE_VAL_R2040;
 }}}
     /* ASSIGN te_val.buffer = v_lst.Value */
-    ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ({c_t*s=Escher_strget();T_T(v_lst->Value);}) );
+    ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer = Escher_strcpy( ((ooaofooa_TE_VAL *)xtUML_detect_empty_handle( te_val, "TE_VAL", "te_val.buffer" ))->buffer, ((ooaofooa_V_LST *)xtUML_detect_empty_handle( v_lst, "V_LST", "v_lst.Value" ))->Value );
     /* ::oal( s:te_val->buffer = Escher_strcpy( te_val->buffer, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment. ) */
     ooaofooa_oal( "te_val->buffer = Escher_strcpy( te_val->buffer, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment." );
     /* IF ( te_val.buffer == v_lst.Value ) */

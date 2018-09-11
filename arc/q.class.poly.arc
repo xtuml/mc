@@ -59,6 +59,7 @@
   .param string i
   .param string supertype
   .//
+  .select any te_callout from instances of TE_CALLOUT
   .select any te_instance from instances of TE_INSTANCE
   .select any te_eq from instances of TE_EQ
   .select any te_target from instances of TE_TARGET
@@ -161,6 +162,8 @@ ${transition}\
 ${i}      }
 ${i}      break;
     .end for
+${i}    default:
+${i}      ${te_callout.event_cant_happen}( 0, 0, event_number );
 ${i}  }
     .if ( firsttime )
 }
