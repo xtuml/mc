@@ -132,7 +132,7 @@ T_print( c_t * p_s )
 void
 T_exit( const i_t p_i )
 {
-  Escher_run_flag = false;
+  exit( p_i );
 }
 
 
