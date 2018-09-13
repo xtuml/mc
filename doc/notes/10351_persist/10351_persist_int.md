@@ -134,6 +134,11 @@ This test only provides evidence that the persistence feature can be enabled
 and not interfere with normal application execution.  This test does not
 exercise the persistence mechanisms other than marking.  
 7.1.1 Import MicrowaveOven from the Welcome -> QuickStart.  
+7.1.1.1 Add the following line of action language into any function or state
+action of the model.
+```
+i = NVS::version( first:1, second:2 );
+```
 7.1.2 Build it.  
 7.1.3 Run it.  
 7.1.4 See a successful run lasting 30 seconds.  
