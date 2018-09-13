@@ -38,6 +38,10 @@
   .select any empty_te_mact from instances of TE_MACT where ( false )
   .select many empty_te_dts from instances of TE_DT where ( false )
   .select many empty_te_parms from instances of TE_PARM where ( false )
+  .invoke r4 = T_quote()
+  .assign quote = r4.result
+  .invoke r4 = T_tick()
+  .assign tick = r4.result
   .// CDS - Note that in a multiple-system build, we will get lucky, and the
   .// s_sys from the local project will be selected first.
   .select any s_sys from instances of S_SYS
@@ -1484,8 +1488,8 @@
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
           .elif ( "%s" == te_dt.string_format )
             .// Place an escaped tick mark around the %s in the attribute format string.
-            .assign te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "'" + te_dt.string_format ) ) + "'"
-            .assign te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( ( te_attr.GeneratedName + " : """ ) + """" ) )
+            .assign te_class.attribute_format = te_class.attribute_format + delimiter + tick + tick + te_dt.string_format + tick + tick
+            .assign te_class.attribute_dump = te_class.attribute_dump + ",\n    ( 0 != self->" + te_attr.GeneratedName + " ) ? self->" + te_attr.GeneratedName + " : " + quote + quote
           .else
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
@@ -2733,5 +2737,15 @@
     .assign indentation = indentation - 1
     .assign result = result + "  "
   .end while
+  .assign attr_result = result
+.end function
+.//
+.function T_quote .// string
+  .assign result = """"
+  .assign attr_result = result
+.end function
+.//
+.function T_tick .// string
+  .assign result = "'"
   .assign attr_result = result
 .end function

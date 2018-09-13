@@ -11,9 +11,6 @@
 ${te_target.c2cplusplus_linkage_begin}
 
 .include "${te_file.arc_path}/t.sys_sets.h"
-.if ( te_sys.PersistentClassCount > 0 )
-#include "${te_file.persist}.${te_file.hdr_file_ext}"
-.end if
 
 class sys_factory : public sys_sets {
   public:

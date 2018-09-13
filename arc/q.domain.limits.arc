@@ -145,6 +145,8 @@
   .param inst_ref te_c
   .assign s = ""
   .assign delimiter = ""
+  .invoke r = T_quote()
+  .assign quote = r.result
   .select one first_te_class related by te_c->TE_CLASS[R2103]
   .assign pass = 0
   .while ( pass < 3 )
@@ -154,15 +156,15 @@
       .// of class-based state machines ahead of passive classes.
       .if ( ( 0 == pass ) and ( ( "" != te_class.dispatcher ) or ( "" != te_class.CBdispatcher ) ) )
         .// instance-based state machine
-        .assign s = s + delimiter + """" + te_class.Name + """"
+        .assign s = s + delimiter + quote + te_class.Name + quote
         .assign delimiter = ","
       .elif ( ( 1 == pass ) and ( ( "" != te_class.dispatcher ) and ( "" != te_class.CBdispatcher ) ) )
         .// dual state machine
-        .assign s = s + delimiter + """" + te_class.Name + "_CB" + """"
+        .assign s = s + delimiter + quote + te_class.Name + "_CB" + quote
         .assign delimiter = ","
       .elif ( ( 2 == pass ) and ( ( "" == te_class.dispatcher ) and ( "" == te_class.CBdispatcher ) ) )
         .// passive instance
-        .assign s = s + delimiter + """" + te_class.Name + """"
+        .assign s = s + delimiter + quote + te_class.Name + quote
         .assign delimiter = ","
       .else
         .// empty
@@ -178,9 +180,11 @@
   .param inst_ref te_sm
   .assign s = ""
   .assign delimiter = ""
+  .invoke r = T_quote()
+  .assign quote = r.result
   .select one te_state related by te_sm->TE_STATE[R2100]
   .while ( not_empty te_state )
-    .assign s = s + delimiter + """" + te_state.Name + """"
+    .assign s = s + delimiter + quote + te_state.Name + quote
     .select one te_state related by te_state->TE_STATE[R2101.'precedes']
     .assign delimiter = ","
   .end while
@@ -191,9 +195,11 @@
   .param inst_ref te_sm
   .assign s = ""
   .assign delimiter = ""
+  .invoke r = T_quote()
+  .assign quote = r.result
   .select one te_evt related by te_sm->TE_EVT[R2104]
   .while ( not_empty te_evt )
-    .assign s = s + delimiter + """" + te_evt.Name + """"
+    .assign s = s + delimiter + quote + te_evt.Name + quote
     .select one te_evt related by te_evt->TE_EVT[R2102.'precedes']
     .assign delimiter = ","
   .end while

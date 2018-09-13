@@ -199,6 +199,9 @@ ${te_typemap.user_supplied_data_types}\
 .if ( te_sys.SystemCPortsType != "BitLevelSignals" )
 #include "${te_file.factory}.${te_file.hdr_file_ext}"
 #include "${te_file.callout}.${te_file.hdr_file_ext}"
+  .if ( te_sys.PersistentClassCount > 0 )
+    .include "${te_file.arc_path}/t.sys_persist.h"
+  .end if
 .end if
 .if( te_sys.AUTOSAR )
 #include "Rte_Type.${te_file.hdr_file_ext}"
@@ -212,6 +215,10 @@ ${te_typemap.structured_data_types}
 .end if
 .// Include the macros for tracing.
 .include "${te_file.arc_path}/t.sys_trace.h"
+.if ( te_sys.MaxInterleavedBridges > 0 )
+
+  .include "${te_file.arc_path}/t.sys_ilb.h"
+.end if
 
 ${te_target.c2cplusplus_linkage_end}
 #endif  /* ${te_prefix.define_usw}$u{te_file.types}_$u{te_file.hdr_file_ext} */

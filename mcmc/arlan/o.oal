@@ -15,7 +15,7 @@ AutoInitializeUniqueIDs@string@@te_class@inst_ref<Extended Class>@@instance@stri
 te_class = param.te_class;
 instance = param.instance;
 //
-::oal( s:"T_clear();" );
+::oal( s:"T_clear(); // Ccode" );
 select any te_file from instances of TE_FILE;
 select any te_instance from instances of TE_INSTANCE;
 select any te_prefix from instances of TE_PREFIX;
@@ -295,9 +295,10 @@ select any te_file from instances of TE_FILE;
 sys_types_file_name = ( te_file.types + "." ) + te_file.hdr_file_ext;
 select many special_te_dts from instances of TE_DT where ( ( selected.Include_File != "" ) and ( selected.Include_File != sys_types_file_name ) );
 s = "";
+r = ::T_quote();
+q = r;
 for each special_te_dt in special_te_dts
-  s = ( s + "#include """ ) + ( special_te_dt.Include_File + """\n" );
-  ::oal( s:"s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, #include  ), Escher_stradd( special_te_dt->Include_File, \n ) ) ); // Ccode" );
+  s = s + "#include " + q + special_te_dt.Include_File + q + "\n";
 end for;
 return s;
 @@@
@@ -482,6 +483,8 @@ TE_C_class_strings@string@@te_c@inst_ref<Extended Component>@@@
 te_c = param.te_c;
 s = "";
 delimiter = "";
+r = ::T_quote();
+quote = r;
 select one first_te_class related by te_c->TE_CLASS[R2103];
 pass = 0;
 while ( pass < 3 )
@@ -491,15 +494,15 @@ while ( pass < 3 )
     // of class-based state machines ahead of passive classes.
     if ( ( 0 == pass ) and ( ( "" != te_class.dispatcher ) or ( "" != te_class.CBdispatcher ) ) )
       // instance-based state machine
-      s = s + delimiter + STRING::quote() + te_class.Name + STRING::quote();
+      s = s + delimiter + quote + te_class.Name + quote;
       delimiter = ",";
     elif ( ( 1 == pass ) and ( ( "" != te_class.dispatcher ) and ( "" != te_class.CBdispatcher ) ) )
       // dual state machine
-      s = s + delimiter + STRING::quote() + te_class.Name + "_CB" + STRING::quote();
+      s = s + delimiter + quote + te_class.Name + "_CB" + quote;
       delimiter = ",";
     elif ( ( 2 == pass ) and ( ( "" == te_class.dispatcher ) and ( "" == te_class.CBdispatcher ) ) )
       // passive instance
-      s = s + delimiter + STRING::quote() + te_class.Name + STRING::quote();
+      s = s + delimiter + quote + te_class.Name + quote;
       delimiter = ",";
     else
       // empty
@@ -515,9 +518,11 @@ TE_SM_state_strings@string@@te_sm@inst_ref<Extended State Machine>@@@
 te_sm = param.te_sm;
 s = "";
 delimiter = "";
+r = ::T_quote();
+quote = r;
 select one te_state related by te_sm->TE_STATE[R2100];
 while ( not_empty te_state )
-  s = s + delimiter + STRING::quote() + te_state.Name + STRING::quote();
+  s = s + delimiter + quote + te_state.Name + quote;
   select one te_state related by te_state->TE_STATE[R2101.'precedes'];
   delimiter = ",";
 end while;
@@ -528,9 +533,11 @@ TE_SM_event_strings@string@@te_sm@inst_ref<Extended State Machine>@@@
 te_sm = param.te_sm;
 s = "";
 delimiter = "";
+r = ::T_quote();
+quote = r;
 select one te_evt related by te_sm->TE_EVT[R2104];
 while ( not_empty te_evt )
-  s = s + delimiter + STRING::quote() + te_evt.Name + STRING::quote();
+  s = s + delimiter + quote + te_evt.Name + quote;
   select one te_evt related by te_evt->TE_EVT[R2102.'precedes'];
   delimiter = ",";
 end while;
@@ -1611,6 +1618,10 @@ select any empty_te_attr from instances of TE_ATTR where ( false );
 select any empty_te_mact from instances of TE_MACT where ( false );
 select many empty_te_dts from instances of TE_DT where ( false );
 select many empty_te_parms from instances of TE_PARM where ( false );
+r4 = ::T_quote();
+quote = r4;
+r4 = ::T_tick();
+tick = r4;
 // CDS - Note that in a multiple-system build, we will get lucky, and the
 // s_sys from the local project will be selected first.
 select any s_sys from instances of S_SYS;
@@ -3057,8 +3068,8 @@ for each te_c in te_cs
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
         elif ( "%s" == te_dt.string_format )
           // Place an escaped tick mark around the %s in the attribute format string.
-          te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "'" + te_dt.string_format ) ) + "'";
-          te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( ( te_attr.GeneratedName + " : """ ) + """" ) );
+          te_class.attribute_format = te_class.attribute_format + delimiter + tick + tick + te_dt.string_format + tick + tick;
+          te_class.attribute_dump = te_class.attribute_dump + ",\n    ( 0 != self->" + te_attr.GeneratedName + " ) ? self->" + te_attr.GeneratedName + " : " + quote + quote;
         else
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format;
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
@@ -4308,6 +4319,16 @@ while ( 0 < indentation )
 end while;
 return result;
 @@@
+T_quote@string@@@
+//
+result = STRING::quote();
+return result;
+@@@
+T_tick@string@@@
+//
+result = "'";
+return result;
+@@@
 gen_parameter_list@inst_ref<Extended Parameter>@@v_pars@inst_ref_set<Actual Parameter>@@prefix_param_delimiter@boolean@@@
 //====================================================================
 //
@@ -4739,7 +4760,7 @@ tim_factory@void@@te_tim@inst_ref<timer>@@@
 te_tim = param.te_tim;
 select any te_prefix from instances of TE_PREFIX;
 te_tim.max_timers = te_prefix.define_u + "SYS_MAX_XTUML_TIMERS";
-te_tim.keyed_timer_support = false;
+te_tim.keyed_timer_support = true;
 te_tim.recurring_timer_support = true;
 te_tim.internal_type = "ETimer_t";
 te_tim.timer_event_search_and_destroy = false;
@@ -4810,8 +4831,10 @@ te_trace.state_txn_cant_happen = te_prefix.define_usw + "STATE_TXN_CH_TRACE";
 target_factory@void@@te_target@inst_ref<target>@@@
 //
 te_target = param.te_target;
+r = ::T_quote();
+quote = r;
 te_target.language = "C";
-te_target.c2cplusplus_linkage_begin = "#ifdef\t__cplusplus\nextern\t&quot;C&quot;\t{\n#endif";
+te_target.c2cplusplus_linkage_begin = "#ifdef\t__cplusplus\nextern\t" + quote + "C" + quote + "\t{\n#endif";
 te_target.c2cplusplus_linkage_end = "#ifdef\t__cplusplus\n}\n#endif";
 te_target.main = "main";
 @@@

@@ -8,16 +8,16 @@
 ./rsl2oal < ../../arc/q.parameters.arc >> o.oal
 ./rsl2oal < ../../arc/q.parm.sort.arc >> o.oal
 ./rsl2oal < ../../arc/q.rel.pseudoformalize.arc >> o.oal
-./rsl2oal < ../../arc/q.sys.populate.arc >> o.oal
+./rsl2oal < ../../arc/q.sys.populate.arc | sed 's/""""/STRING::quote()/' >> o.oal
 ./rsl2oal < ../../arc/q.utils.arc >> o.oal
-./rsl2oal < ../../arc/c/q.sys.singletons.arc | sed 's/""C""/\&quot;C\&quot;/' >> o.oal
+./rsl2oal < ../../arc/c/q.sys.singletons.arc >> o.oal
 
 # second list for afunval
-./rsl2oal < ../../arc/q.val.translate.arc | sed 's/""""/"\&quot;"/g' > o2.oal
+./rsl2oal < ../../arc/q.val.translate.arc > o2.oal
 
 # third list for afunsmt
 ./rsl2oal < ../../arc/q.names.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' > o3.oal
-./rsl2oal < ../../arc/q.oal.act_blk.arc | sed 's/, """/, \&quot;"/' | sed 's/+ """/+ "\&quot;/' | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
+./rsl2oal < ../../arc/q.oal.act_blk.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
 ./rsl2oal < ../../arc/q.oal.action.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
 ./rsl2oal < ../../arc/q.oal.translate.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
 ./rsl2oal < ../../arc/q.smt.generate.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal

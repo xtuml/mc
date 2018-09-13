@@ -15,7 +15,7 @@
   .param inst_ref te_class
   .param string instance
   .//
-  .invoke oal( "T_clear();" )
+  .invoke oal( "T_clear(); // Ccode" )
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_prefix from instances of TE_PREFIX

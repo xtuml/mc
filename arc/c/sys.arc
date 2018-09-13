@@ -164,7 +164,6 @@
 .if ( te_thread.flavor == "Nucleus" )
   .assign printf = "NU_printf"
 .end if
-.assign inst_id_in_handle = ""
 .//
 .invoke persist_check_mark = GetPersistentCheckMarkPostName()
 .//
@@ -210,16 +209,13 @@
 .invoke r = DefineActiveClassCountArray( te_cs )
 .assign active_class_counts = r.body
 .assign domain_num_var = "domain_num"
+.invoke r = PersistentClassUnion( active_te_cs )
+.assign persist_class_union_name = r.result
+.assign persist_class_union = r.body
+.invoke persist_post_link = GetPersistentPostLinkName()
+.assign inst_id_in_handle = ""
 .if ( te_sys.PersistentClassCount > 0 )
-  .invoke r = PersistentClassUnion( active_te_cs )
-  .assign persist_class_union = r.result
-  .invoke persist_post_link = GetPersistentPostLinkName()
   .assign inst_id_in_handle = "  ${te_persist.dirty_type} ${te_persist.dirty_name};\n"
-  .include "${te_file.arc_path}/t.sys_persist.c"
-  .emit to file "${te_file.system_source_path}/${te_file.persist}.${te_file.src_file_ext}"
-  .//
-  .include "${te_file.arc_path}/t.sys_persist.h"
-  .emit to file "${te_file.system_include_path}/${te_file.persist}.${te_file.hdr_file_ext}"
   .//
   .include "${te_file.arc_path}/t.sys_nvs.h"
   .emit to file "${te_file.system_include_path}/${te_file.nvs}.${te_file.hdr_file_ext}"

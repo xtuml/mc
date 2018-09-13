@@ -2340,7 +2340,7 @@ end if;
 T_atoi@integer@@s@string@@@
 //
 s = param.s;
-r = ::STRING_TO_INTEGER( component_name:s );
+::oal( s:"return strtol( p_s, 0, 10 ); // Ccode" );
+r = ::STRING_TO_INTEGER( s:s );
 return r;
-::oal( s:"return strtol( p_s, 0, 10 );" );
 @@@

@@ -1,9 +1,4 @@
 /*----------------------------------------------------------------------------
- * File:  ${te_file.nvs}.${te_file.hdr_file_ext}
- *
- * External Entity:  'Non-Volatile Storage' (NVS)
- *
- * Description:
  * Non-Volatile Storage (NVS) is used to persist class instances and
  * link instances for MC-3020 applications.
  *

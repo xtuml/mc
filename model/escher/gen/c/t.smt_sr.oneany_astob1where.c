@@ -40,9 +40,9 @@ T_b(te_lnk->linkage);
 T_b(";");
 T_b("\n");
 T_b(ws);
-T_b("  if ( ( 0 != selected ) && ");
+T_b("  if ( ( 0 != selected ) && ( ");
 T_b(te_select_related->where_clause);
-T_b(" ) {");
+T_b(" ) ) {");
 T_b("\n");
 if ( 0!=strcmp("",subtypecheck) ) {
 T_b("    ");
