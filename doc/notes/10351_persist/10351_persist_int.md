@@ -112,6 +112,21 @@ There was a spot in SystemC code that was missing inclusion of interleaved
 bridge (ILB) queueing for port messages.  It may be dubious to use the ILB
 feature with SystemC, but it makes sense to keep the architecture consistent.
 
+6.3 "quote" and 'tick' and hand-edits  
+The compiled model compiler is virtually required for translation of MC-3020,
+because of the mass of action language (converted from RSL).  Unfortunately,
+there are weaknesses in MC-3020 such that `mcmc` cannot be generated cleanly
+from xtUML alone; a few tweaks are required.  The tweaks come in the form of
+hand-edits to the generated code.  There are tens of spots in the generated
+ooaofooa.c file that require hand edits.  Escaping quotations marks and
+single-quotes (ticks) is the single biggest headache among these hand-edits.
+During this work, I reduced the number of hand-edits by creating functions
+`T_quote` and `T_tick`.  The former returns a string carrying a quotation
+mark; the latter returns a string carrying a tick mark.  The hand edit is
+then localized to the body of these routines rather than strewn throughout
+the generated ooaofooa.c file.  I also improved the instructions guiding
+the hand-edits in `HOWTO Create mcmc-docgen.txt`.  
+
 ### 7. Unit Test
 
 7.1 Microwave Oven  
