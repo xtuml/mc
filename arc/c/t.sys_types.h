@@ -42,15 +42,23 @@
 .end for
  *--------------------------------------------------------------------------*/
 
+.if ( not_empty tm_arduino )
+#include "Arduino.h"
+.end if
+
 #ifndef ${te_prefix.define_usw}$u{te_file.types}_$u{te_file.hdr_file_ext}
 #define ${te_prefix.define_usw}$u{te_file.types}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
 
+.if ( not_empty tm_arduino )
+#ifndef	__cplusplus
+.else
 /*
  * Shore up C by declaring our own version of bool.
  */
 #ifndef	__cplusplus
 typedef unsigned char bool;
+.end if
 
 #ifdef false
 #undef false
