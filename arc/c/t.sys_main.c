@@ -41,6 +41,10 @@ ${system_class_array.class_count}
  * of bringup, run and shutdown.
  *
  */
+.if ( not_empty tm_arduino )
+void
+${te_prefix.result}xtUML_setup()
+.else
 ${main_decl.body}\
 {
   ${te_callout.initialization}();
@@ -71,13 +75,19 @@ ${te_persist.factory_init}();
   .end if
 .end for
   ${te_callout.post_xtUML_initialization}();
-.if ( non_self_event_queue_needed.result or self_event_queue_needed.result )
+.if ( not_empty tm_arduino )
+.else
+  .if ( non_self_event_queue_needed.result or self_event_queue_needed.result )
   ${te_prefix.result}xtUML_run(); /* This is the primary event dispatch loop.  */
 .end if
   ${te_callout.pre_shutdown}();
   ${te_callout.post_shutdown}();
 .if ( te_thread.enabled )
   ${te_thread.shutdown}();
+  .end if
+.end if
+.if ( empty tm_arduino )
+${return_body}\
 .end if
 ${return_body}\
 }

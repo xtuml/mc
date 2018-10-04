@@ -44,6 +44,16 @@
 .end function
 .//
 .//============================================================================
+.// Enable Arduino.
+.//============================================================================
+.function EnableArduino
+  .select any tm_arduino from instances of TM_ARDUINO
+  .if ( empty tm_arduino )
+    .create object instance tm_arduino of TM_ARDUINO
+  .end if
+.end function
+.//
+.//============================================================================
 .// Establish task priority.
 .//============================================================================
 .function SetTaskPriority

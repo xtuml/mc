@@ -2654,6 +2654,8 @@ CREATE TABLE TE_WHILE (
     condition STRING,
     Statement_ID UNIQUE_ID
 );
+CREATE TABLE TM_ARDUINO (
+);
 CREATE TABLE TM_BUILD (
     package_to_build STRING,
     package_obj_name STRING,

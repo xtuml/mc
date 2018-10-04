@@ -200,8 +200,11 @@
   .assign dq_arg = "t "
   .assign thread_number = "t"
 .end if
+.select any tm_arduino from instances of TM_ARDUINO
 .include "${te_file.arc_path}/t.sys_main.c"
 .emit to file "${te_file.system_source_path}/${te_file.sys_main}.${te_file.src_file_ext}"
+.include "${te_file.arc_path}/t.sys_arduino.ino"
+.emit to file "${te_file.system_source_path}/src.ino"
 .//
 .invoke r = DefineActiveClassCountArray( te_cs )
 .assign active_class_counts = r.body
