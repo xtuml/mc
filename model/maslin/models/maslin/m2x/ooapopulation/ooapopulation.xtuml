@@ -7170,9 +7170,12 @@ while ( passes <= num_forms )
 		    if ( empty o_obj )
 		      select any r_aoth related by r_rtos->R_AOTH[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
 		      select one o_obj related by r_aoth->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201];
+		      if ( empty o_obj )
+                select any o_obj related by r_rtos->R_OIR[R203]->O_OBJ[R201] where ( selected.Name == ra.roleOrObj );
+		      end if;
 		    end if;
 		    if ( not_empty o_obj )
-		      if ( o_obj.Name == ra.objectName )
+		      if ( o_obj.Name == ra.objectName or "" == ra.objectName and o_obj.Name == ra.roleOrObj )
 		        // rename the attribute to the final name of the attribute (not the participant ID name)
 		        o_attr.Root_Nam = ra.Name;
 		        break;
@@ -7190,7 +7193,8 @@ while ( passes <= num_forms )
 		    select many r_rtos related by o_attr->O_RATTR[R106]->O_REF[R108]->O_RTIDA[R111]->R_RTO[R110];
 		    select any r_aone related by r_rtos->R_AONE[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
 		    select any r_aoth related by r_rtos->R_AOTH[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
-		    if ( not_empty r_aone or not_empty r_aoth )
+		    select any o_obj related by r_rtos->R_OIR[R203]->O_OBJ[R201] where ( selected.Name == ra.roleOrObj );
+		    if ( not_empty r_aone or not_empty r_aoth or not_empty o_obj )
 		      ra.postProcess( o_attr:o_attr, ooapopulation:self );
 		      break;
 		    end if;
@@ -8786,9 +8790,15 @@ INSERT INTO O_TFR
 	1,
 	'select any ooapopulation from instances of ooapopulation;
 
+// if there is no attribute name specified, assume it is the same as the current attribute
+attrName = param.attrName;
+if ( "" == attrName )
+  attrName = ooapopulation.current_attribute.Root_Nam;
+end if;
+
 // Create a new object in the referential cache
 create object instance ra of referentialAttribute;
-ra.attrName = param.attrName;
+ra.attrName = attrName;
 ra.relationship = param.relationship;
 ra.roleOrObj = param.roleOrObj;
 ra.objectName = param.objName;
@@ -8806,11 +8816,11 @@ o_attr = ooapopulation.current_attribute;
 select many o_ids related by o_attr->O_OIDA[R105]->O_ID[R105];
 for each o_id in o_ids
   if ( 0 == o_id.Oid_ID )
-	ra.identifier1 = true;
+  ra.identifier1 = true;
   elif ( 1 == o_id.Oid_ID )
-	ra.identifier2 = true;
+  ra.identifier2 = true;
   elif ( 2 == ooapopulation.processingIdentifier )
-	ra.identifier3 = true;
+  ra.identifier3 = true;
   end if;
 end for;
 
@@ -8823,25 +8833,34 @@ select one simp related by rel->R_SIMP[R206];
 if ( not_empty simp )
   // Get the correct participant
   select any r_part from instances of R_PART where false;
-  if ( "" != ra.objectName )  	// get participant by role phrase AND object name
+  if ( "" != ra.objectName )    // get participant by role phrase AND object name
     select any ref_obj related by simp->R_PART[R207]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201] where (selected.Name == ra.objectName);
     select any r_part related by simp->R_PART[R207] where ( selected.Txt_Phrs == ra.roleOrObj and selected.Obj_ID == ref_obj.Obj_ID );
   else
-    select any ref_obj related by simp->R_PART[R207]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201] where (selected.Name == ra.roleOrObj);
-    if ( not_empty ref_obj ) 	// if we found an object by name, use the object name to get the r_part
-      select any r_part related by simp->R_PART[R207] where ( selected.Obj_ID == ref_obj.Obj_ID );
-    else						// otherwise, select by phrase only
-      select any r_part related by simp->R_PART[R207] where ( selected.Txt_Phrs == ra.roleOrObj );
-      if ( empty r_part )
-        TRACE::log( flavor:"failure", id:101, message:"did not find formalization participant for " + ra.relationship );
+    if ( "" != ra.roleOrObj )
+      select any ref_obj related by simp->R_PART[R207]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201] where (selected.Name == ra.roleOrObj);
+      if ( not_empty ref_obj )   // if we found an object by name, use the object name to get the r_part
+        select any r_part related by simp->R_PART[R207] where ( selected.Obj_ID == ref_obj.Obj_ID );
+      else            // otherwise, select by phrase only
+        select any r_part related by simp->R_PART[R207] where ( selected.Txt_Phrs == ra.roleOrObj );
+        if ( empty r_part )
+          TRACE::log( flavor:"failure", id:101, message:"did not find formalization participant for " + ra.relationship );
+        end if;
+      end if;
+    else
+      select any ref_obj related by simp->R_PART[R207]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201] where (selected.Name != ra.o_obj.Name);
+      if ( not_empty ref_obj )
+        select any r_part related by simp->R_PART[R207] where ( selected.Obj_ID == ref_obj.Obj_ID );
+      else      // if it is reflexive, then it doesn''t matter which r_part is selected
+        select any r_part related by simp->R_PART[R207];
       end if;
     end if;
   end if;
   
   // look for an existing formalization
   select any simpForm from instances of simpleFormalization where ( selected.rel == simp and
-  																	selected.form_obj_id == o_obj.Obj_ID and
-  																	selected.part_obj_id == r_part.Obj_ID );
+                                    selected.form_obj_id == o_obj.Obj_ID and
+                                    selected.part_obj_id == r_part.Obj_ID );
   select one form related by simpForm->formalization[R3810];
   if ( empty form ) // create a formalization if it doesn''t exist
     create object instance form of formalization;
@@ -8861,36 +8880,50 @@ else
   if ( not_empty subsuper )
     // look for an existing formalization
     select any subsupForm from instances of subsuperFormalization where ( selected.rel == subsuper );
-	select one form related by subsupForm->formalization[R3810];
-	if ( empty form ) // create a formalization if it doesn''t exist
-	  create object instance form of formalization;
-	  form.type = 1;
-	  create object instance subsupForm of subsuperFormalization;
-	  subsupForm.rel = subsuper;
-	  relate form to subsupForm across R3810;
-	end if;
+  select one form related by subsupForm->formalization[R3810];
+  if ( empty form ) // create a formalization if it doesn''t exist
+    create object instance form of formalization;
+    form.type = 1;
+    create object instance subsupForm of subsuperFormalization;
+    subsupForm.rel = subsuper;
+    relate form to subsupForm across R3810;
+  end if;
 
     // add this referential attribute to the formalization
     relate ra to form across R3811;
   else
     select one linked related by rel->R_ASSOC[R206];
-	if ( not_empty linked )
-	  // look for an existing formalization
-	  select any assocForm from instances of assocFormalization where ( selected.rel == linked );
-	  select one form related by assocForm->formalization[R3810];
-	  if ( empty form ) // create a formalization if it doesn''t exist
-		create object instance form of formalization;
-		form.type = 2;
-		create object instance assocForm of assocFormalization;
-		assocForm.rel = linked;
-		relate form to assocForm across R3810;
-	  end if;
+  if ( not_empty linked )
+    // if the RA instance does not have object names, we need to infer them
+    if ( "" == ra.objectName and "" == ra.roleOrObj )
+      select any id_attr related by linked->R_AONE[R209]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_OIDA[R105]->O_ATTR[R105] where ( selected.Root_Nam == ra.attrName );
+      if ( not_empty id_attr )
+        select one one_obj related by id_attr->O_OBJ[R102];
+        ra.roleOrObj = one_obj.Name;
+      else
+        select any id_attr related by linked->R_AOTH[R210]->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]->O_ATTR[R102]->O_OIDA[R105]->O_ATTR[R105] where ( selected.Root_Nam == ra.attrName );
+        if ( not_empty id_attr )
+          select one oth_obj related by id_attr->O_OBJ[R102];
+          ra.roleOrObj = oth_obj.Name;
+        end if;
+      end if;
+    end if;
+    // look for an existing formalization
+    select any assocForm from instances of assocFormalization where ( selected.rel == linked );
+    select one form related by assocForm->formalization[R3810];
+    if ( empty form ) // create a formalization if it doesn''t exist
+    create object instance form of formalization;
+    form.type = 2;
+    create object instance assocForm of assocFormalization;
+    assocForm.rel = linked;
+    relate form to assocForm across R3810;
+    end if;
 
-	  // add this referential attribute to the formalization
-	  relate ra to form across R3811;
-	else
-	  TRACE::log( flavor:"failure", id:102, message:"did not find relationship for " + ra.relationship );
-	end if;
+    // add this referential attribute to the formalization
+    relate ra to form across R3811;
+  else
+    TRACE::log( flavor:"failure", id:102, message:"did not find relationship for " + ra.relationship );
+  end if;
   end if;
 end if;',
 	1,
