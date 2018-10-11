@@ -1,7 +1,4 @@
-T_b("  ");
-T_b(self->visibility);
-T_b(" type ");
 T_b(self->name);
-T_b(" is ");
+T_b(",");
 T_b(self->body);
 T_b("\n");

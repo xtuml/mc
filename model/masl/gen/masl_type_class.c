@@ -111,6 +111,11 @@ masl_type_op_render( masl_type * self)
   }}}
   /* SELECT one markable RELATED BY self->markable[R3783] */
   markable = ( 0 != self ) ? self->markable_R3783 : 0;
+  /* IF ( ( - 1 != STRING::indexof(self.body, ,) ) ) */
+  if ( ( -1 != STRING_indexof( ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body, "," ) ) ) {
+    /* ASSIGN self.body = ( ( Enumeration,{ + self.body ) + } ) */
+    ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body = Escher_strcpy( ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body, Escher_stradd( Escher_stradd( "Enumeration,{", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body ), "}" ) );
+  }
   /* T::include( file:masl/t.type_begin.masl ) */
 #include "masl/t.type_begin.masl"
   /* T::include( file:masl/t.type_end.masl ) */

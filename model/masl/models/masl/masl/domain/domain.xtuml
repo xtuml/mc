@@ -75,11 +75,15 @@ T::include( file:"masl/t.domain_begin.masl" );
 select many objects related by self->object[R3708.''has abstract''];
 // Provide forward declaration of objects for use in relationships.
 for each object in objects
-  object.render_declaration();
+  //object.render_declaration();
 end for;
 
 // Render types in dependent order minimizing forward declarations.
-type::render_all( domain:self, scope:"private" );
+//type::render_all( domain:self, scope:"private" );
+T::b( s:"\n" );
+T::b( s:"$START_TYPES\n" );
+T::b( s:self.name + ".typ\n" );
+T::b( s:"$END_TYPES\n" );
 
 select many exceptions related by self->exception[R3748];
 for each exception in exceptions
@@ -98,8 +102,16 @@ end for;
 
 select many relationships related by self->relationship[R3712];
 for each relationship in relationships
-  relationship.render();
+  //relationship.render();
 end for;
+T::b( s:"\n" );
+T::b( s:"$START_RELATIONSHIPS\n" );
+T::b( s:self.name + ".rel\n" );
+T::b( s:"$END_RELATIONSHIPS\n" );
+T::b( s:"\n" );
+T::b( s:"$START_SUBTYPES\n" );
+T::b( s:self.name + ".sub\n" );
+T::b( s:"$END_SUBTYPES\n" );
 
 // Sequence rendering such that supertypes are rendered before subtypes.
 // The maximum number of rounds required cannot be larger than the
@@ -119,11 +131,15 @@ while ( round <= maxrounds )
       select many supertypes related by ss->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.''engages'']->object[R3714];
     end while;
     if ( depth == round )
-      object.render();
+      //object.render();
     end if;
   end for;
   round = round + 1;
 end while;
+T::b( s:"\n" );
+T::b( s:"$START_OBJECTS\n" );
+T::b( s:self.name + ".sub\n" );
+T::b( s:"$END_OBJECTS\n" );
 
 T::include( file:"masl/t.domain_end.masl" );
 

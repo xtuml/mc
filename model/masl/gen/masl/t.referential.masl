@@ -1,11 +1,6 @@
-.if ( "" != domainname )
-${domainname}::\
+(\
+${relationshipname}\
+.if ( "" != attribute )
+..${attribute}\
 .end if
-${relationshipname}.\
-.if ( "" != rolephrase )
-${rolephrase}.\
-.end if
-.if ( "" != objectname )
-${objectname}.\
-.end if
-${attribute}\
+)\

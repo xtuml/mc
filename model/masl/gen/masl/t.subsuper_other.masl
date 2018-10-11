@@ -1,1 +1,1 @@
-${separator} ${other_object.name}\
+,${other_object.name}\

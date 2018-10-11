@@ -1,1 +1,6 @@
-    ${self.name} : ${self.preferred} ${self.unique} \
+.if ( "preferred" == self->preferred )
+*\
+.else
+..\
+.end if
+${self.name},\

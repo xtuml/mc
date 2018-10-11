@@ -1,1 +1,4 @@
-domain ${self.name} is
+$$DOMAIN_NAME ${self.name}
+$$DOMAIN_KEY_LETTER ${self.name}
+$$DOMAIN_VERSION 1
+$$DOMAIN_TYPE Undefined

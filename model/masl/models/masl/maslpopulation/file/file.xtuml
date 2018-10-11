@@ -67,9 +67,55 @@ elif ( "domain" == element )
       if ( not_empty file )
         // Domain files go into a directory named after the domain.
         file.directory( name:domain.name );
-        file.emit( name:domain.name + ".mod" );
-        domain.render_interface();
-        file.emit( name:domain.name + ".int" );
+        file.emit( name:domain.name + ".dmp" );
+        //domain.render_interface();
+        //file.emit( name:domain.name + ".int" );
+      end if;
+
+      // render types file
+      select many types related by domain->type[R3719];
+      for each typ in types
+        typ.render();
+      end for;
+      select any file related by types->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        file.directory( name:domain.name );
+        file.emit( name:domain.name + ".typ" );
+      end if;
+
+      // render relationships file
+      select many rels related by domain->relationship[R3712];
+      select many subsuper_rels related by domain->relationship[R3712]->subsuper[R3721]->relationship[R3721];
+      other_rels = rels - subsuper_rels;
+      for each rel in other_rels
+        rel.render();
+      end for;
+      select any file related by other_rels->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        file.directory( name:domain.name );
+        file.emit( name:domain.name + ".rel" );
+      end if;
+
+      // render subtypes file
+      for each rel in subsuper_rels
+        rel.render();
+      end for;
+      select any file related by subsuper_rels->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        file.directory( name:domain.name );
+        file.emit( name:domain.name + ".sub" );
+      end if;
+
+      // render objects file
+      select many objects related by domain->object[R3708];
+      for each obj in objects
+        obj.render();
+        T::b( s:"\n" );
+      end for;
+      select any file related by objects->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        file.directory( name:domain.name );
+        file.emit( name:domain.name + ".obj" );
       end if;
 
       if ( structuralOnly == true )
@@ -224,10 +270,39 @@ if ( "project" == name or
      "routine" == name or "operation" == name or "state" == name )
   create object instance file of file;
   relate file to element across R3795;
+elif ( "type" == name )
+  select any file related by element->markable[R3786]->type[R3783]->domain[R3719]->type[R3719]->markable[R3783]->element[R3786]->file[R3795];
+  if ( empty file )
+    create object instance file of file;
+  end if;
+  relate file to element across R3795;
+elif ( "regularrel" == name )
+  select any file related by element->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
+  if ( empty file )
+    create object instance file of file;
+  end if;
+  relate file to element across R3795;
+elif ( "associative" == name )
+  select any file related by element->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->associative[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
+  if ( empty file )
+    create object instance file of file;
+  end if;
+  relate file to element across R3795;
+elif ( "subsuper" == name )
+  select any file related by element->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
+  if ( empty file )
+    create object instance file of file;
+  end if;
+  relate file to element across R3795;
+elif ( "object" == name )
+  select any file related by element->markable[R3786]->object[R3783]->domain[R3708]->type[R3719]->markable[R3783]->element[R3786]->file[R3795];
+  if ( empty file )
+    create object instance file of file;
+  end if;
+  relate file to element across R3795;
 else
   // no file needed
-end if;
-',
+end if;',
 	1,
 	'',
 	"0652aa1a-382c-4f76-b3b5-f382ef04ba69",

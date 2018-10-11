@@ -1,1 +1,1 @@
-  relationship ${relationship.name} is ${one_object.name} is_a (\
+${relationship.name},${one_object.name}\

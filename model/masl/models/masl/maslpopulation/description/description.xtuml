@@ -94,8 +94,8 @@ while ( "" != descrip )
     line = STRING::substr( s:descrip, begin:0, end:i+1 );
     descrip = STRING::substr( s:descrip, begin:i+1, end:-1 );
   end if;
-  T::b( s:prefix );
-  T::b( s:line );
+  //T::b( s:prefix );
+  //T::b( s:line );
 
 end while;
 ',

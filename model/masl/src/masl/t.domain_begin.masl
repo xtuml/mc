@@ -1,4 +1,14 @@
-T_b("domain ");
+T_b("$$");
+T_b("DOMAIN_NAME ");
 T_b(self->name);
-T_b(" is");
+T_b("\n");
+T_b("$$");
+T_b("DOMAIN_KEY_LETTER ");
+T_b(self->name);
+T_b("\n");
+T_b("$$");
+T_b("DOMAIN_VERSION 1");
+T_b("\n");
+T_b("$$");
+T_b("DOMAIN_TYPE Undefined");
 T_b("\n");

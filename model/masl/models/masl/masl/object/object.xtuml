@@ -19,6 +19,12 @@ for each descrip in descrips
   descrip.render();
 end for;
 
+passive = "passive";
+select any sm related by self->state_machine[R3734];
+if ( not_empty sm )
+  passive = "active";
+end if;
+
 T::include( file:"masl/t.object_begin.masl" );
 
 select many attributes related by self->attribute[R3709.''is characterized by''];
