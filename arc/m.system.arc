@@ -27,7 +27,7 @@
   .else
     .assign tm_thread.serialize = false
   .end if
-  .if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( "SystemC" == flavor ) )
+  .if ( ( ( "POSIX" == flavor ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( "SystemC" == flavor ) )
     .assign tm_thread.flavor = flavor
     .if ( "SystemC" == flavor )
       .// SystemC uses a single thread inside each component.

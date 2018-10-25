@@ -41,12 +41,7 @@ ${system_class_array.class_count}
  * of bringup, run and shutdown.
  *
  */
-.if ( te_thread.flavor == "Nucleus" )
-VOID
-${te_prefix.result}main( UNSIGNED argc, VOID * argv )
-.else
 ${main_decl.body}\
-.end if
 {
   ${te_callout.initialization}();
   ${te_set.factory}( ${te_set.number_of_containoids} );

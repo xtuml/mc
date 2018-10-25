@@ -11,11 +11,7 @@
  *
  *--------------------------------------------------------------------------*/
 
-.if ( te_thread.flavor == "Nucleus" )
-#define XTUML_TRACE_FLUSH( i )
-.else
 #define XTUML_TRACE_FLUSH( i ) fflush( i )
-.end if
 
 /*
  * State transition start tracing:

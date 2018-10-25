@@ -155,9 +155,6 @@
 .invoke self_event_queue_needed = GetSystemSelfEventQueueNeeded()
 .//
 .assign printf = "printf"
-.if ( te_thread.flavor == "Nucleus" )
-  .assign printf = "NU_printf"
-.end if
 .//
 .invoke persist_check_mark = GetPersistentCheckMarkPostName()
 .//
@@ -246,8 +243,6 @@
   .// System-C provides its own threading.
   .if ( te_thread.flavor == "POSIX" )
     .include "${te_file.arc_path}/t.sys_threadposix.c"
-  .elif ( te_thread.flavor == "Nucleus" )
-    .include "${te_file.arc_path}/t.sys_threadnuke.c"
   .elif ( te_thread.flavor == "Windows" )
     .include "${te_file.arc_path}/t.sys_threadwin.c"
   .elif ( te_thread.flavor == "OSX" )

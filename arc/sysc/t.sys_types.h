@@ -134,7 +134,7 @@ typedef u4_t ${te_prefix.type}uSec_t;
 #define _reentrant
 #endif
 
-.if ( ( te_thread.flavor != "Nucleus" ) and ( te_sys.SystemCPortsType != "BitLevelSignals" ) )
+.if ( te_sys.SystemCPortsType != "BitLevelSignals" )
 /*
  * Note we include stdio.h for printf.  Otherwise, it is not needed.
  */
