@@ -186,15 +186,8 @@ void pause( void );
  * will continue ticking.
  */
 void resume( void );
-.if ( te_sys.AUTOSAR )
-
-void update ( void );
-.end if
 
 private:
-.if ( te_sys.AUTOSAR )
-unsigned long msecCounter = 0;
-.end if
 #ifdef USED_TO_ALLOW_PAUSING
 ETimer_time_t start_of_pause;
 bool paused;

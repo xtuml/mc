@@ -58,17 +58,10 @@
 1000UL
 .end if
 
-.if ( te_sys.AUTOSAR )
-/* 1000UL should probably come from some autosar spec */
-#define CALL_PERIOD_MS 1000UL
-.end if
 .if ( not te_tim.keyed_timer_support )
   .include "${te_file.arc_path}/t.sys_tim.data.h"
 .end if
 
-.if ( te_sys.AUTOSAR )
-static unsigned long msecCounter = 0;
-.end if 
 #ifdef USED_TO_ALLOW_PAUSING
 static ETimer_time_t start_of_pause = 0;
 static bool paused = false;
@@ -845,9 +838,6 @@ ETimer_msec_time( void )
   t1 = sc_time_stamp();
   t = (ETimer_time_t) (t1.to_seconds() * MSEC_CONVERT);
   return ( t - tinit );
-.elif ( te_sys.AUTOSAR )
-  t = msecCounter * CALL_PERIOD_MS;
-  return ( t );
 .else
   .if ( te_sys.SimulatedTime )
   t = systyme;
@@ -861,13 +851,6 @@ ETimer_msec_time( void )
 }
 
 
-.if ( te_sys.AUTOSAR )
-void
-TIM_update( void )
-{
-  msecCounter++;
-}
-.end if
 
 .if ( te_thread.enabled )
   .if ( "POSIX" == te_thread.flavor )
@@ -974,7 +957,7 @@ TIM_init(\
 .elif ( "SystemC" == te_thread.flavor )
   ftime( &systyme );            /* Initialize the hardware ticker.   */
   tinit = 0;
-.elif ( not te_sys.AUTOSAR )
+.else
   .if ( te_sys.SimulatedTime )
   systyme = 0;                  /* Initialize the hardware ticker.   */
   tinit = 0;

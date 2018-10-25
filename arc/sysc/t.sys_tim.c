@@ -55,10 +55,6 @@
 1000UL
 .end if
 
-.if ( te_sys.AUTOSAR )
-/* 1000UL should probably come from some autosar spec */
-#define CALL_PERIOD_MS 1000UL
-.end if
 
 #if ${te_tim.max_timers} > 0
 /*=====================================================================
@@ -766,9 +762,6 @@ TIM::ETimer_msec_time( void )
   t1 = sc_time_stamp();
   t = (ETimer_time_t) (t1.to_seconds() * MSEC_CONVERT);
   return ( t - tinit );
-.elif ( te_sys.AUTOSAR )
-  t = msecCounter * CALL_PERIOD_MS;
-  return ( t );
 .else
   ftime( &systyme );
   t = ( systyme.time * USEC_CONVERT ) + systyme.millitm;
@@ -778,13 +771,6 @@ TIM::ETimer_msec_time( void )
 }
 
 
-.if ( te_sys.AUTOSAR )
-void
-TIM::update( void )
-{
-  msecCounter++;
-}
-.end if
 
 .if ( te_thread.enabled )
   .if ( "POSIX" == te_thread.flavor )
@@ -887,7 +873,7 @@ TIM::init(\
 .elif ( "SystemC" == te_thread.flavor )
   ftime( &systyme );            /* Initialize the hardware ticker.   */
   tinit = 0;
-.elif ( not te_sys.AUTOSAR )
+.else
   ftime( &systyme );            /* Initialize the hardware ticker.   */
   tinit = ( systyme.time * USEC_CONVERT ) + systyme.millitm;
 .end if

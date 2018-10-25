@@ -179,9 +179,6 @@ ${te_typemap.user_supplied_data_types}\
   .end if
   .include "${te_file.arc_path}/t.sys_events.h"
 .end if
-.if( te_sys.AUTOSAR )
-#include "Rte_Type.${te_file.hdr_file_ext}"
-.end if
 
 ${te_typemap.enumeration_info}
 

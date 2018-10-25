@@ -63,7 +63,6 @@
   .assign te_sys.MaxStringLen = 32
   .assign te_sys.PersistInstanceCacheDepth = 128
   .assign te_sys.PersistLinkCacheDepth = 128
-  .assign te_sys.AUTOSAR = false
   .assign te_sys.AllPortsPoly = false
   .assign te_sys.StructuredMessaging = false
   .assign te_sys.NetworkSockets = false
@@ -85,7 +84,6 @@
     .assign te_sys.PersistInstanceCacheDepth = tm_systag.PersistInstanceCacheDepth
     .assign te_sys.PersistLinkCacheDepth = tm_systag.PersistLinkCacheDepth
     .assign te_sys.UnitsToDynamicallyAllocate = tm_systag.UnitsToDynamicallyAllocate
-    .assign te_sys.VFB = tm_systag.VFB
     .assign te_sys.InstanceLoading = tm_systag.InstanceLoading
     .assign te_sys.SystemCPortsType = tm_systag.SystemCPortsType
     .assign te_sys.AllPortsPoly = tm_systag.AllPortsPoly
@@ -105,9 +103,6 @@
     .assign te_thread.enabled = tm_thread.enabled
     .assign te_thread.serialize = tm_thread.serialize
     .assign te_thread.flavor = tm_thread.flavor
-    .if ( "AUTOSAR" == te_thread.flavor )
-      .assign te_sys.AUTOSAR = true
-    .end if
   .end if
   .//
   .select any te_disp from instances of TE_DISP
@@ -449,31 +444,19 @@
       .assign te_dt.string_format = ""
     .elif ( 1 == te_dt.Core_Typ )
       .// boolean
-      .if (te_sys.AUTOSAR)
-        .assign te_dt.ExtName = "dt_xtUMLBoolean"
-      .else
-        .assign te_dt.ExtName = "bool"
-      .end if
+      .assign te_dt.ExtName = "bool"
       .assign te_dt.Initial_Value = "false"
       .assign te_dt.string_format = "%d"
     .elif ( 2 == te_dt.Core_Typ )
       .// integer
-      .if (te_sys.AUTOSAR)
-        .assign te_dt.ExtName = "dt_xtUMLInteger"
-      .else
-        .assign te_dt.ExtName = "i_t"
-      .end if
+      .assign te_dt.ExtName = "i_t"
       .assign te_dt.Initial_Value = "0"
       .assign te_dt.string_format = "%d"
     .elif ( 3 == te_dt.Core_Typ )
       .// real
       .// float or double:  Default to smaller type for embedded.
       .// This can be expanded with the TagDatatypePrecision marking.
-      .if (te_sys.AUTOSAR)
-        .assign te_dt.ExtName = "dt_xtUMLReal"
-      .else
-        .assign te_dt.ExtName = "r_t"
-      .end if
+      .assign te_dt.ExtName = "r_t"
       .assign te_dt.Initial_Value = "0.0"
       .assign te_dt.string_format = "%f"
     .elif ( 4 == te_dt.Core_Typ )
@@ -588,9 +571,7 @@
     .select one te_dt related by s_dt->TE_DT[R2021]
     .// NOTE: We should allow the size of an enum to be colored.
     .// For now use small type.
-    .if ( te_sys.AUTOSAR )
-      .assign te_dt.ExtName = "en_" + te_dt.Name 
-    .elif ( "C" == te_target.language )
+    .if ( "C" == te_target.language )
       .assign te_dt.ExtName = ( te_sys.Name + "_" ) + ( te_dt.Name + "_t" )
     .else
       .assign te_dt.ExtName = te_dt.Name + "_t"

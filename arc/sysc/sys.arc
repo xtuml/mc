@@ -252,8 +252,6 @@
     .include "${te_file.arc_path}/t.sys_threadwin.c"
   .elif ( te_thread.flavor == "OSX" )
     .include "${te_file.arc_path}/t.sys_threadosx.c"
-  .elif ( te_thread.flavor == "AUTOSAR" )
-    .include "${te_file.arc_path}/t.sys_threadautosar.c"
   .end if
   .emit to file "${te_file.system_source_path}/${te_file.thread}.${te_file.src_file_ext}"
 .end if
