@@ -41,11 +41,12 @@ ${system_class_array.class_count}
  * of bringup, run and shutdown.
  *
  */
-.if ( not_empty tm_arduino )
+.if ( "Arduino" == te_thread.flavor )
 void
 ${te_prefix.result}xtUML_setup()
 .else
 ${main_decl.body}\
+.end if
 {
   ${te_callout.initialization}();
   ${te_set.factory}( ${te_set.number_of_containoids} );
@@ -75,18 +76,18 @@ ${te_persist.factory_init}();
   .end if
 .end for
   ${te_callout.post_xtUML_initialization}();
-.if ( not_empty tm_arduino )
+.if ( "Arduino" == te_thread.flavor )
 .else
   .if ( non_self_event_queue_needed.result or self_event_queue_needed.result )
   ${te_prefix.result}xtUML_run(); /* This is the primary event dispatch loop.  */
+  .end if
 .end if
   ${te_callout.pre_shutdown}();
   ${te_callout.post_shutdown}();
 .if ( te_thread.enabled )
   ${te_thread.shutdown}();
-  .end if
 .end if
-.if ( empty tm_arduino )
+.if ( "Arduino" != te_thread.flavor )
 ${return_body}\
 .end if
 ${return_body}\

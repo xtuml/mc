@@ -9,5 +9,5 @@ void setup() {
 
 void loop() {              
   ${te_prefix.result}xtUML_run();       
-  while ( 1 ) {}
+  while (1) {}
 }

@@ -42,7 +42,7 @@
 .end for
  *--------------------------------------------------------------------------*/
 
-.if ( not_empty tm_arduino )
+.if ( "Arduino" == te_thread.flavor )
 #include "Arduino.h"
 .end if
 
@@ -50,13 +50,11 @@
 #define ${te_prefix.define_usw}$u{te_file.types}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
 
-.if ( not_empty tm_arduino )
 #ifndef	__cplusplus
-.else
+.if ( "Arduino" != te_thread.flavor )
 /*
  * Shore up C by declaring our own version of bool.
  */
-#ifndef	__cplusplus
 typedef unsigned char bool;
 .end if
 
