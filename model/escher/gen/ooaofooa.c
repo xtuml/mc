@@ -708,8 +708,8 @@ ooaofooa_EnableTasking( c_t * p_flavor, const i_t p_number_of_threads, c_t * p_s
     /* ASSIGN tm_thread.serialize = FALSE */
     ((ooaofooa_TM_THREAD *)xtUML_detect_empty_handle( tm_thread, "TM_THREAD", "tm_thread.serialize" ))->serialize = FALSE;
   }
-  /* IF ( ( ( ( Nucleus == flavor ) or ( POSIX == flavor ) ) or ( ( OSX == flavor ) or ( Windows == flavor ) ) ) or ( ( AUTOSAR == flavor ) or ( SystemC == flavor ) ) ) */
-  if ( ( ( ( Escher_strcmp( "Nucleus", flavor ) == 0 ) || ( Escher_strcmp( "POSIX", flavor ) == 0 ) ) || ( ( Escher_strcmp( "OSX", flavor ) == 0 ) || ( Escher_strcmp( "Windows", flavor ) == 0 ) ) ) || ( ( Escher_strcmp( "AUTOSAR", flavor ) == 0 ) || ( Escher_strcmp( "SystemC", flavor ) == 0 ) ) ) {
+  /* IF ( ( ( POSIX == flavor ) or ( Windows == flavor ) ) or ( SystemC == flavor ) ) */
+  if ( ( ( Escher_strcmp( "POSIX", flavor ) == 0 ) || ( Escher_strcmp( "Windows", flavor ) == 0 ) ) || ( Escher_strcmp( "SystemC", flavor ) == 0 ) ) {
     /* ASSIGN tm_thread.flavor = flavor */
     ((ooaofooa_TM_THREAD *)xtUML_detect_empty_handle( tm_thread, "TM_THREAD", "tm_thread.flavor" ))->flavor = Escher_strcpy( ((ooaofooa_TM_THREAD *)xtUML_detect_empty_handle( tm_thread, "TM_THREAD", "tm_thread.flavor" ))->flavor, flavor );
     /* IF ( SystemC == flavor ) */
@@ -9141,21 +9141,6 @@ ooaofooa_UserSuppliedDataTypeIncludes()
 }
 
 /*
- * Domain Function:  VFBEnable
- */
-void
-ooaofooa_VFBEnable()
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.VFB = TRUE */
-  ((ooaofooa_TM_SYSTAG *)xtUML_detect_empty_handle( tm_systag, "TM_SYSTAG", "tm_systag.VFB" ))->VFB = TRUE;
-}
-
-/*
  * Domain Function:  V_VAL_drill_for_V_VAL_root
  */
 ooaofooa_V_VAL *
@@ -12394,10 +12379,6 @@ ooaofooa_mark_all( c_t * p_f, c_t * p_p1, c_t * p_p2, c_t * p_p3, c_t * p_p4, c_
     else if ( Escher_strcmp( "TagInstanceLoading", f ) == 0 ) {
       /* ::TagInstanceLoading(  ) */
       ooaofooa_TagInstanceLoading();
-    }
-    else if ( Escher_strcmp( "VFBEnable", f ) == 0 ) {
-      /* ::VFBEnable(  ) */
-      ooaofooa_VFBEnable();
     }
     else if ( Escher_strcmp( "MarkStructuredMessaging", f ) == 0 ) {
       /* ::MarkStructuredMessaging(  ) */
@@ -18441,8 +18422,6 @@ ooaofooa_sys_populate()
   ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.PersistInstanceCacheDepth" ))->PersistInstanceCacheDepth = 128;
   /* ASSIGN te_sys.PersistLinkCacheDepth = 128 */
   ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.PersistLinkCacheDepth" ))->PersistLinkCacheDepth = 128;
-  /* ASSIGN te_sys.AUTOSAR = FALSE */
-  ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.AUTOSAR" ))->AUTOSAR = FALSE;
   /* ASSIGN te_sys.AllPortsPoly = FALSE */
   ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.AllPortsPoly" ))->AllPortsPoly = FALSE;
   /* ASSIGN te_sys.StructuredMessaging = FALSE */
@@ -18481,8 +18460,6 @@ ooaofooa_sys_populate()
     ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.PersistLinkCacheDepth" ))->PersistLinkCacheDepth = ((ooaofooa_TM_SYSTAG *)xtUML_detect_empty_handle( tm_systag, "TM_SYSTAG", "tm_systag.PersistLinkCacheDepth" ))->PersistLinkCacheDepth;
     /* ASSIGN te_sys.UnitsToDynamicallyAllocate = tm_systag.UnitsToDynamicallyAllocate */
     ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.UnitsToDynamicallyAllocate" ))->UnitsToDynamicallyAllocate = ((ooaofooa_TM_SYSTAG *)xtUML_detect_empty_handle( tm_systag, "TM_SYSTAG", "tm_systag.UnitsToDynamicallyAllocate" ))->UnitsToDynamicallyAllocate;
-    /* ASSIGN te_sys.VFB = tm_systag.VFB */
-    ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.VFB" ))->VFB = ((ooaofooa_TM_SYSTAG *)xtUML_detect_empty_handle( tm_systag, "TM_SYSTAG", "tm_systag.VFB" ))->VFB;
     /* ASSIGN te_sys.InstanceLoading = tm_systag.InstanceLoading */
     ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.InstanceLoading" ))->InstanceLoading = ((ooaofooa_TM_SYSTAG *)xtUML_detect_empty_handle( tm_systag, "TM_SYSTAG", "tm_systag.InstanceLoading" ))->InstanceLoading;
     /* ASSIGN te_sys.SystemCPortsType = tm_systag.SystemCPortsType */
@@ -18516,11 +18493,6 @@ ooaofooa_sys_populate()
     ((ooaofooa_TE_THREAD *)xtUML_detect_empty_handle( te_thread, "TE_THREAD", "te_thread.serialize" ))->serialize = ((ooaofooa_TM_THREAD *)xtUML_detect_empty_handle( tm_thread, "TM_THREAD", "tm_thread.serialize" ))->serialize;
     /* ASSIGN te_thread.flavor = tm_thread.flavor */
     ((ooaofooa_TE_THREAD *)xtUML_detect_empty_handle( te_thread, "TE_THREAD", "te_thread.flavor" ))->flavor = Escher_strcpy( ((ooaofooa_TE_THREAD *)xtUML_detect_empty_handle( te_thread, "TE_THREAD", "te_thread.flavor" ))->flavor, ((ooaofooa_TM_THREAD *)xtUML_detect_empty_handle( tm_thread, "TM_THREAD", "tm_thread.flavor" ))->flavor );
-    /* IF ( AUTOSAR == te_thread.flavor ) */
-    if ( Escher_strcmp( "AUTOSAR", ((ooaofooa_TE_THREAD *)xtUML_detect_empty_handle( te_thread, "TE_THREAD", "te_thread.flavor" ))->flavor ) == 0 ) {
-      /* ASSIGN te_sys.AUTOSAR = TRUE */
-      ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.AUTOSAR" ))->AUTOSAR = TRUE;
-    }
   }
   /* SELECT any te_disp FROM INSTANCES OF TE_DISP */
   te_disp = (ooaofooa_TE_DISP *) Escher_SetGetAny( &pG_ooaofooa_TE_DISP_extent.active );
@@ -19433,45 +19405,24 @@ te_ee->ID = Escher_ID_factory();
       ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format, "" );
     }
     else if ( 1 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Core_Typ" ))->Core_Typ ) {
-      /* IF ( te_sys.AUTOSAR ) */
-      if ( ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.AUTOSAR" ))->AUTOSAR ) {
-        /* ASSIGN te_dt.ExtName = dt_xtUMLBoolean */
-        ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName, "dt_xtUMLBoolean" );
-      }
-      else {
-        /* ASSIGN te_dt.ExtName = bool */
-        ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName, "bool" );
-      }
+      /* ASSIGN te_dt.ExtName = bool */
+      ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName, "bool" );
       /* ASSIGN te_dt.Initial_Value = false */
       ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Initial_Value" ))->Initial_Value = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Initial_Value" ))->Initial_Value, "false" );
       /* ASSIGN te_dt.string_format = %d */
       ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format, "%d" );
     }
     else if ( 2 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Core_Typ" ))->Core_Typ ) {
-      /* IF ( te_sys.AUTOSAR ) */
-      if ( ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.AUTOSAR" ))->AUTOSAR ) {
-        /* ASSIGN te_dt.ExtName = dt_xtUMLInteger */
-        ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName, "dt_xtUMLInteger" );
-      }
-      else {
-        /* ASSIGN te_dt.ExtName = i_t */
-        ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName, "i_t" );
-      }
+      /* ASSIGN te_dt.ExtName = i_t */
+      ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName, "i_t" );
       /* ASSIGN te_dt.Initial_Value = 0 */
       ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Initial_Value" ))->Initial_Value = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Initial_Value" ))->Initial_Value, "0" );
       /* ASSIGN te_dt.string_format = %d */
       ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.string_format" ))->string_format, "%d" );
     }
     else if ( 3 == ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Core_Typ" ))->Core_Typ ) {
-      /* IF ( te_sys.AUTOSAR ) */
-      if ( ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.AUTOSAR" ))->AUTOSAR ) {
-        /* ASSIGN te_dt.ExtName = dt_xtUMLReal */
-        ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName, "dt_xtUMLReal" );
-      }
-      else {
-        /* ASSIGN te_dt.ExtName = r_t */
-        ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName, "r_t" );
-      }
+      /* ASSIGN te_dt.ExtName = r_t */
+      ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName, "r_t" );
       /* ASSIGN te_dt.Initial_Value = 0.0 */
       ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Initial_Value" ))->Initial_Value = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Initial_Value" ))->Initial_Value, "0.0" );
       /* ASSIGN te_dt.string_format = %f */
@@ -19653,12 +19604,8 @@ te_ee->ID = Escher_ID_factory();
     s_dt = ( 0 != s_edt ) ? s_edt->S_DT_R17 : 0;
     /* SELECT one te_dt RELATED BY s_dt->TE_DT[R2021] */
     te_dt = ( 0 != s_dt ) ? s_dt->TE_DT_R2021 : 0;
-    /* IF ( te_sys.AUTOSAR ) */
-    if ( ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.AUTOSAR" ))->AUTOSAR ) {
-      /* ASSIGN te_dt.ExtName = ( en_ + te_dt.Name ) */
-      ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName, ( Escher_stradd( "en_", ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Name" ))->Name ) ) );
-    }
-    else if ( Escher_strcmp( "C", ((ooaofooa_TE_TARGET *)xtUML_detect_empty_handle( te_target, "TE_TARGET", "te_target.language" ))->language ) == 0 ) {
+    /* IF ( C == te_target.language ) */
+    if ( Escher_strcmp( "C", ((ooaofooa_TE_TARGET *)xtUML_detect_empty_handle( te_target, "TE_TARGET", "te_target.language" ))->language ) == 0 ) {
       /* ASSIGN te_dt.ExtName = ( ( te_sys.Name + _ ) + ( te_dt.Name + _t ) ) */
       ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName = Escher_strcpy( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.ExtName" ))->ExtName, ( Escher_stradd( ( Escher_stradd( ((ooaofooa_TE_SYS *)xtUML_detect_empty_handle( te_sys, "TE_SYS", "te_sys.Name" ))->Name, "_" ) ), ( Escher_stradd( ((ooaofooa_TE_DT *)xtUML_detect_empty_handle( te_dt, "TE_DT", "te_dt.Name" ))->Name, "_t" ) ) ) ) );
     }
@@ -23427,8 +23374,6 @@ ooaofooa_thread_factory( ooaofooa_TE_THREAD * p_te_thread )
   ((ooaofooa_TE_THREAD *)xtUML_detect_empty_handle( te_thread, "TE_THREAD", "te_thread.number_of_threads" ))->number_of_threads = 1;
   /* ASSIGN te_thread.extra_initialization =  */
   ((ooaofooa_TE_THREAD *)xtUML_detect_empty_handle( te_thread, "TE_THREAD", "te_thread.extra_initialization" ))->extra_initialization = Escher_strcpy( ((ooaofooa_TE_THREAD *)xtUML_detect_empty_handle( te_thread, "TE_THREAD", "te_thread.extra_initialization" ))->extra_initialization, "" );
-  /* ASSIGN te_thread.AUTOSAR_enabled = ( te_prefix.define_usw + AUTOSAR_ENABLED ) */
-  ((ooaofooa_TE_THREAD *)xtUML_detect_empty_handle( te_thread, "TE_THREAD", "te_thread.AUTOSAR_enabled" ))->AUTOSAR_enabled = Escher_strcpy( ((ooaofooa_TE_THREAD *)xtUML_detect_empty_handle( te_thread, "TE_THREAD", "te_thread.AUTOSAR_enabled" ))->AUTOSAR_enabled, ( Escher_stradd( ((ooaofooa_TE_PREFIX *)xtUML_detect_empty_handle( te_prefix, "TE_PREFIX", "te_prefix.define_usw" ))->define_usw, "AUTOSAR_ENABLED" ) ) );
 }
 
 /*

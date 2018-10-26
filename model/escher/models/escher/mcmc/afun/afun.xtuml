@@ -2852,7 +2852,6 @@ end if;
 te_sys.MaxStringLen = 32;
 te_sys.PersistInstanceCacheDepth = 128;
 te_sys.PersistLinkCacheDepth = 128;
-te_sys.AUTOSAR = false;
 te_sys.AllPortsPoly = false;
 te_sys.StructuredMessaging = false;
 te_sys.NetworkSockets = false;
@@ -2874,7 +2873,6 @@ if ( not_empty tm_systag )
   te_sys.PersistInstanceCacheDepth = tm_systag.PersistInstanceCacheDepth;
   te_sys.PersistLinkCacheDepth = tm_systag.PersistLinkCacheDepth;
   te_sys.UnitsToDynamicallyAllocate = tm_systag.UnitsToDynamicallyAllocate;
-  te_sys.VFB = tm_systag.VFB;
   te_sys.InstanceLoading = tm_systag.InstanceLoading;
   te_sys.SystemCPortsType = tm_systag.SystemCPortsType;
   te_sys.AllPortsPoly = tm_systag.AllPortsPoly;
@@ -2894,9 +2892,6 @@ if ( not_empty tm_thread )
   te_thread.enabled = tm_thread.enabled;
   te_thread.serialize = tm_thread.serialize;
   te_thread.flavor = tm_thread.flavor;
-  if ( "AUTOSAR" == te_thread.flavor )
-    te_sys.AUTOSAR = true;
-  end if;
 end if;
 //
 select any te_disp from instances of TE_DISP;
@@ -3238,31 +3233,19 @@ for each s_cdt in s_cdts
     te_dt.string_format = "";
   elif ( 1 == te_dt.Core_Typ )
     // boolean
-    if ( te_sys.AUTOSAR )
-      te_dt.ExtName = "dt_xtUMLBoolean";
-    else
-      te_dt.ExtName = "bool";
-    end if;
+    te_dt.ExtName = "bool";
     te_dt.Initial_Value = "false";
     te_dt.string_format = "%d";
   elif ( 2 == te_dt.Core_Typ )
     // integer
-    if ( te_sys.AUTOSAR )
-      te_dt.ExtName = "dt_xtUMLInteger";
-    else
-      te_dt.ExtName = "i_t";
-    end if;
+    te_dt.ExtName = "i_t";
     te_dt.Initial_Value = "0";
     te_dt.string_format = "%d";
   elif ( 3 == te_dt.Core_Typ )
     // real
     // float or double:  Default to smaller type for embedded.
     // This can be expanded with the TagDatatypePrecision marking.
-    if ( te_sys.AUTOSAR )
-      te_dt.ExtName = "dt_xtUMLReal";
-    else
-      te_dt.ExtName = "r_t";
-    end if;
+    te_dt.ExtName = "r_t";
     te_dt.Initial_Value = "0.0";
     te_dt.string_format = "%f";
   elif ( 4 == te_dt.Core_Typ )
@@ -3377,9 +3360,7 @@ for each s_edt in s_edts
   select one te_dt related by s_dt->TE_DT[R2021];
   // NOTE: We should allow the size of an enum to be colored.
   // For now use small type.
-  if ( te_sys.AUTOSAR )
-    te_dt.ExtName = "en_" + te_dt.Name;
-  elif ( "C" == te_target.language )
+  if ( "C" == te_target.language )
     te_dt.ExtName = ( te_sys.Name + "_" ) + ( te_dt.Name + "_t" );
   else
     te_dt.ExtName = te_dt.Name + "_t";
@@ -7689,7 +7670,6 @@ te_thread.flavor = "POSIX";
 te_thread.serialize = false;
 te_thread.number_of_threads = 1;
 te_thread.extra_initialization = "";
-te_thread.AUTOSAR_enabled = te_prefix.define_usw + "AUTOSAR_ENABLED";
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
