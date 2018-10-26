@@ -12,14 +12,6 @@
 #define ${te_prefix.define_usw}$u{te_file.callout}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
 
-.if ( ( te_sys.AUTOSAR ) or ( te_sys.VFB ) )
-/*
- * Default to enabling the AUTOSAR-specific code.  Turn it off by commenting
- * out the following directive.
- */
-#define ${te_thread.AUTOSAR_enabled} 1
-
-.end if
 /*
  * ${te_callout.initialization}
  *

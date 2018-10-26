@@ -4176,7 +4176,7 @@ if ( T::l(s:serialize) == "serialize" )
 else
   tm_thread.serialize = false;
 end if;
-if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ) ) )
+if ( ( ( "POSIX" == flavor ) or ( "Windows" == flavor ) ) or ( "SystemC" == flavor ) )
   tm_thread.flavor = flavor;
   if ( "SystemC" == flavor )
     // SystemC uses a single thread inside each component.
@@ -4666,29 +4666,6 @@ INSERT INTO PE_PE
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("85fbbc3f-a421-4562-9340-5a553dccd37f",
-	"00000000-0000-0000-0000-000000000000",
-	'VFBEnable',
-	'',
-	'//
-//============================================================================
-// Enable Virtual Function Bus (VFB) for AUTOSAR.
-//============================================================================
-r = ::TM_SYSTAG_select();
-tm_systag = r;
-tm_systag.VFB = true;
-',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'',
-	0);
-INSERT INTO PE_PE
-	VALUES ("85fbbc3f-a421-4562-9340-5a553dccd37f",
-	1,
-	"27b1810b-e74a-49f0-859b-32fc1c54965f",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
 	VALUES ("356d9a10-03c3-4dc9-84b8-03b08ef815ed",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkStructuredMessaging',
@@ -5044,8 +5021,6 @@ if ( "1" == pass )
     ::TagDynamicMemoryAllocationOn( units_to_allocate:i1 );
   elif ( "TagInstanceLoading" == f )
     ::TagInstanceLoading();
-  elif ( "VFBEnable" == f )
-    ::VFBEnable();
   elif ( "MarkStructuredMessaging" == f )
     ::MarkStructuredMessaging();
   elif ( "MarkNetworkSockets" == f )

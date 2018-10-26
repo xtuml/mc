@@ -246,12 +246,6 @@ ${te_instance.get_dci}(class_num);
 *(${te_cia.class_info_name}[ domain_num ] + class_num);
 .end if
   if ( 0 != dci ) {
-.if ( te_thread.flavor == "OSX" )
-  .// Consider making this default behavior.
-  u1_t * zero = (u1_t *) dci->${te_extent.pool_name};
-  s4_t zi = dci->${te_extent.population_name} * dci->${te_extent.size_name};
-  while ( 0 < zi-- ) { *zero++ = 0; }
-.end if
 .if ( te_sys.PEIClassCount > 0 )
     int i = (intptr_t) dci->${te_extent.active}.head;
     dci->${te_extent.active}.head = ${te_set.insert_block}(

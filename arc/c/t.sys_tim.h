@@ -180,10 +180,6 @@ void TIM_pause( void );
  * will continue ticking.
  */
 void TIM_resume( void );
-.if ( te_sys.AUTOSAR )
-
-void TIM_update ( void );
-.end if
 
 ${te_target.c2cplusplus_linkage_end}
 #endif   /* $u{te_file.tim}_$u{te_file.hdr_file_ext} */

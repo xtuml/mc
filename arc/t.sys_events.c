@@ -536,15 +536,8 @@ ${te_instance.global_self}( void )
  * Loop on the event queues dispatching events for this thread.
  */
   .if ( te_thread.enabled )
-    .if ( te_thread.flavor == "Nucleus" )
-static void ooa_loop( UNSIGNED, void * );
-static void ooa_loop( UNSIGNED unused, void * thread )
-    .elif ( te_thread.flavor == "AUTOSAR" )
-void * ${te_eq.scope}ooa_loop( void * thread )
-    .else
 static void * ooa_loop( void * );
 static void * ooa_loop( void * thread )
-    .end if
   .else
     .if ( "C++" == te_target.language )
 void ${te_eq.scope}ooa_loop( void * thismodule )
@@ -589,7 +582,7 @@ static void ooa_loop( void )
     .end if
   .end if .// te_thread.enabled
   /* Start consuming events and dispatching background processes.  */
-  .if ( ( te_sys.AUTOSAR ) or ( "SystemC" == te_thread.flavor ) )
+  .if ( ( "SystemC" == te_thread.flavor ) )
   bool events_remaining_in_queue = true;
   while ( (true == events_remaining_in_queue) && (true == ${te_eq.run_flag}) ) {
   .elif ( "C++" == te_target.language )
@@ -635,7 +628,7 @@ static void ooa_loop( void )
       ${te_eq.delete}( event );
     } else {
       /* event queues empty */
-  .if ( ( te_sys.AUTOSAR ) or ( "SystemC" == te_thread.flavor ) )
+  .if ( "SystemC" == te_thread.flavor )
       events_remaining_in_queue = false;
   .end if
   .if ( te_thread.enabled )
@@ -671,7 +664,7 @@ static void ooa_loop( void )
   .end if
   }
   .if ( te_thread.enabled )
-    .if ( ( te_thread.flavor != "Nucleus" ) and ( "SystemC" != te_thread.flavor ) )
+    .if ( "SystemC" != te_thread.flavor )
   return 0;
     .end if
   .end if
@@ -686,15 +679,9 @@ void ${te_eq.scope}${te_prefix.result}xtUML_run( void )
     .assign tasking_arguments = ""
     .assign return_code_assignment = ""
     .if ( te_thread.enabled )
-      .if ( te_thread.flavor == "Nucleus" )
-        .assign tasking_arguments = " 0, (void *) &i "
-      .else
-        .assign tasking_arguments = " (void *) &i "
-        .if ( "AUTOSAR" != te_thread.flavor )
-          .assign return_code_assignment = "vp = "
+      .assign tasking_arguments = " (void *) &i "
+      .assign return_code_assignment = "vp = "
   void * vp;
-        .end if
-      .end if
   u1_t i;
   /* Create threads in reverse order saving thread 0 for default.  */
   for ( i = NUM_OF_XTUML_CLASS_THREADS - 1; i > 0; i-- ) {

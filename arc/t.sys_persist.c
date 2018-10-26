@@ -102,13 +102,8 @@ static ${te_instance.handle} ${te_prefix.result}getinstance(
 .if ( te_thread.enabled )
 #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
 extern bool ${te_eq.run_flag};
-  .if ( te_thread.flavor == "Nucleus" )
-static void persist_commit_loop( void * );
-static void persist_commit_loop( void * thread )
-  .else
 static void * persist_commit_loop( void * );
 static void * persist_commit_loop( void * thread )
-  .end if
 {
   u1_t t = *( (u1_t *) thread );
   while ( true == ${te_eq.run_flag} ) {
@@ -116,9 +111,7 @@ static void * persist_commit_loop( void * thread )
     ${te_thread.nonbusy_wait}( t );
   }
   ${te_persist.commit}();
-  .if ( te_thread.flavor != "Nucleus" )
   return 0;
-  .end if
 }
 #endif
 

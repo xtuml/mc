@@ -27,7 +27,7 @@
   .else
     .assign tm_thread.serialize = false
   .end if
-  .if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ) ) )
+  .if ( ( ( "POSIX" == flavor ) or ( "Windows" == flavor ) ) or ( "SystemC" == flavor ) )
     .assign tm_thread.flavor = flavor
     .if ( "SystemC" == flavor )
       .// SystemC uses a single thread inside each component.
@@ -170,15 +170,6 @@
   .invoke r = TM_SYSTAG_select()
   .assign tm_systag = r.result
   .assign tm_systag.InstanceLoading = true
-.end function
-.//
-.//============================================================================
-.// Enable Virtual Function Bus (VFB) for AUTOSAR.
-.//============================================================================
-.function VFBEnable
-  .invoke r = TM_SYSTAG_select()
-  .assign tm_systag = r.result
-  .assign tm_systag.VFB = true
 .end function
 .//
 .//============================================================================
@@ -386,8 +377,6 @@
       .invoke TagDynamicMemoryAllocationOn(i1)
     .elif ( "TagInstanceLoading" == f )
       .invoke TagInstanceLoading()
-    .elif ( "VFBEnable" == f )
-      .invoke VFBEnable()
     .elif ( "MarkStructuredMessaging" == f )
       .invoke MarkStructuredMessaging()
     .elif ( "MarkNetworkSockets" == f )
