@@ -2481,8 +2481,6 @@ CREATE TABLE TE_SYS (
     InstanceLoading BOOLEAN,
     self_name STRING,
     Name STRING,
-    AUTOSAR BOOLEAN,
-    VFB BOOLEAN,
     SystemCPortsType STRING,
     AllPortsPoly BOOLEAN,
     StructuredMessaging BOOLEAN,
@@ -2519,8 +2517,7 @@ CREATE TABLE TE_THREAD (
     flavor STRING,
     serialize BOOLEAN,
     number_of_threads INTEGER,
-    extra_initialization STRING,
-    AUTOSAR_enabled STRING
+    extra_initialization STRING
 );
 CREATE TABLE TE_TIM (
     max_timers STRING,
@@ -2685,7 +2682,6 @@ CREATE TABLE TM_SYSTAG (
     PersistInstanceCacheDepth INTEGER,
     PersistLinkCacheDepth INTEGER,
     UnitsToDynamicallyAllocate INTEGER,
-    VFB BOOLEAN,
     InstanceLoading BOOLEAN,
     SystemCPortsType STRING,
     AllPortsPoly BOOLEAN,

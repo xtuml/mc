@@ -160,7 +160,7 @@ typedef u4_t ${te_prefix.type}uSec_t;
 #define _reentrant
 #endif
 
-.if ( ( te_thread.flavor != "Nucleus" ) and ( te_sys.SystemCPortsType != "BitLevelSignals" ) )
+.if ( te_sys.SystemCPortsType != "BitLevelSignals" )
 /*
  * Note we include stdio.h for printf.  Otherwise, it is not needed.
  */
@@ -178,9 +178,6 @@ ${te_typemap.user_supplied_data_types}\
     .include "${te_file.arc_path}/t.sys_persist.h"
   .end if
   .include "${te_file.arc_path}/t.sys_events.h"
-.end if
-.if( te_sys.AUTOSAR )
-#include "Rte_Type.${te_file.hdr_file_ext}"
 .end if
 
 ${te_typemap.enumeration_info}

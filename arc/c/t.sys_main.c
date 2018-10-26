@@ -41,23 +41,8 @@ ${system_class_array.class_count}
  * of bringup, run and shutdown.
  *
  */
-.if ( te_thread.flavor == "Nucleus" )
-VOID
-${te_prefix.result}main( UNSIGNED argc, VOID * argv )
-.elif ( te_sys.AUTOSAR )
-static bool lazy_initialized = false;
-
-
-void
-${te_prefix.result}xtUMLmain( void )
-.else
 ${main_decl.body}\
-.end if
 {
-.if ( te_sys.AUTOSAR )
-if ( false == lazy_initialized ) {
-  lazy_initialized = true;
-.end if
   ${te_callout.initialization}();
   ${te_set.factory}( ${te_set.number_of_containoids} );
 .if ( te_thread.enabled )
@@ -86,22 +71,13 @@ ${te_persist.factory_init}();
   .end if
 .end for
   ${te_callout.post_xtUML_initialization}();
-.if ( te_sys.AUTOSAR )
-.else
-  .if ( non_self_event_queue_needed.result or self_event_queue_needed.result )
+.if ( non_self_event_queue_needed.result or self_event_queue_needed.result )
   ${te_prefix.result}xtUML_run(); /* This is the primary event dispatch loop.  */
-  .end if
+.end if
   ${te_callout.pre_shutdown}();
   ${te_callout.post_shutdown}();
-  .if ( te_thread.enabled )
+.if ( te_thread.enabled )
   ${te_thread.shutdown}();
-  .end if
-.end if
-.if ( ( te_thread.flavor != "Nucleus" ) and ( te_thread.flavor != "AUTOSAR" ) )
-${return_body}\
-.end if
-.if ( te_sys.AUTOSAR )
-}
 .end if
 }
 .//

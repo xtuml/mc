@@ -1762,7 +1762,7 @@ if ( T::l(s:serialize) == "serialize" )
 else
   tm_thread.serialize = false;
 end if;
-if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ) ) )
+if ( ( ( "POSIX" == flavor ) or ( "Windows" == flavor ) ) or ( "SystemC" == flavor ) )
   tm_thread.flavor = flavor;
   if ( "SystemC" == flavor )
     // SystemC uses a single thread inside each component.
@@ -1905,15 +1905,6 @@ TagInstanceLoading@void@@@
 r = ::TM_SYSTAG_select();
 tm_systag = r;
 tm_systag.InstanceLoading = true;
-@@@
-VFBEnable@void@@@
-//
-//============================================================================
-// Enable Virtual Function Bus (VFB) for AUTOSAR.
-//============================================================================
-r = ::TM_SYSTAG_select();
-tm_systag = r;
-tm_systag.VFB = true;
 @@@
 MarkStructuredMessaging@void@@@
 //
@@ -2121,8 +2112,6 @@ if ( "1" == pass )
     ::TagDynamicMemoryAllocationOn( units_to_allocate:i1 );
   elif ( "TagInstanceLoading" == f )
     ::TagInstanceLoading();
-  elif ( "VFBEnable" == f )
-    ::VFBEnable();
   elif ( "MarkStructuredMessaging" == f )
     ::MarkStructuredMessaging();
   elif ( "MarkNetworkSockets" == f )
