@@ -1,0 +1,124 @@
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
+
+## Analyze Options for ASL BridgePoint
+### xtUML Project Analysis Note
+
+
+### 1. Abstract
+
+This note documents research into a migration of Shlaer-Mellor application
+models from iUML into BridgePoint.  Options are explored and observations
+recorded.
+
+### 2. Document References
+
+[%hardbreaks]
+[[dr-2.1]] 2.1 https://support.onefact.net/issues/10414[10414 Analyze Options for Migration]
+[[dr-2.2]] 2.2 https://docs.google.com/document/d/1LQYNA7Zln1h8h8wbRNeZb0GukVMXLV89nSwg8SICeG4/edit[SRS - Software Requirements Specification for client Assessment]
+[[dr-2.3]] 2.3 https://support.onefact.net/issues/8269[8269 - Raven]
+[[dr-2.4]] 2.4 http://www.ooatool.com/docs/ASL03.pdf[UML ASL Reference Guide]
+
+### 3. Background
+
+Models built with iUML and having MASL activities (action language bodies)
+can be migrated into BridgePoint using a tool chain built for project Raven.
+A similar process is desired for models build with iUML and having ASL
+activities.
+
+### 4. Requirements
+
+4.1 Action Language SWOT  
+Analyze the relative strengths, weaknesses, opportunities and threats of
+ASL versus MASL versus OAL moving forward.
+
+4.2 ASL Editor  
+Explore and size an ASL action language syntax highlighting editor.
+
+4.3 ASL2MASL  
+Analyze the costs and benefits of building a tool to convert ASL to MASL.
+
+4.4 ASL2xtUML  
+Understand the work required to convert models from iUML / ASL into xtUML
+to be edited in BridgePoint (model import).
+
+4.4.1 Diagram Editing  
+Enumerate diagram editing issues anticipated as part of model conversion
+and ongoing editing Kennedy-Carter idiom models in BridgePoint.  Include
+graphics issues and known differences between dialects of xtUML.
+
+4.5 xtUML2ASL  
+Determine a strategy for exporting xtUML into the existing model compiler
+tool chain (model export).  Determine packaging for the extraction tool
+(see Slide A1.2 above) as either a BridgePoint plugin, standalone tool or both.
+
+4.6 File Formats  
+Isolate the interface to the model compilation tool chain and document
+file formats noting that example files are supplied by client.
+
+4.7 Integrity  
+Define steps to ensure and validate the integrity of models through
+conversion process.
+4.7.1 Round Trip  
+Explore the use of "round trip testing" to automate the import and export
+and comparison of results.
+
+A3 Sizings  
+Establish relative sizings for various components and design choices.
+A4 Open Sourcing  
+Recommend a path for Open Sourcing existing model compilers and utilities.
+A5 Talent Pool  
+Recommend the use of internal versus external talent and the community.
+A6 Prototypes  
+Develop working prototypes and/or mock ups of workflows with screenshots leveraging supplied example files.
+A7 Training  
+Recommend training in modeling and tooling or ad hoc consultation.
+A8 Configuration Management  
+iUML provides change configuration inside the tool (versions of domains
+and projects defined as a set of domains at a particular version).
+Analysis shall propose a path to migrate a particular version of the
+current application models and describe how configuration would be managed
+after migration. 
+A9 Model Compiler Migration  
+Following UML tool migration, model compiler migration would be the
+logical next step. Perform analysis and define a roadmap for this.
+
+### 5. Analysis
+
+5.1 Action Language SWOT  
+
+[options="header"]
+|=========================================================================================
+| dialect | strengthes                 | weaknesses             | opportunities  | threats
+| ASL     | no change to existing flow | no interpreter         | grow community | lack of parser
+|         | direct pass-thru to WACA   | not parsed (initially) | enhance BP     |  
+|         | least change to tooling    |                        |                |  
+|         | familiar to existing team  |                        |                |  
+| OAL     | BridgePoint native default | conversion required    |                | behavior differences
+|         | interpreted in Verifier    | learning curve         |                |  
+|         | large body of examples     | least rich syntax      |                |  
+|         | alternate model compilers  |                        |                |  
+| MASL    | richest syntax             | conversion required    |                | few users
+|         | strongest typing           | learning curve         |                |  
+|         | local (UK) user community  |                        |                |  
+|=========================================================================================
+
+
+### 6. Work Required
+
+6.1 Item 1  
+6.1.1 Example sub-item
+* Example List Element
+
+### 7. Acceptance Test
+
+...References section [[2.1]](#2.1)
+
+7.1 Item 1  
+7.1.1 Example sub-item
+* Example List Element
+
+### End
