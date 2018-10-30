@@ -1,124 +1,293 @@
+:sectnums:
 ---
 
 This work is licensed under the Creative Commons CC0 License
 
 ---
 
-## Analyze Options for ASL BridgePoint
-### xtUML Project Analysis Note
+= Analyze Options for ASL BridgePoint
+xtUML Project Analysis Note
 
-
-### 1. Abstract
+== Abstract
 
 This note documents research into a migration of Shlaer-Mellor application
 models from iUML into BridgePoint.  Options are explored and observations
 recorded.
 
-### 2. Document References
+== Document References
 
-[%hardbreaks]
-[[dr-2.1]] 2.1 https://support.onefact.net/issues/10414[10414 Analyze Options for Migration]
-[[dr-2.2]] 2.2 https://docs.google.com/document/d/1LQYNA7Zln1h8h8wbRNeZb0GukVMXLV89nSwg8SICeG4/edit[SRS - Software Requirements Specification for client Assessment]
-[[dr-2.3]] 2.3 https://support.onefact.net/issues/8269[8269 - Raven]
-[[dr-2.4]] 2.4 http://www.ooatool.com/docs/ASL03.pdf[UML ASL Reference Guide]
+. [[dr-1]] https://support.onefact.net/issues/10414[10414 Analyze Options for Migration]
+. [[dr-2]] https://docs.google.com/document/d/1LQYNA7Zln1h8h8wbRNeZb0GukVMXLV89nSwg8SICeG4/edit[SRS - Software Requirements Specification for client Assessment]
+. [[dr-3]] https://support.onefact.net/issues/8269[8269 - Raven Project Phase 1]
+. [[dr-4]] http://www.ooatool.com/docs/ASL03.pdf[UML ASL Reference Guide]
+. [[dr-5]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) specification]
 
-### 3. Background
+== Background
 
 Models built with iUML and having MASL activities (action language bodies)
-can be migrated into BridgePoint using a tool chain built for project Raven.
-A similar process is desired for models build with iUML and having ASL
-activities.
+can be migrated into BridgePoint using a tool chain built for project Raven
+<<dr-3>>.  A similar process is desired for models built with iUML
+and having ASL activities.
 
-### 4. Requirements
+The native iUML action language, _ASL_ (_Action Specification Language_),
+has a syntax in the public domain.  A language reference for it can be
+found in <<dr-4>>.  ASL is fundamentally similar to _OAL_
+(_Object Action Language_, the default action language of BridgePoint),
+however it is a bit richer and supports instance identity more tightly
+on the create statement.  There are other advantages and disadvantages
+[<<_action_language_comparison>>].
 
-4.1 Action Language SWOT  
+iUML models can be represented in a form consumable by a software
+architecture (model compiler) called _WACA_ (_Waterloo Auto Code
+Generator and Architecture_).  This form shall be denoted _WASL_
+(short for WACA-with-ASL).
+
+The highlights of this assessment include:
+
+- choice of action language
+- challenge of transforming WACA to xtUML (for conversion/import)
+- challenge of generating WACA from xtUML (export to model compiler)
+- loss and regeneration of model graphical diagram information
+- testing and validation of the integrity of the conversions
+
+[[waca-flow]]
+image::wacaflow.png[WACA Flow]
+WACA Flow
+
+== Requirements
+
+Requirements for an Assessment of migration options are defined in a
+Software Requirements Specification (SRS) document <<dr-2>>.
+The requirements are repeated here with some refinement.
+
+=== Action Language SWOT
 Analyze the relative strengths, weaknesses, opportunities and threats of
 ASL versus MASL versus OAL moving forward.
 
-4.2 ASL Editor  
+=== ASL Editor
 Explore and size an ASL action language syntax highlighting editor.
 
-4.3 ASL2MASL  
-Analyze the costs and benefits of building a tool to convert ASL to MASL.
+=== WASL2MASL
+Analyze the costs and benefits of building a tool to convert WASL to MASL.
 
-4.4 ASL2xtUML  
-Understand the work required to convert models from iUML / ASL into xtUML
-to be edited in BridgePoint (model import).
+=== WASL2xtUML
+Understand the work required to convert models from iUML-ASL (WASL) into
+xtUML to be edited within BridgePoint (model conversion and import).
 
-4.4.1 Diagram Editing  
+==== Diagram Editing
 Enumerate diagram editing issues anticipated as part of model conversion
-and ongoing editing Kennedy-Carter idiom models in BridgePoint.  Include
-graphics issues and known differences between dialects of xtUML.
+and ongoing editing of Kennedy-Carter idiom models in BridgePoint.
+Include graphics issues and known differences between dialects of xtUML.
 
-4.5 xtUML2ASL  
+=== xtUML2WASL
 Determine a strategy for exporting xtUML into the existing model compiler
 tool chain (model export).  Determine packaging for the extraction tool
-(see Slide A1.2 above) as either a BridgePoint plugin, standalone tool or both.
+as a BridgePoint plugin, standalone tool or both.
 
-4.6 File Formats  
+=== File Formats
 Isolate the interface to the model compilation tool chain and document
 file formats noting that example files are supplied by client.
 
-4.7 Integrity  
+=== Integrity
 Define steps to ensure and validate the integrity of models through
 conversion process.
-4.7.1 Round Trip  
+==== Round Trip
 Explore the use of "round trip testing" to automate the import and export
 and comparison of results.
 
-A3 Sizings  
+=== Decision Data
+For each of the above requirements, consider the following:
+
+(A3) Sizings::
 Establish relative sizings for various components and design choices.
-A4 Open Sourcing  
-Recommend a path for Open Sourcing existing model compilers and utilities.
-A5 Talent Pool  
+
+(A4) Open Sourcing:: [Removed from scope.]
+
+(A5) Talent Pool::
 Recommend the use of internal versus external talent and the community.
-A6 Prototypes  
+
+(A6) Prototypes::
 Develop working prototypes and/or mock ups of workflows with screenshots leveraging supplied example files.
-A7 Training  
+
+(A7) Training::
 Recommend training in modeling and tooling or ad hoc consultation.
-A8 Configuration Management  
+
+(A8) Configuration Management::
 iUML provides change configuration inside the tool (versions of domains
 and projects defined as a set of domains at a particular version).
 Analysis shall propose a path to migrate a particular version of the
 current application models and describe how configuration would be managed
-after migration. 
-A9 Model Compiler Migration  
+after migration.
+
+(A9) Model Compiler Migration::
 Following UML tool migration, model compiler migration would be the
 logical next step. Perform analysis and define a roadmap for this.
 
-### 5. Analysis
+== Analysis
 
-5.1 Action Language SWOT  
+=== Action Language Comparison
+There are at least four action language possibilities in a migration:
+ASL, OAL, MASL and Alf.  Others may exist, but these explored can be
+considered true candidates.
+
+This analysis concludes that a migration to ASL is a best first step
+even if a migration to MASL (next choice) is desired in the future.
 
 [options="header"]
-|=========================================================================================
+|===
 | dialect | strengthes                 | weaknesses             | opportunities  | threats
-| ASL     | no change to existing flow | no interpreter         | grow community | lack of parser
-|         | direct pass-thru to WACA   | not parsed (initially) | enhance BP     |  
-|         | least change to tooling    |                        |                |  
-|         | familiar to existing team  |                        |                |  
+| ASL     | no change to existing flow | lack of BP interpreter | grow community | lack of parser
+|         | direct pass-thru to WACA   | not parsed (initially) | enhance BP     |
+|         | smallest change to tooling |                        |                |
+|         | familiar to existing team  |                        |                |
+|         | lowest initial cost        |                        |                |
+|         | first step in any case     |                        |                |
 | OAL     | BridgePoint native default | conversion required    |                | behavior differences
-|         | interpreted in Verifier    | learning curve         |                |  
-|         | large body of examples     | least rich syntax      |                |  
-|         | alternate model compilers  |                        |                |  
+|         | interpreted in Verifier    | learning curve         |                |
+|         | large body of examples     | less rich syntax       |                |
+|         | alternate model compilers  |                        |                |
 | MASL    | richest syntax             | conversion required    |                | few users
-|         | strongest typing           | learning curve         |                |  
-|         | local (UK) user community  |                        |                |  
-|=========================================================================================
+|         | strongest typing           | learning curve         |                |
+|         | local (UK) user community  |                        |                |
+|         | proximity to Ada target    |                        |                |
+| Alf     | standardized by OMG        | conversion required    | more standard  | distraction
+|         |                            | gaps in the semantics  |                |
+|         |                            | lack of BP interpreter |                |
+|         |                            | overly rich syntax     |                |
+|===
+
+=== ASL Editor
+An ASL text editor could be produced that makes the experience of editing
+ASL activities pleasant and productive (in that order!).
+There are multiple levels of sophistication to preparing such an editor.
+Listed here are features of a syntax highlighting editor ordered from
+relatively easy to more challenging to implement.
+
+[options="header"]
+|===
+| feature                              | description                                        | parser   | ROM effort
+| keyword highlighting                 | emobolden and/or colorize language key words       |          | 1 week
+| automatic indentation                | Indent after `if`, `else`, `loop`, etc.            | required | 1 month
+| name validation                      | Validate identifiers with model elements.          | required | 1 month
+| context-sensitive content assistance | Auto-completion and selection lists.               | required | 2 months
+| rename/refactoring                   | Update activities when model element names change. | required | 4 months
+|===
+
+Syntax highlighting is relatively simple within an Eclipse environment.
+A set of keywords can be defined and associated with the text editor.
+Through pattern matching, the text editor highlights any of the words
+found in the keyword configuration file.
+
+Automatic indentation is the first feature to require a parser generated
+from a Backus-Naur form (BNF or EBNF) grammar of the language.  An Eclipse
+extension exists to assist with this; this extension has been used in the
+OAL editor.
+
+Name validation links the textual action language with the structural
+elements of the language such as classes, associations, events, etc.
+When parsing the activities, the names used in the action language
+can be validated against the containing xtUML model.  Syntax errors
+can be highlighted right away with the need to invoke the back end
+compiler tool chain.
+
+Context-sensitive assistance was recently added to OAL in BridgePoint
+and was received with acclaim.  The user experience is enhanced, and the
+productivity improvement is measurable.  The feature requires a parser
+that dynamically links to structural elements in the model and provides
+lists of candidates for the next lexeme in the action language statement.
+
+Rename/refactoring updates action language when structural model elements
+are renamed or deleted.  The feature proactively helps the user update
+the actions affected by a particular model edit.  This is a complex feature
+with subtleties that must be considered carefully.  Such rename/refactoring
+is a feature of the MASL activity editor.
+
+=== WASL2MASL
+WASL is a textual representation of an entire model both structural
+and activity.  WASL represents class, association, state, and
+transition instances as well as action language activities.
+Likewise, MASL can represent the fullness of the Shlaer-Mellor semantic
+for an application model.  Both languages are derivatives of the same
+methodology (and roughly the same metamodel).  There is a direct mapping
+of structural elements, and ASL is a subset of MASL.  Therefore, WASL
+could be converted to MASL.
+
+Options for converting WASL to MASL include manual and automatic
+conversion.  Three approaches could be taken:
+
+[options="header"]
+|===
+| conversion strategy                                               | ROM effort
+| WASL to xtUML to MASL with manual conversion of ASL activities    | linear to quantify of ASL
+| WASL to xtUML to MASL with automatic conversion of ASL activities | 3 months (post initial migration)
+| full textual WASL to full textual MASL                            | 4 months
+|===
+
+The distinction of manual versus automatic conversion of activities
+is interesting, because it is likely that WASL will be converted to
+xtUML+ASL as a first step in the tooling migration process.  As such,
+it will be true that WASL models will have already been converted into
+xtUML+ASL by the time a MASL conversion is needed.  This leaves only
+the activities to be converted.
+
+=== WASL2xtUML
+Considering <<waca-flow>>, WASL2xtUML is the conversion and import flow,
+the top stream starting with WASL and ending with xtUML with ASL activities
+editable with the BridgePoint tool.
+
+Prototyping has confirmed that a utility called `m2x` can be leveraged.
+`m2x` stands for MASL-to-xtUML.  The first step in the flow is a conversion
+of the input to "serial MASL" (SMASL) <<dr-5>> using a parser.  Even though
+WASL is not the same as MASL, the parser can be replaced to do a similar
+conversion on WASL.  A prototype parser has been written that (partially)
+converts WASL to SMASL.  This allows `m2x` to be reused (with a few changes)
+to populate the xtUML metamodel with instances representing the input model.
 
 
-### 6. Work Required
+==== Diagram Editing
+Enumerate diagram editing issues anticipated as part of model conversion
+and ongoing editing Kennedy-Carter idiom models in BridgePoint.  Include
+graphics issues and known differences between dialects of xtUML.
 
-6.1 Item 1  
-6.1.1 Example sub-item
+=== xtUML2WASL
+Determine a strategy for exporting xtUML into the existing model compiler
+tool chain (model export).  Determine packaging for the extraction tool
+(see Slide A1.2 above) as either a BridgePoint plugin, standalone tool or both.
+
+=== File Formats
+Isolate the interface to the model compilation tool chain and document
+file formats noting that example files are supplied by client.
+
+=== Integrity
+Define steps to ensure and validate the integrity of models through
+conversion process.
+==== Round Trip
+Explore the use of "round trip testing" to automate the import and export
+and comparison of results.
+
+== Work Required
+
+=== Item 1
+==== Example sub-item
 * Example List Element
 
-### 7. Acceptance Test
+== Conclusions and Recommendations
 
-...References section [[2.1]](#2.1)
+As stated in <<_background>>, there are significant challenges to face.
+However, this project has the advantage of following after project
+Raven <<dr-3>> which shared many of the same requirements and produced
+tooling that can be leveraged to a significant extent.
 
-7.1 Item 1  
-7.1.1 Example sub-item
-* Example List Element
+=== Action Language
+We recommend that ASL be used as the action language for the immediate
+future.  We recommend that MASL be considered after a successful migration
+of existing models.
 
-### End
+=== WASL2xtUML
+=== xtUML2WASL
+=== WASL Round Trip
+- challenge of transforming WACA to xtUML (for conversion/import)
+- challenge of generating WACA from xtUML (export to model compiler)
+- testing and validation of the integrity of the conversions
+
+== End
