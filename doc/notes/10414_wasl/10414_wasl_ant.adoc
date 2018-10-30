@@ -21,6 +21,9 @@ recorded.
 . [[dr-3]] https://support.onefact.net/issues/8269[8269 - Raven Project Phase 1]
 . [[dr-4]] http://www.ooatool.com/docs/ASL03.pdf[UML ASL Reference Guide]
 . [[dr-5]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+. [[dr-6]] https://www.youtube.com/watch?v=lmZJ44ceDD8[OAL Context-Sensitive Content Assist]
+. [[dr-7]] link:ExtractionWithHeaders.xlsx[File Formats:  Extraction with Headers]
+. [[dr-8]] TBD - delivered prototype(s)
 
 == Background
 
@@ -91,6 +94,7 @@ file formats noting that example files are supplied by client.
 === Integrity
 Define steps to ensure and validate the integrity of models through
 conversion process.
+
 ==== Round Trip
 Explore the use of "round trip testing" to automate the import and export
 and comparison of results.
@@ -191,11 +195,12 @@ can be highlighted right away with the need to invoke the back end
 compiler tool chain.  Name validation can be done "real-time" while
 typing or as an overall model parse batch process.
 
-Context-sensitive assistance was recently added to OAL in BridgePoint
-and was received with acclaim.  The user experience is enhanced, and the
-productivity improvement is measurable.  The feature requires a parser
-that dynamically links to structural elements in the model and provides
-lists of candidates for the next lexeme in the action language statement.
+Context-sensitive content assistance was recently added to OAL in
+BridgePoint and was received with acclaim <<dr-6>>.  The user experience
+is enhanced, and the productivity improvement is measurable.  The feature
+requires a parser that dynamically links to structural elements in the
+model and provides lists of candidates for the next lexeme in the currently
+edited action language statement.
 
 Rename/refactoring updates action language when structural model elements
 are renamed or deleted.  The feature proactively helps the user update
@@ -237,7 +242,7 @@ value (in the case of using a MASL-compatible model compiler) or no value
 at all.
 
 === WASL2xtUML
-Considering <<waca-flow>>, WASL2xtUML is the conversion and import flow.
+Considering <<wasl-flow>>, WASL2xtUML is the conversion and import flow.
 It is the top stream starting with WASL and ending with xtUML-with-ASL
 editable with the BridgePoint tool.
 
@@ -286,38 +291,59 @@ No specific engineering is required in a model migration.  Diagram
 editing and layout can be handled procedurally.
 
 === xtUML2WASL
-Considering <<waca-flow>>, xtUML2WASL is the export flow.
+Considering <<wasl-flow>>, xtUML2WASL is the export flow.
 It is the bottom stream starting with xtUML and ending with WASL (flat
-ascii files) consumable by the WACA model compiler.
+ASCII representation) consumable by the WACA model compiler.
 
 Prototyping has confirmed that a utility called `x2m` can be leveraged.
 `x2m` stands for xtUML-to-MASL.  `x2m` was also built as part of the
-Raven <<dr-3>> project.
+Raven <<dr-3>> project.  `x2m` converts xtUML to serialized MASL. In
+the MASL flow, the serialized MASL is processed by a model-based model
+compiler called `masl`.  Much of this model compiler can be reused and
+its back end replaced to render WASL instead of MASL.
 
 [options="header"]
 |===
-| conversion task                                                   | ROM effort
-| convert Relationship and Event                                    | 1 month
-| convert arbitrary WASL models with round trip integrity checking  | 4 months
+| conversion task                                            | ROM effort
+| convert Relationship and Event from xtUML into WASL        | 2 weeks
+| arbitrary xtUML-to-WASL with round trip integrity checking | 2 months
 |===
 
 This work is required in the initial phase to accomplish automated
-model conversion.
-
-Determine a strategy for exporting xtUML into the existing model compiler
-tool chain (model export).  Determine packaging for the extraction tool
-(see Slide A1.2 above) as either a BridgePoint plugin, standalone tool or both.
+model conversion.  Access to this export functionality would be supplied
+both to the GUI (within BridgePoint) and from the command line.
 
 === File Formats
-Isolate the interface to the model compilation tool chain and document
-file formats noting that example files are supplied by client.
+WASL data is stored in a hierarchical set of directories and flat ASCII files.
+The file formats have been documented by the user.  A spreadsheet containing
+extracted model data with labeled header columns can be found here <<dr-7>>.
 
 === Integrity
-Define steps to ensure and validate the integrity of models through
-conversion process.
-==== Round Trip
-Explore the use of "round trip testing" to automate the import and export
-and comparison of results.
+A mechanism for ensuring the integrity of model conversion was created for
+MASL to xtUML and xtUML to MASL.  The mechanism recognizes that models
+need to be converted in "both direction", from MASL to xtUML and from xtUML
+to MASL.  Thus, a model can be converted and then converted back and compared
+to the original input.
+
+WASL can be converted to xtUML.  And then that xtUML model can be exported
+as WASL.  The output WASL of the second step can be compared to input WASL
+of the first step.  Allowing for non-semantic ordering and spacing, the
+file contents should be identical.
+
+This process can be automated.
+
+==== WASL Round Trip
+"Round Trip Testing" testing automates the above integrity checks on
+arbitrary sets of models.
+
+[[round-trip]]
+image::roundtrip.png[Round Trip Testing]
+Round Trip Testing of User Models
+
+* The script can be run behind a secure firewall on actual user
+model data.  Then results can be reported without exposing user IP.
+* Small models that reproduce errors identified can be created and
+added to a regression test suite.
 
 == Conclusions and Recommendations
 
@@ -335,35 +361,48 @@ of existing models.
 . Consider MASL as a long term strategy.
 
 === ASL Editor
-. Add only keyword highlighting in the first version of the ASL activity editor.
-. Add indentation next.
+. Add keyword highlighting in the first version of the ASL activity editor.
+. Add indentation next after successful completion of the tooling migration.
 . Plan for real-time name validation and context-sensitive assistance.
-. Consider the cost/benefit of rename/refactoring.
+. At a later time, consider the cost/benefit of rename/refactor.
+
+Most of this work is best done by the BridgePoint engineering team.
+However, it may be a consideration to explore the porting of or an
+isolated installation of the iUML simulator to parse ASL activities
+to vet out syntax errors before compilation.
 
 === WASL2MASL
-. This will be valuable if a migration to MASL is decided upon.  It is of no
+- This will be valuable if a migration to MASL is decided upon.  It is of no
 value otherwise.
 
 === WASL2xtUML
-. This is core.  Perform this task in the first phase of development.
+- This is core.  Perform this task in the first phase of development.
+- Retain the BridgePoint engineering team for this work.
 
 === xtUML2WASL
-. This is core.  Perform this task in the first phase of development.
+- This is core.  Perform this task in the first phase of development.
+- Obtain capability from within BridgePoint and from the command line.
+- Retain the BridgePoint engineering team for this work.
 
-=== WASL Round Trip
-. In order to satisfy the need for high integrity in the conversion of
+=== Conversion Integrity and WASL Round Trip
+- In order to satisfy the need for high integrity in the conversion of
 WASL to xtUML and xtUML to WASL, employ the round-trip strategy to achieve
 a high degree of confidence in the conversion.  This also reduces risk of
 wasted graphical editing effort on models that need to be reconverted.
+- The tooling for this work is best done by the BridgePoint engineering
+team.  Running the scripts locally is best done by a local engineer with
+access to the model data.
 
-- challenge of transforming WACA to xtUML (for conversion/import)
-- challenge of generating WACA from xtUML (export to model compiler)
-- testing and validation of the integrity of the conversions
 === Diagram Editing
 . Be certain model conversion is sound before performing manual diagram
 rearrangement.
 . Consider rearranging diagram layouts as needed.  There may be little
 reason to lay out a diagram that is not being viewed on a regular basis.
 . Employ `Oblique` and `Rectilinear` routing strategies during layout.
+. Employ your own engineering talent for this work.
+
+=== Configuration Management
+
+=== Training
 
 == End
