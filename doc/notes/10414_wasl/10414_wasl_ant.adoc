@@ -1,12 +1,8 @@
-:sectnums:
----
-
-This work is licensed under the Creative Commons CC0 License
-
----
-
 = Analyze Options for ASL BridgePoint
+
 xtUML Project Analysis Note
+
+:sectnums:
 
 == Abstract
 
@@ -24,6 +20,7 @@ recorded.
 . [[dr-6]] https://www.youtube.com/watch?v=lmZJ44ceDD8[OAL Context-Sensitive Content Assist]
 . [[dr-7]] link:ExtractionWithHeaders.xlsx[File Formats:  Extraction with Headers]
 . [[dr-8]] TBD - delivered prototype(s)
+. [[dr-9]] http://www.eclipse.org/[Eclipse - IDE Framework from the Eclipse Foundation]
 
 == Background
 
@@ -37,8 +34,8 @@ has a syntax in the public domain.  A language reference for it can be
 found in <<dr-4>>.  ASL is fundamentally similar to _OAL_
 (_Object Action Language_, the default action language of BridgePoint),
 however it is a bit richer and supports instance identity more tightly
-on the create statement.  There are other advantages and disadvantages
-[<<_action_language_comparison>>].
+on the create statement.  There are other advantages and disadvantages,
+<<Action Language Comparison>>.
 
 iUML models can be represented in a form consumable by a software
 architecture (model compiler) called _WACA_ (_Waterloo Auto Code
@@ -61,7 +58,7 @@ WASL-to-xtUML and xtUML-to-WASL Flows
 
 Requirements for an Assessment of migration options are defined in a
 Software Requirements Specification (SRS) document <<dr-2>>.
-The requirements are repeated here with some refinement.
+The requirements are repeated here with minor refinement.
 
 === Action Language SWOT
 Analyze the relative strengths, weaknesses, opportunities and threats of
@@ -111,7 +108,8 @@ Establish relative sizings for various components and design choices.
 Recommend the use of internal versus external talent and the community.
 
 (A6) Prototypes::
-Develop working prototypes and/or mock ups of workflows with screenshots leveraging supplied example files.
+Develop working prototypes and/or mock ups of workflows with screenshots
+leveraging supplied example files.
 
 (A7) Training::
 Recommend training in modeling and tooling or ad hoc consultation.
@@ -332,18 +330,63 @@ file contents should be identical.
 
 This process can be automated.
 
-==== WASL Round Trip
-"Round Trip Testing" testing automates the above integrity checks on
-arbitrary sets of models.
+==== WASL Round-Trip
+_Round-Trip Testing_ testing automates the above integrity checks on
+arbitrary sets of models.  Round-trip testing was used in a previous
+project to validate the conversion process on proprietary user models
+secured on a private internal network.  The user ran the round-trip
+testing script on subsets of to-be-converted customer models.  Problems
+were encountered.  The user crafted small, non-proprietary test models
+which isolated the problem construct.  The problem was reported to the
+BridgePoint engineering team along with the reproduction model.
+Issues were resolved until 100% of the user model repository converted
+cleanly.  See <<round-trip>>.
 
 [[round-trip]]
 image::roundtrip.png[Round Trip Testing]
 Round Trip Testing of User Models
 
+A round-trip testing approach can be taken with WASL.  A script can
+be created which automates the conversion/import of WASL models into
+BridgePoint followed by the export of WASL from BridgePoint/xtUML.
+The output can be compared to the input.
+
 * The script can be run behind a secure firewall on actual user
 model data.  Then results can be reported without exposing user IP.
 * Small models that reproduce errors identified can be created and
 added to a regression test suite.
+
+=== Configuration Management Analysis
+
+[[clearcase-flow]]
+image::clearcase.png[ClearCASE Revision Progression]
+ClearCASE Revision Progression
+
+Configuration management is supplied in the BridgePoint tool.  However,
+configuration management is not a component of BridgePoint proper.
+BridgePoint is built upon an Eclipse <<dr-9>> framework.  This allows the
+engineering of BridgePoint to focus on modeling and methodology.
+A separation of concerns is made between model editing/simulation/compilation
+and the underlying concerns such as desktop organization, color schemes,
+fonts, menu frameworks, file system access, target code compilation and
+configuration management.
+
+In BridgePoint, configuration management is supplied through an Eclipse API
+called _TEAM_.  The TEAM interface abstracts configuration management away
+from the specifics of particular CM implementations such as Git, CVS,
+Subversion, ClearCASE, Dimensions and others.  Support for check-out,
+check-in, branch, merge and the like are supported but operate on file
+system resources such as files and directories.
+
+BridgePoint persists its model data as ASCII files on the file system
+(presently in an SQL syntax).  A model is logically and semantically
+subdivided into Eclipse projects and UML _packages_.  This partitioning
+allows models to be version-controlled in a scalable fashion that enables
+teams of engineers to work in parallel at the domain level, class diagram
+level or at the level of individual classes and state machines.
+
+The Eclipse TEAM API is accessed naturally while checking out and 
+checking in elements within the model hierarchy.
 
 == Conclusions and Recommendations
 
@@ -394,15 +437,37 @@ team.  Running the scripts locally is best done by a local engineer with
 access to the model data.
 
 === Diagram Editing
-. Be certain model conversion is sound before performing manual diagram
+1. Be certain model conversion is sound before performing manual diagram
 rearrangement.
-. Consider rearranging diagram layouts as needed.  There may be little
+2. Consider rearranging diagram layouts as needed.  There may be little
 reason to lay out a diagram that is not being viewed on a regular basis.
-. Employ `Oblique` and `Rectilinear` routing strategies during layout.
-. Employ your own engineering talent for this work.
+3. Employ `Oblique` and `Rectilinear` routing strategies during layout.
+4. Employ your own engineering talent for this work.
+
+
+=== Training
+It is important to ramp up tooling knowledge within the organization.
+This means that knowledge transfer begins with a few and increases to
+more, and that expertise exists heavily in a few and lightly in many.
+There is a continuum of tooling and methodology expertise that is at
+its peak (capability and cost) outside the company with consultants
+and then high with a few people inside the shop and then adequate with
+everyone else using the tool.
+
+To achieve this balance a plan must be established.  Following are
+recommendations to be incorporated into the training plan.
+
+1. Designate one or two internal champions now.
+2. Begin training up the local champion during the Assessment and through
+the first phase of the model/tool migration projects.
+3. Use a combination of online resources and onsite training.
 
 === Configuration Management
 
-=== Training
+=== Model Compiler Migration
 
-== End
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
