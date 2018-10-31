@@ -22,7 +22,7 @@ recorded.
 . [[dr-8]] TBD - delivered prototype(s)
 . [[dr-9]] http://www.eclipse.org/[Eclipse - IDE Framework from the Eclipse Foundation]
 
-== Background
+== Introduction and Background
 
 Models built with iUML and having MASL activities (action language bodies)
 can be migrated into BridgePoint using a tool chain built for project Raven
@@ -340,21 +340,23 @@ were encountered.  The user crafted small, non-proprietary test models
 which isolated the problem construct.  The problem was reported to the
 BridgePoint engineering team along with the reproduction model.
 Issues were resolved until 100% of the user model repository converted
-cleanly.  See <<round-trip>>.
+cleanly.  See <<roundtrip-image>>.
 
-[[round-trip]]
+[[roundtrip-image]]
 image::roundtrip.png[Round Trip Testing]
 Round Trip Testing of User Models
 
 A round-trip testing approach can be taken with WASL.  A script can
 be created which automates the conversion/import of WASL models into
 BridgePoint followed by the export of WASL from BridgePoint/xtUML.
-The output can be compared to the input.
+The output can be compared to the input.  A report (scorecard) can
+be generated.  The scorecard can be driven to 100% success.
 
 * The script can be run behind a secure firewall on actual user
 model data.  Then results can be reported without exposing user IP.
 * Small models that reproduce errors identified can be created and
 added to a regression test suite.
+* The process is clear and measurable and drives out defects.
 
 === Configuration Management Analysis
 
@@ -390,7 +392,7 @@ checking in elements within the model hierarchy.
 
 == Conclusions and Recommendations
 
-As stated in <<_background>>, there are significant challenges to face.
+As stated in <<Introduction and Background>>, there are significant challenges to face.
 However, this project has the advantage of following after project
 Raven <<dr-3>> which shared many of the same requirements and produced
 tooling that can be leveraged to a significant extent.
@@ -405,6 +407,7 @@ of existing models.
 
 === ASL Editor
 . Add keyword highlighting in the first version of the ASL activity editor.
+This will avoid a sense of "stepping backwards" from the iUML activity editor.
 . Add indentation next after successful completion of the tooling migration.
 . Plan for real-time name validation and context-sensitive assistance.
 . At a later time, consider the cost/benefit of rename/refactor.
@@ -445,7 +448,7 @@ reason to lay out a diagram that is not being viewed on a regular basis.
 4. Employ your own engineering talent for this work.
 
 
-=== Training
+=== xtUML and BridgePoint Training
 It is important to ramp up tooling knowledge within the organization.
 This means that knowledge transfer begins with a few and increases to
 more, and that expertise exists heavily in a few and lightly in many.
@@ -457,12 +460,24 @@ everyone else using the tool.
 To achieve this balance a plan must be established.  Following are
 recommendations to be incorporated into the training plan.
 
-1. Designate one or two internal champions now.
-2. Begin training up the local champion during the Assessment and through
+. Designate one or two internal champions now.
+. Begin training up the local champion during the Assessment and through
 the first phase of the model/tool migration projects.
-3. Use a combination of online resources and onsite training.
+. Use a combination of online resources and onsite training.
+. Have a few engineers work through the online 
+. Schedule the _Basic xtUML Modeling_ course for the champion and a few
+early adopters.
 
 === Configuration Management
+. Adopt a configuration management strategy that is compatible with the
+version control of other source artifacts in your organization (probably
+ClearCASE).
+. Spend time practicing configuration management of BridgePoint xtUML models.
+  - create a branch
+  - checkout-out
+  - checkout-in
+  - merge branches
+  - resolve a conflict
 
 === Model Compiler Migration
 
