@@ -1,0 +1,96 @@
+= WASL Parser and Generator Prototyping
+
+xtUML Project Design Note
+
+:sectnums:
+
+== Abstract
+
+There are two primary links in a WASL/xtUML prototyping chain.  The first
+involves parsing WASL on the input/conversion to xtUML.  The second generates
+WASL from xtUML instance information.  This note documents the design of
+these utilities.
+
+
+== Document References
+
+. [[dr-1]] https://support.onefact.net/issues/10440[10440 - Prototypes]
+. [[dr-2]] https://support.onefact.net/issues/10414[10414 - Analyze Options for Migration]
+. [[dr-3]] link:../10414_wasl/ExtractionWithHeaders.xlsx[File Formats:  Extraction with Headers]
+
+
+== Background
+
+<<dr-2,2.2>> provides analysis of migration options and recommends
+a path forward from iUML to BridgePoint while leveraging the existing
+model compiler tool chain.  The analysis explored converting iUML models
+represented as WASL flat ASCII files into xtUML and importing them into
+BridgePoint.  It also explored ways of exporting WASL-idiom xtUML models
+from BridgePoint to WASL to feed downstream to the model translation
+build chain.  This design note presumes familiarity with the contents of
+that report.
+
+== Requirements
+
+=== Convert WASL to Serial MASL (SMASL) (`WaslParser`)
+=== Convert Serial MASL (SMASL) to WASL (`wasl`)
+
+(A6) Prototypes::
+Develop working prototypes and/or mock ups of workflows with screenshots
+leveraging supplied example files.
+
+== Analysis
+
+In <<wasl-flow>> below, there are two flows.  The top flow illustrates
+the convert/import from WASL flat ASCII files into BridgePoint xtUML.
+The _WaslParser_ block is the substantive change in this flow relative
+to the existing MASL import tooling.  The lower flow shows the export of
+WASL flat ASCII files from BridgePoint xtUML.  The block labeled _wasl_
+represents most of the work in the export flow.
+
+[[wasl-flow]]
+image::waslflow.png[WASL-to-xtUML and xtUML-to-WASL Flows]
+WASL-to-xtUML and xtUML-to-WASL Flows
+
+== Design
+
+- Change name from asl/Asl/ASL to wasl/WaslParser/WASL.
+- Honor ordering of stanzas in the .dmp file as needed.
+  * There may be some order.  Relationships need to come before object
+definitions (maybe).  I think that in m2x the relationships need to be
+there so they can be associated with the referential attributes.
+- I think we can load/parse the `.dmp` file and process it.
+This will not be complete, but it will allow for declaration of
+fundamental elements that can be "filled in" by loading/parsing
+the subordinate files.
+
+w2x
+- Create a new WASL parser that parses structural WASL.
+- Parse WASL and emit SMASL.
+- Update `maslin` to handle some information missing from input SMASL and
+divine it from other sources or from defaults.
+
+x2w
+- render operations:
+- Change name of masl `render` operations to `render_masl`.
+- Supply `render_wasl` operations.
+- When rendering MASL, invoke the corresponding tree of `render_masl` operations.
+- When rednering WASL, invoke the corresponding tree of `render_wasl` operations.
+- templates:
+- Put templates in subdirectories masl and wasl (and perhaps more to come).
+- Supply completely separate set of templates for WASL rendering.
+
+== Design Comments
+- What is domainScenarioList?
+It is in addition to domainScenarios.
+Maybe it is the initialization functions that are to run.
+
+== User Documentation
+
+== Unit Test
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
