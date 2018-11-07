@@ -7,8 +7,8 @@ xtUML Project Analysis Note
 == Abstract
 
 This note documents research into a migration of Shlaer-Mellor application
-models from iUML into BridgePoint.  Options are explored and observations
-recorded.
+models from iUML into BridgePoint.  Options are explored, and observations
+are recorded.
 
 == Document References
 
@@ -24,30 +24,42 @@ recorded.
 
 == Introduction and Background
 
-Models built with iUML and having MASL activities (action language bodies)
-can be migrated into BridgePoint using a tool chain built for project Raven
-<<dr-3>>.  A similar process is desired for models built with iUML
-and having ASL activities.
+As of 2017, models built with iUML and having _MASL_ (_Model and Action
+Specification Language_) activities (action language bodies) can be migrated
+into BridgePoint using a tool chain built for project Raven <<dr-3,2.3>>.
+In Raven, tools were constructed to convert iUML models expressed as MASL
+into xtUML.  The xtUML could then be imported into BridgePoint.  Tools were
+built to export xtUML models (back) into the MASL format.  A similar process
+is desired for models built with iUML and having _ASL_ (_Action Specification
+Language_), activities.  In the new flow, tools would be used to convert iUML
+models in WASL format into xtUML.  Tools would be available to export xtUML
+models from BridgePoint (back) into the WASL format.
 
-The native iUML action language, _ASL_ (_Action Specification Language_),
-has a syntax in the public domain.  A language reference for it can be
-found in <<dr-4>>.  ASL is fundamentally similar to _OAL_
-(_Object Action Language_, the default action language of BridgePoint),
-however it is a bit richer and supports instance identity more tightly
-on the create statement.  There are other advantages and disadvantages,
-<<Action Language Comparison>>.
+The native iUML action language, ASL, has a syntax in the public domain.
+A language reference for it can be found in <<dr-4,2.4>>.  ASL is
+fundamentally similar to _OAL_ (_Object Action Language_), the default
+action language of BridgePoint, however it is a bit richer and supports
+instance identity more tightly on the create statement.  There are other
+advantages and disadvantages, <<Action Language Comparison>>.
 
 iUML models can be represented in a form consumable by a software
 architecture (model compiler) called _WACA_ (_Waterloo Auto Code
 Generator and Architecture_).  This form shall be denoted _WASL_
-(short for WACA-with-ASL).
+(WACA-with-ASL).
+
+Several paths exist to move forward from iUML/ASL.  This assessment is
+intended to traverse these paths and explore different options which enable
+Shlaer-Mellor Model-Driven Development to continue into future engineering
+projects.  Options include changing the model editing environment and
+switching to a different action language.  However, it is desired that
+the back end model compiler tool chain be preserved to a large extent.
 
 The highlights of this assessment include:
 
 - choice of action language
 - challenge of transforming WASL to xtUML (for conversion/import)
 - challenge of generating WASL from xtUML (export to model compiler)
-- loss and regeneration of model graphical diagram information
+- loss and regeneration/re-layout of model graphical diagram information
 - testing and validation of the integrity of the conversions
 
 [[wasl-flow]]
@@ -56,8 +68,8 @@ WASL-to-xtUML and xtUML-to-WASL Flows
 
 == Requirements
 
-Requirements for an Assessment of migration options are defined in a
-Software Requirements Specification (SRS) document <<dr-2>>.
+Requirements for an assessment of migration options are defined in a
+Software Requirements Specification (SRS) document <<dr-2,2.2>>.
 The requirements are repeated here with minor refinement.
 
 === Action Language SWOT
@@ -194,7 +206,7 @@ compiler tool chain.  Name validation can be done "real-time" while
 typing or as an overall model parse batch process.
 
 Context-sensitive content assistance was recently added to OAL in
-BridgePoint and was received with acclaim <<dr-6>>.  The user experience
+BridgePoint and was received with acclaim <<dr-6,2.6>>.  The user experience
 is enhanced, and the productivity improvement is measurable.  The feature
 requires a parser that dynamically links to structural elements in the
 model and provides lists of candidates for the next lexeme in the currently
@@ -222,7 +234,7 @@ conversion.  Three approaches could be taken:
 [options="header"]
 |===
 | conversion strategy                                               | ROM effort
-| WASL to xtUML to MASL with manual conversion of ASL activities    | linear to quantify of ASL
+| WASL to xtUML to MASL with manual conversion of ASL activities    | linear to quantity of ASL
 | WASL to xtUML to MASL with automatic conversion of ASL activities | 3 months (post initial migration)
 | full textual WASL to full textual MASL                            | 4 months
 |===
@@ -245,13 +257,14 @@ It is the top stream starting with WASL and ending with xtUML-with-ASL
 editable with the BridgePoint tool.
 
 Prototyping has confirmed that a utility called `m2x` can be leveraged.
-`m2x` stands for MASL-to-xtUML.  `m2x` was built as part of the Raven <<dr-3>>
-project.  The first step in the flow is a conversion of the input to
-"serial MASL" (SMASL) <<dr-5>> using a parser.  Even though WASL is not
+`m2x` stands for MASL-to-xtUML.  `m2x` was built as part of Raven <<dr-3,2.3>>.
+The first step in the flow is a conversion of the input to
+"serial MASL" (SMASL) <<dr-5,2.5>> using a parser.  Even though WASL is not
 the same as MASL, the parser in the flow can be replaced to do a similar
-conversion on WASL.  A prototype parser has been written that (partially)
-converts WASL to SMASL.  This allows `m2x` to be reused (with a few changes)
-to populate the xtUML metamodel with instances representing the input model.
+conversion on WASL.  A prototype parser (`WaslParser`) has been written that
+(partially) converts WASL to SMASL.  This allows `m2x` to be reused (with
+a few changes) to populate the xtUML metamodel with instances representing
+the input model.
 
 [options="header"]
 |===
@@ -294,11 +307,12 @@ It is the bottom stream starting with xtUML and ending with WASL (flat
 ASCII representation) consumable by the WACA model compiler.
 
 Prototyping has confirmed that a utility called `x2m` can be leveraged.
-`x2m` stands for xtUML-to-MASL.  `x2m` was also built as part of the
-Raven <<dr-3>> project.  `x2m` converts xtUML to serialized MASL. In
+`x2m` stands for xtUML-to-MASL.  `x2m` was built as part of the
+Raven <<dr-3,2.3>> project.  `x2m` converts xtUML to serialized MASL. In
 the MASL flow, the serialized MASL is processed by a model-based model
 compiler called `masl`.  Much of this model compiler can be reused and
-its back end replaced to render WASL instead of MASL.
+its back end replaced to render WASL instead of MASL.  The resulting
+executable would be called `wasl`.  (See <<wasl-flow>>.)
 
 [options="header"]
 |===
@@ -314,7 +328,7 @@ both to the GUI (within BridgePoint) and from the command line.
 === File Formats
 WASL data is stored in a hierarchical set of directories and flat ASCII files.
 The file formats have been documented by the user.  A spreadsheet containing
-extracted model data with labeled header columns can be found here <<dr-7>>.
+extracted model data with labeled header columns can be found here <<dr-7,2.7>>.
 
 === Integrity
 A mechanism for ensuring the integrity of model conversion was created for
@@ -366,7 +380,7 @@ ClearCASE Revision Progression
 
 Configuration management is supplied in the BridgePoint tool.  However,
 configuration management is not a component of BridgePoint proper.
-BridgePoint is built upon an Eclipse <<dr-9>> framework.  This allows the
+BridgePoint is built upon an Eclipse <<dr-9,2.9>> framework.  This allows the
 engineering of BridgePoint to focus on modeling and methodology.
 A separation of concerns is made between model editing/simulation/compilation
 and the underlying concerns such as desktop organization, color schemes,
@@ -390,11 +404,28 @@ level or at the level of individual classes and state machines.
 The Eclipse TEAM API is accessed naturally while checking out and 
 checking in elements within the model hierarchy.
 
+=== WACA Model Compiler Migration
+WACA represents valuable intellectual property (IP).  It emobodies the
+software architecture.  Rules of translation from Shlaer-Mellor platform
+independent models (PIMs) are manifest as a separate concern.  WACA contains
+no application-specific information; it is platform specific.  Multiple
+applications are translated with this model compiler.
+
+Model-based model compilation technology is advancing.  Model-based model
+compilers are more portable and can be developed to generate code faster
+than previous approaches.  WACA follows the traditional interpreted
+archetype approach to code generation.  Effort to convert it to newer
+approaches would take time and require access to the architecture source.
+
+At this point, WACA should be preserved and reused.  Migration away from
+WACA should be considered only after a successful migration of iUML
+application models into new tooling.
+
 == Conclusions and Recommendations
 
 As stated in <<Introduction and Background>>, there are significant challenges to face.
 However, this project has the advantage of following after project
-Raven <<dr-3>> which shared many of the same requirements and produced
+Raven <<dr-3,2.3>> which shared many of the same requirements and produced
 tooling that can be leveraged to a significant extent.
 
 === Action Language
@@ -429,6 +460,10 @@ value otherwise.
 - This is core.  Perform this task in the first phase of development.
 - Obtain capability from within BridgePoint and from the command line.
 - Retain the BridgePoint engineering team for this work.
+
+=== File Formats
+- Using the documented file formats, build a parser to consume these files
+as part of WASL2xtUML conversion.
 
 === Conversion Integrity and WASL Round Trip
 - In order to satisfy the need for high integrity in the conversion of
@@ -480,6 +515,12 @@ ClearCASE).
   - resolve a conflict
 
 === Model Compiler Migration
+. Protect and preserve the IP of the WACA model compiler.
+. Consider options for improving the throughput and maintainability of WACA
+after initial model migration has settled.
+. Consider placing WACA into the public domain at some point in the future.
+This may result in community engagement and additional resources maintaining
+the architecture.
 
 ---
 
