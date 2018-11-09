@@ -63,6 +63,9 @@ there so they can be associated with the referential attributes.
 This will not be complete, but it will allow for declaration of
 fundamental elements that can be "filled in" by loading/parsing
 the subordinate files.
+- Add required elements to SMASL.
+  * Update the SMASL specification.
+  * Update `m2x` and `x2m` to account for updated SMASL specification.
 
 w2x
 - Create a new WASL parser that parses structural WASL.
