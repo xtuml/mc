@@ -581,6 +581,30 @@ early adopters.
 . Plan to push training deeper into the organization as modeling projects
 roll out.
 
+==== Example Model
+During the Raven project, it became clear that the BridgePoint development
+team needed to model in the MASL dialect.  It was important that the engineers
+building the tools were using the tools in that specific user mode.  Thus
+the engineers could experience (both good and bad) what MASL modelers were
+experiencing.  In the Raven project, this realization came relatively late.
+The example model serves as another test model to run through the process,
+but more importantly, it serves as editing experience.
+
+An ASL dialect project may learn from this experience and commission an
+example application model early on.  The GPS Watch is a prime candidate
+for such a model.  It has already been modeled in OAL and MASL action
+languages.
+
+. Commission the creation of a reasonable application test model exhibiting
+the ASL dialect.
+. Build such a model in the public domain as open source and stored alongside
+other xtUML applications so that users and potential users may find it.
+. Consider building this model as a shared effort between both client and
+supplier so that a maximum of knowledge exchange occurs.
+. Choose the GPS Watch application for this effort.  It will provide the
+largest return on the smallest investment.
+
+
 === Configuration Management
 . Adopt a configuration management strategy that is compatible with the
 version control of other source artifacts in your organization (probably
