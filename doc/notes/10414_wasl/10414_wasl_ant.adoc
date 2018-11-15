@@ -476,7 +476,7 @@ The Raven project spanned roughly two calendar years with varying degrees
 of engineering and engagement during that time.  A larger quantity of
 model data needed to be migrated.  There was no room for flaws in the
 migration process; 100% integrity needed to be achieved.  The requirements
-on editing the models was similar to the present project.  A model
+on editing the models were similar to the present project.  A model
 compiler tool chain was to be preserved; this was accomplished.
 
 The fundamental conclusion is that a migration from iUML with ASL activities
@@ -484,8 +484,8 @@ onto BridgePoint with ASL activities is feasible.  The cost in terms of
 engineering effort will be significantly lower based on work already done
 in Raven and during this Assessment.
 
-The recommendation of One Fact is to proceed with a migration and retain
-ASL as the action language during the migration.
+The authors of this assessment recommend proceeding with a migration and
+retaining ASL as the action language during the migration.
 
 MASL should be considered as an alternate action language at some point
 after a migration.  But at the present time, reasons to switch are not
