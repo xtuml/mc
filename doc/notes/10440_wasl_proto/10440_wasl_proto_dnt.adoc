@@ -70,8 +70,12 @@ the subordinate files.
 w2x
 - Create a new WASL parser that parses structural WASL.
 - Parse WASL and emit SMASL.
+- Deal with order of relationships, subtypes and objects in `.dmp` file.
+- Update wasl2xtuml to deal with classpaths in a DOS environment.
+- Compile m2x for DOS (or cygwin).
 - Update `maslin` to handle some information missing from input SMASL and
 divine it from other sources or from defaults.
+- Deal with stack size issue in m2x (PostOooInit 2-dim array of strings).
 
 x2w
 - render operations:

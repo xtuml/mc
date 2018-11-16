@@ -90,7 +90,7 @@ void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
   masl2xtuml_model * model = masl2xtuml_model_op_create( "maslin" );
-  char s[ ESCHER_SYS_MAX_STRING_LEN ], e[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ], arg[ ESCHER_SYS_MAX_STRING_LEN ];
+  char s[ ESCHER_SYS_MAX_STRING_LEN ], e[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ 64000 ], arg[ ESCHER_SYS_MAX_STRING_LEN ];
   char * p, * q, * element = e, * value[ 8 ] = { v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7] };
   int i, j;
   {
