@@ -172,7 +172,7 @@ for domain in ${DOM_DIRS[*]}; do
 
       # Now diff
       echo "Diff'ing input and output ASL."
-      masldiff $domain $MASLOUTDIR/$compname > $MASLOUTDIR/$compname/diff_report.txt
+      wasldiff $domain $MASLOUTDIR/$compname > $MASLOUTDIR/$compname/diff_report.txt
       if [[ -d $OUT_DIR/$compname ]]; then
          rm -rf $OUT_DIR/$compname
       fi
@@ -236,7 +236,7 @@ if [[ $PROJ_DIR != "" ]]; then
 
     # Now diff
     echo "Diff'ing input and output MASL."
-    masldiff $PROJ_DIR $MASLOUTDIR/$compname > $MASLOUTDIR/$compname/diff_report.txt
+    wasldiff $PROJ_DIR $MASLOUTDIR/$compname > $MASLOUTDIR/$compname/diff_report.txt
     if [[ -d $OUT_DIR/$compname ]]; then
        rm -rf $OUT_DIR/$compname
     fi

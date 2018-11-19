@@ -1,22 +1,21 @@
 #!/bin/bash
 
-#   masl2xtuml -d <domain source directory(s) ...> [-o <output directory>]
-#   masl2xtuml -p <project source directory(s) ...> [-o <output directory>]
-
 # USAGE
 print_usage () { 
     echo "Usage:"
-    echo "        masl2xtuml -d <domain source directory(s) ...> [-o <output directory>]";
-    echo "        masl2xtuml -p <project source directory(s) ...> [-o <output directory>]";
+    echo "        wasl2xtuml -d <domain source directory(s) ...> [-o <output directory>]";
+    echo "        wasl2xtuml -p <project source directory(s) ...> [-o <output directory>]";
 }
 
 # set up paths
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/"
-export PATH=$DIR:$PATH
+JAVADIR=$DIR../../../jre/bin
+export PATH=$DIR:$JAVADIR:$PATH
 TMPCP="$DIR/*.jar"
 CP=.
 for cp in $TMPCP; do
-    CP=$CP:$cp
+    cp=$(cygpath -pw $cp)
+    CP=$CP";"$cp
 done
 
 # input variables

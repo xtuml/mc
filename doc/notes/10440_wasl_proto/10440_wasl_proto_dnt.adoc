@@ -92,6 +92,13 @@ x2w
 It is in addition to domainScenarios.
 Maybe it is the initialization functions that are to run.
 
+=== Changing the Windows Build to Support wasl2xtuml
+. Copy ASLParser.jar to tools/mc/bin/WASLParser.jar.
+. Copy antlr-3.5.2-complete.jar to the tools/mc/bin folder.
+. Copy wasl2xtuml to the tools/mc/bin folder.
+. Copy masl.exe to wasl.exe.
+- xtumlmc_build.exe? // Copy xtumlmc_build to tools/mc/bin folder.
+
 == User Documentation
 
 == Unit Test
