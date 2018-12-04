@@ -67,37 +67,49 @@ the subordinate files.
   * Update the SMASL specification.
   * Update `m2x` and `x2m` to account for updated SMASL specification.
 
-w2x
+=== `WaslParser` and `m2x`
+
 - Create a new WASL parser that parses structural WASL.
 - Parse WASL and emit SMASL.
 - Deal with order of relationships, subtypes and objects in `.dmp` file.
+  * Consider updating the WASL extraction tool instead; it may be easier.
 - Update wasl2xtuml to deal with classpaths in a DOS environment.
 - Compile m2x for DOS (or cygwin).
 - Update `maslin` to handle some information missing from input SMASL and
 divine it from other sources or from defaults.
-- Deal with stack size issue in m2x (PostOooInit 2-dim array of strings).
+- Deal with stack size issue in m2x (`PostOooInit` 2-dim array of strings).
 
-x2w
+=== `x2m` and `wasl`
+
 - render operations:
-- Change name of masl `render` operations to `render_masl`.
-- Supply `render_wasl` operations.
-- When rendering MASL, invoke the corresponding tree of `render_masl` operations.
-- When rednering WASL, invoke the corresponding tree of `render_wasl` operations.
+  * Change name of masl `render` operations to `render_masl`.
+  * Supply `render_wasl` operations.
+  * When rendering MASL, invoke the corresponding tree of `render_masl` operations.
+  * When rednering WASL, invoke the corresponding tree of `render_wasl` operations.
 - templates:
-- Put templates in subdirectories masl and wasl (and perhaps more to come).
-- Supply completely separate set of templates for WASL rendering.
+  * Put templates in subdirectories masl and wasl (and perhaps more to come).
+  * Supply a completely separate set of templates for WASL rendering.
 
 == Design Comments
+
 - What is domainScenarioList?
+
 It is in addition to domainScenarios.
 Maybe it is the initialization functions that are to run.
 
+- Must edit the `.dmp` file and move the 'OBJECTS' stanza below
+the 'RELATIONSHIPS' and 'SUBTYPES' stanzas.
+- Must set the WORKSPACE env var when running `xtuml2wasl`.
+
 === Changing the Windows Build to Support wasl2xtuml
+
 . Copy ASLParser.jar to tools/mc/bin/WASLParser.jar.
-. Copy antlr-3.5.2-complete.jar to the tools/mc/bin folder.
+. Copy antlr-3.5.2-complete.jar to the tools/mc/bin/antlr.jar.
 . Copy wasl2xtuml to the tools/mc/bin folder.
-. Copy masl.exe to wasl.exe.
-- xtumlmc_build.exe? // Copy xtumlmc_build to tools/mc/bin folder.
+. Copy mcmasl.exe to tools/mc/bin/win/wasl.exe.
+. xtumlmc_build.exe?
+  * Copy xtumlmc_build to tools/mc/bin/xtumlmc_build.pl.
+  * Change it to strip CRLFs from serial MASL stream.
 
 == User Documentation
 

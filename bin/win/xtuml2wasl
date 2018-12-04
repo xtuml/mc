@@ -3,6 +3,6 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export MASL_BIN_DIR=$DIR/
 
-EXE="xtumlmc_build"
+EXE="xtumlmc_build.pl"
 
-$DIR/$EXE xtuml2wasl $@
+$DIR/$EXE xtuml2masl $@
