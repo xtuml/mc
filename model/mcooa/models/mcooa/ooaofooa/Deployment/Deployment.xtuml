@@ -1255,6 +1255,46 @@ INSERT INTO PE_PE
 	"99c9f8cc-bdef-4ed2-9999-45efc2ec4752",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("778a889a-58a1-43f7-bc1f-f3de2990fbf0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Terminator Service>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("778a889a-58a1-43f7-bc1f-f3de2990fbf0",
+	0,
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("a13a4c99-717c-4602-87e7-ae5699c99167",
+	'Terminator Service',
+	1652,
+	'D_TSVC',
+	'Import: java.util.Vector; import org.xtuml.bp.core.util.DimensionsUtil',
+	"00000000-0000-0000-0000-000000000000",
+	'./Terminator Service/Terminator Service.xtuml');
+INSERT INTO PE_PE
+	VALUES ("778a889a-58a1-43f7-bc1f-f3de2990fbf0",
+	1,
+	"99c9f8cc-bdef-4ed2-9999-45efc2ec4752",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("ff94ece5-3382-458e-88e0-5e3321702aff",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Terminator Service>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ff94ece5-3382-458e-88e0-5e3321702aff",
+	1,
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO PE_PE
+	VALUES ("ff94ece5-3382-458e-88e0-5e3321702aff",
+	1,
+	"99c9f8cc-bdef-4ed2-9999-45efc2ec4752",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("63d13ae9-30c0-4c1a-918b-880a0820fc65");
 INSERT INTO R_REL
@@ -1373,14 +1413,6 @@ INSERT INTO R_OIR
 	"dae65fb4-15ee-4d77-8b09-0b747d324ab1",
 	"86141a51-88d4-4a7d-bfac-912cc3df006d",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("a13a4c99-717c-4602-87e7-ae5699c99167",
-	'Terminator Service',
-	1652,
-	'D_TSVC',
-	'Import: java.util.Vector; import org.xtuml.bp.core.util.DimensionsUtil',
-	"00000000-0000-0000-0000-000000000000",
-	'./Terminator Service/Terminator Service.xtuml');
 INSERT INTO PE_PE
 	VALUES ("dae65fb4-15ee-4d77-8b09-0b747d324ab1",
 	1,

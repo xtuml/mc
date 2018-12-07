@@ -3175,6 +3175,8 @@ while ( not_empty d_terms )
     any_term = d_term;
     break;
   end for;
+
+  select one d_depl related by any_term->D_DEPL[R1650];
   
   // populate the domain
   value[0] = any_term.Domain_Name;
@@ -3183,14 +3185,16 @@ while ( not_empty d_terms )
   // get all terminators with the same domain
   select many domain_terms related by d_terms->D_DEPL[R1650]->D_TERM[R1650] where ( selected.Domain_Name == any_term.Domain_Name );
   for each d_term in domain_terms
-    value[0] = d_term.Terminator_Name;
-    out::populate( element:"terminator", value:value );
-    ::terminatorservice2routine( d_term:d_term );
-    // ::mark2pragma( markable:"Terminator", pathkey: ::_get_path( c_c:c_c, child:c_p.Name ) ); TODO
-    // output the description
-    // ::Descrip2description( Descrip:d_term.Descrip ); TODO
-    // end terminator
-    out::populate( element:"terminator", value:emptyvalue );
+    if (not d_term.Provider)
+      value[0] = d_term.Terminator_Name;
+      out::populate( element:"terminator", value:value );
+      ::terminatorservice2routine( d_term:d_term );
+      ::mark2pragma( markable:"Terminator", pathkey: ::deployment_get_path( d_depl:d_depl, child:d_term.Name ) );
+      // output the description
+      ::Descrip2description( Descrip:d_term.Descrip );
+      // end terminator
+      out::populate( element:"terminator", value:emptyvalue );
+    end if;
   end for;
   d_terms = d_terms - domain_terms;
 
@@ -3232,6 +3236,7 @@ INSERT INTO S_SYNC
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 d_term = param.d_term;
+select one d_depl related by d_term->D_DEPL[R1650];
 value[0] = d_term.Domain_Name;
 value[1] = "";
 
@@ -3263,12 +3268,8 @@ for each d_tsvc in d_tsvcs
   ::body2code_block( name:"", text:STRING::unescapetics(s:d_tsvc.Action_Semantics_internal) );
 
   // Populate pragmas
-  // TODO
-  /*
-  select one c_ep related by spr_po->SPR_PEP[R4503]->C_EP[R4501];
-  child = c_po.Name + "::" + c_i.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
-  ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
-  */
+  child = d_term.Name + "::" + ::terminatorservice_getsignature( flavor:1, d_tsvc:d_tsvc );
+  ::mark2pragma( markable:"Terminator Service", pathkey: ::deployment_get_path( d_depl:d_depl, child:child ) );
 
   // output the description
   ::Descrip2description( Descrip:d_tsvc.Descrip );
@@ -3357,6 +3358,166 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("fdee5632-9f8b-49e6-9e3f-6cefdb66a6c1",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("0c3443f0-4c27-4e4b-bdf3-8aeed98c603c",
+	"00000000-0000-0000-0000-000000000000",
+	'terminatorservice_getsignature',
+	'',
+	'd_tsvc = param.d_tsvc;
+
+/**
+ *  Return a string representation of this functions signature
+ *  with the specified flavor
+ *  0 = named parameters
+ *  1 = positional parameters
+ *  2 = signature with labels for content assist
+ *  3 = signature without parameters for content assist
+ *  named signature = return_type function(param1:type, param2:type, param3:type)
+ *  parameters for the named flavor are sorted alphanumerically
+ *  positional signature = return_type function(param1_type, param2_type, param3_type)
+ */
+ 
+signature = "";
+
+if ( 2 != param.flavor and 3 != param.flavor )
+  // Get return type
+  select one returntype related by d_tsvc->S_DT[R1656];
+  signature = signature + returntype.Name + " ";
+  signature = signature + "void ";
+end if;
+ 
+// Get name
+signature = signature + d_tsvc.Name;
+
+// Get parameters
+
+if ( 1 == param.flavor )
+
+  // Get the first parameter.
+  select any parameter related by d_tsvc->D_TSPARM[R1652];
+  first_param = parameter;
+  while ( not_empty parameter )
+	first_param = parameter;
+	select one parameter related by parameter->D_TSPARM[R1654.''succeeds''];
+  end while;
+
+  if( not_empty first_param )
+	signature = signature + "(";
+  end if;
+  separator = "";
+  parameter = first_param;
+  while ( not_empty parameter )
+	select one type related by parameter->S_DT[R1653];
+	signature = signature + separator + type.Name;
+	separator = ", ";
+	select one parameter related by parameter->D_TSPARM[R1654.''precedes''];
+  end while;
+  if( not_empty first_param )
+	signature = signature + ")";
+  end if;
+
+elif ( 0 == param.flavor )
+
+  // get the parameters in sorted order
+  separator = "";
+  select many parameters related by d_tsvc->D_TSPARM[R1652];
+  num_params = cardinality parameters; 
+  if ( num_params > 0 )
+	signature = signature + "(";
+  end if;
+
+  // the following time complexity is n^2
+  count = 0;
+  select any last_param from instances of D_TSPARM where false;
+  select any curr_param from instances of D_TSPARM where false;
+  while ( count < num_params )
+    for each parameter in parameters
+      if ( ( empty curr_param and empty last_param )
+           or ( empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name )
+           or ( not_empty curr_param and empty last_param and parameter.Name < curr_param.Name )
+           or ( not_empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name and parameter.Name < curr_param.Name ) )
+        curr_param = parameter;
+      end if;
+    end for;
+    
+    select one type related by curr_param->S_DT[R1653];
+    signature = signature + separator + curr_param.Name + ":" + type.Name;
+    separator = ", ";
+
+    last_param = curr_param;
+    select any curr_param from instances of D_TSPARM where false;
+    count = count + 1;
+  end while;
+
+  if ( num_params > 0 )
+	signature = signature + ")";
+  end if;
+  
+elif ( 2 == param.flavor )
+
+  // Get the first parameter.
+  select any parameter related by d_tsvc->D_TSPARM[R1652];
+  first_param = parameter;
+  while ( not_empty parameter )
+	first_param = parameter;
+	select one parameter related by parameter->D_TSPARM[R1654.''succeeds''];
+  end while;
+
+  signature = signature + "(";
+  separator = " ";
+  parameter = first_param;
+  while ( not_empty parameter )
+    signature = signature + separator + parameter.Name + ":";
+	separator = ", ";
+	select one parameter related by parameter->D_TSPARM[R1654.''precedes''];
+  end while;
+  if( not_empty first_param )
+    signature = signature + " ";
+  end if;
+  signature = signature + ")";
+
+elif ( 3 == param.flavor )
+
+  signature = signature + "()";
+  
+end if;
+
+return signature;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("41b34502-adf3-452e-9741-f72b77e44013",
+	"0c3443f0-4c27-4e4b-bdf3-8aeed98c603c",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4f4709ff-ffbe-4cb5-b24d-2688094acb3e",
+	"0c3443f0-4c27-4e4b-bdf3-8aeed98c603c",
+	'd_tsvc',
+	"778a889a-58a1-43f7-bc1f-f3de2990fbf0",
+	0,
+	'',
+	"41b34502-adf3-452e-9741-f72b77e44013",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("778a889a-58a1-43f7-bc1f-f3de2990fbf0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Terminator Service>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Deployment/Deployment.xtuml');
+INSERT INTO PE_PE
+	VALUES ("0c3443f0-4c27-4e4b-bdf3-8aeed98c603c",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
