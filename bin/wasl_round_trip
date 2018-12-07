@@ -166,7 +166,7 @@ for domain in ${DOM_DIRS[*]}; do
       xtuml2wasl -i $WORKSPACE/$domProj/ -d $compname -o $MODELOUTDIR
 
       # Now diff
-      echo "Diff'ing input and output ASL."
+      echo "Diff'ing input and output."
       wasldiff $domain $MODELOUTDIR/$compname > $MODELOUTDIR/$compname/diff_report.txt
       if [[ -d $OUT_DIR/$compname ]]; then
          rm -rf $OUT_DIR/$compname

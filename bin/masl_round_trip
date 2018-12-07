@@ -177,8 +177,8 @@ for domain in ${DOM_DIRS[*]}; do
          rm -rf $OUT_DIR/$compname
       fi
       mv $MODELOUTDIR/$compname $OUT_DIR
-      mv left.masldiff $OUT_DIR/$compname
-      mv right.masldiff $OUT_DIR/$compname
+      mv left.diff $OUT_DIR/$compname
+      mv right.diff $OUT_DIR/$compname
 
       if [[ -f $OUT_DIR/$compname/diff_report.txt ]]; then
         if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
@@ -241,8 +241,8 @@ if [[ $PROJ_DIR != "" ]]; then
        rm -rf $OUT_DIR/$compname
     fi
     mv $MODELOUTDIR/$compname $OUT_DIR
-    mv left.masldiff $OUT_DIR/$compname
-    mv right.masldiff $OUT_DIR/$compname
+    mv left.diff $OUT_DIR/$compname
+    mv right.diff $OUT_DIR/$compname
 
     if [[ -f $OUT_DIR/$compname/diff_report.txt ]]; then
       if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
