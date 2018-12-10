@@ -161,7 +161,13 @@ domainActionList:             START_ACTION_LIST NEWLINES ( filename NEWLINES )? 
 
 domainStateTransitions:       START_STATE_TRANSITIONS NEWLINES ( filename NEWLINES )? END_STATE_TRANSITIONS NEWLINES;
 
-domainEventDataDefinitions:   START_EVDS NEWLINES ( filename NEWLINES )? END_EVDS NEWLINES;
+domainEventDataDefinitions:   START_EVDS NEWLINES (
+                                filename NEWLINES
+                              {
+                                WaslImportParser subparser = new WaslImportParser(serial);
+                                subparser.parse("eventDataDefinitions", $filename.name, dir);
+                              }
+                              )? END_EVDS NEWLINES;
 
 domainTypes:                  START_TYPES NEWLINES (
                                 filename NEWLINES
@@ -282,6 +288,43 @@ subtypeDefinition:            relationshipName COMMA sup=objectKeyLetter
                               )* NEWLINES
                               ;
 
+eventDataDefinitions:         eventDataDefinition*;
+
+eventDataDefinition:          objectKeyLetter COMMA eventNumber COMMA eventName COMMA
+                                ( parameters )*
+                              SEMICOLON ( IDENTIFIER COMMA IDENTIFIER )? COMMA description NEWLINES
+                              {
+                                args[0] = $objectKeyLetter.name;
+                                populate( "object" );
+                                args[0] = $eventName.name;
+                                populate( "event" );
+                                args[0] = "";
+                                populate( "event" );
+                                args[0] = "";
+                                populate( "object" );
+                              }
+                              ;
+
+parameters returns [String params]:
+                              param1=parameterName { $params = $param1.name; }
+                              COMMA
+                              ptype1=parameterType { $params += "," + $ptype1.name; }
+                              (
+                                COMMA param2=parameterName { $params += "," + $param2.name; }
+                                COMMA ptype2=parameterType { $params += "," + $ptype2.name; }
+                              )*;
+
+parameterName returns [String name]:
+                              IDENTIFIER { $name = $IDENTIFIER.text; };
+
+parameterType returns [String name]:
+                              IDENTIFIER { $name = $IDENTIFIER.text; };
+
+eventNumber:                  INTEGER_LITERAL*;
+
+eventName returns [String name]:
+                              IDENTIFIER { $name = $IDENTIFIER.text; };
+
 domainName returns [String name]:
                               IDENTIFIER { $name = $IDENTIFIER.text; };
 
@@ -400,6 +443,7 @@ END_TERMINATORS:              '$END_TERMINATORS';
 END_TYPES:                    '$END_TYPES';
 END:                          '$END_';
 
+SEMICOLON:                    ';';
 COMMA:                        ',';
 DOT:                          '.';
 LPAREN:                       '(';

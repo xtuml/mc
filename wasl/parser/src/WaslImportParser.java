@@ -24,7 +24,7 @@ public class WaslImportParser {
         }
     }
 
-    // parse a ASL file
+    // parse a WASL file
     public void parse( String rule, String fn, File dir ) {
         // check args and set current file
         if ( fn == null || rule == null )
@@ -68,6 +68,9 @@ public class WaslImportParser {
                 case "subtypeDefinitions":
                     parser.subtypeDefinitions();
                     break;
+                case "eventDataDefinitions":
+                    parser.eventDataDefinitions();
+                    break;
                 default:
                     System.err.println( "-parse: ERROR unrecognized rule." );
                     break;
@@ -79,7 +82,7 @@ public class WaslImportParser {
 
     }
 
-    // parse a ASL domain
+    // parse a WASL domain
     public void parseDomain( String directory, String out ) {
         File[]          domainFiles;
         
@@ -145,17 +148,19 @@ public class WaslImportParser {
         // done
     }
 
-    // parse a ASL project
+    // parse a WASL project
     public void parseProject( String directory, String out ) {
     }
 
     // print usage
     public void printUsage() {
         System.err.println("Usage:\n");
-        System.err.println("Parse ASL domain:");
+        System.err.println("Parse WASL domain:");
         System.err.println("\tjava -cp <classpath> WaslImportParser -d <domain directory> [-o [file name] ]\n");
-        System.err.println("Parse ASL project:");
-        System.err.println("\tjava -cp <classpath> WaslImportParser -p <project directory> [-o [file name] ]");
+        System.err.println("Parse WASL project:");
+        System.err.println("\tjava -cp <classpath> WaslImportParser -p <project directory> [-o [file name] ]\n");
+        System.err.println("Parse WASL file:");
+        System.err.println("\tjava -cp <classpath> WaslImportParser -f <rule> <file name> [-o [file name] ]\n");
     }
 
     // main method
@@ -170,7 +175,7 @@ public class WaslImportParser {
             parser.printUsage();
         }
         else {
-            if ( args[0].equals( "-d" ) ) {        // parse ASL domain
+            if ( args[0].equals( "-d" ) ) {        // parse WASL domain
                 String out = null;
                 if ( args.length == 2 ) {
                     out = null;
@@ -190,7 +195,7 @@ public class WaslImportParser {
                 // parse the domain
                 parser.parseDomain( args[1], out );
             }
-            else if ( args[0].equals( "-p" ) ) {        // parse ASL project
+            else if ( args[0].equals( "-p" ) ) {        // parse WASL project
                 String out = null;
                 if ( args.length == 2 ) {
                     out = null;
@@ -209,6 +214,18 @@ public class WaslImportParser {
 
                 // parse the project
                 parser.parseProject( args[1], out );
+            }
+            else if ( args[0].equals( "-f" ) ) {        // parse WASL file
+                if ( args.length == 3 ) {
+                    File wd = new File( args[3] );
+                    // parse the file
+                    parser.parse( args[1], args[2], wd );
+                }
+                else {
+                    // print usage
+                    parser.printUsage();
+                    return;
+                }
             }
             else {
                 // print usage
