@@ -3,14 +3,14 @@ import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 import java.util.regex.Pattern;
 
-public class AslImportParser {
+public class WaslImportParser {
 
     // private fields
     private Serial          serial;             // external interface
     private File            workingDir;         // directory containing all model files
 
     // public constructor
-    public AslImportParser( Serial serial ) {
+    public WaslImportParser( Serial serial ) {
         if ( serial != null )
             this.serial = serial;
         else
@@ -30,24 +30,24 @@ public class AslImportParser {
         if ( fn == null || rule == null )
             return;
 
-        AslLexer                lex;
+        WaslLexer               lex;
         CommonTokenStream       tokens;
-        AslParser               parser;
+        WaslParser              parser;
         CommonTree              tree;
         CommonTreeNodeStream    nodes;
 
         try {
-            lex = new AslLexer( new ANTLRFileStream( dir.getPath() + File.separator + fn ) );
+            lex = new WaslLexer( new ANTLRFileStream( dir.getPath() + File.separator + fn ) );
         } catch ( IOException e ) {
             System.err.println( e );
             return;
         }
 
         tokens = new CommonTokenStream( lex );
-        parser = new AslParser( tokens );
+        parser = new WaslParser( tokens );
         parser.setErrorHandler( (msg) -> {} );
         parser.setInterface( serial );
-        parser.setAslParser( this );
+        parser.setWaslParser( this );
         parser.setDirectory( dir );
 
         try {
@@ -153,16 +153,16 @@ public class AslImportParser {
     public void printUsage() {
         System.err.println("Usage:\n");
         System.err.println("Parse ASL domain:");
-        System.err.println("\tjava -cp <classpath> AslImportParser -d <domain directory> [-o [file name] ]\n");
+        System.err.println("\tjava -cp <classpath> WaslImportParser -d <domain directory> [-o [file name] ]\n");
         System.err.println("Parse ASL project:");
-        System.err.println("\tjava -cp <classpath> AslImportParser -p <project directory> [-o [file name] ]");
+        System.err.println("\tjava -cp <classpath> WaslImportParser -p <project directory> [-o [file name] ]");
     }
 
     // main method
     public static void main(String args[]) throws Exception {
 
         Serial              serial = new MaslSerial();                  // create new serial interface
-        AslImportParser     parser = new AslImportParser( serial );     // create new parser
+        WaslImportParser     parser = new WaslImportParser( serial );     // create new parser
 
         // check input args
         if ( args.length < 1 ) {

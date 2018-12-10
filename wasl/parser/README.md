@@ -1,4 +1,4 @@
-HOWTO build and run the ASL parser
+HOWTO build and run the WASL parser
 ===================================
 
 ## Build the parser
@@ -18,19 +18,19 @@ ant
 
 (classpath will be the `build` directory and the antlr jar, `lib/antlr-3.5.2-complete.jar`)
 
-Parse single ASL file:
+Parse single WASL file:
 ```bash
-java -cp <classpath> AslImportParser -f <rule> <ASL file> [-o [file name] ]
+java -cp <classpath> WaslImportParser -f <rule> <WASL file> [-o [file name] ]
 ```
 
-Parse ASL domain:
+Parse WASL domain:
 ```bash
-java -cp <classpath> AslImportParser -d <domain directory> [-o [file name] ]
+java -cp <classpath> WaslImportParser -d <domain directory> [-o [file name] ]
 ```
 
-Parse ASL project:
+Parse WASL project:
 ```bash
-java -cp <classpath> AslImportParser -p <project directory> [-o [file name] ]
+java -cp <classpath> WaslImportParser -p <project directory> [-o [file name] ]
 ```
 
 ### Output
@@ -44,7 +44,7 @@ If the `-o` flag is specified with a file name, the output is written to the spe
 
 ### Rules
 
-When parsing a single ASL file, you must specify the walker rule you want to parse
+When parsing a single WASL file, you must specify the walker rule you want to parse
 with.
 
 The available rules are:

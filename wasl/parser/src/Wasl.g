@@ -1,4 +1,4 @@
-grammar Asl;
+grammar Wasl;
 
  @header
 {
@@ -12,7 +12,7 @@ import java.io.File;
 {
 private ErrorHandler handler = null;
 private Serial serial = null;
-private AslImportParser asl_parser = null;
+private WaslImportParser wasl_parser = null;
 private String[] args = new String[8];
 private File dir;
 private boolean populateEnabled;
@@ -27,11 +27,11 @@ public void setInterface ( Serial serial ) {
     populateEnabled = true;
 }
 
-public void setAslParser( AslImportParser p ) {
+public void setWaslParser( WaslImportParser p ) {
     if ( p != null )
-        this.asl_parser = p;
+        this.wasl_parser = p;
     else
-        this.asl_parser = null;
+        this.wasl_parser = null;
 }
 
 private void populate( String classname ) {
@@ -132,7 +132,7 @@ domainBridges:                START_BRIDGES NEWLINES
 domainObjectDefinitions:      START_OBJECTS NEWLINES ( 
                                 filename NEWLINES
                               {
-                                AslImportParser subparser = new AslImportParser(serial);
+                                WaslImportParser subparser = new WaslImportParser(serial);
                                 subparser.parse("objectDefinitions", $filename.name, dir);
                               }
                               )? END_OBJECTS NEWLINES;
@@ -140,7 +140,7 @@ domainObjectDefinitions:      START_OBJECTS NEWLINES (
 domainRelationships:          START_RELATIONSHIPS NEWLINES (
                                 filename NEWLINES
                               {
-                                AslImportParser subparser = new AslImportParser(serial);
+                                WaslImportParser subparser = new WaslImportParser(serial);
                                 subparser.parse("relationshipDefinitions", $filename.name, dir);
                               }
                               )? END_RELATIONSHIPS NEWLINES;
@@ -148,7 +148,7 @@ domainRelationships:          START_RELATIONSHIPS NEWLINES (
 domainSubtypes:               START_SUBTYPES NEWLINES (
                                 filename NEWLINES
                               {
-                                AslImportParser subparser = new AslImportParser(serial);
+                                WaslImportParser subparser = new WaslImportParser(serial);
                                 subparser.parse("subtypeDefinitions", $filename.name, dir);
                               }
                               )? END_SUBTYPES NEWLINES;
@@ -166,7 +166,7 @@ domainEventDataDefinitions:   START_EVDS NEWLINES ( filename NEWLINES )? END_EVD
 domainTypes:                  START_TYPES NEWLINES (
                                 filename NEWLINES
                               {
-                                AslImportParser subparser = new AslImportParser(serial);
+                                WaslImportParser subparser = new WaslImportParser(serial);
                                 subparser.parse("typeDefinitions", $filename.name, dir);
                               }
                               )? END_TYPES NEWLINES;

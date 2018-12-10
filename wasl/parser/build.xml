@@ -1,4 +1,4 @@
-<project name="ASLParser" default="compile" basedir=".">
+<project name="WASLParser" default="compile" basedir=".">
     <description>
     </description>
 
@@ -65,8 +65,8 @@
         <!-- Create the distribution directory -->
         <mkdir dir="${dist}/lib"/>
 
-        <!-- Put everything in ${build} into the ASLParser.jar file -->
-        <jar jarfile="${dist}/lib/ASLParser.jar" basedir="${build}"/>
+        <!-- Put everything in ${build} into the WASLParser.jar file -->
+        <jar jarfile="${dist}/lib/WASLParser.jar" basedir="${build}"/>
     </target>
 
     <target name="clean"
