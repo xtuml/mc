@@ -89,44 +89,57 @@ domainDefinition:             DOMAIN_NAME        domainName       NEWLINES
                               }
                               ;
 
-domainElementDefinitions:     (   domainTerminatorDefinitions
-                                | domainHandCodedFiles
-                                | domainScenarios
-                                | domainScenarioList
-                                | domainFunctionSignatures
-                                | domainFunctions
-                                | domainBridgeSignatures
-                                | domainBridges
-                                | domainObjectDefinitions
-                                | domainRelationships
-                                | domainSubtypes
-                                | domainPolymorphicEvents
-                                | domainActionList
-                                | domainStateTransitions
-                                | domainEventDataDefinitions
-                                | domainTypes
+domainElementDefinitions:     (   domainTerminatorDefinitions   {System.err.println( "domainTerminatorDefinitions" );}
+                                | domainHandCodedFiles          {System.err.println( "domainHandCodedFiles" );}
+                                | domainScenarios               {System.err.println( "domainScenarios" );}
+                                | domainScenarioList            {System.err.println( "domainScenarioList" );}
+                                | domainFunctionSignatures      {System.err.println( "domainFunctionSignatures" );}
+                                | domainFunctions               {System.err.println( "domainFunctions" );}
+                                | domainBridgeSignatures        {System.err.println( "domainBridgeSignatures" );}
+                                | domainBridges                 {System.err.println( "domainBridges" );}
+                                | domainObjectDefinitions       {System.err.println( "domainObjectDefintions" );}
+                                | domainRelationships           {System.err.println( "domainRelationships" );}
+                                | domainSubtypes                {System.err.println( "domainSubtypes" );}
+                                | domainPolymorphicEvents       {System.err.println( "domainPolymorphicEvents" );}
+                                | domainGenericDefinition       {System.err.println( "domainGenericDefinition" );}
+                                | domainActionList              {System.err.println( "domainActionList" );}
+                                | domainStateTransitions        {System.err.println( "domainStateTransitions" );}
+                                | domainEventDataDefinitions    {System.err.println( "domainEventDataDefinitions" );}
+                                | domainTypes                   {System.err.println( "domainTypes" );}
                               )*;
 
-domainTerminatorDefinitions:  START_TERMINATORS NEWLINES ( filename NEWLINES )? END_TERMINATORS NEWLINES;
+domainTerminatorDefinitions:  START_TERMINATORS NEWLINES (
+                                filename NEWLINES
+                              )? END_TERMINATORS NEWLINES;
 
-domainHandCodedFiles:         START_HAND_CODED_FILES NEWLINES ( filename NEWLINES )? END_HAND_CODED_FILES NEWLINES;
+domainHandCodedFiles:         START_HAND_CODED_FILES NEWLINES (
+                                filename NEWLINES
+                              )? END_HAND_CODED_FILES NEWLINES;
 
-domainScenarios:              START_SCENARIOS NEWLINES
-                              ( domainName COMMA domainVersion COMMA scenarioName COMMA scenarioNumber COMMA filename NEWLINES )*
-                              END_SCENARIOS NEWLINES
+domainScenarios:              START_SCENARIOS NEWLINES (
+                                domainName COMMA domainVersion COMMA scenarioName COMMA scenarioNumber COMMA filename NEWLINES
+                              )* END_SCENARIOS NEWLINES
                               ;
 
-domainScenarioList:           START_SCENARIO_LIST NEWLINES ( filename NEWLINES )? END_SCENARIO_LIST NEWLINES;
+domainScenarioList:           START_SCENARIO_LIST NEWLINES (
+                                filename NEWLINES
+                              )? END_SCENARIO_LIST NEWLINES;
 
-domainFunctionSignatures:     START_FUNCTION_DATA_TYPES NEWLINES ( filename NEWLINES )? END_FUNCTION_DATA_TYPES NEWLINES;
+domainFunctionSignatures:     START_FUNCTION_DATA_TYPES NEWLINES (
+                                filename NEWLINES
+                              )? END_FUNCTION_DATA_TYPES NEWLINES;
 
-domainFunctions:              START_FUNCTIONS NEWLINES ( filename NEWLINES )* END_FUNCTIONS NEWLINES;
+domainFunctions:              START_FUNCTIONS NEWLINES (
+                                filename NEWLINES
+                              )* END_FUNCTIONS NEWLINES;
 
-domainBridgeSignatures:       START_BRIDGE_DATA_TYPES NEWLINES ( filename NEWLINES )? END_BRIDGE_DATA_TYPES NEWLINES;
+domainBridgeSignatures:       START_BRIDGE_DATA_TYPES NEWLINES (
+                                filename NEWLINES
+                              )? END_BRIDGE_DATA_TYPES NEWLINES;
 
-domainBridges:                START_BRIDGES NEWLINES
-                              ( domainName COMMA domainVersion COMMA filename COMMA IDENTIFIER NEWLINES )*
-                              END_BRIDGES NEWLINES
+domainBridges:                START_BRIDGES NEWLINES (
+                                domainName COMMA domainVersion COMMA filename COMMA IDENTIFIER NEWLINES
+                              )* END_BRIDGES NEWLINES
                               ;
 
 domainObjectDefinitions:      START_OBJECTS NEWLINES ( 
@@ -153,13 +166,21 @@ domainSubtypes:               START_SUBTYPES NEWLINES (
                               }
                               )? END_SUBTYPES NEWLINES;
 
-domainPolymorphicEvents:      START_POLYMORPHIC_EVENTS NEWLINES ( filename NEWLINES )? END_POLYMORPHIC_EVENTS NEWLINES;
+domainPolymorphicEvents:      START_POLYMORPHIC_EVENTS NEWLINES (
+                                filename NEWLINES
+                              )? END_POLYMORPHIC_EVENTS NEWLINES;
 
-domainGenericDefinition:      START NEWLINES ( filename NEWLINES )? END NEWLINES;
+domainGenericDefinition:      START_GENERIC NEWLINES (
+                                filename NEWLINES
+                              )? END_GENERIC NEWLINES;
 
-domainActionList:             START_ACTION_LIST NEWLINES ( filename NEWLINES )? END_ACTION_LIST NEWLINES;
+domainActionList:             START_ACTION_LIST NEWLINES (
+                                filename NEWLINES
+                              )* END_ACTION_LIST NEWLINES;
 
-domainStateTransitions:       START_STATE_TRANSITIONS NEWLINES ( filename NEWLINES )? END_STATE_TRANSITIONS NEWLINES;
+domainStateTransitions:       START_STATE_TRANSITIONS NEWLINES (
+                                filename NEWLINES
+                              )? END_STATE_TRANSITIONS NEWLINES;
 
 domainEventDataDefinitions:   START_EVDS NEWLINES (
                                 filename NEWLINES
@@ -423,7 +444,7 @@ START_STATE_TRANSITIONS:      '$START_STATE_TRANSITIONS';
 START_SUBTYPES:               '$START_SUBTYPES';
 START_TERMINATORS:            '$START_TERMINATORS';
 START_TYPES:                  '$START_TYPES';
-START:                        '$START_';
+START_GENERIC:                '$START_';
 
 END_ACTION_LIST:              '$END_ACTION_LIST';
 END_BRIDGES:                  '$END_BRIDGES';
@@ -441,7 +462,7 @@ END_STATE_TRANSITIONS:        '$END_STATE_TRANSITIONS';
 END_SUBTYPES:                 '$END_SUBTYPES';
 END_TERMINATORS:              '$END_TERMINATORS';
 END_TYPES:                    '$END_TYPES';
-END:                          '$END_';
+END_GENERIC:                  '$END_';
 
 SEMICOLON:                    ';';
 COMMA:                        ',';

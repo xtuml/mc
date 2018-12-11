@@ -63,9 +63,11 @@ there so they can be associated with the referential attributes.
 This will not be complete, but it will allow for declaration of
 fundamental elements that can be "filled in" by loading/parsing
 the subordinate files.
-- Add required elements to SMASL.
+- Add required new model elements to SMASL and the models.
   * Update the SMASL specification.
-  * Update `m2x` and `x2m` to account for updated SMASL specification.
+    + Add an attribute to 'object' to support key letters.
+  * Update `m2x`, `x2m` and `masl` to account for updated SMASL specification.
+    + Add an attribute to the class, 'object', to support key letters.
 
 === `WaslParser` and `m2x`
 
@@ -79,6 +81,10 @@ the subordinate files.
 divine it from other sources or from defaults.
 - Deal with stack size issue in m2x (`PostOooInit` 2-dim array of strings).
 
+==== File Format Questions
+
+- What do we do with initialization segments?  (`.scn` files)
+
 === `x2m` and `wasl`
 
 - render operations:
@@ -89,6 +95,14 @@ divine it from other sources or from defaults.
 - templates:
   * Put templates in subdirectories masl and wasl (and perhaps more to come).
   * Supply a completely separate set of templates for WASL rendering.
+
+=== Build Process
+
+Update the build dependencies and build scripts to support the above changes.
+
+- Add build artifacts for `wasl` that gets built from `masl`.
+- Update the file movement in the releng pom file that populates
+`toosl/mc/bin`.
 
 == Design Comments
 
@@ -101,12 +115,13 @@ Maybe it is the initialization functions that are to run.
 the 'RELATIONSHIPS' and 'SUBTYPES' stanzas.
 - Must set the WORKSPACE env var when running `xtuml2wasl`.
 
-=== Changing the Windows Build to Support wasl2xtuml
+=== Changing the Windows Build
 
-. Copy ASLParser.jar to tools/mc/bin/WASLParser.jar.
-. Copy antlr-3.5.2-complete.jar to the tools/mc/bin/antlr.jar.
-. Copy wasl2xtuml to the tools/mc/bin folder.
-. Copy mcmasl.exe to tools/mc/bin/win/wasl.exe.
+The Windows build needs to become more consistent to the unix builds.
+The windows build has had the least amount of tools and scripts.
+However, the masl tool binaries are actually built on the server for Windows.
+We simply do not ship them.
+
 . xtumlmc_build.exe?
   * Copy xtumlmc_build to tools/mc/bin/xtumlmc_build.pl.
   * Change it to strip CRLFs from serial MASL stream.
