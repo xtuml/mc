@@ -150,6 +150,7 @@ arguments in order and specification of arguments.
 | expression*       | body              | required              | string                                                      |
 | identifier        | (none)            | N/A                   | N/A                                                         |
 | object            | name              | required              | string                                                      |
+|                   | key_letters       | optional              | string                                                      |
 | operation         | domain            | optional              | string                                                      |
 |                   | object            | optional              | string                                                      |
 |                   | visibility        | required              | "public" or "private"                                       |

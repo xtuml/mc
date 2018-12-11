@@ -32,6 +32,10 @@ that report.
 
 == Requirements
 
+=== Incremental, Always Advancing, Never Broken
+Do not interrupt or otherwise perturb the behavior of these utilities
+when processing MASL!
+
 === Convert WASL to Serial MASL (SMASL) (`WaslParser`)
 === Convert Serial MASL (SMASL) to WASL (`wasl`)
 
@@ -87,14 +91,26 @@ divine it from other sources or from defaults.
 
 === `x2m` and `wasl`
 
+In regard to the ouput of WASL compatible files, the prototyping effort
+provided a proof-of-concept, but did not establish a design approach for
+the ultimate WASL rendering engine.  The prototype modified the MASL
+code renderer, whereas the approach desired will support both MASL and
+WASL.
+
 - render operations:
-  * Change name of masl `render` operations to `render_masl`.
-  * Supply `render_wasl` operations.
-  * When rendering MASL, invoke the corresponding tree of `render_masl` operations.
-  * When rednering WASL, invoke the corresponding tree of `render_wasl` operations.
+  * Change name of masl render operations to 'render_masl'.
+    + The top-level render operation is on 'file'.  The packaging of the
+      output text is controlled by the model as well as the specifics of
+      the text being packaged.
+  * Supply 'render_wasl' operations.
+  * When rendering MASL, invoke the corresponding tree of 'render_masl' operations.
+  * When rednering WASL, invoke the corresponding tree of 'render_wasl' operations.
 - templates:
   * Put templates in subdirectories masl and wasl (and perhaps more to come).
   * Supply a completely separate set of templates for WASL rendering.
+- file packaging:
+  * Supply a new 'file::populate' operation that containerizes elements
+    according to WASL requirements.
 
 === Build Process
 
