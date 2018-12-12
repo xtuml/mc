@@ -1,0 +1,6 @@
+(\
+${relationshipname}\
+.if ( "" != attribute )
+..${attribute}\
+.end if
+)\

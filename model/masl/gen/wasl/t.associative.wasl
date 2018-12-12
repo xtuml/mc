@@ -1,0 +1,6 @@
+${relationship.name},${one_object.name},A,${participation.oneconditionality},${participation.onephrase},${participation.onemultiplicity},${using_object.name},isassoc
+${relationship.name},${using_object.name},C,${participation.otherconditionality},${participation.otherphrase},${participation.othermultiplicity},${one_object.name}
+${relationship.name},${other_object.name},B,${participation.otherconditionality},${participation.otherphrase},${participation.othermultiplicity},${using_object.name},isassoc
+${relationship.name},${using_object.name},C,${participation.oneconditionality},${participation.onephrase},${participation.onemultiplicity},${other_object.name}
+${relationship.name},${one_object.name},A,${participation.oneconditionality},${participation.onephrase},${participation.onemultiplicity},${other_object.name}
+${relationship.name},${other_object.name},B,${participation.otherconditionality},${participation.otherphrase},${participation.othermultiplicity},${one_object.name}
