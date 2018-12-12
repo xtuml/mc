@@ -1,1 +1,1 @@
-1,${self.name},${self.name},${passive}
+  object ${self.name} is

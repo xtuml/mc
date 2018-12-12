@@ -1,5 +1,1 @@
-.if ( "integer" == self->body )
-Base_Integer_Type\
-.else
 ${self.body}\
-.end if
