@@ -14,7 +14,9 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-  '',
+	'T::include( file:"masl/t.object_begin.masl" );
+T::include( file:"masl/t.object_end.masl" );
+',
 	1,
 	'',
 	"9dbf6a3f-b286-4744-a13a-c102da93fc10",
