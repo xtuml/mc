@@ -109,8 +109,9 @@ WASL.
   * Put templates in subdirectories masl and wasl (and perhaps more to come).
   * Supply a completely separate set of templates for WASL rendering.
 - file packaging:
-  * Supply a new 'file::populate' operation that containerizes elements
-    according to WASL requirements.
+  * Change containerization on MASL to be part of 'render'.
+  * Containerize MASL with a query in the render process.
+- Place a dialect attribute on population.
 
 === Build Process
 

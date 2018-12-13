@@ -86,7 +86,6 @@ elif ( "object" == element )
 	  population.stack_trace();
 	end if;
     object = object::populate( name:value[0], domain:parent_domain );
-    typ = type::populate( name:value[0] + "_IH", domain:parent_domain, visibility:"public", body:"Root_Object.Object_Access" );
     select one new_element related by object->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "terminator" == element )
