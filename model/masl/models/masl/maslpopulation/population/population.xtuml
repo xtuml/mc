@@ -1145,6 +1145,24 @@ INSERT INTO O_TFR
 	'',
 	"c73179e4-9bbc-442a-b633-7d7b096f9ba1",
 	0);
+INSERT INTO O_NBATTR
+	VALUES ("be7706ae-e8c0-4690-b5ab-3dc861161545",
+	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
+INSERT INTO O_BATTR
+	VALUES ("be7706ae-e8c0-4690-b5ab-3dc861161545",
+	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
+INSERT INTO O_ATTR
+	VALUES ("be7706ae-e8c0-4690-b5ab-3dc861161545",
+	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
+	"00000000-0000-0000-0000-000000000000",
+	'architecture',
+	'',
+	'',
+	'architecture',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"7b8b1d90-b801-4fda-bfce-b400c0d94add");

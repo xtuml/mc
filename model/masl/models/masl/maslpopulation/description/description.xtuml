@@ -72,7 +72,41 @@ INSERT INTO S_DT_PROXY
 INSERT INTO O_TFR
 	VALUES ("9b72736b-c2e9-489a-8335-75b14b5db539",
 	"55d55565-1750-4967-8834-f462b33478b1",
-	'render',
+	'render_masl',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// render a description line by line adding the line prefix
+
+prefix = "//!";
+descrip = self.text;
+
+while ( "" != descrip )
+
+  line = "";
+  i = STRING::indexof( haystack:descrip, needle:"\n" );
+  if ( -1 == i )
+    // last line with no endline
+    descrip = descrip + "\n";
+    line = STRING::substr( s:descrip, begin:0, end:i );
+    descrip = "";
+  else
+    line = STRING::substr( s:descrip, begin:0, end:i+1 );
+    descrip = STRING::substr( s:descrip, begin:i+1, end:-1 );
+  end if;
+  T::b( s:prefix );
+  T::b( s:line );
+
+end while;
+',
+	1,
+	'',
+	"5a712d0e-139a-43bb-9157-2da9b19563e3",
+	0);
+INSERT INTO O_TFR
+	VALUES ("1286ec03-b9ca-4695-98dd-4a4ba8fa7ec5",
+	"55d55565-1750-4967-8834-f462b33478b1",
+	'render_wasl',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -101,7 +135,7 @@ end while;
 ',
 	1,
 	'',
-	"5a712d0e-139a-43bb-9157-2da9b19563e3",
+	"9b72736b-c2e9-489a-8335-75b14b5db539",
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("532696e3-3325-4efe-b2cb-dd358c5e9cbf",

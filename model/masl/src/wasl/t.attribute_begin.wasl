@@ -1,0 +1,7 @@
+if ( 0==strcmp("preferred",self->preferred) ) {
+T_b("*");
+} else {
+T_b("..");
+}
+T_b(self->name);
+T_b(",");

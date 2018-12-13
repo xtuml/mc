@@ -436,7 +436,13 @@ INSERT INTO SPR_PS
 	VALUES ("fb7bb327-37da-4312-9cff-c3d42aa49d79",
 	'render',
 	'',
-	'file::render( element:param.element, name:param.name, structuralOnly:param.structuralOnly );',
+	'if ( "MASL" == param.architecture )
+  file::render_masl( element:param.element, name:param.name, structuralOnly:param.structuralOnly );
+elif ( "WASL" == param.architecture )
+  file::render_wasl( element:param.element, name:param.name, structuralOnly:param.structuralOnly );
+else
+  // invalid architecture flavor
+end if;',
 	1,
 	0);
 INSERT INTO C_EP_PROXY

@@ -62,28 +62,24 @@ INSERT INTO S_DT_PROXY
 INSERT INTO O_TFR
 	VALUES ("0d6eab48-8a19-474c-a54c-d16da938995b",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
-	'render',
+	'render_masl',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render();
+  descrip.render_masl();
 end for;
 T::include( file:"masl/t.domain_begin.masl" );
 
 select many objects related by self->object[R3708.''has abstract''];
 // Provide forward declaration of objects for use in relationships.
 for each object in objects
-  //object.render_declaration();
+  object.render_declaration();
 end for;
 
 // Render types in dependent order minimizing forward declarations.
-//type::render_all( domain:self, scope:"private" );
-T::b( s:"\n" );
-T::b( s:"$START_TYPES\n" );
-T::b( s:self.name + ".typ\n" );
-T::b( s:"$END_TYPES\n" );
+type::render_all( domain:self, scope:"private" );
 
 select many exceptions related by self->exception[R3748];
 for each exception in exceptions
@@ -102,16 +98,8 @@ end for;
 
 select many relationships related by self->relationship[R3712];
 for each relationship in relationships
-  //relationship.render();
+  relationship.render();
 end for;
-T::b( s:"\n" );
-T::b( s:"$START_RELATIONSHIPS\n" );
-T::b( s:self.name + ".rel\n" );
-T::b( s:"$END_RELATIONSHIPS\n" );
-T::b( s:"\n" );
-T::b( s:"$START_SUBTYPES\n" );
-T::b( s:self.name + ".sub\n" );
-T::b( s:"$END_SUBTYPES\n" );
 
 // Sequence rendering such that supertypes are rendered before subtypes.
 // The maximum number of rounds required cannot be larger than the
@@ -131,15 +119,11 @@ while ( round <= maxrounds )
       select many supertypes related by ss->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.''engages'']->object[R3714];
     end while;
     if ( depth == round )
-      //object.render();
+      object.render_masl();
     end if;
   end for;
   round = round + 1;
 end while;
-T::b( s:"\n" );
-T::b( s:"$START_OBJECTS\n" );
-T::b( s:self.name + ".sub\n" );
-T::b( s:"$END_OBJECTS\n" );
 
 T::include( file:"masl/t.domain_end.masl" );
 
@@ -287,7 +271,7 @@ INSERT INTO O_TFR
 	1,
 	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render();
+  descrip.render_masl();
 end for;
 T::include( file:"masl/t.domain_begin.masl" );
 
@@ -313,7 +297,7 @@ INSERT INTO O_TFR
 	1,
 	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render();
+  descrip.render_masl();
 end for;
 T::include( file:"masl/t.domain_begin.masl" );
 
@@ -344,6 +328,97 @@ T::include( file:"masl/t.domain_end.masl" );
 
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
+	1,
+	'',
+	"2d3ad15b-d226-4fe8-914b-dbfcaf0c5b24",
+	0);
+INSERT INTO O_TFR
+	VALUES ("2d3ad15b-d226-4fe8-914b-dbfcaf0c5b24",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	'render_wasl',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+for each descrip in descrips
+  descrip.render_wasl();
+end for;
+T::include( file:"wasl/t.domain_begin.wasl" );
+
+select many objects related by self->object[R3708.''has abstract''];
+// Provide forward declaration of objects for use in relationships.
+for each object in objects
+  //object.render_declaration();
+end for;
+
+// Render types in dependent order minimizing forward declarations.
+//type::render_all( domain:self, scope:"private" );
+T::b( s:"\n" );
+T::b( s:"$START_TYPES\n" );
+T::b( s:self.name + ".typ\n" );
+T::b( s:"$END_TYPES\n" );
+
+select many exceptions related by self->exception[R3748];
+for each exception in exceptions
+  exception.render();
+end for;
+
+select many routine_activities related by self->routine[R3790.''provides'']->activity[R3704];
+for each activity in routine_activities
+  activity.render();
+end for;
+
+select many terminators related by self->terminator[R3702.''sends through''];
+for each terminator in terminators
+  terminator.render();
+end for;
+
+select many relationships related by self->relationship[R3712];
+for each relationship in relationships
+  //relationship.render();
+end for;
+T::b( s:"\n" );
+T::b( s:"$START_RELATIONSHIPS\n" );
+T::b( s:self.name + ".rel\n" );
+T::b( s:"$END_RELATIONSHIPS\n" );
+T::b( s:"\n" );
+T::b( s:"$START_SUBTYPES\n" );
+T::b( s:self.name + ".sub\n" );
+T::b( s:"$END_SUBTYPES\n" );
+
+// Sequence rendering such that supertypes are rendered before subtypes.
+// The maximum number of rounds required cannot be larger than the
+// total number subtype-supertype relationships in the domain.
+round = 0;
+select many subsupers from instances of subsuper;
+maxrounds = cardinality subsupers;
+while ( round <= maxrounds )
+  for each object in objects
+    // determine subtype depth
+    // Render the object during the round equal to its depth.
+    depth = 0;
+    select many supertypes related by object->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.''engages'']->object[R3714];
+    while ( not_empty supertypes )
+      depth = depth + 1;
+      ss = supertypes;
+      select many supertypes related by ss->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.''engages'']->object[R3714];
+    end while;
+    if ( depth == round )
+      //object.render();
+    end if;
+  end for;
+  round = round + 1;
+end while;
+T::b( s:"\n" );
+T::b( s:"$START_OBJECTS\n" );
+T::b( s:self.name + ".sub\n" );
+T::b( s:"$END_OBJECTS\n" );
+
+T::include( file:"wasl/t.domain_end.wasl" );
+
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"default" );
+',
 	1,
 	'',
 	"0d6eab48-8a19-474c-a54c-d16da938995b",

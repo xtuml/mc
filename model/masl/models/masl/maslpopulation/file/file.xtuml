@@ -10,7 +10,7 @@ INSERT INTO O_OBJ
 INSERT INTO O_TFR
 	VALUES ("4c11d43c-eebe-45da-af8c-2e21b2196111",
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
-	'render',
+	'render_masl',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
@@ -62,60 +62,14 @@ elif ( "domain" == element )
     TRACE::log( flavor:"error", id:52, message:"could not render domain:  " + name );
   else
     for each domain in domains
-      domain.render();
+      domain.render_masl();
       select one file related by domain->markable[R3783]->element[R3786]->file[R3795];
       if ( not_empty file )
         // Domain files go into a directory named after the domain.
         file.directory( name:domain.name );
-        file.emit( name:domain.name + ".dmp" );
-        //domain.render_interface();
-        //file.emit( name:domain.name + ".int" );
-      end if;
-
-      // render types file
-      select many types related by domain->type[R3719];
-      for each typ in types
-        typ.render();
-      end for;
-      select any file related by types->markable[R3783]->element[R3786]->file[R3795];
-      if ( not_empty file )
-        file.directory( name:domain.name );
-        file.emit( name:domain.name + ".typ" );
-      end if;
-
-      // render relationships file
-      select many rels related by domain->relationship[R3712];
-      select many subsuper_rels related by domain->relationship[R3712]->subsuper[R3721]->relationship[R3721];
-      other_rels = rels - subsuper_rels;
-      for each rel in other_rels
-        rel.render();
-      end for;
-      select any file related by other_rels->markable[R3783]->element[R3786]->file[R3795];
-      if ( not_empty file )
-        file.directory( name:domain.name );
-        file.emit( name:domain.name + ".rel" );
-      end if;
-
-      // render subtypes file
-      for each rel in subsuper_rels
-        rel.render();
-      end for;
-      select any file related by subsuper_rels->markable[R3783]->element[R3786]->file[R3795];
-      if ( not_empty file )
-        file.directory( name:domain.name );
-        file.emit( name:domain.name + ".sub" );
-      end if;
-
-      // render objects file
-      select many objects related by domain->object[R3708];
-      for each obj in objects
-        obj.render();
-        T::b( s:"\n" );
-      end for;
-      select any file related by objects->markable[R3783]->element[R3786]->file[R3795];
-      if ( not_empty file )
-        file.directory( name:domain.name );
-        file.emit( name:domain.name + ".obj" );
+        file.emit( name:domain.name + ".mod" );
+        domain.render_interface();
+        file.emit( name:domain.name + ".int" );
       end if;
 
       if ( structuralOnly == true )
@@ -254,7 +208,7 @@ if ( not valid )
 end if;',
 	1,
 	'',
-	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	"fb05b492-f60e-4c02-bdc6-89f2362e8cee",
 	0);
 INSERT INTO O_TFR
 	VALUES ("af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
@@ -302,7 +256,8 @@ elif ( "object" == name )
   relate file to element across R3795;
 else
   // no file needed
-end if;',
+end if;
+',
 	1,
 	'',
 	"0652aa1a-382c-4f76-b3b5-f382ef04ba69",
@@ -660,6 +615,228 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("fb05b492-f60e-4c02-bdc6-89f2362e8cee",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'render_wasl',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'element = param.element;
+name = param.name;
+structuralOnly = param.structuralOnly;
+if ( "project" == element )
+  select many projects from instances of project where ( selected.name == name );
+  if ( ( "*" == name ) or ( "" == name ) )
+    select many projects from instances of project;
+  end if;
+  if ( empty projects )
+    TRACE::log( flavor:"error", id:51, message:"could not render project:  " + name );
+  else
+    for each project in projects
+      project.render();
+      select one file related by project->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        // Project files go into a directory named after the project.
+        file.directory( name:project.name );
+        file.emit( name:project.name + ".prj" );
+      end if;
+
+      if ( structuralOnly == true )
+        // we already output the project structural bits, so skip activites
+        continue;
+      end if;
+      
+	  // render all the activity files
+      select many terminator_activities related by project->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
+      for each activity in terminator_activities
+        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
+        if ( not_empty file )
+          destination = file.getname();
+          // Domain files go into a directory named after the domain.
+          file.directory( name:project.name );
+          file.gen( destination:destination );
+        end if;
+      end for;
+
+    end for;
+  end if;
+elif ( "domain" == element )
+  select many domains from instances of domain where ( selected.name == name );
+  if ( ( "*" == name ) or ( "" == name ) )
+    select many domains from instances of domain;
+  end if;
+  if ( empty domains )
+    TRACE::log( flavor:"error", id:52, message:"could not render domain:  " + name );
+  else
+    for each domain in domains
+      domain.render_wasl();
+      select one file related by domain->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        // Domain files go into a directory named after the domain.
+        file.directory( name:domain.name );
+        file.emit( name:domain.name + ".dmp" );
+        //domain.render_interface();
+        //file.emit( name:domain.name + ".int" );
+      end if;
+
+      // render types file
+      select many types related by domain->type[R3719];
+      for each typ in types
+        typ.render_wasl();
+      end for;
+      select any file related by types->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        file.directory( name:domain.name );
+        file.emit( name:domain.name + ".typ" );
+      end if;
+
+      // render relationships file
+      select many rels related by domain->relationship[R3712];
+      select many subsuper_rels related by domain->relationship[R3712]->subsuper[R3721]->relationship[R3721];
+      other_rels = rels - subsuper_rels;
+      for each rel in other_rels
+        rel.render();
+      end for;
+      select any file related by other_rels->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        file.directory( name:domain.name );
+        file.emit( name:domain.name + ".rel" );
+      end if;
+
+      // render subtypes file
+      for each rel in subsuper_rels
+        rel.render();
+      end for;
+      select any file related by subsuper_rels->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        file.directory( name:domain.name );
+        file.emit( name:domain.name + ".sub" );
+      end if;
+
+      // render objects file
+      select many objects related by domain->object[R3708];
+      for each obj in objects
+        obj.render_wasl();
+        T::b( s:"\n" );
+      end for;
+      select any file related by objects->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        file.directory( name:domain.name );
+        file.emit( name:domain.name + ".obj" );
+      end if;
+
+      if ( structuralOnly == true )
+        // we have output the domain structural bits, so skip activites
+        continue;
+      end if;
+            
+      // render all the activity files
+      select many domain_routines related by domain->routine[R3790]->activity[R3704];
+      select many terminator_routines related by domain->terminator[R3702]->routine[R3791]->activity[R3704];
+      select many class_ops related by domain->object[R3708]->operation[R3749]->activity[R3704];
+      select many states related by domain->object[R3708]->state[R3750]->activity[R3704];
+      // TODO once set addition is in place, I can do this in one for loop - LPS
+      //activities = domain_routines + terminator_routines + class_ops + states;
+      activities = domain_routines;
+      for each activity in activities
+        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
+        if ( not_empty file )
+          destination = file.getname();
+          // Domain files go into a directory named after the domain.
+          file.directory( name:domain.name );
+		  select one class_op related by activity->operation[R3704];
+		  select one deferral related by class_op->subsuper[R3793];
+		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
+			file.gen( destination:destination );
+		  end if;
+        end if;
+      end for;
+      activities = terminator_routines;
+      for each activity in activities
+        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
+        if ( not_empty file )
+          destination = file.getname();
+          // Domain files go into a directory named after the domain.
+          file.directory( name:domain.name );
+		  select one class_op related by activity->operation[R3704];
+		  select one deferral related by class_op->subsuper[R3793];
+		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
+			file.gen( destination:destination );
+          end if;
+        end if;
+      end for;
+      activities = class_ops;
+      for each activity in activities
+        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
+        if ( not_empty file )
+          destination = file.getname();
+          // Domain files go into a directory named after the domain.
+          file.directory( name:domain.name );
+		  select one class_op related by activity->operation[R3704];
+		  select one deferral related by class_op->subsuper[R3793];
+		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
+			file.gen( destination:destination );
+		  end if;
+        end if;
+      end for;
+      activities = states;
+      for each activity in activities
+        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
+        if ( not_empty file )
+          destination = file.getname();
+          // Domain files go into a directory named after the domain.
+          file.directory( name:domain.name );
+		  select one class_op related by activity->operation[R3704];
+		  select one deferral related by class_op->subsuper[R3793];
+		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
+			file.gen( destination:destination );
+		  end if;
+        end if;
+      end for;
+
+    end for;
+  end if;
+elif ( "" == element )	// render from the root
+  select any population from instances of population;
+  select one root_element related by population->element[R3785];
+  if ( not_empty root_element )
+    root_element.render();
+  end if;
+else
+  TRACE::log( flavor:"error", id:53, message:"unrecognized element type on render interface:  " + element );
+end if;',
+	1,
+	'',
+	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("5a9cac6f-7833-4e28-bb71-50f49f765373",
+	"fb05b492-f60e-4c02-bdc6-89f2362e8cee",
+	'element',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("236bc013-aaff-4c72-86da-32851b1dfa28",
+	"fb05b492-f60e-4c02-bdc6-89f2362e8cee",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"5a9cac6f-7833-4e28-bb71-50f49f765373",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("89f9a5b8-21f4-4887-8b48-777b00ec6d72",
+	"fb05b492-f60e-4c02-bdc6-89f2362e8cee",
+	'structuralOnly',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"236bc013-aaff-4c72-86da-32851b1dfa28",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",

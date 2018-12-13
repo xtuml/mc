@@ -1,7 +1,5 @@
-T_b("1,");
+T_b("  ");
+T_b("object ");
 T_b(self->name);
-T_b(",");
-T_b(self->name);
-T_b(",");
-T_b(passive);
+T_b(" is");
 T_b("\n");

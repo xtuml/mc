@@ -10,26 +10,20 @@ INSERT INTO O_OBJ
 INSERT INTO O_TFR
 	VALUES ("94d08134-61ae-4921-adee-96a5ef2d9522",
 	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
-	'render',
+	'render_masl',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render();
+  descrip.render_masl();
 end for;
-
-passive = "passive";
-select any sm related by self->state_machine[R3734];
-if ( not_empty sm )
-  passive = "active";
-end if;
 
 T::include( file:"masl/t.object_begin.masl" );
 
 select many attributes related by self->attribute[R3709.''is characterized by''];
 for each attribute in attributes
-  attribute.render();
+  attribute.render_masl();
 end for;
 
 select many identifiers related by self->identifier[R3711];
@@ -82,7 +76,6 @@ if ( empty object )
   markable = markable::populate( name:"object" );
   relate object to markable across R3783;
 end if;
-typ = type::populate( name:name + "_IH", domain:domain, visibility:"public", body:"Root_Object.Object_Access" );
 return object;',
 	1,
 	'',
@@ -215,7 +208,7 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"declaration" );',
 	1,
 	'',
-	"94d08134-61ae-4921-adee-96a5ef2d9522",
+	"e8263b55-e83f-43ef-902a-9398528cebe4",
 	0);
 INSERT INTO O_TFR
 	VALUES ("5f2cb104-b641-4a62-a93f-91b78ab62058",
@@ -263,6 +256,68 @@ out::tostring( element:"object", value:emptyvalue );
 	'',
 	"62436e5d-b2f0-45bd-824c-bf910bc153d7",
 	0);
+INSERT INTO O_TFR
+	VALUES ("e8263b55-e83f-43ef-902a-9398528cebe4",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	'render_wasl',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// TODO -
+// The following line was part of populate but does not truly
+// belong there.  Need to figure out what to do with this type.
+//typ = type::populate( name:"name" + "_IH", domain:domain, visibility:"public", body:"Root_Object.Object_Access" );
+select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+for each descrip in descrips
+  descrip.render_wasl();
+end for;
+
+passive = "passive";
+select any sm related by self->state_machine[R3734];
+if ( not_empty sm )
+  passive = "active";
+end if;
+
+T::include( file:"wasl/t.object_begin.wasl" );
+
+select many attributes related by self->attribute[R3709.''is characterized by''];
+for each attribute in attributes
+  attribute.render_wasl();
+end for;
+
+select many identifiers related by self->identifier[R3711];
+for each identifier in identifiers
+  identifier.render();
+end for;
+
+select many operation_activities related by self->operation[R3749]->activity[R3704];
+for each activity in operation_activities
+  activity.render();
+end for;
+
+select many state_activities related by self->state[R3750]->activity[R3704];
+for each activity in state_activities
+  activity.render();
+end for;
+
+select many events related by self->event[R3736.''is triggered by''];
+for each event in events
+  event.render();
+end for;
+
+select many state_machines related by self->state_machine[R3734];
+for each state_machine in state_machines
+  state_machine.render();
+end for;
+
+T::include( file:"wasl/t.object_end.wasl" );
+
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"default" );',
+	1,
+	'',
+	"94d08134-61ae-4921-adee-96a5ef2d9522",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("e4200518-32d3-4bef-abc2-bcb823d3dfe9",
 	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
@@ -277,6 +332,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("a3e957a0-0edb-4eca-a02b-b7804fe8cdef",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
+INSERT INTO O_BATTR
+	VALUES ("a3e957a0-0edb-4eca-a02b-b7804fe8cdef",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
+INSERT INTO O_ATTR
+	VALUES ("a3e957a0-0edb-4eca-a02b-b7804fe8cdef",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	"e4200518-32d3-4bef-abc2-bcb823d3dfe9",
+	'key_letters',
+	'',
+	'',
+	'key_letters',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',

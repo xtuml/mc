@@ -10,14 +10,14 @@ INSERT INTO O_OBJ
 INSERT INTO O_TFR
 	VALUES ("b7dd3c52-3a6c-4cea-b528-2625ea83d95d",
 	"56998698-5cbd-405c-920e-291faf20126c",
-	'render',
+	'render_masl',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'// Add the Descrip field as a comment.
 select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render();
+  descrip.render_masl();
 end for;
 self.rendered = true;
 select many references related by self->reference[R3777.''is_referenced_by''];
@@ -214,7 +214,7 @@ for each reference in references
 end for;',
 	1,
 	'',
-	"b7dd3c52-3a6c-4cea-b528-2625ea83d95d",
+	"68a79250-6b1d-4a9f-8f1c-782005825892",
 	0);
 INSERT INTO O_TFR
 	VALUES ("55bd70c6-df59-4a18-8081-b055a6c4bd28",
@@ -238,7 +238,7 @@ while ( count < prev_count )
     select any reference related by type->reference[R3777.''refers_to''] where ( not selected.resolved );
     if ( empty reference )
       if ( ( "public" == type.visibility ) or ( "private" == param.scope ) )
-        type.render();
+        type.render_masl();
       end if;
     end if;
   end for;
@@ -349,6 +349,35 @@ INSERT INTO O_TPARM
 	'',
 	"96a97a2b-48c5-4747-9ae6-e1a270e7c154",
 	'');
+INSERT INTO O_TFR
+	VALUES ("68a79250-6b1d-4a9f-8f1c-782005825892",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'render_wasl',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Add the Descrip field as a comment.
+select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+for each descrip in descrips
+  descrip.render_wasl();
+end for;
+self.rendered = true;
+select many references related by self->reference[R3777.''is_referenced_by''];
+for each reference in references
+  reference.resolved = true;
+end for;
+select one markable related by self->markable[R3783];
+if ( -1 != STRING::indexof( haystack:self.body, needle:"," ) ) // TODO this is a fragile way to identify enums
+  self.body = "Enumeration,{" + self.body + "}";
+end if;
+T::include( file:"wasl/t.type_begin.wasl" );
+T::include( file:"wasl/t.type_end.wasl" );
+markable.render_marking( list:"default" );
+',
+	1,
+	'',
+	"b7dd3c52-3a6c-4cea-b528-2625ea83d95d",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("5e32207e-907b-433a-96bc-6d26e98067dc",
 	"56998698-5cbd-405c-920e-291faf20126c");

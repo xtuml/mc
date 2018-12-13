@@ -1,6 +1,2 @@
-if ( 0==strcmp("integer",self->body) ) {
-T_b("Base_Integer_Type");
-} else {
 T_b(self->body);
 T_b("");
-}
