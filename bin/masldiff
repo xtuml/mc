@@ -39,21 +39,16 @@ fi
 # run MASL formatter
 if [[ -f $1 && -f $2 ]]; then
   rm -rf left.diff right.diff
-  sed "s/^ *//" $1 | sed "s/ *$//" | java -cp $CLASSPATH MaslFormatter -r -s > left.diff
-  sed "s/^ *//" $2 | sed "s/ *$//" | java -cp $CLASSPATH MaslFormatter -r -s > right.diff
+  java -cp $CLASSPATH MaslFormatter -r -s -i $1 > left.diff
+  java -cp $CLASSPATH MaslFormatter -r -s -i $1 > right.diff
 elif [[ -d $1 && -d $2 ]]; then
   rm -rf left.diff right.diff
   java -cp $CLASSPATH MaslFormatter -r -s -i $1 -o left.diff
-  # NOTE:  sed -i is not very portable.  It uses temporary files somewhere.  However, it sure is convenient.
-  find left.diff -type f -exec sed -i "bak" "s/^ *//" {} \;
-  find left.diff -type f -exec sed -i "bak" "s/ *$//" {} \;
   java -cp $CLASSPATH MaslFormatter -r -s -i $2 -o right.diff
-  find right.diff -type f -exec sed -i "bak" "s/^ *//" {} \;
-  find right.diff -type f -exec sed -i "bak" "s/ *$//" {} \;
 else
   echo "Invalid inputs"
   exit 1
 fi
 
 # diff the directories
-diff -Bb left.diff right.diff
+diff -w left.diff right.diff
