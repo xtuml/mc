@@ -159,10 +159,10 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     if ( projectdomain ) {
       int i = 0;
       while ( i < namecount )
-        masl_gen_render( projectdomain, name[ i++ ], (const bool)structuralOnly, "MASL" );
+        masl_gen_render( "MASL", projectdomain, name[ i++ ], (const bool)structuralOnly );
     } else {
-      masl_gen_render( "project", "", (const bool)structuralOnly, "MASL" );
-      masl_gen_render( "domain", "", (const bool)structuralOnly, "MASL" );
+      masl_gen_render( "MASL", "project", "", (const bool)structuralOnly );
+      masl_gen_render( "MASL", "domain", "", (const bool)structuralOnly );
     }
   }
   masl_gen_coverage();
