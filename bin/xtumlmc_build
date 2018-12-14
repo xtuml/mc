@@ -1281,7 +1281,7 @@ sub xtuml2masl
     # pragmas should be produced by the exporter. By default the -k 
     # option is not used in order to suppress generation of "key_letter"
     # pragmas.
-    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m $skip_action_language -i$i $command | tee $i/gen/code_generation/x2m_output.txt | wasl $validate $skip_action_language -i$i $command -o$out_dir | tee $i/gen/code_generation/asl_output.txt ";
+    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m $skip_action_language -i$i $command | tee $i/gen/code_generation/x2m_output.txt | masl $validate $skip_action_language -i$i $command -o$out_dir | tee $i/gen/code_generation/asl_output.txt ";
     print STDERR "$sys_cmd\n";
     system( $sys_cmd );
 
