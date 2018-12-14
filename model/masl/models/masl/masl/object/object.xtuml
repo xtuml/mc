@@ -68,10 +68,15 @@ INSERT INTO O_TFR
 	0,
 	'domain = param.domain;
 name = param.name;
+key_letters = param.key_letters;
 select any object related by domain->object[R3708.''has abstract''] where ( selected.name == name );
+if ( "" == name )
+  select any object related by domain->object[R3708.''has abstract''] where ( selected.key_letters == key_letters );
+end if;
 if ( empty object )
   create object instance object of object;
   object.name = name;
+  object.key_letters = key_letters;
   relate domain to object across R3708.''has abstract'';
   markable = markable::populate( name:"object" );
   relate object to markable across R3783;
@@ -97,7 +102,7 @@ INSERT INTO O_TPARM
 	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
 	0,
 	'',
-	"fe0bf592-4377-4dcc-8d5c-806c966de9bb",
+	"7a5f12b5-aa6c-40b8-9c2c-4c334c831ea8",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
@@ -106,6 +111,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("7a5f12b5-aa6c-40b8-9c2c-4c334c831ea8",
+	"08a62993-0de5-465c-bb72-ba84e7590350",
+	'key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"fe0bf592-4377-4dcc-8d5c-806c966de9bb",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	"00000000-0000-0000-0000-000000000000",

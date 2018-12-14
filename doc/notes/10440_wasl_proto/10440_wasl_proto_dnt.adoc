@@ -17,7 +17,7 @@ these utilities.
 . [[dr-1]] https://support.onefact.net/issues/10440[10440 - Prototypes]
 . [[dr-2]] https://support.onefact.net/issues/10414[10414 - Analyze Options for Migration]
 . [[dr-3]] link:../10414_wasl/ExtractionWithHeaders.xlsx[File Formats:  Extraction with Headers]
-. [[dr-4]] link:../8073_masl_parser/8277_serial_masl_spec.md.md[Serial MASL (SMASL) Specification]
+. [[dr-4]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
 
 
 == Background

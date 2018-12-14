@@ -7503,12 +7503,12 @@ if ( "domain" == element )
     ooapopulation.transformDomain(name:param.value[0]);
   end if;
 elif ( "object" == element )
-  if ( "" == param.value[0] )
+  if ( ( "" == param.value[0] ) and ( "" == param.value[1] ) )
     select any o_obj from instances of O_OBJ where (false);
     ooapopulation.current_class = o_obj;
     ooapopulation.processingIdentifier = 0;
   else
-    ooapopulation.transformObject(name:param.value[0]);
+    ooapopulation.transformObject(name:param.value[0],key_letters:param.value[1]);
   end if;
 elif ( "terminator" == element )
   if ( "" == param.value[0] )
@@ -8536,7 +8536,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'// Create a Model Class with name if it doesn''t already exist, Put inside component''s "<component name>" pkg
+	'// Create a Model Class with name if it does not already exist, Put inside component "<component name>" pkg
 
 // Get the package with the same name as the component, this is where we put the "internal behavior"
 current_component = self.current_component;
@@ -8544,15 +8544,21 @@ select any internals_pkg related by current_component->PE_PE[R8003]->EP_PKG[R800
 
 // See if a model class already exists
 select any o_obj related by internals_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == param.name);
-self.current_class = o_obj;
-
+if ( "" == param.name )
+  select any o_obj related by internals_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Key_Lett == param.key_letters);
+end if;
 if ( empty o_obj )
   // The object has not been declared already, create it
-  self.current_class = self.Package_newClass(ep_pkg:internals_pkg, class_name: param.name); 
+  o_obj = self.Package_newClass(ep_pkg:internals_pkg, class_name: param.name); 
 end if;
 
+o_obj.Name = param.name;
+o_obj.Key_Lett = param.key_letters;
+
+self.current_class = o_obj;
+
 // TODO - this needs to work in concert with Package_newClass and ModelClass_initialize since the first time through 
-//   could just be a forward declaration to an object.  Then the next time we see it we''ll be given more parameters
+//   could just be a forward declaration to an object.  Then the next time we see it we will be given more parameters
 //   to configure the class with.  Thus, we need to do more work here to set the key letters, class number, etc if we
 //   are given them as params.  Or, in the case where we saw the class defintion first then see another class declaration
 //   later, we basically just do nothing and return.',
@@ -8568,6 +8574,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("fe6ff383-8341-4207-a1a5-5f83d56e30c0",
+	"dd140de2-a608-4595-9e0d-414c2db97273",
+	'key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a210dbee-805b-46d2-b616-1f5524ddf658",
 	'');
 INSERT INTO O_TFR
 	VALUES ("640afe09-21d3-4bf8-9e82-84e9b5c82978",

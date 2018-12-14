@@ -599,6 +599,7 @@ c_c = param.c_c;
 select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
 for each o_obj in o_objs
   value[0] = o_obj.Name;
+  value[1] = o_obj.Key_Lett;
   out::populate( element:"object", value:value );
   
   // Link the attributes to each object.
