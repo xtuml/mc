@@ -224,36 +224,6 @@ if ( "project" == name or
      "routine" == name or "operation" == name or "state" == name )
   create object instance file of file;
   relate file to element across R3795;
-elif ( "type" == name )
-  select any file related by element->markable[R3786]->type[R3783]->domain[R3719]->type[R3719]->markable[R3783]->element[R3786]->file[R3795];
-  if ( empty file )
-    create object instance file of file;
-  end if;
-  relate file to element across R3795;
-elif ( "regularrel" == name )
-  select any file related by element->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
-  if ( empty file )
-    create object instance file of file;
-  end if;
-  relate file to element across R3795;
-elif ( "associative" == name )
-  select any file related by element->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->associative[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
-  if ( empty file )
-    create object instance file of file;
-  end if;
-  relate file to element across R3795;
-elif ( "subsuper" == name )
-  select any file related by element->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
-  if ( empty file )
-    create object instance file of file;
-  end if;
-  relate file to element across R3795;
-elif ( "object" == name )
-  select any file related by element->markable[R3786]->object[R3783]->domain[R3708]->type[R3719]->markable[R3783]->element[R3786]->file[R3795];
-  if ( empty file )
-    create object instance file of file;
-  end if;
-  relate file to element across R3795;
 else
   // no file needed
 end if;
@@ -626,6 +596,38 @@ INSERT INTO O_TFR
 	'element = param.element;
 name = param.name;
 structuralOnly = param.structuralOnly;
+/*
+elif ( "type" == name )
+  select any file related by element->markable[R3786]->type[R3783]->domain[R3719]->type[R3719]->markable[R3783]->element[R3786]->file[R3795];
+  if ( empty file )
+    create object instance file of file;
+  end if;
+  relate file to element across R3795;
+elif ( "regularrel" == name )
+  select any file related by element->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
+  if ( empty file )
+    create object instance file of file;
+  end if;
+  relate file to element across R3795;
+elif ( "associative" == name )
+  select any file related by element->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->associative[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
+  if ( empty file )
+    create object instance file of file;
+  end if;
+  relate file to element across R3795;
+elif ( "subsuper" == name )
+  select any file related by element->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
+  if ( empty file )
+    create object instance file of file;
+  end if;
+  relate file to element across R3795;
+elif ( "object" == name )
+  select any file related by element->markable[R3786]->object[R3783]->domain[R3708]->type[R3719]->markable[R3783]->element[R3786]->file[R3795];
+  if ( empty file )
+    create object instance file of file;
+  end if;
+  relate file to element across R3795;
+*/
 if ( "project" == element )
   select many projects from instances of project where ( selected.name == name );
   if ( ( "*" == name ) or ( "" == name ) )

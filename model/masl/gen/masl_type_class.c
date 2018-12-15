@@ -692,7 +692,7 @@ masl_type_instancedumper( Escher_iHandle_t instance )
     ( 0 != self->name ) ? self->name : "",
     ( 0 != self->visibility ) ? self->visibility : "",
     ( 0 != self->body ) ? self->body : "",
-    ( 0 != self->labels ) ? self->labels : "",
+    ( 0 != self->labels ) ? self->labels[0] : "",
     self->lcount,
     self->rendered,
     self->declared_forward );
