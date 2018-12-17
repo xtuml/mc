@@ -15,7 +15,7 @@
  *--------------------------------------------------------------------------*/
 
 #include "masl_sys_types.h"
-#include "masl_file_class.h"
+#include "masl_genfile_class.h"
 #include "T_bridge.h"
 #include "sys_user_co.h"
 
@@ -151,10 +151,10 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   }
   if ( ! Validateonly ) {
     if ( indirname ) {
-      masl_file_op_infolder( indirname );
+      masl_genfile_op_infolder( indirname );
     }
     if ( outdirname ) {
-      masl_file_op_outfolder( outdirname );
+      masl_genfile_op_outfolder( outdirname );
     }
     if ( projectdomain ) {
       int i = 0;

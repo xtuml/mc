@@ -23,7 +23,7 @@ select many elements from instances of element;
 for each e in elements
   if ( "project" == e.name or "domain" == e.name or
        "routine" == e.name or "operation" == e.name or "state" == e.name )
-    create object instance genfile of genfile;
+    genfile = genfile::populate( name:e.name );
     relate genfile to e across R3795;
   else
     // no file needed
@@ -228,12 +228,20 @@ INSERT INTO O_TFR
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
 	'populate',
 	'',
-	"ca7699b5-df14-4eb3-94c2-012654a3804a",
+	"0cc31fb1-62a8-4de9-8fa7-9b53fedf4abb",
 	0,
-	'// initial file
-create object instance file of file;
-file.name = param.name;
-return file;',
+	'create object instance genfile of genfile;
+
+// Find the primary file (named "project") and get defaults from it.
+select any primary_file from instances of genfile where ( selected.name == "project" );
+if ( not_empty primary_file )
+  genfile.directory = primary_file.directory;
+  genfile.projectroot = primary_file.projectroot;
+end if;
+
+genfile.name = param.name;
+
+return genfile;',
 	1,
 	'',
 	"0652aa1a-382c-4f76-b3b5-f382ef04ba69",
@@ -248,12 +256,12 @@ INSERT INTO O_TPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("ca7699b5-df14-4eb3-94c2-012654a3804a",
+	VALUES ("0cc31fb1-62a8-4de9-8fa7-9b53fedf4abb",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<file>',
+	'inst_ref<genfile>',
 	'',
 	'',
-	'../../../../../mcooa/models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml');
+	'../maslpopulation.xtuml');
 INSERT INTO O_TFR
 	VALUES ("0652aa1a-382c-4f76-b3b5-f382ef04ba69",
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
@@ -261,23 +269,17 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
-	'/*
-select many files from instances of file;
-for each file in files
-  if ( "" == file.directory )
-    file.directory = param.name;
-  else
-    file.directory = file.directory + "/" + param.name;
-  end if;
-end for;
-*/
-
-// We may be the first invocation into file.  If so, create the default file.
-select any file from instances of file where ( selected.name == "project" );
-if ( empty file )
-  ile = file::populate( name:"project" );
+	'// We may be the first invocation into file.  If so, create the default file.
+select any genfile from instances of genfile where ( selected.name == "project" );
+if ( empty genfile )
+  genfile = genfile::populate( name:"project" );
 end if;
-file.projectroot = param.name;',
+if ( "" == genfile.directory )
+  genfile.directory = param.name;
+else
+  genfile.directory = genfile.directory + "/" + param.name;
+end if;
+',
 	1,
 	'',
 	"e5b94764-401e-406c-b9a9-fa2a5bc4fce0",
@@ -390,11 +392,11 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
 	'// We may be the first invocation into file.  If so, create the default file.
-select any file from instances of file where ( selected.name == "project" );
-if ( empty file )
-  //file = file::populate( name:"project" );
+select any genfile from instances of genfile where ( selected.name == "project" );
+if ( empty genfile )
+  genfile = genfile::populate( name:"project" );
 end if;
-file.projectroot = param.name;',
+genfile.projectroot = param.name;',
 	1,
 	'',
 	"2f147788-5a86-4450-bedd-f6c445ca097c",
@@ -536,7 +538,7 @@ end if;
 
 // check for a duplicate name
 // TODO this handles overloading which is not yet supported in MASL
-select any dup_file from instances of file where ( selected.name == name );
+select any dup_file from instances of genfile where ( selected.name == name );
 overload = 1;
 orig_name = name;
 while ( not_empty dup_file )
@@ -555,7 +557,7 @@ while ( not_empty dup_file )
   overload = overload + 1;
   
   // retry selection
-  select any dup_file from instances of file where ( selected.name == name );
+  select any dup_file from instances of genfile where ( selected.name == name );
 
 end while;
 
@@ -609,25 +611,25 @@ structuralOnly = param.structuralOnly;
 select many elements from instances of element;
 for each e in elements
   file_needed = true;
-  select any file from instances of file where ( false );
+  select any genfile from instances of genfile where ( false );
 	if ( "object" == name )
-		select any file related by e->markable[R3786]->object[R3783]->domain[R3708]->type[R3719]->markable[R3783]->element[R3786]->file[R3795];
+		select any genfile related by e->markable[R3786]->object[R3783]->domain[R3708]->type[R3719]->markable[R3783]->element[R3786]->genfile[R3795];
 	elif ( "regularrel" == name )
-		select any file related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->regularrel[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
+		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->regularrel[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
 	elif ( "associative" == name )
-		select any file related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->associative[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
+		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->associative[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
 	elif ( "subsuper" == name )
-		select any file related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
+		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
 	elif ( "type" == name )
-		select any file related by e->markable[R3786]->type[R3783]->domain[R3719]->type[R3719]->markable[R3783]->element[R3786]->file[R3795];
+		select any genfile related by e->markable[R3786]->type[R3783]->domain[R3719]->type[R3719]->markable[R3783]->element[R3786]->genfile[R3795];
 	else
 		file_needed = false;
   end if;
-	if ( ( empty file ) and ( file_needed ) )
-	  create object instance file of file;
+	if ( ( empty genfile ) and ( file_needed ) )
+	  genfile = genfile::populate( name:name );
 	end if;
-	if ( not_empty file )
-	  relate file to e across R3795;
+	if ( not_empty genfile )
+	  relate genfile to e across R3795;
 	end if;
 end for;
 
@@ -641,11 +643,11 @@ if ( "project" == element )
   else
     for each project in projects
       project.render();
-      select one file related by project->markable[R3783]->element[R3786]->file[R3795];
-      if ( not_empty file )
+      select one genfile related by project->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
         // Project files go into a directory named after the project.
-        file.directory( name:project.name );
-        file.emit( name:project.name + ".prj" );
+        genfile.directory( name:project.name );
+        genfile.emit( name:project.name + ".prj" );
       end if;
 
       if ( structuralOnly == true )
@@ -656,12 +658,12 @@ if ( "project" == element )
 	  // render all the activity files
       select many terminator_activities related by project->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
       for each activity in terminator_activities
-        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        if ( not_empty file )
-          destination = file.getname();
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
           // Domain files go into a directory named after the domain.
-          file.directory( name:project.name );
-          file.gen( destination:destination );
+          genfile.directory( name:project.name );
+          genfile.gen( destination:destination );
         end if;
       end for;
 
@@ -677,13 +679,13 @@ elif ( "domain" == element )
   else
     for each domain in domains
       domain.render_wasl();
-      select one file related by domain->markable[R3783]->element[R3786]->file[R3795];
-      if ( not_empty file )
+      select one genfile related by domain->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
         // Domain files go into a directory named after the domain.
-        file.directory( name:domain.name );
-        file.emit( name:domain.name + ".dmp" );
+        genfile.directory( name:domain.name );
+        genfile.emit( name:domain.name + ".dmp" );
         //domain.render_interface();
-        //file.emit( name:domain.name + ".int" );
+        //genfile.emit( name:domain.name + ".int" );
       end if;
 
       // render types file
@@ -691,10 +693,10 @@ elif ( "domain" == element )
       for each typ in types
         typ.render_wasl();
       end for;
-      select any file related by types->markable[R3783]->element[R3786]->file[R3795];
-      if ( not_empty file )
-        file.directory( name:domain.name );
-        file.emit( name:domain.name + ".typ" );
+      select any genfile related by types->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
+        genfile.directory( name:domain.name );
+        genfile.emit( name:domain.name + ".typ" );
       end if;
 
       // render relationships file
@@ -704,20 +706,20 @@ elif ( "domain" == element )
       for each rel in other_rels
         rel.render();
       end for;
-      select any file related by other_rels->markable[R3783]->element[R3786]->file[R3795];
-      if ( not_empty file )
-        file.directory( name:domain.name );
-        file.emit( name:domain.name + ".rel" );
+      select any genfile related by other_rels->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
+        genfile.directory( name:domain.name );
+        genfile.emit( name:domain.name + ".rel" );
       end if;
 
       // render subtypes file
       for each rel in subsuper_rels
         rel.render();
       end for;
-      select any file related by subsuper_rels->markable[R3783]->element[R3786]->file[R3795];
-      if ( not_empty file )
-        file.directory( name:domain.name );
-        file.emit( name:domain.name + ".sub" );
+      select any genfile related by subsuper_rels->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
+        genfile.directory( name:domain.name );
+        genfile.emit( name:domain.name + ".sub" );
       end if;
 
       // render objects file
@@ -726,10 +728,10 @@ elif ( "domain" == element )
         obj.render_wasl();
         T::b( s:"\n" );
       end for;
-      select any file related by objects->markable[R3783]->element[R3786]->file[R3795];
-      if ( not_empty file )
-        file.directory( name:domain.name );
-        file.emit( name:domain.name + ".obj" );
+      select any genfile related by objects->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
+        genfile.directory( name:domain.name );
+        genfile.emit( name:domain.name + ".obj" );
       end if;
 
       if ( structuralOnly == true )
@@ -746,57 +748,57 @@ elif ( "domain" == element )
       //activities = domain_routines + terminator_routines + class_ops + states;
       activities = domain_routines;
       for each activity in activities
-        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        if ( not_empty file )
-          destination = file.getname();
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
           // Domain files go into a directory named after the domain.
-          file.directory( name:domain.name );
+          genfile.directory( name:domain.name );
 		  select one class_op related by activity->operation[R3704];
 		  select one deferral related by class_op->subsuper[R3793];
 		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			file.gen( destination:destination );
+			genfile.gen( destination:destination );
 		  end if;
         end if;
       end for;
       activities = terminator_routines;
       for each activity in activities
-        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        if ( not_empty file )
-          destination = file.getname();
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
           // Domain files go into a directory named after the domain.
-          file.directory( name:domain.name );
+          genfile.directory( name:domain.name );
 		  select one class_op related by activity->operation[R3704];
 		  select one deferral related by class_op->subsuper[R3793];
 		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			file.gen( destination:destination );
+			genfile.gen( destination:destination );
           end if;
         end if;
       end for;
       activities = class_ops;
       for each activity in activities
-        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        if ( not_empty file )
-          destination = file.getname();
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
           // Domain files go into a directory named after the domain.
-          file.directory( name:domain.name );
+          genfile.directory( name:domain.name );
 		  select one class_op related by activity->operation[R3704];
 		  select one deferral related by class_op->subsuper[R3793];
 		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			file.gen( destination:destination );
+			genfile.gen( destination:destination );
 		  end if;
         end if;
       end for;
       activities = states;
       for each activity in activities
-        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        if ( not_empty file )
-          destination = file.getname();
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
           // Domain files go into a directory named after the domain.
-          file.directory( name:domain.name );
+          genfile.directory( name:domain.name );
 		  select one class_op related by activity->operation[R3704];
 		  select one deferral related by class_op->subsuper[R3793];
 		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			file.gen( destination:destination );
+			genfile.gen( destination:destination );
 		  end if;
         end if;
       end for;

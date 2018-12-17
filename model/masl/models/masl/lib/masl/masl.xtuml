@@ -437,9 +437,9 @@ INSERT INTO SPR_PS
 	'render',
 	'',
 	'if ( "MASL" == param.architecture )
-  file::render_masl( element:param.element, name:param.name, structuralOnly:param.structuralOnly );
+  genfile::render_masl( element:param.element, name:param.name, structuralOnly:param.structuralOnly );
 elif ( "WASL" == param.architecture )
-  file::render_wasl( element:param.element, name:param.name, structuralOnly:param.structuralOnly );
+  genfile::render_wasl( element:param.element, name:param.name, structuralOnly:param.structuralOnly );
 else
   // invalid architecture flavor
 end if;',
@@ -488,7 +488,7 @@ INSERT INTO SPR_PS
 	VALUES ("de8c2480-5fcd-4ddf-8250-bb47fa815a2a",
 	'validate',
 	'',
-	'file::validate();',
+	'genfile::validate();',
 	1,
 	0);
 INSERT INTO C_EP_PROXY
