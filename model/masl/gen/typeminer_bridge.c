@@ -31,7 +31,6 @@ char * CORE_TYPES[11] = { "character", "string", "boolean", "byte", "integer", "
 i_t
 typeminer_referreds( c_t * p_body, c_t * p_labels[1024], c_t * p_name )
 {
-  return 0;
   // initialize label list
   typeminer_labels = typeminer_label_list_init();
 
