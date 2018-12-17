@@ -57,30 +57,41 @@ represents most of the work in the export flow.
 image::waslflow.png[WASL-to-xtUML and xtUML-to-WASL Flows]
 WASL-to-xtUML and xtUML-to-WASL Flows
 
-== Design
-
-- Change name from asl/Asl/ASL to wasl/WaslParser/WASL.
-- Honor ordering of stanzas in the .dmp file as needed.
-  * There may be some order.  Relationships need to come before object
-definitions (maybe).  I think that in m2x the relationships need to be
-there so they can be associated with the referential attributes.
+- There may be some order requirement in the .dmp file.  Relationships
+need to come before object definitions (maybe).  I think that in m2x
+the relationships need to be there so they can be associated with the
+referential attributes.
 - I think we can load/parse the `.dmp` file and process it.
 This will not be complete, but it will allow for declaration of
 fundamental elements that can be "filled in" by loading/parsing
 the subordinate files.
+
+== Design
+
 - Add required new model elements to SMASL and the models.
   * Update the SMASL specification <<dr-4,2.4>>.
     + Add an attribute to 'object' to support key letters.
   * Update `m2x`, `x2m` and `masl` to account for updated SMASL specification.
     + Add an attribute to the class, 'object', to support key letters.
 
+=== Invocation and Builders
+WASL converters, importers and exporters need to be invoked with the
+set of parameters appropriate to process correct input and produce correct
+output.
+
+==== `wasl2xtuml`
+
+- Update wasl2xtuml to deal with classpaths in a DOS environment.
+
+
 === `WaslParser` and `m2x`
 
 - Create a new WASL parser that parses structural WASL.
 - Parse WASL and emit SMASL.
-- Deal with order of relationships, subtypes and objects in `.dmp` file.
+- Change name from asl/Asl/ASL to wasl/WaslParser/WASL.
+- Honor ordering of stanzas in the .dmp file as needed.
+  * Deal with order of relationships, subtypes and objects in `.dmp` file.
   * Consider updating the WASL extraction tool instead; it may be easier.
-- Update wasl2xtuml to deal with classpaths in a DOS environment.
 - Compile m2x for DOS (or cygwin).
 - Update `maslin` to handle some information missing from input SMASL and
 divine it from other sources or from defaults.
@@ -104,20 +115,23 @@ code renderer, whereas the approach desired will support both MASL and
 WASL.
 
 - render operations:
-  * Change name of masl render operations to 'render_masl'.
+  * Change name of masl render operations to 'render_masl' on elements
+    that differ between MASL and WASL.
     + The top-level render operation is on 'file'.  The packaging of the
       output text is controlled by the model as well as the specifics of
       the text being packaged.
   * Supply 'render_wasl' operations.
   * When rendering MASL, invoke the corresponding tree of 'render_masl' operations.
-  * When rednering WASL, invoke the corresponding tree of 'render_wasl' operations.
+  * When rednering WASL, invoke the tree of 'render_wasl' operations.
 - templates:
-  * Put templates in subdirectories masl and wasl (and perhaps more to come).
-  * Supply a completely separate set of templates for WASL rendering.
+  * Put templates in subdirectories `masl` and `wasl`.
+  * Supply a separate set of templates for WASL rendering.
 - file packaging:
   * Change containerization on MASL to be part of 'render'.
   * Containerize MASL with a query in the render process.
 - Place a dialect attribute on population.
+
+==== `xtuml2wasl`
 
 === Build Process
 
@@ -152,6 +166,8 @@ We simply do not ship them.
 == User Documentation
 
 == Unit Test
+
+. Run `masl_round_trip` on the build server and see it pass %100.
 
 ---
 

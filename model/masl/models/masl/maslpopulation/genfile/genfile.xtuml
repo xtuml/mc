@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("687ad4bd-4a01-4dc7-be97-70f02360f9c4",
-	'file',
+	'genfile',
 	3778,
-	'file',
+	'genfile',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
@@ -17,6 +17,19 @@ INSERT INTO O_TFR
 	'element = param.element;
 name = param.name;
 structuralOnly = param.structuralOnly;
+
+// Populate the file containerization before transforming and emitting the text.
+select many elements from instances of element;
+for each e in elements
+  if ( "project" == e.name or "domain" == e.name or
+       "routine" == e.name or "operation" == e.name or "state" == e.name )
+    create object instance genfile of genfile;
+    relate genfile to e across R3795;
+  else
+    // no file needed
+  end if;
+end for;
+
 if ( "project" == element )
   select many projects from instances of project where ( selected.name == name );
   if ( ( "*" == name ) or ( "" == name ) )
@@ -27,11 +40,11 @@ if ( "project" == element )
   else
     for each project in projects
       project.render();
-      select one file related by project->markable[R3783]->element[R3786]->file[R3795];
-      if ( not_empty file )
+      select one genfile related by project->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
         // Project files go into a directory named after the project.
-        file.directory( name:project.name );
-        file.emit( name:project.name + ".prj" );
+        genfile.directory( name:project.name );
+        genfile.emit( name:project.name + ".prj" );
       end if;
 
       if ( structuralOnly == true )
@@ -42,12 +55,12 @@ if ( "project" == element )
 	  // render all the activity files
       select many terminator_activities related by project->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
       for each activity in terminator_activities
-        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        if ( not_empty file )
-          destination = file.getname();
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
           // Domain files go into a directory named after the domain.
-          file.directory( name:project.name );
-          file.gen( destination:destination );
+          genfile.directory( name:project.name );
+          genfile.gen( destination:destination );
         end if;
       end for;
 
@@ -63,13 +76,13 @@ elif ( "domain" == element )
   else
     for each domain in domains
       domain.render_masl();
-      select one file related by domain->markable[R3783]->element[R3786]->file[R3795];
-      if ( not_empty file )
+      select one genfile related by domain->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
         // Domain files go into a directory named after the domain.
-        file.directory( name:domain.name );
-        file.emit( name:domain.name + ".mod" );
+        genfile.directory( name:domain.name );
+        genfile.emit( name:domain.name + ".mod" );
         domain.render_interface();
-        file.emit( name:domain.name + ".int" );
+        genfile.emit( name:domain.name + ".int" );
       end if;
 
       if ( structuralOnly == true )
@@ -86,57 +99,57 @@ elif ( "domain" == element )
       //activities = domain_routines + terminator_routines + class_ops + states;
       activities = domain_routines;
       for each activity in activities
-        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        if ( not_empty file )
-          destination = file.getname();
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
           // Domain files go into a directory named after the domain.
-          file.directory( name:domain.name );
+          genfile.directory( name:domain.name );
 		  select one class_op related by activity->operation[R3704];
 		  select one deferral related by class_op->subsuper[R3793];
 		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			file.gen( destination:destination );
+			genfile.gen( destination:destination );
 		  end if;
         end if;
       end for;
       activities = terminator_routines;
       for each activity in activities
-        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        if ( not_empty file )
-          destination = file.getname();
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
           // Domain files go into a directory named after the domain.
-          file.directory( name:domain.name );
+          genfile.directory( name:domain.name );
 		  select one class_op related by activity->operation[R3704];
 		  select one deferral related by class_op->subsuper[R3793];
 		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			file.gen( destination:destination );
+			genfile.gen( destination:destination );
           end if;
         end if;
       end for;
       activities = class_ops;
       for each activity in activities
-        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        if ( not_empty file )
-          destination = file.getname();
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
           // Domain files go into a directory named after the domain.
-          file.directory( name:domain.name );
+          genfile.directory( name:domain.name );
 		  select one class_op related by activity->operation[R3704];
 		  select one deferral related by class_op->subsuper[R3793];
 		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			file.gen( destination:destination );
+			genfile.gen( destination:destination );
 		  end if;
         end if;
       end for;
       activities = states;
       for each activity in activities
-        select one file related by activity->markable[R3783]->element[R3786]->file[R3795];
-        if ( not_empty file )
-          destination = file.getname();
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
           // Domain files go into a directory named after the domain.
-          file.directory( name:domain.name );
+          genfile.directory( name:domain.name );
 		  select one class_op related by activity->operation[R3704];
 		  select one deferral related by class_op->subsuper[R3793];
 		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			file.gen( destination:destination );
+			genfile.gen( destination:destination );
 		  end if;
         end if;
       end for;
@@ -215,39 +228,16 @@ INSERT INTO O_TFR
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
 	'populate',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"ca7699b5-df14-4eb3-94c2-012654a3804a",
 	0,
-	'element = param.element;
-name = param.name;
-if ( "project" == name or 
-     "domain" == name or
-     "routine" == name or "operation" == name or "state" == name )
-  create object instance file of file;
-  relate file to element across R3795;
-else
-  // no file needed
-end if;
-',
+	'// initial file
+create object instance file of file;
+file.name = param.name;
+return file;',
 	1,
 	'',
 	"0652aa1a-382c-4f76-b3b5-f382ef04ba69",
 	0);
-INSERT INTO O_TPARM
-	VALUES ("d350bed6-dabc-4263-9eea-a69fcc05e73e",
-	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
-	'element',
-	"3989a0a6-1287-4fd5-9b4c-6f98e273a076",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("3989a0a6-1287-4fd5-9b4c-6f98e273a076",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<element>',
-	'',
-	'',
-	'../maslpopulation.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("6c8f49be-0ccb-4b8a-ae38-a983e455e4a4",
 	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
@@ -255,8 +245,15 @@ INSERT INTO O_TPARM
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"d350bed6-dabc-4263-9eea-a69fcc05e73e",
+	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ca7699b5-df14-4eb3-94c2-012654a3804a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<file>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml');
 INSERT INTO O_TFR
 	VALUES ("0652aa1a-382c-4f76-b3b5-f382ef04ba69",
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
@@ -264,14 +261,23 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
-	'select many files from instances of file;
+	'/*
+select many files from instances of file;
 for each file in files
   if ( "" == file.directory )
     file.directory = param.name;
   else
     file.directory = file.directory + "/" + param.name;
   end if;
-end for;',
+end for;
+*/
+
+// We may be the first invocation into file.  If so, create the default file.
+select any file from instances of file where ( selected.name == "project" );
+if ( empty file )
+  ile = file::populate( name:"project" );
+end if;
+file.projectroot = param.name;',
 	1,
 	'',
 	"e5b94764-401e-406c-b9a9-fa2a5bc4fce0",
@@ -383,10 +389,12 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
-	'select many files from instances of file;
-for each file in files
-  file.projectroot = param.name;
-end for;',
+	'// We may be the first invocation into file.  If so, create the default file.
+select any file from instances of file where ( selected.name == "project" );
+if ( empty file )
+  //file = file::populate( name:"project" );
+end if;
+file.projectroot = param.name;',
 	1,
 	'',
 	"2f147788-5a86-4450-bedd-f6c445ca097c",
@@ -596,38 +604,33 @@ INSERT INTO O_TFR
 	'element = param.element;
 name = param.name;
 structuralOnly = param.structuralOnly;
-/*
-elif ( "type" == name )
-  select any file related by element->markable[R3786]->type[R3783]->domain[R3719]->type[R3719]->markable[R3783]->element[R3786]->file[R3795];
-  if ( empty file )
-    create object instance file of file;
+
+// Populate the file containerization before transforming and emitting the text.
+select many elements from instances of element;
+for each e in elements
+  file_needed = true;
+  select any file from instances of file where ( false );
+	if ( "object" == name )
+		select any file related by e->markable[R3786]->object[R3783]->domain[R3708]->type[R3719]->markable[R3783]->element[R3786]->file[R3795];
+	elif ( "regularrel" == name )
+		select any file related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->regularrel[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
+	elif ( "associative" == name )
+		select any file related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->associative[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
+	elif ( "subsuper" == name )
+		select any file related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
+	elif ( "type" == name )
+		select any file related by e->markable[R3786]->type[R3783]->domain[R3719]->type[R3719]->markable[R3783]->element[R3786]->file[R3795];
+	else
+		file_needed = false;
   end if;
-  relate file to element across R3795;
-elif ( "regularrel" == name )
-  select any file related by element->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
-  if ( empty file )
-    create object instance file of file;
-  end if;
-  relate file to element across R3795;
-elif ( "associative" == name )
-  select any file related by element->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->associative[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
-  if ( empty file )
-    create object instance file of file;
-  end if;
-  relate file to element across R3795;
-elif ( "subsuper" == name )
-  select any file related by element->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->file[R3795];
-  if ( empty file )
-    create object instance file of file;
-  end if;
-  relate file to element across R3795;
-elif ( "object" == name )
-  select any file related by element->markable[R3786]->object[R3783]->domain[R3708]->type[R3719]->markable[R3783]->element[R3786]->file[R3795];
-  if ( empty file )
-    create object instance file of file;
-  end if;
-  relate file to element across R3795;
-*/
+	if ( ( empty file ) and ( file_needed ) )
+	  create object instance file of file;
+	end if;
+	if ( not_empty file )
+	  relate file to e across R3795;
+	end if;
+end for;
+
 if ( "project" == element )
   select many projects from instances of project where ( selected.name == name );
   if ( ( "*" == name ) or ( "" == name ) )
