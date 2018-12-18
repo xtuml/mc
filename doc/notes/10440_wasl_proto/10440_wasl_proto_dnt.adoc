@@ -129,6 +129,16 @@ WASL.
 - file packaging:
   * Change containerization on MASL to be part of 'render'.
   * Containerize MASL with a query in the render process.
+    + Change the name of 'file' to 'genfile', since there is a class called
+      'file' in `mcooa` which is often in the same workspace.  This only
+      matters when publishing references, which we want to do for the sake
+      of consistency.
+    + Stop populating the file with each element during the population stage.
+    + Create files at the beginning of the 'render' query.
+    + Create files based on the names of types of elements.
+    + Deal with 'genfile::infolder' and 'genfile::outfolder' when no files
+      pre-exist.
+    + Put error message when invalid architecture flavor is passed in.
 - Place a dialect attribute on population.
 
 ==== `xtuml2wasl`
@@ -138,6 +148,7 @@ WASL.
 Update the build dependencies and build scripts to support the above changes.
 
 - Add build artifacts for `wasl` that gets built from `masl`.
+  * changed my mind, instead make `masl` a superset... maybe name it `mwasl`.
 - Update the file movement in the releng pom file that populates
 `toosl/mc/bin`.
 
