@@ -1,26 +1,20 @@
-= WASL Parser and Generator Prototyping
+= WASL BridgePoint Migration Sizing and Sequencing
 
-xtUML Project Design Note
+xtUML Project Analysis Note
 
 :sectnums:
+:sectnumlevels: 5
 
 == Abstract
 
-There are two primary links in a WASL/xtUML prototyping chain.  The first
-involves parsing WASL on the input/conversion to xtUML.  The second generates
-WASL from xtUML instance information.  This note documents the design of
-these utilities.
+Migration of WASL models from iUML to BridgePoint involves a substantial
+engineering effort involving several bits of tooling and testing.  Model
+conversion, import, editing, and export are to be supported in the tools.
+Testing, documentation and training are required to support the processes.
+This note serves as a top-level sizing and planning document to the various
+analysis and design notes documenting the migration engineering.
 
-
-== Document References
-
-. [[dr-1]] https://support.onefact.net/issues/10440[10440 - Prototypes]
-. [[dr-2]] https://support.onefact.net/issues/10414[10414 - Analyze Options for Migration]
-. [[dr-3]] link:../10414_wasl/ExtractionWithHeaders.xlsx[File Formats:  Extraction with Headers]
-. [[dr-4]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
-
-
-== Background
+== Introduction and Background
 
 <<dr-2,2.2>> provides analysis of migration options and recommends
 a path forward from iUML to BridgePoint while leveraging the existing
@@ -28,21 +22,72 @@ model compiler tool chain.  The analysis explored converting iUML models
 represented as WASL flat ASCII files into xtUML and importing them into
 BridgePoint.  It also explored ways of exporting WASL-idiom xtUML models
 from BridgePoint to WASL to feed downstream to the model translation
-build chain.  This design note presumes familiarity with the contents of
-that report.
+build chain.  This note presumes familiarity with the contents of that
+report.
 
 == Requirements
 
-=== Incremental, Always Advancing, Never Broken
-Do not interrupt or otherwise perturb the behavior of these utilities
-when processing MASL!
+=== Identification of Tasks
+==== Training
+===== Configuration Management
+===== Basic xtUML Modeling
+===== Tool Training
+==== Meta-Modeling
+===== MASL/WASL Meta-Model
+===== Enhanced Serial MASL
+===== Marking
+==== WASL Parser
+===== Parse Domain Models
+====== Type
+====== Interface and Port
+====== Domain
+====== Class
+====== Relationship
+====== State Machine
+====== Terminator
+====== Activities
+===== Parse Build Sets
+====== Deployment
+==== Updates to `m2x`
+==== WASL Generation
+===== Export Domain
+====== Type
+====== Interface
+====== Port
+====== Domain
+====== Class
+====== Relationship
+====== State Machine
+====== Terminator
+====== Activities
+====== WASL Folder Structure
+===== Export Build Set
+====== Deployment
+==== Updates to `x2m`
+===== Key Letters
+==== Domain Editor Compatibility
+===== WASL Activity Dialect
+==== Deployment Editor
+==== Initial Model Migration
+===== Model Conversion Trial
+====== Convert Relationships and Events Models
+====== Semi-Automate Model Conversion
+==== Testing and Validation
+===== WASL Compare Utility
+====== Compare Unedited Model
+====== Compare Edited Export
+====== Export Existing Model to WASL
+==== ASL Editing
+===== ASL Syntax-Highlighting Editor
+===== Auto-Indent
+==== Migrate the SWATS Models
+
+=== Sequencing and Dependency Analysis
+=== Sizing of Tasks
+=== Project Planning
 
 === Convert WASL to Serial MASL (SMASL) (`WaslParser`)
 === Convert Serial MASL (SMASL) to WASL (`wasl`)
-
-(A6) Prototypes::
-Develop working prototypes and/or mock ups of workflows with screenshots
-leveraging supplied example files.
 
 == Analysis
 
@@ -174,11 +219,23 @@ We simply do not ship them.
   * Copy xtumlmc_build to tools/mc/bin/xtumlmc_build.pl.
   * Change it to strip CRLFs from serial MASL stream.
 
-== User Documentation
+== Work Required
 
-== Unit Test
+- Provide import script:  wasl2xtuml
+- Provide export script:  xtuml2wasl
+- Provide testing scripts:  wasl_round_trip, wasldiff
+
+== Acceptance Test
 
 . Run `masl_round_trip` on the build server and see it pass %100.
+. Run `wasl_round_trip` using WACA test suite (SWATS).
+
+== Document References
+
+. [[dr-1]] https://support.onefact.net/issues/10440[10440 - Prototypes]
+. [[dr-2]] https://support.onefact.net/issues/10414[10414 - Analyze Options for Migration]
+. [[dr-3]] link:../10414_wasl/ExtractionWithHeaders.xlsx[File Formats:  Extraction with Headers]
+. [[dr-4]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
 
 ---
 
