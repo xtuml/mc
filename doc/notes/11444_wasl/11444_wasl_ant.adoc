@@ -7,10 +7,10 @@ xtUML Project Analysis Note
 
 == Abstract
 
-Migration of WASL models from iUML to BridgePoint involves a substantial
+Migration of WASL models from iUML to BridgePoint necessitates a substantial
 engineering effort involving several bits of tooling and testing.  Model
 conversion, import, editing, and export are to be supported in the tools.
-Testing, documentation and training are required to support the processes.
+Testing, documentation and training are required to sustain the processes.
 This note serves as a top-level sizing and planning document to the various
 analysis and design notes documenting the migration engineering.
 
@@ -27,7 +27,33 @@ report.
 
 == Requirements
 
-=== Identification of Tasks
+=== Identify Tasks
+=== Analyze Dependencies and Sequence Work
+=== Size Tasks
+=== Plan Project
+
+== Analysis
+
+In <<wasl-flow>> below, there are two flows.  The top flow illustrates
+the convert/import from WASL flat ASCII files into BridgePoint xtUML.
+The _WaslParser_ block is the substantive change in this flow relative
+to the existing MASL import tooling.  The lower flow shows the export of
+WASL flat ASCII files from BridgePoint xtUML.  The block labeled _wasl_
+represents most of the work in the export flow.
+
+[[wasl-flow]]
+image::waslflow.png[WASL-to-xtUML and xtUML-to-WASL Flows]
+WASL-to-xtUML and xtUML-to-WASL Flows
+
+In addition to the tooling, there are training, conversion and testing
+tasks involved in the project.
+
+=== Task Identification
+This section identifies the tasks that compose the project.  Each task
+is analyzed independently or together in a group of related tasks.
+Sizing and sequencing come as part of the analysis.  In many cases a link
+to a subordinate design note is provided for the task.
+
 ==== Training
 ===== Configuration Management
 ===== Basic xtUML Modeling
@@ -39,6 +65,7 @@ report.
 ==== WASL Parser
 ===== Parse Domain Models
 ====== Type
+Deal with 'typeminer'.
 ====== Interface and Port
 ====== Domain
 ====== Class
@@ -83,24 +110,24 @@ report.
 ==== Migrate the SWATS Models
 
 === Sequencing and Dependency Analysis
+Some tasks are independent.  Some tasks depend upon the completion of
+other tasks.  An analysis is performed to outline sequencing required.
+
 === Sizing of Tasks
+Sizing of each task is provided in the design note and carried into the
+sections above.  A summary is provided here.
+
 === Project Planning
+The analyses and design performed on the various tasks is managed in a
+project plan.  Of course the project plan is refined over time as new
+information becomes available.  However, since a significant analysis
+has been performed, the confidence in the initial project plan can be
+relatively high.
+
 
 === Convert WASL to Serial MASL (SMASL) (`WaslParser`)
 === Convert Serial MASL (SMASL) to WASL (`wasl`)
 
-== Analysis
-
-In <<wasl-flow>> below, there are two flows.  The top flow illustrates
-the convert/import from WASL flat ASCII files into BridgePoint xtUML.
-The _WaslParser_ block is the substantive change in this flow relative
-to the existing MASL import tooling.  The lower flow shows the export of
-WASL flat ASCII files from BridgePoint xtUML.  The block labeled _wasl_
-represents most of the work in the export flow.
-
-[[wasl-flow]]
-image::waslflow.png[WASL-to-xtUML and xtUML-to-WASL Flows]
-WASL-to-xtUML and xtUML-to-WASL Flows
 
 - There may be some order requirement in the .dmp file.  Relationships
 need to come before object definitions (maybe).  I think that in m2x
@@ -112,6 +139,9 @@ fundamental elements that can be "filled in" by loading/parsing
 the subordinate files.
 
 == Design
+
+=== Convert WASL to Serial MASL (SMASL) (`WaslParser`)
+=== Convert Serial MASL (SMASL) to WASL (`wasl`)
 
 - Add required new model elements to SMASL and the models.
   * Update the SMASL specification <<dr-4,2.4>>.
@@ -228,6 +258,8 @@ We simply do not ship them.
 == Acceptance Test
 
 . Run `masl_round_trip` on the build server and see it pass %100.
+. Run `wasl_round_trip` using WASL test suite ported from MASL.
+It would be cheap and easy to port many of the MASL test cases... specifically, the really small isolated tests.
 . Run `wasl_round_trip` using WACA test suite (SWATS).
 
 == Document References

@@ -612,15 +612,15 @@ select many elements from instances of element;
 for each e in elements
   file_needed = true;
   select any genfile from instances of genfile where ( false );
-	if ( "object" == name )
-		select any genfile related by e->markable[R3786]->object[R3783]->domain[R3708]->type[R3719]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "regularrel" == name )
+	if ( "object" == e.name )
+		select any genfile related by e->markable[R3786]->object[R3783]->domain[R3708]->object[R3708]->markable[R3783]->element[R3786]->genfile[R3795];
+	elif ( "regularrel" == e.name )
 		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->regularrel[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "associative" == name )
+	elif ( "associative" == e.name )
 		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->associative[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "subsuper" == name )
+	elif ( "subsuper" == e.name )
 		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "type" == name )
+	elif ( "type" == e.name )
 		select any genfile related by e->markable[R3786]->type[R3783]->domain[R3719]->type[R3719]->markable[R3783]->element[R3786]->genfile[R3795];
 	else
 		file_needed = false;
@@ -684,8 +684,6 @@ elif ( "domain" == element )
         // Domain files go into a directory named after the domain.
         genfile.directory( name:domain.name );
         genfile.emit( name:domain.name + ".dmp" );
-        //domain.render_interface();
-        //genfile.emit( name:domain.name + ".int" );
       end if;
 
       // render types file

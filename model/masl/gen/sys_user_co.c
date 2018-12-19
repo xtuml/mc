@@ -109,11 +109,12 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
 
   int validate = 0; int Validateonly = 0; bool structuralOnly = FALSE;
   char * indirname = 0; char * outdirname = 0; char * projectdomain = 0;
+  char * architecture = "MASL";
   int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "vVsi:o:d::p::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "vVsa:i:o:d::p::" ) ) != -1 ) {
       switch ( c ) {
         case 'v':
           validate = 1; break;
@@ -121,6 +122,8 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
           Validateonly = 1; break;
         case 's':
           structuralOnly = TRUE; break;
+        case 'a':
+          architecture = optarg; break;
         case 'i':
           indirname = optarg; break;
         case 'o':
@@ -159,10 +162,10 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     if ( projectdomain ) {
       int i = 0;
       while ( i < namecount )
-        masl_gen_render( "MASL", projectdomain, name[ i++ ], (const bool)structuralOnly );
+        masl_gen_render( architecture, projectdomain, name[ i++ ], (const bool)structuralOnly );
     } else {
-      masl_gen_render( "MASL", "project", "", (const bool)structuralOnly );
-      masl_gen_render( "MASL", "domain", "", (const bool)structuralOnly );
+      masl_gen_render( architecture, "project", "", (const bool)structuralOnly );
+      masl_gen_render( architecture, "domain", "", (const bool)structuralOnly );
     }
   }
   masl_gen_coverage();
