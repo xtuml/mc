@@ -12,7 +12,7 @@
 ### Usage
 
 # ```
-# Usage:    <BP home>/tools/masl/masldiff <input1> <input2>
+# Usage:    <BP home>/tools/mc/bin/masldiff <input1> <input2>
 # ```
 
 # Note: `left.diff` and `right.diff` will be produced by the tool

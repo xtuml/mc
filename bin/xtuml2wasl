@@ -5,4 +5,4 @@ export MASL_BIN_DIR=$DIR/
 
 EXE="xtumlmc_build"
 
-$DIR/$EXE xtuml2masl $@
+$DIR/$EXE xtuml2wasl $@

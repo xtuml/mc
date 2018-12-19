@@ -1149,8 +1149,8 @@ sub xtuml_integrity
 sub xtuml2masl;
 sub xtuml2masl
 {
-  # xtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -d <domain component> [-o <output directory>]
-  # xtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -p <project package> [-o <output directory>]
+  # xtuml2masl [-v | -V] [-e] [-xf] [-xl] [-w] -i <eclipse project> -d <domain component> [-o <output directory>]
+  # xtuml2masl [-v | -V] [-e] [-xf] [-xl] [-w] -i <eclipse project> -p <project package> [-o <output directory>]
 
   # get command line arguments
   my @param_list = @_;
@@ -1166,6 +1166,7 @@ sub xtuml2masl
   my $out_dir = "";
   my $skip_formatter = "";
   my $skip_action_language = "";
+  my $architecture = "MASL";
 
   my @inputs;
   my $num_inputs = -1;
@@ -1175,7 +1176,7 @@ sub xtuml2masl
   my @dom_names;
   my @proj_names;
 
-  my $usage = "Usage:\n\txtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -d <domain component> [-o <output directory>]\n\txtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -p <project package> [-o <output directory>]\n";
+  my $usage = "Usage:\n\txtuml2masl [-v | -V] [-e] [-xf] [-xl] [-w] -i <eclipse project> -d <domain component> [-o <output directory>]\n\txtuml2masl [-v | -V] [-e] [-xf] [-xl] [-w] -i <eclipse project> -p <project package> [-o <output directory>]\n";
 
   # parse arguments
   my $directive = "";
@@ -1188,9 +1189,12 @@ sub xtuml2masl
       $eclipse = "$arg";
       $directive = "";
     }
-    elsif ( $arg eq "-xf" and $skip_formatter eq "" ) {               # if we encounter flag indicating skip MASL formatting
+    elsif ( $arg eq "-xf" and $skip_formatter eq "" ) {             # if we encounter flag indicating skip MASL formatting
       $skip_formatter = "$arg";
       $directive = "";
+    }
+    elsif ( $arg eq "-w" ) {                                        # generate WASL
+      $architecture = "WASL";
     }
     elsif ( $arg eq "-p" or $arg eq "-d" or $arg eq "-i" or $arg eq "-o" ) {        # set the directive
       $directive = "$arg";
@@ -1217,7 +1221,7 @@ sub xtuml2masl
         $num_dom[$num_inputs]++;
       }
     }
-    elsif ( $directive eq "-o" and $out_dir eq "" ) {                # only can set the output directory once
+    elsif ( $directive eq "-o" and $out_dir eq "" ) {               # only can set the output directory once
       $out_dir = "$arg";
     }
     else {
@@ -1281,7 +1285,7 @@ sub xtuml2masl
     # pragmas should be produced by the exporter. By default the -k 
     # option is not used in order to suppress generation of "key_letter"
     # pragmas.
-    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m $skip_action_language -i$i $command | tee $i/gen/code_generation/x2m_output.txt | masl $validate $skip_action_language -i$i $command -o$out_dir | tee $i/gen/code_generation/action_output.txt ";
+    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m $skip_action_language -i$i $command | tee $i/gen/code_generation/x2m_output.txt | masl $validate $skip_action_language -a$architecture -i$i $command -o$out_dir | tee $i/gen/code_generation/action_output.txt ";
     print STDERR "$sys_cmd\n";
     system( $sys_cmd );
 
@@ -1317,6 +1321,19 @@ sub xtuml2masl
 
   print STDERR "Done.\n";
 
+}
+
+
+#---------------------------------------------------------------------------
+# Export a BridgePoint model to WASL
+#---------------------------------------------------------------------------
+sub xtuml2wasl;
+sub xtuml2wasl
+{
+  # xtuml2wasl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -d <domain component> [-o <output directory>]
+  # xtuml2wasl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -p <project package> [-o <output directory>]
+
+  xtuml2masl( "-w", "-xf", @_ );
 }
 
 #---------------------------------------------------------------------------
@@ -1417,6 +1434,7 @@ if ( 0 < @ARGV ) {
 #
 my %xtumlmc_utility_routines = (
   "xtuml2masl" => TRUE,
+  "xtuml2wasl" => TRUE,
   "xtumlmc_gen_erate" => TRUE,
   "xtumlmc_gen_file" => TRUE,
   "xtumlmc_gen_import" => TRUE,

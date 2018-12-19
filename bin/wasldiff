@@ -1,61 +1,56 @@
 #!/bin/bash
 
-# How to use the MASL diff tool
+# How to use the WASL diff tool
 # =============================
 
 ### Overview
 
-# This utility compares textual MASL by formatting MASL deterministically and then
-# diffing the resultant MASL. The formatter arranges the MASL in a specific
+# This utility compares textual WASL by formatting WASL deterministically and then
+# diffing the resultant WASL. The formatter arranges the WASL in a specific
 # sequence and alphanumerically orders all like model elements.
 
 ### Usage
 
 # ```
-# Usage:    <BP home>/tools/masl/masldiff <input1> <input2>
+# Usage:    <BP home>/tools/mc/bin/wasldiff <input1> <input2>
 # ```
 
 # Note: `left.diff` and `right.diff` will be produced by the tool
 #       If diffing single files, they will be regular files
 #       If diffing directories they will be a directory containing all the formatted
-#       MASL files
+#       WASL files
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export MASL_BIN_DIR=$DIR/
+export WASL_BIN_DIR=$DIR/
 
 #export CLASSPATH=<path_to_parser_jar>:<path_to_antlr_jar>
 
 # check arguments
 if [[ $# != 2 ]]; then
-  echo "Usage:    ./masldiff <input1> <input2>"
+  echo "Usage:    ./wasldiff <input1> <input2>"
   exit 1
 fi
 
 # get the java classpath
 if [[ $CLASSPATH == "" ]]; then
-  CLASSPATH=$MASL_BIN_DIR/MASLParser.jar:$MASL_BIN_DIR/antlr-3.5.2-complete.jar
+  CLASSPATH=$WASL_BIN_DIR/WASLParser.jar:$WASL_BIN_DIR/antlr-3.5.2-complete.jar
 fi
 
-# run MASL formatter
+# run WASL formatter
 if [[ -f $1 && -f $2 ]]; then
   rm -rf left.diff right.diff
-  #sed "s/^ *//" $1 | sed "s/ *$//" | java -cp $CLASSPATH MaslFormatter -r -s > left.diff
-  #sed "s/^ *//" $2 | sed "s/ *$//" | java -cp $CLASSPATH MaslFormatter -r -s > right.diff
+  #java -cp $CLASSPATH WaslFormatter -r -s -i $1 > left.diff
+  #java -cp $CLASSPATH WaslFormatter -r -s -i $1 > right.diff
 elif [[ -d $1 && -d $2 ]]; then
   rm -rf left.diff right.diff
-  #java -cp $CLASSPATH MaslFormatter -r -s -i $1 -o left.diff
+  #java -cp $CLASSPATH WaslFormatter -r -s -i $1 -o left.diff
   cp -r $1 left.diff
-  # NOTE:  sed -i is not very portable.  It uses temporary files somewhere.  However, it sure is convenient.
-  #find left.diff -type f -exec sed -i "bak" "s/^ *//" {} \;
-  #find left.diff -type f -exec sed -i "bak" "s/ *$//" {} \;
   #java -cp $CLASSPATH MaslFormatter -r -s -i $2 -o right.diff
   cp -r $2 right.diff
-  #find right.diff -type f -exec sed -i "bak" "s/^ *//" {} \;
-  #find right.diff -type f -exec sed -i "bak" "s/ *$//" {} \;
 else
   echo "Invalid inputs"
   exit 1
 fi
 
 # diff the directories
-diff -Bb left.diff right.diff
+diff -w left.diff right.diff

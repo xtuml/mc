@@ -66,6 +66,7 @@ to a subordinate design note is provided for the task.
 ===== Parse Domain Models
 ====== Type
 Deal with 'typeminer'.
+
 ====== Interface and Port
 ====== Domain
 ====== Class
@@ -88,6 +89,17 @@ Deal with 'typeminer'.
 ====== Terminator
 ====== Activities
 ====== WASL Folder Structure
+Containerize the output WASL files.
+
+. domain
+. object
+. relationship
+. associative
+. subsuper
+. type
+. activity
+. build set
+
 ===== Export Build Set
 ====== Deployment
 ==== Updates to `x2m`
