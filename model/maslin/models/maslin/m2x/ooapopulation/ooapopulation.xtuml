@@ -7508,7 +7508,7 @@ elif ( "object" == element )
     ooapopulation.current_class = o_obj;
     ooapopulation.processingIdentifier = 0;
   else
-    ooapopulation.transformObject(name:param.value[0],key_letters:param.value[1]);
+    ooapopulation.transformObject(name:param.value[0],key_letters:param.value[1],number:param.value[2]);
   end if;
 elif ( "terminator" == element )
   if ( "" == param.value[0] )
@@ -8554,6 +8554,9 @@ end if;
 
 o_obj.Name = param.name;
 o_obj.Key_Lett = param.key_letters;
+if ( "" != param.number )
+  o_obj.Numb = STRING::atoi( s:param.number );
+end if;
 
 self.current_class = o_obj;
 
@@ -8583,6 +8586,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"a210dbee-805b-46d2-b616-1f5524ddf658",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("f106be46-97b8-4806-b03b-1535cc17afd4",
+	"dd140de2-a608-4595-9e0d-414c2db97273",
+	'number',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"fe6ff383-8341-4207-a1a5-5f83d56e30c0",
 	'');
 INSERT INTO O_TFR
 	VALUES ("640afe09-21d3-4bf8-9e82-84e9b5c82978",

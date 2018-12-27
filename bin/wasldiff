@@ -40,7 +40,7 @@ fi
 if [[ -f $1 && -f $2 ]]; then
   rm -rf left.diff right.diff
   #java -cp $CLASSPATH WaslFormatter -r -s -i $1 > left.diff
-  #java -cp $CLASSPATH WaslFormatter -r -s -i $1 > right.diff
+  #java -cp $CLASSPATH WaslFormatter -r -s -i $2 > right.diff
 elif [[ -d $1 && -d $2 ]]; then
   rm -rf left.diff right.diff
   #java -cp $CLASSPATH WaslFormatter -r -s -i $1 -o left.diff

@@ -202,8 +202,9 @@ objectDefinitions:            objectDefinition*;
 
 objectDefinition:             INTEGER_LITERAL COMMA objectName COMMA objectKeyLetter COMMA IDENTIFIER NEWLINES
                               {
-                                args[0] = $objectKeyLetter.name; // TODO we are only using key letters here because
-                                                                 // relationship specifications use key letters
+                                args[0] = $objectName.name;
+                                args[1] = $objectKeyLetter.name;
+                                args[2] = $INTEGER_LITERAL.text;
                                 populate( "object" );
                               }
                               attributeDefinition*
