@@ -36,8 +36,7 @@ INSERT INTO O_ATTR
 	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
 	"424642ca-eb8e-4c93-9252-a172346fa30b",
 	'Name',
-	'Full Name:Qualified Terminator Name
-Persistent:false',
+	'Full Name:Qualified Terminator Name',
 	'',
 	'Name',
 	0,
