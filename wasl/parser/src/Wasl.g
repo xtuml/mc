@@ -209,6 +209,9 @@ objectDefinition:             INTEGER_LITERAL COMMA objectName COMMA objectKeyLe
                               }
                               attributeDefinition*
                               {
+                                args[0] = "";
+                                args[1] = "";
+                                args[2] = "";
                                 populate( "object" );
                               }
                               ;
@@ -316,7 +319,9 @@ eventDataDefinition:          objectKeyLetter COMMA eventNumber COMMA eventName 
                                 ( parameters )*
                               SEMICOLON ( IDENTIFIER COMMA IDENTIFIER )? COMMA description NEWLINES
                               {
-                                args[0] = $objectKeyLetter.name;
+                                args[0] = "";
+                                args[1] = $objectKeyLetter.name;
+                                args[2] = "";
                                 populate( "object" );
                                 args[0] = $eventName.name;
                                 populate( "event" );

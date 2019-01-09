@@ -1,4 +1,4 @@
-= WASL BridgePoint Migration Sizing and Sequencing
+= BridgePoint WASL Migration Sizing and Sequencing
 
 xtUML Project Analysis Note
 
@@ -6,6 +6,16 @@ xtUML Project Analysis Note
 :sectnumlevels: 5
 
 == Abstract
+
+- I broke the .rel generation.
+- I broke the import which now cycles on relationship formalization.
+- data order?
+- Fix class name and key letters issue.
+  * Generate object stanza during relationship import.
+  * [nah] It looks like Levi may been trying to solve this by caching the relationships until the objects got populated.
+  * The relationship cache does not understand names and key letters.  Add this support.  The predeclaration of classes already occurs.  This can be taken out.
+- Add number to object.
+- Add number to SMASL.
 
 Migration of WASL models from iUML to BridgePoint necessitates a substantial
 engineering effort involving several bits of tooling and testing.  Model
@@ -60,6 +70,9 @@ to a subordinate design note is provided for the task.
 ===== Tool Training
 ==== Meta-Modeling
 ===== MASL/WASL Meta-Model
+====== class key letters
+====== class number
+====== event number
 ===== Enhanced Serial MASL
 ===== Marking
 ==== WASL Parser
@@ -103,7 +116,7 @@ Containerize the output WASL files.
 ===== Export Build Set
 ====== Deployment
 ==== Updates to `x2m`
-===== Key Letters
+===== Class Key Letters and Numbers
 ==== Domain Editor Compatibility
 ===== WASL Activity Dialect
 ==== Deployment Editor

@@ -65,7 +65,9 @@ public class RelationshipCache {
           }
           for ( String obj : objects ) {
               if ( !obj.isEmpty() ) {
-                args[0] = obj;
+                args[0] = "";
+                args[1] = obj;
+                args[2] = "";
                 out.populate( "object", args );
                 clearArgs();
                 out.populate( "object", args );
