@@ -1,0 +1,68 @@
+= Lunch and Learn
+
+xtUML Project Analysis Note
+
+:sectnums:
+
+== Abstract
+
+Documented here are notes for a lunch and learn presentation.  The goals
+are to inform, teach and entertain.
+
+== Document References
+
+. [[dr-1]] https://support.onefact.net/issues/10530[10530 - Present Lunch and Learn at NG]
+. [[dr-2]] https://xtuml.org/wp-content/uploads/2017/12/Saab-Corporate-Presentation-@-OneFact_final.pdf[Saab Modeling History]
+. [[dr-3]] https://xtuml.org/wp-content/uploads/2018/10/xtUMLDaysShlaerMellorOverview.pdf[Shlaer-Mellor xtUML / OOA]
+
+== Introduction and Background
+
+Senior Council
+
+- overview [<<dr-3,2.3>>]
+- industry examples [<<dr-3,2.3>>]
+  * Tower
+  * BAE
+  * Saab Gantt Chart [<<dr-2,2.2>>]
+  * Big Machine, Big Model
+  * Vricon
+  * FujiXerox
+  * Agilent
+- education
+  * conference scene
+  * universities
+- 2 types of IP (appl and arch)
+- 1,3,5+ with AWS
+- convergence of PT and KC camps
+- project management
+- ways to spend money
+  * assessment
+  * training and small project
+  * jump start
+  * OSS development project
+
+Staff Lunch
+
+- 3 ways to use UML
+- separation of concerns... and type of work (appl and arch)
+
+  software architect::  Are you a computer scientist?
+  subject matter expert::  Are you a subject matter expert?
+
+- modeling is fun
+- 1,3,5+ with AWS
+- secret sauce of action languages
+
+== Requirements
+
+== Analysis
+
+== Conclusions and Recommendations
+
+As stated in <<Introduction and Background>>, ...
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
