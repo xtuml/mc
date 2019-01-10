@@ -174,7 +174,15 @@
   .assign package_to_build = ""
   .select any tm_build from instances of TM_BUILD
   .assign markedsystems = 0
-  .if ( not_empty tm_build )
+  .if ( empty tm_build )
+    .select many sys_ep_pkgs related by s_sys->EP_PKG[R1401]
+    .assign sys_ep_pkg_count = cardinality sys_ep_pkgs
+    .if ( sys_ep_pkg_count > 1 )
+      .// We warn only when there is more than one package at the system level.
+      .// This is mostly because MicrowaveOven does not mark a package but has only one.
+      .print "WARNING:  Identify a package to build using MarkSystemConfigurationPackage in system.mark."
+    .end if
+  .else
     .select any system_ep_pkg from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
     .select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
     .assign markedsystems = cardinality ep_pkgs

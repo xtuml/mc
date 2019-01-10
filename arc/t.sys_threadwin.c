@@ -40,7 +40,7 @@ void ${te_prefix.result}InitializeThreading( void )
  */
 void ${te_thread.mutex_lock}( const u1_t flavor )
 {
-  ReleaseSemaphore(mutices[ flavor ], 1, NULL);
+  WaitForSingleObject( mutices[ flavor ], INFINITE );
 }
 
 /*
