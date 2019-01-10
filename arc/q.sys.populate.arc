@@ -175,6 +175,8 @@
   .select any tm_build from instances of TM_BUILD
   .assign markedsystems = 0
   .if ( empty tm_build )
+    .// Choose any top-level package to support a legal build.
+    .select any system_ep_pkg related by s_sys->EP_PKG[R1401]
     .select many sys_ep_pkgs related by s_sys->EP_PKG[R1401]
     .assign sys_ep_pkg_count = cardinality sys_ep_pkgs
     .if ( sys_ep_pkg_count > 1 )
