@@ -489,6 +489,8 @@ INSERT INTO S_SYNC
 trace = param.trace;
 te_blk = param.te_blk;
 te_aba = param.te_aba;
+r = ::T_quote();
+quote = r;
 if ( "" != te_blk.declaration )
   ::aba_code_append( te_aba:te_aba, s:te_blk.indentation );
   ::aba_code_append( te_aba:te_aba, s:te_blk.declaration );
@@ -515,7 +517,7 @@ if ( not_empty te_smt )
         ::aba_code_append( te_aba:te_aba, s:statement_comment );
       end if;
       if ( trace and te_aba.IsTrace )
-        statement_trace = ( ( te_blk.indentation + "XTUML_OAL_STMT_TRACE( " ) + ( T::s(i:te_blk.depth) + ", &quot;" ) ) + ( te_smt.OAL + "&quot; );\n" );
+        statement_trace = te_blk.indentation + "XTUML_OAL_STMT_TRACE( " + T::s(i:te_blk.depth) + ", " + quote + te_smt.OAL + quote + " );\n";
         ::aba_code_append( te_aba:te_aba, s:statement_trace );
       end if;
     end if;
@@ -698,6 +700,7 @@ INSERT INTO S_SYNC
 	'//
 te_blk = param.te_blk;
 s = param.s;
+::oal( s:"if ( strlen( te_blk->declaration ) > 400 ) { static char counter = 0; if ( counter++ > 32 ) { counter = 0; s = Escher_stradd( s, quote newline blank blank quote ); } } // Ccode imbed newline blank blank" );
 te_blk.declaration = te_blk.declaration + s;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -775,7 +778,7 @@ INSERT INTO S_SYNC
 te_aba = param.te_aba;
 s = param.s;
 te_aba.code = te_aba.code + s;
-::oal( s:"strcat( te_aba->code, p_s ); // Ccode" );
+::oal( s:"strcat( te_aba->code, p_s ); // Ccode comment out above 2 lines" );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -817,7 +820,7 @@ INSERT INTO S_SYNC
 //============================================================================
 //
 //
-::oal( s:"char b[1000000]; // Ccode" );
+::oal( s:"char b[2000000]; // Ccode" );
 parseSuccessful = ParseStatus::parseSuccessful;
 select any empty_act_blk from instances of ACT_BLK where ( false );
 select many te_cs from instances of TE_C where ( selected.included_in_build );
@@ -1626,7 +1629,6 @@ INSERT INTO S_SYNC
 	'smt_create_instances',
 	'',
 	'//
-//
 // --------------------------------------------------------
 // create instance statements
 // --------------------------------------------------------
@@ -1819,8 +1821,19 @@ for each e_cei in e_ceis
   select one te_smt related by e_csme->E_CES[R702]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038];
   select one recipient_v_var related by e_cei->V_VAR[R711];
   select one recipient_te_var related by recipient_v_var->TE_VAR[R2039];
-  r = ::smt_create_event( te_smt:te_smt, e_csme:e_csme, recipient:recipient_te_var.buffer, recipient_OAL:recipient_v_var.Name );
-  ::smt_buffer_append( te_smt:te_smt, s:r );
+  select one sm_evt related by e_csme->SM_EVT[R706];
+  select one te_evt related by sm_evt->TE_EVT[R2036];
+  select one te_class related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+  select one var_te_class related by recipient_v_var->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019];
+  if ( ( not_empty te_class ) and ( not_empty te_evt ) )
+    if ( var_te_class != te_class )
+      T::print(s:"ERROR:  Event ${te_class.Name}(${te_class.Key_Lett}):${te_evt.Name} sent to mismatched instance of ${var_te_class.Name}.");
+      T::print(s:"ERROR:  This may be due to lack of support for polys-to-subtypes.");
+      T::exit(i:133);
+    end if;
+    r = ::smt_create_event( te_smt:te_smt, e_csme:e_csme, recipient:recipient_te_var.buffer, recipient_OAL:recipient_v_var.Name );
+    ::smt_buffer_append( te_smt:te_smt, s:r );
+  end if;
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -3006,6 +3019,12 @@ if ( ( not_empty te_class ) and ( not_empty te_evt ) )
   select any te_thread from instances of TE_THREAD;
   select one v_var related by e_gen->V_VAR[R712];
   select one te_var related by v_var->TE_VAR[R2039];
+  select one var_te_class related by v_var->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019];
+  if ( var_te_class != te_class )
+    T::print(s:"ERROR:  Event ${te_class.Name}(${te_class.Key_Lett}):${te_evt.Name} sent to mismatched instance of ${var_te_class.Name}.");
+    T::print(s:"ERROR:  This may be due to lack of support for polys-to-subtypes.");
+    T::exit(i:134);
+  end if;
   select one te_blk related by te_smt->TE_BLK[R2078];
   ws = te_blk.indentation;
   te_class.Included = true;
@@ -5037,7 +5056,8 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'smt_create_instance_novar',
 	'',
-	'// --------------------------------------------------------
+	'//
+// --------------------------------------------------------
 // create instance no variable statement
 // --------------------------------------------------------
 te_smt = param.te_smt;

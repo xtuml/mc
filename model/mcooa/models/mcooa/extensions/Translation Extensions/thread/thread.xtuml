@@ -168,7 +168,7 @@ INSERT INTO O_ATTR
 	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
 	"2a0c5a23-7f86-44b6-9044-66e75e75e8f5",
 	'flavor',
-	'Presently this can be one of POSIX, Nucleus, Windows, AUTOSAR or OSX.',
+	'Presently this can be one of POSIX or Windows.',
 	'',
 	'flavor',
 	0,
@@ -232,24 +232,6 @@ threading flavors.',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
-INSERT INTO O_NBATTR
-	VALUES ("516feab9-9dfe-49e8-8dd6-e8c13d4dda97",
-	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
-INSERT INTO O_BATTR
-	VALUES ("516feab9-9dfe-49e8-8dd6-e8c13d4dda97",
-	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
-INSERT INTO O_ATTR
-	VALUES ("516feab9-9dfe-49e8-8dd6-e8c13d4dda97",
-	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
-	"291c6cbb-ee3a-4582-84cc-86040ab1019d",
-	'AUTOSAR_enabled',
-	'This is the name of the constant used to test if AUTOSAR is enabled.',
-	'',
-	'AUTOSAR_enabled',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'te_prefix.define_usw + "AUTOSAR_ENABLED"');
 INSERT INTO O_ID
 	VALUES (0,
 	"98e15137-db61-4d7d-bfc9-c69ede3022c8");

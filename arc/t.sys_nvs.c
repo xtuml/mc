@@ -149,7 +149,7 @@ ${te_prefix.result}NVS_update(
     if ( ee_length <= NVS_MAX_ITEM_SIZE ) {
       if ( fseek( store, 0, SEEK_SET ) == 0 ) {
         c_t truncatedtype;
-        truncatedtype = (c_t) ( ee_type && 0x00ff );
+        truncatedtype = (c_t) ( ee_type & 0x00ff );
         /*
          * Search the store for the item.
          */
@@ -208,7 +208,7 @@ ${te_prefix.result}NVS_insert(
           /*---------------------*/
           item.length = ee_length;
           item.key = ee_key;
-          item.type = (c_t) ( ee_type && 0x00ff );
+          item.type = (c_t) ( ee_type & 0x00ff );
           result = fwrite( &item, NVS_ITEM_SIZE, 1u, store );
           if ( result == 1 ) {
             result = fwrite( ee_pointer, 1u, ee_length, store );
@@ -295,7 +295,7 @@ ${te_prefix.result}NVS_remove(
      */
     if ( fseek( store, 0, SEEK_SET ) == 0 ) {
       c_t truncatedtype;
-      truncatedtype = (c_t) ( ee_type && 0x00ff );
+      truncatedtype = (c_t) ( ee_type & 0x00ff );
       /*
        * Search the store for the item.
        */

@@ -29,6 +29,9 @@
  *--------------------------------------------------------------------------*/
 
 ${include_files.body}\
+.if ( ( 0 < te_sys.PersistentClassCount ) and ( "NVS" == te_ee.Key_Lett ) )
+#include "${te_file.nvs}.${te_file.hdr_file_ext}"
+.end if
 .if ( ( 0 < te_sys.StateSaveBufferSize ) and ( "State Save" == te_ee.Name ) and ( "SS" == te_ee.Key_Lett ) )
 static void sstrigger( void );
 .include "${te_file.arc_path}/t.ee.ss.c"

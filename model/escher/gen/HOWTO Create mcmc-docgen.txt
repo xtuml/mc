@@ -75,10 +75,19 @@ Generate the code.
   # to a flex problem.  It is most easily rectified by rebuilding the prior version of mcmc (from a src<ver>/ folder)
   # on the system you are currently using, then putting that into the mc source plugin and building again with
   # the new mcmc in place.
-- The following diffs come from files in the gen folder.  Verify the following 
-  changes are now in the src/ folder.
-  + Edit ooaofooa_TE_ABA_class.h:
-    c_t * code;
+
+- The process to vimdiff ooaofooa_c_orig and ooaofooa.c is thus:
+1. Gen the code.
+2. vimdiff code_generation/_ch/ooaofooa.c.orig ooaofooa_c_orig
+  2a. Be happy with what you see.  Hopefully all changes come across en masse.
+Here is the important part.
+3. cp ooaofooa.c ooaofooa.c.backup
+4. sed 's/ooaofooa_oal( "\(.*\)" );$/\1/' < ooaofooa_c_orig > ooaofooa.c
+5. vimdiff ooaofooa.c.backup ooaofooa.c
+  5a. /::oal
+  5b. Carefully migrate the "::oal" hand-edits into the new ooaofooa.c.
+  5c. Review the other changes and be happy with them.
+
 - Remove an extraneous line feed in 2 templates.
   + vimdiff ../src410/c/t.smt_sr.multi_many_astob1.c c/t.smt_sr.multi_many_astob1.c
   + vimdiff ../src410/c/t.smt_sr.multi_many_astobm.c c/t.smt_sr.multi_many_astobm.c

@@ -304,7 +304,6 @@
   .assign te_thread.serialize = false
   .assign te_thread.number_of_threads = 1
   .assign te_thread.extra_initialization = ""
-  .assign te_thread.AUTOSAR_enabled = te_prefix.define_usw + "AUTOSAR_ENABLED"
 .end function
 .//
 .//
@@ -383,8 +382,10 @@
 .//
 .function target_factory
   .param inst_ref te_target
+  .invoke r = T_quote()
+  .assign quote = r.result
   .assign te_target.language = "C"
-  .assign te_target.c2cplusplus_linkage_begin = "#ifdef\t__cplusplus\nextern\t""C""\t{\n#endif"
+  .assign te_target.c2cplusplus_linkage_begin = "#ifdef\t__cplusplus\nextern\t" + quote + "C" + quote + "\t{\n#endif"
   .assign te_target.c2cplusplus_linkage_end = "#ifdef\t__cplusplus\n}\n#endif"
   .assign te_target.main = "main"
 .end function

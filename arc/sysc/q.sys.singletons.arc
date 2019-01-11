@@ -302,7 +302,6 @@
   .assign te_thread.serialize = false
   .assign te_thread.number_of_threads = 1
   .assign te_thread.extra_initialization = ""
-  .assign te_thread.AUTOSAR_enabled = te_prefix.define_usw + "AUTOSAR_ENABLED"
 .end function
 .//
 .//

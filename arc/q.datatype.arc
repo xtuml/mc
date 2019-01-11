@@ -160,9 +160,10 @@
   .assign sys_types_file_name = ( te_file.types + "." ) + te_file.hdr_file_ext
   .select many special_te_dts from instances of TE_DT where ( ( selected.Include_File != "" ) and ( selected.Include_File != sys_types_file_name ) )
   .assign s = ""
+  .invoke r = T_quote()
+  .assign q = r.result
   .for each special_te_dt in special_te_dts
-    .assign s = ( s + "#include """ ) + ( special_te_dt.Include_File + """\n" )
-    .invoke oal( "s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, #include  ), Escher_stradd( special_te_dt->Include_File, \n ) ) ); // Ccode" )
+    .assign s = s + "#include " + q + special_te_dt.Include_File + q + "\n"
   .end for
   .assign attr_result = s
 .end function

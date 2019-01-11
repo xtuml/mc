@@ -2,9 +2,6 @@
  * Delcarations for multi-tasking/threading services.
  */
 
-.if ( te_thread.flavor == "Nucleus" )
-#include "nucleus.h"   /* Nucleus PLUS declarations */
-.end if
 
 .if ( te_thread.enabled )
 #define ${te_prefix.define_u}TASKING_${te_thread.flavor} 1
@@ -44,12 +41,7 @@
 
 .if ( "SystemC" != te_thread.flavor )
 void ${te_prefix.result}InitializeThreading( void );
-  .if ( te_thread.flavor == "Nucleus" )
-void ${te_thread.create}( void (f)(UNSIGNED, void *), const u1_t );
-void xtUML_Application_Initialize( NU_MEMORY_POOL *, const UNSIGNED );
-  .else
 void ${te_thread.create}( void *(f)(void *), const u1_t );
-  .end if
 void ${te_thread.mutex_lock}( const u1_t );
 void ${te_thread.mutex_unlock}( const u1_t );
 void ${te_thread.nonbusy_wait}( const u1_t );

@@ -15,7 +15,6 @@
  *
  * Only a subset of the TIM interfaces are provided in this simple
  * prototype implementation.
-.if ( "Nucleus" != te_thread.flavor )
  * Long integers are used to store time values thus limiting the
  * duration of timers and the system ticker to about 71 minutes.
  * The sample implementation uses the localtime, mktime, ftime
@@ -29,7 +28,6 @@
  * of invocation of TIM_tick().  Note that TIM_tick could be invoked
  * asynchronously based upon the duration of the next most pending
  * timer.
-.end if
  *
  * ${te_copyright.body}
  *-------------------------------------------------------------------*/
@@ -37,28 +35,13 @@
 #include "${te_file.types}.${te_file.hdr_file_ext}"
 #include "${te_file.tim}.${te_file.hdr_file_ext}"
 .//#include "${te_file.callout}.${te_file.hdr_file_ext}"
-.if ( "Nucleus" == te_thread.flavor )
-#ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
-#include "nucleus.h"   /* Nucleus PLUS declarations */
-#endif
-.end if 
 
-.if ( "Nucleus" == te_thread.flavor )
-#define MSEC_CONVERT 10
-.elif ( "SystemC" == te_thread.flavor )
+.if ( "SystemC" == te_thread.flavor )
 #define MSEC_CONVERT 1000UL
 .end if
 #define USEC_CONVERT \
-.if ( "Nucleus" == te_thread.flavor )
-10000UL
-.else
 1000UL
-.end if
 
-.if ( te_sys.AUTOSAR )
-/* 1000UL should probably come from some autosar spec */
-#define CALL_PERIOD_MS 1000UL
-.end if
 
 #if ${te_tim.max_timers} > 0
 /*=====================================================================
@@ -145,9 +128,6 @@ TIM::timer_remaining_time(
 {
   /* Insert implementation specific code here.  */
   ${te_prefix.type}uSec_t rv = 0UL;
-.if ( "Nucleus" == te_thread.flavor )
-  NU_TIMER * nt;
-.end if
   ETimer_t * t;
 .if ( te_tim.keyed_timer_support )
   t = ee_timer_inst.timer;
@@ -156,14 +136,8 @@ TIM::timer_remaining_time(
   t = (ETimer_t *) ee_timer_inst_ref;
   if ( 0 != t ) {
 .end if
-.if ( "Nucleus" == te_thread.flavor )
-    nt = &nutimers[ t->index ];
-    NU_Get_Remaining_Time( nt, &rv );
-    rv = rv * USEC_CONVERT;
-.else
     rv = ETimer_msec_time();
     rv = ( t->expiration > rv ) ? USEC_CONVERT * ( t->expiration - rv ) : 0UL;
-.end if
   }
   return ( rv );  
 }
@@ -277,11 +251,7 @@ ${te_prefix.type}Date_t
 TIM::current_date( void )
 {
   /* Insert implementation specific code here.  */
-.if ( "Nucleus" == te_thread.flavor )
-  return 0;
-.else
   return ( (${te_prefix.type}Date_t) time( 0 ) );
-.end if
 }
 
 /*=====================================================================
@@ -307,7 +277,6 @@ TIM::create_date(
 {
   /* Insert implementation specific code here.  */
   ${te_prefix.type}Date_t r = 0;
-.if ( "Nucleus" != te_thread.flavor )
   struct tm t;
   t.tm_isdst = -1;
   t.tm_mday = ee_day;
@@ -317,7 +286,6 @@ TIM::create_date(
   t.tm_sec = ee_second;
   t.tm_year = ee_year - 1900;      /* not enough space for 100 years */
   r = (${te_prefix.type}Date_t) mktime( &t );
-.end if
   return ( r );
 }
 
@@ -333,13 +301,9 @@ TIM::get_second(
 )
 {
   /* Insert implementation specific code here.  */
-.if ( "Nucleus" != te_thread.flavor )
   struct tm * tp;
   tp = localtime( &ee_date );
   return ( tp ) ? tp->tm_sec : 0;
-.else
-  return 0;
-.end if
 }
 
 /*=====================================================================
@@ -354,13 +318,9 @@ TIM::get_minute(
 )
 {
   /* Insert implementation specific code here.  */
-.if ( "Nucleus" != te_thread.flavor )
   struct tm * tp;
   tp = localtime( &ee_date );
   return ( tp ) ? tp->tm_min : 0;
-.else
-  return 0;
-.end if
 }
 
 /*=====================================================================
@@ -375,13 +335,9 @@ TIM::get_hour(
 )
 {
   /* Insert implementation specific code here.  */
-.if ( "Nucleus" != te_thread.flavor )
   struct tm * tp;
   tp = localtime( &ee_date );
   return ( tp ) ? tp->tm_hour : 0;
-.else
-  return 0;
-.end if
 }
 
 /*=====================================================================
@@ -396,13 +352,9 @@ TIM::get_day(
 )
 {
   /* Insert implementation specific code here.  */
-.if ( "Nucleus" != te_thread.flavor )
   struct tm * tp;
   tp = localtime( &ee_date );
   return ( tp ) ? tp->tm_mday : 0;
-.else
-  return 0;
-.end if
 }
 
 /*=====================================================================
@@ -417,13 +369,9 @@ TIM::get_month(
 )
 {
   /* Insert implementation specific code here.  */
-.if ( "Nucleus" != te_thread.flavor )
   struct tm * tp;
   tp = localtime( &ee_date );
   return ( tp ) ? tp->tm_mon : 0;
-.else
-  return 0;
-.end if
 }
 
 /*=====================================================================
@@ -438,13 +386,9 @@ TIM::get_year(
 )
 {
   /* Insert implementation specific code here.  */
-.if ( te_thread.flavor != "Nucleus" )
   struct tm * tp;
   tp = localtime( &ee_date );
   return ( tp ) ? tp->tm_year + 1900 : 0;
-.else
-  return 0;
-.end if
 }
 
 /*=====================================================================
@@ -466,19 +410,6 @@ TIM::current_clock( void )
 #if ${te_tim.max_timers} > 0
 
 
-.if ( te_thread.flavor == "Nucleus" )
-/*---------------------------------------------------------------------
- * Expire a NU_TIMER.  Use index to find Etimer, hence event.
- *-------------------------------------------------------------------*/
-static void nut_expire(
-  unsigned timer_index
-)
-{
-  ETimer_t * t;
-  t = &swtimers[ timer_index ];
-  timer_fire( t );
-}
-.end if
 
 /*---------------------------------------------------------------------
  * Get a timer instance from the inanimate list, provide the
@@ -492,10 +423,6 @@ TIM::start(
 )
 {
   ETimer_t * t;
-.if ( "Nucleus" == te_thread.flavor )
-  NU_TIMER * nt;
-  STATUS status;
-.end if
 .if ( te_thread.enabled )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_TIMER );
@@ -503,55 +430,39 @@ TIM::start(
 .end if
   t = inanimate;
   if ( 0 != t ) {
-.if ( "Nucleus" == te_thread.flavor )
-    ETimer_time_t reschedule = 0;
-  .if ( te_tim.recurring_timer_support )
-    reschedule = ( 0 == t->recurrence ) ? 0 : duration;
-  .end if
-.end if
     inanimate = inanimate->next;
     t->event = event;
-.if ( "Nucleus" == te_thread.flavor )
-    t->next = animate;
-    animate = t;
-    nt = &nutimers[ t->index ];
-    status = NU_Reset_Timer( nt, nut_expire, duration, reschedule, NU_ENABLE_TIMER );
-.else
     /*---------------------------------------------------------------*/
     /* Calculate the timer expiration time.                          */
-    .if ( "SystemC" == te_thread.flavor )
+  .if ( "SystemC" == te_thread.flavor )
     /*---------------------------------------------------------------*/
     t->expiration = ETimer_msec_time() + duration;
-    .else
+  .else
     /* Note:  Add one to the duration to make sure that delay is     */
     /* at least as long as duration.                                 */
     /*---------------------------------------------------------------*/
     t->expiration = ETimer_msec_time() + duration + 1UL;
-    .end if
-    .if ( te_tim.keyed_timer_support )
+  .end if
+  .if ( te_tim.keyed_timer_support )
     timer_access_key = timer_access_key + 1 ? timer_access_key + 1 : 1;
     t->accesskey = timer_access_key;
-    .end if
+  .end if
     timer_insert_sorted( t );
-    .if ( "SystemC" == te_thread.flavor )
+  .if ( "SystemC" == te_thread.flavor )
     ${te_tim.event_name}->notify( animate->expiration - ETimer_msec_time(), SC_MS );
-    .end if
-.end if
+  .end if
   } else {
     /* no timers left */
   }
 .if ( te_thread.enabled )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_TIMER );
-  .if ( "Nucleus" != te_thread.flavor )
   ${te_thread.nonbusy_wake}( 0 ); /* Wake default task to service timers.  */
-  .end if
   #endif
 .end if
   return ( t );
 }
 
-.if ( "Nucleus" != te_thread.flavor )
 /*---------------------------------------------------------------------
  * Insert a timer into the list of ticking timers maintaining
  * an order that fires timers chronologically.
@@ -584,7 +495,6 @@ TIM::timer_insert_sorted(
   }
 }
 
-.end if
 /*---------------------------------------------------------------------
  * Try to find a ticking timer and move to the non-ticking list.
  *-------------------------------------------------------------------*/
@@ -671,9 +581,6 @@ TIM::cancel(
 )
 {
   bool rc = false; ${te_eq.base_event_type} * e;
-.if ( "Nucleus" == te_thread.flavor )
-  STATUS status;
-.end if
   if ( 0 != t ) {
 .if ( te_thread.enabled )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
@@ -691,9 +598,6 @@ TIM::cancel(
     if ( 0 != e ) {
       ((sys_events*) e->thismodule)->${te_eq.delete}( t->event );
     }
-.if ( "Nucleus" == te_thread.flavor )
-    status = NU_Control_Timer( &nutimers[ t->index ], NU_DISABLE_TIMER );
-.end if
   }
   }
   return ( rc );
@@ -730,14 +634,10 @@ TIM::timer_fire(
     timer_insert_sorted( t );
   } else {
 .end if
-.if ( "Nucleus" == te_thread.flavor )
-  timer_find_and_delete( t );
-.else
   t->event = 0;                   /* Be sure event is not reused.  */
   animate = animate->next;        /* Remove from active list.      */
   t->next = inanimate;            /* Connect to inactive list.     */
   inanimate = t;
-.end if
 .if ( te_tim.recurring_timer_support )
   }
 .end if
@@ -758,17 +658,11 @@ ETimer_time_t
 TIM::ETimer_msec_time( void )
 {
   ETimer_time_t t;
-.if ( "Nucleus" == te_thread.flavor )
-  t = NU_Retrieve_Clock() * MSEC_CONVERT;
-  return ( t - tinit );
-.elif ( "SystemC" == te_thread.flavor )
+.if ( "SystemC" == te_thread.flavor )
   sc_time t1;
   t1 = sc_time_stamp();
   t = (ETimer_time_t) (t1.to_seconds() * MSEC_CONVERT);
   return ( t - tinit );
-.elif ( te_sys.AUTOSAR )
-  t = msecCounter * CALL_PERIOD_MS;
-  return ( t );
 .else
   ftime( &systyme );
   t = ( systyme.time * USEC_CONVERT ) + systyme.millitm;
@@ -778,13 +672,6 @@ TIM::ETimer_msec_time( void )
 }
 
 
-.if ( te_sys.AUTOSAR )
-void
-TIM::update( void )
-{
-  msecCounter++;
-}
-.end if
 
 .if ( te_thread.enabled )
   .if ( "POSIX" == te_thread.flavor )
@@ -844,9 +731,6 @@ TIM::init(\
 {
 #if ${te_tim.max_timers} > 0
   u2_t i;
-.if ( "Nucleus" == te_thread.flavor )
-  STATUS status;
-.end if
   /*-----------------------------------------------------------------*/
   /* Build the collection (linked list) of timers.                   */
   /*-----------------------------------------------------------------*/
@@ -860,34 +744,17 @@ TIM::init(\
     swtimers[ i ].recurrence = 0;
 .end if
     swtimers[ i ].event = 0;
-.if ( "Nucleus" == te_thread.flavor )
-    swtimers[ i ].index = i;
-.end if
     swtimers[ i ].next = inanimate;
     .if ( te_tim.keyed_timer_support )
     swtimers[ i ].accesskey = 0;
     .end if
     inanimate = &swtimers[ i ];
-.if ( "Nucleus" == te_thread.flavor )
-    status = NU_Create_Timer( 
-      &nutimers[ i ],          /* address of Nucleus timer structure */
-      "xtUMLTM",               /* string name of timer */
-      nut_expire,              /* expiration routine */
-      i,                       /* id passed to expiration routine */
-      0xdead,                  /* bogus inititial value for timer */
-      0,                       /* expire only once */
-      NU_DISABLE_TIMER         /* not running until timer_start */
-    );
-.end if
   }
 #endif   /* if ${te_tim.max_timers} > 0 */
-.if ( "Nucleus" == te_thread.flavor )
-  tinit = 0;
-  NU_Set_Clock( 0 );
-.elif ( "SystemC" == te_thread.flavor )
+.if ( "SystemC" == te_thread.flavor )
   ftime( &systyme );            /* Initialize the hardware ticker.   */
   tinit = 0;
-.elif ( not te_sys.AUTOSAR )
+.else
   ftime( &systyme );            /* Initialize the hardware ticker.   */
   tinit = ( systyme.time * USEC_CONVERT ) + systyme.millitm;
 .end if
@@ -900,31 +767,29 @@ TIM::init(\
 void
 TIM::tick( void )
 {
-.if ( "Nucleus" != te_thread.flavor )
 #if ${te_tim.max_timers} > 0
   /*-----------------------------------------------------------------*/
   /* Check to see if there are timers in the ticking timers list.    */
   /*-----------------------------------------------------------------*/
-  .if ( te_thread.enabled )
+.if ( te_thread.enabled )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_TIMER );
   #endif
-  .end if
+.end if
   if ( 0 != animate ) {
-  .if ( "SystemC" != te_thread.flavor )
+.if ( "SystemC" != te_thread.flavor )
     if ( animate->expiration <= ETimer_msec_time() ) \
-  .end if
+.end if
 {
       timer_fire( animate );
     }
   }
-  .if ( te_thread.enabled )
+.if ( te_thread.enabled )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_TIMER );
   #endif
-  .end if
-#endif   /* if ${te_tim.max_timers} > 0 */
 .end if
+#endif   /* if ${te_tim.max_timers} > 0 */
 }
 
 #ifdef USED_TO_ALLOW_PAUSING

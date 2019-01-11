@@ -38,6 +38,10 @@
   .select any empty_te_mact from instances of TE_MACT where ( false )
   .select many empty_te_dts from instances of TE_DT where ( false )
   .select many empty_te_parms from instances of TE_PARM where ( false )
+  .invoke r4 = T_quote()
+  .assign quote = r4.result
+  .invoke r4 = T_tick()
+  .assign tick = r4.result
   .// CDS - Note that in a multiple-system build, we will get lucky, and the
   .// s_sys from the local project will be selected first.
   .select any s_sys from instances of S_SYS
@@ -59,7 +63,6 @@
   .assign te_sys.MaxStringLen = 32
   .assign te_sys.PersistInstanceCacheDepth = 128
   .assign te_sys.PersistLinkCacheDepth = 128
-  .assign te_sys.AUTOSAR = false
   .assign te_sys.AllPortsPoly = false
   .assign te_sys.StructuredMessaging = false
   .assign te_sys.NetworkSockets = false
@@ -81,7 +84,6 @@
     .assign te_sys.PersistInstanceCacheDepth = tm_systag.PersistInstanceCacheDepth
     .assign te_sys.PersistLinkCacheDepth = tm_systag.PersistLinkCacheDepth
     .assign te_sys.UnitsToDynamicallyAllocate = tm_systag.UnitsToDynamicallyAllocate
-    .assign te_sys.VFB = tm_systag.VFB
     .assign te_sys.InstanceLoading = tm_systag.InstanceLoading
     .assign te_sys.SystemCPortsType = tm_systag.SystemCPortsType
     .assign te_sys.AllPortsPoly = tm_systag.AllPortsPoly
@@ -101,9 +103,6 @@
     .assign te_thread.enabled = tm_thread.enabled
     .assign te_thread.serialize = tm_thread.serialize
     .assign te_thread.flavor = tm_thread.flavor
-    .if ( "AUTOSAR" == te_thread.flavor )
-      .assign te_sys.AUTOSAR = true
-    .end if
   .end if
   .//
   .select any te_disp from instances of TE_DISP
@@ -175,7 +174,17 @@
   .assign package_to_build = ""
   .select any tm_build from instances of TM_BUILD
   .assign markedsystems = 0
-  .if ( not_empty tm_build )
+  .if ( empty tm_build )
+    .// Choose any top-level package to support a legal build.
+    .select any system_ep_pkg related by s_sys->EP_PKG[R1401]
+    .select many sys_ep_pkgs related by s_sys->EP_PKG[R1401]
+    .assign sys_ep_pkg_count = cardinality sys_ep_pkgs
+    .if ( sys_ep_pkg_count > 1 )
+      .// We warn only when there is more than one package at the system level.
+      .print "WARNING:  Identify a package to build using MarkSystemConfigurationPackage in system.mark."
+      .print "WARNING:  ${system_ep_pkg.Name} has been selected arbitrarily as the build configuration."
+    .end if
+  .else
     .select any system_ep_pkg from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
     .select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
     .assign markedsystems = cardinality ep_pkgs
@@ -445,31 +454,19 @@
       .assign te_dt.string_format = ""
     .elif ( 1 == te_dt.Core_Typ )
       .// boolean
-      .if (te_sys.AUTOSAR)
-        .assign te_dt.ExtName = "dt_xtUMLBoolean"
-      .else
-        .assign te_dt.ExtName = "bool"
-      .end if
+      .assign te_dt.ExtName = "bool"
       .assign te_dt.Initial_Value = "false"
       .assign te_dt.string_format = "%d"
     .elif ( 2 == te_dt.Core_Typ )
       .// integer
-      .if (te_sys.AUTOSAR)
-        .assign te_dt.ExtName = "dt_xtUMLInteger"
-      .else
-        .assign te_dt.ExtName = "i_t"
-      .end if
+      .assign te_dt.ExtName = "i_t"
       .assign te_dt.Initial_Value = "0"
       .assign te_dt.string_format = "%d"
     .elif ( 3 == te_dt.Core_Typ )
       .// real
       .// float or double:  Default to smaller type for embedded.
       .// This can be expanded with the TagDatatypePrecision marking.
-      .if (te_sys.AUTOSAR)
-        .assign te_dt.ExtName = "dt_xtUMLReal"
-      .else
-        .assign te_dt.ExtName = "r_t"
-      .end if
+      .assign te_dt.ExtName = "r_t"
       .assign te_dt.Initial_Value = "0.0"
       .assign te_dt.string_format = "%f"
     .elif ( 4 == te_dt.Core_Typ )
@@ -584,9 +581,7 @@
     .select one te_dt related by s_dt->TE_DT[R2021]
     .// NOTE: We should allow the size of an enum to be colored.
     .// For now use small type.
-    .if ( te_sys.AUTOSAR )
-      .assign te_dt.ExtName = "en_" + te_dt.Name 
-    .elif ( "C" == te_target.language )
+    .if ( "C" == te_target.language )
       .assign te_dt.ExtName = ( te_sys.Name + "_" ) + ( te_dt.Name + "_t" )
     .else
       .assign te_dt.ExtName = te_dt.Name + "_t"
@@ -1484,8 +1479,8 @@
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
           .elif ( "%s" == te_dt.string_format )
             .// Place an escaped tick mark around the %s in the attribute format string.
-            .assign te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "'" + te_dt.string_format ) ) + "'"
-            .assign te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( ( te_attr.GeneratedName + " : """ ) + """" ) )
+            .assign te_class.attribute_format = te_class.attribute_format + delimiter + tick + tick + te_dt.string_format + tick + tick
+            .assign te_class.attribute_dump = te_class.attribute_dump + ",\n    ( 0 != self->" + te_attr.GeneratedName + " ) ? self->" + te_attr.GeneratedName + " : " + quote + quote
           .else
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
@@ -2733,5 +2728,15 @@
     .assign indentation = indentation - 1
     .assign result = result + "  "
   .end while
+  .assign attr_result = result
+.end function
+.//
+.function T_quote .// string
+  .assign result = """"
+  .assign attr_result = result
+.end function
+.//
+.function T_tick .// string
+  .assign result = "'"
   .assign attr_result = result
 .end function

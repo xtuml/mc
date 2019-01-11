@@ -16,6 +16,7 @@
 
 #include "sys_sys_types.h"
 #include "sys_user_co.h"
+#include "sys_xtumlload.h"
 
 static void read_marking_invocations( void );
 static void mark_parse( c_t * );
@@ -44,6 +45,7 @@ UserInitializationCalloutf( c_t * argv0 )
   SYS_USER_CO_PRINTF( "UserInitializationCallout\n" )
 }
 
+extern void Escher_dump_instances( const Escher_DomainNumber_t, const Escher_ClassNumber_t );
 /*
  * UserPreOoaInitializationCallout
  *

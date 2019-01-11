@@ -14,6 +14,8 @@
   .param boolean trace
   .param inst_ref te_blk
   .param inst_ref te_aba
+  .invoke r = T_quote()
+  .assign quote = r.result
   .if ( "" != te_blk.declaration )
     .invoke aba_code_append( te_aba, te_blk.indentation )
     .invoke aba_code_append( te_aba, te_blk.declaration )
@@ -40,7 +42,7 @@
           .invoke aba_code_append( te_aba, statement_comment )
         .end if
         .if ( trace and te_aba.IsTrace )
-          .assign statement_trace = ( ( te_blk.indentation + "XTUML_OAL_STMT_TRACE( " ) + ( "$t{te_blk.depth}" + ", """ ) ) + ( te_smt.OAL + """ );\n" )
+          .assign statement_trace = te_blk.indentation + "XTUML_OAL_STMT_TRACE( " + "$t{te_blk.depth}" + ", " + quote + te_smt.OAL + quote + " );\n"
           .invoke aba_code_append( te_aba, statement_trace )
         .end if
       .end if
@@ -129,6 +131,7 @@
 .function blk_declaration_append
   .param inst_ref te_blk
   .param string s
+  .invoke oal( "if ( strlen( te_blk->declaration ) > 400 ) { static char counter = 0; if ( counter++ > 32 ) { counter = 0; s = Escher_stradd( s, quote newline blank blank quote ); } } // Ccode imbed newline blank blank" )
   .assign te_blk.declaration = te_blk.declaration + s
 .end function
 .//
@@ -142,5 +145,5 @@
   .param inst_ref te_aba
   .param string s
   .assign te_aba.code = te_aba.code + s
-  .invoke oal( "strcat( te_aba->code, p_s ); // Ccode" )
+  .invoke oal( "strcat( te_aba->code, p_s ); // Ccode comment out above 2 lines" )
 .end function
