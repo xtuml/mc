@@ -182,6 +182,7 @@
     .if ( sys_ep_pkg_count > 1 )
       .// We warn only when there is more than one package at the system level.
       .print "WARNING:  Identify a package to build using MarkSystemConfigurationPackage in system.mark."
+      .print "WARNING:  ${system_ep_pkg.Name} has been selected arbitrarily as the build configuration."
     .end if
   .else
     .select any system_ep_pkg from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
