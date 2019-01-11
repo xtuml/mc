@@ -181,7 +181,6 @@
     .assign sys_ep_pkg_count = cardinality sys_ep_pkgs
     .if ( sys_ep_pkg_count > 1 )
       .// We warn only when there is more than one package at the system level.
-      .// This is mostly because MicrowaveOven does not mark a package but has only one.
       .print "WARNING:  Identify a package to build using MarkSystemConfigurationPackage in system.mark."
     .end if
   .else
