@@ -361,7 +361,7 @@ ${top_module_inits}\
     .assign delegate_c_c_id = ""
     .assign delegate_pkg_id = ""
     .if ( not_empty te_ci )
-      .select one cl_iir_provider related by te_ci->CL_IC[R2009]->CL_POR[R4707]->CL_IIR[R4708] where ( selected.Ref_Id == c_ir.Id )
+      .select any cl_iir_provider related by te_ci->CL_IC[R2009]->CL_POR[R4707]->CL_IIR[R4708] where ( selected.Ref_Id == c_ir.Id )
       .select one delegate_c_c related by cl_iir_provider->C_DG[R4704]->PA_DIC[R9002]->C_C[R9002] where ( "${selected.Id}" == "${parent_c_c_id}" )
       .if ( not_empty delegate_c_c )
         .assign delegate_c_c_id  = "${delegate_c_c.Id}"
@@ -596,8 +596,8 @@ ${top_module_inits}\
   .// generate the action body defined in this port
   .select any c_ir_formal related by te_po->C_I[R2007]->C_IR[R4012]
   .select any c_ir related by te_po->C_PO[R2044]->C_IR[R4016]
-  .select one delegate_c_c_formal related by c_ir_formal->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->C_PO[R4016]->C_C[R4010]->TE_C[R2054]
-  .select one delegate_c_c related by c_ir->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->C_PO[R4016]->C_C[R4010]->TE_C[R2054]
+  .select any delegate_c_c_formal related by c_ir_formal->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->C_PO[R4016]->C_C[R4010]->TE_C[R2054]
+  .select any delegate_c_c related by c_ir->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->C_PO[R4016]->C_C[R4010]->TE_C[R2054]
   .if ( (not_empty delegate_c_c_formal) or (not_empty delegate_c_c) )
     .if ( "void" != te_aba.ReturnDataType )
       .assign action_body = "  return "
