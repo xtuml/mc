@@ -5,17 +5,23 @@ xtUML Project Analysis Note
 :sectnums:
 :sectnumlevels: 5
 
-== Abstract
+== Miscellaneous Notes to Myself
 
+- Why is MASL round trip broken?  I think I ran into this when I was building something a while back.  It might be my branches?...
+  * I think my selection (by name or kl) does not find it so renders it again.
 - I broke the .rel generation.
 - I broke the import which now cycles on relationship formalization.
 - data order?
 - Fix class name and key letters issue.
-  * Generate object stanza during relationship import.
-  * [nah] It looks like Levi may been trying to solve this by caching the relationships until the objects got populated.
+  * Generate object stanza during relationship import?
   * The relationship cache does not understand names and key letters.  Add this support.  The predeclaration of classes already occurs.  This can be taken out.
 - Add number to object.
 - Add number to SMASL.
+- Remove 'tododelete' from ooaparticipation in maslin.
+- Identify tasks good for BAE people.
+- Deal with 'typeminer'.
+
+== Abstract
 
 Migration of WASL models from iUML to BridgePoint necessitates a substantial
 engineering effort involving several bits of tooling and testing.  Model
@@ -26,7 +32,7 @@ analysis and design notes documenting the migration engineering.
 
 == Introduction and Background
 
-<<dr-2,2.2>> provides analysis of migration options and recommends
+<<dr-2,Analyze Options for Migration>> provides analysis of migration options and recommends
 a path forward from iUML to BridgePoint while leveraging the existing
 model compiler tool chain.  The analysis explored converting iUML models
 represented as WASL flat ASCII files into xtUML and importing them into
@@ -58,103 +64,38 @@ WASL-to-xtUML and xtUML-to-WASL Flows
 In addition to the tooling, there are training, conversion and testing
 tasks involved in the project.
 
-=== Task Identification
 This section identifies the tasks that compose the project.  Each task
 is analyzed independently or together in a group of related tasks.
 Sizing and sequencing come as part of the analysis.  In many cases a link
 to a subordinate design note is provided for the task.
 
-==== Training
-===== Configuration Management
-===== Basic xtUML Modeling
-===== Tool Training
-==== Meta-Modeling
-===== MASL/WASL Meta-Model
-====== class key letters
-====== class number
-====== event number
-===== Enhanced Serial MASL
-===== Marking
-==== WASL Parser
-===== Parse Domain Models
-====== Type
-Deal with 'typeminer'.
-
-====== Interface and Port
-====== Domain
-====== Class
-====== Relationship
-====== State Machine
-====== Terminator
-====== Activities
-===== Parse Build Sets
-====== Deployment
-==== Updates to `m2x`
-==== WASL Generation
-===== Export Domain
-====== Type
-====== Interface
-====== Port
-====== Domain
-====== Class
-====== Relationship
-====== State Machine
-====== Terminator
-====== Activities
-====== WASL Folder Structure
-Containerize the output WASL files.
-
-. domain
-. object
-. relationship
-. associative
-. subsuper
-. type
-. activity
-. build set
-
-===== Export Build Set
-====== Deployment
-==== Updates to `x2m`
-===== Class Key Letters and Numbers
-==== Domain Editor Compatibility
-===== WASL Activity Dialect
-==== Deployment Editor
-==== Initial Model Migration
-===== Model Conversion Trial
-====== Convert Relationships and Events Models
-====== Semi-Automate Model Conversion
-==== Testing and Validation
-===== WASL Compare Utility
-====== Compare Unedited Model
-====== Compare Edited Export
-====== Export Existing Model to WASL
-==== ASL Editing
-===== ASL Syntax-Highlighting Editor
-===== Auto-Indent
-==== Migrate the SWATS Models
-
-=== Sequencing and Dependency Analysis
 Some tasks are independent.  Some tasks depend upon the completion of
 other tasks.  An analysis is performed to outline sequencing required.
 
-=== Sizing of Tasks
 Sizing of each task is provided in the design note and carried into the
 sections above.  A summary is provided here.
 
-=== Project Planning
 The analyses and design performed on the various tasks is managed in a
 project plan.  Of course the project plan is refined over time as new
 information becomes available.  However, since a significant analysis
 has been performed, the confidence in the initial project plan can be
 relatively high.
 
+=== Phase 1 - Initial Model Migration
+==== System Level Modeling
+===== derive interfaces and ports from imported WASL
+===== parse WASL project and create deployment
+==== Meta-Modeling
+===== Additions to xtUML MM to Store Elements Needed by WASL
+====== class key letters
+====== class number
+====== event number
+===== model markup for features in WASL not in xtUML
+===== Update SMASL specification
+==== Import
+===== Parse WASL
 
-=== Convert WASL to Serial MASL (SMASL) (`WaslParser`)
-=== Convert Serial MASL (SMASL) to WASL (`wasl`)
-
-
-- There may be some order requirement in the .dmp file.  Relationships
+- There may be order requirements in the `.dmp` file.  Relationships
 need to come before object definitions (maybe).  I think that in m2x
 the relationships need to be there so they can be associated with the
 referential attributes.
@@ -162,6 +103,67 @@ referential attributes.
 This will not be complete, but it will allow for declaration of
 fundamental elements that can be "filled in" by loading/parsing
 the subordinate files.
+
+===== Type
+===== Interface
+===== Port
+===== Domain
+===== Class
+===== Relationships
+===== State Machines
+===== Terminators
+===== Activities
+==== Export
+===== Type
+===== Interface
+===== Port
+===== Domain
+===== Class
+===== Relationships
+===== State Machines
+===== Terminators
+===== Activities
+===== Folder Structure
+===== Deployment (Build Set)
+==== Add ASL Dialect into BridgePoint
+==== Initial Model Migration
+===== Convert the Relationships and Events Models
+===== Automate Model Conversion
+==== Testing and Validation 1
+===== WASL Compare Utility
+===== Compare Unedited Model Export with Import
+===== Compare Edited Export with Import
+==== Migrate the SWATS models (10 models)
+===== Deliver SWATS Test Suite into Trial
+
+=== Phase 2 - Production Model Migration
+==== Initial Training
+===== Configuration Management with Git
+===== xtUML Basic Modeling
+===== Tool Training
+==== Testing and Validation 2
+===== Conversion Support of Production Models
+===== Coach Round Trip Conversion
+===== Score Card
+===== Reproduction Test Cases
+==== Deliverable Documentation
+===== Migration Guide
+===== xtUML to/from WASL Structural Mapping
+===== configuration management strategy and best practices
+===== WASL Deployment (build set) Conversion Guide
+==== ASL Editing
+===== ASL syntax-highlighting editor
+===== ASL user defined identifier validation
+===== ASL xtUML context-sensitive edit/completion assistance
+===== Auto indent
+
+=== Phase 3 (Extended Editor)
+==== Training - train the trainer
+==== ASL version of GPS Watch
+===== Deliver WACA model compiler for testing.
+==== Enhanced Editor
+===== ASL automatic reference maintenance (Rename/Refactor)
+
 
 == Design
 
@@ -227,6 +229,16 @@ WASL.
   * Put templates in subdirectories `masl` and `wasl`.
   * Supply a separate set of templates for WASL rendering.
 - file packaging:
+
+. domain
+. object
+. relationship
+. associative
+. subsuper
+. type
+. activity
+. build set
+
   * Change containerization on MASL to be part of 'render'.
   * Containerize MASL with a query in the render process.
     + Change the name of 'file' to 'genfile', since there is a class called
