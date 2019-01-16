@@ -17,6 +17,8 @@ private String[] args = new String[8];
 private File dir;
 private boolean populateEnabled;
 private RelationshipCache relCache;
+private int pass = 1;
+private String objfilename, relfilename, subfilename;
 
 public void setInterface ( Serial serial ) {
     if ( serial != null )
@@ -97,9 +99,13 @@ domainElementDefinitions:     (   domainTerminatorDefinitions   {System.err.prin
                                 | domainFunctions               {System.err.println( "domainFunctions" );}
                                 | domainBridgeSignatures        {System.err.println( "domainBridgeSignatures" );}
                                 | domainBridges                 {System.err.println( "domainBridges" );}
-                                | domainObjectDefinitions       {System.err.println( "domainObjectDefintions" );}
+                                | domainObjectDefinitions       {System.err.println( "domainObjectDefintions" ); pass = 2;}
                                 | domainRelationships           {System.err.println( "domainRelationships" );}
-                                | domainSubtypes                {System.err.println( "domainSubtypes" );}
+                                | domainSubtypes                {System.err.println( "domainSubtypes" );
+                                  if ( 2 == pass ) {
+                                    WaslImportParser subparser = new WaslImportParser(serial);
+                                    subparser.parse("objectDefinitions", objfilename, dir, pass);
+                                  }}
                                 | domainPolymorphicEvents       {System.err.println( "domainPolymorphicEvents" );}
                                 | domainGenericDefinition       {System.err.println( "domainGenericDefinition" );}
                                 | domainActionList              {System.err.println( "domainActionList" );}
@@ -145,24 +151,27 @@ domainBridges:                START_BRIDGES NEWLINES (
 domainObjectDefinitions:      START_OBJECTS NEWLINES ( 
                                 filename NEWLINES
                               {
+                                objfilename = $filename.name;
                                 WaslImportParser subparser = new WaslImportParser(serial);
-                                subparser.parse("objectDefinitions", $filename.name, dir);
+                                subparser.parse("objectDefinitions", objfilename, dir, pass);
                               }
                               )? END_OBJECTS NEWLINES;
 
 domainRelationships:          START_RELATIONSHIPS NEWLINES (
                                 filename NEWLINES
                               {
+                                relfilename = $filename.name;
                                 WaslImportParser subparser = new WaslImportParser(serial);
-                                subparser.parse("relationshipDefinitions", $filename.name, dir);
+                                subparser.parse("relationshipDefinitions", relfilename, dir, pass);
                               }
                               )? END_RELATIONSHIPS NEWLINES;
 
 domainSubtypes:               START_SUBTYPES NEWLINES (
                                 filename NEWLINES
                               {
+                                subfilename = $filename.name;
                                 WaslImportParser subparser = new WaslImportParser(serial);
-                                subparser.parse("subtypeDefinitions", $filename.name, dir);
+                                subparser.parse("subtypeDefinitions", subfilename, dir, pass);
                               }
                               )? END_SUBTYPES NEWLINES;
 
@@ -186,7 +195,7 @@ domainEventDataDefinitions:   START_EVDS NEWLINES (
                                 filename NEWLINES
                               {
                                 WaslImportParser subparser = new WaslImportParser(serial);
-                                subparser.parse("eventDataDefinitions", $filename.name, dir);
+                                subparser.parse("eventDataDefinitions", $filename.name, dir, pass);
                               }
                               )? END_EVDS NEWLINES;
 
@@ -194,45 +203,46 @@ domainTypes:                  START_TYPES NEWLINES (
                                 filename NEWLINES
                               {
                                 WaslImportParser subparser = new WaslImportParser(serial);
-                                subparser.parse("typeDefinitions", $filename.name, dir);
+                                subparser.parse("typeDefinitions", $filename.name, dir, pass);
                               }
                               )? END_TYPES NEWLINES;
 
-objectDefinitions:            objectDefinition*;
+objectDefinitions [int p]:    objectDefinition[$p]*;
 
-objectDefinition:             INTEGER_LITERAL COMMA objectName COMMA objectKeyLetter COMMA IDENTIFIER NEWLINES
+objectDefinition [int p]:     INTEGER_LITERAL COMMA objectName COMMA objectKeyLetter COMMA IDENTIFIER NEWLINES
                               {
                                 args[0] = $objectName.name;
                                 args[1] = $objectKeyLetter.name;
                                 args[2] = $INTEGER_LITERAL.text;
                                 populate( "object" );
                               }
-                              attributeDefinition*
+                              attributeDefinition[$p]*
                               {
-                                args[0] = "";
-                                args[1] = "";
-                                args[2] = "";
                                 populate( "object" );
                               }
                               ;
 
-attributeDefinition:          attributeIndicator attributeName 
+attributeDefinition [int p]:  attributeIndicator attributeName
                               {
-                                if ( "Current_State".equals($attributeName.name) ) enablePopulate(false);
-                                args[0] = $attributeName.name;
-                                args[1] = $attributeIndicator.preferred;
-                                populate( "attribute" );
-                              }
-                              COMMA attributeType COMMA ( LPAREN ( attributeReferenceSpec )? RPAREN )* COMMA description NEWLINES
-                              {
-                                if ( !"".equals($description.text) ) {
-                                  args[0] = $description.text;
-                                  populate( "description" );
+                                if ( 2 == $p ) {
+                                  if ( "Current_State".equals($attributeName.name) ) enablePopulate(false);
+                                  args[0] = $attributeName.name;
+                                  args[1] = $attributeIndicator.preferred;
+                                  populate( "attribute" );
                                 }
-                                args[0] = $attributeType.body;
-                                populate( "typeref" );
-                                populate( "attribute" );
-                                enablePopulate(true);
+                              }
+                              COMMA attributeType COMMA ( LPAREN ( attributeReferenceSpec[$p] )? RPAREN )* COMMA description NEWLINES
+                              {
+                                if ( 2 == $p ) {
+                                  if ( !"".equals($description.text) ) {
+                                    args[0] = $description.text;
+                                    populate( "description" );
+                                  }
+                                  args[0] = $attributeType.body;
+                                  populate( "typeref" );
+                                  populate( "attribute" );
+                                  enablePopulate(true);
+                                }
                               }
                               ;
 
@@ -319,15 +329,11 @@ eventDataDefinition:          objectKeyLetter COMMA eventNumber COMMA eventName 
                                 ( parameters )*
                               SEMICOLON ( IDENTIFIER COMMA IDENTIFIER )? COMMA description NEWLINES
                               {
-                                args[0] = "";
                                 args[1] = $objectKeyLetter.name;
-                                args[2] = "";
                                 populate( "object" );
                                 args[0] = $eventName.name;
                                 populate( "event" );
-                                args[0] = "";
                                 populate( "event" );
-                                args[0] = "";
                                 populate( "object" );
                               }
                               ;
@@ -392,11 +398,13 @@ attributeType returns [String body]:
                               }
                               ;
 
-attributeReferenceSpec:       relationshipName ( DOT attributeName )?
+attributeReferenceSpec [int p]: relationshipName ( DOT attributeName )?
                               {
-                                args[0] = $relationshipName.name;
-                                args[4] = null == $attributeName.name ? "" : $attributeName.name;
-                                populate( "referential" );
+                                if ( 2 == $p ) {
+                                  args[0] = $relationshipName.name;
+                                  args[4] = null == $attributeName.name ? "" : $attributeName.name;
+                                  populate( "referential" );
+                                }
                               };
 
 relationshipName returns [String name]:

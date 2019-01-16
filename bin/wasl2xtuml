@@ -57,7 +57,7 @@ if [[ $OUT_DIR == "" ]]; then OUT_DIR=.; fi
 # make the output directory if ther is one
 if [[ $OUT_DIR != "" ]]; then
     if ! mkdir -p $OUT_DIR; then
-        echo "-masl2xtuml: ERROR could not create directory '$OUT_DIR'" 1>&2
+        echo "-wasl2xtuml: ERROR could not create directory '$OUT_DIR'" 1>&2
         exit 1
     fi
 fi

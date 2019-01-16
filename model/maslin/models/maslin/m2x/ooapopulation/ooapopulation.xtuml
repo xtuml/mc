@@ -4094,6 +4094,9 @@ select any toOOAPart from instances of ooaparticipation where (selected.isFirst 
 // What follows is a heavily modified version of OOAofOOA''s Package::newAssociation()
   
 select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == fromOOAPart.className);
+if ( empty fromClass )
+  select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Key_Lett == fromOOAPart.className);
+end if;
 /* TODO - not handling association to imported class, don''t think we need to.
 select any fromIClass related by ep_pkg->PE_PE[R8000]->O_IOBJ[R8001] where (selected.IObj_ID == param.from);
 if (param.fromIsImported)
@@ -4102,6 +4105,9 @@ if (param.fromIsImported)
   end if;
 end if;*/
 select any toClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == toOOAPart.className);
+if ( empty toClass )
+  select any toClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Key_Lett == toOOAPart.className);
+end if;
 /* TODO - not handling association to imported class, don''t think we need to.
 select any toIClass related by ep_pkg->PE_PE[R8000]->O_IOBJ[R8001] where (selected.IObj_ID == param.to);
 if (param.toIsImported)
@@ -4605,6 +4611,9 @@ select many toOOAParts from instances of ooaparticipation where (selected.isFirs
   
 select any assoc from instances of R_REL where false;
 select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == fromOOAPart.className);
+if ( empty fromClass )
+  select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Key_Lett == fromOOAPart.className);
+end if;
 if ( not_empty fromClass )
   create object instance assoc of R_REL;
   // create Packageable Element supertype and hook up to this package.
@@ -4628,6 +4637,9 @@ if ( not_empty fromClass )
 
   for each toOOAPart in toOOAParts
 	select any toClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == toOOAPart.className);
+        if ( empty toClass )
+          select any toClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Key_Lett == toOOAPart.className);
+        end if;
 	//
 	if ( not_empty toClass )
 	  create object instance toOIR of R_OIR;
@@ -7194,6 +7206,9 @@ while ( passes <= num_forms )
 		    select any r_aone related by r_rtos->R_AONE[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
 		    select any r_aoth related by r_rtos->R_AOTH[R204] where ( selected.Txt_Phrs == ra.roleOrObj );
 		    select any o_obj related by r_rtos->R_OIR[R203]->O_OBJ[R201] where ( selected.Name == ra.roleOrObj );
+                    if ( empty o_obj )
+                      select any o_obj related by r_rtos->R_OIR[R203]->O_OBJ[R201] where ( selected.Key_Lett == ra.roleOrObj );
+                    end if;
 		    if ( not_empty r_aone or not_empty r_aoth or not_empty o_obj )
 		      ra.postProcess( o_attr:o_attr, ooapopulation:self );
 		      break;
@@ -8552,8 +8567,12 @@ if ( empty o_obj )
   o_obj = self.Package_newClass(ep_pkg:internals_pkg, class_name: param.name); 
 end if;
 
-o_obj.Name = param.name;
-o_obj.Key_Lett = param.key_letters;
+if ( "" != param.name )
+  o_obj.Name = param.name;
+end if;
+if ( "" != param.key_letters )
+  o_obj.Key_Lett = param.key_letters;
+end if;
 if ( "" != param.number )
   o_obj.Numb = STRING::atoi( s:param.number );
 end if;

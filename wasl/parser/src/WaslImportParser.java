@@ -25,7 +25,7 @@ public class WaslImportParser {
     }
 
     // parse a WASL file
-    public void parse( String rule, String fn, File dir ) {
+    public void parse( String rule, String fn, File dir, int pass ) {
         // check args and set current file
         if ( fn == null || rule == null )
             return;
@@ -57,7 +57,7 @@ public class WaslImportParser {
                     parser.domainDefinition();
                     break;
                 case "objectDefinitions":
-                    parser.objectDefinitions();
+                    parser.objectDefinitions(pass);
                     break;
                 case "typeDefinitions":
                     parser.typeDefinitions();
@@ -134,7 +134,7 @@ public class WaslImportParser {
                 }
 
                 // parse the file
-                parse( "domainDefinition", f.getName(), workingDir );
+                parse( "domainDefinition", f.getName(), workingDir, 1 );
                 found_dmp = true;
                 break;
             }
@@ -219,7 +219,7 @@ public class WaslImportParser {
                 if ( args.length == 3 ) {
                     File wd = new File( args[3] );
                     // parse the file
-                    parser.parse( args[1], args[2], wd );
+                    parser.parse( args[1], args[2], wd, 1 );
                 }
                 else {
                     // print usage

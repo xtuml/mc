@@ -57,22 +57,6 @@ public class RelationshipCache {
       }
 
       public void populate( Serial out ) {
-          // pre-declare objects
-          Set<String> objects = new HashSet<>();
-          for ( Participation part : participations ) {
-              objects.add(part.fromClass);
-              objects.add(part.toClass);
-          }
-          for ( String obj : objects ) {
-              if ( !obj.isEmpty() ) {
-                args[0] = "";
-                args[1] = obj;
-                args[2] = "";
-                out.populate( "object", args );
-                clearArgs();
-                out.populate( "object", args );
-              }
-          }
           // populate relationship
           if ( SIMP == type ) {
               // populate regular relationship
