@@ -4191,14 +4191,10 @@ INSERT INTO O_TFR
 
 // What follows is a heavily modified version of OOAofOOA''s Package::newAssociative()
 select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == self.current_rel.usingObj);
+if ( empty fromClass )
+  select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Key_Lett == self.current_rel.usingObj);
+end if;
 
-/*  TODO - skipping imported classes for now
-if (param.fromIsImportedClass)
-  select any fromIClass related by self->PE_PE[R8000]->O_IOBJ[R8001] where (selected.IObj_ID == param.from);
-  if (not_empty fromIClass)
-    select one fromClass related by fromIClass->O_OBJ[R101];
-  end if;
-end if;*/
 relNumber = STRING::atoi(s:self.current_rel.number); 
 select any toAssoc related by ep_pkg->PE_PE[R8000]->R_REL[R8001] where (selected.Numb == relNumber);
 // get the already related class in relationship instances
@@ -4221,11 +4217,10 @@ if (empty simp)
   // TODO - not doing anything with return value, should we?  - return false;
   return;
 else
-  /* TODO - not handling imported link classes
-  if (param.fromIsImportedClass)
-    simp.migrateToLinked(using: fromClass.Obj_ID, imported_id: param.from);
-  else*/
     select any usingClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == self.current_rel.usingObj);
+    if ( empty usingClass )
+      select any usingClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Key_Lett == self.current_rel.usingObj);
+    end if;
     self.SimpleAssociation_migrateToLinked(r_simp:simp, using: usingClass);
   //end if;
   // TODO - not doing anything with return value, should we?  - return true;
