@@ -1,1 +1,1 @@
-${relationship.name},${one_object.name}\
+${relationship.name},${one_object.key_letters}\

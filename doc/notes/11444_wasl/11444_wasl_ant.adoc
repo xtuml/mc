@@ -7,19 +7,24 @@ xtUML Project Analysis Note
 
 == Miscellaneous Notes to Myself
 
-- Why is MASL round trip broken?  I think I ran into this when I was building something a while back.  It might be my branches?...
-  * I think my selection (by name or kl) does not find it so renders it again.
-- I broke the .rel generation.
+- Investigate using conditional generation in 'render' operations rather than having 'render_masl/render_wasl'.  The association hierarchy may be a good example where only the template is different.
+  * Consider putting an attribute on the genfile.
+  * 'population' is probably the wrong place.
+- I wonder how the WASL dumper chooses which object to start from (for A, B, C)?
 - I broke the import which now cycles on relationship formalization.
 - data order?
 - Fix class name and key letters issue.
   * Generate object stanza during relationship import?
   * The relationship cache does not understand names and key letters.  Add this support.  The predeclaration of classes already occurs.  This can be taken out.
-- Add number to object.
-- Add number to SMASL.
 - Remove 'tododelete' from ooaparticipation in maslin.
 - Identify tasks good for BAE people.
 - Deal with 'typeminer'.
+- Add number to SMASL.
+
++ Why is MASL round trip broken?  I think I ran into this when I was building something a while back.  It might be my branches?...
+  * I think my selection (by name or kl) does not find it so renders it again.
+  * I found it.  It was OAL I moved out from inside an if statement so that I was relating something multiple times.
++ Add number to object.
 
 == Abstract
 

@@ -168,7 +168,7 @@ elif ( not_empty terminator )
 elif ( not_empty activity )
   activity.render();
 elif ( not_empty relationship )
-  relationship.render();
+  relationship.render_masl();
 elif ( not_empty object )
   object.render_masl();
 elif ( not_empty attribute )

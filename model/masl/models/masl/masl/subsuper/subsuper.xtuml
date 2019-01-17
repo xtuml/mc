@@ -10,7 +10,7 @@ INSERT INTO O_OBJ
 INSERT INTO O_TFR
 	VALUES ("4c2a935c-9f82-483a-8ea4-76b47f7b44ab",
 	"3e82ef73-92f1-464a-9961-915da3477b00",
-	'render',
+	'render_masl',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -92,6 +92,30 @@ INSERT INTO O_TFR
 	1,
 	'valid = true;
 return valid;',
+	1,
+	'',
+	"9b4f1d51-9fe8-4596-88e2-131d6a9f7f82",
+	0);
+INSERT INTO O_TFR
+	VALUES ("9b4f1d51-9fe8-4596-88e2-131d6a9f7f82",
+	"3e82ef73-92f1-464a-9961-915da3477b00",
+	'render_wasl',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one relationship related by self->relationship[R3721];
+select one participation related by relationship->participation[R3713.''engages''];
+select one one_object related by participation->object[R3714.''one''];
+if ( empty one_object )
+  TRACE::log( flavor:"failure", id:55, message:"missing one object on associative render" );
+end if;
+T::include( file:"wasl/t.subsuper_begin.wasl" );
+select many other_objects related by participation->object[R3720.''other''];
+for each other_object in other_objects
+  T::include( file:"wasl/t.subsuper_other.wasl" );
+end for;
+T::include( file:"wasl/t.subsuper_end.wasl" );
+',
 	1,
 	'',
 	"4c2a935c-9f82-483a-8ea4-76b47f7b44ab",
