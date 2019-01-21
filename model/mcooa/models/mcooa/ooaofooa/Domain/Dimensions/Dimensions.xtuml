@@ -833,6 +833,108 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_REF
+	VALUES ("5ee0e399-3b05-4664-a524-a20bb92dd6eb",
+	"a4870b74-a7f2-4677-8245-3ca01758616a",
+	0,
+	"afb0ff64-9d37-4eb0-89f4-aa1c81a040d4",
+	"1a14c09d-e3c7-4393-9b87-18f781e5dfef",
+	"03c2c4ee-747d-4e86-ba26-a854136f0d88",
+	"e72cd309-d8a2-4e99-b39d-6bd41035a2a1",
+	"3c779f56-92d8-4d61-97ef-5bfa4eaf5e3b",
+	"38fe19c3-fcce-4738-82d8-c18c64f6abc5",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Terminator Service Parameter',
+	'TSParm_ID',
+	'R1655');
+INSERT INTO R_RGO_PROXY
+	VALUES ("5ee0e399-3b05-4664-a524-a20bb92dd6eb",
+	"1a14c09d-e3c7-4393-9b87-18f781e5dfef",
+	"03c2c4ee-747d-4e86-ba26-a854136f0d88",
+	'../../Deployment/Deployment.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("afb0ff64-9d37-4eb0-89f4-aa1c81a040d4",
+	"a4870b74-a7f2-4677-8245-3ca01758616a",
+	0,
+	"1a14c09d-e3c7-4393-9b87-18f781e5dfef",
+	"e72cd309-d8a2-4e99-b39d-6bd41035a2a1",
+	'../../Deployment/Deployment.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("3c779f56-92d8-4d61-97ef-5bfa4eaf5e3b",
+	"5ee0e399-3b05-4664-a524-a20bb92dd6eb",
+	"afb0ff64-9d37-4eb0-89f4-aa1c81a040d4",
+	"a4870b74-a7f2-4677-8245-3ca01758616a",
+	1,
+	'TSParm_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("afb0ff64-9d37-4eb0-89f4-aa1c81a040d4",
+	"a4870b74-a7f2-4677-8245-3ca01758616a",
+	'../../Deployment/Terminator Service Parameter/Terminator Service Parameter.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("3c779f56-92d8-4d61-97ef-5bfa4eaf5e3b",
+	"5ee0e399-3b05-4664-a524-a20bb92dd6eb",
+	"e6a162d8-0f46-46cc-a68c-f23bf305a50f",
+	'TSParm_ID',
+	'',
+	'',
+	'TSParm_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("5ee0e399-3b05-4664-a524-a20bb92dd6eb",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	0,
+	"da585929-6467-473b-a952-1ace6454db56",
+	"ad292e6b-e7fe-4b39-902b-04f51c90891a",
+	"e211d94b-43e7-4b28-9400-2ba6b0ab44a9",
+	"45fa7ee3-bab3-4406-97f9-d656dfd727c1",
+	"2152a729-dae9-4355-aaa0-cb9b76e6f8f3",
+	"bd9e115d-ab23-4a9c-ba6b-9675f87f439f",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Terminator Service',
+	'Svc_ID',
+	'R1657');
+INSERT INTO R_RGO_PROXY
+	VALUES ("5ee0e399-3b05-4664-a524-a20bb92dd6eb",
+	"ad292e6b-e7fe-4b39-902b-04f51c90891a",
+	"e211d94b-43e7-4b28-9400-2ba6b0ab44a9",
+	'../../Deployment/Deployment.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("da585929-6467-473b-a952-1ace6454db56",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	0,
+	"ad292e6b-e7fe-4b39-902b-04f51c90891a",
+	"45fa7ee3-bab3-4406-97f9-d656dfd727c1",
+	'../../Deployment/Deployment.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("2152a729-dae9-4355-aaa0-cb9b76e6f8f3",
+	"5ee0e399-3b05-4664-a524-a20bb92dd6eb",
+	"da585929-6467-473b-a952-1ace6454db56",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	1,
+	'Svc_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("da585929-6467-473b-a952-1ace6454db56",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	'../../Deployment/Terminator Service/Terminator Service.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("2152a729-dae9-4355-aaa0-cb9b76e6f8f3",
+	"5ee0e399-3b05-4664-a524-a20bb92dd6eb",
+	"3c779f56-92d8-4d61-97ef-5bfa4eaf5e3b",
+	'Svc_ID',
+	'',
+	'',
+	'Svc_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"5ee0e399-3b05-4664-a524-a20bb92dd6eb");
