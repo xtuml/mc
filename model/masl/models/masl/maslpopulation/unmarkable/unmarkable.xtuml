@@ -96,9 +96,9 @@ if ( not_empty parameter )
 elif ( not_empty participation )
   participation.render();
 elif ( not_empty typeref )
-  typeref.render_masl();
+  typeref.render();
 elif ( not_empty referential )
-  referential.render_masl();
+  referential.render();
 elif ( not_empty cell )
   cell.render();
 elif ( not_empty pragma )

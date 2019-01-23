@@ -10,7 +10,7 @@ INSERT INTO O_OBJ
 INSERT INTO O_TFR
 	VALUES ("29b4edbe-2a0d-41ae-846f-5b961e250517",
 	"4edb2c3e-b86b-4835-9c39-392a9b29eba6",
-	'render_masl',
+	'render',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -32,7 +32,19 @@ domainname = "";
 
 rolephrase = self.rolephrase;
 
-T::include( file:"masl/t.referential.masl" );',
+if ( "MASL" == genfile::architecture() )
+  T::include( file:"masl/t.referential.masl" );
+elif ( "WASL" == genfile::architecture() )
+
+  select one regularrel related by relationship->regularrel[R3721]; // if the relationship is regular, include the attribute name
+  if ( empty regularrel )
+    attribute = "";
+  end if;
+
+  T::include( file:"wasl/t.referential.wasl" );
+else
+  //
+end if;',
 	1,
 	'',
 	"b4c92004-4eda-4905-8e5a-1e4ee121b90a",
@@ -149,30 +161,6 @@ else
 end if;
 
 return valid;',
-	1,
-	'',
-	"f2db7dc6-f351-4a84-8c6c-fd0436622c65",
-	0);
-INSERT INTO O_TFR
-	VALUES ("f2db7dc6-f351-4a84-8c6c-fd0436622c65",
-	"4edb2c3e-b86b-4835-9c39-392a9b29eba6",
-	'render_wasl',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'select one relationship related by self->relationship[R3744];
-relationshipname = relationship.name;
-
-attributename = "";
-select one regularrel related by relationship->regularrel[R3721]; // if the relationship is regular, include the attributename name
-if ( not_empty regularrel )
-  select one referred_to related by self->attribute[R3746.''references''];
-  attributename = referred_to.name;
-end if;
-
-T::include( file:"wasl/t.referential.wasl" );
-
-',
 	1,
 	'',
 	"29b4edbe-2a0d-41ae-846f-5b961e250517",

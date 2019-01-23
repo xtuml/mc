@@ -10,36 +10,65 @@ INSERT INTO O_OBJ
 INSERT INTO O_TFR
 	VALUES ("fb972f5f-d2bd-4c5f-afe9-7eadca2ff059",
 	"514b84aa-197a-464c-a09e-e7f135680958",
-	'render_masl',
+	'render',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
-for each descrip in descrips
-  descrip.render_masl();
-end for;
-T::include( file:"masl/t.attribute_begin.masl" );
 select many referentials related by self->referential[R3746.''references''];
-if ( not_empty referentials )
-  T::include( file:"masl/t.referentials_begin.masl" );
-  separator = "";
-  for each referential in referentials
-  	T::b( s:separator );
-    referential.render_masl();
-    separator = ", ";
-  end for;
-  T::include( file:"masl/t.referentials_end.masl" );
-end if;
 select one attributetype related by self->typeref[R3717];
-attributetype.render_masl();
 select one expression related by self->expression[R3745];
-if ( not_empty expression )
-	T::include( file:"masl/t.attribute_assign.masl" );
-	expression.render();
-end if;
-T::include( file:"masl/t.attribute_end.masl" );
-select one markable related by self->markable[R3783];
-markable.render_marking( list:"default" );',
+
+if ( "MASL" == genfile::architecture() )
+
+  for each descrip in descrips
+    descrip.render();
+  end for;
+  T::include( file:"masl/t.attribute_begin.masl" );
+  if ( not_empty referentials )
+    T::include( file:"masl/t.referentials_begin.masl" );
+    separator = "";
+    for each referential in referentials
+  	  T::b( s:separator );
+      referential.render();
+      separator = ", ";
+    end for;
+    T::include( file:"masl/t.referentials_end.masl" );
+  end if;
+  attributetype.render();
+  if ( not_empty expression )
+	  T::include( file:"masl/t.attribute_assign.masl" );
+	  expression.render();
+  end if;
+  T::include( file:"masl/t.attribute_end.masl" );
+  select one markable related by self->markable[R3783];
+  markable.render_marking( list:"default" );
+
+elif ( "WASL" == genfile::architecture() )
+
+  T::include( file:"wasl/t.attribute_begin.wasl" );
+  attributetype.render();
+  T::b( s:"," );
+  if ( not_empty referentials )
+    for each referential in referentials
+      referential.render();
+    end for;
+  else
+    T::b( s:"()" );
+  end if;
+  if ( not_empty expression )
+    T::include( file:"wasl/t.attribute_assign.wasl" );
+    expression.render();
+  end if;
+  description = "";
+  for each descrip in descrips
+    description = description + descrip.text;
+  end for;
+  T::include( file:"wasl/t.attribute_end.wasl" );
+    
+else
+  //
+end if;',
 	1,
 	'',
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
@@ -233,7 +262,7 @@ INSERT INTO O_TFR
 	'T::include( file:"masl/t.attribute_name.masl" );',
 	1,
 	'',
-	"b6cfd5f3-f590-41bf-aaa2-2d769bb643f7",
+	"fb972f5f-d2bd-4c5f-afe9-7eadca2ff059",
 	0);
 INSERT INTO O_TFR
 	VALUES ("fd542ea4-7e21-4c67-ad18-2c26e8875a97",
@@ -272,43 +301,6 @@ out::tostring( element:"attribute", value:emptyvalue );
 	1,
 	'',
 	"65a587c5-8adb-485c-b877-28413cb9bbff",
-	0);
-INSERT INTO O_TFR
-	VALUES ("b6cfd5f3-f590-41bf-aaa2-2d769bb643f7",
-	"514b84aa-197a-464c-a09e-e7f135680958",
-	'render_wasl',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'T::include( file:"wasl/t.attribute_begin.wasl" );
-select one attributetype related by self->typeref[R3717];
-attributetype.render_wasl();
-T::b( s:"," );
-select many referentials related by self->referential[R3746.''references''];
-if ( not_empty referentials )
-  for each referential in referentials
-    referential.render_wasl();
-  end for;
-else
-  T::b( s:"()" );
-end if;
-select one expression related by self->expression[R3745];
-if ( not_empty expression )
-	T::include( file:"wasl/t.attribute_assign.wasl" );
-	expression.render();
-end if;
-select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
-description = "";
-for each descrip in descrips
-  descrip.render_wasl();
-  description = description + descrip.text;
-end for;
-T::include( file:"wasl/t.attribute_end.wasl" );
-select one markable related by self->markable[R3783];
-markable.render_marking( list:"default" );',
-	1,
-	'',
-	"fb972f5f-d2bd-4c5f-afe9-7eadca2ff059",
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("6ed52915-ba48-441a-83a8-e2427e0b0ca2",

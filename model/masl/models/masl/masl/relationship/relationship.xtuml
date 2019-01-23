@@ -10,25 +10,25 @@ INSERT INTO O_OBJ
 INSERT INTO O_TFR
 	VALUES ("d12801c5-5fe6-4b0e-b77a-fd4c687cd875",
 	"d47576b6-a215-43fb-bb91-bdb6435f137b",
-	'render_masl',
+	'render',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render_masl();
+  descrip.render();
 end for;
 select one regularrel related by self->regularrel[R3721];
 if ( not_empty regularrel )
-  regularrel.render_masl();
+  regularrel.render();
 else
 select one associative related by self->associative[R3721];
 if ( not_empty associative )
-  associative.render_masl();
+  associative.render();
 else
 select one subsuper related by self->subsuper[R3721];
 if ( not_empty subsuper )
-  subsuper.render_masl();
+  subsuper.render();
 else
   TRACE::log( flavor:"failure", id:82, message:"missing subtype relationship while rendering" );
 end if;
@@ -150,39 +150,6 @@ for each pragma_list in child_pragma_lists
 end for;
 
 return valid;',
-	1,
-	'',
-	"f2aa0eb1-510c-4267-8460-ee52fe2f4584",
-	0);
-INSERT INTO O_TFR
-	VALUES ("f2aa0eb1-510c-4267-8460-ee52fe2f4584",
-	"d47576b6-a215-43fb-bb91-bdb6435f137b",
-	'render_wasl',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
-for each descrip in descrips
-  descrip.render_wasl();
-end for;
-select one regularrel related by self->regularrel[R3721];
-if ( not_empty regularrel )
-  regularrel.render_wasl();
-else
-select one associative related by self->associative[R3721];
-if ( not_empty associative )
-  associative.render_wasl();
-else
-select one subsuper related by self->subsuper[R3721];
-if ( not_empty subsuper )
-  subsuper.render_wasl();
-else
-  TRACE::log( flavor:"failure", id:82, message:"missing subtype relationship while rendering" );
-end if;
-end if;
-end if;
-select one markable related by self->markable[R3783];
-markable.render_marking( list:"default" );',
 	1,
 	'',
 	"d12801c5-5fe6-4b0e-b77a-fd4c687cd875",

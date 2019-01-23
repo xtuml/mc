@@ -16,7 +16,7 @@ INSERT INTO O_TFR
 	1,
 	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render_masl();
+  descrip.render();
 end for;
 T::include( file:"masl/t.project_begin.masl" );
 select many domains related by self->domain[R3701.''configures''];

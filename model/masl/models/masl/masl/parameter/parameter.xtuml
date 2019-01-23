@@ -16,7 +16,7 @@ INSERT INTO O_TFR
 	1,
 	'T::include( file:"masl/t.parameter.masl" );
 select one parametertype related by self->typeref[R3742];
-parametertype.render_masl();
+parametertype.render();
 select one parameter related by self->parameter[R3706.''precedes''];
 if ( not_empty parameter )
   T::b( s:"," );

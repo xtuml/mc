@@ -90,8 +90,8 @@ masl_type_op_render_masl( masl_type * self)
   Escher_IteratorReset( &iterdescrip, descrips );
   while ( (iidescrip = (masl_description *)Escher_IteratorNext( &iterdescrip )) != 0 ) {
     descrip = iidescrip; {
-    /* descrip.render_masl() */
-    masl_description_op_render_masl( descrip );
+    /* descrip.render() */
+    masl_description_op_render( descrip );
   }}}
   /* ASSIGN self.rendered = TRUE */
   ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.rendered" ))->rendered = TRUE;
@@ -612,8 +612,8 @@ masl_type_op_render_wasl( masl_type * self)
   Escher_IteratorReset( &iterdescrip, descrips );
   while ( (iidescrip = (masl_description *)Escher_IteratorNext( &iterdescrip )) != 0 ) {
     descrip = iidescrip; {
-    /* descrip.render_wasl() */
-    masl_description_op_render_wasl( descrip );
+    /* descrip.render() */
+    masl_description_op_render( descrip );
   }}}
   /* ASSIGN self.rendered = TRUE */
   ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.rendered" ))->rendered = TRUE;

@@ -17,7 +17,7 @@ INSERT INTO O_TFR
 	'// Add the Descrip field as a comment.
 select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render_masl();
+  descrip.render();
 end for;
 self.rendered = true;
 select many references related by self->reference[R3777.''is_referenced_by''];
@@ -356,7 +356,7 @@ INSERT INTO O_TFR
 	'// Add the Descrip field as a comment.
 select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render_wasl();
+  descrip.render();
 end for;
 self.rendered = true;
 select many references related by self->reference[R3777.''is_referenced_by''];
@@ -453,6 +453,8 @@ INSERT INTO S_DIM
 	"00000000-0000-0000-0000-000000000000",
 	"00000000-0000-0000-0000-000000000000",
 	"35b0744a-1682-42ec-b6c8-30d1c5b4bcc9",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_ATTR
 	VALUES ("59db881e-073a-4777-b55a-e652d8069752",

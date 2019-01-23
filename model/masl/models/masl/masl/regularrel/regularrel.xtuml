@@ -10,7 +10,7 @@ INSERT INTO O_OBJ
 INSERT INTO O_TFR
 	VALUES ("afcc243a-f54c-4f52-bd7b-f6d298a24668",
 	"c90bc4fd-5a83-4406-96cd-3c3e3a99dca9",
-	'render_masl',
+	'render',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -21,7 +21,13 @@ select any other_object related by participation->object[R3720.''other''];
 if ( ( empty one_object ) or ( empty other_object ) )
   TRACE::log( flavor:"failure", id:55, message:"missing one or other object on regularrel render" );
 end if;
-T::include( file:"masl/t.regularrel.masl" );
+if ( "MASL" == genfile::architecture() )
+  T::include( file: "masl/t.regularrel.masl" );
+elif ( "WASL" == genfile::architecture() )
+  T::include( file: "wasl/t.regularrel.wasl" );
+else
+  //
+end if;
 ',
 	1,
 	'',
@@ -86,26 +92,6 @@ INSERT INTO O_TFR
 	1,
 	'valid = true;
 return valid;',
-	1,
-	'',
-	"3af05625-b5f1-459d-82a0-0572c9b7afc6",
-	0);
-INSERT INTO O_TFR
-	VALUES ("3af05625-b5f1-459d-82a0-0572c9b7afc6",
-	"c90bc4fd-5a83-4406-96cd-3c3e3a99dca9",
-	'render_wasl',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'select one relationship related by self->relationship[R3721];
-select one participation related by relationship->participation[R3713.''engages''];
-select one one_object related by participation->object[R3714.''one''];
-select any other_object related by participation->object[R3720.''other''];
-if ( ( empty one_object ) or ( empty other_object ) )
-  TRACE::log( flavor:"failure", id:55, message:"missing one or other object on regularrel render" );
-end if;
-T::include( file:"wasl/t.regularrel.wasl" );
-',
 	1,
 	'',
 	"afcc243a-f54c-4f52-bd7b-f6d298a24668",

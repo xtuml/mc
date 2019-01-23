@@ -168,11 +168,11 @@ elif ( not_empty terminator )
 elif ( not_empty activity )
   activity.render();
 elif ( not_empty relationship )
-  relationship.render_masl();
+  relationship.render();
 elif ( not_empty object )
-  object.render_masl();
+  object.render();
 elif ( not_empty attribute )
-  attribute.render_masl();
+  attribute.render();
 elif ( not_empty event )
   event.render();
 elif ( not_empty identifier )

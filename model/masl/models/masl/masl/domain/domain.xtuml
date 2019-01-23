@@ -68,7 +68,7 @@ INSERT INTO O_TFR
 	1,
 	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render_masl();
+  descrip.render();
 end for;
 T::include( file:"masl/t.domain_begin.masl" );
 
@@ -98,7 +98,7 @@ end for;
 
 select many relationships related by self->relationship[R3712];
 for each relationship in relationships
-  relationship.render_masl();
+  relationship.render();
 end for;
 
 // Sequence rendering such that supertypes are rendered before subtypes.
@@ -119,7 +119,7 @@ while ( round <= maxrounds )
       select many supertypes related by ss->participation[R3720]->relationship[R3713]->subsuper[R3721]->relationship[R3721]->participation[R3713.''engages'']->object[R3714];
     end while;
     if ( depth == round )
-      object.render_masl();
+      object.render();
     end if;
   end for;
   round = round + 1;
@@ -271,7 +271,7 @@ INSERT INTO O_TFR
 	1,
 	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render_masl();
+  descrip.render();
 end for;
 T::include( file:"masl/t.domain_begin.masl" );
 
@@ -297,7 +297,7 @@ INSERT INTO O_TFR
 	1,
 	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render_masl();
+  descrip.render();
 end for;
 T::include( file:"masl/t.domain_begin.masl" );
 
@@ -341,7 +341,7 @@ INSERT INTO O_TFR
 	1,
 	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
-  descrip.render_wasl();
+  descrip.render();
 end for;
 T::include( file:"wasl/t.domain_begin.wasl" );
 

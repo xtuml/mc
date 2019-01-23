@@ -18,6 +18,9 @@ INSERT INTO O_TFR
 name = param.name;
 structuralOnly = param.structuralOnly;
 
+select any population from instances of population;
+population.architecture = "MASL";
+
 // Populate the file containerization before transforming and emitting the text.
 select many elements from instances of element;
 for each e in elements
@@ -113,7 +116,6 @@ elif ( "domain" == element )
     end for;
   end if;
 elif ( "" == element )	// render from the root
-  select any population from instances of population;
   select one root_element related by population->element[R3785];
   if ( not_empty root_element )
     root_element.render();
@@ -320,7 +322,7 @@ end if;
 T::copyfile( source:source, destination:destination );',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000",
+	"42b3bbc0-d392-414b-8b74-4c347e0f6e79",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("f291b218-90cf-440e-82d5-4f62b49dd9fa",
@@ -563,6 +565,9 @@ INSERT INTO O_TFR
 name = param.name;
 structuralOnly = param.structuralOnly;
 
+select any population from instances of population;
+population.architecture = "WASL";
+
 // Populate the file containerization before transforming and emitting the text.
 select many elements from instances of element;
 for each e in elements
@@ -656,7 +661,7 @@ elif ( "domain" == element )
       // render objects file
       select many objects related by domain->object[R3708];
       for each obj in objects
-        obj.render_wasl();
+        obj.render();
         T::b( s:"\n" );
       end for;
       select any genfile related by objects->markable[R3783]->element[R3786]->genfile[R3795];
@@ -670,7 +675,7 @@ elif ( "domain" == element )
       select many subsuper_rels related by domain->relationship[R3712]->subsuper[R3721]->relationship[R3721];
       other_rels = rels - subsuper_rels;
       for each rel in other_rels
-        rel.render_wasl();
+        rel.render();
       end for;
       select any genfile related by other_rels->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
@@ -680,7 +685,7 @@ elif ( "domain" == element )
 
       // render subtypes file
       for each rel in subsuper_rels
-        rel.render_wasl();
+        rel.render();
       end for;
       select any genfile related by subsuper_rels->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
@@ -716,7 +721,6 @@ elif ( "domain" == element )
     end for;
   end if;
 elif ( "" == element )	// render from the root
-  select any population from instances of population;
   select one root_element related by population->element[R3785];
   if ( not_empty root_element )
     root_element.render();
@@ -755,6 +759,27 @@ INSERT INTO O_TPARM
 	'',
 	"236bc013-aaff-4c72-86da-32851b1dfa28",
 	'');
+INSERT INTO O_TFR
+	VALUES ("42b3bbc0-d392-414b-8b74-4c347e0f6e79",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'architecture',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'// Return the output flavor.
+select any population from instances of population;
+if ( empty population )
+    TRACE::log( flavor:"error", id:54, message:"no population" );
+else
+  if ( ( "MASL" != population.architecture ) and ( "WASL" != population.architecture ) )
+    TRACE::log( flavor:"error", id:55, message:"architecture neither MASL nor WASL" );
+  end if;
+end if;
+return population.architecture;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
