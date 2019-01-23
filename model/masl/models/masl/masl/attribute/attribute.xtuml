@@ -25,13 +25,13 @@ if ( not_empty referentials )
   separator = "";
   for each referential in referentials
   	T::b( s:separator );
-    referential.render();
+    referential.render_masl();
     separator = ", ";
   end for;
   T::include( file:"masl/t.referentials_end.masl" );
 end if;
 select one attributetype related by self->typeref[R3717];
-attributetype.render();
+attributetype.render_masl();
 select one expression related by self->expression[R3745];
 if ( not_empty expression )
 	T::include( file:"masl/t.attribute_assign.masl" );
@@ -280,31 +280,29 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
-description = "";
-for each descrip in descrips
-  descrip.render_wasl();
-  description = description + descrip.text;
-end for;
-T::include( file:"wasl/t.attribute_begin.wasl" );
+	'T::include( file:"wasl/t.attribute_begin.wasl" );
 select one attributetype related by self->typeref[R3717];
-attributetype.render();
+attributetype.render_wasl();
+T::b( s:"," );
 select many referentials related by self->referential[R3746.''references''];
 if ( not_empty referentials )
-  T::include( file:"wasl/t.referentials_begin.wasl" );
-  separator = "";
   for each referential in referentials
-  	T::b( s:separator );
-    referential.render();
-    separator = "";
+    referential.render_wasl();
   end for;
-  T::include( file:"wasl/t.referentials_end.wasl" );
+else
+  T::b( s:"()" );
 end if;
 select one expression related by self->expression[R3745];
 if ( not_empty expression )
 	T::include( file:"wasl/t.attribute_assign.wasl" );
 	expression.render();
 end if;
+select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+description = "";
+for each descrip in descrips
+  descrip.render_wasl();
+  description = description + descrip.text;
+end for;
 T::include( file:"wasl/t.attribute_end.wasl" );
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',

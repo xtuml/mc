@@ -653,6 +653,18 @@ elif ( "domain" == element )
         genfile.emit( name:domain.name + ".typ" );
       end if;
 
+      // render objects file
+      select many objects related by domain->object[R3708];
+      for each obj in objects
+        obj.render_wasl();
+        T::b( s:"\n" );
+      end for;
+      select any genfile related by objects->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
+        genfile.directory( name:domain.name );
+        genfile.emit( name:domain.name + ".obj" );
+      end if;
+
       // render relationships file
       select many rels related by domain->relationship[R3712];
       select many subsuper_rels related by domain->relationship[R3712]->subsuper[R3721]->relationship[R3721];
@@ -676,18 +688,6 @@ elif ( "domain" == element )
         genfile.emit( name:domain.name + ".sub" );
       end if;
 
-      // render objects file
-      select many objects related by domain->object[R3708];
-      for each obj in objects
-        obj.render_wasl();
-        T::b( s:"\n" );
-      end for;
-      select any genfile related by objects->markable[R3783]->element[R3786]->genfile[R3795];
-      if ( not_empty genfile )
-        genfile.directory( name:domain.name );
-        genfile.emit( name:domain.name + ".obj" );
-      end if;
-
       if ( structuralOnly == true )
         // we have output the domain structural bits, so skip activites
         continue;
@@ -698,51 +698,7 @@ elif ( "domain" == element )
       select many terminator_routines related by domain->terminator[R3702]->routine[R3791]->activity[R3704];
       select many class_ops related by domain->object[R3708]->operation[R3749]->activity[R3704];
       select many states related by domain->object[R3708]->state[R3750]->activity[R3704];
-      // TODO once set addition is in place, I can do this in one for loop - LPS
-      //activities = domain_routines + terminator_routines + class_ops + states;
-      activities = domain_routines;
-      for each activity in activities
-        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
-        if ( not_empty genfile )
-          destination = genfile.getname();
-          // Domain files go into a directory named after the domain.
-          genfile.directory( name:domain.name );
-		  select one class_op related by activity->operation[R3704];
-		  select one deferral related by class_op->subsuper[R3793];
-		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			genfile.gen( destination:destination );
-		  end if;
-        end if;
-      end for;
-      activities = terminator_routines;
-      for each activity in activities
-        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
-        if ( not_empty genfile )
-          destination = genfile.getname();
-          // Domain files go into a directory named after the domain.
-          genfile.directory( name:domain.name );
-		  select one class_op related by activity->operation[R3704];
-		  select one deferral related by class_op->subsuper[R3793];
-		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			genfile.gen( destination:destination );
-          end if;
-        end if;
-      end for;
-      activities = class_ops;
-      for each activity in activities
-        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
-        if ( not_empty genfile )
-          destination = genfile.getname();
-          // Domain files go into a directory named after the domain.
-          genfile.directory( name:domain.name );
-		  select one class_op related by activity->operation[R3704];
-		  select one deferral related by class_op->subsuper[R3793];
-		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			genfile.gen( destination:destination );
-		  end if;
-        end if;
-      end for;
-      activities = states;
+      activities = domain_routines + terminator_routines + class_ops + states;
       for each activity in activities
         select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
         if ( not_empty genfile )

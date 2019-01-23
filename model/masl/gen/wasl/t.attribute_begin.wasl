@@ -1,4 +1,4 @@
-.if ( "preferred" == self->preferred )
+.if ( "preferred" == self.preferred )
 *\
 .else
 ..\

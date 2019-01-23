@@ -314,6 +314,9 @@ for each attribute in attributes
   attribute.render_wasl();
 end for;
 
+T::include( file:"wasl/t.object_end.wasl" );
+
+/*
 select many identifiers related by self->identifier[R3711];
 for each identifier in identifiers
   identifier.render();
@@ -338,8 +341,7 @@ select many state_machines related by self->state_machine[R3734];
 for each state_machine in state_machines
   state_machine.render();
 end for;
-
-T::include( file:"wasl/t.object_end.wasl" );
+*/
 
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',

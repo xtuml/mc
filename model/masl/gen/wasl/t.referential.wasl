@@ -1,6 +1,5 @@
-(\
-${relationshipname}\
-.if ( "" != attribute )
-..${attribute}\
+(${relationshipname}\
+.if ( "" != attributename )
+..${attributename}\
 .end if
 )\

@@ -11,7 +11,7 @@ xtUML Project Analysis Note
 DaveSk and DaveS suggest using the MASL dumper to dump BAE models.
 pro:  masl2xtuml is already in place and complete.
 pro:  masl2xtuml flow is tested.
-con:  round_trip would need to accomodate the change in starting point.
+con:  round_trip would need to accommodate the change in starting point.
 con:  MASL dumper does not emit:  class key letters, class numbers, event numbers
 con:  I suspect that BAE models may struggle to dump, because the results may be incomplete MASL (missing role phrases for example).
 con:  I think that MASL may have name limitations not in ASL (blanks in role phrases?).
@@ -21,25 +21,24 @@ Perhaps the MASL dumper could be modified to (in the forward declaration and/or 
 object TrackPoint,TP,7 is
 end object
 
-- The compare utility will be simpler and will not take a whole week.
 - Investigate using conditional generation in 'render' operations rather than having 'render_masl/render_wasl'.  The association hierarchy may be a good example where only the template is different.
   * Consider putting an attribute on the genfile.
   * 'population' is probably the wrong place.
 - I wonder how the WASL dumper chooses which object to start from (for A, B, C)(subtype list)?
-- I broke the import which now cycles on relationship formalization.
 - data order?
-- Fix class name and key letters issue.
-  * Generate object stanza during relationship import?
-  * The relationship cache does not understand names and key letters.  Add this support.  The predeclaration of classes already occurs.  This can be taken out.
 - Remove 'tododelete' from ooaparticipation in maslin.
 - Deal with 'typeminer'.
-- Add number to SMASL.
 
 + Why is MASL round trip broken?  I think I ran into this when I was building something a while back.  It might be my branches?...
   * I think my selection (by name or kl) does not find it so renders it again.
   * I found it.  It was OAL I moved out from inside an if statement so that I was relating something multiple times.
 + Add number to object.
 + Identify tasks good for BAE people.
++ The compare utility will be simpler and will not take a whole week.
++ Add number to SMASL.
++ Fix class name and key letters issue.
+  * Generate object stanza during relationship import?
++ I broke the import which now cycles on relationship formalization.
 
 == Abstract
 
