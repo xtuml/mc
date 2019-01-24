@@ -64,10 +64,10 @@ masl_type_AnyWhere1( c_t * w_name )
 }
 
 /*
- * instance operation:  render_masl
+ * instance operation:  render
  */
 void
-masl_type_op_render_masl( masl_type * self)
+masl_type_op_render( masl_type * self)
 {
   masl_reference * reference=0;masl_description * descrip=0;masl_markable * markable=0;Escher_ObjectSet_s references_space={0}; Escher_ObjectSet_s * references = &references_space;Escher_ObjectSet_s descrips_space={0}; Escher_ObjectSet_s * descrips = &descrips_space;
   /* SELECT many descrips RELATED BY self->markable[R3783]->element[R3786]->description[R3796] */
@@ -111,10 +111,26 @@ masl_type_op_render_masl( masl_type * self)
   }}}
   /* SELECT one markable RELATED BY self->markable[R3783] */
   markable = ( 0 != self ) ? self->markable_R3783 : 0;
-  /* T::include( file:masl/t.type_begin.masl ) */
+  /* IF ( MASL == genfile::architecture() ) */
+  if ( Escher_strcmp( "MASL", masl_genfile_op_architecture() ) == 0 ) {
+    /* T::include( file:masl/t.type_begin.masl ) */
 #include "masl/t.type_begin.masl"
-  /* T::include( file:masl/t.type_end.masl ) */
+    /* T::include( file:masl/t.type_end.masl ) */
 #include "masl/t.type_end.masl"
+  }
+  else if ( Escher_strcmp( "WASL", masl_genfile_op_architecture() ) == 0 ) {
+    /* IF ( - 1 != STRING::indexof(self.body, ,) ) */
+    if ( -1 != STRING_indexof( ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body, "," ) ) {
+      /* ASSIGN self.body = ( ( Enumeration,{ + self.body ) + } ) */
+      ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body = Escher_strcpy( ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body, ( Escher_stradd( ( Escher_stradd( "Enumeration,{", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body ) ), "}" ) ) );
+    }
+    /* T::include( file:wasl/t.type_begin.wasl ) */
+#include "wasl/t.type_begin.wasl"
+    /* T::include( file:wasl/t.type_end.wasl ) */
+#include "wasl/t.type_end.wasl"
+  }
+  else {
+  }
   /* markable.render_marking( list:default ) */
   masl_markable_op_render_marking( markable,  "default" );
   Escher_ClearSet( references ); Escher_ClearSet( descrips ); 
@@ -423,8 +439,8 @@ masl_type_op_render_leaves( masl_domain * p_domain, c_t * p_scope )
       if ( ( 0 == reference ) ) {
         /* IF ( ( public == type.visibility ) or ( private == PARAM.scope ) ) */
         if ( ( Escher_strcmp( "public", ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.visibility" ))->visibility ) == 0 ) || ( Escher_strcmp( "private", p_scope ) == 0 ) ) {
-          /* type.render_masl() */
-          masl_type_op_render_masl( type );
+          /* type.render() */
+          masl_type_op_render( type );
         }
       }
     }}}
@@ -583,68 +599,6 @@ masl_type_op_render_all( masl_domain * p_domain, c_t * p_scope )
     }
   }
   Escher_ClearSet( types ); Escher_ClearSet( references ); 
-}
-
-/*
- * instance operation:  render_wasl
- */
-void
-masl_type_op_render_wasl( masl_type * self)
-{
-  masl_reference * reference=0;masl_description * descrip=0;masl_markable * markable=0;Escher_ObjectSet_s references_space={0}; Escher_ObjectSet_s * references = &references_space;Escher_ObjectSet_s descrips_space={0}; Escher_ObjectSet_s * descrips = &descrips_space;
-  /* SELECT many descrips RELATED BY self->markable[R3783]->element[R3786]->description[R3796] */
-  Escher_ClearSet( descrips );
-  {  if ( 0 != self ) {
-  masl_markable * markable_R3783 = self->markable_R3783;
-  if ( 0 != markable_R3783 ) {
-  masl_element * element_R3786 = markable_R3783->element_R3786;
-  if ( 0 != element_R3786 ) {
-  masl_description * description_R3796;
-  Escher_Iterator_s idescription_R3796;
-  Escher_IteratorReset( &idescription_R3796, &element_R3786->description_R3796 );
-  while ( 0 != ( description_R3796 = (masl_description *) Escher_IteratorNext( &idescription_R3796 ) ) ) {
-    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) descrips, description_R3796 ) ) {
-      Escher_SetInsertElement( (Escher_ObjectSet_s *) descrips, description_R3796 );
-  }}}}}}
-  /* FOR EACH descrip IN descrips */
-  { Escher_Iterator_s iterdescrip;
-  masl_description * iidescrip;
-  Escher_IteratorReset( &iterdescrip, descrips );
-  while ( (iidescrip = (masl_description *)Escher_IteratorNext( &iterdescrip )) != 0 ) {
-    descrip = iidescrip; {
-    /* descrip.render() */
-    masl_description_op_render( descrip );
-  }}}
-  /* ASSIGN self.rendered = TRUE */
-  ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.rendered" ))->rendered = TRUE;
-  /* SELECT many references RELATED BY self->reference[R3777.is_referenced_by] */
-  Escher_ClearSet( references );
-  if ( 0 != self ) {
-    Escher_CopySet( references, &self->reference_R3777_is_referenced_by );
-  }
-  /* FOR EACH reference IN references */
-  { Escher_Iterator_s iterreference;
-  masl_reference * iireference;
-  Escher_IteratorReset( &iterreference, references );
-  while ( (iireference = (masl_reference *)Escher_IteratorNext( &iterreference )) != 0 ) {
-    reference = iireference; {
-    /* ASSIGN reference.resolved = TRUE */
-    ((masl_reference *)xtUML_detect_empty_handle( reference, "reference", "reference.resolved" ))->resolved = TRUE;
-  }}}
-  /* SELECT one markable RELATED BY self->markable[R3783] */
-  markable = ( 0 != self ) ? self->markable_R3783 : 0;
-  /* IF ( - 1 != STRING::indexof(self.body, ,) ) */
-  if ( -1 != STRING_indexof( ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body, "," ) ) {
-    /* ASSIGN self.body = ( ( Enumeration,{ + self.body ) + } ) */
-    ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body = Escher_strcpy( ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body, ( Escher_stradd( ( Escher_stradd( "Enumeration,{", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body ) ), "}" ) ) );
-  }
-  /* T::include( file:wasl/t.type_begin.wasl ) */
-#include "wasl/t.type_begin.wasl"
-  /* T::include( file:wasl/t.type_end.wasl ) */
-#include "wasl/t.type_end.wasl"
-  /* markable.render_marking( list:default ) */
-  masl_markable_op_render_marking( markable,  "default" );
-  Escher_ClearSet( references ); Escher_ClearSet( descrips ); 
 }
 
 /*

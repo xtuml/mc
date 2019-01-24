@@ -21,6 +21,7 @@ Perhaps the MASL dumper could be modified to (in the forward declaration and/or 
 object TrackPoint,TP,7 is
 end object
 
+- A domain has a version.  This may need to be stored.
 - I wonder how the WASL dumper chooses which object to start from (for A, B, C)(subtype list)?
 - data order?
 - Remove 'tododelete' from ooaparticipation in maslin.

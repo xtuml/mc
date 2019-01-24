@@ -78,7 +78,7 @@ elif ( "domain" == element )
     TRACE::log( flavor:"error", id:52, message:"could not render domain:  " + name );
   else
     for each domain in domains
-      domain.render_masl();
+      domain.render();
       select one genfile related by domain->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
         // Domain files go into a directory named after the domain.
@@ -573,7 +573,9 @@ select many elements from instances of element;
 for each e in elements
   file_needed = true;
   select any genfile from instances of genfile where ( false );
-	if ( "object" == e.name )
+	if ( "domain" == e.name )
+	  select one genfile related by e->markable[R3786]->domain[R3783]->markable[R3783]->element[R3786]->genfile[R3795];
+	elif ( "object" == e.name )
 		select any genfile related by e->markable[R3786]->object[R3783]->domain[R3708]->object[R3708]->markable[R3783]->element[R3786]->genfile[R3795];
 	elif ( "regularrel" == e.name )
 		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->regularrel[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
@@ -616,7 +618,7 @@ if ( "project" == element )
         continue;
       end if;
       
-	  // render all the activity files
+	    // render all the activity files
       select many terminator_activities related by project->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
       for each activity in terminator_activities
         select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
@@ -639,33 +641,21 @@ elif ( "domain" == element )
     TRACE::log( flavor:"error", id:52, message:"could not render domain:  " + name );
   else
     for each domain in domains
-      domain.render_wasl();
       select one genfile related by domain->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
+        domain.render();
         // Domain files go into a directory named after the domain.
         genfile.directory( name:domain.name );
         genfile.emit( name:domain.name + ".dmp" );
       end if;
 
-      // render types file
-      select many types related by domain->type[R3719];
-      for each typ in types
-        typ.render_wasl();
-      end for;
-      select any genfile related by types->markable[R3783]->element[R3786]->genfile[R3795];
-      if ( not_empty genfile )
-        genfile.directory( name:domain.name );
-        genfile.emit( name:domain.name + ".typ" );
-      end if;
-
       // render objects file
       select many objects related by domain->object[R3708];
-      for each obj in objects
-        obj.render();
-        T::b( s:"\n" );
-      end for;
       select any genfile related by objects->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
+        for each obj in objects
+          obj.render();
+        end for;
         genfile.directory( name:domain.name );
         genfile.emit( name:domain.name + ".obj" );
       end if;
@@ -674,23 +664,37 @@ elif ( "domain" == element )
       select many rels related by domain->relationship[R3712];
       select many subsuper_rels related by domain->relationship[R3712]->subsuper[R3721]->relationship[R3721];
       other_rels = rels - subsuper_rels;
-      for each rel in other_rels
-        rel.render();
-      end for;
       select any genfile related by other_rels->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
+        for each rel in other_rels
+          rel.render();
+        end for;
         genfile.directory( name:domain.name );
         genfile.emit( name:domain.name + ".rel" );
       end if;
 
       // render subtypes file
-      for each rel in subsuper_rels
-        rel.render();
-      end for;
       select any genfile related by subsuper_rels->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
+        for each rel in subsuper_rels
+          rel.render();
+        end for;
         genfile.directory( name:domain.name );
         genfile.emit( name:domain.name + ".sub" );
+      end if;
+
+      // render types file
+      select many types related by domain->type[R3719];
+      select any genfile related by types->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
+        for each typ in types
+          typ.render();
+        end for;
+        for each obj in objects
+          obj.render_declaration();
+        end for;
+        genfile.directory( name:domain.name );
+        genfile.emit( name:domain.name + ".typ" );
       end if;
 
       if ( structuralOnly == true )

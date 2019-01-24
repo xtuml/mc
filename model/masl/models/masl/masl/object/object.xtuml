@@ -256,9 +256,15 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.object_declaration.masl" );
-select one markable related by self->markable[R3783];
-markable.render_marking( list:"declaration" );',
+	'if ( "MASL" == genfile::architecture() )
+  T::include( file:"masl/t.object_declaration.masl" );
+  select one markable related by self->markable[R3783];
+  markable.render_marking( list:"declaration" );
+elif ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.object_declaration.wasl" );
+else
+  //
+end if;',
 	1,
 	'',
 	"94d08134-61ae-4921-adee-96a5ef2d9522",

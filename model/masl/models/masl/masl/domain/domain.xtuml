@@ -62,11 +62,13 @@ INSERT INTO S_DT_PROXY
 INSERT INTO O_TFR
 	VALUES ("0d6eab48-8a19-474c-a54c-d16da938995b",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
-	'render_masl',
+	'render',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+	'if ( "MASL" == genfile::architecture() )
+  
+select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
   descrip.render();
 end for;
@@ -128,7 +130,13 @@ end while;
 T::include( file:"masl/t.domain_end.masl" );
 
 select one markable related by self->markable[R3783];
-markable.render_marking( list:"default" );',
+markable.render_marking( list:"default" );
+
+elif ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.domain_begin.wasl" );
+else
+  //
+end if;',
 	1,
 	'',
 	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4",
@@ -328,48 +336,6 @@ T::include( file:"masl/t.domain_end.masl" );
 
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
-	1,
-	'',
-	"2d3ad15b-d226-4fe8-914b-dbfcaf0c5b24",
-	0);
-INSERT INTO O_TFR
-	VALUES ("2d3ad15b-d226-4fe8-914b-dbfcaf0c5b24",
-	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
-	'render_wasl',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
-for each descrip in descrips
-  descrip.render();
-end for;
-T::include( file:"wasl/t.domain_begin.wasl" );
-
-T::b( s:"\n" );
-T::b( s:"$START_OBJECTS\n" );
-T::b( s:self.name + ".sub\n" );
-T::b( s:"$END_OBJECTS\n" );
-
-T::b( s:"\n" );
-T::b( s:"$START_RELATIONSHIPS\n" );
-T::b( s:self.name + ".rel\n" );
-T::b( s:"$END_RELATIONSHIPS\n" );
-
-T::b( s:"\n" );
-T::b( s:"$START_SUBTYPES\n" );
-T::b( s:self.name + ".sub\n" );
-T::b( s:"$END_SUBTYPES\n" );
-
-T::b( s:"\n" );
-T::b( s:"$START_TYPES\n" );
-T::b( s:self.name + ".typ\n" );
-T::b( s:"$END_TYPES\n" );
-
-T::include( file:"wasl/t.domain_end.wasl" );
-
-select one markable related by self->markable[R3783];
-markable.render_marking( list:"default" );
-',
 	1,
 	'',
 	"0d6eab48-8a19-474c-a54c-d16da938995b",

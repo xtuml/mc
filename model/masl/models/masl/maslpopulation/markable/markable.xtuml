@@ -156,11 +156,11 @@ select one state_machine related by self->state_machine[R3783];
 if ( not_empty project )
   project.render();
 elif ( not_empty domain )
-  domain.render_masl();
+  domain.render();
 elif ( not_empty exception )
   exception.render();
 elif ( not_empty type )
-  type.render_masl();
+  type.render();
 elif ( not_empty member )
   member.render();
 elif ( not_empty terminator )
