@@ -641,15 +641,25 @@ elif ( "domain" == element )
     TRACE::log( flavor:"error", id:52, message:"could not render domain:  " + name );
   else
     for each domain in domains
+
+      // domain ("dump") file
       select one genfile related by domain->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
         domain.render();
-        // Domain files go into a directory named after the domain.
         genfile.directory( name:domain.name );
         genfile.emit( name:domain.name + ".dmp" );
       end if;
 
-      // render objects file
+      // terminators file
+      // hand coded files file (no need to generate)
+      // scenarios
+      // scenario list file
+      // function data types file
+      // functions
+      // bridge data types file
+      // bridges
+
+      // objects file
       select many objects related by domain->object[R3708];
       select any genfile related by objects->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
@@ -660,7 +670,7 @@ elif ( "domain" == element )
         genfile.emit( name:domain.name + ".obj" );
       end if;
 
-      // render relationships file
+      // relationships file
       select many rels related by domain->relationship[R3712];
       select many subsuper_rels related by domain->relationship[R3712]->subsuper[R3721]->relationship[R3721];
       other_rels = rels - subsuper_rels;
@@ -673,7 +683,7 @@ elif ( "domain" == element )
         genfile.emit( name:domain.name + ".rel" );
       end if;
 
-      // render subtypes file
+      // subtypes file
       select any genfile related by subsuper_rels->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
         for each rel in subsuper_rels
@@ -683,7 +693,13 @@ elif ( "domain" == element )
         genfile.emit( name:domain.name + ".sub" );
       end if;
 
-      // render types file
+      // polymorphic events file
+      // .pme_test (no need to generate)
+      // actions
+      // state transition table file
+      // event data file
+
+      // types file
       select many types related by domain->type[R3719];
       select any genfile related by types->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
