@@ -1,0 +1,88 @@
+= mctools Refresh and Cleanup
+
+xtUML Project Implementation Note
+
+:sectnums:
+
+== Abstract
+
+Several tools are built from out of the MC-3020 architecture.  Some
+implement the OOA of OOA directly.  Most of these tools get built from
+sources on the build server, so they automatically stay up-to-date.
+There are a few exceptions that must be dealt with manually.
+
+== Introduction and Background
+
+`mcmc` and `integrity` are two applications that do not get fully rebuilt
+automatically on the build server.  These need to be manually refreshed.
+
+== Requirements
+
+=== Rebuild `mcmc` (escher).
+=== Rebuild `integrity`.
+
+== Work Required
+
+=== Rebuild `mcmc`.
+Build mcmc from the sources.  Generate the code being sure that all model
+elements are loaded.  "Wiggle" the model data if required as described
+in <<dr-2,mcmc crash>>.  [escher loaded on the first try.]
+
+=== Rebuild `integrity`.
+Build `integrity` from the sources.  Regenerate from the archetype first.
+
+== Implementation Comments
+
+=== asciidoc template
+I put a draft asciidoc template for an int in this branch.  It is incomplete,
+so it should probably not be merged.
+
+=== `t.sys_main.c`
+A bug was introduced in previous work (in commit b5483c80b) where a line
+was deleted along with some conditionals that should not have been deleted.
+This resulted in a missing `return 0` at the end of MC-3020 generated code
+in `main()`.
+
+
+== Unit Test
+
+== User Documentation
+
+No changes to User Documentation are needed.
+
+== Code Changes
+
+- Fork/Repository: cortlandstarrett/mc
+- Branch: 11482_mcrefresh
+
+<pre>
+ arc/c/t.sys_main.c                                       |   1 +
+ bin/mac/mcmc                                             | Bin 1593360 -> 1604832 bytes
+ bin/mcmc                                                 | Bin 2397128 -> 2447320 bytes
+ bin/win/mcmc.exe                                         | Bin 1989944 -> 1746617 bytes
+ doc/notes/11482_mcrefresh_int.adoc                       |  71 ++++++++++++++++++++++++++++++++++++++
+ doc/process/templates/int_template.adoc                  | 121 +++++++++++++++++++++++++++++++++++++++++++
+ mcmc/arlan/o.oal                                         |  12 ++++++-
+ model/escher/.externalToolBuilders/Model Compiler.launch |   9 +++--
+ model/escher/gen/STRING_bridge.c                         |   0
+ model/escher/gen/ooaofooa.c                              |  32 +++++++++++++++--
+ model/escher/gen/ooaofooa_c_orig                         |  32 +++++++++++++++--
+ model/escher/models/escher/mcmc/afun/afun.xtuml          |  12 ++++++-
+ 12 files changed, 279 insertions(+), 11 deletions(-)
+</pre>
+
+== Document References
+
+In this section, list all the documents that the reader may need to refer to.
+Give the full path to reference a file.
+
+. [[dr-1]] https://support.onefact.net/issues/11482[11482 - mctools refresh and cleanup]
+. [[dr-2]] https://support.onefact.net/issues/8976[8976 - S_IRDTs omitted by prebuilder (mcmc crash)]
+. [[dr-3]] link:../10414_wasl/Extr
+. [[dr-4]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
