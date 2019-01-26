@@ -962,6 +962,7 @@ sub xtumlmc_cleanse_model($$$)
                 ( /^INSERT INTO CNST_/ ) ||
                 ( /^INSERT INTO COMM_/ ) ||
                 ( /^INSERT INTO C_/ ) ||
+                ( /^INSERT INTO D_/ ) ||
                 ( /^INSERT INTO EP_/ ) ||
                 ( /^INSERT INTO E_/ ) ||
                 ( /^INSERT INTO IA_/ ) ||
