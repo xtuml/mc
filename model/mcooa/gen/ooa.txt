@@ -1072,6 +1072,48 @@ for each s_dim in s_dims
   end if;
   check_count = check_count + 1;
   end if;
+  // formalizer participation R1655:  Dimensions(S_DIM) -> Terminator Service Parameter(D_TSPARM)
+  // checking conditional link only if referential attribute is non-null
+  if ( not ( ::is_null_id( id:s_dim.TSParm_ID ) ) )
+  select one d_tsparm related by s_dim->D_TSPARM[R1655];
+  if ( empty d_tsparm )
+    ::check_log( message: "one instance not found S_DIM->D_TSPARM[R1655]", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  else
+    if ( not ( d_tsparm.TSParm_ID == s_dim.TSParm_ID ) )
+      ::check_log( message: "referentials do not match identifiers between S_DIM and D_TSPARM", trace:trace );
+      local_error_count = local_error_count + 1;
+      if ( 10 < local_error_count )
+        break;
+      end if;
+    end if;
+  end if;
+  check_count = check_count + 1;
+  end if;
+  // formalizer participation R1657:  Dimensions(S_DIM) -> Terminator Service(D_TSVC)
+  // checking conditional link only if referential attribute is non-null
+  if ( not ( ::is_null_id( id:s_dim.Svc_ID ) ) )
+  select one d_tsvc related by s_dim->D_TSVC[R1657];
+  if ( empty d_tsvc )
+    ::check_log( message: "one instance not found S_DIM->D_TSVC[R1657]", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  else
+    if ( not ( d_tsvc.Svc_ID == s_dim.Svc_ID ) )
+      ::check_log( message: "referentials do not match identifiers between S_DIM and D_TSVC", trace:trace );
+      local_error_count = local_error_count + 1;
+      if ( 10 < local_error_count )
+        break;
+      end if;
+    end if;
+  end if;
+  check_count = check_count + 1;
+  end if;
 end for;
 total_error_count = total_error_count + local_error_count;
 local_error_count = 0;
@@ -13502,6 +13544,199 @@ for each cnst_lsc in cnst_lscs
 end for;
 total_error_count = total_error_count + local_error_count;
 local_error_count = 0;
+select many d_depls from instances of D_DEPL;
+for each d_depl in d_depls
+  instance_count = instance_count + 1;
+  trace = ::check_trace( trace_attribute:"Deployment_ID", trace_id:d_depl.Deployment_ID, name:d_depl.Name );
+  select many duplicate_d_depls from instances of D_DEPL where ( selected.Deployment_ID == d_depl.Deployment_ID );
+  if ( cardinality duplicate_d_depls != 1 )
+    ::check_log( message: "uniqueness violation in D_DEPL for identifier 1", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  end if;
+  check_count = check_count + 1;
+  // sub to super participation R8001:  Deployment(D_DEPL) -> Packageable Element(PE_PE)
+  select one pe_pe related by d_depl->PE_PE[R8001];
+  if ( empty pe_pe )
+    ::check_log( message: "supertype not found across D_DEPL->PE_PE[R8001]", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  else
+    select one myself_d_depl related by pe_pe->D_DEPL[R8001];
+    if ( empty myself_d_depl or ( myself_d_depl != d_depl ) )
+      ::check_log( message: "same subtype not found looping back across D_DEPL->PE_PE[R8001]->D_DEPL[R8001]", trace:trace );
+      local_error_count = local_error_count + 1;
+      if ( 10 < local_error_count )
+        break;
+      end if;
+    end if;
+  end if;
+end for;
+total_error_count = total_error_count + local_error_count;
+local_error_count = 0;
+select many d_terms from instances of D_TERM;
+for each d_term in d_terms
+  instance_count = instance_count + 1;
+  trace = ::check_trace( trace_attribute:"Term_ID", trace_id:d_term.Term_ID, name:d_term.Name );
+  select many duplicate_d_terms from instances of D_TERM where ( selected.Term_ID == d_term.Term_ID );
+  if ( cardinality duplicate_d_terms != 1 )
+    ::check_log( message: "uniqueness violation in D_TERM for identifier 1", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  end if;
+  check_count = check_count + 1;
+  // formalizer participation R1650:  Terminator(D_TERM) -> Deployment(D_DEPL)
+  select one d_depl related by d_term->D_DEPL[R1650];
+  if ( empty d_depl )
+    ::check_log( message: "one instance not found D_TERM->D_DEPL[R1650]", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  else
+    if ( not ( d_depl.Deployment_ID == d_term.Deployment_ID ) )
+      ::check_log( message: "referentials do not match identifiers between D_TERM and D_DEPL", trace:trace );
+      local_error_count = local_error_count + 1;
+      if ( 10 < local_error_count )
+        break;
+      end if;
+    end if;
+  end if;
+  check_count = check_count + 1;
+end for;
+total_error_count = total_error_count + local_error_count;
+local_error_count = 0;
+select many d_tsvcs from instances of D_TSVC;
+for each d_tsvc in d_tsvcs
+  instance_count = instance_count + 1;
+  trace = ::check_trace( trace_attribute:"Svc_ID", trace_id:d_tsvc.Svc_ID, name:d_tsvc.Name );
+  select many duplicate_d_tsvcs from instances of D_TSVC where ( selected.Svc_ID == d_tsvc.Svc_ID );
+  if ( cardinality duplicate_d_tsvcs != 1 )
+    ::check_log( message: "uniqueness violation in D_TSVC for identifier 1", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  end if;
+  check_count = check_count + 1;
+  // formalizer participation R1651:  Terminator Service(D_TSVC) -> Terminator(D_TERM)
+  select one d_term related by d_tsvc->D_TERM[R1651];
+  if ( empty d_term )
+    ::check_log( message: "one instance not found D_TSVC->D_TERM[R1651]", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  else
+    if ( not ( d_term.Term_ID == d_tsvc.Term_ID ) )
+      ::check_log( message: "referentials do not match identifiers between D_TSVC and D_TERM", trace:trace );
+      local_error_count = local_error_count + 1;
+      if ( 10 < local_error_count )
+        break;
+      end if;
+    end if;
+  end if;
+  check_count = check_count + 1;
+  // formalizer participation R1656:  Terminator Service(D_TSVC) -> Data Type(S_DT)
+  select one s_dt related by d_tsvc->S_DT[R1656];
+  if ( empty s_dt )
+    ::check_log( message: "one instance not found D_TSVC->S_DT[R1656]", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  else
+    if ( not ( s_dt.DT_ID == d_tsvc.DT_ID ) )
+      ::check_log( message: "referentials do not match identifiers between D_TSVC and S_DT", trace:trace );
+      local_error_count = local_error_count + 1;
+      if ( 10 < local_error_count )
+        break;
+      end if;
+    end if;
+  end if;
+  check_count = check_count + 1;
+end for;
+total_error_count = total_error_count + local_error_count;
+local_error_count = 0;
+select many d_tsparms from instances of D_TSPARM;
+for each d_tsparm in d_tsparms
+  instance_count = instance_count + 1;
+  trace = ::check_trace( trace_attribute:"TSParm_ID", trace_id:d_tsparm.TSParm_ID, name:d_tsparm.Name );
+  select many duplicate_d_tsparms from instances of D_TSPARM where ( selected.TSParm_ID == d_tsparm.TSParm_ID );
+  if ( cardinality duplicate_d_tsparms != 1 )
+    ::check_log( message: "uniqueness violation in D_TSPARM for identifier 1", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  end if;
+  check_count = check_count + 1;
+  // formalizer participation R1652:  Terminator Service Parameter(D_TSPARM) -> Terminator Service(D_TSVC)
+  select one d_tsvc related by d_tsparm->D_TSVC[R1652];
+  if ( empty d_tsvc )
+    ::check_log( message: "one instance not found D_TSPARM->D_TSVC[R1652]", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  else
+    if ( not ( d_tsvc.Svc_ID == d_tsparm.Svc_ID ) )
+      ::check_log( message: "referentials do not match identifiers between D_TSPARM and D_TSVC", trace:trace );
+      local_error_count = local_error_count + 1;
+      if ( 10 < local_error_count )
+        break;
+      end if;
+    end if;
+  end if;
+  check_count = check_count + 1;
+  // formalizer participation R1653:  Terminator Service Parameter(D_TSPARM) -> Data Type(S_DT)
+  select one s_dt related by d_tsparm->S_DT[R1653];
+  if ( empty s_dt )
+    ::check_log( message: "one instance not found D_TSPARM->S_DT[R1653]", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  else
+    if ( not ( s_dt.DT_ID == d_tsparm.DT_ID ) )
+      ::check_log( message: "referentials do not match identifiers between D_TSPARM and S_DT", trace:trace );
+      local_error_count = local_error_count + 1;
+      if ( 10 < local_error_count )
+        break;
+      end if;
+    end if;
+  end if;
+  check_count = check_count + 1;
+  // formalizer participation R1654:  Terminator Service Parameter(D_TSPARM) -> Terminator Service Parameter(D_TSPARM)
+  // checking conditional link only if referential attribute is non-null
+  if ( not ( ::is_null_id( id:d_tsparm.Previous_TSParm_ID ) ) )
+  select one right_d_tsparm related by d_tsparm->D_TSPARM[R1654.'succeeds'];
+  if ( empty right_d_tsparm )
+    ::check_log( message: "one instance not found D_TSPARM->D_TSPARM[R1654.'succeeds']", trace:trace );
+    local_error_count = local_error_count + 1;
+    if ( 10 < local_error_count )
+      break;
+    end if;
+  else
+    if ( not ( right_d_tsparm.TSParm_ID == d_tsparm.Previous_TSParm_ID ) )
+      ::check_log( message: "referentials do not match identifiers between D_TSPARM and D_TSPARM", trace:trace );
+      local_error_count = local_error_count + 1;
+      if ( 10 < local_error_count )
+        break;
+      end if;
+    end if;
+  end if;
+  check_count = check_count + 1;
+  end if;
+end for;
+total_error_count = total_error_count + local_error_count;
+local_error_count = 0;
 select many i_lnks from instances of I_LNK;
 for each i_lnk in i_lnks
   instance_count = instance_count + 1;
@@ -16472,6 +16707,11 @@ for each pe_pe in pe_pes
   check_count = check_count + 1;
   select one s_exp related by pe_pe->S_EXP[R8001];
   if ( not_empty s_exp )
+    subtype_count = subtype_count + 1;
+  end if;
+  check_count = check_count + 1;
+  select one d_depl related by pe_pe->D_DEPL[R8001];
+  if ( not_empty d_depl )
     subtype_count = subtype_count + 1;
   end if;
   check_count = check_count + 1;
