@@ -13,8 +13,7 @@ Notes -
 
 <article>
 <title>
-  <trademark class='registered'>BridgePoint</trademark>
-  xtUML Generated Documentation
+  BridgePoint xtUML Generated Documentation
 </title>
 <articleinfo>
   <author>
@@ -23,12 +22,7 @@ Notes -
     </personname>
   </author>
   <publisher>
-  <publishername>company name</publishername>
-  <address>
-  <pob>8005 SW Boeckman Road</pob>
-  <city>Wilsonville</city>, <state>OR</state>
-  <postcode>97070</postcode> <country>USA</country>
-  </address>
+  <publishername>xtuml.org</publishername>
   </publisher>
 </articleinfo>
 <toc></toc>

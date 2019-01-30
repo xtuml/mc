@@ -9,6 +9,7 @@
 
 #include "docgen_sys_types.h"
 #include "docgen.h"
+#include "TRACE_bridge.h"
 #include "STRING_bridge.h"
 #include "T_bridge.h"
 #include "POP_bridge.h"
@@ -86,8 +87,8 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
   if ( ! Escher_SetContains( (Escher_ObjectSet_s *) a_aps, R8001_subtype ) ) {
     Escher_SetInsertElement( (Escher_ObjectSet_s *) a_aps, R8001_subtype );
   }}}}}
-  /* IF ( ( ( not_empty a_es or not_empty a_ns ) or not_empty a_aps ) ) */
-  if ( ( ( ( ! Escher_SetIsEmpty( a_es ) ) || ( ! Escher_SetIsEmpty( a_ns ) ) ) || ( ! Escher_SetIsEmpty( a_aps ) ) ) ) {
+  /* IF ( ( not_empty a_es or not_empty a_ns ) or not_empty a_aps ) */
+  if ( ( ( ! Escher_SetIsEmpty( a_es ) ) || ( ! Escher_SetIsEmpty( a_ns ) ) ) || ( ! Escher_SetIsEmpty( a_aps ) ) ) {
     docgen_A_FJ * a_fj=0;docgen_A_DM * a_dm=0;docgen_A_FF * a_ff=0;docgen_A_AF * a_af=0;docgen_A_INI * a_ini=0;docgen_A_OBJ * a_obj=0;docgen_A_SS * a_ss=0;docgen_A_AEA * a_aea=0;docgen_A_ATE * a_ate=0;docgen_A_GA * a_ga=0;docgen_A_E * a_e=0;docgen_DOC_ROW * doc_row1;c_t * columns[3]={0,0,0};c_t * format[3]={0,0,0};docgen_DOC_TBL * doc_tbl;docgen_DOC_PAR * doc_par;docgen_DOC_SEC * doc_sec;docgen_DOC_ROW * empty_doc_row=0;docgen_DOC_PAR * empty_doc_par=0;Escher_ObjectSet_s a_objs_space={0}; Escher_ObjectSet_s * a_objs = &a_objs_space;Escher_ObjectSet_s a_sss_space={0}; Escher_ObjectSet_s * a_sss = &a_sss_space;Escher_ObjectSet_s a_aeas_space={0}; Escher_ObjectSet_s * a_aeas = &a_aeas_space;Escher_ObjectSet_s a_ates_space={0}; Escher_ObjectSet_s * a_ates = &a_ates_space;Escher_ObjectSet_s a_gas_space={0}; Escher_ObjectSet_s * a_gas = &a_gas_space;Escher_ObjectSet_s a_fjs_space={0}; Escher_ObjectSet_s * a_fjs = &a_fjs_space;Escher_ObjectSet_s a_dms_space={0}; Escher_ObjectSet_s * a_dms = &a_dms_space;Escher_ObjectSet_s a_ffs_space={0}; Escher_ObjectSet_s * a_ffs = &a_ffs_space;Escher_ObjectSet_s a_afs_space={0}; Escher_ObjectSet_s * a_afs = &a_afs_space;Escher_ObjectSet_s a_inis_space={0}; Escher_ObjectSet_s * a_inis = &a_inis_space;
     /* SELECT any empty_doc_par FROM INSTANCES OF DOC_PAR WHERE FALSE */
     empty_doc_par = 0;
@@ -112,7 +113,7 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
     /* ASSIGN columns[0] = Activity.gif */
     columns[0] = Escher_strcpy( columns[0], "Activity.gif" );
     /* ASSIGN doc_row1 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:empty_doc_row) */
-    doc_row1 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, empty_doc_row);
+    doc_row1 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, empty_doc_row);
     /* RELATE doc_row1 TO doc_tbl ACROSS R2317 */
     docgen_DOC_ROW_R2317_Link_has_first( doc_tbl, doc_row1 );
     /* FOR EACH a_e IN a_es */
@@ -121,17 +122,17 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
     Escher_IteratorReset( &itera_e, a_es );
     while ( (iia_e = (docgen_A_E *)Escher_IteratorNext( &itera_e )) != 0 ) {
       a_e = iia_e; {
-      /* IF ( ( (  != a_e.Guard ) or (  != a_e.Descrip ) ) ) */
-      if ( ( ( Escher_strcmp( "", a_e->Guard ) != 0 ) || ( Escher_strcmp( "", a_e->Descrip ) != 0 ) ) ) {
+      /* IF ( (  != a_e.Guard ) or (  != a_e.Descrip ) ) */
+      if ( ( Escher_strcmp( "", ((docgen_A_E *)xtUML_detect_empty_handle( a_e, "A_E", "a_e.Guard" ))->Guard ) != 0 ) || ( Escher_strcmp( "", ((docgen_A_E *)xtUML_detect_empty_handle( a_e, "A_E", "a_e.Descrip" ))->Descrip ) != 0 ) ) {
         docgen_DOC_ROW * doc_row2;
         /* ASSIGN columns[2] = a_e.Descrip */
-        columns[2] = Escher_strcpy( columns[2], a_e->Descrip );
+        columns[2] = Escher_strcpy( columns[2], ((docgen_A_E *)xtUML_detect_empty_handle( a_e, "A_E", "a_e.Descrip" ))->Descrip );
         /* ASSIGN columns[1] = a_e.Guard */
-        columns[1] = Escher_strcpy( columns[1], a_e->Guard );
+        columns[1] = Escher_strcpy( columns[1], ((docgen_A_E *)xtUML_detect_empty_handle( a_e, "A_E", "a_e.Guard" ))->Guard );
         /* ASSIGN columns[0] = ActivityEdge.gif */
         columns[0] = Escher_strcpy( columns[0], "ActivityEdge.gif" );
         /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-        doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+        doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
         /* ASSIGN doc_row1 = doc_row2 */
         doc_row1 = doc_row2;
       }
@@ -156,13 +157,13 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       a_ga = iia_ga; {
       docgen_DOC_ROW * doc_row2;
       /* ASSIGN columns[2] = a_ga.Descrip */
-      columns[2] = Escher_strcpy( columns[2], a_ga->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_A_GA *)xtUML_detect_empty_handle( a_ga, "A_GA", "a_ga.Descrip" ))->Descrip );
       /* ASSIGN columns[1] = a_ga.Name */
-      columns[1] = Escher_strcpy( columns[1], a_ga->Name );
+      columns[1] = Escher_strcpy( columns[1], ((docgen_A_GA *)xtUML_detect_empty_handle( a_ga, "A_GA", "a_ga.Name" ))->Name );
       /* ASSIGN columns[0] = GenericAction.gif */
       columns[0] = Escher_strcpy( columns[0], "GenericAction.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
@@ -188,13 +189,13 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       a_ate = iia_ate; {
       docgen_DOC_ROW * doc_row2;
       /* ASSIGN columns[2] = a_ate.Descrip */
-      columns[2] = Escher_strcpy( columns[2], a_ate->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_A_ATE *)xtUML_detect_empty_handle( a_ate, "A_ATE", "a_ate.Descrip" ))->Descrip );
       /* ASSIGN columns[1] = a_ate.Name */
-      columns[1] = Escher_strcpy( columns[1], a_ate->Name );
+      columns[1] = Escher_strcpy( columns[1], ((docgen_A_ATE *)xtUML_detect_empty_handle( a_ate, "A_ATE", "a_ate.Name" ))->Name );
       /* ASSIGN columns[0] = AcceptTimeEvent.gif */
       columns[0] = Escher_strcpy( columns[0], "AcceptTimeEvent.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
@@ -220,13 +221,13 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       a_aea = iia_aea; {
       docgen_DOC_ROW * doc_row2;
       /* ASSIGN columns[2] = a_aea.Descrip */
-      columns[2] = Escher_strcpy( columns[2], a_aea->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_A_AEA *)xtUML_detect_empty_handle( a_aea, "A_AEA", "a_aea.Descrip" ))->Descrip );
       /* ASSIGN columns[1] = a_aea.Name */
-      columns[1] = Escher_strcpy( columns[1], a_aea->Name );
+      columns[1] = Escher_strcpy( columns[1], ((docgen_A_AEA *)xtUML_detect_empty_handle( a_aea, "A_AEA", "a_aea.Name" ))->Name );
       /* ASSIGN columns[0] = AcceptEvent.gif */
       columns[0] = Escher_strcpy( columns[0], "AcceptEvent.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
@@ -250,13 +251,13 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       a_ss = iia_ss; {
       docgen_DOC_ROW * doc_row2;
       /* ASSIGN columns[2] = a_ss.Descrip */
-      columns[2] = Escher_strcpy( columns[2], a_ss->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_A_SS *)xtUML_detect_empty_handle( a_ss, "A_SS", "a_ss.Descrip" ))->Descrip );
       /* ASSIGN columns[1] = a_ss.Name */
-      columns[1] = Escher_strcpy( columns[1], a_ss->Name );
+      columns[1] = Escher_strcpy( columns[1], ((docgen_A_SS *)xtUML_detect_empty_handle( a_ss, "A_SS", "a_ss.Name" ))->Name );
       /* ASSIGN columns[0] = SendSignal.gif */
       columns[0] = Escher_strcpy( columns[0], "SendSignal.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
@@ -279,17 +280,17 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       a_obj = iia_obj; {
       docgen_DOC_ROW * doc_row2;
       /* ASSIGN columns[2] = a_obj.Descrip */
-      columns[2] = Escher_strcpy( columns[2], a_obj->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_A_OBJ *)xtUML_detect_empty_handle( a_obj, "A_OBJ", "a_obj.Descrip" ))->Descrip );
       /* ASSIGN columns[1] = a_obj.Name */
-      columns[1] = Escher_strcpy( columns[1], a_obj->Name );
+      columns[1] = Escher_strcpy( columns[1], ((docgen_A_OBJ *)xtUML_detect_empty_handle( a_obj, "A_OBJ", "a_obj.Name" ))->Name );
       /* ASSIGN columns[0] = ObjectNode.gif */
       columns[0] = Escher_strcpy( columns[0], "ObjectNode.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
-    /* SELECT many a_inis RELATED BY a_ns->A_CTL[R1105]->A_INI[R1106] WHERE ( ( SELECTED.Descrip !=  ) ) */
+    /* SELECT many a_inis RELATED BY a_ns->A_CTL[R1105]->A_INI[R1106] WHERE ( SELECTED.Descrip !=  ) */
     Escher_ClearSet( a_inis );
     {    docgen_A_N * docgen_A_N_linkage;
     Escher_Iterator_s start_many_iterator;
@@ -298,7 +299,7 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
     docgen_A_CTL * R1105_subtype = (docgen_A_CTL *) docgen_A_N_linkage->R1105_subtype;
     if ( 0 != R1105_subtype )    if ( ( 0 != docgen_A_N_linkage ) && ( docgen_A_CTL_CLASS_NUMBER == docgen_A_N_linkage->R1105_object_id ) ) {
     if ( ( 0 != R1105_subtype ) && ( docgen_A_INI_CLASS_NUMBER == R1105_subtype->R1106_object_id ) )    {docgen_A_INI * selected = R1105_subtype->R1106_subtype;
-    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Descrip, "" ) != 0 ) ) {
+    if ( ( 0 != selected ) && ( Escher_strcmp( ((docgen_A_INI *)xtUML_detect_empty_handle( selected, "A_INI", "SELECTED.Descrip" ))->Descrip, "" ) != 0 ) ) {
       if ( ! Escher_SetContains( (Escher_ObjectSet_s *) a_inis, selected ) ) {
         Escher_SetInsertElement( (Escher_ObjectSet_s *) a_inis, selected );
     }}}
@@ -311,17 +312,17 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       a_ini = iia_ini; {
       docgen_DOC_ROW * doc_row2;
       /* ASSIGN columns[2] = a_ini.Descrip */
-      columns[2] = Escher_strcpy( columns[2], a_ini->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_A_INI *)xtUML_detect_empty_handle( a_ini, "A_INI", "a_ini.Descrip" ))->Descrip );
       /* ASSIGN columns[1] =  */
       columns[1] = Escher_strcpy( columns[1], "" );
       /* ASSIGN columns[0] = InitialNode.gif */
       columns[0] = Escher_strcpy( columns[0], "InitialNode.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
-    /* SELECT many a_afs RELATED BY a_ns->A_CTL[R1105]->A_AF[R1106] WHERE ( ( SELECTED.Descrip !=  ) ) */
+    /* SELECT many a_afs RELATED BY a_ns->A_CTL[R1105]->A_AF[R1106] WHERE ( SELECTED.Descrip !=  ) */
     Escher_ClearSet( a_afs );
     {    docgen_A_N * docgen_A_N_linkage;
     Escher_Iterator_s start_many_iterator;
@@ -330,7 +331,7 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
     docgen_A_CTL * R1105_subtype = (docgen_A_CTL *) docgen_A_N_linkage->R1105_subtype;
     if ( 0 != R1105_subtype )    if ( ( 0 != docgen_A_N_linkage ) && ( docgen_A_CTL_CLASS_NUMBER == docgen_A_N_linkage->R1105_object_id ) ) {
     if ( ( 0 != R1105_subtype ) && ( docgen_A_AF_CLASS_NUMBER == R1105_subtype->R1106_object_id ) )    {docgen_A_AF * selected = R1105_subtype->R1106_subtype;
-    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Descrip, "" ) != 0 ) ) {
+    if ( ( 0 != selected ) && ( Escher_strcmp( ((docgen_A_AF *)xtUML_detect_empty_handle( selected, "A_AF", "SELECTED.Descrip" ))->Descrip, "" ) != 0 ) ) {
       if ( ! Escher_SetContains( (Escher_ObjectSet_s *) a_afs, selected ) ) {
         Escher_SetInsertElement( (Escher_ObjectSet_s *) a_afs, selected );
     }}}
@@ -343,17 +344,17 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       a_af = iia_af; {
       docgen_DOC_ROW * doc_row2;
       /* ASSIGN columns[2] = a_af.Descrip */
-      columns[2] = Escher_strcpy( columns[2], a_af->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_A_AF *)xtUML_detect_empty_handle( a_af, "A_AF", "a_af.Descrip" ))->Descrip );
       /* ASSIGN columns[1] =  */
       columns[1] = Escher_strcpy( columns[1], "" );
       /* ASSIGN columns[0] = FinalNode.gif */
       columns[0] = Escher_strcpy( columns[0], "FinalNode.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
-    /* SELECT many a_ffs RELATED BY a_ns->A_CTL[R1105]->A_FF[R1106] WHERE ( ( SELECTED.Descrip !=  ) ) */
+    /* SELECT many a_ffs RELATED BY a_ns->A_CTL[R1105]->A_FF[R1106] WHERE ( SELECTED.Descrip !=  ) */
     Escher_ClearSet( a_ffs );
     {    docgen_A_N * docgen_A_N_linkage;
     Escher_Iterator_s start_many_iterator;
@@ -362,7 +363,7 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
     docgen_A_CTL * R1105_subtype = (docgen_A_CTL *) docgen_A_N_linkage->R1105_subtype;
     if ( 0 != R1105_subtype )    if ( ( 0 != docgen_A_N_linkage ) && ( docgen_A_CTL_CLASS_NUMBER == docgen_A_N_linkage->R1105_object_id ) ) {
     if ( ( 0 != R1105_subtype ) && ( docgen_A_FF_CLASS_NUMBER == R1105_subtype->R1106_object_id ) )    {docgen_A_FF * selected = R1105_subtype->R1106_subtype;
-    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Descrip, "" ) != 0 ) ) {
+    if ( ( 0 != selected ) && ( Escher_strcmp( ((docgen_A_FF *)xtUML_detect_empty_handle( selected, "A_FF", "SELECTED.Descrip" ))->Descrip, "" ) != 0 ) ) {
       if ( ! Escher_SetContains( (Escher_ObjectSet_s *) a_ffs, selected ) ) {
         Escher_SetInsertElement( (Escher_ObjectSet_s *) a_ffs, selected );
     }}}
@@ -375,17 +376,17 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       a_ff = iia_ff; {
       docgen_DOC_ROW * doc_row2;
       /* ASSIGN columns[2] = a_ff.Descrip */
-      columns[2] = Escher_strcpy( columns[2], a_ff->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_A_FF *)xtUML_detect_empty_handle( a_ff, "A_FF", "a_ff.Descrip" ))->Descrip );
       /* ASSIGN columns[1] =  */
       columns[1] = Escher_strcpy( columns[1], "" );
       /* ASSIGN columns[0] = FlowFinalNode.gif */
       columns[0] = Escher_strcpy( columns[0], "FlowFinalNode.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
-    /* SELECT many a_dms RELATED BY a_ns->A_CTL[R1105]->A_DM[R1106] WHERE ( ( SELECTED.Descrip !=  ) ) */
+    /* SELECT many a_dms RELATED BY a_ns->A_CTL[R1105]->A_DM[R1106] WHERE ( SELECTED.Descrip !=  ) */
     Escher_ClearSet( a_dms );
     {    docgen_A_N * docgen_A_N_linkage;
     Escher_Iterator_s start_many_iterator;
@@ -394,7 +395,7 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
     docgen_A_CTL * R1105_subtype = (docgen_A_CTL *) docgen_A_N_linkage->R1105_subtype;
     if ( 0 != R1105_subtype )    if ( ( 0 != docgen_A_N_linkage ) && ( docgen_A_CTL_CLASS_NUMBER == docgen_A_N_linkage->R1105_object_id ) ) {
     if ( ( 0 != R1105_subtype ) && ( docgen_A_DM_CLASS_NUMBER == R1105_subtype->R1106_object_id ) )    {docgen_A_DM * selected = R1105_subtype->R1106_subtype;
-    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Descrip, "" ) != 0 ) ) {
+    if ( ( 0 != selected ) && ( Escher_strcmp( ((docgen_A_DM *)xtUML_detect_empty_handle( selected, "A_DM", "SELECTED.Descrip" ))->Descrip, "" ) != 0 ) ) {
       if ( ! Escher_SetContains( (Escher_ObjectSet_s *) a_dms, selected ) ) {
         Escher_SetInsertElement( (Escher_ObjectSet_s *) a_dms, selected );
     }}}
@@ -407,17 +408,17 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       a_dm = iia_dm; {
       docgen_DOC_ROW * doc_row2;
       /* ASSIGN columns[2] = a_dm.Descrip */
-      columns[2] = Escher_strcpy( columns[2], a_dm->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_A_DM *)xtUML_detect_empty_handle( a_dm, "A_DM", "a_dm.Descrip" ))->Descrip );
       /* ASSIGN columns[1] =  */
       columns[1] = Escher_strcpy( columns[1], "" );
       /* ASSIGN columns[0] = DecisionMergeNode.gif */
       columns[0] = Escher_strcpy( columns[0], "DecisionMergeNode.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
-    /* SELECT many a_fjs RELATED BY a_ns->A_CTL[R1105]->A_FJ[R1106] WHERE ( ( SELECTED.Descrip !=  ) ) */
+    /* SELECT many a_fjs RELATED BY a_ns->A_CTL[R1105]->A_FJ[R1106] WHERE ( SELECTED.Descrip !=  ) */
     Escher_ClearSet( a_fjs );
     {    docgen_A_N * docgen_A_N_linkage;
     Escher_Iterator_s start_many_iterator;
@@ -426,7 +427,7 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
     docgen_A_CTL * R1105_subtype = (docgen_A_CTL *) docgen_A_N_linkage->R1105_subtype;
     if ( 0 != R1105_subtype )    if ( ( 0 != docgen_A_N_linkage ) && ( docgen_A_CTL_CLASS_NUMBER == docgen_A_N_linkage->R1105_object_id ) ) {
     if ( ( 0 != R1105_subtype ) && ( docgen_A_FJ_CLASS_NUMBER == R1105_subtype->R1106_object_id ) )    {docgen_A_FJ * selected = R1105_subtype->R1106_subtype;
-    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Descrip, "" ) != 0 ) ) {
+    if ( ( 0 != selected ) && ( Escher_strcmp( ((docgen_A_FJ *)xtUML_detect_empty_handle( selected, "A_FJ", "SELECTED.Descrip" ))->Descrip, "" ) != 0 ) ) {
       if ( ! Escher_SetContains( (Escher_ObjectSet_s *) a_fjs, selected ) ) {
         Escher_SetInsertElement( (Escher_ObjectSet_s *) a_fjs, selected );
     }}}
@@ -439,13 +440,13 @@ docgen_docgen_activity_elements( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       a_fj = iia_fj; {
       docgen_DOC_ROW * doc_row2;
       /* ASSIGN columns[2] = a_fj.Descrip */
-      columns[2] = Escher_strcpy( columns[2], a_fj->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_A_FJ *)xtUML_detect_empty_handle( a_fj, "A_FJ", "a_fj.Descrip" ))->Descrip );
       /* ASSIGN columns[1] =  */
       columns[1] = Escher_strcpy( columns[1], "" );
       /* ASSIGN columns[0] = ForkJoinNode.gif */
       columns[0] = Escher_strcpy( columns[0], "ForkJoinNode.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
@@ -488,7 +489,7 @@ docgen_docgen_associations( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg
     /* ASSIGN doc_par = DOC_PAR::populate(doc_sec:doc_sec, predecessor:empty_doc_par, text:) */
     doc_par = docgen_DOC_PAR_op_populate(doc_sec, empty_doc_par, "");
     /* ASSIGN doc_tbl = DOC_TBL::populate(doc_par:doc_par, num_cols:3, title:ep_pkg.Name) */
-    doc_tbl = docgen_DOC_TBL_op_populate(doc_par, 3, ep_pkg->Name);
+    doc_tbl = docgen_DOC_TBL_op_populate(doc_par, 3, ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Name" ))->Name);
     /* ASSIGN format[2] = text */
     format[2] = Escher_strcpy( format[2], "text" );
     /* ASSIGN format[1] = text */
@@ -502,7 +503,7 @@ docgen_docgen_associations( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg
     /* ASSIGN columns[0] = Association.gif */
     columns[0] = Escher_strcpy( columns[0], "Association.gif" );
     /* ASSIGN doc_row1 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:empty_doc_row) */
-    doc_row1 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, empty_doc_row);
+    doc_row1 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, empty_doc_row);
     /* RELATE doc_row1 TO doc_tbl ACROSS R2317 */
     docgen_DOC_ROW_R2317_Link_has_first( doc_tbl, doc_row1 );
     /* FOR EACH r_rel IN r_rels */
@@ -513,11 +514,11 @@ docgen_docgen_associations( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg
       r_rel = iir_rel; {
       docgen_DOC_ROW * doc_row2;
       /* ASSIGN columns[2] = r_rel.Descrip */
-      columns[2] = Escher_strcpy( columns[2], r_rel->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_R_REL *)xtUML_detect_empty_handle( r_rel, "R_REL", "r_rel.Descrip" ))->Descrip );
       /* ASSIGN columns[1] = T::s(i:r_rel.Numb) */
-      columns[1] = Escher_strcpy( columns[1], T_s( r_rel->Numb ) );
+      columns[1] = Escher_strcpy( columns[1], T_s( ((docgen_R_REL *)xtUML_detect_empty_handle( r_rel, "R_REL", "r_rel.Numb" ))->Numb ) );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
@@ -577,7 +578,7 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
     /* ASSIGN columns[0] = Class.gif */
     columns[0] = Escher_strcpy( columns[0], "Class.gif" );
     /* ASSIGN doc_row1 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row) */
-    doc_row1 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row);
+    doc_row1 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row);
     /* RELATE doc_row1 TO doc_tbl ACROSS R2317 */
     docgen_DOC_ROW_R2317_Link_has_first( doc_tbl, doc_row1 );
     /* FOR EACH o_obj IN o_objs */
@@ -588,13 +589,13 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
       o_obj = iio_obj; {
       docgen_O_ATTR * prev_o_attr;docgen_DOC_ROW * doc_row2;docgen_O_ATTR * o_attr=0;
       /* ASSIGN columns[2] = o_obj.Descrip */
-      columns[2] = Escher_strcpy( columns[2], o_obj->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Descrip" ))->Descrip );
       /* ASSIGN columns[1] = o_obj.Name */
-      columns[1] = Escher_strcpy( columns[1], o_obj->Name );
+      columns[1] = Escher_strcpy( columns[1], ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Name" ))->Name );
       /* ASSIGN columns[0] = Class.gif */
       columns[0] = Escher_strcpy( columns[0], "Class.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
       /* ASSIGN prev_o_attr = empty_o_attr */
@@ -619,13 +620,13 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
         /* SELECT one s_dt RELATED BY o_attr->S_DT[R114] */
         s_dt = ( 0 != o_attr ) ? o_attr->S_DT_R114_defines_type_of : 0;
         /* ASSIGN columns[2] = o_attr.Descrip */
-        columns[2] = Escher_strcpy( columns[2], o_attr->Descrip );
+        columns[2] = Escher_strcpy( columns[2], ((docgen_O_ATTR *)xtUML_detect_empty_handle( o_attr, "O_ATTR", "o_attr.Descrip" ))->Descrip );
         /* ASSIGN columns[1] = ( ( o_attr.Name + : ) + s_dt.Name ) */
-        columns[1] = Escher_strcpy( columns[1], Escher_stradd( Escher_stradd( o_attr->Name, ":" ), s_dt->Name ) );
+        columns[1] = Escher_strcpy( columns[1], ( Escher_stradd( ( Escher_stradd( ((docgen_O_ATTR *)xtUML_detect_empty_handle( o_attr, "O_ATTR", "o_attr.Name" ))->Name, ":" ) ), ((docgen_S_DT *)xtUML_detect_empty_handle( s_dt, "S_DT", "s_dt.Name" ))->Name ) ) );
         /* ASSIGN columns[0] = Attribute.gif */
         columns[0] = Escher_strcpy( columns[0], "Attribute.gif" );
         /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-        doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+        doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
         /* ASSIGN doc_row1 = doc_row2 */
         doc_row1 = doc_row2;
         /* SELECT one o_attr RELATED BY o_attr->O_ATTR[R103.succeeds] */
@@ -644,7 +645,7 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
       /* ASSIGN prefix = ::getContainerListForEP_PKG(container_list:, epk:ep_pkg) */
       prefix = Escher_strcpy( prefix, docgen_getContainerListForEP_PKG( "", ep_pkg ) );
       /* ASSIGN prefix = ( ( prefix + - ) + o_obj.Name ) */
-      prefix = Escher_strcpy( prefix, Escher_stradd( Escher_stradd( prefix, "-" ), o_obj->Name ) );
+      prefix = Escher_strcpy( prefix, ( Escher_stradd( ( Escher_stradd( prefix, "-" ) ), ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Name" ))->Name ) ) );
       /* SELECT one sm_sm RELATED BY o_obj->SM_ASM[R519]->SM_SM[R517] */
       sm_sm = 0;
       {      if ( 0 != o_obj ) {
@@ -658,7 +659,7 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
         /* ASSIGN doc_par2 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:previous_doc_par, text:) */
         doc_par2 = docgen_DOC_PAR_op_populate(empty_doc_sec, previous_doc_par, "");
         /* ASSIGN doc_fig1 = DOC_FIG::populate(doc_par:doc_par2, image_target:( prefix + -Class State Machine ), title:( ( ( ep_pkg.Name +   ) + o_obj.Name ) +  Class State Machine )) */
-        doc_fig1 = docgen_DOC_FIG_op_populate(doc_par2, Escher_stradd( prefix, "-Class State Machine" ), Escher_stradd( Escher_stradd( Escher_stradd( ep_pkg->Name, " " ), o_obj->Name ), " Class State Machine" ));
+        doc_fig1 = docgen_DOC_FIG_op_populate(doc_par2, ( Escher_stradd( prefix, "-Class State Machine" ) ), ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Name" ))->Name, " " ) ), ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Name" ))->Name ) ), " Class State Machine" ) ));
         /* ASSIGN previous_doc_par = doc_par2 */
         previous_doc_par = doc_par2;
       }
@@ -675,7 +676,7 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
         /* ASSIGN doc_par2 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:previous_doc_par, text:) */
         doc_par2 = docgen_DOC_PAR_op_populate(empty_doc_sec, previous_doc_par, "");
         /* ASSIGN doc_fig1 = DOC_FIG::populate(doc_par:doc_par2, image_target:( prefix + -Instance State Machine ), title:( ( ( ep_pkg.Name +   ) + o_obj.Name ) +  Instance State Machine )) */
-        doc_fig1 = docgen_DOC_FIG_op_populate(doc_par2, Escher_stradd( prefix, "-Instance State Machine" ), Escher_stradd( Escher_stradd( Escher_stradd( ep_pkg->Name, " " ), o_obj->Name ), " Instance State Machine" ));
+        doc_fig1 = docgen_DOC_FIG_op_populate(doc_par2, ( Escher_stradd( prefix, "-Instance State Machine" ) ), ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Name" ))->Name, " " ) ), ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Name" ))->Name ) ), " Instance State Machine" ) ));
         /* ASSIGN previous_doc_par = doc_par2 */
         previous_doc_par = doc_par2;
       }
@@ -725,8 +726,8 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
       if ( ! Escher_SetContains( (Escher_ObjectSet_s *) o_dbattrs, R107_subtype ) ) {
         Escher_SetInsertElement( (Escher_ObjectSet_s *) o_dbattrs, R107_subtype );
       }}}}}}
-      /* IF ( ( ( ( not_empty sm_ismacts or not_empty sm_asmacts ) or not_empty o_tfrs ) or not_empty o_dbattrs ) ) */
-      if ( ( ( ( ( ! Escher_SetIsEmpty( sm_ismacts ) ) || ( ! Escher_SetIsEmpty( sm_asmacts ) ) ) || ( ! Escher_SetIsEmpty( o_tfrs ) ) ) || ( ! Escher_SetIsEmpty( o_dbattrs ) ) ) ) {
+      /* IF ( ( ( not_empty sm_ismacts or not_empty sm_asmacts ) or not_empty o_tfrs ) or not_empty o_dbattrs ) */
+      if ( ( ( ( ! Escher_SetIsEmpty( sm_ismacts ) ) || ( ! Escher_SetIsEmpty( sm_asmacts ) ) ) || ( ! Escher_SetIsEmpty( o_tfrs ) ) ) || ( ! Escher_SetIsEmpty( o_dbattrs ) ) ) {
         docgen_DOC_PAR * doc_par3;docgen_DOC_SEC * doc_sec2;
         /* ASSIGN doc_sec2 = DOC_SEC::populate(parent_doc_sec:doc_sec1, subtitle:, title:Class Activities) */
         doc_sec2 = docgen_DOC_SEC_op_populate(doc_sec1, "", "Class Activities");
@@ -745,11 +746,11 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
             sm_act = iism_act; {
             /* SELECT one sm_sm RELATED BY sm_act->SM_SM[R515] */
             sm_sm = ( 0 != sm_act ) ? sm_act->SM_SM_R515 : 0;
-            /* IF ( ( (  != sm_act.Descrip ) or (  != sm_act.Action_Semantics_internal ) ) ) */
-            if ( ( ( Escher_strcmp( "", sm_act->Descrip ) != 0 ) || ( Escher_strcmp( "", sm_act->Action_Semantics_internal ) != 0 ) ) ) {
+            /* IF ( (  != sm_act.Descrip ) or (  != sm_act.Action_Semantics_internal ) ) */
+            if ( ( Escher_strcmp( "", ((docgen_SM_ACT *)xtUML_detect_empty_handle( sm_act, "SM_ACT", "sm_act.Descrip" ))->Descrip ) != 0 ) || ( Escher_strcmp( "", ((docgen_SM_ACT *)xtUML_detect_empty_handle( sm_act, "SM_ACT", "sm_act.Action_Semantics_internal" ))->Action_Semantics_internal ) != 0 ) ) {
               docgen_DOC_PAR * doc_par6;docgen_DOC_PAR * doc_par5;docgen_DOC_PAR * doc_par4;docgen_DOC_SEC * doc_sec4;c_t * title=0;docgen_SM_TAH * sm_tah=0;docgen_SM_AH * sm_ah=0;
               /* ASSIGN title = o_obj.Name */
-              title = Escher_strcpy( title, o_obj->Name );
+              title = Escher_strcpy( title, ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Name" ))->Name );
               /* SELECT one sm_ah RELATED BY sm_act->SM_AH[R514] */
               sm_ah = ( 0 != sm_act ) ? sm_act->SM_AH_R514_resides_in : 0;
               /* SELECT one sm_tah RELATED BY sm_ah->SM_TAH[R513] */
@@ -758,7 +759,7 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
               /* IF ( not_empty sm_tah ) */
               if ( ( 0 != sm_tah ) ) {
                 /* ASSIGN title = ( title +  State Transition:  ) */
-                title = Escher_strcpy( title, Escher_stradd( title, " State Transition: " ) );
+                title = Escher_strcpy( title, ( Escher_stradd( title, " State Transition: " ) ) );
               }
               else {
                 docgen_SM_STATE * sm_state=0;docgen_SM_MOAH * sm_moah=0;
@@ -770,19 +771,19 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
                 /* IF ( not_empty sm_state ) */
                 if ( ( 0 != sm_state ) ) {
                   /* ASSIGN title = ( ( ( ( title +  State[ ) + T::s(sm_state.Numb) ) + ]: ) + sm_state.Name ) */
-                  title = Escher_strcpy( title, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( title, " State[" ), T_s( sm_state->Numb ) ), "]:" ), sm_state->Name ) );
+                  title = Escher_strcpy( title, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( title, " State[" ) ), T_s( ((docgen_SM_STATE *)xtUML_detect_empty_handle( sm_state, "SM_STATE", "sm_state.Numb" ))->Numb ) ) ), "]:" ) ), ((docgen_SM_STATE *)xtUML_detect_empty_handle( sm_state, "SM_STATE", "sm_state.Name" ))->Name ) ) );
                 }
               }
               /* ASSIGN doc_sec4 = DOC_SEC::populate(parent_doc_sec:doc_sec3, subtitle:, title:title) */
               doc_sec4 = docgen_DOC_SEC_op_populate(doc_sec3, "", title);
               /* ASSIGN doc_par4 = DOC_PAR::populate(doc_sec:doc_sec4, predecessor:empty_doc_par, text:sm_act.Descrip) */
-              doc_par4 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, sm_act->Descrip);
+              doc_par4 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, ((docgen_SM_ACT *)xtUML_detect_empty_handle( sm_act, "SM_ACT", "sm_act.Descrip" ))->Descrip);
               /* ASSIGN doc_par5 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par4, text:sm_sm.Descrip) */
-              doc_par5 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par4, sm_sm->Descrip);
+              doc_par5 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par4, ((docgen_SM_SM *)xtUML_detect_empty_handle( sm_sm, "SM_SM", "sm_sm.Descrip" ))->Descrip);
               /* ASSIGN doc_par6 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par5, text:sm_act.Action_Semantics_internal) */
-              doc_par6 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par5, sm_act->Action_Semantics_internal);
+              doc_par6 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par5, ((docgen_SM_ACT *)xtUML_detect_empty_handle( sm_act, "SM_ACT", "sm_act.Action_Semantics_internal" ))->Action_Semantics_internal);
               /* ASSIGN doc_par6.formatted = FALSE */
-              doc_par6->formatted = FALSE;
+              ((docgen_DOC_PAR *)xtUML_detect_empty_handle( doc_par6, "DOC_PAR", "doc_par6.formatted" ))->formatted = FALSE;
             }
           }}}
         }
@@ -799,11 +800,11 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
             sm_act = iism_act; {
             /* SELECT one sm_sm RELATED BY sm_act->SM_SM[R515] */
             sm_sm = ( 0 != sm_act ) ? sm_act->SM_SM_R515 : 0;
-            /* IF ( ( (  != sm_act.Descrip ) or (  != sm_act.Action_Semantics_internal ) ) ) */
-            if ( ( ( Escher_strcmp( "", sm_act->Descrip ) != 0 ) || ( Escher_strcmp( "", sm_act->Action_Semantics_internal ) != 0 ) ) ) {
+            /* IF ( (  != sm_act.Descrip ) or (  != sm_act.Action_Semantics_internal ) ) */
+            if ( ( Escher_strcmp( "", ((docgen_SM_ACT *)xtUML_detect_empty_handle( sm_act, "SM_ACT", "sm_act.Descrip" ))->Descrip ) != 0 ) || ( Escher_strcmp( "", ((docgen_SM_ACT *)xtUML_detect_empty_handle( sm_act, "SM_ACT", "sm_act.Action_Semantics_internal" ))->Action_Semantics_internal ) != 0 ) ) {
               docgen_DOC_PAR * doc_par6;docgen_DOC_PAR * doc_par5;docgen_DOC_PAR * doc_par4;docgen_DOC_SEC * doc_sec4;c_t * title=0;docgen_SM_TAH * sm_tah=0;docgen_SM_AH * sm_ah=0;
               /* ASSIGN title = o_obj.Name */
-              title = Escher_strcpy( title, o_obj->Name );
+              title = Escher_strcpy( title, ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Name" ))->Name );
               /* SELECT one sm_ah RELATED BY sm_act->SM_AH[R514] */
               sm_ah = ( 0 != sm_act ) ? sm_act->SM_AH_R514_resides_in : 0;
               /* SELECT one sm_tah RELATED BY sm_ah->SM_TAH[R513] */
@@ -812,7 +813,7 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
               /* IF ( not_empty sm_tah ) */
               if ( ( 0 != sm_tah ) ) {
                 /* ASSIGN title = ( title +  State Transition:  ) */
-                title = Escher_strcpy( title, Escher_stradd( title, " State Transition: " ) );
+                title = Escher_strcpy( title, ( Escher_stradd( title, " State Transition: " ) ) );
               }
               else {
                 docgen_SM_STATE * sm_state=0;docgen_SM_MOAH * sm_moah=0;
@@ -824,19 +825,19 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
                 /* IF ( not_empty sm_state ) */
                 if ( ( 0 != sm_state ) ) {
                   /* ASSIGN title = ( ( ( ( title +  State[ ) + T::s(sm_state.Numb) ) + ]: ) + sm_state.Name ) */
-                  title = Escher_strcpy( title, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( title, " State[" ), T_s( sm_state->Numb ) ), "]:" ), sm_state->Name ) );
+                  title = Escher_strcpy( title, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( title, " State[" ) ), T_s( ((docgen_SM_STATE *)xtUML_detect_empty_handle( sm_state, "SM_STATE", "sm_state.Numb" ))->Numb ) ) ), "]:" ) ), ((docgen_SM_STATE *)xtUML_detect_empty_handle( sm_state, "SM_STATE", "sm_state.Name" ))->Name ) ) );
                 }
               }
               /* ASSIGN doc_sec4 = DOC_SEC::populate(parent_doc_sec:doc_sec3, subtitle:, title:title) */
               doc_sec4 = docgen_DOC_SEC_op_populate(doc_sec3, "", title);
               /* ASSIGN doc_par4 = DOC_PAR::populate(doc_sec:doc_sec4, predecessor:empty_doc_par, text:sm_act.Descrip) */
-              doc_par4 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, sm_act->Descrip);
+              doc_par4 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, ((docgen_SM_ACT *)xtUML_detect_empty_handle( sm_act, "SM_ACT", "sm_act.Descrip" ))->Descrip);
               /* ASSIGN doc_par5 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par4, text:sm_sm.Descrip) */
-              doc_par5 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par4, sm_sm->Descrip);
+              doc_par5 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par4, ((docgen_SM_SM *)xtUML_detect_empty_handle( sm_sm, "SM_SM", "sm_sm.Descrip" ))->Descrip);
               /* ASSIGN doc_par6 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par5, text:sm_act.Action_Semantics_internal) */
-              doc_par6 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par5, sm_act->Action_Semantics_internal);
+              doc_par6 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par5, ((docgen_SM_ACT *)xtUML_detect_empty_handle( sm_act, "SM_ACT", "sm_act.Action_Semantics_internal" ))->Action_Semantics_internal);
               /* ASSIGN doc_par6.formatted = FALSE */
-              doc_par6->formatted = FALSE;
+              ((docgen_DOC_PAR *)xtUML_detect_empty_handle( doc_par6, "DOC_PAR", "doc_par6.formatted" ))->formatted = FALSE;
             }
           }}}
         }
@@ -851,8 +852,8 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
           Escher_IteratorReset( &itero_tfr, o_tfrs );
           while ( (iio_tfr = (docgen_O_TFR *)Escher_IteratorNext( &itero_tfr )) != 0 ) {
             o_tfr = iio_tfr; {
-            /* IF ( ( (  != o_tfr.Descrip ) or (  != o_tfr.Action_Semantics_internal ) ) ) */
-            if ( ( ( Escher_strcmp( "", o_tfr->Descrip ) != 0 ) || ( Escher_strcmp( "", o_tfr->Action_Semantics_internal ) != 0 ) ) ) {
+            /* IF ( (  != o_tfr.Descrip ) or (  != o_tfr.Action_Semantics_internal ) ) */
+            if ( ( Escher_strcmp( "", ((docgen_O_TFR *)xtUML_detect_empty_handle( o_tfr, "O_TFR", "o_tfr.Descrip" ))->Descrip ) != 0 ) || ( Escher_strcmp( "", ((docgen_O_TFR *)xtUML_detect_empty_handle( o_tfr, "O_TFR", "o_tfr.Action_Semantics_internal" ))->Action_Semantics_internal ) != 0 ) ) {
               docgen_DOC_PAR * doc_par5;docgen_DOC_PAR * doc_par4;docgen_DOC_SEC * doc_sec4;c_t * title=0;docgen_C_C * c_c=0;
               /* ASSIGN title =  */
               title = Escher_strcpy( title, "" );
@@ -875,21 +876,21 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
               /* IF ( not_empty ep_pkg ) */
               if ( ( 0 != ep_pkg ) ) {
                 /* ASSIGN title = ( ( ( ( ep_pkg.Name + : ) + o_obj.Name ) + :   ) + o_tfr.Name ) */
-                title = Escher_strcpy( title, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( ep_pkg->Name, ":" ), o_obj->Name ), ":  " ), o_tfr->Name ) );
+                title = Escher_strcpy( title, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Name" ))->Name, ":" ) ), ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Name" ))->Name ) ), ":  " ) ), ((docgen_O_TFR *)xtUML_detect_empty_handle( o_tfr, "O_TFR", "o_tfr.Name" ))->Name ) ) );
               }
               /* IF ( not_empty c_c ) */
               if ( ( 0 != c_c ) ) {
                 /* ASSIGN title = ( ( ( ( c_c.Name + : ) + o_obj.Name ) + :   ) + o_tfr.Name ) */
-                title = Escher_strcpy( title, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( c_c->Name, ":" ), o_obj->Name ), ":  " ), o_tfr->Name ) );
+                title = Escher_strcpy( title, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ((docgen_C_C *)xtUML_detect_empty_handle( c_c, "C_C", "c_c.Name" ))->Name, ":" ) ), ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Name" ))->Name ) ), ":  " ) ), ((docgen_O_TFR *)xtUML_detect_empty_handle( o_tfr, "O_TFR", "o_tfr.Name" ))->Name ) ) );
               }
               /* ASSIGN doc_sec4 = DOC_SEC::populate(parent_doc_sec:doc_sec3, subtitle:, title:title) */
               doc_sec4 = docgen_DOC_SEC_op_populate(doc_sec3, "", title);
               /* ASSIGN doc_par4 = DOC_PAR::populate(doc_sec:doc_sec4, predecessor:empty_doc_par, text:o_tfr.Descrip) */
-              doc_par4 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, o_tfr->Descrip);
+              doc_par4 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, ((docgen_O_TFR *)xtUML_detect_empty_handle( o_tfr, "O_TFR", "o_tfr.Descrip" ))->Descrip);
               /* ASSIGN doc_par5 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par4, text:o_tfr.Action_Semantics_internal) */
-              doc_par5 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par4, o_tfr->Action_Semantics_internal);
+              doc_par5 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par4, ((docgen_O_TFR *)xtUML_detect_empty_handle( o_tfr, "O_TFR", "o_tfr.Action_Semantics_internal" ))->Action_Semantics_internal);
               /* ASSIGN doc_par5.formatted = FALSE */
-              doc_par5->formatted = FALSE;
+              ((docgen_DOC_PAR *)xtUML_detect_empty_handle( doc_par5, "DOC_PAR", "doc_par5.formatted" ))->formatted = FALSE;
             }
           }}}
         }
@@ -912,8 +913,8 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
             if ( 0 != O_BATTR_R107 ) {
             o_attr = O_BATTR_R107->O_ATTR_R106;
 }}}
-            /* IF ( (  != o_dbattr.Action_Semantics_internal ) ) */
-            if ( ( Escher_strcmp( "", o_dbattr->Action_Semantics_internal ) != 0 ) ) {
+            /* IF (  != o_dbattr.Action_Semantics_internal ) */
+            if ( Escher_strcmp( "", ((docgen_O_DBATTR *)xtUML_detect_empty_handle( o_dbattr, "O_DBATTR", "o_dbattr.Action_Semantics_internal" ))->Action_Semantics_internal ) != 0 ) {
               docgen_DOC_PAR * doc_par5;docgen_DOC_PAR * doc_par4;docgen_DOC_SEC * doc_sec4;c_t * title=0;docgen_C_C * c_c=0;
               /* ASSIGN title =  */
               title = Escher_strcpy( title, "" );
@@ -936,21 +937,21 @@ docgen_docgen_classes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c_t
               /* IF ( not_empty ep_pkg ) */
               if ( ( 0 != ep_pkg ) ) {
                 /* ASSIGN title = ( ( ( ( ep_pkg.Name + : ) + o_obj.Name ) + :   ) + o_attr.Name ) */
-                title = Escher_strcpy( title, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( ep_pkg->Name, ":" ), o_obj->Name ), ":  " ), o_attr->Name ) );
+                title = Escher_strcpy( title, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Name" ))->Name, ":" ) ), ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Name" ))->Name ) ), ":  " ) ), ((docgen_O_ATTR *)xtUML_detect_empty_handle( o_attr, "O_ATTR", "o_attr.Name" ))->Name ) ) );
               }
               /* IF ( not_empty c_c ) */
               if ( ( 0 != c_c ) ) {
                 /* ASSIGN title = ( ( ( ( c_c.Name + : ) + o_obj.Name ) + :   ) + o_attr.Name ) */
-                title = Escher_strcpy( title, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( c_c->Name, ":" ), o_obj->Name ), ":  " ), o_attr->Name ) );
+                title = Escher_strcpy( title, ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ( Escher_stradd( ((docgen_C_C *)xtUML_detect_empty_handle( c_c, "C_C", "c_c.Name" ))->Name, ":" ) ), ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Name" ))->Name ) ), ":  " ) ), ((docgen_O_ATTR *)xtUML_detect_empty_handle( o_attr, "O_ATTR", "o_attr.Name" ))->Name ) ) );
               }
               /* ASSIGN doc_sec4 = DOC_SEC::populate(parent_doc_sec:doc_sec3, subtitle:, title:title) */
               doc_sec4 = docgen_DOC_SEC_op_populate(doc_sec3, "", title);
               /* ASSIGN doc_par4 = DOC_PAR::populate(doc_sec:doc_sec4, predecessor:empty_doc_par, text:o_attr.Descrip) */
-              doc_par4 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, o_attr->Descrip);
+              doc_par4 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, ((docgen_O_ATTR *)xtUML_detect_empty_handle( o_attr, "O_ATTR", "o_attr.Descrip" ))->Descrip);
               /* ASSIGN doc_par5 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par4, text:o_dbattr.Action_Semantics_internal) */
-              doc_par5 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par4, o_dbattr->Action_Semantics_internal);
+              doc_par5 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par4, ((docgen_O_DBATTR *)xtUML_detect_empty_handle( o_dbattr, "O_DBATTR", "o_dbattr.Action_Semantics_internal" ))->Action_Semantics_internal);
               /* ASSIGN doc_par5.formatted = FALSE */
-              doc_par5->formatted = FALSE;
+              ((docgen_DOC_PAR *)xtUML_detect_empty_handle( doc_par5, "DOC_PAR", "doc_par5.formatted" ))->formatted = FALSE;
             }
           }}}
         }
@@ -984,13 +985,13 @@ docgen_docgen_components( Escher_ObjectSet_s * p_c_cs, docgen_DOC_SEC * p_doc_se
     c_c = iic_c; {
     docgen_DOC_FIG * doc_fig;c_t * image_name=0;docgen_DOC_PAR * doc_par1;docgen_DOC_SEC * doc_sec1;Escher_ObjectSet_s child_ep_pkgs_space={0}; Escher_ObjectSet_s * child_ep_pkgs = &child_ep_pkgs_space;Escher_ObjectSet_s child_c_is_space={0}; Escher_ObjectSet_s * child_c_is = &child_c_is_space;Escher_ObjectSet_s child_c_cs_space={0}; Escher_ObjectSet_s * child_c_cs = &child_c_cs_space;Escher_ObjectSet_s c_pos_space={0}; Escher_ObjectSet_s * c_pos = &c_pos_space;
     /* ASSIGN doc_sec1 = DOC_SEC::populate(parent_doc_sec:PARAM.doc_sec, subtitle:Component, title:c_c.Name) */
-    doc_sec1 = docgen_DOC_SEC_op_populate(p_doc_sec, "Component", c_c->Name);
+    doc_sec1 = docgen_DOC_SEC_op_populate(p_doc_sec, "Component", ((docgen_C_C *)xtUML_detect_empty_handle( c_c, "C_C", "c_c.Name" ))->Name);
     /* ASSIGN doc_par1 = DOC_PAR::populate(doc_sec:doc_sec1, predecessor:empty_doc_par, text:c_c.Descrip) */
-    doc_par1 = docgen_DOC_PAR_op_populate(doc_sec1, empty_doc_par, c_c->Descrip);
+    doc_par1 = docgen_DOC_PAR_op_populate(doc_sec1, empty_doc_par, ((docgen_C_C *)xtUML_detect_empty_handle( c_c, "C_C", "c_c.Descrip" ))->Descrip);
     /* ASSIGN image_name = ::getContainerListForC_C(comp:c_c, container_list:Component Diagram) */
     image_name = Escher_strcpy( image_name, docgen_getContainerListForC_C( c_c, "Component Diagram" ) );
     /* ASSIGN doc_fig = DOC_FIG::populate(doc_par:doc_par1, image_target:image_name, title:( c_c.Name +  Component Diagram )) */
-    doc_fig = docgen_DOC_FIG_op_populate(doc_par1, image_name, Escher_stradd( c_c->Name, " Component Diagram" ));
+    doc_fig = docgen_DOC_FIG_op_populate(doc_par1, image_name, ( Escher_stradd( ((docgen_C_C *)xtUML_detect_empty_handle( c_c, "C_C", "c_c.Name" ))->Name, " Component Diagram" ) ));
     /* SELECT many c_pos RELATED BY c_c->C_PO[R4010] */
     Escher_ClearSet( c_pos );
     if ( 0 != c_c ) {
@@ -1002,7 +1003,7 @@ docgen_docgen_components( Escher_ObjectSet_s * p_c_cs, docgen_DOC_SEC * p_doc_se
       /* ASSIGN doc_par2 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par1, text:) */
       doc_par2 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par1, "");
       /* ASSIGN doc_tbl = DOC_TBL::populate(doc_par:doc_par2, num_cols:5, title:( ( c_c.Name +   ) + Ports )) */
-      doc_tbl = docgen_DOC_TBL_op_populate(doc_par2, 5, Escher_stradd( Escher_stradd( c_c->Name, " " ), "Ports" ));
+      doc_tbl = docgen_DOC_TBL_op_populate(doc_par2, 5, ( Escher_stradd( ( Escher_stradd( ((docgen_C_C *)xtUML_detect_empty_handle( c_c, "C_C", "c_c.Name" ))->Name, " " ) ), "Ports" ) ));
       /* ASSIGN format[4] = text */
       format[4] = Escher_strcpy( format[4], "text" );
       /* ASSIGN format[3] = text */
@@ -1024,7 +1025,7 @@ docgen_docgen_components( Escher_ObjectSet_s * p_c_cs, docgen_DOC_SEC * p_doc_se
       /* ASSIGN columns[0] = Port.gif */
       columns[0] = Escher_strcpy( columns[0], "Port.gif" );
       /* ASSIGN doc_row = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:empty_doc_row) */
-      doc_row = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, empty_doc_row);
+      doc_row = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, empty_doc_row);
       /* RELATE doc_row TO doc_tbl ACROSS R2317 */
       docgen_DOC_ROW_R2317_Link_has_first( doc_tbl, doc_row );
       /* FOR EACH c_po IN c_pos */
@@ -1046,14 +1047,14 @@ docgen_docgen_components( Escher_ObjectSet_s * p_c_cs, docgen_DOC_SEC * p_doc_se
         /* IF ( not_empty c_i ) */
         if ( ( 0 != c_i ) ) {
           /* ASSIGN if_name = c_i.Name */
-          if_name = Escher_strcpy( if_name, c_i->Name );
+          if_name = Escher_strcpy( if_name, ((docgen_C_I *)xtUML_detect_empty_handle( c_i, "C_I", "c_i.Name" ))->Name );
         }
         /* ASSIGN columns[4] = T::s(i:c_po.Mult) */
-        columns[4] = Escher_strcpy( columns[4], T_s( c_po->Mult ) );
+        columns[4] = Escher_strcpy( columns[4], T_s( ((docgen_C_PO *)xtUML_detect_empty_handle( c_po, "C_PO", "c_po.Mult" ))->Mult ) );
         /* ASSIGN columns[2] = if_name */
         columns[2] = Escher_strcpy( columns[2], if_name );
         /* ASSIGN columns[1] = c_po.Name */
-        columns[1] = Escher_strcpy( columns[1], c_po->Name );
+        columns[1] = Escher_strcpy( columns[1], ((docgen_C_PO *)xtUML_detect_empty_handle( c_po, "C_PO", "c_po.Name" ))->Name );
         /* IF ( not_empty c_p ) */
         if ( ( 0 != c_p ) ) {
           /* ASSIGN columns[3] = provision */
@@ -1068,7 +1069,7 @@ docgen_docgen_components( Escher_ObjectSet_s * p_c_cs, docgen_DOC_SEC * p_doc_se
           columns[0] = Escher_strcpy( columns[0], "Requirement.gif" );
         }
         /* ASSIGN doc_row1 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row) */
-        doc_row1 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row);
+        doc_row1 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row);
         /* ASSIGN doc_row = doc_row1 */
         doc_row = doc_row1;
       }}}
@@ -1093,10 +1094,10 @@ docgen_docgen_components( Escher_ObjectSet_s * p_c_cs, docgen_DOC_SEC * p_doc_se
         /* IF ( not_empty c_i ) */
         if ( ( 0 != c_i ) ) {
           /* ASSIGN if_name = ( , Interface:  + c_i.Name ) */
-          if_name = Escher_strcpy( if_name, Escher_stradd( ", Interface: ", c_i->Name ) );
+          if_name = Escher_strcpy( if_name, ( Escher_stradd( ", Interface: ", ((docgen_C_I *)xtUML_detect_empty_handle( c_i, "C_I", "c_i.Name" ))->Name ) ) );
         }
         /* ASSIGN doc_sec3 = DOC_SEC::populate(parent_doc_sec:doc_sec2, subtitle:, title:( ( Port:  + c_po.Name ) + if_name )) */
-        doc_sec3 = docgen_DOC_SEC_op_populate(doc_sec2, "", Escher_stradd( Escher_stradd( "Port: ", c_po->Name ), if_name ));
+        doc_sec3 = docgen_DOC_SEC_op_populate(doc_sec2, "", ( Escher_stradd( ( Escher_stradd( "Port: ", ((docgen_C_PO *)xtUML_detect_empty_handle( c_po, "C_PO", "c_po.Name" ))->Name ) ), if_name ) ));
         /* IF ( not_empty c_r ) */
         if ( ( 0 != c_r ) ) {
           docgen_SPR_REP * spr_rep=0;Escher_ObjectSet_s spr_reps_space={0}; Escher_ObjectSet_s * spr_reps = &spr_reps_space;
@@ -1117,19 +1118,19 @@ docgen_docgen_components( Escher_ObjectSet_s * p_c_cs, docgen_DOC_SEC * p_doc_se
             if ( ( 0 != spr_rep ) && ( docgen_SPR_RO_CLASS_NUMBER == spr_rep->R4502_object_id ) )            spr_ro = ( 0 != spr_rep ) ? (docgen_SPR_RO *) spr_rep->R4502_subtype : 0;
             /* IF ( not_empty spr_ro ) */
             if ( ( 0 != spr_ro ) ) {
-              /* IF ( ( (  != spr_ro.Descrip ) or (  != spr_ro.Action_Semantics_internal ) ) ) */
-              if ( ( ( Escher_strcmp( "", spr_ro->Descrip ) != 0 ) || ( Escher_strcmp( "", spr_ro->Action_Semantics_internal ) != 0 ) ) ) {
+              /* IF ( (  != spr_ro.Descrip ) or (  != spr_ro.Action_Semantics_internal ) ) */
+              if ( ( Escher_strcmp( "", ((docgen_SPR_RO *)xtUML_detect_empty_handle( spr_ro, "SPR_RO", "spr_ro.Descrip" ))->Descrip ) != 0 ) || ( Escher_strcmp( "", ((docgen_SPR_RO *)xtUML_detect_empty_handle( spr_ro, "SPR_RO", "spr_ro.Action_Semantics_internal" ))->Action_Semantics_internal ) != 0 ) ) {
                 docgen_DOC_PAR * doc_par4;docgen_DOC_PAR * doc_par3;docgen_DOC_SEC * doc_sec4;c_t * title=0;
                 /* ASSIGN title = spr_ro.Name */
-                title = Escher_strcpy( title, spr_ro->Name );
+                title = Escher_strcpy( title, ((docgen_SPR_RO *)xtUML_detect_empty_handle( spr_ro, "SPR_RO", "spr_ro.Name" ))->Name );
                 /* ASSIGN doc_sec4 = DOC_SEC::populate(parent_doc_sec:doc_sec3, subtitle:, title:title) */
                 doc_sec4 = docgen_DOC_SEC_op_populate(doc_sec3, "", title);
                 /* ASSIGN doc_par3 = DOC_PAR::populate(doc_sec:doc_sec4, predecessor:empty_doc_par, text:spr_ro.Descrip) */
-                doc_par3 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, spr_ro->Descrip);
+                doc_par3 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, ((docgen_SPR_RO *)xtUML_detect_empty_handle( spr_ro, "SPR_RO", "spr_ro.Descrip" ))->Descrip);
                 /* ASSIGN doc_par4 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par3, text:spr_ro.Action_Semantics_internal) */
-                doc_par4 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par3, spr_ro->Action_Semantics_internal);
+                doc_par4 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par3, ((docgen_SPR_RO *)xtUML_detect_empty_handle( spr_ro, "SPR_RO", "spr_ro.Action_Semantics_internal" ))->Action_Semantics_internal);
                 /* ASSIGN doc_par4.formatted = FALSE */
-                doc_par4->formatted = FALSE;
+                ((docgen_DOC_PAR *)xtUML_detect_empty_handle( doc_par4, "DOC_PAR", "doc_par4.formatted" ))->formatted = FALSE;
               }
             }
             else {
@@ -1138,15 +1139,15 @@ docgen_docgen_components( Escher_ObjectSet_s * p_c_cs, docgen_DOC_SEC * p_doc_se
               spr_rs = 0;
               if ( ( 0 != spr_rep ) && ( docgen_SPR_RS_CLASS_NUMBER == spr_rep->R4502_object_id ) )              spr_rs = ( 0 != spr_rep ) ? (docgen_SPR_RS *) spr_rep->R4502_subtype : 0;
               /* ASSIGN title = spr_rs.Name */
-              title = Escher_strcpy( title, spr_rs->Name );
+              title = Escher_strcpy( title, ((docgen_SPR_RS *)xtUML_detect_empty_handle( spr_rs, "SPR_RS", "spr_rs.Name" ))->Name );
               /* ASSIGN doc_sec4 = DOC_SEC::populate(parent_doc_sec:doc_sec3, subtitle:, title:title) */
               doc_sec4 = docgen_DOC_SEC_op_populate(doc_sec3, "", title);
               /* ASSIGN doc_par3 = DOC_PAR::populate(doc_sec:doc_sec4, predecessor:empty_doc_par, text:spr_rs.Descrip) */
-              doc_par3 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, spr_rs->Descrip);
+              doc_par3 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, ((docgen_SPR_RS *)xtUML_detect_empty_handle( spr_rs, "SPR_RS", "spr_rs.Descrip" ))->Descrip);
               /* ASSIGN doc_par4 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par3, text:spr_rs.Action_Semantics_internal) */
-              doc_par4 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par3, spr_rs->Action_Semantics_internal);
+              doc_par4 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par3, ((docgen_SPR_RS *)xtUML_detect_empty_handle( spr_rs, "SPR_RS", "spr_rs.Action_Semantics_internal" ))->Action_Semantics_internal);
               /* ASSIGN doc_par4.formatted = FALSE */
-              doc_par4->formatted = FALSE;
+              ((docgen_DOC_PAR *)xtUML_detect_empty_handle( doc_par4, "DOC_PAR", "doc_par4.formatted" ))->formatted = FALSE;
             }
           }}}
           Escher_ClearSet( spr_reps ); 
@@ -1173,19 +1174,19 @@ docgen_docgen_components( Escher_ObjectSet_s * p_c_cs, docgen_DOC_SEC * p_doc_se
             if ( ( 0 != spr_pep ) && ( docgen_SPR_PO_CLASS_NUMBER == spr_pep->R4503_object_id ) )            spr_po = ( 0 != spr_pep ) ? (docgen_SPR_PO *) spr_pep->R4503_subtype : 0;
             /* IF ( not_empty spr_po ) */
             if ( ( 0 != spr_po ) ) {
-              /* IF ( ( (  != spr_po.Descrip ) or (  != spr_po.Action_Semantics_internal ) ) ) */
-              if ( ( ( Escher_strcmp( "", spr_po->Descrip ) != 0 ) || ( Escher_strcmp( "", spr_po->Action_Semantics_internal ) != 0 ) ) ) {
+              /* IF ( (  != spr_po.Descrip ) or (  != spr_po.Action_Semantics_internal ) ) */
+              if ( ( Escher_strcmp( "", ((docgen_SPR_PO *)xtUML_detect_empty_handle( spr_po, "SPR_PO", "spr_po.Descrip" ))->Descrip ) != 0 ) || ( Escher_strcmp( "", ((docgen_SPR_PO *)xtUML_detect_empty_handle( spr_po, "SPR_PO", "spr_po.Action_Semantics_internal" ))->Action_Semantics_internal ) != 0 ) ) {
                 docgen_DOC_PAR * doc_par4;docgen_DOC_PAR * doc_par3;docgen_DOC_SEC * doc_sec4;c_t * title=0;
                 /* ASSIGN title = spr_po.Name */
-                title = Escher_strcpy( title, spr_po->Name );
+                title = Escher_strcpy( title, ((docgen_SPR_PO *)xtUML_detect_empty_handle( spr_po, "SPR_PO", "spr_po.Name" ))->Name );
                 /* ASSIGN doc_sec4 = DOC_SEC::populate(parent_doc_sec:doc_sec3, subtitle:, title:title) */
                 doc_sec4 = docgen_DOC_SEC_op_populate(doc_sec3, "", title);
                 /* ASSIGN doc_par3 = DOC_PAR::populate(doc_sec:doc_sec4, predecessor:empty_doc_par, text:spr_po.Descrip) */
-                doc_par3 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, spr_po->Descrip);
+                doc_par3 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, ((docgen_SPR_PO *)xtUML_detect_empty_handle( spr_po, "SPR_PO", "spr_po.Descrip" ))->Descrip);
                 /* ASSIGN doc_par4 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par3, text:spr_po.Action_Semantics_internal) */
-                doc_par4 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par3, spr_po->Action_Semantics_internal);
+                doc_par4 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par3, ((docgen_SPR_PO *)xtUML_detect_empty_handle( spr_po, "SPR_PO", "spr_po.Action_Semantics_internal" ))->Action_Semantics_internal);
                 /* ASSIGN doc_par4.formatted = FALSE */
-                doc_par4->formatted = FALSE;
+                ((docgen_DOC_PAR *)xtUML_detect_empty_handle( doc_par4, "DOC_PAR", "doc_par4.formatted" ))->formatted = FALSE;
               }
             }
             else {
@@ -1194,15 +1195,15 @@ docgen_docgen_components( Escher_ObjectSet_s * p_c_cs, docgen_DOC_SEC * p_doc_se
               spr_ps = 0;
               if ( ( 0 != spr_pep ) && ( docgen_SPR_PS_CLASS_NUMBER == spr_pep->R4503_object_id ) )              spr_ps = ( 0 != spr_pep ) ? (docgen_SPR_PS *) spr_pep->R4503_subtype : 0;
               /* ASSIGN title = spr_ps.Name */
-              title = Escher_strcpy( title, spr_ps->Name );
+              title = Escher_strcpy( title, ((docgen_SPR_PS *)xtUML_detect_empty_handle( spr_ps, "SPR_PS", "spr_ps.Name" ))->Name );
               /* ASSIGN doc_sec4 = DOC_SEC::populate(parent_doc_sec:doc_sec3, subtitle:, title:title) */
               doc_sec4 = docgen_DOC_SEC_op_populate(doc_sec3, "", title);
               /* ASSIGN doc_par3 = DOC_PAR::populate(doc_sec:doc_sec4, predecessor:empty_doc_par, text:spr_ps.Descrip) */
-              doc_par3 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, spr_ps->Descrip);
+              doc_par3 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, ((docgen_SPR_PS *)xtUML_detect_empty_handle( spr_ps, "SPR_PS", "spr_ps.Descrip" ))->Descrip);
               /* ASSIGN doc_par4 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par3, text:spr_ps.Action_Semantics_internal) */
-              doc_par4 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par3, spr_ps->Action_Semantics_internal);
+              doc_par4 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par3, ((docgen_SPR_PS *)xtUML_detect_empty_handle( spr_ps, "SPR_PS", "spr_ps.Action_Semantics_internal" ))->Action_Semantics_internal);
               /* ASSIGN doc_par4.formatted = FALSE */
-              doc_par4->formatted = FALSE;
+              ((docgen_DOC_PAR *)xtUML_detect_empty_handle( doc_par4, "DOC_PAR", "doc_par4.formatted" ))->formatted = FALSE;
             }
           }}}
           Escher_ClearSet( spr_peps ); 
@@ -1247,7 +1248,7 @@ docgen_docgen_components( Escher_ObjectSet_s * p_c_cs, docgen_DOC_SEC * p_doc_se
       Escher_SetInsertElement( (Escher_ObjectSet_s *) child_ep_pkgs, R8001_subtype );
     }}}}}
     /* ASSIGN doc_sec1 = DOC_SEC::populate(parent_doc_sec:doc_sec1, subtitle:, title:( c_c.Name +  Packages )) */
-    doc_sec1 = docgen_DOC_SEC_op_populate(doc_sec1, "", Escher_stradd( c_c->Name, " Packages" ));
+    doc_sec1 = docgen_DOC_SEC_op_populate(doc_sec1, "", ( Escher_stradd( ((docgen_C_C *)xtUML_detect_empty_handle( c_c, "C_C", "c_c.Name" ))->Name, " Packages" ) ));
     /* ASSIGN doc_par1 = DOC_PAR::populate(doc_sec:doc_sec1, predecessor:empty_doc_par, text:Rendered here are the contained package diagrams.) */
     doc_par1 = docgen_DOC_PAR_op_populate(doc_sec1, empty_doc_par, "Rendered here are the contained package diagrams.");
     /* ::docgen_packages( doc_sec:doc_sec1, ep_pkgs:child_ep_pkgs ) */
@@ -1303,7 +1304,7 @@ docgen_docgen_datatypes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c
     /* ASSIGN columns[0] = DataType.gif */
     columns[0] = Escher_strcpy( columns[0], "DataType.gif" );
     /* ASSIGN doc_row1 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:empty_doc_row) */
-    doc_row1 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, empty_doc_row);
+    doc_row1 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, empty_doc_row);
     /* RELATE doc_row1 TO doc_tbl ACROSS R2317 */
     docgen_DOC_ROW_R2317_Link_has_first( doc_tbl, doc_row1 );
     /* FOR EACH s_dt IN s_dts */
@@ -1314,9 +1315,9 @@ docgen_docgen_datatypes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c
       s_dt = iis_dt; {
       docgen_S_SDT * s_sdt=0;
       /* ASSIGN columns[2] = s_dt.Descrip */
-      columns[2] = Escher_strcpy( columns[2], s_dt->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_S_DT *)xtUML_detect_empty_handle( s_dt, "S_DT", "s_dt.Descrip" ))->Descrip );
       /* ASSIGN columns[1] = s_dt.Name */
-      columns[1] = Escher_strcpy( columns[1], s_dt->Name );
+      columns[1] = Escher_strcpy( columns[1], ((docgen_S_DT *)xtUML_detect_empty_handle( s_dt, "S_DT", "s_dt.Name" ))->Name );
       /* ASSIGN columns[0] = DataType.gif */
       columns[0] = Escher_strcpy( columns[0], "DataType.gif" );
       /* SELECT one s_sdt RELATED BY s_dt->S_SDT[R17] */
@@ -1328,7 +1329,7 @@ docgen_docgen_datatypes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c
         /* ASSIGN columns[0] = StructuredDataType.gif */
         columns[0] = Escher_strcpy( columns[0], "StructuredDataType.gif" );
         /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-        doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+        doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
         /* ASSIGN doc_row1 = doc_row2 */
         doc_row1 = doc_row2;
       }
@@ -1343,7 +1344,7 @@ docgen_docgen_datatypes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c
           /* ASSIGN columns[0] = Enumeration.gif */
           columns[0] = Escher_strcpy( columns[0], "Enumeration.gif" );
           /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-          doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+          doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
           /* ASSIGN doc_row1 = doc_row2 */
           doc_row1 = doc_row2;
         }
@@ -1358,7 +1359,7 @@ docgen_docgen_datatypes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c
             /* ASSIGN columns[0] = UserDefinedDataType.gif */
             columns[0] = Escher_strcpy( columns[0], "UserDefinedDataType.gif" );
             /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-            doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+            doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
             /* ASSIGN doc_row1 = doc_row2 */
             doc_row1 = doc_row2;
           }
@@ -1367,6 +1368,218 @@ docgen_docgen_datatypes( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c
     }}}
   }
   Escher_ClearSet( s_dts ); 
+}
+
+/*
+ * Domain Function:  docgen_deployments
+ */
+void
+docgen_docgen_deployments( Escher_ObjectSet_s * p_d_depls, docgen_DOC_SEC * p_doc_sec )
+{
+  docgen_D_DEPL * d_depl=0;Escher_ObjectSet_s d_depls_space={0}; Escher_ObjectSet_s * d_depls = &d_depls_space;docgen_DOC_ROW * empty_doc_row=0;docgen_DOC_PAR * empty_doc_par=0;docgen_DOC_SEC * empty_doc_sec=0;
+  /* SELECT any empty_doc_sec FROM INSTANCES OF DOC_SEC WHERE FALSE */
+  empty_doc_sec = 0;
+  /* SELECT any empty_doc_par FROM INSTANCES OF DOC_PAR WHERE FALSE */
+  empty_doc_par = 0;
+  /* SELECT any empty_doc_row FROM INSTANCES OF DOC_ROW WHERE FALSE */
+  empty_doc_row = 0;
+  /* ASSIGN d_depls = PARAM.d_depls */
+  Escher_CopySet( d_depls, p_d_depls );
+  /* FOR EACH d_depl IN d_depls */
+  { Escher_Iterator_s iterd_depl;
+  docgen_D_DEPL * iid_depl;
+  Escher_IteratorReset( &iterd_depl, d_depls );
+  while ( (iid_depl = (docgen_D_DEPL *)Escher_IteratorNext( &iterd_depl )) != 0 ) {
+    d_depl = iid_depl; {
+    docgen_DOC_PAR * doc_par1;docgen_DOC_SEC * doc_sec1;Escher_ObjectSet_s d_terms_space={0}; Escher_ObjectSet_s * d_terms = &d_terms_space;
+    /* ASSIGN doc_sec1 = DOC_SEC::populate(parent_doc_sec:PARAM.doc_sec, subtitle:Deployment, title:d_depl.Name) */
+    doc_sec1 = docgen_DOC_SEC_op_populate(p_doc_sec, "Deployment", ((docgen_D_DEPL *)xtUML_detect_empty_handle( d_depl, "D_DEPL", "d_depl.Name" ))->Name);
+    /* ASSIGN doc_par1 = DOC_PAR::populate(doc_sec:doc_sec1, predecessor:empty_doc_par, text:d_depl.Descrip) */
+    doc_par1 = docgen_DOC_PAR_op_populate(doc_sec1, empty_doc_par, ((docgen_D_DEPL *)xtUML_detect_empty_handle( d_depl, "D_DEPL", "d_depl.Descrip" ))->Descrip);
+    /* SELECT many d_terms RELATED BY d_depl->D_TERM[R1650] */
+    Escher_ClearSet( d_terms );
+    if ( 0 != d_depl ) {
+      Escher_CopySet( d_terms, &d_depl->D_TERM_R1650 );
+    }
+    /* IF ( not_empty d_terms ) */
+    if ( ( ! Escher_SetIsEmpty( d_terms ) ) ) {
+      docgen_D_TERM * d_term=0;docgen_DOC_SEC * doc_sec2;docgen_DOC_ROW * doc_row;c_t * columns[5]={0};c_t * format[5]={0};docgen_DOC_TBL * doc_tbl;docgen_DOC_PAR * doc_par2;
+      /* ASSIGN doc_par2 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par1, text:) */
+      doc_par2 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par1, "");
+      /* ASSIGN doc_tbl = DOC_TBL::populate(doc_par:doc_par2, num_cols:5, title:( ( d_depl.Name +   ) + Terminators )) */
+      doc_tbl = docgen_DOC_TBL_op_populate(doc_par2, 5, ( Escher_stradd( ( Escher_stradd( ((docgen_D_DEPL *)xtUML_detect_empty_handle( d_depl, "D_DEPL", "d_depl.Name" ))->Name, " " ) ), "Terminators" ) ));
+      /* ASSIGN format[4] = text */
+      format[4] = Escher_strcpy( format[4], "text" );
+      /* ASSIGN format[3] = text */
+      format[3] = Escher_strcpy( format[3], "text" );
+      /* ASSIGN format[2] = text */
+      format[2] = Escher_strcpy( format[2], "text" );
+      /* ASSIGN format[1] = text */
+      format[1] = Escher_strcpy( format[1], "text" );
+      /* ASSIGN format[0] = image */
+      format[0] = Escher_strcpy( format[0], "image" );
+      /* ASSIGN columns[4] = Prov/Req */
+      columns[4] = Escher_strcpy( columns[4], "Prov/Req" );
+      /* ASSIGN columns[3] = Terminator_Name */
+      columns[3] = Escher_strcpy( columns[3], "Terminator_Name" );
+      /* ASSIGN columns[2] = Domain_Name */
+      columns[2] = Escher_strcpy( columns[2], "Domain_Name" );
+      /* ASSIGN columns[1] = Name */
+      columns[1] = Escher_strcpy( columns[1], "Name" );
+      /* ASSIGN columns[0] =  */
+      columns[0] = Escher_strcpy( columns[0], "" );
+      /* ASSIGN doc_row = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:empty_doc_row) */
+      doc_row = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, empty_doc_row);
+      /* RELATE doc_row TO doc_tbl ACROSS R2317 */
+      docgen_DOC_ROW_R2317_Link_has_first( doc_tbl, doc_row );
+      /* FOR EACH d_term IN d_terms */
+      { Escher_Iterator_s iterd_term;
+      docgen_D_TERM * iid_term;
+      Escher_IteratorReset( &iterd_term, d_terms );
+      while ( (iid_term = (docgen_D_TERM *)Escher_IteratorNext( &iterd_term )) != 0 ) {
+        d_term = iid_term; {
+        docgen_DOC_ROW * doc_row1;
+        /* ASSIGN columns[3] = d_term.Terminator_Name */
+        columns[3] = Escher_strcpy( columns[3], ((docgen_D_TERM *)xtUML_detect_empty_handle( d_term, "D_TERM", "d_term.Terminator_Name" ))->Terminator_Name );
+        /* ASSIGN columns[2] = d_term.Domain_Name */
+        columns[2] = Escher_strcpy( columns[2], ((docgen_D_TERM *)xtUML_detect_empty_handle( d_term, "D_TERM", "d_term.Domain_Name" ))->Domain_Name );
+        /* ASSIGN columns[1] = d_term.Name */
+        columns[1] = Escher_strcpy( columns[1], ((docgen_D_TERM *)xtUML_detect_empty_handle( d_term, "D_TERM", "d_term.Name" ))->Name );
+        /* IF ( d_term.Provider ) */
+        if ( ((docgen_D_TERM *)xtUML_detect_empty_handle( d_term, "D_TERM", "d_term.Provider" ))->Provider ) {
+          /* ASSIGN columns[4] = provided */
+          columns[4] = Escher_strcpy( columns[4], "provided" );
+          /* ASSIGN columns[0] = ProvidedTerminator.gif */
+          columns[0] = Escher_strcpy( columns[0], "ProvidedTerminator.gif" );
+        }
+        else {
+          /* ASSIGN columns[4] = required */
+          columns[4] = Escher_strcpy( columns[4], "required" );
+          /* ASSIGN columns[0] = Terminator.gif */
+          columns[0] = Escher_strcpy( columns[0], "Terminator.gif" );
+        }
+        /* ASSIGN doc_row1 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row) */
+        doc_row1 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row);
+        /* ASSIGN doc_row = doc_row1 */
+        doc_row = doc_row1;
+      }}}
+      /* FOR EACH d_term IN d_terms */
+      { Escher_Iterator_s iterd_term;
+      docgen_D_TERM * iid_term;
+      Escher_IteratorReset( &iterd_term, d_terms );
+      while ( (iid_term = (docgen_D_TERM *)Escher_IteratorNext( &iterd_term )) != 0 ) {
+        d_term = iid_term; {
+        docgen_D_TSVC * d_tsvc=0;Escher_ObjectSet_s d_tsvcs_space={0}; Escher_ObjectSet_s * d_tsvcs = &d_tsvcs_space;
+        /* ASSIGN doc_par2 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par2, text:) */
+        doc_par2 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par2, "");
+        /* ASSIGN doc_tbl = DOC_TBL::populate(doc_par:doc_par2, num_cols:2, title:( ( d_term.Name +   ) + Terminator Services )) */
+        doc_tbl = docgen_DOC_TBL_op_populate(doc_par2, 2, ( Escher_stradd( ( Escher_stradd( ((docgen_D_TERM *)xtUML_detect_empty_handle( d_term, "D_TERM", "d_term.Name" ))->Name, " " ) ), "Terminator Services" ) ));
+        /* ASSIGN format[1] = text */
+        format[1] = Escher_strcpy( format[1], "text" );
+        /* ASSIGN format[0] = image */
+        format[0] = Escher_strcpy( format[0], "image" );
+        /* ASSIGN columns[1] = Name */
+        columns[1] = Escher_strcpy( columns[1], "Name" );
+        /* ASSIGN columns[0] =  */
+        columns[0] = Escher_strcpy( columns[0], "" );
+        /* ASSIGN doc_row = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:empty_doc_row) */
+        doc_row = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, empty_doc_row);
+        /* RELATE doc_row TO doc_tbl ACROSS R2317 */
+        docgen_DOC_ROW_R2317_Link_has_first( doc_tbl, doc_row );
+        /* IF ( d_term.Provider ) */
+        if ( ((docgen_D_TERM *)xtUML_detect_empty_handle( d_term, "D_TERM", "d_term.Provider" ))->Provider ) {
+          /* ASSIGN columns[0] = ProvidedTerminatorService.gif */
+          columns[0] = Escher_strcpy( columns[0], "ProvidedTerminatorService.gif" );
+        }
+        else {
+          /* ASSIGN columns[0] = TerminatorService.gif */
+          columns[0] = Escher_strcpy( columns[0], "TerminatorService.gif" );
+        }
+        /* SELECT many d_tsvcs RELATED BY d_term->D_TSVC[R1651] */
+        Escher_ClearSet( d_tsvcs );
+        if ( 0 != d_term ) {
+          Escher_CopySet( d_tsvcs, &d_term->D_TSVC_R1651 );
+        }
+        /* FOR EACH d_tsvc IN d_tsvcs */
+        { Escher_Iterator_s iterd_tsvc;
+        docgen_D_TSVC * iid_tsvc;
+        Escher_IteratorReset( &iterd_tsvc, d_tsvcs );
+        while ( (iid_tsvc = (docgen_D_TSVC *)Escher_IteratorNext( &iterd_tsvc )) != 0 ) {
+          d_tsvc = iid_tsvc; {
+          docgen_D_TSPARM * d_tsparm=0;docgen_DOC_ROW * doc_row1;c_t * delimiter=0;docgen_S_DT * s_dt=0;Escher_ObjectSet_s d_tsparms_space={0}; Escher_ObjectSet_s * d_tsparms = &d_tsparms_space;
+          /* ASSIGN columns[1] = ( d_tsvc.Name + ( ) */
+          columns[1] = Escher_strcpy( columns[1], ( Escher_stradd( ((docgen_D_TSVC *)xtUML_detect_empty_handle( d_tsvc, "D_TSVC", "d_tsvc.Name" ))->Name, "(" ) ) );
+          /* SELECT many d_tsparms RELATED BY d_tsvc->D_TSPARM[R1652] */
+          Escher_ClearSet( d_tsparms );
+          if ( 0 != d_tsvc ) {
+            Escher_CopySet( d_tsparms, &d_tsvc->D_TSPARM_R1652 );
+          }
+          /* ASSIGN delimiter =  */
+          delimiter = Escher_strcpy( delimiter, "" );
+          /* FOR EACH d_tsparm IN d_tsparms */
+          { Escher_Iterator_s iterd_tsparm;
+          docgen_D_TSPARM * iid_tsparm;
+          Escher_IteratorReset( &iterd_tsparm, d_tsparms );
+          while ( (iid_tsparm = (docgen_D_TSPARM *)Escher_IteratorNext( &iterd_tsparm )) != 0 ) {
+            d_tsparm = iid_tsparm; {
+            /* ASSIGN columns[1] = ( ( columns[1] + delimiter ) + d_tsparm.Name ) */
+            columns[1] = Escher_strcpy( columns[1], ( Escher_stradd( ( Escher_stradd( columns[1], delimiter ) ), ((docgen_D_TSPARM *)xtUML_detect_empty_handle( d_tsparm, "D_TSPARM", "d_tsparm.Name" ))->Name ) ) );
+            /* ASSIGN delimiter = ,  */
+            delimiter = Escher_strcpy( delimiter, ", " );
+          }}}
+          /* ASSIGN columns[1] = ( columns[1] + ) :  ) */
+          columns[1] = Escher_strcpy( columns[1], ( Escher_stradd( columns[1], ") : " ) ) );
+          /* SELECT one s_dt RELATED BY d_tsvc->S_DT[R1656] */
+          s_dt = ( 0 != d_tsvc ) ? d_tsvc->S_DT_R1656 : 0;
+          /* ASSIGN columns[1] = ( columns[1] + s_dt.Name ) */
+          columns[1] = Escher_strcpy( columns[1], ( Escher_stradd( columns[1], ((docgen_S_DT *)xtUML_detect_empty_handle( s_dt, "S_DT", "s_dt.Name" ))->Name ) ) );
+          /* ASSIGN doc_row1 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row) */
+          doc_row1 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row);
+          /* ASSIGN doc_row = doc_row1 */
+          doc_row = doc_row1;
+          Escher_ClearSet( d_tsparms ); 
+        }}}
+        Escher_ClearSet( d_tsvcs ); 
+      }}}
+      /* ASSIGN doc_sec2 = DOC_SEC::populate(parent_doc_sec:doc_sec1, subtitle:, title:Terminator Service Activities) */
+      doc_sec2 = docgen_DOC_SEC_op_populate(doc_sec1, "", "Terminator Service Activities");
+      /* FOR EACH d_term IN d_terms */
+      { Escher_Iterator_s iterd_term;
+      docgen_D_TERM * iid_term;
+      Escher_IteratorReset( &iterd_term, d_terms );
+      while ( (iid_term = (docgen_D_TERM *)Escher_IteratorNext( &iterd_term )) != 0 ) {
+        d_term = iid_term; {
+        docgen_D_TSVC * d_tsvc=0;Escher_ObjectSet_s d_tsvcs_space={0}; Escher_ObjectSet_s * d_tsvcs = &d_tsvcs_space;
+        /* SELECT many d_tsvcs RELATED BY d_term->D_TSVC[R1651] */
+        Escher_ClearSet( d_tsvcs );
+        if ( 0 != d_term ) {
+          Escher_CopySet( d_tsvcs, &d_term->D_TSVC_R1651 );
+        }
+        /* FOR EACH d_tsvc IN d_tsvcs */
+        { Escher_Iterator_s iterd_tsvc;
+        docgen_D_TSVC * iid_tsvc;
+        Escher_IteratorReset( &iterd_tsvc, d_tsvcs );
+        while ( (iid_tsvc = (docgen_D_TSVC *)Escher_IteratorNext( &iterd_tsvc )) != 0 ) {
+          d_tsvc = iid_tsvc; {
+          /* IF ( (  != d_tsvc.Action_Semantics_internal ) or (  != d_tsvc.Descrip ) ) */
+          if ( ( Escher_strcmp( "", ((docgen_D_TSVC *)xtUML_detect_empty_handle( d_tsvc, "D_TSVC", "d_tsvc.Action_Semantics_internal" ))->Action_Semantics_internal ) != 0 ) || ( Escher_strcmp( "", ((docgen_D_TSVC *)xtUML_detect_empty_handle( d_tsvc, "D_TSVC", "d_tsvc.Descrip" ))->Descrip ) != 0 ) ) {
+            docgen_DOC_PAR * doc_par3;docgen_DOC_SEC * doc_sec3;
+            /* ASSIGN doc_sec3 = DOC_SEC::populate(parent_doc_sec:doc_sec2, subtitle:, title:d_tsvc.Name) */
+            doc_sec3 = docgen_DOC_SEC_op_populate(doc_sec2, "", ((docgen_D_TSVC *)xtUML_detect_empty_handle( d_tsvc, "D_TSVC", "d_tsvc.Name" ))->Name);
+            /* ASSIGN doc_par2 = DOC_PAR::populate(doc_sec:doc_sec3, predecessor:empty_doc_par, text:d_tsvc.Descrip) */
+            doc_par2 = docgen_DOC_PAR_op_populate(doc_sec3, empty_doc_par, ((docgen_D_TSVC *)xtUML_detect_empty_handle( d_tsvc, "D_TSVC", "d_tsvc.Descrip" ))->Descrip);
+            /* ASSIGN doc_par3 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par2, text:d_tsvc.Action_Semantics_internal) */
+            doc_par3 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par2, ((docgen_D_TSVC *)xtUML_detect_empty_handle( d_tsvc, "D_TSVC", "d_tsvc.Action_Semantics_internal" ))->Action_Semantics_internal);
+            /* ASSIGN doc_par3.formatted = FALSE */
+            ((docgen_DOC_PAR *)xtUML_detect_empty_handle( doc_par3, "DOC_PAR", "doc_par3.formatted" ))->formatted = FALSE;
+          }
+        }}}
+        Escher_ClearSet( d_tsvcs ); 
+      }}}
+    }
+    Escher_ClearSet( d_terms ); 
+  }}}
+  Escher_ClearSet( d_depls );
 }
 
 /*
@@ -1403,7 +1616,7 @@ docgen_docgen_external_entities( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
     /* ASSIGN doc_par1 = DOC_PAR::populate(doc_sec:doc_sec1, predecessor:empty_doc_par, text:) */
     doc_par1 = docgen_DOC_PAR_op_populate(doc_sec1, empty_doc_par, "");
     /* ASSIGN doc_tbl = DOC_TBL::populate(doc_par:doc_par1, num_cols:4, title:ep_pkg.Name) */
-    doc_tbl = docgen_DOC_TBL_op_populate(doc_par1, 4, ep_pkg->Name);
+    doc_tbl = docgen_DOC_TBL_op_populate(doc_par1, 4, ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Name" ))->Name);
     /* ASSIGN doc_row = empty_doc_row */
     doc_row = empty_doc_row;
     /* ASSIGN format[3] = text */
@@ -1423,7 +1636,7 @@ docgen_docgen_external_entities( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
     /* ASSIGN columns[0] = ExternalEntity.gif */
     columns[0] = Escher_strcpy( columns[0], "ExternalEntity.gif" );
     /* ASSIGN doc_row1 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row) */
-    doc_row1 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row);
+    doc_row1 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row);
     /* RELATE doc_row1 TO doc_tbl ACROSS R2317 */
     docgen_DOC_ROW_R2317_Link_has_first( doc_tbl, doc_row1 );
     /* FOR EACH s_ee IN s_ees */
@@ -1449,16 +1662,16 @@ docgen_docgen_external_entities( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       while ( (iis_brg = (docgen_S_BRG *)Escher_IteratorNext( &iters_brg )) != 0 ) {
         s_brg = iis_brg; {
         /* ASSIGN columns[3] = ( ( columns[3] + delimiter ) + s_brg.Name ) */
-        columns[3] = Escher_strcpy( columns[3], Escher_stradd( Escher_stradd( columns[3], delimiter ), s_brg->Name ) );
+        columns[3] = Escher_strcpy( columns[3], ( Escher_stradd( ( Escher_stradd( columns[3], delimiter ) ), ((docgen_S_BRG *)xtUML_detect_empty_handle( s_brg, "S_BRG", "s_brg.Name" ))->Name ) ) );
         /* ASSIGN delimiter = ,  */
         delimiter = Escher_strcpy( delimiter, ", " );
       }}}
       /* ASSIGN columns[2] = s_ee.Descrip */
-      columns[2] = Escher_strcpy( columns[2], s_ee->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_S_EE *)xtUML_detect_empty_handle( s_ee, "S_EE", "s_ee.Descrip" ))->Descrip );
       /* ASSIGN columns[1] = s_ee.Name */
-      columns[1] = Escher_strcpy( columns[1], s_ee->Name );
+      columns[1] = Escher_strcpy( columns[1], ((docgen_S_EE *)xtUML_detect_empty_handle( s_ee, "S_EE", "s_ee.Name" ))->Name );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
       Escher_ClearSet( s_brgs ); 
@@ -1473,7 +1686,7 @@ docgen_docgen_external_entities( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       s_ee = iis_ee; {
       docgen_S_BRG * s_brg=0;docgen_DOC_SEC * doc_sec3;Escher_ObjectSet_s s_brgs_space={0}; Escher_ObjectSet_s * s_brgs = &s_brgs_space;
       /* ASSIGN doc_sec3 = DOC_SEC::populate(parent_doc_sec:doc_sec2, subtitle:, title:( s_ee.Name +  Activities )) */
-      doc_sec3 = docgen_DOC_SEC_op_populate(doc_sec2, "", Escher_stradd( s_ee->Name, " Activities" ));
+      doc_sec3 = docgen_DOC_SEC_op_populate(doc_sec2, "", ( Escher_stradd( ((docgen_S_EE *)xtUML_detect_empty_handle( s_ee, "S_EE", "s_ee.Name" ))->Name, " Activities" ) ));
       /* SELECT many s_brgs RELATED BY s_ee->S_BRG[R19] */
       Escher_ClearSet( s_brgs );
       if ( 0 != s_ee ) {
@@ -1485,19 +1698,19 @@ docgen_docgen_external_entities( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_e
       Escher_IteratorReset( &iters_brg, s_brgs );
       while ( (iis_brg = (docgen_S_BRG *)Escher_IteratorNext( &iters_brg )) != 0 ) {
         s_brg = iis_brg; {
-        /* IF ( ( (  != s_brg.Action_Semantics_internal ) or (  != s_brg.Descrip ) ) ) */
-        if ( ( ( Escher_strcmp( "", s_brg->Action_Semantics_internal ) != 0 ) || ( Escher_strcmp( "", s_brg->Descrip ) != 0 ) ) ) {
+        /* IF ( (  != s_brg.Action_Semantics_internal ) or (  != s_brg.Descrip ) ) */
+        if ( ( Escher_strcmp( "", ((docgen_S_BRG *)xtUML_detect_empty_handle( s_brg, "S_BRG", "s_brg.Action_Semantics_internal" ))->Action_Semantics_internal ) != 0 ) || ( Escher_strcmp( "", ((docgen_S_BRG *)xtUML_detect_empty_handle( s_brg, "S_BRG", "s_brg.Descrip" ))->Descrip ) != 0 ) ) {
           docgen_DOC_PAR * doc_par3;docgen_DOC_PAR * doc_par2;docgen_DOC_SEC * doc_sec4;c_t * title=0;
           /* ASSIGN title = s_brg.Name */
-          title = Escher_strcpy( title, s_brg->Name );
+          title = Escher_strcpy( title, ((docgen_S_BRG *)xtUML_detect_empty_handle( s_brg, "S_BRG", "s_brg.Name" ))->Name );
           /* ASSIGN doc_sec4 = DOC_SEC::populate(parent_doc_sec:doc_sec3, subtitle:, title:title) */
           doc_sec4 = docgen_DOC_SEC_op_populate(doc_sec3, "", title);
           /* ASSIGN doc_par2 = DOC_PAR::populate(doc_sec:doc_sec4, predecessor:empty_doc_par, text:s_brg.Descrip) */
-          doc_par2 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, s_brg->Descrip);
+          doc_par2 = docgen_DOC_PAR_op_populate(doc_sec4, empty_doc_par, ((docgen_S_BRG *)xtUML_detect_empty_handle( s_brg, "S_BRG", "s_brg.Descrip" ))->Descrip);
           /* ASSIGN doc_par3 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par2, text:s_brg.Action_Semantics_internal) */
-          doc_par3 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par2, s_brg->Action_Semantics_internal);
+          doc_par3 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par2, ((docgen_S_BRG *)xtUML_detect_empty_handle( s_brg, "S_BRG", "s_brg.Action_Semantics_internal" ))->Action_Semantics_internal);
           /* ASSIGN doc_par3.formatted = FALSE */
-          doc_par3->formatted = FALSE;
+          ((docgen_DOC_PAR *)xtUML_detect_empty_handle( doc_par3, "DOC_PAR", "doc_par3.formatted" ))->formatted = FALSE;
         }
       }}}
       Escher_ClearSet( s_brgs ); 
@@ -1540,7 +1753,7 @@ docgen_docgen_functions( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c
     /* ASSIGN doc_par1 = DOC_PAR::populate(doc_sec:doc_sec1, predecessor:empty_doc_par, text:) */
     doc_par1 = docgen_DOC_PAR_op_populate(doc_sec1, empty_doc_par, "");
     /* ASSIGN doc_tbl = DOC_TBL::populate(doc_par:doc_par1, num_cols:3, title:ep_pkg.Name) */
-    doc_tbl = docgen_DOC_TBL_op_populate(doc_par1, 3, ep_pkg->Name);
+    doc_tbl = docgen_DOC_TBL_op_populate(doc_par1, 3, ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Name" ))->Name);
     /* ASSIGN doc_row = empty_doc_row */
     doc_row = empty_doc_row;
     /* ASSIGN format[2] = text */
@@ -1556,7 +1769,7 @@ docgen_docgen_functions( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c
     /* ASSIGN columns[0] = Function.gif */
     columns[0] = Escher_strcpy( columns[0], "Function.gif" );
     /* ASSIGN doc_row1 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row) */
-    doc_row1 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row);
+    doc_row1 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row);
     /* RELATE doc_row1 TO doc_tbl ACROSS R2317 */
     docgen_DOC_ROW_R2317_Link_has_first( doc_tbl, doc_row1 );
     /* FOR EACH s_sync IN s_syncs */
@@ -1567,9 +1780,9 @@ docgen_docgen_functions( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c
       s_sync = iis_sync; {
       docgen_S_SPARM * s_sparm=0;docgen_DOC_ROW * doc_row2;c_t * delimiter=0;Escher_ObjectSet_s s_sparms_space={0}; Escher_ObjectSet_s * s_sparms = &s_sparms_space;
       /* ASSIGN columns[2] = s_sync.Descrip */
-      columns[2] = Escher_strcpy( columns[2], s_sync->Descrip );
+      columns[2] = Escher_strcpy( columns[2], ((docgen_S_SYNC *)xtUML_detect_empty_handle( s_sync, "S_SYNC", "s_sync.Descrip" ))->Descrip );
       /* ASSIGN columns[1] = ( s_sync.Name + ( ) */
-      columns[1] = Escher_strcpy( columns[1], Escher_stradd( s_sync->Name, "(" ) );
+      columns[1] = Escher_strcpy( columns[1], ( Escher_stradd( ((docgen_S_SYNC *)xtUML_detect_empty_handle( s_sync, "S_SYNC", "s_sync.Name" ))->Name, "(" ) ) );
       /* SELECT many s_sparms RELATED BY s_sync->S_SPARM[R24] */
       Escher_ClearSet( s_sparms );
       if ( 0 != s_sync ) {
@@ -1585,14 +1798,14 @@ docgen_docgen_functions( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c
         s_sparm = iis_sparm; {
         c_t * delimeter=0;
         /* ASSIGN columns[1] = ( ( columns[1] + delimiter ) + s_sparm.Name ) */
-        columns[1] = Escher_strcpy( columns[1], Escher_stradd( Escher_stradd( columns[1], delimiter ), s_sparm->Name ) );
+        columns[1] = Escher_strcpy( columns[1], ( Escher_stradd( ( Escher_stradd( columns[1], delimiter ) ), ((docgen_S_SPARM *)xtUML_detect_empty_handle( s_sparm, "S_SPARM", "s_sparm.Name" ))->Name ) ) );
         /* ASSIGN delimeter = ,  */
         delimeter = Escher_strcpy( delimeter, ", " );
       }}}
       /* ASSIGN columns[1] = ( columns[1] + ) ) */
-      columns[1] = Escher_strcpy( columns[1], Escher_stradd( columns[1], ")" ) );
+      columns[1] = Escher_strcpy( columns[1], ( Escher_stradd( columns[1], ")" ) ) );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
       Escher_ClearSet( s_sparms ); 
@@ -1605,19 +1818,19 @@ docgen_docgen_functions( docgen_DOC_SEC * p_doc_sec, docgen_EP_PKG * p_ep_pkg, c
     Escher_IteratorReset( &iters_sync, s_syncs );
     while ( (iis_sync = (docgen_S_SYNC *)Escher_IteratorNext( &iters_sync )) != 0 ) {
       s_sync = iis_sync; {
-      /* IF ( ( (  != s_sync.Action_Semantics_internal ) or (  != s_sync.Descrip ) ) ) */
-      if ( ( ( Escher_strcmp( "", s_sync->Action_Semantics_internal ) != 0 ) || ( Escher_strcmp( "", s_sync->Descrip ) != 0 ) ) ) {
+      /* IF ( (  != s_sync.Action_Semantics_internal ) or (  != s_sync.Descrip ) ) */
+      if ( ( Escher_strcmp( "", ((docgen_S_SYNC *)xtUML_detect_empty_handle( s_sync, "S_SYNC", "s_sync.Action_Semantics_internal" ))->Action_Semantics_internal ) != 0 ) || ( Escher_strcmp( "", ((docgen_S_SYNC *)xtUML_detect_empty_handle( s_sync, "S_SYNC", "s_sync.Descrip" ))->Descrip ) != 0 ) ) {
         docgen_DOC_PAR * doc_par3;docgen_DOC_PAR * doc_par2;docgen_DOC_SEC * doc_sec3;c_t * title=0;
         /* ASSIGN title = s_sync.Name */
-        title = Escher_strcpy( title, s_sync->Name );
+        title = Escher_strcpy( title, ((docgen_S_SYNC *)xtUML_detect_empty_handle( s_sync, "S_SYNC", "s_sync.Name" ))->Name );
         /* ASSIGN doc_sec3 = DOC_SEC::populate(parent_doc_sec:doc_sec2, subtitle:, title:title) */
         doc_sec3 = docgen_DOC_SEC_op_populate(doc_sec2, "", title);
         /* ASSIGN doc_par2 = DOC_PAR::populate(doc_sec:doc_sec3, predecessor:empty_doc_par, text:s_sync.Descrip) */
-        doc_par2 = docgen_DOC_PAR_op_populate(doc_sec3, empty_doc_par, s_sync->Descrip);
+        doc_par2 = docgen_DOC_PAR_op_populate(doc_sec3, empty_doc_par, ((docgen_S_SYNC *)xtUML_detect_empty_handle( s_sync, "S_SYNC", "s_sync.Descrip" ))->Descrip);
         /* ASSIGN doc_par3 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par2, text:s_sync.Action_Semantics_internal) */
-        doc_par3 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par2, s_sync->Action_Semantics_internal);
+        doc_par3 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par2, ((docgen_S_SYNC *)xtUML_detect_empty_handle( s_sync, "S_SYNC", "s_sync.Action_Semantics_internal" ))->Action_Semantics_internal);
         /* ASSIGN doc_par3.formatted = FALSE */
-        doc_par3->formatted = FALSE;
+        ((docgen_DOC_PAR *)xtUML_detect_empty_handle( doc_par3, "DOC_PAR", "doc_par3.formatted" ))->formatted = FALSE;
       }
     }}}
   }
@@ -1655,8 +1868,8 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
   if ( ! Escher_SetContains( (Escher_ObjectSet_s *) msg_ms, R8001_subtype ) ) {
     Escher_SetInsertElement( (Escher_ObjectSet_s *) msg_ms, R8001_subtype );
   }}}}}
-  /* IF ( ( not_empty sq_ps or not_empty msg_ms ) ) */
-  if ( ( ( ! Escher_SetIsEmpty( sq_ps ) ) || ( ! Escher_SetIsEmpty( msg_ms ) ) ) ) {
+  /* IF ( not_empty sq_ps or not_empty msg_ms ) */
+  if ( ( ! Escher_SetIsEmpty( sq_ps ) ) || ( ! Escher_SetIsEmpty( msg_ms ) ) ) {
     docgen_MSG_R * msg_r=0;docgen_MSG_SM * msg_sm=0;docgen_MSG_AM * msg_am=0;docgen_SQ_P * sq_p=0;docgen_DOC_ROW * doc_row1;c_t * columns[3]={0,0,0};c_t * format[3]={0,0,0};docgen_DOC_TBL * doc_tbl;docgen_DOC_PAR * doc_par;docgen_DOC_SEC * doc_sec;docgen_DOC_ROW * empty_doc_row=0;docgen_DOC_PAR * empty_doc_par=0;Escher_ObjectSet_s msg_rs_space={0}; Escher_ObjectSet_s * msg_rs = &msg_rs_space;Escher_ObjectSet_s msg_sms_space={0}; Escher_ObjectSet_s * msg_sms = &msg_sms_space;Escher_ObjectSet_s msg_ams_space={0}; Escher_ObjectSet_s * msg_ams = &msg_ams_space;
     /* SELECT any empty_doc_par FROM INSTANCES OF DOC_PAR WHERE FALSE */
     empty_doc_par = 0;
@@ -1681,7 +1894,7 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
     /* ASSIGN columns[0] = Package.gif */
     columns[0] = Escher_strcpy( columns[0], "Package.gif" );
     /* ASSIGN doc_row1 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:empty_doc_row) */
-    doc_row1 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, empty_doc_row);
+    doc_row1 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, empty_doc_row);
     /* RELATE doc_row1 TO doc_tbl ACROSS R2317 */
     docgen_DOC_ROW_R2317_Link_has_first( doc_tbl, doc_row1 );
     /* FOR EACH sq_p IN sq_ps */
@@ -1698,13 +1911,13 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
       if ( ( 0 != sq_ap ) ) {
         docgen_DOC_ROW * doc_row2;
         /* ASSIGN columns[2] = sq_ap.Descrip */
-        columns[2] = Escher_strcpy( columns[2], sq_ap->Descrip );
+        columns[2] = Escher_strcpy( columns[2], ((docgen_SQ_AP *)xtUML_detect_empty_handle( sq_ap, "SQ_AP", "sq_ap.Descrip" ))->Descrip );
         /* ASSIGN columns[1] = sq_ap.Name */
-        columns[1] = Escher_strcpy( columns[1], sq_ap->Name );
+        columns[1] = Escher_strcpy( columns[1], ((docgen_SQ_AP *)xtUML_detect_empty_handle( sq_ap, "SQ_AP", "sq_ap.Name" ))->Name );
         /* ASSIGN columns[0] = Actor.gif */
         columns[0] = Escher_strcpy( columns[0], "Actor.gif" );
         /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-        doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+        doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
         /* ASSIGN doc_row1 = doc_row2 */
         doc_row1 = doc_row2;
       }
@@ -1717,13 +1930,13 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
         if ( ( 0 != sq_cip ) ) {
           docgen_DOC_ROW * doc_row2;
           /* ASSIGN columns[2] = sq_cip.Descrip */
-          columns[2] = Escher_strcpy( columns[2], sq_cip->Descrip );
+          columns[2] = Escher_strcpy( columns[2], ((docgen_SQ_CIP *)xtUML_detect_empty_handle( sq_cip, "SQ_CIP", "sq_cip.Descrip" ))->Descrip );
           /* ASSIGN columns[1] = sq_cip.Name */
-          columns[1] = Escher_strcpy( columns[1], sq_cip->Name );
+          columns[1] = Escher_strcpy( columns[1], ((docgen_SQ_CIP *)xtUML_detect_empty_handle( sq_cip, "SQ_CIP", "sq_cip.Name" ))->Name );
           /* ASSIGN columns[0] = Instance.gif */
           columns[0] = Escher_strcpy( columns[0], "Instance.gif" );
           /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-          doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+          doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
           /* ASSIGN doc_row1 = doc_row2 */
           doc_row1 = doc_row2;
         }
@@ -1738,17 +1951,17 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
             /* SELECT one o_obj RELATED BY sq_cp->O_OBJ[R939] */
             o_obj = ( 0 != sq_cp ) ? sq_cp->O_OBJ_R939_represents : 0;
             /* ASSIGN name = sq_cp.InformalName */
-            name = Escher_strcpy( name, sq_cp->InformalName );
+            name = Escher_strcpy( name, ((docgen_SQ_CP *)xtUML_detect_empty_handle( sq_cp, "SQ_CP", "sq_cp.InformalName" ))->InformalName );
             /* ASSIGN description = sq_cp.Descrip */
-            description = Escher_strcpy( description, sq_cp->Descrip );
+            description = Escher_strcpy( description, ((docgen_SQ_CP *)xtUML_detect_empty_handle( sq_cp, "SQ_CP", "sq_cp.Descrip" ))->Descrip );
             /* IF ( not_empty o_obj ) */
             if ( ( 0 != o_obj ) ) {
               /* ASSIGN name = o_obj.Name */
-              name = Escher_strcpy( name, o_obj->Name );
-              /* IF ( (  == description ) ) */
-              if ( ( Escher_strcmp( "", description ) == 0 ) ) {
+              name = Escher_strcpy( name, ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Name" ))->Name );
+              /* IF (  == description ) */
+              if ( Escher_strcmp( "", description ) == 0 ) {
                 /* ASSIGN description = o_obj.Descrip */
-                description = Escher_strcpy( description, o_obj->Descrip );
+                description = Escher_strcpy( description, ((docgen_O_OBJ *)xtUML_detect_empty_handle( o_obj, "O_OBJ", "o_obj.Descrip" ))->Descrip );
               }
             }
             /* ASSIGN columns[2] = description */
@@ -1758,7 +1971,7 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
             /* ASSIGN columns[0] = Class.gif */
             columns[0] = Escher_strcpy( columns[0], "Class.gif" );
             /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-            doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+            doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
             /* ASSIGN doc_row1 = doc_row2 */
             doc_row1 = doc_row2;
             /* SELECT many sq_cpas RELATED BY sq_cp->SQ_CPA[R935] */
@@ -1773,13 +1986,13 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
             while ( (iisq_cpa = (docgen_SQ_CPA *)Escher_IteratorNext( &itersq_cpa )) != 0 ) {
               sq_cpa = iisq_cpa; {
               /* ASSIGN columns[2] = sq_cpa.Descrip */
-              columns[2] = Escher_strcpy( columns[2], sq_cpa->Descrip );
+              columns[2] = Escher_strcpy( columns[2], ((docgen_SQ_CPA *)xtUML_detect_empty_handle( sq_cpa, "SQ_CPA", "sq_cpa.Descrip" ))->Descrip );
               /* ASSIGN columns[1] = ( ( sq_cpa.Name + : ) + sq_cpa.Type ) */
-              columns[1] = Escher_strcpy( columns[1], Escher_stradd( Escher_stradd( sq_cpa->Name, ":" ), sq_cpa->Type ) );
+              columns[1] = Escher_strcpy( columns[1], ( Escher_stradd( ( Escher_stradd( ((docgen_SQ_CPA *)xtUML_detect_empty_handle( sq_cpa, "SQ_CPA", "sq_cpa.Name" ))->Name, ":" ) ), ((docgen_SQ_CPA *)xtUML_detect_empty_handle( sq_cpa, "SQ_CPA", "sq_cpa.Type" ))->Type ) ) );
               /* ASSIGN columns[0] = Attribute.gif */
               columns[0] = Escher_strcpy( columns[0], "Attribute.gif" );
               /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-              doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+              doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
               /* ASSIGN doc_row1 = doc_row2 */
               doc_row1 = doc_row2;
             }}}
@@ -1796,17 +2009,17 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
               /* SELECT one c_c RELATED BY sq_cop->C_C[R955] */
               c_c = ( 0 != sq_cop ) ? sq_cop->C_C_R955_represents : 0;
               /* ASSIGN name = sq_cop.InformalComponentName */
-              name = Escher_strcpy( name, sq_cop->InformalComponentName );
+              name = Escher_strcpy( name, ((docgen_SQ_COP *)xtUML_detect_empty_handle( sq_cop, "SQ_COP", "sq_cop.InformalComponentName" ))->InformalComponentName );
               /* ASSIGN description = sq_cop.Descrip */
-              description = Escher_strcpy( description, sq_cop->Descrip );
+              description = Escher_strcpy( description, ((docgen_SQ_COP *)xtUML_detect_empty_handle( sq_cop, "SQ_COP", "sq_cop.Descrip" ))->Descrip );
               /* IF ( not_empty c_c ) */
               if ( ( 0 != c_c ) ) {
                 /* ASSIGN name = c_c.Name */
-                name = Escher_strcpy( name, c_c->Name );
-                /* IF ( (  == description ) ) */
-                if ( ( Escher_strcmp( "", description ) == 0 ) ) {
+                name = Escher_strcpy( name, ((docgen_C_C *)xtUML_detect_empty_handle( c_c, "C_C", "c_c.Name" ))->Name );
+                /* IF (  == description ) */
+                if ( Escher_strcmp( "", description ) == 0 ) {
                   /* ASSIGN description = c_c.Descrip */
-                  description = Escher_strcpy( description, c_c->Descrip );
+                  description = Escher_strcpy( description, ((docgen_C_C *)xtUML_detect_empty_handle( c_c, "C_C", "c_c.Descrip" ))->Descrip );
                 }
               }
               /* ASSIGN columns[2] = description */
@@ -1816,7 +2029,7 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
               /* ASSIGN columns[0] = Component.gif */
               columns[0] = Escher_strcpy( columns[0], "Component.gif" );
               /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-              doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+              doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
               /* ASSIGN doc_row1 = doc_row2 */
               doc_row1 = doc_row2;
             }
@@ -1829,19 +2042,19 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
               if ( ( 0 != sq_eep ) ) {
                 docgen_DOC_ROW * doc_row2;c_t * description=0;c_t * name=0;docgen_S_EE * s_ee=0;
                 /* ASSIGN name = sq_eep.InformalName */
-                name = Escher_strcpy( name, sq_eep->InformalName );
+                name = Escher_strcpy( name, ((docgen_SQ_EEP *)xtUML_detect_empty_handle( sq_eep, "SQ_EEP", "sq_eep.InformalName" ))->InformalName );
                 /* ASSIGN description = sq_eep.Descrip */
-                description = Escher_strcpy( description, sq_eep->Descrip );
+                description = Escher_strcpy( description, ((docgen_SQ_EEP *)xtUML_detect_empty_handle( sq_eep, "SQ_EEP", "sq_eep.Descrip" ))->Descrip );
                 /* SELECT one s_ee RELATED BY sq_eep->S_EE[R933] */
                 s_ee = ( 0 != sq_eep ) ? sq_eep->S_EE_R933_represents : 0;
                 /* IF ( not_empty s_ee ) */
                 if ( ( 0 != s_ee ) ) {
                   /* ASSIGN name = s_ee.Name */
-                  name = Escher_strcpy( name, s_ee->Name );
-                  /* IF ( (  == description ) ) */
-                  if ( ( Escher_strcmp( "", description ) == 0 ) ) {
+                  name = Escher_strcpy( name, ((docgen_S_EE *)xtUML_detect_empty_handle( s_ee, "S_EE", "s_ee.Name" ))->Name );
+                  /* IF (  == description ) */
+                  if ( Escher_strcmp( "", description ) == 0 ) {
                     /* ASSIGN description = s_ee.Descrip */
-                    description = Escher_strcpy( description, s_ee->Descrip );
+                    description = Escher_strcpy( description, ((docgen_S_EE *)xtUML_detect_empty_handle( s_ee, "S_EE", "s_ee.Descrip" ))->Descrip );
                   }
                 }
                 /* ASSIGN columns[2] = description */
@@ -1851,7 +2064,7 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
                 /* ASSIGN columns[0] = ExternalEntity.gif */
                 columns[0] = Escher_strcpy( columns[0], "ExternalEntity.gif" );
                 /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-                doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+                doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
                 /* ASSIGN doc_row1 = doc_row2 */
                 doc_row1 = doc_row2;
               }
@@ -1864,19 +2077,19 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
                 if ( ( 0 != sq_pp ) ) {
                   docgen_DOC_ROW * doc_row2;c_t * description=0;c_t * name=0;
                   /* ASSIGN name = sq_pp.InformalName */
-                  name = Escher_strcpy( name, sq_pp->InformalName );
+                  name = Escher_strcpy( name, ((docgen_SQ_PP *)xtUML_detect_empty_handle( sq_pp, "SQ_PP", "sq_pp.InformalName" ))->InformalName );
                   /* ASSIGN description = sq_pp.Descrip */
-                  description = Escher_strcpy( description, sq_pp->Descrip );
+                  description = Escher_strcpy( description, ((docgen_SQ_PP *)xtUML_detect_empty_handle( sq_pp, "SQ_PP", "sq_pp.Descrip" ))->Descrip );
                   /* SELECT one ep_pkg RELATED BY sq_pp->EP_PKG[R956] */
                   ep_pkg = ( 0 != sq_pp ) ? sq_pp->EP_PKG_R956_represents : 0;
                   /* IF ( not_empty ep_pkg ) */
                   if ( ( 0 != ep_pkg ) ) {
                     /* ASSIGN name = ep_pkg.Name */
-                    name = Escher_strcpy( name, ep_pkg->Name );
-                    /* IF ( (  == description ) ) */
-                    if ( ( Escher_strcmp( "", description ) == 0 ) ) {
+                    name = Escher_strcpy( name, ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Name" ))->Name );
+                    /* IF (  == description ) */
+                    if ( Escher_strcmp( "", description ) == 0 ) {
                       /* ASSIGN description = ep_pkg.Descrip */
-                      description = Escher_strcpy( description, ep_pkg->Descrip );
+                      description = Escher_strcpy( description, ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Descrip" ))->Descrip );
                     }
                   }
                   /* ASSIGN columns[2] = description */
@@ -1886,7 +2099,7 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
                   /* ASSIGN columns[0] = Package.gif */
                   columns[0] = Escher_strcpy( columns[0], "Package.gif" );
                   /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-                  doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+                  doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
                   /* ASSIGN doc_row1 = doc_row2 */
                   doc_row1 = doc_row2;
                 }
@@ -1898,17 +2111,17 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
                   /* IF ( not_empty sq_ls ) */
                   if ( ( 0 != sq_ls ) ) {
                     docgen_SQ_TS * sq_ts=0;docgen_SQ_TM * sq_tm=0;Escher_ObjectSet_s sq_tss_space={0}; Escher_ObjectSet_s * sq_tss = &sq_tss_space;Escher_ObjectSet_s sq_tms_space={0}; Escher_ObjectSet_s * sq_tms = &sq_tms_space;
-                    /* IF ( (  != sq_ls.Descrip ) ) */
-                    if ( ( Escher_strcmp( "", sq_ls->Descrip ) != 0 ) ) {
+                    /* IF (  != sq_ls.Descrip ) */
+                    if ( Escher_strcmp( "", ((docgen_SQ_LS *)xtUML_detect_empty_handle( sq_ls, "SQ_LS", "sq_ls.Descrip" ))->Descrip ) != 0 ) {
                       docgen_DOC_ROW * doc_row2;
                       /* ASSIGN columns[2] = sq_ls.Descrip */
-                      columns[2] = Escher_strcpy( columns[2], sq_ls->Descrip );
+                      columns[2] = Escher_strcpy( columns[2], ((docgen_SQ_LS *)xtUML_detect_empty_handle( sq_ls, "SQ_LS", "sq_ls.Descrip" ))->Descrip );
                       /* ASSIGN columns[1] =  */
                       columns[1] = Escher_strcpy( columns[1], "" );
                       /* ASSIGN columns[0] = Lifespan.gif */
                       columns[0] = Escher_strcpy( columns[0], "Lifespan.gif" );
                       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-                      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+                      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
                       /* ASSIGN doc_row1 = doc_row2 */
                       doc_row1 = doc_row2;
                     }
@@ -1923,17 +2136,17 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
                     Escher_IteratorReset( &itersq_tm, sq_tms );
                     while ( (iisq_tm = (docgen_SQ_TM *)Escher_IteratorNext( &itersq_tm )) != 0 ) {
                       sq_tm = iisq_tm; {
-                      /* IF ( (  != sq_tm.Descrip ) ) */
-                      if ( ( Escher_strcmp( "", sq_tm->Descrip ) != 0 ) ) {
+                      /* IF (  != sq_tm.Descrip ) */
+                      if ( Escher_strcmp( "", ((docgen_SQ_TM *)xtUML_detect_empty_handle( sq_tm, "SQ_TM", "sq_tm.Descrip" ))->Descrip ) != 0 ) {
                         docgen_DOC_ROW * doc_row2;
                         /* ASSIGN columns[2] = sq_tm.Descrip */
-                        columns[2] = Escher_strcpy( columns[2], sq_tm->Descrip );
+                        columns[2] = Escher_strcpy( columns[2], ((docgen_SQ_TM *)xtUML_detect_empty_handle( sq_tm, "SQ_TM", "sq_tm.Descrip" ))->Descrip );
                         /* ASSIGN columns[1] = sq_tm.Name */
-                        columns[1] = Escher_strcpy( columns[1], sq_tm->Name );
+                        columns[1] = Escher_strcpy( columns[1], ((docgen_SQ_TM *)xtUML_detect_empty_handle( sq_tm, "SQ_TM", "sq_tm.Name" ))->Name );
                         /* ASSIGN columns[0] = TimeingMark.gif */
                         columns[0] = Escher_strcpy( columns[0], "TimeingMark.gif" );
                         /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-                        doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+                        doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
                         /* ASSIGN doc_row1 = doc_row2 */
                         doc_row1 = doc_row2;
                       }
@@ -1958,17 +2171,17 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
                     Escher_IteratorReset( &itersq_ts, sq_tss );
                     while ( (iisq_ts = (docgen_SQ_TS *)Escher_IteratorNext( &itersq_ts )) != 0 ) {
                       sq_ts = iisq_ts; {
-                      /* IF ( (  != sq_tm.Descrip ) ) */
-                      if ( ( Escher_strcmp( "", sq_tm->Descrip ) != 0 ) ) {
+                      /* IF (  != sq_tm.Descrip ) */
+                      if ( Escher_strcmp( "", ((docgen_SQ_TM *)xtUML_detect_empty_handle( sq_tm, "SQ_TM", "sq_tm.Descrip" ))->Descrip ) != 0 ) {
                         docgen_DOC_ROW * doc_row2;
                         /* ASSIGN columns[2] = sq_ts.Descrip */
-                        columns[2] = Escher_strcpy( columns[2], sq_ts->Descrip );
+                        columns[2] = Escher_strcpy( columns[2], ((docgen_SQ_TS *)xtUML_detect_empty_handle( sq_ts, "SQ_TS", "sq_ts.Descrip" ))->Descrip );
                         /* ASSIGN columns[1] = sq_ts.Name */
-                        columns[1] = Escher_strcpy( columns[1], sq_ts->Name );
+                        columns[1] = Escher_strcpy( columns[1], ((docgen_SQ_TS *)xtUML_detect_empty_handle( sq_ts, "SQ_TS", "sq_ts.Name" ))->Name );
                         /* ASSIGN columns[0] = TimeSpan.gif */
                         columns[0] = Escher_strcpy( columns[0], "TimeSpan.gif" );
                         /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-                        doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+                        doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
                         /* ASSIGN doc_row1 = doc_row2 */
                         doc_row1 = doc_row2;
                       }
@@ -1984,13 +2197,13 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
                     if ( ( 0 != ia_ucp ) ) {
                       docgen_DOC_ROW * doc_row2;
                       /* ASSIGN columns[2] = ia_ucp.Descrip */
-                      columns[2] = Escher_strcpy( columns[2], ia_ucp->Descrip );
+                      columns[2] = Escher_strcpy( columns[2], ((docgen_IA_UCP *)xtUML_detect_empty_handle( ia_ucp, "IA_UCP", "ia_ucp.Descrip" ))->Descrip );
                       /* ASSIGN columns[1] = ia_ucp.Name */
-                      columns[1] = Escher_strcpy( columns[1], ia_ucp->Name );
+                      columns[1] = Escher_strcpy( columns[1], ((docgen_IA_UCP *)xtUML_detect_empty_handle( ia_ucp, "IA_UCP", "ia_ucp.Name" ))->Name );
                       /* ASSIGN columns[0] = UseCase.gif */
                       columns[0] = Escher_strcpy( columns[0], "UseCase.gif" );
                       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-                      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+                      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
                       /* ASSIGN doc_row1 = doc_row2 */
                       doc_row1 = doc_row2;
                     }
@@ -2021,9 +2234,9 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
       msg_am = iimsg_am; {
       docgen_DOC_ROW * doc_row2;c_t * description=0;c_t * name=0;docgen_SM_EVT * sm_evt=0;
       /* ASSIGN name = msg_am.InformalName */
-      name = Escher_strcpy( name, msg_am->InformalName );
+      name = Escher_strcpy( name, ((docgen_MSG_AM *)xtUML_detect_empty_handle( msg_am, "MSG_AM", "msg_am.InformalName" ))->InformalName );
       /* ASSIGN description = msg_am.Descrip */
-      description = Escher_strcpy( description, msg_am->Descrip );
+      description = Escher_strcpy( description, ((docgen_MSG_AM *)xtUML_detect_empty_handle( msg_am, "MSG_AM", "msg_am.Descrip" ))->Descrip );
       /* SELECT one sm_evt RELATED BY msg_am->MSG_E[R1019]->SM_EVT[R1009] */
       sm_evt = 0;
       {      if ( 0 != msg_am ) {
@@ -2034,9 +2247,9 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
       /* IF ( not_empty sm_evt ) */
       if ( ( 0 != sm_evt ) ) {
         /* ASSIGN name = sm_evt.Mning */
-        name = Escher_strcpy( name, sm_evt->Mning );
+        name = Escher_strcpy( name, ((docgen_SM_EVT *)xtUML_detect_empty_handle( sm_evt, "SM_EVT", "sm_evt.Mning" ))->Mning );
         /* ASSIGN description = sm_evt.Unq_Lbl */
-        description = Escher_strcpy( description, sm_evt->Unq_Lbl );
+        description = Escher_strcpy( description, ((docgen_SM_EVT *)xtUML_detect_empty_handle( sm_evt, "SM_EVT", "sm_evt.Unq_Lbl" ))->Unq_Lbl );
       }
       else {
         docgen_C_AS * c_as=0;
@@ -2050,9 +2263,9 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
         /* IF ( not_empty c_as ) */
         if ( ( 0 != c_as ) ) {
           /* ASSIGN name = c_as.Name */
-          name = Escher_strcpy( name, c_as->Name );
+          name = Escher_strcpy( name, ((docgen_C_AS *)xtUML_detect_empty_handle( c_as, "C_AS", "c_as.Name" ))->Name );
           /* ASSIGN description = c_as.Descrip */
-          description = Escher_strcpy( description, c_as->Descrip );
+          description = Escher_strcpy( description, ((docgen_C_AS *)xtUML_detect_empty_handle( c_as, "C_AS", "c_as.Descrip" ))->Descrip );
         }
       }
       /* ASSIGN columns[2] = description */
@@ -2062,7 +2275,7 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
       /* ASSIGN columns[0] = AsynchronousMessage.gif */
       columns[0] = Escher_strcpy( columns[0], "AsynchronousMessage.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
@@ -2085,9 +2298,9 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
       msg_sm = iimsg_sm; {
       docgen_DOC_ROW * doc_row2;c_t * description=0;c_t * name=0;docgen_S_SYNC * s_sync=0;
       /* ASSIGN name = msg_sm.InformalName */
-      name = Escher_strcpy( name, msg_sm->InformalName );
+      name = Escher_strcpy( name, ((docgen_MSG_SM *)xtUML_detect_empty_handle( msg_sm, "MSG_SM", "msg_sm.InformalName" ))->InformalName );
       /* ASSIGN description = msg_sm.Descrip */
-      description = Escher_strcpy( description, msg_sm->Descrip );
+      description = Escher_strcpy( description, ((docgen_MSG_SM *)xtUML_detect_empty_handle( msg_sm, "MSG_SM", "msg_sm.Descrip" ))->Descrip );
       /* SELECT one s_sync RELATED BY msg_sm->MSG_F[R1020]->S_SYNC[R1010] */
       s_sync = 0;
       {      if ( 0 != msg_sm ) {
@@ -2098,9 +2311,9 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
       /* IF ( not_empty s_sync ) */
       if ( ( 0 != s_sync ) ) {
         /* ASSIGN name = s_sync.Name */
-        name = Escher_strcpy( name, s_sync->Name );
+        name = Escher_strcpy( name, ((docgen_S_SYNC *)xtUML_detect_empty_handle( s_sync, "S_SYNC", "s_sync.Name" ))->Name );
         /* ASSIGN description = s_sync.Descrip */
-        description = Escher_strcpy( description, s_sync->Descrip );
+        description = Escher_strcpy( description, ((docgen_S_SYNC *)xtUML_detect_empty_handle( s_sync, "S_SYNC", "s_sync.Descrip" ))->Descrip );
       }
       else {
         docgen_O_TFR * o_tfr=0;
@@ -2114,9 +2327,9 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
         /* IF ( not_empty o_tfr ) */
         if ( ( 0 != o_tfr ) ) {
           /* ASSIGN name = o_tfr.Name */
-          name = Escher_strcpy( name, o_tfr->Name );
+          name = Escher_strcpy( name, ((docgen_O_TFR *)xtUML_detect_empty_handle( o_tfr, "O_TFR", "o_tfr.Name" ))->Name );
           /* ASSIGN description = o_tfr.Descrip */
-          description = Escher_strcpy( description, o_tfr->Descrip );
+          description = Escher_strcpy( description, ((docgen_O_TFR *)xtUML_detect_empty_handle( o_tfr, "O_TFR", "o_tfr.Descrip" ))->Descrip );
         }
         else {
           docgen_S_BRG * s_brg=0;
@@ -2130,9 +2343,9 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
           /* IF ( not_empty s_brg ) */
           if ( ( 0 != s_brg ) ) {
             /* ASSIGN name = s_brg.Name */
-            name = Escher_strcpy( name, s_brg->Name );
+            name = Escher_strcpy( name, ((docgen_S_BRG *)xtUML_detect_empty_handle( s_brg, "S_BRG", "s_brg.Name" ))->Name );
             /* ASSIGN description = s_brg.Descrip */
-            description = Escher_strcpy( description, s_brg->Descrip );
+            description = Escher_strcpy( description, ((docgen_S_BRG *)xtUML_detect_empty_handle( s_brg, "S_BRG", "s_brg.Descrip" ))->Descrip );
           }
           else {
             docgen_C_IO * c_io=0;
@@ -2146,9 +2359,9 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
             /* IF ( not_empty c_io ) */
             if ( ( 0 != c_io ) ) {
               /* ASSIGN name = c_io.Name */
-              name = Escher_strcpy( name, c_io->Name );
+              name = Escher_strcpy( name, ((docgen_C_IO *)xtUML_detect_empty_handle( c_io, "C_IO", "c_io.Name" ))->Name );
               /* ASSIGN description = c_io.Descrip */
-              description = Escher_strcpy( description, c_io->Descrip );
+              description = Escher_strcpy( description, ((docgen_C_IO *)xtUML_detect_empty_handle( c_io, "C_IO", "c_io.Descrip" ))->Descrip );
             }
           }
         }
@@ -2160,7 +2373,7 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
       /* ASSIGN columns[0] = SynchronousMessage.gif */
       columns[0] = Escher_strcpy( columns[0], "SynchronousMessage.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
@@ -2183,9 +2396,9 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
       msg_r = iimsg_r; {
       docgen_DOC_ROW * doc_row2;c_t * description=0;c_t * name=0;
       /* ASSIGN name = msg_r.Name */
-      name = Escher_strcpy( name, msg_r->Name );
+      name = Escher_strcpy( name, ((docgen_MSG_R *)xtUML_detect_empty_handle( msg_r, "MSG_R", "msg_r.Name" ))->Name );
       /* ASSIGN description = msg_r.Descrip */
-      description = Escher_strcpy( description, msg_r->Descrip );
+      description = Escher_strcpy( description, ((docgen_MSG_R *)xtUML_detect_empty_handle( msg_r, "MSG_R", "msg_r.Descrip" ))->Descrip );
       /* ASSIGN columns[2] = description */
       columns[2] = Escher_strcpy( columns[2], description );
       /* ASSIGN columns[1] = name */
@@ -2193,7 +2406,7 @@ docgen_docgen_interaction_participants( docgen_DOC_SEC * p_doc_sec, docgen_EP_PK
       /* ASSIGN columns[0] = ReturnMessage.gif */
       columns[0] = Escher_strcpy( columns[0], "ReturnMessage.gif" );
       /* ASSIGN doc_row2 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row1) */
-      doc_row2 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row1);
+      doc_row2 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row1);
       /* ASSIGN doc_row1 = doc_row2 */
       doc_row1 = doc_row2;
     }}}
@@ -2225,13 +2438,13 @@ docgen_docgen_interfaces( Escher_ObjectSet_s * p_c_is, docgen_DOC_SEC * p_doc_se
     c_i = iic_i; {
     docgen_C_EP * c_ep=0;docgen_DOC_ROW * doc_row;c_t * columns[4]={0,0,0,0};c_t * format[4]={0,0,0,0};docgen_DOC_TBL * doc_tbl;docgen_DOC_PAR * doc_par2;docgen_DOC_PAR * doc_par1;docgen_DOC_SEC * doc_sec1;Escher_ObjectSet_s c_eps_space={0}; Escher_ObjectSet_s * c_eps = &c_eps_space;
     /* ASSIGN doc_sec1 = DOC_SEC::populate(parent_doc_sec:PARAM.doc_sec, subtitle:Interface, title:c_i.Name) */
-    doc_sec1 = docgen_DOC_SEC_op_populate(p_doc_sec, "Interface", c_i->Name);
+    doc_sec1 = docgen_DOC_SEC_op_populate(p_doc_sec, "Interface", ((docgen_C_I *)xtUML_detect_empty_handle( c_i, "C_I", "c_i.Name" ))->Name);
     /* ASSIGN doc_par1 = DOC_PAR::populate(doc_sec:doc_sec1, predecessor:empty_doc_par, text:c_i.Descrip) */
-    doc_par1 = docgen_DOC_PAR_op_populate(doc_sec1, empty_doc_par, c_i->Descrip);
+    doc_par1 = docgen_DOC_PAR_op_populate(doc_sec1, empty_doc_par, ((docgen_C_I *)xtUML_detect_empty_handle( c_i, "C_I", "c_i.Descrip" ))->Descrip);
     /* ASSIGN doc_par2 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par1, text:) */
     doc_par2 = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par1, "");
     /* ASSIGN doc_tbl = DOC_TBL::populate(doc_par:doc_par2, num_cols:4, title:( ( c_i.Name +   ) + Messages )) */
-    doc_tbl = docgen_DOC_TBL_op_populate(doc_par2, 4, Escher_stradd( Escher_stradd( c_i->Name, " " ), "Messages" ));
+    doc_tbl = docgen_DOC_TBL_op_populate(doc_par2, 4, ( Escher_stradd( ( Escher_stradd( ((docgen_C_I *)xtUML_detect_empty_handle( c_i, "C_I", "c_i.Name" ))->Name, " " ) ), "Messages" ) ));
     /* ASSIGN format[3] = text */
     format[3] = Escher_strcpy( format[3], "text" );
     /* ASSIGN format[2] = text */
@@ -2249,7 +2462,7 @@ docgen_docgen_interfaces( Escher_ObjectSet_s * p_c_is, docgen_DOC_SEC * p_doc_se
     /* ASSIGN columns[0] = Message.gif */
     columns[0] = Escher_strcpy( columns[0], "Message.gif" );
     /* ASSIGN doc_row = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:empty_doc_row) */
-    doc_row = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, empty_doc_row);
+    doc_row = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, empty_doc_row);
     /* RELATE doc_row TO doc_tbl ACROSS R2317 */
     docgen_DOC_ROW_R2317_Link_has_first( doc_tbl, doc_row );
     /* ASSIGN columns[0] = SendSignal.gif */
@@ -2273,9 +2486,9 @@ docgen_docgen_interfaces( Escher_ObjectSet_s * p_c_is, docgen_DOC_SEC * p_doc_se
       if ( ( 0 != c_as ) ) {
         docgen_DOC_ROW * doc_row1;
         /* ASSIGN columns[3] = c_as.Descrip */
-        columns[3] = Escher_strcpy( columns[3], c_as->Descrip );
-        /* IF ( ( ClientServer == c_as.Direction ) ) */
-        if ( ( docgen_IFDirectionType_ClientServer_e == c_as->Direction ) ) {
+        columns[3] = Escher_strcpy( columns[3], ((docgen_C_AS *)xtUML_detect_empty_handle( c_as, "C_AS", "c_as.Descrip" ))->Descrip );
+        /* IF ( ClientServer == c_as.Direction ) */
+        if ( docgen_IFDirectionType_ClientServer_e == ((docgen_C_AS *)xtUML_detect_empty_handle( c_as, "C_AS", "c_as.Direction" ))->Direction ) {
           /* ASSIGN columns[2] = Client to Server (Requirer to Provider) */
           columns[2] = Escher_strcpy( columns[2], "Client to Server (Requirer to Provider)" );
         }
@@ -2284,9 +2497,9 @@ docgen_docgen_interfaces( Escher_ObjectSet_s * p_c_is, docgen_DOC_SEC * p_doc_se
           columns[2] = Escher_strcpy( columns[2], "Server to Client (Provider to Requirer)" );
         }
         /* ASSIGN columns[1] = c_as.Name */
-        columns[1] = Escher_strcpy( columns[1], c_as->Name );
+        columns[1] = Escher_strcpy( columns[1], ((docgen_C_AS *)xtUML_detect_empty_handle( c_as, "C_AS", "c_as.Name" ))->Name );
         /* ASSIGN doc_row1 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row) */
-        doc_row1 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row);
+        doc_row1 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row);
         /* ASSIGN doc_row = doc_row1 */
         doc_row = doc_row1;
       }
@@ -2307,9 +2520,9 @@ docgen_docgen_interfaces( Escher_ObjectSet_s * p_c_is, docgen_DOC_SEC * p_doc_se
       if ( ( 0 != c_io ) ) {
         docgen_DOC_ROW * doc_row1;
         /* ASSIGN columns[3] = c_io.Descrip */
-        columns[3] = Escher_strcpy( columns[3], c_io->Descrip );
-        /* IF ( ( ClientServer == c_io.Direction ) ) */
-        if ( ( docgen_IFDirectionType_ClientServer_e == c_io->Direction ) ) {
+        columns[3] = Escher_strcpy( columns[3], ((docgen_C_IO *)xtUML_detect_empty_handle( c_io, "C_IO", "c_io.Descrip" ))->Descrip );
+        /* IF ( ClientServer == c_io.Direction ) */
+        if ( docgen_IFDirectionType_ClientServer_e == ((docgen_C_IO *)xtUML_detect_empty_handle( c_io, "C_IO", "c_io.Direction" ))->Direction ) {
           /* ASSIGN columns[2] = Client to Server (Requirer to Provider) */
           columns[2] = Escher_strcpy( columns[2], "Client to Server (Requirer to Provider)" );
         }
@@ -2318,9 +2531,9 @@ docgen_docgen_interfaces( Escher_ObjectSet_s * p_c_is, docgen_DOC_SEC * p_doc_se
           columns[2] = Escher_strcpy( columns[2], "Server to Client (Provider to Requirer )" );
         }
         /* ASSIGN columns[1] = c_io.Name */
-        columns[1] = Escher_strcpy( columns[1], c_io->Name );
+        columns[1] = Escher_strcpy( columns[1], ((docgen_C_IO *)xtUML_detect_empty_handle( c_io, "C_IO", "c_io.Name" ))->Name );
         /* ASSIGN doc_row1 = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:doc_row) */
-        doc_row1 = docgen_DOC_ROW_op_populate(columns, doc_tbl->num_cols, format, doc_row);
+        doc_row1 = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, doc_row);
         /* ASSIGN doc_row = doc_row1 */
         doc_row = doc_row1;
       }
@@ -2340,7 +2553,7 @@ docgen_docgen_load_project()
   /* ASSIGN inputModelName = DocGenTest */
   inputModelName = Escher_strcpy( inputModelName, "DocGenTest" );
   /* LOG::LogInfo( message:( Populating metamodel with:  + inputModelName ) ) */
-  LOG_LogInfo( Escher_stradd( "Populating metamodel with: ", inputModelName ) );
+  LOG_LogInfo( ( Escher_stradd( "Populating metamodel with: ", inputModelName ) ) );
   /* POP::populate( project:inputModelName ) */
   POP_populate( inputModelName );
   /* LOG::LogInfo( message:Model to model transformation... ) */
@@ -2370,17 +2583,30 @@ docgen_docgen_packages( docgen_DOC_SEC * p_doc_sec, Escher_ObjectSet_s * p_ep_pk
   Escher_IteratorReset( &iterep_pkg, ep_pkgs );
   while ( (iiep_pkg = (docgen_EP_PKG *)Escher_IteratorNext( &iterep_pkg )) != 0 ) {
     ep_pkg = iiep_pkg; {
-    docgen_DOC_FIG * doc_fig1;c_t * image_name=0;docgen_DOC_PAR * doc_par;docgen_DOC_SEC * doc_sec;Escher_ObjectSet_s child_ep_pkgs_space={0}; Escher_ObjectSet_s * child_ep_pkgs = &child_ep_pkgs_space;Escher_ObjectSet_s c_is_space={0}; Escher_ObjectSet_s * c_is = &c_is_space;Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;
+    docgen_DOC_FIG * doc_fig1;c_t * image_name=0;docgen_DOC_PAR * doc_par;docgen_DOC_SEC * doc_sec;Escher_ObjectSet_s child_ep_pkgs_space={0}; Escher_ObjectSet_s * child_ep_pkgs = &child_ep_pkgs_space;Escher_ObjectSet_s c_is_space={0}; Escher_ObjectSet_s * c_is = &c_is_space;Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;Escher_ObjectSet_s d_depls_space={0}; Escher_ObjectSet_s * d_depls = &d_depls_space;
     /* LOG::LogInfo( message:( processing package  + ep_pkg.Name ) ) */
-    LOG_LogInfo( Escher_stradd( "processing package ", ep_pkg->Name ) );
+    LOG_LogInfo( ( Escher_stradd( "processing package ", ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Name" ))->Name ) ) );
     /* ASSIGN doc_sec = DOC_SEC::populate(parent_doc_sec:parent_doc_sec, subtitle:Package, title:ep_pkg.Name) */
-    doc_sec = docgen_DOC_SEC_op_populate(parent_doc_sec, "Package", ep_pkg->Name);
+    doc_sec = docgen_DOC_SEC_op_populate(parent_doc_sec, "Package", ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Name" ))->Name);
     /* ASSIGN doc_par = DOC_PAR::populate(doc_sec:doc_sec, predecessor:empty_doc_par, text:ep_pkg.Descrip) */
-    doc_par = docgen_DOC_PAR_op_populate(doc_sec, empty_doc_par, ep_pkg->Descrip);
+    doc_par = docgen_DOC_PAR_op_populate(doc_sec, empty_doc_par, ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Descrip" ))->Descrip);
     /* ASSIGN image_name = ::getContainerListForEP_PKG(container_list:Package Diagram, epk:ep_pkg) */
     image_name = Escher_strcpy( image_name, docgen_getContainerListForEP_PKG( "Package Diagram", ep_pkg ) );
     /* ASSIGN doc_fig1 = DOC_FIG::populate(doc_par:doc_par, image_target:image_name, title:( ep_pkg.Name +  Package Diagram )) */
-    doc_fig1 = docgen_DOC_FIG_op_populate(doc_par, image_name, Escher_stradd( ep_pkg->Name, " Package Diagram" ));
+    doc_fig1 = docgen_DOC_FIG_op_populate(doc_par, image_name, ( Escher_stradd( ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Name" ))->Name, " Package Diagram" ) ));
+    /* SELECT many d_depls RELATED BY ep_pkg->PE_PE[R8000]->D_DEPL[R8001] */
+    Escher_ClearSet( d_depls );
+    {    if ( 0 != ep_pkg ) {
+    docgen_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s iPE_PE_R8000_contains;
+    Escher_IteratorReset( &iPE_PE_R8000_contains, &ep_pkg->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (docgen_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
+    if ( ( 0 != PE_PE_R8000_contains ) && ( docgen_D_DEPL_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )    {docgen_D_DEPL * R8001_subtype = PE_PE_R8000_contains->R8001_subtype;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) d_depls, R8001_subtype ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) d_depls, R8001_subtype );
+    }}}}}
+    /* ::docgen_deployments( d_depls:d_depls, doc_sec:doc_sec ) */
+    docgen_docgen_deployments( d_depls, doc_sec );
     /* SELECT many c_cs RELATED BY ep_pkg->PE_PE[R8000]->C_C[R8001] */
     Escher_ClearSet( c_cs );
     {    if ( 0 != ep_pkg ) {
@@ -2436,13 +2662,13 @@ docgen_docgen_packages( docgen_DOC_SEC * p_doc_sec, Escher_ObjectSet_s * p_ep_pk
     if ( ( ! Escher_SetIsEmpty( child_ep_pkgs ) ) ) {
       docgen_DOC_PAR * doc_par1;docgen_DOC_SEC * doc_sec1;
       /* ASSIGN doc_sec1 = DOC_SEC::populate(parent_doc_sec:doc_sec, subtitle:, title:( ep_pkg.Name +  Packages )) */
-      doc_sec1 = docgen_DOC_SEC_op_populate(doc_sec, "", Escher_stradd( ep_pkg->Name, " Packages" ));
+      doc_sec1 = docgen_DOC_SEC_op_populate(doc_sec, "", ( Escher_stradd( ((docgen_EP_PKG *)xtUML_detect_empty_handle( ep_pkg, "EP_PKG", "ep_pkg.Name" ))->Name, " Packages" ) ));
       /* ASSIGN doc_par1 = DOC_PAR::populate(doc_sec:doc_sec1, predecessor:empty_doc_par, text:Rendered here are the contained package diagrams.) */
       doc_par1 = docgen_DOC_PAR_op_populate(doc_sec1, empty_doc_par, "Rendered here are the contained package diagrams.");
       /* ::docgen_packages( doc_sec:doc_sec1, ep_pkgs:child_ep_pkgs ) */
       docgen_docgen_packages( doc_sec1, child_ep_pkgs );
     }
-    Escher_ClearSet( child_ep_pkgs ); Escher_ClearSet( c_is ); Escher_ClearSet( c_cs ); 
+    Escher_ClearSet( child_ep_pkgs ); Escher_ClearSet( c_is ); Escher_ClearSet( c_cs ); Escher_ClearSet( d_depls ); 
   }}}
   Escher_ClearSet( ep_pkgs );
 }
@@ -2459,21 +2685,21 @@ docgen_docgen_system()
   /* CREATE OBJECT INSTANCE doc_doc OF DOC_DOC */
   doc_doc = (docgen_DOC_DOC *) Escher_CreateInstance( docgen_DOMAIN_ID, docgen_DOC_DOC_CLASS_NUMBER );
   /* ASSIGN doc_doc.title = BridgePoint xtUML Generated Documentation */
-  doc_doc->title = Escher_strcpy( doc_doc->title, "BridgePoint xtUML Generated Documentation" );
+  ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.title" ))->title = Escher_strcpy( ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.title" ))->title, "BridgePoint xtUML Generated Documentation" );
   /* ASSIGN doc_doc.subtitle =  */
-  doc_doc->subtitle = Escher_strcpy( doc_doc->subtitle, "" );
+  ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.subtitle" ))->subtitle = Escher_strcpy( ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.subtitle" ))->subtitle, "" );
   /* ASSIGN doc_doc.author = xtUML.org */
-  doc_doc->author = Escher_strcpy( doc_doc->author, "xtUML.org" );
+  ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.author" ))->author = Escher_strcpy( ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.author" ))->author, "xtUML.org" );
   /* ASSIGN doc_doc.font_family = Arial */
-  doc_doc->font_family = Escher_strcpy( doc_doc->font_family, "Arial" );
+  ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.font_family" ))->font_family = Escher_strcpy( ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.font_family" ))->font_family, "Arial" );
   /* ASSIGN doc_doc.company = xtUML.org */
-  doc_doc->company = Escher_strcpy( doc_doc->company, "xtUML.org" );
+  ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.company" ))->company = Escher_strcpy( ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.company" ))->company, "xtUML.org" );
   /* ASSIGN doc_doc.copyright =  */
-  doc_doc->copyright = Escher_strcpy( doc_doc->copyright, "" );
+  ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.copyright" ))->copyright = Escher_strcpy( ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.copyright" ))->copyright, "" );
   /* ASSIGN doc_doc.filename = doc.xml */
-  doc_doc->filename = Escher_strcpy( doc_doc->filename, "doc.xml" );
+  ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.filename" ))->filename = Escher_strcpy( ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.filename" ))->filename, "doc.xml" );
   /* ASSIGN doc_doc.model_image_ext = .png */
-  doc_doc->model_image_ext = Escher_strcpy( doc_doc->model_image_ext, ".png" );
+  ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.model_image_ext" ))->model_image_ext = Escher_strcpy( ((docgen_DOC_DOC *)xtUML_detect_empty_handle( doc_doc, "DOC_DOC", "doc_doc.model_image_ext" ))->model_image_ext, ".png" );
   /* SELECT any empty_doc_sec FROM INSTANCES OF DOC_SEC WHERE FALSE */
   empty_doc_sec = 0;
   /* SELECT any empty_doc_par FROM INSTANCES OF DOC_PAR WHERE FALSE */
@@ -2492,11 +2718,11 @@ docgen_docgen_system()
     s_sys = iis_sys; {
     docgen_DOC_SEC * predecessor;docgen_DOC_SEC * parent;docgen_DOC_PAR * fig_doc_par;docgen_DOC_PAR * doc_par;docgen_DOC_SEC * doc_sec;Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
     /* LOG::LogInfo( message:( Processing system  + s_sys.Name ) ) */
-    LOG_LogInfo( Escher_stradd( "Processing system ", s_sys->Name ) );
+    LOG_LogInfo( ( Escher_stradd( "Processing system ", ((docgen_S_SYS *)xtUML_detect_empty_handle( s_sys, "S_SYS", "s_sys.Name" ))->Name ) ) );
     /* ASSIGN doc_sec = DOC_SEC::populate(parent_doc_sec:empty_doc_sec, subtitle:Generated Documentation, title:s_sys.Name) */
-    doc_sec = docgen_DOC_SEC_op_populate(empty_doc_sec, "Generated Documentation", s_sys->Name);
-    /* IF ( ( prev_system_doc_sec == empty_doc_sec ) ) */
-    if ( ( prev_system_doc_sec == empty_doc_sec ) ) {
+    doc_sec = docgen_DOC_SEC_op_populate(empty_doc_sec, "Generated Documentation", ((docgen_S_SYS *)xtUML_detect_empty_handle( s_sys, "S_SYS", "s_sys.Name" ))->Name);
+    /* IF ( prev_system_doc_sec == empty_doc_sec ) */
+    if ( prev_system_doc_sec == empty_doc_sec ) {
       /* RELATE doc_sec TO doc_doc ACROSS R2300 */
       docgen_DOC_SEC_R2300_Link_has_first( doc_doc, doc_sec );
     }
@@ -2507,7 +2733,7 @@ docgen_docgen_system()
     /* ASSIGN prev_system_doc_sec = doc_sec */
     prev_system_doc_sec = doc_sec;
     /* ASSIGN doc_par = DOC_PAR::populate(doc_sec:doc_sec, predecessor:empty_doc_par, text:( ( Please find below generated documentation for the system named  + s_sys.Name ) + . )) */
-    doc_par = docgen_DOC_PAR_op_populate(doc_sec, empty_doc_par, Escher_stradd( Escher_stradd( "Please find below generated documentation for the system named ", s_sys->Name ), "." ));
+    doc_par = docgen_DOC_PAR_op_populate(doc_sec, empty_doc_par, ( Escher_stradd( ( Escher_stradd( "Please find below generated documentation for the system named ", ((docgen_S_SYS *)xtUML_detect_empty_handle( s_sys, "S_SYS", "s_sys.Name" ))->Name ) ), "." ) ));
     /* ASSIGN fig_doc_par = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par, text:) */
     fig_doc_par = docgen_DOC_PAR_op_populate(empty_doc_sec, doc_par, "");
     /* ASSIGN parent = doc_sec */
@@ -2550,11 +2776,11 @@ docgen_getContainerListForC_C( docgen_C_C * p_comp, c_t * p_container_list )
   /* ASSIGN comp = PARAM.comp */
   comp = p_comp;
   /* ASSIGN list = comp.Name */
-  list = Escher_strcpy( list, comp->Name );
-  /* IF ( (  != PARAM.container_list ) ) */
-  if ( ( Escher_strcmp( "", p_container_list ) != 0 ) ) {
+  list = Escher_strcpy( list, ((docgen_C_C *)xtUML_detect_empty_handle( comp, "C_C", "comp.Name" ))->Name );
+  /* IF (  != PARAM.container_list ) */
+  if ( Escher_strcmp( "", p_container_list ) != 0 ) {
     /* ASSIGN list = ( ( list + - ) + PARAM.container_list ) */
-    list = Escher_strcpy( list, Escher_stradd( Escher_stradd( list, "-" ), p_container_list ) );
+    list = Escher_strcpy( list, ( Escher_stradd( ( Escher_stradd( list, "-" ) ), p_container_list ) ) );
   }
   /* SELECT one c_c RELATED BY comp->PE_PE[R8001]->C_C[R8003] */
   c_c = 0;
@@ -2594,11 +2820,11 @@ docgen_getContainerListForEP_PKG( c_t * p_container_list, docgen_EP_PKG * p_epk 
   /* ASSIGN epk = PARAM.epk */
   epk = p_epk;
   /* ASSIGN list = epk.Name */
-  list = Escher_strcpy( list, epk->Name );
-  /* IF ( ( PARAM.container_list !=  ) ) */
-  if ( ( Escher_strcmp( p_container_list, "" ) != 0 ) ) {
+  list = Escher_strcpy( list, ((docgen_EP_PKG *)xtUML_detect_empty_handle( epk, "EP_PKG", "epk.Name" ))->Name );
+  /* IF ( PARAM.container_list !=  ) */
+  if ( Escher_strcmp( p_container_list, "" ) != 0 ) {
     /* ASSIGN list = ( ( list + - ) + PARAM.container_list ) */
-    list = Escher_strcpy( list, Escher_stradd( Escher_stradd( list, "-" ), p_container_list ) );
+    list = Escher_strcpy( list, ( Escher_stradd( ( Escher_stradd( list, "-" ) ), p_container_list ) ) );
   }
   /* SELECT one system RELATED BY epk->S_SYS[R1401] */
   system = ( 0 != epk ) ? epk->S_SYS_R1401_directly_contained_under : 0;
@@ -2644,11 +2870,11 @@ docgen_getContainerListForS_SYS( c_t * p_container_list, docgen_S_SYS * p_sys )
   /* ASSIGN sys = PARAM.sys */
   sys = p_sys;
   /* ASSIGN list = sys.Name */
-  list = Escher_strcpy( list, sys->Name );
-  /* IF ( (  != PARAM.container_list ) ) */
-  if ( ( Escher_strcmp( "", p_container_list ) != 0 ) ) {
+  list = Escher_strcpy( list, ((docgen_S_SYS *)xtUML_detect_empty_handle( sys, "S_SYS", "sys.Name" ))->Name );
+  /* IF (  != PARAM.container_list ) */
+  if ( Escher_strcmp( "", p_container_list ) != 0 ) {
     /* ASSIGN list = ( ( list + - ) + PARAM.container_list ) */
-    list = Escher_strcpy( list, Escher_stradd( Escher_stradd( list, "-" ), p_container_list ) );
+    list = Escher_strcpy( list, ( Escher_stradd( ( Escher_stradd( list, "-" ) ), p_container_list ) ) );
   }
   /* RETURN list */
   {c_t * xtumlOALrv = list;
@@ -2721,6 +2947,10 @@ Escher_idf docgen_instance_dumpers[ docgen_MAX_CLASS_NUMBERS ] = {
   docgen_CNST_LFSC_instancedumper,
   docgen_CNST_LSC_instancedumper,
   docgen_S_ENUM_instancedumper,
+  docgen_D_DEPL_instancedumper,
+  docgen_D_TERM_instancedumper,
+  docgen_D_TSVC_instancedumper,
+  docgen_D_TSPARM_instancedumper,
   docgen_S_SYNC_instancedumper,
   docgen_S_SPARM_instancedumper,
   docgen_S_SYS_instancedumper,
@@ -3010,6 +3240,10 @@ Escher_Extent_t * const docgen_class_info[ docgen_MAX_CLASS_NUMBERS ] = {
   &pG_docgen_CNST_LFSC_extent,
   &pG_docgen_CNST_LSC_extent,
   &pG_docgen_S_ENUM_extent,
+  &pG_docgen_D_DEPL_extent,
+  &pG_docgen_D_TERM_extent,
+  &pG_docgen_D_TSVC_extent,
+  &pG_docgen_D_TSPARM_extent,
   &pG_docgen_S_SYNC_extent,
   &pG_docgen_S_SPARM_extent,
   &pG_docgen_S_SYS_extent,
