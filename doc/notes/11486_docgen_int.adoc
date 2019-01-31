@@ -61,6 +61,30 @@ This is removed.
 
 == Unit Test
 
+=== MicrowaveOven
+
+. Import MicrowaveOven example model.
+. Using the project context menu Create Documentation.
+. *Result:*  See a well formed HTML document and no errors in the console.
+
+=== GPS Watch _Before_
+
+. Import GPS Watch (OAL) example model.
+. Using the project context menu Create Documentation.
+. *Result:*  See a well formed HTML document and no errors in the console.
+
+=== GPS Watch _After_ with a Deployment
+
+. Import GPS Watch (OAL) example model.
+. In the GPS_Watch project, add a top-level package (p).
+. In p, add a Deployment (d).
+. Import terminator services onto d from HeartRateMonitor, Location,
+  Tracking and UI.
+. Using the project context menu Create Documentation.
+. *Result:*  See a well formed HTML document and no errors in the console.
+. *Result:*  Verify that the Deployment and Terminators are included in
+  the output HTML.
+
 == User Documentation
 
 no changes necessary
