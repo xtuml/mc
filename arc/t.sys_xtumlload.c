@@ -60,7 +60,7 @@ static void Escher_load_instance(
     static bool clean = true;
     if ( clean ) {
       /* Report an unrecognized record only once.  */
-      fprintf( stderr, "warning:  unrecognized class key letters:  %s\n" wordvalues[ 0 ] );
+      fprintf( stderr, "warning:  unrecognized class key letters:  %s\n", wordvalues[ 0 ] );
       clean = false;
     }
   }
