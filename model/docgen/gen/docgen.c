@@ -1427,7 +1427,7 @@ docgen_docgen_deployments( Escher_ObjectSet_s * p_d_depls, docgen_DOC_SEC * p_do
       /* ASSIGN columns[1] = Name */
       columns[1] = Escher_strcpy( columns[1], "Name" );
       /* ASSIGN columns[0] =  */
-      columns[0] = Escher_strcpy( columns[0], "" );
+      columns[0] = Escher_strcpy( columns[0], "Terminator.gif" );
       /* ASSIGN doc_row = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:empty_doc_row) */
       doc_row = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, empty_doc_row);
       /* RELATE doc_row TO doc_tbl ACROSS R2317 */
@@ -1481,7 +1481,7 @@ docgen_docgen_deployments( Escher_ObjectSet_s * p_d_depls, docgen_DOC_SEC * p_do
         /* ASSIGN columns[1] = Name */
         columns[1] = Escher_strcpy( columns[1], "Name" );
         /* ASSIGN columns[0] =  */
-        columns[0] = Escher_strcpy( columns[0], "" );
+        columns[0] = Escher_strcpy( columns[0], "TerminatorService.gif" );
         /* ASSIGN doc_row = DOC_ROW::populate(columns:columns, count:doc_tbl.num_cols, format:format, predecessor:empty_doc_row) */
         doc_row = docgen_DOC_ROW_op_populate(columns, ((docgen_DOC_TBL *)xtUML_detect_empty_handle( doc_tbl, "DOC_TBL", "doc_tbl.num_cols" ))->num_cols, format, empty_doc_row);
         /* RELATE doc_row TO doc_tbl ACROSS R2317 */

@@ -1734,7 +1734,7 @@ for each d_depl in d_depls
     columns[ 3 ] = "Terminator_Name";
     columns[ 2 ] = "Domain_Name";
     columns[ 1 ] = "Name";
-    columns[ 0 ] = "";
+    columns[ 0 ] = "Terminator.gif";
     doc_row = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:empty_doc_row );
     relate doc_row to doc_tbl across R2317;
     for each d_term in d_terms
@@ -1761,7 +1761,7 @@ for each d_depl in d_depls
       format[ 1 ] = "text";
       format[ 0 ] = "image";
       columns[ 1 ] = "Name";
-      columns[ 0 ] = "";
+      columns[ 0 ] = "TerminatorService.gif";
       doc_row = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:empty_doc_row );
       relate doc_row to doc_tbl across R2317;
       
