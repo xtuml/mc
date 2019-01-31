@@ -67,19 +67,14 @@ This is removed.
 . Using the project context menu Create Documentation.
 . *Result:*  See a well formed HTML document and no errors in the console.
 
-=== GPS Watch _Before_
+=== MicrowaveOven with a Deployment
 
-. Import GPS Watch (OAL) example model.
-. Using the project context menu Create Documentation.
-. *Result:*  See a well formed HTML document and no errors in the console.
-
-=== GPS Watch _After_ with a Deployment
-
-. Import GPS Watch (OAL) example model.
-. In the GPS_Watch project, add a top-level package (p).
+. Import GPS_Watch (OAL) example model into the workspace.
+. Return to  MicrowaveOven example model.
+. In the project settings, turn on IPRs.
+. Add a top-level package (p).
 . In p, add a Deployment (d).
-. Import terminator services onto d from HeartRateMonitor, Location,
-  Tracking and UI.
+. Import terminator services onto d from UI.
 . Using the project context menu Create Documentation.
 . *Result:*  See a well formed HTML document and no errors in the console.
 . *Result:*  Verify that the Deployment and Terminators are included in
