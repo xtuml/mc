@@ -617,6 +617,10 @@ for each ep_pkg in ep_pkgs
   image_name = ::getContainerListForEP_PKG(epk:ep_pkg, container_list:"Package Diagram");
   doc_fig1 = DOC_FIG::populate( title:ep_pkg.Name + " Package Diagram", image_target:image_name, doc_par:doc_par );
 
+  // deployments
+  select many d_depls related by ep_pkg->PE_PE[R8000]->D_DEPL[R8001];
+  ::docgen_deployments(d_depls:d_depls, doc_sec:doc_sec);
+
   // List the contained components in this package
   select many c_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001];
   ::docgen_components(c_cs:c_cs, doc_sec:doc_sec);
@@ -1695,6 +1699,145 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("f07b40e9-29e0-4d2c-9006-a487fa54f9ca",
+	1,
+	"480a9a3c-fc95-457c-9892-2a0548c3c7b1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("28b24d4c-e6d5-496c-bafb-8b60b3a7cfb7",
+	"00000000-0000-0000-0000-000000000000",
+	'docgen_deployments',
+	'',
+	'select any empty_doc_sec from instances of DOC_SEC where ( false );
+select any empty_doc_par from instances of DOC_PAR where ( false );
+select any empty_doc_row from instances of DOC_ROW where ( false );
+
+d_depls = param.d_depls;
+for each d_depl in d_depls
+  // Make this section a child of the parent package section.
+  doc_sec1 = DOC_SEC::populate( title:d_depl.Name, subtitle:"Deployment", parent_doc_sec:param.doc_sec );
+  doc_par1 = DOC_PAR::populate( text:d_depl.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec1 );
+  
+  // terminators
+  select many d_terms related by d_depl->D_TERM[R1650];
+  if ( not_empty d_terms )
+
+    doc_par2 = DOC_PAR::populate( text:"", predecessor:doc_par1, doc_sec:empty_doc_sec );
+    doc_tbl = DOC_TBL::populate( title:d_depl.Name + " " + "Terminators", num_cols:5, doc_par:doc_par2 );
+    // Add a header row to the table.
+    format[ 4 ] = "text";
+    format[ 3 ] = "text";
+    format[ 2 ] = "text";
+    format[ 1 ] = "text";
+    format[ 0 ] = "image";
+    columns[ 4 ] = "Prov/Req";
+    columns[ 3 ] = "Terminator_Name";
+    columns[ 2 ] = "Domain_Name";
+    columns[ 1 ] = "Name";
+    columns[ 0 ] = "Terminator.gif";
+    doc_row = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:empty_doc_row );
+    relate doc_row to doc_tbl across R2317;
+    for each d_term in d_terms
+      columns[ 3 ] = d_term.Terminator_Name;
+      columns[ 2 ] = d_term.Domain_Name;
+      columns[ 1 ] = d_term.Name;
+      if ( d_term.Provider )
+        columns[ 4 ] = "provided";
+        columns[ 0 ] = "ProvidedTerminator.gif";
+      else
+        columns[ 4 ] = "required";
+        columns[ 0 ] = "Terminator.gif";
+      end if;
+      doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row );
+      doc_row = doc_row1;
+    end for;
+
+    // signature for each terminator service
+    for each d_term in d_terms
+
+      doc_par2 = DOC_PAR::populate( text:"", predecessor:doc_par2, doc_sec:empty_doc_sec );
+      doc_tbl = DOC_TBL::populate( title:d_term.Name + " " + "Terminator Services", num_cols:2, doc_par:doc_par2 );
+      // Add a header row to the table.
+      format[ 1 ] = "text";
+      format[ 0 ] = "image";
+      columns[ 1 ] = "Name";
+      columns[ 0 ] = "TerminatorService.gif";
+      doc_row = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:empty_doc_row );
+      relate doc_row to doc_tbl across R2317;
+      
+      if ( d_term.Provider )
+        columns[ 0 ] = "ProvidedTerminatorService.gif";
+      else
+        columns[ 0 ] = "TerminatorService.gif";
+      end if;
+      select many d_tsvcs related by d_term->D_TSVC[R1651];
+      for each d_tsvc in d_tsvcs
+        columns[ 1 ] = d_tsvc.Name + "(";
+        select many d_tsparms related by d_tsvc->D_TSPARM[R1652];
+        delimiter = "";
+        for each d_tsparm in d_tsparms
+          columns[ 1 ] = columns[ 1 ] + delimiter + d_tsparm.Name;
+          delimiter = ", ";
+        end for;
+        columns[ 1 ] = columns[ 1 ] + ") : ";
+        select one s_dt related by d_tsvc->S_DT[R1656];
+        columns[ 1 ] = columns[ 1 ] + s_dt.Name;
+
+        doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row );
+        doc_row = doc_row1;
+      end for;
+
+    end for;
+
+    // action language body for each terminator service
+    doc_sec2 = DOC_SEC::populate( title:"Terminator Service Activities", subtitle:"", parent_doc_sec:doc_sec1 );
+    for each d_term in d_terms
+      select many d_tsvcs related by d_term->D_TSVC[R1651];
+      for each d_tsvc in d_tsvcs
+        if ( ( "" != d_tsvc.Action_Semantics_internal ) or ( "" != d_tsvc.Descrip ) )
+          doc_sec3 = DOC_SEC::populate( title:d_tsvc.Name, subtitle:"", parent_doc_sec:doc_sec2 );
+          doc_par2 = DOC_PAR::populate( text:d_tsvc.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec3 );
+          doc_par3 = DOC_PAR::populate( text:d_tsvc.Action_Semantics_internal, predecessor:doc_par2, doc_sec:empty_doc_sec );
+          doc_par3.formatted = false;
+        end if;
+      end for;
+    end for;
+
+  end if;
+  
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("2ca622c7-f17d-4d90-b0d4-9f84e3babe32",
+	"28b24d4c-e6d5-496c-bafb-8b60b3a7cfb7",
+	'd_depls',
+	"50c73587-c41b-4b83-a659-320537f9dba1",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("50c73587-c41b-4b83-a659-320537f9dba1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Deployment>',
+	'',
+	'',
+	'../../../../mcooa/models/mcooa/ooaofooa/Deployment/Deployment.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("8ecdc53b-c5b8-4dcf-b582-b483a1f1e4f4",
+	"28b24d4c-e6d5-496c-bafb-8b60b3a7cfb7",
+	'doc_sec',
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
+	0,
+	'',
+	"2ca622c7-f17d-4d90-b0d4-9f84e3babe32",
+	'');
+INSERT INTO PE_PE
+	VALUES ("28b24d4c-e6d5-496c-bafb-8b60b3a7cfb7",
 	1,
 	"480a9a3c-fc95-457c-9892-2a0548c3c7b1",
 	"00000000-0000-0000-0000-000000000000",
