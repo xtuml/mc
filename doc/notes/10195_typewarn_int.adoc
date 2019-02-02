@@ -13,30 +13,32 @@ manages MASL-specific data types.
 == Introduction and Background
 
 When Raven was originally developed, MC-3020 was not able to process
-UUIDs and 128 integers.  Now, MC-302 can.  This opens an option for
-linking imported MASL types to BridgePoint more naturally.
+UUIDs and 128 integers; now, MC-302 can.  This opens an option for linking
+imported MASL types to BridgePoint more naturally.
 
 == Requirements
 
-=== Eliminate warning emitted due to unbound types.
+=== Eliminate warnings emitted due to unbound types.
+=== Bind Global types in `m2x`.
 
 == Work Required
 
-=== Detect Unbound Types More Accurately
-First, check if the type is based on 'MASLtype'. If it is, this is a
+=== Detect Unbound Types More Accurately in `x2m`
+First, check if the type is based on 'MASLtype'.  If it is, this is a
 type reference type and should never be qualified with the containing
 domain name.
 
-Second, check if the package is directly off the system. In this case,
+Second, check if the package is directly off the system.  In this case,
 it is assumed that the user understands that the package is not contained
-by a component so it will _not_ be qualified. A special case that is
+by a component, so it will _not_ be qualified.  A special case that is
 important for this check is the 'types' package which contains MASL core
-types and is generated directly off the system. This check prevents types
+types and is generated directly off the system.  This check prevents types
 in this package from ever being qualified.
 
-=== Dump String UUIDs
+=== Instance-Dump String UUIDs
 Now that MC-3020 understands UUIDs both as integers and as strings, dump
-the string version from the instance dumper.
+the string version from the instance dumper.  This allows the xtUML Model
+importer to link types the with no special processing (by IDLINK).
 
 === Link Globals
 === Link Referentials (R114)
@@ -47,6 +49,8 @@ Instead of linking via IDLINK, ...
 == Unit Test
 
 == User Documentation
+
+No documentation are required for this change.
 
 == Code Changes
 
