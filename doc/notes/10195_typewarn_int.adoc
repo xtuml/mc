@@ -13,8 +13,15 @@ manages MASL-specific data types.
 == Introduction and Background
 
 When Raven was originally developed, MC-3020 was not able to process
-UUIDs and 128 integers; now, MC-302 can.  This opens an option for linking
-imported MASL types to BridgePoint more naturally.
+UUIDs and 128 integers; now, MC-3020 can.  This opens an option for
+linking imported MASL types to BridgePoint types more naturally.
+
+A change is introduced in how xtUML native types are introduced in the MASL
+to xtUML conversion.  Background to the present way of working is supplied
+here.  "Global" types (native xtUML core data types) had been created as-needed
+in the masl2xtuml processing.  Identifiers were supplied with patterns that
+could be matched and dumped in a way that BridgePoint proper could load
+them correctly.
 
 == Requirements
 
@@ -38,15 +45,39 @@ in this package from ever being qualified.
 === Instance-Dump String UUIDs
 Now that MC-3020 understands UUIDs both as integers and as strings, dump
 the string version from the instance dumper.  This allows the xtUML Model
-importer to link types the with no special processing (by IDLINK).
+importer to link types with no special processing (e.g. help of IDLINK).
 
-=== Link Globals
+=== Load and Link Globals
+As stated in <<Introduction and Background>>, Global types were supplied
+by `m2x` in a special-purpose manner.  A Better Way is now provided that
+utilizes the existing Globals definition of BridgePoint (`Globals.xtuml`).
+`m2x` now loads the `Globals.xtuml` file containing instance definitions
+of the core data types.  A command line option '-g' is added to `m2x` to
+pass in the path to the globals file.  After being loaded, the types can
+be linked to the model elements appropriately.
+
+An initialization function, `initialize_globals` is introduced to run
+immediately after start-up and loading of the global data types.  This
+routine creates a package for the global types and links the types into it.
+
+CDS NOTE:  it looks like it fails to link in the package correctly leaving
+a PE_PE instance dangling.
+// create a new package for the global types
+create object instance pe_pe of PE_PE;
+create object instance ep_pkg of EP_PKG;
+ep_pkg.Name = "_globals";
+
+
 === Link Referentials (R114)
-Instead of linking via IDLINK, ...
+?? after...
+// resolve referential attribute types
 
 == Implementation Comments
 
 == Unit Test
+
+=== MASL Round Trip
+See `masl_round_trip` report clean results.
 
 == User Documentation
 
@@ -59,7 +90,11 @@ No documentation are required for this change.
 
 ```
  arc/q.sys.populate.arc                                            |   3 +-
+ bin/mac/mcmc                                                      | Bin 1604832 -> 1604832 bytes
  bin/masl2xtuml                                                    |   4 +-
+ bin/mcmc                                                          | Bin 2447320 -> 2447320 bytes
+ bin/win/mcmc.exe                                                  | Bin 1746617 -> 1746746 bytes
+ doc/notes/10195_typewarn_int.adoc                                 | 121 +++++++++++++++++++++++++
  doc/process/templates/int_template.adoc                           |  12 ++-
  mcmc/arlan/o.oal                                                  |   3 +-
  model/escher/gen/ooaofooa.c                                       |  15 ++--
@@ -67,7 +102,7 @@ No documentation are required for this change.
  model/escher/models/escher/mcmc/afun/afun.xtuml                   |   3 +-
  model/maslin/gen/IDLINK_bridge.c                                  | 140 -----------------------------
  model/maslin/gen/domain.mark                                      |   1 +
- model/maslin/gen/masl2xtuml_O_ATTR_class.c                        | 273 --------------------------------------
+ model/maslin/gen/masl2xtuml_O_ATTR_class.c                        | 273 ------------------------------------------
  model/maslin/gen/masl2xtuml_S_UDT_class.c                         | 138 ----------------------------
  model/maslin/gen/sys_user_co.c                                    |  42 +++++++--
  model/maslin/gen/sys_user_co.h                                    |   4 +-
@@ -75,14 +110,11 @@ No documentation are required for this change.
  model/maslin/models/maslin/m2x/m2x.xtuml                          | 176 ++++++------------------------------
  model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml  | 177 +++++++++++++++++++++++-------------
  model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml |  47 +++++-----
- schema/Globals.xtuml                                              | 260 ++++++++++++++++++++++++++++++++++++++
- 18 files changed, 518 insertions(+), 822 deletions(-)
+ schema/Globals.xtuml                                              | 260 ++++++++++++++++++++++++++++++++++++++++++
+ 22 files changed, 639 insertions(+), 822 deletions(-)
 ```
 
 == Document References
-
-In this section, list all the documents that the reader may need to refer to.
-Give the full path to reference a file.
 
 . [[dr-1]] https://support.onefact.net/issues/10195[10195 - MASL exporter emits warnings for core types]
 
