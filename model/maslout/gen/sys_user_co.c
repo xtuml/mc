@@ -83,19 +83,21 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "si:d::p::k::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "i:d:p:ks" ) ) != -1 ) {
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
           else xtuml2masl_model_op_setoption( model, "projectroot", optarg );
           break;
         case 'd':
+          if ( !optarg ) abort();
+          else strncpy( name[ namecount++ ], optarg, 1024 );
           domain = 1;
-          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case 'p':
+          if ( !optarg ) abort();
+          else strncpy( name[ namecount++ ], optarg, 1024 );
           project = 1;
-          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case 's':
           output_activities = FALSE;
