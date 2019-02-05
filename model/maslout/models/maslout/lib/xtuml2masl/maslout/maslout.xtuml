@@ -3250,9 +3250,9 @@ value[1] = "";
 select many d_tsvcs related by d_term->D_TSVC[R1651];
 for each d_tsvc in d_tsvcs
     
-  if ( ActionDialect::none == d_tsvc.Dialect )
-    // A project can skip supplying a terminator service.  A dialect
-    // of ActionDialect::none means no terminator service was provided.
+  if ( ImplementationScope::Domain == d_tsvc.Implementation_Scope )
+    // A project can skip supplying a terminator service.  ''Domain'' scope means
+    // the implementation was provided in the domain implementation
     continue;
   end if;
 
@@ -3272,7 +3272,9 @@ for each d_tsvc in d_tsvcs
   ::type2typeref( s_dt:s_dt, domain_pkg:domain_package );
   
   // Populate the action langauge body.
-  ::body2code_block( name:"", text:STRING::unescapetics(s:d_tsvc.Action_Semantics_internal) );
+  if ( ActionDialect::masl == d_tsvc.Dialect )
+    ::body2code_block( name:"", text:STRING::unescapetics(s:d_tsvc.Action_Semantics_internal) );
+  end if;
 
   // Populate pragmas
   child = d_term.Name + "::" + ::terminatorservice_getsignature( flavor:1, d_tsvc:d_tsvc );

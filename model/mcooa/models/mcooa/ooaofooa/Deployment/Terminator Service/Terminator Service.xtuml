@@ -293,6 +293,34 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("550f4a26-f9a3-4b12-9e24-caabd035c589",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_BATTR
+	VALUES ("550f4a26-f9a3-4b12-9e24-caabd035c589",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ATTR
+	VALUES ("550f4a26-f9a3-4b12-9e24-caabd035c589",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"3dc6a9de-5b48-470f-bf1b-4507d8fff173",
+	'Implementation_Scope',
+	'Full Name: Implementation Scope
+Description: Indicates whether the implementation of a terminator service should be taken from the declaring domain or from the deployment.
+Data Domain: 0=Domain, 1=Deployment',
+	'',
+	'Implementation_Scope',
+	0,
+	"44fb102a-6cc9-4db1-b680-64c0c4efe1f2",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("44fb102a-6cc9-4db1-b680-64c0c4efe1f2",
+	"00000000-0000-0000-0000-000000000000",
+	'ImplementationScope',
+	'Indicates whether the implementation of a terminator service should be taken from the declaring
+domain or from the deployment.',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"a13a4c99-717c-4602-87e7-ae5699c99167");
