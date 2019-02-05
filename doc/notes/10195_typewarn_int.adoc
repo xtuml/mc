@@ -23,6 +23,13 @@ in the masl2xtuml processing.  Identifiers were supplied with patterns that
 could be matched and dumped in a way that BridgePoint proper could load
 them correctly.
 
+This matching was done through the IDLINK EE, however it had not been used
+in lieu of simply basing all MASLtypes on string.  When a new UDT was created
+during MASL processing, IDLINK would categorize the MASL type and link it
+to the closest corresponding BridgePoint type.  Since MC-3020 did not support
+128-bit unique IDs, it used a shortened version which could then be post
+processed at instance dump time or afterwards.
+
 == Requirements
 
 === Eliminate warnings emitted due to unbound types.
@@ -59,6 +66,11 @@ be linked to the model elements appropriately.
 An initialization function, `initialize_globals` is introduced to run
 immediately after start-up and loading of the global data types.  This
 routine creates a package for the global types and links the types into it.
+
+=== Uncleanse
+Issue <<dr-2,11488>> complained of a need for `xtumlmc_build_cleanse_for_BridgePoint`
+in the xtUML-to-MASL conversion flow.  This work obviates the need for
+the cleansing and so the cleanse is removed from the export plugin.
 
 == Implementation Comments
 
@@ -123,6 +135,7 @@ No documentation are required for this change.
 == Document References
 
 . [[dr-1]] https://support.onefact.net/issues/10195[10195 - MASL exporter emits warnings for core types]
+. [[dr-2]] https://support.onefact.net/issues/11488[11488 - MASL project export requires a cleanse]
 
 ---
 
