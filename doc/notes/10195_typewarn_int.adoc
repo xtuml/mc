@@ -60,19 +60,14 @@ An initialization function, `initialize_globals` is introduced to run
 immediately after start-up and loading of the global data types.  This
 routine creates a package for the global types and links the types into it.
 
-CDS NOTE:  it looks like it fails to link in the package correctly leaving
-a PE_PE instance dangling.
-// create a new package for the global types
-create object instance pe_pe of PE_PE;
-create object instance ep_pkg of EP_PKG;
-ep_pkg.Name = "_globals";
-
-
-=== Link Referentials (R114)
-?? after...
-// resolve referential attribute types
-
 == Implementation Comments
+
+=== `getopt`
+There was a bug in the configuration of the options for getopt in the C
+model compiler utitilies.  The argument for an argument was marked optional
+when it should not have been.  This confusion was caused, because the options
+(like -o) were indeed optional.  But when the option is given, the optarg is
+_not_ actually optional.
 
 == Unit Test
 
@@ -85,6 +80,14 @@ No documentation are required for this change.
 
 == Code Changes
 
+- fork/repository:  cortlandstarrett/bridgepoint
+- branch:  10195_typewarn
+
+```
+ src/org.xtuml.bp.x2m/src/org/xtuml/bp/x2m/Xtuml2Masl.java | 36 ------------------------------------
+ 1 file changed, 36 deletions(-)
+```
+
 - fork/repository:  cortlandstarrett/mc
 - branch:  10195_typewarn
 
@@ -94,24 +97,27 @@ No documentation are required for this change.
  bin/masl2xtuml                                                    |   4 +-
  bin/mcmc                                                          | Bin 2447320 -> 2447320 bytes
  bin/win/mcmc.exe                                                  | Bin 1746617 -> 1746746 bytes
- doc/notes/10195_typewarn_int.adoc                                 | 121 +++++++++++++++++++++++++
+ doc/notes/10195_typewarn_int.adoc                                 | 133 +++++++++++++++++++++++++++
  doc/process/templates/int_template.adoc                           |  12 ++-
  mcmc/arlan/o.oal                                                  |   3 +-
  model/escher/gen/ooaofooa.c                                       |  15 ++--
  model/escher/gen/ooaofooa_c_orig                                  |  17 ++--
  model/escher/models/escher/mcmc/afun/afun.xtuml                   |   3 +-
+ model/masl/gen/sys_user_co.c                                      |  16 ++--
  model/maslin/gen/IDLINK_bridge.c                                  | 140 -----------------------------
  model/maslin/gen/domain.mark                                      |   1 +
- model/maslin/gen/masl2xtuml_O_ATTR_class.c                        | 273 ------------------------------------------
+ model/maslin/gen/masl2xtuml_O_ATTR_class.c                        | 273 -----------------------------------------
  model/maslin/gen/masl2xtuml_S_UDT_class.c                         | 138 ----------------------------
  model/maslin/gen/sys_user_co.c                                    |  42 +++++++--
  model/maslin/gen/sys_user_co.h                                    |   4 +-
  model/maslin/models/maslin/lib/masl2xtuml/masl2xtuml.xtuml        |  25 +++++-
  model/maslin/models/maslin/m2x/m2x.xtuml                          | 176 ++++++------------------------------
  model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml  | 177 +++++++++++++++++++++++-------------
+ model/maslout/gen/sys_user_co.c                                   |   8 +-
  model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml |  47 +++++-----
- schema/Globals.xtuml                                              | 260 ++++++++++++++++++++++++++++++++++++++++++
- 22 files changed, 639 insertions(+), 822 deletions(-)
+ schema/Globals.xtuml                                              | 260 +++++++++++++++++++++++++++++++++++++++++
+ 24 files changed, 667 insertions(+), 830 deletions(-)
+
 ```
 
 == Document References

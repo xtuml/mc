@@ -1189,7 +1189,7 @@ if ( empty ooapopulation )
 end if;
 
 // create a new package for the global types
-create object instance pe_pe of PE_PE;
+// leaving the package unconnected since it will get deleted anyway
 create object instance ep_pkg of EP_PKG;
 ep_pkg.Name = "_globals";
 
