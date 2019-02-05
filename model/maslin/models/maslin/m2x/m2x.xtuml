@@ -820,30 +820,6 @@ INSERT INTO DIM_ELE
 	VALUES ("d372fa8a-c263-462d-9761-cb960cb95c0c",
 	0,
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO GD_GE
-	VALUES ("62a0a7db-995a-436a-9f3f-90f965de1741",
-	"4cac2cc5-ca8b-4745-b3e1-7eab4c055d95",
-	"6f8a6a28-2657-4111-b977-e5943b6b79cc",
-	12,
-	0,
-	'maslin::m2x::IDLINK');
-INSERT INTO GD_SHP
-	VALUES ("62a0a7db-995a-436a-9f3f-90f965de1741");
-INSERT INTO GD_NCS
-	VALUES ("62a0a7db-995a-436a-9f3f-90f965de1741");
-INSERT INTO DIM_ND
-	VALUES (208.000000,
-	113.000000,
-	"62a0a7db-995a-436a-9f3f-90f965de1741");
-INSERT INTO DIM_GE
-	VALUES (4679.000000,
-	3247.000000,
-	"62a0a7db-995a-436a-9f3f-90f965de1741",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_ELE
-	VALUES ("62a0a7db-995a-436a-9f3f-90f965de1741",
-	0,
-	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_DIA
 	VALUES ("4cac2cc5-ca8b-4745-b3e1-7eab4c055d95",
 	'',
@@ -1198,142 +1174,42 @@ INSERT INTO PE_PE
 	"1800b076-78da-4923-9981-c067ad8e1b87",
 	"00000000-0000-0000-0000-000000000000",
 	9);
-INSERT INTO S_EE
-	VALUES ("6f8a6a28-2657-4111-b977-e5943b6b79cc",
-	'IDLINK',
-	'',
-	'IDLINK',
+INSERT INTO S_SYNC
+	VALUES ("cfb19f24-1c30-4d46-a273-309bfe471e3e",
 	"00000000-0000-0000-0000-000000000000",
+	'initialize_globals',
 	'',
-	'IDLINK',
-	1);
-INSERT INTO S_BRG
-	VALUES ("522df57b-c599-4ebf-98d8-2a51735cdc4e",
-	"6f8a6a28-2657-4111-b977-e5943b6b79cc",
-	'stitchID',
-	'',
-	0,
+	'// cache the Globals.xtuml core data types
+select any ooapopulation from instances of ooapopulation;
+if ( empty ooapopulation )
+  create object instance ooapopulation of ooapopulation;
+  ooapopulation.processingIdentifier = 0;
+  ooapopulation.processingISM = true;
+  ooapopulation.processingProject = false;
+end if;
+
+// create a new package for the global types
+// leaving the package unconnected since it will get deleted anyway
+create object instance ep_pkg of EP_PKG;
+ep_pkg.Name = "_globals";
+
+select many s_dts from instances of S_DT;
+for each s_dt in s_dts
+  select one s_dt_pe related by s_dt->PE_PE[R8001];
+  relate s_dt_pe to ep_pkg across R8000;
+end for;
+
+ooapopulation.globaltypes_pkg = ep_pkg;',
 	"ba5eda7a-def5-0000-0000-000000000000",
-	'pe_pe = param.pe_pe; s_dt = param.s_dt; s_udt = param.s_udt;
-if ( empty s_dt )
-  select one s_dt related by pe_pe->S_DT[R8001];
-end if;
-if ( empty s_udt )
-  select one s_udt related by s_dt->S_UDT[R17];
-end if;
-if ( "void" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed00";
-elif ( "boolean" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed01";
-elif ( "integer" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed02";
-elif ( "character" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed02";
-elif ( "wcharacter" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed02";
-elif ( "byte" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed02";
-elif ( "long_integer" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed02";
-elif ( "real" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed03";
-elif ( "string" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed04";
-elif ( "wstring" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed04";
-elif ( "date" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed0e";
-elif ( "duration" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed02";
-elif ( "typestamp" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed10";
-elif ( "timer" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed0f";
-elif ( "event" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed0a";
-elif ( "device" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed11";
-elif ( "enum" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed11";
-elif ( "structure" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed11";
-elif ( "instance" == param.name )
-  s = "s_udt.CDT_DT_ID = 0xba5ed11";
-elif ( "MASLtype" == param.name )
-  s = "pe_pe.Element_ID = 0xba5ed11";
-  s = "s_dt.DT_ID = 0xba5ed11";
-  s = "s_udt.DT_ID = 0xba5ed11";
-  s = "s_udt.CDT_DT_ID = 0xba5ed04";
-else
-  // default to MASLtype
-  s = "s_udt.CDT_DT_ID = 0xba5ed11";
-end if;',
 	1,
 	'',
 	0);
-INSERT INTO S_BPARM
-	VALUES ("96544c85-51cb-4947-9c5e-b0185db11dae",
-	"522df57b-c599-4ebf-98d8-2a51735cdc4e",
-	'pe_pe',
-	"e988e223-9ca4-4b6f-a675-001eefe3aa24",
-	0,
-	'',
-	"3ba32201-9223-49b3-ac43-ba68dda240da",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("e988e223-9ca4-4b6f-a675-001eefe3aa24",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Packageable Element>',
-	'',
-	'',
-	'../../../../mcooa/models/mcooa/ooaofooa/Packageable Element/Packageable Element.xtuml');
-INSERT INTO S_BPARM
-	VALUES ("c2804eb2-20e9-49d2-b743-f92dbca646fb",
-	"522df57b-c599-4ebf-98d8-2a51735cdc4e",
-	's_dt',
-	"4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
-	0,
-	'',
-	"96544c85-51cb-4947-9c5e-b0185db11dae",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Data Type>',
-	'',
-	'',
-	'../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
-INSERT INTO S_BPARM
-	VALUES ("3a13d826-dc0d-4c9e-b90b-9b29489db169",
-	"522df57b-c599-4ebf-98d8-2a51735cdc4e",
-	's_udt',
-	"587d8963-4757-4426-bc18-b235bcbd7937",
-	0,
-	'',
-	"c2804eb2-20e9-49d2-b743-f92dbca646fb",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("587d8963-4757-4426-bc18-b235bcbd7937",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<User Data Type>',
-	'',
-	'',
-	'../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
-INSERT INTO S_BPARM
-	VALUES ("3ba32201-9223-49b3-ac43-ba68dda240da",
-	"522df57b-c599-4ebf-98d8-2a51735cdc4e",
-	'name',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
 INSERT INTO PE_PE
-	VALUES ("6f8a6a28-2657-4111-b977-e5943b6b79cc",
+	VALUES ("cfb19f24-1c30-4d46-a273-309bfe471e3e",
 	1,
 	"1800b076-78da-4923-9981-c067ad8e1b87",
 	"00000000-0000-0000-0000-000000000000",
-	5);
+	1);
 INSERT INTO PE_PE
 	VALUES ("1800b076-78da-4923-9981-c067ad8e1b87",
 	1,

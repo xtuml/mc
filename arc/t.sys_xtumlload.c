@@ -57,11 +57,13 @@ static void Escher_load_instance(
     /* Convert/Populate the attribute values.  */
     (*class_string_2_class_number[n].instance_loader)( instance, wordvalues );
   } else {
-    static bool clean = true;
-    if ( clean ) {
-      /* Report an unrecognized record only once.  */
-      fprintf( stderr, "warning:  unrecognized class key letters:  %s\n", wordvalues[ 0 ] );
-      clean = false;
+    if ( !strstr( wordvalues[ 0 ], "_PROXY" ) ) {
+      static bool clean = true;
+      if ( clean ) {
+        /* Report an unrecognized record only once.  */
+        fprintf( stderr, "warning:  unrecognized class key letters:  %s\n", wordvalues[ 0 ] );
+        clean = false;
+      }
     }
   }
 }

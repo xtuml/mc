@@ -113,7 +113,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "vVsi:o:d::p::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "vVsi:o:d:p:" ) ) != -1 ) {
       switch ( c ) {
         case 'v':
           validate = 1; break;
@@ -122,16 +122,22 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
         case 's':
           structuralOnly = TRUE; break;
         case 'i':
-          indirname = optarg; break;
+          if ( !optarg ) abort();
+          else indirname = optarg;
+          break;
         case 'o':
-          outdirname = optarg; break;
+          if ( !optarg ) abort();
+          else outdirname = optarg;
+          break;
         case 'd':
+          if ( !optarg ) abort();
+          else strncpy( name[ namecount++ ], optarg, 1024 );
           projectdomain = "domain";
-          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case 'p':
+          if ( !optarg ) abort();
+          else strncpy( name[ namecount++ ], optarg, 1024 );
           projectdomain = "project";
-          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case '?':
           if ( 'o' == optopt ) {

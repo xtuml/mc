@@ -3001,8 +3001,9 @@ if ( not_empty s_dt )
    // Do not send a void typeref.  No typeref equals void in MASL.
   if ( "void" != s_dt.Name )
     value[0] = s_dt.Name;  // typref is the name of the type
-    // if the type is already qualified with a domain name, no need to qualify it again
-    if ( -1 == STRING::indexof( haystack:s_dt.Name, needle:"::" ) )
+    select one core_dt related by s_dt->S_UDT[R17]->S_DT[R18];
+    // if the type is already qualified with a domain name, or if it is a UDT based on MASLtype (type reference type), no need to qualify it again
+    if ( -1 == STRING::indexof( haystack:s_dt.Name, needle:"::" ) and not ( not_empty core_dt and "MASLtype" == core_dt.Name ) )
       // If type is inside a component, it is local.
       select one parent_ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
       select one parent_c_c related by parent_ep_pkg->PE_PE[R8001]->C_C[R8003];
@@ -3029,25 +3030,31 @@ if ( not_empty s_dt )
           // if containing_pkg is empty, we are either directly under a system or inside a component.
           // if inside a component, this type is private anyway (and cannot be referenced from another domain).
           // if under the system we need to break out to avoid an infinite loop scenario.
-          while ( empty domain_c_c and not_empty containing_pkg )
-            // find the nearest sibling component. if there are more than one, show an error
-            select many domain_c_cs related by containing_pkg->PE_PE[R8000]->C_C[R8001];
-            if ( cardinality domain_c_cs > 1 )
-              TRACE::log( id:76, flavor:"warning", message:"Multiple domain components found for type: " + s_dt.Name );
-              break;
-            else
-              for each c_c in domain_c_cs
-                domain_c_c = c_c; // because of the above check, this only gets executed once
-              end for;
+          select one sys related by containing_pkg->S_SYS[R1401];
+          if ( empty sys )
+            while ( empty domain_c_c and not_empty containing_pkg )
+              // find the nearest sibling component. if there are more than one, show an error
+              select many domain_c_cs related by containing_pkg->PE_PE[R8000]->C_C[R8001];
+              if ( cardinality domain_c_cs > 1 )
+                TRACE::log( id:76, flavor:"warning", message:"Multiple domain components found for type: " + s_dt.Name );
+                break;
+              else
+                for each c_c in domain_c_cs
+                  domain_c_c = c_c; // because of the above check, this only gets executed once
+                end for;
+              end if;
+              select one containing_pkg related by containing_pkg->PE_PE[R8001]->EP_PKG[R8000];
+              if ( empty containing_pkg and empty domain_c_c )
+                TRACE::log( id:75, flavor:"warning", message:"No domain component found for type: " + s_dt.Name );
+              end if;
+            end while;
+            // qualify the type name with the name of the domain
+            if ( not_empty domain_c_c )
+              value[0] = domain_c_c.Name + "::" + value[0];
             end if;
-            select one containing_pkg related by containing_pkg->PE_PE[R8001]->EP_PKG[R8000];
-            if ( empty containing_pkg and empty domain_c_c )
-              TRACE::log( id:75, flavor:"warning", message:"No domain component found for type: " + s_dt.Name );
-            end if;
-          end while;
-          // qualify the type name with the name of the domain
-          if ( not_empty domain_c_c )
-            value[0] = domain_c_c.Name + "::" + value[0];
+          else
+            // type lives in package directly off the system. here we assume the user knows that these types are not part of
+            // a domain and their reference is left unqualified
           end if;
         else
           // local to domain, no qualification needed
