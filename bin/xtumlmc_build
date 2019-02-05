@@ -1434,11 +1434,8 @@ if ( 0 < @ARGV ) {
 # and passing the name of the routine as the first argument.
 #
 my %xtumlmc_utility_routines = (
-<<<<<<< HEAD
   "xtuml2masl" => TRUE,
   "xtuml2wasl" => TRUE,
-=======
->>>>>>> faec52207a70b44fbc0937c8c3f16da72b94d000
   "xtumlmc_gen_erate" => TRUE,
   "xtumlmc_gen_file" => TRUE,
   "xtumlmc_gen_import" => TRUE,
