@@ -107,14 +107,16 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     masl_in_populate( element, value );
   }
 
-  int validate = 0; int Validateonly = 0; bool structuralOnly = FALSE;
+  int validate = 0; int Validateonly = 0; bool coverage = FALSE; bool structuralOnly = FALSE;
   char * indirname = 0; char * outdirname = 0; char * projectdomain = 0;
   int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "vVsi:o:d:p:" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "cvVsi:o:d:p:" ) ) != -1 ) {
       switch ( c ) {
+        case 'c':
+          coverage = TRUE; break;
         case 'v':
           validate = 1; break;
         case 'V':
@@ -171,7 +173,9 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       masl_gen_render( "domain", "", (const bool)structuralOnly );
     }
   }
-  masl_gen_coverage();
+  if ( coverage ) {
+    masl_gen_coverage();
+  }
   exit(0);
 }
 
