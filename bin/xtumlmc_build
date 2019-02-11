@@ -962,6 +962,7 @@ sub xtumlmc_cleanse_model($$$)
                 ( /^INSERT INTO CNST_/ ) ||
                 ( /^INSERT INTO COMM_/ ) ||
                 ( /^INSERT INTO C_/ ) ||
+                ( /^INSERT INTO D_/ ) ||
                 ( /^INSERT INTO EP_/ ) ||
                 ( /^INSERT INTO E_/ ) ||
                 ( /^INSERT INTO IA_/ ) ||
@@ -1144,182 +1145,6 @@ sub xtuml_integrity
 }
 
 #---------------------------------------------------------------------------
-# Export a BridgePoint model to MASL
-#---------------------------------------------------------------------------
-sub xtuml2masl;
-sub xtuml2masl
-{
-  # xtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -d <domain component> [-o <output directory>]
-  # xtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -p <project package> [-o <output directory>]
-
-  # get command line arguments
-  my @param_list = @_;
-
-  # set the path
-  my $current_path = $ENV{'PATH'};
-  my $masl_bin_dir = $ENV{'MASL_BIN_DIR'};
-  $ENV{'PATH'} = "$masl_bin_dir:$current_path";
-
-  # input variables
-  my $validate = "";
-  my $eclipse = "";
-  my $out_dir = "";
-  my $skip_formatter = "";
-  my $skip_action_language = "";
-
-  my @inputs;
-  my $num_inputs = -1;
-  my @num_dom;
-  my @num_proj;
-
-  my @dom_names;
-  my @proj_names;
-
-  my $usage = "Usage:\n\txtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -d <domain component> [-o <output directory>]\n\txtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -p <project package> [-o <output directory>]\n";
-
-  # parse arguments
-  my $directive = "";
-  foreach my $arg(@param_list) {
-    if ( ( $arg eq "-v" or $arg eq "-V" ) and $validate eq "" ) {   # if we encounter a validate flag, set the validation
-      $validate = "$arg";
-      $directive = "";                                              # encountering a validation flag resets the directive because
-    }
-    elsif ( $arg eq "-e" and $eclipse eq "" ) {                     # if we encounter eclipse flag
-      $eclipse = "$arg";
-      $directive = "";
-    }
-    elsif ( $arg eq "-xf" and $skip_formatter eq "" ) {               # if we encounter flag indicating skip MASL formatting
-      $skip_formatter = "$arg";
-      $directive = "";
-    }
-    elsif ( $arg eq "-p" or $arg eq "-d" or $arg eq "-i" or $arg eq "-o" ) {        # set the directive
-      $directive = "$arg";
-    }
-    elsif ( $arg eq "-xl" and $skip_action_language eq "" ) {         # if we encounter flag indicating skip output of MASL activities
-      $skip_action_language = "-s";
-      $directive = "";
-    }
-    elsif ( $directive eq "-i" ) {                                  # add an input
-      $num_inputs++;
-      push @inputs, $arg;
-      $num_dom[$num_inputs] = 0;
-      $num_proj[$num_inputs] = 0;
-    }
-    elsif ( $directive eq "-p" ) {                                   # add a project name
-      if ( $num_inputs >= 0 ) {
-        push @proj_names, $arg;
-        $num_proj[$num_inputs]++;
-      }
-    }
-    elsif ( $directive eq "-d" ) {                                  # add a domain name
-      if ( $num_inputs >= 0 ) {
-        push @dom_names, $arg;
-        $num_dom[$num_inputs]++;
-      }
-    }
-    elsif ( $directive eq "-o" and $out_dir eq "" ) {                # only can set the output directory once
-      $out_dir = "$arg";
-    }
-    else {
-      print STDERR $usage;
-      exit 1;
-    }
-  }
-
-  # check if we have any projects or domains to convert
-  if ( !@inputs || ( !@proj_names && !@dom_names ) ) {
-    print STDERR $usage;
-    exit 1;
-  }
-
-  print STDERR "Initializing MASL export...\n";
-
-  # if no out directory was given, give the current working directory
-  if ( $out_dir eq "" ) { $out_dir = "."; }
-
-  # make the output directory if there is one
-  use File::Path qw(make_path);
-  eval { make_path("$out_dir") };
-  if ($@) {
-    print STDERR "-xtuml2masl: ERROR could not create directory '$out_dir'\n";
-    exit 1
-  }
-
-  # if the eclipse flag is not set, run the pre-builder
-  if ( $eclipse eq "" ) {
-    print STDERR "Invoking BridgePoint pre-builder...\n";
-    # the WORKSPACE env variable is expected to be set properly
-    my ($volume, $directory, $file) = File::Spec->splitpath(__FILE__);
-    foreach my $inproj (@inputs) {
-      my $proj = basename($inproj);
-      system( "$directory/CLI.sh Build -prebuildOnly -doNotParse -project $proj " );
-    }
-  }
-
-  # process command
-  my $c = 0;
-  my $doff = 0;
-  my $poff = 0;
-  foreach $i (@inputs) {
-    my $command = "";
-    for ( my $k = 0; $k < $num_dom[$c]; $k++ ) {
-      $command = "$command -d$dom_names[$k+$doff]";
-    }
-    $doff += $num_dom[$c];
-    for ( my $k = 0; $k < $num_proj[$c]; $k++ ) {
-      $command = "$command -p$proj_names[$k+$poff]";
-    }
-    $poff += $num_proj[$c];
-    $c++;
-
-    # cleanse the prebuilder output
-    system( "cat $i/gen/code_generation/*.sql > $i/gen/code_generation/z.xtuml" );
-    &xtumlmc_cleanse_for_BridgePoint ( "$i/gen/code_generation/z.xtuml", "$i/gen/code_generation/a.xtuml", "GD_", "DIM_" );
-
-    # call the utilities
-    # Note: Add the -k option here to x2m to specify that key letter  
-    # pragmas should be produced by the exporter. By default the -k 
-    # option is not used in order to suppress generation of "key_letter"
-    # pragmas.
-    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m $skip_action_language -i$i $command | tee $i/gen/code_generation/x2m_output.txt | masl $validate $skip_action_language -i$i $command -o$out_dir | tee $i/gen/code_generation/masl_output.txt ";
-    print STDERR "$sys_cmd\n";
-    system( $sys_cmd );
-
-    # clean up
-    unlink "$i/gen/code_generation/z.xtuml";
-    unlink "$i/gen/code_generation/a.xtuml";
-  }
-
-  if ( $skip_formatter eq "" ) {
-    # format MASL
-    my $masl_format_cp = join(":", glob("$masl_bin_dir/*.jar"));
-    opendir my $dh, $out_dir
-      or die "$0: opendir: $!";
-    while (defined(my $format_dir = readdir $dh)) {
-      next unless -d "$out_dir/$format_dir";
-      if ( $format_dir ne "." and $format_dir ne ".." ) {
-        move( "$out_dir/$format_dir", "$out_dir/$format_dir.orig");
-        my $format_cmd = "java -cp $masl_format_cp MaslFormatter -r -i $out_dir/$format_dir.orig -o $out_dir/$format_dir";
-        print STDERR "$format_cmd\n";
-        system( $format_cmd );
-        # if formatting succeeds, remove the original MASL
-        # if not, move the unformatted back to the output dir
-        if ($? == 0) {
-            rmtree("$out_dir/$format_dir.orig");
-        }
-        else {
-            rmtree("$out_dir/$format_dir");
-            move( "$out_dir/$format_dir.orig", "$out_dir/$format_dir");
-        }
-      }
-    }
-  }
-
-  print STDERR "Done.\n";
-
-}
-
-#---------------------------------------------------------------------------
 # Show function usage.
 #---------------------------------------------------------------------------
 sub usage();
@@ -1416,7 +1241,6 @@ if ( 0 < @ARGV ) {
 # and passing the name of the routine as the first argument.
 #
 my %xtumlmc_utility_routines = (
-  "xtuml2masl" => TRUE,
   "xtumlmc_gen_erate" => TRUE,
   "xtumlmc_gen_file" => TRUE,
   "xtumlmc_gen_import" => TRUE,

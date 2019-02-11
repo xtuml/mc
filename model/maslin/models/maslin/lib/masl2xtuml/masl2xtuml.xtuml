@@ -492,8 +492,6 @@ end for;
 select any ooapopulation from instances of ooapopulation;
 if ( not_empty ooapopulation )
   ooapopulation.batchFormalize();
-  // done with population, delete it
-  ooapopulation.dispose();
 end if;
 
 // dispose formalizations
@@ -501,6 +499,24 @@ select many forms from instances of formalization;
 for each form in forms
   form.dispose();
 end for;
+
+// resolve referential attribute types
+if ( not_empty ooapopulation )
+  select many rattrs from instances of O_RATTR;
+  globaltypes_pkg = ooapopulation.globaltypes_pkg;
+  select any same_as_base_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "same_as<Base_Attribute>" );
+  for each rattr in rattrs
+    select one battr related by rattr->O_BATTR[R113];
+    if ( not_empty battr ) // set type "same_as<Base_Attribute>" if there is a base attribute
+      select one attr related by rattr->O_ATTR[R106];
+      select one old_dt related by attr->S_DT[R114];
+      if ( not_empty old_dt )
+        unrelate old_dt from attr across R114;
+      end if;
+      relate same_as_base_dt to attr across R114;
+    end if;
+  end for;
+end if;
 
 // Output the marking data into files.
 select any model from instances of model where ( selected.name == "maslin" );
@@ -528,7 +544,10 @@ for each markable in markables
   markable.dispose();
 end for;
 
-
+// dispose ooapopulation instance
+if ( not_empty ooapopulation )
+  ooapopulation.dispose();
+end if;
 ',
 	1,
 	0);

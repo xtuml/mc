@@ -1,0 +1,351 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("a13a4c99-717c-4602-87e7-ae5699c99167",
+	'Terminator Service',
+	1652,
+	'D_TSVC',
+	'Import: java.util.Vector; import org.xtuml.bp.core.util.DimensionsUtil',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("da585929-6467-473b-a952-1ace6454db56",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_BATTR
+	VALUES ("da585929-6467-473b-a952-1ace6454db56",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ATTR
+	VALUES ("da585929-6467-473b-a952-1ace6454db56",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"00000000-0000-0000-0000-000000000000",
+	'Svc_ID',
+	'',
+	'',
+	'Svc_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("a13a4c99-717c-4602-87e7-ae5699c99167",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	0,
+	"7798bf23-d611-4f05-a71f-68fe5a775153",
+	"dae65fb4-15ee-4d77-8b09-0b747d324ab1",
+	"86141a51-88d4-4a7d-bfac-912cc3df006d",
+	"84b7e4c8-052b-4af6-8c14-71351ee09c7f",
+	"d5ca4906-80b6-4049-aac5-0432eda2c425",
+	"eaa3de70-1f57-4676-94bd-222579484688",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Terminator',
+	'Term_ID',
+	'R1651');
+INSERT INTO R_RGO_PROXY
+	VALUES ("a13a4c99-717c-4602-87e7-ae5699c99167",
+	"dae65fb4-15ee-4d77-8b09-0b747d324ab1",
+	"86141a51-88d4-4a7d-bfac-912cc3df006d",
+	'../Deployment.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("7798bf23-d611-4f05-a71f-68fe5a775153",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	0,
+	"dae65fb4-15ee-4d77-8b09-0b747d324ab1",
+	"84b7e4c8-052b-4af6-8c14-71351ee09c7f",
+	'../Deployment.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("d5ca4906-80b6-4049-aac5-0432eda2c425",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"7798bf23-d611-4f05-a71f-68fe5a775153",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	1,
+	'Term_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("7798bf23-d611-4f05-a71f-68fe5a775153",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	'../Terminator/Terminator.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("d5ca4906-80b6-4049-aac5-0432eda2c425",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"da585929-6467-473b-a952-1ace6454db56",
+	'Term_ID',
+	'',
+	'',
+	'Term_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d11e0a01-0b24-4a02-ba9c-dc9bec222df8",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_BATTR
+	VALUES ("d11e0a01-0b24-4a02-ba9c-dc9bec222df8",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ATTR
+	VALUES ("d11e0a01-0b24-4a02-ba9c-dc9bec222df8",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"d5ca4906-80b6-4049-aac5-0432eda2c425",
+	'Name',
+	'Full Name: Terminator Service Name
+readonly:true',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("89935c71-613f-4217-b4de-31f203dd7611",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_BATTR
+	VALUES ("89935c71-613f-4217-b4de-31f203dd7611",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ATTR
+	VALUES ("89935c71-613f-4217-b4de-31f203dd7611",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"d11e0a01-0b24-4a02-ba9c-dc9bec222df8",
+	'Descrip',
+	'Full Name: Terminator Service Description
+Description: A textual description of this terminator service.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3893f66a-33f9-45b1-ad40-918ba354764a",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_BATTR
+	VALUES ("3893f66a-33f9-45b1-ad40-918ba354764a",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ATTR
+	VALUES ("3893f66a-33f9-45b1-ad40-918ba354764a",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"9d1fb021-31d0-4601-891d-ef337a09c5b5",
+	'Action_Semantics_internal',
+	'User_Visible:false',
+	'',
+	'Action_Semantics_internal',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("4d87bfdc-0b49-4035-be65-5dfe09b522f0",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_BATTR
+	VALUES ("4d87bfdc-0b49-4035-be65-5dfe09b522f0",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ATTR
+	VALUES ("4d87bfdc-0b49-4035-be65-5dfe09b522f0",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"fa2b6137-e2e1-42b9-a127-39900400b764",
+	'Suc_Pars',
+	'Full Name: Successful Parse Indicator
+Description: Indicates the status of the parse for the action specification in the attribute Action_Semantics
+Data Domain: 0=not parsed, 1 = parse successful, 2 = parse unsuccessful, 3 = parse on apply set but never been parsed
+',
+	'',
+	'Suc_Pars',
+	0,
+	"dbf2d43d-c821-4774-bb01-a5f468a5abe8",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("dbf2d43d-c821-4774-bb01-a5f468a5abe8",
+	"00000000-0000-0000-0000-000000000000",
+	'ParseStatus',
+	'Indicates the status of the parse for an action specification in the attribute Action_Semantics',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("36209454-af48-491f-b121-fd4cfda88eb9",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_BATTR
+	VALUES ("36209454-af48-491f-b121-fd4cfda88eb9",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ATTR
+	VALUES ("36209454-af48-491f-b121-fd4cfda88eb9",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"0b59588f-d3a5-404b-b57a-a4ef37f172cc",
+	'Dialect',
+	'Full Name: Action Dialect',
+	'',
+	'Dialect',
+	0,
+	"6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	"00000000-0000-0000-0000-000000000000",
+	'ActionDialect',
+	'Enumerator for available action dialects',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("9d1fb021-31d0-4601-891d-ef337a09c5b5",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_BATTR
+	VALUES ("9d1fb021-31d0-4601-891d-ef337a09c5b5",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ATTR
+	VALUES ("9d1fb021-31d0-4601-891d-ef337a09c5b5",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"89935c71-613f-4217-b4de-31f203dd7611",
+	'Action_Semantics',
+	'Full Name: Action Semantics Field
+Description: Action Semantics for the operation action
+Persistent:false',
+	'',
+	'Action_Semantics',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("0b59588f-d3a5-404b-b57a-a4ef37f172cc",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_BATTR
+	VALUES ("0b59588f-d3a5-404b-b57a-a4ef37f172cc",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ATTR
+	VALUES ("0b59588f-d3a5-404b-b57a-a4ef37f172cc",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"4d87bfdc-0b49-4035-be65-5dfe09b522f0",
+	'Return_Dimensions',
+	'Full Name: Return Array Dimensions
+readonly:true',
+	'',
+	'Return_Dimensions',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("a13a4c99-717c-4602-87e7-ae5699c99167",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"13467a81-9432-4433-97b7-f43b5ddfacf0",
+	"ff65eeae-45fa-4d19-8afe-cb9223f58c5f",
+	"69ca650a-3de5-4abd-b29d-b081929ca2d3",
+	"fa2b6137-e2e1-42b9-a127-39900400b764",
+	"ff799f0e-1253-488d-9124-042a8658b0d5",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Data Type',
+	'DT_ID',
+	'R1656');
+INSERT INTO R_RGO_PROXY
+	VALUES ("a13a4c99-717c-4602-87e7-ae5699c99167",
+	"13467a81-9432-4433-97b7-f43b5ddfacf0",
+	"ff65eeae-45fa-4d19-8afe-cb9223f58c5f",
+	'../Deployment.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"13467a81-9432-4433-97b7-f43b5ddfacf0",
+	"69ca650a-3de5-4abd-b29d-b081929ca2d3",
+	'../Deployment.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("fa2b6137-e2e1-42b9-a127-39900400b764",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("fa2b6137-e2e1-42b9-a127-39900400b764",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"3893f66a-33f9-45b1-ad40-918ba354764a",
+	'DT_ID',
+	'',
+	'',
+	'DT_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3dc6a9de-5b48-470f-bf1b-4507d8fff173",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_BATTR
+	VALUES ("3dc6a9de-5b48-470f-bf1b-4507d8fff173",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ATTR
+	VALUES ("3dc6a9de-5b48-470f-bf1b-4507d8fff173",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"36209454-af48-491f-b121-fd4cfda88eb9",
+	'Is_Stale',
+	'User_Visible:false',
+	'',
+	'Is_Stale',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("550f4a26-f9a3-4b12-9e24-caabd035c589",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_BATTR
+	VALUES ("550f4a26-f9a3-4b12-9e24-caabd035c589",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ATTR
+	VALUES ("550f4a26-f9a3-4b12-9e24-caabd035c589",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"3dc6a9de-5b48-470f-bf1b-4507d8fff173",
+	'Implementation_Scope',
+	'Full Name: Implementation Scope
+Description: Indicates whether the implementation of a terminator service should be taken from the declaring domain or from the deployment.
+Data Domain: 0=Domain, 1=Deployment',
+	'',
+	'Implementation_Scope',
+	0,
+	"44fb102a-6cc9-4db1-b680-64c0c4efe1f2",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("44fb102a-6cc9-4db1-b680-64c0c4efe1f2",
+	"00000000-0000-0000-0000-000000000000",
+	'ImplementationScope',
+	'Indicates whether the implementation of a terminator service should be taken from the declaring
+domain or from the deployment.',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_OIDA
+	VALUES ("da585929-6467-473b-a952-1ace6454db56",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	0,
+	'Svc_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ID
+	VALUES (2,
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO PE_PE
+	VALUES ("a13a4c99-717c-4602-87e7-ae5699c99167",
+	1,
+	"99c9f8cc-bdef-4ed2-9999-45efc2ec4752",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("99c9f8cc-bdef-4ed2-9999-45efc2ec4752",
+	"00000000-0000-0000-0000-000000000000",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'Deployment',
+	'',
+	0,
+	'../Deployment.xtuml');

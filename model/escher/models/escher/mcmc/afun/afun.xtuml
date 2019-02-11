@@ -2963,7 +2963,17 @@ system_ep_pkg = empty_ep_pkg;
 package_to_build = "";
 select any tm_build from instances of TM_BUILD;
 markedsystems = 0;
-if ( not_empty tm_build )
+if ( empty tm_build )
+  // Choose any top-level package to support a legal build.
+  select any system_ep_pkg related by s_sys->EP_PKG[R1401];
+  select many sys_ep_pkgs related by s_sys->EP_PKG[R1401];
+  sys_ep_pkg_count = cardinality sys_ep_pkgs;
+  if ( sys_ep_pkg_count > 1 )
+    // We warn only when there is more than one package at the system level.
+    T::print(s:"WARNING:  Identify a package to build using MarkSystemConfigurationPackage in system.mark.");
+    T::print(s:"WARNING:  ${system_ep_pkg.Name} has been selected arbitrarily as the build configuration.");
+  end if;
+else
   select any system_ep_pkg from instances of EP_PKG where ( selected.Name == tm_build.package_to_build );
   select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build );
   markedsystems = cardinality ep_pkgs;
@@ -4250,8 +4260,9 @@ for each te_c in te_cs
       o_attr_Descrip_Persistent = T::parsekeyword(s:o_attr.Descrip,key:"Persistent");
       if ( o_attr_Descrip_Persistent != "false" )
         if ( 5 == te_dt.Core_Typ )
+          select any te_dma from instances of TE_DMA;
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format;
-          te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    " ) + ( te_string.itoa + "( self->" ) ) + ( te_attr.GeneratedName + " )" ) );
+          te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    " ) + te_string.u128touuid ) + ( "( " + te_set.scope ) ) + ( ( te_dma.allocate + "( 39 ),  self->" ) + ( te_attr.GeneratedName + " )" ) );
         elif ( "%p" == te_dt.string_format )
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld";
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    ((long)self->" ) + ( te_attr.GeneratedName + " & ESCHER_IDDUMP_MASK)" );

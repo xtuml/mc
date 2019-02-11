@@ -50,11 +50,22 @@ static void Escher_load_instance(
   /* Look up the class number and instance loader using the key letters.  */
   n = lookupclassloader( wordvalues[ 0 ] );
 
-  /* Invoke the creation function using the class number.  */
-  instance = Escher_CreateInstance( 0, class_string_2_class_number[n].class_number );
+  if ( n < ${all_max_class_numbers} ) {
+    /* Invoke the creation function using the class number.  */
+    instance = Escher_CreateInstance( 0, class_string_2_class_number[n].class_number );
 
-  /* Convert/Populate the attribute values.  */
-  (*class_string_2_class_number[n].instance_loader)( instance, wordvalues );
+    /* Convert/Populate the attribute values.  */
+    (*class_string_2_class_number[n].instance_loader)( instance, wordvalues );
+  } else {
+    if ( !strstr( wordvalues[ 0 ], "_PROXY" ) ) {
+      static bool clean = true;
+      if ( clean ) {
+        /* Report an unrecognized record only once.  */
+        fprintf( stderr, "warning:  unrecognized class key letters:  %s\n", wordvalues[ 0 ] );
+        clean = false;
+      }
+    }
+  }
 }
 
 /*
@@ -120,7 +131,7 @@ int Escher_xtUML_load(
 )
 {
   Escher_ClassNumber_t i;
-  bool done = false;
+  bool done;
   if ( 2 != argc ) {
     fprintf( stderr, "xtumlload <input xtUML file>\n" );
     return 1;
@@ -133,6 +144,7 @@ int Escher_xtUML_load(
   /*
    * Read a record.  Parse it.  Pass it.  Repeat until end of file.
    */
+  done = readrecord( &cursor ); /* Initial call reads to beginning of first record.  */
   while ( ! done ) {
     done = readrecord( &cursor );
     if ( statement() ) {

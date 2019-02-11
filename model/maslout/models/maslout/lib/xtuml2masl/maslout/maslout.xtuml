@@ -102,18 +102,23 @@ project = param.project;
 // Query and Populate
 // Query the xtUML meta-model and populate the MASL meta-model.
 
-select many ep_pkgs from instances of EP_PKG where ( false );
-if ( ( "" == project ) or ( "*" == project ) )
-  // CDS - temporary for marking the project
-  select many ep_pkgs from instances of EP_PKG where ( selected.Descrip == project );
+select many d_depls from instances of D_DEPL where ( selected.Name == project );
+if ( not_empty d_depls )
+  ::depl2project( d_depls:d_depls );
 else
-  select many ep_pkgs from instances of EP_PKG where ( selected.Name == project );
+  select many ep_pkgs from instances of EP_PKG where ( false );
+  if ( ( "" == project ) or ( "*" == project ) )
+    // CDS - temporary for marking the project
+    select many ep_pkgs from instances of EP_PKG where ( selected.Descrip == project );
+  else
+    select many ep_pkgs from instances of EP_PKG where ( selected.Name == project );
+  end if;
+  if ( not_empty ep_pkgs )
+    ::package2project( ep_pkgs:ep_pkgs, kl:param.kl );
+  else
+    TRACE::log( flavor:"failure", id:1, message:"ERROR:  project package was not found:" + project );
+  end if;
 end if;
-if ( empty ep_pkgs )
-  TRACE::log( flavor:"failure", id:1, message:"ERROR:  project package was not found:" + project );
-end if;
-
-::package2project( ep_pkgs:ep_pkgs, kl:param.kl );
 
 TRACE::log( flavor:"info", id:102, message:"Done" );
 ',
@@ -445,13 +450,15 @@ for each c_ep in c_eps
   end while;
   if ( param.project )
     select any project_c_c related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009]->C_IR[R4009]->C_PO[R4016]->C_C[R4010];
-    ::parameterC_PP2parameter( c_pp:first_c_pp, containing_c_c:project_c_c );
+    select one domain_pkg related by project_c_c->PE_PE[R8001]->EP_PKG[R8000];
+    ::parameterC_PP2parameter( c_pp:first_c_pp, domain_pkg:domain_pkg );
     select one s_dt related by c_ep->C_IO[R4004]->S_DT[R4008];
-    ::type2typeref( s_dt:s_dt, containing_c_c:project_c_c );
+    ::type2typeref( s_dt:s_dt, domain_pkg:domain_pkg );
   else
-    ::parameterC_PP2parameter( c_pp:first_c_pp, containing_c_c:c_c );
+    select one domain_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000];
+    ::parameterC_PP2parameter( c_pp:first_c_pp, domain_pkg:domain_pkg );
     select one s_dt related by c_ep->C_IO[R4004]->S_DT[R4008];
-    ::type2typeref( s_dt:s_dt, containing_c_c:c_c );
+    ::type2typeref( s_dt:s_dt, domain_pkg:domain_pkg );
   end if;
   
   // Populate the action langauge body.
@@ -546,9 +553,9 @@ if ( not_empty c_pp )
   end if;
   out::populate( element:"parameter", value:value );
   select one s_dt related by c_pp->S_DT[R4007];
-  ::type2typeref( s_dt:s_dt, containing_c_c:param.containing_c_c );
+  ::type2typeref( s_dt:s_dt, domain_pkg:param.domain_pkg );
   select one c_pp related by c_pp->C_PP[R4021.''precedes''];
-  ::parameterC_PP2parameter( c_pp:c_pp, containing_c_c:param.containing_c_c );
+  ::parameterC_PP2parameter( c_pp:c_pp, domain_pkg:param.domain_pkg );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
 ',
@@ -573,14 +580,21 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("7bbba2c7-a80f-4386-9423-150b61e9aae9",
+	VALUES ("8ce46f97-6f97-4d53-927a-6fdffa966af1",
 	"dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
-	'containing_c_c',
-	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	'domain_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
 	0,
 	'',
 	"a476bde7-fb21-4a1f-b22b-46b5fe763364",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Package>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
 INSERT INTO PE_PE
 	VALUES ("dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
 	1,
@@ -745,7 +759,8 @@ for each o_attr in o_attrs
     end if;
   
     // Populate the type referred to by this attribute as a type reference.
-    ::type2typeref( s_dt:s_dt, containing_c_c:c_c );
+    select one domain_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000];
+    ::type2typeref( s_dt:s_dt, domain_pkg:domain_pkg );
     
     // See if this attribute is a referential.
     select many o_refs related by o_attr->O_RATTR[R106]->O_REF[R108];
@@ -1290,10 +1305,11 @@ for each s_sync in s_syncs
   end while;
   
   out::populate( element:"routine", value:value );
-  ::parameterS_SPARM2parameter( s_sparm:first_s_sparm, containing_c_c:c_c );
+  select one domain_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000];
+  ::parameterS_SPARM2parameter( s_sparm:first_s_sparm, domain_pkg:domain_pkg );
   // find return type if exists
   select one s_dt related by s_sync->S_DT[R25];
-  ::type2typeref( s_dt:s_dt, containing_c_c:c_c );
+  ::type2typeref( s_dt:s_dt, domain_pkg:domain_pkg );
   
   if ( ActionDialect::masl == s_sync.Dialect )
     // Populate the action langauge body.
@@ -1350,9 +1366,9 @@ if ( not_empty s_sparm )
   end if;
   out::populate( element:"parameter", value:value );
   select one s_dt related by s_sparm->S_DT[R26];
-  ::type2typeref( s_dt:s_dt, containing_c_c:param.containing_c_c );
+  ::type2typeref( s_dt:s_dt, domain_pkg:param.domain_pkg );
   select one s_sparm related by s_sparm->S_SPARM[R54.''precedes''];
-  ::parameterS_SPARM2parameter( s_sparm:s_sparm, containing_c_c:param.containing_c_c );
+  ::parameterS_SPARM2parameter( s_sparm:s_sparm, domain_pkg:param.domain_pkg );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
 ',
@@ -1377,10 +1393,10 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("54ea74f9-6a06-4612-ac41-cf1c123f3134",
+	VALUES ("14cb0301-1895-4534-94b1-a5dc724415ff",
 	"be1ccb4a-cb4a-474d-b0b2-ed38f9f68441",
-	'containing_c_c',
-	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	'domain_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
 	0,
 	'',
 	"60fb8b97-7f20-4095-b943-e08c3a8e2e31",
@@ -1624,7 +1640,8 @@ for each sm_evt in sm_evts
     first_sm_evtdi = sm_evtdi;
     select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''succeeds''];
   end while;
-  ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi, containing_c_c: containing_c_c );
+  select one domain_pkg related by containing_c_c->PE_PE[R8001]->EP_PKG[R8000];
+  ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi, domain_pkg:domain_pkg );
   
   // Populate pragmas
   if ( "assigner" == param.type )
@@ -1753,7 +1770,8 @@ for each sm_state in sm_states
     first_sm_evtdi = sm_evtdi;
     select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''succeeds''];
   end while;
-  ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi, containing_c_c: containing_c_c );
+  select one domain_pkg related by containing_c_c->PE_PE[R8001]->EP_PKG[R8000];
+  ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi, domain_pkg:domain_pkg );
   
   select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
   // Populate the action langauge body.
@@ -1824,9 +1842,9 @@ if ( not_empty sm_evtdi )
   value[1] = "in";
   out::populate( element:"parameter", value:value );
   select one s_dt related by sm_evtdi->S_DT[R524];
-  ::type2typeref( s_dt:s_dt, containing_c_c:param.containing_c_c );
+  ::type2typeref( s_dt:s_dt, domain_pkg:param.domain_pkg );
   select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''precedes''];
-  ::parameterSM_EVTDI2parameter( sm_evtdi:sm_evtdi, containing_c_c:param.containing_c_c );
+  ::parameterSM_EVTDI2parameter( sm_evtdi:sm_evtdi, domain_pkg:param.domain_pkg );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
 ',
@@ -1851,10 +1869,10 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("8c0781f2-8c87-4fa8-8bfc-1b8e635572fa",
+	VALUES ("77c854a3-ee65-431a-9cb0-137e08ad0d1b",
 	"45112864-29c1-4db8-9cd5-3121f843a9ff",
-	'containing_c_c',
-	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	'domain_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
 	0,
 	'',
 	"3cc94496-ce2a-4ae7-a208-d9eb28187713",
@@ -2086,10 +2104,11 @@ for each o_tfr in o_tfrs
   end while;
   
   out::populate( element:"operation", value:value );
-  ::parameterO_TPARM2parameter( o_tparm:first_o_tparm, containing_c_c:c_c );
+  select one domain_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000];
+  ::parameterO_TPARM2parameter( o_tparm:first_o_tparm, domain_pkg:domain_pkg );
   // find return type if exists
   select one s_dt related by o_tfr->S_DT[R116];
-  ::type2typeref( s_dt:s_dt, containing_c_c:c_c );
+  ::type2typeref( s_dt:s_dt, domain_pkg:domain_pkg );
   
   // Populate the action langauge body.
   if ( not deferred )	// do not populate a codeblock if this is a deferred operation
@@ -2153,9 +2172,9 @@ if ( not_empty o_tparm )
   end if;
   out::populate( element:"parameter", value:value );
   select one s_dt related by o_tparm->S_DT[R118];
-  ::type2typeref( s_dt:s_dt, containing_c_c:param.containing_c_c );
+  ::type2typeref( s_dt:s_dt, domain_pkg:param.domain_pkg );
   select one o_tparm related by o_tparm->O_TPARM[R124.''precedes''];
-  ::parameterO_TPARM2parameter( o_tparm:o_tparm, containing_c_c:param.containing_c_c );
+  ::parameterO_TPARM2parameter( o_tparm:o_tparm, domain_pkg:param.domain_pkg );
   out::populate( element:"parameter", value:emptyvalue );
 end if;
 ',
@@ -2180,10 +2199,10 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("1b1624ab-fdce-44c0-8e1e-83341952cbbc",
+	VALUES ("9487b2e5-565b-42e7-a2a2-70528fab743b",
 	"1ec46b81-5ac9-470b-8a41-cb1d6fad4f3f",
-	'containing_c_c',
-	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	'domain_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
 	0,
 	'',
 	"79a8a289-1d1d-4dd0-8a5c-769e1ea19030",
@@ -2977,13 +2996,14 @@ INSERT INTO S_SYNC
 	'value[7]=""; value[6]=""; value[5]=""; value[4]=""; value[3]=""; value[2]=""; value[1]=""; value[0]="";
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 s_dt = param.s_dt;
-containing_c_c = param.containing_c_c;
+domain_ep_pkg = param.domain_pkg;
 if ( not_empty s_dt )
    // Do not send a void typeref.  No typeref equals void in MASL.
   if ( "void" != s_dt.Name )
     value[0] = s_dt.Name;  // typref is the name of the type
-    // if the type is already qualified with a domain name, no need to qualify it again
-    if ( -1 == STRING::indexof( haystack:s_dt.Name, needle:"::" ) )
+    select one core_dt related by s_dt->S_UDT[R17]->S_DT[R18];
+    // if the type is already qualified with a domain name, or if it is a UDT based on MASLtype (type reference type), no need to qualify it again
+    if ( -1 == STRING::indexof( haystack:s_dt.Name, needle:"::" ) and not ( not_empty core_dt and "MASLtype" == core_dt.Name ) )
       // If type is inside a component, it is local.
       select one parent_ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
       select one parent_c_c related by parent_ep_pkg->PE_PE[R8001]->C_C[R8003];
@@ -2995,7 +3015,6 @@ if ( not_empty s_dt )
         // check if this type is defined in the same domain
         // Do this by traversing up from the type to see if ever we hit the domain package (containing the domain component).
         select one dt_ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
-        select one domain_ep_pkg related by containing_c_c->PE_PE[R8001]->EP_PKG[R8000];
         same_domain = false;
         while ( not_empty dt_ep_pkg )
           if ( dt_ep_pkg == domain_ep_pkg )
@@ -3011,25 +3030,31 @@ if ( not_empty s_dt )
           // if containing_pkg is empty, we are either directly under a system or inside a component.
           // if inside a component, this type is private anyway (and cannot be referenced from another domain).
           // if under the system we need to break out to avoid an infinite loop scenario.
-          while ( empty domain_c_c and not_empty containing_pkg )
-            // find the nearest sibling component. if there are more than one, show an error
-            select many domain_c_cs related by containing_pkg->PE_PE[R8000]->C_C[R8001];
-            if ( cardinality domain_c_cs > 1 )
-              TRACE::log( id:76, flavor:"warning", message:"Multiple domain components found for type: " + s_dt.Name );
-              break;
-            else
-              for each c_c in domain_c_cs
-                domain_c_c = c_c; // because of the above check, this only gets executed once
-              end for;
+          select one sys related by containing_pkg->S_SYS[R1401];
+          if ( empty sys )
+            while ( empty domain_c_c and not_empty containing_pkg )
+              // find the nearest sibling component. if there are more than one, show an error
+              select many domain_c_cs related by containing_pkg->PE_PE[R8000]->C_C[R8001];
+              if ( cardinality domain_c_cs > 1 )
+                TRACE::log( id:76, flavor:"warning", message:"Multiple domain components found for type: " + s_dt.Name );
+                break;
+              else
+                for each c_c in domain_c_cs
+                  domain_c_c = c_c; // because of the above check, this only gets executed once
+                end for;
+              end if;
+              select one containing_pkg related by containing_pkg->PE_PE[R8001]->EP_PKG[R8000];
+              if ( empty containing_pkg and empty domain_c_c )
+                TRACE::log( id:75, flavor:"warning", message:"No domain component found for type: " + s_dt.Name );
+              end if;
+            end while;
+            // qualify the type name with the name of the domain
+            if ( not_empty domain_c_c )
+              value[0] = domain_c_c.Name + "::" + value[0];
             end if;
-            select one containing_pkg related by containing_pkg->PE_PE[R8001]->EP_PKG[R8000];
-            if ( empty containing_pkg and empty domain_c_c )
-              TRACE::log( id:75, flavor:"warning", message:"No domain component found for type: " + s_dt.Name );
-            end if;
-          end while;
-          // qualify the type name with the name of the domain
-          if ( not_empty domain_c_c )
-            value[0] = domain_c_c.Name + "::" + value[0];
+          else
+            // type lives in package directly off the system. here we assume the user knows that these types are not part of
+            // a domain and their reference is left unqualified
           end if;
         else
           // local to domain, no qualification needed
@@ -3073,14 +3098,435 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SPARM
 	VALUES ("dc29636c-1d46-4544-a9e9-ced44060790e",
 	"6c0ff46e-0f2b-48a5-98c2-644ae0cee595",
-	'containing_c_c',
-	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	'domain_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
 	0,
 	'',
 	"a8ee1b9b-1d34-4718-b0d2-e06eaee133c2",
 	'');
 INSERT INTO PE_PE
 	VALUES ("6c0ff46e-0f2b-48a5-98c2-644ae0cee595",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("37b8e256-4792-4a44-a210-bed61e765a1d",
+	"00000000-0000-0000-0000-000000000000",
+	'depl2project',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+d_depls = param.d_depls;
+for each d_depl in d_depls
+
+  value[0] = d_depl.Name;
+  out::populate( element:"project", value:value );
+  
+  select many d_terms related by d_depl->D_TERM[R1650];
+  ::terminator2terminator( d_terms:d_terms );
+
+  // Populate pragmas
+  select one ep_pkg related by d_depl->PE_PE[R8001]->EP_PKG[R8000];
+  ::mark2pragma( markable:"Proc", pathkey: ::package_get_path( ep_pkg:ep_pkg, child:d_depl.Name ) );
+
+  // output the description
+  ::Descrip2description( Descrip:d_depl.Descrip );
+
+  // end project
+  out::populate( element:"project", value:emptyvalue );
+
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("bdc9f917-fcb4-4d54-98e3-b54cff84fe28",
+	"37b8e256-4792-4a44-a210-bed61e765a1d",
+	'd_depls',
+	"50c73587-c41b-4b83-a659-320537f9dba1",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("50c73587-c41b-4b83-a659-320537f9dba1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Deployment>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Deployment/Deployment.xtuml');
+INSERT INTO PE_PE
+	VALUES ("37b8e256-4792-4a44-a210-bed61e765a1d",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("43983355-f611-4bf0-9d00-99e26fa8f9a1",
+	"00000000-0000-0000-0000-000000000000",
+	'terminator2terminator',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+d_terms = param.d_terms;
+
+while ( not_empty d_terms )
+
+  // get any terminator
+  select any any_term from instances of D_TERM where false;
+  for each d_term in d_terms
+    any_term = d_term;
+    break;
+  end for;
+
+  select one d_depl related by any_term->D_DEPL[R1650];
+  
+  // populate the domain
+  value[0] = any_term.Domain_Name;
+  out::populate( element:"domain", value:value );
+  
+  // get all terminators with the same domain
+  select many domain_terms related by d_terms->D_DEPL[R1650]->D_TERM[R1650] where ( selected.Domain_Name == any_term.Domain_Name );
+  for each d_term in domain_terms
+    if (not d_term.Provider)
+      value[0] = d_term.Terminator_Name;
+      out::populate( element:"terminator", value:value );
+      ::terminatorservice2routine( d_term:d_term );
+      ::mark2pragma( markable:"Terminator", pathkey: ::deployment_get_path( d_depl:d_depl, child:d_term.Name ) );
+      // output the description
+      ::Descrip2description( Descrip:d_term.Descrip );
+      // end terminator
+      out::populate( element:"terminator", value:emptyvalue );
+    end if;
+  end for;
+  d_terms = d_terms - domain_terms;
+
+  out::populate( element:"domain", value:emptyvalue );
+
+end while;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("08d56b2b-9f8c-4589-8f5e-a20426a170c6",
+	"43983355-f611-4bf0-9d00-99e26fa8f9a1",
+	'd_terms',
+	"3421e149-5a7b-4178-b56c-361b79b9cb7a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("3421e149-5a7b-4178-b56c-361b79b9cb7a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Terminator>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Deployment/Deployment.xtuml');
+INSERT INTO PE_PE
+	VALUES ("43983355-f611-4bf0-9d00-99e26fa8f9a1",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("abbb4c9f-65a5-4b3c-b1a7-e28880ce5e9f",
+	"00000000-0000-0000-0000-000000000000",
+	'terminatorservice2routine',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+d_term = param.d_term;
+select one d_depl related by d_term->D_DEPL[R1650];
+value[0] = d_term.Domain_Name;
+value[1] = "";
+
+select many d_tsvcs related by d_term->D_TSVC[R1651];
+for each d_tsvc in d_tsvcs
+    
+  if ( ImplementationScope::Domain == d_tsvc.Implementation_Scope )
+    // A project can skip supplying a terminator service.  ''Domain'' scope means
+    // the implementation was provided in the domain implementation
+    continue;
+  end if;
+
+  value[2] = "public"; // Outbound messages are considered public.
+  value[3] = d_tsvc.Name;
+  out::populate( element:"routine", value:value );
+  
+  select any d_tsparm related by d_tsvc->D_TSPARM[R1652];
+  first_d_tsparm = d_tsparm;
+  while ( not_empty d_tsparm )
+    first_d_tsparm = d_tsparm;
+    select one d_tsparm related by d_tsparm->D_TSPARM[R1654.''succeeds''];
+  end while;
+  select one domain_package related by d_term->D_DEPL[R1650]->PE_PE[R8001]->EP_PKG[R8000];
+  ::parameterD_TSPARM2parameter( d_tsparm:first_d_tsparm, domain_pkg:domain_package );
+  select one s_dt related by d_tsvc->S_DT[R1656];
+  ::type2typeref( s_dt:s_dt, domain_pkg:domain_package );
+  
+  // Populate the action langauge body.
+  if ( ActionDialect::masl == d_tsvc.Dialect )
+    ::body2code_block( name:"", text:STRING::unescapetics(s:d_tsvc.Action_Semantics_internal) );
+  end if;
+
+  // Populate pragmas
+  child = d_term.Name + "::" + ::terminatorservice_getsignature( flavor:1, d_tsvc:d_tsvc );
+  ::mark2pragma( markable:"Terminator Service", pathkey: ::deployment_get_path( d_depl:d_depl, child:child ) );
+
+  // output the description
+  ::Descrip2description( Descrip:d_tsvc.Descrip );
+
+  out::populate( element:"routine", value:emptyvalue );
+  
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("78fa69cc-b4a3-4096-8c8e-dfd3bfec570e",
+	"abbb4c9f-65a5-4b3c-b1a7-e28880ce5e9f",
+	'd_term',
+	"1785e8e9-592a-437e-8ef6-2e2790ae5c07",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("1785e8e9-592a-437e-8ef6-2e2790ae5c07",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Terminator>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Deployment/Deployment.xtuml');
+INSERT INTO PE_PE
+	VALUES ("abbb4c9f-65a5-4b3c-b1a7-e28880ce5e9f",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fdee5632-9f8b-49e6-9e3f-6cefdb66a6c1",
+	"00000000-0000-0000-0000-000000000000",
+	'parameterD_TSPARM2parameter',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+d_tsparm = param.d_tsparm;
+if ( not_empty d_tsparm )
+  value[0] = d_tsparm.Name;
+  if ( 0 == d_tsparm.By_Ref )
+    value[1] = "in";
+  else
+    value[1] = "out";
+  end if;
+  out::populate( element:"parameter", value:value );
+  select one s_dt related by d_tsparm->S_DT[R1653];
+  ::type2typeref( s_dt:s_dt, domain_pkg:param.domain_pkg );
+  select one d_tsparm related by d_tsparm->D_TSPARM[R1654.''precedes''];
+  ::parameterD_TSPARM2parameter( d_tsparm:d_tsparm, domain_pkg:param.domain_pkg );
+  out::populate( element:"parameter", value:emptyvalue );
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("e292df87-7c25-4bee-a4ca-508560143c19",
+	"fdee5632-9f8b-49e6-9e3f-6cefdb66a6c1",
+	'd_tsparm',
+	"9b37fe9c-016a-4d0b-9d4f-2f9c00c4fdf1",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9b37fe9c-016a-4d0b-9d4f-2f9c00c4fdf1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Terminator Service Parameter>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Deployment/Deployment.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("50d7a834-8a77-4fac-b726-d4458f240124",
+	"fdee5632-9f8b-49e6-9e3f-6cefdb66a6c1",
+	'domain_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"e292df87-7c25-4bee-a4ca-508560143c19",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fdee5632-9f8b-49e6-9e3f-6cefdb66a6c1",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("0c3443f0-4c27-4e4b-bdf3-8aeed98c603c",
+	"00000000-0000-0000-0000-000000000000",
+	'terminatorservice_getsignature',
+	'',
+	'd_tsvc = param.d_tsvc;
+
+/**
+ *  Return a string representation of this functions signature
+ *  with the specified flavor
+ *  0 = named parameters
+ *  1 = positional parameters
+ *  2 = signature with labels for content assist
+ *  3 = signature without parameters for content assist
+ *  named signature = return_type function(param1:type, param2:type, param3:type)
+ *  parameters for the named flavor are sorted alphanumerically
+ *  positional signature = return_type function(param1_type, param2_type, param3_type)
+ */
+ 
+signature = "";
+
+if ( 2 != param.flavor and 3 != param.flavor )
+  // Get return type
+  select one returntype related by d_tsvc->S_DT[R1656];
+  signature = signature + returntype.Name + " ";
+  signature = signature + "void ";
+end if;
+ 
+// Get name
+signature = signature + d_tsvc.Name;
+
+// Get parameters
+
+if ( 1 == param.flavor )
+
+  // Get the first parameter.
+  select any parameter related by d_tsvc->D_TSPARM[R1652];
+  first_param = parameter;
+  while ( not_empty parameter )
+	first_param = parameter;
+	select one parameter related by parameter->D_TSPARM[R1654.''succeeds''];
+  end while;
+
+  if( not_empty first_param )
+	signature = signature + "(";
+  end if;
+  separator = "";
+  parameter = first_param;
+  while ( not_empty parameter )
+	select one type related by parameter->S_DT[R1653];
+	signature = signature + separator + type.Name;
+	separator = ", ";
+	select one parameter related by parameter->D_TSPARM[R1654.''precedes''];
+  end while;
+  if( not_empty first_param )
+	signature = signature + ")";
+  end if;
+
+elif ( 0 == param.flavor )
+
+  // get the parameters in sorted order
+  separator = "";
+  select many parameters related by d_tsvc->D_TSPARM[R1652];
+  num_params = cardinality parameters; 
+  if ( num_params > 0 )
+	signature = signature + "(";
+  end if;
+
+  // the following time complexity is n^2
+  count = 0;
+  select any last_param from instances of D_TSPARM where false;
+  select any curr_param from instances of D_TSPARM where false;
+  while ( count < num_params )
+    for each parameter in parameters
+      if ( ( empty curr_param and empty last_param )
+           or ( empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name )
+           or ( not_empty curr_param and empty last_param and parameter.Name < curr_param.Name )
+           or ( not_empty curr_param and not_empty last_param and parameter != last_param and parameter.Name >= last_param.Name and parameter.Name < curr_param.Name ) )
+        curr_param = parameter;
+      end if;
+    end for;
+    
+    select one type related by curr_param->S_DT[R1653];
+    signature = signature + separator + curr_param.Name + ":" + type.Name;
+    separator = ", ";
+
+    last_param = curr_param;
+    select any curr_param from instances of D_TSPARM where false;
+    count = count + 1;
+  end while;
+
+  if ( num_params > 0 )
+	signature = signature + ")";
+  end if;
+  
+elif ( 2 == param.flavor )
+
+  // Get the first parameter.
+  select any parameter related by d_tsvc->D_TSPARM[R1652];
+  first_param = parameter;
+  while ( not_empty parameter )
+	first_param = parameter;
+	select one parameter related by parameter->D_TSPARM[R1654.''succeeds''];
+  end while;
+
+  signature = signature + "(";
+  separator = " ";
+  parameter = first_param;
+  while ( not_empty parameter )
+    signature = signature + separator + parameter.Name + ":";
+	separator = ", ";
+	select one parameter related by parameter->D_TSPARM[R1654.''precedes''];
+  end while;
+  if( not_empty first_param )
+    signature = signature + " ";
+  end if;
+  signature = signature + ")";
+
+elif ( 3 == param.flavor )
+
+  signature = signature + "()";
+  
+end if;
+
+return signature;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("41b34502-adf3-452e-9741-f72b77e44013",
+	"0c3443f0-4c27-4e4b-bdf3-8aeed98c603c",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4f4709ff-ffbe-4cb5-b24d-2688094acb3e",
+	"0c3443f0-4c27-4e4b-bdf3-8aeed98c603c",
+	'd_tsvc',
+	"778a889a-58a1-43f7-bc1f-f3de2990fbf0",
+	0,
+	'',
+	"41b34502-adf3-452e-9741-f72b77e44013",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("778a889a-58a1-43f7-bc1f-f3de2990fbf0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Terminator Service>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Deployment/Deployment.xtuml');
+INSERT INTO PE_PE
+	VALUES ("0c3443f0-4c27-4e4b-bdf3-8aeed98c603c",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",

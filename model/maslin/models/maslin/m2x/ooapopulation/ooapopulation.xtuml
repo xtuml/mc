@@ -289,8 +289,8 @@ o_attr.Pfx_Mode = 0;
 o_attr.Root_Nam = param.name;
 
 // TODO - assign a default type to aid in testing.  When attribute types are handled on the populate interface this can be removed to the // END comment
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+globaltypes_pkg = self.globaltypes_pkg;
+select any def_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
 relate o_attr to def_dt across R114;
 // END
 
@@ -343,7 +343,8 @@ select one old_s_dt related by o_attr->S_DT[R114];
 if ( not_empty old_s_dt )
   unrelate old_s_dt from o_attr across R114;
 end if;
-select any s_dt from instances of S_DT where ( selected.Name == "string" );
+globaltypes_pkg = self.globaltypes_pkg;
+select any s_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
 relate s_dt to o_attr across R114;',
 	1,
 	'',
@@ -1533,8 +1534,8 @@ select one function related by s_sparm->S_SYNC[R24];
 self.Function_addParameterToOrder(s_sync:function, s_sparm:s_sparm);
 
 // TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+globaltypes_pkg = self.globaltypes_pkg;
+select any def_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
 // END
 
 relate s_sparm to def_dt across R26;
@@ -1859,8 +1860,8 @@ select one package related by packageableElem->EP_PKG[R8000];
 select one component related by packageableElem->C_C[R8003];
 
 // Since this operation handles both functions and services, and services have void return types, we default to void here.
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
+globaltypes_pkg = self.globaltypes_pkg;
+select any def_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
 relate s_sync to def_dt across R25;
 
 s_sync.Name = param.name;
@@ -2063,8 +2064,8 @@ select one component related by packageableElem->C_C[R8003];
 select one interface related by c_io->C_EP[R4004]->C_I[R4003];
 self.Interface_addInterfaceOperationToOrder(c_i:interface, c_io:c_io);
 
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
+globaltypes_pkg = self.globaltypes_pkg;
+select any def_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
 relate c_io to def_dt across R4008;
 
 c_io.Name = param.name;
@@ -2156,8 +2157,8 @@ select one c_ep related by c_pp->C_EP[R4006];
 self.Interface_addParameterToOrder(c_ep:c_ep, c_pp:c_pp);
 
 // TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+globaltypes_pkg = self.globaltypes_pkg;
+select any def_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
 // END
 
 relate c_pp to def_dt across R4007;
@@ -2994,11 +2995,8 @@ if (param.sm_type == "ISM")
     relate sm to moore across R510;
     // add current state attribute
     o_attr = self.ModelClass_newAttribute(o_obj:o_obj, attr_name:"current_state");
-
-    // Reassign the attribute to a data type of void, which is not valid for an attribute.
-    // Then this can be keyed upon at instance dumping time to distinguish state model
-    // current_state from user assigned current_state.
-    select any s_dt from instances of S_DT where ( selected.Name == "void" );
+    globaltypes_pkg = self.globaltypes_pkg;
+    select any s_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "state<State_Model>" );
     if ( not_empty s_dt )
       select one old_s_dt related by o_attr->S_DT[R114];
       unrelate o_attr from old_s_dt across R114;
@@ -3603,8 +3601,8 @@ select one operation related by o_tparm->O_TFR[R117];
 self.Operation_addParameterToOrdering(o_tfr:operation, o_tparm:o_tparm);
 
 // TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+globaltypes_pkg = self.globaltypes_pkg;
+select any def_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
 // END
 
 relate o_tparm to def_dt across R118;
@@ -3928,8 +3926,8 @@ select one clazz related by o_tfr->O_OBJ[R115];
 self.ModelClass_addOperationToOrdering(o_obj: clazz, newTfr:o_tfr);
 
 // Since this operation handles both functions and services, and services have void return types, we default to void here.
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
+globaltypes_pkg = self.globaltypes_pkg;
+select any def_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
 relate o_tfr to def_dt across R116;
 
 o_tfr.Name = param.name;
@@ -4345,7 +4343,23 @@ pe.type = ElementTypeConstants::DATATYPE;
 self.PackageableElement_initialize(pe_pe:pe);
 
 // Link ID to appropriate xtUML core type.
-IDLINK::stitchID( name:param.type_name, pe_pe:pe, s_dt:dt, s_udt:udt );
+globaltypes_pkg = self.globaltypes_pkg;
+systypes_pkg = self.systypes_pkg;
+if ( "character" == param.type_name or
+     "wcharacter" == param.type_name or
+     "byte" == param.type_name or
+     "long_integer" == param.type_name or
+     "duration" == param.type_name )
+  select any integer_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "integer" );
+  relate integer_dt to udt across R18;
+elif ( "wstring" == param.type_name or
+       "MASLtype" == param.type_name )
+  select any string_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+  relate string_dt to udt across R18;
+else
+  select any masl_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "MASLtype" );
+  relate masl_dt to udt across R18;
+end if;
 
 // For complex MASL types we store the definition in the description
 if ( "" != param.definition )
@@ -5950,8 +5964,8 @@ select one sm_evt related by sm_evtdi->SM_EVT[R532];
 self.StateMachineEvent_addDataItemToOrder( sm_evtdi:sm_evtdi, sm_evt:sm_evt );
 
 // TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
-systypes_pkg = self.systypes_pkg;
-select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+globaltypes_pkg = self.globaltypes_pkg;
+select any def_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
 // END
 
 relate sm_evtdi to def_dt across R524;
@@ -7280,28 +7294,18 @@ if ( empty s_sys )
   self.systypes_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"types");
   
   i = 0;
-  s[ 18 ] = "initializing array length";
+  s[ 8 ] = "initializing array length";
   s[ i ] = "";
-  s[ 0 ] = "void";
-  s[ 1 ] = "boolean";
-  s[ 2 ] = "integer";
-  s[ 3 ] = "character";
-  s[ 4 ] = "wcharacter";
-  s[ 5 ] = "byte";
-  s[ 6 ] = "long_integer";
-  s[ 7 ] = "real";
-  s[ 8 ] = "string";
-  s[ 9 ] = "wstring";
-  s[ 10 ] = "date";
-  s[ 11 ] = "duration";
-  s[ 12 ] = "timestamp";
-  s[ 13 ] = "timer";
-  s[ 14 ] = "event";
-  s[ 15 ] = "device";
-  s[ 16 ] = "enum";
-  s[ 17 ] = "structure";
-  s[ 18 ] = "MASLtype";
-  i = 18;
+  s[ 0 ] = "character";
+  s[ 1 ] = "wcharacter";
+  s[ 2 ] = "byte";
+  s[ 3 ] = "long_integer";
+  s[ 4 ] = "wstring";
+  s[ 5 ] = "duration";
+  s[ 6 ] = "device";
+  s[ 7 ] = "MASLunique";
+  s[ 8 ] = "MASLtype";
+  i = 8;
 
   while ( i >= 0 )
     // Create the built-in MASL types.
@@ -8119,7 +8123,6 @@ if ( "preferred" == param.preferred )
 end if;
 
 if ( "unique" == param.unique )
-  self.transformType(name:"MASLunique", visibility:"public", definition:"");
   self.Attribute_setType(o_attr:self.current_attribute, type_name:"MASLunique");
 end if;',
 	1,
@@ -9229,29 +9232,32 @@ end if;
 
 // See if type already exists
 systypes_pkg = self.systypes_pkg;
+globaltypes_pkg = self.globaltypes_pkg;
 select any sys_s_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
 select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
-
-if ( (empty sys_s_dt) and (empty s_dt) )
+select any global_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == param.name );
+if ( (empty sys_s_dt) and (empty s_dt) and (empty global_dt) )
   // The type doesn''t already exist, create it
   self.Package_newDatatype(ep_pkg:types_pkg, type_name:param.name, definition:param.definition);
+  // Cache the new type
+  select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
+  self.current_type = s_dt;
 else
-  // update the type definition
-  if ( "" != param.definition )
-    select one s_udt related by s_dt->S_UDT[R17];
-    if ( not_empty s_udt )
-	  s_udt.Definition = param.definition;
-	end if;
+  // Cache the existing type
+  if ( not_empty sys_s_dt )
+    self.current_type = sys_s_dt;
+  elif ( not_empty s_dt )
+    self.current_type = s_dt;
+    // update the type definition
+    if ( "" != param.definition )
+      select one s_udt related by s_dt->S_UDT[R17];
+      if ( not_empty s_udt )
+        s_udt.Definition = param.definition;
+      end if;
+    end if;
+  elif ( not_empty global_dt )
+    self.current_type = global_dt;
   end if;
-end if;
-
-// Cache the new type
-select any sys_s_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
-if ( empty sys_s_dt )
-	select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
-	self.current_type = s_dt;
-else
-	self.current_type = sys_s_dt;
 end if;
 ',
 	1,
@@ -9334,7 +9340,32 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'delete object instance self;',
+	'// dispose global types package
+globaltypes_pkg = self.globaltypes_pkg;
+select many global_types related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001];
+for each global_type in global_types
+  select one s_cdt related by global_type->S_CDT[R17];
+  if ( not_empty s_cdt )
+    unrelate s_cdt from global_type across R17;
+    delete object instance s_cdt;
+  else
+    select one s_udt related by global_type->S_UDT[R17];
+    if ( not_empty s_udt )
+      select one core_type related by s_udt->S_DT[R18];
+      unrelate core_type from s_udt across R18;
+      unrelate s_udt from global_type across R17;
+      delete object instance s_udt;
+    end if;
+  end if;
+  select one global_type_pe related by global_type->PE_PE[R8001];
+  unrelate global_type from global_type_pe across R8001;
+  delete object instance global_type;
+  unrelate global_type_pe from globaltypes_pkg across R8000;
+  delete object instance global_type_pe;
+end for;
+delete object instance globaltypes_pkg;
+
+delete object instance self;',
 	1,
 	'',
 	"d575fa93-3488-4bc0-ab38-d6aff10a2894",
@@ -9709,7 +9740,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("aaa6d828-7883-45f8-9fcc-4f34f0d1fe31",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
-	"d97ed044-ca29-43b4-984c-07f8fcb4ee9f",
+	"91c622fc-46ea-4562-b74f-20f6b932fd41",
 	'current_attribute',
 	'',
 	'',
@@ -10115,6 +10146,24 @@ INSERT INTO O_ATTR
 	'current_exp',
 	0,
 	"47b02a5f-ecfb-49c6-bf1a-6e4a2ff6de02",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("91c622fc-46ea-4562-b74f-20f6b932fd41",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
+INSERT INTO O_BATTR
+	VALUES ("91c622fc-46ea-4562-b74f-20f6b932fd41",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
+INSERT INTO O_ATTR
+	VALUES ("91c622fc-46ea-4562-b74f-20f6b932fd41",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	"d97ed044-ca29-43b4-984c-07f8fcb4ee9f",
+	'globaltypes_pkg',
+	'',
+	'',
+	'globaltypes_pkg',
+	0,
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
 	'',
 	'');
 INSERT INTO O_ID

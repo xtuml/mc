@@ -1,0 +1,124 @@
+= mctools Refresh and Cleanup
+
+xtUML Project Implementation Note
+
+:sectnums:
+
+== Abstract
+
+Several tools are built from out of the MC-3020 architecture.  Some
+implement the OOA of OOA directly.  Most of these tools get built from
+sources on the build server, so they automatically stay up-to-date.
+There are a few exceptions that must be dealt with manually.
+
+== Introduction and Background
+
+`mcmc` and `integrity` are two applications that do not get fully rebuilt
+automatically on the build server.  These need to be manually refreshed.
+
+== Requirements
+
+=== Build and publish `mcmc` (escher).
+=== Build and publish `integrity`.
+
+== Work Required
+
+=== Rebuild `mcmc`.
+Build mcmc from the sources.  Generate the code being sure that all model
+elements are loaded.  ("Wiggle" the model data if required as described
+in <<dr-2,mcmc crash>>.)  [escher loaded on the first try.]
+
+=== Rebuild `integrity`.
+Build `integrity` from the sources.  Regenerate the body of the primary
+query from the archetype first.  [Instructions worked well.]
+
+== Implementation Comments
+
+=== asciidoc template
+I put a draft asciidoc template for an int in this branch.  It is incomplete,
+but is better than nothing for now.
+
+=== `t.sys_main.c`
+A bug was introduced in previous work (in commit b5483c80b) where a line
+was deleted along with some conditionals that should not have been deleted.
+This resulted in a missing `return 0` at the end of MC-3020 generated code
+in `main()`.
+
+=== Deployment Subsystem Filtering
+The Deployment (`D_`) subsystem instances were being filtered out of
+prebuilder SQL output by `xtumlmc_build`.  This was fixed by adding 'D_'
+into the list of instances allowed to pass through the filter.
+
+== Unit Test
+
+=== `masl_round_trip`
+Run masl_round_trip on the build server.  See clean results.
+This will exercise `xtumlmc_build` within the command line tool
+context.
+
+=== `MicrowaveOven`
+Generate code for MicrowaveOven on Linux and Windows.  See that code
+gets generated without complaint.
+
+=== `GPS_Watch`
+Import the MASL version of GPS_Watch.  This version contains a Deployment.
+Run the integrity checker on this project (Project CME -> BridgePoint Utilities ->
+Check Referential Integrity).  Expect to see some errors like below, but be
+sure that the errors are on the 'UC_UCA' instances only.
+
+```
+subtype not found from UC_UCA across R1210:  Assoc_ID "1f3a83d2-5ee6-4f27-826e-914ffe1b8f94"
+subtype not found from UC_UCA across R1210:  Assoc_ID "4dcfa921-1f57-4803-9720-645d8b8dd376"
+subtype not found from UC_UCA across R1210:  Assoc_ID "1d71410e-785c-452e-b41b-2cd56f88352f"
+subtype not found from UC_UCA across R1210:  Assoc_ID "b0f1b58d-9d3e-40e8-a0d2-fdd405bbaf56"
+subtype not found from UC_UCA across R1210:  Assoc_ID "12147d02-a939-46ae-b649-c93bf59049b5"
+subtype not found from UC_UCA across R1210:  Assoc_ID "7caa9d5a-7b65-4bf0-818f-c038d06bd276"
+instances checked:  4102
+checks made:  30802
+errors found:  6
+```
+
+== User Documentation
+
+No changes to User Documentation are necessary.
+
+== Code Changes
+
+- Fork/Repository: cortlandstarrett/mc
+- Branch: 11482_mcrefresh
+
+```
+ arc/c/t.sys_main.c                                         |   1 +
+ bin/integrity                                              | Bin 1169624 -> 1157384 bytes
+ bin/mac/integrity                                          | Bin 1337316 -> 1280228 bytes
+ bin/mac/mcmc                                               | Bin 1593360 -> 1604832 bytes
+ bin/mcmc                                                   | Bin 2397128 -> 2447320 bytes
+ bin/win/integrity.exe                                      | Bin 1397065 -> 1385399 bytes
+ bin/win/mcmc.exe                                           | Bin 1989944 -> 1746617 bytes
+ bin/win/xtumlmc_build.exe                                  | Bin 3995879 -> 3995885 bytes
+ bin/xtumlmc_build                                          |   1 +
+ doc/notes/11482_mcrefresh_int.adoc                         | 118 +++++++++++++++++++++++++++++++
+ doc/process/templates/int_template.adoc                    | 121 ++++++++++++++++++++++++++++++++
+ mcmc/arlan/o.oal                                           |  12 +++-
+ model/escher/gen/STRING_bridge.c                           |   0
+ model/escher/gen/ooaofooa.c                                |  32 ++++++++-
+ model/escher/gen/ooaofooa_c_orig                           |  32 ++++++++-
+ model/escher/models/escher/mcmc/afun/afun.xtuml            |  12 +++-
+ model/integrity/models/integrity/integrity/integrity.xtuml | 240 +++++++++++++++++++++++++++++++++++++++++
+ model/mcooa/gen/ooa.txt                                    | 240 +++++++++++++++++++++++++++++++++++++++++
+ 18 files changed, 803 insertions(+), 6 deletions(-)
+```
+
+== Document References
+
+In this section, list all the documents that the reader may need to refer to.
+Give the full path to reference a file.
+
+. [[dr-1]] https://support.onefact.net/issues/11482[11482 - mctools refresh and cleanup]
+. [[dr-2]] https://support.onefact.net/issues/8976[8976 - S_IRDTs omitted by prebuilder (mcmc crash)]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

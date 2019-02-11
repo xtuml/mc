@@ -79,5 +79,6 @@ ${te_persist.factory_init}();
 .if ( te_thread.enabled )
   ${te_thread.shutdown}();
 .end if
+${return_body}\
 }
 .//

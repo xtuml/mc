@@ -1,0 +1,114 @@
+= Update docgen to support Deployments
+
+xtUML Project Implementation Note
+
+:sectnums:
+
+== Abstract
+
+`docgen` is updated to support the new model elements Deployment (D_DEPL),
+Terminator (D_TERM), Terminator Service (D_TSVC) and Terminator Service
+Parameter (D_TSPARM).
+
+== Introduction and Background
+
+DocGen is a model-based model compiler that reads from the OOA of OOA
+and populates a model of Document and then emits DocBook XML.  The ouput
+DocBook XML text is processed by `xsltproc` into HTML.  Other formats
+could be produced.
+
+Now that new model elements have been added, DocGen needs to get new
+queries to extract these from the metamodel and populate them into the
+Document model.
+
+Tagged on with this issue is a removal of extraneous binaries in the
+configuration management repository (integrity).
+
+== Requirements
+
+=== Support Deployment Elements
+
+. D_DEPL
+. D_TERM
+. D_TSVC
+. D_TSPARM
+
+=== Removed Integrity Binaries
+
+The following binaries had been committed to the repository, yet these
+are built from sources on the build server.  Remove them.
+
+. mc/bin/integrity
+. mc/bin/mac/integrity
+. mc/bin/win/integrity.exe
+
+== Work Required
+
+Add a function to DocGen `docgen_deployments`.  It can be roughly
+modeled to follow `docgen_components`.
+
+== Implementation Comments
+
+=== typo
+<<dr-2,Issue 11484>> introduced a typo.  It is a single character change
+to `arc/t.sys_xtumlload.c`
+
+=== Registered Trademark
+The templates for generating the docbook output included a tag that
+established 'BridgePoint' as a registered tradement.  This is legally
+incorrect, and introduced a character that could not be displayed.
+This is removed.
+
+== Unit Test
+
+=== MicrowaveOven
+
+. Import MicrowaveOven example model.
+. Using the project context menu Create Documentation.
+. *Result:*  See a well formed HTML document and no errors in the console.
+
+=== MicrowaveOven with a Deployment
+
+. Import GPS_Watch (OAL) example model into the workspace.
+. Return to  MicrowaveOven example model.
+. In the project settings, turn on IPRs.
+. Add a top-level package (p).
+. In p, add a Deployment (d).
+. Import terminator services onto d from UI.
+. Using the project context menu Create Documentation.
+. *Result:*  See a well formed HTML document and no errors in the console.
+. *Result:*  Verify that the Deployment and Terminators are included in
+  the output HTML.
+
+== User Documentation
+
+no changes necessary
+
+== Code Changes
+
+- Fork/Repository: cortlandstarrett/mc
+- Branch: 11486_docgen
+
+```
+ arc/t.sys_xtumlload.c                                      |   2 +-
+ bin/integrity                                              | Bin 1157384 -> 0 bytes
+ bin/mac/integrity                                          | Bin 1280228 -> 0 bytes
+ bin/win/integrity.exe                                      | Bin 1385399 -> 0 bytes
+ doc/notes/11486_docgen_int.adoc                            |  69 ++++++
+ model/docgen/gen/docgen.c                                  | 796 ++++++++++++++++++---------------
+ model/docgen/models/docgen/DocGen/DocGen.xtuml             | 143 ++++++++++++
+ model/document/gen/docbook/t.documentbegin.xml             |  10 +-
+ model/document/gen/docbook_h/t.documentbegin.h             |  16 +-
+ 9 files changed, 736 insertions(+), 308 deletions(-)
+```
+
+== Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11486[11486 - Update docgen to support Deployments]
+. [[dr-2]] https://support.onefact.net/issues/11484[11484 - Make SQL loader more robust]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

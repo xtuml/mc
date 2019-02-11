@@ -209,6 +209,60 @@ INSERT INTO PE_PE
 	"bf81735d-197a-4cd8-acfa-23d7cd84f28b",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("a0e3fd78-41ac-445a-88fa-fbec2b9a8524",
+	"00000000-0000-0000-0000-000000000000",
+	'deployment_get_path',
+	'',
+	'// Append name to parent path to form path to me.
+d_depl = param.d_depl;
+select one ep_pkg related by d_depl->PE_PE[R8001]->EP_PKG[R8000];
+pathkey = ::package_get_path( ep_pkg:ep_pkg, child:"" );
+if ( not_empty d_depl )
+  pathkey = pathkey + "::" + d_depl.Name;
+  if ( "" != param.child )
+    pathkey = pathkey + "::" + param.child;
+  end if;
+else
+  TRACE::log( flavor:"failure", id:114, message:"error building path of component" );
+  pathkey = "";
+end if;
+return pathkey;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("e0fed8c7-9673-4c20-a7fc-d5a5d3eb7991",
+	"a0e3fd78-41ac-445a-88fa-fbec2b9a8524",
+	'd_depl',
+	"e5d1fc10-2520-4d7c-a65d-19d1c6375521",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("e5d1fc10-2520-4d7c-a65d-19d1c6375521",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Deployment>',
+	'',
+	'',
+	'../../../../mcooa/models/mcooa/ooaofooa/Deployment/Deployment.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("7575d1f3-6ebe-430c-918c-4b1c21476434",
+	"a0e3fd78-41ac-445a-88fa-fbec2b9a8524",
+	'child',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e0fed8c7-9673-4c20-a7fc-d5a5d3eb7991",
+	'');
+INSERT INTO PE_PE
+	VALUES ("a0e3fd78-41ac-445a-88fa-fbec2b9a8524",
+	1,
+	"bf81735d-197a-4cd8-acfa-23d7cd84f28b",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("bf81735d-197a-4cd8-acfa-23d7cd84f28b",
 	1,

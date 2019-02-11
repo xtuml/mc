@@ -1,2 +1,3 @@
 .invoke MarkEmptyHandleDetectionOn( "*" )
 .//.invoke MarkActionStatementTracingOn( "*" )
+.invoke MarkInitializationFunction( "masl2xtuml", "initialize_globals" )
