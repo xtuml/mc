@@ -1,4 +1,4 @@
-= Add support for passing arrays of strings
+= Fix string array initialization for docgen.
 
 xtUML Project Implementation Note
 
