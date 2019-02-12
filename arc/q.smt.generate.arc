@@ -226,18 +226,22 @@
       .if ( "" == te_assign.array_spec )
         .assign d = d + "=0"
       .else
-        .if ( te_sys.InstanceLoading )
-          .assign d = d + "={0"
-          .if ( element_count < 128 )
-            .assign i = element_count - 1
-            .// Only provide initializer for arrays of reasonable size.
-            .while ( i > 0 )
-              .assign i = i - 1
-              .assign d = d + ",0"
-            .end while
+        .select one root_te_dim related by root_te_val->TE_DIM[R2079]
+        .if ( not_empty root_te_dim )
+          .if ( element_count < root_te_dim.elementCount )
+            .assign element_count = root_te_dim.elementCount
           .end if
-          .assign d = d + "}"
         .end if
+        .assign d = d + "={0"
+        .if ( element_count < 128 )
+          .assign i = element_count - 1
+          .// Only provide initializer for arrays of reasonable size.
+          .while ( i > 0 )
+            .assign i = i - 1
+            .assign d = d + ",0"
+          .end while
+        .end if
+        .assign d = d + "}"
       .end if
       .assign d = d + ";"
       .invoke blk_declaration_append( te_blk, d )

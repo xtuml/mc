@@ -1471,8 +1471,9 @@
         .assign o_attr_Descrip_Persistent = "${o_attr.Descrip:Persistent}"
         .if ( o_attr_Descrip_Persistent != "false" )
           .if ( 5 == te_dt.Core_Typ )
+            .select any te_dma from instances of TE_DMA
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
-            .assign te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    " ) + ( te_string.itoa + "( self->" ) ) + ( te_attr.GeneratedName + " )" ) )
+            .assign te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    " ) + te_string.u128touuid ) + ( "( " + te_set.scope ) ) + ( ( te_dma.allocate + "( 39 ),  self->" ) + ( te_attr.GeneratedName + " )" ) )
           .elif ( "%p" == te_dt.string_format )
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld"
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    ((long)self->" ) + ( te_attr.GeneratedName + " & ESCHER_IDDUMP_MASK)" )

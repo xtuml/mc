@@ -66,10 +66,38 @@ UserInitializationCalloutf( void )
  * This function is invoked immediately prior to executing any xtUML
  * initialization functions.
  */
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include "masl_url.h"
 void
-UserPreOoaInitializationCalloutf( void )
+UserPreOoaInitializationCalloutf( int argc, char ** argv )
 {
-  /* Insert implementation specific code here.  */
+  static char * globals[2] = { "UserPreOoaInitializationCalloutf", "" };
+  {
+    int c;
+    opterr = 0;
+    while ( ( c = getopt ( argc, argv, "i:o:g:" ) ) != -1 ) {
+      switch ( c ) {
+        case 'i':
+        case 'o':
+          break;
+        case 'g':
+          if ( !optarg ) abort();
+          else {
+            globals[1] = optarg;
+            Escher_xtUML_load( 2, globals );
+          }
+          break;
+        case '?':
+          fprintf( stderr, "Unknown option character '%c'.\n", optopt );
+          break;
+        default:
+          abort (); // die ignominiously
+      }
+    }
+  }
 }
 
 /*
@@ -80,11 +108,6 @@ UserPreOoaInitializationCalloutf( void )
  * When this callout function returns, the system dispatcher will allow the
  * xtUML application analysis state models to start consuming events.
  */
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include "masl_url.h"
 void Escher_dump_instances( const Escher_DomainNumber_t, const Escher_ClassNumber_t );
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
@@ -96,7 +119,8 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "i:o:" ) ) != -1 ) {
+    optind = 1;
+    while ( ( c = getopt ( argc, argv, "i:o:g:" ) ) != -1 ) {
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
@@ -105,6 +129,8 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
         case 'o':
           if ( !optarg ) abort();
           else masl2xtuml_model_op_setoption( model, "projectroot", optarg );
+          break;
+        case 'g':
           break;
         case '?':
           fprintf( stderr, "Unknown option character '%c'.\n", optopt );
