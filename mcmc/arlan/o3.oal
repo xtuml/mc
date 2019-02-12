@@ -641,18 +641,22 @@ if ( te_assign.isImplicit )
     if ( "" == te_assign.array_spec )
       d = d + "=0";
     else
-      if ( te_sys.InstanceLoading )
-        d = d + "={0";
-        if ( element_count < 128 )
-          i = element_count - 1;
-          // Only provide initializer for arrays of reasonable size.
-          while ( i > 0 )
-            i = i - 1;
-            d = d + ",0";
-          end while;
+      select one root_te_dim related by root_te_val->TE_DIM[R2079];
+      if ( not_empty root_te_dim )
+        if ( element_count < root_te_dim.elementCount )
+          element_count = root_te_dim.elementCount;
         end if;
-        d = d + "}";
       end if;
+      d = d + "={0";
+      if ( element_count < 128 )
+        i = element_count - 1;
+        // Only provide initializer for arrays of reasonable size.
+        while ( i > 0 )
+          i = i - 1;
+          d = d + ",0";
+        end while;
+      end if;
+      d = d + "}";
     end if;
     d = d + ";";
     ::blk_declaration_append( te_blk:te_blk, s:d );

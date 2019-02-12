@@ -1,0 +1,95 @@
+= Fix string array initialization for docgen.
+
+xtUML Project Implementation Note
+
+:sectnums:
+
+== Abstract
+
+Support initialization of string transient variables for docgen and
+potentially other model compiler tools.
+
+== Introduction and Background
+
+The headline issue <<8288>> represents ongoing work to support arrays
+of strings in MC-3020.
+
+== Requirements
+
+=== Initialize string transients to cover the `docgen` use case.
+'format' and 'columns' parameters are used extensively in `docgen` class
+operations.  Support the initialization of a local transient to be passed 
+as a parameter to these operations.  Obviate the need to hand-edit the
+generated source code in this case.
+
+== Work Required
+
+. Fix `q.smt.translate.arc:smt_assign()`.  Find the dimension (TE_DIM)
+that has the element count needed for the variable initialization.  This
+is found related to the root V_VAL instance, which is easily accessible
+in this module.
+. Propagate this change in RSL into the following files:
+  * o3.oal
+  * afunsmt.xtuml
+  * docgen_c_orig
+  * docgen.c
+. Compile escher and supply new mcmc binaries.
+. Change the HOWTO in the docgen/gen folder and remove the build step that
+explains the hand-edits.
+
+== Implementation Comments
+
+==== datatype.mark
+`datatype.mark` in the escher gen folder was using old-style RSL that
+set referential attributes to formalize associations.  This is changed
+to use the new 'relate' and 'unrelate' statements.
+
+== Unit Test
+
+=== Rebuild docgen
+
+. Rebuild docgen using the new mcmc.
+. See that the newly generated `docgen.c` has the correct array
+initializers.
+
+=== Rebuild escher
+
+. Rebuild escher with the newly supplied mcmc.
+. See that the source code did not change from the previous build.
+
+== User Documentation
+
+N/A
+
+== Code Changes
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  8288_string
+
+```
+ arc/q.smt.generate.arc                                |   24 +-
+ bin/mac/mcmc                                          |  Bin 1604832 -> 1621256 bytes
+ bin/mcmc                                              |  Bin 2447320 -> 2467840 bytes
+ bin/win/mcmc.exe                                      |  Bin 1746746 -> 1763160 bytes
+ doc/notes/8288_string_int.adoc                        |   80 ++
+ mcmc/arlan/o3.oal                                     |   24 +-
+ model/docgen/gen/HOWTO_build_docgen.txt               |    4 -
+ model/docgen/gen/datatype.mark                        |   10 +-
+ model/docgen/gen/docgen.c                             | 3472 -------------------------------------------------------------------
+ model/escher/gen/datatype.mark                        |   10 +-
+ model/escher/gen/ooaofooa.c                           |   54 +-
+ model/escher/gen/ooaofooa_c_orig                      |   56 +-
+ model/escher/models/escher/mcmc/afunsmt/afunsmt.xtuml |   24 +-
+ 13 files changed, 190 insertions(+), 3568 deletions(-)
+```
+
+== Document References
+
+. [[8288]] https://support.onefact.net/issues/8288[8288 - Add support for passing arrays of strings]
+. [[11511]] https://support.onefact.net/issues/11511[11511 - Fix strings for docgen.]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
