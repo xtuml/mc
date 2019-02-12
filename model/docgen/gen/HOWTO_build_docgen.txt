@@ -1,5 +1,1 @@
-The generated docgen.c file will have incorrect array transient initializers.
-Hand edit the 'columns' and 'format' initializers to have the correct number
-of elements.
-
 There is a makefile in the src folder.  Use it.
