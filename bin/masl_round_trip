@@ -18,6 +18,7 @@ print_usage () {
     echo " ";
     echo "  - Up to twenty domains may be specified. If a project is specified, only the project is diff'd.";
     echo "  - Consider installing xvfb and calling this script with xvfb-run to execute headlessly. See info in this script's header.";
+    echo "  - Specify the '-c' flag to enable and produce code coverage statistics.";
     echo "  - Specify the '-r' flag to force exit and relaunch of BridgePoint before export.";
     echo -e "\n";
 }
@@ -42,6 +43,7 @@ DOM_DIRS=()
 PROJ_DIR=
 OUT_DIR=
 RELAUNCH=
+COVERAGE=
 
 # parse arguments
 DIRECTIVE=
@@ -50,6 +52,8 @@ for arg in $@; do
         DIRECTIVE=$arg
     elif [[ $arg == "-r" ]]; then                                   # relaunch BP before export
         RELAUNCH=$arg
+    elif [[ $arg == "-c" ]]; then                                   # produce coverage statistics
+        COVERAGE=$arg
     elif [[ $DIRECTIVE == "-d" ]]; then                             # add a domain dir
         DOM_DIRS+=($arg)
     elif [[ $DIRECTIVE == "-p" ]]; then                             # add a project dir
@@ -168,7 +172,7 @@ for domain in ${DOM_DIRS[*]}; do
         CLI.sh Launch
       fi
 
-      xtuml2masl -i $WORKSPACE/$domProj/ -d $compname -o $MASLOUTDIR
+      xtuml2masl $COVERAGE -i $WORKSPACE/$domProj/ -d $compname -o $MASLOUTDIR
 
       # Now diff
       echo "Diff'ing input and output MASL."
@@ -232,7 +236,7 @@ if [[ $PROJ_DIR != "" ]]; then
       CLI.sh Launch
     fi
 
-    xtuml2masl -i $WORKSPACE/p1 -p $compname -o $MASLOUTDIR
+    xtuml2masl $COVERAGE -i $WORKSPACE/p1 -p $compname -o $MASLOUTDIR
 
     # Now diff
     echo "Diff'ing input and output MASL."
