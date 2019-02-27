@@ -8,16 +8,17 @@
 #  will capture focus as this script runs.  To run this script completely headlessly,
 #  install the xvfb package for your distribution and call this script using xvfb-run.
 #
-#   ./wasl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]
-#   xvfb-run ./wasl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]
+#   ./wasl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-c]
+#   xvfb-run ./wasl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-c]
 
 # USAGE
 print_usage () { 
     echo "Usage:"
-    echo "        wasl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-r]";
+    echo "        wasl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-r] [-c]";
     echo " ";
     echo "  - Up to twenty domains may be specified. If a project is specified, only the project is diff'd.";
     echo "  - Consider installing xvfb and calling this script with xvfb-run to execute headlessly. See info in this script's header.";
+    echo "  - Specify the '-c' flag to enable and produce code coverage statistics.";
     echo "  - Specify the '-r' flag to force exit and relaunch of BridgePoint before export.";
     echo -e "\n";
 }
@@ -42,6 +43,7 @@ DOM_DIRS=()
 PROJ_DIR=
 OUT_DIR=
 RELAUNCH=
+COVERAGE=
 
 # parse arguments
 DIRECTIVE=
@@ -50,6 +52,8 @@ for arg in $@; do
         DIRECTIVE=$arg
     elif [[ $arg == "-r" ]]; then                                   # relaunch BP before export
         RELAUNCH=$arg
+    elif [[ $arg == "-c" ]]; then                                   # produce coverage statistics
+        COVERAGE=$arg
     elif [[ $DIRECTIVE == "-d" ]]; then                             # add a domain dir
         DOM_DIRS+=($arg)
     elif [[ $DIRECTIVE == "-p" ]]; then                             # add a project dir
@@ -163,7 +167,7 @@ for domain in ${DOM_DIRS[*]}; do
         CLI.sh Launch
       fi
 
-      xtuml2wasl -i $WORKSPACE/$domProj/ -d $compname -o $MODELOUTDIR
+      xtuml2wasl $COVERAGE -i $WORKSPACE/$domProj/ -d $compname -o $MODELOUTDIR
 
       # Now diff
       echo "Diff'ing input and output."
@@ -223,7 +227,7 @@ if [[ $PROJ_DIR != "" ]]; then
       CLI.sh Launch
     fi
 
-    xtuml2wasl -i $WORKSPACE/p1 -p $compname -o $MODELOUTDIR
+    xtuml2wasl $COVERAGE -i $WORKSPACE/p1 -p $compname -o $MODELOUTDIR
 
     # Now diff
     echo "Diff'ing input and output."

@@ -66,12 +66,12 @@ fi
 for domain in ${DOM_DIRS[*]}; do
     DN=$OUT_DIR/`basename $domain`/
     mkdir $DN
-    ( java -cp $CP WaslImportParser -d $domain ) | m2x -o $DN > $DN/`basename $domain`.xtuml
+    ( java -cp $CP WaslImportParser -d $domain ) | m2x -o $DN -g $DIR/../schema/Globals.xtuml > $DN/`basename $domain`.xtuml
 done
 
 # process projects
 for project in ${PROJ_DIRS[*]}; do
     DN=$OUT_DIR/`basename $project`/
     mkdir $DN
-    ( java -cp $CP WaslImportParser -p $project ) | m2x -o $DN > $DN/`basename $project`.xtuml
+    ( java -cp $CP WaslImportParser -p $project ) | m2x -o $DN -g $DIR/../schema/Globals.xtuml > $DN/`basename $project`.xtuml
 done

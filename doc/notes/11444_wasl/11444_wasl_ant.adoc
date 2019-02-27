@@ -8,6 +8,8 @@ xtUML Project Analysis Note
 == Miscellaneous Notes to Myself
 
 === Thinking About MASL Dumper
+
+----
 DaveSk and DaveS suggest using the MASL dumper to dump BAE models.
 pro:  masl2xtuml is already in place and complete.
 pro:  masl2xtuml flow is tested.
@@ -16,31 +18,42 @@ con:  MASL dumper does not emit:  class key letters, class numbers, event number
 con:  I suspect that BAE models may struggle to dump, because the results may be incomplete MASL (missing role phrases for example).
 con:  I think that MASL may have name limitations not in ASL (blanks in role phrases?).
 question:  Is the MASL dumper up-to-date with iUML at BAE (patches, iUML-API)?
+----
 
 Perhaps the MASL dumper could be modified to (in the forward declaration and/or in the definition):
+```
 object TrackPoint,TP,7 is
 end object
+```
 
-- A domain has a version.  This may need to be stored.
+=== issues
+
+- Does maslin capture the class number?
+- sys_user_co.c 64000 string length (for Windows?)  The marked value is 250000.
 - I wonder how the WASL dumper chooses which object to start from (for A, B, C)(subtype list)?
 - data order?
 - Remove 'tododelete' from ooaparticipation in maslin.
 - Deal with 'typeminer'.
 
-+ Investigate using conditional generation in 'render' operations rather than having 'render_masl/render_wasl'.  The association hierarchy may be a good example where only the template is different.
-  * Consider putting an attribute on the genfile.
+=== resolved issues
+
+- maslin:  added support for (both object names and) keyletters to find classes
+- maslout:  passed key letters and class number downstream to 'masl'.
+- A domain has a version.  This may need to be stored.  [It does not.]
+- Investigate using conditional generation in 'render' operations rather than having 'render_masl/render_wasl'.  The association hierarchy may be a good example where only the template is different.  [Did this.  Much better.]
+  * Consider putting an attribute on the genfile.  [Did.  Now the file knows it flavor.]
   * 'population' is probably the wrong place.
   * I have added a class-based operation on `genfile::architecture` which returns a string flavor.
-+ Why is MASL round trip broken?  I think I ran into this when I was building something a while back.  It might be my branches?...
+- Why is MASL round trip broken?  I think I ran into this when I was building something a while back.  It might be my branches?...
   * I think my selection (by name or kl) does not find it so renders it again.
   * I found it.  It was OAL I moved out from inside an if statement so that I was relating something multiple times.
-+ Add number to object.
-+ Identify tasks good for BAE people.
-+ The compare utility will be simpler and will not take a whole week.
-+ Add number to SMASL.
-+ Fix class name and key letters issue.
+- Add number to object.
+- Identify tasks good for BAE people.
+- The compare utility will be simpler and will not take a whole week.
+- Add number to SMASL.
+- Fix class name and key letters issue.
   * Generate object stanza during relationship import?
-+ I broke the import which now cycles on relationship formalization.
+- I broke the import which now cycles on relationship formalization.
 
 == Abstract
 

@@ -268,7 +268,7 @@ masl_type_op_validate( masl_type * self)
 void
 masl_type_op_tostring( masl_type * self)
 {
-  c_t * emptyvalue[8]={0};c_t * value[8]={0};
+  c_t * emptyvalue[8]={0,0,0,0,0,0,0,0};c_t * value[8]={0,0,0,0,0,0,0,0};
   /* ASSIGN value[7] =  */
   value[7] = Escher_strcpy( value[7], "" );
   /* ASSIGN emptyvalue[7] =  */
