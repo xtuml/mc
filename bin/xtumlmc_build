@@ -1150,8 +1150,8 @@ sub xtuml_integrity
 sub xtuml2masl;
 sub xtuml2masl
 {
-  # xtuml2masl [-v | -V] [-e] [-xf] [-xl] [-w] -i <eclipse project> -d <domain component> [-o <output directory>]
-  # xtuml2masl [-v | -V] [-e] [-xf] [-xl] [-w] -i <eclipse project> -p <project package> [-o <output directory>]
+  # xtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -d <domain component> [-o <output directory>]
+  # xtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -p <project package> [-o <output directory>]
 
   # get command line arguments
   my @param_list = @_;
@@ -1177,7 +1177,7 @@ sub xtuml2masl
   my @dom_names;
   my @proj_names;
 
-  my $usage = "Usage:\n\txtuml2masl [-v | -V] [-e] [-xf] [-xl] [-w] -i <eclipse project> -d <domain component> [-o <output directory>]\n\txtuml2masl [-v | -V] [-e] [-xf] [-xl] [-w] -i <eclipse project> -p <project package> [-o <output directory>]\n";
+  my $usage = "Usage:\n\txtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -d <domain component> [-o <output directory>]\n\txtuml2masl [-v | -V] [-e] [-xf] [-xl] -i <eclipse project> -p <project package> [-o <output directory>]\n";
 
   # parse arguments
   my $directive = "";
@@ -1194,8 +1194,8 @@ sub xtuml2masl
       $skip_formatter = "$arg";
       $directive = "";
     }
-    elsif ( $arg eq "-w" ) {                                        # generate WASL
-      $architecture = "WASL";
+    elsif ( $arg eq "-a" ) {                                        # specify architecture
+      $architecture = "$arg";
     }
     elsif ( $arg eq "-p" or $arg eq "-d" or $arg eq "-i" or $arg eq "-o" ) {        # set the directive
       $directive = "$arg";

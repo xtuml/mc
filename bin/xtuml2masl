@@ -3,4 +3,4 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export MASL_BIN_DIR=$DIR/
 
-java -cp $DIR/../../../plugins/org.xtuml.bp.x2m*/x2m.jar org.xtuml.bp.x2m.Xtuml2Masl $@
+java -cp $DIR/../../../plugins/org.xtuml.bp.x2m*/x2m.jar org.xtuml.bp.x2m.Xtuml2Masl -a MASL $@
