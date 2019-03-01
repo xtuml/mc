@@ -187,6 +187,7 @@ arguments in order and specification of arguments.
 |                   | type              | required              | "assigner", "assigner start", "creation", "terminal", or "" |
 | subsuper          | name              | required              | string                                                      |
 | terminator        | name              | required              | string                                                      |
+|                   | key_letters       | optional              | string                                                      |
 | transition        | startstate        | required              | string, "Non_Existant", "Non_Existent", or "non_existent"   |
 |                   | eventDomain       | optional              | string                                                      |
 |                   | eventObject       | optional              | string                                                      |

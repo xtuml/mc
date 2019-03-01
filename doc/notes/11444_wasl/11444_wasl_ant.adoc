@@ -28,12 +28,28 @@ end object
 
 === issues
 
+- Terminators go into a file called *.ter.  Bridges go into a file called *.brp.  So, terminators are kind-of in 2 files.  This needs to be resolved on how the genfile is linked.
+  * domain:  dmp
+  * ...
+
+NOTE:  I do not think that linking in the genfile is even necessary.  It can be created just before emission.
+
+- Right, so this is how it is solved.  genfile is populated as needed from the top-level genfile.render_wasl.
+
+- Double-check the genfile traversals that are used to avoid creating too many files.
+- What is a terminator operation number?  Do we need to capture it on input?  Do we need to emit it on output?
+- Terminators have name and key letters.  Do we need to capture it on input?  Do we need to emit it on output (yes)?
+- Added key_letters to 'terminator' class and the terminator message in SMASL.  At the moment, x2m does nothing with it.
+- What is a class operation number?  Do we need to capture it on input?  Do we need to emit it on output?
+- Do we have the by_ref information for a parameter in maslout/masl?
 - Does maslin capture the class number?
 - sys_user_co.c 64000 string length (for Windows?)  The marked value is 250000.
 - I wonder how the WASL dumper chooses which object to start from (for A, B, C)(subtype list)?
 - data order?
 - Remove 'tododelete' from ooaparticipation in maslin.
 - Deal with 'typeminer'.
+- Describe the design of the file mapping architecture.
+- Reuse much of the analysis and design of 'masl', its populate and render, its meta-modeling, etc.
 
 === resolved issues
 
@@ -54,6 +70,7 @@ end object
 - Fix class name and key letters issue.
   * Generate object stanza during relationship import?
 - I broke the import which now cycles on relationship formalization.
+- Updated x2m plugin Xtuml2Masl.java to accept the -w flag and pass it through to 'masl'.  This update followed the pattern of the '-c' (coverage) flag that was recently added.
 
 == Abstract
 

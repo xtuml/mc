@@ -568,42 +568,6 @@ structuralOnly = param.structuralOnly;
 select any population from instances of population;
 population.architecture = "WASL";
 
-// Populate the file containerization before transforming and emitting the text.
-select many elements from instances of element;
-for each e in elements
-  file_needed = true;
-  select any genfile from instances of genfile where ( false );
-	if ( "associative" == e.name )
-		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->associative[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "domain" == e.name )
-	  select one genfile related by e->markable[R3786]->domain[R3783]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "event" == e.name )
-		select any genfile related by e->markable[R3786]->event[R3783]->object[R3736]->domain[R3708]->object[R3708]->event[R3736]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "object" == e.name )
-		select any genfile related by e->markable[R3786]->object[R3783]->domain[R3708]->object[R3708]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "operation" == e.name ) // functions and class operations go in the same file
-		select any genfile related by e->markable[R3786]->activity[R3783]->operation[R3704]->object[R3749]->domain[R3708]->object[R3708]->operation[R3749]->activity[R3704]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "regularrel" == e.name )
-		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->regularrel[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "routine" == e.name ) // functions and class operations go in the same file
-		select any genfile related by e->markable[R3786]->activity[R3783]->routine[R3704]->domain[R3790]->routine[R3790]->activity[R3704]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "subsuper" == e.name )
-		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "terminator" == e.name )
-		select any genfile related by e->markable[R3786]->terminator[R3783]->domain[R3702]->terminator[R3702]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "type" == e.name )
-		select any genfile related by e->markable[R3786]->type[R3783]->domain[R3719]->type[R3719]->markable[R3783]->element[R3786]->genfile[R3795];
-	else
-		file_needed = false;
-  end if;
-	if ( ( empty genfile ) and ( file_needed ) )
-	  genfile = genfile::populate( name:name );
-	end if;
-	if ( not_empty genfile )
-	  relate genfile to e across R3795;
-	end if;
-end for;
-
 if ( "project" == element )
   select many projects from instances of project where ( selected.name == name );
   if ( ( "*" == name ) or ( "" == name ) )
@@ -651,14 +615,20 @@ elif ( "domain" == element )
     for each domain in domains
 
       // domain ("dump") file
-      select one genfile related by domain->markable[R3783]->element[R3786]->genfile[R3795];
-      if ( not_empty genfile )
-        domain.render();
-        genfile.directory( name:domain.name );
-        genfile.emit( name:domain.name + ".dmp" );
-      end if;
+      genfile = genfile::populate( name:name );
+      domain.render();
+      genfile.directory( name:domain.name );
+      genfile.emit( name:domain.name + ".dmp" );
 
       // terminators file
+      select many terminators related by domain->terminator[R3702];
+      for each terminator in terminators
+        terminator.render();
+      end for;
+      genfile = genfile::populate( name:name );
+      genfile.directory( name:domain.name );
+      genfile.emit( name:domain.name + ".ter" );
+
       // hand coded files file (no need to generate)
       // scenarios
       // scenario list file
@@ -669,37 +639,31 @@ elif ( "domain" == element )
 
       // objects file
       select many objects related by domain->object[R3708];
-      select any genfile related by objects->markable[R3783]->element[R3786]->genfile[R3795];
-      if ( not_empty genfile )
-        for each obj in objects
-          obj.render();
-        end for;
-        genfile.directory( name:domain.name );
-        genfile.emit( name:domain.name + ".obj" );
-      end if;
+      for each obj in objects
+        obj.render();
+      end for;
+      genfile = genfile::populate( name:name );
+      genfile.directory( name:domain.name );
+      genfile.emit( name:domain.name + ".obj" );
 
       // relationships file
       select many rels related by domain->relationship[R3712];
       select many subsuper_rels related by domain->relationship[R3712]->subsuper[R3721]->relationship[R3721];
       other_rels = rels - subsuper_rels;
-      select any genfile related by other_rels->markable[R3783]->element[R3786]->genfile[R3795];
-      if ( not_empty genfile )
-        for each rel in other_rels
-          rel.render();
-        end for;
-        genfile.directory( name:domain.name );
-        genfile.emit( name:domain.name + ".rel" );
-      end if;
+      for each rel in other_rels
+        rel.render();
+      end for;
+      genfile = genfile::populate( name:name );
+      genfile.directory( name:domain.name );
+      genfile.emit( name:domain.name + ".rel" );
 
       // subtypes file
-      select any genfile related by subsuper_rels->markable[R3783]->element[R3786]->genfile[R3795];
-      if ( not_empty genfile )
-        for each rel in subsuper_rels
-          rel.render();
-        end for;
-        genfile.directory( name:domain.name );
-        genfile.emit( name:domain.name + ".sub" );
-      end if;
+      for each rel in subsuper_rels
+        rel.render();
+      end for;
+      genfile = genfile::populate( name:name );
+      genfile.directory( name:domain.name );
+      genfile.emit( name:domain.name + ".sub" );
 
       // polymorphic events file
       // .pme_test (no need to generate)
@@ -709,17 +673,15 @@ elif ( "domain" == element )
 
       // types file
       select many types related by domain->type[R3719];
-      select any genfile related by types->markable[R3783]->element[R3786]->genfile[R3795];
-      if ( not_empty genfile )
-        for each typ in types
-          typ.render();
-        end for;
-        for each obj in objects
-          obj.render_declaration();
-        end for;
-        genfile.directory( name:domain.name );
-        genfile.emit( name:domain.name + ".typ" );
-      end if;
+      for each typ in types
+        typ.render();
+      end for;
+      for each obj in objects
+        obj.render_declaration();
+      end for;
+      genfile = genfile::populate( name:name );
+      genfile.directory( name:domain.name );
+      genfile.emit( name:domain.name + ".typ" );
 
       if ( structuralOnly == true )
         // we have output the domain structural bits, so skip activites
