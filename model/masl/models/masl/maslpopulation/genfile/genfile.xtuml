@@ -573,16 +573,24 @@ select many elements from instances of element;
 for each e in elements
   file_needed = true;
   select any genfile from instances of genfile where ( false );
-	if ( "domain" == e.name )
+	if ( "associative" == e.name )
+		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->associative[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
+	elif ( "domain" == e.name )
 	  select one genfile related by e->markable[R3786]->domain[R3783]->markable[R3783]->element[R3786]->genfile[R3795];
+	elif ( "event" == e.name )
+		select any genfile related by e->markable[R3786]->event[R3783]->object[R3736]->domain[R3708]->object[R3708]->event[R3736]->markable[R3783]->element[R3786]->genfile[R3795];
 	elif ( "object" == e.name )
 		select any genfile related by e->markable[R3786]->object[R3783]->domain[R3708]->object[R3708]->markable[R3783]->element[R3786]->genfile[R3795];
+	elif ( "operation" == e.name ) // functions and class operations go in the same file
+		select any genfile related by e->markable[R3786]->activity[R3783]->operation[R3704]->object[R3749]->domain[R3708]->object[R3708]->operation[R3749]->activity[R3704]->markable[R3783]->element[R3786]->genfile[R3795];
 	elif ( "regularrel" == e.name )
 		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->regularrel[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
-	elif ( "associative" == e.name )
-		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->associative[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
+	elif ( "routine" == e.name ) // functions and class operations go in the same file
+		select any genfile related by e->markable[R3786]->activity[R3783]->routine[R3704]->domain[R3790]->routine[R3790]->activity[R3704]->markable[R3783]->element[R3786]->genfile[R3795];
 	elif ( "subsuper" == e.name )
 		select any genfile related by e->markable[R3786]->relationship[R3783]->domain[R3712]->relationship[R3712]->subsuper[R3721]->relationship[R3721]->markable[R3783]->element[R3786]->genfile[R3795];
+	elif ( "terminator" == e.name )
+		select any genfile related by e->markable[R3786]->terminator[R3783]->domain[R3702]->terminator[R3702]->markable[R3783]->element[R3786]->genfile[R3795];
 	elif ( "type" == e.name )
 		select any genfile related by e->markable[R3786]->type[R3783]->domain[R3719]->type[R3719]->markable[R3783]->element[R3786]->genfile[R3795];
 	else
