@@ -115,12 +115,30 @@ select one returntyperef related by self->typeref[R3741];
 if ( not_empty returntyperef )
   returntype = returntyperef.body;
 end if;
-T::include( file:"masl/t.operation_begin.masl" );
-select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
-if ( not_empty parameter )
-  parameter.render();
+select one object related by self->object[R3749.''transforms''];
+
+
+if ( "MASL" == genfile::architecture() )
+
+  T::include( file:"masl/t.operation_begin.masl" );
+  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+  if ( not_empty parameter )
+    parameter.render();
+  end if;
+  T::include( file:"masl/t.operation_end.masl" );
+
+elif ( "WASL" == genfile::architecture() )
+
+  scope = object.key_letters;
+  T::include( file:"wasl/t.routine_begin.wasl" );
+  select one activity related by self->activity[R3704];
+  activity.render();
+  T::include( file:"wasl/t.routine_end.wasl" );
+
+else
+  //
 end if;
-T::include( file:"masl/t.operation_end.masl" );',
+',
 	1,
 	'',
 	"bf04f00c-4226-4f60-932e-b8c6751d1a21",

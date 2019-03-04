@@ -106,12 +106,28 @@ select one returntyperef related by self->typeref[R3792];
 if ( not_empty returntyperef )
   returntype = returntyperef.body;
 end if;
-T::include( file:"masl/t.routine_begin.masl" );
-select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
-if ( not_empty parameter )
-  parameter.render();
-end if;
-T::include( file:"masl/t.routine_end.masl" );',
+select one domain related by self->domain[R3790];
+
+if ( "MASL" == genfile::architecture() )
+
+  T::include( file:"masl/t.routine_begin.masl" );
+  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+  if ( not_empty parameter )
+    parameter.render();
+  end if;
+  T::include( file:"masl/t.routine_end.masl" );
+
+elif ( "WASL" == genfile::architecture() )
+
+  scope = domain.name;
+  T::include( file:"wasl/t.routine_begin.wasl" );
+  select one activity related by self->activity[R3704];
+  activity.render();
+  T::include( file:"wasl/t.routine_end.wasl" );
+
+else
+  //
+end if;',
 	1,
 	'',
 	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",

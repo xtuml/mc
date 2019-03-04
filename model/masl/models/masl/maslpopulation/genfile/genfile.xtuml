@@ -55,7 +55,7 @@ if ( "project" == element )
         continue;
       end if;
       
-	  // render all the activity files
+      // render all the activity files
       select many terminator_activities related by project->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
       for each activity in terminator_activities
         select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
@@ -105,17 +105,17 @@ elif ( "domain" == element )
           destination = genfile.getname();
           // Domain files go into a directory named after the domain.
           genfile.directory( name:domain.name );
-		  select one class_op related by activity->operation[R3704];
-		  select one deferral related by class_op->subsuper[R3793];
-		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			genfile.gen( destination:destination );
-		  end if;
+          select one class_op related by activity->operation[R3704];
+          select one deferral related by class_op->subsuper[R3793];
+          if ( empty class_op or ( not_empty class_op and empty deferral ) )
+            genfile.gen( destination:destination );
+          end if;
         end if;
       end for;
 
     end for;
   end if;
-elif ( "" == element )	// render from the root
+elif ( "" == element ) // render from the root
   select one root_element related by population->element[R3785];
   if ( not_empty root_element )
     root_element.render();
@@ -420,75 +420,75 @@ if ( not_empty activity )
   select any pragma_item related by filename_pragma->pragma_item[R3780];
   if ( not_empty pragma_item )
     fn_len = STRING::strlen( s:pragma_item.value );
-	name = STRING::substr( s:pragma_item.value, begin: 1, end: fn_len - 1 );
+    name = STRING::substr( s:pragma_item.value, begin: 1, end: fn_len - 1 );
   else
-	select one routine related by activity->routine[R3704];
-	select one operation related by activity->operation[R3704];
-	select one state related by activity->state[R3704];
-	
-	if ( not_empty routine )
-	  select one terminator related by routine->terminator[R3791];
-	  select one returntype related by routine->typeref[R3792];
-	  if ( empty terminator )			// domain routine
-		select any scn_pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
-		select any ext_pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
-		if ( not_empty scn_pragma )	// domain scenario
-		  name = activity.name + ".scn";
-		elif ( not_empty ext_pragma )	// domain external
-		  name = activity.name + ".ext";
-		else							// domain service
-		  name = activity.name + ".svc";
-		end if;
-	  else							// terminator routine
-		select one project related by terminator->domain[R3702]->project[R3701];
-		select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
-		select any pragma_item related by pragma->pragma_item[R3780];
-		key_letters = "";
-		if ( empty pragma_item )
-		  key_letters = terminator.name;
-		else
-		  kl_len = STRING::strlen( s:pragma_item.value );
-		  key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
-		end if;
-		if ( empty project )			// domain terminator
-		  name = key_letters + "_" + activity.name + ".tr";
-		else							// project terminator
-		  select one domain related by terminator->domain[R3702];
-		  name = domain.name + "_" + key_letters + "_" + activity.name + ".tr";
-		end if;
-	  end if;
-	elif ( not_empty operation )
-	  select one returntype related by operation->typeref[R3741];
-	  select any pragma related by operation->object[R3749]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
-	  select any pragma_item related by pragma->pragma_item[R3780];
-	  key_letters = "";
-	  if ( empty pragma_item )
-		select one obj related by operation->object[R3749];
-		key_letters = obj.name;
-	  else
-		kl_len = STRING::strlen( s:pragma_item.value );
-		key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
-	  end if;
+    select one routine related by activity->routine[R3704];
+    select one operation related by activity->operation[R3704];
+    select one state related by activity->state[R3704];
+
+    if ( not_empty routine )
+      select one terminator related by routine->terminator[R3791];
+      select one returntype related by routine->typeref[R3792];
+      if ( empty terminator ) // domain routine
+        select any scn_pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
+        select any ext_pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
+        if ( not_empty scn_pragma )	// domain scenario
+          name = activity.name + ".scn";
+        elif ( not_empty ext_pragma )	// domain external
+          name = activity.name + ".ext";
+        else // domain service
+          name = activity.name + ".svc";
+        end if;
+      else // terminator routine
+        select one project related by terminator->domain[R3702]->project[R3701];
+        select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
+        select any pragma_item related by pragma->pragma_item[R3780];
+        key_letters = "";
+        if ( empty pragma_item )
+          key_letters = terminator.name;
+        else
+          kl_len = STRING::strlen( s:pragma_item.value );
+          key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
+        end if;
+        if ( empty project ) // domain terminator
+          name = key_letters + "_" + activity.name + ".tr";
+        else // project terminator
+          select one domain related by terminator->domain[R3702];
+          name = domain.name + "_" + key_letters + "_" + activity.name + ".tr";
+        end if;
+      end if;
+    elif ( not_empty operation )
+      select one returntype related by operation->typeref[R3741];
+      select any pragma related by operation->object[R3749]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
+      select any pragma_item related by pragma->pragma_item[R3780];
+      key_letters = "";
+      if ( empty pragma_item )
+        select one obj related by operation->object[R3749];
+        key_letters = obj.name;
+      else
+        kl_len = STRING::strlen( s:pragma_item.value );
+        key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
+      end if;
       name = key_letters + "_" + activity.name + ".svc";
-	elif ( not_empty state )
-	  select one returntype related by operation->typeref[R3741];
-	  select any pragma related by state->object[R3750]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
-	  select any pragma_item related by pragma->pragma_item[R3780];
-	  key_letters = "";
-	  if ( empty pragma_item )
-		select one obj related by state->object[R3750];
-		key_letters = obj.name;
-	  else
-		kl_len = STRING::strlen( s:pragma_item.value );
-		key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
-	  end if;
-	  if ( "assigner" == state.type or "assigner start" == state.type )
-	    // add -A for assigner states
-	    name = key_letters + "-A_" + activity.name + ".al";
-	  else
-	    name = key_letters + "_" + activity.name + ".al";
-	  end if;
-	end if;
+    elif ( not_empty state )
+      select one returntype related by operation->typeref[R3741];
+      select any pragma related by state->object[R3750]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
+      select any pragma_item related by pragma->pragma_item[R3780];
+      key_letters = "";
+      if ( empty pragma_item )
+        select one obj related by state->object[R3750];
+        key_letters = obj.name;
+      else
+        kl_len = STRING::strlen( s:pragma_item.value );
+        key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
+      end if;
+      if ( "assigner" == state.type or "assigner start" == state.type )
+        // add -A for assigner states
+        name = key_letters + "-A_" + activity.name + ".al";
+      else
+        name = key_letters + "_" + activity.name + ".al";
+      end if;
+    end if;
   
   end if;
 
@@ -632,7 +632,24 @@ elif ( "domain" == element )
       // hand coded files file (no need to generate)
       // scenarios
       // scenario list file
+
       // function data types file
+      T::include( file:"wasl/t.START.wasl" );
+      select many routines related by domain->routine[R3790];
+      for each routine in routines
+        select one activity related by routine->activity[R3704];
+        routine.render( name:activity.name );
+      end for;
+      select many operations related by domain->object[R3708]->operation[R3749];
+      for each operation in operations
+        select one activity related by operation->activity[R3704];
+        operation.render( name:activity.name );
+      end for;
+      T::include( file:"wasl/t.END.wasl" );
+      genfile = genfile::populate( name:name );
+      genfile.directory( name:domain.name );
+      genfile.emit( name:domain.name + ".fnp" );
+
       // functions
       // bridge data types file
       // bridges

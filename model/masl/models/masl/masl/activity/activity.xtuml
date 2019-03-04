@@ -45,7 +45,9 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+	'if ( "MASL" == genfile::architecture() )
+
+select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
   descrip.render();
 end for;
@@ -63,7 +65,25 @@ else
 end if;
 
 select one markable related by self->markable[R3783];
-markable.render_marking( list:"default" );',
+markable.render_marking( list:"default" );
+
+elif ( "WASL" == genfile::architecture() )
+
+  // CDS - Input parameters must be rendered first.  Output parameters rendered next.
+  // CDS - probably need to pass a flag which indicates we are processing ins or outs.
+  select one parameter related by self->parameter[R3705.''carries first''];
+  if ( empty parameter )
+    T::include( file:"wasl/t.routine_noinputs.wasl" );
+  else
+    if ( "out" == parameter.direction )
+      T::include( file:"wasl/t.routine_noinputs.wasl" );
+    end if;
+    parameter.render();
+  end if;
+
+else
+  //
+end if;',
 	1,
 	'',
 	"7baced44-2e68-4af0-bf91-6ab83eb77f66",

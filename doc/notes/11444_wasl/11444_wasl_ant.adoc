@@ -28,6 +28,12 @@ end object
 
 === issues
 
+- I am outputting comments on relationships (in the wrong place or just need to stop).
+- There is white space in enumerators (*.typ).
+- Wasl.g does not read a list for the second set of parameters after the semi-colon.
+  These may be identifying attributes, maybe for a creation event?
+  Maybe it simply names the attributes that get populated by these event parameters.
+- The Petrol Station model has a stanza in the .dmp file called EXTERNALS.  What is this?
 - Terminators go into a file called *.ter.  Bridges go into a file called *.brp.  So, terminators are kind-of in 2 files.  This needs to be resolved on how the genfile is linked.
   * domain:  dmp
   * ...
