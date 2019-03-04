@@ -652,8 +652,21 @@ elif ( "domain" == element )
 
       // functions
       // bridge data types file
-      // bridges
+      T::include( file:"wasl/t.START.wasl" );
+      select many terminators related by domain->terminator[R3702];
+      for each terminator in terminators
+        select many routines related by terminator->routine[R3791];
+        for each routine in routines
+          select one activity related by routine->activity[R3704];
+          routine.render( name:activity.name );
+        end for;
+      end for;
+      T::include( file:"wasl/t.END.wasl" );
+      genfile = genfile::populate( name:name );
+      genfile.directory( name:domain.name );
+      genfile.emit( name:domain.name + ".brp" );
 
+      // bridges
       // objects file
       select many objects related by domain->object[R3708];
       for each obj in objects

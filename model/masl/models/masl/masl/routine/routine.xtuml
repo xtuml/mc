@@ -106,7 +106,6 @@ select one returntyperef related by self->typeref[R3792];
 if ( not_empty returntyperef )
   returntype = returntyperef.body;
 end if;
-select one domain related by self->domain[R3790];
 
 if ( "MASL" == genfile::architecture() )
 
@@ -119,7 +118,20 @@ if ( "MASL" == genfile::architecture() )
 
 elif ( "WASL" == genfile::architecture() )
 
-  scope = domain.name;
+  // In WASL, a terminator service gets the key letters from the terminator.
+  scope = "";
+  select one domain related by self->domain[R3790];
+  if ( empty domain )
+    // must be terminator (and not domain function)
+    select one terminator related by self->terminator[R3791];
+    if ( not_empty terminator )
+      select one domain related by self->terminator[R3791]->domain[R3702];
+      scope = domain.name + ";" + terminator.key_letters;
+    end if;
+  else
+    scope = domain.name;
+  end if;
+
   T::include( file:"wasl/t.routine_begin.wasl" );
   select one activity related by self->activity[R3704];
   activity.render();

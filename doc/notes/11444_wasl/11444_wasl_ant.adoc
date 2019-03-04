@@ -28,6 +28,8 @@ end object
 
 === issues
 
+- Terminator key_letters are coming in from x2m empty, so for now, I am going to populate the name in the key_letters, too.
+- The ordering of parameters in .brp and .fnp needs to be resolved.  I think we will need to navigate twice through the list of parameters, first for 'in' parameters and then for 'out' parameters.
 - I am outputting comments on relationships (in the wrong place or just need to stop).
 - There is white space in enumerators (*.typ).
 - Wasl.g does not read a list for the second set of parameters after the semi-colon.

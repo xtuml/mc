@@ -328,6 +328,7 @@ for each c_po in c_pos
   if ( not param.project or ( param.project and not_empty provision ) )
 
 	value[0] = c_po.Name;
+	value[1] = c_po.Name + "KL_ToDo"; // CDS - TODO find an appropriate value here
 	out::populate( element:"terminator", value:value );
 	::message2routine( c_c:c_c, c_po:c_po, project:param.project );
 
