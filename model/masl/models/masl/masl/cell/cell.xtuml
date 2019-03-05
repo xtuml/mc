@@ -59,7 +59,7 @@ if ( "" != param.object )
   select any poly_object from instances of object where ( selected.name == param.object );
   select any transition_event related by poly_object->event[R3736.''is triggered by''] where ( selected.name == param.event );
   if ( empty transition_event )
-    transition_event = event::populate( name:param.event, type:"", object:poly_object );
+    transition_event = event::populate( name:param.event, number:0, type:"", object:poly_object );
   end if;
 end if;
 if ( empty transition_event )

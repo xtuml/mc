@@ -698,7 +698,19 @@ elif ( "domain" == element )
       // polymorphic events file
       // .pme_test (no need to generate)
       // actions
+
       // state transition table file
+      select many objects related by domain->object[R3708];
+      for each obj in objects
+        select many state_machines related by obj->state_machine[R3734];
+        for each state_machine in state_machines
+          state_machine.render();
+        end for;
+      end for;
+      genfile = genfile::populate( name:name );
+      genfile.directory( name:domain.name );
+      genfile.emit( name:domain.name + ".stt" );
+
       // event data file
 
       // types file

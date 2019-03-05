@@ -28,6 +28,7 @@ end object
 
 === issues
 
+- We need state numbers.
 - Terminator key_letters are coming in from x2m empty, so for now, I am going to populate the name in the key_letters, too.
 - The ordering of parameters in .brp and .fnp needs to be resolved.  I think we will need to navigate twice through the list of parameters, first for 'in' parameters and then for 'out' parameters.
 - I am outputting comments on relationships (in the wrong place or just need to stop).
@@ -61,6 +62,7 @@ NOTE:  I do not think that linking in the genfile is even necessary.  It can be 
 
 === resolved issues
 
+- masl:  To deal with event numbers, we needed to learn to update values when they come later.  In light of polymorphic events we need to be able create events in one class before their poly source has been created.  This requires creating them when only the name is known.  When the population comes across, we can update with the full values.
 - maslin:  added support for (both object names and) keyletters to find classes
 - maslout:  passed key letters and class number downstream to 'masl'.
 - A domain has a version.  This may need to be stored.  [It does not.]

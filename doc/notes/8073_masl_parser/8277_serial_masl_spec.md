@@ -145,6 +145,7 @@ arguments in order and specification of arguments.
 | domain            | name              | required              | string                                                      |
 | event             | name              | required              | string                                                      |
 |                   | type              | required              | "assigner", "creation", or ""                               |
+|                   | number            | optional              | string number
 | exception         | name              | required              | string                                                      |
 |                   | visibility        | required              | "public" or "private"                                       |
 | expression*       | body              | required              | string                                                      |

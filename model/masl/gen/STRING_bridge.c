@@ -1,8 +1,5 @@
 /*----------------------------------------------------------------------------
- * File:  STRING_bridge.c
- *
- * Description:
- * Methods for bridging to an external entity.
+ * Description:   Methods for bridging to an external entity.
  *
  * External Entity:  string (STRING)
  * 
@@ -16,8 +13,7 @@
 #include "STRING_bridge.h"
 #include "T_bridge.h"
 #include "TRACE_bridge.h"
-#include "STRING_bridge.h"
-#include "masl_sys_types.h"
+#include "typeminer_bridge.h"
 
 /*
  * Bridge:  itoa
@@ -26,7 +22,7 @@ c_t *
 STRING_itoa( const i_t p_i )
 {
   /* Replace/Insert the following instructions with your implementation code.  */
-  c_t * s=0;i_t i;c_t * mapping[10]={0};
+  c_t * s=0;i_t i;c_t * mapping[10]={0,0,0,0,0,0,0,0,0,0};
   /* ASSIGN mapping[9] = 9 */
   mapping[9] = Escher_strcpy( mapping[9], "9" );
   /* ASSIGN mapping[8] = 8 */
@@ -51,8 +47,9 @@ STRING_itoa( const i_t p_i )
   i = p_i;
   /* ASSIGN s =  */
   s = Escher_strcpy( s, "" );
-  /* WHILE ( ( i >= 1 ) ) */
-  while ( ( i >= 1 ) ) {
+  if ( 0 == i ) s = Escher_strcpy( s, "0" );
+  /* WHILE ( i >= 1 ) */
+  while ( i >= 1 ) {
     i_t d;
     /* ASSIGN d = ( i % 10 ) */
     d = ( i % 10 );
@@ -354,7 +351,16 @@ STRING_unescapetics( c_t * p_s )
       p++;
   }
   *q = '\0';            // null terminate
+}
 
+/*
+ * Bridge:  idtoa
+ */
+c_t *
+STRING_idtoa( c_t * p_a, Escher_UniqueID_t p_id )
+{
+  c_t * result = 0;
+  /* Insert your implementation code here... */
   return result;
 }
 

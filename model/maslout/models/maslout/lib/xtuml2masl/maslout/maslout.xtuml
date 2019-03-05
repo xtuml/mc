@@ -1625,6 +1625,7 @@ for each sm_evt in sm_evts
   end if;
 
   value[0] = sm_evt.Mning;
+  value[2] = STRING::itoa( i:sm_evt.Numb );
   
   // set event type
   value[1] = param.type;
