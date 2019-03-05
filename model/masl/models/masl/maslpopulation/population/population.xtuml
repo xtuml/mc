@@ -149,7 +149,7 @@ elif ( "state" == element )
     population.stack_trace();
   end if;
 
-  state = state::populate( name:value[2], type:value[3], object:parent_object );
+  state = state::populate( name:value[2], number:STRING::atoi( s:value[4] ), type:value[3], object:parent_object );
 
   select one new_element related by state->activity[R3704]->markable[R3783]->element[R3786];
   population.push_element( new_element:new_element );

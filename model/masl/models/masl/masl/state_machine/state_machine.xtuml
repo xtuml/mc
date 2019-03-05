@@ -40,22 +40,22 @@ markable.render_marking( list:"default" );
 elif ( "WASL" == genfile::architecture() )
 
   select one object related by self->object[R3734.''defines lifecycle of''];
-  state_number = 0; // CDS - need to get real state number
-  start_state_name = "Non_Existent";
   select many start_states related by self->cell[R3743]->state[R3732];
   for each start_state in start_states
+    state_number =  start_state.number;
+    start_state_name = "Non_Existent";
     select one start_state_activity related by start_state->activity[R3704];
     start_state_name = start_state_activity.name;
     select many cells related by start_state->cell[R3732];
     for each cell in cells
-      next_state_number = 0; // CDS - need to get real state number
+      next_state_number = 0;
       next_state_name = "NO_STATE";
       transition = cell.notransition;
       if ( "" == cell.notransition )
         transition = "TRANSITION";
         select one next_state related by cell->state[R3731.''transitions to''];
         select one next_state_activity related by next_state->activity[R3704];
-        next_state_number = 99;
+        next_state_number = next_state.number;
         next_state_name = next_state_activity.name;
       end if;
       select one event related by cell->event[R3732];

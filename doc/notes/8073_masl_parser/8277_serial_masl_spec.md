@@ -186,6 +186,7 @@ arguments in order and specification of arguments.
 |                   | object            | optional              | string                                                      |
 |                   | name              | required              | string                                                      |
 |                   | type              | required              | "assigner", "assigner start", "creation", "terminal", or "" |
+|                   | number            | optional              | string number
 | subsuper          | name              | required              | string                                                      |
 | terminator        | name              | required              | string                                                      |
 |                   | key_letters       | optional              | string                                                      |

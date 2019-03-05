@@ -1739,6 +1739,7 @@ value[0] = ""; // domain, grammar allows this but we are not using it
 value[1] = o_obj.Name;
 for each sm_state in sm_states
   value[2] = sm_state.Name;
+  value[4] = STRING::itoa( i:sm_state.Numb );
   
   // set state type
   value[3] = "";

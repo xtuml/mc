@@ -49,6 +49,7 @@ INSERT INTO O_TFR
 	"69d4ad00-8c78-47f0-95c9-b7519011b8ea",
 	0,
 	'name = param.name;
+number = param.number;
 type = param.type;
 parent_object = param.object;
 
@@ -60,34 +61,31 @@ if ( "non_existent" == name or
   select any state related by parent_object->state[R3750] where ( selected.type == type and selected.non_existent );
   select one activity related by state->activity[R3704];
   if ( empty state )
-	activity = activity::populate( name:name );
-	create object instance state of state;
-	state.type = type;
-	state.non_existent = true;
-	relate state to parent_object across R3750;
-	relate state to activity across R3704;
+    activity = activity::populate( name:name );
+    create object instance state of state;
+    state.non_existent = true;
+    relate state to parent_object across R3750;
+    relate state to activity across R3704;
   end if;
+  state.type = type;
   activity.name = name;
 else
   select any activity related by parent_object->state[R3750]->activity[R3704] where ( selected.name == name );
   select one state related by activity->state[R3704];
   if ( empty state )
-	activity = activity::populate( name:name );
-
-	create object instance state of state;
-	state.type = type;
-	relate state to parent_object across R3750;
-	relate state to activity across R3704;
-	markable = markable::populate( name:"state" );
-	relate activity to markable across R3783;
-
+    activity = activity::populate( name:name );
+    create object instance state of state;
+    relate state to parent_object across R3750;
+    relate state to activity across R3704;
+    markable = markable::populate( name:"state" );
+    relate activity to markable across R3783;
   end if;
-
   if ( "" != type )
-	state.type = type;
+    state.type = type;
   end if;
   state.non_existent = false;
 end if;
+state.number = number;
 
 return state;',
 	1,
@@ -124,6 +122,15 @@ INSERT INTO O_TPARM
 	"b5fb225a-420f-41b5-b16e-930a5ff3ea82",
 	'type',
 	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9cf8bb9c-d6a6-430e-a790-0c762fde5415",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("9cf8bb9c-d6a6-430e-a790-0c762fde5415",
+	"b5fb225a-420f-41b5-b16e-930a5ff3ea82",
+	'number',
+	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
 	"daab49b8-c192-4486-9062-252eb12909ec",
@@ -231,7 +238,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
 	"64886a99-6942-49c6-b7d7-2dc495c52db1",
-	"00000000-0000-0000-0000-000000000000",
+	"de34ab4a-eca4-4fac-93d6-7770eb07bb8c",
 	'type',
 	'',
 	'',
@@ -256,6 +263,24 @@ INSERT INTO O_ATTR
 	'non_existent',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("de34ab4a-eca4-4fac-93d6-7770eb07bb8c",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1");
+INSERT INTO O_BATTR
+	VALUES ("de34ab4a-eca4-4fac-93d6-7770eb07bb8c",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1");
+INSERT INTO O_ATTR
+	VALUES ("de34ab4a-eca4-4fac-93d6-7770eb07bb8c",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1",
+	"00000000-0000-0000-0000-000000000000",
+	'number',
+	'',
+	'',
+	'number',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID
