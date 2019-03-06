@@ -712,6 +712,17 @@ elif ( "domain" == element )
       genfile.emit( name:domain.name + ".stt" );
 
       // event data file
+      select many objects related by domain->object[R3708];
+      for each object in objects
+        select many events related by object->event[R3736];
+        for each event in events
+          event.render();
+        end for;
+      end for;
+      genfile = genfile::populate( name:name );
+      genfile.directory( name:domain.name );
+      genfile.emit( name:domain.name + ".evd" );
+
 
       // types file
       select many types related by domain->type[R3719];
