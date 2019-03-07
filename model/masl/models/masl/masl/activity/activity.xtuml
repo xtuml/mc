@@ -141,7 +141,7 @@ if ( not_empty routine )
 else
   select one operation related by self->operation[R3704];
   if ( not_empty operation )
-	operation.render_definition( activity:self );
+    operation.render_definition( activity:self );
   else
 	select one state related by self->state[R3704];
 	if ( not_empty state )

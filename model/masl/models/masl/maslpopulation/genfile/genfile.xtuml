@@ -728,7 +728,7 @@ elif ( "domain" == element )
         continue;
       end if;
             
-      // render all the activity files
+      // render the activity files
       select many routines related by domain->routine[R3790];
       for each routine in routines
         select one activity related by routine->activity[R3704];
@@ -743,7 +743,6 @@ elif ( "domain" == element )
         for each routine in routines
           select one activity related by routine->activity[R3704];
           routine.render_definition( activity:activity );
-          filename = domain.name + "_" + terminator.key_letters + activity.name + ".br";
           filename = domain.name + "_" + terminator.key_letters + "_" + activity.name + ".br";
           genfile = genfile::populate( name:filename );
           genfile.emit( name:filename );
@@ -755,17 +754,21 @@ elif ( "domain" == element )
         for each operation in operations
           select one activity related by operation->activity[R3704];
           operation.render_definition( activity:activity );
-          filename = domain.name + "_" + object.key_letters + "_" + activity.name + ".al";
-          genfile = genfile::populate( name:filename );
-          genfile.emit( name:filename );
+          filename = domain.name + "_" + object.key_letters + "_" + activity.name + ".fn";
+          select one deferral related by operation->subsuper[R3793];
+          if ( empty deferral )
+            // Skip generaton of abstract operations.
+            genfile = genfile::populate( name:filename );
+            genfile.emit( name:filename );
+          end if;
         end for;
         select many states related by object->state[R3750];
         for each state in states
           select one activity related by state->activity[R3704];
           state.render_definition( activity:activity );
-          filename = domain.name + "_" + object.key_letters + "_" + STRING::itoa( i:state.number ) + ".al";
-          genfile = genfile::populate( name:filename );
-          genfile.emit( name:filename );
+          sname = domain.name + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
+          genfile = genfile::populate( name:sname );
+          genfile.emit( name:sname + ".al" );
         end for;
       end for;
 

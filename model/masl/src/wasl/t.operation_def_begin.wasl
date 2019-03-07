@@ -1,0 +1,7 @@
+T_b("define function ");
+T_b(object->key_letters);
+T_b("<NUM_HERE>:");
+T_b(activity->name);
+T_b("\n");
+T_b("input");
+T_b("\n");

@@ -62,6 +62,7 @@ NOTE:  I do not think that linking in the genfile is even necessary.  It can be 
 
 === resolved issues
 
+- Are deferred operations supported?  [yes]
 - Double-check the genfile traversals that are used to avoid creating too many files.  [Stopped traversals and began creating genfile opportunistically as needed.]
 - masl/maslout:  Added 'number' attribute 'state'.  x2m populates it with the SM_STATE.Numb.  However, this number is not imported by maslin.
 - masl:  To deal with event numbers, we needed to learn to update values when they come later.  In light of polymorphic events we need to be able create events in one class before their poly source has been created.  This requires creating them when only the name is known.  When the population comes across, we can update with the full values.

@@ -226,38 +226,63 @@ INSERT INTO O_TFR
 	'routine = self;
 activity = param.activity;
 
-if ( not_empty routine and not_empty activity )
-  // render name
-  select one terminator related by self->terminator[R3791];
-  select one domain related by terminator->domain[R3702];
+select one terminator related by self->terminator[R3791];
+select one domain related by terminator->domain[R3702];
+
+if ( "MASL" == genfile::architecture() )
+
   if ( not_empty terminator and not_empty domain )
-	T::include( file:"masl/t.terminator_service_def_begin.masl" );
+    T::include( file:"masl/t.terminator_service_def_begin.masl" );
   else
-	select one domain related by self->domain[R3790];
-	if ( not_empty domain )
-	  T::include( file:"masl/t.domain_service_def_begin.masl" );
-	end if;
+    select one domain related by self->domain[R3790];
+    if ( not_empty domain )
+      T::include( file:"masl/t.domain_service_def_begin.masl" );
+    end if;
   end if;
 
   // render parameters
   select one parameter related by activity->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-	parameter.render();
+    parameter.render();
   end if;
   
   // render return
   returntype = "";
   select one returntyperef related by self->typeref[R3792];
   if ( not_empty returntyperef )
-	returntype = returntyperef.body;
+    returntype = returntyperef.body;
   end if;
   T::include( file:"masl/t.service_def_middle.masl" );
-  
-  // render code block
-  select one code_block related by activity->code_block[R3794];
-  if ( not_empty code_block )
-    code_block.render();
+
+elif ( "WASL" == genfile::architecture() )
+
+  if ( not_empty terminator and not_empty domain )
+    T::include( file:"wasl/t.terminator_service_def_begin.wasl" );
+  else
+    select one domain related by self->domain[R3790];
+    if ( not_empty domain )
+      T::include( file:"wasl/t.domain_service_def_begin.wasl" );
+    end if;
   end if;
+
+  // render input parameters
+  select one parameter related by activity->parameter[R3705.''carries first''];
+  if ( not_empty parameter )
+    parameter.render();
+  end if;
+  T::include( file:"wasl/t.activity_def_input.wasl" );
+
+  // render output parameters
+  T::include( file:"wasl/t.activity_def_output.wasl" );
+
+else
+  //
+end if;  
+
+// render code block
+select one code_block related by activity->code_block[R3794];
+if ( not_empty code_block )
+  code_block.render();
 end if;',
 	1,
 	'',

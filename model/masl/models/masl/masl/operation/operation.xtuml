@@ -240,33 +240,50 @@ INSERT INTO O_TFR
 	'operation = self;
 activity = param.activity;
 
-if ( not_empty operation and not_empty activity )
+select one object related by self->object[R3749];
+select one domain related by object->domain[R3708];
+
+if ( "MASL" == genfile::architecture() )
+
   // render name
-  select one object related by self->object[R3749];
-  select one domain related by object->domain[R3708];
-  if ( not_empty object and not_empty domain )
-	T::include( file:"masl/t.object_service_def_begin.masl" );
-  end if;
+  T::include( file:"masl/t.object_service_def_begin.masl" );
 
   // render parameters
   select one parameter related by activity->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-	parameter.render();
+    parameter.render();
   end if;
   
   // render return
   returntype = "";
   select one returntyperef related by self->typeref[R3741];
   if ( not_empty returntyperef )
-	returntype = returntyperef.body;
+    returntype = returntyperef.body;
   end if;
   T::include( file:"masl/t.service_def_middle.masl" );
+
+elif ( "WASL" == genfile::architecture() )
   
-  // render code block
-  select one code_block related by activity->code_block[R3794];
-  if ( not_empty code_block )
-    code_block.render();
+  T::include( file:"wasl/t.operation_def_begin.wasl" );
+
+  // render input parameters
+  select one parameter related by activity->parameter[R3705.''carries first''];
+  if ( not_empty parameter )
+    parameter.render();
   end if;
+  T::include( file:"wasl/t.activity_def_input.wasl" );
+
+  // render output parameters
+  T::include( file:"wasl/t.activity_def_output.wasl" );
+
+else
+  //
+end if;
+  
+// render code block
+select one code_block related by activity->code_block[R3794];
+if ( not_empty code_block )
+  code_block.render();
 end if;',
 	1,
 	'',

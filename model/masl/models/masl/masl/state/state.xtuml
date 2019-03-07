@@ -19,6 +19,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'name = param.name;
+
 // spellings taken directly from the lexer grammar
 if ( not self.non_existent )
   T::include( file:"masl/t.state_begin.masl" );
@@ -186,28 +187,44 @@ INSERT INTO O_TFR
 	'state = self;
 activity = param.activity;
 
-if ( not_empty state and not_empty activity )
-  // render name
-  select one object related by self->object[R3750];
-  select one domain related by object->domain[R3708];
-  if ( not_empty object and not_empty domain )
-	T::include( file:"masl/t.object_state_def_begin.masl" );
-  end if;
+// render name
+select one object related by self->object[R3750];
+select one domain related by object->domain[R3708];
+
+if ( "MASL" == genfile::architecture() )
+
+  T::include( file:"masl/t.object_state_def_begin.masl" );
 
   // render parameters
   select one parameter related by activity->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-	parameter.render();
+    parameter.render();
   end if;
   
   // render middle
   T::include( file:"masl/t.state_def_middle.masl" );
   
-  // render code block
-  select one code_block related by activity->code_block[R3794];
-  if ( not_empty code_block )
-    code_block.render();
+elif ( "WASL" == genfile::architecture() )
+
+  T::include( file:"wasl/t.state_def_begin.wasl" );
+  // render input parameters
+  select one parameter related by activity->parameter[R3705.''carries first''];
+  if ( not_empty parameter )
+    parameter.render();
   end if;
+  T::include( file:"wasl/t.activity_def_input.wasl" );
+
+  // render output parameters
+  T::include( file:"wasl/t.activity_def_output.wasl" );
+
+else
+  //
+end if;
+
+// render code block
+select one code_block related by activity->code_block[R3794];
+if ( not_empty code_block )
+  code_block.render();
 end if;',
 	1,
 	'',
