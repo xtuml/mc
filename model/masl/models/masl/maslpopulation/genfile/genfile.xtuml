@@ -533,7 +533,6 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'destination = param.destination;
-doEmit = false;
 
 select any activity related by self->element[R3795]->markable[R3786]->activity[R3783];
 select one code_block related by activity->code_block[R3794];
@@ -581,7 +580,6 @@ if ( "project" == element )
       select one genfile related by project->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
         // Project files go into a directory named after the project.
-        genfile.directory( name:project.name );
         genfile.emit( name:project.name + ".prj" );
       end if;
 
@@ -597,7 +595,6 @@ if ( "project" == element )
         if ( not_empty genfile )
           destination = genfile.getname();
           // Domain files go into a directory named after the domain.
-          genfile.directory( name:project.name );
           genfile.gen( destination:destination );
         end if;
       end for;
@@ -615,9 +612,8 @@ elif ( "domain" == element )
     for each domain in domains
 
       // domain ("dump") file
-      genfile = genfile::populate( name:name );
+      genfile = genfile::populate( name:"domain" );
       domain.render();
-      genfile.directory( name:domain.name );
       genfile.emit( name:domain.name + ".dmp" );
 
       // terminators file
@@ -625,8 +621,7 @@ elif ( "domain" == element )
       for each terminator in terminators
         terminator.render();
       end for;
-      genfile = genfile::populate( name:name );
-      genfile.directory( name:domain.name );
+      genfile = genfile::populate( name:"terminators" );
       genfile.emit( name:domain.name + ".ter" );
 
       // hand coded files file (no need to generate)
@@ -646,8 +641,7 @@ elif ( "domain" == element )
         operation.render( name:activity.name );
       end for;
       T::include( file:"wasl/t.END.wasl" );
-      genfile = genfile::populate( name:name );
-      genfile.directory( name:domain.name );
+      genfile = genfile::populate( name:"functions" );
       genfile.emit( name:domain.name + ".fnp" );
 
       // functions
@@ -662,8 +656,7 @@ elif ( "domain" == element )
         end for;
       end for;
       T::include( file:"wasl/t.END.wasl" );
-      genfile = genfile::populate( name:name );
-      genfile.directory( name:domain.name );
+      genfile = genfile::populate( name:"bridges" );
       genfile.emit( name:domain.name + ".brp" );
 
       // bridges
@@ -672,8 +665,7 @@ elif ( "domain" == element )
       for each obj in objects
         obj.render();
       end for;
-      genfile = genfile::populate( name:name );
-      genfile.directory( name:domain.name );
+      genfile = genfile::populate( name:"objects" );
       genfile.emit( name:domain.name + ".obj" );
 
       // relationships file
@@ -683,16 +675,14 @@ elif ( "domain" == element )
       for each rel in other_rels
         rel.render();
       end for;
-      genfile = genfile::populate( name:name );
-      genfile.directory( name:domain.name );
+      genfile = genfile::populate( name:"relationships" );
       genfile.emit( name:domain.name + ".rel" );
 
       // subtypes file
       for each rel in subsuper_rels
         rel.render();
       end for;
-      genfile = genfile::populate( name:name );
-      genfile.directory( name:domain.name );
+      genfile = genfile::populate( name:"subtypes" );
       genfile.emit( name:domain.name + ".sub" );
 
       // polymorphic events file
@@ -707,8 +697,7 @@ elif ( "domain" == element )
           state_machine.render();
         end for;
       end for;
-      genfile = genfile::populate( name:name );
-      genfile.directory( name:domain.name );
+      genfile = genfile::populate( name:"state_machines" );
       genfile.emit( name:domain.name + ".stt" );
 
       // event data file
@@ -719,8 +708,7 @@ elif ( "domain" == element )
           event.render();
         end for;
       end for;
-      genfile = genfile::populate( name:name );
-      genfile.directory( name:domain.name );
+      genfile = genfile::populate( name:"events" );
       genfile.emit( name:domain.name + ".evd" );
 
 
@@ -732,8 +720,7 @@ elif ( "domain" == element )
       for each obj in objects
         obj.render_declaration();
       end for;
-      genfile = genfile::populate( name:name );
-      genfile.directory( name:domain.name );
+      genfile = genfile::populate( name:"types" );
       genfile.emit( name:domain.name + ".typ" );
 
       if ( structuralOnly == true )
@@ -742,23 +729,44 @@ elif ( "domain" == element )
       end if;
             
       // render all the activity files
-      select many domain_routines related by domain->routine[R3790]->activity[R3704];
-      select many terminator_routines related by domain->terminator[R3702]->routine[R3791]->activity[R3704];
-      select many class_ops related by domain->object[R3708]->operation[R3749]->activity[R3704];
-      select many states related by domain->object[R3708]->state[R3750]->activity[R3704];
-      activities = domain_routines + terminator_routines + class_ops + states;
-      for each activity in activities
-        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
-        if ( not_empty genfile )
-          destination = genfile.getname();
-          // Domain files go into a directory named after the domain.
-          genfile.directory( name:domain.name );
-		  select one class_op related by activity->operation[R3704];
-		  select one deferral related by class_op->subsuper[R3793];
-		  if ( empty class_op or ( not_empty class_op and empty deferral ) )
-			genfile.gen( destination:destination );
-		  end if;
-        end if;
+      select many routines related by domain->routine[R3790];
+      for each routine in routines
+        select one activity related by routine->activity[R3704];
+        routine.render_definition( activity:activity );
+        filename = domain.name + "_" + activity.name + ".fn";
+        genfile = genfile::populate( name:filename );
+        genfile.emit( name:filename );
+      end for;
+      select many terminators related by domain->terminator[R3702];
+      for each terminator in terminators
+        select many routines related by terminator->routine[R3791];
+        for each routine in routines
+          select one activity related by routine->activity[R3704];
+          routine.render_definition( activity:activity );
+          filename = domain.name + "_" + terminator.key_letters + activity.name + ".br";
+          filename = domain.name + "_" + terminator.key_letters + "_" + activity.name + ".br";
+          genfile = genfile::populate( name:filename );
+          genfile.emit( name:filename );
+        end for;
+      end for;
+      select many objects related by domain->object[R3708];
+      for each object in objects
+      select many operations related by object->operation[R3749];
+        for each operation in operations
+          select one activity related by operation->activity[R3704];
+          operation.render_definition( activity:activity );
+          filename = domain.name + "_" + object.key_letters + "_" + activity.name + ".al";
+          genfile = genfile::populate( name:filename );
+          genfile.emit( name:filename );
+        end for;
+        select many states related by object->state[R3750];
+        for each state in states
+          select one activity related by state->activity[R3704];
+          state.render_definition( activity:activity );
+          filename = domain.name + "_" + object.key_letters + "_" + STRING::itoa( i:state.number ) + ".al";
+          genfile = genfile::populate( name:filename );
+          genfile.emit( name:filename );
+        end for;
       end for;
 
     end for;

@@ -327,7 +327,7 @@ eventDataDefinitions:         eventDataDefinition*;
 
 eventDataDefinition:          objectKeyLetter COMMA eventNumber COMMA eventName COMMA
                                 ( parameters )*
-                              SEMICOLON ( IDENTIFIER COMMA IDENTIFIER )* COMMA description NEWLINES
+                              SEMICOLON ( ( IDENTIFIER COMMA IDENTIFIER COMMA )* | COMMA ) description NEWLINES
                               {
                                 args[1] = $objectKeyLetter.name;
                                 populate( "object" );
