@@ -47,38 +47,35 @@ INSERT INTO O_TFR
 	1,
 	'if ( "MASL" == genfile::architecture() )
 
-select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
-for each descrip in descrips
-  descrip.render();
-end for;
-select one operation related by self->operation[R3704];
-select one routine related by self->routine[R3704];
-select one state related by self->state[R3704];
-if ( not_empty operation )
-  operation.render( name:self.name );
-elif ( not_empty routine )
-  routine.render( name:self.name );
-elif ( not_empty state )
-  state.render( name:self.name );
-else
-  TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
-end if;
+  select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+  for each descrip in descrips
+    descrip.render();
+  end for;
+  select one operation related by self->operation[R3704];
+  select one routine related by self->routine[R3704];
+  select one state related by self->state[R3704];
+  if ( not_empty operation )
+    operation.render( name:self.name );
+  elif ( not_empty routine )
+    routine.render( name:self.name );
+  elif ( not_empty state )
+    state.render( name:self.name );
+  else
+    TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
+  end if;
 
-select one markable related by self->markable[R3783];
-markable.render_marking( list:"default" );
+  select one markable related by self->markable[R3783];
+  markable.render_marking( list:"default" );
 
 elif ( "WASL" == genfile::architecture() )
 
-  // CDS - Input parameters must be rendered first.  Output parameters rendered next.
-  // CDS - probably need to pass a flag which indicates we are processing ins or outs.
+  // Input parameters must be rendered first.  Output parameters rendered next.
   select one parameter related by self->parameter[R3705.''carries first''];
   if ( empty parameter )
     T::include( file:"wasl/t.routine_noinputs.wasl" );
   else
-    if ( "out" == parameter.direction )
-      T::include( file:"wasl/t.routine_noinputs.wasl" );
-    end if;
-    parameter.render();
+    parameter.render( direction:"in" );
+    parameter.render( direction:"out" );
   end if;
 
 else

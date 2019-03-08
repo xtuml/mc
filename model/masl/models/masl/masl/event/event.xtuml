@@ -31,7 +31,7 @@ INSERT INTO O_TFR
   T::include( file:"masl/t.event_begin.masl" );
   select one parameter related by self->parameter[R3727.''carries first''];
   if ( not_empty parameter )
-    parameter.render();
+    parameter.render( direction:"" );
   end if;
   T::include( file:"masl/t.event_end.masl" );
   select one markable related by self->markable[R3783];
@@ -43,7 +43,7 @@ elif ( "WASL" == genfile::architecture() )
   T::include( file:"wasl/t.event_begin.wasl" );
   select one parameter related by self->parameter[R3727.''carries first''];
   if ( not_empty parameter )
-    parameter.render();
+    parameter.render( direction:"in" );
   end if;
   T::include( file:"wasl/t.event_middle.wasl" );
   select many id_attributes related by object->attribute[R3709] where ( selected.preferred == "preferred" );

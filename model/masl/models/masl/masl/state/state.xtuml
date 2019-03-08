@@ -25,7 +25,7 @@ if ( not self.non_existent )
   T::include( file:"masl/t.state_begin.masl" );
   select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-    parameter.render();
+    parameter.render( direction:"" );
   end if;
   T::include( file:"masl/t.state_end.masl" );
 end if;',
@@ -198,7 +198,7 @@ if ( "MASL" == genfile::architecture() )
   // render parameters
   select one parameter related by activity->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-    parameter.render();
+    parameter.render( direction:"" );
   end if;
   
   // render middle
@@ -210,11 +210,14 @@ elif ( "WASL" == genfile::architecture() )
   // render input parameters
   select one parameter related by activity->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-    parameter.render();
+    parameter.render_definition( direction:"in" );
   end if;
   T::include( file:"wasl/t.activity_def_input.wasl" );
 
   // render output parameters
+  if ( not_empty parameter )
+    parameter.render_definition( direction:"out" );
+  end if;
   T::include( file:"wasl/t.activity_def_output.wasl" );
 
 else
