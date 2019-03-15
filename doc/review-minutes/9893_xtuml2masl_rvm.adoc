@@ -2,8 +2,8 @@
 
 xtUML Project Review Minutes
 
- Reviewed:  doc/notes/9893_xtuml2masl_int.adoc
- Present:  Cort, Levi, Bob
+ Reviewed:  doc/notes/9893_xtuml2masl_dnt.adoc
+ Present:  Cort, Levi
 
  -- Num Type  Who  Section  Comment
  _- 01  min   xxx  xxx      xxx
