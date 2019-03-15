@@ -9,7 +9,7 @@ an improvement to the `xtuml2masl` command line utility of BridgePoint.
 
 == 2 Introduction and Background
 
-A user has well stated in the issue:  "In an ideal world `xtuml2masl` would
+A user has well stated (<<dr-1>>):  "In an ideal world `xtuml2masl` would
 not need a workspace (or to start up a full instance of BridgePoint!) and
 would just run directly on the directory structure above and generate into
 the src directory. However, at this point I'd be satisfied if you could
@@ -18,15 +18,15 @@ me some MASL generated somewhere (anywhere!) from the above files using
 only the command line for a non-interactive user with no existing
 workspace. It seems that every way I turn at the moment I hit a dead end."
 
-A few changes in the back-end build structure also play in this issue.
-The builder has been modified to "play by Eclipse rules" a bit better.
+Recent changes to the back-end build structure also affect in this issue.
+The builder has been modified to better "play by Eclipse rules".
 This opens options around addressing the headline issue <<dr-1>>.
 
 === 2.1 Dependence on PreBuilder
 
 `xtuml2masl` depends upon prebuilder to gather model data from domain and
-deployment projects.  The prebuilder runs in the context of BridgePoint,
-Eclipse and a workspace.
+deployment projects.  The prebuilder runs in the context of a workspace,
+Eclipse and BridgePoint proper.
 
 Inter-project references (IPRs) are discovered in model data at load time.
 There is no special designation of IPRs at the project level.
@@ -35,7 +35,7 @@ The prebuilder leverages the standard BridgePoint loader.  This loader
 is responsible for reading structural xtUML and MASL activity data from
 multiple files on the file system and combining them in memory.  This
 combined model data is serialized into a single file which is piped to
-'x2m' to perform the xtUML to MASL conversion.
+`x2m` to perform the xtUML to MASL conversion.
 
 An alternative approach has been investigated. The alternate approach
 would 'scoop' the files directly from the file system bypassing BridgePoint,
@@ -56,13 +56,13 @@ each body.
 == 3 Requirements
 
 === 3.1 MASL Output
-MASL output must be produced from an xtUML project similarly as the
-previous version of xtuml2masl.  The output is not the issue that needs
+*MASL output equivalent to the previous version of xtuml2masl shall be
+produced from an xtUML project.*  The output is not the issue that needs
 to be changed.  The output is mentioned here only because it remains
 the key requirment of xtuml2masl functionality.
 
 === 3.2 No Eclipse
-Do not run Eclipse.  A running Eclipse instance represents a large resource
+*Do not run Eclipse.*  A running Eclipse instance represents a large resource
 overhead.  It is required that the xtuml2masl conversion occur without the
 need to run the Eclipse workbench and preferrably no Eclipse functionality
 at all.  xtuml2masl conversion should be "light weight" enough to run in a
@@ -70,7 +70,7 @@ continuous integration environment at configuration management branch commit
 time.
 
 === 3.3 No Workspace
-Do not require an Eclipse workspace.  Projects exist outside of a workspace.
+*Do not require an Eclipse workspace.*  Projects exist outside of a workspace.
 It is desired that MASL be produced for/from these projects without the
 overhead of an Eclipse workspace.
 
@@ -83,20 +83,24 @@ structure, naming and formatting.
 
 === 4.1 Activity File Processing
 In the previous version of xtuml2masl, activity files are loaded by
-BridgePoint proper through the invocation of the prebuilder.
-
-TODO - work needed here
+BridgePoint proper through the invocation of the prebuilder.  See
+<<4.2.2 MASL Activity xtUML Loading>> for a description of how activity
+files will be loaded and then passed as code bodies into `masl` as before.
 
 === 4.2 No Eclipse
 The previous version of xtuml2masl depends upon the BridgePoint 'PreBuilder'.
 The PreBuilder loads the xtUML (SQL) files for a project, parses OAL (if
 requested), resolves IPRs and serializes to a single file.
 
-The functionality for loading and serliazing xtUML SQL data will be factored
-out of BridgePoint or replicated in a single use way.
+==== 4.2.1 Structural xtUML Loading
+The MC-3020 xtUML loader is enhanced to recursively navigate down through
+a file system directory hierarchy reading all '.xtuml' files.
 
-The current plan is to enhance the MC-3020 loader to recursively navigate
-down through a file system directory hierarchy.
+==== 4.2.2 MASL Activity Loading
+The MC-3020 xtUML loader is enhanced to recursively navigate down through
+a file system directory hierarchy reading all '.masl' files.  The MASL
+activity statements will be parsed out and stored in the Action_Semantics
+fields of S_SYNC, SM_ACT, O_TFR and the SPR_* action bodies.
 
 === 4.3 No Workspace
 As stated in <<4.2 No Eclipse>>, the previous version of xtuml2masl depends
@@ -104,11 +108,31 @@ upon BridgePoint proper and specifically the prebuilder.  With a dependence
 on prebuilder removed, the need for a workspace is also removed.
 
 == 5 Implementation Comments
+N/A
 
 == 6 Unit Test
 
-=== 6.1 MASL Round Trip
-MASL round trip (`masl_round_trip`) invokes `xtuml2masl`.  
+=== 6.1 GPS Watch Build
+Run a build from within the BridgePoint GUI to ensure changes have not
+compromised the existing flow.
+
+. Run BridgePoint.
+. Create a new workspace.
+. Import the GPS Watch (MASL) example project.
+. Build it.
+. *results:* See a clean build.
+
+=== 6.2 'calculator' Command Line
+Run the new command line `xtuml2masl` and see it run successfully without
+using Eclipse or a workspace.
+
+. In a bash shell on Linux, navigate to (xtuml/)git/models/masl/calculator.
+. Invoke (install/)BridgePoint/tools/mc/bin/xtuml2masl -d ALU -o /tmp/ALU
+. *results:* See correct MASL in /tmp/ALU.
+. *results:* Note that Eclipse was never invoked.
+
+=== 6.3 Server MASL Round Trip
+Run MASL Round Trip on a build server and see a clean report.
 
 == 7 User Documentation
 

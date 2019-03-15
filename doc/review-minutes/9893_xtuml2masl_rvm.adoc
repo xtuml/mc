@@ -1,0 +1,22 @@
+= xtuml2masl without Eclipse
+
+xtUML Project Review Minutes
+
+ Reviewed:  doc/notes/9893_xtuml2masl_int.adoc
+ Present:  Cort, Levi, Bob
+
+ -- Num Type  Who  Section  Comment
+ _- 01  min   xxx  xxx      xxx
+ _- 02  min   xxx  xxx      xxx
+ _- 03  min   xxx  xxx      xxx
+ _- 04  min   xxx  xxx      xxx
+ _- 05  min   xxx  xxx      xxx
+
+ No major observations, a re-review is not required.
+ (or... Major observations were recorded, a re-review is required.)
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
