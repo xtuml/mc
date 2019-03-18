@@ -2,18 +2,30 @@
 
 xtUML Project Review Minutes
 
- Reviewed:  doc/notes/9893_xtuml2masl_dnt.adoc
+ Reviewed:  doc/notes/9893_xtuml2masl_dnt.adoc 138a60c
  Present:  Cort, Levi
 
  -- Num Type  Who  Section  Comment
- _- 01  min   xxx  xxx      xxx
- _- 02  min   xxx  xxx      xxx
- _- 03  min   xxx  xxx      xxx
- _- 04  min   xxx  xxx      xxx
- _- 05  min   xxx  xxx      xxx
+ x- 01  min   Cort 2        affect in this issue --> affect this issue
+ x- 02  min   Levi 2.1      Move to 4.
+ x- 02  min   Cort 2.1      Deploy ... employ (awkward wording)
+ x- 03  min   Levi 3.2      No Eclipse --> No Eclipse Workbench
+ x- 03  min   Levi 3.2      Consider using true headless Eclipse.
+                            Maybe we choose the faster stuff.
+ x- 03  min   Levi 4.2      No Eclipse Workbench
+ x- 03  min   Cort 4.2.1    "of Eclipse" --> "of BridgePoint"
+ x- 03  min   Levi 4.2.1    Superious
+ x- 03  min   Cort 4.2.2    run --> to run
+ x- 03  min   Levi 4.2.2    parse and pass codeblocks around x2m to masl
+ x- 03  min   Cort 4.2.3    This is analysis...
+ x- 03  min   Levi 4.3      4.2 No Eclipse Workbench
+ x- 04  min   Levi 5.3      5.2 instead of 4.2
+ x- 04  min   Cort xxx      Make note that non-Deployment projects will not be successful.
+                            Support the old way for old project in masl_round_trip.
+ x- 05  min   Cort 8        Test Deployment from the command line.
 
- No major observations, a re-review is not required.
- (or... Major observations were recorded, a re-review is required.)
+ Major observations were recorded, a re-review is required.
+ to touch base on final design choice.
 
 ---
 
