@@ -1,0 +1,120 @@
+= xtuml2masl without Eclipse
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+This note provides implementation documentation for an improvement to the
+`xtuml2masl` command line utility of BridgePoint.
+
+== 2 Introduction and Background
+
+See <<dr-1>>.
+
+== 3 Requirements
+See <<dr-2>>.
+
+== 4 Work Required
+
+=== 4.1 MASL Output
+The output MASL in the previous version of xtuml2masl is fine.  MASL may
+be produced by different means but must retain the output file structure,
+naming and formatting.
+
+Note that this new method of exporting models without invoking Eclipse
+will not be effective on previous idiom "project projects".  Such projects
+use component references that refer to domain components through IPRs.
+These inter-project references are not resolved in the present proposal.
+
+Thus project projects are hereby deprecated in command line xtuml2masl.
+
+Test cases in the MASL round trip test case library should be converted
+to Deployments or removed.
+
+==== 4.1.1 Activity File Processing
+In the previous version of xtuml2masl, activity files are loaded by
+BridgePoint proper through the invocation of the prebuilder.  See
+<<4.2.2 MASL Activity xtUML Loading>> for a description of how activity
+files will be loaded and then passed as code bodies into `masl` as before.
+
+=== 4.2 No Eclipse Workbench
+The previous version of xtuml2masl depends upon the BridgePoint 'PreBuilder'.
+The PreBuilder loads the xtUML (SQL) files for a project, parses OAL (if
+requested), resolves IPRs and serializes to a single file.
+
+==== 4.2.1 Structural xtUML Loading
+The MC-3020 xtUML loader is enhanced to recursively navigate down through
+a file system directory hierarchy reading all '.xtuml' files.
+
+==== 4.2.2 MASL Activity Loading
+The MC-3020 xtUML loader is enhanced to recursively navigate down through
+a file system directory hierarchy reading all '.masl' files.  The MASL
+activity statements will be parsed out and stored in the Action_Semantics
+fields of S_SYNC, SM_ACT, O_TFR and the SPR_* action bodies.
+
+== 5 Implementation Comments
+
+formatting
+Globals
+
+
+== 6 Unit Test
+[This section is copied and modified from <<dr-2>>.
+
+=== 6.1 GPS Watch Build
+Run a build from within the BridgePoint GUI to ensure changes have not
+compromised the existing flow.
+
+. Run BridgePoint.
+. Create a new workspace.
+. Import the GPS Watch (MASL) example project.
+. Build it.
+. *results:* See a clean build.
+
+=== 6.2 GPS Watch Deployment Test
+After running the GPS Watch in the GUI, run a command line to test that
+Deployments are supported with the new work.
+
+. Starting from where <<8.1 GPS Watch Build>> finished, exit BridgePoint.
+. In a bash shell, navigate to the workspace folder where GPS Watch was created.
+. Invoke <install>/BridgePoint/tools/mc/bin/xtuml2masl -p GPS_Watch -o /tmp/GPSDeployment
+. *results:* See correct MASL in /tmp/GPSDeployment.
+. *results:* Note that Eclipse was never invoked.
+
+=== 6.3 'calculator' Command Line
+Run the new command line `xtuml2masl` and see it run successfully without
+using Eclipse or a workspace.
+
+. In a bash shell on Linux, navigate to (xtuml/)git/models/masl/calculator.
+. Invoke <install>/BridgePoint/tools/mc/bin/xtuml2masl -d ALU -o /tmp/ALU
+. *results:* See correct MASL in /tmp/ALU.
+. *results:* Note that Eclipse was never invoked.
+
+=== 6.4 Server MASL Round Trip
+Run MASL Round Trip on a build server and see a clean report.
+
+== 7 User Documentation
+
+=== 7.1 `xtuml2masl` man page
+The man page is updated to not prescribe a WORKSPACE environment variable.
+It is no longer needed.
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  9893_xtuml2masl
+
+----
+ Put the file list here
+----
+
+== 9 Document References
+
+1. [[dr-1]] https://support.onefact.net/issues/9893[9893 - xtuml2masl without eclipse]
+2. [[dr-2]] link:9893_xtuml2masl_dnt.adoc[Design Note -  xtuml2masl without eclipse]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
