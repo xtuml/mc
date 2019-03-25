@@ -3,4 +3,40 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export MASL_BIN_DIR=$DIR/
 
-java -cp $DIR/../../../plugins/org.xtuml.bp.x2m*/x2m.jar org.xtuml.bp.x2m.Xtuml2Masl $@
+# maslout:  "i:d:p:ks"
+# masl:  "cvVsi:o:d:p:"
+# i, d, p and s mean the same thing for both applications.
+args=`getopt i:d:p:o:kcsvV $*`
+if [ $? != 0 ]
+then
+  echo 'Usage:  xtuml2masl [-v | -V] [-xf] [-xl] -i <eclipse project> -d <domain component> [-o <output directory>]'
+  echo '        xtuml2masl [-v | -V] [-xf] [-xl] -i <eclipse project> -p <project package> [-o <output directory>]"'
+  exit 2
+fi
+set -- $args
+for i
+do
+  case "$i"
+  in
+  -k)
+    key_lett="-k"; shift;;
+  -s)
+    skip_activities="-s"; shift;;
+  -i)
+    project_directory="-i $2"; shift; shift;;
+  -d)
+    domain="-d $2"; shift; shift;;
+  -p)
+    project_package="-p $2"; shift; shift;;
+  -v)
+    validate="-v"; shift;;
+  -v)
+    validate_only="-V"; shift;;
+  -o)
+    output_directory="-o $2"; shift; shift;;
+  --)
+    shift; break;;
+  esac
+done
+echo " $DIR/../../../plugins/org.xtuml.bp.pkg*/globals/Globals.xtuml | $DIR/x2m $key_lett $skip_activities $project_directory $domain $project_package $@ | $DIR/masl $coverage $validate $validate_only $skip_activities $project_directory $domain $project $output_directory $@"
+cat $DIR/../../../plugins/org.xtuml.bp.pkg*/globals/Globals.xtuml | $DIR/x2m $key_lett $skip_activities $project_directory $domain $project_package $@ | $DIR/masl $coverage $validate $validate_only $skip_activities $project_directory $domain $project $output_directory $@

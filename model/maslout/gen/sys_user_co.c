@@ -82,20 +82,19 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "i:d:m:p:ks" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "i:d:p:ks" ) ) != -1 ) {
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
-          else xtuml2masl_model_op_setoption( model, "projectroot", optarg );
+          else {
+            xtuml2masl_model_op_setoption( model, "projectroot", optarg );
+            modelpath = Escher_stradd( optarg, "/models" );
+          }
           break;
         case 'd':
           if ( !optarg ) abort();
           else name[ namecount++ ] = optarg;
           domain = 1;
-          break;
-        case 'm':
-          if ( !optarg ) abort();
-          else modelpath = optarg;
           break;
         case 'p':
           if ( !optarg ) abort();
@@ -117,10 +116,10 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   static char * a[3] = { 0, 0, 0 };
   a[2] = modelpath;
   Escher_xtUML_load( 3, a );
+  Escher_MASL_load( modelpath );
   xtuml2masl_model_op_setoption( model, "outputcodeblocks", output_activities ? "true" : "false" );
   /* Load the feature and application marks from files.  */
   xtuml2masl_load_marking_data();
-  Escher_MASL_load( modelpath );
   int i = 0;
   if ( project ) {
     while ( i < namecount ) xtuml2masl_masl_project( (const bool)key_lett, name[ i++ ] );

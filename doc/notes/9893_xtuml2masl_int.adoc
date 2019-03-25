@@ -11,52 +11,81 @@ This note provides implementation documentation for an improvement to the
 
 See <<dr-1>>.
 
+This implementation involved making several practical decisions.  The path
+to integrating the functionality was pretty wide.  Choices made are
+documented here.
+
 == 3 Requirements
+
 See <<dr-2>>.
 
 == 4 Work Required
 
 === 4.1 MASL Output
-The output MASL in the previous version of xtuml2masl is fine.  MASL may
-be produced by different means but must retain the output file structure,
-naming and formatting.
-
-Note that this new method of exporting models without invoking Eclipse
-will not be effective on previous idiom "project projects".  Such projects
-use component references that refer to domain components through IPRs.
-These inter-project references are not resolved in the present proposal.
-
-Thus project projects are hereby deprecated in command line xtuml2masl.
-
-Test cases in the MASL round trip test case library should be converted
-to Deployments or removed.
-
-==== 4.1.1 Activity File Processing
-In the previous version of xtuml2masl, activity files are loaded by
-BridgePoint proper through the invocation of the prebuilder.  See
-<<4.2.2 MASL Activity xtUML Loading>> for a description of how activity
-files will be loaded and then passed as code bodies into `masl` as before.
+The same MASL formatting remains in place.  The `masl` back end runs just
+as it did previously, so the MASL output is not affected by this work.
 
 === 4.2 No Eclipse Workbench
-The previous version of xtuml2masl depends upon the BridgePoint 'PreBuilder'.
-The PreBuilder loads the xtUML (SQL) files for a project, parses OAL (if
-requested), resolves IPRs and serializes to a single file.
+To avoid running the Eclipse workbench, prebuilder is not invoked.  The
+file system is traversed directly to accumulate the structural and activity
+xtUML information.
 
 ==== 4.2.1 Structural xtUML Loading
 The MC-3020 xtUML loader is enhanced to recursively navigate down through
-a file system directory hierarchy reading all '.xtuml' files.
+a file system directory hierarchy reading all '.xtuml' files.  In the xtUML
+loader, the code that reads a single file was re-factored to be callable 
+multiple times to read as many files as necessary.  `ftw` is used to find
+the files to be loaded.
 
-==== 4.2.2 MASL Activity Loading
+==== 4.2.2 File Tree Walker
+See <<dr-3>> to learn about `ftw`, _file tree walk_.  This C library function
+takes as input a file system directory path and a callback function.  ftw then
+recursively navigates downward through the directory structure invoking the
+callback function on each file and directory encountered.
+
+In the xtUML loader implementation, the callback function checks the name of
+the given file against a pattern ('.xtuml').  When a match is encountered,
+the file is read, and the SQL statements interpreted, and instances loaded.
+
+==== 4.2.3 MASL Activity Loading
 The MC-3020 xtUML loader is enhanced to recursively navigate down through
-a file system directory hierarchy reading all '.masl' files.  The MASL
-activity statements will be parsed out and stored in the Action_Semantics
-fields of S_SYNC, SM_ACT, O_TFR and the SPR_* action bodies.
+a file system directory hierarchy reading all '.masl' files.  The same
+file tree walk (`ftw`) utility as used for structural xtUML is used for
+the MASL activity files.  However, a different parser is used to load them.
+
+The MASL activity statements are parsed out and stored in the
+'Action_Semantics_internal' fields of S_SYNC, SM_ACT, O_TFR and the SPR_*
+action bodies.  A new parser is implemented in C after the fashion of the
+existing SQL parser used to parse .xtuml files.  The grammar for the parser
+is as follows:
+
+----
+   MASL Activity Container Parser Grammar
+
+   activity_file:  ( container )*
+   container:
+     activity_begin ( uuid )+ do_not_edit
+     code_block
+     activity_end do_not_edit
+----
+
+An example '.masl' activity file is shown in <<dr-2>>.
 
 == 5 Implementation Comments
 
-formatting
-Globals
+=== 5.1 Unrecognized SQL INSERTs
+Previously, the xtUML load code in MC-3020 would abort if an unrecognized
+SQL INSERT were encountered.  Recently, this abort was removed in favor of
+a warning.  The warning is not useful either, and so now the warning is
+removed.  This allows valid unrecognized statements such as INSERTs of
+elements from the OOA of Graphics.  Such elements will be common in data
+scooped directly from the file system.
 
+=== 5.2 Support for Real in xtUML Loader
+Previously, the xtUML load code in MC-3020 had no support for real numbers.
+Since elements from the OOA of Graphics carry real-typed fields, support for
+Real is added.  This was a one-line change to allow a decimal point with a
+number.
 
 == 6 Unit Test
 [This section is copied and modified from <<dr-2>>.
@@ -101,6 +130,13 @@ It is no longer needed.
 
 == 8 Code Changes
 
+- fork/repository:  cortlandstarrett/bridgepoint
+- branch:  9893_xtuml2masl
+
+----
+ Put the file list here
+----
+
 - fork/repository:  cortlandstarrett/mc
 - branch:  9893_xtuml2masl
 
@@ -112,9 +148,22 @@ It is no longer needed.
 
 1. [[dr-1]] https://support.onefact.net/issues/9893[9893 - xtuml2masl without eclipse]
 2. [[dr-2]] link:9893_xtuml2masl_dnt.adoc[Design Note -  xtuml2masl without eclipse]
+3. [[dr-3]] http://man7.org/linux/man-pages/man3/ftw.3.html[FTW - Linux Man Page for _file tree walk_]
 
 ---
 
 This work is licensed under the Creative Commons CC0 License
 
 ---
+
+1. invocation integration with the shell script or the java plugin
+2. reading the Globals.xtuml file
+3. formatting the output MASL
+4. back-patching from edited C files into the archetypes
+5. rebuilding mcmc
+6. terminators are not being produced
+7. test case removal
+
+Run a build with cortlandstarrett/bridgepoint branched only to get a new x2m.jar.
+
+Add Globals.xtuml to the x2m plugin? or script?
