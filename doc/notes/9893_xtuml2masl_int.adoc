@@ -30,14 +30,14 @@ To avoid running the Eclipse workbench, prebuilder is not invoked.  The
 file system is traversed directly to accumulate the structural and activity
 xtUML information.
 
-==== 4.2.1 Structural xtUML Loading
-The MC-3020 xtUML loader is enhanced to recursively navigate down through
-a file system directory hierarchy reading all '.xtuml' files.  In the xtUML
-loader, the code that reads a single file was re-factored to be callable 
-multiple times to read as many files as necessary.  `ftw` is used to find
-the files to be loaded.
+=== 4.3 Structural xtUML Loading
+The MC-3020 model compiler xtUML loader is enhanced to recursively navigate
+down through a file system directory hierarchy reading all '.xtuml' files.
+In the xtUML loader, the code that reads a single file is re-factored to be
+callable multiple times to read as many files as necessary.  `ftw` <<dr-3>>
+is used to find the files to be loaded.
 
-==== 4.2.2 File Tree Walker
+==== 4.3.1 File Tree Walker
 See <<dr-3>> to learn about `ftw`, _file tree walk_.  This C library function
 takes as input a file system directory path and a callback function.  ftw then
 recursively navigates downward through the directory structure invoking the
@@ -47,17 +47,24 @@ In the xtUML loader implementation, the callback function checks the name of
 the given file against a pattern ('.xtuml').  When a match is encountered,
 the file is read, and the SQL statements interpreted, and instances loaded.
 
-==== 4.2.3 MASL Activity Loading
+The model path required for traversal is derived from the (-i) 'projectroot'
+parameter required by `xtuml2masl`.  '/models' is appended to 'projectroot'
+and used as the top level folder for model source both structural xtUML and
+MASL activities.
+
+=== 4.4 MASL Activity Loading
 The MC-3020 xtUML loader is enhanced to recursively navigate down through
 a file system directory hierarchy reading all '.masl' files.  The same
 file tree walk (`ftw`) utility as used for structural xtUML is used for
 the MASL activity files.  However, a different parser is used to load them.
 
-The MASL activity statements are parsed out and stored in the
+==== 4.4.1 MASL Activity Container Parsing
+The MASL activity code blocks are parsed out and stored in the
 'Action_Semantics_internal' fields of S_SYNC, SM_ACT, O_TFR and the SPR_*
 action bodies.  A new parser is implemented in C after the fashion of the
-existing SQL parser used to parse .xtuml files.  The grammar for the parser
-is as follows:
+existing SQL parser used to parse .xtuml files.  This parser knows (only)
+about activity containers and does not parse the action language.  The
+grammar for the parser is as follows:
 
 ----
    MASL Activity Container Parser Grammar
@@ -65,11 +72,19 @@ is as follows:
    activity_file:  ( container )*
    container:
      activity_begin ( uuid )+ do_not_edit
+     signature
      code_block
      activity_end do_not_edit
 ----
 
 An example '.masl' activity file is shown in <<dr-2>>.
+
+The uuids are used as keys to select action homes (SM_ACT et al) from the
+loaded population of structural xtUML.  Once the correct action home is
+selected, the string attribute which holds the action body (code block) is
+written to 'Action_Semantics_internal'.  This select and update is implemented
+as OAL in the 'maslin' model in a domain function named
+'load_activity_code_block'.
 
 == 5 Implementation Comments
 
@@ -86,6 +101,13 @@ Previously, the xtUML load code in MC-3020 had no support for real numbers.
 Since elements from the OOA of Graphics carry real-typed fields, support for
 Real is added.  This was a one-line change to allow a decimal point with a
 number.
+
+=== 5.3 Relaxed Option Parsing
+`getopt` is used to parse command line options passed to `xtuml2masl`,
+`x2m` and `masl`.  Previously, unrecognized command line options were
+treated as a fatal error, and the application would exit.  This is relaxed
+to allow unrecognized options and simply "pass them through".  This is
+convenient during development when adding new options.
 
 == 6 Unit Test
 [This section is copied and modified from <<dr-2>>.
@@ -134,14 +156,29 @@ It is no longer needed.
 - branch:  9893_xtuml2masl
 
 ----
- Put the file list here
+ src/org.xtuml.bp.doc/Reference/MASL/xtuml2masl/xtuml2masl.html |  1 -
+ src/org.xtuml.bp.doc/Reference/MASL/xtuml2masl/xtuml2masl.md   |  1 -
+ src/org.xtuml.bp.x2m/src/org/xtuml/bp/x2m/Xtuml2Masl.java      | 21 ---------------------
+ 3 files changed, 23 deletions(-)
 ----
 
 - fork/repository:  cortlandstarrett/mc
 - branch:  9893_xtuml2masl
 
 ----
- Put the file list here
+ arc/c/sys.arc                                      |   1 +
+ arc/t.sys_maslload.c                               | 187 +++++++
+ arc/t.sys_xtumlload.c                              |  88 +--
+ arc/t.sys_xtumlload.h                              |   3 +-
+ bin/xtuml2masl                                     |  56 +-
+ doc/notes/9893_xtuml2masl_dnt.adoc                 | 298 +++++++++++
+ doc/notes/9893_xtuml2masl_int.adoc                 | 208 ++++++++
+ doc/review-minutes/9893_xtuml2masl_rvm.adoc        |  34 ++
+ model/maslout/gen/STRING_bridge.c                  |  23 +-
+ model/maslout/gen/STRING_bridge.h                  |   1 +
+ model/maslout/gen/sys_user_co.c                    |  22 +-
+ model/maslout/gen/sys_xtumlload.c                  | 589 +++++++++++++++++++++
+ model/mcooa/gen/readme.txt                         |   1 +
 ----
 
 == 9 Document References
@@ -156,14 +193,14 @@ This work is licensed under the Creative Commons CC0 License
 
 ---
 
-1. invocation integration with the shell script or the java plugin
-2. reading the Globals.xtuml file
-3. formatting the output MASL
-4. back-patching from edited C files into the archetypes
-5. rebuilding mcmc
-6. terminators are not being produced
-7. test case removal
+1. invocation integration with the shell script or the java plugin [both, plugin needs to be rebuilt]
+2. reading the Globals.xtuml file [done in script, need this in plugin, or maybe do this in x2m]
+3. terminators are not being produced
+4. test case removal?
+
+Revert the CDT builder changes in a parallel branch.
 
 Run a build with cortlandstarrett/bridgepoint branched only to get a new x2m.jar.
 
-Add Globals.xtuml to the x2m plugin? or script?
+Add Globals.xtuml to x2m?, x2m plugin? or script?
+I am tempted to compile Globals.xtuml into x2m as a constant string.

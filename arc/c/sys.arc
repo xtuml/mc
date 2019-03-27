@@ -309,6 +309,7 @@
 .//=============================================================================
 .if ( te_sys.InstanceLoading )
 .include "${te_file.arc_path}/t.sys_xtumlload.c"
+.include "${te_file.arc_path}/t.sys_maslload.c"
 .emit to file "${te_file.system_source_path}/${te_file.xtumlload}.${te_file.src_file_ext}"
 .end if
 .print "ending ${info.date}"
