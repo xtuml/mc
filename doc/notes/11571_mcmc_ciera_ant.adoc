@@ -260,6 +260,43 @@ creator intends to make it open source at some point, but at the moment it is
 not. Relying on a closed-source application in the BridgePoint build poses some
 risk.
 
+=== 4.7 Performance metrics
+
+The experimental Java version of escher was built and used to build escher.
+This was done to evaluate the preformance impact. Escher may be the biggest
+model (with the most action language) that we build with MC-3020 on a regular
+basis.
+
+The experiment was performed by running pre-builder once. The model compiler was
+then timed from launch to end of code generation. This included the time for
+`pyrsl` to load the instance population and generate the structural code. The
+decision to include `pyrsl` in the timing is that one of the key functions of
+escher is to pare down the instance population to improve performance of
+`pyrsl`. The experiment was done on a 2017 model MacBook Pro with 16GB of RAM
+running macOS Mojave. For the Linux tests, a VirtualBox VM running Ubuntu 18.04
+LTS hosted on the MacBook Pro was used. For some of the tests, the model data
+was accessed in a folder shared with the Ubuntu guest but physically located on
+the Mac using VirtualBox filesharing mechanisms. For other tests, all file
+system accesses were contained within the context of the local file system on
+the guest OS. Due to a `flex` dependency, the binary version of mcmc cannot be
+run on macOS when templating is used. The results are ordered from fastest to
+slowest.
+
+|===
+| mcmc on Linux VM (reading local file system)         | 0m39.663s
+| mcmc.java on Linux VM (reading local file system)    | 0m46.889s
+| mcmc.java on macOS                                   | 0m49.564s
+| mcmc on Linux VM (reading file system on macOS)      | 0m52.112s
+| mcmc.java on Linux VM (reading file system on macOS) | 2m6.460s
+|===
+
+You can see from these results that the Java version of mcmc is slower than the
+compiled binary version in all cases. It is also clear that a large portion of
+the execution time is loading and persisting instances. This can be seen in the
+difference between executions using the bridged file system on the VM versus a
+local file system. It seems that the Java version is affected more by slow file
+IO than the compiled version.
+
 == 5 Work Required
 
 5.1 The changes to ciera described in section 4.3 must be made. In some cases
