@@ -157,7 +157,7 @@ expressions.
 ==== 4.3.1 Comments in templates
 
 The ciera template mechanism does not support comments in templates. This should
-be added as a feature. <<dr-2>
+be added as a feature. <<dr-2>>
 
 ==== 4.3.2 Partial dumping
 
@@ -220,7 +220,7 @@ bridge. `LOG::LogInfo` should be produced in these situations instead.
 
 ==== 4.4.3 `ARCH::exit` instead of `T::exit`
 
-The `T::` EE provides a bridge "print". `TEMP::` in ciera does not have this
+The `T::` EE provides a bridge "exit". `TEMP::` in ciera does not have this
 bridge. `ARCH::exit` should be produced in these situations instead. See section
 <<4.3.4 `ARCH::exit(code:0)`>>
 
