@@ -6,8 +6,8 @@ xtUML Project Review Minutes
  Present:  Levi, Cort, Keith
 
  -- Num Type  Who  Section  Comment
- _- 01  min   KB   4.3.1    dr-2 link broken
- _- 02  min   CS   4.4.3    copy paste error of description.  Should be "exit" not "print"
+ x- 01  min   KB   4.3.1    dr-2 link broken
+ x- 02  min   CS   4.4.3    copy paste error of description.  Should be "exit" not "print"
 
 
  No major observations, a re-review is not required.
