@@ -47,6 +47,10 @@ In the xtUML loader implementation, the callback function checks the name of
 the given file against a pattern ('.xtuml').  When a match is encountered,
 the file is read, and the SQL statements interpreted, and instances loaded.
 
+NOTE:  A simplistic and straight-forward `strstr` implementation is provided
+for this pattern match.  During review this was discussed and deemed to be
+sufficient.
+
 The model path required for traversal is derived from the (-i) 'projectroot'
 parameter required by `xtuml2masl`.  '/models' is appended to 'projectroot'
 and used as the top level folder for model source both structural xtUML and
@@ -111,6 +115,10 @@ convenient during development when adding new options.
 
 == 6 Unit Test
 [This section is copied and modified from <<dr-2>>.
+
+Testing on Windows will be performed and result documented.  Windows is not
+required for this work, but similar functionality will be required on Windows
+by other users in the future.
 
 === 6.1 GPS Watch Build
 Run a build from within the BridgePoint GUI to ensure changes have not
