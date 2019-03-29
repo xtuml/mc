@@ -201,15 +201,3 @@ It is no longer needed.
 This work is licensed under the Creative Commons CC0 License
 
 ---
-
-1. invocation integration with the shell script or the java plugin [both, plugin needs to be rebuilt]
-2. reading the Globals.xtuml file [done in script, need this in plugin, or maybe do this in x2m]
-3. terminators are not being produced
-4. test case removal?
-
-Revert the CDT builder changes in a parallel branch.
-
-Run a build with cortlandstarrett/bridgepoint branched only to get a new x2m.jar.
-
-Add Globals.xtuml to x2m?, x2m plugin? or script?
-I am tempted to compile Globals.xtuml into x2m as a constant string.

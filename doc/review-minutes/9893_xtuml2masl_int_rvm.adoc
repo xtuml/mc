@@ -22,9 +22,10 @@ xtUML Project Review Minutes
  x- 08  min   CS   5.2      "with a number" > "within a number"
  x- 09  min   LS   6.4      MASL round trip does not support importing deployments.  Export after this won't support projects.  So between the two masl round trip will be broken non-domain exports.
  x- 10  min   LS   general  Fix "-e" and use pre-builder for MASL Project projects
- _- 11  min   BM   6        Point to existing manual tests and automated tests that do the testing described in detail in this note.  Use those instead. 
-_-  12  min   BM   7        Search MASL Conversion and Modeling Guide and see how it describes to run the masl export.  Is WORKSPACE referenced (remove if it is)?  Is only UI described?  Consider describing command line only using new functionality.
-_- 13  min    BM   general  Don't forget to remove comments at the bottom of the note.
+ o- 11  min   BM   6        Point to existing manual tests and automated tests that do the testing described in detail in this note.  Use those instead. 
+ I did not see any manual tests that exactly matched what I have in this note.
+ x-  12  min   BM   7        Search MASL Conversion and Modeling Guide and see how it describes to run the masl export.  Is WORKSPACE referenced (remove if it is)?  Is only UI described?  Consider describing command line only using new functionality.
+ x- 13  min    BM   general  Don't forget to remove comments at the bottom of the note.
 
  No major observations, a re-review is not required.
  

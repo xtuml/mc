@@ -4,15 +4,15 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export MASL_BIN_DIR=$DIR/
 
 # This is the java plugin way to integrate.  Conveniently, it includes the correct formatting.
-#java -cp $DIR/../../../plugins/org.xtuml.bp.x2m*/x2m.jar org.xtuml.bp.x2m.Xtuml2Masl $@
-#exit 0
+java -cp $DIR/../../../plugins/org.xtuml.bp.x2m*/x2m.jar org.xtuml.bp.x2m.Xtuml2Masl $@
+exit 0
 
 # This work was done and is left here for convenience.  Sometimes a BridgePoint
 # developer may wish to have access "in between" the flow of executables.
 # maslout:  "i:d:p:ks"
 # masl:  "cvVsi:o:d:p:a:"
 # i, d, p and s mean the same thing for both applications.
-args=`getopt i:d:p:o:x:kcsvV $*`
+args=`getopt i:d:p:o:x:kcsvVP $*`
 if [ $? != 0 ]; then
   echo 'Usage:  xtuml2masl [-v | -V] [-xf] [-xl] -i <eclipse project> -d <domain component> [-o <output directory>] [-a <architecture>'
   echo '        xtuml2masl [-v | -V] [-xf] [-xl] -i <eclipse project> -p <project package> [-o <output directory>] [-a <architecture>'
@@ -29,6 +29,9 @@ do
   -P)
     prebuild="-P"; shift;;
   -i)
+    if [ ! -d $2/gen ]; then mkdir $2/gen; fi;
+    if [ ! -d $2/gen/code_generation ]; then mkdir $2/gen/code_generation; fi;
+    if [ ! -f $2/gen/code_generation/d1.sql ]; then touch $2/gen/code_generation/d1.sql; fi;
     project_directory="-i $2"; shift; shift;;
   -d)
     model="$2"; domain="$2"; ddomain="-d $2"; shift; shift;;
@@ -36,7 +39,7 @@ do
     model="$2"; project_package="$2"; pproject_package="-p $2"; shift; shift;;
   -v)
     validate="-v"; shift;;
-  -v)
+  -V)
     validate_only="-V"; shift;;
   -o)
     output_directory="$2"; ooutput_directory="-o $2"; shift; shift;;
@@ -52,8 +55,9 @@ do
     shift; break;;
   esac
 done
-echo " $DIR/../../../plugins/org.xtuml.bp.pkg*/globals/Globals.xtuml | $DIR/x2m $key_lett $skip_activities $project_directory $ddomain $pproject_package $@ | $DIR/masl $coverage $validate $validate_only $skip_activities $project_directory $ddomain $project $ooutput_directory $architecture $@"
-cat $DIR/../../../plugins/org.xtuml.bp.pkg*/globals/Globals.xtuml | $DIR/x2m $key_lett $skip_activities $project_directory $ddomain $pproject_package $@ | $DIR/masl $coverage $validate $validate_only $skip_activities $project_directory $ddomain $project $ooutput_directory $architecture $@
+
+echo "$DIR/x2m $key_lett $skip_activities $project_directory $ddomain $pproject_package $@ < $DIR/../schema/Globals.xtuml | $DIR/masl $coverage $validate $validate_only $skip_activities $project_directory $ddomain $project $ooutput_directory $architecture $@"
+$DIR/x2m $key_lett $skip_activities $project_directory $ddomain $pproject_package $@ < $DIR/../schema/Globals.xtuml | $DIR/masl $coverage $validate $validate_only $skip_activities $project_directory $ddomain $project $ooutput_directory $architecture $@
 if [ "" == "$skip_format" ]; then
   echo "java -cp $DIR/antlr-3.5.2-complete.jar:$DIR/MASLParser.jar MaslFormatter -r -i $output_directory/$model -o $output_directory/$model.tmp"
   java -cp $DIR/antlr-3.5.2-complete.jar:$DIR/MASLParser.jar MaslFormatter -r -i $output_directory/$model -o $output_directory/$model.tmp
