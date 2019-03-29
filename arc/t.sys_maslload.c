@@ -1,8 +1,8 @@
 /*
    MASL Activity Container Parser Grammar
 
-   activity_file:  container*
-   container:
+   activity_file:  activity_container*
+   activity_container:
      activity_begin ( uuid )+ do_not_edit
      signature
      code_block
@@ -10,7 +10,7 @@
 */
 
 static bool readcontainer( char ** );
-static bool container( void );
+static bool activity_container( void );
 static bool activity_begin( void );
 static bool uuid( void );
 static bool do_not_edit( void );
@@ -49,9 +49,9 @@ static bool readcontainer( char ** c )
   return last_container;
 }
 
-static bool container( void )
+static bool activity_container( void )
 {
-  DEVELOPER_DEBUG( "container %s\n", cursor );
+  DEVELOPER_DEBUG( "activity_container %s\n", cursor );
   word[ 0 ] = "";
   wordindex = 0;
   if ( ! activity_begin() ) return false;
@@ -163,13 +163,13 @@ static int ${te_prefix.result}MASL_load_file( const char * filepath, const struc
   bool done = readcontainer( &cursor ); /* Initial call reads to beginning of first record.  */
   while ( ! done ) {
     done = readcontainer( &cursor );
-    if ( container() ) {
+    if ( activity_container() ) {
       if ( 0 != wordindex ) {
         // Update the Action_Semantics with the code blocks.
         if ( wordindex > 2 ) {
-          xtuml2masl_load_activity_code_block( (c_t *) word[ 2 ], (c_t *) word[ 0 ], (c_t *) word[ 1 ] );
+          ${te_sync.GeneratedName}( (c_t *) word[ 2 ], ${te_string.uuidtou128}( word[ 0 ] ), ${te_string.uuidtou128}( word[ 1 ] ) );
         } else {
-          xtuml2masl_load_activity_code_block( (c_t *) word[ 1 ], (c_t *) word[ 0 ], "" );
+          ${te_sync.GeneratedName}( (c_t *) word[ 1 ], ${te_string.uuidtou128}( word[ 0 ] ), 0 );
         }
       }
     } else {

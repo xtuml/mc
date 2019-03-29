@@ -48,8 +48,9 @@ the given file against a pattern ('.xtuml').  When a match is encountered,
 the file is read, and the SQL statements interpreted, and instances loaded.
 
 NOTE:  A simplistic and straight-forward `strstr` implementation is provided
-for this pattern match.  During review this was discussed and deemed to be
-sufficient.
+for this pattern match.  It has the weakness of potentially matching the
+pattern in the middle of a file or path name.  During review this was
+discussed and deemed good enough.
 
 The model path required for traversal is derived from the (-i) 'projectroot'
 parameter required by `xtuml2masl`.  '/models' is appended to 'projectroot'
@@ -73,8 +74,8 @@ grammar for the parser is as follows:
 ----
    MASL Activity Container Parser Grammar
 
-   activity_file:  ( container )*
-   container:
+   activity_file:  ( activity_container )*
+   activity_container:
      activity_begin ( uuid )+ do_not_edit
      signature
      code_block
@@ -103,7 +104,7 @@ scooped directly from the file system.
 === 5.2 Support for Real in xtUML Loader
 Previously, the xtUML load code in MC-3020 had no support for real numbers.
 Since elements from the OOA of Graphics carry real-typed fields, support for
-Real is added.  This was a one-line change to allow a decimal point with a
+Real is added.  This was a one-line change to allow a decimal point within a
 number.
 
 === 5.3 Relaxed Option Parsing

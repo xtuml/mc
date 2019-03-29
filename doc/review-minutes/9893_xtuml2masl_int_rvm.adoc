@@ -6,17 +6,22 @@ xtUML Project Review Minutes
  Present:  Bob, Keith, Levi, Cort
 
  -- Num Type  Who  Section  Comment
- _- 01  min   BM   4.3.1    Add comment that we need to check for multi-platform support.  We will have Windows users requiring this functionality eventually.
- _- 02  min   CS   4.3      Add a comment that an intentional choice was made to use simple strstr match for .xtuml and not
+ x- 01  min   BM   4.3.1    Add comment that we need to check for multi-platform support.  We will have Windows users requiring this functionality eventually.
+ x- 02  min   CS   4.3      Add a comment that an intentional choice was made to use simple strstr match for .xtuml and not
  do a lot of error checks around this matching
- _- 03  min   LS   4.4.1    masl_load_file calls a function that exists only in maslin.  This breaks escher!
- _- 04  min   BM   4.4.1    suggest grammar change of name from "container" to "activity_container"
- _- 05  min   LS   general  implement "load_activity_code_block" in the model compiler and not the application model
- _- 06  min   LS   general  need marks for enabling instance loading and masl activity loading
- _- 07  min   BM   5.1      Add an issue that tracks the change from error to warning and that this was done when unexpected PROXY instances were showing up in the output (a BP bug). 
- _- 08  min   CS   5.2      "with a number" > "within a number"
- _- 09  min   LS   6.4      MASL round trip does not support importing deployments.  Export after this won't support projects.  So between the two masl round trip will be broken non-domain exports.
- _- 10  min   LS   general  Fix "-e" and use pre-builder for MASL Project projects
+ x- 03  min   LS   4.4.1    masl_load_file calls a function that exists only in maslin.  This breaks escher!
+ Moved model function (load_activity_code_block) to mcshared.
+ Escher does not include the MASL code.
+ x- 04  min   BM   4.4.1    suggest grammar change of name from "container" to "activity_container"
+ x- 05  min   LS   general  implement "load_activity_code_block" in the model compiler and not the application model
+ x- 06  min   LS   general  need marks for enabling instance loading and masl activity loading
+ I used a simpler way.  The MASL load code is emitted only if the activity_load_code_block function is present.
+ This function is only present when included using a package reference, which is currently done only in masl code.
+ x- 07  min   BM   5.1      Add an issue that tracks the change from error to warning and that this was done when unexpected PROXY instances were showing up in the output (a BP bug). 
+ 11574
+ x- 08  min   CS   5.2      "with a number" > "within a number"
+ x- 09  min   LS   6.4      MASL round trip does not support importing deployments.  Export after this won't support projects.  So between the two masl round trip will be broken non-domain exports.
+ x- 10  min   LS   general  Fix "-e" and use pre-builder for MASL Project projects
  _- 11  min   BM   6        Point to existing manual tests and automated tests that do the testing described in detail in this note.  Use those instead. 
 _-  12  min   BM   7        Search MASL Conversion and Modeling Guide and see how it describes to run the masl export.  Is WORKSPACE referenced (remove if it is)?  Is only UI described?  Consider describing command line only using new functionality.
 _- 13  min    BM   general  Don't forget to remove comments at the bottom of the note.

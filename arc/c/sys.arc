@@ -309,7 +309,10 @@
 .//=============================================================================
 .if ( te_sys.InstanceLoading )
 .include "${te_file.arc_path}/t.sys_xtumlload.c"
+.select any te_sync from instances of TE_SYNC where ( selected.Name == "load_activity_code_block" )
+.if ( not_empty te_sync )
 .include "${te_file.arc_path}/t.sys_maslload.c"
+.end if
 .emit to file "${te_file.system_source_path}/${te_file.xtumlload}.${te_file.src_file_ext}"
 .end if
 .print "ending ${info.date}"

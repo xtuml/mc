@@ -263,6 +263,115 @@ INSERT INTO PE_PE
 	"bf81735d-197a-4cd8-acfa-23d7cd84f28b",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("e7a84cca-00b5-4a22-9b13-264833210932",
+	"00000000-0000-0000-0000-000000000000",
+	'load_activity_code_block',
+	'',
+	'//
+code_block = param.code_block;
+uuid1 = param.uuid1;
+uuid2 = param.uuid2;
+//
+done = false;
+//
+// state actions
+select many sm_acts from instances of SM_ACT;
+for each sm_act in sm_acts
+  if ( ( sm_act.SM_ID == uuid1 ) and ( sm_act.Act_ID == uuid2 ) )
+    sm_act.Action_Semantics_internal = code_block;
+    done = true;
+    break;
+  end if;
+end for;
+//
+// functions
+if ( not done )
+  select many s_syncs from instances of S_SYNC;
+  for each s_sync in s_syncs
+    if ( s_sync.Sync_ID == uuid1 )
+      s_sync.Action_Semantics_internal = code_block;
+      done = true;
+      break;
+    end if;
+  end for;
+end if;
+//
+// operations
+if ( not done )
+  select many o_tfrs from instances of O_TFR;
+  for each o_tfr in o_tfrs
+    if ( o_tfr.Tfr_ID == uuid1 )
+      o_tfr.Action_Semantics_internal = code_block;
+      done = true;
+      break;
+    end if;
+  end for;
+end if;
+//
+// messages
+if ( not done )
+  select many c_eps from instances of C_EP;
+  for each c_ep in c_eps
+    if ( c_ep.Id == uuid1 )
+      select many spr_ros related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
+      for each spr_ro in spr_ros
+        spr_ro.Action_Semantics_internal = code_block;
+      end for;
+      select many spr_rss related by c_ep->SPR_REP[R4500]->SPR_RS[R4502];
+      for each spr_rs in spr_rss
+        spr_rs.Action_Semantics_internal = code_block;
+      end for;
+      select many spr_pos related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
+      for each spr_po in spr_pos
+        spr_po.Action_Semantics_internal = code_block;
+      end for;
+      select many spr_pss related by c_ep->SPR_PEP[R4501]->SPR_PS[R4503];
+      for each spr_ps in spr_pss
+        spr_ps.Action_Semantics_internal = code_block;
+      end for;
+      break;
+    end if;
+  end for;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("dc0464a4-2b02-4fb1-88df-8320cc0ff5a5",
+	"e7a84cca-00b5-4a22-9b13-264833210932",
+	'code_block',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9d7b0b01-977d-4aea-bea3-553894b583fa",
+	"e7a84cca-00b5-4a22-9b13-264833210932",
+	'uuid1',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"dc0464a4-2b02-4fb1-88df-8320cc0ff5a5",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f5c73f34-4dd4-4bb2-92e8-057d43f503d5",
+	"e7a84cca-00b5-4a22-9b13-264833210932",
+	'uuid2',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"9d7b0b01-977d-4aea-bea3-553894b583fa",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e7a84cca-00b5-4a22-9b13-264833210932",
+	1,
+	"bf81735d-197a-4cd8-acfa-23d7cd84f28b",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("bf81735d-197a-4cd8-acfa-23d7cd84f28b",
 	1,

@@ -26,6 +26,8 @@ do
     coverage="-c"; shift;;
   -k)
     key_lett="-k"; shift;;
+  -P)
+    prebuild="-P"; shift;;
   -i)
     project_directory="-i $2"; shift; shift;;
   -d)
