@@ -29,9 +29,6 @@ do
   -P)
     prebuild="-P"; shift;;
   -i)
-    if [ ! -d $2/gen ]; then mkdir $2/gen; fi;
-    if [ ! -d $2/gen/code_generation ]; then mkdir $2/gen/code_generation; fi;
-    if [ ! -f $2/gen/code_generation/d1.sql ]; then touch $2/gen/code_generation/d1.sql; fi;
     project_directory="-i $2"; shift; shift;;
   -d)
     model="$2"; domain="$2"; ddomain="-d $2"; shift; shift;;

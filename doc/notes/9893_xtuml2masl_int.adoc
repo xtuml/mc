@@ -175,19 +175,25 @@ It is no longer needed.
 - branch:  9893_xtuml2masl
 
 ----
- arc/c/sys.arc                                      |   1 +
- arc/t.sys_maslload.c                               | 187 +++++++
- arc/t.sys_xtumlload.c                              |  88 +--
- arc/t.sys_xtumlload.h                              |   3 +-
- bin/xtuml2masl                                     |  56 +-
- doc/notes/9893_xtuml2masl_dnt.adoc                 | 298 +++++++++++
- doc/notes/9893_xtuml2masl_int.adoc                 | 208 ++++++++
- doc/review-minutes/9893_xtuml2masl_rvm.adoc        |  34 ++
- model/maslout/gen/STRING_bridge.c                  |  23 +-
- model/maslout/gen/STRING_bridge.h                  |   1 +
- model/maslout/gen/sys_user_co.c                    |  22 +-
- model/maslout/gen/sys_xtumlload.c                  | 589 +++++++++++++++++++++
- model/mcooa/gen/readme.txt                         |   1 +
+ arc/c/sys.arc                                            |   4 +
+ arc/t.sys_maslload.c                                     | 187 +++++++++++++++++++++
+ arc/t.sys_xtumlload.c                                    |  88 ++++++----
+ arc/t.sys_xtumlload.h                                    |   3 +-
+ bin/masl_round_trip                                      |   2 +-
+ bin/xtuml2masl                                           |  62 +++++++
+ doc/notes/9893_xtuml2masl_dnt.adoc                       | 298 +++++++++++++++++++++++++++++++++
+ doc/notes/9893_xtuml2masl_int.adoc                       | 203 +++++++++++++++++++++++
+ doc/review-minutes/9893_xtuml2masl_int_rvm.adoc          |  36 ++++
+ doc/review-minutes/9893_xtuml2masl_rvm.adoc              |  34 ++++
+ mcmc/arlan/rsl2oal.l                                     |   1 +
+ mcmc/arlan/rsl2oal.y                                     |   1 +
+ model/maslout/gen/STRING_bridge.c                        |  23 ++-
+ model/maslout/gen/STRING_bridge.h                        |   1 +
+ model/maslout/gen/sys_user_co.c                          |  22 ++-
+ model/maslout/gen/sys_xtumlload.c                        | 584 ++++++++++++++++++++++++++++++++++++++++
+ model/mcooa/gen/readme.txt                               |   3 +-
+ model/mcshared/models/mcshared/functions/functions.xtuml | 109 ++++++++++++
+ 18 files changed, 1603 insertions(+), 58 deletions(-)
 ----
 
 == 9 Document References
