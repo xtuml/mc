@@ -1,0 +1,20 @@
+= Analyze building mcmc with ciera
+
+xtUML Project Review Minutes
+
+ Reviewed: https://github.com/leviathan747/mc/blob/11571_mcmc_ciera/doc/notes/11571_mcmc_ciera_ant.adoc  482b65c     
+ Present:  Levi, Cort, Keith
+
+ -- Num Type  Who  Section  Comment
+ x- 01  min   KB   4.3.1    dr-2 link broken
+ x- 02  min   CS   4.4.3    copy paste error of description.  Should be "exit" not "print"
+
+
+ No major observations, a re-review is not required.
+
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
