@@ -1,0 +1,209 @@
+= xtuml2masl without Eclipse
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+This note provides implementation documentation for an improvement to the
+`xtuml2masl` command line utility of BridgePoint.
+
+== 2 Introduction and Background
+
+See <<dr-1>>.
+
+This implementation involved making several practical decisions.  The path
+to integrating the functionality was pretty wide.  Choices made are
+documented here.
+
+== 3 Requirements
+
+See <<dr-2>>.
+
+== 4 Work Required
+
+=== 4.1 MASL Output
+The same MASL formatting remains in place.  The `masl` back end runs just
+as it did previously, so the MASL output is not affected by this work.
+
+=== 4.2 No Eclipse Workbench
+To avoid running the Eclipse workbench, prebuilder is not invoked.  The
+file system is traversed directly to accumulate the structural and activity
+xtUML information.
+
+=== 4.3 Structural xtUML Loading
+The MC-3020 model compiler xtUML loader is enhanced to recursively navigate
+down through a file system directory hierarchy reading all '.xtuml' files.
+In the xtUML loader, the code that reads a single file is re-factored to be
+callable multiple times to read as many files as necessary.  `ftw` <<dr-3>>
+is used to find the files to be loaded.
+
+==== 4.3.1 File Tree Walker
+See <<dr-3>> to learn about `ftw`, _file tree walk_.  This C library function
+takes as input a file system directory path and a callback function.  ftw then
+recursively navigates downward through the directory structure invoking the
+callback function on each file and directory encountered.
+
+In the xtUML loader implementation, the callback function checks the name of
+the given file against a pattern ('.xtuml').  When a match is encountered,
+the file is read, and the SQL statements interpreted, and instances loaded.
+
+NOTE:  A simplistic and straight-forward `strstr` implementation is provided
+for this pattern match.  It has the weakness of potentially matching the
+pattern in the middle of a file or path name.  During review this was
+discussed and deemed good enough.
+
+The model path required for traversal is derived from the (-i) 'projectroot'
+parameter required by `xtuml2masl`.  '/models' is appended to 'projectroot'
+and used as the top level folder for model source both structural xtUML and
+MASL activities.
+
+=== 4.4 MASL Activity Loading
+The MC-3020 xtUML loader is enhanced to recursively navigate down through
+a file system directory hierarchy reading all '.masl' files.  The same
+file tree walk (`ftw`) utility as used for structural xtUML is used for
+the MASL activity files.  However, a different parser is used to load them.
+
+==== 4.4.1 MASL Activity Container Parsing
+The MASL activity code blocks are parsed out and stored in the
+'Action_Semantics_internal' fields of S_SYNC, SM_ACT, O_TFR and the SPR_*
+action bodies.  A new parser is implemented in C after the fashion of the
+existing SQL parser used to parse .xtuml files.  This parser knows (only)
+about activity containers and does not parse the action language.  The
+grammar for the parser is as follows:
+
+----
+   MASL Activity Container Parser Grammar
+
+   activity_file:  ( activity_container )*
+   activity_container:
+     activity_begin ( uuid )+ do_not_edit
+     signature
+     code_block
+     activity_end do_not_edit
+----
+
+An example '.masl' activity file is shown in <<dr-2>>.
+
+The uuids are used as keys to select action homes (SM_ACT et al) from the
+loaded population of structural xtUML.  Once the correct action home is
+selected, the string attribute which holds the action body (code block) is
+written to 'Action_Semantics_internal'.  This select and update is implemented
+as OAL in the 'maslin' model in a domain function named
+'load_activity_code_block'.
+
+== 5 Implementation Comments
+
+=== 5.1 Unrecognized SQL INSERTs
+Previously, the xtUML load code in MC-3020 would abort if an unrecognized
+SQL INSERT were encountered.  Recently, this abort was removed in favor of
+a warning.  The warning is not useful either, and so now the warning is
+removed.  This allows valid unrecognized statements such as INSERTs of
+elements from the OOA of Graphics.  Such elements will be common in data
+scooped directly from the file system.
+
+=== 5.2 Support for Real in xtUML Loader
+Previously, the xtUML load code in MC-3020 had no support for real numbers.
+Since elements from the OOA of Graphics carry real-typed fields, support for
+Real is added.  This was a one-line change to allow a decimal point within a
+number.
+
+=== 5.3 Relaxed Option Parsing
+`getopt` is used to parse command line options passed to `xtuml2masl`,
+`x2m` and `masl`.  Previously, unrecognized command line options were
+treated as a fatal error, and the application would exit.  This is relaxed
+to allow unrecognized options and simply "pass them through".  This is
+convenient during development when adding new options.
+
+== 6 Unit Test
+[This section is copied and modified from <<dr-2>>.
+
+Testing on Windows will be performed and result documented.  Windows is not
+required for this work, but similar functionality will be required on Windows
+by other users in the future.
+
+=== 6.1 GPS Watch Build
+Run a build from within the BridgePoint GUI to ensure changes have not
+compromised the existing flow.
+
+. Run BridgePoint.
+. Create a new workspace.
+. Import the GPS Watch (MASL) example project.
+. Build it.
+. *results:* See a clean build.
+
+=== 6.2 GPS Watch Deployment Test
+After running the GPS Watch in the GUI, run a command line to test that
+Deployments are supported with the new work.
+
+. Starting from where <<8.1 GPS Watch Build>> finished, exit BridgePoint.
+. In a bash shell, navigate to the workspace folder where GPS Watch was created.
+. Invoke <install>/BridgePoint/tools/mc/bin/xtuml2masl -p GPS_Watch -o /tmp/GPSDeployment
+. *results:* See correct MASL in /tmp/GPSDeployment.
+. *results:* Note that Eclipse was never invoked.
+
+=== 6.3 'calculator' Command Line
+Run the new command line `xtuml2masl` and see it run successfully without
+using Eclipse or a workspace.
+
+. In a bash shell on Linux, navigate to (xtuml/)git/models/masl/calculator.
+. Invoke <install>/BridgePoint/tools/mc/bin/xtuml2masl -d ALU -o /tmp/ALU
+. *results:* See correct MASL in /tmp/ALU.
+. *results:* Note that Eclipse was never invoked.
+
+=== 6.4 Server MASL Round Trip
+Run MASL Round Trip on a build server and see a clean report.
+
+== 7 User Documentation
+
+=== 7.1 `xtuml2masl` man page
+The man page is updated to not prescribe a WORKSPACE environment variable.
+It is no longer needed.
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/bridgepoint
+- branch:  9893_xtuml2masl
+
+----
+ src/org.xtuml.bp.doc/Reference/MASL/xtuml2masl/xtuml2masl.html |  1 -
+ src/org.xtuml.bp.doc/Reference/MASL/xtuml2masl/xtuml2masl.md   |  1 -
+ src/org.xtuml.bp.x2m/src/org/xtuml/bp/x2m/Xtuml2Masl.java      | 21 ---------------------
+ 3 files changed, 23 deletions(-)
+----
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  9893_xtuml2masl
+
+----
+ arc/c/sys.arc                                            |   4 +
+ arc/t.sys_maslload.c                                     | 187 +++++++++++++++++++++
+ arc/t.sys_xtumlload.c                                    |  88 ++++++----
+ arc/t.sys_xtumlload.h                                    |   3 +-
+ bin/masl_round_trip                                      |   2 +-
+ bin/xtuml2masl                                           |  62 +++++++
+ doc/notes/9893_xtuml2masl_dnt.adoc                       | 298 +++++++++++++++++++++++++++++++++
+ doc/notes/9893_xtuml2masl_int.adoc                       | 203 +++++++++++++++++++++++
+ doc/review-minutes/9893_xtuml2masl_int_rvm.adoc          |  36 ++++
+ doc/review-minutes/9893_xtuml2masl_rvm.adoc              |  34 ++++
+ mcmc/arlan/rsl2oal.l                                     |   1 +
+ mcmc/arlan/rsl2oal.y                                     |   1 +
+ model/maslout/gen/STRING_bridge.c                        |  23 ++-
+ model/maslout/gen/STRING_bridge.h                        |   1 +
+ model/maslout/gen/sys_user_co.c                          |  22 ++-
+ model/maslout/gen/sys_xtumlload.c                        | 584 ++++++++++++++++++++++++++++++++++++++++
+ model/mcooa/gen/readme.txt                               |   3 +-
+ model/mcshared/models/mcshared/functions/functions.xtuml | 109 ++++++++++++
+ 18 files changed, 1603 insertions(+), 58 deletions(-)
+----
+
+== 9 Document References
+
+1. [[dr-1]] https://support.onefact.net/issues/9893[9893 - xtuml2masl without eclipse]
+2. [[dr-2]] link:9893_xtuml2masl_dnt.adoc[Design Note -  xtuml2masl without eclipse]
+3. [[dr-3]] http://man7.org/linux/man-pages/man3/ftw.3.html[FTW - Linux Man Page for _file tree walk_]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

@@ -54,10 +54,9 @@ UserInitializationCalloutf( void )
 void
 UserPreOoaInitializationCalloutf( void )
 {
-  static char * a[2] = { "UserPreOoaInitializationCalloutf", "a.xtuml" };
-  Escher_xtUML_load( 2, a );
 }
 
+void Escher_MASL_load( const char * );
 /*
  * UserPostOoaInitializationCallout
  *
@@ -79,7 +78,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   int project = 0; int domain = 0;
   bool key_lett = FALSE;
   bool output_activities = TRUE;
-  int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
+  int namecount = 0; char * name[8]; char * modelpath;
   {
     int c;
     opterr = 0;
@@ -87,16 +86,19 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
-          else xtuml2masl_model_op_setoption( model, "projectroot", optarg );
+          else {
+            xtuml2masl_model_op_setoption( model, "projectroot", optarg );
+            modelpath = Escher_stradd( optarg, "/models" );
+          }
           break;
         case 'd':
           if ( !optarg ) abort();
-          else strncpy( name[ namecount++ ], optarg, 1024 );
+          else name[ namecount++ ] = optarg;
           domain = 1;
           break;
         case 'p':
           if ( !optarg ) abort();
-          else strncpy( name[ namecount++ ], optarg, 1024 );
+          else name[ namecount++ ] = optarg;
           project = 1;
           break;
         case 's':
@@ -106,13 +108,15 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
           key_lett = TRUE;
           break;
         case '?':
-            fprintf( stderr, "Unknown option character '%c'.\n", optopt );
-            break;
         default:
-          abort (); // die ignominiously
+          fprintf( stderr, "Unknown option character '%c'.\n", optopt );
       }
     }
   }
+  static char * a[3] = { 0, 0, 0 };
+  a[2] = modelpath;
+  Escher_xtUML_load( 3, a );
+  Escher_MASL_load( modelpath );
   xtuml2masl_model_op_setoption( model, "outputcodeblocks", output_activities ? "true" : "false" );
   /* Load the feature and application marks from files.  */
   xtuml2masl_load_marking_data();
