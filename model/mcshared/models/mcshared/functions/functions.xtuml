@@ -276,62 +276,47 @@ uuid2 = param.uuid2;
 done = false;
 //
 // state actions
-select many sm_acts from instances of SM_ACT;
+select many sm_acts from instances of SM_ACT where ( ( selected.SM_ID == uuid1 ) and ( selected.Act_ID == uuid2 ) );
 for each sm_act in sm_acts
-  if ( ( sm_act.SM_ID == uuid1 ) and ( sm_act.Act_ID == uuid2 ) )
-    sm_act.Action_Semantics_internal = code_block;
-    done = true;
-    break;
-  end if;
+  sm_act.Action_Semantics_internal = code_block;
+  done = true;
 end for;
 //
 // functions
 if ( not done )
-  select many s_syncs from instances of S_SYNC;
+  select many s_syncs from instances of S_SYNC where ( selected.Sync_ID == uuid1 );
   for each s_sync in s_syncs
-    if ( s_sync.Sync_ID == uuid1 )
-      s_sync.Action_Semantics_internal = code_block;
-      done = true;
-      break;
-    end if;
+    s_sync.Action_Semantics_internal = code_block;
+    done = true;
   end for;
 end if;
 //
 // operations
 if ( not done )
-  select many o_tfrs from instances of O_TFR;
+  select many o_tfrs from instances of O_TFR where ( selected.Tfr_ID == uuid1 );
   for each o_tfr in o_tfrs
-    if ( o_tfr.Tfr_ID == uuid1 )
-      o_tfr.Action_Semantics_internal = code_block;
-      done = true;
-      break;
-    end if;
+    o_tfr.Action_Semantics_internal = code_block;
+    done = true;
   end for;
 end if;
 //
 // messages
 if ( not done )
-  select many c_eps from instances of C_EP;
-  for each c_ep in c_eps
-    if ( c_ep.Id == uuid1 )
-      select many spr_ros related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
-      for each spr_ro in spr_ros
-        spr_ro.Action_Semantics_internal = code_block;
-      end for;
-      select many spr_rss related by c_ep->SPR_REP[R4500]->SPR_RS[R4502];
-      for each spr_rs in spr_rss
-        spr_rs.Action_Semantics_internal = code_block;
-      end for;
-      select many spr_pos related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
-      for each spr_po in spr_pos
-        spr_po.Action_Semantics_internal = code_block;
-      end for;
-      select many spr_pss related by c_ep->SPR_PEP[R4501]->SPR_PS[R4503];
-      for each spr_ps in spr_pss
-        spr_ps.Action_Semantics_internal = code_block;
-      end for;
-      break;
-    end if;
+  select many spr_ros from instances of SPR_RO where ( selected.Id == uuid1 );
+  for each spr_ro in spr_ros
+    spr_ro.Action_Semantics_internal = code_block;
+  end for;
+  select many spr_rss from instances of SPR_RS where ( selected.Id == uuid1 );
+  for each spr_rs in spr_rss
+    spr_rs.Action_Semantics_internal = code_block;
+  end for;
+  select many spr_pos from instances of SPR_PO where ( selected.Id == uuid1 );
+  for each spr_po in spr_pos
+    spr_po.Action_Semantics_internal = code_block;
+  end for;
+  select many spr_pss from instances of SPR_PS where ( selected.Id == uuid1 );
+  for each spr_ps in spr_pss
+    spr_ps.Action_Semantics_internal = code_block;
   end for;
 end if;
 ',
