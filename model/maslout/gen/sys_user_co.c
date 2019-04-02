@@ -76,13 +76,12 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
   xtuml2masl_model * model = xtuml2masl_model_op_create( "maslout" );
   int project = 0; int domain = 0;
-  bool key_lett = FALSE;
-  bool output_activities = TRUE;
+  bool key_lett = FALSE; bool output_activities = TRUE; bool prebuilt = FALSE;
   int namecount = 0; char * name[8]; char * modelpath;
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "i:d:p:ks" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "i:d:p:ksP" ) ) != -1 ) {
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
@@ -107,6 +106,9 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
         case 'k':
           key_lett = TRUE;
           break;
+        case 'P':
+          prebuilt = TRUE;
+          break;
         case '?':
         default:
           fprintf( stderr, "Unknown option character '%c'.\n", optopt );
@@ -114,7 +116,11 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     }
   }
   static char * a[3] = { 0, 0, 0 };
-  a[2] = modelpath;
+  if ( ! prebuilt ) {
+    /* If prebuilder was run, then all data will come in via stdin.
+       Otherwise, scoop it from the models folder.  */
+    a[2] = modelpath;
+  }
   Escher_xtUML_load( 3, a );
   Escher_MASL_load( modelpath );
   xtuml2masl_model_op_setoption( model, "outputcodeblocks", output_activities ? "true" : "false" );
