@@ -82,7 +82,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "i:d:p:ks" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "i:d:p:ksP" ) ) != -1 ) {
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
@@ -106,6 +106,9 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
           break;
         case 'k':
           key_lett = TRUE;
+          break;
+        case 'P':
+          modelpath = 0;
           break;
         case '?':
         default:
