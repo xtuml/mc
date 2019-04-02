@@ -114,6 +114,12 @@ treated as a fatal error, and the application would exit.  This is relaxed
 to allow unrecognized options and simply "pass them through".  This is
 convenient during development when adding new options.
 
+=== 5.4 Model Data Upgrade
+It is noted that scooping data directly from the file system bypasses model
+upgrade code contained in the xtUML loader in BridgePoint proper.  Now that
+we are not running the prebuilder, this upgrade will not take place.  This
+should be a problem only on stale model data that has aged several versions.
+
 == 6 Unit Test
 [This section is copied and modified from <<dr-2>>.
 
