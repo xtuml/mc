@@ -236,7 +236,7 @@ if [[ $PROJ_DIR != "" ]]; then
       CLI.sh Launch
     fi
 
-    xtuml2masl $COVERAGE -i $WORKSPACE/p1 -p $compname -o $MASLOUTDIR
+    xtuml2masl $COVERAGE -P -i $WORKSPACE/p1 -p $compname -o $MASLOUTDIR
 
     # Now diff
     echo "Diff'ing input and output MASL."
