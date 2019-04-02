@@ -300,6 +300,15 @@ if ( not done )
   end for;
 end if;
 //
+// terminator services
+if ( not done )
+  select many d_tsvcs from instances of D_TSVC where ( selected.Svc_ID == uuid1 );
+  for each d_tsvc in d_tsvcs
+    d_tsvc.Action_Semantics_internal = code_block;
+    done = true;
+  end for;
+end if;
+//
 // messages
 if ( not done )
   select many spr_ros from instances of SPR_RO where ( selected.Id == uuid1 );
