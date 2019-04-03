@@ -18,6 +18,62 @@ con:  MASL dumper does not emit:  class key letters, class numbers, event number
 con:  I suspect that BAE models may struggle to dump, because the results may be incomplete MASL (missing role phrases for example).
 con:  I think that MASL may have name limitations not in ASL (blanks in role phrases?).
 question:  Is the MASL dumper up-to-date with iUML at BAE (patches, iUML-API)?
+
+- class key letters (pragma key_letter ("LLL"))
+- class number (pragma id (000))
+- event number
+- state number
+- terminator key letters (pragma key_letter ("LLL"))
+- *terminator service number
+- *class operation number
+- *domain function number (pragma service (000))
+
+*not in OOA of OOA
+  - I am guessing that these are not important to match exactly as imported.
+  - Is it sufficient for BridgePoint to generate these in sequence?
+  - Would the edited order on the class diagram be O.K. for operations?
+  - Would alphabetical order be O.K. for domain functions?
+  - Is alphabetical order be O.K. for terminator services?
+
+Dear Dave and Izunna,
+
+I have done some analysis of the model elements with missing information.
+Here is the list as I understand it now.
+
+- object key letters
+- object number
+- event number
+- state number
+- terminator key letters
+- *terminator service number
+- *object operation number
+- *domain function number
+
+Object key letters, object number and terminator key letters actually do
+get dumped as pragmas in the current iuml-dumper.  We can choose to reuse
+this capability.
+
+We could use the same pragma pattern for event number and state number.
+There is storage in the OOA of OOA for this information.  For the elements above
+marked with * there is no specific number attribute in the OOA of OOA, although
+class operations are sequenced with a reflexive association.
+
+With regard to terminator service number, class operation number and
+domain function number I have a couple of thoughts.
+  - I am guessing that these are not important to match exactly as imported.
+  - Is it sufficient for BridgePoint to generate these in sequence?
+  - Would the edited order on the class diagram be O.K. for operations?
+    (Numbers would be output in the *.obj file using the order found on
+    the class diagram, which the user can choose to sequence.)
+  - Would alphabetical order be O.K. for domain functions?
+  - Is alphabetical order O.K. for terminator services?
+
+See you in webex/join.me tomorrow.
+
+Cort
+
+
+
 ----
 
 Perhaps the MASL dumper could be modified to (in the forward declaration and/or in the definition):

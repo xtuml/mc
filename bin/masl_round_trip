@@ -8,13 +8,13 @@
 #  will capture focus as this script runs.  To run this script completely headlessly,
 #  install the xvfb package for your distribution and call this script using xvfb-run.
 #
-#   ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]
-#   xvfb-run ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]
+#   ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-c]
+#   xvfb-run ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-c]
 
 # USAGE
 print_usage () { 
     echo "Usage:"
-    echo "        masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-r]";
+    echo "        masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-r] [-c]";
     echo " ";
     echo "  - Up to twenty domains may be specified. If a project is specified, only the project is diff'd.";
     echo "  - Consider installing xvfb and calling this script with xvfb-run to execute headlessly. See info in this script's header.";
@@ -236,7 +236,7 @@ if [[ $PROJ_DIR != "" ]]; then
       CLI.sh Launch
     fi
 
-    xtuml2masl $COVERAGE -P -i $WORKSPACE/p1 -p $compname -o $MASLOUTDIR
+    xtuml2masl $COVERAGE -P -i $WORKSPACE/p1 -p $compname -o $MODELOUTDIR
 
     # Now diff
     echo "Diff'ing input and output."
