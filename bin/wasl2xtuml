@@ -14,7 +14,7 @@ export PATH=$DIR:$JAVADIR:$PATH
 TMPCP="$DIR/*.jar"
 CP=.
 for cp in $TMPCP; do
-    CP=$CP":"$cp
+    CP=$CP:$cp
 done
 
 # input variables

@@ -68,10 +68,29 @@ domain function number I have a couple of thoughts.
   - Would alphabetical order be O.K. for domain functions?
   - Is alphabetical order O.K. for terminator services?
 
+- Dump and send more model data.  I will push it to the models test repo.
+
 See you in webex/join.me tomorrow.
 
 Cort
 
+
+Dave Skinner, Izunna and I have discovered that terminator service number,
+class operation number and domain function number are all first class
+citizens of the iUML OOA of OOA.  Their action language refers to them
+directly in a similar way as OAL refers to event numbers.
+
+So, I think we will be adding 'Number' as an attribute to these three classes in the xtUML OOA of OOA.
+
+Levi, Keith, Bob and Cort discussed this at length and explored the idea
+of removing the need for these function numbers while working within BP.
+They could still be generated for WACA, but they are not strictly necessary
+while editing the model.  Other ways exist (signature) to identify routines.
+
+
+WASL test data:
+Integrating masl_round_trip and wasl_round_trip test cases more closely.  Now, WASL comparison data will be containe
+d in the test case folder.
 
 
 ----

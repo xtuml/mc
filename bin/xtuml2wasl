@@ -4,8 +4,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export MASL_BIN_DIR=$DIR/
 
 # This is the java plugin way to integrate.  Conveniently, it includes the correct formatting.
-java -cp $DIR/../../../plugins/org.xtuml.bp.x2m*/x2m.jar org.xtuml.bp.x2m.Xtuml2Masl -a WASL $@
-exit 0
+#java -cp $DIR/../../../plugins/org.xtuml.bp.x2m*/x2m.jar org.xtuml.bp.x2m.Xtuml2Masl -a WASL $@
+#exit 0
 
 # This work was done and is left here for convenience.  Sometimes a BridgePoint
 # developer may wish to have access "in between" the flow of executables.
@@ -42,10 +42,11 @@ do
     output_directory="$2"; ooutput_directory="-o $2"; shift; shift;;
   -x)
     if [ "l" == "$2" ]; then
-      skip_activities="-s"; shift; shift;
+      skip_activities="-s"
     elif [ "f" == "$2" ]; then
-      skip_format="-xf"; shift; shift;
-    fi;;
+      skip_format="-xf"
+    fi
+    shift; shift;;
   -a)
     architecture="-a $2"; shift; shift;;
   --)
@@ -56,8 +57,8 @@ done
 echo "$DIR/x2m $key_lett $skip_activities $project_directory $ddomain $pproject_package $@ < $DIR/../schema/Globals.xtuml | $DIR/masl $coverage $validate $validate_only $skip_activities $project_directory $ddomain $project $ooutput_directory $architecture $@"
 $DIR/x2m $key_lett $skip_activities $project_directory $ddomain $pproject_package $@ < $DIR/../schema/Globals.xtuml | $DIR/masl $coverage $validate $validate_only $skip_activities $project_directory $ddomain $project $ooutput_directory $architecture $@
 if [ "" == "$skip_format" ]; then
-  echo "java -cp $DIR/antlr-3.5.2-complete.jar:$DIR/WASLParser.jar MaslFormatter -r -i $output_directory/$model -o $output_directory/$model.tmp"
-  java -cp $DIR/antlr-3.5.2-complete.jar:$DIR/WASLParser.jar MaslFormatter -r -i $output_directory/$model -o $output_directory/$model.tmp
+  echo "java -cp $DIR/antlr-3.5.2-complete.jar:$DIR/WASLParser.jar WaslFormatter -r -i $output_directory/$model -o $output_directory/$model.tmp"
+  java -cp $DIR/antlr-3.5.2-complete.jar:$DIR/WASLParser.jar WaslFormatter -r -i $output_directory/$model -o $output_directory/$model.tmp
   if [ -d $output_directory/$model.tmp ]; then
     rm -rf $output_directory/$model
     mv $output_directory/$model.tmp $output_directory/$model

@@ -149,7 +149,7 @@ for domain in ${DOM_DIRS[*]}; do
         cp $CONVERTDIR/$domname/application.mark $WORKSPACE/$domProj/gen/
     fi
 
-    # If there was a project specified, don't export and diff domains
+    # If there was a project specified, do not export and diff domains
     if [[ $PROJ_DIR == "" ]]; then
       # The component name (from the .mod file) may not be the same as the domain folder we 
       # used during the processing.  So we calculate it from the .mod file name.

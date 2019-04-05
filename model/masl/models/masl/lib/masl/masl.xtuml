@@ -439,6 +439,7 @@ INSERT INTO SPR_PS
 	'if ( "MASL" == param.architecture )
   genfile::render_masl( element:param.element, name:param.name, structuralOnly:param.structuralOnly );
 elif ( "WASL" == param.architecture )
+  genfile::outfolder( name:param.name ); // Populate the primary file with default output folder.
   genfile::render_wasl( element:param.element, name:param.name, structuralOnly:param.structuralOnly );
 else
   // invalid architecture flavor
