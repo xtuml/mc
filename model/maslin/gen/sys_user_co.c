@@ -74,7 +74,7 @@ UserInitializationCalloutf( void )
 void
 UserPreOoaInitializationCalloutf( int argc, char ** argv )
 {
-  static char * globals[2] = { "UserPreOoaInitializationCalloutf", "" };
+  char * globals[3] = { 0, 0, 0 };
   {
     int c;
     opterr = 0;
@@ -86,8 +86,8 @@ UserPreOoaInitializationCalloutf( int argc, char ** argv )
         case 'g':
           if ( !optarg ) abort();
           else {
-            globals[1] = optarg;
-            Escher_xtUML_load( 2, globals );
+            globals[2] = optarg;
+            Escher_xtUML_load( 3, globals );
           }
           break;
         case '?':

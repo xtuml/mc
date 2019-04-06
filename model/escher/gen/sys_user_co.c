@@ -56,8 +56,8 @@ void
 UserPreOoaInitializationCalloutf( c_t * argv0 )
 {
   /* Insert implementation specific code here.  */
-  static char * a[2] = { "UserPostOoaInitializationCalloutf", "a.xtuml" };
-  Escher_xtUML_load( 2, a );
+  char * a[3] = { 0, 0, 0 };
+  Escher_xtUML_load( 3, a );
   read_marking_invocations();
   if ( strstr( argv0, "mcmc" ) ) {
     int i;
