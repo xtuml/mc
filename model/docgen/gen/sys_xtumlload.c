@@ -564,9 +564,9 @@ static int Escher_MASL_load_file( const char * filepath, const struct stat * inf
       if ( 0 != wordindex ) {
         // Update the Action_Semantics with the code blocks.
         if ( wordindex > 2 ) {
-          docgen_load_activity_code_block( (c_t *) word[ 2 ], Escher_uuidtou128( word[ 0 ] ), Escher_uuidtou128( word[ 1 ] ) );
+          //docgen_load_activity_code_block( (c_t *) word[ 2 ], Escher_uuidtou128( word[ 0 ] ), Escher_uuidtou128( word[ 1 ] ) );
         } else {
-          docgn_load_activity_code_block( (c_t *) word[ 1 ], Escher_uuidtou128( word[ 0 ] ), 0 );
+          //docgn_load_activity_code_block( (c_t *) word[ 1 ], Escher_uuidtou128( word[ 0 ] ), 0 );
         }
       }
     } else {

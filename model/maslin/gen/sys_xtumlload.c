@@ -169,7 +169,7 @@ int Escher_xtUML_load(
   if ( 0 != argv[2] ) {
     rc = ftw( argv[2], Escher_xtUML_load_file, 15 );
   }
-  for ( i = 0; i < 0 + docgen_MAX_CLASS_NUMBERS; i++ ) {
+  for ( i = 0; i < 0 + masl2xtuml_MAX_CLASS_NUMBERS; i++ ) {
     Escher_batch_relate( 0, i );
   }
   return rc;
@@ -564,9 +564,9 @@ static int Escher_MASL_load_file( const char * filepath, const struct stat * inf
       if ( 0 != wordindex ) {
         // Update the Action_Semantics with the code blocks.
         if ( wordindex > 2 ) {
-          docgen_load_activity_code_block( (c_t *) word[ 2 ], Escher_uuidtou128( word[ 0 ] ), Escher_uuidtou128( word[ 1 ] ) );
+          //masl2xtuml_load_activity_code_block( (c_t *) word[ 2 ], Escher_uuidtou128( word[ 0 ] ), Escher_uuidtou128( word[ 1 ] ) );
         } else {
-          docgn_load_activity_code_block( (c_t *) word[ 1 ], Escher_uuidtou128( word[ 0 ] ), 0 );
+          //masl2xtuml_load_activity_code_block( (c_t *) word[ 1 ], Escher_uuidtou128( word[ 0 ] ), 0 );
         }
       }
     } else {
