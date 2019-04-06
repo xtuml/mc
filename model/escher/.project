@@ -13,11 +13,6 @@
 	</buildSpec>
 	<natures>
 		<nature>org.xtuml.bp.core.xtumlnature</nature>
-<<<<<<< HEAD
-		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>org.xtuml.bp.mc.c.source.MCNature</nature>
-=======
 		<nature>org.xtuml.bp.mc.mc3020nature</nature>
->>>>>>> 955c12133459aee973a55ae1f3077c15037c01a5
 	</natures>
 </projectDescription>
