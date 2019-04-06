@@ -130,6 +130,14 @@ if ( not_empty population )
         pathkey = ::class_get_path( o_obj:o_obj, child:"" );
         for each pragma in pragmas
           pragma.pragma2mark( markable_name:"Model Class", pathkey:pathkey );
+          select any ooapragma_item related by pragma->ooapragma_item[R3804];
+          if ( not_empty ooapragma_item )
+            if ( "key_letter" == pragma.name )
+              o_obj.Key_Lett = ooapragma_item.value;
+            elif ( "id" == pragma.name )
+              o_obj.Numb = STRING::atoi( s:ooapragma_item.value );
+            end if;
+          end if;
         end for;
       else
         TRACE::log( flavor:"failure", id:63, message:"Could not obtain markable." );
