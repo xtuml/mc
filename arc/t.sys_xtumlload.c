@@ -169,7 +169,7 @@ int Escher_xtUML_load(
   if ( 0 != argv[2] ) {
     rc = ftw( argv[2], ${te_prefix.result}xtUML_load_file, 15 );
   }
-  for ( i = 0; i < 0 + xtuml2masl_MAX_CLASS_NUMBERS; i++ ) {
+  for ( i = 0; i < ${all_max_class_numbers}; i++ ) {
     Escher_batch_relate( 0, i );
   }
   return rc;
