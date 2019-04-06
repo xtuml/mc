@@ -6,24 +6,18 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>org.xtuml.bp.mc.c.source.export_builder</name>
+			<name>org.xtuml.bp.mc.mc3020.mc3020_builder</name>
 			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
-			<triggers>full,incremental,</triggers>
-			<arguments>
-				<dictionary>
-					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/Model Compiler.launch</value>
-				</dictionary>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.xtuml.bp.core.xtumlnature</nature>
+<<<<<<< HEAD
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.xtuml.bp.mc.c.source.MCNature</nature>
+=======
+		<nature>org.xtuml.bp.mc.mc3020nature</nature>
+>>>>>>> 955c12133459aee973a55ae1f3077c15037c01a5
 	</natures>
 </projectDescription>
