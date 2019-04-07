@@ -1597,19 +1597,10 @@ if ( ((-f $mccmd) || (-f "$mccmd.exe")) && ( $mc_type =~ /l3/ ) ) {
     # sed "s/&quot;/\\\\\"/g" _system.pre > _system.sql
     my $inFile = xtumlmc_open( "<" . "_system.pre" ); my $outFile = xtumlmc_open( ">" . "$modelBeingTranslated" );
     while ( <$inFile> ) { s/&quot;/\\\\\"/g; print $outFile "$_"; }
-  } elsif ( -f "escher.sql" ) {
-    # sed s/escher/sys/ _system.sql > a.xtuml
-    my $inFile = xtumlmc_open( "<" . "$modelBeingTranslated" ); my $outFile = xtumlmc_open( ">" . "a.xtuml" );
-    while ( <$inFile> ) { s/escher/sys/; print $outFile "$_"; }
-    # Run compiled model compiler.
-    system( "$mccmd > _system.pre" );
-    # sed "s/&quot;/\\\\\"/g" _system.pre > _system.sql
-    my $inFile = xtumlmc_open( "<" . "_system.pre" ); my $outFile = xtumlmc_open( ">" . "$modelBeingTranslated" );
-    while ( <$inFile> ) { s/&quot;/\\\\\"/g; print $outFile "$_"; }
   } else {
     xtumlmc_move( "$modelBeingTranslated", "a.xtuml" );
     # Run compiled model compiler.
-    system( "$mccmd > $modelBeingTranslated 2> mcconsole.txt" );
+    system( "$mccmd < a.xtuml > $modelBeingTranslated 2> mcconsole.txt" );
     my $inFile = xtumlmc_open( "<" . "mcconsole.txt" );
     while ( <$inFile> ) { print; }
     close $inFile
