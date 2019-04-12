@@ -102,6 +102,7 @@ WASL test data:
 Integrating masl_round_trip and wasl_round_trip test cases more closely.  Now, WASL comparison data will be containe
 d in the test case folder.
 
+Specification Table:  Get table from Dave Skinner note around April 8, 2019.  Include in documentation.
 
 ----
 
@@ -110,6 +111,7 @@ Perhaps the MASL dumper could be modified to (in the forward declaration and/or 
 object TrackPoint,TP,7 is
 end object
 ```
+Nah, we decided to go with pragmas to preserve the MASL grammar.
 
 === issues
 

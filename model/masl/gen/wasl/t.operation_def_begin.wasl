@@ -1,2 +1,2 @@
-define function ${object.key_letters}<NUM_HERE>:${activity.name}
+define function ${object.key_letters}${object.number}:${activity.name}
 input

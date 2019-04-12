@@ -115,7 +115,7 @@ elif ( "routine" == element )
     population.stack_trace();
   end if;
 
-  routine = routine::populate( visibility:value[2], name:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator );
+  routine = routine::populate( visibility:value[2], name:value[3], number:value[4], parent_domain:parent_domain, parent_terminator:parent_terminator );
   select one new_element related by routine->activity[R3704]->markable[R3783]->element[R3786];
   population.push_element( new_element:new_element );
 elif ( "operation" == element )
@@ -132,7 +132,7 @@ elif ( "operation" == element )
     population.stack_trace();
   end if;
 
-  operation = operation::populate( visibility:value[2], name:value[3], instance:value[4], deferred_relationship:value[5], parent_object:parent_object );
+  operation = operation::populate( visibility:value[2], name:value[3], instance:value[4], deferred_relationship:value[5], number:value[6], parent_object:parent_object );
   select one new_element related by operation->activity[R3704]->markable[R3783]->element[R3786];
   population.push_element( new_element:new_element );
 elif ( "state" == element )

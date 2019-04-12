@@ -159,6 +159,7 @@ arguments in order and specification of arguments.
 |                   | name              | required              | string                                                      |
 |                   | instance          | optional              | "instance" or ""                                            |
 |                   | relationship      | optional              | string                                                      |
+|                   | number            | optional              | string (positive counting number)                           |
 | parameter         | name              | required              | string                                                      |
 |                   | direction         | required              | "in" or "out"                                               |
 | participation* ** | fromDomain        | optional              | string                                                      |
@@ -182,6 +183,7 @@ arguments in order and specification of arguments.
 |                   | terminator        | optional              | string                                                      |
 |                   | visibility        | required              | "public" or "private"                                       |
 |                   | name              | required              | string                                                      |
+|                   | number            | optional              | string (positive counting number)                           |
 | state             | domain            | optional              | string                                                      |
 |                   | object            | optional              | string                                                      |
 |                   | name              | required              | string                                                      |

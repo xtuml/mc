@@ -441,6 +441,11 @@ for each c_ep in c_eps
 
   value[2] = "public"; // Outbound messages are considered public.
   value[3] = c_ep.Name;
+  start_index = STRING::indexof( haystack:c_ep.Descrip, needle:"peration_number:" );
+  if ( 0 < start_index )
+    value[4] = STRING::substr( s:c_ep.Descrip, begin:start_index+16, end:start_index+18 );
+  end if;
+
   out::populate( element:"routine", value:value );
   
   select any c_pp related by c_ep->C_PP[R4006];
@@ -1298,6 +1303,10 @@ for each s_sync in s_syncs
     end if;
   end for;
   value[3] = s_sync.Name;
+  start_index = STRING::indexof( haystack:s_sync.Descrip, needle:"peration_number:" );
+  if ( 0 < start_index )
+    value[4] = STRING::substr( s:s_sync.Descrip, begin:start_index+16, end:start_index+18 );
+  end if;
   
   // Get the first parameter.
   select any s_sparm related by s_sync->S_SPARM[R24];
@@ -2074,6 +2083,10 @@ for each o_tfr in o_tfrs
     value[4] = "instance";
   end if;
   value[5] = "";
+  start_index = STRING::indexof( haystack:o_tfr.Descrip, needle:"peration_number:" );
+  if ( 0 < start_index )
+    value[6] = STRING::substr( s:o_tfr.Descrip, begin:start_index+16, end:start_index+18 );
+  end if;
   
   // check for deferral -- if there is no action language or the dialect is none and subtypes have an operation with matching signature
   deferred = false;

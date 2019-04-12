@@ -150,6 +150,12 @@ if ( not_empty population )
         pathkey = ::package_get_path( ep_pkg:ep_pkg, child:population.Function_getSignature( s_sync:routine1 ) );
         for each pragma in pragmas
           pragma.pragma2mark( markable_name:"Function", pathkey:pathkey );
+          select any ooapragma_item related by pragma->ooapragma_item[R3804];
+          if ( not_empty ooapragma_item )
+            if ( "domain_operation_number" == pragma.name )
+              routine1.Descrip = routine1.Descrip + "domain_operation_number:" + ooapragma_item.value;
+            end if;
+          end if;
         end for;
       else
         routine2 = population.current_executable_property;
@@ -164,6 +170,13 @@ if ( not_empty population )
             pathkey = ::component_get_path( c_c:c_c, child:child );
             for each pragma in pragmas
               pragma.pragma2mark( markable_name:"Required Operation", pathkey:pathkey );
+              // CDS - Remove this when Deployments are implemented.
+              select any ooapragma_item related by pragma->ooapragma_item[R3804];
+              if ( not_empty ooapragma_item )
+                if ( "terminator_operation_number" == pragma.name )
+                  routine2.Descrip = routine2.Descrip + "terminator_operation_number:" + ooapragma_item.value;
+                end if;
+              end if;
             end for;
           end if;
         else
@@ -178,6 +191,12 @@ if ( not_empty population )
         pathkey = ::class_get_path( o_obj:o_obj, child:population.Operation_getSignature( o_tfr:operation ) );
         for each pragma in pragmas
           pragma.pragma2mark( markable_name:"Operation", pathkey:pathkey );
+          select any ooapragma_item related by pragma->ooapragma_item[R3804];
+          if ( not_empty ooapragma_item )
+            if ( "operation_number" == pragma.name )
+              operation.Descrip = operation.Descrip + "operation_number:" + ooapragma_item.value;
+            end if;
+          end if;
         end for;
       else
         TRACE::log( flavor:"failure", id:65, message:"Could not obtain markable." );
@@ -196,6 +215,12 @@ if ( not_empty population )
         pathkey = ::class_get_path( o_obj:o_obj, child:child );
         for each pragma in pragmas
           pragma.pragma2mark( markable_name:"State Machine State", pathkey:pathkey );
+          select any ooapragma_item related by pragma->ooapragma_item[R3804];
+          if ( not_empty ooapragma_item )
+            if ( "state_number" == pragma.name )
+              state.Numb = STRING::atoi( s:ooapragma_item.value );
+            end if;
+          end if;
         end for;
       else
         TRACE::log( flavor:"failure", id:66, message:"Could not obtain markable." );
@@ -246,6 +271,12 @@ if ( not_empty population )
         pathkey = ::class_get_path( o_obj:o_obj, child:child );
         for each pragma in pragmas
           pragma.pragma2mark( markable_name:"State Machine Event", pathkey:pathkey );
+          select any ooapragma_item related by pragma->ooapragma_item[R3804];
+          if ( not_empty ooapragma_item )
+            if ( "event_number" == pragma.name )
+              evt.Numb = STRING::atoi( s:ooapragma_item.value );
+            end if;
+          end if;
         end for;
       else
         TRACE::log( flavor:"failure", id:69, message:"Could not obtain markable." );

@@ -20,6 +20,10 @@ parent_terminator = param.parent_terminator;
 activity = activity::populate( name:param.name );
 create object instance routine of routine;
 routine.visibility = param.visibility;
+if ( "" != param.number )
+  // routine number is optional.
+  routine.number = STRING::atoi( s:param.number );
+end if;
 if ( not_empty parent_terminator )
   relate routine to parent_terminator across R3791;
 elif ( not_empty parent_domain )
@@ -59,7 +63,7 @@ INSERT INTO O_TPARM
 	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
 	0,
 	'',
-	"bde79d70-72b4-4487-8dd9-966cd7f8ddb8",
+	"7898e553-ad8b-45ec-82a6-6c3edc9958aa",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
@@ -84,6 +88,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("7898e553-ad8b-45ec-82a6-6c3edc9958aa",
+	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
+	'number',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"bde79d70-72b4-4487-8dd9-966cd7f8ddb8",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
 	"00000000-0000-0000-0000-000000000000",
@@ -129,7 +142,7 @@ elif ( "WASL" == genfile::architecture() )
       scope = domain.name + ";" + terminator.key_letters;
     end if;
   else
-    scope = domain.name;
+    scope = domain.name + STRING::itoa( i:self.number );
   end if;
 
   T::include( file:"wasl/t.routine_begin.wasl" );
@@ -323,6 +336,24 @@ INSERT INTO O_ATTR
 	'visibility',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ffb9d01c-c661-4d32-b541-1d12c4b55a09",
+	"669c9e5d-eb78-45b7-866e-089542dfb839");
+INSERT INTO O_BATTR
+	VALUES ("ffb9d01c-c661-4d32-b541-1d12c4b55a09",
+	"669c9e5d-eb78-45b7-866e-089542dfb839");
+INSERT INTO O_ATTR
+	VALUES ("ffb9d01c-c661-4d32-b541-1d12c4b55a09",
+	"669c9e5d-eb78-45b7-866e-089542dfb839",
+	"8aca0e9a-cee8-4a45-a146-5b9cd6bbe8af",
+	'number',
+	'',
+	'',
+	'number',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID
