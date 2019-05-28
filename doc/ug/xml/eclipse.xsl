@@ -4,7 +4,7 @@
   
 <!--for linux <xsl:include href="/usr/share/sgml/docbook/stylesheet/xsl/nwalsh/xhtml/chunk.xsl"/-->
 <!--for cygwin <xsl:include href="/usr/share/docbook-xsl/xhtml/chunk.xsl"/>-->
-<xsl:include href="C:/MentorGraphics/BridgePoint/tools/docgen/docbook/docbook-xsl-1.75.1/xhtml/chunk.xsl"/>
+<xsl:include href="/Users/cort/xtuml/BridgePoint/tools/docgen/docbook/docbook-xsl-1.75.1/xhtml/chunk.xsl"/>
 
 <!-- ********************************************************************
      $Id: eclipse.xsl,v 1.4 2009/11/25 15:47:30 kbrown Exp $

@@ -4,35 +4,6 @@
 .//
 .//
 .//============================================================================
-.// Include only the class header files that we access!
-.//============================================================================
-.function AddBridgeIncludeFiles
-  .param inst_ref te_sys
-  .param inst_ref te_ee
-  .param boolean gen_declaration
-  .//
-  .select any te_eq from instances of TE_EQ
-  .select any te_file from instances of TE_FILE
-  .select any te_target from instances of TE_TARGET
-#include "${te_file.types}.${te_file.hdr_file_ext}"
-  .if ( not gen_declaration )
-    .if ( te_sys.PersistentClassCount > 0 )
-      .if ( te_ee.Key_Lett == "PERSIST" )
-        .select any te_brg related by te_ee->S_EE[R2025]->S_BRG[R19] where ( selected.Name == "commit" )
-        .if ( not_empty te_brg )
-#include "${te_file.persist}.${te_file.hdr_file_ext}"
-        .end if
-      .elif ( te_ee.Key_Lett == "NVS" )
-#include "${te_file.nvs}.${te_file.hdr_file_ext}"
-      .end if
-    .end if
-    .if ( ( "ARCH" == te_ee.Key_Lett ) and ( "C" == te_target.language ) )
-extern bool ${te_eq.run_flag}; /* Turn this false to stop the event queues.  */
-    .end if
-  .end if
-.end function
-.//
-.//============================================================================
 .// Build the include file body for the bridge.
 .//============================================================================
 .function TE_BRG_CreateDeclarations

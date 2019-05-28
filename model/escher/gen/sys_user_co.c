@@ -16,6 +16,7 @@
 
 #include "sys_sys_types.h"
 #include "sys_user_co.h"
+#include "sys_xtumlload.h"
 
 static void read_marking_invocations( void );
 static void mark_parse( c_t * );
@@ -40,14 +41,11 @@ char DTD[256];
 void
 UserInitializationCalloutf( c_t * argv0 )
 {
-  /* Activate this invocation to initialize the example simple TIM.  */
-  #if ESCHER_SYS_MAX_XTUML_TIMERS > 0
-  TIM_init();
-  #endif
   /* Insert implementation specific code here.  */
   SYS_USER_CO_PRINTF( "UserInitializationCallout\n" )
 }
 
+extern void Escher_dump_instances( const Escher_DomainNumber_t, const Escher_ClassNumber_t );
 /*
  * UserPreOoaInitializationCallout
  *
@@ -58,8 +56,8 @@ void
 UserPreOoaInitializationCalloutf( c_t * argv0 )
 {
   /* Insert implementation specific code here.  */
-  static char * a[2] = { "UserPostOoaInitializationCalloutf", "a.xtuml" };
-  Escher_xtUML_load( 2, a );
+  char * a[3] = { 0, 0, 0 };
+  Escher_xtUML_load( 3, a );
   read_marking_invocations();
   if ( strstr( argv0, "mcmc" ) ) {
     int i;
@@ -104,10 +102,6 @@ UserPostOoaInitializationCalloutf( void )
 void
 UserBackgroundProcessingCalloutf( void )
 {
-  /* Activate this invocation to periodically tick the example simple TIM.  */
-  #if ESCHER_SYS_MAX_XTUML_TIMERS > 0
-  TIM_tick();
-  #endif
   /* Insert implementation specific code here.  */
 }
 

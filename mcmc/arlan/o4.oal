@@ -53,6 +53,29 @@ end if;
 tm_sync.IsSafeForInterrupts = true;
 T::print(s:"Function ${function_name} in component ${component_name} marked as safe for interrupt invocation.");
 @@@
+MarkMessageSafeForInterrupts@void@@component_name@string@@port_name@string@@message_name@string@@@
+//
+//
+//============================================================================
+// Mark a message as safe for interrupt service routine (ISR) invocation.
+// This is also useful for task communication and multi-context execution.
+//============================================================================
+component_name = param.component_name;
+port_name = param.port_name;
+message_name = param.message_name;
+component_name = T::r(s:component_name);
+port_name = T::r(s:port_name);
+message_name = T::r(s:message_name);
+select any tm_msg from instances of TM_MSG where ( ( selected.ComponentName == component_name ) and ( selected.PortName == port_name ) and ( selected.MessageName == message_name ) );
+if ( empty tm_msg )
+  create object instance tm_msg of TM_MSG;
+  tm_msg.ComponentName = component_name;
+  tm_msg.PortName = port_name;
+  tm_msg.MessageName = message_name;
+end if;
+tm_msg.IsSafeForInterrupts = true;
+T::print(s:"Message ${message_name} in component ${component_name} on port ${port_name} marked as safe for interrupt invocation.");
+@@@
 TagSystemObjectDefaultExtentSize@void@@extent_size@integer@@@
 //============================================================================
 // $RCSfile: m.class.arc,v $
@@ -179,16 +202,9 @@ for each te_c in te_cs
   end if;
 end for;
 @@@
-TagObjectTraceOff@void@@obj_key_letters@string@@@
+MarkClassTraceOff@void@@component_name@string@@obj_key_letters@string@@@
 //
 //============================================================================
-obj_key_letters = param.obj_key_letters;
-select many te_cs from instances of TE_C;
-for each te_c in te_cs
-  ::MarkObjectTraceOff( component_name:te_c.Name, obj_key_letters:obj_key_letters );
-end for;
-@@@
-MarkObjectTraceOff@void@@component_name@string@@obj_key_letters@string@@@
 component_name = param.component_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
@@ -198,37 +214,44 @@ if ( ( "" == component_name ) or ( "*" == component_name ) )
 end if;
 for each te_c in te_cs
   msg = "";
+  select many te_abas related by te_c->TE_ABA[R2088] where ( false );
   if ( "*" == obj_key_letters )
-    select many te_classes related by te_c->TE_CLASS[R2064];
-    for each te_class in te_classes
+    select many te_classs related by te_c->TE_CLASS[R2064];
+    for each te_class in te_classs
       te_class.IsTrace = false;
     end for;
+    select many te_abas related by te_classs->O_OBJ[R2019]->O_TFR[R115]->TE_TFR[R2024]->TE_ABA[R2010];
+    select many more_te_abas related by te_classs->O_OBJ[R2019]->O_ATTR[R102]->O_BATTR[R106]->O_DBATTR[R107]->TE_DBATTR[R2026]->TE_ABA[R2010];
+    te_abas = te_abas | more_te_abas;
+    select many more_te_abas related by te_classs->TE_SM[R2072]->SM_SM[R2043]->SM_ACT[R515]->TE_ACT[R2022]->TE_ABA[R2010];
+    te_abas = te_abas | more_te_abas;
     msg = "Class tracing for all is disabled in component ${te_c.Name}.";
   else
     select any te_class related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
     if ( not_empty te_class )
       te_class.IsTrace = false;
       msg = "Class ${te_class.Name} (${te_class.Key_Lett}) tracing is disabled.";
+      select many te_abas related by te_class->O_OBJ[R2019]->O_TFR[R115]->TE_TFR[R2024]->TE_ABA[R2010];
+      select many more_te_abas related by te_class->O_OBJ[R2019]->O_ATTR[R102]->O_BATTR[R106]->O_DBATTR[R107]->TE_DBATTR[R2026]->TE_ABA[R2010];
+      te_abas = te_abas | more_te_abas;
+      select many more_te_abas related by te_class->TE_SM[R2072]->SM_SM[R2043]->SM_ACT[R515]->TE_ACT[R2022]->TE_ABA[R2010];
+      te_abas = te_abas | more_te_abas;
     else
       msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}.";
-      msg = msg + "\n => MarkObjectTraceOff( ${obj_key_letters} )";
+      msg = msg + "\n => MarkClassTraceOff( ${component_name}, ${obj_key_letters} )";
     end if;
   end if;
+  for each te_aba in te_abas
+    te_aba.IsTrace = false;
+  end for;
   if ( "" != msg )
     T::print(s:"${msg}");
   end if;
 end for;
 @@@
-TagObjectTraceOn@void@@obj_key_letters@string@@@
+MarkClassTraceOn@void@@component_name@string@@obj_key_letters@string@@@
 //
 //============================================================================
-obj_key_letters = param.obj_key_letters;
-select many te_cs from instances of TE_C;
-for each te_c in te_cs
-  ::MarkObjectTraceOn( component_name:te_c.Name, obj_key_letters:obj_key_letters );
-end for;
-@@@
-MarkObjectTraceOn@void@@component_name@string@@obj_key_letters@string@@@
 component_name = param.component_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
@@ -238,22 +261,36 @@ if ( ( "" == component_name ) or ( "*" == component_name ) )
 end if;
 for each te_c in te_cs
   msg = "";
+  select many te_abas related by te_c->TE_ABA[R2088] where ( false );
   if ( "*" == obj_key_letters )
-    select many te_classes related by te_c->TE_CLASS[R2064];
-    for each te_class in te_classes
+    select many te_classs related by te_c->TE_CLASS[R2064];
+    for each te_class in te_classs
       te_class.IsTrace = true;
     end for;
+    select many te_abas related by te_classs->O_OBJ[R2019]->O_TFR[R115]->TE_TFR[R2024]->TE_ABA[R2010];
+    select many more_te_abas related by te_classs->O_OBJ[R2019]->O_ATTR[R102]->O_BATTR[R106]->O_DBATTR[R107]->TE_DBATTR[R2026]->TE_ABA[R2010];
+    te_abas = te_abas | more_te_abas;
+    select many more_te_abas related by te_classs->TE_SM[R2072]->SM_SM[R2043]->SM_ACT[R515]->TE_ACT[R2022]->TE_ABA[R2010];
+    te_abas = te_abas | more_te_abas;
     msg = "Class tracing for all is enabled in component ${te_c.Name}.";
   else
     select any te_class related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
     if ( not_empty te_class )
       te_class.IsTrace = true;
       msg = "Class ${te_class.Name} (${te_class.Key_Lett}) tracing is enabled.";
+      select many te_abas related by te_class->O_OBJ[R2019]->O_TFR[R115]->TE_TFR[R2024]->TE_ABA[R2010];
+      select many more_te_abas related by te_class->O_OBJ[R2019]->O_ATTR[R102]->O_BATTR[R106]->O_DBATTR[R107]->TE_DBATTR[R2026]->TE_ABA[R2010];
+      te_abas = te_abas | more_te_abas;
+      select many more_te_abas related by te_class->TE_SM[R2072]->SM_SM[R2043]->SM_ACT[R515]->TE_ACT[R2022]->TE_ABA[R2010];
+      te_abas = te_abas | more_te_abas;
     else
       msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}.";
-      msg = msg + "\n => MarkObjectTraceOn( ${obj_key_letters} )";
+      msg = msg + "\n => MarkClassTraceOn( ${component_name}, ${obj_key_letters} )";
     end if;
   end if;
+  for each te_aba in te_abas
+    te_aba.IsTrace = true;
+  end for;
   if ( "" != msg )
     T::print(s:"${msg}");
   end if;
@@ -989,65 +1026,65 @@ if ( ( ( ( empty tm_tpv ) and ( not_empty tm_tp ) ) and ( not isChannel ) ) or (
     // IIR IR DG  RID IR
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_DG[R4704]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "7a " + trace;
     end if;
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->CL_IIR[R4704]->TE_IIR[R2013];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "7b " + trace;
     end if;
     //     IR DG  RID IR
     select any delegated_te_iir related by te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8a " + trace;
     end if;
     //     IR RID DG  IR
     select any delegated_te_iir related by te_iir->C_IR[R2046]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8b " + trace;
     end if;
     // IIR IR DG  RID IR
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8c " + trace;
     end if;
     //     IR DG  RID IR IIR
     select any delegated_te_iir related by te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8d " + trace;
     end if;
     // IIR IR RID DG  IR
     select many more_delegated_te_iirs related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046];
     if ( not_empty more_delegated_te_iirs )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | more_delegated_te_iirs;
       trace = "8e " + trace;
     end if;
     //     IR RID DG  IR IIR
     select many more_delegated_te_iirs related by te_iir->C_IR[R2046]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->CL_IIR[R4701]->TE_IIR[R2013];
     if ( not_empty more_delegated_te_iirs )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | more_delegated_te_iirs;
       trace = "8f " + trace;
     end if;
     // IIR IR DG  RID IR IIR
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "8g " + trace;
     end if;
     // IIR IR RID DG  IR IIR
     select many more_delegated_te_iirs related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->CL_IIR[R4701]->TE_IIR[R2013];
     if ( not_empty more_delegated_te_iirs )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | more_delegated_te_iirs;
       trace = "8h " + trace;
     end if;
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
-      delegated_te_iirs = delegated_te_iirs;
+      delegated_te_iirs = delegated_te_iirs | delegated_te_iir;
       trace = "B " + trace;
     end if;
     for each delegated_te_iir in delegated_te_iirs
@@ -1725,7 +1762,7 @@ if ( T::l(s:serialize) == "serialize" )
 else
   tm_thread.serialize = false;
 end if;
-if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ) ) )
+if ( ( ( "POSIX" == flavor ) or ( "Windows" == flavor ) ) or ( "SystemC" == flavor ) )
   tm_thread.flavor = flavor;
   if ( "SystemC" == flavor )
     // SystemC uses a single thread inside each component.
@@ -1869,15 +1906,6 @@ r = ::TM_SYSTAG_select();
 tm_systag = r;
 tm_systag.InstanceLoading = true;
 @@@
-VFBEnable@void@@@
-//
-//============================================================================
-// Enable Virtual Function Bus (VFB) for AUTOSAR.
-//============================================================================
-r = ::TM_SYSTAG_select();
-tm_systag = r;
-tm_systag.VFB = true;
-@@@
 MarkStructuredMessaging@void@@@
 //
 //============================================================================
@@ -1895,6 +1923,27 @@ MarkNetworkSockets@void@@@
 r = ::TM_SYSTAG_select();
 tm_systag = r;
 tm_systag.NetworkSockets = true;
+@@@
+MarkSimulatedTime@void@@@
+//
+//============================================================================
+// Use simulated time instead of wall clock time.
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.SimulatedTime = true;
+T::print(s:"MarkSimulatedTime:  Time marked to be simulated (rather than wall clock).");
+@@@
+MarkStateSave@void@@buffersize@integer@@@
+//
+//============================================================================
+// Set the state save buffer depth.
+//============================================================================
+buffersize = param.buffersize;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.StateSaveBufferSize = buffersize;
+T::print(s:"MarkStateSave:  buffer size set to $t{buffersize}.");
 @@@
 TM_SYSTAG_select@inst_ref<System Tags>@@@
 //
@@ -1974,6 +2023,9 @@ if ( "1" == pass )
   elif ( "TagSyncServiceSafeForInterrupts" == f )
     // TagSyncServiceSafeForInterrupts("component_name","function_name")
     ::TagSyncServiceSafeForInterrupts( component_name:p1, function_name:p2 );
+  elif ( "MarkMessageSafeForInterrupts" == f )
+    // MarkMessageSafeForInterrupts("component_name","port_name","message_name")
+    ::MarkMessageSafeForInterrupts( component_name:p1, port_name:p2, message_name:p3 );
     // datatype
   elif ( "TagDataTypePrecision" == f )
     // TagDataTypePrecision("component_name","dt_name","tagged_name","initial_value")
@@ -2060,12 +2112,17 @@ if ( "1" == pass )
     ::TagDynamicMemoryAllocationOn( units_to_allocate:i1 );
   elif ( "TagInstanceLoading" == f )
     ::TagInstanceLoading();
-  elif ( "VFBEnable" == f )
-    ::VFBEnable();
   elif ( "MarkStructuredMessaging" == f )
     ::MarkStructuredMessaging();
   elif ( "MarkNetworkSockets" == f )
     ::MarkNetworkSockets();
+  elif ( "MarkSimulatedTime" == f )
+    ::MarkSimulatedTime();
+  elif ( "MarkStateSave" == f )
+    // MarkStateSave("buffersize":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::MarkStateSave( buffersize:i1 );
   elif ( "MarkSystemConfigurationPackage" == f )
     // MarkSystemConfigurationPackage("package_name")
     ::MarkSystemConfigurationPackage( package_name:p1 );
@@ -2137,18 +2194,12 @@ else
   elif ( "MarkClassOperationTranslationOff" == f )
     // MarkClassOperationTranslationOff("component_name","obj_key_letters","op_name")
     ::MarkClassOperationTranslationOff( component_name:p1, obj_key_letters:p2, op_name:p3 );
-  elif ( "TagObjectTraceOff" == f )
-    // TagObjectTraceOff("obj_key_letters")
-    ::TagObjectTraceOff( obj_key_letters:p1 );
-  elif ( "MarkObjectTraceOff" == f )
-    // MarkObjectTraceOff("component_name","obj_key_letters")
-    ::MarkObjectTraceOff( component_name:p1, obj_key_letters:p2 );
-  elif ( "TagObjectTraceOn" == f )
-    // TagObjectTraceOn("obj_key_letters")
-    ::TagObjectTraceOn( obj_key_letters:p1 );
-  elif ( "MarkObjectTraceOn" == f )
-    // MarkObjectTraceOn("component_name","obj_key_letters")
-    ::MarkObjectTraceOn( component_name:p1, obj_key_letters:p2 );
+  elif ( "MarkClassTraceOff" == f )
+    // MarkClassTraceOff("component_name","obj_key_letters")
+    ::MarkClassTraceOff( component_name:p1, obj_key_letters:p2 );
+  elif ( "MarkClassTraceOn" == f )
+    // MarkClassTraceOn("component_name","obj_key_letters")
+    ::MarkClassTraceOn( component_name:p1, obj_key_letters:p2 );
   elif ( "TagPEIsDefinedInData" == f )
     // TagPEIsDefinedInData("ss_prefix","obj_key_letters")
     ::TagPEIsDefinedInData( ss_prefix:p1, obj_key_letters:p2 );
@@ -2278,7 +2329,7 @@ end if;
 T_atoi@integer@@s@string@@@
 //
 s = param.s;
-r = ::STRING_TO_INTEGER( component_name:s );
+::oal( s:"return strtol( p_s, 0, 10 ); // Ccode" );
+r = ::STRING_TO_INTEGER( s:s );
 return r;
-::oal( s:"return strtol( p_s, 0, 10 );" );
 @@@

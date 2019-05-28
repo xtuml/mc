@@ -104,6 +104,9 @@ INSERT INTO S_DT_PROXY
 	'Indicates the status of the parse for an action specification in the attribute Action_Semantics',
 	'',
 	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("869eb6bf-431b-47a9-ab21-3ee7a2fdb277",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
 INSERT INTO O_BATTR
 	VALUES ("869eb6bf-431b-47a9-ab21-3ee7a2fdb277",
 	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");

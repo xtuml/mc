@@ -15,12 +15,11 @@
   .//
   .// Analyze maximums for extents.
   .// The extents should be analyzed only *after* extent size coloring!
-  .select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
   .assign object_class_extents = 0
   .assign relationship_extents = 0
   .assign largest_object_extent = 0
-  .//
-  .for each te_class in te_classs
+  .select one te_class related by te_c->TE_CLASS[R2103]
+  .while ( not_empty te_class )
     .select one o_obj related by te_class->O_OBJ[R2019]
     .assign object_class_extents = object_class_extents + te_class.MaxExtentSize
     .if ( te_class.MaxExtentSize > largest_object_extent )
@@ -57,7 +56,8 @@
         .end if
       .end if
     .end for
-  .end for
+    .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
+  .end while
   .//
   .// analyze timers events selects
   .invoke r = timer_analyze_starts()
@@ -111,7 +111,10 @@
   .//
   .// functions
   .select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.IsSafeForInterrupts ) and ( selected.XlateSemantics ) )
-  .assign total_interleaved_bridges = cardinality te_syncs
+  .assign safe_functions = cardinality te_syncs
+  .select many tm_msgs related by te_c->TE_MACT[R2002]->TM_MSG[R2809] where ( selected.IsSafeForInterrupts )
+  .assign safe_messages = cardinality tm_msgs
+  .assign total_interleaved_bridges = safe_functions + safe_messages
   .//
   .// Count up the priority events.
   .select many te_evts from instances of TE_EVT where ( selected.Priority != 0 )
@@ -136,5 +139,70 @@
   .assign te_c.PEIClassCount        = pei_class_count
   .assign te_c.PersistentClassCount = persist_class_count
   .//
+.end function
+.//
+.function TE_C_class_strings .// string
+  .param inst_ref te_c
+  .assign s = ""
+  .assign delimiter = ""
+  .invoke r = T_quote()
+  .assign quote = r.result
+  .select one first_te_class related by te_c->TE_CLASS[R2103]
+  .assign pass = 0
+  .while ( pass < 3 )
+    .assign te_class = first_te_class
+    .while ( not_empty te_class )
+      .// The switch here orders classes with single state machines ahead
+      .// of class-based state machines ahead of passive classes.
+      .if ( ( 0 == pass ) and ( ( "" != te_class.dispatcher ) or ( "" != te_class.CBdispatcher ) ) )
+        .// instance-based state machine
+        .assign s = s + delimiter + quote + te_class.Name + quote
+        .assign delimiter = ","
+      .elif ( ( 1 == pass ) and ( ( "" != te_class.dispatcher ) and ( "" != te_class.CBdispatcher ) ) )
+        .// dual state machine
+        .assign s = s + delimiter + quote + te_class.Name + "_CB" + quote
+        .assign delimiter = ","
+      .elif ( ( 2 == pass ) and ( ( "" == te_class.dispatcher ) and ( "" == te_class.CBdispatcher ) ) )
+        .// passive instance
+        .assign s = s + delimiter + quote + te_class.Name + quote
+        .assign delimiter = ","
+      .else
+        .// empty
+      .end if
+      .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
+    .end while
+    .assign pass = pass + 1
+  .end while
+  .assign attr_result = s
+.end function
+.//
+.function TE_SM_state_strings .// string
+  .param inst_ref te_sm
+  .assign s = ""
+  .assign delimiter = ""
+  .invoke r = T_quote()
+  .assign quote = r.result
+  .select one te_state related by te_sm->TE_STATE[R2100]
+  .while ( not_empty te_state )
+    .assign s = s + delimiter + quote + te_state.Name + quote
+    .select one te_state related by te_state->TE_STATE[R2101.'precedes']
+    .assign delimiter = ","
+  .end while
+  .assign attr_result = s
+.end function
+.//
+.function TE_SM_event_strings .// string
+  .param inst_ref te_sm
+  .assign s = ""
+  .assign delimiter = ""
+  .invoke r = T_quote()
+  .assign quote = r.result
+  .select one te_evt related by te_sm->TE_EVT[R2104]
+  .while ( not_empty te_evt )
+    .assign s = s + delimiter + quote + te_evt.Name + quote
+    .select one te_evt related by te_evt->TE_EVT[R2102.'precedes']
+    .assign delimiter = ","
+  .end while
+  .assign attr_result = s
 .end function
 .//

@@ -208,9 +208,10 @@ void ${te_eq.self}( ${te_eq.base_event_type} * );
 .if ( te_tim.timer_event_search_and_destroy )
 bool ${te_eq.search_and_destroy}( ${te_eq.base_event_type} * );
 .end if
-.if ( te_sys.AUTOSAR )
-void * ooa_loop( void * );
-.elif ( "C++" == te_target.language )
+.if ( ( 0 < te_sys.StateSaveBufferSize ) or ( te_sys.PersistentClassCount > 0 ) )
+${te_typemap.instance_index_name} ${te_prefix.result}getindex( const ${te_instance.handle}, const ${te_typemap.domain_number_name}, const ${te_typemap.object_number_name} );
+.end if
+.if ( "C++" == te_target.language )
   void ooa_loop( void * );
   virtual EventTaker_t * ${te_instance.get_event_dispatcher}( void ) { return 0; }
   .if ( te_thread.enabled )

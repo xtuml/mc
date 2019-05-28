@@ -1,11 +1,5 @@
 ========================================================================
 
-File:      $RCSfile: HOWTO-publish-this-ug.txt,v $
-Version:   $Revision: 1.2 $
-Modified:  $Date: 2012/02/07 19:04:51 $
-
-========================================================================
-
 How to Publish this User Guide
 -------------------------------
 This user guide is distributed inside the BridgePoint release.  The guide is 
@@ -22,26 +16,20 @@ below detail how to do this.
    the native one inside cygwin or linux, or you can use the one distributed
    inside a BridgePoint installation.  The native one for cygwin is in the 
    cygwin "libxslt" package.  The BridgePoint one is found beneath
-   C:\xtuml\BridgePoint\tools\docgen\docbook.
+   <install directory>/BridgePoint/tools/docgen/docbook.
    
 2) Steps to generate HTML:
     _- open a terminal/shell
-    _- cd <CVS>/MC-Documentation/external/mc3020/ug/xml
+    _- cd <git xtuml/mc>/doc/ug/xml/xml
+    _- Update the path to DocBook in eclipse.xsl.
+       <xsl:include href="/home/developer/xtuml/BridgePoint/tools/docgen/docbook/docbook-xsl-1.75.1/xhtml/chunk.xsl"/>
     _- xsltproc --nonet --novalid ug.xsl ug.xml
     
 3) Package the HTML:
-    _- mkdir /tmp/3020ug
-    _- mv *.html /tmp/3020ug
-    _- cp *.png /tmp/3020ug
-    _- cd /tmp/3020ug
-    _- zip -q -r mc3020_doc.zip .
-    
-4) Upload the new docs
-    _- ftp put the mc3020_doc.zip to ftp://mentorweb/pub/BP/dropoff
-    _- ssh <userid>@tucson.wv.mentorg.com
-    _- cd /arch1/products/tiger/extra_files_for_build
-    _- mv mc3020_doc.zip old_file/mc3020_doc.zip.<date>
-    _- wget ftp://mentorweb/pub/BP/dropoff/mc3020_doc.zip 
-    _- chmod 664 mc3020_doc.zip 
+    _- zip doc.zip *.html *.png
+    _- chmod 664 doc.zip 
+    _- mv doc.zip <git xtuml/bridgepoint>/src/org.xtuml.help.bp.mc/
+    _- cp toc.xml <git xtuml/bridgepoint>/src/org.xtuml.help.bp.mc/
+    _- add and commit doc.zip and toc.xml files to (bridgepoint) repository
     
     

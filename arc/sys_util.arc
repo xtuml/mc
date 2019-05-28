@@ -179,8 +179,7 @@ typedef union {
     .end if
   .end while
   .assign ci = ci + "\n};"
-  .assign cc = "/* xtUML class count for all of the components (collections, sizes, etc.) */"
-  .assign cc = "\n  static const ${te_cia.count_type} ${te_cia.class_count}[ SYSTEM_DOMAIN_COUNT ] = {"
+  .assign cc = "  const ${te_cia.count_type} ${te_cia.class_count}[ SYSTEM_DOMAIN_COUNT ] = {"
   .assign te_c = first_te_c
   .while ( not_empty te_c )
     .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )

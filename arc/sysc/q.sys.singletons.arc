@@ -302,7 +302,6 @@
   .assign te_thread.serialize = false
   .assign te_thread.number_of_threads = 1
   .assign te_thread.extra_initialization = ""
-  .assign te_thread.AUTOSAR_enabled = te_prefix.define_usw + "AUTOSAR_ENABLED"
 .end function
 .//
 .//
@@ -310,7 +309,7 @@
   .param inst_ref te_tim
   .select any te_prefix from instances of TE_PREFIX
   .assign te_tim.max_timers = te_prefix.define_u + "SYS_MAX_XTUML_TIMERS"
-  .assign te_tim.keyed_timer_support = false
+  .assign te_tim.keyed_timer_support = true
   .assign te_tim.recurring_timer_support = true
   .assign te_tim.internal_type = "ETimer_t"
   .assign te_tim.timer_event_search_and_destroy = false

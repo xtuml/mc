@@ -237,6 +237,9 @@ Description: The local meaning of the non-local event.  The meaning can be overr
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("f3fb2bc0-6cae-48f6-805b-6e2292e3ad98",
+	"ac7491ac-1389-45d9-8826-734432d2e1c4");
 INSERT INTO O_BATTR
 	VALUES ("f3fb2bc0-6cae-48f6-805b-6e2292e3ad98",
 	"ac7491ac-1389-45d9-8826-734432d2e1c4");

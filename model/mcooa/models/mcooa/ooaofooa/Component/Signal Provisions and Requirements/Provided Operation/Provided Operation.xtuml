@@ -58,6 +58,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("539672b5-a306-4fc2-84b0-4e23efb9d76c",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
 INSERT INTO O_BATTR
 	VALUES ("539672b5-a306-4fc2-84b0-4e23efb9d76c",
 	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
@@ -73,6 +76,9 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("ccddda73-ba74-4962-8ad7-0f7aa9bdbdc9",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
 INSERT INTO O_BATTR
 	VALUES ("ccddda73-ba74-4962-8ad7-0f7aa9bdbdc9",
 	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
@@ -89,6 +95,9 @@ Description: A textual description of this provided operation.',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("29e89de4-985f-474b-8542-3372e806e0a8",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
 INSERT INTO O_BATTR
 	VALUES ("29e89de4-985f-474b-8542-3372e806e0a8",
 	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");

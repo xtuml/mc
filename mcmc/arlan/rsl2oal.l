@@ -206,6 +206,7 @@ dbl_dollar    "$$"
 <control>"integer"|"INTEGER"            {TYPE_RETURN(TYPE);}
 <control>"real"|"REAL"                  {TYPE_RETURN(TYPE);}
 <control>"string"|"STRING"              {TYPE_RETURN(TYPE);}
+<control>"unique_id"|"UNIQUE_ID"        {TYPE_RETURN(TYPE);}
 <control>"inst_ref"|"INST_REF"          {TYPE_RETURN(TYPE);}
 <control>"inst_ref_set"|"INST_REF_SET"  {TYPE_RETURN(TYPE);}
 <control>"frag_ref"|"FRAG_REF"          {TYPE_RETURN(TYPE);}

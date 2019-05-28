@@ -40,7 +40,7 @@ void ${te_prefix.result}InitializeThreading( void )
  */
 void ${te_thread.mutex_lock}( const u1_t flavor )
 {
-  ReleaseSemaphore(mutices[ flavor ], 1, NULL);
+  WaitForSingleObject( mutices[ flavor ], INFINITE );
 }
 
 /*
@@ -57,6 +57,7 @@ void ${te_thread.mutex_unlock}( const u1_t flavor )
  */
 void ${te_thread.nonbusy_wait}( const u1_t thread )
 {
+.if ( not te_sys.SimulatedTime )
   HANDLE dwc;
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_NONBUSY );
   dwc = nonbusy_wait_cond[thread];
@@ -73,6 +74,7 @@ void ${te_thread.nonbusy_wait}( const u1_t thread )
   } else {
     WaitForSingleObject( dwc, INFINITE );
   }
+.end if
 }
 
 /*

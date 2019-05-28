@@ -38,12 +38,6 @@
 void
 ${te_callout.initialization}f( void )
 {
-/* Activate this invocation to initialize the example simple TIM.  */
-.if ( "C" == te_target.language )
-  #if ${te_tim.max_timers} > 0
-  TIM_init();
-  #endif
-.end if
   /* Insert implementation specific code here.  */
   SYS_USER_CO_PRINTF( "${te_callout.initialization}\n" )
 }
@@ -87,19 +81,6 @@ ${te_callout.post_xtUML_initialization}f( void )
 void
 ${te_callout.background_processing}f( void )
 {
-.if ( "C++" == te_target.language )
-  .if ( "SystemC" != te_thread.flavor )
-  /* Activate this invocation to periodically tick the example simple TIM.  */
-  #if ${te_tim.max_timers} > 0
-  //TIM::tick();
-  #endif
-  .end if
-.elif ( "C" == te_target.language )
-  /* Activate this invocation to periodically tick the example simple TIM.  */
-  #if ${te_tim.max_timers} > 0
-  TIM_tick();
-  #endif
-.end if
   /* Insert implementation specific code here.  */
 }
 

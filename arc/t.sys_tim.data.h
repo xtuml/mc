@@ -23,11 +23,6 @@ struct ETimer_s {
   ETimer_time_t recurrence;
 .end if
   ${te_eq.base_event_type} * event;
-.if ( te_thread.flavor == "Nucleus" )
-  #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
-  unsigned index;
-  #endif
-.end if
 .if ( te_tim.keyed_timer_support )
   u4_t accesskey;
 .end if

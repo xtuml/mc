@@ -90,6 +90,8 @@
 <|     as well as add the component param to many marking functions. |>
 <|   12-Feb-7  Cortland Starrett                                     |>
 <|     Removed company citations and did a bit of cleanup.           |>
+<|   18-Jun-6  Cortland Starrett                                     |>
+<|     Added new marks, removed trademark and did a bit of cleanup.  |>
 <\__________________________________________________________________-->
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
   "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
@@ -104,7 +106,6 @@
 <!ENTITY mb "Model Builder">
 <!ENTITY mc "Model Compiler">
 <!ENTITY md "Model Debugger">
-<!ENTITY mgc "Mentor Graphics Corporation">
 <!ENTITY mv "Model Verifier">
 <!ENTITY nukeplus "Nucleus PLUS">
 <!ENTITY pt "Project Technology">
@@ -131,14 +132,13 @@
 ]>
 
 <book id="MC3020UserGuide">
-<title><productname>&bp; Model Compiler</productname> - User's Guide</title>
+<title>&bp; Model Compiler - User Guide</title>
 <bookinfo>
   <authorgroup>
     <corpauthor>xtuml.org</corpauthor>
   </authorgroup>
   <invpartnumber>&escher;</invpartnumber>
-  <productname>&escher;</productname>
-  <pubdate>February 2012</pubdate>
+  <pubdate>June 2018</pubdate>
   <publisher>
   <publishername>xtuml.org</publishername>
   <address>
@@ -151,10 +151,9 @@
   </publisher>
   <abstract>
   <para>This guide is the primary reference document
-  for the engineers and scientists translating
-  <trademark class='registered'>&bp;</trademark>
+  for the engineers and scientists translating &bp;
   xtUML models with the &escher; model compiler. It explains how to use
-  the compiler's features and capabilities.</para>
+  the compiler features and capabilities.</para>
   </abstract>
 </bookinfo>
 

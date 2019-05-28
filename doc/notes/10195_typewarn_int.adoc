@@ -1,0 +1,163 @@
+= MASL exporter emits warnings for core types
+
+xtUML Project Implementation Note
+
+:sectnums:
+
+== Abstract
+
+Benign but confusing warnings are being issued during the export of MASL.
+This work resolves the root cause and simplifies the way BridgePoint
+manages MASL-specific data types.
+
+== Introduction and Background
+
+When Raven was originally developed, MC-3020 was not able to process
+UUIDs and 128 bit integers; now, MC-3020 can.  This opens an option for
+linking imported MASL types to BridgePoint types more naturally.
+
+A change is introduced in how xtUML native types are introduced in the MASL
+to xtUML conversion.  Background to the present way of working is supplied here.
+MASL "native" (UDT) types (like native xtUML types) had been created as-needed
+in the masl2xtuml processing.  Identifiers were supplied with patterns that
+could be matched and dumped in a way that BridgePoint proper could load
+them correctly.
+
+This matching was done through the IDLINK EE.  When a new UDT was created
+during MASL processing, IDLINK would categorize the MASL type and link it
+to the closest corresponding BridgePoint type.  Since MC-3020 did not support
+128-bit unique IDs, it used a shortened version which could then be post
+processed at instance dump time or afterwards.
+
+The post-processing occurred through hand-edit files generated from O_ATTR
+and S_UDT in the maslin/mcooa model.  These files were maintained in the
+'gen' folder of the maslin project.  The instance dumper in
+`masl2xtuml_S_UDT_class.c` compared the referential attribute value linking
+to a core type and changed it based on matching the pattern established by
+IDLINK.  In a similar way, `masl2xtuml_O_ATTR_class.c` linked an attribute
+on a class having name 'current_state' to its appropriate type.  Both of
+these files are removed with this work and functionality replaced in the
+masl2xtuml processing model.
+
+== Requirements
+
+=== Eliminate warnings emitted due to unbound types.
+=== Bind Global types in `m2x`.
+
+== Work Required
+
+=== Detect Unbound Types More Accurately in `x2m`
+First, check if the type is based on 'MASLtype'.  If it is, this is a
+type reference type and should never be qualified with the containing
+domain name.
+
+Second, check if the package is directly off the system.  In this case,
+it is assumed that the user understands that the package is not contained
+by a component, so it will _not_ be qualified.  A particular and common
+example of this check is the 'types' package which contains MASL core
+types and is generated directly off the system.  This check prevents types
+in this package from ever being qualified.
+
+Note, this code becomes dead when the component reference project idiom 
+for MASL is fully deprecated.
+
+=== Instance-Dump String UUIDs
+Now that MC-3020 understands UUIDs both as integers and as strings, dump
+the string version from the instance dumper.  This allows the xtUML Model
+importer to link types with no special processing (e.g. help of IDLINK).
+
+=== Load and Link Globals
+As stated in <<Introduction and Background>>, native types were supplied
+by `m2x` in a special-purpose manner.  A Better Way is now provided that
+utilizes the existing Globals definition of BridgePoint (`Globals.xtuml`).
+`m2x` now loads the `Globals.xtuml` file containing instance definitions
+of the native data types.  A command line option '-g' is added to `m2x` to
+pass in the path to the globals file.  After being loaded, the types can
+be linked to the model elements appropriately.
+
+An initialization function, `initialize_globals` is introduced to run
+immediately after start-up and loading of the global data types.  This
+routine creates a package for the global types and links the types into it.
+At the end of masl2xtuml processing and before the instance dumping, the
+xtUML native types and the package containing them are deleted.
+
+=== Uncleanse
+Issue <<dr-2,11488>> complained of a need for `xtumlmc_build_cleanse_for_BridgePoint`
+in the xtUML-to-MASL conversion flow.  This work obviates the need for
+the cleansing and so the cleanse is removed from the export plugin.
+
+== Implementation Comments
+
+=== `getopt`
+There was a bug in the configuration of the options for getopt in the C
+model compiler utitilies.  The argument for an argument was marked optional
+when it should not have been.  This confusion was caused, because the options
+(like -o) were indeed optional.  But when the option is given, the optarg is
+_not_ actually optional.
+
+=== Cleansing PROXYs
+The updated xtUML load code needed to further disqualify proxy instances
+emitted by prebuilder when processing projects (even though this may be
+a moot issue in the context of MASL deployments).
+
+== Unit Test
+
+=== MASL Round Trip
+See `masl_round_trip` report clean results.
+
+== User Documentation
+
+No documentation are required for this change.
+
+== Code Changes
+
+- fork/repository:  cortlandstarrett/bridgepoint
+- branch:  10195_typewarn
+
+```
+ src/org.xtuml.bp.x2m/src/org/xtuml/bp/x2m/Xtuml2Masl.java | 36 ------------------------------------
+ 1 file changed, 36 deletions(-)
+```
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  10195_typewarn
+
+```
+ arc/q.sys.populate.arc                                            |   3 +-
+ bin/mac/mcmc                                                      | Bin 1604832 -> 1604832 bytes
+ bin/masl2xtuml                                                    |   4 +-
+ bin/mcmc                                                          | Bin 2447320 -> 2447320 bytes
+ bin/win/mcmc.exe                                                  | Bin 1746617 -> 1746746 bytes
+ doc/notes/10195_typewarn_int.adoc                                 | 133 +++++++++++++++++++++++++++
+ doc/process/templates/int_template.adoc                           |  12 ++-
+ mcmc/arlan/o.oal                                                  |   3 +-
+ model/escher/gen/ooaofooa.c                                       |  15 ++--
+ model/escher/gen/ooaofooa_c_orig                                  |  17 ++--
+ model/escher/models/escher/mcmc/afun/afun.xtuml                   |   3 +-
+ model/masl/gen/sys_user_co.c                                      |  16 ++--
+ model/maslin/gen/IDLINK_bridge.c                                  | 140 -----------------------------
+ model/maslin/gen/domain.mark                                      |   1 +
+ model/maslin/gen/masl2xtuml_O_ATTR_class.c                        | 273 -----------------------------------------
+ model/maslin/gen/masl2xtuml_S_UDT_class.c                         | 138 ----------------------------
+ model/maslin/gen/sys_user_co.c                                    |  42 +++++++--
+ model/maslin/gen/sys_user_co.h                                    |   4 +-
+ model/maslin/models/maslin/lib/masl2xtuml/masl2xtuml.xtuml        |  25 +++++-
+ model/maslin/models/maslin/m2x/m2x.xtuml                          | 176 ++++++------------------------------
+ model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml  | 177 +++++++++++++++++++++++-------------
+ model/maslout/gen/sys_user_co.c                                   |   8 +-
+ model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml |  47 +++++-----
+ schema/Globals.xtuml                                              | 260 +++++++++++++++++++++++++++++++++++++++++
+ 24 files changed, 667 insertions(+), 830 deletions(-)
+
+```
+
+== Document References
+
+. [[dr-1]] https://support.onefact.net/issues/10195[10195 - MASL exporter emits warnings for core types]
+. [[dr-2]] https://support.onefact.net/issues/11488[11488 - MASL project export requires a cleanse]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

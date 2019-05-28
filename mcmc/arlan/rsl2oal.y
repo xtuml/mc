@@ -123,6 +123,7 @@ freturntype:
                              else if (strstr($2,"integer")) $$=P1("integer");
                              else if (strstr($2,"real")) $$=P1("real");
                              else if (strstr($2,"string")) $$=P1("string");
+                             else if (strstr($2,"unique_id")) $$=P1("unique_id");
                              else $$=P3("inst_ref<",dtKLname($2),">");}
         ;
 
@@ -228,7 +229,6 @@ sexpr:
         | '-' term %prec UMINUS {$$=P2($1,$2);}
         | term bop expr {$$=P5($1," ",$2," ",$3);}
         | term
-        | inst_ref_set_var '|' inst_ref_set_var
         ;
 
 expr:
@@ -333,7 +333,7 @@ identifier:
 
 bop:
         LE | GE | EQ | NE | AND | OR
-        | '>' | '<' | '+' | '-' | '*' | '/'
+        | '>' | '<' | '+' | '-' | '*' | '/' | '|'
         ;
 
 literal:

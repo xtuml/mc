@@ -62,11 +62,35 @@
 .//
 .// Where the input parameter(s) are:
 .//   component = name of component (domain) being marked
-.//   key_letters = key letters of the initialization class.
+.//   key_letters = key letters of the target class
 .//   value = maximum extent size for the class.
 .//
 .// Example:
 .//   .invoke MarkObjectExtentSize( "myDomain", "MY_OBJ", 20 )
+.//============================================================================
+.//
+.//
+.//============================================================================
+.// MarkClassTraceOn( "component", "key_letters" )
+.//
+.// Where the input parameter(s) are:
+.//   component = name of component (domain) being marked
+.//   key_letters = key letters of the target class
+.//
+.// Example:
+.//   .invoke MarkClassTraceOn( "HeartRateMonitor", "BPM" )
+.//============================================================================
+.//
+.//
+.//============================================================================
+.// MarkClassTraceOff( "component", "key_letters" )
+.//
+.// Where the input parameter(s) are:
+.//   component = name of component (domain) being marked
+.//   key_letters = key letters of the target class
+.//
+.// Example:
+.//   .invoke MarkClassTraceOff( "Location", "SAT" )
 .//============================================================================
 .//
 .//

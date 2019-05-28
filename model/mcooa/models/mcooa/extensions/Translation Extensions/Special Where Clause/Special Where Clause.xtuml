@@ -85,6 +85,9 @@ A flag used by the translation engine to indicate that this instance of ''Specia
 	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("0c6dc020-1bed-4da0-b1a8-35cf41caf23d",
+	"8ba4003b-5e99-4655-8575-02e87a83df99");
 INSERT INTO O_BATTR
 	VALUES ("0c6dc020-1bed-4da0-b1a8-35cf41caf23d",
 	"8ba4003b-5e99-4655-8575-02e87a83df99");

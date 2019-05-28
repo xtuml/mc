@@ -12,6 +12,8 @@
 extern	"C"	{
 #endif
 
+#include <stdlib.h> // This is for strtol in T_atoi.
+
 /*
  * This directive controls whether or not user-created inline blocks
  * in BridgePoint action language are executed in the target code.

@@ -52,7 +52,7 @@
   .// class info for the entire domain.
   .// This set of queries drives the generation of initialization and
   .// top-level domain connection to the rest of the system.
-  .select any te_class related by te_c->TE_CLASS[R2064]
+  .select one te_class related by te_c->TE_CLASS[R2103]
   .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
   .select any te_cia from instances of TE_CIA
   .select one te_dci related by te_c->TE_DCI[R2090]
@@ -86,14 +86,9 @@ ${class_type_identifiers.body}
   .else
     .emit to file "${te_file.system_source_path}/${te_c.module_file}.${te_file.src_file_ext}"
   .end if
-  .// AUTOSAR VFB ports
-  .select many te_macts related by te_c->TE_PO[R2005]->TE_MACT[R2006]
-  .include "${te_file.arc_path}/q.autosar.vfb_ports.arc"
 .end for
 .//
-.// ISR/TLM/AUTOSAR/SVX
-.// AUTOSAR VFB functions
-.include "${te_file.arc_path}/q.autosar.vfb_functions.arc"
+.// ISR/TLM/SVX
 .if ( te_sys.SystemCPortsType == "TLM" )
   .include "${te_file.arc_path}/t.component.regdefs.h"
   .emit to file "${te_file.system_source_path}/${te_file.registers}.${te_file.hdr_file_ext}"
