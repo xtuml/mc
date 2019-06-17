@@ -49,6 +49,9 @@ for ( my $i = 0; $i < @ARGV; $i++ ) {
       $home_dir = "$home_dir/$ARGV[$i]"; 
     } else {
       $home_dir = $ARGV[$i]; 
+      if ( $home_dir =~ m/^\/.:/ ) {
+        $home_dir =~ s/^\///;
+      }
     }
   }
 }
