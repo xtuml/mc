@@ -32,7 +32,7 @@ INSERT INTO GD_GE
 	"92ad83ae-9fba-40f1-bf46-bdbe8834ae74",
 	108,
 	0,
-	'afun');
+	'escher::mcmc::afun');
 INSERT INTO GD_SHP
 	VALUES ("8a5fb3a2-81ee-401a-b07f-8423ce5ed94a");
 INSERT INTO GD_NCS
@@ -162,7 +162,8 @@ INSERT INTO S_DT
 INSERT INTO S_UDT
 	VALUES ("eca7d656-fd4e-4fb9-829e-0c796f3c5a8c",
 	"ba5eda7a-def5-0000-0000-000000000004",
-	0);
+	0,
+	'');
 INSERT INTO PE_PE
 	VALUES ("eca7d656-fd4e-4fb9-829e-0c796f3c5a8c",
 	1,

@@ -1,0 +1,96 @@
+= Cryptographic Architecture
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+Analysis is performed on architectural features of a model compiler to
+implement various security related capabilities.
+
+== 2 Introduction and Background
+
+It is desirable to run private applications securely on shared compute
+resources.  Some applications require resistence to tampering or reverse
+engineering.
+
+== 3 Requirements
+
+=== 3.1 Encrypted Persistence
+Persistent data (instances) shall be encrypted.
+
+=== 3.2 Constant Cycles
+It shall be possible to establish a relatively constant rate of resource usage.
+
+== 4 Analysis
+
+=== 4.0.1 Questions
+
+. How are legitimate threads of control initiated?
+. How are bogus threads of control initiated?
+. How are legitimate and bogus ToCs distinguished?
+
+=== 4.0.2 Glossary
+
+[horizontal]
+dispatcher::  architectural construct which queues events and dispatches state actions for one or many domains (components)
+message (also public domain function)::  an invocation from outside the domain which initiates a thread of control (ToC)
+prescribed energy::  duration of time and/or number of cycles to be consumed by a thread of control
+https://en.wikipedia.org/wiki/Secret_sharing[secret splitting]::  dividing information to increase requirements on reconstructing a secret and thus increasing confidentiality by making the task of the eavesdropper more difficult
+thread of control (ToC)::  sequence of state action dispatches starting with an external stimulus (message or timer) and ending when the state machines quiesce (empty event queues)
+thread of control identifier (ToCI)::  this gets passed to each state dispatch and propagates through events
+
+=== 4.0.3 Musings
+
+An identifier (ToCI) is assigned to a thread of control upon initiation of processing.
+It is carried within any events generated in this thread of control.
+
+Consider 'higher than' and 'lower than' as criteria for discriminating ToCs.
+
+* bogus threads of control
+  ** states of state machines on bogus classes
+  ** operations on bogus classes
+  ** extra states on legitimate classes
+  ** extra operations on legitimate classes
+  ** creation and deletion of bogus classes
+  ** writes to attributes on bogus classes
+
+* Bogus actions
+  ** duplicates of legitimate actions working on bogus instances
+  ** idempotent
+    *** Define https://en.wikipedia.org/wiki/Idempotence[idempotence] and tie it to cryptographic obfuscation.
+
+The dispatcher can measure time and cycles.
+What if I could produce a message generator that generated both legitimate and bogus messages.
+All messages return the time and cycles consumed by the thread of control.
+It would dispatch bogus messages with
+energy requirements.  These would precipitate threads of control through
+bogus states that would quiesce after the 
+
+Domains need to be constant time and cycles.
+A cryptographic dispatcher is at the center of each domain.
+
+The passed energy requirements needs to be encrypted.  ??
+
+=== 4.1 Data Encryption
+
+* All stored instance data is encrypted.
+
+=== 4.2 Constant Cycles
+
+* The time usage of each dispatch is measured.
+
+=== 4.3 Constant Energy
+
+== 5 Work Required
+
+== 6 Acceptance Test
+
+== 7 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11647[11647 - Cryptographic Architecture]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
