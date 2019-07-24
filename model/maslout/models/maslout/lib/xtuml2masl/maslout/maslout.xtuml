@@ -713,6 +713,7 @@ while ( not_empty o_attr )
   assign o_attr = prev_o_attr;
 end while;
 // Iterate through attributes in model order.
+previous_attr_name = ""; // for ordering
 while ( not_empty o_attr )
   select one s_dt related by o_attr->S_DT[R114];
   // if it is a referential attribute, get the datatype of the base attribute
@@ -753,9 +754,12 @@ while ( not_empty o_attr )
     if ( "inst_ref<Timer>" == value[2] )
       value[2] = "inst_refTimer";
     end if;
+    value[3] = previous_attr_name;
     out::populate( element:"attribute", value:value );
     value[1] = "";
     value[2] = "";
+    value[3] = "";
+    previous_attr_name = o_attr.Name;
   
     // The default value comes first from the attribute then from its type.
     value[0] = o_attr.DefaultValue;
