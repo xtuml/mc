@@ -83,6 +83,23 @@ modeled ordering association.
 Spot checking will be done to see that the order of the attributes in the
 generated MASL is the same as that shown in the xtUML editor.
 
+=== 6.3 Modify Attribute Order
+When a model is imported, there may be incidental ordering of attribute
+data in the '.xtuml' files.  As attributes are edited, this file-based
+ordering may begin to differ from the sequence in the displayed model.
+This test is intended to ensure there is no dependence on the order of
+model data in the persisted files.
+
+. Import MicrowaveOven from Help -> Quickstart.
+. Disable the pre-configured model compiler by navigating Properties->Builders.
+. Add 'MASL Exporter' by navigating BridgePoint utilities->Set model compilers.
+. Build the project.
+. Edit the /masl/MicrowaveOven.mod file and page down to the 'beeper' object.
+. *See* the 'beeper' object attributes matching that of the model.
+. In the Model Explorer, change the order of the 'beeper' attributes.
+. Build the project.
+. *See* the 'beeper' object attributes matching that (new order) of the model.
+
 == 7 User Documentation
 
 No change to documentation is necessary.
