@@ -139,6 +139,7 @@ arguments in order and specification of arguments.
 | attribute         | name              | required              | string                                                      |
 |                   | preferred         | required              | "preferred" or ""                                           |
 |                   | unique            | required              | "unique" or ""                                              |
+|                   | prev_attr_name    | optional              | name of previous attribute (by model order) or ""           |
 | codeblock*        | sourcefile        | required              | string                                                      |
 | description*      | text              | required              | string                                                      |
 |                   | tag               | optional              | string                                                      |

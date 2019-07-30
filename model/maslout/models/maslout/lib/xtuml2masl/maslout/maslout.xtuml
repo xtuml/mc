@@ -703,8 +703,18 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 o_obj = param.o_obj;
 c_c = param.c_c;
-select many o_attrs related by o_obj->O_ATTR[R102];
-for each o_attr in o_attrs
+// Get first attribute.
+select any o_attr related by o_obj->O_ATTR[R102];
+while ( not_empty o_attr )
+  select one prev_o_attr related by o_attr->O_ATTR[R103.''succeeds''];
+  if ( empty prev_o_attr )
+    break;
+  end if;
+  assign o_attr = prev_o_attr;
+end while;
+// Iterate through attributes in model order.
+previous_attr_name = ""; // for ordering
+while ( not_empty o_attr )
   select one s_dt related by o_attr->S_DT[R114];
   // if it is a referential attribute, get the datatype of the base attribute
   select one o_rattr related by o_attr->O_RATTR[R106];
@@ -744,9 +754,12 @@ for each o_attr in o_attrs
     if ( "inst_ref<Timer>" == value[2] )
       value[2] = "inst_refTimer";
     end if;
+    value[3] = previous_attr_name;
     out::populate( element:"attribute", value:value );
     value[1] = "";
     value[2] = "";
+    value[3] = "";
+    previous_attr_name = o_attr.Name;
   
     // The default value comes first from the attribute then from its type.
     value[0] = o_attr.DefaultValue;
@@ -822,7 +835,8 @@ for each o_attr in o_attrs
     out::populate( element:"attribute", value:emptyvalue );
   end if;
   
-end for;',
+  select one o_attr related by o_attr->O_ATTR[R103.''precedes''];
+end while;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
