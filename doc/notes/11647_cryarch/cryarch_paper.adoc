@@ -1,0 +1,78 @@
+= Cryptographic Architecture
+
+xtUML Project Analysis Note
+
+== Abstract
+
+A Shlaer-Mellor standard software architecture is described with enhancements
+to suppress leakage of runtime profiles through time and energy usage.
+
+== Introduction and Background
+
+It is desirable to run private applications securely on shared compute
+resources.  Some applications require resistence to tampering or reverse
+engineering.
+
+== Outline
+
+. Overview of fundamental S-M architecture.
+  .. time rules
+  .. event rules
+  .. penny simulation
+  .. strength of the S-M event dispatcher WRT behavior sequencing
+    ... example of instrumentation for tracing
+      .... IBM fiber channel control unit
+      .... BAS "can't happen" war story
+  .. exposure of the S-M event dispatcher WRT side channel cryptanalysis
+  .. growth of shared resource (cloud) computing
+    ... Amazon AWS in particular
+. Aims of this presentation
+  .. not speaking to existing code body obfuscation techniques
+  .. obscuring state sequencing
+  .. obscuring message sequencing
+  .. obscuring resource (energy) utilization
+  .. leveling of resource utilization
+. S-M resource usage analyzed
+  .. square wave time usage (GPSW figure)
+  .. square wave energy usage (GPSW figure)
+    ... correlated with state behavior
+  .. object/state output represented as letters/numbers (GPSW figure)
+. model of S-M architecture
+. cryptographically extended model of S-M architecture
+. simplistic steganographic translation of multiple models together into
+  the same build
+. more purposeful steganographic translation of the same model with variation
+  of the states and activities
+. energy measurement
+. demo
+  .. Show GPS Watch unobscured.
+    ... time profile
+    ... energy profile
+    ... state, message and energy patterns
+  .. Show GPS Watch obscured.
+    ... time profile
+    ... energy profile
+    ... state, message and energy patterns
+
+== Key Points
+
+* S-M time and event rules make tracing behavior really easy.
+* Thus, S-M time and event rules make eavesdropping and behavior deduction easier.
+
+== Figures
+
+* square wave representation of GPS Watch running
+* object/state output represented as letters/numbers.
+* compressibility of this output
+
+== Slides
+
+== Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11647[11647 - Cryptographic Architecture]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

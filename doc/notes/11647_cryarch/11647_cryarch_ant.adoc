@@ -36,6 +36,7 @@ dispatcher::  architectural construct which queues events and dispatches state a
 message (also public domain function)::  an invocation from outside the domain which initiates a thread of control (ToC)
 prescribed energy::  duration of time and/or number of cycles to be consumed by a thread of control
 https://en.wikipedia.org/wiki/Secret_sharing[secret splitting]::  dividing information to increase requirements on reconstructing a secret and thus increasing confidentiality by making the task of the eavesdropper more difficult
+steganography::  Steganography is the technique of hiding secret data within an ordinary, non-secret, file or message in order to avoid detection; the secret data is then extracted at its destination.
 thread of control (ToC)::  sequence of state action dispatches starting with an external stimulus (message or timer) and ending when the state machines quiesce (empty event queues)
 thread of control identifier (ToCI)::  this gets passed to each state dispatch and propagates through events
 
