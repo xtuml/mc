@@ -101,7 +101,7 @@ INSERT INTO S_DT_PROXY
 	VALUES ("4bba1170-0de5-4efc-b4c5-95951acdc289",
 	"00000000-0000-0000-0000-000000000000",
 	'ElementTypeConstants',
-	'',
+	'Hardcoded all of the values for the enum to match those produced by MC-Java. See issue #8392 LPS',
 	'',
 	'../../Datatypes/Datatypes.xtuml');
 INSERT INTO O_ID
