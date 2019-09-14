@@ -95,3 +95,31 @@ The passed energy requirements needs to be encrypted.  ??
 This work is licensed under the Creative Commons CC0 License
 
 ---
+
+
+Nice! Question: imagine you go to handle your tqueue and there are 2 popped timers in them. Do you dispatch the first event, then drain the event queues or do you go ahead and dispatch both events before going back to the event queues
+The question is even more tricky than that.
+What if you have 3 timers that are ready, and the first two have exactly the same expiration time.
+?
+I think the answer is to dispatch the 2 together and then return to the dispatcher to deal with self events and instance events before dispatching the 3rd (already expired) timer.
+Our concept of 'simulated time' helps me think this way.
+
+ select any e from instances of aevent;
+ while ( not_empty e )
+
+  // Fully service self queue before instance queue.
+  e = selfq.dequeue();
+  if ( empty e )
+    e = iq.dequeue();
+  end if;
+  if ( not_empty e )
+    // Impinge event against the target state machine.
+    e.deliver();
+  else
+    // timers
+    // messages
+  end if;
+
+ end while;
+
+Concept of simulated time.  (discrete event simulation)

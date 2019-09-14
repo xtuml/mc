@@ -4,7 +4,7 @@ xtUML Project Analysis Note
 
 == Abstract
 
-A Shlaer-Mellor standard software architecture is described with enhancements
+A Shlaer-Mellor standard software runtime is described with enhancements
 to suppress leakage of runtime profiles through time and energy usage.
 
 == Introduction and Background
@@ -15,53 +15,119 @@ engineering.
 
 == Outline
 
-. Overview of fundamental S-M architecture.
-  .. time rules
-  .. event rules
+. aims of this presentation
+  .. elucidating fundamentals of Shlaer-Mellor runtime
+  .. introducing security extensions to the core of the runtime model
+     ... obscuring state sequencing
+     ... obscuring message sequencing
+     ... obscuring resource (energy) utilization
+     ... leveling of resource utilization
+     ... not speaking to existing code body obfuscation techniques
+
+. fundamental elements of a Shlaer-Mellor software architecture
+  .. direct translation of model elements
+     ... classes, state machines, action language
+         .... class - class, struct, table
+         .... state machine - nested switch/case statement, 2 dimensional lookup table
+         .... action language - each statement maps to lower level construct
+              ..... relationship creation, deletion and navigation
+  .. collections
+     ... instances, relationship extents, transient sets
+         .... instances
+         .... relationship lists
+         .... transient sets
+  .. runtime core
+     ... event, timer and message dispatching
+         .... event queueing (self and instance)
+         .... timer management
+         .... message passing
+     ... This is the focus of this presentation.
+     ... security extensions to be made to the runtime core
+
+. simulation
+  .. models themselves
+  .. rules
+  .. runtime
+
+. simulation:  executing the models
+  .. Verifier
+  .. iUML executor
+  .. Inspector
   .. penny simulation
-  .. strength of the S-M event dispatcher WRT behavior sequencing
-    ... example of instrumentation for tracing
-      .... IBM fiber channel control unit
-      .... BAS "can't happen" war story
-  .. exposure of the S-M event dispatcher WRT side channel cryptanalysis
-  .. growth of shared resource (cloud) computing
-    ... Amazon AWS in particular
-. Aims of this presentation
-  .. not speaking to existing code body obfuscation techniques
-  .. obscuring state sequencing
-  .. obscuring message sequencing
-  .. obscuring resource (energy) utilization
-  .. leveling of resource utilization
+     ... Do it with Pub or MicrowaveOven model (on printouts, screen and flip chart).
+  .. GPSW "pulse" in simulation (video clips from Verifier, MC-3020, strung together)
+
+. (meta) model levels
+  .. application model
+  .. meta model
+  .. model compiler model
+
+. deeper into the S-M runtime
+  .. how it works
+     ... classes and instances, state models and state machines (course slides:  Microwave Oven 189-194)
+     ... queue:  event queue (head, tail, next, instance, event number)
+     ... strength of the S-M event dispatcher WRT behavior sequencing
+       .... example of instrumentation for tracing (video of Verifier and MC-3020 MWO)
+         ..... IBM fiber channel control unit
+         ..... BAS "can't happen" war story
+     ... exposure of the S-M event dispatcher WRT side channel cryptanalysis
+     ... growth of shared resource (cloud) computing
+       .... Amazon AWS in particular
+  .. operating model of S-M runtime
+     ... distinctives of a "model-based model compiler" (aka "What I mean by this term.")
+         .... MM instance loading
+         .... thus OOA of OOA is key subsystem
+         .... templated serialization of text ('model2text')
+         .... otherwise model compiler is a normal S-M model
+     ... class diagram (Navigate in BP perfectly, zooming and taking screen shots.)
+     ... dispatcher state model
+     ... time rules
+     ... event rules
+     ... actually 4 queues:  self events, instance events, timers, messages
+  .. cryptographically extended model of S-M runtime (again)
+     ... Thread of Control
+     ... energy quantum
+     ... PID
+
 . S-M resource usage analyzed
+  .. energy measurement
   .. square wave time usage (GPSW figure)
   .. square wave energy usage (GPSW figure)
     ... correlated with state behavior
   .. object/state output represented as letters/numbers (GPSW figure)
-. model of S-M architecture
-. cryptographically extended model of S-M architecture
-. simplistic steganographic translation of multiple models together into
-  the same build
-. more purposeful steganographic translation of the same model with variation
-  of the states and activities
-. energy measurement
+  .. simplistic steganographic translation of multiple models together into
+     the same build
+  .. more purposeful steganographic translation of the same model with variation
+     of the states and activities
+
 . demo
-  .. Show GPS Watch unobscured.
+  .. GPSW unobscured
     ... time profile
     ... energy profile
     ... state, message and energy patterns
-  .. Show GPS Watch obscured.
+  .. GPSW obscured
     ... time profile
     ... energy profile
     ... state, message and energy patterns
+
+. review
+  .. elucidating the fundamentals of Shlaer-Mellor runtime
+  .. introducing security extensions to the core of the runtime model
+     ... obscuring state sequencing
+     ... obscuring message sequencing
+     ... obscuring resource (energy) utilization
+     ... leveling of resource utilization
 
 == Key Points
 
 * S-M time and event rules make tracing behavior really easy.
 * Thus, S-M time and event rules make eavesdropping and behavior deduction easier.
+* Thread of Control is a key element, and modeling it gives us access.
+* How do we leverage the Tread of Control?
 
 == Figures
 
-* square wave representation of GPS Watch running
+* square wave representation of GPSWrunning
 * object/state output represented as letters/numbers.
 * compressibility of this output
 
