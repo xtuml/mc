@@ -1,0 +1,129 @@
+= Parse and Load MASL Activity
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+MASL action language shall be parsed and loaded into an xtUML model of
+MASL activity.  This note documents work toward that end.
+
+== 2 Introduction and Background
+
+There is demand for a software architecture that translates MASL dialect
+xtUML models into Java with native AWS services such as Lambda, DynamoDB
+and API Gateway.  [See <<dr-2, AWS software architecture>>.]  This
+architecture will be characterized by MASL translation to:
+
+* Java
+* native AWS service utilization
+* Thread of Control based Lambda dispatch
+* adjustable (scalable) resource balancing ready in terms of storage,
+CPU speed, parallel lambdas, etc.
+
+More will be written about this software architecture as part of the work
+for <<dr-2, AWS software architecture>>.  This note provides analysis of
+the MASL parsing and loading alone.
+
+== 3 Requirements
+
+=== 3.1 Parse MASL Activity
+Textual MASL activities shall be processed using lexical analysis and
+syntactic parsing.
+
+=== 3.2 Load MASL Activity
+An xtUML (meta)model of MASL Activity shall be populated from the results
+of textual parsing.
+
+=== 3.3 Transform MASL Activity
+A small, simple, example architecture model shall query the model of
+MASL Activity, perform transformations and emit text.
+
+== 4 Analysis
+
+=== 4.1 Available Existing Artifacts
+
+Relative to the existing tooling, this work will require the following
+changes:
+
+* MASL activity meta-model realized as xtUML class model
+* parser/loader to parse MASL activities and populate the model of MASL activity
+* (sample) model to model transformations to populate a model of target (Java)
+* (sample) model to text rendering of the target model to textual Java
+
+Available technological artifacts include Ciera (Java model compiler),
+pyxtuml, the existing MASL antlr grammar, the model of MASL embedded in
+the MASL model compiler and other artifacts.
+
+Users want a meaningful increment in place within a few months.  The work
+will be part of a larger demonstration of native AWS architectural support.
+
+=== 4.2 Exploration of the MASL Model Compiler
+
+. In the MASL MC there is a 'metamodel' folder with subfolders containing
+  Java classes.
+  .. Each Java class is a metamodel class (except perhaps for a few
+     utilities).
+  .. The metamodel class names and non-referential attributes can come
+     from these Java class files.
+  .. There are getXX operations on these classes that navigate links.
+     ... These get operations are of the form TTT getCCC where TTT is the
+         type of the linked element and CCC is a name matching a rule in
+         the grammar.
+. In 'MaslWalker.g' there are create statements for the metamodel class
+  instances.  The argument lists roughly define the attributes (including
+  referentials) of the metamodel classes.
+
+=== 4.3 Thoughts
+
+This work can be a **port** of the MASL metamodel from Java to xtUML/MASL.
+By porting, functionality can be preserved, and the effort can be
+largely mechanical.  The resulting metamodel and loader will be at
+precisely the same level of abstraction as the current Java embodiment.
+The parser will remain antlr/Java (and virtually unchanged), but the
+activities of the Walker will become (OAL) class operations decorated
+on the metamodel classes.
+
+Challenges will be posed by spanning relationships between MASL activity
+metamodel classes and those of _structural_ MASL.  These relationships
+will need to be replaced with relationships to structural xtUML.
+
+== 5 Work Required
+
+. Extract the model of MASL activity from the MASL MC Java classes.
+  .. Do this by producing a textual MASL `.mod` file.
+  .. Execute this mechanically; exactly replicate the current MASL MM into
+     MASL object, attribute and relationship specifications in a well-formed
+     .mod file.
+  .. Address spanning relationships between structural MASL and the
+     'statement' and 'expression' subsystems.
+     ... Enumerate each of these spanning relationships.
+     ... Identify a replacement association into structural xtUML.
+  .. Import the .mod file into BridgePoint.
+  .. Optionally lay out the class diagram(s).
+     ... Consider at least 2 packages, 'statement' and 'expression'.
+. Evaluate the level of abstraction of this model:  syntactic?  semantic?
+  .. (Preliminarily, I observe the model to be exactly what you see in
+     textual MASL.)
+. Add the above model of MASL activity as a sibling package to 'mcooa'
+  (model compiler OOA of OOA) and linked accordingly to the structural xtUML.
+  .. Consider any significant overlap with the model of OAL.
+. Start with the MASL MC antlr parser to parse and load MASL activities.
+  .. Migrate walker activities into metamodel operations.
+     ... In the AST walker, call into modeled activities (as is done in
+         the OAL parser).
+     ... As an alternative, consider connecting from the loaded Java classes.
+  .. Alternatively, add the MASL activity subsystem to the schema of pyxtuml.
+     Parse and persist as SQL as done with the pyxtuml OAL prebuilder.
+
+== 6 Acceptance Test
+
+== 7 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11745[11745 - Parse MASL into xtUML meta-model of MASL activity]
+. [[dr-2]] https://support.onefact.net/issues/11744[11744 - AWS software architecture]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
