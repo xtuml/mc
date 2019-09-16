@@ -57,7 +57,17 @@ the MASL model compiler and other artifacts.
 Users want a meaningful increment in place within a few months.  The work
 will be part of a larger demonstration of native AWS architectural support.
 
-=== 4.2 Exploration of the MASL Model Compiler
+=== 4.2 Language Comparison
+
+MASL activities support a superset of OAL capability.  Some of this
+capability links to the MASL Type system, which is not fully represented
+in the xtUML model of Type.  This capability is supported in BridgePoint
+by cheating and simply "passing through" the editor "untouched" to the
+back end build chain.
+
+It is key to analyze and quickly identify significant trouble spots.
+
+=== 4.3 Exploration of the MASL Model Compiler
 
 . In the MASL MC there is a 'metamodel' folder with subfolders containing
   Java classes.
@@ -73,7 +83,7 @@ will be part of a larger demonstration of native AWS architectural support.
   instances.  The argument lists roughly define the attributes (including
   referentials) of the metamodel classes.
 
-=== 4.3 Thoughts
+=== 4.4 Thoughts
 
 This work can be a **port** of the MASL metamodel from Java to xtUML/MASL.
 By porting, functionality can be preserved, and the effort can be
@@ -88,6 +98,16 @@ metamodel classes and those of _structural_ MASL.  These relationships
 will need to be replaced with relationships to structural xtUML.
 
 == 5 Work Required
+
+=== 5.1 Identify Structural Blockers
+
+. Review the MASL Reference Manual
+  .. Identify structural constructs linked to statements and expressions
+     that are available in MASL only.
+  .. Determine the means and cost of supporting these constructs.
+  .. Identify potential blockers.
+
+=== 5.2 Port MASL Activity to xtUML
 
 . Extract the model of MASL activity from the MASL MC Java classes.
   .. Do this by producing a textual MASL `.mod` file.
