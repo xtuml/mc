@@ -1,0 +1,132 @@
+= Retain Model Order of Class Attributes
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+The mechanism for exporting MASL from BridgePoint has not maintained the
+order of the attributes.  A need to maintain this ordering has now arisen.
+This note documents the implementation of attribute order retention in the
+`xtuml2masl` flow.
+
+== 2 Introduction and Background
+
+A user has an existing project where there is a need to migrate data stored
+in a persistence database from an existing domain to a new version of that
+domain.
+
+This is accomplished by dumping the database as SQL which provides the
+create and insert statements for the database schema and contents.
+This dumped data is then manipulated to make changes to the schema and
+content, e.g. create/delete new classes, relationships, attributes, etc.
+
+Unfortunately this is proving more difficult than in the past as BridgePoint
+is not dumping the class definitions in the '.mod' file the same way as the
+dumper for iUML was.
+
+In the '.mod' files dumped from iUML the attributes were in the order they
+appeared on the class diagram.  In the '.mod' files from BridgePoint the
+class identifiers appear to be always the first attributes defined, and it
+does not follow the order of the class diagram.
+
+Therefore when the domain is built, and the schema is created, it is
+different from the schema of the previous iUML version and migrating
+the data from an existing system is problematic.
+
+== 3 Requirements
+
+=== 3.1 Attribute Ordering
+The `xtuml2masl` process shall produce a '.mod' file with attributes ordered
+in the class definitions in the same sequence as maintained in the BridgePoint
+xtUML editor.
+
+== 4 Work Required
+
+=== 4.1 `x2m`
+The action language in the `x2m` application (maslout) was performing a
+`select many` and `for each` with no ordering.  This is to be changed to
+select the first attribute in the sequence of attributes related to a class.
+Iteration then needs to select across R103 to the next attribute.
+
+=== 4.2 `masl`
+The model of MASL was not maintaining the order of the attributes.  A
+reflexive ordering association is added the attribute class.
+
+`masl` deals with forward references by creating elements referred to by
+elements being created ahead of them.  These "anticipatory" creations get
+augmented when the primary creation command comes.  It will be necessary
+to do ordering at primary creation time rather than anticipatory creation
+time.
+
+=== 4.3 Serial MASL Specification
+Update the SMASL spec document to add parameter to attribute command to
+include the name of the previous attribute.
+
+== 5 Implementation Comments
+
+=== 5.1 Architecture Ordering
+Both `m2x` and `masl` are rendered as C source code by MC-3020.
+Architecturally, instance collections are implemented with singly linked
+lists.  It was observed that after sequencing attributes in modeled
+order in `m2x` that the headline issue was effectively solved.  `masl`
+rendered the attributes in the order created, and so the ordering was
+"accidentally" maintained.  A dependence upon the underlying architectural
+collection mechanism is not desirable, so `masl` was outfitted with a
+modeled ordering association.
+
+== 6 Unit Test
+
+=== 6.1 MASL Round Trip
+`masl_round_trip` will continue to pass.
+
+=== 6.2 Observe Attribute Order
+Spot checking will be done to see that the order of the attributes in the
+generated MASL is the same as that shown in the xtUML editor.
+
+=== 6.3 Modify Attribute Order
+When a model is imported, there may be incidental ordering of attribute
+data in the '.xtuml' files.  As attributes are edited, this file-based
+ordering may begin to differ from the sequence in the displayed model.
+This test is intended to ensure there is no dependence on the order of
+model data in the persisted files.
+
+. Import MicrowaveOven from Help -> Quickstart.
+. Disable the pre-configured model compiler by navigating Properties->Builders.
+. Add 'MASL Exporter' by navigating BridgePoint utilities->Set model compilers.
+. Build the project.
+. Edit the /masl/MicrowaveOven.mod file and page down to the 'beeper' object.
+. *See* the 'beeper' object attributes matching that of the model.
+. In the Model Explorer, change the order of the 'beeper' attributes.
+. Build the project.
+. *See* the 'beeper' object attributes matching that (new order) of the model.
+
+== 7 User Documentation
+
+No change to documentation is necessary.
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  11702_attr_order
+
+----
+ doc/notes/11702_attr_order_int.adoc                               | 108 +++++++++++++++++++++
+ doc/notes/8073_masl_parser/8277_serial_masl_spec.md               |   1 +
+ model/masl/models/masl/masl/attribute/attribute.xtuml             |  17 ++++-
+ model/masl/models/masl/masl/masl.xtuml                            | 195 +++++++++++++++++++++++++++++++--
+ model/masl/models/masl/masl/object/object.xtuml                   |  16 ++++-
+ model/masl/models/masl/maslpopulation/population/population.xtuml |   6 +-
+ model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml |  20 +++++-
+ 7 files changed, 348 insertions(+), 15 deletions(-)
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11702[11702 - Retain model order of class attributes.]
+. [[dr-2]] link:8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

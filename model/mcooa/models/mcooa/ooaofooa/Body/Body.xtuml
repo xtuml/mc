@@ -11117,6 +11117,130 @@ INSERT INTO PE_PE
 	"e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("069f7c9f-7387-4d78-8d66-5f72c773e58e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Block>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("069f7c9f-7387-4d78-8d66-5f72c773e58e",
+	0,
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("6cf76eba-03dc-4cce-af63-e348fbed1243",
+	'Block',
+	600,
+	'ACT_BLK',
+	'This class represents a block of action language within an action. Each block contains a number of statements.
+
+',
+	"00000000-0000-0000-0000-000000000000",
+	'./Block/Block.xtuml');
+INSERT INTO PE_PE
+	VALUES ("069f7c9f-7387-4d78-8d66-5f72c773e58e",
+	1,
+	"e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("5582a22a-a5e1-4349-916e-f037b99187e1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Block>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("5582a22a-a5e1-4349-916e-f037b99187e1",
+	1,
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO PE_PE
+	VALUES ("5582a22a-a5e1-4349-916e-f037b99187e1",
+	1,
+	"e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("8ca0ad46-f8b8-47ba-9456-548bf0777490",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Statement>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("8ca0ad46-f8b8-47ba-9456-548bf0777490",
+	0,
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	'Statement',
+	602,
+	'ACT_SMT',
+	'This class represents an action language statement within a block.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Statement/Statement.xtuml');
+INSERT INTO PE_PE
+	VALUES ("8ca0ad46-f8b8-47ba-9456-548bf0777490",
+	1,
+	"e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("444b406c-4fc4-486e-aa05-cdc0f3eaff20",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Statement>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("444b406c-4fc4-486e-aa05-cdc0f3eaff20",
+	1,
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0");
+INSERT INTO PE_PE
+	VALUES ("444b406c-4fc4-486e-aa05-cdc0f3eaff20",
+	1,
+	"e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("2916519f-66f5-47c2-9e5d-9beb4c945efc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Body>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("2916519f-66f5-47c2-9e5d-9beb4c945efc",
+	0,
+	"96fb271d-2c9a-4e01-a328-de7640311311");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("96fb271d-2c9a-4e01-a328-de7640311311",
+	'Body',
+	601,
+	'ACT_ACT',
+	'This class represents the action, whether it be a state action, operation or function body etc.
+
+An Action consists of a number of statements scoped into one or more nested Blocks.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Body/Body.xtuml');
+INSERT INTO PE_PE
+	VALUES ("2916519f-66f5-47c2-9e5d-9beb4c945efc",
+	1,
+	"e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("ee23ce33-0ba8-4863-b40d-69f6830710c6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Body>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ee23ce33-0ba8-4863-b40d-69f6830710c6",
+	1,
+	"96fb271d-2c9a-4e01-a328-de7640311311");
+INSERT INTO PE_PE
+	VALUES ("ee23ce33-0ba8-4863-b40d-69f6830710c6",
+	1,
+	"e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("69e47162-088c-4087-a2ae-801dee10ed35");
 INSERT INTO R_REL
@@ -11148,16 +11272,6 @@ INSERT INTO R_OIR
 	"69e47162-088c-4087-a2ae-801dee10ed35",
 	"53a3fad8-4b95-4c94-94b5-cc65458d1d75",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("96fb271d-2c9a-4e01-a328-de7640311311",
-	'Body',
-	601,
-	'ACT_ACT',
-	'This class represents the action, whether it be a state action, operation or function body etc.
-
-An Action consists of a number of statements scoped into one or more nested Blocks.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Body/Body.xtuml');
 INSERT INTO R_PART
 	VALUES ("6cf76eba-03dc-4cce-af63-e348fbed1243",
 	"69e47162-088c-4087-a2ae-801dee10ed35",
@@ -11191,16 +11305,6 @@ INSERT INTO R_OIR
 	"69e47162-088c-4087-a2ae-801dee10ed35",
 	"14500d58-b899-4af9-9480-7d14b2016302",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("6cf76eba-03dc-4cce-af63-e348fbed1243",
-	'Block',
-	600,
-	'ACT_BLK',
-	'This class represents a block of action language within an action. Each block contains a number of statements.
-
-',
-	"00000000-0000-0000-0000-000000000000",
-	'./Block/Block.xtuml');
 INSERT INTO PE_PE
 	VALUES ("69e47162-088c-4087-a2ae-801dee10ed35",
 	1,
@@ -11230,14 +11334,6 @@ INSERT INTO R_OIR
 	"fe855d15-e6f0-4e3f-b32a-15936f62315a",
 	"ea3499c7-e119-4129-97bf-269ed32a587f",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("75fe30ff-9e22-40fd-b227-b94a1135e8c0",
-	'Statement',
-	602,
-	'ACT_SMT',
-	'This class represents an action language statement within a block.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Statement/Statement.xtuml');
 INSERT INTO R_PART
 	VALUES ("75fe30ff-9e22-40fd-b227-b94a1135e8c0",
 	"fe855d15-e6f0-4e3f-b32a-15936f62315a",

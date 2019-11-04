@@ -173,7 +173,7 @@ elif ( "attribute" == element )
     TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
     population.stack_trace();
   end if;
-  attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], parent_object:parent_object, parent_identifier:parent_identifier );
+  attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], prev_attr_name:value[3], parent_object:parent_object, parent_identifier:parent_identifier );
   select one new_element related by attribute->markable[R3783]->element[R3786];
   population.push_element( new_element:new_element );
 elif ( "expression" == element )
@@ -300,7 +300,7 @@ elif ( "referential" == element )
   // if the referred_to attribute is empty (not created yet), populate it
   if ( empty referred_to )
     select any empty_identifier from instances of identifier where false;
-    referred_to = attribute::populate( name:attr, preferred:"", unique:"", parent_object:target_object, parent_identifier:empty_identifier );
+    referred_to = attribute::populate( name:attr, preferred:"", unique:"", prev_attr_name:"", parent_object:target_object, parent_identifier:empty_identifier );
   end if;
       
   select one parent_attribute related by population->element[R3784.''has current'']->markable[R3786]->attribute[R3783];

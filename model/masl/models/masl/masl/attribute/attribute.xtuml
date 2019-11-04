@@ -108,6 +108,12 @@ elif ( not_empty parent_identifier )
   relate attribute to parent_identifier across R3710;
 else
 end if;
+if ( "" != param.prev_attr_name )
+  select any prev_attribute related by attribute->object[R3709]->attribute[R3709] where ( selected.name == param.prev_attr_name );
+  if ( not_empty prev_attribute )
+    relate attribute to prev_attribute across R3797.''succeeds'';
+  end if;
+end if;
 
 return attribute;',
 	1,
@@ -148,7 +154,7 @@ INSERT INTO O_TPARM
 	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	0,
 	'',
-	"95952fdd-517e-4d1c-9a3c-e4cdf53ec35e",
+	"23b69cf4-7a66-4bc2-b89d-2417ae0c2467",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
@@ -173,6 +179,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("23b69cf4-7a66-4bc2-b89d-2417ae0c2467",
+	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
+	'prev_attr_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"95952fdd-517e-4d1c-9a3c-e4cdf53ec35e",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("2c8859d3-78f0-4799-9ba0-e82b40711de3",
 	"00000000-0000-0000-0000-000000000000",

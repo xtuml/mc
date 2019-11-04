@@ -23,10 +23,20 @@ end for;
 
 T::include( file:"masl/t.object_begin.masl" );
 
-select many attributes related by self->attribute[R3709.''is characterized by''];
-for each attribute in attributes
+// Get first attribute.
+select any attribute related by self->attribute[R3709.''is characterized by''];
+while ( not_empty attribute )
+  select one prev_attribute related by attribute->attribute[R3797.''succeeds''];
+  if ( empty prev_attribute )
+    break;
+  end if;
+  assign attribute = prev_attribute;
+end while;
+// Iterate in order.
+while ( not_empty attribute )
   attribute.render();
-end for;
+  select one attribute related by attribute->attribute[R3797.''precedes''];
+end while;
 
 select many identifiers related by self->identifier[R3711];
 for each identifier in identifiers

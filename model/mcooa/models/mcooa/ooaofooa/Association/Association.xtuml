@@ -4680,6 +4680,86 @@ INSERT INTO PE_PE
 	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("2dcbad36-1243-4f47-a831-4be1c4c9978a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class In Association>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("2dcbad36-1243-4f47-a831-4be1c4c9978a",
+	0,
+	"b30cdc19-98d5-42ac-93dd-33b256ebfb09");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("b30cdc19-98d5-42ac-93dd-33b256ebfb09",
+	'Class In Association',
+	202,
+	'R_OIR',
+	'A Class In Association captures the role which a class plays in participating in an association.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Class In Association/Class In Association.xtuml');
+INSERT INTO PE_PE
+	VALUES ("2dcbad36-1243-4f47-a831-4be1c4c9978a",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0be0be2f-d356-4e19-9a74-9929ea80952a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Class In Association>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0be0be2f-d356-4e19-9a74-9929ea80952a",
+	1,
+	"b30cdc19-98d5-42ac-93dd-33b256ebfb09");
+INSERT INTO PE_PE
+	VALUES ("0be0be2f-d356-4e19-9a74-9929ea80952a",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("f1aa8690-f484-4f4a-8098-05f7d6006b31",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class As Subtype>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f1aa8690-f484-4f4a-8098-05f7d6006b31",
+	0,
+	"17ee6cac-8196-47df-9859-19a42c4de7be");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("17ee6cac-8196-47df-9859-19a42c4de7be",
+	'Class As Subtype',
+	214,
+	'R_SUB',
+	'This class represents a class playing a subtype role in a supertype/subtype association.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Class As Subtype/Class As Subtype.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f1aa8690-f484-4f4a-8098-05f7d6006b31",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("295252b8-38c3-400f-b893-5235d33df65c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Class As Subtype>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("295252b8-38c3-400f-b893-5235d33df65c",
+	1,
+	"17ee6cac-8196-47df-9859-19a42c4de7be");
+INSERT INTO PE_PE
+	VALUES ("295252b8-38c3-400f-b893-5235d33df65c",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_ASSOC
 	VALUES ("f6d85576-e786-4695-8763-44f6acf45986");
 INSERT INTO R_REL
@@ -4734,14 +4814,6 @@ INSERT INTO R_OIR
 	"f6d85576-e786-4695-8763-44f6acf45986",
 	"0ae3df3a-4024-45ae-a548-40e52782e22f",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("b30cdc19-98d5-42ac-93dd-33b256ebfb09",
-	'Class In Association',
-	202,
-	'R_OIR',
-	'A Class In Association captures the role which a class plays in participating in an association.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Class In Association/Class In Association.xtuml');
 INSERT INTO R_AOTH
 	VALUES ("e545984c-062c-43fd-9deb-1a46d657e094",
 	"f6d85576-e786-4695-8763-44f6acf45986",
@@ -5249,14 +5321,6 @@ INSERT INTO R_OIR
 	"35afaab9-44d6-48e8-b005-0c71a86f1a7f",
 	"d7b0293a-b873-4bce-add2-b7f6c14fbf0a",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("17ee6cac-8196-47df-9859-19a42c4de7be",
-	'Class As Subtype',
-	214,
-	'R_SUB',
-	'This class represents a class playing a subtype role in a supertype/subtype association.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Class As Subtype/Class As Subtype.xtuml');
 INSERT INTO R_PART
 	VALUES ("403aae04-4b8c-4ecf-8bd2-f82a03e0392a",
 	"35afaab9-44d6-48e8-b005-0c71a86f1a7f",
