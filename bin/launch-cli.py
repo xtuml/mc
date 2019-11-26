@@ -17,7 +17,7 @@ def launch(port_file, opts, debug):
     if debug:
         print port
     else:
-        proc = subprocess.Popen( "$BPHOME/bridgepoint --launcher.suppressErrors $JVM_ARG -clean -noSplash -data $WORKSPACE -application org.xtuml.bp.cli.Launch -port " + str(port) + " " + opts, shell=True )
+        proc = subprocess.Popen( "$BPHOME/bridgepoint --launcher.suppressErrors -clean -noSplash -data $WORKSPACE -application org.xtuml.bp.cli.Launch -port " + str(port) + " " + opts, shell=True )
         output += "PID: " + str(proc.pid) + "\n"
 
     try:
