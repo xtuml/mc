@@ -26,15 +26,135 @@ MASL activity.  This note documents design steps to achieve this parsing.
 
 == 6 Design Comments
 
+=== 6.1 Notes
+
+* The MASL MC has java java and C++ java.  The former is the model, parser
+  and loader.  The latter is the serializer.
+  ** The model, parser and loader are the points of interest.
+* We need to generate MASL from mcooa.  It might be good to imbed the model
+  of MASL Activity into the OOAofOOA so that spanning relationships can be
+  redirected to structural xtUML classes.
+  ** I want to reconsider this.
+     *** full native OOA of MASL populated from OOAofOOA like we populate
+         the current model of structural MASL (masl)
+     *** full native OOA of MASL populated from parsed MASL generated using
+         `xtuml2masl`
+* I suspect we need to refactor mcooa sooner rather than later.  Translation
+  Extensions needs to be pulled out first.  Then, a plan for separating the
+  Activity subsystems so that OOA and MASL can be different configurations.
+* In addition to 'new' constructors, there are '.create' constructors.
+* The imports in Walker.g are a concise list of the MM classes arranged
+  nicely into subsystems:  code, common, domain, error, exception, expression,
+  name, object, project, relationship, statemodel and type.
+  ** I wonder about comparing the structural portion of this MM to the one
+     we built from scratch for `xtuml2masl`.
+  ** Consider comparing these and the implications of deprecating one or
+     the other.
+* I note that member storage in classes is not always ordered exactly as
+  listed in the constructor (e.g. see AttributeDeclaration).
+* Referentials are not really present in the java object model.  Therefore,
+  identifier propagation will need to occur "from the top down".
+  ** I wonder if we will want to use BridgePoint to formalize the associations?
+  ** Maybe we relax `masl2xtuml` to allow for unformalized associations and
+     then formalize them after the model is layed out.
+* Will `masl2xtuml` be able to process such a large model?
+* 'parsable element'
+  ** I decided I kinda like 'position' as identifier and was trying to
+     understand why.  I think this might be kind-of-a link between the
+     textual/syntactic world and the information world.  Instead of position,
+     consider a special id type (not unique_id but user defined).  'position'
+     should be a type, not an attribute.  The attribute can be 'id' or type
+     'position'.
+  ** Every element that has a parsable position is a subtype of 'parsable
+     element' and is shown as a subtype in a separate package.  This is akin to
+     packageable_element and also to markable and unmarkable elements in our
+     masl model.
+  ** Completely artificial identifiers bug me (for some reason).
+  ** I hope that I do not like this idea because of "cleverness".
+
+=== 6.2 Questions
+
+* What is a 'Skeleton'?  (e.g. `getFindSkeletonInner`)
+* Do I need forward declaration in the metamodel?
+  ** __I think 'no'.  This is part of what distinguishes an abstract model
+     from syntax.__
+* To what extent shall the MM carry "syntactic baggage"?
+  ** __I kinda like having 'position' as an identifier.  It should be the
+     identifier of a supertype linked from a separate package called
+     'parsable element'.__
+* Should we use typeReference or link directly to Type (e.g. for an object attribute)?
+  ** __I think 'yes'.__
+* How is 'position' used as an identifier?
+* How do we divine identifiers, referentials and associations from the
+  java model?
+  ** __It appears that most attributes with types of other objects are
+     referential/associations.__
+* Does `xtuml2masl` support subsystem packages?
+* How are we going to import and then edit?
+  ** Should we import the entire model and then break it into subsystems?
+  ** Should we import subsystems and then link them with spanning relationships?
+
+=== 6.3 Steps To Be Taken
+
+. background and research
+  .. Find masl_types.xtuml.
+  .. Generate MASL from mtypes.xtuml for comparison.
+  .. Experiment:
+     ... Build a MASL model with 2 classes, 1 association, not formalized.
+     ... See what it imports like.
+     ... Imports just fine.  Reconcile graphics links the associations even
+         when not formalized.
+  .. Perform these steps on the 'types' subsystem and note how it goes.
+. types
+  .. ??? preexisting type instances ???
+  .. Define an overloadable unique ID type.  Consider using the strategy that
+     Ciera uses.  Consider Position.  Note that row/column is not sufficient
+     because nested expressions can be anchored at the same row/column.
+     Ciera uses evaluation order incrementing.  Another thought is a
+     3 dimensional row/column/layer or some such.  Another thought is to
+     do something like `anltr` does.  In any case, it will likely be inherited.
+. subsystems
+  .. Establish subsystems.
+     ... code, common, domain, error, exception, expression,
+         name, object, project, relationship, statemodel and type.
+     ... Consider having "spanning classes" as place holders for imported
+         classes.
+     ... Consider building associations completely in the editor.
+         .... The classes could be imported, layed out, printed.  The
+              prinouts could be used to draw associations.  Formalization
+              could be a last step with the sequence and ordering marked
+              or colored on the class diagrams.
+  .. classes
+    ... Start with class list from imports in `Walker.g`.
+    ... Refine class list with production rules from `MaslP.g`.
+  .. attributes
+     ... attribute names
+         .... Extract and align with .java classes in metamodelImpl folder for all attributes and types.
+         .... Swap the order of the name and type.
+         .... Align with .java classes in metamodel folder for non-referential attributes.
+     ... attribute types
+         .... Supply types with .java classes in metamodelImpl folder for all attributes and types.
+     ... identifiers
+         .... Add to identifiers when detected as a referential.
+     ... referentials
+  .. associations
+     ... Establish subsystem number scheme.
+         .... code, common, domain, error, exception, expression,
+              name, object, project, relationship, statemodel and type.
+         .... Assign numbers in sequence and then renumber them after the model
+              is complete.
+     ... Find addXXX methods and assign associations for these.
+         .... The participant provides the addXXX method.
+     ... Find 'super' invocations to link subtypes to supertypes.
+  .. layout
+     ... Group classes into subsystems:  code, common, domain, error, exception,
+         expression, name, object, project, relationship, statemodel and type.
+. testing
+  .. Perform masl_round_trip on the MASL `.mod` file.
+
 == 7 User Documentation
 
-Describe the end user documentation that was added for this change.
-
 == 8 Unit Test
-
-Outline all the unit tests that need to pass and describe the method that you
-will use to design and perform the tests.
-
 
 == 9 Document References
 
