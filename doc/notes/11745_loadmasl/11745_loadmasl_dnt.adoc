@@ -15,6 +15,11 @@ MASL activity.  This note documents design steps to achieve this parsing.
 
 == 4 Analysis
 
+=== 4.1 Notes
+
+* Some attribute names (and perhaps other names) used in the Java model
+  will need to be changed due to being MASL reserved words.
+
 == 5 Design
 
 . Review the MASL Reference Manual
@@ -55,15 +60,15 @@ MASL activity.  This note documents design steps to achieve this parsing.
 * Referentials are not really present in the java object model.  Therefore,
   identifier propagation will need to occur "from the top down".
   ** I wonder if we will want to use BridgePoint to formalize the associations?
-  ** Maybe we relax `masl2xtuml` to allow for unformalized associations and
-     then formalize them after the model is layed out.
+  ** Maybe import the model with unformalized associations and then formalize
+     them after the model is layed out.
 * Will `masl2xtuml` be able to process such a large model?
 * 'parsable element'
   ** I decided I kinda like 'position' as identifier and was trying to
      understand why.  I think this might be kind-of-a link between the
      textual/syntactic world and the information world.  Instead of position,
      consider a special id type (not unique_id but user defined).  'position'
-     should be a type, not an attribute.  The attribute can be 'id' or type
+     should be a type, not an attribute.  The attribute can be 'id' of type
      'position'.
   ** Every element that has a parsable position is a subtype of 'parsable
      element' and is shown as a subtype in a separate package.  This is akin to
@@ -83,12 +88,15 @@ MASL activity.  This note documents design steps to achieve this parsing.
      identifier of a supertype linked from a separate package called
      'parsable element'.__
 * Should we use typeReference or link directly to Type (e.g. for an object attribute)?
-  ** __I think 'yes'.__
-* How is 'position' used as an identifier?
+  ** __I think 'yes, we use typeReference.'__
+* How (technical mechanics) is 'position' used as an identifier?
 * How do we divine identifiers, referentials and associations from the
   java model?
   ** __It appears that most attributes with types of other objects are
      referential/associations.__
+* How do we divine multiplicity and conditionality from the java model?
+  ** __Multiplicity can (partly) come from finding list objects on the
+     participant side.__
 * Does `xtuml2masl` support subsystem packages?
 * How are we going to import and then edit?
   ** Should we import the entire model and then break it into subsystems?
@@ -105,52 +113,86 @@ MASL activity.  This note documents design steps to achieve this parsing.
      ... Imports just fine.  Reconcile graphics links the associations even
          when not formalized.
   .. Perform these steps on the 'types' subsystem and note how it goes.
-. types
-  .. ??? preexisting type instances ???
-  .. Define an overloadable unique ID type.  Consider using the strategy that
-     Ciera uses.  Consider Position.  Note that row/column is not sufficient
-     because nested expressions can be anchored at the same row/column.
-     Ciera uses evaluation order incrementing.  Another thought is a
-     3 dimensional row/column/layer or some such.  Another thought is to
-     do something like `anltr` does.  In any case, it will likely be inherited.
+  .. sed/grep/awk (or use a Python script) to extract class names and
+     initial attribute names/types.
 . subsystems
   .. Establish subsystems.
      ... code, common, domain, error, exception, expression,
          name, object, project, relationship, statemodel and type.
-     ... Consider having "spanning classes" as place holders for imported
-         classes.
-     ... Consider building associations completely in the editor.
+     ... Establish subsystem number scheme to be used for class numbers
+         (after import) and relationship numbers.
+     ... Create a `.mod` file for each subsystem.
+     ... Convert classes in each subsystem per steps starting at 'classes'
+         below.
+     ... Consider building some associations completely in the editor.
          .... The classes could be imported, layed out, printed.  The
               prinouts could be used to draw associations.  Formalization
               could be a last step with the sequence and ordering marked
               or colored on the class diagrams.
+  .. types
+     ... Define an overloadable unique ID type.  Consider using the strategy that
+        Ciera uses.  Consider Position.  Note that row/column is not sufficient
+        because nested expressions can be anchored at the same row/column.
+        Ciera uses evaluation order incrementing.  Another thought is a
+        3 dimensional row/column/layer or some such.  Another thought is to
+        do something like `anltr` does.  In any case, it will likely be inherited.
+     ... Define instance types for the java reference attributes of the form:
+        `private type iObject is instance of Object;`.  These will be deleted
+        as they are replaced with referentials during formalization.
+     ... ??? preexisting type instances ???
   .. classes
-    ... Start with class list from imports in `Walker.g`.
-    ... Refine class list with production rules from `MaslP.g`.
+     ... Add classes to each subsystem starting with the class list from
+         imports in `Walker.g`.
+     ... Refine class list with production rules from `MaslP.g`.
+     ... Add referenced spanning classes from other systems with a prefix
+         'Imported_<class>'.
   .. attributes
      ... attribute names
-         .... Extract and align with .java classes in metamodelImpl folder for all attributes and types.
+         .... Extract and align with .java classes in metamodelImpl folder
+              for all attributes and types.
          .... Swap the order of the name and type.
-         .... Align with .java classes in metamodel folder for non-referential attributes.
+         .... Align with .java classes in metamodel folder for non-referential
+              attributes.
+         .... Change attribute names for any reserved words.  Provide a
+              comment on the attribute giving the original name.
+              [TODO - What is the scheme for changing these names?]
      ... attribute types
-         .... Supply types with .java classes in metamodelImpl folder for all attributes and types.
+         .... Supply types with names from the .java classes in metamodelImpl
+              folder for all attributes and types.
      ... identifiers
-         .... Add to identifiers when detected as a referential.
+         .... Establish preferred and secondary identifiers when noted as a
+              reference in a related formalizing class.
      ... referentials
+         .... Referentials will be established during association
+              formalization after layout.
   .. associations
-     ... Establish subsystem number scheme.
-         .... code, common, domain, error, exception, expression,
-              name, object, project, relationship, statemodel and type.
-         .... Assign numbers in sequence and then renumber them after the model
-              is complete.
+     ... Divine associations by finding java reference members.
+     ... Assign numbers in sequence and then renumber them after the model
+         is complete.
      ... Find addXXX methods and assign associations for these.
          .... The participant provides the addXXX method.
      ... Find 'super' invocations to link subtypes to supertypes.
-  .. layout
-     ... Group classes into subsystems:  code, common, domain, error, exception,
-         expression, name, object, project, relationship, statemodel and type.
+     ... After importing the model, formalize associations.
+     ... Delete reference attributes that have been replaced by referential
+         attributes.
+     ... Take care when 
+. layout
+  .. Tease each subsystem apart and lay out logically.
+  .. Combine subsystem packages into single model.
+  .. Replace each 'Imported_' class with an Imported class linked from
+     the spanned subsystem.
 . testing
-  .. Perform masl_round_trip on the MASL `.mod` file.
+  .. Perform masl_round_trip on the MASL `.mod` files at various steps.
+     ... For each subsystem, test when classes are established but before
+         associations have been added.
+     ... For each subsystem, test when associations have been added.
+     ... Test combined packages.
+     ... Write a small model compiler to generate the metamodel .java
+         classes.
+
+=== 6.4 Extra Steps
+
+. Get `xtuml2masl` working with package references.
 
 == 7 User Documentation
 
