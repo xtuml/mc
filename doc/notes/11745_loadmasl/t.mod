@@ -29,6 +29,7 @@ domain t is
   object Imported_Expression;
   object Imported_ObjectDeclaration;
   object Imported_PragmaList;
+  object Imported_RangeExpression;
   object Imported_Visibility;
 
   private type Position is integer;
@@ -37,6 +38,7 @@ domain t is
   private type iExpression is instance of Imported_Expression;
   private type iObjectDeclaration is instance of Imported_ObjectDeclaration;
   private type iPragmaList is instance of Imported_PragmaList;
+  private type iRangeExpression is instance of Imported_RangeExpression;
   private type iVisibility is instance of Imported_Visibility;
 
   private type iAnonymousStructure is instance of AnonymousStructure;
@@ -72,6 +74,8 @@ domain t is
   object Imported_ObjectDeclaration is
   end object;
   object Imported_PragmaList is
+  end object;
+  object Imported_RangeExpression is
   end object;
   object Imported_Visibility is
   end object;
