@@ -610,7 +610,10 @@ INSERT INTO S_SYNC
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 c_c = param.c_c;
-select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+select many pkg_o_objs related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001];
+select many pkgref_o_objs related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->O_OBJ[R8001];
+o_objs = pkg_o_objs + pkgref_o_objs;
 for each o_obj in o_objs
   value[0] = o_obj.Name;
   out::populate( element:"object", value:value );
@@ -890,7 +893,10 @@ c_c = param.c_c;
 //   string)
 
 // Data types in packages inside the component are considered private.
-select many s_dts related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+select many pkg_s_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001];
+select many pkgref_s_dts related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->S_DT[R8001];
+s_dts = pkg_s_dts + pkgref_s_dts;
 for each s_dt in s_dts
   select one s_irdt related by s_dt->S_IRDT[R17];
   // Do not output type definitions for instance reference data types.
@@ -1061,7 +1067,10 @@ INSERT INTO S_SYNC
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 c_c = param.c_c;
-select many r_rels related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->R_REL[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+select many pkg_r_rels related by ep_pkgs->PE_PE[R8000]->R_REL[R8001];
+select many pkgref_r_rels related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->R_REL[R8001];
+r_rels = pkg_r_rels + pkgref_r_rels;
 for each r_rel in r_rels
   value[0] = ""; value[1] = ""; value[2] = ""; value[3] = "";
   value[4] = ""; value[5] = ""; value[6] = ""; value[7] = "";
@@ -1297,7 +1306,10 @@ c_c = param.c_c;
 value[0] = c_c.Name;
 value[1] = "";
 select many c_eps related by c_c->C_PO[R4010]->C_IR[R4016]->C_P[R4009]->C_IR[R4009]->C_I[R4012]->C_EP[R4003];
-select many s_syncs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_SYNC[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+select many pkg_s_syncs related by ep_pkgs->PE_PE[R8000]->S_SYNC[R8001];
+select many pkgref_s_syncs related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->S_SYNC[R8001];
+s_syncs = pkg_s_syncs + pkgref_s_syncs;
 for each s_sync in s_syncs
 
   value[2] = "private";
@@ -2281,7 +2293,10 @@ INSERT INTO S_SYNC
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 c_c = param.c_c;
-select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+select many pkg_o_objs related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001];
+select many pkgref_o_objs related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->O_OBJ[R8001];
+o_objs = pkg_o_objs + pkgref_o_objs;
 for each o_obj in o_objs
   value[0] = o_obj.Name;
   out::populate( element:"object", value:value );
