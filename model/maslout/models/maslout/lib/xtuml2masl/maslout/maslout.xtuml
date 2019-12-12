@@ -3045,8 +3045,8 @@ if ( not_empty s_dt )
     // if the type is already qualified with a domain name, or if it is a UDT based on MASLtype (type reference type), no need to qualify it again
     if ( -1 == STRING::indexof( haystack:s_dt.Name, needle:"::" ) and not ( not_empty core_dt and "MASLtype" == core_dt.Name ) )
       // If type is inside a component, it is local.
-      select one ep_ep related by s_dt->PE_PE[R8001];
-      parent_c_c = ::PE_PE_get_parent_component();
+      select one pe_pe related by s_dt->PE_PE[R8001];
+      parent_c_c = ::PE_PE_get_parent_component( pe_pe:pe_pe );
       if ( empty parent_c_c ) // not in a component, so keep looking
         // check if this type is defined in the same domain
         // Do this by traversing up from the type to see if ever we hit the domain package (containing the domain component).
