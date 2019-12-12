@@ -1632,7 +1632,11 @@ select any containing_c_c from instances of C_C where false;
 while ( empty containing_c_c and not_empty pe )
   select one containing_c_c related by pe->C_C[R8003];
   if ( empty containing_c_c )
-    select one pe related by pe->EP_PKG[R8000]->PE_PE[R8001];
+    select one pe_pe related by pe->EP_PKG[R8000]->PE_PE[R8001];
+    if ( empty pe_pe )
+      select any pe_pe related by pe->EP_PKG[R8001]->EP_PKGREF[R1402.''is referenced by'']->EP_PKG[R1402.''is referenced by'']->PE_PE[R8001];
+    end if;
+    pe = pe_pe;
     // If pe is empty, we break out to avoid an infinite loop.
     // This is when the top level system is reached without
     // finding a containing component.
@@ -1733,7 +1737,11 @@ select any containing_c_c from instances of C_C where false;
 while ( empty containing_c_c and not_empty pe )
   select one containing_c_c related by pe->C_C[R8003];
   if ( empty containing_c_c )
-    select one pe related by pe->EP_PKG[R8000]->PE_PE[R8001];
+    select one pe_pe related by pe->EP_PKG[R8000]->PE_PE[R8001];
+    if ( empty pe_pe )
+      select any pe_pe related by pe->EP_PKG[R8001]->EP_PKGREF[R1402.''is referenced by'']->EP_PKG[R1402.''is referenced by'']->PE_PE[R8001];
+    end if;
+    pe = pe_pe;
     // If pe is empty, we break out to avoid an infinite loop.
     // This is when the top level system is reached without
     // finding a containing component.
@@ -2835,7 +2843,10 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 c_c = param.c_c;
 
 // Exceptions in packages inside the component are considered private.
-select many s_exps related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_EXP[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+select many pkg_s_exps related by ep_pkgs->PE_PE[R8000]->S_EXP[R8001];
+select many pkgref_s_exps related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->S_EXP[R8001];
+s_exps = pkg_s_exps + pkgref_s_exps;
 for each s_exp in s_exps
   value[0] = s_exp.Name;
   value[1] = "private";
@@ -3034,12 +3045,8 @@ if ( not_empty s_dt )
     // if the type is already qualified with a domain name, or if it is a UDT based on MASLtype (type reference type), no need to qualify it again
     if ( -1 == STRING::indexof( haystack:s_dt.Name, needle:"::" ) and not ( not_empty core_dt and "MASLtype" == core_dt.Name ) )
       // If type is inside a component, it is local.
-      select one parent_ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
-      select one parent_c_c related by parent_ep_pkg->PE_PE[R8001]->C_C[R8003];
-      while ( not_empty parent_ep_pkg and empty parent_c_c )
-        select one parent_ep_pkg related by parent_ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
-        select one parent_c_c related by parent_ep_pkg->PE_PE[R8001]->C_C[R8003];
-      end while;
+      select one ep_ep related by s_dt->PE_PE[R8001];
+      parent_c_c = ::PE_PE_get_parent_component();
       if ( empty parent_c_c ) // not in a component, so keep looking
         // check if this type is defined in the same domain
         // Do this by traversing up from the type to see if ever we hit the domain package (containing the domain component).
