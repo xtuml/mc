@@ -21,7 +21,7 @@ MASL activity.  This note documents design steps to achieve this parsing.
   will need to be changed due to being MASL reserved words.
 * In a supertype/subtype hierarchy, it is difficult to tell from the java
   model where a relationship should be formalized.
-  ** I think java will tend to link at the lowest level.
+  ** Java will link at the lowest level.
 * Explore an overloadable unique ID type.  Consider using the strategy that
   Ciera uses.  Consider Position.  Note that row/column is not sufficient
   because nested expressions can be anchored at the same row/column.
@@ -37,9 +37,10 @@ MASL activity.  This note documents design steps to achieve this parsing.
 
 === 4.2 Questions
 
-* (T) What is a 'Skeleton'?  (e.g. `getFindSkeletonInner`)
+* What is a 'Skeleton'?  (e.g. `getFindSkeletonInner`)
+  ** __It is akin to a lambda function to pass search criteria.__
 * Do we need forward declaration in the metamodel?
-  ** __I think 'no'.  This is part of what distinguishes an abstract model
+  ** __'No'.  This is part of what distinguishes an abstract model
      from syntax.__
 * To what extent shall the MM carry "syntactic baggage"?
   ** __Having 'position' as an identifier seems positive.  It should be
@@ -47,18 +48,23 @@ MASL activity.  This note documents design steps to achieve this parsing.
      'parsable element'.__
 * Should we use TypeReference or link directly to Type (e.g. for an object
   attribute)?
-  ** __I think 'yes, we use TypeReference.'__
-* (T) How (technical mechanics) is 'position' used as an identifier?
-* (T) Can we divine identifiers, referentials and associations from the
+  ** __'Yes, we use TypeReference.'__
+* How (technical mechanics) is 'position' used as an identifier?
+  ** __It is row, column and a string used for error message.__
+* Can we divine identifiers, referentials and associations from the
   java model?
-  ** __It appears that most attributes with reference types to other objects
-     are referential/associations.__
-* (T) How do we divine multiplicity and conditionality from the java model?
+  ** __It appears that most attributes with reference types to other
+     objects are referentials/associations.  Identifiers mostly do not
+     exist in the java model.__
+* How do we divine multiplicity and conditionality from the java model?
   ** __Multiplicity can (partly) come from finding list objects on the
-     participant side.__
+     participant side.  Conditionality is more difficult, since null is
+     a valid value.__
 * Does `xtuml2masl` support subsystem packages?
   ** __Yes.__
-* (T) Why are AnonymousStructure and CollectionType not in Walker.g?
+* Why are AnonymousStructure and CollectionType not in Walker.g?
+  ** __AnonymousStructure is not resolved in the parser.  CollectionType
+     is implemented in the subtypes.__
 
 === 4.3 More Notes
 
@@ -145,9 +151,7 @@ MASL activity.  This note documents design steps to achieve this parsing.
          as they are replaced with referentials during formalization.
      ... ??? preexisting type instances ???
   .. classes
-     ... Add classes to each subsystem starting with the class list from
-         imports in `Walker.g`.
-     ... Add additional classes from the metamodel folder.
+     ... Start with classes from the metamodelImpl folder.
      ... Potentially refine class list with production rules from `MaslP.g`.
      ... Add referenced spanning classes from other subsystems with a prefix
          'Imported_<class>'.
