@@ -6,10 +6,26 @@ if ( not os.path.isdir( ofilepath ) ):
 root = '/Users/cort/git/masl/core-java/src/main/java/org/xtuml/masl/metamodelImpl'
 dirs = [ d for d in os.listdir( root ) if not os.path.isfile( os.path.join( root, d ) ) ]
 
-# Build list of objects.
+# list of objects
 objectlist = []
-# subsystems
+# lists of subsystems
 subsystem = [list() for _ in xrange(20)]
+# reserved words
+reserved_words = [ 'anonymous', 'delta', 'dictionary', 'digits', 'domain', 'exception', 'generate', 'instance', 'object', 'range', 'readonly', 'reverse', 'service', 'terminator', 'type' ]
+# list of subtype supertype tuples
+subsup = []
+
+# Return a list of subtypes for the input object.
+def getsubtypes( supertype ):
+  line = ""
+  delim = ""
+  for sub, sup in subsup:
+    if ( sup == supertype ):
+      line = line + delim + " " + sub
+      delim = ","
+  if line:
+    line = supertype + ' is_a (' + line + ' );'
+  return line
 
 # Initialize objectlist and subsystem lists.
 subsystemindex = 0
@@ -22,7 +38,34 @@ for d in sorted( dirs ):
     subsystem[ subsystemindex ].append( objectname )
   subsystemindex = subsystemindex + 1
 
-relnum = 1
+# Initialize subtype map.
+for d in sorted( dirs ):
+  dpath = os.path.join( root, d )
+  files = [ f for f in os.listdir( dpath ) if os.path.isfile( os.path.join( dpath, f ) ) ]
+  for fname in sorted( files ):
+    objectname = os.path.splitext( fname )[0]
+    extension = ""
+    pattern = ' class ' + objectname + ' extends '
+    program = '/{print $(NF - 2), " ", $(NF);}' + "' "
+    cmd = "awk '/" + pattern + program + dpath + '/' + fname
+    try:
+      extension = subprocess.check_output(cmd, shell=True)
+    except Exception, e:
+      extension = str( e.output )
+    extension = extension.rstrip()
+    extension = re.sub( ' +', ' ', extension )
+    if extension.strip():
+      subsuper = extension.split(" ")
+      subtype = subsuper[0]
+      supertype = subsuper[1]
+      subsup.append( subsuper )
+
+print getsubtypes( 'Statement' )
+print getsubtypes( 'XYZ' )
+print getsubtypes( 'CollectionType' )
+
+# Produce .mod files for each subsytem.
+relnum = 100
 subsystemindex = 0
 for d in sorted( dirs ):
   dpath = os.path.join( root, d )
@@ -51,6 +94,9 @@ for d in sorted( dirs ):
     attrs = attrs.replace( "final", "" )
     attrs = attrs.replace( "static", "" )
     attrs = attrs.replace( "throws SemanticError", "" )
+    attrs = attrs.replace( "org.xtuml.masl.metamodel.common.Visibility", "Visibility" )
+    attrs = re.sub( r'\.Mode', '', attrs )
+    attrs = re.sub( r'\.Reference', '', attrs )
     attrs = re.sub( r'.*\(', '', attrs )
     attrs = attrs.replace( ")", "" )
     attrs = attrs.replace( ", ", "\n " )
@@ -62,35 +108,51 @@ for d in sorted( dirs ):
     # Remove duplicates.
     alines = set(alines)
     attrs = ""
+    anames = set()
+    aduplicates = 0
     for line in alines:
       attrcomment = ""
+      side1multiplicity = "one"
       words = line.split(" ")
       emptyness = words[0]
       atype = words[1]
       aname = words[2]
+      if ( 'List<' in atype ):
+        # List turns into a simple referential, probably 'first_'.
+        atype = atype.replace( 'List<', '' )
+        atype = atype.replace( '>', '' )
+        aname = 'List_' + aname
+        side1multiplicity = "many"
       if ( atype in objectlist ):
         if ( atype not in subsystem[ subsystemindex ] ):
           importedobjects.add( atype )
-        if ( atype != 'Position' ):
-          attrcomment = "    //!" + objectname + " is related to " + atype + "\n"
-          relspec = "relationship R" + str(relnum) + " is " + objectname + " unconditionally XX one " + atype + ", " + atype + " unconditionally YY one " + objectname + ";\n"
+        if ( atype in [ 'Position', 'PragmaList', 'Visibility' ] ):
+          # Position is parser domain.
+          # PragmaList will get linked from another subsystem.
+          # Visibility will be an enumerated type.
+          nop = 'nop'
+        else:
+          # Build relationship specification and comment for referential attribute.
+          relspec = "relationship R" + str(relnum) + " is " + objectname + " unconditionally XX " + side1multiplicity + " " + atype + ", " + atype + " unconditionally YY one " + objectname + ";\n"
           relspecs = relspecs + "  " + relspec
           attrcomment = "    //!" + relspec
           relnum = relnum + 1
         atype = "i" + atype
-      if ( aname == 'anonymous' ):
-        attrcomment = "    //!" + aname + "\n"
-        aname = "is_" + aname
-      elif ( aname == 'type' ):
-        attrcomment = "    //!" + aname + "\n"
-        aname = "R_" + aname
+      if ( aname in reserved_words ):
+        attrcomment = attrcomment + "    //!" + aname + "\n"
+        aname = "my_" + aname
       attrs = attrs + attrcomment
+      # Deal with duplicate attribute names.
+      if aname in anames:
+        aduplicates = aduplicates + 1
+        aname = aname + str( aduplicates )
+      anames.add( aname )
       attrs = attrs + "    " + aname + " : " + atype + ";\n"
     objectdefinition = objectdefinition + '  object ' + objectname + ' is\n' + attrs + '  end object;\n'
 
   for iobj in importedobjects:
-    objectdeclaration = objectdeclaration + '  object Imported_' + iobj + ';\n'
-    importedobjectlist = importedobjectlist + '  object Imported_' + iobj + ' is\n  end object;\n'
+    objectdeclaration = objectdeclaration + '  object ' + iobj + ';\n'
+    importedobjectlist = importedobjectlist + '\n  //!imported\n  object ' + iobj + ' is\n    IMPORTED: integer;\n  end object;\n'
 
   # Write the subsystem file as a domain.
   dfilepath = os.path.join( ofilepath, d + "s" )
@@ -105,7 +167,6 @@ for d in sorted( dirs ):
     modfile.write( typelist )
     modfile.write( relspecs )
     modfile.write( objectdefinition )
-    modfile.write( '  //! imported objects\n' )
     modfile.write( importedobjectlist )
     modfile.write( 'end domain;\n' )
   subsystemindex = subsystemindex + 1

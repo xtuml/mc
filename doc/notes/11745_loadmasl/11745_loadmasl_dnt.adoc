@@ -65,6 +65,7 @@ MASL activity.  This note documents design steps to achieve this parsing.
 * Why are AnonymousStructure and CollectionType not in Walker.g?
   ** __AnonymousStructure is not resolved in the parser.  CollectionType
      is implemented in the subtypes.__
+* (T) What is class 'Domains'?
 
 === 4.3 More Notes
 
