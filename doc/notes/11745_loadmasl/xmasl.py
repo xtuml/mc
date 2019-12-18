@@ -7,9 +7,9 @@ root = '/Users/cort/git/masl/core-java/src/main/java/org/xtuml/masl/metamodelImp
 dirs = [ d for d in os.listdir( root ) if not os.path.isfile( os.path.join( root, d ) ) ]
 
 # list of objects
-objectlist = []
+objectlist = set()
 # lists of subsystems
-subsystem = [list() for _ in xrange(20)]
+subsystem = [set() for _ in xrange(20)]
 # reserved words
 reserved_words = [ 'anonymous', 'delta', 'dictionary', 'digits', 'domain', 'exception', 'generate', 'instance', 'object', 'range', 'readonly', 'reverse', 'service', 'terminator', 'type' ]
 # list of subtype supertype tuples
@@ -23,8 +23,6 @@ def getsubtypes( supertype ):
     if ( sup == supertype ):
       line = line + delim + " " + sub
       delim = ","
-  if line:
-    line = supertype + ' is_a (' + line + ' );'
   return line
 
 # Initialize objectlist and subsystem lists.
@@ -34,8 +32,8 @@ for d in sorted( dirs ):
   files = [ f for f in os.listdir( dpath ) if os.path.isfile( os.path.join( dpath, f ) ) ]
   for fname in sorted( files ):
     objectname = os.path.splitext( fname )[0]
-    objectlist.append( objectname )
-    subsystem[ subsystemindex ].append( objectname )
+    objectlist.add( objectname )
+    subsystem[ subsystemindex ].add( objectname )
   subsystemindex = subsystemindex + 1
 
 # Initialize subtype map.
@@ -53,16 +51,13 @@ for d in sorted( dirs ):
     except Exception, e:
       extension = str( e.output )
     extension = extension.rstrip()
+    extension = re.sub( '<.*>', '', extension )
     extension = re.sub( ' +', ' ', extension )
     if extension.strip():
       subsuper = extension.split(" ")
       subtype = subsuper[0]
       supertype = subsuper[1]
       subsup.append( subsuper )
-
-print getsubtypes( 'Statement' )
-print getsubtypes( 'XYZ' )
-print getsubtypes( 'CollectionType' )
 
 # Produce .mod files for each subsytem.
 relnum = 100
@@ -87,6 +82,22 @@ for d in sorted( dirs ):
       attrs = subprocess.check_output(cmd, shell=True)
     except Exception, e:
       attrs = str( e.output )
+    # Find subtypes if they exist.
+    if ( objectname not in [ 'CheckedLookup', 'NameLookup', 'Position', 'Positioned', 'PragmaList', 'Visibility' ] ):
+      found = False
+      slist = getsubtypes( objectname )
+      ss = slist.split(",")
+      for s in ss:
+        s = re.sub( ' +', '', s )
+        if s:
+          if ( ',' not in s ):
+            found = True
+            if ( s not in subsystem[ subsystemindex ] ):
+              importedobjects.add( s )
+      if ss and found:
+        relspec = 'relationship R' + str( relnum ) + ' is ' + objectname + ' is_a (' + slist + ' );\n'
+        relspecs = relspecs + '  ' + relspec
+        relnum = relnum + 1
     attrs = attrs.rstrip()
     attrs = attrs.replace( "private", "" )
     attrs = attrs.replace( "protected", "" )
@@ -126,8 +137,8 @@ for d in sorted( dirs ):
       if ( atype in objectlist ):
         if ( atype not in subsystem[ subsystemindex ] ):
           importedobjects.add( atype )
-        if ( atype in [ 'Position', 'PragmaList', 'Visibility' ] ):
-          # Position is parser domain.
+        if ( atype in [ 'CheckedLookup', 'NameLookup', 'Position', 'Positioned', 'PragmaList', 'Visibility' ] ):
+          # CheckedLookup, NameLookup, Position and Positioned are parser domain.
           # PragmaList will get linked from another subsystem.
           # Visibility will be an enumerated type.
           nop = 'nop'
@@ -155,14 +166,15 @@ for d in sorted( dirs ):
     importedobjectlist = importedobjectlist + '\n  //!imported\n  object ' + iobj + ' is\n    IMPORTED: integer;\n  end object;\n'
 
   # Write the subsystem file as a domain.
-  dfilepath = os.path.join( ofilepath, d + "s" )
+  subsystemname = 'masl_' + d
+  dfilepath = os.path.join( ofilepath, subsystemname )
   if ( not os.path.isdir( dfilepath ) ):
     os.mkdir( dfilepath )
-  dfilename = os.path.join( dfilepath, d + "s" )
+  dfilename = os.path.join( dfilepath, subsystemname )
   with open( dfilename + '.int', 'w' ) as intfile:
-    intfile.write( 'domain ' + d + 's is\nend domain;\n' )
+    intfile.write( 'domain ' + subsystemname + ' is\nend domain;\n' )
   with open( dfilename + '.mod', 'w' ) as modfile:
-    modfile.write( 'domain ' + d + 's is\n' )
+    modfile.write( 'domain ' + subsystemname + ' is\n' )
     modfile.write( objectdeclaration )
     modfile.write( typelist )
     modfile.write( relspecs )
