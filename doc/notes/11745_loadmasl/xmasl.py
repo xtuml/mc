@@ -1,4 +1,4 @@
-import sys, os, subprocess, re
+import os, re, subprocess, sys
 
 ofilepath = sys.argv[1]
 if ( not os.path.isdir( ofilepath ) ):
@@ -7,13 +7,21 @@ root = '/Users/cort/git/masl/core-java/src/main/java/org/xtuml/masl/metamodelImp
 dirs = [ d for d in os.listdir( root ) if not os.path.isfile( os.path.join( root, d ) ) ]
 
 # list of objects
-objectlist = set()
+domainobjects = set()
 # lists of subsystems
 subsystem = [set() for _ in xrange(20)]
-# reserved words
-reserved_words = [ 'anonymous', 'delta', 'dictionary', 'digits', 'domain', 'exception', 'generate', 'instance', 'object', 'range', 'readonly', 'reverse', 'service', 'terminator', 'type' ]
 # list of subtype supertype tuples
 subsup = []
+# Object and relationship numbers are suboffset + subsystem * subbase + counter
+suboffset = 1000
+subbase = 100
+reserved_words = [ 'anonymous', 'delta', 'dictionary', 'digits', 'domain', 'event', 'exception', 'generate', 'instance', 'object', 'preferred', 'project', 'range', 'readonly', 'relationship', 'reverse', 'service', 'state', 'terminator', 'type' ]
+# excluded classes
+#   CheckedLookup, NameLookup, Position and Positioned are parser domain.
+#   PragmaList will get linked from another subsystem.
+#   Visibility will be an enumerated type.
+excluded_classes = [ 'CheckedLookup', 'Name', 'Named', 'NameLookup', 'Position', 'Positioned', 'Pragma', 'PragmaList', 'Visibility' ]
+excluded_directories = [ 'error', 'name' ]
 
 # Return a list of subtypes for the input object.
 def getsubtypes( supertype ):
@@ -25,23 +33,31 @@ def getsubtypes( supertype ):
       delim = ","
   return line
 
-# Initialize objectlist and subsystem lists.
+# Initialize domainobjects and subsystem lists.
 subsystemindex = 0
 for d in sorted( dirs ):
+  if ( d in excluded_directories ):
+    continue
   dpath = os.path.join( root, d )
   files = [ f for f in os.listdir( dpath ) if os.path.isfile( os.path.join( dpath, f ) ) ]
   for fname in sorted( files ):
     objectname = os.path.splitext( fname )[0]
-    objectlist.add( objectname )
+    if ( objectname in excluded_classes ):
+      continue
+    domainobjects.add( objectname )
     subsystem[ subsystemindex ].add( objectname )
   subsystemindex = subsystemindex + 1
 
 # Initialize subtype map.
 for d in sorted( dirs ):
+  if ( d in excluded_directories ):
+    continue
   dpath = os.path.join( root, d )
   files = [ f for f in os.listdir( dpath ) if os.path.isfile( os.path.join( dpath, f ) ) ]
   for fname in sorted( files ):
     objectname = os.path.splitext( fname )[0]
+    if ( objectname in excluded_classes ):
+      continue
     extension = ""
     pattern = ' class ' + objectname + ' extends '
     program = '/{print $(NF - 2), " ", $(NF);}' + "' "
@@ -57,12 +73,16 @@ for d in sorted( dirs ):
       subsuper = extension.split(" ")
       subtype = subsuper[0]
       supertype = subsuper[1]
-      subsup.append( subsuper )
+      if ( subtype not in excluded_classes ):
+        subsup.append( subsuper )
 
 # Produce .mod files for each subsytem.
-relnum = 100
 subsystemindex = 0
 for d in sorted( dirs ):
+  if ( d in excluded_directories ):
+    continue
+  objnum = suboffset + ( subbase * subsystemindex )
+  relnum = suboffset + ( subbase * subsystemindex )
   dpath = os.path.join( root, d )
   objectdeclaration = ""
   typelist = ""
@@ -73,6 +93,8 @@ for d in sorted( dirs ):
   files = [ f for f in os.listdir( dpath ) if os.path.isfile( os.path.join( dpath, f ) ) ]
   for fname in sorted( files ):
     objectname = os.path.splitext( fname )[0]
+    if ( objectname in excluded_classes ):
+      continue
     objectdeclaration = objectdeclaration + '  object ' + objectname + ';\n'
     typelist = typelist + '  private type i' + objectname + ' is instance of ' + objectname + ';\n'
     pattern = ' p.* ' + objectname + ' \\( '
@@ -83,7 +105,7 @@ for d in sorted( dirs ):
     except Exception, e:
       attrs = str( e.output )
     # Find subtypes if they exist.
-    if ( objectname not in [ 'CheckedLookup', 'NameLookup', 'Position', 'Positioned', 'PragmaList', 'Visibility' ] ):
+    if ( objectname not in excluded_classes ):
       found = False
       slist = getsubtypes( objectname )
       ss = slist.split(",")
@@ -99,13 +121,13 @@ for d in sorted( dirs ):
         relspecs = relspecs + '  ' + relspec
         relnum = relnum + 1
     attrs = attrs.rstrip()
-    attrs = attrs.replace( "private", "" )
-    attrs = attrs.replace( "protected", "" )
-    attrs = attrs.replace( "public", "" )
-    attrs = attrs.replace( "final", "" )
-    attrs = attrs.replace( "static", "" )
-    attrs = attrs.replace( "throws SemanticError", "" )
+    for s in [ 'private', 'protected', 'public', 'final', 'static', 'throws SemanticError' ]:
+      attrs = attrs.replace( s, '' )
     attrs = attrs.replace( "org.xtuml.masl.metamodel.common.Visibility", "Visibility" )
+    attrs = attrs.replace( "org.xtuml.masl.metamodel.relationship.MultiplicityType", "MultiplictyType" )
+    attrs = attrs.replace( "org.xtuml.masl.metamodel.statemodel.TransitionType", "TransitionType" )
+    attrs = attrs.replace( "EventDeclaration.Type", "EventDeclaration" )
+    attrs = attrs.replace( "State.Type", "State" )
     attrs = re.sub( r'\.Mode', '', attrs )
     attrs = re.sub( r'\.Reference', '', attrs )
     attrs = re.sub( r'.*\(', '', attrs )
@@ -134,13 +156,11 @@ for d in sorted( dirs ):
         atype = atype.replace( '>', '' )
         aname = 'List_' + aname
         side1multiplicity = "many"
-      if ( atype in objectlist ):
+      atype = re.sub( '<.*>', '', atype )
+      if ( atype in domainobjects ):
         if ( atype not in subsystem[ subsystemindex ] ):
           importedobjects.add( atype )
-        if ( atype in [ 'CheckedLookup', 'NameLookup', 'Position', 'Positioned', 'PragmaList', 'Visibility' ] ):
-          # CheckedLookup, NameLookup, Position and Positioned are parser domain.
-          # PragmaList will get linked from another subsystem.
-          # Visibility will be an enumerated type.
+        if ( atype in excluded_classes ):
           nop = 'nop'
         else:
           # Build relationship specification and comment for referential attribute.
@@ -159,11 +179,13 @@ for d in sorted( dirs ):
         aname = aname + str( aduplicates )
       anames.add( aname )
       attrs = attrs + "    " + aname + " : " + atype + ";\n"
-    objectdefinition = objectdefinition + '  object ' + objectname + ' is\n' + attrs + '  end object;\n'
+    objectdefinition = objectdefinition + '  object ' + objectname + ' is\n' + attrs + '  end object; pragma id(' + str( objnum ) + ');\n'
+    objnum = objnum + 1
 
   for iobj in importedobjects:
     objectdeclaration = objectdeclaration + '  object ' + iobj + ';\n'
-    importedobjectlist = importedobjectlist + '\n  //!imported\n  object ' + iobj + ' is\n    IMPORTED: integer;\n  end object;\n'
+    importedobjectlist = importedobjectlist + '\n  //!imported\n  object ' + iobj + ' is\n    IMPORTED: integer;\n  end object; pragma id(' + str( objnum ) + ');\n'
+    objnum = objnum + 1
 
   # Write the subsystem file as a domain.
   subsystemname = 'masl_' + d
