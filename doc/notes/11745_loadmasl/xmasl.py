@@ -20,18 +20,20 @@ reserved_words = [ 'anonymous', 'delta', 'dictionary', 'digits', 'domain', 'even
 #   CheckedLookup, NameLookup, Position and Positioned are parser domain.
 #   PragmaList will get linked from another subsystem.
 #   Visibility will be an enumerated type.
-excluded_classes = [ 'CheckedLookup', 'Name', 'Named', 'NameLookup', 'Position', 'Positioned', 'Pragma', 'PragmaList', 'Visibility' ]
+excluded_classes = [ 'CheckedLookup', 'LocalVariableCollector', 'Name', 'Named', 'NameLookup', 'Position', 'Positioned', 'Pragma', 'PragmaList', 'Visibility' ]
 excluded_directories = [ 'error', 'name' ]
 
 # Return a list of subtypes for the input object.
 def getsubtypes( supertype ):
-  line = ""
-  delim = ""
+  ss = set()
   for sub, sup in subsup:
     if ( sup == supertype ):
-      line = line + delim + " " + sub
-      delim = ","
-  return line
+      ss.add( sub )
+  return ss
+
+# Return object name as imported object.
+def getimportedname( obj, ss ):
+  return 'IMPORTED_' + obj + '_' + ss
 
 # Initialize domainobjects and subsystem lists.
 subsystemindex = 0
@@ -105,21 +107,20 @@ for d in sorted( dirs ):
     except Exception, e:
       attrs = str( e.output )
     # Find subtypes if they exist.
-    if ( objectname not in excluded_classes ):
-      found = False
-      slist = getsubtypes( objectname )
-      ss = slist.split(",")
-      for s in ss:
-        s = re.sub( ' +', '', s )
-        if s:
-          if ( ',' not in s ):
-            found = True
-            if ( s not in subsystem[ subsystemindex ] ):
-              importedobjects.add( s )
-      if ss and found:
-        relspec = 'relationship R' + str( relnum ) + ' is ' + objectname + ' is_a (' + slist + ' );\n'
-        relspecs = relspecs + '  ' + relspec
-        relnum = relnum + 1
+    slist = ''
+    delim = ''
+    ss = getsubtypes( objectname )
+    for s in sorted( ss ):
+      subtypename = s
+      if ( s not in subsystem[ subsystemindex ] ):
+        importedobjects.add( s )
+        subtypename = getimportedname( s, d )
+      slist = slist + delim + ' ' + subtypename
+      delim = ','
+    if ss:
+      relspec = 'relationship R' + str( relnum ) + ' is ' + objectname + ' is_a (' + slist + ' );\n'
+      relspecs = relspecs + '  ' + relspec
+      relnum = relnum + 1
     attrs = attrs.rstrip()
     for s in [ 'private', 'protected', 'public', 'final', 'static', 'throws SemanticError' ]:
       attrs = attrs.replace( s, '' )
@@ -158,20 +159,22 @@ for d in sorted( dirs ):
         side1multiplicity = "many"
       atype = re.sub( '<.*>', '', atype )
       if ( atype in domainobjects ):
-        if ( atype not in subsystem[ subsystemindex ] ):
-          importedobjects.add( atype )
         if ( atype in excluded_classes ):
           nop = 'nop'
         else:
+          relatedname = atype
+          if ( atype not in subsystem[ subsystemindex ] ):
+            importedobjects.add( atype )
+            relatedname = getimportedname( atype, d )
           # Build relationship specification and comment for referential attribute.
-          relspec = "relationship R" + str(relnum) + " is " + objectname + " unconditionally XX " + side1multiplicity + " " + atype + ", " + atype + " unconditionally YY one " + objectname + ";\n"
-          relspecs = relspecs + "  " + relspec
-          attrcomment = "    //!" + relspec
+          relspec = "relationship R" + str(relnum) + " is " + objectname + " unconditionally XX " + side1multiplicity + " " + relatedname + ", " + relatedname + " unconditionally YY one " + objectname + ";\n"
+          relspecs = relspecs + '  ' + relspec
+          attrcomment = '    //!' + relspec
           relnum = relnum + 1
-        atype = "i" + atype
+        atype = 'i' + atype
       if ( aname in reserved_words ):
         attrcomment = attrcomment + "    //!" + aname + "\n"
-        aname = "my_" + aname
+        aname = 'my_' + aname
       attrs = attrs + attrcomment
       # Deal with duplicate attribute names.
       if aname in anames:
@@ -183,8 +186,9 @@ for d in sorted( dirs ):
     objnum = objnum + 1
 
   for iobj in importedobjects:
-    objectdeclaration = objectdeclaration + '  object ' + iobj + ';\n'
-    importedobjectlist = importedobjectlist + '\n  //!imported\n  object ' + iobj + ' is\n    IMPORTED: integer;\n  end object; pragma id(' + str( objnum ) + ');\n'
+    typelist = typelist + '  private type i' + iobj + ' is instance of ' + getimportedname( iobj, d ) + ';\n'
+    objectdeclaration = objectdeclaration + '  object IMPORTED_' + iobj + '_' + d + ';\n'
+    importedobjectlist = importedobjectlist + '\n  //!IMPORTED\n  object ' + getimportedname( iobj, d ) + ' is\n  end object; pragma id(' + str( objnum ) + ');\n'
     objnum = objnum + 1
 
   # Write the subsystem file as a domain.

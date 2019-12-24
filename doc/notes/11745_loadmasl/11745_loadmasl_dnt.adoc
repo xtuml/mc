@@ -137,6 +137,11 @@ MASL activity.  This note documents design steps to achieve this parsing.
          project, relationship, statemodel, type, parsable_element, marking.
      ... Establish subsystem number scheme to be used for class numbers
          (after import) and relationship numbers.
+     ... Script will assign relationship numbers according to this scheme.
+     ... Script will assign class numbers according to this scheme using a
+         pragma.
+     ... The subsystem of the supertype will "own" the relationship number
+         in spanning associations.
      ... Create a `.mod` file for each subsystem.
      ... Convert classes in each subsystem per steps starting at 'classes'
          below.
@@ -145,17 +150,47 @@ MASL activity.  This note documents design steps to achieve this parsing.
          .... The printouts could be used to draw associations.
          .... Formalization can be a last step with the sequence and
               ordering marked or colored on the class diagrams.
+     ... marking
+         .... Add marking subsystem with MarkableElement (and UnmarkableElement?).
+              Subtype appropriately.
+         .... Add Pragma and PragmaList to this subsystem.
+         .... If avoidance of pollution of the semantic model is desired, use an
+              associative class to link PragmaList to the participating markable
+              model elements or skip the formalization.
+     ... containment
+         .... Add containment subsystem which adds hierarchical containment
+              associations.
+         .... Build _path_ operation to create identifiers for elements
+              based on containment.
+         .... Add 'file' class in a similar fashion to `mc/models/masl` to
+              associate model elements to persistent storage containers.
   .. types
      ... Define an overloadable unique ID type.
      ... Define instance types for the java reference attributes of the form:
          `private type iObject is instance of Object;`.  These will be deleted
          as they are replaced with referentials during formalization.
-     ... ??? preexisting type instances ???
+     ... preexisting type instances
+         .... Event, State, Name, Visibility, Position, MASLID, PragmaList
+         .... 'Name' is a UDT used instead of 'string' on names.  This
+              will be useful in the future lookups, identifier
+              construction, etc.
+         .... 'Name' is a UDT used instead of 'string' on names.  This
+         .... 'MASLID' is a UDT used instead of 'unique_id'.  It will
+              enable overloading identifiers and linking to the 'syntax'
+              domain.
+         .... 'PragmaList' is a placeholder type to allow import of classes
+              with an attribute and type left in place to identify markable
+              classes.
+         .... Search `.mod` files for types that have not been defined.
+              Understand them and define types for them.  Document these
+              types.  Establish 'public' or 'private' visibility.
   .. classes
      ... Start with classes from the metamodelImpl folder.
      ... Potentially refine class list with production rules from `MaslP.g`.
-     ... Add referenced spanning classes from other subsystems with a prefix
-         'Imported_<class>'.
+     ... Add referenced spanning classes from other subsystems pre- and
+         suffixed 'IMPORTED_<class>_<subsystem>'.  The <subsystem> suffix
+         is for the local subsystem.  This is to keep the temporary
+         imported class names unique across all subsystems.
   .. attributes
      ... attribute names
          .... Extract and align with .java classes in metamodelImpl folder
@@ -165,7 +200,7 @@ MASL activity.  This note documents design steps to achieve this parsing.
               attributes.
          .... Change attribute names for any reserved words.  Provide a
               comment on the attribute giving the original name.
-              [TODO - What is the scheme for changing these names?]
+              ..... Prepend 'my_' to these attribute names.
      ... attribute types
          .... Supply types with names from the .java classes in metamodelImpl
               folder for all attributes and types.
@@ -191,24 +226,23 @@ MASL activity.  This note documents design steps to achieve this parsing.
      ... Refine the above by interrogating addXXX methods and assigning
          associations for these.
          .... The participant provides the addXXX method.
-     ... Find 'super' invocations to link subtypes to supertypes.
+     ... supertype / subtypes
+         .... Identify Java inheritance with keyword 'extends'.
+         .... Grep these and transform into a sub/super map in Python.
+         .... Emit as MASL 'is_a' relationship constructs.
+         .... Manually omit associations at the subtype level that repeat
+              references at the supertype.
      ... After importing the model, formalize associations.
      ... Take care when formalizing; plan the ordering for propagation.
      ... Delete reference attributes that have been replaced by referential
          attributes.
-  .. marking
-     ... Add marking subsystem with MarkableElement (and UnmarkableElement).
-         Subtype appropriately.
-     ... Add Pragma and PragmaList to this subsystem.
-     ... If avoidance of pollution of the semantic model is desired, use an
-         associative class to link PragmaList to the participating markable
-         model elements.
 . layout
   .. Tease each subsystem apart and lay out logically.
   .. Combine subsystem packages into single model.
   .. Replace each 'Imported_' class with a BridgePoint Imported class linked
      from the spanned subsystem.
 . testing
+  .. Test graphics reconciliation on all subsystems.
   .. Perform masl_round_trip on the MASL `.mod` files at various steps.
      ... For each subsystem, test when classes are established but before
          associations have been added.
@@ -218,6 +252,17 @@ MASL activity.  This note documents design steps to achieve this parsing.
          classes.
 
 == 6 Design Comments
+
+=== 6.1 Manual Edits
+
+. Add Types package with String, Visibility, etc.
+. "Promote" subtype associations to the supertypes.
+. Take a pass through associations and provide role phrases for obvious
+  cases.
+. Fix 'Alternative' in CaseStatement with 1:M association to Block or
+  Statement.
+. Fix 'Branch' in IfStatement with 1:M association to Block or Statement.
+
 
 == 7 User Documentation
 
