@@ -33,7 +33,7 @@ def getsubtypes( supertype ):
 
 # Return object name as imported object.
 def getimportedname( obj, ss ):
-  return 'IMPORTED_' + obj + '_' + ss
+  return 'Z_' + obj + '_' + ss
 
 # Initialize domainobjects and subsystem lists.
 subsystemindex = 0
@@ -98,7 +98,7 @@ for d in sorted( dirs ):
     if ( objectname in excluded_classes ):
       continue
     objectdeclaration = objectdeclaration + '  object ' + objectname + ';\n'
-    typelist = typelist + '  private type i' + objectname + ' is instance of ' + objectname + ';\n'
+    #typelist = typelist + '  public type i' + objectname + ' is instance of ' + objectname + ';\n'
     pattern = ' p.* ' + objectname + ' \\( '
     cmd = "awk '/" + pattern + "/,/\)/{print $0;}' " + dpath + '/' + fname
     attrs = ""
@@ -158,19 +158,18 @@ for d in sorted( dirs ):
         aname = 'List_' + aname
         side1multiplicity = "many"
       atype = re.sub( '<.*>', '', atype )
+      if ( atype in excluded_classes ):
+        continue
       if ( atype in domainobjects ):
-        if ( atype in excluded_classes ):
-          nop = 'nop'
-        else:
-          relatedname = atype
-          if ( atype not in subsystem[ subsystemindex ] ):
-            importedobjects.add( atype )
-            relatedname = getimportedname( atype, d )
-          # Build relationship specification and comment for referential attribute.
-          relspec = "relationship R" + str(relnum) + " is " + objectname + " unconditionally XX " + side1multiplicity + " " + relatedname + ", " + relatedname + " unconditionally YY one " + objectname + ";\n"
-          relspecs = relspecs + '  ' + relspec
-          attrcomment = '    //!' + relspec
-          relnum = relnum + 1
+        relatedname = atype
+        if ( atype not in subsystem[ subsystemindex ] ):
+          importedobjects.add( atype )
+          relatedname = getimportedname( atype, d )
+        # Build relationship specification and comment for referential attribute.
+        relspec = "relationship R" + str(relnum) + " is " + objectname + " unconditionally XX " + side1multiplicity + " " + relatedname + ", " + relatedname + " unconditionally YY one " + objectname + ";\n"
+        relspecs = relspecs + '  ' + relspec
+        attrcomment = '    //!' + relspec
+        relnum = relnum + 1
         atype = 'i' + atype
       if ( aname in reserved_words ):
         attrcomment = attrcomment + "    //!" + aname + "\n"
@@ -186,8 +185,8 @@ for d in sorted( dirs ):
     objnum = objnum + 1
 
   for iobj in importedobjects:
-    typelist = typelist + '  private type i' + iobj + ' is instance of ' + getimportedname( iobj, d ) + ';\n'
-    objectdeclaration = objectdeclaration + '  object IMPORTED_' + iobj + '_' + d + ';\n'
+    #typelist = typelist + '  public type i' + iobj + ' is instance of ' + getimportedname( iobj, d ) + ';\n'
+    objectdeclaration = objectdeclaration + '  object Z_' + iobj + '_' + d + ';\n'
     importedobjectlist = importedobjectlist + '\n  //!IMPORTED\n  object ' + getimportedname( iobj, d ) + ' is\n  end object; pragma id(' + str( objnum ) + ');\n'
     objnum = objnum + 1
 

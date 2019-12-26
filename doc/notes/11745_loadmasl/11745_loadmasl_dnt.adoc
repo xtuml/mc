@@ -166,11 +166,14 @@ MASL activity.  This note documents design steps to achieve this parsing.
               associate model elements to persistent storage containers.
   .. types
      ... Define an overloadable unique ID type.
-     ... Define instance types for the java reference attributes of the form:
-         `private type iObject is instance of Object;`.  These will be deleted
-         as they are replaced with referentials during formalization.
+     ... Instance types were defined for the java reference attributes of the
+         form: `public type iObject is instance of Object;`.  These will be
+         deleted as they are replaced with referentials during formalization.
+         It was discovered that BridgePoint will define these types as
+         they are discovered in use, although not as instance types.
      ... preexisting type instances
-         .... Event, State, Name, Visibility, Position, MASLID, PragmaList
+         .... Event, State, Name, Visibility, Position, MASLID,
+              PragmaList, Operator(Ref)
          .... 'Name' is a UDT used instead of 'string' on names.  This
               will be useful in the future lookups, identifier
               construction, etc.
@@ -188,9 +191,10 @@ MASL activity.  This note documents design steps to achieve this parsing.
      ... Start with classes from the metamodelImpl folder.
      ... Potentially refine class list with production rules from `MaslP.g`.
      ... Add referenced spanning classes from other subsystems pre- and
-         suffixed 'IMPORTED_<class>_<subsystem>'.  The <subsystem> suffix
+         suffixed 'Z_<class>_<subsystem>'.  The <subsystem> suffix
          is for the local subsystem.  This is to keep the temporary
-         imported class names unique across all subsystems.
+         imported class names unique across all subsystems.  A comment
+         'IMPORTED' is supplied to the imported classes.
   .. attributes
      ... attribute names
          .... Extract and align with .java classes in metamodelImpl folder
@@ -238,9 +242,30 @@ MASL activity.  This note documents design steps to achieve this parsing.
          attributes.
 . layout
   .. Tease each subsystem apart and lay out logically.
+     ... Start with oblique routing and stretch the classes into position.
+     ... Switch to rectilinear routing to clean up lines.
+  .. Split 'expression' into 'expression', 'binary', 'invocation',
+     'simple' and 'literal'.
+     ... 'literal' LiteralExpression, BooleanLiteral, CharacterLiteral,
+         ConsoleLiteral, DurationLiteral, EndlLiteral, EnumerateLiteral,
+         FlushLiteral, IntegerLiteral, LiteralExpression, NullLiteral,
+         NumericLiteral, RealLiteral, StringLiteral, ThisLiteral,
+         TimestampLiteral
+     ... 'invocation' FunctionInvocation, DomainFunctionInvocation,
+         IntanceFunctionInvocation, ObjectFunctionInvocation, TerminatorServiceInvocation
+     ... 'binary' BinaryExpression, BinaryAdditiveExpression, BinaryCollectionExpression,
+         BinaryComparisonExpression, BinaryLogicalExpression,
+         BinaryMultiplicativeExpression
+     ... 'simple' DictionaryAccessExpression, DictionaryContainsExpression,
+         DictionaryKeysExpression, DictionaryValuesExpression,
+         TimeFieldExpression, TimerFieldExpression,
+         TimestatmpDeltaExpression,
+         ParameterNameExpression, TerminatorNameExpression,
+         VariableNameExpression
+
   .. Combine subsystem packages into single model.
-  .. Replace each 'Imported_' class with a BridgePoint Imported class linked
-     from the spanned subsystem.
+  .. Replace each 'Z_' class with a BridgePoint Imported class linked from
+     the spanned subsystem.
 . testing
   .. Test graphics reconciliation on all subsystems.
   .. Perform masl_round_trip on the MASL `.mod` files at various steps.
@@ -257,11 +282,13 @@ MASL activity.  This note documents design steps to achieve this parsing.
 
 . Add Types package with String, Visibility, etc.
 . "Promote" subtype associations to the supertypes.
+  .. Domain --- RelationshipDeclaration (rather than 3 subtypes)
 . Take a pass through associations and provide role phrases for obvious
   cases.
 . Fix 'Alternative' in CaseStatement with 1:M association to Block or
   Statement.
 . Fix 'Branch' in IfStatement with 1:M association to Block or Statement.
+. Manually set class numbers... or fix the pragma.
 
 
 == 7 User Documentation
