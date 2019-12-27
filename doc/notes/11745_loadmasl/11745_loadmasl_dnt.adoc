@@ -244,8 +244,7 @@ MASL activity.  This note documents design steps to achieve this parsing.
   .. Tease each subsystem apart and lay out logically.
      ... Start with oblique routing and stretch the classes into position.
      ... Switch to rectilinear routing to clean up lines.
-  .. Split 'expression' into 'expression', 'binary', 'invocation',
-     'simple' and 'literal'.
+  .. Split 'expression' into 'expression', 'binary', 'invocation' and 'literal'.
      ... 'literal' LiteralExpression, BooleanLiteral, CharacterLiteral,
          ConsoleLiteral, DurationLiteral, EndlLiteral, EnumerateLiteral,
          FlushLiteral, IntegerLiteral, LiteralExpression, NullLiteral,
@@ -256,12 +255,6 @@ MASL activity.  This note documents design steps to achieve this parsing.
      ... 'binary' BinaryExpression, BinaryAdditiveExpression, BinaryCollectionExpression,
          BinaryComparisonExpression, BinaryLogicalExpression,
          BinaryMultiplicativeExpression
-     ... 'simple' DictionaryAccessExpression, DictionaryContainsExpression,
-         DictionaryKeysExpression, DictionaryValuesExpression,
-         TimeFieldExpression, TimerFieldExpression,
-         TimestatmpDeltaExpression,
-         ParameterNameExpression, TerminatorNameExpression,
-         VariableNameExpression
 
   .. Combine subsystem packages into single model.
   .. Replace each 'Z_' class with a BridgePoint Imported class linked from

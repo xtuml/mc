@@ -13,7 +13,7 @@ subsystem = [set() for _ in xrange(20)]
 # list of subtype supertype tuples
 subsup = []
 # Object and relationship numbers are suboffset + subsystem * subbase + counter
-suboffset = 1000
+suboffset = 5000
 subbase = 100
 reserved_words = [ 'anonymous', 'delta', 'dictionary', 'digits', 'domain', 'event', 'exception', 'generate', 'instance', 'object', 'preferred', 'project', 'range', 'readonly', 'relationship', 'reverse', 'service', 'state', 'terminator', 'type' ]
 # excluded classes

@@ -3,22 +3,22 @@ domain masl_exception is
   object ExceptionDeclaration;
   object ExceptionReference;
   object Z_Domain_exception;
-  relationship R1300 is ExceptionDeclaration unconditionally XX one Z_Domain_exception, Z_Domain_exception unconditionally YY one ExceptionDeclaration;
-  relationship R1301 is ExceptionReference is_a ( BuiltinException );
+  relationship R5400 is ExceptionDeclaration unconditionally XX one Z_Domain_exception, Z_Domain_exception unconditionally YY one ExceptionDeclaration;
+  relationship R5401 is ExceptionReference is_a ( BuiltinException );
   object BuiltinException is
     //!type
     my_type : ImplType;
-  end object; pragma id(1300);
+  end object; pragma id(5400);
   object ExceptionDeclaration is
     name : String;
-    //!relationship R1300 is ExceptionDeclaration unconditionally XX one Z_Domain_exception, Z_Domain_exception unconditionally YY one ExceptionDeclaration;
+    //!relationship R5400 is ExceptionDeclaration unconditionally XX one Z_Domain_exception, Z_Domain_exception unconditionally YY one ExceptionDeclaration;
     //!domain
     my_domain : iDomain;
-  end object; pragma id(1301);
+  end object; pragma id(5401);
   object ExceptionReference is
-  end object; pragma id(1302);
+  end object; pragma id(5402);
 
   //!IMPORTED
   object Z_Domain_exception is
-  end object; pragma id(1303);
+  end object; pragma id(5403);
 end domain;
