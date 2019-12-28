@@ -19,7 +19,7 @@ domain masl_common is
     //!R5200
     //!type
     my_type : iBasicType;
-    name : String;
+    name : Name;
     //!R5201
     mode : iParameterModeType;
   end object; pragma id(5200);
@@ -30,7 +30,7 @@ domain masl_common is
   object Service is
     //!R5204
     List_parameters : iParameterDefinition;
-    name : String;
+    name : Name;
     //!R5205
     returnType : iBasicType;
     //!R5206
@@ -38,7 +38,7 @@ domain masl_common is
   end object; pragma id(5205);
   object ServiceOverload is
     alreadyDefined : SemanticErrorCode;
-    name : String;
+    name : Name;
   end object; pragma id(5206);
 
   //!IMPORTED

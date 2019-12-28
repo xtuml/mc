@@ -231,7 +231,7 @@ domain masl_code is
     my_type : iBasicType;
     //!R5138
     initialValue : iExpression;
-    name : String;
+    name : Name;
     //!readonly
     my_readonly : boolean;
   end object; pragma id(5127);

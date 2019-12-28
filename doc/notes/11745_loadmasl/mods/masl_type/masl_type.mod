@@ -179,7 +179,7 @@ domain masl_type is
     my_anonymous : boolean;
   end object; pragma id(6215);
   object EnumerateItem is
-    name : String;
+    name : Name;
     //!R6217
     value : iExpression;
     name1 : String;
@@ -206,12 +206,12 @@ domain masl_type is
     my_anonymous : boolean;
   end object; pragma id(6221);
   object InternalType is
-    name : String;
+    name : Name;
   end object; pragma id(6222);
   object NumericType is
     bits : int;
     signed : boolean;
-    name : String;
+    name : Name;
     //!R6222
     max : iExpression;
     //!R6223
@@ -260,7 +260,7 @@ domain masl_type is
     //!R6230
     //!type
     my_type : iBasicType;
-    name : String;
+    name : Name;
   end object; pragma id(6231);
   object StructureType is
     //!R6231
@@ -280,7 +280,7 @@ domain masl_type is
     my_range : iExpression;
   end object; pragma id(6235);
   object TypeDeclaration is
-    name : String;
+    name : Name;
     //!R6234
     typeDefinition : iTypeDefinition;
     //!R6235

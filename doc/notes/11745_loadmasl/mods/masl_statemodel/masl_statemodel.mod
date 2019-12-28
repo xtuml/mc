@@ -29,7 +29,7 @@ domain masl_statemodel is
   object EventDeclaration is
     //!R6100
     List_parameters : iParameterDefinition;
-    name : String;
+    name : Name;
     //!R6101
     //!object
     my_object : iObjectDeclaration;
@@ -46,7 +46,7 @@ domain masl_statemodel is
   object State is
     //!R6104
     List_parameters : iParameterDefinition;
-    name : String;
+    name : Name;
     //!R6105
     //!object
     my_object : iObjectDeclaration;

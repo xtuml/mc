@@ -33,7 +33,7 @@ domain masl_relationship is
     leftToRight : iHalfRelationship;
     //!R6001
     assocObject : iObjectDeclaration;
-    name : String;
+    name : Name;
     //!R6002
     rightToLeft : iHalfRelationship;
     //!R6003
@@ -58,7 +58,7 @@ domain masl_relationship is
   object NormalRelationshipDeclaration is
     //!R6007
     leftToRight : iHalfRelationship;
-    name : String;
+    name : Name;
     //!R6008
     rightToLeft : iHalfRelationship;
     //!R6009
@@ -85,7 +85,7 @@ domain masl_relationship is
   object SubtypeRelationshipDeclaration is
     //!R6016
     List_subtypes : iObjectDeclaration;
-    name : String;
+    name : Name;
     //!R6017
     supertype : iObjectDeclaration;
     //!R6018

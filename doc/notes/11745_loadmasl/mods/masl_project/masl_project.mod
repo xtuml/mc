@@ -29,7 +29,7 @@ domain masl_project is
     //!R5902
     //!domain
     my_domain : iProjectDomain;
-    name : String;
+    name : Name;
   end object; pragma id(5902);
   object ProjectTerminatorService is
     //!R5903
@@ -37,7 +37,7 @@ domain masl_project is
     my_terminator : iProjectTerminator;
     //!R5904
     returnType : iBasicType;
-    name : String;
+    name : Name;
     //!R5905
     List_parameters : iParameterDefinition;
     //!R5906

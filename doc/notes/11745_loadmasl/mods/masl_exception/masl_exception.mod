@@ -10,7 +10,7 @@ domain masl_exception is
     my_type : ImplType;
   end object; pragma id(5400);
   object ExceptionDeclaration is
-    name : String;
+    name : Name;
     //!R5400
     //!domain
     my_domain : iDomain;

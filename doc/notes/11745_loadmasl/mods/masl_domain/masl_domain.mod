@@ -17,12 +17,12 @@ domain masl_domain is
   relationship R5307 is DomainTerminatorService unconditionally XX many Z_ParameterDefinition_domain, Z_ParameterDefinition_domain unconditionally YY one DomainTerminatorService;
   relationship R5308 is DomainTerminatorService unconditionally XX many Z_ExceptionReference_domain, Z_ExceptionReference_domain unconditionally YY one DomainTerminatorService;
   object Domain is
-    name : String;
+    name : Name;
   end object; pragma id(5300);
   object DomainService is
     //!R5300
     List_parameters : iParameterDefinition;
-    name : String;
+    name : Name;
     //!R5301
     returnType : iBasicType;
     //!R5302
@@ -32,7 +32,7 @@ domain masl_domain is
     my_domain : iDomain;
   end object; pragma id(5301);
   object DomainTerminator is
-    name : String;
+    name : Name;
     //!R5304
     //!domain
     my_domain : iDomain;
@@ -40,7 +40,7 @@ domain masl_domain is
   object DomainTerminatorService is
     //!R5305
     returnType : iBasicType;
-    name : String;
+    name : Name;
     //!R5306
     //!terminator
     my_terminator : iDomainTerminator;

@@ -28,7 +28,7 @@ domain masl_object is
     isUnique : boolean;
     //!R5800
     List_refAttDefs : iReferentialAttributeDefinition;
-    name : String;
+    name : Name;
     //!R5801
     defaultValue : iExpression;
     //!R5802
@@ -47,7 +47,7 @@ domain masl_object is
     my_object : iObjectDeclaration;
   end object; pragma id(5801);
   object ObjectDeclaration is
-    name : String;
+    name : Name;
     //!R5805
     //!domain
     my_domain : iDomain;
@@ -57,7 +57,7 @@ domain masl_object is
     relRef : iRelationshipDeclaration;
     //!R5807
     List_parameters : iParameterDefinition;
-    name : String;
+    name : Name;
     //!R5808
     //!object
     my_object : iObjectDeclaration;
