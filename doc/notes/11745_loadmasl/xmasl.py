@@ -20,7 +20,7 @@ reserved_words = [ 'anonymous', 'delta', 'dictionary', 'digits', 'domain', 'even
 #   CheckedLookup, NameLookup, Position and Positioned are parser domain.
 #   PragmaList will get linked from another subsystem.
 #   Visibility will be an enumerated type.
-excluded_classes = [ 'CheckedLookup', 'LocalVariableCollector', 'Name', 'Named', 'NameLookup', 'Position', 'Positioned', 'Pragma', 'PragmaList', 'Visibility' ]
+excluded_classes = [ 'CheckedLookup', 'LocalVariableCollector', 'Name', 'Named', 'NameLookup', 'ParseOptions', 'Position', 'Positioned', 'Pragma', 'PragmaDefintion', 'PragmaList', 'ReturnCheckVisitor', 'Visibility' ]
 excluded_directories = [ 'error', 'name' ]
 
 # Return a list of subtypes for the input object.
@@ -166,9 +166,9 @@ for d in sorted( dirs ):
           importedobjects.add( atype )
           relatedname = getimportedname( atype, d )
         # Build relationship specification and comment for referential attribute.
-        relspec = "relationship R" + str(relnum) + " is " + objectname + " unconditionally XX " + side1multiplicity + " " + relatedname + ", " + relatedname + " unconditionally YY one " + objectname + ";\n"
+        relspec = "relationship R" + str( relnum ) + " is " + objectname + " unconditionally XX " + side1multiplicity + " " + relatedname + ", " + relatedname + " unconditionally YY one " + objectname + ";\n"
         relspecs = relspecs + '  ' + relspec
-        attrcomment = '    //!' + relspec
+        attrcomment = '    //!R' + str( relnum ) + '\n'
         relnum = relnum + 1
         atype = 'i' + atype
       if ( aname in reserved_words ):

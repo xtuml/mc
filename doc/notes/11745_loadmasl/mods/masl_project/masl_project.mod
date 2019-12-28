@@ -18,29 +18,29 @@ domain masl_project is
     projectName : String;
   end object; pragma id(5900);
   object ProjectDomain is
-    //!relationship R5900 is ProjectDomain unconditionally XX one Project, Project unconditionally YY one ProjectDomain;
+    //!R5900
     //!project
     my_project : iProject;
-    //!relationship R5901 is ProjectDomain unconditionally XX one Z_Domain_project, Z_Domain_project unconditionally YY one ProjectDomain;
+    //!R5901
     //!domain
     my_domain : iDomain;
   end object; pragma id(5901);
   object ProjectTerminator is
-    //!relationship R5902 is ProjectTerminator unconditionally XX one ProjectDomain, ProjectDomain unconditionally YY one ProjectTerminator;
+    //!R5902
     //!domain
     my_domain : iProjectDomain;
     name : String;
   end object; pragma id(5902);
   object ProjectTerminatorService is
-    //!relationship R5903 is ProjectTerminatorService unconditionally XX one ProjectTerminator, ProjectTerminator unconditionally YY one ProjectTerminatorService;
+    //!R5903
     //!terminator
     my_terminator : iProjectTerminator;
-    //!relationship R5904 is ProjectTerminatorService unconditionally XX one Z_BasicType_project, Z_BasicType_project unconditionally YY one ProjectTerminatorService;
+    //!R5904
     returnType : iBasicType;
     name : String;
-    //!relationship R5905 is ProjectTerminatorService unconditionally XX many Z_ParameterDefinition_project, Z_ParameterDefinition_project unconditionally YY one ProjectTerminatorService;
+    //!R5905
     List_parameters : iParameterDefinition;
-    //!relationship R5906 is ProjectTerminatorService unconditionally XX many Z_ExceptionReference_project, Z_ExceptionReference_project unconditionally YY one ProjectTerminatorService;
+    //!R5906
     List_exceptionSpecs : iExceptionReference;
   end object; pragma id(5903);
 

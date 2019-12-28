@@ -123,57 +123,57 @@ domain masl_expression is
   object CallExpression is
   end object; pragma id(5501);
   object CastExpression is
-    //!relationship R5501 is CastExpression unconditionally XX one TypeNameExpression, TypeNameExpression unconditionally YY one CastExpression;
+    //!R5501
     //!type
     my_type : iTypeNameExpression;
-    //!relationship R5502 is CastExpression unconditionally XX one Expression, Expression unconditionally YY one CastExpression;
+    //!R5502
     rhs : iExpression;
   end object; pragma id(5502);
   object CharacteristicExpression is
-    //!relationship R5503 is CharacteristicExpression unconditionally XX many Expression, Expression unconditionally YY one CharacteristicExpression;
+    //!R5503
     List_arguments : iExpression;
     characteristic : Type;
-    //!relationship R5504 is CharacteristicExpression unconditionally XX one Expression, Expression unconditionally YY one CharacteristicExpression;
+    //!R5504
     lhs : iExpression;
   end object; pragma id(5503);
   object CharacteristicRange is
-    //!relationship R5505 is CharacteristicRange unconditionally XX one CharacteristicExpression, CharacteristicExpression unconditionally YY one CharacteristicRange;
+    //!R5505
     //!range
     my_range : iCharacteristicExpression;
   end object; pragma id(5504);
   object CorrelatedNavExpression is
-    //!relationship R5506 is CorrelatedNavExpression unconditionally XX one Expression, Expression unconditionally YY one CorrelatedNavExpression;
+    //!R5506
     rhs : iExpression;
-    //!relationship R5507 is CorrelatedNavExpression unconditionally XX one Z_RelationshipSpecification_expression, Z_RelationshipSpecification_expression unconditionally YY one CorrelatedNavExpression;
+    //!R5507
     //!relationship
     my_relationship : iRelationshipSpecification;
-    //!relationship R5508 is CorrelatedNavExpression unconditionally XX one Expression, Expression unconditionally YY one CorrelatedNavExpression;
+    //!R5508
     lhs : iExpression;
   end object; pragma id(5505);
   object CreateDurationExpression is
     characteristic : String;
-    //!relationship R5509 is CreateDurationExpression unconditionally XX one Z_BasicType_expression, Z_BasicType_expression unconditionally YY one CreateDurationExpression;
+    //!R5509
     lhs : iBasicType;
     field : Field;
-    //!relationship R5510 is CreateDurationExpression unconditionally XX one Expression, Expression unconditionally YY one CreateDurationExpression;
+    //!R5510
     argument : iExpression;
   end object; pragma id(5506);
   object CreateExpression is
-    //!relationship R5511 is CreateExpression unconditionally XX one Z_ObjectDeclaration_expression, Z_ObjectDeclaration_expression unconditionally YY one CreateExpression;
+    //!R5511
     //!object
     my_object : iObjectDeclaration;
     List_aggregate : CreateAggregateValue;
   end object; pragma id(5507);
   object DictionaryAccessExpression is
-    //!relationship R5512 is DictionaryAccessExpression unconditionally XX one Expression, Expression unconditionally YY one DictionaryAccessExpression;
+    //!R5512
     index : iExpression;
-    //!relationship R5513 is DictionaryAccessExpression unconditionally XX one Expression, Expression unconditionally YY one DictionaryAccessExpression;
+    //!R5513
     prefix : iExpression;
   end object; pragma id(5508);
   object DictionaryContainsExpression is
-    //!relationship R5514 is DictionaryContainsExpression unconditionally XX one Expression, Expression unconditionally YY one DictionaryContainsExpression;
+    //!R5514
     index : iExpression;
-    //!relationship R5515 is DictionaryContainsExpression unconditionally XX one Expression, Expression unconditionally YY one DictionaryContainsExpression;
+    //!R5515
     prefix : iExpression;
   end object; pragma id(5509);
   object DictionaryKeysExpression is
@@ -187,37 +187,37 @@ domain masl_expression is
   object EofExpression is
   end object; pragma id(5514);
   object EventExpression is
-    //!relationship R5516 is EventExpression unconditionally XX one Z_EventDeclaration_expression, Z_EventDeclaration_expression unconditionally YY one EventExpression;
+    //!R5516
     //!event
     my_event : iEventDeclaration;
   end object; pragma id(5515);
   object Expression is
   end object; pragma id(5516);
   object FindAttributeNameExpression is
-    //!relationship R5518 is FindAttributeNameExpression unconditionally XX one Z_AttributeDeclaration_expression, Z_AttributeDeclaration_expression unconditionally YY one FindAttributeNameExpression;
+    //!R5518
     attribute : iAttributeDeclaration;
   end object; pragma id(5517);
   object FindExpression is
-    //!relationship R5519 is FindExpression unconditionally XX one Expression, Expression unconditionally YY one FindExpression;
+    //!R5519
     collection : iExpression;
     findType : ImplType;
-    //!relationship R5520 is FindExpression unconditionally XX one Expression, Expression unconditionally YY one FindExpression;
+    //!R5520
     condition : iExpression;
   end object; pragma id(5518);
   object FindParameterExpression is
-    //!relationship R5521 is FindParameterExpression unconditionally XX one Z_BasicType_expression, Z_BasicType_expression unconditionally YY one FindParameterExpression;
+    //!R5521
     //!type
     my_type : iBasicType;
   end object; pragma id(5519);
   object IndexedNameExpression is
-    //!relationship R5522 is IndexedNameExpression unconditionally XX one Expression, Expression unconditionally YY one IndexedNameExpression;
+    //!R5522
     index : iExpression;
-    //!relationship R5523 is IndexedNameExpression unconditionally XX one Expression, Expression unconditionally YY one IndexedNameExpression;
+    //!R5523
     prefix : iExpression;
   end object; pragma id(5520);
   object InstanceOrderingExpression is
     List_components : OrderComponent;
-    //!relationship R5524 is InstanceOrderingExpression unconditionally XX one Expression, Expression unconditionally YY one InstanceOrderingExpression;
+    //!R5524
     collection : iExpression;
     //!reverse
     my_reverse : boolean;
@@ -225,139 +225,139 @@ domain masl_expression is
   object LinkUnlinkExpression is
     //!type
     my_type : Type;
-    //!relationship R5525 is LinkUnlinkExpression unconditionally XX one Z_RelationshipSpecification_expression, Z_RelationshipSpecification_expression unconditionally YY one LinkUnlinkExpression;
+    //!R5525
     relRef : iRelationshipSpecification;
-    //!relationship R5526 is LinkUnlinkExpression unconditionally XX one Expression, Expression unconditionally YY one LinkUnlinkExpression;
+    //!R5526
     lhs : iExpression;
-    //!relationship R5527 is LinkUnlinkExpression unconditionally XX one Expression, Expression unconditionally YY one LinkUnlinkExpression;
+    //!R5527
     rhs : iExpression;
   end object; pragma id(5522);
   object MinMaxRange is
-    //!relationship R5528 is MinMaxRange unconditionally XX one Expression, Expression unconditionally YY one MinMaxRange;
+    //!R5528
     max : iExpression;
-    //!relationship R5529 is MinMaxRange unconditionally XX one Expression, Expression unconditionally YY one MinMaxRange;
+    //!R5529
     min : iExpression;
   end object; pragma id(5523);
   object NavigationExpression is
-    //!relationship R5530 is NavigationExpression unconditionally XX one Expression, Expression unconditionally YY one NavigationExpression;
+    //!R5530
     whereClause : iExpression;
-    //!relationship R5531 is NavigationExpression unconditionally XX one Z_RelationshipSpecification_expression, Z_RelationshipSpecification_expression unconditionally YY one NavigationExpression;
+    //!R5531
     //!relationship
     my_relationship : iRelationshipSpecification;
-    //!relationship R5532 is NavigationExpression unconditionally XX one Expression, Expression unconditionally YY one NavigationExpression;
+    //!R5532
     lhs : iExpression;
   end object; pragma id(5524);
   object ObjectNameExpression is
-    //!relationship R5533 is ObjectNameExpression unconditionally XX one Z_ObjectDeclaration_expression, Z_ObjectDeclaration_expression unconditionally YY one ObjectNameExpression;
+    //!R5533
     //!object
     my_object : iObjectDeclaration;
   end object; pragma id(5525);
   object OrderingExpression is
     //!reverse
     my_reverse : boolean;
-    //!relationship R5535 is OrderingExpression unconditionally XX one Expression, Expression unconditionally YY one OrderingExpression;
+    //!R5535
     collection : iExpression;
   end object; pragma id(5526);
   object ParameterNameExpression is
-    //!relationship R5536 is ParameterNameExpression unconditionally XX one Z_ParameterDefinition_expression, Z_ParameterDefinition_expression unconditionally YY one ParameterNameExpression;
+    //!R5536
     param : iParameterDefinition;
   end object; pragma id(5527);
   object ParseExpression is
-    //!relationship R5537 is ParseExpression unconditionally XX one Expression, Expression unconditionally YY one ParseExpression;
+    //!R5537
     base : iExpression;
-    //!relationship R5538 is ParseExpression unconditionally XX one Z_BasicType_expression, Z_BasicType_expression unconditionally YY one ParseExpression;
+    //!R5538
     lhs : iBasicType;
-    //!relationship R5539 is ParseExpression unconditionally XX one Expression, Expression unconditionally YY one ParseExpression;
+    //!R5539
     argument : iExpression;
   end object; pragma id(5528);
   object RangeExpression is
   end object; pragma id(5529);
   object SelectedAttributeExpression is
-    //!relationship R5541 is SelectedAttributeExpression unconditionally XX one Z_AttributeDeclaration_expression, Z_AttributeDeclaration_expression unconditionally YY one SelectedAttributeExpression;
+    //!R5541
     attribute : iAttributeDeclaration;
-    //!relationship R5542 is SelectedAttributeExpression unconditionally XX one Expression, Expression unconditionally YY one SelectedAttributeExpression;
+    //!R5542
     prefix : iExpression;
   end object; pragma id(5530);
   object SelectedComponentExpression is
-    //!relationship R5543 is SelectedComponentExpression unconditionally XX one Z_StructureElement_expression, Z_StructureElement_expression unconditionally YY one SelectedComponentExpression;
+    //!R5543
     component : iStructureElement;
-    //!relationship R5544 is SelectedComponentExpression unconditionally XX one Expression, Expression unconditionally YY one SelectedComponentExpression;
+    //!R5544
     prefix : iExpression;
   end object; pragma id(5531);
   object ServiceExpression is
-    //!relationship R5545 is ServiceExpression unconditionally XX one Z_ServiceOverload_expression, Z_ServiceOverload_expression unconditionally YY one ServiceExpression;
+    //!R5545
     overload : iServiceOverload;
   end object; pragma id(5532);
   object SliceExpression is
-    //!relationship R5546 is SliceExpression unconditionally XX one RangeExpression, RangeExpression unconditionally YY one SliceExpression;
+    //!R5546
     //!range
     my_range : iRangeExpression;
-    //!relationship R5547 is SliceExpression unconditionally XX one Expression, Expression unconditionally YY one SliceExpression;
+    //!R5547
     prefix : iExpression;
   end object; pragma id(5533);
   object SplitExpression is
     fields : Set;
-    //!relationship R5548 is SplitExpression unconditionally XX one Z_BasicType_expression, Z_BasicType_expression unconditionally YY one SplitExpression;
+    //!R5548
     resultType : iBasicType;
     characteristic : String;
-    //!relationship R5549 is SplitExpression unconditionally XX many Expression, Expression unconditionally YY one SplitExpression;
+    //!R5549
     List_args : iExpression;
-    //!relationship R5550 is SplitExpression unconditionally XX one Expression, Expression unconditionally YY one SplitExpression;
+    //!R5550
     lhs : iExpression;
     splitType : Type;
   end object; pragma id(5534);
   object StructureAggregate is
-    //!relationship R5551 is StructureAggregate unconditionally XX many Expression, Expression unconditionally YY one StructureAggregate;
+    //!R5551
     List_elements : iExpression;
-    //!relationship R5552 is StructureAggregate unconditionally XX many Expression, Expression unconditionally YY one StructureAggregate;
+    //!R5552
     List_elements1 : iExpression;
-    //!relationship R5553 is StructureAggregate unconditionally XX one Z_BasicType_expression, Z_BasicType_expression unconditionally YY one StructureAggregate;
+    //!R5553
     //!type
     my_type : iBasicType;
   end object; pragma id(5535);
   object StructureOrderingExpression is
     List_components : OrderComponent;
-    //!relationship R5554 is StructureOrderingExpression unconditionally XX one Expression, Expression unconditionally YY one StructureOrderingExpression;
+    //!R5554
     collection : iExpression;
     //!reverse
     my_reverse : boolean;
   end object; pragma id(5536);
   object TerminatorNameExpression is
-    //!relationship R5555 is TerminatorNameExpression unconditionally XX one Z_DomainTerminator_expression, Z_DomainTerminator_expression unconditionally YY one TerminatorNameExpression;
+    //!R5555
     //!terminator
     my_terminator : iDomainTerminator;
   end object; pragma id(5537);
   object TimeFieldExpression is
     characteristic : String;
     field : Field;
-    //!relationship R5556 is TimeFieldExpression unconditionally XX one Expression, Expression unconditionally YY one TimeFieldExpression;
+    //!R5556
     lhs : iExpression;
   end object; pragma id(5538);
   object TimerFieldExpression is
     field : Field;
-    //!relationship R5557 is TimerFieldExpression unconditionally XX one Expression, Expression unconditionally YY one TimerFieldExpression;
+    //!R5557
     lhs : iExpression;
   end object; pragma id(5539);
   object TimestampDeltaExpression is
     characteristic : String;
-    //!relationship R5558 is TimestampDeltaExpression unconditionally XX one Expression, Expression unconditionally YY one TimestampDeltaExpression;
+    //!R5558
     arg : iExpression;
-    //!relationship R5559 is TimestampDeltaExpression unconditionally XX one Expression, Expression unconditionally YY one TimestampDeltaExpression;
+    //!R5559
     lhs : iExpression;
     splitType : Type;
   end object; pragma id(5540);
   object TypeNameExpression is
-    //!relationship R5560 is TypeNameExpression unconditionally XX one Z_BasicType_expression, Z_BasicType_expression unconditionally YY one TypeNameExpression;
+    //!R5560
     //!type
     my_type : iBasicType;
   end object; pragma id(5541);
   object UnaryExpression is
     operator : OperatorRef;
-    //!relationship R5561 is UnaryExpression unconditionally XX one Expression, Expression unconditionally YY one UnaryExpression;
+    //!R5561
     rhs : iExpression;
   end object; pragma id(5542);
   object VariableNameExpression is
-    //!relationship R5562 is VariableNameExpression unconditionally XX one Z_VariableDefinition_expression, Z_VariableDefinition_expression unconditionally YY one VariableNameExpression;
+    //!R5562
     definition : iVariableDefinition;
   end object; pragma id(5543);
 

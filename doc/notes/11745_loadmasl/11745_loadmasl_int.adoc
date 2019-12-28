@@ -1,0 +1,49 @@
+= OOA of MASL:  Parse and Load MASL Activity
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+Enumerate transformation and implementation of the OOA of MASL.
+
+== 2 Introduction and Background
+
+
+== 3 Requirements
+
+== 4 Work Required
+
+=== 4.1 Steps to Take
+
+* Promote lhs, rhs and operator attributes to supertype of BinaryExpression.
+* Promote lhs and rhs relationships to supertype BinaryExpression.
+* Promote text from IntegerLiteral and RealLiteral to supertype NumericLiteral.
+
+== 5 Implementation Comments
+
+. What is 'lhs' and 'rhs' in the context of StringLiteral?
+. Would MASL support a list as the argument of an invocation?
+
+== 6 Unit Test
+
+== 7 User Documentation
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  11745_loadmasl
+
+----
+ Put the file list here
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11745[11745 - Parse MASL into xtUML meta-model of MASL activity]
+. [[dr-2]] https://support.onefact.net/issues/11744[11744 - AWS software architecture]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

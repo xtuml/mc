@@ -27,66 +27,66 @@ domain masl_statemodel is
   relationship R6114 is TransitionTable unconditionally XX many TransitionRow, TransitionRow unconditionally YY one TransitionTable;
   relationship R6115 is TransitionType unconditionally XX one TransitionType, TransitionType unconditionally YY one TransitionType;
   object EventDeclaration is
-    //!relationship R6100 is EventDeclaration unconditionally XX many Z_ParameterDefinition_statemodel, Z_ParameterDefinition_statemodel unconditionally YY one EventDeclaration;
+    //!R6100
     List_parameters : iParameterDefinition;
     name : String;
-    //!relationship R6101 is EventDeclaration unconditionally XX one Z_ObjectDeclaration_statemodel, Z_ObjectDeclaration_statemodel unconditionally YY one EventDeclaration;
+    //!R6101
     //!object
     my_object : iObjectDeclaration;
-    //!relationship R6102 is EventDeclaration unconditionally XX one EventType, EventType unconditionally YY one EventDeclaration;
+    //!R6102
     //!type
     my_type : iEventType;
   end object; pragma id(6100);
   object EventType is
     text : String;
-    //!relationship R6103 is EventType unconditionally XX one EventDeclaration, EventDeclaration unconditionally YY one EventType;
+    //!R6103
     //!type
     my_type : iEventDeclaration;
   end object; pragma id(6101);
   object State is
-    //!relationship R6104 is State unconditionally XX many Z_ParameterDefinition_statemodel, Z_ParameterDefinition_statemodel unconditionally YY one State;
+    //!R6104
     List_parameters : iParameterDefinition;
     name : String;
-    //!relationship R6105 is State unconditionally XX one Z_ObjectDeclaration_statemodel, Z_ObjectDeclaration_statemodel unconditionally YY one State;
+    //!R6105
     //!object
     my_object : iObjectDeclaration;
-    //!relationship R6106 is State unconditionally XX one StateType, StateType unconditionally YY one State;
+    //!R6106
     //!type
     my_type : iStateType;
   end object; pragma id(6102);
   object StateType is
     text : String;
-    //!relationship R6107 is StateType unconditionally XX one State, State unconditionally YY one StateType;
+    //!R6107
     //!type
     my_type : iState;
   end object; pragma id(6103);
   object TransitionOption is
-    //!relationship R6108 is TransitionOption unconditionally XX one Z_EventExpression_statemodel, Z_EventExpression_statemodel unconditionally YY one TransitionOption;
+    //!R6108
     //!event
     my_event : iEventExpression;
-    //!relationship R6109 is TransitionOption unconditionally XX one State, State unconditionally YY one TransitionOption;
+    //!R6109
     destinationState : iState;
-    //!relationship R6110 is TransitionOption unconditionally XX one TransitionType, TransitionType unconditionally YY one TransitionOption;
+    //!R6110
     //!type
     my_type : iTransitionType;
   end object; pragma id(6104);
   object TransitionRow is
-    //!relationship R6111 is TransitionRow unconditionally XX one State, State unconditionally YY one TransitionRow;
+    //!R6111
     initialState : iState;
-    //!relationship R6112 is TransitionRow unconditionally XX many TransitionOption, TransitionOption unconditionally YY one TransitionRow;
+    //!R6112
     List_options : iTransitionOption;
   end object; pragma id(6105);
   object TransitionTable is
-    //!relationship R6113 is TransitionTable unconditionally XX one Z_ObjectDeclaration_statemodel, Z_ObjectDeclaration_statemodel unconditionally YY one TransitionTable;
+    //!R6113
     //!object
     my_object : iObjectDeclaration;
-    //!relationship R6114 is TransitionTable unconditionally XX many TransitionRow, TransitionRow unconditionally YY one TransitionTable;
+    //!R6114
     List_rows : iTransitionRow;
     isAssigner : boolean;
   end object; pragma id(6106);
   object TransitionType is
     text : String;
-    //!relationship R6115 is TransitionType unconditionally XX one TransitionType, TransitionType unconditionally YY one TransitionType;
+    //!R6115
     //!type
     my_type : iTransitionType;
   end object; pragma id(6107);

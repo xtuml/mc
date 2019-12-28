@@ -20,33 +20,33 @@ domain masl_domain is
     name : String;
   end object; pragma id(5300);
   object DomainService is
-    //!relationship R5300 is DomainService unconditionally XX many Z_ParameterDefinition_domain, Z_ParameterDefinition_domain unconditionally YY one DomainService;
+    //!R5300
     List_parameters : iParameterDefinition;
     name : String;
-    //!relationship R5301 is DomainService unconditionally XX one Z_BasicType_domain, Z_BasicType_domain unconditionally YY one DomainService;
+    //!R5301
     returnType : iBasicType;
-    //!relationship R5302 is DomainService unconditionally XX many Z_ExceptionReference_domain, Z_ExceptionReference_domain unconditionally YY one DomainService;
+    //!R5302
     List_exceptionSpecs : iExceptionReference;
-    //!relationship R5303 is DomainService unconditionally XX one Domain, Domain unconditionally YY one DomainService;
+    //!R5303
     //!domain
     my_domain : iDomain;
   end object; pragma id(5301);
   object DomainTerminator is
     name : String;
-    //!relationship R5304 is DomainTerminator unconditionally XX one Domain, Domain unconditionally YY one DomainTerminator;
+    //!R5304
     //!domain
     my_domain : iDomain;
   end object; pragma id(5302);
   object DomainTerminatorService is
-    //!relationship R5305 is DomainTerminatorService unconditionally XX one Z_BasicType_domain, Z_BasicType_domain unconditionally YY one DomainTerminatorService;
+    //!R5305
     returnType : iBasicType;
     name : String;
-    //!relationship R5306 is DomainTerminatorService unconditionally XX one DomainTerminator, DomainTerminator unconditionally YY one DomainTerminatorService;
+    //!R5306
     //!terminator
     my_terminator : iDomainTerminator;
-    //!relationship R5307 is DomainTerminatorService unconditionally XX many Z_ParameterDefinition_domain, Z_ParameterDefinition_domain unconditionally YY one DomainTerminatorService;
+    //!R5307
     List_parameters : iParameterDefinition;
-    //!relationship R5308 is DomainTerminatorService unconditionally XX many Z_ExceptionReference_domain, Z_ExceptionReference_domain unconditionally YY one DomainTerminatorService;
+    //!R5308
     List_exceptionSpecs : iExceptionReference;
   end object; pragma id(5303);
   object Domains is

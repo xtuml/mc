@@ -11,7 +11,7 @@ domain masl_exception is
   end object; pragma id(5400);
   object ExceptionDeclaration is
     name : String;
-    //!relationship R5400 is ExceptionDeclaration unconditionally XX one Z_Domain_exception, Z_Domain_exception unconditionally YY one ExceptionDeclaration;
+    //!R5400
     //!domain
     my_domain : iDomain;
   end object; pragma id(5401);

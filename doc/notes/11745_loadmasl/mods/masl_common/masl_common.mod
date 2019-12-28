@@ -1,9 +1,6 @@
 domain masl_common is
   object ParameterDefinition;
   object ParameterModeType;
-  object ParseOptions;
-  object PragmaDefinition;
-  object ReturnCheckVisitor;
   object Service;
   object ServiceOverload;
   object Z_ObjectService_common;
@@ -12,41 +9,31 @@ domain masl_common is
   object Z_ExceptionReference_common;
   object Z_ProjectTerminatorService_common;
   object Z_DomainTerminatorService_common;
-  relationship R5200 is ParameterDefinition unconditionally XX one Z_BasicType_common, Z_BasicType_common unconditionally YY one ParameterDefinition;
-  relationship R5201 is ParameterDefinition unconditionally XX one ParameterModeType, ParameterModeType unconditionally YY one ParameterDefinition;
-  relationship R5202 is ParameterModeType unconditionally XX one ParameterDefinition, ParameterDefinition unconditionally YY one ParameterModeType;
+  relationship R5200 is ParameterDefinition unconditionally is_typed_by one Z_BasicType_common, Z_BasicType_common conditionally types many ParameterDefinition;
+  relationship R5201 is ParameterDefinition unconditionally is_configured_by one ParameterModeType, ParameterModeType conditionally configures many ParameterDefinition;
   relationship R5203 is Service is_a ( Z_DomainService_common, Z_DomainTerminatorService_common, Z_ObjectService_common, Z_ProjectTerminatorService_common );
-  relationship R5204 is Service unconditionally XX many ParameterDefinition, ParameterDefinition unconditionally YY one Service;
-  relationship R5205 is Service unconditionally XX one Z_BasicType_common, Z_BasicType_common unconditionally YY one Service;
-  relationship R5206 is Service unconditionally XX many Z_ExceptionReference_common, Z_ExceptionReference_common unconditionally YY one Service;
+  relationship R5204 is Service conditionally passes many ParameterDefinition, ParameterDefinition unconditionally is_passed_by one Service;
+  relationship R5205 is Service unconditionally returns one Z_BasicType_common, Z_BasicType_common conditionally is_returned_by many Service;
+  relationship R5206 is Service conditionally raises many Z_ExceptionReference_common, Z_ExceptionReference_common conditionally is_raised_by many Service;
   object ParameterDefinition is
-    //!relationship R5200 is ParameterDefinition unconditionally XX one Z_BasicType_common, Z_BasicType_common unconditionally YY one ParameterDefinition;
+    //!R5200
     //!type
     my_type : iBasicType;
     name : String;
-    //!relationship R5201 is ParameterDefinition unconditionally XX one ParameterModeType, ParameterModeType unconditionally YY one ParameterDefinition;
+    //!R5201
     mode : iParameterModeType;
   end object; pragma id(5200);
   object ParameterModeType is
     text : String;
-    //!relationship R5202 is ParameterModeType unconditionally XX one ParameterDefinition, ParameterDefinition unconditionally YY one ParameterModeType;
-    mode : iParameterDefinition;
+    mode : probably_an_enumeration_IN_OUT_INOUT;
   end object; pragma id(5201);
-  object ParseOptions is
-  end object; pragma id(5202);
-  object PragmaDefinition is
-    List_values : String;
-    name : String;
-  end object; pragma id(5203);
-  object ReturnCheckVisitor is
-  end object; pragma id(5204);
   object Service is
-    //!relationship R5204 is Service unconditionally XX many ParameterDefinition, ParameterDefinition unconditionally YY one Service;
+    //!R5204
     List_parameters : iParameterDefinition;
     name : String;
-    //!relationship R5205 is Service unconditionally XX one Z_BasicType_common, Z_BasicType_common unconditionally YY one Service;
+    //!R5205
     returnType : iBasicType;
-    //!relationship R5206 is Service unconditionally XX many Z_ExceptionReference_common, Z_ExceptionReference_common unconditionally YY one Service;
+    //!R5206
     List_exceptionSpecs : iExceptionReference;
   end object; pragma id(5205);
   object ServiceOverload is

@@ -29,25 +29,25 @@ domain masl_relationship is
   relationship R6017 is SubtypeRelationshipDeclaration unconditionally XX one Z_ObjectDeclaration_relationship, Z_ObjectDeclaration_relationship unconditionally YY one SubtypeRelationshipDeclaration;
   relationship R6018 is SubtypeRelationshipDeclaration unconditionally XX one Z_Domain_relationship, Z_Domain_relationship unconditionally YY one SubtypeRelationshipDeclaration;
   object AssociativeRelationshipDeclaration is
-    //!relationship R6000 is AssociativeRelationshipDeclaration unconditionally XX one HalfRelationship, HalfRelationship unconditionally YY one AssociativeRelationshipDeclaration;
+    //!R6000
     leftToRight : iHalfRelationship;
-    //!relationship R6001 is AssociativeRelationshipDeclaration unconditionally XX one Z_ObjectDeclaration_relationship, Z_ObjectDeclaration_relationship unconditionally YY one AssociativeRelationshipDeclaration;
+    //!R6001
     assocObject : iObjectDeclaration;
     name : String;
-    //!relationship R6002 is AssociativeRelationshipDeclaration unconditionally XX one HalfRelationship, HalfRelationship unconditionally YY one AssociativeRelationshipDeclaration;
+    //!R6002
     rightToLeft : iHalfRelationship;
-    //!relationship R6003 is AssociativeRelationshipDeclaration unconditionally XX one Z_Domain_relationship, Z_Domain_relationship unconditionally YY one AssociativeRelationshipDeclaration;
+    //!R6003
     //!domain
     my_domain : iDomain;
   end object; pragma id(6000);
   object HalfRelationship is
     conditional : boolean;
     role : String;
-    //!relationship R6004 is HalfRelationship unconditionally XX one Z_ObjectNameExpression_relationship, Z_ObjectNameExpression_relationship unconditionally YY one HalfRelationship;
+    //!R6004
     toObject : iObjectNameExpression;
-    //!relationship R6005 is HalfRelationship unconditionally XX one MultiplicityType, MultiplicityType unconditionally YY one HalfRelationship;
+    //!R6005
     mult : iMultiplicityType;
-    //!relationship R6006 is HalfRelationship unconditionally XX one Z_ObjectNameExpression_relationship, Z_ObjectNameExpression_relationship unconditionally YY one HalfRelationship;
+    //!R6006
     fromObject : iObjectNameExpression;
   end object; pragma id(6001);
   object MultiplicityType is
@@ -56,39 +56,39 @@ domain masl_relationship is
     my_type : MultiplictyType;
   end object; pragma id(6002);
   object NormalRelationshipDeclaration is
-    //!relationship R6007 is NormalRelationshipDeclaration unconditionally XX one HalfRelationship, HalfRelationship unconditionally YY one NormalRelationshipDeclaration;
+    //!R6007
     leftToRight : iHalfRelationship;
     name : String;
-    //!relationship R6008 is NormalRelationshipDeclaration unconditionally XX one HalfRelationship, HalfRelationship unconditionally YY one NormalRelationshipDeclaration;
+    //!R6008
     rightToLeft : iHalfRelationship;
-    //!relationship R6009 is NormalRelationshipDeclaration unconditionally XX one Z_Domain_relationship, Z_Domain_relationship unconditionally YY one NormalRelationshipDeclaration;
+    //!R6009
     //!domain
     my_domain : iDomain;
   end object; pragma id(6003);
   object RelationshipDeclaration is
   end object; pragma id(6004);
   object RelationshipSpecification is
-    //!relationship R6011 is RelationshipSpecification unconditionally XX one Z_ObjectDeclaration_relationship, Z_ObjectDeclaration_relationship unconditionally YY one RelationshipSpecification;
+    //!R6011
     toObject : iObjectDeclaration;
-    //!relationship R6012 is RelationshipSpecification unconditionally XX one MultiplicityType, MultiplicityType unconditionally YY one RelationshipSpecification;
+    //!R6012
     mult : iMultiplicityType;
-    //!relationship R6013 is RelationshipSpecification unconditionally XX one HalfRelationship, HalfRelationship unconditionally YY one RelationshipSpecification;
+    //!R6013
     half : iHalfRelationship;
     role : String;
     conditional : boolean;
-    //!relationship R6014 is RelationshipSpecification unconditionally XX one Z_ObjectDeclaration_relationship, Z_ObjectDeclaration_relationship unconditionally YY one RelationshipSpecification;
+    //!R6014
     fromObject : iObjectDeclaration;
-    //!relationship R6015 is RelationshipSpecification unconditionally XX one RelationshipDeclaration, RelationshipDeclaration unconditionally YY one RelationshipSpecification;
+    //!R6015
     //!relationship
     my_relationship : iRelationshipDeclaration;
   end object; pragma id(6005);
   object SubtypeRelationshipDeclaration is
-    //!relationship R6016 is SubtypeRelationshipDeclaration unconditionally XX many Z_ObjectDeclaration_relationship, Z_ObjectDeclaration_relationship unconditionally YY one SubtypeRelationshipDeclaration;
+    //!R6016
     List_subtypes : iObjectDeclaration;
     name : String;
-    //!relationship R6017 is SubtypeRelationshipDeclaration unconditionally XX one Z_ObjectDeclaration_relationship, Z_ObjectDeclaration_relationship unconditionally YY one SubtypeRelationshipDeclaration;
+    //!R6017
     supertype : iObjectDeclaration;
-    //!relationship R6018 is SubtypeRelationshipDeclaration unconditionally XX one Z_Domain_relationship, Z_Domain_relationship unconditionally YY one SubtypeRelationshipDeclaration;
+    //!R6018
     //!domain
     my_domain : iDomain;
   end object; pragma id(6006);

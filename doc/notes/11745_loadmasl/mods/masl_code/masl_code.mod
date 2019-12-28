@@ -82,17 +82,17 @@ domain masl_code is
   relationship R5141 is WhileStatement unconditionally XX many Statement, Statement unconditionally YY one WhileStatement;
   relationship R5142 is WhileStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one WhileStatement;
   object AssignmentStatement is
-    //!relationship R5100 is AssignmentStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one AssignmentStatement;
+    //!R5100
     value : iExpression;
-    //!relationship R5101 is AssignmentStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one AssignmentStatement;
+    //!R5101
     target : iExpression;
   end object; pragma id(5100);
   object CancelTimerStatement is
-    //!relationship R5102 is CancelTimerStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one CancelTimerStatement;
+    //!R5102
     timerId : iExpression;
   end object; pragma id(5101);
   object CaseStatement is
-    //!relationship R5103 is CaseStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one CaseStatement;
+    //!R5103
     discriminator : iExpression;
     List_alternatives : Alternative;
   end object; pragma id(5102);
@@ -100,38 +100,38 @@ domain masl_code is
     topLevel : boolean;
   end object; pragma id(5103);
   object DelayStatement is
-    //!relationship R5104 is DelayStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one DelayStatement;
+    //!R5104
     duration : iExpression;
   end object; pragma id(5104);
   object DeleteStatement is
-    //!relationship R5105 is DeleteStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one DeleteStatement;
+    //!R5105
     //!instance
     my_instance : iExpression;
   end object; pragma id(5105);
   object DomainServiceInvocation is
   end object; pragma id(5106);
   object EraseStatement is
-    //!relationship R5106 is EraseStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one EraseStatement;
+    //!R5106
     //!dictionary
     my_dictionary : iExpression;
-    //!relationship R5107 is EraseStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one EraseStatement;
+    //!R5107
     key : iExpression;
   end object; pragma id(5107);
   object ExceptionHandler is
-    //!relationship R5108 is ExceptionHandler unconditionally XX one Z_ExceptionReference_code, Z_ExceptionReference_code unconditionally YY one ExceptionHandler;
+    //!R5108
     //!exception
     my_exception : iExceptionReference;
   end object; pragma id(5108);
   object ExitStatement is
-    //!relationship R5109 is ExitStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one ExitStatement;
+    //!R5109
     condition : iExpression;
   end object; pragma id(5109);
   object ForStatement is
-    //!relationship R5110 is ForStatement unconditionally XX one LoopSpec, LoopSpec unconditionally YY one ForStatement;
+    //!R5110
     loopSpec : iLoopSpec;
   end object; pragma id(5110);
   object FromToRange is
-    //!relationship R5111 is FromToRange unconditionally XX one Z_MinMaxRange_code, Z_MinMaxRange_code unconditionally YY one FromToRange;
+    //!R5111
     //!range
     my_range : iMinMaxRange;
     //!reverse
@@ -139,15 +139,15 @@ domain masl_code is
     loopVariable : String;
   end object; pragma id(5111);
   object GenerateStatement is
-    //!relationship R5112 is GenerateStatement unconditionally XX one Z_EventExpression_code, Z_EventExpression_code unconditionally YY one GenerateStatement;
+    //!R5112
     eventRef : iEventExpression;
-    //!relationship R5113 is GenerateStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one GenerateStatement;
+    //!R5113
     toInstance : iExpression;
-    //!relationship R5114 is GenerateStatement unconditionally XX many Z_Expression_code, Z_Expression_code unconditionally YY one GenerateStatement;
+    //!R5114
     List_arguments : iExpression;
   end object; pragma id(5112);
   object IOStreamStatement is
-    //!relationship R5115 is IOStreamStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one IOStreamStatement;
+    //!R5115
     streamName : iExpression;
     List_arguments : IOExpression;
   end object; pragma id(5113);
@@ -155,29 +155,29 @@ domain masl_code is
     List_branches : Branch;
   end object; pragma id(5114);
   object InstanceServiceInvocation is
-    //!relationship R5116 is InstanceServiceInvocation unconditionally XX one Z_ObjectService_code, Z_ObjectService_code unconditionally YY one InstanceServiceInvocation;
+    //!R5116
     //!service
     my_service : iObjectService;
-    //!relationship R5117 is InstanceServiceInvocation unconditionally XX many Z_Expression_code, Z_Expression_code unconditionally YY one InstanceServiceInvocation;
+    //!R5117
     List_arguments : iExpression;
-    //!relationship R5118 is InstanceServiceInvocation unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one InstanceServiceInvocation;
+    //!R5118
     //!instance
     my_instance : iExpression;
   end object; pragma id(5115);
   object LinkUnlinkStatement is
-    //!relationship R5119 is LinkUnlinkStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one LinkUnlinkStatement;
+    //!R5119
     rhs : iExpression;
-    //!relationship R5120 is LinkUnlinkStatement unconditionally XX one Z_RelationshipSpecification_code, Z_RelationshipSpecification_code unconditionally YY one LinkUnlinkStatement;
+    //!R5120
     relRef : iRelationshipSpecification;
-    //!relationship R5121 is LinkUnlinkStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one LinkUnlinkStatement;
+    //!R5121
     assoc : iExpression;
     //!type
     my_type : Type;
-    //!relationship R5122 is LinkUnlinkStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one LinkUnlinkStatement;
+    //!R5122
     lhs : iExpression;
   end object; pragma id(5116);
   object LoopSpec is
-    //!relationship R5124 is LoopSpec unconditionally XX one Z_BasicType_code, Z_BasicType_code unconditionally YY one LoopSpec;
+    //!R5124
     //!type
     my_type : iBasicType;
     //!reverse
@@ -189,32 +189,32 @@ domain masl_code is
   object PragmaStatement is
   end object; pragma id(5119);
   object RaiseStatement is
-    //!relationship R5125 is RaiseStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one RaiseStatement;
+    //!R5125
     message : iExpression;
-    //!relationship R5126 is RaiseStatement unconditionally XX one Z_ExceptionReference_code, Z_ExceptionReference_code unconditionally YY one RaiseStatement;
+    //!R5126
     //!exception
     my_exception : iExceptionReference;
   end object; pragma id(5120);
   object ReturnStatement is
-    //!relationship R5127 is ReturnStatement unconditionally XX one Z_Service_code, Z_Service_code unconditionally YY one ReturnStatement;
+    //!R5127
     currentService : iService;
-    //!relationship R5128 is ReturnStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one ReturnStatement;
+    //!R5128
     returnValue : iExpression;
   end object; pragma id(5121);
   object ScheduleStatement is
     isAbsolute : boolean;
-    //!relationship R5129 is ScheduleStatement unconditionally XX one GenerateStatement, GenerateStatement unconditionally YY one ScheduleStatement;
+    //!R5129
     //!generate
     my_generate : iGenerateStatement;
-    //!relationship R5130 is ScheduleStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one ScheduleStatement;
+    //!R5130
     time : iExpression;
-    //!relationship R5131 is ScheduleStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one ScheduleStatement;
+    //!R5131
     period : iExpression;
-    //!relationship R5132 is ScheduleStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one ScheduleStatement;
+    //!R5132
     timerId : iExpression;
   end object; pragma id(5122);
   object ServiceInvocation is
-    //!relationship R5134 is ServiceInvocation unconditionally XX many Z_Expression_code, Z_Expression_code unconditionally YY one ServiceInvocation;
+    //!R5134
     List_arguments : iExpression;
     //!service
     my_service : ServiceType;
@@ -224,7 +224,7 @@ domain masl_code is
   object TerminatorServiceInvocation is
   end object; pragma id(5125);
   object TypeRange is
-    //!relationship R5136 is TypeRange unconditionally XX one Z_BasicType_code, Z_BasicType_code unconditionally YY one TypeRange;
+    //!R5136
     //!type
     my_type : iBasicType;
     //!reverse
@@ -232,33 +232,33 @@ domain masl_code is
     loopVariable : String;
   end object; pragma id(5126);
   object VariableDefinition is
-    //!relationship R5137 is VariableDefinition unconditionally XX one Z_BasicType_code, Z_BasicType_code unconditionally YY one VariableDefinition;
+    //!R5137
     //!type
     my_type : iBasicType;
-    //!relationship R5138 is VariableDefinition unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one VariableDefinition;
+    //!R5138
     initialValue : iExpression;
     name : String;
     //!readonly
     my_readonly : boolean;
   end object; pragma id(5127);
   object VariableElements is
-    //!relationship R5139 is VariableElements unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one VariableElements;
+    //!R5139
     variable : iExpression;
     //!reverse
     my_reverse : boolean;
     loopVariable : String;
   end object; pragma id(5128);
   object VariableRange is
-    //!relationship R5140 is VariableRange unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one VariableRange;
+    //!R5140
     variable : iExpression;
     //!reverse
     my_reverse : boolean;
     loopVariable : String;
   end object; pragma id(5129);
   object WhileStatement is
-    //!relationship R5141 is WhileStatement unconditionally XX many Statement, Statement unconditionally YY one WhileStatement;
+    //!R5141
     List_statements : iStatement;
-    //!relationship R5142 is WhileStatement unconditionally XX one Z_Expression_code, Z_Expression_code unconditionally YY one WhileStatement;
+    //!R5142
     condition : iExpression;
   end object; pragma id(5130);
 
