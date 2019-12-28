@@ -134,9 +134,6 @@ domain masl_code is
     //!R5111
     //!range
     my_range : iMinMaxRange;
-    //!reverse
-    my_reverse : boolean;
-    loopVariable : String;
   end object; pragma id(5111);
   object GenerateStatement is
     //!R5112
@@ -227,9 +224,6 @@ domain masl_code is
     //!R5136
     //!type
     my_type : iBasicType;
-    //!reverse
-    my_reverse : boolean;
-    loopVariable : String;
   end object; pragma id(5126);
   object VariableDefinition is
     //!R5137
@@ -244,16 +238,10 @@ domain masl_code is
   object VariableElements is
     //!R5139
     variable : iExpression;
-    //!reverse
-    my_reverse : boolean;
-    loopVariable : String;
   end object; pragma id(5128);
   object VariableRange is
     //!R5140
     variable : iExpression;
-    //!reverse
-    my_reverse : boolean;
-    loopVariable : String;
   end object; pragma id(5129);
   object WhileStatement is
     //!R5141
