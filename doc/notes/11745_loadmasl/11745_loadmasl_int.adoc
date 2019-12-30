@@ -26,6 +26,7 @@ Enumerate transformation and implementation of the OOA of MASL.
 * Add R5402 between ExceptionReference and ExceptionDeclaration.
 * Promote parameters, returntype and exceptions from ObjectService to Service.
 * Add R5807 between AttributeDeclaration and IdentifierDeclaration.
+* Promote parameters, returntype and exceptions from ProjectTerminatorService to Service.
 
 == 5 Implementation Comments
 
