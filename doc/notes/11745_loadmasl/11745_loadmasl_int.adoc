@@ -29,6 +29,10 @@ Enumerate transformation and implementation of the OOA of MASL.
 * Promote parameters, returntype and exceptions from ProjectTerminatorService to Service.
 * Promote domain link from Relationship subtypes to RelationshipDeclaration supertype.
 * Demote MultiplicityType to enumeration.
+* In object, link deferred ObjectService to SubtypeRelationship rather than Relationship.
+* Demote EventType to enumeration.
+* Demote StateType to enumeration.
+* Demote TransitionType to enumeration.
 
 == 5 Implementation Comments
 
