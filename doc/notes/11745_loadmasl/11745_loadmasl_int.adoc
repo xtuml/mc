@@ -27,20 +27,34 @@ Enumerate transformation and implementation of the OOA of MASL.
 * Promote parameters, returntype and exceptions from ObjectService to Service.
 * Add R5807 between AttributeDeclaration and IdentifierDeclaration.
 * Promote parameters, returntype and exceptions from ProjectTerminatorService to Service.
+* Promote domain link from Relationship subtypes to RelationshipDeclaration supertype.
+* Demote MultiplicityType to enumeration.
 
 == 5 Implementation Comments
 
 === 5.1 Questions
 
 * What is 'lhs' and 'rhs' in the context of StringLiteral?
-* Would MASL support a list as the argument of an invocation?
+* Does MASL support a list (variable of type list of...) as the argument of an
+  invocation?
 * Do you think masl::referential is modeled better (as M:M associative)?
+* R6013 between RelationshipSpecification and HalfRelationship confuses me.
+  How does this work?
+* Why does HalfRelationship use ObjectNameExpression, and
+  RelationshipSpecification links directly to ObjectDeclaration?  This
+  seems backwards to me.
 
 === 5.2 Other Work
 
 * Need to define enumerated types.
   ** 'ImplType' for built-in exceptions
   ** 'Visibility':  private, public
+
+=== 5.3 Least Favorite Parts of MM
+
+* HalfRelationship:  Consider 'participation' from masl.
+* Referential attributes:  Consider 'referential' from masl.
+* State machine:  Consider simpler and cleaner from masl.
 
 == 6 Unit Test
 
