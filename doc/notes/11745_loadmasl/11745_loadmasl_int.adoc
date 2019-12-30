@@ -18,11 +18,28 @@ Enumerate transformation and implementation of the OOA of MASL.
 * Promote lhs, rhs and operator attributes to supertype of BinaryExpression.
 * Promote lhs and rhs relationships to supertype BinaryExpression.
 * Promote text from IntegerLiteral and RealLiteral to supertype NumericLiteral.
+* Promote loopVariable from LoopSpec subtypes (by removing from subtypes).
+* Promote my_reverse from LoopSpec subtypes (by removing from subtypes).
+* Change 'name : String' to 'name : Name' to provide a specific UDT for names.
+* Promote parameters, returntype and exceptions from DomainService to Service.
+* Promote parameters, returntype and exceptions from DomainTerminatorService to Service.
+* Add R5402 between ExceptionReference and ExceptionDeclaration.
+* Promote parameters, returntype and exceptions from ObjectService to Service.
+* Add R5807 between AttributeDeclaration and IdentifierDeclaration.
 
 == 5 Implementation Comments
 
-. What is 'lhs' and 'rhs' in the context of StringLiteral?
-. Would MASL support a list as the argument of an invocation?
+=== 5.1 Questions
+
+* What is 'lhs' and 'rhs' in the context of StringLiteral?
+* Would MASL support a list as the argument of an invocation?
+* Do you think masl::referential is modeled better (as M:M associative)?
+
+=== 5.2 Other Work
+
+* Need to define enumerated types.
+  ** 'ImplType' for built-in exceptions
+  ** 'Visibility':  private, public
 
 == 6 Unit Test
 

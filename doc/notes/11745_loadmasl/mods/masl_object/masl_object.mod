@@ -8,21 +8,18 @@ domain masl_object is
   object Z_BasicType_object;
   object Z_RelationshipSpecification_object;
   object Z_RelationshipDeclaration_object;
-  object Z_ExceptionReference_object;
   object Z_Expression_object;
-  object Z_ParameterDefinition_object;
-  relationship R5800 is AttributeDeclaration unconditionally XX many ReferentialAttributeDefinition, ReferentialAttributeDefinition unconditionally YY one AttributeDeclaration;
-  relationship R5801 is AttributeDeclaration unconditionally XX one Z_Expression_object, Z_Expression_object unconditionally YY one AttributeDeclaration;
-  relationship R5802 is AttributeDeclaration unconditionally XX one ObjectDeclaration, ObjectDeclaration unconditionally YY one AttributeDeclaration;
-  relationship R5803 is AttributeDeclaration unconditionally XX one Z_BasicType_object, Z_BasicType_object unconditionally YY one AttributeDeclaration;
-  relationship R5804 is IdentifierDeclaration unconditionally XX one ObjectDeclaration, ObjectDeclaration unconditionally YY one IdentifierDeclaration;
-  relationship R5805 is ObjectDeclaration unconditionally XX one Z_Domain_object, Z_Domain_object unconditionally YY one ObjectDeclaration;
-  relationship R5806 is ObjectService unconditionally XX one Z_RelationshipDeclaration_object, Z_RelationshipDeclaration_object unconditionally YY one ObjectService;
-  relationship R5807 is ObjectService unconditionally XX many Z_ParameterDefinition_object, Z_ParameterDefinition_object unconditionally YY one ObjectService;
-  relationship R5808 is ObjectService unconditionally XX one ObjectDeclaration, ObjectDeclaration unconditionally YY one ObjectService;
-  relationship R5809 is ObjectService unconditionally XX one Z_BasicType_object, Z_BasicType_object unconditionally YY one ObjectService;
-  relationship R5810 is ObjectService unconditionally XX many Z_ExceptionReference_object, Z_ExceptionReference_object unconditionally YY one ObjectService;
-  relationship R5811 is ReferentialAttributeDefinition unconditionally XX one Z_RelationshipSpecification_object, Z_RelationshipSpecification_object unconditionally YY one ReferentialAttributeDefinition;
+  relationship R5800 is AttributeDeclaration conditionally is_referred_to_in many ReferentialAttributeDefinition, ReferentialAttributeDefinition conditionally refers_to one AttributeDeclaration;
+  relationship R5801 is AttributeDeclaration conditionally is_initialized_by one Z_Expression_object, Z_Expression_object conditionally initializes one AttributeDeclaration;
+  relationship R5802 is AttributeDeclaration unconditionally characterizes one ObjectDeclaration, ObjectDeclaration conditionally is_characterized_by many AttributeDeclaration;
+  relationship R5803 is AttributeDeclaration unconditionally is_typed_by one Z_BasicType_object, Z_BasicType_object conditionally types many AttributeDeclaration;
+  relationship R5804 is IdentifierDeclaration unconditionally identifies one ObjectDeclaration, ObjectDeclaration conditionally is_identified_by one IdentifierDeclaration;
+  relationship R5805 is ObjectDeclaration conditionally is_abstracted_in one Z_Domain_object, Z_Domain_object conditionally has_abstract many ObjectDeclaration;
+  relationship R5806 is ObjectService conditionally defers_to one Z_RelationshipDeclaration_object, Z_RelationshipDeclaration_object conditionally is_deferred_by one ObjectService;
+  relationship R5807 is AttributeDeclaration conditionally composes many IdentifierDeclaration, IdentifierDeclaration unconditionally is_composed_of many AttributeDeclaration;
+  relationship R5808 is ObjectService unconditionally transforms one ObjectDeclaration, ObjectDeclaration conditionally is_transformed_by many ObjectService;
+  relationship R5809 is AttributeDeclaration conditionally succeeds one AttributeDeclaration, AttributeDeclaration conditionally precedes one AttributeDeclaration;
+  relationship R5811 is ReferentialAttributeDefinition unconditionally refers_to one Z_RelationshipSpecification_object, Z_RelationshipSpecification_object conditionally is_referenced_by many ReferentialAttributeDefinition;
   object AttributeDeclaration is
     isPreferredIdentifier : boolean;
     isUnique : boolean;
@@ -55,20 +52,17 @@ domain masl_object is
   object ObjectService is
     //!R5806
     relRef : iRelationshipDeclaration;
-    //!R5807
-    List_parameters : iParameterDefinition;
     name : Name;
     //!R5808
     //!object
     my_object : iObjectDeclaration;
-    //!R5809
-    returnType : iBasicType;
-    //!R5810
-    List_exceptionSpecs : iExceptionReference;
     isInstance : boolean;
   end object; pragma id(5803);
   object ReferentialAttributeDefinition is
-    attributeName : String;
+    //!R5800
+    attributeName : Name;
+    //!R5807
+    refattr : iAttributeDeclaration;
     //!R5811
     //!relationship
     my_relationship : iRelationshipSpecification;
@@ -91,14 +85,7 @@ domain masl_object is
   end object; pragma id(5808);
 
   //!IMPORTED
-  object Z_ExceptionReference_object is
-  end object; pragma id(5809);
-
-  //!IMPORTED
   object Z_Expression_object is
   end object; pragma id(5810);
 
-  //!IMPORTED
-  object Z_ParameterDefinition_object is
-  end object; pragma id(5811);
 end domain;

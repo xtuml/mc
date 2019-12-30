@@ -133,8 +133,9 @@ MASL activity.  This note documents design steps to achieve this parsing.
      needing a component.
 . subsystems
   .. Establish subsystems.
-     ... code, common, domain, error, exception, expression, name, object,
-         project, relationship, statemodel, type, parsable_element, marking.
+     ... binary, code, common, domain, exception, expression, invocation,
+         literal, object, project, relationship, statemodel, type,
+         parsable_element, marking.
      ... Establish subsystem number scheme to be used for class numbers
          (after import) and relationship numbers.
      ... Script will assign relationship numbers according to this scheme.
@@ -177,7 +178,6 @@ MASL activity.  This note documents design steps to achieve this parsing.
          .... 'Name' is a UDT used instead of 'string' on names.  This
               will be useful in the future lookups, identifier
               construction, etc.
-         .... 'Name' is a UDT used instead of 'string' on names.  This
          .... 'MASLID' is a UDT used instead of 'unique_id'.  It will
               enable overloading identifiers and linking to the 'syntax'
               domain.
