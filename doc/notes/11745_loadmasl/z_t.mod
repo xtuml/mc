@@ -31,71 +31,39 @@ domain z_t is
   object Imported_PragmaList;
   object Imported_Visibility;
 
-  private type Position is integer;
-
-  private type iDomain is instance of Imported_Domain;
-  private type iExpression is instance of Imported_Expression;
-  private type iObjectDeclaration is instance of Imported_ObjectDeclaration;
-  private type iPragmaList is instance of Imported_PragmaList;
-  private type iVisibility is instance of Imported_Visibility;
-
-  private type iAnonymousStructure is instance of AnonymousStructure;
-  private type iArrayType is instance of ArrayType;
-  private type iBagType is instance of BagType;
-  private type iBasicType is instance of BasicType;
-  private type iBuiltinType is instance of BuiltinType;
-  private type iCollectionType is instance of CollectionType;
-  private type iConstrainedType is instance of ConstrainedType;
-  private type iDeltaConstraint is instance of DeltaConstraint;
-  private type iDictionaryType is instance of DictionaryType;
-  private type iDigitsConstraint is instance of DigitsConstraint;
-  private type iEnumerateItem is instance of EnumerateItem;
-  private type iEnumerateType is instance of EnumerateType;
-  private type iInstanceType is instance of InstanceType;
-  private type iRangeConstraint is instance of RangeConstraint;
-  private type iSequenceType is instance of SequenceType;
-  private type iSetType is instance of SetType;
-  private type iStructureElement is instance of StructureElement;
-  private type iStructureType is instance of StructureType;
-  private type iTypeConstraint is instance of TypeConstraint;
-  private type iTypeDeclaration is instance of TypeDeclaration;
-  private type iTypeDefinition is instance of TypeDefinition;
-  private type iUnconstrainedArraySubtype is instance of UnconstrainedArraySubtype;
-  private type iUnconstrainedArrayType is instance of UnconstrainedArrayType;
-  private type iUserDefinedType is instance of UserDefinedType;
-
   //!associations
-  relationship R1 is AnonymousStructure unconditionally structures many BasicType, BasicType conditionally is_structured_by many AnonymousStructure;
-  relationship R2 is ArrayType unconditionally is_bounded_by one RangeExpression, RangeExpression conditionally bounds one ArrayType;
-  relationship R3 is BasicType is_a ( BuiltinType, CollectionType, ConstrainedArray, DictionaryType, InstanceType, UserDefinedType );
-  relationship R4 is CollectionType is_a ( ArrayType, SetType, BagType, SequenceType );
-  relationship R5 is ConstrainedType unconditionally constrains one BasicType, BasicType conditionally is_constrained_by many ConstrainedType;
-  relationship R6 is ConstrainedType unconditionally is_defined_by one TypeConstraint, TypeConstraint unconditionally defines one ConstrainedType;
-  relationship R7 is DeltaConstraint unconditionally has_resolution one Imported_Expression, Imported_Expression conditionally is_resolution_of one DeltaConstraint;
-  relationship R8 is DeltaConstraint unconditionally is_spanned_by one RangeConstraint, RangeConstraint conditionally spans one DeltaConstraint;
-  relationship R9 is DictionaryType unconditionally pairs_key_on one BasicType, BasicType conditionally is_keyed_by many DictionaryType;
-  relationship R10 is DictionaryType unconditionally pairs_value_on one BasicType, BasicType conditionally is_valued_by many DictionaryType;
-  relationship R11 is DigitsConstraint unconditionally is_limited_by one Imported_Expression, Imported_Expression conditionally limits one DigitsConstraint;
-  relationship R12 is DigitsConstraint unconditionally is_spanned_by one RangeConstraint, RangeConstraint conditionally spans one DigitsConstraint;
-  relationship R13 is EnumerateItem conditionally is_set_by one Imported_Expression, Imported_Expression conditionally sets one EnumerateItem;
-  relationship R14 is EnumerateItem unconditionally is_a_possible_value_of one EnumerateType, EnumerateType unconditionally has_possible_value many EnumerateItem;
-  relationship R15 is RangeConstraint unconditionally is_bounded_by one RangeExpression, RangeExpression conditionally bounds one RangeConstraint;
-  relationship R16 is SequenceType conditionally has_max_size one Imported_Expression, Imported_Expression conditionally is_max_size_of many SequenceType;
-  relationship R17 is StructureElement unconditionally is_type_of one BasicType, BasicType conditionally types many StructureElement;
-  relationship R18 is StructureElement conditionally is_initialized_by one Imported_Expression, Imported_Expression conditionally initializes one StructureElement;
-  relationship R19 is StructureElement conditionally is_marked_by one Imported_PragmaList, Imported_PragmaList conditionally marks one StructureElement;
-  relationship R20 is TypeConstraint is_a ( DeltaConstraint, DigitsConstraint, RangeConstraint );
-  relationship R21 is TypeConstraint unconditionally is_bounded_by one RangeExpression, RangeExpression conditionally bounds one TypeConstraint;
-  relationship R22 is TypeDeclaration unconditionally is_defined_in one Imported_Domain, Imported_Domain conditionally defines many TypeDeclaration;
-  relationship R23 is TypeDeclaration unconditionally is_scoped_by one Imported_Visibility, Imported_Visibility conditionally scopes many TypeDeclaration;
-  relationship R24 is TypeDeclaration unconditionally is_defined_by one TypeDefinition, TypeDefinition unconditionally defines one TypeDeclaration;
-  relationship R25 is TypeDeclaration conditionally is_marked_by one Imported_PragmaList, Imported_PragmaList conditionally marks one TypeDeclaration;
-  relationship R26 is TypeDefinition is_a ( BasicType, ConstrainedType, EnumerateType, StructureType, UnconstrainedArray );
-  relationship R27 is UnconstrainedArraySubtype conditionally arrays one UserDefinedType, UserDefinedType conditionally is_arrayed_by one UnconstrainedArraySubtype;
-  relationship R28 is UnconstrainedArraySubtype conditionally is_bounded_by one RangeExpression, RangeExpression conditionally bounds one UnconstrainedArraySubtype;
-  relationship R29 is UnconstrainedArrayType unconditionally arrays one BasicType, BasicType conditionally is_arrayed_by many UnconstrainedArrayType;
-  relationship R30 is UnconstrainedArrayType unconditionally indexes_with one BasicType, BasicType conditionally is_indexed_by many UnconstrainedArrayType;
-  relationship R31 is UserDefinedType unconditionally is_shaped_by one TypeDeclaration, TypeDeclaration conditionally is_shaped_by one UserDefinedType;
+  relationship R6200 is AnonymousStructure unconditionally structures many BasicType, BasicType conditionally is_structured_by many AnonymousStructure;
+  relationship R6201 is ArrayType unconditionally is_bounded_by one RangeExpression, RangeExpression conditionally bounds one ArrayType;
+  relationship R6205 is BasicType is_a ( AnonymousStructure, BuiltinType, CollectionType, ConstrainedArray, DictionaryType, InstanceType, UserDefinedType );
+  relationship R6206 is BuiltinType is_a (
+  relationship R6207 is CollectionType is_a ( ArrayType, BagType, RangeType, SequenceType, SetType );
+  relationship R6209 is ConstrainedType unconditionally constrains one BasicType, BasicType conditionally is_constrained_by many ConstrainedType;
+  relationship R6210 is ConstrainedType unconditionally is_defined_by one TypeConstraint, TypeConstraint unconditionally defines one ConstrainedType;
+  relationship R6211 is DeltaConstraint unconditionally has_resolution one Imported_Expression, Imported_Expression conditionally is_resolution_of one DeltaConstraint;
+  relationship R6212 is DeltaConstraint unconditionally is_spanned_by one RangeConstraint, RangeConstraint conditionally spans one DeltaConstraint;
+  relationship R6213 is DictionaryType unconditionally pairs_key_on one BasicType, BasicType conditionally is_keyed_by many DictionaryType;
+  relationship R6214 is DictionaryType unconditionally pairs_value_on one BasicType, BasicType conditionally is_valued_by many DictionaryType;
+  relationship R6215 is DigitsConstraint unconditionally is_limited_by one Imported_Expression, Imported_Expression conditionally limits one DigitsConstraint;
+  relationship R6216 is DigitsConstraint unconditionally is_spanned_by one RangeConstraint, RangeConstraint conditionally spans one DigitsConstraint;
+  relationship R6217 is EnumerateItem conditionally is_set_by one Imported_Expression, Imported_Expression conditionally sets one EnumerateItem;
+  relationship R6218 is EnumerateItem unconditionally is_a_possible_value_of one EnumerateType, EnumerateType unconditionally has_possible_value many EnumerateItem;
+  relationship R625 is RangeConstraint unconditionally is_bounded_by one RangeExpression, RangeExpression conditionally bounds one RangeConstraint;
+  relationship R626 is SequenceType conditionally has_max_size one Imported_Expression, Imported_Expression conditionally is_max_size_of many SequenceType;
+  relationship R6230 is StructureElement unconditionally is_type_of one BasicType, BasicType conditionally types many StructureElement;
+  relationship R6229 is StructureElement conditionally is_initialized_by one Imported_Expression, Imported_Expression conditionally initializes one StructureElement;
+  relationship R629 is StructureElement conditionally is_marked_by one Imported_PragmaList, Imported_PragmaList conditionally marks one StructureElement;
+  relationship R6232 is TypeConstraint is_a ( DeltaConstraint, DigitsConstraint, RangeConstraint );
+  relationship R6233 is TypeConstraint unconditionally is_bounded_by one RangeExpression, RangeExpression conditionally bounds one TypeConstraint;
+  relationship R622 is TypeDeclaration unconditionally is_defined_in one Imported_Domain, Imported_Domain conditionally defines many TypeDeclaration;
+  relationship R623 is TypeDeclaration unconditionally is_scoped_by one Imported_Visibility, Imported_Visibility conditionally scopes many TypeDeclaration;
+  relationship R624 is TypeDeclaration unconditionally is_defined_by one TypeDefinition, TypeDefinition unconditionally defines one TypeDeclaration;
+  relationship R625 is TypeDeclaration conditionally is_marked_by one Imported_PragmaList, Imported_PragmaList conditionally marks one TypeDeclaration;
+  relationship R6236 is TypeDefinition is_a ( BasicType, ConstrainedType, EnumerateType, StructureType, UnconstrainedArray );
+  relationship R627 is UnconstrainedArraySubtype conditionally arrays one UserDefinedType, UserDefinedType conditionally is_arrayed_by one UnconstrainedArraySubtype;
+  relationship R628 is UnconstrainedArraySubtype conditionally is_bounded_by one RangeExpression, RangeExpression conditionally bounds one UnconstrainedArraySubtype;
+  relationship R629 is UnconstrainedArrayType unconditionally arrays one BasicType, BasicType conditionally is_arrayed_by many UnconstrainedArrayType;
+  relationship R620 is UnconstrainedArrayType unconditionally indexes_with one BasicType, BasicType conditionally is_indexed_by many UnconstrainedArrayType;
+  relationship R621 is UserDefinedType unconditionally is_shaped_by one TypeDeclaration, TypeDeclaration conditionally is_shaped_by one UserDefinedType;
 
   //! These are Imported Classes.
   object Imported_Domain is

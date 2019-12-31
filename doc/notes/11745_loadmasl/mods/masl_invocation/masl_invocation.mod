@@ -13,7 +13,7 @@ domain masl_invocation is
   relationship R5603 is FunctionInvocation conditionally passes one Z_Expression_invocation, Z_Expression_invocation conditionally is_passed_on one FunctionInvocation;
   relationship R5604 is InstanceFunctionInvocation unconditionally invokes one Z_ObjectService_invocation, Z_ObjectService_invocation conditionally is_invoked_as many InstanceFunctionInvocation;
   relationship R5606 is InstanceFunctionInvocation unconditionally is_accessed_via one Z_Expression_invocation, Z_Expression_invocation conditionally accesses one InstanceFunctionInvocation;
-  relationship R5607 is ObjectFunctionInvocation unconditionally invokes one Z_ObjectService_invocation, Z_ObjectService_invocation conditionally many many ObjectFunctionInvocation;
+  relationship R5607 is ObjectFunctionInvocation unconditionally invokes one Z_ObjectService_invocation, Z_ObjectService_invocation conditionally is_invoked_as many ObjectFunctionInvocation;
   relationship R5609 is TerminatorFunctionInvocation unconditionally invokes one Z_DomainTerminatorService_invocation, Z_DomainTerminatorService_invocation conditionally is_invoked_as many TerminatorFunctionInvocation;
   object DomainFunctionInvocation is
     //!R5601

@@ -46,49 +46,43 @@ domain masl_type is
   object Z_Expression_type;
   object Z_Domain_type;
   object Z_RangeExpression_type;
-  relationship R6200 is AnonymousStructure unconditionally XX many BasicType, BasicType unconditionally YY one AnonymousStructure;
-  relationship R6201 is ArrayType unconditionally XX one Z_Expression_type, Z_Expression_type unconditionally YY one ArrayType;
-  relationship R6202 is ArrayType unconditionally XX one BasicType, BasicType unconditionally YY one ArrayType;
-  relationship R6203 is ArrayType unconditionally XX one Z_RangeExpression_type, Z_RangeExpression_type unconditionally YY one ArrayType;
-  relationship R6204 is BagType unconditionally XX one BasicType, BasicType unconditionally YY one BagType;
+
+  //!associations
+  relationship R6200 is AnonymousStructure unconditionally structures many BasicType, BasicType conditionally is_structured_by many AnonymousStructure;
+  relationship R6201 is ArrayType unconditionally is_bounded_by one Z_RangeExpression_type, Z_RangeExpression_type conditionally bounds one ArrayType;
   relationship R6205 is BasicType is_a ( AnonymousStructure, BuiltinType, CollectionType, DictionaryType, InstanceType, InternalType, UnconstrainedArraySubtype, UserDefinedType );
   relationship R6206 is BuiltinType is_a ( AnyInstanceType, BooleanType, CharacterType, DeviceType, DurationType, EventType, NumericType, StringType, TimerType, TimestampType, WCharacterType, WStringType );
   relationship R6207 is CollectionType is_a ( ArrayType, BagType, RangeType, SequenceType, SetType );
-  relationship R6208 is CollectionType unconditionally XX one BasicType, BasicType unconditionally YY one CollectionType;
-  relationship R6209 is ConstrainedType unconditionally XX one TypeConstraint, TypeConstraint unconditionally YY one ConstrainedType;
-  relationship R6210 is ConstrainedType unconditionally XX one BasicType, BasicType unconditionally YY one ConstrainedType;
-  relationship R6211 is DeltaConstraint unconditionally XX one Z_Expression_type, Z_Expression_type unconditionally YY one DeltaConstraint;
-  relationship R6212 is DeltaConstraint unconditionally XX one RangeConstraint, RangeConstraint unconditionally YY one DeltaConstraint;
-  relationship R6213 is DictionaryType unconditionally XX one BasicType, BasicType unconditionally YY one DictionaryType;
-  relationship R6214 is DictionaryType unconditionally XX one BasicType, BasicType unconditionally YY one DictionaryType;
-  relationship R6215 is DigitsConstraint unconditionally XX one Z_Expression_type, Z_Expression_type unconditionally YY one DigitsConstraint;
-  relationship R6216 is DigitsConstraint unconditionally XX one RangeConstraint, RangeConstraint unconditionally YY one DigitsConstraint;
-  relationship R6217 is EnumerateItem unconditionally XX one Z_Expression_type, Z_Expression_type unconditionally YY one EnumerateItem;
-  relationship R6218 is EnumerateType unconditionally XX many EnumerateItem, EnumerateItem unconditionally YY one EnumerateType;
+  relationship R6208 is CollectionType unconditionally collects one BasicType, BasicType conditionally is_collected_by many CollectionType;
+  relationship R6209 is ConstrainedType unconditionally is_defined_by one TypeConstraint, TypeConstraint conditionally defines many ConstrainedType;
+  relationship R6210 is ConstrainedType unconditionally constrains one BasicType, BasicType conditionally is_constrained_by many ConstrainedType;
+  relationship R6211 is DeltaConstraint unconditionally has_resolution one Z_Expression_type, Z_Expression_type conditionally is_resolution_of one DeltaConstraint;
+  relationship R6212 is DeltaConstraint unconditionally is_spanned_by one RangeConstraint, RangeConstraint conditionally spans one DeltaConstraint;
+  relationship R6213 is DictionaryType unconditionally pairs_key_on one BasicType, BasicType conditionally is_keyed_by one DictionaryType;
+  relationship R6214 is DictionaryType unconditionally pairs_value_on one BasicType, BasicType conditionally is_valued_by one DictionaryType;
+  relationship R6215 is DigitsConstraint unconditionally is_limited_by one Z_Expression_type, Z_Expression_type conditionally limits one DigitsConstraint;
+  relationship R6216 is DigitsConstraint unconditionally is_spanned_by one RangeConstraint, RangeConstraint unconditionally spans one DigitsConstraint;
+  relationship R6217 is EnumerateItem conditionally is_set_by one Z_Expression_type, Z_Expression_type conditionally sets one EnumerateItem;
+  relationship R6218 is EnumerateType unconditionally defines_discrete many EnumerateItem, EnumerateItem unconditionally is_discrete_value_of one EnumerateType;
   relationship R6219 is FullTypeDefinition is_a ( ConstrainedType, EnumerateType, StructureType, UnconstrainedArrayType );
-  relationship R6220 is InstanceType unconditionally XX one Z_ObjectDeclaration_type, Z_ObjectDeclaration_type unconditionally YY one InstanceType;
+  relationship R6220 is InstanceType unconditionally references one Z_ObjectDeclaration_type, Z_ObjectDeclaration_type conditionally is_referenced_by one InstanceType;
   relationship R6221 is NumericType is_a ( ByteType, IntegerType, RealType, SmallIntegerType );
-  relationship R6222 is NumericType unconditionally XX one Z_Expression_type, Z_Expression_type unconditionally YY one NumericType;
-  relationship R6223 is NumericType unconditionally XX one Z_Expression_type, Z_Expression_type unconditionally YY one NumericType;
-  relationship R6224 is RangeConstraint unconditionally XX one Z_Expression_type, Z_Expression_type unconditionally YY one RangeConstraint;
-  relationship R6225 is RangeType unconditionally XX one BasicType, BasicType unconditionally YY one RangeType;
-  relationship R6226 is SequenceType unconditionally XX one Z_Expression_type, Z_Expression_type unconditionally YY one SequenceType;
-  relationship R6227 is SequenceType unconditionally XX one BasicType, BasicType unconditionally YY one SequenceType;
-  relationship R6228 is SetType unconditionally XX one BasicType, BasicType unconditionally YY one SetType;
-  relationship R6229 is StructureElement unconditionally XX one Z_Expression_type, Z_Expression_type unconditionally YY one StructureElement;
-  relationship R6230 is StructureElement unconditionally XX one BasicType, BasicType unconditionally YY one StructureElement;
-  relationship R6231 is StructureType unconditionally XX many StructureElement, StructureElement unconditionally YY one StructureType;
+  relationship R6222 is NumericType unconditionally has_max one Z_Expression_type, Z_Expression_type conditionally is_max_of one NumericType;
+  relationship R6223 is NumericType unconditionally has_min one Z_Expression_type, Z_Expression_type unconditionally is_min_of one NumericType;
+  relationship R6224 is RangeConstraint unconditionally is_bounded_by one Z_RangeExpression_type, Z_RangeExpression_type conditionally bounds one RangeConstraint;
+  relationship R6226 is SequenceType conditionally has_max_size one Z_Expression_type, Z_Expression_type conditionally is_max_size_of one SequenceType;
+  relationship R6229 is StructureElement conditionally is_initialized_by one Z_Expression_type, Z_Expression_type conditionally initializes one StructureElement;
+  relationship R6230 is StructureElement unconditionally is_type_of one BasicType, BasicType conditionally types many StructureElement;
   relationship R6232 is TypeConstraint is_a ( DeltaConstraint, DigitsConstraint, RangeConstraint );
-  relationship R6233 is TypeConstraint unconditionally XX one Z_Expression_type, Z_Expression_type unconditionally YY one TypeConstraint;
-  relationship R6234 is TypeDeclaration unconditionally XX one TypeDefinition, TypeDefinition unconditionally YY one TypeDeclaration;
-  relationship R6235 is TypeDeclaration unconditionally XX one Z_Domain_type, Z_Domain_type unconditionally YY one TypeDeclaration;
+  relationship R6233 is TypeConstraint unconditionally is_bounded_by one Z_RangeExpression_type, Z_RangeExpression_type conditionally bounds one TypeConstraint;
+  relationship R6234 is TypeDeclaration unconditionally is_defined_by one TypeDefinition, TypeDefinition unconditionally defines one TypeDeclaration;
+  relationship R6235 is TypeDeclaration unconditionally is_defined_in one Z_Domain_type, Z_Domain_type conditionally defines many TypeDeclaration;
   relationship R6236 is TypeDefinition is_a ( BasicType, FullTypeDefinition );
-  relationship R6237 is UnconstrainedArraySubtype unconditionally XX one Z_Expression_type, Z_Expression_type unconditionally YY one UnconstrainedArraySubtype;
-  relationship R6238 is UnconstrainedArraySubtype unconditionally XX one UserDefinedType, UserDefinedType unconditionally YY one UnconstrainedArraySubtype;
-  relationship R6239 is UnconstrainedArrayType unconditionally XX one BasicType, BasicType unconditionally YY one UnconstrainedArrayType;
-  relationship R6240 is UnconstrainedArrayType unconditionally XX one BasicType, BasicType unconditionally YY one UnconstrainedArrayType;
-  relationship R6241 is UserDefinedType unconditionally XX one TypeDeclaration, TypeDeclaration unconditionally YY one UserDefinedType;
-  relationship R6242 is UserDefinedType unconditionally XX one TypeDeclaration, TypeDeclaration unconditionally YY one UserDefinedType;
+  relationship R6237 is UnconstrainedArraySubtype unconditionally has_span one Z_RangeExpression_type, Z_RangeExpression_type conditionally spans one UnconstrainedArraySubtype;
+  relationship R6238 is UnconstrainedArraySubtype unconditionally arrays one UserDefinedType, UserDefinedType conditionally is_arrayed_by many UnconstrainedArraySubtype;
+  relationship R6239 is UnconstrainedArrayType unconditionally indexes_with one BasicType, BasicType conditionally indexes many UnconstrainedArrayType;
+  relationship R6240 is UnconstrainedArrayType unconditionally arrays one BasicType, BasicType conditionally is_arrayed_by many UnconstrainedArrayType;
+  relationship R6241 is UserDefinedType unconditionally is_shaped_by one TypeDeclaration, TypeDeclaration conditionally is_shaped_by one UserDefinedType;
   object AnonymousStructure is
     //!R6200
     List_elements : iBasicType;
@@ -100,20 +94,13 @@ domain masl_type is
   object ArrayType is
     //!R6201
     //!range
-    my_range : iExpression;
+    my_range : iRangeExpression;
     //!anonymous
     my_anonymous : boolean;
-    //!R6202
-    containedType : iBasicType;
-    //!R6203
-    //!range
-    my_range1 : iRangeExpression;
   end object; pragma id(6202);
   object BagType is
     //!anonymous
     my_anonymous : boolean;
-    //!R6204
-    containedType : iBasicType;
   end object; pragma id(6203);
   object BasicType is
   end object; pragma id(6204);
@@ -222,11 +209,9 @@ domain masl_type is
   object RangeConstraint is
     //!R6224
     //!range
-    my_range : iExpression;
+    my_range : iRangeExpression;
   end object; pragma id(6224);
   object RangeType is
-    //!R6225
-    containedType : iBasicType;
   end object; pragma id(6225);
   object RealType is
     //!anonymous
@@ -237,14 +222,10 @@ domain masl_type is
     my_anonymous : boolean;
     //!R6226
     bound : iExpression;
-    //!R6227
-    containedType : iBasicType;
   end object; pragma id(6227);
   object SetType is
     //!anonymous
     my_anonymous : boolean;
-    //!R6228
-    containedType : iBasicType;
   end object; pragma id(6228);
   object SmallIntegerType is
     //!anonymous
@@ -263,8 +244,6 @@ domain masl_type is
     name : Name;
   end object; pragma id(6231);
   object StructureType is
-    //!R6231
-    List_elements : iStructureElement;
   end object; pragma id(6232);
   object TimerType is
     //!anonymous
@@ -277,7 +256,7 @@ domain masl_type is
   object TypeConstraint is
     //!R6233
     //!range
-    my_range : iExpression;
+    my_range : iRangeExpression;
   end object; pragma id(6235);
   object TypeDeclaration is
     name : Name;
@@ -292,7 +271,7 @@ domain masl_type is
   object UnconstrainedArraySubtype is
     //!R6237
     //!range
-    my_range : iExpression;
+    my_range : iRangeExpression;
     //!R6238
     fullType : iUserDefinedType;
     //!anonymous
@@ -310,9 +289,6 @@ domain masl_type is
     my_type : iTypeDeclaration;
     //!anonymous
     my_anonymous : boolean;
-    //!R6242
-    //!type
-    my_type1 : iTypeDeclaration;
   end object; pragma id(6240);
   object WCharacterType is
     //!anonymous

@@ -48,6 +48,12 @@ Enumerate transformation and implementation of the OOA of MASL.
   RelationshipSpecification links directly to ObjectDeclaration?  This
   seems backwards to me.
 
+* Which is best, derived structural OOA of MASL or 'masl'?
+  ** Derived has benefit of potential reuse of his parser and walker.
+  ** 'masl' is more abstract
+  ** 'masl' has something of a parser and input path (SMASL).
+* What path will be best for parsing and loading?
+
 === 5.2 Other Work
 
 * Need to define enumerated types.
