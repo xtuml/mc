@@ -59,6 +59,7 @@ Enumerate transformation and implementation of the OOA of MASL.
 * Need to define enumerated types.
   ** 'ImplType' for built-in exceptions
   ** 'Visibility':  private, public
+* Fix CodeBlock in 'code' ('statement').
 
 === 5.3 Least Favorite Parts of MM
 
