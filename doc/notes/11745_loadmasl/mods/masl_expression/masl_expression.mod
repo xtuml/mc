@@ -27,7 +27,6 @@ domain masl_expression is
   object ObjectNameExpression;
   object OrderingExpression;
   object ParameterNameExpression;
-  object ParseExpression;
   object RangeExpression;
   object SelectedAttributeExpression;
   object SelectedComponentExpression;
@@ -56,68 +55,64 @@ domain masl_expression is
   object Z_RelationshipSpecification_expression;
   object Z_LiteralExpression_expression;
   relationship R5500 is CallExpression is_a ( CastExpression );
-  relationship R5501 is CastExpression unconditionally XX one TypeNameExpression, TypeNameExpression unconditionally YY one CastExpression;
-  relationship R5502 is CastExpression unconditionally XX one Expression, Expression unconditionally YY one CastExpression;
-  relationship R5503 is CharacteristicExpression unconditionally XX many Expression, Expression unconditionally YY one CharacteristicExpression;
-  relationship R5504 is CharacteristicExpression unconditionally XX one Expression, Expression unconditionally YY one CharacteristicExpression;
-  relationship R5505 is CharacteristicRange unconditionally XX one CharacteristicExpression, CharacteristicExpression unconditionally YY one CharacteristicRange;
-  relationship R5506 is CorrelatedNavExpression unconditionally XX one Expression, Expression unconditionally YY one CorrelatedNavExpression;
-  relationship R5507 is CorrelatedNavExpression unconditionally XX one Z_RelationshipSpecification_expression, Z_RelationshipSpecification_expression unconditionally YY one CorrelatedNavExpression;
-  relationship R5508 is CorrelatedNavExpression unconditionally XX one Expression, Expression unconditionally YY one CorrelatedNavExpression;
-  relationship R5509 is CreateDurationExpression unconditionally XX one Z_BasicType_expression, Z_BasicType_expression unconditionally YY one CreateDurationExpression;
-  relationship R5510 is CreateDurationExpression unconditionally XX one Expression, Expression unconditionally YY one CreateDurationExpression;
-  relationship R5511 is CreateExpression unconditionally XX one Z_ObjectDeclaration_expression, Z_ObjectDeclaration_expression unconditionally YY one CreateExpression;
-  relationship R5512 is DictionaryAccessExpression unconditionally XX one Expression, Expression unconditionally YY one DictionaryAccessExpression;
-  relationship R5513 is DictionaryAccessExpression unconditionally XX one Expression, Expression unconditionally YY one DictionaryAccessExpression;
-  relationship R5514 is DictionaryContainsExpression unconditionally XX one Expression, Expression unconditionally YY one DictionaryContainsExpression;
-  relationship R5515 is DictionaryContainsExpression unconditionally XX one Expression, Expression unconditionally YY one DictionaryContainsExpression;
-  relationship R5516 is EventExpression unconditionally XX one Z_EventDeclaration_expression, Z_EventDeclaration_expression unconditionally YY one EventExpression;
-  relationship R5517 is Expression is_a ( AnyExpression, Z_BinaryExpression_expression, CallExpression, CharacteristicExpression, CorrelatedNavExpression, CreateDurationExpression, CreateExpression, DictionaryAccessExpression, DictionaryContainsExpression, DictionaryKeysExpression, DictionaryValuesExpression, ElementsExpression, EofExpression, EventExpression, FindAttributeNameExpression, FindExpression, FindParameterExpression, IndexedNameExpression, LinkUnlinkExpression, Z_LiteralExpression_expression, NavigationExpression, ObjectNameExpression, OrderingExpression, ParameterNameExpression, ParseExpression, RangeExpression, SelectedAttributeExpression, SelectedComponentExpression, SliceExpression, SplitExpression, StructureAggregate, TerminatorNameExpression, TimeFieldExpression, TimerFieldExpression, TimestampDeltaExpression, TypeNameExpression, UnaryExpression, VariableNameExpression );
-  relationship R5518 is FindAttributeNameExpression unconditionally XX one Z_AttributeDeclaration_expression, Z_AttributeDeclaration_expression unconditionally YY one FindAttributeNameExpression;
-  relationship R5519 is FindExpression unconditionally XX one Expression, Expression unconditionally YY one FindExpression;
-  relationship R5520 is FindExpression unconditionally XX one Expression, Expression unconditionally YY one FindExpression;
-  relationship R5521 is FindParameterExpression unconditionally XX one Z_BasicType_expression, Z_BasicType_expression unconditionally YY one FindParameterExpression;
-  relationship R5522 is IndexedNameExpression unconditionally XX one Expression, Expression unconditionally YY one IndexedNameExpression;
-  relationship R5523 is IndexedNameExpression unconditionally XX one Expression, Expression unconditionally YY one IndexedNameExpression;
-  relationship R5524 is InstanceOrderingExpression unconditionally XX one Expression, Expression unconditionally YY one InstanceOrderingExpression;
-  relationship R5525 is LinkUnlinkExpression unconditionally XX one Z_RelationshipSpecification_expression, Z_RelationshipSpecification_expression unconditionally YY one LinkUnlinkExpression;
-  relationship R5526 is LinkUnlinkExpression unconditionally XX one Expression, Expression unconditionally YY one LinkUnlinkExpression;
-  relationship R5527 is LinkUnlinkExpression unconditionally XX one Expression, Expression unconditionally YY one LinkUnlinkExpression;
-  relationship R5528 is MinMaxRange unconditionally XX one Expression, Expression unconditionally YY one MinMaxRange;
-  relationship R5529 is MinMaxRange unconditionally XX one Expression, Expression unconditionally YY one MinMaxRange;
-  relationship R5530 is NavigationExpression unconditionally XX one Expression, Expression unconditionally YY one NavigationExpression;
-  relationship R5531 is NavigationExpression unconditionally XX one Z_RelationshipSpecification_expression, Z_RelationshipSpecification_expression unconditionally YY one NavigationExpression;
-  relationship R5532 is NavigationExpression unconditionally XX one Expression, Expression unconditionally YY one NavigationExpression;
-  relationship R5533 is ObjectNameExpression unconditionally XX one Z_ObjectDeclaration_expression, Z_ObjectDeclaration_expression unconditionally YY one ObjectNameExpression;
+  relationship R5501 is CastExpression unconditionally coerses_to one TypeNameExpression, TypeNameExpression conditionally is_coercion_of one CastExpression;
+  relationship R5502 is CastExpression unconditionally casts one Expression, Expression conditionally is_cast_by one CastExpression;
+  relationship R5503 is CharacteristicExpression conditionally passes many Expression, Expression conditionally are_passed_on one CharacteristicExpression;
+  relationship R5504 is CharacteristicExpression unconditionally has_base one Expression, Expression conditionally is_base_of one CharacteristicExpression;
+  relationship R5505 is CharacteristicRange unconditionally spans one CharacteristicExpression, CharacteristicExpression conditionally is_spanned_by one CharacteristicRange;
+  relationship R5506 is CorrelatedNavExpression unconditionally correlates_lhs_instance one Expression, Expression conditionally is_lhs_instance_of one CorrelatedNavExpression;
+  relationship R5507 is CorrelatedNavExpression unconditionally specifies one Z_RelationshipSpecification_expression, Z_RelationshipSpecification_expression conditionally is_specified_in one CorrelatedNavExpression;
+  relationship R5508 is CorrelatedNavExpression unconditionally with_rhs_instance one Expression, Expression conditionally is_rhs_instance_of one CorrelatedNavExpression;
+  relationship R5509 is CreateDurationExpression unconditionally is_typed_by one Z_BasicType_expression, Z_BasicType_expression conditionally types one CreateDurationExpression;
+  relationship R5510 is CreateDurationExpression unconditionally results_in one Expression, Expression conditionally is_result_of one CreateDurationExpression;
+  relationship R5511 is CreateExpression unconditionally creates_instance_of one Z_ObjectDeclaration_expression, Z_ObjectDeclaration_expression conditionally is_created_by one CreateExpression;
+  relationship R5512 is DictionaryAccessExpression unconditionally is_indexed_by one Expression, Expression conditionally indexes one DictionaryAccessExpression;
+  relationship R5513 is DictionaryAccessExpression unconditionally is_prefixed_by one Expression, Expression conditionally prefixes one DictionaryAccessExpression;
+  relationship R5514 is DictionaryContainsExpression unconditionally is_indexed_by one Expression, Expression conditionally indexes one DictionaryContainsExpression;
+  relationship R5515 is DictionaryContainsExpression unconditionally is_prefixed_by one Expression, Expression conditionally prefixes one DictionaryContainsExpression;
+  relationship R5516 is EventExpression unconditionally is_use_of one Z_EventDeclaration_expression, Z_EventDeclaration_expression conditionally is_used_by many EventExpression;
+  relationship R5517 is Expression is_a ( AnyExpression, Z_BinaryExpression_expression, CallExpression, CharacteristicExpression, CorrelatedNavExpression, CreateDurationExpression, CreateExpression, DictionaryAccessExpression, DictionaryContainsExpression, DictionaryKeysExpression, DictionaryValuesExpression, ElementsExpression, EofExpression, EventExpression, FindAttributeNameExpression, FindExpression, FindParameterExpression, IndexedNameExpression, LinkUnlinkExpression, Z_LiteralExpression_expression, NavigationExpression, ObjectNameExpression, OrderingExpression, ParameterNameExpression, RangeExpression, SelectedAttributeExpression, SelectedComponentExpression, SliceExpression, SplitExpression, StructureAggregate, TerminatorNameExpression, TimeFieldExpression, TimerFieldExpression, TimestampDeltaExpression, TypeNameExpression, UnaryExpression, VariableNameExpression );
+  relationship R5518 is FindAttributeNameExpression unconditionally names one Z_AttributeDeclaration_expression, Z_AttributeDeclaration_expression conditionally is_named_in many FindAttributeNameExpression;
+  relationship R5519 is FindExpression unconditionally searches one Expression, Expression conditionally is_searched_by one FindExpression;
+  relationship R5520 is FindExpression unconditionally is_conditioned_by one Expression, Expression conditionally conditions one FindExpression;
+  relationship R5521 is FindParameterExpression unconditionally is_typed_by one Z_BasicType_expression, Z_BasicType_expression conditionally types one FindParameterExpression;
+  relationship R5522 is IndexedNameExpression unconditionally is_indexed_by one Expression, Expression conditionally indexes one IndexedNameExpression;
+  relationship R5523 is IndexedNameExpression unconditionally is_prefixed_by one Expression, Expression conditionally prefixes one IndexedNameExpression;
+  relationship R5524 is InstanceOrderingExpression unconditionally orders one Expression, Expression conditionally is_ordered_by one InstanceOrderingExpression;
+  relationship R5525 is LinkUnlinkExpression unconditionally operates_across one Z_RelationshipSpecification_expression, Z_RelationshipSpecification_expression conditionally is_operated_across one LinkUnlinkExpression;
+  relationship R5526 is LinkUnlinkExpression unconditionally has_lhs_instance one Expression, Expression conditionally is_lhs_instance one LinkUnlinkExpression;
+  relationship R5527 is LinkUnlinkExpression unconditionally has_rhs_instance one Expression, Expression conditionally is_rhs_instance one LinkUnlinkExpression;
+  relationship R5528 is MinMaxRange unconditionally has_max one Expression, Expression conditionally is_max_of one MinMaxRange;
+  relationship R5529 is MinMaxRange unconditionally has_min one Expression, Expression conditionally is_min_of one MinMaxRange;
+  relationship R5530 is NavigationExpression unconditionally is_conditioned_by one Expression, Expression conditionally conditions one NavigationExpression;
+  relationship R5531 is NavigationExpression unconditionally operates_across one Z_RelationshipSpecification_expression, Z_RelationshipSpecification_expression conditionally is_operated_across one NavigationExpression;
+  relationship R5532 is NavigationExpression unconditionally has_lhs_instance one Expression, Expression conditionally is_lhs_instance one NavigationExpression;
+  relationship R5533 is ObjectNameExpression unconditionally names one Z_ObjectDeclaration_expression, Z_ObjectDeclaration_expression conditionally is_named_by many ObjectNameExpression;
   relationship R5534 is OrderingExpression is_a ( InstanceOrderingExpression, StructureOrderingExpression );
-  relationship R5535 is OrderingExpression unconditionally XX one Expression, Expression unconditionally YY one OrderingExpression;
-  relationship R5536 is ParameterNameExpression unconditionally XX one Z_ParameterDefinition_expression, Z_ParameterDefinition_expression unconditionally YY one ParameterNameExpression;
-  relationship R5537 is ParseExpression unconditionally XX one Expression, Expression unconditionally YY one ParseExpression;
-  relationship R5538 is ParseExpression unconditionally XX one Z_BasicType_expression, Z_BasicType_expression unconditionally YY one ParseExpression;
-  relationship R5539 is ParseExpression unconditionally XX one Expression, Expression unconditionally YY one ParseExpression;
+  relationship R5535 is OrderingExpression unconditionally orders one Expression, Expression conditionally is_ordered_by one OrderingExpression;
+  relationship R5536 is ParameterNameExpression unconditionally names one Z_ParameterDefinition_expression, Z_ParameterDefinition_expression conditionally is_named_by many ParameterNameExpression;
   relationship R5540 is RangeExpression is_a ( CharacteristicRange, MinMaxRange );
-  relationship R5541 is SelectedAttributeExpression unconditionally XX one Z_AttributeDeclaration_expression, Z_AttributeDeclaration_expression unconditionally YY one SelectedAttributeExpression;
-  relationship R5542 is SelectedAttributeExpression unconditionally XX one Expression, Expression unconditionally YY one SelectedAttributeExpression;
-  relationship R5543 is SelectedComponentExpression unconditionally XX one Z_StructureElement_expression, Z_StructureElement_expression unconditionally YY one SelectedComponentExpression;
-  relationship R5544 is SelectedComponentExpression unconditionally XX one Expression, Expression unconditionally YY one SelectedComponentExpression;
-  relationship R5545 is ServiceExpression unconditionally XX one Z_ServiceOverload_expression, Z_ServiceOverload_expression unconditionally YY one ServiceExpression;
-  relationship R5546 is SliceExpression unconditionally XX one RangeExpression, RangeExpression unconditionally YY one SliceExpression;
-  relationship R5547 is SliceExpression unconditionally XX one Expression, Expression unconditionally YY one SliceExpression;
-  relationship R5548 is SplitExpression unconditionally XX one Z_BasicType_expression, Z_BasicType_expression unconditionally YY one SplitExpression;
-  relationship R5549 is SplitExpression unconditionally XX many Expression, Expression unconditionally YY one SplitExpression;
-  relationship R5550 is SplitExpression unconditionally XX one Expression, Expression unconditionally YY one SplitExpression;
-  relationship R5551 is StructureAggregate unconditionally XX many Expression, Expression unconditionally YY one StructureAggregate;
-  relationship R5552 is StructureAggregate unconditionally XX many Expression, Expression unconditionally YY one StructureAggregate;
-  relationship R5553 is StructureAggregate unconditionally XX one Z_BasicType_expression, Z_BasicType_expression unconditionally YY one StructureAggregate;
-  relationship R5554 is StructureOrderingExpression unconditionally XX one Expression, Expression unconditionally YY one StructureOrderingExpression;
-  relationship R5555 is TerminatorNameExpression unconditionally XX one Z_DomainTerminator_expression, Z_DomainTerminator_expression unconditionally YY one TerminatorNameExpression;
-  relationship R5556 is TimeFieldExpression unconditionally XX one Expression, Expression unconditionally YY one TimeFieldExpression;
-  relationship R5557 is TimerFieldExpression unconditionally XX one Expression, Expression unconditionally YY one TimerFieldExpression;
-  relationship R5558 is TimestampDeltaExpression unconditionally XX one Expression, Expression unconditionally YY one TimestampDeltaExpression;
-  relationship R5559 is TimestampDeltaExpression unconditionally XX one Expression, Expression unconditionally YY one TimestampDeltaExpression;
-  relationship R5560 is TypeNameExpression unconditionally XX one Z_BasicType_expression, Z_BasicType_expression unconditionally YY one TypeNameExpression;
-  relationship R5561 is UnaryExpression unconditionally XX one Expression, Expression unconditionally YY one UnaryExpression;
-  relationship R5562 is VariableNameExpression unconditionally XX one Z_VariableDefinition_expression, Z_VariableDefinition_expression unconditionally YY one VariableNameExpression;
+  relationship R5541 is SelectedAttributeExpression unconditionally names one Z_AttributeDeclaration_expression, Z_AttributeDeclaration_expression conditionally is_named_in one SelectedAttributeExpression;
+  relationship R5542 is SelectedAttributeExpression unconditionally has_instance_prefix one Expression, Expression conditionally is_instance_prefix one SelectedAttributeExpression;
+  relationship R5543 is SelectedComponentExpression unconditionally names one Z_StructureElement_expression, Z_StructureElement_expression conditionally is_named_in one SelectedComponentExpression;
+  relationship R5544 is SelectedComponentExpression unconditionally has_navigation_prefix one Expression, Expression conditionally is_navigation_prefix one SelectedComponentExpression;
+  relationship R5545 is ServiceExpression unconditionally invokes one Z_ServiceOverload_expression, Z_ServiceOverload_expression conditionally is_invoked_by one ServiceExpression;
+  relationship R5546 is SliceExpression unconditionally is_spanned_by one RangeExpression, RangeExpression conditionally spans one SliceExpression;
+  relationship R5547 is SliceExpression unconditionally is_prefixed_by one Expression, Expression conditionally prefixes one SliceExpression;
+  relationship R5548 is SplitExpression unconditionally has_resulting_type one Z_BasicType_expression, Z_BasicType_expression conditionally types one SplitExpression;
+  relationship R5549 is SplitExpression unconditionally passes many Expression, Expression conditionally are_passed_by one SplitExpression;
+  relationship R5550 is SplitExpression unconditionally has_lhs one Expression, Expression conditionally is_lhs_of one SplitExpression;
+  relationship R5551 is StructureAggregate unconditionally structures many Expression, Expression conditionally is_structured_by one StructureAggregate;
+  relationship R5553 is StructureAggregate unconditionally is_typed_by one Z_BasicType_expression, Z_BasicType_expression conditionally types one StructureAggregate;
+  relationship R5554 is StructureOrderingExpression unconditionally orders one Expression, Expression conditionally is_ordered_by one StructureOrderingExpression;
+  relationship R5555 is TerminatorNameExpression unconditionally names one Z_DomainTerminator_expression, Z_DomainTerminator_expression conditionally is_named_by many TerminatorNameExpression;
+  relationship R5556 is TimeFieldExpression unconditionally has_lhs one Expression, Expression conditionally is_lhs_of one TimeFieldExpression;
+  relationship R5557 is TimerFieldExpression unconditionally has_lhs one Expression, Expression conditionally is_lhs_of one TimerFieldExpression;
+  relationship R5558 is TimestampDeltaExpression unconditionally takes_arg one Expression, Expression conditionally is_arg_of one TimestampDeltaExpression;
+  relationship R5559 is TimestampDeltaExpression unconditionally has_lhs one Expression, Expression conditionally is_lhs_of one TimestampDeltaExpression;
+  relationship R5560 is TypeNameExpression unconditionally is_typed_by one Z_BasicType_expression, Z_BasicType_expression conditionally types many TypeNameExpression;
+  relationship R5561 is UnaryExpression unconditionally operates_upon one Expression, Expression conditionally is_operated_upon_by one UnaryExpression;
+  relationship R5562 is VariableNameExpression unconditionally has_as_definition one Z_VariableDefinition_expression, Z_VariableDefinition_expression conditionally defines one VariableNameExpression;
   object AnyExpression is
   end object; pragma id(5500);
   object CallExpression is
@@ -137,9 +132,13 @@ domain masl_expression is
     lhs : iExpression;
   end object; pragma id(5503);
   object CharacteristicRange is
+    min : iExpression;
+    max : iExpression;
+    my_type : iBasicType;
     //!R5505
     //!range
     my_range : iCharacteristicExpression;
+    typeName : iTypeNameExpression;
   end object; pragma id(5504);
   object CorrelatedNavExpression is
     //!R5506
@@ -205,6 +204,7 @@ domain masl_expression is
     condition : iExpression;
   end object; pragma id(5518);
   object FindParameterExpression is
+    name : Name;
     //!R5521
     //!type
     my_type : iBasicType;
@@ -262,14 +262,6 @@ domain masl_expression is
     //!R5536
     param : iParameterDefinition;
   end object; pragma id(5527);
-  object ParseExpression is
-    //!R5537
-    base : iExpression;
-    //!R5538
-    lhs : iBasicType;
-    //!R5539
-    argument : iExpression;
-  end object; pragma id(5528);
   object RangeExpression is
   end object; pragma id(5529);
   object SelectedAttributeExpression is
@@ -309,8 +301,6 @@ domain masl_expression is
   object StructureAggregate is
     //!R5551
     List_elements : iExpression;
-    //!R5552
-    List_elements1 : iExpression;
     //!R5553
     //!type
     my_type : iBasicType;

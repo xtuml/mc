@@ -33,6 +33,7 @@ Enumerate transformation and implementation of the OOA of MASL.
 * Demote EventType to enumeration.
 * Demote StateType to enumeration.
 * Demote TransitionType to enumeration.
+* Omitted ParseExpression.
 
 == 5 Implementation Comments
 
