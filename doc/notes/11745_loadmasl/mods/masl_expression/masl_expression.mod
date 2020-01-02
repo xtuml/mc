@@ -113,7 +113,14 @@ domain masl_expression is
   relationship R5560 is TypeNameExpression unconditionally is_typed_by one Z_BasicType_expression, Z_BasicType_expression conditionally types many TypeNameExpression;
   relationship R5561 is UnaryExpression unconditionally operates_upon one Expression, Expression conditionally is_operated_upon_by one UnaryExpression;
   relationship R5562 is VariableNameExpression unconditionally has_as_definition one Z_VariableDefinition_expression, Z_VariableDefinition_expression conditionally defines one VariableNameExpression;
+  relationship R5563 is InstanceOrderingExpression unconditionally is_keyed_by one Z_AttributeDeclaration_expression, Z_AttributeDeclaration_expression conditionally orders many InstanceOrderingExpression;
   object AnyExpression is
+    //!This has to do with characteristics.
+    count : iExpression;
+    //!This has to do with characteristics.
+    collection : iExpression;
+    //!This has to do with characteristics.
+    my_type : iBasicType;
   end object; pragma id(5500);
   object CallExpression is
   end object; pragma id(5501);
@@ -125,6 +132,8 @@ domain masl_expression is
     rhs : iExpression;
   end object; pragma id(5502);
   object CharacteristicExpression is
+    noArgs : int;
+    allowAsPrefix : boolean;
     //!R5503
     List_arguments : iExpression;
     characteristic : Type;
@@ -162,6 +171,10 @@ domain masl_expression is
     //!object
     my_object : iObjectDeclaration;
     List_aggregate : CreateAggregateValue;
+    //!probably need a relationship here
+    value : iExpression;
+    //!might need a relationship here
+    my_state : iState;
   end object; pragma id(5507);
   object DictionaryAccessExpression is
     //!R5512
@@ -176,14 +189,25 @@ domain masl_expression is
     prefix : iExpression;
   end object; pragma id(5509);
   object DictionaryKeysExpression is
+    //!relationship?
+    my_dictionary : iExpression;
+    my_type : iSetType;
   end object; pragma id(5510);
   object DictionaryValuesExpression is
+    //!relationship?
+    my_dictionary : iExpression;
+    my_type : iBagType;
   end object; pragma id(5511);
   object DotExpression is
   end object; pragma id(5512);
   object ElementsExpression is
+    //!relationship?
+    collection : iExpression;
+    my_type : iSequenceType;
   end object; pragma id(5513);
   object EofExpression is
+    //!relationship?
+    device : iExpression;
   end object; pragma id(5514);
   object EventExpression is
     //!R5516
@@ -197,6 +221,8 @@ domain masl_expression is
     attribute : iAttributeDeclaration;
   end object; pragma id(5517);
   object FindExpression is
+    //!This may need to be just a string.
+    name : Name;
     //!R5519
     collection : iExpression;
     findType : ImplType;
@@ -221,8 +247,12 @@ domain masl_expression is
     collection : iExpression;
     //!reverse
     my_reverse : boolean;
+    //!R5563
+    my_attribute : iAttributeDeclaration;
   end object; pragma id(5521);
   object LinkUnlinkExpression is
+    mainText : String;
+    isCollection : boolean;
     //!type
     my_type : Type;
     //!R5525
@@ -237,6 +267,8 @@ domain masl_expression is
     max : iExpression;
     //!R5529
     min : iExpression;
+    //!this may be an indicator of subtype
+    my_type : RangeType;
   end object; pragma id(5523);
   object NavigationExpression is
     //!R5530
@@ -253,6 +285,8 @@ domain masl_expression is
     my_object : iObjectDeclaration;
   end object; pragma id(5525);
   object OrderingExpression is
+    //!probably just a String
+    name : Name;
     //!reverse
     my_reverse : boolean;
     //!R5535
@@ -342,9 +376,11 @@ domain masl_expression is
     my_type : iBasicType;
   end object; pragma id(5541);
   object UnaryExpression is
-    operator : OperatorRef;
+    text : String;
+    operator : Operator;
     //!R5561
     rhs : iExpression;
+    resultType : ResultType;
   end object; pragma id(5542);
   object VariableNameExpression is
     //!R5562

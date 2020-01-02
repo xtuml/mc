@@ -34,6 +34,7 @@ Enumerate transformation and implementation of the OOA of MASL.
 * Demote StateType to enumeration.
 * Demote TransitionType to enumeration.
 * Omitted ParseExpression.
+* Add Alternative to masl_code.
 
 == 5 Implementation Comments
 

@@ -30,7 +30,8 @@ domain masl_literal is
     value : boolean;
   end object; pragma id(5700);
   object CharacterLiteral is
-    literal : String;
+    original : String;
+    noQuotes : String;
   end object; pragma id(5701);
   object ConsoleLiteral is
   end object; pragma id(5702);
@@ -78,7 +79,9 @@ domain masl_literal is
     my_state : iState;
   end object; pragma id(5713);
   object TimestampLiteral is
-    literal : String;
+    datetime : Date;
+    nanos : int;
+    original : String;
   end object; pragma id(5714);
 
   //!IMPORTED

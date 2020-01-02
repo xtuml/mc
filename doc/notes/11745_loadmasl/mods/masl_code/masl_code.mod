@@ -1,4 +1,5 @@
 domain masl_code is
+  object Alternative;
   object AssignmentStatement;
   object CancelTimerStatement;
   object CaseStatement;
@@ -79,8 +80,26 @@ domain masl_code is
   relationship R5138 is VariableDefinition conditionally is_initialized_by one Z_Expression_code, Z_Expression_code conditionally initializes one VariableDefinition;
   relationship R5139 is VariableElements unconditionally has_iterator one Z_Expression_code, Z_Expression_code conditionally is_iterator_of one VariableElements;
   relationship R5140 is VariableRange unconditionally has_iterator one Z_Expression_code, Z_Expression_code conditionally is_iterator_of one VariableRange;
-  relationship R5141 is WhileStatement unconditionally iterates_over many Statement, Statement conditionally is_iterated_by one WhileStatement;
+  relationship R5141 is WhileStatement conditionally iterates_over one Statement, Statement conditionally is_iterated_by one WhileStatement;
   relationship R5142 is WhileStatement unconditionally has_condition one Z_Expression_code, Z_Expression_code conditionally conditions one WhileStatement;
+  relationship R5143 is IfStatement unconditionally has_condition one Z_Expression_code, Z_Expression_code conditionally conditions one IfStatement;
+  relationship R5144 is IfStatement conditionally may_execute_first one Statement, Statement conditionally may_be_executed_by one IfStatement;
+  relationship R5145 is IfStatement conditionally provides many Alternative, Alternative conditionally selected_by one IfStatement;
+  relationship R5146 is CaseStatement conditionally provides many Alternative, Alternative conditionally selected_by one CaseStatement;
+  relationship R5147 is Alternative conditionally has_condition one Z_Expression_code, Z_Expression_code conditionally conditions one Alternative;
+  relationship R5148 is Alternative unconditionally may_execute_first one Statement, Statement conditionally may_be_executed_by one Alternative;
+  relationship R5149 is CodeBlock unconditionally may_execute_first one ExceptionHandler, ExceptionHandler conditionally may_be_executed_by one CodeBlock;
+  relationship R5150 is CodeBlock unconditionally contains_first one Statement, Statement conditionally is_first_in one CodeBlock;
+  relationship R5151 is CodeBlock conditionally scopes many VariableDefinition, VariableDefinition unconditionally is_scoped_in one CodeBlock;
+  relationship R5152 is ExceptionHandler unconditionally contains_first one Statement, Statement conditionally is_first_in one ExceptionHandler;
+  relationship R5153 is ForStatement conditionally contains_first one Statement, Statement conditionally is_first_in one ForStatement;
+  relationship R5154 is LoopSpec conditionally defines one VariableDefinition, VariableDefinition conditionally is_defined_in one LoopSpec;
+  object Alternative is
+    //!R5147
+    condition : iExpression;
+    //!R5148
+    statement : iStatement;
+  end object; pragma id(5139);
   object AssignmentStatement is
     //!R5100
     value : iExpression;
@@ -94,10 +113,17 @@ domain masl_code is
   object CaseStatement is
     //!R5103
     discriminator : iExpression;
+    //!R5146
     List_alternatives : Alternative;
   end object; pragma id(5102);
   object CodeBlock is
     topLevel : boolean;
+    //!R5149
+    List_exceptionHandlers : iExceptionHandler;
+    //!R5150
+    List_statements : iStatement;
+    //!R5151
+    List_variables : iVariableDefinition;
   end object; pragma id(5103);
   object DelayStatement is
     //!R5104
@@ -121,6 +147,8 @@ domain masl_code is
     //!R5108
     //!exception
     my_exception : iExceptionReference;
+    //!R5152
+    statement : iStatement;
   end object; pragma id(5108);
   object ExitStatement is
     //!R5109
@@ -129,6 +157,8 @@ domain masl_code is
   object ForStatement is
     //!R5110
     loopSpec : iLoopSpec;
+    //!R5153
+    statement : iStatement;
   end object; pragma id(5110);
   object FromToRange is
     //!R5111
@@ -147,9 +177,18 @@ domain masl_code is
     //!R5115
     streamName : iExpression;
     List_arguments : IOExpression;
+    operator : String;
+    my_type : enumerationIN_OUT_INOUT;
+    //!I do not know what this is.
+    expression : iExpression;
   end object; pragma id(5113);
   object IfStatement is
-    List_branches : Branch;
+    //!R5143
+    condition : iExpression;
+    //!R5144
+    statements : iStatement;
+    //!R5145
+    List_branches : Alternative;
   end object; pragma id(5114);
   object InstanceServiceInvocation is
     //!R5116
@@ -162,6 +201,8 @@ domain masl_code is
     my_instance : iExpression;
   end object; pragma id(5115);
   object LinkUnlinkStatement is
+    assocText : String;
+    mainText : String;
     //!R5119
     rhs : iExpression;
     //!R5120
@@ -180,6 +221,8 @@ domain masl_code is
     //!reverse
     my_reverse : boolean;
     loopVariable : String;
+    //!R5154
+    loopVarDef : iVariableDefinition;
   end object; pragma id(5117);
   object ObjectServiceInvocation is
   end object; pragma id(5118);
@@ -245,8 +288,7 @@ domain masl_code is
   end object; pragma id(5129);
   object WhileStatement is
     //!R5141
-    //!I think this should be a link to CodeBlock.
-    List_statements : iStatement;
+    statement : iStatement;
     //!R5142
     condition : iExpression;
   end object; pragma id(5130);

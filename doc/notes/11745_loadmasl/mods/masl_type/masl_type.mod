@@ -103,13 +103,15 @@ domain masl_type is
     my_anonymous : boolean;
   end object; pragma id(6203);
   object BasicType is
+    my_anonymous : boolean;
   end object; pragma id(6204);
   object BooleanType is
     //!anonymous
     my_anonymous : boolean;
   end object; pragma id(6205);
   object BuiltinType is
-    text : String;
+    //!maybe this is just String
+    name : Name;
     //!anonymous
     my_anonymous : boolean;
   end object; pragma id(6206);
@@ -169,7 +171,6 @@ domain masl_type is
     name : Name;
     //!R6217
     value : iExpression;
-    name1 : String;
   end object; pragma id(6216);
   object EnumerateType is
     //!R6218

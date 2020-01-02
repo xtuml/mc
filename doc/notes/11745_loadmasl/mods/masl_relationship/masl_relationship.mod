@@ -49,6 +49,7 @@ domain masl_relationship is
     rightToLeft : iHalfRelationship;
   end object; pragma id(6003);
   object RelationshipDeclaration is
+    name : Name;
     //!R6003
     //!domain
     my_domain : iDomain;

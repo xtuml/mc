@@ -11,6 +11,7 @@ domain masl_domain is
   end object; pragma id(5300);
   object DomainService is
     name : Name;
+    fileExtension : String;
     //!R5303
     //!domain
     my_domain : iDomain;
