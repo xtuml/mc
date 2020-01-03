@@ -1,8 +1,12 @@
 domain masl_common is
+  object BuiltinException;
+  object ExceptionDeclaration;
+  object ExceptionReference;
   object ParameterDefinition;
   object ParameterModeType;
   object Service;
   object ServiceOverload;
+  object Z_Domain_exception;
   object Z_ObjectService_common;
   object Z_DomainService_common;
   object Z_BasicType_common;
@@ -15,6 +19,23 @@ domain masl_common is
   relationship R5204 is Service conditionally passes many ParameterDefinition, ParameterDefinition unconditionally is_passed_by one Service;
   relationship R5205 is Service unconditionally returns one Z_BasicType_common, Z_BasicType_common conditionally is_returned_by many Service;
   relationship R5206 is Service conditionally raises many Z_ExceptionReference_common, Z_ExceptionReference_common conditionally is_raised_by many Service;
+  relationship R5400 is ExceptionDeclaration unconditionally catches_errors_in one Z_Domain_exception, Z_Domain_exception conditionally has_errors_caught_by many ExceptionDeclaration;
+  relationship R5401 is ExceptionReference is_a ( BuiltinException );
+  relationship R5402 is ExceptionReference unconditionally refers_to one ExceptionDeclaration, ExceptionDeclaration conditionally is_referenced_by many ExceptionReference;
+  object BuiltinException is
+    //!type
+    my_type : ImplType;
+  end object; pragma id(5400);
+  object ExceptionDeclaration is
+    name : Name;
+    //!R5400
+    //!domain
+    my_domain : iDomain;
+  end object; pragma id(5401);
+  object ExceptionReference is
+    //!R5402
+    eref : iExceptionDeclaration;
+  end object; pragma id(5402);
   object ParameterDefinition is
     //!R5200
     //!type
@@ -64,4 +85,8 @@ domain masl_common is
   //!IMPORTED
   object Z_DomainTerminatorService_common is
   end object; pragma id(5212);
+
+  //!IMPORTED
+  object Z_Domain_exception is
+  end object; pragma id(5403);
 end domain;
