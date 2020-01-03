@@ -69,6 +69,34 @@ Enumerate transformation and implementation of the OOA of MASL.
 * Referential attributes:  Consider 'referential' from masl.
 * State machine:  Consider simpler and cleaner from masl.
 
+=== 5.4 Statistics
+
+.Subsystem Class Count Statistics
+[options="header"]
+|===
+| MASL subsystem       | classes | classes | xtUML subsystem
+| project              |    4    |    4    | Deployment
+| domain               |    4    |   12    | Domain
+| * common (parameter) |    4    |         | 
+| * exception          |    3    |         | 
+| object               |    5    |   13    | Subsystem
+| relationship         |    6    |   17    | Association
+| statemodel           |    5    |   26    | State Model
+| type                 |   42    |    6    | Type
+| code                 |   31    |   23    | Body
+|                      |         |   12    | * Event
+|                      |         |    4    | * Instance Access
+|                      |         |    6    | * Invocation
+|                      |         |    4    | * Relate
+|                      |         |    6    | * Selection
+| expression           |   44    |   30    | Value
+| * binary             |    6    |         | 
+| * invocation         |    5    |         | 
+| * literal            |   15    |         | 
+|===
+
+
+
 == 6 Unit Test
 
 == 7 User Documentation
