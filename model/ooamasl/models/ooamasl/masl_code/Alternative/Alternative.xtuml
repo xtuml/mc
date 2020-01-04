@@ -1,0 +1,84 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("1c0e912a-7fa4-4a85-9ed2-9a46b0a76c94",
+	'Alternative',
+	5139,
+	'Alternative',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("16877ead-a5ba-42d5-bab6-8a9fac43f8c8",
+	"1c0e912a-7fa4-4a85-9ed2-9a46b0a76c94");
+INSERT INTO O_BATTR
+	VALUES ("16877ead-a5ba-42d5-bab6-8a9fac43f8c8",
+	"1c0e912a-7fa4-4a85-9ed2-9a46b0a76c94");
+INSERT INTO O_ATTR
+	VALUES ("16877ead-a5ba-42d5-bab6-8a9fac43f8c8",
+	"1c0e912a-7fa4-4a85-9ed2-9a46b0a76c94",
+	"00000000-0000-0000-0000-000000000000",
+	'condition',
+	'R5147
+',
+	'',
+	'condition',
+	0,
+	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	"00000000-0000-0000-0000-000000000000",
+	'iExpression',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("1ce7fa57-7f90-467e-bcb4-9acda868a29f",
+	"1c0e912a-7fa4-4a85-9ed2-9a46b0a76c94");
+INSERT INTO O_BATTR
+	VALUES ("1ce7fa57-7f90-467e-bcb4-9acda868a29f",
+	"1c0e912a-7fa4-4a85-9ed2-9a46b0a76c94");
+INSERT INTO O_ATTR
+	VALUES ("1ce7fa57-7f90-467e-bcb4-9acda868a29f",
+	"1c0e912a-7fa4-4a85-9ed2-9a46b0a76c94",
+	"16877ead-a5ba-42d5-bab6-8a9fac43f8c8",
+	'statement',
+	'R5148
+',
+	'',
+	'statement',
+	0,
+	"a03564a3-d5aa-40c2-9add-4bba7aba9d53",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a03564a3-d5aa-40c2-9add-4bba7aba9d53",
+	"00000000-0000-0000-0000-000000000000",
+	'iStatement',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"1c0e912a-7fa4-4a85-9ed2-9a46b0a76c94");
+INSERT INTO O_ID
+	VALUES (1,
+	"1c0e912a-7fa4-4a85-9ed2-9a46b0a76c94");
+INSERT INTO O_ID
+	VALUES (2,
+	"1c0e912a-7fa4-4a85-9ed2-9a46b0a76c94");
+INSERT INTO PE_PE
+	VALUES ("1c0e912a-7fa4-4a85-9ed2-9a46b0a76c94",
+	1,
+	"ad3ecc1c-9b44-4d18-8c98-a08987d8e9ab",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ad3ecc1c-9b44-4d18-8c98-a08987d8e9ab",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'masl_code',
+	'',
+	0,
+	'../masl_code.xtuml');
