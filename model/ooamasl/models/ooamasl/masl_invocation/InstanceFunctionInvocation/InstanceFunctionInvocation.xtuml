@@ -1,0 +1,86 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("6e13a5e3-7c6d-486f-b2f1-ab0a3dc437ce",
+	'InstanceFunctionInvocation',
+	5602,
+	'InstanceFunctionInvocation',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("f2d05f47-31d6-46b7-9380-c69d429cfb87",
+	"6e13a5e3-7c6d-486f-b2f1-ab0a3dc437ce");
+INSERT INTO O_BATTR
+	VALUES ("f2d05f47-31d6-46b7-9380-c69d429cfb87",
+	"6e13a5e3-7c6d-486f-b2f1-ab0a3dc437ce");
+INSERT INTO O_ATTR
+	VALUES ("f2d05f47-31d6-46b7-9380-c69d429cfb87",
+	"6e13a5e3-7c6d-486f-b2f1-ab0a3dc437ce",
+	"00000000-0000-0000-0000-000000000000",
+	'my_service',
+	'R5604
+service
+',
+	'',
+	'my_service',
+	0,
+	"16871cfb-9cbc-43b7-b9be-36167c9ab951",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("16871cfb-9cbc-43b7-b9be-36167c9ab951",
+	"00000000-0000-0000-0000-000000000000",
+	'iObjectService',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("17c8c87a-8c17-4a8a-8b04-1c9889cc8887",
+	"6e13a5e3-7c6d-486f-b2f1-ab0a3dc437ce");
+INSERT INTO O_BATTR
+	VALUES ("17c8c87a-8c17-4a8a-8b04-1c9889cc8887",
+	"6e13a5e3-7c6d-486f-b2f1-ab0a3dc437ce");
+INSERT INTO O_ATTR
+	VALUES ("17c8c87a-8c17-4a8a-8b04-1c9889cc8887",
+	"6e13a5e3-7c6d-486f-b2f1-ab0a3dc437ce",
+	"f2d05f47-31d6-46b7-9380-c69d429cfb87",
+	'my_instance',
+	'R5606
+instance
+',
+	'',
+	'my_instance',
+	0,
+	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	"00000000-0000-0000-0000-000000000000",
+	'iExpression',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"6e13a5e3-7c6d-486f-b2f1-ab0a3dc437ce");
+INSERT INTO O_ID
+	VALUES (1,
+	"6e13a5e3-7c6d-486f-b2f1-ab0a3dc437ce");
+INSERT INTO O_ID
+	VALUES (2,
+	"6e13a5e3-7c6d-486f-b2f1-ab0a3dc437ce");
+INSERT INTO PE_PE
+	VALUES ("6e13a5e3-7c6d-486f-b2f1-ab0a3dc437ce",
+	1,
+	"18f34247-fda9-49a2-b68a-ca4fb46d2b37",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("18f34247-fda9-49a2-b68a-ca4fb46d2b37",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'masl_invocation',
+	'',
+	0,
+	'../masl_invocation.xtuml');

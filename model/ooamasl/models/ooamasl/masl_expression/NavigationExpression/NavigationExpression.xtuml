@@ -1,0 +1,104 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("c723ef0f-8bf3-46f6-bcd4-bd150271c412",
+	'NavigationExpression',
+	5524,
+	'NavigationExpression',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("ec1fa74d-e3c9-497e-ba9e-0313538f9df2",
+	"c723ef0f-8bf3-46f6-bcd4-bd150271c412");
+INSERT INTO O_BATTR
+	VALUES ("ec1fa74d-e3c9-497e-ba9e-0313538f9df2",
+	"c723ef0f-8bf3-46f6-bcd4-bd150271c412");
+INSERT INTO O_ATTR
+	VALUES ("ec1fa74d-e3c9-497e-ba9e-0313538f9df2",
+	"c723ef0f-8bf3-46f6-bcd4-bd150271c412",
+	"00000000-0000-0000-0000-000000000000",
+	'whereClause',
+	'R5530
+',
+	'',
+	'whereClause',
+	0,
+	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	"00000000-0000-0000-0000-000000000000",
+	'iExpression',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("6b362481-1bd0-42bf-b20b-0427e6f49784",
+	"c723ef0f-8bf3-46f6-bcd4-bd150271c412");
+INSERT INTO O_BATTR
+	VALUES ("6b362481-1bd0-42bf-b20b-0427e6f49784",
+	"c723ef0f-8bf3-46f6-bcd4-bd150271c412");
+INSERT INTO O_ATTR
+	VALUES ("6b362481-1bd0-42bf-b20b-0427e6f49784",
+	"c723ef0f-8bf3-46f6-bcd4-bd150271c412",
+	"ec1fa74d-e3c9-497e-ba9e-0313538f9df2",
+	'my_relationship',
+	'R5531
+relationship
+',
+	'',
+	'my_relationship',
+	0,
+	"1e567e91-4542-43c7-8222-86b1503df241",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("1e567e91-4542-43c7-8222-86b1503df241",
+	"00000000-0000-0000-0000-000000000000",
+	'iRelationshipSpecification',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("2792a3c5-1f24-4c76-9588-ad277efc7a0a",
+	"c723ef0f-8bf3-46f6-bcd4-bd150271c412");
+INSERT INTO O_BATTR
+	VALUES ("2792a3c5-1f24-4c76-9588-ad277efc7a0a",
+	"c723ef0f-8bf3-46f6-bcd4-bd150271c412");
+INSERT INTO O_ATTR
+	VALUES ("2792a3c5-1f24-4c76-9588-ad277efc7a0a",
+	"c723ef0f-8bf3-46f6-bcd4-bd150271c412",
+	"6b362481-1bd0-42bf-b20b-0427e6f49784",
+	'lhs',
+	'R5532
+',
+	'',
+	'lhs',
+	0,
+	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"c723ef0f-8bf3-46f6-bcd4-bd150271c412");
+INSERT INTO O_ID
+	VALUES (1,
+	"c723ef0f-8bf3-46f6-bcd4-bd150271c412");
+INSERT INTO O_ID
+	VALUES (2,
+	"c723ef0f-8bf3-46f6-bcd4-bd150271c412");
+INSERT INTO PE_PE
+	VALUES ("c723ef0f-8bf3-46f6-bcd4-bd150271c412",
+	1,
+	"992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'masl_expression',
+	'',
+	0,
+	'../masl_expression.xtuml');

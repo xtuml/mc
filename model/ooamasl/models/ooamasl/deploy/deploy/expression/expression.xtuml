@@ -1,0 +1,68 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("6f1b8358-00a8-4d87-a400-dd3c5f07dff7",
+	"00000000-0000-0000-0000-000000000000",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'expression',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("1f76281e-c31b-4e1f-bfa2-b90fd59c9255",
+	112,
+	"6f1b8358-00a8-4d87-a400-dd3c5f07dff7",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'ooamasl::deploy::deploy::expression');
+INSERT INTO DIM_DIA
+	VALUES ("1f76281e-c31b-4e1f-bfa2-b90fd59c9255",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("6f1b8358-00a8-4d87-a400-dd3c5f07dff7",
+	"992a0b4f-2d8c-42fa-8cec-c830de082ef5");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'masl_expression',
+	'',
+	0,
+	'../../../masl_expression/masl_expression.xtuml');
+INSERT INTO PE_PE
+	VALUES ("6f1b8358-00a8-4d87-a400-dd3c5f07dff7",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"348b8c0f-9e67-4be3-a2df-0e3c84f93cf0",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("348b8c0f-9e67-4be3-a2df-0e3c84f93cf0",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'deploy',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../deploy.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'ooamasl',
+	1,
+	'../../../ooamasl.xtuml');

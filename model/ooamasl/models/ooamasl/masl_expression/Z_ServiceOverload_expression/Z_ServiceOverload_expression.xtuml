@@ -1,0 +1,33 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("3d5d37b1-2f18-402a-b140-e802cc116ecf",
+	'Z_ServiceOverload_expression',
+	5544,
+	'Z_ServiceOverload_expression',
+	'IMPORTED
+',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_ID
+	VALUES (0,
+	"3d5d37b1-2f18-402a-b140-e802cc116ecf");
+INSERT INTO O_ID
+	VALUES (1,
+	"3d5d37b1-2f18-402a-b140-e802cc116ecf");
+INSERT INTO O_ID
+	VALUES (2,
+	"3d5d37b1-2f18-402a-b140-e802cc116ecf");
+INSERT INTO PE_PE
+	VALUES ("3d5d37b1-2f18-402a-b140-e802cc116ecf",
+	1,
+	"992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'masl_expression',
+	'',
+	0,
+	'../masl_expression.xtuml');
