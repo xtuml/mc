@@ -1,0 +1,33 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("a50814f3-266e-494a-ab50-de0995e85652",
+	'Z_ParameterDefinition_statemodel',
+	6110,
+	'Z_ParameterDefinition_statemodel',
+	'IMPORTED
+',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_ID
+	VALUES (0,
+	"a50814f3-266e-494a-ab50-de0995e85652");
+INSERT INTO O_ID
+	VALUES (1,
+	"a50814f3-266e-494a-ab50-de0995e85652");
+INSERT INTO O_ID
+	VALUES (2,
+	"a50814f3-266e-494a-ab50-de0995e85652");
+INSERT INTO PE_PE
+	VALUES ("a50814f3-266e-494a-ab50-de0995e85652",
+	1,
+	"d441bcf9-c7a0-4d79-9bb0-37c55f96cdc3",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d441bcf9-c7a0-4d79-9bb0-37c55f96cdc3",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'masl_statemodel',
+	'',
+	0,
+	'../masl_statemodel.xtuml');

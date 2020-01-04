@@ -1,0 +1,84 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("2c85da20-5dee-422c-b08c-874813864603",
+	'TransitionRow',
+	6105,
+	'TransitionRow',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("193afbc1-4b3b-490d-9523-e7f4e1a2188c",
+	"2c85da20-5dee-422c-b08c-874813864603");
+INSERT INTO O_BATTR
+	VALUES ("193afbc1-4b3b-490d-9523-e7f4e1a2188c",
+	"2c85da20-5dee-422c-b08c-874813864603");
+INSERT INTO O_ATTR
+	VALUES ("193afbc1-4b3b-490d-9523-e7f4e1a2188c",
+	"2c85da20-5dee-422c-b08c-874813864603",
+	"00000000-0000-0000-0000-000000000000",
+	'initialState',
+	'R6111
+',
+	'',
+	'initialState',
+	0,
+	"a28fa89c-101b-4d1b-af3d-4559ad3b755f",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a28fa89c-101b-4d1b-af3d-4559ad3b755f",
+	"00000000-0000-0000-0000-000000000000",
+	'iState',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("c054ac59-c170-4d49-bf88-1830b96ccff2",
+	"2c85da20-5dee-422c-b08c-874813864603");
+INSERT INTO O_BATTR
+	VALUES ("c054ac59-c170-4d49-bf88-1830b96ccff2",
+	"2c85da20-5dee-422c-b08c-874813864603");
+INSERT INTO O_ATTR
+	VALUES ("c054ac59-c170-4d49-bf88-1830b96ccff2",
+	"2c85da20-5dee-422c-b08c-874813864603",
+	"193afbc1-4b3b-490d-9523-e7f4e1a2188c",
+	'List_options',
+	'R6112
+',
+	'',
+	'List_options',
+	0,
+	"6892fbff-3a7d-4de2-ba99-79b43d39ff04",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6892fbff-3a7d-4de2-ba99-79b43d39ff04",
+	"00000000-0000-0000-0000-000000000000",
+	'iTransitionOption',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"2c85da20-5dee-422c-b08c-874813864603");
+INSERT INTO O_ID
+	VALUES (1,
+	"2c85da20-5dee-422c-b08c-874813864603");
+INSERT INTO O_ID
+	VALUES (2,
+	"2c85da20-5dee-422c-b08c-874813864603");
+INSERT INTO PE_PE
+	VALUES ("2c85da20-5dee-422c-b08c-874813864603",
+	1,
+	"d441bcf9-c7a0-4d79-9bb0-37c55f96cdc3",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d441bcf9-c7a0-4d79-9bb0-37c55f96cdc3",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'masl_statemodel',
+	'',
+	0,
+	'../masl_statemodel.xtuml');

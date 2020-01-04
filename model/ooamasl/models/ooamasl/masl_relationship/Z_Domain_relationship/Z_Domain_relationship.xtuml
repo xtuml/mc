@@ -1,0 +1,33 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("91de616f-922b-41c4-9d2b-655818d5fa31",
+	'Z_Domain_relationship',
+	6008,
+	'Z_Domain_relationship',
+	'IMPORTED
+',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_ID
+	VALUES (0,
+	"91de616f-922b-41c4-9d2b-655818d5fa31");
+INSERT INTO O_ID
+	VALUES (1,
+	"91de616f-922b-41c4-9d2b-655818d5fa31");
+INSERT INTO O_ID
+	VALUES (2,
+	"91de616f-922b-41c4-9d2b-655818d5fa31");
+INSERT INTO PE_PE
+	VALUES ("91de616f-922b-41c4-9d2b-655818d5fa31",
+	1,
+	"d3be48fe-9874-46ee-abe3-979e6d52d061",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d3be48fe-9874-46ee-abe3-979e6d52d061",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'masl_relationship',
+	'',
+	0,
+	'../masl_relationship.xtuml');
