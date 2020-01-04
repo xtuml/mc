@@ -1,0 +1,57 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("76e1105a-3c60-4ac3-9084-812af897d211",
+	'IntegerLiteral',
+	5707,
+	'IntegerLiteral',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("4786c41e-ed7e-4f6e-965d-1dc7f2c6fc56",
+	"76e1105a-3c60-4ac3-9084-812af897d211");
+INSERT INTO O_BATTR
+	VALUES ("4786c41e-ed7e-4f6e-965d-1dc7f2c6fc56",
+	"76e1105a-3c60-4ac3-9084-812af897d211");
+INSERT INTO O_ATTR
+	VALUES ("4786c41e-ed7e-4f6e-965d-1dc7f2c6fc56",
+	"76e1105a-3c60-4ac3-9084-812af897d211",
+	"00000000-0000-0000-0000-000000000000",
+	'value',
+	'',
+	'',
+	'value',
+	0,
+	"d3985525-5817-4b11-9037-0efaaf7b5b2d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("d3985525-5817-4b11-9037-0efaaf7b5b2d",
+	"00000000-0000-0000-0000-000000000000",
+	'Long',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"76e1105a-3c60-4ac3-9084-812af897d211");
+INSERT INTO O_ID
+	VALUES (1,
+	"76e1105a-3c60-4ac3-9084-812af897d211");
+INSERT INTO O_ID
+	VALUES (2,
+	"76e1105a-3c60-4ac3-9084-812af897d211");
+INSERT INTO PE_PE
+	VALUES ("76e1105a-3c60-4ac3-9084-812af897d211",
+	1,
+	"ca0022f2-e86e-43dd-a1c5-f342fd4087db",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ca0022f2-e86e-43dd-a1c5-f342fd4087db",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'masl_literal',
+	'',
+	0,
+	'../masl_literal.xtuml');
