@@ -7,25 +7,6 @@ INSERT INTO O_OBJ
 	'DurationType',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("5e028833-3155-47f3-8e5d-5ed94bd26554",
-	"ee10bc92-8b0f-4ab6-be6e-a6a060c4fad9");
-INSERT INTO O_BATTR
-	VALUES ("5e028833-3155-47f3-8e5d-5ed94bd26554",
-	"ee10bc92-8b0f-4ab6-be6e-a6a060c4fad9");
-INSERT INTO O_ATTR
-	VALUES ("5e028833-3155-47f3-8e5d-5ed94bd26554",
-	"ee10bc92-8b0f-4ab6-be6e-a6a060c4fad9",
-	"00000000-0000-0000-0000-000000000000",
-	'my_anonymous',
-	'anonymous
-',
-	'',
-	'my_anonymous',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000001",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"ee10bc92-8b0f-4ab6-be6e-a6a060c4fad9");

@@ -7,25 +7,6 @@ INSERT INTO O_OBJ
 	'TimerType',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("cba4693c-93ac-45b0-9ebb-d164b060433c",
-	"99ffdb8f-c317-4560-9d84-db68a675e7ae");
-INSERT INTO O_BATTR
-	VALUES ("cba4693c-93ac-45b0-9ebb-d164b060433c",
-	"99ffdb8f-c317-4560-9d84-db68a675e7ae");
-INSERT INTO O_ATTR
-	VALUES ("cba4693c-93ac-45b0-9ebb-d164b060433c",
-	"99ffdb8f-c317-4560-9d84-db68a675e7ae",
-	"00000000-0000-0000-0000-000000000000",
-	'my_anonymous',
-	'anonymous
-',
-	'',
-	'my_anonymous',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000001",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"99ffdb8f-c317-4560-9d84-db68a675e7ae");

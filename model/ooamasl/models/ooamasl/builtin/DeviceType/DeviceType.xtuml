@@ -7,25 +7,6 @@ INSERT INTO O_OBJ
 	'DeviceType',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("77f2beac-5229-4445-bbfc-8ed24b22dd6a",
-	"0c7ce187-9c06-42ef-b64e-8cdeb0532c1f");
-INSERT INTO O_BATTR
-	VALUES ("77f2beac-5229-4445-bbfc-8ed24b22dd6a",
-	"0c7ce187-9c06-42ef-b64e-8cdeb0532c1f");
-INSERT INTO O_ATTR
-	VALUES ("77f2beac-5229-4445-bbfc-8ed24b22dd6a",
-	"0c7ce187-9c06-42ef-b64e-8cdeb0532c1f",
-	"00000000-0000-0000-0000-000000000000",
-	'my_anonymous',
-	'anonymous
-',
-	'',
-	'my_anonymous',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000001",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"0c7ce187-9c06-42ef-b64e-8cdeb0532c1f");
