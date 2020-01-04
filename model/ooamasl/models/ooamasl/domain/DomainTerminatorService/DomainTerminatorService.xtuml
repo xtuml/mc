@@ -1,0 +1,84 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("d8a9d686-9887-43f5-b5ae-d75e40b3cdcb",
+	'DomainTerminatorService',
+	5303,
+	'DomainTerminatorService',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("de842080-4e78-41e7-a0e4-c6872789927e",
+	"d8a9d686-9887-43f5-b5ae-d75e40b3cdcb");
+INSERT INTO O_BATTR
+	VALUES ("de842080-4e78-41e7-a0e4-c6872789927e",
+	"d8a9d686-9887-43f5-b5ae-d75e40b3cdcb");
+INSERT INTO O_ATTR
+	VALUES ("de842080-4e78-41e7-a0e4-c6872789927e",
+	"d8a9d686-9887-43f5-b5ae-d75e40b3cdcb",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	"00000000-0000-0000-0000-000000000000",
+	'Name',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("276a2cf1-f3e6-4637-9de2-ddb3e56b0326",
+	"d8a9d686-9887-43f5-b5ae-d75e40b3cdcb");
+INSERT INTO O_BATTR
+	VALUES ("276a2cf1-f3e6-4637-9de2-ddb3e56b0326",
+	"d8a9d686-9887-43f5-b5ae-d75e40b3cdcb");
+INSERT INTO O_ATTR
+	VALUES ("276a2cf1-f3e6-4637-9de2-ddb3e56b0326",
+	"d8a9d686-9887-43f5-b5ae-d75e40b3cdcb",
+	"de842080-4e78-41e7-a0e4-c6872789927e",
+	'my_terminator',
+	'R5306
+terminator
+',
+	'',
+	'my_terminator',
+	0,
+	"9a496aaa-6f5b-4b60-a209-73c99fa9fc15",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9a496aaa-6f5b-4b60-a209-73c99fa9fc15",
+	"00000000-0000-0000-0000-000000000000",
+	'iDomainTerminator',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"d8a9d686-9887-43f5-b5ae-d75e40b3cdcb");
+INSERT INTO O_ID
+	VALUES (1,
+	"d8a9d686-9887-43f5-b5ae-d75e40b3cdcb");
+INSERT INTO O_ID
+	VALUES (2,
+	"d8a9d686-9887-43f5-b5ae-d75e40b3cdcb");
+INSERT INTO PE_PE
+	VALUES ("d8a9d686-9887-43f5-b5ae-d75e40b3cdcb",
+	1,
+	"294d55af-fa8d-46cd-bcd4-8b38c7defac4",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("294d55af-fa8d-46cd-bcd4-8b38c7defac4",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'domain',
+	'',
+	0,
+	'../domain.xtuml');
