@@ -74,7 +74,7 @@ domain masl_code is
   relationship R5132 is ScheduleStatement unconditionally using_timer one Z_Expression_code, Z_Expression_code conditionally is_timer_of one ScheduleStatement;
   relationship R5133 is ServiceInvocation is_a ( DomainServiceInvocation, InstanceServiceInvocation, ObjectServiceInvocation, TerminatorServiceInvocation );
   relationship R5134 is ServiceInvocation conditionally passes many Z_Expression_code, Z_Expression_code conditionally are_passed_by one ServiceInvocation;
-  relationship R5135 is Statement is_a ( AssignmentStatement, CancelTimerStatement, CaseStatement, CodeBlock, DelayStatement, DeleteStatement, EraseStatement, ExitStatement, ForStatement, GenerateStatement, IOStreamStatement, IfStatement, LinkUnlinkStatement, PragmaStatement, RaiseStatement, ReturnStatement, ScheduleStatement, WhileStatement );
+  relationship R5135 is Statement is_a ( AssignmentStatement, CancelTimerStatement, CaseStatement, CodeBlock, DelayStatement, DeleteStatement, EraseStatement, ExitStatement, ForStatement, GenerateStatement, IOStreamStatement, IfStatement, LinkUnlinkStatement, PragmaStatement, RaiseStatement, ReturnStatement, ScheduleStatement, ServiceInvocation, WhileStatement );
   relationship R5136 is TypeRange conditionally has_type one Z_BasicType_code, Z_BasicType_code conditionally types one TypeRange;
   relationship R5137 is VariableDefinition unconditionally has_type one Z_BasicType_code, Z_BasicType_code conditionally types one VariableDefinition;
   relationship R5138 is VariableDefinition conditionally is_initialized_by one Z_Expression_code, Z_Expression_code conditionally initializes one VariableDefinition;

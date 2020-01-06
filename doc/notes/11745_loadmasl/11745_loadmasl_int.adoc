@@ -13,7 +13,7 @@ Enumerate transformation and implementation of the OOA of MASL.
 
 == 4 Work Required
 
-=== 4.1 Steps to Take
+=== 4.1 Steps to Take in MASL
 
 * Promote lhs, rhs and operator attributes to supertype of BinaryExpression.
 * Promote lhs and rhs relationships to supertype BinaryExpression.
@@ -35,6 +35,12 @@ Enumerate transformation and implementation of the OOA of MASL.
 * Demote TransitionType to enumeration.
 * Omitted ParseExpression.
 * Add Alternative to masl_code.
+
+=== 4.2 Steps to Take in BridgePoint
+
+* Link ServiceInvocation to Statement.
+* Remove my_anonymous from Builtin subtypes.
+* Factor out the builtin types to 'builtin'.
 
 == 5 Implementation Comments
 
