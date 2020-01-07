@@ -33,6 +33,17 @@ INSERT INTO DIM_DIA
 	0.000000,
 	0.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("6f1b8358-00a8-4d87-a400-dd3c5f07dff7",
+	"992a0b4f-2d8c-42fa-8cec-c830de082ef5");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'expression',
+	'',
+	0,
+	'../../../expression/expression.xtuml');
 INSERT INTO PE_PE
 	VALUES ("6f1b8358-00a8-4d87-a400-dd3c5f07dff7",
 	1,
