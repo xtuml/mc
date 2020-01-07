@@ -14930,7 +14930,7 @@ INSERT INTO R_RTO
 INSERT INTO O_ID_PROXY
 	VALUES (0,
 	"bfee7300-2d57-4807-a094-2d977bd4054c",
-	'../masltype/BasicType/BasicType.xtuml');
+	'../type/BasicType/BasicType.xtuml');
 INSERT INTO R_OIR
 	VALUES ("bfee7300-2d57-4807-a094-2d977bd4054c",
 	"8c8f8df6-28fe-431c-977f-a1d50cfa2f15",
@@ -14943,7 +14943,7 @@ INSERT INTO O_OBJ_PROXY
 	'BasicType',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'../masltype/BasicType/BasicType.xtuml');
+	'../type/BasicType/BasicType.xtuml');
 INSERT INTO PE_PE
 	VALUES ("8c8f8df6-28fe-431c-977f-a1d50cfa2f15",
 	1,
@@ -17008,7 +17008,7 @@ INSERT INTO R_RTO
 INSERT INTO O_ID_PROXY
 	VALUES (0,
 	"64e55e00-2312-4499-96e9-02452d982d1e",
-	'../masltype/StructureElement/StructureElement.xtuml');
+	'../type/StructureElement/StructureElement.xtuml');
 INSERT INTO R_OIR
 	VALUES ("64e55e00-2312-4499-96e9-02452d982d1e",
 	"140fcec7-3464-4cc7-95a8-635b433245ab",
@@ -17021,7 +17021,7 @@ INSERT INTO O_OBJ_PROXY
 	'StructureElement',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'../masltype/StructureElement/StructureElement.xtuml');
+	'../type/StructureElement/StructureElement.xtuml');
 INSERT INTO PE_PE
 	VALUES ("140fcec7-3464-4cc7-95a8-635b433245ab",
 	1,

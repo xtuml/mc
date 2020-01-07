@@ -245,7 +245,7 @@ INSERT INTO GD_GE
 	"3448fe3e-9929-45ad-a01b-b5fdae98a108",
 	108,
 	0,
-	'ooamasl::masltype');
+	'ooamasl::type');
 INSERT INTO GD_SHP
 	VALUES ("fc6299b5-1737-43ca-b09c-620310f22ddc");
 INSERT INTO GD_NCS

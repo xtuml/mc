@@ -12612,7 +12612,7 @@ INSERT INTO R_RTO
 INSERT INTO O_ID_PROXY
 	VALUES (0,
 	"bfee7300-2d57-4807-a094-2d977bd4054c",
-	'../masltype/BasicType/BasicType.xtuml');
+	'../type/BasicType/BasicType.xtuml');
 INSERT INTO R_OIR
 	VALUES ("bfee7300-2d57-4807-a094-2d977bd4054c",
 	"6a031cd9-7f63-4496-b72d-30ae727e51cc",
@@ -12625,7 +12625,7 @@ INSERT INTO O_OBJ_PROXY
 	'BasicType',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'../masltype/BasicType/BasicType.xtuml');
+	'../type/BasicType/BasicType.xtuml');
 INSERT INTO PE_PE
 	VALUES ("6a031cd9-7f63-4496-b72d-30ae727e51cc",
 	1,
