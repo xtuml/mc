@@ -41,6 +41,7 @@ Enumerate transformation and implementation of the OOA of MASL.
 * Link ServiceInvocation to Statement.
 * Remove my_anonymous from Builtin subtypes.
 * Factor out the builtin types to 'builtin'.
+* Link FunctionInvocation into Expression.
 
 == 5 Implementation Comments
 
