@@ -1,0 +1,59 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("3d358d71-bf57-4f04-b3d3-a5d9172e2d04",
+	'ProjectTerminatorService',
+	5903,
+	'ProjectTerminatorService',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("02a0543f-3bc8-499b-a1e8-70d376cd0ce6",
+	"3d358d71-bf57-4f04-b3d3-a5d9172e2d04");
+INSERT INTO O_BATTR
+	VALUES ("02a0543f-3bc8-499b-a1e8-70d376cd0ce6",
+	"3d358d71-bf57-4f04-b3d3-a5d9172e2d04");
+INSERT INTO O_ATTR
+	VALUES ("02a0543f-3bc8-499b-a1e8-70d376cd0ce6",
+	"3d358d71-bf57-4f04-b3d3-a5d9172e2d04",
+	"00000000-0000-0000-0000-000000000000",
+	'my_terminator',
+	'R5903
+terminator
+',
+	'',
+	'my_terminator',
+	0,
+	"772c799d-6fb0-45b0-a325-cac3005512ea",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("772c799d-6fb0-45b0-a325-cac3005512ea",
+	"00000000-0000-0000-0000-000000000000",
+	'iProjectTerminator',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"3d358d71-bf57-4f04-b3d3-a5d9172e2d04");
+INSERT INTO O_ID
+	VALUES (1,
+	"3d358d71-bf57-4f04-b3d3-a5d9172e2d04");
+INSERT INTO O_ID
+	VALUES (2,
+	"3d358d71-bf57-4f04-b3d3-a5d9172e2d04");
+INSERT INTO PE_PE
+	VALUES ("3d358d71-bf57-4f04-b3d3-a5d9172e2d04",
+	1,
+	"9d88bd47-211a-44f9-bc56-11618be229ec",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("9d88bd47-211a-44f9-bc56-11618be229ec",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'project',
+	'',
+	0,
+	'../project.xtuml');

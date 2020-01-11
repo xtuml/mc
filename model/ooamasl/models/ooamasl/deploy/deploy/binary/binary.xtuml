@@ -1,0 +1,68 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("4f6623ba-c8d6-4275-9bf8-e04ab4407c02",
+	"00000000-0000-0000-0000-000000000000",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'binary',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("cf6c1206-ee53-459b-99ef-0bfff1dd0790",
+	112,
+	"4f6623ba-c8d6-4275-9bf8-e04ab4407c02",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'ooamasl::deploy::deploy::binary');
+INSERT INTO DIM_DIA
+	VALUES ("cf6c1206-ee53-459b-99ef-0bfff1dd0790",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("4f6623ba-c8d6-4275-9bf8-e04ab4407c02",
+	"94e1ca0a-9991-4708-95be-57ab7084b501");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("94e1ca0a-9991-4708-95be-57ab7084b501",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'binary',
+	'',
+	0,
+	'../../../binary/binary.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4f6623ba-c8d6-4275-9bf8-e04ab4407c02",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"348b8c0f-9e67-4be3-a2df-0e3c84f93cf0",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("348b8c0f-9e67-4be3-a2df-0e3c84f93cf0",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'deploy',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../deploy.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'ooamasl',
+	1,
+	'../../../ooamasl.xtuml');
