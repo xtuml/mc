@@ -8,8 +8,11 @@ Enumerate transformation and implementation of the OOA of MASL.
 
 == 2 Introduction and Background
 
+This note documents the first level port of OOA of MASL from Java to xtUML.
 
 == 3 Requirements
+
+See <<dr-3>> and <<d4-4>>.
 
 == 4 Work Required
 
@@ -50,16 +53,16 @@ Enumerate transformation and implementation of the OOA of MASL.
 * What is 'lhs' and 'rhs' in the context of StringLiteral?
 * Does MASL support a list (variable of type list of...) as the argument of an
   invocation?
-* Do you think masl::referential is modeled better (as M:M associative)?
-* R6013 between RelationshipSpecification and HalfRelationship confuses me.
-  How does this work?
+* Would masl::referential is modeled better (as M:M associative)?
+* R6013 between RelationshipSpecification and HalfRelationship is confusing.
+  Can this be cleared up?
 * Why does HalfRelationship use ObjectNameExpression, and
   RelationshipSpecification links directly to ObjectDeclaration?  This
-  seems backwards to me.
+  seems reversed.
 
 * Which is best, derived structural OOA of MASL or 'masl'?
-  ** Derived has benefit of potential reuse of his parser and walker.
-  ** 'masl' is more abstract
+  ** Derived has benefit of potential reuse of the existing parser and walker.
+  ** 'masl' is mildly more abstract
   ** 'masl' has something of a parser and input path (SMASL).
 * What path will be best for parsing and loading?
 
@@ -70,7 +73,7 @@ Enumerate transformation and implementation of the OOA of MASL.
   ** 'Visibility':  private, public
 * Fix CodeBlock in 'code' ('statement').
 
-=== 5.3 Least Favorite Parts of MM
+=== 5.3 Potential Improvements of MM
 
 * HalfRelationship:  Consider 'participation' from masl.
 * Referential attributes:  Consider 'referential' from masl.
@@ -102,9 +105,15 @@ Enumerate transformation and implementation of the OOA of MASL.
 | * literal            |   15    |         | 
 |===
 
+=== 5.5 Package References
 
+This work includes partial support for package references in the MASL
+Exporter (`xtuml2masl` (x2m)).  Types remain partially unsupported.
+See <<dr-5>>.
 
 == 6 Unit Test
+
+* Generate MASL using MASL Exporter.
 
 == 7 User Documentation
 
@@ -114,13 +123,265 @@ Enumerate transformation and implementation of the OOA of MASL.
 - branch:  11745_loadmasl
 
 ----
- Put the file list here
+ doc/notes/11745_loadmasl/11745_loadmasl_ant.adoc   |   149 +
+ doc/notes/11745_loadmasl/11745_loadmasl_dnt.adoc   |   300 +
+ doc/notes/11745_loadmasl/11745_loadmasl_int.adoc   |   134 +
+ doc/notes/11745_loadmasl/masl_objects              |   125 +
+ .../mods/masl_binary/masl_binary.int               |     2 +
+ .../mods/masl_binary/masl_binary.mod               |    41 +
+ .../11745_loadmasl/mods/masl_code/masl_code.int    |     2 +
+ .../11745_loadmasl/mods/masl_code/masl_code.mod    |   327 +
+ .../mods/masl_domain/masl_domain.int               |     2 +
+ .../mods/masl_domain/masl_domain.mod               |   102 +
+ .../mods/masl_expression/masl_expression.int       |     2 +
+ .../mods/masl_expression/masl_expression.mod       |   437 +
+ .../mods/masl_invocation/masl_invocation.int       |     2 +
+ .../mods/masl_invocation/masl_invocation.mod       |    63 +
+ .../mods/masl_literal/masl_literal.int             |     2 +
+ .../mods/masl_literal/masl_literal.mod             |   106 +
+ .../mods/masl_object/masl_object.int               |     2 +
+ .../mods/masl_object/masl_object.mod               |    91 +
+ .../mods/masl_project/masl_project.int             |     2 +
+ .../mods/masl_project/masl_project.mod             |    39 +
+ .../mods/masl_relationship/masl_relationship.int   |     2 +
+ .../mods/masl_relationship/masl_relationship.mod   |    90 +
+ .../mods/masl_statemodel/masl_statemodel.int       |     2 +
+ .../mods/masl_statemodel/masl_statemodel.mod       |    75 +
+ .../11745_loadmasl/mods/masl_type/masl_type.int    |     2 +
+ .../11745_loadmasl/mods/masl_type/masl_type.mod    |   318 +
+ doc/notes/11745_loadmasl/pdfs/binary.pdf           |   Bin 0 -> 13380 bytes
+ doc/notes/11745_loadmasl/pdfs/builtin.pdf          |   Bin 0 -> 15582 bytes
+ doc/notes/11745_loadmasl/pdfs/domain.pdf           |   Bin 0 -> 18074 bytes
+ doc/notes/11745_loadmasl/pdfs/expression.pdf       |   Bin 0 -> 34962 bytes
+ doc/notes/11745_loadmasl/pdfs/invocation.pdf       |   Bin 0 -> 15173 bytes
+ doc/notes/11745_loadmasl/pdfs/literal.pdf          |   Bin 0 -> 17356 bytes
+ doc/notes/11745_loadmasl/pdfs/object.pdf           |   Bin 0 -> 17463 bytes
+ doc/notes/11745_loadmasl/pdfs/project.pdf          |   Bin 0 -> 13183 bytes
+ doc/notes/11745_loadmasl/pdfs/relationship.pdf     |   Bin 0 -> 17170 bytes
+ doc/notes/11745_loadmasl/pdfs/statement.pdf        |   Bin 0 -> 32275 bytes
+ doc/notes/11745_loadmasl/pdfs/statemodel.pdf       |   Bin 0 -> 16260 bytes
+ doc/notes/11745_loadmasl/pdfs/type.pdf             |   Bin 0 -> 24911 bytes
+ doc/notes/11745_loadmasl/rels.txt                  |   251 +
+ doc/notes/11745_loadmasl/t.mod                     |   194 +
+ doc/notes/11745_loadmasl/xmasl.py                  |   209 +
+ doc/notes/11745_loadmasl/z_t.mod                   |   320 +
+ .../maslout/lib/xtuml2masl/maslout/maslout.xtuml   |    42 +-
+ .../models/mcshared/functions/functions.xtuml      |    48 +
+ model/ooamasl/.project                             |    18 +
+ model/ooamasl/models/ooamasl/Shared/Shared.xtuml   |  3128 +++
+ .../BinaryAdditiveExpression.xtuml                 |    32 +
+ .../BinaryCollectionExpression.xtuml               |    32 +
+ .../BinaryComparisonExpression.xtuml               |    32 +
+ .../binary/BinaryExpression/BinaryExpression.xtuml |   102 +
+ .../BinaryLogicalExpression.xtuml                  |    32 +
+ .../BinaryMultiplicativeExpression.xtuml           |    58 +
+ model/ooamasl/models/ooamasl/binary/binary.xtuml   |  1806 ++
+ .../builtin/AnyInstanceType/AnyInstanceType.xtuml  |    32 +
+ .../ooamasl/builtin/BooleanType/BooleanType.xtuml  |    32 +
+ .../ooamasl/builtin/BuiltinType/BuiltinType.xtuml  |    77 +
+ .../models/ooamasl/builtin/ByteType/ByteType.xtuml |    32 +
+ .../builtin/CharacterType/CharacterType.xtuml      |    32 +
+ .../ooamasl/builtin/DeviceType/DeviceType.xtuml    |    32 +
+ .../builtin/DurationType/DurationType.xtuml        |    32 +
+ .../ooamasl/builtin/EventType/EventType.xtuml      |    32 +
+ .../ooamasl/builtin/IntegerType/IntegerType.xtuml  |    32 +
+ .../ooamasl/builtin/NumericType/NumericType.xtuml  |   145 +
+ .../models/ooamasl/builtin/RealType/RealType.xtuml |    32 +
+ .../SmallIntegerType/SmallIntegerType.xtuml        |    32 +
+ .../ooamasl/builtin/StringType/StringType.xtuml    |    32 +
+ .../ooamasl/builtin/TimerType/TimerType.xtuml      |    32 +
+ .../builtin/TimestampType/TimestampType.xtuml      |    32 +
+ .../builtin/WCharacterType/WCharacterType.xtuml    |    32 +
+ .../ooamasl/builtin/WStringType/WStringType.xtuml  |    32 +
+ model/ooamasl/models/ooamasl/builtin/builtin.xtuml |  3425 ++++
+ model/ooamasl/models/ooamasl/deploy/deploy.xtuml   |    70 +
+ .../ooamasl/deploy/deploy/binary/binary.xtuml      |    68 +
+ .../ooamasl/deploy/deploy/builtin/builtin.xtuml    |    68 +
+ .../models/ooamasl/deploy/deploy/code/code.xtuml   |    68 +
+ .../models/ooamasl/deploy/deploy/deploy.xtuml      |   364 +
+ .../ooamasl/deploy/deploy/domain/domain.xtuml      |    68 +
+ .../deploy/deploy/expression/expression.xtuml      |    68 +
+ .../deploy/deploy/invocation/invocation.xtuml      |    68 +
+ .../ooamasl/deploy/deploy/literal/literal.xtuml    |    68 +
+ .../ooamasl/deploy/deploy/object/object.xtuml      |    68 +
+ .../ooamasl/deploy/deploy/project/project.xtuml    |    68 +
+ .../deploy/deploy/relationship/relationship.xtuml  |    68 +
+ .../deploy/deploy/statemodel/statemodel.xtuml      |    68 +
+ .../models/ooamasl/deploy/deploy/type/type.xtuml   |    68 +
+ .../domain/BuiltinException/BuiltinException.xtuml |    58 +
+ .../models/ooamasl/domain/Domain/Domain.xtuml      |    57 +
+ .../domain/DomainService/DomainService.xtuml       |    84 +
+ .../domain/DomainTerminator/DomainTerminator.xtuml |    84 +
+ .../DomainTerminatorService.xtuml                  |    59 +
+ .../ExceptionDeclaration.xtuml                     |    84 +
+ .../ExceptionReference/ExceptionReference.xtuml    |    58 +
+ .../ParameterDefinition/ParameterDefinition.xtuml  |   110 +
+ .../ParameterModeType/ParameterModeType.xtuml      |    82 +
+ .../models/ooamasl/domain/Service/Service.xtuml    |   135 +
+ .../domain/ServiceOverload/ServiceOverload.xtuml   |    82 +
+ model/ooamasl/models/ooamasl/domain/domain.xtuml   |  3609 ++++
+ .../expression/AnyExpression/AnyExpression.xtuml   |   103 +
+ .../expression/CallExpression/CallExpression.xtuml |    32 +
+ .../expression/CastExpression/CastExpression.xtuml |    85 +
+ .../CharacteristicExpression.xtuml                 |   145 +
+ .../CharacteristicRange/CharacteristicRange.xtuml  |   152 +
+ .../CorrelatedNavExpression.xtuml                  |   104 +
+ .../CreateDurationExpression.xtuml                 |   134 +
+ .../CreateExpression/CreateExpression.xtuml        |   136 +
+ .../DictionaryAccessExpression.xtuml               |    77 +
+ .../DictionaryContainsExpression.xtuml             |    77 +
+ .../DictionaryKeysExpression.xtuml                 |    83 +
+ .../DictionaryValuesExpression.xtuml               |    83 +
+ .../expression/DotExpression/DotExpression.xtuml   |    32 +
+ .../ElementsExpression/ElementsExpression.xtuml    |    83 +
+ .../expression/EofExpression/EofExpression.xtuml   |    58 +
+ .../EventExpression/EventExpression.xtuml          |    59 +
+ .../ooamasl/expression/Expression/Expression.xtuml |    32 +
+ .../FindAttributeNameExpression.xtuml              |    58 +
+ .../expression/FindExpression/FindExpression.xtuml |   128 +
+ .../FindParameterExpression.xtuml                  |    84 +
+ .../IndexedNameExpression.xtuml                    |    77 +
+ .../InstanceOrderingExpression.xtuml               |   128 +
+ .../LinkUnlinkExpression.xtuml                     |   172 +
+ .../expression/MinMaxRange/MinMaxRange.xtuml       |   103 +
+ .../NavigationExpression.xtuml                     |   104 +
+ .../ObjectNameExpression.xtuml                     |    59 +
+ .../OrderingExpression/OrderingExpression.xtuml    |   103 +
+ .../ParameterNameExpression.xtuml                  |    58 +
+ .../RangeExpression/RangeExpression.xtuml          |    32 +
+ .../SelectedAttributeExpression.xtuml              |    84 +
+ .../SelectedComponentExpression.xtuml              |    84 +
+ .../ServiceExpression/ServiceExpression.xtuml      |    58 +
+ .../SliceExpression/SliceExpression.xtuml          |    85 +
+ .../SplitExpression/SplitExpression.xtuml          |   178 +
+ .../StructureAggregate/StructureAggregate.xtuml    |    85 +
+ .../StructureOrderingExpression.xtuml              |   102 +
+ .../TerminatorNameExpression.xtuml                 |    59 +
+ .../TimeFieldExpression/TimeFieldExpression.xtuml  |   108 +
+ .../TimerFieldExpression.xtuml                     |    83 +
+ .../TimestampDeltaExpression.xtuml                 |   127 +
+ .../TypeNameExpression/TypeNameExpression.xtuml    |    59 +
+ .../UnaryExpression/UnaryExpression.xtuml          |   133 +
+ .../VariableNameExpression.xtuml                   |    58 +
+ .../models/ooamasl/expression/expression.xtuml     | 20237 +++++++++++++++++++
+ .../DomainFunctionInvocation.xtuml                 |    59 +
+ .../FunctionInvocation/FunctionInvocation.xtuml    |    84 +
+ .../InstanceFunctionInvocation.xtuml               |    86 +
+ .../ObjectFunctionInvocation.xtuml                 |    59 +
+ .../TerminatorFunctionInvocation.xtuml             |    59 +
+ .../models/ooamasl/invocation/invocation.xtuml     |  2200 ++
+ .../literal/BooleanLiteral/BooleanLiteral.xtuml    |    50 +
+ .../CharacterLiteral/CharacterLiteral.xtuml        |    75 +
+ .../literal/ConsoleLiteral/ConsoleLiteral.xtuml    |    32 +
+ .../literal/DurationLiteral/DurationLiteral.xtuml  |    57 +
+ .../ooamasl/literal/EndlLiteral/EndlLiteral.xtuml  |    32 +
+ .../EnumerateLiteral/EnumerateLiteral.xtuml        |    58 +
+ .../literal/FlushLiteral/FlushLiteral.xtuml        |    32 +
+ .../literal/IntegerLiteral/IntegerLiteral.xtuml    |    57 +
+ .../LiteralExpression/LiteralExpression.xtuml      |    32 +
+ .../ooamasl/literal/NullLiteral/NullLiteral.xtuml  |    59 +
+ .../literal/NumericLiteral/NumericLiteral.xtuml    |    57 +
+ .../ooamasl/literal/RealLiteral/RealLiteral.xtuml  |    57 +
+ .../literal/StringLiteral/StringLiteral.xtuml      |    93 +
+ .../ooamasl/literal/ThisLiteral/ThisLiteral.xtuml  |   113 +
+ .../TimestampLiteral/TimestampLiteral.xtuml        |   107 +
+ model/ooamasl/models/ooamasl/literal/literal.xtuml |  4276 ++++
+ .../AttributeDeclaration.xtuml                     |   199 +
+ .../IdentifierDeclaration.xtuml                    |   103 +
+ .../ObjectDeclaration/ObjectDeclaration.xtuml      |    84 +
+ .../object/ObjectService/ObjectService.xtuml       |   103 +
+ .../ReferentialAttributeDefinition.xtuml           |   111 +
+ model/ooamasl/models/ooamasl/object/object.xtuml   |  2423 +++
+ model/ooamasl/models/ooamasl/ooamasl.xtuml         |   392 +
+ .../models/ooamasl/project/Project/Project.xtuml   |    57 +
+ .../project/ProjectDomain/ProjectDomain.xtuml      |    86 +
+ .../ProjectTerminator/ProjectTerminator.xtuml      |    84 +
+ .../ProjectTerminatorService.xtuml                 |    59 +
+ model/ooamasl/models/ooamasl/project/project.xtuml |  1011 +
+ .../AssociativeRelationshipDeclaration.xtuml       |   128 +
+ .../HalfRelationship/HalfRelationship.xtuml        |   145 +
+ .../NormalRelationshipDeclaration.xtuml            |   102 +
+ .../RelationshipDeclaration.xtuml                  |    84 +
+ .../RelationshipSpecification.xtuml                |   198 +
+ .../SubtypeRelationshipDeclaration.xtuml           |   102 +
+ .../models/ooamasl/relationship/relationship.xtuml |  3365 +++
+ .../statement/Alternative/Alternative.xtuml        |    84 +
+ .../AssignmentStatement/AssignmentStatement.xtuml  |    77 +
+ .../CancelTimerStatement.xtuml                     |    58 +
+ .../statement/CaseStatement/CaseStatement.xtuml    |    84 +
+ .../ooamasl/statement/CodeBlock/CodeBlock.xtuml    |   128 +
+ .../statement/DelayStatement/DelayStatement.xtuml  |    58 +
+ .../DeleteStatement/DeleteStatement.xtuml          |    59 +
+ .../DomainServiceInvocation.xtuml                  |    32 +
+ .../statement/EraseStatement/EraseStatement.xtuml  |    78 +
+ .../ExceptionHandler/ExceptionHandler.xtuml        |    85 +
+ .../statement/ExitStatement/ExitStatement.xtuml    |    58 +
+ .../statement/ForStatement/ForStatement.xtuml      |    84 +
+ .../statement/FromToRange/FromToRange.xtuml        |    59 +
+ .../GenerateStatement/GenerateStatement.xtuml      |   103 +
+ .../IOStreamStatement/IOStreamStatement.xtuml      |   152 +
+ .../statement/IfStatement/IfStatement.xtuml        |   110 +
+ .../InstanceServiceInvocation.xtuml                |   105 +
+ .../LinkUnlinkStatement/LinkUnlinkStatement.xtuml  |   191 +
+ .../ooamasl/statement/LoopSpec/LoopSpec.xtuml      |   129 +
+ .../ObjectServiceInvocation.xtuml                  |    32 +
+ .../PragmaStatement/PragmaStatement.xtuml          |    32 +
+ .../statement/RaiseStatement/RaiseStatement.xtuml  |    85 +
+ .../ReturnStatement/ReturnStatement.xtuml          |    84 +
+ .../ScheduleStatement/ScheduleStatement.xtuml      |   141 +
+ .../ServiceInvocation/ServiceInvocation.xtuml      |    84 +
+ .../ooamasl/statement/Statement/Statement.xtuml    |    32 +
+ .../TerminatorServiceInvocation.xtuml              |    32 +
+ .../ooamasl/statement/TypeRange/TypeRange.xtuml    |    59 +
+ .../VariableDefinition/VariableDefinition.xtuml    |   129 +
+ .../VariableElements/VariableElements.xtuml        |    58 +
+ .../statement/VariableRange/VariableRange.xtuml    |    58 +
+ .../statement/WhileStatement/WhileStatement.xtuml  |    84 +
+ .../models/ooamasl/statement/statement.xtuml       | 15769 +++++++++++++++
+ .../EventDeclaration/EventDeclaration.xtuml        |   136 +
+ .../models/ooamasl/statemodel/State/State.xtuml    |   136 +
+ .../TransitionOption/TransitionOption.xtuml        |   111 +
+ .../statemodel/TransitionRow/TransitionRow.xtuml   |    84 +
+ .../TransitionTable/TransitionTable.xtuml          |   103 +
+ .../models/ooamasl/statemodel/statemodel.xtuml     |  2103 ++
+ .../AnonymousStructure/AnonymousStructure.xtuml    |    58 +
+ .../models/ooamasl/type/ArrayType/ArrayType.xtuml  |    78 +
+ .../models/ooamasl/type/BagType/BagType.xtuml      |    51 +
+ .../models/ooamasl/type/BasicType/BasicType.xtuml  |    50 +
+ .../type/CollectionType/CollectionType.xtuml       |    77 +
+ .../type/ConstrainedType/ConstrainedType.xtuml     |    84 +
+ .../type/DeltaConstraint/DeltaConstraint.xtuml     |    86 +
+ .../type/DictionaryType/DictionaryType.xtuml       |    96 +
+ .../type/DigitsConstraint/DigitsConstraint.xtuml   |    86 +
+ .../ooamasl/type/EnumerateItem/EnumerateItem.xtuml |    83 +
+ .../ooamasl/type/EnumerateType/EnumerateType.xtuml |    58 +
+ .../FullTypeDefinition/FullTypeDefinition.xtuml    |    32 +
+ .../ooamasl/type/InstanceType/InstanceType.xtuml   |    78 +
+ .../ooamasl/type/InternalType/InternalType.xtuml   |    57 +
+ .../type/RangeConstraint/RangeConstraint.xtuml     |    59 +
+ .../models/ooamasl/type/RangeType/RangeType.xtuml  |    32 +
+ .../ooamasl/type/SequenceType/SequenceType.xtuml   |    77 +
+ .../models/ooamasl/type/SetType/SetType.xtuml      |    51 +
+ .../type/StructureElement/StructureElement.xtuml   |   110 +
+ .../ooamasl/type/StructureType/StructureType.xtuml |    32 +
+ .../type/TypeConstraint/TypeConstraint.xtuml       |    59 +
+ .../type/TypeDeclaration/TypeDeclaration.xtuml     |   110 +
+ .../type/TypeDefinition/TypeDefinition.xtuml       |    32 +
+ .../UnconstrainedArraySubtype.xtuml                |   104 +
+ .../UnconstrainedArrayType.xtuml                   |    77 +
+ .../type/UserDefinedType/UserDefinedType.xtuml     |    78 +
+ model/ooamasl/models/ooamasl/type/type.xtuml       |  9973 +++++++++
+ model/ooamasl/models/ooamasl/types/types.xtuml     |   415 +
+ 249 files changed, 92554 insertions(+), 8 deletions(-)
 ----
 
 == 9 Document References
 
 . [[dr-1]] https://support.onefact.net/issues/11745[11745 - Parse MASL into xtUML meta-model of MASL activity]
 . [[dr-2]] https://support.onefact.net/issues/11744[11744 - AWS software architecture]
+. [[dr-3]] link:11745_loadmasl_ant.adoc[analysis note]
+. [[dr-4]] link:11745_loadmasl_dnt.adoc[design note]
+. [[dr-5]] https://support.onefact.net/issues/11831[11831 - Support package references in xtuml2masl.]
 
 ---
 
