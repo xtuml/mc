@@ -1,0 +1,59 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("0f0cb58f-94ae-4600-a621-3ac3195d1716",
+	'TerminatorFunctionInvocation',
+	5604,
+	'TerminatorFunctionInvocation',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("00e1e71b-120a-462d-9255-3927d14ff315",
+	"0f0cb58f-94ae-4600-a621-3ac3195d1716");
+INSERT INTO O_BATTR
+	VALUES ("00e1e71b-120a-462d-9255-3927d14ff315",
+	"0f0cb58f-94ae-4600-a621-3ac3195d1716");
+INSERT INTO O_ATTR
+	VALUES ("00e1e71b-120a-462d-9255-3927d14ff315",
+	"0f0cb58f-94ae-4600-a621-3ac3195d1716",
+	"00000000-0000-0000-0000-000000000000",
+	'my_service',
+	'R5609
+service
+',
+	'',
+	'my_service',
+	0,
+	"7d5fe543-92f3-4c94-8b01-75278019a74f",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("7d5fe543-92f3-4c94-8b01-75278019a74f",
+	"00000000-0000-0000-0000-000000000000",
+	'iDomainTerminatorService',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"0f0cb58f-94ae-4600-a621-3ac3195d1716");
+INSERT INTO O_ID
+	VALUES (1,
+	"0f0cb58f-94ae-4600-a621-3ac3195d1716");
+INSERT INTO O_ID
+	VALUES (2,
+	"0f0cb58f-94ae-4600-a621-3ac3195d1716");
+INSERT INTO PE_PE
+	VALUES ("0f0cb58f-94ae-4600-a621-3ac3195d1716",
+	1,
+	"18f34247-fda9-49a2-b68a-ca4fb46d2b37",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("18f34247-fda9-49a2-b68a-ca4fb46d2b37",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'invocation',
+	'',
+	0,
+	'../invocation.xtuml');

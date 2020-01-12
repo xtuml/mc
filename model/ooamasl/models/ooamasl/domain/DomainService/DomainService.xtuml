@@ -1,0 +1,84 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58",
+	'DomainService',
+	5301,
+	'DomainService',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("d1a92d1a-aee8-4242-8df0-b4fae4b15de2",
+	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58");
+INSERT INTO O_BATTR
+	VALUES ("d1a92d1a-aee8-4242-8df0-b4fae4b15de2",
+	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58");
+INSERT INTO O_ATTR
+	VALUES ("d1a92d1a-aee8-4242-8df0-b4fae4b15de2",
+	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58",
+	"00000000-0000-0000-0000-000000000000",
+	'fileExtension',
+	'',
+	'',
+	'fileExtension',
+	0,
+	"f212f01b-2c5d-4051-9d0d-9d88245e8e99",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f212f01b-2c5d-4051-9d0d-9d88245e8e99",
+	"00000000-0000-0000-0000-000000000000",
+	'String',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("e19146f0-012d-4597-9b6c-acb5a49bac30",
+	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58");
+INSERT INTO O_BATTR
+	VALUES ("e19146f0-012d-4597-9b6c-acb5a49bac30",
+	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58");
+INSERT INTO O_ATTR
+	VALUES ("e19146f0-012d-4597-9b6c-acb5a49bac30",
+	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58",
+	"d1a92d1a-aee8-4242-8df0-b4fae4b15de2",
+	'my_domain',
+	'R5303
+domain
+',
+	'',
+	'my_domain',
+	0,
+	"89041361-e966-4778-90ab-eb2f9248ec29",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("89041361-e966-4778-90ab-eb2f9248ec29",
+	"00000000-0000-0000-0000-000000000000",
+	'iDomain',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58");
+INSERT INTO O_ID
+	VALUES (1,
+	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58");
+INSERT INTO O_ID
+	VALUES (2,
+	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58");
+INSERT INTO PE_PE
+	VALUES ("6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58",
+	1,
+	"294d55af-fa8d-46cd-bcd4-8b38c7defac4",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("294d55af-fa8d-46cd-bcd4-8b38c7defac4",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'domain',
+	'',
+	0,
+	'../domain.xtuml');

@@ -1,0 +1,58 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("40016164-64bd-4d15-8484-5ba43b6efe68",
+	'CancelTimerStatement',
+	5101,
+	'CancelTimerStatement',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("8586f37b-5eb5-4b09-918d-7fe4d608078d",
+	"40016164-64bd-4d15-8484-5ba43b6efe68");
+INSERT INTO O_BATTR
+	VALUES ("8586f37b-5eb5-4b09-918d-7fe4d608078d",
+	"40016164-64bd-4d15-8484-5ba43b6efe68");
+INSERT INTO O_ATTR
+	VALUES ("8586f37b-5eb5-4b09-918d-7fe4d608078d",
+	"40016164-64bd-4d15-8484-5ba43b6efe68",
+	"00000000-0000-0000-0000-000000000000",
+	'timerId',
+	'R5102
+',
+	'',
+	'timerId',
+	0,
+	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	"00000000-0000-0000-0000-000000000000",
+	'iExpression',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"40016164-64bd-4d15-8484-5ba43b6efe68");
+INSERT INTO O_ID
+	VALUES (1,
+	"40016164-64bd-4d15-8484-5ba43b6efe68");
+INSERT INTO O_ID
+	VALUES (2,
+	"40016164-64bd-4d15-8484-5ba43b6efe68");
+INSERT INTO PE_PE
+	VALUES ("40016164-64bd-4d15-8484-5ba43b6efe68",
+	1,
+	"ad3ecc1c-9b44-4d18-8c98-a08987d8e9ab",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ad3ecc1c-9b44-4d18-8c98-a08987d8e9ab",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'statement',
+	'',
+	0,
+	'../statement.xtuml');

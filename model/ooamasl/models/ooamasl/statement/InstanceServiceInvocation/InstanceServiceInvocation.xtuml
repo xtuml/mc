@@ -1,0 +1,105 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("56f1eda8-cc35-447b-8bdc-2b9f6298bde4",
+	'InstanceServiceInvocation',
+	5115,
+	'InstanceServiceInvocation',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("1872109f-21b6-48b2-830e-557675b7fe32",
+	"56f1eda8-cc35-447b-8bdc-2b9f6298bde4");
+INSERT INTO O_BATTR
+	VALUES ("1872109f-21b6-48b2-830e-557675b7fe32",
+	"56f1eda8-cc35-447b-8bdc-2b9f6298bde4");
+INSERT INTO O_ATTR
+	VALUES ("1872109f-21b6-48b2-830e-557675b7fe32",
+	"56f1eda8-cc35-447b-8bdc-2b9f6298bde4",
+	"00000000-0000-0000-0000-000000000000",
+	'my_service',
+	'R5116
+service
+',
+	'',
+	'my_service',
+	0,
+	"16871cfb-9cbc-43b7-b9be-36167c9ab951",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("16871cfb-9cbc-43b7-b9be-36167c9ab951",
+	"00000000-0000-0000-0000-000000000000",
+	'iObjectService',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("3965c225-f483-4fa3-bf96-79b90140df69",
+	"56f1eda8-cc35-447b-8bdc-2b9f6298bde4");
+INSERT INTO O_BATTR
+	VALUES ("3965c225-f483-4fa3-bf96-79b90140df69",
+	"56f1eda8-cc35-447b-8bdc-2b9f6298bde4");
+INSERT INTO O_ATTR
+	VALUES ("3965c225-f483-4fa3-bf96-79b90140df69",
+	"56f1eda8-cc35-447b-8bdc-2b9f6298bde4",
+	"1872109f-21b6-48b2-830e-557675b7fe32",
+	'List_arguments',
+	'R5117
+',
+	'',
+	'List_arguments',
+	0,
+	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	"00000000-0000-0000-0000-000000000000",
+	'iExpression',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("2716d493-006b-4727-a4e9-a1c6afd81368",
+	"56f1eda8-cc35-447b-8bdc-2b9f6298bde4");
+INSERT INTO O_BATTR
+	VALUES ("2716d493-006b-4727-a4e9-a1c6afd81368",
+	"56f1eda8-cc35-447b-8bdc-2b9f6298bde4");
+INSERT INTO O_ATTR
+	VALUES ("2716d493-006b-4727-a4e9-a1c6afd81368",
+	"56f1eda8-cc35-447b-8bdc-2b9f6298bde4",
+	"3965c225-f483-4fa3-bf96-79b90140df69",
+	'my_instance',
+	'R5118
+instance
+',
+	'',
+	'my_instance',
+	0,
+	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"56f1eda8-cc35-447b-8bdc-2b9f6298bde4");
+INSERT INTO O_ID
+	VALUES (1,
+	"56f1eda8-cc35-447b-8bdc-2b9f6298bde4");
+INSERT INTO O_ID
+	VALUES (2,
+	"56f1eda8-cc35-447b-8bdc-2b9f6298bde4");
+INSERT INTO PE_PE
+	VALUES ("56f1eda8-cc35-447b-8bdc-2b9f6298bde4",
+	1,
+	"ad3ecc1c-9b44-4d18-8c98-a08987d8e9ab",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ad3ecc1c-9b44-4d18-8c98-a08987d8e9ab",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'statement',
+	'',
+	0,
+	'../statement.xtuml');
