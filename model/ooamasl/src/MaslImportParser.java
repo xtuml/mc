@@ -7,14 +7,19 @@ public class MaslImportParser {
 
     // private fields
     private Serial          serial;             // external interface
+    private LOAD            loader;             // external OOA interface
     private String          current_file;       // current file parsing
 
     // public constructor
-    public MaslImportParser( Serial serial ) {
+    public MaslImportParser( Serial serial, LOAD loader ) {
         if ( serial != null )
             this.serial = serial;
         else
             this.serial = null;
+        if ( loader != null )
+            this.loader = loader;
+        else
+            this.loader = null;
 
         current_file = null;
     }
@@ -66,7 +71,7 @@ public class MaslImportParser {
 
         nodes = new CommonTreeNodeStream(tree);
         walker = new MaslWalker( nodes );
-        walker.setInterface( serial );
+        walker.setInterface( serial, loader );
         walker.setMaslParser( this );
 
         // Walk the chosen rule
@@ -346,7 +351,8 @@ public class MaslImportParser {
     public static void main(String args[]) throws Exception {
 
         Serial              serial = new MaslSerial();                  // create new serial interface
-        MaslImportParser    parser = new MaslImportParser( serial );    // create new parser
+        LOAD                loader = new MaslLoader();                  // create new LOAD interface
+        MaslImportParser    parser = new MaslImportParser( serial, loader );    // create new parser
 
         // check input args
         if ( args.length < 1 ) {

@@ -32,6 +32,9 @@ import java.io.*;
 {
 // external interface
 private Serial serial = null;
+private LOAD loader = null;
+private Object current_domain = null;
+private Object current_object = null;
 
 // parent masl parser
 private MaslImportParser masl_parser = null;
@@ -40,11 +43,15 @@ private MaslImportParser masl_parser = null;
 private String[] args = new String[8];
 
 // set the serial interface
-public void setInterface ( Serial serial ) {
+public void setInterface ( Serial serial, LOAD loader ) {
     if ( serial != null )
         this.serial = serial;
     else
         this.serial = null;
+    if ( loader != null )
+        this.loader = loader;
+    else
+        this.loader = null;
 
     // fill args initially with empty strings
     for ( int i = 0; i < args.length; i++ ) args[i] = "";
@@ -163,6 +170,12 @@ domainDefinition
                                                             {
                                                                 args[0] = $domainName.name;
                                                                 populate( "domain", args );
+                                                                try {
+                                                                  current_domain = loader.create( "Domain" );
+                                                                  loader.set_attribute( current_domain, "name", $domainName.name );
+                                                                } catch ( XtumlException e ) {
+                                                                  System.err.println( e );
+                                                                }
                                                             }
                                    description
                                    ( objectDeclaration           
@@ -223,6 +236,14 @@ exceptionDeclaration
                                                                   args[0] = $exceptionName.name;
                                                                   args[1] = $exceptionVisibility.visibility;
                                                                   populate( "exception", args );
+                                                                  try {
+                                                                    Object e = loader.create( "ExceptionDeclaration" );
+                                                                    loader.set_attribute( e, "name", $exceptionName.name );
+                                                                    loader.set_attribute( e, "visibility", "Visibility::" + $exceptionVisibility.visibility );
+                                                                    loader.relate( e, current_domain, 5400, "catches_errors_in" );
+                                                                  } catch ( XtumlException e ) {
+                                                                    System.err.println( e );
+                                                                  }
                                                               }
                                    pragmaList[""]               
                                  )                          
