@@ -1,0 +1,51 @@
+= OOA of MASL:  Parse and Load MASL Activity
+
+xtUML Project Design Note
+
+== 1 Abstract
+
+MASL action language shall be parsed and loaded into an xtUML model of
+MASL activity.  This note documents design steps to achieve this parsing.
+
+== 2 Introduction and Background
+
+See <<dr-3>> and <<dr-4>>.
+
+== 3 Requirements
+
+See <<dr-3>> and <<dr-4>>.
+
+== 4 Analysis
+
+== 5 Design
+
+=== 5.1 Parser
+
+The primary MASL parser is built into the MASL model compiler.  It exists
+at <<dr-5, MASL parser>>.  A derivative of this parser was crafted for the
+MASL-to-xtUML and xtUML-to-MASL tooling.  It is found <<dr-6,here>>.
+
+For this work, an approach similar to the m2x and x2m tooling is taken.
+This will leverage the work of resecting the parser from the larger model
+compiler.  The key file is `Walker.g`.
+
+== 6 Design Comments
+
+== 7 User Documentation
+
+== 8 Unit Test
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11745[11745 - Parse MASL into xtUML meta-model of MASL activity]
+. [[dr-2]] https://support.onefact.net/issues/11744[11744 - AWS software architecture]
+. [[dr-3]] link:11745_loadmasl_ant.adoc[analysis note]
+. [[dr-4]] link:11745_loadmasl_dnt.adoc[design note]
+. [[dr-5]] https://github.com/xtuml/masl/tree/master/core-java/src/main/antlr/org/xtuml/masl/antlr[MASL parser]
+. [[dr-6]] https://github.com/xtuml/mc/tree/master/masl/parser/src[MASL parser for MASL tools]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

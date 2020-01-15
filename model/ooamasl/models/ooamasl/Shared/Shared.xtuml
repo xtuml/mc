@@ -80,7 +80,7 @@ INSERT INTO GD_GE
 	"f212f01b-2c5d-4051-9d0d-9d88245e8e99",
 	51,
 	0,
-	'ooamasl::Shared::String');
+	'ooamasl::Shared::myString');
 INSERT INTO GD_SHP
 	VALUES ("0bd6a44e-0f99-4bb6-98f7-6169677d30c3");
 INSERT INTO GD_NCS
@@ -1016,7 +1016,7 @@ INSERT INTO GD_GE
 	"c9e3c903-844c-4fde-bb19-e79668b75e92",
 	51,
 	0,
-	'ooamasl::Shared::Alternative');
+	'ooamasl::Shared::iAlternative');
 INSERT INTO GD_SHP
 	VALUES ("09834730-48b3-4be2-83cc-62b28552328f");
 INSERT INTO GD_NCS
@@ -1808,7 +1808,7 @@ INSERT INTO GD_GE
 	"d3985525-5817-4b11-9037-0efaaf7b5b2d",
 	51,
 	0,
-	'ooamasl::Shared::Long');
+	'ooamasl::Shared::myLong');
 INSERT INTO GD_SHP
 	VALUES ("2ca5c36e-19b2-49e8-8743-5dd41c447798");
 INSERT INTO GD_NCS
@@ -1877,7 +1877,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("f212f01b-2c5d-4051-9d0d-9d88245e8e99",
 	"00000000-0000-0000-0000-000000000000",
-	'String',
+	'myString',
 	'',
 	'');
 INSERT INTO S_UDT
@@ -2540,7 +2540,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("c9e3c903-844c-4fde-bb19-e79668b75e92",
 	"00000000-0000-0000-0000-000000000000",
-	'Alternative',
+	'iAlternative',
 	'',
 	'');
 INSERT INTO S_UDT
@@ -3101,7 +3101,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("d3985525-5817-4b11-9037-0efaaf7b5b2d",
 	"00000000-0000-0000-0000-000000000000",
-	'Long',
+	'myLong',
 	'',
 	'');
 INSERT INTO S_UDT
