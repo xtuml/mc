@@ -33,8 +33,14 @@ import java.io.*;
 // external interface
 private Serial serial = null;
 private LOAD loader = null;
+private Object current_supertype = null;
+private Object current_attribute = null;
 private Object current_domain = null;
 private Object current_object = null;
+private Object current_project = null;
+private Object current_service = null;
+private Object current_terminator = null;
+private Object current_type = null;
 
 // parent masl parser
 private MaslImportParser masl_parser = null;
@@ -120,6 +126,12 @@ projectDefinition
                                                             {
                                                               args[0] = $projectName.name;
                                                               populate( "project", args );
+                                                              try {
+                                                                current_project = loader.create( "Project" );
+                                                                loader.set_attribute( current_project, "name", $projectName.name );
+                                                              } catch ( XtumlException e ) {
+                                                                System.err.println( e );
+                                                              }
                                                             }
                                    description
                                    ( projectDomainDefinition 
@@ -138,6 +150,13 @@ projectDomainDefinition
                                                             {
                                                                 args[0] = $projectDomainReference.ref;
                                                                 populate( "domain", args );
+                                                                try {
+                                                                  current_domain = loader.create( "ProjectDomain" );
+                                                                  loader.set_attribute( current_project, "name", $projectDomainReference.ref );
+                                                                  loader.relate( current_domain, current_project, 5900, "" );
+                                                                } catch ( XtumlException e ) {
+                                                                  System.err.println( e );
+                                                                }
                                                             }
                                    description
                                    ( projectTerminatorDefinition    
@@ -240,7 +259,7 @@ exceptionDeclaration
                                                                     Object e = loader.create( "ExceptionDeclaration" );
                                                                     loader.set_attribute( e, "name", $exceptionName.name );
                                                                     loader.set_attribute( e, "visibility", "Visibility::" + $exceptionVisibility.visibility );
-                                                                    loader.relate( e, current_domain, 5400, "catches_errors_in" );
+                                                                    loader.relate( e, current_domain, 5400, "" );
                                                                   } catch ( XtumlException e ) {
                                                                     System.err.println( e );
                                                                   }
@@ -285,6 +304,7 @@ typeForwardDeclaration
                                                                   args[0] = $typeName.name;
                                                                   args[1] = $typeVisibility.visibility;
                                                                   populate( "type", args );
+                                                                  // not loading forward declarations into OOA
                                                               }
                                    pragmaList["declaration"]				
                                  )                          
@@ -304,6 +324,14 @@ typeDeclaration
                                                                   args[1] = $typeVisibility.visibility;
                                                                   args[2] = $TYPE.text;
                                                                   populate( "type", args );
+                                                                  try {
+                                                                    current_type = loader.create( "TypeDeclaration" );
+                                                                    loader.set_attribute( current_type, "name", $typeName.name );
+                                                                    loader.set_attribute( current_type, "visibility", "Visibility::" + $typeVisibility.visibility );
+                                                                    loader.relate( current_type, current_domain, 6235, "" );
+                                                                  } catch ( XtumlException e ) {
+                                                                    System.err.println( e );
+                                                                  }
                                                               }
                                    description
                                    pragmaList[""]				
@@ -578,6 +606,13 @@ domainTerminatorDefinition
                                                               {
                                                                   args[0] = $terminatorName.name;
                                                                   populate( "terminator", args );
+                                                                  try {
+                                                                    current_terminator = loader.create( "DomainTerminator" );
+                                                                    loader.set_attribute( current_terminator, "name", $terminatorName.name );
+                                                                    loader.relate( current_terminator, current_domain, 5304, "" );
+                                                                  } catch ( XtumlException e ) {
+                                                                    System.err.println( e );
+                                                                  }
                                                               }
                                    description
                                    pragmaList[""]                 
@@ -596,6 +631,13 @@ projectTerminatorDefinition
                                                               {
                                                                   args[0] = $terminatorName.name;
                                                                   populate( "terminator", args );
+                                                                  try {
+                                                                    current_terminator = loader.create( "ProjectTerminator" );
+                                                                    loader.set_attribute( current_terminator, "name", $terminatorName.name );
+                                                                    loader.relate( current_terminator, current_domain, 5902, "" );
+                                                                  } catch ( XtumlException e ) {
+                                                                    System.err.println( e );
+                                                                  }
                                                               }
                                    description
                                    pragmaList[""]                 
@@ -617,6 +659,16 @@ terminatorServiceDeclaration//[DomainTerminator terminator]
                                                                   args[2] = $serviceVisibility.visibility;
                                                                   args[3] = $serviceName.name;
                                                                   populate( "routine", args );
+                                                                  try {
+                                                                    current_supertype = loader.create( "Service" );
+                                                                    loader.set_attribute( current_supertype, "name", $serviceName.name );
+                                                                    loader.set_attribute( current_supertype, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                    current_service = loader.create( "DomainTerminatorService" );
+                                                                    loader.relate( current_service, current_supertype, 5203, "" );
+                                                                    loader.relate( current_service, current_terminator, 5306, "" );
+                                                                  } catch ( XtumlException e ) {
+                                                                    System.err.println( e );
+                                                                  }
                                                             }
                                    description
                                    parameterList
@@ -637,6 +689,16 @@ projectTerminatorServiceDeclaration//[ProjectTerminator terminator]
                                                                   args[2] = $serviceVisibility.visibility;
                                                                   args[3] = $serviceName.name;
                                                                   populate( "routine", args );
+                                                                  try {
+                                                                    current_supertype = loader.create( "Service" );
+                                                                    loader.set_attribute( current_supertype, "name", $serviceName.name );
+                                                                    loader.set_attribute( current_supertype, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                    current_service = loader.create( "ProjectTerminatorService" );
+                                                                    loader.relate( current_service, current_supertype, 5203, "" );
+                                                                    loader.relate( current_service, current_terminator, 5903, "" );
+                                                                  } catch ( XtumlException e ) {
+                                                                    System.err.println( e );
+                                                                  }
                                                             }
                                    description
                                    parameterList
@@ -718,6 +780,7 @@ objectDeclaration
                                                             {
                                                                 args[0] = $objectName.name;
                                                                 populate( "object", args );
+                                                                // not loading forward declarations into OOA
                                                             }
                                    pragmaList["declaration"]
                                  )                          
@@ -735,6 +798,13 @@ objectDefinition
                                                             {
                                                                 args[0] = $objectName.name;
                                                                 populate( "object", args );
+                                                                try {
+                                                                  current_object = loader.create( "ObjectDeclaration" );
+                                                                  loader.set_attribute( current_object, "name", $objectName.name );
+                                                                  loader.relate( current_object, current_domain, 5805, "" );
+                                                                } catch ( XtumlException e ) {
+                                                                  System.err.println( e );
+                                                                }
                                                             }
                                    ( attributeDefinition      
                                    | identifierDefinition     
@@ -765,6 +835,23 @@ attributeDefinition
                                                                     args[2] = $UNIQUE.text;
                                                                 else args[2] = "";
                                                                 populate( "attribute", args );
+                                                                try {
+                                                                  current_attribute = loader.create( "AttributeDeclaration" );
+                                                                  loader.set_attribute( current_attribute, "name", $attributeName.name );
+                                                                  if ( $PREFERRED != null ) {
+                                                                    loader.set_attribute( current_attribute, "preferred", false );
+                                                                  } else {
+                                                                    loader.set_attribute( current_attribute, "preferred", true );
+                                                                  }
+                                                                  if ( $UNIQUE == null ) {
+                                                                    loader.set_attribute( current_attribute, "unique", false );
+                                                                  } else {
+                                                                    loader.set_attribute( current_attribute, "unique", true );
+                                                                  }
+                                                                  loader.relate( current_attribute, current_object, 5802, "" );
+                                                                } catch ( XtumlException e ) {
+                                                                  System.err.println( e );
+                                                                }
                                                             }
                                    ( attReferential         
                                    )*
@@ -773,6 +860,12 @@ attributeDefinition
                                                             {
                                                                 args[0] = $typeReference.type;
                                                                 populate( "typeref", args );
+                                                                try {
+                                                                  Object t = loader.select( "TypeDeclaration", $typeReference.type );
+                                                                  loader.relate( current_attribute, t, 5803, "" );
+                                                                } catch ( XtumlException e ) {
+                                                                  System.err.println( e );
+                                                                }
                                                             }
                                    (expression
                                                             {
@@ -1886,7 +1979,15 @@ returns [String name]
 
 
 expression
-//returns [Expression exp]
+returns [Object exp]
+@after
+                                                            {
+                                                                try {
+                                                                  $exp = loader.create( "Expression" );
+                                                                } catch ( XtumlException e ) {
+                                                                  System.err.println( e );
+                                                                }
+                                                            }
                               : binaryExpression            
                               | unaryExpression             
                               | rangeExpression             

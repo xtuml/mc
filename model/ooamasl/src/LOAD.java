@@ -4,4 +4,5 @@ public interface LOAD {
     public void relate(Object form, Object part, int rel_num, String phrase) throws XtumlException;
     public void relate_using(Object form, Object part, Object link, int rel_num, String phrase) throws XtumlException;
     public void set_attribute(Object instance, String attribute_name, Object value) throws XtumlException;
+    public Object select(String key_letters, String identifier) throws XtumlException;
 }

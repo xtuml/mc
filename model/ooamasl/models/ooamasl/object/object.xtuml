@@ -2052,7 +2052,7 @@ INSERT INTO R_PART
 	"2cd73967-a16b-43f0-8a3d-fb326cd1de20",
 	"f7b819f3-3bed-4f95-8d30-a2541e27ce34",
 	0,
-	1,
+	0,
 	'is_abstracted_in');
 INSERT INTO R_RTO
 	VALUES ("43897b6d-681c-4da2-be1f-b79631529199",

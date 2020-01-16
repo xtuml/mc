@@ -25,4 +25,9 @@ public class MaslLoader implements LOAD {
     public void set_attribute(Object instance, String attribute_name, Object value) throws XtumlException {
         output.println( "set_attribute " + current_object + "." + attribute_name + " = " + value );
     }
+    public Object select(String key_letters, String name) throws XtumlException {
+        current_object = key_letters;
+        output.println( "select any i from instances of " + key_letters + " where ( selected.name == " + name + " )" );
+        return null;
+    }
 }

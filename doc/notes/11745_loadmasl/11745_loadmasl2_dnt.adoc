@@ -31,6 +31,13 @@ compiler.  The key file is `Walker.g`.
 
 == 6 Design Comments
 
+* We need to be able to select by name.  For example, in an
+  AttributeDeclaration, selecting a TypeDeclaration based on the type
+  reference text.
+* We also need to navigate sub/super.  For example, a TypeDeclaration has
+  a name, but I need the instance of the BasicType subtype to link to an
+  AttributeDeclation.
+
 == 7 User Documentation
 
 == 8 Unit Test
