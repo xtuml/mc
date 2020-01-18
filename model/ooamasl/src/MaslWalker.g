@@ -119,7 +119,7 @@ returns [String name]
 
 
 projectDefinition
-//returns [Project project]
+returns [Object project]
 
                               : ^( PROJECT
                                    projectName
@@ -127,14 +127,17 @@ projectDefinition
                                                               args[0] = $projectName.name;
                                                               populate( "project", args );
                                                               try {
-                                                                current_project = loader.create( "Project" );
-                                                                loader.set_attribute( current_project, "name", $projectName.name );
-                                                              } catch ( XtumlException e ) {
-                                                                System.err.println( e );
-                                                              }
+                                                                $project = loader.create( "Project" );
+                                                                loader.set_attribute( $project, "name", $projectName.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
-                                   ( projectDomainDefinition 
+                                   ( projectDomainDefinition
+                                                            {
+                                                              try {
+                                                                loader.relate( $projectDomainDefinition.domain, $project, 5900, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )*
                                    pragmaList[""])              
                                                             {
@@ -144,22 +147,24 @@ projectDefinition
                               ;
 
 projectDomainDefinition
-//returns [ProjectDomain domain]
+returns [Object domain]
                               : ^( DOMAIN
                                    projectDomainReference   
                                                             {
                                                                 args[0] = $projectDomainReference.ref;
                                                                 populate( "domain", args );
                                                                 try {
-                                                                  current_domain = loader.create( "ProjectDomain" );
-                                                                  loader.set_attribute( current_project, "name", $projectDomainReference.ref );
-                                                                  loader.relate( current_domain, current_project, 5900, "" );
-                                                                } catch ( XtumlException e ) {
-                                                                  System.err.println( e );
-                                                                }
+                                                                  $domain = loader.create( "ProjectDomain" );
+                                                                  loader.set_attribute( $domain, "name", $projectDomainReference.ref );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    ( projectTerminatorDefinition    
+                                                            {
+                                                              try {
+                                                                loader.relate( $projectTerminatorDefinition.terminator, $domain, 5902, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )*
                                    pragmaList[""]               
                                  )                          
@@ -182,29 +187,66 @@ returns [String name]
 //---------------------------------------------------------
 
 domainDefinition
-//returns [Domain domain]
+returns [Object domain]
                                                                                              
                               : ^( DOMAIN
-                                   domainName                    
-                                                            {
+                                   domainName               {
                                                                 args[0] = $domainName.name;
                                                                 populate( "domain", args );
                                                                 try {
-                                                                  current_domain = loader.create( "Domain" );
-                                                                  loader.set_attribute( current_domain, "name", $domainName.name );
-                                                                } catch ( XtumlException e ) {
-                                                                  System.err.println( e );
-                                                                }
+                                                                  $domain = loader.create( "Domain" );
+                                                                  loader.set_attribute( $domain, "name", $domainName.name );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    ( objectDeclaration           
+                                                            {
+                                                              try {
+                                                                loader.relate( $objectDeclaration.object, $domain, 5805, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | domainServiceDeclaration    
+                                                            {
+                                                              try {
+                                                                loader.relate( $domainServiceDeclaration.domainservice, $domain, 5303, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | domainTerminatorDefinition    
+                                                            {
+                                                              try {
+                                                                loader.relate( $domainTerminatorDefinition.terminator, $domain, 5304, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | relationshipDefinition     
+                                                            {
+                                                              try {
+                                                                loader.relate( $relationshipDefinition.relationship, $domain, 6003, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | objectDefinition            
+                                                            {
+                                                              try {
+                                                                loader.relate( $objectDefinition.object, $domain, 5805, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | typeDeclaration             
+                                                            {
+                                                              try {
+                                                                loader.relate( $typeDeclaration.type, $domain, 6235, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | typeForwardDeclaration             
+                                                            {
+                                                              try {
+                                                                loader.relate( $typeForwardDeclaration.type, $domain, 6235, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | exceptionDeclaration        
+                                                            {
+                                                              try {
+                                                                loader.relate( $exceptionDeclaration.rejection, $domain, 5400, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )*
                                    pragmaList[""]                    
                                  )                              
@@ -222,24 +264,21 @@ returns [String name]
 
 domainReference
 returns [String ref]
-//returns [Domain.Reference ref]
                               : domainName                  { $ref = $domainName.name; }
                               ;
 
 
 projectDomainReference
 returns [String ref]
-//returns [Domain.Reference ref]
                               : domainName                  { $ref = $domainName.name; }
                               ;
 
 
 
 optionalDomainReference
-returns [String ref]
-//returns [Domain.Reference ref, boolean defaulted]
-                              : domainReference             { $ref = $domainReference.ref; }
-                              | /* blank */                 { $ref = ""; }
+returns [String ref, boolean defaulted]
+                              : domainReference             { $ref = $domainReference.ref; $defaulted = false; }
+                              | /* blank */                 { $ref = ""; $defaulted = true;}
                               ;
 
 
@@ -248,6 +287,7 @@ returns [String ref]
 // Exception Declaration
 //---------------------------------------------------------
 exceptionDeclaration
+returns [Object rejection]
                               : ^( EXCEPTION
                                    exceptionName            
                                    exceptionVisibility      
@@ -256,13 +296,10 @@ exceptionDeclaration
                                                                   args[1] = $exceptionVisibility.visibility;
                                                                   populate( "exception", args );
                                                                   try {
-                                                                    Object e = loader.create( "ExceptionDeclaration" );
-                                                                    loader.set_attribute( e, "name", $exceptionName.name );
-                                                                    loader.set_attribute( e, "visibility", "Visibility::" + $exceptionVisibility.visibility );
-                                                                    loader.relate( e, current_domain, 5400, "" );
-                                                                  } catch ( XtumlException e ) {
-                                                                    System.err.println( e );
-                                                                  }
+                                                                    $rejection = loader.create( "ExceptionDeclaration" );
+                                                                    loader.set_attribute( $rejection, "name", $exceptionName.name );
+                                                                    loader.set_attribute( $rejection, "visibility", "Visibility::" + $exceptionVisibility.visibility );
+                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    pragmaList[""]               
                                  )                          
@@ -278,15 +315,22 @@ returns [ String name ]
                               ;
 
 exceptionReference
-//returns [ExceptionReference ref]
+returns [String ref]
                               : optionalDomainReference
                                 exceptionName               
+                                                              {
+                                                                  try {
+                                                                    Object er = loader.create( "ExceptionReference" );
+                                                                    // CDS - consider selecting through optionalDomainReference
+                                                                    Object e = loader.select( "ExceptionDeclaration", $exceptionName.name );
+                                                                    loader.relate( er, e, 5402, "" );
+                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              }
                               ;
                                 
 
 exceptionVisibility
 returns [String visibility]
-//returns [ Visibility visibility ]
                               : PRIVATE                     { $visibility = $PRIVATE.text; }
                               | PUBLIC                      { $visibility = $PUBLIC.text; }
                               ;
@@ -296,7 +340,7 @@ returns [String visibility]
 //---------------------------------------------------------
 
 typeForwardDeclaration
-
+returns [Object type]
                               : ^( TYPE_DECLARATION
                                    typeName                 
                                    typeVisibility
@@ -304,7 +348,11 @@ typeForwardDeclaration
                                                                   args[0] = $typeName.name;
                                                                   args[1] = $typeVisibility.visibility;
                                                                   populate( "type", args );
-                                                                  // not loading forward declarations into OOA
+                                                                  try {
+                                                                    $type = loader.create( "TypeDeclaration" );
+                                                                    loader.set_attribute( $type, "name", $typeName.name );
+                                                                    loader.set_attribute( $type, "visibility", "Visibility::" + $typeVisibility.visibility );
+                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    pragmaList["declaration"]				
                                  )                          
@@ -315,7 +363,7 @@ typeForwardDeclaration
                               
 
 typeDeclaration
-
+returns [Object type]
                               : ^( TYPE
                                    typeName                 
                                    typeVisibility
@@ -325,13 +373,13 @@ typeDeclaration
                                                                   args[2] = $TYPE.text;
                                                                   populate( "type", args );
                                                                   try {
-                                                                    current_type = loader.create( "TypeDeclaration" );
-                                                                    loader.set_attribute( current_type, "name", $typeName.name );
-                                                                    loader.set_attribute( current_type, "visibility", "Visibility::" + $typeVisibility.visibility );
-                                                                    loader.relate( current_type, current_domain, 6235, "" );
-                                                                  } catch ( XtumlException e ) {
-                                                                    System.err.println( e );
-                                                                  }
+                                                                    $type = loader.select( "TypeDeclaration", $typeName.name );
+                                                                    if ( $type == null ) {
+                                                                      $type = loader.create( "TypeDeclaration" );
+                                                                    }
+                                                                    loader.set_attribute( $type, "name", $typeName.name );
+                                                                    loader.set_attribute( $type, "visibility", "Visibility::" + $typeVisibility.visibility );
+                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    description
                                    pragmaList[""]				
@@ -354,7 +402,6 @@ typeDefinition
 
 typeVisibility
 returns [String visibility]
-//returns [Visibility visibility]
                               : PRIVATE                     { $visibility = $PRIVATE.text; }
                               | PUBLIC                      { $visibility = $PUBLIC.text; }
                               ;
@@ -468,10 +515,8 @@ unconstrainedArrayDefinition
 // Type Reference
 //---------------------------------------------------------
 
-/*
 typeReference
 returns [String type]
-//returns [BasicType type]
                               : namedTypeRef                { $type = $namedTypeRef.type[2]; }
                               | constrainedArrayTypeRef     { $type = "levi"; }//$constrainedArrayTypeRef.type }
                               | instanceTypeRef             { $type = "levi"; }//$instanceTypeRef.type }
@@ -480,12 +525,6 @@ returns [String type]
                               | setTypeRef                  { $type = "levi"; }//$setTypeRef.type }
                               | bagTypeRef                  { $type = "levi"; }//$bagTypeRef.type }
                               | dictionaryTypeRef           { $type = "levi"; }//$dictionaryTypeRef.type }
-                              ;
-                              */
-typeReference
-returns [String type]
-//returns [BasicType type]
-                              : TYPE_REF                    { $type = $TYPE_REF.text; }
                               ;
 
 instanceTypeRef
@@ -600,19 +639,16 @@ returns [String name]
 
 
 domainTerminatorDefinition
-
+returns [Object terminator]
                               : ^( TERMINATOR_DEFINITION
                                    terminatorName             
                                                               {
                                                                   args[0] = $terminatorName.name;
                                                                   populate( "terminator", args );
                                                                   try {
-                                                                    current_terminator = loader.create( "DomainTerminator" );
-                                                                    loader.set_attribute( current_terminator, "name", $terminatorName.name );
-                                                                    loader.relate( current_terminator, current_domain, 5304, "" );
-                                                                  } catch ( XtumlException e ) {
-                                                                    System.err.println( e );
-                                                                  }
+                                                                    $terminator = loader.create( "DomainTerminator" );
+                                                                    loader.set_attribute( $terminator, "name", $terminatorName.name );
+                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    description
                                    pragmaList[""]                 
@@ -625,19 +661,16 @@ domainTerminatorDefinition
                               ;
 
 projectTerminatorDefinition
-
+returns [Object terminator]
                               : ^( TERMINATOR_DEFINITION
                                    terminatorName
                                                               {
                                                                   args[0] = $terminatorName.name;
                                                                   populate( "terminator", args );
                                                                   try {
-                                                                    current_terminator = loader.create( "ProjectTerminator" );
-                                                                    loader.set_attribute( current_terminator, "name", $terminatorName.name );
-                                                                    loader.relate( current_terminator, current_domain, 5902, "" );
-                                                                  } catch ( XtumlException e ) {
-                                                                    System.err.println( e );
-                                                                  }
+                                                                    $terminator = loader.create( "ProjectTerminator" );
+                                                                    loader.set_attribute( $terminator, "name", $terminatorName.name );
+                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    description
                                    pragmaList[""]                 
@@ -666,9 +699,7 @@ terminatorServiceDeclaration//[DomainTerminator terminator]
                                                                     current_service = loader.create( "DomainTerminatorService" );
                                                                     loader.relate( current_service, current_supertype, 5203, "" );
                                                                     loader.relate( current_service, current_terminator, 5306, "" );
-                                                                  } catch ( XtumlException e ) {
-                                                                    System.err.println( e );
-                                                                  }
+                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    parameterList
@@ -696,9 +727,7 @@ projectTerminatorServiceDeclaration//[ProjectTerminator terminator]
                                                                     current_service = loader.create( "ProjectTerminatorService" );
                                                                     loader.relate( current_service, current_supertype, 5203, "" );
                                                                     loader.relate( current_service, current_terminator, 5903, "" );
-                                                                  } catch ( XtumlException e ) {
-                                                                    System.err.println( e );
-                                                                  }
+                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    parameterList
@@ -775,12 +804,16 @@ returns [String name]
                               ;
 
 objectDeclaration
+returns [Object object]
                               : ^( OBJECT_DECLARATION
                                    objectName
                                                             {
                                                                 args[0] = $objectName.name;
                                                                 populate( "object", args );
-                                                                // not loading forward declarations into OOA
+                                                                try {
+                                                                  $object = loader.create( "ObjectDeclaration" );
+                                                                  loader.set_attribute( $object, "name", $objectName.name );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    pragmaList["declaration"]
                                  )                          
@@ -792,6 +825,7 @@ objectDeclaration
 
 
 objectDefinition
+returns [Object object]
                                                                                              
                               : ^( OBJECT_DEFINITION
                                    objectName               
@@ -799,14 +833,19 @@ objectDefinition
                                                                 args[0] = $objectName.name;
                                                                 populate( "object", args );
                                                                 try {
-                                                                  current_object = loader.create( "ObjectDeclaration" );
-                                                                  loader.set_attribute( current_object, "name", $objectName.name );
-                                                                  loader.relate( current_object, current_domain, 5805, "" );
-                                                                } catch ( XtumlException e ) {
-                                                                  System.err.println( e );
-                                                                }
+                                                                  $object = loader.select( "ObjectDeclaration", $objectName.name );
+                                                                  if ( $object == null ) {
+                                                                    $object = loader.create( "ObjectDeclaration" );
+                                                                  }
+                                                                  loader.set_attribute( $object, "name", $objectName.name );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( attributeDefinition      
+                                                            {
+                                                                try {
+                                                                  loader.relate( $attributeDefinition.attribute, $object, 5802, "" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | identifierDefinition     
                                    | objectServiceDeclaration 
                                    | eventDefinition          
@@ -822,7 +861,7 @@ objectDefinition
                               ;
 
 attributeDefinition
-
+returns [Object attribute]
                               : ^( ATTRIBUTE_DEFINITION
                                    attributeName            
                                    PREFERRED? UNIQUE?
@@ -836,22 +875,19 @@ attributeDefinition
                                                                 else args[2] = "";
                                                                 populate( "attribute", args );
                                                                 try {
-                                                                  current_attribute = loader.create( "AttributeDeclaration" );
-                                                                  loader.set_attribute( current_attribute, "name", $attributeName.name );
+                                                                  $attribute = loader.create( "AttributeDeclaration" );
+                                                                  loader.set_attribute( $attribute, "name", $attributeName.name );
                                                                   if ( $PREFERRED != null ) {
-                                                                    loader.set_attribute( current_attribute, "preferred", false );
+                                                                    loader.set_attribute( $attribute, "preferred", false );
                                                                   } else {
-                                                                    loader.set_attribute( current_attribute, "preferred", true );
+                                                                    loader.set_attribute( $attribute, "preferred", true );
                                                                   }
                                                                   if ( $UNIQUE == null ) {
-                                                                    loader.set_attribute( current_attribute, "unique", false );
+                                                                    loader.set_attribute( $attribute, "unique", false );
                                                                   } else {
-                                                                    loader.set_attribute( current_attribute, "unique", true );
+                                                                    loader.set_attribute( $attribute, "unique", true );
                                                                   }
-                                                                  loader.relate( current_attribute, current_object, 5802, "" );
-                                                                } catch ( XtumlException e ) {
-                                                                  System.err.println( e );
-                                                                }
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( attReferential         
                                    )*
@@ -862,10 +898,8 @@ attributeDefinition
                                                                 populate( "typeref", args );
                                                                 try {
                                                                   Object t = loader.select( "TypeDeclaration", $typeReference.type );
-                                                                  loader.relate( current_attribute, t, 5803, "" );
-                                                                } catch ( XtumlException e ) {
-                                                                  System.err.println( e );
-                                                                }
+                                                                  loader.relate( $attribute, t, 5803, "" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    (expression
                                                             {
@@ -1149,6 +1183,7 @@ returns [String[\] ref]
 //---------------------------------------------------------
 
 domainServiceDeclaration
+returns [Object domainservice]
                               : ^( DOMAIN_SERVICE_DECLARATION
                                    serviceVisibility
                                    serviceName
@@ -1255,6 +1290,7 @@ returnType
 
 
 relationshipDefinition
+returns [Object relationship]
                               : regularRelationshipDefinition
                               | assocRelationshipDefinition   
                               | subtypeRelationshipDefinition 
@@ -1468,12 +1504,15 @@ returns [ String name ]
 // Descriptions
 //---------------------------------------------------------
 
-description                   : ^( DESCRIPTION              {   StringBuilder descrip = new StringBuilder(); }
+description
+returns [String text]
+                              : ^( DESCRIPTION              {   StringBuilder descrip = new StringBuilder(); }
                                    (Description             {   descrip.append( $Description.text.substring(3) ); }
                                    )*
                                                             {
                                                                 args[0] = descrip.toString();
                                                                 populate( "description", args );
+                                                                $text = descrip.toString();
                                                             }
                                  )
                               ;
@@ -1493,6 +1532,7 @@ activityDefinition            : domainServiceDefinition
 
 
 domainServiceDefinition//[DomainService service]
+returns [Object domainservice]
 //scope NameScope;
 
                               : ^( DOMAIN_SERVICE_DEFINITION
@@ -1504,6 +1544,9 @@ domainServiceDefinition//[DomainService service]
                                                                   args[2] = $serviceVisibility.visibility;
                                                                   args[3] = $serviceName.name;
                                                                   populate( "routine", args );
+                                                                  try {
+                                                                    $domainservice = loader.create( "DomainService" );
+                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    parameterList
                                    returnType?
@@ -1979,14 +2022,12 @@ returns [String name]
 
 
 expression
-returns [Object exp]
+returns [Object expression]
 @after
                                                             {
                                                                 try {
-                                                                  $exp = loader.create( "Expression" );
-                                                                } catch ( XtumlException e ) {
-                                                                  System.err.println( e );
-                                                                }
+                                                                  $expression = loader.create( "Expression" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               : binaryExpression            
                               | unaryExpression             

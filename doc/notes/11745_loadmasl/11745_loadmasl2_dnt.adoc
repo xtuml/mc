@@ -37,6 +37,12 @@ compiler.  The key file is `Walker.g`.
 * We also need to navigate sub/super.  For example, a TypeDeclaration has
   a name, but I need the instance of the BasicType subtype to link to an
   AttributeDeclation.
+* I think there needs to be a description field on several elements.  Maybe
+  everything that has a name should also have a description.  Maybe a
+  supertype element should have the description field.  Skipping it for now.
+* What should we do with domain references to domains not loaded?  This
+  can occur with ExceptionReference (and maybe types).
+* So far, there is still no type reference class in the model.
 
 == 7 User Documentation
 
