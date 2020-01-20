@@ -2,16 +2,16 @@ import java.io.*;
 
 public class MaslLoader implements LOAD {
     private PrintStream output;
-    private String current_object = "";
+    private Object current_object;
 
     public MaslLoader() {
         output = System.out;
+        current_object = new Object();
     }
 
     public Object create(String key_letters) throws XtumlException {
-        current_object = key_letters;
         output.println( "create object instance i of " + key_letters );
-        return null;
+        return current_object;
     }
     public void load(String java_class, String[] args) throws XtumlException {
         output.println( "load" );
@@ -26,8 +26,7 @@ public class MaslLoader implements LOAD {
         output.println( "set_attribute " + current_object + "." + attribute_name + " = " + value );
     }
     public Object select(String key_letters, String name) throws XtumlException {
-        current_object = key_letters;
         output.println( "select any i from instances of " + key_letters + " where ( selected.name == " + name + " )" );
-        return null;
+        return current_object;
     }
 }

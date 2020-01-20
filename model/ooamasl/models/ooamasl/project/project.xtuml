@@ -890,8 +890,8 @@ INSERT INTO R_PART
 	VALUES ("3d358d71-bf57-4f04-b3d3-a5d9172e2d04",
 	"e28018d7-dd25-4461-9b88-33f79495d593",
 	"4376bcb6-647f-4b54-adeb-5d8929311d2f",
-	0,
 	1,
+	0,
 	'messages_through');
 INSERT INTO R_RTO
 	VALUES ("3d358d71-bf57-4f04-b3d3-a5d9172e2d04",

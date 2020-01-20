@@ -112,9 +112,9 @@ definition                    : projectDefinition
 
 identifier
 returns [String name]
-                              : Identifier                {
+                              : Identifier                  {
                                                               $name = $Identifier.text;
-                                                          }
+                                                            }
                               ;
 
 
@@ -122,8 +122,7 @@ projectDefinition
 returns [Object project]
 
                               : ^( PROJECT
-                                   projectName
-                                                            {
+                                   projectName              {
                                                               args[0] = $projectName.name;
                                                               populate( "project", args );
                                                               try {
@@ -384,6 +383,11 @@ returns [Object type]
                                    description
                                    pragmaList[""]				
                                    typeDefinition			
+                                                              {
+                                                                try {
+                                                                  loader.relate( $typeDefinition.type, $type, 6234, "" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              }
                                  )                          
                                                               {
                                                                   populate( "type", args ); // end type
@@ -392,12 +396,49 @@ returns [Object type]
                               
 
 typeDefinition
-//returns [TypeDefinition def]
+returns [Object type]
+@init
+{
+  try {
+    $type = loader.create( "TypeDefinition" );
+  } catch ( XtumlException e ) { System.err.println( e ); }
+}
                               : structureTypeDefinition     
+                                                            {
+                                                              try {
+                                                                Object fulltype = loader.create( "FullTypeDefinition" );
+                                                                loader.relate( fulltype, $type, 6234, "" );
+                                                                loader.relate( $structureTypeDefinition.type, fulltype, 6219, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | enumerationTypeDefinition   
+                                                            {
+                                                              try {
+                                                                Object fulltype = loader.create( "FullTypeDefinition" );
+                                                                loader.relate( fulltype, $type, 6234, "" );
+                                                                loader.relate( $enumerationTypeDefinition.type, fulltype, 6219, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | constrainedTypeDefinition   
+                                                            {
+                                                              try {
+                                                                Object fulltype = loader.create( "FullTypeDefinition" );
+                                                                loader.relate( fulltype, $type, 6234, "" );
+                                                                loader.relate( $constrainedTypeDefinition.type, fulltype, 6219, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | typeReference               
+                                                            {
+                                                              // CDS - I think here we will have a UserDefinedType.
+                                                            }
                               | unconstrainedArrayDefinition
+                                                            {
+                                                              try {
+                                                                Object fulltype = loader.create( "FullTypeDefinition" );
+                                                                loader.relate( fulltype, $type, 6234, "" );
+                                                                loader.relate( $unconstrainedArrayDefinition.type, fulltype, 6219, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 typeVisibility
@@ -410,7 +451,7 @@ returns [String visibility]
 
 // Constrained Type
 constrainedTypeDefinition
-//returns [ConstrainedType type]
+returns [Object type]
                               : ^( CONSTRAINED_TYPE
                                    typeReference
                                    typeConstraint
@@ -418,21 +459,21 @@ constrainedTypeDefinition
                               ;
 
 typeConstraint
-//returns [TypeConstraint constraint]
+returns [Object constraint]
                               : rangeConstraint             
                               | deltaConstraint             
                               | digitsConstraint            
                               ;
 
 rangeConstraint
-//returns [RangeConstraint range]
+returns [Object range]
                               : ^( RANGE
                                    expression
                                  )                          
                               ;
 
 deltaConstraint
-//returns [DeltaConstraint delta]
+returns [Object delta]
                               : ^( DELTA
                                    expression
                                    rangeConstraint
@@ -440,7 +481,7 @@ deltaConstraint
                               ;
 
 digitsConstraint
-//returns [DigitsConstraint digits]
+returns [Object digits]
                               : ^( DIGITS
                                    expression
                                    rangeConstraint
@@ -449,8 +490,7 @@ digitsConstraint
 
 // Structure Type
 structureTypeDefinition
-//returns [StructureType type]
-
+returns [Object type]
                               : ^( STRUCTURE
                                    ( structureComponentDefinition 
                                                             
@@ -479,7 +519,7 @@ returns [String name]
 
 // Enumeration Type
 enumerationTypeDefinition
-//returns [EnumerateType type]
+returns [Object type]
 
                               : ^( ENUM
                                    ( enumerator             
@@ -488,7 +528,7 @@ enumerationTypeDefinition
                               ;
 
 enumerator
-//returns [EnumerateItem item]
+returns [Object item]
                               : ^( ENUMERATOR
                                    enumeratorName
                                    expression?
@@ -504,7 +544,7 @@ returns [String name]         : ^( ENUMERATOR_NAME
 
 // Unconstrained array
 unconstrainedArrayDefinition
-//returns [UnconstrainedArrayType type]
+returns [Object type]
                               : ^( UNCONSTRAINED_ARRAY
                                    index=typeReference
                                    contained=typeReference
@@ -653,6 +693,11 @@ returns [Object terminator]
                                    description
                                    pragmaList[""]                 
                                    ( terminatorServiceDeclaration//[terminator] 
+                                                              {
+                                                                try {
+                                                                  loader.relate( $terminatorServiceDeclaration.terminatorservice, $terminator, 5306, "" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              }
                                    )*
                                  )
                                                               {
@@ -674,7 +719,12 @@ returns [Object terminator]
                                                               }
                                    description
                                    pragmaList[""]                 
-                                   ( projectTerminatorServiceDeclaration//[terminator] 
+                                   ( projectTerminatorServiceDeclaration
+                                                              {
+                                                                try {
+                                                                  loader.relate( $projectTerminatorServiceDeclaration.terminatorservice, $terminator, 5903, "" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              }
                                    )*
                                  )
                                                               {
@@ -685,6 +735,8 @@ returns [Object terminator]
 
 
 terminatorServiceDeclaration//[DomainTerminator terminator]
+returns [Object terminatorservice]
+@init { Object service = null; }
                               : ^( TERMINATOR_SERVICE_DECLARATION
                                    serviceVisibility
                                    serviceName
@@ -693,16 +745,22 @@ terminatorServiceDeclaration//[DomainTerminator terminator]
                                                                   args[3] = $serviceName.name;
                                                                   populate( "routine", args );
                                                                   try {
-                                                                    current_supertype = loader.create( "Service" );
-                                                                    loader.set_attribute( current_supertype, "name", $serviceName.name );
-                                                                    loader.set_attribute( current_supertype, "visibility", "Visibility::" + $serviceVisibility.visibility );
-                                                                    current_service = loader.create( "DomainTerminatorService" );
-                                                                    loader.relate( current_service, current_supertype, 5203, "" );
-                                                                    loader.relate( current_service, current_terminator, 5306, "" );
+                                                                    service = loader.create( "Service" );
+                                                                    loader.set_attribute( service, "name", $serviceName.name );
+                                                                    loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                    $terminatorservice = loader.create( "DomainTerminatorService" );
+                                                                    loader.relate( $terminatorservice, service, 5203, "" );
                                                                   } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    parameterList
+                                                            {
+                                                              if ( null != $parameterList.firstparameter ) {
+                                                                try {
+                                                                  loader.relate( $parameterList.firstparameter, service, 5204, "" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              }
+                                                            }
                                    returnType?
                                    pragmaList[""]
                                  )
@@ -713,6 +771,8 @@ terminatorServiceDeclaration//[DomainTerminator terminator]
                               ;
 
 projectTerminatorServiceDeclaration//[ProjectTerminator terminator]
+returns [Object terminatorservice]
+@init { Object service = null; }
                               : ^( TERMINATOR_SERVICE_DECLARATION
                                    serviceVisibility
                                    serviceName              
@@ -721,16 +781,22 @@ projectTerminatorServiceDeclaration//[ProjectTerminator terminator]
                                                                   args[3] = $serviceName.name;
                                                                   populate( "routine", args );
                                                                   try {
-                                                                    current_supertype = loader.create( "Service" );
-                                                                    loader.set_attribute( current_supertype, "name", $serviceName.name );
-                                                                    loader.set_attribute( current_supertype, "visibility", "Visibility::" + $serviceVisibility.visibility );
-                                                                    current_service = loader.create( "ProjectTerminatorService" );
-                                                                    loader.relate( current_service, current_supertype, 5203, "" );
-                                                                    loader.relate( current_service, current_terminator, 5903, "" );
+                                                                    service = loader.create( "Service" );
+                                                                    loader.set_attribute( service, "name", $serviceName.name );
+                                                                    loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                    $terminatorservice = loader.create( "ProjectTerminatorService" );
+                                                                    loader.relate( $terminatorservice, service, 5203, "" );
                                                                   } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    parameterList
+                                                            {
+                                                              if ( null != $parameterList.firstparameter ) {
+                                                                try {
+                                                                  loader.relate( $parameterList.firstparameter, service, 5204, "" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              }
+                                                            }
                                    (returnType)?
                                    pragmaList[""]
                                  )
@@ -970,6 +1036,8 @@ returns [String name]
 
 
 objectServiceDeclaration
+returns [Object objectservice]
+@init { Object service = null; }
                               : ^( OBJECT_SERVICE_DECLARATION
                                    serviceVisibility
                                    ( INSTANCE
@@ -983,9 +1051,23 @@ objectServiceDeclaration
                                                                   if ( $relationshipReference.ref != null )
                                                                       args[5] = $relationshipReference.ref[1];
                                                                   populate( "operation", args );
+                                                                  try {
+                                                                    service = loader.create( "Service" );
+                                                                    loader.set_attribute( service, "name", $serviceName.name );
+                                                                    loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                    $objectservice = loader.create( "ObjectService" );
+                                                                    loader.relate( $objectservice, service, 5203, "" );
+                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    parameterList
+                                                            {
+                                                              if ( null != $parameterList.firstparameter ) {
+                                                                try {
+                                                                  loader.relate( $parameterList.firstparameter, service, 5204, "" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              }
+                                                            }
                                    returnType?
                                    pragmaList[""]
                                  )                          
@@ -1205,7 +1287,7 @@ returns [Object domainservice]
 
 
 parameterDefinition
-//returns [ParameterDefinition parameter]
+returns [Object parameter]
                               : ^( PARAMETER_DEFINITION
                                    parameterName
                                    parameterMode
@@ -1213,38 +1295,44 @@ parameterDefinition
                                                                   args[0] = $parameterName.name;
                                                                   args[1] = $parameterMode.mode;
                                                                   populate( "parameter", args );
+                                                                  try {
+                                                                    $parameter = loader.create( "ParameterDefinition" );
+                                                                    loader.set_attribute( $parameter, "name", $parameterName.name );
+                                                                    loader.set_attribute( $parameter, "mode", "ParameterMode::" + $parameterMode.mode );
+                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    parameterType)           
                               ;
                               
 parameterList
+returns [Object firstparameter]
 @init
 {
-    int num_params = 0;
+  Object previousparameter = null;
 }
-//returns [List<ParameterDefinition> params]
 
-                              : ( parameterDefinition       { num_params++; }
-                               )*
-                                                            {
-                                                                // send end parameter for each nested parameter definition
-                                                                for (int i = 0; i < num_params; i++) {
-                                                                    populate( "parameter", args );  // end parameter
-                                                                }
+                              : ( parameterDefinition       { 
+                                                              if ( null == previousparameter ) {
+                                                                firstparameter = $parameterDefinition.parameter;
+                                                              } else {
+                                                                try {
+                                                                  loader.relate( $parameterDefinition.parameter, previousparameter, 5208, "succeeds" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              }
+                                                              previousparameter = $parameterDefinition.parameter;
                                                             }
+                               )*
                               ;
 
 
 serviceVisibility
 returns [String visibility]
-//returns [Visibility visibility]
                               : PRIVATE                     { $visibility = $PRIVATE.text; }
                               | PUBLIC                      { $visibility = $PUBLIC.text; }
                               ;
 
 parameterMode
 returns [String mode]
-//returns [ParameterModeType mode]
                               : IN                          { $mode = $IN.text; }
                               | OUT                         { $mode = $OUT.text; }
                               ;
@@ -1533,6 +1621,8 @@ activityDefinition            : domainServiceDefinition
 
 domainServiceDefinition//[DomainService service]
 returns [Object domainservice]
+@init
+{ Object service = null; }
 //scope NameScope;
 
                               : ^( DOMAIN_SERVICE_DEFINITION
@@ -1545,10 +1635,19 @@ returns [Object domainservice]
                                                                   args[3] = $serviceName.name;
                                                                   populate( "routine", args );
                                                                   try {
+                                                                    service = loader.create( "Service" );
+                                                                    loader.set_attribute( service, "name", $serviceName.name );
+                                                                    loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
                                                                     $domainservice = loader.create( "DomainService" );
+                                                                    loader.relate( $domainservice, service, 5203, "" );
                                                                   } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    parameterList
+                                                            {
+                                                                try {
+                                                                  loader.relate( $parameterList.firstparameter, service, 5204, "" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    returnType?
                                    codeBlock
                                                             {

@@ -9514,7 +9514,7 @@ INSERT INTO R_PART
 	"f9c56a84-0b47-41b5-b63c-539f2012d103",
 	"cd266642-560c-46fb-a495-d2b8f6e5c0a5",
 	0,
-	0,
+	1,
 	'is_defined_by');
 INSERT INTO R_RTO
 	VALUES ("7af90d12-3ec1-4e21-a050-dd02a7750a4d",
