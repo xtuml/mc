@@ -99,9 +99,9 @@ private String getFile() {
 
 }
 
-target                        : definition+;
+target                        : definition+; // done
 
-definition                    : projectDefinition
+definition                    : projectDefinition // done
                               | domainDefinition
                               ;
 
@@ -112,7 +112,7 @@ definition                    : projectDefinition
 
 identifier
 returns [String name]
-                              : Identifier                  {
+                              : Identifier                  { // done
                                                               $name = $Identifier.text;
                                                             }
                               ;
@@ -121,10 +121,8 @@ returns [String name]
 projectDefinition
 returns [Object project]
 
-                              : ^( PROJECT
+                              : ^( PROJECT // done
                                    projectName              {
-                                                              args[0] = $projectName.name;
-                                                              populate( "project", args );
                                                               try {
                                                                 $project = loader.create( "Project" );
                                                                 loader.set_attribute( $project, "name", $projectName.name );
@@ -138,20 +136,14 @@ returns [Object project]
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*
-                                   pragmaList[""])              
-                                                            {
-                                                              populate( "project", args );  // end project
-                                                            }
-
+                                   pragmaList)              
                               ;
 
 projectDomainDefinition
 returns [Object domain]
-                              : ^( DOMAIN
+                              : ^( DOMAIN // done
                                    projectDomainReference   
                                                             {
-                                                                args[0] = $projectDomainReference.ref;
-                                                                populate( "domain", args );
                                                                 try {
                                                                   $domain = loader.create( "ProjectDomain" );
                                                                   loader.set_attribute( $domain, "name", $projectDomainReference.ref );
@@ -165,17 +157,14 @@ returns [Object domain]
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*
-                                   pragmaList[""]               
+                                   pragmaList
                                  )                          
-                                                            {
-                                                                populate( "domain", args ); // end domain
-                                                            }
                               ;
 
 
 projectName
 returns [String name]
-                              :^( PROJECT_NAME
+                              : ^( PROJECT_NAME // done
                                    identifier               { $name = $identifier.name; }
                                 )
                               ;
@@ -188,10 +177,8 @@ returns [String name]
 domainDefinition
 returns [Object domain]
                                                                                              
-                              : ^( DOMAIN
+                              : ^( DOMAIN // done
                                    domainName               {
-                                                                args[0] = $domainName.name;
-                                                                populate( "domain", args );
                                                                 try {
                                                                   $domain = loader.create( "Domain" );
                                                                   loader.set_attribute( $domain, "name", $domainName.name );
@@ -247,36 +234,33 @@ returns [Object domain]
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*
-                                   pragmaList[""]                    
+                                   pragmaList
                                  )                              
-                                                            {
-                                                                populate( "domain", args );
-                                                            }
                               ;
 
 domainName
 returns [String name]
-                              : ^( DOMAIN_NAME
+                              : ^( DOMAIN_NAME // done
                                    identifier               { $name = $identifier.name; }
                                  )
                               ;
 
 domainReference
 returns [String ref]
-                              : domainName                  { $ref = $domainName.name; }
+                              : domainName                  { $ref = $domainName.name; } // done
                               ;
 
 
 projectDomainReference
 returns [String ref]
-                              : domainName                  { $ref = $domainName.name; }
+                              : domainName                  { $ref = $domainName.name; } // done
                               ;
 
 
 
 optionalDomainReference
 returns [String ref, boolean defaulted]
-                              : domainReference             { $ref = $domainReference.ref; $defaulted = false; }
+                              : domainReference             { $ref = $domainReference.ref; $defaulted = false; } // done
                               | /* blank */                 { $ref = ""; $defaulted = true;}
                               ;
 
@@ -287,35 +271,29 @@ returns [String ref, boolean defaulted]
 //---------------------------------------------------------
 exceptionDeclaration
 returns [Object rejection]
-                              : ^( EXCEPTION
+                              : ^( EXCEPTION // done
                                    exceptionName            
                                    exceptionVisibility      
+                                   pragmaList
+                                 )                          
                                                               {
-                                                                  args[0] = $exceptionName.name;
-                                                                  args[1] = $exceptionVisibility.visibility;
-                                                                  populate( "exception", args );
                                                                   try {
                                                                     $rejection = loader.create( "ExceptionDeclaration" );
                                                                     loader.set_attribute( $rejection, "name", $exceptionName.name );
                                                                     loader.set_attribute( $rejection, "visibility", "Visibility::" + $exceptionVisibility.visibility );
                                                                   } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
-                                   pragmaList[""]               
-                                 )                          
-                                                              {
-                                                                  populate( "exception", args );    // end exception
-                                                              }
                               ;
 
 exceptionName
 returns [ String name ]
-                              : ^( EXCEPTION_NAME
+                              : ^( EXCEPTION_NAME // done
                                    identifier)              { $name = $identifier.name; }
                               ;
 
 exceptionReference
 returns [String ref]
-                              : optionalDomainReference
+                              : optionalDomainReference // done
                                 exceptionName               
                                                               {
                                                                   try {
@@ -330,7 +308,7 @@ returns [String ref]
 
 exceptionVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = $PRIVATE.text; }
+                              : PRIVATE                     { $visibility = $PRIVATE.text; } // done
                               | PUBLIC                      { $visibility = $PUBLIC.text; }
                               ;
 
@@ -340,48 +318,38 @@ returns [String visibility]
 
 typeForwardDeclaration
 returns [Object type]
-                              : ^( TYPE_DECLARATION
+                              : ^( TYPE_DECLARATION // done
                                    typeName                 
                                    typeVisibility
                                                               {
-                                                                  args[0] = $typeName.name;
-                                                                  args[1] = $typeVisibility.visibility;
-                                                                  populate( "type", args );
-                                                                  try {
-                                                                    $type = loader.create( "TypeDeclaration" );
-                                                                    loader.set_attribute( $type, "name", $typeName.name );
-                                                                    loader.set_attribute( $type, "visibility", "Visibility::" + $typeVisibility.visibility );
-                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                try {
+                                                                  $type = loader.create( "TypeDeclaration" );
+                                                                  loader.set_attribute( $type, "name", $typeName.name );
+                                                                  loader.set_attribute( $type, "visibility", "Visibility::" + $typeVisibility.visibility );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
-                                   pragmaList["declaration"]				
+                                   pragmaList				
                                  )                          
-                                                              {
-                                                                  populate( "type", args ); // end type
-                                                              }
                               ;
                               
 
 typeDeclaration
 returns [Object type]
-                              : ^( TYPE
+                              : ^( TYPE // done
                                    typeName                 
                                    typeVisibility
                                                               {
-                                                                  args[0] = $typeName.name;
-                                                                  args[1] = $typeVisibility.visibility;
-                                                                  args[2] = $TYPE.text;
-                                                                  populate( "type", args );
-                                                                  try {
-                                                                    $type = loader.select( "TypeDeclaration", $typeName.name );
-                                                                    if ( $type == null ) {
-                                                                      $type = loader.create( "TypeDeclaration" );
-                                                                    }
-                                                                    loader.set_attribute( $type, "name", $typeName.name );
-                                                                    loader.set_attribute( $type, "visibility", "Visibility::" + $typeVisibility.visibility );
-                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                try {
+                                                                  $type = loader.select( "TypeDeclaration", $typeName.name );
+                                                                  if ( $type == null ) {
+                                                                    $type = loader.create( "TypeDeclaration" );
+                                                                  }
+                                                                  loader.set_attribute( $type, "name", $typeName.name );
+                                                                  loader.set_attribute( $type, "visibility", "Visibility::" + $typeVisibility.visibility );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    description
-                                   pragmaList[""]				
+                                   pragmaList
                                    typeDefinition			
                                                               {
                                                                 try {
@@ -389,9 +357,6 @@ returns [Object type]
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                  )                          
-                                                              {
-                                                                  populate( "type", args ); // end type
-                                                              }
                               ;
                               
 
@@ -443,7 +408,7 @@ returns [Object type]
 
 typeVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = $PRIVATE.text; }
+                              : PRIVATE                     { $visibility = $PRIVATE.text; } // done
                               | PUBLIC                      { $visibility = $PUBLIC.text; }
                               ;
 
@@ -505,7 +470,7 @@ structureComponentDefinition
                                    componentName
                                    typeReference
                                    expression?
-                                   pragmaList["omit"]
+                                   pragmaList
                                  )                          
                               ;
 
@@ -557,18 +522,18 @@ returns [Object type]
 
 typeReference
 returns [String type]
-                              : namedTypeRef                { $type = $namedTypeRef.type[2]; }
-                              | constrainedArrayTypeRef     { $type = "levi"; }//$constrainedArrayTypeRef.type }
-                              | instanceTypeRef             { $type = "levi"; }//$instanceTypeRef.type }
-                              | sequenceTypeRef             { $type = "levi"; }//$sequenceTypeRef.type }
-                              | arrayTypeRef                { $type = "levi"; }//$arrayTypeRef.type }
-                              | setTypeRef                  { $type = "levi"; }//$setTypeRef.type }
-                              | bagTypeRef                  { $type = "levi"; }//$bagTypeRef.type }
-                              | dictionaryTypeRef           { $type = "levi"; }//$dictionaryTypeRef.type }
+                              : namedTypeRef                { $type = $namedTypeRef.name; }
+                              | constrainedArrayTypeRef     { $type = "levi"; Object t = $constrainedArrayTypeRef.type; }
+                              | instanceTypeRef             { $type = "levi"; Object t = $instanceTypeRef.type; }
+                              | sequenceTypeRef             { $type = "levi"; Object t = $sequenceTypeRef.type; }
+                              | arrayTypeRef                { $type = "levi"; Object t = $arrayTypeRef.type; }
+                              | setTypeRef                  { $type = "levi"; Object t = $setTypeRef.type; }
+                              | bagTypeRef                  { $type = "levi"; Object t = $bagTypeRef.type; }
+                              | dictionaryTypeRef           { $type = "levi"; Object t = $dictionaryTypeRef.type; }
                               ;
 
 instanceTypeRef
-//returns [InstanceType type]
+returns [Object type]
                               : ^( INSTANCE
                                    objectReference
                                    ANONYMOUS?
@@ -576,28 +541,20 @@ instanceTypeRef
                               ;
 
 namedTypeRef
-returns [String[\] type]
-//returns [BasicType type]
-@init
-{
-    String[] t = new String[3];
-    for ( int i = 0; i < t.length; i++ ) t[i] = "";
-}
+returns [String name, String myanonymous, String domainref]
                               : ^( NAMED_TYPE
                                    optionalDomainReference
                                    typeName
                                    ANONYMOUS?
-                                 )                          
-                                                            { 
-                                                                t[0] = $ANONYMOUS.text;
-                                                                t[1] = $optionalDomainReference.ref;
-                                                                t[2] = $typeName.name;
-                                                                $type = t;
+                                 )                          { 
+                                                              $myanonymous = $ANONYMOUS.text;
+                                                              $domainref = $optionalDomainReference.ref;
+                                                              $name = $typeName.name;
                                                             }
                               ;
 
 userDefinedTypeRef
-//returns [UserDefinedType type]
+returns [Object type]
                               : ^( NAMED_TYPE
                                    optionalDomainReference
                                    typeName
@@ -605,7 +562,7 @@ userDefinedTypeRef
                               ;
 
 constrainedArrayTypeRef
-//returns [UnconstrainedArraySubtype type]
+returns [Object type]
                               : ^( CONSTRAINED_ARRAY
                                    userDefinedTypeRef
                                    arrayBounds
@@ -614,7 +571,7 @@ constrainedArrayTypeRef
 
 
 sequenceTypeRef
-//returns [SequenceType type]
+returns [Object type]
                               : ^( SEQUENCE
                                    typeReference
                                    expression?
@@ -623,7 +580,7 @@ sequenceTypeRef
                               ;
 
 arrayTypeRef
-//returns [ArrayType type]
+returns [Object type]
                               : ^( ARRAY
                                    typeReference
                                    arrayBounds
@@ -632,7 +589,7 @@ arrayTypeRef
                               ;
 
 setTypeRef
-//returns [SetType type]
+returns [Object type]
                               : ^( SET
                                    typeReference
                                    ANONYMOUS?
@@ -640,7 +597,7 @@ setTypeRef
                               ;
 
 bagTypeRef
-//returns [BagType type]
+returns [Object type]
                               : ^( BAG
                                    typeReference
                                    ANONYMOUS?
@@ -648,7 +605,7 @@ bagTypeRef
                               ;
 
 dictionaryTypeRef
-//returns [DictionaryType type]
+returns [Object type]
                               : ^( DICTIONARY
                                    (^(KEY   key=typeReference))?
                                    (^(VALUE value=typeReference))?
@@ -657,12 +614,12 @@ dictionaryTypeRef
                               ;
 typeName
 returns [String name]
-                              : ^( TYPE_NAME
+                              : ^( TYPE_NAME // done
                                    identifier )             { $name = $identifier.name; }
                               ;
 
 arrayBounds
-//returns [Expression exp]
+returns [Object expression]
                               : ^( ARRAY_BOUNDS
                                    expression )             
                               ;
@@ -673,25 +630,23 @@ arrayBounds
 
 terminatorName
 returns [String name]
-                              : ^( TERMINATOR_NAME
+                              : ^( TERMINATOR_NAME // done
                                    identifier )             { $name = $identifier.name; }
                               ;
 
 
 domainTerminatorDefinition
 returns [Object terminator]
-                              : ^( TERMINATOR_DEFINITION
+                              : ^( TERMINATOR_DEFINITION // done
                                    terminatorName             
                                                               {
-                                                                  args[0] = $terminatorName.name;
-                                                                  populate( "terminator", args );
-                                                                  try {
-                                                                    $terminator = loader.create( "DomainTerminator" );
-                                                                    loader.set_attribute( $terminator, "name", $terminatorName.name );
-                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                try {
+                                                                  $terminator = loader.create( "DomainTerminator" );
+                                                                  loader.set_attribute( $terminator, "name", $terminatorName.name );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    description
-                                   pragmaList[""]                 
+                                   pragmaList
                                    ( terminatorServiceDeclaration//[terminator] 
                                                               {
                                                                 try {
@@ -700,25 +655,20 @@ returns [Object terminator]
                                                               }
                                    )*
                                  )
-                                                              {
-                                                                populate( "terminator", args );  // end terminator
-                                                              }
                               ;
 
 projectTerminatorDefinition
 returns [Object terminator]
-                              : ^( TERMINATOR_DEFINITION
+                              : ^( TERMINATOR_DEFINITION // done
                                    terminatorName
                                                               {
-                                                                  args[0] = $terminatorName.name;
-                                                                  populate( "terminator", args );
-                                                                  try {
-                                                                    $terminator = loader.create( "ProjectTerminator" );
-                                                                    loader.set_attribute( $terminator, "name", $terminatorName.name );
-                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                try {
+                                                                  $terminator = loader.create( "ProjectTerminator" );
+                                                                  loader.set_attribute( $terminator, "name", $terminatorName.name );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    description
-                                   pragmaList[""]                 
+                                   pragmaList
                                    ( projectTerminatorServiceDeclaration
                                                               {
                                                                 try {
@@ -727,9 +677,6 @@ returns [Object terminator]
                                                               }
                                    )*
                                  )
-                                                              {
-                                                                populate( "terminator", args );  // end terminator
-                                                              }
                               ;
 
 
@@ -737,20 +684,17 @@ returns [Object terminator]
 terminatorServiceDeclaration//[DomainTerminator terminator]
 returns [Object terminatorservice]
 @init { Object service = null; }
-                              : ^( TERMINATOR_SERVICE_DECLARATION
+                              : ^( TERMINATOR_SERVICE_DECLARATION // done
                                    serviceVisibility
                                    serviceName
                                                             {
-                                                                  args[2] = $serviceVisibility.visibility;
-                                                                  args[3] = $serviceName.name;
-                                                                  populate( "routine", args );
-                                                                  try {
-                                                                    service = loader.create( "Service" );
-                                                                    loader.set_attribute( service, "name", $serviceName.name );
-                                                                    loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
-                                                                    $terminatorservice = loader.create( "DomainTerminatorService" );
-                                                                    loader.relate( $terminatorservice, service, 5203, "" );
-                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                service = loader.create( "Service" );
+                                                                loader.set_attribute( service, "name", $serviceName.name );
+                                                                loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                $terminatorservice = loader.create( "DomainTerminatorService" );
+                                                                loader.relate( $terminatorservice, service, 5203, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    parameterList
@@ -761,32 +705,33 @@ returns [Object terminatorservice]
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                                             }
-                                   returnType?
-                                   pragmaList[""]
-                                 )
+                                   ( returnType
                                                             {
-                                                                  populate( "routine", args );      // end operation
+                                                              try {
+                                                                if ( null != $returnType.type ) {
+                                                                  loader.relate( $returnType.type, service, 5205, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                                                            
+                                   )?
+                                   pragmaList
+                                 )
                               ;
 
 projectTerminatorServiceDeclaration//[ProjectTerminator terminator]
 returns [Object terminatorservice]
 @init { Object service = null; }
-                              : ^( TERMINATOR_SERVICE_DECLARATION
+                              : ^( TERMINATOR_SERVICE_DECLARATION // done
                                    serviceVisibility
                                    serviceName              
                                                             {
-                                                                  args[2] = $serviceVisibility.visibility;
-                                                                  args[3] = $serviceName.name;
-                                                                  populate( "routine", args );
-                                                                  try {
-                                                                    service = loader.create( "Service" );
-                                                                    loader.set_attribute( service, "name", $serviceName.name );
-                                                                    loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
-                                                                    $terminatorservice = loader.create( "ProjectTerminatorService" );
-                                                                    loader.relate( $terminatorservice, service, 5203, "" );
-                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                service = loader.create( "Service" );
+                                                                loader.set_attribute( service, "name", $serviceName.name );
+                                                                loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                $terminatorservice = loader.create( "ProjectTerminatorService" );
+                                                                loader.relate( $terminatorservice, service, 5203, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    parameterList
@@ -797,13 +742,17 @@ returns [Object terminatorservice]
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                                             }
-                                   (returnType)?
-                                   pragmaList[""]
-                                 )
+                                   ( returnType
                                                             {
-                                                                  populate( "routine", args );      // end operation
+                                                              try {
+                                                                if ( null != $returnType.type ) {
+                                                                  loader.relate( $returnType.type, service, 5205, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                                                            
+                                   )?
+                                   pragmaList
+                                 )
                               ;
 
 
@@ -813,25 +762,18 @@ returns [Object terminatorservice]
 
 objectName
 returns [String name]
-                              : ^( OBJECT_NAME
+                              : ^( OBJECT_NAME // done
                                    identifier )             { $name = $identifier.name; }
                               ;
 
 
 objectReference
-returns [String[\] ref]
-//returns [ObjectNameExpression ref]
-@init
-{
-    String[] r = new String[2];
-    for ( int i = 0; i < r.length; i++ ) r[i] = "";
-}
-                              : optionalDomainReference
+returns [String domainref, String name]
+                              : optionalDomainReference // done
                                 objectName                  
                                                             { 
-                                                                r[0] = $optionalDomainReference.ref;
-                                                                r[1] = $objectName.name;
-                                                                $ref = r;
+                                                              $domainref = $optionalDomainReference.ref;
+                                                              $name = $objectName.name;
                                                             }
                               ;
 
@@ -854,63 +796,51 @@ returns [String[\] ref]
 
 
 optionalObjectReference
-returns [String[\] ref]
-//returns [ObjectNameExpression ref]
-                              : objectReference             { $ref = $objectReference.ref; }
-                              | /* blank */                 { 
-                                                                String[] r = new String[2];
-                                                                for ( int i = 0; i < r.length; i++ ) r[i] = "";
-                                                                $ref = r;
-                                                            }
+returns [String domainref, String name]
+                              : objectReference             { $domainref = $objectReference.domainref; $name = $objectReference.name; }
+                              | /* blank */                 { $domainref = ""; $name = ""; }
                               ;
 attributeName
 returns [String name]
-                              : ^( ATTRIBUTE_NAME
+                              : ^( ATTRIBUTE_NAME // done
                                    identifier )             { $name = $identifier.name; }
                               ;
 
 objectDeclaration
 returns [Object object]
-                              : ^( OBJECT_DECLARATION
+                              : ^( OBJECT_DECLARATION // done
                                    objectName
                                                             {
-                                                                args[0] = $objectName.name;
-                                                                populate( "object", args );
-                                                                try {
-                                                                  $object = loader.create( "ObjectDeclaration" );
-                                                                  loader.set_attribute( $object, "name", $objectName.name );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                $object = loader.create( "ObjectDeclaration" );
+                                                                loader.set_attribute( $object, "name", $objectName.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                                   pragmaList["declaration"]
+                                   pragmaList
                                  )                          
-                                                            {
-                                                                populate( "object", args ); // end object
-                                                            }
-                                 
                               ;
 
 
 objectDefinition
 returns [Object object]
-                                                                                             
+@init{ Object previousattribute = null; }
                               : ^( OBJECT_DEFINITION
                                    objectName               
                                                             {
-                                                                args[0] = $objectName.name;
-                                                                populate( "object", args );
-                                                                try {
-                                                                  $object = loader.select( "ObjectDeclaration", $objectName.name );
-                                                                  if ( $object == null ) {
-                                                                    $object = loader.create( "ObjectDeclaration" );
-                                                                  }
-                                                                  loader.set_attribute( $object, "name", $objectName.name );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                $object = loader.select( "ObjectDeclaration", $objectName.name );
+                                                                if ( $object == null ) {
+                                                                  $object = loader.create( "ObjectDeclaration" );
+                                                                }
+                                                                loader.set_attribute( $object, "name", $objectName.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                                   ( attributeDefinition      
+                                   ( attributeDefinition [previousattribute]      
                                                             {
-                                                                try {
-                                                                  loader.relate( $attributeDefinition.attribute, $object, 5802, "" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                loader.relate( $attributeDefinition.attribute, $object, 5802, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              previousattribute = $attributeDefinition.attribute;
                                                             }
                                    | identifierDefinition     
                                    | objectServiceDeclaration 
@@ -919,98 +849,93 @@ returns [Object object]
                                    | transitionTable          
                                    )*
                                    description
-                                   pragmaList[""]                 
+                                   pragmaList
                                  )
-                                                            {
-                                                                populate( "object", args ); // end object
-                                                            }
                               ;
 
-attributeDefinition
+attributeDefinition[Object previousattribute]
 returns [Object attribute]
                               : ^( ATTRIBUTE_DEFINITION
                                    attributeName            
                                    PREFERRED? UNIQUE?
                                                             {
-                                                                args[0] = $attributeName.name;
-                                                                if ( $PREFERRED != null )
-                                                                    args[1] = $PREFERRED.text;
-                                                                else args[1] = "";
-                                                                if ( $UNIQUE != null )
-                                                                    args[2] = $UNIQUE.text;
-                                                                else args[2] = "";
-                                                                populate( "attribute", args );
-                                                                try {
-                                                                  $attribute = loader.create( "AttributeDeclaration" );
-                                                                  loader.set_attribute( $attribute, "name", $attributeName.name );
-                                                                  if ( $PREFERRED != null ) {
-                                                                    loader.set_attribute( $attribute, "preferred", false );
-                                                                  } else {
-                                                                    loader.set_attribute( $attribute, "preferred", true );
-                                                                  }
-                                                                  if ( $UNIQUE == null ) {
-                                                                    loader.set_attribute( $attribute, "unique", false );
-                                                                  } else {
-                                                                    loader.set_attribute( $attribute, "unique", true );
-                                                                  }
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                $attribute = loader.create( "AttributeDeclaration" );
+                                                                loader.set_attribute( $attribute, "name", $attributeName.name );
+                                                                if ( $PREFERRED != null ) {
+                                                                  loader.set_attribute( $attribute, "preferred", false );
+                                                                } else {
+                                                                  loader.set_attribute( $attribute, "preferred", true );
+                                                                }
+                                                                if ( $UNIQUE == null ) {
+                                                                  loader.set_attribute( $attribute, "unique", false );
+                                                                } else {
+                                                                  loader.set_attribute( $attribute, "unique", true );
+                                                                }
+                                                                if ( null != previousattribute ) {
+                                                                  loader.relate( $attributeDefinition.attribute, $previousattribute, 5809, "succeeds" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                                   ( attReferential         
+                                   ( attReferential [$attribute]
+                                                            {
+                                                            }
                                    )*
                                    description
                                    typeReference
                                                             {
-                                                                args[0] = $typeReference.type;
-                                                                populate( "typeref", args );
-                                                                try {
-                                                                  Object t = loader.select( "TypeDeclaration", $typeReference.type );
-                                                                  loader.relate( $attribute, t, 5803, "" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                Object t = loader.select( "TypeDeclaration", $typeReference.type );
+                                                                loader.relate( $attribute, t, 5803, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    (expression
                                                             {
-                                                                args[0] = $ATTRIBUTE_DEFINITION.text;
-                                                                populate( "expression", args );
+                                                              try {
+                                                                loader.relate( $attribute, $expression.expression, 5801, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )?
-                                   pragmaList[""]
+                                   pragmaList
                                  )                          
-                                                            {
-                                                                populate( "attribute", args );  // end attribute
-                                                            }
-
                               ;
 
-attReferential
-//returns [ReferentialAttributeDefinition ref]
+attReferential [Object attribute]
+returns [Object referential]
                               : ^( REFERENTIAL
-                                   relationshipSpec//[new ObjectNameExpression(null,currentObject),false,false]
+                                   relationshipSpec
                                    attributeName
                                  )                          
                                                             {
-                                                                args[0] = $relationshipSpec.spec[1];
-                                                                args[1] = $relationshipSpec.spec[0];
-                                                                args[2] = $relationshipSpec.spec[2];
-                                                                args[3] = $relationshipSpec.spec[4];
-                                                                args[4] = $attributeName.name;
-                                                                populate( "referential", args );
+                                                              try {
+                                                                $referential = loader.create( "ReferentialAttributeDeclaration" );
+                                                                // Link referential to itself until after all objects and attributes have been created.
+                                                                loader.relate_using( $attribute, $attribute, $referential, 5800, "refers_to" );
+                                                                loader.relate( $referential, $relationshipSpec.relspec, 5811, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 
-relationshipSpec//[Expression lhs, boolean allowToAssoc, boolean forceToAssoc]
-returns [String[\] spec]
-//returns [RelationshipSpecification.Reference rel]
+relationshipSpec
+returns [Object relspec]
 @init
 {
+    relspec = null;
     String[] s = new String[5];
     for ( int i = 0; i < s.length; i++ ) s[i] = "";
 }
                               : ^( RELATIONSHIP_SPEC
                                    relationshipReference    
                                                             {
-                                                                s[0] = $relationshipReference.ref[0];
-                                                                s[1] = $relationshipReference.ref[1];
+                                                              s[0] = $relationshipReference.domainref;
+                                                              s[1] = $relationshipReference.name;
+                                                              try {
+                                                                $relspec = loader.create( "RelationshipSpecification" );
+                                                                Object r = loader.select( "RelationshipDeclaration", $relationshipReference.name );
+                                                                loader.relate( $relspec, r, 6015, "" );
+                                                                loader.set_attribute( $relspec, "CDS dunno here CDS", $relationshipReference.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( objOrRole
                                                             {
@@ -1018,20 +943,20 @@ returns [String[\] spec]
                                                             }
                                    ( objectReference
                                                             {
-                                                                s[3] = $objectReference.ref[0];
-                                                                s[4] = $objectReference.ref[1];
+                                                                s[3] = $objectReference.domainref;
+                                                                s[4] = $objectReference.name;
+                                                              try {
+                                                                loader.set_attribute( relspec, "", $relationshipReference.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )? 
                                    )?
                                  ) 													
-                                                            {
-                                                                $spec = s;
-                                                            }
                               ;
 
 objOrRole
 returns [String name]
-                              : identifier                  { $name = $identifier.name; }
+                              : identifier                  { $name = $identifier.name; } // done
                               ;
 
 
@@ -1048,8 +973,7 @@ returns [Object objectservice]
                                                                   args[3] = $serviceName.name;
                                                                   if ( $INSTANCE != null )
                                                                       args[4] = $INSTANCE.text;
-                                                                  if ( $relationshipReference.ref != null )
-                                                                      args[5] = $relationshipReference.ref[1];
+                                                                  args[5] = $relationshipReference.name;
                                                                   populate( "operation", args );
                                                                   try {
                                                                     service = loader.create( "Service" );
@@ -1068,8 +992,16 @@ returns [Object objectservice]
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                                             }
-                                   returnType?
-                                   pragmaList[""]
+                                   ( returnType
+                                                            {
+                                                              try {
+                                                                if ( null != $returnType.type ) {
+                                                                  loader.relate( $returnType.type, service, 5205, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   )?
+                                   pragmaList
                                  )                          
                                                             {
                                                                   populate( "operation", args );      // end operation
@@ -1091,7 +1023,7 @@ identifierDefinition
                                                                 populate( "attribute", args );  // end attribute
                                                             }
                                    )+
-                                   pragmaList[""]
+                                   pragmaList
                                  )                     
                                                             {
                                                                 populate( "identifier", args );  // end identifier
@@ -1109,7 +1041,7 @@ eventDefinition
                                                             }
                                    description
                                    parameterList
-                                   pragmaList[""]               
+                                   pragmaList
                                  )
                                                             {
                                                                 populate( "event", args );  // end event
@@ -1142,7 +1074,7 @@ stateDeclaration
                                                             }
                                    description
                                    parameterList
-                                   pragmaList[""]              
+                                   pragmaList
                                 )                           
                                                             {
                                                                 populate( "state", args );  // end state
@@ -1151,7 +1083,7 @@ stateDeclaration
 
 stateName
 returns [String name]
-                              : ^( STATE_NAME
+                              : ^( STATE_NAME // done
                                    identifier )             { $name = $identifier.name; }
                               ;
 
@@ -1177,7 +1109,7 @@ transitionTable
                                                             }
                                    ( transitionRow          
                                    )+
-                                   pragmaList[""]
+                                   pragmaList
                                  )                          
                                                             {
                                                                 populate( "transitiontable", args );   // end transitiontable
@@ -1199,7 +1131,7 @@ transitionRow
                                    startState
                                    ( transitionOption[$startState.name]
                                    )+
-                                   pragmaList[$startState.name]
+                                   pragmaList
                                 )                           
                               ;
 
@@ -1252,8 +1184,8 @@ returns [String[\] ref]
                               : optionalObjectReference
                                 eventName                   
                                                             { 
-                                                                r[0] = $optionalObjectReference.ref[0];
-                                                                r[1] = $optionalObjectReference.ref[1];
+                                                                r[0] = $optionalObjectReference.domainref;
+                                                                r[1] = $optionalObjectReference.name;
                                                                 r[2] = $eventName.name;
                                                                 $ref = r;
                                                             }
@@ -1266,52 +1198,63 @@ returns [String[\] ref]
 
 domainServiceDeclaration
 returns [Object domainservice]
-                              : ^( DOMAIN_SERVICE_DECLARATION
+@init{ Object service = null; }
+                              : ^( DOMAIN_SERVICE_DECLARATION // done
                                    serviceVisibility
                                    serviceName
                                                             {
-                                                                  args[2] = $serviceVisibility.visibility;
-                                                                  args[3] = $serviceName.name;
-                                                                  populate( "routine", args );
+                                                              try {
+                                                                service = loader.create( "Service" );
+                                                                loader.set_attribute( service, "name", $serviceName.name );
+                                                                loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                $domainservice = loader.create( "DomainService" );
+                                                                loader.relate( $domainservice, service, 5203, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    parameterList
-                                   returnType?
-                                   pragmaList[""]
-                                 )
                                                             {
-                                                                  populate( "routine", args );      // end operation
+                                                              if ( null != $parameterList.firstparameter ) {
+                                                                try {
+                                                                  loader.relate( $parameterList.firstparameter, service, 5204, "" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              }
                                                             }
-                                                            
+                                   ( returnType
+                                                            {
+                                                              try {
+                                                                if ( null != $returnType.type ) {
+                                                                  loader.relate( $returnType.type, service, 5205, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   )?
+                                   pragmaList
+                                 )
                               ;
 
 
 parameterDefinition
 returns [Object parameter]
-                              : ^( PARAMETER_DEFINITION
+                              : ^( PARAMETER_DEFINITION // done
                                    parameterName
                                    parameterMode
+                                   parameterType
                                                             {
-                                                                  args[0] = $parameterName.name;
-                                                                  args[1] = $parameterMode.mode;
-                                                                  populate( "parameter", args );
-                                                                  try {
-                                                                    $parameter = loader.create( "ParameterDefinition" );
-                                                                    loader.set_attribute( $parameter, "name", $parameterName.name );
-                                                                    loader.set_attribute( $parameter, "mode", "ParameterMode::" + $parameterMode.mode );
-                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                $parameter = loader.create( "ParameterDefinition" );
+                                                                loader.set_attribute( $parameter, "name", $parameterName.name );
+                                                                loader.set_attribute( $parameter, "mode", "ParameterMode::" + $parameterMode.mode );
+                                                                loader.relate( $parameterType.type, $parameter, 5200, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                                   parameterType)           
+                                )           
                               ;
                               
 parameterList
 returns [Object firstparameter]
-@init
-{
-  Object previousparameter = null;
-}
-
-                              : ( parameterDefinition       { 
+@init { Object previousparameter = null; }
+                              : ( parameterDefinition       {  // done
                                                               if ( null == previousparameter ) {
                                                                 firstparameter = $parameterDefinition.parameter;
                                                               } else {
@@ -1333,20 +1276,20 @@ returns [String visibility]
 
 parameterMode
 returns [String mode]
-                              : IN                          { $mode = $IN.text; }
+                              : IN                          { $mode = $IN.text; } // done
                               | OUT                         { $mode = $OUT.text; }
                               ;
 
 
 serviceName
 returns [String name]
-                              : ^( SERVICE_NAME
+                              : ^( SERVICE_NAME // done
                                    identifier )             { $name = $identifier.name; }
                               ;
 
 parameterName
 returns [String name]
-                              : ^( PARAMETER_NAME
+                              : ^( PARAMETER_NAME // done
                                    identifier )             { $name = $identifier.name; }
                               ;
 
@@ -1362,13 +1305,14 @@ returns [String type]
                               ;
 
 returnType
-//returns [BasicType type]
+returns [Object type]
                               : ^( RETURN_TYPE
                                    typeReference )
-                                                              {
-                                                                  args[0] = $typeReference.type;
-                                                                  populate( "typeref", args );
-                                                              }
+                                                            {
+                                                              try {
+                                                                $type = loader.select( "TypeDeclaration", $typeReference.type );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
@@ -1399,7 +1343,7 @@ regularRelationshipDefinition
                                                             {
                                                                 populate( "participation", args );  // end participation
                                                             }
-                                   pragmaList[""]
+                                   pragmaList
                                  )                          
                                                             {
                                                                 populate( "regularrel", args );   // end regularrel
@@ -1423,11 +1367,11 @@ assocRelationshipDefinition
 
                                                                 // update with the associative object
                                                                 args[0] = $relationshipName.name;
-                                                                args[1] = $assocObj.ref[0];
-                                                                args[2] = $assocObj.ref[1];
+                                                                args[1] = $assocObj.domainref;
+                                                                args[2] = $assocObj.name;
                                                                 populate( "associative", args );
                                                             }
-                                   pragmaList[""]
+                                   pragmaList
                                  )                          
                                                             {
                                                                 populate( "associative", args );   // end associativerelationship
@@ -1446,13 +1390,13 @@ halfRelationshipDefinition
                                  )                          
                                                             { 
                                                                 // populate a side of participation
-                                                                args[0] = $from.ref[0];
-                                                                args[1] = $from.ref[1];
+                                                                args[0] = $from.domainref;
+                                                                args[1] = $from.name;
                                                                 args[2] = $rolePhrase.role;
                                                                 args[3] = $conditionality.cond;
                                                                 args[4] = $multiplicity.mult;
-                                                                args[5] = $to.ref[0];
-                                                                args[6] = $to.ref[1];
+                                                                args[5] = $to.domainref;
+                                                                args[6] = $to.name;
                                                                 populate( "participation", args );
                                                             }
                               ;
@@ -1470,23 +1414,23 @@ subtypeRelationshipDefinition
                                    description
                                    supertype=objectReference
                                                             {
-                                                                args[0] = $supertype.ref[0];
-                                                                args[1] = $supertype.ref[1];
+                                                                args[0] = $supertype.domainref;
+                                                                args[1] = $supertype.name;
                                                                 populate( "participation", args );
                                                             }
                                    (subtype=objectReference   
                                                             {
-                                                                args[0] = $subtype.ref[0];
-                                                                args[1] = $subtype.ref[1];
-                                                                args[5] = $supertype.ref[0];
-                                                                args[6] = $supertype.ref[1];
+                                                                args[0] = $subtype.domainref;
+                                                                args[1] = $subtype.name;
+                                                                args[5] = $supertype.domainref;
+                                                                args[6] = $supertype.name;
                                                                 populate( "participation", args );
                                                             }
                                    )+
                                                             {
                                                                 populate( "participation", args );  // end participation
                                                             }
-                                   pragmaList[""]
+                                   pragmaList
                                  )                          
                                                             {
                                                                 populate( "subsuper", args );   // end subsuper
@@ -1524,15 +1468,12 @@ returns [String name]
                               
 
 relationshipReference
-returns [String[\] ref]
-//returns [RelationshipDeclaration.Reference ref]
+returns [String domainref, String name]
                               : optionalDomainReference
                                 relationshipName            
                                                             { 
-                                                                String[] r = new String[2];
-                                                                r[0] = $optionalDomainReference.ref;
-                                                                r[1] =$relationshipName.name;
-                                                                $ref = r;
+                                                              $domainref = $optionalDomainReference.ref;
+                                                              $name = $relationshipName.name;
                                                             }
                               ;
 
@@ -1542,37 +1483,19 @@ returns [String[\] ref]
 //---------------------------------------------------------
 
 
-pragmaList[String list]
-//returns [ PragmaList pragmas ]
-
-                              : ( pragma[list]                    
-                                )*                          
+pragmaList
+returns [ Object pragmas ]
+                              : ( pragma
+                                )*
                               ;
 
-pragma[String list]
-//returns [PragmaDefinition def]
-
+pragma
+returns [Object def]
                               : ^( PRAGMA
-                                   pragmaName               
-                                                            {
-                                                                if ( !list.equals("omit") ) {
-                                                                    args[0] = $pragmaName.name;
-                                                                    args[1] = list;
-                                                                    populate( "pragma", args );
-                                                                }
-                                                            }
+                                   pragmaName
                                    ( pragmaValue            
-                                                            {
-                                                                if ( !list.equals("omit") ) {
-                                                                    args[0] = $pragmaValue.value;
-                                                                    populate( "pragmaitem", args );
-                                                                }
-                                                            } 
                                    )*
                                  )                          
-                                                            {
-                                                                if ( !list.equals("omit") ) populate( "pragma", args ); // end pragma
-                                                            }
                               ;
 
 pragmaValue
@@ -1630,23 +1553,19 @@ returns [Object domainservice]
                                    domainReference
                                    serviceName
                                                             {
-                                                                  args[0] = $domainReference.ref;
-                                                                  args[2] = $serviceVisibility.visibility;
-                                                                  args[3] = $serviceName.name;
-                                                                  populate( "routine", args );
-                                                                  try {
-                                                                    service = loader.create( "Service" );
-                                                                    loader.set_attribute( service, "name", $serviceName.name );
-                                                                    loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
-                                                                    $domainservice = loader.create( "DomainService" );
-                                                                    loader.relate( $domainservice, service, 5203, "" );
-                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                service = loader.create( "Service" );
+                                                                loader.set_attribute( service, "name", $serviceName.name );
+                                                                loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                $domainservice = loader.create( "DomainService" );
+                                                                loader.relate( $domainservice, service, 5203, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    parameterList
                                                             {
-                                                                try {
-                                                                  loader.relate( $parameterList.firstparameter, service, 5204, "" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                loader.relate( $parameterList.firstparameter, service, 5204, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    returnType?
                                    codeBlock
@@ -1654,12 +1573,8 @@ returns [Object domainservice]
                                                                 args[0] = $DOMAIN_SERVICE_DEFINITION.text + " service;";
                                                                 populate( "codeblock", args );
                                                             }
-                                   pragmaList[""]                  
+                                   pragmaList                  
                                  )                                                   
-                                                            {
-                                                                populate( "routine", args );      // end operation
-                                                            }
-                                                            
                               ;
 
 
@@ -1686,7 +1601,7 @@ terminatorServiceDefinition//[DomainTerminatorService service]
                                                             }
                                    returnType?
                                    codeBlock
-                                   pragmaList[""]                  
+                                   pragmaList
                                  )                                                   
                                                             {
                                                                 populate( "routine", args );      // end operation
@@ -1716,7 +1631,7 @@ projectTerminatorServiceDefinition//[ProjectTerminatorService service]
                                                                 args[0] = $TERMINATOR_SERVICE_DEFINITION.text + " service;";
                                                                 populate( "codeblock", args );
                                                             }
-                                   pragmaList[""]                  
+                                   pragmaList
                                  )                                                   
                                                             {
                                                                 populate( "routine", args );      // end operation
@@ -1730,7 +1645,7 @@ objectServiceDefinition//[ObjectService service]
 //scope NameScope;
 
 
-                              :^( OBJECT_SERVICE_DEFINITION
+                              : ^( OBJECT_SERVICE_DEFINITION
                                    serviceVisibility
                                    INSTANCE?
                                    fullObjectReference
@@ -1751,7 +1666,7 @@ objectServiceDefinition//[ObjectService service]
                                                                 args[0] = $OBJECT_SERVICE_DEFINITION.text + " service;";
                                                                 populate( "codeblock", args );
                                                             }
-                                   pragmaList[""]                           
+                                   pragmaList
                                  )                          
                                                             {
                                                                 populate( "operation", args );      // end operation
@@ -1780,7 +1695,7 @@ stateDefinition//[State stateDef]
                                                                 args[0] = $STATE_DEFINITION.text + " state;";
                                                                 populate( "codeblock", args );
                                                             }
-                                   pragmaList[""]                
+                                   pragmaList
                                  )                          
                                                             {
                                                                 populate( "state", args );  // end state
@@ -1816,7 +1731,7 @@ statement
                                    | whileStatement         
                                    |                        
                                    )
-                                   pragmaList["omit"]               
+                                   pragmaList
                                  )
                               ;
 
@@ -2008,7 +1923,7 @@ condition
 caseStatement
 //returns [CaseStatement st]      
 
-                              :^( CASE
+                              : ^( CASE
                                   expression
                                   ( caseAlternative         
                                   )*
@@ -2067,7 +1982,7 @@ loopVariableSpec
 codeBlock
 //returns [ CodeBlock st ]
 //scope NameScope;
-                              :^( CODE_BLOCK                
+                              : ^( CODE_BLOCK                
                                   ( variableDeclaration     
                                   )*     
                                   ^(STATEMENT_LIST ( statement               
@@ -2088,7 +2003,7 @@ variableDeclaration
                                    READONLY?
                                    typeReference
                                    expression?
-                                   pragmaList["omit"] )             
+                                   pragmaList )
                               ;
 
 
@@ -2124,9 +2039,9 @@ expression
 returns [Object expression]
 @after
                                                             {
-                                                                try {
-                                                                  $expression = loader.create( "Expression" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                $expression = loader.create( "Expression" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               : binaryExpression            
                               | unaryExpression             
@@ -2183,7 +2098,7 @@ binaryOperator
 
 unaryExpression
 //returns [UnaryExpression exp]
-                              :^( unaryOperator 
+                              : ^( unaryOperator 
                                   expression
                                 )                           
                               ;

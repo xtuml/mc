@@ -43,6 +43,10 @@ compiler.  The key file is `Walker.g`.
 * What should we do with domain references to domains not loaded?  This
   can occur with ExceptionReference (and maybe types).
 * So far, there is still no type reference class in the model.
+* I created ReferentialAttribute and linked it on both ends to the source
+  attribute.  I plan to select them later and link the referring end.
+  Not sure the best way to go about this.  Considering adding a function
+  to the model.
 
 == 7 User Documentation
 

@@ -44,41 +44,15 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("f87ecdf1-371a-4f69-bade-e00b5ebfe717",
+	VALUES ("3bd6b643-9b53-4374-a245-61855a12db3e",
 	"dc4cc40d-cf97-4750-8395-80954b8e16a0");
 INSERT INTO O_BATTR
-	VALUES ("f87ecdf1-371a-4f69-bade-e00b5ebfe717",
+	VALUES ("3bd6b643-9b53-4374-a245-61855a12db3e",
 	"dc4cc40d-cf97-4750-8395-80954b8e16a0");
 INSERT INTO O_ATTR
-	VALUES ("f87ecdf1-371a-4f69-bade-e00b5ebfe717",
+	VALUES ("3bd6b643-9b53-4374-a245-61855a12db3e",
 	"dc4cc40d-cf97-4750-8395-80954b8e16a0",
 	"3ac62939-e55a-440b-9d75-36fa95596c43",
-	'List_refAttDefs',
-	'R5800
-',
-	'',
-	'List_refAttDefs',
-	0,
-	"fa88e4c7-4025-4b12-be2c-a8ea6dfb0906",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("fa88e4c7-4025-4b12-be2c-a8ea6dfb0906",
-	"00000000-0000-0000-0000-000000000000",
-	'iReferentialAttributeDefinition',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("3bd6b643-9b53-4374-a245-61855a12db3e",
-	"dc4cc40d-cf97-4750-8395-80954b8e16a0");
-INSERT INTO O_BATTR
-	VALUES ("3bd6b643-9b53-4374-a245-61855a12db3e",
-	"dc4cc40d-cf97-4750-8395-80954b8e16a0");
-INSERT INTO O_ATTR
-	VALUES ("3bd6b643-9b53-4374-a245-61855a12db3e",
-	"dc4cc40d-cf97-4750-8395-80954b8e16a0",
-	"f87ecdf1-371a-4f69-bade-e00b5ebfe717",
 	'name',
 	'',
 	'',
