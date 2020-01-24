@@ -47,7 +47,10 @@ create object instance any_instance_type of AnyInstanceType;
 relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
-relate builtin_type to any_instance_type across R6206;',
+relate builtin_type to any_instance_type across R6206;
+
+LOG::LogInfo( message: "done with init" );
+control stop;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
