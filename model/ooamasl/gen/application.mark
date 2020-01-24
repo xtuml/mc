@@ -1,1 +1,2 @@
 *,RootPackage,*,ooamasl::deploy
+ooamasl::deploy,InitFunction,Component,init
