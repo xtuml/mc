@@ -51,6 +51,7 @@ compiler.  The key file is `Walker.g`.
 * Consideration of RelationshipSpecification (not really a first class
   meta-model element).
 * namedTypeRef is UDT somehow...
+* I need to understand how to recurse the expression hierarchy.
 
 == 7 User Documentation
 
