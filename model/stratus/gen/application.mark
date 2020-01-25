@@ -1,0 +1,2 @@
+*,RootPackage,*,stratus::deploy
+deploy::stratus,InitFunction,Component,init

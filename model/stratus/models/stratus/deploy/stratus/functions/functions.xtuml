@@ -1,0 +1,73 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'functions',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("51ba1895-36fa-426d-a8c8-275d9ebe4530",
+	112,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'stratus::deploy::stratus::functions');
+INSERT INTO DIM_DIA
+	VALUES ("51ba1895-36fa-426d-a8c8-275d9ebe4530",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("bcbf2531-8a7b-4659-a445-5783771b5034",
+	"00000000-0000-0000-0000-000000000000",
+	'init',
+	'',
+	'control stop;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("bcbf2531-8a7b-4659-a445-5783771b5034",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'stratus',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../stratus.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'stratus',
+	1,
+	'../../../stratus.xtuml');

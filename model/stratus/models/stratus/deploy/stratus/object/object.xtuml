@@ -1,0 +1,68 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("778cf506-f487-4182-b2df-fa20dd08ce64",
+	"00000000-0000-0000-0000-000000000000",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'object',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("0cbb5fb9-74b4-4d85-8cf9-50518a3f7ae5",
+	112,
+	"778cf506-f487-4182-b2df-fa20dd08ce64",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'stratus::deploy::stratus::object');
+INSERT INTO DIM_DIA
+	VALUES ("0cbb5fb9-74b4-4d85-8cf9-50518a3f7ae5",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("778cf506-f487-4182-b2df-fa20dd08ce64",
+	"1ba1c7d6-fba2-43d8-ae36-2e219904af19");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1ba1c7d6-fba2-43d8-ae36-2e219904af19",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'object',
+	'',
+	0,
+	'../../../../../../ooamasl/models/ooamasl/object/object.xtuml');
+INSERT INTO PE_PE
+	VALUES ("778cf506-f487-4182-b2df-fa20dd08ce64",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'stratus',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../stratus.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'stratus',
+	1,
+	'../../../stratus.xtuml');
