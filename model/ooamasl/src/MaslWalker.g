@@ -292,15 +292,15 @@ returns [ String name ]
                               ;
 
 exceptionReference
-returns [String ref]
+returns [Object ref]
                               : optionalDomainReference // done
                                 exceptionName               
                                                               {
                                                                   try {
-                                                                    Object er = loader.create( "ExceptionReference" );
+                                                                    $ref = loader.create( "ExceptionReference" );
                                                                     // CDS - consider selecting through optionalDomainReference
                                                                     Object e = loader.select( "ExceptionDeclaration", $exceptionName.name );
-                                                                    loader.relate( er, e, 5402, "" );
+                                                                    loader.relate( $ref, e, 5402, "" );
                                                                   } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                               ;
@@ -1986,11 +1986,7 @@ returns [String op, Object exp]
                                    | STREAM_OUT             { $op = "out"; }
                                    | STREAM_LINE_IN         { $op = "linein"; }
                                    | STREAM_LINE_OUT        { $op = "lineout"; }
-                                   ) expression             {
-                                                              try {
-                                                                $exp = $expression.exp;
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
-                                                            }
+                                   ) expression             { $exp = $expression.exp; }
                                  )                          
                               ;
 
@@ -2002,7 +1998,7 @@ returns [Object st]
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
 
-                              : ^( CALL
+                              : ^( CALL // done
                                    expression               
                                                             {
                                                               try {
@@ -2011,16 +2007,16 @@ returns [Object st]
                                                                 // to the declarations of the services.  This can be resolved
                                                                 // in the refactored diagram.
                                                                   Object subservice = loader.create( "DomainServiceInvocation" );
-                                                                  Object subservice = loader.create( "ObjectServiceInvocation" );
-                                                                  Object subservice = loader.create( "InstranceSeviceInvocation" );
-                                                                  Object subservice = loader.create( "TerminatorServiceInvocation" );
+                                                                  subservice = loader.create( "ObjectServiceInvocation" );
+                                                                  subservice = loader.create( "InstranceSeviceInvocation" );
+                                                                  subservice = loader.create( "TerminatorServiceInvocation" );
                                                                 loader.relate( $expression.exp, $st, 5157, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( argument               
                                                             {
                                                               try {
-                                                                loader.relate( $streamOperator.exp, $st, 5134, "" );
+                                                                loader.relate( $argument.arg, $st, 5134, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*                       
@@ -2074,9 +2070,22 @@ returns [Object st]
 
 raiseStatement
 returns [Object st]
-                              : ^( RAISE
+                              : ^( RAISE // done
                                    exceptionReference
-                                   expression?
+                                                            {
+                                                              try {
+                                                                $st = loader.create( "RaiseStatement" );
+                                                                loader.relate( $exceptionReference.ref, $st, 5126, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   (
+                                   expression
+                                                           {
+                                                              try {
+                                                                loader.relate( $expression.exp, $st, 5125, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   )?
                                  )                          
                               ;
 
@@ -2094,53 +2103,93 @@ returns [Object st]
 
 eraseStatement
 returns [Object st]
-                              : ^( ERASE
+                              : ^( ERASE // done
                                    expression
-                                 )                         {
+                                 )                          {
                                                               try {
-                                                                $st = loader.create( "Delete" );
-                                                                loader.relate( $expression.exp, $st, 5105, "" );
+                                                                $st = loader.create( "EraseStatement" );
+                                                                loader.relate( $expression.exp, $st, 5107, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 linkStatement
 returns [Object st]
-                              : ^( linkStatementType
+                              : ^( linkStatementType // done
                                    lhs=expression      
-                                   relationshipSpec//[$lhs.exp,false,false]
+                                   relationshipSpec
+                                                            {
+                                                              try {
+                                                                $st = loader.create( "LinkUnlinkStatement" );
+                                                                loader.set_attribute( $st, "isLink", $linkStatementType.isLink );
+                                                                loader.relate( $lhs.exp, $st, 5122, "" );
+                                                                loader.relate( $relationshipSpec.relspec, $st, 5120, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    (rhs=expression
-                                    assoc=expression? )?
+                                                            {
+                                                              try {
+                                                                loader.relate( $rhs.exp, $st, 5119, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                     (assoc=expression
+                                                            {
+                                                              try {
+                                                                loader.relate( $assoc.exp, $st, 5121, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                     )?
+                                   )?
                                  )                          
                               ;
 
 linkStatementType
-//returns [LinkUnlinkStatement.Type type, Position pos]
-                              : LINK                        
-                              | UNLINK                      
+returns [Boolean isLink]
+                              : LINK                        { $isLink = true; } // done
+                              | UNLINK                      { $isLink = false; }
                               ;
 
 
 cancelTimerStatement
 returns [Object st]
-                             : ^( CANCEL
-                                  timerId=expression )    
+                             : ^( CANCEL // done
+                                  timerId=expression )      {
+                                                              try {
+                                                                $st = loader.create( "CancelTimerStatement" );
+                                                                loader.relate( $timerId.exp, $st, 5102, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                              ;
                               
 scheduleStatement
 returns [Object st]
-                              : ^( SCHEDULE
+                              : ^( SCHEDULE // done
                                    timerId=expression
                                    generateStatement
                                    scheduleType
                                    time=expression
-                                   period=expression?
+                                                            {
+                                                              try {
+                                                                $st = loader.create( "ScheduleStatement" );
+                                                                loader.relate( $timerId.exp, $st, 5132, "" );
+                                                                loader.relate( $generateStatement.st, $st, 5129, "" );
+                                                                loader.set_attribute( $st, "isAbsolute", $scheduleType.isAbsolute );
+                                                                loader.relate( $time.exp, $st, 5130, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   ( period=expression
+                                                            {
+                                                              try {
+                                                                loader.relate( $period.exp, $st, 5131, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   )?
                                  )                         
                               ;
 scheduleType
-//returns [boolean isAbsolute]
-                              : AT											    
-                              | DELAY									      
+returns [Boolean isAbsolute]
+                              : AT                          { $isAbsolute = true; } // done
+                              | DELAY                       { $isAbsolute = false; }
                               ;
 
 
@@ -2191,9 +2240,9 @@ returns [Object st]
                               ;
 
 condition
-//returns [Expression exp]      
-                              : ^( CONDITION
-                                   expression )             
+returns [Object exp]      
+                              : ^( CONDITION // done
+                                   expression )             { $exp = $expression.exp; }
                               ;
 
 
@@ -2219,9 +2268,9 @@ caseAlternative
                               ;
 
 choice
-//returns [Expression exp]      
-                              : ^( CHOICE
-                                   expression)              
+returns [Object exp]      
+                              : ^( CHOICE // done
+                                   expression )             { $exp = $expression.exp; }
                               ;
 
 caseOthers
