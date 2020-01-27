@@ -1,16 +1,16 @@
 -- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO EP_PKG
-	VALUES ("98c2e789-ade9-473c-9a0c-726088a50287",
+	VALUES ("de071dfe-bde1-4bdb-a346-abdeb0a96317",
 	"00000000-0000-0000-0000-000000000000",
 	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
 	'Shared',
 	'',
 	0);
 INSERT INTO GD_MD
-	VALUES ("c1baf323-3ed6-40f8-8473-3f52f371f0f9",
+	VALUES ("bfc6f59b-6506-4094-a1c8-40b0f1b12bdb",
 	112,
-	"98c2e789-ade9-473c-9a0c-726088a50287",
+	"de071dfe-bde1-4bdb-a346-abdeb0a96317",
 	108,
 	0,
 	0,
@@ -27,14 +27,25 @@ INSERT INTO GD_MD
 	'',
 	'stratus::deploy::stratus::Shared');
 INSERT INTO DIM_DIA
-	VALUES ("c1baf323-3ed6-40f8-8473-3f52f371f0f9",
+	VALUES ("bfc6f59b-6506-4094-a1c8-40b0f1b12bdb",
 	'',
 	1.000000,
 	0.000000,
 	0.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("de071dfe-bde1-4bdb-a346-abdeb0a96317",
+	"c9ad4e66-ea7c-465a-b61e-d9b1ffebc0f2");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("c9ad4e66-ea7c-465a-b61e-d9b1ffebc0f2",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'Shared',
+	'',
+	0,
+	'../../../../../../ooamasl/models/ooamasl/Shared/Shared.xtuml');
 INSERT INTO PE_PE
-	VALUES ("98c2e789-ade9-473c-9a0c-726088a50287",
+	VALUES ("de071dfe-bde1-4bdb-a346-abdeb0a96317",
 	1,
 	"00000000-0000-0000-0000-000000000000",
 	"6e5faf70-6b26-4223-9c6b-3185b8ee866d",
