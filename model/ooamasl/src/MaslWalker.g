@@ -791,6 +791,7 @@ returns [Object terminatorservice]
                                                             {
                                                               try {
                                                                 service = loader.create( "Service" );
+                                                                current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
                                                                 loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
                                                                 $terminatorservice = loader.create( "DomainTerminatorService" );
@@ -826,6 +827,7 @@ returns [Object terminatorservice]
                                                             {
                                                               try {
                                                                 service = loader.create( "Service" );
+                                                                current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
                                                                 loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
                                                                 $terminatorservice = loader.create( "ProjectTerminatorService" );
@@ -1074,6 +1076,7 @@ returns [Object objectservice]
                                                                   populate( "operation", args );
                                                                   try {
                                                                     service = loader.create( "Service" );
+                                                                    current_service = service;
                                                                     loader.set_attribute( service, "name", $serviceName.name );
                                                                     loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
                                                                     $objectservice = loader.create( "ObjectService" );
@@ -1302,6 +1305,7 @@ returns [Object domainservice]
                                                             {
                                                               try {
                                                                 service = loader.create( "Service" );
+                                                                current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
                                                                 loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
                                                                 $domainservice = loader.create( "DomainService" );
@@ -1641,6 +1645,7 @@ returns [Object domainservice]
                                                             {
                                                               try {
                                                                 service = loader.create( "Service" );
+                                                                current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
                                                                 loader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
                                                                 $domainservice = loader.create( "DomainService" );
@@ -1795,26 +1800,121 @@ stateDefinition//[State stateDef]
 //---------------------------------------------------------
 
 statement
-//returns [Statement st]
-                              : ^( STATEMENT
+returns [Object st]
+@init                                                       {
+                                                              try {
+                                                                $st = loader.create( "Statement" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                              : ^( STATEMENT // done
                                    ( codeBlock       
+                                                            {
+                                                              try {
+                                                                loader.relate( $codeBlock.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | assignmentStatement    
+                                                            {
+                                                              try {
+                                                                loader.relate( $assignmentStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | streamStatement        
+                                                            {
+                                                              try {
+                                                                loader.relate( $streamStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | callStatement          
+                                                            {
+                                                              try {
+                                                                loader.relate( $callStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | exitStatement          
+                                                            {
+                                                              try {
+                                                                loader.relate( $exitStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | returnStatement        
+                                                            {
+                                                              try {
+                                                                loader.relate( $returnStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | delayStatement         
+                                                            {
+                                                              try {
+                                                                loader.relate( $delayStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | raiseStatement         
+                                                            {
+                                                              try {
+                                                                loader.relate( $raiseStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | deleteStatement        
+                                                            {
+                                                              try {
+                                                                loader.relate( $deleteStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | eraseStatement         
+                                                            {
+                                                              try {
+                                                                loader.relate( $eraseStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | linkStatement          
+                                                            {
+                                                              try {
+                                                                loader.relate( $linkStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | scheduleStatement      
+                                                            {
+                                                              try {
+                                                                loader.relate( $scheduleStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | cancelTimerStatement   
+                                                            {
+                                                              try {
+                                                                loader.relate( $cancelTimerStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | generateStatement      
+                                                            {
+                                                              try {
+                                                                loader.relate( $generateStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | ifStatement            
+                                                            {
+                                                              try {
+                                                                loader.relate( $ifStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | caseStatement          
+                                                            {
+                                                              try {
+                                                                loader.relate( $caseStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | forStatement           
+                                                            {
+                                                              try {
+                                                                loader.relate( $forStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | whileStatement         
+                                                            {
+                                                              try {
+                                                                loader.relate( $whileStatement.st, $st, 5135, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    |                        
                                    )
                                    pragmaList
@@ -1822,48 +1922,107 @@ statement
                               ;
 
 statementList
-//returns [List<Statement> statements = new ArrayList<Statement>()]
-                              : ^( STATEMENT_LIST
-                                   ( statement                 
+returns [Object st]
+@init { Object previousstatement = null; }
+                              : ^( STATEMENT_LIST // done
+                                   ( statement              {
+                                                              if ( null == previousstatement ) {
+                                                                st = $statement.st;
+                                                              } else {
+                                                                try {
+                                                                  loader.relate( $statement.st, previousstatement, 5155, "succeeds" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              }
+                                                              previousstatement = $statement.st;
+                                                            }
                                    )*
                                  )
                               ;
 
 
 assignmentStatement
-//returns [AssignmentStatement st]
-                              : ^( ASSIGN
+returns [Object st]
+                              : ^( ASSIGN // done
                                    lhs=expression rhs=expression
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                $st = loader.create( "AssignmentStatement" );
+                                                                loader.relate( $lhs.exp, $st, 5101, "" );
+                                                                loader.relate( $rhs.exp, $st, 5100, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 streamStatement
-//returns [IOStreamStatement st]
+returns [Object st]
+@init                                                       {
+                                                              try {
+                                                                $st = loader.create( "IOStreamStatement" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
 
-                              : ^( STREAM_STATEMENT
+                              : ^( STREAM_STATEMENT // done
                                    expression
+                                                            {
+                                                              try {
+                                                                loader.relate( $expression.exp, $st, 5156, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    ( streamOperator         
+                                                            {
+                                                              try {
+                                                                loader.relate( $streamOperator.exp, $st, 5115, "" );
+                                                                // CDS - I am not sure what to do with multiple different operators.
+                                                                loader.set_attribute( $st, "operator", $streamOperator.op );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )+
                                  )                          
                               ;
 
 streamOperator
-//returns [IOStreamStatement.IOExpression op]
-
-                              : ^( ( STREAM_IN              
-                                   | STREAM_OUT             
-                                   | STREAM_LINE_IN         
-                                   | STREAM_LINE_OUT        
-                                   ) expression
+returns [String op, Object exp]
+                              : ^( ( STREAM_IN              { $op = "in"; } // done
+                                   | STREAM_OUT             { $op = "out"; }
+                                   | STREAM_LINE_IN         { $op = "linein"; }
+                                   | STREAM_LINE_OUT        { $op = "lineout"; }
+                                   ) expression             {
+                                                              try {
+                                                                $exp = $expression.exp;
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                  )                          
                               ;
 
 callStatement
-//returns [Statement st]
+returns [Object st]
+@init                                                       {
+                                                              try {
+                                                                $st = loader.create( "ServiceInvocation" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
 
                               : ^( CALL
                                    expression               
+                                                            {
+                                                              try {
+                                                                // CDS - name lookup occurs here to resolved subtype
+                                                                // CDS - There are missing associations from the subtypes
+                                                                // to the declarations of the services.  This can be resolved
+                                                                // in the refactored diagram.
+                                                                  Object subservice = loader.create( "DomainServiceInvocation" );
+                                                                  Object subservice = loader.create( "ObjectServiceInvocation" );
+                                                                  Object subservice = loader.create( "InstranceSeviceInvocation" );
+                                                                  Object subservice = loader.create( "TerminatorServiceInvocation" );
+                                                                loader.relate( $expression.exp, $st, 5157, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    ( argument               
+                                                            {
+                                                              try {
+                                                                loader.relate( $streamOperator.exp, $st, 5134, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )*                       
                                  )                          
 
@@ -1871,28 +2030,50 @@ callStatement
 
 
 exitStatement
-//returns [ExitStatement st]
-                              : ^( EXIT
-                                   condition?
+returns [Object st]
+@init                                                       {
+                                                              try {
+                                                                $st = loader.create( "ExitStatement" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                              : ^( EXIT // done
+                                   ( condition
+                                                            {
+                                                              try {
+                                                                loader.relate( $condition.exp, $st, 5109, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   )?
                                  )                          
                               ;
 
 returnStatement
-//returns [ReturnStatement st]
-                              : ^( RETURN
+returns [Object st]
+                              : ^( RETURN // done
                                    expression              
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                $st = loader.create( "ReturnStatement" );
+                                                                loader.relate( current_service, $st, 5127, "" );
+                                                                loader.relate( $expression.exp, $st, 5128, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 delayStatement
-//returns [DelayStatement st]
-                              : ^( DELAY
+returns [Object st]
+                              : ^( DELAY // done
                                    expression
-                                 )                         
+                                 )                         {
+                                                              try {
+                                                                $st = loader.create( "DelayStatement" );
+                                                                loader.relate( $expression.exp, $st, 5104, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 raiseStatement
-//returns [RaiseStatement st]
+returns [Object st]
                               : ^( RAISE
                                    exceptionReference
                                    expression?
@@ -1900,21 +2081,31 @@ raiseStatement
                               ;
 
 deleteStatement
-//returns [DeleteStatement st]
-                              : ^( DELETE
+returns [Object st]
+                              : ^( DELETE // done
                                    expression
-                                 )                          
+                                 )                         {
+                                                              try {
+                                                                $st = loader.create( "DeleteStatement" );
+                                                                loader.relate( $expression.exp, $st, 5105, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 eraseStatement
-//returns [EraseStatement st]
+returns [Object st]
                               : ^( ERASE
                                    expression
-                                 )                          
+                                 )                         {
+                                                              try {
+                                                                $st = loader.create( "Delete" );
+                                                                loader.relate( $expression.exp, $st, 5105, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 linkStatement
-//returns [LinkUnlinkStatement st]
+returns [Object st]
                               : ^( linkStatementType
                                    lhs=expression      
                                    relationshipSpec//[$lhs.exp,false,false]
@@ -1931,13 +2122,13 @@ linkStatementType
 
 
 cancelTimerStatement
-//returns [CancelTimerStatement st]
+returns [Object st]
                              : ^( CANCEL
                                   timerId=expression )    
                              ;
                               
 scheduleStatement
-//returns [ScheduleStatement st]
+returns [Object st]
                               : ^( SCHEDULE
                                    timerId=expression
                                    generateStatement
@@ -1955,7 +2146,7 @@ scheduleType
 
 
 generateStatement
-//returns [GenerateStatement st]
+returns [Object st]
 
                               : ^( GENERATE
                                    eventReference
@@ -1965,7 +2156,7 @@ generateStatement
                               ;
 
 ifStatement
-//returns [IfStatement st]
+returns [Object st]
 
                               : ^( IF
                                    condition
@@ -1993,7 +2184,7 @@ elseBlock
 
 
 whileStatement
-//returns [WhileStatement st]
+returns [Object st]
                               : ^( WHILE
                                    condition
                                    statementList )          
@@ -2007,7 +2198,7 @@ condition
 
 
 caseStatement
-//returns [CaseStatement st]      
+returns [Object st]      
 
                               : ^( CASE
                                   expression
@@ -2040,7 +2231,7 @@ caseOthers
                               ;
 
 forStatement
-//returns [ForStatement st]
+returns [Object st]
 //scope NameScope;
                               : ^( FOR
                                    loopVariableSpec         
@@ -2066,7 +2257,7 @@ loopVariableSpec
 //---------------------------------------------------------
 
 codeBlock
-//returns [ CodeBlock st ]
+returns [ Object st ]
 //scope NameScope;
                               : ^( CODE_BLOCK                
                                   ( variableDeclaration     

@@ -7,32 +7,6 @@ INSERT INTO O_OBJ
 	'ExitStatement',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("5e6bcd1d-44db-4d28-a9d6-391f9fd801bb",
-	"25792140-37ba-46f1-ab56-e20e6a1d78ad");
-INSERT INTO O_BATTR
-	VALUES ("5e6bcd1d-44db-4d28-a9d6-391f9fd801bb",
-	"25792140-37ba-46f1-ab56-e20e6a1d78ad");
-INSERT INTO O_ATTR
-	VALUES ("5e6bcd1d-44db-4d28-a9d6-391f9fd801bb",
-	"25792140-37ba-46f1-ab56-e20e6a1d78ad",
-	"00000000-0000-0000-0000-000000000000",
-	'condition',
-	'R5109
-',
-	'',
-	'condition',
-	0,
-	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	"00000000-0000-0000-0000-000000000000",
-	'iExpression',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"25792140-37ba-46f1-ab56-e20e6a1d78ad");
