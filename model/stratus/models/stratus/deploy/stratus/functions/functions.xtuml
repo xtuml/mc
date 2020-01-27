@@ -38,7 +38,26 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'init',
 	'',
-	'control stop;',
+	'LOG::LogInfo( message: "stratus starting init" );
+
+create object instance type_declaration of TypeDeclaration;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance any_instance_type of AnyInstanceType;
+
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to any_instance_type across R6206;
+
+select any td from instances of TypeDeclaration;
+if ( empty td )
+  LOG::LogFailure( message:"failed to select TypeDeclaration" );
+end if;
+
+LOG::LogInfo( message: "stratus done with init" );
+control stop;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
