@@ -32,7 +32,7 @@ INSERT INTO GD_GE
 	"6e5faf70-6b26-4223-9c6b-3185b8ee866d",
 	98,
 	0,
-	'stratus::deploy::deploy');
+	'stratus::deploy::stratus');
 INSERT INTO GD_SHP
 	VALUES ("e627be9a-862b-4997-a29e-21c3f2ad5e6e");
 INSERT INTO GD_NCS
