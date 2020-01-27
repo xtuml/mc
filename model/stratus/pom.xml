@@ -69,14 +69,6 @@
           <include>.project</include>
         </includes>
       </resource>
-      <resource>
-        <directory>${project.basedir}</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>models/**/*.xtuml</include>
-          <include>.project</include>
-        </includes>
-      </resource>
     </resources>
   </build>
 </project>
