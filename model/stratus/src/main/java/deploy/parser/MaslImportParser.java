@@ -1,9 +1,14 @@
+package deploy.parser;
+
+import io.ciera.runtime.instanceloading.generic.IGenericLoader;
+import io.ciera.runtime.instanceloading.generic.util.LOAD;
+
 import java.io.*;
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 import java.util.regex.Pattern;
 
-public class MaslImportParser {
+public class MaslImportParser implements IGenericLoader {
 
     // private fields
     private Serial          serial;             // external interface
@@ -11,16 +16,7 @@ public class MaslImportParser {
     private String          current_file;       // current file parsing
 
     // public constructor
-    public MaslImportParser( Serial serial, LOAD loader ) {
-        if ( serial != null )
-            this.serial = serial;
-        else
-            this.serial = null;
-        if ( loader != null )
-            this.loader = loader;
-        else
-            this.loader = null;
-
+    public MaslImportParser() {
         current_file = null;
     }
 
@@ -348,16 +344,15 @@ public class MaslImportParser {
     }
 
     // main method
-    public static void main(String args[]) throws Exception {
+    public void load(LOAD loader, String args[]) {
 
-        Serial              serial = new MaslSerial();                  // create new serial interface
-        LOAD                loader = new MaslLoader();                  // create new LOAD interface
-        MaslImportParser    parser = new MaslImportParser( serial, loader );    // create new parser
+        this.serial = new MaslSerial();  // create new serial interface
+        this.loader = loader;
 
         // check input args
         if ( args.length < 1 ) {
             // print usage
-            parser.printUsage();
+            this.printUsage();
         }
         else {
             if ( args[0].equals( "-f" ) ) {             // parse single MASL file
@@ -373,12 +368,12 @@ public class MaslImportParser {
                 }
                 else {
                     // print usage
-                    parser.printUsage();
+                    this.printUsage();
                     return;
                 }
 
                 // parse the file
-                parser.parseFile( args[1], args[2], out );
+                this.parseFile( args[1], args[2], out );
             }
             else if ( args[0].equals( "-d" ) ) {        // parse MASL domain
                 String out = null;
@@ -393,12 +388,12 @@ public class MaslImportParser {
                 }
                 else {
                     // print usage
-                    parser.printUsage();
+                    this.printUsage();
                     return;
                 }
 
                 // parse the domain
-                parser.parseDomain( args[1], out );
+                this.parseDomain( args[1], out );
             }
             else if ( args[0].equals( "-p" ) ) {        // parse MASL project
                 String out = null;
@@ -413,19 +408,25 @@ public class MaslImportParser {
                 }
                 else {
                     // print usage
-                    parser.printUsage();
+                    this.printUsage();
                     return;
                 }
 
                 // parse the project
-                parser.parseProject( args[1], out );
+                this.parseProject( args[1], out );
             }
             else {
                 // print usage
-                parser.printUsage();
+                this.printUsage();
             }
         }
 
+    }
+
+    // main method
+    public static void main(String args[]) {
+        MaslImportParser parser = new MaslImportParser();  // create new parser
+        parser.load(null, args);
     }
 }
 

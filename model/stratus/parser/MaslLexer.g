@@ -7,6 +7,8 @@ lexer grammar MaslLexer;
 
 @header
 {
+package deploy.parser;
+
 import java.io.*;
 }
 

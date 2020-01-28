@@ -94,6 +94,11 @@ tokens
   WHERE;
 }
 
+@header
+{
+package deploy.parser;
+}
+
 @annotations
 {
 @SuppressWarnings("all")
