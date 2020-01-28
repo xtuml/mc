@@ -40,6 +40,9 @@ INSERT INTO S_SYNC
 	'',
 	'LOG::LogInfo( message: "stratus starting init" );
 
+CMD::register_value(name:"d", value_name:"domain_path", usage:"Path to a MASL domain directory", default:".", required:true);
+CMD::read_command_line();
+
 create object instance type_declaration of TypeDeclaration;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
@@ -55,6 +58,11 @@ select any td from instances of TypeDeclaration;
 if ( empty td )
   LOG::LogFailure( message:"failed to select TypeDeclaration" );
 end if;
+
+LOG::LogInfo( message: "stratus loading MASL" );
+args[1] = CMD::get_value(name:"d");
+args[0] = "-d";
+LOAD::load(java_class:"deploy.parser.MaslImportParser", args:args);
 
 LOG::LogInfo( message: "stratus done with init" );
 control stop;',
