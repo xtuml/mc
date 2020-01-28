@@ -57,6 +57,8 @@ compiler.  The key file is `Walker.g`.
   ** ServiceInvocation - This is where ServiceOverload is used when
      resolving the name thus resolving the subtype.
   ** exceptionReference
+  ** optionalDomainReference
+  ** optionalObjectReference
 * I should factor ServiceInvocation out of statement and into invocation.
 
 == 7 User Documentation
