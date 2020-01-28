@@ -24,6 +24,7 @@ package deploy.parser;
 
 import io.ciera.runtime.instanceloading.generic.util.LOAD;
 import io.ciera.runtime.summit.exceptions.XtumlException;
+import io.ciera.runtime.summit.classes.IModelInstance;
 import java.io.*;
 }
 
@@ -73,25 +74,6 @@ public void setMaslParser( MaslImportParser p ) {
         this.masl_parser = p;
     else
         this.masl_parser = null;
-}
-
-// call to the interface with null checking
-private void populate( String classname, String[] args ) {
-    // check args and interface
-    if ( classname == null || args == null ) {
-        System.err.println( "Invalid arguments." );
-        return;
-    }
-    if ( serial == null ) {
-        System.err.println( "No external interface set." );
-        return;
-    }
-
-    // call the interface
-    serial.populate( classname, args );
-
-    // fill args with empty strings
-    for ( int i = 0; i < args.length; i++ ) args[i] = "";
 }
 
 // get the current file
@@ -302,10 +284,9 @@ returns [Object ref]
                                                               {
                                                                   try {
                                                                     $ref = loader.create( "ExceptionReference" );
-                                                                    // CDS - consider selecting through optionalDomainReference
-                                                                    // LPS - will not support
-                                                                    // Object e = loader.select( "ExceptionDeclaration", $exceptionName.name );
-                                                                    Object e = null;
+                                                                    Object builtin = loader.create( "BuiltinException" );
+                                                                    loader.relate( $ref, builtin, 5401, "" );
+                                                                    Object e = loader.call_function( "select_any_ExceptionDeclaration_where_name", $optionalDomainReference.ref, $exceptionName.name );
                                                                     loader.relate( $ref, e, 5402, "" );
                                                                   } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
@@ -346,10 +327,8 @@ returns [Object type]
                                    typeVisibility
                                                               {
                                                                 try {
-                                                                  // LPS - will not support
-                                                                  // $type = loader.select( "TypeDeclaration", $typeName.name );
-                                                                  $type = null;
-                                                                  if ( $type == null ) {
+                                                                  $type = loader.call_function( "select_any_TypeDeclaration_where_name", $typeName.name );
+                                                                  if ( ((IModelInstance)$type).isEmpty() ) {
                                                                     $type = loader.create( "TypeDeclaration" );
                                                                   }
                                                                   loader.set_attribute( $type, "name", $typeName.name );
@@ -907,12 +886,9 @@ optionalObjectReference
 returns [Object ref, String domainref, String name]
 @init{ $ref = null; }
                               : objectReference             { $domainref = $objectReference.domainref; $name = $objectReference.name;
-                                                              //try {
-                                                                // CDS - Here we need symbol lookup.
-                                                                // LPS - will not support
-                                                                // $ref = loader.select( "ObjectDeclaration", $objectReference.name );
-                                                                $ref = null;
-                                                              //} catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                $ref = loader.call_function( "select_any_ObjectDeclaration_where_name", $objectReference.domainref, $objectReference.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | /* blank */                 { $domainref = ""; $name = ""; }
                               ;
@@ -944,10 +920,8 @@ returns [Object object]
                                    objectName               
                                                             {
                                                               try {
-                                                                // LPS - will not support
-                                                                // $object = loader.select( "ObjectDeclaration", $objectName.name );
-                                                                $object = null;
-                                                                if ( $object == null ) {
+                                                                $object = loader.call_function( "select_any_ObjectDeclaration_where_name", "", $objectName.name );
+                                                                if ( ((IModelInstance)$object).isEmpty() ) {
                                                                   $object = loader.create( "ObjectDeclaration" );
                                                                 }
                                                                 loader.set_attribute( $object, "name", $objectName.name );
@@ -1109,50 +1083,26 @@ returns [Object objectservice]
                                    )?
                                    pragmaList
                                  )                          
-                                                            {
-                                                                  populate( "operation", args );      // end operation
-                                                            }
                               ;
 
 
 identifierDefinition
 
                               : ^( IDENTIFIER
-                                                            {
-                                                                args[0] = "symbolic";           // symbolic argument
-                                                                populate( "identifier", args );
-                                                            }
                                    ( attributeName          
-                                                            {
-                                                                args[0] = $attributeName.name;
-                                                                populate( "attribute", args );
-                                                                populate( "attribute", args );  // end attribute
-                                                            }
                                    )+
                                    pragmaList
                                  )                     
-                                                            {
-                                                                populate( "identifier", args );  // end identifier
-                                                            }
                               ;
 
 eventDefinition
                               : ^( EVENT         
                                    eventName                
                                    eventType                
-                                                            {
-                                                                args[0] = $eventName.name;
-                                                                args[1] = $eventType.type;
-                                                                populate( "event", args );
-                                                            }
                                    description
                                    parameterList
                                    pragmaList
                                  )
-                                                            {
-                                                                populate( "event", args );  // end event
-                                                            }
-                                                            
                               ;
 
 eventName
@@ -1173,18 +1123,10 @@ stateDeclaration
                               : ^( STATE
                                    stateName                
                                    stateType               
-                                                            {
-                                                                args[2] = $stateName.name;
-                                                                args[3] = $stateType.type;
-                                                                populate( "state", args );
-                                                            }
                                    description
                                    parameterList
                                    pragmaList
                                 )                           
-                                                            {
-                                                                populate( "state", args );  // end state
-                                                            }
                               ;
 
 stateName
@@ -1208,18 +1150,10 @@ transitionTable
 
                               : ^( TRANSITION_TABLE
                                    transTableType
-                                                            {
-                                                                args[0] = $transTableType.type;
-                                                                args[1] = "symbolic";
-                                                                populate( "transitiontable", args );
-                                                            }
                                    ( transitionRow          
                                    )+
                                    pragmaList
                                  )                          
-                                                            {
-                                                                populate( "transitiontable", args );   // end transitiontable
-                                                            }
                               ;
 
 
@@ -1247,14 +1181,6 @@ transitionOption[String startState]
                                    incomingEvent
                                    endState
                                  )                          
-                                                            {
-                                                                args[0] = startState;
-                                                                //args[1] = $incomingEvent.ref[0];
-                                                                //args[2] = $incomingEvent.ref[1];
-                                                                //args[3] = $incomingEvent.ref[2];
-                                                                args[4] = $endState.name;
-                                                                populate( "transition", args );
-                                                            }
                               ;
 
 incomingEvent
@@ -1426,49 +1352,23 @@ returns [Object relationship]
 regularRelationshipDefinition
                               : ^( REGULAR_RELATIONSHIP_DEFINITION
                                    relationshipName
-                                                            {
-                                                                args[0] = $relationshipName.name;
-                                                                populate( "regularrel", args );
-                                                            }
                                    description
                                    leftToRight=halfRelationshipDefinition
                                    rightToLeft=halfRelationshipDefinition
-                                                            {
-                                                                populate( "participation", args );  // end participation
-                                                            }
                                    pragmaList
                                  )                          
-                                                            {
-                                                                populate( "regularrel", args );   // end regularrel
-                                                            }
                               ;
 
 
 assocRelationshipDefinition
                               : ^( ASSOCIATIVE_RELATIONSHIP_DEFINITION
                                    relationshipName
-                                                            {
-                                                                args[0] = $relationshipName.name;
-                                                                populate( "associative", args );
-                                                            }
                                    description
                                    leftToRight=halfRelationshipDefinition
                                    rightToLeft=halfRelationshipDefinition
                                    assocObj=objectReference
-                                                            {
-                                                                populate( "participation", args );  // end participation
-
-                                                                // update with the associative object
-                                                                args[0] = $relationshipName.name;
-                                                                args[1] = $assocObj.domainref;
-                                                                args[2] = $assocObj.name;
-                                                                populate( "associative", args );
-                                                            }
                                    pragmaList
                                  )                          
-                                                            {
-                                                                populate( "associative", args );   // end associativerelationship
-                                                            }
 
                               ;
 
@@ -1482,7 +1382,6 @@ halfRelationshipDefinition
                                    to=objectReference
                                  )                          
                                                             { 
-                                                                // populate a side of participation
                                                                 args[0] = $from.domainref;
                                                                 args[1] = $from.name;
                                                                 args[2] = $rolePhrase.role;
@@ -1490,7 +1389,6 @@ halfRelationshipDefinition
                                                                 args[4] = $multiplicity.mult;
                                                                 args[5] = $to.domainref;
                                                                 args[6] = $to.name;
-                                                                populate( "participation", args );
                                                             }
                               ;
 
@@ -1502,14 +1400,12 @@ subtypeRelationshipDefinition
                                    relationshipName
                                                             {
                                                                 args[0] = $relationshipName.name;
-                                                                populate( "subsuper", args );
                                                             }
                                    description
                                    supertype=objectReference
                                                             {
                                                                 args[0] = $supertype.domainref;
                                                                 args[1] = $supertype.name;
-                                                                populate( "participation", args );
                                                             }
                                    (subtype=objectReference   
                                                             {
@@ -1517,18 +1413,10 @@ subtypeRelationshipDefinition
                                                                 args[1] = $subtype.name;
                                                                 args[5] = $supertype.domainref;
                                                                 args[6] = $supertype.name;
-                                                                populate( "participation", args );
                                                             }
                                    )+
-                                                            {
-                                                                populate( "participation", args );  // end participation
-                                                            }
                                    pragmaList
                                  )                          
-                                                            {
-                                                                populate( "subsuper", args );   // end subsuper
-                                                            }
-
                               ;
 
 rolePhrase
@@ -1615,7 +1503,6 @@ returns [String text]
                                    )*
                                                             {
                                                                 args[0] = descrip.toString();
-                                                                populate( "description", args );
                                                                 $text = descrip.toString();
                                                             }
                                  )
@@ -1664,7 +1551,6 @@ returns [Object domainservice]
                                    codeBlock
                                                             {
                                                                 args[0] = $DOMAIN_SERVICE_DEFINITION.text + " service;";
-                                                                populate( "codeblock", args );
                                                             }
                                    pragmaList                  
                                  )                                                   
@@ -1685,21 +1571,15 @@ terminatorServiceDefinition//[DomainTerminatorService service]
                                                                   args[1] = $terminatorName.name;
                                                                   args[2] = $serviceVisibility.visibility;
                                                                   args[3] = $serviceName.name;
-                                                                  populate( "routine", args );
                                                             }
                                    parameterList
                                                             {
                                                                 args[0] = $TERMINATOR_SERVICE_DEFINITION.text + " service;";
-                                                                populate( "codeblock", args );
                                                             }
                                    returnType?
                                    codeBlock
                                    pragmaList
                                  )                                                   
-                                                            {
-                                                                populate( "routine", args );      // end operation
-                                                            }
-                                                            
                               ;
 
 
@@ -1715,21 +1595,15 @@ projectTerminatorServiceDefinition//[ProjectTerminatorService service]
                                                                   args[1] = $terminatorName.name;
                                                                   args[2] = $serviceVisibility.visibility;
                                                                   args[3] = $serviceName.name;
-                                                                  populate( "routine", args );
                                                             }
                                    parameterList
                                    returnType?
                                    codeBlock         
                                                             {
                                                                 args[0] = $TERMINATOR_SERVICE_DEFINITION.text + " service;";
-                                                                populate( "codeblock", args );
                                                             }
                                    pragmaList
                                  )                                                   
-                                                            {
-                                                                populate( "routine", args );      // end operation
-                                                            }
-                                                            
                               ;
 
 
@@ -1750,20 +1624,15 @@ objectServiceDefinition//[ObjectService service]
                                                                   args[3] = $serviceName.name;
                                                                   if ( $INSTANCE != null )
                                                                       args[4] = $INSTANCE.text;
-                                                                  populate( "operation", args );
                                                             }
                                    parameterList
                                    returnType?
                                    codeBlock
                                                             {
                                                                 args[0] = $OBJECT_SERVICE_DEFINITION.text + " service;";
-                                                                populate( "codeblock", args );
                                                             }
                                    pragmaList
                                  )                          
-                                                            {
-                                                                populate( "operation", args );      // end operation
-                                                            }
                               ;
 
 
@@ -1780,19 +1649,14 @@ stateDefinition//[State stateDef]
                                                                 args[1] = $fullObjectReference.ref[1];
                                                                 args[2] = $stateName.name;
                                                                 args[3] = $stateType.type;
-                                                                populate( "state", args );
                                                             }
                                    parameterList
                                    codeBlock
                                                             {
                                                                 args[0] = $STATE_DEFINITION.text + " state;";
-                                                                populate( "codeblock", args );
                                                             }
                                    pragmaList
                                  )                          
-                                                            {
-                                                                populate( "state", args );  // end state
-                                                            }
                               ;
 
 
@@ -2278,9 +2142,16 @@ returns [Object branch]
 
 whileStatement
 returns [Object st]
-                              : ^( WHILE
+                              : ^( WHILE // done
                                    condition
                                    statementList )          
+                                                            {
+                                                              try {
+                                                                $st = loader.create( "WhileStatement" );
+                                                                loader.relate( $condition.exp, $st, 5142, "" );
+                                                                loader.relate( $statementList.st, $st, 5141, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 condition
@@ -2826,9 +2697,7 @@ returns [Object exp]
                                                                 // CDS - need to relate to AnyInstance built-in
                                                                 // might to relate at a higher level in the hierarchy
                                                                 // like maybe the BasicType level
-                                                                // LPS - will not support
-                                                                // Object type = loader.select( "AnyInstanceType", "" );
-                                                                Object type = null;
+                                                                Object type = loader.call_function( "select_any_TypeDeclaration_where_name", "AnyInstanceName" );
                                                                 loader.relate( nullliteral, type, 5702, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }

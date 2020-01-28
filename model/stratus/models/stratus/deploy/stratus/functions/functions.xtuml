@@ -44,6 +44,8 @@ CMD::register_value(name:"d", value_name:"domain_path", usage:"Path to a MASL do
 CMD::read_command_line();
 
 create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "AnyInstanceType";
+type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
@@ -64,6 +66,11 @@ args[1] = CMD::get_value(name:"d");
 args[0] = "-d";
 LOAD::load(java_class:"deploy.parser.MaslImportParser", args:args);
 
+select many object_declarations from instances of ObjectDeclaration;
+for each object_declaration in object_declarations
+  LOG::LogInfo( message:object_declaration.name );
+end for;
+
 LOG::LogInfo( message: "stratus done with init" );
 control stop;',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -76,6 +83,134 @@ INSERT INTO PE_PE
 	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("34fca70e-b744-411a-989d-6aa03602563f",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_TypeDeclaration_where_name',
+	'',
+	'select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
+return type_declaration;',
+	"1a85f47e-89ea-4d0e-9a09-afc952412df3",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("1d884005-adc6-4f2e-ab92-81292d274665",
+	"34fca70e-b744-411a-989d-6aa03602563f",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	"00000000-0000-0000-0000-000000000000",
+	'Name',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/Shared/Shared.xtuml');
+INSERT INTO PE_PE
+	VALUES ("34fca70e-b744-411a-989d-6aa03602563f",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("1a85f47e-89ea-4d0e-9a09-afc952412df3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<TypeDeclaration>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("104756a8-eda5-4d27-98a5-a2897716dbe4",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_ExceptionDeclaration_where_name',
+	'',
+	'domain = param.domain;
+// Consider selecting through the domain.
+select any exception_declaration from instances of ExceptionDeclaration where ( selected.name == param.name );
+return exception_declaration;',
+	"fcbc46ab-aa9a-4a5f-a61c-93953c3dcf03",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("d32d8ffd-ebfd-4c32-af00-1ce151ccfa83",
+	"104756a8-eda5-4d27-98a5-a2897716dbe4",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"3e66809c-318a-46b2-9900-a0c9a7986d23",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3e66809c-318a-46b2-9900-a0c9a7986d23",
+	"104756a8-eda5-4d27-98a5-a2897716dbe4",
+	'domain',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("104756a8-eda5-4d27-98a5-a2897716dbe4",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("fcbc46ab-aa9a-4a5f-a61c-93953c3dcf03",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ExceptionDeclaration>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/domain/domain.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("a4f99ef6-4473-4e79-9ffb-8e5539226811",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_ObjectDeclration_where_name',
+	'',
+	'domain = param.domain;
+// Consider selecting through the domain.
+select any object_declaration from instances of ObjectDeclaration where ( selected.name == param.name );
+return object_declaration;',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("1c5d3ef0-32d7-4744-a6d6-71c443e1b2dd",
+	"a4f99ef6-4473-4e79-9ffb-8e5539226811",
+	'domain',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7f5ea213-5cbb-4e92-9385-de62320aa383",
+	"a4f99ef6-4473-4e79-9ffb-8e5539226811",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"1c5d3ef0-32d7-4744-a6d6-71c443e1b2dd",
+	'');
+INSERT INTO PE_PE
+	VALUES ("a4f99ef6-4473-4e79-9ffb-8e5539226811",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("ccbbc697-c60c-4034-8e31-7a46032151eb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ObjectDeclaration>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/object/object.xtuml');
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,
