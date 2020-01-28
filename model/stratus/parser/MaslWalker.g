@@ -20,6 +20,10 @@ scope WhereClauseScope
 
 @header
 {
+package deploy.parser;
+
+import io.ciera.runtime.instanceloading.generic.util.LOAD;
+import io.ciera.runtime.summit.exceptions.XtumlException;
 import java.io.*;
 }
 
@@ -299,7 +303,9 @@ returns [Object ref]
                                                                   try {
                                                                     $ref = loader.create( "ExceptionReference" );
                                                                     // CDS - consider selecting through optionalDomainReference
-                                                                    Object e = loader.select( "ExceptionDeclaration", $exceptionName.name );
+                                                                    // LPS - will not support
+                                                                    // Object e = loader.select( "ExceptionDeclaration", $exceptionName.name );
+                                                                    Object e = null;
                                                                     loader.relate( $ref, e, 5402, "" );
                                                                   } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
@@ -340,7 +346,9 @@ returns [Object type]
                                    typeVisibility
                                                               {
                                                                 try {
-                                                                  $type = loader.select( "TypeDeclaration", $typeName.name );
+                                                                  // LPS - will not support
+                                                                  // $type = loader.select( "TypeDeclaration", $typeName.name );
+                                                                  $type = null;
                                                                   if ( $type == null ) {
                                                                     $type = loader.create( "TypeDeclaration" );
                                                                   }
@@ -928,7 +936,9 @@ returns [Object object]
                                    objectName               
                                                             {
                                                               try {
-                                                                $object = loader.select( "ObjectDeclaration", $objectName.name );
+                                                                // LPS - will not support
+                                                                // $object = loader.select( "ObjectDeclaration", $objectName.name );
+                                                                $object = null;
                                                                 if ( $object == null ) {
                                                                   $object = loader.create( "ObjectDeclaration" );
                                                                 }
@@ -1031,7 +1041,9 @@ returns [Object relspec]
                                                               s[1] = $relationshipReference.name;
                                                               try {
                                                                 $relspec = loader.create( "RelationshipSpecification" );
-                                                                Object r = loader.select( "RelationshipDeclaration", $relationshipReference.name );
+                                                                // LPS - will not support
+                                                                // Object r = loader.select( "RelationshipDeclaration", $relationshipReference.name );
+                                                                Object r = null;
                                                                 loader.relate( $relspec, r, 6015, "" );
                                                                 loader.set_attribute( $relspec, "CDS dunno here CDS", $relationshipReference.name );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -2782,7 +2794,9 @@ returns [Object exp]
                                                                 // CDS - need to relate to AnyInstance built-in
                                                                 // might to relate at a higher level in the hierarchy
                                                                 // like maybe the BasicType level
-                                                                Object type = loader.select( "AnyInstanceType", "" );
+                                                                // LPS - will not support
+                                                                // Object type = loader.select( "AnyInstanceType", "" );
+                                                                Object type = null;
                                                                 loader.relate( nullliteral, type, 5702, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }

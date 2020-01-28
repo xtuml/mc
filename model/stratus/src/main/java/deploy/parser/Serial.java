@@ -1,3 +1,5 @@
+package deploy.parser;
+
 import java.io.*;
 
 public interface Serial {
