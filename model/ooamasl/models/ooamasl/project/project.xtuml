@@ -785,7 +785,7 @@ INSERT INTO R_PART
 	"662f6e82-ea23-483c-be65-24048e130e1d",
 	"541c3a6c-23d7-4c5e-b5ff-68e7fdf42fc4",
 	1,
-	0,
+	1,
 	'configures');
 INSERT INTO R_RTO
 	VALUES ("ed45ad8d-956d-4e46-accf-b7fd89fe91d9",

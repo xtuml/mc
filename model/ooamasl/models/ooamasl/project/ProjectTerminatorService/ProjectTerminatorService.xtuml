@@ -7,33 +7,6 @@ INSERT INTO O_OBJ
 	'ProjectTerminatorService',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("02a0543f-3bc8-499b-a1e8-70d376cd0ce6",
-	"3d358d71-bf57-4f04-b3d3-a5d9172e2d04");
-INSERT INTO O_BATTR
-	VALUES ("02a0543f-3bc8-499b-a1e8-70d376cd0ce6",
-	"3d358d71-bf57-4f04-b3d3-a5d9172e2d04");
-INSERT INTO O_ATTR
-	VALUES ("02a0543f-3bc8-499b-a1e8-70d376cd0ce6",
-	"3d358d71-bf57-4f04-b3d3-a5d9172e2d04",
-	"00000000-0000-0000-0000-000000000000",
-	'my_terminator',
-	'R5903
-terminator
-',
-	'',
-	'my_terminator',
-	0,
-	"772c799d-6fb0-45b0-a325-cac3005512ea",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("772c799d-6fb0-45b0-a325-cac3005512ea",
-	"00000000-0000-0000-0000-000000000000",
-	'iProjectTerminator',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"3d358d71-bf57-4f04-b3d3-a5d9172e2d04");

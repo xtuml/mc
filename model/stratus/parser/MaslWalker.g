@@ -63,9 +63,6 @@ public void setInterface ( Serial serial, LOAD loader ) {
         this.loader = loader;
     else
         this.loader = null;
-
-    // fill args initially with empty strings
-    for ( int i = 0; i < args.length; i++ ) args[i] = "";
 }
 
 // set the parent masl parser
@@ -106,7 +103,6 @@ returns [String name]
 
 projectDefinition
 returns [Object project]
-
                               : ^( PROJECT // done
                                    projectName              {
                                                               try {
@@ -162,7 +158,6 @@ returns [String name]
 
 domainDefinition
 returns [Object domain]
-                                                                                             
                               : ^( DOMAIN // done
                                    domainName               {
                                                               try {
@@ -234,12 +229,14 @@ returns [String name]
 domainReference
 returns [String ref]
                               : domainName                  { $ref = $domainName.name; } // done
+                              // CDS - Might need to parse the interface file here.
                               ;
 
 
 projectDomainReference
 returns [String ref]
                               : domainName                  { $ref = $domainName.name; } // done
+                              // CDS - Might need to parse the interface file here.
                               ;
 
 
@@ -282,13 +279,13 @@ returns [Object ref]
                               : optionalDomainReference // done
                                 exceptionName               
                                                               {
-                                                                  try {
-                                                                    $ref = loader.create( "ExceptionReference" );
-                                                                    Object builtin = loader.create( "BuiltinException" );
-                                                                    loader.relate( $ref, builtin, 5401, "" );
-                                                                    Object e = loader.call_function( "select_any_ExceptionDeclaration_where_name", $optionalDomainReference.ref, $exceptionName.name );
-                                                                    loader.relate( $ref, e, 5402, "" );
-                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                try {
+                                                                  $ref = loader.create( "ExceptionReference" );
+                                                                  Object builtin = loader.create( "BuiltinException" );
+                                                                  loader.relate( $ref, builtin, 5401, "" );
+                                                                  Object e = loader.call_function( "select_any_ExceptionDeclaration_where_name", $optionalDomainReference.ref, $exceptionName.name );
+                                                                  loader.relate( $ref, e, 5402, "" );
+                                                                } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                               ;
                                 
@@ -308,14 +305,17 @@ returns [Object type]
                               : ^( TYPE_DECLARATION // done
                                    typeName                 
                                    typeVisibility
+                                   pragmaList				
                                                               {
                                                                 try {
-                                                                  $type = loader.create( "TypeDeclaration" );
+                                                                  $type = loader.call_function( "select_any_TypeDeclaration_where_name", $typeName.name );
+                                                                  if ( ((IModelInstance)$type).isEmpty() ) {
+                                                                    $type = loader.create( "TypeDeclaration" );
+                                                                  }
                                                                   loader.set_attribute( $type, "name", $typeName.name );
                                                                   //CDSloader.set_attribute( $type, "visibility", "Visibility::" + $typeVisibility.visibility );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
-                                   pragmaList				
                                  )                          
                               ;
                               
@@ -337,17 +337,17 @@ returns [Object type]
                                                               }
                                    description
                                    pragmaList
-                                   typeDefinition			
+                                   typeDefinition[$type]
                                                               {
                                                                 try {
                                                                   loader.relate( $typeDefinition.type, $type, 6234, "" );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
-                                 )                          
+                                 )
                               ;
-                              
 
-typeDefinition
+
+typeDefinition[Object typedecl]
 returns [Object type]
 @init
                                                             {
@@ -385,8 +385,15 @@ returns [Object type]
                                                               // Does the BasicType already exist?
                                                               // I think this question gets answered in typeReference
                                                               // distinguished by namedTypeRef.
+                                                              // Create the BasicType and UserDefineType here, because
+                                                              // the typeReference rule needs to be used by non-defintion
+                                                              // code.
                                                               try {
-                                                                loader.relate( $typeReference.type, $type, 6236, "" );
+                                                                Object basictype = loader.create( "BasicType" );
+                                                                loader.relate( basictype, $type, 6236, "" );
+                                                                Object userdefinedtype = loader.create( "UserDefinedType" );
+                                                                loader.relate( userdefinedtype, basictype, 6205, "" );
+                                                                loader.relate( userdefinedtype, $typedecl, 6241, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | unconstrainedArrayDefinition
@@ -610,39 +617,54 @@ returns [Object type]
 
 typeReference
 returns [Object type]
-                              : namedTypeRef                { $type = $namedTypeRef.name; }
-                              | constrainedArrayTypeRef     { $type = $constrainedArrayTypeRef.type; }
-                              | instanceTypeRef             { $type = $instanceTypeRef.type; }
-                              | sequenceTypeRef             { $type = $sequenceTypeRef.type; }
-                              | arrayTypeRef                { $type = $arrayTypeRef.type; }
-                              | setTypeRef                  { $type = $setTypeRef.type; }
-                              | bagTypeRef                  { $type = $bagTypeRef.type; }
-                              | dictionaryTypeRef           { $type = $dictionaryTypeRef.type; }
+                              : namedTypeRef                { $type = $namedTypeRef.basictype; }
+                              | constrainedArrayTypeRef     { $type = $constrainedArrayTypeRef.basictype; }
+                              | instanceTypeRef             { $type = $instanceTypeRef.basictype; }
+                              | sequenceTypeRef             { $type = $sequenceTypeRef.basictype; }
+                              | arrayTypeRef                { $type = $arrayTypeRef.basictype; }
+                              | setTypeRef                  { $type = $setTypeRef.basictype; }
+                              | bagTypeRef                  { $type = $bagTypeRef.basictype; }
+                              | dictionaryTypeRef           { $type = $dictionaryTypeRef.basictype; }
                               ;
 
 instanceTypeRef
-returns [Object type]
-                              : ^( INSTANCE
+returns [Object basictype]
+                              : ^( INSTANCE // done
                                    objectReference
                                    ANONYMOUS?
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                $basictype = loader.create( "BasicType" );
+                                                                loader.set_attribute( $basictype, "isanonymous", ( $ANONYMOUS != null ) );
+                                                                Object instancetype = loader.create( "InstanceType" );
+                                                                loader.relate( instancetype, $basictype, 6205, "" );
+                                                                Object object = loader.call_function( "select_any_ObjectDeclaration_where_name", $objectReference.domainref, $objectReference.name );
+                                                                loader.relate( instancetype, object, 6220, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 namedTypeRef
-returns [String name, String myanonymous, String domainref]
-                              : ^( NAMED_TYPE
+returns [Object basictype]
+                              : ^( NAMED_TYPE // done
                                    optionalDomainReference
                                    typeName
                                    ANONYMOUS?
                                  )                          { 
-                                                              $myanonymous = $ANONYMOUS.text;
-                                                              $domainref = $optionalDomainReference.ref;
-                                                              $name = $typeName.name;
+                                                              // CDS - still not sure if this is right
+                                                              // I do not think I am creating the type in all the cases I need.
+                                                              try {
+                                                                $basictype = loader.call_function( "select_any_BasicType_where_name", $optionalDomainReference.ref, $typeName.name );
+                                                                if ( ((IModelInstance)$basictype).isEmpty() ) {
+                                                                  $basictype = loader.create( "BasicType" );
+                                                                }
+                                                                loader.set_attribute( $basictype, "isanonymous", ( $ANONYMOUS != null ) );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 userDefinedTypeRef
-returns [Object type]
+returns [Object basictype]
                               : ^( NAMED_TYPE
                                    optionalDomainReference
                                    typeName
@@ -650,7 +672,7 @@ returns [Object type]
                               ;
 
 constrainedArrayTypeRef
-returns [Object type]
+returns [Object basictype]
                               : ^( CONSTRAINED_ARRAY
                                    userDefinedTypeRef
                                    arrayBounds
@@ -659,7 +681,7 @@ returns [Object type]
 
 
 sequenceTypeRef
-returns [Object type]
+returns [Object basictype]
                               : ^( SEQUENCE
                                    typeReference
                                    expression?
@@ -668,7 +690,7 @@ returns [Object type]
                               ;
 
 arrayTypeRef
-returns [Object type]
+returns [Object basictype]
                               : ^( ARRAY
                                    typeReference
                                    arrayBounds
@@ -677,7 +699,7 @@ returns [Object type]
                               ;
 
 setTypeRef
-returns [Object type]
+returns [Object basictype]
                               : ^( SET
                                    typeReference
                                    ANONYMOUS?
@@ -685,7 +707,7 @@ returns [Object type]
                               ;
 
 bagTypeRef
-returns [Object type]
+returns [Object basictype]
                               : ^( BAG
                                    typeReference
                                    ANONYMOUS?
@@ -693,7 +715,7 @@ returns [Object type]
                               ;
 
 dictionaryTypeRef
-returns [Object type]
+returns [Object basictype]
                               : ^( DICTIONARY
                                    (^(KEY   key=typeReference))?
                                    (^(VALUE value=typeReference))?
@@ -937,6 +959,11 @@ returns [Object object]
                                    | identifierDefinition     
                                    | objectServiceDeclaration 
                                    | eventDefinition          
+                                                            {
+                                                              try {
+                                                                loader.relate( $eventDefinition.event, $object, 6101, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | stateDeclaration         
                                    | transitionTable          
                                    )*
@@ -1054,14 +1081,14 @@ returns [Object objectservice]
                                      relationshipReference?)?
                                    serviceName
                                                             {
-                                                                  try {
-                                                                    service = loader.create( "Service" );
-                                                                    current_service = service;
-                                                                    loader.set_attribute( service, "name", $serviceName.name );
-                                                                    //CDSloader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
-                                                                    $objectservice = loader.create( "ObjectService" );
-                                                                    loader.relate( $objectservice, service, 5203, "" );
-                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                service = loader.create( "Service" );
+                                                                current_service = service;
+                                                                loader.set_attribute( service, "name", $serviceName.name );
+                                                                //CDSloader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                $objectservice = loader.create( "ObjectService" );
+                                                                loader.relate( $objectservice, service, 5203, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    parameterList
@@ -1089,20 +1116,37 @@ returns [Object objectservice]
 identifierDefinition
 
                               : ^( IDENTIFIER
-                                   ( attributeName          
+                                   ( attributeName
                                    )+
                                    pragmaList
                                  )                     
                               ;
 
 eventDefinition
-                              : ^( EVENT         
-                                   eventName                
+returns [Object event]
+                              : ^( EVENT  // done
+                                   eventName
                                    eventType                
                                    description
                                    parameterList
                                    pragmaList
                                  )
+                                                            {
+                                                              try {
+                                                                $event = loader.create( "EventDeclaration" );
+                                                                loader.set_attribute( $event, "name", $eventName.name );
+                                                                if ( "assigner" == $eventType.type ) {
+                                                                  //CDSloader.set_attribute( $event, "flavor", "EventType::assigner" );
+                                                                } else if ( "creation" == $eventType.type ) {
+                                                                  //CDSloader.set_attribute( $event, "flavor", "EventType::creation" );
+                                                                } else {
+                                                                  //CDSloader.set_attribute( $event, "flavor", "EventType::normal" );
+                                                                }
+                                                                if ( null != $parameterList.firstparameter ) {
+                                                                  loader.relate( $event, $parameterList.firstparameter, 6100, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 eventName
@@ -1113,8 +1157,7 @@ returns [String name]
 
 eventType
 returns [String type]
-//returns [EventType type]
-                              : ASSIGNER                    { $type = $ASSIGNER.text; }
+                              : ASSIGNER                    { $type = $ASSIGNER.text; } // done
                               | CREATION                    { $type = $CREATION.text; }
                               | NORMAL                      { $type = ""; }
                               ;
@@ -2548,11 +2591,11 @@ returns [Object exp]
 
 compoundTypeName
 returns [Object type]
-                              : instanceTypeRef             { $type = $instanceTypeRef.type; }
-                              | sequenceTypeRef             { $type = $sequenceTypeRef.type; }
-                              | arrayTypeRef                { $type = $arrayTypeRef.type; }
-                              | setTypeRef                  { $type = $setTypeRef.type; }
-                              | bagTypeRef                  { $type = $bagTypeRef.type; }
+                              : instanceTypeRef             { $type = $instanceTypeRef.basictype; }
+                              | sequenceTypeRef             { $type = $sequenceTypeRef.basictype; }
+                              | arrayTypeRef                { $type = $arrayTypeRef.basictype; }
+                              | setTypeRef                  { $type = $setTypeRef.basictype; }
+                              | bagTypeRef                  { $type = $bagTypeRef.basictype; }
                               ;
 
 
@@ -2697,8 +2740,8 @@ returns [Object exp]
                                                                 // CDS - need to relate to AnyInstance built-in
                                                                 // might to relate at a higher level in the hierarchy
                                                                 // like maybe the BasicType level
-                                                                Object type = loader.call_function( "select_any_TypeDeclaration_where_name", "AnyInstanceName" );
-                                                                loader.relate( nullliteral, type, 5702, "" );
+                                                                Object basictype = loader.call_function( "select_any_TypeDeclaration_where_name", "AnyInstanceName" );
+                                                                loader.relate( nullliteral, basictype, 5702, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | FLUSH

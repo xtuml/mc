@@ -12,7 +12,7 @@ public class MaslImportParser implements IGenericLoader {
 
     // private fields
     private Serial          serial;             // external interface
-    private LOAD            loader;             // external OOA interface
+    private LOAD            loader;             // OOA API
     private String          current_file;       // current file parsing
 
     // public constructor

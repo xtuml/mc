@@ -7,51 +7,6 @@ INSERT INTO O_OBJ
 	'UnconstrainedArrayType',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("4884e35b-d738-4989-928b-b3611be30e71",
-	"a216b3fe-26fa-4d90-8a1b-cb926affcd7f");
-INSERT INTO O_BATTR
-	VALUES ("4884e35b-d738-4989-928b-b3611be30e71",
-	"a216b3fe-26fa-4d90-8a1b-cb926affcd7f");
-INSERT INTO O_ATTR
-	VALUES ("4884e35b-d738-4989-928b-b3611be30e71",
-	"a216b3fe-26fa-4d90-8a1b-cb926affcd7f",
-	"00000000-0000-0000-0000-000000000000",
-	'indexType',
-	'R6239
-',
-	'',
-	'indexType',
-	0,
-	"6d33536a-bb31-4576-8661-f59c8db031ae",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("6d33536a-bb31-4576-8661-f59c8db031ae",
-	"00000000-0000-0000-0000-000000000000",
-	'iBasicType',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("a9e40967-412b-4467-ab1a-5882d15e1a8d",
-	"a216b3fe-26fa-4d90-8a1b-cb926affcd7f");
-INSERT INTO O_BATTR
-	VALUES ("a9e40967-412b-4467-ab1a-5882d15e1a8d",
-	"a216b3fe-26fa-4d90-8a1b-cb926affcd7f");
-INSERT INTO O_ATTR
-	VALUES ("a9e40967-412b-4467-ab1a-5882d15e1a8d",
-	"a216b3fe-26fa-4d90-8a1b-cb926affcd7f",
-	"4884e35b-d738-4989-928b-b3611be30e71",
-	'containedType',
-	'R6240
-',
-	'',
-	'containedType',
-	0,
-	"6d33536a-bb31-4576-8661-f59c8db031ae",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"a216b3fe-26fa-4d90-8a1b-cb926affcd7f");

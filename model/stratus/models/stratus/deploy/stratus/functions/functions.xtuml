@@ -170,12 +170,13 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("a4f99ef6-4473-4e79-9ffb-8e5539226811",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_ObjectDeclration_where_name',
+	'select_any_ObjectDeclaration_where_name',
 	'',
 	'domain = param.domain;
 // Consider selecting through the domain.
 select any object_declaration from instances of ObjectDeclaration where ( selected.name == param.name );
-return object_declaration;',
+return object_declaration;
+',
 	"ccbbc697-c60c-4034-8e31-7a46032151eb",
 	1,
 	'',
@@ -211,6 +212,49 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../ooamasl/models/ooamasl/object/object.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("8861381d-eb56-404b-98fe-6c00df70f484",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_BasicType_where_name',
+	'',
+	'select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
+select one basic_type related by type_declaration->TypeDefinition[R6234]->BasicType[R6236];
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("98cc16ad-6526-40fb-afdf-0eed9e278f96",
+	"8861381d-eb56-404b-98fe-6c00df70f484",
+	'domain',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a1fbf5a6-fb6e-4124-9791-042efd338d64",
+	"8861381d-eb56-404b-98fe-6c00df70f484",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"98cc16ad-6526-40fb-afdf-0eed9e278f96",
+	'');
+INSERT INTO PE_PE
+	VALUES ("8861381d-eb56-404b-98fe-6c00df70f484",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<BasicType>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,
