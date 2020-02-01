@@ -8,33 +8,6 @@ INSERT INTO O_OBJ
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_NBATTR
-	VALUES ("75d4d3ef-d382-4410-8b34-67c00262cfdc",
-	"89d9699a-2871-4406-9103-fb0f6267ad34");
-INSERT INTO O_BATTR
-	VALUES ("75d4d3ef-d382-4410-8b34-67c00262cfdc",
-	"89d9699a-2871-4406-9103-fb0f6267ad34");
-INSERT INTO O_ATTR
-	VALUES ("75d4d3ef-d382-4410-8b34-67c00262cfdc",
-	"89d9699a-2871-4406-9103-fb0f6267ad34",
-	"00000000-0000-0000-0000-000000000000",
-	'my_type',
-	'R5124
-type
-',
-	'',
-	'my_type',
-	0,
-	"6d33536a-bb31-4576-8661-f59c8db031ae",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("6d33536a-bb31-4576-8661-f59c8db031ae",
-	"00000000-0000-0000-0000-000000000000",
-	'iBasicType',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
 	VALUES ("fc148189-4084-4c20-8c98-f06f71717ae1",
 	"89d9699a-2871-4406-9103-fb0f6267ad34");
 INSERT INTO O_BATTR
@@ -43,12 +16,12 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("fc148189-4084-4c20-8c98-f06f71717ae1",
 	"89d9699a-2871-4406-9103-fb0f6267ad34",
-	"75d4d3ef-d382-4410-8b34-67c00262cfdc",
-	'my_reverse',
+	"00000000-0000-0000-0000-000000000000",
+	'isreverse',
 	'reverse
 ',
 	'',
-	'my_reverse',
+	'isreverse',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
@@ -68,39 +41,13 @@ INSERT INTO O_ATTR
 	'',
 	'loopVariable',
 	0,
-	"f212f01b-2c5d-4051-9d0d-9d88245e8e99",
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
 	'',
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("f212f01b-2c5d-4051-9d0d-9d88245e8e99",
+	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
 	"00000000-0000-0000-0000-000000000000",
-	'myString',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("fdd5ed85-e22e-4861-9a2b-60754e0f2198",
-	"89d9699a-2871-4406-9103-fb0f6267ad34");
-INSERT INTO O_BATTR
-	VALUES ("fdd5ed85-e22e-4861-9a2b-60754e0f2198",
-	"89d9699a-2871-4406-9103-fb0f6267ad34");
-INSERT INTO O_ATTR
-	VALUES ("fdd5ed85-e22e-4861-9a2b-60754e0f2198",
-	"89d9699a-2871-4406-9103-fb0f6267ad34",
-	"b7feea8b-6871-4d39-b611-f78e5fd24d25",
-	'loopVarDef',
-	'R5154
-',
-	'',
-	'loopVarDef',
-	0,
-	"cabe5e94-62a3-4d31-9b7d-595cc7d9a79f",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("cabe5e94-62a3-4d31-9b7d-595cc7d9a79f",
-	"00000000-0000-0000-0000-000000000000",
-	'iVariableDefinition',
+	'Name',
 	'',
 	'',
 	'../../Shared/Shared.xtuml');

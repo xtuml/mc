@@ -1029,24 +1029,24 @@ returns [Object referential]
                                                                 $referential = loader.create( "ReferentialAttributeDefinition" );
                                                                 // Link referential to itself until after all objects and attributes have been created.
                                                                 loader.relate_using( $attribute, $attribute, $referential, 5800, "refers_to" );
-                                                                loader.relate( $referential, $relationshipSpec.relspec, 5811, "" );
+                                                                loader.relate( $referential, $relationshipSpec.relationship_specification, 5811, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 
 relationshipSpec
-returns [Object relspec]
+returns [Object relationship_specification]
                               : ^( RELATIONSHIP_SPEC
                                    relationshipReference    
                                                             {
                                                               try {
-                                                                $relspec = loader.create( "RelationshipSpecification" );
+                                                                $relationship_specification = loader.create( "RelationshipSpecification" );
                                                                 // LPS - will not support
                                                                 // Object r = loader.select( "RelationshipDeclaration", $relationshipReference.name );
                                                                 Object r = null;
-                                                                loader.relate( $relspec, r, 6015, "" );
-                                                                //CDSloader.set_attribute( $relspec, "CDS dunno here CDS", $relationshipReference.name );
+                                                                loader.relate( $relationship_specification, r, 6015, "" );
+                                                                //CDSloader.set_attribute( $relationship_specification, "CDS dunno here CDS", $relationshipReference.name );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( objOrRole
@@ -1058,7 +1058,7 @@ returns [Object relspec]
                                                                 String s3 = $objectReference.domainref;
                                                                 String s4 = $objectReference.name;
                                                               //try {
-                                                                //CDSloader.set_attribute( $relspec, "CDS dunno here CDS", $relationshipReference.name );
+                                                                //CDSloader.set_attribute( $relationship_specification, "CDS dunno here CDS", $relationshipReference.name );
                                                               //} catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )? 
@@ -1525,7 +1525,7 @@ returns [Object def]
 pragmaValue
 returns [ Object value ]
                               : identifier                  { $value = $identifier.name; }
-                              | literalExpression           { $value = $literalExpression.exp; }
+                              | literalExpression           { $value = $literalExpression.literal_expression; }
                               ;
 
 pragmaName
@@ -2032,7 +2032,7 @@ returns [Object st]
                                                                 $st = loader.create( "LinkUnlinkStatement" );
                                                                 loader.set_attribute( $st, "isLink", $linkStatementType.isLink );
                                                                 loader.relate( $lhs.exp, $st, 5122, "" );
-                                                                loader.relate( $relationshipSpec.relspec, $st, 5120, "" );
+                                                                loader.relate( $relationshipSpec.relationship_specification, $st, 5120, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    (rhs=expression
@@ -2133,8 +2133,8 @@ returns [Object st]
 
 ifStatement
 returns [Object st]
-
-                              : ^( IF
+@init{ Object previousalternative = null; }
+                              : ^( IF // done
                                    condition
                                    statementList            
                                                             {
@@ -2147,14 +2147,21 @@ returns [Object st]
                                    ( elsifBlock             
                                                             {
                                                               try {
-                                                                loader.relate( $elsifBlock.branch, $st, 5145, "" );
+                                                                loader.relate( $elsifBlock.alternative, $st, 5145, "" );
+                                                                if ( null != previousalternative ) {
+                                                                  loader.relate( $elsifBlock.alternative, previousalternative, 5158, "succeeds" );
+                                                                }
+                                                                previousalternative = $elsifBlock.alternative;
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*              
                                    ( elseBlock              
                                                             {
                                                               try {
-                                                                loader.relate( $elseBlock.branch, $st, 5145, "" );
+                                                                loader.relate( $elseBlock.alternative, $st, 5145, "" );
+                                                                if ( null != previousalternative ) {
+                                                                  loader.relate( $elsifBlock.alternative, previousalternative, 5158, "succeeds" );
+                                                                }
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )?
@@ -2163,23 +2170,31 @@ returns [Object st]
 
 
 elsifBlock
-returns [Object branch]
-                              : ^( ELSIF
+returns [Object alternative]
+                              : ^( ELSIF // done
                                    condition
                                    statementList )          
                                                             {
                                                               try {
-                                                                $branch = loader.create( "Alternative" );
-                                                                //CDS here
-                                                                //loader.relate( $elseBlock.st, $st, 5145, "" );
+                                                                $alternative = loader.create( "Alternative" );
+                                                                loader.set_attribute( $alternative, "else_otherwise", false );
+                                                                loader.relate( $condition.exp, $alternative, 5147, "" );
+                                                                loader.relate( $statementList.st, $alternative, 5148, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 elseBlock
-returns [Object branch]
-                              : ^( ELSE
+returns [Object alternative]
+                              : ^( ELSE // done
                                    statementList )          
+                                                            {
+                                                              try {
+                                                                $alternative = loader.create( "Alternative" );
+                                                                loader.set_attribute( $alternative, "else_otherwise", true );
+                                                                loader.relate( $statementList.st, $alternative, 5148, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
@@ -2206,23 +2221,54 @@ returns [Object exp]
 
 caseStatement
 returns [Object st]      
-
-                              : ^( CASE
+@init{ Object previousalternative = null; }
+                              : ^( CASE // done
                                   expression
+                                                            {
+                                                              try {
+                                                                $st = loader.create( "CaseStatement" );
+                                                                loader.relate( $expression.exp, $st, 5103, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                   ( caseAlternative         
+                                                            {
+                                                              try {
+                                                                loader.relate( $caseAlternative.alternative, $st, 5146, "" );
+                                                                if ( null != previousalternative ) {
+                                                                  loader.relate( $caseAlternative.alternative, previousalternative, 5158, "succeeds" );
+                                                                }
+                                                                previousalternative = $caseAlternative.alternative;
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                   )*
                                   ( caseOthers              
+                                                            {
+                                                              try {
+                                                                loader.relate( $caseOthers.alternative, $st, 5146, "" );
+                                                                if ( null != previousalternative ) {
+                                                                  loader.relate( $caseOthers.alternative, previousalternative, 5158, "succeeds" );
+                                                                }
+                                                                previousalternative = $caseOthers.alternative;
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                   )?
                                 )                           
                               ;
 
 caseAlternative
-//returns [CaseStatement.Alternative alt]
-
-                              : ^( WHEN                     
+returns [Object alternative]
+                              : ^( WHEN // done
                                    ( choice                 
                                    )+
                                    statementList )         
+                                                            {
+                                                              try {
+                                                                $alternative = loader.create( "Alternative" );
+                                                                loader.set_attribute( $alternative, "else_otherwise", false );
+                                                                loader.relate( $choice.exp, $alternative, 5147, "" );
+                                                                loader.relate( $statementList.st, $alternative, 5148, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 choice
@@ -2232,29 +2278,51 @@ returns [Object exp]
                               ;
 
 caseOthers
-//returns [CaseStatement.Alternative alt]
-                              : ^( OTHERS
+returns [Object alternative]
+                              : ^( OTHERS // done
                                    statementList )          
+                                                            {
+                                                              try {
+                                                                $alternative = loader.create( "Alternative" );
+                                                                loader.set_attribute( $alternative, "else_otherwise", true );
+                                                                loader.relate( $statementList.st, $alternative, 5148, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 forStatement
 returns [Object st]
-//scope NameScope;
-                              : ^( FOR
-                                   loopVariableSpec         
-                                   ^( STATEMENT_LIST 
-                                      ( statement               
-                                      )*
-                                    ) 
+@init{ Object previousstatement = null; }
+                              : ^( FOR // done
+                                   loopVariableSpec
+                                   statementList
                                  )
+                                                            {
+                                                              try {
+                                                                $st = loader.create( "ForStatement" );
+                                                                loader.relate( $loopVariableSpec.spec, $st, 5110, "" );
+                                                                loader.relate( $statementList.st, $st, 5153, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 loopVariableSpec
-//returns [LoopSpec spec]
+returns [Object spec]
                               : ^( LOOP_VARIABLE
                                    identifier
                                    REVERSE?
-                                   expression )             
+                                   expression )
+                                                            {
+                                                              try {
+                                                                $spec = loader.create( "LoopSpec" );
+                                                                loader.set_attribute( $spec, "isreverse", ( null != $REVERSE ) );
+                                                                loader.set_attribute( $spec, "loopVariable", $identifier.name );
+                                                                // CDS - Look up the VariableDeclaration by name (within scope)
+                                                                // and link to it.
+                                                                loader.relate( $expression.exp, $spec, 5148, "" );
+                                                                // CDS here figuring out loop spec subtypes.
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
@@ -2265,15 +2333,38 @@ loopVariableSpec
 
 codeBlock
 returns [ Object st ]
-//scope NameScope;
-                              : ^( CODE_BLOCK                
+@init                                                       {
+                                                              try {
+                                                                $st = loader.create( "CodeBlock" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                              : ^( CODE_BLOCK // done
                                   ( variableDeclaration     
+                                                            {
+                                                              try {
+                                                                loader.relate( $variableDeclaration.var, $st, 5151, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                   )*     
-                                  ^(STATEMENT_LIST ( statement               
-                                  )* )
-                                  ( exceptionHandler        
+                                   statementList
+                                                            {
+                                                              try {
+                                                                loader.relate( $statementList.st, $st, 5150, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                  ( exceptionHandler
+                                                            {
+                                                              try {
+                                                                loader.relate( $exceptionHandler.handler, $st, 5149, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                   )*
                                   ( otherHandler            
+                                                            {
+                                                              try {
+                                                                loader.relate( $exceptionHandler.handler, $st, 5149, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                   )?
                                 )
                               ;
@@ -2281,37 +2372,64 @@ returns [ Object st ]
 
 
 variableDeclaration
-//returns [VariableDefinition var]
-                              : ^( VARIABLE_DECLARATION
+returns [Object var]
+                              : ^( VARIABLE_DECLARATION // done
                                    variableName
                                    READONLY?
                                    typeReference
-                                   expression?
+                                                            {
+                                                              try {
+                                                                $var = loader.create( "VariableDeclaration" );
+                                                                loader.set_attribute( $var, "name", $variableName.name );
+                                                                loader.set_attribute( $var, "isreadonly", ( null != $READONLY ) );
+                                                                loader.relate( $typeReference.type, $var, 5137, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   (expression
+                                                            {
+                                                              try {
+                                                                loader.relate( $expression.exp, $var, 5138, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   )?
                                    pragmaList )
                               ;
 
 
 exceptionHandler
-//returns [ExceptionHandler handler]
-                              : ^( EXCEPTION_HANDLER
-                                   exceptionReference       
-                                   ^(STATEMENT_LIST ( statement               
-                                   )* )
+returns [Object handler]
+                              : ^( EXCEPTION_HANDLER // done
+                                   exceptionReference
+                                   statementList
                                  )
+                                                            {
+                                                              try {
+                                                                $handler = loader.create( "ExceptionHandler" );
+                                                                loader.set_attribute( $handler, "isother", false );
+                                                                loader.relate( $exceptionReference.ref, $handler, 5108, "" );
+                                                                loader.relate( $statementList.st, $handler, 5152, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 otherHandler
-//returns [ExceptionHandler handler]
-                              : ^( OTHER_HANDLER            
-                                   ^(STATEMENT_LIST ( statement              
-                                   )* )
+returns [Object handler]
+                              : ^( OTHER_HANDLER // done
+                                   statementList
                                  )
+                                                            {
+                                                              try {
+                                                                $handler = loader.create( "ExceptionHandler" );
+                                                                loader.set_attribute( $handler, "isother", true );
+                                                                loader.relate( $statementList.st, $handler, 5152, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 variableName
 returns [String name]
-                              : ^( VARIABLE_NAME
-                                   identifier )             
+                              : ^( VARIABLE_NAME // done
+                                   identifier )             { $name = $identifier.name; }
                               ;
 
 //---------------------------------------------------------
@@ -2321,124 +2439,258 @@ returns [String name]
 
 expression
 returns [Object exp]
-@after
-                                                            {
+@init                                                       {
                                                               try {
                                                                 $exp = loader.create( "Expression" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                              : binaryExpression            
+                              : binaryExpression // done
+                                                            {
+                                                              try {
+                                                                loader.relate( $binaryExpression.binary_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | unaryExpression             
+                                                            {
+                                                              try {
+                                                                loader.relate( $unaryExpression.unary_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | rangeExpression             
+                                                            {
+                                                              try {
+                                                                loader.relate( $rangeExpression.range_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | aggregateExpression         
+                                                            {
+                                                              try {
+                                                                loader.relate( $aggregateExpression.structure_aggregate, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | linkExpression              
+                                                            {
+                                                              try {
+                                                                loader.relate( $linkExpression.link_unlink_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | navigateExpression          
+                                                            {
+                                                              try {
+                                                                loader.relate( $navigateExpression.navigation_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | correlateExpression         
+                                                            {
+                                                              try {
+                                                                loader.relate( $correlateExpression.correlated_nav_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | orderByExpression           
+                                                            {
+                                                              try {
+                                                                loader.relate( $orderByExpression.ordering_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | createExpression            
+                                                            {
+                                                              try {
+                                                                loader.relate( $createExpression.create_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | findExpression              
+                                                            {
+                                                              try {
+                                                                loader.relate( $findExpression.find_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | dotExpression               
+                                                            {
+                                                              try {
+                                                                loader.relate( $dotExpression.dot_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | terminatorServiceExpression 
+                                                            {
+                                                              try {
+                                                                loader.relate( $terminatorServiceExpression.terminator_name_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | callExpression              
+                                                            {
+                                                              try {
+                                                                loader.relate( $callExpression.call_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | sliceExpression             
+                                                            {
+                                                              try {
+                                                                loader.relate( $sliceExpression.slice_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | primeExpression             
+                                                            {
+                                                              try {
+                                                                loader.relate( $primeExpression.characteristic_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | nameExpression              
+                                                            {
+                                                              try {
+                                                                loader.relate( $nameExpression.name_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | literalExpression           
+                                                            {
+                                                              try {
+                                                                loader.relate( $literalExpression.literal_expression, $exp, 5517, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 binaryExpression
-//returns [BinaryExpression exp]
-                              : ^( binaryOperator
+returns [Object binary_expression]
+                              : ^( binaryOperator // done
                                    lhs=expression
                                    rhs=expression
-                                 )                          
+                                )                           {
+                                                              try {
+                                                                $binary_expression = loader.create( "BinaryExpression" );
+                                                                //CDS loader.set_attribute( $binary_expression, "operator", $binaryOperator.text );
+                                                                loader.relate( $lhs.exp, $binary_expression, 5001, "" );
+                                                                loader.relate( $rhs.exp, $binary_expression, 5002, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
 binaryOperator
-//returns [BinaryExpression.OperatorRef op]
-                              : AND                                        
-                              | CONCATENATE                 
-                              | DISUNION                    
-                              | DIVIDE                      
-                              | EQUAL                       
-                              | GT                          
-                              | GTE                         
-                              | INTERSECTION                
-                              | LT                          
-                              | LTE                         
-                              | MINUS                       
-                              | MOD                         
-                              | NOT_EQUAL                   
-                              | NOT_IN                      
-                              | OR                          
-                              | PLUS                        
-                              | POWER                       
-                              | REM                         
-                              | TIMES                       
-                              | UNION                       
-                              | XOR                         
+returns [String binary_operator]
+                              : AND                         { $binary_operator = "Operator::and"; } // done
+                              | CONCATENATE                 { $binary_operator = "Operator::concatenate"; }
+                              | DISUNION                    { $binary_operator = "Operator::disunion"; }
+                              | DIVIDE                      { $binary_operator = "Operator::divide"; }
+                              | EQUAL                       { $binary_operator = "Operator::equal"; }
+                              | GT                          { $binary_operator = "Operator::greaterthan"; }
+                              | GTE                         { $binary_operator = "Operator::greaterthanequal"; }
+                              | INTERSECTION                { $binary_operator = "Operator::intersection"; }
+                              | LT                          { $binary_operator = "Operator::lessthan"; }
+                              | LTE                         { $binary_operator = "Operator::lessthanequal"; }
+                              | MINUS                       { $binary_operator = "Operator::minus"; }
+                              | MOD                         { $binary_operator = "Operator::modulus"; }
+                              | NOT_EQUAL                   { $binary_operator = "Operator::notequal"; }
+                              | NOT_IN                      { $binary_operator = "Operator::notin"; }
+                              | OR                          { $binary_operator = "Operator::or"; }
+                              | PLUS                        { $binary_operator = "Operator::plus"; }
+                              | POWER                       { $binary_operator = "Operator::power"; }
+                              | REM                         { $binary_operator = "Operator::rem"; }
+                              | TIMES                       { $binary_operator = "Operator::times"; }
+                              | UNION                       { $binary_operator = "Operator::union"; }
+                              | XOR                         { $binary_operator = "Operator::xor"; }
                               ;
 
 unaryExpression
-//returns [UnaryExpression exp]
-                              : ^( unaryOperator 
+returns [Object unary_expression]
+                              : ^( unaryOperator // done
                                   expression
-                                )                           
+                                )                          {
+                                                              try {
+                                                                // CDS I think I might need to relate this class to a result type.
+                                                                $unary_expression = loader.create( "UnaryExpression" );
+                                                                //CDS loader.set_attribute( $unary_expression, "operator", $unaryOperator.text );
+                                                                loader.relate( $expression.exp, $unary_expression, 5561, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 unaryOperator
-//returns [UnaryExpression.OperatorRef op]
-                              : UNARY_PLUS                  
-                              | UNARY_MINUS                 
-                              | NOT                         
-                              | ABS                         
+returns [String unary_operator]
+                              : UNARY_PLUS                  { $unary_operator = "Operator::unaryplus"; } // done
+                              | UNARY_MINUS                 { $unary_operator = "Operator::unaryminus"; }
+                              | NOT                         { $unary_operator = "Operator::not"; }
+                              | ABS                         { $unary_operator = "Operator::abs"; }
                               ;
 
 
 rangeExpression
-//returns [MinMaxRange exp]
-                              : ^( RANGE_DOTS
+returns [Object range_expression]
+                              : ^( RANGE_DOTS // done
                                    from=expression
                                    to=expression
-                                 )                          
+                                )                          {
+                                                              try {
+                                                                $range_expression = loader.create( "RangeExpression" );
+                                                                Object min_max_range = loader.create( "MinMaxRange" );
+                                                                loader.relate( min_max_range, $range_expression, 5540, "" );
+                                                                loader.relate( $from.exp, min_max_range, 5529, "" );
+                                                                loader.relate( $to.exp, min_max_range, 5528, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
 
 
 aggregateExpression
-//returns [StructureAggregate exp]
+returns [Object structure_aggregate]
 
-                              : ^( AGGREGATE
+                              : ^( AGGREGATE // done
+                                                            {
+                                                              try {
+                                                                // CDS There may be a type to link to.
+                                                                $structure_aggregate = loader.create( "StructureAggregate" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    ( expression             
+                                                            {
+                                                              try {
+                                                                loader.relate( $expression.exp, $structure_aggregate, 5551, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )+ 
-                                 )                          
+                                 )
                               ;
 
 
 linkExpression
-//returns [LinkUnlinkExpression exp]
-                              : ^( linkExpressionType
+returns [Object link_unlink_expression]
+                              : ^( linkExpressionType // done
                                    lhs=expression      
-                                   relationshipSpec//[$lhs.exp,false,false]
-                                   rhs=expression?
-                                 )                          
+                                   relationshipSpec
+                                                            {
+                                                              try {
+                                                                $link_unlink_expression = loader.create( "LinkUnlinkExpression" );
+                                                                loader.relate( $lhs.exp, $link_unlink_expression, 5526, "" );
+                                                                loader.relate( $relationshipSpec.relationship_specification, $link_unlink_expression, 5551, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   (rhs=expression          { try {
+                                                                loader.relate( $rhs.exp, $link_unlink_expression, 5525, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   )?
+                                 )
                               ;
 linkExpressionType
-//returns [LinkUnlinkExpression.Type type, Position pos]
-                              : LINK                        
-                              | UNLINK                      
+returns [boolean islink]
+                              : LINK                        { $islink = true; } // done
+                              | UNLINK                      { $islink = false; }
                               ;
 
 
 navigateExpression
-//returns [NavigationExpression exp]
+returns [Object navigation_expression]
 //scope WhereClauseScope;
                               : ^( NAVIGATE
                                    expression
-                                   relationshipSpec//[$expression.exp,true,false]
-                                                            
+                                   relationshipSpec
+                                                            {
+                                                              try {
+                                                                $navigation_expression = loader.create( "NavigationExpression" );
+                                                                loader.relate( $expression.exp, $navigation_expression, 5526, "" );
+                                                                loader.relate( $relationshipSpec.relationship_specification, $link_unlink_expression, 5551, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    ( whereClause           
                                    )?
                                  )                          
@@ -2446,19 +2698,18 @@ navigateExpression
                               ;
 
 correlateExpression
-//returns [CorrelatedNavExpression exp]
+returns [Object correlated_nav_expression]
                               : ^( CORRELATE
                                    lhs=expression
                                    rhs=expression
-                                   relationshipSpec//[$lhs.exp,true,true]
+                                   relationshipSpec
                                  )                          
                               ;
 
 
 
 orderByExpression
-//returns [OrderingExpression exp]
-
+returns [Object ordering_expression]
                               : ^( ( ORDERED_BY             
                                    | REVERSE_ORDERED_BY     
                                    ) 
@@ -2477,8 +2728,7 @@ sortOrder
                               ;
 
 createExpression
-//returns [CreateExpression exp]
-
+returns [Object create_expression]
                               : ^( CREATE
                                    objectReference 
                                    ( createArgument//[$objectReference.ref]         
@@ -2496,7 +2746,7 @@ createArgument //[ObjectNameExpression object]
                               ;
 
 findExpression
-//returns [FindExpression exp]
+returns [Object find_expression]
 //scope WhereClauseScope;
                               : ^( findType
                                    expression               
@@ -2521,20 +2771,20 @@ findType
 
 
 dotExpression
-returns [Object exp]
+returns [Object dot_expression]
                               : ^( DOT
                                    expression
                                    identifier
                                  )                          {
                                                               try {
-                                                                $exp = loader.create( "DotExpression" );
+                                                                $dot_expression = loader.create( "DotExpression" );
                                                                 // CDS - START HERE
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 terminatorServiceExpression
-//returns [Expression exp]
+returns [Object terminator_name_expression]
                               : ^( TERMINATOR_SCOPE
                                    expression
                                    identifier
@@ -2542,7 +2792,7 @@ terminatorServiceExpression
                               ;
 
 callExpression
-//returns [Expression exp]
+returns [Object call_expression]
 
                               : ^( CALL
                                    expression               
@@ -2553,14 +2803,14 @@ callExpression
                               ;
 
 nameExpression
-returns [Object exp]      
+returns [Object name_expression]      
                               : ^( NAME
                                    identifier
                                  )                          { 
                                                               // CDS - Here I need to use a symbol table or build
                                                               // a query mechanism into my model.
-                                                              //$exp = resolveName ( $identifier.name );
-                                                              $exp = $identifier.name;
+                                                              // exp = resolveName ( $identifier.name );
+                                                              $name_expression = $identifier.name;
                                                             } 
                               | ^( NAME
                                    domainReference
@@ -2568,22 +2818,22 @@ returns [Object exp]
                                  )                          {
                                                               // CDS - Here I need to use a symbol table or build
                                                               // a query mechanism into my model.
-                                                              // $exp = Name.create ( $domainReference.ref, $identifier.name );
-                                                              $exp = $identifier.name;
+                                                              // exp = Name.create ( $domainReference.ref, $identifier.name );
+                                                              $name_expression = $identifier.name;
                                                             }
                               | ^( FIND_ATTRIBUTE
                                    identifier
                                 )                           {
                                                               try {
-                                                                $exp = loader.create( "FindAttributeNameExpression" );
+                                                                $name_expression = loader.create( "FindAttributeNameExpression" );
                                                                 // CDS - need to link to a where clause using the attribute name
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | compoundTypeName
                                                             {
                                                               try {
-                                                                $exp = loader.create( "TypeNameExpression" );
-                                                                loader.relate( $compoundTypeName.type, $exp, 5547, "" );
+                                                                $name_expression = loader.create( "TypeNameExpression" );
+                                                                loader.relate( $compoundTypeName.type, $name_expression, 5547, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
@@ -2607,35 +2857,35 @@ returns [Object arg]
                               ;
 
 sliceExpression
-returns [Object exp]
+returns [Object slice_expression]
                               : ^( SLICE // done
                                    prefix=expression
                                    slice=expression
                                  )                          {
                                                               try {
-                                                                $exp = loader.create( "SliceExpression" );
-                                                                loader.relate( $prefix.exp, $exp, 5547, "" );
-                                                                loader.relate( $slice.exp, $exp, 5546, "" );
+                                                                $slice_expression = loader.create( "SliceExpression" );
+                                                                loader.relate( $prefix.exp, $slice_expression, 5547, "" );
+                                                                loader.relate( $slice.exp, $slice_expression, 5546, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 primeExpression
-returns [Object exp]
+returns [Object characteristic_expression]
                               : ^( PRIME // done
 	                           expression
                                    identifier
                                                             {
                                                               try {
-                                                                $exp = loader.create( "CharacteristicExpression" );
-                                                                loader.relate( $expression.exp, $exp, 5504, "" );
-                                                                loader.set_attribute( $exp, "characteristic", $identifier.text );
+                                                                $characteristic_expression = loader.create( "CharacteristicExpression" );
+                                                                loader.relate( $expression.exp, $characteristic_expression, 5504, "" );
+                                                                loader.set_attribute( $characteristic_expression, "characteristic", $identifier.text );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( argument               
                                                             {
                                                               try {
-                                                                loader.relate( $argument.arg, $exp, 5503, "" );
+                                                                loader.relate( $argument.arg, $characteristic_expression, 5503, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*                       
@@ -2643,20 +2893,20 @@ returns [Object exp]
                               ;
 
 literalExpression
-returns [Object exp]
+returns [Object literal_expression]
 @init                                                       {
                                                               try {
-                                                                $exp = loader.create( "LiteralExpression" );
+                                                                $literal_expression = loader.create( "LiteralExpression" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               : IntegerLiteral
                                                             {
                                                               try {
                                                                 Object numericliteral = loader.create( "NumericLiteral" );
-                                                                loader.relate( numericliteral, $exp, 5700, "" );
+                                                                loader.relate( numericliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( numericliteral, "text", $IntegerLiteral.text );
                                                                 Object integerliteral = loader.create( "IntegerLiteral" );
-                                                                loader.relate( integerliteral, $exp, 5703, "" );
+                                                                loader.relate( integerliteral, $literal_expression, 5703, "" );
                                                                 try {
                                                                   //Long value = Long.parseLong( $IntegerLiteral.text );
                                                                 } catch ( NumberFormatException e ) { System.err.println( e ); }
@@ -2667,10 +2917,10 @@ returns [Object exp]
                                                             {
                                                               try {
                                                                 Object numericliteral = loader.create( "NumericLiteral" );
-                                                                loader.relate( numericliteral, $exp, 5700, "" );
+                                                                loader.relate( numericliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( numericliteral, "text", $RealLiteral.text );
                                                                 Object realliteral = loader.create( "RealLiteral" );
-                                                                loader.relate( realliteral, $exp, 5703, "" );
+                                                                loader.relate( realliteral, $literal_expression, 5703, "" );
                                                                 try {
                                                                   //Double value = Double.parseDouble( $RealLiteral.text );
                                                                 } catch ( NumberFormatException e ) { System.err.println( e ); }
@@ -2681,7 +2931,7 @@ returns [Object exp]
                                                             {
                                                               try {
                                                                 Object characterliteral = loader.create( "CharacterLiteral" );
-                                                                loader.relate( characterliteral, $exp, 5700, "" );
+                                                                loader.relate( characterliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( characterliteral, "original", $CharacterLiteral.text );
                                                                 // CDS - This is simplistic and needs to be extended to handle octal.
                                                                 //CDSloader.set_attribute( characterliteral, "noQuotes", $CharacterLiteral.text.replaceAll("^\"|\"$", "") );
@@ -2691,7 +2941,7 @@ returns [Object exp]
                                                             {
                                                               try {
                                                                 Object stringliteral = loader.create( "StringLiteral" );
-                                                                loader.relate( stringliteral, $exp, 5700, "" );
+                                                                loader.relate( stringliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( stringliteral, "original", $StringLiteral.text );
                                                                 // CDS - This is simplistic and needs to be extended to handle octal.
                                                                 //CDSloader.set_attribute( stringliteral, "noQuotes", $StringLiteral.text.replaceAll("^\"|\"$", "") );
@@ -2701,7 +2951,7 @@ returns [Object exp]
                                                             {
                                                               try {
                                                                 Object timestampliteral = loader.create( "TimestampLiteral" );
-                                                                loader.relate( timestampliteral, $exp, 5700, "" );
+                                                                loader.relate( timestampliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( timestampliteral, "original", $TimestampLiteral.text );
                                                                 // CDS - need to implement conversion.
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -2710,7 +2960,7 @@ returns [Object exp]
                                                             {
                                                               try {
                                                                 Object durationliteral = loader.create( "DurationLiteral" );
-                                                                loader.relate( durationliteral, $exp, 5700, "" );
+                                                                loader.relate( durationliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( durationliteral, "original", $DurationLiteral.text );
                                                                 // CDS - need to implement conversion.
                                                                 // CDS - maybe need to promote original to supertype LiteralExpression
@@ -2720,7 +2970,7 @@ returns [Object exp]
                                                             {
                                                               try {
                                                                 Object booleanliteral = loader.create( "BooleanLiteral" );
-                                                                loader.relate( booleanliteral, $exp, 5700, "" );
+                                                                loader.relate( booleanliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( booleanliteral, "value", Boolean.valueOf( "true" ) );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -2728,7 +2978,7 @@ returns [Object exp]
                                                             {
                                                               try {
                                                                 Object booleanliteral = loader.create( "BooleanLiteral" );
-                                                                loader.relate( booleanliteral, $exp, 5700, "" );
+                                                                loader.relate( booleanliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( booleanliteral, "value", Boolean.valueOf( "false" ) );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -2736,7 +2986,7 @@ returns [Object exp]
                                                             {
                                                               try {
                                                                 Object nullliteral = loader.create( "NullLiteral" );
-                                                                loader.relate( nullliteral, $exp, 5700, "" );
+                                                                loader.relate( nullliteral, $literal_expression, 5700, "" );
                                                                 // CDS - need to relate to AnyInstance built-in
                                                                 // might to relate at a higher level in the hierarchy
                                                                 // like maybe the BasicType level
@@ -2748,21 +2998,21 @@ returns [Object exp]
                                                             {
                                                               try {
                                                                 Object flushliteral = loader.create( "FlushLiteral" );
-                                                                loader.relate( flushliteral, $exp, 5700, "" );
+                                                                loader.relate( flushliteral, $literal_expression, 5700, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | ENDL
                                                             {
                                                               try {
                                                                 Object endlliteral = loader.create( "EndlLiteral" );
-                                                                loader.relate( endlliteral, $exp, 5700, "" );
+                                                                loader.relate( endlliteral, $literal_expression, 5700, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | THIS
                                                             {
                                                               try {
                                                                 Object thisliteral = loader.create( "ThisLiteral" );
-                                                                loader.relate( thisliteral, $exp, 5700, "" );
+                                                                loader.relate( thisliteral, $literal_expression, 5700, "" );
                                                                 // CDS - I used current_object and current_state or current_service
                                                                 // to link to the proper "scope".
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -2771,7 +3021,7 @@ returns [Object exp]
                                                             {
                                                               try {
                                                                 Object consoleliteral = loader.create( "ConsoleLiteral" );
-                                                                loader.relate( consoleliteral, $exp, 5700, "" );
+                                                                loader.relate( consoleliteral, $literal_expression, 5700, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ; 
