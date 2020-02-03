@@ -69,32 +69,6 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
-INSERT INTO O_NBATTR
-	VALUES ("7773d53a-2790-459e-acb8-722fae9a7688",
-	"13bb49d2-0c78-4be6-af7f-43cbf086ceb5");
-INSERT INTO O_BATTR
-	VALUES ("7773d53a-2790-459e-acb8-722fae9a7688",
-	"13bb49d2-0c78-4be6-af7f-43cbf086ceb5");
-INSERT INTO O_ATTR
-	VALUES ("7773d53a-2790-459e-acb8-722fae9a7688",
-	"13bb49d2-0c78-4be6-af7f-43cbf086ceb5",
-	"2d8abdb2-00d2-4712-8c49-da3e663bcc0a",
-	'relRef',
-	'R5525
-',
-	'',
-	'relRef',
-	0,
-	"1e567e91-4542-43c7-8222-86b1503df241",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("1e567e91-4542-43c7-8222-86b1503df241",
-	"00000000-0000-0000-0000-000000000000",
-	'iRelationshipSpecification',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"13bb49d2-0c78-4be6-af7f-43cbf086ceb5");

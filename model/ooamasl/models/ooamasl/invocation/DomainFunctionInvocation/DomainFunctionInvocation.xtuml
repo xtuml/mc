@@ -7,33 +7,6 @@ INSERT INTO O_OBJ
 	'DomainFunctionInvocation',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("2556cdbc-624c-4de4-b020-11d40b02f1b6",
-	"f6ded089-06f7-444e-971a-d4a250d288e9");
-INSERT INTO O_BATTR
-	VALUES ("2556cdbc-624c-4de4-b020-11d40b02f1b6",
-	"f6ded089-06f7-444e-971a-d4a250d288e9");
-INSERT INTO O_ATTR
-	VALUES ("2556cdbc-624c-4de4-b020-11d40b02f1b6",
-	"f6ded089-06f7-444e-971a-d4a250d288e9",
-	"00000000-0000-0000-0000-000000000000",
-	'my_service',
-	'R5601
-service
-',
-	'',
-	'my_service',
-	0,
-	"2bb91562-3379-4dad-9a08-50519f085e67",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("2bb91562-3379-4dad-9a08-50519f085e67",
-	"00000000-0000-0000-0000-000000000000",
-	'iDomainService',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"f6ded089-06f7-444e-971a-d4a250d288e9");

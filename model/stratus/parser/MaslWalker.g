@@ -2577,7 +2577,7 @@ returns [String binary_operator]
                               | LT                          { $binary_operator = "Operator::lessthan"; }
                               | LTE                         { $binary_operator = "Operator::lessthanequal"; }
                               | MINUS                       { $binary_operator = "Operator::minus"; }
-                              | MOD                         { $binary_operator = "Operator::modulus"; }
+                              | MOD                         { $binary_operator = "Operator::modulo"; }
                               | NOT_EQUAL                   { $binary_operator = "Operator::notequal"; }
                               | NOT_IN                      { $binary_operator = "Operator::notin"; }
                               | OR                          { $binary_operator = "Operator::or"; }
@@ -2681,17 +2681,22 @@ returns [boolean islink]
 navigateExpression
 returns [Object navigation_expression]
 //scope WhereClauseScope;
-                              : ^( NAVIGATE
+                              : ^( NAVIGATE // done
                                    expression
                                    relationshipSpec
                                                             {
                                                               try {
                                                                 $navigation_expression = loader.create( "NavigationExpression" );
-                                                                loader.relate( $expression.exp, $navigation_expression, 5526, "" );
-                                                                loader.relate( $relationshipSpec.relationship_specification, $link_unlink_expression, 5551, "" );
+                                                                loader.relate( $expression.exp, $navigation_expression, 5532, "" );
+                                                                loader.relate( $relationshipSpec.relationship_specification, $navigation_expression, 5531, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( whereClause           
+                                                            {
+                                                              try {
+                                                                loader.relate( $whereClause.exp, $navigation_expression, 5506, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )?
                                  )                          
                                                                                           
@@ -2699,59 +2704,146 @@ returns [Object navigation_expression]
 
 correlateExpression
 returns [Object correlated_nav_expression]
-                              : ^( CORRELATE
+                              : ^( CORRELATE // done
                                    lhs=expression
                                    rhs=expression
                                    relationshipSpec
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                $correlated_nav_expression = loader.create( "CorrelatedNavExpression" );
+                                                                loader.relate( $lhs.exp, $correlated_nav_expression, 5506, "" );
+                                                                loader.relate( $lhs.exp, $correlated_nav_expression, 5508, "" );
+                                                                loader.relate( $relationshipSpec.relationship_specification, $correlated_nav_expression, 5507, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
 
 orderByExpression
 returns [Object ordering_expression]
-                              : ^( ( ORDERED_BY             
-                                   | REVERSE_ORDERED_BY     
+@init{
+  boolean instances = true;
+  boolean isreverse = false;
+  Object instance_ordering_expression = null;
+  Object structure_ordering_expression = null;
+}
+                              : ^( ( ORDERED_BY // done
+                                   | REVERSE_ORDERED_BY     { isreverse = true; }
                                    ) 
                                    expression               
+                                                            {
+                                                              try {
+                                                                $ordering_expression = loader.create( "OrderingExpression" );
+                                                                loader.set_attribute( $ordering_expression, "isreverse", isreverse );
+                                                                loader.relate( $expression.exp, $ordering_expression, 5535, "" );
+                                                                // CDS need to determine if expression is collection of instances
+                                                                // (sequence of instances, or find) or sequence of structures.
+                                                                // select one find_expression related by $expression.exp->FindExpression[R5517]
+                                                                // if ( not_empty find_expression ) ...
+                                                                // This will need its own function.
+                                                                // CDS is reverse on each component or only at the top expression?
+                                                                if ( instances ) {
+                                                                  instance_ordering_expression = loader.create( "InstanceOrderingExpression" );
+                                                                  loader.relate( instance_ordering_expression, $ordering_expression, 5534, "" );
+                                                                } else {
+                                                                  structure_ordering_expression = loader.create( "StructureOrderingExpression" );
+                                                                  loader.relate( structure_ordering_expression, $ordering_expression, 5534, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    ( sortOrder              
+                                                            {
+                                                              try {
+                                                                if ( $sortOrder.isreverse ) {
+                                                                  loader.set_attribute( $ordering_expression, "isreverse", true );
+                                                                }
+                                                                if ( instances ) {
+                                                                  // CDS select_any_attribute_declaration...
+                                                                  // CDS Get the class from the instance, then get the attribute
+                                                                  // from the name.
+                                                                  Object attribute_declaration = null;
+                                                                  loader.relate( instance_ordering_expression, attribute_declaration, 5563, "" );
+                                                                } else {
+                                                                  // CDS select_any_structure_element...
+                                                                  // CDS Get the structure from the collection, then get the element
+                                                                  // from the name.
+                                                                  Object structure_element = null;
+                                                                  loader.relate( structure_ordering_expression, structure_element, 5564, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )* 
                                  )                          
                               ;
 
 sortOrder
-//returns [String component, boolean reverse]
-                              : ^( SORT_ORDER_COMPONENT
+returns [String component, boolean isreverse]
+                              : ^( SORT_ORDER_COMPONENT // done
                                    REVERSE?
-                                   identifier               
+                                   identifier               { $component = $identifier.name; $isreverse = ( null != $REVERSE ); }
                                  )
                               ;
 
 createExpression
 returns [Object create_expression]
-                              : ^( CREATE
+@init{ Object object = null; }
+                              : ^( CREATE // done
                                    objectReference 
-                                   ( createArgument//[$objectReference.ref]         
+                                                            {
+                                                              try {
+                                                                $create_expression = loader.create( "CreateExpression" );
+                                                                object = loader.call_function( "select_any_ObjectDeclaration_where_name", $objectReference.domainref, $objectReference.name );
+                                                                loader.relate( object, $create_expression, 5511, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   ( createArgument[object]
+                                                            {
+                                                              try {
+                                                                loader.relate( $createArgument.attribute_initialization, $create_expression, 5566, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )*
                                  )                          
                               ;
 
-createArgument //[ObjectNameExpression object]
-//returns [CreateExpression.CreateAggregateValue arg]
+createArgument[Object object]
+returns [Object attribute_initialization]
                               : ^( CREATE_ARGUMENT
                                    attributeName
                                    expression )              
+                                                            {
+                                                              try {
+                                                                $attribute_initialization = loader.create( "AttributeInitialization" );
+                                                                Object attribute_declaration = null; // CDS loader.call_function( "select_any_AttributeDeclaration_related_where_name", $object, $attributeName.name );
+                                                                loader.relate( attribute_declaration, $attribute_initialization, 5565, "" );
+                                                                loader.relate( $expression.exp, $attribute_initialization, 5568, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | ^( CURRENT_STATE
-                                   stateName )               
+                                   stateName
+                                                            {
+                                                              try {
+                                                                Object state = null; // CDS loader.call_function( "select_any_State_related_where_name", object, $attributeName.name );
+                                                                loader.relate( state, $attribute_initialization, 5565, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                 )
                               ;
 
 findExpression
 returns [Object find_expression]
-//scope WhereClauseScope;
-                              : ^( findType
+                              : ^( findType // done
                                    expression               
                                    whereClause
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                $find_expression = loader.create( "FindExpression" );
+                                                                loader.set_attribute( $find_expression, "find_type", $findType.find_type );
+                                                                loader.relate( $expression.exp, $find_expression, 5519, "" );
+                                                                loader.relate( $whereClause.exp, $find_expression, 5520, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 whereClause
@@ -2763,10 +2855,10 @@ returns [Object exp]
                               ;
 
 findType
-//returns [ FindExpression.ImplType type, Position pos ]
-                              : FIND                        
-                              | FIND_ONE                    
-                              | FIND_ONLY                   
+returns [String find_type]
+                              : FIND                        { $find_type = "FindType::find"; } // done
+                              | FIND_ONE                    { $find_type = "FindType::find_one"; }
+                              | FIND_ONLY                   { $find_type = "FindType::find_only"; }
                               ;
 
 
