@@ -16,11 +16,11 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("24eb79ae-9736-46d3-8b63-4f12a10c236d",
 	"1b08fcb1-689f-40fd-b544-d1bc9de7856d",
-	"00000000-0000-0000-0000-000000000000",
-	'noArgs',
+	"099f31f8-94a9-4565-b6b2-a7e7022026f1",
+	'number_of_arguments',
 	'',
 	'',
-	'noArgs',
+	'number_of_arguments',
 	0,
 	"3d8b5e54-14f8-4217-9f82-2b2aeb4f7ccb",
 	'',
@@ -51,41 +51,15 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("340cc868-4e8f-474d-acb0-c57f8f85f64b",
+	VALUES ("099f31f8-94a9-4565-b6b2-a7e7022026f1",
 	"1b08fcb1-689f-40fd-b544-d1bc9de7856d");
 INSERT INTO O_BATTR
-	VALUES ("340cc868-4e8f-474d-acb0-c57f8f85f64b",
+	VALUES ("099f31f8-94a9-4565-b6b2-a7e7022026f1",
 	"1b08fcb1-689f-40fd-b544-d1bc9de7856d");
 INSERT INTO O_ATTR
-	VALUES ("340cc868-4e8f-474d-acb0-c57f8f85f64b",
+	VALUES ("099f31f8-94a9-4565-b6b2-a7e7022026f1",
 	"1b08fcb1-689f-40fd-b544-d1bc9de7856d",
-	"774d9353-f9ac-490c-88a8-307387b73163",
-	'List_arguments',
-	'R5503
-',
-	'',
-	'List_arguments',
-	0,
-	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
 	"00000000-0000-0000-0000-000000000000",
-	'iExpression',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("099f31f8-94a9-4565-b6b2-a7e7022026f1",
-	"1b08fcb1-689f-40fd-b544-d1bc9de7856d");
-INSERT INTO O_BATTR
-	VALUES ("099f31f8-94a9-4565-b6b2-a7e7022026f1",
-	"1b08fcb1-689f-40fd-b544-d1bc9de7856d");
-INSERT INTO O_ATTR
-	VALUES ("099f31f8-94a9-4565-b6b2-a7e7022026f1",
-	"1b08fcb1-689f-40fd-b544-d1bc9de7856d",
-	"340cc868-4e8f-474d-acb0-c57f8f85f64b",
 	'characteristic',
 	'',
 	'',
@@ -101,25 +75,6 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("98f6b5f2-3c57-43d6-a9f3-e255b394fff5",
-	"1b08fcb1-689f-40fd-b544-d1bc9de7856d");
-INSERT INTO O_BATTR
-	VALUES ("98f6b5f2-3c57-43d6-a9f3-e255b394fff5",
-	"1b08fcb1-689f-40fd-b544-d1bc9de7856d");
-INSERT INTO O_ATTR
-	VALUES ("98f6b5f2-3c57-43d6-a9f3-e255b394fff5",
-	"1b08fcb1-689f-40fd-b544-d1bc9de7856d",
-	"099f31f8-94a9-4565-b6b2-a7e7022026f1",
-	'lhs',
-	'R5504
-',
-	'',
-	'lhs',
-	0,
-	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"1b08fcb1-689f-40fd-b544-d1bc9de7856d");

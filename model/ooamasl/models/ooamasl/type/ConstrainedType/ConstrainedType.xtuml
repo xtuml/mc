@@ -7,58 +7,6 @@ INSERT INTO O_OBJ
 	'ConstrainedType',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("43d235f4-cd42-413f-b9e8-8221e6c32fae",
-	"64ffb077-7bab-4903-8edb-3b551f491bbd");
-INSERT INTO O_BATTR
-	VALUES ("43d235f4-cd42-413f-b9e8-8221e6c32fae",
-	"64ffb077-7bab-4903-8edb-3b551f491bbd");
-INSERT INTO O_ATTR
-	VALUES ("43d235f4-cd42-413f-b9e8-8221e6c32fae",
-	"64ffb077-7bab-4903-8edb-3b551f491bbd",
-	"00000000-0000-0000-0000-000000000000",
-	'constraint',
-	'R6209
-',
-	'',
-	'constraint',
-	0,
-	"361785ba-75f6-46c4-b5f5-904e6216c8dc",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("361785ba-75f6-46c4-b5f5-904e6216c8dc",
-	"00000000-0000-0000-0000-000000000000",
-	'iTypeConstraint',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("0fb4fc5c-c8b0-4d00-abce-0fa8a3dd8ab3",
-	"64ffb077-7bab-4903-8edb-3b551f491bbd");
-INSERT INTO O_BATTR
-	VALUES ("0fb4fc5c-c8b0-4d00-abce-0fa8a3dd8ab3",
-	"64ffb077-7bab-4903-8edb-3b551f491bbd");
-INSERT INTO O_ATTR
-	VALUES ("0fb4fc5c-c8b0-4d00-abce-0fa8a3dd8ab3",
-	"64ffb077-7bab-4903-8edb-3b551f491bbd",
-	"43d235f4-cd42-413f-b9e8-8221e6c32fae",
-	'fullType',
-	'R6210
-',
-	'',
-	'fullType',
-	0,
-	"6d33536a-bb31-4576-8661-f59c8db031ae",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("6d33536a-bb31-4576-8661-f59c8db031ae",
-	"00000000-0000-0000-0000-000000000000",
-	'iBasicType',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"64ffb077-7bab-4903-8edb-3b551f491bbd");

@@ -33,31 +33,23 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../Shared/Shared.xtuml');
 INSERT INTO O_NBATTR
-	VALUES ("9f040e21-6a04-4573-9df9-7fba820baf3d",
+	VALUES ("74a0d971-cc46-44ac-8b66-15ef12ed423c",
 	"25a9addd-82f5-49d3-8985-54f9be736a50");
 INSERT INTO O_BATTR
-	VALUES ("9f040e21-6a04-4573-9df9-7fba820baf3d",
+	VALUES ("74a0d971-cc46-44ac-8b66-15ef12ed423c",
 	"25a9addd-82f5-49d3-8985-54f9be736a50");
 INSERT INTO O_ATTR
-	VALUES ("9f040e21-6a04-4573-9df9-7fba820baf3d",
+	VALUES ("74a0d971-cc46-44ac-8b66-15ef12ed423c",
 	"25a9addd-82f5-49d3-8985-54f9be736a50",
 	"932f37c5-08d2-43ec-bdfd-ac760409a3ec",
-	'value',
-	'R6217
-',
+	'index',
 	'',
-	'value',
+	'',
+	'index',
 	0,
-	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	"00000000-0000-0000-0000-000000000000",
-	'iExpression',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"25a9addd-82f5-49d3-8985-54f9be736a50");

@@ -7,25 +7,6 @@ INSERT INTO O_OBJ
 	'SetType',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("c159cd6f-efc6-4d0c-9c2f-a85aad381572",
-	"1dc9d21a-78f3-4ecf-92c7-59dbe9d1f580");
-INSERT INTO O_BATTR
-	VALUES ("c159cd6f-efc6-4d0c-9c2f-a85aad381572",
-	"1dc9d21a-78f3-4ecf-92c7-59dbe9d1f580");
-INSERT INTO O_ATTR
-	VALUES ("c159cd6f-efc6-4d0c-9c2f-a85aad381572",
-	"1dc9d21a-78f3-4ecf-92c7-59dbe9d1f580",
-	"00000000-0000-0000-0000-000000000000",
-	'my_anonymous',
-	'anonymous
-',
-	'',
-	'my_anonymous',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000001",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"1dc9d21a-78f3-4ecf-92c7-59dbe9d1f580");

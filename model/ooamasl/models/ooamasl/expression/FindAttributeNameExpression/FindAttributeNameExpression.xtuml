@@ -7,32 +7,6 @@ INSERT INTO O_OBJ
 	'FindAttributeNameExpression',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("85d220a1-228a-40aa-90e8-b643e5189ae4",
-	"0ce9c4c8-ea58-4263-8b15-03c3a6e7aac5");
-INSERT INTO O_BATTR
-	VALUES ("85d220a1-228a-40aa-90e8-b643e5189ae4",
-	"0ce9c4c8-ea58-4263-8b15-03c3a6e7aac5");
-INSERT INTO O_ATTR
-	VALUES ("85d220a1-228a-40aa-90e8-b643e5189ae4",
-	"0ce9c4c8-ea58-4263-8b15-03c3a6e7aac5",
-	"00000000-0000-0000-0000-000000000000",
-	'attribute',
-	'R5518
-',
-	'',
-	'attribute',
-	0,
-	"b927fac8-0724-4d28-99bf-4cbc15fa6bfb",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("b927fac8-0724-4d28-99bf-4cbc15fa6bfb",
-	"00000000-0000-0000-0000-000000000000",
-	'iAttributeDeclaration',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"0ce9c4c8-ea58-4263-8b15-03c3a6e7aac5");

@@ -8,32 +8,6 @@ INSERT INTO O_OBJ
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_NBATTR
-	VALUES ("d54adb7e-6731-47c7-aa7c-332cac5e864b",
-	"d9032a41-b283-451f-af5b-509deaca3d77");
-INSERT INTO O_BATTR
-	VALUES ("d54adb7e-6731-47c7-aa7c-332cac5e864b",
-	"d9032a41-b283-451f-af5b-509deaca3d77");
-INSERT INTO O_ATTR
-	VALUES ("d54adb7e-6731-47c7-aa7c-332cac5e864b",
-	"d9032a41-b283-451f-af5b-509deaca3d77",
-	"00000000-0000-0000-0000-000000000000",
-	'List_arguments',
-	'R5134
-',
-	'',
-	'List_arguments',
-	0,
-	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	"00000000-0000-0000-0000-000000000000",
-	'iExpression',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
 	VALUES ("bab35b65-d9a2-410a-be9b-1c91f5cb5670",
 	"d9032a41-b283-451f-af5b-509deaca3d77");
 INSERT INTO O_BATTR
@@ -42,7 +16,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("bab35b65-d9a2-410a-be9b-1c91f5cb5670",
 	"d9032a41-b283-451f-af5b-509deaca3d77",
-	"d54adb7e-6731-47c7-aa7c-332cac5e864b",
+	"00000000-0000-0000-0000-000000000000",
 	'my_service',
 	'service
 ',

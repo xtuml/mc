@@ -7,32 +7,6 @@ INSERT INTO O_OBJ
 	'EnumerateType',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("bc2f97ea-45ae-41e7-8124-71b8640a1dd8",
-	"c9d4c7e2-89f2-44d4-a775-0be94d07a2fe");
-INSERT INTO O_BATTR
-	VALUES ("bc2f97ea-45ae-41e7-8124-71b8640a1dd8",
-	"c9d4c7e2-89f2-44d4-a775-0be94d07a2fe");
-INSERT INTO O_ATTR
-	VALUES ("bc2f97ea-45ae-41e7-8124-71b8640a1dd8",
-	"c9d4c7e2-89f2-44d4-a775-0be94d07a2fe",
-	"00000000-0000-0000-0000-000000000000",
-	'List_items',
-	'R6218
-',
-	'',
-	'List_items',
-	0,
-	"afe7ecfe-cbf2-4cea-80fd-6f192dd30cb2",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("afe7ecfe-cbf2-4cea-80fd-6f192dd30cb2",
-	"00000000-0000-0000-0000-000000000000",
-	'iEnumerateItem',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"c9d4c7e2-89f2-44d4-a775-0be94d07a2fe");

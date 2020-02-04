@@ -8,20 +8,19 @@ INSERT INTO O_OBJ
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_NBATTR
-	VALUES ("ed4d5a5f-a7f3-42dc-b848-f1a4863289b0",
+	VALUES ("8a4c4ffb-0da9-4f7b-86f9-c86acbc4c9f9",
 	"5e898e59-0e0e-40a4-8f79-6acf836343c1");
 INSERT INTO O_BATTR
-	VALUES ("ed4d5a5f-a7f3-42dc-b848-f1a4863289b0",
+	VALUES ("8a4c4ffb-0da9-4f7b-86f9-c86acbc4c9f9",
 	"5e898e59-0e0e-40a4-8f79-6acf836343c1");
 INSERT INTO O_ATTR
-	VALUES ("ed4d5a5f-a7f3-42dc-b848-f1a4863289b0",
+	VALUES ("8a4c4ffb-0da9-4f7b-86f9-c86acbc4c9f9",
 	"5e898e59-0e0e-40a4-8f79-6acf836343c1",
 	"00000000-0000-0000-0000-000000000000",
-	'attributeName',
-	'R5800
-',
+	'refAttrName',
 	'',
-	'attributeName',
+	'',
+	'refAttrName',
 	0,
 	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
 	'',
@@ -30,59 +29,6 @@ INSERT INTO S_DT_PROXY
 	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
 	"00000000-0000-0000-0000-000000000000",
 	'Name',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("6d97ffa5-69db-4fd6-9284-1ec04487c515",
-	"5e898e59-0e0e-40a4-8f79-6acf836343c1");
-INSERT INTO O_BATTR
-	VALUES ("6d97ffa5-69db-4fd6-9284-1ec04487c515",
-	"5e898e59-0e0e-40a4-8f79-6acf836343c1");
-INSERT INTO O_ATTR
-	VALUES ("6d97ffa5-69db-4fd6-9284-1ec04487c515",
-	"5e898e59-0e0e-40a4-8f79-6acf836343c1",
-	"ed4d5a5f-a7f3-42dc-b848-f1a4863289b0",
-	'refattr',
-	'R5807
-',
-	'',
-	'refattr',
-	0,
-	"b927fac8-0724-4d28-99bf-4cbc15fa6bfb",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("b927fac8-0724-4d28-99bf-4cbc15fa6bfb",
-	"00000000-0000-0000-0000-000000000000",
-	'iAttributeDeclaration',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("afd79ac9-41d9-4643-bed5-ad6897520ced",
-	"5e898e59-0e0e-40a4-8f79-6acf836343c1");
-INSERT INTO O_BATTR
-	VALUES ("afd79ac9-41d9-4643-bed5-ad6897520ced",
-	"5e898e59-0e0e-40a4-8f79-6acf836343c1");
-INSERT INTO O_ATTR
-	VALUES ("afd79ac9-41d9-4643-bed5-ad6897520ced",
-	"5e898e59-0e0e-40a4-8f79-6acf836343c1",
-	"6d97ffa5-69db-4fd6-9284-1ec04487c515",
-	'my_relationship',
-	'R5811
-relationship
-',
-	'',
-	'my_relationship',
-	0,
-	"1e567e91-4542-43c7-8222-86b1503df241",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("1e567e91-4542-43c7-8222-86b1503df241",
-	"00000000-0000-0000-0000-000000000000",
-	'iRelationshipSpecification',
 	'',
 	'',
 	'../../Shared/Shared.xtuml');

@@ -7,32 +7,6 @@ INSERT INTO O_OBJ
 	'BinaryMultiplicativeExpression',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("2e2218da-226b-44dc-a53b-d5bb5b637c70",
-	"f7a21e28-edbc-4f5c-a217-8b58111636f9");
-INSERT INTO O_BATTR
-	VALUES ("2e2218da-226b-44dc-a53b-d5bb5b637c70",
-	"f7a21e28-edbc-4f5c-a217-8b58111636f9");
-INSERT INTO O_ATTR
-	VALUES ("2e2218da-226b-44dc-a53b-d5bb5b637c70",
-	"f7a21e28-edbc-4f5c-a217-8b58111636f9",
-	"00000000-0000-0000-0000-000000000000",
-	'resultType',
-	'R5003
-',
-	'',
-	'resultType',
-	0,
-	"6d33536a-bb31-4576-8661-f59c8db031ae",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("6d33536a-bb31-4576-8661-f59c8db031ae",
-	"00000000-0000-0000-0000-000000000000",
-	'iBasicType',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"f7a21e28-edbc-4f5c-a217-8b58111636f9");

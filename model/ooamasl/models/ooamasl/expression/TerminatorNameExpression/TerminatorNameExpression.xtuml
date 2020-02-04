@@ -7,33 +7,6 @@ INSERT INTO O_OBJ
 	'TerminatorNameExpression',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("868ebfa5-7ea3-47ee-a744-d64d42ee3794",
-	"694167b4-1d9c-46e5-bbf5-fcc2b9a102cc");
-INSERT INTO O_BATTR
-	VALUES ("868ebfa5-7ea3-47ee-a744-d64d42ee3794",
-	"694167b4-1d9c-46e5-bbf5-fcc2b9a102cc");
-INSERT INTO O_ATTR
-	VALUES ("868ebfa5-7ea3-47ee-a744-d64d42ee3794",
-	"694167b4-1d9c-46e5-bbf5-fcc2b9a102cc",
-	"00000000-0000-0000-0000-000000000000",
-	'my_terminator',
-	'R5555
-terminator
-',
-	'',
-	'my_terminator',
-	0,
-	"9a496aaa-6f5b-4b60-a209-73c99fa9fc15",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("9a496aaa-6f5b-4b60-a209-73c99fa9fc15",
-	"00000000-0000-0000-0000-000000000000",
-	'iDomainTerminator',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"694167b4-1d9c-46e5-bbf5-fcc2b9a102cc");
