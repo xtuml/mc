@@ -1925,7 +1925,7 @@ returns [Object st]
                                    ( argument               
                                                             {
                                                               try {
-                                                                loader.relate( $argument.arg, $st, 5134, "" );
+                                                                loader.relate( $argument.exp, $st, 5134, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*                       
@@ -2117,7 +2117,7 @@ returns [Object st]
                                    ( argument               
                                                             {
                                                               try {
-                                                                loader.relate( $argument.arg, $st, 5114, "" );
+                                                                loader.relate( $argument.exp, $st, 5114, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*                       
@@ -2870,7 +2870,8 @@ returns [Object dot_expression]
                                  )                          {
                                                               try {
                                                                 $dot_expression = loader.create( "DotExpression" );
-                                                                // CDS - START HERE
+                                                                loader.relate( $expression.exp, $dot_expression, 5569, "" );
+                                                                Object child = null; // CDS loader.call_function( "find_and_link_up_based_on_input_name", $expression.exp, $identifier.name );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
@@ -2880,15 +2881,40 @@ returns [Object terminator_name_expression]
                               : ^( TERMINATOR_SCOPE
                                    expression
                                    identifier
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                // CDS I am beginning to think these "NameExpressions" are just
+                                                                // temporary types while scopes gets resolved.  Not sure.
+                                                                // I think we just need to resolve the name to a legitmate
+                                                                // terminator with a service matching identifier and return
+                                                                // the DomainTerminatorService (probably).
+                                                                $terminator_name_expression = loader.create( "TerminatorNameExpression" );
+                                                                loader.relate( $expression.exp, $terminator_name_expression, 5569, "" );
+                                                                Object domain_terminator = null; // CDS loader.call_function( "select_any_DomainTerminator_where_name", $objectReference.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 callExpression
 returns [Object call_expression]
-
+@init{ Object function_invocation = null; }
                               : ^( CALL
                                    expression               
+                                                            {
+                                                              try {
+                                                                $call_expression = loader.create( "CallExpression" );
+                                                                function_invocation = loader.create( "FunctionInvocation" );
+                                                                loader.relate( function_invocation, $call_expression, 5500, "" );
+                                                                // CDS Use expression to resolve the subtype.
+                                                                // This logic can likely be completely in action language.
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    ( argument               
+                                                            {
+                                                              try {
+                                                                loader.relate( function_invocation, $argument.exp, 5603, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )*                       
                                  )                          
 
@@ -2942,10 +2968,10 @@ returns [Object type]
 
 
 argument
-returns [Object arg]
+returns [Object exp]
                               : ^( ARGUMENT // done
                                    expression
-                                 )                          { $arg = $expression.exp; }
+                                 )                          { $exp = $expression.exp; }
                               ;
 
 sliceExpression
@@ -2977,7 +3003,7 @@ returns [Object characteristic_expression]
                                    ( argument               
                                                             {
                                                               try {
-                                                                loader.relate( $argument.arg, $characteristic_expression, 5503, "" );
+                                                                loader.relate( $argument.exp, $characteristic_expression, 5503, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*                       

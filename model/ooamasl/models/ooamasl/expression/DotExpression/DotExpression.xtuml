@@ -8,23 +8,30 @@ INSERT INTO O_OBJ
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_NBATTR
-	VALUES ("d2609cd5-1250-465b-9cd1-80d1097c211a",
+	VALUES ("284b636e-aeda-468f-bc09-758e132a28f4",
 	"0edee68d-a9c2-4bee-a922-53372b4f3278");
 INSERT INTO O_BATTR
-	VALUES ("d2609cd5-1250-465b-9cd1-80d1097c211a",
+	VALUES ("284b636e-aeda-468f-bc09-758e132a28f4",
 	"0edee68d-a9c2-4bee-a922-53372b4f3278");
 INSERT INTO O_ATTR
-	VALUES ("d2609cd5-1250-465b-9cd1-80d1097c211a",
+	VALUES ("284b636e-aeda-468f-bc09-758e132a28f4",
 	"0edee68d-a9c2-4bee-a922-53372b4f3278",
 	"00000000-0000-0000-0000-000000000000",
-	'bogus',
+	'name',
 	'',
 	'',
-	'bogus',
+	'name',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000002",
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
 	'',
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	"00000000-0000-0000-0000-000000000000",
+	'Name',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"0edee68d-a9c2-4bee-a922-53372b4f3278");
