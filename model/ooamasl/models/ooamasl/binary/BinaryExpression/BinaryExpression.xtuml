@@ -22,61 +22,16 @@ INSERT INTO O_ATTR
 	'',
 	'operator',
 	0,
-	"5104543f-e356-45c7-8b6d-be4be94ea2ff",
+	"766b5d8d-2e60-4295-a0c6-de1ee59cb168",
 	'',
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("5104543f-e356-45c7-8b6d-be4be94ea2ff",
+	VALUES ("766b5d8d-2e60-4295-a0c6-de1ee59cb168",
 	"00000000-0000-0000-0000-000000000000",
-	'OperatorRef',
+	'Operator',
 	'',
 	'',
 	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("bdefeb31-be87-4a0b-a937-f0560deeab8b",
-	"7bf48008-baeb-48fc-8412-d6365f8fd50b");
-INSERT INTO O_BATTR
-	VALUES ("bdefeb31-be87-4a0b-a937-f0560deeab8b",
-	"7bf48008-baeb-48fc-8412-d6365f8fd50b");
-INSERT INTO O_ATTR
-	VALUES ("bdefeb31-be87-4a0b-a937-f0560deeab8b",
-	"7bf48008-baeb-48fc-8412-d6365f8fd50b",
-	"37c1d61f-f038-401d-ab2a-ac796ed843c3",
-	'rhs',
-	'R5001
-',
-	'',
-	'rhs',
-	0,
-	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	"00000000-0000-0000-0000-000000000000",
-	'iExpression',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("37922a35-d16a-472d-93ca-176d21bcf512",
-	"7bf48008-baeb-48fc-8412-d6365f8fd50b");
-INSERT INTO O_BATTR
-	VALUES ("37922a35-d16a-472d-93ca-176d21bcf512",
-	"7bf48008-baeb-48fc-8412-d6365f8fd50b");
-INSERT INTO O_ATTR
-	VALUES ("37922a35-d16a-472d-93ca-176d21bcf512",
-	"7bf48008-baeb-48fc-8412-d6365f8fd50b",
-	"bdefeb31-be87-4a0b-a937-f0560deeab8b",
-	'lhs',
-	'R5002
-',
-	'',
-	'lhs',
-	0,
-	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"7bf48008-baeb-48fc-8412-d6365f8fd50b");

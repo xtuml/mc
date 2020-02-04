@@ -33,55 +33,27 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../Shared/Shared.xtuml');
 INSERT INTO O_NBATTR
-	VALUES ("428fa7a2-6fd7-457d-a081-34b3d786ebfb",
+	VALUES ("93926ada-15ff-44f7-8fb9-c0eb4b66c1fa",
 	"13be4e2c-f151-43f6-8837-7c4ba849a90c");
 INSERT INTO O_BATTR
-	VALUES ("428fa7a2-6fd7-457d-a081-34b3d786ebfb",
+	VALUES ("93926ada-15ff-44f7-8fb9-c0eb4b66c1fa",
 	"13be4e2c-f151-43f6-8837-7c4ba849a90c");
 INSERT INTO O_ATTR
-	VALUES ("428fa7a2-6fd7-457d-a081-34b3d786ebfb",
+	VALUES ("93926ada-15ff-44f7-8fb9-c0eb4b66c1fa",
 	"13be4e2c-f151-43f6-8837-7c4ba849a90c",
 	"7ad8a4ea-99d8-4ddc-bbbb-16f44fe27717",
-	'typeDefinition',
-	'R6234
-',
+	'visibility',
 	'',
-	'typeDefinition',
+	'',
+	'visibility',
 	0,
-	"0127fa07-3410-44f3-8789-25479bfc040e",
+	"2f0bb20f-cbf4-4a9d-9486-a241f30df580",
 	'',
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("0127fa07-3410-44f3-8789-25479bfc040e",
+	VALUES ("2f0bb20f-cbf4-4a9d-9486-a241f30df580",
 	"00000000-0000-0000-0000-000000000000",
-	'iTypeDefinition',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("1101d3e2-9c28-4432-acf7-71614ad49782",
-	"13be4e2c-f151-43f6-8837-7c4ba849a90c");
-INSERT INTO O_BATTR
-	VALUES ("1101d3e2-9c28-4432-acf7-71614ad49782",
-	"13be4e2c-f151-43f6-8837-7c4ba849a90c");
-INSERT INTO O_ATTR
-	VALUES ("1101d3e2-9c28-4432-acf7-71614ad49782",
-	"13be4e2c-f151-43f6-8837-7c4ba849a90c",
-	"428fa7a2-6fd7-457d-a081-34b3d786ebfb",
-	'my_domain',
-	'R6235
-domain
-',
-	'',
-	'my_domain',
-	0,
-	"89041361-e966-4778-90ab-eb2f9248ec29",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("89041361-e966-4778-90ab-eb2f9248ec29",
-	"00000000-0000-0000-0000-000000000000",
-	'iDomain',
+	'Visibility',
 	'',
 	'',
 	'../../Shared/Shared.xtuml');

@@ -28,7 +28,7 @@ INSERT INTO O_ATTR
 INSERT INTO S_DT_PROXY
 	VALUES ("d3985525-5817-4b11-9037-0efaaf7b5b2d",
 	"00000000-0000-0000-0000-000000000000",
-	'Long',
+	'myLong',
 	'',
 	'',
 	'../../Shared/Shared.xtuml');
