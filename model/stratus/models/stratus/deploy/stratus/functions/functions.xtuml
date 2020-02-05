@@ -72,6 +72,16 @@ for each object_declaration in object_declarations
 end for;
 
 LOG::LogInfo( message: "stratus done with init" );
+
+LOG::LogInfo( message: "stratus rendering" );
+
+T::set_output_directory(dir:"aaa");
+select many objs from instances of ObjectDeclaration;
+num_objects = cardinality objs;
+T::include(file:"txt/t.helloworld.txt");
+T::emit(file:"hello.txt");
+
+LOG::LogInfo( message: "stratus done with render" );
 control stop;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
