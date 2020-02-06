@@ -7,32 +7,6 @@ INSERT INTO O_OBJ
 	'ServiceInvocation',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("bab35b65-d9a2-410a-be9b-1c91f5cb5670",
-	"d9032a41-b283-451f-af5b-509deaca3d77");
-INSERT INTO O_BATTR
-	VALUES ("bab35b65-d9a2-410a-be9b-1c91f5cb5670",
-	"d9032a41-b283-451f-af5b-509deaca3d77");
-INSERT INTO O_ATTR
-	VALUES ("bab35b65-d9a2-410a-be9b-1c91f5cb5670",
-	"d9032a41-b283-451f-af5b-509deaca3d77",
-	"00000000-0000-0000-0000-000000000000",
-	'my_service',
-	'service
-',
-	'',
-	'my_service',
-	0,
-	"c818f790-ec5b-45e2-917c-c0dbb121efa8",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("c818f790-ec5b-45e2-917c-c0dbb121efa8",
-	"00000000-0000-0000-0000-000000000000",
-	'ServiceType',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"d9032a41-b283-451f-af5b-509deaca3d77");

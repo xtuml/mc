@@ -555,7 +555,7 @@ returns [Object type]
                               : ^( ENUM // done
                                                             {
                                                               try {
-                                                                $type = loader.create( "EnumerateDefinition" );
+                                                                $type = loader.create( "EnumerateType" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( enumerator             

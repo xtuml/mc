@@ -38,50 +38,50 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'init',
 	'',
-	'LOG::LogInfo( message: "stratus starting init" );
+	'LOG::LogInfo( message:"stratus starting init" );
 
-CMD::register_value(name:"d", value_name:"domain_path", usage:"Path to a MASL domain directory", default:".", required:true);
+// Create the preexisting instances of builtin types.
+::builtin_types();
+
+// Set up command line for input MASL file.
+CMD::register_value(name:"d", value_name:"domain_path", usage:"Path to a MASL domain directory", default_value:".", required:true);
 CMD::read_command_line();
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "AnyInstanceType";
-type_declaration.visibility = Visibility::public;
-create object instance type_definition of TypeDefinition;
-create object instance basic_type of BasicType;
-create object instance builtin_type of BuiltinType;
-create object instance any_instance_type of AnyInstanceType;
-
-relate type_declaration to type_definition across R6234;
-relate type_definition to basic_type across R6236;
-relate basic_type to builtin_type across R6205;
-relate builtin_type to any_instance_type across R6206;
-
-select any td from instances of TypeDeclaration;
-if ( empty td )
-  LOG::LogFailure( message:"failed to select TypeDeclaration" );
-end if;
-
+// Parse and load input MASL.
 LOG::LogInfo( message: "stratus loading MASL" );
 args[1] = CMD::get_value(name:"d");
 args[0] = "-d";
 LOAD::load(java_class:"deploy.parser.MaslImportParser", args:args);
 
-select many object_declarations from instances of ObjectDeclaration;
+// Perform a selection to confirm the model loaded correctly.
+class_count = 5;
+message = "First few classes loaded are:  ";
+select many object_declarations from instances of ObjectDeclaration; // where ( SORT::ascending( attr:"name" ) );
+if ( cardinality object_declarations < class_count )
+  class_count = cardinality object_declarations;
+end if;
+s = ""; // gotta do this cuz string UDTs do not quite behave like strings
 for each object_declaration in object_declarations
-  LOG::LogInfo( message:object_declaration.name );
+  s = object_declaration.name;
+  message = message + s;
+  class_count = class_count - 1;
+  if ( 0 == class_count )
+    break;
+  end if;
+  message = message + ", ";
 end for;
+LOG::LogInfo( message: message );
 
-LOG::LogInfo( message: "stratus done with init" );
+// Render some output.
+LOG::LogInfo( message:"stratus rendering" );
 
-LOG::LogInfo( message: "stratus rendering" );
+// Render the simplest example.
+::render_HelloWorld();
 
-T::set_output_directory(dir:"aaa");
-select many objs from instances of ObjectDeclaration;
-num_objects = cardinality objs;
-T::include(file:"txt/t.helloworld.txt");
-T::emit(file:"hello.txt");
+// Render an astract Java class for each object.
+::render_metamodel();
 
-LOG::LogInfo( message: "stratus done with render" );
+LOG::LogInfo( message:"stratus done with render" );
 control stop;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -265,6 +265,357 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("e4d401b5-9024-4c24-bd2a-9bb4ec9f79e2",
+	"00000000-0000-0000-0000-000000000000",
+	'builtin_types',
+	'',
+	'create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "instance";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance any_instance_type of AnyInstanceType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to any_instance_type across R6206;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "boolean";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance boolean_type of BooleanType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to boolean_type across R6206;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "character";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance character_type of CharacterType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to character_type across R6206;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "device";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance device_type of DeviceType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to device_type across R6206;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "duration";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance duration_type of DurationType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to duration_type across R6206;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "event";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance event_type of EventType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to event_type across R6206;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "string";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance string_type of StringType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to string_type across R6206;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "timer";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance timer_type of TimerType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to timer_type across R6206;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "timestamp";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance timestamp_type of TimestampType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to timestamp_type across R6206;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "wcharacter";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance wcharacter_type of WCharacterType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to wcharacter_type across R6206;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "wstring";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance wstring_type of WStringType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to wstring_type across R6206;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "real";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance numeric_type of NumericType;
+numeric_type.bits = 64;
+numeric_type.signed = true;
+// create and link to min and max expressions
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = 2147483647; // 2 ^ 63 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6222;
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = -2147483647; // 2 ^ 63 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6223;
+create object instance real_type of RealType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to numeric_type across R6206;
+relate numeric_type to real_type across R6221;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "long_integer";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance numeric_type of NumericType;
+numeric_type.bits = 64;
+numeric_type.signed = true;
+// create and link to min and max expressions
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = 2147483647; // 2 ^ 63 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6222;
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = -2147483647; // 2 ^ 63 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6223;
+create object instance integer_type of IntegerType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to numeric_type across R6206;
+relate numeric_type to integer_type across R6221;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "byte";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance numeric_type of NumericType;
+numeric_type.bits = 8;
+numeric_type.signed = false;
+// create and link to min and max expressions
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = 255; // 2 ^ 8 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6222;
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = 0;
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6223;
+create object instance byte_type of ByteType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to numeric_type across R6206;
+relate numeric_type to byte_type across R6221;
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "integer";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance numeric_type of NumericType;
+numeric_type.bits = 32;
+numeric_type.signed = false;
+// create and link to min and max expressions
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = 2147483647; // 2 ^ 31 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6222;
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = -2147483647; // - 2 ^ 31 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6223;
+create object instance small_type of SmallIntegerType;
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to numeric_type across R6206;
+relate numeric_type to small_type across R6221;
+
+/* Comment out the logging if not desired.
+ */
+select many builtin_types from instances of BuiltinType;
+select many type_declarations related by builtin_types->BasicType[R6205]->TypeDefinition[R6236]->TypeDeclaration[R6234]; // where ( SORT::ascending( attr:"name" ) );
+message = "builtin types:  ";
+s = ""; // TODO workaround for Name UDT
+for each type_declaration in type_declarations
+  s = type_declaration.name;
+  message = message + s + " ";
+end for;
+LOG::LogInfo( message:message );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("e4d401b5-9024-4c24-bd2a-9bb4ec9f79e2",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a81c5b52-8eee-477f-a996-c511f5630083",
+	"00000000-0000-0000-0000-000000000000",
+	'render_metamodel',
+	'',
+	'// A simple example of rendering an abstract Java class for each object.
+
+T::set_output_directory(dir:"out");
+
+objectname = ""; // establish string type
+select many object_declarations from instances of ObjectDeclaration;
+for each object_declaration in object_declarations
+  objectname = object_declaration.name;
+  supertype = "super_" + objectname;
+  T::include( file: "object/t.metamodel.java" );
+  //T::emit( file: objectname + ".java" );
+end for;
+
+// Render to a single file.  Uncomment above to emit to one file for each class.
+T::emit( file:"metamodel.java" );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("a81c5b52-8eee-477f-a996-c511f5630083",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b048a193-bfae-4034-b8e7-688095ab9738",
+	"00000000-0000-0000-0000-000000000000",
+	'render_HelloWorld',
+	'',
+	'// The simplest possible demonstration of template rendering.
+
+select many object_declarations from instances of ObjectDeclaration;
+num_objects = cardinality object_declarations;
+T::include( file: "txt/t.helloworld.txt" );
+
+T::set_output_directory(dir:"out");
+T::emit( file: "hello.txt" );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("b048a193-bfae-4034-b8e7-688095ab9738",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,

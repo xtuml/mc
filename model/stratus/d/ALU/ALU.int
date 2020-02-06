@@ -1,0 +1,4 @@
+domain ALU is
+  public service key ( code: in integer );
+  public service clear ();   
+end domain;

@@ -9901,7 +9901,7 @@ INSERT INTO R_PART
 	"f9c56a84-0b47-41b5-b63c-539f2012d103",
 	"3b4af4db-8569-4486-8e43-7eb49efde731",
 	0,
-	0,
+	1,
 	'defines');
 INSERT INTO R_RTO
 	VALUES ("13be4e2c-f151-43f6-8837-7c4ba849a90c",
@@ -9922,7 +9922,7 @@ INSERT INTO R_PART
 	"f9c56a84-0b47-41b5-b63c-539f2012d103",
 	"cd266642-560c-46fb-a495-d2b8f6e5c0a5",
 	0,
-	1,
+	0,
 	'is_defined_by');
 INSERT INTO R_RTO
 	VALUES ("7af90d12-3ec1-4e21-a050-dd02a7750a4d",

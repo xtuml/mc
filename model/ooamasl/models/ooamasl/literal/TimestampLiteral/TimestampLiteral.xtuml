@@ -47,16 +47,9 @@ INSERT INTO O_ATTR
 	'',
 	'nanos',
 	0,
-	"3d8b5e54-14f8-4217-9f82-2b2aeb4f7ccb",
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("3d8b5e54-14f8-4217-9f82-2b2aeb4f7ccb",
-	"00000000-0000-0000-0000-000000000000",
-	'int',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("dadfd902-d536-42ab-8f53-436dd9226c5e",
 	"ea55723b-af73-45b1-8231-7769545a1ba4");
