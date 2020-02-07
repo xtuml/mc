@@ -905,11 +905,11 @@ returns [String[\] ref]
 
 
 optionalObjectReference
-returns [Object ref, String domainref, String name]
-@init{ $ref = null; }
+returns [Object object_declaration, String domainref, String name]
+@init{ $object_declaration = null; }
                               : objectReference             { $domainref = $objectReference.domainref; $name = $objectReference.name;
                                                               try {
-                                                                $ref = loader.call_function( "select_any_ObjectDeclaration_where_name", $objectReference.domainref, $objectReference.name );
+                                                                $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", $objectReference.domainref, $objectReference.name );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | /* blank */                 { $domainref = ""; $name = ""; }
@@ -947,6 +947,7 @@ returns [Object object]
                                                                   $object = loader.create( "ObjectDeclaration" );
                                                                 }
                                                                 loader.set_attribute( $object, "name", $objectName.name );
+                                                                current_object = $object;
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( attributeDefinition [previousattribute]      
@@ -965,7 +966,17 @@ returns [Object object]
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    | stateDeclaration         
+                                                            {
+                                                              try {
+                                                                loader.relate( $stateDeclaration.ooastate, $object, 6105, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | transitionTable          
+                                                            {
+                                                              try {
+                                                                loader.relate( $transitionTable.transition_table, $object, 6113, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )*
                                    description
                                    pragmaList
@@ -1163,13 +1174,34 @@ returns [String type]
                               ;
 
 stateDeclaration
-                              : ^( STATE
+returns [Object ooastate]
+                              : ^( STATE // done
                                    stateName                
                                    stateType               
                                    description
                                    parameterList
                                    pragmaList
                                 )                           
+                                                            {
+                                                              try {
+                                                                $ooastate = loader.create( "State" );
+                                                                loader.set_attribute( $ooastate, "name", $stateName.name );
+                                                                if ( "assigner" == $stateType.type ) {
+                                                                  //CDSloader.set_attribute( $ooastate, "flavor", "StateType::assigner" );
+                                                                } else if ( "start" == $stateType.type ) {
+                                                                  //CDSloader.set_attribute( $ooastate, "flavor", "StateType::assigner_start" );
+                                                                } else if ( "creation" == $stateType.type ) {
+                                                                  //CDSloader.set_attribute( $ooastate, "flavor", "StateType::creation" );
+                                                                } else if ( "terminal" == $stateType.type ) {
+                                                                  //CDSloader.set_attribute( $ooastate, "flavor", "StateType::terminal" );
+                                                                } else {
+                                                                  //CDSloader.set_attribute( $ooastate, "flavor", "StateType::normal" );
+                                                                }
+                                                                if ( null != $parameterList.firstparameter ) {
+                                                                  loader.relate( $ooastate, $parameterList.firstparameter, 6104, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 stateName
@@ -1180,8 +1212,7 @@ returns [String name]
 
 stateType
 returns [String type]
-//returns [StateType type]
-                              : ASSIGNER                    { $type = $ASSIGNER.text; }
+                              : ASSIGNER                    { $type = $ASSIGNER.text; } // done
                               | START                       { $type = $START.text; }
                               | CREATION                    { $type = $CREATION.text; }
                               | TERMINAL                    { $type = $TERMINAL.text; }
@@ -1190,10 +1221,21 @@ returns [String type]
 
 
 transitionTable
-
-                              : ^( TRANSITION_TABLE
+returns [Object transition_table]
+                              : ^( TRANSITION_TABLE // done
                                    transTableType
+                                                            {
+                                                              try {
+                                                                $transition_table = loader.create( "TransitionTable" );
+                                                                loader.set_attribute( $transition_table, "isassigner", $transTableType.isassigner );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    ( transitionRow          
+                                                            {
+                                                              try {
+                                                                loader.relate( $transitionRow.transition_row, $transition_table, 6114, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )+
                                    pragmaList
                                  )                          
@@ -1201,64 +1243,80 @@ transitionTable
 
 
 transTableType
-returns [String type]
-//returns [boolean isAssigner]
-                              : ASSIGNER                    { $type = $ASSIGNER.text; }
-                              | NORMAL                      { $type = ""; }
+returns [boolean isassigner]
+                              : ASSIGNER                    { $isassigner = true; } // done
+                              | NORMAL                      { $isassigner = false; }
                               ;
 
 transitionRow
-//returns [TransitionRow row]
-
-                              : ^( TRANSITION_ROW
+returns [Object transition_row]
+                              : ^( TRANSITION_ROW // done
                                    startState
-                                   ( transitionOption[$startState.name]
+                                                            {
+                                                              try {
+                                                                $transition_row = loader.create( "TransitionRow" );
+                                                                // CDS Decide what to do with 'non_existent'.
+                                                                Object ooastate = loader.call_function( "select_any_State_where_name", current_object, $startState.name );
+                                                                loader.relate( ooastate, $transition_row, 6111, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                                   ( transitionOption
+                                                            {
+                                                              try {
+                                                                loader.relate( $transitionOption.transition_option, $transition_row, 6112, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )+
                                    pragmaList
                                 )                           
                               ;
 
-transitionOption[String startState]
-//returns [TransitionOption option]
-                              : ^( TRANSITION_OPTION
+transitionOption
+returns [Object transition_option]
+                              : ^( TRANSITION_OPTION // done
                                    incomingEvent
                                    endState
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                $transition_option = loader.create( "TransitionOption" );
+                                                                //CDS loader.set_attribute( $transition_option, "flavor", $endState.type );
+                                                                loader.relate( $incomingEvent.event_declaration, $transition_option, 6108, "" );
+                                                                if ( "StateType::to_state" == $endState.type ) {
+                                                                  Object ooastate = loader.call_function( "select_any_State_where_name", current_object, $endState.name );
+                                                                  loader.relate( ooastate, $transition_option, 6112, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 incomingEvent
-returns [Object ref]
-                              : ^( EVENT
-                                   eventReference           { $ref = $eventReference.ref; }
+returns [Object event_declaration]
+                              : ^( EVENT // done
+                                   eventReference           { $event_declaration = $eventReference.event_declaration; }
                                  )
                               ;
 
 startState
 returns [String name]
-                              : NON_EXISTENT                { $name = $NON_EXISTENT.text; }
+                              : NON_EXISTENT                { $name = $NON_EXISTENT.text; } // done
                               | stateName                   { $name = $stateName.name; }
                               ;
 
 endState
-returns [String name]
-//returns [String name, TransitionType type]
-                              : stateName                   { $name = $stateName.name; }
-                              | IGNORE                      { $name = $IGNORE.text; }
-                              | CANNOT_HAPPEN               { $name = $CANNOT_HAPPEN.text; }
+returns [String name, String type]
+                              : stateName                   { $type = "StateType::to_state"; $name = $stateName.name; } // done
+                              | IGNORE                      { $type = "StateType::ignore"; $name = ""; }
+                              | CANNOT_HAPPEN               { $type = "StateType::cannot_happen"; $name = ""; }
                               ;
 
 eventReference
-returns [Object ref]
-                              : optionalObjectReference
+returns [Object event_declaration]
+                              : optionalObjectReference // done
                                 eventName                   
                                                             {
-                                                              //try {
-                                                                // CDS - consider selecting through optionalDomainReference
-                                                                // need more here
-                                                                // LPS will not support
-                                                                // $ref = loader.select( "EventDeclaration", $eventName.name );
-                                                                $ref = null;
-                                                              //} catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                event_declaration = loader.call_function( "select_any_EventDeclaration_where_name", $optionalObjectReference.object_declaration, $eventName.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
@@ -2111,7 +2169,7 @@ returns [Object st]
                                                             {
                                                               try {
                                                                 $st = loader.create( "GenerateStatement" );
-                                                                loader.relate( $eventReference.ref, $st, 5112, "" );
+                                                                loader.relate( $eventReference.event_declaration, $st, 5112, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( argument               

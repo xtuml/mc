@@ -616,6 +616,92 @@ INSERT INTO PE_PE
 	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("c68451a5-0f0b-4322-8d07-d2a800278fc6",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_State_where_name',
+	'',
+	'object_declaration = param.object;
+select any ooastate related by object_declaration->State[R6105] where ( selected.name == param.name );
+return ooastate;',
+	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("0bfa3c78-c3a7-46b3-8de7-8ed3a014404b",
+	"c68451a5-0f0b-4322-8d07-d2a800278fc6",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"6f0efc95-03c5-4a4d-9adf-115d9bc7e99b",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6f0efc95-03c5-4a4d-9adf-115d9bc7e99b",
+	"c68451a5-0f0b-4322-8d07-d2a800278fc6",
+	'object',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("c68451a5-0f0b-4322-8d07-d2a800278fc6",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/statemodel/statemodel.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("d87306a4-fa45-4798-934c-0f6a40eecdb6",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_EventDeclaration_where_name',
+	'',
+	'object_declaration = param.object;
+select any event_declaration related by object_declaration->EventDeclaration[R6101] where ( selected.name == param.name );
+return event_declaration;',
+	"4cfcfee8-b8db-43f0-9290-af0d49e530d4",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("670ce977-1459-492c-86c8-12c263a5563f",
+	"d87306a4-fa45-4798-934c-0f6a40eecdb6",
+	'object',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("99104729-b636-4365-9fdf-11bf09ee18e8",
+	"d87306a4-fa45-4798-934c-0f6a40eecdb6",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"670ce977-1459-492c-86c8-12c263a5563f",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d87306a4-fa45-4798-934c-0f6a40eecdb6",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("4cfcfee8-b8db-43f0-9290-af0d49e530d4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<EventDeclaration>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/statemodel/statemodel.xtuml');
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,
