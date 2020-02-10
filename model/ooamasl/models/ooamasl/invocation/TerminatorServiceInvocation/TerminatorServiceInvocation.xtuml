@@ -1,23 +1,23 @@
 -- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO O_OBJ
-	VALUES ("e252c2c5-c5d8-4b44-a1d7-c0683714bfa7",
-	'DomainServiceInvocation1',
-	5605,
-	'DomainServiceInvocation1',
+	VALUES ("abc56625-1526-4de8-b1cf-76a1a9e7131c",
+	'TerminatorServiceInvocation',
+	5606,
+	'TerminatorServiceInvocation',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_ID
 	VALUES (0,
-	"e252c2c5-c5d8-4b44-a1d7-c0683714bfa7");
+	"abc56625-1526-4de8-b1cf-76a1a9e7131c");
 INSERT INTO O_ID
 	VALUES (1,
-	"e252c2c5-c5d8-4b44-a1d7-c0683714bfa7");
+	"abc56625-1526-4de8-b1cf-76a1a9e7131c");
 INSERT INTO O_ID
 	VALUES (2,
-	"e252c2c5-c5d8-4b44-a1d7-c0683714bfa7");
+	"abc56625-1526-4de8-b1cf-76a1a9e7131c");
 INSERT INTO PE_PE
-	VALUES ("e252c2c5-c5d8-4b44-a1d7-c0683714bfa7",
+	VALUES ("abc56625-1526-4de8-b1cf-76a1a9e7131c",
 	1,
 	"18f34247-fda9-49a2-b68a-ca4fb46d2b37",
 	"00000000-0000-0000-0000-000000000000",

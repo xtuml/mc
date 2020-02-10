@@ -1,23 +1,23 @@
 -- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO O_OBJ
-	VALUES ("c2a276c7-be01-46d7-9b02-ef5df51db88c",
-	'ObjectServiceInvocation1',
-	5607,
-	'ObjectServiceInvocation1',
+	VALUES ("e709d352-d804-43f7-800f-3d7abd6a8082",
+	'InstanceServiceInvocation',
+	5608,
+	'InstanceServiceInvocation',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_ID
 	VALUES (0,
-	"c2a276c7-be01-46d7-9b02-ef5df51db88c");
+	"e709d352-d804-43f7-800f-3d7abd6a8082");
 INSERT INTO O_ID
 	VALUES (1,
-	"c2a276c7-be01-46d7-9b02-ef5df51db88c");
+	"e709d352-d804-43f7-800f-3d7abd6a8082");
 INSERT INTO O_ID
 	VALUES (2,
-	"c2a276c7-be01-46d7-9b02-ef5df51db88c");
+	"e709d352-d804-43f7-800f-3d7abd6a8082");
 INSERT INTO PE_PE
-	VALUES ("c2a276c7-be01-46d7-9b02-ef5df51db88c",
+	VALUES ("e709d352-d804-43f7-800f-3d7abd6a8082",
 	1,
 	"18f34247-fda9-49a2-b68a-ca4fb46d2b37",
 	"00000000-0000-0000-0000-000000000000",
