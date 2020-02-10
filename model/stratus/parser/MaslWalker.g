@@ -38,20 +38,12 @@ import java.io.*;
 // external interface
 private Serial serial = null;
 private LOAD loader = null;
-private Object current_supertype = null;
-private Object current_attribute = null;
 private Object current_domain = null;
 private Object current_object = null;
-private Object current_project = null;
 private Object current_service = null;
-private Object current_terminator = null;
-private Object current_type = null;
 
 // parent masl parser
 private MaslImportParser masl_parser = null;
-
-// argument array to pass to interface
-private String[] args = new String[8];
 
 // set the serial interface
 public void setInterface ( Serial serial, LOAD loader ) {
@@ -126,10 +118,10 @@ returns [Object domain]
                               : ^( DOMAIN // done
                                    projectDomainReference   
                                                             {
-                                                                try {
-                                                                  $domain = loader.create( "ProjectDomain" );
-                                                                  loader.set_attribute( $domain, "name", $projectDomainReference.ref );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              try {
+                                                                $domain = loader.create( "ProjectDomain" );
+                                                                loader.set_attribute( $domain, "name", $projectDomainReference.domainname );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    ( projectTerminatorDefinition    
@@ -162,6 +154,7 @@ returns [Object domain]
                                    domainName               {
                                                               try {
                                                                 $domain = loader.create( "Domain" );
+                                                                current_domain = $domain;
                                                                 loader.set_attribute( $domain, "name", $domainName.name );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -169,13 +162,13 @@ returns [Object domain]
                                    ( objectDeclaration           
                                                             {
                                                               try {
-                                                                loader.relate( $objectDeclaration.object, $domain, 5805, "" );
+                                                                loader.relate( $objectDeclaration.object_declaration, $domain, 5805, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    | domainServiceDeclaration    
                                                             {
                                                               try {
-                                                                loader.relate( $domainServiceDeclaration.domainservice, $domain, 5303, "" );
+                                                                loader.relate( $domainServiceDeclaration.domain_service, $domain, 5303, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    | domainTerminatorDefinition    
@@ -187,13 +180,13 @@ returns [Object domain]
                                    | relationshipDefinition     
                                                             {
                                                               try {
-                                                                loader.relate( $relationshipDefinition.relationship, $domain, 6003, "" );
+                                                                loader.relate( $relationshipDefinition.relationship_declaration, $domain, 6003, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    | objectDefinition            
                                                             {
                                                               try {
-                                                                loader.relate( $objectDefinition.object, $domain, 5805, "" );
+                                                                loader.relate( $objectDefinition.object_declaration, $domain, 5805, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    | typeDeclaration             
@@ -227,24 +220,24 @@ returns [String name]
                               ;
 
 domainReference
-returns [String ref]
-                              : domainName                  { $ref = $domainName.name; } // done
+returns [String domainname]
+                              : domainName                  { $domainname = $domainName.name; } // done
                               // CDS - Might need to parse the interface file here.
                               ;
 
 
 projectDomainReference
-returns [String ref]
-                              : domainName                  { $ref = $domainName.name; } // done
+returns [String domainname]
+                              : domainName                  { $domainname = $domainName.name; } // done
                               // CDS - Might need to parse the interface file here.
                               ;
 
 
 
 optionalDomainReference
-returns [String ref, boolean defaulted]
-                              : domainReference             { $ref = $domainReference.ref; $defaulted = false; } // done
-                              | /* blank */                 { $ref = ""; $defaulted = true;}
+returns [String domainname, boolean defaulted]
+                              : domainReference             { $domainname = $domainReference.domainname; $defaulted = false; } // done
+                              | /* blank */                 { $domainname = ""; $defaulted = true;}
                               ;
 
 
@@ -283,7 +276,7 @@ returns [Object ref]
                                                                   $ref = loader.create( "ExceptionReference" );
                                                                   Object builtin = loader.create( "BuiltinException" );
                                                                   loader.relate( $ref, builtin, 5401, "" );
-                                                                  Object e = loader.call_function( "select_any_ExceptionDeclaration_where_name", $optionalDomainReference.ref, $exceptionName.name );
+                                                                  Object e = loader.call_function( "select_any_ExceptionDeclaration_where_name", $optionalDomainReference.domainname, $exceptionName.name );
                                                                   loader.relate( $ref, e, 5402, "" );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
@@ -638,8 +631,7 @@ returns [Object basictype]
                                                                 loader.set_attribute( $basictype, "isanonymous", ( $ANONYMOUS != null ) );
                                                                 Object instancetype = loader.create( "InstanceType" );
                                                                 loader.relate( instancetype, $basictype, 6205, "" );
-                                                                Object object = loader.call_function( "select_any_ObjectDeclaration_where_name", $objectReference.domainref, $objectReference.name );
-                                                                loader.relate( instancetype, object, 6220, "" );
+                                                                loader.relate( instancetype, $objectReference.object_declaration, 6220, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
@@ -654,7 +646,7 @@ returns [Object basictype]
                                                               // CDS - still not sure if this is right
                                                               // I do not think I am creating the type in all the cases I need.
                                                               try {
-                                                                $basictype = loader.call_function( "select_any_BasicType_where_name", $optionalDomainReference.ref, $typeName.name );
+                                                                $basictype = loader.call_function( "select_any_BasicType_where_name", $optionalDomainReference.domainname, $typeName.name );
                                                                 if ( ((IModelInstance)$basictype).isEmpty() ) {
                                                                   $basictype = loader.create( "BasicType" );
                                                                 }
@@ -802,7 +794,7 @@ returns [Object terminatorservice]
                                                                 service = loader.create( "Service" );
                                                                 current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
-                                                                //CDSloader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                //CDSloader.set_attribute( service, "visibility", $serviceVisibility.visibility );
                                                                 $terminatorservice = loader.create( "DomainTerminatorService" );
                                                                 loader.relate( $terminatorservice, service, 5203, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -838,7 +830,7 @@ returns [Object terminatorservice]
                                                                 service = loader.create( "Service" );
                                                                 current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
-                                                                //CDSloader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                //CDSloader.set_attribute( service, "visibility", $serviceVisibility.visibility );
                                                                 $terminatorservice = loader.create( "ProjectTerminatorService" );
                                                                 loader.relate( $terminatorservice, service, 5203, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -876,43 +868,32 @@ returns [String name]
 
 
 objectReference
-returns [String domainref, String name]
-                              : optionalDomainReference
+returns [Object object_declaration]
+                              : optionalDomainReference // done
                                 objectName                  
                                                             { 
-                                                              // CDS - Do I select look-up?
-                                                              $domainref = $optionalDomainReference.ref;
-                                                              $name = $objectName.name;
+                                                              try {
+                                                                $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", $optionalDomainReference.domainname, $objectName.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 fullObjectReference
-returns [String[\] ref]
-//returns [ObjectNameExpression ref]
-@init
-{
-    String[] r = new String[2];
-    for ( int i = 0; i < r.length; i++ ) r[i] = "";
-}
-                              : domainReference
+returns [Object object_declaration]
+                              : domainReference // done
                                 objectName                  
                                                             { 
-                                                                r[0] = $domainReference.ref;
-                                                                r[1] = $objectName.name;
-                                                                $ref = r;
+                                                              try {
+                                                                $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", $domainReference.domainname, $objectName.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 
 optionalObjectReference
-returns [Object object_declaration, String domainref, String name]
-@init{ $object_declaration = null; }
-                              : objectReference             { $domainref = $objectReference.domainref; $name = $objectReference.name;
-                                                              try {
-                                                                $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", $objectReference.domainref, $objectReference.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
-                                                            }
-                              | /* blank */                 { $domainref = ""; $name = ""; }
+returns [Object object_declaration]
+                              : objectReference             { $object_declaration = $objectReference.object_declaration; } // done
+                              | /* blank */                 { $object_declaration = current_object; }
                               ;
 attributeName
 returns [String name]
@@ -921,13 +902,13 @@ returns [String name]
                               ;
 
 objectDeclaration
-returns [Object object]
+returns [Object object_declaration]
                               : ^( OBJECT_DECLARATION // done
                                    objectName
                                                             {
                                                               try {
-                                                                $object = loader.create( "ObjectDeclaration" );
-                                                                loader.set_attribute( $object, "name", $objectName.name );
+                                                                $object_declaration = loader.create( "ObjectDeclaration" );
+                                                                loader.set_attribute( $object_declaration, "name", $objectName.name );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    pragmaList
@@ -936,24 +917,24 @@ returns [Object object]
 
 
 objectDefinition
-returns [Object object]
+returns [Object object_declaration]
 @init{ Object previousattribute = null; }
                               : ^( OBJECT_DEFINITION
                                    objectName               
                                                             {
                                                               try {
-                                                                $object = loader.call_function( "select_any_ObjectDeclaration_where_name", "", $objectName.name );
-                                                                if ( ((IModelInstance)$object).isEmpty() ) {
-                                                                  $object = loader.create( "ObjectDeclaration" );
+                                                                $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", "", $objectName.name );
+                                                                if ( ((IModelInstance)$object_declaration).isEmpty() ) {
+                                                                  $object_declaration = loader.create( "ObjectDeclaration" );
                                                                 }
-                                                                loader.set_attribute( $object, "name", $objectName.name );
-                                                                current_object = $object;
+                                                                loader.set_attribute( $object_declaration, "name", $objectName.name );
+                                                                current_object = $object_declaration;
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( attributeDefinition [previousattribute]      
                                                             {
                                                               try {
-                                                                loader.relate( $attributeDefinition.attribute, $object, 5802, "" );
+                                                                loader.relate( $attributeDefinition.attribute, $object_declaration, 5802, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                               previousattribute = $attributeDefinition.attribute;
                                                             }
@@ -962,19 +943,19 @@ returns [Object object]
                                    | eventDefinition          
                                                             {
                                                               try {
-                                                                loader.relate( $eventDefinition.event, $object, 6101, "" );
+                                                                loader.relate( $eventDefinition.event, $object_declaration, 6101, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    | stateDeclaration         
                                                             {
                                                               try {
-                                                                loader.relate( $stateDeclaration.ooastate, $object, 6105, "" );
+                                                                loader.relate( $stateDeclaration.ooastate, $object_declaration, 6105, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    | transitionTable          
                                                             {
                                                               try {
-                                                                loader.relate( $transitionTable.transition_table, $object, 6113, "" );
+                                                                loader.relate( $transitionTable.transition_table, $object_declaration, 6113, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*
@@ -1053,23 +1034,18 @@ returns [Object relationship_specification]
                                                             {
                                                               try {
                                                                 $relationship_specification = loader.create( "RelationshipSpecification" );
-                                                                // LPS - will not support
-                                                                // Object r = loader.select( "RelationshipDeclaration", $relationshipReference.name );
-                                                                Object r = null;
-                                                                loader.relate( $relationship_specification, r, 6015, "" );
-                                                                //CDSloader.set_attribute( $relationship_specification, "CDS dunno here CDS", $relationshipReference.name );
+                                                                loader.relate( $relationship_specification, $relationshipReference.relationship_declaration, 6015, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( objOrRole
                                                             {
-                                                                String s = $objOrRole.name;
+                                                              String s = $objOrRole.name;
+                                                              //try {
+                                                              //} catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( objectReference
                                                             {
-                                                                String s3 = $objectReference.domainref;
-                                                                String s4 = $objectReference.name;
                                                               //try {
-                                                                //CDSloader.set_attribute( $relationship_specification, "CDS dunno here CDS", $relationshipReference.name );
                                                               //} catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )? 
@@ -1096,7 +1072,7 @@ returns [Object objectservice]
                                                                 service = loader.create( "Service" );
                                                                 current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
-                                                                //CDSloader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
+                                                                //CDSloader.set_attribute( service, "visibility", $serviceVisibility.visibility );
                                                                 $objectservice = loader.create( "ObjectService" );
                                                                 loader.relate( $objectservice, service, 5203, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -1315,7 +1291,7 @@ returns [Object event_declaration]
                                 eventName                   
                                                             {
                                                               try {
-                                                                event_declaration = loader.call_function( "select_any_EventDeclaration_where_name", $optionalObjectReference.object_declaration, $eventName.name );
+                                                                $event_declaration = loader.call_function( "select_any_EventDeclaration_where_name", $optionalObjectReference.object_declaration, $eventName.name );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
@@ -1326,29 +1302,25 @@ returns [Object event_declaration]
 //---------------------------------------------------------
 
 domainServiceDeclaration
-returns [Object domainservice]
+returns [Object domain_service]
 @init{ Object service = null; }
                               : ^( DOMAIN_SERVICE_DECLARATION // done
                                    serviceVisibility
                                    serviceName
+                                   description
+                                   parameterList
                                                             {
                                                               try {
                                                                 service = loader.create( "Service" );
                                                                 current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
-                                                                //CDSloader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
-                                                                $domainservice = loader.create( "DomainService" );
-                                                                loader.relate( $domainservice, service, 5203, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
-                                                            }
-                                   description
-                                   parameterList
-                                                            {
-                                                              if ( null != $parameterList.firstparameter ) {
-                                                                try {
+                                                                //CDSloader.set_attribute( service, "visibility", $serviceVisibility.visibility );
+                                                                $domain_service = loader.create( "DomainService" );
+                                                                loader.relate( $domain_service, service, 5203, "" );
+                                                                if ( null != $parameterList.firstparameter ) {
                                                                   loader.relate( $parameterList.firstparameter, service, 5204, "" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
-                                                              }
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( returnType
                                                             {
@@ -1374,7 +1346,7 @@ returns [Object parameter]
                                                               try {
                                                                 $parameter = loader.create( "ParameterDefinition" );
                                                                 loader.set_attribute( $parameter, "name", $parameterName.name );
-                                                                //CDSloader.set_attribute( $parameter, "mode", "ParameterMode::" + $parameterMode.mode );
+                                                                //CDSloader.set_attribute( $parameter, "parameter_mode", "ParameterMode::" + $parameterMode.parameter_mode );
                                                                 loader.relate( $parameterType.type, $parameter, 5200, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -1400,14 +1372,14 @@ returns [Object firstparameter]
 
 serviceVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = $PRIVATE.text; }
-                              | PUBLIC                      { $visibility = $PUBLIC.text; }
+                              : PRIVATE                     { $visibility = "Visibility::" + $PRIVATE.text; } // done
+                              | PUBLIC                      { $visibility = "Visibility::" + $PUBLIC.text; }
                               ;
 
 parameterMode
-returns [String mode]
-                              : IN                          { $mode = $IN.text; } // done
-                              | OUT                         { $mode = $OUT.text; }
+returns [String parameter_mode]
+                              : IN                          { $parameter_mode = $IN.text; } // done
+                              | OUT                         { $parameter_mode = $OUT.text; }
                               ;
 
 
@@ -1442,78 +1414,115 @@ returns [Object type]
 
 
 relationshipDefinition
-returns [Object relationship]
-                              : regularRelationshipDefinition
+returns [Object relationship_declaration]
+@init                                                       {
+                                                              try {
+                                                                $relationship_declaration = loader.create( "RelationshipDeclaration" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
+                              : regularRelationshipDefinition // done
+                                                            {
+                                                              try {
+                                                                loader.relate( $regularRelationshipDefinition.normal_relationship_declaration, $relationship_declaration, 6010, "" );
+                                                                loader.set_attribute( $relationship_declaration, "name", $regularRelationshipDefinition.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | assocRelationshipDefinition   
+                                                            {
+                                                              try {
+                                                                loader.relate( $assocRelationshipDefinition.associative_relationship_declaration, $relationship_declaration, 6010, "" );
+                                                                loader.set_attribute( $relationship_declaration, "name", $assocRelationshipDefinition.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               | subtypeRelationshipDefinition 
+                                                            {
+                                                              try {
+                                                                loader.relate( $subtypeRelationshipDefinition.subtype_relationship_declaration, $relationship_declaration, 6010, "" );
+                                                                loader.set_attribute( $relationship_declaration, "name", $subtypeRelationshipDefinition.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
 
 regularRelationshipDefinition
-                              : ^( REGULAR_RELATIONSHIP_DEFINITION
+returns [Object normal_relationship_declaration, String name]
+                              : ^( REGULAR_RELATIONSHIP_DEFINITION // done
                                    relationshipName
                                    description
                                    leftToRight=halfRelationshipDefinition
                                    rightToLeft=halfRelationshipDefinition
                                    pragmaList
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                $normal_relationship_declaration = loader.create( "NormalRelationshipDeclaration" );
+                                                                $name = $relationshipName.name;
+                                                                loader.relate( $leftToRight.half_relationship, $normal_relationship_declaration, 6007, "" );
+                                                                loader.relate( $rightToLeft.half_relationship, $normal_relationship_declaration, 6008, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
 assocRelationshipDefinition
-                              : ^( ASSOCIATIVE_RELATIONSHIP_DEFINITION
+returns [Object associative_relationship_declaration, String name]
+                              : ^( ASSOCIATIVE_RELATIONSHIP_DEFINITION // done
                                    relationshipName
                                    description
                                    leftToRight=halfRelationshipDefinition
                                    rightToLeft=halfRelationshipDefinition
                                    assocObj=objectReference
                                    pragmaList
-                                 )                          
-
+                                 )                          {
+                                                              try {
+                                                                $associative_relationship_declaration = loader.create( "AssociativeRelationshipDeclaration" );
+                                                                $name = $relationshipName.name;
+                                                                loader.relate( $leftToRight.half_relationship, $associative_relationship_declaration, 6000, "" );
+                                                                loader.relate( $rightToLeft.half_relationship, $associative_relationship_declaration, 6002, "" );
+                                                                loader.relate( $assocObj.object_declaration, $associative_relationship_declaration, 6001, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 halfRelationshipDefinition
-//returns [HalfRelationship half]
-                              : ^( HALF_RELATIONSHIP
+returns [Object half_relationship]
+                              : ^( HALF_RELATIONSHIP // done
                                    from=objectReference
                                    conditionality
                                    rolePhrase
                                    multiplicity
                                    to=objectReference
-                                 )                          
-                                                            { 
-                                                                args[0] = $from.domainref;
-                                                                args[1] = $from.name;
-                                                                args[2] = $rolePhrase.role;
-                                                                args[3] = $conditionality.cond;
-                                                                args[4] = $multiplicity.mult;
-                                                                args[5] = $to.domainref;
-                                                                args[6] = $to.name;
+                                 )                          {
+                                                              try {
+                                                                $half_relationship = loader.create( "HalfRelationship" );
+                                                                loader.set_attribute( $half_relationship, "isconditional", $conditionality.isconditional );
+                                                                loader.set_attribute( $half_relationship, "role", $rolePhrase.role );
+                                                                //CDS enums ... loader.set_attribute( $half_relationship, "multiplicity", $multiplicity.multiplicity );
+                                                                loader.relate( $from.object_declaration, $half_relationship, 6006, "" );
+                                                                loader.relate( $to.object_declaration, $half_relationship, 6004, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 
 subtypeRelationshipDefinition
-//returns [SubtypeRelationshipDeclaration relationship]
-
-                              : ^( SUBTYPE_RELATIONSHIP_DEFINITION
+returns [Object subtype_relationship_declaration, String name]
+                              : ^( SUBTYPE_RELATIONSHIP_DEFINITION // done
                                    relationshipName
-                                                            {
-                                                                args[0] = $relationshipName.name;
-                                                            }
                                    description
                                    supertype=objectReference
                                                             {
-                                                                args[0] = $supertype.domainref;
-                                                                args[1] = $supertype.name;
+                                                              try {
+                                                                $subtype_relationship_declaration = loader.create( "SubtypeRelationshipDeclaration" );
+                                                                $name = $relationshipName.name;
+                                                                loader.relate( $supertype.object_declaration, $subtype_relationship_declaration, 6017, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                                   (subtype=objectReference   
+                                   (subtype=objectReference
                                                             {
-                                                                args[0] = $subtype.domainref;
-                                                                args[1] = $subtype.name;
-                                                                args[5] = $supertype.domainref;
-                                                                args[6] = $supertype.name;
+                                                              try {
+                                                                loader.relate( $subtype.object_declaration, $subtype_relationship_declaration, 6016, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )+
                                    pragmaList
@@ -1522,40 +1531,39 @@ subtypeRelationshipDefinition
 
 rolePhrase
 returns [String role]
-                              : ^( ROLE_PHRASE
+                              : ^( ROLE_PHRASE // done
                                    identifier )             { $role = $identifier.name; }
                               ;
 
 conditionality
-returns [String cond]
-//returns [boolean cond]
-                              : UNCONDITIONALLY             { $cond = $UNCONDITIONALLY.text; }
-                              | CONDITIONALLY               { $cond = $CONDITIONALLY.text; }
+returns [boolean isconditional]
+                              : UNCONDITIONALLY             { $isconditional = false; } // done
+                              | CONDITIONALLY               { $isconditional = true; }
                               ;
 
 multiplicity
-returns [String mult]
-//returns [MultiplicityType mult]
-                              : ONE                         { $mult = $ONE.text; }
-                              | MANY                        { $mult = $MANY.text; }
+returns [String multiplicity]
+                              : ONE                         { $multiplicity = "Multiplicity::one"; } // done
+                              | MANY                        { $multiplicity = "Multiplicity::many"; }
                               ;
 
 
 relationshipName
 returns [String name]
-                              : ^( RELATIONSHIP_NAME
+                              : ^( RELATIONSHIP_NAME // done
                                    RelationshipName  
                                  )                          { $name = $RelationshipName.text; }
                               ;
                               
 
 relationshipReference
-returns [String domainref, String name]
-                              : optionalDomainReference
+returns [Object relationship_declaration]
+                              : optionalDomainReference // done
                                 relationshipName            
-                                                            { 
-                                                              $domainref = $optionalDomainReference.ref;
-                                                              $name = $relationshipName.name;
+                                                            {
+                                                              try {
+                                                                $relationship_declaration = loader.call_function( "select_any_RelationshipDeclaration_where_name", $optionalDomainReference.domainname, $relationshipName.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
@@ -1602,10 +1610,6 @@ returns [String text]
                               : ^( DESCRIPTION              {   StringBuilder descrip = new StringBuilder(); }
                                    (Description             {   descrip.append( $Description.text.substring(3) ); }
                                    )*
-                                                            {
-                                                                args[0] = descrip.toString();
-                                                                $text = descrip.toString();
-                                                            }
                                  )
                               ;
 
@@ -1623,88 +1627,65 @@ activityDefinition            : domainServiceDefinition
                               ;
 
 
-domainServiceDefinition//[DomainService service]
-returns [Object domainservice]
+domainServiceDefinition
+returns [Object domain_service]
 @init{ Object service = null; }
-//scope NameScope;
-
-                              : ^( DOMAIN_SERVICE_DEFINITION
+                              : ^( DOMAIN_SERVICE_DEFINITION // done
                                    serviceVisibility
                                    domainReference
                                    serviceName
-                                                            {
-                                                              try {
-                                                                service = loader.create( "Service" );
-                                                                current_service = service;
-                                                                loader.set_attribute( service, "name", $serviceName.name );
-                                                                //CDSloader.set_attribute( service, "visibility", "Visibility::" + $serviceVisibility.visibility );
-                                                                $domainservice = loader.create( "DomainService" );
-                                                                loader.relate( $domainservice, service, 5203, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
-                                                            }
                                    parameterList
-                                                            {
-                                                              try {
-                                                                loader.relate( $parameterList.firstparameter, service, 5204, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
-                                                            }
-                                   returnType?
-                                   codeBlock
-                                                            {
-                                                                args[0] = $DOMAIN_SERVICE_DEFINITION.text + " service;";
-                                                            }
-                                   pragmaList                  
-                                 )                                                   
-                              ;
-
-
-terminatorServiceDefinition//[DomainTerminatorService service]
-//scope NameScope;
-
-
-                              : ^( TERMINATOR_SERVICE_DEFINITION
-                                   serviceVisibility
-                                   domainReference
-                                   terminatorName
-                                   serviceName
-                                                            {
-                                                                  args[0] = $domainReference.ref;
-                                                                  args[1] = $terminatorName.name;
-                                                                  args[2] = $serviceVisibility.visibility;
-                                                                  args[3] = $serviceName.name;
-                                                            }
-                                   parameterList
-                                                            {
-                                                                args[0] = $TERMINATOR_SERVICE_DEFINITION.text + " service;";
-                                                            }
                                    returnType?
                                    codeBlock
                                    pragmaList
-                                 )                                                   
+                                 )                          {
+                                                              try {
+                                                                $domain_service = loader.call_function( "select_any_DomainService_where_name", $domainReference.domainname, $serviceName.name );
+                                                                loader.relate( $codeBlock.st, service, 5403, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
-projectTerminatorServiceDefinition//[ProjectTerminatorService service]
-//scope NameScope;
-                              : ^( TERMINATOR_SERVICE_DEFINITION
+terminatorServiceDefinition
+returns [Object domain_terminator_service]
+@init{ Object service = null; }
+                              : ^( TERMINATOR_SERVICE_DEFINITION // done
                                    serviceVisibility
                                    domainReference
                                    terminatorName
                                    serviceName
-                                                            {
-                                                                  args[0] = $domainReference.ref;
-                                                                  args[1] = $terminatorName.name;
-                                                                  args[2] = $serviceVisibility.visibility;
-                                                                  args[3] = $serviceName.name;
+                                   parameterList
+                                   returnType?
+                                   codeBlock
+                                   pragmaList
+                                 )                          {
+                                                              try {
+                                                                $domain_terminator_service = loader.call_function( "select_any_DomainTerminatorService_where_name", $domainReference.domainname, $terminatorName.name, $serviceName.name );
+                                                                loader.relate( $codeBlock.st, service, 5403, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
+                              ;
+
+
+projectTerminatorServiceDefinition
+returns [Object project_terminator_service]
+@init{ Object service = null; }
+                              : ^( TERMINATOR_SERVICE_DEFINITION // done
+                                   serviceVisibility
+                                   domainReference
+                                   terminatorName
+                                   serviceName
                                    parameterList
                                    returnType?
                                    codeBlock         
-                                                            {
-                                                                args[0] = $TERMINATOR_SERVICE_DEFINITION.text + " service;";
-                                                            }
                                    pragmaList
-                                 )                                                   
+                                 )                          {
+                                                              try {
+                                                                $project_terminator_service = loader.call_function( "select_any_ProjectTerminatorService_where_name", $domainReference.domainname, $terminatorName.name, $serviceName.name );
+                                                                loader.relate( $codeBlock.st, service, 5403, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
@@ -1718,20 +1699,9 @@ objectServiceDefinition//[ObjectService service]
                                    INSTANCE?
                                    fullObjectReference
                                    serviceName
-                                                            {
-                                                                  args[0] = $fullObjectReference.ref[0];
-                                                                  args[1] = $fullObjectReference.ref[1];
-                                                                  args[2] = $serviceVisibility.visibility;
-                                                                  args[3] = $serviceName.name;
-                                                                  if ( $INSTANCE != null )
-                                                                      args[4] = $INSTANCE.text;
-                                                            }
                                    parameterList
                                    returnType?
                                    codeBlock
-                                                            {
-                                                                args[0] = $OBJECT_SERVICE_DEFINITION.text + " service;";
-                                                            }
                                    pragmaList
                                  )                          
                               ;
@@ -1745,17 +1715,8 @@ stateDefinition//[State stateDef]
                                    stateType
                                    fullObjectReference
                                    stateName
-                                                            {
-                                                                args[0] = $fullObjectReference.ref[0];
-                                                                args[1] = $fullObjectReference.ref[1];
-                                                                args[2] = $stateName.name;
-                                                                args[3] = $stateType.type;
-                                                            }
                                    parameterList
                                    codeBlock
-                                                            {
-                                                                args[0] = $STATE_DEFINITION.text + " state;";
-                                                            }
                                    pragmaList
                                  )                          
                               ;
@@ -2845,17 +2806,15 @@ returns [String component, boolean isreverse]
 
 createExpression
 returns [Object create_expression]
-@init{ Object object = null; }
                               : ^( CREATE // done
                                    objectReference 
                                                             {
                                                               try {
                                                                 $create_expression = loader.create( "CreateExpression" );
-                                                                object = loader.call_function( "select_any_ObjectDeclaration_where_name", $objectReference.domainref, $objectReference.name );
-                                                                loader.relate( object, $create_expression, 5511, "" );
+                                                                loader.relate( $objectReference.object_declaration, $create_expression, 5511, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                                   ( createArgument[object]
+                                   ( createArgument[$objectReference.object_declaration]
                                                             {
                                                               try {
                                                                 loader.relate( $createArgument.attribute_initialization, $create_expression, 5566, "" );
@@ -2865,15 +2824,15 @@ returns [Object create_expression]
                                  )                          
                               ;
 
-createArgument[Object object]
+createArgument[Object object_declaration]
 returns [Object attribute_initialization]
-                              : ^( CREATE_ARGUMENT
+                              : ^( CREATE_ARGUMENT // done
                                    attributeName
                                    expression )              
                                                             {
                                                               try {
                                                                 $attribute_initialization = loader.create( "AttributeInitialization" );
-                                                                Object attribute_declaration = null; // CDS loader.call_function( "select_any_AttributeDeclaration_related_where_name", $object, $attributeName.name );
+                                                                Object attribute_declaration = loader.call_function( "select_any_AttributeDeclaration_related_where_name", $object_declaration, $attributeName.name );
                                                                 loader.relate( attribute_declaration, $attribute_initialization, 5565, "" );
                                                                 loader.relate( $expression.exp, $attribute_initialization, 5568, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -2882,8 +2841,8 @@ returns [Object attribute_initialization]
                                    stateName
                                                             {
                                                               try {
-                                                                Object state = null; // CDS loader.call_function( "select_any_State_related_where_name", object, $attributeName.name );
-                                                                loader.relate( state, $attribute_initialization, 5565, "" );
+                                                                Object ooastate = loader.call_function( "select_any_State_related_where_name", $object_declaration, $stateName.name );
+                                                                loader.relate( ooastate, $attribute_initialization, 5567, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                  )
@@ -2948,7 +2907,7 @@ returns [Object terminator_name_expression]
                                                                 // the DomainTerminatorService (probably).
                                                                 $terminator_name_expression = loader.create( "TerminatorNameExpression" );
                                                                 loader.relate( $expression.exp, $terminator_name_expression, 5569, "" );
-                                                                Object domain_terminator = null; // CDS loader.call_function( "select_any_DomainTerminator_where_name", $objectReference.name );
+                                                                Object domain_terminator = null; // CDS loader.call_function
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
@@ -2994,7 +2953,7 @@ returns [Object name_expression]
                                  )                          {
                                                               // CDS - Here I need to use a symbol table or build
                                                               // a query mechanism into my model.
-                                                              // exp = Name.create ( $domainReference.ref, $identifier.name );
+                                                              // exp = Name.create ( $domainReference.domainname, $identifier.name );
                                                               $name_expression = $identifier.name;
                                                             }
                               | ^( FIND_ATTRIBUTE
@@ -3078,29 +3037,31 @@ returns [Object literal_expression]
                               : IntegerLiteral
                                                             {
                                                               try {
+                                                                int value = 0; // CDS probably needs to be long
                                                                 Object numericliteral = loader.create( "NumericLiteral" );
                                                                 loader.relate( numericliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( numericliteral, "text", $IntegerLiteral.text );
                                                                 Object integerliteral = loader.create( "IntegerLiteral" );
                                                                 loader.relate( integerliteral, $literal_expression, 5703, "" );
                                                                 try {
-                                                                  //Long value = Long.parseLong( $IntegerLiteral.text );
+                                                                  value = Integer.parseInt( $IntegerLiteral.text );
                                                                 } catch ( NumberFormatException e ) { System.err.println( e ); }
-                                                                loader.set_attribute( integerliteral, "value", $IntegerLiteral.text );
+                                                                loader.set_attribute( integerliteral, "value", value );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | RealLiteral
                                                             {
                                                               try {
+                                                                Double value = 0.0;
                                                                 Object numericliteral = loader.create( "NumericLiteral" );
                                                                 loader.relate( numericliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( numericliteral, "text", $RealLiteral.text );
                                                                 Object realliteral = loader.create( "RealLiteral" );
                                                                 loader.relate( realliteral, $literal_expression, 5703, "" );
                                                                 try {
-                                                                  //Double value = Double.parseDouble( $RealLiteral.text );
+                                                                  value = Double.parseDouble( $RealLiteral.text );
                                                                 } catch ( NumberFormatException e ) { System.err.println( e ); }
-                                                                loader.set_attribute( realliteral, "value", $RealLiteral.text );
+                                                                loader.set_attribute( realliteral, "value", value );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | CharacterLiteral

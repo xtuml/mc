@@ -17,10 +17,10 @@ INSERT INTO O_ATTR
 	VALUES ("cbb6d768-2c10-49d8-9605-ac3568f034a8",
 	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc",
 	"00000000-0000-0000-0000-000000000000",
-	'conditional',
+	'isconditional',
 	'',
 	'',
-	'conditional',
+	'isconditional',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
@@ -51,75 +51,30 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../Shared/Shared.xtuml');
 INSERT INTO O_NBATTR
-	VALUES ("5edd7776-5fd9-48b0-acfc-a576116646f0",
+	VALUES ("16a7605f-fed5-4ea8-b686-1b9226193ed2",
 	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
 INSERT INTO O_BATTR
-	VALUES ("5edd7776-5fd9-48b0-acfc-a576116646f0",
+	VALUES ("16a7605f-fed5-4ea8-b686-1b9226193ed2",
 	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
 INSERT INTO O_ATTR
-	VALUES ("5edd7776-5fd9-48b0-acfc-a576116646f0",
+	VALUES ("16a7605f-fed5-4ea8-b686-1b9226193ed2",
 	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc",
 	"9c1c6672-e0f4-40dd-a06c-b44090a6ec0d",
-	'toObject',
-	'R6004
-',
+	'multiplicity',
 	'',
-	'toObject',
+	'',
+	'multiplicity',
 	0,
-	"f7befe55-1b3e-4905-98f7-22595984c0e6",
+	"fa2f8f5d-939e-4a92-befa-ed42bba34a65",
 	'',
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("f7befe55-1b3e-4905-98f7-22595984c0e6",
+	VALUES ("fa2f8f5d-939e-4a92-befa-ed42bba34a65",
 	"00000000-0000-0000-0000-000000000000",
-	'iObjectNameExpression',
+	'Multiplicity',
 	'',
 	'',
 	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("16a7605f-fed5-4ea8-b686-1b9226193ed2",
-	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
-INSERT INTO O_BATTR
-	VALUES ("16a7605f-fed5-4ea8-b686-1b9226193ed2",
-	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
-INSERT INTO O_ATTR
-	VALUES ("16a7605f-fed5-4ea8-b686-1b9226193ed2",
-	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc",
-	"5edd7776-5fd9-48b0-acfc-a576116646f0",
-	'mult',
-	'',
-	'',
-	'mult',
-	0,
-	"19b95c8d-1940-4a14-ae05-c1b29c415cbf",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("19b95c8d-1940-4a14-ae05-c1b29c415cbf",
-	"00000000-0000-0000-0000-000000000000",
-	'enumeratedMultiplicityType',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("2e2cde47-8e1f-42bd-bc44-3485736b29fb",
-	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
-INSERT INTO O_BATTR
-	VALUES ("2e2cde47-8e1f-42bd-bc44-3485736b29fb",
-	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
-INSERT INTO O_ATTR
-	VALUES ("2e2cde47-8e1f-42bd-bc44-3485736b29fb",
-	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc",
-	"16a7605f-fed5-4ea8-b686-1b9226193ed2",
-	'fromObject',
-	'R6006
-',
-	'',
-	'fromObject',
-	0,
-	"f7befe55-1b3e-4905-98f7-22595984c0e6",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
