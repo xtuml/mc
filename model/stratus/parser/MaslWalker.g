@@ -1628,8 +1628,7 @@ activityDefinition            : domainServiceDefinition
 
 
 domainServiceDefinition
-returns [Object domain_service]
-@init{ Object service = null; }
+returns [Object service]
                               : ^( DOMAIN_SERVICE_DEFINITION // done
                                    serviceVisibility
                                    domainReference
@@ -1640,7 +1639,9 @@ returns [Object domain_service]
                                    pragmaList
                                  )                          {
                                                               try {
-                                                                $domain_service = loader.call_function( "select_any_DomainService_where_name", $domainReference.domainname, $serviceName.name );
+                                                                // Returns Service supertype.
+                                                                // CDS - must deal with overloading by including parameter list in identification.
+                                                                $service = loader.call_function( "select_any_DomainService_where_name", $domainReference.domainname, $serviceName.name );
                                                                 loader.relate( $codeBlock.st, service, 5403, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -1648,8 +1649,7 @@ returns [Object domain_service]
 
 
 terminatorServiceDefinition
-returns [Object domain_terminator_service]
-@init{ Object service = null; }
+returns [Object service]
                               : ^( TERMINATOR_SERVICE_DEFINITION // done
                                    serviceVisibility
                                    domainReference
@@ -1661,7 +1661,8 @@ returns [Object domain_terminator_service]
                                    pragmaList
                                  )                          {
                                                               try {
-                                                                $domain_terminator_service = loader.call_function( "select_any_DomainTerminatorService_where_name", $domainReference.domainname, $terminatorName.name, $serviceName.name );
+                                                                // Returns Service supertype.
+                                                                $service = loader.call_function( "select_any_DomainTerminatorService_where_name", $domainReference.domainname, $terminatorName.name, $serviceName.name );
                                                                 loader.relate( $codeBlock.st, service, 5403, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -1669,8 +1670,7 @@ returns [Object domain_terminator_service]
 
 
 projectTerminatorServiceDefinition
-returns [Object project_terminator_service]
-@init{ Object service = null; }
+returns [Object service]
                               : ^( TERMINATOR_SERVICE_DEFINITION // done
                                    serviceVisibility
                                    domainReference
@@ -1682,7 +1682,8 @@ returns [Object project_terminator_service]
                                    pragmaList
                                  )                          {
                                                               try {
-                                                                $project_terminator_service = loader.call_function( "select_any_ProjectTerminatorService_where_name", $domainReference.domainname, $terminatorName.name, $serviceName.name );
+                                                                // Returns Service supertype.
+                                                                $service = loader.call_function( "select_any_ProjectTerminatorService_where_name", $domainReference.domainname, $terminatorName.name, $serviceName.name );
                                                                 loader.relate( $codeBlock.st, service, 5403, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -1690,11 +1691,9 @@ returns [Object project_terminator_service]
 
 
 
-objectServiceDefinition//[ObjectService service]
-//scope NameScope;
-
-
-                              : ^( OBJECT_SERVICE_DEFINITION
+objectServiceDefinition
+returns [Object service]
+                              : ^( OBJECT_SERVICE_DEFINITION // done
                                    serviceVisibility
                                    INSTANCE?
                                    fullObjectReference
@@ -1703,22 +1702,31 @@ objectServiceDefinition//[ObjectService service]
                                    returnType?
                                    codeBlock
                                    pragmaList
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                // Returns Service supertype.
+                                                                $service = loader.call_function( "select_any_ObjectService_where_name", $fullObjectReference.object_declaration, $serviceName.name );
+                                                                loader.relate( $codeBlock.st, service, 5403, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
-stateDefinition//[State stateDef]
-//scope NameScope;
-
-
-                              : ^( STATE_DEFINITION
+stateDefinition
+returns [Object ooastate]
+                              : ^( STATE_DEFINITION // done
                                    stateType
                                    fullObjectReference
                                    stateName
                                    parameterList
                                    codeBlock
                                    pragmaList
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                ooastate = loader.call_function( "select_any_State_related_where_name", $fullObjectReference.object_declaration, $stateName.name );
+                                                                loader.relate( $codeBlock.st, ooastate, 6115, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
@@ -1901,7 +1909,7 @@ returns [Object st]
                                                               try {
                                                                 loader.relate( $streamOperator.exp, $st, 5115, "" );
                                                                 // CDS - I am not sure what to do with multiple different operators.
-                                                                loader.set_attribute( $st, "operator", $streamOperator.op );
+                                                                //CDSloader.set_attribute( $st, "operator", $streamOperator.op );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )+
@@ -1910,10 +1918,10 @@ returns [Object st]
 
 streamOperator
 returns [String op, Object exp]
-                              : ^( ( STREAM_IN              { $op = "in"; } // done
-                                   | STREAM_OUT             { $op = "out"; }
-                                   | STREAM_LINE_IN         { $op = "linein"; }
-                                   | STREAM_LINE_OUT        { $op = "lineout"; }
+                              : ^( ( STREAM_IN              { $op = "IOop::in"; } // done
+                                   | STREAM_OUT             { $op = "IOop::out"; }
+                                   | STREAM_LINE_IN         { $op = "IOop::linein"; }
+                                   | STREAM_LINE_OUT        { $op = "IOop::lineout"; }
                                    ) expression             { $exp = $expression.exp; }
                                  )                          
                               ;
@@ -1936,7 +1944,7 @@ returns [Object st]
                                                                 // in the refactored diagram.
                                                                   Object subservice = loader.create( "DomainServiceInvocation" );
                                                                   subservice = loader.create( "ObjectServiceInvocation" );
-                                                                  subservice = loader.create( "InstranceSeviceInvocation" );
+                                                                  subservice = loader.create( "InstanceServiceInvocation" );
                                                                   subservice = loader.create( "TerminatorServiceInvocation" );
                                                                 loader.relate( $expression.exp, $st, 5157, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -2336,7 +2344,7 @@ returns [Object spec]
                                                                 $spec = loader.create( "LoopSpec" );
                                                                 loader.set_attribute( $spec, "isreverse", ( null != $REVERSE ) );
                                                                 loader.set_attribute( $spec, "loopVariable", $identifier.name );
-                                                                // CDS - Look up the VariableDeclaration by name (within scope)
+                                                                // CDS - Look up the VariableDefinition by name (within scope)
                                                                 // and link to it.
                                                                 loader.relate( $expression.exp, $spec, 5148, "" );
                                                                 // CDS here figuring out loop spec subtypes.
@@ -2398,7 +2406,7 @@ returns [Object var]
                                    typeReference
                                                             {
                                                               try {
-                                                                $var = loader.create( "VariableDeclaration" );
+                                                                $var = loader.create( "VariableDefinition" );
                                                                 loader.set_attribute( $var, "name", $variableName.name );
                                                                 loader.set_attribute( $var, "isreadonly", ( null != $READONLY ) );
                                                                 loader.relate( $typeReference.type, $var, 5137, "" );
@@ -2856,7 +2864,7 @@ returns [Object find_expression]
                                  )                          {
                                                               try {
                                                                 $find_expression = loader.create( "FindExpression" );
-                                                                loader.set_attribute( $find_expression, "find_type", $findType.find_type );
+                                                                //CDS loader.set_attribute( $find_expression, "find_type", $findType.find_type );
                                                                 loader.relate( $expression.exp, $find_expression, 5519, "" );
                                                                 loader.relate( $whereClause.exp, $find_expression, 5520, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }

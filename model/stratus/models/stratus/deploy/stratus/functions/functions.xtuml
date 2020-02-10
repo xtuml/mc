@@ -831,10 +831,11 @@ INSERT INTO S_SYNC
 	'select_any_DomainService_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.domainname );
-select any service related by domain->DomainService[R5303]->Service[R5203] where ( selected.name == param.name );
-select one domain_service related by service->DomainService[R5203];
-return domain_service;',
-	"ffebe79c-5289-41c4-9a6c-4c6b8346d989",
+// CDS bug 11898 select any service related by domain->DomainService[R5303]->Service[R5203] where ( selected.name == param.name );
+select many domain_services related by domain->DomainService[R5303];
+select any service related by domain_services->Service[R5203] where ( selected.name == param.name );
+return service;',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
 	1,
 	'',
 	0);
@@ -863,9 +864,9 @@ INSERT INTO PE_PE
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_DT_PROXY
-	VALUES ("ffebe79c-5289-41c4-9a6c-4c6b8346d989",
+	VALUES ("b907c2e2-2877-4506-8018-ad38c7be275a",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<DomainService>',
+	'inst_ref<Service>',
 	'',
 	'',
 	'../../../../../../ooamasl/models/ooamasl/domain/domain.xtuml');
@@ -875,11 +876,12 @@ INSERT INTO S_SYNC
 	'select_any_DomainTerminatorService_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.domainname );
-select any domain_terminator related by domain->DomainTerminator[R5304] where ( selected.name == param.termintorname );
-select any service related by domain_terminator->DomainTerminatorService[R5306]->Service[R5203] where ( selected.name == param.name );
-select one domain_terminator_service related by service->DomainTerminatorService[R5203];
-return domain_terminator_service;',
-	"1f9d3f63-cc27-4669-8de9-5252b9fcf08b",
+select any domain_terminator related by domain->DomainTerminator[R5304] where ( selected.name == param.terminatorname );
+// CDS bug 11898 select any service related by domain_terminator->DomainTerminatorService[R5306]->Service[R5203] where ( selected.name == param.name );
+select many domain_terminator_services related by domain_terminator->DomainTerminatorService[R5306];
+select any service related by domain_terminator_services->Service[R5203] where ( selected.name == param.name );
+return service;',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
 	1,
 	'',
 	0);
@@ -904,7 +906,7 @@ INSERT INTO S_SPARM
 INSERT INTO S_SPARM
 	VALUES ("a405e436-52c6-44df-bb3d-87c9532e87cf",
 	"0947dd72-a3ae-4f99-814d-a417cd5958dc",
-	'termintorname',
+	'terminatorname',
 	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
 	0,
 	'',
@@ -916,24 +918,20 @@ INSERT INTO PE_PE
 	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	"00000000-0000-0000-0000-000000000000",
 	1);
-INSERT INTO S_DT_PROXY
-	VALUES ("1f9d3f63-cc27-4669-8de9-5252b9fcf08b",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<DomainTerminatorService>',
-	'',
-	'',
-	'../../../../../../ooamasl/models/ooamasl/domain/domain.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("22291b3f-d688-4961-ae68-9f869d7af5ba",
 	"00000000-0000-0000-0000-000000000000",
 	'select_any_ProjectTerminatorService_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.projectdomainname );
-select any project_terminator related by domain->ProjectDomain[R5901]->ProjectTerminator[R5902] where ( selected.name == param.termintorname );
-select any service related by project_terminator->ProjectTerminatorService[R5903]->Service[R5203] where ( selected.name == param.name );
-select one project_terminator_service related by service->ProjectTerminatorService[R5203];
-return project_terminator_service;',
-	"64bf0599-7a0e-4cfd-b4c9-d0b7f36db4b5",
+// CDS bug 11898 select any project_terminator related by domain->ProjectDomain[R5901]->ProjectTerminator[R5902] where ( selected.name == param.termintorname );
+select many project_domains related by domain->ProjectDomain[R5901];
+select any project_terminator related by project_domains->ProjectTerminator[R5902] where ( selected.name == param.termintorname );
+// CDS bug 11898 select any service related by project_terminator->ProjectTerminatorService[R5903]->Service[R5203] where ( selected.name == param.name );
+select many project_terminator_services related by project_terminator->ProjectTerminatorService[R5903];
+select any service related by project_terminator_services->Service[R5203] where ( selected.name == param.name );
+return service;',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
 	1,
 	'',
 	0);
@@ -970,13 +968,44 @@ INSERT INTO PE_PE
 	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	"00000000-0000-0000-0000-000000000000",
 	1);
-INSERT INTO S_DT_PROXY
-	VALUES ("64bf0599-7a0e-4cfd-b4c9-d0b7f36db4b5",
+INSERT INTO S_SYNC
+	VALUES ("fa8a96be-5fe6-4057-85a1-64284cb19bde",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<ProjectTerminatorService>',
+	'select_any_ObjectService_where_name',
 	'',
+	'object_declaration = param.object_declaration;
+// CDS bug 11898 select any service related by object_declaration->ObjectService[R5808]->Service[R5203] where ( selected.name == param.name );
+select many object_services related by object_declaration->ObjectService[R5808];
+select any service related by object_services->Service[R5203] where ( selected.name == param.name );
+return service;',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
+	1,
 	'',
-	'../../../../../../ooamasl/models/ooamasl/project/project.xtuml');
+	0);
+INSERT INTO S_SPARM
+	VALUES ("4c18d07c-457f-478e-a8cc-7c7919c3e3b1",
+	"fa8a96be-5fe6-4057-85a1-64284cb19bde",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("93adc7d9-8de4-413c-8402-94d24008a42b",
+	"fa8a96be-5fe6-4057-85a1-64284cb19bde",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"4c18d07c-457f-478e-a8cc-7c7919c3e3b1",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fa8a96be-5fe6-4057-85a1-64284cb19bde",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,
