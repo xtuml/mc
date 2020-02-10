@@ -117,13 +117,12 @@ projectDomainDefinition
 returns [Object domain]
                               : ^( DOMAIN // done
                                    projectDomainReference   
-                                                            {
+                                   description              {
                                                               try {
                                                                 $domain = loader.create( "ProjectDomain" );
                                                                 loader.set_attribute( $domain, "name", $projectDomainReference.domainname );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                                   description
                                    ( projectTerminatorDefinition    
                                                             {
                                                               try {
@@ -256,7 +255,7 @@ returns [Object rejection]
                                                                   try {
                                                                     $rejection = loader.create( "ExceptionDeclaration" );
                                                                     loader.set_attribute( $rejection, "name", $exceptionName.name );
-                                                                    //CDSloader.set_attribute( $rejection, "visibility", "Visibility::" + $exceptionVisibility.visibility );
+                                                                    //CDSloader.set_attribute( $rejection, "visibility", $exceptionVisibility.visibility );
                                                                   } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                               ;
@@ -268,16 +267,16 @@ returns [ String name ]
                               ;
 
 exceptionReference
-returns [Object ref]
+returns [Object exception_reference]
                               : optionalDomainReference // done
                                 exceptionName               
                                                               {
                                                                 try {
-                                                                  $ref = loader.create( "ExceptionReference" );
+                                                                  $exception_reference = loader.create( "ExceptionReference" );
                                                                   Object builtin = loader.create( "BuiltinException" );
-                                                                  loader.relate( $ref, builtin, 5401, "" );
-                                                                  Object e = loader.call_function( "select_any_ExceptionDeclaration_where_name", $optionalDomainReference.domainname, $exceptionName.name );
-                                                                  loader.relate( $ref, e, 5402, "" );
+                                                                  loader.relate( $exception_reference, builtin, 5401, "" );
+                                                                  Object exception_declaration = loader.call_function( "select_any_ExceptionDeclaration_where_name", $optionalDomainReference.domainname, $exceptionName.name );
+                                                                  loader.relate( $exception_reference, exception_declaration, 5402, "" );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                               ;
@@ -285,8 +284,8 @@ returns [Object ref]
 
 exceptionVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = $PRIVATE.text; } // done
-                              | PUBLIC                      { $visibility = $PUBLIC.text; }
+                              : PRIVATE                     { $visibility = "Visibility::private"; } // done
+                              | PUBLIC                      { $visibility = "Visibility::public"; }
                               ;
 
 //---------------------------------------------------------
@@ -1934,25 +1933,21 @@ returns [Object st]
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
 
-                              : ^( CALL // done
-                                   expression               
+                              : ^( CALL
+                                   expression
                                                             {
                                                               try {
                                                                 // CDS - name lookup occurs here to resolved subtype
-                                                                // CDS - There are missing associations from the subtypes
-                                                                // to the declarations of the services.  This can be resolved
-                                                                // in the refactored diagram.
                                                                   Object subservice = loader.create( "DomainServiceInvocation" );
                                                                   subservice = loader.create( "ObjectServiceInvocation" );
                                                                   subservice = loader.create( "InstanceServiceInvocation" );
                                                                   subservice = loader.create( "TerminatorServiceInvocation" );
-                                                                loader.relate( $expression.exp, $st, 5157, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( argument               
                                                             {
                                                               try {
-                                                                loader.relate( $argument.exp, $st, 5134, "" );
+                                                                loader.relate( $argument.exp, $st, 5616, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*                       
@@ -2011,7 +2006,7 @@ returns [Object st]
                                                             {
                                                               try {
                                                                 $st = loader.create( "RaiseStatement" );
-                                                                loader.relate( $exceptionReference.ref, $st, 5126, "" );
+                                                                loader.relate( $exceptionReference.exception_reference, $st, 5126, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    (
@@ -2433,7 +2428,7 @@ returns [Object handler]
                                                               try {
                                                                 $handler = loader.create( "ExceptionHandler" );
                                                                 loader.set_attribute( $handler, "isother", false );
-                                                                loader.relate( $exceptionReference.ref, $handler, 5108, "" );
+                                                                loader.relate( $exceptionReference.exception_reference, $handler, 5108, "" );
                                                                 loader.relate( $statementList.st, $handler, 5152, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
