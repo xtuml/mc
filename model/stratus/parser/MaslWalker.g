@@ -126,7 +126,7 @@ returns [Object domain]
                                    ( projectTerminatorDefinition    
                                                             {
                                                               try {
-                                                                loader.relate( $projectTerminatorDefinition.terminator, $domain, 5902, "" );
+                                                                loader.relate( $projectTerminatorDefinition.project_terminator, $domain, 5902, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*
@@ -154,7 +154,7 @@ returns [Object domain]
                                                               try {
                                                                 $domain = loader.create( "Domain" );
                                                                 current_domain = $domain;
-                                                                loader.set_attribute( $domain, "name", $domainName.name );
+                                                                loader.set_attribute( $domain, "name", $domainName.domainname );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
@@ -173,7 +173,7 @@ returns [Object domain]
                                    | domainTerminatorDefinition    
                                                             {
                                                               try {
-                                                                loader.relate( $domainTerminatorDefinition.terminator, $domain, 5304, "" );
+                                                                loader.relate( $domainTerminatorDefinition.domain_terminator, $domain, 5304, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    | relationshipDefinition     
@@ -191,13 +191,13 @@ returns [Object domain]
                                    | typeDeclaration             
                                                             {
                                                               try {
-                                                                loader.relate( $typeDeclaration.type, $domain, 6235, "" );
+                                                                loader.relate( $typeDeclaration.type_declaration, $domain, 6235, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    | typeForwardDeclaration             
                                                             {
                                                               try {
-                                                                loader.relate( $typeForwardDeclaration.type, $domain, 6235, "" );
+                                                                loader.relate( $typeForwardDeclaration.type_declaration, $domain, 6235, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    | exceptionDeclaration        
@@ -212,22 +212,22 @@ returns [Object domain]
                               ;
 
 domainName
-returns [String name]
+returns [String domainname]
                               : ^( DOMAIN_NAME // done
-                                   identifier               { $name = $identifier.name; }
+                                   identifier               { $domainname = $identifier.name; }
                                  )
                               ;
 
 domainReference
 returns [String domainname]
-                              : domainName                  { $domainname = $domainName.name; } // done
+                              : domainName                  { $domainname = $domainName.domainname; } // done
                               // CDS - Might need to parse the interface file here.
                               ;
 
 
 projectDomainReference
 returns [String domainname]
-                              : domainName                  { $domainname = $domainName.name; } // done
+                              : domainName                  { $domainname = $domainName.domainname; } // done
                               // CDS - Might need to parse the interface file here.
                               ;
 
@@ -254,16 +254,16 @@ returns [Object rejection]
                                                               {
                                                                   try {
                                                                     $rejection = loader.create( "ExceptionDeclaration" );
-                                                                    loader.set_attribute( $rejection, "name", $exceptionName.name );
+                                                                    loader.set_attribute( $rejection, "name", $exceptionName.exceptionname );
                                                                     //CDSloader.set_attribute( $rejection, "visibility", $exceptionVisibility.visibility );
                                                                   } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                               ;
 
 exceptionName
-returns [ String name ]
+returns [ String exceptionname ]
                               : ^( EXCEPTION_NAME // done
-                                   identifier)              { $name = $identifier.name; }
+                                   identifier)              { $exceptionname = $identifier.name; }
                               ;
 
 exceptionReference
@@ -275,7 +275,7 @@ returns [Object exception_reference]
                                                                   $exception_reference = loader.create( "ExceptionReference" );
                                                                   Object builtin = loader.create( "BuiltinException" );
                                                                   loader.relate( $exception_reference, builtin, 5401, "" );
-                                                                  Object exception_declaration = loader.call_function( "select_any_ExceptionDeclaration_where_name", $optionalDomainReference.domainname, $exceptionName.name );
+                                                                  Object exception_declaration = loader.call_function( "select_any_ExceptionDeclaration_where_name", $optionalDomainReference.domainname, $exceptionName.exceptionname );
                                                                   loader.relate( $exception_reference, exception_declaration, 5402, "" );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
@@ -293,19 +293,19 @@ returns [String visibility]
 //---------------------------------------------------------
 
 typeForwardDeclaration
-returns [Object type]
+returns [Object type_declaration]
                               : ^( TYPE_DECLARATION // done
                                    typeName                 
                                    typeVisibility
                                    pragmaList				
                                                               {
                                                                 try {
-                                                                  $type = loader.call_function( "select_any_TypeDeclaration_where_name", $typeName.name );
-                                                                  if ( ((IModelInstance)$type).isEmpty() ) {
-                                                                    $type = loader.create( "TypeDeclaration" );
+                                                                  $type_declaration = loader.call_function( "select_any_TypeDeclaration_where_name", $typeName.name );
+                                                                  if ( ((IModelInstance)$type_declaration).isEmpty() ) {
+                                                                    $type_declaration = loader.create( "TypeDeclaration" );
                                                                   }
-                                                                  loader.set_attribute( $type, "name", $typeName.name );
-                                                                  //CDSloader.set_attribute( $type, "visibility", "Visibility::" + $typeVisibility.visibility );
+                                                                  loader.set_attribute( $type_declaration, "name", $typeName.name );
+                                                                  //CDSloader.set_attribute( $type_declaration, "visibility", $typeVisibility.visibility );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                  )                          
@@ -313,95 +313,91 @@ returns [Object type]
                               
 
 typeDeclaration
-returns [Object type]
+returns [Object type_declaration]
                               : ^( TYPE // done
                                    typeName                 
                                    typeVisibility
                                                               {
                                                                 try {
-                                                                  $type = loader.call_function( "select_any_TypeDeclaration_where_name", $typeName.name );
-                                                                  if ( ((IModelInstance)$type).isEmpty() ) {
-                                                                    $type = loader.create( "TypeDeclaration" );
+                                                                  $type_declaration = loader.call_function( "select_any_TypeDeclaration_where_name", $typeName.name );
+                                                                  if ( ((IModelInstance)$type_declaration).isEmpty() ) {
+                                                                    $type_declaration = loader.create( "TypeDeclaration" );
                                                                   }
-                                                                  loader.set_attribute( $type, "name", $typeName.name );
-                                                                  //CDSloader.set_attribute( $type, "visibility", "Visibility::" + $typeVisibility.visibility );
+                                                                  loader.set_attribute( $type_declaration, "name", $typeName.name );
+                                                                  //CDSloader.set_attribute( $type_declaration, "visibility", $typeVisibility.visibility );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    description
                                    pragmaList
-                                   typeDefinition[$type]
+                                   typeDefinition[$type_declaration]
                                                               {
                                                                 try {
-                                                                  loader.relate( $typeDefinition.type, $type, 6234, "" );
+                                                                  loader.relate( $typeDefinition.type_definition, $type_declaration, 6234, "" );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                  )
                               ;
 
 
-typeDefinition[Object typedecl]
-returns [Object type]
+typeDefinition[Object type_declaration]
+returns [Object type_definition]
 @init
                                                             {
                                                               try {
-                                                                $type = loader.create( "TypeDefinition" );
+                                                                $type_definition = loader.create( "TypeDefinition" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               : structureTypeDefinition // done
                                                             {
                                                               try {
-                                                                Object fulltype = loader.create( "FullTypeDefinition" );
-                                                                loader.relate( fulltype, $type, 6236, "" );
-                                                                loader.relate( $structureTypeDefinition.type, fulltype, 6219, "" );
+                                                                Object full_type_definition = loader.create( "FullTypeDefinition" );
+                                                                loader.relate( full_type_definition, $type_definition, 6236, "" );
+                                                                loader.relate( $structureTypeDefinition.structure_type, full_type_definition, 6219, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | enumerationTypeDefinition   
                                                             {
                                                               try {
-                                                                Object fulltype = loader.create( "FullTypeDefinition" );
-                                                                loader.relate( fulltype, $type, 6236, "" );
-                                                                loader.relate( $enumerationTypeDefinition.type, fulltype, 6219, "" );
+                                                                Object full_type_definition = loader.create( "FullTypeDefinition" );
+                                                                loader.relate( full_type_definition, $type_definition, 6236, "" );
+                                                                loader.relate( $enumerationTypeDefinition.enumerate_type, full_type_definition, 6219, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | constrainedTypeDefinition   
                                                             {
                                                               try {
-                                                                Object fulltype = loader.create( "FullTypeDefinition" );
-                                                                loader.relate( fulltype, $type, 6236, "" );
-                                                                loader.relate( $constrainedTypeDefinition.type, fulltype, 6219, "" );
+                                                                Object full_type_definition = loader.create( "FullTypeDefinition" );
+                                                                loader.relate( full_type_definition, $type_definition, 6236, "" );
+                                                                loader.relate( $constrainedTypeDefinition.type, full_type_definition, 6219, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | typeReference               
                                                             {
-                                                              // CDS - not sure if I need UserDefinedType here...
-                                                              // Does the BasicType already exist?
-                                                              // I think this question gets answered in typeReference
-                                                              // distinguished by namedTypeRef.
                                                               // Create the BasicType and UserDefineType here, because
                                                               // the typeReference rule needs to be used by non-defintion
                                                               // code.
                                                               try {
-                                                                Object basictype = loader.create( "BasicType" );
-                                                                loader.relate( basictype, $type, 6236, "" );
-                                                                Object userdefinedtype = loader.create( "UserDefinedType" );
-                                                                loader.relate( userdefinedtype, basictype, 6205, "" );
-                                                                loader.relate( userdefinedtype, $typedecl, 6241, "" );
+                                                                Object basic_type = loader.create( "BasicType" );
+                                                                loader.relate( basic_type, $type_definition, 6236, "" );
+                                                                Object user_defined_type = loader.create( "UserDefinedType" );
+                                                                loader.relate( user_defined_type, basic_type, 6205, "" );
+                                                                loader.relate( user_defined_type, $type_declaration, 6241, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | unconstrainedArrayDefinition
                                                             {
                                                               try {
-                                                                Object fulltype = loader.create( "FullTypeDefinition" );
-                                                                loader.relate( fulltype, $type, 6236, "" );
-                                                                loader.relate( $unconstrainedArrayDefinition.type, fulltype, 6219, "" );
+                                                                Object full_type_definition = loader.create( "FullTypeDefinition" );
+                                                                loader.relate( full_type_definition, $type_definition, 6236, "" );
+                                                                loader.relate( $unconstrainedArrayDefinition.type, full_type_definition, 6219, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 typeVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = $PRIVATE.text; } // done
-                              | PUBLIC                      { $visibility = $PUBLIC.text; }
+                              : PRIVATE                     { $visibility = "Visibility::private"; } // done
+                              | PUBLIC                      { $visibility = "Visibility::public"; }
                               ;
 
 
@@ -415,97 +411,97 @@ returns [Object type]
                                  )                          {
                                                               try {
                                                                 $type = loader.create( "ConstrainedType" );
-                                                                loader.relate( $typeReference.type, $type, 6210, "" );
-                                                                loader.relate( $typeConstraint.constraint, $type, 6209, "" );
+                                                                loader.relate( $typeReference.basic_type, $type, 6210, "" );
+                                                                loader.relate( $typeConstraint.type_constraint, $type, 6209, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 typeConstraint
-returns [Object constraint]
+returns [Object type_constraint]
                               : rangeConstraint // done
                                                             {
                                                               try {
-                                                                $constraint = loader.create( "TypeConstraint" );
-                                                                loader.relate( $rangeConstraint.range, $constraint, 6232, "" );
+                                                                $type_constraint = loader.create( "TypeConstraint" );
+                                                                loader.relate( $rangeConstraint.range_constraint, $type_constraint, 6232, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | deltaConstraint             
                                                             {
                                                               try {
-                                                                $constraint = loader.create( "TypeConstraint" );
-                                                                loader.relate( $deltaConstraint.delta, $constraint, 6232, "" );
+                                                                $type_constraint = loader.create( "TypeConstraint" );
+                                                                loader.relate( $deltaConstraint.delta_constraint, $type_constraint, 6232, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | digitsConstraint            
                                                             {
                                                               try {
-                                                                $constraint = loader.create( "TypeConstraint" );
-                                                                loader.relate( $digitsConstraint.digits, $constraint, 6232, "" );
+                                                                $type_constraint = loader.create( "TypeConstraint" );
+                                                                loader.relate( $digitsConstraint.digits_constraint, $type_constraint, 6232, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 rangeConstraint
-returns [Object range]
+returns [Object range_constraint]
                               : ^( RANGE // done
                                    expression
                                  )                          {
                                                               try {
-                                                                $range = loader.create( "RangeConstraint" );
-                                                                loader.relate( $expression.exp, $range, 6224, "" );
+                                                                $range_constraint = loader.create( "RangeConstraint" );
+                                                                loader.relate( $expression.exp, $range_constraint, 6224, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 deltaConstraint
-returns [Object delta]
+returns [Object delta_constraint]
                               : ^( DELTA // done
                                    expression
                                    rangeConstraint
                                  )                          {
                                                               try {
-                                                                $delta = loader.create( "RangeConstraint" );
-                                                                loader.relate( $expression.exp, $delta, 6211, "" );
-                                                                loader.relate( $rangeConstraint.range, $delta, 6212, "" );
+                                                                $delta_constraint = loader.create( "DeltaConstraint" );
+                                                                loader.relate( $expression.exp, $delta_constraint, 6211, "" );
+                                                                loader.relate( $rangeConstraint.range_constraint, $delta_constraint, 6212, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 digitsConstraint
-returns [Object digits]
+returns [Object digits_constraint]
                               : ^( DIGITS // done
                                    expression
                                    rangeConstraint
                                  )                          {
                                                               try {
-                                                                $digits = loader.create( "RangeConstraint" );
-                                                                loader.relate( $expression.exp, $digits, 6215, "" );
-                                                                loader.relate( $rangeConstraint.range, $digits, 6216, "" );
+                                                                $digits_constraint = loader.create( "RangeConstraint" );
+                                                                loader.relate( $expression.exp, $digits_constraint, 6215, "" );
+                                                                loader.relate( $rangeConstraint.range_constraint, $digits_constraint, 6216, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 // Structure Type
 structureTypeDefinition
-returns [Object type]
+returns [Object structure_type]
 @init{ Object previouscomponent = null; }
                               : ^( STRUCTURE // done
                                                             {
                                                               try {
-                                                                $type = loader.create( "StructureType" );
+                                                                $structure_type = loader.create( "StructureType" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( structureComponentDefinition 
                                                             {
                                                               try {
                                                                 if ( null == previouscomponent ) {
-                                                                  loader.relate( $structureComponentDefinition.element, $type, 6244, "" );
+                                                                  loader.relate( $structureComponentDefinition.structure_element, $structure_type, 6244, "" );
                                                                 } else {
-                                                                  loader.relate( $structureComponentDefinition.element, previouscomponent, 6243, "succeeds" );
+                                                                  loader.relate( $structureComponentDefinition.structure_element, previouscomponent, 6243, "succeeds" );
                                                                 }
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
-                                                              previouscomponent = $structureComponentDefinition.element;
+                                                              previouscomponent = $structureComponentDefinition.structure_element;
                                                             }
                                    )+
                                  )                          
@@ -513,7 +509,7 @@ returns [Object type]
 
 
 structureComponentDefinition
-returns [Object element]
+returns [Object structure_element]
                               : ^( COMPONENT_DEFINITION // done
                                    componentName
                                    typeReference
@@ -522,69 +518,69 @@ returns [Object element]
                                  )                          
                                                             {
                                                               try {
-                                                                $element = loader.create( "StructureElement" );
-                                                                loader.set_attribute( $element, "name", $componentName.name );
-                                                                loader.relate( $typeReference.type, $element, 6230, "" );
+                                                                $structure_element = loader.create( "StructureElement" );
+                                                                loader.set_attribute( $structure_element, "name", $componentName.componentname );
+                                                                loader.relate( $typeReference.basic_type, $structure_element, 6230, "" );
                                                                 if ( null != $expression.exp ) {
-                                                                  loader.relate( $expression.exp, $element, 6229, "" );
+                                                                  loader.relate( $expression.exp, $structure_element, 6229, "" );
                                                                 }
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 componentName
-returns [String name]
+returns [String componentname]
                               : ^( COMPONENT_NAME // done
                                    identifier
-                                 )                          { $name = $identifier.name; }
+                                 )                          { $componentname = $identifier.name; }
                               ;
 
 
 // Enumeration Type
 enumerationTypeDefinition
-returns [Object type]
+returns [Object enumerate_type]
 @init{ Object previousenumerator = null; }
                               : ^( ENUM // done
                                                             {
                                                               try {
-                                                                $type = loader.create( "EnumerateType" );
+                                                                $enumerate_type = loader.create( "EnumerateType" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( enumerator             
                                                             {
                                                               try {
                                                                 if ( null == previousenumerator ) {
-                                                                  loader.relate( $enumerator.item, $type, 6218, "" );
+                                                                  loader.relate( $enumerator.enumerate_item, $enumerate_type, 6218, "" );
                                                                 } else {
-                                                                  loader.relate( $enumerator.item, previousenumerator, 6242, "succeeds" );
+                                                                  loader.relate( $enumerator.enumerate_item, previousenumerator, 6242, "succeeds" );
                                                                 }
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
-                                                              previousenumerator = $enumerator.item;
+                                                              previousenumerator = $enumerator.enumerate_item;
                                                             }
                                    )+
                                  )                          
                               ;
 
 enumerator
-returns [Object item]
+returns [Object enumerate_item]
                               : ^( ENUMERATOR // done
                                    enumeratorName
                                    expression?
                                  )                          {
                                                               try {
-                                                                $item = loader.create( "EnumerateItem" );
-                                                                loader.set_attribute( $item, "name", $enumeratorName.name );
+                                                                $enumerate_item = loader.create( "EnumerateItem" );
+                                                                loader.set_attribute( $enumerate_item, "name", $enumeratorName.enumeratorname );
                                                                 if ( null != $expression.exp ) {
-                                                                  loader.relate( $item, $expression.exp, 6217, "" );
+                                                                  loader.relate( $enumerate_item, $expression.exp, 6217, "" );
                                                                 }
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 enumeratorName
-returns [String name]         : ^( ENUMERATOR_NAME // done
+returns [String enumeratorname]         : ^( ENUMERATOR_NAME // done
                                    identifier
-                                 )                          { $name = $identifier.name; }
+                                 )                          { $enumeratorname = $identifier.name; }
                               ;
 
 
@@ -597,8 +593,8 @@ returns [Object type]
                                  )                          {
                                                               try {
                                                                 $type = loader.create( "UnconstrainedArrayType" );
-                                                                loader.relate( $index.type, $type, 6239, "" );
-                                                                loader.relate( $contained.type, $type, 6240, "" );
+                                                                loader.relate( $index.basic_type, $type, 6239, "" );
+                                                                loader.relate( $contained.basic_type, $type, 6240, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
@@ -608,110 +604,184 @@ returns [Object type]
 //---------------------------------------------------------
 
 typeReference
-returns [Object type]
-                              : namedTypeRef                { $type = $namedTypeRef.basictype; }
-                              | constrainedArrayTypeRef     { $type = $constrainedArrayTypeRef.basictype; }
-                              | instanceTypeRef             { $type = $instanceTypeRef.basictype; }
-                              | sequenceTypeRef             { $type = $sequenceTypeRef.basictype; }
-                              | arrayTypeRef                { $type = $arrayTypeRef.basictype; }
-                              | setTypeRef                  { $type = $setTypeRef.basictype; }
-                              | bagTypeRef                  { $type = $bagTypeRef.basictype; }
-                              | dictionaryTypeRef           { $type = $dictionaryTypeRef.basictype; }
+returns [Object basic_type]
+                              : namedTypeRef                { $basic_type = $namedTypeRef.basic_type; } // done
+                              | constrainedArrayTypeRef     { $basic_type = $constrainedArrayTypeRef.basic_type; }
+                              | instanceTypeRef             { $basic_type = $instanceTypeRef.basic_type; }
+                              | sequenceTypeRef             { $basic_type = $sequenceTypeRef.basic_type; }
+                              | arrayTypeRef                { $basic_type = $arrayTypeRef.basic_type; }
+                              | setTypeRef                  { $basic_type = $setTypeRef.basic_type; }
+                              | bagTypeRef                  { $basic_type = $bagTypeRef.basic_type; }
+                              | dictionaryTypeRef           { $basic_type = $dictionaryTypeRef.basic_type; }
                               ;
 
 instanceTypeRef
-returns [Object basictype]
+returns [Object basic_type]
                               : ^( INSTANCE // done
                                    objectReference
                                    ANONYMOUS?
                                  )                          {
                                                               try {
-                                                                $basictype = loader.create( "BasicType" );
-                                                                loader.set_attribute( $basictype, "isanonymous", ( $ANONYMOUS != null ) );
-                                                                Object instancetype = loader.create( "InstanceType" );
-                                                                loader.relate( instancetype, $basictype, 6205, "" );
-                                                                loader.relate( instancetype, $objectReference.object_declaration, 6220, "" );
+                                                                $basic_type = loader.create( "BasicType" );
+                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
+                                                                Object instance_type = loader.create( "InstanceType" );
+                                                                loader.relate( instance_type, $basic_type, 6205, "" );
+                                                                loader.relate( instance_type, $objectReference.object_declaration, 6220, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 namedTypeRef
-returns [Object basictype]
+returns [Object basic_type]
                               : ^( NAMED_TYPE // done
                                    optionalDomainReference
                                    typeName
                                    ANONYMOUS?
                                  )                          { 
-                                                              // CDS - still not sure if this is right
-                                                              // I do not think I am creating the type in all the cases I need.
                                                               try {
-                                                                $basictype = loader.call_function( "select_any_BasicType_where_name", $optionalDomainReference.domainname, $typeName.name );
-                                                                if ( ((IModelInstance)$basictype).isEmpty() ) {
-                                                                  $basictype = loader.create( "BasicType" );
-                                                                }
-                                                                loader.set_attribute( $basictype, "isanonymous", ( $ANONYMOUS != null ) );
+                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", $optionalDomainReference.domainname, $typeName.name );
+                                                                //CDS wait until relate works  loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 userDefinedTypeRef
-returns [Object basictype]
-                              : ^( NAMED_TYPE
+returns [Object user_defined_type]
+                              : ^( NAMED_TYPE // done
                                    optionalDomainReference
                                    typeName
-                                 )                          
+                                 )                          { 
+                                                              try {
+                                                                $user_defined_type = loader.call_function( "select_any_UserDefinedType_where_name", $optionalDomainReference.domainname, $typeName.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 constrainedArrayTypeRef
-returns [Object basictype]
-                              : ^( CONSTRAINED_ARRAY
+returns [Object basic_type]
+                              : ^( CONSTRAINED_ARRAY // done
                                    userDefinedTypeRef
                                    arrayBounds
-                                 )                          
+                                 )                          { 
+                                                              try {
+                                                                $basic_type = loader.create( "BasicType" );
+                                                                Object unconstrained_array_subtype = loader.create( "UnconstrainedArraySubtype" );
+                                                                loader.relate( unconstrained_array_subtype, $basic_type, 6205, "" );
+                                                                loader.relate( unconstrained_array_subtype, $userDefinedTypeRef.user_defined_type, 6238, "" );
+                                                                loader.relate( unconstrained_array_subtype, $arrayBounds.exp, 6237, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 
 sequenceTypeRef
-returns [Object basictype]
-                              : ^( SEQUENCE
+returns [Object basic_type]
+                              : ^( SEQUENCE // done
                                    typeReference
                                    expression?
                                    ANONYMOUS?
-                                 )
+                                 )                          {
+                                                              try {
+                                                                $basic_type = loader.create( "BasicType" );
+                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
+                                                                Object collection_type = loader.create( "CollectionType" );
+                                                                loader.relate( collection_type, $basic_type, 6205, "" );
+                                                                loader.relate( collection_type, $typeReference.basic_type, 6208, "" );
+                                                                Object sequence_type = loader.create( "SequenceType" );
+                                                                loader.relate( sequence_type, collection_type, 6207, "" );
+                                                                if ( null != $expression.exp ) {
+                                                                  loader.relate( sequence_type, $expression.exp, 6226, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 arrayTypeRef
-returns [Object basictype]
-                              : ^( ARRAY
+returns [Object basic_type]
+                              : ^( ARRAY // done
                                    typeReference
                                    arrayBounds
                                    ANONYMOUS?
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                $basic_type = loader.create( "BasicType" );
+                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
+                                                                Object collection_type = loader.create( "CollectionType" );
+                                                                loader.relate( collection_type, $basic_type, 6205, "" );
+                                                                loader.relate( collection_type, $typeReference.basic_type, 6208, "" );
+                                                                Object array_type = loader.create( "ArrayType" );
+                                                                loader.relate( array_type, collection_type, 6207, "" );
+                                                                if ( null != $arrayBounds.exp ) {
+                                                                  loader.relate( array_type, $arrayBounds.exp, 6201, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 setTypeRef
-returns [Object basictype]
-                              : ^( SET
+returns [Object basic_type]
+                              : ^( SET // done
                                    typeReference
                                    ANONYMOUS?
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                $basic_type = loader.create( "BasicType" );
+                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
+                                                                Object collection_type = loader.create( "CollectionType" );
+                                                                loader.relate( collection_type, $basic_type, 6205, "" );
+                                                                loader.relate( collection_type, $typeReference.basic_type, 6208, "" );
+                                                                Object set_type = loader.create( "SetType" );
+                                                                loader.relate( set_type, collection_type, 6207, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 bagTypeRef
-returns [Object basictype]
-                              : ^( BAG
+returns [Object basic_type]
+                              : ^( BAG // done
                                    typeReference
                                    ANONYMOUS?
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                $basic_type = loader.create( "BasicType" );
+                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
+                                                                Object collection_type = loader.create( "CollectionType" );
+                                                                loader.relate( collection_type, $basic_type, 6205, "" );
+                                                                loader.relate( collection_type, $typeReference.basic_type, 6208, "" );
+                                                                Object bag_type = loader.create( "BagType" );
+                                                                loader.relate( bag_type, collection_type, 6207, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 
 dictionaryTypeRef
-returns [Object basictype]
-                              : ^( DICTIONARY
+returns [Object basic_type]
+                              : ^( DICTIONARY // done
                                    (^(KEY   key=typeReference))?
                                    (^(VALUE value=typeReference))?
                                    ANONYMOUS?
-                                 )                          
+                                 )                          {
+                                                              try {
+                                                                $basic_type = loader.create( "BasicType" );
+                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
+                                                                Object dictionary_type = loader.create( "DictionaryType" );
+                                                                loader.relate( dictionary_type, $basic_type, 6205, "" );
+                                                                // Link key and value.
+                                                                Object string_basic_type = loader.call_function( "select_any_BasicType_where_name", "", "string" );
+                                                                if ( null != $key.basic_type ) {
+                                                                  loader.relate( dictionary_type, $key.basic_type, 6213, "" );
+                                                                } else {
+                                                                  // No key provided.  Supply string.
+                                                                  loader.relate( dictionary_type, string_basic_type, 6213, "" );
+                                                                }
+                                                                if ( null != $value.basic_type ) {
+                                                                  loader.relate( dictionary_type, $value.basic_type, 6214, "" );
+                                                                } else {
+                                                                  // No value provided.  Supply string.
+                                                                  loader.relate( dictionary_type, string_basic_type, 6214, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                               ;
 typeName
 returns [String name]
@@ -721,8 +791,8 @@ returns [String name]
 
 arrayBounds
 returns [Object exp]
-                              : ^( ARRAY_BOUNDS
-                                   expression )             
+                              : ^( ARRAY_BOUNDS // done
+                                   expression )             { $exp = $expression.exp; }
                               ;
 
 //---------------------------------------------------------
@@ -730,20 +800,20 @@ returns [Object exp]
 //---------------------------------------------------------
 
 terminatorName
-returns [String name]
+returns [String terminatorname]
                               : ^( TERMINATOR_NAME // done
-                                   identifier )             { $name = $identifier.name; }
+                                   identifier )             { $terminatorname = $identifier.name; }
                               ;
 
 
 domainTerminatorDefinition
-returns [Object terminator]
+returns [Object domain_terminator]
                               : ^( TERMINATOR_DEFINITION // done
                                    terminatorName             
                                                               {
                                                                 try {
-                                                                  $terminator = loader.create( "DomainTerminator" );
-                                                                  loader.set_attribute( $terminator, "name", $terminatorName.name );
+                                                                  $domain_terminator = loader.create( "DomainTerminator" );
+                                                                  loader.set_attribute( $domain_terminator, "name", $terminatorName.terminatorname );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    description
@@ -751,7 +821,7 @@ returns [Object terminator]
                                    ( terminatorServiceDeclaration
                                                               {
                                                                 try {
-                                                                  loader.relate( $terminatorServiceDeclaration.terminatorservice, $terminator, 5306, "" );
+                                                                  loader.relate( $terminatorServiceDeclaration.terminatorservice, $domain_terminator, 5306, "" );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    )*
@@ -759,13 +829,13 @@ returns [Object terminator]
                               ;
 
 projectTerminatorDefinition
-returns [Object terminator]
+returns [Object project_terminator]
                               : ^( TERMINATOR_DEFINITION // done
                                    terminatorName
                                                               {
                                                                 try {
-                                                                  $terminator = loader.create( "ProjectTerminator" );
-                                                                  loader.set_attribute( $terminator, "name", $terminatorName.name );
+                                                                  $project_terminator = loader.create( "ProjectTerminator" );
+                                                                  loader.set_attribute( $project_terminator, "name", $terminatorName.terminatorname );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    description
@@ -773,7 +843,7 @@ returns [Object terminator]
                                    ( projectTerminatorServiceDeclaration
                                                               {
                                                                 try {
-                                                                  loader.relate( $projectTerminatorServiceDeclaration.terminatorservice, $terminator, 5903, "" );
+                                                                  loader.relate( $projectTerminatorServiceDeclaration.terminatorservice, $project_terminator, 5903, "" );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    )*
@@ -933,11 +1003,16 @@ returns [Object object_declaration]
                                    ( attributeDefinition [previousattribute]      
                                                             {
                                                               try {
-                                                                loader.relate( $attributeDefinition.attribute, $object_declaration, 5802, "" );
+                                                                loader.relate( $attributeDefinition.attribute_declaration, $object_declaration, 5802, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
-                                                              previousattribute = $attributeDefinition.attribute;
+                                                              previousattribute = $attributeDefinition.attribute_declaration;
                                                             }
                                    | identifierDefinition     
+                                                            {
+                                                              try {
+                                                                loader.relate( $identifierDefinition.identifier_declaration, $object_declaration, 5804, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    | objectServiceDeclaration 
                                    | eventDefinition          
                                                             {
@@ -964,30 +1039,36 @@ returns [Object object_declaration]
                               ;
 
 attributeDefinition[Object previousattribute]
-returns [Object attribute]
+returns [Object attribute_declaration]
                               : ^( ATTRIBUTE_DEFINITION
                                    attributeName            
                                    PREFERRED? UNIQUE?
                                                             {
                                                               try {
-                                                                $attribute = loader.create( "AttributeDeclaration" );
-                                                                loader.set_attribute( $attribute, "name", $attributeName.name );
+                                                                $attribute_declaration = loader.create( "AttributeDeclaration" );
+                                                                loader.set_attribute( $attribute_declaration, "name", $attributeName.name );
                                                                 if ( $PREFERRED != null ) {
-                                                                  loader.set_attribute( $attribute, "isPreferredIdentifier", false );
+                                                                  loader.set_attribute( $attribute_declaration, "isPreferredIdentifier", false );
                                                                 } else {
-                                                                  loader.set_attribute( $attribute, "isPreferredIdentifier", true );
+                                                                  loader.set_attribute( $attribute_declaration, "isPreferredIdentifier", true );
+                                                                  // CDS create the instance of the identifier declaration
+                                                                  // Be sure we create it only for the first occurrence of the preferred key word.
+                                                                  // CDS still not linking to ObjectDeclaration and beig sure only one...
+                                                                  Object identifier_declaration = loader.create( "IdentifierDeclaration" );
+                                                                  loader.set_attribute( identifier_declaration, "ispreferred", true );
+                                                                  loader.relate( $attribute_declaration, identifier_declaration, 5807, "" );
                                                                 }
                                                                 if ( $UNIQUE == null ) {
-                                                                  loader.set_attribute( $attribute, "isUnique", false );
+                                                                  loader.set_attribute( $attribute_declaration, "isUnique", false );
                                                                 } else {
-                                                                  loader.set_attribute( $attribute, "isUnique", true );
+                                                                  loader.set_attribute( $attribute_declaration, "isUnique", true );
                                                                 }
                                                                 if ( null != previousattribute ) {
-                                                                  loader.relate( $attributeDefinition.attribute, $previousattribute, 5809, "succeeds" );
+                                                                  loader.relate( $attributeDefinition.attribute_declaration, $previousattribute, 5809, "succeeds" );
                                                                 }
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                                   ( attReferential [$attribute]
+                                   ( attReferential [$attribute_declaration]
                                                             {
                                                             }
                                    )*
@@ -995,13 +1076,13 @@ returns [Object attribute]
                                    typeReference
                                                             {
                                                               try {
-                                                                loader.relate( $attribute, $typeReference.type, 5803, "" );
+                                                                loader.relate( $attribute_declaration, $typeReference.basic_type, 5803, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    (expression
                                                             {
                                                               try {
-                                                                loader.relate( $attribute, $expression.exp, 5801, "" );
+                                                                loader.relate( $attribute_declaration, $expression.exp, 5801, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )?
@@ -1100,9 +1181,22 @@ returns [Object objectservice]
 
 
 identifierDefinition
-
-                              : ^( IDENTIFIER
+returns [Object identifier_declaration]
+                              : ^( IDENTIFIER // done
+                                                            {
+                                                              try {
+                                                                $identifier_declaration = loader.create( "IdentifierDeclaration" );
+                                                                loader.set_attribute( $identifier_declaration, "ispreferred", false );
+                                                                loader.relate( current_object, identifier_declaration, 5804, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    ( attributeName
+                                                            {
+                                                              try {
+                                                                Object attribute_declaration = loader.call_function( "select_any_AttributeDeclaration_related_where_name", current_object, $attributeName.name );
+                                                                loader.relate( attribute_declaration, identifier_declaration, 5807, "" );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                            }
                                    )+
                                    pragmaList
                                  )                     
@@ -1397,13 +1491,13 @@ returns [String name]
 parameterType
 returns [Object type]
                               : ^( PARAMETER_TYPE // done
-                                   typeReference )            { $type = $typeReference.type; }
+                                   typeReference )            { $type = $typeReference.basic_type; }
                               ;
 
 returnType
 returns [Object type]
                               : ^( RETURN_TYPE // done
-                                   typeReference )            { $type = $typeReference.type; }
+                                   typeReference )            { $type = $typeReference.basic_type; }
                               ;
 
 
@@ -1595,7 +1689,7 @@ returns [ Object value ]
 
 pragmaName
 returns [ String name ]
-                              : ^( PRAGMA_NAME
+                              : ^( PRAGMA_NAME // done
                                    identifier               { $name = $identifier.name; }
                                  )
                               ;
@@ -1619,9 +1713,10 @@ returns [String text]
 /*  This rule has been added to allow to parse any activity action body file
     without knowledge of what type of activity it contained - LPS */
 
-activityDefinition            : domainServiceDefinition
+activityDefinition            : domainServiceDefinition // done
                               | terminatorServiceDefinition
                               | objectServiceDefinition
+                                // CDS why not projectTerminatorServiceDefinition?
                               | stateDefinition
                               ;
 
@@ -1661,7 +1756,7 @@ returns [Object service]
                                  )                          {
                                                               try {
                                                                 // Returns Service supertype.
-                                                                $service = loader.call_function( "select_any_DomainTerminatorService_where_name", $domainReference.domainname, $terminatorName.name, $serviceName.name );
+                                                                $service = loader.call_function( "select_any_DomainTerminatorService_where_name", $domainReference.domainname, $terminatorName.terminatorname, $serviceName.name );
                                                                 loader.relate( $codeBlock.st, service, 5403, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -1682,7 +1777,7 @@ returns [Object service]
                                  )                          {
                                                               try {
                                                                 // Returns Service supertype.
-                                                                $service = loader.call_function( "select_any_ProjectTerminatorService_where_name", $domainReference.domainname, $terminatorName.name, $serviceName.name );
+                                                                $service = loader.call_function( "select_any_ProjectTerminatorService_where_name", $domainReference.domainname, $terminatorName.terminatorname, $serviceName.name );
                                                                 loader.relate( $codeBlock.st, service, 5403, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -2404,7 +2499,7 @@ returns [Object var]
                                                                 $var = loader.create( "VariableDefinition" );
                                                                 loader.set_attribute( $var, "name", $variableName.name );
                                                                 loader.set_attribute( $var, "isreadonly", ( null != $READONLY ) );
-                                                                loader.relate( $typeReference.type, $var, 5137, "" );
+                                                                loader.relate( $typeReference.basic_type, $var, 5137, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    (expression
@@ -2979,11 +3074,11 @@ returns [Object name_expression]
 
 compoundTypeName
 returns [Object type]
-                              : instanceTypeRef             { $type = $instanceTypeRef.basictype; }
-                              | sequenceTypeRef             { $type = $sequenceTypeRef.basictype; }
-                              | arrayTypeRef                { $type = $arrayTypeRef.basictype; }
-                              | setTypeRef                  { $type = $setTypeRef.basictype; }
-                              | bagTypeRef                  { $type = $bagTypeRef.basictype; }
+                              : instanceTypeRef             { $type = $instanceTypeRef.basic_type; }
+                              | sequenceTypeRef             { $type = $sequenceTypeRef.basic_type; }
+                              | arrayTypeRef                { $type = $arrayTypeRef.basic_type; }
+                              | setTypeRef                  { $type = $setTypeRef.basic_type; }
+                              | bagTypeRef                  { $type = $bagTypeRef.basic_type; }
                               ;
 
 
@@ -3130,8 +3225,8 @@ returns [Object literal_expression]
                                                                 // CDS - need to relate to AnyInstance built-in
                                                                 // might to relate at a higher level in the hierarchy
                                                                 // like maybe the BasicType level
-                                                                Object basictype = loader.call_function( "select_any_TypeDeclaration_where_name", "AnyInstanceName" );
-                                                                loader.relate( nullliteral, basictype, 5702, "" );
+                                                                Object basic_type = loader.call_function( "select_any_TypeDeclaration_where_name", "AnyInstanceName" );
+                                                                loader.relate( nullliteral, basic_type, 5702, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | FLUSH

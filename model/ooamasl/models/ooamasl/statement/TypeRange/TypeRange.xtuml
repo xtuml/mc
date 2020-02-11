@@ -7,33 +7,6 @@ INSERT INTO O_OBJ
 	'TypeRange',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("6271896b-542e-43ce-8d8c-b6b0dfab0e08",
-	"38ae60e5-3dc3-47a8-931a-280d860d7cce");
-INSERT INTO O_BATTR
-	VALUES ("6271896b-542e-43ce-8d8c-b6b0dfab0e08",
-	"38ae60e5-3dc3-47a8-931a-280d860d7cce");
-INSERT INTO O_ATTR
-	VALUES ("6271896b-542e-43ce-8d8c-b6b0dfab0e08",
-	"38ae60e5-3dc3-47a8-931a-280d860d7cce",
-	"00000000-0000-0000-0000-000000000000",
-	'my_type',
-	'R5136
-type
-',
-	'',
-	'my_type',
-	0,
-	"6d33536a-bb31-4576-8661-f59c8db031ae",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("6d33536a-bb31-4576-8661-f59c8db031ae",
-	"00000000-0000-0000-0000-000000000000",
-	'iBasicType',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"38ae60e5-3dc3-47a8-931a-280d860d7cce");

@@ -7,32 +7,6 @@ INSERT INTO O_OBJ
 	'ParameterNameExpression',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("b5c62765-d7d6-4d82-a83c-20f0a1793a9b",
-	"242d1e7a-a419-4e49-be7d-6ab38cb03317");
-INSERT INTO O_BATTR
-	VALUES ("b5c62765-d7d6-4d82-a83c-20f0a1793a9b",
-	"242d1e7a-a419-4e49-be7d-6ab38cb03317");
-INSERT INTO O_ATTR
-	VALUES ("b5c62765-d7d6-4d82-a83c-20f0a1793a9b",
-	"242d1e7a-a419-4e49-be7d-6ab38cb03317",
-	"00000000-0000-0000-0000-000000000000",
-	'param',
-	'R5536
-',
-	'',
-	'param',
-	0,
-	"8afd730b-2de6-44a2-979e-a9a6f314d71c",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("8afd730b-2de6-44a2-979e-a9a6f314d71c",
-	"00000000-0000-0000-0000-000000000000",
-	'iParameterDefinition',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"242d1e7a-a419-4e49-be7d-6ab38cb03317");
