@@ -227,7 +227,13 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'select_any_BasicType_where_name',
 	'',
-	'select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
+	'select any type_declaration from instances of TypeDeclaration where ( false );
+select any domain from instances of Domain where ( selected.name == param.domainname );
+if ( not_empty domain )
+  select any type_declaration related by domain->TypeDeclaration[R6235] where ( selected.name == param.name );
+else
+  select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
+end if;
 select one basic_type related by type_declaration->TypeDefinition[R6234]->BasicType[R6236];
 return basic_type;',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
@@ -237,7 +243,7 @@ return basic_type;',
 INSERT INTO S_SPARM
 	VALUES ("98cc16ad-6526-40fb-afdf-0eed9e278f96",
 	"8861381d-eb56-404b-98fe-6c00df70f484",
-	'domain',
+	'domainname',
 	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
 	0,
 	'',
@@ -1049,6 +1055,124 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("b5d4ff9f-3855-44cf-92ec-0bd8f0c09515",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_VariableDefinition_where_name',
+	'',
+	'select any variable_definition from instances of VariableDefinition where ( selected.name == param.name );
+return variable_definition;',
+	"cbe32761-b70f-4b5b-bdd0-4863523889a1",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("0f5e1ba9-c597-4fa0-9618-0696a407fefd",
+	"b5d4ff9f-3855-44cf-92ec-0bd8f0c09515",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("b5d4ff9f-3855-44cf-92ec-0bd8f0c09515",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("cbe32761-b70f-4b5b-bdd0-4863523889a1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<VariableDefinition>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/statement/statement.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_name',
+	'',
+	'd = ""; n = ""; d = param.domainname; n = param.name;
+LOG::LogInfo( message:"resolve name " + d + " :: " + n );
+expression = param.expression;
+select any basic_type from instances of BasicType where ( false );
+
+// Look for the name among variable definitions.
+select many variable_definitions from instances of VariableDefinition;
+for each variable_definition in variable_definitions
+  if ( variable_definition.name == param.name )
+    LOG::LogInfo( message:"found variable" );
+    create object instance variable_name_expression of VariableNameExpression;
+    select one basic_type related by variable_definition->BasicType[R5137];
+    relate expression to variable_name_expression across R5517;
+    relate variable_name_expression to variable_definition across R5562;
+    return basic_type;
+  end if;
+end for;
+
+// Look for the name among domain services.
+select many domain_services from instances of DomainService;
+select any service related by domain_services->Service[R5203] where ( selected.name == param.name );
+if ( not_empty service )
+  LOG::LogInfo( message:"found domain service" );
+  select one basic_type related by service->BasicType[R5205];
+  return basic_type;
+end if;
+
+// Look for the name among types.
+select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
+if ( not_empty type_declaration )
+  LOG::LogInfo( message:"found type" );
+  select one basic_type related by type_declaration->TypeDefinition[R6234]->BasicType[R6236];
+  return basic_type;
+end if;
+
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("f28b21aa-3bf5-4396-9da1-a6397cfcaa1b",
+	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"8d32c0cb-d75b-4bdc-9c9a-a89707310aad",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cfa72c62-f0d0-4742-8298-3aabb79d8d02",
+	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Expression>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/expression/expression.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("8d32c0cb-d75b-4bdc-9c9a-a89707310aad",
+	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"cfa72c62-f0d0-4742-8298-3aabb79d8d02",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,

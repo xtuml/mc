@@ -38,9 +38,12 @@ import java.io.*;
 // external interface
 private Serial serial = null;
 private LOAD loader = null;
+private Object current_project = null;
+private Object current_project_domain = null;
 private Object current_domain = null;
-private Object current_object = null;
 private Object current_service = null;
+private Object current_object = null;
+private Object current_state = null;
 
 // parent masl parser
 private MaslImportParser masl_parser = null;
@@ -100,13 +103,14 @@ returns [Object project]
                                                               try {
                                                                 $project = loader.create( "Project" );
                                                                 loader.set_attribute( $project, "name", $projectName.name );
+                                                                current_project = $project;
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
                                    ( projectDomainDefinition
                                                             {
                                                               try {
-                                                                loader.relate( $projectDomainDefinition.domain, $project, 5900, "" );
+                                                                loader.relate( $projectDomainDefinition.project_domain, $project, 5900, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*
@@ -114,19 +118,21 @@ returns [Object project]
                               ;
 
 projectDomainDefinition
-returns [Object domain]
+returns [Object project_domain]
                               : ^( DOMAIN // done
                                    projectDomainReference   
                                    description              {
                                                               try {
-                                                                $domain = loader.create( "ProjectDomain" );
-                                                                loader.set_attribute( $domain, "name", $projectDomainReference.domainname );
+                                                                $project_domain = loader.create( "ProjectDomain" );
+                                                                loader.set_attribute( $project_domain, "name", $projectDomainReference.domainname );
+                                                                current_project_domain = $project_domain;
+                                                                //current_domain = null; // CDS select domain from project domain?
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( projectTerminatorDefinition    
                                                             {
                                                               try {
-                                                                loader.relate( $projectTerminatorDefinition.project_terminator, $domain, 5902, "" );
+                                                                loader.relate( $projectTerminatorDefinition.project_terminator, $project_domain, 5902, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )*
@@ -182,12 +188,7 @@ returns [Object domain]
                                                                 loader.relate( $relationshipDefinition.relationship_declaration, $domain, 6003, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                                   | objectDefinition            
-                                                            {
-                                                              try {
-                                                                loader.relate( $objectDefinition.object_declaration, $domain, 5805, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
-                                                            }
+                                   | objectDefinition       // object related when declared (above)
                                    | typeDeclaration             
                                                             {
                                                               try {
@@ -255,7 +256,7 @@ returns [Object rejection]
                                                                   try {
                                                                     $rejection = loader.create( "ExceptionDeclaration" );
                                                                     loader.set_attribute( $rejection, "name", $exceptionName.exceptionname );
-                                                                    //CDSloader.set_attribute( $rejection, "visibility", $exceptionVisibility.visibility );
+                                                                    loader.set_attribute( $rejection, "visibility", $exceptionVisibility.visibility );
                                                                   } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                               ;
@@ -305,7 +306,7 @@ returns [Object type_declaration]
                                                                     $type_declaration = loader.create( "TypeDeclaration" );
                                                                   }
                                                                   loader.set_attribute( $type_declaration, "name", $typeName.name );
-                                                                  //CDSloader.set_attribute( $type_declaration, "visibility", $typeVisibility.visibility );
+                                                                  loader.set_attribute( $type_declaration, "visibility", $typeVisibility.visibility );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                  )                          
@@ -324,7 +325,7 @@ returns [Object type_declaration]
                                                                     $type_declaration = loader.create( "TypeDeclaration" );
                                                                   }
                                                                   loader.set_attribute( $type_declaration, "name", $typeName.name );
-                                                                  //CDSloader.set_attribute( $type_declaration, "visibility", $typeVisibility.visibility );
+                                                                  loader.set_attribute( $type_declaration, "visibility", $typeVisibility.visibility );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    description
@@ -640,7 +641,7 @@ returns [Object basic_type]
                                  )                          { 
                                                               try {
                                                                 $basic_type = loader.call_function( "select_any_BasicType_where_name", $optionalDomainReference.domainname, $typeName.name );
-                                                                //CDS wait until relate works  loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
+                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
@@ -821,7 +822,7 @@ returns [Object domain_terminator]
                                    ( terminatorServiceDeclaration
                                                               {
                                                                 try {
-                                                                  loader.relate( $terminatorServiceDeclaration.terminatorservice, $domain_terminator, 5306, "" );
+                                                                  loader.relate( $terminatorServiceDeclaration.domain_terminator_service, $domain_terminator, 5306, "" );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    )*
@@ -843,7 +844,7 @@ returns [Object project_terminator]
                                    ( projectTerminatorServiceDeclaration
                                                               {
                                                                 try {
-                                                                  loader.relate( $projectTerminatorServiceDeclaration.terminatorservice, $project_terminator, 5903, "" );
+                                                                  loader.relate( $projectTerminatorServiceDeclaration.project_terminator_service, $project_terminator, 5903, "" );
                                                                 } catch ( XtumlException e ) { System.err.println( e ); }
                                                               }
                                    )*
@@ -853,7 +854,7 @@ returns [Object project_terminator]
 
 
 terminatorServiceDeclaration
-returns [Object terminatorservice]
+returns [Object domain_terminator_service]
 @init { Object service = null; }
                               : ^( TERMINATOR_SERVICE_DECLARATION // done
                                    serviceVisibility
@@ -863,9 +864,9 @@ returns [Object terminatorservice]
                                                                 service = loader.create( "Service" );
                                                                 current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
-                                                                //CDSloader.set_attribute( service, "visibility", $serviceVisibility.visibility );
-                                                                $terminatorservice = loader.create( "DomainTerminatorService" );
-                                                                loader.relate( $terminatorservice, service, 5203, "" );
+                                                                loader.set_attribute( service, "visibility", $serviceVisibility.visibility );
+                                                                $domain_terminator_service = loader.create( "DomainTerminatorService" );
+                                                                loader.relate( $domain_terminator_service, service, 5203, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
@@ -889,7 +890,7 @@ returns [Object terminatorservice]
                               ;
 
 projectTerminatorServiceDeclaration
-returns [Object terminatorservice]
+returns [Object project_terminator_service]
 @init { Object service = null; }
                               : ^( TERMINATOR_SERVICE_DECLARATION // done
                                    serviceVisibility
@@ -899,9 +900,9 @@ returns [Object terminatorservice]
                                                                 service = loader.create( "Service" );
                                                                 current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
-                                                                //CDSloader.set_attribute( service, "visibility", $serviceVisibility.visibility );
-                                                                $terminatorservice = loader.create( "ProjectTerminatorService" );
-                                                                loader.relate( $terminatorservice, service, 5203, "" );
+                                                                loader.set_attribute( service, "visibility", $serviceVisibility.visibility );
+                                                                $project_terminator_service = loader.create( "ProjectTerminatorService" );
+                                                                loader.relate( $project_terminator_service, service, 5203, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    description
@@ -987,17 +988,15 @@ returns [Object object_declaration]
 
 objectDefinition
 returns [Object object_declaration]
-@init{ Object previousattribute = null; }
+@init{ Object previousattribute = null; boolean non_existent_exists = false; }
                               : ^( OBJECT_DEFINITION
                                    objectName               
                                                             {
                                                               try {
                                                                 $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", "", $objectName.name );
-                                                                if ( ((IModelInstance)$object_declaration).isEmpty() ) {
-                                                                  $object_declaration = loader.create( "ObjectDeclaration" );
-                                                                }
                                                                 loader.set_attribute( $object_declaration, "name", $objectName.name );
                                                                 current_object = $object_declaration;
+                                                                non_existent_exists = false;
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( attributeDefinition [previousattribute]      
@@ -1023,6 +1022,13 @@ returns [Object object_declaration]
                                    | stateDeclaration         
                                                             {
                                                               try {
+                                                                if ( false == non_existent_exists ) {
+                                                                  // Create a Non_Existent state.
+                                                                  Object ooastate = loader.create( "State" );
+                                                                  loader.set_attribute( ooastate, "name", "Non_Existent" );
+                                                                  loader.relate( ooastate, $object_declaration, 6105, "" );
+                                                                  non_existent_exists = true;
+                                                                }
                                                                 loader.relate( $stateDeclaration.ooastate, $object_declaration, 6105, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -1053,7 +1059,7 @@ returns [Object attribute_declaration]
                                                                   loader.set_attribute( $attribute_declaration, "isPreferredIdentifier", true );
                                                                   // CDS create the instance of the identifier declaration
                                                                   // Be sure we create it only for the first occurrence of the preferred key word.
-                                                                  // CDS still not linking to ObjectDeclaration and beig sure only one...
+                                                                  // CDS still not linking to ObjectDeclaration and being sure only one...
                                                                   Object identifier_declaration = loader.create( "IdentifierDeclaration" );
                                                                   loader.set_attribute( identifier_declaration, "ispreferred", true );
                                                                   loader.relate( $attribute_declaration, identifier_declaration, 5807, "" );
@@ -1100,7 +1106,7 @@ returns [Object referential]
                                                               try {
                                                                 $referential = loader.create( "ReferentialAttributeDefinition" );
                                                                 // Link referential to itself until after all objects and attributes have been created.
-                                                                loader.relate_using( $attribute, $attribute, $referential, 5800, "refers_to" );
+                                                                //CDSloader.relate_using( $attribute, $attribute, $referential, 5800, "refers_to" );
                                                                 loader.relate( $referential, $relationshipSpec.relationship_specification, 5811, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -1152,7 +1158,7 @@ returns [Object objectservice]
                                                                 service = loader.create( "Service" );
                                                                 current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
-                                                                //CDSloader.set_attribute( service, "visibility", $serviceVisibility.visibility );
+                                                                loader.set_attribute( service, "visibility", $serviceVisibility.visibility );
                                                                 $objectservice = loader.create( "ObjectService" );
                                                                 loader.relate( $objectservice, service, 5203, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -1216,11 +1222,11 @@ returns [Object event]
                                                                 $event = loader.create( "EventDeclaration" );
                                                                 loader.set_attribute( $event, "name", $eventName.name );
                                                                 if ( "assigner" == $eventType.type ) {
-                                                                  //CDSloader.set_attribute( $event, "flavor", "EventType::assigner" );
+                                                                  loader.set_attribute( $event, "flavor", "EventType::assigner" );
                                                                 } else if ( "creation" == $eventType.type ) {
-                                                                  //CDSloader.set_attribute( $event, "flavor", "EventType::creation" );
+                                                                  loader.set_attribute( $event, "flavor", "EventType::creation" );
                                                                 } else {
-                                                                  //CDSloader.set_attribute( $event, "flavor", "EventType::normal" );
+                                                                  loader.set_attribute( $event, "flavor", "EventType::normal" );
                                                                 }
                                                                 if ( null != $parameterList.firstparameter ) {
                                                                   loader.relate( $event, $parameterList.firstparameter, 6100, "" );
@@ -1256,15 +1262,15 @@ returns [Object ooastate]
                                                                 $ooastate = loader.create( "State" );
                                                                 loader.set_attribute( $ooastate, "name", $stateName.name );
                                                                 if ( "assigner" == $stateType.type ) {
-                                                                  //CDSloader.set_attribute( $ooastate, "flavor", "StateType::assigner" );
+                                                                  loader.set_attribute( $ooastate, "flavor", "StateType::assigner" );
                                                                 } else if ( "start" == $stateType.type ) {
-                                                                  //CDSloader.set_attribute( $ooastate, "flavor", "StateType::assigner_start" );
+                                                                  loader.set_attribute( $ooastate, "flavor", "StateType::assigner_start" );
                                                                 } else if ( "creation" == $stateType.type ) {
-                                                                  //CDSloader.set_attribute( $ooastate, "flavor", "StateType::creation" );
+                                                                  loader.set_attribute( $ooastate, "flavor", "StateType::creation" );
                                                                 } else if ( "terminal" == $stateType.type ) {
-                                                                  //CDSloader.set_attribute( $ooastate, "flavor", "StateType::terminal" );
+                                                                  loader.set_attribute( $ooastate, "flavor", "StateType::terminal" );
                                                                 } else {
-                                                                  //CDSloader.set_attribute( $ooastate, "flavor", "StateType::normal" );
+                                                                  loader.set_attribute( $ooastate, "flavor", "StateType::normal" );
                                                                 }
                                                                 if ( null != $parameterList.firstparameter ) {
                                                                   loader.relate( $ooastate, $parameterList.firstparameter, 6104, "" );
@@ -1324,7 +1330,6 @@ returns [Object transition_row]
                                                             {
                                                               try {
                                                                 $transition_row = loader.create( "TransitionRow" );
-                                                                // CDS Decide what to do with 'non_existent'.
                                                                 Object ooastate = loader.call_function( "select_any_State_where_name", current_object, $startState.name );
                                                                 loader.relate( ooastate, $transition_row, 6111, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -1348,11 +1353,11 @@ returns [Object transition_option]
                                  )                          {
                                                               try {
                                                                 $transition_option = loader.create( "TransitionOption" );
-                                                                //CDS loader.set_attribute( $transition_option, "flavor", $endState.type );
+                                                                loader.set_attribute( $transition_option, "flavor", $endState.transition_type );
                                                                 loader.relate( $incomingEvent.event_declaration, $transition_option, 6108, "" );
-                                                                if ( "StateType::to_state" == $endState.type ) {
+                                                                if ( "TransitionType::to_state" == $endState.transition_type ) {
                                                                   Object ooastate = loader.call_function( "select_any_State_where_name", current_object, $endState.name );
-                                                                  loader.relate( ooastate, $transition_option, 6112, "" );
+                                                                  loader.relate( ooastate, $transition_option, 6109, "" );
                                                                 }
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -1372,10 +1377,10 @@ returns [String name]
                               ;
 
 endState
-returns [String name, String type]
-                              : stateName                   { $type = "StateType::to_state"; $name = $stateName.name; } // done
-                              | IGNORE                      { $type = "StateType::ignore"; $name = ""; }
-                              | CANNOT_HAPPEN               { $type = "StateType::cannot_happen"; $name = ""; }
+returns [String name, String transition_type]
+                              : stateName                   { $transition_type = "TransitionType::to_state"; $name = $stateName.name; } // done
+                              | IGNORE                      { $transition_type = "TransitionType::ignore"; $name = ""; }
+                              | CANNOT_HAPPEN               { $transition_type = "TransitionType::cannot_happen"; $name = ""; }
                               ;
 
 eventReference
@@ -1407,7 +1412,7 @@ returns [Object domain_service]
                                                                 service = loader.create( "Service" );
                                                                 current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
-                                                                //CDSloader.set_attribute( service, "visibility", $serviceVisibility.visibility );
+                                                                loader.set_attribute( service, "visibility", $serviceVisibility.visibility );
                                                                 $domain_service = loader.create( "DomainService" );
                                                                 loader.relate( $domain_service, service, 5203, "" );
                                                                 if ( null != $parameterList.firstparameter ) {
@@ -1439,7 +1444,7 @@ returns [Object parameter]
                                                               try {
                                                                 $parameter = loader.create( "ParameterDefinition" );
                                                                 loader.set_attribute( $parameter, "name", $parameterName.name );
-                                                                //CDSloader.set_attribute( $parameter, "parameter_mode", "ParameterMode::" + $parameterMode.parameter_mode );
+                                                                loader.set_attribute( $parameter, "mode", $parameterMode.parameter_mode );
                                                                 loader.relate( $parameterType.type, $parameter, 5200, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -1465,14 +1470,14 @@ returns [Object firstparameter]
 
 serviceVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = "Visibility::" + $PRIVATE.text; } // done
-                              | PUBLIC                      { $visibility = "Visibility::" + $PUBLIC.text; }
+                              : PRIVATE                     { $visibility = "Visibility::private"; } // done
+                              | PUBLIC                      { $visibility = "Visibility::public"; }
                               ;
 
 parameterMode
 returns [String parameter_mode]
-                              : IN                          { $parameter_mode = $IN.text; } // done
-                              | OUT                         { $parameter_mode = $OUT.text; }
+                              : IN                          { $parameter_mode = "ParameterMode::in"; } // done
+                              | OUT                         { $parameter_mode = "ParameterMode::out"; }
                               ;
 
 
@@ -1590,7 +1595,7 @@ returns [Object half_relationship]
                                                                 $half_relationship = loader.create( "HalfRelationship" );
                                                                 loader.set_attribute( $half_relationship, "isconditional", $conditionality.isconditional );
                                                                 loader.set_attribute( $half_relationship, "role", $rolePhrase.role );
-                                                                //CDS enums ... loader.set_attribute( $half_relationship, "multiplicity", $multiplicity.multiplicity );
+                                                                loader.set_attribute( $half_relationship, "multiplicity", $multiplicity.multiplicity );
                                                                 loader.relate( $from.object_declaration, $half_relationship, 6006, "" );
                                                                 loader.relate( $to.object_declaration, $half_relationship, 6004, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -1716,7 +1721,6 @@ returns [String text]
 activityDefinition            : domainServiceDefinition // done
                               | terminatorServiceDefinition
                               | objectServiceDefinition
-                                // CDS why not projectTerminatorServiceDefinition?
                               | stateDefinition
                               ;
 
@@ -2003,7 +2007,7 @@ returns [Object st]
                                                               try {
                                                                 loader.relate( $streamOperator.exp, $st, 5115, "" );
                                                                 // CDS - I am not sure what to do with multiple different operators.
-                                                                //CDSloader.set_attribute( $st, "operator", $streamOperator.op );
+                                                                loader.set_attribute( $st, "operator", $streamOperator.op );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )+
@@ -2032,7 +2036,7 @@ returns [Object st]
                                    expression
                                                             {
                                                               try {
-                                                                // CDS - name lookup occurs here to resolved subtype
+                                                                // CDS - name lookup occurs here to resolve subtype
                                                                   Object subservice = loader.create( "DomainServiceInvocation" );
                                                                   subservice = loader.create( "ObjectServiceInvocation" );
                                                                   subservice = loader.create( "InstanceServiceInvocation" );
@@ -2459,7 +2463,7 @@ returns [ Object st ]
                                   ( variableDeclaration     
                                                             {
                                                               try {
-                                                                loader.relate( $variableDeclaration.var, $st, 5151, "" );
+                                                                loader.relate( $variableDeclaration.variable_definition, $st, 5151, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                   )*     
@@ -2489,23 +2493,23 @@ returns [ Object st ]
 
 
 variableDeclaration
-returns [Object var]
+returns [Object variable_definition]
                               : ^( VARIABLE_DECLARATION // done
                                    variableName
                                    READONLY?
                                    typeReference
                                                             {
                                                               try {
-                                                                $var = loader.create( "VariableDefinition" );
-                                                                loader.set_attribute( $var, "name", $variableName.name );
-                                                                loader.set_attribute( $var, "isreadonly", ( null != $READONLY ) );
-                                                                loader.relate( $typeReference.basic_type, $var, 5137, "" );
+                                                                $variable_definition = loader.create( "VariableDefinition" );
+                                                                loader.set_attribute( $variable_definition, "name", $variableName.name );
+                                                                loader.set_attribute( $variable_definition, "isreadonly", ( null != $READONLY ) );
+                                                                loader.relate( $typeReference.basic_type, $variable_definition, 5137, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    (expression
                                                             {
                                                               try {
-                                                                loader.relate( $expression.exp, $var, 5138, "" );
+                                                                loader.relate( $expression.exp, $variable_definition, 5138, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    )?
@@ -2651,12 +2655,7 @@ returns [Object exp]
                                                                 loader.relate( $primeExpression.characteristic_expression, $exp, 5517, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
-                              | nameExpression              
-                                                            {
-                                                              try {
-                                                                loader.relate( $nameExpression.name_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
-                                                            }
+                              | nameExpression[$exp]        // Link occurs in the subrule.
                               | literalExpression           
                                                             {
                                                               try {
@@ -2673,7 +2672,7 @@ returns [Object binary_expression]
                                 )                           {
                                                               try {
                                                                 $binary_expression = loader.create( "BinaryExpression" );
-                                                                //CDS loader.set_attribute( $binary_expression, "operator", $binaryOperator.text );
+                                                                loader.set_attribute( $binary_expression, "operator", $binaryOperator.binary_operator );
                                                                 loader.relate( $lhs.exp, $binary_expression, 5001, "" );
                                                                 loader.relate( $rhs.exp, $binary_expression, 5002, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -2714,7 +2713,7 @@ returns [Object unary_expression]
                                                               try {
                                                                 // CDS I think I might need to relate this class to a result type.
                                                                 $unary_expression = loader.create( "UnaryExpression" );
-                                                                //CDS loader.set_attribute( $unary_expression, "operator", $unaryOperator.text );
+                                                                loader.set_attribute( $unary_expression, "operator", $unaryOperator.unary_operator );
                                                                 loader.relate( $expression.exp, $unary_expression, 5561, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -2954,7 +2953,7 @@ returns [Object find_expression]
                                  )                          {
                                                               try {
                                                                 $find_expression = loader.create( "FindExpression" );
-                                                                //CDS loader.set_attribute( $find_expression, "find_type", $findType.find_type );
+                                                                loader.set_attribute( $find_expression, "flavor", $findType.find_type );
                                                                 loader.relate( $expression.exp, $find_expression, 5519, "" );
                                                                 loader.relate( $whereClause.exp, $find_expression, 5520, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
@@ -2998,13 +2997,11 @@ returns [Object terminator_name_expression]
                                    identifier
                                  )                          {
                                                               try {
-                                                                // CDS I am beginning to think these "NameExpressions" are just
-                                                                // temporary types while scopes gets resolved.  Not sure.
-                                                                // I think we just need to resolve the name to a legitmate
-                                                                // terminator with a service matching identifier and return
-                                                                // the DomainTerminatorService (probably).
+                                                                // CDS here ... the name expression will return and expression
+                                                                // we need to recognize the type
                                                                 $terminator_name_expression = loader.create( "TerminatorNameExpression" );
-                                                                loader.relate( $expression.exp, $terminator_name_expression, 5569, "" );
+                                                                Object domain_terminator_service = loader.call_function( "select_any_DomainTerminatorService_where_name", "domainname", "terminatorname", $identifier.name );
+                                                                //loader.relate( domain_terminator_service, $terminator_name_expression, 5569, "" );
                                                                 Object domain_terminator = null; // CDS loader.call_function
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
@@ -3035,50 +3032,56 @@ returns [Object call_expression]
 
                               ;
 
-nameExpression
-returns [Object name_expression]      
+nameExpression[Object expression]
                               : ^( NAME
                                    identifier
                                  )                          { 
-                                                              // CDS - Here I need to use a symbol table or build
-                                                              // a query mechanism into my model.
-                                                              // exp = resolveName ( $identifier.name );
-                                                              $name_expression = $identifier.name;
+                                                         System.err.println( "------------------- name " + $identifier.name );
+                                                              try {
+                                                                Object basic_type = loader.call_function( "resolve_name", $expression, "", $identifier.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             } 
                               | ^( NAME
                                    domainReference
                                    identifier
                                  )                          {
-                                                              // CDS - Here I need to use a symbol table or build
-                                                              // a query mechanism into my model.
-                                                              // exp = Name.create ( $domainReference.domainname, $identifier.name );
-                                                              $name_expression = $identifier.name;
+                                                         System.err.println( "8888888888888888888 name " + $identifier.name );
+                                                              try {
+                                                                // CDS This will be something other than a variable.  I think this will be a domain service.
+                                                                Object basic_type = loader.call_function( "resolve_name", $expression, $domainReference.domainname, $identifier.name );
+                                                              } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | ^( FIND_ATTRIBUTE
                                    identifier
                                 )                           {
+                                                         System.err.println( "9999999999999999999 name " + $identifier.name );
                                                               try {
-                                                                $name_expression = loader.create( "FindAttributeNameExpression" );
+                                                                Object name_expression = loader.create( "FindAttributeNameExpression" );
+                                                                loader.relate( $expression, name_expression, 5517, "" );
+                                                                // CDS current object and current where clause need to be bread crumbed
+                                                                Object attribute_declaration = loader.call_function( "select_any_AttributeDeclaration_where_name", current_object, $identifier.name );
                                                                 // CDS - need to link to a where clause using the attribute name
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               | compoundTypeName
                                                             {
+                                                         System.err.println( "aaaaaaaaaaaaaaaaaaa name " );
                                                               try {
-                                                                $name_expression = loader.create( "TypeNameExpression" );
-                                                                loader.relate( $compoundTypeName.type, $name_expression, 5547, "" );
+                                                                Object name_expression = loader.create( "TypeNameExpression" );
+                                                                loader.relate( $compoundTypeName.basic_type, name_expression, 5547, "" );
+                                                                loader.relate( $expression, name_expression, 5517, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                               ;
 
 
 compoundTypeName
-returns [Object type]
-                              : instanceTypeRef             { $type = $instanceTypeRef.basic_type; }
-                              | sequenceTypeRef             { $type = $sequenceTypeRef.basic_type; }
-                              | arrayTypeRef                { $type = $arrayTypeRef.basic_type; }
-                              | setTypeRef                  { $type = $setTypeRef.basic_type; }
-                              | bagTypeRef                  { $type = $bagTypeRef.basic_type; }
+returns [Object basic_type]
+                              : instanceTypeRef             { $basic_type = $instanceTypeRef.basic_type; }
+                              | sequenceTypeRef             { $basic_type = $sequenceTypeRef.basic_type; }
+                              | arrayTypeRef                { $basic_type = $arrayTypeRef.basic_type; }
+                              | setTypeRef                  { $basic_type = $setTypeRef.basic_type; }
+                              | bagTypeRef                  { $basic_type = $bagTypeRef.basic_type; }
                               ;
 
 
@@ -3112,7 +3115,7 @@ returns [Object characteristic_expression]
                                                               try {
                                                                 $characteristic_expression = loader.create( "CharacteristicExpression" );
                                                                 loader.relate( $expression.exp, $characteristic_expression, 5504, "" );
-                                                                loader.set_attribute( $characteristic_expression, "characteristic", $identifier.text );
+                                                                loader.set_attribute( $characteristic_expression, "characteristic", $identifier.name );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
                                    ( argument               
@@ -3136,11 +3139,11 @@ returns [Object literal_expression]
                                                             {
                                                               try {
                                                                 int value = 0; // CDS probably needs to be long
-                                                                Object numericliteral = loader.create( "NumericLiteral" );
-                                                                loader.relate( numericliteral, $literal_expression, 5700, "" );
-                                                                loader.set_attribute( numericliteral, "text", $IntegerLiteral.text );
+                                                                Object numeric_literal = loader.create( "NumericLiteral" );
+                                                                loader.relate( numeric_literal, $literal_expression, 5700, "" );
+                                                                loader.set_attribute( numeric_literal, "text", $IntegerLiteral.text );
                                                                 Object integerliteral = loader.create( "IntegerLiteral" );
-                                                                loader.relate( integerliteral, $literal_expression, 5703, "" );
+                                                                loader.relate( integerliteral, numeric_literal, 5703, "" );
                                                                 try {
                                                                   value = Integer.parseInt( $IntegerLiteral.text );
                                                                 } catch ( NumberFormatException e ) { System.err.println( e ); }
@@ -3151,11 +3154,11 @@ returns [Object literal_expression]
                                                             {
                                                               try {
                                                                 Double value = 0.0;
-                                                                Object numericliteral = loader.create( "NumericLiteral" );
-                                                                loader.relate( numericliteral, $literal_expression, 5700, "" );
-                                                                loader.set_attribute( numericliteral, "text", $RealLiteral.text );
+                                                                Object numeric_literal = loader.create( "NumericLiteral" );
+                                                                loader.relate( numeric_literal, $literal_expression, 5700, "" );
+                                                                loader.set_attribute( numeric_literal, "text", $RealLiteral.text );
                                                                 Object realliteral = loader.create( "RealLiteral" );
-                                                                loader.relate( realliteral, $literal_expression, 5703, "" );
+                                                                loader.relate( realliteral, numeric_literal, 5703, "" );
                                                                 try {
                                                                   value = Double.parseDouble( $RealLiteral.text );
                                                                 } catch ( NumberFormatException e ) { System.err.println( e ); }
@@ -3222,10 +3225,7 @@ returns [Object literal_expression]
                                                               try {
                                                                 Object nullliteral = loader.create( "NullLiteral" );
                                                                 loader.relate( nullliteral, $literal_expression, 5700, "" );
-                                                                // CDS - need to relate to AnyInstance built-in
-                                                                // might to relate at a higher level in the hierarchy
-                                                                // like maybe the BasicType level
-                                                                Object basic_type = loader.call_function( "select_any_TypeDeclaration_where_name", "AnyInstanceName" );
+                                                                Object basic_type = loader.call_function( "select_any_BasicType_where_name", "", "instance" );
                                                                 loader.relate( nullliteral, basic_type, 5702, "" );
                                                               } catch ( XtumlException e ) { System.err.println( e ); }
                                                             }
