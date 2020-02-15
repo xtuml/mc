@@ -6,18 +6,6 @@ options
   ASTLabelType=CommonTree;
 }
 
-/*
-scope NameScope
-{
-  NameLookup lookup;
-}
-
-scope WhereClauseScope
-{
-  ObjectDeclaration parentObject;
-}
-*/
-
 @header
 {
 package deploy.parser;
@@ -38,12 +26,14 @@ import java.io.*;
 // external interface
 private Serial serial = null;
 private LOAD loader = null;
-private Object current_project = null;
-private Object current_project_domain = null;
-private Object current_domain = null;
-private Object current_service = null;
-private Object current_object = null;
-private Object current_state = null;
+private Object empty_object = null;
+private Object current_project = empty_object;
+private Object current_project_domain = empty_object;
+private Object current_domain = empty_object;
+private Object current_service = empty_object;
+private Object current_object = empty_object;
+private Object current_state = empty_object;
+private Object current_code_block = empty_object;
 
 // parent masl parser
 private MaslImportParser masl_parser = null;
@@ -75,11 +65,24 @@ private String getFile() {
     return f.getName();
 }
 
+// trace routine
+private void xtuml_trace( XtumlException e ) {
+  System.err.println( "trace -  " + getFile() + ":  " + e );
+  e.printStackTrace();
+  System.exit( 1 );
 }
 
-target                        : definition+; // done
+}
 
-definition                    : projectDefinition // done
+target
+@init{ try { empty_object = loader.call_function( "select_any_ObjectDeclaration_where_name", "false", "false" );
+           } catch ( XtumlException e ) { xtuml_trace( e ); } }
+                              : definition+; // done
+
+definition
+@init{ try { empty_object = loader.call_function( "select_any_ObjectDeclaration_where_name", "false", "false" );
+           } catch ( XtumlException e ) { xtuml_trace( e ); } }
+                              : projectDefinition // done
                               | domainDefinition
                               ;
 
@@ -104,14 +107,14 @@ returns [Object project]
                                                                 $project = loader.create( "Project" );
                                                                 loader.set_attribute( $project, "name", $projectName.name );
                                                                 current_project = $project;
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    description
                                    ( projectDomainDefinition
                                                             {
                                                               try {
                                                                 loader.relate( $projectDomainDefinition.project_domain, $project, 5900, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )*
                                    pragmaList)              
@@ -127,13 +130,13 @@ returns [Object project_domain]
                                                                 loader.set_attribute( $project_domain, "name", $projectDomainReference.domainname );
                                                                 current_project_domain = $project_domain;
                                                                 //current_domain = null; // CDS select domain from project domain?
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( projectTerminatorDefinition    
                                                             {
                                                               try {
                                                                 loader.relate( $projectTerminatorDefinition.project_terminator, $project_domain, 5902, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )*
                                    pragmaList
@@ -157,55 +160,61 @@ domainDefinition
 returns [Object domain]
                               : ^( DOMAIN // done
                                    domainName               {
+                                                         System.err.println( "domain defintion " + $domainName.domainname );
                                                               try {
                                                                 $domain = loader.create( "Domain" );
                                                                 current_domain = $domain;
                                                                 loader.set_attribute( $domain, "name", $domainName.domainname );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    description
                                    ( objectDeclaration           
                                                             {
+                                                         System.err.println( "objectDeclaration " );
                                                               try {
                                                                 loader.relate( $objectDeclaration.object_declaration, $domain, 5805, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | domainServiceDeclaration    
                                                             {
+                                                         System.err.println( "domainServiceDeclaration " );
                                                               try {
                                                                 loader.relate( $domainServiceDeclaration.domain_service, $domain, 5303, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | domainTerminatorDefinition    
                                                             {
+                                                         System.err.println( "domainTerminaotrlaration " );
                                                               try {
                                                                 loader.relate( $domainTerminatorDefinition.domain_terminator, $domain, 5304, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | relationshipDefinition     
                                                             {
+                                                         System.err.println( "domainRelatinoshiop " );
                                                               try {
                                                                 loader.relate( $relationshipDefinition.relationship_declaration, $domain, 6003, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | objectDefinition       // object related when declared (above)
                                    | typeDeclaration             
                                                             {
+                                                         System.err.println( "typeDeclaration " );
                                                               try {
                                                                 loader.relate( $typeDeclaration.type_declaration, $domain, 6235, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | typeForwardDeclaration             
                                                             {
                                                               try {
                                                                 loader.relate( $typeForwardDeclaration.type_declaration, $domain, 6235, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | exceptionDeclaration        
                                                             {
                                                               try {
                                                                 loader.relate( $exceptionDeclaration.rejection, $domain, 5400, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )*
                                    pragmaList
@@ -257,7 +266,7 @@ returns [Object rejection]
                                                                     $rejection = loader.create( "ExceptionDeclaration" );
                                                                     loader.set_attribute( $rejection, "name", $exceptionName.exceptionname );
                                                                     loader.set_attribute( $rejection, "visibility", $exceptionVisibility.visibility );
-                                                                  } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                  } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                               ;
 
@@ -278,7 +287,7 @@ returns [Object exception_reference]
                                                                   loader.relate( $exception_reference, builtin, 5401, "" );
                                                                   Object exception_declaration = loader.call_function( "select_any_ExceptionDeclaration_where_name", $optionalDomainReference.domainname, $exceptionName.exceptionname );
                                                                   loader.relate( $exception_reference, exception_declaration, 5402, "" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                               ;
                                 
@@ -307,7 +316,7 @@ returns [Object type_declaration]
                                                                   }
                                                                   loader.set_attribute( $type_declaration, "name", $typeName.name );
                                                                   loader.set_attribute( $type_declaration, "visibility", $typeVisibility.visibility );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                  )                          
                               ;
@@ -326,7 +335,7 @@ returns [Object type_declaration]
                                                                   }
                                                                   loader.set_attribute( $type_declaration, "name", $typeName.name );
                                                                   loader.set_attribute( $type_declaration, "visibility", $typeVisibility.visibility );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                    description
                                    pragmaList
@@ -334,7 +343,7 @@ returns [Object type_declaration]
                                                               {
                                                                 try {
                                                                   loader.relate( $typeDefinition.type_definition, $type_declaration, 6234, "" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                  )
                               ;
@@ -346,7 +355,7 @@ returns [Object type_definition]
                                                             {
                                                               try {
                                                                 $type_definition = loader.create( "TypeDefinition" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               : structureTypeDefinition // done
                                                             {
@@ -354,7 +363,7 @@ returns [Object type_definition]
                                                                 Object full_type_definition = loader.create( "FullTypeDefinition" );
                                                                 loader.relate( full_type_definition, $type_definition, 6236, "" );
                                                                 loader.relate( $structureTypeDefinition.structure_type, full_type_definition, 6219, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | enumerationTypeDefinition   
                                                             {
@@ -362,7 +371,7 @@ returns [Object type_definition]
                                                                 Object full_type_definition = loader.create( "FullTypeDefinition" );
                                                                 loader.relate( full_type_definition, $type_definition, 6236, "" );
                                                                 loader.relate( $enumerationTypeDefinition.enumerate_type, full_type_definition, 6219, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | constrainedTypeDefinition   
                                                             {
@@ -370,7 +379,7 @@ returns [Object type_definition]
                                                                 Object full_type_definition = loader.create( "FullTypeDefinition" );
                                                                 loader.relate( full_type_definition, $type_definition, 6236, "" );
                                                                 loader.relate( $constrainedTypeDefinition.type, full_type_definition, 6219, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | typeReference               
                                                             {
@@ -383,7 +392,7 @@ returns [Object type_definition]
                                                                 Object user_defined_type = loader.create( "UserDefinedType" );
                                                                 loader.relate( user_defined_type, basic_type, 6205, "" );
                                                                 loader.relate( user_defined_type, $type_declaration, 6241, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | unconstrainedArrayDefinition
                                                             {
@@ -391,7 +400,7 @@ returns [Object type_definition]
                                                                 Object full_type_definition = loader.create( "FullTypeDefinition" );
                                                                 loader.relate( full_type_definition, $type_definition, 6236, "" );
                                                                 loader.relate( $unconstrainedArrayDefinition.type, full_type_definition, 6219, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -414,7 +423,7 @@ returns [Object type]
                                                                 $type = loader.create( "ConstrainedType" );
                                                                 loader.relate( $typeReference.basic_type, $type, 6210, "" );
                                                                 loader.relate( $typeConstraint.type_constraint, $type, 6209, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -425,21 +434,21 @@ returns [Object type_constraint]
                                                               try {
                                                                 $type_constraint = loader.create( "TypeConstraint" );
                                                                 loader.relate( $rangeConstraint.range_constraint, $type_constraint, 6232, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | deltaConstraint             
                                                             {
                                                               try {
                                                                 $type_constraint = loader.create( "TypeConstraint" );
                                                                 loader.relate( $deltaConstraint.delta_constraint, $type_constraint, 6232, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | digitsConstraint            
                                                             {
                                                               try {
                                                                 $type_constraint = loader.create( "TypeConstraint" );
                                                                 loader.relate( $digitsConstraint.digits_constraint, $type_constraint, 6232, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -451,7 +460,7 @@ returns [Object range_constraint]
                                                               try {
                                                                 $range_constraint = loader.create( "RangeConstraint" );
                                                                 loader.relate( $expression.exp, $range_constraint, 6224, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -465,7 +474,7 @@ returns [Object delta_constraint]
                                                                 $delta_constraint = loader.create( "DeltaConstraint" );
                                                                 loader.relate( $expression.exp, $delta_constraint, 6211, "" );
                                                                 loader.relate( $rangeConstraint.range_constraint, $delta_constraint, 6212, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -479,7 +488,7 @@ returns [Object digits_constraint]
                                                                 $digits_constraint = loader.create( "RangeConstraint" );
                                                                 loader.relate( $expression.exp, $digits_constraint, 6215, "" );
                                                                 loader.relate( $rangeConstraint.range_constraint, $digits_constraint, 6216, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -491,7 +500,7 @@ returns [Object structure_type]
                                                             {
                                                               try {
                                                                 $structure_type = loader.create( "StructureType" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( structureComponentDefinition 
                                                             {
@@ -501,7 +510,7 @@ returns [Object structure_type]
                                                                 } else {
                                                                   loader.relate( $structureComponentDefinition.structure_element, previouscomponent, 6243, "succeeds" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               previouscomponent = $structureComponentDefinition.structure_element;
                                                             }
                                    )+
@@ -525,7 +534,7 @@ returns [Object structure_element]
                                                                 if ( null != $expression.exp ) {
                                                                   loader.relate( $expression.exp, $structure_element, 6229, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -545,7 +554,7 @@ returns [Object enumerate_type]
                                                             {
                                                               try {
                                                                 $enumerate_type = loader.create( "EnumerateType" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( enumerator             
                                                             {
@@ -555,7 +564,7 @@ returns [Object enumerate_type]
                                                                 } else {
                                                                   loader.relate( $enumerator.enumerate_item, previousenumerator, 6242, "succeeds" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               previousenumerator = $enumerator.enumerate_item;
                                                             }
                                    )+
@@ -574,7 +583,7 @@ returns [Object enumerate_item]
                                                                 if ( null != $expression.exp ) {
                                                                   loader.relate( $enumerate_item, $expression.exp, 6217, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -596,7 +605,7 @@ returns [Object type]
                                                                 $type = loader.create( "UnconstrainedArrayType" );
                                                                 loader.relate( $index.basic_type, $type, 6239, "" );
                                                                 loader.relate( $contained.basic_type, $type, 6240, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -628,7 +637,7 @@ returns [Object basic_type]
                                                                 Object instance_type = loader.create( "InstanceType" );
                                                                 loader.relate( instance_type, $basic_type, 6205, "" );
                                                                 loader.relate( instance_type, $objectReference.object_declaration, 6220, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -642,7 +651,7 @@ returns [Object basic_type]
                                                               try {
                                                                 $basic_type = loader.call_function( "select_any_BasicType_where_name", $optionalDomainReference.domainname, $typeName.name );
                                                                 loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -654,7 +663,7 @@ returns [Object user_defined_type]
                                  )                          { 
                                                               try {
                                                                 $user_defined_type = loader.call_function( "select_any_UserDefinedType_where_name", $optionalDomainReference.domainname, $typeName.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -670,7 +679,7 @@ returns [Object basic_type]
                                                                 loader.relate( unconstrained_array_subtype, $basic_type, 6205, "" );
                                                                 loader.relate( unconstrained_array_subtype, $userDefinedTypeRef.user_defined_type, 6238, "" );
                                                                 loader.relate( unconstrained_array_subtype, $arrayBounds.exp, 6237, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -693,7 +702,7 @@ returns [Object basic_type]
                                                                 if ( null != $expression.exp ) {
                                                                   loader.relate( sequence_type, $expression.exp, 6226, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -715,7 +724,7 @@ returns [Object basic_type]
                                                                 if ( null != $arrayBounds.exp ) {
                                                                   loader.relate( array_type, $arrayBounds.exp, 6201, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -733,7 +742,7 @@ returns [Object basic_type]
                                                                 loader.relate( collection_type, $typeReference.basic_type, 6208, "" );
                                                                 Object set_type = loader.create( "SetType" );
                                                                 loader.relate( set_type, collection_type, 6207, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -751,7 +760,7 @@ returns [Object basic_type]
                                                                 loader.relate( collection_type, $typeReference.basic_type, 6208, "" );
                                                                 Object bag_type = loader.create( "BagType" );
                                                                 loader.relate( bag_type, collection_type, 6207, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -781,7 +790,7 @@ returns [Object basic_type]
                                                                   // No value provided.  Supply string.
                                                                   loader.relate( dictionary_type, string_basic_type, 6214, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 typeName
@@ -815,7 +824,7 @@ returns [Object domain_terminator]
                                                                 try {
                                                                   $domain_terminator = loader.create( "DomainTerminator" );
                                                                   loader.set_attribute( $domain_terminator, "name", $terminatorName.terminatorname );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                    description
                                    pragmaList
@@ -823,7 +832,7 @@ returns [Object domain_terminator]
                                                               {
                                                                 try {
                                                                   loader.relate( $terminatorServiceDeclaration.domain_terminator_service, $domain_terminator, 5306, "" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                    )*
                                  )
@@ -837,7 +846,7 @@ returns [Object project_terminator]
                                                                 try {
                                                                   $project_terminator = loader.create( "ProjectTerminator" );
                                                                   loader.set_attribute( $project_terminator, "name", $terminatorName.terminatorname );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                    description
                                    pragmaList
@@ -845,7 +854,7 @@ returns [Object project_terminator]
                                                               {
                                                                 try {
                                                                   loader.relate( $projectTerminatorServiceDeclaration.project_terminator_service, $project_terminator, 5903, "" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                    )*
                                  )
@@ -867,7 +876,7 @@ returns [Object domain_terminator_service]
                                                                 loader.set_attribute( service, "visibility", $serviceVisibility.visibility );
                                                                 $domain_terminator_service = loader.create( "DomainTerminatorService" );
                                                                 loader.relate( $domain_terminator_service, service, 5203, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    description
                                    parameterList
@@ -875,14 +884,14 @@ returns [Object domain_terminator_service]
                                                               if ( null != $parameterList.firstparameter ) {
                                                                 try {
                                                                   loader.relate( $parameterList.firstparameter, service, 5204, "" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                                             }
                                    ( returnType
                                                             {
                                                               try {
                                                                 loader.relate( $returnType.type, service, 5205, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                    pragmaList
@@ -903,7 +912,7 @@ returns [Object project_terminator_service]
                                                                 loader.set_attribute( service, "visibility", $serviceVisibility.visibility );
                                                                 $project_terminator_service = loader.create( "ProjectTerminatorService" );
                                                                 loader.relate( $project_terminator_service, service, 5203, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    description
                                    parameterList
@@ -911,14 +920,14 @@ returns [Object project_terminator_service]
                                                               if ( null != $parameterList.firstparameter ) {
                                                                 try {
                                                                   loader.relate( $parameterList.firstparameter, service, 5204, "" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                                             }
                                    ( returnType
                                                             {
                                                               try {
                                                                 loader.relate( $returnType.type, service, 5205, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                    pragmaList
@@ -944,7 +953,8 @@ returns [Object object_declaration]
                                                             { 
                                                               try {
                                                                 $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", $optionalDomainReference.domainname, $objectName.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                assert null != $object_declaration : "did not find obuect decl";
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -955,7 +965,7 @@ returns [Object object_declaration]
                                                             { 
                                                               try {
                                                                 $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", $domainReference.domainname, $objectName.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -979,7 +989,7 @@ returns [Object object_declaration]
                                                               try {
                                                                 $object_declaration = loader.create( "ObjectDeclaration" );
                                                                 loader.set_attribute( $object_declaration, "name", $objectName.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    pragmaList
                                  )                          
@@ -989,35 +999,42 @@ returns [Object object_declaration]
 objectDefinition
 returns [Object object_declaration]
 @init{ Object previousattribute = null; boolean non_existent_exists = false; }
-                              : ^( OBJECT_DEFINITION
+@after{ current_object = empty_object; }
+                              : ^( OBJECT_DEFINITION // done
                                    objectName               
                                                             {
+                                                         System.err.println( "objectDefinition " + $objectName.name );
                                                               try {
                                                                 $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", "", $objectName.name );
                                                                 loader.set_attribute( $object_declaration, "name", $objectName.name );
                                                                 current_object = $object_declaration;
                                                                 non_existent_exists = false;
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( attributeDefinition [previousattribute]      
                                                             {
                                                               try {
                                                                 loader.relate( $attributeDefinition.attribute_declaration, $object_declaration, 5802, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               previousattribute = $attributeDefinition.attribute_declaration;
                                                             }
                                    | identifierDefinition     
                                                             {
                                                               try {
                                                                 loader.relate( $identifierDefinition.identifier_declaration, $object_declaration, 5804, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | objectServiceDeclaration 
+                                                            {
+                                                              try {
+                                                                loader.relate( $objectServiceDeclaration.object_service, $object_declaration, 5808, "" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
+                                                            }
                                    | eventDefinition          
                                                             {
                                                               try {
-                                                                loader.relate( $eventDefinition.event, $object_declaration, 6101, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                loader.relate( $eventDefinition.event_declaration, $object_declaration, 6101, "" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | stateDeclaration         
                                                             {
@@ -1030,13 +1047,13 @@ returns [Object object_declaration]
                                                                   non_existent_exists = true;
                                                                 }
                                                                 loader.relate( $stateDeclaration.ooastate, $object_declaration, 6105, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | transitionTable          
                                                             {
                                                               try {
                                                                 loader.relate( $transitionTable.transition_table, $object_declaration, 6113, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )*
                                    description
@@ -1046,7 +1063,7 @@ returns [Object object_declaration]
 
 attributeDefinition[Object previousattribute]
 returns [Object attribute_declaration]
-                              : ^( ATTRIBUTE_DEFINITION
+                              : ^( ATTRIBUTE_DEFINITION // done
                                    attributeName            
                                    PREFERRED? UNIQUE?
                                                             {
@@ -1064,79 +1081,71 @@ returns [Object attribute_declaration]
                                                                   loader.set_attribute( identifier_declaration, "ispreferred", true );
                                                                   loader.relate( $attribute_declaration, identifier_declaration, 5807, "" );
                                                                 }
-                                                                if ( $UNIQUE == null ) {
-                                                                  loader.set_attribute( $attribute_declaration, "isUnique", false );
-                                                                } else {
+                                                                if ( null != $UNIQUE ) {
                                                                   loader.set_attribute( $attribute_declaration, "isUnique", true );
+                                                                } else {
+                                                                  loader.set_attribute( $attribute_declaration, "isUnique", false );
                                                                 }
                                                                 if ( null != previousattribute ) {
                                                                   loader.relate( $attributeDefinition.attribute_declaration, $previousattribute, 5809, "succeeds" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( attReferential [$attribute_declaration]
-                                                            {
-                                                            }
                                    )*
                                    description
                                    typeReference
                                                             {
                                                               try {
                                                                 loader.relate( $attribute_declaration, $typeReference.basic_type, 5803, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    (expression
                                                             {
                                                               try {
                                                                 loader.relate( $attribute_declaration, $expression.exp, 5801, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                    pragmaList
                                  )                          
                               ;
 
-attReferential [Object attribute]
-returns [Object referential]
-                              : ^( REFERENTIAL
+attReferential [Object attribute_declaration]
+returns [Object referential_attribute_definition]
+                              : ^( REFERENTIAL // done
                                    relationshipSpec
                                    attributeName
                                  )                          
                                                             {
                                                               try {
-                                                                $referential = loader.create( "ReferentialAttributeDefinition" );
-                                                                // Link referential to itself until after all objects and attributes have been created.
-                                                                //CDSloader.relate_using( $attribute, $attribute, $referential, 5800, "refers_to" );
-                                                                loader.relate( $referential, $relationshipSpec.relationship_specification, 5811, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                $referential_attribute_definition = loader.create( "ReferentialAttributeDefinition" );
+                                                                // CDS Link referential to itself until after all objects and attributes have been created.
+                                                                loader.relate_using( $attribute_declaration, $attribute_declaration, $referential_attribute_definition, 5800, "refers_to" );
+                                                                loader.relate( $referential_attribute_definition, $relationshipSpec.relationship_specification, 5811, "" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
 
 relationshipSpec
 returns [Object relationship_specification]
-                              : ^( RELATIONSHIP_SPEC
+@init{ String object_or_role = ""; Object to_object = empty_object; }
+                              : ^( RELATIONSHIP_SPEC // done
                                    relationshipReference    
-                                                            {
-                                                              try {
-                                                                $relationship_specification = loader.create( "RelationshipSpecification" );
-                                                                loader.relate( $relationship_specification, $relationshipReference.relationship_declaration, 6015, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
-                                                            }
-                                   ( objOrRole
-                                                            {
-                                                              String s = $objOrRole.name;
-                                                              //try {
-                                                              //} catch ( XtumlException e ) { System.err.println( e ); }
-                                                            }
-                                   ( objectReference
-                                                            {
-                                                              //try {
-                                                              //} catch ( XtumlException e ) { System.err.println( e ); }
-                                                            }
+                                   ( objOrRole              { object_or_role = $objOrRole.name; }
+                                   ( objectReference        { to_object = $objectReference.object_declaration; }
                                    )? 
                                    )?
-                                 ) 													
+                                 )                          {
+                                                              try {
+                                                                System.err.println( object_or_role );
+                                                                assert null != $relationshipReference.relationship_declaration :  "bad relationshipReferne";
+                                                                assert null != current_object : "bad current_object";
+                                                                assert null != to_object : "bad to_object";
+                                                                $relationship_specification = loader.call_function( "create_RelationshipSpecification", $relationshipReference.relationship_declaration, current_object, object_or_role, to_object );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
+                                                            }
                               ;
 
 objOrRole
@@ -1146,7 +1155,7 @@ returns [String name]
 
 
 objectServiceDeclaration
-returns [Object objectservice]
+returns [Object object_service]
 @init { Object service = null; }
                               : ^( OBJECT_SERVICE_DECLARATION
                                    serviceVisibility
@@ -1159,9 +1168,9 @@ returns [Object objectservice]
                                                                 current_service = service;
                                                                 loader.set_attribute( service, "name", $serviceName.name );
                                                                 loader.set_attribute( service, "visibility", $serviceVisibility.visibility );
-                                                                $objectservice = loader.create( "ObjectService" );
-                                                                loader.relate( $objectservice, service, 5203, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                $object_service = loader.create( "ObjectService" );
+                                                                loader.relate( $object_service, service, 5203, "" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    description
                                    parameterList
@@ -1169,7 +1178,7 @@ returns [Object objectservice]
                                                               if ( null != $parameterList.firstparameter ) {
                                                                 try {
                                                                   loader.relate( $parameterList.firstparameter, service, 5204, "" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                                             }
                                    ( returnType
@@ -1178,7 +1187,7 @@ returns [Object objectservice]
                                                                 if ( null != $returnType.type ) {
                                                                   loader.relate( $returnType.type, service, 5205, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                    pragmaList
@@ -1194,14 +1203,14 @@ returns [Object identifier_declaration]
                                                                 $identifier_declaration = loader.create( "IdentifierDeclaration" );
                                                                 loader.set_attribute( $identifier_declaration, "ispreferred", false );
                                                                 loader.relate( current_object, identifier_declaration, 5804, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( attributeName
                                                             {
                                                               try {
                                                                 Object attribute_declaration = loader.call_function( "select_any_AttributeDeclaration_related_where_name", current_object, $attributeName.name );
                                                                 loader.relate( attribute_declaration, identifier_declaration, 5807, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )+
                                    pragmaList
@@ -1209,7 +1218,7 @@ returns [Object identifier_declaration]
                               ;
 
 eventDefinition
-returns [Object event]
+returns [Object event_declaration]
                               : ^( EVENT  // done
                                    eventName
                                    eventType                
@@ -1219,19 +1228,19 @@ returns [Object event]
                                  )
                                                             {
                                                               try {
-                                                                $event = loader.create( "EventDeclaration" );
-                                                                loader.set_attribute( $event, "name", $eventName.name );
+                                                                $event_declaration = loader.create( "EventDeclaration" );
+                                                                loader.set_attribute( $event_declaration, "name", $eventName.name );
                                                                 if ( "assigner" == $eventType.type ) {
-                                                                  loader.set_attribute( $event, "flavor", "EventType::assigner" );
+                                                                  loader.set_attribute( $event_declaration, "flavor", "EventType::assigner" );
                                                                 } else if ( "creation" == $eventType.type ) {
-                                                                  loader.set_attribute( $event, "flavor", "EventType::creation" );
+                                                                  loader.set_attribute( $event_declaration, "flavor", "EventType::creation" );
                                                                 } else {
-                                                                  loader.set_attribute( $event, "flavor", "EventType::normal" );
+                                                                  loader.set_attribute( $event_declaration, "flavor", "EventType::normal" );
                                                                 }
                                                                 if ( null != $parameterList.firstparameter ) {
-                                                                  loader.relate( $event, $parameterList.firstparameter, 6100, "" );
+                                                                  loader.relate( $event_declaration, $parameterList.firstparameter, 6100, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -1275,7 +1284,7 @@ returns [Object ooastate]
                                                                 if ( null != $parameterList.firstparameter ) {
                                                                   loader.relate( $ooastate, $parameterList.firstparameter, 6104, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -1303,13 +1312,13 @@ returns [Object transition_table]
                                                               try {
                                                                 $transition_table = loader.create( "TransitionTable" );
                                                                 loader.set_attribute( $transition_table, "isassigner", $transTableType.isassigner );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( transitionRow          
                                                             {
                                                               try {
                                                                 loader.relate( $transitionRow.transition_row, $transition_table, 6114, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )+
                                    pragmaList
@@ -1332,13 +1341,13 @@ returns [Object transition_row]
                                                                 $transition_row = loader.create( "TransitionRow" );
                                                                 Object ooastate = loader.call_function( "select_any_State_where_name", current_object, $startState.name );
                                                                 loader.relate( ooastate, $transition_row, 6111, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( transitionOption
                                                             {
                                                               try {
                                                                 loader.relate( $transitionOption.transition_option, $transition_row, 6112, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )+
                                    pragmaList
@@ -1359,7 +1368,7 @@ returns [Object transition_option]
                                                                   Object ooastate = loader.call_function( "select_any_State_where_name", current_object, $endState.name );
                                                                   loader.relate( ooastate, $transition_option, 6109, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -1390,7 +1399,7 @@ returns [Object event_declaration]
                                                             {
                                                               try {
                                                                 $event_declaration = loader.call_function( "select_any_EventDeclaration_where_name", $optionalObjectReference.object_declaration, $eventName.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -1418,7 +1427,7 @@ returns [Object domain_service]
                                                                 if ( null != $parameterList.firstparameter ) {
                                                                   loader.relate( $parameterList.firstparameter, service, 5204, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( returnType
                                                             {
@@ -1426,7 +1435,7 @@ returns [Object domain_service]
                                                                 if ( null != $returnType.type ) {
                                                                   loader.relate( $returnType.type, service, 5205, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                    pragmaList
@@ -1446,7 +1455,7 @@ returns [Object parameter]
                                                                 loader.set_attribute( $parameter, "name", $parameterName.name );
                                                                 loader.set_attribute( $parameter, "mode", $parameterMode.parameter_mode );
                                                                 loader.relate( $parameterType.type, $parameter, 5200, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                 )           
                               ;
@@ -1460,7 +1469,7 @@ returns [Object firstparameter]
                                                               } else {
                                                                 try {
                                                                   loader.relate( $parameterDefinition.parameter, previousparameter, 5208, "succeeds" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                                               previousparameter = $parameterDefinition.parameter;
                                                             }
@@ -1516,28 +1525,28 @@ returns [Object relationship_declaration]
 @init                                                       {
                                                               try {
                                                                 $relationship_declaration = loader.create( "RelationshipDeclaration" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               : regularRelationshipDefinition // done
                                                             {
                                                               try {
                                                                 loader.relate( $regularRelationshipDefinition.normal_relationship_declaration, $relationship_declaration, 6010, "" );
                                                                 loader.set_attribute( $relationship_declaration, "name", $regularRelationshipDefinition.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | assocRelationshipDefinition   
                                                             {
                                                               try {
                                                                 loader.relate( $assocRelationshipDefinition.associative_relationship_declaration, $relationship_declaration, 6010, "" );
                                                                 loader.set_attribute( $relationship_declaration, "name", $assocRelationshipDefinition.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | subtypeRelationshipDefinition 
                                                             {
                                                               try {
                                                                 loader.relate( $subtypeRelationshipDefinition.subtype_relationship_declaration, $relationship_declaration, 6010, "" );
                                                                 loader.set_attribute( $relationship_declaration, "name", $subtypeRelationshipDefinition.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -1557,7 +1566,7 @@ returns [Object normal_relationship_declaration, String name]
                                                                 $name = $relationshipName.name;
                                                                 loader.relate( $leftToRight.half_relationship, $normal_relationship_declaration, 6007, "" );
                                                                 loader.relate( $rightToLeft.half_relationship, $normal_relationship_declaration, 6008, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -1578,7 +1587,7 @@ returns [Object associative_relationship_declaration, String name]
                                                                 loader.relate( $leftToRight.half_relationship, $associative_relationship_declaration, 6000, "" );
                                                                 loader.relate( $rightToLeft.half_relationship, $associative_relationship_declaration, 6002, "" );
                                                                 loader.relate( $assocObj.object_declaration, $associative_relationship_declaration, 6001, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -1598,7 +1607,7 @@ returns [Object half_relationship]
                                                                 loader.set_attribute( $half_relationship, "multiplicity", $multiplicity.multiplicity );
                                                                 loader.relate( $from.object_declaration, $half_relationship, 6006, "" );
                                                                 loader.relate( $to.object_declaration, $half_relationship, 6004, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -1614,13 +1623,13 @@ returns [Object subtype_relationship_declaration, String name]
                                                                 $subtype_relationship_declaration = loader.create( "SubtypeRelationshipDeclaration" );
                                                                 $name = $relationshipName.name;
                                                                 loader.relate( $supertype.object_declaration, $subtype_relationship_declaration, 6017, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    (subtype=objectReference
                                                             {
                                                               try {
                                                                 loader.relate( $subtype.object_declaration, $subtype_relationship_declaration, 6016, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )+
                                    pragmaList
@@ -1661,7 +1670,7 @@ returns [Object relationship_declaration]
                                                             {
                                                               try {
                                                                 $relationship_declaration = loader.call_function( "select_any_RelationshipDeclaration_where_name", $optionalDomainReference.domainname, $relationshipName.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -1718,7 +1727,10 @@ returns [String text]
 /*  This rule has been added to allow to parse any activity action body file
     without knowledge of what type of activity it contained - LPS */
 
-activityDefinition            : domainServiceDefinition // done
+activityDefinition
+@init{ try { empty_object = loader.call_function( "select_any_ObjectDeclaration_where_name", "false", "false" );
+           } catch ( XtumlException e ) { xtuml_trace( e ); } }
+                              : domainServiceDefinition // done
                               | terminatorServiceDefinition
                               | objectServiceDefinition
                               | stateDefinition
@@ -1727,27 +1739,30 @@ activityDefinition            : domainServiceDefinition // done
 
 domainServiceDefinition
 returns [Object service]
+@init{ Object code_block = null; }
                               : ^( DOMAIN_SERVICE_DEFINITION // done
                                    serviceVisibility
                                    domainReference
                                    serviceName
                                    parameterList
                                    returnType?
-                                   codeBlock
-                                   pragmaList
-                                 )                          {
+                                                            {
                                                               try {
-                                                                // Returns Service supertype.
                                                                 // CDS - must deal with overloading by including parameter list in identification.
+                                                                code_block = loader.create( "CodeBlock" );
                                                                 $service = loader.call_function( "select_any_DomainService_where_name", $domainReference.domainname, $serviceName.name );
-                                                                loader.relate( $codeBlock.st, service, 5403, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                loader.relate( code_block, $service, 5403, "" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
+                                   codeBlock[code_block]
+                                   pragmaList
+                                 )
                               ;
 
 
 terminatorServiceDefinition
 returns [Object service]
+@init{ Object code_block = null; }
                               : ^( TERMINATOR_SERVICE_DEFINITION // done
                                    serviceVisibility
                                    domainReference
@@ -1755,20 +1770,22 @@ returns [Object service]
                                    serviceName
                                    parameterList
                                    returnType?
-                                   codeBlock
-                                   pragmaList
-                                 )                          {
+                                                            {
                                                               try {
-                                                                // Returns Service supertype.
+                                                                code_block = loader.create( "CodeBlock" );
                                                                 $service = loader.call_function( "select_any_DomainTerminatorService_where_name", $domainReference.domainname, $terminatorName.terminatorname, $serviceName.name );
-                                                                loader.relate( $codeBlock.st, service, 5403, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                loader.relate( code_block, $service, 5403, "" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
+                                   codeBlock[code_block]
+                                   pragmaList
+                                 )
                               ;
 
 
 projectTerminatorServiceDefinition
 returns [Object service]
+@init{ Object code_block = null; }
                               : ^( TERMINATOR_SERVICE_DEFINITION // done
                                    serviceVisibility
                                    domainReference
@@ -1776,21 +1793,24 @@ returns [Object service]
                                    serviceName
                                    parameterList
                                    returnType?
-                                   codeBlock         
-                                   pragmaList
-                                 )                          {
+                                                            {
                                                               try {
-                                                                // Returns Service supertype.
+                                                                code_block = loader.create( "CodeBlock" );
                                                                 $service = loader.call_function( "select_any_ProjectTerminatorService_where_name", $domainReference.domainname, $terminatorName.terminatorname, $serviceName.name );
-                                                                loader.relate( $codeBlock.st, service, 5403, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                loader.relate( code_block, $service, 5403, "" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
+                                   codeBlock[code_block]
+                                   pragmaList
+                                 )
                               ;
 
 
 
 objectServiceDefinition
 returns [Object service]
+@init{ Object code_block = null; }
+@after{ current_object = empty_object; }
                               : ^( OBJECT_SERVICE_DEFINITION // done
                                    serviceVisibility
                                    INSTANCE?
@@ -1798,33 +1818,40 @@ returns [Object service]
                                    serviceName
                                    parameterList
                                    returnType?
-                                   codeBlock
-                                   pragmaList
-                                 )                          {
+                                                            {
                                                               try {
-                                                                // Returns Service supertype.
+                                                                code_block = loader.create( "CodeBlock" );
                                                                 $service = loader.call_function( "select_any_ObjectService_where_name", $fullObjectReference.object_declaration, $serviceName.name );
-                                                                loader.relate( $codeBlock.st, service, 5403, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                loader.relate( code_block, $service, 5403, "" );
+                                                                current_object = $fullObjectReference.object_declaration;
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
+                                   codeBlock[code_block]
+                                   pragmaList
+                                 )
                               ;
 
 
 stateDefinition
 returns [Object ooastate]
+@init{ Object code_block = null; }
+@after{ current_object = empty_object; }
                               : ^( STATE_DEFINITION // done
                                    stateType
                                    fullObjectReference
                                    stateName
                                    parameterList
-                                   codeBlock
-                                   pragmaList
-                                 )                          {
+                                                            {
                                                               try {
+                                                                code_block = loader.create( "CodeBlock" );
                                                                 ooastate = loader.call_function( "select_any_State_related_where_name", $fullObjectReference.object_declaration, $stateName.name );
-                                                                loader.relate( $codeBlock.st, ooastate, 6115, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                loader.relate( code_block, ooastate, 6115, "" );
+                                                                current_object = $fullObjectReference.object_declaration;
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
+                                   codeBlock[code_block]
+                                   pragmaList
+                                 )
                               ;
 
 
@@ -1838,116 +1865,118 @@ returns [Object st]
 @init                                                       {
                                                               try {
                                                                 $st = loader.create( "Statement" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
+                                                              Object code_block = null;
                                                             }
                               : ^( STATEMENT // done
-                                   ( codeBlock       
+                                   ( codeBlock[code_block]
                                                             {
-                                                              try {
-                                                                loader.relate( $codeBlock.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              //CDStry {
+                                                                //loader.relate( $codeBlock.st, $st, 5135, "" );
+                                                              //} catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | assignmentStatement    
                                                             {
                                                               try {
                                                                 loader.relate( $assignmentStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | streamStatement        
                                                             {
                                                               try {
                                                                 loader.relate( $streamStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | callStatement          
                                                             {
                                                               try {
                                                                 loader.relate( $callStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | exitStatement          
                                                             {
                                                               try {
                                                                 loader.relate( $exitStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | returnStatement        
                                                             {
                                                               try {
                                                                 loader.relate( $returnStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | delayStatement         
                                                             {
                                                               try {
                                                                 loader.relate( $delayStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | raiseStatement         
                                                             {
                                                               try {
                                                                 loader.relate( $raiseStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | deleteStatement        
                                                             {
                                                               try {
                                                                 loader.relate( $deleteStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | eraseStatement         
                                                             {
                                                               try {
                                                                 loader.relate( $eraseStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | linkStatement          
                                                             {
                                                               try {
                                                                 loader.relate( $linkStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | scheduleStatement      
                                                             {
                                                               try {
                                                                 loader.relate( $scheduleStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | cancelTimerStatement   
                                                             {
                                                               try {
                                                                 loader.relate( $cancelTimerStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | generateStatement      
                                                             {
                                                               try {
                                                                 loader.relate( $generateStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | ifStatement            
                                                             {
                                                               try {
+                                                                assert ( $ifStatement.st != null && $st != null ) : "ifStatement";
                                                                 loader.relate( $ifStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | caseStatement          
                                                             {
                                                               try {
                                                                 loader.relate( $caseStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | forStatement           
                                                             {
                                                               try {
                                                                 loader.relate( $forStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | whileStatement         
                                                             {
                                                               try {
                                                                 loader.relate( $whileStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    |                        
                                    )
@@ -1965,7 +1994,7 @@ returns [Object st]
                                                               } else {
                                                                 try {
                                                                   loader.relate( $statement.st, previousstatement, 5155, "succeeds" );
-                                                                } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                                               previousstatement = $statement.st;
                                                             }
@@ -1983,7 +2012,7 @@ returns [Object st]
                                                                 $st = loader.create( "AssignmentStatement" );
                                                                 loader.relate( $lhs.exp, $st, 5101, "" );
                                                                 loader.relate( $rhs.exp, $st, 5100, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -1992,7 +2021,7 @@ returns [Object st]
 @init                                                       {
                                                               try {
                                                                 $st = loader.create( "IOStreamStatement" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
 
                               : ^( STREAM_STATEMENT // done
@@ -2000,7 +2029,7 @@ returns [Object st]
                                                             {
                                                               try {
                                                                 loader.relate( $expression.exp, $st, 5156, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( streamOperator         
                                                             {
@@ -2008,7 +2037,7 @@ returns [Object st]
                                                                 loader.relate( $streamOperator.exp, $st, 5115, "" );
                                                                 // CDS - I am not sure what to do with multiple different operators.
                                                                 loader.set_attribute( $st, "operator", $streamOperator.op );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )+
                                  )                          
@@ -2029,7 +2058,7 @@ returns [Object st]
 @init                                                       {
                                                               try {
                                                                 $st = loader.create( "ServiceInvocation" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
 
                               : ^( CALL
@@ -2041,13 +2070,13 @@ returns [Object st]
                                                                   subservice = loader.create( "ObjectServiceInvocation" );
                                                                   subservice = loader.create( "InstanceServiceInvocation" );
                                                                   subservice = loader.create( "TerminatorServiceInvocation" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( argument               
                                                             {
                                                               try {
                                                                 loader.relate( $argument.exp, $st, 5616, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )*                       
                                  )                          
@@ -2060,14 +2089,14 @@ returns [Object st]
 @init                                                       {
                                                               try {
                                                                 $st = loader.create( "ExitStatement" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               : ^( EXIT // done
                                    ( condition
                                                             {
                                                               try {
                                                                 loader.relate( $condition.exp, $st, 5109, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                  )                          
@@ -2082,7 +2111,7 @@ returns [Object st]
                                                                 $st = loader.create( "ReturnStatement" );
                                                                 loader.relate( current_service, $st, 5127, "" );
                                                                 loader.relate( $expression.exp, $st, 5128, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2094,7 +2123,7 @@ returns [Object st]
                                                               try {
                                                                 $st = loader.create( "DelayStatement" );
                                                                 loader.relate( $expression.exp, $st, 5104, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2106,14 +2135,14 @@ returns [Object st]
                                                               try {
                                                                 $st = loader.create( "RaiseStatement" );
                                                                 loader.relate( $exceptionReference.exception_reference, $st, 5126, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    (
                                    expression
                                                            {
                                                               try {
                                                                 loader.relate( $expression.exp, $st, 5125, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                  )                          
@@ -2127,7 +2156,7 @@ returns [Object st]
                                                               try {
                                                                 $st = loader.create( "DeleteStatement" );
                                                                 loader.relate( $expression.exp, $st, 5105, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2139,7 +2168,7 @@ returns [Object st]
                                                               try {
                                                                 $st = loader.create( "EraseStatement" );
                                                                 loader.relate( $expression.exp, $st, 5107, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2154,19 +2183,19 @@ returns [Object st]
                                                                 loader.set_attribute( $st, "isLink", $linkStatementType.isLink );
                                                                 loader.relate( $lhs.exp, $st, 5122, "" );
                                                                 loader.relate( $relationshipSpec.relationship_specification, $st, 5120, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    (rhs=expression
                                                             {
                                                               try {
                                                                 loader.relate( $rhs.exp, $st, 5119, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                      (assoc=expression
                                                             {
                                                               try {
                                                                 loader.relate( $assoc.exp, $st, 5121, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                      )?
                                    )?
@@ -2187,7 +2216,7 @@ returns [Object st]
                                                               try {
                                                                 $st = loader.create( "CancelTimerStatement" );
                                                                 loader.relate( $timerId.exp, $st, 5102, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                              ;
                               
@@ -2205,13 +2234,13 @@ returns [Object st]
                                                                 loader.relate( $generateStatement.st, $st, 5129, "" );
                                                                 loader.set_attribute( $st, "isAbsolute", $scheduleType.isAbsolute );
                                                                 loader.relate( $time.exp, $st, 5130, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( period=expression
                                                             {
                                                               try {
                                                                 loader.relate( $period.exp, $st, 5131, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                  )                         
@@ -2233,20 +2262,20 @@ returns [Object st]
                                                               try {
                                                                 $st = loader.create( "GenerateStatement" );
                                                                 loader.relate( $eventReference.event_declaration, $st, 5112, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( argument               
                                                             {
                                                               try {
                                                                 loader.relate( $argument.exp, $st, 5114, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )*                       
                                    ( expression
                                                             {
                                                               try {
                                                                 loader.relate( $expression.exp, $st, 5113, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                  )            
@@ -2262,28 +2291,32 @@ returns [Object st]
                                                               try {
                                                                 $st = loader.create( "IfStatement" );
                                                                 loader.relate( $condition.exp, $st, 5143, "" );
-                                                                loader.relate( $statementList.st, $st, 5144, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                if ( null != $statementList.st ) {
+                                                                  loader.relate( $statementList.st, $st, 5144, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( elsifBlock             
                                                             {
                                                               try {
+                                                                assert ( $elsifBlock.alternative != null && $st != null ) : "ifStatement elif block";
                                                                 loader.relate( $elsifBlock.alternative, $st, 5145, "" );
                                                                 if ( null != previousalternative ) {
                                                                   loader.relate( $elsifBlock.alternative, previousalternative, 5158, "succeeds" );
                                                                 }
                                                                 previousalternative = $elsifBlock.alternative;
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )*              
                                    ( elseBlock              
                                                             {
                                                               try {
+                                                                assert ( $elseBlock.alternative != null && $st != null ) : "ifStatement else block";
                                                                 loader.relate( $elseBlock.alternative, $st, 5145, "" );
                                                                 if ( null != previousalternative ) {
                                                                   loader.relate( $elsifBlock.alternative, previousalternative, 5158, "succeeds" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                  )                          
@@ -2300,8 +2333,10 @@ returns [Object alternative]
                                                                 $alternative = loader.create( "Alternative" );
                                                                 loader.set_attribute( $alternative, "else_otherwise", false );
                                                                 loader.relate( $condition.exp, $alternative, 5147, "" );
-                                                                loader.relate( $statementList.st, $alternative, 5148, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                if ( null != $statementList.st ) {
+                                                                  loader.relate( $statementList.st, $alternative, 5148, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2313,8 +2348,10 @@ returns [Object alternative]
                                                               try {
                                                                 $alternative = loader.create( "Alternative" );
                                                                 loader.set_attribute( $alternative, "else_otherwise", true );
-                                                                loader.relate( $statementList.st, $alternative, 5148, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                if ( null != $statementList.st ) {
+                                                                  loader.relate( $statementList.st, $alternative, 5148, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2328,8 +2365,10 @@ returns [Object st]
                                                               try {
                                                                 $st = loader.create( "WhileStatement" );
                                                                 loader.relate( $condition.exp, $st, 5142, "" );
-                                                                loader.relate( $statementList.st, $st, 5141, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                if ( null != $statementList.st ) {
+                                                                  loader.relate( $statementList.st, $st, 5141, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2349,7 +2388,7 @@ returns [Object st]
                                                               try {
                                                                 $st = loader.create( "CaseStatement" );
                                                                 loader.relate( $expression.exp, $st, 5103, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                   ( caseAlternative         
                                                             {
@@ -2359,7 +2398,7 @@ returns [Object st]
                                                                   loader.relate( $caseAlternative.alternative, previousalternative, 5158, "succeeds" );
                                                                 }
                                                                 previousalternative = $caseAlternative.alternative;
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                   )*
                                   ( caseOthers              
@@ -2370,7 +2409,7 @@ returns [Object st]
                                                                   loader.relate( $caseOthers.alternative, previousalternative, 5158, "succeeds" );
                                                                 }
                                                                 previousalternative = $caseOthers.alternative;
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                   )?
                                 )                           
@@ -2387,8 +2426,10 @@ returns [Object alternative]
                                                                 $alternative = loader.create( "Alternative" );
                                                                 loader.set_attribute( $alternative, "else_otherwise", false );
                                                                 loader.relate( $choice.exp, $alternative, 5147, "" );
-                                                                loader.relate( $statementList.st, $alternative, 5148, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                if ( null != $statementList.st ) {
+                                                                  loader.relate( $statementList.st, $alternative, 5148, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2406,8 +2447,10 @@ returns [Object alternative]
                                                               try {
                                                                 $alternative = loader.create( "Alternative" );
                                                                 loader.set_attribute( $alternative, "else_otherwise", true );
-                                                                loader.relate( $statementList.st, $alternative, 5148, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                if ( null != $statementList.st ) {
+                                                                  loader.relate( $statementList.st, $alternative, 5148, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2422,8 +2465,10 @@ returns [Object st]
                                                               try {
                                                                 $st = loader.create( "ForStatement" );
                                                                 loader.relate( $loopVariableSpec.spec, $st, 5110, "" );
-                                                                loader.relate( $statementList.st, $st, 5153, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                if ( null != $statementList.st ) {
+                                                                  loader.relate( $statementList.st, $st, 5153, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2442,7 +2487,7 @@ returns [Object spec]
                                                                 // and link to it.
                                                                 loader.relate( $expression.exp, $spec, 5148, "" );
                                                                 // CDS here figuring out loop spec subtypes.
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2452,39 +2497,37 @@ returns [Object spec]
 // Code Blocks
 //---------------------------------------------------------
 
-codeBlock
-returns [ Object st ]
-@init                                                       {
-                                                              try {
-                                                                $st = loader.create( "CodeBlock" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
-                                                            }
+codeBlock[Object code_block]
+@init{ current_code_block = $code_block; }
+@after { current_code_block = null; }
                               : ^( CODE_BLOCK // done
                                   ( variableDeclaration     
                                                             {
                                                               try {
-                                                                loader.relate( $variableDeclaration.variable_definition, $st, 5151, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                loader.relate( $variableDeclaration.variable_definition, $code_block, 5151, "" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                   )*     
                                    statementList
                                                             {
                                                               try {
-                                                                loader.relate( $statementList.st, $st, 5150, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                if ( null != $statementList.st ) {
+                                                                  loader.relate( $statementList.st, $code_block, 5150, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                   ( exceptionHandler
                                                             {
                                                               try {
-                                                                loader.relate( $exceptionHandler.handler, $st, 5149, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                loader.relate( $exceptionHandler.handler, code_block, 5149, "" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                   )*
                                   ( otherHandler            
                                                             {
                                                               try {
-                                                                loader.relate( $exceptionHandler.handler, $st, 5149, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                loader.relate( $exceptionHandler.handler, code_block, 5149, "" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                   )?
                                 )
@@ -2504,13 +2547,13 @@ returns [Object variable_definition]
                                                                 loader.set_attribute( $variable_definition, "name", $variableName.name );
                                                                 loader.set_attribute( $variable_definition, "isreadonly", ( null != $READONLY ) );
                                                                 loader.relate( $typeReference.basic_type, $variable_definition, 5137, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    (expression
                                                             {
                                                               try {
                                                                 loader.relate( $expression.exp, $variable_definition, 5138, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                    pragmaList )
@@ -2528,8 +2571,10 @@ returns [Object handler]
                                                                 $handler = loader.create( "ExceptionHandler" );
                                                                 loader.set_attribute( $handler, "isother", false );
                                                                 loader.relate( $exceptionReference.exception_reference, $handler, 5108, "" );
-                                                                loader.relate( $statementList.st, $handler, 5152, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                if ( null != $statementList.st ) {
+                                                                  loader.relate( $statementList.st, $handler, 5152, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2542,8 +2587,10 @@ returns [Object handler]
                                                               try {
                                                                 $handler = loader.create( "ExceptionHandler" );
                                                                 loader.set_attribute( $handler, "isother", true );
-                                                                loader.relate( $statementList.st, $handler, 5152, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                if ( null != $statementList.st ) {
+                                                                  loader.relate( $statementList.st, $handler, 5152, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2563,104 +2610,104 @@ returns [Object exp]
 @init                                                       {
                                                               try {
                                                                 $exp = loader.create( "Expression" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               : binaryExpression // done
                                                             {
                                                               try {
                                                                 loader.relate( $binaryExpression.binary_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | unaryExpression             
                                                             {
                                                               try {
                                                                 loader.relate( $unaryExpression.unary_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | rangeExpression             
                                                             {
                                                               try {
                                                                 loader.relate( $rangeExpression.range_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | aggregateExpression         
                                                             {
                                                               try {
                                                                 loader.relate( $aggregateExpression.structure_aggregate, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | linkExpression              
                                                             {
                                                               try {
                                                                 loader.relate( $linkExpression.link_unlink_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | navigateExpression          
                                                             {
                                                               try {
                                                                 loader.relate( $navigateExpression.navigation_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | correlateExpression         
                                                             {
                                                               try {
                                                                 loader.relate( $correlateExpression.correlated_nav_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | orderByExpression           
                                                             {
                                                               try {
                                                                 loader.relate( $orderByExpression.ordering_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | createExpression            
                                                             {
                                                               try {
                                                                 loader.relate( $createExpression.create_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | findExpression              
                                                             {
                                                               try {
                                                                 loader.relate( $findExpression.find_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | dotExpression               
                                                             {
                                                               try {
                                                                 loader.relate( $dotExpression.dot_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | terminatorServiceExpression 
                                                             {
                                                               try {
                                                                 loader.relate( $terminatorServiceExpression.terminator_name_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | callExpression              
                                                             {
                                                               try {
                                                                 loader.relate( $callExpression.call_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | sliceExpression             
                                                             {
                                                               try {
                                                                 loader.relate( $sliceExpression.slice_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | primeExpression             
                                                             {
                                                               try {
                                                                 loader.relate( $primeExpression.characteristic_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | nameExpression[$exp]        // Link occurs in the subrule.
                               | literalExpression           
                                                             {
                                                               try {
                                                                 loader.relate( $literalExpression.literal_expression, $exp, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2675,7 +2722,7 @@ returns [Object binary_expression]
                                                                 loader.set_attribute( $binary_expression, "operator", $binaryOperator.binary_operator );
                                                                 loader.relate( $lhs.exp, $binary_expression, 5001, "" );
                                                                 loader.relate( $rhs.exp, $binary_expression, 5002, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2715,7 +2762,7 @@ returns [Object unary_expression]
                                                                 $unary_expression = loader.create( "UnaryExpression" );
                                                                 loader.set_attribute( $unary_expression, "operator", $unaryOperator.unary_operator );
                                                                 loader.relate( $expression.exp, $unary_expression, 5561, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2740,7 +2787,7 @@ returns [Object range_expression]
                                                                 loader.relate( min_max_range, $range_expression, 5540, "" );
                                                                 loader.relate( $from.exp, min_max_range, 5529, "" );
                                                                 loader.relate( $to.exp, min_max_range, 5528, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2755,13 +2802,13 @@ returns [Object structure_aggregate]
                                                               try {
                                                                 // CDS There may be a type to link to.
                                                                 $structure_aggregate = loader.create( "StructureAggregate" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( expression             
                                                             {
                                                               try {
                                                                 loader.relate( $expression.exp, $structure_aggregate, 5551, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )+ 
                                  )
@@ -2778,11 +2825,11 @@ returns [Object link_unlink_expression]
                                                                 $link_unlink_expression = loader.create( "LinkUnlinkExpression" );
                                                                 loader.relate( $lhs.exp, $link_unlink_expression, 5526, "" );
                                                                 loader.relate( $relationshipSpec.relationship_specification, $link_unlink_expression, 5551, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    (rhs=expression          { try {
                                                                 loader.relate( $rhs.exp, $link_unlink_expression, 5525, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                  )
@@ -2805,13 +2852,13 @@ returns [Object navigation_expression]
                                                                 $navigation_expression = loader.create( "NavigationExpression" );
                                                                 loader.relate( $expression.exp, $navigation_expression, 5532, "" );
                                                                 loader.relate( $relationshipSpec.relationship_specification, $navigation_expression, 5531, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( whereClause           
                                                             {
                                                               try {
                                                                 loader.relate( $whereClause.exp, $navigation_expression, 5506, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )?
                                  )                          
@@ -2830,7 +2877,7 @@ returns [Object correlated_nav_expression]
                                                                 loader.relate( $lhs.exp, $correlated_nav_expression, 5506, "" );
                                                                 loader.relate( $lhs.exp, $correlated_nav_expression, 5508, "" );
                                                                 loader.relate( $relationshipSpec.relationship_specification, $correlated_nav_expression, 5507, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2866,7 +2913,7 @@ returns [Object ordering_expression]
                                                                   structure_ordering_expression = loader.create( "StructureOrderingExpression" );
                                                                   loader.relate( structure_ordering_expression, $ordering_expression, 5534, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( sortOrder              
                                                             {
@@ -2887,7 +2934,7 @@ returns [Object ordering_expression]
                                                                   Object structure_element = null;
                                                                   loader.relate( structure_ordering_expression, structure_element, 5564, "" );
                                                                 }
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )* 
                                  )                          
@@ -2909,13 +2956,13 @@ returns [Object create_expression]
                                                               try {
                                                                 $create_expression = loader.create( "CreateExpression" );
                                                                 loader.relate( $objectReference.object_declaration, $create_expression, 5511, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( createArgument[$objectReference.object_declaration]
                                                             {
                                                               try {
                                                                 loader.relate( $createArgument.attribute_initialization, $create_expression, 5566, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )*
                                  )                          
@@ -2923,24 +2970,33 @@ returns [Object create_expression]
 
 createArgument[Object object_declaration]
 returns [Object attribute_initialization]
+@init                                                       {
+                                                              try {
+                                                                $attribute_initialization = loader.create( "AttributeInitialization" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
+                                                            }
                               : ^( CREATE_ARGUMENT // done
                                    attributeName
                                    expression )              
                                                             {
                                                               try {
-                                                                $attribute_initialization = loader.create( "AttributeInitialization" );
+                                                                assert null != $object_declaration : "null input object decl in createArg";
                                                                 Object attribute_declaration = loader.call_function( "select_any_AttributeDeclaration_related_where_name", $object_declaration, $attributeName.name );
+                                                                assert null != attribute_declaration : "null attribute in createArg";
                                                                 loader.relate( attribute_declaration, $attribute_initialization, 5565, "" );
+                                                                assert null != $expression.exp : "null expression in createArg";
                                                                 loader.relate( $expression.exp, $attribute_initialization, 5568, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | ^( CURRENT_STATE
                                    stateName
                                                             {
                                                               try {
                                                                 Object ooastate = loader.call_function( "select_any_State_related_where_name", $object_declaration, $stateName.name );
+                                                                assert null != ooastate:  "null ooastate in createArg";
+                                                                assert null != $attribute_initialization:  "null init in createArg";
                                                                 loader.relate( ooastate, $attribute_initialization, 5567, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                  )
                               ;
@@ -2955,8 +3011,10 @@ returns [Object find_expression]
                                                                 $find_expression = loader.create( "FindExpression" );
                                                                 loader.set_attribute( $find_expression, "flavor", $findType.find_type );
                                                                 loader.relate( $expression.exp, $find_expression, 5519, "" );
-                                                                loader.relate( $whereClause.exp, $find_expression, 5520, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                if ( null != $whereClause.exp ) {
+                                                                  loader.relate( $whereClause.exp, $find_expression, 5520, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -2986,7 +3044,7 @@ returns [Object dot_expression]
                                                                 $dot_expression = loader.create( "DotExpression" );
                                                                 loader.relate( $expression.exp, $dot_expression, 5569, "" );
                                                                 Object child = null; // CDS loader.call_function( "find_and_link_up_based_on_input_name", $expression.exp, $identifier.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -3003,7 +3061,7 @@ returns [Object terminator_name_expression]
                                                                 Object domain_terminator_service = loader.call_function( "select_any_DomainTerminatorService_where_name", "domainname", "terminatorname", $identifier.name );
                                                                 //loader.relate( domain_terminator_service, $terminator_name_expression, 5569, "" );
                                                                 Object domain_terminator = null; // CDS loader.call_function
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -3019,13 +3077,13 @@ returns [Object call_expression]
                                                                 loader.relate( function_invocation, $call_expression, 5500, "" );
                                                                 // CDS Use expression to resolve the subtype.
                                                                 // This logic can likely be completely in action language.
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( argument               
                                                             {
                                                               try {
                                                                 loader.relate( function_invocation, $argument.exp, 5603, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )*                       
                                  )                          
@@ -3036,20 +3094,18 @@ nameExpression[Object expression]
                               : ^( NAME
                                    identifier
                                  )                          { 
-                                                         System.err.println( "------------------- name " + $identifier.name );
                                                               try {
-                                                                Object basic_type = loader.call_function( "resolve_name", $expression, "", $identifier.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                Object basic_type = loader.call_function( "resolve_name", current_code_block, $expression, "", $identifier.name, null != current_code_block, "1" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             } 
                               | ^( NAME
                                    domainReference
                                    identifier
                                  )                          {
-                                                         System.err.println( "8888888888888888888 name " + $identifier.name );
                                                               try {
-                                                                // CDS This will be something other than a variable.  I think this will be a domain service.
-                                                                Object basic_type = loader.call_function( "resolve_name", $expression, $domainReference.domainname, $identifier.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                                // CDS This will be something other than a variable.  I think this will be a domain service or a public type.
+                                                                Object basic_type = loader.call_function( "resolve_name", current_code_block, $expression, $domainReference.domainname, $identifier.name, null != current_code_block, "2" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | ^( FIND_ATTRIBUTE
                                    identifier
@@ -3061,7 +3117,7 @@ nameExpression[Object expression]
                                                                 // CDS current object and current where clause need to be bread crumbed
                                                                 Object attribute_declaration = loader.call_function( "select_any_AttributeDeclaration_where_name", current_object, $identifier.name );
                                                                 // CDS - need to link to a where clause using the attribute name
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | compoundTypeName
                                                             {
@@ -3070,14 +3126,14 @@ nameExpression[Object expression]
                                                                 Object name_expression = loader.create( "TypeNameExpression" );
                                                                 loader.relate( $compoundTypeName.basic_type, name_expression, 5547, "" );
                                                                 loader.relate( $expression, name_expression, 5517, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
 
 compoundTypeName
 returns [Object basic_type]
-                              : instanceTypeRef             { $basic_type = $instanceTypeRef.basic_type; }
+                              : instanceTypeRef             { $basic_type = $instanceTypeRef.basic_type; } // done
                               | sequenceTypeRef             { $basic_type = $sequenceTypeRef.basic_type; }
                               | arrayTypeRef                { $basic_type = $arrayTypeRef.basic_type; }
                               | setTypeRef                  { $basic_type = $setTypeRef.basic_type; }
@@ -3102,7 +3158,7 @@ returns [Object slice_expression]
                                                                 $slice_expression = loader.create( "SliceExpression" );
                                                                 loader.relate( $prefix.exp, $slice_expression, 5547, "" );
                                                                 loader.relate( $slice.exp, $slice_expression, 5546, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
 
@@ -3116,13 +3172,13 @@ returns [Object characteristic_expression]
                                                                 $characteristic_expression = loader.create( "CharacteristicExpression" );
                                                                 loader.relate( $expression.exp, $characteristic_expression, 5504, "" );
                                                                 loader.set_attribute( $characteristic_expression, "characteristic", $identifier.name );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    ( argument               
                                                             {
                                                               try {
                                                                 loader.relate( $argument.exp, $characteristic_expression, 5503, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    )*                       
                                  )                          
@@ -3133,7 +3189,7 @@ returns [Object literal_expression]
 @init                                                       {
                                                               try {
                                                                 $literal_expression = loader.create( "LiteralExpression" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               : IntegerLiteral
                                                             {
@@ -3148,7 +3204,7 @@ returns [Object literal_expression]
                                                                   value = Integer.parseInt( $IntegerLiteral.text );
                                                                 } catch ( NumberFormatException e ) { System.err.println( e ); }
                                                                 loader.set_attribute( integerliteral, "value", value );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | RealLiteral
                                                             {
@@ -3163,7 +3219,7 @@ returns [Object literal_expression]
                                                                   value = Double.parseDouble( $RealLiteral.text );
                                                                 } catch ( NumberFormatException e ) { System.err.println( e ); }
                                                                 loader.set_attribute( realliteral, "value", value );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | CharacterLiteral
                                                             {
@@ -3173,7 +3229,7 @@ returns [Object literal_expression]
                                                                 loader.set_attribute( characterliteral, "original", $CharacterLiteral.text );
                                                                 // CDS - This is simplistic and needs to be extended to handle octal.
                                                                 //CDSloader.set_attribute( characterliteral, "noQuotes", $CharacterLiteral.text.replaceAll("^\"|\"$", "") );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | StringLiteral
                                                             {
@@ -3183,7 +3239,7 @@ returns [Object literal_expression]
                                                                 loader.set_attribute( stringliteral, "original", $StringLiteral.text );
                                                                 // CDS - This is simplistic and needs to be extended to handle octal.
                                                                 //CDSloader.set_attribute( stringliteral, "noQuotes", $StringLiteral.text.replaceAll("^\"|\"$", "") );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | TimestampLiteral
                                                             {
@@ -3192,7 +3248,7 @@ returns [Object literal_expression]
                                                                 loader.relate( timestampliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( timestampliteral, "original", $TimestampLiteral.text );
                                                                 // CDS - need to implement conversion.
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | DurationLiteral
                                                             {
@@ -3202,7 +3258,7 @@ returns [Object literal_expression]
                                                                 loader.set_attribute( durationliteral, "original", $DurationLiteral.text );
                                                                 // CDS - need to implement conversion.
                                                                 // CDS - maybe need to promote original to supertype LiteralExpression
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | TRUE
                                                             {
@@ -3210,7 +3266,7 @@ returns [Object literal_expression]
                                                                 Object booleanliteral = loader.create( "BooleanLiteral" );
                                                                 loader.relate( booleanliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( booleanliteral, "value", Boolean.valueOf( "true" ) );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | FALSE
                                                             {
@@ -3218,7 +3274,7 @@ returns [Object literal_expression]
                                                                 Object booleanliteral = loader.create( "BooleanLiteral" );
                                                                 loader.relate( booleanliteral, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( booleanliteral, "value", Boolean.valueOf( "false" ) );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | NULL
                                                             {
@@ -3227,21 +3283,21 @@ returns [Object literal_expression]
                                                                 loader.relate( nullliteral, $literal_expression, 5700, "" );
                                                                 Object basic_type = loader.call_function( "select_any_BasicType_where_name", "", "instance" );
                                                                 loader.relate( nullliteral, basic_type, 5702, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | FLUSH
                                                             {
                                                               try {
                                                                 Object flushliteral = loader.create( "FlushLiteral" );
                                                                 loader.relate( flushliteral, $literal_expression, 5700, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | ENDL
                                                             {
                                                               try {
                                                                 Object endlliteral = loader.create( "EndlLiteral" );
                                                                 loader.relate( endlliteral, $literal_expression, 5700, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | THIS
                                                             {
@@ -3250,13 +3306,13 @@ returns [Object literal_expression]
                                                                 loader.relate( thisliteral, $literal_expression, 5700, "" );
                                                                 // CDS - I used current_object and current_state or current_service
                                                                 // to link to the proper "scope".
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | CONSOLE
                                                             {
                                                               try {
                                                                 Object consoleliteral = loader.create( "ConsoleLiteral" );
                                                                 loader.relate( consoleliteral, $literal_expression, 5700, "" );
-                                                              } catch ( XtumlException e ) { System.err.println( e ); }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ; 

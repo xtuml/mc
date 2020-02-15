@@ -3093,7 +3093,7 @@ INSERT INTO R_PART
 	"5dc5a28d-401e-4851-a4e1-1faa50d00669",
 	"6b5d49e3-14be-4ea8-b958-6ae17b798344",
 	0,
-	0,
+	1,
 	'is_use_of');
 INSERT INTO R_RTO
 	VALUES ("7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc",

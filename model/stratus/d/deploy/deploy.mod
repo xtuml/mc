@@ -3,7 +3,7 @@ domain deploy is
   terminator term1 is
   end terminator;
   object dog is
-    name : text;
+    name : string;
     weight : integer;
     license : unique integer;
   end object;
