@@ -1,0 +1,57 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("760fb4bc-a3b8-49c1-b0d8-1f9868b66a41",
+	'FindExpression',
+	5518,
+	'FindExpression',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("8a14eeac-1880-4a85-b653-16dabeebb232",
+	"760fb4bc-a3b8-49c1-b0d8-1f9868b66a41");
+INSERT INTO O_BATTR
+	VALUES ("8a14eeac-1880-4a85-b653-16dabeebb232",
+	"760fb4bc-a3b8-49c1-b0d8-1f9868b66a41");
+INSERT INTO O_ATTR
+	VALUES ("8a14eeac-1880-4a85-b653-16dabeebb232",
+	"760fb4bc-a3b8-49c1-b0d8-1f9868b66a41",
+	"00000000-0000-0000-0000-000000000000",
+	'findType',
+	'',
+	'',
+	'findType',
+	0,
+	"f48443f9-09fd-4d3b-8b46-71a05a8adf20",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f48443f9-09fd-4d3b-8b46-71a05a8adf20",
+	"00000000-0000-0000-0000-000000000000",
+	'FindType',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"760fb4bc-a3b8-49c1-b0d8-1f9868b66a41");
+INSERT INTO O_ID
+	VALUES (1,
+	"760fb4bc-a3b8-49c1-b0d8-1f9868b66a41");
+INSERT INTO O_ID
+	VALUES (2,
+	"760fb4bc-a3b8-49c1-b0d8-1f9868b66a41");
+INSERT INTO PE_PE
+	VALUES ("760fb4bc-a3b8-49c1-b0d8-1f9868b66a41",
+	1,
+	"992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'expression',
+	'',
+	0,
+	'../expression.xtuml');

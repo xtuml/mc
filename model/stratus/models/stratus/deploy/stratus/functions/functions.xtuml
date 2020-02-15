@@ -1,0 +1,279 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'functions',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("51ba1895-36fa-426d-a8c8-275d9ebe4530",
+	112,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'stratus::deploy::stratus::functions');
+INSERT INTO DIM_DIA
+	VALUES ("51ba1895-36fa-426d-a8c8-275d9ebe4530",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("bcbf2531-8a7b-4659-a445-5783771b5034",
+	"00000000-0000-0000-0000-000000000000",
+	'init',
+	'',
+	'LOG::LogInfo( message: "stratus starting init" );
+
+CMD::register_value(name:"d", value_name:"domain_path", usage:"Path to a MASL domain directory", default:".", required:true);
+CMD::read_command_line();
+
+create object instance type_declaration of TypeDeclaration;
+type_declaration.name = "AnyInstanceType";
+type_declaration.visibility = Visibility::public;
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+create object instance any_instance_type of AnyInstanceType;
+
+relate type_declaration to type_definition across R6234;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to any_instance_type across R6206;
+
+select any td from instances of TypeDeclaration;
+if ( empty td )
+  LOG::LogFailure( message:"failed to select TypeDeclaration" );
+end if;
+
+LOG::LogInfo( message: "stratus loading MASL" );
+args[1] = CMD::get_value(name:"d");
+args[0] = "-d";
+LOAD::load(java_class:"deploy.parser.MaslImportParser", args:args);
+
+select many object_declarations from instances of ObjectDeclaration;
+for each object_declaration in object_declarations
+  LOG::LogInfo( message:object_declaration.name );
+end for;
+
+LOG::LogInfo( message: "stratus done with init" );
+control stop;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("bcbf2531-8a7b-4659-a445-5783771b5034",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("34fca70e-b744-411a-989d-6aa03602563f",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_TypeDeclaration_where_name',
+	'',
+	'select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
+return type_declaration;',
+	"1a85f47e-89ea-4d0e-9a09-afc952412df3",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("1d884005-adc6-4f2e-ab92-81292d274665",
+	"34fca70e-b744-411a-989d-6aa03602563f",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	"00000000-0000-0000-0000-000000000000",
+	'Name',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/Shared/Shared.xtuml');
+INSERT INTO PE_PE
+	VALUES ("34fca70e-b744-411a-989d-6aa03602563f",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("1a85f47e-89ea-4d0e-9a09-afc952412df3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<TypeDeclaration>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("104756a8-eda5-4d27-98a5-a2897716dbe4",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_ExceptionDeclaration_where_name',
+	'',
+	'domain = param.domain;
+// Consider selecting through the domain.
+select any exception_declaration from instances of ExceptionDeclaration where ( selected.name == param.name );
+return exception_declaration;',
+	"fcbc46ab-aa9a-4a5f-a61c-93953c3dcf03",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("d32d8ffd-ebfd-4c32-af00-1ce151ccfa83",
+	"104756a8-eda5-4d27-98a5-a2897716dbe4",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"3e66809c-318a-46b2-9900-a0c9a7986d23",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3e66809c-318a-46b2-9900-a0c9a7986d23",
+	"104756a8-eda5-4d27-98a5-a2897716dbe4",
+	'domain',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("104756a8-eda5-4d27-98a5-a2897716dbe4",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("fcbc46ab-aa9a-4a5f-a61c-93953c3dcf03",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ExceptionDeclaration>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/domain/domain.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("a4f99ef6-4473-4e79-9ffb-8e5539226811",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_ObjectDeclaration_where_name',
+	'',
+	'domain = param.domain;
+// Consider selecting through the domain.
+select any object_declaration from instances of ObjectDeclaration where ( selected.name == param.name );
+return object_declaration;
+',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("1c5d3ef0-32d7-4744-a6d6-71c443e1b2dd",
+	"a4f99ef6-4473-4e79-9ffb-8e5539226811",
+	'domain',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7f5ea213-5cbb-4e92-9385-de62320aa383",
+	"a4f99ef6-4473-4e79-9ffb-8e5539226811",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"1c5d3ef0-32d7-4744-a6d6-71c443e1b2dd",
+	'');
+INSERT INTO PE_PE
+	VALUES ("a4f99ef6-4473-4e79-9ffb-8e5539226811",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("ccbbc697-c60c-4034-8e31-7a46032151eb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ObjectDeclaration>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/object/object.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("8861381d-eb56-404b-98fe-6c00df70f484",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_BasicType_where_name',
+	'',
+	'select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
+select one basic_type related by type_declaration->TypeDefinition[R6234]->BasicType[R6236];
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("98cc16ad-6526-40fb-afdf-0eed9e278f96",
+	"8861381d-eb56-404b-98fe-6c00df70f484",
+	'domain',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a1fbf5a6-fb6e-4124-9791-042efd338d64",
+	"8861381d-eb56-404b-98fe-6c00df70f484",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"98cc16ad-6526-40fb-afdf-0eed9e278f96",
+	'');
+INSERT INTO PE_PE
+	VALUES ("8861381d-eb56-404b-98fe-6c00df70f484",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<BasicType>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+INSERT INTO PE_PE
+	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'stratus',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../stratus.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'stratus',
+	1,
+	'../../../stratus.xtuml');

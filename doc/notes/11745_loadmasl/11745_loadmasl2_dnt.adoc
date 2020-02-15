@@ -1,0 +1,81 @@
+= OOA of MASL:  Parse and Load MASL Activity
+
+xtUML Project Design Note
+
+== 1 Abstract
+
+MASL action language shall be parsed and loaded into an xtUML model of
+MASL activity.  This note documents design steps to achieve this parsing.
+
+== 2 Introduction and Background
+
+See <<dr-3>> and <<dr-4>>.
+
+== 3 Requirements
+
+See <<dr-3>> and <<dr-4>>.
+
+== 4 Analysis
+
+== 5 Design
+
+=== 5.1 Parser
+
+The primary MASL parser is built into the MASL model compiler.  It exists
+at <<dr-5, MASL parser>>.  A derivative of this parser was crafted for the
+MASL-to-xtUML and xtUML-to-MASL tooling.  It is found <<dr-6,here>>.
+
+For this work, an approach similar to the m2x and x2m tooling is taken.
+This will leverage the work of resecting the parser from the larger model
+compiler.  The key file is `Walker.g`.
+
+== 6 Design Comments
+
+* We need to be able to select by name.  For example, in an
+  AttributeDeclaration, selecting a TypeDeclaration based on the type
+  reference text.
+* We also need to navigate sub/super.  For example, a TypeDeclaration has
+  a name, but I need the instance of the BasicType subtype to link to an
+  AttributeDeclation.
+* I think there needs to be a description field on several elements.  Maybe
+  everything that has a name should also have a description.  Maybe a
+  supertype element should have the description field.  Skipping it for now.
+* What should we do with domain references to domains not loaded?  This
+  can occur with ExceptionReference (and maybe types).
+* So far, there is still no type reference class in the model.
+  (hmmm, maybe UserDefinedType, but I do not think so)
+* I created ReferentialAttribute and linked it on both ends to the source
+  attribute.  I plan to select them later and link the referring end.
+  Not sure the best way to go about this.  Considering adding a function
+  to the model.
+* Consideration of RelationshipSpecification (not really a first class
+  meta-model element).
+* namedTypeRef is UDT somehow...
+* I need to understand how to recurse the expression hierarchy.
+* There are several places where I will need to do a symbol look-up.
+  ** identifier within expression
+  ** ServiceInvocation - This is where ServiceOverload is used when
+     resolving the name thus resolving the subtype.
+  ** exceptionReference
+  ** optionalDomainReference
+  ** optionalObjectReference
+* I should factor ServiceInvocation out of statement and into invocation.
+
+== 7 User Documentation
+
+== 8 Unit Test
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11745[11745 - Parse MASL into xtUML meta-model of MASL activity]
+. [[dr-2]] https://support.onefact.net/issues/11744[11744 - AWS software architecture]
+. [[dr-3]] link:11745_loadmasl_ant.adoc[analysis note]
+. [[dr-4]] link:11745_loadmasl_dnt.adoc[design note]
+. [[dr-5]] https://github.com/xtuml/masl/tree/master/core-java/src/main/antlr/org/xtuml/masl/antlr[MASL parser]
+. [[dr-6]] https://github.com/xtuml/mc/tree/master/masl/parser/src[MASL parser for MASL tools]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

@@ -62,10 +62,6 @@ fi
 # DO NOT MODIFY ANY OF THE FOLLOWING LINES.
 #
 APPLICATION="org.xtuml.bp.cli.$1"
-export JVM_ARG="-vm $BPHOMEDIR/jre/bin/java"
-if [[ `uname` == "Darwin" ]]; then
-    export JVM_ARG=""
-fi
 
 # handle Launch commands
 export BPHOME=$BPHOMEDIR
@@ -137,7 +133,7 @@ else
         python $DIR/launch-cli.py cmd `cat $CLI_FILE | awk '/PORT: ([0-9]+)$/ {print $2}'` ${@:1}
     else
         # run the normal way
-        $BPHOMEDIR/bridgepoint --launcher.suppressErrors $JVM_ARG -clean -noSplash -data $WORKSPACE -application $APPLICATION $2 "$3" $4 "$5" $6 "$7" $8 "$9"
+        $BPHOMEDIR/bridgepoint --launcher.suppressErrors -clean -noSplash -data $WORKSPACE -application $APPLICATION $2 "$3" $4 "$5" $6 "$7" $8 "$9"
     fi
 fi
  

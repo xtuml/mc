@@ -1,0 +1,82 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("13be4e2c-f151-43f6-8837-7c4ba849a90c",
+	'TypeDeclaration',
+	6236,
+	'TypeDeclaration',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("7ad8a4ea-99d8-4ddc-bbbb-16f44fe27717",
+	"13be4e2c-f151-43f6-8837-7c4ba849a90c");
+INSERT INTO O_BATTR
+	VALUES ("7ad8a4ea-99d8-4ddc-bbbb-16f44fe27717",
+	"13be4e2c-f151-43f6-8837-7c4ba849a90c");
+INSERT INTO O_ATTR
+	VALUES ("7ad8a4ea-99d8-4ddc-bbbb-16f44fe27717",
+	"13be4e2c-f151-43f6-8837-7c4ba849a90c",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	"00000000-0000-0000-0000-000000000000",
+	'Name',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("93926ada-15ff-44f7-8fb9-c0eb4b66c1fa",
+	"13be4e2c-f151-43f6-8837-7c4ba849a90c");
+INSERT INTO O_BATTR
+	VALUES ("93926ada-15ff-44f7-8fb9-c0eb4b66c1fa",
+	"13be4e2c-f151-43f6-8837-7c4ba849a90c");
+INSERT INTO O_ATTR
+	VALUES ("93926ada-15ff-44f7-8fb9-c0eb4b66c1fa",
+	"13be4e2c-f151-43f6-8837-7c4ba849a90c",
+	"7ad8a4ea-99d8-4ddc-bbbb-16f44fe27717",
+	'visibility',
+	'',
+	'',
+	'visibility',
+	0,
+	"2f0bb20f-cbf4-4a9d-9486-a241f30df580",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2f0bb20f-cbf4-4a9d-9486-a241f30df580",
+	"00000000-0000-0000-0000-000000000000",
+	'Visibility',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"13be4e2c-f151-43f6-8837-7c4ba849a90c");
+INSERT INTO O_ID
+	VALUES (1,
+	"13be4e2c-f151-43f6-8837-7c4ba849a90c");
+INSERT INTO O_ID
+	VALUES (2,
+	"13be4e2c-f151-43f6-8837-7c4ba849a90c");
+INSERT INTO PE_PE
+	VALUES ("13be4e2c-f151-43f6-8837-7c4ba849a90c",
+	1,
+	"3448fe3e-9929-45ad-a01b-b5fdae98a108",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("3448fe3e-9929-45ad-a01b-b5fdae98a108",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'type',
+	'',
+	6200,
+	'../type.xtuml');
