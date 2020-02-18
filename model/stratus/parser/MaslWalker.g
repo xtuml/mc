@@ -650,7 +650,10 @@ returns [Object basic_type]
                                  )                          { 
                                                               try {
                                                                 $basic_type = loader.call_function( "select_any_BasicType_where_name", $optionalDomainReference.domainname, $typeName.name );
-                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
+                                                                if ( ((IModelInstance)$basic_type).isEmpty() ) {
+                                                                  loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
+                                                                }
+                                                                else { System.err.println( "namedTypeRef failed with name:" + $typeName.name ); }
                                                               } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               ;
@@ -1141,7 +1144,10 @@ returns [Object relationship_specification]
                                                               try {
                                                                 System.err.println( object_or_role );
                                                                 assert null != $relationshipReference.relationship_declaration :  "bad relationshipReferne";
-                                                                assert null != current_object : "bad current_object";
+                                                                if ( null == current_object ) {
+                                                                  current_object = loader.call_function( "select_any_ObjectDeclaration_where_name", "*", "*" );
+                                                                  System.err.println( "CDS current object is emtpy in relationshipSpec rule" );
+                                                                }
                                                                 assert null != to_object : "bad to_object";
                                                                 $relationship_specification = loader.call_function( "create_RelationshipSpecification", $relationshipReference.relationship_declaration, current_object, object_or_role, to_object );
                                                               } catch ( XtumlException e ) { xtuml_trace( e ); }

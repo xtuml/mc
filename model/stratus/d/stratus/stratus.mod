@@ -175,11 +175,15 @@ domain stratus is
   object TerminatorFunctionInvocation;
   object ObjectFunctionInvocation;
   object InstanceFunctionInvocation;
+  private type SemanticErrorCode is integer
+  ;
   private type Name is string
   ;
   private type myString is string
   ;
-  private type Visibility is enum (isprivate, ispublic)
+  //!private type Visibility is enum (isprivate, ispublic)
+  //!;
+  private type Visibility is integer
   ;
   private type ParameterMode is enum (isin, isout)
   ;

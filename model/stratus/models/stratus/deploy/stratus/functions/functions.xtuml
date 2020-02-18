@@ -182,11 +182,16 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'select_any_ObjectDeclaration_where_name',
 	'',
-	'// Consider selecting through the domain.
-select many domains from instances of Domain where ( selected.name == param.domainname );
+	'select many domains from instances of Domain where ( selected.name == param.domainname );
 select any object_declaration related by domains->ObjectDeclaration[R5805] where ( selected.name == param.name );
 if ( empty object_declaration )
   select any object_declaration from instances of ObjectDeclaration where ( selected.name == param.name );
+end if;
+// CDS for now...
+d = ""; n = ""; // CDS UDT
+d = param.domainname; n = param.name; // CDS UDT
+if ( ( "*" == d ) and ( "*" == n ) )
+  select any object_declaration from instances of ObjectDeclaration;
 end if;
 return object_declaration;
 ',
@@ -1442,9 +1447,11 @@ if ( "" != object_or_role_string )
 
 end if;
 
+// CDS choose one to avoid exceptions for now...
+select any to_object_declaration from instances of ObjectDeclaration;
 o2 = to_object_declaration.name;
 message = o1 + "->" + o2;
-LOG::LogInfo( message: "to_object_declaration " + message);
+LOG::LogInfo( message: "EEEEEEEEEEEEeee defaulting to bogus lookup &&&&&&&&&&&& " + message);
 relate relationship_specification to to_object_declaration across R6011;
 return relationship_specification;
 

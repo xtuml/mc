@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <link href="../asciidoctor.css" rel="stylesheet">
+  <link href="../slides.css" rel="stylesheet">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script>function insertScreenStyle() {
+  if (!navigator.userAgent.includes("HeadlessChrome")) {
+    const style = document.createElement('style')
+    style.innerHTML = `
+      body {
+        padding-bottom: 2400px;
+      }
+      .slide {
+        margin-top: 1em;
+        border: 1px solid #ba3925;
+        padding: 9px;
+      }
+    `
+    const ref = document.querySelector('script')
+    ref.parentNode.insertBefore(style, ref)
+  }
+}; insertScreenStyle();</script>
+  </head>
+  <body>
+  <section class="slide title-slide">
+  <h1>OOA of MASL</h1>
+  <h2><a href="https://xtuml.org">xtuml.org</a></h2>
+  <h2>cortland.starrett@onefact.net</h2>
+  <img alt="One Fact Inc" src="../onefactlogo.png">
+  </section>
+  <section class="slide title-slide">
+      <h1><br>OOA of MASL</h1>
+  </section>
+  
+  <section id="slide-0" class="slide centered ">
+    <h3>outline</h3>
+    <div class='slide-content'>
+      <div class="ulist">
+<ul>
+<li>
+<p>goals</p>
+</li>
+<li>
+<p>strategy</p>
+</li>
+<li>
+<p>OOA of MASL</p>
+</li>
+<li>
+<p>MASL loader</p>
+</li>
+<li>
+<p>next steps</p>
+</li>
+</ul>
+</div>
+    </div>
+    <footer>
+    <p class="small">1/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-1" class="slide two-col ">
+    <h3>goals</h3>
+    <div class='slide-content'>
+      <div class="ulist">
+<ul>
+<li>
+<p>capture MASL as a model</p>
+</li>
+<li>
+<p>parse and load correct MASL</p>
+</li>
+<li>
+<p>anticipate cloud architecture</p>
+</li>
+</ul>
+</div>
+<div class="openblock">
+<div class="content">
+<img class="image "
+                 src="goal.png"
+                 
+                 
+                 />
+</div>
+</div>
+    </div>
+    <footer>
+    <p class="small">2/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-2" class="slide two-col ">
+    <h3>strategy</h3>
+    <div class='slide-content'>
+      <div class="ulist">
+<ul>
+<li>
+<p>port MASL model compiler java model</p>
+</li>
+<li>
+<p>leverage working starting point</p>
+</li>
+<li>
+<p>low-risk with huge number of artifacts</p>
+</li>
+<li>
+<p>script conversion of java to MASL</p>
+</li>
+<li>
+<p>import into BridgePoint</p>
+</li>
+<li>
+<p>refine with action language</p>
+</li>
+</ul>
+</div>
+<div class="openblock">
+<div class="content">
+<img class="image "
+                 src="strategy.png"
+                 
+                 
+                 />
+</div>
+</div>
+    </div>
+    <footer>
+    <p class="small">3/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-3" class="slide centered ">
+    <h3>OOA of MASL</h3>
+    <div class='slide-content'>
+      <div class="ulist">
+<ul>
+<li>
+<p>deployment component (ME and canvas)</p>
+</li>
+<li>
+<p>Show ooamasl subsystem packages (ME and canvas)</p>
+</li>
+<li>
+<p>Explain "naked" OOA.</p>
+</li>
+<li>
+<p>Explain package references.</p>
+</li>
+<li>
+<p>tour of each subsystem</p>
+</li>
+</ul>
+</div>
+    </div>
+    <footer>
+    <p class="small">4/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-4" class="slide  ">
+    <h3>OOA of MASL:  <strong>ooamasl packages</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="ooamasl.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">5/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-5" class="slide  ">
+    <h3>OOA of MASL:  <strong>binary</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="binary.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">6/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-6" class="slide  ">
+    <h3>OOA of MASL:  <strong>builtin</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="builtin.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">7/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-7" class="slide  ">
+    <h3>OOA of MASL:  <strong>domain</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="domain.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">8/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-8" class="slide  ">
+    <h3>OOA of MASL:  <strong>expression</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="expression.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">9/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-9" class="slide  ">
+    <h3>OOA of MASL:  <strong>invocation</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="invocation.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">10/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-10" class="slide  ">
+    <h3>OOA of MASL:  <strong>literal</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="literal.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">11/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-11" class="slide  ">
+    <h3>OOA of MASL:  <strong>object</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="object.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">12/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-12" class="slide  ">
+    <h3>OOA of MASL:  <strong>project</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="project.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">13/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-13" class="slide  ">
+    <h3>OOA of MASL:  <strong>relationship</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="relationship.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">14/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-14" class="slide  ">
+    <h3>OOA of MASL:  <strong>statement</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="statement.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">15/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-15" class="slide  ">
+    <h3>OOA of MASL:  <strong>statemodel</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="statemodel.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">16/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-16" class="slide  ">
+    <h3>OOA of MASL:  <strong>type</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="type.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">17/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-17" class="slide  ">
+    <h3>Statistics</h3>
+    <div class='slide-content'>
+      <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Statistics</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">subsystems</th>
+<th class="tableblock halign-left valign-top">12</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">classes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">176</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">134</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">relationships</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">234</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">production rules</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">166</p></td>
+</tr>
+</tbody>
+</table>
+    </div>
+    <footer>
+    <p class="small">18/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-18" class="slide  ">
+    <h3>MASL loader</h3>
+    <div class='slide-content'>
+      <div class="ulist">
+<ul>
+<li>
+<p>deployment model</p>
+<div class="ulist">
+<ul>
+<li>
+<p>imported OOA of MASL subsystem packages</p>
+</li>
+<li>
+<p>parser, loader, model API functions</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+    </div>
+    <footer>
+    <p class="small">19/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-19" class="slide  ">
+    <h3>OOA of MASL:  <strong>Stratus deployment</strong></h3>
+    <div class='slide-content'>
+      <img class="image "
+                 src="deployment.png"
+                 
+                 
+                 />
+    </div>
+    <footer>
+    <p class="small">20/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-20" class="slide  ">
+    <h3>MASL loader</h3>
+    <div class='slide-content'>
+      <div class="ulist">
+<ul>
+<li>
+<p>Show functions</p>
+</li>
+<li>
+<p>Show parser interface (LOAD).</p>
+</li>
+<li>
+<p>Ciera build</p>
+</li>
+<li>
+<p>Ciera generated code</p>
+</li>
+<li>
+<p>Load ALU (and other test models).</p>
+</li>
+<li>
+<p>Load stratus.</p>
+</li>
+<li>
+<p>Generate abstract classes with stratus of stratus.</p>
+</li>
+<li>
+<p>Generate inventory report of major elements sorted in some order.</p>
+</li>
+</ul>
+</div>
+    </div>
+    <footer>
+    <p class="small">21/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-21" class="slide  ">
+    <h3>MASL loader: functions</h3>
+    <div class='slide-content'>
+      <div class="ulist">
+<ul>
+<li>
+<p>init</p>
+</li>
+<li>
+<p>select_any_Object_where_name</p>
+</li>
+<li>
+<p>resolve_name</p>
+</li>
+<li>
+<p>create_RelationshipSpecification</p>
+</li>
+</ul>
+</div>
+    </div>
+    <footer>
+    <p class="small">22/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-22" class="slide  ">
+    <h3>MASL loader:  cont&#8230;&#8203;</h3>
+    <div class='slide-content'>
+      <div class="ulist">
+<ul>
+<li>
+<p>Show parser interface (LOAD).</p>
+</li>
+<li>
+<p>Ciera build</p>
+</li>
+<li>
+<p>Ciera generated code</p>
+</li>
+<li>
+<p>Load ALU (and other test models).</p>
+<div class="ulist">
+<ul>
+<li>
+<p>masl_round_trip (load all test models)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Load stratus.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Export stratus as MASL.</p>
+</li>
+<li>
+<p>Load exported MASL.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Generate abstract classes with stratus of stratus.</p>
+</li>
+<li>
+<p>Generate inventory report of major elements sorted in some order.</p>
+</li>
+</ul>
+</div>
+    </div>
+    <footer>
+    <p class="small">23/24</p>
+    </footer>
+  </section>
+
+  <section id="slide-23" class="slide  ">
+    <h3>next steps</h3>
+    <div class='slide-content'>
+      <div class="ulist">
+<ul>
+<li>
+<p>review and further test</p>
+</li>
+<li>
+<p>template and rendering HOWTO</p>
+</li>
+<li>
+<p>cloud template integration</p>
+</li>
+<li>
+<p>Java translation of MASL activities</p>
+</li>
+</ul>
+</div>
+    </div>
+    <footer>
+    <p class="small">24/24</p>
+    </footer>
+  </section>
+  <script>
+  function init() {
+  function firstToken(TOKENS, text) {
+    let tag = null;
+    let len = undefined;
+    let index = text.length;
+    for (let [t, re] of Object.entries(TOKENS)) {
+      const m = text.match(re)
+      if (!m) continue
+      if (m.index < index) {
+        index = m.index;
+        tag = t;
+        len = m[0].length;
+      }
+    }
+    if (index == 0) {
+      return [tag, Math.max(len, 1)]
+    } else {
+      return ['text', Math.max(index, 1)]
+    }
+  }
+
+  function tokenize(TOKENS, text) {
+    const res = [];
+    while (true) {
+      if (text.length == 0) break;
+      let [tag, len] = firstToken(TOKENS, text);
+      let tok = text.substring(0, len);
+      res.push([tag, tok])
+      text = text.substring(len);
+    }
+    return res
+  }
+
+  const RUST_TOKENS = {
+    number: /\b([0-9][0-9_]*(\.[0-9]+)?|0[xob][_0-9a-zA-Z]+)([iuf](8|16|32|64|128|size))?\b/,
+    string: /"[^"\n]*"|b?'.'/,
+    lifetime: /'\w+(?!')/,
+    kw: /\b(union|static|move|super|type|trait|where|self|impl|true|false|extern|crate|fn|match|in|if|else|while|for|loop|pub|let|return|break|continue|mut|const|ref|struct|enum|use|mod|as|unsafe|dyn)\b/,
+    macro: /[a-zA-Z_]+!(?=[(\\[{])/,
+    comment: /\/\/.*/,
+    prompt: /\$/,
+    text: /<\w+[^<]*>|<\/\w+>/,
+  };
+
+  const LANG_TOKENS = {
+    number: /\b[0-9][0-9_]*(\.[0-9]+)?(d)?\b/,
+    string: /(?<!=)"[^"\n]*"(?!>)/,
+    kw: /\b(template|typedef|typename|void|in|if|else|while|for|let|return|break|continue|const|struct|enum|use|as|def|private|static)\b/,
+    comment: /\/\/.*/,
+    macro: /#\w+ .*/,
+    text: /<\w+[^<]*>|<\/\w+>/,
+  }
+
+  const SH_TOKENS = {
+    comment: /#.*/,
+    prompt: /\$/,
+    text: /<\w+[^<]*>|<\/\w+>/,
+  }
+
+  const langs = {
+    'rust': RUST_TOKENS,
+    'java': LANG_TOKENS,
+    'scala': LANG_TOKENS,
+    'cpp': LANG_TOKENS,
+    'sh': SH_TOKENS,
+  }
+
+  for (const [lang, TOKENS] of Object.entries(langs)) {
+    for (const elt of document.getElementsByClassName(`language-${lang}`)) {
+      let newText = "";
+      for (let [tag, text] of tokenize(TOKENS, elt.innerHTML)) {
+        if (tag == 'text') {
+          newText += text;
+          continue;
+        }
+        newText += `<span class="hl-${tag}">${text}</span>`
+      }
+      elt.innerHTML = newText
+    }
+  }
+
+  function currentSlide() {
+    const loc = location.hash.replace("#slide-", "");
+    if (!loc) return 0;
+    return parseInt(loc);
+  }
+
+  const nSlides = document.getElementsByClassName('slide').length - 2;
+
+  function go(delta) {
+    let slide = currentSlide() + delta;
+    slide = Math.max(slide, 0);
+    slide = Math.min(slide, nSlides - 1);
+    location.hash = "#slide-" + slide;
+  }
+
+  document.onkeydown = function (e) {
+    switch (e.keyCode) {
+      case 37:
+        go(-1);
+        break;
+      case 33:
+        go(-10);
+        e.preventDefault()
+        break;
+      case 39:
+        go(+1);
+        break;
+      case 32: // space
+        e.preventDefault()
+        go(+1);
+        break;
+      case 34:
+        go(+10);
+        e.preventDefault()
+        break;
+    }
+  };
+}
+  init()
+  </script>
+  </body>

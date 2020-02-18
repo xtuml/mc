@@ -1,0 +1,136 @@
+= OOA of MASL
+Cortland Starrett <cortland.starrett@onefact.net>
+:icons: font
+:lecture: OOA of MASL
+:table-caption!:
+:example-caption!:
+
+[.centered]
+== outline
+
+* goals
+* strategy
+* OOA of MASL
+* MASL loader
+* next steps
+
+[.two-col]
+== goals
+
+  * capture MASL as a model
+  * parse and load correct MASL
+  * anticipate cloud architecture
+
+--
+image::goal.png[]
+--
+
+[.two-col]
+== strategy
+
+  * port MASL model compiler java model
+  * leverage working starting point
+  * low-risk with huge number of artifacts
+  * script conversion of java to MASL
+  * import into BridgePoint
+  * refine with action language
+
+--
+image::strategy.png[]
+--
+
+[.centered]
+== OOA of MASL
+
+  * deployment component (ME and canvas)
+  * Show ooamasl subsystem packages (ME and canvas)
+  * Explain "naked" OOA.
+  * Explain package references.
+  * tour of each subsystem
+
+== OOA of MASL:  **ooamasl packages**
+image::ooamasl.png[]
+== OOA of MASL:  **binary**
+image::binary.png[]
+== OOA of MASL:  **builtin**
+image::builtin.png[]
+== OOA of MASL:  **domain**
+image::domain.png[]
+== OOA of MASL:  **expression**
+image::expression.png[]
+== OOA of MASL:  **invocation**
+image::invocation.png[]
+== OOA of MASL:  **literal**
+image::literal.png[]
+== OOA of MASL:  **object**
+image::object.png[]
+== OOA of MASL:  **project**
+image::project.png[]
+== OOA of MASL:  **relationship**
+image::relationship.png[]
+== OOA of MASL:  **statement**
+image::statement.png[]
+== OOA of MASL:  **statemodel**
+image::statemodel.png[]
+== OOA of MASL:  **type**
+image::type.png[]
+
+== Statistics
+
+.Statistics
+[options="header"]
+|===
+| subsystems       | 12
+| classes          | 176
+| attributes       | 134
+| relationships    | 234
+| production rules | 166
+|===
+
+
+== MASL loader
+
+* deployment model
+  ** imported OOA of MASL subsystem packages
+  ** parser, loader, model API functions
+
+== OOA of MASL:  **Stratus deployment**
+image::deployment.png[]
+
+== MASL loader
+
+  * Show functions
+  * Show parser interface (LOAD).
+  * Ciera build
+  * Ciera generated code
+  * Load ALU (and other test models).
+  * Load stratus.
+  * Generate abstract classes with stratus of stratus.
+  * Generate inventory report of major elements sorted in some order.
+
+== MASL loader: functions
+
+    * init
+    * select_any_Object_where_name
+    * resolve_name
+    * create_RelationshipSpecification
+
+== MASL loader:  cont...
+
+  * Show parser interface (LOAD).
+  * Ciera build
+  * Ciera generated code
+  * Load ALU (and other test models).
+    ** masl_round_trip (load all test models)
+  * Load stratus.
+    ** Export stratus as MASL.
+    ** Load exported MASL.
+  * Generate abstract classes with stratus of stratus.
+  * Generate inventory report of major elements sorted in some order.
+
+== next steps
+
+  * review and further test
+  * template and rendering HOWTO
+  * cloud template integration
+  * Java translation of MASL activities
