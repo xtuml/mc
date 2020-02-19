@@ -676,8 +676,6 @@ domain stratus is
   object AttributeInitialization is
   end object;
   object ServiceExpression is
-//!R5545
-    overload :   iServiceOverload;
   end object;
   object Expression is
   end object;
@@ -713,32 +711,19 @@ domain stratus is
   end object;
   object RelationshipDeclaration is
     name :   Name;
-//!R6003
-//!domain
-    my_domain :   iDomain;
   end object;
   object HalfRelationship is
     conditional :   boolean;
     role :   myString;
-//!R6004
-    toObject :   iObjectNameExpression;
-    mult :   enumeratedMultiplicityType;
-//!R6006
-    fromObject :   iObjectNameExpression;
   end object;
   object RelationshipSpecification is
 //!R6011
     toObject :   Name;
-    mult :   enumeratedMultiplicityType;
-//!R6013
-    half :   iHalfRelationship;
     role :   myString;
     conditional :   boolean;
 //!R6014
     fromObject :   Name;
 //!R6015
-//!relationship
-    my_relationship :   iRelationshipDeclaration;
   end object;
   object ProjectDomain is
   end object;
@@ -749,28 +734,13 @@ domain stratus is
     name :   Name;
   end object;
   object State is
-//!R6104
-    List_parameters :   iParameterDefinition;
     name :   Name;
 //!R6105
-//!object
-    my_object :   iObjectDeclaration;
-//!type
-    my_type :   enumeratedStateType;
   end object;
   object TransitionTable is
-//!R6113
-//!object
-    my_object :   iObjectDeclaration;
-//!R6114
-    List_rows :   iTransitionRow;
     isAssigner :   boolean;
   end object;
   object TransitionRow is
-//!R6111
-    initialState :   iState;
-//!R6112
-    List_options :   iTransitionOption;
   end object;
   object TransitionOption is
 //!R6108
@@ -778,8 +748,6 @@ domain stratus is
     my_event :   iEventExpression;
 //!R6109
     destinationState :   iState;
-//!type
-    my_type :   enumeratedTransitionType;
   end object;
   object EventDeclaration is
     name :   Name;
@@ -1024,20 +992,12 @@ domain stratus is
     supertype :   iObjectDeclaration;
   end object;
   object AssociativeRelationshipDeclaration is
-//!R6000
-    leftToRight :   iHalfRelationship;
 //!R6001
     assocObject :   iObjectDeclaration;
     name :   Name;
-//!R6002
-    rightToLeft :   iHalfRelationship;
   end object;
   object NormalRelationshipDeclaration is
-//!R6007
-    leftToRight :   iHalfRelationship;
     name :   Name;
-//!R6008
-    rightToLeft :   iHalfRelationship;
   end object;
   object ProjectTerminatorService is
   end object;

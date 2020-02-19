@@ -7,6 +7,31 @@ INSERT INTO O_OBJ
 	'BuiltinType',
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("8eaac1c4-17ef-4ff4-bdfe-6c29a0e21d13",
+	"db3608b2-3214-414d-b03d-3585c5f6321f");
+INSERT INTO O_BATTR
+	VALUES ("8eaac1c4-17ef-4ff4-bdfe-6c29a0e21d13",
+	"db3608b2-3214-414d-b03d-3585c5f6321f");
+INSERT INTO O_ATTR
+	VALUES ("8eaac1c4-17ef-4ff4-bdfe-6c29a0e21d13",
+	"db3608b2-3214-414d-b03d-3585c5f6321f",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	"00000000-0000-0000-0000-000000000000",
+	'Name',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"db3608b2-3214-414d-b03d-3585c5f6321f");

@@ -201,13 +201,13 @@ returns [Object domain]
                                                             {
                                                          System.err.println( "typeDeclaration " );
                                                               try {
-                                                                loader.relate( $typeDeclaration.type_declaration, $domain, 6235, "" );
+                                                                loader.relate( $typeDeclaration.user_defined_type, $domain, 6235, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | typeForwardDeclaration             
                                                             {
                                                               try {
-                                                                loader.relate( $typeForwardDeclaration.type_declaration, $domain, 6235, "" );
+                                                                loader.relate( $typeForwardDeclaration.user_defined_type, $domain, 6235, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                                    | exceptionDeclaration        
@@ -303,19 +303,25 @@ returns [String visibility]
 //---------------------------------------------------------
 
 typeForwardDeclaration
-returns [Object type_declaration]
+returns [Object user_defined_type]
                               : ^( TYPE_DECLARATION // done
                                    typeName                 
                                    typeVisibility
                                    pragmaList				
                                                               {
                                                                 try {
-                                                                  $type_declaration = loader.call_function( "select_any_TypeDeclaration_where_name", $typeName.name );
-                                                                  if ( ((IModelInstance)$type_declaration).isEmpty() ) {
-                                                                    $type_declaration = loader.create( "TypeDeclaration" );
+                                                                  $user_defined_type = loader.call_function( "select_any_UserDefinedType_where_name", "", $typeName.name );
+                                                                  if ( ((IModelInstance)$user_defined_type).isEmpty() ) {
+                                                                    Object type_definition = loader.create( "TypeDefinition" );
+                                                                    Object basic_type = loader.create( "BasicType" );
+                                                                    $user_defined_type = loader.create( "UserDefinedType" );
+                                                                    Object type_declaration = loader.create( "TypeDeclaration" );
+                                                                    loader.relate( basic_type, type_definition, 6236, "" );
+                                                                    loader.relate( user_defined_type, basic_type, 6205, "" );
+                                                                    loader.relate( $user_defined_type, type_declaration, 6241, "" );
+                                                                    loader.set_attribute( user_defined_type, "name", $typeName.name );
+                                                                    loader.set_attribute( user_defined_type, "visibility", $typeVisibility.visibility );
                                                                   }
-                                                                  loader.set_attribute( $type_declaration, "name", $typeName.name );
-                                                                  loader.set_attribute( $type_declaration, "visibility", $typeVisibility.visibility );
                                                                 } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                  )                          
@@ -323,26 +329,33 @@ returns [Object type_declaration]
                               
 
 typeDeclaration
-returns [Object type_declaration]
+returns [Object user_defined_type]
+@init{ Object type_declaration = null; }
                               : ^( TYPE // done
                                    typeName                 
                                    typeVisibility
                                                               {
                                                                 try {
-                                                                  $type_declaration = loader.call_function( "select_any_TypeDeclaration_where_name", $typeName.name );
-                                                                  if ( ((IModelInstance)$type_declaration).isEmpty() ) {
-                                                                    $type_declaration = loader.create( "TypeDeclaration" );
+                                                                  $user_defined_type = loader.call_function( "select_any_UserDefinedType_where_name", "", $typeName.name );
+                                                                  if ( ((IModelInstance)$user_defined_type).isEmpty() ) {
+                                                                    Object type_definition = loader.create( "TypeDefinition" );
+                                                                    Object basic_type = loader.create( "BasicType" );
+                                                                    $user_defined_type = loader.create( "UserDefinedType" );
+                                                                    type_declaration = loader.create( "TypeDeclaration" );
+                                                                    loader.relate( basic_type, type_definition, 6236, "" );
+                                                                    loader.relate( user_defined_type, basic_type, 6205, "" );
+                                                                    loader.relate( $user_defined_type, type_declaration, 6241, "" );
+                                                                    loader.set_attribute( user_defined_type, "name", $typeName.name );
+                                                                    loader.set_attribute( user_defined_type, "visibility", $typeVisibility.visibility );
                                                                   }
-                                                                  loader.set_attribute( $type_declaration, "name", $typeName.name );
-                                                                  loader.set_attribute( $type_declaration, "visibility", $typeVisibility.visibility );
                                                                 } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                    description
                                    pragmaList
-                                   typeDefinition[$type_declaration]
+                                   typeDefinition[type_declaration]
                                                               {
                                                                 try {
-                                                                  loader.relate( $typeDefinition.type_definition, $type_declaration, 6234, "" );
+                                                                  loader.relate( $typeDefinition.type_definition, type_declaration, 6234, "" );
                                                                 } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                               }
                                  )
@@ -351,15 +364,10 @@ returns [Object type_declaration]
 
 typeDefinition[Object type_declaration]
 returns [Object type_definition]
-@init
-                                                            {
-                                                              try {
-                                                                $type_definition = loader.create( "TypeDefinition" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e ); }
-                                                            }
                               : structureTypeDefinition // done
                                                             {
                                                               try {
+                                                                $type_definition = loader.create( "TypeDefinition" );
                                                                 Object full_type_definition = loader.create( "FullTypeDefinition" );
                                                                 loader.relate( full_type_definition, $type_definition, 6236, "" );
                                                                 loader.relate( $structureTypeDefinition.structure_type, full_type_definition, 6219, "" );
@@ -368,6 +376,7 @@ returns [Object type_definition]
                               | enumerationTypeDefinition   
                                                             {
                                                               try {
+                                                                $type_definition = loader.create( "TypeDefinition" );
                                                                 Object full_type_definition = loader.create( "FullTypeDefinition" );
                                                                 loader.relate( full_type_definition, $type_definition, 6236, "" );
                                                                 loader.relate( $enumerationTypeDefinition.enumerate_type, full_type_definition, 6219, "" );
@@ -376,6 +385,7 @@ returns [Object type_definition]
                               | constrainedTypeDefinition   
                                                             {
                                                               try {
+                                                                $type_definition = loader.create( "TypeDefinition" );
                                                                 Object full_type_definition = loader.create( "FullTypeDefinition" );
                                                                 loader.relate( full_type_definition, $type_definition, 6236, "" );
                                                                 loader.relate( $constrainedTypeDefinition.type, full_type_definition, 6219, "" );
@@ -383,20 +393,14 @@ returns [Object type_definition]
                                                             }
                               | typeReference               
                                                             {
-                                                              // Create the BasicType and UserDefineType here, because
-                                                              // the typeReference rule needs to be used by non-defintion
-                                                              // code.
                                                               try {
-                                                                Object basic_type = loader.create( "BasicType" );
-                                                                loader.relate( basic_type, $type_definition, 6236, "" );
-                                                                Object user_defined_type = loader.create( "UserDefinedType" );
-                                                                loader.relate( user_defined_type, basic_type, 6205, "" );
-                                                                loader.relate( user_defined_type, $type_declaration, 6241, "" );
+                                                                $type_definition = loader.call_function( "select_any_TypeDefinition_related_BasicType", $typeReference.basic_type );
                                                               } catch ( XtumlException e ) { xtuml_trace( e ); }
                                                             }
                               | unconstrainedArrayDefinition
                                                             {
                                                               try {
+                                                                $type_definition = loader.create( "TypeDefinition" );
                                                                 Object full_type_definition = loader.create( "FullTypeDefinition" );
                                                                 loader.relate( full_type_definition, $type_definition, 6236, "" );
                                                                 loader.relate( $unconstrainedArrayDefinition.type, full_type_definition, 6219, "" );
@@ -650,7 +654,7 @@ returns [Object basic_type]
                                  )                          { 
                                                               try {
                                                                 $basic_type = loader.call_function( "select_any_BasicType_where_name", $optionalDomainReference.domainname, $typeName.name );
-                                                                if ( ((IModelInstance)$basic_type).isEmpty() ) {
+                                                                if ( !((IModelInstance)$basic_type).isEmpty() ) {
                                                                   loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
                                                                 }
                                                                 else { System.err.println( "namedTypeRef failed with name:" + $typeName.name ); }

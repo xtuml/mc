@@ -63,6 +63,53 @@ compiler.  The key file is `Walker.g`.
 
 == 7 User Documentation
 
+=== 7.1 outline of presentation of OOA of MASL
+
+* outline
+  ** goals
+  ** strategy
+  ** OOA of MASL
+  ** MASL loader
+  ** next steps
+* goals
+  ** capture MASL as a model
+  ** parse and load correct MASL
+  ** anticipate cloud architecture
+* strategy
+  ** port MASL model compiler java model
+  ** leverage working starting point
+  ** low-risk with huge number of artifacts
+  ** script conversion of java to MASL
+  ** import into BridgePoint
+  ** refine with action language
+* OOA of MASL
+  * deployment component (ME and canvas)
+  * Show ooamasl subsystem packages (ME and canvas)
+  * Explain "naked" OOA.
+  * Explain package references.
+  * tour of each subsystem
+* MASL loader
+  * Show functions
+    ** init
+    ** select_any_Object_where_name
+    ** resolve_name
+    ** create_RelationshipSpecification
+  * Show parser interface (LOAD).
+  * Ciera build
+  * Ciera generated code
+  * Load ALU (and other test models).
+    ** masl_round_trip (load all test models)
+  * Load stratus.
+    ** Export stratus as MASL.
+    ** Load exported MASL.
+  * Generate abstract classes with stratus of stratus.
+  * Generate inventory report of major elements sorted in some order.
+* next steps
+  ** review and further test
+  ** template and rendering HOWTO
+  ** cloud template integration
+  ** Java translation of MASL activities
+
 == 8 Unit Test
 
 == 9 Document References

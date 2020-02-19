@@ -98,7 +98,8 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'select_any_TypeDeclaration_where_name',
 	'',
-	'select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
+	'select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
+select one type_declaration related by user_defined_type->TypeDeclaration[R6241];
 return type_declaration;',
 	"1a85f47e-89ea-4d0e-9a09-afc952412df3",
 	1,
@@ -235,14 +236,21 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'select_any_BasicType_where_name',
 	'',
-	'select any type_declaration from instances of TypeDeclaration where ( false );
-select any domain from instances of Domain where ( selected.name == param.domainname );
-if ( not_empty domain )
-  select any type_declaration related by domain->TypeDeclaration[R6235] where ( selected.name == param.name );
+	'// If a domain name is supplied, use it to search (only) for UDTs.
+select any basic_type from instances of BasicType where ( false );
+select any builtin_type from instances of BuiltinType where ( selected.name == param.name );
+if ( not_empty builtin_type )
+	select one basic_type related by builtin_type->BasicType[R6205];
 else
-  select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
+  select any domain from instances of Domain where ( selected.name == param.domainname );
+  if ( not_empty domain )
+    select any user_defined_type related by domain->UserDefinedType[R6235] where ( selected.name == param.name );
+    select one basic_type related by user_defined_type->BasicType[R6205];
+  else
+	  select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
+    select one basic_type related by user_defined_type->BasicType[R6205];
+  end if;
 end if;
-select one basic_type related by type_declaration->TypeDefinition[R6234]->BasicType[R6236];
 return basic_type;',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
 	1,
@@ -284,144 +292,109 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'builtin_types',
 	'',
-	'create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "instance";
-type_declaration.visibility = Visibility::public;
-create object instance type_definition of TypeDefinition;
+	'create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "instance";
 create object instance any_instance_type of AnyInstanceType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to any_instance_type across R6206;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "boolean";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "boolean";
 create object instance boolean_type of BooleanType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to boolean_type across R6206;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "character";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "character";
 create object instance character_type of CharacterType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to character_type across R6206;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "device";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "device";
 create object instance device_type of DeviceType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to device_type across R6206;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "duration";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "duration";
 create object instance duration_type of DurationType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to duration_type across R6206;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "event";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "event";
 create object instance event_type of EventType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to event_type across R6206;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "string";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "string";
 create object instance string_type of StringType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to string_type across R6206;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "timer";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "timer";
 create object instance timer_type of TimerType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to timer_type across R6206;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "timestamp";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "timestamp";
 create object instance timestamp_type of TimestampType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to timestamp_type across R6206;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "wcharacter";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "wcharacter";
 create object instance wcharacter_type of WCharacterType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to wcharacter_type across R6206;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "wstring";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "wstring";
 create object instance wstring_type of WStringType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to wstring_type across R6206;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "real";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "real";
 create object instance numeric_type of NumericType;
 numeric_type.bits = 64;
 numeric_type.signed = true;
@@ -445,18 +418,15 @@ relate literal_expression to numeric_literal across R5700;
 relate numeric_literal to integer_literal across R5703;
 relate expression to numeric_type across R6223;
 create object instance real_type of RealType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to numeric_type across R6206;
 relate numeric_type to real_type across R6221;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "long_integer";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "long_integer";
 create object instance numeric_type of NumericType;
 numeric_type.bits = 64;
 numeric_type.signed = true;
@@ -480,18 +450,15 @@ relate literal_expression to numeric_literal across R5700;
 relate numeric_literal to integer_literal across R5703;
 relate expression to numeric_type across R6223;
 create object instance integer_type of IntegerType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to numeric_type across R6206;
 relate numeric_type to integer_type across R6221;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "byte";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "byte";
 create object instance numeric_type of NumericType;
 numeric_type.bits = 8;
 numeric_type.signed = false;
@@ -515,18 +482,15 @@ relate literal_expression to numeric_literal across R5700;
 relate numeric_literal to integer_literal across R5703;
 relate expression to numeric_type across R6223;
 create object instance byte_type of ByteType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to numeric_type across R6206;
 relate numeric_type to byte_type across R6221;
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "integer";
-type_declaration.visibility = Visibility::public;
 create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
+builtin_type.name = "integer";
 create object instance numeric_type of NumericType;
 numeric_type.bits = 32;
 numeric_type.signed = false;
@@ -550,7 +514,6 @@ relate literal_expression to numeric_literal across R5700;
 relate numeric_literal to integer_literal across R5703;
 relate expression to numeric_type across R6223;
 create object instance small_type of SmallIntegerType;
-relate type_declaration to type_definition across R6234;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to numeric_type across R6206;
@@ -559,11 +522,10 @@ relate numeric_type to small_type across R6221;
 /* Comment out the logging if not desired.
  */
 select many builtin_types from instances of BuiltinType;
-select many type_declarations related by builtin_types->BasicType[R6205]->TypeDefinition[R6236]->TypeDeclaration[R6234]; // where ( SORT::ascending( attr:"name" ) );
 message = "builtin types:  ";
 s = ""; // TODO workaround for Name UDT
-for each type_declaration in type_declarations
-  s = type_declaration.name;
+for each builtin_type in builtin_types
+  s = builtin_type.name;
   message = message + s + " ";
 end for;
 LOG::LogInfo( message:message );',
@@ -1028,8 +990,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'select_any_UserDefinedType_where_name',
 	'',
-	'select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
-select one user_defined_type related by type_declaration->TypeDefinition[R6234]->BasicType[R6236]->UserDefinedType[R6205];
+	'select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
 return user_defined_type;',
 	"5f5b21a5-3fd7-4b46-970e-812947d7a192",
 	1,
@@ -1168,11 +1129,23 @@ if ( param.iscodeblock )
 end if;
 
 // type
-select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
-if ( not_empty type_declaration )
-  select one basic_type related by type_declaration->TypeDefinition[R6234]->BasicType[R6236];
-  LOG::LogInfo( message: message + "found type." );
+// CDS need to narrow to domain and code_block
+select any builtin_type from instances of BuiltinType where ( selected.name == param.name );
+if ( not_empty builtin_type )
+  select one basic_type related by builtin_type->BasicType[R6205];
+  LOG::LogInfo( message: message + "found builtin type." );
   return basic_type;
+else
+  select any domain from instances of Domain where ( selected.name == param.domainname );
+  select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
+  if ( not_empty domain )
+    select any user_defined_type related by domain->UserDefinedType[R6235] where ( selected.name == param.name );
+  end if;
+  if ( not_empty user_defined_type )
+    select one basic_type related by user_defined_type->BasicType[R6205];
+    LOG::LogInfo( message: message + "found user type." );
+    return basic_type;
+  end if;
 end if;
 
 // service
@@ -1536,6 +1509,40 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../ooamasl/models/ooamasl/relationship/relationship.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("9219fa7c-383d-4c1f-8d8d-a67afdb697e7",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_TypeDefinition_related_BasicType',
+	'',
+	'basic_type = param.basic_type;
+select one type_definition related by basic_type->TypeDefinition[R6236];
+return type_definition;',
+	"e4b2bac4-c232-4da0-b89b-f6db4ad3b8ff",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("0eabd816-5519-4819-ac76-03b1efe91757",
+	"9219fa7c-383d-4c1f-8d8d-a67afdb697e7",
+	'basic_type',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("9219fa7c-383d-4c1f-8d8d-a67afdb697e7",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("e4b2bac4-c232-4da0-b89b-f6db4ad3b8ff",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<TypeDefinition>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,

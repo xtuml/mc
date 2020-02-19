@@ -42,10 +42,10 @@ image::strategy.png[]
 [.centered]
 == OOA of MASL
 
-  * deployment component (ME and canvas)
   * Show ooamasl subsystem packages (ME and canvas)
-  * Explain "naked" OOA.
-  * Explain package references.
+  * package references and "naked" OOA
+  * statistics
+  * deployment component (ME and canvas)
   * tour of each subsystem
 
 == OOA of MASL:  **ooamasl packages**
@@ -75,6 +75,15 @@ image::statemodel.png[]
 == OOA of MASL:  **type**
 image::type.png[]
 
+== package references and "naked" OOA of MASL
+
+* A package reference is a package linked to another package in another location
+  (package or project).
+* Package references allow reuse and "import" of subsystems.
+* The term _naked_ OOA refers to a class model with no state or functional activity
+  intended to be used as the schema for multiple projects.
+  ** A meta-model is most useful as a naked class model.
+
 == Statistics
 
 .Statistics
@@ -86,7 +95,6 @@ image::type.png[]
 | relationships    | 234
 | production rules | 166
 |===
-
 
 == MASL loader
 
