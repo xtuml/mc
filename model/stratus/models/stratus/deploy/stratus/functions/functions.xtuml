@@ -40,8 +40,10 @@ INSERT INTO S_SYNC
 	'',
 	'LOG::LogInfo( message:"stratus starting init" );
 
-// Create the preexisting instances of builtin types.
-::builtin_types();
+// Create the preexisting instances of built-in types.
+::BuiltinType_populate();
+// Create the preexisting instances of internal types.
+::InternalType_populate();
 
 // Set up command line for input MASL file.
 CMD::register_value(name:"d", value_name:"domain_path", usage:"Path to a MASL domain directory", default_value:".", required:true);
@@ -94,54 +96,15 @@ INSERT INTO PE_PE
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("34fca70e-b744-411a-989d-6aa03602563f",
-	"00000000-0000-0000-0000-000000000000",
-	'select_any_TypeDeclaration_where_name',
-	'',
-	'select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
-select one type_declaration related by user_defined_type->TypeDeclaration[R6241];
-return type_declaration;',
-	"1a85f47e-89ea-4d0e-9a09-afc952412df3",
-	1,
-	'',
-	0);
-INSERT INTO S_SPARM
-	VALUES ("1d884005-adc6-4f2e-ab92-81292d274665",
-	"34fca70e-b744-411a-989d-6aa03602563f",
-	'name',
-	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
-	"00000000-0000-0000-0000-000000000000",
-	'Name',
-	'',
-	'',
-	'../../../../../../ooamasl/models/ooamasl/Shared/Shared.xtuml');
-INSERT INTO PE_PE
-	VALUES ("34fca70e-b744-411a-989d-6aa03602563f",
-	1,
-	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_DT_PROXY
-	VALUES ("1a85f47e-89ea-4d0e-9a09-afc952412df3",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<TypeDeclaration>',
-	'',
-	'',
-	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
-INSERT INTO S_SYNC
 	VALUES ("104756a8-eda5-4d27-98a5-a2897716dbe4",
 	"00000000-0000-0000-0000-000000000000",
 	'select_any_ExceptionDeclaration_where_name',
 	'',
-	'domain = param.domain;
-// Consider selecting through the domain.
-select any exception_declaration from instances of ExceptionDeclaration where ( selected.name == param.name );
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any exception_declaration related by domain->ExceptionDeclaration[R5400] where ( selected.name == param.name );
+if ( not_empty exception_declaration )
+  select any exception_declaration from instances of ExceptionDeclaration where ( selected.name == param.name );
+end if;
 return exception_declaration;',
 	"fcbc46ab-aa9a-4a5f-a61c-93953c3dcf03",
 	1,
@@ -156,10 +119,17 @@ INSERT INTO S_SPARM
 	'',
 	"3e66809c-318a-46b2-9900-a0c9a7986d23",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	"00000000-0000-0000-0000-000000000000",
+	'Name',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/Shared/Shared.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("3e66809c-318a-46b2-9900-a0c9a7986d23",
 	"104756a8-eda5-4d27-98a5-a2897716dbe4",
-	'domain',
+	'domainname',
 	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
 	0,
 	'',
@@ -183,8 +153,8 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'select_any_ObjectDeclaration_where_name',
 	'',
-	'select many domains from instances of Domain where ( selected.name == param.domainname );
-select any object_declaration related by domains->ObjectDeclaration[R5805] where ( selected.name == param.name );
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any object_declaration related by domain->ObjectDeclaration[R5805] where ( selected.name == param.name );
 if ( empty object_declaration )
   select any object_declaration from instances of ObjectDeclaration where ( selected.name == param.name );
 end if;
@@ -242,14 +212,19 @@ select any builtin_type from instances of BuiltinType where ( selected.name == p
 if ( not_empty builtin_type )
 	select one basic_type related by builtin_type->BasicType[R6205];
 else
-  select any domain from instances of Domain where ( selected.name == param.domainname );
-  if ( not_empty domain )
-    select any user_defined_type related by domain->UserDefinedType[R6235] where ( selected.name == param.name );
-    select one basic_type related by user_defined_type->BasicType[R6205];
-  else
-	  select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
-    select one basic_type related by user_defined_type->BasicType[R6205];
-  end if;
+	select any internal_type from instances of InternalType where ( selected.name == param.name );
+	if ( not_empty internal_type )
+		select one basic_type related by internal_type->BasicType[R6205];
+	else
+		select any domain from instances of Domain where ( selected.name == param.domainname );
+		if ( not_empty domain )
+			select any user_defined_type related by domain->UserDefinedType[R6235] where ( selected.name == param.name );
+			select one basic_type related by user_defined_type->BasicType[R6205];
+		else
+			select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
+			select one basic_type related by user_defined_type->BasicType[R6205];
+		end if;
+	end if;
 end if;
 return basic_type;',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
@@ -290,7 +265,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("e4d401b5-9024-4c24-bd2a-9bb4ec9f79e2",
 	"00000000-0000-0000-0000-000000000000",
-	'builtin_types',
+	'BuiltinType_populate',
 	'',
 	'create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
@@ -683,10 +658,10 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'select_any_RelationshipDeclaration_where_name',
 	'',
-	'select any relationship_declaration from instances of RelationshipDeclaration where ( selected.name == param.name );
-select any domain from instances of Domain where ( selected.name == param.domainname );
-if ( not_empty domain )
-  select any relationship_declaration related by domain->RelationshipDeclaration[R6003] where ( selected.name == param.name );
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any relationship_declaration related by domain->RelationshipDeclaration[R6003] where ( selected.name == param.name );
+if ( empty relationship_declaration )
+  select any relationship_declaration from instances of RelationshipDeclaration where ( selected.name == param.name );
 end if;
 return relationship_declaration;
 ',
@@ -810,9 +785,7 @@ INSERT INTO S_SYNC
 	'select_any_DomainService_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.domainname );
-// CDS bug 11898 select any service related by domain->DomainService[R5303]->Service[R5203] where ( selected.name == param.name );
-select many domain_services related by domain->DomainService[R5303];
-select any service related by domain_services->Service[R5203] where ( selected.name == param.name );
+select any service related by domain->DomainService[R5303]->Service[R5203] where ( selected.name == param.name );
 return service;',
 	"b907c2e2-2877-4506-8018-ad38c7be275a",
 	1,
@@ -856,9 +829,7 @@ INSERT INTO S_SYNC
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.domainname );
 select any domain_terminator related by domain->DomainTerminator[R5304] where ( selected.name == param.terminatorname );
-// CDS bug 11898 select any service related by domain_terminator->DomainTerminatorService[R5306]->Service[R5203] where ( selected.name == param.name );
-select many domain_terminator_services related by domain_terminator->DomainTerminatorService[R5306];
-select any service related by domain_terminator_services->Service[R5203] where ( selected.name == param.name );
+select any service related by domain_terminator->DomainTerminatorService[R5306]->Service[R5203] where ( selected.name == param.name );
 return service;',
 	"b907c2e2-2877-4506-8018-ad38c7be275a",
 	1,
@@ -903,12 +874,8 @@ INSERT INTO S_SYNC
 	'select_any_ProjectTerminatorService_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.projectdomainname );
-// CDS bug 11898 select any project_terminator related by domain->ProjectDomain[R5901]->ProjectTerminator[R5902] where ( selected.name == param.termintorname );
-select many project_domains related by domain->ProjectDomain[R5901];
-select any project_terminator related by project_domains->ProjectTerminator[R5902] where ( selected.name == param.termintorname );
-// CDS bug 11898 select any service related by project_terminator->ProjectTerminatorService[R5903]->Service[R5203] where ( selected.name == param.name );
-select many project_terminator_services related by project_terminator->ProjectTerminatorService[R5903];
-select any service related by project_terminator_services->Service[R5203] where ( selected.name == param.name );
+select any project_terminator related by domain->ProjectDomain[R5901]->ProjectTerminator[R5902] where ( selected.name == param.termintorname );
+select any service related by project_terminator->ProjectTerminatorService[R5903]->Service[R5203] where ( selected.name == param.name );
 return service;',
 	"b907c2e2-2877-4506-8018-ad38c7be275a",
 	1,
@@ -953,9 +920,7 @@ INSERT INTO S_SYNC
 	'select_any_ObjectService_where_name',
 	'',
 	'object_declaration = param.object_declaration;
-// CDS bug 11898 select any service related by object_declaration->ObjectService[R5808]->Service[R5203] where ( selected.name == param.name );
-select many object_services related by object_declaration->ObjectService[R5808];
-select any service related by object_services->Service[R5203] where ( selected.name == param.name );
+select any service related by object_declaration->ObjectService[R5808]->Service[R5203] where ( selected.name == param.name );
 return service;',
 	"b907c2e2-2877-4506-8018-ad38c7be275a",
 	1,
@@ -990,7 +955,11 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'select_any_UserDefinedType_where_name',
 	'',
-	'select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any user_defined_type related by domain->UserDefinedType[R6235] where ( selected.name == param.name );
+if ( empty user_defined_type )
+  select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
+end if;
 return user_defined_type;',
 	"5f5b21a5-3fd7-4b46-970e-812947d7a192",
 	1,
@@ -999,7 +968,7 @@ return user_defined_type;',
 INSERT INTO S_SPARM
 	VALUES ("c7f6a2d8-0453-46c6-8fa6-cd220d663978",
 	"a7df88e2-a33c-4db3-8ac5-cb12a6938401",
-	'domain',
+	'domainname',
 	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
 	0,
 	'',
@@ -1027,39 +996,6 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
-INSERT INTO S_SYNC
-	VALUES ("b5d4ff9f-3855-44cf-92ec-0bd8f0c09515",
-	"00000000-0000-0000-0000-000000000000",
-	'select_any_VariableDefinition_where_name',
-	'',
-	'select any variable_definition from instances of VariableDefinition where ( selected.name == param.name );
-return variable_definition;',
-	"cbe32761-b70f-4b5b-bdd0-4863523889a1",
-	1,
-	'',
-	0);
-INSERT INTO S_SPARM
-	VALUES ("0f5e1ba9-c597-4fa0-9618-0696a407fefd",
-	"b5d4ff9f-3855-44cf-92ec-0bd8f0c09515",
-	'name',
-	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO PE_PE
-	VALUES ("b5d4ff9f-3855-44cf-92ec-0bd8f0c09515",
-	1,
-	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_DT_PROXY
-	VALUES ("cbe32761-b70f-4b5b-bdd0-4863523889a1",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<VariableDefinition>',
-	'',
-	'',
-	'../../../../../../ooamasl/models/ooamasl/statement/statement.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
 	"00000000-0000-0000-0000-000000000000",
@@ -1155,6 +1091,7 @@ if ( not_empty service )
   create object instance service_expression of ServiceExpression;
   relate expression to service_expression across R5517;
   //relate service_expression to service_overload across R5545;
+  select one basic_type related by service->BasicType[R5205];
   LOG::LogInfo( message: message + "found service." );
   return basic_type;
 end if;
@@ -1175,6 +1112,17 @@ if ( not_empty domain_terminator )
   create object instance terminator_name_expression of TerminatorNameExpression;
   relate expression to terminator_name_expression across R5517;
   relate terminator_name_expression to domain_terminator across R5555;
+  // CDS UDT
+  //select any internal_type from instances of InternalType where ( selected.name == "terminator" );
+  //select one basic_type related by internal_type->BasicType[R6205];
+  internal_type_name = "";
+  select many internal_types from instances of InternalType;
+  for each internal_type in internal_types
+    internal_type_name = internal_type.name;
+    if ( internal_type_name == "terminator" )
+      select one basic_type related by internal_type->BasicType[R6205];
+    end if;
+  end for;
   LOG::LogInfo( message: message + "found terminator." );
   return basic_type;
 end if;
@@ -1543,6 +1491,95 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("6fdbf838-5d5b-4536-926d-a926f7922352",
+	"00000000-0000-0000-0000-000000000000",
+	'InternalType_populate',
+	'',
+	'create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "characteristic";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "enum";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "object";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "service";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "split";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "stream_modifier";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "terminator";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "type";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+/* Comment out the logging if not desired.
+ */
+select many internal_types from instances of InternalType;
+message = "internal types:  ";
+s = ""; // TODO workaround for Name UDT
+for each internal_type in internal_types
+  s = internal_type.name;
+  message = message + s + " ";
+end for;
+LOG::LogInfo( message:message );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("6fdbf838-5d5b-4536-926d-a926f7922352",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,

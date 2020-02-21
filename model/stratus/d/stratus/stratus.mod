@@ -723,7 +723,6 @@ domain stratus is
     conditional :   boolean;
 //!R6014
     fromObject :   Name;
-//!R6015
   end object;
   object ProjectDomain is
   end object;
@@ -735,7 +734,6 @@ domain stratus is
   end object;
   object State is
     name :   Name;
-//!R6105
   end object;
   object TransitionTable is
     isAssigner :   boolean;
@@ -743,11 +741,6 @@ domain stratus is
   object TransitionRow is
   end object;
   object TransitionOption is
-//!R6108
-//!event
-    my_event :   iEventExpression;
-//!R6109
-    destinationState :   iState;
   end object;
   object EventDeclaration is
     name :   Name;
@@ -774,7 +767,7 @@ domain stratus is
   end object;
   object BuiltinException is
 //!type
-    my_type :   ImplType;
+    my_type :   integer;
   end object;
   object DomainTerminatorService is
   end object;
@@ -783,19 +776,14 @@ domain stratus is
   end object;
   object EofExpression is
 //!relationship?
-    device :   iExpression;
+    device :   device;
   end object;
   object CallExpression is
   end object;
   object ParameterNameExpression is
-//!R5536
-    param :   iParameterDefinition;
+    param :   string;
   end object;
   object IndexedNameExpression is
-//!R5522
-    index :   iExpression;
-//!R5523
-    prefix :   iExpression;
   end object;
   object DictionaryValuesExpression is
 //!relationship?
