@@ -1580,6 +1580,147 @@ INSERT INTO PE_PE
 	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("0ae17a1b-dc87-4bfa-9920-7aca1abae853",
+	"00000000-0000-0000-0000-000000000000",
+	'select_create_InstanceType',
+	'',
+	'object_declaration = param.object_declaration;
+if ( empty object_declaration )
+  // TODO
+  LOG::LogFailure( message:"select_create_InstanceType:  empty object declaration" );
+  select any object_declaration from instances of ObjectDeclaration;
+end if;
+select one basic_type related by object_declaration->InstanceType[R6220]->BasicType[R6205];
+if ( empty basic_type )
+  create object instance type_definition of TypeDefinition;
+  create object instance basic_type of BasicType;
+  create object instance instance_type of InstanceType;
+  relate type_definition to basic_type across R6236;
+  relate basic_type to instance_type across R6205;
+  relate instance_type to object_declaration across R6220;
+end if;
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("774efb11-e918-494b-b0fe-ba1dcebe2d3f",
+	"0ae17a1b-dc87-4bfa-9920-7aca1abae853",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7b0f538e-7db6-4ed3-9287-46cd271ba421",
+	"0ae17a1b-dc87-4bfa-9920-7aca1abae853",
+	'isset',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"774efb11-e918-494b-b0fe-ba1dcebe2d3f",
+	'');
+INSERT INTO PE_PE
+	VALUES ("0ae17a1b-dc87-4bfa-9920-7aca1abae853",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("00e0662e-ad33-4048-8390-adf5a7eaa03d",
+	"00000000-0000-0000-0000-000000000000",
+	'create_DotExpression',
+	'',
+	'expression = param.expression;
+lhs = param.lhs;
+create object instance dot_expression of DotExpression;
+relate expression to dot_expression across R5517;
+relate lhs to dot_expression across R5569;
+
+select any basic_type from instances of BasicType where ( false );
+
+select one expression_basic_type related by expression->BasicType[R5570];
+if ( empty expression_basic_type )
+  LOG::LogFailure( message:"create_DotExpression:  lhs has no type" );
+  return basic_type;
+end if;
+
+// TODO - provide subtyping maybe from DotExpression <- SelectedAttributeExpression, SelectedComponentExpression, TypeNameExpression, ObjectNameExpresion
+
+// Look for attribute access.
+select one instance_type related by expression_basic_type->InstanceType[R6205];
+if ( not_empty instance_type )
+  select any attribute_declaration related by instance_type->ObjectDeclaration[R6220]->AttributeDeclaration[R5802] where ( selected.name == param.name );
+  if ( not_empty attribute_declaration )
+    // create selected attribute expression
+    create object instance selected_attribute_expression of SelectedAttributeExpression;
+      relate selected_attribute_expression to attribute_declaration across R5541;
+      relate selected_attribute_expression to dot_expression across R5572;
+      select one basic_type related by attribute_declaration->BasicType[R5803];
+    return basic_type;
+  end if;
+end if;
+
+// Look for structure element.
+select one structure_type related by expression_basic_type->UserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
+if ( not_empty structure_type )
+  select one structure_element related by structure_type->StructureElement[R6244] where ( selected.name == param.name );
+  while ( not_empty structure_element )
+    if ( param.name == structure_element.name )
+      // create selected component expression
+      create object instance selected_component_expression of SelectedComponentExpression;
+      relate selected_component_expression to structure_element across R5543;
+      relate selected_component_expression to dot_expression across R5571;
+      select one basic_type related by structure_element->BasicType[R6230];
+      return basic_type;
+    end if;
+    select one structure_element related by structure_element->StructureElement[R6243.''precedes''];
+  end while;
+end if;
+
+// Look for attribute and structure member.
+
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("f1d594b3-7603-469a-9527-b56b7335152c",
+	"00e0662e-ad33-4048-8390-adf5a7eaa03d",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("08eabd3a-1f34-4ede-9e95-46e6d1839fe9",
+	"00e0662e-ad33-4048-8390-adf5a7eaa03d",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"7f1f17a9-0be1-4e7e-bf6d-dc1fb27ec37a",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7f1f17a9-0be1-4e7e-bf6d-dc1fb27ec37a",
+	"00e0662e-ad33-4048-8390-adf5a7eaa03d",
+	'lhs',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"f1d594b3-7603-469a-9527-b56b7335152c",
+	'');
+INSERT INTO PE_PE
+	VALUES ("00e0662e-ad33-4048-8390-adf5a7eaa03d",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,
