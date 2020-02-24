@@ -129,7 +129,6 @@ returns [Object project_domain]
                                                                 $project_domain = loader.create( "ProjectDomain" );
                                                                 loader.set_attribute( $project_domain, "name", $projectDomainReference.domainname );
                                                                 current_project_domain = $project_domain;
-                                                                //current_domain = null; // TODO select domain from project domain?
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                                    ( projectTerminatorDefinition    
@@ -160,7 +159,6 @@ domainDefinition
 returns [Object domain]
                               : ^( DOMAIN // done
                                    domainName               {
-                                                         System.err.println( "domain defintion " + $domainName.domainname );
                                                               try {
                                                                 $domain = loader.create( "Domain" );
                                                                 current_domain = $domain;
@@ -170,28 +168,24 @@ returns [Object domain]
                                    description
                                    ( objectDeclaration           
                                                             {
-                                                         System.err.println( "objectDeclaration " );
                                                               try {
                                                                 loader.relate( $objectDeclaration.object_declaration, $domain, 5805, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                                    | domainServiceDeclaration    
                                                             {
-                                                         System.err.println( "domainServiceDeclaration " );
                                                               try {
                                                                 loader.relate( $domainServiceDeclaration.domain_service, $domain, 5303, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                                    | domainTerminatorDefinition    
                                                             {
-                                                         System.err.println( "domainTerminatorDefinition " );
                                                               try {
                                                                 loader.relate( $domainTerminatorDefinition.domain_terminator, $domain, 5304, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                                    | relationshipDefinition     
                                                             {
-                                                         System.err.println( "domainRelationship " );
                                                               try {
                                                                 loader.relate( $relationshipDefinition.relationship_declaration, $domain, 6003, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
@@ -199,7 +193,6 @@ returns [Object domain]
                                    | objectDefinition       // object related when declared (above)
                                    | typeDeclaration             
                                                             {
-                                                         System.err.println( "typeDeclaration " );
                                                               try {
                                                                 loader.relate( $typeDeclaration.user_defined_type, $domain, 6235, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
@@ -1010,7 +1003,6 @@ returns [Object object_declaration]
                               : ^( OBJECT_DEFINITION // done
                                    objectName               
                                                             {
-                                                         System.err.println( "objectDefinition " + $objectName.name );
                                                               try {
                                                                 $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", "", $objectName.name );
                                                                 loader.set_attribute( $object_declaration, "name", $objectName.name );
@@ -1081,9 +1073,8 @@ returns [Object attribute_declaration]
                                                                   loader.set_attribute( $attribute_declaration, "isPreferredIdentifier", false );
                                                                 } else {
                                                                   loader.set_attribute( $attribute_declaration, "isPreferredIdentifier", true );
-                                                                  // TODO create the instance of the identifier declaration
-                                                                  // Be sure we create it only for the first occurrence of the preferred key word.
-                                                                  // TODO still not linking to ObjectDeclaration and being sure only one...
+                                                                  // TODO Be sure we create it only for the first occurrence of the preferred key word.
+                                                                  // still not linking to ObjectDeclaration and being sure only one...
                                                                   Object identifier_declaration = loader.create( "IdentifierDeclaration" );
                                                                   loader.set_attribute( identifier_declaration, "ispreferred", true );
                                                                   loader.relate( $attribute_declaration, identifier_declaration, 5807, "" );
@@ -1127,7 +1118,8 @@ returns [Object referential_attribute_definition]
                                                             {
                                                               try {
                                                                 $referential_attribute_definition = loader.create( "ReferentialAttributeDefinition" );
-                                                                // TODO Link referential to itself until after all objects and attributes have been created.
+                                                                loader.set_attribute( $referential_attribute_definition, "name", $attributeName.name );
+                                                                // Link referential to itself until after all objects and attributes have been created.
                                                                 loader.relate_using( $attribute_declaration, $attribute_declaration, $referential_attribute_definition, 5800, "refers_to" );
                                                                 loader.relate( $referential_attribute_definition, $relationshipSpec.relationship_specification, 5811, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
@@ -1878,12 +1870,7 @@ returns [Object st]
                                                               Object code_block = null;
                                                             }
                               : ^( STATEMENT // done
-                                   ( codeBlock[code_block]
-                                                            {
-                                                              //TODOtry {
-                                                                //loader.relate( $codeBlock.st, $st, 5135, "" );
-                                                              //} catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                   ( codeBlock[code_block]  // In MASL, codeBlock is never a child of statement.
                                    | assignmentStatement    
                                                             {
                                                               try {
@@ -2075,10 +2062,10 @@ returns [Object st]
                                                             {
                                                               try {
                                                                 // TODO - name lookup occurs here to resolve subtype
-                                                                  Object subservice = loader.create( "DomainServiceInvocation" );
-                                                                  subservice = loader.create( "ObjectServiceInvocation" );
-                                                                  subservice = loader.create( "InstanceServiceInvocation" );
-                                                                  subservice = loader.create( "TerminatorServiceInvocation" );
+                                                                Object subservice = loader.create( "DomainServiceInvocation" );
+                                                                subservice = loader.create( "ObjectServiceInvocation" );
+                                                                subservice = loader.create( "InstanceServiceInvocation" );
+                                                                subservice = loader.create( "TerminatorServiceInvocation" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                                    ( argument               
@@ -2914,7 +2901,6 @@ returns [Object navigation_expression, Object basic_type]
                                                                 $navigation_expression = loader.create( "NavigationExpression" );
                                                                 loader.relate( $expression.expression, $navigation_expression, 5532, "" );
                                                                 loader.relate( $relationshipSpec.relationship_specification, $navigation_expression, 5531, "" );
-                                                                // TODO - relationshipSpec should return the type of the to_object
                                                                 $basic_type = $relationshipSpec.basic_type;
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
@@ -3190,7 +3176,6 @@ returns[Object basic_type]
                               | ^( FIND_ATTRIBUTE
                                    identifier
                                 )                           {
-                                                         System.err.println( "9999999999999999999 name " + $identifier.name );
                                                               try {
                                                                 Object find_attribute_name_expression = loader.create( "FindAttributeNameExpression" );
                                                                 loader.relate( $expression, find_attribute_name_expression, 5517, "" );

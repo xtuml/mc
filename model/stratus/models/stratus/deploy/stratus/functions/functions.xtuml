@@ -55,6 +55,9 @@ args[1] = CMD::get_value(name:"d");
 args[0] = "-d";
 LOAD::load(java_class:"deploy.parser.MaslImportParser", args:args);
 
+// Resolve referential attribute linkage.
+::ReferentialAttribute_resolve();
+
 // Perform a selection to confirm the model loaded correctly.
 class_count = 5;
 message = "First few classes loaded are:  ";
@@ -1754,6 +1757,48 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("2a7dfdcf-e066-4c24-aa35-f0afd6326aa2",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7e16d0ec-cf38-43c4-8cef-4411b5e996a7",
+	"00000000-0000-0000-0000-000000000000",
+	'ReferentialAttribute_resolve',
+	'',
+	'LOG::LogInfo( message:"RerentialAttribute_resolve starting..." );
+
+s = ""; o_referring = ""; o_referenced = ""; // bug string UDTs
+select many referential_attribute_definitions from instances of ReferentialAttributeDefinition;
+for each referential_attribute_definition in referential_attribute_definitions
+  select one referring_attribute_declaration related by referential_attribute_definition->AttributeDeclaration[R5800.''is_referenced_by''];
+  select one referring_object_declaration related by referring_attribute_declaration->ObjectDeclaration[R5802];
+  s = referential_attribute_definition.name;
+  o_referring = referring_object_declaration.name;
+  o_referring = o_referring + "." + s;
+  unrelate referring_attribute_declaration from referring_attribute_declaration across R5800.''refers_to'' using referential_attribute_definition;
+  select any referenced_attribute_declaration related by
+    referential_attribute_definition->RelationshipSpecification[R5811]->ObjectDeclaration[R6011]->AttributeDeclaration[R5802]
+    where ( selected.name == referential_attribute_definition.name );
+  if ( empty referenced_attribute_declaration )
+    LOG::LogFailure( message:"RerentialAttribute_resolve failed to find referenced attribute:  " + s );
+  else
+    select one referenced_object_declaration related by referenced_attribute_declaration->ObjectDeclaration[R5802];
+    s = referenced_attribute_declaration.name;
+    o_referenced = referenced_object_declaration.name;
+    o_referenced = o_referenced + "." + s;
+    relate referring_attribute_declaration to referenced_attribute_declaration across R5800.''refers_to'' using referential_attribute_definition;
+    LOG::LogInfo( message:"RerentialAttribute_resolve " + o_referring + " to " + o_referenced );
+  end if;
+end for;
+
+LOG::LogInfo( message:"RerentialAttribute_resolve ...done" );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("7e16d0ec-cf38-43c4-8cef-4411b5e996a7",
 	1,
 	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	"00000000-0000-0000-0000-000000000000",
