@@ -1102,6 +1102,10 @@ if ( not_empty object_declaration )
   create object instance object_name_expression of ObjectNameExpression;
   relate expression to object_name_expression across R5517;
   relate object_name_expression to object_declaration across R5533;
+  basic_type = ::select_create_InstanceType( object_declaration: object_declaration, isset: false );
+  if ( empty basic_type )
+    LOG::LogFailure( message: message + "before found object... basic_type is empty" );
+  end if;
   LOG::LogInfo( message: message + "found object." );
   return basic_type;
 end if;
@@ -1717,6 +1721,39 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("00e0662e-ad33-4048-8390-adf5a7eaa03d",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2a7dfdcf-e066-4c24-aa35-f0afd6326aa2",
+	"00000000-0000-0000-0000-000000000000",
+	'select_any_ObjectDeclaration_related_by_Expression',
+	'',
+	'expression = param.expression;
+if ( empty expression )
+  LOG::LogFailure( message:"select_any_ObjectDeclaration_related_by_Expression:  empty expression" );
+end if;
+select one object_declaration related by expression->BasicType[R5570]->InstanceType[R6205]->ObjectDeclaration[R6220];
+if ( empty object_declaration )
+  LOG::LogFailure( message:"select_any_ObjectDeclaration_related_by_Expression:  empty object_declaration" );
+end if;
+return object_declaration;',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("66989b34-b3b9-40c7-9003-7131c1400ea7",
+	"2a7dfdcf-e066-4c24-aa35-f0afd6326aa2",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2a7dfdcf-e066-4c24-aa35-f0afd6326aa2",
 	1,
 	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	"00000000-0000-0000-0000-000000000000",

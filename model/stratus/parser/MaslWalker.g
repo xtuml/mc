@@ -1121,7 +1121,7 @@ returns [Object attribute_declaration]
 attReferential [Object attribute_declaration]
 returns [Object referential_attribute_definition]
                               : ^( REFERENTIAL // done
-                                   relationshipSpec
+                                   relationshipSpec[current_object]
                                    attributeName
                                  )                          
                                                             {
@@ -1135,7 +1135,7 @@ returns [Object referential_attribute_definition]
                               ;
 
 
-relationshipSpec
+relationshipSpec[Object object_declaration]
 returns [Object relationship_specification, Object basic_type]
 @init{ String object_or_role = ""; Object to_object = empty_object; }
                               : ^( RELATIONSHIP_SPEC // done
@@ -1147,12 +1147,10 @@ returns [Object relationship_specification, Object basic_type]
                                  )                          {
                                                               try {
                                                                 assert null != $relationshipReference.relationship_declaration :  "bad relationshipReferne";
-                                                                if ( null == current_object ) {
-                                                                  current_object = loader.call_function( "select_any_ObjectDeclaration_where_name", "*", "*" );
-                                                                  System.err.println( "TODO current object is emtpy in relationshipSpec rule" );
-                                                                }
                                                                 assert null != to_object : "bad to_object";
-                                                                $relationship_specification = loader.call_function( "create_RelationshipSpecification", $relationshipReference.relationship_declaration, current_object, object_or_role, to_object );
+                                                                assert null != $object_declaration : "relationshipSpec object_declaration is null";
+                                                                assert !(((IModelInstance)$object_declaration).isEmpty()) : "relationshipSpec object_declaration is empty";
+                                                                $relationship_specification = loader.call_function( "create_RelationshipSpecification", $relationshipReference.relationship_declaration, $object_declaration, object_or_role, to_object );
                                                                 // TODO - know about whether we need a set or not
                                                                 $basic_type = loader.call_function( "select_create_InstanceType", to_object, false );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
@@ -2187,7 +2185,13 @@ linkStatement
 returns [Object st]
                               : ^( linkStatementType // done
                                    lhs=expression      
-                                   relationshipSpec
+                                                            {
+                                                              Object object_declaration = null;
+                                                              try {
+                                                                object_declaration = loader.call_function( "select_any_ObjectDeclaration_related_by_Expression", $lhs.expression );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e, "linkStatement:expression" ); }
+                                                            }
+                                   relationshipSpec[object_declaration]
                                                             {
                                                               try {
                                                                 $st = loader.create( "LinkUnlinkStatement" );
@@ -2619,15 +2623,14 @@ returns [String name]
 expression
 returns [Object expression, Object basic_type]
 @init                                                       {
-                                                              //Object basic_type = null;
                                                               try {
                                                                 $expression = loader.create( "Expression" );
-                                                                // TODO - temp until all basic_types are returned
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "instance" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "expression:init" ); }
                                                             }
 @after                                                      {
                                                               try {
+                                                                // Note that MASL does not have 'void'.  So, this association
+                                                                // can be unpopulated.
                                                                 if ( !((IModelInstance)$basic_type).isEmpty() ) {
                                                                   loader.relate( $basic_type, $expression, 5570, "" );
                                                                 }
@@ -2865,7 +2868,13 @@ linkExpression
 returns [Object link_unlink_expression, Object basic_type]
                               : ^( linkExpressionType // done
                                    lhs=expression      
-                                   relationshipSpec
+                                                            {
+                                                              Object object_declaration = null;
+                                                              try {
+                                                                object_declaration = loader.call_function( "select_any_ObjectDeclaration_related_by_Expression", $lhs.expression );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e, "linkStatement:expression" ); }
+                                                            }
+                                   relationshipSpec[object_declaration]
                                                             {
                                                               try {
                                                                 $link_unlink_expression = loader.create( "LinkUnlinkExpression" );
@@ -2893,7 +2902,13 @@ returns [Object navigation_expression, Object basic_type]
 //scope WhereClauseScope;
                               : ^( NAVIGATE // done
                                    expression
-                                   relationshipSpec
+                                                            {
+                                                              Object object_declaration = null;
+                                                              try {
+                                                                object_declaration = loader.call_function( "select_any_ObjectDeclaration_related_by_Expression", $expression.expression );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e, "linkStatement:expression" ); }
+                                                            }
+                                   relationshipSpec[object_declaration]
                                                             {
                                                               try {
                                                                 $navigation_expression = loader.create( "NavigationExpression" );
@@ -2918,8 +2933,14 @@ correlateExpression
 returns [Object correlated_nav_expression, Object basic_type]
                               : ^( CORRELATE // done
                                    lhs=expression
+                                                            {
+                                                              Object object_declaration = null;
+                                                              try {
+                                                                object_declaration = loader.call_function( "select_any_ObjectDeclaration_related_by_Expression", $lhs.expression );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e, "linkStatement:expression" ); }
+                                                            }
                                    rhs=expression
-                                   relationshipSpec
+                                   relationshipSpec[object_declaration]
                                  )                          {
                                                               try {
                                                                 $correlated_nav_expression = loader.create( "CorrelatedNavExpression" );
@@ -3056,7 +3077,7 @@ returns [Object attribute_initialization]
 findExpression
 returns [Object find_expression, Object basic_type]
                               : ^( findType // done
-                                   expression               
+                                   expression
                                    whereClause
                                  )                          {
                                                               try {
@@ -3381,9 +3402,7 @@ returns [Object literal_expression, Object basic_type]
                                                               try {
                                                                 Object this_literal = loader.create( "ThisLiteral" );
                                                                 loader.relate( this_literal, $literal_expression, 5700, "" );
-                                                                // TODO - I used current_object and current_state or current_service
-                                                                // to link to the proper "scope".
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "instance" );
+                                                                $basic_type = loader.call_function( "select_create_InstanceType", current_object, false );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | CONSOLE
