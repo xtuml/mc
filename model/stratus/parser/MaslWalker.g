@@ -32,7 +32,6 @@ private Object current_project_domain = empty_object;
 private Object current_domain = empty_object;
 private Object current_service = empty_object;
 private Object current_object = empty_object;
-private Object current_state = empty_object;
 private Object current_code_block = empty_object;
 
 // parent masl parser
@@ -75,12 +74,12 @@ private void xtuml_trace( XtumlException e, String message ) {
 }
 
 target
-@init{ try { empty_object = loader.call_function( "select_any_ObjectDeclaration_where_name", "false", "false" );
+@init{ try { empty_object = loader.call_function( "select_ObjectDeclaration_where_name", "false", "false" );
            } catch ( XtumlException e ) { xtuml_trace( e, "" ); } }
                               : definition+; // done
 
 definition
-@init{ try { empty_object = loader.call_function( "select_any_ObjectDeclaration_where_name", "false", "false" );
+@init{ try { empty_object = loader.call_function( "select_ObjectDeclaration_where_name", "false", "false" );
            } catch ( XtumlException e ) { xtuml_trace( e, "" ); } }
                               : projectDefinition // done
                               | domainDefinition
@@ -278,7 +277,7 @@ returns [Object exception_reference]
                                                                   $exception_reference = loader.create( "ExceptionReference" );
                                                                   Object builtin = loader.create( "BuiltinException" );
                                                                   loader.relate( $exception_reference, builtin, 5401, "" );
-                                                                  Object exception_declaration = loader.call_function( "select_any_ExceptionDeclaration_where_name", $optionalDomainReference.domainname, $exceptionName.exceptionname );
+                                                                  Object exception_declaration = loader.call_function( "select_ExceptionDeclaration_where_name", $optionalDomainReference.domainname, $exceptionName.exceptionname );
                                                                   loader.relate( $exception_reference, exception_declaration, 5402, "" );
                                                                 } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                               }
@@ -303,7 +302,7 @@ returns [Object user_defined_type]
                                    pragmaList				
                                                               {
                                                                 try {
-                                                                  $user_defined_type = loader.call_function( "select_any_UserDefinedType_where_name", "", $typeName.name );
+                                                                  $user_defined_type = loader.call_function( "select_UserDefinedType_where_name", "", $typeName.name );
                                                                   if ( ((IModelInstance)$user_defined_type).isEmpty() ) {
                                                                     Object type_definition = loader.create( "TypeDefinition" );
                                                                     Object basic_type = loader.create( "BasicType" );
@@ -329,7 +328,7 @@ returns [Object user_defined_type]
                                    typeVisibility
                                                               {
                                                                 try {
-                                                                  $user_defined_type = loader.call_function( "select_any_UserDefinedType_where_name", "", $typeName.name );
+                                                                  $user_defined_type = loader.call_function( "select_UserDefinedType_where_name", "", $typeName.name );
                                                                   if ( ((IModelInstance)$user_defined_type).isEmpty() ) {
                                                                     Object type_definition = loader.create( "TypeDefinition" );
                                                                     Object basic_type = loader.create( "BasicType" );
@@ -387,7 +386,7 @@ returns [Object type_definition]
                               | typeReference               
                                                             {
                                                               try {
-                                                                $type_definition = loader.call_function( "select_any_TypeDefinition_related_BasicType", $typeReference.basic_type );
+                                                                $type_definition = loader.call_function( "select_TypeDefinition_related_BasicType", $typeReference.basic_type );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | unconstrainedArrayDefinition
@@ -646,7 +645,7 @@ returns [Object basic_type]
                                    ANONYMOUS?
                                  )                          { 
                                                               try {
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", $optionalDomainReference.domainname, $typeName.name );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", $optionalDomainReference.domainname, $typeName.name );
                                                                 if ( !((IModelInstance)$basic_type).isEmpty() ) {
                                                                   loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
                                                                 }
@@ -662,7 +661,7 @@ returns [Object user_defined_type]
                                    typeName
                                  )                          { 
                                                               try {
-                                                                $user_defined_type = loader.call_function( "select_any_UserDefinedType_where_name", $optionalDomainReference.domainname, $typeName.name );
+                                                                $user_defined_type = loader.call_function( "select_UserDefinedType_where_name", $optionalDomainReference.domainname, $typeName.name );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               ;
@@ -777,7 +776,7 @@ returns [Object basic_type]
                                                                 Object dictionary_type = loader.create( "DictionaryType" );
                                                                 loader.relate( dictionary_type, $basic_type, 6205, "" );
                                                                 // Link key and value.
-                                                                Object string_basic_type = loader.call_function( "select_any_BasicType_where_name", "", "string" );
+                                                                Object string_basic_type = loader.call_function( "select_BasicType_where_name", "", "string" );
                                                                 if ( null != $key.basic_type ) {
                                                                   loader.relate( dictionary_type, $key.basic_type, 6213, "" );
                                                                 } else {
@@ -952,7 +951,7 @@ returns [Object object_declaration]
                                 objectName                  
                                                             { 
                                                               try {
-                                                                $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", $optionalDomainReference.domainname, $objectName.name );
+                                                                $object_declaration = loader.call_function( "select_ObjectDeclaration_where_name", $optionalDomainReference.domainname, $objectName.name );
                                                                 assert null != $object_declaration : "did not find obuect decl";
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
@@ -964,7 +963,7 @@ returns [Object object_declaration]
                                 objectName                  
                                                             { 
                                                               try {
-                                                                $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", $domainReference.domainname, $objectName.name );
+                                                                $object_declaration = loader.call_function( "select_ObjectDeclaration_where_name", $domainReference.domainname, $objectName.name );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               ;
@@ -1004,7 +1003,7 @@ returns [Object object_declaration]
                                    objectName               
                                                             {
                                                               try {
-                                                                $object_declaration = loader.call_function( "select_any_ObjectDeclaration_where_name", "", $objectName.name );
+                                                                $object_declaration = loader.call_function( "select_ObjectDeclaration_where_name", "", $objectName.name );
                                                                 loader.set_attribute( $object_declaration, "name", $objectName.name );
                                                                 current_object = $object_declaration;
                                                                 non_existent_exists = false;
@@ -1209,7 +1208,7 @@ returns [Object identifier_declaration]
                                    ( attributeName
                                                             {
                                                               try {
-                                                                Object attribute_declaration = loader.call_function( "select_any_AttributeDeclaration_related_where_name", current_object, $attributeName.name );
+                                                                Object attribute_declaration = loader.call_function( "select_AttributeDeclaration_related_where_name", current_object, $attributeName.name );
                                                                 loader.relate( attribute_declaration, identifier_declaration, 5807, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
@@ -1340,7 +1339,7 @@ returns [Object transition_row]
                                                             {
                                                               try {
                                                                 $transition_row = loader.create( "TransitionRow" );
-                                                                Object ooastate = loader.call_function( "select_any_State_where_name", current_object, $startState.name );
+                                                                Object ooastate = loader.call_function( "select_State_where_name", current_object, $startState.name );
                                                                 loader.relate( ooastate, $transition_row, 6111, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
@@ -1366,7 +1365,7 @@ returns [Object transition_option]
                                                                 loader.set_attribute( $transition_option, "flavor", $endState.transition_type );
                                                                 loader.relate( $incomingEvent.event_declaration, $transition_option, 6108, "" );
                                                                 if ( "TransitionType::to_state" == $endState.transition_type ) {
-                                                                  Object ooastate = loader.call_function( "select_any_State_where_name", current_object, $endState.name );
+                                                                  Object ooastate = loader.call_function( "select_State_where_name", current_object, $endState.name );
                                                                   loader.relate( ooastate, $transition_option, 6109, "" );
                                                                 }
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
@@ -1399,7 +1398,7 @@ returns [Object event_declaration]
                                 eventName                   
                                                             {
                                                               try {
-                                                                $event_declaration = loader.call_function( "select_any_EventDeclaration_where_name", $optionalObjectReference.object_declaration, $eventName.name );
+                                                                $event_declaration = loader.call_function( "select_EventDeclaration_where_name", $optionalObjectReference.object_declaration, $eventName.name );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               ;
@@ -1670,7 +1669,7 @@ returns [Object relationship_declaration]
                                 relationshipName            
                                                             {
                                                               try {
-                                                                $relationship_declaration = loader.call_function( "select_any_RelationshipDeclaration_where_name", $optionalDomainReference.domainname, $relationshipName.name );
+                                                                $relationship_declaration = loader.call_function( "select_RelationshipDeclaration_where_name", $optionalDomainReference.domainname, $relationshipName.name );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               ;
@@ -1729,7 +1728,7 @@ returns [String text]
     without knowledge of what type of activity it contained - LPS */
 
 activityDefinition
-@init{ try { empty_object = loader.call_function( "select_any_ObjectDeclaration_where_name", "false", "false" );
+@init{ try { empty_object = loader.call_function( "select_ObjectDeclaration_where_name", "false", "false" );
            } catch ( XtumlException e ) { xtuml_trace( e, "" ); } }
                               : domainServiceDefinition // done
                               | terminatorServiceDefinition
@@ -1751,7 +1750,7 @@ returns [Object service]
                                                               try {
                                                                 // TODO - must deal with overloading by including parameter list in identification.
                                                                 code_block = loader.create( "CodeBlock" );
-                                                                $service = loader.call_function( "select_any_DomainService_where_name", $domainReference.domainname, $serviceName.name );
+                                                                $service = loader.call_function( "select_DomainService_where_name", $domainReference.domainname, $serviceName.name );
                                                                 loader.relate( code_block, $service, 5403, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
@@ -1774,7 +1773,7 @@ returns [Object service]
                                                             {
                                                               try {
                                                                 code_block = loader.create( "CodeBlock" );
-                                                                $service = loader.call_function( "select_any_DomainTerminatorService_where_name", $domainReference.domainname, $terminatorName.terminatorname, $serviceName.name );
+                                                                $service = loader.call_function( "select_DomainTerminatorService_where_name", $domainReference.domainname, $terminatorName.terminatorname, $serviceName.name );
                                                                 loader.relate( code_block, $service, 5403, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
@@ -1797,7 +1796,7 @@ returns [Object service]
                                                             {
                                                               try {
                                                                 code_block = loader.create( "CodeBlock" );
-                                                                $service = loader.call_function( "select_any_ProjectTerminatorService_where_name", $domainReference.domainname, $terminatorName.terminatorname, $serviceName.name );
+                                                                $service = loader.call_function( "select_ProjectTerminatorService_where_name", $domainReference.domainname, $terminatorName.terminatorname, $serviceName.name );
                                                                 loader.relate( code_block, $service, 5403, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
@@ -1822,7 +1821,7 @@ returns [Object service]
                                                             {
                                                               try {
                                                                 code_block = loader.create( "CodeBlock" );
-                                                                $service = loader.call_function( "select_any_ObjectService_where_name", $fullObjectReference.object_declaration, $serviceName.name );
+                                                                $service = loader.call_function( "select_ObjectService_where_name", $fullObjectReference.object_declaration, $serviceName.name );
                                                                 loader.relate( code_block, $service, 5403, "" );
                                                                 current_object = $fullObjectReference.object_declaration;
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
@@ -1845,7 +1844,7 @@ returns [Object ooastate]
                                                             {
                                                               try {
                                                                 code_block = loader.create( "CodeBlock" );
-                                                                ooastate = loader.call_function( "select_any_State_related_where_name", $fullObjectReference.object_declaration, $stateName.name );
+                                                                ooastate = loader.call_function( "select_State_related_where_name", $fullObjectReference.object_declaration, $stateName.name );
                                                                 loader.relate( code_block, ooastate, 6115, "" );
                                                                 current_object = $fullObjectReference.object_declaration;
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
@@ -2175,7 +2174,7 @@ returns [Object st]
                                                             {
                                                               Object object_declaration = null;
                                                               try {
-                                                                object_declaration = loader.call_function( "select_any_ObjectDeclaration_related_by_Expression", $lhs.expression );
+                                                                object_declaration = loader.call_function( "select_ObjectDeclaration_related_by_Expression", $lhs.expression );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "linkStatement:expression" ); }
                                                             }
                                    relationshipSpec[object_declaration]
@@ -2858,7 +2857,7 @@ returns [Object link_unlink_expression, Object basic_type]
                                                             {
                                                               Object object_declaration = null;
                                                               try {
-                                                                object_declaration = loader.call_function( "select_any_ObjectDeclaration_related_by_Expression", $lhs.expression );
+                                                                object_declaration = loader.call_function( "select_ObjectDeclaration_related_by_Expression", $lhs.expression );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "linkStatement:expression" ); }
                                                             }
                                    relationshipSpec[object_declaration]
@@ -2892,7 +2891,7 @@ returns [Object navigation_expression, Object basic_type]
                                                             {
                                                               Object object_declaration = null;
                                                               try {
-                                                                object_declaration = loader.call_function( "select_any_ObjectDeclaration_related_by_Expression", $expression.expression );
+                                                                object_declaration = loader.call_function( "select_ObjectDeclaration_related_by_Expression", $expression.expression );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "linkStatement:expression" ); }
                                                             }
                                    relationshipSpec[object_declaration]
@@ -2922,7 +2921,7 @@ returns [Object correlated_nav_expression, Object basic_type]
                                                             {
                                                               Object object_declaration = null;
                                                               try {
-                                                                object_declaration = loader.call_function( "select_any_ObjectDeclaration_related_by_Expression", $lhs.expression );
+                                                                object_declaration = loader.call_function( "select_ObjectDeclaration_related_by_Expression", $lhs.expression );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "linkStatement:expression" ); }
                                                             }
                                    rhs=expression
@@ -2980,13 +2979,13 @@ returns [Object ordering_expression, Object basic_type]
                                                                   loader.set_attribute( $ordering_expression, "isreverse", true );
                                                                 }
                                                                 if ( instances ) {
-                                                                  // TODO select_any_attribute_declaration...
+                                                                  // TODO select_attribute_declaration...
                                                                   // TODO Get the class from the instance, then get the attribute
                                                                   // from the name.
                                                                   Object attribute_declaration = null;
                                                                   loader.relate( instance_ordering_expression, attribute_declaration, 5563, "" );
                                                                 } else {
-                                                                  // TODO select_any_structure_element...
+                                                                  // TODO select_structure_element...
                                                                   // TODO Get the structure from the collection, then get the element
                                                                   // from the name.
                                                                   Object structure_element = null;
@@ -3040,7 +3039,7 @@ returns [Object attribute_initialization]
                                                             {
                                                               try {
                                                                 assert null != $object_declaration : "null input object decl in createArg";
-                                                                Object attribute_declaration = loader.call_function( "select_any_AttributeDeclaration_related_where_name", $object_declaration, $attributeName.name );
+                                                                Object attribute_declaration = loader.call_function( "select_AttributeDeclaration_related_where_name", $object_declaration, $attributeName.name );
                                                                 assert null != attribute_declaration : "null attribute in createArg";
                                                                 loader.relate( attribute_declaration, $attribute_initialization, 5565, "" );
                                                                 assert null != $expression.expression : "null expression in createArg";
@@ -3051,7 +3050,7 @@ returns [Object attribute_initialization]
                                    stateName
                                                             {
                                                               try {
-                                                                Object ooastate = loader.call_function( "select_any_State_related_where_name", $object_declaration, $stateName.name );
+                                                                Object ooastate = loader.call_function( "select_State_related_where_name", $object_declaration, $stateName.name );
                                                                 assert null != ooastate:  "null ooastate in createArg";
                                                                 assert null != $attribute_initialization:  "null init in createArg";
                                                                 loader.relate( ooastate, $attribute_initialization, 5567, "" );
@@ -3123,7 +3122,7 @@ returns [Object terminator_name_expression, Object basic_type]
                                                                 // TODO here ... the name expression will return and expression
                                                                 // we need to recognize the type
                                                                 $terminator_name_expression = loader.create( "TerminatorNameExpression" );
-                                                                Object domain_terminator_service = loader.call_function( "select_any_DomainTerminatorService_where_name", "domainname", "terminatorname", $identifier.name );
+                                                                Object domain_terminator_service = loader.call_function( "select_DomainTerminatorService_where_name", "domainname", "terminatorname", $identifier.name );
                                                                 //loader.relate( domain_terminator_service, $terminator_name_expression, 5569, "" );
                                                                 Object domain_terminator = null; // TODO loader.call_function
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "terminatorServiceExpression" ); }
@@ -3180,7 +3179,7 @@ returns[Object basic_type]
                                                                 Object find_attribute_name_expression = loader.create( "FindAttributeNameExpression" );
                                                                 loader.relate( $expression, find_attribute_name_expression, 5517, "" );
                                                                 // TODO current object and current where clause need to be bread crumbed
-                                                                Object attribute_declaration = loader.call_function( "select_any_AttributeDeclaration_where_name", current_object, $identifier.name );
+                                                                Object attribute_declaration = loader.call_function( "select_AttributeDeclaration_where_name", current_object, $identifier.name );
                                                                 // TODO - need to link to a where clause using the attribute name
                                                                 // TODO - need to return the basic_type
                                                                 $basic_type = null;
@@ -3274,7 +3273,7 @@ returns [Object literal_expression, Object basic_type]
                                                                   value = Integer.parseInt( $IntegerLiteral.text );
                                                                 } catch ( NumberFormatException e ) { System.err.println( e ); }
                                                                 loader.set_attribute( integer_literal, "value", value );
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "integer" );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "integer" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | RealLiteral
@@ -3290,7 +3289,7 @@ returns [Object literal_expression, Object basic_type]
                                                                   value = Double.parseDouble( $RealLiteral.text );
                                                                 } catch ( NumberFormatException e ) { System.err.println( e ); }
                                                                 loader.set_attribute( real_literal, "value", value );
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "real" );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "real" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | CharacterLiteral
@@ -3301,7 +3300,7 @@ returns [Object literal_expression, Object basic_type]
                                                                 loader.set_attribute( character_literal, "original", $CharacterLiteral.text );
                                                                 // TODO - This is simplistic and needs to be extended to handle octal.
                                                                 //TODOloader.set_attribute( character_literal, "noQuotes", $CharacterLiteral.text.replaceAll("^\"|\"$", "") );
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "character" );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "character" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | StringLiteral
@@ -3312,7 +3311,7 @@ returns [Object literal_expression, Object basic_type]
                                                                 loader.set_attribute( string_literal, "original", $StringLiteral.text );
                                                                 // TODO - This is simplistic and needs to be extended to handle octal.
                                                                 //TODOloader.set_attribute( string_literal, "noQuotes", $StringLiteral.text.replaceAll("^\"|\"$", "") );
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "string" );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "string" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | TimestampLiteral
@@ -3322,7 +3321,7 @@ returns [Object literal_expression, Object basic_type]
                                                                 loader.relate( timestamp_literal, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( timestamp_literal, "original", $TimestampLiteral.text );
                                                                 // TODO - need to implement conversion.
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "timestamp" );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "timestamp" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | DurationLiteral
@@ -3333,7 +3332,7 @@ returns [Object literal_expression, Object basic_type]
                                                                 loader.set_attribute( duration_literal, "original", $DurationLiteral.text );
                                                                 // TODO - need to implement conversion.
                                                                 // TODO - maybe need to promote original to supertype LiteralExpression
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "duration" );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "duration" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | TRUE
@@ -3342,7 +3341,7 @@ returns [Object literal_expression, Object basic_type]
                                                                 Object boolean_literal = loader.create( "BooleanLiteral" );
                                                                 loader.relate( boolean_literal, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( boolean_literal, "value", Boolean.valueOf( "true" ) );
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "boolean" );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "boolean" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | FALSE
@@ -3351,7 +3350,7 @@ returns [Object literal_expression, Object basic_type]
                                                                 Object boolean_literal = loader.create( "BooleanLiteral" );
                                                                 loader.relate( boolean_literal, $literal_expression, 5700, "" );
                                                                 loader.set_attribute( boolean_literal, "value", Boolean.valueOf( "false" ) );
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "boolean" );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "boolean" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | NULL
@@ -3359,10 +3358,10 @@ returns [Object literal_expression, Object basic_type]
                                                               try {
                                                                 Object null_literal = loader.create( "NullLiteral" );
                                                                 loader.relate( null_literal, $literal_expression, 5700, "" );
-                                                                Object basic_type = loader.call_function( "select_any_BasicType_where_name", "", "instance" );
+                                                                Object basic_type = loader.call_function( "select_BasicType_where_name", "", "instance" );
                                                                 loader.relate( null_literal, basic_type, 5702, "" );
                                                                 // TODO instance
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "instance" );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "instance" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | FLUSH
@@ -3371,7 +3370,7 @@ returns [Object literal_expression, Object basic_type]
                                                                 Object flush_literal = loader.create( "FlushLiteral" );
                                                                 loader.relate( flush_literal, $literal_expression, 5700, "" );
                                                                 // TODO instance
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "instance" );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "instance" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | ENDL
@@ -3379,7 +3378,7 @@ returns [Object literal_expression, Object basic_type]
                                                               try {
                                                                 Object endl_literal = loader.create( "EndlLiteral" );
                                                                 loader.relate( endl_literal, $literal_expression, 5700, "" );
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "character" );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "character" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | THIS
@@ -3395,7 +3394,7 @@ returns [Object literal_expression, Object basic_type]
                                                               try {
                                                                 Object console_literal = loader.create( "ConsoleLiteral" );
                                                                 loader.relate( console_literal, $literal_expression, 5700, "" );
-                                                                $basic_type = loader.call_function( "select_any_BasicType_where_name", "", "device" );
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "device" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               ; 

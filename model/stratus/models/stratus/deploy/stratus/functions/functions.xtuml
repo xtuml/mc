@@ -61,14 +61,12 @@ LOAD::load(java_class:"deploy.parser.MaslImportParser", args:args);
 // Perform a selection to confirm the model loaded correctly.
 class_count = 5;
 message = "First few classes loaded are:  ";
-select many object_declarations from instances of ObjectDeclaration; // where ( SORT::ascending( attr:"name" ) );
+select many object_declarations from instances of ObjectDeclaration where ( SORT::ascending( attr:"name" ) );
 if ( cardinality object_declarations < class_count )
   class_count = cardinality object_declarations;
 end if;
-s = ""; // gotta do this cuz string UDTs do not quite behave like strings
 for each object_declaration in object_declarations
-  s = object_declaration.name;
-  message = message + s;
+  message = message + object_declaration.name;
   class_count = class_count - 1;
   if ( 0 == class_count )
     break;
@@ -101,7 +99,7 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("104756a8-eda5-4d27-98a5-a2897716dbe4",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_ExceptionDeclaration_where_name',
+	'select_ExceptionDeclaration_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.domainname );
 select any exception_declaration related by domain->ExceptionDeclaration[R5400] where ( selected.name == param.name );
@@ -154,17 +152,16 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("a4f99ef6-4473-4e79-9ffb-8e5539226811",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_ObjectDeclaration_where_name',
+	'select_ObjectDeclaration_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.domainname );
 select any object_declaration related by domain->ObjectDeclaration[R5805] where ( selected.name == param.name );
 if ( empty object_declaration )
   select any object_declaration from instances of ObjectDeclaration where ( selected.name == param.name );
 end if;
-// CDS for now...
-d = ""; n = ""; // CDS UDT
-d = param.domainname; n = param.name; // CDS UDT
-if ( ( "*" == d ) and ( "*" == n ) )
+splat = param.name; // string UDTs
+splat = "*";
+if ( ( splat == param.domainname ) and ( splat == param.name ) )
   select any object_declaration from instances of ObjectDeclaration;
 end if;
 return object_declaration;
@@ -207,7 +204,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("8861381d-eb56-404b-98fe-6c00df70f484",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_BasicType_where_name',
+	'select_BasicType_where_name',
 	'',
 	'// If a domain name is supplied, use it to search (only) for UDTs.
 select any basic_type from instances of BasicType where ( false );
@@ -499,12 +496,10 @@ relate numeric_type to small_type across R6221;
 
 /* Comment out the logging if not desired.
  */
-select many builtin_types from instances of BuiltinType;
+select many builtin_types from instances of BuiltinType where ( SORT::ascending( attr:"name" ) );
 message = "builtin types:  ";
-s = ""; // TODO workaround for Name UDT
 for each builtin_type in builtin_types
-  s = builtin_type.name;
-  message = message + s + " ";
+  message = message + builtin_type.name + " ";
 end for;
 LOG::LogInfo( message:message );',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -526,13 +521,11 @@ INSERT INTO S_SYNC
 
 T::set_output_directory(dir:"out");
 
-objectname = ""; // establish string type
 select many object_declarations from instances of ObjectDeclaration;
 for each object_declaration in object_declarations
-  objectname = object_declaration.name;
-  supertype = "super_" + objectname;
+  supertype = "super_" + object_declaration.name;
   T::include( file: "object/t.metamodel.java" );
-  //T::emit( file: objectname + ".java" );
+  //T::emit( file: object_declaration.name + ".java" );
 end for;
 
 // Render to a single file.  Uncomment above to emit to one file for each class.
@@ -573,7 +566,7 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("c68451a5-0f0b-4322-8d07-d2a800278fc6",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_State_where_name',
+	'select_State_where_name',
 	'',
 	'object_declaration = param.object;
 select any ooastate related by object_declaration->State[R6105] where ( selected.name == param.name );
@@ -616,7 +609,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("d87306a4-fa45-4798-934c-0f6a40eecdb6",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_EventDeclaration_where_name',
+	'select_EventDeclaration_where_name',
 	'',
 	'object_declaration = param.object;
 select any event_declaration related by object_declaration->EventDeclaration[R6101] where ( selected.name == param.name );
@@ -659,7 +652,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("697abf06-bfcf-413d-9cc8-3888bad6530f",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_RelationshipDeclaration_where_name',
+	'select_RelationshipDeclaration_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.domainname );
 select any relationship_declaration related by domain->RelationshipDeclaration[R6003] where ( selected.name == param.name );
@@ -706,7 +699,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("34096a33-e38c-48a7-8f33-0090899a4cb8",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_AttributeDeclaration_related_where_name',
+	'select_AttributeDeclaration_related_where_name',
 	'',
 	'object_declaration = param.object_declaration;
 select any attribute_declaration related by object_declaration->AttributeDeclaration[R5802] where ( selected.name == param.name );
@@ -749,7 +742,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("bbf24665-3f8a-4e80-924b-2412ffa8b25a",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_State_related_where_name',
+	'select_State_related_where_name',
 	'',
 	'object_declaration = param.object_declaration;
 select any state related by object_declaration->State[R6105] where ( selected.name == param.name );
@@ -785,7 +778,7 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("4315533a-dce0-4e68-827d-9e4d61d494ed",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_DomainService_where_name',
+	'select_DomainService_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.domainname );
 select any service related by domain->DomainService[R5303]->Service[R5203] where ( selected.name == param.name );
@@ -828,7 +821,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("0947dd72-a3ae-4f99-814d-a417cd5958dc",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_DomainTerminatorService_where_name',
+	'select_DomainTerminatorService_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.domainname );
 select any domain_terminator related by domain->DomainTerminator[R5304] where ( selected.name == param.terminatorname );
@@ -874,7 +867,7 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("22291b3f-d688-4961-ae68-9f869d7af5ba",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_ProjectTerminatorService_where_name',
+	'select_ProjectTerminatorService_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.projectdomainname );
 select any project_terminator related by domain->ProjectDomain[R5901]->ProjectTerminator[R5902] where ( selected.name == param.termintorname );
@@ -920,7 +913,7 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("fa8a96be-5fe6-4057-85a1-64284cb19bde",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_ObjectService_where_name',
+	'select_ObjectService_where_name',
 	'',
 	'object_declaration = param.object_declaration;
 select any service related by object_declaration->ObjectService[R5808]->Service[R5203] where ( selected.name == param.name );
@@ -956,7 +949,7 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("a7df88e2-a33c-4db3-8ac5-cb12a6938401",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_UserDefinedType_where_name',
+	'select_UserDefinedType_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.domainname );
 select any user_defined_type related by domain->UserDefinedType[R6235] where ( selected.name == param.name );
@@ -1013,8 +1006,9 @@ EnumeratorItem
 */ 
 expression = param.expression;
 code_block = param.code_block;
-d = ""; n = ""; t = ""; d = param.domainname; n = param.name; t = param.trace;
-message = t + "resolve_name( " + d + "::" + n + ", ";
+message = ""; d = ""; n = ""; // string UDTs
+d = param.domainname; n = param.name;
+message = "resolve_name( " + param.trace + ", " + d + "::" + n + ", ";
 if ( param.iscodeblock )
   select one service related by code_block->Service[R5403];
   if ( empty service )
@@ -1043,27 +1037,21 @@ if ( param.iscodeblock )
     relate expression to variable_name_expression across R5517;
     select one basic_type related by variable_definition->BasicType[R5137];
     relate variable_name_expression to variable_definition across R5562;
-    LOG::LogInfo( message: message + "found variable." );
+    LOG::LogInfo( message: message + "variable." );
     return basic_type;
   end if;
 end if;
 
 // parameter
 if ( param.iscodeblock )
-  //CDS issue tracker select one parameter_definition related by code_block->Service[R5403]->ParameterDefinition[R5204] where ( selected.name == param.name );
-  select one parameter_definition related by code_block->Service[R5403]->ParameterDefinition[R5204];
-  if ( empty parameter_definition )
-    select one parameter_definition related by code_block->State[R6115]->ParameterDefinition[R6104];
-  end if;
+  select one parameter_definition related by code_block->Service[R5403]->ParameterDefinition[R5204] where ( selected.name == param.name );
   if ( not_empty parameter_definition )
-    if ( parameter_definition.name == param.name )
-      create object instance parameter_name_expression of ParameterNameExpression;
-      relate expression to parameter_name_expression across R5517;
-      relate parameter_name_expression to parameter_definition across R5536;
-      select one basic_type related by parameter_definition->BasicType[R5200];
-      LOG::LogInfo( message: message + "found parameter." );
-      return basic_type;
-    end if;
+		create object instance parameter_name_expression of ParameterNameExpression;
+		relate expression to parameter_name_expression across R5517;
+		relate parameter_name_expression to parameter_definition across R5536;
+		select one basic_type related by parameter_definition->BasicType[R5200];
+		LOG::LogInfo( message: message + "parameter." );
+		return basic_type;
   end if;
 end if;
 
@@ -1072,7 +1060,7 @@ end if;
 select any builtin_type from instances of BuiltinType where ( selected.name == param.name );
 if ( not_empty builtin_type )
   select one basic_type related by builtin_type->BasicType[R6205];
-  LOG::LogInfo( message: message + "found builtin type." );
+  LOG::LogInfo( message: message + "builtin type." );
   return basic_type;
 else
   select any domain from instances of Domain where ( selected.name == param.domainname );
@@ -1082,7 +1070,7 @@ else
   end if;
   if ( not_empty user_defined_type )
     select one basic_type related by user_defined_type->BasicType[R6205];
-    LOG::LogInfo( message: message + "found user type." );
+    LOG::LogInfo( message: message + "user type." );
     return basic_type;
   end if;
 end if;
@@ -1095,7 +1083,7 @@ if ( not_empty service )
   relate expression to service_expression across R5517;
   //relate service_expression to service_overload across R5545;
   select one basic_type related by service->BasicType[R5205];
-  LOG::LogInfo( message: message + "found service." );
+  LOG::LogInfo( message: message + "service." );
   return basic_type;
 end if;
 
@@ -1107,9 +1095,9 @@ if ( not_empty object_declaration )
   relate object_name_expression to object_declaration across R5533;
   basic_type = ::select_create_InstanceType( object_declaration: object_declaration, isset: false );
   if ( empty basic_type )
-    LOG::LogFailure( message: message + "before found object... basic_type is empty" );
+    LOG::LogFailure( message: message + "before object... basic_type is empty" );
   end if;
-  LOG::LogInfo( message: message + "found object." );
+  LOG::LogInfo( message: message + "object." );
   return basic_type;
 end if;
 
@@ -1119,30 +1107,23 @@ if ( not_empty domain_terminator )
   create object instance terminator_name_expression of TerminatorNameExpression;
   relate expression to terminator_name_expression across R5517;
   relate terminator_name_expression to domain_terminator across R5555;
-  // CDS UDT
-  //select any internal_type from instances of InternalType where ( selected.name == "terminator" );
-  //select one basic_type related by internal_type->BasicType[R6205];
-  internal_type_name = "";
-  select many internal_types from instances of InternalType;
-  for each internal_type in internal_types
-    internal_type_name = internal_type.name;
-    if ( internal_type_name == "terminator" )
-      select one basic_type related by internal_type->BasicType[R6205];
-    end if;
-  end for;
-  LOG::LogInfo( message: message + "found terminator." );
+  t = param.name; // string UDTs
+  t = "terminator";
+  select any internal_type from instances of InternalType where ( selected.name == t );
+  select one basic_type related by internal_type->BasicType[R6205];
+  LOG::LogInfo( message: message + "terminator." );
   return basic_type;
 end if;
 
 // attribute
-// CDS I think this will be moved to a routine used to resolve DotExpression.
+// CDS I think this will be moved/duplicated in a routine used to resolve DotExpression.
 select any attribute_declaration from instances of AttributeDeclaration where ( selected.name == param.name );
 if ( not_empty attribute_declaration )
   create object instance selected_attribute_expression of SelectedAttributeExpression;
   relate expression to selected_attribute_expression across R5517;
   relate selected_attribute_expression to attribute_declaration across R5541;
-  // CDS incomplete
-  LOG::LogInfo( message: message + "found attribute." );
+  select one basic_type related by attribute_declaration->BasicType[R5803];
+  LOG::LogInfo( message: message + "attribute." );
   return basic_type;
 end if;
 
@@ -1151,7 +1132,7 @@ end if;
 select any enumerate_item from instances of EnumerateItem where ( selected.name == param.name );
 if ( not_empty enumerate_item )
   // CDS incomplete
-  LOG::LogInfo( message: message + "found enumerator." );
+  LOG::LogInfo( message: message + "enumerator." );
   return basic_type;
 end if;
 
@@ -1239,16 +1220,29 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'create_RelationshipSpecification',
 	'',
-	'relationship_declaration = param.relationship_declaration;
+	'/* The following trace shows that we are not parsing DISP_evaluating.al correctly.
+
+create_RelationshipSpec Display Operation
+6000 6004 associative Display->Display
+select_create_InstanceType:  empty object declaration
+create_RelationshipSpec Display Calculator
+normal ltr from Display->Calculator
+select_create_InstanceType:  empty object declaration
+create_RelationshipSpec Display Operation
+6000 6004 associative Display->Display
+select_create_InstanceType:  empty object declaration
+create_RelationshipSpec Display Calculator
+normal ltr from Display->Calculator
+select_create_InstanceType:  empty object declaration
+
+*/
+
+relationship_declaration = param.relationship_declaration;
 from_object_declaration = param.from_object_declaration;
 object_or_role = from_object_declaration.name;
 object_or_role = param.object_or_role;
-object_or_role_string = "";
 object_or_role_string = param.object_or_role;
 to_object_declaration = param.to_object_declaration;
-message = "";
-o1 = ""; o2 = "";
-o1 = from_object_declaration.name;
 
 // Create the RelationshipSpecification.
 // Link it to the RelationshipDeclaration.
@@ -1260,39 +1254,30 @@ relate relationship_specification to from_object_declaration across R6014;
 
 // Resolve with from and to object when available.
 if ( not_empty to_object_declaration )
-  o2 = to_object_declaration.name;
-  LOG::LogInfo( message:"create_RelationshipSpec " + o1 + " " + object_or_role_string + " " + o2 +" done directly" );
+  LOG::LogInfo( message:"create_RelationshipSpec " + from_object_declaration.name + " " + object_or_role_string + " " + to_object_declaration.name +" directly" );
   relate relationship_specification to to_object_declaration across R6011;
   return relationship_specification;
 end if;
 
-LOG::LogInfo( message:"create_RelationshipSpec " + o1 + " " + object_or_role_string );
+LOG::LogInfo( message:"create_RelationshipSpec " + from_object_declaration.name + " " + object_or_role_string );
 
 // Resolve with only relationship and from object when possible.
 // 1) Look across normal normal non-reflexive binary.
 // 2) Look for subtype.
 
 // normal binary non-reflexive
-select one normal_relationship_declaration related by relationship_declaration->NormalRelationshipDeclaration[R6010];
-if ( not_empty normal_relationship_declaration )
-  LOG::LogInfo( message: "########### found normal " + message);
-end if;
 select one object_declaration related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6007]->ObjectDeclaration[R6006];
 if ( not_empty object_declaration )
-  o2 = object_declaration.name;
-  message = o1 + "->" + o2;
   if ( from_object_declaration.name != object_declaration.name )
-    LOG::LogInfo( message: "normal ltr from " + message);
+    LOG::LogInfo( message: "normal ltr from " + from_object_declaration.name + "->" + object_declaration.name );
     relate relationship_specification to object_declaration across R6011;
     return relationship_specification;
   end if;
 end if;
 select one object_declaration related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6007]->ObjectDeclaration[R6004];
 if ( not_empty object_declaration )
-  o2 = object_declaration.name;
-  message = o1 + "->" + o2;
   if ( from_object_declaration.name != object_declaration.name )
-    LOG::LogInfo( message: "normal ltr to " + message);
+    LOG::LogInfo( message: "normal ltr to " + from_object_declaration.name + "->" + object_declaration.name );
     relate relationship_specification to object_declaration across R6011;
     return relationship_specification;
   end if;
@@ -1300,46 +1285,32 @@ end if;
 // supertype
 select one object_declaration related by relationship_declaration->SubtypeRelationshipDeclaration[R6010]->ObjectDeclaration[R6017];
 if ( not_empty object_declaration )
-  o2 = object_declaration.name;
-  message = o1 + "->" + o2;
-  LOG::LogInfo( message: "sub-super supertype " + message);
+  LOG::LogInfo( message: "sub-super supertype " + from_object_declaration.name + "->" + object_declaration.name );
   relate relationship_specification to object_declaration across R6011;
   return relationship_specification;
 end if;
 // associative
-select one associative_relationship_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010];
-if ( not_empty associative_relationship_declaration )
-  LOG::LogInfo( message: "########### found associative " + message);
-end if;
 select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6004];
 if ( not_empty object_declaration )
-  o2 = object_declaration.name;
-  message = o1 + "->" + o2;
-  LOG::LogInfo( message: "6000 6004 associative " + message);
+  LOG::LogInfo( message: "6000 6004 associative " + from_object_declaration.name + "->" + object_declaration.name );
   relate relationship_specification to object_declaration across R6011;
   return relationship_specification;
 end if;
 select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6006];
 if ( not_empty object_declaration )
-  o2 = object_declaration.name;
-  message = o1 + "->" + o2;
-  LOG::LogInfo( message: "6000 6006 associative " + message);
+  LOG::LogInfo( message: "6000 6006 associative " + from_object_declaration.name + "->" + object_declaration.name );
   relate relationship_specification to object_declaration across R6011;
   return relationship_specification;
 end if;
 select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6004];
 if ( not_empty object_declaration )
-  o2 = object_declaration.name;
-  message = o1 + "->" + o2;
-  LOG::LogInfo( message: "6002 6004 associative " + message);
+  LOG::LogInfo( message: "6002 6004 associative " + from_object_declaration.name + "->" + object_declaration.name );
   relate relationship_specification to object_declaration across R6011;
   return relationship_specification;
 end if;
 select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6006];
 if ( not_empty object_declaration )
-  o2 = object_declaration.name;
-  message = o1 + "->" + o2;
-  LOG::LogInfo( message: "6002 6006 associative " + message);
+  LOG::LogInfo( message: "6002 6006 associative " + from_object_declaration.name + "->" + object_declaration.name );
   relate relationship_specification to object_declaration across R6011;
   return relationship_specification;
 end if;
@@ -1354,9 +1325,7 @@ if ( "" != object_or_role_string )
   //on = object_declaration.name;
 	//if ( on == object_or_role )
 	if ( not_empty object_declaration )
-		o2 = object_declaration.name;
-		message = o1 + "->" + o2;
-		LOG::LogInfo( message: "object_or_role as object " + message);
+		LOG::LogInfo( message: "object_or_role as object " + from_object_declaration.name + "->" + object_declaration.name );
 		relate relationship_specification to object_declaration across R6011;
 		return relationship_specification;
 	end if;
@@ -1366,9 +1335,7 @@ if ( "" != object_or_role_string )
   select many half_relationships related by from_object_declaration->HalfRelationship[R6006] where ( selected.role == object_or_role );
   select any object_declaration related by half_relationships->ObjectDeclaration[R6004];
 	if ( not_empty object_declaration )
-		o2 = object_declaration.name;
-		message = o1 + "->" + o2;
-		LOG::LogInfo( message: "object_or_role as role " + message);
+		LOG::LogInfo( message: "object_or_role as role " + from_object_declaration.name + "->" + object_declaration.name );
 		relate relationship_specification to object_declaration across R6011;
 		return relationship_specification;
 	end if;
@@ -1377,34 +1344,26 @@ end if;
 
 // CDS choose one to avoid exceptions for now...
 select any to_object_declaration from instances of ObjectDeclaration;
-o2 = to_object_declaration.name;
-message = o1 + "->" + o2;
-LOG::LogInfo( message: "EEEEEEEEEEEEeee defaulting to bogus lookup &&&&&&&&&&&& " + message);
+LOG::LogInfo( message: "TODO CDS defaulting to bogus lookup !!!!!! " + from_object_declaration.name + "->" + to_object_declaration.name );
 relate relationship_specification to to_object_declaration across R6011;
 return relationship_specification;
 
 /*
 select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->ObjectDeclaration[R6001];
 if ( not_empty object_declaration )
-  o2 = object_declaration.name;
-  message = o1 + "->" + o2;
-  LOG::LogInfo( message: "assoc using from " + message);
+  LOG::LogInfo( message: "assoc using from " + from_object_declaration.name + "->" + object_declaration.name );
   relate relationship_specification to object_declaration across R6011;
   return relationship_specification;
 end if;
 select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6006];
 if ( not_empty object_declaration )
-  o2 = object_declaration.name;
-  message = o1 + "->" + o2;
-  LOG::LogInfo( message: "assoc ltr from " + message);
+  LOG::LogInfo( message: "assoc ltr from " + from_object_declaration.name + "->" + object_declaration.name );
   relate relationship_specification to object_declaration across R6011;
   return relationship_specification;
 end if;
 select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6006];
 if ( not_empty object_declaration )
-  o2 = object_declaration.name;
-  message = o1 + "->" + o2;
-  LOG::LogInfo( message: "assoc rtl from " + message);
+  LOG::LogInfo( message: "assoc rtl from " + from_object_declaration.name + "->" + object_declaration.name );
   relate relationship_specification to object_declaration across R6011;
   return relationship_specification;
 end if;
@@ -1467,7 +1426,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("9219fa7c-383d-4c1f-8d8d-a67afdb697e7",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_TypeDefinition_related_BasicType',
+	'select_TypeDefinition_related_BasicType',
 	'',
 	'basic_type = param.basic_type;
 select one type_definition related by basic_type->TypeDefinition[R6236];
@@ -1569,12 +1528,10 @@ relate basic_type to internal_type across R6205;
 
 /* Comment out the logging if not desired.
  */
-select many internal_types from instances of InternalType;
+select many internal_types from instances of InternalType where ( SORT::ascending( attr:"name" ) );
 message = "internal types:  ";
-s = ""; // TODO workaround for Name UDT
 for each internal_type in internal_types
-  s = internal_type.name;
-  message = message + s + " ";
+  message = message + internal_type.name + " ";
 end for;
 LOG::LogInfo( message:message );',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -1731,12 +1688,9 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("2a7dfdcf-e066-4c24-aa35-f0afd6326aa2",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_ObjectDeclaration_related_by_Expression',
+	'select_ObjectDeclaration_related_by_Expression',
 	'',
 	'expression = param.expression;
-if ( empty expression )
-  LOG::LogFailure( message:"select_any_ObjectDeclaration_related_by_Expression:  empty expression" );
-end if;
 select one object_declaration related by expression->BasicType[R5570]->InstanceType[R6205]->ObjectDeclaration[R6220];
 if ( empty object_declaration )
   LOG::LogFailure( message:"select_any_ObjectDeclaration_related_by_Expression:  empty object_declaration" );
@@ -1766,27 +1720,29 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'ReferentialAttribute_resolve',
 	'',
-	'LOG::LogInfo( message:"RerentialAttribute_resolve starting..." );
+	'// Link up the referential attributes here after all objects and attributes
+// are fully defined.  During the first pass, the referentials were linked
+// to themselves.
 
-s = ""; o_referring = ""; o_referenced = ""; // bug string UDTs
+LOG::LogInfo( message:"RerentialAttribute_resolve starting..." );
+
+o_referring = ""; o_referenced = ""; // string UDTs
 select many referential_attribute_definitions from instances of ReferentialAttributeDefinition;
 for each referential_attribute_definition in referential_attribute_definitions
   select one referring_attribute_declaration related by referential_attribute_definition->AttributeDeclaration[R5800.''is_referenced_by''];
   select one referring_object_declaration related by referring_attribute_declaration->ObjectDeclaration[R5802];
-  s = referential_attribute_definition.name;
   o_referring = referring_object_declaration.name;
-  o_referring = o_referring + "." + s;
+  o_referring = o_referring + "." + referential_attribute_definition.name;
   unrelate referring_attribute_declaration from referring_attribute_declaration across R5800.''refers_to'' using referential_attribute_definition;
   select any referenced_attribute_declaration related by
     referential_attribute_definition->RelationshipSpecification[R5811]->ObjectDeclaration[R6011]->AttributeDeclaration[R5802]
     where ( selected.name == referential_attribute_definition.name );
   if ( empty referenced_attribute_declaration )
-    LOG::LogFailure( message:"RerentialAttribute_resolve failed to find referenced attribute:  " + s );
+    LOG::LogFailure( message:"RerentialAttribute_resolve failed to find referenced attribute:  " + referential_attribute_definition.name );
   else
     select one referenced_object_declaration related by referenced_attribute_declaration->ObjectDeclaration[R5802];
-    s = referenced_attribute_declaration.name;
     o_referenced = referenced_object_declaration.name;
-    o_referenced = o_referenced + "." + s;
+    o_referenced = o_referenced + "." + referenced_attribute_declaration.name;
     relate referring_attribute_declaration to referenced_attribute_declaration across R5800.''refers_to'' using referential_attribute_definition;
     LOG::LogInfo( message:"RerentialAttribute_resolve " + o_referring + " to " + o_referenced );
   end if;
