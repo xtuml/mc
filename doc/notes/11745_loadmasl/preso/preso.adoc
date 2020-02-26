@@ -29,10 +29,11 @@ image::goal.png[]
 == strategy
 
   * port MASL model compiler java model
-  * leverage working starting point
-  * low-risk with huge number of artifacts
-  * script conversion of java to MASL
-  * import into BridgePoint
+    ** leverage working starting point
+    ** low-risk with large number of artifacts
+    ** script conversion of java to MASL
+    ** import into BridgePoint
+  * adjust ported model
   * refine with action language
 
 --
@@ -42,8 +43,8 @@ image::strategy.png[]
 [.centered]
 == OOA of MASL
 
-  * Show ooamasl subsystem packages (ME and canvas)
-  * package references and "naked" OOA
+  * ooamasl subsystem packages
+  * package references and _naked_ OOA
   * statistics
   * deployment component (ME and canvas)
   * tour of each subsystem
@@ -75,12 +76,12 @@ image::statemodel.png[]
 == OOA of MASL:  **type**
 image::type.png[]
 
-== package references and "naked" OOA of MASL
+== package references and _naked_ OOA of MASL
 
 * A package reference is a package linked to another package in another location
   (package or project).
-* Package references allow reuse and "import" of subsystems.
-* The term _naked_ OOA refers to a class model with no state or functional activity
+  ** Package references allow reuse and _import_ of subsystems.
+* The term _naked OOA_ refers to a class model with no state or functional activity
   intended to be used as the schema for multiple projects.
   ** A meta-model is most useful as a naked class model.
 
@@ -91,8 +92,8 @@ image::type.png[]
 |===
 | subsystems       | 12
 | classes          | 176
-| attributes       | 134
-| relationships    | 234
+| attributes       | 117
+| relationships    | 230
 | production rules | 166
 |===
 
@@ -100,45 +101,40 @@ image::type.png[]
 
 * deployment model
   ** imported OOA of MASL subsystem packages
-  ** parser, loader, model API functions
+  ** loader helper functions (OAL)
+* parser as `antlr` lexer / parser
+* loader as `antlr` walker with invocations into deployment model
+* model API functions
+  ** Ciera provides an API which allows `create`, `relate`, `set_attribute`
+     and `call_function`
 
 == OOA of MASL:  **Stratus deployment**
 image::deployment.png[]
 
 == MASL loader
 
-  * Show functions
-  * Show parser interface (LOAD).
-  * Ciera build
+  * action language functions
+  * `LOAD` class interface to generated model Java
+  * Ciera provides a build chain based upon `maven`.
   * Ciera generated code
-  * Load ALU (and other test models).
-  * Load stratus.
+  * calculator ALU has been primary test model.
+  * Stratus can parse and load Stratus.
+  * Generate Hello, world.
   * Generate abstract classes with stratus of stratus.
   * Generate inventory report of major elements sorted in some order.
 
-== MASL loader: functions
+== MASL loader: key functions
 
     * init
-    * select_any_Object_where_name
+    * Builtin/InternalType_populate
+    * select_any_ObjectDeclaration_where_name
     * resolve_name
     * create_RelationshipSpecification
-
-== MASL loader:  cont...
-
-  * Show parser interface (LOAD).
-  * Ciera build
-  * Ciera generated code
-  * Load ALU (and other test models).
-    ** masl_round_trip (load all test models)
-  * Load stratus.
-    ** Export stratus as MASL.
-    ** Load exported MASL.
-  * Generate abstract classes with stratus of stratus.
-  * Generate inventory report of major elements sorted in some order.
+    * ReferentialAttribute_resolve
 
 == next steps
 
-  * review and further test
+  * review, further test and refinement
   * template and rendering HOWTO
   * cloud template integration
   * Java translation of MASL activities

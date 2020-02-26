@@ -521,7 +521,7 @@ INSERT INTO S_SYNC
 
 T::set_output_directory(dir:"out");
 
-select many object_declarations from instances of ObjectDeclaration;
+select many object_declarations from instances of ObjectDeclaration where ( SORT::ascending( attr:"name" ) );
 for each object_declaration in object_declarations
   supertype = "super_" + object_declaration.name;
   T::include( file: "object/t.metamodel.java" );
@@ -997,9 +997,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'resolve_name',
 	'',
-	'// CDS I think CodeBlock can be a useful anchor for scoping.
-// CDS for now I am selecting FOI.  I will need to constrain the scope thoughtfully.
-/*
+	'/*
 AttributeDeclaration
 EventDeclaration
 EnumeratorItem
@@ -1056,7 +1054,6 @@ if ( param.iscodeblock )
 end if;
 
 // type
-// CDS need to narrow to domain and code_block
 select any builtin_type from instances of BuiltinType where ( selected.name == param.name );
 if ( not_empty builtin_type )
   select one basic_type related by builtin_type->BasicType[R6205];
@@ -1076,6 +1073,7 @@ else
 end if;
 
 // service
+// TODO full signature
 select any service from instances of Service where ( selected.name == param.name );
 if ( not_empty service )
   select any service_overload related by service->ServiceOverload[R5207];
@@ -1116,7 +1114,7 @@ if ( not_empty domain_terminator )
 end if;
 
 // attribute
-// CDS I think this will be moved/duplicated in a routine used to resolve DotExpression.
+// TODO I think this will be moved/duplicated in a routine used to resolve DotExpression.
 select any attribute_declaration from instances of AttributeDeclaration where ( selected.name == param.name );
 if ( not_empty attribute_declaration )
   create object instance selected_attribute_expression of SelectedAttributeExpression;
@@ -1128,10 +1126,10 @@ if ( not_empty attribute_declaration )
 end if;
 
 // enumerator
-// CDS I think this will be moved to a routine used to resolve DotExpression.
+// TODO I think this will be moved to a routine used to resolve DotExpression.
 select any enumerate_item from instances of EnumerateItem where ( selected.name == param.name );
 if ( not_empty enumerate_item )
-  // CDS incomplete
+  // TODO incomplete
   LOG::LogInfo( message: message + "enumerator." );
   return basic_type;
 end if;

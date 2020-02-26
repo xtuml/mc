@@ -7,51 +7,6 @@ INSERT INTO O_OBJ
 	'DictionaryAccessExpression',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("dcf50efb-33ad-4a40-8d76-d4868938ce57",
-	"6747da89-a31e-45d7-8083-bafd0426e4ab");
-INSERT INTO O_BATTR
-	VALUES ("dcf50efb-33ad-4a40-8d76-d4868938ce57",
-	"6747da89-a31e-45d7-8083-bafd0426e4ab");
-INSERT INTO O_ATTR
-	VALUES ("dcf50efb-33ad-4a40-8d76-d4868938ce57",
-	"6747da89-a31e-45d7-8083-bafd0426e4ab",
-	"00000000-0000-0000-0000-000000000000",
-	'index',
-	'R5512
-',
-	'',
-	'index',
-	0,
-	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	"00000000-0000-0000-0000-000000000000",
-	'iExpression',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("62b11be8-3a87-4b3a-9712-96f2445b7a41",
-	"6747da89-a31e-45d7-8083-bafd0426e4ab");
-INSERT INTO O_BATTR
-	VALUES ("62b11be8-3a87-4b3a-9712-96f2445b7a41",
-	"6747da89-a31e-45d7-8083-bafd0426e4ab");
-INSERT INTO O_ATTR
-	VALUES ("62b11be8-3a87-4b3a-9712-96f2445b7a41",
-	"6747da89-a31e-45d7-8083-bafd0426e4ab",
-	"dcf50efb-33ad-4a40-8d76-d4868938ce57",
-	'prefix',
-	'R5513
-',
-	'',
-	'prefix',
-	0,
-	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"6747da89-a31e-45d7-8083-bafd0426e4ab");
