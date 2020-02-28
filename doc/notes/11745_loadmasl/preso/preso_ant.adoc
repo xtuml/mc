@@ -48,8 +48,8 @@ the OOA of MASL through a functional API.
 A significant driving motivation for this work is a future cloud-based
 architecture which hosts MASL application domains.  Thus, the ability to
 build model compilers that emit code targeted to known cloud architectures
-(such as AWS) is a requirement.  A good direction for such model compilation
-include model-based model compilers that emit Java and have flexibility
+(such as AWS) is a requirement.  A good tactic for such model compilation
+includes model-based model compilers that emit Java and have flexibility
 to incorporate modeled architectural mechanisms for persistence, messaging,
 and activity dispatch.
 
@@ -59,7 +59,7 @@ and activity dispatch.
 +
 The OOA of MASL work ported the existing Java model of MASL as implemented
 in the MASL model compiler for {cpp}.  As much as practical the exact name
-and relational orientation of the existing Java meta-model as preserved.
+and relational orientation of the existing Java meta-model are preserved.
 This strategy reduces risk, reduces development time and reveals the
 existing model in a graphical and accessible way.
 +
@@ -120,14 +120,14 @@ true base attributes and which were references.
 * refine with action language
 +
 A deployment model named 'stratus' was created which imported all of the 
-subsystems of OOA of MASL.  OAL functions were added to this model that
-navigated the OOA of MASL.  Additional functions were added to resolve
-names and perform some of the more complex model loading such as the
-creation of Relationship Specifications.
+subsystems of OOA of MASL.  Action language functions were added to this
+model that navigated the OOA of MASL.  Additional functions were added
+to resolve names and perform some of the more complex model loading such
+as the creation of Relationship Specifications.
 +
 Finally, action language was added to the AST walker of textual MASL.
 While visiting nodes in the abstract syntax tree of MASL, creates,
-relates and attribute initialization was performed.  A `LOAD` API is
+relates and attribute initializations were performed.  A `LOAD` API is
 supplied by the Java model compiler (Ciera <<dr-8>>) to invoke domain
 functions composed in the stratus deployment model.
 
@@ -141,8 +141,9 @@ functions composed in the stratus deployment model.
 +
 The 'expression' subsystem remains large.  It may be difficult to
 factor out more, because it is awkward and brings little gain to span
-sub/super associations.  'binary' was factored out, because it has
-several associated classes (subtypes) that are not subtypes of 'expression'.
+sub/super associations.  'binary' and 'literal' were factored out,
+because they have several associated classes (subtypes) that are not
+direct subtypes of 'expression'.
   ** *invocation* (factored out of 'statement' and 'expression')
 +
 The 'invocation' subsystem has classes factored out of both 'statement'
@@ -150,7 +151,7 @@ and 'expression'.  The 'invocation' subsystem is organized to highlight
 the similarity between the statement and expression patterns.  [To the
 author of this note, it makes it clear that there is pressure to make
 all invocations expressions.]
-  ** *literal* types (factored out of 'type')
+  ** *literal* types (factored out of 'expression')
   ** *object*
   ** *project*
   ** *relationship*
@@ -187,7 +188,7 @@ image::statemodel.png[]
 ==== 4.3.13 OOA of MASL:  **type**
 image::type.png[]
 
-=== 4.4 OOA of MASL:  **Stratus deployment**
+=== 4.4 OOA of MASL:  Stratus Deployment
 
 The OOA of MASL is included into a model compiler application called _stratus_.
 The OOA of MASL is referenced but not modified.  The Java model compiler (Ciera)
@@ -224,14 +225,15 @@ image::deployment.png[]
 
 .Model Statistics
 |===
-| subsystems       | 12
-| classes          | 176
-| attributes       | 117
-| relationships    | 230
-| production rules | 166
+| subsystems        | 12
+| classes           | 176
+| attributes        | 117
+| relationships     | 230
+| production rules  | 166
+| generated LOC (;) | 51292
 |===
 
-=== 4.6 MASL loader
+=== 4.6 MASL Loader
 
 Modeling MASL in OOA as a class diagram is about half the work (given the
 opportunity to leverage extant artifacts).  Populating the model from
@@ -242,9 +244,9 @@ to render MASL into textual implementation languages will be a function of
 the complexity of the target and the relative 'distance' between MASL and
 the target language.
 
-The MASL loader leverages a lexer / parser / walker (parser) implemented
-in `antlr`.  This parser is invocable from the _stratus_ application
-model.
+The MASL loader leverages a lexer / parser / walker (hereafter just 'parser')
+implemented in `antlr`.  This parser is invocable from the _stratus_
+application model.
 
 The extant Java application invoked Java constructors from the actions
 on the `antlr` AST walker.  This work follows this pattern but makes
@@ -317,8 +319,8 @@ MASL.
 * ReferentialAttribute_resolve
 +
 Referential atributes may be referenced before they are defined in textual
-MASL.  Thus, the parser / loader must take a "2-pass" approach to linking
-referentials to their base identifying attributes.
+MASL.  Thus, the parser must take a "2-pass" approach to linking referentials
+to their base identifying attributes.
 
 === 4.7 Next Steps
 
@@ -335,6 +337,9 @@ The OOA of MASL is strong but completely unreviewed and only partially tested.
 Since it is largely a port of the existing model as Java the confidence level
 is reasonably high.  However, work that is unreviewed and partially tested is
 incomplete.
+
+The model currently is not formalized with identifiers and referential
+attributes.  As described in 
 
 ==== 4.7.2 Template and Rendering HOWTO
 

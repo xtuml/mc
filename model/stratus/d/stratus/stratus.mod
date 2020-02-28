@@ -175,6 +175,34 @@ domain stratus is
   object TerminatorFunctionInvocation;
   object ObjectFunctionInvocation;
   object InstanceFunctionInvocation;
+  private type Date is string;
+  private type double is real;
+  private type Field is string;
+  private type iBagType is string;
+  private type iBasicType is string;
+  private type iCharacteristicExpression is string;
+  private type iEnumerateItem is string;
+  private type iEventDeclaration is string;
+  private type iEventExpression is string;
+  private type iExpression is string;
+  private type iGenerateStatement is string;
+  private type iMinMaxRange is string;
+  private type iObjectDeclaration is string;
+  private type iRangeExpression is string;
+  private type iRelationshipSpecification is string;
+  private type iSequenceType is string;
+  private type iService is string;
+  private type iStructureElement is string;
+  private type iSetType is string;
+  private type iTypeNameExpression is string;
+  private type iVariableDefinition is string;
+  private type int is integer;
+  private type myLong is integer;
+  private type RangeType is string;
+  private type ResultType is string;
+  private type ServiceType is integer;
+  private type Set is integer;
+  private type Type is integer;
   private type SemanticErrorCode is integer
   ;
   private type Name is string
@@ -389,7 +417,6 @@ domain stratus is
   relationship R5800 is AttributeDeclaration conditionally refers_to many AttributeDeclaration,
     AttributeDeclaration conditionally is_referenced_by many AttributeDeclaration
     using ReferentialAttributeDefinition;
-//!associations
   relationship R6200 is AnonymousStructure unconditionally structures many BasicType,
     BasicType conditionally is_structured_by many AnonymousStructure;
   relationship R6201 is ArrayType unconditionally is_bounded_by one RangeExpression,
@@ -658,7 +685,6 @@ domain stratus is
   end object;
   object ParameterDefinition is
     name :   Name;
-//!R5201
     mode :   ParameterMode;
   end object;
   object DomainTerminator is
@@ -691,7 +717,6 @@ domain stratus is
     refAttrName :   Name;
   end object;
   object IdentifierDeclaration is
-//!preferred
     ispreferred :   boolean;
   end object;
   object StructureElement is
@@ -980,8 +1005,6 @@ domain stratus is
     supertype :   iObjectDeclaration;
   end object;
   object AssociativeRelationshipDeclaration is
-//!R6001
-    assocObject :   iObjectDeclaration;
     name :   Name;
   end object;
   object NormalRelationshipDeclaration is
@@ -995,12 +1018,6 @@ domain stratus is
   end object;
   object CodeBlock is
     topLevel :   boolean;
-//!R5149
-    List_exceptionHandlers :   iExceptionHandler;
-//!R5150
-    List_statements :   iStatement;
-//!R5151
-    List_variables :   iVariableDefinition;
   end object;
   object ServiceInvocation is
 //!service
@@ -1050,22 +1067,12 @@ domain stratus is
   end object;
   object ScheduleStatement is
     isAbsolute :   boolean;
-//!R5129
-//!generate
-    my_generate :   iGenerateStatement;
-//!R5130
-    time :   iExpression;
-//!R5131
-    period :   iExpression;
-//!R5132
-    timerId :   iExpression;
   end object;
   object ForStatement is
   end object;
   object WhileStatement is
   end object;
   object LinkUnlinkStatement is
-//!type
     isLink :   boolean;
     assocText :   myString;
     mainText :   myString;
@@ -1149,14 +1156,6 @@ domain stratus is
   object DomainServiceInvocation is
   end object;
   object InstanceServiceInvocation is
-//!R5116
-//!service
-    my_service :   iObjectService;
-//!R5117
-    List_arguments :   iExpression;
-//!R5118
-//!instance
-    my_instance :   iExpression;
   end object;
   object TerminatorServiceInvocation is
   end object;
@@ -1181,15 +1180,6 @@ domain stratus is
   object NullLiteral is
   end object;
   object ThisLiteral is
-//!R5704
-//!service
-    my_service :   iService;
-//!R5705
-//!object
-    my_object :   iObjectDeclaration;
-//!R5706
-//!state
-    my_state :   iState;
   end object;
   object NumericLiteral is
     text :   myString;
@@ -1241,7 +1231,6 @@ domain stratus is
   object RangeType is
   end object;
   object BagType is
-//!anonymous
     my_anonymous :   boolean;
   end object;
   object SetType is

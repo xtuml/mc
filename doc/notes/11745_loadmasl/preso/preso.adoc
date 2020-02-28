@@ -76,6 +76,9 @@ image::statemodel.png[]
 == OOA of MASL:  **type**
 image::type.png[]
 
+== OOA of MASL:  **Stratus Deployment**
+image::deployment.png[]
+
 == package references and _naked_ OOA of MASL
 
 * A package reference is a package linked to another package in another location
@@ -89,11 +92,12 @@ image::type.png[]
 
 .Statistics
 |===
-| subsystems       | 12
-| classes          | 176
-| attributes       | 117
-| relationships    | 230
-| production rules | 166
+| subsystems        | 12
+| classes           | 176
+| attributes        | 117
+| relationships     | 230
+| production rules  | 166
+| generated LOC (;) | 51292
 |===
 
 == MASL loader
@@ -106,9 +110,6 @@ image::type.png[]
 * model API functions
   ** Ciera provides an API which allows `create`, `relate`, `set_attribute`
      and `call_function`
-
-== OOA of MASL:  **Stratus deployment**
-image::deployment.png[]
 
 == MASL loader
 
