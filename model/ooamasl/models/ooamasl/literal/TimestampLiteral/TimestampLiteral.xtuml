@@ -22,16 +22,9 @@ INSERT INTO O_ATTR
 	'',
 	'datetime',
 	0,
-	"ed2e1f2a-fb3c-4cdf-9604-ece2582a8df7",
+	"ba5eda7a-def5-0000-0000-00000000000e",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("ed2e1f2a-fb3c-4cdf-9604-ece2582a8df7",
-	"00000000-0000-0000-0000-000000000000",
-	'Date',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("8b02c2fc-4fd4-44af-a28c-e3a918d3c193",
 	"ea55723b-af73-45b1-8231-7769545a1ba4");
@@ -65,16 +58,9 @@ INSERT INTO O_ATTR
 	'',
 	'original',
 	0,
-	"f212f01b-2c5d-4051-9d0d-9d88245e8e99",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("f212f01b-2c5d-4051-9d0d-9d88245e8e99",
-	"00000000-0000-0000-0000-000000000000",
-	'myString',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"ea55723b-af73-45b1-8231-7769545a1ba4");

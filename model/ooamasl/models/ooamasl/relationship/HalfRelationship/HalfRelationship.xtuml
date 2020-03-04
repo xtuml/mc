@@ -40,16 +40,9 @@ INSERT INTO O_ATTR
 	'',
 	'role',
 	0,
-	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
-	"00000000-0000-0000-0000-000000000000",
-	'Name',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("16a7605f-fed5-4ea8-b686-1b9226193ed2",
 	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");

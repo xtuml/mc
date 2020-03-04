@@ -17,19 +17,19 @@ INSERT INTO O_ATTR
 	VALUES ("128b6cfa-d548-4985-abce-22716ff97da2",
 	"db4b1b1e-22b9-4609-bbe9-9e4cca02dee8",
 	"00000000-0000-0000-0000-000000000000",
-	'my_type',
+	'flavor',
 	'type
 ',
 	'',
-	'my_type',
+	'flavor',
 	0,
-	"5059842a-430d-4f84-9855-0b69caf0855f",
+	"bed5844b-9da7-42da-a307-cfd105c8beaf",
 	'',
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("5059842a-430d-4f84-9855-0b69caf0855f",
+	VALUES ("bed5844b-9da7-42da-a307-cfd105c8beaf",
 	"00000000-0000-0000-0000-000000000000",
-	'ImplType',
+	'ExceptionType',
 	'',
 	'',
 	'../../Shared/Shared.xtuml');
