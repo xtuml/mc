@@ -7,32 +7,6 @@ INSERT INTO O_OBJ
 	'ServiceExpression',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("34e04e86-615a-4a11-b224-b625ca56d887",
-	"05dae440-b6dd-4354-bd52-4dc8f99d04bc");
-INSERT INTO O_BATTR
-	VALUES ("34e04e86-615a-4a11-b224-b625ca56d887",
-	"05dae440-b6dd-4354-bd52-4dc8f99d04bc");
-INSERT INTO O_ATTR
-	VALUES ("34e04e86-615a-4a11-b224-b625ca56d887",
-	"05dae440-b6dd-4354-bd52-4dc8f99d04bc",
-	"00000000-0000-0000-0000-000000000000",
-	'overload',
-	'R5545
-',
-	'',
-	'overload',
-	0,
-	"22bd90b4-5fd4-49bc-808e-91fc3505ff3c",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("22bd90b4-5fd4-49bc-808e-91fc3505ff3c",
-	"00000000-0000-0000-0000-000000000000",
-	'iServiceOverload',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"05dae440-b6dd-4354-bd52-4dc8f99d04bc");

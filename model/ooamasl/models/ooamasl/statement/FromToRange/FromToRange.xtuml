@@ -7,33 +7,6 @@ INSERT INTO O_OBJ
 	'FromToRange',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("a3882dfd-7a8c-4afe-bb9b-e777e4c63fb7",
-	"c2452c6f-3060-4545-a819-fb5e65ba5702");
-INSERT INTO O_BATTR
-	VALUES ("a3882dfd-7a8c-4afe-bb9b-e777e4c63fb7",
-	"c2452c6f-3060-4545-a819-fb5e65ba5702");
-INSERT INTO O_ATTR
-	VALUES ("a3882dfd-7a8c-4afe-bb9b-e777e4c63fb7",
-	"c2452c6f-3060-4545-a819-fb5e65ba5702",
-	"00000000-0000-0000-0000-000000000000",
-	'my_range',
-	'R5111
-range
-',
-	'',
-	'my_range',
-	0,
-	"d54c0421-0b78-4b46-8133-d4adf0042190",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("d54c0421-0b78-4b46-8133-d4adf0042190",
-	"00000000-0000-0000-0000-000000000000",
-	'iMinMaxRange',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"c2452c6f-3060-4545-a819-fb5e65ba5702");

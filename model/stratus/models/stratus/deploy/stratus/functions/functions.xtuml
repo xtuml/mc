@@ -38,40 +38,53 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'init',
 	'',
-	'LOG::LogInfo( message: "stratus starting init" );
+	'LOG::LogInfo( message:"stratus starting init" );
 
-CMD::register_value(name:"d", value_name:"domain_path", usage:"Path to a MASL domain directory", default:".", required:true);
+// Create the preexisting instances of built-in types.
+::BuiltinType_populate();
+// Create the preexisting instances of internal types.
+::InternalType_populate();
+
+// Set up command line for input MASL file.
+CMD::register_value(name:"d", value_name:"domain_path", usage:"Path to a MASL domain directory", default_value:".", required:true);
 CMD::read_command_line();
 
-create object instance type_declaration of TypeDeclaration;
-type_declaration.name = "AnyInstanceType";
-type_declaration.visibility = Visibility::public;
-create object instance type_definition of TypeDefinition;
-create object instance basic_type of BasicType;
-create object instance builtin_type of BuiltinType;
-create object instance any_instance_type of AnyInstanceType;
-
-relate type_declaration to type_definition across R6234;
-relate type_definition to basic_type across R6236;
-relate basic_type to builtin_type across R6205;
-relate builtin_type to any_instance_type across R6206;
-
-select any td from instances of TypeDeclaration;
-if ( empty td )
-  LOG::LogFailure( message:"failed to select TypeDeclaration" );
-end if;
-
+// Parse and load input MASL.
 LOG::LogInfo( message: "stratus loading MASL" );
 args[1] = CMD::get_value(name:"d");
 args[0] = "-d";
 LOAD::load(java_class:"deploy.parser.MaslImportParser", args:args);
 
-select many object_declarations from instances of ObjectDeclaration;
-for each object_declaration in object_declarations
-  LOG::LogInfo( message:object_declaration.name );
-end for;
+// Resolve referential attribute linkage.
+::ReferentialAttribute_resolve();
 
-LOG::LogInfo( message: "stratus done with init" );
+// Perform a selection to confirm the model loaded correctly.
+class_count = 5;
+message = "First few classes loaded are:  ";
+select many object_declarations from instances of ObjectDeclaration where ( SORT::ascending( attr:"name" ) );
+if ( cardinality object_declarations < class_count )
+  class_count = cardinality object_declarations;
+end if;
+for each object_declaration in object_declarations
+  message = message + object_declaration.name;
+  class_count = class_count - 1;
+  if ( 0 == class_count )
+    break;
+  end if;
+  message = message + ", ";
+end for;
+LOG::LogInfo( message: message );
+
+// Render some output.
+LOG::LogInfo( message:"stratus rendering" );
+
+// Render the simplest example.
+::render_HelloWorld();
+
+// Render an astract Java class for each object.
+::render_metamodel();
+
+LOG::LogInfo( message:"stratus done with render" );
 control stop;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -84,53 +97,15 @@ INSERT INTO PE_PE
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("34fca70e-b744-411a-989d-6aa03602563f",
-	"00000000-0000-0000-0000-000000000000",
-	'select_any_TypeDeclaration_where_name',
-	'',
-	'select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
-return type_declaration;',
-	"1a85f47e-89ea-4d0e-9a09-afc952412df3",
-	1,
-	'',
-	0);
-INSERT INTO S_SPARM
-	VALUES ("1d884005-adc6-4f2e-ab92-81292d274665",
-	"34fca70e-b744-411a-989d-6aa03602563f",
-	'name',
-	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
-	"00000000-0000-0000-0000-000000000000",
-	'Name',
-	'',
-	'',
-	'../../../../../../ooamasl/models/ooamasl/Shared/Shared.xtuml');
-INSERT INTO PE_PE
-	VALUES ("34fca70e-b744-411a-989d-6aa03602563f",
-	1,
-	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_DT_PROXY
-	VALUES ("1a85f47e-89ea-4d0e-9a09-afc952412df3",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<TypeDeclaration>',
-	'',
-	'',
-	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
-INSERT INTO S_SYNC
 	VALUES ("104756a8-eda5-4d27-98a5-a2897716dbe4",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_ExceptionDeclaration_where_name',
+	'select_ExceptionDeclaration_where_name',
 	'',
-	'domain = param.domain;
-// Consider selecting through the domain.
-select any exception_declaration from instances of ExceptionDeclaration where ( selected.name == param.name );
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any exception_declaration related by domain->ExceptionDeclaration[R5400] where ( selected.name == param.name );
+if ( not_empty exception_declaration )
+  select any exception_declaration from instances of ExceptionDeclaration where ( selected.name == param.name );
+end if;
 return exception_declaration;',
 	"fcbc46ab-aa9a-4a5f-a61c-93953c3dcf03",
 	1,
@@ -145,10 +120,17 @@ INSERT INTO S_SPARM
 	'',
 	"3e66809c-318a-46b2-9900-a0c9a7986d23",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	"00000000-0000-0000-0000-000000000000",
+	'Name',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/Shared/Shared.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("3e66809c-318a-46b2-9900-a0c9a7986d23",
 	"104756a8-eda5-4d27-98a5-a2897716dbe4",
-	'domain',
+	'domainname',
 	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
 	0,
 	'',
@@ -170,11 +152,18 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("a4f99ef6-4473-4e79-9ffb-8e5539226811",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_ObjectDeclaration_where_name',
+	'select_ObjectDeclaration_where_name',
 	'',
-	'domain = param.domain;
-// Consider selecting through the domain.
-select any object_declaration from instances of ObjectDeclaration where ( selected.name == param.name );
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any object_declaration related by domain->ObjectDeclaration[R5805] where ( selected.name == param.name );
+if ( empty object_declaration )
+  select any object_declaration from instances of ObjectDeclaration where ( selected.name == param.name );
+end if;
+splat = param.name; // string UDTs
+splat = "*";
+if ( ( splat == param.domainname ) and ( splat == param.name ) )
+  select any object_declaration from instances of ObjectDeclaration;
+end if;
 return object_declaration;
 ',
 	"ccbbc697-c60c-4034-8e31-7a46032151eb",
@@ -184,7 +173,7 @@ return object_declaration;
 INSERT INTO S_SPARM
 	VALUES ("1c5d3ef0-32d7-4744-a6d6-71c443e1b2dd",
 	"a4f99ef6-4473-4e79-9ffb-8e5539226811",
-	'domain',
+	'domainname',
 	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
 	0,
 	'',
@@ -215,10 +204,28 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("8861381d-eb56-404b-98fe-6c00df70f484",
 	"00000000-0000-0000-0000-000000000000",
-	'select_any_BasicType_where_name',
+	'select_BasicType_where_name',
 	'',
-	'select any type_declaration from instances of TypeDeclaration where ( selected.name == param.name );
-select one basic_type related by type_declaration->TypeDefinition[R6234]->BasicType[R6236];
+	'// If a domain name is supplied, use it to search (only) for UDTs.
+select any basic_type from instances of BasicType where ( false );
+select any builtin_type from instances of BuiltinType where ( selected.name == param.name );
+if ( not_empty builtin_type )
+	select one basic_type related by builtin_type->BasicType[R6205];
+else
+	select any internal_type from instances of InternalType where ( selected.name == param.name );
+	if ( not_empty internal_type )
+		select one basic_type related by internal_type->BasicType[R6205];
+	else
+		select any domain from instances of Domain where ( selected.name == param.domainname );
+		if ( not_empty domain )
+			select any user_defined_type related by domain->UserDefinedType[R6235] where ( selected.name == param.name );
+			select one basic_type related by user_defined_type->BasicType[R6205];
+		else
+			select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
+			select one basic_type related by user_defined_type->BasicType[R6205];
+		end if;
+	end if;
+end if;
 return basic_type;',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
 	1,
@@ -227,7 +234,7 @@ return basic_type;',
 INSERT INTO S_SPARM
 	VALUES ("98cc16ad-6526-40fb-afdf-0eed9e278f96",
 	"8861381d-eb56-404b-98fe-6c00df70f484",
-	'domain',
+	'domainname',
 	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
 	0,
 	'',
@@ -255,6 +262,1501 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("e4d401b5-9024-4c24-bd2a-9bb4ec9f79e2",
+	"00000000-0000-0000-0000-000000000000",
+	'BuiltinType_populate',
+	'',
+	'create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "instance";
+create object instance any_instance_type of AnyInstanceType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to any_instance_type across R6206;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "boolean";
+create object instance boolean_type of BooleanType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to boolean_type across R6206;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "character";
+create object instance character_type of CharacterType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to character_type across R6206;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "device";
+create object instance device_type of DeviceType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to device_type across R6206;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "duration";
+create object instance duration_type of DurationType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to duration_type across R6206;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "event";
+create object instance event_type of EventType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to event_type across R6206;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "string";
+create object instance string_type of StringType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to string_type across R6206;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "timer";
+create object instance timer_type of TimerType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to timer_type across R6206;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "timestamp";
+create object instance timestamp_type of TimestampType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to timestamp_type across R6206;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "wcharacter";
+create object instance wcharacter_type of WCharacterType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to wcharacter_type across R6206;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "wstring";
+create object instance wstring_type of WStringType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to wstring_type across R6206;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "real";
+create object instance numeric_type of NumericType;
+numeric_type.bits = 64;
+numeric_type.signed = true;
+// create and link to min and max expressions
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = 2147483647; // 2 ^ 63 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6222;
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = -2147483647; // 2 ^ 63 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6223;
+create object instance real_type of RealType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to numeric_type across R6206;
+relate numeric_type to real_type across R6221;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "long_integer";
+create object instance numeric_type of NumericType;
+numeric_type.bits = 64;
+numeric_type.signed = true;
+// create and link to min and max expressions
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = 2147483647; // 2 ^ 63 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6222;
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = -2147483647; // 2 ^ 63 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6223;
+create object instance integer_type of IntegerType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to numeric_type across R6206;
+relate numeric_type to integer_type across R6221;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "byte";
+create object instance numeric_type of NumericType;
+numeric_type.bits = 8;
+numeric_type.signed = false;
+// create and link to min and max expressions
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = 255; // 2 ^ 8 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6222;
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = 0;
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6223;
+create object instance byte_type of ByteType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to numeric_type across R6206;
+relate numeric_type to byte_type across R6221;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+create object instance builtin_type of BuiltinType;
+builtin_type.name = "integer";
+create object instance numeric_type of NumericType;
+numeric_type.bits = 32;
+numeric_type.signed = false;
+// create and link to min and max expressions
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = 2147483647; // 2 ^ 31 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6222;
+create object instance expression of Expression;
+create object instance literal_expression of LiteralExpression;
+create object instance numeric_literal of NumericLiteral;
+create object instance integer_literal of IntegerLiteral;
+integer_literal.value = -2147483647; // - 2 ^ 31 - 1 TODO
+relate expression to literal_expression across R5517;
+relate literal_expression to numeric_literal across R5700;
+relate numeric_literal to integer_literal across R5703;
+relate expression to numeric_type across R6223;
+create object instance small_type of SmallIntegerType;
+relate type_definition to basic_type across R6236;
+relate basic_type to builtin_type across R6205;
+relate builtin_type to numeric_type across R6206;
+relate numeric_type to small_type across R6221;
+
+/* Comment out the logging if not desired.
+ */
+select many builtin_types from instances of BuiltinType where ( SORT::ascending( attr:"name" ) );
+message = "builtin types:  ";
+for each builtin_type in builtin_types
+  message = message + builtin_type.name + " ";
+end for;
+LOG::LogInfo( message:message );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("e4d401b5-9024-4c24-bd2a-9bb4ec9f79e2",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a81c5b52-8eee-477f-a996-c511f5630083",
+	"00000000-0000-0000-0000-000000000000",
+	'render_metamodel',
+	'',
+	'// A simple example of rendering an abstract Java class for each object.
+
+T::set_output_directory(dir:"out");
+
+select many object_declarations from instances of ObjectDeclaration where ( SORT::ascending( attr:"name" ) );
+for each object_declaration in object_declarations
+  supertype = "super_" + object_declaration.name;
+  T::include( file: "object/t.metamodel.java" );
+  //T::emit( file: object_declaration.name + ".java" );
+end for;
+
+// Render to a single file.  Uncomment above to emit to one file for each class.
+T::emit( file:"metamodel.java" );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("a81c5b52-8eee-477f-a996-c511f5630083",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b048a193-bfae-4034-b8e7-688095ab9738",
+	"00000000-0000-0000-0000-000000000000",
+	'render_HelloWorld',
+	'',
+	'// The simplest possible demonstration of template rendering.
+
+select many object_declarations from instances of ObjectDeclaration;
+num_objects = cardinality object_declarations;
+T::include( file: "txt/t.helloworld.txt" );
+
+T::set_output_directory(dir:"out");
+T::emit( file: "hello.txt" );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("b048a193-bfae-4034-b8e7-688095ab9738",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c68451a5-0f0b-4322-8d07-d2a800278fc6",
+	"00000000-0000-0000-0000-000000000000",
+	'select_State_where_name',
+	'',
+	'object_declaration = param.object;
+select any ooastate related by object_declaration->State[R6105] where ( selected.name == param.name );
+return ooastate;',
+	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("0bfa3c78-c3a7-46b3-8de7-8ed3a014404b",
+	"c68451a5-0f0b-4322-8d07-d2a800278fc6",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"6f0efc95-03c5-4a4d-9adf-115d9bc7e99b",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6f0efc95-03c5-4a4d-9adf-115d9bc7e99b",
+	"c68451a5-0f0b-4322-8d07-d2a800278fc6",
+	'object',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("c68451a5-0f0b-4322-8d07-d2a800278fc6",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/statemodel/statemodel.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("d87306a4-fa45-4798-934c-0f6a40eecdb6",
+	"00000000-0000-0000-0000-000000000000",
+	'select_EventDeclaration_where_name',
+	'',
+	'object_declaration = param.object;
+select any event_declaration related by object_declaration->EventDeclaration[R6101] where ( selected.name == param.name );
+return event_declaration;',
+	"4cfcfee8-b8db-43f0-9290-af0d49e530d4",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("670ce977-1459-492c-86c8-12c263a5563f",
+	"d87306a4-fa45-4798-934c-0f6a40eecdb6",
+	'object',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("99104729-b636-4365-9fdf-11bf09ee18e8",
+	"d87306a4-fa45-4798-934c-0f6a40eecdb6",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"670ce977-1459-492c-86c8-12c263a5563f",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d87306a4-fa45-4798-934c-0f6a40eecdb6",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("4cfcfee8-b8db-43f0-9290-af0d49e530d4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<EventDeclaration>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/statemodel/statemodel.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("697abf06-bfcf-413d-9cc8-3888bad6530f",
+	"00000000-0000-0000-0000-000000000000",
+	'select_RelationshipDeclaration_where_name',
+	'',
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any relationship_declaration related by domain->RelationshipDeclaration[R6003] where ( selected.name == param.name );
+if ( empty relationship_declaration )
+  select any relationship_declaration from instances of RelationshipDeclaration where ( selected.name == param.name );
+end if;
+return relationship_declaration;
+',
+	"fc9b3839-3ca6-48c8-b09a-c036f8335a12",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("e15180a4-cc60-488b-ba0e-3f06466c403b",
+	"697abf06-bfcf-413d-9cc8-3888bad6530f",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2159cc15-5f6e-4326-a783-1da6609f2142",
+	"697abf06-bfcf-413d-9cc8-3888bad6530f",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"e15180a4-cc60-488b-ba0e-3f06466c403b",
+	'');
+INSERT INTO PE_PE
+	VALUES ("697abf06-bfcf-413d-9cc8-3888bad6530f",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("fc9b3839-3ca6-48c8-b09a-c036f8335a12",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<RelationshipDeclaration>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/relationship/relationship.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("34096a33-e38c-48a7-8f33-0090899a4cb8",
+	"00000000-0000-0000-0000-000000000000",
+	'select_AttributeDeclaration_related_where_name',
+	'',
+	'object_declaration = param.object_declaration;
+select any attribute_declaration related by object_declaration->AttributeDeclaration[R5802] where ( selected.name == param.name );
+return attribute_declaration;',
+	"bc9fb0af-6887-4a01-9bad-2412058db57c",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("6349a802-8f94-4ec7-ad64-7b4bdf679c3a",
+	"34096a33-e38c-48a7-8f33-0090899a4cb8",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("267d76c3-7e23-446c-ad82-75ed959b3f76",
+	"34096a33-e38c-48a7-8f33-0090899a4cb8",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"6349a802-8f94-4ec7-ad64-7b4bdf679c3a",
+	'');
+INSERT INTO PE_PE
+	VALUES ("34096a33-e38c-48a7-8f33-0090899a4cb8",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("bc9fb0af-6887-4a01-9bad-2412058db57c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<AttributeDeclaration>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/object/object.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("bbf24665-3f8a-4e80-924b-2412ffa8b25a",
+	"00000000-0000-0000-0000-000000000000",
+	'select_State_related_where_name',
+	'',
+	'object_declaration = param.object_declaration;
+select any state related by object_declaration->State[R6105] where ( selected.name == param.name );
+return state;',
+	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("df6958c1-8d69-47e3-abb2-ac81ae1af5a0",
+	"bbf24665-3f8a-4e80-924b-2412ffa8b25a",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d92f14b9-fd21-4234-ae9f-e7de1fc7a88a",
+	"bbf24665-3f8a-4e80-924b-2412ffa8b25a",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"df6958c1-8d69-47e3-abb2-ac81ae1af5a0",
+	'');
+INSERT INTO PE_PE
+	VALUES ("bbf24665-3f8a-4e80-924b-2412ffa8b25a",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4315533a-dce0-4e68-827d-9e4d61d494ed",
+	"00000000-0000-0000-0000-000000000000",
+	'select_DomainService_where_name',
+	'',
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any service related by domain->DomainService[R5303]->Service[R5203] where ( selected.name == param.name );
+return service;',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("84ad3f6c-09ef-4b76-8aff-06fd4a7f5bae",
+	"4315533a-dce0-4e68-827d-9e4d61d494ed",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("eed5a4de-bfa7-4550-bac6-e69873f15dfe",
+	"4315533a-dce0-4e68-827d-9e4d61d494ed",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"84ad3f6c-09ef-4b76-8aff-06fd4a7f5bae",
+	'');
+INSERT INTO PE_PE
+	VALUES ("4315533a-dce0-4e68-827d-9e4d61d494ed",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("b907c2e2-2877-4506-8018-ad38c7be275a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Service>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/domain/domain.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("0947dd72-a3ae-4f99-814d-a417cd5958dc",
+	"00000000-0000-0000-0000-000000000000",
+	'select_DomainTerminatorService_where_name',
+	'',
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any domain_terminator related by domain->DomainTerminator[R5304] where ( selected.name == param.terminatorname );
+select any service related by domain_terminator->DomainTerminatorService[R5306]->Service[R5203] where ( selected.name == param.name );
+return service;',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("db6409cb-4ea6-418e-bdfd-3d0678cf46ff",
+	"0947dd72-a3ae-4f99-814d-a417cd5958dc",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4440ad99-9e17-4798-8ccc-19cfadaf0aeb",
+	"0947dd72-a3ae-4f99-814d-a417cd5958dc",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"a405e436-52c6-44df-bb3d-87c9532e87cf",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a405e436-52c6-44df-bb3d-87c9532e87cf",
+	"0947dd72-a3ae-4f99-814d-a417cd5958dc",
+	'terminatorname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"db6409cb-4ea6-418e-bdfd-3d0678cf46ff",
+	'');
+INSERT INTO PE_PE
+	VALUES ("0947dd72-a3ae-4f99-814d-a417cd5958dc",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("22291b3f-d688-4961-ae68-9f869d7af5ba",
+	"00000000-0000-0000-0000-000000000000",
+	'select_ProjectTerminatorService_where_name',
+	'',
+	'select any domain from instances of Domain where ( selected.name == param.projectdomainname );
+select any project_terminator related by domain->ProjectDomain[R5901]->ProjectTerminator[R5902] where ( selected.name == param.termintorname );
+select any service related by project_terminator->ProjectTerminatorService[R5903]->Service[R5203] where ( selected.name == param.name );
+return service;',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("5b030c21-8c85-4217-97ee-e68fbe0b863f",
+	"22291b3f-d688-4961-ae68-9f869d7af5ba",
+	'projectdomainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ce9cdcaa-224d-4161-ade9-0c478e6885e8",
+	"22291b3f-d688-4961-ae68-9f869d7af5ba",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"b17603c5-8970-42c0-8364-e524a1442984",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b17603c5-8970-42c0-8364-e524a1442984",
+	"22291b3f-d688-4961-ae68-9f869d7af5ba",
+	'termintorname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"5b030c21-8c85-4217-97ee-e68fbe0b863f",
+	'');
+INSERT INTO PE_PE
+	VALUES ("22291b3f-d688-4961-ae68-9f869d7af5ba",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fa8a96be-5fe6-4057-85a1-64284cb19bde",
+	"00000000-0000-0000-0000-000000000000",
+	'select_ObjectService_where_name',
+	'',
+	'object_declaration = param.object_declaration;
+select any service related by object_declaration->ObjectService[R5808]->Service[R5203] where ( selected.name == param.name );
+return service;',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("4c18d07c-457f-478e-a8cc-7c7919c3e3b1",
+	"fa8a96be-5fe6-4057-85a1-64284cb19bde",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("93adc7d9-8de4-413c-8402-94d24008a42b",
+	"fa8a96be-5fe6-4057-85a1-64284cb19bde",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"4c18d07c-457f-478e-a8cc-7c7919c3e3b1",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fa8a96be-5fe6-4057-85a1-64284cb19bde",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a7df88e2-a33c-4db3-8ac5-cb12a6938401",
+	"00000000-0000-0000-0000-000000000000",
+	'select_UserDefinedType_where_name',
+	'',
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any user_defined_type related by domain->UserDefinedType[R6235] where ( selected.name == param.name );
+if ( empty user_defined_type )
+  select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
+end if;
+return user_defined_type;',
+	"5f5b21a5-3fd7-4b46-970e-812947d7a192",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("c7f6a2d8-0453-46c6-8fa6-cd220d663978",
+	"a7df88e2-a33c-4db3-8ac5-cb12a6938401",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("96ac85bb-4b75-434a-9450-8821cc9c465b",
+	"a7df88e2-a33c-4db3-8ac5-cb12a6938401",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"c7f6a2d8-0453-46c6-8fa6-cd220d663978",
+	'');
+INSERT INTO PE_PE
+	VALUES ("a7df88e2-a33c-4db3-8ac5-cb12a6938401",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("5f5b21a5-3fd7-4b46-970e-812947d7a192",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<UserDefinedType>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_name',
+	'',
+	'/*
+AttributeDeclaration
+EventDeclaration
+EnumeratorItem
+*/ 
+expression = param.expression;
+code_block = param.code_block;
+message = ""; d = ""; n = ""; // string UDTs
+d = param.domainname; n = param.name;
+message = "resolve_name( " + param.trace + ", " + d + "::" + n + ", ";
+if ( param.iscodeblock )
+  select one service related by code_block->Service[R5403];
+  if ( empty service )
+    select one state related by code_block->State[R6115];
+    if ( empty state )
+      LOG::LogFailure( message:"empty service and state" );
+    else
+      n = state.name;
+    end if;
+  else
+    n = service.name;
+  end if;
+  message = message + "true(" + n + ")";
+else
+  message = message + "false";
+end if;
+message = message + " ) - ";
+// CDS not sure I need this
+select any basic_type from instances of BasicType where ( false );
+
+// variable
+if ( param.iscodeblock )
+  select any variable_definition related by code_block->VariableDefinition[R5151] where ( selected.name == param.name );
+  if ( not_empty variable_definition )
+    create object instance variable_name_expression of VariableNameExpression;
+    relate expression to variable_name_expression across R5517;
+    select one basic_type related by variable_definition->BasicType[R5137];
+    relate variable_name_expression to variable_definition across R5562;
+    LOG::LogInfo( message: message + "variable." );
+    return basic_type;
+  end if;
+end if;
+
+// parameter
+if ( param.iscodeblock )
+  select one parameter_definition related by code_block->Service[R5403]->ParameterDefinition[R5204] where ( selected.name == param.name );
+  if ( not_empty parameter_definition )
+		create object instance parameter_name_expression of ParameterNameExpression;
+		relate expression to parameter_name_expression across R5517;
+		relate parameter_name_expression to parameter_definition across R5536;
+		select one basic_type related by parameter_definition->BasicType[R5200];
+		LOG::LogInfo( message: message + "parameter." );
+		return basic_type;
+  end if;
+end if;
+
+// type
+select any builtin_type from instances of BuiltinType where ( selected.name == param.name );
+if ( not_empty builtin_type )
+  select one basic_type related by builtin_type->BasicType[R6205];
+  LOG::LogInfo( message: message + "builtin type." );
+  return basic_type;
+else
+  select any domain from instances of Domain where ( selected.name == param.domainname );
+  select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
+  if ( not_empty domain )
+    select any user_defined_type related by domain->UserDefinedType[R6235] where ( selected.name == param.name );
+  end if;
+  if ( not_empty user_defined_type )
+    select one basic_type related by user_defined_type->BasicType[R6205];
+    LOG::LogInfo( message: message + "user type." );
+    return basic_type;
+  end if;
+end if;
+
+// service
+// TODO full signature
+select any service from instances of Service where ( selected.name == param.name );
+if ( not_empty service )
+  select any service_overload related by service->ServiceOverload[R5207];
+  create object instance service_expression of ServiceExpression;
+  relate expression to service_expression across R5517;
+  //relate service_expression to service_overload across R5545;
+  select one basic_type related by service->BasicType[R5205];
+  LOG::LogInfo( message: message + "service." );
+  return basic_type;
+end if;
+
+// object
+select any object_declaration from instances of ObjectDeclaration where ( selected.name == param.name );
+if ( not_empty object_declaration )
+  create object instance object_name_expression of ObjectNameExpression;
+  relate expression to object_name_expression across R5517;
+  relate object_name_expression to object_declaration across R5533;
+  basic_type = ::select_create_InstanceType( object_declaration: object_declaration, isset: false );
+  if ( empty basic_type )
+    LOG::LogFailure( message: message + "before object... basic_type is empty" );
+  end if;
+  LOG::LogInfo( message: message + "object." );
+  return basic_type;
+end if;
+
+// terminator
+select any domain_terminator from instances of DomainTerminator where ( selected.name == param.name );
+if ( not_empty domain_terminator )
+  create object instance terminator_name_expression of TerminatorNameExpression;
+  relate expression to terminator_name_expression across R5517;
+  relate terminator_name_expression to domain_terminator across R5555;
+  t = param.name; // string UDTs
+  t = "terminator";
+  select any internal_type from instances of InternalType where ( selected.name == t );
+  select one basic_type related by internal_type->BasicType[R6205];
+  LOG::LogInfo( message: message + "terminator." );
+  return basic_type;
+end if;
+
+// attribute
+// TODO I think this will be moved/duplicated in a routine used to resolve DotExpression.
+select any attribute_declaration from instances of AttributeDeclaration where ( selected.name == param.name );
+if ( not_empty attribute_declaration )
+  create object instance selected_attribute_expression of SelectedAttributeExpression;
+  relate expression to selected_attribute_expression across R5517;
+  relate selected_attribute_expression to attribute_declaration across R5541;
+  select one basic_type related by attribute_declaration->BasicType[R5803];
+  LOG::LogInfo( message: message + "attribute." );
+  return basic_type;
+end if;
+
+// enumerator
+// TODO I think this will be moved to a routine used to resolve DotExpression.
+select any enumerate_item from instances of EnumerateItem where ( selected.name == param.name );
+if ( not_empty enumerate_item )
+  // TODO incomplete
+  LOG::LogInfo( message: message + "enumerator." );
+  return basic_type;
+end if;
+
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("f28b21aa-3bf5-4396-9da1-a6397cfcaa1b",
+	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"8d32c0cb-d75b-4bdc-9c9a-a89707310aad",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cfa72c62-f0d0-4742-8298-3aabb79d8d02",
+	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"def0e9f8-d657-4867-8cd8-b217e8205a19",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Expression>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/expression/expression.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("8d32c0cb-d75b-4bdc-9c9a-a89707310aad",
+	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"cfa72c62-f0d0-4742-8298-3aabb79d8d02",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("def0e9f8-d657-4867-8cd8-b217e8205a19",
+	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	'code_block',
+	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<CodeBlock>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/statement/statement.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("6d13161e-992c-4e7e-98c7-2aa16bba83c4",
+	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	'iscodeblock',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"f28b21aa-3bf5-4396-9da1-a6397cfcaa1b",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f9951fb6-dd73-41f2-a10b-f9c312bdf92c",
+	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	'trace',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"6d13161e-992c-4e7e-98c7-2aa16bba83c4",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e6985402-aac6-4154-a539-ee805f76053e",
+	"00000000-0000-0000-0000-000000000000",
+	'create_RelationshipSpecification',
+	'',
+	'/* The following trace shows that we are not parsing DISP_evaluating.al correctly.
+
+create_RelationshipSpec Display Operation
+6000 6004 associative Display->Display
+select_create_InstanceType:  empty object declaration
+create_RelationshipSpec Display Calculator
+normal ltr from Display->Calculator
+select_create_InstanceType:  empty object declaration
+create_RelationshipSpec Display Operation
+6000 6004 associative Display->Display
+select_create_InstanceType:  empty object declaration
+create_RelationshipSpec Display Calculator
+normal ltr from Display->Calculator
+select_create_InstanceType:  empty object declaration
+
+*/
+
+relationship_declaration = param.relationship_declaration;
+from_object_declaration = param.from_object_declaration;
+object_or_role = from_object_declaration.name; // UDT strings
+object_or_role = param.object_or_role;
+object_or_role_string = param.object_or_role; // UDT strings
+to_object_declaration = param.to_object_declaration;
+
+// Create the RelationshipSpecification.
+// Link it to the RelationshipDeclaration.
+// Link it to the from-side and to-side ObjectDeclarations.
+// Populate the role phrase?  CDS
+create object instance relationship_specification of RelationshipSpecification;
+relate relationship_specification to relationship_declaration across R6015;
+relate relationship_specification to from_object_declaration across R6014;
+
+// Resolve with from and to object when available.
+if ( not_empty to_object_declaration )
+  LOG::LogInfo( message:"create_RelationshipSpec " + from_object_declaration.name + " " + object_or_role_string + " " + to_object_declaration.name +" directly" );
+  relate relationship_specification to to_object_declaration across R6011;
+  return relationship_specification;
+end if;
+
+LOG::LogInfo( message:"create_RelationshipSpec " + from_object_declaration.name + " " + object_or_role_string );
+
+// Resolve with only relationship and from object when possible.
+// 1) Look across normal normal non-reflexive binary.
+// 2) Look for subtype.
+
+// normal binary non-reflexive
+select one object_declaration related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6007]->ObjectDeclaration[R6006];
+if ( not_empty object_declaration )
+  if ( from_object_declaration.name != object_declaration.name )
+    LOG::LogInfo( message: "normal ltr from " + from_object_declaration.name + "->" + object_declaration.name );
+    relate relationship_specification to object_declaration across R6011;
+    return relationship_specification;
+  end if;
+end if;
+select one object_declaration related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6007]->ObjectDeclaration[R6004];
+if ( not_empty object_declaration )
+  if ( from_object_declaration.name != object_declaration.name )
+    LOG::LogInfo( message: "normal ltr to " + from_object_declaration.name + "->" + object_declaration.name );
+    relate relationship_specification to object_declaration across R6011;
+    return relationship_specification;
+  end if;
+end if;
+// supertype
+select one object_declaration related by relationship_declaration->SubtypeRelationshipDeclaration[R6010]->ObjectDeclaration[R6017];
+if ( not_empty object_declaration )
+  LOG::LogInfo( message: "sub-super supertype " + from_object_declaration.name + "->" + object_declaration.name );
+  relate relationship_specification to object_declaration across R6011;
+  return relationship_specification;
+end if;
+// associative
+select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6004];
+if ( not_empty object_declaration )
+  LOG::LogInfo( message: "6000 6004 associative " + from_object_declaration.name + "->" + object_declaration.name );
+  relate relationship_specification to object_declaration across R6011;
+  return relationship_specification;
+end if;
+select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6006];
+if ( not_empty object_declaration )
+  LOG::LogInfo( message: "6000 6006 associative " + from_object_declaration.name + "->" + object_declaration.name );
+  relate relationship_specification to object_declaration across R6011;
+  return relationship_specification;
+end if;
+select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6004];
+if ( not_empty object_declaration )
+  LOG::LogInfo( message: "6002 6004 associative " + from_object_declaration.name + "->" + object_declaration.name );
+  relate relationship_specification to object_declaration across R6011;
+  return relationship_specification;
+end if;
+select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6006];
+if ( not_empty object_declaration )
+  LOG::LogInfo( message: "6002 6006 associative " + from_object_declaration.name + "->" + object_declaration.name );
+  relate relationship_specification to object_declaration across R6011;
+  return relationship_specification;
+end if;
+
+if ( "" != object_or_role_string )
+
+  // Use the object_or_role as an object name.
+  select any object_declaration from instances of ObjectDeclaration where ( selected.name == object_or_role );
+  //on = "";
+  //select many object_declarations from instances of ObjectDeclaration;
+  //for each object_declaration in object_declarations;
+  //on = object_declaration.name;
+	//if ( on == object_or_role )
+	if ( not_empty object_declaration )
+		LOG::LogInfo( message: "object_or_role as object " + from_object_declaration.name + "->" + object_declaration.name );
+		relate relationship_specification to object_declaration across R6011;
+		return relationship_specification;
+	end if;
+	//end for;
+
+  // Use the object_or_role as a role phrase.
+  select many half_relationships related by from_object_declaration->HalfRelationship[R6006] where ( selected.role == object_or_role_string );
+  select any object_declaration related by half_relationships->ObjectDeclaration[R6004];
+	if ( not_empty object_declaration )
+		LOG::LogInfo( message: "object_or_role as role " + from_object_declaration.name + "->" + object_declaration.name );
+		relate relationship_specification to object_declaration across R6011;
+		return relationship_specification;
+	end if;
+
+end if;
+
+// CDS choose one to avoid exceptions for now...
+select any to_object_declaration from instances of ObjectDeclaration;
+LOG::LogInfo( message: "TODO CDS defaulting to bogus lookup !!!!!! " + from_object_declaration.name + "->" + to_object_declaration.name );
+relate relationship_specification to to_object_declaration across R6011;
+return relationship_specification;
+
+/*
+select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->ObjectDeclaration[R6001];
+if ( not_empty object_declaration )
+  LOG::LogInfo( message: "assoc using from " + from_object_declaration.name + "->" + object_declaration.name );
+  relate relationship_specification to object_declaration across R6011;
+  return relationship_specification;
+end if;
+select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6006];
+if ( not_empty object_declaration )
+  LOG::LogInfo( message: "assoc ltr from " + from_object_declaration.name + "->" + object_declaration.name );
+  relate relationship_specification to object_declaration across R6011;
+  return relationship_specification;
+end if;
+select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6006];
+if ( not_empty object_declaration )
+  LOG::LogInfo( message: "assoc rtl from " + from_object_declaration.name + "->" + object_declaration.name );
+  relate relationship_specification to object_declaration across R6011;
+  return relationship_specification;
+end if;
+
+return relationship_specification;
+*/',
+	"47e32455-be33-4b7c-9e44-d3b8f4f9ad39",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("cc0f53db-7e83-4ce3-83bd-e88c810b1243",
+	"e6985402-aac6-4154-a539-ee805f76053e",
+	'from_object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"6f9cef8f-0fdd-430f-8254-6a41da9e44dd",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6f9cef8f-0fdd-430f-8254-6a41da9e44dd",
+	"e6985402-aac6-4154-a539-ee805f76053e",
+	'relationship_declaration',
+	"fc9b3839-3ca6-48c8-b09a-c036f8335a12",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5559efd5-1227-4a45-82e3-2bb64ab209ca",
+	"e6985402-aac6-4154-a539-ee805f76053e",
+	'object_or_role',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"cc0f53db-7e83-4ce3-83bd-e88c810b1243",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0804b884-7bee-4b1b-8c7e-ce6e088efabf",
+	"e6985402-aac6-4154-a539-ee805f76053e",
+	'to_object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"5559efd5-1227-4a45-82e3-2bb64ab209ca",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e6985402-aac6-4154-a539-ee805f76053e",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("47e32455-be33-4b7c-9e44-d3b8f4f9ad39",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<RelationshipSpecification>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/relationship/relationship.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("9219fa7c-383d-4c1f-8d8d-a67afdb697e7",
+	"00000000-0000-0000-0000-000000000000",
+	'select_TypeDefinition_related_BasicType',
+	'',
+	'basic_type = param.basic_type;
+select one type_definition related by basic_type->TypeDefinition[R6236];
+return type_definition;',
+	"e4b2bac4-c232-4da0-b89b-f6db4ad3b8ff",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("0eabd816-5519-4819-ac76-03b1efe91757",
+	"9219fa7c-383d-4c1f-8d8d-a67afdb697e7",
+	'basic_type',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("9219fa7c-383d-4c1f-8d8d-a67afdb697e7",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("e4b2bac4-c232-4da0-b89b-f6db4ad3b8ff",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<TypeDefinition>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("6fdbf838-5d5b-4536-926d-a926f7922352",
+	"00000000-0000-0000-0000-000000000000",
+	'InternalType_populate',
+	'',
+	'create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "characteristic";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "enum";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "object";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "service";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "split";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "stream_modifier";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "terminator";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "type";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
+/* Comment out the logging if not desired.
+ */
+select many internal_types from instances of InternalType where ( SORT::ascending( attr:"name" ) );
+message = "internal types:  ";
+for each internal_type in internal_types
+  message = message + internal_type.name + " ";
+end for;
+LOG::LogInfo( message:message );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("6fdbf838-5d5b-4536-926d-a926f7922352",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("0ae17a1b-dc87-4bfa-9920-7aca1abae853",
+	"00000000-0000-0000-0000-000000000000",
+	'select_create_InstanceType',
+	'',
+	'object_declaration = param.object_declaration;
+if ( empty object_declaration )
+  // TODO
+  LOG::LogFailure( message:"select_create_InstanceType:  empty object declaration" );
+  select any object_declaration from instances of ObjectDeclaration;
+end if;
+select one basic_type related by object_declaration->InstanceType[R6220]->BasicType[R6205];
+if ( empty basic_type )
+  create object instance type_definition of TypeDefinition;
+  create object instance basic_type of BasicType;
+  create object instance instance_type of InstanceType;
+  relate type_definition to basic_type across R6236;
+  relate basic_type to instance_type across R6205;
+  relate instance_type to object_declaration across R6220;
+end if;
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("774efb11-e918-494b-b0fe-ba1dcebe2d3f",
+	"0ae17a1b-dc87-4bfa-9920-7aca1abae853",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7b0f538e-7db6-4ed3-9287-46cd271ba421",
+	"0ae17a1b-dc87-4bfa-9920-7aca1abae853",
+	'isset',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"774efb11-e918-494b-b0fe-ba1dcebe2d3f",
+	'');
+INSERT INTO PE_PE
+	VALUES ("0ae17a1b-dc87-4bfa-9920-7aca1abae853",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("00e0662e-ad33-4048-8390-adf5a7eaa03d",
+	"00000000-0000-0000-0000-000000000000",
+	'create_DotExpression',
+	'',
+	'expression = param.expression;
+lhs = param.lhs;
+create object instance dot_expression of DotExpression;
+relate expression to dot_expression across R5517;
+relate lhs to dot_expression across R5569;
+
+select any basic_type from instances of BasicType where ( false );
+
+select one expression_basic_type related by expression->BasicType[R5570];
+if ( empty expression_basic_type )
+  LOG::LogFailure( message:"create_DotExpression:  lhs has no type" );
+  return basic_type;
+end if;
+
+// TODO - provide subtyping maybe from DotExpression <- SelectedAttributeExpression, SelectedComponentExpression, TypeNameExpression, ObjectNameExpresion
+
+// Look for attribute access.
+select one instance_type related by expression_basic_type->InstanceType[R6205];
+if ( not_empty instance_type )
+  select any attribute_declaration related by instance_type->ObjectDeclaration[R6220]->AttributeDeclaration[R5802] where ( selected.name == param.name );
+  if ( not_empty attribute_declaration )
+    // create selected attribute expression
+    create object instance selected_attribute_expression of SelectedAttributeExpression;
+      relate selected_attribute_expression to attribute_declaration across R5541;
+      relate selected_attribute_expression to dot_expression across R5572;
+      select one basic_type related by attribute_declaration->BasicType[R5803];
+    return basic_type;
+  end if;
+end if;
+
+// Look for structure element.
+select one structure_type related by expression_basic_type->UserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
+if ( not_empty structure_type )
+  select one structure_element related by structure_type->StructureElement[R6244] where ( selected.name == param.name );
+  while ( not_empty structure_element )
+    if ( param.name == structure_element.name )
+      // create selected component expression
+      create object instance selected_component_expression of SelectedComponentExpression;
+      relate selected_component_expression to structure_element across R5543;
+      relate selected_component_expression to dot_expression across R5571;
+      select one basic_type related by structure_element->BasicType[R6230];
+      return basic_type;
+    end if;
+    select one structure_element related by structure_element->StructureElement[R6243.''precedes''];
+  end while;
+end if;
+
+// Look for attribute and structure member.
+
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("f1d594b3-7603-469a-9527-b56b7335152c",
+	"00e0662e-ad33-4048-8390-adf5a7eaa03d",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("08eabd3a-1f34-4ede-9e95-46e6d1839fe9",
+	"00e0662e-ad33-4048-8390-adf5a7eaa03d",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"7f1f17a9-0be1-4e7e-bf6d-dc1fb27ec37a",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7f1f17a9-0be1-4e7e-bf6d-dc1fb27ec37a",
+	"00e0662e-ad33-4048-8390-adf5a7eaa03d",
+	'lhs',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"f1d594b3-7603-469a-9527-b56b7335152c",
+	'');
+INSERT INTO PE_PE
+	VALUES ("00e0662e-ad33-4048-8390-adf5a7eaa03d",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2a7dfdcf-e066-4c24-aa35-f0afd6326aa2",
+	"00000000-0000-0000-0000-000000000000",
+	'select_ObjectDeclaration_related_by_Expression',
+	'',
+	'expression = param.expression;
+select one object_declaration related by expression->BasicType[R5570]->InstanceType[R6205]->ObjectDeclaration[R6220];
+if ( empty object_declaration )
+  LOG::LogFailure( message:"select_any_ObjectDeclaration_related_by_Expression:  empty object_declaration" );
+end if;
+return object_declaration;',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("66989b34-b3b9-40c7-9003-7131c1400ea7",
+	"2a7dfdcf-e066-4c24-aa35-f0afd6326aa2",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2a7dfdcf-e066-4c24-aa35-f0afd6326aa2",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7e16d0ec-cf38-43c4-8cef-4411b5e996a7",
+	"00000000-0000-0000-0000-000000000000",
+	'ReferentialAttribute_resolve',
+	'',
+	'// Link up the referential attributes here after all objects and attributes
+// are fully defined.  During the first pass, the referentials were linked
+// to themselves.
+
+LOG::LogInfo( message:"RerentialAttribute_resolve starting..." );
+
+o_referring = ""; o_referenced = ""; // string UDTs
+select many referential_attribute_definitions from instances of ReferentialAttributeDefinition;
+for each referential_attribute_definition in referential_attribute_definitions
+  select one referring_attribute_declaration related by referential_attribute_definition->AttributeDeclaration[R5800.''is_referenced_by''];
+  select one referring_object_declaration related by referring_attribute_declaration->ObjectDeclaration[R5802];
+  o_referring = referring_object_declaration.name;
+  o_referring = o_referring + "." + referential_attribute_definition.name;
+  unrelate referring_attribute_declaration from referring_attribute_declaration across R5800.''refers_to'' using referential_attribute_definition;
+  select any referenced_attribute_declaration related by
+    referential_attribute_definition->RelationshipSpecification[R5811]->ObjectDeclaration[R6011]->AttributeDeclaration[R5802]
+    where ( selected.name == referential_attribute_definition.name );
+  if ( empty referenced_attribute_declaration )
+    LOG::LogFailure( message:"RerentialAttribute_resolve failed to find referenced attribute:  " + referential_attribute_definition.name );
+  else
+    select one referenced_object_declaration related by referenced_attribute_declaration->ObjectDeclaration[R5802];
+    o_referenced = referenced_object_declaration.name;
+    o_referenced = o_referenced + "." + referenced_attribute_declaration.name;
+    relate referring_attribute_declaration to referenced_attribute_declaration across R5800.''refers_to'' using referential_attribute_definition;
+    LOG::LogInfo( message:"RerentialAttribute_resolve " + o_referring + " to " + o_referenced );
+  end if;
+end for;
+
+LOG::LogInfo( message:"RerentialAttribute_resolve ...done" );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("7e16d0ec-cf38-43c4-8cef-4411b5e996a7",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,

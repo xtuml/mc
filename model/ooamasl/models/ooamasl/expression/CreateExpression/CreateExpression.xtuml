@@ -7,32 +7,6 @@ INSERT INTO O_OBJ
 	'CreateExpression',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("a823b48f-9acf-4e70-a196-2b6871d7b1aa",
-	"da3e368d-dfdc-4c09-a24b-b3091aa958fd");
-INSERT INTO O_BATTR
-	VALUES ("a823b48f-9acf-4e70-a196-2b6871d7b1aa",
-	"da3e368d-dfdc-4c09-a24b-b3091aa958fd");
-INSERT INTO O_ATTR
-	VALUES ("a823b48f-9acf-4e70-a196-2b6871d7b1aa",
-	"da3e368d-dfdc-4c09-a24b-b3091aa958fd",
-	"00000000-0000-0000-0000-000000000000",
-	'value',
-	'probably need a relationship here
-',
-	'',
-	'value',
-	0,
-	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
-	"00000000-0000-0000-0000-000000000000",
-	'iExpression',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"da3e368d-dfdc-4c09-a24b-b3091aa958fd");

@@ -1,0 +1,428 @@
+= OOA of MASL
+:toc:
+
+xtUML Project Analysis Note
+
+
+== 1 Abstract
+
+An OOA of MASL is complete.  A parser/loader is complete which reads
+textual MASL and populates the OOA of MASL with instances linked and
+initialized.  This note documents the current state.
+
+== 2 Introduction, Background and Requirements
+
+Analysis and design notes have been written that outline the requirements
+and design of the OOA of MASL and the parser/loader.
+See <<dr-3>>, <<dr-4>>, <<dr-6>> and <<dr-7>> for introduction, background
+and details on this work.
+
+
+== 3 Analysis
+
+* goals
+* strategy
+* OOA of MASL
+* MASL loader
+* next steps
+
+=== 3.1 Goals
+
+* capture MASL as a model
++
+The primary goal of this work is to model MASL and capture the semantics
+of MASL in a Shlaer-Mellor xtUML relational class diagram.  This task poses
+challenges as MASL is a large and relationally complex domain.
+(See <<Model Statistics>>.)
+
+* parse and load correct MASL
++
+An OOA of MASL is most useful if it can be populated with MASL models.
+To populate the OOA of MASL, textual MASL must be parsed, and instances
+of classes in the OOA of MASL must be created, initialized and related.
+For this work, an existing parser of textual MASL was re-purposed to load
+the OOA of MASL through a functional API.
+
+* anticipate cloud architecture
++
+A significant driving motivation for this work is a future cloud-based
+architecture which hosts MASL application domains.  Thus, the ability to
+build model compilers that emit code targeted to known cloud architectures
+(such as AWS) is a requirement.  A good tactic for such model compilation
+includes model-based model compilers that emit Java and have flexibility
+to incorporate modeled architectural mechanisms for persistence, messaging,
+and activity dispatch.
+
+=== 3.2 Strategy
+
+* port MASL model compiler java model
++
+The OOA of MASL work ported the existing Java model of MASL as implemented
+in the MASL model compiler for {cpp}.  As much as practical the exact name
+and relational orientation of the existing Java meta-model are preserved.
+This strategy reduces risk, reduces development time and reveals the
+existing model in a graphical and accessible way.  The `antlr` lexer and
+parser are reused unmodified.  The AST walker grammar is reused, but the
+actions on the production rules are replaced.
++
+Preliminary analysis of the quality and level of abstraction of this existing
+model has been mostly positive.  Looking back, the port strategy has been
+a key enabler making this work feasible.
+
+  ** leverage working starting point
++
+The MASL {cpp} model compiler has been stable for a number of years.  It is
+well understood (albeit by only a few developers).  It is time tested and
+functional.
+
+  ** low-risk with large number of artifacts
++
+As noted in <<Model Statistics>>, MASL is a substantial domain.  Although it
+may be desirable to reanalyze the domain from a "clean slate", time and applied
+resources do not allow this.
++
+Another scale factor that potentially complicated the task was the size and
+number of subsystems.  It is fortunate that BridgePoint supports the concept
+of an _Imported Class_ and _spanning relationships_.  With this capability,
+subsystem partitioning was achieved to some degree of success.  The 'expression'
+subsystem remains unwieldy but editable.  Even in the case of subsystems,
+the MASL MC provided a starting point.  'code' was renamed as 'statement'.
+'expression', 'statement' and 'type' were factored to reduce the size of
+these subsystems.
+
+  ** script conversion of java to MASL
++
+Scripting was employed to mechanically begin the porting process.
+A `Python` script was drafted that parsed the MASL MC `metamodel` and
+`metamodelImpl` folders.  The script was able to extract class names, divine
+many attributes and infer most associations between classes and notably
+the subtype/supertype hierarchy.
+
+  ** import into BridgePoint
++
+Textual MASL output from the Python script was imported into BridgePoint
+using the existing `masl2xtuml` flow.  This cycle was repeated while the
+MASL was refined.  It was particularly time-saving to name the association
+role phrases while the model remained textual MASL.
++
+The script employed a strategy to detect spanning relationships.  Duplicate
+classes were supplied to subsystems with spanning associations.  After the
+subsystem models were imported into BridgePoint, true imported classes were
+created, and the relationships were simply moved from the duplicate class
+place-holder over to the imported class.
+
+* adjust ported model
++
+The ported and imported model was far from complete.  Firstly, no layout
+is done automatically.  Layout was accomplished by hard labor alone.
++
+Other major adjustments included discerning which member attributes were
+true base attributes and which were references.
+
+* refine with action language
++
+A deployment model named 'stratus' was created which imported all of the 
+subsystems of OOA of MASL.  Action language functions were added to this
+model that navigated the OOA of MASL.  Additional functions were added
+to resolve names and perform some of the more complex model loading such
+as the creation of Relationship Specifications.
++
+Finally, action language was added to the AST walker of textual MASL.
+While visiting nodes in the abstract syntax tree of MASL, creates,
+relates and attribute initializations were performed.  A `LOAD` API is
+supplied by the Java model compiler (Ciera <<dr-8>>) to invoke domain
+functions composed in the stratus deployment model.
+
+=== 3.3 OOA of MASL
+
+* ooamasl subsystem packages
+  ** *binary* operations (factored out of 'expression')
+  ** *builtin* types (factored out of 'type')
+  ** *domain*
+  ** *expression*
++
+The 'expression' subsystem remains large.  It may be difficult to
+factor out more, because it is awkward and brings little gain to span
+sub/super associations.  'binary' and 'literal' were factored out,
+because they have several associated classes (subtypes) that are not
+direct subtypes of 'expression'.
+  ** *invocation* (factored out of 'statement' and 'expression')
++
+The 'invocation' subsystem has classes factored out of both 'statement'
+and 'expression'.  The 'invocation' subsystem is organized to highlight
+the similarity between the statement and expression patterns.  [To the
+author of this note, it makes it clear that there is pressure to make
+all invocations expressions.]
+  ** *literal* types (factored out of 'expression')
+  ** *object*
+  ** *project*
+  ** *relationship*
+  ** *statement*
++
+[This author recommends that _Statement_ be made a subtype of _Expression_.]
+  ** *statemodel*
+  ** *type*
+
+==== 3.3.1 OOA of MASL:  **ooamasl packages**
+image::ooamasl.png[]
+==== 3.3.2 OOA of MASL:  **binary**
+image::binary.png[]
+==== 3.3.3 OOA of MASL:  **builtin**
+image::builtin.png[]
+==== 3.3.4 OOA of MASL:  **domain**
+image::domain.png[]
+==== 3.3.5 OOA of MASL:  **expression**
+image::expression.png[]
+==== 3.3.6 OOA of MASL:  **invocation**
+image::invocation.png[]
+==== 3.3.7 OOA of MASL:  **literal**
+image::literal.png[]
+==== 3.3.8 OOA of MASL:  **object**
+image::object.png[]
+==== 3.3.9 OOA of MASL:  **project**
+image::project.png[]
+==== 3.3.10 OOA of MASL:  **relationship**
+image::relationship.png[]
+==== 3.3.11 OOA of MASL:  **statement**
+image::statement.png[]
+==== 3.3.12 OOA of MASL:  **statemodel**
+image::statemodel.png[]
+==== 3.3.13 OOA of MASL:  **type**
+image::type.png[]
+
+=== 3.4 OOA of MASL:  Stratus Deployment
+
+The OOA of MASL is included into a model compiler application called _stratus_.
+The OOA of MASL is referenced but not modified.  The Java model compiler (Ciera)
+runtime API model is also included.  Loader functionality is implemented in the
+_stratus_ deployment.  The deployment consists of a domain component.  This
+component imports the OOA of MASL subsystem packages.  Domain functions are
+implemented within the component to realize the loading functionality.
+
+The lexer/parser/walker application is linked into the generated Java of the
+stratus deployment.  An initialization function is marked to be activated
+upon startup of the application.  This 'init' function handles command line
+arguments and the invocation of the parser.  It then sequences finalization
+of OOA population linking.  It can then invoke rendering functionality to
+emit translation text.
+
+==== 3.4.1 Package References and _naked_ OOA of MASL
+
+A package reference is a package linked to another package in another location
+(package or project).  Package references allow reuse and _import_ of subsystems.
+Subsystem packages from the OOA of MASL are imported into the _stratus_
+deployment without modifying the OOA of MASL using this package reference
+mechanism.  It is anticipated that OOA of MASL will be imported and reused
+in several model translation applications in the future.
+
+The term _naked OOA_ refers to a class model with no state or functional
+activity intended to be used as the schema for multiple projects.
+
+In contrast, the OOA of OOA in BridgePoint proper (Editor and Verifier)
+is a _decorated_ metamodel.  The bare Shlaer-Mellor class model was
+decorated with state machines, class operations and functions to produce
+an editor.  Afterwards, this decorated model was further extended to add
+simulation capability for the Verifier.  Editing and debugging either
+application requires carrying the baggage of both applications.
+
+BridgePoint model compilers began working from a shared _naked_ OOA of OOA
+which greatly increased the production speed of new model transformation
+tools.  The MASL and WASL import and export tool chains are examples of
+this reuse.
+
+A meta-model is most (re)useful as a naked class model.
+
+==== 3.4.2 OOA of MASL:  **Stratus deployment**
+image::deployment.png[]
+
+=== 3.5 Model Statistics
+
+.Model Statistics
+|===
+| subsystems        | 12
+| classes           | 176
+| attributes        | 117
+| relationships     | 230
+| production rules  | 166
+| generated LOC (;) | 51292
+|===
+
+=== 3.6 MASL Loader
+
+Modeling MASL in OOA as a class diagram is about half the work (given the
+opportunity to leverage extant artifacts).  Populating the model from
+parsed textual MASL is the other half.  With both of these elements in
+place, it is relatively direct to render the populated OOA of MASL into
+various textual forms (such as cloud architecture-aware Java).  The effort
+to render MASL into textual implementation languages will be a function of
+the complexity of the target and the relative 'distance' between MASL and
+the target language.
+
+The MASL loader leverages a lexer / parser / walker (hereafter just 'parser')
+implemented in `antlr`.  This parser is invocable from the _stratus_
+application model.
+
+The extant Java application invoked Java constructors from the actions
+on the `antlr` AST walker.  This work follows this pattern but than
+invoking constructors on Java classes, it makes calls into the _stratus_
+application to create / initialize / relate instances of the OOA of MASL.
+
+Ciera (<<dr-8>>) provides an API which allows `create`, `relate`,
+`set_attribute` and `call_function`.  This is sufficient to interface
+a parser with a modeled model compiler application.
+
+==== 3.6.1 MASL Loader
+
+* action language functions
++
+The functionality of populating the OOA of MASL from textual MASL is
+divided between actions on the MASL walker and domain functions implemented
+in _stratus_.  OOA of MASL navigation is most easily done in action
+language in _stratus_.  Complex queries such as those dealing with name
+resolution are best accomplished using action language in the domain
+functions supplied by _stratus_.
+* `LOAD` class interface to generated model Java
++
+Simple functionality such as creating instances, setting attributes and
+relating one instance to another across a particular relationship can be
+done directly in the parser.  MASL walker actions can invoke `create`,
+`relate` and `set_attribute` operations through an API supplied by Ciera
+<<dr-8>>.  The ability to invoke a domain function and receive a cast
+`Object` is supplied through `call_function`.
+* Ciera provides a build chain based upon `maven`.
++
+The Ciera wiki provides instructions for getting started.  The build
+artifacts are hosted on maven servers whichs makes it straight forward for
+network connected machines to spin up a build environment.
+* Ciera generated code
+* calculator ALU has been primary test model.
+* Stratus can parse and load Stratus.
+* Generate Hello, world.
++
+The _stratus_ application generated a 'Hello, world' text file as the
+simplest possible model compiler tempate-based text transformation.
+* Generate abstract classes with stratus of stratus.
++
+Another example text transformation generates a (simplistic) abstract
+Java class for each class in the OOA of MASL.
+
+==== 3.6.2 MASL Loader:  Key Functions
+
+* init
++
+This is the initialization function that gets activated at startup of
+_stratus_.  It is activated, because it is marked using a mark in
+`gen/application.mark`.
+* Builtin/InternalType_populate
++
+This creates, initializes and relates the pre-existing built-in and
+internal type instances.
+* select_ObjectDeclaration_where_name
++
+Several of these 'select' functions navigate the OOA of MASL and return an
+instance into the parser.
+* resolve_name
++
+Since the OOA of MASL serves as its own symbol table, `resolve_name`
+queries the OOA of MASL instance population to resolve named identifiers
+to known variables, services, etc. with specific types.
+* create_RelationshipSpecification
++
+Relationship Specifications represent significant complexity in the OOA of
+MASL.
+* ReferentialAttribute_resolve
++
+Referential attributes may be referenced before they are defined in textual
+MASL.  Thus, the parser must take a "2-pass" approach to linking referentials
+to their base identifying attributes.
+
+=== 3.7 Next Steps
+
+Next steps include the following:
+
+* review, further test and refinement
+* template and rendering HOWTO
+* cloud template integration
+* Java translation of MASL activities
+
+==== 3.7.1 Review, Refinement and Test
+
+The OOA of MASL is strong but completely unreviewed and only partially
+tested.  Since it is largely a port of the existing model as Java the
+confidence level is reasonably high.  However, work that is unreviewed
+and partially tested is incomplete.  The ALU model, stratus model and test
+cases from the MASL round trip regression suite have been used to achieve
+some level of coverage.
+
+The model currently is not formalized with identifiers and referential
+attributes.  Relatively natural semantic identifiers are composable from most
+of _structural_ MASL.  'domain', 'project', 'service', 'attribute', 'state',
+'event', 'relationship' and the like have names that make for natural
+identifying attributes.  These names can be combined with _upstream_ _parent_
+elements to compose unique identifiers out of naming attributes and referential
+attributes.
+
+However, this process is not so natural in the 'statement', 'expression' and
+'type' subsystems.  For example, a particular 'while' statement does not have a
+name, and the 'expression' that conditions the loop carries no natural naming
+attributes.
+
+Arbitrary identifying attributes could be introduced at this point to
+establish a mechanism for relationship formalization.  However, other options
+exist that may be more meaningful and provide a link between the semantics of
+the model elements and the syntax of the textual representation.
+
+==== 3.7.2 Template and Rendering HOWTO
+
+The template rendering in this project is strictly inherited from the
+underlying Java model compiler (Ciera).  The delivered _stratus_ application
+does demonstrate the templating capability.  However, a `HOWTO` document
+explaining the process of emitting text from an application linked to the OOA
+of MASL would be useful.
+
+==== 3.7.3 Cloud Template Integration
+
+As one of the primary goals of the project is to be informed by future
+cloud architectures, it follows that a next step would be to generate
+cloud-aware Java.  Aligning work on cloud architecture templates with the
+concrete approach supplied by Ciera is a tangible next step.
+
+==== 3.7.4 Java Translation of MASL Activities
+
+There is an "elephant in the room" with regard to an OOA of MASL being
+translated using OAL (BridgePoint _Object Action Language_).  The present
+model-based model compiler translating MASL is implemented as xtUML and OAL.
+To be fully "self-hosted" a model-based model compiler of MASL must be
+implemented as MASL.  The best path forward to achieve this is being
+explored.
+
+The Ciera Java model compiler maps OAL to Java.  It is conceivable to map
+MASL to Java.
+
+== 4 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11745[11745 - Parse MASL into xtUML meta-model of MASL activity]
+. [[dr-2]] https://support.onefact.net/issues/11744[11744 - AWS software architecture]
+. [[dr-3]] link:../11745_loadmasl_ant.adoc[analysis note]
+. [[dr-4]] link:../11745_loadmasl_dnt.adoc[design note]
+. [[dr-5]] https://github.com/xtuml/mc/tree/master/model/masl[maslpopulation subsystem of 'masl']
+. [[dr-6]] link:../11745_loadmasl2_ant.adoc[analysis note... extended]
+. [[dr-7]] link:../11745_loadmasl2_dnt.adoc[design note... extended]
+. [[dr-8]] https://github.com/xtuml/ciera[Ciera Model Compiler]
++
+The Ciera Java model compiler is a significant benefit coming in
+connection with this work.  In partnership with Software Improvements of
+Australia, One Fact has commissioned and funded Brooklyn LLC to
+commercialize the model compiler.  This includes a clean build environment
+and User Guide.  A second phase provides a Developer Guide for engineers
+wishing to maintain, extend and modify the model compiler itself.  Already
+community members are forking the repository.  It seems there has been
+pent-up demand for a solid Java MC for BridgePoint.  Without this model
+compiler, the OOA of MASL would be of less value.
+
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

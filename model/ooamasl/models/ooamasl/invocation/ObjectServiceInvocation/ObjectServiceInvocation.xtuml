@@ -1,32 +1,32 @@
 -- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO O_OBJ
-	VALUES ("1224f3ea-92cf-4551-8024-647c85833839",
+	VALUES ("c2a276c7-be01-46d7-9b02-ef5df51db88c",
 	'ObjectServiceInvocation',
-	5118,
+	5607,
 	'ObjectServiceInvocation',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_ID
 	VALUES (0,
-	"1224f3ea-92cf-4551-8024-647c85833839");
+	"c2a276c7-be01-46d7-9b02-ef5df51db88c");
 INSERT INTO O_ID
 	VALUES (1,
-	"1224f3ea-92cf-4551-8024-647c85833839");
+	"c2a276c7-be01-46d7-9b02-ef5df51db88c");
 INSERT INTO O_ID
 	VALUES (2,
-	"1224f3ea-92cf-4551-8024-647c85833839");
+	"c2a276c7-be01-46d7-9b02-ef5df51db88c");
 INSERT INTO PE_PE
-	VALUES ("1224f3ea-92cf-4551-8024-647c85833839",
+	VALUES ("c2a276c7-be01-46d7-9b02-ef5df51db88c",
 	1,
-	"ad3ecc1c-9b44-4d18-8c98-a08987d8e9ab",
+	"18f34247-fda9-49a2-b68a-ca4fb46d2b37",
 	"00000000-0000-0000-0000-000000000000",
 	4);
 INSERT INTO EP_PKG_PROXY
-	VALUES ("ad3ecc1c-9b44-4d18-8c98-a08987d8e9ab",
+	VALUES ("18f34247-fda9-49a2-b68a-ca4fb46d2b37",
 	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
 	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
-	'statement',
+	'invocation',
 	'',
 	0,
-	'../statement.xtuml');
+	'../invocation.xtuml');

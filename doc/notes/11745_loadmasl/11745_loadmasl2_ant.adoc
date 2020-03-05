@@ -64,13 +64,14 @@ in semantic model elements.
 Relatively natural semantic identifiers are composable from most of
 _structural_ MASL.  'domain', 'project', 'service', 'attribute', 'state',
 'event', 'relationship' and the like have names that make for natural
-identifying attributes.  These names can be combined with "upstream"
-"parent" elements to compose unique identifiers out of naming attributes
+identifying attributes.  These names can be combined with _upstream_
+_parent_ elements to compose unique identifiers out of naming attributes
 and referential attributes.
 
-However, this process is not so natural in the 'statement' and 'expression'
-subsystems.  A particular 'while' statement does not have a name, and the
-'expression' that conditions the loop carries no natural naming attributes.
+However, this process is not so natural in the 'statement', 'expression'
+and 'type' subsystems.  A particular 'while' statement does not have a name,
+and the 'expression' that conditions the loop carries no natural naming
+attributes.
 
 Arbitrary identifying attributes could be introduced at this point to
 establish a mechanism for relationship formalization.  However, other options

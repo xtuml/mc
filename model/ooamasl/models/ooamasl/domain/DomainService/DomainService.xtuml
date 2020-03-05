@@ -7,31 +7,6 @@ INSERT INTO O_OBJ
 	'DomainService',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("d1a92d1a-aee8-4242-8df0-b4fae4b15de2",
-	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58");
-INSERT INTO O_BATTR
-	VALUES ("d1a92d1a-aee8-4242-8df0-b4fae4b15de2",
-	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58");
-INSERT INTO O_ATTR
-	VALUES ("d1a92d1a-aee8-4242-8df0-b4fae4b15de2",
-	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58",
-	"00000000-0000-0000-0000-000000000000",
-	'fileExtension',
-	'',
-	'',
-	'fileExtension',
-	0,
-	"f212f01b-2c5d-4051-9d0d-9d88245e8e99",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("f212f01b-2c5d-4051-9d0d-9d88245e8e99",
-	"00000000-0000-0000-0000-000000000000",
-	'myString',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"6c21ee3b-0fa8-4d57-9a67-c4e94a73ac58");

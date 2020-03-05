@@ -8,18 +8,17 @@ INSERT INTO O_OBJ
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_NBATTR
-	VALUES ("9374d1d2-f930-4e79-a469-a3ccafd44b66",
+	VALUES ("8eaac1c4-17ef-4ff4-bdfe-6c29a0e21d13",
 	"db3608b2-3214-414d-b03d-3585c5f6321f");
 INSERT INTO O_BATTR
-	VALUES ("9374d1d2-f930-4e79-a469-a3ccafd44b66",
+	VALUES ("8eaac1c4-17ef-4ff4-bdfe-6c29a0e21d13",
 	"db3608b2-3214-414d-b03d-3585c5f6321f");
 INSERT INTO O_ATTR
-	VALUES ("9374d1d2-f930-4e79-a469-a3ccafd44b66",
+	VALUES ("8eaac1c4-17ef-4ff4-bdfe-6c29a0e21d13",
 	"db3608b2-3214-414d-b03d-3585c5f6321f",
 	"00000000-0000-0000-0000-000000000000",
 	'name',
-	'maybe this is just String
-',
+	'',
 	'',
 	'name',
 	0,

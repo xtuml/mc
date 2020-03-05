@@ -7,58 +7,6 @@ INSERT INTO O_OBJ
 	'TransitionRow',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("193afbc1-4b3b-490d-9523-e7f4e1a2188c",
-	"2c85da20-5dee-422c-b08c-874813864603");
-INSERT INTO O_BATTR
-	VALUES ("193afbc1-4b3b-490d-9523-e7f4e1a2188c",
-	"2c85da20-5dee-422c-b08c-874813864603");
-INSERT INTO O_ATTR
-	VALUES ("193afbc1-4b3b-490d-9523-e7f4e1a2188c",
-	"2c85da20-5dee-422c-b08c-874813864603",
-	"00000000-0000-0000-0000-000000000000",
-	'initialState',
-	'R6111
-',
-	'',
-	'initialState',
-	0,
-	"a28fa89c-101b-4d1b-af3d-4559ad3b755f",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("a28fa89c-101b-4d1b-af3d-4559ad3b755f",
-	"00000000-0000-0000-0000-000000000000",
-	'iState',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("c054ac59-c170-4d49-bf88-1830b96ccff2",
-	"2c85da20-5dee-422c-b08c-874813864603");
-INSERT INTO O_BATTR
-	VALUES ("c054ac59-c170-4d49-bf88-1830b96ccff2",
-	"2c85da20-5dee-422c-b08c-874813864603");
-INSERT INTO O_ATTR
-	VALUES ("c054ac59-c170-4d49-bf88-1830b96ccff2",
-	"2c85da20-5dee-422c-b08c-874813864603",
-	"193afbc1-4b3b-490d-9523-e7f4e1a2188c",
-	'List_options',
-	'R6112
-',
-	'',
-	'List_options',
-	0,
-	"6892fbff-3a7d-4de2-ba99-79b43d39ff04",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("6892fbff-3a7d-4de2-ba99-79b43d39ff04",
-	"00000000-0000-0000-0000-000000000000",
-	'iTransitionOption',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"2c85da20-5dee-422c-b08c-874813864603");
