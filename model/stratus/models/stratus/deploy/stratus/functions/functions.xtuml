@@ -1237,9 +1237,9 @@ select_create_InstanceType:  empty object declaration
 
 relationship_declaration = param.relationship_declaration;
 from_object_declaration = param.from_object_declaration;
-object_or_role = from_object_declaration.name;
+object_or_role = from_object_declaration.name; // UDT strings
 object_or_role = param.object_or_role;
-object_or_role_string = param.object_or_role;
+object_or_role_string = param.object_or_role; // UDT strings
 to_object_declaration = param.to_object_declaration;
 
 // Create the RelationshipSpecification.
@@ -1330,7 +1330,7 @@ if ( "" != object_or_role_string )
 	//end for;
 
   // Use the object_or_role as a role phrase.
-  select many half_relationships related by from_object_declaration->HalfRelationship[R6006] where ( selected.role == object_or_role );
+  select many half_relationships related by from_object_declaration->HalfRelationship[R6006] where ( selected.role == object_or_role_string );
   select any object_declaration related by half_relationships->ObjectDeclaration[R6004];
 	if ( not_empty object_declaration )
 		LOG::LogInfo( message: "object_or_role as role " + from_object_declaration.name + "->" + object_declaration.name );
