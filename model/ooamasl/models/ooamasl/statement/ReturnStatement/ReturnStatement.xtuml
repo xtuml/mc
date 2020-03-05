@@ -7,32 +7,6 @@ INSERT INTO O_OBJ
 	'ReturnStatement',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("7fc0fc1c-0c15-4747-b50f-f3217bc7acbd",
-	"095d877b-1162-4cec-b69d-c358e340a323");
-INSERT INTO O_BATTR
-	VALUES ("7fc0fc1c-0c15-4747-b50f-f3217bc7acbd",
-	"095d877b-1162-4cec-b69d-c358e340a323");
-INSERT INTO O_ATTR
-	VALUES ("7fc0fc1c-0c15-4747-b50f-f3217bc7acbd",
-	"095d877b-1162-4cec-b69d-c358e340a323",
-	"00000000-0000-0000-0000-000000000000",
-	'currentService',
-	'R5127
-',
-	'',
-	'currentService',
-	0,
-	"8229d6d0-6b03-478c-8070-4891ba53ad48",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("8229d6d0-6b03-478c-8070-4891ba53ad48",
-	"00000000-0000-0000-0000-000000000000",
-	'iService',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"095d877b-1162-4cec-b69d-c358e340a323");

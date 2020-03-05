@@ -7,33 +7,6 @@ INSERT INTO O_OBJ
 	'EventExpression',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("4c5b7f1d-07d5-40b8-8ed6-4b0ab2aec8e7",
-	"448173d0-a890-4cfd-906c-fe3ade23981c");
-INSERT INTO O_BATTR
-	VALUES ("4c5b7f1d-07d5-40b8-8ed6-4b0ab2aec8e7",
-	"448173d0-a890-4cfd-906c-fe3ade23981c");
-INSERT INTO O_ATTR
-	VALUES ("4c5b7f1d-07d5-40b8-8ed6-4b0ab2aec8e7",
-	"448173d0-a890-4cfd-906c-fe3ade23981c",
-	"00000000-0000-0000-0000-000000000000",
-	'my_event',
-	'R5516
-event
-',
-	'',
-	'my_event',
-	0,
-	"adddb2f0-ba81-4d2f-bd96-67dbbc6795db",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("adddb2f0-ba81-4d2f-bd96-67dbbc6795db",
-	"00000000-0000-0000-0000-000000000000",
-	'iEventDeclaration',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"448173d0-a890-4cfd-906c-fe3ade23981c");

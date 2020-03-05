@@ -22,16 +22,9 @@ INSERT INTO O_ATTR
 	'',
 	'value',
 	0,
-	"d3985525-5817-4b11-9037-0efaaf7b5b2d",
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("d3985525-5817-4b11-9037-0efaaf7b5b2d",
-	"00000000-0000-0000-0000-000000000000",
-	'myLong',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"76e1105a-3c60-4ac3-9084-812af897d211");
