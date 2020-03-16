@@ -2103,8 +2103,8 @@ INSERT INTO R_PART
 	VALUES ("52fa63a8-18d5-4e84-91d3-6a989f029f0a",
 	"8e64743f-30f0-4dd7-b746-6dbcf33a3ff5",
 	"533aa304-dcb2-419d-8c9d-6f237ccdd966",
-	0,
 	1,
+	0,
 	'is_identified_by');
 INSERT INTO R_RTO
 	VALUES ("52fa63a8-18d5-4e84-91d3-6a989f029f0a",

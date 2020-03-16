@@ -1007,7 +1007,7 @@ code_block = param.code_block;
 message = ""; d = ""; n = ""; // string UDTs
 d = param.domainname; n = param.name;
 message = "resolve_name( " + param.trace + ", " + d + "::" + n + ", ";
-if ( param.iscodeblock )
+if ( not_empty code_block )
   select one service related by code_block->Service[R5403];
   if ( empty service )
     select one state related by code_block->State[R6115];
@@ -1024,11 +1024,12 @@ else
   message = message + "false";
 end if;
 message = message + " ) - ";
+LOG::LogInfo( message: message + "starting..." );
 // CDS not sure I need this
 select any basic_type from instances of BasicType where ( false );
 
 // variable
-if ( param.iscodeblock )
+if ( not_empty code_block )
   select any variable_definition related by code_block->VariableDefinition[R5151] where ( selected.name == param.name );
   if ( not_empty variable_definition )
     create object instance variable_name_expression of VariableNameExpression;
@@ -1041,16 +1042,21 @@ if ( param.iscodeblock )
 end if;
 
 // parameter
-if ( param.iscodeblock )
-  select one parameter_definition related by code_block->Service[R5403]->ParameterDefinition[R5204] where ( selected.name == param.name );
-  if ( not_empty parameter_definition )
-		create object instance parameter_name_expression of ParameterNameExpression;
-		relate expression to parameter_name_expression across R5517;
-		relate parameter_name_expression to parameter_definition across R5536;
-		select one basic_type related by parameter_definition->BasicType[R5200];
-		LOG::LogInfo( message: message + "parameter." );
-		return basic_type;
-  end if;
+if ( not_empty code_block )
+  //select one parameter_definition related by code_block->Service[R5403]->ParameterDefinition[R5204] where ( selected.name == param.name );
+  select one parameter_definition related by code_block->Service[R5403]->ParameterDefinition[R5204];
+  while ( not_empty parameter_definition )
+    LOG::LogInfo( message: message + "searching for parameter " + param.name + " versus " + parameter_definition.name );
+    if ( parameter_definition.name == param.name )
+      create object instance parameter_name_expression of ParameterNameExpression;
+      relate expression to parameter_name_expression across R5517;
+      relate parameter_name_expression to parameter_definition across R5536;
+      select one basic_type related by parameter_definition->BasicType[R5200];
+      LOG::LogInfo( message: message + "parameter." );
+      return basic_type;
+    end if;
+    select one parameter_definition related by parameter_definition->ParameterDefinition[R5208.''precedes''];
+  end while;
 end if;
 
 // type
@@ -1091,6 +1097,7 @@ if ( not_empty object_declaration )
   create object instance object_name_expression of ObjectNameExpression;
   relate expression to object_name_expression across R5517;
   relate object_name_expression to object_declaration across R5533;
+  // TODO - may need to know that we need a set
   basic_type = ::select_create_InstanceType( object_declaration: object_declaration, isset: false );
   if ( empty basic_type )
     LOG::LogFailure( message: message + "before object... basic_type is empty" );
@@ -1126,10 +1133,14 @@ if ( not_empty attribute_declaration )
 end if;
 
 // enumerator
-// TODO I think this will be moved to a routine used to resolve DotExpression.
 select any enumerate_item from instances of EnumerateItem where ( selected.name == param.name );
 if ( not_empty enumerate_item )
-  // TODO incomplete
+  create object instance literal_expression of LiteralExpression;
+  create object instance enumerate_literal of EnumerateLiteral;
+  relate enumerate_literal to literal_expression across R5700;
+  relate enumerate_literal to enumerate_item across R5701;
+  relate expression to literal_expression across R5517;
+  select any basic_type related by enumerate_item->EnumerateType[R6218]->FullTypeDefinition[R6219]->TypeDefinition[R6236]->TypeDeclaration[R6234]->UserDefinedType[R6241]->BasicType[R6205];
   LOG::LogInfo( message: message + "enumerator." );
   return basic_type;
 end if;
@@ -1190,22 +1201,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../../../../../ooamasl/models/ooamasl/statement/statement.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("6d13161e-992c-4e7e-98c7-2aa16bba83c4",
-	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
-	'iscodeblock',
-	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
-	'',
-	"f28b21aa-3bf5-4396-9da1-a6397cfcaa1b",
-	'');
-INSERT INTO S_SPARM
 	VALUES ("f9951fb6-dd73-41f2-a10b-f9c312bdf92c",
 	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
 	'trace',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"6d13161e-992c-4e7e-98c7-2aa16bba83c4",
+	"f28b21aa-3bf5-4396-9da1-a6397cfcaa1b",
 	'');
 INSERT INTO PE_PE
 	VALUES ("1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
@@ -1288,29 +1290,41 @@ if ( not_empty object_declaration )
   return relationship_specification;
 end if;
 // associative
-select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6004];
-if ( not_empty object_declaration )
-  LOG::LogInfo( message: "6000 6004 associative " + from_object_declaration.name + "->" + object_declaration.name );
-  relate relationship_specification to object_declaration across R6011;
-  return relationship_specification;
+// TODO - handle navigation to associator
+if ( param.allow_assoc )
+  select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->ObjectDeclaration[R6001]
+    where ( ( selected.name == object_or_role ) and ( selected.name != from_object_declaration.name ) );
+  if ( not_empty object_declaration )
+    LOG::LogInfo( message: "6001 associative " + from_object_declaration.name + "->" + object_declaration.name );
+    relate relationship_specification to object_declaration across R6011;
+    return relationship_specification;
+  end if;
 end if;
-select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6006];
-if ( not_empty object_declaration )
-  LOG::LogInfo( message: "6000 6006 associative " + from_object_declaration.name + "->" + object_declaration.name );
-  relate relationship_specification to object_declaration across R6011;
-  return relationship_specification;
-end if;
-select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6004];
-if ( not_empty object_declaration )
-  LOG::LogInfo( message: "6002 6004 associative " + from_object_declaration.name + "->" + object_declaration.name );
-  relate relationship_specification to object_declaration across R6011;
-  return relationship_specification;
-end if;
-select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6006];
-if ( not_empty object_declaration )
-  LOG::LogInfo( message: "6002 6006 associative " + from_object_declaration.name + "->" + object_declaration.name );
-  relate relationship_specification to object_declaration across R6011;
-  return relationship_specification;
+if ( not param.force_assoc )
+  select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6004] where ( selected.name != from_object_declaration.name );
+  if ( not_empty object_declaration )
+    LOG::LogInfo( message: "6000 6004 associative " + from_object_declaration.name + "->" + object_declaration.name );
+    relate relationship_specification to object_declaration across R6011;
+    return relationship_specification;
+  end if;
+  select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6006] where ( selected.name != from_object_declaration.name );
+  if ( not_empty object_declaration )
+    LOG::LogInfo( message: "6000 6006 associative " + from_object_declaration.name + "->" + object_declaration.name );
+    relate relationship_specification to object_declaration across R6011;
+    return relationship_specification;
+  end if;
+  select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6004] where ( selected.name != from_object_declaration.name );
+  if ( not_empty object_declaration )
+    LOG::LogInfo( message: "6002 6004 associative " + from_object_declaration.name + "->" + object_declaration.name );
+    relate relationship_specification to object_declaration across R6011;
+    return relationship_specification;
+  end if;
+  select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6006] where ( selected.name != from_object_declaration.name );
+  if ( not_empty object_declaration )
+    LOG::LogInfo( message: "6002 6006 associative " + from_object_declaration.name + "->" + object_declaration.name );
+    relate relationship_specification to object_declaration across R6011;
+    return relationship_specification;
+  end if;
 end if;
 
 if ( "" != object_or_role_string )
@@ -1407,6 +1421,24 @@ INSERT INTO S_SPARM
 	0,
 	'',
 	"5559efd5-1227-4a45-82e3-2bb64ab209ca",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("485e2fb4-414d-478d-b4b8-c90f9df50995",
+	"e6985402-aac6-4154-a539-ee805f76053e",
+	'allow_assoc',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"0804b884-7bee-4b1b-8c7e-ce6e088efabf",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("38b42952-eff1-43e4-a692-afdda7f83ddc",
+	"e6985402-aac6-4154-a539-ee805f76053e",
+	'force_assoc',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"485e2fb4-414d-478d-b4b8-c90f9df50995",
 	'');
 INSERT INTO PE_PE
 	VALUES ("e6985402-aac6-4154-a539-ee805f76053e",
@@ -1547,20 +1579,41 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'select_create_InstanceType',
 	'',
-	'object_declaration = param.object_declaration;
+	'// Look for an existing instance type (or set collection type) for this
+// object declaration.  If found use it, otherwise create and link one.
+object_declaration = param.object_declaration;
 if ( empty object_declaration )
   // TODO
   LOG::LogFailure( message:"select_create_InstanceType:  empty object declaration" );
   select any object_declaration from instances of ObjectDeclaration;
 end if;
 select one basic_type related by object_declaration->InstanceType[R6220]->BasicType[R6205];
-if ( empty basic_type )
+if ( param.isset )
+  select any basic_type related by basic_type->CollectionType[R6208]->SetType[R6207]->CollectionType[R6207]->BasicType[R6205];
+  return basic_type;
+end if;
+if ( not_empty basic_type )
+  return basic_type;
+else
+  // Instance type is not (yet) created, build it up.
   create object instance type_definition of TypeDefinition;
   create object instance basic_type of BasicType;
   create object instance instance_type of InstanceType;
   relate type_definition to basic_type across R6236;
   relate basic_type to instance_type across R6205;
   relate instance_type to object_declaration across R6220;
+  if ( param.isset )
+    // build up the set
+    create object instance set_type_definition of TypeDefinition;
+    create object instance set_basic_type of BasicType;
+    create object instance set_collection_type of CollectionType;
+    create object instance set_type of SetType;
+    relate set_type_definition to set_basic_type across R6236;
+    relate set_basic_type to set_collection_type across R6205;
+    relate set_collection_type to set_type across R6207;
+    relate set_collection_type to basic_type across R6208;
+    return set_basic_type;
+  end if;
 end if;
 return basic_type;',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
@@ -1691,7 +1744,10 @@ INSERT INTO S_SYNC
 	'expression = param.expression;
 select one object_declaration related by expression->BasicType[R5570]->InstanceType[R6205]->ObjectDeclaration[R6220];
 if ( empty object_declaration )
-  LOG::LogFailure( message:"select_any_ObjectDeclaration_related_by_Expression:  empty object_declaration" );
+  select one object_declaration related by expression->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208]->InstanceType[R6205]->ObjectDeclaration[R6220];
+  if ( empty object_declaration )
+    LOG::LogFailure( message:"select_any_ObjectDeclaration_related_by_Expression:  empty object_declaration" );
+  end if;
 end if;
 return object_declaration;',
 	"ccbbc697-c60c-4034-8e31-7a46032151eb",
@@ -1757,6 +1813,57 @@ INSERT INTO PE_PE
 	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("7303379d-9ea1-4635-815e-8b7d8d066f28",
+	"00000000-0000-0000-0000-000000000000",
+	'select_CodeBlock_empty',
+	'',
+	'select any code_block from instances of CodeBlock where ( false );
+return code_block;',
+	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	1,
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES ("7303379d-9ea1-4635-815e-8b7d8d066f28",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e22f9e80-0aaa-42ea-b8e0-b7566d731365",
+	"00000000-0000-0000-0000-000000000000",
+	'select_TypeDeclaration_related_UserDefinedType',
+	'',
+	'user_defined_type = param.user_defined_type;
+select one type_declaration related by user_defined_type->TypeDeclaration[R6241];
+return type_declaration;',
+	"1a85f47e-89ea-4d0e-9a09-afc952412df3",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("a50c6fc0-ea03-4354-bc03-e0d0673cdec0",
+	"e22f9e80-0aaa-42ea-b8e0-b7566d731365",
+	'user_defined_type',
+	"5f5b21a5-3fd7-4b46-970e-812947d7a192",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e22f9e80-0aaa-42ea-b8e0-b7566d731365",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("1a85f47e-89ea-4d0e-9a09-afc952412df3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<TypeDeclaration>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,

@@ -27,12 +27,13 @@ import java.io.*;
 private Serial serial = null;
 private LOAD loader = null;
 private Object empty_object = null;
+private Object empty_code_block = null;
 private Object current_project = empty_object;
 private Object current_project_domain = empty_object;
 private Object current_domain = empty_object;
 private Object current_service = empty_object;
 private Object current_object = empty_object;
-private Object current_code_block = empty_object;
+private Object current_code_block = empty_code_block;
 
 // parent masl parser
 private MaslImportParser masl_parser = null;
@@ -75,6 +76,8 @@ private void xtuml_trace( XtumlException e, String message ) {
 
 target
 @init{ try { empty_object = loader.call_function( "select_ObjectDeclaration_where_name", "false", "false" );
+             empty_code_block = loader.call_function( "select_CodeBlock_empty" );
+             current_code_block = empty_code_block;
            } catch ( XtumlException e ) { xtuml_trace( e, "" ); } }
                               : definition+; // done
 
@@ -196,12 +199,7 @@ returns [Object domain]
                                                                 loader.relate( $typeDeclaration.user_defined_type, $domain, 6235, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
-                                   | typeForwardDeclaration             
-                                                            {
-                                                              try {
-                                                                loader.relate( $typeForwardDeclaration.user_defined_type, $domain, 6235, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                   | typeForwardDeclaration // leaving child unrelated until typeDeclaration
                                    | exceptionDeclaration        
                                                             {
                                                               try {
@@ -301,6 +299,7 @@ returns [Object user_defined_type]
                                    typeVisibility
                                    pragmaList				
                                                               {
+                                                                System.err.println( "typeForwardDeclaration has name:" + $typeName.name );
                                                                 try {
                                                                   $user_defined_type = loader.call_function( "select_UserDefinedType_where_name", "", $typeName.name );
                                                                   if ( ((IModelInstance)$user_defined_type).isEmpty() ) {
@@ -327,6 +326,7 @@ returns [Object user_defined_type]
                                    typeName                 
                                    typeVisibility
                                                               {
+                                                                System.err.println( "typeDeclaration has name:" + $typeName.name );
                                                                 try {
                                                                   $user_defined_type = loader.call_function( "select_UserDefinedType_where_name", "", $typeName.name );
                                                                   if ( ((IModelInstance)$user_defined_type).isEmpty() ) {
@@ -339,12 +339,15 @@ returns [Object user_defined_type]
                                                                     loader.relate( $user_defined_type, type_declaration, 6241, "" );
                                                                     loader.set_attribute( user_defined_type, "name", $typeName.name );
                                                                     loader.set_attribute( user_defined_type, "visibility", $typeVisibility.visibility );
+                                                                  } else {
+                                                                    // declared forward
+                                                                    type_declaration = loader.call_function( "select_TypeDeclaration_related_UserDefinedType", $user_defined_type );
                                                                   }
                                                                 } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                               }
                                    description
                                    pragmaList
-                                   typeDefinition[type_declaration]
+                                   typeDefinition
                                                               {
                                                                 try {
                                                                   loader.relate( $typeDefinition.type_definition, type_declaration, 6234, "" );
@@ -354,7 +357,7 @@ returns [Object user_defined_type]
                               ;
 
 
-typeDefinition[Object type_declaration]
+typeDefinition
 returns [Object type_definition]
                               : structureTypeDefinition // done
                                                             {
@@ -1016,12 +1019,7 @@ returns [Object object_declaration]
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                               previousattribute = $attributeDefinition.attribute_declaration;
                                                             }
-                                   | identifierDefinition     
-                                                            {
-                                                              try {
-                                                                loader.relate( $identifierDefinition.identifier_declaration, $object_declaration, 5804, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                   | identifierDefinition   // creates and relates in subrule
                                    | objectServiceDeclaration 
                                                             {
                                                               try {
@@ -1111,7 +1109,7 @@ returns [Object attribute_declaration]
 attReferential [Object attribute_declaration]
 returns [Object referential_attribute_definition]
                               : ^( REFERENTIAL // done
-                                   relationshipSpec[current_object]
+                                   relationshipSpec[current_object, false, false]
                                    attributeName
                                  )                          
                                                             {
@@ -1126,7 +1124,7 @@ returns [Object referential_attribute_definition]
                               ;
 
 
-relationshipSpec[Object object_declaration]
+relationshipSpec[Object object_declaration, boolean allow_assoc, boolean force_assoc]
 returns [Object relationship_specification, Object basic_type]
 @init{ String object_or_role = ""; Object to_object = empty_object; }
                               : ^( RELATIONSHIP_SPEC // done
@@ -1137,12 +1135,11 @@ returns [Object relationship_specification, Object basic_type]
                                    )?
                                  )                          {
                                                               try {
-                                                                assert null != $relationshipReference.relationship_declaration :  "bad relationshipReferne";
-                                                                assert null != to_object : "bad to_object";
-                                                                assert null != $object_declaration : "relationshipSpec object_declaration is null";
-                                                                assert !(((IModelInstance)$object_declaration).isEmpty()) : "relationshipSpec object_declaration is empty";
-                                                                $relationship_specification = loader.call_function( "create_RelationshipSpecification", $relationshipReference.relationship_declaration, $object_declaration, object_or_role, to_object );
+                                                                $relationship_specification = loader.call_function( "create_RelationshipSpecification", $relationshipReference.relationship_declaration, $object_declaration, object_or_role, to_object, $allow_assoc, $force_assoc );
                                                                 // TODO - know about whether we need a set or not
+                                                                if (((IModelInstance)to_object).isEmpty()) {
+                                                                  to_object = loader.call_function( "select_ObjectDeclaration_where_name", "", object_or_role );
+                                                                }
                                                                 $basic_type = loader.call_function( "select_create_InstanceType", to_object, false );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
@@ -1202,7 +1199,7 @@ returns [Object identifier_declaration]
                                                               try {
                                                                 $identifier_declaration = loader.create( "IdentifierDeclaration" );
                                                                 loader.set_attribute( $identifier_declaration, "ispreferred", false );
-                                                                loader.relate( current_object, identifier_declaration, 5804, "" );
+                                                                loader.relate( $identifier_declaration, current_object, 5804, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                                    ( attributeName
@@ -2177,7 +2174,7 @@ returns [Object st]
                                                                 object_declaration = loader.call_function( "select_ObjectDeclaration_related_by_Expression", $lhs.expression );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "linkStatement:expression" ); }
                                                             }
-                                   relationshipSpec[object_declaration]
+                                   relationshipSpec[object_declaration, false, false]
                                                             {
                                                               try {
                                                                 $st = loader.create( "LinkUnlinkStatement" );
@@ -2464,8 +2461,9 @@ returns [Object st]
                                  )
                                                             {
                                                               try {
+                                                System.err.println( "forStatement" );
                                                                 $st = loader.create( "ForStatement" );
-                                                                loader.relate( $loopVariableSpec.spec, $st, 5110, "" );
+                                                                loader.relate( $loopVariableSpec.loop_spec, $st, 5110, "" );
                                                                 if ( null != $statementList.st ) {
                                                                   loader.relate( $statementList.st, $st, 5153, "" );
                                                                 }
@@ -2474,22 +2472,37 @@ returns [Object st]
                               ;
 
 loopVariableSpec
-returns [Object spec]
+returns [Object loop_spec]
+@init{ Object variable_definition = null; boolean isimplicit = false; }
                               : ^( LOOP_VARIABLE
                                    identifier
                                    REVERSE?
-                                   expression )
+                                   expression
                                                             {
+                                                System.err.println( "loopVariableSpec for " + $identifier.name );
                                                               try {
-                                                                $spec = loader.create( "LoopSpec" );
-                                                                loader.set_attribute( $spec, "isreverse", ( null != $REVERSE ) );
-                                                                loader.set_attribute( $spec, "loopVariable", $identifier.name );
-                                                                // TODO - Look up the VariableDefinition by name (within scope)
-                                                                // and link to it.
-                                                                loader.relate( $expression.expression, $spec, 5148, "" );
+                                                                $loop_spec = loader.create( "LoopSpec" );
+                                                                loader.set_attribute( $loop_spec, "isreverse", ( null != $REVERSE ) );
+                                                                loader.set_attribute( $loop_spec, "loopVariable", $identifier.name );
+                                                                Object basic_type = loader.call_function( "resolve_name", current_code_block, $expression.expression, "", $identifier.name, "4" );
+                                                                if ( ((IModelInstance)basic_type).isEmpty() ) {
+                                                System.err.println( "loopVariableSpec for " + $identifier.name + " did not exist." );
+                                                                  // Loop variables may be implicitly declared.  Create it.
+                                                                  variable_definition = loader.create( "VariableDefinition" );
+                                                                  loader.set_attribute( variable_definition, "name", $identifier.name );
+                                                                  loader.set_attribute( variable_definition, "isreadonly", true );
+                                                                  loader.relate( variable_definition, $loop_spec, 5154, "" );
+                                                                  loader.relate( variable_definition, current_code_block, 5151, "" );
+                                                                  isimplicit = true;
+                                                                }
                                                                 // TODO here figuring out loop spec subtypes.
+                                                                if ( isimplicit ) {
+                                                System.err.println( "loopVariableSpec for " + $identifier.name + " isimplicit.." );
+                                                                  loader.relate( $expression.basic_type, variable_definition, 5137, "" );
+                                                                }
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
+                                 )
                               ;
 
 
@@ -2500,7 +2513,7 @@ returns [Object spec]
 
 codeBlock[Object code_block]
 @init{ current_code_block = $code_block; }
-@after { current_code_block = null; }
+@after { current_code_block = empty_code_block; }
                               : ^( CODE_BLOCK // done
                                   ( variableDeclaration     
                                                             {
@@ -2860,7 +2873,7 @@ returns [Object link_unlink_expression, Object basic_type]
                                                                 object_declaration = loader.call_function( "select_ObjectDeclaration_related_by_Expression", $lhs.expression );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "linkStatement:expression" ); }
                                                             }
-                                   relationshipSpec[object_declaration]
+                                   relationshipSpec[object_declaration, false, false]
                                                             {
                                                               try {
                                                                 $link_unlink_expression = loader.create( "LinkUnlinkExpression" );
@@ -2894,7 +2907,7 @@ returns [Object navigation_expression, Object basic_type]
                                                                 object_declaration = loader.call_function( "select_ObjectDeclaration_related_by_Expression", $expression.expression );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "linkStatement:expression" ); }
                                                             }
-                                   relationshipSpec[object_declaration]
+                                   relationshipSpec[object_declaration, true, false]
                                                             {
                                                               try {
                                                                 $navigation_expression = loader.create( "NavigationExpression" );
@@ -2925,7 +2938,7 @@ returns [Object correlated_nav_expression, Object basic_type]
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "linkStatement:expression" ); }
                                                             }
                                    rhs=expression
-                                   relationshipSpec[object_declaration]
+                                   relationshipSpec[object_declaration, true, true]
                                  )                          {
                                                               try {
                                                                 $correlated_nav_expression = loader.create( "CorrelatedNavExpression" );
@@ -3113,7 +3126,7 @@ returns [Object terminator_name_expression, Object basic_type]
                                    identifier
                                  )                          {
                                                               try {
-                                                                $basic_type = loader.call_function( "resolve_name", current_code_block, $expression.expression, "", $identifier.name, null != current_code_block, "3" );
+                                                                $basic_type = loader.call_function( "resolve_name", current_code_block, $expression.expression, "", $identifier.name, "3" );
                                                                 // TODO here ... this should return a ServiceExpression, cuz I think TerminatorNameExpression will be created in nameExpression rule.
                                                                 // TODO here ... Should I pass in the expression above so that
                                                                 // it can get linked inside the resolve_name routine?
@@ -3161,7 +3174,8 @@ returns[Object basic_type]
                                    identifier
                                  )                          { 
                                                               try {
-                                                                $basic_type = loader.call_function( "resolve_name", current_code_block, expression, "", $identifier.name, null != current_code_block, "1" );
+                                                          System.err.println( "rule 1 " + $identifier.name );
+                                                                $basic_type = loader.call_function( "resolve_name", current_code_block, expression, "", $identifier.name, "1" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             } 
                               | ^( NAME
@@ -3169,7 +3183,8 @@ returns[Object basic_type]
                                    identifier
                                  )                          {
                                                               try {
-                                                                $basic_type = loader.call_function( "resolve_name", current_code_block, expression, $domainReference.domainname, $identifier.name, null != current_code_block, "2" );
+                                                          System.err.println( "rule 2" );
+                                                                $basic_type = loader.call_function( "resolve_name", current_code_block, expression, $domainReference.domainname, $identifier.name, "2" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | ^( FIND_ATTRIBUTE
@@ -3179,10 +3194,10 @@ returns[Object basic_type]
                                                                 Object find_attribute_name_expression = loader.create( "FindAttributeNameExpression" );
                                                                 loader.relate( $expression, find_attribute_name_expression, 5517, "" );
                                                                 // TODO current object and current where clause need to be bread crumbed
-                                                                Object attribute_declaration = loader.call_function( "select_AttributeDeclaration_where_name", current_object, $identifier.name );
+                                                          System.err.println( "rule 3" );
+                                                                $basic_type = loader.call_function( "resolve_name", current_code_block, $expression, "", $identifier.name, "5" );
                                                                 // TODO - need to link to a where clause using the attribute name
                                                                 // TODO - need to return the basic_type
-                                                                $basic_type = null;
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | compoundTypeName
@@ -3235,6 +3250,7 @@ returns [Object characteristic_expression, Object basic_type]
 	                           expression
                                    identifier
                                                             {
+                                                      System.err.println( "primeExpression has identifier name:" + $identifier.name );
                                                               try {
                                                                 $characteristic_expression = loader.create( "CharacteristicExpression" );
                                                                 loader.relate( $expression.expression, $characteristic_expression, 5504, "" );
