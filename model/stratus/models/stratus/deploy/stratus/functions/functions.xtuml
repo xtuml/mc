@@ -1004,7 +1004,7 @@ EnumeratorItem
 */ 
 expression = param.expression;
 code_block = param.code_block;
-message = ""; d = ""; n = ""; // string UDTs
+message = ""; d = ""; n = ""; s = ""; // string UDTs
 d = param.domainname; n = param.name;
 message = "resolve_name( " + param.trace + ", " + d + "::" + n + ", ";
 if ( not_empty code_block )
@@ -1014,19 +1014,39 @@ if ( not_empty code_block )
     if ( empty state )
       LOG::LogFailure( message:"empty service and state" );
     else
-      n = state.name;
+      s = state.name;
     end if;
   else
-    n = service.name;
+    s = service.name;
   end if;
-  message = message + "true(" + n + ")";
+  message = message + "true(" + s + ")";
 else
   message = message + "false";
 end if;
 message = message + " ) - ";
 LOG::LogInfo( message: message + "starting..." );
-// CDS not sure I need this
+// TODO not sure I need this
 select any basic_type from instances of BasicType where ( false );
+
+// charactistics
+if ( "elements" == n ) // UDT strings
+  select one basic_type related by expression->BasicType[R5570];
+  select one instance_type related by basic_type->InstanceType[R6205];
+  if ( not_empty instance_type )
+    LOG::LogInfo( message: message + "elements instance type" );
+    return basic_type;
+  end if;
+  select one collection_type related by basic_type->CollectionType[R6205];
+  if ( not_empty collection_type )
+    LOG::LogInfo( message: message + "elements collection type" );
+    return basic_type;
+  else
+    LOG::LogFailure( message: message + "was not a collection type" );
+  end if;
+elif ( "first" == n ) // UDT strings
+elif ( "last" == n ) // UDT strings
+else
+end if;
 
 // variable
 if ( not_empty code_block )
@@ -1043,10 +1063,8 @@ end if;
 
 // parameter
 if ( not_empty code_block )
-  //select one parameter_definition related by code_block->Service[R5403]->ParameterDefinition[R5204] where ( selected.name == param.name );
   select one parameter_definition related by code_block->Service[R5403]->ParameterDefinition[R5204];
   while ( not_empty parameter_definition )
-    LOG::LogInfo( message: message + "searching for parameter " + param.name + " versus " + parameter_definition.name );
     if ( parameter_definition.name == param.name )
       create object instance parameter_name_expression of ParameterNameExpression;
       relate expression to parameter_name_expression across R5517;
@@ -1220,24 +1238,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'create_RelationshipSpecification',
 	'',
-	'/* The following trace shows that we are not parsing DISP_evaluating.al correctly.
-
-create_RelationshipSpec Display Operation
-6000 6004 associative Display->Display
-select_create_InstanceType:  empty object declaration
-create_RelationshipSpec Display Calculator
-normal ltr from Display->Calculator
-select_create_InstanceType:  empty object declaration
-create_RelationshipSpec Display Operation
-6000 6004 associative Display->Display
-select_create_InstanceType:  empty object declaration
-create_RelationshipSpec Display Calculator
-normal ltr from Display->Calculator
-select_create_InstanceType:  empty object declaration
-
-*/
-
-relationship_declaration = param.relationship_declaration;
+	'relationship_declaration = param.relationship_declaration;
 from_object_declaration = param.from_object_declaration;
 object_or_role = from_object_declaration.name; // UDT strings
 object_or_role = param.object_or_role;
@@ -1258,8 +1259,6 @@ if ( not_empty to_object_declaration )
   relate relationship_specification to to_object_declaration across R6011;
   return relationship_specification;
 end if;
-
-LOG::LogInfo( message:"create_RelationshipSpec " + from_object_declaration.name + " " + object_or_role_string );
 
 // Resolve with only relationship and from object when possible.
 // 1) Look across normal normal non-reflexive binary.
@@ -1657,32 +1656,52 @@ relate lhs to dot_expression across R5569;
 
 select any basic_type from instances of BasicType where ( false );
 
-select one expression_basic_type related by expression->BasicType[R5570];
-if ( empty expression_basic_type )
-  LOG::LogFailure( message:"create_DotExpression:  lhs has no type" );
+select one lhs_basic_type related by expression->BasicType[R5570];
+if ( empty lhs_basic_type )
+  LOG::LogFailure( message:"create_DotExpression:  lhs has no type - " + param.name );
   return basic_type;
 end if;
 
 // TODO - provide subtyping maybe from DotExpression <- SelectedAttributeExpression, SelectedComponentExpression, TypeNameExpression, ObjectNameExpresion
 
 // Look for attribute access.
-select one instance_type related by expression_basic_type->InstanceType[R6205];
+select one instance_type related by lhs_basic_type->InstanceType[R6205];
 if ( not_empty instance_type )
   select any attribute_declaration related by instance_type->ObjectDeclaration[R6220]->AttributeDeclaration[R5802] where ( selected.name == param.name );
   if ( not_empty attribute_declaration )
     // create selected attribute expression
     create object instance selected_attribute_expression of SelectedAttributeExpression;
-      relate selected_attribute_expression to attribute_declaration across R5541;
-      relate selected_attribute_expression to dot_expression across R5572;
-      select one basic_type related by attribute_declaration->BasicType[R5803];
+    relate selected_attribute_expression to attribute_declaration across R5541;
+    relate selected_attribute_expression to dot_expression across R5572;
+    select one basic_type related by attribute_declaration->BasicType[R5803];
+    LOG::LogInfo( message:"create_DotExpression:  attribute:  " + param.name );
+    return basic_type;
+  end if;
+  // Look for instance operation access.
+  select any service related by instance_type->ObjectDeclaration[R6220]->ObjectService[R5808]->Service[R5203] where ( selected.name == param.name );
+  if ( not_empty service )
+    // TODO - link invocations to dot expression correctly
+    select one basic_type related by service->BasicType[R5205];
+    if ( empty basic_type )
+      // service
+      create object instance instance_service_invocation of InstanceServiceInvocation;
+      create object instance service_invocation of ServiceInvocation;
+      relate instance_service_invocation to service_invocation across R5610;
+    else
+      // function
+      create object instance instance_function_invocation of InstanceFunctionInvocation;
+      create object instance function_invocation of FunctionInvocation;
+      relate instance_function_invocation to function_invocation across R5600;
+    end if;
+    LOG::LogInfo( message:"create_DotExpression:  object service invocation:  " + param.name );
     return basic_type;
   end if;
 end if;
 
 // Look for structure element.
-select one structure_type related by expression_basic_type->UserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
+select one structure_type related by lhs_basic_type->UserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
 if ( not_empty structure_type )
-  select one structure_element related by structure_type->StructureElement[R6244] where ( selected.name == param.name );
+  select one structure_element related by structure_type->StructureElement[R6244];
   while ( not_empty structure_element )
     if ( param.name == structure_element.name )
       // create selected component expression
@@ -1690,13 +1709,14 @@ if ( not_empty structure_type )
       relate selected_component_expression to structure_element across R5543;
       relate selected_component_expression to dot_expression across R5571;
       select one basic_type related by structure_element->BasicType[R6230];
+      LOG::LogInfo( message:"create_DotExpression:  structure element:  " + param.name );
       return basic_type;
     end if;
     select one structure_element related by structure_element->StructureElement[R6243.''precedes''];
   end while;
 end if;
 
-// Look for attribute and structure member.
+LOG::LogFailure( message:"create_DotExpression:  found neither attribute access nor structure member access " + param.name );
 
 return basic_type;',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
@@ -1864,6 +1884,37 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("55fa57d5-d44f-48f8-8323-3cb337bcaec4",
+	"00000000-0000-0000-0000-000000000000",
+	'select_BasicType_related_CollectionType',
+	'',
+	'collection_basic_type = param.collection_basic_type;
+select one basic_type related by collection_basic_type->CollectionType[R6205]->BasicType[R6208];
+// TODO - remove
+if ( empty basic_type )
+  return collection_basic_type;
+end if;
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("289a6fff-8b46-43c0-8136-eba6399f4e1f",
+	"55fa57d5-d44f-48f8-8323-3cb337bcaec4",
+	'collection_basic_type',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("55fa57d5-d44f-48f8-8323-3cb337bcaec4",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,
