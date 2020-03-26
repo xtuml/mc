@@ -33,6 +33,7 @@ private Object current_project_domain = empty_object;
 private Object current_domain = empty_object;
 private Object current_service = empty_object;
 private Object current_object = empty_object;
+private Object current_ooastate = empty_object;
 private Object current_code_block = empty_code_block;
 
 // parent masl parser
@@ -1744,6 +1745,7 @@ activityDefinition
 domainServiceDefinition
 returns [Object service]
 @init{ Object code_block = empty_code_block; }
+@after{ current_service = empty_object; }
                               : ^( DOMAIN_SERVICE_DEFINITION
                                    serviceVisibility
                                    domainReference
@@ -1753,13 +1755,11 @@ returns [Object service]
                                                             {
                                                               try {
                                                                 // TODO - must deal with overloading by including parameter list in identification.
-                                                                code_block = loader.create( "CodeBlock" );
                                                                 $service = loader.call_function( "select_Service_where_name", $domainReference.domainname, $serviceName.name );
                                                                 current_service = $service;
-                                                                loader.relate( code_block, $service, 5403, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
-                                   codeBlock[code_block]
+                                   codeBlock
                                    pragmaList
                                  )
                               ;
@@ -1767,7 +1767,7 @@ returns [Object service]
 
 terminatorServiceDefinition
 returns [Object service]
-@init{ Object code_block = empty_code_block; }
+@after{ current_service = empty_object; }
                               : ^( TERMINATOR_SERVICE_DEFINITION
                                    serviceVisibility
                                    domainReference
@@ -1777,13 +1777,11 @@ returns [Object service]
                                    returnType?
                                                             {
                                                               try {
-                                                                code_block = loader.create( "CodeBlock" );
                                                                 $service = loader.call_function( "select_DomainTerminatorService_where_name", $domainReference.domainname, $terminatorName.terminatorname, $serviceName.name );
                                                                 current_service = $service;
-                                                                loader.relate( code_block, $service, 5403, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
-                                   codeBlock[code_block]
+                                   codeBlock
                                    pragmaList
                                  )
                               ;
@@ -1791,7 +1789,7 @@ returns [Object service]
 
 projectTerminatorServiceDefinition
 returns [Object service]
-@init{ Object code_block = empty_code_block; }
+@after{ current_service = empty_object; }
                               : ^( TERMINATOR_SERVICE_DEFINITION
                                    serviceVisibility
                                    domainReference
@@ -1801,13 +1799,11 @@ returns [Object service]
                                    returnType?
                                                             {
                                                               try {
-                                                                code_block = loader.create( "CodeBlock" );
                                                                 $service = loader.call_function( "select_ProjectTerminatorService_where_name", $domainReference.domainname, $terminatorName.terminatorname, $serviceName.name );
                                                                 current_service = $service;
-                                                                loader.relate( code_block, $service, 5403, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
-                                   codeBlock[code_block]
+                                   codeBlock
                                    pragmaList
                                  )
                               ;
@@ -1816,8 +1812,7 @@ returns [Object service]
 
 objectServiceDefinition
 returns [Object service]
-@init{ Object code_block = empty_code_block; }
-@after{ current_object = empty_object; }
+@after{ current_object = empty_object; current_service = empty_object; }
                               : ^( OBJECT_SERVICE_DEFINITION
                                    serviceVisibility
                                    INSTANCE?
@@ -1827,14 +1822,12 @@ returns [Object service]
                                    returnType?
                                                             {
                                                               try {
-                                                                code_block = loader.create( "CodeBlock" );
                                                                 $service = loader.call_function( "select_ObjectService_where_name", $fullObjectReference.object_declaration, $serviceName.name );
                                                                 current_service = $service;
-                                                                loader.relate( code_block, $service, 5403, "" );
                                                                 current_object = $fullObjectReference.object_declaration;
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
-                                   codeBlock[code_block]
+                                   codeBlock
                                    pragmaList
                                  )
                               ;
@@ -1842,8 +1835,7 @@ returns [Object service]
 
 stateDefinition
 returns [Object ooastate]
-@init{ Object code_block = empty_code_block; }
-@after{ current_object = empty_object; }
+@after{ current_object = empty_object; current_ooastate = empty_object; }
                               : ^( STATE_DEFINITION
                                    stateType
                                    fullObjectReference
@@ -1851,13 +1843,12 @@ returns [Object ooastate]
                                    parameterList
                                                             {
                                                               try {
-                                                                code_block = loader.create( "CodeBlock" );
                                                                 ooastate = loader.call_function( "select_State_related_where_name", $fullObjectReference.object_declaration, $stateName.name );
-                                                                loader.relate( code_block, ooastate, 6115, "" );
+                                                                current_ooastate = ooastate;
                                                                 current_object = $fullObjectReference.object_declaration;
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
-                                   codeBlock[code_block]
+                                   codeBlock
                                    pragmaList
                                  )
                               ;
@@ -1877,7 +1868,7 @@ returns [Object st]
                                                               Object code_block = empty_code_block;
                                                             }
                               : ^( STATEMENT
-                                   ( codeBlock[code_block]  // In MASL, codeBlock is never a child of statement.
+                                   ( codeBlock
                                    | assignmentStatement    
                                                             {
                                                               try {
@@ -2519,10 +2510,22 @@ returns [Object loop_spec]
 // Code Blocks
 //---------------------------------------------------------
 
-codeBlock[Object code_block]
-@init{ current_code_block = $code_block; }
+codeBlock
+returns [Object code_block]
 @after { current_code_block = empty_code_block; }
                               : ^( CODE_BLOCK
+                                                            {
+                                                              try {
+                                                                $code_block = loader.create( "CodeBlock" );
+                                                                current_code_block = $code_block;
+                                                                // TODO - nest the code_block instances.
+                                                                if ( null != current_service ) {
+                                                                  loader.relate( $codeBlock.code_block, current_service, 5403, "" );
+                                                                } else {
+                                                                  loader.relate( $codeBlock.code_block, current_ooastate, 6115, "" );
+                                                                }
+                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
+                                                            }
                                   ( variableDeclaration     
                                                             {
                                                               try {
@@ -2926,9 +2929,11 @@ returns [Object navigation_expression, Object basic_type]
                                                             }
                                    ( whereClause           
                                                             {
-                                                              try {
-                                                                loader.relate( $whereClause.expression, $navigation_expression, 5530, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
+                                                              if ( null != $whereClause.expression ) {
+                                                                try {
+                                                                  loader.relate( $whereClause.expression, $navigation_expression, 5530, "" );
+                                                                } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
+                                                              }
                                                             }
                                    )?
                                  )                          
@@ -2963,7 +2968,7 @@ returns [Object correlated_nav_expression, Object basic_type]
 orderByExpression
 returns [Object ordering_expression, Object basic_type]
 @init{
-  boolean instances = true;
+  boolean instances = false;
   boolean isreverse = false;
   Object instance_ordering_expression = null;
   Object structure_ordering_expression = null;
@@ -2975,43 +2980,14 @@ returns [Object ordering_expression, Object basic_type]
                                                             {
                                                               try {
                                                                 $ordering_expression = loader.create( "OrderingExpression" );
-                                                                loader.set_attribute( $ordering_expression, "isreverse", isreverse );
-                                                                loader.relate( $expression.expression, $ordering_expression, 5535, "" );
-                                                                // TODO need to determine if expression is collection of instances
-                                                                // (sequence of instances, or find) or sequence of structures.
-                                                                // select one find_expression related by $expression.expression->FindExpression[R5517]
-                                                                // if ( not_empty find_expression ) ...
-                                                                // This will need its own function.
+                                                                $basic_type = loader.call_function( "OrderingExpression_initialize", $ordering_expression, $expression.expression, isreverse );
                                                                 // TODO is reverse on each component or only at the top expression?
-                                                                if ( instances ) {
-                                                                  instance_ordering_expression = loader.create( "InstanceOrderingExpression" );
-                                                                  loader.relate( instance_ordering_expression, $ordering_expression, 5534, "" );
-                                                                } else {
-                                                                  structure_ordering_expression = loader.create( "StructureOrderingExpression" );
-                                                                  loader.relate( structure_ordering_expression, $ordering_expression, 5534, "" );
-                                                                }
-                                                                $basic_type = $expression.basic_type;
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                                    ( sortOrder              
                                                             {
                                                               try {
-                                                                if ( $sortOrder.isreverse ) {
-                                                                  loader.set_attribute( $ordering_expression, "isreverse", true );
-                                                                }
-                                                                if ( instances ) {
-                                                                  // TODO select_attribute_declaration...
-                                                                  // TODO Get the class from the instance, then get the attribute
-                                                                  // from the name.
-                                                                  Object attribute_declaration = null;
-                                                                  loader.relate( instance_ordering_expression, attribute_declaration, 5563, "" );
-                                                                } else {
-                                                                  // TODO select_structure_element...
-                                                                  // TODO Get the structure from the collection, then get the element
-                                                                  // from the name.
-                                                                  Object structure_element = null;
-                                                                  loader.relate( structure_ordering_expression, structure_element, 5564, "" );
-                                                                }
+                                                                loader.call_function( "OrderingExpression_sort", $ordering_expression, $sortOrder.component, $sortOrder.isreverse );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                                    )* 

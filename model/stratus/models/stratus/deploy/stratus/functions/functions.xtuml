@@ -2035,6 +2035,151 @@ INSERT INTO PE_PE
 	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("ff9cb924-1cfd-4c72-ba29-c0b2515d7a4f",
+	"00000000-0000-0000-0000-000000000000",
+	'OrderingExpression_initialize',
+	'',
+	'ordering_expression = param.ordering_expression;
+child_expression = param.child_expression;
+
+ordering_expression.isreverse = param.isreverse;
+relate ordering_expression to child_expression across R5535;
+
+// Determine whether we have structures or instances.
+select one child_basic_type related by child_expression->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
+select one instance_type related by child_basic_type->InstanceType[R6205];
+if ( not_empty instance_type )
+  // We have a collection of instances.
+  create object instance instance_ordering_expression of InstanceOrderingExpression;
+  relate instance_ordering_expression to ordering_expression across R5534;
+else
+  // We have a collection of structures
+  create object instance structure_ordering_expression of StructureOrderingExpression;
+  relate structure_ordering_expression to ordering_expression across R5534;
+end if;
+
+// Create an anonymous sequence of the same element as the child expression.
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance collection_type of CollectionType;
+create object instance sequence_type of SequenceType;
+relate basic_type to type_definition across R6236;
+relate collection_type to basic_type across R6205;
+relate sequence_type to collection_type across R6207;
+relate collection_type to child_basic_type across R6208;
+
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("57dc5c23-4548-48db-84a0-4e96fc842d73",
+	"ff9cb924-1cfd-4c72-ba29-c0b2515d7a4f",
+	'child_expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"1c8603d8-6416-45e4-bf7b-ae1875ca1bba",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a34433be-569d-4a43-ad86-e1542b465e9f",
+	"ff9cb924-1cfd-4c72-ba29-c0b2515d7a4f",
+	'isreverse',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"57dc5c23-4548-48db-84a0-4e96fc842d73",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1c8603d8-6416-45e4-bf7b-ae1875ca1bba",
+	"ff9cb924-1cfd-4c72-ba29-c0b2515d7a4f",
+	'ordering_expression',
+	"c91ad4ef-f132-440a-8a85-a39814523746",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("c91ad4ef-f132-440a-8a85-a39814523746",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<OrderingExpression>',
+	'',
+	'',
+	'../../../../../../ooamasl/models/ooamasl/expression/expression.xtuml');
+INSERT INTO PE_PE
+	VALUES ("ff9cb924-1cfd-4c72-ba29-c0b2515d7a4f",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("8f931a95-3edb-4500-baad-a96d4012f49c",
+	"00000000-0000-0000-0000-000000000000",
+	'OrderingExpression_sort',
+	'',
+	'ordering_expression = param.ordering_expression;
+
+select one child_basic_type related by ordering_expression->Expression[R5535]->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
+select one instance_ordering_expression related by ordering_expression->InstanceOrderingExpression[R5534];
+if ( not_empty instance_ordering_expression )
+  select one instance_type related by child_basic_type->InstanceType[R6205];
+  select one object_declaration related by instance_type->ObjectDeclaration[R6220];
+  select any attribute_declaration related by object_declaration->AttributeDeclaration[R5802] where ( selected.name == param.name );
+  if ( not_empty attribute_declaration )
+    relate attribute_declaration to instance_ordering_expression across R5563;
+  end if;
+else
+  select one structure_ordering_expression related by ordering_expression->StructureOrderingExpression[R5534];
+  select one structure_type related by child_basic_type->UserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
+  select one structure_element related by structure_type->StructureElement[R6244];
+  while ( not_empty structure_element )
+    if ( structure_element.name == param.name )
+      relate structure_element to structure_ordering_expression across R5564;
+      break;
+    end if;
+    select one structure_element related by structure_element->StructureElement[R6243.''precedes''];
+  end while;
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("efa67cc3-18fc-4810-a81a-04a468df16f0",
+	"8f931a95-3edb-4500-baad-a96d4012f49c",
+	'ordering_expression',
+	"c91ad4ef-f132-440a-8a85-a39814523746",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("fd073159-60b1-48d4-a488-6bf5ac58531a",
+	"8f931a95-3edb-4500-baad-a96d4012f49c",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"efa67cc3-18fc-4810-a81a-04a468df16f0",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6fa06f2c-cf95-4a6f-9ce8-e007a6f29232",
+	"8f931a95-3edb-4500-baad-a96d4012f49c",
+	'isreverse',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"fd073159-60b1-48d4-a488-6bf5ac58531a",
+	'');
+INSERT INTO PE_PE
+	VALUES ("8f931a95-3edb-4500-baad-a96d4012f49c",
+	1,
+	"77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("77bc6bb7-31af-4a74-b7d5-3525c62d7e1c",
 	1,
