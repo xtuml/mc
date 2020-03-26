@@ -160,16 +160,6 @@ public class MaslImportParser implements IGenericLoader {
             }
             setOutput( output );
         }
-        else {
-            File f = new File( fn );
-            out = f.getName();
-            try {
-                output = new PrintStream( out + ".smasl" );
-            } catch ( FileNotFoundException e ) {
-                System.err.println( "-parse: ERROR " + e );
-            }
-            setOutput( output );
-        }
 
         // parse the file
         parse( rule, fn );
@@ -178,7 +168,7 @@ public class MaslImportParser implements IGenericLoader {
     }
     // parse a MASL domain
     public void parseDomain( String directory, String out ) {
-        File            dir;
+        File            dir, modFile = null;
         File[]          domainFiles;
         
         PrintStream     output = System.out;
@@ -212,33 +202,32 @@ public class MaslImportParser implements IGenericLoader {
             return;
         }
 
-        // parse the domain file
-        boolean found_mod = false;
+        // find the domain (.mod) file
         for ( File f : domainFiles ) {
             if ( Pattern.matches( ".*\\.mod", f.getName() ) ) {
-
-                if ( null != out && out.equals( "auto" ) ) {
-                    // set the domain name
-                    domainName = f.getName().substring( 0, f.getName().length() - 4 );
-                    try {
-                        output = new PrintStream( domainName + ".smasl" );
-                    } catch ( FileNotFoundException e ) {
-                        System.err.println( "-parse: ERROR " + e );
-                    }
-                    setOutput( output );
-                }
-
-                // parse the file
-                parse( "target", f.getPath() );
-                found_mod = true;
+                modFile = f;
                 break;
             }
         }
 
-        if ( !found_mod ) {
+        // parse interface files not matching the mod file and then the mod file
+        if ( null != modFile ) {
+            String[] modFileTokens = modFile.getName().split("\\.(?=[^\\.]+$)");
+            for ( File f : domainFiles ) {
+                if ( Pattern.matches( ".*\\.int", f.getName() ) ) {
+                    String[] intFileTokens = f.getName().split("\\.(?=[^\\.]+$)");
+                    if ( ! intFileTokens[0].equals( modFileTokens[0] ) ) {
+                      parse( "target", f.getPath() );
+                    }
+                }
+            }
+            // parse the domain (mod) file
+            parse( "target", modFile.getPath() );
+        } else {
             System.err.println( "-parseDomain: ERROR no .mod file found in directory" );
             return;
         }
+
 
         // parse all activities ( according the defined file extension convention )
         for ( File f : domainFiles ) {
@@ -247,7 +236,7 @@ public class MaslImportParser implements IGenericLoader {
                  Pattern.matches( ".*\\.ext", f.getName() ) ||
                  Pattern.matches( ".*\\.scn", f.getName() ) ||
                  Pattern.matches( ".*\\.al", f.getName() ) ||
-                 Pattern.matches( ".*\\.trTODO", f.getName() ) ) {
+                 Pattern.matches( ".*\\.tr", f.getName() ) ) {
                      
                 // parse the file
                 parse( "activityDefinition", f.getPath() );
@@ -297,19 +286,6 @@ public class MaslImportParser implements IGenericLoader {
         boolean found_prj = false;
         for ( File f : projectFiles ) {
             if ( Pattern.matches( ".*\\.prj", f.getName() ) ) {
-
-                if ( null != out && out.equals( "auto" ) ) {
-                    // set the project name
-                    projectName = f.getName().substring( 0, f.getName().length() - 4 );
-                    try {
-                        output = new PrintStream( projectName + ".smasl" );
-                    } catch ( FileNotFoundException e ) {
-                        System.err.println( "-parse: ERROR " + e );
-                    }
-                    setOutput( output );
-                }
-
-                // parse the file
                 parse( "target", f.getPath() );
                 found_prj = true;
                 break;

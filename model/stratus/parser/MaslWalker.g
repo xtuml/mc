@@ -75,16 +75,14 @@ private void xtuml_trace( XtumlException e, String message ) {
 }
 
 target
+                              : definition+;
+
+definition
 @init{ try { empty_object = loader.call_function( "select_ObjectDeclaration_where_name", "false", "false" );
              empty_code_block = loader.call_function( "select_CodeBlock_empty" );
              current_code_block = empty_code_block;
            } catch ( XtumlException e ) { xtuml_trace( e, "" ); } }
-                              : definition+; // done
-
-definition
-@init{ try { empty_object = loader.call_function( "select_ObjectDeclaration_where_name", "false", "false" );
-           } catch ( XtumlException e ) { xtuml_trace( e, "" ); } }
-                              : projectDefinition // done
+                              : projectDefinition
                               | domainDefinition
                               ;
 
@@ -95,7 +93,7 @@ definition
 
 identifier
 returns [String name]
-                              : Identifier                  { // done
+                              : Identifier                  {
                                                               $name = $Identifier.text;
                                                             }
                               ;
@@ -103,7 +101,7 @@ returns [String name]
 
 projectDefinition
 returns [Object project]
-                              : ^( PROJECT // done
+                              : ^( PROJECT
                                    projectName              {
                                                               try {
                                                                 $project = loader.create( "Project" );
@@ -124,7 +122,7 @@ returns [Object project]
 
 projectDomainDefinition
 returns [Object project_domain]
-                              : ^( DOMAIN // done
+                              : ^( DOMAIN
                                    projectDomainReference   
                                    description              {
                                                               try {
@@ -147,7 +145,7 @@ returns [Object project_domain]
 
 projectName
 returns [String name]
-                              : ^( PROJECT_NAME // done
+                              : ^( PROJECT_NAME
                                    identifier               { $name = $identifier.name; }
                                 )
                               ;
@@ -159,12 +157,16 @@ returns [String name]
 
 domainDefinition
 returns [Object domain]
-                              : ^( DOMAIN // done
+                              : ^( DOMAIN
                                    domainName               {
                                                               try {
-                                                                $domain = loader.create( "Domain" );
+                                                                // Some interface files declare the domain with test objects.  Allow it.
+                                                                $domain = loader.call_function( "select_Domain_where_name", $domainName.domainname );
+                                                                if ( ((IModelInstance)$domain).isEmpty() ) {
+                                                                  $domain = loader.create( "Domain" );
+                                                                  loader.set_attribute( $domain, "name", $domainName.domainname );
+                                                                }
                                                                 current_domain = $domain;
-                                                                loader.set_attribute( $domain, "name", $domainName.domainname );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                                    description
@@ -213,29 +215,24 @@ returns [Object domain]
 
 domainName
 returns [String domainname]
-                              : ^( DOMAIN_NAME // done
+                              : ^( DOMAIN_NAME
                                    identifier               { $domainname = $identifier.name; }
                                  )
                               ;
 
 domainReference
 returns [String domainname]
-                              : domainName                  { $domainname = $domainName.domainname; } // done
-                              // TODO - Might need to parse the interface file here.
+                              : domainName                  { $domainname = $domainName.domainname; }
                               ;
-
 
 projectDomainReference
 returns [String domainname]
-                              : domainName                  { $domainname = $domainName.domainname; } // done
-                              // TODO - Might need to parse the interface file here.
+                              : domainName                  { $domainname = $domainName.domainname; }
                               ;
-
-
 
 optionalDomainReference
 returns [String domainname, boolean defaulted]
-                              : domainReference             { $domainname = $domainReference.domainname; $defaulted = false; } // done
+                              : domainReference             { $domainname = $domainReference.domainname; $defaulted = false; }
                               | /* blank */                 { $domainname = ""; $defaulted = true;}
                               ;
 
@@ -246,7 +243,7 @@ returns [String domainname, boolean defaulted]
 //---------------------------------------------------------
 exceptionDeclaration
 returns [Object rejection]
-                              : ^( EXCEPTION // done
+                              : ^( EXCEPTION
                                    exceptionName            
                                    exceptionVisibility      
                                    pragmaList
@@ -262,13 +259,13 @@ returns [Object rejection]
 
 exceptionName
 returns [ String exceptionname ]
-                              : ^( EXCEPTION_NAME // done
+                              : ^( EXCEPTION_NAME
                                    identifier)              { $exceptionname = $identifier.name; }
                               ;
 
 exceptionReference
 returns [Object exception_reference]
-                              : optionalDomainReference // done
+                              : optionalDomainReference
                                 exceptionName               
                                                               {
                                                                 try {
@@ -284,7 +281,7 @@ returns [Object exception_reference]
 
 exceptionVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = "Visibility::private"; } // done
+                              : PRIVATE                     { $visibility = "Visibility::private"; }
                               | PUBLIC                      { $visibility = "Visibility::public"; }
                               ;
 
@@ -294,12 +291,11 @@ returns [String visibility]
 
 typeForwardDeclaration
 returns [Object user_defined_type]
-                              : ^( TYPE_DECLARATION // done
+                              : ^( TYPE_DECLARATION
                                    typeName                 
                                    typeVisibility
                                    pragmaList				
                                                               {
-                                                                System.err.println( "typeForwardDeclaration has name:" + $typeName.name );
                                                                 try {
                                                                   $user_defined_type = loader.call_function( "select_UserDefinedType_where_name", "", $typeName.name );
                                                                   if ( ((IModelInstance)$user_defined_type).isEmpty() ) {
@@ -308,10 +304,10 @@ returns [Object user_defined_type]
                                                                     $user_defined_type = loader.create( "UserDefinedType" );
                                                                     Object type_declaration = loader.create( "TypeDeclaration" );
                                                                     loader.relate( basic_type, type_definition, 6236, "" );
-                                                                    loader.relate( user_defined_type, basic_type, 6205, "" );
+                                                                    loader.relate( $user_defined_type, basic_type, 6205, "" );
                                                                     loader.relate( $user_defined_type, type_declaration, 6241, "" );
-                                                                    loader.set_attribute( user_defined_type, "name", $typeName.name );
-                                                                    loader.set_attribute( user_defined_type, "visibility", $typeVisibility.visibility );
+                                                                    loader.set_attribute( $user_defined_type, "name", $typeName.name );
+                                                                    loader.set_attribute( $user_defined_type, "visibility", $typeVisibility.visibility );
                                                                   }
                                                                 } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                               }
@@ -321,12 +317,11 @@ returns [Object user_defined_type]
 
 typeDeclaration
 returns [Object user_defined_type]
-@init{ Object type_declaration = null; }
-                              : ^( TYPE // done
+@init{ Object type_declaration = null; boolean created = false; }
+                              : ^( TYPE
                                    typeName                 
                                    typeVisibility
                                                               {
-                                                                System.err.println( "typeDeclaration has name:" + $typeName.name );
                                                                 try {
                                                                   $user_defined_type = loader.call_function( "select_UserDefinedType_where_name", "", $typeName.name );
                                                                   if ( ((IModelInstance)$user_defined_type).isEmpty() ) {
@@ -335,10 +330,11 @@ returns [Object user_defined_type]
                                                                     $user_defined_type = loader.create( "UserDefinedType" );
                                                                     type_declaration = loader.create( "TypeDeclaration" );
                                                                     loader.relate( basic_type, type_definition, 6236, "" );
-                                                                    loader.relate( user_defined_type, basic_type, 6205, "" );
+                                                                    loader.relate( $user_defined_type, basic_type, 6205, "" );
                                                                     loader.relate( $user_defined_type, type_declaration, 6241, "" );
-                                                                    loader.set_attribute( user_defined_type, "name", $typeName.name );
-                                                                    loader.set_attribute( user_defined_type, "visibility", $typeVisibility.visibility );
+                                                                    loader.set_attribute( $user_defined_type, "name", $typeName.name );
+                                                                    loader.set_attribute( $user_defined_type, "visibility", $typeVisibility.visibility );
+                                                                    created = true;
                                                                   } else {
                                                                     // declared forward
                                                                     type_declaration = loader.call_function( "select_TypeDeclaration_related_UserDefinedType", $user_defined_type );
@@ -349,9 +345,11 @@ returns [Object user_defined_type]
                                    pragmaList
                                    typeDefinition
                                                               {
-                                                                try {
-                                                                  loader.relate( $typeDefinition.type_definition, type_declaration, 6234, "" );
-                                                                } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
+                                                                if ( created ) { // TODO - this is needed until private/public is resolved.
+                                                                  try {
+                                                                    loader.relate( $typeDefinition.type_definition, type_declaration, 6234, "" );
+                                                                  } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
+                                                                }
                                                               }
                                  )
                               ;
@@ -359,7 +357,7 @@ returns [Object user_defined_type]
 
 typeDefinition
 returns [Object type_definition]
-                              : structureTypeDefinition // done
+                              : structureTypeDefinition
                                                             {
                                                               try {
                                                                 $type_definition = loader.create( "TypeDefinition" );
@@ -409,7 +407,7 @@ returns [Object type_definition]
 
 typeVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = "Visibility::private"; } // done
+                              : PRIVATE                     { $visibility = "Visibility::private"; }
                               | PUBLIC                      { $visibility = "Visibility::public"; }
                               ;
 
@@ -418,7 +416,7 @@ returns [String visibility]
 // Constrained Type
 constrainedTypeDefinition
 returns [Object constrained_type]
-                              : ^( CONSTRAINED_TYPE // done
+                              : ^( CONSTRAINED_TYPE
                                    typeReference
                                    typeConstraint
                                  )                          {
@@ -432,7 +430,7 @@ returns [Object constrained_type]
 
 typeConstraint
 returns [Object type_constraint]
-                              : rangeConstraint // done
+                              : rangeConstraint
                                                             {
                                                               try {
                                                                 $type_constraint = loader.create( "TypeConstraint" );
@@ -457,7 +455,7 @@ returns [Object type_constraint]
 
 rangeConstraint
 returns [Object range_constraint]
-                              : ^( RANGE // done
+                              : ^( RANGE
                                    expression
                                  )                          {
                                                               try {
@@ -469,7 +467,7 @@ returns [Object range_constraint]
 
 deltaConstraint
 returns [Object delta_constraint]
-                              : ^( DELTA // done
+                              : ^( DELTA
                                    expression
                                    rangeConstraint
                                  )                          {
@@ -483,7 +481,7 @@ returns [Object delta_constraint]
 
 digitsConstraint
 returns [Object digits_constraint]
-                              : ^( DIGITS // done
+                              : ^( DIGITS
                                    expression
                                    rangeConstraint
                                  )                          {
@@ -499,7 +497,7 @@ returns [Object digits_constraint]
 structureTypeDefinition
 returns [Object structure_type]
 @init{ Object previouscomponent = null; }
-                              : ^( STRUCTURE // done
+                              : ^( STRUCTURE
                                                             {
                                                               try {
                                                                 $structure_type = loader.create( "StructureType" );
@@ -523,7 +521,7 @@ returns [Object structure_type]
 
 structureComponentDefinition
 returns [Object structure_element]
-                              : ^( COMPONENT_DEFINITION // done
+                              : ^( COMPONENT_DEFINITION
                                    componentName
                                    typeReference
                                    expression?
@@ -543,7 +541,7 @@ returns [Object structure_element]
 
 componentName
 returns [String componentname]
-                              : ^( COMPONENT_NAME // done
+                              : ^( COMPONENT_NAME
                                    identifier
                                  )                          { $componentname = $identifier.name; }
                               ;
@@ -553,7 +551,7 @@ returns [String componentname]
 enumerationTypeDefinition
 returns [Object enumerate_type]
 @init{ Object previousenumerator = null; }
-                              : ^( ENUM // done
+                              : ^( ENUM
                                                             {
                                                               try {
                                                                 $enumerate_type = loader.create( "EnumerateType" );
@@ -576,7 +574,7 @@ returns [Object enumerate_type]
 
 enumerator
 returns [Object enumerate_item]
-                              : ^( ENUMERATOR // done
+                              : ^( ENUMERATOR
                                    enumeratorName
                                    expression?
                                  )                          {
@@ -591,7 +589,7 @@ returns [Object enumerate_item]
                               ;
 
 enumeratorName
-returns [String enumeratorname]         : ^( ENUMERATOR_NAME // done
+returns [String enumeratorname]         : ^( ENUMERATOR_NAME
                                    identifier
                                  )                          { $enumeratorname = $identifier.name; }
                               ;
@@ -600,7 +598,7 @@ returns [String enumeratorname]         : ^( ENUMERATOR_NAME // done
 // Unconstrained array
 unconstrainedArrayDefinition
 returns [Object type]
-                              : ^( UNCONSTRAINED_ARRAY // done
+                              : ^( UNCONSTRAINED_ARRAY
                                    index=typeReference
                                    contained=typeReference
                                  )                          {
@@ -618,7 +616,14 @@ returns [Object type]
 
 typeReference
 returns [Object basic_type]
-                              : namedTypeRef                { $basic_type = $namedTypeRef.basic_type; } // done
+@after{                                                     if ( ((IModelInstance)$basic_type).isEmpty() ) {
+                                                              System.err.println( "warning:  type reference to unlocated type, returning integer." );
+                                                              try {
+                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "integer" );
+                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
+      }
+                                                            }
+                              : namedTypeRef                { $basic_type = $namedTypeRef.basic_type; }
                               | constrainedArrayTypeRef     { $basic_type = $constrainedArrayTypeRef.basic_type; }
                               | instanceTypeRef             { $basic_type = $instanceTypeRef.basic_type; }
                               | sequenceTypeRef             { $basic_type = $sequenceTypeRef.basic_type; }
@@ -630,7 +635,7 @@ returns [Object basic_type]
 
 instanceTypeRef
 returns [Object basic_type]
-                              : ^( INSTANCE // done
+                              : ^( INSTANCE
                                    objectReference
                                    ANONYMOUS?
                                  )                          {
@@ -646,7 +651,7 @@ returns [Object basic_type]
 
 namedTypeRef
 returns [Object basic_type]
-                              : ^( NAMED_TYPE // done
+                              : ^( NAMED_TYPE
                                    optionalDomainReference
                                    typeName
                                    ANONYMOUS?
@@ -656,14 +661,14 @@ returns [Object basic_type]
                                                                 if ( !((IModelInstance)$basic_type).isEmpty() ) {
                                                                   loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
                                                                 }
-                                                                else { System.err.println( "namedTypeRef failed with name:" + $typeName.name ); }
+                                                                else { System.err.println( "namedTypeRef failed with name:  " + $optionalDomainReference.domainname + "::" + $typeName.name ); }
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               ;
 
 userDefinedTypeRef
 returns [Object user_defined_type]
-                              : ^( NAMED_TYPE // done
+                              : ^( NAMED_TYPE
                                    optionalDomainReference
                                    typeName
                                  )                          { 
@@ -675,7 +680,7 @@ returns [Object user_defined_type]
 
 constrainedArrayTypeRef
 returns [Object basic_type]
-                              : ^( CONSTRAINED_ARRAY // done
+                              : ^( CONSTRAINED_ARRAY
                                    userDefinedTypeRef
                                    arrayBounds
                                  )                          { 
@@ -692,7 +697,7 @@ returns [Object basic_type]
 
 sequenceTypeRef
 returns [Object basic_type]
-                              : ^( SEQUENCE // done
+                              : ^( SEQUENCE
                                    typeReference
                                    expression?
                                    ANONYMOUS?
@@ -714,7 +719,7 @@ returns [Object basic_type]
 
 arrayTypeRef
 returns [Object basic_type]
-                              : ^( ARRAY // done
+                              : ^( ARRAY
                                    typeReference
                                    arrayBounds
                                    ANONYMOUS?
@@ -727,16 +732,14 @@ returns [Object basic_type]
                                                                 loader.relate( collection_type, $typeReference.basic_type, 6208, "" );
                                                                 Object array_type = loader.create( "ArrayType" );
                                                                 loader.relate( array_type, collection_type, 6207, "" );
-                                                                if ( null != $arrayBounds.expression ) {
-                                                                  loader.relate( array_type, $arrayBounds.expression, 6201, "" );
-                                                                }
+                                                                loader.relate( array_type, $arrayBounds.expression, 6201, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               ;
 
 setTypeRef
 returns [Object basic_type]
-                              : ^( SET // done
+                              : ^( SET
                                    typeReference
                                    ANONYMOUS?
                                  )                          {
@@ -754,7 +757,7 @@ returns [Object basic_type]
 
 bagTypeRef
 returns [Object basic_type]
-                              : ^( BAG // done
+                              : ^( BAG
                                    typeReference
                                    ANONYMOUS?
                                  )                          {
@@ -772,7 +775,7 @@ returns [Object basic_type]
 
 dictionaryTypeRef
 returns [Object basic_type]
-                              : ^( DICTIONARY // done
+                              : ^( DICTIONARY
                                    (^(KEY   key=typeReference))?
                                    (^(VALUE value=typeReference))?
                                    ANONYMOUS?
@@ -801,13 +804,13 @@ returns [Object basic_type]
                               ;
 typeName
 returns [String name]
-                              : ^( TYPE_NAME // done
+                              : ^( TYPE_NAME
                                    identifier )             { $name = $identifier.name; }
                               ;
 
 arrayBounds
 returns [Object expression]
-                              : ^( ARRAY_BOUNDS // done
+                              : ^( ARRAY_BOUNDS
                                    expression )             { $expression = $expression.expression; }
                               ;
 
@@ -817,14 +820,14 @@ returns [Object expression]
 
 terminatorName
 returns [String terminatorname]
-                              : ^( TERMINATOR_NAME // done
+                              : ^( TERMINATOR_NAME
                                    identifier )             { $terminatorname = $identifier.name; }
                               ;
 
 
 domainTerminatorDefinition
 returns [Object domain_terminator]
-                              : ^( TERMINATOR_DEFINITION // done
+                              : ^( TERMINATOR_DEFINITION
                                    terminatorName             
                                                               {
                                                                 try {
@@ -846,7 +849,7 @@ returns [Object domain_terminator]
 
 projectTerminatorDefinition
 returns [Object project_terminator]
-                              : ^( TERMINATOR_DEFINITION // done
+                              : ^( TERMINATOR_DEFINITION
                                    terminatorName
                                                               {
                                                                 try {
@@ -871,7 +874,7 @@ returns [Object project_terminator]
 terminatorServiceDeclaration
 returns [Object domain_terminator_service]
 @init { Object service = null; }
-                              : ^( TERMINATOR_SERVICE_DECLARATION // done
+                              : ^( TERMINATOR_SERVICE_DECLARATION
                                    serviceVisibility
                                    serviceName
                                                             {
@@ -907,7 +910,7 @@ returns [Object domain_terminator_service]
 projectTerminatorServiceDeclaration
 returns [Object project_terminator_service]
 @init { Object service = null; }
-                              : ^( TERMINATOR_SERVICE_DECLARATION // done
+                              : ^( TERMINATOR_SERVICE_DECLARATION
                                    serviceVisibility
                                    serviceName              
                                                             {
@@ -947,14 +950,14 @@ returns [Object project_terminator_service]
 
 objectName
 returns [String name]
-                              : ^( OBJECT_NAME // done
+                              : ^( OBJECT_NAME
                                    identifier )             { $name = $identifier.name; }
                               ;
 
 
 objectReference
 returns [Object object_declaration]
-                              : optionalDomainReference // done
+                              : optionalDomainReference
                                 objectName                  
                                                             { 
                                                               try {
@@ -966,7 +969,7 @@ returns [Object object_declaration]
 
 fullObjectReference
 returns [Object object_declaration]
-                              : domainReference // done
+                              : domainReference
                                 objectName                  
                                                             { 
                                                               try {
@@ -978,18 +981,18 @@ returns [Object object_declaration]
 
 optionalObjectReference
 returns [Object object_declaration]
-                              : objectReference             { $object_declaration = $objectReference.object_declaration; } // done
+                              : objectReference             { $object_declaration = $objectReference.object_declaration; }
                               | /* blank */                 { $object_declaration = current_object; }
                               ;
 attributeName
 returns [String name]
-                              : ^( ATTRIBUTE_NAME // done
+                              : ^( ATTRIBUTE_NAME
                                    identifier )             { $name = $identifier.name; }
                               ;
 
 objectDeclaration
 returns [Object object_declaration]
-                              : ^( OBJECT_DECLARATION // done
+                              : ^( OBJECT_DECLARATION
                                    objectName
                                                             {
                                                               try {
@@ -1006,7 +1009,7 @@ objectDefinition
 returns [Object object_declaration]
 @init{ Object previousattribute = null; boolean non_existent_exists = false; }
 @after{ current_object = empty_object; }
-                              : ^( OBJECT_DEFINITION // done
+                              : ^( OBJECT_DEFINITION
                                    objectName               
                                                             {
                                                               try {
@@ -1063,7 +1066,7 @@ returns [Object object_declaration]
 
 attributeDefinition[Object previousattribute]
 returns [Object attribute_declaration]
-                              : ^( ATTRIBUTE_DEFINITION // done
+                              : ^( ATTRIBUTE_DEFINITION
                                    attributeName            
                                    PREFERRED? UNIQUE?
                                                             {
@@ -1112,7 +1115,7 @@ returns [Object attribute_declaration]
 
 attReferential [Object attribute_declaration]
 returns [Object referential_attribute_definition]
-                              : ^( REFERENTIAL // done
+                              : ^( REFERENTIAL
                                    relationshipSpec[current_object, false, false]
                                    attributeName
                                  )                          
@@ -1131,7 +1134,7 @@ returns [Object referential_attribute_definition]
 relationshipSpec[Object object_declaration, boolean allow_assoc, boolean force_assoc]
 returns [Object relationship_specification, Object basic_type]
 @init{ String object_or_role = ""; Object to_object = empty_object; }
-                              : ^( RELATIONSHIP_SPEC // done
+                              : ^( RELATIONSHIP_SPEC
                                    relationshipReference    
                                    ( objOrRole              { object_or_role = $objOrRole.name; }
                                    ( objectReference        { to_object = $objectReference.object_declaration; }
@@ -1151,7 +1154,7 @@ returns [Object relationship_specification, Object basic_type]
 
 objOrRole
 returns [String name]
-                              : identifier                  { $name = $identifier.name; } // done
+                              : identifier                  { $name = $identifier.name; }
                               ;
 
 
@@ -1198,7 +1201,7 @@ returns [Object object_service]
 
 identifierDefinition
 returns [Object identifier_declaration]
-                              : ^( IDENTIFIER // done
+                              : ^( IDENTIFIER
                                                             {
                                                               try {
                                                                 $identifier_declaration = loader.create( "IdentifierDeclaration" );
@@ -1220,7 +1223,7 @@ returns [Object identifier_declaration]
 
 eventDefinition
 returns [Object event_declaration]
-                              : ^( EVENT  // done
+                              : ^( EVENT 
                                    eventName
                                    eventType                
                                    description
@@ -1247,20 +1250,20 @@ returns [Object event_declaration]
 
 eventName
 returns [String name]
-                              : ^( EVENT_NAME // done
+                              : ^( EVENT_NAME
                                    identifier )             { $name = $identifier.name; }
                               ;
 
 eventType
 returns [String type]
-                              : ASSIGNER                    { $type = $ASSIGNER.text; } // done
+                              : ASSIGNER                    { $type = $ASSIGNER.text; }
                               | CREATION                    { $type = $CREATION.text; }
                               | NORMAL                      { $type = ""; }
                               ;
 
 stateDeclaration
 returns [Object ooastate]
-                              : ^( STATE // done
+                              : ^( STATE
                                    stateName                
                                    stateType               
                                    description
@@ -1291,13 +1294,13 @@ returns [Object ooastate]
 
 stateName
 returns [String name]
-                              : ^( STATE_NAME // done
+                              : ^( STATE_NAME
                                    identifier )             { $name = $identifier.name; }
                               ;
 
 stateType
 returns [String type]
-                              : ASSIGNER                    { $type = $ASSIGNER.text; } // done
+                              : ASSIGNER                    { $type = $ASSIGNER.text; }
                               | START                       { $type = $START.text; }
                               | CREATION                    { $type = $CREATION.text; }
                               | TERMINAL                    { $type = $TERMINAL.text; }
@@ -1307,7 +1310,7 @@ returns [String type]
 
 transitionTable
 returns [Object transition_table]
-                              : ^( TRANSITION_TABLE // done
+                              : ^( TRANSITION_TABLE
                                    transTableType
                                                             {
                                                               try {
@@ -1329,13 +1332,13 @@ returns [Object transition_table]
 
 transTableType
 returns [boolean isassigner]
-                              : ASSIGNER                    { $isassigner = true; } // done
+                              : ASSIGNER                    { $isassigner = true; }
                               | NORMAL                      { $isassigner = false; }
                               ;
 
 transitionRow
 returns [Object transition_row]
-                              : ^( TRANSITION_ROW // done
+                              : ^( TRANSITION_ROW
                                    startState
                                                             {
                                                               try {
@@ -1357,7 +1360,7 @@ returns [Object transition_row]
 
 transitionOption
 returns [Object transition_option]
-                              : ^( TRANSITION_OPTION // done
+                              : ^( TRANSITION_OPTION
                                    incomingEvent
                                    endState
                                  )                          {
@@ -1375,27 +1378,27 @@ returns [Object transition_option]
 
 incomingEvent
 returns [Object event_declaration]
-                              : ^( EVENT // done
+                              : ^( EVENT
                                    eventReference           { $event_declaration = $eventReference.event_declaration; }
                                  )
                               ;
 
 startState
 returns [String name]
-                              : NON_EXISTENT                { $name = $NON_EXISTENT.text; } // done
+                              : NON_EXISTENT                { $name = $NON_EXISTENT.text; }
                               | stateName                   { $name = $stateName.name; }
                               ;
 
 endState
 returns [String name, String transition_type]
-                              : stateName                   { $transition_type = "TransitionType::to_state"; $name = $stateName.name; } // done
+                              : stateName                   { $transition_type = "TransitionType::to_state"; $name = $stateName.name; }
                               | IGNORE                      { $transition_type = "TransitionType::ignore"; $name = ""; }
                               | CANNOT_HAPPEN               { $transition_type = "TransitionType::cannot_happen"; $name = ""; }
                               ;
 
 eventReference
 returns [Object event_declaration]
-                              : optionalObjectReference // done
+                              : optionalObjectReference
                                 eventName                   
                                                             {
                                                               try {
@@ -1412,7 +1415,7 @@ returns [Object event_declaration]
 domainServiceDeclaration
 returns [Object domain_service]
 @init{ Object service = null; }
-                              : ^( DOMAIN_SERVICE_DECLARATION // done
+                              : ^( DOMAIN_SERVICE_DECLARATION
                                    serviceVisibility
                                    serviceName
                                    description
@@ -1446,7 +1449,7 @@ returns [Object domain_service]
 
 parameterDefinition
 returns [Object parameter]
-                              : ^( PARAMETER_DEFINITION // done
+                              : ^( PARAMETER_DEFINITION
                                    parameterName
                                    parameterMode
                                    parameterType
@@ -1464,7 +1467,7 @@ returns [Object parameter]
 parameterList
 returns [Object firstparameter]
 @init { Object previousparameter = null; }
-                              : ( parameterDefinition       {  // done
+                              : ( parameterDefinition       { 
                                                               if ( null == previousparameter ) {
                                                                 firstparameter = $parameterDefinition.parameter;
                                                               } else {
@@ -1480,38 +1483,38 @@ returns [Object firstparameter]
 
 serviceVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = "Visibility::private"; } // done
+                              : PRIVATE                     { $visibility = "Visibility::private"; }
                               | PUBLIC                      { $visibility = "Visibility::public"; }
                               ;
 
 parameterMode
 returns [String parameter_mode]
-                              : IN                          { $parameter_mode = "ParameterMode::in"; } // done
+                              : IN                          { $parameter_mode = "ParameterMode::in"; }
                               | OUT                         { $parameter_mode = "ParameterMode::out"; }
                               ;
 
 
 serviceName
 returns [String name]
-                              : ^( SERVICE_NAME // done
+                              : ^( SERVICE_NAME
                                    identifier )             { $name = $identifier.name; }
                               ;
 
 parameterName
 returns [String name]
-                              : ^( PARAMETER_NAME // done
+                              : ^( PARAMETER_NAME
                                    identifier )             { $name = $identifier.name; }
                               ;
 
 parameterType
 returns [Object type]
-                              : ^( PARAMETER_TYPE // done
+                              : ^( PARAMETER_TYPE
                                    typeReference )            { $type = $typeReference.basic_type; }
                               ;
 
 returnType
 returns [Object type]
-                              : ^( RETURN_TYPE // done
+                              : ^( RETURN_TYPE
                                    typeReference )            { $type = $typeReference.basic_type; }
                               ;
 
@@ -1528,7 +1531,7 @@ returns [Object relationship_declaration]
                                                                 $relationship_declaration = loader.create( "RelationshipDeclaration" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
-                              : regularRelationshipDefinition // done
+                              : regularRelationshipDefinition
                                                             {
                                                               try {
                                                                 loader.relate( $regularRelationshipDefinition.normal_relationship_declaration, $relationship_declaration, 6010, "" );
@@ -1555,7 +1558,7 @@ returns [Object relationship_declaration]
 
 regularRelationshipDefinition
 returns [Object normal_relationship_declaration, String name]
-                              : ^( REGULAR_RELATIONSHIP_DEFINITION // done
+                              : ^( REGULAR_RELATIONSHIP_DEFINITION
                                    relationshipName
                                    description
                                    leftToRight=halfRelationshipDefinition
@@ -1574,7 +1577,7 @@ returns [Object normal_relationship_declaration, String name]
 
 assocRelationshipDefinition
 returns [Object associative_relationship_declaration, String name]
-                              : ^( ASSOCIATIVE_RELATIONSHIP_DEFINITION // done
+                              : ^( ASSOCIATIVE_RELATIONSHIP_DEFINITION
                                    relationshipName
                                    description
                                    leftToRight=halfRelationshipDefinition
@@ -1594,7 +1597,7 @@ returns [Object associative_relationship_declaration, String name]
 
 halfRelationshipDefinition
 returns [Object half_relationship]
-                              : ^( HALF_RELATIONSHIP // done
+                              : ^( HALF_RELATIONSHIP
                                    from=objectReference
                                    conditionality
                                    rolePhrase
@@ -1615,7 +1618,7 @@ returns [Object half_relationship]
 
 subtypeRelationshipDefinition
 returns [Object subtype_relationship_declaration, String name]
-                              : ^( SUBTYPE_RELATIONSHIP_DEFINITION // done
+                              : ^( SUBTYPE_RELATIONSHIP_DEFINITION
                                    relationshipName
                                    description
                                    supertype=objectReference
@@ -1639,26 +1642,26 @@ returns [Object subtype_relationship_declaration, String name]
 
 rolePhrase
 returns [String role]
-                              : ^( ROLE_PHRASE // done
+                              : ^( ROLE_PHRASE
                                    identifier )             { $role = $identifier.name; }
                               ;
 
 conditionality
 returns [boolean isconditional]
-                              : UNCONDITIONALLY             { $isconditional = false; } // done
+                              : UNCONDITIONALLY             { $isconditional = false; }
                               | CONDITIONALLY               { $isconditional = true; }
                               ;
 
 multiplicity
 returns [String multiplicity]
-                              : ONE                         { $multiplicity = "Multiplicity::one"; } // done
+                              : ONE                         { $multiplicity = "Multiplicity::one"; }
                               | MANY                        { $multiplicity = "Multiplicity::many"; }
                               ;
 
 
 relationshipName
 returns [String name]
-                              : ^( RELATIONSHIP_NAME // done
+                              : ^( RELATIONSHIP_NAME
                                    RelationshipName  
                                  )                          { $name = $RelationshipName.text; }
                               ;
@@ -1666,7 +1669,7 @@ returns [String name]
 
 relationshipReference
 returns [Object relationship_declaration]
-                              : optionalDomainReference // done
+                              : optionalDomainReference
                                 relationshipName            
                                                             {
                                                               try {
@@ -1704,7 +1707,7 @@ returns [ Object value ]
 
 pragmaName
 returns [ String name ]
-                              : ^( PRAGMA_NAME // done
+                              : ^( PRAGMA_NAME
                                    identifier               { $name = $identifier.name; }
                                  )
                               ;
@@ -1731,7 +1734,7 @@ returns [String text]
 activityDefinition
 @init{ try { empty_object = loader.call_function( "select_ObjectDeclaration_where_name", "false", "false" );
            } catch ( XtumlException e ) { xtuml_trace( e, "" ); } }
-                              : domainServiceDefinition // done
+                              : domainServiceDefinition
                               | terminatorServiceDefinition
                               | objectServiceDefinition
                               | stateDefinition
@@ -1741,7 +1744,7 @@ activityDefinition
 domainServiceDefinition
 returns [Object service]
 @init{ Object code_block = empty_code_block; }
-                              : ^( DOMAIN_SERVICE_DEFINITION // done
+                              : ^( DOMAIN_SERVICE_DEFINITION
                                    serviceVisibility
                                    domainReference
                                    serviceName
@@ -1751,7 +1754,7 @@ returns [Object service]
                                                               try {
                                                                 // TODO - must deal with overloading by including parameter list in identification.
                                                                 code_block = loader.create( "CodeBlock" );
-                                                                $service = loader.call_function( "select_DomainService_where_name", $domainReference.domainname, $serviceName.name );
+                                                                $service = loader.call_function( "select_Service_where_name", $domainReference.domainname, $serviceName.name );
                                                                 current_service = $service;
                                                                 loader.relate( code_block, $service, 5403, "" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
@@ -1765,7 +1768,7 @@ returns [Object service]
 terminatorServiceDefinition
 returns [Object service]
 @init{ Object code_block = empty_code_block; }
-                              : ^( TERMINATOR_SERVICE_DEFINITION // done
+                              : ^( TERMINATOR_SERVICE_DEFINITION
                                    serviceVisibility
                                    domainReference
                                    terminatorName
@@ -1789,7 +1792,7 @@ returns [Object service]
 projectTerminatorServiceDefinition
 returns [Object service]
 @init{ Object code_block = empty_code_block; }
-                              : ^( TERMINATOR_SERVICE_DEFINITION // done
+                              : ^( TERMINATOR_SERVICE_DEFINITION
                                    serviceVisibility
                                    domainReference
                                    terminatorName
@@ -1815,7 +1818,7 @@ objectServiceDefinition
 returns [Object service]
 @init{ Object code_block = empty_code_block; }
 @after{ current_object = empty_object; }
-                              : ^( OBJECT_SERVICE_DEFINITION // done
+                              : ^( OBJECT_SERVICE_DEFINITION
                                    serviceVisibility
                                    INSTANCE?
                                    fullObjectReference
@@ -1841,7 +1844,7 @@ stateDefinition
 returns [Object ooastate]
 @init{ Object code_block = empty_code_block; }
 @after{ current_object = empty_object; }
-                              : ^( STATE_DEFINITION // done
+                              : ^( STATE_DEFINITION
                                    stateType
                                    fullObjectReference
                                    stateName
@@ -1873,7 +1876,7 @@ returns [Object st]
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                               Object code_block = empty_code_block;
                                                             }
-                              : ^( STATEMENT // done
+                              : ^( STATEMENT
                                    ( codeBlock[code_block]  // In MASL, codeBlock is never a child of statement.
                                    | assignmentStatement    
                                                             {
@@ -1987,7 +1990,7 @@ returns [Object st]
 statementList
 returns [Object st]
 @init { Object previousstatement = null; }
-                              : ^( STATEMENT_LIST // done
+                              : ^( STATEMENT_LIST
                                    ( statement              {
                                                               if ( null == previousstatement ) {
                                                                 st = $statement.st;
@@ -2005,7 +2008,7 @@ returns [Object st]
 
 assignmentStatement
 returns [Object st]
-                              : ^( ASSIGN // done
+                              : ^( ASSIGN
                                    lhs=expression rhs=expression
                                  )                          {
                                                               try {
@@ -2024,7 +2027,7 @@ returns [Object st]
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
 
-                              : ^( STREAM_STATEMENT // done
+                              : ^( STREAM_STATEMENT
                                    expression
                                                             {
                                                               try {
@@ -2045,7 +2048,7 @@ returns [Object st]
 
 streamOperator
 returns [String op, Object expression]
-                              : ^( ( STREAM_IN              { $op = "IOop::in"; } // done
+                              : ^( ( STREAM_IN              { $op = "IOop::in"; }
                                    | STREAM_OUT             { $op = "IOop::out"; }
                                    | STREAM_LINE_IN         { $op = "IOop::linein"; }
                                    | STREAM_LINE_OUT        { $op = "IOop::lineout"; }
@@ -2091,7 +2094,7 @@ returns [Object st]
                                                                 $st = loader.create( "ExitStatement" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
-                              : ^( EXIT // done
+                              : ^( EXIT
                                    ( condition
                                                             {
                                                               try {
@@ -2104,7 +2107,7 @@ returns [Object st]
 
 returnStatement
 returns [Object st]
-                              : ^( RETURN // done
+                              : ^( RETURN
                                    expression              
                                  )                          {
                                                               try {
@@ -2117,7 +2120,7 @@ returns [Object st]
 
 delayStatement
 returns [Object st]
-                              : ^( DELAY // done
+                              : ^( DELAY
                                    expression
                                  )                         {
                                                               try {
@@ -2129,7 +2132,7 @@ returns [Object st]
 
 raiseStatement
 returns [Object st]
-                              : ^( RAISE // done
+                              : ^( RAISE
                                    exceptionReference
                                                             {
                                                               try {
@@ -2150,7 +2153,7 @@ returns [Object st]
 
 deleteStatement
 returns [Object st]
-                              : ^( DELETE // done
+                              : ^( DELETE
                                    expression
                                  )                         {
                                                               try {
@@ -2162,7 +2165,7 @@ returns [Object st]
 
 eraseStatement
 returns [Object st]
-                              : ^( ERASE // done
+                              : ^( ERASE
                                    expression
                                  )                          {
                                                               try {
@@ -2174,7 +2177,7 @@ returns [Object st]
 
 linkStatement
 returns [Object st]
-                              : ^( linkStatementType // done
+                              : ^( linkStatementType
                                    lhs=expression      
                                                             {
                                                               Object object_declaration = null;
@@ -2210,14 +2213,14 @@ returns [Object st]
 
 linkStatementType
 returns [Boolean isLink]
-                              : LINK                        { $isLink = true; } // done
+                              : LINK                        { $isLink = true; }
                               | UNLINK                      { $isLink = false; }
                               ;
 
 
 cancelTimerStatement
 returns [Object st]
-                             : ^( CANCEL // done
+                             : ^( CANCEL
                                   timerId=expression )      {
                                                               try {
                                                                 $st = loader.create( "CancelTimerStatement" );
@@ -2228,7 +2231,7 @@ returns [Object st]
                               
 scheduleStatement
 returns [Object st]
-                              : ^( SCHEDULE // done
+                              : ^( SCHEDULE
                                    timerId=expression
                                    generateStatement
                                    scheduleType
@@ -2253,7 +2256,7 @@ returns [Object st]
                               ;
 scheduleType
 returns [Boolean isAbsolute]
-                              : AT                          { $isAbsolute = true; } // done
+                              : AT                          { $isAbsolute = true; }
                               | DELAY                       { $isAbsolute = false; }
                               ;
 
@@ -2262,7 +2265,7 @@ returns [Boolean isAbsolute]
 generateStatement
 returns [Object st]
 
-                              : ^( GENERATE // done
+                              : ^( GENERATE
                                    eventReference
                                                             {
                                                               try {
@@ -2290,7 +2293,7 @@ returns [Object st]
 ifStatement
 returns [Object st]
 @init{ Object previousalternative = null; }
-                              : ^( IF // done
+                              : ^( IF
                                    condition
                                    statementList            
                                                             {
@@ -2331,7 +2334,7 @@ returns [Object st]
 
 elsifBlock
 returns [Object alternative]
-                              : ^( ELSIF // done
+                              : ^( ELSIF
                                    condition
                                    statementList )          
                                                             {
@@ -2348,7 +2351,7 @@ returns [Object alternative]
 
 elseBlock
 returns [Object alternative]
-                              : ^( ELSE // done
+                              : ^( ELSE
                                    statementList )          
                                                             {
                                                               try {
@@ -2364,7 +2367,7 @@ returns [Object alternative]
 
 whileStatement
 returns [Object st]
-                              : ^( WHILE // done
+                              : ^( WHILE
                                    condition
                                    statementList )          
                                                             {
@@ -2380,7 +2383,7 @@ returns [Object st]
 
 condition
 returns [Object expression]      
-                              : ^( CONDITION // done
+                              : ^( CONDITION
                                    expression )             { $expression = $expression.expression; }
                               ;
 
@@ -2388,7 +2391,7 @@ returns [Object expression]
 caseStatement
 returns [Object st]      
 @init{ Object previousalternative = null; }
-                              : ^( CASE // done
+                              : ^( CASE
                                   expression
                                                             {
                                                               try {
@@ -2423,7 +2426,7 @@ returns [Object st]
 
 caseAlternative
 returns [Object alternative]
-                              : ^( WHEN // done
+                              : ^( WHEN
                                    ( choice                 
                                    )+
                                    statementList )         
@@ -2441,13 +2444,13 @@ returns [Object alternative]
 
 choice
 returns [Object expression]      
-                              : ^( CHOICE // done
+                              : ^( CHOICE
                                    expression )             { $expression = $expression.expression; }
                               ;
 
 caseOthers
 returns [Object alternative]
-                              : ^( OTHERS // done
+                              : ^( OTHERS
                                    statementList )          
                                                             {
                                                               try {
@@ -2463,7 +2466,7 @@ returns [Object alternative]
 forStatement
 returns [Object st]
 @init{ Object previousstatement = null; }
-                              : ^( FOR // done
+                              : ^( FOR
                                    loopVariableSpec
                                    statementList
                                  )
@@ -2519,7 +2522,7 @@ returns [Object loop_spec]
 codeBlock[Object code_block]
 @init{ current_code_block = $code_block; }
 @after { current_code_block = empty_code_block; }
-                              : ^( CODE_BLOCK // done
+                              : ^( CODE_BLOCK
                                   ( variableDeclaration     
                                                             {
                                                               try {
@@ -2556,7 +2559,7 @@ codeBlock[Object code_block]
 
 variableDeclaration
 returns [Object variable_definition]
-                              : ^( VARIABLE_DECLARATION // done
+                              : ^( VARIABLE_DECLARATION
                                    variableName
                                    READONLY?
                                    typeReference
@@ -2581,7 +2584,7 @@ returns [Object variable_definition]
 
 exceptionHandler
 returns [Object handler]
-                              : ^( EXCEPTION_HANDLER // done
+                              : ^( EXCEPTION_HANDLER
                                    exceptionReference
                                    statementList
                                  )
@@ -2599,7 +2602,7 @@ returns [Object handler]
 
 otherHandler
 returns [Object handler]
-                              : ^( OTHER_HANDLER // done
+                              : ^( OTHER_HANDLER
                                    statementList
                                  )
                                                             {
@@ -2615,7 +2618,7 @@ returns [Object handler]
 
 variableName
 returns [String name]
-                              : ^( VARIABLE_NAME // done
+                              : ^( VARIABLE_NAME
                                    identifier )             { $name = $identifier.name; }
                               ;
 
@@ -2640,7 +2643,7 @@ returns [Object expression, Object basic_type]
                                                                 }
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "expression:after" ); }
                                                             }
-                              : binaryExpression // done
+                              : binaryExpression
                                                             {
                                                               try {
                                                                 loader.relate( $binaryExpression.binary_expression, $expression, 5517, "" );
@@ -2757,7 +2760,7 @@ returns [Object expression, Object basic_type]
 
 binaryExpression
 returns [Object binary_expression, Object basic_type]
-                              : ^( binaryOperator // done
+                              : ^( binaryOperator
                                    lhs=expression
                                    rhs=expression
                                 )                           {
@@ -2775,7 +2778,7 @@ returns [Object binary_expression, Object basic_type]
 
 binaryOperator
 returns [String binary_operator]
-                              : AND                         { $binary_operator = "Operator::and"; } // done
+                              : AND                         { $binary_operator = "Operator::and"; }
                               | CONCATENATE                 { $binary_operator = "Operator::concatenate"; }
                               | DISUNION                    { $binary_operator = "Operator::disunion"; }
                               | DIVIDE                      { $binary_operator = "Operator::divide"; }
@@ -2800,7 +2803,7 @@ returns [String binary_operator]
 
 unaryExpression
 returns [Object unary_expression, Object basic_type]
-                              : ^( unaryOperator // done
+                              : ^( unaryOperator
                                   expression
                                 )                          {
                                                               try {
@@ -2814,7 +2817,7 @@ returns [Object unary_expression, Object basic_type]
 
 unaryOperator
 returns [String unary_operator]
-                              : UNARY_PLUS                  { $unary_operator = "Operator::unaryplus"; } // done
+                              : UNARY_PLUS                  { $unary_operator = "Operator::unaryplus"; }
                               | UNARY_MINUS                 { $unary_operator = "Operator::unaryminus"; }
                               | NOT                         { $unary_operator = "Operator::not"; }
                               | ABS                         { $unary_operator = "Operator::abs"; }
@@ -2823,7 +2826,7 @@ returns [String unary_operator]
 
 rangeExpression
 returns [Object range_expression, Object basic_type]
-                              : ^( RANGE_DOTS // done
+                              : ^( RANGE_DOTS
                                    from=expression
                                    to=expression
                                 )                          {
@@ -2843,7 +2846,7 @@ returns [Object range_expression, Object basic_type]
 
 aggregateExpression
 returns [Object structure_aggregate, Object basic_type]
-                              : ^( AGGREGATE // done
+                              : ^( AGGREGATE
                                                             {
                                                               Object anonymous_structure = null;
                                                               try {
@@ -2870,7 +2873,7 @@ returns [Object structure_aggregate, Object basic_type]
 
 linkExpression
 returns [Object link_unlink_expression, Object basic_type]
-                              : ^( linkExpressionType // done
+                              : ^( linkExpressionType
                                    lhs=expression      
                                                             {
                                                               Object object_declaration = null;
@@ -2896,7 +2899,7 @@ returns [Object link_unlink_expression, Object basic_type]
                               ;
 linkExpressionType
 returns [boolean islink]
-                              : LINK                        { $islink = true; } // done
+                              : LINK                        { $islink = true; }
                               | UNLINK                      { $islink = false; }
                               ;
 
@@ -2904,7 +2907,7 @@ returns [boolean islink]
 navigateExpression
 returns [Object navigation_expression, Object basic_type]
 //scope WhereClauseScope;
-                              : ^( NAVIGATE // done
+                              : ^( NAVIGATE
                                    expression
                                                             {
                                                               Object object_declaration = null;
@@ -2934,7 +2937,7 @@ returns [Object navigation_expression, Object basic_type]
 
 correlateExpression
 returns [Object correlated_nav_expression, Object basic_type]
-                              : ^( CORRELATE // done
+                              : ^( CORRELATE
                                    lhs=expression
                                                             {
                                                               Object object_declaration = null;
@@ -2965,7 +2968,7 @@ returns [Object ordering_expression, Object basic_type]
   Object instance_ordering_expression = null;
   Object structure_ordering_expression = null;
 }
-                              : ^( ( ORDERED_BY // done
+                              : ^( ( ORDERED_BY
                                    | REVERSE_ORDERED_BY     { isreverse = true; }
                                    ) 
                                    expression
@@ -3017,7 +3020,7 @@ returns [Object ordering_expression, Object basic_type]
 
 sortOrder
 returns [String component, boolean isreverse]
-                              : ^( SORT_ORDER_COMPONENT // done
+                              : ^( SORT_ORDER_COMPONENT
                                    REVERSE?
                                    identifier               { $component = $identifier.name; $isreverse = ( null != $REVERSE ); }
                                  )
@@ -3025,7 +3028,7 @@ returns [String component, boolean isreverse]
 
 createExpression
 returns [Object create_expression, Object basic_type]
-                              : ^( CREATE // done
+                              : ^( CREATE
                                    objectReference 
                                                             {
                                                               try {
@@ -3051,7 +3054,7 @@ returns [Object attribute_initialization]
                                                                 $attribute_initialization = loader.create( "AttributeInitialization" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
-                              : ^( CREATE_ARGUMENT // done
+                              : ^( CREATE_ARGUMENT
                                    attributeName
                                    expression )              
                                                             {
@@ -3074,7 +3077,7 @@ returns [Object attribute_initialization]
 
 findExpression
 returns [Object find_expression, Object basic_type]
-                              : ^( findType // done
+                              : ^( findType
                                    expression
                                    whereClause
                                  )                          {
@@ -3093,7 +3096,7 @@ returns [Object find_expression, Object basic_type]
 
 whereClause
 returns [Object expression]
-                              : ^( WHERE // done
+                              : ^( WHERE
                                    ( expression             { $whereClause.expression = $expression.expression; }
                                    )?
                                  )
@@ -3101,7 +3104,7 @@ returns [Object expression]
 
 findType
 returns [String find_type]
-                              : FIND                        { $find_type = "FindType::find"; } // done
+                              : FIND                        { $find_type = "FindType::find"; }
                               | FIND_ONE                    { $find_type = "FindType::find_one"; }
                               | FIND_ONLY                   { $find_type = "FindType::find_only"; }
                               ;
@@ -3209,7 +3212,7 @@ returns[Object basic_type]
 
 compoundTypeName
 returns [Object basic_type]
-                              : instanceTypeRef             { $basic_type = $instanceTypeRef.basic_type; } // done
+                              : instanceTypeRef             { $basic_type = $instanceTypeRef.basic_type; }
                               | sequenceTypeRef             { $basic_type = $sequenceTypeRef.basic_type; }
                               | arrayTypeRef                { $basic_type = $arrayTypeRef.basic_type; }
                               | setTypeRef                  { $basic_type = $setTypeRef.basic_type; }
@@ -3219,14 +3222,14 @@ returns [Object basic_type]
 
 argument
 returns [Object expression]
-                              : ^( ARGUMENT // done
+                              : ^( ARGUMENT
                                    expression
                                  )                          { $expression = $expression.expression; }
                               ;
 
 sliceExpression
 returns [Object slice_expression, Object basic_type]
-                              : ^( SLICE // done
+                              : ^( SLICE
                                    prefix=expression
                                    slice=expression
                                  )                          {
@@ -3242,7 +3245,7 @@ returns [Object slice_expression, Object basic_type]
 
 primeExpression
 returns [Object characteristic_expression, Object basic_type]
-                              : ^( PRIME // done
+                              : ^( PRIME
 	                           expression
                                    identifier
                                                             {
