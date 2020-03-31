@@ -71,6 +71,9 @@ See <<3 Requirements>>.
 === 5.1 Calculator
 The persistence version of the calculator test model was refreshed.
 
+=== 5.2 archetype selects
+A few incorrect (but parsable) select statements were fixed in mc3020.
+
 == 6 Unit Test
 
 `masl_round_trip` is run cleanly on Linux and MacOS.
@@ -94,7 +97,153 @@ provided (`-s <architecture>).
 - fork/repository:  cortlandstarrett/mc
 
 ----
- Put the file list here
+ arc/c/q.component.arc                              |    2 +-
+ arc/q.class.instance.dumper.arc                    |    2 +-
+ arc/q.class.link.arc                               |    6 +-
+ arc/q.class.pei.arc                                |    2 +-
+ arc/sysc/q.component.arc                           |    6 +-
+ bin/masl_round_trip                                |   56 +-
+ bin/masldiff                                       |   23 +-
+ bin/wasl_round_trip                                |  257 +++
+ bin/wasldiff                                       |   56 +
+ bin/win/xtumlmc_build.pl                           | 1683 ++++++++++++++++++++
+ bin/xtuml2wasl                                     |   66 +
+ bin/xtumlmc_build                                  |    2 +
+ .../10440_wasl_proto/10440_wasl_proto_dnt.adoc     |  187 +++
+ doc/notes/10440_wasl_proto/waslflow.png            |  Bin 0 -> 53114 bytes
+ doc/notes/10530_ngpreso/10530_ngpreso_ant.adoc     |    7 +
+ doc/notes/11444_wasl/11444_wasl_ant.adoc           |  480 ++++++
+ doc/notes/11444_wasl/11444_wasl_import_ant.adoc    |  112 ++
+ doc/notes/11444_wasl/11444_wasl_int.adoc           |  255 +++
+ doc/notes/11444_wasl/masl2xtuml2wasl.png           |  Bin 0 -> 64305 bytes
+ doc/notes/11444_wasl/training_proposal.adoc        |  135 ++
+ doc/notes/11444_wasl/waslflow.png                  |  Bin 0 -> 53114 bytes
+ .../8073_masl_parser/8277_serial_masl_spec.md      |    7 +
+ model/masl/gen/STRING_bridge.c                     |   24 +-
+ model/masl/gen/T_bridge.c                          |    0
+ model/masl/gen/masl_type_class.c                   |  126 +-
+ model/masl/gen/sys_user_co.c                       |   20 +-
+ model/masl/gen/wasl/t.END.wasl                     |    1 +
+ model/masl/gen/wasl/t.START.wasl                   |    1 +
+ model/masl/gen/wasl/t.activity_def_input.wasl      |    2 +
+ model/masl/gen/wasl/t.activity_def_output.wasl     |    3 +
+ model/masl/gen/wasl/t.associative.wasl             |    6 +
+ model/masl/gen/wasl/t.attribute_begin.wasl         |    6 +
+ model/masl/gen/wasl/t.attribute_end.wasl           |    1 +
+ model/masl/gen/wasl/t.domain_begin.wasl            |   68 +
+ model/masl/gen/wasl/t.domain_end.wasl              |    0
+ .../masl/gen/wasl/t.domain_service_def_begin.wasl  |    2 +
+ model/masl/gen/wasl/t.event_begin.wasl             |    1 +
+ model/masl/gen/wasl/t.event_end.wasl               |    1 +
+ model/masl/gen/wasl/t.event_middle.wasl            |    1 +
+ model/masl/gen/wasl/t.identifier_attribute.wasl    |    1 +
+ model/masl/gen/wasl/t.object_begin.wasl            |    1 +
+ model/masl/gen/wasl/t.object_declaration.wasl      |    1 +
+ model/masl/gen/wasl/t.object_end.wasl              |    2 +
+ model/masl/gen/wasl/t.operation_def_begin.wasl     |    2 +
+ model/masl/gen/wasl/t.parameter.wasl               |    1 +
+ model/masl/gen/wasl/t.parameter_def.wasl           |    1 +
+ model/masl/gen/wasl/t.referential.wasl             |    5 +
+ model/masl/gen/wasl/t.regularrel.wasl              |    2 +
+ model/masl/gen/wasl/t.routine_begin.wasl           |    1 +
+ model/masl/gen/wasl/t.routine_end.wasl             |    1 +
+ model/masl/gen/wasl/t.routine_noinputs.wasl        |    1 +
+ model/masl/gen/wasl/t.state_def_begin.wasl         |    2 +
+ model/masl/gen/wasl/t.stt_row.wasl                 |    1 +
+ model/masl/gen/wasl/t.subsuper_begin.wasl          |    1 +
+ model/masl/gen/wasl/t.subsuper_end.wasl            |    1 +
+ model/masl/gen/wasl/t.subsuper_other.wasl          |    1 +
+ model/masl/gen/wasl/t.terminator.wasl              |    1 +
+ .../gen/wasl/t.terminator_service_def_begin.wasl   |    2 +
+ model/masl/gen/wasl/t.type_begin.wasl              |    1 +
+ model/masl/gen/wasl/t.type_end.wasl                |    0
+ model/masl/gen/wasl/t.typeref.wasl                 |   11 +
+ model/masl/models/masl/lib/gen/gen.xtuml           |    9 +
+ model/masl/models/masl/lib/masl/masl.xtuml         |   11 +-
+ .../masl/models/masl/masl/activity/activity.xtuml  |   55 +-
+ .../models/masl/masl/associative/associative.xtuml |    8 +-
+ .../models/masl/masl/attribute/attribute.xtuml     |   73 +-
+ model/masl/models/masl/masl/cell/cell.xtuml        |    6 +-
+ model/masl/models/masl/masl/domain/domain.xtuml    |   12 +-
+ model/masl/models/masl/masl/event/event.xtuml      |   86 +-
+ model/masl/models/masl/masl/masl.xtuml             |   20 +-
+ model/masl/models/masl/masl/object/object.xtuml    |  111 +-
+ .../models/masl/masl/operation/operation.xtuml     |  105 +-
+ .../models/masl/masl/parameter/parameter.xtuml     |   71 +-
+ .../models/masl/masl/referential/referential.xtuml |   14 +-
+ .../models/masl/masl/regularrel/regularrel.xtuml   |    8 +-
+ model/masl/models/masl/masl/routine/routine.xtuml  |  133 +-
+ model/masl/models/masl/masl/state/state.xtuml      |  107 +-
+ .../masl/masl/state_machine/state_machine.xtuml    |   38 +-
+ .../masl/models/masl/masl/subsuper/subsuper.xtuml  |   26 +-
+ .../models/masl/masl/terminator/terminator.xtuml   |   62 +-
+ .../maslpopulation/description/description.xtuml   |   41 +-
+ .../masl/maslpopulation/element/element.xtuml      |    1 -
+ .../models/masl/maslpopulation/file/file.xtuml     |  665 --------
+ .../masl/maslpopulation/genfile/genfile.xtuml      |  913 +++++++++++
+ .../masl/maslpopulation/maslpopulation.xtuml       |   50 +-
+ .../maslpopulation/population/population.xtuml     |  662 ++++----
+ .../maslpopulation/unmarkable/unmarkable.xtuml     |    2 +-
+ model/masl/models/masl/masltypes/type/type.xtuml   |   18 +-
+ .../models/masl/masltypes/typeref/typeref.xtuml    |    8 +-
+ model/masl/src/.gitignore                          |    1 +
+ model/masl/src/wasl/t.END.wasl                     |    3 +
+ model/masl/src/wasl/t.START.wasl                   |    3 +
+ model/masl/src/wasl/t.activity_def_input.wasl      |    3 +
+ model/masl/src/wasl/t.activity_def_output.wasl     |    9 +
+ model/masl/src/wasl/t.associative.wasl             |   75 +
+ model/masl/src/wasl/t.attribute_assign.wasl        |    0
+ model/masl/src/wasl/t.attribute_begin.wasl         |    7 +
+ model/masl/src/wasl/t.attribute_end.wasl           |    4 +
+ model/masl/src/wasl/t.domain_begin.wasl            |  172 ++
+ model/masl/src/wasl/t.domain_end.wasl              |    0
+ .../masl/src/wasl/t.domain_service_def_begin.wasl  |    7 +
+ model/masl/src/wasl/t.event_begin.wasl             |    6 +
+ model/masl/src/wasl/t.event_end.wasl               |    2 +
+ model/masl/src/wasl/t.event_middle.wasl            |    1 +
+ model/masl/src/wasl/t.identifier.wasl              |    2 +
+ model/masl/src/wasl/t.identifier_attribute.wasl    |    2 +
+ model/masl/src/wasl/t.object_begin.wasl            |    8 +
+ model/masl/src/wasl/t.object_declaration.wasl      |    3 +
+ model/masl/src/wasl/t.object_end.wasl              |    3 +
+ model/masl/src/wasl/t.operation_def_begin.wasl     |    7 +
+ model/masl/src/wasl/t.parameter.wasl               |    2 +
+ model/masl/src/wasl/t.parameter_def.wasl           |    2 +
+ model/masl/src/wasl/t.referential.wasl             |    9 +
+ model/masl/src/wasl/t.regularrel.wasl              |   26 +
+ model/masl/src/wasl/t.routine.wasl                 |    4 +
+ model/masl/src/wasl/t.routine_begin.wasl           |    4 +
+ model/masl/src/wasl/t.routine_end.wasl             |    2 +
+ model/masl/src/wasl/t.routine_noinputs.wasl        |    1 +
+ model/masl/src/wasl/t.state_def_begin.wasl         |    9 +
+ model/masl/src/wasl/t.stt_row.wasl                 |   16 +
+ model/masl/src/wasl/t.subsuper_begin.wasl          |    4 +
+ model/masl/src/wasl/t.subsuper_end.wasl            |    1 +
+ model/masl/src/wasl/t.subsuper_other.wasl          |    3 +
+ model/masl/src/wasl/t.terminator.wasl              |    5 +
+ .../src/wasl/t.terminator_service_def_begin.wasl   |    9 +
+ model/masl/src/wasl/t.type_begin.wasl              |    4 +
+ model/masl/src/wasl/t.type_end.wasl                |    0
+ model/masl/src/wasl/t.typeref.wasl                 |   12 +
+ model/maslin/gen/sys_user_co.c                     |    2 +-
+ .../maslin/m2x/ooapopulation/ooapopulation.xtuml   |  190 ++-
+ .../maslin/marking/ooamarkable/ooamarkable.xtuml   |   39 +
+ .../maslout/lib/xtuml2masl/maslout/maslout.xtuml   |   22 +-
+ .../mcooa/ooaofooa/Datatypes/Datatypes.xtuml       |   17 +-
+ model/mcshared/models/mcshared/MC_EEs/MC_EEs.xtuml |    5 +
+ wasl/parser/.gitignore                             |    3 +
+ wasl/parser/README.md                              |   57 +
+ wasl/parser/build.xml                              |   79 +
+ wasl/parser/lib/.gitignore                         |    1 +
+ wasl/parser/lib/README.md                          |   11 +
+ wasl/parser/out.smasl                              |  815 ++++++++++
+ wasl/parser/src/ErrorHandler.java                  |    3 +
+ wasl/parser/src/MaslSerial.java                    |   65 +
+ wasl/parser/src/RelationshipCache.java             |  170 ++
+ wasl/parser/src/Serial.java                        |   11 +
+ wasl/parser/src/Wasl.g                             |  501 ++++++
+ wasl/parser/src/WaslImportParser.java              |  238 +++
+ 146 files changed, 8235 insertions(+), 1387 deletions(-)
 ----
 
 - fork/repository:  cortlandstarrett/models
