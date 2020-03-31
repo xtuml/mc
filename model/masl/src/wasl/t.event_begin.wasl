@@ -1,0 +1,6 @@
+T_b(object->key_letters);
+T_b(",");
+T_b(T_s(self->number));
+T_b(",");
+T_b(self->name);
+T_b(",");

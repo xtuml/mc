@@ -56,7 +56,7 @@ masl_type_AnyWhere1( c_t * w_name )
   Escher_Iterator_s iter_type;
   Escher_IteratorReset( &iter_type, &pG_masl_type_extent.active );
   while ( (w = (masl_type *) Escher_IteratorNext( &iter_type )) != 0 ) {
-    if ( w->name == w_name ) {
+    if ( !Escher_strcmp(w->name, w_name) ) {
       return w;
     }
   }
@@ -111,10 +111,26 @@ masl_type_op_render( masl_type * self)
   }}}
   /* SELECT one markable RELATED BY self->markable[R3783] */
   markable = ( 0 != self ) ? self->markable_R3783 : 0;
-  /* T::include( file:masl/t.type_begin.masl ) */
+  /* IF ( MASL == genfile::architecture() ) */
+  if ( Escher_strcmp( "MASL", masl_genfile_op_architecture() ) == 0 ) {
+    /* T::include( file:masl/t.type_begin.masl ) */
 #include "masl/t.type_begin.masl"
-  /* T::include( file:masl/t.type_end.masl ) */
+    /* T::include( file:masl/t.type_end.masl ) */
 #include "masl/t.type_end.masl"
+  }
+  else if ( Escher_strcmp( "WASL", masl_genfile_op_architecture() ) == 0 ) {
+    /* IF ( - 1 != STRING::indexof(self.body, ,) ) */
+    if ( -1 != STRING_indexof( ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body, "," ) ) {
+      /* ASSIGN self.body = ( ( Enumeration,{ + self.body ) + } ) */
+      ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body = Escher_strcpy( ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body, ( Escher_stradd( ( Escher_stradd( "Enumeration,{", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body ) ), "}" ) ) );
+    }
+    /* T::include( file:wasl/t.type_begin.wasl ) */
+#include "wasl/t.type_begin.wasl"
+    /* T::include( file:wasl/t.type_end.wasl ) */
+#include "wasl/t.type_end.wasl"
+  }
+  else {
+  }
   /* markable.render_marking( list:default ) */
   masl_markable_op_render_marking( markable,  "default" );
   Escher_ClearSet( references ); Escher_ClearSet( descrips ); 
@@ -129,14 +145,14 @@ masl_type_op_populate( c_t * p_body, masl_domain * p_domain, c_t * p_name, c_t *
   masl_domain * domain;masl_type * type=0;
   /* ASSIGN domain = PARAM.domain */
   domain = p_domain;
-  /* SELECT any type RELATED BY domain->type[R3719] WHERE ( ( SELECTED.name == PARAM.name ) ) */
+  /* SELECT any type RELATED BY domain->type[R3719] WHERE ( SELECTED.name == PARAM.name ) */
   type = 0;
   if ( 0 != domain ) {
     masl_type * selected;
     Escher_Iterator_s itype_R3719_defines;
     Escher_IteratorReset( &itype_R3719_defines, &domain->type_R3719_defines );
     while ( 0 != ( selected = (masl_type *) Escher_IteratorNext( &itype_R3719_defines ) ) ) {
-      if ( ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.name" ))->name, p_name ) == 0 ) ) {
+      if ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.name" ))->name, p_name ) == 0 ) {
         type = selected;
         break;
   }}}
@@ -178,8 +194,8 @@ masl_type_op_validate( masl_type * self)
   masl_pragma_list * pragma_list=0;bool valid;Escher_ObjectSet_s child_pragma_lists_space={0}; Escher_ObjectSet_s * child_pragma_lists = &child_pragma_lists_space;
   /* ASSIGN valid = TRUE */
   valid = TRUE;
-  /* IF ( (  == self.name ) ) */
-  if ( ( Escher_strcmp( "", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.name" ))->name ) == 0 ) ) {
+  /* IF (  == self.name ) */
+  if ( Escher_strcmp( "", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.name" ))->name ) == 0 ) {
     /* TRACE::log( flavor:failure, id:101, message:type has no name. ) */
     TRACE_log( "failure", 101, "type has no name." );
     /* ASSIGN valid = FALSE */
@@ -189,10 +205,10 @@ masl_type_op_validate( masl_type * self)
     Escher_ClearSet( child_pragma_lists ); 
     return xtumlOALrv;}
   }
-  /* IF ( ( ( public != self.visibility ) and ( private != self.visibility ) ) ) */
-  if ( ( ( Escher_strcmp( "public", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.visibility" ))->visibility ) != 0 ) && ( Escher_strcmp( "private", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.visibility" ))->visibility ) != 0 ) ) ) {
+  /* IF ( ( public != self.visibility ) and ( private != self.visibility ) ) */
+  if ( ( Escher_strcmp( "public", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.visibility" ))->visibility ) != 0 ) && ( Escher_strcmp( "private", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.visibility" ))->visibility ) != 0 ) ) {
     /* TRACE::log( flavor:failure, id:101, message:( invalid visibility for routine:  + self.visibility ) ) */
-    TRACE_log( "failure", 101, Escher_stradd( "invalid visibility for routine: ", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.visibility" ))->visibility ) );
+    TRACE_log( "failure", 101, ( Escher_stradd( "invalid visibility for routine: ", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.visibility" ))->visibility ) ) );
     /* ASSIGN valid = FALSE */
     valid = FALSE;
     /* RETURN valid */
@@ -200,8 +216,8 @@ masl_type_op_validate( masl_type * self)
     Escher_ClearSet( child_pragma_lists ); 
     return xtumlOALrv;}
   }
-  /* IF ( (  == self.body ) ) */
-  if ( ( Escher_strcmp( "", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body ) == 0 ) ) {
+  /* IF (  == self.body ) */
+  if ( Escher_strcmp( "", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body ) == 0 ) {
     /* TRACE::log( flavor:failure, id:101, message:type has no body. ) */
     TRACE_log( "failure", 101, "type has no body." );
     /* ASSIGN valid = FALSE */
@@ -231,8 +247,8 @@ masl_type_op_validate( masl_type * self)
     pragma_list = iipragma_list; {
     /* ASSIGN valid = pragma_list.validate() */
     valid = masl_pragma_list_op_validate(pragma_list);
-    /* IF ( ( FALSE == valid ) ) */
-    if ( ( FALSE == valid ) ) {
+    /* IF ( FALSE == valid ) */
+    if ( FALSE == valid ) {
       /* RETURN valid */
       {bool xtumlOALrv = valid;
       Escher_ClearSet( child_pragma_lists ); 
@@ -252,7 +268,7 @@ masl_type_op_validate( masl_type * self)
 void
 masl_type_op_tostring( masl_type * self)
 {
-  c_t * emptyvalue[8]={0};c_t * value[8]={0};
+  c_t * emptyvalue[8]={0,0,0,0,0,0,0,0};c_t * value[8]={0,0,0,0,0,0,0,0};
   /* ASSIGN value[7] =  */
   value[7] = Escher_strcpy( value[7], "" );
   /* ASSIGN emptyvalue[7] =  */
@@ -292,12 +308,12 @@ masl_type_op_populate_references( masl_type * self)
   i_t i;
   /* ASSIGN i = self.lcount */
   i = ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.lcount" ))->lcount;
-  /* WHILE ( ( i > 0 ) ) */
-  while ( ( i > 0 ) ) {
+  /* WHILE ( i > 0 ) */
+  while ( i > 0 ) {
     masl_type * referred_type=0;
     /* ASSIGN i = ( i - 1 ) */
     i = ( i - 1 );
-    /* SELECT any referred_type RELATED BY self->domain[R3719]->type[R3719] WHERE ( ( SELECTED.name == self.labels[i] ) ) */
+    /* SELECT any referred_type RELATED BY self->domain[R3719]->type[R3719] WHERE ( SELECTED.name == self.labels[i] ) */
     referred_type = 0;
     {    if ( 0 != self ) {
     masl_domain * domain_R3719 = self->domain_R3719;
@@ -306,7 +322,7 @@ masl_type_op_populate_references( masl_type * self)
     Escher_Iterator_s itype_R3719_defines;
     Escher_IteratorReset( &itype_R3719_defines, &domain_R3719->type_R3719_defines );
     while ( 0 != ( selected = (masl_type *) Escher_IteratorNext( &itype_R3719_defines ) ) ) {
-      if ( ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.name" ))->name, ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.labels" ))->labels[i] ) == 0 ) ) {
+      if ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.name" ))->name, ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.labels" ))->labels[i] ) == 0 ) {
         referred_type = selected;
         break;
     }}
@@ -369,6 +385,7 @@ masl_type_op_render_leaves( masl_domain * p_domain, c_t * p_scope )
   count = 1;
   /* SELECT many types RELATED BY domain->type[R3719] WHERE ( not SELECTED.rendered ) */
   Escher_ClearSet( types );
+  if ( 0 != domain ) {
   {masl_type * selected;
   Escher_Iterator_s itype_R3719_defines;
   Escher_IteratorReset( &itype_R3719_defines, &domain->type_R3719_defines );
@@ -376,26 +393,27 @@ masl_type_op_render_leaves( masl_domain * p_domain, c_t * p_scope )
     if ( !((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.rendered" ))->rendered ) {
       if ( ! Escher_SetContains( (Escher_ObjectSet_s *) types, selected ) ) {
         Escher_SetInsertElement( (Escher_ObjectSet_s *) types, selected );
-  }}}}
-  /* IF ( ( public == PARAM.scope ) ) */
-  if ( ( Escher_strcmp( "public", p_scope ) == 0 ) ) {
-    /* SELECT many types RELATED BY domain->type[R3719] WHERE ( ( not SELECTED.rendered and ( SELECTED.visibility == PARAM.scope ) ) ) */
+  }}}}}
+  /* IF ( public == PARAM.scope ) */
+  if ( Escher_strcmp( "public", p_scope ) == 0 ) {
+    /* SELECT many types RELATED BY domain->type[R3719] WHERE ( not SELECTED.rendered and ( SELECTED.visibility == PARAM.scope ) ) */
     Escher_ClearSet( types );
+    if ( 0 != domain ) {
     {masl_type * selected;
     Escher_Iterator_s itype_R3719_defines;
     Escher_IteratorReset( &itype_R3719_defines, &domain->type_R3719_defines );
     while ( 0 != ( selected = (masl_type *) Escher_IteratorNext( &itype_R3719_defines ) ) ) {
-      if ( ( !((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.rendered" ))->rendered && ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.visibility" ))->visibility, p_scope ) == 0 ) ) ) {
+      if ( !((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.rendered" ))->rendered && ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.visibility" ))->visibility, p_scope ) == 0 ) ) {
         if ( ! Escher_SetContains( (Escher_ObjectSet_s *) types, selected ) ) {
           Escher_SetInsertElement( (Escher_ObjectSet_s *) types, selected );
-    }}}}
+    }}}}}
   }
   /* ASSIGN count = cardinality types */
   count = Escher_SetCardinality( types );
   /* ASSIGN prev_count = ( count + 1 ) */
   prev_count = ( count + 1 );
-  /* WHILE ( ( count < prev_count ) ) */
-  while ( ( count < prev_count ) ) {
+  /* WHILE ( count < prev_count ) */
+  while ( count < prev_count ) {
     masl_type * type=0;
     /* ASSIGN prev_count = count */
     prev_count = count;
@@ -419,8 +437,8 @@ masl_type_op_render_leaves( masl_domain * p_domain, c_t * p_scope )
       }}}
       /* IF ( empty reference ) */
       if ( ( 0 == reference ) ) {
-        /* IF ( ( ( public == type.visibility ) or ( private == PARAM.scope ) ) ) */
-        if ( ( ( Escher_strcmp( "public", ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.visibility" ))->visibility ) == 0 ) || ( Escher_strcmp( "private", p_scope ) == 0 ) ) ) {
+        /* IF ( ( public == type.visibility ) or ( private == PARAM.scope ) ) */
+        if ( ( Escher_strcmp( "public", ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.visibility" ))->visibility ) == 0 ) || ( Escher_strcmp( "private", p_scope ) == 0 ) ) {
           /* type.render() */
           masl_type_op_render( type );
         }
@@ -428,6 +446,7 @@ masl_type_op_render_leaves( masl_domain * p_domain, c_t * p_scope )
     }}}
     /* SELECT many types RELATED BY domain->type[R3719] WHERE ( not SELECTED.rendered ) */
     Escher_ClearSet( types );
+    if ( 0 != domain ) {
     {masl_type * selected;
     Escher_Iterator_s itype_R3719_defines;
     Escher_IteratorReset( &itype_R3719_defines, &domain->type_R3719_defines );
@@ -435,19 +454,20 @@ masl_type_op_render_leaves( masl_domain * p_domain, c_t * p_scope )
       if ( !((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.rendered" ))->rendered ) {
         if ( ! Escher_SetContains( (Escher_ObjectSet_s *) types, selected ) ) {
           Escher_SetInsertElement( (Escher_ObjectSet_s *) types, selected );
-    }}}}
-    /* IF ( ( public == PARAM.scope ) ) */
-    if ( ( Escher_strcmp( "public", p_scope ) == 0 ) ) {
-      /* SELECT many types RELATED BY domain->type[R3719] WHERE ( ( not SELECTED.rendered and ( SELECTED.visibility == PARAM.scope ) ) ) */
+    }}}}}
+    /* IF ( public == PARAM.scope ) */
+    if ( Escher_strcmp( "public", p_scope ) == 0 ) {
+      /* SELECT many types RELATED BY domain->type[R3719] WHERE ( not SELECTED.rendered and ( SELECTED.visibility == PARAM.scope ) ) */
       Escher_ClearSet( types );
+      if ( 0 != domain ) {
       {masl_type * selected;
       Escher_Iterator_s itype_R3719_defines;
       Escher_IteratorReset( &itype_R3719_defines, &domain->type_R3719_defines );
       while ( 0 != ( selected = (masl_type *) Escher_IteratorNext( &itype_R3719_defines ) ) ) {
-        if ( ( !((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.rendered" ))->rendered && ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.visibility" ))->visibility, p_scope ) == 0 ) ) ) {
+        if ( !((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.rendered" ))->rendered && ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.visibility" ))->visibility, p_scope ) == 0 ) ) {
           if ( ! Escher_SetContains( (Escher_ObjectSet_s *) types, selected ) ) {
             Escher_SetInsertElement( (Escher_ObjectSet_s *) types, selected );
-      }}}}
+      }}}}}
     }
     /* ASSIGN count = cardinality types */
     count = Escher_SetCardinality( types );
@@ -489,18 +509,19 @@ masl_type_op_render_all( masl_domain * p_domain, c_t * p_scope )
   if ( 0 != domain ) {
     Escher_CopySet( types, &domain->type_R3719_defines );
   }
-  /* IF ( ( public == PARAM.scope ) ) */
-  if ( ( Escher_strcmp( "public", p_scope ) == 0 ) ) {
-    /* SELECT many types RELATED BY domain->type[R3719] WHERE ( ( SELECTED.visibility == PARAM.scope ) ) */
+  /* IF ( public == PARAM.scope ) */
+  if ( Escher_strcmp( "public", p_scope ) == 0 ) {
+    /* SELECT many types RELATED BY domain->type[R3719] WHERE ( SELECTED.visibility == PARAM.scope ) */
     Escher_ClearSet( types );
+    if ( 0 != domain ) {
     {masl_type * selected;
     Escher_Iterator_s itype_R3719_defines;
     Escher_IteratorReset( &itype_R3719_defines, &domain->type_R3719_defines );
     while ( 0 != ( selected = (masl_type *) Escher_IteratorNext( &itype_R3719_defines ) ) ) {
-      if ( ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.visibility" ))->visibility, p_scope ) == 0 ) ) {
+      if ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.visibility" ))->visibility, p_scope ) == 0 ) {
         if ( ! Escher_SetContains( (Escher_ObjectSet_s *) types, selected ) ) {
           Escher_SetInsertElement( (Escher_ObjectSet_s *) types, selected );
-    }}}}
+    }}}}}
   }
   /* FOR EACH type IN types */
   { Escher_Iterator_s itertype;
@@ -515,16 +536,17 @@ masl_type_op_render_all( masl_domain * p_domain, c_t * p_scope )
     /* type.populate_references() */
     masl_type_op_populate_references( type );
   }}}
-  /* SELECT many references RELATED BY domain->reference[R3776.contains] WHERE ( ( SELECTED.parent_name == SELECTED.child_name ) ) */
+  /* SELECT many references RELATED BY domain->reference[R3776.contains] WHERE ( SELECTED.parent_name == SELECTED.child_name ) */
   Escher_ClearSet( references );
+  if ( 0 != domain ) {
   {masl_reference * selected;
   Escher_Iterator_s ireference_R3776_contains;
   Escher_IteratorReset( &ireference_R3776_contains, &domain->reference_R3776_contains );
   while ( 0 != ( selected = (masl_reference *) Escher_IteratorNext( &ireference_R3776_contains ) ) ) {
-    if ( ( Escher_strcmp( ((masl_reference *)xtUML_detect_empty_handle( selected, "reference", "SELECTED.parent_name" ))->parent_name, ((masl_reference *)xtUML_detect_empty_handle( selected, "reference", "SELECTED.child_name" ))->child_name ) == 0 ) ) {
+    if ( Escher_strcmp( ((masl_reference *)xtUML_detect_empty_handle( selected, "reference", "SELECTED.parent_name" ))->parent_name, ((masl_reference *)xtUML_detect_empty_handle( selected, "reference", "SELECTED.child_name" ))->child_name ) == 0 ) {
       if ( ! Escher_SetContains( (Escher_ObjectSet_s *) references, selected ) ) {
         Escher_SetInsertElement( (Escher_ObjectSet_s *) references, selected );
-  }}}}
+  }}}}}
   /* FOR EACH reference IN references */
   { Escher_Iterator_s iterreference;
   masl_reference * iireference;
@@ -533,14 +555,14 @@ masl_type_op_render_all( masl_domain * p_domain, c_t * p_scope )
     reference = iireference; {
     /* SELECT one type RELATED BY reference->type[R3777.refers_to] */
     type = ( 0 != reference ) ? reference->type_R3777_refers_to : 0;
-    /* IF ( ( not type.rendered and ( ( public == type.visibility ) or ( private == PARAM.scope ) ) ) ) */
-    if ( ( !((masl_type *)xtUML_detect_empty_handle( type, "type", "type.rendered" ))->rendered && ( ( Escher_strcmp( "public", ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.visibility" ))->visibility ) == 0 ) || ( Escher_strcmp( "private", p_scope ) == 0 ) ) ) ) {
+    /* IF ( not type.rendered and ( ( public == type.visibility ) or ( private == PARAM.scope ) ) ) */
+    if ( !((masl_type *)xtUML_detect_empty_handle( type, "type", "type.rendered" ))->rendered && ( ( Escher_strcmp( "public", ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.visibility" ))->visibility ) == 0 ) || ( Escher_strcmp( "private", p_scope ) == 0 ) ) ) {
       /* type.render_forward() */
       masl_type_op_render_forward( type );
     }
   }}}
-  /* WHILE ( ( 0 < type::render_leaves(domain, PARAM.scope) ) ) */
-  while ( ( 0 < masl_type_op_render_leaves(domain, p_scope) ) ) {
+  /* WHILE ( 0 < type::render_leaves(domain, PARAM.scope) ) */
+  while ( 0 < masl_type_op_render_leaves(domain, p_scope) ) {
     /* SELECT any reference RELATED BY domain->reference[R3776] WHERE ( not SELECTED.resolved ) */
     reference = 0;
     if ( 0 != domain ) {
@@ -556,8 +578,8 @@ masl_type_op_render_all( masl_domain * p_domain, c_t * p_scope )
     type = ( 0 != reference ) ? reference->type_R3777_refers_to : 0;
     /* IF ( not_empty type ) */
     if ( ( 0 != type ) ) {
-      /* IF ( ( ( public == type.visibility ) or ( private == PARAM.scope ) ) ) */
-      if ( ( ( Escher_strcmp( "public", ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.visibility" ))->visibility ) == 0 ) || ( Escher_strcmp( "private", p_scope ) == 0 ) ) ) {
+      /* IF ( ( public == type.visibility ) or ( private == PARAM.scope ) ) */
+      if ( ( Escher_strcmp( "public", ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.visibility" ))->visibility ) == 0 ) || ( Escher_strcmp( "private", p_scope ) == 0 ) ) {
         /* type.render_forward() */
         masl_type_op_render_forward( type );
       }
@@ -568,8 +590,8 @@ masl_type_op_render_all( masl_domain * p_domain, c_t * p_scope )
     }
     /* ASSIGN guard = ( guard - 1 ) */
     guard = ( guard - 1 );
-    /* IF ( ( 0 == guard ) ) */
-    if ( ( 0 == guard ) ) {
+    /* IF ( 0 == guard ) */
+    if ( 0 == guard ) {
       /* TRACE::log( flavor:failure, id:122, message:did not break cycles ) */
       TRACE_log( "failure", 122, "did not break cycles" );
       /* BREAK */
@@ -624,7 +646,7 @@ masl_type_instancedumper( Escher_iHandle_t instance )
     ( 0 != self->name ) ? self->name : "",
     ( 0 != self->visibility ) ? self->visibility : "",
     ( 0 != self->body ) ? self->body : "",
-    ( 0 != self->labels ) ? self->labels : "",
+    ( 0 != self->labels ) ? self->labels[0] : "",
     self->lcount,
     self->rendered,
     self->declared_forward );

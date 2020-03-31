@@ -1,0 +1,2 @@
+define function ${object.key_letters}${object.number}:${activity.name}
+input

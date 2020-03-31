@@ -1,0 +1,480 @@
+= BridgePoint WASL Migration Sizing and Sequencing
+
+xtUML Project Analysis Note
+
+:sectnums:
+:sectnumlevels: 5
+
+== Miscellaneous Notes to Myself
+
+=== Deployments on Import
+Now that we are committed to the MASL iUML-dumper, we can update `maslin` to support deployments.
+
+I need to think about terminator key letter marking.
+
+=== Next Steps
+
+. Get rid of blanks around attribute comments.
+. Sort the rendering of object stanzas by number.
+
+=== Thinking About MASL Dumper
+
+----
+DaveSk and DaveS suggest using the MASL dumper to dump BAE models.
+pro:  masl2xtuml is already in place and complete.
+pro:  masl2xtuml flow is tested.
+con:  round_trip would need to accommodate the change in starting point.
+con:  MASL dumper does not emit:  class key letters, class numbers, event numbers
+con:  I suspect that BAE models may struggle to dump, because the results may be incomplete MASL (missing role phrases for example).
+con:  I think that MASL may have name limitations not in ASL (blanks in role phrases?).
+question:  Is the MASL dumper up-to-date with iUML at BAE (patches, iUML-API)?
+
+- class key letters (pragma key_letter ("LLL"))
+- class number (pragma id (000))
+- event number
+- state number
+- terminator key letters (pragma key_letter ("LLL"))
+- *terminator service number
+- *class operation number
+- *domain function number (pragma service (000))
+
+*not in OOA of OOA
+  - I am guessing that these are not important to match exactly as imported.
+  - Is it sufficient for BridgePoint to generate these in sequence?
+  - Would the edited order on the class diagram be O.K. for operations?
+  - Would alphabetical order be O.K. for domain functions?
+  - Is alphabetical order be O.K. for terminator services?
+
+Dear Dave and Izunna,
+
+I have done some analysis of the model elements with missing information.
+Here is the list as I understand it now.
+
+- object key letters
+- object number
+- event number
+- state number
+- terminator key letters
+- *terminator service number
+- *object operation number
+- *domain function number
+
+Object key letters, object number and terminator key letters actually do
+get dumped as pragmas in the current iuml-dumper.  We can choose to reuse
+this capability.
+
+We could use the same pragma pattern for event number and state number.
+There is storage in the OOA of OOA for this information.  For the elements above
+marked with * there is no specific number attribute in the OOA of OOA, although
+class operations are sequenced with a reflexive association.
+
+With regard to terminator service number, class operation number and
+domain function number I have a couple of thoughts.
+  - I am guessing that these are not important to match exactly as imported.
+  - Is it sufficient for BridgePoint to generate these in sequence?
+  - Would the edited order on the class diagram be O.K. for operations?
+    (Numbers would be output in the *.obj file using the order found on
+    the class diagram, which the user can choose to sequence.)
+  - Would alphabetical order be O.K. for domain functions?
+  - Is alphabetical order O.K. for terminator services?
+
+- Dump and send more model data.  I will push it to the models test repo.
+
+See you in webex/join.me tomorrow.
+
+Cort
+
+
+Dave Skinner, Izunna and I have discovered that terminator service number,
+class operation number and domain function number are all first class
+citizens of the iUML OOA of OOA.  Their action language refers to them
+directly in a similar way as OAL refers to event numbers.
+
+So, I think we will be adding 'Number' as an attribute to these three classes in the xtUML OOA of OOA.
+
+Levi, Keith, Bob and Cort discussed this at length and explored the idea
+of removing the need for these function numbers while working within BP.
+They could still be generated for WACA, but they are not strictly necessary
+while editing the model.  Other ways exist (signature) to identify routines.
+
+
+WASL test data:
+Integrating masl_round_trip and wasl_round_trip test cases more closely.  Now, WASL comparison data will be containe
+d in the test case folder.
+
+Specification Table:  Get table from Dave Skinner note around April 8, 2019.  Include in documentation.
+
+----
+
+Perhaps the MASL dumper could be modified to (in the forward declaration and/or in the definition):
+```
+object TrackPoint,TP,7 is
+end object
+```
+Nah, we decided to go with pragmas to preserve the MASL grammar.
+
+=== issues
+
+- Some marks (like object persistence) get dumped into WASL data.
+TRANSACTION,TRN
+EJB Architecture,Persistence,Bean Managed
+- Get the pragma data into OOA.
+- Sort stuff by the correct stuff.
+- Consider using marking like masl does to get additional information associated with model elements.
+- We need state numbers.
+- Terminator key_letters are coming in from x2m empty, so for now, I am going to populate the name in the key_letters, too.
+- The ordering of parameters in .brp and .fnp needs to be resolved.  I think we will need to navigate twice through the list of parameters, first for 'in' parameters and then for 'out' parameters.
+- I am outputting comments on relationships (in the wrong place or just need to stop).
+- There is white space in enumerators (*.typ).
+- Wasl.g does not read a list for the second set of parameters after the semi-colon.
+  These may be identifying attributes, maybe for a creation event?
+  Maybe it simply names the attributes that get populated by these event parameters.
+- The Petrol Station model has a stanza in the .dmp file called EXTERNALS.  What is this?
+- Terminators go into a file called *.ter.  Bridges go into a file called *.brp.  So, terminators are kind-of in 2 files.  This needs to be resolved on how the genfile is linked.
+  * domain:  dmp
+  * ...
+
+NOTE:  I do not think that linking in the genfile is even necessary.  It can be created just before emission.
+
+- Right, so this is how it is solved.  genfile is populated as needed from the top-level genfile.render_wasl.
+
+- What is a terminator operation number?  Do we need to capture it on input?  Do we need to emit it on output?
+- Terminators have name and key letters.  Do we need to capture it on input?  Do we need to emit it on output (yes)?
+- Added key_letters to 'terminator' class and the terminator message in SMASL.  At the moment, x2m does nothing with it.
+- What is a class operation number?  Do we need to capture it on input?  Do we need to emit it on output?
+- Do we have the by_ref information for a parameter in maslout/masl?
+- Does maslin capture the class number?
+- sys_user_co.c 64000 string length (for Windows?)  The marked value is 250000.
+- I wonder how the WASL dumper chooses which object to start from (for A, B, C)(subtype list)?
+- data order?
+- Remove 'tododelete' from ooaparticipation in maslin.
+- Deal with 'typeminer'.
+- Describe the design of the file mapping architecture.
+- Reuse much of the analysis and design of 'masl', its populate and render, its meta-modeling, etc.
+
+=== resolved issues
+
+- Are deferred operations supported?  [yes]
+- Double-check the genfile traversals that are used to avoid creating too many files.  [Stopped traversals and began creating genfile opportunistically as needed.]
+- masl/maslout:  Added 'number' attribute 'state'.  x2m populates it with the SM_STATE.Numb.  However, this number is not imported by maslin.
+- masl:  To deal with event numbers, we needed to learn to update values when they come later.  In light of polymorphic events we need to be able create events in one class before their poly source has been created.  This requires creating them when only the name is known.  When the population comes across, we can update with the full values.
+- maslin:  added support for (both object names and) keyletters to find classes
+- maslout:  passed key letters and class number downstream to 'masl'.
+- A domain has a version.  This may need to be stored.  [It does not.]
+- Investigate using conditional generation in 'render' operations rather than having 'render_masl/render_wasl'.  The association hierarchy may be a good example where only the template is different.  [Did this.  Much better.]
+  * Consider putting an attribute on the genfile.  [Did.  Now the file knows it flavor.]
+  * 'population' is probably the wrong place.
+  * I have added a class-based operation on `genfile::architecture` which returns a string flavor.
+- Why is MASL round trip broken?  I think I ran into this when I was building something a while back.  It might be my branches?...
+  * I think my selection (by name or kl) does not find it so renders it again.
+  * I found it.  It was OAL I moved out from inside an if statement so that I was relating something multiple times.
+- Add number to object.
+- Identify tasks good for BAE people.
+- The compare utility will be simpler and will not take a whole week.
+- Add number to SMASL.
+- Fix class name and key letters issue.
+  * Generate object stanza during relationship import?
+- I broke the import which now cycles on relationship formalization.
+- Updated x2m plugin Xtuml2Masl.java to accept the -w flag and pass it through to 'masl'.  This update followed the pattern of the '-c' (coverage) flag that was recently added.
+
+== Abstract
+
+Migration of WASL models from iUML to BridgePoint necessitates a substantial
+engineering effort involving several bits of tooling and testing.  Model
+conversion, import, editing, and export are to be supported in the tools.
+Testing, documentation and training are required to sustain the processes.
+This note serves as a top-level sizing and planning document to the various
+analysis and design notes documenting the migration engineering.
+
+== Introduction and Background
+
+<<dr-2,Analyze Options for Migration>> provides analysis of migration options and recommends
+a path forward from iUML to BridgePoint while leveraging the existing
+model compiler tool chain.  The analysis explored converting iUML models
+represented as WASL flat ASCII files into xtUML and importing them into
+BridgePoint.  It also explored ways of exporting WASL-idiom xtUML models
+from BridgePoint to WASL to feed downstream to the model translation
+build chain.  This note presumes familiarity with the contents of that
+report.
+
+== Requirements
+
+=== Identify Tasks
+=== Analyze Dependencies and Sequence Work
+=== Size Tasks
+=== Plan Project
+
+== Analysis
+
+In <<wasl-flow>> below, there are two flows.  The top flow illustrates
+the convert/import from WASL flat ASCII files into BridgePoint xtUML.
+The _WaslParser_ block is the substantive change in this flow relative
+to the existing MASL import tooling.  The lower flow shows the export of
+WASL flat ASCII files from BridgePoint xtUML.  The block labeled _wasl_
+represents most of the work in the export flow.
+
+[[wasl-flow]]
+image::masl2xtuml2wasl.png[(WASL)MASL-to-xtUML and xtUML-to-WASL Flows]
+(WASL)MASL-to-xtUML and xtUML-to-WASL Flows
+
+In addition to the tooling, there are training, conversion and testing
+tasks involved in the project.
+
+This section identifies the tasks that compose the project.  Each task
+is analyzed independently or together in a group of related tasks.
+Sizing and sequencing come as part of the analysis.  In many cases a link
+to a subordinate design note is provided for the task.
+
+Some tasks are independent.  Some tasks depend upon the completion of
+other tasks.  An analysis is performed to outline sequencing required.
+
+Sizing of each task is provided in the design note and carried into the
+sections above.  A summary is provided here.
+
+The analysis and design performed on the various tasks is managed in a
+project plan.  Of course the project plan is refined over time as new
+information becomes available.  However, since a significant analysis
+has been performed, the confidence in the initial project plan can be
+relatively high.
+
+=== Phase 1 - Initial Model Migration
+==== System Level Modeling
+
+System level modeling refers to the modeling of systems composed of
+multiple domains.  In xtUML a domain is mapped into a UML component.
+Components have interfaces...
+
+===== derive interfaces and ports from imported WASL
+===== parse WASL project and create deployment
+==== Meta-Modeling
+===== Additions to xtUML MM to Store Elements Needed by WASL
+
+class key letters, class number, event number,
+state number, terminator key letters,
+class operation number,
+domain function number, terminator service number, ...
+
+====== class key letters
+====== class number
+====== event number
+===== model markup for features in WASL not in xtUML
+===== Update SMASL specification
+==== Import
+===== Parse WASL
+
+- There may be order requirements in the `.dmp` file.  Relationships
+need to come before object definitions (maybe).  I think that in m2x
+the relationships need to be there so they can be associated with the
+referential attributes.
+- I think we can load/parse the `.dmp` file and process it.
+This will not be complete, but it will allow for declaration of
+fundamental elements that can be "filled in" by loading/parsing
+the subordinate files.
+
+===== Type
+===== Interface
+===== Port
+===== Domain
+===== Class
+===== Relationships
+===== State Machines
+===== Terminators
+===== Activities
+==== Export
+===== Type
+===== Interface
+===== Port
+===== Domain
+===== Class
+===== Relationships
+===== State Machines
+===== Terminators
+===== Activities
+===== Folder Structure
+===== Deployment (Build Set)
+==== Add ASL Dialect into BridgePoint
+==== Initial Model Migration
+===== Convert the Relationships and Events Models
+===== Automate Model Conversion
+==== Testing and Validation 1
+===== WASL Compare Utility
+===== Compare Unedited Model Export with Import
+===== Compare Edited Export with Import
+==== Migrate the SWATS models (10 models)
+===== Deliver SWATS Test Suite into Trial
+
+=== Phase 2 - Production Model Migration
+==== Initial Training
+===== Configuration Management with Git
+===== xtUML Basic Modeling
+===== Tool Training
+==== Testing and Validation 2
+===== Conversion Support of Production Models
+===== Coach Round Trip Conversion
+===== Score Card
+===== Reproduction Test Cases
+==== Deliverable Documentation
+===== Migration Guide
+===== xtUML to/from WASL Structural Mapping
+===== configuration management strategy and best practices
+===== WASL Deployment (build set) Conversion Guide
+==== ASL Editing
+===== ASL syntax-highlighting editor
+===== ASL user defined identifier validation
+===== ASL xtUML context-sensitive edit/completion assistance
+===== Auto indent
+
+=== Phase 3 (Extended Editor)
+==== Training - train the trainer
+==== ASL version of GPS Watch
+===== Deliver WACA model compiler for testing.
+==== Enhanced Editor
+===== ASL automatic reference maintenance (Rename/Refactor)
+
+
+== Design
+
+=== Convert WASL to Serial MASL (SMASL) (`WaslParser`)
+=== Convert Serial MASL (SMASL) to WASL (`wasl`)
+
+- Add required new model elements to SMASL and the models.
+  * Update the SMASL specification <<dr-4,2.4>>.
+    + Add an attribute to 'object' to support key letters.
+  * Update `m2x`, `x2m` and `masl` to account for updated SMASL specification.
+    + Add an attribute to the class, 'object', to support key letters.
+
+=== Invocation and Builders
+WASL converters, importers and exporters need to be invoked with the
+set of parameters appropriate to process correct input and produce correct
+output.
+
+==== `wasl2xtuml`
+
+- Update wasl2xtuml to deal with classpaths in a DOS environment.
+
+
+=== `WaslParser` and `m2x`
+
+- Create a new WASL parser that parses structural WASL.
+- Parse WASL and emit SMASL.
+- Change name from asl/Asl/ASL to wasl/WaslParser/WASL.
+- Honor ordering of stanzas in the .dmp file as needed.
+  * Deal with order of relationships, subtypes and objects in `.dmp` file.
+  * Consider updating the WASL extraction tool instead; it may be easier.
+- Compile m2x for DOS (or cygwin).
+- Update `maslin` to handle some information missing from input SMASL and
+divine it from other sources or from defaults.
+- Deal with stack size issue in m2x (`PostOooInit` 2-dim array of strings).
+
+==== Project Level Deployments
+
+- parse the Extraction and import projects as deployments.
+- Update `m2x` to create deployments rather than project compositions.
+
+==== File Format Questions
+
+- What do we do with initialization segments?  (`.scn` files)
+
+=== `x2m` and `wasl`
+
+In regard to the ouput of WASL compatible files, the prototyping effort
+provided a proof-of-concept, but did not establish a design approach for
+the ultimate WASL rendering engine.  The prototype modified the MASL
+code renderer, whereas the approach desired will support both MASL and
+WASL.
+
+- render operations:
+  * Change name of masl render operations to 'render_masl' on elements
+    that differ between MASL and WASL.
+    + The top-level render operation is on 'file'.  The packaging of the
+      output text is controlled by the model as well as the specifics of
+      the text being packaged.
+  * Supply 'render_wasl' operations.
+  * When rendering MASL, invoke the corresponding tree of 'render_masl' operations.
+  * When rednering WASL, invoke the tree of 'render_wasl' operations.
+- templates:
+  * Put templates in subdirectories `masl` and `wasl`.
+  * Supply a separate set of templates for WASL rendering.
+- file packaging:
+
+. domain
+. object
+. relationship
+. associative
+. subsuper
+. type
+. activity
+. build set
+
+  * Change containerization on MASL to be part of 'render'.
+  * Containerize MASL with a query in the render process.
+    + Change the name of 'file' to 'genfile', since there is a class called
+      'file' in `mcooa` which is often in the same workspace.  This only
+      matters when publishing references, which we want to do for the sake
+      of consistency.
+    + Stop populating the file with each element during the population stage.
+    + Create files at the beginning of the 'render' query.
+    + Create files based on the names of types of elements.
+    + Deal with 'genfile::infolder' and 'genfile::outfolder' when no files
+      pre-exist.
+    + Put error message when invalid architecture flavor is passed in.
+- Place a dialect attribute on population.
+
+==== `xtuml2wasl`
+
+=== Build Process
+
+Update the build dependencies and build scripts to support the above changes.
+
+- Add build artifacts for `wasl` that gets built from `masl`.
+  * changed my mind, instead make `masl` a superset... maybe name it `mwasl`.
+- Update the file movement in the releng pom file that populates
+`toosl/mc/bin`.
+
+== Design Comments
+
+- What is domainScenarioList?
+
+It is in addition to domainScenarios.
+Maybe it is the initialization functions that are to run.
+
+- Must edit the `.dmp` file and move the 'OBJECTS' stanza below
+the 'RELATIONSHIPS' and 'SUBTYPES' stanzas.
+- Must set the WORKSPACE env var when running `xtuml2wasl`.
+
+=== Changing the Windows Build
+
+The Windows build needs to become more consistent to the unix builds.
+The windows build has had the least amount of tools and scripts.
+However, the masl tool binaries are actually built on the server for Windows.
+We simply do not ship them.
+
+. xtumlmc_build.exe?
+  * Copy xtumlmc_build to tools/mc/bin/xtumlmc_build.pl.
+  * Change it to strip CRLFs from serial MASL stream.
+
+== Work Required
+
+- Provide import script:  wasl2xtuml
+- Provide export script:  xtuml2wasl
+- Provide testing scripts:  wasl_round_trip, wasldiff
+
+== Acceptance Test
+
+. Run `masl_round_trip` on the build server and see it pass %100.
+. Run `wasl_round_trip` using WASL test suite ported from MASL.
+It would be cheap and easy to port many of the MASL test cases... specifically, the really small isolated tests.
+. Run `wasl_round_trip` using WACA test suite (SWATS).
+
+== Document References
+
+. [[dr-1]] https://support.onefact.net/issues/10440[10440 - Prototypes]
+. [[dr-2]] https://support.onefact.net/issues/10414[10414 - Analyze Options for Migration]
+. [[dr-3]] link:../10414_wasl/ExtractionWithHeaders.xlsx[File Formats:  Extraction with Headers]
+. [[dr-4]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

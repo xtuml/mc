@@ -20,6 +20,10 @@ activity = activity::populate( name:param.name );
 create object instance operation of operation;
 operation.visibility = param.visibility;
 operation.instance = param.instance;
+if ( "" != param.number )
+  // operation number is optional.
+  operation.number = STRING::atoi( s:param.number );
+end if;
 relate operation to parent_object across R3749;
 if ( "" != param.deferred_relationship )
   select any relationship related by operation->object[R3749]->participation[R3714]->relationship[R3713] where ( selected.name == param.deferred_relationship );
@@ -78,7 +82,7 @@ INSERT INTO O_TPARM
 	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	0,
 	'',
-	"7894cf96-6c95-49ab-a912-bcd82856c033",
+	"b0e5c98f-3f26-4721-a90c-b6f658ad4d4c",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
@@ -87,6 +91,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("b0e5c98f-3f26-4721-a90c-b6f658ad4d4c",
+	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
+	'number',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7894cf96-6c95-49ab-a912-bcd82856c033",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("1e5bcd4f-5fa3-4d29-b0f3-c585a35b6c90",
 	"00000000-0000-0000-0000-000000000000",
@@ -115,12 +128,30 @@ select one returntyperef related by self->typeref[R3741];
 if ( not_empty returntyperef )
   returntype = returntyperef.body;
 end if;
-T::include( file:"masl/t.operation_begin.masl" );
-select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
-if ( not_empty parameter )
-  parameter.render();
+select one object related by self->object[R3749.''transforms''];
+
+
+if ( "MASL" == genfile::architecture() )
+
+  T::include( file:"masl/t.operation_begin.masl" );
+  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+  if ( not_empty parameter )
+    parameter.render( direction:"" );
+  end if;
+  T::include( file:"masl/t.operation_end.masl" );
+
+elif ( "WASL" == genfile::architecture() )
+
+  scope = object.key_letters + STRING::itoa( i:self.number );
+  T::include( file:"wasl/t.routine_begin.wasl" );
+  select one activity related by self->activity[R3704];
+  activity.render();
+  T::include( file:"wasl/t.routine_end.wasl" );
+
+else
+  //
 end if;
-T::include( file:"masl/t.operation_end.masl" );',
+',
 	1,
 	'',
 	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
@@ -222,33 +253,53 @@ INSERT INTO O_TFR
 	'operation = self;
 activity = param.activity;
 
-if ( not_empty operation and not_empty activity )
+select one object related by self->object[R3749];
+select one domain related by object->domain[R3708];
+
+if ( "MASL" == genfile::architecture() )
+
   // render name
-  select one object related by self->object[R3749];
-  select one domain related by object->domain[R3708];
-  if ( not_empty object and not_empty domain )
-	T::include( file:"masl/t.object_service_def_begin.masl" );
-  end if;
+  T::include( file:"masl/t.object_service_def_begin.masl" );
 
   // render parameters
   select one parameter related by activity->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-	parameter.render();
+    parameter.render( direction:"" );
   end if;
   
   // render return
   returntype = "";
   select one returntyperef related by self->typeref[R3741];
   if ( not_empty returntyperef )
-	returntype = returntyperef.body;
+    returntype = returntyperef.body;
   end if;
   T::include( file:"masl/t.service_def_middle.masl" );
+
+elif ( "WASL" == genfile::architecture() )
   
-  // render code block
-  select one code_block related by activity->code_block[R3794];
-  if ( not_empty code_block )
-    code_block.render();
+  T::include( file:"wasl/t.operation_def_begin.wasl" );
+
+  // render input parameters
+  select one parameter related by activity->parameter[R3705.''carries first''];
+  if ( not_empty parameter )
+    parameter.render_definition( direction:"in" );
   end if;
+  T::include( file:"wasl/t.activity_def_input.wasl" );
+
+  // render output parameters
+  if ( not_empty parameter )
+    parameter.render_definition( direction:"out" );
+  end if;
+  T::include( file:"wasl/t.activity_def_output.wasl" );
+
+else
+  //
+end if;
+  
+// render code block
+select one code_block related by activity->code_block[R3794];
+if ( not_empty code_block )
+  code_block.render();
 end if;',
 	1,
 	'',
@@ -304,6 +355,24 @@ INSERT INTO O_ATTR
 	'instance',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ebb198a4-812a-4c69-a329-c439816144f5",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_BATTR
+	VALUES ("ebb198a4-812a-4c69-a329-c439816144f5",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_ATTR
+	VALUES ("ebb198a4-812a-4c69-a329-c439816144f5",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970",
+	"69fb8c4d-f075-4e02-90e0-44f80358a4fb",
+	'number',
+	'',
+	'',
+	'number',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID

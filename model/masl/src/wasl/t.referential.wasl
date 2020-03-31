@@ -1,0 +1,9 @@
+T_b("(");
+T_b(relationshipname);
+T_b("");
+if ( 0!=strcmp("",attribute) ) {
+T_b(".");
+T_b(attribute);
+T_b("");
+}
+T_b(")");

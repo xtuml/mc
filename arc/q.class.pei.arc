@@ -216,7 +216,7 @@
           .// Simple relationship?
           .select one simple_rel related by rel->R_SIMP[R206]
           .if ( not_empty simple_rel )
-            .select one participant related by simple_rel->R_PART[R207]
+            .select any participant related by simple_rel->R_PART[R207]
             .select one formalizer related by simple_rel->R_FORM[R208]
             .if ( empty formalizer )
               .print "\n\tRelationship R${rel.Numb} is not formalized!\n"

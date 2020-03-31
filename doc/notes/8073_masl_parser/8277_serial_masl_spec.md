@@ -146,17 +146,21 @@ arguments in order and specification of arguments.
 | domain            | name              | required              | string                                                      |
 | event             | name              | required              | string                                                      |
 |                   | type              | required              | "assigner", "creation", or ""                               |
+|                   | number            | optional              | string number
 | exception         | name              | required              | string                                                      |
 |                   | visibility        | required              | "public" or "private"                                       |
 | expression*       | body              | required              | string                                                      |
 | identifier        | (none)            | N/A                   | N/A                                                         |
 | object            | name              | required              | string                                                      |
+|                   | key_letters       | optional              | string                                                      |
+|                   | number            | optional              | string                                                      |
 | operation         | domain            | optional              | string                                                      |
 |                   | object            | optional              | string                                                      |
 |                   | visibility        | required              | "public" or "private"                                       |
 |                   | name              | required              | string                                                      |
 |                   | instance          | optional              | "instance" or ""                                            |
 |                   | relationship      | optional              | string                                                      |
+|                   | number            | optional              | string (positive counting number)                           |
 | parameter         | name              | required              | string                                                      |
 |                   | direction         | required              | "in" or "out"                                               |
 | participation* ** | fromDomain        | optional              | string                                                      |
@@ -180,12 +184,15 @@ arguments in order and specification of arguments.
 |                   | terminator        | optional              | string                                                      |
 |                   | visibility        | required              | "public" or "private"                                       |
 |                   | name              | required              | string                                                      |
+|                   | number            | optional              | string (positive counting number)                           |
 | state             | domain            | optional              | string                                                      |
 |                   | object            | optional              | string                                                      |
 |                   | name              | required              | string                                                      |
 |                   | type              | required              | "assigner", "assigner start", "creation", "terminal", or "" |
+|                   | number            | optional              | string number
 | subsuper          | name              | required              | string                                                      |
 | terminator        | name              | required              | string                                                      |
+|                   | key_letters       | optional              | string                                                      |
 | transition        | startstate        | required              | string, "Non_Existant", "Non_Existent", or "non_existent"   |
 |                   | eventDomain       | optional              | string                                                      |
 |                   | eventObject       | optional              | string                                                      |

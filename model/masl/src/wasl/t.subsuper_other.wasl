@@ -1,0 +1,3 @@
+T_b(",");
+T_b(other_object->key_letters);
+T_b("");

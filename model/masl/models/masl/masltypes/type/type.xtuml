@@ -25,8 +25,20 @@ for each reference in references
   reference.resolved = true;
 end for;
 select one markable related by self->markable[R3783];
-T::include( file:"masl/t.type_begin.masl" );
-T::include( file:"masl/t.type_end.masl" );
+
+if ( "MASL" == genfile::architecture() )
+  T::include( file:"masl/t.type_begin.masl" );
+  T::include( file:"masl/t.type_end.masl" );
+elif ( "WASL" == genfile::architecture() )
+  if ( -1 != STRING::indexof( haystack:self.body, needle:"," ) ) // TODO this is a fragile way to identify enums
+    self.body = "Enumeration,{" + self.body + "}";
+  end if;
+  T::include( file:"wasl/t.type_begin.wasl" );
+  T::include( file:"wasl/t.type_end.wasl" );
+else
+  //
+end if;
+
 markable.render_marking( list:"default" );
 ',
 	1,
@@ -424,6 +436,8 @@ INSERT INTO S_DIM
 	"00000000-0000-0000-0000-000000000000",
 	"00000000-0000-0000-0000-000000000000",
 	"35b0744a-1682-42ec-b6c8-30d1c5b4bcc9",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_ATTR
 	VALUES ("59db881e-073a-4777-b55a-e652d8069752",

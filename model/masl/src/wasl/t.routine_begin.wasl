@@ -1,0 +1,4 @@
+T_b(scope);
+T_b(";");
+T_b(name);
+T_b(";");

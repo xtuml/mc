@@ -1,0 +1,913 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'genfile',
+	3778,
+	'genfile',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("4c11d43c-eebe-45da-af8c-2e21b2196111",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'render_masl',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'element = param.element;
+name = param.name;
+structuralOnly = param.structuralOnly;
+
+select any population from instances of population;
+population.architecture = "MASL";
+
+// Populate the file containerization before transforming and emitting the text.
+select many elements from instances of element;
+for each e in elements
+  if ( "project" == e.name or "domain" == e.name or
+       "routine" == e.name or "operation" == e.name or "state" == e.name )
+    genfile = genfile::populate( name:e.name );
+    relate genfile to e across R3795;
+  else
+    // no file needed
+  end if;
+end for;
+
+if ( "project" == element )
+  select many projects from instances of project where ( selected.name == name );
+  if ( ( "*" == name ) or ( "" == name ) )
+    select many projects from instances of project;
+  end if;
+  if ( empty projects )
+    TRACE::log( flavor:"error", id:51, message:"could not render project:  " + name );
+  else
+    for each project in projects
+      project.render();
+      select one genfile related by project->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
+        // Project files go into a directory named after the project.
+        genfile.directory( name:project.name );
+        genfile.emit( name:project.name + ".prj" );
+      end if;
+
+      if ( structuralOnly == true )
+        // we already output the project structural bits, so skip activites
+        continue;
+      end if;
+      
+      // render all the activity files
+      select many terminator_activities related by project->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
+      for each activity in terminator_activities
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
+          // Domain files go into a directory named after the domain.
+          genfile.directory( name:project.name );
+          genfile.gen( destination:destination );
+        end if;
+      end for;
+
+    end for;
+  end if;
+elif ( "domain" == element )
+  select many domains from instances of domain where ( selected.name == name );
+  if ( ( "*" == name ) or ( "" == name ) )
+    select many domains from instances of domain;
+  end if;
+  if ( empty domains )
+    TRACE::log( flavor:"error", id:52, message:"could not render domain:  " + name );
+  else
+    for each domain in domains
+      domain.render();
+      select one genfile related by domain->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
+        // Domain files go into a directory named after the domain.
+        genfile.directory( name:domain.name );
+        genfile.emit( name:domain.name + ".mod" );
+        domain.render_interface();
+        genfile.emit( name:domain.name + ".int" );
+      end if;
+
+      if ( structuralOnly == true )
+        // we have output the domain structural bits, so skip activites
+        continue;
+      end if;
+            
+      // render all the activity files
+      select many domain_routines related by domain->routine[R3790]->activity[R3704];
+      select many terminator_routines related by domain->terminator[R3702]->routine[R3791]->activity[R3704];
+      select many class_ops related by domain->object[R3708]->operation[R3749]->activity[R3704];
+      select many states related by domain->object[R3708]->state[R3750]->activity[R3704];
+      activities = domain_routines + terminator_routines + class_ops + states;
+      for each activity in activities
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
+          // Domain files go into a directory named after the domain.
+          genfile.directory( name:domain.name );
+          select one class_op related by activity->operation[R3704];
+          select one deferral related by class_op->subsuper[R3793];
+          if ( empty class_op or ( not_empty class_op and empty deferral ) )
+            genfile.gen( destination:destination );
+          end if;
+        end if;
+      end for;
+
+    end for;
+  end if;
+elif ( "" == element ) // render from the root
+  select one root_element related by population->element[R3785];
+  if ( not_empty root_element )
+    root_element.render();
+  end if;
+else
+  TRACE::log( flavor:"error", id:53, message:"unrecognized element type on render interface:  " + element );
+end if;
+',
+	1,
+	'',
+	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("e5cf8b40-420d-4501-88bd-ebcfca9f7251",
+	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	'element',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("ef19dc39-fe10-4b07-a157-d4ab1bc5976b",
+	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e5cf8b40-420d-4501-88bd-ebcfca9f7251",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("4a7f2d74-9dad-42b5-b5dc-82be182a4ad1",
+	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	'structuralOnly',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"ef19dc39-fe10-4b07-a157-d4ab1bc5976b",
+	'');
+INSERT INTO O_TFR
+	VALUES ("a7863684-8575-4990-b290-dce44c1b53df",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'valid = true;
+
+// get root element
+select any population from instances of population;
+select one root_element related by population->element[R3785];
+if ( empty root_element )
+  TRACE::log( flavor:"warning", id:90, message:"no root element in validate" );
+end if;
+
+// validate
+valid = root_element.validate();
+
+if ( not valid )
+  TRACE::log( flavor:"failure", id:91, message:"model did not validate" );
+end if;',
+	1,
+	'',
+	"fb05b492-f60e-4c02-bdc6-89f2362e8cee",
+	0);
+INSERT INTO O_TFR
+	VALUES ("af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'populate',
+	'',
+	"0cc31fb1-62a8-4de9-8fa7-9b53fedf4abb",
+	0,
+	'create object instance genfile of genfile;
+
+// Find the primary file (named "project") and get defaults from it.
+select any primary_file from instances of genfile where ( selected.name == "project" );
+if ( not_empty primary_file )
+  genfile.directory = primary_file.directory;
+  genfile.projectroot = primary_file.projectroot;
+end if;
+
+genfile.name = param.name;
+
+return genfile;',
+	1,
+	'',
+	"0652aa1a-382c-4f76-b3b5-f382ef04ba69",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("6c8f49be-0ccb-4b8a-ae38-a983e455e4a4",
+	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("0cc31fb1-62a8-4de9-8fa7-9b53fedf4abb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<genfile>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO O_TFR
+	VALUES ("0652aa1a-382c-4f76-b3b5-f382ef04ba69",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'outfolder',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'// We may be the first invocation into file.  If so, create the default file.
+select any genfile from instances of genfile where ( selected.name == "project" );
+if ( empty genfile )
+  genfile = genfile::populate( name:"project" );
+end if;
+if ( "" == genfile.directory )
+  genfile.directory = param.name;
+else
+  genfile.directory = genfile.directory + "/" + param.name;
+end if;
+',
+	1,
+	'',
+	"e5b94764-401e-406c-b9a9-fa2a5bc4fce0",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("99921c31-1323-40cf-a690-4971823e7fb4",
+	"0652aa1a-382c-4f76-b3b5-f382ef04ba69",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("2f147788-5a86-4450-bedd-f6c445ca097c",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'emit',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'self.name = param.name;
+fullfilename = self.name;
+if ( "stdout" == self.directory )
+  fullfilename = "stdout";
+elif ( "" != self.directory )
+  fullfilename = self.directory + "/" + self.name;
+end if;
+T::emit( file:fullfilename );',
+	1,
+	'',
+	"5cd5b315-bca4-4e80-ba18-2427ea690ab7",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("1e4e6c03-8024-460f-b234-2e3697d13d06",
+	"2f147788-5a86-4450-bedd-f6c445ca097c",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("5cd5b315-bca4-4e80-ba18-2427ea690ab7",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'directory',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'if ( "" == self.directory )
+  self.directory = param.name;
+else
+  self.directory = self.directory + "/" + param.name;
+end if;',
+	1,
+	'',
+	"e4bb4b34-0329-4346-a4bf-632ffa0ad30b",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("29043fa1-8c39-4370-9b32-3c885eaddb8a",
+	"5cd5b315-bca4-4e80-ba18-2427ea690ab7",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("e4bb4b34-0329-4346-a4bf-632ffa0ad30b",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'copy',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'source = param.source;
+destination = param.destination;
+if ( "" != self.projectroot )
+  source = self.projectroot + "/models/" + source;
+end if;
+if ( "" != self.directory )
+  destination = self.directory + "/" + destination;
+end if;
+T::copyfile( source:source, destination:destination );',
+	1,
+	'',
+	"42b3bbc0-d392-414b-8b74-4c347e0f6e79",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("f291b218-90cf-440e-82d5-4f62b49dd9fa",
+	"e4bb4b34-0329-4346-a4bf-632ffa0ad30b",
+	'source',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("80fbdb8a-5c53-41f7-943b-5f0d691fd1ad",
+	"e4bb4b34-0329-4346-a4bf-632ffa0ad30b",
+	'destination',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"f291b218-90cf-440e-82d5-4f62b49dd9fa",
+	'');
+INSERT INTO O_TFR
+	VALUES ("e5b94764-401e-406c-b9a9-fa2a5bc4fce0",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'infolder',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'// We may be the first invocation into file.  If so, create the default file.
+select any genfile from instances of genfile where ( selected.name == "project" );
+if ( empty genfile )
+  genfile = genfile::populate( name:"project" );
+end if;
+genfile.projectroot = param.name;',
+	1,
+	'',
+	"2f147788-5a86-4450-bedd-f6c445ca097c",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("766ebdb8-8e48-489a-8926-e257a758062f",
+	"e5b94764-401e-406c-b9a9-fa2a5bc4fce0",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("5184e566-c21d-4e41-adf8-4be0bb366c90",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'getname',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'/** Naming convention:
+  *
+  * Domain Model: <domain name>.mod
+  * Domain Interface: <domain name>.int
+  *  
+  * Domain Service: <service name>.svc
+  * Domain External: <external name>.ext (domain service with pragma external)
+  * Domain Scenario: <external name>.scn (domain service with pragma scenario)
+  *  
+  * Object/Instance Service: <object kl>_<service name>.svc
+  * State Action: <object kl>_<state name>.al
+  *  
+  * Terminator Service: <terminator kl>_<service name>.tr
+  * Terminator Function: <terminator kl>_<service name>.tr (yes, this is inconsistent with other functions!)
+  *  
+  * Project Model: <project name>.prj
+  * Project Terminator Service: <domain name>_<terminator kl>_<service name>.tr
+  *
+  * Also, if any of the services and functions have more than one definition with the same name
+  * (but different signatures) the filename has an overload number appended before the
+  * extension for the second and subsequent occurrences.
+  * 
+  * For example:
+  *   public service log ( message : in string );
+  *   public service log ( message : in string, arg1 : in string );
+  *   public service log ( message : in string, arg1 : in string, arg2 : in string );
+  * 
+  * would have files named log.svc, log_1.svc and log_2.svc respectively, as per the order the
+  * definitions occur in the .mod file.
+  * 
+  * Also, a filename can be overridden with a pragma filename("another_file.aaa") after the
+  * declaration in the mod file, which trumps everything else (we tend to do this for overloads,
+  * as it is less flaky)
+  */
+  
+name = "";
+
+select any activity related by self->element[R3795]->markable[R3786]->activity[R3783];
+if ( not_empty activity )
+
+  // check for filename pragma
+  select any filename_pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "filename" );
+  select any pragma_item related by filename_pragma->pragma_item[R3780];
+  if ( not_empty pragma_item )
+    fn_len = STRING::strlen( s:pragma_item.value );
+    name = STRING::substr( s:pragma_item.value, begin: 1, end: fn_len - 1 );
+  else
+    select one routine related by activity->routine[R3704];
+    select one operation related by activity->operation[R3704];
+    select one state related by activity->state[R3704];
+
+    if ( not_empty routine )
+      select one terminator related by routine->terminator[R3791];
+      select one returntype related by routine->typeref[R3792];
+      if ( empty terminator ) // domain routine
+        select any scn_pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
+        select any ext_pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
+        if ( not_empty scn_pragma )	// domain scenario
+          name = activity.name + ".scn";
+        elif ( not_empty ext_pragma )	// domain external
+          name = activity.name + ".ext";
+        else // domain service
+          name = activity.name + ".svc";
+        end if;
+      else // terminator routine
+        select one project related by terminator->domain[R3702]->project[R3701];
+        select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
+        select any pragma_item related by pragma->pragma_item[R3780];
+        key_letters = "";
+        if ( empty pragma_item )
+          key_letters = terminator.name;
+        else
+          kl_len = STRING::strlen( s:pragma_item.value );
+          key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
+        end if;
+        if ( empty project ) // domain terminator
+          name = key_letters + "_" + activity.name + ".tr";
+        else // project terminator
+          select one domain related by terminator->domain[R3702];
+          name = domain.name + "_" + key_letters + "_" + activity.name + ".tr";
+        end if;
+      end if;
+    elif ( not_empty operation )
+      select one returntype related by operation->typeref[R3741];
+      select any pragma related by operation->object[R3749]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
+      select any pragma_item related by pragma->pragma_item[R3780];
+      key_letters = "";
+      if ( empty pragma_item )
+        select one obj related by operation->object[R3749];
+        key_letters = obj.name;
+      else
+        kl_len = STRING::strlen( s:pragma_item.value );
+        key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
+      end if;
+      name = key_letters + "_" + activity.name + ".svc";
+    elif ( not_empty state )
+      select one returntype related by operation->typeref[R3741];
+      select any pragma related by state->object[R3750]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
+      select any pragma_item related by pragma->pragma_item[R3780];
+      key_letters = "";
+      if ( empty pragma_item )
+        select one obj related by state->object[R3750];
+        key_letters = obj.name;
+      else
+        kl_len = STRING::strlen( s:pragma_item.value );
+        key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
+      end if;
+      if ( "assigner" == state.type or "assigner start" == state.type )
+        // add -A for assigner states
+        name = key_letters + "-A_" + activity.name + ".al";
+      else
+        name = key_letters + "_" + activity.name + ".al";
+      end if;
+    end if;
+  
+  end if;
+
+end if;
+
+// check for a duplicate name
+// TODO this handles overloading which is not yet supported in MASL
+select any dup_file from instances of genfile where ( selected.name == name );
+overload = 1;
+orig_name = name;
+while ( not_empty dup_file )
+
+  // process name
+  i = STRING::indexof( haystack:orig_name, needle:"." );
+  len = STRING::strlen( s:orig_name );
+  base = STRING::substr( s:orig_name, begin:0, end:i );
+  ext = STRING::substr( s:orig_name, begin:i, end:len );
+  str_num = STRING::itoa( i:overload );
+  
+  // set name
+  name = base + "_" + str_num + ext;
+  
+  // increment overload number
+  overload = overload + 1;
+  
+  // retry selection
+  select any dup_file from instances of genfile where ( selected.name == name );
+
+end while;
+
+self.name = name;
+return name;',
+	1,
+	'',
+	"a7863684-8575-4990-b290-dce44c1b53df",
+	0);
+INSERT INTO O_TFR
+	VALUES ("f03f6367-a1ba-4db1-a427-380dbbbb9806",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'gen',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'destination = param.destination;
+
+select any activity related by self->element[R3795]->markable[R3786]->activity[R3783];
+select one code_block related by activity->code_block[R3794];
+if ( not_empty activity and not_empty code_block )
+  activity.render_definition();
+  self.emit( name:destination );
+end if;',
+	1,
+	'',
+	"5184e566-c21d-4e41-adf8-4be0bb366c90",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("7bb1295c-b375-4c50-9c1e-efd5bb085697",
+	"f03f6367-a1ba-4db1-a427-380dbbbb9806",
+	'destination',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("fb05b492-f60e-4c02-bdc6-89f2362e8cee",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'render_wasl',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'element = param.element;
+name = param.name;
+structuralOnly = param.structuralOnly;
+
+select any population from instances of population;
+population.architecture = "WASL";
+
+if ( "project" == element )
+  select many projects from instances of project where ( selected.name == name );
+  if ( ( "*" == name ) or ( "" == name ) )
+    select many projects from instances of project;
+  end if;
+  if ( empty projects )
+    TRACE::log( flavor:"error", id:51, message:"could not render project:  " + name );
+  else
+    for each project in projects
+      project.render();
+      select one genfile related by project->markable[R3783]->element[R3786]->genfile[R3795];
+      if ( not_empty genfile )
+        // Project files go into a directory named after the project.
+        genfile.emit( name:project.name + ".prj" );
+      end if;
+
+      if ( structuralOnly == true )
+        // we already output the project structural bits, so skip activites
+        continue;
+      end if;
+      
+	    // render all the activity files
+      select many terminator_activities related by project->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
+      for each activity in terminator_activities
+        select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+        if ( not_empty genfile )
+          destination = genfile.getname();
+          // Domain files go into a directory named after the domain.
+          genfile.gen( destination:destination );
+        end if;
+      end for;
+
+    end for;
+  end if;
+elif ( "domain" == element )
+  select many domains from instances of domain where ( selected.name == name );
+  if ( ( "*" == name ) or ( "" == name ) )
+    select many domains from instances of domain;
+  end if;
+  if ( empty domains )
+    TRACE::log( flavor:"error", id:52, message:"could not render domain:  " + name );
+  else
+    for each domain in domains
+
+      // domain ("dump") file
+      genfile = genfile::populate( name:"domain" );
+      domain.render();
+      genfile.emit( name:domain.name + ".dmp" );
+
+      // terminators file
+      select many terminators related by domain->terminator[R3702];
+      for each terminator in terminators
+        terminator.render();
+      end for;
+      genfile = genfile::populate( name:"terminators" );
+      genfile.emit( name:domain.name + ".ter" );
+
+      // hand coded files file (no need to generate)
+      // scenarios
+      // scenario list file
+
+      // function data types file
+      T::include( file:"wasl/t.START.wasl" );
+      select many routines related by domain->routine[R3790];
+      for each routine in routines
+        select one activity related by routine->activity[R3704];
+        routine.render( name:activity.name );
+      end for;
+      select many operations related by domain->object[R3708]->operation[R3749];
+      for each operation in operations
+        select one activity related by operation->activity[R3704];
+        operation.render( name:activity.name );
+      end for;
+      T::include( file:"wasl/t.END.wasl" );
+      genfile = genfile::populate( name:"functions" );
+      genfile.emit( name:domain.name + ".fnp" );
+
+      // functions
+      // bridge data types file
+      T::include( file:"wasl/t.START.wasl" );
+      select many terminators related by domain->terminator[R3702];
+      for each terminator in terminators
+        select many routines related by terminator->routine[R3791];
+        for each routine in routines
+          select one activity related by routine->activity[R3704];
+          routine.render( name:activity.name );
+        end for;
+      end for;
+      T::include( file:"wasl/t.END.wasl" );
+      genfile = genfile::populate( name:"bridges" );
+      genfile.emit( name:domain.name + ".brp" );
+
+      // bridges
+      // objects file
+      select many objects related by domain->object[R3708];
+      for each obj in objects
+        obj.render();
+      end for;
+      genfile = genfile::populate( name:"objects" );
+      genfile.emit( name:domain.name + ".obj" );
+
+      // relationships file
+      select many rels related by domain->relationship[R3712];
+      select many subsuper_rels related by domain->relationship[R3712]->subsuper[R3721]->relationship[R3721];
+      other_rels = rels - subsuper_rels;
+      for each rel in other_rels
+        rel.render();
+      end for;
+      genfile = genfile::populate( name:"relationships" );
+      genfile.emit( name:domain.name + ".rel" );
+
+      // subtypes file
+      for each rel in subsuper_rels
+        rel.render();
+      end for;
+      genfile = genfile::populate( name:"subtypes" );
+      genfile.emit( name:domain.name + ".sub" );
+
+      // polymorphic events file
+      // .pme_test (no need to generate)
+      // actions
+
+      // state transition table file
+      select many objects related by domain->object[R3708];
+      for each obj in objects
+        select many state_machines related by obj->state_machine[R3734];
+        for each state_machine in state_machines
+          state_machine.render();
+        end for;
+      end for;
+      genfile = genfile::populate( name:"state_machines" );
+      genfile.emit( name:domain.name + ".stt" );
+
+      // event data file
+      select many objects related by domain->object[R3708];
+      for each object in objects
+        select many events related by object->event[R3736];
+        for each event in events
+          event.render();
+        end for;
+      end for;
+      genfile = genfile::populate( name:"events" );
+      genfile.emit( name:domain.name + ".evd" );
+
+
+      // types file
+      select many types related by domain->type[R3719];
+      for each typ in types
+        typ.render();
+      end for;
+      for each obj in objects
+        obj.render_declaration();
+      end for;
+      genfile = genfile::populate( name:"types" );
+      genfile.emit( name:domain.name + ".typ" );
+
+      if ( structuralOnly == true )
+        // we have output the domain structural bits, so skip activites
+        continue;
+      end if;
+            
+      // render the activity files
+      select many routines related by domain->routine[R3790];
+      for each routine in routines
+        select one activity related by routine->activity[R3704];
+        routine.render_definition( activity:activity );
+        filename = domain.name + "_" + activity.name + ".fn";
+        genfile = genfile::populate( name:filename );
+        genfile.emit( name:filename );
+      end for;
+      select many terminators related by domain->terminator[R3702];
+      for each terminator in terminators
+        select many routines related by terminator->routine[R3791];
+        for each routine in routines
+          select one activity related by routine->activity[R3704];
+          routine.render_definition( activity:activity );
+          filename = domain.name + "_" + terminator.key_letters + "_" + activity.name + ".br";
+          genfile = genfile::populate( name:filename );
+          genfile.emit( name:filename );
+        end for;
+      end for;
+      select many objects related by domain->object[R3708];
+      for each object in objects
+      select many operations related by object->operation[R3749];
+        for each operation in operations
+          select one activity related by operation->activity[R3704];
+          operation.render_definition( activity:activity );
+          filename = domain.name + "_" + object.key_letters + "_" + activity.name + ".fn";
+          select one deferral related by operation->subsuper[R3793];
+          if ( empty deferral )
+            // Skip generaton of abstract operations.
+            genfile = genfile::populate( name:filename );
+            genfile.emit( name:filename );
+          end if;
+        end for;
+        select many states related by object->state[R3750];
+        for each state in states
+          select one activity related by state->activity[R3704];
+          state.render_definition( activity:activity );
+          sname = domain.name + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
+          genfile = genfile::populate( name:sname );
+          genfile.emit( name:sname + ".al" );
+        end for;
+      end for;
+
+    end for;
+  end if;
+elif ( "" == element )	// render from the root
+  select one root_element related by population->element[R3785];
+  if ( not_empty root_element )
+    root_element.render();
+  end if;
+else
+  TRACE::log( flavor:"error", id:53, message:"unrecognized element type on render interface:  " + element );
+end if;',
+	1,
+	'',
+	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("5a9cac6f-7833-4e28-bb71-50f49f765373",
+	"fb05b492-f60e-4c02-bdc6-89f2362e8cee",
+	'element',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("236bc013-aaff-4c72-86da-32851b1dfa28",
+	"fb05b492-f60e-4c02-bdc6-89f2362e8cee",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"5a9cac6f-7833-4e28-bb71-50f49f765373",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("89f9a5b8-21f4-4887-8b48-777b00ec6d72",
+	"fb05b492-f60e-4c02-bdc6-89f2362e8cee",
+	'structuralOnly',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"236bc013-aaff-4c72-86da-32851b1dfa28",
+	'');
+INSERT INTO O_TFR
+	VALUES ("42b3bbc0-d392-414b-8b74-4c347e0f6e79",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'architecture',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'// Return the output flavor.
+select any population from instances of population;
+if ( empty population )
+    TRACE::log( flavor:"error", id:54, message:"no population" );
+else
+  if ( ( "MASL" != population.architecture ) and ( "WASL" != population.architecture ) )
+    TRACE::log( flavor:"error", id:55, message:"architecture neither MASL nor WASL" );
+  end if;
+end if;
+return population.architecture;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_NBATTR
+	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_BATTR
+	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ATTR
+	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("9cefce8b-496f-41de-bc4f-f7b0cc6613de",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_BATTR
+	VALUES ("9cefce8b-496f-41de-bc4f-f7b0cc6613de",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ATTR
+	VALUES ("9cefce8b-496f-41de-bc4f-f7b0cc6613de",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	"5256ef06-1883-421b-9b6b-05abea717422",
+	'directory',
+	'',
+	'',
+	'directory',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("0ec02753-0eda-42e2-a42a-65c03c9ebc59",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_BATTR
+	VALUES ("0ec02753-0eda-42e2-a42a-65c03c9ebc59",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ATTR
+	VALUES ("0ec02753-0eda-42e2-a42a-65c03c9ebc59",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	"9cefce8b-496f-41de-bc4f-f7b0cc6613de",
+	'projectroot',
+	'',
+	'',
+	'projectroot',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ID
+	VALUES (1,
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ID
+	VALUES (2,
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO PE_PE
+	VALUES ("687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpopulation',
+	'',
+	0,
+	'../maslpopulation.xtuml');

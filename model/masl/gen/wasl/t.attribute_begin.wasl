@@ -1,0 +1,6 @@
+.if ( "preferred" == self.preferred )
+*\
+.else
+..\
+.end if
+${self.name},\
