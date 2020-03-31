@@ -74,6 +74,11 @@ The persistence version of the calculator test model was refreshed.
 === 5.2 archetype selects
 A few incorrect (but parsable) select statements were fixed in mc3020.
 
+=== 5.3 initial Jubilee fix
+A merge of the original Jubilee fix into master was done incorrectly
+and only made it into my fork.  So, now it is being included in this
+merge.
+
 == 6 Unit Test
 
 `masl_round_trip` is run cleanly on Linux and MacOS.
@@ -89,306 +94,314 @@ provided (`-s <architecture>).
 - fork/repository:  cortlandstarrett/bridgepoint
 
 ----
- releng/org.xtuml.bp.mctools/pom.xml                       | 61 ++++++++++++++++++++++++++++++++++++++++++++-----------------
- src/org.xtuml.bp.x2m/src/org/xtuml/bp/x2m/Xtuml2Masl.java | 16 ++++++++++++++--
- 2 files changed, 58 insertions(+), 19 deletions(-)
+ .../notes/11719_associative_valid_check/11719_associative_valid_check_int.adoc     |  66 ++++++++++
+ .../notes/11724_edit_current_association/11724_edit_current_association_ant.adoc   | 119 ++++++++++++++++++
+ .../notes/11724_edit_current_association/11724_edit_current_association_dnt.adoc   | 124 +++++++++++++++++++
+ .../notes/11724_edit_current_association/11724_edit_current_association_int.adoc   |  95 +++++++++++++++
+ doc-bridgepoint/notes/{README.md => README.adoc}                                   |   4 +-
+ releng/org.xtuml.bp.mctools/pom.xml                                                |  61 +++++++---
+ src/org.xtuml.bp.core/arc/page.inc                                                 |   3 +
+ .../models/org.xtuml.bp.core/ooaofooa/Association/Association/Association.xtuml    | 257 ++++++++++++++++++++-------------------
+ .../Functions/Context Menu Entry Functions/Context Menu Entry Functions.xtuml      |  65 ++++++----
+ src/org.xtuml.bp.x2m/src/org/xtuml/bp/x2m/Xtuml2Masl.java                          |  16 ++-
+ 10 files changed, 635 insertions(+), 175 deletions(-)
 ----
 
 - fork/repository:  cortlandstarrett/mc
 
 ----
- arc/c/q.component.arc                              |    2 +-
- arc/q.class.instance.dumper.arc                    |    2 +-
- arc/q.class.link.arc                               |    6 +-
- arc/q.class.pei.arc                                |    2 +-
- arc/sysc/q.component.arc                           |    6 +-
- bin/masl_round_trip                                |   56 +-
- bin/masldiff                                       |   23 +-
- bin/wasl_round_trip                                |  257 +++
- bin/wasldiff                                       |   56 +
- bin/win/xtumlmc_build.pl                           | 1683 ++++++++++++++++++++
- bin/xtuml2wasl                                     |   66 +
- bin/xtumlmc_build                                  |    2 +
- .../10440_wasl_proto/10440_wasl_proto_dnt.adoc     |  187 +++
- doc/notes/10440_wasl_proto/waslflow.png            |  Bin 0 -> 53114 bytes
- doc/notes/10530_ngpreso/10530_ngpreso_ant.adoc     |    7 +
- doc/notes/11444_wasl/11444_wasl_ant.adoc           |  480 ++++++
- doc/notes/11444_wasl/11444_wasl_import_ant.adoc    |  112 ++
- doc/notes/11444_wasl/11444_wasl_int.adoc           |  255 +++
- doc/notes/11444_wasl/masl2xtuml2wasl.png           |  Bin 0 -> 64305 bytes
- doc/notes/11444_wasl/training_proposal.adoc        |  135 ++
- doc/notes/11444_wasl/waslflow.png                  |  Bin 0 -> 53114 bytes
- .../8073_masl_parser/8277_serial_masl_spec.md      |    7 +
- model/masl/gen/STRING_bridge.c                     |   24 +-
- model/masl/gen/T_bridge.c                          |    0
- model/masl/gen/masl_type_class.c                   |  126 +-
- model/masl/gen/sys_user_co.c                       |   20 +-
- model/masl/gen/wasl/t.END.wasl                     |    1 +
- model/masl/gen/wasl/t.START.wasl                   |    1 +
- model/masl/gen/wasl/t.activity_def_input.wasl      |    2 +
- model/masl/gen/wasl/t.activity_def_output.wasl     |    3 +
- model/masl/gen/wasl/t.associative.wasl             |    6 +
- model/masl/gen/wasl/t.attribute_begin.wasl         |    6 +
- model/masl/gen/wasl/t.attribute_end.wasl           |    1 +
- model/masl/gen/wasl/t.domain_begin.wasl            |   68 +
- model/masl/gen/wasl/t.domain_end.wasl              |    0
- .../masl/gen/wasl/t.domain_service_def_begin.wasl  |    2 +
- model/masl/gen/wasl/t.event_begin.wasl             |    1 +
- model/masl/gen/wasl/t.event_end.wasl               |    1 +
- model/masl/gen/wasl/t.event_middle.wasl            |    1 +
- model/masl/gen/wasl/t.identifier_attribute.wasl    |    1 +
- model/masl/gen/wasl/t.object_begin.wasl            |    1 +
- model/masl/gen/wasl/t.object_declaration.wasl      |    1 +
- model/masl/gen/wasl/t.object_end.wasl              |    2 +
- model/masl/gen/wasl/t.operation_def_begin.wasl     |    2 +
- model/masl/gen/wasl/t.parameter.wasl               |    1 +
- model/masl/gen/wasl/t.parameter_def.wasl           |    1 +
- model/masl/gen/wasl/t.referential.wasl             |    5 +
- model/masl/gen/wasl/t.regularrel.wasl              |    2 +
- model/masl/gen/wasl/t.routine_begin.wasl           |    1 +
- model/masl/gen/wasl/t.routine_end.wasl             |    1 +
- model/masl/gen/wasl/t.routine_noinputs.wasl        |    1 +
- model/masl/gen/wasl/t.state_def_begin.wasl         |    2 +
- model/masl/gen/wasl/t.stt_row.wasl                 |    1 +
- model/masl/gen/wasl/t.subsuper_begin.wasl          |    1 +
- model/masl/gen/wasl/t.subsuper_end.wasl            |    1 +
- model/masl/gen/wasl/t.subsuper_other.wasl          |    1 +
- model/masl/gen/wasl/t.terminator.wasl              |    1 +
- .../gen/wasl/t.terminator_service_def_begin.wasl   |    2 +
- model/masl/gen/wasl/t.type_begin.wasl              |    1 +
- model/masl/gen/wasl/t.type_end.wasl                |    0
- model/masl/gen/wasl/t.typeref.wasl                 |   11 +
- model/masl/models/masl/lib/gen/gen.xtuml           |    9 +
- model/masl/models/masl/lib/masl/masl.xtuml         |   11 +-
- .../masl/models/masl/masl/activity/activity.xtuml  |   55 +-
- .../models/masl/masl/associative/associative.xtuml |    8 +-
- .../models/masl/masl/attribute/attribute.xtuml     |   73 +-
- model/masl/models/masl/masl/cell/cell.xtuml        |    6 +-
- model/masl/models/masl/masl/domain/domain.xtuml    |   12 +-
- model/masl/models/masl/masl/event/event.xtuml      |   86 +-
- model/masl/models/masl/masl/masl.xtuml             |   20 +-
- model/masl/models/masl/masl/object/object.xtuml    |  111 +-
- .../models/masl/masl/operation/operation.xtuml     |  105 +-
- .../models/masl/masl/parameter/parameter.xtuml     |   71 +-
- .../models/masl/masl/referential/referential.xtuml |   14 +-
- .../models/masl/masl/regularrel/regularrel.xtuml   |    8 +-
- model/masl/models/masl/masl/routine/routine.xtuml  |  133 +-
- model/masl/models/masl/masl/state/state.xtuml      |  107 +-
- .../masl/masl/state_machine/state_machine.xtuml    |   38 +-
- .../masl/models/masl/masl/subsuper/subsuper.xtuml  |   26 +-
- .../models/masl/masl/terminator/terminator.xtuml   |   62 +-
- .../maslpopulation/description/description.xtuml   |   41 +-
- .../masl/maslpopulation/element/element.xtuml      |    1 -
- .../models/masl/maslpopulation/file/file.xtuml     |  665 --------
- .../masl/maslpopulation/genfile/genfile.xtuml      |  913 +++++++++++
- .../masl/maslpopulation/maslpopulation.xtuml       |   50 +-
- .../maslpopulation/population/population.xtuml     |  662 ++++----
- .../maslpopulation/unmarkable/unmarkable.xtuml     |    2 +-
- model/masl/models/masl/masltypes/type/type.xtuml   |   18 +-
- .../models/masl/masltypes/typeref/typeref.xtuml    |    8 +-
- model/masl/src/.gitignore                          |    1 +
- model/masl/src/wasl/t.END.wasl                     |    3 +
- model/masl/src/wasl/t.START.wasl                   |    3 +
- model/masl/src/wasl/t.activity_def_input.wasl      |    3 +
- model/masl/src/wasl/t.activity_def_output.wasl     |    9 +
- model/masl/src/wasl/t.associative.wasl             |   75 +
- model/masl/src/wasl/t.attribute_assign.wasl        |    0
- model/masl/src/wasl/t.attribute_begin.wasl         |    7 +
- model/masl/src/wasl/t.attribute_end.wasl           |    4 +
- model/masl/src/wasl/t.domain_begin.wasl            |  172 ++
- model/masl/src/wasl/t.domain_end.wasl              |    0
- .../masl/src/wasl/t.domain_service_def_begin.wasl  |    7 +
- model/masl/src/wasl/t.event_begin.wasl             |    6 +
- model/masl/src/wasl/t.event_end.wasl               |    2 +
- model/masl/src/wasl/t.event_middle.wasl            |    1 +
- model/masl/src/wasl/t.identifier.wasl              |    2 +
- model/masl/src/wasl/t.identifier_attribute.wasl    |    2 +
- model/masl/src/wasl/t.object_begin.wasl            |    8 +
- model/masl/src/wasl/t.object_declaration.wasl      |    3 +
- model/masl/src/wasl/t.object_end.wasl              |    3 +
- model/masl/src/wasl/t.operation_def_begin.wasl     |    7 +
- model/masl/src/wasl/t.parameter.wasl               |    2 +
- model/masl/src/wasl/t.parameter_def.wasl           |    2 +
- model/masl/src/wasl/t.referential.wasl             |    9 +
- model/masl/src/wasl/t.regularrel.wasl              |   26 +
- model/masl/src/wasl/t.routine.wasl                 |    4 +
- model/masl/src/wasl/t.routine_begin.wasl           |    4 +
- model/masl/src/wasl/t.routine_end.wasl             |    2 +
- model/masl/src/wasl/t.routine_noinputs.wasl        |    1 +
- model/masl/src/wasl/t.state_def_begin.wasl         |    9 +
- model/masl/src/wasl/t.stt_row.wasl                 |   16 +
- model/masl/src/wasl/t.subsuper_begin.wasl          |    4 +
- model/masl/src/wasl/t.subsuper_end.wasl            |    1 +
- model/masl/src/wasl/t.subsuper_other.wasl          |    3 +
- model/masl/src/wasl/t.terminator.wasl              |    5 +
- .../src/wasl/t.terminator_service_def_begin.wasl   |    9 +
- model/masl/src/wasl/t.type_begin.wasl              |    4 +
- model/masl/src/wasl/t.type_end.wasl                |    0
- model/masl/src/wasl/t.typeref.wasl                 |   12 +
- model/maslin/gen/sys_user_co.c                     |    2 +-
- .../maslin/m2x/ooapopulation/ooapopulation.xtuml   |  190 ++-
- .../maslin/marking/ooamarkable/ooamarkable.xtuml   |   39 +
- .../maslout/lib/xtuml2masl/maslout/maslout.xtuml   |   22 +-
- .../mcooa/ooaofooa/Datatypes/Datatypes.xtuml       |   17 +-
- model/mcshared/models/mcshared/MC_EEs/MC_EEs.xtuml |    5 +
- wasl/parser/.gitignore                             |    3 +
- wasl/parser/README.md                              |   57 +
- wasl/parser/build.xml                              |   79 +
- wasl/parser/lib/.gitignore                         |    1 +
- wasl/parser/lib/README.md                          |   11 +
- wasl/parser/out.smasl                              |  815 ++++++++++
- wasl/parser/src/ErrorHandler.java                  |    3 +
- wasl/parser/src/MaslSerial.java                    |   65 +
- wasl/parser/src/RelationshipCache.java             |  170 ++
- wasl/parser/src/Serial.java                        |   11 +
- wasl/parser/src/Wasl.g                             |  501 ++++++
- wasl/parser/src/WaslImportParser.java              |  238 +++
- 146 files changed, 8235 insertions(+), 1387 deletions(-)
+ arc/c/q.component.arc                                               |    2 +-
+ arc/q.class.instance.dumper.arc                                     |    2 +-
+ arc/q.class.link.arc                                                |    6 +-
+ arc/q.class.pei.arc                                                 |    2 +-
+ arc/sysc/q.component.arc                                            |    6 +-
+ bin/masl_round_trip                                                 |   56 +--
+ bin/masldiff                                                        |   23 +-
+ bin/wasl_round_trip                                                 |  257 ++++++++++
+ bin/wasldiff                                                        |   56 +++
+ bin/win/xtumlmc_build.pl                                            | 1683 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ bin/xtuml2wasl                                                      |   66 +++
+ bin/xtumlmc_build                                                   |    2 +
+ doc/notes/10440_wasl_proto/10440_wasl_proto_dnt.adoc                |  187 +++++++
+ doc/notes/10440_wasl_proto/waslflow.png                             |  Bin 0 -> 53114 bytes
+ doc/notes/10530_ngpreso/10530_ngpreso_ant.adoc                      |    7 +
+ doc/notes/11444_wasl/11444_wasl_ant.adoc                            |  480 ++++++++++++++++++
+ doc/notes/11444_wasl/11444_wasl_import_ant.adoc                     |  112 +++++
+ doc/notes/11444_wasl/11444_wasl_int.adoc                            |  404 +++++++++++++++
+ doc/notes/11444_wasl/masl2xtuml2wasl.png                            |  Bin 0 -> 64305 bytes
+ doc/notes/11444_wasl/training_proposal.adoc                         |  135 +++++
+ doc/notes/11444_wasl/waslflow.png                                   |  Bin 0 -> 53114 bytes
+ doc/notes/8073_masl_parser/8277_serial_masl_spec.md                 |    7 +
+ model/masl/gen/STRING_bridge.c                                      |   24 +-
+ model/masl/gen/T_bridge.c                                           |    0
+ model/masl/gen/masl_type_class.c                                    |  126 +++--
+ model/masl/gen/sys_user_co.c                                        |   20 +-
+ model/masl/gen/wasl/t.END.wasl                                      |    1 +
+ model/masl/gen/wasl/t.START.wasl                                    |    1 +
+ model/masl/gen/wasl/t.activity_def_input.wasl                       |    2 +
+ model/masl/gen/wasl/t.activity_def_output.wasl                      |    3 +
+ model/masl/gen/wasl/t.associative.wasl                              |    6 +
+ model/masl/gen/wasl/t.attribute_begin.wasl                          |    6 +
+ model/masl/gen/wasl/t.attribute_end.wasl                            |    1 +
+ model/masl/gen/wasl/t.domain_begin.wasl                             |   68 +++
+ model/masl/gen/wasl/t.domain_end.wasl                               |    0
+ model/masl/gen/wasl/t.domain_service_def_begin.wasl                 |    2 +
+ model/masl/gen/wasl/t.event_begin.wasl                              |    1 +
+ model/masl/gen/wasl/t.event_end.wasl                                |    1 +
+ model/masl/gen/wasl/t.event_middle.wasl                             |    1 +
+ model/masl/gen/wasl/t.identifier_attribute.wasl                     |    1 +
+ model/masl/gen/wasl/t.object_begin.wasl                             |    1 +
+ model/masl/gen/wasl/t.object_declaration.wasl                       |    1 +
+ model/masl/gen/wasl/t.object_end.wasl                               |    2 +
+ model/masl/gen/wasl/t.operation_def_begin.wasl                      |    2 +
+ model/masl/gen/wasl/t.parameter.wasl                                |    1 +
+ model/masl/gen/wasl/t.parameter_def.wasl                            |    1 +
+ model/masl/gen/wasl/t.referential.wasl                              |    5 +
+ model/masl/gen/wasl/t.regularrel.wasl                               |    2 +
+ model/masl/gen/wasl/t.routine_begin.wasl                            |    1 +
+ model/masl/gen/wasl/t.routine_end.wasl                              |    1 +
+ model/masl/gen/wasl/t.routine_noinputs.wasl                         |    1 +
+ model/masl/gen/wasl/t.state_def_begin.wasl                          |    2 +
+ model/masl/gen/wasl/t.stt_row.wasl                                  |    1 +
+ model/masl/gen/wasl/t.subsuper_begin.wasl                           |    1 +
+ model/masl/gen/wasl/t.subsuper_end.wasl                             |    1 +
+ model/masl/gen/wasl/t.subsuper_other.wasl                           |    1 +
+ model/masl/gen/wasl/t.terminator.wasl                               |    1 +
+ model/masl/gen/wasl/t.terminator_service_def_begin.wasl             |    2 +
+ model/masl/gen/wasl/t.type_begin.wasl                               |    1 +
+ model/masl/gen/wasl/t.type_end.wasl                                 |    0
+ model/masl/gen/wasl/t.typeref.wasl                                  |   11 +
+ model/masl/models/masl/lib/gen/gen.xtuml                            |    9 +
+ model/masl/models/masl/lib/masl/masl.xtuml                          |   11 +-
+ model/masl/models/masl/masl/activity/activity.xtuml                 |   55 ++-
+ model/masl/models/masl/masl/associative/associative.xtuml           |    8 +-
+ model/masl/models/masl/masl/attribute/attribute.xtuml               |   73 ++-
+ model/masl/models/masl/masl/cell/cell.xtuml                         |    6 +-
+ model/masl/models/masl/masl/domain/domain.xtuml                     |   12 +-
+ model/masl/models/masl/masl/event/event.xtuml                       |   86 +++-
+ model/masl/models/masl/masl/masl.xtuml                              |   20 +-
+ model/masl/models/masl/masl/object/object.xtuml                     |  111 ++++-
+ model/masl/models/masl/masl/operation/operation.xtuml               |  105 +++-
+ model/masl/models/masl/masl/parameter/parameter.xtuml               |   71 ++-
+ model/masl/models/masl/masl/referential/referential.xtuml           |   14 +-
+ model/masl/models/masl/masl/regularrel/regularrel.xtuml             |    8 +-
+ model/masl/models/masl/masl/routine/routine.xtuml                   |  133 ++++-
+ model/masl/models/masl/masl/state/state.xtuml                       |  107 ++--
+ model/masl/models/masl/masl/state_machine/state_machine.xtuml       |   38 +-
+ model/masl/models/masl/masl/subsuper/subsuper.xtuml                 |   26 +-
+ model/masl/models/masl/masl/terminator/terminator.xtuml             |   62 ++-
+ model/masl/models/masl/maslpopulation/description/description.xtuml |   41 +-
+ model/masl/models/masl/maslpopulation/element/element.xtuml         |    1 -
+ model/masl/models/masl/maslpopulation/file/file.xtuml               |  665 -------------------------
+ model/masl/models/masl/maslpopulation/genfile/genfile.xtuml         |  913 ++++++++++++++++++++++++++++++++++
+ model/masl/models/masl/maslpopulation/maslpopulation.xtuml          |   50 +-
+ model/masl/models/masl/maslpopulation/population/population.xtuml   |  662 +++++++++++++------------
+ model/masl/models/masl/maslpopulation/unmarkable/unmarkable.xtuml   |    2 +-
+ model/masl/models/masl/masltypes/type/type.xtuml                    |   18 +-
+ model/masl/models/masl/masltypes/typeref/typeref.xtuml              |    8 +-
+ model/masl/src/.gitignore                                           |    1 +
+ model/masl/src/wasl/t.END.wasl                                      |    3 +
+ model/masl/src/wasl/t.START.wasl                                    |    3 +
+ model/masl/src/wasl/t.activity_def_input.wasl                       |    3 +
+ model/masl/src/wasl/t.activity_def_output.wasl                      |    9 +
+ model/masl/src/wasl/t.associative.wasl                              |   75 +++
+ model/masl/src/wasl/t.attribute_assign.wasl                         |    0
+ model/masl/src/wasl/t.attribute_begin.wasl                          |    7 +
+ model/masl/src/wasl/t.attribute_end.wasl                            |    4 +
+ model/masl/src/wasl/t.domain_begin.wasl                             |  172 +++++++
+ model/masl/src/wasl/t.domain_end.wasl                               |    0
+ model/masl/src/wasl/t.domain_service_def_begin.wasl                 |    7 +
+ model/masl/src/wasl/t.event_begin.wasl                              |    6 +
+ model/masl/src/wasl/t.event_end.wasl                                |    2 +
+ model/masl/src/wasl/t.event_middle.wasl                             |    1 +
+ model/masl/src/wasl/t.identifier.wasl                               |    2 +
+ model/masl/src/wasl/t.identifier_attribute.wasl                     |    2 +
+ model/masl/src/wasl/t.object_begin.wasl                             |    8 +
+ model/masl/src/wasl/t.object_declaration.wasl                       |    3 +
+ model/masl/src/wasl/t.object_end.wasl                               |    3 +
+ model/masl/src/wasl/t.operation_def_begin.wasl                      |    7 +
+ model/masl/src/wasl/t.parameter.wasl                                |    2 +
+ model/masl/src/wasl/t.parameter_def.wasl                            |    2 +
+ model/masl/src/wasl/t.referential.wasl                              |    9 +
+ model/masl/src/wasl/t.regularrel.wasl                               |   26 +
+ model/masl/src/wasl/t.routine.wasl                                  |    4 +
+ model/masl/src/wasl/t.routine_begin.wasl                            |    4 +
+ model/masl/src/wasl/t.routine_end.wasl                              |    2 +
+ model/masl/src/wasl/t.routine_noinputs.wasl                         |    1 +
+ model/masl/src/wasl/t.state_def_begin.wasl                          |    9 +
+ model/masl/src/wasl/t.stt_row.wasl                                  |   16 +
+ model/masl/src/wasl/t.subsuper_begin.wasl                           |    4 +
+ model/masl/src/wasl/t.subsuper_end.wasl                             |    1 +
+ model/masl/src/wasl/t.subsuper_other.wasl                           |    3 +
+ model/masl/src/wasl/t.terminator.wasl                               |    5 +
+ model/masl/src/wasl/t.terminator_service_def_begin.wasl             |    9 +
+ model/masl/src/wasl/t.type_begin.wasl                               |    4 +
+ model/masl/src/wasl/t.type_end.wasl                                 |    0
+ model/masl/src/wasl/t.typeref.wasl                                  |   12 +
+ model/maslin/gen/sys_user_co.c                                      |    2 +-
+ model/maslin/models/maslin/m2x/ooapopulation/ooapopulation.xtuml    |  190 ++++---
+ model/maslin/models/maslin/marking/ooamarkable/ooamarkable.xtuml    |   39 ++
+ model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml   |   22 +-
+ model/mcooa/models/mcooa/ooaofooa/Datatypes/Datatypes.xtuml         |   17 +-
+ model/mcshared/models/mcshared/MC_EEs/MC_EEs.xtuml                  |    5 +
+ wasl/parser/.gitignore                                              |    3 +
+ wasl/parser/README.md                                               |   57 +++
+ wasl/parser/build.xml                                               |   79 +++
+ wasl/parser/lib/.gitignore                                          |    1 +
+ wasl/parser/lib/README.md                                           |   11 +
+ wasl/parser/out.smasl                                               |  815 +++++++++++++++++++++++++++++++
+ wasl/parser/src/ErrorHandler.java                                   |    3 +
+ wasl/parser/src/MaslSerial.java                                     |   65 +++
+ wasl/parser/src/RelationshipCache.java                              |  170 +++++++
+ wasl/parser/src/Serial.java                                         |   11 +
+ wasl/parser/src/Wasl.g                                              |  501 +++++++++++++++++++
+ wasl/parser/src/WaslImportParser.java                               |  238 +++++++++
+ 146 files changed, 8384 insertions(+), 1387 deletions(-)
 ----
 
 - fork/repository:  cortlandstarrett/models
 
 ----
- VandMC_testing/mctest/calculator/.cproject         | 1448 +++++++-------------
- .../calculator/models/calculator/EEs/EEs.xtuml     |  120 +-
- .../calculator components/calc/calc.xtuml          |   55 +-
- .../calc/calculator types/calculator types.xtuml   |   34 +-
- .../calc/calculator/calculator.xtuml               |   89 +-
- .../InstanceStateMachine.xtuml                     |   65 +-
- .../calc/calculator/expression/expression.xtuml    |   27 +-
- .../calc/calculator/op/op.xtuml                    |   16 +-
- .../InstanceStateMachine.xtuml                     |   59 +-
- .../calc/calculator/operand/operand.xtuml          |   16 +-
- .../calculator components.xtuml                    |   46 +-
- .../keypad/key pad/key pad.xtuml                   |   26 +-
- .../InstanceStateMachine.xtuml                     |   11 +-
- .../keypad/key pad/tests/tests.xtuml               |   13 +-
- .../calculator components/keypad/keypad.xtuml      |   34 +-
- .../keypad/test cases/test cases.xtuml             |   49 +-
- .../calculator with keypad.xtuml                   |  111 +-
- .../calculator/models/calculator/calculator.xtuml  |   20 +-
- .../calculator/illustrations/illustrations.xtuml   |   14 +-
- .../illustrations/oven/Datatypes/Datatypes.xtuml   |   82 +-
- .../oven/class hierarchy/class hierarchy.xtuml     |   19 +-
- .../InstanceStateMachine.xtuml                     |   47 +-
- .../oven/oven data model/cabinet/cabinet.xtuml     |   13 +-
- .../InstanceStateMachine.xtuml                     |   29 +-
- .../oven/oven data model/door/door.xtuml           |   13 +-
- .../oven/oven data model/oven data model.xtuml     |   52 +-
- .../calculator/illustrations/oven/oven.xtuml       |   50 +-
- .../key IO/instrumentation/instrumentation.xtuml   |   16 +-
- .../models/calculator/key IO/key IO.xtuml          |   12 +-
- .../models/calculator/key IO/keyIO/keyIO.xtuml     |   19 +-
- .../ALU/masl/ALU/DISP_receiving_fractional_part.al |    2 +
- masl/calculator/ALU/masl/ALU/testcase2.scn         |    2 +-
- masl/test/9638_findWithoutParens/test.svc          |    2 +-
- masl/test/GSC/ATTENDENT_Enables_Pump_2_2.ext       |    9 +
- masl/test/GSC/AT_Delivery_Cancelled.tr             |    8 +
- masl/test/GSC/AT_Request_Pump_Enable.tr            |   11 +
- masl/test/GSC/AT_Transaction_Pending.tr            |    8 +
- masl/test/GSC/CL_Disengage_Clutch.tr               |    8 +
- masl/test/GSC/CL_Engage_Clutch.tr                  |    8 +
- masl/test/GSC/CUSTOMER_Absconds_From_Pump_2_8.ext  |   16 +
- .../GSC/CUSTOMER_Pays_For_Fuel_For_Pump_2_7.ext    |   16 +
- .../GSC/CUSTOMER_Presses_Trigger_At_Pump_2_3.ext   |   10 +
- .../GSC/CUSTOMER_Releases_Trigger_At_Pump_2_5.ext  |   10 +
- .../GSC/CUSTOMER_Removes_Gun_From_Pump_2_1.ext     |   11 +
- .../test/GSC/CUSTOMER_Replaces_Gun_At_Pump_2_6.ext |   10 +
- masl/test/GSC/CU_Pump_Unavailable.tr               |    8 +
- masl/test/GSC/DEL_Calculating_price_of_delivery.al |   16 +
- masl/test/GSC/DEL_Create_Delivery.svc              |   21 +
- masl/test/GSC/DEL_Delivery_Cancelled.al            |   13 +
- masl/test/GSC/DEL_Delivery_complete.al             |   16 +
- masl/test/GSC/DEL_Pending.al                       |    8 +
- masl/test/GSC/GSC.int                              |  119 ++
- masl/test/GSC/GSC.mod                              |  610 +++++++++
- masl/test/GSC/GSP.prj                              |    0
- .../GSC/METER_Delivers_Fuel_Unit_For_Pump_2_4.ext  |   10 +
- masl/test/GSC/MO_Start_Motor.tr                    |    8 +
- masl/test/GSC/MO_Stop_Motor.tr                     |    8 +
- masl/test/GSC/PMP_Fuel_Delivery_Complete.al        |   13 +
- masl/test/GSC/PMP_Fuel_Unavailable.al              |    9 +
- masl/test/GSC/PMP_Pumping.al                       |    9 +
- masl/test/GSC/PMP_Pumping_Paused.al                |   10 +
- masl/test/GSC/PMP_Ready_To_Pump.al                 |    9 +
- masl/test/GSC/PMP_Waiting_For_Customer.al          |    7 +
- masl/test/GSC/PMP_Waiting_Pump_Enable.al           |   15 +
- masl/test/GSC/Prototype_Petrol_Station_1.scn       |   66 +
- masl/test/GSC/TANKER_Delivery_For_Tank_1002_9.ext  |   10 +
- masl/test/GSC/TNK_Check_Level.svc                  |   12 +
- .../GSC/TNK_Checking_Levels_After_Pump_Usage.al    |   20 +
- .../TNK_Checking_Levels_After_Tanker_Delivery.al   |   22 +
- masl/test/GSC/TNK_Increase_Level.svc               |    7 +
- .../TNK_Inform_Connected_Pumps_Fuel_Available.svc  |   14 +
- masl/test/GSC/TNK_Reduce_Level.svc                 |    7 +
- masl/test/GSC/TNK_Reset_waiting_pumps.al           |    6 +
- masl/test/GSC/TNK_Updating_fuel_levels.al          |   10 +
- masl/test/GSC/TNK_Waiting_For_Tanker_Delivery.al   |    6 +
- masl/test/GSC/TRN_Create_Transaction.svc           |   25 +
- masl/test/GSC/TRN_Created.al                       |    8 +
- masl/test/GSC/TRN_Evaded.al                        |   21 +
- masl/test/GSC/TRN_Paid.al                          |   28 +
- masl/test/GSC/WASL/GSC.brp                         |   10 +
- masl/test/GSC/WASL/GSC.dmp                         |  100 ++
- masl/test/GSC/WASL/GSC.evd                         |   19 +
- masl/test/GSC/WASL/GSC.fnp                         |    8 +
- masl/test/GSC/WASL/GSC.hcf                         |    0
- masl/test/GSC/WASL/GSC.obj                         |   58 +
- masl/test/GSC/WASL/GSC.objs_used                   |    0
- masl/test/GSC/WASL/GSC.pme                         |    9 +
- masl/test/GSC/WASL/GSC.pme_test                    |   12 +
- masl/test/GSC/WASL/GSC.rel                         |   12 +
- masl/test/GSC/WASL/GSC.rels_used                   |    0
- masl/test/GSC/WASL/GSC.scn                         |    1 +
- masl/test/GSC/WASL/GSC.stt                         |  123 ++
- masl/test/GSC/WASL/GSC.sub                         |    1 +
- masl/test/GSC/WASL/GSC.ter                         |    8 +
- masl/test/GSC/WASL/GSC.typ                         |   13 +
- masl/test/GSC/WASL/GSC.unused_parameters           |    0
- masl/test/GSC/WASL/GSC_AT1_Request_Pump_Enable.br  |   13 +
- masl/test/GSC/WASL/GSC_AT2_Transaction_Pending.br  |   11 +
- masl/test/GSC/WASL/GSC_AT3_Delivery_Cancelled.br   |   11 +
- masl/test/GSC/WASL/GSC_CL1_Engage_Clutch.br        |   11 +
- masl/test/GSC/WASL/GSC_CL2_Disengage_Clutch.br     |   11 +
- masl/test/GSC/WASL/GSC_CU1_Pump_Unavailable.br     |   11 +
- masl/test/GSC/WASL/GSC_DEL1_Create_Delivery.fn     |   27 +
- masl/test/GSC/WASL/GSC_DEL_5.al                    |   21 +
- masl/test/GSC/WASL/GSC_DEL_6.al                    |   21 +
- masl/test/GSC/WASL/GSC_DEL_8.al                    |   18 +
- masl/test/GSC/WASL/GSC_External1.ext               |    9 +
- masl/test/GSC/WASL/GSC_External2.ext               |    7 +
- masl/test/GSC/WASL/GSC_External3.ext               |    8 +
- masl/test/GSC/WASL/GSC_External4.ext               |    8 +
- masl/test/GSC/WASL/GSC_External5.ext               |    8 +
- masl/test/GSC/WASL/GSC_External6.ext               |    8 +
- masl/test/GSC/WASL/GSC_External7.ext               |   14 +
- masl/test/GSC/WASL/GSC_External8.ext               |   14 +
- masl/test/GSC/WASL/GSC_External9.ext               |    8 +
- ...xternals_For_Testing_Petrol_Station_Control.ext |   11 +
- masl/test/GSC/WASL/GSC_MO1_Start_Motor.br          |   11 +
- masl/test/GSC/WASL/GSC_MO2_Stop_Motor.br           |   11 +
- masl/test/GSC/WASL/GSC_PMP_1.al                    |   12 +
- masl/test/GSC/WASL/GSC_PMP_11.al                   |   14 +
- masl/test/GSC/WASL/GSC_PMP_2.al                    |   20 +
- masl/test/GSC/WASL/GSC_PMP_5.al                    |   14 +
- masl/test/GSC/WASL/GSC_PMP_6.al                    |   18 +
- masl/test/GSC/WASL/GSC_PMP_7.al                    |   14 +
- masl/test/GSC/WASL/GSC_PMP_8.al                    |   15 +
- masl/test/GSC/WASL/GSC_Scenario1.scn               |   70 +
- masl/test/GSC/WASL/GSC_TNK1_Check_Level.fn         |   18 +
- masl/test/GSC/WASL/GSC_TNK2_Reduce_Level.fn        |   14 +
- masl/test/GSC/WASL/GSC_TNK3_Increase_Level.fn      |   14 +
- ...C_TNK4_Inform_Connected_Pumps_Fuel_Available.fn |   19 +
- masl/test/GSC/WASL/GSC_TNK_1.al                    |   28 +
- masl/test/GSC/WASL/GSC_TNK_2.al                    |   11 +
- masl/test/GSC/WASL/GSC_TNK_3.al                    |   11 +
- masl/test/GSC/WASL/GSC_TNK_4.al                    |   26 +
- masl/test/GSC/WASL/GSC_TNK_5.al                    |   16 +
- masl/test/GSC/WASL/GSC_TRN1_Create_Transaction.fn  |   31 +
- masl/test/GSC/WASL/GSC_TRN_3.al                    |   34 +
- masl/test/GSC/WASL/GSC_TRN_4.al                    |   27 +
- masl/test/all_wasl                                 |    3 +
- masl/test/regression_wasl                          |   91 ++
+ VandMC_testing/mctest/calculator/.cproject                                               | 1448 +++++++++++++++---------------------------
+ VandMC_testing/mctest/calculator/models/calculator/EEs/EEs.xtuml                         |  120 ++--
+ VandMC_testing/mctest/calculator/models/calculator/calculator components/calc/calc.xtuml |   55 +-
+ .../models/calculator/calculator components/calc/calculator types/calculator types.xtuml |   34 +-
+ .../calculator/models/calculator/calculator components/calc/calculator/calculator.xtuml  |   89 +--
+ .../calc/calculator/expression/InstanceStateMachine/InstanceStateMachine.xtuml           |   65 +-
+ .../models/calculator/calculator components/calc/calculator/expression/expression.xtuml  |   27 +-
+ .../calculator/models/calculator/calculator components/calc/calculator/op/op.xtuml       |   16 +-
+ .../calc/calculator/operand/InstanceStateMachine/InstanceStateMachine.xtuml              |   59 +-
+ .../models/calculator/calculator components/calc/calculator/operand/operand.xtuml        |   16 +-
+ .../calculator/models/calculator/calculator components/calculator components.xtuml       |   46 +-
+ .../calculator/models/calculator/calculator components/keypad/key pad/key pad.xtuml      |   26 +-
+ .../keypad/key pad/tests/InstanceStateMachine/InstanceStateMachine.xtuml                 |   11 +-
+ .../calculator/models/calculator/calculator components/keypad/key pad/tests/tests.xtuml  |   13 +-
+ .../mctest/calculator/models/calculator/calculator components/keypad/keypad.xtuml        |   34 +-
+ .../models/calculator/calculator components/keypad/test cases/test cases.xtuml           |   49 +-
+ .../calculator/models/calculator/calculator with keypad/calculator with keypad.xtuml     |  111 ++--
+ VandMC_testing/mctest/calculator/models/calculator/calculator.xtuml                      |   20 +-
+ VandMC_testing/mctest/calculator/models/calculator/illustrations/illustrations.xtuml     |   14 +-
+ .../mctest/calculator/models/calculator/illustrations/oven/Datatypes/Datatypes.xtuml     |   82 ++-
+ .../models/calculator/illustrations/oven/class hierarchy/class hierarchy.xtuml           |   19 +-
+ .../oven/oven data model/cabinet/InstanceStateMachine/InstanceStateMachine.xtuml         |   47 +-
+ .../models/calculator/illustrations/oven/oven data model/cabinet/cabinet.xtuml           |   13 +-
+ .../oven/oven data model/door/InstanceStateMachine/InstanceStateMachine.xtuml            |   29 +-
+ .../calculator/models/calculator/illustrations/oven/oven data model/door/door.xtuml      |   13 +-
+ .../models/calculator/illustrations/oven/oven data model/oven data model.xtuml           |   52 +-
+ VandMC_testing/mctest/calculator/models/calculator/illustrations/oven/oven.xtuml         |   50 +-
+ .../mctest/calculator/models/calculator/key IO/instrumentation/instrumentation.xtuml     |   16 +-
+ VandMC_testing/mctest/calculator/models/calculator/key IO/key IO.xtuml                   |   12 +-
+ VandMC_testing/mctest/calculator/models/calculator/key IO/keyIO/keyIO.xtuml              |   19 +-
+ masl/calculator/ALU/masl/ALU/DISP_receiving_fractional_part.al                           |    2 +
+ masl/calculator/ALU/masl/ALU/testcase2.scn                                               |    2 +-
+ masl/test/9638_findWithoutParens/test.svc                                                |    2 +-
+ masl/test/GSC/ATTENDENT_Enables_Pump_2_2.ext                                             |    9 +
+ masl/test/GSC/AT_Delivery_Cancelled.tr                                                   |    8 +
+ masl/test/GSC/AT_Request_Pump_Enable.tr                                                  |   11 +
+ masl/test/GSC/AT_Transaction_Pending.tr                                                  |    8 +
+ masl/test/GSC/CL_Disengage_Clutch.tr                                                     |    8 +
+ masl/test/GSC/CL_Engage_Clutch.tr                                                        |    8 +
+ masl/test/GSC/CUSTOMER_Absconds_From_Pump_2_8.ext                                        |   16 +
+ masl/test/GSC/CUSTOMER_Pays_For_Fuel_For_Pump_2_7.ext                                    |   16 +
+ masl/test/GSC/CUSTOMER_Presses_Trigger_At_Pump_2_3.ext                                   |   10 +
+ masl/test/GSC/CUSTOMER_Releases_Trigger_At_Pump_2_5.ext                                  |   10 +
+ masl/test/GSC/CUSTOMER_Removes_Gun_From_Pump_2_1.ext                                     |   11 +
+ masl/test/GSC/CUSTOMER_Replaces_Gun_At_Pump_2_6.ext                                      |   10 +
+ masl/test/GSC/CU_Pump_Unavailable.tr                                                     |    8 +
+ masl/test/GSC/DEL_Calculating_price_of_delivery.al                                       |   16 +
+ masl/test/GSC/DEL_Create_Delivery.svc                                                    |   21 +
+ masl/test/GSC/DEL_Delivery_Cancelled.al                                                  |   13 +
+ masl/test/GSC/DEL_Delivery_complete.al                                                   |   16 +
+ masl/test/GSC/DEL_Pending.al                                                             |    8 +
+ masl/test/GSC/GSC.int                                                                    |  119 ++++
+ masl/test/GSC/GSC.mod                                                                    |  610 ++++++++++++++++++
+ masl/test/GSC/GSP.prj                                                                    |    0
+ masl/test/GSC/METER_Delivers_Fuel_Unit_For_Pump_2_4.ext                                  |   10 +
+ masl/test/GSC/MO_Start_Motor.tr                                                          |    8 +
+ masl/test/GSC/MO_Stop_Motor.tr                                                           |    8 +
+ masl/test/GSC/PMP_Fuel_Delivery_Complete.al                                              |   13 +
+ masl/test/GSC/PMP_Fuel_Unavailable.al                                                    |    9 +
+ masl/test/GSC/PMP_Pumping.al                                                             |    9 +
+ masl/test/GSC/PMP_Pumping_Paused.al                                                      |   10 +
+ masl/test/GSC/PMP_Ready_To_Pump.al                                                       |    9 +
+ masl/test/GSC/PMP_Waiting_For_Customer.al                                                |    7 +
+ masl/test/GSC/PMP_Waiting_Pump_Enable.al                                                 |   15 +
+ masl/test/GSC/Prototype_Petrol_Station_1.scn                                             |   66 ++
+ masl/test/GSC/TANKER_Delivery_For_Tank_1002_9.ext                                        |   10 +
+ masl/test/GSC/TNK_Check_Level.svc                                                        |   12 +
+ masl/test/GSC/TNK_Checking_Levels_After_Pump_Usage.al                                    |   20 +
+ masl/test/GSC/TNK_Checking_Levels_After_Tanker_Delivery.al                               |   22 +
+ masl/test/GSC/TNK_Increase_Level.svc                                                     |    7 +
+ masl/test/GSC/TNK_Inform_Connected_Pumps_Fuel_Available.svc                              |   14 +
+ masl/test/GSC/TNK_Reduce_Level.svc                                                       |    7 +
+ masl/test/GSC/TNK_Reset_waiting_pumps.al                                                 |    6 +
+ masl/test/GSC/TNK_Updating_fuel_levels.al                                                |   10 +
+ masl/test/GSC/TNK_Waiting_For_Tanker_Delivery.al                                         |    6 +
+ masl/test/GSC/TRN_Create_Transaction.svc                                                 |   25 +
+ masl/test/GSC/TRN_Created.al                                                             |    8 +
+ masl/test/GSC/TRN_Evaded.al                                                              |   21 +
+ masl/test/GSC/TRN_Paid.al                                                                |   28 +
+ masl/test/GSC/WASL/GSC.brp                                                               |   10 +
+ masl/test/GSC/WASL/GSC.dmp                                                               |  100 +++
+ masl/test/GSC/WASL/GSC.evd                                                               |   19 +
+ masl/test/GSC/WASL/GSC.fnp                                                               |    8 +
+ masl/test/GSC/WASL/GSC.hcf                                                               |    0
+ masl/test/GSC/WASL/GSC.obj                                                               |   58 ++
+ masl/test/GSC/WASL/GSC.objs_used                                                         |    0
+ masl/test/GSC/WASL/GSC.pme                                                               |    9 +
+ masl/test/GSC/WASL/GSC.pme_test                                                          |   12 +
+ masl/test/GSC/WASL/GSC.rel                                                               |   12 +
+ masl/test/GSC/WASL/GSC.rels_used                                                         |    0
+ masl/test/GSC/WASL/GSC.scn                                                               |    1 +
+ masl/test/GSC/WASL/GSC.stt                                                               |  123 ++++
+ masl/test/GSC/WASL/GSC.sub                                                               |    1 +
+ masl/test/GSC/WASL/GSC.ter                                                               |    8 +
+ masl/test/GSC/WASL/GSC.typ                                                               |   13 +
+ masl/test/GSC/WASL/GSC.unused_parameters                                                 |    0
+ masl/test/GSC/WASL/GSC_AT1_Request_Pump_Enable.br                                        |   13 +
+ masl/test/GSC/WASL/GSC_AT2_Transaction_Pending.br                                        |   11 +
+ masl/test/GSC/WASL/GSC_AT3_Delivery_Cancelled.br                                         |   11 +
+ masl/test/GSC/WASL/GSC_CL1_Engage_Clutch.br                                              |   11 +
+ masl/test/GSC/WASL/GSC_CL2_Disengage_Clutch.br                                           |   11 +
+ masl/test/GSC/WASL/GSC_CU1_Pump_Unavailable.br                                           |   11 +
+ masl/test/GSC/WASL/GSC_DEL1_Create_Delivery.fn                                           |   27 +
+ masl/test/GSC/WASL/GSC_DEL_5.al                                                          |   21 +
+ masl/test/GSC/WASL/GSC_DEL_6.al                                                          |   21 +
+ masl/test/GSC/WASL/GSC_DEL_8.al                                                          |   18 +
+ masl/test/GSC/WASL/GSC_External1.ext                                                     |    9 +
+ masl/test/GSC/WASL/GSC_External2.ext                                                     |    7 +
+ masl/test/GSC/WASL/GSC_External3.ext                                                     |    8 +
+ masl/test/GSC/WASL/GSC_External4.ext                                                     |    8 +
+ masl/test/GSC/WASL/GSC_External5.ext                                                     |    8 +
+ masl/test/GSC/WASL/GSC_External6.ext                                                     |    8 +
+ masl/test/GSC/WASL/GSC_External7.ext                                                     |   14 +
+ masl/test/GSC/WASL/GSC_External8.ext                                                     |   14 +
+ masl/test/GSC/WASL/GSC_External9.ext                                                     |    8 +
+ masl/test/GSC/WASL/GSC_Externals_For_Testing_Petrol_Station_Control.ext                  |   11 +
+ masl/test/GSC/WASL/GSC_MO1_Start_Motor.br                                                |   11 +
+ masl/test/GSC/WASL/GSC_MO2_Stop_Motor.br                                                 |   11 +
+ masl/test/GSC/WASL/GSC_PMP_1.al                                                          |   12 +
+ masl/test/GSC/WASL/GSC_PMP_11.al                                                         |   14 +
+ masl/test/GSC/WASL/GSC_PMP_2.al                                                          |   20 +
+ masl/test/GSC/WASL/GSC_PMP_5.al                                                          |   14 +
+ masl/test/GSC/WASL/GSC_PMP_6.al                                                          |   18 +
+ masl/test/GSC/WASL/GSC_PMP_7.al                                                          |   14 +
+ masl/test/GSC/WASL/GSC_PMP_8.al                                                          |   15 +
+ masl/test/GSC/WASL/GSC_Scenario1.scn                                                     |   70 ++
+ masl/test/GSC/WASL/GSC_TNK1_Check_Level.fn                                               |   18 +
+ masl/test/GSC/WASL/GSC_TNK2_Reduce_Level.fn                                              |   14 +
+ masl/test/GSC/WASL/GSC_TNK3_Increase_Level.fn                                            |   14 +
+ masl/test/GSC/WASL/GSC_TNK4_Inform_Connected_Pumps_Fuel_Available.fn                     |   19 +
+ masl/test/GSC/WASL/GSC_TNK_1.al                                                          |   28 +
+ masl/test/GSC/WASL/GSC_TNK_2.al                                                          |   11 +
+ masl/test/GSC/WASL/GSC_TNK_3.al                                                          |   11 +
+ masl/test/GSC/WASL/GSC_TNK_4.al                                                          |   26 +
+ masl/test/GSC/WASL/GSC_TNK_5.al                                                          |   16 +
+ masl/test/GSC/WASL/GSC_TRN1_Create_Transaction.fn                                        |   31 +
+ masl/test/GSC/WASL/GSC_TRN_3.al                                                          |   34 +
+ masl/test/GSC/WASL/GSC_TRN_4.al                                                          |   27 +
+ masl/test/all_wasl                                                                       |    3 +
+ masl/test/regression_wasl                                                                |   91 +++
  140 files changed, 3703 insertions(+), 1370 deletions(-)
 ----
 
