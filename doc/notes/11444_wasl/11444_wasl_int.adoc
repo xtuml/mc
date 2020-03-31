@@ -1,0 +1,255 @@
+= WASL Compatibility Package
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+This note describes an initial package of commits that introduces WASL
+artifacts that are compatible with existing MASL and BridgePoint proper
+functionality.
+
+== 2 Introduction and Background
+
+WASL is a dialect of Shlaer-Mellor xtUML used as a transport syntax between
+a modeling tool such as iUML or BridgePoint and the Waterloo Auto-Code
+Architecture (WACA).  WASL is a flat ASCII syntax with ASL as the action
+language syntax and extended out in a tabular form for structural xtUML.
+
+A project is underway to support ASL and WASL in BridgePoint.  The first
+step of the work is to introduce test models, a parser prototype with
+grammar and scripting to automate language conversion processes.
+
+== 3 Requirements
+
+=== 3.1 SWATS Test Models
+. Introduce the SWATS models into the `xtuml/models` repository.
+. Add equivalent WASL with each for conversion test comparison purposes.
+
+=== 3.2 WASL Parser
+A parser for WASL was introduced during an early assessment project and
+refined afterwards.  In the Summer of 2019, it was determined that enhancing
+the MASL dumper was a better approach to importing WASL models.  The parser
+is now deprecated, but the grammar remains valuable for future work.
+
+. Commit the prototype parser to the xtuml/mc repository
+  (at xtuml/mc/wasl/parser, which is paralle to xtuml/mc/masl/parser).
+. Remove WASL parser artifacts that are built into the BridgePoint tool
+  chain.
+
+=== 3.3 WASL Scripting
+MASL has scripting for converting MASL to xtUML (`masl2xtuml`) and xtUML
+to MASL (`xtuml2masl`).  There also exists scripting to automate testing
+of the converters (`masl_round_trip`).  Similar scripting support is
+needed for the WASL flow.
+
+. Create `xtuml2wasl` and `wasl_round_trip` scripts and supporting programs.
+
+=== 3.4 OOA of OOA Extended
+WASL depends upon a few naming and numbering elements that are not present
+in the pre-existing xtUML OOA of OOA.  Other naming and numbering elements
+do exist in the xtUML OOA of OOA but not used by `masl`.
+
+. Extend the xtUML OOA of OOA to support WASL requirements.
+. Add support to `masl` for model elements unique to WASL.
+
+=== 3.5 Multi-Dialect `masl`
+A simplified xtUML metamodel which supports structural MASL (and thus WASL)
+was created to support MASL.  Much of the functionality of this model is
+useful in the conversion of xtUML to WASL.
+
+. Add ASL as a dialect enumerator in the Activity Dialect enumeration.
+. Re-architect `masl` to support rendering multiple dialects of output text,
+  namely MASL and WASL.
+. Confirm that MASL functionality has not be affected.
+
+== 4 Work Required
+
+See <<3 Requirements>>.
+
+== 5 Implementation Comments
+
+=== 5.1 Calculator
+The persistence version of the calculator test model was refreshed.
+
+== 6 Unit Test
+
+`masl_round_trip` is run cleanly on Linux and MacOS.
+
+== 7 User Documentation
+
+The man page for xtuml2masl is changed with this work.  A new option is
+provided (`-s <architecture>).
+
+== 8 Code Changes
+
+- branch:  11444_wasl
+- fork/repository:  cortlandstarrett/bridgepoint
+
+----
+ releng/org.xtuml.bp.mctools/pom.xml                       | 61 ++++++++++++++++++++++++++++++++++++++++++++-----------------
+ src/org.xtuml.bp.x2m/src/org/xtuml/bp/x2m/Xtuml2Masl.java | 16 ++++++++++++++--
+ 2 files changed, 58 insertions(+), 19 deletions(-)
+----
+
+- fork/repository:  cortlandstarrett/mc
+
+----
+ Put the file list here
+----
+
+- fork/repository:  cortlandstarrett/models
+
+----
+ VandMC_testing/mctest/calculator/.cproject         | 1448 +++++++-------------
+ .../calculator/models/calculator/EEs/EEs.xtuml     |  120 +-
+ .../calculator components/calc/calc.xtuml          |   55 +-
+ .../calc/calculator types/calculator types.xtuml   |   34 +-
+ .../calc/calculator/calculator.xtuml               |   89 +-
+ .../InstanceStateMachine.xtuml                     |   65 +-
+ .../calc/calculator/expression/expression.xtuml    |   27 +-
+ .../calc/calculator/op/op.xtuml                    |   16 +-
+ .../InstanceStateMachine.xtuml                     |   59 +-
+ .../calc/calculator/operand/operand.xtuml          |   16 +-
+ .../calculator components.xtuml                    |   46 +-
+ .../keypad/key pad/key pad.xtuml                   |   26 +-
+ .../InstanceStateMachine.xtuml                     |   11 +-
+ .../keypad/key pad/tests/tests.xtuml               |   13 +-
+ .../calculator components/keypad/keypad.xtuml      |   34 +-
+ .../keypad/test cases/test cases.xtuml             |   49 +-
+ .../calculator with keypad.xtuml                   |  111 +-
+ .../calculator/models/calculator/calculator.xtuml  |   20 +-
+ .../calculator/illustrations/illustrations.xtuml   |   14 +-
+ .../illustrations/oven/Datatypes/Datatypes.xtuml   |   82 +-
+ .../oven/class hierarchy/class hierarchy.xtuml     |   19 +-
+ .../InstanceStateMachine.xtuml                     |   47 +-
+ .../oven/oven data model/cabinet/cabinet.xtuml     |   13 +-
+ .../InstanceStateMachine.xtuml                     |   29 +-
+ .../oven/oven data model/door/door.xtuml           |   13 +-
+ .../oven/oven data model/oven data model.xtuml     |   52 +-
+ .../calculator/illustrations/oven/oven.xtuml       |   50 +-
+ .../key IO/instrumentation/instrumentation.xtuml   |   16 +-
+ .../models/calculator/key IO/key IO.xtuml          |   12 +-
+ .../models/calculator/key IO/keyIO/keyIO.xtuml     |   19 +-
+ .../ALU/masl/ALU/DISP_receiving_fractional_part.al |    2 +
+ masl/calculator/ALU/masl/ALU/testcase2.scn         |    2 +-
+ masl/test/9638_findWithoutParens/test.svc          |    2 +-
+ masl/test/GSC/ATTENDENT_Enables_Pump_2_2.ext       |    9 +
+ masl/test/GSC/AT_Delivery_Cancelled.tr             |    8 +
+ masl/test/GSC/AT_Request_Pump_Enable.tr            |   11 +
+ masl/test/GSC/AT_Transaction_Pending.tr            |    8 +
+ masl/test/GSC/CL_Disengage_Clutch.tr               |    8 +
+ masl/test/GSC/CL_Engage_Clutch.tr                  |    8 +
+ masl/test/GSC/CUSTOMER_Absconds_From_Pump_2_8.ext  |   16 +
+ .../GSC/CUSTOMER_Pays_For_Fuel_For_Pump_2_7.ext    |   16 +
+ .../GSC/CUSTOMER_Presses_Trigger_At_Pump_2_3.ext   |   10 +
+ .../GSC/CUSTOMER_Releases_Trigger_At_Pump_2_5.ext  |   10 +
+ .../GSC/CUSTOMER_Removes_Gun_From_Pump_2_1.ext     |   11 +
+ .../test/GSC/CUSTOMER_Replaces_Gun_At_Pump_2_6.ext |   10 +
+ masl/test/GSC/CU_Pump_Unavailable.tr               |    8 +
+ masl/test/GSC/DEL_Calculating_price_of_delivery.al |   16 +
+ masl/test/GSC/DEL_Create_Delivery.svc              |   21 +
+ masl/test/GSC/DEL_Delivery_Cancelled.al            |   13 +
+ masl/test/GSC/DEL_Delivery_complete.al             |   16 +
+ masl/test/GSC/DEL_Pending.al                       |    8 +
+ masl/test/GSC/GSC.int                              |  119 ++
+ masl/test/GSC/GSC.mod                              |  610 +++++++++
+ masl/test/GSC/GSP.prj                              |    0
+ .../GSC/METER_Delivers_Fuel_Unit_For_Pump_2_4.ext  |   10 +
+ masl/test/GSC/MO_Start_Motor.tr                    |    8 +
+ masl/test/GSC/MO_Stop_Motor.tr                     |    8 +
+ masl/test/GSC/PMP_Fuel_Delivery_Complete.al        |   13 +
+ masl/test/GSC/PMP_Fuel_Unavailable.al              |    9 +
+ masl/test/GSC/PMP_Pumping.al                       |    9 +
+ masl/test/GSC/PMP_Pumping_Paused.al                |   10 +
+ masl/test/GSC/PMP_Ready_To_Pump.al                 |    9 +
+ masl/test/GSC/PMP_Waiting_For_Customer.al          |    7 +
+ masl/test/GSC/PMP_Waiting_Pump_Enable.al           |   15 +
+ masl/test/GSC/Prototype_Petrol_Station_1.scn       |   66 +
+ masl/test/GSC/TANKER_Delivery_For_Tank_1002_9.ext  |   10 +
+ masl/test/GSC/TNK_Check_Level.svc                  |   12 +
+ .../GSC/TNK_Checking_Levels_After_Pump_Usage.al    |   20 +
+ .../TNK_Checking_Levels_After_Tanker_Delivery.al   |   22 +
+ masl/test/GSC/TNK_Increase_Level.svc               |    7 +
+ .../TNK_Inform_Connected_Pumps_Fuel_Available.svc  |   14 +
+ masl/test/GSC/TNK_Reduce_Level.svc                 |    7 +
+ masl/test/GSC/TNK_Reset_waiting_pumps.al           |    6 +
+ masl/test/GSC/TNK_Updating_fuel_levels.al          |   10 +
+ masl/test/GSC/TNK_Waiting_For_Tanker_Delivery.al   |    6 +
+ masl/test/GSC/TRN_Create_Transaction.svc           |   25 +
+ masl/test/GSC/TRN_Created.al                       |    8 +
+ masl/test/GSC/TRN_Evaded.al                        |   21 +
+ masl/test/GSC/TRN_Paid.al                          |   28 +
+ masl/test/GSC/WASL/GSC.brp                         |   10 +
+ masl/test/GSC/WASL/GSC.dmp                         |  100 ++
+ masl/test/GSC/WASL/GSC.evd                         |   19 +
+ masl/test/GSC/WASL/GSC.fnp                         |    8 +
+ masl/test/GSC/WASL/GSC.hcf                         |    0
+ masl/test/GSC/WASL/GSC.obj                         |   58 +
+ masl/test/GSC/WASL/GSC.objs_used                   |    0
+ masl/test/GSC/WASL/GSC.pme                         |    9 +
+ masl/test/GSC/WASL/GSC.pme_test                    |   12 +
+ masl/test/GSC/WASL/GSC.rel                         |   12 +
+ masl/test/GSC/WASL/GSC.rels_used                   |    0
+ masl/test/GSC/WASL/GSC.scn                         |    1 +
+ masl/test/GSC/WASL/GSC.stt                         |  123 ++
+ masl/test/GSC/WASL/GSC.sub                         |    1 +
+ masl/test/GSC/WASL/GSC.ter                         |    8 +
+ masl/test/GSC/WASL/GSC.typ                         |   13 +
+ masl/test/GSC/WASL/GSC.unused_parameters           |    0
+ masl/test/GSC/WASL/GSC_AT1_Request_Pump_Enable.br  |   13 +
+ masl/test/GSC/WASL/GSC_AT2_Transaction_Pending.br  |   11 +
+ masl/test/GSC/WASL/GSC_AT3_Delivery_Cancelled.br   |   11 +
+ masl/test/GSC/WASL/GSC_CL1_Engage_Clutch.br        |   11 +
+ masl/test/GSC/WASL/GSC_CL2_Disengage_Clutch.br     |   11 +
+ masl/test/GSC/WASL/GSC_CU1_Pump_Unavailable.br     |   11 +
+ masl/test/GSC/WASL/GSC_DEL1_Create_Delivery.fn     |   27 +
+ masl/test/GSC/WASL/GSC_DEL_5.al                    |   21 +
+ masl/test/GSC/WASL/GSC_DEL_6.al                    |   21 +
+ masl/test/GSC/WASL/GSC_DEL_8.al                    |   18 +
+ masl/test/GSC/WASL/GSC_External1.ext               |    9 +
+ masl/test/GSC/WASL/GSC_External2.ext               |    7 +
+ masl/test/GSC/WASL/GSC_External3.ext               |    8 +
+ masl/test/GSC/WASL/GSC_External4.ext               |    8 +
+ masl/test/GSC/WASL/GSC_External5.ext               |    8 +
+ masl/test/GSC/WASL/GSC_External6.ext               |    8 +
+ masl/test/GSC/WASL/GSC_External7.ext               |   14 +
+ masl/test/GSC/WASL/GSC_External8.ext               |   14 +
+ masl/test/GSC/WASL/GSC_External9.ext               |    8 +
+ ...xternals_For_Testing_Petrol_Station_Control.ext |   11 +
+ masl/test/GSC/WASL/GSC_MO1_Start_Motor.br          |   11 +
+ masl/test/GSC/WASL/GSC_MO2_Stop_Motor.br           |   11 +
+ masl/test/GSC/WASL/GSC_PMP_1.al                    |   12 +
+ masl/test/GSC/WASL/GSC_PMP_11.al                   |   14 +
+ masl/test/GSC/WASL/GSC_PMP_2.al                    |   20 +
+ masl/test/GSC/WASL/GSC_PMP_5.al                    |   14 +
+ masl/test/GSC/WASL/GSC_PMP_6.al                    |   18 +
+ masl/test/GSC/WASL/GSC_PMP_7.al                    |   14 +
+ masl/test/GSC/WASL/GSC_PMP_8.al                    |   15 +
+ masl/test/GSC/WASL/GSC_Scenario1.scn               |   70 +
+ masl/test/GSC/WASL/GSC_TNK1_Check_Level.fn         |   18 +
+ masl/test/GSC/WASL/GSC_TNK2_Reduce_Level.fn        |   14 +
+ masl/test/GSC/WASL/GSC_TNK3_Increase_Level.fn      |   14 +
+ ...C_TNK4_Inform_Connected_Pumps_Fuel_Available.fn |   19 +
+ masl/test/GSC/WASL/GSC_TNK_1.al                    |   28 +
+ masl/test/GSC/WASL/GSC_TNK_2.al                    |   11 +
+ masl/test/GSC/WASL/GSC_TNK_3.al                    |   11 +
+ masl/test/GSC/WASL/GSC_TNK_4.al                    |   26 +
+ masl/test/GSC/WASL/GSC_TNK_5.al                    |   16 +
+ masl/test/GSC/WASL/GSC_TRN1_Create_Transaction.fn  |   31 +
+ masl/test/GSC/WASL/GSC_TRN_3.al                    |   34 +
+ masl/test/GSC/WASL/GSC_TRN_4.al                    |   27 +
+ masl/test/all_wasl                                 |    3 +
+ masl/test/regression_wasl                          |   91 ++
+ 140 files changed, 3703 insertions(+), 1370 deletions(-)
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11444[11444 - WASL Analysis and Sizing]
+. [[dr-2]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

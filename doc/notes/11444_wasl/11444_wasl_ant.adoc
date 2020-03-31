@@ -214,8 +214,8 @@ WASL flat ASCII files from BridgePoint xtUML.  The block labeled _wasl_
 represents most of the work in the export flow.
 
 [[wasl-flow]]
-image::waslflow.png[WASL-to-xtUML and xtUML-to-WASL Flows]
-WASL-to-xtUML and xtUML-to-WASL Flows
+image::masl2xtuml2wasl.png[(WASL)MASL-to-xtUML and xtUML-to-WASL Flows]
+(WASL)MASL-to-xtUML and xtUML-to-WASL Flows
 
 In addition to the tooling, there are training, conversion and testing
 tasks involved in the project.
