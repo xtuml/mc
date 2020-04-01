@@ -1,5 +1,5 @@
 #!/bin/bash
-# 
+#
 #  This utility is used to run the full MASL round trip (convert, import,
 #  export, diff) on MASL domains.  The diff report that is produced helps
 #  users validate that the BridgePoint MASL flow works.
@@ -12,7 +12,7 @@
 #   xvfb-run ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-c]
 
 # USAGE
-print_usage () { 
+print_usage () {
     echo "Usage:"
     echo "        masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-r] [-c]";
     echo " ";
@@ -89,7 +89,7 @@ if [[ $OUT_DIR != "" ]]; then
 fi
 
 ###########################
-# Setup 
+# Setup
 ###########################
 export WORKSPACE="/tmp/importwork"
 
@@ -109,13 +109,13 @@ CONVERTDIR="/tmp/convertdir"
 for domain in ${DOM_DIRS[*]}; do
     domname=$(basename $domain)
     rm -rf $CONVERTDIR/$domname
-    masl2xtuml -d $domain -o $CONVERTDIR 
+    masl2xtuml -d $domain -o $CONVERTDIR
 done
 # process project
 if [[ $PROJ_DIR != "" ]]; then
   projname=$(basename $PROJ_DIR)
   rm -rf $CONVERTDIR/$projname
-  masl2xtuml -p $PROJ_DIR -o $CONVERTDIR 
+  masl2xtuml -p $PROJ_DIR -o $CONVERTDIR
 fi
 
 ###########################
@@ -135,7 +135,7 @@ for domain in ${DOM_DIRS[*]}; do
     echo "Round trip is now importing"
     CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj -deleteExisting >/tmp/import_log_$domProj.txt 2>&1
     if [[ ! -e $WORKSPACE/$domProj/models/$domProj/types/types.xtuml ]]; then
-      # First import didn't work. Import again. 
+      # First import did not work. Import again.
       echo "Failed to import first time through.  Importing again."
       CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj -deleteExisting >>/tmp/import_log_$domProj.txt 2>&1
     fi
@@ -151,7 +151,7 @@ for domain in ${DOM_DIRS[*]}; do
 
     # If there was a project specified, do not export and diff domains
     if [[ $PROJ_DIR == "" ]]; then
-      # The component name (from the .mod file) may not be the same as the domain folder we 
+      # The component name (from the .mod file) may not be the same as the domain folder we
       # used during the processing.  So we calculate it from the .mod file name.
       compfile=$(ls $domain/*.mod)
       compname=$(basename -s .mod $compfile)
@@ -202,7 +202,7 @@ if [[ $PROJ_DIR != "" ]]; then
     echo "Round trip is now importing"
     CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 -deleteExisting -allowIPRs >/tmp/import_log_p1.txt 2>&1
     if [[ ! -e $WORKSPACE/p1/models/p1/types/types.xtuml ]]; then
-      # First import didn't work. Import again. 
+      # First import didn't work. Import again.
       echo "Failed to import first time through.  Importing again."
       CLI.sh Import -file $CONVERTDIR/$projname/$projname.xtuml -targetProject p1 -deleteExisting -allowIPRs >>/tmp/import_log_p1.txt 2>&1
     fi
@@ -216,7 +216,7 @@ if [[ $PROJ_DIR != "" ]]; then
         cp $CONVERTDIR/$projname/application.mark $WORKSPACE/p1/gen/
     fi
 
-    # The component name (from the .prj file) may not be the same as the project folder we 
+    # The component name (from the .prj file) may not be the same as the project folder we
     # used during the processing.  So we calculate it from the .prj file name.
     compfile=$(ls $PROJ_DIR/*.prj)
     compname=$(basename -s .prj $compfile)
@@ -252,7 +252,7 @@ if [[ $PROJ_DIR != "" ]]; then
       if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
         echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
       else
-        echo -e "\nThe output is identical to the input." 
+        echo -e "\nThe output is identical to the input."
       fi
     fi
 fi
