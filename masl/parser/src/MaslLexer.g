@@ -208,7 +208,6 @@ FLUSH                         : 'flush';
 ENDL                          : 'endl';
 TRUE                          : 'true';
 FALSE                         : 'false';
-WASL                          : 'WASL';
 
 
 
@@ -261,9 +260,6 @@ fragment BasedDigit           : '0'..'9' | 'a'..'z' | 'A'..'Z';
 fragment Letter               : 'A'..'Z' | 'a'..'z';
 
 // Character and String Literals
-
-WaslBody                      : WASL ( EscapeSequence | ~('\\'|'"') | . )*
-                              ;
 
 DurationLiteral               : '@P' ( ~('@' | ' ' | '\t' | '\f' | '\n' | '\r') )* '@'
                               ;

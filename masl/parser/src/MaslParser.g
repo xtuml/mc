@@ -783,7 +783,6 @@ description                   : Description*                                    
 
 
 domainServiceDefinition       : description
-                                (
                                 serviceVisibility SERVICE 
                                 domainName SCOPE serviceName 
                                 parameterList 
@@ -797,11 +796,8 @@ domainServiceDefinition       : description
                                                                                                 returnType?
                                                                                                 codeBlock 
                                                                                                 pragmaList? )                               
-                                )
-                                | wasl                                                    -> wasl?
                               ;
 
-wasl : WaslBody ;
 
 
 objectServiceDefinition       : description
