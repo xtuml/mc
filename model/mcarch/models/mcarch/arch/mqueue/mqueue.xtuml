@@ -1,0 +1,260 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("610875db-0eef-433c-83c8-b2905d29e1d2",
+	'mqueue',
+	7005,
+	'mqueue',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("4fcf884b-c4ac-4912-a545-b33f89b1cc38",
+	"610875db-0eef-433c-83c8-b2905d29e1d2",
+	'populate',
+	'',
+	"a02e6212-f52d-4e48-ac93-6dceb1ffd4cb",
+	0,
+	'create object instance mqueue of mqueue;
+mqueue.MQ = 1; // CDS not used yet
+return mqueue;',
+	1,
+	'',
+	"1314f498-70ed-483f-ae7f-efcbb88422ad",
+	0);
+INSERT INTO S_DT_PROXY
+	VALUES ("a02e6212-f52d-4e48-ac93-6dceb1ffd4cb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<mqueue>',
+	'',
+	'',
+	'../arch.xtuml');
+INSERT INTO O_TFR
+	VALUES ("6a3ecc28-d3e8-4ec3-aac7-4d0cceb01c9c",
+	"610875db-0eef-433c-83c8-b2905d29e1d2",
+	'route',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'select one amsg related by self->amsg[R7012.''routes first''];
+if ( not_empty amsg )
+  amsg.deliver();
+end if;
+return not_empty amsg;',
+	1,
+	'',
+	"4fcf884b-c4ac-4912-a545-b33f89b1cc38",
+	0);
+INSERT INTO O_TFR
+	VALUES ("1314f498-70ed-483f-ae7f-efcbb88422ad",
+	"610875db-0eef-433c-83c8-b2905d29e1d2",
+	'enqueue',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'm = param.m;
+select one tail related by self->amsg[R7018.''posts last''];
+if ( not_empty tail )
+  // insert message onto end of existing list
+  unrelate self from tail across R7018.''posts last'';
+  relate m to tail across R7009.''succeeds'';
+else
+  // insert message onto empty queue
+  relate self to m across R7012.''routes first'';
+end if;
+relate self to m across R7018.''posts last'';
+',
+	1,
+	'',
+	"a58fd318-908f-4af5-a6eb-3d1c52fba166",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("a3e0d2cf-ef90-4b3a-acab-79c73ac7ca21",
+	"1314f498-70ed-483f-ae7f-efcbb88422ad",
+	'm',
+	"ab2a1fee-0722-48e7-a896-3bb82ae57d49",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ab2a1fee-0722-48e7-a896-3bb82ae57d49",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<amsg>',
+	'',
+	'',
+	'../arch.xtuml');
+INSERT INTO O_TFR
+	VALUES ("a58fd318-908f-4af5-a6eb-3d1c52fba166",
+	"610875db-0eef-433c-83c8-b2905d29e1d2",
+	'dequeue',
+	'',
+	"ab2a1fee-0722-48e7-a896-3bb82ae57d49",
+	1,
+	'select one head related by self->amsg[R7012.''routes first''];
+if ( not_empty head )
+  unrelate self from head across R7012.''routes first'';
+  select one next related by head->amsg[R7009.''precedes''];
+  if ( not_empty next )
+    unrelate head from next across R7009.''precedes'';
+    relate self to next across R7012.''routes first'';
+  else
+    // dequeued only message in the queue
+    unrelate self from head across R7018.''posts last'';
+  end if;
+end if;
+return head;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_NBATTR
+	VALUES ("a97c05a3-1298-4fda-8b53-dd42cae35f5f",
+	"610875db-0eef-433c-83c8-b2905d29e1d2");
+INSERT INTO O_BATTR
+	VALUES ("a97c05a3-1298-4fda-8b53-dd42cae35f5f",
+	"610875db-0eef-433c-83c8-b2905d29e1d2");
+INSERT INTO O_ATTR
+	VALUES ("a97c05a3-1298-4fda-8b53-dd42cae35f5f",
+	"610875db-0eef-433c-83c8-b2905d29e1d2",
+	"00000000-0000-0000-0000-000000000000",
+	'MQ',
+	'',
+	'',
+	'MQ',
+	0,
+	"3ee1eef0-d48c-44c2-bfff-24e567a4ccde",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("3ee1eef0-d48c-44c2-bfff-24e567a4ccde",
+	"00000000-0000-0000-0000-000000000000",
+	'slist',
+	'',
+	'',
+	'../../atypes/atypes.xtuml');
+INSERT INTO O_REF
+	VALUES ("610875db-0eef-433c-83c8-b2905d29e1d2",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	0,
+	"63e8a1a8-5804-4ab2-8a90-a53037e512e5",
+	"16af956f-3e0a-4ab5-b559-22ddc8ec64e2",
+	"802bba76-e45e-4d43-bafb-1aadee448b2c",
+	"96989d18-242c-46dc-b464-a1505bc1473c",
+	"aae30309-8466-444c-b806-18f08c493a30",
+	"a5944ff0-dbbe-44e0-a0ed-dfdf16f48b24",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'amsg',
+	'ID',
+	'R7012.''routes first''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("610875db-0eef-433c-83c8-b2905d29e1d2",
+	"16af956f-3e0a-4ab5-b559-22ddc8ec64e2",
+	"802bba76-e45e-4d43-bafb-1aadee448b2c",
+	'../arch.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("63e8a1a8-5804-4ab2-8a90-a53037e512e5",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	0,
+	"16af956f-3e0a-4ab5-b559-22ddc8ec64e2",
+	"96989d18-242c-46dc-b464-a1505bc1473c",
+	'../arch.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("aae30309-8466-444c-b806-18f08c493a30",
+	"610875db-0eef-433c-83c8-b2905d29e1d2",
+	"63e8a1a8-5804-4ab2-8a90-a53037e512e5",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	1,
+	'ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("63e8a1a8-5804-4ab2-8a90-a53037e512e5",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	'../amsg/amsg.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("aae30309-8466-444c-b806-18f08c493a30",
+	"610875db-0eef-433c-83c8-b2905d29e1d2",
+	"a97c05a3-1298-4fda-8b53-dd42cae35f5f",
+	'headID',
+	'',
+	'head',
+	'ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("610875db-0eef-433c-83c8-b2905d29e1d2",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	0,
+	"63e8a1a8-5804-4ab2-8a90-a53037e512e5",
+	"5b4e07f2-5bc1-429f-8088-9c36400ae89e",
+	"1e2bd29f-82c2-4a34-bfb8-e93727d558a5",
+	"ef25131a-24b9-42aa-8031-498097b70416",
+	"90ea6cbb-fae8-40a9-b47e-d844c288bf38",
+	"78c13cc4-93dd-429c-8afa-aa2de1df1ac2",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'amsg',
+	'ID',
+	'R7018.''posts last''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("610875db-0eef-433c-83c8-b2905d29e1d2",
+	"5b4e07f2-5bc1-429f-8088-9c36400ae89e",
+	"1e2bd29f-82c2-4a34-bfb8-e93727d558a5",
+	'../arch.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("63e8a1a8-5804-4ab2-8a90-a53037e512e5",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	0,
+	"5b4e07f2-5bc1-429f-8088-9c36400ae89e",
+	"ef25131a-24b9-42aa-8031-498097b70416",
+	'../arch.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("90ea6cbb-fae8-40a9-b47e-d844c288bf38",
+	"610875db-0eef-433c-83c8-b2905d29e1d2",
+	"63e8a1a8-5804-4ab2-8a90-a53037e512e5",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	1,
+	'ID');
+INSERT INTO O_ATTR
+	VALUES ("90ea6cbb-fae8-40a9-b47e-d844c288bf38",
+	"610875db-0eef-433c-83c8-b2905d29e1d2",
+	"aae30309-8466-444c-b806-18f08c493a30",
+	'tailID',
+	'',
+	'tail',
+	'ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"610875db-0eef-433c-83c8-b2905d29e1d2");
+INSERT INTO O_OIDA
+	VALUES ("a97c05a3-1298-4fda-8b53-dd42cae35f5f",
+	"610875db-0eef-433c-83c8-b2905d29e1d2",
+	0,
+	'MQ');
+INSERT INTO O_ID
+	VALUES (1,
+	"610875db-0eef-433c-83c8-b2905d29e1d2");
+INSERT INTO O_ID
+	VALUES (2,
+	"610875db-0eef-433c-83c8-b2905d29e1d2");
+INSERT INTO PE_PE
+	VALUES ("610875db-0eef-433c-83c8-b2905d29e1d2",
+	1,
+	"0e632113-8e66-484e-979b-d5f3670dd625",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("0e632113-8e66-484e-979b-d5f3670dd625",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	'arch',
+	'',
+	7000,
+	'../arch.xtuml');
