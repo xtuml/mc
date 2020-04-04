@@ -1,0 +1,232 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	'amsg',
+	7010,
+	'amsg',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("c682d660-be0a-44dd-b6ab-4434d7869c0e",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	'populate',
+	'',
+	"ab2a1fee-0722-48e7-a896-3bb82ae57d49",
+	0,
+	'create object instance amsg of amsg;
+return amsg;',
+	1,
+	'',
+	"339e0eda-19e9-40f2-94a3-22b3c62ca2a2",
+	0);
+INSERT INTO S_DT_PROXY
+	VALUES ("ab2a1fee-0722-48e7-a896-3bb82ae57d49",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<amsg>',
+	'',
+	'',
+	'../arch.xtuml');
+INSERT INTO O_TFR
+	VALUES ("339e0eda-19e9-40f2-94a3-22b3c62ca2a2",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	'deliver',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one mq related by self->mqueue[R7012];
+amsg = mq.dequeue();
+// ToC
+toc = ToC::populate();
+relate amsg to toc across R7102;
+adispatch = adispatch::populate( toc:toc );
+relate self to adispatch across R7020;
+LOG::LogInteger( message:self.ID );
+adispatch.run();
+unrelate self from adispatch across R7020;
+adispatch.die();
+delete object instance self;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_NBATTR
+	VALUES ("63e8a1a8-5804-4ab2-8a90-a53037e512e5",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8");
+INSERT INTO O_BATTR
+	VALUES ("63e8a1a8-5804-4ab2-8a90-a53037e512e5",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8");
+INSERT INTO O_ATTR
+	VALUES ("63e8a1a8-5804-4ab2-8a90-a53037e512e5",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	"00000000-0000-0000-0000-000000000000",
+	'ID',
+	'',
+	'',
+	'ID',
+	0,
+	"baec8063-70ad-47dd-ae8e-cea60d86480e",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baec8063-70ad-47dd-ae8e-cea60d86480e",
+	"00000000-0000-0000-0000-000000000000",
+	'listnode',
+	'',
+	'',
+	'../../atypes/atypes.xtuml');
+INSERT INTO O_REF
+	VALUES ("7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	"60d50a6f-eacc-4d88-9a3b-beb6c1e27086",
+	0,
+	"5b6e3a68-81f7-4be4-966d-20606c17c779",
+	"47a036b0-2520-4990-8033-e0d375ababc0",
+	"b7bb03e3-1429-4651-9c6b-b1220b9a67ca",
+	"0681f878-8841-4b35-a12f-84ecffc1ee72",
+	"2220409b-dbdf-4bd3-ab3b-b1e9c109403f",
+	"0d30df68-5d5a-4927-99bd-084415fca453",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'adispatch',
+	'ToCI',
+	'R7020.''triggers''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	"47a036b0-2520-4990-8033-e0d375ababc0",
+	"b7bb03e3-1429-4651-9c6b-b1220b9a67ca",
+	'../arch.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5b6e3a68-81f7-4be4-966d-20606c17c779",
+	"60d50a6f-eacc-4d88-9a3b-beb6c1e27086",
+	0,
+	"47a036b0-2520-4990-8033-e0d375ababc0",
+	"0681f878-8841-4b35-a12f-84ecffc1ee72",
+	'../arch.xtuml');
+INSERT INTO O_REF
+	VALUES ("7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d",
+	0,
+	"ec06b5dc-f83e-4c26-9357-ba9dfdc866bf",
+	"55d3e115-8fd8-4331-acfd-8474904c4fd5",
+	"49192fa4-90cd-470a-9a51-874bed1ab641",
+	"81dc6673-dec2-43c3-ac7c-0a35eb22fa25",
+	"2220409b-dbdf-4bd3-ab3b-b1e9c109403f",
+	"ee36776e-0fc7-40d8-9cc5-4e50e95e19a7",
+	"0d30df68-5d5a-4927-99bd-084415fca453",
+	0,
+	'',
+	'thread of control',
+	'ToCI',
+	'R7102.''initiates''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	"55d3e115-8fd8-4331-acfd-8474904c4fd5",
+	"49192fa4-90cd-470a-9a51-874bed1ab641",
+	'../../energy/energy.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("ec06b5dc-f83e-4c26-9357-ba9dfdc866bf",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d",
+	0,
+	"55d3e115-8fd8-4331-acfd-8474904c4fd5",
+	"81dc6673-dec2-43c3-ac7c-0a35eb22fa25",
+	'../../energy/energy.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("2220409b-dbdf-4bd3-ab3b-b1e9c109403f",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	"ec06b5dc-f83e-4c26-9357-ba9dfdc866bf",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d",
+	1,
+	'ToCI');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("ec06b5dc-f83e-4c26-9357-ba9dfdc866bf",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d",
+	'../../energy/thread of control/thread of control.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("2220409b-dbdf-4bd3-ab3b-b1e9c109403f",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	"63e8a1a8-5804-4ab2-8a90-a53037e512e5",
+	'ToCI',
+	'
+
+',
+	'',
+	'ToCI',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	"60d50a6f-eacc-4d88-9a3b-beb6c1e27086",
+	0,
+	"9a10dd38-5692-4772-9589-432fbd74739e",
+	"47a036b0-2520-4990-8033-e0d375ababc0",
+	"b7bb03e3-1429-4651-9c6b-b1220b9a67ca",
+	"0681f878-8841-4b35-a12f-84ecffc1ee72",
+	"752ac684-f655-4d06-8bcf-03b6fbb87f8f",
+	"46325be0-b99f-4ed5-a157-f8fb00f48598",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'adispatch',
+	'sequence',
+	'R7020.''triggers''');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("9a10dd38-5692-4772-9589-432fbd74739e",
+	"60d50a6f-eacc-4d88-9a3b-beb6c1e27086",
+	0,
+	"47a036b0-2520-4990-8033-e0d375ababc0",
+	"0681f878-8841-4b35-a12f-84ecffc1ee72",
+	'../arch.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("752ac684-f655-4d06-8bcf-03b6fbb87f8f",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	"9a10dd38-5692-4772-9589-432fbd74739e",
+	"60d50a6f-eacc-4d88-9a3b-beb6c1e27086",
+	1,
+	'sequence');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("9a10dd38-5692-4772-9589-432fbd74739e",
+	"60d50a6f-eacc-4d88-9a3b-beb6c1e27086",
+	'../adispatch/adispatch.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("752ac684-f655-4d06-8bcf-03b6fbb87f8f",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	"2220409b-dbdf-4bd3-ab3b-b1e9c109403f",
+	'sequence',
+	'',
+	'',
+	'sequence',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8");
+INSERT INTO O_OIDA
+	VALUES ("63e8a1a8-5804-4ab2-8a90-a53037e512e5",
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	0,
+	'ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8");
+INSERT INTO O_ID
+	VALUES (2,
+	"7c994ee8-eec5-4d63-9601-cf0365e776c8");
+INSERT INTO PE_PE
+	VALUES ("7c994ee8-eec5-4d63-9601-cf0365e776c8",
+	1,
+	"0e632113-8e66-484e-979b-d5f3670dd625",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("0e632113-8e66-484e-979b-d5f3670dd625",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	'arch',
+	'',
+	7000,
+	'../arch.xtuml');

@@ -1,0 +1,105 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("9a7241d1-70d1-4a65-99a2-29fbb38a09f5",
+	'task',
+	7006,
+	'task',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("ae06ad5d-c5f4-4dd8-89ef-21057a2abf99",
+	"9a7241d1-70d1-4a65-99a2-29fbb38a09f5",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'create object instance task of task;
+task.tasknumber = param.number;
+task.priority = param.priority;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("d132d3ae-7aae-4bec-a3d9-ba7ace39b6ab",
+	"ae06ad5d-c5f4-4dd8-89ef-21057a2abf99",
+	'number',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("25d07bef-ac74-4d69-b7c3-ccb7aaa3cdff",
+	"ae06ad5d-c5f4-4dd8-89ef-21057a2abf99",
+	'priority',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"d132d3ae-7aae-4bec-a3d9-ba7ace39b6ab",
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("c575f179-ce29-4058-a0e8-4ad5caaef4c0",
+	"9a7241d1-70d1-4a65-99a2-29fbb38a09f5");
+INSERT INTO O_BATTR
+	VALUES ("c575f179-ce29-4058-a0e8-4ad5caaef4c0",
+	"9a7241d1-70d1-4a65-99a2-29fbb38a09f5");
+INSERT INTO O_ATTR
+	VALUES ("c575f179-ce29-4058-a0e8-4ad5caaef4c0",
+	"9a7241d1-70d1-4a65-99a2-29fbb38a09f5",
+	"00000000-0000-0000-0000-000000000000",
+	'tasknumber',
+	'',
+	'',
+	'tasknumber',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("65699fd2-f550-4599-b727-c83ea30e7fff",
+	"9a7241d1-70d1-4a65-99a2-29fbb38a09f5");
+INSERT INTO O_BATTR
+	VALUES ("65699fd2-f550-4599-b727-c83ea30e7fff",
+	"9a7241d1-70d1-4a65-99a2-29fbb38a09f5");
+INSERT INTO O_ATTR
+	VALUES ("65699fd2-f550-4599-b727-c83ea30e7fff",
+	"9a7241d1-70d1-4a65-99a2-29fbb38a09f5",
+	"c575f179-ce29-4058-a0e8-4ad5caaef4c0",
+	'priority',
+	'',
+	'',
+	'priority',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"9a7241d1-70d1-4a65-99a2-29fbb38a09f5");
+INSERT INTO O_OIDA
+	VALUES ("c575f179-ce29-4058-a0e8-4ad5caaef4c0",
+	"9a7241d1-70d1-4a65-99a2-29fbb38a09f5",
+	0,
+	'tasknumber');
+INSERT INTO O_ID
+	VALUES (1,
+	"9a7241d1-70d1-4a65-99a2-29fbb38a09f5");
+INSERT INTO O_ID
+	VALUES (2,
+	"9a7241d1-70d1-4a65-99a2-29fbb38a09f5");
+INSERT INTO PE_PE
+	VALUES ("9a7241d1-70d1-4a65-99a2-29fbb38a09f5",
+	1,
+	"0e632113-8e66-484e-979b-d5f3670dd625",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("0e632113-8e66-484e-979b-d5f3670dd625",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	'arch',
+	'',
+	7000,
+	'../arch.xtuml');

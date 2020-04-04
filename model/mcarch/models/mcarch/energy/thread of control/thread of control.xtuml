@@ -1,0 +1,136 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("7a834212-22ea-43a8-96a1-dd6d7789967d",
+	'thread of control',
+	7103,
+	'ToC',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("78009cde-f1ec-4b61-b700-1a159ce51bc0",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d",
+	'populate',
+	'',
+	"6a4b767a-12ac-4838-9c71-30e490d7de34",
+	0,
+	'create object instance toc of ToC;
+// CDS - toc.ToCI = ID_factory();
+toc.ToCI = TIM::msec_time();
+toc.consumption = 0;
+return toc;',
+	1,
+	'',
+	"9646dce7-40ed-4a84-a3a5-fd63ad0c96fb",
+	0);
+INSERT INTO S_DT_PROXY
+	VALUES ("6a4b767a-12ac-4838-9c71-30e490d7de34",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<thread of control>',
+	'',
+	'',
+	'../energy.xtuml');
+INSERT INTO O_TFR
+	VALUES ("9646dce7-40ed-4a84-a3a5-fd63ad0c96fb",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d",
+	'accumulate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000003",
+	1,
+	'self.consumption = self.consumption + param.q;
+return self.consumption;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("197d9878-4791-45c0-aacf-76718142a9d9",
+	"9646dce7-40ed-4a84-a3a5-fd63ad0c96fb",
+	'q',
+	"ba5eda7a-def5-0000-0000-000000000003",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ec06b5dc-f83e-4c26-9357-ba9dfdc866bf",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d");
+INSERT INTO O_BATTR
+	VALUES ("ec06b5dc-f83e-4c26-9357-ba9dfdc866bf",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d");
+INSERT INTO O_ATTR
+	VALUES ("ec06b5dc-f83e-4c26-9357-ba9dfdc866bf",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d",
+	"00000000-0000-0000-0000-000000000000",
+	'ToCI',
+	'',
+	'',
+	'ToCI',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ca79fcd5-fddb-4580-a134-746b563538e9",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d");
+INSERT INTO O_BATTR
+	VALUES ("ca79fcd5-fddb-4580-a134-746b563538e9",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d");
+INSERT INTO O_ATTR
+	VALUES ("ca79fcd5-fddb-4580-a134-746b563538e9",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d",
+	"ec06b5dc-f83e-4c26-9357-ba9dfdc866bf",
+	'consumption',
+	'',
+	'',
+	'consumption',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000003",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ef2f3f7e-56bf-462a-a310-79666ce9b9fd",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d");
+INSERT INTO O_BATTR
+	VALUES ("ef2f3f7e-56bf-462a-a310-79666ce9b9fd",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d");
+INSERT INTO O_ATTR
+	VALUES ("ef2f3f7e-56bf-462a-a310-79666ce9b9fd",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d",
+	"ca79fcd5-fddb-4580-a134-746b563538e9",
+	'sequence_counter',
+	'',
+	'',
+	'sequence_counter',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"7a834212-22ea-43a8-96a1-dd6d7789967d");
+INSERT INTO O_OIDA
+	VALUES ("ec06b5dc-f83e-4c26-9357-ba9dfdc866bf",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d",
+	0,
+	'ToCI');
+INSERT INTO O_ID
+	VALUES (1,
+	"7a834212-22ea-43a8-96a1-dd6d7789967d");
+INSERT INTO O_ID
+	VALUES (2,
+	"7a834212-22ea-43a8-96a1-dd6d7789967d");
+INSERT INTO PE_PE
+	VALUES ("7a834212-22ea-43a8-96a1-dd6d7789967d",
+	1,
+	"653ad22c-7e80-4aa8-aacf-869cea8ba818",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("653ad22c-7e80-4aa8-aacf-869cea8ba818",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	'energy',
+	'',
+	7100,
+	'../energy.xtuml');
