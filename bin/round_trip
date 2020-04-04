@@ -1,25 +1,26 @@
 #!/bin/bash
 #
-#  This utility is used to run the full MASL round trip (convert, import,
-#  export, diff) on MASL domains.  The diff report that is produced helps
-#  users validate that the BridgePoint MASL flow works.
+#  This utility is used to run the full round trip (convert, import,
+#  export, diff) on MASL/WASL domains.  The diff report that is produced helps
+#  users validate that the BridgePoint MASL/WASL flow works.
 #
 #  Please note that the BridgePoint CLI Import uses a graphical eclipse workbench which
 #  will capture focus as this script runs.  To run this script completely headlessly,
 #  install the xvfb package for your distribution and call this script using xvfb-run.
 #
-#   ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-c]
-#   xvfb-run ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-c]
+#   ./round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-a <architecture>] [-c]
+#   xvfb-run ./round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-a <architecture>] [-c]
 
 # USAGE
 print_usage () {
     echo "Usage:"
-    echo "        masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-r] [-c]";
+    echo "        round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-a <architecture>] [-r] [-c]";
     echo " ";
     echo "  - Up to twenty domains may be specified. If a project is specified, only the project is diff'd.";
     echo "  - Consider installing xvfb and calling this script with xvfb-run to execute headlessly. See info in this script's header.";
     echo "  - Specify the '-c' flag to enable and produce code coverage statistics.";
     echo "  - Specify the '-r' flag to force exit and relaunch of BridgePoint before export.";
+    echo "  - Specify '-a <architecture>' to select a specific architecture (WASL) for model testing; MASL is the default.";
     echo -e "\n";
 }
 
@@ -44,11 +45,12 @@ PROJ_DIR=
 OUT_DIR=
 RELAUNCH=
 COVERAGE=
+ARCHITECTURE="MASL" # Default to MASL.
 
 # parse arguments
 DIRECTIVE=
 for arg in $@; do
-    if [[ $arg == "-d" || $arg == "-p" || $arg == "-o" ]]; then     # set the directive
+    if [[ $arg == "-d" || $arg == "-p" || $arg == "-o" || $arg == "-a" ]]; then # set the directive
         DIRECTIVE=$arg
     elif [[ $arg == "-r" ]]; then                                   # relaunch BP before export
         RELAUNCH=$arg
@@ -60,6 +62,8 @@ for arg in $@; do
         PROJ_DIR=$arg
     elif [[ $DIRECTIVE == "-o" && $OUT_DIR == "" ]]; then           # only can set the output directory once
         OUT_DIR=$arg
+    elif [[ $DIRECTIVE == "-a" ]]; then                                   # produce coverage statistics
+        ARCHITECTURE=$arg
     else
         print_usage
         exit 1
@@ -83,7 +87,7 @@ if [[ $OUT_DIR == "" ]]; then OUT_DIR=.; fi
 # make the output directory if there is one
 if [[ $OUT_DIR != "" ]]; then
     if ! mkdir -p $OUT_DIR; then
-        echo "-masl_round_trip: ERROR could not create directory '$OUT_DIR'" 1>&2
+        echo "-round_trip:  ERROR could not create directory '$OUT_DIR'" 1>&2
         exit 1
     fi
 fi
@@ -121,7 +125,7 @@ fi
 ###########################
 # Import, Export, Diff
 ###########################
-MODELOUTDIR="/tmp/maslout"
+MODELOUTDIR="/tmp/modelout"
 
 domNum=0
 for domain in ${DOM_DIRS[*]}; do
@@ -155,7 +159,7 @@ for domain in ${DOM_DIRS[*]}; do
       # used during the processing.  So we calculate it from the .mod file name.
       compfile=$(ls $domain/*.mod)
       compname=$(basename -s .mod $compfile)
-      echo "Converting $compname from xtUML to MASL"
+      echo "Converting $compname from xtUML to " $ARCHITECTURE
       if [[ -d $MODELOUTDIR ]]; then
          rm -rf $MODELOUTDIR
       fi
@@ -164,7 +168,9 @@ for domain in ${DOM_DIRS[*]}; do
       # Copy extra .int files to the output.  Note that we do this _before_ running 
       # xtuml2masl so that xtuml2masl will overwrite the int for the domain being converted,
       # which we want to happen so that we are checking the int created by the x2m process.
-      cp $domain/*.int $MODELOUTDIR/$compname
+      if [[ "MASL" == $ARCHITECTURE ]]; then
+        cp $domain/*.int $MODELOUTDIR/$compname
+      fi
 
       # Optionally relaunch BridgePoint before export
       if [[ $RELAUNCH != "" ]]; then
@@ -172,11 +178,19 @@ for domain in ${DOM_DIRS[*]}; do
         CLI.sh Launch
       fi
 
-      xtuml2masl $COVERAGE -i $WORKSPACE/$domProj/ -d $compname -o $MODELOUTDIR
+      if [[ "WASL" == $ARCHITECTURE ]]; then
+        xtuml2masl $COVERAGE -i $WORKSPACE/$domProj/ -d $compname -o $MODELOUTDIR -a $ARCHITECTURE -xf
+      else
+        xtuml2masl $COVERAGE -i $WORKSPACE/$domProj/ -d $compname -o $MODELOUTDIR -a $ARCHITECTURE
+      fi
 
       # Now diff
       echo "Diff'ing input and output."
-      masldiff $domain $MODELOUTDIR/$compname > $MODELOUTDIR/$compname/diff_report.txt
+      if [[ "WASL" == $ARCHITECTURE ]]; then
+        wasldiff $domain/WASL $MODELOUTDIR/$compname > $MODELOUTDIR/$compname/diff_report.txt
+      else
+        masldiff $domain $MODELOUTDIR/$compname > $MODELOUTDIR/$compname/diff_report.txt
+      fi
       if [[ -d $OUT_DIR/$compname ]]; then
          rm -rf $OUT_DIR/$compname
       fi
@@ -220,15 +234,17 @@ if [[ $PROJ_DIR != "" ]]; then
     # used during the processing.  So we calculate it from the .prj file name.
     compfile=$(ls $PROJ_DIR/*.prj)
     compname=$(basename -s .prj $compfile)
-    echo "Converting $compname from xtUML to MASL"
+    echo "Converting $compname from xtUML to " $ARCHITECTURE
     if [[ -d $MODELOUTDIR ]]; then
        rm -rf $MODELOUTDIR
     fi
     mkdir -p $MODELOUTDIR/$compname
 
-    # Copy extra INT files from the original source to the MASL output dir 
-    echo "Copying $PROJ_DIR/*.int to $MODELOUTDIR/$compname"
-    cp $PROJ_DIR/*.int $MODELOUTDIR/$compname
+    # Copy extra INT files from the original source to the output dir 
+    if [[ "MASL" == $ARCHITECTURE ]]; then
+      echo "Copying $PROJ_DIR/*.int to $MODELOUTDIR/$compname"
+      cp $PROJ_DIR/*.int $MODELOUTDIR/$compname
+    fi
 
     # Optionally relaunch BridgePoint before export
     if [[ $RELAUNCH != "" ]]; then
@@ -236,11 +252,19 @@ if [[ $PROJ_DIR != "" ]]; then
       CLI.sh Launch
     fi
 
-    xtuml2masl $COVERAGE -P -i $WORKSPACE/p1 -p $compname -o $MODELOUTDIR
+    if [[ "WASL" == $ARCHITECTURE ]]; then
+      xtuml2wasl $COVERAGE -P -i $WORKSPACE/p1 -p $compname -o $MODELOUTDIR -a $ARCHITECTURE -xf
+    else
+      xtuml2masl $COVERAGE -P -i $WORKSPACE/p1 -p $compname -o $MODELOUTDIR -a $ARCHITECTURE
+    fi
 
     # Now diff
     echo "Diff'ing input and output."
-    masldiff $PROJ_DIR $MODELOUTDIR/$compname > $MODELOUTDIR/$compname/diff_report.txt
+    if [[ "WASL" == $ARCHITECTURE ]]; then
+      wasldiff $PROJ_DIR/WASL $MODELOUTDIR/$compname > $MODELOUTDIR/$compname/diff_report.txt
+    else
+      masldiff $PROJ_DIR $MODELOUTDIR/$compname > $MODELOUTDIR/$compname/diff_report.txt
+    fi
     if [[ -d $OUT_DIR/$compname ]]; then
        rm -rf $OUT_DIR/$compname
     fi
