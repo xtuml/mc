@@ -1,0 +1,87 @@
+= Import ASL Activity
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+This note documents the importing of ASL actions.
+
+== 2 Introduction and Background
+
+`MASL Dumper` is being employed to export ASL-dialect models from iUML.
+MASL Dumper will put the ASL activities into separate files as if they
+were MASL activities.  This is fine.
+
+However, ASL activities are to be persisted in BridgePoint differently than
+their MASL counterparts (and similarly to their OAL counterparts).  ASL
+will be persisted in the 'Action_Semantics' field of the metamodel class
+representing the function or operation.
+
+== 3 Requirements
+
+=== 3.1 Recognize ASL activities as distinct from MASL
+==== 3.1.1 Distinguish ASL During Parse
+==== 3.1.2 Distinguish ASL During Import
+=== 3.2 'Grep out' the Function Signature
+`MASL Dumper` includes the function or operation signature in the first
+lines of an activity.  This is superfluous and incorrect syntax for ASL
+activities.
+==== 3.2.1 'Grep out' the Function Signature
+==== 3.2.2 'Grep out' begin null; end;
+
+=== 3.3 Stow Activity Code Block in 'Action_Semantics'
+==== 3.3.1 Loosen Code Block Parser?
+==== 3.3.1 Create Separate ASL Activity Grammar
+
+  aslActivity : .* ' is$'                        // discard
+              (
+                ( 'begin' 'null' ';' 'end' ';' ) // discard
+              | ( .* )                           // good stuff
+              )
+
+=== 3.4 Set Action Dialect to ASL
+
+== 4 Work Required
+
+. Figure out how to import ASL activities.
+  .. MaslImportParser does not have any sort of "ignore action body", but it could.
+     *** Set the dialect correctly.
+     *** The MaslImportParser grammar should probably not "look" at actions at all.  For MASL, it successfully stows the action text into Action_Semantics_internal, just what we want for MASL.
+     *** Yeah, really just need a way to conditionally parse the body or not.
+
+=== 4.1 Add WASL Option to Tool Chain
+==== 4.1.1 Add WASL Option to Import Parser
+Add an optional argument to the Import Parser (in `MaslImportParser.java`)
+such that an invocation can be designated as ASL-specific.  This will get
+passed from the `masl2xtuml` script.
+==== 4.1.1 Add WASL Option to `x2m`.
+
+== 5 Implementation Comments
+
+== 6 Unit Test
+
+== 7 User Documentation
+
+== 8 Code Changes
+
+- fork/repository:  your_fork/repo_name
+- branch:  your_branch_name_here
+
+----
+ Put the file list here
+----
+
+== 9 Document References
+
+In this section, list all the documents that the reader may need to refer to.
+Give the full path to reference a file.
+
+. [[dr-1]] https://support.onefact.net/issues/NNNNN[NNNNN - headline]
+. [[dr-2]] ...
+. [[dr-3]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

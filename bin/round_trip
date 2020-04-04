@@ -159,7 +159,7 @@ for domain in ${DOM_DIRS[*]}; do
       # used during the processing.  So we calculate it from the .mod file name.
       compfile=$(ls $domain/*.mod)
       compname=$(basename -s .mod $compfile)
-      echo "Converting $compname from xtUML to " $ARCHITECTURE
+      echo "Converting $compname from xtUML to" $ARCHITECTURE
       if [[ -d $MODELOUTDIR ]]; then
          rm -rf $MODELOUTDIR
       fi
