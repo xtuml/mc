@@ -13,7 +13,7 @@ MASL dumper will put the ASL activities into separate files as if they
 were MASL activities.  This is fine.
 
 However, MASL activities have a MASL activity signature (parameters and
-return type) imbedded in the activity file.  ASL does not, and even if it
+return type) embedded in the activity file.  ASL does not, and even if it
 did, the signature would have a different syntax.  MASL uses an explicit
 begin-null-end sequence for "empty" activities.  ASL simply has zero
 statements in empty activities.
@@ -58,7 +58,7 @@ as well.
 ==== 3.1.2 Distinguish ASL During Import
 
 The output of `masl2xtuml` is a legal `.xtuml` file that can be imported
-into BridgePoint.  Converted MASL models have labels imbedded inside that
+into BridgePoint.  Converted MASL models have labels embedded inside that
 provide hints to the BridgePoint import process to set MASL-specific
 parameters for the model.  A similar approach will be taken for
 ASL-dialect converted models.
@@ -69,6 +69,9 @@ ASL-dialect converted models.
 lines of an activity.  This is superfluous and incorrect syntax for ASL
 activities.  The MASL dumper also emits a "begin, null, end" sequence
 for empty activities which is not useful for ASL.
+
+Notem however, that the signature actually serves as the key for the
+activity.  It cannot be completely omitted from processing.
 
 ==== 3.2.1 'Grep out' the MASL Function Signature
 
@@ -127,16 +130,16 @@ ASL.
 
 MASL models are imported with special tags 'masl_project' and 'masl_domain'
 in particular model element locations.  This is done to provide a key to
-the BridgePoint model import funcitionality.  During import, BridgePoint
+the BridgePoint model import functionality.  During import, BridgePoint
 detects these keys and performs dialect-specific operations for MASL.
 
 ASL dialect models will need to use a similar approach with different keys.
 
 ==== 3.5.1 Add 'asl_project' and 'asl_domain' to `m2x`
 
-Based upon command line input, the `m2x` conversion utility will imbed
+Based upon command line input, the `m2x` conversion utility will embed
 the label 'asl_project' and 'asl_domain' in the same locations where it
-currently imbeds 'masl_project' and 'masl_domain' for MASL models.
+currently embeds 'masl_project' and 'masl_domain' for MASL models.
 
 ==== 3.5.2 Detect 'asl_project' and 'asl_domain' in Import
 
@@ -155,6 +158,44 @@ argument on the back end export tool chain) is added to:
 * `x2m`
 
 == 5 Implementation Comments
+
+=== 5.1 Alternatives
+
+Alternatives were explored to accomplish this work.  Here is a summary list.
+
+=== 5.1.1 Override Parser Recovery
+
+The idea here is that ASL activities will cause parse errors in the MASL
+activity parser.  The detection and reaction to these could be changed.
+`antlr` provides mechanisms to override the error detection and recovery
+operations.  These could be changed to "eat until the end of the file".
+
+This was explored and found to be non-trivial.  It also provides no advantage
+of the approach chosen.
+
+=== 5.1.2 Pre-Process (`sed/grep/awk`) Activity Files
+
+The ASL bodies could be extracted from the activity files before running
+the parser.  Or, the operation signatures and begin-null-end strings could
+be stripped from the activity files.  This leaves the problem that the
+signature actually serves as the key for the activity.
+
+The fact that both the MASL and ASL in the file is needed renders this
+approach less than ideal.
+
+=== 5.1.3 Create a New Parser for ASL
+
+A parser could be created that understands ASL.  It could be invoked from
+within the MASL parser.
+
+This is simply a much larger amount of work than other approaches.
+
+=== 5.1.4 Adapt MASL Parser
+
+This is approach chosen.  The MASL parser will be given a single new rule
+that parses ASL between two tags inserted around the action statements.
+It is a small change to the parser and allows both the MASL portions and
+the ASL portions of the files to be processed correctly.
 
 == 6 Unit Test
 
