@@ -1395,7 +1395,7 @@ domainServiceDefinition//[DomainService service]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                args[0] = $DOMAIN_SERVICE_DEFINITION.text + " service;";
+                                                                args[0] = new String( $DOMAIN_SERVICE_DEFINITION.text.replace( "#ASL-BEGIN", "" ).replaceAll( "#ASL-END", "" ) ) + " service;";
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
@@ -1811,8 +1811,10 @@ loopVariableSpec
 codeBlock
 //returns [ CodeBlock st ]
 //scope NameScope;
-                              :^( CODE_BLOCK                
-                                  ( variableDeclaration     
+                              : (
+                                  ^( CODE_BLOCK
+                                  Asl ) |
+                                  ^( CODE_BLOCK ( variableDeclaration
                                   )*     
                                   ^(STATEMENT_LIST ( statement               
                                   )* )
@@ -1820,10 +1822,9 @@ codeBlock
                                   )*
                                   ( otherHandler            
                                   )?
+                                  )
                                 )
                               ;
-
-
 
 variableDeclaration
 //returns [VariableDefinition var]

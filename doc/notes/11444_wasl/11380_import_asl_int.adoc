@@ -8,64 +8,187 @@ This note documents the importing of ASL actions.
 
 == 2 Introduction and Background
 
-`MASL Dumper` is being employed to export ASL-dialect models from iUML.
-MASL Dumper will put the ASL activities into separate files as if they
+`MASL dumper` is being employed to export ASL-dialect models from iUML.
+MASL dumper will put the ASL activities into separate files as if they
 were MASL activities.  This is fine.
 
-However, ASL activities are to be persisted in BridgePoint differently than
-their MASL counterparts (and similarly to their OAL counterparts).  ASL
-will be persisted in the 'Action_Semantics' field of the metamodel class
-representing the function or operation.
+However, MASL activities have a MASL activity signature (parameters and
+return type) imbedded in the activity file.  ASL does not, and even if it
+did, the signature would have a different syntax.  MASL uses an explicit
+begin-null-end sequence for "empty" activities.  ASL simply has zero
+statements in empty activities.
+
+In addition, ASL activities are to be persisted in BridgePoint differently
+than their MASL counterparts (and similarly to their OAL counterparts).
+ASL will be persisted in the 'Action_Semantics' field of the metamodel
+class representing the function or operation.  MASL activities are
+persisted into a file within the current package and having a suffix of
+'.masl'.
+
+These differences were not fully considered when the decision was made to
+employ the MASL dumper with ASL-dialect models.  The following sections
+outline requirements and required work to extend the Import side of
+BridgePoint to support ASL-dialect activity import.
 
 == 3 Requirements
 
 === 3.1 Recognize ASL activities as distinct from MASL
+
+It may be theoretically possible to detect ASL in activity bodies by
+syntax.  However, this would require the construction of a separate lexer
+/ parser / recognizer, which is significant work.  Instead, the import
+process will be given a flag to indicate that ASL is the dialect of
+activity being imported.  The import process starts at `masl2xtuml`.
+Therefore, this script will gain a command line specification to indicate
+ASL.
+
 ==== 3.1.1 Distinguish ASL During Parse
+
+`masl2xtuml` will pass the dialect / architecture specification to the
+MASL file parser.  This will give the parser the information it needs to
+parse the activity bodies differently than MASL.  Thus, `MASLImportParser`
+will receive the dialect specification.
+
+==== 3.1.2 Distinguish ASL During Conversion
+
+The `m2x` utility will also need to know that ASL activities are being
+processed.  `masl2xtuml` will pass the flag to this conversion processor
+as well.
+
 ==== 3.1.2 Distinguish ASL During Import
-=== 3.2 'Grep out' the Function Signature
-`MASL Dumper` includes the function or operation signature in the first
+
+The output of `masl2xtuml` is a legal `.xtuml` file that can be imported
+into BridgePoint.  Converted MASL models have labels imbedded inside that
+provide hints to the BridgePoint import process to set MASL-specific
+parameters for the model.  A similar approach will be taken for
+ASL-dialect converted models.
+
+=== 3.2 Clean Up Extraneous MASL
+
+`MASL dumper` includes the function or operation signature in the first
 lines of an activity.  This is superfluous and incorrect syntax for ASL
-activities.
-==== 3.2.1 'Grep out' the Function Signature
-==== 3.2.2 'Grep out' begin null; end;
+activities.  The MASL dumper also emits a "begin, null, end" sequence
+for empty activities which is not useful for ASL.
+
+==== 3.2.1 'Grep out' the MASL Function Signature
+
+Remove the MASL-style signatures from the beginning of the activity
+including the boilerplate comment block ("UK Crown").
+
+Recognize that the function signatures are required to identify the
+activity body.  So, they must be removed only after they have been parsed
+and used to link the activity body with the activity declaration.
+
+==== 3.2.2 'Grep out' begin-null-end
+
+Remove MASL `begin`, `null` and `end` statements that have been inserted
+by the MASL dumper.
 
 === 3.3 Stow Activity Code Block in 'Action_Semantics'
-==== 3.3.1 Loosen Code Block Parser?
-==== 3.3.1 Create Separate ASL Activity Grammar
 
-  aslActivity : .* ' is$'                        // discard
-              (
-                ( 'begin' 'null' ';' 'end' ';' ) // discard
-              | ( .* )                           // good stuff
-              )
+ASL activities will be persisted into the converted '.xtuml' file in
+mostly the same way as MASL.  However, upon import into BridgePoint, these
+activities will be persisted in the 'Action_Semantic' field of the
+containing activity element.  It is required that ASL pass through the
+MASL activity parser even though ASL does not follow legal MASL syntax.
+
+==== 3.3.1 Extend Code Block Parser
+
+Extend the MASL grammar at the 'codeBlock' production rule to accept a
+block of ASL delimited with tags.  The strategy will be to use a grammar
+rule similar to that of multi-line comments.  The tags will be something
+like '#ASL-BEGIN' and '#ASL-END'.  ASL comments begin with '#' so that
+these tags could be left in the stream.  However, it is most desirable to
+strip them out after they have performed their function.
+
+==== 3.3.2 Create Separate ASL Activity Grammar
+
+==== 3.3.1 Insert Tags into ASL Bodies
+
+Insert the tags while loading the ASL activity file and before passing the
+stream to the parser.  This can be done by simple substitution detecting
+' is' at the end of the function signature and inserting the begin tag
+directly afterwards.
+
+The end tag will be concatenated onto the end of the entire activity.
+
+==== 3.3.1 Remove Tags and begin-null-end from ASL Bodies
+
+After the parse is complete and before emitting the serial MASL, simple
+substitution can be employed to remove the ASL begin and end tags and omit
+the begin-null-end patterns.
 
 === 3.4 Set Action Dialect to ASL
 
+Upon import into BridgePoint, the dialect for ASL bodies will be set to
+ASL.
+
+=== 3.5 Label Model
+
+MASL models are imported with special tags 'masl_project' and 'masl_domain'
+in particular model element locations.  This is done to provide a key to
+the BridgePoint model import funcitionality.  During import, BridgePoint
+detects these keys and performs dialect-specific operations for MASL.
+
+ASL dialect models will need to use a similar approach with different keys.
+
+==== 3.5.1 Add 'asl_project' and 'asl_domain' to `m2x`
+
+Based upon command line input, the `m2x` conversion utility will imbed
+the label 'asl_project' and 'asl_domain' in the same locations where it
+currently imbeds 'masl_project' and 'masl_domain' for MASL models.
+
+==== 3.5.2 Detect 'asl_project' and 'asl_domain' in Import
+
+During normal xtUML model import processing, BridgePoint will detect the
+labels 'asl_project' and 'asl_domain' labels.  Appropriate steps will be
+taken to set the 'ActionDialect' enumeration for the imported activities.
+
 == 4 Work Required
 
-. Figure out how to import ASL activities.
-  .. MaslImportParser does not have any sort of "ignore action body", but it could.
-     *** Set the dialect correctly.
-     *** The MaslImportParser grammar should probably not "look" at actions at all.  For MASL, it successfully stows the action text into Action_Semantics_internal, just what we want for MASL.
-     *** Yeah, really just need a way to conditionally parse the body or not.
+The work required is outlined in the requirements above.
 
-=== 4.1 Add WASL Option to Tool Chain
-==== 4.1.1 Add WASL Option to Import Parser
-Add an optional argument to the Import Parser (in `MaslImportParser.java`)
-such that an invocation can be designated as ASL-specific.  This will get
-passed from the `masl2xtuml` script.
-==== 4.1.1 Add WASL Option to `x2m`.
+An option using '-a <architecture>' (-a to be consistent with a similar
+argument on the back end export tool chain) is added to:
+* `masl2xtuml`
+* `MASLImportParser`
+* `x2m`
 
 == 5 Implementation Comments
 
 == 6 Unit Test
 
+. `round_trip` testing of the MASL test suite shall continue to pass.
+. `round_trip` importing of SWATS models will execute successfully.
+
 == 7 User Documentation
+
+The command line option must be added to the "man page" documentation of
+`masl2xtuml`.
 
 == 8 Code Changes
 
-- fork/repository:  your_fork/repo_name
-- branch:  your_branch_name_here
+- fork/repository:  cortlandstarrett/bridgepoint
+- branch:  11380_asl_import
+
+----
+ Put the file list here
+----
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  11380_asl_import
+
+----
+ doc/notes/11444_wasl/11380_import_asl_int.adoc | 187 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------
+ masl/parser/src/MaslImportParser.java          |  10 +++-
+ masl/parser/src/MaslLexer.g                    |   4 +-
+ masl/parser/src/MaslParser.g                   |   6 ++-
+ masl/parser/src/MaslWalker.g                   |  11 +++--
+ 5 files changed, 172 insertions(+), 46 deletions(-)
+----
+
+- fork/repository:  cortlandstarrett/models
+- branch:  11380_asl_import
 
 ----
  Put the file list here
@@ -73,12 +196,7 @@ passed from the `masl2xtuml` script.
 
 == 9 Document References
 
-In this section, list all the documents that the reader may need to refer to.
-Give the full path to reference a file.
-
-. [[dr-1]] https://support.onefact.net/issues/NNNNN[NNNNN - headline]
-. [[dr-2]] ...
-. [[dr-3]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+. [[dr-1]] https://support.onefact.net/issues/11380[11380 - Import ASL Activities]
 
 ---
 

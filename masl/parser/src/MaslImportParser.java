@@ -2,6 +2,8 @@ import java.io.*;
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 import java.util.regex.Pattern;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class MaslImportParser {
 
@@ -47,7 +49,12 @@ public class MaslImportParser {
         MaslWalker              walker;
 
         try {
-            lex = new MaslLexer( new ANTLRFileStream( fn ) );
+            String fileString = new String(Files.readAllBytes(Paths.get(fn)));
+            if ( rule.equals( "activityDefinition" ) ) {
+              fileString = new String( fileString.replaceFirst( " is\n", " is\n#ASL-BEGIN\n" ) ) + "#ASL-END;";
+            } else {
+            }
+            lex = new MaslLexer( new ANTLRStringStream( fileString ) );
         } catch ( IOException e ) {
             System.err.println( e );
             return;
