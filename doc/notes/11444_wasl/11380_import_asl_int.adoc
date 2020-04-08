@@ -153,6 +153,7 @@ The work required is outlined in the requirements above.
 
 An option using '-a <architecture>' (-a to be consistent with a similar
 argument on the back end export tool chain) is added to:
+
 * `masl2xtuml`
 * `MASLImportParser`
 * `x2m`
@@ -192,7 +193,7 @@ This is simply a much larger amount of work than other approaches.
 
 === 5.1.4 Adapt MASL Parser
 
-This is approach chosen.  The MASL parser will be given a single new rule
+This is the approach chosen.  The MASL parser will be given a single new rule
 that parses ASL between two tags inserted around the action statements.
 It is a small change to the parser and allows both the MASL portions and
 the ASL portions of the files to be processed correctly.
