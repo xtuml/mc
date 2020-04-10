@@ -6,8 +6,8 @@
 # USAGE
 print_usage () { 
     echo "Usage:"
-    echo "        masl2xtuml -d <domain source directory(s) ...> [-o <output directory>]";
-    echo "        masl2xtuml -p <project source directory(s) ...> [-o <output directory>]";
+    echo "        masl2xtuml -a <dialect> -d <domain source directory(s) ...> [-o <output directory>]";
+    echo "        masl2xtuml -a <dialect> -p <project source directory(s) ...> [-o <output directory>]";
 }
 
 # set up paths
@@ -23,12 +23,15 @@ done
 PROJ_DIRS=()
 DOM_DIRS=()
 OUT_DIR=
+ARCHITECTURE=
 
 # parse arguments
 DIRECTIVE=
 for arg in $@; do
-    if [[ $arg == "-p" || $arg == "-d" || $arg == "-o" ]]; then     # set the directive
+    if [[ "-a" == $arg || $arg == "-p" || $arg == "-d" || $arg == "-o" ]]; then     # set the directive
         DIRECTIVE=$arg
+    elif [[ $DIRECTIVE == "-a" ]]; then                             # establish dialect
+        ARCHITECTURE=$arg
     elif [[ $DIRECTIVE == "-p" ]]; then                             # add a project dir
         PROJ_DIRS+=($arg)
     elif [[ $DIRECTIVE == "-d" ]]; then                             # add a domain dir
@@ -68,12 +71,12 @@ fi
 for domain in ${DOM_DIRS[*]}; do
     DN=$OUT_DIR/`basename $domain`/
     mkdir $DN
-    ( java -cp $CP MaslImportParser -d $domain ) | m2x -o $DN -g $DIR/../schema/Globals.xtuml > $DN/`basename $domain`.xtuml
+    ( java -cp $CP MaslImportParser -a $ARCHITECTURE -d $domain ) | m2x -o $DN -g $DIR/../schema/Globals.xtuml > $DN/`basename $domain`.xtuml
 done
 
 # process projects
 for project in ${PROJ_DIRS[*]}; do
     DN=$OUT_DIR/`basename $project`/
     mkdir $DN
-    ( java -cp $CP MaslImportParser -p $project ) | m2x -o $DN -g $DIR/../schema/Globals.xtuml > $DN/`basename $project`.xtuml
+    ( java -cp $CP MaslImportParser -a $ARCHITECTURE -p $project ) | m2x -o $DN -g $DIR/../schema/Globals.xtuml > $DN/`basename $project`.xtuml
 done

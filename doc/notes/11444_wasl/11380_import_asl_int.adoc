@@ -100,7 +100,7 @@ MASL activity parser even though ASL does not follow legal MASL syntax.
 Extend the MASL grammar at the 'codeBlock' production rule to accept a
 block of ASL delimited with tags.  The strategy will be to use a grammar
 rule similar to that of multi-line comments.  The tags will be something
-like '#ASL-BEGIN' and '#ASL-END'.  ASL comments begin with '#' so that
+like '&#35;ASL-BEGIN' and '&#35;ASL-END'.  ASL comments begin with '&#35;' so that
 these tags could be left in the stream.  However, it is most desirable to
 strip them out after they have performed their function.
 

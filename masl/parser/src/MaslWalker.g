@@ -84,6 +84,11 @@ private String getFile() {
     return f.getName();
 }
 
+private String cleanASL( String str ) {
+    if ( null == str ) return null;
+    return str.replaceAll( "#ASL-BEGIN", "" ).replaceAll( "#ASL-END", "" ).replaceAll( "\nbegin\n  null;\nend", "" );
+}
+
 }
 
 target                        : definition+;
@@ -1371,16 +1376,17 @@ description                   : ^( DESCRIPTION              {   StringBuilder de
 /*  This rule has been added to allow to parse any activity action body file
     without knowledge of what type of activity it contained - LPS */
 
-activityDefinition            : domainServiceDefinition
-                              | terminatorServiceDefinition
-                              | objectServiceDefinition
-                              | stateDefinition
+activityDefinition[String dialect]
+@init{ boolean isMASL = false; if ( dialect.equals( "MASL" ) ) isMASL = true; }
+                              : domainServiceDefinition[ isMASL ? " service;" : "" ]
+                              | terminatorServiceDefinition[ isMASL ? " service;" : "" ]
+                              | objectServiceDefinition[ isMASL ? " service;" : "" ]
+                              | stateDefinition[ isMASL ? " state;" : "" ]
                               ;
 
 
-domainServiceDefinition//[DomainService service]
+domainServiceDefinition[String endtag]
 //scope NameScope;
-
                               : ^( DOMAIN_SERVICE_DEFINITION
                                    serviceVisibility
                                    domainReference
@@ -1395,7 +1401,7 @@ domainServiceDefinition//[DomainService service]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                args[0] = new String( $DOMAIN_SERVICE_DEFINITION.text.replace( "#ASL-BEGIN", "" ).replaceAll( "#ASL-END", "" ) ) + " service;";
+                                                                args[0] = cleanASL( $DOMAIN_SERVICE_DEFINITION.text ) + endtag;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
@@ -1407,10 +1413,8 @@ domainServiceDefinition//[DomainService service]
                               ;
 
 
-terminatorServiceDefinition//[DomainTerminatorService service]
+terminatorServiceDefinition[String endtag]
 //scope NameScope;
-
-
                               : ^( TERMINATOR_SERVICE_DEFINITION
                                    serviceVisibility
                                    domainReference
@@ -1424,12 +1428,12 @@ terminatorServiceDefinition//[DomainTerminatorService service]
                                                                   populate( "routine", args );
                                                             }
                                    parameterList
-                                                            {
-                                                                args[0] = $TERMINATOR_SERVICE_DEFINITION.text + " service;";
-                                                                populate( "codeblock", args );
-                                                            }
                                    returnType?
                                    codeBlock
+                                                            {
+                                                                args[0] = cleanASL( $TERMINATOR_SERVICE_DEFINITION.text ) + endtag;
+                                                                populate( "codeblock", args );
+                                                            }
                                    pragmaList[""]                  
                                  )                                                   
                                                             {
@@ -1439,7 +1443,7 @@ terminatorServiceDefinition//[DomainTerminatorService service]
                               ;
 
 
-projectTerminatorServiceDefinition//[ProjectTerminatorService service]
+projectTerminatorServiceDefinition[String endtag]
 //scope NameScope;
                               : ^( TERMINATOR_SERVICE_DEFINITION
                                    serviceVisibility
@@ -1457,7 +1461,7 @@ projectTerminatorServiceDefinition//[ProjectTerminatorService service]
                                    returnType?
                                    codeBlock         
                                                             {
-                                                                args[0] = $TERMINATOR_SERVICE_DEFINITION.text + " service;";
+                                                                args[0] = cleanASL( $TERMINATOR_SERVICE_DEFINITION.text ) + endtag;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
@@ -1470,10 +1474,8 @@ projectTerminatorServiceDefinition//[ProjectTerminatorService service]
 
 
 
-objectServiceDefinition//[ObjectService service]
+objectServiceDefinition[String endtag]
 //scope NameScope;
-
-
                               :^( OBJECT_SERVICE_DEFINITION
                                    serviceVisibility
                                    INSTANCE?
@@ -1492,7 +1494,7 @@ objectServiceDefinition//[ObjectService service]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                args[0] = $OBJECT_SERVICE_DEFINITION.text + " service;";
+                                                                args[0] = cleanASL( $OBJECT_SERVICE_DEFINITION.text ) + endtag;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                           
@@ -1503,10 +1505,8 @@ objectServiceDefinition//[ObjectService service]
                               ;
 
 
-stateDefinition//[State stateDef]
+stateDefinition[String endtag]
 //scope NameScope;
-
-
                               : ^( STATE_DEFINITION
                                    stateType
                                    fullObjectReference
@@ -1521,7 +1521,7 @@ stateDefinition//[State stateDef]
                                    parameterList
                                    codeBlock
                                                             {
-                                                                args[0] = $STATE_DEFINITION.text + " state;";
+                                                                args[0] = cleanASL( $STATE_DEFINITION.text ) + endtag;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                
@@ -1811,8 +1811,7 @@ loopVariableSpec
 codeBlock
 //returns [ CodeBlock st ]
 //scope NameScope;
-                              : (
-                                  ^( CODE_BLOCK
+                              : ^( CODE_BLOCK
                                   Asl ) |
                                   ^( CODE_BLOCK ( variableDeclaration
                                   )*     
@@ -1822,7 +1821,6 @@ codeBlock
                                   )*
                                   ( otherHandler            
                                   )?
-                                  )
                                 )
                               ;
 

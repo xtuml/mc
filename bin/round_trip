@@ -113,13 +113,13 @@ CONVERTDIR="/tmp/convertdir"
 for domain in ${DOM_DIRS[*]}; do
     domname=$(basename $domain)
     rm -rf $CONVERTDIR/$domname
-    masl2xtuml -d $domain -o $CONVERTDIR
+    masl2xtuml -a $ARCHITECTURE -d $domain -o $CONVERTDIR
 done
 # process project
 if [[ $PROJ_DIR != "" ]]; then
   projname=$(basename $PROJ_DIR)
   rm -rf $CONVERTDIR/$projname
-  masl2xtuml -p $PROJ_DIR -o $CONVERTDIR
+  masl2xtuml -a $ARCHITECTURE -p $PROJ_DIR -o $CONVERTDIR
 fi
 
 ###########################
