@@ -84,9 +84,10 @@ private String getFile() {
     return f.getName();
 }
 
-private String cleanASL( String str ) {
+private String cleanASL( String str, boolean isMASL ) {
     if ( null == str ) return null;
-    return str.replaceAll( "#ASL-BEGIN", "" ).replaceAll( "#ASL-END", "" ).replaceAll( "\nbegin\n  null;\nend", "" );
+    if ( isMASL ) return str;
+    else return str.replaceAll( "#ASL-BEGIN", "" ).replaceAll( "#ASL-END", "" ).replaceAll( "begin\n  null;\nend", "" );
 }
 
 }
@@ -1378,14 +1379,14 @@ description                   : ^( DESCRIPTION              {   StringBuilder de
 
 activityDefinition[String dialect]
 @init{ boolean isMASL = false; if ( dialect.equals( "MASL" ) ) isMASL = true; }
-                              : domainServiceDefinition[ isMASL ? " service;" : "" ]
-                              | terminatorServiceDefinition[ isMASL ? " service;" : "" ]
-                              | objectServiceDefinition[ isMASL ? " service;" : "" ]
-                              | stateDefinition[ isMASL ? " state;" : "" ]
+                              : domainServiceDefinition[ isMASL ? " service;" : "", isMASL ]
+                              | terminatorServiceDefinition[ isMASL ? " service;" : "", isMASL ]
+                              | objectServiceDefinition[ isMASL ? " service;" : "", isMASL ]
+                              | stateDefinition[ isMASL ? " state;" : "", isMASL ]
                               ;
 
 
-domainServiceDefinition[String endtag]
+domainServiceDefinition[String endtag, boolean isMASL]
 //scope NameScope;
                               : ^( DOMAIN_SERVICE_DEFINITION
                                    serviceVisibility
@@ -1401,7 +1402,7 @@ domainServiceDefinition[String endtag]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                args[0] = cleanASL( $DOMAIN_SERVICE_DEFINITION.text ) + endtag;
+                                                                args[0] = cleanASL( $DOMAIN_SERVICE_DEFINITION.text, isMASL ) + endtag;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
@@ -1413,7 +1414,7 @@ domainServiceDefinition[String endtag]
                               ;
 
 
-terminatorServiceDefinition[String endtag]
+terminatorServiceDefinition[String endtag, boolean isMASL]
 //scope NameScope;
                               : ^( TERMINATOR_SERVICE_DEFINITION
                                    serviceVisibility
@@ -1431,7 +1432,7 @@ terminatorServiceDefinition[String endtag]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                args[0] = cleanASL( $TERMINATOR_SERVICE_DEFINITION.text ) + endtag;
+                                                                args[0] = cleanASL( $TERMINATOR_SERVICE_DEFINITION.text, isMASL ) + endtag;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
@@ -1443,7 +1444,7 @@ terminatorServiceDefinition[String endtag]
                               ;
 
 
-projectTerminatorServiceDefinition[String endtag]
+projectTerminatorServiceDefinition[String endtag, boolean isMASL]
 //scope NameScope;
                               : ^( TERMINATOR_SERVICE_DEFINITION
                                    serviceVisibility
@@ -1461,7 +1462,7 @@ projectTerminatorServiceDefinition[String endtag]
                                    returnType?
                                    codeBlock         
                                                             {
-                                                                args[0] = cleanASL( $TERMINATOR_SERVICE_DEFINITION.text ) + endtag;
+                                                                args[0] = cleanASL( $TERMINATOR_SERVICE_DEFINITION.text, isMASL ) + endtag;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
@@ -1474,7 +1475,7 @@ projectTerminatorServiceDefinition[String endtag]
 
 
 
-objectServiceDefinition[String endtag]
+objectServiceDefinition[String endtag, boolean isMASL]
 //scope NameScope;
                               :^( OBJECT_SERVICE_DEFINITION
                                    serviceVisibility
@@ -1494,7 +1495,7 @@ objectServiceDefinition[String endtag]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                args[0] = cleanASL( $OBJECT_SERVICE_DEFINITION.text ) + endtag;
+                                                                args[0] = cleanASL( $OBJECT_SERVICE_DEFINITION.text, isMASL ) + endtag;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                           
@@ -1505,7 +1506,7 @@ objectServiceDefinition[String endtag]
                               ;
 
 
-stateDefinition[String endtag]
+stateDefinition[String endtag, boolean isMASL]
 //scope NameScope;
                               : ^( STATE_DEFINITION
                                    stateType
@@ -1521,7 +1522,7 @@ stateDefinition[String endtag]
                                    parameterList
                                    codeBlock
                                                             {
-                                                                args[0] = cleanASL( $STATE_DEFINITION.text ) + endtag;
+                                                                args[0] = cleanASL( $STATE_DEFINITION.text, isMASL ) + endtag;
                                                                 populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                
