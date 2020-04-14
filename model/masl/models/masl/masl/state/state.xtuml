@@ -228,7 +228,12 @@ end if;
 select one code_block related by activity->code_block[R3794];
 if ( not_empty code_block )
   code_block.render();
-end if;',
+end if;
+
+if ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.activity_def_end.wasl" );
+end if;
+',
 	1,
 	'',
 	"3831770b-0142-457e-9e20-b77e34cfaa75",

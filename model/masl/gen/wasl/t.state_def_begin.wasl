@@ -1,2 +1,2 @@
-define activity ${domain.name}_${object.key_letters}_$t{state.number}
+define action ${domain.name}_${object.key_letters}_$t{state.number}
 input

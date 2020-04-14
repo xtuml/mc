@@ -139,7 +139,7 @@ elif ( "WASL" == genfile::architecture() )
     select one terminator related by self->terminator[R3791];
     if ( not_empty terminator )
       select one domain related by self->terminator[R3791]->domain[R3702];
-      scope = domain.name + ";" + terminator.key_letters;
+      scope = domain.name + ";" + terminator.key_letters + STRING::itoa( i:self.number );
     end if;
   else
     scope = domain.name + STRING::itoa( i:self.number );
@@ -299,7 +299,12 @@ end if;
 select one code_block related by activity->code_block[R3794];
 if ( not_empty code_block )
   code_block.render();
-end if;',
+end if;
+
+if ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.activity_def_end.wasl" );
+end if;
+',
 	1,
 	'',
 	"f9b377c0-d337-4e40-9132-58d2adc9509f",

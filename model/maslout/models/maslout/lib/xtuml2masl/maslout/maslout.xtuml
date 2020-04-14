@@ -327,38 +327,48 @@ for each c_po in c_pos
   select any provision related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009];
   if ( not param.project or ( param.project and not_empty provision ) )
 
-	value[0] = c_po.Name;
-	value[1] = c_po.Name + "KL_ToDo"; // CDS - TODO find an appropriate value here
-	out::populate( element:"terminator", value:value );
-	::message2routine( c_c:c_c, c_po:c_po, project:param.project );
+    value[0] = c_po.Name;
+    value[1] = c_po.Name + "KL";
+    // CDS - TODO - Port (terminator) key letters need a home in the metamodel.
+    // See if there is a mark for the key_letter.
+    select any markable from instances of Markable where ( selected.name == "Port" );
+    pathkey = ::component_get_path( c_c:c_c, child:c_po.Name );
+    select any mark related by markable->Mark[R2821] where ( ( selected.path == pathkey ) and ( selected.feature_name == "key_letter" ) );
+    if ( not_empty mark )
+      // Strip the double-quotes off.
+      i = STRING::strlen( s:mark.value );
+      value[1] = STRING::substr( s:mark.value, begin:1, end:i-1 );
+    end if;
+    out::populate( element:"terminator", value:value );
+    ::message2routine( c_c:c_c, c_po:c_po, project:param.project );
 
-	// Populate pragmas
-	if ( param.project )
+    // Populate pragmas
+    if ( param.project )
       select any c_p related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009];
-	  if ( not_empty c_p )
-	    if ( not param.kl )
-		  c_p.Descrip = ::remove_kl( s:c_p.Descrip );
-		end if;
+      if ( not_empty c_p )
+        if ( not param.kl )
+          c_p.Descrip = ::remove_kl( s:c_p.Descrip );
+        end if;
         ::mark2pragma( markable:"Provision", pathkey: ::component_get_path( c_c:c_c, child:c_p.Name ) );
 
-		// output the description
-		::Descrip2description( Descrip:c_p.Descrip );
-	  end if;
-	else
-	  select any c_r related by c_po->C_IR[R4016]->C_R[R4009];
-	  if ( not_empty c_r )
-	    if ( not param.kl )
-		  c_r.Descrip = ::remove_kl( s:c_r.Descrip );
-		end if;
+        // output the description
+        ::Descrip2description( Descrip:c_p.Descrip );
+      end if;
+    else
+      select any c_r related by c_po->C_IR[R4016]->C_R[R4009];
+      if ( not_empty c_r )
+        if ( not param.kl )
+          c_r.Descrip = ::remove_kl( s:c_r.Descrip );
+        end if;
         ::mark2pragma( markable:"Requirement", pathkey: ::component_get_path( c_c:c_c, child:c_r.Name ) );
 
-		// output the description
-		::Descrip2description( Descrip:c_r.Descrip );
-	  end if;
-	end if;
+        // output the description
+        ::Descrip2description( Descrip:c_r.Descrip );
+      end if;
+    end if;
 
-	// end terminator
-	out::populate( element:"terminator", value:emptyvalue );
+    // end terminator
+    out::populate( element:"terminator", value:emptyvalue );
 
   end if;
 

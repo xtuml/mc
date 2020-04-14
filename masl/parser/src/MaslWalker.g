@@ -87,7 +87,7 @@ private String getFile() {
 private String cleanASL( String str, boolean isMASL ) {
     if ( null == str ) return null;
     if ( isMASL ) return str;
-    else return str.replaceAll( "#ASL-BEGIN", "" ).replaceAll( "#ASL-END", "" ).replaceAll( "begin\n  null;\nend", "" );
+    else return str.replaceAll( "#ASL-BEGIN", "" ).replaceAll( "#ASL-END", "" ).replaceAll( "begin\n  null;\nend;\n", "" );
 }
 
 }
@@ -1403,7 +1403,7 @@ domainServiceDefinition[String endtag, boolean isMASL]
                                    codeBlock
                                                             {
                                                                 args[0] = cleanASL( $DOMAIN_SERVICE_DEFINITION.text, isMASL ) + endtag;
-                                                                populate( "codeblock", args );
+                                                                if ( !args[0].equals("") ) populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
                                  )                                                   
@@ -1433,7 +1433,7 @@ terminatorServiceDefinition[String endtag, boolean isMASL]
                                    codeBlock
                                                             {
                                                                 args[0] = cleanASL( $TERMINATOR_SERVICE_DEFINITION.text, isMASL ) + endtag;
-                                                                populate( "codeblock", args );
+                                                                if ( !args[0].equals("") ) populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
                                  )                                                   
@@ -1463,7 +1463,7 @@ projectTerminatorServiceDefinition[String endtag, boolean isMASL]
                                    codeBlock         
                                                             {
                                                                 args[0] = cleanASL( $TERMINATOR_SERVICE_DEFINITION.text, isMASL ) + endtag;
-                                                                populate( "codeblock", args );
+                                                                if ( !args[0].equals("") ) populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
                                  )                                                   
@@ -1496,7 +1496,7 @@ objectServiceDefinition[String endtag, boolean isMASL]
                                    codeBlock
                                                             {
                                                                 args[0] = cleanASL( $OBJECT_SERVICE_DEFINITION.text, isMASL ) + endtag;
-                                                                populate( "codeblock", args );
+                                                                if ( !args[0].equals("") ) populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                           
                                  )                          
@@ -1523,7 +1523,7 @@ stateDefinition[String endtag, boolean isMASL]
                                    codeBlock
                                                             {
                                                                 args[0] = cleanASL( $STATE_DEFINITION.text, isMASL ) + endtag;
-                                                                populate( "codeblock", args );
+                                                                if ( !args[0].equals("") ) populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                
                                  )                          

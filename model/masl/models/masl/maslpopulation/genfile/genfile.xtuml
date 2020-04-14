@@ -733,7 +733,7 @@ elif ( "domain" == element )
       for each routine in routines
         select one activity related by routine->activity[R3704];
         routine.render_definition( activity:activity );
-        filename = domain.name + "_" + activity.name + ".fn";
+        filename = domain.name + STRING::itoa( i:routine.number ) + "_" + activity.name + ".fn";
         genfile = genfile::populate( name:filename );
         genfile.emit( name:filename );
       end for;
@@ -743,7 +743,7 @@ elif ( "domain" == element )
         for each routine in routines
           select one activity related by routine->activity[R3704];
           routine.render_definition( activity:activity );
-          filename = domain.name + "_" + terminator.key_letters + "_" + activity.name + ".br";
+          filename = domain.name + "_" + terminator.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".br";
           genfile = genfile::populate( name:filename );
           genfile.emit( name:filename );
         end for;
@@ -754,7 +754,7 @@ elif ( "domain" == element )
         for each operation in operations
           select one activity related by operation->activity[R3704];
           operation.render_definition( activity:activity );
-          filename = domain.name + "_" + object.key_letters + "_" + activity.name + ".fn";
+          filename = domain.name + "_" + object.key_letters + STRING::itoa( i:operation.number ) + "_" + activity.name + ".fn";
           select one deferral related by operation->subsuper[R3793];
           if ( empty deferral )
             // Skip generaton of abstract operations.
@@ -762,13 +762,17 @@ elif ( "domain" == element )
             genfile.emit( name:filename );
           end if;
         end for;
+        //select many states related by object->state[R3750] where ( selected.number != 0 );
         select many states related by object->state[R3750];
         for each state in states
           select one activity related by state->activity[R3704];
-          state.render_definition( activity:activity );
+          select one code_block related by activity->code_block[R3794];
+          if ( not_empty code_block )
+            state.render_definition( activity:activity );
           sname = domain.name + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
           genfile = genfile::populate( name:sname );
           genfile.emit( name:sname + ".al" );
+          end if;
         end for;
       end for;
 

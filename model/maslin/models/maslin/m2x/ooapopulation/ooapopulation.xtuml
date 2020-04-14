@@ -7526,14 +7526,14 @@ elif ( "object" == element )
   end if;
 elif ( "terminator" == element )
   if ( "" == param.value[0] )
-  	// formalize the new interface reference to it
-  	comp_if = ooapopulation.current_interface;
-  	select any new_ir related by comp_if->C_IR[R4012];
-  	ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
-  	
-  	// copy the codeblocks into the right locations
-  	select many c_eps related by comp_if->C_EP[R4003];
-  	for each c_ep in c_eps
+    // formalize the new interface reference to it
+    comp_if = ooapopulation.current_interface;
+    select any new_ir related by comp_if->C_IR[R4012];
+    ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+    
+    // copy the codeblocks into the right locations
+    select many c_eps related by comp_if->C_EP[R4003];
+    for each c_ep in c_eps
       // copy over the codeblock
       string = c_ep.Descrip;
       start_index = STRING::indexof( haystack:string, needle:"<codeblock>" );
@@ -7542,17 +7542,17 @@ elif ( "terminator" == element )
       if ( -1 != start_index and -1 != end_index )
         temp_cb = STRING::substr( s:string, begin:start_index+11, end:end_index );
         message_cb = STRING::escapetics( s:temp_cb);
+        c_ep.Descrip = STRING::substr( s:string, begin:0, end:start_index );
       end if;
-      c_ep.Descrip = "";
 
       select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
-  	  if ( not_empty spr_ro )
+      if ( not_empty spr_ro )
         spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
         if ( "" != spr_ro.Action_Semantics_internal )
           spr_ro.Dialect = ActionDialect::masl;
         end if;
-  	  end if;
-  	end for;
+      end if;
+    end for;
 
     select any c_i from instances of C_I where (false);
     ooapopulation.current_interface = c_i;

@@ -105,6 +105,12 @@ if ( not_empty population )
         pathkey = ::component_get_path( c_c:c_c, child:c_po.Name );
         for each pragma in pragmas
           pragma.pragma2mark( markable_name:"Port", pathkey:pathkey );
+          select any ooapragma_item related by pragma->ooapragma_item[R3804];
+          if ( not_empty ooapragma_item )
+            if ( "key_letter" == pragma.name )
+              //c_po.Descrip = c_po.Descrip + "key_letters:" + ooapragma_item.value;
+            end if;
+          end if;
         end for;
       else
         c_c = population.current_component;
