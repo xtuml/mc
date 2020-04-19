@@ -2286,10 +2286,11 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 select any model from instances of model where ( selected.name == "maslout" );
 if ( empty model or ( not_empty model and "true" == model.getoption( name:"outputcodeblocks" ) ) )
 
-  //value[0] = param.name + ".masl";
-  value[0] = param.text;
-  out::populate( element:"codeblock", value:value );
-  out::populate( element:"codeblock", value:emptyvalue );
+  if ( "" != param.text )
+    value[0] = param.text;
+    out::populate( element:"codeblock", value:value );
+    out::populate( element:"codeblock", value:emptyvalue );
+  end if;
 
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",

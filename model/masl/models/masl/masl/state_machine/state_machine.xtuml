@@ -58,7 +58,12 @@ elif ( "WASL" == genfile::architecture() )
         next_state_number = next_state.number;
         next_state_name = next_state_activity.name;
       end if;
+      if ( "terminal" == start_state.type )
+        transition = "Meaningless";
+        next_state_number = 0;
+      end if;
       select one event related by cell->event[R3732];
+      select one event_object related by event->object[R3736];
       T::include( file:"wasl/t.stt_row.wasl" );
     end for;
 

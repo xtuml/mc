@@ -1,2 +1,1 @@
-T_b("output");
-T_b("\n");
+T_b("\noutput ");

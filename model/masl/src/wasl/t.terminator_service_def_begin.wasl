@@ -1,4 +1,4 @@
-T_b("define bridge ");
+T_b("define bridge  ");
 T_b(domain->name);
 T_b(":");
 T_b(terminator->key_letters);
@@ -6,5 +6,4 @@ T_b(T_s(self->number));
 T_b(":");
 T_b(activity->name);
 T_b("\n");
-T_b("input");
-T_b("\n");
+T_b("input ");

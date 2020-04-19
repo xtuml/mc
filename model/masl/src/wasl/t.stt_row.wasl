@@ -4,7 +4,7 @@ T_b(T_s(state_number));
 T_b(",");
 T_b(start_state_name);
 T_b(",");
-T_b(object->key_letters);
+T_b(event_object->key_letters);
 T_b(T_s(event->number));
 T_b(",");
 T_b(transition);

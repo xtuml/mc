@@ -5,4 +5,3 @@ T_b(":");
 T_b(activity->name);
 T_b("\n");
 T_b("input");
-T_b("\n");
