@@ -12,9 +12,11 @@ INSERT INTO O_TFR
 	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
 	'render',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'// Render only in parameters or out parameters unless no indication.
+// Percolate the last direction rendered.
+rdirection = self.direction;
 if ( ( "" == param.direction ) or ( self.direction == param.direction ) )
   if ( "MASL" == genfile::architecture() )
     T::include( file:"masl/t.parameter.masl" );
@@ -25,13 +27,14 @@ if ( ( "" == param.direction ) or ( self.direction == param.direction ) )
   end if;
   select one parametertype related by self->typeref[R3742];
   parametertype.render();
-end if;
 
-select one parameter related by self->parameter[R3706.''precedes''];
-if ( not_empty parameter )
-  T::b( s:"," );
-  parameter.render( direction:param.direction );
+  select one parameter related by self->parameter[R3706.''precedes''];
+  if ( not_empty parameter )
+    T::b( s:"," );
+    rdirection = parameter.render( direction:param.direction );
+  end if;
 end if;
+return rdirection;
 ',
 	1,
 	'',

@@ -1,6 +1,6 @@
 T_b("define function ");
 T_b(object->key_letters);
-T_b(T_s(object->number));
+T_b(T_s(self->number));
 T_b(":");
 T_b(activity->name);
 T_b("\n");

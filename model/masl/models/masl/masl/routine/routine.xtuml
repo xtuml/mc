@@ -125,7 +125,7 @@ if ( "MASL" == genfile::architecture() )
   T::include( file:"masl/t.routine_begin.masl" );
   select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-    parameter.render( direction:"" );
+    rdirection = parameter.render( direction:"" );
   end if;
   T::include( file:"masl/t.routine_end.masl" );
 
@@ -148,7 +148,6 @@ elif ( "WASL" == genfile::architecture() )
   T::include( file:"wasl/t.routine_begin.wasl" );
   select one activity related by self->activity[R3704];
   activity.render();
-  T::include( file:"wasl/t.routine_end.wasl" );
 
 else
   //
@@ -256,7 +255,7 @@ if ( "MASL" == genfile::architecture() )
   // render parameters
   select one parameter related by activity->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-    parameter.render( direction:"" );
+    rdirection = parameter.render( direction:"" );
   end if;
   
   // render return

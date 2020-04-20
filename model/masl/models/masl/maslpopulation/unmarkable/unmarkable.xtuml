@@ -92,7 +92,7 @@ select one pragma related by self->pragma[R3788];
 select one pragma_item related by self->pragma_item[R3788];
 
 if ( not_empty parameter )
-  parameter.render( direction:"" );
+  rdirection = parameter.render( direction:"" );
 elif ( not_empty participation )
   participation.render();
 elif ( not_empty typeref )

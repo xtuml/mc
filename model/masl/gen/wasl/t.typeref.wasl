@@ -9,5 +9,5 @@ Base_Text_Type\
 .elif ( "string" == self.body )
 Base_Text_Type\
 .else
-${self.body}\
+${mybody}\
 .end if

@@ -17,6 +17,12 @@ INSERT INTO O_TFR
 	'if ( "MASL" == genfile::architecture() )
   T::include( file:"masl/t.typeref.masl" );
 elif ( "WASL" == genfile::architecture() )
+  mybody = self.body;
+  if ( STRING::indexof( haystack:mybody, needle:"instance of" ) > -1 )
+    // WASL uses classname_IH for instance handles.
+    mybody = STRING::substr( s:mybody, begin:12, end:STRING::strlen( s:mybody ) );
+    mybody = mybody + "_IH";
+  end if;
   T::include( file:"wasl/t.typeref.wasl" );
 else
   //

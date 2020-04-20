@@ -69,14 +69,23 @@ INSERT INTO O_TFR
 
 elif ( "WASL" == genfile::architecture() )
 
-  // Input parameters must be rendered first.  Output parameters rendered next.
+  rdirection = "";
   select one parameter related by self->parameter[R3705.''carries first''];
   if ( empty parameter )
-    T::include( file:"wasl/t.routine_noinputs.wasl" );
+    T::include( file:"wasl/t.activity_noinputs.wasl" );
   else
-    parameter.render( direction:"in" );
-    parameter.render( direction:"out" );
+    // Input parameters must be rendered first.  Output parameters rendered next.
+    if ( "in" == parameter.direction )
+      rdirection = parameter.render( direction:"in" );
+    else
+      T::include( file:"wasl/t.activity_noinputs.wasl" );
+    end if;
+    rdirection = parameter.render( direction:"out" );
   end if;
+  if ( "out" != rdirection )
+    T::include( file:"wasl/t.activity_nooutputs.wasl" );
+  end if;
+  T::include( file:"wasl/t.activity_end.wasl" );
 
 else
   //
