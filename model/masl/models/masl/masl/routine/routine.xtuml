@@ -268,12 +268,23 @@ if ( "MASL" == genfile::architecture() )
 
 elif ( "WASL" == genfile::architecture() )
 
+  comment = "";
+  select any description related by activity->markable[R3783]->element[R3786]->description[R3796];
+  if ( not_empty description )
+    comment = description.text;
+  end if;
   if ( not_empty terminator and not_empty domain )
     T::include( file:"wasl/t.terminator_service_def_begin.wasl" );
   else
     select one domain related by self->domain[R3790];
     if ( not_empty domain )
-      T::include( file:"wasl/t.domain_service_def_begin.wasl" );
+      select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
+      select any pragma_item related by pragma->pragma_item[R3780];
+      if ( not_empty pragma_item )
+        T::include( file:"wasl/t.scenario_def_begin.wasl" );
+      else
+        T::include( file:"wasl/t.domain_service_def_begin.wasl" );
+      end if;
     end if;
   end if;
 

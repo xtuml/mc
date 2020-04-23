@@ -45,7 +45,7 @@ elif ( "WASL" == genfile::architecture() )
   if ( not_empty parameter )
     rdirection = parameter.render( direction:"in" );
   end if;
-  T::include( file:"wasl/t.event_middle.wasl" );
+  T::include( file:"wasl/t.field_delimiter.wasl" );
   select many id_attributes related by object->attribute[R3709] where ( selected.preferred == "preferred" );
   // CDS - Do we need all identifiers?  For now selecting only the preferred identifier.
   //select many secondary_id_attributes related by object->identifier[R3711]->attribute[R3710.''composed of''];
@@ -172,6 +172,18 @@ end for;
 
 return valid;',
 	1,
+	'',
+	"16ee3158-41f7-4fd8-a8c4-b91cb36256c7",
+	0);
+INSERT INTO O_TFR
+	VALUES ("16ee3158-41f7-4fd8-a8c4-b91cb36256c7",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57",
+	'render_polys',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	3,
 	'',
 	"7cc55eed-756b-4590-8e59-184f782869d6",
 	0);

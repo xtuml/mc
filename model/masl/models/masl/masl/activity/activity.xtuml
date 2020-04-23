@@ -73,6 +73,7 @@ elif ( "WASL" == genfile::architecture() )
   select one parameter related by self->parameter[R3705.''carries first''];
   if ( empty parameter )
     T::include( file:"wasl/t.activity_noinputs.wasl" );
+    T::include( file:"wasl/t.field_delimiter.wasl" );
   else
     // Input parameters must be rendered first.  Output parameters rendered next.
     if ( "in" == parameter.direction )
@@ -80,6 +81,7 @@ elif ( "WASL" == genfile::architecture() )
     else
       T::include( file:"wasl/t.activity_noinputs.wasl" );
     end if;
+    T::include( file:"wasl/t.field_delimiter.wasl" );
     rdirection = parameter.render( direction:"out" );
   end if;
   if ( "out" != rdirection )
@@ -149,10 +151,10 @@ else
   if ( not_empty operation )
     operation.render_definition( activity:self );
   else
-	select one state related by self->state[R3704];
-	if ( not_empty state )
-	  state.render_definition( activity:self );
-	end if;
+    select one state related by self->state[R3704];
+    if ( not_empty state )
+      state.render_definition( activity:self );
+    end if;
   end if;
 end if;',
 	1,

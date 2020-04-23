@@ -206,6 +206,12 @@ if ( "MASL" == genfile::architecture() )
   
 elif ( "WASL" == genfile::architecture() )
 
+  comment = "";
+  select any description related by activity->markable[R3783]->element[R3786]->description[R3796];
+  if ( not_empty description )
+    comment = description.text;
+  end if;
+  
   T::include( file:"wasl/t.state_def_begin.wasl" );
   // render input parameters
   select one parameter related by activity->parameter[R3705.''carries first''];

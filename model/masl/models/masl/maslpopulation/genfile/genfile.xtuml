@@ -624,18 +624,31 @@ elif ( "domain" == element )
       genfile = genfile::populate( name:"terminators" );
       genfile.emit( name:domain.name + ".ter" );
 
-      // hand coded files file (no need to generate)
-      // scenarios
+      // hand coded files file
+      genfile = genfile::populate( name:"hand_coded_files" );
+      genfile.emit( name:domain.name + ".hcf" );
+
       // scenario list file
+      select many routines related by domain->routine[R3790];
+      for each routine in routines
+        select one activity related by routine->activity[R3704];
+        select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
+        select any pragma_item related by pragma->pragma_item[R3780];
+        if ( not_empty pragma_item )
+          T::include( file:"wasl/t.scenario.wasl" );
+        end if;
+      end for;
+      genfile = genfile::populate( name:"scenarios" );
+      genfile.emit( name:domain.name + ".scn" );
 
       // function data types file
       T::include( file:"wasl/t.START.wasl" );
-      select many routines related by domain->routine[R3790];
+      select many routines related by domain->routine[R3790] where ( selected.visibility == "public" );
       for each routine in routines
         select one activity related by routine->activity[R3704];
         routine.render( name:activity.name );
       end for;
-      select many operations related by domain->object[R3708]->operation[R3749];
+      select many operations related by domain->object[R3708]->operation[R3749] where ( selected.visibility == "public" );
       for each operation in operations
         select one activity related by operation->activity[R3704];
         operation.render( name:activity.name );
@@ -644,10 +657,9 @@ elif ( "domain" == element )
       genfile = genfile::populate( name:"functions" );
       genfile.emit( name:domain.name + ".fnp" );
 
-      // functions
       // bridge data types file
       T::include( file:"wasl/t.START.wasl" );
-      select many terminators related by domain->terminator[R3702];
+      select many terminators related by domain->terminator[R3702] where ( selected.key_letters != "TIM" );
       for each terminator in terminators
         select many routines related by terminator->routine[R3791];
         for each routine in routines
@@ -659,7 +671,6 @@ elif ( "domain" == element )
       genfile = genfile::populate( name:"bridges" );
       genfile.emit( name:domain.name + ".brp" );
 
-      // bridges
       // objects file
       select many objects related by domain->object[R3708];
       for each obj in objects
@@ -682,12 +693,39 @@ elif ( "domain" == element )
       for each rel in subsuper_rels
         rel.render();
       end for;
+      T::include( file:"wasl/t.newline.wasl" );
       genfile = genfile::populate( name:"subtypes" );
       genfile.emit( name:domain.name + ".sub" );
 
       // polymorphic events file
-      // .pme_test (no need to generate)
-      // actions
+      for each rel in subsuper_rels
+        select one supertype_object related by rel->participation[R3713]->object[R3714];
+        select many subtype_objects related by rel->participation[R3713]->object[R3720];
+        select many polymorphic_events related by supertype_object->event[R3736];
+        for each polymorphic_event in polymorphic_events
+          for each subtype_object in subtype_objects
+            T::include( file:"wasl/t.polymorphic_delegation.wasl" );
+          end for;
+        end for;
+      end for;
+      genfile = genfile::populate( name:"polymorphic_events" );
+      genfile.emit( name:domain.name + ".pme" );
+
+      // .pme_test
+      for each rel in subsuper_rels
+        select one supertype_object related by rel->participation[R3713]->object[R3714];
+        select many subtype_objects related by rel->participation[R3713]->object[R3720];
+        receiver_objects = subtype_objects + supertype_object;
+        select many polymorphic_events related by supertype_object->event[R3736];
+        for each polymorphic_event in polymorphic_events
+          for each receiver_object in receiver_objects
+            T::include( file:"wasl/t.polymorphic_event_test.wasl" );
+          end for;
+        end for;
+      end for;
+      genfile = genfile::populate( name:"polymorphic_event_test" );
+      genfile.emit( name:domain.name + ".pme_test" );
+
 
       // state transition table file
       select many objects related by domain->object[R3708];
@@ -729,7 +767,8 @@ elif ( "domain" == element )
       end if;
             
       // render the activity files
-      select many routines related by domain->routine[R3790];
+      // functions
+      select many routines related by domain->routine[R3790] where ( selected.visibility == "public" );
       for each routine in routines
         select one activity related by routine->activity[R3704];
         routine.render_definition( activity:activity );
@@ -737,7 +776,21 @@ elif ( "domain" == element )
         genfile = genfile::populate( name:filename );
         genfile.emit( name:filename );
       end for;
-      select many terminators related by domain->terminator[R3702];
+      // scenarios
+      select many routines related by domain->routine[R3790];
+      for each routine in routines
+        select one activity related by routine->activity[R3704];
+        select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
+        select any pragma_item related by pragma->pragma_item[R3780];
+        if ( not_empty pragma_item )
+          routine.render_definition( activity:activity );
+          filename = domain.name + "_Scenario" + pragma_item.value + ".scn";
+          genfile = genfile::populate( name:filename );
+          genfile.emit( name:filename );
+        end if;
+      end for;
+      // bridges
+      select many terminators related by domain->terminator[R3702] where ( selected.key_letters != "TIM" );
       for each terminator in terminators
         select many routines related by terminator->routine[R3791];
         for each routine in routines
@@ -748,6 +801,7 @@ elif ( "domain" == element )
           genfile.emit( name:filename );
         end for;
       end for;
+      // operations
       select many objects related by domain->object[R3708];
       for each object in objects
       select many operations related by object->operation[R3749];
@@ -762,7 +816,7 @@ elif ( "domain" == element )
             genfile.emit( name:filename );
           end if;
         end for;
-        //select many states related by object->state[R3750] where ( selected.number != 0 );
+        // actions
         select many states related by object->state[R3750];
         for each state in states
           select one activity related by state->activity[R3704];

@@ -451,10 +451,7 @@ for each c_ep in c_eps
 
   value[2] = "public"; // Outbound messages are considered public.
   value[3] = c_ep.Name;
-  start_index = STRING::indexof( haystack:c_ep.Descrip, needle:"peration_number:" );
-  if ( 0 < start_index )
-    value[4] = STRING::substr( s:c_ep.Descrip, begin:start_index+16, end:start_index+18 );
-  end if;
+  value[4] = T::parsekeyword( s:c_ep.Descrip, key:"terminator_operation_number" );
 
   out::populate( element:"routine", value:value );
   
@@ -1339,10 +1336,7 @@ for each s_sync in s_syncs
     end if;
   end for;
   value[3] = s_sync.Name;
-  start_index = STRING::indexof( haystack:s_sync.Descrip, needle:"peration_number:" );
-  if ( 0 < start_index )
-    value[4] = STRING::substr( s:s_sync.Descrip, begin:start_index+16, end:start_index+18 );
-  end if;
+  value[4] = T::parsekeyword( s:s_sync.Descrip, key:"domain_peration_number" );
   
   // Get the first parameter.
   select any s_sparm related by s_sync->S_SPARM[R24];
@@ -2127,10 +2121,7 @@ for each o_tfr in o_tfrs
     value[4] = "instance";
   end if;
   value[5] = "";
-  start_index = STRING::indexof( haystack:o_tfr.Descrip, needle:"peration_number:" );
-  if ( 0 < start_index )
-    value[6] = STRING::substr( s:o_tfr.Descrip, begin:start_index+16, end:start_index+18 );
-  end if;
+  value[6] = T::parsekeyword( s:o_tfr.Descrip, key:"operation_number" );
   
   // check for deferral -- if there is no action language or the dialect is none and subtypes have an operation with matching signature
   deferred = false;
