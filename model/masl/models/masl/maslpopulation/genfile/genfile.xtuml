@@ -610,11 +610,20 @@ elif ( "domain" == element )
     TRACE::log( flavor:"error", id:52, message:"could not render domain:  " + name );
   else
     for each domain in domains
-
-      // domain ("dump") file
-      genfile = genfile::populate( name:"domain" );
-      domain.render();
-      genfile.emit( name:domain.name + ".dmp" );
+      
+      // TODO - This will become native metamodel.
+      // Apply marking for routine numbers.
+      select many domain_routines related by domain->routine[R3790];
+      select many terminator_routines related by domain->terminator[R3702]->routine[R3791];
+      routines = domain_routines + terminator_routines;
+      for each routine in routines
+        select any pragma related by routine->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where
+          ( selected.name == "terminator_operation_number" or selected.name == "domain_operation_number" );
+        select any pragma_item related by pragma->pragma_item[R3780];
+        if ( not_empty pragma_item )
+          routine.number = STRING::atoi( s:pragma_item.value );
+        end if;
+      end for;
 
       // terminators file
       select many terminators related by domain->terminator[R3702];
@@ -765,6 +774,9 @@ elif ( "domain" == element )
         // we have output the domain structural bits, so skip activites
         continue;
       end if;
+      
+      function_files = "";
+      action_files = "";
             
       // render the activity files
       // functions
@@ -775,6 +787,7 @@ elif ( "domain" == element )
         filename = domain.name + STRING::itoa( i:routine.number ) + "_" + activity.name + ".fn";
         genfile = genfile::populate( name:filename );
         genfile.emit( name:filename );
+        function_files = function_files + filename + "\n";
       end for;
       // scenarios
       select many routines related by domain->routine[R3790];
@@ -814,6 +827,7 @@ elif ( "domain" == element )
             // Skip generaton of abstract operations.
             genfile = genfile::populate( name:filename );
             genfile.emit( name:filename );
+            function_files = function_files + filename + "\n";
           end if;
         end for;
         // actions
@@ -826,9 +840,15 @@ elif ( "domain" == element )
           sname = domain.name + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
           genfile = genfile::populate( name:sname );
           genfile.emit( name:sname + ".al" );
+          action_files = action_files + sname + ".al" + "\n";
           end if;
         end for;
       end for;
+
+      // domain ("dump") file
+      T::include( file:"wasl/t.domain_begin.wasl" );
+      genfile = genfile::populate( name:"domain" );
+      genfile.emit( name:domain.name + ".dmp" );
 
     end for;
   end if;

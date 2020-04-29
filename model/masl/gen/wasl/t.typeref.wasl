@@ -3,7 +3,7 @@ Base_Integer_Type\
 .elif ( "real" == self.body )
 Base_Float_Type\
 .elif ( "boolean" == self.body )
-Base_Boolean_Type\
+Boolean\
 .elif ( "text" == self.body )
 Base_Text_Type\
 .elif ( "string" == self.body )

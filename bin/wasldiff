@@ -52,5 +52,27 @@ else
   exit 1
 fi
 
+# Sort function parameters.
+find left.diff -name "*.fnp" -exec sort {} -o {} \;
+find right.diff -name "*.fnp" -exec sort {} -o {} \;
+# Sort the relationships file.
+find left.diff -name "*.rel" -exec sort {} -o {} \;
+find right.diff -name "*.rel" -exec sort {} -o {} \;
+# Sort the subtypes file.
+find left.diff -name "*.sub" -exec sort {} -o {} \;
+find right.diff -name "*.sub" -exec sort {} -o {} \;
+# Sort the event data.
+find left.diff -name "*.evd" -exec sort {} -o {} \;
+find right.diff -name "*.evd" -exec sort {} -o {} \;
+# Sort the state transition tables.
+find left.diff -name "*.stt" -exec sort -t, -k 1,1d -k 2,2n -k 4,4d {} -o {} \;
+find right.diff -name "*.stt" -exec sort -t, -k 1,1d -k 2,2n -k 4,4d {} -o {} \;
+# Sort the polymorphic event delegations.
+find left.diff -name "*.pme" -exec sort {} -o {} \;
+find right.diff -name "*.pme" -exec sort {} -o {} \;
+# Sort the polymorphic event tests.
+find left.diff -name "*.pme_test" -exec sort {} -o {} \;
+find right.diff -name "*.pme_test" -exec sort {} -o {} \;
+
 # diff the directories
-diff -w left.diff right.diff
+diff -wB left.diff right.diff

@@ -133,7 +133,7 @@ select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );
 
 elif ( "WASL" == genfile::architecture() )
-  T::include( file:"wasl/t.domain_begin.wasl" );
+  //
 else
   //
 end if;',

@@ -17,6 +17,7 @@ INSERT INTO O_TFR
 	'// Render only in parameters or out parameters unless no indication.
 // Percolate the last direction rendered.
 rdirection = self.direction;
+select one next_parameter related by self->parameter[R3706.''precedes''];
 if ( ( "" == param.direction ) or ( self.direction == param.direction ) )
   if ( "MASL" == genfile::architecture() )
     T::include( file:"masl/t.parameter.masl" );
@@ -27,13 +28,17 @@ if ( ( "" == param.direction ) or ( self.direction == param.direction ) )
   end if;
   select one parametertype related by self->typeref[R3742];
   parametertype.render();
-
-  select one parameter related by self->parameter[R3706.''precedes''];
-  if ( not_empty parameter )
-    T::b( s:"," );
-    rdirection = parameter.render( direction:param.direction );
+  if ( not_empty next_parameter )
+    if ( "MASL" == genfile::architecture() ) or ( ( "WASL" == genfile::architecture() ) and ( param.direction == next_parameter.direction ) )
+      T::b( s:"," );
+    end if;
   end if;
 end if;
+
+if ( not_empty next_parameter )
+  rdirection = next_parameter.render( direction:param.direction );
+end if;
+
 return rdirection;
 ',
 	1,
@@ -221,6 +226,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'// Render only in parameters or out parameters unless no indication.
+select one next_parameter related by self->parameter[R3706.''precedes''];
 if ( ( "" == param.direction ) or ( self.direction == param.direction ) )
   if ( "MASL" == genfile::architecture() )
     T::include( file:"masl/t.parameter.masl" );
@@ -231,13 +237,15 @@ if ( ( "" == param.direction ) or ( self.direction == param.direction ) )
   end if;
   select one parametertype related by self->typeref[R3742];
   parametertype.render();
-
-  select one parameter related by self->parameter[R3706.''precedes''];
-  if ( not_empty parameter )
-    T::b( s:"," );
-    parameter.render_definition( direction:param.direction );
+  if ( not_empty next_parameter )
+    if ( "MASL" == genfile::architecture() ) or ( ( "WASL" == genfile::architecture() ) and ( param.direction == next_parameter.direction ) )
+      T::b( s:"," );
+    end if;
   end if;
+end if;
 
+if ( not_empty next_parameter )
+  next_parameter.render_definition( direction:param.direction );
 end if;
 ',
 	1,

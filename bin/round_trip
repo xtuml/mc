@@ -187,10 +187,11 @@ for domain in ${DOM_DIRS[*]}; do
       # Now diff
       echo "Diff'ing input and output."
       if [[ "WASL" == $ARCHITECTURE ]]; then
-        wasldiff $domain/WASL $MODELOUTDIR/$compname > $MODELOUTDIR/$compname/diff_report.txt
+        wasldiff $domain/WASL $MODELOUTDIR/$compname > /tmp/diff_report.txt
       else
-        masldiff $domain $MODELOUTDIR/$compname > $MODELOUTDIR/$compname/diff_report.txt
+        masldiff $domain $MODELOUTDIR/$compname > /tmp/diff_report.txt
       fi
+      mv /tmp/diff_report.txt $MODELOUTDIR/$compname/diff_report.txt
       if [[ -d $OUT_DIR/$compname ]]; then
          rm -rf $OUT_DIR/$compname
       fi

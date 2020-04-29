@@ -20,6 +20,7 @@ parent_terminator = param.parent_terminator;
 activity = activity::populate( name:param.name );
 create object instance routine of routine;
 routine.visibility = param.visibility;
+routine.number = 0;
 if ( "" != param.number )
   // routine number is optional.
   routine.number = STRING::atoi( s:param.number );
@@ -289,6 +290,7 @@ elif ( "WASL" == genfile::architecture() )
   end if;
 
   // render input parameters
+  rdirection = "";
   select one parameter related by activity->parameter[R3705.''carries first''];
   if ( not_empty parameter )
     parameter.render_definition( direction:"in" );
