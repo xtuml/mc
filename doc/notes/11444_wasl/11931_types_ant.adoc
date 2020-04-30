@@ -1,0 +1,239 @@
+= Import and Export Types
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+User defined types, structured data types and enumeration types need to be
+parsed from MASL, imported into BridgePoint and (later) exported as WASL.
+This note analyzes options for accomplishing this flow.
+
+== 2 Introduction and Background
+
+iUML models with ASL activities are dumped from iUML using the MASL
+dumper utility.  A flow exists to import MASL into BridgePoint.  However,
+this flow treats data types by name only.  MASL types are converted
+into xtUML User Defined Types, and the name is stored as the type name.
+The rest of the type definition (structure, enumeration, container, etc.)
+is stored in the Description body of the type in free form.
+
+This free from approach could be adopted for WASL.  However, additional
+work would be required on the back end to parse and format the text
+into a form compatible with WASL and the WACA translator.
+
+It is also noted in this Introduction and Background that the type systems
+supported by iUML with ASL and the type system of native xtUML in BridgePoint
+are closely aligned.  Each supports core types, user data types (UDTs),
+enumeration data types (EDTs), structured data types (SDTs) and instance
+references (IRDTs, instance handles).  Unlike MASL-idiom models, it may be
+feasible to import ASL idiom types directly into the xtUML type system.
+
+In 2019, a decision was made to obviate parsing WASL input files and instead
+dump models using the 'MASL dumper' utility.  This potentially saved a large
+amount of development building a parser for WASL.  However, the fact that MASL
+types are not fully converted into xtUML was at least partially overlooked.
+
+Options are explored and the choice of input parsing is explained.
+
+== 3 Requirements
+
+The input and output formats for the model data are predefined and serve
+as invariant requirements.  Therefore, at some point in between the input
+format and the output format transformation must take place.  The
+following sections elucidate these export and import requirements.
+
+Export requirements are given first, because the export requirements
+cascade requirements upstream into the tooling leaving potential options
+for when conversions take place earlier in the flow.
+
+=== 3.1 Export Data Types in WASL Format
+
+WASL is the required output format for data types being exported from
+BridgePoint.  It is a requirement that output model data be conformed to
+this syntax to be consumable by WACA.
+
+=== 3.1.1 Export Core Types
+
+The core BridgePoint types of boolean, integer, real and string are
+exported using the WASL versions of these.
+
+=== 3.1.3 Export User Data Types
+
+User types derived from core types shall be exported compliant to the WASL
+core type names.
+
+=== 3.1.3.1 Constrained User Data Types
+
+The range constraint of a numeric user data type shall be exported in the WASL
+syntax for those types that have ranges defined.
+
+=== 3.1.2 Export Instance Handles
+
+An instance handle (instance reference) type shall be exported for each
+class defined in the class model of a domain.  The shape of the type name
+shall comply with the WASL '_IH' convention.
+
+=== 3.1.4 Export Structured Data Types
+
+Structured data types defined in BridgePoint shall be exported as WASL
+structured data types adhering to the WASL syntax for these types.
+Recursively, structure members shall be supported of core and even
+structured data types.  "Nested structures" shall be supported.
+
+=== 3.1.5 Export Enumerations
+
+Enumeration data types defined in BridgePoint shall be exported as WASL
+enumeration types.  The syntax of exported enumerations shall comply with
+the WASL type format standard.
+
+=== 3.2 Import MASL Format iUML/ASL Data Types
+
+MASL is the input source format for domains.  It is a requirement that
+this source format suffice.
+
+=== 3.2.1 Import Core Types
+
+ASL core types are mapped to xtUML core types.  (Which on export are
+mapped to WASL types, shown here for convenience.)
+
+.Type Mapping
+[options="header"]
+|===
+| xtUML   | MASL      | ASL       | WASL
+| void    | (no type) | (no type) | (no type)
+| boolean | boolean   | Boolean   | Boolean
+| integer | integer   | Integer   | Base_Integer_Type
+| real    | real      | Real      | Base_Float_Type
+| string  | string    | Text      | Base_Text_Type
+|===
+
+=== 3.2.2 Import Instance Handles
+
+Instance handles are not actually imported but are implied by the import
+of a class.  In BridgePoint, instance reference data types are available
+for instances and sets of instances.
+
+=== 3.2.3 Import User Data Types
+
+User defined types derived from core types shall be imported as xtUML User
+Defined Types (UDTs).
+
+=== 3.2.3.1 Constrained User Data Types
+
+A range constraint shall be imported for numeric user defined types that have
+ranges defined.
+
+=== 3.2.4 Import Structured Data Types
+
+Structured data types represented as MASL structures shall be imported as
+xtUML structured data types.  Members can be any legal type including core
+types, user data types, enumerations and structures.
+
+=== 3.2.5 Import Enumerations
+
+Enumeration data types represented as MASL enumerations shall be imported as
+xtUML enumeration data types.  Enumerators shall be simple identifiers.
+
+== 4 Analysis
+
+=== 4.1 Options
+
+=== 4.1.1 MASL Type Convention
+
+BridgePoint users who choose the MASL idiom follow a convention which
+allows access to a rich type system.  This type system includes
+constraints, containers, subtyping and combinations of these.  xtUML
+presently supports a much simpler type system at the metamodel level.
+
+The MASL idiom supports this rich typing "outside" of the structural
+editor of the tool.  The action language parser recognizes the typing
+in a textual 'Type Definition Editor'.  So, types are maintained textually
+in MASL idiom xtUML models.
+
+This same approach could be taken for ASL idiom xtUML models.  Either a
+simple text editor or a syntax-highlighting editor could be used to edit
+and maintain the bodies of structures and enumerations.
+
+=== 4.1.2 Format on Export
+
+WASL structured data types are formatted with curly braces ('{', '}')
+listing the members.  The textual body of structured data types would need
+to be extracted, parsed and formatted into the WASL style.  Nested
+structures would need to be recognized.  Similar syntax processing would
+be necessary for enumerations.  The amount of work required here is
+comparable to parsing on Import.  (See below.)
+
+This option is rejected.
+
+=== 4.1.3 xtUML Type Conversion
+
+The present MASL-to-xtUML conversion processing deals with types "mostly
+on the surface".  Only the names of the types are parsed.  Native xtUML
+types are not used for imported MASL models.  All imported MASL types are
+treated as user data types.
+
+A different approach shall be taken with ASL idiom models.  All types,
+including structures and enumerations will be converted to the xtUML
+versions.
+
+=== 4.1.4 Parse on Import
+
+The type systems of the pure ASL idiom and native xtUML are in strong
+alignment.  It is determined that ASL types should be parsed on import
+conversion and edited natively in BridgePoint.  This places most of the
+work onto the front-end import rather than parsing type descriptions on
+the export back end.
+
+To process types during import, the MASL parser needs to be enhanced to
+process structure members, enumeration enumerators and numeric ranges.
+The serial MASL (SMASL) exchange protocol will need to be extended to
+include structure members, enumerators and ranges.  Finally, the
+xtUML-to-WASL processing needs to handle these elements.
+
+==== 4.1.4.1 Extended MASL Parser
+
+The present MASL import parser recognizes type definitions but "gobbles"
+the definition body into a single unit of text.  No syntactic processing
+is performed.  For ASL/WASL, the type definitions shall be processed to
+extract the structure members, enumerators and ranges.
+
+==== 4.1.4.2 Extended Serial MASL Exchange
+
+New Serial MASL commands must be defined for structure members,
+enumerators and ranges.  The Serial MASL specification <<dr-3>> shall be
+updated.
+
+==== 4.1.4.3 Extended MASL-to-xtUML Processing
+
+MASL-to-xtUML processing (`m2x`) shall be extended to perform more
+detailed type import.  In addition to user data types, structured
+data types with members, enumeration data types with
+enumerators and numeric types with ranges will be processed.
+
+=== 4.2 'sequence' in MASL
+
+In the converted SWATS models, it is noted that function and service
+structure parameters carry an extraneous 'sequence of' keyword pair.  This
+shall be ignored.
+
+== 5 Work Required
+
+TBD
+
+== 6 Acceptance Test
+
+=== 6.1 MASL Round Trip Runs
+=== 6.2 WASL Round Trip Runs
+=== 6.3 Manual Model Edits
+
+== 7 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11931[11931 - parse type]
+. [[dr-2]] https://support.onefact.net/issues/11934[11934 - export types]
+. [[dr-3]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
