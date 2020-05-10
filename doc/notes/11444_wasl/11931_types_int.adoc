@@ -1,0 +1,210 @@
+= Import and Export Types
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+User defined types, structured data types and enumeration types need to be
+parsed from MASL, imported into BridgePoint and (later) exported as WASL.
+This note documents the implementation for this flow.
+
+== 2 Introduction and Background
+
+Adding support for structured and enumeration types has touched all parts
+of the import, edit and export flow.  The import parser, serial MASL command
+language, MASL to xtUML, BridgePoint editor proper and xtUML to WASL all
+are modified to support importing and exporting ASL idiom types.
+
+== 3 Requirements
+
+See <<dr-4>>.
+
+== 4 Work Required
+
+=== 4.1 Export
+
+==== 4.1.1 Export Core Types and Type References
+
+Core type references are exported according to the mapping table below.
+This mapping is perform in the templates for `masl -a WASL` rendering
+model compiler.
+
+.Type Mapping
+[options="header"]
+|===
+| xtUML   | WASL
+| void    | (no type)
+| boolean | Boolean
+| integer | Base_Integer_Type
+| real    | Base_Float_Type
+| string  | Base_Text_Type
+|===
+
+==== 4.1.2 Export User Defined Types
+
+CDS - pick up HERE
+
+User defined types are exported into the '.typ' file.  Each names (as a
+type reference) the ancestor type from which it is derived.
+
+* `masl` rendering and templates shall be updated.
+
+===== 4.1.2.1 Export Constrained User Defined Types
+
+BridgePoint supports ranges on numeric user defined types.  These ranges
+must be exported along with the type definition of user defined types.
+Ranges are rendered as the last entry on a type definition in the '.typ'
+file.
+
+* `x2m` does not currently select and propagate ranges.  Intances of S_RANGE
+  need to be selected and propagated as Serial MASL.
+* The Serial MASL specification must be updated to carry ranges as a child
+  of type.
+* `masl` population, rendering and templating updates are required.
+
+==== 4.1.3 Export Instance Handles
+
+For WASL, all classes require a type definition for an instance handle.
+The type name is the same as the class name with '_IH' appended.  Note
+that `m2x` does not export instance reference data types for MASL.
+
+* For WASL, `masl` needs to change to render the instance handle types for
+  all classes in the subsystem.
+
+==== 4.1.4 Export Structured Types
+
+For the ASL idiom in xtUML, BridgePoint structured data types will be
+used.  This is in contrast to the MASL idiom which defines the structure
+in a textual type editor.
+
+* Serial MASL must be extended to support structures and structure members.
+* `x2m` needs to export the structured data types and ordered members in a
+  recursive fashion to support nested structures.
+* New support will be added to `masl` to support population of structure
+  members.  Rendering and templates will be added to emit WASL format
+  text into the '.typ' file.
+
+==== 4.1.5 Export Enumerations
+
+BridgePoint enumerations are recognized in both ASL and MASL idiom
+modeling.  However, the exported renderings differ.  WASL enumerations are
+emitted into the '.typ' file in a columnar format.
+
+* Serial MASL must be extended to support enumerations with enumerators.
+* `x2m` needs to export the enumerated data types and ordered enumerators.
+* New support will be added to `masl` to support population of enumerations
+  and enumerators.  Rendering and templates will be added to emit WASL
+  format text into the '.typ' file.
+
+==== 4.2 Import
+
+==== 4.2.1 Import Core Types
+
+Core types are predefined and thus not imported.  However, references to
+core types need to be linked to the referencing elements.  This is already
+accomplished in the existing flow.  No new work is required.
+
+==== 4.2.2 Import Instance Reference Types
+
+Instance references are not imported _per se_, but imply that all classes
+must publish their instance reference data types (instances of 'S_IRDT').
+
+`m2x` already creates S_IRDTs for all imported classes.  No additional
+work is required on the import side.
+
+==== 4.2.3 Import User Defined Types
+
+The extant flow supports user defined types.  No work at the top level.
+
+===== 4.2.3.1 Import User Defined Type Constraints
+
+Even though user defined types are already supported, range constraints
+are not extracted in the existing flow.
+
+* The MASL import parser must be extended to parse constrained user
+  defined types.  This extends from TypeDefinition through the rules to
+  the range constraint.
+* The Serial MASL specification will be extended to support ranges with
+  minimums and maxima.
+* `m2x` will be extended to receive range information from the import
+  parser and populate S_RANGE instances in BridgePoint.
+
+==== 4.2.4 Import Structured Types
+
+Structured data types need to be parsed in the dumped MASL and converted
+to new Serial MASL commands.  The `m2x` processing will populate the OOA
+of OOA with S_SDT and S_MBR instances.
+
+* The MASL import parser must be extended to parse structured data types.
+  This extends from TypeDefinition through the production rules to the
+  structure members.
+* The Serial MASL specification will be extended to support structures and
+  structure members.
+* `m2x` will be extended to receive structure detail and populate the
+  xtUML metamodel.
+
+==== 4.2.5 Import Enumerations
+
+Enumeration data types need to be parsed in the dumped MASL and converted
+to new Serial MASL commands.  The `m2x` processing will populate the OOA
+of OOA with S_EDT and S_ENUM instances.
+
+* The MASL import parser must be extended to parse enumeration data types.
+  This extends from TypeDefinition through the production rules to the
+  enumerators.
+* The Serial MASL specification will be extended to support enumerations
+  and enumerators.
+* `m2x` will be extended to receive enumeration detail and populate the
+  xtUML metamodel.
+
+== 5 Implementation Comments
+
+=== 5.1 Dialect (Architecture) Switch
+
+The `m2x` translator converts input MASL into xtUML.  With the requirement
+to import ASL idiom types differently from MASL idiom types, a new switch
+is required on the `m2x` command line.
+
+== 6 Unit Test
+
+== 7 User Documentation
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  11931_types
+
+----
+ Put the file list here
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11931[11931 - parse type]
+. [[dr-2]] https://support.onefact.net/issues/11934[11934 - export types]
+. [[dr-3]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+. [[dr-4]] link:11931_types_ant.adoc[Import and Export Types - xtUML Analysis Note]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
+
+
+m2x
+
+ooapopulation::populate( element, value[] )
+ooapopulation::transformType( name, visibility, definition )
+ooapopulation::Package_newDatatype( package, name, definition )
+
+Strategy:
+1) Upon 'type', create S_DT and S_UDT.
+2) Upon 'enumeration' or 'structure', migrate the S_DT from S_UDT to S_EDT or S_SDT.
+
+ooapopulation::Datatype_migrateUDTToEDT( s_dt )
+ooapopulation::Datatype_migrateUDTToSDT( s_dt )
+ooapopulation::Datatype_EDTaddENUM( s_dt, name, expression )
+ooapopulation::Datatype_SDTaddMBR( s_sdt, name, expression )
+
+need current_mbr and current_structure

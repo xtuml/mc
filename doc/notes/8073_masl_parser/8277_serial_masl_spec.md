@@ -144,6 +144,9 @@ arguments in order and specification of arguments.
 | description*      | text              | required              | string                                                      |
 |                   | tag               | optional              | string                                                      |
 | domain            | name              | required              | string                                                      |
+| enumeration       | name              | required              | string (from the parent 'type')                             |
+| enumerator*       | name              | required              | string                                                      |
+|                   | expression        | optional              | string                                                      |
 | event             | name              | required              | string                                                      |
 |                   | type              | required              | "assigner", "creation", or ""                               |
 |                   | number            | optional              | string number
@@ -151,6 +154,8 @@ arguments in order and specification of arguments.
 |                   | visibility        | required              | "public" or "private"                                       |
 | expression*       | body              | required              | string                                                      |
 | identifier        | (none)            | N/A                   | N/A                                                         |
+| member            | name              | required              | string                                                      |
+|                   | expression        | optional              | string                                                      |
 | object            | name              | required              | string                                                      |
 |                   | key_letters       | optional              | string                                                      |
 |                   | number            | optional              | string                                                      |
@@ -174,6 +179,8 @@ arguments in order and specification of arguments.
 |                   | list              | optional              | string                                                      |
 | pragmaitem*       | value             | required              | string                                                      |
 | project           | name              | required              | string                                                      |
+| range*            | min               | required              | string                                                      |
+|                   | max               | required              | string                                                      |
 | referential*      | relationship      | required              | string                                                      |
 |                   | domain            | optional              | string                                                      |
 |                   | roleOrObj         | optional              | string                                                      |
@@ -190,6 +197,7 @@ arguments in order and specification of arguments.
 |                   | name              | required              | string                                                      |
 |                   | type              | required              | "assigner", "assigner start", "creation", "terminal", or "" |
 |                   | number            | optional              | string number
+| structure         | name              | required              | string (from the parent 'type')                             |
 | subsuper          | name              | required              | string                                                      |
 | terminator        | name              | required              | string                                                      |
 |                   | key_letters       | optional              | string                                                      |

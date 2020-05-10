@@ -39,6 +39,9 @@ private MaslImportParser masl_parser = null;
 // argument array to pass to interface
 private String[] args = new String[8];
 
+// dialect (architecture)
+private String dialect = "";
+
 // set the serial interface
 public void setInterface ( Serial serial ) {
     if ( serial != null )
@@ -92,7 +95,9 @@ private String cleanASL( String str, boolean isMASL ) {
 
 }
 
-target                        : definition+;
+target[String dialect]
+@init{ this.dialect = dialect; }
+                              : definition+;
 
 definition                    : projectDefinition
                               | domainDefinition
@@ -292,7 +297,7 @@ typeDeclaration
                                                               }
                                    description
                                    pragmaList[""]				
-                                   typeDefinition			
+                                   typeDefinition[$typeName.name]
                                  )                          
                                                               {
                                                                   populate( "type", args ); // end type
@@ -300,10 +305,10 @@ typeDeclaration
                               ;
                               
 
-typeDefinition
+typeDefinition[String name]
 //returns [TypeDefinition def]
-                              : structureTypeDefinition     
-                              | enumerationTypeDefinition   
+                              : structureTypeDefinition[$name]
+                              | enumerationTypeDefinition[$name]
                               | constrainedTypeDefinition   
                               | typeReference               
                               | unconstrainedArrayDefinition
@@ -358,13 +363,24 @@ digitsConstraint
                               ;
 
 // Structure Type
-structureTypeDefinition
+structureTypeDefinition[String name]
 //returns [StructureType type]
 
                               : ^( STRUCTURE
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  args[0] = $name;
+                                                                  populate( "structure", args );
+                                                                }
+                                                              }
                                    ( structureComponentDefinition 
                                                             
                                    )+
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  populate( "structure", args ); // end structure
+                                                                }
+                                                              }
                                  )                          
                               ;
 
@@ -376,6 +392,16 @@ structureComponentDefinition
                                    typeReference
                                    expression?
                                    pragmaList["omit"]
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  args[0] = $componentName.name;
+                                                                  args[1] = ""; // not currently populated
+                                                                  populate( "member", args );
+                                                                  args[0] = $typeReference.type;
+                                                                  populate( "typeref", args );
+                                                                  populate( "member", args ); // end member
+                                                                }
+                                                              }
                                  )                          
                               ;
 
@@ -383,17 +409,28 @@ componentName
 returns [String name]
                               : ^( COMPONENT_NAME
                                    identifier
-                                 )                          
+                                 )                          { $name = $identifier.name; }
                               ;
 
 
 // Enumeration Type
-enumerationTypeDefinition
+enumerationTypeDefinition[String name]
 //returns [EnumerateType type]
 
                               : ^( ENUM
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  args[0] = $name;
+                                                                  populate( "enumeration", args );
+                                                                }
+                                                              }
                                    ( enumerator             
                                    )+
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  populate( "enumeration", args ); // end enumeration
+                                                                }
+                                                              }
                                  )                          
                               ;
 
@@ -403,12 +440,20 @@ enumerator
                                    enumeratorName
                                    expression?
                                  )                          
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  args[0] = $enumeratorName.name;
+                                                                  args[1] = ""; // not currently populated
+                                                                  populate( "enumerator", args );
+                                                                  populate( "enumerator", args ); // end enumerator
+                                                                }
+                                                              }
                               ;
 
 enumeratorName
 returns [String name]         : ^( ENUMERATOR_NAME
                                    identifier
-                                 )                          
+                                 )                            { $name = $identifier.name; }
                               ;
 
 
@@ -1378,7 +1423,7 @@ description                   : ^( DESCRIPTION              {   StringBuilder de
     without knowledge of what type of activity it contained - LPS */
 
 activityDefinition[String dialect]
-@init{ boolean isMASL = false; if ( dialect.equals( "MASL" ) ) isMASL = true; }
+@init{ boolean isMASL = false; this.dialect = dialect; if ( this.dialect.equals( "MASL" ) ) isMASL = true; }
                               : domainServiceDefinition[ isMASL ? " service;" : "", isMASL ]
                               | terminatorServiceDefinition[ isMASL ? " service;" : "", isMASL ]
                               | objectServiceDefinition[ isMASL ? " service;" : "", isMASL ]
@@ -1941,6 +1986,14 @@ rangeExpression
                                    from=expression
                                    to=expression
                                  )                          
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  args[0] = $from.text;
+                                                                  args[1] = $to.text;
+                                                                  populate( "range", args );
+                                                                  populate( "range", args ); // end range
+                                                                }
+                                                              }
                               ;
 
 

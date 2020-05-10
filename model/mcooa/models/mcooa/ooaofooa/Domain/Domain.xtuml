@@ -4377,6 +4377,86 @@ INSERT INTO PE_PE
 	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("cbb8ea86-ca4f-49b1-aba0-d9cefd604600",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Structure Member>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("cbb8ea86-ca4f-49b1-aba0-d9cefd604600",
+	0,
+	"fde0c23e-bd4f-49d2-b59e-58141234f0a0");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("fde0c23e-bd4f-49d2-b59e-58141234f0a0",
+	'Structure Member',
+	34,
+	'S_MBR',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Structure Member/Structure Member.xtuml');
+INSERT INTO PE_PE
+	VALUES ("cbb8ea86-ca4f-49b1-aba0-d9cefd604600",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("45fa060a-df9e-4875-bb43-fc0a3868886e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Structure Member>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("45fa060a-df9e-4875-bb43-fc0a3868886e",
+	1,
+	"fde0c23e-bd4f-49d2-b59e-58141234f0a0");
+INSERT INTO PE_PE
+	VALUES ("45fa060a-df9e-4875-bb43-fc0a3868886e",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0c7bf58f-2594-4e1d-9ff1-3097bef3c057",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Structured Data Type>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0c7bf58f-2594-4e1d-9ff1-3097bef3c057",
+	0,
+	"e85da4ae-38e2-44fa-8610-5f4ea864d829");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("e85da4ae-38e2-44fa-8610-5f4ea864d829",
+	'Structured Data Type',
+	33,
+	'S_SDT',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Structured Data Type/Structured Data Type.xtuml');
+INSERT INTO PE_PE
+	VALUES ("0c7bf58f-2594-4e1d-9ff1-3097bef3c057",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0f5dd9b6-c3bb-4240-bbf9-f13ab5420d39",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Structured Data Type>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0f5dd9b6-c3bb-4240-bbf9-f13ab5420d39",
+	1,
+	"e85da4ae-38e2-44fa-8610-5f4ea864d829");
+INSERT INTO PE_PE
+	VALUES ("0f5dd9b6-c3bb-4240-bbf9-f13ab5420d39",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("0ca8fc78-e628-4c9e-8e88-6e48e1758391");
 INSERT INTO R_REL
@@ -4552,14 +4632,6 @@ INSERT INTO R_OIR
 	"eb7572b1-d519-4d32-9f37-1ea7a092dc4c",
 	"d92d482e-43d6-4f00-925d-23f316d6ac4d",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("e85da4ae-38e2-44fa-8610-5f4ea864d829",
-	'Structured Data Type',
-	33,
-	'S_SDT',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Structured Data Type/Structured Data Type.xtuml');
 INSERT INTO R_SUB
 	VALUES ("f1f8fa97-cf5f-458b-950e-723f6813b876",
 	"eb7572b1-d519-4d32-9f37-1ea7a092dc4c",
@@ -5098,14 +5170,6 @@ INSERT INTO R_OIR
 	"c003275b-24c2-44a5-ab81-c44585116aa4",
 	"a226cf9f-4a49-4c59-a242-b764c2ea1a2e",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("fde0c23e-bd4f-49d2-b59e-58141234f0a0",
-	'Structure Member',
-	34,
-	'S_MBR',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Structure Member/Structure Member.xtuml');
 INSERT INTO PE_PE
 	VALUES ("c003275b-24c2-44a5-ab81-c44585116aa4",
 	1,

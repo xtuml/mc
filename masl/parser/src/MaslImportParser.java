@@ -79,7 +79,7 @@ public class MaslImportParser {
         switch ( rule ) {
             case "target":
                 try {
-                    walker.target();
+                    walker.target( dialect );
                 } catch ( RecognitionException e ) {
                     System.err.println( e );
                     return;
