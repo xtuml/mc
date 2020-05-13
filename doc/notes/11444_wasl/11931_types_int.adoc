@@ -208,3 +208,9 @@ ooapopulation::Datatype_EDTaddENUM( s_dt, name, expression )
 ooapopulation::Datatype_SDTaddMBR( s_sdt, name, expression )
 
 need current_mbr and current_structure
+
+x2m
+
+Formalize R3751 between 'type' and subs.  Use 'name' as identifier.
+Add 'enumeration', 'enumerator', 'structure' and 'member' as subtypes of unmarkable.
+Receive 'populate' commands for the above.

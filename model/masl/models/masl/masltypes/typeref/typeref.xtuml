@@ -53,6 +53,7 @@ parent_parameter = param.parent_parameter;
 parent_operation = param.parent_operation;
 parent_attribute = param.parent_attribute;
 parent_routine = param.parent_routine;
+parent_member = param.parent_member;
 if ( not_empty parent_parameter )
   relate typeref to parent_parameter across R3742;
 elif ( not_empty parent_operation )
@@ -61,6 +62,8 @@ elif ( not_empty parent_attribute )
   relate typeref to parent_attribute across R3717;
 elif ( not_empty parent_routine )
   relate typeref to parent_routine across R3792;
+elif ( not_empty parent_member )
+  relate typeref to parent_member across R3753;
 else
   TRACE::log( flavor:"failure", id:39, message:"no parent for typeref" );
 end if;',
@@ -166,6 +169,22 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../masl/masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("ad03811b-4fd5-4526-8d9b-beb9792087a2",
+	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5",
+	'parent_member',
+	"25cf1c85-eb83-4253-8d2e-91d11609dd8b",
+	0,
+	'',
+	"ef630de3-69af-4b84-9882-d59da699d12e",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("25cf1c85-eb83-4253-8d2e-91d11609dd8b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<member>',
+	'',
+	'',
+	'../masltypes.xtuml');
 INSERT INTO O_TFR
 	VALUES ("777136e2-a490-484d-ab05-64fd8f7555c1",
 	"46656013-39ba-446e-bd49-34aabd941dac",

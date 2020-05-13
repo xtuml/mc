@@ -154,6 +154,7 @@ T_b("$");
 T_b("START_ACTION_LIST");
 T_b("\n");
 T_b(action_files);
+T_b("");
 T_b("$");
 T_b("END_ACTION_LIST");
 T_b("\n");

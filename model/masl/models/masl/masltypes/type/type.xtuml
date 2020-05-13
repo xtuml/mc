@@ -26,17 +26,23 @@ for each reference in references
 end for;
 select one markable related by self->markable[R3783];
 
-if ( "MASL" == genfile::architecture() )
-  T::include( file:"masl/t.type_begin.masl" );
-  T::include( file:"masl/t.type_end.masl" );
-elif ( "WASL" == genfile::architecture() )
-  if ( -1 != STRING::indexof( haystack:self.body, needle:"," ) ) // TODO this is a fragile way to identify enums
-    self.body = "Enumeration,{" + self.body + "}";
-  end if;
-  T::include( file:"wasl/t.type_begin.wasl" );
-  T::include( file:"wasl/t.type_end.wasl" );
+select one enumeration related by self->enumeration[R3751];
+select one structure related by self->structure[R3751];
+if ( not_empty enumeration )
+  enumeration.render();
+elif ( not_empty structure )
+  structure.render();
 else
-  //
+  // UDTs
+  if ( "MASL" == genfile::architecture() )
+    T::include( file:"masl/t.type_begin.masl" );
+    T::include( file:"masl/t.type_end.masl" );
+  elif ( "WASL" == genfile::architecture() )
+    T::include( file:"wasl/t.type_begin.wasl" );
+    T::include( file:"wasl/t.type_end.wasl" );
+  else
+    //
+  end if;
 end if;
 
 markable.render_marking( list:"default" );
@@ -61,7 +67,11 @@ if ( empty type )
   type.body = param.body; // This holds the string body of the type definition.
   type.rendered = false;
   type.declared_forward = false;
-  type.lcount = typeminer::referreds( name:type.name, body:type.body, labels:type.labels );
+  type.lcount = 0;
+  // Skip the type miner when nothing to mine.
+  if ( "" != type.body )
+    type.lcount = typeminer::referreds( name:type.name, body:type.body, labels:type.labels );
+  end if;
   relate type to domain across R3719;
   markable = markable::populate( name:"type" );
   relate type to markable across R3783;

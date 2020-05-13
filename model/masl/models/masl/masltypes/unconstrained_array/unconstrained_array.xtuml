@@ -33,7 +33,6 @@ INSERT INTO O_TFR
 select any unconstrained_array from instances of unconstrained_array; // DELETE THIS LINE
 if ( empty unconstrained_array )
   create object instance unconstrained_array of unconstrained_array;
-  unconstrained_array.name = param.name;
   //relate unconstrained_array to domain across R3799;
 end if;
 return unconstrained_array;',
@@ -109,14 +108,47 @@ value[0] = self.name;
 	'',
 	"eb490198-38cc-4bc9-9f07-194b8e889127",
 	0);
-INSERT INTO O_NBATTR
-	VALUES ("a9469412-d6ba-47da-a1ad-832d1a6ba098",
-	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed");
-INSERT INTO O_BATTR
-	VALUES ("a9469412-d6ba-47da-a1ad-832d1a6ba098",
-	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed");
+INSERT INTO O_REF
+	VALUES ("f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	0,
+	"5e32207e-907b-433a-96bc-6d26e98067dc",
+	"29e83db2-2e9c-4787-8dde-161be67d6e39",
+	"1b5c4dae-e0cc-46ef-929f-8b734e69dcb6",
+	"07a976e9-ce7d-4160-bc9b-8d33c527155e",
+	"3d1fc89e-627d-49e3-9d7b-7b031a207da5",
+	"57b0eb20-47ab-402e-9cc7-eb24692c2828",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'type',
+	'name',
+	'R3751');
+INSERT INTO R_RGO_PROXY
+	VALUES ("f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed",
+	"29e83db2-2e9c-4787-8dde-161be67d6e39",
+	"1b5c4dae-e0cc-46ef-929f-8b734e69dcb6",
+	'../masltypes.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	0,
+	"29e83db2-2e9c-4787-8dde-161be67d6e39",
+	"07a976e9-ce7d-4160-bc9b-8d33c527155e",
+	'../masltypes.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("3d1fc89e-627d-49e3-9d7b-7b031a207da5",
+	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed",
+	"5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	1,
+	'name');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'../type/type.xtuml');
 INSERT INTO O_ATTR
-	VALUES ("a9469412-d6ba-47da-a1ad-832d1a6ba098",
+	VALUES ("3d1fc89e-627d-49e3-9d7b-7b031a207da5",
 	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed",
 	"00000000-0000-0000-0000-000000000000",
 	'name',
@@ -124,12 +156,17 @@ INSERT INTO O_ATTR
 	'',
 	'name',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed");
+INSERT INTO O_OIDA
+	VALUES ("3d1fc89e-627d-49e3-9d7b-7b031a207da5",
+	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed",
+	0,
+	'name');
 INSERT INTO O_ID
 	VALUES (1,
 	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed");
