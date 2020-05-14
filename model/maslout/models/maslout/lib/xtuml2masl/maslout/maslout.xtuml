@@ -959,6 +959,8 @@ while ( i <= 1 )
           // output using the underlying type as the definition.
           if ( (base_s_dt.Name == "MASLtype") or (s_dt.Name == "MASLtype") )
             continue;
+          elif ( -1 < STRING::indexof( haystack:s_dt.Name, needle:" of " ) ) // blank-o-f-blank
+            continue;
           else
             value[2] = base_s_dt.Name;
           end if;
