@@ -159,7 +159,7 @@ if ( not_empty population )
           select any ooapragma_item related by pragma->ooapragma_item[R3804];
           if ( not_empty ooapragma_item )
             if ( "domain_operation_number" == pragma.name )
-              routine1.Descrip = routine1.Descrip + "domain_operation_number:" + ooapragma_item.value;
+              //routine1.Descrip = routine1.Descrip + "domain_operation_number:" + ooapragma_item.value;
             end if;
           end if;
         end for;
@@ -180,7 +180,7 @@ if ( not_empty population )
               select any ooapragma_item related by pragma->ooapragma_item[R3804];
               if ( not_empty ooapragma_item )
                 if ( "terminator_operation_number" == pragma.name )
-                  routine2.Descrip = routine2.Descrip + "terminator_operation_number:" + ooapragma_item.value;
+                  //routine2.Descrip = routine2.Descrip + "terminator_operation_number:" + ooapragma_item.value;
                 end if;
               end if;
             end for;
@@ -200,7 +200,7 @@ if ( not_empty population )
           select any ooapragma_item related by pragma->ooapragma_item[R3804];
           if ( not_empty ooapragma_item )
             if ( "operation_number" == pragma.name )
-              operation.Descrip = operation.Descrip + "operation_number:" + ooapragma_item.value;
+              //operation.Descrip = operation.Descrip + "operation_number:" + ooapragma_item.value;
             end if;
           end if;
         end for;

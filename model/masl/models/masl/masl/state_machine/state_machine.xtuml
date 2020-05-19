@@ -43,7 +43,6 @@ elif ( "WASL" == genfile::architecture() )
   select many start_states related by self->cell[R3743]->state[R3732];
   for each start_state in start_states
     state_number =  start_state.number;
-    start_state_name = "Non_Existent";
     select one start_state_activity related by start_state->activity[R3704];
     start_state_name = start_state_activity.name;
     select many cells related by start_state->cell[R3732];

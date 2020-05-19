@@ -276,7 +276,7 @@ STRING_trim( c_t * p_s )
   // find last non whitespace character
   b = p_s + ( len - 1 );
   for ( ; b != p_s; b-- ) {
-    if ( *a != ' ' && *a != '\r' && *a != '\t' && *a != '\n' ) break;   // found non whitespace
+    if ( *b != ' ' && *b != '\r' && *b != '\t' && *b != '\n' ) break;   // found non whitespace
   }
 
   // check if they crossed ( all whitespace )
@@ -351,6 +351,7 @@ STRING_unescapetics( c_t * p_s )
       p++;
   }
   *q = '\0';            // null terminate
+  return result;
 }
 
 /*

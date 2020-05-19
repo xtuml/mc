@@ -624,6 +624,15 @@ elif ( "domain" == element )
           routine.number = STRING::atoi( s:pragma_item.value );
         end if;
       end for;
+      select many operations related by domain->object[R3708]->operation[R3749];
+      for each operation in operations
+        select any pragma related by operation->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where
+          ( selected.name == "operation_number" );
+        select any pragma_item related by pragma->pragma_item[R3780];
+        if ( not_empty pragma_item )
+          operation.number = STRING::atoi( s:pragma_item.value );
+        end if;
+      end for;
 
       // terminators file
       select many terminators related by domain->terminator[R3702];
@@ -682,9 +691,16 @@ elif ( "domain" == element )
 
       // objects file
       select many objects related by domain->object[R3708];
-      for each obj in objects
-        obj.render();
-      end for;
+      i = 1;
+      while ( i < 100 )
+        for each obj in objects
+          if ( obj.number == i )
+            obj.render();
+            break;
+          end if;
+        end for;
+        i = i + 1;
+      end while;
       genfile = genfile::populate( name:"objects" );
       genfile.emit( name:domain.name + ".obj" );
 

@@ -487,7 +487,16 @@ returns [String type]
 typeReference
 returns [String type]
 //returns [BasicType type]
-                              : TYPE_REF                    { $type = $TYPE_REF.text; }
+                              : TYPE_REF                    { $type = $TYPE_REF.text;
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  if ( -1 < $type.indexOf( "sequence of " ) ) {
+                                                                    $type = $type.substring( 11 );
+                                                                  } else if ( -1 < $type.indexOf( "instance of " ) ) {
+                                                                    $type = $type.replace( "instance of ", "inst_ref<" );
+                                                                    $type = $type.concat( ">" );
+                                                                  }
+                                                                }
+                                                            }
                               ;
 
 instanceTypeRef

@@ -214,3 +214,16 @@ x2m
 Formalize R3751 between 'type' and subs.  Use 'name' as identifier.
 Add 'enumeration', 'enumerator', 'structure' and 'member' as subtypes of unmarkable.
 Receive 'populate' commands for the above.
+
+Need to omit "sequence of" on maslin.  Dunno whether in the parser or later.
+
+Need to convert "instance of" on maslin to inst_ref<>.  Hmm, may run into trouble with OOA distinction of instance and set.
+
+wasldiff:
+
+  * ignore Cannot_Happen/Ignore on lines with Non_Existent.
+
+WASL files have Cannot_Happen and Ignore coming out of Non_Existent.  However, the MASL dumper always dumps Cannot_Happen for notransistions out of Non_Existent.
+
+Fix TAGS by awking array mark and singleton mark.  Need to respond to these marks on the generated end.
+  * multiplicity_array

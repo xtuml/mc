@@ -25,7 +25,7 @@ c_t *
 STRING_itoa( const i_t p_i )
 {
   /* Replace/Insert the following instructions with your implementation code.  */
-  c_t * s=0;i_t i;c_t * mapping[10]={0};
+  c_t * s=0;i_t i;c_t * mapping[10]={0,0,0,0,0,0,0,0,0,0};
   /* ASSIGN mapping[9] = 9 */
   mapping[9] = Escher_strcpy( mapping[9], "9" );
   /* ASSIGN mapping[8] = 8 */
@@ -50,8 +50,8 @@ STRING_itoa( const i_t p_i )
   i = p_i;
   /* ASSIGN s =  */
   s = Escher_strcpy( s, "" );
-  /* WHILE ( ( i >= 1 ) ) */
-  while ( ( i >= 1 ) ) {
+  /* WHILE ( i >= 1 ) */
+  while ( i >= 1 ) {
     i_t d;
     /* ASSIGN d = ( i % 10 ) */
     d = ( i % 10 );
@@ -238,6 +238,109 @@ STRING_getword( const i_t p_i, c_t * p_s )
   return result;
 }
 
+
+/*
+ * Bridge:  trim
+ */
+c_t *
+STRING_trim( c_t * p_s )
+{
+  i_t len = Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len + 1 );
+  result[ 0 ] = 0;
+
+  c_t * a;
+  c_t * b;
+
+fprintf( stderr, "STRING_trim 1 %sEND\n", p_s );
+  // find the first non whitespace character
+  a = p_s;
+  for ( ; *a != '\0'; a++ ) {
+    if ( *a != ' ' && *a != '\r' && *a != '\t' && *a != '\n' ) break;   // found non whitespace
+  }
+
+  // find last non whitespace character
+  b = p_s + ( len - 1 );
+  for ( ; b != p_s; b-- ) {
+    if ( *b != ' ' && *b != '\r' && *b != '\t' && *b != '\n' ) break;   // found non whitespace
+  }
+
+  // check if they crossed ( all whitespace )
+  if ( b < a ) {
+    return result;
+  }
+  else {
+    result = STRING_substr( (const i_t)(a - p_s), (const i_t)(b - p_s)+1, p_s );
+fprintf( stderr, "STRING_trim 2 %sEND\n", result );
+    return result;
+  }
+}
+
+
+/*
+ * Bridge:  quote
+ * implemented as macro
+ */
+
+
+/*
+ * Bridge:  escapetics
+ */
+c_t *
+STRING_escapetics( c_t * p_s )
+{
+  i_t len = Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len * 2 + 1 );
+  result[ 0 ] = 0;
+
+  c_t * p = p_s;
+  c_t * q = result;
+
+  while ( p != 0 && *p != '\0' && (q - result) < ESCHER_SYS_MAX_STRING_LEN ) {
+      if ( *p == '\'' ) {
+          *q = *p;      // copy the character
+          q++;
+          *q = '\'';    // add an extra tic to escape it
+      }
+      else {
+          *q = *p;      // copy the character
+      }
+      q++;
+      p++;
+  }
+  *q = '\0';            // null terminate
+
+  return result;
+}
+
+
+/*
+ * Bridge:  unescapetics
+ */
+c_t *
+STRING_unescapetics( c_t * p_s )
+{
+  i_t len = Escher_strlen( p_s );
+  c_t * result = Escher_malloc( len + 1 );
+  result[ 0 ] = 0;
+
+  c_t * p = p_s;
+  c_t * q = result;
+
+  while ( p != 0 && *p != '\0' && (q - result) < ESCHER_SYS_MAX_STRING_LEN ) {
+      if ( *p == '\'' && *(p+1) == '\'' ) {
+          *q = *p;      // copy one tic
+          p++;          // skip the other
+      }
+      else {
+          *q = *p;      // copy the character
+      }
+      q++;
+      p++;
+  }
+  *q = '\0';            // null terminate
+  return result;
+}
 
 /*
  * Bridge:  idtoa

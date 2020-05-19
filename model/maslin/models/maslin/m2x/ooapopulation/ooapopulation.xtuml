@@ -9548,7 +9548,9 @@ globaltypes_pkg = self.globaltypes_pkg;
 select any sys_s_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
 select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
 select any global_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == param.name );
-if ( (empty sys_s_dt) and (empty s_dt) and (empty global_dt) )
+select many s_irdts from instances of S_IRDT; // IRDTs get created when the classes are created.
+select any irdt_s_dt related by s_irdts->S_DT[R17] where ( selected.Name == param.name );
+if ( (empty sys_s_dt) and (empty s_dt) and (empty global_dt) and (empty irdt_s_dt) )
   // The type doesn''t already exist, create it
   self.Package_newDatatype(ep_pkg:types_pkg, type_name:param.name, definition:param.definition);
   // Cache the new type
@@ -9569,6 +9571,10 @@ else
     end if;
   elif ( not_empty global_dt )
     self.current_type = global_dt;
+  elif ( not_empty irdt_s_dt )
+    self.current_type = irdt_s_dt;
+  else
+    //
   end if;
 end if;
 ',
