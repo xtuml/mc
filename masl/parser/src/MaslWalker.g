@@ -490,7 +490,7 @@ returns [String type]
                               : TYPE_REF                    { $type = $TYPE_REF.text;
                                                                 if ( this.dialect.equals( "WASL" ) ) {
                                                                   if ( -1 < $type.indexOf( "sequence of " ) ) {
-                                                                    $type = $type.substring( 11 );
+                                                                    $type = $type.substring( 12 );
                                                                   } else if ( -1 < $type.indexOf( "instance of " ) ) {
                                                                     $type = $type.replace( "instance of ", "inst_ref<" );
                                                                     $type = $type.concat( ">" );

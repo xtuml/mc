@@ -4,7 +4,7 @@ T_b("DESCRIPTION");
 T_b("\n");
 if ( 0!=strcmp("",comment) ) {
 T_b(comment);
-T_b("");
+T_b("\n");
 }
 T_b("#");
 T_b("$");

@@ -12,6 +12,7 @@ ${domain.name}.hcf
 $$END_HAND_CODED_FILES
  
 $$START_SCENARIOS
+${scenario_files}\
 $$END_SCENARIOS
  
 $$START_SCENARIO_LIST
@@ -31,6 +32,7 @@ ${domain.name}.brp
 $$END_BRIDGE_DATA_TYPES
  
 $$START_BRIDGES
+${bridge_files}\
 $$END_BRIDGES
  
 $$START_OBJECTS

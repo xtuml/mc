@@ -1,1 +1,1 @@
-${domain.name}_Scenario${pragma_item.value}.scn
+${domain.name}_Scenario$t{routine.number}.scn

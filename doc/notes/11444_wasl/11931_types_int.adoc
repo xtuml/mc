@@ -227,3 +227,5 @@ WASL files have Cannot_Happen and Ignore coming out of Non_Existent.  However, t
 
 Fix TAGS by awking array mark and singleton mark.  Need to respond to these marks on the generated end.
   * multiplicity_array
+
+ commas in descriptions need to be subbed with __

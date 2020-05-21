@@ -1,6 +1,6 @@
 \n\n#$$DESCRIPTION
 .if ( "" != comment )
-${comment}\
+${comment}
 .end if
 #$$END_DESCRIPTION
 \n\

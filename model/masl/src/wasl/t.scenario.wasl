@@ -1,5 +1,5 @@
 T_b(domain->name);
 T_b("_Scenario");
-T_b(pragma_item->value);
+T_b(T_s(routine->number));
 T_b(".scn");
 T_b("\n");

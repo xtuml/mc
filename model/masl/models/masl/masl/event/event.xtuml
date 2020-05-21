@@ -60,6 +60,13 @@ elif ( "WASL" == genfile::architecture() )
   if ( empty id_attributes )
     T::include( file:"wasl/t.comma.wasl" );
   end if;
+  description = "";
+  select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+  for each descrip in descrips
+    description = description + descrip.text;
+  end for;
+  s = STRING::trim( s:description );
+  description = STRING::replace( original:s, replace:"\n", with:"" );
   T::include( file:"wasl/t.event_end.wasl" );
 
 else

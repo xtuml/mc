@@ -64,7 +64,8 @@ elif ( "WASL" == genfile::architecture() )
   for each descrip in descrips
     description = description + descrip.text;
   end for;
-  description = STRING::trim( s:description );
+  s = STRING::trim( s:description );
+  description = STRING::replace( original:s, replace:"\n", with:"" );
   T::include( file:"wasl/t.attribute_end.wasl" );
     
 else

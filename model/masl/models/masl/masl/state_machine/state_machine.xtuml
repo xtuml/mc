@@ -43,6 +43,7 @@ elif ( "WASL" == genfile::architecture() )
   select many start_states related by self->cell[R3743]->state[R3732];
   for each start_state in start_states
     state_number =  start_state.number;
+    creation_star = "";
     select one start_state_activity related by start_state->activity[R3704];
     start_state_name = start_state_activity.name;
     select many cells related by start_state->cell[R3732];
@@ -60,6 +61,10 @@ elif ( "WASL" == genfile::architecture() )
       if ( "terminal" == start_state.type )
         transition = "Meaningless";
         next_state_number = 0;
+      elif ( "creation" == start_state.type )
+        creation_star = "*";
+      else
+        //
       end if;
       select one event related by cell->event[R3732];
       select one event_object related by event->object[R3736];

@@ -1,1 +1,1 @@
-${object.key_letters},$t{state_number},${start_state_name},${event_object.key_letters}$t{event.number},${transition},$t{next_state_number},${next_state_name},##
+${object.key_letters},$t{state_number}${creation_star},${start_state_name},${event_object.key_letters}$t{event.number},${transition},$t{next_state_number},${next_state_name},##

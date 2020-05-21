@@ -274,6 +274,7 @@ elif ( "WASL" == genfile::architecture() )
   if ( not_empty description )
     comment = description.text;
   end if;
+  comment = STRING::trim( s: STRING::replace( original:comment, replace:"\n", with:"" ) );
   if ( not_empty terminator and not_empty domain )
     T::include( file:"wasl/t.terminator_service_def_begin.wasl" );
   else

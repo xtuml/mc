@@ -1,6 +1,7 @@
 T_b(object->key_letters);
 T_b(",");
 T_b(T_s(state_number));
+T_b(creation_star);
 T_b(",");
 T_b(start_state_name);
 T_b(",");

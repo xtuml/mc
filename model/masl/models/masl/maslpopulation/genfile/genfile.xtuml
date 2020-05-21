@@ -618,7 +618,7 @@ elif ( "domain" == element )
       routines = domain_routines + terminator_routines;
       for each routine in routines
         select any pragma related by routine->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where
-          ( selected.name == "terminator_operation_number" or selected.name == "domain_operation_number" );
+          ( selected.name == "terminator_operation_number" or selected.name == "domain_operation_number" or selected.name == "scenario" );
         select any pragma_item related by pragma->pragma_item[R3780];
         if ( not_empty pragma_item )
           routine.number = STRING::atoi( s:pragma_item.value );
@@ -791,9 +791,9 @@ elif ( "domain" == element )
         continue;
       end if;
       
-      function_files = "";
-      action_files = "";
-            
+      function_files = ""; action_files = ""; bridge_files = ""; scenario_files = "";
+      domain_version = "1";
+
       // render the activity files
       // functions
       select many routines related by domain->routine[R3790] where ( selected.visibility == "public" );
@@ -813,9 +813,10 @@ elif ( "domain" == element )
         select any pragma_item related by pragma->pragma_item[R3780];
         if ( not_empty pragma_item )
           routine.render_definition( activity:activity );
-          filename = domain.name + "_Scenario" + pragma_item.value + ".scn";
+          filename = domain.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
           genfile = genfile::populate( name:filename );
           genfile.emit( name:filename );
+          scenario_files = scenario_files + domain.name + "," + domain_version + ",SequenceName," + STRING::itoa( i:routine.number ) + "," + filename + "\n";
         end if;
       end for;
       // bridges
@@ -828,6 +829,7 @@ elif ( "domain" == element )
           filename = domain.name + "_" + terminator.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".br";
           genfile = genfile::populate( name:filename );
           genfile.emit( name:filename );
+          bridge_files = bridge_files + domain.name + "," + domain_version + "," + filename + ",N\n";
         end for;
       end for;
       // operations

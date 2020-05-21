@@ -281,6 +281,7 @@ elif ( "WASL" == genfile::architecture() )
   if ( not_empty description )
     comment = description.text;
   end if;
+  comment = STRING::trim( s: STRING::replace( original:comment, replace:"\n", with:"" ) );
   
   T::include( file:"wasl/t.operation_def_begin.wasl" );
 
