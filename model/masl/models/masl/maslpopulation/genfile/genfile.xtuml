@@ -854,11 +854,16 @@ elif ( "domain" == element )
           select one activity related by state->activity[R3704];
           select one code_block related by activity->code_block[R3794];
           if ( not_empty code_block )
-            state.render_definition( activity:activity );
-          sname = domain.name + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
-          genfile = genfile::populate( name:sname );
-          genfile.emit( name:sname + ".al" );
-          action_files = action_files + sname + ".al" + "\n";
+            // Be sure there is a transition _into_ this state.
+            // TODO - may come back and disable or switch this optimization.
+            select any cell related by state->cell[R3731];
+            if ( not_empty cell )
+              state.render_definition( activity:activity );
+              sname = domain.name + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
+              genfile = genfile::populate( name:sname );
+              genfile.emit( name:sname + ".al" );
+              action_files = action_files + sname + ".al" + "\n";
+            end if;
           end if;
         end for;
       end for;

@@ -229,3 +229,6 @@ Fix TAGS by awking array mark and singleton mark.  Need to respond to these mark
   * multiplicity_array
 
  commas in descriptions need to be subbed with __
+
+Do not generate state activity definitions for unreachable states.  Output a message when this is detected.
+But notice a TODO in genfile_render to consider a switch.  Caledonia may like to disable the optimization.
