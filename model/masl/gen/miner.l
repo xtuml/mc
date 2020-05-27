@@ -81,6 +81,7 @@ YY_BUFFER_STATE typeminer_buffer_state;
 ([1-9][0-9]*|0)?\.[0-9][0-9]*                                                                                  return REAL;      // simplistic implementation of REAL
 '(\\([btnfr\"\\]|[0-3][0-7][0-7]|[0-7][0-7]|[0-7]|u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])|[^\\'])'      return CHARACTER;
 \"(\\([btnfr\"\\]|[0-3][0-7][0-7]|[0-7][0-7]|[0-7]|u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])|[^\\\"])*\"  return STRING;
+\/\/[^\n]*\n
 
 [A-Za-z_][A-Za-z_0-9]*  { memset( yylval.sval, 0, TYPEMINER_MAX_LABEL_LEN ); strncpy( yylval.sval, yytext, TYPEMINER_MAX_LABEL_LEN-1 ); return IDENTIFIER; }
 
