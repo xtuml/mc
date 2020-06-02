@@ -648,16 +648,21 @@ elif ( "domain" == element )
 
       // scenario list file
       select many routines related by domain->routine[R3790];
-      for each routine in routines
-        select one activity related by routine->activity[R3704];
-        select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
-        select any pragma_item related by pragma->pragma_item[R3780];
-        if ( not_empty pragma_item )
-          T::include( file:"wasl/t.scenario.wasl" );
+      if ( not_empty routines )
+        select any pragma related by routines->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
+        if ( not_empty pragma )
+          for each routine in routines
+            select one activity related by routine->activity[R3704];
+            select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
+            select any pragma_item related by pragma->pragma_item[R3780];
+            if ( not_empty pragma_item )
+              T::include( file:"wasl/t.scenario.wasl" );
+            end if;
+          end for;
+          genfile = genfile::populate( name:"scenarios" );
+          genfile.emit( name:domain.name + ".scn" );
         end if;
-      end for;
-      genfile = genfile::populate( name:"scenarios" );
-      genfile.emit( name:domain.name + ".scn" );
+      end if;
 
       // function data types file
       T::include( file:"wasl/t.START.wasl" );
@@ -676,16 +681,18 @@ elif ( "domain" == element )
       genfile.emit( name:domain.name + ".fnp" );
 
       // bridge data types file
-      T::include( file:"wasl/t.START.wasl" );
       select many terminators related by domain->terminator[R3702] where ( selected.key_letters != "TIM" );
-      for each terminator in terminators
-        select many routines related by terminator->routine[R3791];
-        for each routine in routines
-          select one activity related by routine->activity[R3704];
-          routine.render( name:activity.name );
+      if ( not_empty terminators )
+        T::include( file:"wasl/t.START.wasl" );
+        for each terminator in terminators
+          select many routines related by terminator->routine[R3791];
+          for each routine in routines
+            select one activity related by routine->activity[R3704];
+            routine.render( name:activity.name );
+          end for;
         end for;
-      end for;
-      T::include( file:"wasl/t.END.wasl" );
+        T::include( file:"wasl/t.END.wasl" );
+      end if;
       genfile = genfile::populate( name:"bridges" );
       genfile.emit( name:domain.name + ".brp" );
 
@@ -816,7 +823,7 @@ elif ( "domain" == element )
           filename = domain.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
           genfile = genfile::populate( name:filename );
           genfile.emit( name:filename );
-          scenario_files = scenario_files + domain.name + "," + domain_version + ",SequenceName," + STRING::itoa( i:routine.number ) + "," + filename + "\n";
+          scenario_files = scenario_files + domain.name + "," + domain_version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + "\n";
         end if;
       end for;
       // bridges

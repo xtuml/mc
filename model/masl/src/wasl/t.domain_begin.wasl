@@ -44,6 +44,7 @@ T_b("");
 T_b("$");
 T_b("END_SCENARIOS");
 T_b("\n");
+if ( 0!=strcmp("",scenario_files) ) {
 T_b(" ");
 T_b("\n");
 T_b("$");
@@ -55,6 +56,7 @@ T_b("\n");
 T_b("$");
 T_b("END_SCENARIO_LIST");
 T_b("\n");
+}
 T_b(" ");
 T_b("\n");
 T_b("$");
@@ -87,6 +89,7 @@ T_b("\n");
 T_b("$");
 T_b("END_BRIDGE_DATA_TYPES");
 T_b("\n");
+if ( 0!=strcmp("",bridge_files) ) {
 T_b(" ");
 T_b("\n");
 T_b("$");
@@ -97,6 +100,7 @@ T_b("");
 T_b("$");
 T_b("END_BRIDGES");
 T_b("\n");
+}
 T_b(" ");
 T_b("\n");
 T_b("$");

@@ -14,10 +14,12 @@ $$END_HAND_CODED_FILES
 $$START_SCENARIOS
 ${scenario_files}\
 $$END_SCENARIOS
+.if ( "" != scenario_files )
  
 $$START_SCENARIO_LIST
 ${domain.name}.scn
 $$END_SCENARIO_LIST
+.end if
  
 $$START_FUNCTION_DATA_TYPES
 ${domain.name}.fnp
@@ -30,10 +32,12 @@ $$END_FUNCTIONS
 $$START_BRIDGE_DATA_TYPES
 ${domain.name}.brp
 $$END_BRIDGE_DATA_TYPES
+.if ( "" != bridge_files )
  
 $$START_BRIDGES
 ${bridge_files}\
 $$END_BRIDGES
+.end if
  
 $$START_OBJECTS
 ${domain.name}.obj
