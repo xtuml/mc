@@ -22,18 +22,46 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
-for each descrip in descrips
-  descrip.render();
-end for;
-T::include( file:"masl/t.event_begin.masl" );
-select one parameter related by self->parameter[R3727.''carries first''];
-if ( not_empty parameter )
-  parameter.render();
-end if;
-T::include( file:"masl/t.event_end.masl" );
-select one markable related by self->markable[R3783];
-markable.render_marking( list:"default" );',
+	'if ( "MASL" == genfile::architecture() )
+
+  select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+  for each descrip in descrips
+    descrip.render();
+  end for;
+  T::include( file:"masl/t.event_begin.masl" );
+  select one parameter related by self->parameter[R3727.''carries first''];
+  if ( not_empty parameter )
+    parameter.render( direction:"" );
+  end if;
+  T::include( file:"masl/t.event_end.masl" );
+  select one markable related by self->markable[R3783];
+  markable.render_marking( list:"default" );
+
+elif ( "WASL" == genfile::architecture() )
+
+  select one object related by self->object[R3736];
+  T::include( file:"wasl/t.event_begin.wasl" );
+  select one parameter related by self->parameter[R3727.''carries first''];
+  if ( not_empty parameter )
+    parameter.render( direction:"in" );
+  end if;
+  T::include( file:"wasl/t.event_middle.wasl" );
+  select many id_attributes related by object->attribute[R3709] where ( selected.preferred == "preferred" );
+  // CDS - Do we need all identifiers?  For now selecting only the preferred identifier.
+  //select many secondary_id_attributes related by object->identifier[R3711]->attribute[R3710.''composed of''];
+  //all_ids = primaries + secondaries
+  for each id_attribute in id_attributes
+    idname = id_attribute.name;
+    T::include( file:"wasl/t.identifier_attribute.wasl" );
+    select one typeref related by id_attribute->typeref[R3717];
+    typeref.render();
+    T::b( s:"," );
+  end for;
+  T::include( file:"wasl/t.event_end.wasl" );
+
+else
+  //
+end if;',
 	1,
 	'',
 	"34c41c49-4657-452d-86b6-5b3b59f0b61d",
@@ -50,11 +78,12 @@ INSERT INTO O_TFR
 select any event related by object->event[R3736] where ( selected.name == param.name );
 if ( empty event );
   create object instance event of event;
-  event.name = param.name;
   relate event to object across R3736;
   markable = markable::populate( name:"event" );
   relate event to markable across R3783;
 end if;
+event.name = param.name;
+event.number = param.number;
 event.type = param.type;
 return event;',
 	1,
@@ -77,7 +106,7 @@ INSERT INTO O_TPARM
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"508cc063-9ce3-4a0c-b3b2-45e3c0f6e4ea",
+	"b7fefa4a-95a4-41e5-8c91-bceb2e3b5b91",
 	'');
 INSERT INTO O_TPARM
 	VALUES ("fcc23318-85ee-4642-a9d5-95e8850aed31",
@@ -95,6 +124,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("b7fefa4a-95a4-41e5-8c91-bceb2e3b5b91",
+	"34c41c49-4657-452d-86b6-5b3b59f0b61d",
+	'number',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"508cc063-9ce3-4a0c-b3b2-45e3c0f6e4ea",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("10f010a5-972a-427c-a610-080e185e1082",
 	"00000000-0000-0000-0000-000000000000",
@@ -164,7 +202,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("94acbc98-dc11-48da-9b86-a400a4d27bad",
 	"a689a6ef-30fb-4c78-95e0-e65abb7edc57",
-	"b9413c9b-6c34-47d9-8cc0-9016fcb520be",
+	"51417d5e-767e-411e-8db5-8d8788069ae6",
 	'type',
 	'The event type is "assigner", "creation", or "normal".
 
@@ -173,6 +211,24 @@ NOTE: An empty string ("") is equivalent to "normal".',
 	'type',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("51417d5e-767e-411e-8db5-8d8788069ae6",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO O_BATTR
+	VALUES ("51417d5e-767e-411e-8db5-8d8788069ae6",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO O_ATTR
+	VALUES ("51417d5e-767e-411e-8db5-8d8788069ae6",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57",
+	"b9413c9b-6c34-47d9-8cc0-9016fcb520be",
+	'number',
+	'',
+	'',
+	'number',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID

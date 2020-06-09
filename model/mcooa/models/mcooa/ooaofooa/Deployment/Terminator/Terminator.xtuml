@@ -1,0 +1,199 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	'Terminator',
+	1651,
+	'D_TERM',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("7798bf23-d611-4f05-a71f-68fe5a775153",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_BATTR
+	VALUES ("7798bf23-d611-4f05-a71f-68fe5a775153",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_ATTR
+	VALUES ("7798bf23-d611-4f05-a71f-68fe5a775153",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	"00000000-0000-0000-0000-000000000000",
+	'Term_ID',
+	'',
+	'',
+	'Term_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("9d4404d9-fb28-425d-9382-b33c392a4f90",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_BATTR
+	VALUES ("9d4404d9-fb28-425d-9382-b33c392a4f90",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_ATTR
+	VALUES ("9d4404d9-fb28-425d-9382-b33c392a4f90",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	"424642ca-eb8e-4c93-9252-a172346fa30b",
+	'Name',
+	'Full Name:Qualified Terminator Name',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("811b9c3f-e6e6-4f9e-8c35-438683f1b4ac",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_BATTR
+	VALUES ("811b9c3f-e6e6-4f9e-8c35-438683f1b4ac",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_ATTR
+	VALUES ("811b9c3f-e6e6-4f9e-8c35-438683f1b4ac",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	"4996a4e3-cf02-4f45-9f88-1a9f41e2ef5b",
+	'Domain_Name',
+	'Full Name:Domain Name
+readonly:true',
+	'',
+	'Domain_Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("1abdbfde-09b8-4569-960b-17e2f1dcc993",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_BATTR
+	VALUES ("1abdbfde-09b8-4569-960b-17e2f1dcc993",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_ATTR
+	VALUES ("1abdbfde-09b8-4569-960b-17e2f1dcc993",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	"811b9c3f-e6e6-4f9e-8c35-438683f1b4ac",
+	'Terminator_Name',
+	'Full Name:Terminator Name
+readonly:true',
+	'',
+	'Terminator_Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("4996a4e3-cf02-4f45-9f88-1a9f41e2ef5b",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_BATTR
+	VALUES ("4996a4e3-cf02-4f45-9f88-1a9f41e2ef5b",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_ATTR
+	VALUES ("4996a4e3-cf02-4f45-9f88-1a9f41e2ef5b",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	"9d4404d9-fb28-425d-9382-b33c392a4f90",
+	'Descrip',
+	'Full Name: Terminator Service Description
+Description: A textual description of this terminator service.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	"9461de81-c1b8-4362-bee4-b5a93592e12c",
+	0,
+	"15690131-e797-43d0-b26a-88b2896a3cab",
+	"63d13ae9-30c0-4c1a-918b-880a0820fc65",
+	"062e9b95-cc54-44e6-9211-e0fa80d42aed",
+	"b5b5519b-da24-47c2-b093-5af78b603771",
+	"424642ca-eb8e-4c93-9252-a172346fa30b",
+	"c94c26a2-10f8-46ff-a85d-269dd3c8127a",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Deployment',
+	'Deployment_ID',
+	'R1650');
+INSERT INTO R_RGO_PROXY
+	VALUES ("ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	"63d13ae9-30c0-4c1a-918b-880a0820fc65",
+	"062e9b95-cc54-44e6-9211-e0fa80d42aed",
+	'../Deployment.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("15690131-e797-43d0-b26a-88b2896a3cab",
+	"9461de81-c1b8-4362-bee4-b5a93592e12c",
+	0,
+	"63d13ae9-30c0-4c1a-918b-880a0820fc65",
+	"b5b5519b-da24-47c2-b093-5af78b603771",
+	'../Deployment.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("424642ca-eb8e-4c93-9252-a172346fa30b",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("424642ca-eb8e-4c93-9252-a172346fa30b",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	"7798bf23-d611-4f05-a71f-68fe5a775153",
+	'Deployment_ID',
+	'',
+	'',
+	'Deployment_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("4604962d-10fd-4e92-9baf-09347050ac2c",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_BATTR
+	VALUES ("4604962d-10fd-4e92-9baf-09347050ac2c",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_ATTR
+	VALUES ("4604962d-10fd-4e92-9baf-09347050ac2c",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	"1abdbfde-09b8-4569-960b-17e2f1dcc993",
+	'Provider',
+	'User_Visible:false',
+	'',
+	'Provider',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_OIDA
+	VALUES ("7798bf23-d611-4f05-a71f-68fe5a775153",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	0,
+	'Term_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_ID
+	VALUES (2,
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO PE_PE
+	VALUES ("ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	1,
+	"99c9f8cc-bdef-4ed2-9999-45efc2ec4752",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("99c9f8cc-bdef-4ed2-9999-45efc2ec4752",
+	"00000000-0000-0000-0000-000000000000",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'Deployment',
+	'',
+	0,
+	'../Deployment.xtuml');

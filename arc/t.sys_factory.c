@@ -147,6 +147,7 @@ ${te_instance.scope}${te_instance.delete_persistent}(
   ${te_instance.scope}${te_instance.delete}( instance, ${domain_num_var}, class_num );
   Escher_PersistDelete( instance, domain_num, class_num );
 }
+  .include "${te_file.arc_path}/t.sys_persist.c"
 .end if
 .if ( te_sys.MaxInterleavedBridges > 0 )
   .invoke disable_interrupts = UserDisableInterrupts()
@@ -245,12 +246,6 @@ ${te_instance.get_dci}(class_num);
 *(${te_cia.class_info_name}[ domain_num ] + class_num);
 .end if
   if ( 0 != dci ) {
-.if ( te_thread.flavor == "OSX" )
-  .// Consider making this default behavior.
-  u1_t * zero = (u1_t *) dci->${te_extent.pool_name};
-  s4_t zi = dci->${te_extent.population_name} * dci->${te_extent.size_name};
-  while ( 0 < zi-- ) { *zero++ = 0; }
-.end if
 .if ( te_sys.PEIClassCount > 0 )
     int i = (intptr_t) dci->${te_extent.active}.head;
     dci->${te_extent.active}.head = ${te_set.insert_block}(
@@ -273,4 +268,20 @@ ${te_instance.get_dci}(class_num);
 .end if
   }
 }
+.if ( ( 0 < te_sys.StateSaveBufferSize ) or ( te_sys.PersistentClassCount > 0 ) )
+
+/*
+ * Given the instance handle and class number, return the instance index
+ * (into the instance collection).
+ */
+${te_typemap.instance_index_name} ${te_prefix.result}getindex(
+  const ${te_instance.handle} instance,
+  const ${te_typemap.domain_number_name} ${domain_num_var},
+  const ${te_typemap.object_number_name} class_num
+)
+{
+  ${te_cia.class_info_type} * dci = *( ${te_cia.class_info_name}[ ${domain_num_var} ] + class_num );
+  return ( ((c_t *) instance - (c_t *) dci->pool ) / dci->size );
+}
+.end if
 .include "${te_file.arc_path}/t.sys_events.c"

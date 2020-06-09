@@ -1,0 +1,135 @@
+= xtUML BridgePoint Training Options
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+This note outlines options for Shlaer-Mellor xtUML and BridgePoint tool
+training.  Options for various skill levels and modes of delivery are
+presented.
+
+== 2 Introduction and Background
+
+NOTE:  This document is drafted in the context of the 2020 global flu
+       outbreak.  Contingencies for remote delivery and other extenuating
+       factors shall be considered.
+
+A team at BAE Systems employs the Shlaer-Mellor Method in their engineering
+development.  A new project will follow the same methodology but with new
+and different tooling.  An updated version of BridgePoint is being developed
+under a project with code name _Caledonia_ <<dr-1>>.  The team desires
+to acquire training in calendar year 2020.
+
+The students will have a mixture of experience levels.  Some students will
+be modelers experienced in the Shlaer-Mellor Method as implemented in the
+Kennedy-Carter iUML tooling.  Others will be traditional programmers new
+to the methodology.  All of the students will be relatively new to the
+BridgePoint tooling.
+
+== 3 Requirements
+
+=== 3.1 Shlaer-Mellor Method
+
+An solid overview and understanding of the fundamental concepts of
+Shlaer-Mellor Object Oriented Analysis shall be communicated.
+
+=== 3.1.1 Data Modeling
+
+Students will learn data modeling in the syntax of class diagrams and
+domain components with interfaces.
+
+=== 3.1.2 State Modeling
+
+Control and sequencing will be taught in the form of state machine
+diagrams.  Students will understand states, events, transitions and
+actions.  Polymorphic event handling will be explained.
+
+=== 3.1.3 Activity Modeling
+
+The fundamental concept of an activity will be explained.
+
+=== 3.2 BridgePoint Tooling
+
+Students will learn to install and run BridgePoint.  They will learn to
+edit the various diagrams.  They will discover the connection to
+configuration management and version control systems.
+
+A brief explanation of model simulation will be given for the purpose of
+concept and awareness.  However, this section will be kept brief due to
+the unliklihood of simulation being included in the production flow any
+time soon.
+
+=== 3.3 Model Compiler Fundamentals
+
+The concepts of model translation will be explained, explored and
+experimented.  Templating will be explained.  Model-based model compiler
+techiques will be explained.
+
+=== 3.4 WASL/WACA Flow Particulars
+
+After learning the fundamentals of model compiler technology, the
+specifics of using the WACA back end model compiler will be discussed.
+The emphasis will be on the usage and connection to BridgePoint.
+
+== 4 Analysis
+
+=== 4.1 Methododology
+
+The methodology is fundamentally consistent across dialects and tooling.
+Training materials prepared by either the Kennedy-Carter or Project
+Technology (then Mentor Graphics and now One Fact) organizations will
+cover the key concepts.
+
+=== 4.2 Tooling
+
+There is a good deal of material available to walk students through the
+use of the BridgePoint UML editor.  It is anticipated that the ASL action
+language editor will be in place in time to practice editing ASL
+activities.
+
+=== 4.3 Model Compilers
+
+Model compiler fundamentals can be clearly demonstrated with the existing
+tooling and training materials.
+
+=== 4.4 WASL / WACA Flow
+
+Materials do not yet exist for this and need to be developed.
+
+Example xtUML/ASL models do not exist (other than SWATS models).
+
+== 5 Work Required
+
+=== 5.1 Example Models
+
+Example models (at least one, perhaps Petrol Station) shall be ported
+or created in the ASL dialect.
+
+=== 5.2 WASL / WACA Particulars
+
+Some material may be borrowed from the Caledonia development project.
+However, materials and examples explicitly for training were not included
+in the project plan.
+
+=== 5.3 Courseware Customization
+
+Some amount of custom tailoring of the course materials is likely needed.
+Specifics need to be decided upon and defined and then built.
+
+=== 5.4 Delivery Mechanism
+
+This training may necessarily be delivered remotely.  It is an option in
+any case.  Specific preparation for remote delivery will include student
+machine preparation and conferencing medium.
+
+== 6 Acceptance Test
+
+== 7 Document References
+
+. [[dr-1]] https://support.onefact.net/issues?query_id=147[Project Plan for _Caledonia_]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

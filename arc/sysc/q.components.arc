@@ -164,7 +164,7 @@ ${vista_module_definition_templates.body}
   .// internal classes
 .end for
 .//
-.// ISR/TLM/AUTOSAR/SVX
+.// ISR/TLM/SVX
 .if ( te_sys.SystemCPortsType == "TLM" )
   .include "${te_file.arc_path}/t.component.tlm_wrapper.tcl"
   .emit to file "${te_file.system_source_path}/briva_tlm.tcl"

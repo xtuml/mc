@@ -1,6 +1,4 @@
 /*---------------------------------------------------------------------------
- * File:  ${te_file.xtumlload}.${te_file.src_file_ext}
- *
  * Description:
  *   This module receives the string format instance data, converts it
  *   and loads instances into memory.
@@ -12,6 +10,7 @@
 #include "${te_file.types}.${te_file.hdr_file_ext}"
 #include "${te_file.xtumlload}.${te_file.hdr_file_ext}"
 ${all_domain_include_files}
+#include <ftw.h>
 
 typedef ${te_prefix.type}UniqueID_t (*LoadInstance_t)( ${te_instance.handle}, const c_t * [] );
 
@@ -50,11 +49,15 @@ static void Escher_load_instance(
   /* Look up the class number and instance loader using the key letters.  */
   n = lookupclassloader( wordvalues[ 0 ] );
 
-  /* Invoke the creation function using the class number.  */
-  instance = Escher_CreateInstance( 0, class_string_2_class_number[n].class_number );
+  if ( n < ${all_max_class_numbers} ) {
+    /* Invoke the creation function using the class number.  */
+    instance = Escher_CreateInstance( 0, class_string_2_class_number[n].class_number );
 
-  /* Convert/Populate the attribute values.  */
-  (*class_string_2_class_number[n].instance_loader)( instance, wordvalues );
+    /* Convert/Populate the attribute values.  */
+    (*class_string_2_class_number[n].instance_loader)( instance, wordvalues );
+  } else {
+    /* Allow unrecognized statements as long as they parse.  */
+  }
 }
 
 /*
@@ -71,11 +74,11 @@ static void Escher_load_instance(
 
    values           : ( value comma )*   // cheat a bit allowing extra commas
 
-   value            : unique_id | number | stringvalue
+   value            : number | stringvalue | unique_id
 
    unique_id        : '"' [0-9a-f-]+ '"'
 
-   number           : [0-9-]+
+   number           : [0-9-.]+
 
    stringvalue    : "'" [^']* "'"   // unless escaped with ''
 
@@ -97,7 +100,6 @@ static bool stringvalue( void );
 static void whitespace( void );
 static bool parsestring( c_t * );
 
-
 static FILE * xtumlfile;
 static c_t * cursor;
 #define MAXWORDS 250
@@ -108,6 +110,48 @@ static Escher_ClassNumber_t wordindex;
 #define DEVELOPER_DEBUG( s, c ) printf( s, c );
 */
 #define DEVELOPER_DEBUG( s, c )
+
+/*
+ * This is compatible as a callback for ftw.  It can read from a given file name or from stdin.
+ */
+static int ${te_prefix.result}xtUML_load_file( const char * filepath, const struct stat * info, const int typeflag )
+{
+  /*
+   * If no path is given, read from stdin until done.  Otherwise, open
+   * the named file for reading.
+   */
+  if ( 0 == filepath ) {
+    xtumlfile = stdin;
+  } else {
+    if ( !strstr( filepath, ".xtuml" ) ) {
+      return 0; // not a model source file
+    } else {
+      if ( (xtumlfile = fopen( filepath, "r" )) == 0 ) {
+        fprintf( stderr, "Could not open file:  %s\n", filepath );
+        return 1;
+      }
+    }
+  }
+  init();               /* Initialize the parser storage area.  */
+  /*
+   * Read a record.  Parse it.  Pass it.  Repeat until end of file.
+   */
+  bool done = readrecord( &cursor ); /* Initial call reads to beginning of first record.  */
+  while ( ! done ) {
+    done = readrecord( &cursor );
+    if ( statement() ) {
+      if ( 0 != wordindex ) {
+        Escher_load_instance( wordindex, word );
+      }
+    } else {
+      fprintf( stderr, "Error:  Did not parse:  %s.\n", word[ wordindex ] );
+    }
+  }
+  if ( stdin != xtumlfile ) {
+    fclose( xtumlfile );
+  }
+  return 0;
+}
 
 void ${te_prefix.result}batch_relate( const ${te_typemap.domain_number_name}, const ${te_typemap.object_number_name} );
 /*
@@ -120,33 +164,15 @@ int Escher_xtUML_load(
 )
 {
   Escher_ClassNumber_t i;
-  bool done = false;
-  if ( 2 != argc ) {
-    fprintf( stderr, "xtumlload <input xtUML file>\n" );
-    return 1;
-  }
-  if ( (xtumlfile = fopen( argv[1], "r" )) == 0 ) {
-    /* no named file, so read from standard input */
-    xtumlfile = stdin;
-  }
-  init();               /* Initialize the xml storage area.      */
-  /*
-   * Read a record.  Parse it.  Pass it.  Repeat until end of file.
-   */
-  while ( ! done ) {
-    done = readrecord( &cursor );
-    if ( statement() ) {
-      if ( 0 != wordindex ) {
-        Escher_load_instance( wordindex, word );
-      }
-    } else {
-      fprintf( stderr, "Error:  Did not parse.\n" );
-    }
+  /* Load from stdin and then recursively load from a named directory.  */
+  int rc = ${te_prefix.result}xtUML_load_file( 0, 0, 0 );
+  if ( 0 != argv[2] ) {
+    rc = ftw( argv[2], ${te_prefix.result}xtUML_load_file, 15 );
   }
   for ( i = 0; i < ${all_max_class_numbers}; i++ ) {
-    ${te_prefix.result}batch_relate( 0, i );
+    Escher_batch_relate( 0, i );
   }
-  return 0;
+  return rc;
 }
 
 /*
@@ -167,7 +193,7 @@ static bool readrecord( c_t ** r )
 {
   #define MAXRECORDLENGTH 2000000
   static c_t record[ MAXRECORDLENGTH ] = {0};
-  #define MAXLINELENGTH 1000
+  #define MAXLINELENGTH 4000
   static c_t line[ MAXLINELENGTH ] = {0};
   bool done = false;
   bool last_record = false;
@@ -266,7 +292,8 @@ static bool values( void )
 static bool value( void )
 {
   DEVELOPER_DEBUG( "value() %s\n", cursor );
-  if ( ! ( unique_id() || number() || stringvalue() ) ) return false;
+  /* Match string before unique_id.  */
+  if ( ! ( number() || stringvalue() || unique_id() ) ) return false;
   word[ wordindex ] = cursor; /* mark end of element */
   return true;
 }
@@ -303,6 +330,7 @@ static bool number( void )
   s4_t guard_counter = 0;
   DEVELOPER_DEBUG( "number() %s\n", cursor );
   if ( ! ( ( ( '0' <= *cursor ) && ( *cursor <= '9' ) ) ||
+           ( *cursor == '.' ) ||
            ( *cursor == '-' ) ) ) return false;
   /* Capture number into word.  */
   word[ wordindex++ ] = cursor++;
@@ -320,7 +348,7 @@ static bool stringvalue( void )
   DEVELOPER_DEBUG( "stringvalue() %s\n", cursor );
   if ( *cursor != '\'' ) return false;
   cursor++;
-  /* Capture unique_id into word.  */
+  /* Capture string body into word.  */
   word[ wordindex++ ] = cursor;
   /* The following if statement deals with empty strings.  */
   if ( ( *cursor != '\'' ) || ( *(cursor + 1) == '\'' ) ) {

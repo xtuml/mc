@@ -49,7 +49,6 @@ echo Using WORKSPACE=%WORKSPACE%
 :: DO NOT MODIFY ANY OF THE FOLLOWING LINES.
 ::
 set APPLICATION=org.xtuml.bp.cli.%1
-set BP_JVM=%BPHOMEDIR%\jre\bin\java.exe
 
 :: Save the user current working directory
 pushd .
@@ -60,7 +59,7 @@ call %BPHOMEDIR%\MinGW\mingwgnu.bat
 
 :: Run command line action
 cd %BPHOMEDIR%
-set COMMAND=eclipsec.exe --launcher.suppressErrors -vm %BP_JVM% -clean -noSplash -data %WORKSPACE% -application %APPLICATION% %2 %3 %4 %5 %6 %7 %8 %9
+set COMMAND=eclipsec.exe --launcher.suppressErrors -vm -clean -noSplash -data %WORKSPACE% -application %APPLICATION% %2 %3 %4 %5 %6 %7 %8 %9
 echo %COMMAND%
 %COMMAND%
 

@@ -1,19 +1,10 @@
 /*---------------------------------------------------------------------
- * File:  ${te_file.persist}.${te_file.src_file_ext}
- *
- * Description:
- * This file provides persistence mechanisms to maintain instances and
+ * This code provides persistence mechanisms to maintain instances and
  * associations across power and reset cycles.
- *
- * ${te_copyright.body}
  *-------------------------------------------------------------------*/
 
-#include "${te_file.types}.${te_file.hdr_file_ext}"
-#include "${te_file.nvs_bridge}.${te_file.hdr_file_ext}"
-#include "${te_file.persist}.${te_file.hdr_file_ext}"
-
 ${persist_class_union}
-#define PERSIST_LARGEST_CLASS sizeof( ${persist_class_union} )
+#define PERSIST_LARGEST_CLASS sizeof( ${persist_class_union_name} )
 #define PERSIST_LINK_TYPE 0
 #define PERSIST_INSTANCE_TYPE 1
 
@@ -90,25 +81,6 @@ ${active_class_counts}\
 #endif
 
 /*
- * Given the instance handle and class number, return the instance index
- * (into the instance collection).
- */
-static ${te_typemap.instance_index_name} ${te_prefix.result}getindex(
-  const ${te_instance.handle},
-  const ${te_typemap.domain_number_name},
-  const ${te_typemap.object_number_name} );
-static ${te_typemap.instance_index_name} ${te_prefix.result}getindex( 
-  const ${te_instance.handle} instance,
-  const ${te_typemap.domain_number_name} ${domain_num_var},
-  const ${te_typemap.object_number_name} class_num
-)
-{
-  ${te_cia.class_info_type} * dci = *( ${te_cia.class_info_name}[ ${domain_num_var} ] + class_num );
-  return ( ((c_t *) instance - (c_t *) dci->pool ) / dci->size );
-}
-
-
-/*
  * Given the class number and the instance index, return the corresponding
  * instance handle.
  */
@@ -130,13 +102,8 @@ static ${te_instance.handle} ${te_prefix.result}getinstance(
 .if ( te_thread.enabled )
 #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
 extern bool ${te_eq.run_flag};
-  .if ( te_thread.flavor == "Nucleus" )
-static void persist_commit_loop( void * );
-static void persist_commit_loop( void * thread )
-  .else
 static void * persist_commit_loop( void * );
 static void * persist_commit_loop( void * thread )
-  .end if
 {
   u1_t t = *( (u1_t *) thread );
   while ( true == ${te_eq.run_flag} ) {
@@ -144,9 +111,7 @@ static void * persist_commit_loop( void * thread )
     ${te_thread.nonbusy_wait}( t );
   }
   ${te_persist.commit}();
-  .if ( te_thread.flavor != "Nucleus" )
   return 0;
-  .end if
 }
 #endif
 
@@ -371,7 +336,7 @@ ${te_persist.commit}( void )
       if ( ili->inst.operation == 0x81 ) {
         if ( ( rc = NVS_insert( (domain_num << 24) + (class_num << 16) +
           ili->inst.inst.instance_identifier.index, dci->size_no_rel,
-          ( c_t const * ) ili->inst.inst.instance, PERSIST_INSTANCE_TYPE )
+          ( c_t * ) ili->inst.inst.instance, PERSIST_INSTANCE_TYPE )
            ) >= 0 ) {
           ili->inst.inst.instance->${te_persist.dirty_name} = ${te_persist.dirty_clean};
           rc = 0;
@@ -397,7 +362,7 @@ ${te_persist.commit}( void )
 .end if
       if ( ili->link.operation == 0x80 ) {
         if ( ( rc = NVS_insert( 0, sizeof( ${te_persist.link_type_name} ),
-          ( c_t const * ) &ili->link.link, PERSIST_LINK_TYPE ) ) >= 0 ) {
+          ( c_t * ) &ili->link.link, PERSIST_LINK_TYPE ) ) >= 0 ) {
           rc = 0;
         } else {
           ${te_callout.persistence_error}( rc );
@@ -405,7 +370,7 @@ ${te_persist.commit}( void )
         }
       } else if ( ili->link.operation == 0x00 ) {
         NVS_remove( 0, sizeof( ${te_persist.link_type_name} ),
-          ( c_t const * ) &ili->link.link, PERSIST_LINK_TYPE );
+          ( c_t * ) &ili->link.link, PERSIST_LINK_TYPE );
       } else {
         ${te_callout.persistence_error}( 0x88 );
         break;

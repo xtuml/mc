@@ -3845,7 +3845,7 @@ INSERT INTO GD_GE
 	"91b61444-533c-43c4-90cd-acd9dd1f7c00",
 	21,
 	0,
-	'Range');
+	'mcooa::ooaofooa::Domain::Range');
 INSERT INTO GD_SHP
 	VALUES ("a12c937d-c823-4a6e-b044-cd3ce0cb8600");
 INSERT INTO GD_NCS

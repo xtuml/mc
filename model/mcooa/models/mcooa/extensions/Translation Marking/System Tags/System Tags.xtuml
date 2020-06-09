@@ -255,31 +255,13 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("391d9d97-9d33-4019-b7a7-136b9dd12249",
 	"fa363aa4-f325-484c-816f-cc8b9b95c909",
-	"7323d14c-7508-412c-889c-b6bca54735ce",
+	"eebf94e1-1048-4ef3-b924-446d6acade8c",
 	'InstanceLoading',
 	'This mark enables an instance loader that parses an input xtUML model file and loads in the SQL-formatted pre-existing instance data.  It is mostly useful for model-based model compiler development.
 
 ',
 	'',
 	'InstanceLoading',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000001",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("7323d14c-7508-412c-889c-b6bca54735ce",
-	"fa363aa4-f325-484c-816f-cc8b9b95c909");
-INSERT INTO O_BATTR
-	VALUES ("7323d14c-7508-412c-889c-b6bca54735ce",
-	"fa363aa4-f325-484c-816f-cc8b9b95c909");
-INSERT INTO O_ATTR
-	VALUES ("7323d14c-7508-412c-889c-b6bca54735ce",
-	"fa363aa4-f325-484c-816f-cc8b9b95c909",
-	"eebf94e1-1048-4ef3-b924-446d6acade8c",
-	'VFB',
-	'',
-	'',
-	'VFB',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000001",
 	'',

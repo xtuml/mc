@@ -1,0 +1,32 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("57aadfbb-13c1-43f5-91e5-c3ef5538a4d3",
+	'ObjectFunctionInvocation',
+	5603,
+	'ObjectFunctionInvocation',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_ID
+	VALUES (0,
+	"57aadfbb-13c1-43f5-91e5-c3ef5538a4d3");
+INSERT INTO O_ID
+	VALUES (1,
+	"57aadfbb-13c1-43f5-91e5-c3ef5538a4d3");
+INSERT INTO O_ID
+	VALUES (2,
+	"57aadfbb-13c1-43f5-91e5-c3ef5538a4d3");
+INSERT INTO PE_PE
+	VALUES ("57aadfbb-13c1-43f5-91e5-c3ef5538a4d3",
+	1,
+	"18f34247-fda9-49a2-b68a-ca4fb46d2b37",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("18f34247-fda9-49a2-b68a-ca4fb46d2b37",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'invocation',
+	'',
+	0,
+	'../invocation.xtuml');

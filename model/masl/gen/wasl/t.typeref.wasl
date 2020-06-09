@@ -1,0 +1,11 @@
+.if ( "integer" == self.body )
+Base_Integer_Type\
+.elif ( "real" == self.body )
+Base_Float_Type\
+.elif ( "boolean" == self.body )
+Base_Boolean_Type\
+.elif ( "text" == self.body )
+Base_Text_Type\
+.else
+${self.body}\
+.end if

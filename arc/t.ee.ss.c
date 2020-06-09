@@ -155,6 +155,8 @@ sstrigger()
   metadata.ievents = ievent_count;
   fwrite( &metadata, sizeof( ssmeta_t ), 1, ssfile );
   fwrite( ssbuf, sizeof( ssdata_t ), instance_count + sevent_count + ievent_count, ssfile );
+  if ( ssfile != stdout )
+    fclose( ssfile );
 }
 #else
 .include "${te_file.arc_path}/t.ee.ss.main.c"

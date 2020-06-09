@@ -1,0 +1,93 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc",
+	'HalfRelationship',
+	6001,
+	'HalfRelationship',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("cbb6d768-2c10-49d8-9605-ac3568f034a8",
+	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
+INSERT INTO O_BATTR
+	VALUES ("cbb6d768-2c10-49d8-9605-ac3568f034a8",
+	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
+INSERT INTO O_ATTR
+	VALUES ("cbb6d768-2c10-49d8-9605-ac3568f034a8",
+	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc",
+	"00000000-0000-0000-0000-000000000000",
+	'isconditional',
+	'',
+	'',
+	'isconditional',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("9c1c6672-e0f4-40dd-a06c-b44090a6ec0d",
+	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
+INSERT INTO O_BATTR
+	VALUES ("9c1c6672-e0f4-40dd-a06c-b44090a6ec0d",
+	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
+INSERT INTO O_ATTR
+	VALUES ("9c1c6672-e0f4-40dd-a06c-b44090a6ec0d",
+	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc",
+	"cbb6d768-2c10-49d8-9605-ac3568f034a8",
+	'role',
+	'',
+	'',
+	'role',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("16a7605f-fed5-4ea8-b686-1b9226193ed2",
+	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
+INSERT INTO O_BATTR
+	VALUES ("16a7605f-fed5-4ea8-b686-1b9226193ed2",
+	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
+INSERT INTO O_ATTR
+	VALUES ("16a7605f-fed5-4ea8-b686-1b9226193ed2",
+	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc",
+	"9c1c6672-e0f4-40dd-a06c-b44090a6ec0d",
+	'multiplicity',
+	'',
+	'',
+	'multiplicity',
+	0,
+	"fa2f8f5d-939e-4a92-befa-ed42bba34a65",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("fa2f8f5d-939e-4a92-befa-ed42bba34a65",
+	"00000000-0000-0000-0000-000000000000",
+	'Multiplicity',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
+INSERT INTO O_ID
+	VALUES (1,
+	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
+INSERT INTO O_ID
+	VALUES (2,
+	"7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc");
+INSERT INTO PE_PE
+	VALUES ("7d52fa00-f0b7-4f42-80c9-1272e4e8b6dc",
+	1,
+	"d3be48fe-9874-46ee-abe3-979e6d52d061",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d3be48fe-9874-46ee-abe3-979e6d52d061",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'relationship',
+	'',
+	0,
+	'../relationship.xtuml');

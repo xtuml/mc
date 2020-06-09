@@ -1,0 +1,68 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("0e1d1b5b-6f20-4db9-81fa-17e56938afac",
+	"00000000-0000-0000-0000-000000000000",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'relationship',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("a07adaaa-103a-46b1-885c-2d19b233dbc9",
+	112,
+	"0e1d1b5b-6f20-4db9-81fa-17e56938afac",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'stratus::deploy::stratus::relationship');
+INSERT INTO DIM_DIA
+	VALUES ("a07adaaa-103a-46b1-885c-2d19b233dbc9",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("0e1d1b5b-6f20-4db9-81fa-17e56938afac",
+	"d3be48fe-9874-46ee-abe3-979e6d52d061");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d3be48fe-9874-46ee-abe3-979e6d52d061",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'relationship',
+	'',
+	0,
+	'../../../../../../ooamasl/models/ooamasl/relationship/relationship.xtuml');
+INSERT INTO PE_PE
+	VALUES ("0e1d1b5b-6f20-4db9-81fa-17e56938afac",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'stratus',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../stratus.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'stratus',
+	1,
+	'../../../stratus.xtuml');

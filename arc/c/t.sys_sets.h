@@ -54,7 +54,7 @@ typedef struct {
     ${te_typemap.instance_index_name},
     ${te_instance.handle},
     ${te_instance.handle},
-    ${te_instance.handle} )
+    ${te_instance.handle} );
   /* not needed without persistence */
 .end if
 } ${te_extent.type};

@@ -3,13 +3,9 @@
 .if ( not_empty stringpointer_s_dt )
   .select many o_attrs from instances of O_ATTR where ( ( selected.Name == "Action_Semantics_internal" ) or ( selected.Name == "Descrip" ) )
   .for each o_attr in o_attrs
-    .select one s_dt related by o_attr->S_DT[R114]
-    .// unrelate o_attr to stringpointer_s_dt across R114;
-    .assign o_attr.DT_ID = 00
-    .// end unrelate
-    .// relate o_attr to stringpointer_s_dt across R114;
-    .assign o_attr.DT_ID = stringpointer_s_dt.DT_ID
-    .// end relate
+    .select one old_s_dt related by o_attr->S_DT[R114]
+    .unrelate o_attr from old_s_dt across R114
+    .relate o_attr to stringpointer_s_dt across R114
   .end for
   .invoke MapDataTypeAsPointer( "*", "stringpointer", "c_t", "" )
 .end if

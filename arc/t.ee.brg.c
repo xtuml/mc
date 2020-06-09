@@ -29,41 +29,41 @@ ${te_aba.code}\
     .end if
     .if ( te_sys.PersistentClassCount > 0 )
       .if ( ( te_brg.EEkeyletters == "PERSIST" ) and ( te_brg.Name == "commit" ) )
-  result = ${te_prefix.result}PersistenceCommit(${parameters.definition});  /* architectural persist routine */
+  result = ${te_prefix.result}PersistenceCommit(${te_aba.ParameterInvocation});  /* architectural persist routine */
       .elif ( ( te_brg.EEkeyletters == "PERSIST" ) and ( te_brg.Name == "restore" ) )
-  result = ${te_prefix.result}PersistenceRestore(${parameters.definition});  /* architectural restore operation */
+  result = ${te_prefix.result}PersistenceRestore(${te_aba.ParameterInvocation});  /* architectural restore operation */
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "checksum" ) )
   /* Note:  Customer/User must implement this function.  Calling stub.  */
-  result = ${te_prefix.result}NVS_checksum(${parameters.definition});
+  result = ${te_prefix.result}NVS_checksum(${te_aba.ParameterInvocation});
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "defrag" ) )
-  result = ${te_prefix.result}NVS_defrag(${parameters.definition});
+  result = ${te_prefix.result}NVS_defrag(${te_aba.ParameterInvocation});
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "remove" ) )
-  result = ${te_prefix.result}NVS_remove(${parameters.definition});
+  result = ${te_prefix.result}NVS_remove(${te_aba.ParameterInvocation});
   /*
    * To keep the NVS continually defragmented, add a call to the defrag
    * method here.  [result = ${te_prefix.result}NVS_defrag()]
    */
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "format" ) )
-  result = ${te_prefix.result}NVS_format(${parameters.definition});
+  result = ${te_prefix.result}NVS_format(${te_aba.ParameterInvocation});
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "initialize" ) )
-  result = ${te_prefix.result}NVS_initialize(${parameters.definition});
+  result = ${te_prefix.result}NVS_initialize(${te_aba.ParameterInvocation});
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "insert" ) )
-  result = ${te_prefix.result}NVS_insert(${parameters.definition});
+  result = ${te_prefix.result}NVS_insert(${te_aba.ParameterInvocation});
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "next" ) )
-  result = ${te_prefix.result}NVS_next((u4_t *)${parameters.definition});
+  result = ${te_prefix.result}NVS_next((u4_t *)${te_aba.ParameterInvocation});
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "select" ) )
-  result = ${te_prefix.result}NVS_select(${parameters.definition});
+  result = ${te_prefix.result}NVS_select(${te_aba.ParameterInvocation});
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "space_available" ) )
-  result = ${te_prefix.result}NVS_space_available(${parameters.definition});
+  result = ${te_prefix.result}NVS_space_available(${te_aba.ParameterInvocation});
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "space_total" ) )
-  result = ${te_prefix.result}NVS_space_total(${parameters.definition});
+  result = ${te_prefix.result}NVS_space_total(${te_aba.ParameterInvocation});
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "space_used" ) )
-  result = ${te_prefix.result}NVS_space_used(${parameters.definition});
+  result = ${te_prefix.result}NVS_space_used(${te_aba.ParameterInvocation});
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "update" ) )
-  result = ${te_prefix.result}NVS_update(${parameters.definition});
+  result = ${te_prefix.result}NVS_update(${te_aba.ParameterInvocation});
       .elif ( ( te_brg.EEkeyletters == "NVS" ) and ( te_brg.Name == "version" ) )
-  /* Note:  Customer/User must implement this function.  Calling stub.  */
-  result = ${te_prefix.result}NVS_version(${parameters.definition});
+  /* Note:  User must implement this function.  Calling stub.  */
+  result = ${te_prefix.result}NVS_version(${te_aba.ParameterInvocation});
       .end if
     .end if
     .if ( 0 < te_sys.StateSaveBufferSize )

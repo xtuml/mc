@@ -1,0 +1,243 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("34d92052-54a5-415f-a27c-63392bbdfea6",
+	'tqueue',
+	7004,
+	'tqueue',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("d9369c8a-3301-45c6-b47f-9d3ea15bad72",
+	"34d92052-54a5-415f-a27c-63392bbdfea6",
+	'populate',
+	'',
+	"af9fadde-62a0-4125-b1d1-1681a14fffa9",
+	0,
+	'create object instance tqueue of tqueue;
+tqueue.TQ = 1; // CDS not used yet
+return tqueue;',
+	1,
+	'',
+	"8f7cf55a-f553-4c7b-a29f-993522694ac3",
+	0);
+INSERT INTO S_DT_PROXY
+	VALUES ("af9fadde-62a0-4125-b1d1-1681a14fffa9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<tqueue>',
+	'',
+	'',
+	'../arch.xtuml');
+INSERT INTO O_TFR
+	VALUES ("9a23b753-da20-421a-8338-837b9b4a9056",
+	"34d92052-54a5-415f-a27c-63392bbdfea6",
+	'dequeue',
+	'',
+	"d3b5b6a2-7f6b-4a20-998f-682756519d4d",
+	1,
+	'select one head related by self->atimer[R7010];
+if ( not_empty head )
+  unrelate self from head across R7010;
+  select one next related by head->atimer[R7008.''precedes''];
+  if ( not_empty next )
+    unrelate head from next across R7008.''precedes'';
+    relate self to next across R7010;
+  end if;
+end if;
+return head;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO S_DT_PROXY
+	VALUES ("d3b5b6a2-7f6b-4a20-998f-682756519d4d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<atimer>',
+	'',
+	'',
+	'../arch.xtuml');
+INSERT INTO O_TFR
+	VALUES ("8f7cf55a-f553-4c7b-a29f-993522694ac3",
+	"34d92052-54a5-415f-a27c-63392bbdfea6",
+	'enqueue',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	't = param.t;
+select one head related by self->atimer[R7010];
+if ( empty head )
+  // empty list
+  relate self to t across R7010;
+else
+  // before head
+  if ( t.expiration <= head.expiration )
+    unrelate self from head across R7010;
+    relate t to head across R7008.''precedes'';
+    relate self to t across R7010;
+  else
+    // find bigger
+    prev = head;
+    select one cursor related by prev->atimer[R7008.''precedes''];
+    while ( not_empty cursor )
+      if ( t.expiration <= cursor.expiration )
+        break;
+      end if;
+      prev = cursor;
+    end while;
+    // link in
+    if ( not_empty cursor )
+      unrelate prev from cursor across R7008.''precedes'';
+      relate t to cursor across R7008.''precedes'';
+    end if;
+    relate prev to t across R7008.''precedes'';
+  end if;
+end if;
+',
+	1,
+	'',
+	"9a23b753-da20-421a-8338-837b9b4a9056",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("832fe528-ec15-4518-b4e2-78a5c4f506b9",
+	"8f7cf55a-f553-4c7b-a29f-993522694ac3",
+	't',
+	"d3b5b6a2-7f6b-4a20-998f-682756519d4d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("74da6670-7137-42cb-a111-a6c4ff49393c",
+	"34d92052-54a5-415f-a27c-63392bbdfea6",
+	'tick',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'timers_expired = false;
+current_clock = TIM::msec_time();
+select one atimer related by self->atimer[R7010.''has first ticking''];
+if ( not_empty atimer )
+  if ( atimer.expiration <= current_clock )
+    timers_expired = true;
+    atimer.fire(); // Post event and die.
+    // After firing (thus dequeueing) atimer, the next timer is now linked first.
+    select one next related by self->atimer[R7010.''has first ticking''];
+    if ( not_empty next )
+      if ( next.expiration == atimer.expiration )
+        // Expire together timers with identical expiration.
+        b = self.tick(); // recursive tick
+      end if;
+    end if;
+  else
+    // timer exists but has not expired
+  end if;
+end if;
+return timers_expired;',
+	1,
+	'',
+	"d9369c8a-3301-45c6-b47f-9d3ea15bad72",
+	0);
+INSERT INTO O_REF
+	VALUES ("34d92052-54a5-415f-a27c-63392bbdfea6",
+	"854e1ea1-e8dc-48d7-8fd8-b738b49472c5",
+	0,
+	"a4450c3d-1c48-4732-bb7c-7e03826b22c8",
+	"b89dea70-ba31-411d-afcf-304ef01620ea",
+	"5c607a01-7298-48fe-bd84-c508d9a501e2",
+	"8e19a8cc-9f60-42c8-9746-8ec7745f2efa",
+	"871e834d-b93c-40c1-ae92-0ff9b96ff13d",
+	"df513e32-da19-4941-bc4d-e44cb75a37fc",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'atimer',
+	'ID',
+	'R7010.''has first ticking''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("34d92052-54a5-415f-a27c-63392bbdfea6",
+	"b89dea70-ba31-411d-afcf-304ef01620ea",
+	"5c607a01-7298-48fe-bd84-c508d9a501e2",
+	'../arch.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("a4450c3d-1c48-4732-bb7c-7e03826b22c8",
+	"854e1ea1-e8dc-48d7-8fd8-b738b49472c5",
+	0,
+	"b89dea70-ba31-411d-afcf-304ef01620ea",
+	"8e19a8cc-9f60-42c8-9746-8ec7745f2efa",
+	'../arch.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("871e834d-b93c-40c1-ae92-0ff9b96ff13d",
+	"34d92052-54a5-415f-a27c-63392bbdfea6",
+	"a4450c3d-1c48-4732-bb7c-7e03826b22c8",
+	"854e1ea1-e8dc-48d7-8fd8-b738b49472c5",
+	1,
+	'ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("a4450c3d-1c48-4732-bb7c-7e03826b22c8",
+	"854e1ea1-e8dc-48d7-8fd8-b738b49472c5",
+	'../atimer/atimer.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("871e834d-b93c-40c1-ae92-0ff9b96ff13d",
+	"34d92052-54a5-415f-a27c-63392bbdfea6",
+	"27136fcb-e6c7-44dd-a922-3935ceb1645e",
+	'headID',
+	'',
+	'head',
+	'ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("27136fcb-e6c7-44dd-a922-3935ceb1645e",
+	"34d92052-54a5-415f-a27c-63392bbdfea6");
+INSERT INTO O_BATTR
+	VALUES ("27136fcb-e6c7-44dd-a922-3935ceb1645e",
+	"34d92052-54a5-415f-a27c-63392bbdfea6");
+INSERT INTO O_ATTR
+	VALUES ("27136fcb-e6c7-44dd-a922-3935ceb1645e",
+	"34d92052-54a5-415f-a27c-63392bbdfea6",
+	"00000000-0000-0000-0000-000000000000",
+	'TQ',
+	'',
+	'',
+	'TQ',
+	0,
+	"3ee1eef0-d48c-44c2-bfff-24e567a4ccde",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("3ee1eef0-d48c-44c2-bfff-24e567a4ccde",
+	"00000000-0000-0000-0000-000000000000",
+	'slist',
+	'',
+	'',
+	'../../atypes/atypes.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"34d92052-54a5-415f-a27c-63392bbdfea6");
+INSERT INTO O_OIDA
+	VALUES ("27136fcb-e6c7-44dd-a922-3935ceb1645e",
+	"34d92052-54a5-415f-a27c-63392bbdfea6",
+	0,
+	'TQ');
+INSERT INTO O_ID
+	VALUES (1,
+	"34d92052-54a5-415f-a27c-63392bbdfea6");
+INSERT INTO O_ID
+	VALUES (2,
+	"34d92052-54a5-415f-a27c-63392bbdfea6");
+INSERT INTO PE_PE
+	VALUES ("34d92052-54a5-415f-a27c-63392bbdfea6",
+	1,
+	"0e632113-8e66-484e-979b-d5f3670dd625",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("0e632113-8e66-484e-979b-d5f3670dd625",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	'arch',
+	'',
+	7000,
+	'../arch.xtuml');

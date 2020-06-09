@@ -37,7 +37,6 @@
 .//   tasks = number of threads/tasks in the xtUML generated system
 .//
 .// Example:
-.//   .invoke EnableTasking( "Nucleus", "", 4 )
 .//   .invoke EnableTasking( "POSIX", "serialize", 2 )
 .//   .invoke EnableTasking( "Windows", "", 3 )
 .//============================================================================

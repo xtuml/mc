@@ -32,7 +32,19 @@ domainname = "";
 
 rolephrase = self.rolephrase;
 
-T::include( file:"masl/t.referential.masl" );',
+if ( "MASL" == genfile::architecture() )
+  T::include( file:"masl/t.referential.masl" );
+elif ( "WASL" == genfile::architecture() )
+
+  select one regularrel related by relationship->regularrel[R3721]; // if the relationship is regular, include the attribute name
+  if ( empty regularrel )
+    attribute = "";
+  end if;
+
+  T::include( file:"wasl/t.referential.wasl" );
+else
+  //
+end if;',
 	1,
 	'',
 	"b4c92004-4eda-4905-8e5a-1e4ee121b90a",

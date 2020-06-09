@@ -8,7 +8,7 @@
 .// These functions set up the implementation of the values (V_VAL on
 .// model of OAL).
 .//
-.//==================================================================== 
+.//====================================================================
 .//
 .//
 .function val_translate
@@ -112,20 +112,19 @@
 .function val_literal_string_values
   .select any te_string from instances of TE_STRING
   .select many v_lsts from instances of V_LST
+  .invoke r = T_quote()
+  .assign quote = r.result
   .for each v_lst in v_lsts
     .select one te_val related by v_lst->V_VAL[R801]->TE_VAL[R2040]
-    .// s = T::t( s:v_lst.Value );
-    .assign s = v_lst.Value
-    .invoke oal( "s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode" )
-    .// if ( strstr( s, "({" ) )
-    .invoke oal( "if ( strstr( s, ({ ) ) { // Ccode" )
-    .if ( "({" == s )
-      .assign te_val.buffer = s
-    .else
-      .assign te_val.buffer = ( """" + v_lst.Value ) + """"
-      .invoke oal( " // Ccode" )
+    .assign te_val.buffer = v_lst.Value
+    .invoke oal( "te_val->buffer = Escher_strcpy( te_val->buffer, T_t( v_lst->Value ) ); // Ccode Comment out previous assignment." )
+    .// Here we detect the results of run-time template processing.  Literal
+    .// strings which are processed by the template engine will be transformed
+    .// and expanded.  Do not add quotes to these.
+    .if ( te_val.buffer == v_lst.Value )
+      .assign te_val.buffer = quote + v_lst.Value + quote
     .end if
-    .assign te_val.OAL = ( "" + v_lst.Value ) + ""
+    .assign te_val.OAL = v_lst.Value
     .assign te_val.dimensions = 1
     .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
     .//TODO assign dimension
@@ -162,6 +161,8 @@
 .//
 .function val_constant_values
   .select many v_scvs from instances of V_SCV
+  .invoke r = T_quote()
+  .assign q = r.result
   .for each v_scv in v_scvs
     .select one te_val related by v_scv->V_VAL[R801]->TE_VAL[R2040]
     .select one cnst_syc related by v_scv->CNST_SYC[R850]
@@ -183,8 +184,7 @@
       .end for
     .elif ( 4 == te_dt.Core_Typ )
       .select any te_string from instances of TE_STRING
-      .assign te_val.buffer = ( """" + cnst_lsc.Value ) + """"
-      .invoke oal( " // Ccode" )
+      .assign te_val.buffer = q + cnst_lsc.Value + q
       .assign te_val.dimensions = 1
       .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
       .//TODO assign dimension
@@ -252,11 +252,13 @@
     .else
       .assign te_val.OAL = ( te_var.OAL + "." ) + te_attr.Name
       .assign root = te_var.buffer
-    .end if 
+    .end if
     .select one te_class related by te_attr->TE_CLASS[R2061]
     .select one te_c related by te_class->TE_C[R2064]
     .if ( te_c.DetectEmpty )
-      .assign root = "((${te_class.GeneratedName} *)xtUML_detect_empty_handle( ${root}, ""${te_class.Key_Lett}"", ""${te_val.OAL}"" ))"
+      .invoke r = T_quote()
+      .assign quote = r.result
+      .assign root = "((" + te_class.GeneratedName + " *)xtUML_detect_empty_handle( " + root + ", " + quote + te_class.Key_Lett + quote + ", " + quote + te_val.OAL + quote + " ))"
     .end if
     .assign te_val.buffer = ( root + "->" ) + te_attr.GeneratedName
     .assign te_val.dimensions = te_attr.dimensions
@@ -282,7 +284,7 @@
       .end if
     .end if
     .end if
-  .end if 
+  .end if
 .end function
 .//
 .function val_member_values
@@ -480,6 +482,7 @@
   .param inst_ref v_bin
   .select one te_val related by v_bin->V_VAL[R801]->TE_VAL[R2040]
   .if ( "" == te_val.buffer )
+    .select one v_val related by v_bin->V_VAL[R801]
     .select one l_v_val related by v_bin->V_VAL[R802]
     .select one l_te_val related by l_v_val->TE_VAL[R2040]
     .if ( "" == l_te_val.buffer )
@@ -499,12 +502,11 @@
       .if ( "+" == "$r{v_bin.Operator}" )
         .assign te_val.buffer = ( ( ( te_instance.module + te_string.stradd ) + ( "( " + l_te_val.buffer ) ) + ( ", " + r_te_val.buffer ) ) + " )"
       .else
-        .assign te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" )
+        .assign te_val.buffer = te_instance.module + te_string.strcmp + "( " + l_te_val.buffer + ", " + r_te_val.buffer + " ) " + v_bin.Operator + " 0"
       .end if
     .elif ( ( ( 21 == l_te_dt.Core_Typ ) or ( 20 == l_te_dt.Core_Typ ) ) and ( ( 21 == r_te_dt.Core_Typ ) or ( 20 == r_te_dt.Core_Typ ) ) and ( ( "+" == "$r{v_bin.Operator}" ) or ( "-" == "$r{v_bin.Operator}" ) or ( "|" == "$r{v_bin.Operator}" ) or ( "&" == "$r{v_bin.Operator}" ) or ( "^" == "$r{v_bin.Operator}" ) ) )
       .select any te_prefix from instances of TE_PREFIX
       .select any te_set from instances of TE_SET
-      .select one v_val related by v_bin->V_VAL[R801]
       .select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016]
       .if ( ( "+" == "$r{v_bin.Operator}" ) or ( "|" == "$r{v_bin.Operator}" ) )
         .assign te_val.buffer = te_set.scope + te_set.setunion + "( "
@@ -536,24 +538,24 @@
     .else
       .select any te_target from instances of TE_TARGET
       .if ( "and" == "$r{v_bin.Operator}" )
-        .assign te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " && " + r_te_val.buffer ) ) + " )"
+        .assign te_val.buffer = l_te_val.buffer + " && " + r_te_val.buffer
       .elif ( "or" == "$r{v_bin.Operator}" )
-        .assign te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " || " + r_te_val.buffer ) ) + " )"
+        .assign te_val.buffer = l_te_val.buffer + " || " + r_te_val.buffer
       .elif ( ( ( ( "==" == "$r{v_bin.Operator}" ) or ( "!=" == "$r{v_bin.Operator}" ) ) and ( "C" == te_target.language ) ) and ( l_te_val.dimensions != 0 ) )
         .assign element_count = 0
         .select one r_te_dim related by r_te_val->TE_DIM[R2079]
         .if ( not_empty r_te_dim )
           .assign element_count = r_te_dim.elementCount
         .end if
-        .assign te_val.buffer = ( ( ( "( memcmp( " + l_te_val.buffer ) + ( ", " + r_te_val.buffer ) ) + ( ( ", sizeof(" + l_te_val.buffer ) + ( "[0]) * " + "$t{element_count}" ) ) ) + ( ( ") " + v_bin.Operator ) + " 0 )" )
+        .assign te_val.buffer = "memcmp( " + l_te_val.buffer + ", " + r_te_val.buffer + ", sizeof(" + l_te_val.buffer + "[0]) * " + "$t{element_count}" + ") " + v_bin.Operator + " 0"
       .elif ( ( ( "==" == "$r{v_bin.Operator}" ) or ( "!=" == "$r{v_bin.Operator}") ) and ( ( 9 == l_te_dt.Core_Typ ) or ( 21 == l_te_dt.Core_Typ ) ) and ( ( 9 == r_te_dt.Core_Typ ) or ( 21 == r_te_dt.Core_Typ ) ) )
         .select any te_set from instances of TE_SET
         .assign te_val.buffer = te_set.scope + te_set.equality + "( " + l_te_val.buffer + ", " + r_te_val.buffer + " )"
         .if ( "!=" == "$r{v_bin.Operator}" )
-          .assign te_val.buffer = "( !" + te_val.buffer + " )"
+          .assign te_val.buffer = "!" + te_val.buffer
         .end if
       .else
-        .assign te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.buffer ) + " )" )
+        .assign te_val.buffer = l_te_val.buffer + " " + v_bin.Operator + " " + r_te_val.buffer
       .end if
     .end if
     .// future support for vector arithmetic goes here
@@ -563,7 +565,25 @@
     .if ( not_empty te_dim )
       .relate te_val to te_dim across R2079
     .end if
-    .assign te_val.OAL = ( ( "( " + l_te_val.OAL ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.OAL ) + " )" )
+    .assign te_val.OAL = l_te_val.OAL + " " + v_bin.Operator + " " + r_te_val.OAL
+    .// If expression is not the top level of a condition, parenthesize it.
+    .select one act_if related by v_val->ACT_IF[R625]
+    .if ( empty act_if )
+      .select one act_el related by v_val->ACT_EL[R659]
+      .if ( empty act_el )
+        .select one act_whl related by v_val->ACT_WHL[R626]
+        .if ( empty act_whl )
+          .select one act_fiw related by v_val->ACT_FIW[R610]
+          .if ( empty act_fiw )
+            .select one act_srw related by v_val->ACT_SRW[R611]
+            .if ( empty act_srw )
+              .assign te_val.OAL = "( " + te_val.OAL + " )"
+              .assign te_val.buffer = "( " + te_val.buffer + " )"
+            .end if
+          .end if
+        .end if
+      .end if
+    .end if
   .end if
 .end function
 .//
@@ -769,7 +789,7 @@
     .assign te_parm = r.result
     .assign parameters = te_parm.ParamBuffer
     .assign params_OAL = te_parm.OALParamBuffer
-    .assign te_val.OAL = ( ( "::" + te_sync.Name ) + ( "(" + params_OAL ) ) + ")"  
+    .assign te_val.OAL = ( ( "::" + te_sync.Name ) + ( "(" + params_OAL ) ) + ")"
     .if ( "c_t *" == te_aba.ReturnDataType )
       .if ( not te_sys.InstanceLoading )
         .select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016]

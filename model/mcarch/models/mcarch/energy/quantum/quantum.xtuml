@@ -1,0 +1,211 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("18100b7a-228e-47a7-88ce-cbe4751f7674",
+	'quantum',
+	7104,
+	'quantum',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("ff87025e-e310-4a63-9e5e-e03a53907f57",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674",
+	'populate',
+	'',
+	"050cf915-979c-4c16-a6f8-f3701e2ce681",
+	0,
+	'create object instance quantum of quantum;
+quantum.consumption = 0;
+return quantum;',
+	1,
+	'',
+	"13965af3-ae43-4f9d-96dd-629a89ee7710",
+	0);
+INSERT INTO S_DT_PROXY
+	VALUES ("050cf915-979c-4c16-a6f8-f3701e2ce681",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<quantum>',
+	'',
+	'',
+	'../energy.xtuml');
+INSERT INTO O_TFR
+	VALUES ("1ac88cd7-aab5-45fe-b645-e0619aa00f09",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674",
+	'start',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'self.token = energy::measurement_begin();',
+	1,
+	'',
+	"ff87025e-e310-4a63-9e5e-e03a53907f57",
+	0);
+INSERT INTO O_TFR
+	VALUES ("13965af3-ae43-4f9d-96dd-629a89ee7710",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674",
+	'finish',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000003",
+	1,
+	'self.consumption = energy::measurement_end( token:self.token );
+return self.consumption;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_NBATTR
+	VALUES ("4686b2b8-f9db-4b2f-aff3-2f5eb0613c54",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674");
+INSERT INTO O_BATTR
+	VALUES ("4686b2b8-f9db-4b2f-aff3-2f5eb0613c54",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674");
+INSERT INTO O_ATTR
+	VALUES ("4686b2b8-f9db-4b2f-aff3-2f5eb0613c54",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674",
+	"00000000-0000-0000-0000-000000000000",
+	'consumption',
+	'',
+	'',
+	'consumption',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000003",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("18100b7a-228e-47a7-88ce-cbe4751f7674",
+	"60d50a6f-eacc-4d88-9a3b-beb6c1e27086",
+	0,
+	"5b6e3a68-81f7-4be4-966d-20606c17c779",
+	"d98924ff-67bf-42af-a54d-b2596a15e48d",
+	"37a5c2c8-ef98-436c-b1a7-a1383ce38648",
+	"2faf7e6c-0479-4f7f-abdc-8ad9c1ea5045",
+	"598bb17b-8662-4f33-b203-41b99391ed80",
+	"6fbe7ab0-018d-495e-9233-f32a829f9396",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'adispatch',
+	'ToCI',
+	'R7105');
+INSERT INTO R_RGO_PROXY
+	VALUES ("18100b7a-228e-47a7-88ce-cbe4751f7674",
+	"d98924ff-67bf-42af-a54d-b2596a15e48d",
+	"37a5c2c8-ef98-436c-b1a7-a1383ce38648",
+	'../energy.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5b6e3a68-81f7-4be4-966d-20606c17c779",
+	"60d50a6f-eacc-4d88-9a3b-beb6c1e27086",
+	0,
+	"d98924ff-67bf-42af-a54d-b2596a15e48d",
+	"2faf7e6c-0479-4f7f-abdc-8ad9c1ea5045",
+	'../energy.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("598bb17b-8662-4f33-b203-41b99391ed80",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674",
+	"ec06b5dc-f83e-4c26-9357-ba9dfdc866bf",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d",
+	1,
+	'ToCI');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("ec06b5dc-f83e-4c26-9357-ba9dfdc866bf",
+	"7a834212-22ea-43a8-96a1-dd6d7789967d",
+	'../thread of control/thread of control.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("598bb17b-8662-4f33-b203-41b99391ed80",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674",
+	"4686b2b8-f9db-4b2f-aff3-2f5eb0613c54",
+	'ToCI',
+	'',
+	'',
+	'ToCI',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("18100b7a-228e-47a7-88ce-cbe4751f7674",
+	"60d50a6f-eacc-4d88-9a3b-beb6c1e27086",
+	0,
+	"9a10dd38-5692-4772-9589-432fbd74739e",
+	"d98924ff-67bf-42af-a54d-b2596a15e48d",
+	"37a5c2c8-ef98-436c-b1a7-a1383ce38648",
+	"2faf7e6c-0479-4f7f-abdc-8ad9c1ea5045",
+	"67e7688c-a8e0-4bac-8827-175541434091",
+	"cd108cf4-dac6-4e63-a9dd-0a5b6c1da95a",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'adispatch',
+	'sequence',
+	'R7105');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("9a10dd38-5692-4772-9589-432fbd74739e",
+	"60d50a6f-eacc-4d88-9a3b-beb6c1e27086",
+	0,
+	"d98924ff-67bf-42af-a54d-b2596a15e48d",
+	"2faf7e6c-0479-4f7f-abdc-8ad9c1ea5045",
+	'../energy.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("67e7688c-a8e0-4bac-8827-175541434091",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674",
+	"9a10dd38-5692-4772-9589-432fbd74739e",
+	"60d50a6f-eacc-4d88-9a3b-beb6c1e27086",
+	1,
+	'sequence');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("9a10dd38-5692-4772-9589-432fbd74739e",
+	"60d50a6f-eacc-4d88-9a3b-beb6c1e27086",
+	'../../arch/adispatch/adispatch.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("67e7688c-a8e0-4bac-8827-175541434091",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674",
+	"598bb17b-8662-4f33-b203-41b99391ed80",
+	'sequence',
+	'',
+	'',
+	'sequence',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d20f2f52-622b-40db-ab2d-4bcd710273e5",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674");
+INSERT INTO O_BATTR
+	VALUES ("d20f2f52-622b-40db-ab2d-4bcd710273e5",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674");
+INSERT INTO O_ATTR
+	VALUES ("d20f2f52-622b-40db-ab2d-4bcd710273e5",
+	"18100b7a-228e-47a7-88ce-cbe4751f7674",
+	"67e7688c-a8e0-4bac-8827-175541434091",
+	'token',
+	'',
+	'',
+	'token',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"18100b7a-228e-47a7-88ce-cbe4751f7674");
+INSERT INTO O_ID
+	VALUES (1,
+	"18100b7a-228e-47a7-88ce-cbe4751f7674");
+INSERT INTO O_ID
+	VALUES (2,
+	"18100b7a-228e-47a7-88ce-cbe4751f7674");
+INSERT INTO PE_PE
+	VALUES ("18100b7a-228e-47a7-88ce-cbe4751f7674",
+	1,
+	"653ad22c-7e80-4aa8-aacf-869cea8ba818",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("653ad22c-7e80-4aa8-aacf-869cea8ba818",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	'energy',
+	'',
+	7100,
+	'../energy.xtuml');

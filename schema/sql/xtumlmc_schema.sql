@@ -539,6 +539,39 @@ CREATE TABLE C_SF (
     Descrip STRING,
     Label STRING
 );
+CREATE TABLE D_DEPL (
+    Deployment_ID UNIQUE_ID,
+    Name STRING,
+    Descrip STRING );
+CREATE TABLE D_TERM (
+    Term_ID UNIQUE_ID,
+    Deployment_ID UNIQUE_ID,
+    Name STRING,
+    Descrip STRING,
+    Domain_Name STRING,
+    Terminator_Name STRING,
+    Provider BOOLEAN );
+CREATE TABLE D_TSPARM (
+    TSParm_ID UNIQUE_ID,
+    Svc_ID UNIQUE_ID,
+    Name STRING,
+    DT_ID UNIQUE_ID,
+    By_Ref INTEGER,
+    Dimensions STRING,
+    Previous_TSParm_ID UNIQUE_ID,
+    Descrip STRING );
+CREATE TABLE D_TSVC (
+    Svc_ID UNIQUE_ID,
+    Term_ID UNIQUE_ID,
+    Name STRING,
+    Descrip STRING,
+    Action_Semantics STRING,
+    DT_ID UNIQUE_ID,
+    Suc_Pars INTEGER,
+    Return_Dimensions STRING,
+    Dialect INTEGER,
+    Is_Stale BOOLEAN,
+    Implementation_Scope INTEGER );
 CREATE TABLE EP_PKG (
     Package_ID UNIQUE_ID,
     Sys_ID UNIQUE_ID,
@@ -879,6 +912,11 @@ CREATE TABLE O_DBATTR (
     Action_Semantics STRING,
     Suc_Pars INTEGER,
     Dialect INTEGER
+);
+CREATE TABLE O_DEF (
+    Tfr_ID UNIQUE_ID,
+    Rel_ID UNIQUE_ID,
+    required INTEGER
 );
 CREATE TABLE O_ID (
     Oid_ID INTEGER,
@@ -1446,7 +1484,9 @@ CREATE TABLE S_DIM (
     SM_ID UNIQUE_ID,
     SMedi_ID UNIQUE_ID,
     DIM_ID UNIQUE_ID,
-    Var_ID UNIQUE_ID
+    Var_ID UNIQUE_ID,
+    TSParm_ID UNIQUE_ID,
+    Svc_ID UNIQUE_ID
 );
 CREATE TABLE S_DT (
     DT_ID UNIQUE_ID,
@@ -2481,8 +2521,6 @@ CREATE TABLE TE_SYS (
     InstanceLoading BOOLEAN,
     self_name STRING,
     Name STRING,
-    AUTOSAR BOOLEAN,
-    VFB BOOLEAN,
     SystemCPortsType STRING,
     AllPortsPoly BOOLEAN,
     StructuredMessaging BOOLEAN,
@@ -2519,8 +2557,7 @@ CREATE TABLE TE_THREAD (
     flavor STRING,
     serialize BOOLEAN,
     number_of_threads INTEGER,
-    extra_initialization STRING,
-    AUTOSAR_enabled STRING
+    extra_initialization STRING
 );
 CREATE TABLE TE_TIM (
     max_timers STRING,
@@ -2685,7 +2722,6 @@ CREATE TABLE TM_SYSTAG (
     PersistInstanceCacheDepth INTEGER,
     PersistLinkCacheDepth INTEGER,
     UnitsToDynamicallyAllocate INTEGER,
-    VFB BOOLEAN,
     InstanceLoading BOOLEAN,
     SystemCPortsType STRING,
     AllPortsPoly BOOLEAN,
@@ -3007,6 +3043,8 @@ CREATE ROP REF_ID R122 FROM MC S_DIM (Tfr_ID) TO 1C O_TFR (Tfr_ID);
 CREATE ROP REF_ID R123 FROM MC S_IRDT (Obj_ID) TO 1 O_OBJ (Obj_ID);
 CREATE ROP REF_ID R124 FROM 1C O_TPARM (Previous_TParm_ID) PHRASE 'succeeds' TO 1C O_TPARM (TParm_ID) PHRASE 'precedes';
 CREATE ROP REF_ID R125 FROM 1C O_TFR (Previous_Tfr_ID) PHRASE 'succeeds' TO 1C O_TFR (Tfr_ID) PHRASE 'precedes';
+CREATE ROP REF_ID R126 FROM MC O_DEF (Rel_ID) TO 1 R_REL (Rel_ID);
+CREATE ROP REF_ID R126 FROM 1C O_DEF (Tfr_ID) TO 1 O_TFR (Tfr_ID);
 CREATE ROP REF_ID R1401 FROM MC EP_PKG (Sys_ID) TO 1C S_SYS (Sys_ID);
 CREATE ROP REF_ID R1402 FROM MC EP_PKGREF (Referred_Package_ID) PHRASE 'refers to' TO 1 EP_PKG (Package_ID) PHRASE 'is referenced by';
 CREATE ROP REF_ID R1402 FROM 1C EP_PKGREF (Referring_Package_ID) PHRASE 'is referenced by' TO 1 EP_PKG (Package_ID) PHRASE 'refers to';
@@ -3016,6 +3054,14 @@ CREATE ROP REF_ID R1502 FROM 1C CNST_LFSC (Const_ID) TO 1 CNST_SYC (Const_ID);
 CREATE ROP REF_ID R1503 FROM 1C CNST_LSC (Const_ID) TO 1 CNST_LFSC (Const_ID);
 CREATE ROP REF_ID R1504 FROM MC CNST_SYC (Constant_Spec_ID) TO 1 CNST_CSP (Constant_Spec_ID);
 CREATE ROP REF_ID R1505 FROM 1C CNST_SYC (Previous_Const_ID) PHRASE 'succeeds' TO 1C CNST_SYC (Const_ID) PHRASE 'precedes';
+CREATE ROP REF_ID R1650 FROM 1 D_DEPL (Deployment_ID) TO MC D_TERM (Deployment_ID);
+CREATE ROP REF_ID R1651 FROM 1 D_TERM (Term_ID) TO MC D_TSVC (Term_ID);
+CREATE ROP REF_ID R1652 FROM 1 D_TSVC (Svc_ID) TO MC D_TSPARM (Svc_ID);
+CREATE ROP REF_ID R1653 FROM MC D_TSPARM (DT_ID) TO 1 S_DT (DT_ID);
+CREATE ROP REF_ID R1654 FROM 1C D_TSPARM (Previous_TSParm_ID) PHRASE 'succeeds' TO 1C D_TSPARM (TSParm_ID) PHRASE 'precedes';
+CREATE ROP REF_ID R1655 FROM 1C D_TSPARM (TSParm_ID) TO MC S_DIM (TSParm_ID);
+CREATE ROP REF_ID R1656 FROM MC D_TSVC (DT_ID) TO 1 S_DT (DT_ID);
+CREATE ROP REF_ID R1657 FROM MC D_TSVC (Svc_ID) TO MC S_DIM (Svc_ID);
 CREATE ROP REF_ID R17 FROM 1C S_CDT (DT_ID) TO 1 S_DT (DT_ID);
 CREATE ROP REF_ID R17 FROM 1C S_UDT (DT_ID) TO 1 S_DT (DT_ID);
 CREATE ROP REF_ID R17 FROM 1C S_EDT (DT_ID) TO 1 S_DT (DT_ID);
@@ -3520,6 +3566,7 @@ CREATE ROP REF_ID R8001 FROM 1C S_SYNC (Sync_ID) TO 1 PE_PE (Element_ID);
 CREATE ROP REF_ID R8001 FROM 1C C_SF (Id) TO 1 PE_PE (Element_ID);
 CREATE ROP REF_ID R8001 FROM 1C C_DG (Id) TO 1 PE_PE (Element_ID);
 CREATE ROP REF_ID R8001 FROM 1C S_EXP (Exception_ID) TO 1 PE_PE (Element_ID);
+CREATE ROP REF_ID R8001 FROM 1C D_DEPL (Deployment_ID) TO 1 PE_PE (Element_ID);
 CREATE ROP REF_ID R8002 FROM MC PE_VIS (Element_ID) TO 1 PE_PE (Element_ID);
 CREATE ROP REF_ID R8002 FROM MC PE_VIS (Package_ID) TO 1 EP_PKG (Package_ID);
 CREATE ROP REF_ID R8003 FROM MC PE_PE (Component_ID) TO 1C C_C (Id);

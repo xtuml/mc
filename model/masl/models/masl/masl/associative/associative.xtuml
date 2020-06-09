@@ -22,7 +22,13 @@ select one using_object related by participation->object[R3715.''uses''];
 if ( ( empty one_object ) or ( empty other_object ) or ( empty using_object ) )
   TRACE::log( flavor:"failure", id:55, message:"missing one or other object on associative render" );
 end if;
-T::include( file:"masl/t.associative.masl" );
+if ( "MASL" == genfile::architecture() )
+  T::include( file: "masl/t.associative.masl" );
+elif ( "WASL" == genfile::architecture() )
+  T::include( file: "wasl/t.associative.wasl" );
+else
+  //
+end if;
 ',
 	1,
 	'',

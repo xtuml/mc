@@ -8,16 +8,17 @@
 #  will capture focus as this script runs.  To run this script completely headlessly,
 #  install the xvfb package for your distribution and call this script using xvfb-run.
 #
-#   ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]
-#   xvfb-run ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>]
+#   ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-c]
+#   xvfb-run ./masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-c]
 
 # USAGE
 print_usage () { 
     echo "Usage:"
-    echo "        masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-r]";
+    echo "        masl_round_trip -d <domain source directory(s) ...> -p <project soruce directory> [-o <output directory>] [-r] [-c]";
     echo " ";
     echo "  - Up to twenty domains may be specified. If a project is specified, only the project is diff'd.";
     echo "  - Consider installing xvfb and calling this script with xvfb-run to execute headlessly. See info in this script's header.";
+    echo "  - Specify the '-c' flag to enable and produce code coverage statistics.";
     echo "  - Specify the '-r' flag to force exit and relaunch of BridgePoint before export.";
     echo -e "\n";
 }
@@ -42,6 +43,7 @@ DOM_DIRS=()
 PROJ_DIR=
 OUT_DIR=
 RELAUNCH=
+COVERAGE=
 
 # parse arguments
 DIRECTIVE=
@@ -50,6 +52,8 @@ for arg in $@; do
         DIRECTIVE=$arg
     elif [[ $arg == "-r" ]]; then                                   # relaunch BP before export
         RELAUNCH=$arg
+    elif [[ $arg == "-c" ]]; then                                   # produce coverage statistics
+        COVERAGE=$arg
     elif [[ $DIRECTIVE == "-d" ]]; then                             # add a domain dir
         DOM_DIRS+=($arg)
     elif [[ $DIRECTIVE == "-p" ]]; then                             # add a project dir
@@ -117,7 +121,7 @@ fi
 ###########################
 # Import, Export, Diff
 ###########################
-MASLOUTDIR="/tmp/maslout"
+MODELOUTDIR="/tmp/maslout"
 
 domNum=0
 for domain in ${DOM_DIRS[*]}; do
@@ -145,22 +149,22 @@ for domain in ${DOM_DIRS[*]}; do
         cp $CONVERTDIR/$domname/application.mark $WORKSPACE/$domProj/gen/
     fi
 
-    # If there was a project specified, don't export and diff domains
+    # If there was a project specified, do not export and diff domains
     if [[ $PROJ_DIR == "" ]]; then
       # The component name (from the .mod file) may not be the same as the domain folder we 
       # used during the processing.  So we calculate it from the .mod file name.
       compfile=$(ls $domain/*.mod)
       compname=$(basename -s .mod $compfile)
       echo "Converting $compname from xtUML to MASL"
-      if [[ -d $MASLOUTDIR ]]; then
-         rm -rf $MASLOUTDIR
+      if [[ -d $MODELOUTDIR ]]; then
+         rm -rf $MODELOUTDIR
       fi
-      mkdir -p $MASLOUTDIR/$compname
+      mkdir -p $MODELOUTDIR/$compname
 
       # Copy extra .int files to the output.  Note that we do this _before_ running 
       # xtuml2masl so that xtuml2masl will overwrite the int for the domain being converted,
       # which we want to happen so that we are checking the int created by the x2m process.
-      cp $domain/*.int $MASLOUTDIR/$compname
+      cp $domain/*.int $MODELOUTDIR/$compname
 
       # Optionally relaunch BridgePoint before export
       if [[ $RELAUNCH != "" ]]; then
@@ -168,23 +172,23 @@ for domain in ${DOM_DIRS[*]}; do
         CLI.sh Launch
       fi
 
-      xtuml2masl -i $WORKSPACE/$domProj/ -d $compname -o $MASLOUTDIR
+      xtuml2masl $COVERAGE -i $WORKSPACE/$domProj/ -d $compname -o $MODELOUTDIR
 
       # Now diff
-      echo "Diff'ing input and output MASL."
-      masldiff $domain $MASLOUTDIR/$compname > $MASLOUTDIR/$compname/diff_report.txt
+      echo "Diff'ing input and output."
+      masldiff $domain $MODELOUTDIR/$compname > $MODELOUTDIR/$compname/diff_report.txt
       if [[ -d $OUT_DIR/$compname ]]; then
          rm -rf $OUT_DIR/$compname
       fi
-      mv $MASLOUTDIR/$compname $OUT_DIR
-      mv left.masldiff $OUT_DIR/$compname
-      mv right.masldiff $OUT_DIR/$compname
+      mv $MODELOUTDIR/$compname $OUT_DIR
+      mv left.diff $OUT_DIR/$compname
+      mv right.diff $OUT_DIR/$compname
 
       if [[ -f $OUT_DIR/$compname/diff_report.txt ]]; then
         if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
           echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
         else
-          echo -e "\nThe MASL output is identical to the input."
+          echo -e "\nThe output is identical to the input."
         fi
       fi
     fi
@@ -217,14 +221,14 @@ if [[ $PROJ_DIR != "" ]]; then
     compfile=$(ls $PROJ_DIR/*.prj)
     compname=$(basename -s .prj $compfile)
     echo "Converting $compname from xtUML to MASL"
-    if [[ -d $MASLOUTDIR ]]; then
-       rm -rf $MASLOUTDIR
+    if [[ -d $MODELOUTDIR ]]; then
+       rm -rf $MODELOUTDIR
     fi
-    mkdir -p $MASLOUTDIR/$compname
+    mkdir -p $MODELOUTDIR/$compname
 
     # Copy extra INT files from the original source to the MASL output dir 
-    echo "Copying $PROJ_DIR/*.int to $MASLOUTDIR/$compname"
-    cp $PROJ_DIR/*.int $MASLOUTDIR/$compname
+    echo "Copying $PROJ_DIR/*.int to $MODELOUTDIR/$compname"
+    cp $PROJ_DIR/*.int $MODELOUTDIR/$compname
 
     # Optionally relaunch BridgePoint before export
     if [[ $RELAUNCH != "" ]]; then
@@ -232,23 +236,23 @@ if [[ $PROJ_DIR != "" ]]; then
       CLI.sh Launch
     fi
 
-    xtuml2masl -i $WORKSPACE/p1 -p $compname -o $MASLOUTDIR
+    xtuml2masl $COVERAGE -P -i $WORKSPACE/p1 -p $compname -o $MODELOUTDIR
 
     # Now diff
-    echo "Diff'ing input and output MASL."
-    masldiff $PROJ_DIR $MASLOUTDIR/$compname > $MASLOUTDIR/$compname/diff_report.txt
+    echo "Diff'ing input and output."
+    masldiff $PROJ_DIR $MODELOUTDIR/$compname > $MODELOUTDIR/$compname/diff_report.txt
     if [[ -d $OUT_DIR/$compname ]]; then
        rm -rf $OUT_DIR/$compname
     fi
-    mv $MASLOUTDIR/$compname $OUT_DIR
-    mv left.masldiff $OUT_DIR/$compname
-    mv right.masldiff $OUT_DIR/$compname
+    mv $MODELOUTDIR/$compname $OUT_DIR
+    mv left.diff $OUT_DIR/$compname
+    mv right.diff $OUT_DIR/$compname
 
     if [[ -f $OUT_DIR/$compname/diff_report.txt ]]; then
       if [[ -s $OUT_DIR/$compname/diff_report.txt ]]; then
         echo -e "\nDiff report is in $OUT_DIR/$compname/diff_report.txt"
       else
-        echo -e "\nThe MASL output is identical to the input." 
+        echo -e "\nThe output is identical to the input." 
       fi
     fi
 fi

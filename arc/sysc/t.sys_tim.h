@@ -186,28 +186,15 @@ void pause( void );
  * will continue ticking.
  */
 void resume( void );
-.if ( te_sys.AUTOSAR )
-
-void update ( void );
-.end if
 
 private:
-.if ( te_sys.AUTOSAR )
-unsigned long msecCounter = 0;
-.end if
 #ifdef USED_TO_ALLOW_PAUSING
 ETimer_time_t start_of_pause;
 bool paused;
 #endif
 ETimer_time_t tinit;
-.if ( "Nucleus" != te_thread.flavor )
-struct timeb systyme;
-.end if
 i_t timer_count;
 ETimer_t * swtimers;
-.if ( "Nucleus" == te_thread.flavor )
-static NU_TIMER nutimers[ ${te_tim.max_timers} ];  /* parallel set of PLUS timers */
-.end if
 ETimer_t * animate, * inanimate;
 .if ( te_tim.keyed_timer_support )
 u4_t timer_access_key;
@@ -216,12 +203,8 @@ u4_t timer_access_key;
 sc_event * ${te_tim.event_name}; // pointing to the sc_event in the parent module
 .end if
 
-.if ( "Nucleus" == te_thread.flavor )
-static void nut_expire( unsigned );
-.else
 void timer_insert_sorted( ETimer_t * );
 bool timer_find_and_reinsert_sorted( ETimer_t * const );
-.end if
 void timer_fire( ETimer_t * const );
 ETimer_t *start( const ETimer_time_t, ${te_eq.base_event_type} * const );
 bool cancel( ETimer_t * const );

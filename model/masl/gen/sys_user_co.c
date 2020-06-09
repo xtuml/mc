@@ -15,7 +15,7 @@
  *--------------------------------------------------------------------------*/
 
 #include "masl_sys_types.h"
-#include "masl_file_class.h"
+#include "masl_genfile_class.h"
 #include "T_bridge.h"
 #include "sys_user_co.h"
 
@@ -92,7 +92,7 @@ UserPreOoaInitializationCalloutf( void )
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
-  char s[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ];
+  char s[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ 64000 ];
   char * p, * q, * element, * value[8] = {v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7]};
   T_clear();
   while ( ( p = fgets( s, ESCHER_SYS_MAX_STRING_LEN, stdin ) ) != NULL ) {
@@ -107,31 +107,43 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     masl_in_populate( element, value );
   }
 
-  int validate = 0; int Validateonly = 0; bool structuralOnly = FALSE;
+  int validate = 0; int Validateonly = 0; bool coverage = FALSE; bool structuralOnly = FALSE;
   char * indirname = 0; char * outdirname = 0; char * projectdomain = 0;
+  char * architecture = "MASL";
   int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "vVsi:o:d::p::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "cvVsa:i:o:d:p:" ) ) != -1 ) {
       switch ( c ) {
+        case 'c':
+          coverage = TRUE; break;
         case 'v':
           validate = 1; break;
         case 'V':
           Validateonly = 1; break;
         case 's':
           structuralOnly = TRUE; break;
+        case 'a':
+          if ( !optarg ) abort();
+          architecture = optarg; break;
         case 'i':
-          indirname = optarg; break;
+          if ( !optarg ) abort();
+          else indirname = optarg;
+          break;
         case 'o':
-          outdirname = optarg; break;
+          if ( !optarg ) abort();
+          else outdirname = optarg;
+          break;
         case 'd':
+          if ( !optarg ) abort();
+          else strncpy( name[ namecount++ ], optarg, 1024 );
           projectdomain = "domain";
-          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case 'p':
+          if ( !optarg ) abort();
+          else strncpy( name[ namecount++ ], optarg, 1024 );
           projectdomain = "project";
-          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case '?':
           if ( 'o' == optopt ) {
@@ -151,21 +163,23 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   }
   if ( ! Validateonly ) {
     if ( indirname ) {
-      masl_file_op_infolder( indirname );
+      masl_genfile_op_infolder( indirname );
     }
     if ( outdirname ) {
-      masl_file_op_outfolder( outdirname );
+      masl_genfile_op_outfolder( outdirname );
     }
     if ( projectdomain ) {
       int i = 0;
       while ( i < namecount )
-        masl_gen_render( projectdomain, name[ i++ ], (const bool)structuralOnly );
+        masl_gen_render( architecture, projectdomain, name[ i++ ], (const bool)structuralOnly );
     } else {
-      masl_gen_render( "project", "", (const bool)structuralOnly );
-      masl_gen_render( "domain", "", (const bool)structuralOnly );
+      masl_gen_render( architecture, "project", "", (const bool)structuralOnly );
+      masl_gen_render( architecture, "domain", "", (const bool)structuralOnly );
     }
   }
-  masl_gen_coverage();
+  if ( coverage ) {
+    masl_gen_coverage();
+  }
   exit(0);
 }
 

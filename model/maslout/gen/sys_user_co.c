@@ -54,10 +54,9 @@ UserInitializationCalloutf( void )
 void
 UserPreOoaInitializationCalloutf( void )
 {
-  static char * a[2] = { "UserPreOoaInitializationCalloutf", "a.xtuml" };
-  Escher_xtUML_load( 2, a );
 }
 
+void Escher_MASL_load( const char * );
 /*
  * UserPostOoaInitializationCallout
  *
@@ -77,25 +76,29 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
   xtuml2masl_model * model = xtuml2masl_model_op_create( "maslout" );
   int project = 0; int domain = 0;
-  bool key_lett = FALSE;
-  bool output_activities = TRUE;
-  int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
+  bool key_lett = FALSE; bool output_activities = TRUE; bool prebuilt = FALSE;
+  int namecount = 0; char * name[8]; char * modelpath;
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "si:d::p::k::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "i:d:p:ksP" ) ) != -1 ) {
       switch ( c ) {
         case 'i':
           if ( !optarg ) abort();
-          else xtuml2masl_model_op_setoption( model, "projectroot", optarg );
+          else {
+            xtuml2masl_model_op_setoption( model, "projectroot", optarg );
+            modelpath = Escher_stradd( optarg, "/models" );
+          }
           break;
         case 'd':
+          if ( !optarg ) abort();
+          else name[ namecount++ ] = optarg;
           domain = 1;
-          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case 'p':
+          if ( !optarg ) abort();
+          else name[ namecount++ ] = optarg;
           project = 1;
-          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case 's':
           output_activities = FALSE;
@@ -103,14 +106,23 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
         case 'k':
           key_lett = TRUE;
           break;
+        case 'P':
+          prebuilt = TRUE;
+          break;
         case '?':
-            fprintf( stderr, "Unknown option character '%c'.\n", optopt );
-            break;
         default:
-          abort (); // die ignominiously
+          fprintf( stderr, "Unknown option character '%c'.\n", optopt );
       }
     }
   }
+  static char * a[3] = { 0, 0, 0 };
+  if ( ! prebuilt ) {
+    /* If prebuilder was run, then all data will come in via stdin.
+       Otherwise, scoop it from the models folder.  */
+    a[2] = modelpath;
+  }
+  Escher_xtUML_load( 3, a );
+  Escher_MASL_load( modelpath );
   xtuml2masl_model_op_setoption( model, "outputcodeblocks", output_activities ? "true" : "false" );
   /* Load the feature and application marks from files.  */
   xtuml2masl_load_marking_data();

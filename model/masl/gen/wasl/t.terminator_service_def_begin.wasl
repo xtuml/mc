@@ -1,0 +1,2 @@
+define bridge ${domain.name}:${terminator.key_letters}<NUM_HERE>:${activity.name}
+input
