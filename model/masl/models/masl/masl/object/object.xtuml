@@ -351,7 +351,7 @@ end if;
 
 // Render multiplicity marking for class.
 multiplicity = ""; count = "";
-select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "multiplicity_array" );
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "multiple" );
 if ( not_empty pragma )
 	multiplicity = "ARRAY";
 	select any pragma_item related by pragma->pragma_item[R3780];
