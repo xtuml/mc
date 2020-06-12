@@ -1400,7 +1400,11 @@ pragma[String list]
 pragmaValue
 returns [ String value ]
                               : identifier                  { $value = $identifier.name; }
-                              | literalExpression           { $value = $literalExpression.exp; }
+                              | MINUS? literalExpression    { StringBuilder v = new StringBuilder();
+                                                              if ( $MINUS != null ) v.append( $MINUS.text );
+                                                              v.append( $literalExpression.exp );
+                                                              $value = v.toString();
+                                                            }
                               ;
 
 pragmaName

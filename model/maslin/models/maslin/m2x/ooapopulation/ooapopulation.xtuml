@@ -1441,7 +1441,7 @@ create object instance s_edt of S_EDT;
 relate s_edt to s_dt across R17;',
 	1,
 	'',
-	"f42f09cf-5516-438b-bfba-efba9c9dde14",
+	"d6e1f64c-549b-4387-a82b-396d77cc52bd",
 	0);
 INSERT INTO O_TPARM
 	VALUES ("bd7f0ac5-8253-4e66-a450-8a37b330d26e",
@@ -9995,6 +9995,70 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO O_TFR
+	VALUES ("d6e1f64c-549b-4387-a82b-396d77cc52bd",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	'Datatype_UDTaddRange',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// In WASL idiom MASL, range constraints come as pragmas on a type definition.
+// There must be 2 pragma items.
+// Place the small as Range.min.
+// Place the larger as Range.max.
+
+s_dt = param.s_dt;
+ooapragma = param.ooapragma;
+minmax[1] = ""; minmax[0] = "";
+select one s_udt related by s_dt->S_UDT[R17];
+if ( empty s_udt )
+  TRACE::log( flavor:"failure", id:16, message:"Empty UDT for range constraint pragma:  " + ooapragma.name );
+end if;
+select many ooapragma_items related by ooapragma->ooapragma_item[R3804];
+n = cardinality ooapragma_items;
+if ( 2 != n )
+  TRACE::log( flavor:"failure", id:17, message:"Wrong number of pragma items on range constraint pragma:  " + ooapragma.name );
+else
+  i = 0;
+  for each ooapragma_item in ooapragma_items
+    minmax [ i ] = ooapragma_item.value;
+    i = i + 1;
+  end for;
+  create object instance s_range of S_RANGE;
+  relate s_range to s_udt across R57;
+  s_range.Min = minmax[ 0 ];
+  s_range.Max = minmax[ 1 ];
+end if;
+',
+	1,
+	'',
+	"f42f09cf-5516-438b-bfba-efba9c9dde14",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("066bb5fe-e230-46b0-abfa-e8fabb64e5e2",
+	"d6e1f64c-549b-4387-a82b-396d77cc52bd",
+	's_dt',
+	"4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("abb53697-6a8a-4df7-963a-37d1667433ee",
+	"d6e1f64c-549b-4387-a82b-396d77cc52bd",
+	'ooapragma',
+	"e09ea014-4e29-4685-9e51-04ec59136f92",
+	0,
+	'',
+	"066bb5fe-e230-46b0-abfa-e8fabb64e5e2",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("e09ea014-4e29-4685-9e51-04ec59136f92",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooapragma>',
+	'',
+	'',
+	'../../marking/marking.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("65062455-b226-4503-a876-a0cbd652b56e",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
@@ -10229,13 +10293,6 @@ INSERT INTO O_ATTR
 	"e09ea014-4e29-4685-9e51-04ec59136f92",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("e09ea014-4e29-4685-9e51-04ec59136f92",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<ooapragma>',
-	'',
-	'',
-	'../../marking/marking.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("80d1652d-6e68-49f6-8cb0-ec888d5f5a95",
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");

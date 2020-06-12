@@ -761,7 +761,7 @@ pragma                        : PRAGMA pragmaName
                               ;
 
 pragmaValue                   : identifier
-                              | literal
+                              | MINUS? literal
                               ;
 
 pragmaName                    : identifier                                                -> ^( PRAGMA_NAME

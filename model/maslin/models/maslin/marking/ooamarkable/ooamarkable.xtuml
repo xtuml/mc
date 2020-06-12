@@ -105,12 +105,6 @@ if ( not_empty population )
         pathkey = ::component_get_path( c_c:c_c, child:c_po.Name );
         for each pragma in pragmas
           pragma.pragma2mark( markable_name:"Port", pathkey:pathkey );
-          select any ooapragma_item related by pragma->ooapragma_item[R3804];
-          if ( not_empty ooapragma_item )
-            if ( "key_letter" == pragma.name )
-              //c_po.Descrip = c_po.Descrip + "key_letters:" + ooapragma_item.value;
-            end if;
-          end if;
         end for;
       else
         c_c = population.current_component;
@@ -155,13 +149,9 @@ if ( not_empty population )
         select one ep_pkg related by routine1->PE_PE[R8001]->EP_PKG[R8000];
         pathkey = ::package_get_path( ep_pkg:ep_pkg, child:population.Function_getSignature( s_sync:routine1 ) );
         for each pragma in pragmas
-          pragma.pragma2mark( markable_name:"Function", pathkey:pathkey );
-          select any ooapragma_item related by pragma->ooapragma_item[R3804];
-          if ( not_empty ooapragma_item )
-            if ( "domain_operation_number" == pragma.name )
-              //routine1.Descrip = routine1.Descrip + "domain_operation_number:" + ooapragma_item.value;
-            end if;
-          end if;
+          //if ( "domain_operation_number" != pragma.name )
+            pragma.pragma2mark( markable_name:"Function", pathkey:pathkey );
+          //end if;
         end for;
       else
         routine2 = population.current_executable_property;
@@ -175,14 +165,9 @@ if ( not_empty population )
             child = c_po.Name + "::" + interface.Name + "::" + population.ExecutableProperty_getSignature( c_ep:routine2 );
             pathkey = ::component_get_path( c_c:c_c, child:child );
             for each pragma in pragmas
-              pragma.pragma2mark( markable_name:"Required Operation", pathkey:pathkey );
-              // CDS - Remove this when Deployments are implemented.
-              select any ooapragma_item related by pragma->ooapragma_item[R3804];
-              if ( not_empty ooapragma_item )
-                if ( "terminator_operation_number" == pragma.name )
-                  //routine2.Descrip = routine2.Descrip + "terminator_operation_number:" + ooapragma_item.value;
-                end if;
-              end if;
+              //if ( "terminator_operation_number" != pragma.name )
+                pragma.pragma2mark( markable_name:"Required Operation", pathkey:pathkey );
+              //end if;
             end for;
           end if;
         else
@@ -196,13 +181,9 @@ if ( not_empty population )
         select one o_obj related by operation->O_OBJ[R115];
         pathkey = ::class_get_path( o_obj:o_obj, child:population.Operation_getSignature( o_tfr:operation ) );
         for each pragma in pragmas
-          pragma.pragma2mark( markable_name:"Operation", pathkey:pathkey );
-          select any ooapragma_item related by pragma->ooapragma_item[R3804];
-          if ( not_empty ooapragma_item )
-            if ( "operation_number" == pragma.name )
-              //operation.Descrip = operation.Descrip + "operation_number:" + ooapragma_item.value;
-            end if;
-          end if;
+          //if ( "operation_number" != pragma.name )
+            pragma.pragma2mark( markable_name:"Operation", pathkey:pathkey );
+          //end if;
         end for;
       else
         TRACE::log( flavor:"failure", id:65, message:"Could not obtain markable." );
@@ -220,11 +201,12 @@ if ( not_empty population )
         child = child + state.Name;
         pathkey = ::class_get_path( o_obj:o_obj, child:child );
         for each pragma in pragmas
-          pragma.pragma2mark( markable_name:"State Machine State", pathkey:pathkey );
           select any ooapragma_item related by pragma->ooapragma_item[R3804];
           if ( not_empty ooapragma_item )
             if ( "state_number" == pragma.name )
               state.Numb = STRING::atoi( s:ooapragma_item.value );
+            else
+              pragma.pragma2mark( markable_name:"State Machine State", pathkey:pathkey );
             end if;
           end if;
         end for;
@@ -276,11 +258,12 @@ if ( not_empty population )
         child = child + evt.Drv_Lbl + ":" + evt.Mning;
         pathkey = ::class_get_path( o_obj:o_obj, child:child );
         for each pragma in pragmas
-          pragma.pragma2mark( markable_name:"State Machine Event", pathkey:pathkey );
           select any ooapragma_item related by pragma->ooapragma_item[R3804];
           if ( not_empty ooapragma_item )
             if ( "event_number" == pragma.name )
               evt.Numb = STRING::atoi( s:ooapragma_item.value );
+            else
+              pragma.pragma2mark( markable_name:"State Machine Event", pathkey:pathkey );
             end if;
           end if;
         end for;
@@ -294,7 +277,12 @@ if ( not_empty population )
         select one ep_pkg related by type->PE_PE[R8001]->EP_PKG[R8000];
         pathkey = ::package_get_path( ep_pkg:ep_pkg, child:type.Name );
         for each pragma in pragmas
-          pragma.pragma2mark( markable_name:"User Data Type", pathkey:pathkey );
+          // type_range is only found in WASL idiom
+          if ( "type_range" == pragma.name )
+            population.Datatype_UDTaddRange( s_dt:type, ooapragma:pragma );
+          else
+            pragma.pragma2mark( markable_name:"User Data Type", pathkey:pathkey );
+          end if;
         end for;
       else
         TRACE::log( flavor:"failure", id:70, message:"Could not obtain markable." );
