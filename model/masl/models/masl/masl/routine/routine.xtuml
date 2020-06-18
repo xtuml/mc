@@ -140,10 +140,10 @@ elif ( "WASL" == genfile::architecture() )
     select one terminator related by self->terminator[R3791];
     if ( not_empty terminator )
       select one domain related by self->terminator[R3791]->domain[R3702];
-      scope = domain.name + ";" + terminator.key_letters + STRING::itoa( i:self.number );
+      scope = domain.key_letters + ";" + terminator.key_letters + STRING::itoa( i:self.number );
     end if;
   else
-    scope = domain.name + STRING::itoa( i:self.number );
+    scope = domain.key_letters + STRING::itoa( i:self.number );
   end if;
 
   T::include( file:"wasl/t.routine_begin.wasl" );
@@ -203,7 +203,7 @@ end if;
 return valid;',
 	1,
 	'',
-	"e51aa789-c1e2-4b5d-9c5e-272cccfeee56",
+	"4df6f6c4-2af6-4c34-b213-dc3b0c830908",
 	0);
 INSERT INTO O_TFR
 	VALUES ("378ca2df-eca4-40ae-a536-94da7f32f53e",
@@ -338,6 +338,28 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("4df6f6c4-2af6-4c34-b213-dc3b0c830908",
+	"669c9e5d-eb78-45b7-866e-089542dfb839",
+	'render_marking',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'marking = "";
+select any pragma related by self->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "cca" );
+if ( not_empty pragma )
+  marking = ",PROCESSOR,CCA";
+end if;
+select any pragma related by self->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "tca" );
+if ( not_empty pragma )
+  marking = ",PROCESSOR,TCA";
+end if;
+return marking;
+',
+	1,
+	'',
+	"e51aa789-c1e2-4b5d-9c5e-272cccfeee56",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("8aca0e9a-cee8-4a45-a146-5b9cd6bbe8af",
 	"669c9e5d-eb78-45b7-866e-089542dfb839");

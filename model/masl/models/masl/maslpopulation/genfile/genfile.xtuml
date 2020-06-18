@@ -611,6 +611,25 @@ elif ( "domain" == element )
   else
     for each domain in domains
       
+      select any pragma related by domain->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "version" );
+      select any pragma_item related by pragma->pragma_item[R3780];
+      if ( not_empty pragma_item )
+        domain.version = pragma_item.value;
+      end if;
+      select any pragma related by domain->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "name" );
+      select any pragma_item related by pragma->pragma_item[R3780];
+      if ( not_empty pragma_item )
+        // Trim off quotation marks.
+        value_len = STRING::strlen( s:pragma_item.value );
+        domain.name = STRING::substr(begin:1, end:( value_len - 1 ), s:pragma_item.value );
+      end if;
+      select any pragma related by domain->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "kl" );
+      select any pragma_item related by pragma->pragma_item[R3780];
+      if ( not_empty pragma_item )
+        // Trim off quotation marks.
+        value_len = STRING::strlen( s:pragma_item.value );
+        domain.key_letters = STRING::substr(begin:1, end:( value_len - 1 ), s:pragma_item.value );
+      end if;
       // TODO - This will become native metamodel.
       // Apply marking for routine numbers.
       select many domain_routines related by domain->routine[R3790];
@@ -640,11 +659,11 @@ elif ( "domain" == element )
         terminator.render();
       end for;
       genfile = genfile::populate( name:"terminators" );
-      genfile.emit( name:domain.name + ".ter" );
+      genfile.emit( name:domain.key_letters + ".ter" );
 
       // hand coded files file
       genfile = genfile::populate( name:"hand_coded_files" );
-      genfile.emit( name:domain.name + ".hcf" );
+      genfile.emit( name:domain.key_letters + ".hcf" );
 
       // scenario list file
       select many routines related by domain->routine[R3790];
@@ -660,7 +679,7 @@ elif ( "domain" == element )
             end if;
           end for;
           genfile = genfile::populate( name:"scenarios" );
-          genfile.emit( name:domain.name + ".scn" );
+          genfile.emit( name:domain.key_letters + ".scn" );
         end if;
       end if;
 
@@ -678,7 +697,7 @@ elif ( "domain" == element )
       end for;
       T::include( file:"wasl/t.END.wasl" );
       genfile = genfile::populate( name:"functions" );
-      genfile.emit( name:domain.name + ".fnp" );
+      genfile.emit( name:domain.key_letters + ".fnp" );
 
       // bridge data types file
       select many terminators related by domain->terminator[R3702] where ( selected.key_letters != "TIM" );
@@ -694,7 +713,7 @@ elif ( "domain" == element )
         T::include( file:"wasl/t.END.wasl" );
       end if;
       genfile = genfile::populate( name:"bridges" );
-      genfile.emit( name:domain.name + ".brp" );
+      genfile.emit( name:domain.key_letters + ".brp" );
 
       // objects file
       select many objects related by domain->object[R3708];
@@ -709,7 +728,7 @@ elif ( "domain" == element )
         i = i + 1;
       end while;
       genfile = genfile::populate( name:"objects" );
-      genfile.emit( name:domain.name + ".obj" );
+      genfile.emit( name:domain.key_letters + ".obj" );
 
       // relationships file
       select many rels related by domain->relationship[R3712];
@@ -719,7 +738,7 @@ elif ( "domain" == element )
         rel.render();
       end for;
       genfile = genfile::populate( name:"relationships" );
-      genfile.emit( name:domain.name + ".rel" );
+      genfile.emit( name:domain.key_letters + ".rel" );
 
       // subtypes file
       for each rel in subsuper_rels
@@ -727,7 +746,7 @@ elif ( "domain" == element )
       end for;
       T::include( file:"wasl/t.newline.wasl" );
       genfile = genfile::populate( name:"subtypes" );
-      genfile.emit( name:domain.name + ".sub" );
+      genfile.emit( name:domain.key_letters + ".sub" );
 
       // polymorphic events file
       for each rel in subsuper_rels
@@ -741,7 +760,7 @@ elif ( "domain" == element )
         end for;
       end for;
       genfile = genfile::populate( name:"polymorphic_events" );
-      genfile.emit( name:domain.name + ".pme" );
+      genfile.emit( name:domain.key_letters + ".pme" );
 
       // .pme_test
       for each rel in subsuper_rels
@@ -756,7 +775,7 @@ elif ( "domain" == element )
         end for;
       end for;
       genfile = genfile::populate( name:"polymorphic_event_test" );
-      genfile.emit( name:domain.name + ".pme_test" );
+      genfile.emit( name:domain.key_letters + ".pme_test" );
 
 
       // state transition table file
@@ -768,7 +787,7 @@ elif ( "domain" == element )
         end for;
       end for;
       genfile = genfile::populate( name:"state_machines" );
-      genfile.emit( name:domain.name + ".stt" );
+      genfile.emit( name:domain.key_letters + ".stt" );
 
       // event data file
       select many objects related by domain->object[R3708];
@@ -779,7 +798,7 @@ elif ( "domain" == element )
         end for;
       end for;
       genfile = genfile::populate( name:"events" );
-      genfile.emit( name:domain.name + ".evd" );
+      genfile.emit( name:domain.key_letters + ".evd" );
 
 
       // types file
@@ -791,7 +810,7 @@ elif ( "domain" == element )
         obj.render_declaration();
       end for;
       genfile = genfile::populate( name:"types" );
-      genfile.emit( name:domain.name + ".typ" );
+      genfile.emit( name:domain.key_letters + ".typ" );
 
       if ( structuralOnly == true )
         // we have output the domain structural bits, so skip activites
@@ -799,7 +818,6 @@ elif ( "domain" == element )
       end if;
       
       function_files = ""; action_files = ""; bridge_files = ""; scenario_files = "";
-      domain_version = "1";
 
       // render the activity files
       // functions
@@ -807,10 +825,11 @@ elif ( "domain" == element )
       for each routine in routines
         select one activity related by routine->activity[R3704];
         routine.render_definition( activity:activity );
-        filename = domain.name + STRING::itoa( i:routine.number ) + "_" + activity.name + ".fn";
+        filename = domain.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".fn";
         genfile = genfile::populate( name:filename );
         genfile.emit( name:filename );
-        function_files = function_files + filename + "\n";
+        marking = routine.render_marking();
+        function_files = function_files + filename + marking + "\n";
       end for;
       // scenarios
       select many routines related by domain->routine[R3790];
@@ -820,10 +839,11 @@ elif ( "domain" == element )
         select any pragma_item related by pragma->pragma_item[R3780];
         if ( not_empty pragma_item )
           routine.render_definition( activity:activity );
-          filename = domain.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
+          filename = domain.key_letters + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
           genfile = genfile::populate( name:filename );
           genfile.emit( name:filename );
-          scenario_files = scenario_files + domain.name + "," + domain_version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + "\n";
+          marking = routine.render_marking();
+          scenario_files = scenario_files + domain.key_letters + "," + domain.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
         end if;
       end for;
       // bridges
@@ -833,10 +853,11 @@ elif ( "domain" == element )
         for each routine in routines
           select one activity related by routine->activity[R3704];
           routine.render_definition( activity:activity );
-          filename = domain.name + "_" + terminator.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".br";
+          filename = domain.key_letters + "_" + terminator.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".br";
           genfile = genfile::populate( name:filename );
           genfile.emit( name:filename );
-          bridge_files = bridge_files + domain.name + "," + domain_version + "," + filename + ",N\n";
+          marking = routine.render_marking();
+          bridge_files = bridge_files + domain.key_letters + "," + domain.version + "," + filename + ",N" + marking + "\n";
         end for;
       end for;
       // operations
@@ -846,7 +867,7 @@ elif ( "domain" == element )
         for each operation in operations
           select one activity related by operation->activity[R3704];
           operation.render_definition( activity:activity );
-          filename = domain.name + "_" + object.key_letters + STRING::itoa( i:operation.number ) + "_" + activity.name + ".fn";
+          filename = domain.key_letters + "_" + object.key_letters + STRING::itoa( i:operation.number ) + "_" + activity.name + ".fn";
           select one deferral related by operation->subsuper[R3793];
           if ( empty deferral )
             // Skip generaton of abstract operations.
@@ -866,7 +887,7 @@ elif ( "domain" == element )
             select any cell related by state->cell[R3731];
             if ( not_empty cell )
               state.render_definition( activity:activity );
-              sname = domain.name + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
+              sname = domain.key_letters + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
               genfile = genfile::populate( name:sname );
               genfile.emit( name:sname + ".al" );
               action_files = action_files + sname + ".al" + "\n";
@@ -878,7 +899,7 @@ elif ( "domain" == element )
       // domain ("dump") file
       T::include( file:"wasl/t.domain_begin.wasl" );
       genfile = genfile::populate( name:"domain" );
-      genfile.emit( name:domain.name + ".dmp" );
+      genfile.emit( name:domain.key_letters + ".dmp" );
 
     end for;
   end if;

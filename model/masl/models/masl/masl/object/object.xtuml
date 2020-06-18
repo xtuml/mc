@@ -334,7 +334,19 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'// Render persistence marking for class.
+	'// Render processor marking for class.
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "cca" );
+if ( not_empty pragma )
+	processor = "CCA";
+  T::include( file:"wasl/t.object_processor.wasl" );
+end if;
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "tca" );
+if ( not_empty pragma )
+	processor = "TCA";
+  T::include( file:"wasl/t.object_processor.wasl" );
+end if;
+
+// Render persistence marking for class.
 persist = ""; persist_value = "";
 select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "static" );
 if ( not_empty pragma )

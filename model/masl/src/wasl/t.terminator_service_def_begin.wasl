@@ -1,5 +1,5 @@
 T_b("define bridge  ");
-T_b(domain->name);
+T_b(domain->key_letters);
 T_b(":");
 T_b(terminator->key_letters);
 T_b(T_s(self->number));

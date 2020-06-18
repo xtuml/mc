@@ -17,6 +17,8 @@ INSERT INTO O_TFR
 	'project = param.project;
 create object instance domain of domain;
 domain.name = param.name;
+domain.key_letters = param.name;
+domain.version = "1";
 if ( not_empty project )
   relate project to domain across R3701.''configures'';
 end if;
@@ -354,6 +356,42 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("bf9f98e2-eed3-4957-8e03-9067dc4b133f",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
+INSERT INTO O_BATTR
+	VALUES ("bf9f98e2-eed3-4957-8e03-9067dc4b133f",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
+INSERT INTO O_ATTR
+	VALUES ("bf9f98e2-eed3-4957-8e03-9067dc4b133f",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	"929b93d6-3918-4a8d-ba72-241c4e213896",
+	'version',
+	'',
+	'',
+	'version',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("929b93d6-3918-4a8d-ba72-241c4e213896",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
+INSERT INTO O_BATTR
+	VALUES ("929b93d6-3918-4a8d-ba72-241c4e213896",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
+INSERT INTO O_ATTR
+	VALUES ("929b93d6-3918-4a8d-ba72-241c4e213896",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	"4fc1a43d-5822-49e1-b600-7ff700768a17",
+	'key_letters',
+	'',
+	'',
+	'key_letters',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',

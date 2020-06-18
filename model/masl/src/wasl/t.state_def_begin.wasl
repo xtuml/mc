@@ -1,5 +1,5 @@
 T_b("define action ");
-T_b(domain->name);
+T_b(domain->key_letters);
 T_b("_");
 T_b(object->key_letters);
 T_b("_");

@@ -1,2 +1,2 @@
-define scenario  ${domain.name}_Scenario${pragma_item.value}
+define scenario  ${domain.key_letters}_Scenario${pragma_item.value}
 input\

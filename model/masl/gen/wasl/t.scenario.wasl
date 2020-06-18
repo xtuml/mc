@@ -1,1 +1,1 @@
-${domain.name}_Scenario$t{routine.number}.scn
+${domain.key_letters}_Scenario$t{routine.number}.scn

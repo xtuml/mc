@@ -1,4 +1,4 @@
-T_b(domain->name);
+T_b(domain->key_letters);
 T_b("_Scenario");
 T_b(T_s(routine->number));
 T_b(".scn");

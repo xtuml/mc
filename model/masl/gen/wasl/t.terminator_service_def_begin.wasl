@@ -1,2 +1,2 @@
-define bridge  ${domain.name}:${terminator.key_letters}$t{self.number}:${activity.name}
+define bridge  ${domain.key_letters}:${terminator.key_letters}$t{self.number}:${activity.name}
 input \

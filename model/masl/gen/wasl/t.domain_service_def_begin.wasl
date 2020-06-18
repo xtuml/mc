@@ -1,2 +1,2 @@
-define function  ${domain.name}$t{self.number}::${activity.name}
+define function  ${domain.key_letters}$t{self.number}::${activity.name}
 input\

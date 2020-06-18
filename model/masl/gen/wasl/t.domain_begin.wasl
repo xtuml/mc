@@ -1,14 +1,14 @@
 $$DOMAIN_NAME ${domain.name}
-$$DOMAIN_KEY_LETTER ${domain.name}
-$$DOMAIN_VERSION 1
+$$DOMAIN_KEY_LETTER ${domain.key_letters}
+$$DOMAIN_VERSION ${domain.version}
 $$DOMAIN_TYPE Undefined
  
 $$START_TERMINATORS
-${domain.name}.ter
+${domain.key_letters}.ter
 $$END_TERMINATORS
  
 $$START_HAND_CODED_FILES
-${domain.name}.hcf
+${domain.key_letters}.hcf
 $$END_HAND_CODED_FILES
  
 $$START_SCENARIOS
@@ -17,12 +17,12 @@ $$END_SCENARIOS
 .if ( "" != scenario_files )
  
 $$START_SCENARIO_LIST
-${domain.name}.scn
+${domain.key_letters}.scn
 $$END_SCENARIO_LIST
 .end if
  
 $$START_FUNCTION_DATA_TYPES
-${domain.name}.fnp
+${domain.key_letters}.fnp
 $$END_FUNCTION_DATA_TYPES
  
 $$START_FUNCTIONS
@@ -30,7 +30,7 @@ ${function_files}\
 $$END_FUNCTIONS
  
 $$START_BRIDGE_DATA_TYPES
-${domain.name}.brp
+${domain.key_letters}.brp
 $$END_BRIDGE_DATA_TYPES
 .if ( "" != bridge_files )
  
@@ -40,23 +40,23 @@ $$END_BRIDGES
 .end if
  
 $$START_OBJECTS
-${domain.name}.obj
+${domain.key_letters}.obj
 $$END_OBJECTS
  
 $$START_RELATIONSHIPS
-${domain.name}.rel
+${domain.key_letters}.rel
 $$END_RELATIONSHIPS
  
 $$START_SUBTYPES
-${domain.name}.sub
+${domain.key_letters}.sub
 $$END_SUBTYPES
  
 $$START_POLYMORPHIC_EVENTS
-${domain.name}.pme
+${domain.key_letters}.pme
 $$END_POLYMORPHIC_EVENTS
  
 $$START_
-${domain.name}.pme_test
+${domain.key_letters}.pme_test
 $$END_
  
 $$START_ACTION_LIST
@@ -64,13 +64,13 @@ ${action_files}\
 $$END_ACTION_LIST
  
 $$START_STATE_TRANSITIONS
-${domain.name}.stt
+${domain.key_letters}.stt
 $$END_STATE_TRANSITIONS
  
 $$START_EVDS
-${domain.name}.evd
+${domain.key_letters}.evd
 $$END_EVDS
  
 $$START_TYPES
-${domain.name}.typ
+${domain.key_letters}.typ
 $$END_TYPES
