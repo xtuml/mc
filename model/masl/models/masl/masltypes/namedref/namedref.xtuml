@@ -14,8 +14,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.object_begin.masl" );
-T::include( file:"masl/t.object_end.masl" );
+	'select one typeref related by self->typeref[R3763];
+typeref.render();
 ',
 	1,
 	'',
@@ -29,13 +29,20 @@ INSERT INTO O_TFR
 	"6d46993f-e8df-43a1-9f48-dae54d10f824",
 	0,
 	'domain = param.domain;
-//select any namedref related by domain->namedref[R3799];
-select any namedref from instances of namedref; // DELETE THIS LINE
-if ( empty namedref )
-  create object instance namedref of namedref;
-  namedref.name = param.name;
-  //relate namedref to domain across R3799;
-end if;
+create object instance namedref of namedref;
+relate namedref to domain across R3768;
+select any empty_parent_parameter from instances of parameter where ( false );
+select any empty_parent_operation from instances of operation where ( false );
+select any empty_parent_attribute from instances of attribute where ( false );
+select any empty_parent_routine from instances of routine where ( false );
+select any empty_parent_member from instances of member where ( false );
+typeref = typeref::populate( name:param.name, body:param.name, domain:domain,
+                   parent_parameter:empty_parent_parameter,
+                   parent_operation:empty_parent_operation,
+                   parent_attribute:empty_parent_attribute,
+                   parent_routine:empty_parent_routine,
+                   parent_member:empty_parent_member );
+relate namedref to typeref across R3763;
 return namedref;',
 	1,
 	'',
@@ -109,24 +116,6 @@ value[0] = self.name;
 	'',
 	"48444495-e511-41a3-a4fb-80c7e38bbadb",
 	0);
-INSERT INTO O_NBATTR
-	VALUES ("c678f088-a613-4807-a919-a4a11cf3a0ac",
-	"4c221007-8584-4a5f-8b7d-2f3b142ec605");
-INSERT INTO O_BATTR
-	VALUES ("c678f088-a613-4807-a919-a4a11cf3a0ac",
-	"4c221007-8584-4a5f-8b7d-2f3b142ec605");
-INSERT INTO O_ATTR
-	VALUES ("c678f088-a613-4807-a919-a4a11cf3a0ac",
-	"4c221007-8584-4a5f-8b7d-2f3b142ec605",
-	"00000000-0000-0000-0000-000000000000",
-	'name',
-	'',
-	'',
-	'name',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"4c221007-8584-4a5f-8b7d-2f3b142ec605");

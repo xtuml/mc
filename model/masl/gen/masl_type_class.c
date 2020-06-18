@@ -132,20 +132,31 @@ masl_type_op_render( masl_type * self)
     masl_structure_op_render( structure );
   }
   else {
-    /* IF ( MASL == genfile::architecture() ) */
-    if ( Escher_strcmp( "MASL", masl_genfile_op_architecture() ) == 0 ) {
-      /* T::include( file:masl/t.type_begin.masl ) */
-#include "masl/t.type_begin.masl"
-      /* T::include( file:masl/t.type_end.masl ) */
-#include "masl/t.type_end.masl"
-    }
-    else if ( Escher_strcmp( "WASL", masl_genfile_op_architecture() ) == 0 ) {
-      /* T::include( file:wasl/t.type_begin.wasl ) */
-#include "wasl/t.type_begin.wasl"
-      /* T::include( file:wasl/t.type_end.wasl ) */
-#include "wasl/t.type_end.wasl"
+    masl_constraint * constraint=0;
+    /* SELECT one constraint RELATED BY self->constraint[R3751] */
+    constraint = 0;
+    if ( ( 0 != self ) && ( masl_constraint_CLASS_NUMBER == self->R3751_object_id ) )    constraint = ( 0 != self ) ? (masl_constraint *) self->R3751_subtype : 0;
+    /* IF ( not_empty constraint ) */
+    if ( ( 0 != constraint ) ) {
+      /* constraint.render() */
+      masl_constraint_op_render( constraint );
     }
     else {
+      /* IF ( MASL == genfile::architecture() ) */
+      if ( Escher_strcmp( "MASL", masl_genfile_op_architecture() ) == 0 ) {
+        /* T::include( file:masl/t.type_begin.masl ) */
+#include "masl/t.type_begin.masl"
+        /* T::include( file:masl/t.type_end.masl ) */
+#include "masl/t.type_end.masl"
+      }
+      else if ( Escher_strcmp( "WASL", masl_genfile_op_architecture() ) == 0 ) {
+        /* T::include( file:wasl/t.type_begin.wasl ) */
+#include "wasl/t.type_begin.wasl"
+        /* T::include( file:wasl/t.type_end.wasl ) */
+#include "wasl/t.type_end.wasl"
+      }
+      else {
+      }
     }
   }
   /* markable.render_marking( list:default ) */

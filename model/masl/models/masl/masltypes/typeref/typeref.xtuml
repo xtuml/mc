@@ -36,7 +36,7 @@ INSERT INTO O_TFR
 	"46656013-39ba-446e-bd49-34aabd941dac",
 	'populate',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"f692a6d2-9ba0-4d0a-8339-8e4f35b37d21",
 	0,
 	'domain = param.domain;
 // A type reference will never already exist.
@@ -65,8 +65,9 @@ elif ( not_empty parent_routine )
 elif ( not_empty parent_member )
   relate typeref to parent_member across R3753;
 else
-  TRACE::log( flavor:"failure", id:39, message:"no parent for typeref" );
-end if;',
+  // no parent when linking to a namedref
+end if;
+return typeref;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
@@ -182,6 +183,13 @@ INSERT INTO S_DT_PROXY
 	VALUES ("25cf1c85-eb83-4253-8d2e-91d11609dd8b",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<member>',
+	'',
+	'',
+	'../masltypes.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("f692a6d2-9ba0-4d0a-8339-8e4f35b37d21",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<typeref>',
 	'',
 	'',
 	'../masltypes.xtuml');

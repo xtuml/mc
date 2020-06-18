@@ -965,6 +965,14 @@ while ( i <= 1 )
           end if;
         end if;
         out::populate( element:"type", value:value );
+        select one s_range related by s_udt->S_RANGE[R57];
+        if ( not_empty s_range )
+          value[0] = s_range.Min;
+          value[1] = s_range.Max;
+          value[2] = "";
+          out::populate( element:"range", value:value );
+          out::populate( element:"range", value:emptyvalue );
+        end if;
       elif ( not_empty s_edt )
         out::populate( element:"type", value:value );
         value[1] = "";

@@ -9530,16 +9530,16 @@ INSERT INTO O_TFR
 	'// If the type visibility is public, put it in the package of shared public data.  If private, put it inside the component.
 lib_pkg = self.lib_pkg;
 select any types_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
+// Get the "types" package in this component
+current_component = self.current_component;
+select any private_types_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == "types");
 
 if ( "private" == param.visibility )
-  // Get the "types" package in this component
-  current_component = self.current_component;
-  select any types_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == "types");
-
-  // Create the types package if it doesn''t already exist
-  if ( empty types_pkg )
-    types_pkg = self.Component_newPackage(c_c:current_component, pkg_name:"types");
+  // Create the types package if it does not already exist
+  if ( empty private_types_pkg )
+    private_types_pkg = self.Component_newPackage(c_c:current_component, pkg_name:"types");
   end if;
+  types_pkg = private_types_pkg;
 end if;
 
 // See if type already exists
@@ -9547,6 +9547,9 @@ systypes_pkg = self.systypes_pkg;
 globaltypes_pkg = self.globaltypes_pkg;
 select any sys_s_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
 select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
+if ( empty s_dt )
+  select any s_dt related by private_types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
+end if;
 select any global_dt related by globaltypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == param.name );
 select many s_irdts from instances of S_IRDT; // IRDTs get created when the classes are created.
 select any irdt_s_dt related by s_irdts->S_DT[R17] where ( selected.Name == param.name );

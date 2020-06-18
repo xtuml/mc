@@ -60,6 +60,7 @@ if ( "" == value[0] and "" == value[1] and "" == value[2] and "" == value[3] and
     "expression" == element or
     "description" == element or
     "enumerator" == element or
+    "range" == element or
     "codeblock" == element )
     return;
   end if;
@@ -323,7 +324,7 @@ elif ( "typeref" == element )
     population.stack_trace();
   end if;
   select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
-  typeref::populate( name:"", body:value[0], domain:parent_domain, parent_parameter:parent_parameter, parent_operation:parent_operation, parent_attribute:parent_attribute, parent_routine:parent_routine, parent_member:parent_member );
+  typeref = typeref::populate( name:"", body:value[0], domain:parent_domain, parent_parameter:parent_parameter, parent_operation:parent_operation, parent_attribute:parent_attribute, parent_routine:parent_routine, parent_member:parent_member );
   // typeref is a leaf node and does not get pushed onto the current element stack
 elif ( "transitiontable" == element )
   select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
@@ -442,6 +443,14 @@ elif ( "member" == element )
   member = member::populate( name:value[0], expression:value[1], structure:parent_structure );
   select one new_element related by member->unmarkable[R3788]->element[R3786];
   population.push_element( new_element:new_element );
+elif ( "range" == element )
+  select one parent_type related by population->element[R3784.''has current'']->markable[R3786]->type[R3783];
+  if ( not_empty root_element and empty parent_type )
+    TRACE::log( flavor:"failure", id:88, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
+    population.stack_trace();
+  end if;
+  range = range::populate( type:parent_type, minimum:value[0], maximum:value[1] );
+  // range is a leaf node and does not get pushed onto the current element stack
 elif ( "exception" == element )
   select one parent_domain related by population->element[R3784.''has current'']->markable[R3786]->domain[R3783];
   if ( not_empty root_element and empty parent_domain )

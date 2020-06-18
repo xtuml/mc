@@ -14,8 +14,9 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.object_begin.masl" );
-T::include( file:"masl/t.object_end.masl" );
+	'if ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.range.wasl" );
+end if;
 ',
 	1,
 	'',
@@ -28,14 +29,14 @@ INSERT INTO O_TFR
 	'',
 	"65805300-a379-4eeb-905b-36a69e072f25",
 	0,
-	'domain = param.domain;
-//select any range related by domain->range[R3799];
-select any range from instances of range; // DELETE THIS LINE
-if ( empty range )
-  create object instance range of range;
-  range.name = param.name;
-  //relate range to domain across R3799;
-end if;
+	'parent_type = param.type;
+select one domain related by parent_type->domain[R3719];
+constraint = constraint::populate( name:parent_type.body, domain:domain );
+relate constraint to parent_type across R3751;
+create object instance range of range;
+relate range to constraint across R3757;
+range.minimum = param.minimum;
+range.maximum = param.maximum;
 return range;',
 	1,
 	'',
@@ -44,28 +45,37 @@ return range;',
 INSERT INTO O_TPARM
 	VALUES ("a5ba5757-b7cd-49a4-a5ba-069c36f9a3e5",
 	"761f469b-7841-4748-b274-aac4a94ce163",
-	'name',
-	"ba5eda7a-def5-0000-0000-000000000004",
+	'type',
+	"e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<type>',
+	'',
+	'',
+	'../masltypes.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("86742523-ec2f-417d-ac53-52d96058d70c",
 	"761f469b-7841-4748-b274-aac4a94ce163",
-	'domain',
-	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	'minimum',
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"a5ba5757-b7cd-49a4-a5ba-069c36f9a3e5",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<domain>',
+INSERT INTO O_TPARM
+	VALUES ("01a45664-4406-4a9d-9be5-a15d29081ebe",
+	"761f469b-7841-4748-b274-aac4a94ce163",
+	'maximum',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
 	'',
-	'',
-	'../../masl/masl.xtuml');
+	"86742523-ec2f-417d-ac53-52d96058d70c",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("65805300-a379-4eeb-905b-36a69e072f25",
 	"00000000-0000-0000-0000-000000000000",
@@ -103,26 +113,45 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'value[8] = "";
-value[0] = self.name;
+value[0] = self.minimum;
+value[1] = self.maximum;
 //out::( element:"template_class", value:value );',
 	1,
 	'',
 	"5e244307-b494-4edb-a2d0-53b3e6383f5f",
 	0);
 INSERT INTO O_NBATTR
-	VALUES ("4ccd921c-5a34-4ec5-abca-2bed8dd3d892",
+	VALUES ("6680e5a8-b617-4e59-a10e-9a3d228e0963",
 	"d337bc8b-2afb-4827-a16a-e967cea32414");
 INSERT INTO O_BATTR
-	VALUES ("4ccd921c-5a34-4ec5-abca-2bed8dd3d892",
+	VALUES ("6680e5a8-b617-4e59-a10e-9a3d228e0963",
 	"d337bc8b-2afb-4827-a16a-e967cea32414");
 INSERT INTO O_ATTR
-	VALUES ("4ccd921c-5a34-4ec5-abca-2bed8dd3d892",
+	VALUES ("6680e5a8-b617-4e59-a10e-9a3d228e0963",
 	"d337bc8b-2afb-4827-a16a-e967cea32414",
 	"00000000-0000-0000-0000-000000000000",
-	'name',
+	'minimum',
 	'',
 	'',
-	'name',
+	'minimum',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8c6c110a-4c1c-466c-a162-4a7d9d7f4457",
+	"d337bc8b-2afb-4827-a16a-e967cea32414");
+INSERT INTO O_BATTR
+	VALUES ("8c6c110a-4c1c-466c-a162-4a7d9d7f4457",
+	"d337bc8b-2afb-4827-a16a-e967cea32414");
+INSERT INTO O_ATTR
+	VALUES ("8c6c110a-4c1c-466c-a162-4a7d9d7f4457",
+	"d337bc8b-2afb-4827-a16a-e967cea32414",
+	"6680e5a8-b617-4e59-a10e-9a3d228e0963",
+	'maximum',
+	'',
+	'',
+	'maximum',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',

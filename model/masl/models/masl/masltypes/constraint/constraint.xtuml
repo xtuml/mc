@@ -14,8 +14,16 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.object_begin.masl" );
-T::include( file:"masl/t.object_end.masl" );
+	'select one type related by self->type[R3751];
+select one namedref related by self->namedref[R3774];
+if ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.constraint.wasl" );
+  namedref.render();
+else
+  //
+end if;
+select one range related by self->range[R3757];
+range.render();
 ',
 	1,
 	'',
@@ -29,12 +37,9 @@ INSERT INTO O_TFR
 	"a79d802c-e120-43ca-aaf9-8b923ef2e76f",
 	0,
 	'domain = param.domain;
-//select any constraint related by domain->constraint[R3799];
-select any constraint from instances of constraint; // DELETE THIS LINE
-if ( empty constraint )
-  create object instance constraint of constraint;
-  //relate constraint to domain across R3799;
-end if;
+create object instance constraint of constraint;
+namedref = namedref::populate( name:param.name, domain:domain );
+relate namedref to constraint across R3774;
 return constraint;',
 	1,
 	'',
@@ -156,7 +161,7 @@ INSERT INTO O_ATTR
 	'',
 	'name',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000002",
+	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
 INSERT INTO O_ID
