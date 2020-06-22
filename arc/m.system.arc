@@ -58,6 +58,18 @@
 .end function
 .//
 .//============================================================================
+.function EnableArduino
+  .select any tm_thread from instances of TM_THREAD
+  .if ( empty tm_thread )
+    .create object instance tm_thread of TM_THREAD
+    .assign tm_thread.extra_initialization = ""
+  .end if
+  .assign tm_thread.number_of_threads = 1
+  .assign tm_thread.serialize = false
+  .assign tm_thread.flavor = "Arduino"
+.end function
+.//
+.//============================================================================
 .function TagMaximumStringLength
   .param integer max_len
   .invoke r = TM_SYSTAG_select()

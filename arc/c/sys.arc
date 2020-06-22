@@ -161,6 +161,9 @@
 .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
 .//
 .assign printf = "printf"
+.if ( "Arduino" == te_thread.flavor )
+  .assign printf = "arduino_printf"
+.end if
 .//
 .invoke persist_check_mark = GetPersistentCheckMarkPostName()
 .//
@@ -202,10 +205,6 @@
 .end if
 .include "${te_file.arc_path}/t.sys_main.c"
 .emit to file "${te_file.system_source_path}/${te_file.sys_main}.${te_file.src_file_ext}"
-.if ( "Arduino" == te_thread.flavor )
-  .include "${te_file.arc_path}/t.sys_arduino.ino"
-  .emit to file "${te_file.system_source_path}/src.ino"
-.end if
 .//
 .invoke r = DefineActiveClassCountArray( te_cs )
 .assign active_class_counts = r.body

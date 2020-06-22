@@ -554,13 +554,13 @@ static void ooa_loop( void )
   /* class dispatch table
    */
   static const ${class_dispatch_array.element_type} * DomainClassDispatcherTable[ ${num_ooa_doms} ] =
-    {
+  {
     .assign te_c = first_te_c
     .while ( not_empty te_c )
       .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071]
       .if ( not_empty te_evt )
         .invoke class_dispatch_array = GetDomainDispatcherTableName( te_c.Name )
-      ${class_dispatch_array.result}\
+    ${class_dispatch_array.result}\
       .else
       0\
       .end if
@@ -571,7 +571,7 @@ static void ooa_loop( void )
 ,
       .end if
     .end while
-    };
+  };
   .end if
   ${te_eq.base_event_type} * event;
   .if ( te_thread.enabled )
@@ -588,24 +588,23 @@ static void ooa_loop( void )
   .elif ( "C++" == te_target.language )
   if ( true == ${te_eq.run_flag} ) {
   .else
-  while ( true == ${te_eq.run_flag} ) {
   .end if
   .if ( self_event_queue_needed.result )
-    event = DequeueOoaSelfEvent(${thread_number}); /* Self first.  */
-    if ( 0 == event ) {
-  \
+  event = DequeueOoaSelfEvent(${thread_number}); /* Self first.  */
+  if ( 0 == event ) {
+\
   .end if
   .if ( non_self_event_queue_needed.result )
     event = DequeueOoaNonSelfEvent(${thread_number}); /* Instance next.  */
   .end if
   .if ( self_event_queue_needed.result )
-    }
+  }
   .end if
-    if ( 0 != event ) {
+  if ( 0 != event ) {
   .// Set up self reference for use by prioritized events (and others).
   .if ( event_prioritization_needed.result )
-      /* Set up self reference for use by prioritized events (and others).  */
-      ${te_prefix.result}self = GetEventTargetInstance( event );
+    /* Set up self reference for use by prioritized events (and others).  */
+    ${te_prefix.result}self = GetEventTargetInstance( event );
   .end if
   .if ( te_thread.serialize )
       #ifdef ESCHER_SERIALIZE_DISPATCH
@@ -616,7 +615,7 @@ static void ooa_loop( void )
       event->thismodule = thismodule;
   .end if
   .if ( "C" == te_target.language )
-      ( *( DomainClassDispatcherTable[ GetEventDestDomainNumber( event ) ] )[ GetEventDestObjectNumber( event ) ] )( event );
+    ( *( DomainClassDispatcherTable[ GetEventDestDomainNumber( event ) ] )[ GetEventDestObjectNumber( event ) ] )( event );
   .else
       ( *( ${te_instance.get_event_dispatcher}() )[ GetEventDestObjectNumber( event ) ] )( event );
   .end if
@@ -625,16 +624,16 @@ static void ooa_loop( void )
       ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_DISPATCH );
       #endif
   .end if
-      ${te_eq.delete}( event );
-    } else {
-      /* event queues empty */
+    ${te_eq.delete}( event );
+  } else {
+    /* event queues empty */
   .if ( "SystemC" == te_thread.flavor )
       events_remaining_in_queue = false;
   .end if
   .if ( te_thread.enabled )
       ${te_thread.nonbusy_wait}( ${thread_number} );
   .end if
-    }
+  }
   .if ( event_prioritization_needed.result )
     /* Clear self when not in normal state action.    */
     ${te_prefix.result}self = 0;
@@ -650,19 +649,18 @@ static void ooa_loop( void )
     .assign more_indent = more_indent + "  "
   .end if
   .if ( te_sys.MaxTimers > 0 )
-    ${more_indent}/* To disable this timer tick, modify TIM_bridge.c in the gen folder.  */
-    ${more_indent}#if ${te_tim.max_timers} > 0
-    ${more_indent}if ( 0 == event ) { TIM_tick(); }
-    ${more_indent}#endif
+  ${more_indent}/* To disable this timer tick, modify TIM_bridge.c in the gen folder.  */
+  ${more_indent}#if ${te_tim.max_timers} > 0
+  ${more_indent}if ( 0 == event ) { TIM_tick(); }
+  ${more_indent}#endif
   .end if
   .if ( te_sys.MaxInterleavedBridges > 0 )
-  ${more_indent}}
+${more_indent}}
   .end if
-    ${more_indent}${te_callout.background_processing}();
+  ${more_indent}${te_callout.background_processing}();
   .if ( te_thread.enabled )
-    }
-  .end if
   }
+  .end if
   .if ( te_thread.enabled )
     .if ( "SystemC" != te_thread.flavor )
   return 0;

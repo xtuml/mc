@@ -12,6 +12,10 @@
  *--------------------------------------------------------------------------*/
 
 #define XTUML_TRACE_FLUSH( i ) fflush( i )
+.if (te_thread.flavor == "Arduino")
+#include <string.h>
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+.end if
 
 /*
  * State transition start tracing:
@@ -20,7 +24,11 @@
 /* #define ${te_prefix.define_usw}XTUML_SOURCE_PROLOGUE */
 
 #ifndef ${te_prefix.define_usw}XTUML_SOURCE_PROLOGUE
+.if (te_thread.flavor == "Arduino")
+#define ${te_prefix.define_usw}XTUML_SOURCE_PROLOGUE ${printf}( "%s #%6u: ", __FILENAME__, __LINE__ ); XTUML_TRACE_FLUSH( 0 )
+.else
 #define ${te_prefix.define_usw}XTUML_SOURCE_PROLOGUE ${printf}( "%s #%6u: ", __FILE__, __LINE__ ); XTUML_TRACE_FLUSH( 0 )
+.end if
 #endif
 
 /* To suppress state transition start tracing, uncomment the following macro */

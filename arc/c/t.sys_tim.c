@@ -35,8 +35,6 @@
 #include "${te_file.types}.${te_file.hdr_file_ext}"
 #include "${te_file.tim}.${te_file.hdr_file_ext}"
 .//#include "${te_file.callout}.${te_file.hdr_file_ext}"
-#include <sys/timeb.h>
-#include <time.h>
 
 .if ( "SystemC" == te_thread.flavor )
 #define MSEC_CONVERT 1000UL
@@ -56,7 +54,6 @@ static ETimer_time_t tinit = 0;
 .if ( te_sys.SimulatedTime )
 static ETimer_time_t systyme;
 .else
-static struct timeb systyme;
 .end if
 #if ${te_tim.max_timers} > 0
 static ETimer_t swtimers[ ${te_tim.max_timers} ];  /* system.clr color */
@@ -327,18 +324,7 @@ TIM_create_date(
   const i_t ee_second,
   const i_t ee_year )
 {
-  /* Insert implementation specific code here.  */
-  ${te_prefix.type}Date_t r = 0;
-  struct tm t;
-  t.tm_isdst = -1;
-  t.tm_mday = ee_day;
-  t.tm_hour = ee_hour;
-  t.tm_min = ee_minute;
-  t.tm_mon = ee_month;
-  t.tm_sec = ee_second;
-  t.tm_year = ee_year - 1900;      /* not enough space for 100 years */
-  r = (${te_prefix.type}Date_t) mktime( &t );
-  return ( r );
+  return 0;
 }
 
 /*=====================================================================
@@ -352,10 +338,7 @@ TIM_get_second(
   const ${te_prefix.type}Date_t ee_date
 )
 {
-  /* Insert implementation specific code here.  */
-  struct tm * tp;
-  tp = localtime( &ee_date );
-  return ( tp ) ? tp->tm_sec : 0;
+  return 0;
 }
 
 /*=====================================================================
@@ -369,10 +352,7 @@ TIM_get_minute(
   const ${te_prefix.type}Date_t ee_date
 )
 {
-  /* Insert implementation specific code here.  */
-  struct tm * tp;
-  tp = localtime( &ee_date );
-  return ( tp ) ? tp->tm_min : 0;
+  return 0;
 }
 
 /*=====================================================================
@@ -386,10 +366,7 @@ TIM_get_hour(
   const ${te_prefix.type}Date_t ee_date
 )
 {
-  /* Insert implementation specific code here.  */
-  struct tm * tp;
-  tp = localtime( &ee_date );
-  return ( tp ) ? tp->tm_hour : 0;
+  return 0;
 }
 
 /*=====================================================================
@@ -403,10 +380,7 @@ TIM_get_day(
   const ${te_prefix.type}Date_t ee_date
 )
 {
-  /* Insert implementation specific code here.  */
-  struct tm * tp;
-  tp = localtime( &ee_date );
-  return ( tp ) ? tp->tm_mday : 0;
+  return 0;
 }
 
 /*=====================================================================
@@ -420,10 +394,7 @@ TIM_get_month(
   const ${te_prefix.type}Date_t ee_date
 )
 {
-  /* Insert implementation specific code here.  */
-  struct tm * tp;
-  tp = localtime( &ee_date );
-  return ( tp ) ? tp->tm_mon : 0;
+  return 0;
 }
 
 /*=====================================================================
@@ -437,10 +408,7 @@ TIM_get_year(
   const ${te_prefix.type}Date_t ee_date
 )
 {
-  /* Insert implementation specific code here.  */
-  struct tm * tp;
-  tp = localtime( &ee_date );
-  return ( tp ) ? tp->tm_year + 1900 : 0;
+  return 0;
 }
 
 /*=====================================================================
@@ -715,6 +683,9 @@ ETimer_msec_time( void )
   t1 = sc_time_stamp();
   t = (ETimer_time_t) (t1.to_seconds() * MSEC_CONVERT);
   return ( t - tinit );
+.elif ( "Arduino" == te_thread.flavor )
+  t = micros();
+  return ( t - tinit ) / USEC_CONVERT;
 .else
   .if ( te_sys.SimulatedTime )
   t = systyme;
@@ -814,6 +785,8 @@ TIM_init(\
 .if ( "SystemC" == te_thread.flavor )
   ftime( &systyme );            /* Initialize the hardware ticker.   */
   tinit = 0;
+.elif ( "Arduino" == te_thread.flavor )
+  tinit = micros();
 .else
   .if ( te_sys.SimulatedTime )
   systyme = 0;                  /* Initialize the hardware ticker.   */
