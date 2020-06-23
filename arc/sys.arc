@@ -1,4 +1,7 @@
 .//============================================================================
+.// $RCSfile: sys.arc,v $
+.//
+.// Description:
 .// This is the root archetype for generation.
 .//============================================================================
 .//
@@ -63,17 +66,17 @@
 .include "${arc_path}/q.val.translate.arc"
 .include "${arc_path}/sys_util.arc"
 .include "${arc_path}/t.smt.c"
-.include "${arc_path}/t.component.message.body.c"
 .//
 .select any te_file from instances of TE_FILE
 .if ( empty te_file )
+  .// Comment out main and uncomment the following lines to create schema/dumper.
   .invoke mc_main( arc_path )
+  .//.invoke sys_singletons()
   .select any te_file from instances of TE_FILE
-  .// Uncomment the following lines to create an instance dumper archetype.
+  .//.assign te_file.arc_path = arc_path
   .//.invoke r = TE_CLASS_instance_dumper()
   .//${r.body}
   .//.emit to file "../../src/q.class.instance.dump.arc"
-  .//.include "${te_file.arc_path}/schema_gen.arc"
   .//.exit 507
   .//.print "dumping instances ${info.date}"
   .//.include "${te_file.arc_path}/q.class.instance.dump.arc"
@@ -87,6 +90,7 @@
 .select any te_sys from instances of TE_SYS
 .// Pull into scope global values from singleton classes.
 .select any te_callout from instances of TE_CALLOUT
+.select any te_cia from instances of TE_CIA
 .select any te_container from instances of TE_CONTAINER
 .select any te_copyright from instances of TE_COPYRIGHT
 .select any te_dlist from instances of TE_DLIST
@@ -117,8 +121,18 @@
 .invoke r = RenderSystemLimitsDeclarations( active_te_cs )
 .assign system_parameters = r.body
 .invoke system_class_array = DefineClassInfoArray( first_te_c )
+.invoke domain_ids = DeclareDomainIdentityEnums( first_te_c, num_ooa_doms )
+.invoke non_self_event_queue_needed = GetSystemNonSelfEventQueueNeeded()
+.invoke self_event_queue_needed = GetSystemSelfEventQueueNeeded()
 .//
-.select many te_ees from instances of TE_EE where ( ( ( selected.RegisteredName != "TIM" ) and ( selected.te_cID == 0 ) ) and ( selected.Included ) )
+.// Get the TE_EEs that are not inside of a component.
+.select many te_ees from instances of TE_EE where ( ( selected.RegisteredName != "TIM" ) and ( selected.Included ) )
+.for each te_ee in te_ees
+  .select one my_te_c related by te_ee->TE_C[R2085]
+  .if ( not_empty my_te_c )
+    .assign te_ees = te_ees - te_ee
+  .end if
+.end for
 .if ( not_empty te_ees )
   .select any te_c from instances of TE_C where ( false )
   .include "${te_file.arc_path}/q.domain.bridges.arc"
@@ -131,13 +145,8 @@
 .end for
 .//
 .select any tim_te_ee from instances of TE_EE where ( ( selected.RegisteredName == "TIM" ) and ( selected.Included ) )
-.assign TLM_message_order = ""
-.// Generate interface declarations.
-.include "${te_file.arc_path}/q.component.interfaces.arc"
-.// Generate components.
+.// Generate the interface code between the components.
 .include "${te_file.arc_path}/q.components.arc"
-.// Generate system packages.
-.include "${te_file.arc_path}/q.packages.arc"
 .//
 .//
 .//============================================================================
@@ -146,15 +155,15 @@
 .invoke main_decl = GetMainTaskEntryDeclaration()
 .invoke r = GetMainTaskEntryReturn()
 .assign return_body = r.body
-.select any te_cia from instances of TE_CIA
 .//
 .// function-based archetype generation
 .//
 .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
-.invoke non_self_event_queue_needed = GetSystemNonSelfEventQueueNeeded()
-.invoke self_event_queue_needed = GetSystemSelfEventQueueNeeded()
 .//
 .assign printf = "printf"
+.if ( "Arduino" == te_thread.flavor )
+  .assign printf = "serial_printf"
+.end if
 .//
 .invoke persist_check_mark = GetPersistentCheckMarkPostName()
 .//
@@ -164,9 +173,8 @@
 .assign all_instance_dumpersd = ""
 .assign all_instance_dumpers = ""
 .assign all_max_class_numbers = "0"
-.select many te_cs from instances of TE_C where ( selected.included_in_build )
-.for each te_c in te_cs
-  .if ( te_c.internal_behavior )
+.assign te_c = first_te_c
+.while ( not_empty te_c )
     .select one te_dci related by te_c->TE_DCI[R2090]
     .assign all_domain_include_files = all_domain_include_files + "#include ""${te_c.classes_file}.${te_file.hdr_file_ext}""\n"
     .assign all_instance_loaders = all_instance_loaders + "  ${te_c.Name}_instance_loaders,\n"
@@ -174,8 +182,8 @@
     .assign all_instance_dumpersd = all_instance_dumpersd + "extern ${te_prefix.result}idf ${te_c.Name}_instance_dumpers[ ${te_dci.max} ];\n"
     .assign all_instance_dumpers = all_instance_dumpers + "  ${te_c.Name}_instance_dumpers,\n"
     .assign all_max_class_numbers = ( all_max_class_numbers + " + " ) + te_dci.max
-  .end if
-.end for
+  .select one te_c related by te_c->TE_C[R2017.'precedes']
+.end while
 .//
 .//
 .//
@@ -186,25 +194,7 @@
 .//=============================================================================
 .// Generate main.
 .//=============================================================================
-.assign sysc_top_includes = ""
-.assign sysc_top_inst_decls = ""
-.assign sysc_top_insts = ""
-.assign sysc_top_insts_cleanup = ""
-.assign gen_vista_top_template = false
-.select many tm_build_pkgs from instances of TM_BUILD
-.for each tm_build_pkg in tm_build_pkgs
-  .assign build_pkg_name = "$r{tm_build_pkg.package_obj_name}"
-  .assign sysc_top_includes = "${sysc_top_includes}" + "#include ""${build_pkg_name}.${te_file.hdr_file_ext}""\n"
-  .assign sysc_top_inst_decls = "${sysc_top_inst_decls}" + "${build_pkg_name}* $r{tm_build_pkg.package_inst_name} = 0;\n"
-  .assign sysc_top_insts = "${sysc_top_insts}" + "  $r{tm_build_pkg.package_inst_name} = new ${build_pkg_name}( ""${build_pkg_name}"" );\n"
-  .assign sysc_top_insts_cleanup = "delete $r{tm_build_pkg.package_inst_name};\n"
-  .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
-    .assign sysc_top_insts = "${sysc_top_insts}" + "  $r{tm_build_pkg.package_inst_name}->clk(clk);\n"
-    .assign sysc_top_insts = "${sysc_top_insts}" + "  $r{tm_build_pkg.package_inst_name}->rst_X(rst_X);\n"
-  .end if
-.end for
 .invoke class_dispatch_array = GetDomainDispatcherTableName( "" )
-.assign num_ooa_doms = cardinality active_te_cs
 .assign dq_arg_type = "void"
 .assign dq_arg = ""
 .assign thread_number = ""
@@ -213,13 +203,8 @@
   .assign dq_arg = "t "
   .assign thread_number = "t"
 .end if
-.include "${te_file.arc_path}/t.sysc_main.c"
+.include "${te_file.arc_path}/t.sys_main.c"
 .emit to file "${te_file.system_source_path}/${te_file.sys_main}.${te_file.src_file_ext}"
-.if ( te_sys.SystemCPortsType == "TLM" )
-  .assign gen_vista_top_template = true
-  .include "${te_file.arc_path}/t.sysc_main.c"
-  .emit to file "${te_file.system_source_path}/sysc_main_template.${te_file.src_file_ext}"
-.end if
 .//
 .invoke r = DefineActiveClassCountArray( te_cs )
 .assign active_class_counts = r.body
@@ -327,6 +312,10 @@
 .//=============================================================================
 .if ( te_sys.InstanceLoading )
 .include "${te_file.arc_path}/t.sys_xtumlload.c"
+.select any te_sync from instances of TE_SYNC where ( selected.Name == "load_activity_code_block" )
+.if ( not_empty te_sync )
+.include "${te_file.arc_path}/t.sys_maslload.c"
+.end if
 .emit to file "${te_file.system_source_path}/${te_file.xtumlload}.${te_file.src_file_ext}"
 .end if
 .print "ending ${info.date}"
