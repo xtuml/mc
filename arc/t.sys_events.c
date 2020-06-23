@@ -627,6 +627,7 @@ static void ooa_loop( void )
     ${te_eq.delete}( event );
   } else {
     /* event queues empty */
+    ${te_eq.run_flag} = false;
   .if ( "SystemC" == te_thread.flavor )
       events_remaining_in_queue = false;
   .end if
