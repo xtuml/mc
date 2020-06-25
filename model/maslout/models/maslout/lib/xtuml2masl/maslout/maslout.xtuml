@@ -367,6 +367,7 @@ for each c_po in c_pos
       end if;
     end if;
 
+    ::mark2pragma( markable:"Port", pathkey:pathkey );
     // end terminator
     out::populate( element:"terminator", value:emptyvalue );
 

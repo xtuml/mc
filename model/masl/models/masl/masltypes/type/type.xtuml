@@ -32,7 +32,9 @@ select one markable related by self->markable[R3783];
 select one enumeration related by self->enumeration[R3751];
 select one structure related by self->structure[R3751];
 if ( not_empty enumeration )
-  enumeration.render();
+  if ( "Time_Unit" != self.name )
+    enumeration.render();
+  end if;
 elif ( not_empty structure )
   structure.render();
 else
@@ -45,8 +47,10 @@ else
       T::include( file:"masl/t.type_begin.masl" );
       T::include( file:"masl/t.type_end.masl" );
     elif ( "WASL" == genfile::architecture() )
-      T::include( file:"wasl/t.type_begin.wasl" );
-      T::include( file:"wasl/t.type_end.wasl" );
+      if ( "Timer_ID" != self.name )
+        T::include( file:"wasl/t.type_begin.wasl" );
+        T::include( file:"wasl/t.type_end.wasl" );
+      end if;
     else
       //
     end if;

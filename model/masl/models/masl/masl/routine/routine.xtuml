@@ -347,11 +347,13 @@ INSERT INTO O_TFR
 	1,
 	'marking = "";
 select any pragma related by self->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "cca" );
-if ( not_empty pragma )
+select any terminator_pragma related by self->terminator[R3791]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "cca" );
+if ( not_empty pragma or not_empty terminator_pragma )
   marking = ",PROCESSOR,CCA";
 end if;
 select any pragma related by self->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "tca" );
-if ( not_empty pragma )
+select any terminator_pragma related by self->terminator[R3791]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "tca" );
+if ( not_empty pragma or not_empty terminator_pragma )
   marking = ",PROCESSOR,TCA";
 end if;
 return marking;
