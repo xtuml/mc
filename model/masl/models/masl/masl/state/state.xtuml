@@ -211,6 +211,7 @@ elif ( "WASL" == genfile::architecture() )
   if ( not_empty description )
     comment = description.text;
   end if;
+  comment = STRING::trim( s:comment );
   
   T::include( file:"wasl/t.state_def_begin.wasl" );
   // render input parameters

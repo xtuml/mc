@@ -621,7 +621,7 @@ elif ( "domain" == element )
       if ( not_empty pragma_item )
         // Trim off quotation marks.
         value_len = STRING::strlen( s:pragma_item.value );
-        domain.name = STRING::substr(begin:1, end:( value_len - 1 ), s:pragma_item.value );
+        domain.name = T::underscore( s: STRING::substr(begin:1, end:( value_len - 1 ), s:pragma_item.value ) );
       end if;
       select any pragma related by domain->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "kl" );
       select any pragma_item related by pragma->pragma_item[R3780];
@@ -662,6 +662,12 @@ elif ( "domain" == element )
       genfile.emit( name:domain.key_letters + ".ter" );
 
       // hand coded files file
+      for each terminator in terminators
+        select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "hand_coded" );
+        if ( not_empty pragma )
+          terminator.render_handcoded();
+        end if;
+      end for;
       genfile = genfile::populate( name:"hand_coded_files" );
       genfile.emit( name:domain.key_letters + ".hcf" );
 
@@ -857,7 +863,12 @@ elif ( "domain" == element )
           genfile = genfile::populate( name:filename );
           genfile.emit( name:filename );
           marking = routine.render_marking();
-          bridge_files = bridge_files + domain.key_letters + "," + domain.version + "," + filename + ",N" + marking + "\n";
+          code_block_present = ",N";
+          select one code_block related by activity->code_block[R3794];
+          if ( not_empty code_block )
+            code_block_present = ",Y";
+          end if;
+          bridge_files = bridge_files + domain.key_letters + "," + domain.version + "," + filename + code_block_present + marking + "\n";
         end for;
       end for;
       // operations
@@ -880,18 +891,15 @@ elif ( "domain" == element )
         select many states related by object->state[R3750];
         for each state in states
           select one activity related by state->activity[R3704];
-          select one code_block related by activity->code_block[R3794];
-          if ( not_empty code_block )
-            // Be sure there is a transition _into_ this state.
-            // TODO - may come back and disable or switch this optimization.
-            select any cell related by state->cell[R3731];
-            if ( not_empty cell )
-              state.render_definition( activity:activity );
-              sname = domain.key_letters + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
-              genfile = genfile::populate( name:sname );
-              genfile.emit( name:sname + ".al" );
-              action_files = action_files + sname + ".al" + "\n";
-            end if;
+          // Be sure there is a transition _into_ this state.
+          // TODO - may come back and disable or switch this optimization.
+          select any cell related by state->cell[R3731];
+          if ( not_empty cell )
+            state.render_definition( activity:activity );
+            sname = domain.key_letters + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
+            genfile = genfile::populate( name:sname );
+            genfile.emit( name:sname + ".al" );
+            action_files = action_files + sname + ".al" + "\n";
           end if;
         end for;
       end for;

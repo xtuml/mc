@@ -66,6 +66,8 @@ elif ( "WASL" == genfile::architecture() )
     description = description + descrip.text;
   end for;
   s = STRING::trim( s:description );
+  s = T::underscore( s:s );
+  s = STRING::replace( original:s, replace:",", with:"_" );
   description = STRING::replace( original:s, replace:"\n", with:"" );
   T::include( file:"wasl/t.event_end.wasl" );
 

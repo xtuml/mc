@@ -47,7 +47,8 @@ else
       T::include( file:"masl/t.type_begin.masl" );
       T::include( file:"masl/t.type_end.masl" );
     elif ( "WASL" == genfile::architecture() )
-      if ( "Timer_ID" != self.name )
+      // WASL does not support unconstrained UDTs.
+      if ( "Timer_ID" != self.name ) and ( false )
         T::include( file:"wasl/t.type_begin.wasl" );
         T::include( file:"wasl/t.type_end.wasl" );
       end if;

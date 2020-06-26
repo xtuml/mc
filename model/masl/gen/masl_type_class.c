@@ -124,8 +124,11 @@ masl_type_op_render( masl_type * self)
   if ( ( 0 != self ) && ( masl_structure_CLASS_NUMBER == self->R3751_object_id ) )  structure = ( 0 != self ) ? (masl_structure *) self->R3751_subtype : 0;
   /* IF ( not_empty enumeration ) */
   if ( ( 0 != enumeration ) ) {
-    /* enumeration.render() */
-    masl_enumeration_op_render( enumeration );
+    /* IF ( Time_Unit != self.name ) */
+    if ( Escher_strcmp( "Time_Unit", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.name" ))->name ) != 0 ) {
+      /* enumeration.render() */
+      masl_enumeration_op_render( enumeration );
+    }
   }
   else if ( ( 0 != structure ) ) {
     /* structure.render() */
@@ -150,10 +153,13 @@ masl_type_op_render( masl_type * self)
 #include "masl/t.type_end.masl"
       }
       else if ( Escher_strcmp( "WASL", masl_genfile_op_architecture() ) == 0 ) {
-        /* T::include( file:wasl/t.type_begin.wasl ) */
+        /* IF ( ( Timer_ID != self.name ) and FALSE ) */
+        if ( ( Escher_strcmp( "Timer_ID", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.name" ))->name ) != 0 ) && FALSE ) {
+          /* T::include( file:wasl/t.type_begin.wasl ) */
 #include "wasl/t.type_begin.wasl"
-        /* T::include( file:wasl/t.type_end.wasl ) */
+          /* T::include( file:wasl/t.type_end.wasl ) */
 #include "wasl/t.type_end.wasl"
+        }
       }
       else {
       }

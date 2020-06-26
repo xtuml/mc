@@ -46,6 +46,11 @@ if ( "MASL" == genfile::architecture() )
 
 elif ( "WASL" == genfile::architecture() )
 
+  is_identifier_attribute = false;
+  select any identifier related by self->identifier[R3710];
+  if ( not_empty identifier )
+    is_identifier_attribute = true;
+  end if;
   T::include( file:"wasl/t.attribute_begin.wasl" );
   attributetype.render();
   T::b( s:"," );
