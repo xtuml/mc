@@ -694,7 +694,10 @@ elif ( "domain" == element )
       select many routines related by domain->routine[R3790] where ( selected.visibility == "public" );
       for each routine in routines
         select one activity related by routine->activity[R3704];
-        routine.render( name:activity.name );
+        select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "domain_operation_number" );
+        if ( not_empty pragma )
+          routine.render( name:activity.name );
+        end if;
       end for;
       select many operations related by domain->object[R3708]->operation[R3749] where ( selected.visibility == "public" );
       for each operation in operations
@@ -825,17 +828,21 @@ elif ( "domain" == element )
       
       function_files = ""; action_files = ""; bridge_files = ""; scenario_files = "";
 
+      // TODO - leaning too heavily on marks
       // render the activity files
       // functions
       select many routines related by domain->routine[R3790] where ( selected.visibility == "public" );
       for each routine in routines
         select one activity related by routine->activity[R3704];
-        routine.render_definition( activity:activity );
-        filename = domain.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".fn";
-        genfile = genfile::populate( name:filename );
-        genfile.emit( name:filename );
-        marking = routine.render_marking();
-        function_files = function_files + filename + marking + "\n";
+        select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "domain_operation_number" );
+        if ( not_empty pragma )
+          routine.render_definition( activity:activity );
+          filename = domain.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".fn";
+          genfile = genfile::populate( name:filename );
+          genfile.emit( name:filename );
+          marking = routine.render_marking();
+          function_files = function_files + filename + marking + "\n";
+        end if;
       end for;
       // scenarios
       select many routines related by domain->routine[R3790];
@@ -855,6 +862,8 @@ elif ( "domain" == element )
       // bridges
       select many terminators related by domain->terminator[R3702] where ( selected.key_letters != "TIM" );
       for each terminator in terminators
+        select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "hand_coded" );
+        if ( empty pragma )
         select many routines related by terminator->routine[R3791];
         for each routine in routines
           select one activity related by routine->activity[R3704];
@@ -870,6 +879,7 @@ elif ( "domain" == element )
           end if;
           bridge_files = bridge_files + domain.key_letters + "," + domain.version + "," + filename + code_block_present + marking + "\n";
         end for;
+        end if;
       end for;
       // operations
       select many objects related by domain->object[R3708];

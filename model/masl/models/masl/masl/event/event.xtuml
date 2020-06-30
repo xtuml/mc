@@ -47,7 +47,7 @@ elif ( "WASL" == genfile::architecture() )
   end if;
   T::include( file:"wasl/t.field_delimiter.wasl" );
   select many id_attributes related by object->attribute[R3709] where ( selected.preferred == "preferred" );
-  // CDS - Do we need all identifiers?  For now selecting only the preferred identifier.
+  // TODO - Do we need all identifiers?  For now selecting only the preferred identifier.
   //select many secondary_id_attributes related by object->identifier[R3711]->attribute[R3710.''composed of''];
   //all_ids = primaries + secondaries
   for each id_attribute in id_attributes
