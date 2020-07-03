@@ -44,6 +44,7 @@
 
 .if ( "Arduino" == te_thread.flavor )
 #include "Arduino.h"
+#include "${te_thread.extra_initialization}"
 .end if
 
 #ifndef ${te_prefix.define_usw}$u{te_file.types}_$u{te_file.hdr_file_ext}

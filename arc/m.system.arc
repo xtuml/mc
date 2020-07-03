@@ -59,10 +59,11 @@
 .//
 .//============================================================================
 .function EnableArduino
+  .param string header_file
   .select any tm_thread from instances of TM_THREAD
   .if ( empty tm_thread )
     .create object instance tm_thread of TM_THREAD
-    .assign tm_thread.extra_initialization = ""
+    .assign tm_thread.extra_initialization = header_file
   .end if
   .assign tm_thread.number_of_threads = 1
   .assign tm_thread.serialize = false
