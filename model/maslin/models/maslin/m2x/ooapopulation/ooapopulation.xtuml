@@ -7608,13 +7608,13 @@ select many c_eps related by message->C_I[R4003]->C_EP[R4003];
 		select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
 		if ( not_empty spr_po )
 		  spr_po.Action_Semantics_internal = spr_po.Action_Semantics_internal + message_cb;
-		  spr_po.Dialect = ActionDialect::masl;
+		  spr_po.Dialect = self.action_dialect;
 		end if;
       else
 		select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
 		if ( not_empty spr_ro )
 		  spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
-		  spr_ro.Dialect = ActionDialect::masl;
+		  spr_ro.Dialect = self.action_dialect;
 		end if;
   	  end if;
       // dispose interface message
@@ -7647,6 +7647,20 @@ if ( empty ooapopulation )
   ooapopulation.processingIdentifier = 0;
   ooapopulation.processingISM = true;
   ooapopulation.processingProject = false;
+end if;
+select any model from instances of model where ( selected.name == "maslin" );
+if ( not_empty model )
+  action_dialect = model.getoption( name:"actiondialect" );
+  if ( "MASL" == action_dialect )
+    ooapopulation.action_dialect = ActionDialect::masl;
+  elif ( "WASL" == action_dialect )
+    ooapopulation.action_dialect = ActionDialect::asl;
+  else
+    ooapopulation.action_dialect = ActionDialect::masl; // default
+    TRACE::log( flavor:"failure", id:53, message:"No action dialect option." );
+  end if;
+else
+  TRACE::log( flavor:"failure", id:54, message:"No model found for options." );
 end if;
 
 // deal with pragma stack
@@ -7743,7 +7757,7 @@ elif ( "terminator" == element )
       if ( not_empty spr_ro )
         spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
         if ( "" != spr_ro.Action_Semantics_internal )
-          spr_ro.Dialect = ActionDialect::masl;
+          spr_ro.Dialect = ooapopulation.action_dialect;
         end if;
       end if;
     end for;
@@ -8005,7 +8019,7 @@ elif ( "codeblock" == element )
   s_sync = ooapopulation.current_domain_function;
   if ( not_empty s_sync )
     s_sync.Action_Semantics_internal = s_sync.Action_Semantics_internal + STRING::escapetics(s:param.value[0]);
-    s_sync.Dialect = ActionDialect::masl;
+    s_sync.Dialect = ooapopulation.action_dialect;
   end if;
 
   c_ep = ooapopulation.current_executable_property;
@@ -8017,7 +8031,7 @@ elif ( "codeblock" == element )
   o_tfr = ooapopulation.current_class_op;
   if ( not_empty o_tfr )
     o_tfr.Action_Semantics_internal = o_tfr.Action_Semantics_internal + STRING::escapetics(s:param.value[0]);
-    o_tfr.Dialect = ActionDialect::masl;
+    o_tfr.Dialect = ooapopulation.action_dialect;
   end if;
   
   sm_state = ooapopulation.current_state;
@@ -8025,7 +8039,7 @@ elif ( "codeblock" == element )
     select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
     if ( not_empty sm_act )
       sm_act.Action_Semantics_internal = sm_act.Action_Semantics_internal + STRING::escapetics(s:param.value[0]);
-      sm_act.Dialect = ActionDialect::masl;
+      sm_act.Dialect = ooapopulation.action_dialect;
     end if;
   end if;
   
@@ -8162,7 +8176,7 @@ elif ( "terminator" == param.element )
       select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
   	  if ( not_empty spr_po )
         spr_po.Action_Semantics_internal = spr_po.Action_Semantics_internal + message_cb;
-        spr_po.Dialect = ActionDialect::masl;
+        spr_po.Dialect = ooapopulation.action_dialect;
   	  end if;
   	end for;
 
@@ -10580,6 +10594,31 @@ INSERT INTO O_ATTR
 	"0c7bf58f-2594-4e1d-9ff1-3097bef3c057",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("daf1ce64-8b18-4506-b169-2ee3c982b76d",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
+INSERT INTO O_BATTR
+	VALUES ("daf1ce64-8b18-4506-b169-2ee3c982b76d",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");
+INSERT INTO O_ATTR
+	VALUES ("daf1ce64-8b18-4506-b169-2ee3c982b76d",
+	"d83a32f7-3bab-45d1-822a-1b39cbf519e7",
+	"bc47f64e-43f1-4ddb-b879-88a06bae952e",
+	'action_dialect',
+	'',
+	'',
+	'action_dialect',
+	0,
+	"6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6e8bbfe9-d4de-4092-90c6-2ab1daa9b5cd",
+	"00000000-0000-0000-0000-000000000000",
+	'ActionDialect',
+	'Enumerator for available action dialects',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Datatypes/Datatypes.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"d83a32f7-3bab-45d1-822a-1b39cbf519e7");

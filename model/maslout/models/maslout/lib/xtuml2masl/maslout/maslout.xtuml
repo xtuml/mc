@@ -1333,7 +1333,7 @@ for each s_sync in s_syncs
   select one s_dt related by s_sync->S_DT[R25];
   ::type2typeref( s_dt:s_dt, domain_pkg:domain_pkg );
   
-  if ( ActionDialect::masl == s_sync.Dialect )
+  if ( ( ActionDialect::masl == s_sync.Dialect ) or ( ActionDialect::asl == s_sync.Dialect ) )
     // Populate the action langauge body.
     ::body2code_block( name:"", text:STRING::unescapetics(s:s_sync.Action_Semantics_internal) );
   end if;
@@ -3314,7 +3314,7 @@ for each d_tsvc in d_tsvcs
   ::type2typeref( s_dt:s_dt, domain_pkg:domain_package );
   
   // Populate the action langauge body.
-  if ( ActionDialect::masl == d_tsvc.Dialect )
+  if ( ( ActionDialect::masl == d_tsvc.Dialect ) or ( ActionDialect::asl == d_tsvc.Dialect ) )
     ::body2code_block( name:"", text:STRING::unescapetics(s:d_tsvc.Action_Semantics_internal) );
   end if;
 
