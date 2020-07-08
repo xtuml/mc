@@ -10,14 +10,14 @@ import xtuml
 
 from mc3020 import ARCDIR, SCHEMADIR
 
-def run_build(working_directory='.', gen_workspace='code_generation', output_directory='src', model_inputs=[]):
+def run_build(working_directory='.', gen_workspace='code_generation', output_directory='src', variant='c', model_inputs=[]):
 
     # setup build
     print('Setting up build environment...')
-    os.environ['ROX_MC_ARC_DIR'] = ARCDIR                   # set archetype directory
-    working_directory = os.path.abspath(working_directory)  # resolve working directory path
-    gen_workspace = os.path.abspath(gen_workspace)          # resolve gen workspace path
-    output_directory = os.path.abspath(output_directory)    # resolve output path
+    os.environ['ROX_MC_ARC_DIR'] = os.path.join(gen_workspace, 'arc')  # set archetype directory
+    working_directory = os.path.abspath(working_directory)             # resolve working directory path
+    gen_workspace = os.path.abspath(gen_workspace)                     # resolve gen workspace path
+    output_directory = os.path.abspath(output_directory)               # resolve output path
     os.makedirs(output_directory, exist_ok=True)
 
     # prepare gen workspace
@@ -25,7 +25,15 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
     if os.path.exists(gen_workspace):
         shutil.rmtree(gen_workspace)
     os.makedirs(gen_workspace, exist_ok=True)
-    os.chdir(gen_workspace)
+
+    # copy archetypes
+    print('Installing model compiler archetypes...')
+    os.makedirs(os.path.join(gen_workspace, 'arc'), exist_ok=True)
+    for arcfile in filter(lambda path: not os.path.isdir(os.path.join(ARCDIR, path)), os.listdir(ARCDIR)):
+        shutil.copyfile(os.path.join(ARCDIR, arcfile), os.path.join(gen_workspace, 'arc', arcfile))
+    if os.path.exists(os.path.join(ARCDIR, variant)) and os.path.isdir(os.path.join(ARCDIR, variant)):
+        for arcfile in filter(lambda path: not os.path.isdir(os.path.join(ARCDIR, variant, path)), os.listdir(os.path.join(ARCDIR, variant))):
+            shutil.copyfile(os.path.join(ARCDIR, variant, arcfile), os.path.join(gen_workspace, 'arc', arcfile))
 
     # copy marking files
     print('Installing user marks...')
@@ -44,6 +52,7 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
 
     # execute code generation
     print('Generating code...')
+    os.chdir(gen_workspace)
     id_generator = xtuml.IntegerGenerator()
     model = xtuml.MetaModel(id_generator)
     loader = xtuml.ModelLoader()
@@ -51,7 +60,7 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
     loader.input(model_file.getvalue())
     loader.populate(model)
     rt = rsl.Runtime(model, 'change', True, None)
-    ast = rsl.parse_file(os.path.join(ARCDIR, 'sys.arc'))
+    ast = rsl.parse_file(os.path.join(gen_workspace, 'arc', 'sys.arc'))
     rsl.evaluate(rt, ast, ['.'])
 
     # copy generated sources to output directory
@@ -71,6 +80,7 @@ def main():
     parser.add_option('-d', '--pwd', dest='working_directory', help='code generation base folder', default='.')
     parser.add_option('-g', '--gendir', dest='gen_workspace', help='code generation workspace folder', default=None)
     parser.add_option('-o', '--outdir', dest='output_directory', help='source output folder', default='.')
+    parser.add_option('-t', '--variant', dest='variant', help='code generation dialect', default='c')
     opts, args = parser.parse_args()
     gen_workspace = opts.gen_workspace if opts.gen_workspace is not None else os.path.join(opts.working_directory, 'code_generation')
     if len(args) == 0:
@@ -78,5 +88,9 @@ def main():
         sys.exit(1)
 
     # launch build
-    run_build(working_directory=opts.working_directory, gen_workspace=gen_workspace, output_directory=opts.output_directory, model_inputs=args)
+    run_build(working_directory=opts.working_directory,
+              gen_workspace=gen_workspace,
+              output_directory=opts.output_directory,
+              variant=opts.variant,
+              model_inputs=args)
 
