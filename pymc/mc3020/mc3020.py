@@ -13,7 +13,7 @@ from mc3020 import ARCDIR, SCHEMADIR
 def run_build(working_directory='.', gen_workspace='code_generation', output_directory='src', variant='c', model_inputs=[]):
 
     # setup build
-    print('Setting up build environment...')
+    print('MC-3020: Setting up build environment...')
     os.environ['ROX_MC_ARC_DIR'] = os.path.join(gen_workspace, 'arc')  # set archetype directory
     working_directory = os.path.abspath(working_directory)             # resolve working directory path
     gen_workspace = os.path.abspath(gen_workspace)                     # resolve gen workspace path
@@ -21,13 +21,13 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
     os.makedirs(output_directory, exist_ok=True)
 
     # prepare gen workspace
-    print('Preparing generation workspace...')
+    print('MC-3020: Preparing generation workspace...')
     if os.path.exists(gen_workspace):
         shutil.rmtree(gen_workspace)
     os.makedirs(gen_workspace, exist_ok=True)
 
     # copy archetypes
-    print('Installing model compiler archetypes...')
+    print('MC-3020: Installing model compiler archetypes...')
     os.makedirs(os.path.join(gen_workspace, 'arc'), exist_ok=True)
     for arcfile in filter(lambda path: not os.path.isdir(os.path.join(ARCDIR, path)), os.listdir(ARCDIR)):
         shutil.copyfile(os.path.join(ARCDIR, arcfile), os.path.join(gen_workspace, 'arc', arcfile))
@@ -36,7 +36,7 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
             shutil.copyfile(os.path.join(ARCDIR, variant, arcfile), os.path.join(gen_workspace, 'arc', arcfile))
 
     # copy marking files
-    print('Installing user marks...')
+    print('MC-3020: Installing user marks...')
     for markfile in filter(lambda path: os.path.splitext(path)[1] == '.mark', os.listdir(os.path.join(SCHEMADIR, 'colors'))):
         shutil.copyfile(os.path.join(SCHEMADIR, 'colors', markfile), os.path.join(gen_workspace, markfile))
     shutil.copyfile(os.path.join(SCHEMADIR, 'colors', 'sys_functions.arc'), os.path.join(gen_workspace, 'sys_functions.arc'))
@@ -44,14 +44,14 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
         shutil.copyfile(os.path.join(working_directory, user_markfile), os.path.join(gen_workspace, user_markfile))
 
     # execute pre-build
-    print('Pre-building...')
+    print('MC-3020: Pre-building...')
     model = bridgepoint.load_metamodel(model_inputs)
     bridgepoint.prebuild_model(model)
     model_file = io.StringIO()
     xtuml.persist_instances2(model, model_file)
 
     # execute code generation
-    print('Generating code...')
+    print('MC-3020: Generating code...')
     os.chdir(gen_workspace)
     id_generator = xtuml.IntegerGenerator()
     model = xtuml.MetaModel(id_generator)
@@ -64,6 +64,7 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
     rsl.evaluate(rt, ast, ['.'])
 
     # copy generated sources to output directory
+    print('MC-3020: Installing generated sources...')
     custom_implementations = []
     with open(os.path.join(working_directory, 'custom.txt')) as f:
         custom_implementations = list(map(lambda s: s.strip(), f.readlines()))
@@ -72,6 +73,8 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
             shutil.copyfile(os.path.join(gen_workspace, '_ch', src_file), os.path.join(output_directory, src_file + '.orig'))
         else:
             shutil.copyfile(os.path.join(gen_workspace, '_ch', src_file), os.path.join(output_directory, src_file))
+
+    print('MC-3020: Done.')
 
 
 def main():
