@@ -1,0 +1,15 @@
+      <spirit:busInterface>
+         <spirit:name>${te_po.name}_i</spirit:name>
+         <spirit:description/>
+         <spirit:busType spirit:library="Socrates" spirit:name="Default" spirit:vendor="Duolog"
+                         spirit:version="0"/>
+         <spirit:slave>
+            <spirit:memoryMapRef spirit:memoryMapRef="${te_po.name}_mem"/>
+         </spirit:slave>
+         <spirit:vendorExtensions>
+            <soc:addressWidth>${address_width}</soc:addressWidth>
+            <soc:range>${address_space_range}</soc:range>
+            <soc:accessSize>32</soc:accessSize>
+            <soc:dataWidth spirit:format="long">32</soc:dataWidth>
+         </spirit:vendorExtensions>
+      </spirit:busInterface>

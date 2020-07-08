@@ -1,0 +1,8 @@
+         <spirit:addressBlock>
+            <spirit:name>${memory_name}</spirit:name>
+            <spirit:baseAddress>${memory_offset}</spirit:baseAddress>
+            <spirit:range>${memory_size}</spirit:range>
+            <spirit:width>32</spirit:width>
+            <spirit:usage>memory</spirit:usage>
+			<spirit:access>read-write</spirit:access>
+         </spirit:addressBlock>

@@ -1,0 +1,12 @@
+      <spirit:memoryMap>
+         <spirit:name>${te_po.name}_mem</spirit:name>
+         <spirit:addressBlock>
+            <spirit:name>__ALL__</spirit:name>
+            <spirit:baseAddress>0</spirit:baseAddress>
+            <spirit:range>${address_space_range}</spirit:range>
+            <spirit:width>32</spirit:width>
+            <spirit:usage>register</spirit:usage>
+${register_declaration}			
+         </spirit:addressBlock>
+${memory_declaration}
+      </spirit:memoryMap>
