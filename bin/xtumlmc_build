@@ -1213,8 +1213,6 @@ sub determineBuildFileType($)
       @link_sys = ( @link_sys, $optarg );
     } elsif ( $optarg =~ /\.arc$/ ) {
       @arcs = ( @arcs, $optarg );
-    } elsif ( $optarg =~ /\.ino$/ ) {
-      @ino_files = ( @ino_files, $optarg );
     }
 }
 
@@ -1620,7 +1618,6 @@ xtumlmc_gen_erate( "$mc_type -nopersist -d 0 -import $schema -d 0 -import ${mode
 # Copy the H files into the correct locations.
 # Copy in any Makefiles.
 # Copy in the link_sys file.
-# Copy in any .ino file.
 #---------------------------------------------------------------------------
 foreach $f (@c_files) {
   if ( -f "_ch/$f" ) {
@@ -1629,12 +1626,6 @@ foreach $f (@c_files) {
   xtumlmc_copy( "../$f", "_ch" );
 }
 foreach $f (@h_files) {
-  if ( -f "_ch/$f" ) {
-    xtumlmc_move( "_ch/$f", "_ch/$f.orig" );
-  }
-  xtumlmc_copy( "../$f", "_ch" );
-}
-foreach $f (@ino_files) {
   if ( -f "_ch/$f" ) {
     xtumlmc_move( "_ch/$f", "_ch/$f.orig" );
   }
@@ -1663,7 +1654,7 @@ if ( -d $output_src ) {
       xtumlmc_copy_different( "_ch/$g", "$output_src/$vistadir/$g" );
     }
   }
-  my @ch_entries = grep{/\.(c|cc|cpp|h|hh|hpp|xml|ino)$/i} @entries;
+  my @ch_entries = grep{/\.(c|cc|cpp|h|hh|hpp|xml)$/i} @entries;
   foreach my $f ( @ch_entries ) {
     if ( $f =~ m/(pv_template|sysc_main_template)/i ) {
       xtumlmc_copy_different( "_ch/$f", "$output_src/$vistadir/$f" );
