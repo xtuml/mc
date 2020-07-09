@@ -1,0 +1,137 @@
+= Metamodel Changes for WASL
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+This note documents adding additional attributes to classes in the xtUML
+metamodel (OOA of OOA) to support ASL, the action language originally
+supported in iUML.
+
+== 2 Introduction and Background
+
+ASL is the default action language in iUML.  ASL is being supported in
+BridgePoint.  ASL action language makes direct reference to some iUML
+metamodel artifacts that do not presently exist in the OOA of OOA.
+
+== 3 Requirements
+
+=== 3.1 Identify and Enumerate Missing Elements
+
+ASL uses numbers various action bodies.  Domain funtions, class operations
+and terminator services have numbers associated with them.  These numbers
+are named in the invocations of the routines and required in the WASL
+transformations.
+
+WASL understands both a name and key letters for domains.
+
+Enumerate the necessary new attributes and place them on appropriate
+classes in the OOA of OOA.
+
+==== 3.1.1 Establish Default Values and Ranges
+
+For each element identified in <<3.1 Identify and Enumerate Missing
+Elements>>, outline the default value and range.
+
+=== 3.2 Add Elements to Model Compiler OOA of OOA (`mcooa`)
+
+The attributes identified in <<3.1 Identify and Enumerate Missing Elements>>
+shall be added to the model compiler metamodel, `mcooa`.
+
+=== 3.3 Add Elements to BridgePoint OOA of OOA
+
+The attributes identified in <<3.1 Identify and Enumerate Missing Elements>>
+shall be added to the BridgePoint OOA of OOA and in such a way as to maintain
+backwards compatibility.
+
+=== 3.4 Support Editing New Element Values
+
+The attributes identified in <<3.1 Identify and Enumerate Missing Elements>>
+must be editable by the user.  A simple cell editor in the Properties view
+is sufficient for this requirement.
+
+== 4 Work Required
+
+=== 4.1 Identify and Enumerate Missing Elements
+
+* Function.Numb:INTEGER
+* Operation.Numb:INTEGER
+* Terminator Service.Numb:INTEGER
+* Executable Property.Numb:INTEGER
+* Component.Key_Lett:STRING
+
+==== 4.1.1 Establish Default Values and Ranges
+
+In the existing OOA of OOA State Machine Event has a number (`Numb`)
+attribute.  It defaults to 1 for the first event added.  New events are
+automatically assigned an incremented number 1 higher than the highest
+numbered event in the state machine.  Uniqueness among event numbers is
+assured unless overridden by the user, which is allowed.  The range of
+values for event numbers is from 1 to 9999.
+
+Function.Numb, Operation.Numb, Executable Property.Numb and Terminator
+Service.Numb will follow the behavior pattern established for State
+Machine Events within their respective scopes (Domain/Component, Class,
+Port and Terminator respectively).
+
+Component.Key_Lett will be initialized with the name of the Component
+and will have the same legal value restrictions as other 'Key_Lett'
+attributes in the OOA of OOA (e.g. no blanks).
+
+=== 4.2 Add Elements to Model Compiler OOA of OOA (`mcooa`)
+
+* The `ooaofooa` subsystem is edited to add the attributes with appropriate
+  types and ranges (as markings in the Descrip field).
+* The model compiler schema is updated to reflect the changes.
+
+=== 4.3 Add Elements to BridgePoint OOA of OOA
+
+The OOA of OOA is edited to add the new attributes to the enumerated
+classes.  The initialization operation(s) for the classes are updated
+to establish defaults.
+
+The MC-Java schema is updated to reflect the changes.
+
+=== 4.4 Support Editing New Element Values
+
+Cell editors are generated for the new attributes based on the presence
+of marks in the 'Descrip' fields of each new attribute.  Again, the lead
+was followed of other similar attributes in the OOA of OOA.
+
+== 5 Implementation Comments
+
+none
+
+== 6 Unit Test
+
+. `round_trip` testing of the MASL test suite shall continue to pass.
+. `round_trip` importing of SWATS models will execute successfully.
+. The 'DomainB' SWATS test model will generate a clean WACA build.
+
+== 7 User Documentation
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/bridgepoint
+- branch:  11367_wasl_mm
+
+----
+ Put the file list here
+----
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  11367_wasl_mm
+
+----
+ files
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11367[11367 - additions to the xtUML MM to store bits needed by WASL models]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
