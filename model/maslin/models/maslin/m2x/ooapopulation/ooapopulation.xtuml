@@ -7992,6 +7992,7 @@ elif ( "routine" == element )
     //   first routine we see.
   else
     c_i = ooapopulation.current_interface;
+    // TODO - pass along the number
     if ( (not_empty c_i) or ( "" != param.value[1]) )
       ooapopulation.transformTerminatorService(visibility:param.value[2], name:param.value[3], domain:param.value[0], terminator:param.value[1]);
     else
