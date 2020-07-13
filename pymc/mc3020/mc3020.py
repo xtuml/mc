@@ -8,7 +8,7 @@ import shutil
 import sys
 import xtuml
 
-from mc3020 import ARCDIR, SCHEMADIR
+from . import ARCDIR, SCHEMADIR
 
 def run_build(working_directory='.', gen_workspace='code_generation', output_directory='src', variant='c', model_inputs=[]):
 
@@ -18,17 +18,20 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
     working_directory = os.path.abspath(working_directory)             # resolve working directory path
     gen_workspace = os.path.abspath(gen_workspace)                     # resolve gen workspace path
     output_directory = os.path.abspath(output_directory)               # resolve output path
-    os.makedirs(output_directory, exist_ok=True)
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
 
     # prepare gen workspace
     print('MC-3020: Preparing generation workspace...')
     if os.path.exists(gen_workspace):
         shutil.rmtree(gen_workspace)
-    os.makedirs(gen_workspace, exist_ok=True)
+    if not os.path.exists(gen_workspace):
+        os.makedirs(gen_workspace)
 
     # copy archetypes
     print('MC-3020: Installing model compiler archetypes...')
-    os.makedirs(os.path.join(gen_workspace, 'arc'), exist_ok=True)
+    if not os.path.exists(os.path.join(gen_workspace, 'arc')):
+        os.makedirs(os.path.join(gen_workspace, 'arc'))
     for arcfile in filter(lambda path: not os.path.isdir(os.path.join(ARCDIR, path)), os.listdir(ARCDIR)):
         shutil.copyfile(os.path.join(ARCDIR, arcfile), os.path.join(gen_workspace, 'arc', arcfile))
     if os.path.exists(os.path.join(ARCDIR, variant)) and os.path.isdir(os.path.join(ARCDIR, variant)):
@@ -47,8 +50,12 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
     print('MC-3020: Pre-building...')
     model = bridgepoint.load_metamodel(model_inputs)
     bridgepoint.prebuild_model(model)
-    model_file = io.StringIO()
-    xtuml.persist_instances2(model, model_file)
+    try:
+        model_file = io.StringIO()
+        xtuml.persist_instances2(model, model_file)
+    except TypeError:
+        model_file = io.BytesIO()
+        xtuml.persist_instances2(model, model_file)
 
     # execute code generation
     print('MC-3020: Generating code...')
