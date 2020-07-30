@@ -144,6 +144,7 @@ arguments in order and specification of arguments.
 | description*      | text              | required              | string                                                      |
 |                   | tag               | optional              | string                                                      |
 | domain            | name              | required              | string                                                      |
+|                   | key_letters       | optional              | string                                                      |
 | enumeration       | name              | required              | string (from the parent 'type')                             |
 | enumerator*       | name              | required              | string                                                      |
 |                   | expression        | optional              | string                                                      |

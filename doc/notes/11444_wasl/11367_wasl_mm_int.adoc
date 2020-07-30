@@ -18,9 +18,9 @@ metamodel artifacts that do not presently exist in the OOA of OOA.
 
 === 3.1 Identify and Enumerate Missing Elements
 
-ASL uses numbers various action bodies.  Domain funtions, class operations
-and terminator services have numbers associated with them.  These numbers
-are named in the invocations of the routines and required in the WASL
+ASL uses numbers on various action bodies.  Domain funtions, class operations
+and terminator services have numbers associated with them.  These numbers are
+named in the invocations of the routines and required in the WASL
 transformations.
 
 WASL understands both a name and key letters for domains.
@@ -62,7 +62,7 @@ is sufficient for this requirement.
 
 ==== 4.1.1 Establish Default Values and Ranges
 
-In the existing OOA of OOA State Machine Event has a number (`Numb`)
+In the existing OOA of OOA, State Machine Event has a number (`Numb`)
 attribute.  It defaults to 1 for the first event added.  New events are
 automatically assigned an incremented number 1 higher than the highest
 numbered event in the state machine.  Uniqueness among event numbers is
@@ -100,7 +100,31 @@ was followed of other similar attributes in the OOA of OOA.
 
 == 5 Implementation Comments
 
-none
+=== 5.1 Implementation Sequencing
+
+The file changes needed to deliver full functionality of this work span
+multiple independent modules.  I chose to take baby steps in a way to
+avoid having to debug everything at once.
+
+Steps:
+
+. Add the new attributes to `bp.core:ooaofooa` (without markings).
+. Build and fix fallout in upgrade code.  (Some upgrade code directly
+  invoked the Component constructor.  Also, new attributes need to be
+  special cased.  Instead, I checked length of raw input on all integers.)
+. server build
+. Update `ooa_schema.sql`.
+. server build
+. Update mcooa by adding the attributes.
+. Update `xtumlmc_schema.sql`.
+. server build
+. Update maslin to populate operation numbers and domain key letters.
+. Update maslout to use MM operation numbers and domain key letters
+  rather than markings.
+. server build
+. Add markings to the attributes to generate cell editors.
+. Update the initialization and modification operations on the attributes.
+. server build
 
 == 6 Unit Test
 

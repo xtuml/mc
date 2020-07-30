@@ -70,7 +70,8 @@ if ( "project" == element )
     end for;
   end if;
 elif ( "domain" == element )
-  select many domains from instances of domain where ( selected.name == name );
+  select many domains from instances of domain where
+    ( ( selected.name == name ) or ( selected.key_letters == name ) );
   if ( ( "*" == name ) or ( "" == name ) )
     select many domains from instances of domain;
   end if;
@@ -127,6 +128,7 @@ end if;
 	1,
 	'',
 	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("e5cf8b40-420d-4501-88bd-ebcfca9f7251",
@@ -180,6 +182,7 @@ end if;',
 	1,
 	'',
 	"fb05b492-f60e-4c02-bdc6-89f2362e8cee",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
@@ -203,6 +206,7 @@ return genfile;',
 	1,
 	'',
 	"0652aa1a-382c-4f76-b3b5-f382ef04ba69",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("6c8f49be-0ccb-4b8a-ae38-a983e455e4a4",
@@ -241,6 +245,7 @@ end if;
 	1,
 	'',
 	"e5b94764-401e-406c-b9a9-fa2a5bc4fce0",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("99921c31-1323-40cf-a690-4971823e7fb4",
@@ -269,6 +274,7 @@ T::emit( file:fullfilename );',
 	1,
 	'',
 	"5cd5b315-bca4-4e80-ba18-2427ea690ab7",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("1e4e6c03-8024-460f-b234-2e3697d13d06",
@@ -294,6 +300,7 @@ end if;',
 	1,
 	'',
 	"e4bb4b34-0329-4346-a4bf-632ffa0ad30b",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("29043fa1-8c39-4370-9b32-3c885eaddb8a",
@@ -323,6 +330,7 @@ T::copyfile( source:source, destination:destination );',
 	1,
 	'',
 	"42b3bbc0-d392-414b-8b74-4c347e0f6e79",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("f291b218-90cf-440e-82d5-4f62b49dd9fa",
@@ -358,6 +366,7 @@ genfile.projectroot = param.name;',
 	1,
 	'',
 	"2f147788-5a86-4450-bedd-f6c445ca097c",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("766ebdb8-8e48-489a-8926-e257a758062f",
@@ -524,6 +533,7 @@ return name;',
 	1,
 	'',
 	"a7863684-8575-4990-b290-dce44c1b53df",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("f03f6367-a1ba-4db1-a427-380dbbbb9806",
@@ -543,6 +553,7 @@ end if;',
 	1,
 	'',
 	"5184e566-c21d-4e41-adf8-4be0bb366c90",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("7bb1295c-b375-4c50-9c1e-efd5bb085697",
@@ -623,35 +634,6 @@ elif ( "domain" == element )
         value_len = STRING::strlen( s:pragma_item.value );
         domain.name = T::underscore( s: STRING::substr(begin:1, end:( value_len - 1 ), s:pragma_item.value ) );
       end if;
-      select any pragma related by domain->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "kl" );
-      select any pragma_item related by pragma->pragma_item[R3780];
-      if ( not_empty pragma_item )
-        // Trim off quotation marks.
-        value_len = STRING::strlen( s:pragma_item.value );
-        domain.key_letters = STRING::substr(begin:1, end:( value_len - 1 ), s:pragma_item.value );
-      end if;
-      // TODO - This will become native metamodel.
-      // Apply marking for routine numbers.
-      select many domain_routines related by domain->routine[R3790];
-      select many terminator_routines related by domain->terminator[R3702]->routine[R3791];
-      routines = domain_routines + terminator_routines;
-      for each routine in routines
-        select any pragma related by routine->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where
-          ( selected.name == "terminator_operation_number" or selected.name == "domain_operation_number" or selected.name == "scenario" );
-        select any pragma_item related by pragma->pragma_item[R3780];
-        if ( not_empty pragma_item )
-          routine.number = STRING::atoi( s:pragma_item.value );
-        end if;
-      end for;
-      select many operations related by domain->object[R3708]->operation[R3749];
-      for each operation in operations
-        select any pragma related by operation->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where
-          ( selected.name == "operation_number" );
-        select any pragma_item related by pragma->pragma_item[R3780];
-        if ( not_empty pragma_item )
-          operation.number = STRING::atoi( s:pragma_item.value );
-        end if;
-      end for;
 
       // terminators file
       select many terminators related by domain->terminator[R3702];
@@ -659,7 +641,7 @@ elif ( "domain" == element )
         terminator.render();
       end for;
       genfile = genfile::populate( name:"terminators" );
-      genfile.emit( name:domain.key_letters + ".ter" );
+      genfile.emit( name:domain.name + ".ter" );
 
       // hand coded files file
       for each terminator in terminators
@@ -669,24 +651,17 @@ elif ( "domain" == element )
         end if;
       end for;
       genfile = genfile::populate( name:"hand_coded_files" );
-      genfile.emit( name:domain.key_letters + ".hcf" );
+      genfile.emit( name:domain.name + ".hcf" );
 
       // scenario list file
-      select many routines related by domain->routine[R3790];
+      select many routines related by domain->routine[R3790] where ( selected.visibility == "private" );
       if ( not_empty routines )
-        select any pragma related by routines->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
-        if ( not_empty pragma )
-          for each routine in routines
-            select one activity related by routine->activity[R3704];
-            select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
-            select any pragma_item related by pragma->pragma_item[R3780];
-            if ( not_empty pragma_item )
-              T::include( file:"wasl/t.scenario.wasl" );
-            end if;
-          end for;
-          genfile = genfile::populate( name:"scenarios" );
-          genfile.emit( name:domain.key_letters + ".scn" );
-        end if;
+        for each routine in routines
+          select one activity related by routine->activity[R3704];
+          T::include( file:"wasl/t.scenario.wasl" );
+        end for;
+        genfile = genfile::populate( name:"scenarios" );
+        genfile.emit( name:domain.name + ".scn" );
       end if;
 
       // function data types file
@@ -694,10 +669,7 @@ elif ( "domain" == element )
       select many routines related by domain->routine[R3790] where ( selected.visibility == "public" );
       for each routine in routines
         select one activity related by routine->activity[R3704];
-        select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "domain_operation_number" );
-        if ( not_empty pragma )
-          routine.render( name:activity.name );
-        end if;
+        routine.render( name:activity.name );
       end for;
       select many operations related by domain->object[R3708]->operation[R3749] where ( selected.visibility == "public" );
       for each operation in operations
@@ -706,7 +678,7 @@ elif ( "domain" == element )
       end for;
       T::include( file:"wasl/t.END.wasl" );
       genfile = genfile::populate( name:"functions" );
-      genfile.emit( name:domain.key_letters + ".fnp" );
+      genfile.emit( name:domain.name + ".fnp" );
 
       // bridge data types file
       select many terminators related by domain->terminator[R3702] where ( selected.key_letters != "TIM" );
@@ -722,7 +694,7 @@ elif ( "domain" == element )
         T::include( file:"wasl/t.END.wasl" );
       end if;
       genfile = genfile::populate( name:"bridges" );
-      genfile.emit( name:domain.key_letters + ".brp" );
+      genfile.emit( name:domain.name + ".brp" );
 
       // objects file
       select many objects related by domain->object[R3708];
@@ -737,7 +709,7 @@ elif ( "domain" == element )
         i = i + 1;
       end while;
       genfile = genfile::populate( name:"objects" );
-      genfile.emit( name:domain.key_letters + ".obj" );
+      genfile.emit( name:domain.name + ".obj" );
 
       // relationships file
       select many rels related by domain->relationship[R3712];
@@ -747,7 +719,7 @@ elif ( "domain" == element )
         rel.render();
       end for;
       genfile = genfile::populate( name:"relationships" );
-      genfile.emit( name:domain.key_letters + ".rel" );
+      genfile.emit( name:domain.name + ".rel" );
 
       // subtypes file
       for each rel in subsuper_rels
@@ -755,7 +727,7 @@ elif ( "domain" == element )
       end for;
       T::include( file:"wasl/t.newline.wasl" );
       genfile = genfile::populate( name:"subtypes" );
-      genfile.emit( name:domain.key_letters + ".sub" );
+      genfile.emit( name:domain.name + ".sub" );
 
       // polymorphic events file
       for each rel in subsuper_rels
@@ -769,7 +741,7 @@ elif ( "domain" == element )
         end for;
       end for;
       genfile = genfile::populate( name:"polymorphic_events" );
-      genfile.emit( name:domain.key_letters + ".pme" );
+      genfile.emit( name:domain.name + ".pme" );
 
       // .pme_test
       for each rel in subsuper_rels
@@ -784,7 +756,7 @@ elif ( "domain" == element )
         end for;
       end for;
       genfile = genfile::populate( name:"polymorphic_event_test" );
-      genfile.emit( name:domain.key_letters + ".pme_test" );
+      genfile.emit( name:domain.name + ".pme_test" );
 
 
       // state transition table file
@@ -796,7 +768,7 @@ elif ( "domain" == element )
         end for;
       end for;
       genfile = genfile::populate( name:"state_machines" );
-      genfile.emit( name:domain.key_letters + ".stt" );
+      genfile.emit( name:domain.name + ".stt" );
 
       // event data file
       select many objects related by domain->object[R3708];
@@ -807,7 +779,7 @@ elif ( "domain" == element )
         end for;
       end for;
       genfile = genfile::populate( name:"events" );
-      genfile.emit( name:domain.key_letters + ".evd" );
+      genfile.emit( name:domain.name + ".evd" );
 
 
       // types file
@@ -819,7 +791,7 @@ elif ( "domain" == element )
         obj.render_declaration();
       end for;
       genfile = genfile::populate( name:"types" );
-      genfile.emit( name:domain.key_letters + ".typ" );
+      genfile.emit( name:domain.name + ".typ" );
 
       if ( structuralOnly == true )
         // we have output the domain structural bits, so skip activites
@@ -834,30 +806,23 @@ elif ( "domain" == element )
       select many routines related by domain->routine[R3790] where ( selected.visibility == "public" );
       for each routine in routines
         select one activity related by routine->activity[R3704];
-        select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "domain_operation_number" );
-        if ( not_empty pragma )
-          routine.render_definition( activity:activity );
-          filename = domain.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".fn";
-          genfile = genfile::populate( name:filename );
-          genfile.emit( name:filename );
-          marking = routine.render_marking();
-          function_files = function_files + filename + marking + "\n";
-        end if;
+        routine.render_definition( activity:activity );
+        filename = domain.name + STRING::itoa( i:routine.number ) + "_" + activity.name + ".fn";
+        genfile = genfile::populate( name:filename );
+        genfile.emit( name:filename );
+        marking = routine.render_marking();
+        function_files = function_files + filename + marking + "\n";
       end for;
       // scenarios
-      select many routines related by domain->routine[R3790];
+      select many routines related by domain->routine[R3790] where ( selected.visibility == "private" );
       for each routine in routines
         select one activity related by routine->activity[R3704];
-        select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
-        select any pragma_item related by pragma->pragma_item[R3780];
-        if ( not_empty pragma_item )
-          routine.render_definition( activity:activity );
-          filename = domain.key_letters + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
-          genfile = genfile::populate( name:filename );
-          genfile.emit( name:filename );
-          marking = routine.render_marking();
-          scenario_files = scenario_files + domain.key_letters + "," + domain.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
-        end if;
+        routine.render_definition( activity:activity );
+        filename = domain.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
+        genfile = genfile::populate( name:filename );
+        genfile.emit( name:filename );
+        marking = routine.render_marking();
+        scenario_files = scenario_files + domain.name + "," + domain.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
       end for;
       // bridges
       select many terminators related by domain->terminator[R3702] where ( selected.key_letters != "TIM" );
@@ -868,7 +833,7 @@ elif ( "domain" == element )
         for each routine in routines
           select one activity related by routine->activity[R3704];
           routine.render_definition( activity:activity );
-          filename = domain.key_letters + "_" + terminator.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".br";
+          filename = domain.name + "_" + terminator.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".br";
           genfile = genfile::populate( name:filename );
           genfile.emit( name:filename );
           marking = routine.render_marking();
@@ -877,7 +842,7 @@ elif ( "domain" == element )
           if ( not_empty code_block )
             code_block_present = ",Y";
           end if;
-          bridge_files = bridge_files + domain.key_letters + "," + domain.version + "," + filename + code_block_present + marking + "\n";
+          bridge_files = bridge_files + domain.name + "," + domain.version + "," + filename + code_block_present + marking + "\n";
         end for;
         end if;
       end for;
@@ -888,7 +853,7 @@ elif ( "domain" == element )
         for each operation in operations
           select one activity related by operation->activity[R3704];
           operation.render_definition( activity:activity );
-          filename = domain.key_letters + "_" + object.key_letters + STRING::itoa( i:operation.number ) + "_" + activity.name + ".fn";
+          filename = domain.name + "_" + object.key_letters + STRING::itoa( i:operation.number ) + "_" + activity.name + ".fn";
           select one deferral related by operation->subsuper[R3793];
           if ( empty deferral )
             // Skip generaton of abstract operations.
@@ -906,7 +871,7 @@ elif ( "domain" == element )
           select any cell related by state->cell[R3731];
           if ( not_empty cell )
             state.render_definition( activity:activity );
-            sname = domain.key_letters + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
+            sname = domain.name + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
             genfile = genfile::populate( name:sname );
             genfile.emit( name:sname + ".al" );
             action_files = action_files + sname + ".al" + "\n";
@@ -917,7 +882,7 @@ elif ( "domain" == element )
       // domain ("dump") file
       T::include( file:"wasl/t.domain_begin.wasl" );
       genfile = genfile::populate( name:"domain" );
-      genfile.emit( name:domain.key_letters + ".dmp" );
+      genfile.emit( name:domain.name + ".dmp" );
 
     end for;
   end if;
@@ -932,6 +897,7 @@ end if;',
 	1,
 	'',
 	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("5a9cac6f-7833-4e28-bb71-50f49f765373",
@@ -980,6 +946,7 @@ return population.architecture;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",

@@ -38,6 +38,7 @@ return operation;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("142b5999-d38f-4ecf-accb-b92509be173a",
@@ -154,6 +155,7 @@ end if;
 	1,
 	'',
 	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("63f0e4a9-953d-4562-b089-ee7781ca3b32",
@@ -222,6 +224,7 @@ return valid;',
 	1,
 	'',
 	"1fa5810f-8b8a-4e1c-9f59-550b94128d55",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("854a4e74-62ba-4ac7-9701-206211294e8b",
@@ -241,6 +244,7 @@ delete object instance self;',
 	1,
 	'',
 	"3668380d-531d-4fe0-84c1-4d984a2aaa53",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("1fa5810f-8b8a-4e1c-9f59-550b94128d55",
@@ -279,9 +283,8 @@ elif ( "WASL" == genfile::architecture() )
   comment = "";
   select any description related by activity->markable[R3783]->element[R3786]->description[R3796];
   if ( not_empty description )
-    comment = description.text;
+    comment = STRING::trim( s: description.text );
   end if;
-  comment = STRING::trim( s: STRING::replace( original:comment, replace:"\n", with:"" ) );
   
   T::include( file:"wasl/t.operation_def_begin.wasl" );
 
@@ -315,6 +318,7 @@ end if;
 	1,
 	'',
 	"e889e439-cdfe-4477-b73a-7a33f6c3cbfc",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("da5f114b-32fd-4ba2-a828-593674109ea4",

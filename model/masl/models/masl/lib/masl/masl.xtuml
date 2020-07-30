@@ -467,7 +467,8 @@ INSERT INTO SPR_PS
     project.tostring();
   end if;
 elif ( "domain" == param.element )
-  select any domain from instances of domain where ( selected.name == param.name );
+  select any domain from instances of domain where
+    ( ( selected.name == param.name ) or ( selected.key_letters == param.name ) );
   if ( not_empty domain )
     domain.tostring();
   end if;

@@ -18,6 +18,7 @@ INSERT INTO O_TFR
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("db52defc-b9dc-4155-a563-e8b6b30796ac",
@@ -27,29 +28,67 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
 	'pragma = param.pragma;
-
-// check if this is a class key letters pragma. If it is, we do not create
-// a pragma item, we simply set the class key letters
+select any population from instances of ooapopulation;
 select one element related by pragma->ooapragma_list[R3803]->ooamarkable[R3802]->ooaelement[R3806];
-if ( "object" == element.type and "key_letter" == pragma.name )
-  select any population from instances of ooapopulation;
-  current_object = population.current_class;
-  value_len = STRING::strlen(s:param.value);
+value_len = STRING::strlen(s:param.value);
+
+if ( "domain" == element.type and "name" == pragma.name )
+  // CDS domain name (actually "long name" which we will store as key letters for now.
   new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);
+  current_component = population.current_component;
+  current_component.Key_Lett = new_val;
+elif ( "domain" == element.type and "number" == pragma.name )
+  // domain number
+elif ( "domain" == element.type and "kl" == pragma.name )
+  // domain key letters (kl)
+  new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);
+  current_component = population.current_component;
+  // CDS - This tag will match the name we have already assigned.
+  // CDS - Key_Lett means long_name for MASL/WASL.
+  //current_component.Key_Lett = new_val;
+elif ( "object" == element.type and "key_letter" == pragma.name )
+  // class key letters
+  new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);
+  current_object = population.current_class;
   current_object.Key_Lett = new_val;
-  
-  // clean up
-  select one pragma_list related by pragma->ooapragma_list[R3803];
-  unrelate pragma from pragma_list across R3803;
-  delete object instance pragma;
+elif ( "object" == element.type and "id" == pragma.name )
+  // class number
+  current_object = population.current_class;
+  current_object.Numb = STRING::atoi( s:param.value );
+elif ( "operation" == element.type and "operation_number" == pragma.name )
+  current_class_op = population.current_class_op;
+  current_class_op.Numb = STRING::atoi( s:param.value );
+elif ( "routine" == element.type and "domain_operation_number" == pragma.name )
+  current_domain_function = population.current_domain_function;
+  current_domain_function.Numb = STRING::atoi( s:param.value );
+  current_executable_property = population.current_executable_property;
+  current_executable_property.Numb = STRING::atoi( s:param.value );
+elif ( "routine" == element.type and "terminator_operation_number" == pragma.name )
+  current_executable_property = population.current_executable_property;
+  current_executable_property.Numb = STRING::atoi( s:param.value );
+elif ( "routine" == element.type and "scenario" == pragma.name )
+  current_domain_function = population.current_domain_function;
+  current_domain_function.Numb = STRING::atoi( s:param.value );
+  // Keep the scenario marking.  MASL uses it.  WASL might use it.
+  create object instance pragma_item of ooapragma_item;
+  pragma_item.value = param.value;
+  relate pragma_item to pragma across R3804;
+  return;
 else
   create object instance pragma_item of ooapragma_item;
   pragma_item.value = param.value;
   relate pragma_item to pragma across R3804;
-end if;',
+  return;
+end if;
+
+// clean up
+select one pragma_list related by pragma->ooapragma_list[R3803];
+unrelate pragma from pragma_list across R3803;
+delete object instance pragma;',
 	1,
 	'',
 	"61801d85-1e3a-414c-857d-25ad1ecf4a60",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("9d5fd992-2728-4e4d-86a8-791124954024",
@@ -87,6 +126,7 @@ INSERT INTO O_TFR
 	1,
 	'',
 	"db52defc-b9dc-4155-a563-e8b6b30796ac",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("a61e48fa-a69d-4ae7-85df-504717394339",
