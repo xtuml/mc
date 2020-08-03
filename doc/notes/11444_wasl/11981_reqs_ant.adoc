@@ -1,0 +1,157 @@
+= Export Requirements Tags
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+This note provides analysis of the extraction of requirements tags from
+xtUML/ASL models into WASL formatted output.
+
+== 2 Introduction and Background
+
+Requirements tags are embedded in the existing iUML/ASL models associated
+with project Caledonia.  These requirements tags are carried forward into
+the xtUML/ASL models when converted and imported into BridgePoint.  It is
+the intent to continue embedding requirements tags into new model-based
+development projects in the BridgePoint environment.
+
+Existing tags and new tags are important for requirements tracing on existing
+as well as new projects.
+
+== 3 Requirements
+
+A presentation of the requirments can be found in <<dr-2>>.  Some of the
+requirements outlined in that document are repeated here for convenience.
+
+=== 3.1 Output File
+
+==== 3.1.1 One File per Domain
+
+All requirements tags from a domain shall be exported into a single file.
+
+==== 3.1.2 File Name
+
+The output file shall be named similarly to other WASL domain-related files.
+The base file name shall match that of the domain (short-name / key letters).
+The file name extension shall be '.req'.
+
+==== 3.1.3 One Record per Tag
+
+The domain requirements tags file shall contain a listing of all requirements
+tags extracted from the domain model, one record per line.
+
+<<dr-2>> specifies the rules for populating the fields in each record.
+
+== 4 Analysis
+
+=== 4.1 Syntax
+
+* Requirements tags are prepended with '@@'.
+* Requirements tags are terminated with white space (blank or end-of-line).
+* Requirements tags normally range between 12 and 20 characters in length,
+  but lengths between 0 and 255 are supported.
+* Requirements tags normally contain letters, numbers, dashes ('-') and
+  slashes ('/'), but all non-whitespace ASCII characters are supported.
+
+=== 4.2 Locations
+
+* Requirements tags can be embedded in the description field of model
+  elements.
+* Requirements tags can be embedded in comments in the code blocks of ASL
+  activities.
+
+=== 4.3 Global Nature
+
+The requirements tags output file differs from the other WASL files in that
+it contains a collection of data found throughout the entire model.
+
+=== 4.4 All Descriptions
+
+Many elements carry descriptions which are not output into the functional
+WASL files.  However, any description may carry requirements tags.
+Therefore, all elements carrying a description need to be scanned for tags.
+This involves interrogating descriptions on elements that have not heretofore
+been accessed in other parts of the export process.
+
+=== 4.5 Development Alternatives
+
+==== 4.5.1 Inheritance Approach
+
+The OOA of MASL/WASL contains a supertype class called 'element'.
+Potentially, a method could be added to 'element' called 'render_tags'.
+'render_tags' could then be implemented on the subtypes 'markable' and
+'unmarkable' and then in turn on the markable and unmarkable model
+elements at the "leaf" nodes of the hiearchy.
+
+==== 4.5.2 Discover-As-You-Go Approach
+
+Specific functionality could be added to the 'render' operations of each
+class in the OOA of MASL/WASL.  This functionality would mine for
+requirements tags in the associated description or code_block.  The
+advantage of this approach is that all context information needed to
+populate the additional fields of the '.req' file would be in scope.
+The disadvantage of this approach is that requirement tag functionality
+would be peppered throughout several application model elements.  This
+approach also poses a maintenance cost for this widely distributed code.
+
+==== 4.5.3 Populate / Render Pattern
+
+A 'requirement' class can be added to the OOA of MASL/WASL.  This class
+can then be populated during the populate phase of WASL export.  Then
+the tags files can be rendered during the render phase.  Context information
+will need to be gathered during the rendering.  This can be accomplished
+by traversing the 'element' hierarchy to the leaf-node level artifacts.
+This is a non-trivial query, but it will be convenient to have is located
+and maintained in one place ('requirement::render').
+
+This approach has the benefit of being modeled.
+
+This approach localizes requirements tags handling into a more cohesive
+set of routines.
+
+This is the recommended approach for this work.
+
+== 5 Work Required
+
+=== 5.1 'requirement' Class
+
+A new class named 'requirement' is added to the OOA of MASL/WASL.
+'requirement' shall be related to 'element' across a many to many
+association allowing the same requirement to be attached to multiple
+model elements and for a single model element to link to multiple
+requirements.
+
+=== 5.2 Finding Tags and Creating 'requirement' Instances
+
+'requirement' shall have a class-based operation 'populate' which takes
+as input a string and a model element reference.  This operation will scan
+the string, identify requirements tags embedded within the string,
+extract the tags and create instances of 'requirement' for each tag.
+
+No attempt is made to avoid duplication.  All syntactically valid requirements
+tags shall be populated and linked to the given model element as discovered.
+
+=== 5.3 Rendering
+
+During the render phase, 'requirement' instances shall be rendered as
+text records in the above described domain requirements tag file.
+
+All requirements tags shall be rendered without regard to uniqueness.
+
+== 6 Acceptance Test
+
+=== 6.1 Round-Trip Testing
+
+The existing round-trip testing shall improve to include requirements tag
+files present in the SWATS test suite.
+
+== 7 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11981[11981 - export requirements tags]
+. [[dr-2]] https://support.onefact.net/attachments/download/1696/Caledonia_dot_req_files_B.docx[Caledonia DOT Req Files B]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
