@@ -321,7 +321,7 @@ elif ( "typeref" == element )
   select one parent_operation related by population->element[R3784.''has current'']->markable[R3786]->activity[R3783]->operation[R3704];
   select one parent_parameter related by population->element[R3784.''has current'']->unmarkable[R3786]->parameter[R3788];
   select one parent_attribute related by population->element[R3784.''has current'']->markable[R3786]->attribute[R3783];
-  select one parent_member related by population->element[R3784.''has current'']->unmarkable[R3786]->member[R3788];
+  select one parent_member related by population->element[R3784.''has current'']->markable[R3786]->member[R3783];
 
   if ( not_empty root_element and empty parent_routine and empty parent_operation and empty parent_parameter and empty parent_attribute and empty parent_member )
     TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
@@ -445,7 +445,7 @@ elif ( "member" == element )
     population.stack_trace();
   end if;
   member = member::populate( name:value[0], expression:value[1], structure:parent_structure );
-  select one new_element related by member->unmarkable[R3788]->element[R3786];
+  select one new_element related by member->markable[R3783]->element[R3786];
   population.push_element( new_element:new_element );
 elif ( "range" == element )
   select one parent_type related by population->element[R3784.''has current'']->markable[R3786]->type[R3783];
@@ -488,10 +488,13 @@ elif ( "codeblock" == element )
     population.stack_trace();
   end if;
   code_block::populate( sourcefile:value[0], parent_activity:parent_activity );
+  select one parent_element related by parent_activity->markable[R3783]->element[R3786];
+  requirement::populate( element:parent_element, body:value[0] );
   // code_block is a leaf node and does not get pushed onto the current element stack
 elif ( "description" == element )
   select one parent_element related by population->element[R3784.''has current''];
   descrip = description::populate( element:parent_element, text:value[0], tag:value[1] );
+  requirement::populate( element:parent_element, body:value[0] );
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;

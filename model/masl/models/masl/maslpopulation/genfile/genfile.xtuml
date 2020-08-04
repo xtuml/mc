@@ -599,7 +599,7 @@ if ( "project" == element )
         continue;
       end if;
       
-	    // render all the activity files
+      // render all the activity files
       select many terminator_activities related by project->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
       for each activity in terminator_activities
         select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
@@ -883,6 +883,16 @@ elif ( "domain" == element )
       T::include( file:"wasl/t.domain_begin.wasl" );
       genfile = genfile::populate( name:"domain" );
       genfile.emit( name:domain.name + ".dmp" );
+      
+      // requirements tags file
+      select many requirements from instances of requirement where ( selected.domain == domain.name );
+      if ( not_empty requirements )
+        for each requirement in requirements
+          requirement.render();
+        end for;
+        genfile = genfile::populate( name:"requirements" );
+        genfile.emit( name:domain.name + ".req" );
+      end if;
 
     end for;
   end if;

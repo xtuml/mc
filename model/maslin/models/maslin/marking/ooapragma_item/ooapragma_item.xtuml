@@ -28,57 +28,73 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
 	'pragma = param.pragma;
-select any population from instances of ooapopulation;
+select any ooapopulation from instances of ooapopulation;
 select one element related by pragma->ooapragma_list[R3803]->ooamarkable[R3802]->ooaelement[R3806];
 value_len = STRING::strlen(s:param.value);
 
-if ( "domain" == element.type and "name" == pragma.name )
-  // CDS domain name (actually "long name" which we will store as key letters for now.
-  new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);
-  current_component = population.current_component;
-  current_component.Key_Lett = new_val;
-elif ( "domain" == element.type and "number" == pragma.name )
-  // domain number
-elif ( "domain" == element.type and "kl" == pragma.name )
-  // domain key letters (kl)
-  new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);
-  current_component = population.current_component;
-  // CDS - This tag will match the name we have already assigned.
-  // CDS - Key_Lett means long_name for MASL/WASL.
-  //current_component.Key_Lett = new_val;
-elif ( "object" == element.type and "key_letter" == pragma.name )
-  // class key letters
-  new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);
-  current_object = population.current_class;
-  current_object.Key_Lett = new_val;
-elif ( "object" == element.type and "id" == pragma.name )
-  // class number
-  current_object = population.current_class;
-  current_object.Numb = STRING::atoi( s:param.value );
-elif ( "operation" == element.type and "operation_number" == pragma.name )
-  current_class_op = population.current_class_op;
-  current_class_op.Numb = STRING::atoi( s:param.value );
-elif ( "routine" == element.type and "domain_operation_number" == pragma.name )
-  current_domain_function = population.current_domain_function;
-  current_domain_function.Numb = STRING::atoi( s:param.value );
-  current_executable_property = population.current_executable_property;
-  current_executable_property.Numb = STRING::atoi( s:param.value );
-elif ( "routine" == element.type and "terminator_operation_number" == pragma.name )
-  current_executable_property = population.current_executable_property;
-  current_executable_property.Numb = STRING::atoi( s:param.value );
-elif ( "routine" == element.type and "scenario" == pragma.name )
-  current_domain_function = population.current_domain_function;
-  current_domain_function.Numb = STRING::atoi( s:param.value );
-  // Keep the scenario marking.  MASL uses it.  WASL might use it.
-  create object instance pragma_item of ooapragma_item;
-  pragma_item.value = param.value;
-  relate pragma_item to pragma across R3804;
-  return;
+if ( ActionDialect::masl == ooapopulation.action_dialect )
+  if ( "object" == element.type and "key_letter" == pragma.name )
+    // class key letters
+    new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);
+    current_object = ooapopulation.current_class;
+    current_object.Key_Lett = new_val;
+  else
+    create object instance pragma_item of ooapragma_item;
+    pragma_item.value = param.value;
+    relate pragma_item to pragma across R3804;
+    return;
+  end if;
+elif ( ActionDialect::asl == ooapopulation.action_dialect )
+  if ( "domain" == element.type and "name" == pragma.name )
+    // CDS domain name (actually "long name" which we will store as key letters for now.
+    new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);
+    current_component = ooapopulation.current_component;
+    current_component.Key_Lett = new_val;
+  elif ( "domain" == element.type and "number" == pragma.name )
+    // domain number
+  elif ( "domain" == element.type and "kl" == pragma.name )
+    // domain key letters (kl)
+    new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);
+    current_component = ooapopulation.current_component;
+    // CDS - This tag will match the name we have already assigned.
+    // CDS - for now Key_Lett means long_name for MASL/WASL.
+    //current_component.Key_Lett = new_val;
+  elif ( "object" == element.type and "key_letter" == pragma.name )
+    // class key letters
+    new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);
+    current_object = ooapopulation.current_class;
+    current_object.Key_Lett = new_val;
+  elif ( "object" == element.type and "id" == pragma.name )
+    // class number
+    current_object = ooapopulation.current_class;
+    current_object.Numb = STRING::atoi( s:param.value );
+  elif ( "operation" == element.type and "operation_number" == pragma.name )
+    current_class_op = ooapopulation.current_class_op;
+    current_class_op.Numb = STRING::atoi( s:param.value );
+  elif ( "routine" == element.type and "domain_operation_number" == pragma.name )
+    current_domain_function = ooapopulation.current_domain_function;
+    current_domain_function.Numb = STRING::atoi( s:param.value );
+    current_executable_property = ooapopulation.current_executable_property;
+    current_executable_property.Numb = STRING::atoi( s:param.value );
+  elif ( "routine" == element.type and "terminator_operation_number" == pragma.name )
+    current_executable_property = ooapopulation.current_executable_property;
+    current_executable_property.Numb = STRING::atoi( s:param.value );
+  elif ( "routine" == element.type and "scenario" == pragma.name )
+    current_domain_function = ooapopulation.current_domain_function;
+    current_domain_function.Numb = STRING::atoi( s:param.value );
+    // Keep the scenario marking.  MASL uses it.  WASL might use it.
+    create object instance pragma_item of ooapragma_item;
+    pragma_item.value = param.value;
+    relate pragma_item to pragma across R3804;
+    return;
+  else
+    create object instance pragma_item of ooapragma_item;
+    pragma_item.value = param.value;
+    relate pragma_item to pragma across R3804;
+    return;
+  end if;
 else
-  create object instance pragma_item of ooapragma_item;
-  pragma_item.value = param.value;
-  relate pragma_item to pragma across R3804;
-  return;
+  // not masl not asl
 end if;
 
 // clean up

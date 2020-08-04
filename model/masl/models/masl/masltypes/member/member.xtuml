@@ -33,6 +33,7 @@ end if;',
 	1,
 	'',
 	"d39537d4-1784-4bba-8f43-558468104601",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("d39537d4-1784-4bba-8f43-558468104601",
@@ -57,14 +58,15 @@ while ( not_empty sibling )
 end while;
 
 relate member to structure across R3752;
-unmarkable = unmarkable::populate( name:"member" );
-relate member to unmarkable across R3788;
+markable = markable::populate( name:"member" );
+relate member to markable across R3783;
 return member;
 
 ',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("3ef72fbc-7906-4e39-bf69-7a9a7bce83e3",
@@ -128,6 +130,7 @@ return valid;
 	1,
 	'',
 	"412217d5-b328-4233-bf3d-dc7e78b89e7c",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("412217d5-b328-4233-bf3d-dc7e78b89e7c",
@@ -142,6 +145,7 @@ value[0] = self.name;
 	1,
 	'',
 	"5751bb86-158f-4792-8981-359324516f9b",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("486b8e9a-e552-4791-90a0-bd5e07a37279",
