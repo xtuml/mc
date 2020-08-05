@@ -14,10 +14,12 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
-for each descrip in descrips
-  descrip.render();
-end for;
+	'if ( "WASL" != genfile::architecture() )
+  select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+  for each descrip in descrips
+    descrip.render();
+  end for;
+end if;
 select one regularrel related by self->regularrel[R3721];
 if ( not_empty regularrel )
   regularrel.render();
@@ -39,6 +41,7 @@ markable.render_marking( list:"default" );',
 	1,
 	'',
 	"ba9f72fd-fca7-4102-b768-e6f9748221de",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("ba9f72fd-fca7-4102-b768-e6f9748221de",
@@ -55,6 +58,7 @@ return relationship;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("34512c79-e13d-4aad-a93f-b5dbc3058208",
@@ -153,6 +157,7 @@ return valid;',
 	1,
 	'',
 	"d12801c5-5fe6-4b0e-b77a-fd4c687cd875",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("f63699fb-e6a7-40de-806c-9aef5c959f68",
