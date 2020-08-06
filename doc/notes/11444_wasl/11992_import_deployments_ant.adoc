@@ -1,0 +1,219 @@
+= Import Deployments
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+Analysis is performed on the task of importing a MASL '.prj' file and the
+associated '.tr' files dumped in MASL format using the iUML dumper.  The
+import needs to result in an xtUML Deployment.
+
+== 2 Introduction and Background
+
+The term _deployment_ is used a few ways in xtUML / WASL / BridgePoint.
+Generically, a deployment is a specifically configured collection of domains
+"wired" together.  The deployment is given a name, and terminator services
+are defined to connect outbound terminator services from one domain to the
+inbound public domain functions of another domain.
+
+In BridgePoint, a _Deployment_ is a model element.  It is a formalization
+of the named system configuration described generically above.  A
+Deployment has a graphical notation that can be manipulated on a diagram
+canvas.  It has a tree view in the BridgePoint Model Explorer view which
+graphically depicts these terminator services and gives access to the
+action language contained within.
+
+In this note, _Deployment_ (upper case) will be used when speaking of the
+specific xtUML element.  All more generic usages will be _deployment_  (lower
+case).
+
+The import of deployments as Deployments was proposed in the first draft
+Caledonia project plan.  See the body of the issue (<<dr-4>>) for the
+history.  The work originally was sized to be 8 weeks.  The issue was
+rejected and taken out of the project plan partly in anticipation that
+another user team (Tower) might commission the work.  It was also agreed
+to accumulate more cost information around the work of manually entering
+Deployments for Caledonia production models (Q11363.5).
+
+== 3 Requirements
+
+In summary, a '.prj' file and the associated '.tr' files dumped from iUML
+using the MASL dumper utility shall be parsed and converted into xtUML
+resulting in a BridgePoint Eclipse project containing a Deployment model
+decorated with Terminators which in turn are populated with Terminator
+Services.  All supplied public types shall be imported into a package
+within the same project.
+
+=== 3.1 MASL Files
+
+==== 3.1.1 '.prj' file
+
+The import process shall take as input a single MASL '.prj' file which
+represents the deployment structure consisting of the named system
+project, terminators, terminator service signatures and types.
+
+==== 3.1.2 '.tr' files
+
+The import process shall take as input potentially multiple MASL '.tr' files
+one each containing the ASL action language of one of the terminator
+services declared in the '.prj' file.
+
+=== 3.2 xtUML Elements
+
+==== 3.2.1 Deployment
+
+The 'project' named in the '.prj' file shall result in a Deployment of the
+same name in the imported xtUML model.
+
+==== 3.2.2 Terminator
+
+Each terminator named in the '.prj' file shall result in a Terminator on
+the Deployment named with the domain and terminator names.
+
+==== 3.2.3 Terminator Services
+
+Each terminator service named in the '.prj' file shall result in a
+terminator service subordinate to the terminator subordinate to the
+Deployment xtUML model element.  Return types, parameters and parameter
+types shall form signatures for the terminator services and shall
+correspond with the signatures supplied in the '.prj' file.
+
+==== 3.2.4 Shared Data Types
+
+Shared public types declared in the '.prj' file shall be created in the
+imported xtUML deployment model with names that carry the domain prefix
+specified on those types in the '.prj' file.
+
+==== 3.2.5 Terminator Service Activities
+
+For each '.tr' file associated with a terminator service declaration in a
+'.prj' file, the contained action language shall be imported into the body
+of the terminator service defined on the terminator defined on the
+Deployment in the imported xtUML deployment model.
+
+=== 3.3 User Documentation
+
+The man pages and user documentation for importing a project shall be
+updated to reflect that Deployment model elements are the result of '.prj'
+import (in both MASL and ASL dialects).
+
+== 4 Analysis
+
+There is a minor complicating factor around this work.  In order to
+implement the import of deployments as Deployments, the previous style
+project (deployment/build set) import must be deprecated.  The previous
+approach which creates a project component and links domains as component
+references (instead of using the Deployment element) must be removed to
+get them "out of the way" for the preferred approach.
+
+During the implementation of Deployments, steps were proposed toward the
+deprecation of the existing project import protocol.  See <<dr-2>>.
+This will be useful and save re-analysis of those steps.  Note that
+<<dr-2>> contains a wealth of useful background information around the
+topic of Deployments.)
+
+This new work will be simpler than the original proposal in 11363
+<<dr-4>>.  11363 required the parsing of a WASL build set.  The approach
+proposed in <<5 Work Required>> is to parse the MASL project (deployment,
+'.prj' file), which leverages functionality already present.
+
+This work involves the deprecation and removal of the creation of
+Components and connected Component References and instead supplies the
+creation of Deployments, Terminators, Terminator Services and shared
+types.
+
+=== 4.1 Sizing
+
+Sizing for the work outlined below is estimated to be 4 weeks.
+
+== 5 Work Required
+
+The conversion and import of MASL projects to xtUML Deployments is
+required for this work.  Note that this work may be useful to former
+iUML users going forward.
+
+Deployments have become the default way of doing system modeling for MASL
+users.  It is good to deprecate the non-preferred way of system modeling.
+Additionally, convert/import will be required to test deployments as part
+of MASL/WASL round trip, and we cannot remove the old way of system
+modeling from the documentation as long as it is the only way supported by
+convert/import.
+
+More detail will follow in the design and implementation notes for this
+work.  The following is a high-level summary of the steps necessary to
+deprecate the "project package" way of doing system modeling in favor of
+supporting Deployments.  Three phases are described.
+
+=== 5.1 Phase 1: Support Deployments
+
+==== 5.1.1 `masl2xtuml`
+
+Implement deployments as Deployments in `m2x`.  Make Deployments the
+default element produced for system model import.
+
+==== 5.1.2 Domain Round Trip
+
+Assure that domain round trip tests still pass.
+
+=== 5.2 Phase 2: Document/Example Deprecation of Project-Package System Modeling
+
+==== 5.2.1 MASL/WASL Documentation
+
+Remove references to the old way of doing system modeling from any
+documentation.
+
+==== 5.2.2 Example Models
+
+Remove all old style MASL system models in example models (e.g. GPS Watch)
+and test models.  Replace with deployments.
+
+=== 5.3 Phase 3: Functional Deprecation of Project-Package System Modeling
+
+==== 5.3.1 `m2x`
+
+Remove support for converting old style (component + component references)
+system models from `m2x`.  (This step would likely be done together with
+or before <<5.1.1 `masl2xtuml`>>.)
+
+==== 5.3.2 `x2m`
+
+Remove support for exporting old style MASL system models from `x2m`.
+
+==== 5.3.3 BridgePoint
+
+Remove related support code from BridgePoint proper.
+
+== 6 Acceptance Test
+
+=== 6.1 MASL Round Trip
+
+. The existing MASL round trip domain test cases shall continue to run cleanly.
+. The existing MASL round trip project test cases shall fail.
+. The existing MASL round trip project test cases shall be deprecated and
+  removed from the suite.
+
+=== 6.2 WASL Domain Round Trip
+
+. The existing WASL SWATS round trip domain test cases shall continue to run
+  cleanly.
+
+=== 6.3 WASL Deployment Round Trip
+
+. A new test model shall test the import and export flow of a WASL idiom
+  deployment.
+
+NOTE:  Test 6.3 is dependent upon <<dr-3>>.
+
+== 7 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11992[11992 - Import Deployments]
+. [[dr-2]] https://github.com/xtuml/bridgepoint/blob/master/doc-bridgepoint/notes/10525_deployments/10525_deployments_dnt.md[Implement Deployments - Design Note]
+. [[dr-3]] https://support.onefact.net/issues/11455[11455 - Export Deployments]
+. [[dr-4]] https://support.onefact.net/issues/11363[11363 - Parse WASL import Deployment (proposed / rejected)]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
+
