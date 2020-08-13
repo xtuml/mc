@@ -49,6 +49,9 @@ for ( my $i = 0; $i < @ARGV; $i++ ) {
       $home_dir = "$home_dir/$ARGV[$i]"; 
     } else {
       $home_dir = $ARGV[$i]; 
+      if ( $home_dir =~ m/^\/.:/ ) {
+        $home_dir =~ s/^\///;
+      }
     }
   }
 }
@@ -1241,6 +1244,8 @@ if ( 0 < @ARGV ) {
 # and passing the name of the routine as the first argument.
 #
 my %xtumlmc_utility_routines = (
+  "xtuml2masl" => TRUE,
+  "xtuml2wasl" => TRUE,
   "xtumlmc_gen_erate" => TRUE,
   "xtumlmc_gen_file" => TRUE,
   "xtumlmc_gen_import" => TRUE,

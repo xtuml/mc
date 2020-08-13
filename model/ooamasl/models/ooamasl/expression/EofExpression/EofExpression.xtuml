@@ -1,0 +1,58 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("3aead9cd-aa7f-4b45-94db-703052fba5e7",
+	'EofExpression',
+	5514,
+	'EofExpression',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("dc3c45b1-fe32-46f2-86d6-d1cb7d33c9f6",
+	"3aead9cd-aa7f-4b45-94db-703052fba5e7");
+INSERT INTO O_BATTR
+	VALUES ("dc3c45b1-fe32-46f2-86d6-d1cb7d33c9f6",
+	"3aead9cd-aa7f-4b45-94db-703052fba5e7");
+INSERT INTO O_ATTR
+	VALUES ("dc3c45b1-fe32-46f2-86d6-d1cb7d33c9f6",
+	"3aead9cd-aa7f-4b45-94db-703052fba5e7",
+	"00000000-0000-0000-0000-000000000000",
+	'device',
+	'relationship?
+',
+	'',
+	'device',
+	0,
+	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	"00000000-0000-0000-0000-000000000000",
+	'iExpression',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"3aead9cd-aa7f-4b45-94db-703052fba5e7");
+INSERT INTO O_ID
+	VALUES (1,
+	"3aead9cd-aa7f-4b45-94db-703052fba5e7");
+INSERT INTO O_ID
+	VALUES (2,
+	"3aead9cd-aa7f-4b45-94db-703052fba5e7");
+INSERT INTO PE_PE
+	VALUES ("3aead9cd-aa7f-4b45-94db-703052fba5e7",
+	1,
+	"992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'expression',
+	'',
+	0,
+	'../expression.xtuml');

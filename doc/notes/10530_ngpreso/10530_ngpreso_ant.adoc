@@ -19,6 +19,13 @@ are to inform, teach and entertain.
 
 Senior Council
 
+- 4 ways to model:  sketch, blueprint, executable, translatable
+- I am a runner.
+  - started at 5k and ended at 100 miles
+  - that annoying runner who would tell you about his running
+- Cheltenham run
+  * predict model while looking at track and HR
+- actual GPS
 - overview [<<dr-3,2.3>>]
 - industry examples [<<dr-3,2.3>>]
   * Tower

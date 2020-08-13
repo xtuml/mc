@@ -328,6 +328,7 @@ for each c_po in c_pos
   if ( not param.project or ( param.project and not_empty provision ) )
 
 	value[0] = c_po.Name;
+	value[1] = c_po.Name + "KL_ToDo"; // CDS - TODO find an appropriate value here
 	out::populate( element:"terminator", value:value );
 	::message2routine( c_c:c_c, c_po:c_po, project:param.project );
 
@@ -440,6 +441,11 @@ for each c_ep in c_eps
 
   value[2] = "public"; // Outbound messages are considered public.
   value[3] = c_ep.Name;
+  start_index = STRING::indexof( haystack:c_ep.Descrip, needle:"peration_number:" );
+  if ( 0 < start_index )
+    value[4] = STRING::substr( s:c_ep.Descrip, begin:start_index+16, end:start_index+18 );
+  end if;
+
   out::populate( element:"routine", value:value );
   
   select any c_pp related by c_ep->C_PP[R4006];
@@ -610,9 +616,14 @@ INSERT INTO S_SYNC
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 c_c = param.c_c;
-select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+select many pkg_o_objs related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001];
+select many pkgref_o_objs related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->O_OBJ[R8001];
+o_objs = pkg_o_objs + pkgref_o_objs;
 for each o_obj in o_objs
   value[0] = o_obj.Name;
+  value[1] = o_obj.Key_Lett;
+  value[2] = STRING::itoa( i:o_obj.Numb );
   out::populate( element:"object", value:value );
   
   // Link the attributes to each object.
@@ -703,8 +714,18 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 o_obj = param.o_obj;
 c_c = param.c_c;
-select many o_attrs related by o_obj->O_ATTR[R102];
-for each o_attr in o_attrs
+// Get first attribute.
+select any o_attr related by o_obj->O_ATTR[R102];
+while ( not_empty o_attr )
+  select one prev_o_attr related by o_attr->O_ATTR[R103.''succeeds''];
+  if ( empty prev_o_attr )
+    break;
+  end if;
+  assign o_attr = prev_o_attr;
+end while;
+// Iterate through attributes in model order.
+previous_attr_name = ""; // for ordering
+while ( not_empty o_attr )
   select one s_dt related by o_attr->S_DT[R114];
   // if it is a referential attribute, get the datatype of the base attribute
   select one o_rattr related by o_attr->O_RATTR[R106];
@@ -744,9 +765,12 @@ for each o_attr in o_attrs
     if ( "inst_ref<Timer>" == value[2] )
       value[2] = "inst_refTimer";
     end if;
+    value[3] = previous_attr_name;
     out::populate( element:"attribute", value:value );
     value[1] = "";
     value[2] = "";
+    value[3] = "";
+    previous_attr_name = o_attr.Name;
   
     // The default value comes first from the attribute then from its type.
     value[0] = o_attr.DefaultValue;
@@ -822,7 +846,8 @@ for each o_attr in o_attrs
     out::populate( element:"attribute", value:emptyvalue );
   end if;
   
-end for;',
+  select one o_attr related by o_attr->O_ATTR[R103.''precedes''];
+end while;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
@@ -876,7 +901,10 @@ c_c = param.c_c;
 //   string)
 
 // Data types in packages inside the component are considered private.
-select many s_dts related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+select many pkg_s_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001];
+select many pkgref_s_dts related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->S_DT[R8001];
+s_dts = pkg_s_dts + pkgref_s_dts;
 for each s_dt in s_dts
   select one s_irdt related by s_dt->S_IRDT[R17];
   // Do not output type definitions for instance reference data types.
@@ -1047,7 +1075,10 @@ INSERT INTO S_SYNC
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 c_c = param.c_c;
-select many r_rels related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->R_REL[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+select many pkg_r_rels related by ep_pkgs->PE_PE[R8000]->R_REL[R8001];
+select many pkgref_r_rels related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->R_REL[R8001];
+r_rels = pkg_r_rels + pkgref_r_rels;
 for each r_rel in r_rels
   value[0] = ""; value[1] = ""; value[2] = ""; value[3] = "";
   value[4] = ""; value[5] = ""; value[6] = ""; value[7] = "";
@@ -1283,7 +1314,10 @@ c_c = param.c_c;
 value[0] = c_c.Name;
 value[1] = "";
 select many c_eps related by c_c->C_PO[R4010]->C_IR[R4016]->C_P[R4009]->C_IR[R4009]->C_I[R4012]->C_EP[R4003];
-select many s_syncs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_SYNC[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+select many pkg_s_syncs related by ep_pkgs->PE_PE[R8000]->S_SYNC[R8001];
+select many pkgref_s_syncs related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->S_SYNC[R8001];
+s_syncs = pkg_s_syncs + pkgref_s_syncs;
 for each s_sync in s_syncs
 
   value[2] = "private";
@@ -1295,6 +1329,10 @@ for each s_sync in s_syncs
     end if;
   end for;
   value[3] = s_sync.Name;
+  start_index = STRING::indexof( haystack:s_sync.Descrip, needle:"peration_number:" );
+  if ( 0 < start_index )
+    value[4] = STRING::substr( s:s_sync.Descrip, begin:start_index+16, end:start_index+18 );
+  end if;
   
   // Get the first parameter.
   select any s_sparm related by s_sync->S_SPARM[R24];
@@ -1606,7 +1644,11 @@ select any containing_c_c from instances of C_C where false;
 while ( empty containing_c_c and not_empty pe )
   select one containing_c_c related by pe->C_C[R8003];
   if ( empty containing_c_c )
-    select one pe related by pe->EP_PKG[R8000]->PE_PE[R8001];
+    select one pe_pe related by pe->EP_PKG[R8000]->PE_PE[R8001];
+    if ( empty pe_pe )
+      select any pe_pe related by pe->EP_PKG[R8001]->EP_PKGREF[R1402.''is referenced by'']->EP_PKG[R1402.''is referenced by'']->PE_PE[R8001];
+    end if;
+    pe = pe_pe;
     // If pe is empty, we break out to avoid an infinite loop.
     // This is when the top level system is reached without
     // finding a containing component.
@@ -1622,6 +1664,7 @@ for each sm_evt in sm_evts
   end if;
 
   value[0] = sm_evt.Mning;
+  value[2] = STRING::itoa( i:sm_evt.Numb );
   
   // set event type
   value[1] = param.type;
@@ -1707,7 +1750,11 @@ select any containing_c_c from instances of C_C where false;
 while ( empty containing_c_c and not_empty pe )
   select one containing_c_c related by pe->C_C[R8003];
   if ( empty containing_c_c )
-    select one pe related by pe->EP_PKG[R8000]->PE_PE[R8001];
+    select one pe_pe related by pe->EP_PKG[R8000]->PE_PE[R8001];
+    if ( empty pe_pe )
+      select any pe_pe related by pe->EP_PKG[R8001]->EP_PKGREF[R1402.''is referenced by'']->EP_PKG[R1402.''is referenced by'']->PE_PE[R8001];
+    end if;
+    pe = pe_pe;
     // If pe is empty, we break out to avoid an infinite loop.
     // This is when the top level system is reached without
     // finding a containing component.
@@ -1735,6 +1782,7 @@ value[0] = ""; // domain, grammar allows this but we are not using it
 value[1] = o_obj.Name;
 for each sm_state in sm_states
   value[2] = sm_state.Name;
+  value[4] = STRING::itoa( i:sm_state.Numb );
   
   // set state type
   value[3] = "";
@@ -2069,6 +2117,10 @@ for each o_tfr in o_tfrs
     value[4] = "instance";
   end if;
   value[5] = "";
+  start_index = STRING::indexof( haystack:o_tfr.Descrip, needle:"peration_number:" );
+  if ( 0 < start_index )
+    value[6] = STRING::substr( s:o_tfr.Descrip, begin:start_index+16, end:start_index+18 );
+  end if;
   
   // check for deferral -- if there is no action language or the dialect is none and subtypes have an operation with matching signature
   deferred = false;
@@ -2267,7 +2319,10 @@ INSERT INTO S_SYNC
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 c_c = param.c_c;
-select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+select many pkg_o_objs related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001];
+select many pkgref_o_objs related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->O_OBJ[R8001];
+o_objs = pkg_o_objs + pkgref_o_objs;
 for each o_obj in o_objs
   value[0] = o_obj.Name;
   out::populate( element:"object", value:value );
@@ -2806,7 +2861,10 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 c_c = param.c_c;
 
 // Exceptions in packages inside the component are considered private.
-select many s_exps related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_EXP[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+select many pkg_s_exps related by ep_pkgs->PE_PE[R8000]->S_EXP[R8001];
+select many pkgref_s_exps related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->S_EXP[R8001];
+s_exps = pkg_s_exps + pkgref_s_exps;
 for each s_exp in s_exps
   value[0] = s_exp.Name;
   value[1] = "private";
@@ -2914,7 +2972,6 @@ value[7]=""; value[6]=""; value[5]=""; value[4]=""; value[3]=""; value[2]=""; va
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 select any markable from instances of Markable where ( selected.name == param.markable );
-if ( not_empty markable ) // CDS - this protecting if statement can go away after mcmc is built again
 select many marks related by markable->Mark[R2821] where ( selected.path == param.pathkey );
 for each mark in marks
   
@@ -2928,8 +2985,7 @@ for each mark in marks
 
   out::populate( element:"pragma", value:emptyvalue );
 
-end for;
-end if;',
+end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',

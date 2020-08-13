@@ -1,0 +1,27 @@
+= OOA of MASL Paper and Presentation
+
+xtUML Project Review Minutes
+
+ Reviewed:  mc/doc/notes/11745_loadmasl/preso/preso_ant.adoc, preso.adoc
+ Present:  Keith, Bob, Cort
+
+ -- Num Type  Who  Section  Comment
+ x- 01  min   xxx  2,3      Give more information about the document references.
+ x- 02  min   xxx  xxx      Reference repurposing of parser.
+ o- 03  min   xxx  xxx      Consider colorizing the imported classes.
+ x- 04  min   xxx  xxx      meta-model -> metamodel
+ x- 05  min   xxx  xxx      naked OOA contrasted with existing MASL MC
+ x- 05  min   xxx  xxx      upa
+ x- 06  min   xxx  xxx      and abstract -> an abstract
+ x- 07  min   xxx  xxx      buitin
+ x- 08  min   xxx  xxx      atributes
+ x- 09  min   xxx  xxx      4.7.1 ....
+ x- 10  min   xxx  xxx      tranlating
+
+ No major observations, a re-review is not required.
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

@@ -14,17 +14,29 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+	'if ( "MASL" == genfile::architecture() )
+
+select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
 for each descrip in descrips
   descrip.render();
 end for;
 
 T::include( file:"masl/t.object_begin.masl" );
 
-select many attributes related by self->attribute[R3709.''is characterized by''];
-for each attribute in attributes
+// Get first attribute.
+select any attribute related by self->attribute[R3709.''is characterized by''];
+while ( not_empty attribute )
+  select one prev_attribute related by attribute->attribute[R3797.''succeeds''];
+  if ( empty prev_attribute )
+    break;
+  end if;
+  assign attribute = prev_attribute;
+end while;
+// Iterate in order.
+while ( not_empty attribute )
   attribute.render();
-end for;
+  select one attribute related by attribute->attribute[R3797.''precedes''];
+end while;
 
 select many identifiers related by self->identifier[R3711];
 for each identifier in identifiers
@@ -54,7 +66,29 @@ end for;
 T::include( file:"masl/t.object_end.masl" );
 
 select one markable related by self->markable[R3783];
-markable.render_marking( list:"default" );',
+markable.render_marking( list:"default" );
+
+elif ( "WASL" == genfile::architecture() )
+
+  passive = "passive";
+  select any sm related by self->state_machine[R3734];
+  if ( not_empty sm )
+    passive = "active";
+  end if;
+
+  T::include( file:"wasl/t.object_begin.wasl" );
+
+  select many attributes related by self->attribute[R3709.''is characterized by''];
+  for each attribute in attributes
+    attribute.render();
+  end for;
+
+  T::include( file:"wasl/t.object_end.wasl" );
+
+else
+  //
+end if;
+',
 	1,
 	'',
 	"08a62993-0de5-465c-bb72-ba84e7590350",
@@ -66,16 +100,27 @@ INSERT INTO O_TFR
 	'',
 	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	0,
-	'domain = param.domain;
+	'// This routine can be called more than once.  It is designed
+// to support creating an object with just the name or key letters
+// and then being refined in a separate call with more detail.
+// Each successive call must carry a superset of parameter data.
+domain = param.domain;
 name = param.name;
+key_letters = param.key_letters;
+number = param.number;
 select any object related by domain->object[R3708.''has abstract''] where ( selected.name == name );
+if ( "" == name )
+  select any object related by domain->object[R3708.''has abstract''] where ( selected.key_letters == key_letters );
+end if;
 if ( empty object )
   create object instance object of object;
-  object.name = param.name;
   relate domain to object across R3708.''has abstract'';
   markable = markable::populate( name:"object" );
   relate object to markable across R3783;
 end if;
+object.name = name;
+object.key_letters = key_letters;
+object.number = number;
 return object;',
 	1,
 	'',
@@ -97,7 +142,7 @@ INSERT INTO O_TPARM
 	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
 	0,
 	'',
-	"fe0bf592-4377-4dcc-8d5c-806c966de9bb",
+	"414a5e69-7005-43af-a24f-7979cbce7e10",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
@@ -106,6 +151,24 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("7a5f12b5-aa6c-40b8-9c2c-4c334c831ea8",
+	"08a62993-0de5-465c-bb72-ba84e7590350",
+	'key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"fe0bf592-4377-4dcc-8d5c-806c966de9bb",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("414a5e69-7005-43af-a24f-7979cbce7e10",
+	"08a62993-0de5-465c-bb72-ba84e7590350",
+	'number',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"7a5f12b5-aa6c-40b8-9c2c-4c334c831ea8",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	"00000000-0000-0000-0000-000000000000",
@@ -203,9 +266,15 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.object_declaration.masl" );
-select one markable related by self->markable[R3783];
-markable.render_marking( list:"declaration" );',
+	'if ( "MASL" == genfile::architecture() )
+  T::include( file:"masl/t.object_declaration.masl" );
+  select one markable related by self->markable[R3783];
+  markable.render_marking( list:"declaration" );
+elif ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.object_declaration.wasl" );
+else
+  //
+end if;',
 	1,
 	'',
 	"94d08134-61ae-4921-adee-96a5ef2d9522",
@@ -272,6 +341,42 @@ INSERT INTO O_ATTR
 	'name',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("a3e957a0-0edb-4eca-a02b-b7804fe8cdef",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
+INSERT INTO O_BATTR
+	VALUES ("a3e957a0-0edb-4eca-a02b-b7804fe8cdef",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
+INSERT INTO O_ATTR
+	VALUES ("a3e957a0-0edb-4eca-a02b-b7804fe8cdef",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	"e4200518-32d3-4bef-abc2-bcb823d3dfe9",
+	'key_letters',
+	'',
+	'',
+	'key_letters',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("c1ac6fef-08fe-4a8d-bae6-15d02971b321",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
+INSERT INTO O_BATTR
+	VALUES ("c1ac6fef-08fe-4a8d-bae6-15d02971b321",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
+INSERT INTO O_ATTR
+	VALUES ("c1ac6fef-08fe-4a8d-bae6-15d02971b321",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	"a3e957a0-0edb-4eca-a02b-b7804fe8cdef",
+	'number',
+	'',
+	'',
+	'number',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID

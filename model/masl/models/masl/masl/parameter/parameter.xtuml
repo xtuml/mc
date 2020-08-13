@@ -14,18 +14,38 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.parameter.masl" );
-select one parametertype related by self->typeref[R3742];
-parametertype.render();
+	'// Render only in parameters or out parameters unless no indication.
+if ( ( "" == param.direction ) or ( self.direction == param.direction ) )
+  if ( "MASL" == genfile::architecture() )
+    T::include( file:"masl/t.parameter.masl" );
+  elif ( "WASL" == genfile::architecture() )
+    T::include( file:"wasl/t.parameter.wasl" );
+  else
+    //
+  end if;
+  select one parametertype related by self->typeref[R3742];
+  parametertype.render();
+end if;
+
 select one parameter related by self->parameter[R3706.''precedes''];
 if ( not_empty parameter )
   T::b( s:"," );
-  parameter.render();
-end if;',
+  parameter.render( direction:param.direction );
+end if;
+',
 	1,
 	'',
 	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
 	0);
+INSERT INTO O_TPARM
+	VALUES ("c82b9184-368c-4106-b7d8-05d7bdde5a2b",
+	"0fd206d4-b40b-4ad7-be27-9150e91afb40",
+	'direction',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_TFR
 	VALUES ("5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
 	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
@@ -168,7 +188,7 @@ end if;
 return valid;',
 	1,
 	'',
-	"0fd206d4-b40b-4ad7-be27-9150e91afb40",
+	"1698183e-adec-427c-9f8f-defa8a94a3eb",
 	0);
 INSERT INTO O_TFR
 	VALUES ("b9f21bb9-72ba-4bcd-b593-4584c1db203b",
@@ -190,6 +210,45 @@ delete object instance self;',
 	'',
 	"532b4a1b-ed1c-4ba7-ac49-47ffc466bf58",
 	0);
+INSERT INTO O_TFR
+	VALUES ("1698183e-adec-427c-9f8f-defa8a94a3eb",
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
+	'render_definition',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Render only in parameters or out parameters unless no indication.
+if ( ( "" == param.direction ) or ( self.direction == param.direction ) )
+  if ( "MASL" == genfile::architecture() )
+    T::include( file:"masl/t.parameter.masl" );
+  elif ( "WASL" == genfile::architecture() )
+    T::include( file:"wasl/t.parameter_def.wasl" );
+  else
+    //
+  end if;
+  select one parametertype related by self->typeref[R3742];
+  parametertype.render();
+end if;
+
+select one parameter related by self->parameter[R3706.''precedes''];
+if ( not_empty parameter )
+  T::b( s:"," );
+  parameter.render_definition( direction:param.direction );
+end if;
+',
+	1,
+	'',
+	"0fd206d4-b40b-4ad7-be27-9150e91afb40",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("20ff7306-8867-4597-aea0-9b8d3757f40d",
+	"1698183e-adec-427c-9f8f-defa8a94a3eb",
+	'direction',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("1b90aca9-efb5-4368-b361-a564280cf7f2",
 	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");

@@ -20,14 +20,34 @@ select one one_object related by participation->object[R3714.''one''];
 if ( empty one_object )
   TRACE::log( flavor:"failure", id:55, message:"missing one object on associative render" );
 end if;
-T::include( file:"masl/t.subsuper_begin.masl" );
+if ( "MASL" == genfile::architecture() )
+  T::include( file: "masl/t.subsuper_begin.masl" );
+elif ( "WASL" == genfile::architecture() )
+  T::include( file: "wasl/t.subsuper_begin.wasl" );
+else
+  //
+end if;
+
 select many other_objects related by participation->object[R3720.''other''];
 separator = "";
 for each other_object in other_objects
-  T::include( file:"masl/t.subsuper_other.masl" );
+  if ( "MASL" == genfile::architecture() )
+    T::include( file: "masl/t.subsuper_other.masl" );
+  elif ( "WASL" == genfile::architecture() )
+    T::include( file: "wasl/t.subsuper_other.wasl" );
+  else
+    //
+  end if;
   separator = ",";
 end for;
-T::include( file:"masl/t.subsuper_end.masl" );
+
+if ( "MASL" == genfile::architecture() )
+  T::include( file: "masl/t.subsuper_end.masl" );
+elif ( "WASL" == genfile::architecture() )
+  T::include( file: "wasl/t.subsuper_end.wasl" );
+else
+  //
+end if;
 ',
 	1,
 	'',

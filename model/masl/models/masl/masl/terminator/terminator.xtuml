@@ -17,6 +17,7 @@ INSERT INTO O_TFR
 	'domain = param.domain;
 create object instance terminator of terminator;
 terminator.name = param.name;
+terminator.key_letters = param.key_letters;
 relate domain to terminator across R3702.''sends through'';
 markable = markable::populate( name:"terminator" );
 relate terminator to markable across R3783;
@@ -41,7 +42,7 @@ INSERT INTO O_TPARM
 	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
 	0,
 	'',
-	"482ed084-339f-448f-bf07-47c5f631d477",
+	"0544ae9d-629f-4474-a2af-4f2c550ac107",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
@@ -50,6 +51,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("0544ae9d-629f-4474-a2af-4f2c550ac107",
+	"9d4928ce-a77c-493e-8754-575b9eb1494c",
+	'key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"482ed084-339f-448f-bf07-47c5f631d477",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("a2661e87-6030-4167-bef8-2ff6c815e67e",
 	"00000000-0000-0000-0000-000000000000",
@@ -64,18 +74,26 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
-for each descrip in descrips
-  descrip.render();
-end for;
-T::include( file:"masl/t.terminator_begin.masl" );
-select many routine_activities related by self->routine[R3791.''sends'']->activity[R3704];
-for each activity in routine_activities
-  activity.render();
-end for;
-T::include( file:"masl/t.terminator_end.masl" );
-select one markable related by self->markable[R3783];
-markable.render_marking( list:"default" );',
+	'if ( "MASL" == genfile::architecture() )
+
+  select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+  for each descrip in descrips
+    descrip.render();
+  end for;
+  T::include( file:"masl/t.terminator_begin.masl" );
+  select many routine_activities related by self->routine[R3791.''sends'']->activity[R3704];
+  for each activity in routine_activities
+    activity.render();
+  end for;
+  T::include( file:"masl/t.terminator_end.masl" );
+  select one markable related by self->markable[R3783];
+  markable.render_marking( list:"default" );
+
+elif ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.terminator.wasl" );
+else
+  //
+end if;',
 	1,
 	'',
 	"9d4928ce-a77c-493e-8754-575b9eb1494c",
@@ -132,6 +150,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("2cb276c0-6155-473e-896b-76834bf22dbf",
+	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7");
+INSERT INTO O_BATTR
+	VALUES ("2cb276c0-6155-473e-896b-76834bf22dbf",
+	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7");
+INSERT INTO O_ATTR
+	VALUES ("2cb276c0-6155-473e-896b-76834bf22dbf",
+	"572e27b9-e3a8-4cb2-9a74-c331a409c6a7",
+	"261b125f-8711-4ac9-aeef-33aea0c6c424",
+	'key_letters',
+	'',
+	'',
+	'key_letters',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',

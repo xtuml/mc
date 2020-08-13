@@ -366,6 +366,54 @@ INSERT INTO PE_PE
 	"bf81735d-197a-4cd8-acfa-23d7cd84f28b",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("648c0882-3a6a-4b55-bf5c-374ecf39a4a2",
+	"00000000-0000-0000-0000-000000000000",
+	'PE_PE_get_parent_component',
+	'',
+	'// Recursively search upwards through the package hierarchy to find the
+// containing (parent/owning) components traversing package references.
+// CDS - For now, we return only one, because we do not know how to support many.
+pe_pe = param.pe_pe;
+select one c_c related by pe_pe->C_C[R8003];
+if ( ( empty c_c ) and ( not_empty pe_pe ) )
+  select many referring_pe_pes related by pe_pe->EP_PKG[R8001]->EP_PKGREF[R1402.''is referenced by'']->EP_PKG[R1402.''is referenced by'']->PE_PE[R8001];
+  select any c_c related by referring_pe_pes->C_C[R8003];
+  if ( empty c_c )
+    select one parent_pe_pe related by pe_pe->EP_PKG[R8000]->PE_PE[R8001];
+    r = ::PE_PE_get_parent_component( pe_pe:pe_pe );
+    c_c = r;
+  end if;
+end if;
+return c_c;
+
+',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	1,
+	'',
+	0);
+INSERT INTO S_SPARM
+	VALUES ("ff663f4b-899d-4935-9154-a3061d126b5e",
+	"648c0882-3a6a-4b55-bf5c-374ecf39a4a2",
+	'pe_pe',
+	"e988e223-9ca4-4b6f-a675-001eefe3aa24",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("e988e223-9ca4-4b6f-a675-001eefe3aa24",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Packageable Element>',
+	'',
+	'',
+	'../../../../mcooa/models/mcooa/ooaofooa/Packageable Element/Packageable Element.xtuml');
+INSERT INTO PE_PE
+	VALUES ("648c0882-3a6a-4b55-bf5c-374ecf39a4a2",
+	1,
+	"bf81735d-197a-4cd8-acfa-23d7cd84f28b",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("bf81735d-197a-4cd8-acfa-23d7cd84f28b",
 	1,

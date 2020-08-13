@@ -97,7 +97,7 @@ ${persist_link_function.body}\
   .//
   .select one r_simp related by r_rel->R_SIMP[R206]
   .select one formalizer related by r_simp->R_FORM[R208]
-  .select one participant related by r_simp->R_PART[R207]
+  .select any participant related by r_simp->R_PART[R207]
   .//
   .select one r_rto related by participant->R_RTO[R204]
   .select one r_rgo related by formalizer->R_RGO[R205]
@@ -448,7 +448,7 @@ ${aoth_fundamentals.body}\
   .select any te_target from instances of TE_TARGET
   .select one te_rel related by r_rel->TE_REL[R2034]
   .select one form related by r_rel->R_SIMP[R206]->R_FORM[R208]
-  .select one part related by r_rel->R_SIMP[R206]->R_PART[R207]
+  .select any part related by r_rel->R_SIMP[R206]->R_PART[R207]
   .select one part_obj related by part->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]
   .//
   .select one rto related by part->R_RTO[R204]
@@ -522,7 +522,7 @@ ${aoth_fundamentals.body}\
   .select any te_target from instances of TE_TARGET
   .select one te_rel related by r_rel->TE_REL[R2034]
   .select one form related by r_rel->R_SIMP[R206]->R_FORM[R208]
-  .select one part related by r_rel->R_SIMP[R206]->R_PART[R207]
+  .select any part related by r_rel->R_SIMP[R206]->R_PART[R207]
   .select one rto related by part->R_RTO[R204]
   .select one rgo related by form->R_RGO[R205]
   .select one part_te_oir related by rto->R_OIR[R203]->TE_OIR[R2035]

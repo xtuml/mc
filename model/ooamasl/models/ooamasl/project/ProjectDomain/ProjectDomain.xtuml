@@ -1,0 +1,32 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("ed45ad8d-956d-4e46-accf-b7fd89fe91d9",
+	'ProjectDomain',
+	5901,
+	'ProjectDomain',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_ID
+	VALUES (0,
+	"ed45ad8d-956d-4e46-accf-b7fd89fe91d9");
+INSERT INTO O_ID
+	VALUES (1,
+	"ed45ad8d-956d-4e46-accf-b7fd89fe91d9");
+INSERT INTO O_ID
+	VALUES (2,
+	"ed45ad8d-956d-4e46-accf-b7fd89fe91d9");
+INSERT INTO PE_PE
+	VALUES ("ed45ad8d-956d-4e46-accf-b7fd89fe91d9",
+	1,
+	"9d88bd47-211a-44f9-bc56-11618be229ec",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("9d88bd47-211a-44f9-bc56-11618be229ec",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'project',
+	'',
+	0,
+	'../project.xtuml');

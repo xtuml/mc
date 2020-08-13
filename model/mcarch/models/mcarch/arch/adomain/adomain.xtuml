@@ -1,0 +1,79 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("e4b85ea9-5846-410b-ace0-e0516b882252",
+	'adomain',
+	7001,
+	'adomain',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("f05f9b1d-7de9-4aa6-a93d-65edc628595c",
+	"e4b85ea9-5846-410b-ace0-e0516b882252",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'create object instance adomain of adomain;
+domainID = param.ID;
+
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("a72aea38-5a22-470c-905b-2a8b66f7f9d0",
+	"f05f9b1d-7de9-4aa6-a93d-65edc628595c",
+	'ID',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("df342072-7c4c-40a4-88da-ae133e16992d",
+	"e4b85ea9-5846-410b-ace0-e0516b882252");
+INSERT INTO O_BATTR
+	VALUES ("df342072-7c4c-40a4-88da-ae133e16992d",
+	"e4b85ea9-5846-410b-ace0-e0516b882252");
+INSERT INTO O_ATTR
+	VALUES ("df342072-7c4c-40a4-88da-ae133e16992d",
+	"e4b85ea9-5846-410b-ace0-e0516b882252",
+	"00000000-0000-0000-0000-000000000000",
+	'domainID',
+	'',
+	'',
+	'domainID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"e4b85ea9-5846-410b-ace0-e0516b882252");
+INSERT INTO O_OIDA
+	VALUES ("df342072-7c4c-40a4-88da-ae133e16992d",
+	"e4b85ea9-5846-410b-ace0-e0516b882252",
+	0,
+	'domainID');
+INSERT INTO O_ID
+	VALUES (1,
+	"e4b85ea9-5846-410b-ace0-e0516b882252");
+INSERT INTO O_ID
+	VALUES (2,
+	"e4b85ea9-5846-410b-ace0-e0516b882252");
+INSERT INTO PE_PE
+	VALUES ("e4b85ea9-5846-410b-ace0-e0516b882252",
+	1,
+	"0e632113-8e66-484e-979b-d5f3670dd625",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("0e632113-8e66-484e-979b-d5f3670dd625",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	"102e536c-8fb8-4aa3-a876-4041654d05f1",
+	'arch',
+	'',
+	7000,
+	'../arch.xtuml');

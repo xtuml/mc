@@ -1,0 +1,6 @@
+${relationship.name},${one_object.key_letters},A,${participation.oneconditionality},${participation.onephrase},${participation.onemultiplicity},${using_object.key_letters},isassoc,
+${relationship.name},${using_object.key_letters},C,${participation.otherconditionality},${participation.otherphrase},${participation.othermultiplicity},${one_object.key_letters},
+${relationship.name},${other_object.key_letters},B,${participation.otherconditionality},${participation.otherphrase},${participation.othermultiplicity},${using_object.key_letters},isassoc,
+${relationship.name},${using_object.key_letters},C,${participation.oneconditionality},${participation.onephrase},${participation.onemultiplicity},${other_object.key_letters},
+${relationship.name},${one_object.key_letters},A,${participation.oneconditionality},${participation.onephrase},${participation.onemultiplicity},${other_object.key_letters},
+${relationship.name},${other_object.key_letters},B,${participation.otherconditionality},${participation.otherphrase},${participation.othermultiplicity},${one_object.key_letters},

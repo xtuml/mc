@@ -21,7 +21,13 @@ select any other_object related by participation->object[R3720.''other''];
 if ( ( empty one_object ) or ( empty other_object ) )
   TRACE::log( flavor:"failure", id:55, message:"missing one or other object on regularrel render" );
 end if;
-T::include( file:"masl/t.regularrel.masl" );
+if ( "MASL" == genfile::architecture() )
+  T::include( file: "masl/t.regularrel.masl" );
+elif ( "WASL" == genfile::architecture() )
+  T::include( file: "wasl/t.regularrel.wasl" );
+else
+  //
+end if;
 ',
 	1,
 	'',

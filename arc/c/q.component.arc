@@ -97,7 +97,7 @@
     .while ( not_empty te_mact )
     .assign sm_evt = empty_sm_evt
     .assign foreign_te_macts = empty_te_macts
-    .select one tm_msg related by te_mact->TM_MSG[R2809]
+    .select any tm_msg related by te_mact->TM_MSG[R2809]
     .select one te_aba related by te_mact->TE_ABA[R2010]
     .if ( te_mact.subtypeKL == "SPR_PO" )
     .elif ( te_mact.subtypeKL == "SPR_RO" )

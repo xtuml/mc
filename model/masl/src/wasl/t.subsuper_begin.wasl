@@ -1,0 +1,4 @@
+T_b(relationship->name);
+T_b(",");
+T_b(one_object->key_letters);
+T_b("");

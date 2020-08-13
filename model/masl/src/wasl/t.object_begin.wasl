@@ -1,0 +1,8 @@
+T_b(T_s(self->number));
+T_b(",");
+T_b(self->name);
+T_b(",");
+T_b(self->key_letters);
+T_b(",");
+T_b(passive);
+T_b("\n");

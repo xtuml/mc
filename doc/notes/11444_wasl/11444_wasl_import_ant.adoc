@@ -1,0 +1,112 @@
+= MASL Import of SWATS Models
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+The disposition of SWATS model test suite conversion into MASL is reported.
+Challenges faced importing the models into BridgePoint as xtUML are outlined.
+Considerations are made for continuing the work forward.
+
+== 2 Introduction and Background
+
+The MASL iUML Dumper has been enhanced to emit (additional) information
+required by ASL action language dialect models.  The additional information
+needed includes state numbers, operation numbers and support for various
+marks.
+
+== 3 Requirements
+
+=== 3.1 SWATS Import
+Attempt to import each of the 17 SWATS test models.
+
+=== 3.2 Results of Extraction Process
+Report on success and failure of the conversion of the models as found
+in the MASL produced by the iUML Dumper.
+
+=== 3.3 Results of Conversion Process
+Document any difficulties faced by the MASL-to-xtUML conversion.
+
+=== 3.4 Results of Import Process
+Document any problems discovered by the import of the converted model data.
+
+== 4 Analysis
+
+The SWATS test model suite was extracted from iUML using the iUML Dumper
+and introduced into the xtuml/models git repository hosted on GitHub (at
+xtuml/models/masl/SWATS).  Each model was converted from MASL to xtUML
+using the 'xtuml2masl' utility.  The resulting xtUML model file was then
+imported.
+
+Problems were detected in structural (classes, attributes, states, etc.)
+MASL and in the ASL activity body files.
+
+=== 4.1 Structural Elements
+We had seen this before.  My brief analysis seems to indicate that there
+is an extra identifier that is not used.  [2019 May 7:  This has been
+resolved by editing and re-exporting the MASL and WASL for these models.]
+
+* Relationships.mod:861
+
+  identifier is ();
+
+* TT.mod:137
+
+  identifier is ();
+
+* DomainB.mod:163
+* DomainB.mod:178
+
+I did not analyze this much, but it looks like a state machine that has been
+created but does not have any real states or events.  It only occurs in DomainB.
+[2019 May 7:  This has been resolved by editing and re-exporting the MASL and
+WASL for this model.]
+
+  transition is
+    Non_Existent ();
+  end transition;
+
+* TAGS/mod:340 (and other spots)
+
+This is a problem with a mark being named with a MASL keyword.
+As an experiment, I changed 'array' to 'aray', and it imported cleanly.
+
+  pragma array ("1");
+
+=== 4.2 Activities
+
+The MASL importer does parse the activities, and it actually must.
+It is required to parse at least the signature of the activity so
+that the activity can be linked to the structural model information.
+The signature is parsed, and then the rest of body of the activity
+is connected to the correct "action home" (function, operation or
+terminal service).
+
+We could change the import parser to "skip past" the body once we parsed
+the signature, but that work has not been done.
+
+It is interesting that some of these dumped activities have begin/end
+sequences while others do not.
+All dumped activities have a signature; this is good.
+It is not clear to me (yet) whether the best way to address this would be
+a change in the importer or in the iUML-dumper.
+
+* Some activity files have begin-null-end; others do not.
+* All activities have a signature.
+
+== 5 Work Required
+Provided in section <<4 Analysis>>.
+
+== Acceptance Test
+N/A
+
+== 7 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11444[11444 - WASL Analysis, Design and Sequencing]
+. [[dr-2]] link:11444_wasl_ant.adoc[Analysis Note - BridgePoint WASL Migration Sizing and Sequencing]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

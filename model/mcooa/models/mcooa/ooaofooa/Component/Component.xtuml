@@ -3694,6 +3694,48 @@ INSERT INTO PE_PE
 	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("cb87cce2-556b-41ae-85e4-d8813981c372",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Satisfaction>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("cb87cce2-556b-41ae-85e4-d8813981c372",
+	0,
+	"8c2db466-9cbd-462e-9a17-d509b70ecd20");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("8c2db466-9cbd-462e-9a17-d509b70ecd20",
+	'Satisfaction',
+	4007,
+	'C_SF',
+	'A satisfaction represents the fact that one provided interface satisfies one or
+more requirements.  This link class is setup when a provided interface is
+connected to one or more required interfaces.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Satisfaction/Satisfaction.xtuml');
+INSERT INTO PE_PE
+	VALUES ("cb87cce2-556b-41ae-85e4-d8813981c372",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("ee781bd2-baf2-4a6a-998d-8bdeea9b599c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Satisfaction>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ee781bd2-baf2-4a6a-998d-8bdeea9b599c",
+	1,
+	"8c2db466-9cbd-462e-9a17-d509b70ecd20");
+INSERT INTO PE_PE
+	VALUES ("ee781bd2-baf2-4a6a-998d-8bdeea9b599c",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_ASSOC
 	VALUES ("ef59acb3-efee-4b39-8a10-2a603ffe5392");
 INSERT INTO R_REL
@@ -3803,16 +3845,6 @@ INSERT INTO R_OIR
 	"ef59acb3-efee-4b39-8a10-2a603ffe5392",
 	"1f9a31aa-f3ff-4587-a659-0ed4b1ad9e7a",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("8c2db466-9cbd-462e-9a17-d509b70ecd20",
-	'Satisfaction',
-	4007,
-	'C_SF',
-	'A satisfaction represents the fact that one provided interface satisfies one or
-more requirements.  This link class is setup when a provided interface is
-connected to one or more required interfaces.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Satisfaction/Satisfaction.xtuml');
 INSERT INTO PE_PE
 	VALUES ("ef59acb3-efee-4b39-8a10-2a603ffe5392",
 	1,

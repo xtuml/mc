@@ -15,31 +15,60 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
-for each descrip in descrips
-  descrip.render();
-end for;
-T::include( file:"masl/t.attribute_begin.masl" );
 select many referentials related by self->referential[R3746.''references''];
-if ( not_empty referentials )
-  T::include( file:"masl/t.referentials_begin.masl" );
-  separator = "";
-  for each referential in referentials
-  	T::b( s:separator );
-    referential.render();
-    separator = ", ";
-  end for;
-  T::include( file:"masl/t.referentials_end.masl" );
-end if;
 select one attributetype related by self->typeref[R3717];
-attributetype.render();
 select one expression related by self->expression[R3745];
-if ( not_empty expression )
-	T::include( file:"masl/t.attribute_assign.masl" );
-	expression.render();
-end if;
-T::include( file:"masl/t.attribute_end.masl" );
-select one markable related by self->markable[R3783];
-markable.render_marking( list:"default" );',
+
+if ( "MASL" == genfile::architecture() )
+
+  for each descrip in descrips
+    descrip.render();
+  end for;
+  T::include( file:"masl/t.attribute_begin.masl" );
+  if ( not_empty referentials )
+    T::include( file:"masl/t.referentials_begin.masl" );
+    separator = "";
+    for each referential in referentials
+  	  T::b( s:separator );
+      referential.render();
+      separator = ", ";
+    end for;
+    T::include( file:"masl/t.referentials_end.masl" );
+  end if;
+  attributetype.render();
+  if ( not_empty expression )
+	  T::include( file:"masl/t.attribute_assign.masl" );
+	  expression.render();
+  end if;
+  T::include( file:"masl/t.attribute_end.masl" );
+  select one markable related by self->markable[R3783];
+  markable.render_marking( list:"default" );
+
+elif ( "WASL" == genfile::architecture() )
+
+  T::include( file:"wasl/t.attribute_begin.wasl" );
+  attributetype.render();
+  T::b( s:"," );
+  if ( not_empty referentials )
+    for each referential in referentials
+      referential.render();
+    end for;
+  else
+    T::b( s:"()" );
+  end if;
+  if ( not_empty expression )
+    T::include( file:"wasl/t.attribute_assign.wasl" );
+    expression.render();
+  end if;
+  description = "";
+  for each descrip in descrips
+    description = description + descrip.text;
+  end for;
+  T::include( file:"wasl/t.attribute_end.wasl" );
+    
+else
+  //
+end if;',
 	1,
 	'',
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
@@ -78,6 +107,12 @@ elif ( not_empty parent_identifier )
   end if;
   relate attribute to parent_identifier across R3710;
 else
+end if;
+if ( "" != param.prev_attr_name )
+  select any prev_attribute related by attribute->object[R3709]->attribute[R3709] where ( selected.name == param.prev_attr_name );
+  if ( not_empty prev_attribute )
+    relate attribute to prev_attribute across R3797.''succeeds'';
+  end if;
 end if;
 
 return attribute;',
@@ -119,7 +154,7 @@ INSERT INTO O_TPARM
 	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	0,
 	'',
-	"95952fdd-517e-4d1c-9a3c-e4cdf53ec35e",
+	"23b69cf4-7a66-4bc2-b89d-2417ae0c2467",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
@@ -144,6 +179,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("23b69cf4-7a66-4bc2-b89d-2417ae0c2467",
+	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
+	'prev_attr_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"95952fdd-517e-4d1c-9a3c-e4cdf53ec35e",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("2c8859d3-78f0-4799-9ba0-e82b40711de3",
 	"00000000-0000-0000-0000-000000000000",

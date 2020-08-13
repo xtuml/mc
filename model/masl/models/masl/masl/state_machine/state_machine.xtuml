@@ -15,7 +15,9 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.transitiontable_begin.masl" );
+	'if ( "MASL" == genfile::architecture() )
+
+T::include( file:"masl/t.transitiontable_begin.masl" );
 select many start_states related by self->cell[R3743]->state[R3732];
 select one markable related by self->markable[R3783];
 for each start_state in start_states
@@ -33,7 +35,39 @@ for each start_state in start_states
   markable.render_marking( list:start_state_name );
 end for;
 T::include( file:"masl/t.transitiontable_end.masl" );
-markable.render_marking( list:"default" );',
+markable.render_marking( list:"default" );
+
+elif ( "WASL" == genfile::architecture() )
+
+  select one object related by self->object[R3734.''defines lifecycle of''];
+  select many start_states related by self->cell[R3743]->state[R3732];
+  for each start_state in start_states
+    state_number =  start_state.number;
+    start_state_name = "Non_Existent";
+    select one start_state_activity related by start_state->activity[R3704];
+    start_state_name = start_state_activity.name;
+    select many cells related by start_state->cell[R3732];
+    for each cell in cells
+      next_state_number = 0;
+      next_state_name = "NO_STATE";
+      transition = cell.notransition;
+      if ( "" == cell.notransition )
+        transition = "TRANSITION";
+        select one next_state related by cell->state[R3731.''transitions to''];
+        select one next_state_activity related by next_state->activity[R3704];
+        next_state_number = next_state.number;
+        next_state_name = next_state_activity.name;
+      end if;
+      select one event related by cell->event[R3732];
+      T::include( file:"wasl/t.stt_row.wasl" );
+    end for;
+
+    state_number = state_number + 1;
+  end for;
+
+else
+  //
+end if;',
 	1,
 	'',
 	"8930d86e-438f-4a56-b595-3a8b60fe9123",

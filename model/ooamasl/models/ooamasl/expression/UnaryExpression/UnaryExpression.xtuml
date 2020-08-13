@@ -1,0 +1,75 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("a93b3ded-3fd6-4fab-9239-f71216ae76e2",
+	'UnaryExpression',
+	5542,
+	'UnaryExpression',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("747d3383-a22c-4f74-86e9-eb4fd3e31cbb",
+	"a93b3ded-3fd6-4fab-9239-f71216ae76e2");
+INSERT INTO O_BATTR
+	VALUES ("747d3383-a22c-4f74-86e9-eb4fd3e31cbb",
+	"a93b3ded-3fd6-4fab-9239-f71216ae76e2");
+INSERT INTO O_ATTR
+	VALUES ("747d3383-a22c-4f74-86e9-eb4fd3e31cbb",
+	"a93b3ded-3fd6-4fab-9239-f71216ae76e2",
+	"00000000-0000-0000-0000-000000000000",
+	'text',
+	'',
+	'',
+	'text',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("b88030f5-938d-4c17-8837-1bbbd349e8c3",
+	"a93b3ded-3fd6-4fab-9239-f71216ae76e2");
+INSERT INTO O_BATTR
+	VALUES ("b88030f5-938d-4c17-8837-1bbbd349e8c3",
+	"a93b3ded-3fd6-4fab-9239-f71216ae76e2");
+INSERT INTO O_ATTR
+	VALUES ("b88030f5-938d-4c17-8837-1bbbd349e8c3",
+	"a93b3ded-3fd6-4fab-9239-f71216ae76e2",
+	"747d3383-a22c-4f74-86e9-eb4fd3e31cbb",
+	'operator',
+	'',
+	'',
+	'operator',
+	0,
+	"766b5d8d-2e60-4295-a0c6-de1ee59cb168",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("766b5d8d-2e60-4295-a0c6-de1ee59cb168",
+	"00000000-0000-0000-0000-000000000000",
+	'Operator',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"a93b3ded-3fd6-4fab-9239-f71216ae76e2");
+INSERT INTO O_ID
+	VALUES (1,
+	"a93b3ded-3fd6-4fab-9239-f71216ae76e2");
+INSERT INTO O_ID
+	VALUES (2,
+	"a93b3ded-3fd6-4fab-9239-f71216ae76e2");
+INSERT INTO PE_PE
+	VALUES ("a93b3ded-3fd6-4fab-9239-f71216ae76e2",
+	1,
+	"992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'expression',
+	'',
+	0,
+	'../expression.xtuml');
