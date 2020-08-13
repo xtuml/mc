@@ -11,13 +11,17 @@ print_usage () {
 }
 
 # set up paths
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export PATH=$DIR:$PATH
 TMPCP="$DIR/*.jar"
 CP=.
 for cp in $TMPCP; do
     CP=$CP:$cp
 done
+if [[ "$OSTYPE" == "cygwin" ]]; then
+    DIR=`cygpath -w $DIR`
+    CP=`cygpath -p -w $CP`
+fi
 
 # input variables
 PROJ_DIRS=()
@@ -39,6 +43,7 @@ for arg in $@; do
     elif [[ $DIRECTIVE == "-o" && $OUT_DIR == "" ]]; then           # only can set the output directory once
         OUT_DIR=$arg
     else
+        echo "directive ($DIRECTIVE) not recognized"
         print_usage
         exit 1
     fi
@@ -46,6 +51,7 @@ done
 
 # check if we have any projects or domains to convert
 if [[ ${#PROJ_DIRS[@]} == 0 && ${#DOM_DIRS[@]} == 0 ]]; then
+    echo "no projects or domains"
     print_usage
     exit 1
 fi
@@ -71,12 +77,12 @@ fi
 for domain in ${DOM_DIRS[*]}; do
     DN=$OUT_DIR/`basename $domain`/
     mkdir $DN
-    ( java -cp $CP MaslImportParser -a $ARCHITECTURE -d $domain ) | m2x -o $DN -g $DIR/../schema/Globals.xtuml > $DN/`basename $domain`.xtuml
+    ( java -cp $CP MaslImportParser -a $ARCHITECTURE -d $domain ) | m2x -a $ARCHITECTURE -o $DN -g $DIR/../schema/Globals.xtuml > $DN/`basename $domain`.xtuml
 done
 
 # process projects
 for project in ${PROJ_DIRS[*]}; do
     DN=$OUT_DIR/`basename $project`/
     mkdir $DN
-    ( java -cp $CP MaslImportParser -a $ARCHITECTURE -p $project ) | m2x -o $DN -g $DIR/../schema/Globals.xtuml > $DN/`basename $project`.xtuml
+    ( java -cp $CP MaslImportParser -a $ARCHITECTURE -p $project ) | m2x -a $ARCHITECTURE -o $DN -g $DIR/../schema/Globals.xtuml > $DN/`basename $project`.xtuml
 done
