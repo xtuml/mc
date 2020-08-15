@@ -44,6 +44,7 @@ return rdirection;
 	1,
 	'',
 	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("c82b9184-368c-4106-b7d8-05d7bdde5a2b",
@@ -86,6 +87,7 @@ return parameter;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("832e40af-41d8-47f7-af18-a29df551fa7f",
@@ -197,6 +199,7 @@ return valid;',
 	1,
 	'',
 	"1698183e-adec-427c-9f8f-defa8a94a3eb",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("b9f21bb9-72ba-4bcd-b593-4584c1db203b",
@@ -217,6 +220,7 @@ delete object instance self;',
 	1,
 	'',
 	"532b4a1b-ed1c-4ba7-ac49-47ffc466bf58",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("1698183e-adec-427c-9f8f-defa8a94a3eb",
@@ -251,6 +255,7 @@ end if;
 	1,
 	'',
 	"0fd206d4-b40b-4ad7-be27-9150e91afb40",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("20ff7306-8867-4597-aea0-9b8d3757f40d",

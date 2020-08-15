@@ -20,6 +20,7 @@ T::include( file:"masl/t.object_end.masl" );
 	1,
 	'',
 	"0cec75d1-6821-497a-9762-a6cd3b784714",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("0cec75d1-6821-497a-9762-a6cd3b784714",
@@ -40,6 +41,7 @@ return sequence;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("e4ede105-e3c5-4113-8634-30acefa7583a",
@@ -94,6 +96,7 @@ return valid;
 	1,
 	'',
 	"feb075e7-6ae6-4551-a01e-3dc4e99c18c1",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("feb075e7-6ae6-4551-a01e-3dc4e99c18c1",
@@ -108,6 +111,7 @@ value[0] = self.name;
 	1,
 	'',
 	"3a9d9fea-75cc-4354-9fc1-2c1f7a779969",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("51b56d70-89eb-45fe-b93b-daf12ecd9c4c",

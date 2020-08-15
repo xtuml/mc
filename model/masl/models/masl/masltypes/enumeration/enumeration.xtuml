@@ -40,6 +40,7 @@ end if;',
 	1,
 	'',
 	"57a011f2-c04a-45fa-bdbd-0db2f5cec977",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("57a011f2-c04a-45fa-bdbd-0db2f5cec977",
@@ -60,6 +61,7 @@ return enumeration;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("9f48d1aa-8538-489a-a439-f70477e673c6",
@@ -105,6 +107,7 @@ return valid;
 	1,
 	'',
 	"e0cdbc94-1b66-44db-9406-bca56ac24665",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("e0cdbc94-1b66-44db-9406-bca56ac24665",
@@ -119,6 +122,7 @@ value[0] = self.name;
 	1,
 	'',
 	"b04b612b-5c4a-4c80-8bc7-ceac37217cf3",
+	0,
 	0);
 INSERT INTO O_REF
 	VALUES ("54176d77-0b85-469c-855f-6b9b6c71e924",

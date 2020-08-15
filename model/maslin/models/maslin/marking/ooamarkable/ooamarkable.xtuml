@@ -20,6 +20,7 @@ relate markable to element across R3806;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("76939ae5-af0e-43a7-ab1d-d73f10119920",
@@ -335,6 +336,7 @@ end if;',
 	1,
 	'',
 	"d7f8ac8f-c88f-4de2-b756-5ce8aa4e0ce5",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("be37306f-a1c5-4665-9dd5-0fa0221f0612",
@@ -353,6 +355,7 @@ delete object instance self;',
 	1,
 	'',
 	"c60ac9e3-33a0-4770-8424-eacd1704aeec",
+	0,
 	0);
 INSERT INTO O_ID
 	VALUES (0,

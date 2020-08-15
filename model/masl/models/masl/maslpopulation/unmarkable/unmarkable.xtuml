@@ -21,6 +21,7 @@ return unmarkable;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("081f21f2-bfc9-4132-85c4-f296bcd44910",
@@ -75,6 +76,7 @@ return valid;',
 	1,
 	'',
 	"c7899cac-73ee-476b-be1f-de045e0f424f",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("c7899cac-73ee-476b-be1f-de045e0f424f",
@@ -109,6 +111,7 @@ end if;',
 	1,
 	'',
 	"999c9ca2-d4ca-46fc-8026-903631dab597",
+	0,
 	0);
 INSERT INTO O_ID
 	VALUES (0,

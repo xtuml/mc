@@ -23,6 +23,7 @@ relate code_block to unmarkable across R3788;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("dfdf9c2d-45b8-4550-830f-7e34f84a1460",
@@ -61,6 +62,7 @@ T::b( s:"\n" );',
 	1,
 	'',
 	"90761d57-b27a-411d-a943-a1e2a5b22976",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("87ecaa6f-6b3d-4edf-855d-0b5c6a3c5748",
@@ -73,6 +75,7 @@ INSERT INTO O_TFR
 	1,
 	'',
 	"a29fad5a-c5c8-4a89-a3a6-98528dd8188e",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("0fdc978d-04c8-4d9c-8c7f-10adcdc9359d",
@@ -94,6 +97,7 @@ return valid;',
 	1,
 	'',
 	"87ecaa6f-6b3d-4edf-855d-0b5c6a3c5748",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("8bb5a2ec-b99d-4474-9640-4b5c08aa7309",

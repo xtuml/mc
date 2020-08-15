@@ -21,6 +21,7 @@ return activity;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("a0bc78f5-fe93-4ba5-bee4-743fb96c6b5a",
@@ -95,6 +96,7 @@ end if;',
 	1,
 	'',
 	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("4c53013a-af89-41b3-917d-8832a0def9ef",
@@ -135,6 +137,7 @@ return valid;',
 	1,
 	'',
 	"59878c70-2372-4cca-8e50-2da017c40ff6",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("59878c70-2372-4cca-8e50-2da017c40ff6",
@@ -160,6 +163,7 @@ end if;',
 	1,
 	'',
 	"cce75d87-818b-4fc3-a50d-f92d030db143",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("5f25fd7e-5ed0-42f8-be06-c7eb4a9a0c81",
@@ -210,6 +214,7 @@ return signature;',
 	1,
 	'',
 	"4c53013a-af89-41b3-917d-8832a0def9ef",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("10b40a6e-08ac-4da1-a02e-e573acda7b07",
@@ -276,6 +281,7 @@ end for;',
 	1,
 	'',
 	"5f25fd7e-5ed0-42f8-be06-c7eb4a9a0c81",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("a6ad3dd1-a91d-4c21-b6a3-dfc034492522",
@@ -314,6 +320,7 @@ delete object instance self;',
 	1,
 	'',
 	"10b40a6e-08ac-4da1-a02e-e573acda7b07",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("27d8c431-aa99-4f85-8118-e3c78c95bcdb",

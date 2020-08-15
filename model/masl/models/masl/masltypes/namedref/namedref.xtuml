@@ -20,6 +20,7 @@ typeref.render();
 	1,
 	'',
 	"a437a140-7b2a-45bb-a626-d0179639762c",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("a437a140-7b2a-45bb-a626-d0179639762c",
@@ -47,6 +48,7 @@ return namedref;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("b25ecc1a-115e-4572-863e-780d108f4529",
@@ -101,6 +103,7 @@ return valid;
 	1,
 	'',
 	"3f8c2cb1-00ee-4064-9035-86de705ef309",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("3f8c2cb1-00ee-4064-9035-86de705ef309",
@@ -114,6 +117,7 @@ INSERT INTO O_TFR
 	1,
 	'',
 	"48444495-e511-41a3-a4fb-80c7e38bbadb",
+	0,
 	0);
 INSERT INTO O_ID
 	VALUES (0,

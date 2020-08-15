@@ -25,6 +25,7 @@ return terminator;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("482ed084-339f-448f-bf07-47c5f631d477",
@@ -97,6 +98,7 @@ end if;',
 	1,
 	'',
 	"9d4928ce-a77c-493e-8754-575b9eb1494c",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("afc0ed77-3169-4d13-8804-a4f224cf9f1e",
@@ -135,6 +137,7 @@ return valid;',
 	1,
 	'',
 	"13124d4a-36b3-4d37-8812-989e271e2075",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("13124d4a-36b3-4d37-8812-989e271e2075",
@@ -151,6 +154,7 @@ end if;',
 	1,
 	'',
 	"d5232840-adc7-4197-8452-034e5bebae67",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("261b125f-8711-4ac9-aeef-33aea0c6c424",

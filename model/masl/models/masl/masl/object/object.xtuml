@@ -94,6 +94,7 @@ end if;
 	1,
 	'',
 	"08a62993-0de5-465c-bb72-ba84e7590350",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("08a62993-0de5-465c-bb72-ba84e7590350",
@@ -127,6 +128,7 @@ return object;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("fe0bf592-4377-4dcc-8d5c-806c966de9bb",
@@ -260,6 +262,7 @@ return valid;',
 	1,
 	'',
 	"5f2cb104-b641-4a62-a93f-91b78ab62058",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("62436e5d-b2f0-45bd-824c-bf910bc153d7",
@@ -280,6 +283,7 @@ end if;',
 	1,
 	'',
 	"94d08134-61ae-4921-adee-96a5ef2d9522",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("5f2cb104-b641-4a62-a93f-91b78ab62058",
@@ -326,6 +330,7 @@ out::tostring( element:"object", value:emptyvalue );
 	1,
 	'',
 	"2ce5c260-3cad-4f0a-9680-24d1b3c076e5",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("2ce5c260-3cad-4f0a-9680-24d1b3c076e5",
@@ -404,6 +409,7 @@ end if;
 	1,
 	'',
 	"62436e5d-b2f0-45bd-824c-bf910bc153d7",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("e4200518-32d3-4bef-abc2-bcb823d3dfe9",

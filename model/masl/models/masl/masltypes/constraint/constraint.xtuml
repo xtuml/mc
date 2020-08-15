@@ -28,6 +28,7 @@ range.render();
 	1,
 	'',
 	"d7a18375-1d6b-43d1-a118-4ed7cc2f4ab6",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("d7a18375-1d6b-43d1-a118-4ed7cc2f4ab6",
@@ -44,6 +45,7 @@ return constraint;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("e6e011fb-f0bb-4147-81bf-f9da491a76e8",
@@ -98,6 +100,7 @@ return valid;
 	1,
 	'',
 	"544d8acc-62b1-4fe0-9054-4e93ba238eba",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("544d8acc-62b1-4fe0-9054-4e93ba238eba",
@@ -112,6 +115,7 @@ value[0] = self.name;
 	1,
 	'',
 	"f7512b48-37cf-4d2c-9c49-22b868393986",
+	0,
 	0);
 INSERT INTO O_REF
 	VALUES ("b24f500f-d829-4f18-8b80-f665c27b5ebe",

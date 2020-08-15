@@ -48,6 +48,7 @@ end if;',
 	1,
 	'',
 	"b4c92004-4eda-4905-8e5a-1e4ee121b90a",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("b4c92004-4eda-4905-8e5a-1e4ee121b90a",
@@ -69,6 +70,7 @@ relate referring to referred_to across R3746.''references'' using referential;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("db14bfd5-5404-4504-b5ed-5491fe046331",
@@ -164,6 +166,7 @@ return valid;',
 	1,
 	'',
 	"29b4edbe-2a0d-41ae-846f-5b961e250517",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("9c9bd5cd-cca2-4346-8912-408d2a45128f",

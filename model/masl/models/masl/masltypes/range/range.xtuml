@@ -21,6 +21,7 @@ end if;
 	1,
 	'',
 	"761f469b-7841-4748-b274-aac4a94ce163",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("761f469b-7841-4748-b274-aac4a94ce163",
@@ -41,6 +42,7 @@ return range;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("a5ba5757-b7cd-49a4-a5ba-069c36f9a3e5",
@@ -104,6 +106,7 @@ return valid;
 	1,
 	'',
 	"60366f42-a7e9-403a-b001-84e13efa0ba3",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("60366f42-a7e9-403a-b001-84e13efa0ba3",
@@ -119,6 +122,7 @@ value[1] = self.maximum;
 	1,
 	'',
 	"5e244307-b494-4edb-a2d0-53b3e6383f5f",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("6680e5a8-b617-4e59-a10e-9a3d228e0963",
