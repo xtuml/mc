@@ -131,7 +131,7 @@ INSERT INTO O_TFR
         else
   			  if ( "private" == routine.visibility )
             // scenario
-				    field4 = "Initialization_Segment_" + STRING::itoa( i:routine.number ) + "_" + activity.name;
+				    field4 = "Initialisation_Segment_" + STRING::itoa( i:routine.number ) + "_" + activity.name;
 			    else
             // domain service
 				    field4 = "Domain_Operation_" + STRING::itoa( i:routine.number ) + "_" + activity.name;

@@ -29,6 +29,8 @@ if ( not_empty parent_terminator )
   relate routine to parent_terminator across R3791;
 elif ( not_empty parent_domain )
   relate routine to parent_domain across R3790;
+else
+  TRACE::log( flavor:"failure", id:73, message:"routine::populate no domain and no terminator" );
 end if;
 relate routine to activity across R3704;
 markable = markable::populate( name:"routine" );

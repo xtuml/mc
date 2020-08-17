@@ -251,15 +251,17 @@ end if;
 
 for each activity in activities
  
-  select one act_routine related by self->routine[R3704];
-  select one act_operation related by self->operation[R3704];
-  select one act_state related by self->state[R3704];
+  select one act_routine related by activity->routine[R3704];
+  select one act_operation related by activity->operation[R3704];
+  select one act_state related by activity->state[R3704];
   
   // if the activity is duplicated
   if ( activity != self and self.get_signature() == activity.get_signature() and
        ( empty routine ) == ( empty act_routine ) and
        ( empty operation ) == ( empty act_operation ) and
        ( empty state ) )
+    if ( ( ( not_empty routine ) and ( routine.number == act_routine.number ) ) or
+       ( ( not_empty operation ) and ( operation.number == act_operation.number ) ) )
        
     // transfer codeblock relationship
     select one act_codeblock related by activity->code_block[R3794];
@@ -275,6 +277,7 @@ for each activity in activities
     // break from for loop
     break;
        
+    end if;
   end if;
 
 end for;',

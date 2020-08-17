@@ -8765,13 +8765,20 @@ if ( empty current_component )
   end if;
 end if;
 
-select any functions_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == "functions");
-if ( empty functions_pkg )
-  functions_pkg = self.Component_newPackage(c_c:current_component, pkg_name:"functions");
-end if;
-
 // Create a domain function for the incoming function/service
-self.current_domain_function = self.Package_newFunction(ep_pkg:functions_pkg, function_name: param.name);
+if ( "private" == param.visibility and ActionDialect::asl == self.action_dialect )
+  select any functions_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == "scenarios");
+  if ( empty functions_pkg )
+    functions_pkg = self.Component_newPackage(c_c:current_component, pkg_name:"scenarios");
+  end if;
+  self.current_domain_function = self.Package_newFunction(ep_pkg:functions_pkg, function_name: param.name);
+else
+  select any functions_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == "functions");
+  if ( empty functions_pkg )
+    functions_pkg = self.Component_newPackage(c_c:current_component, pkg_name:"functions");
+  end if;
+  self.current_domain_function = self.Package_newFunction(ep_pkg:functions_pkg, function_name: param.name);
+end if;
 
 // If the function/service is public:
 //   a) get the "Shared" package under the library package.
