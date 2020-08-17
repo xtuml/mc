@@ -1088,7 +1088,7 @@ for each r_rel in r_rels
   if ( not_empty r_simp )
     out::populate( element:"regularrel", value:value );
     ::simpleass2regularrel( c_c:c_c, r_simp:r_simp );
-    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + T::s( i:r_rel.Numb ) ) );
+    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + STRING::itoa( i:r_rel.Numb ) ) );
     // output the description
     ::Descrip2description( Descrip:r_rel.Descrip );
     out::populate( element:"regularrel", value:emptyvalue );
@@ -1103,7 +1103,7 @@ for each r_rel in r_rels
     out::populate( element:"associative", value:value );
     ::associative2associative( c_c:c_c, r_assoc:r_assoc );
     out::populate( element:"associative", value:value ); // 2nd call for using
-    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + T::s( i:r_rel.Numb ) ) );
+    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + STRING::itoa( i:r_rel.Numb ) ) );
     // output the description
     ::Descrip2description( Descrip:r_rel.Descrip );
     out::populate( element:"associative", value:emptyvalue );
@@ -1113,7 +1113,7 @@ for each r_rel in r_rels
   if ( not_empty r_subsup )
     out::populate( element:"subsuper", value:value );
     ::subsuper2subsuper( c_c:c_c, r_subsup:r_subsup );
-    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + T::s( i:r_rel.Numb ) ) );
+    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + STRING::itoa( i:r_rel.Numb ) ) );
     // output the description
     ::Descrip2description( Descrip:r_rel.Descrip );
     out::populate( element:"subsuper", value:emptyvalue );

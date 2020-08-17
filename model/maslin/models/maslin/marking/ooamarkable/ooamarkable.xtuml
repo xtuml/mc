@@ -316,16 +316,20 @@ if ( not_empty population )
         ooaelement::trace( population: population );
       end if;
     elif ( "regularrel" == element.type or "associative" == element.type or "subsuper" == element.type )
-      r_rel = population.current_rel;
-      /*
-      if ( not_empty r_rel )
-        select one ep_pkg related by r_rel->PE_PE[R8001]->EP_PKG[R8000];
-        pathkey = ::package_get_path( ep_pkg:ep_pkg, child: "R" + T::s(i:r_rel.Numb) );
+      // The association has not been created yet.
+      // Associations do not get created until the end SMASL tag.
+      // Cheat and select the package from the current class.
+      select any o_obj from instances of O_OBJ;
+      select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
+      if ( not_empty ep_pkg )
+        pathkey = ::package_get_path( ep_pkg:ep_pkg, child: population.current_rel.number );
         for each pragma in pragmas
           pragma.pragma2mark( markable_name:"Association", pathkey:pathkey );
         end for;
+      else
+        TRACE::log( flavor:"failure", id:74, message:"Could not obtain markable." );
+        ooaelement::trace( population: population );
       end if;
-      */
     else
       TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + element.type + "''" );
     end if;

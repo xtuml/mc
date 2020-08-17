@@ -36,8 +36,10 @@ else
 end if;
 end if;
 end if;
-select one markable related by self->markable[R3783];
-markable.render_marking( list:"default" );',
+if ( "WASL" != genfile::architecture() )
+  select one markable related by self->markable[R3783];
+  markable.render_marking( list:"default" );
+end if;',
 	1,
 	'',
 	"ba9f72fd-fca7-4102-b768-e6f9748221de",

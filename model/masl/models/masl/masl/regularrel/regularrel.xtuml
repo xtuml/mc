@@ -24,9 +24,19 @@ end if;
 if ( "MASL" == genfile::architecture() )
   T::include( file: "masl/t.regularrel.masl" );
 elif ( "WASL" == genfile::architecture() )
+  select any pragma related by relationship->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "Class_A" );
+  select any pragma_item related by pragma->pragma_item[R3780];
+  one_letter = "A";
+  other_letter = "B";
+  if ( not_empty pragma_item )
+    if ( ( STRING::quote() + other_object.name + STRING::quote() ) == pragma_item.value )
+      one_letter = "B";
+      other_letter = "A";
+    end if;
+  end if;
   T::include( file: "wasl/t.regularrel.wasl" );
 else
-  //
+  // neither MASL nor WASL
 end if;
 ',
 	1,
