@@ -90,7 +90,7 @@ private String getFile() {
 private String cleanASL( String str, boolean isMASL ) {
     if ( null == str ) return null;
     if ( isMASL ) return str;
-    else return str.replaceAll( "#ASL-BEGIN", "" ).replaceAll( "#ASL-END", "" ).replaceAll( "begin\n  null;\nend;\n", "" );
+    else return str.replaceAll( "#ASL-BEGIN(\\s)?", "" ).replaceAll( "#ASL-END", "" ).replaceAll( "begin\n  null;\nend;\n", "" );
 }
 
 }

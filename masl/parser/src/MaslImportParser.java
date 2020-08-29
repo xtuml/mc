@@ -50,8 +50,9 @@ public class MaslImportParser {
 
         try {
             String fileString = new String( Files.readAllBytes( Paths.get( fn ) ) );
+            fileString.replaceAll( "\\r\\n", "\n" );
             if ( dialect.equals( "WASL" ) && rule.equals( "activityDefinition" ) ) {
-              fileString = new String( fileString.replaceFirst( "\\) is\n", ") is\n#ASL-BEGIN" ) ) + "#ASL-END;";
+              fileString = new String( fileString.replaceFirst( "(?m)\\) is$", "\\) is\n#ASL-BEGIN" ) ) + "#ASL-END;";
             }
             lex = new MaslLexer( new ANTLRStringStream( fileString ) );
         } catch ( IOException e ) {
