@@ -409,7 +409,8 @@ CREATE TABLE CL_POR (
     CL_IC_Id UNIQUE_ID,
     C_PO_Id UNIQUE_ID,
     Name STRING,
-    Id UNIQUE_ID
+    Id UNIQUE_ID,
+    Key_Lett STRING
 );
 CREATE TABLE CNST_CSP (
     Constant_Spec_ID UNIQUE_ID,
@@ -1337,7 +1338,8 @@ CREATE TABLE SPR_RO (
     Descrip STRING,
     Action_Semantics STRING,
     Suc_Pars INTEGER,
-    Dialect INTEGER
+    Dialect INTEGER,
+    Numb INTEGER
 );
 CREATE TABLE SPR_RS (
     Id UNIQUE_ID,
