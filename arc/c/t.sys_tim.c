@@ -51,6 +51,9 @@ static ETimer_time_t start_of_pause = 0;
 static bool paused = false;
 #endif
 static ETimer_time_t tinit = 0;
+.if ( "Arduino" == te_thread.flavor )
+ETimer_time_t msec_time = 0;
+.end if
 .if ( te_sys.SimulatedTime )
 static ETimer_time_t systyme;
 .else
@@ -684,8 +687,8 @@ ETimer_msec_time( void )
   t = (ETimer_time_t) (t1.to_seconds() * MSEC_CONVERT);
   return ( t - tinit );
 .elif ( "Arduino" == te_thread.flavor )
-  t = micros();
-  return ( t - tinit ) / USEC_CONVERT;
+  t = msec_time;
+  return ( t - tinit );
 .else
   .if ( te_sys.SimulatedTime )
   t = systyme;
@@ -786,7 +789,8 @@ TIM_init(\
   ftime( &systyme );            /* Initialize the hardware ticker.   */
   tinit = 0;
 .elif ( "Arduino" == te_thread.flavor )
-  tinit = micros();
+  tinit = 0;
+  msec_time = 0;
 .else
   .if ( te_sys.SimulatedTime )
   systyme = 0;                  /* Initialize the hardware ticker.   */
