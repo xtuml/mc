@@ -7897,6 +7897,7 @@ elif ( "terminator" == element )
       select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
       if ( not_empty spr_ro )
         spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + message_cb;
+        spr_ro.Numb = c_ep.Numb;
         if ( "" != spr_ro.Action_Semantics_internal )
           spr_ro.Dialect = ooapopulation.action_dialect;
         end if;

@@ -59,6 +59,13 @@ elif ( ActionDialect::asl == ooapopulation.action_dialect )
     // CDS - This tag will match the name we have already assigned.
     // CDS - for now Key_Lett means long_name for MASL/WASL.
     //current_component.Key_Lett = new_val;
+  elif ( "terminator" == element.type and "key_letter" == pragma.name )
+    c_i = ooapopulation.current_interface;
+    select any c_po related by c_i->C_IR[R4012]->C_PO[R4016];
+    if ( not_empty c_po )
+      new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);
+      c_po.Key_Lett = new_val;
+    end if;
   elif ( "object" == element.type and "key_letter" == pragma.name )
     // class key letters
     new_val = STRING::substr(s:param.value, begin:1, end:value_len-1);

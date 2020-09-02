@@ -333,8 +333,7 @@ for each c_po in c_pos
   if ( not param.project or ( param.project and not_empty provision ) )
 
     value[0] = c_po.Name;
-    value[1] = c_po.Name + "KL";
-    // CDS - TODO - Port (terminator) key letters need a home in the metamodel.
+    value[1] = c_po.Key_Lett;
     // See if there is a mark for the key_letter.
     select any markable from instances of Markable where ( selected.name == "Port" );
     pathkey = ::component_get_path( c_c:c_c, child:c_po.Name );
