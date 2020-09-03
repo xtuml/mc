@@ -58,6 +58,8 @@ is sufficient for this requirement.
 * Operation.Numb:INTEGER
 * Terminator Service.Numb:INTEGER
 * Executable Property.Numb:INTEGER
+* Required Operation.Numb:INTEGER
+* Port.Key_Lett:STRING
 * Component.Key_Lett:STRING
 
 ==== 4.1.1 Establish Default Values and Ranges

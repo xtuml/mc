@@ -49,8 +49,8 @@ public class MaslImportParser {
         MaslWalker              walker;
 
         try {
-            String fileString = new String( Files.readAllBytes( Paths.get( fn ) ) );
-            fileString.replaceAll( "\\r\\n", "\n" );
+            String fileString2 = new String( Files.readAllBytes( Paths.get( fn ) ) );
+            String fileString = fileString2.replaceAll( "\\r\\n", "\n" );
             if ( dialect.equals( "WASL" ) && rule.equals( "activityDefinition" ) ) {
               fileString = new String( fileString.replaceFirst( "(?m)\\) is$", "\\) is\n#ASL-BEGIN" ) ) + "#ASL-END;";
             }
