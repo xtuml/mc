@@ -73,6 +73,18 @@ find right.diff -name "*.pme" -exec sort {} -o {} \;
 # Sort the polymorphic event tests.
 find left.diff -name "*.pme_test" -exec sort {} -o {} \;
 find right.diff -name "*.pme_test" -exec sort {} -o {} \;
+# Sort the types.
+find left.diff -name "*.typ" -exec sort {} -o {} \;
+find right.diff -name "*.typ" -exec sort {} -o {} \;
+# Sort the function parameters file.
+find left.diff -name "*.fnp" -exec sort {} -o {} \;
+find right.diff -name "*.fnp" -exec sort {} -o {} \;
+# Sort the requirements file.
+find left.diff -name "*.req" -exec sort {} -o {} \;
+find right.diff -name "*.req" -exec sort {} -o {} \;
+# Sort the domain dump file.
+find left.diff -name "*.dmp" -exec sort {} -o {} \;
+find right.diff -name "*.dmp" -exec sort {} -o {} \;
 
 # diff the directories
-diff -wB left.diff right.diff
+diff -wB left.diff right.diff | grep -v "Non_Existent.*Cannot_Happen" | grep -v "Non_Existent.*Ignore" | egrep -v "^[0-9]+.*" | grep -v '^---'

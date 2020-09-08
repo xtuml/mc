@@ -1,0 +1,106 @@
+#!/bin/bash
+# 
+#  This utility is used to run regression tests on these models
+#
+#   regression_test [-o <output directory>]
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+# USAGE
+print_usage () { 
+    echo "Usage:"
+    echo "        regression_test [-o <output directory>] [-a <architecture>] [-r]";
+    echo "";
+    echo "  - Specify the '-a' flag to specify the dialect/architecture; MASL is the default.";
+    echo "  - Specify the '-r' flag to force exit and relaunch of BridgePoint before export.";
+}
+
+abort () {
+    echo "Aborting..."
+    $BINDIR/CLI.sh Launch -abort
+    exit 1
+}
+trap abort SIGINT SIGTERM
+
+# set up paths
+if [[ "" == "$BPINSTALL" ]]; then
+    BPINSTALL="/build/buildmt/roundtrip/BridgePoint"
+fi
+TMP="/tmp"
+BINDIR=$BPINSTALL/tools/mc/bin
+if [[ "$OSTYPE" == "cygwin" ]]; then
+    DIR=. # on Windows only run from local directory
+    BPINSTALL=`cygpath -w $BPINSTALL`
+    BINDIR=`cygpath -w $BINDIR`
+    TMP="." # on Windows operate from local directory
+fi
+export PATH=$BINDIR:$PATH
+
+# input variables
+OUT_DIR=
+RELAUNCH=
+ARCHITECTURE="MASL" # Default to MASL.
+
+# parse arguments
+DIRECTIVE=
+for arg in $@; do
+    if [[ $arg == "-o" || $arg == "-a" ]]; then     # set the directive
+        DIRECTIVE=$arg
+    elif [[ $arg == "-r" ]]; then                   # specify to restart BP before export
+        RELAUNCH=$arg
+    elif [[ $DIRECTIVE == "-a" ]]; then             # specify dialect / architecture
+        ARCHITECTURE=$arg
+    elif [[ $DIRECTIVE == "-o" && $OUT_DIR == "" ]]; then # only can set the output directory once
+        OUT_DIR=$arg
+    else
+        print_usage
+        exit 1
+    fi
+done
+
+# if no out directory was given, give the current working directory
+if [[ $OUT_DIR == "" ]]; then OUT_DIR=.; fi
+
+# set up workspace
+export WORKSPACE="$TMP/importwork"
+if [[ -d $WORKSPACE ]]; then
+    rm -rf $WORKSPACE
+fi
+
+export BPHOME=$BPINSTALL
+
+# lanch eclipse
+echo "Launching an Eclipse command line instance..."
+$BINDIR/CLI.sh Launch
+
+# Run tests
+COUNTER=1
+while read TEST; do
+    if [[ $TEST != "#"* ]]; then
+        projects=($TEST)
+        if [[ ${#projects[@]} > 1 ]]; then
+            # run round trip for a project
+            CMD=
+            i=0
+            while [[ $i < ${#projects[@]} ]]; do
+                if [[ $i < $[${#projects[@]} -1] ]]; then
+                    CMD="$CMD-d "
+                else
+                    CMD="$CMD-p "
+                fi
+                CMD="$CMD$DIR/${projects[$i]} "
+                i=$[$i +1]
+            done
+            $BINDIR/round_trip $CMD -o $OUT_DIR/$COUNTER -a $ARCHITECTURE $RELAUNCH -c
+        else
+            # run round trip for a domain
+            $BINDIR/round_trip -d $DIR/$TEST -o $OUT_DIR/$COUNTER -a $ARCHITECTURE $RELAUNCH -c
+        fi
+    fi
+    COUNTER=$[$COUNTER +1]
+done
+
+# shut down eclipse
+$BINDIR/CLI.sh Launch -exit
+
+find $OUT_DIR -name "diff_*" -exec wc -l {} \; | sort -n -t '/' +1
+find $OUT_DIR -name "diff_*" -exec wc -l {} \; | wc -l
