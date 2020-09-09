@@ -1,10 +1,15 @@
 #!/bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export MASL_BIN_DIR=$DIR/
+CP=$DIR/../../../plugins/org.xtuml.bp.x2m*/x2m.jar
+if [[ "$OSTYPE" == "cygwin" ]]; then
+    DIR=`cygpath -w $DIR`
+    CP=`cygpath -p -w $CP`
+fi
+export MASL_BIN_DIR=$DIR
 
 # This is the java plugin way to integrate.  Conveniently, it includes the correct formatting.
-java -cp $DIR/../../../plugins/org.xtuml.bp.x2m*/x2m.jar org.xtuml.bp.x2m.Xtuml2Masl $@
+java -cp $CP org.xtuml.bp.x2m.Xtuml2Masl $@
 exit 0
 
 # This work was done and is left here for convenience.  Sometimes a BridgePoint
