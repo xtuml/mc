@@ -86,6 +86,20 @@ elif ( ActionDialect::asl == ooapopulation.action_dialect )
   elif ( "routine" == element.type and "terminator_operation_number" == pragma.name )
     current_executable_property = ooapopulation.current_executable_property;
     current_executable_property.Numb = STRING::atoi( s:param.value );
+  elif ( "routine" == element.type and "external" == pragma.name and ooapopulation.action_dialect == ActionDialect::asl )
+    // WASL maintains externals
+    current_component = ooapopulation.current_component;
+    current_domain_function = ooapopulation.current_domain_function;
+    current_domain_function.Numb = STRING::atoi( s:param.value );
+    // Unlink the function from the scenarios package and link into externals.
+    select any externals_ep_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where ( selected.Name == "externals" );
+    if ( empty externals_ep_pkg )
+      externals_ep_pkg = ooapopulation.Component_newPackage(c_c:current_component, pkg_name:"externals");
+    end if;
+    select one pe_pe related by current_domain_function->PE_PE[R8001];
+    select one functions_ep_pkg related by pe_pe->EP_PKG[R8001];
+    unrelate pe_pe from functions_ep_pkg across R8000;
+    relate pe_pe to externals_ep_pkg across R8000;
   elif ( "routine" == element.type and "scenario" == pragma.name )
     current_domain_function = ooapopulation.current_domain_function;
     current_domain_function.Numb = STRING::atoi( s:param.value );

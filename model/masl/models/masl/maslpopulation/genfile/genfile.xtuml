@@ -812,7 +812,7 @@ elif ( "domain" == element )
         continue;
       end if;
       
-      function_files = ""; action_files = ""; bridge_files = ""; scenario_files = "";
+      function_files = ""; action_files = ""; bridge_files = ""; scenario_files = ""; external_files = "";
 
       TRACE::log( flavor:"info", id:115, message:"rendering activity definition files" );
       // render the activity files
@@ -828,17 +828,27 @@ elif ( "domain" == element )
         marking = routine.render_marking();
         function_files = function_files + filename + marking + "\n";
       end for;
-      // scenarios
+      // scenarios and externals
       select many routines related by domain->routine[R3790] where ( selected.visibility == "private" );
       for each routine in routines
         select one activity related by routine->activity[R3704];
         routine.render_definition( activity:activity );
-        filename = domain.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
-        TRACE::log( flavor:"info", id:117, message:"rendering activity file:  " + filename );
-        genfile = genfile::populate( name:filename );
-        genfile.emit( name:filename );
-        marking = routine.render_marking();
-        scenario_files = scenario_files + domain.name + "," + domain.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
+        select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
+        if ( empty pragma )
+          filename = domain.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
+          TRACE::log( flavor:"info", id:117, message:"rendering activity file:  " + filename );
+          genfile = genfile::populate( name:filename );
+          genfile.emit( name:filename );
+          marking = routine.render_marking();
+          scenario_files = scenario_files + domain.name + "," + domain.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
+        else
+          filename = domain.name + "_External" + STRING::itoa( i:routine.number ) + ".ext";
+          TRACE::log( flavor:"info", id:171, message:"rendering activity file:  " + filename );
+          genfile = genfile::populate( name:filename );
+          genfile.emit( name:filename );
+          marking = routine.render_marking();
+          external_files = external_files + domain.name + "," + domain.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
+        end if;
       end for;
       // bridges
       select many terminators related by domain->terminator[R3702] where ( selected.key_letters != "TIM" );

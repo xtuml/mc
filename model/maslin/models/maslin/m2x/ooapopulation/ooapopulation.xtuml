@@ -8185,7 +8185,6 @@ elif ( "codeblock" == element )
     end if;
   end if;
   
-  // TODO - handle code blocks for routines that are terminator services
 elif ( "pragma" == element )
   if ( "" == param.value[0] )
     select any pragma from instances of ooapragma where (false);
