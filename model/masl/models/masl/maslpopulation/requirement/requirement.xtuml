@@ -1,0 +1,265 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("4147a4b3-7064-4198-862a-dab6374d3cbb",
+	'requirement',
+	3780,
+	'requirement',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("eb18a21e-8dd6-44f5-ad91-1191f21cbf10",
+	"4147a4b3-7064-4198-862a-dab6374d3cbb",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'// Scan the body string for tags.
+// For each tag found:
+//   - select any requirement with tag
+//   - see if it is 
+
+//if ( "WASL" == genfile::architecture() )
+
+  body = param.body;
+  element = param.element;
+
+	// Find the domain parent and link the requirement.
+  parent_element = element;
+  select any domain from instances of domain where ( false );
+  while ( not_empty parent_element );
+    if ( "domain" == parent_element.name )
+      select one domain related by parent_element->markable[R3786]->domain[R3783];
+      break;
+    end if;
+    select one parent_element related by parent_element->element[R3787.''child of''];
+  end while;
+
+  while ( "" != body )
+
+    tag = "";
+    i = STRING::indexof( haystack:body, needle:"@@" );
+    if ( -1 == i )
+      // no requirements tags found
+      break;
+    else
+      // Requirements tags are delimited by blank or newline.
+      // Choose the shorter index to allow for multiple tags on one line.
+      s = STRING::substr( s:body, begin:i+2, end:-1 );
+      tag_index = 0;
+      blank_index = STRING::indexof( haystack:s, needle:" " );
+      newline_index = STRING::indexof( haystack:s, needle:"\n" );
+      if ( blank_index >= 0 and blank_index < newline_index and newline_index > 0 or newline_index < 0 )
+        tag_index = blank_index;
+      elif ( newline_index >= 0 and newline_index < blank_index and blank_index > 0 or blank_index < 0 )
+        tag_index = newline_index;
+      else
+        TRACE::log( flavor:"failure", id:13, message:"Could not find delimiter for requirements tag:  " + tag );
+      end if;
+      tag = STRING::substr( s:s, begin:0, end:tag_index );
+      body = STRING::substr( s:s, begin:tag_index, end:-1 );
+      // Create a new requirement without regard to duplication.
+      create object instance requirement of requirement;
+      requirement.tag = tag;
+      if ( not_empty domain )
+        requirement.domain = domain.name;
+      end if;
+      relate requirement to element across R3798;
+
+    end if;
+
+  end while;
+
+//end if;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	0);
+INSERT INTO O_TPARM
+	VALUES ("b7f1dd99-d68d-4f17-8213-8a880d56eda4",
+	"eb18a21e-8dd6-44f5-ad91-1191f21cbf10",
+	'element',
+	"3989a0a6-1287-4fd5-9b4c-6f98e273a076",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("3989a0a6-1287-4fd5-9b4c-6f98e273a076",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<element>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("992e423c-b0e1-4d6c-863a-fe479b74e502",
+	"eb18a21e-8dd6-44f5-ad91-1191f21cbf10",
+	'body',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b7f1dd99-d68d-4f17-8213-8a880d56eda4",
+	'');
+INSERT INTO O_TFR
+	VALUES ("709b3652-83d1-4b74-9870-6a9571cb9b0f",
+	"4147a4b3-7064-4198-862a-dab6374d3cbb",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'if ( "WASL" == genfile::architecture() )
+  select many elements related by self->element[R3798];
+  for each element in elements
+    field3 = ""; field4 = "";
+    // markables
+    select one activity related by element->markable[R3786]->activity[R3783];
+    if ( not_empty activity )
+      select one routine related by activity->routine[R3704];
+      select one operation related by activity->operation[R3704];
+      select one state related by activity->state[R3704];
+      if ( not_empty operation )
+        select one object related by operation->object[R3749];
+        field3 = object.key_letters;
+        field4 = "Class_Operation_" + STRING::itoa( i:operation.number ) + "_" + activity.name ;
+      elif ( not_empty routine )
+        select one terminator related by routine->terminator[R3791];
+        if ( not_empty terminator )
+          // terminator service
+          field3 = terminator.key_letters;
+		      field4 = "Terminator_Service_" + STRING::itoa( i:routine.number ) + "_" + activity.name;
+        else
+  			  if ( "private" == routine.visibility )
+            // scenario
+				    field4 = "Initialisation_Segment_" + STRING::itoa( i:routine.number ) + "_" + activity.name;
+			    else
+            // domain service
+				    field4 = "Domain_Operation_" + STRING::itoa( i:routine.number ) + "_" + activity.name;
+			    end if;
+			  end if;
+      elif ( not_empty state )
+        select one object related by state->object[R3750];
+        field3 = object.key_letters;
+		    field4 = "State_" + STRING::itoa( i:state.number ) + "_" + activity.name;
+      else
+        //
+      end if;
+    else
+    select one state_machine related by element->markable[R3786]->state_machine[R3783];
+    if ( not_empty state_machine )
+    else
+    select one terminator related by element->markable[R3786]->terminator[R3783];
+    if ( not_empty terminator )
+    else
+    select one type related by element->markable[R3786]->type[R3783];
+    if ( not_empty type )
+      field4 = "Attribute_Type_" + type.name;
+    else
+    select one member related by element->markable[R3786]->member[R3783];
+    if ( not_empty member )
+    else
+    select one relationship related by element->markable[R3786]->relationship[R3783];
+    if ( not_empty relationship )
+      field4 = "Association_" + STRING::substr( s:relationship.name, begin:1, end:-1 );
+    else
+    select one object related by element->markable[R3786]->object[R3783];
+    if ( not_empty object )
+      field3 = object.key_letters;
+      field4 = "Object_" + object.name;
+    else
+    select one attribute related by element->markable[R3786]->attribute[R3783];
+    if ( not_empty attribute )
+      select one object related by attribute->object[R3709];
+      field3 = object.key_letters;
+      field4 = "Attribute_" + attribute.name;
+    else
+    select one identifier related by element->markable[R3786]->identifier[R3783];
+    if ( not_empty identifier )
+    else
+    select one event related by element->markable[R3786]->event[R3783];
+    if ( not_empty event )
+      select one object related by event->object[R3736];
+      field3 = object.key_letters;
+      field4 = "Signal_" + STRING::itoa( i:event.number ) + "_" + event.name;
+    else
+    // unmarkables
+    select one parameter related by element->unmarkable[R3786]->parameter[R3788];
+    if ( not_empty parameter )
+    else
+    select one referential related by element->unmarkable[R3786]->referential[R3788];
+    if ( not_empty referential )
+    else
+    select one code_block related by element->unmarkable[R3786]->code_block[R3788];
+    if ( not_empty code_block )
+    else
+    select one enumerator related by element->unmarkable[R3786]->enumerator[R3788];
+    if ( not_empty enumerator )
+    else
+    end if; end if; end if; end if; end if; end if; end if; end if; end if; end if; end if; end if; end if; end if;
+    T::include( file:"wasl/t.requirement.wasl" );
+  end for;
+end if;',
+	1,
+	'',
+	"eb18a21e-8dd6-44f5-ad91-1191f21cbf10",
+	0,
+	0);
+INSERT INTO O_NBATTR
+	VALUES ("46b5d323-391a-4fec-a039-44b883707f6a",
+	"4147a4b3-7064-4198-862a-dab6374d3cbb");
+INSERT INTO O_BATTR
+	VALUES ("46b5d323-391a-4fec-a039-44b883707f6a",
+	"4147a4b3-7064-4198-862a-dab6374d3cbb");
+INSERT INTO O_ATTR
+	VALUES ("46b5d323-391a-4fec-a039-44b883707f6a",
+	"4147a4b3-7064-4198-862a-dab6374d3cbb",
+	"00000000-0000-0000-0000-000000000000",
+	'tag',
+	'',
+	'',
+	'tag',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("eac8dd3b-42c6-46c7-91a1-07dec472108f",
+	"4147a4b3-7064-4198-862a-dab6374d3cbb");
+INSERT INTO O_BATTR
+	VALUES ("eac8dd3b-42c6-46c7-91a1-07dec472108f",
+	"4147a4b3-7064-4198-862a-dab6374d3cbb");
+INSERT INTO O_ATTR
+	VALUES ("eac8dd3b-42c6-46c7-91a1-07dec472108f",
+	"4147a4b3-7064-4198-862a-dab6374d3cbb",
+	"46b5d323-391a-4fec-a039-44b883707f6a",
+	'domain',
+	'',
+	'',
+	'domain',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"4147a4b3-7064-4198-862a-dab6374d3cbb");
+INSERT INTO O_ID
+	VALUES (1,
+	"4147a4b3-7064-4198-862a-dab6374d3cbb");
+INSERT INTO O_ID
+	VALUES (2,
+	"4147a4b3-7064-4198-862a-dab6374d3cbb");
+INSERT INTO PE_PE
+	VALUES ("4147a4b3-7064-4198-862a-dab6374d3cbb",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpopulation',
+	'',
+	0,
+	'../maslpopulation.xtuml');

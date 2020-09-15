@@ -1,1 +1,1 @@
-${self.number},${self.name},${self.key_letters},${passive}
+$t{self.number},${self.name},${self.key_letters},${passive}

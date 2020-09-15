@@ -24,14 +24,25 @@ end if;
 if ( "MASL" == genfile::architecture() )
   T::include( file: "masl/t.regularrel.masl" );
 elif ( "WASL" == genfile::architecture() )
+  select any pragma related by relationship->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "Class_A" );
+  select any pragma_item related by pragma->pragma_item[R3780];
+  one_letter = "A";
+  other_letter = "B";
+  if ( not_empty pragma_item )
+    if ( ( STRING::quote() + other_object.name + STRING::quote() ) == pragma_item.value )
+      one_letter = "B";
+      other_letter = "A";
+    end if;
+  end if;
   T::include( file: "wasl/t.regularrel.wasl" );
 else
-  //
+  // neither MASL nor WASL
 end if;
 ',
 	1,
 	'',
 	"5e9cac57-f962-4093-b1d1-7d06e81fd27d",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("5e9cac57-f962-4093-b1d1-7d06e81fd27d",
@@ -50,6 +61,7 @@ return regularrel;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("46cb7c75-cd77-457d-a3ef-6ea1abb5183e",
@@ -95,6 +107,7 @@ return valid;',
 	1,
 	'',
 	"afcc243a-f54c-4f52-bd7b-f6d298a24668",
+	0,
 	0);
 INSERT INTO O_ID
 	VALUES (0,

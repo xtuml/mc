@@ -14,12 +14,33 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.object_begin.masl" );
-T::include( file:"masl/t.object_end.masl" );
-',
+	'select one type related by self->type[R3751];
+if ( "MASL" == genfile::architecture() )
+	T::include( file:"masl/t.enumeration_begin.masl" );
+elif ( "WASL" == genfile::architecture() )
+	T::include( file:"wasl/t.enumeration_begin.wasl" );
+else
+	//
+end if;
+// Get the first member.
+select any sibling related by self->enumerator[R3755];
+first_enumerator = sibling;
+while ( not_empty sibling )
+  first_enumerator = sibling;
+  select one sibling related by sibling->enumerator[R3779.''succeeds''];
+end while;
+first_enumerator.render(); // enumerator will render siblings
+if ( "MASL" == genfile::architecture() )
+	T::include( file:"masl/t.enumeration_end.masl" );
+elif ( "WASL" == genfile::architecture() )
+	T::include( file:"wasl/t.enumeration_end.wasl" );
+else
+	//
+end if;',
 	1,
 	'',
 	"57a011f2-c04a-45fa-bdbd-0db2f5cec977",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("57a011f2-c04a-45fa-bdbd-0db2f5cec977",
@@ -28,44 +49,36 @@ INSERT INTO O_TFR
 	'',
 	"72d3ca34-9d23-4b92-b549-42f9eefce46c",
 	0,
-	'domain = param.domain;
-//select any enumeration related by domain->enumeration[R3799];
-select any enumeration from instances of enumeration; // DELETE THIS LINE
+	'type = param.type;
+select one enumeration related by type->enumeration[R3751];
 if ( empty enumeration )
   create object instance enumeration of enumeration;
-  enumeration.name = param.name;
-  //relate enumeration to domain across R3799;
+  relate enumeration to type across R3751;
+  unmarkable = unmarkable::populate( name:"enumeration" );
+  relate enumeration to unmarkable across R3788;
 end if;
 return enumeration;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("9f48d1aa-8538-489a-a439-f70477e673c6",
 	"57a011f2-c04a-45fa-bdbd-0db2f5cec977",
-	'name',
-	"ba5eda7a-def5-0000-0000-000000000004",
+	'type',
+	"e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO O_TPARM
-	VALUES ("528283ab-b8f0-4f67-bd81-4283ed5039d3",
-	"57a011f2-c04a-45fa-bdbd-0db2f5cec977",
-	'domain',
-	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
-	0,
-	'',
-	"9f48d1aa-8538-489a-a439-f70477e673c6",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	VALUES ("e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<domain>',
+	'inst_ref<type>',
 	'',
 	'',
-	'../../masl/masl.xtuml');
+	'../masltypes.xtuml');
 INSERT INTO S_DT_PROXY
 	VALUES ("72d3ca34-9d23-4b92-b549-42f9eefce46c",
 	"00000000-0000-0000-0000-000000000000",
@@ -94,6 +107,7 @@ return valid;
 	1,
 	'',
 	"e0cdbc94-1b66-44db-9406-bca56ac24665",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("e0cdbc94-1b66-44db-9406-bca56ac24665",
@@ -108,15 +122,49 @@ value[0] = self.name;
 	1,
 	'',
 	"b04b612b-5c4a-4c80-8bc7-ceac37217cf3",
+	0,
 	0);
-INSERT INTO O_NBATTR
-	VALUES ("2625d38f-3b3e-40bd-86ba-31bf7071fb68",
-	"54176d77-0b85-469c-855f-6b9b6c71e924");
-INSERT INTO O_BATTR
-	VALUES ("2625d38f-3b3e-40bd-86ba-31bf7071fb68",
-	"54176d77-0b85-469c-855f-6b9b6c71e924");
+INSERT INTO O_REF
+	VALUES ("54176d77-0b85-469c-855f-6b9b6c71e924",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	0,
+	"5e32207e-907b-433a-96bc-6d26e98067dc",
+	"29e83db2-2e9c-4787-8dde-161be67d6e39",
+	"0702f5a0-c29f-4441-927e-7e20c1a1e087",
+	"07a976e9-ce7d-4160-bc9b-8d33c527155e",
+	"9d54fccf-b4fc-4264-8dbe-4ee480339149",
+	"0c47bcc7-062b-4899-a4c0-810beccef671",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'type',
+	'name',
+	'R3751');
+INSERT INTO R_RGO_PROXY
+	VALUES ("54176d77-0b85-469c-855f-6b9b6c71e924",
+	"29e83db2-2e9c-4787-8dde-161be67d6e39",
+	"0702f5a0-c29f-4441-927e-7e20c1a1e087",
+	'../masltypes.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	0,
+	"29e83db2-2e9c-4787-8dde-161be67d6e39",
+	"07a976e9-ce7d-4160-bc9b-8d33c527155e",
+	'../masltypes.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("9d54fccf-b4fc-4264-8dbe-4ee480339149",
+	"54176d77-0b85-469c-855f-6b9b6c71e924",
+	"5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	1,
+	'name');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'../type/type.xtuml');
 INSERT INTO O_ATTR
-	VALUES ("2625d38f-3b3e-40bd-86ba-31bf7071fb68",
+	VALUES ("9d54fccf-b4fc-4264-8dbe-4ee480339149",
 	"54176d77-0b85-469c-855f-6b9b6c71e924",
 	"00000000-0000-0000-0000-000000000000",
 	'name',
@@ -124,12 +172,17 @@ INSERT INTO O_ATTR
 	'',
 	'name',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"54176d77-0b85-469c-855f-6b9b6c71e924");
+INSERT INTO O_OIDA
+	VALUES ("9d54fccf-b4fc-4264-8dbe-4ee480339149",
+	"54176d77-0b85-469c-855f-6b9b6c71e924",
+	0,
+	'name');
 INSERT INTO O_ID
 	VALUES (1,
 	"54176d77-0b85-469c-855f-6b9b6c71e924");

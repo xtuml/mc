@@ -1,0 +1,6 @@
+T_b(receiver_object->key_letters);
+T_b(",");
+T_b(supertype_object->key_letters);
+T_b(",");
+T_b(T_s(polymorphic_event->number));
+T_b("\n");

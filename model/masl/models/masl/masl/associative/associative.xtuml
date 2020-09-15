@@ -33,6 +33,7 @@ end if;
 	1,
 	'',
 	"d2b70be7-d4e3-42c0-a39d-623da36f965d",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("d2b70be7-d4e3-42c0-a39d-623da36f965d",
@@ -63,6 +64,7 @@ return associative;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("3db1f298-b54d-4746-8b73-dc0bc32a9593",
@@ -117,6 +119,7 @@ return valid;',
 	1,
 	'',
 	"e33bf2e0-9bd6-4f0a-ac61-d30836116225",
+	0,
 	0);
 INSERT INTO O_ID
 	VALUES (0,

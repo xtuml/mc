@@ -1,0 +1,5 @@
+T_b(",");
+T_b(self->minimum);
+T_b(" .. ");
+T_b(self->maximum);
+T_b("\n");

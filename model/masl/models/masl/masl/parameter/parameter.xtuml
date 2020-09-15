@@ -12,9 +12,12 @@ INSERT INTO O_TFR
 	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
 	'render',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'// Render only in parameters or out parameters unless no indication.
+// Percolate the last direction rendered.
+rdirection = self.direction;
+select one next_parameter related by self->parameter[R3706.''precedes''];
 if ( ( "" == param.direction ) or ( self.direction == param.direction ) )
   if ( "MASL" == genfile::architecture() )
     T::include( file:"masl/t.parameter.masl" );
@@ -25,17 +28,23 @@ if ( ( "" == param.direction ) or ( self.direction == param.direction ) )
   end if;
   select one parametertype related by self->typeref[R3742];
   parametertype.render();
+  if ( not_empty next_parameter )
+    if ( "MASL" == genfile::architecture() ) or ( ( "WASL" == genfile::architecture() ) and ( param.direction == next_parameter.direction ) )
+      T::b( s:"," );
+    end if;
+  end if;
 end if;
 
-select one parameter related by self->parameter[R3706.''precedes''];
-if ( not_empty parameter )
-  T::b( s:"," );
-  parameter.render( direction:param.direction );
+if ( not_empty next_parameter )
+  rdirection = next_parameter.render( direction:param.direction );
 end if;
+
+return rdirection;
 ',
 	1,
 	'',
 	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("c82b9184-368c-4106-b7d8-05d7bdde5a2b",
@@ -78,6 +87,7 @@ return parameter;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("832e40af-41d8-47f7-af18-a29df551fa7f",
@@ -189,6 +199,7 @@ return valid;',
 	1,
 	'',
 	"1698183e-adec-427c-9f8f-defa8a94a3eb",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("b9f21bb9-72ba-4bcd-b593-4584c1db203b",
@@ -209,6 +220,7 @@ delete object instance self;',
 	1,
 	'',
 	"532b4a1b-ed1c-4ba7-ac49-47ffc466bf58",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("1698183e-adec-427c-9f8f-defa8a94a3eb",
@@ -218,6 +230,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'// Render only in parameters or out parameters unless no indication.
+select one next_parameter related by self->parameter[R3706.''precedes''];
 if ( ( "" == param.direction ) or ( self.direction == param.direction ) )
   if ( "MASL" == genfile::architecture() )
     T::include( file:"masl/t.parameter.masl" );
@@ -228,17 +241,21 @@ if ( ( "" == param.direction ) or ( self.direction == param.direction ) )
   end if;
   select one parametertype related by self->typeref[R3742];
   parametertype.render();
+  if ( not_empty next_parameter )
+    if ( "MASL" == genfile::architecture() ) or ( ( "WASL" == genfile::architecture() ) and ( param.direction == next_parameter.direction ) )
+      T::b( s:"," );
+    end if;
+  end if;
 end if;
 
-select one parameter related by self->parameter[R3706.''precedes''];
-if ( not_empty parameter )
-  T::b( s:"," );
-  parameter.render_definition( direction:param.direction );
+if ( not_empty next_parameter )
+  next_parameter.render_definition( direction:param.direction );
 end if;
 ',
 	1,
 	'',
 	"0fd206d4-b40b-4ad7-be27-9150e91afb40",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("20ff7306-8867-4597-aea0-9b8d3757f40d",

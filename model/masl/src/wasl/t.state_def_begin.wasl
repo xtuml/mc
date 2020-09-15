@@ -1,4 +1,4 @@
-T_b("define activity ");
+T_b("define action ");
 T_b(domain->name);
 T_b("_");
 T_b(object->key_letters);
@@ -6,4 +6,3 @@ T_b("_");
 T_b(T_s(state->number));
 T_b("\n");
 T_b("input");
-T_b("\n");
