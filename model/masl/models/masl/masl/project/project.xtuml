@@ -29,7 +29,6 @@ markable.render_marking( list:"default" );',
 	1,
 	'',
 	"e2f67167-96b5-451c-8a07-34573a645fed",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("e2f67167-96b5-451c-8a07-34573a645fed",
@@ -40,13 +39,13 @@ INSERT INTO O_TFR
 	0,
 	'create object instance project of project;
 project.name = param.name;
+project.key_letters = param.key_letters;
 markable = markable::populate( name:"project" );
 relate project to markable across R3783;
 return project;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("62bade3b-9f5d-4083-8b3a-a6121ae6a4b4",
@@ -56,6 +55,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("5d56d5d2-1e30-4403-af6c-fbae5ccea94a",
+	"e2f67167-96b5-451c-8a07-34573a645fed",
+	'key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"62bade3b-9f5d-4083-8b3a-a6121ae6a4b4",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("f6bc1fc3-7c5a-4872-a359-b2e25e1712d9",
@@ -101,7 +109,6 @@ return valid;',
 	1,
 	'',
 	"777ea3b3-5800-4366-929f-6b25c189a72c",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("777ea3b3-5800-4366-929f-6b25c189a72c",
@@ -124,7 +131,6 @@ out::tostring( element:"project", value:emptyvalue );
 	1,
 	'',
 	"57484f67-1062-40d4-9042-c2cd834a94d5",
-	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("33280c57-b6f9-4c0a-85ca-27880c727a15",
@@ -140,6 +146,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("7c7f3134-f1ed-4f36-b113-2c6adc29994a",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4");
+INSERT INTO O_BATTR
+	VALUES ("7c7f3134-f1ed-4f36-b113-2c6adc29994a",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4");
+INSERT INTO O_ATTR
+	VALUES ("7c7f3134-f1ed-4f36-b113-2c6adc29994a",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	"33280c57-b6f9-4c0a-85ca-27880c727a15",
+	'key_letters',
+	'',
+	'',
+	'key_letters',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
