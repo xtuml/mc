@@ -596,6 +596,20 @@ if ( "project" == element )
         TRACE::log( flavor:"info", id:101, message:"rendering project dump file" );
         genfile.emit( name:project.name + ".dmp" );
       end if;
+      
+      select many domains related by project->domain[R3701];
+      bridge_files = "";
+      for each domain in domains
+        bridge_files = bridge_files + domain.render_bridges(bridge_files: bridge_files);
+      end for;
+      // output project bridge list
+      if(bridge_files != "")
+      	T::include( file:"wasl/t.START.wasl" );
+		T::b(s: bridge_files);
+        T::include( file:"wasl/t.END.wasl" );
+        genfile = genfile::populate( name:"bridges" );
+        genfile.emit( name:project.key_letters + ".brp" );
+      end if;
 
       if ( structuralOnly == true )
         // we already output the project structural bits, so skip activites
@@ -639,24 +653,7 @@ elif ( "domain" == element )
       end if;
 
       // terminators file
-      TRACE::log( flavor:"info", id:101, message:"rendering terminator list" );
-      select many terminators related by domain->terminator[R3702];
-      for each terminator in terminators
-        terminator.render();
-      end for;
-      genfile = genfile::populate( name:"terminators" );
-      genfile.emit( name:domain.name + ".ter" );
-
-      // hand coded files file
-      TRACE::log( flavor:"info", id:102, message:"rendering hand code file list" );
-      for each terminator in terminators
-        select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "hand_coded" );
-        if ( not_empty pragma )
-          terminator.render_handcoded();
-        end if;
-      end for;
-      genfile = genfile::populate( name:"hand_coded_files" );
-      genfile.emit( name:domain.name + ".hcf" );
+      domain.render_terminators();
 
       // scenario list file
       TRACE::log( flavor:"info", id:103, message:"rendering scenario list" );
@@ -853,29 +850,7 @@ elif ( "domain" == element )
           external_files = external_files + domain.name + "," + domain.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
         end if;
       end for;
-      // bridges
-      select many terminators related by domain->terminator[R3702] where ( selected.key_letters != "TIM" );
-      for each terminator in terminators
-        select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "hand_coded" );
-        if ( empty pragma )
-        select many routines related by terminator->routine[R3791];
-        for each routine in routines
-          select one activity related by routine->activity[R3704];
-          routine.render_definition( activity:activity );
-          filename = domain.name + "_" + terminator.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".br";
-          TRACE::log( flavor:"info", id:118, message:"rendering activity file:  " + filename );
-          genfile = genfile::populate( name:filename );
-          genfile.emit( name:filename );
-          marking = routine.render_marking();
-          code_block_present = ",N";
-          select one code_block related by activity->code_block[R3794];
-          if ( not_empty code_block )
-            code_block_present = ",Y";
-          end if;
-          bridge_files = bridge_files + domain.name + "," + domain.version + "," + filename + code_block_present + marking + "\n";
-        end for;
-        end if;
-      end for;
+	  bridge_files = bridge_files + domain.render_bridges(bridge_files: bridge_files);
       // operations
       select many objects related by domain->object[R3708];
       for each object in objects
