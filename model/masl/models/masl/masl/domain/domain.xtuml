@@ -351,6 +351,27 @@ markable.render_marking( list:"default" );',
 	'',
 	"0d6eab48-8a19-474c-a54c-d16da938995b",
 	0);
+INSERT INTO O_TFR
+	VALUES ("8a307794-75b1-4701-bf7c-1e0440cd1c2a",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	'render_scenario_definition',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select many routines related by self->terminator[R3702]->routine[R3791] where ( selected.visibility == "private" );
+for each routine in routines
+  filename = self.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
+  select one activity related by routine->activity[R3704];
+  select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
+  if ( empty pragma )
+    marking = routine.render_marking();
+    T::b(s: self.name + "," + self.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n");
+  end if;
+end for;',
+	1,
+	'',
+	"923d7453-ca83-4d45-8c3f-abdabf2d922c",
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("4fc1a43d-5822-49e1-b600-7ff700768a17",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");

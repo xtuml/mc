@@ -3314,6 +3314,7 @@ for each d_tsvc in d_tsvcs
 
   value[2] = "public"; // Outbound messages are considered public.
   value[3] = d_tsvc.Name;
+  value[4] = STRING::itoa(i:d_tsvc.Numb);
   out::populate( element:"routine", value:value );
   
   select any d_tsparm related by d_tsvc->D_TSPARM[R1652];

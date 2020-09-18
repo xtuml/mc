@@ -128,7 +128,6 @@ end if;
 	1,
 	'',
 	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("e5cf8b40-420d-4501-88bd-ebcfca9f7251",
@@ -182,7 +181,6 @@ end if;',
 	1,
 	'',
 	"fb05b492-f60e-4c02-bdc6-89f2362e8cee",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
@@ -206,7 +204,6 @@ return genfile;',
 	1,
 	'',
 	"0652aa1a-382c-4f76-b3b5-f382ef04ba69",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("6c8f49be-0ccb-4b8a-ae38-a983e455e4a4",
@@ -245,7 +242,6 @@ end if;
 	1,
 	'',
 	"e5b94764-401e-406c-b9a9-fa2a5bc4fce0",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("99921c31-1323-40cf-a690-4971823e7fb4",
@@ -274,7 +270,6 @@ T::emit( file:fullfilename );',
 	1,
 	'',
 	"5cd5b315-bca4-4e80-ba18-2427ea690ab7",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("1e4e6c03-8024-460f-b234-2e3697d13d06",
@@ -300,7 +295,6 @@ end if;',
 	1,
 	'',
 	"e4bb4b34-0329-4346-a4bf-632ffa0ad30b",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("29043fa1-8c39-4370-9b32-3c885eaddb8a",
@@ -330,7 +324,6 @@ T::copyfile( source:source, destination:destination );',
 	1,
 	'',
 	"42b3bbc0-d392-414b-8b74-4c347e0f6e79",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("f291b218-90cf-440e-82d5-4f62b49dd9fa",
@@ -366,7 +359,6 @@ genfile.projectroot = param.name;',
 	1,
 	'',
 	"2f147788-5a86-4450-bedd-f6c445ca097c",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("766ebdb8-8e48-489a-8926-e257a758062f",
@@ -533,7 +525,6 @@ return name;',
 	1,
 	'',
 	"a7863684-8575-4990-b290-dce44c1b53df",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("f03f6367-a1ba-4db1-a427-380dbbbb9806",
@@ -553,7 +544,6 @@ end if;',
 	1,
 	'',
 	"5184e566-c21d-4e41-adf8-4be0bb366c90",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("7bb1295c-b375-4c50-9c1e-efd5bb085697",
@@ -578,6 +568,17 @@ structuralOnly = param.structuralOnly;
 select any population from instances of population;
 population.architecture = "WASL";
 
+// Populate the file containerization before transforming and emitting the text.
+select many elements from instances of element;
+for each e in elements
+  if ( "project" == e.name )
+    genfile = genfile::populate( name:e.name );
+    relate genfile to e across R3795;
+  else
+    // no file needed
+  end if;
+end for;
+
 if ( "project" == element )
   select many projects from instances of project where ( selected.name == name );
   if ( ( "*" == name ) or ( "" == name ) )
@@ -590,8 +591,10 @@ if ( "project" == element )
       project.render();
       select one genfile related by project->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
-        // Project files go into a directory named after the project.
-        genfile.emit( name:project.name + ".prj" );
+        // Projects our output as  wasl dump files, with a description
+        // of the content
+        TRACE::log( flavor:"info", id:101, message:"rendering project dump file" );
+        genfile.emit( name:project.name + ".dmp" );
       end if;
 
       if ( structuralOnly == true )
@@ -938,7 +941,6 @@ end if;',
 	1,
 	'',
 	"4c11d43c-eebe-45da-af8c-2e21b2196111",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("5a9cac6f-7833-4e28-bb71-50f49f765373",
@@ -987,7 +989,6 @@ return population.architecture;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",

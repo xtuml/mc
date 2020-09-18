@@ -18,12 +18,27 @@ INSERT INTO O_TFR
 for each descrip in descrips
   descrip.render();
 end for;
-T::include( file:"masl/t.project_begin.masl" );
-select many domains related by self->domain[R3701.''configures''];
-for each domain in domains
-  domain.render_project();
-end for;
-T::include( file:"masl/t.project_end.masl" );
+if("MASL" == genfile::architecture())
+  T::include( file:"masl/t.project_begin.masl" );
+  select many domains related by self->domain[R3701.''configures''];
+  for each domain in domains
+    domain.render_project();
+  end for;
+  T::include( file:"masl/t.project_end.masl" );
+end if;
+if("WASL" == genfile::architecture())
+  T::include( file:"wasl/t.project_begin.wasl" );
+  T::include( file:"wasl/t.build_sets_begin.wasl" );
+  T::b(s:"Not handled yet!\n");
+  T::include( file:"wasl/t.build_sets_end.wasl" );
+  T::include( file:"wasl/t.scenario_list_spec.wasl" );
+  self.render_scenario_list();
+  self.render_hcf();
+  self.render_domains_in_build_set();
+  T::include( file:"wasl/t.bridge_data_types.wasl" );
+  self.render_bridges();
+  self.render_cpr();
+end if;
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
@@ -131,6 +146,73 @@ out::tostring( element:"project", value:emptyvalue );
 	1,
 	'',
 	"57484f67-1062-40d4-9042-c2cd834a94d5",
+	0);
+INSERT INTO O_TFR
+	VALUES ("dccdc3b9-69ab-4b1b-81b4-f619d2637332",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render_scenario_list',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'  T::include( file:"wasl/t.scenario_list_begin.wasl" );
+  select many domains related by self->domain[R3701.''configures''];
+  for each domain in domains
+  	domain.render_scenario_definition();
+  end for;
+  T::include( file:"wasl/t.scenario_list_end.wasl" );',
+	1,
+	'',
+	"90bfd5c6-91ad-47f3-af29-4e7fc6b977d7",
+	0);
+INSERT INTO O_TFR
+	VALUES ("b3aa7ab3-1647-40c2-b2e6-fb20eea00d5e",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render_domains_in_build_set',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"wasl/t.domains_in_build_set_begin.wasl" );
+T::include( file:"wasl/t.domains_in_build_set_end.wasl" );',
+	1,
+	'',
+	"dccdc3b9-69ab-4b1b-81b4-f619d2637332",
+	0);
+INSERT INTO O_TFR
+	VALUES ("c0a26bad-8df5-4230-b709-f138c4b7fe64",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render_bridges',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"wasl/t.bridges_begin.wasl" );
+T::include( file:"wasl/t.bridges_end.wasl" );',
+	1,
+	'',
+	"b3aa7ab3-1647-40c2-b2e6-fb20eea00d5e",
+	0);
+INSERT INTO O_TFR
+	VALUES ("8364e1a7-b457-4e15-999c-f0cbfbeeaec6",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render_cpr',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"wasl/t.cpr.wasl" );',
+	1,
+	'',
+	"c0a26bad-8df5-4230-b709-f138c4b7fe64",
+	0);
+INSERT INTO O_TFR
+	VALUES ("c7780151-8b27-4f46-8bbb-b094bfa2c4de",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render_hcf',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"wasl/t.hcf.wasl" );',
+	1,
+	'',
+	"8364e1a7-b457-4e15-999c-f0cbfbeeaec6",
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("33280c57-b6f9-4c0a-85ca-27880c727a15",

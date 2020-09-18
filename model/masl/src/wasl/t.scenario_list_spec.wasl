@@ -1,0 +1,9 @@
+T_b("$");
+T_b("START_SCENARIO_LIST");
+T_b("\n");
+T_b(self->key_letters);
+T_b(".scn");
+T_b("\n");
+T_b("$");
+T_b("END_SCENARIO_LIST");
+T_b("\n");
