@@ -7712,7 +7712,11 @@ function = self.current_domain_function;
 message = self.current_executable_property;
 
 if ( not_empty function )
-  select many s_syncs related by function->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->S_SYNC[R8001];
+  // Merge duplicates in the same package or spanning into the externals package.
+  select many local_s_syncs related by function->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->S_SYNC[R8001];
+  select any externals_ep_pkg related by function->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8001]->C_C[R8003]->PE_PE[R8003]->EP_PKG[R8001] where ( selected.Name == "externals" );
+  select many external_s_syncs related by externals_ep_pkg->PE_PE[R8000]->S_SYNC[R8001];
+  s_syncs = local_s_syncs + external_s_syncs;
   for each s_sync in s_syncs
     if ( s_sync != function and self.Function_getSignature( s_sync:function ) == self.Function_getSignature( s_sync:s_sync ) )
       // copy over the codeblock

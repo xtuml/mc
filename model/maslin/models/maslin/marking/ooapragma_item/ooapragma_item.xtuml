@@ -97,7 +97,7 @@ elif ( ActionDialect::asl == ooapopulation.action_dialect )
       externals_ep_pkg = ooapopulation.Component_newPackage(c_c:current_component, pkg_name:"externals");
     end if;
     select one pe_pe related by current_domain_function->PE_PE[R8001];
-    select one functions_ep_pkg related by pe_pe->EP_PKG[R8001];
+    select one functions_ep_pkg related by pe_pe->EP_PKG[R8000];
     unrelate pe_pe from functions_ep_pkg across R8000;
     relate pe_pe to externals_ep_pkg across R8000;
   elif ( "routine" == element.type and "scenario" == pragma.name )
