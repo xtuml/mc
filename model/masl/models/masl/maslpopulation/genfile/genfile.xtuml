@@ -604,6 +604,7 @@ if ( "project" == element )
       end for;
       // output project bridge list
       if(bridge_files != "")
+      	TRACE::log( flavor:"info", id:101, message:"rendering bridge list" );
       	T::include( file:"wasl/t.START.wasl" );
 		T::b(s: bridge_files);
         T::include( file:"wasl/t.END.wasl" );
