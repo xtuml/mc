@@ -705,7 +705,7 @@ elif ( "domain" == element )
       TRACE::log( flavor:"info", id:106, message:"rendering objects" );
       select many objects related by domain->object[R3708];
       i = 1;
-      while ( i < 100 )
+      while ( i < 10000 ) // This is brute force, but fast enough.
         for each obj in objects
           if ( obj.number == i )
             TRACE::log( flavor:"info", id:107, message:"rendering object:  " + obj.name );

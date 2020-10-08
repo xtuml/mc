@@ -26,15 +26,15 @@ if ( "MASL" == genfile::architecture() )
 elif ( "WASL" == genfile::architecture() )
   select any pragma related by relationship->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "Class_A" );
   select any pragma_item related by pragma->pragma_item[R3780];
-  one_letter = "A";
-  other_letter = "B";
-  if ( not_empty pragma_item )
-    if ( ( STRING::quote() + other_object.name + STRING::quote() ) == pragma_item.value )
-      one_letter = "B";
-      other_letter = "A";
+  if ( empty pragma_item )
+    T::include( file: "wasl/t.regularrel_oneA.wasl" );
+  else
+    if ( ( STRING::quote() + one_object.name + STRING::quote() ) == pragma_item.value )
+      T::include( file: "wasl/t.regularrel_oneA.wasl" );
+    else
+      T::include( file: "wasl/t.regularrel_otherA.wasl" );
     end if;
   end if;
-  T::include( file: "wasl/t.regularrel.wasl" );
 else
   // neither MASL nor WASL
 end if;
