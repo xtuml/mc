@@ -42,6 +42,12 @@ char *_strsep(char **stringp, const char *delim) {
     return start;
 }
 
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <ctype.h>
+#include "masl_url.h"
 #include <execinfo.h>
 #include <signal.h>
 void masl_sig_handler(int sig) {
@@ -98,12 +104,6 @@ UserPreOoaInitializationCalloutf( void )
  * When this callout function returns, the system dispatcher will allow the
  * xtUML application analysis state models to start consuming events.
  */
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <ctype.h>
-#include "masl_url.h"
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
