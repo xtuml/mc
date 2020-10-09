@@ -710,6 +710,7 @@ elif ( "domain" == element )
           if ( obj.number == i )
             TRACE::log( flavor:"info", id:107, message:"rendering object:  " + obj.name );
             obj.render();
+            objects = objects - obj;
             break;
           end if;
         end for;

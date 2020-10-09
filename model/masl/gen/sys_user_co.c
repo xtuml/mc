@@ -48,18 +48,24 @@ char *_strsep(char **stringp, const char *delim) {
 #include <sys/types.h>
 #include <ctype.h>
 #include "masl_url.h"
+#ifndef WIN
 #include <execinfo.h>
+#endif
 #include <signal.h>
 void masl_sig_handler(int sig) {
   void *array[10];
   size_t size;
 
   // get void*'s for all entries on the stack
+#ifndef WIN
   size = backtrace(array, 10);
+#endif
 
   // print out all the frames to stderr
   fprintf(stderr, "Error: signal %d:\n", sig);
+#ifndef WIN
   backtrace_symbols_fd(array, size, STDERR_FILENO);
+#endif
   exit(1);
 }
 
