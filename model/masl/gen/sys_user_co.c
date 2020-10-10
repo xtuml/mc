@@ -116,7 +116,8 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   char s[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ 64000 ];
   char * p, * q, * element, * value[8] = {v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7]};
   T_clear();
-  signal(SIGSEGV, masl_sig_handler);   // install our handler
+  signal(SIGSEGV, masl_sig_handler);  // segfault
+  signal(SIGINT, masl_sig_handler);   // cntl-c
   while ( ( p = fgets( s, ESCHER_SYS_MAX_STRING_LEN, stdin ) ) != NULL ) {
     int i, j;
     i = 0;
