@@ -1,68 +1,76 @@
-$$DOMAIN_NAME ${self.name}
-$$DOMAIN_KEY_LETTER ${self.name}
-$$DOMAIN_VERSION 1
+$$DOMAIN_NAME $_{domain.key_letters}
+$$DOMAIN_KEY_LETTER ${domain.name}
+$$DOMAIN_VERSION ${domain.version}
 $$DOMAIN_TYPE Undefined
-
+ 
 $$START_TERMINATORS
-${self.name}.ter
+${domain.name}.ter
 $$END_TERMINATORS
-
+ 
 $$START_HAND_CODED_FILES
-${self.name}.hcf
+${domain.name}.hcf
 $$END_HAND_CODED_FILES
-
+ 
 $$START_SCENARIOS
+${scenario_files}\
 $$END_SCENARIOS
-
+.if ( "" != scenario_files )
+ 
 $$START_SCENARIO_LIST
-${self.name}.scn
+${domain.name}.scn
 $$END_SCENARIO_LIST
-
+.end if
+ 
 $$START_FUNCTION_DATA_TYPES
-${self.name}.fnp
+${domain.name}.fnp
 $$END_FUNCTION_DATA_TYPES
-
+ 
 $$START_FUNCTIONS
+${function_files}\
 $$END_FUNCTIONS
-
+ 
 $$START_BRIDGE_DATA_TYPES
-${self.name}.brp
+${domain.name}.brp
 $$END_BRIDGE_DATA_TYPES
-
+.if ( "" != bridge_files )
+ 
 $$START_BRIDGES
+${bridge_files}\
 $$END_BRIDGES
-
+.end if
+ 
 $$START_OBJECTS
-${self.name}.obj
+${domain.name}.obj
 $$END_OBJECTS
-
+ 
 $$START_RELATIONSHIPS
-${self.name}.rel
+${domain.name}.rel
 $$END_RELATIONSHIPS
-
+ 
 $$START_SUBTYPES
-${self.name}.sub
+${domain.name}.sub
 $$END_SUBTYPES
-
+ 
 $$START_POLYMORPHIC_EVENTS
-${self.name}.pme
+${domain.name}.pme
 $$END_POLYMORPHIC_EVENTS
-
+ 
 $$START_
-${self.name}.pme_test
+${domain.name}.pme_test
 $$END_
-
+ 
 $$START_ACTION_LIST
+${action_files}\
 $$END_ACTION_LIST
-
+ 
 $$START_STATE_TRANSITIONS
-${self.name}.stt
+${domain.name}.stt
 $$END_STATE_TRANSITIONS
-
+ 
 $$START_EVDS
-${self.name}.evd
+${domain.name}.evd
 $$END_EVDS
-
+ 
 $$START_TYPES
-${self.name}.typ
+${domain.name}.typ
 $$END_TYPES

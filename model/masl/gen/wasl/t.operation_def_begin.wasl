@@ -1,2 +1,2 @@
-define function ${object.key_letters}${object.number}:${activity.name}
-input
+define function ${object.key_letters}$t{self.number}:${activity.name}
+input\

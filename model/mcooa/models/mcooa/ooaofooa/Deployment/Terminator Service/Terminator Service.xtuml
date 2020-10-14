@@ -321,6 +321,24 @@ INSERT INTO S_DT_PROXY
 domain or from the deployment.',
 	'',
 	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("b336691c-e753-49a9-8fa4-a063a3def978",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_BATTR
+	VALUES ("b336691c-e753-49a9-8fa4-a063a3def978",
+	"a13a4c99-717c-4602-87e7-ae5699c99167");
+INSERT INTO O_ATTR
+	VALUES ("b336691c-e753-49a9-8fa4-a063a3def978",
+	"a13a4c99-717c-4602-87e7-ae5699c99167",
+	"550f4a26-f9a3-4b12-9e24-caabd035c589",
+	'Numb',
+	'',
+	'',
+	'Numb',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"a13a4c99-717c-4602-87e7-ae5699c99167");

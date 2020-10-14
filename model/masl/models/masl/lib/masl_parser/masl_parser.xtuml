@@ -9,6 +9,7 @@ INSERT INTO C_C
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	0,
+	'',
 	'');
 INSERT INTO GD_MD
 	VALUES ("c82aaf87-d2f8-443c-8eb4-b1505c131918",
@@ -71,7 +72,7 @@ INSERT INTO GD_CON
 INSERT INTO GD_CTXT
 	VALUES ("4927b357-6597-456e-a262-5af5f47717dc",
 	"98138c76-dfbf-4511-8a82-31065fb1027c",
-	1,
+	0,
 	0.000000,
 	0.000000);
 INSERT INTO DIM_ND
@@ -90,7 +91,7 @@ INSERT INTO DIM_ELE
 INSERT INTO GD_CTXT
 	VALUES ("27856084-8bf4-48d1-80df-c60a3283e266",
 	"98138c76-dfbf-4511-8a82-31065fb1027c",
-	3,
+	2,
 	0.000000,
 	0.000000);
 INSERT INTO DIM_ND
@@ -109,7 +110,7 @@ INSERT INTO DIM_ELE
 INSERT INTO GD_CTXT
 	VALUES ("e444d0f4-e825-4a10-83fa-c7d78ce0e90e",
 	"98138c76-dfbf-4511-8a82-31065fb1027c",
-	2,
+	1,
 	0.000000,
 	0.000000);
 INSERT INTO DIM_ND
@@ -199,6 +200,7 @@ INSERT INTO C_EP_PROXY
 	-1,
 	'populate',
 	'',
+	0,
 	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
 INSERT INTO SPR_REP
 	VALUES ("cd78602c-d246-4c07-92eb-21db782745dd",
@@ -217,6 +219,7 @@ INSERT INTO C_EP_PROXY
 	-1,
 	'end',
 	'',
+	0,
 	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
 INSERT INTO C_I_PROXY
 	VALUES ("c221853e-39ef-4a21-8a0f-9730c3b2f618",

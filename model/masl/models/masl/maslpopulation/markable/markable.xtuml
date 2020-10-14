@@ -21,6 +21,7 @@ return markable;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("2e7d1984-31c5-4319-b3ff-d5baaf6973f1",
@@ -93,6 +94,7 @@ return valid;',
 	1,
 	'',
 	"b1850fad-bb57-4d6f-91b1-23e0e7ef73db",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("b246cf4b-42f5-4e3d-86ae-056cc20a61b8",
@@ -107,6 +109,7 @@ value[0] = "";
 	1,
 	'',
 	"7b3548a2-2120-43ca-904f-0de8634f06a1",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("b1850fad-bb57-4d6f-91b1-23e0e7ef73db",
@@ -122,6 +125,7 @@ end if;',
 	1,
 	'',
 	"bdb91b44-d996-4257-bce3-96c137ff0633",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("1cdbdfe2-4cf8-4764-82c0-bc187c2afb72",
@@ -183,6 +187,7 @@ end if;',
 	1,
 	'',
 	"b246cf4b-42f5-4e3d-86ae-056cc20a61b8",
+	0,
 	0);
 INSERT INTO O_ID
 	VALUES (0,

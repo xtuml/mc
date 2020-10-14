@@ -1,0 +1,5 @@
+T_b("  ");
+T_b(type->visibility);
+T_b(" type ");
+T_b(type->name);
+T_b(" is enum ( ");

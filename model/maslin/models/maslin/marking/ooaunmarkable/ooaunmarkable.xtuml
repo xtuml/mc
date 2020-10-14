@@ -20,6 +20,7 @@ relate unmarkable to element across R3806;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("9e066073-934c-4e29-8a1b-63be1f102ea9",
@@ -48,6 +49,7 @@ INSERT INTO O_TFR
 	1,
 	'',
 	"9462e501-aea4-4acd-9c3a-80f461ae98ee",
+	0,
 	0);
 INSERT INTO O_ID
 	VALUES (0,

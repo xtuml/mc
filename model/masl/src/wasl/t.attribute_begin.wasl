@@ -1,4 +1,4 @@
-if ( 0==strcmp("preferred",self->preferred) ) {
+if ( is_identifier_attribute || 0==strcmp("preferred",self->preferred) ) {
 T_b("*");
 } else {
 T_b(".");

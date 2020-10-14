@@ -39,6 +39,9 @@ private MaslImportParser masl_parser = null;
 // argument array to pass to interface
 private String[] args = new String[8];
 
+// dialect (architecture)
+private String dialect = "";
+
 // set the serial interface
 public void setInterface ( Serial serial ) {
     if ( serial != null )
@@ -84,9 +87,17 @@ private String getFile() {
     return f.getName();
 }
 
+private String cleanASL( String str, boolean isMASL ) {
+    if ( null == str ) return null;
+    if ( isMASL ) return str;
+    else return str.replaceAll( "#ASL-BEGIN(\\s)?", "" ).replaceAll( "#ASL-END", "" ).replaceAll( "(?m)(\\s)?begin$(\\s)*null;$(\\s)?end;(\\s)*", "" );
 }
 
-target                        : definition+;
+}
+
+target[String dialect]
+@init{ this.dialect = dialect; }
+                              : definition+;
 
 definition                    : projectDefinition
                               | domainDefinition
@@ -286,7 +297,7 @@ typeDeclaration
                                                               }
                                    description
                                    pragmaList[""]				
-                                   typeDefinition			
+                                   typeDefinition[$typeName.name]
                                  )                          
                                                               {
                                                                   populate( "type", args ); // end type
@@ -294,10 +305,10 @@ typeDeclaration
                               ;
                               
 
-typeDefinition
+typeDefinition[String name]
 //returns [TypeDefinition def]
-                              : structureTypeDefinition     
-                              | enumerationTypeDefinition   
+                              : structureTypeDefinition[$name]
+                              | enumerationTypeDefinition[$name]
                               | constrainedTypeDefinition   
                               | typeReference               
                               | unconstrainedArrayDefinition
@@ -352,13 +363,24 @@ digitsConstraint
                               ;
 
 // Structure Type
-structureTypeDefinition
+structureTypeDefinition[String name]
 //returns [StructureType type]
 
                               : ^( STRUCTURE
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  args[0] = $name;
+                                                                  populate( "structure", args );
+                                                                }
+                                                              }
                                    ( structureComponentDefinition 
                                                             
                                    )+
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  populate( "structure", args ); // end structure
+                                                                }
+                                                              }
                                  )                          
                               ;
 
@@ -370,6 +392,16 @@ structureComponentDefinition
                                    typeReference
                                    expression?
                                    pragmaList["omit"]
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  args[0] = $componentName.name;
+                                                                  args[1] = ""; // not currently populated
+                                                                  populate( "member", args );
+                                                                  args[0] = $typeReference.type;
+                                                                  populate( "typeref", args );
+                                                                  populate( "member", args ); // end member
+                                                                }
+                                                              }
                                  )                          
                               ;
 
@@ -377,17 +409,28 @@ componentName
 returns [String name]
                               : ^( COMPONENT_NAME
                                    identifier
-                                 )                          
+                                 )                          { $name = $identifier.name; }
                               ;
 
 
 // Enumeration Type
-enumerationTypeDefinition
+enumerationTypeDefinition[String name]
 //returns [EnumerateType type]
 
                               : ^( ENUM
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  args[0] = $name;
+                                                                  populate( "enumeration", args );
+                                                                }
+                                                              }
                                    ( enumerator             
                                    )+
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  populate( "enumeration", args ); // end enumeration
+                                                                }
+                                                              }
                                  )                          
                               ;
 
@@ -397,12 +440,20 @@ enumerator
                                    enumeratorName
                                    expression?
                                  )                          
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  args[0] = $enumeratorName.name;
+                                                                  args[1] = ""; // not currently populated
+                                                                  populate( "enumerator", args );
+                                                                  populate( "enumerator", args ); // end enumerator
+                                                                }
+                                                              }
                               ;
 
 enumeratorName
 returns [String name]         : ^( ENUMERATOR_NAME
                                    identifier
-                                 )                          
+                                 )                            { $name = $identifier.name; }
                               ;
 
 
@@ -436,7 +487,16 @@ returns [String type]
 typeReference
 returns [String type]
 //returns [BasicType type]
-                              : TYPE_REF                    { $type = $TYPE_REF.text; }
+                              : TYPE_REF                    { $type = $TYPE_REF.text;
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  if ( -1 < $type.indexOf( "sequence of " ) ) {
+                                                                    $type = $type.substring( 12 );
+                                                                  } else if ( -1 < $type.indexOf( "instance of " ) ) {
+                                                                    $type = $type.replace( "instance of ", "inst_ref<" );
+                                                                    $type = $type.concat( ">" );
+                                                                  }
+                                                                }
+                                                            }
                               ;
 
 instanceTypeRef
@@ -1340,7 +1400,11 @@ pragma[String list]
 pragmaValue
 returns [ String value ]
                               : identifier                  { $value = $identifier.name; }
-                              | literalExpression           { $value = $literalExpression.exp; }
+                              | MINUS? literalExpression    { StringBuilder v = new StringBuilder();
+                                                              if ( $MINUS != null ) v.append( $MINUS.text );
+                                                              v.append( $literalExpression.exp );
+                                                              $value = v.toString();
+                                                            }
                               ;
 
 pragmaName
@@ -1371,16 +1435,17 @@ description                   : ^( DESCRIPTION              {   StringBuilder de
 /*  This rule has been added to allow to parse any activity action body file
     without knowledge of what type of activity it contained - LPS */
 
-activityDefinition            : domainServiceDefinition
-                              | terminatorServiceDefinition
-                              | objectServiceDefinition
-                              | stateDefinition
+activityDefinition[String dialect]
+@init{ boolean isMASL = false; this.dialect = dialect; if ( this.dialect.equals( "MASL" ) ) isMASL = true; }
+                              : domainServiceDefinition[ isMASL ? " service;" : "", isMASL ]
+                              | terminatorServiceDefinition[ isMASL ? " service;" : "", isMASL ]
+                              | objectServiceDefinition[ isMASL ? " service;" : "", isMASL ]
+                              | stateDefinition[ isMASL ? " state;" : "", isMASL ]
                               ;
 
 
-domainServiceDefinition//[DomainService service]
+domainServiceDefinition[String endtag, boolean isMASL]
 //scope NameScope;
-
                               : ^( DOMAIN_SERVICE_DEFINITION
                                    serviceVisibility
                                    domainReference
@@ -1395,8 +1460,8 @@ domainServiceDefinition//[DomainService service]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                args[0] = $DOMAIN_SERVICE_DEFINITION.text + " service;";
-                                                                populate( "codeblock", args );
+                                                                args[0] = cleanASL( $DOMAIN_SERVICE_DEFINITION.text, isMASL ) + endtag;
+                                                                if ( !args[0].equals("") ) populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
                                  )                                                   
@@ -1407,10 +1472,8 @@ domainServiceDefinition//[DomainService service]
                               ;
 
 
-terminatorServiceDefinition//[DomainTerminatorService service]
+terminatorServiceDefinition[String endtag, boolean isMASL]
 //scope NameScope;
-
-
                               : ^( TERMINATOR_SERVICE_DEFINITION
                                    serviceVisibility
                                    domainReference
@@ -1424,12 +1487,12 @@ terminatorServiceDefinition//[DomainTerminatorService service]
                                                                   populate( "routine", args );
                                                             }
                                    parameterList
-                                                            {
-                                                                args[0] = $TERMINATOR_SERVICE_DEFINITION.text + " service;";
-                                                                populate( "codeblock", args );
-                                                            }
                                    returnType?
                                    codeBlock
+                                                            {
+                                                                args[0] = cleanASL( $TERMINATOR_SERVICE_DEFINITION.text, isMASL ) + endtag;
+                                                                if ( !args[0].equals("") ) populate( "codeblock", args );
+                                                            }
                                    pragmaList[""]                  
                                  )                                                   
                                                             {
@@ -1439,7 +1502,7 @@ terminatorServiceDefinition//[DomainTerminatorService service]
                               ;
 
 
-projectTerminatorServiceDefinition//[ProjectTerminatorService service]
+projectTerminatorServiceDefinition[String endtag, boolean isMASL]
 //scope NameScope;
                               : ^( TERMINATOR_SERVICE_DEFINITION
                                    serviceVisibility
@@ -1457,8 +1520,8 @@ projectTerminatorServiceDefinition//[ProjectTerminatorService service]
                                    returnType?
                                    codeBlock         
                                                             {
-                                                                args[0] = $TERMINATOR_SERVICE_DEFINITION.text + " service;";
-                                                                populate( "codeblock", args );
+                                                                args[0] = cleanASL( $TERMINATOR_SERVICE_DEFINITION.text, isMASL ) + endtag;
+                                                                if ( !args[0].equals("") ) populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                  
                                  )                                                   
@@ -1470,10 +1533,8 @@ projectTerminatorServiceDefinition//[ProjectTerminatorService service]
 
 
 
-objectServiceDefinition//[ObjectService service]
+objectServiceDefinition[String endtag, boolean isMASL]
 //scope NameScope;
-
-
                               :^( OBJECT_SERVICE_DEFINITION
                                    serviceVisibility
                                    INSTANCE?
@@ -1492,8 +1553,8 @@ objectServiceDefinition//[ObjectService service]
                                    returnType?
                                    codeBlock
                                                             {
-                                                                args[0] = $OBJECT_SERVICE_DEFINITION.text + " service;";
-                                                                populate( "codeblock", args );
+                                                                args[0] = cleanASL( $OBJECT_SERVICE_DEFINITION.text, isMASL ) + endtag;
+                                                                if ( !args[0].equals("") ) populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                           
                                  )                          
@@ -1503,10 +1564,8 @@ objectServiceDefinition//[ObjectService service]
                               ;
 
 
-stateDefinition//[State stateDef]
+stateDefinition[String endtag, boolean isMASL]
 //scope NameScope;
-
-
                               : ^( STATE_DEFINITION
                                    stateType
                                    fullObjectReference
@@ -1521,8 +1580,8 @@ stateDefinition//[State stateDef]
                                    parameterList
                                    codeBlock
                                                             {
-                                                                args[0] = $STATE_DEFINITION.text + " state;";
-                                                                populate( "codeblock", args );
+                                                                args[0] = cleanASL( $STATE_DEFINITION.text, isMASL ) + endtag;
+                                                                if ( !args[0].equals("") ) populate( "codeblock", args );
                                                             }
                                    pragmaList[""]                
                                  )                          
@@ -1811,8 +1870,9 @@ loopVariableSpec
 codeBlock
 //returns [ CodeBlock st ]
 //scope NameScope;
-                              :^( CODE_BLOCK                
-                                  ( variableDeclaration     
+                              : ^( CODE_BLOCK
+                                  Asl ) |
+                                  ^( CODE_BLOCK ( variableDeclaration
                                   )*     
                                   ^(STATEMENT_LIST ( statement               
                                   )* )
@@ -1822,8 +1882,6 @@ codeBlock
                                   )?
                                 )
                               ;
-
-
 
 variableDeclaration
 //returns [VariableDefinition var]
@@ -1941,6 +1999,14 @@ rangeExpression
                                    from=expression
                                    to=expression
                                  )                          
+                                                              {
+                                                                if ( this.dialect.equals( "WASL" ) ) {
+                                                                  args[0] = $from.text;
+                                                                  args[1] = $to.text;
+                                                                  populate( "range", args );
+                                                                  populate( "range", args ); // end range
+                                                                }
+                                                              }
                               ;
 
 

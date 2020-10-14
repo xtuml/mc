@@ -69,30 +69,35 @@ masl_type_AnyWhere1( c_t * w_name )
 void
 masl_type_op_render( masl_type * self)
 {
-  masl_reference * reference=0;masl_description * descrip=0;masl_markable * markable=0;Escher_ObjectSet_s references_space={0}; Escher_ObjectSet_s * references = &references_space;Escher_ObjectSet_s descrips_space={0}; Escher_ObjectSet_s * descrips = &descrips_space;
-  /* SELECT many descrips RELATED BY self->markable[R3783]->element[R3786]->description[R3796] */
-  Escher_ClearSet( descrips );
-  {  if ( 0 != self ) {
-  masl_markable * markable_R3783 = self->markable_R3783;
-  if ( 0 != markable_R3783 ) {
-  masl_element * element_R3786 = markable_R3783->element_R3786;
-  if ( 0 != element_R3786 ) {
-  masl_description * description_R3796;
-  Escher_Iterator_s idescription_R3796;
-  Escher_IteratorReset( &idescription_R3796, &element_R3786->description_R3796 );
-  while ( 0 != ( description_R3796 = (masl_description *) Escher_IteratorNext( &idescription_R3796 ) ) ) {
-    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) descrips, description_R3796 ) ) {
-      Escher_SetInsertElement( (Escher_ObjectSet_s *) descrips, description_R3796 );
-  }}}}}}
-  /* FOR EACH descrip IN descrips */
-  { Escher_Iterator_s iterdescrip;
-  masl_description * iidescrip;
-  Escher_IteratorReset( &iterdescrip, descrips );
-  while ( (iidescrip = (masl_description *)Escher_IteratorNext( &iterdescrip )) != 0 ) {
-    descrip = iidescrip; {
-    /* descrip.render() */
-    masl_description_op_render( descrip );
-  }}}
+  masl_reference * reference=0;masl_structure * structure=0;masl_enumeration * enumeration=0;masl_markable * markable=0;Escher_ObjectSet_s references_space={0}; Escher_ObjectSet_s * references = &references_space;
+  /* IF ( MASL == genfile::architecture() ) */
+  if ( Escher_strcmp( "MASL", masl_genfile_op_architecture() ) == 0 ) {
+    masl_description * descrip=0;Escher_ObjectSet_s descrips_space={0}; Escher_ObjectSet_s * descrips = &descrips_space;
+    /* SELECT many descrips RELATED BY self->markable[R3783]->element[R3786]->description[R3796] */
+    Escher_ClearSet( descrips );
+    {    if ( 0 != self ) {
+    masl_markable * markable_R3783 = self->markable_R3783;
+    if ( 0 != markable_R3783 ) {
+    masl_element * element_R3786 = markable_R3783->element_R3786;
+    if ( 0 != element_R3786 ) {
+    masl_description * description_R3796;
+    Escher_Iterator_s idescription_R3796;
+    Escher_IteratorReset( &idescription_R3796, &element_R3786->description_R3796 );
+    while ( 0 != ( description_R3796 = (masl_description *) Escher_IteratorNext( &idescription_R3796 ) ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) descrips, description_R3796 ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) descrips, description_R3796 );
+    }}}}}}
+    /* FOR EACH descrip IN descrips */
+    { Escher_Iterator_s iterdescrip;
+    masl_description * iidescrip;
+    Escher_IteratorReset( &iterdescrip, descrips );
+    while ( (iidescrip = (masl_description *)Escher_IteratorNext( &iterdescrip )) != 0 ) {
+      descrip = iidescrip; {
+      /* descrip.render() */
+      masl_description_op_render( descrip );
+    }}}
+    Escher_ClearSet( descrips ); 
+  }
   /* ASSIGN self.rendered = TRUE */
   ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.rendered" ))->rendered = TRUE;
   /* SELECT many references RELATED BY self->reference[R3777.is_referenced_by] */
@@ -111,29 +116,58 @@ masl_type_op_render( masl_type * self)
   }}}
   /* SELECT one markable RELATED BY self->markable[R3783] */
   markable = ( 0 != self ) ? self->markable_R3783 : 0;
-  /* IF ( MASL == genfile::architecture() ) */
-  if ( Escher_strcmp( "MASL", masl_genfile_op_architecture() ) == 0 ) {
-    /* T::include( file:masl/t.type_begin.masl ) */
-#include "masl/t.type_begin.masl"
-    /* T::include( file:masl/t.type_end.masl ) */
-#include "masl/t.type_end.masl"
-  }
-  else if ( Escher_strcmp( "WASL", masl_genfile_op_architecture() ) == 0 ) {
-    /* IF ( - 1 != STRING::indexof(self.body, ,) ) */
-    if ( -1 != STRING_indexof( ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body, "," ) ) {
-      /* ASSIGN self.body = ( ( Enumeration,{ + self.body ) + } ) */
-      ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body = Escher_strcpy( ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body, ( Escher_stradd( ( Escher_stradd( "Enumeration,{", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.body" ))->body ) ), "}" ) ) );
+  /* SELECT one enumeration RELATED BY self->enumeration[R3751] */
+  enumeration = 0;
+  if ( ( 0 != self ) && ( masl_enumeration_CLASS_NUMBER == self->R3751_object_id ) )  enumeration = ( 0 != self ) ? (masl_enumeration *) self->R3751_subtype : 0;
+  /* SELECT one structure RELATED BY self->structure[R3751] */
+  structure = 0;
+  if ( ( 0 != self ) && ( masl_structure_CLASS_NUMBER == self->R3751_object_id ) )  structure = ( 0 != self ) ? (masl_structure *) self->R3751_subtype : 0;
+  /* IF ( not_empty enumeration ) */
+  if ( ( 0 != enumeration ) ) {
+    /* IF ( Time_Unit != self.name ) */
+    if ( Escher_strcmp( "Time_Unit", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.name" ))->name ) != 0 ) {
+      /* enumeration.render() */
+      masl_enumeration_op_render( enumeration );
     }
-    /* T::include( file:wasl/t.type_begin.wasl ) */
-#include "wasl/t.type_begin.wasl"
-    /* T::include( file:wasl/t.type_end.wasl ) */
-#include "wasl/t.type_end.wasl"
+  }
+  else if ( ( 0 != structure ) ) {
+    /* structure.render() */
+    masl_structure_op_render( structure );
   }
   else {
+    masl_constraint * constraint=0;
+    /* SELECT one constraint RELATED BY self->constraint[R3751] */
+    constraint = 0;
+    if ( ( 0 != self ) && ( masl_constraint_CLASS_NUMBER == self->R3751_object_id ) )    constraint = ( 0 != self ) ? (masl_constraint *) self->R3751_subtype : 0;
+    /* IF ( not_empty constraint ) */
+    if ( ( 0 != constraint ) ) {
+      /* constraint.render() */
+      masl_constraint_op_render( constraint );
+    }
+    else {
+      /* IF ( MASL == genfile::architecture() ) */
+      if ( Escher_strcmp( "MASL", masl_genfile_op_architecture() ) == 0 ) {
+        /* T::include( file:masl/t.type_begin.masl ) */
+#include "masl/t.type_begin.masl"
+        /* T::include( file:masl/t.type_end.masl ) */
+#include "masl/t.type_end.masl"
+      }
+      else if ( Escher_strcmp( "WASL", masl_genfile_op_architecture() ) == 0 ) {
+        /* IF ( ( Timer_ID != self.name ) and FALSE ) */
+        if ( ( Escher_strcmp( "Timer_ID", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.name" ))->name ) != 0 ) && FALSE ) {
+          /* T::include( file:wasl/t.type_begin.wasl ) */
+#include "wasl/t.type_begin.wasl"
+          /* T::include( file:wasl/t.type_end.wasl ) */
+#include "wasl/t.type_end.wasl"
+        }
+      }
+      else {
+      }
+    }
   }
   /* markable.render_marking( list:default ) */
   masl_markable_op_render_marking( markable,  "default" );
-  Escher_ClearSet( references ); Escher_ClearSet( descrips ); 
+  Escher_ClearSet( references ); 
 }
 
 /*
@@ -171,8 +205,13 @@ masl_type_op_populate( c_t * p_body, masl_domain * p_domain, c_t * p_name, c_t *
     ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.rendered" ))->rendered = FALSE;
     /* ASSIGN type.declared_forward = FALSE */
     ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.declared_forward" ))->declared_forward = FALSE;
-    /* ASSIGN type.lcount = typeminer::referreds(body:type.body, labels:type.labels, name:type.name) */
-    ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.lcount" ))->lcount = typeminer_referreds( ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.body" ))->body, ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.labels" ))->labels, ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.name" ))->name );
+    /* ASSIGN type.lcount = 0 */
+    ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.lcount" ))->lcount = 0;
+    /* IF (  != type.body ) */
+    if ( Escher_strcmp( "", ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.body" ))->body ) != 0 ) {
+      /* ASSIGN type.lcount = typeminer::referreds(body:type.body, labels:type.labels, name:type.name) */
+      ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.lcount" ))->lcount = typeminer_referreds( ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.body" ))->body, ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.labels" ))->labels, ((masl_type *)xtUML_detect_empty_handle( type, "type", "type.name" ))->name );
+    }
     /* RELATE type TO domain ACROSS R3719 */
     masl_type_R3719_Link_defines( domain, type );
     /* ASSIGN markable = markable::populate(name:type) */

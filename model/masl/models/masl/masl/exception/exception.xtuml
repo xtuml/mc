@@ -20,6 +20,7 @@ markable.render_marking( list:"default" );',
 	1,
 	'',
 	"2410aa23-0abe-49b3-8580-3468cf315f79",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("2410aa23-0abe-49b3-8580-3468cf315f79",
@@ -39,6 +40,7 @@ return exception;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("9ed436f3-c804-4b7e-9ef3-da6e1f30437e",
@@ -116,6 +118,7 @@ return valid;',
 	1,
 	'',
 	"ff2d74b9-890f-417e-b1d7-1849fb78a6eb",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("ff2d74b9-890f-417e-b1d7-1849fb78a6eb",
@@ -130,6 +133,7 @@ value[0] = self.name;
 	1,
 	'',
 	"e82f49c4-f822-4fd8-81a4-c6e29694a572",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("87b48d59-06bc-47c1-a605-a3018358aed5",

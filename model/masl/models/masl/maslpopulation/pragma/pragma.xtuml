@@ -26,6 +26,7 @@ T::include( file:"masl/t.pragma_end.masl" );',
 	1,
 	'',
 	"a2751ebc-236b-471c-85b9-3fa412f91703",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("a2751ebc-236b-471c-85b9-3fa412f91703",
@@ -59,6 +60,7 @@ return pragma;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("0c8cc016-ea19-48a9-8ad4-833df1771dcb",
@@ -130,6 +132,7 @@ return valid;',
 	1,
 	'',
 	"26e558f4-4c8e-4ddf-a140-8b13409ffb34",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("3d6ffc15-15cb-4df1-a30a-8828c3961885",

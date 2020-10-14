@@ -1,0 +1,134 @@
+= Export Deployment (Build Set)
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+This note documents requirements and the work required for the export of
+WASL build sets from xtUML deployments.
+
+== 2 Introduction and Background
+
+iUML established an idiom of linking domains with action language in
+terminator services.  This action language provides an "impedance match"
+between one domain invoking an outbound terminator service and the inbound
+domain function of the client domain.  This idiom is supported in xtUML
+and BridgePoint through a model artifact called a _Deployment_ <<dr-2>>.
+
+A deployment is a system-level model which composes domain component
+models.  Interfaces are imported from the domain model interfaces themselves
+or from MASL interface files (`.int`).  A deployment has terminators (ports)
+with terminator service (message) signature and bodies that can be
+populated with action language.  In the case of WASL idiom models, the
+action language is ASL.
+
+Unlike component references, deployments have no direct dependency on the
+components or interfaces of the domains being integrated.  In fact, a
+deployment can be edited in a workspace without domain components present.
+
+== 3 Requirements
+
+Data from the xtUML Deployment shall be mapped and templated to produce
+the following summary list of files.
+
+* 'Extraction.dmp'
+* 'Extraction.asl'
+* <project key letters>.brp
+* <project key letters>.cpr
+* <project key letters>.hcf
+* <project key letters>.scn
+* <*>`.br` for each terminator service
+
+=== 3.1 Translate Deployment into Build Set
+
+Each xtUML Deployment shall be emitted as a file named 'Extraction.dmp'.
+The stanzas within the file shall follow the pattern established by the
+data set TSV2 sent in May of 2018.
+
+=== 3.2 Translate Terminator Services into Bridge Files
+
+==== 3.2.1 File Naming
+
+Each terminator service shall be emitted into the contents of a file named
+according to the same rules as for domains.  The files shall be named:
+
+<domain key letters>_<terminator key letters><operation number>_<function name>.br
+
+==== 3.2.2 Action Signature
+
+For each terminator service in an xtUML Deployment the top of the file
+produced in <<3.2.1 File Naming>> shall have an ASL syntax signature
+matching the signature of the terminator service in xtUML.
+
+==== 3.2.2 Action Description
+
+If a description exists in the 'Descrip' field of a terminator service,
+the text of the Description shall be emitted between the appropriate tags
+following the signature in the file named according to <<3.2.1 File Naming>>.
+Otherwise the tags will exist with no text between them.
+
+==== 3.2.3 Action Body
+
+For each terminator service in an xtUML Deployment the action body of the
+terminator service in xtUML shall be populated into the file produced in
+<<3.2.1 File Naming>> and following the signature produced in
+<<3.2.1 Action Signature>> and following the description produced according
+to <<3.2.2 Action Description>>.
+
+=== 3.3 WASL Export Builder
+
+The WASL Export Builder provides the user interface for access to this
+functionality.  Upon triggering the WASL Export Builder on an xtUML
+project containing a deployment, the above requirements shall be satisfied
+in a set of text files produced as a result.
+
+== 4 Analysis
+
+
+* What is `Extraction.asl` file?
+* What is a `<KL>.cpr` file and what are the requirements for this file?
+* What are the requirements for a `<KL>.scn` file?
+* What are the requirements for a `<KL>.hcf` file?
+* What marking requirements are there?
+  ** build set version?
+  ** project key letters?  (which would simplify the metamodel work)
+
+== 5 Work Required
+
+. Deployment (D_DEPL) shall gain a new attribute for key letters (Key_Lett).
+  This shall be added to OOA of OOA and mcooa.
+. The 'project' class shall gain a new attribute 'key_letters' in the
+  model of MASL (`masl`).
+. The Serial MASL Specification <<dr-3>> (SMASL) shall be updated for the
+  new project key letters.
+. `maslout` shall be modified to include the Deployment key letters in the
+  downstream flowing serial MASL as part of the SMASL 'project' command.
+. `masl` shall be modified to populate the project key letters in the
+  'project' class.
+. Templates and rendering shall be added to `masl` to produce the files
+  specified in the <<3 Requirements>>.
+
+== 6 Acceptance Test
+
+=== 6.1 Test Model
+
+One or more test models shall be added by the user to the models repository.
+
+=== 6.1 Test Cases
+
+The models added in <<6.1 Test Model>> shall be included in a round trip
+style test.  The differencing may or may not be automated based upon the
+degree of difficulty in achieving full automation.
+
+== 7 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11455[11455 - Export deployments (build sets)]
+. [[dr-2]] https://www.youtube.com/watch?v=2DeLwBmngAM[xtUML Deployments - youtube video]
+. [[dr-3]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
+
