@@ -14,11 +14,14 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'// Add the Descrip field as a comment.
-select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
-for each descrip in descrips
-  descrip.render();
-end for;
+	'if ( "MASL" == genfile::architecture() )
+  // Add the Descrip field as a comment.
+  select many descrips related by self->markable[R3783]->element[R3786]->description[R3796];
+  for each descrip in descrips
+    descrip.render();
+  end for;
+end if;
+
 self.rendered = true;
 select many references related by self->reference[R3777.''is_referenced_by''];
 for each reference in references
@@ -26,17 +29,33 @@ for each reference in references
 end for;
 select one markable related by self->markable[R3783];
 
-if ( "MASL" == genfile::architecture() )
-  T::include( file:"masl/t.type_begin.masl" );
-  T::include( file:"masl/t.type_end.masl" );
-elif ( "WASL" == genfile::architecture() )
-  if ( -1 != STRING::indexof( haystack:self.body, needle:"," ) ) // TODO this is a fragile way to identify enums
-    self.body = "Enumeration,{" + self.body + "}";
+select one enumeration related by self->enumeration[R3751];
+select one structure related by self->structure[R3751];
+if ( not_empty enumeration )
+  if ( "Time_Unit" != self.name )
+    enumeration.render();
   end if;
-  T::include( file:"wasl/t.type_begin.wasl" );
-  T::include( file:"wasl/t.type_end.wasl" );
+elif ( not_empty structure )
+  structure.render();
 else
-  //
+  // UDTs
+  select one constraint related by self->constraint[R3751];
+  if ( not_empty constraint )
+    constraint.render();
+  else
+    if ( "MASL" == genfile::architecture() )
+      T::include( file:"masl/t.type_begin.masl" );
+      T::include( file:"masl/t.type_end.masl" );
+    elif ( "WASL" == genfile::architecture() )
+      // WASL does not support unconstrained UDTs.
+      if ( "Timer_ID" != self.name ) and ( false )
+        T::include( file:"wasl/t.type_begin.wasl" );
+        T::include( file:"wasl/t.type_end.wasl" );
+      end if;
+    else
+      //
+    end if;
+  end if;
 end if;
 
 markable.render_marking( list:"default" );
@@ -44,6 +63,7 @@ markable.render_marking( list:"default" );
 	1,
 	'',
 	"2305aec8-9f7e-4a17-aa22-efb75d88ee24",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
@@ -61,7 +81,11 @@ if ( empty type )
   type.body = param.body; // This holds the string body of the type definition.
   type.rendered = false;
   type.declared_forward = false;
-  type.lcount = typeminer::referreds( name:type.name, body:type.body, labels:type.labels );
+  type.lcount = 0;
+  // Skip the type miner when nothing to mine.
+  if ( "" != type.body )
+    type.lcount = typeminer::referreds( name:type.name, body:type.body, labels:type.labels );
+  end if;
   relate type to domain across R3719;
   markable = markable::populate( name:"type" );
   relate type to markable across R3783;
@@ -70,6 +94,7 @@ return type;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("510c49ab-e667-498b-ab0a-9aeb37c96665",
@@ -163,6 +188,7 @@ return valid;',
 	1,
 	'',
 	"2001763c-11c6-4ec8-acc1-baebed654580",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("2001763c-11c6-4ec8-acc1-baebed654580",
@@ -182,6 +208,7 @@ out::tostring( element:"type", value:emptyvalue );',
 	1,
 	'',
 	"5cf062ce-c54b-4592-bfe4-2a50894a96c8",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("2305aec8-9f7e-4a17-aa22-efb75d88ee24",
@@ -202,6 +229,7 @@ end while;',
 	1,
 	'',
 	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("e72c6670-d122-49cf-9711-2a3574dcf6b8",
@@ -224,6 +252,7 @@ end for;',
 	1,
 	'',
 	"b7dd3c52-3a6c-4cea-b528-2625ea83d95d",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("55bd70c6-df59-4a18-8081-b055a6c4bd28",
@@ -263,6 +292,7 @@ return count;
 	1,
 	'',
 	"e72c6670-d122-49cf-9711-2a3574dcf6b8",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("07e7b7d1-663b-4409-aa30-5000d1e4afd5",
@@ -339,6 +369,7 @@ end while;',
 	1,
 	'',
 	"55bd70c6-df59-4a18-8081-b055a6c4bd28",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("96a97a2b-48c5-4747-9ae6-e1a270e7c154",

@@ -409,7 +409,8 @@ CREATE TABLE CL_POR (
     CL_IC_Id UNIQUE_ID,
     C_PO_Id UNIQUE_ID,
     Name STRING,
-    Id UNIQUE_ID
+    Id UNIQUE_ID,
+    Key_Lett STRING
 );
 CREATE TABLE CNST_CSP (
     Constant_Spec_ID UNIQUE_ID,
@@ -463,7 +464,8 @@ CREATE TABLE C_C (
     Mult INTEGER,
     Root_Package_IDdeprecated UNIQUE_ID,
     isRealized BOOLEAN,
-    Realized_Class_Path STRING
+    Realized_Class_Path STRING,
+    Key_Lett STRING
 );
 CREATE TABLE C_DG (
     Id UNIQUE_ID,
@@ -474,7 +476,8 @@ CREATE TABLE C_EP (
     Interface_Id UNIQUE_ID,
     Direction INTEGER,
     Name STRING,
-    Descrip STRING
+    Descrip STRING,
+    Numb INTEGER
 );
 CREATE TABLE C_I (
     Id UNIQUE_ID,
@@ -542,7 +545,8 @@ CREATE TABLE C_SF (
 CREATE TABLE D_DEPL (
     Deployment_ID UNIQUE_ID,
     Name STRING,
-    Descrip STRING );
+    Descrip STRING
+);
 CREATE TABLE D_TERM (
     Term_ID UNIQUE_ID,
     Deployment_ID UNIQUE_ID,
@@ -550,7 +554,8 @@ CREATE TABLE D_TERM (
     Descrip STRING,
     Domain_Name STRING,
     Terminator_Name STRING,
-    Provider BOOLEAN );
+    Provider BOOLEAN
+);
 CREATE TABLE D_TSPARM (
     TSParm_ID UNIQUE_ID,
     Svc_ID UNIQUE_ID,
@@ -559,7 +564,8 @@ CREATE TABLE D_TSPARM (
     By_Ref INTEGER,
     Dimensions STRING,
     Previous_TSParm_ID UNIQUE_ID,
-    Descrip STRING );
+    Descrip STRING
+);
 CREATE TABLE D_TSVC (
     Svc_ID UNIQUE_ID,
     Term_ID UNIQUE_ID,
@@ -571,7 +577,9 @@ CREATE TABLE D_TSVC (
     Return_Dimensions STRING,
     Dialect INTEGER,
     Is_Stale BOOLEAN,
-    Implementation_Scope INTEGER );
+    Implementation_Scope INTEGER,
+    Numb INTEGER
+);
 CREATE TABLE EP_PKG (
     Package_ID UNIQUE_ID,
     Sys_ID UNIQUE_ID,
@@ -991,7 +999,8 @@ CREATE TABLE O_TFR (
     Suc_Pars INTEGER,
     Return_Dimensions STRING,
     Previous_Tfr_ID UNIQUE_ID,
-    Dialect INTEGER
+    Dialect INTEGER,
+    Numb INTEGER
 );
 CREATE TABLE O_TPARM (
     TParm_ID UNIQUE_ID,
@@ -1329,7 +1338,8 @@ CREATE TABLE SPR_RO (
     Descrip STRING,
     Action_Semantics STRING,
     Suc_Pars INTEGER,
-    Dialect INTEGER
+    Dialect INTEGER,
+    Numb INTEGER
 );
 CREATE TABLE SPR_RS (
     Id UNIQUE_ID,
@@ -1567,7 +1577,8 @@ CREATE TABLE S_SYNC (
     DT_ID UNIQUE_ID,
     Suc_Pars INTEGER,
     Return_Dimensions STRING,
-    Dialect INTEGER
+    Dialect INTEGER,
+    Numb INTEGER
 );
 CREATE TABLE S_SYS (
     Sys_ID UNIQUE_ID,

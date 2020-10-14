@@ -3,10 +3,12 @@ T_b("Base_Integer_Type");
 } else if ( 0==strcmp("real",self->body) ) {
 T_b("Base_Float_Type");
 } else if ( 0==strcmp("boolean",self->body) ) {
-T_b("Base_Boolean_Type");
+T_b("Boolean");
 } else if ( 0==strcmp("text",self->body) ) {
 T_b("Base_Text_Type");
+} else if ( 0==strcmp("string",self->body) ) {
+T_b("Base_Text_Type");
 } else {
-T_b(self->body);
+T_b(mybody);
 T_b("");
 }

@@ -27,6 +27,7 @@ return ret;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("6eaebdb2-2a51-4120-8bd0-14fa3d89c8ef",
@@ -57,6 +58,7 @@ return pragma;',
 	1,
 	'',
 	"1880ce2c-05b3-4505-bd02-c44b9a6aca17",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("ab7bb4f6-f34e-4934-90f2-eb4f262b879b",
@@ -116,6 +118,7 @@ delete object instance self;',
 	1,
 	'',
 	"6eaebdb2-2a51-4120-8bd0-14fa3d89c8ef",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("04dde210-4229-47b6-8ef6-7778e1a2ef65",
@@ -154,6 +157,7 @@ end if;
 	1,
 	'',
 	"df935a92-ec5a-4525-8d0a-13517d646778",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("94f68fc6-d0b1-415b-ab62-2446f18eea40",

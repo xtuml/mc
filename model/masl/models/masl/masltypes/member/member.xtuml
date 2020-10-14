@@ -14,12 +14,26 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.object_begin.masl" );
-T::include( file:"masl/t.object_end.masl" );
-',
+	'if ( "MASL" == genfile::architecture() )
+  T::include( file:"masl/t.member.masl" );
+elif ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.member.wasl" );
+else
+  //
+end if;
+select one typeref related by self->typeref[R3753];
+typeref.render();
+select one next_member related by self->member[R3778.''precedes''];
+if ( not_empty next_member )
+  if ( "WASL" == genfile::architecture() )
+    T::include( file:"wasl/t.field_delimiter.wasl" );
+  end if;
+  next_member.render();
+end if;',
 	1,
 	'',
 	"d39537d4-1784-4bba-8f43-558468104601",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("d39537d4-1784-4bba-8f43-558468104601",
@@ -28,21 +42,34 @@ INSERT INTO O_TFR
 	'',
 	"25cf1c85-eb83-4253-8d2e-91d11609dd8b",
 	0,
-	'domain = param.domain;
-//select any member related by domain->member[R3799];
-select any member from instances of member; // DELETE THIS LINE
-if ( empty member )
-  create object instance member of member;
-  member.name = param.name;
-  //relate member to domain across R3799;
-end if;
-return member;',
+	'structure = param.structure;
+create object instance member of member;
+member.name = param.name;
+
+// Get the last member.
+select any sibling related by structure->member[R3752];
+last_member = sibling;
+while ( not_empty sibling )
+  last_member = sibling;
+  select one sibling related by sibling->member[R3778.''precedes''];
+  if ( empty sibling )
+    relate member to last_member across R3778.''succeeds'';
+  end if;
+end while;
+
+relate member to structure across R3752;
+markable = markable::populate( name:"member" );
+relate member to markable across R3783;
+return member;
+
+',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
-	VALUES ("4dc106e8-90c7-4802-b20b-c9828af788c7",
+	VALUES ("3ef72fbc-7906-4e39-bf69-7a9a7bce83e3",
 	"d39537d4-1784-4bba-8f43-558468104601",
 	'name',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -51,21 +78,30 @@ INSERT INTO O_TPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TPARM
-	VALUES ("84f0df8f-6cc4-4f0f-8651-8461dd57c5f5",
+	VALUES ("c6fb42ef-db3d-47c4-b7ca-4565ee560dca",
 	"d39537d4-1784-4bba-8f43-558468104601",
-	'domain',
-	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	'expression',
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"4dc106e8-90c7-4802-b20b-c9828af788c7",
+	"3ef72fbc-7906-4e39-bf69-7a9a7bce83e3",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("f3628c7d-bd19-4721-b114-f83dc1aed502",
+	"d39537d4-1784-4bba-8f43-558468104601",
+	'structure',
+	"14752010-e874-4993-84f4-da511fc58871",
+	0,
+	'',
+	"c6fb42ef-db3d-47c4-b7ca-4565ee560dca",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	VALUES ("14752010-e874-4993-84f4-da511fc58871",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<domain>',
+	'inst_ref<structure>',
 	'',
 	'',
-	'../../masl/masl.xtuml');
+	'../masltypes.xtuml');
 INSERT INTO S_DT_PROXY
 	VALUES ("25cf1c85-eb83-4253-8d2e-91d11609dd8b",
 	"00000000-0000-0000-0000-000000000000",
@@ -94,6 +130,7 @@ return valid;
 	1,
 	'',
 	"412217d5-b328-4233-bf3d-dc7e78b89e7c",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("412217d5-b328-4233-bf3d-dc7e78b89e7c",
@@ -108,6 +145,7 @@ value[0] = self.name;
 	1,
 	'',
 	"5751bb86-158f-4792-8981-359324516f9b",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("486b8e9a-e552-4791-90a0-bd5e07a37279",

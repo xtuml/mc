@@ -24,6 +24,7 @@ option.value = param.value;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("6d26e20c-eb8d-4382-abf2-6e933a07f087",
@@ -60,6 +61,7 @@ end if;',
 	1,
 	'',
 	"75ff08f8-d003-47ae-a464-6fc35a07d112",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("90a3f223-175b-4edf-8b5e-a08131b17339",
@@ -86,6 +88,7 @@ return model;',
 	1,
 	'',
 	"35294f6e-eccf-4411-b64a-9e11965d5842",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("b83d87ce-5dc6-4b3b-8eb9-96414ef251b1",

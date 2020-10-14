@@ -20,6 +20,7 @@ T::include( file:"masl/t.object_end.masl" );
 	1,
 	'',
 	"8fd0878b-afe0-418d-99b9-7c6108723273",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("8fd0878b-afe0-418d-99b9-7c6108723273",
@@ -40,6 +41,7 @@ return constrained_array;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("dab424bc-3e9e-44bc-b999-b11df8dc1561",
@@ -94,6 +96,7 @@ return valid;
 	1,
 	'',
 	"4486bb61-43eb-4688-9724-be887b0433fe",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("4486bb61-43eb-4688-9724-be887b0433fe",
@@ -108,6 +111,7 @@ value[0] = self.name;
 	1,
 	'',
 	"9503c9a5-d9a3-416b-8264-0576071d5654",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("f050532b-a505-48be-b783-0473da341cff",

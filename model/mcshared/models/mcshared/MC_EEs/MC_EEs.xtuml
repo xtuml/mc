@@ -1141,6 +1141,46 @@ INSERT INTO S_BPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_BRG
+	VALUES ("6dc9c9e8-ff32-4650-af49-09b53e911cfa",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'replace',
+	'Replace every occurrence of ''replace'' with ''with'' in ''original''.
+Return a new string with replacements.
+Return null when trouble is detected.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'return param.original;',
+	1,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("0bfcf7b9-0905-4419-bfe0-12b06475d264",
+	"6dc9c9e8-ff32-4650-af49-09b53e911cfa",
+	'original',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("2453e4af-3c53-418e-8432-7d330a9e7799",
+	"6dc9c9e8-ff32-4650-af49-09b53e911cfa",
+	'replace',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0bfcf7b9-0905-4419-bfe0-12b06475d264",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("9c98e8e5-812e-4ac6-a0d2-5319cabe3b07",
+	"6dc9c9e8-ff32-4650-af49-09b53e911cfa",
+	'with',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"2453e4af-3c53-418e-8432-7d330a9e7799",
+	'');
 INSERT INTO PE_PE
 	VALUES ("bb9efba5-486a-4a39-a358-d0e112844c11",
 	1,
