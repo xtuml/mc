@@ -65,7 +65,6 @@ TRACE::log( flavor:"info", id:104, message:"Done." );
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("9c8d9c3a-c0a1-4d32-81e0-b96654392cc0",
@@ -126,7 +125,6 @@ TRACE::log( flavor:"info", id:102, message:"Done" );
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("df408732-1e8c-4be3-bbf2-6c34377e1afe",
@@ -203,7 +201,6 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("cf4db11c-a368-4494-9f14-382c45cdc747",
@@ -281,7 +278,6 @@ end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("e1434ed1-bb84-419d-aa6a-b3a6dcaae855",
@@ -384,7 +380,6 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("e557817d-dd43-43a1-b7c1-a522bda54d2a",
@@ -513,7 +508,6 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("8898a959-9ae1-44df-90ff-dcc22215a9db",
@@ -582,7 +576,6 @@ end if;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("a476bde7-fb21-4a1f-b22b-46b5fe763364",
@@ -687,7 +680,6 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("15b7c710-66b8-4afc-8a74-5728d734391a",
@@ -867,7 +859,6 @@ end while;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("4488e70f-8f35-4b8b-9c0b-8f144d9acacf",
@@ -1048,7 +1039,6 @@ end while;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("07c30bd2-62a1-4290-9717-fc84fa995641",
@@ -1122,7 +1112,6 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("51c46f46-bc0f-4bf0-8fe4-af7d3be1667e",
@@ -1176,7 +1165,6 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("a84bec3f-93e6-496d-aa58-e382e6c4e593",
@@ -1271,7 +1259,6 @@ out::populate( element:"participation", value:emptyvalue );
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("11a9addd-1ac4-4fa9-abbd-0ff170d8e031",
@@ -1379,7 +1366,6 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("6f121837-e5ec-493f-a1f1-f42c2bc5c711",
@@ -1423,7 +1409,6 @@ end if;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("60fb8b97-7f20-4095-b943-e08c3a8e2e31",
@@ -1599,7 +1584,6 @@ end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("5276c784-1f5f-4e92-a593-1c486c8cf8af",
@@ -1713,7 +1697,6 @@ end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("9d4415e3-ad34-4d40-883c-8f8647a5f282",
@@ -1855,7 +1838,6 @@ end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("39e07600-0fc3-4419-bea9-f719b03957e9",
@@ -1913,7 +1895,6 @@ end if;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("3cc94496-ce2a-4ae7-a208-d9eb28187713",
@@ -2012,7 +1993,6 @@ out::populate( element:"participation", value:emptyvalue );
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("82f62d53-ef7e-4045-a8b7-e0fd0eeceec7",
@@ -2079,7 +2059,6 @@ out::populate( element:"participation", value:emptyvalue );
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("cf4ea895-58ef-476c-837b-8dfa3a918c5a",
@@ -2195,7 +2174,6 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("b20d9889-4d3c-4f25-a8db-c0753f2d6cac",
@@ -2248,7 +2226,6 @@ end if;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("79a8a289-1d1d-4dd0-8a5c-769e1ea19030",
@@ -2302,7 +2279,6 @@ end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("8dd08552-fe99-4071-95f5-32ada1023ceb",
@@ -2351,7 +2327,6 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("e7e87814-1a70-4e6e-a9fd-7725a64e6126",
@@ -2384,7 +2359,6 @@ end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("f2aa1161-9f0e-499c-8a7d-df804ac3f56a",
@@ -2497,7 +2471,6 @@ return signature;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("64bdae58-a63d-4347-9a1f-1157732b8fdb",
@@ -2713,7 +2686,6 @@ end if;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("70ae1d69-d2bf-4e80-84f5-ab2c1c7c9814",
@@ -2841,7 +2813,6 @@ return signature;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("561b683a-9821-4ef9-b121-5aae212d3c53",
@@ -2927,7 +2898,6 @@ end while;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("308fb1dc-110d-445b-a5de-a7d62bff457d",
@@ -2969,7 +2939,6 @@ return string;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("de5a1558-1109-424e-9d38-e853780dbfea",
@@ -3014,7 +2983,6 @@ end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("568d603f-636d-4311-910f-ef57c6a92bcb",
@@ -3063,7 +3031,6 @@ end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO PE_PE
 	VALUES ("12b0e811-e469-45bb-93a9-70c47457f5d8",
@@ -3166,7 +3133,6 @@ end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("a8ee1b9b-1d34-4718-b0d2-e06eaee133c2",
@@ -3211,6 +3177,7 @@ d_depls = param.d_depls;
 for each d_depl in d_depls
 
   value[0] = d_depl.Name;
+  value[1] = d_depl.Key_Lett;
   out::populate( element:"project", value:value );
   
   select many d_terms related by d_depl->D_TERM[R1650];
@@ -3230,7 +3197,6 @@ end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("bdc9f917-fcb4-4d54-98e3-b54cff84fe28",
@@ -3301,7 +3267,6 @@ end while;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("08d56b2b-9f8c-4589-8f5e-a20426a170c6",
@@ -3349,6 +3314,7 @@ for each d_tsvc in d_tsvcs
 
   value[2] = "public"; // Outbound messages are considered public.
   value[3] = d_tsvc.Name;
+  value[4] = STRING::itoa(i:d_tsvc.Numb);
   out::populate( element:"routine", value:value );
   
   select any d_tsparm related by d_tsvc->D_TSPARM[R1652];
@@ -3380,7 +3346,6 @@ end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("78fa69cc-b4a3-4096-8c8e-dfd3bfec570e",
@@ -3431,7 +3396,6 @@ end if;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("e292df87-7c25-4bee-a4ca-508560143c19",
@@ -3592,7 +3556,6 @@ return signature;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
-	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("41b34502-adf3-452e-9741-f72b77e44013",
@@ -3640,7 +3603,6 @@ INSERT INTO C_C_PROXY
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	0,
-	'',
 	'',
 	'../xtuml2masl.xtuml');
 INSERT INTO S_SYS_PROXY
