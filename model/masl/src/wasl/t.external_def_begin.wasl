@@ -1,0 +1,4 @@
+T_b("$");
+T_b("EXTERNAL, ");
+T_b(T_s(routine->number));
+T_b("\n");
