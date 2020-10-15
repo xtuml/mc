@@ -76,6 +76,7 @@ T_emit( c_t * p_file )
     if ( 0 == ( outputfile = fopen( p_file, "w" ) ) ) {
       T_print( "bad news could not open output file" );
       T_print( p_file );
+      perror( 0 );
       T_exit( 1 );
     }
   }
