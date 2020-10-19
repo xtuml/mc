@@ -81,6 +81,9 @@ T_emit( c_t * p_file )
     }
   }
   fprintf( outputfile, "%s", buffer );
+  if ( stdout != outputfile ) {
+    fclose( outputfile );
+  }
   T_clear();
 }
 
