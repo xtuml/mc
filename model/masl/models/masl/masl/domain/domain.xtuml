@@ -28,6 +28,7 @@ return domain;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("11b21edf-33b3-49d7-8a2d-c247985704d7",
@@ -151,6 +152,7 @@ end if;',
 	1,
 	'',
 	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("923d7453-ca83-4d45-8c3f-abdabf2d922c",
@@ -234,6 +236,7 @@ return valid;',
 	1,
 	'',
 	"e6bc5a45-5a39-4d36-8cfb-9189cb568011",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("e6bc5a45-5a39-4d36-8cfb-9189cb568011",
@@ -280,6 +283,7 @@ out::tostring( element:"domain", value:emptyvalue );
 	1,
 	'',
 	"892cc2c0-a74a-40f1-99c2-f7a70d95e67f",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("892cc2c0-a74a-40f1-99c2-f7a70d95e67f",
@@ -306,6 +310,7 @@ markable.render_marking( list:"project" );',
 	1,
 	'',
 	"d2c1d212-d763-486a-80db-31abb17f92e1",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("d2c1d212-d763-486a-80db-31abb17f92e1",
@@ -350,28 +355,46 @@ markable.render_marking( list:"default" );',
 	1,
 	'',
 	"0d6eab48-8a19-474c-a54c-d16da938995b",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("8a307794-75b1-4701-bf7c-1e0440cd1c2a",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
-	'render_scenario_definition',
+	'render_scenario_definitions',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many routines related by self->terminator[R3702]->routine[R3791] where ( selected.visibility == "private" );
-for each routine in routines
-  filename = self.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
-  select one activity related by routine->activity[R3704];
-  select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
-  if ( empty pragma )
-    marking = routine.render_marking();
-    T::b(s: self.name + "," + self.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n");
-  end if;
-end for;',
+	'/* Scenarios exist under a special terminator, with the name "Sequence" */
+scenarios = param.scenarios;
+select any terminator related by self->terminator[R3702] where (selected.name == "Sequence");
+if(not_empty terminator)
+  TRACE::log( flavor:"info", id:104, message:"Processing sequence terminator." );
+  select many routines related by terminator->routine[R3791];
+  for each routine in routines
+  	TRACE::log( flavor:"info", id:104, message:"Processing routine for sequence terminator." );
+    filename = self.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
+    select one activity related by routine->activity[R3704];
+    select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
+    if ( empty pragma )
+      marking = routine.render_marking();
+      scenarios = scenarios + self.name + "," + self.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
+    end if;
+  end for;
+end if;',
 	1,
 	'',
 	"923d7453-ca83-4d45-8c3f-abdabf2d922c",
+	0,
 	0);
+INSERT INTO O_TPARM
+	VALUES ("e6cb428e-e6b4-4c22-a0be-b5716983869c",
+	"8a307794-75b1-4701-bf7c-1e0440cd1c2a",
+	'scenarios',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_TFR
 	VALUES ("a44fe5cc-2a03-4238-8423-91fa34d060cd",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
@@ -399,6 +422,7 @@ genfile.emit( name:self.name + ".hcf" );',
 	1,
 	'',
 	"8a307794-75b1-4701-bf7c-1e0440cd1c2a",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("f7d1987a-5ec4-4f88-bd78-5560c96807bd",
@@ -435,6 +459,7 @@ return bridge_files;',
 	1,
 	'',
 	"a44fe5cc-2a03-4238-8423-91fa34d060cd",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("6ea1fa9c-6858-4cf9-8dd0-be5b3ca3ac79",

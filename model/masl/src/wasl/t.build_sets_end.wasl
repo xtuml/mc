@@ -1,3 +1,3 @@
 T_b("$");
-T_b("END_BUILD_SET_TAGS");
+T_b("END_BUILD_SET_TAGS\n");
 T_b("\n");

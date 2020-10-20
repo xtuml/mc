@@ -10,5 +10,5 @@ T_b("PROJECT_KEY_LETTER ");
 T_b(self->key_letters);
 T_b("\n");
 T_b("$");
-T_b("PROJECT_VERSION 1");
+T_b("PROJECT_VERSION 1\n");
 T_b("\n");
