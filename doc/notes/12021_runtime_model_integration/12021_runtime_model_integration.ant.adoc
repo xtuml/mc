@@ -1,0 +1,96 @@
+= Analysis of runtime model integration into MC-3020 and Ciera
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+This note analyzes the approaches that can be taken to integrate the mcarch runtime model into the MC-3020 and Ciera model compilers. 
+
+== 2 Introduction and Background
+
+
+
+== 3 Requirements
+
+3.1 Integrate runtime (<<dr-3,mcarch>>)
+
+3.1.1 Replace hand written event dispatcher in Ciera
+3.1.1.1 Generate modeled runtime with Ciera
+3.1.1.1 Package generated runtime with Ciera
+
+3.1.2 Replace hand written event dispatcher in MC-3020
+3.1.2.1 Generate modeled runtime with MC-3020
+3.1.2.2 Package generated runtime with MC-3020
+
+3.2 Package mcarch model with BridgePoint
+
+== 4 Analysis
+
+4.1 Integration
+
+4.1.1 Component based implementation of mcarch
+
+Currently the mcarch project is configured as a package based project with classes to support the implementation of the runtime.  The modeled runtime could be modularized by wrapping the existing packages within a component.  This would have the added benefit in that the interfaces to the  runtime could be clearly documented, allowing analysts to clearly reason about the runtime event processing.
+
+4.1.2 Package reference based implementation of mcarch
+
+Another approach that can be taken is to make use of inter-project referencing along with package references.  This approach has proved to work with the MC-3020 model compiler.  With this approach each model compiler would have direct access to the classes within the runtime possibly allowing for a more customizable integration.
+
+4.1.3 Component vs. Package reference
+
+The only benefit that the package reference approach would have is that there is full access to make use of the runtime in any way desired.  This benefit though does not follow good design practices as it does not encourage a common pattern across all model compilers.  One major goal of modeling the runtime is to allow for better reasoning about an architectural runtime.  To separate the runtime concern fully each model compiler shall use the same base runtime intended by the design.  Customization should be minimal and can be fully supported through interfaces into the runtime.  Given that a component based approach leads the design toward good patterns, the <<4.1.1>> approach shall be taken.
+
+4.2 Ciera integration
+
+4.2.1 Component based integration
+
+4.3 MC-3020 integration
+
+4.3.1 Component based integration
+
+4.4 Delivery of mcarch with BridgePoint
+
+To allow customer modification of the modeled runtime the mcarch project shall be available in the BridgePoint deliveries.  Documentation shall be added to give an overview of the modeled runtime as well as describe the design and rules.
+
+4.4.1 As a link in the documentation
+
+Rather than ship the mcarch project as a new entity the Model Compiler documentation added in <<4.4>> shall be extended with a link to the project in GitHub.  This overview shall also be extended to include instruction for customization.
+
+4.4.2 Shipped along with GPS Watch and Microwave Oven
+
+With or without a link in the documentation added in 4.4 the mcarch project could be delivered with bridgepoint in the same way that GPS Watch and Microwave Oven are.  Though this approach would provide less visibility and require more documentation on how to bring the project in for review and/or customization.  In this approach the getting started could be modified to include a setup action as is done with the example projects.
+
+== 5 Work Required
+
+In this section, break out the consequential work (as a numbered list) needed
+to meet the requirements specified in the Requirements section.
+
+=== 5.1 Item
+
+.Recommended Type Mapping
+[options="header"]
+|===
+| MASL type  | xtUML type recommendation
+| boolean    | Use native `boolean`
+| byte       | Create UDT with core type `integer`
+| character  | Create UDT with core type `integer`
+|===
+
+== 6 Acceptance Test
+
+In this section, list the tests that need to be performed in order to
+verify that all the requirements are satisfied.
+
+
+
+== 7 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12021[12021 - Analyze model of runtime for 3020 and Ciera]
+. [[dr-2]] https://xtuml.org/wp-content/uploads/2019/09/SMRTcryptoextensions.pdf[Modeled runtime paper]
+. [[dr-3]] https://github.com/xtuml/mc/tree/master/model/mcarch[Modeled runtime design]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
