@@ -1,3 +1,3 @@
 T_b("$");
-T_b("END_SCENARIOS");
+T_b("END_SCENARIOS\n");
 T_b("\n");
