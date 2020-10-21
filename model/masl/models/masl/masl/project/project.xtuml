@@ -241,6 +241,8 @@ for each domain in domains
   select any terminator related by domain->terminator[R3702] where selected.name != "Sequence";
   if(not_empty terminator)
     bridge_files = bridge_files + domain.render_bridges(bridge_files: bridge_files);
+    domain.render_bridge_list(filename: self.key_letters);
+    domain.render_terminators_hand_coded(filename: self.key_letters);
   end if;
 end for;
 
@@ -277,12 +279,6 @@ genfile.emit( name:self.key_letters + ".asl" );
 T::b(s:"--> Not sure what goes here <--\n");
 genfile = genfile::populate( name:"cpr_file" );
 genfile.emit( name:self.key_letters + ".cpr" );
-T::b(s:"--> Not sure what goes here <--\n");
-genfile = genfile::populate( name:"hcf_file" );
-genfile.emit( name:self.key_letters + ".hcf" );
-T::b(s:"--> Do not think this belongs <--\n");
-genfile = genfile::populate( name:"hcf_file" );
-genfile.emit( name:self.key_letters + ".hcf" );
 /* end unknown */
 // render all the activity files, which are not sequenced
 select many terminators related by self->domain[R3701]->terminator[R3702] where selected.name != "Sequence";
