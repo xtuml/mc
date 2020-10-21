@@ -365,22 +365,26 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'/* Scenarios exist under a special terminator, with the name "Sequence" */
-scenarios = param.scenarios;
+scenario_list = "";
+scenario_definitions = "";
 select any terminator related by self->terminator[R3702] where (selected.name == "Sequence");
 if(not_empty terminator)
   TRACE::log( flavor:"info", id:104, message:"Processing sequence terminator." );
   select many routines related by terminator->routine[R3791];
   for each routine in routines
   	TRACE::log( flavor:"info", id:104, message:"Processing routine for sequence terminator." );
-    filename = self.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
-    select one activity related by routine->activity[R3704];
+  	select one activity related by routine->activity[R3704];
+    filename = activity.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
+    scenario_list = scenario_list + activity.name + STRING::itoa( i:routine.number ) + ".scn" + "\n";
     select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
     if ( empty pragma )
       marking = routine.render_marking();
-      scenarios = scenarios + self.name + "," + self.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
+      scenario_definitions = scenario_definitions + self.name + "," + self.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
     end if;
   end for;
-end if;',
+end if;
+param.scenario_outputs[1] = scenario_list;
+param.scenario_outputs[0] = scenario_definitions;',
 	1,
 	'',
 	"923d7453-ca83-4d45-8c3f-abdabf2d922c",
@@ -389,12 +393,33 @@ end if;',
 INSERT INTO O_TPARM
 	VALUES ("e6cb428e-e6b4-4c22-a0be-b5716983869c",
 	"8a307794-75b1-4701-bf7c-1e0440cd1c2a",
-	'scenarios',
+	'scenario_outputs',
 	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
+	1,
+	'[2]',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_DIM
+	VALUES (2,
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"e6cb428e-e6b4-4c22-a0be-b5716983869c",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"05b161a0-9cf9-4497-9bc4-13ea24593abe",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
 	VALUES ("a44fe5cc-2a03-4238-8423-91fa34d060cd",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
@@ -433,7 +458,7 @@ INSERT INTO O_TFR
 	1,
 	'// bridges
 bridge_files = param.bridge_files;
-select many terminators related by self->terminator[R3702] where ( selected.key_letters != "TIM" );
+select many terminators related by self->terminator[R3702] where ( selected.key_letters != "TIM" and selected.name != "Sequence");
 for each terminator in terminators
   select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "hand_coded" );
   if ( empty pragma )

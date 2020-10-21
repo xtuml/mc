@@ -3215,7 +3215,10 @@ for each d_depl in d_depls
   out::populate( element:"project", value:value );
   
   select many d_terms related by d_depl->D_TERM[R1650];
+  select many sequenced_terms related by d_depl->D_TERM[R1650]->D_TSS[R1658]->D_TERM[R1658];
+  d_terms = d_terms - sequenced_terms;
   ::terminator2terminator( d_terms:d_terms );
+  ::sequencedterminator2terminator( d_terms: sequenced_terms );
 
   // Populate pragmas
   select one ep_pkg related by d_depl->PE_PE[R8001]->EP_PKG[R8000];
@@ -3283,7 +3286,7 @@ while ( not_empty d_terms )
   // get all terminators with the same domain
   select many domain_terms related by d_terms->D_DEPL[R1650]->D_TERM[R1650] where ( selected.Domain_Name == any_term.Domain_Name );
   for each d_term in domain_terms
-    if (not d_term.Provider and d_term.Terminator_Name != "Sequence")
+    if (not d_term.Provider)
       value[0] = d_term.Terminator_Name;
       out::populate( element:"terminator", value:value );
       ::terminatorservice2routine( d_term:d_term );
@@ -3298,26 +3301,7 @@ while ( not_empty d_terms )
 
   out::populate( element:"domain", value:emptyvalue );
 
-end while;
-
-/* sequenced terminators will be output in the proper order */
-d_terms = param.d_terms;
-select any sequenceTerm related by d_terms->D_DEPL[R1650]->D_TERM[R1650] where (selected.Terminator_Name == "Sequence");
-if(not_empty sequenceTerm)
-	TRACE::log( flavor:"info", id:99, message:"Found terminator service sequence" );
-  select one d_depl related by sequenceTerm->D_DEPL[R1650];
-  // populate the domain
-  value[0] = sequenceTerm.Domain_Name;
-  out::populate( element:"domain", value:value );
-  value[0] = sequenceTerm.Terminator_Name;
-  out::populate( element:"terminator", value:value );
-  ::terminatorservice2routine( d_term:sequenceTerm );
-  ::mark2pragma( markable:"Terminator", pathkey: ::deployment_get_path( d_depl:d_depl, child:sequenceTerm.Name ) );
-  // output the description
-  ::Descrip2description( Descrip:sequenceTerm.Descrip );
-  // end terminator
-  out::populate( element:"terminator", value:emptyvalue );
-end if;',
+end while;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
@@ -3352,24 +3336,21 @@ INSERT INTO S_SYNC
 	'',
 	'd_term = param.d_term;
 
-/* handle sequenced services */
-if(d_term.Terminator_Name == "Sequence")
-  select one tss related by d_term->D_TSS[R1658];
-  if(not_empty tss)
-  	TRACE::log( flavor:"info", id:99, message:"Found terminator service sequence" );
-  	select any serviceInSeq related by tss->D_SIS[R1659];
+/* handle sequenced services in order */
+select one sequenceTerm related by d_term->D_TSS[R1658];
+if(not_empty sequenceTerm)
+  select any serviceInSeq related by sequenceTerm->D_SIS[R1659];
+  firstService = serviceInSeq;
+  while(not_empty serviceInSeq)
   	firstService = serviceInSeq;
-  	while(not_empty serviceInSeq)
-  		firstService = serviceInSeq;
-  		select one serviceInSeq related by serviceInSeq->D_SIS[R1661.''precedes''];
-  	end while;
-  	nextService = firstService;
-  	while(not_empty nextService)
-  		select one termService related by nextService->D_TSVC[R1660];
-  		::populate_routine(d_tsvc: termService);
-  		select one nextService related by nextService->D_SIS[R1661.''succeeds''];
-    end while;
-  end if;
+  	select one serviceInSeq related by serviceInSeq->D_SIS[R1661.''succeeds''];
+  end while;
+  nextService = firstService;
+  while(not_empty nextService)
+  	select one termService related by nextService->D_TSVC[R1660];
+  	::populate_routine(d_tsvc: termService);
+  	select one nextService related by nextService->D_SIS[R1661.''precedes''];
+  end while;
 else
   select many d_tsvcs related by d_term->D_TSVC[R1651];
   for each d_tsvc in d_tsvcs
@@ -3644,7 +3625,14 @@ select one d_depl related by d_term->D_DEPL[R1650];
 if ( ImplementationScope::Domain == d_tsvc.Implementation_Scope )
   // A project can skip supplying a terminator service.''Domain'' scope means
   // the implementation was provided in the domain implementation
-  return;
+  //
+  // If the terminator is sequenced we do not want to skip
+  // implementation will be provided in the domain, but we
+  // need reference to terminator signatures
+  select one tss related by d_term->D_TSS[R1658];
+  if(empty tss)
+    return;
+  end if;
 end if;
 
 value[2] = "public"; // Outbound messages are considered public.
@@ -3692,6 +3680,62 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("02e6a7fc-6fe8-4556-b24a-2b5b09c4940a",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6e00d49c-26d3-4105-b7c0-d4014d4648bc",
+	"00000000-0000-0000-0000-000000000000",
+	'sequencedterminator2terminator',
+	'',
+	'/* sequenced terminators will be output in the proper order */
+value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+d_terms = param.d_terms;
+// get any terminator
+select any any_term from instances of D_TERM where false;
+for each d_term in d_terms
+  any_term = d_term;
+  break;
+end for;
+
+select one d_depl related by any_term->D_DEPL[R1650];
+  
+// populate the domain
+value[0] = any_term.Domain_Name;
+out::populate( element:"domain", value:value );
+  
+for each d_term in d_terms
+  select one d_depl related by d_term->D_DEPL[R1650];
+  value[0] = d_term.Terminator_Name;
+  out::populate( element:"terminator", value:value );
+  ::terminatorservice2routine( d_term:d_term );
+  ::mark2pragma( markable:"Terminator", pathkey: ::deployment_get_path( d_depl:d_depl, child:d_term.Name ) );
+  // output the description
+  ::Descrip2description( Descrip:d_term.Descrip );
+  // end terminator
+  out::populate( element:"terminator", value:emptyvalue );
+end for;
+
+out::populate( element:"domain", value:emptyvalue );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("03aab62d-0f6a-4731-8047-32f72b931f8c",
+	"6e00d49c-26d3-4105-b7c0-d4014d4648bc",
+	'd_terms',
+	"3421e149-5a7b-4178-b56c-361b79b9cb7a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6e00d49c-26d3-4105-b7c0-d4014d4648bc",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
