@@ -578,17 +578,6 @@ structuralOnly = param.structuralOnly;
 select any population from instances of population;
 population.architecture = "WASL";
 
-// Populate the file containerization before transforming and emitting the text.
-select many elements from instances of element;
-for each e in elements
-  if ( "project" == e.name )
-    genfile = genfile::populate( name:e.name );
-    relate genfile to e across R3795;
-  else
-    // no file needed
-  end if;
-end for;
-
 if ( "project" == element )
   select many projects from instances of project where ( selected.name == name );
   if ( ( "*" == name ) or ( "" == name ) )

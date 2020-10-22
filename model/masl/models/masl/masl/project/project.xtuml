@@ -233,7 +233,19 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many domains related by self->domain[R3701];
+	'// Populate the file containerization before transforming and emitting the text.
+select many elements from instances of element;
+for each e in elements
+  if ( "project" == e.name )
+    genfile = genfile::populate( name:e.name );
+    relate genfile to e across R3795;
+  else
+    // no file needed
+  end if;
+end for;
+
+// render separate domain related files first
+select many domains related by self->domain[R3701];
 bridge_files = "";
 /* not sure this is required for the rendering project */
 for each domain in domains
@@ -245,9 +257,10 @@ for each domain in domains
   end if;
 end for;
 
+// now render the descriptive dump file
 T::include( file:"wasl/t.project_begin.wasl" );
-T::include( file:"wasl/t.build_sets_begin.wasl" );
-T::include( file:"wasl/t.build_sets_end.wasl" );
+T::include( file:"wasl/t.build_set_tags_begin.wasl" );
+T::include( file:"wasl/t.build_set_tags_end.wasl" );
 T::include( file:"wasl/t.scenario_list_spec.wasl" );
 scenario_list = self.render_scenario_list();
 self.render_hcf();
