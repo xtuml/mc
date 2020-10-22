@@ -3215,10 +3215,10 @@ for each d_depl in d_depls
   out::populate( element:"project", value:value );
   
   select many d_terms related by d_depl->D_TERM[R1650];
-  select many sequenced_terms related by d_depl->D_TERM[R1650]->D_TSS[R1658]->D_TERM[R1658];
-  d_terms = d_terms - sequenced_terms;
+  select many sequenced_d_terms related by d_depl->D_TERM[R1650]->D_TSS[R1658]->D_TERM[R1658];
+  d_terms = d_terms - sequenced_d_terms;
   ::terminator2terminator( d_terms:d_terms );
-  ::sequencedterminator2terminator( d_terms: sequenced_terms );
+  ::sequencedterminator2terminator( d_terms: sequenced_d_terms );
 
   // Populate pragmas
   select one ep_pkg related by d_depl->PE_PE[R8001]->EP_PKG[R8000];
@@ -3342,14 +3342,14 @@ if(not_empty sequenceTerm)
   select any serviceInSeq related by sequenceTerm->D_SIS[R1659];
   firstService = serviceInSeq;
   while(not_empty serviceInSeq)
-  	firstService = serviceInSeq;
-  	select one serviceInSeq related by serviceInSeq->D_SIS[R1661.''succeeds''];
+    firstService = serviceInSeq;
+    select one serviceInSeq related by serviceInSeq->D_SIS[R1661.''succeeds''];
   end while;
   nextService = firstService;
   while(not_empty nextService)
-  	select one termService related by nextService->D_TSVC[R1660];
-  	::populate_routine(d_tsvc: termService);
-  	select one nextService related by nextService->D_SIS[R1661.''precedes''];
+    select one termService related by nextService->D_TSVC[R1660];
+    ::populate_routine(d_tsvc: termService);
+    select one nextService related by nextService->D_SIS[R1661.''precedes''];
   end while;
 else
   select many d_tsvcs related by d_term->D_TSVC[R1651];

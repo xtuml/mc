@@ -433,22 +433,22 @@ select many terminators related by self->terminator[R3702] where ( selected.key_
 for each terminator in terminators
   select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "hand_coded" );
   if ( empty pragma )
-  	select many routines related by terminator->routine[R3791];
-	for each routine in routines
-	  select one activity related by routine->activity[R3704];
-	  routine.render_definition( activity:activity );
-	  filename = self.name + "_" + terminator.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".br";
-	  TRACE::log( flavor:"info", id:118, message:"rendering activity file:  " + filename );
-	  genfile = genfile::populate( name:filename );
-	  genfile.emit( name:filename );
-	  marking = routine.render_marking();
-	  code_block_present = ",N";
-	  select one code_block related by activity->code_block[R3794];
-	  if ( not_empty code_block )
-	    code_block_present = ",Y";
-	  end if;
-	  bridge_files = bridge_files + self.name + "," + self.version + "," + filename + code_block_present + marking + "\n";
-	end for;
+    select many routines related by terminator->routine[R3791];
+    for each routine in routines
+      select one activity related by routine->activity[R3704];
+      routine.render_definition( activity:activity );
+      filename = self.name + "_" + terminator.key_letters + STRING::itoa( i:routine.number ) + "_" + activity.name + ".br";
+      TRACE::log( flavor:"info", id:118, message:"rendering activity file:  " + filename );
+      genfile = genfile::populate( name:filename );
+      genfile.emit( name:filename );
+      marking = routine.render_marking();
+      code_block_present = ",N";
+      select one code_block related by activity->code_block[R3794];
+      if ( not_empty code_block )
+        code_block_present = ",Y";
+      end if;
+      bridge_files = bridge_files + self.name + "," + self.version + "," + filename + code_block_present + marking + "\n";
+    end for;
   end if;
 end for;
 return bridge_files;',
@@ -505,7 +505,7 @@ INSERT INTO O_TPARM
 INSERT INTO O_TFR
 	VALUES ("5382854f-9526-4cf6-b432-34b38d1300ab",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
-	'render_terminators_hand_coded',
+	'render_terminators_handcoded',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
