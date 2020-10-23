@@ -3281,6 +3281,7 @@ while ( not_empty d_terms )
   
   // populate the domain
   value[0] = any_term.Domain_Name;
+  value[2] = any_term.System_Name;
   out::populate( element:"domain", value:value );
   
   // get all terminators with the same domain
@@ -3705,6 +3706,7 @@ select one d_depl related by any_term->D_DEPL[R1650];
   
 // populate the domain
 value[0] = any_term.Domain_Name;
+value[1] = any_term.System_Name;
 out::populate( element:"domain", value:value );
   
 for each d_term in d_terms

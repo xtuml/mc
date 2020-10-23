@@ -169,7 +169,15 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"wasl/t.domains_in_build_set_begin.wasl" );
+	'/**
+ *  For each terminator get the domain associated, and build
+ *  a relative path list
+ */
+T::include( file:"wasl/t.domains_in_build_set_begin.wasl" );
+select many domains related by self->domain[R3701];
+for each domain in domains
+  domain.render_reference();
+end for;
 T::include( file:"wasl/t.domains_in_build_set_end.wasl" );',
 	1,
 	'',

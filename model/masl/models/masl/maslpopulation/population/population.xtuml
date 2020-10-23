@@ -78,7 +78,7 @@ elif ( "domain" == element )
     TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
     population.stack_trace();
   end if;
-  domain = domain::populate( name:value[0], key_letters:value[1], project:parent_project );
+  domain = domain::populate( name:value[0], key_letters:value[1], project:parent_project, referenced_project_name: value[2] );
   select one new_element related by domain->markable[R3783]->element[R3786];
   population.push_element( new_element:new_element );
 elif ( "object" == element )
@@ -508,6 +508,7 @@ end if;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("23f9c3b1-bb74-489b-8f70-28c707ffcd40",
@@ -574,6 +575,7 @@ end if;',
 	1,
 	'',
 	"0b670cc8-7c15-43ad-acfe-044fce10d262",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("7df6c973-3a73-457e-9609-81c16160dc30",
@@ -610,6 +612,7 @@ TRACE::log( flavor:"stack_trace", id:82, message:"done." );',
 	1,
 	'',
 	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("33baf46f-2744-4fd4-99be-5dd4c7cb6258",
@@ -1207,6 +1210,7 @@ INSERT INTO O_TFR
 	1,
 	'',
 	"c73179e4-9bbc-442a-b633-7d7b096f9ba1",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("be7706ae-e8c0-4690-b5ab-3dc861161545",
