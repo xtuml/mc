@@ -3281,7 +3281,6 @@ while ( not_empty d_terms )
   
   // populate the domain
   value[0] = any_term.Domain_Name;
-  value[2] = any_term.System_Name;
   out::populate( element:"domain", value:value );
   
   // get all terminators with the same domain
@@ -3338,24 +3337,24 @@ INSERT INTO S_SYNC
 	'd_term = param.d_term;
 
 /* handle sequenced services in order */
-select one sequenceTerm related by d_term->D_TSS[R1658];
-if(not_empty sequenceTerm)
-  select any serviceInSeq related by sequenceTerm->D_SIS[R1659];
-  firstService = serviceInSeq;
-  while(not_empty serviceInSeq)
-    firstService = serviceInSeq;
-    select one serviceInSeq related by serviceInSeq->D_SIS[R1661.''succeeds''];
+select one d_tss related by d_term->D_TSS[R1658];
+if(not_empty d_tss)
+  select any d_sis related by d_tss->D_SIS[R1659];
+  first_d_sis = d_sis;
+  while(not_empty d_sis)
+    first_d_sis = d_sis;
+    select one d_sis related by d_sis->D_SIS[R1661.''succeeds''];
   end while;
-  nextService = firstService;
-  while(not_empty nextService)
-    select one termService related by nextService->D_TSVC[R1660];
-    ::populate_routine(d_tsvc: termService);
-    select one nextService related by nextService->D_SIS[R1661.''precedes''];
+  next_d_sis = first_d_sis;
+  while(not_empty next_d_sis)
+    select one d_tsvc related by next_d_sis->D_TSVC[R1660];
+    ::populate_routine(d_tsvc: d_tsvc, implementation_system: d_tsvc.Implementation_System);
+    select one next_d_sis related by next_d_sis->D_SIS[R1661.''precedes''];
   end while;
 else
   select many d_tsvcs related by d_term->D_TSVC[R1651];
   for each d_tsvc in d_tsvcs
-    ::populate_routine(d_tsvc: d_tsvc);
+    ::populate_routine(d_tsvc: d_tsvc, implementation_system: d_tsvc.Implementation_System);
   end for;
 end if;
 
@@ -3639,6 +3638,7 @@ end if;
 value[2] = "public"; // Outbound messages are considered public.
 value[3] = d_tsvc.Name;
 value[4] = STRING::itoa(i:d_tsvc.Numb);
+value[5] = param.implementation_system;
 out::populate( element:"routine", value:value );
 
 select any d_tsparm related by d_tsvc->D_TSPARM[R1652];
@@ -3679,6 +3679,15 @@ INSERT INTO S_SPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_SPARM
+	VALUES ("8fab7712-4ced-428b-a140-3fe832190e13",
+	"02e6a7fc-6fe8-4556-b24a-2b5b09c4940a",
+	'implementation_system',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d7a3564d-1580-46e9-aec6-3453c4050ce3",
+	'');
 INSERT INTO PE_PE
 	VALUES ("02e6a7fc-6fe8-4556-b24a-2b5b09c4940a",
 	1,
@@ -3706,7 +3715,6 @@ select one d_depl related by any_term->D_DEPL[R1650];
   
 // populate the domain
 value[0] = any_term.Domain_Name;
-value[1] = any_term.System_Name;
 out::populate( element:"domain", value:value );
   
 for each d_term in d_terms

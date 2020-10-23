@@ -176,7 +176,7 @@ INSERT INTO O_TFR
 T::include( file:"wasl/t.domains_in_build_set_begin.wasl" );
 select many domains related by self->domain[R3701];
 for each domain in domains
-  domain.render_reference();
+  domain.render_references();
 end for;
 T::include( file:"wasl/t.domains_in_build_set_end.wasl" );',
 	1,

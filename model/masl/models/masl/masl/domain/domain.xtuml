@@ -18,7 +18,6 @@ INSERT INTO O_TFR
 create object instance domain of domain;
 domain.name = param.name;
 domain.key_letters = param.key_letters;
-domain.reference_project_name = param.referenced_project_name;
 domain.version = "1";
 if ( not_empty project )
   relate project to domain across R3701.''configures'';
@@ -546,15 +545,38 @@ INSERT INTO O_TPARM
 INSERT INTO O_TFR
 	VALUES ("337615da-6b9e-41b3-9dd2-11d340148277",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
-	'render_reference',
+	'render_references',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'/*
- * Path to WASL output for reference 
+ * Path to WASL output for reference, we have to collect
+ * each unique system_implemenation name from each routine
+ * as sequences can come from many domains
  */
-select one project related by self->project[R3701];
-T::b( s:self.name + ",0," + self.reference_project_name + "::" + self.name + "\n");',
+implementation_systems = "";
+select many terminators related by self->terminator[R3702];
+for each terminator in terminators
+  select many routines related by terminator->routine[R3791];
+  for each routine in routines
+  	select one activity related by routine->activity[R3704];
+  	key = routine.implementation_system + "::" + self.name; 
+    if(STRING::indexof( haystack: terminator.name, needle: "Sequence") != -1)
+  	  // sequence terminators have the domain name in the terminator name
+  	  // need to get that out
+  	  domain_name = STRING::split( s:activity.name, delimiter: "::");
+  	  key = routine.implementation_system + "::" + domain_name;
+    end if;
+    if(STRING::indexof( haystack: implementation_systems, needle: key) == -1)
+      implementation_systems = implementation_systems + "," + key;
+    end if;
+  end for;
+end for;
+result = STRING::split( delimiter: ",", s: implementation_systems );
+while(result != "")
+  T::b( s:result + ",0," + result + "\n");
+  result = STRING::split( delimiter: ",", s: "" );
+end while;',
 	1,
 	'',
 	"5382854f-9526-4cf6-b432-34b38d1300ab",
