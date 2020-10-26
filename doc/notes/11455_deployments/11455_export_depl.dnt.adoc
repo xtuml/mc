@@ -110,7 +110,7 @@ $END_SCENARIOS
 
 Added templates:
 
-* t.hcf.wasl
+* t.project_hcf.wasl
 
 ```
 $START_
@@ -122,7 +122,19 @@ $END_
 This file is output with a list of non-sequenced hand written terminators.  To support gathering the list of such files the code in genfile::render_wasl is refactored into a new operation, domain.render_terminators_handcoded().  This new operation is also called within the project.render_wasl() operation.
 
 ==== 5.2.2.8 Domains in build set list
-Waiting on required around this one.  To support it a new operation is added to project, render_domains_in_build_set().  For now the two templates below are called to produce the required entry.
+Domain references are required when an impementation is not local to a deployment.  In this particular case scenarios are always functions implemented in some referenced domain.  WASL had a hard coded path to the actual iUML dumps for each domain referenced.  A better solution would be to use a relative path to such a location.  Further the best approach would be to output a model reference path.  If the downstream WASL build process can be modified to handle this approach it will be taken.
+
+The modeled reference path takes the form of, system::domain.  Given this information, and the fact that a relative location of the iUML output should be available, the build process can deduct the relative file path.  The resolved relative path would be something like:
+
+../../../system/wasl/domain/domain.dmp
+
+The ooaofooa is modified to add an attribute D_TSCV.system_implementation.  This attribute is set to the containing systems name during terminator service creation.
+
+The maslout model is updated to passing this value to masl population.  The masl routine class is updated to have the same attribute which is set by the value given during population.
+
+To support the domain reference output a new operation in domain is added, render_references.  This operation needs to build a set (no duplicates), that can be output between the two templates below.  When dealing with scenario based terminators there can be multiple domains referenced in a single terminator.
+
+To build the set, string operations are performed on a collected string of domains found.  The STRING::indexof() bridge is used to determine if a domain is present already, and only add it only if it is not.  A new bridge operation, STRING::split(), is added to support key creation and domain traversal on output.  To build the key the activity name is split on '::', and the first part of the string is used as the domain name.  The list of references is built using the comma as the separator.  When it is time to output the string is split on the comma, and each part is processed.
 
 Added template:
 
