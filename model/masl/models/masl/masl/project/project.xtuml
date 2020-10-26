@@ -228,7 +228,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"wasl/t.hcf.wasl" );',
+	'T::include( file:"wasl/t.project_hcf.wasl" );',
 	1,
 	'',
 	"8364e1a7-b457-4e15-999c-f0cbfbeeaec6",

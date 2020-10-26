@@ -4,13 +4,13 @@ xtUML Project Design Note
 
 == 1 Abstract
 
-This note describes the design to properly export Deployments, with sequenced terminators, to WASL.
+This note describes the design to properly export Deployments, with sequenced terminator services, to WASL.
 
 == 2 Introduction and Background
 
 See <<dr-2>>.
 
-In addition sequenced terminator support was added in Bridgepoint editor according to <<dr-3>>.
+In addition sequenced terminator service support was added in Bridgepoint editor according to <<dr-3>>.
 
 == 3 Requirements
 
@@ -81,13 +81,13 @@ Added template:
 
 ```
 $START_SCENARIO_LIST
-Events.scn
+<project.keyletters>.scn
 $END_SCENARIO_LIST
 ```
 
 ==== 5.2.2.5.1 <project.keyletters>.scn file
 
-This file is output with an ordered list of sequenced terminators.  The list of these terminators is collected in the changes described in <<scenario_file>>.
+This file is output with an ordered list of sequenced terminator services.  The list of these terminators is collected in the changes described in <<scenario_file>>.
 
 ==== 5.2.2.6 Scenario list [[scenario_file]]
 
@@ -154,7 +154,7 @@ $END_BRIDGE_DATA_TYPES
 A new operation is added to domain, render_bridge_list().  This operation renders each routine under the domain, and outputs the list into the file.
 
 ==== 5.2.2.10 Bridges
-The domain.render_bridges() operation that was refactored in <<render_bridges>>, takes care of creating the required .br file for each non sequenced terminator.  The operation is also written to collect the list of these terminators.  This list is passed to a new operation on the project class, render_bridges.  This operation simply outputs the given list between the templates below.
+The domain.render_bridges() operation that was refactored in <<render_bridges>>, takes care of creating the required .br file for each non sequenced terminator service.  The operation is also written to collect the list of these terminators.  This list is passed to a new operation on the project class, render_bridges.  This operation simply outputs the given list between the templates below.
 
 Added templates:
 
