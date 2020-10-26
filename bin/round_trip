@@ -21,6 +21,7 @@ print_usage () {
     echo "  - Specify the '-c' flag to enable and produce code coverage statistics.";
     echo "  - Specify the '-r' flag to force exit and relaunch of BridgePoint before export.";
     echo "  - Specify '-a <architecture>' to select a specific architecture (WASL) for model testing; MASL is the default.";
+    echo "  - Specify the '-noconvert' flag to indicate the test source is xtUML based.";
     echo -e "\n";
 }
 
@@ -51,11 +52,12 @@ OUT_DIR=
 RELAUNCH=
 COVERAGE=
 ARCHITECTURE="MASL" # Default to MASL.
+CONVERT="true"
 
 # parse arguments
 DIRECTIVE=
 for arg in $@; do
-    if [[ $arg == "-d" || $arg == "-p" || $arg == "-o" || $arg == "-a" ]]; then # set the directive
+    if [[ $arg == "-d" || $arg == "-p" || $arg == "-o" || $arg == "-a" || $arg == "-noconvert" ]]; then # set the directive
         DIRECTIVE=$arg
     elif [[ $arg == "-r" ]]; then                                   # relaunch BP before export
         RELAUNCH=$arg
@@ -67,8 +69,10 @@ for arg in $@; do
         PROJ_DIR=$arg
     elif [[ $DIRECTIVE == "-o" && $OUT_DIR == "" ]]; then           # only can set the output directory once
         OUT_DIR=$arg
-    elif [[ $DIRECTIVE == "-a" ]]; then                                   # produce coverage statistics
+    elif [[ $DIRECTIVE == "-a" ]]; then                             # produce coverage statistics
         ARCHITECTURE=$arg
+    elif [[ $DIRECTIVE == "-noconvert" ]] then                      # source is xtuml, do not try to convert wasl
+        CONVERT="false"
     else
         print_usage
         exit 1
@@ -118,13 +122,25 @@ CONVERTDIR=$TMP/convertdir
 for domain in ${DOM_DIRS[*]}; do
     domname=$(basename $domain)
     rm -rf $CONVERTDIR/$domname
-    masl2xtuml -a $ARCHITECTURE -d $domain -o $CONVERTDIR
+    # if we are to convert
+    if [ $CONVERT == "true" ]; then
+      masl2xtuml -a $ARCHITECTURE -d $domain -o $CONVERTDIR
+    else
+      # otherwise just copy
+      cp -r $domain $CONVERTDIR
+    fi
 done
 # process project
 if [[ $PROJ_DIR != "" ]]; then
   projname=$(basename $PROJ_DIR)
   rm -rf $CONVERTDIR/$projname
-  masl2xtuml -a $ARCHITECTURE -p $PROJ_DIR -o $CONVERTDIR
+  # if we are to convert
+  if [ $CONVERT == "true" ]; then
+    masl2xtuml -a $ARCHITECTURE -p $PROJ_DIR -o $CONVERTDIR
+  else
+    # otherwise just copy
+    cp -r $PROJ_DIR $CONVERTDIR
+  fi
 fi
 
 ###########################

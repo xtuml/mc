@@ -578,17 +578,6 @@ structuralOnly = param.structuralOnly;
 select any population from instances of population;
 population.architecture = "WASL";
 
-// Populate the file containerization before transforming and emitting the text.
-select many elements from instances of element;
-for each e in elements
-  if ( "project" == e.name )
-    genfile = genfile::populate( name:e.name );
-    relate genfile to e across R3795;
-  else
-    // no file needed
-  end if;
-end for;
-
 if ( "project" == element )
   select many projects from instances of project where ( selected.name == name );
   if ( ( "*" == name ) or ( "" == name ) )
@@ -625,7 +614,16 @@ elif ( "domain" == element )
       end if;
 
       // terminators file
-      domain.render_terminators();
+      TRACE::log( flavor:"info", id:101, message:"rendering terminator list" );
+      select many terminators related by domain->terminator[R3702];
+      for each terminator in terminators
+        terminator.render();
+      end for;
+      genfile = genfile::populate( name:"terminators" );
+      genfile.emit( name:domain.name + ".ter" );
+
+      // hand coded files file
+      domain.render_terminators_handcoded(filename: domain.name);
 
       // scenario list file
       TRACE::log( flavor:"info", id:103, message:"rendering scenario list" );
@@ -660,21 +658,7 @@ elif ( "domain" == element )
       genfile.emit( name:domain.name + ".fnp" );
 
       // bridge data types file
-      TRACE::log( flavor:"info", id:105, message:"rendering bridge list" );
-      select many terminators related by domain->terminator[R3702] where ( selected.key_letters != "TIM" );
-      if ( not_empty terminators )
-        T::include( file:"wasl/t.START.wasl" );
-        for each terminator in terminators
-          select many routines related by terminator->routine[R3791];
-          for each routine in routines
-            select one activity related by routine->activity[R3704];
-            routine.render( name:activity.name );
-          end for;
-        end for;
-        T::include( file:"wasl/t.END.wasl" );
-      end if;
-      genfile = genfile::populate( name:"bridges" );
-      genfile.emit( name:domain.name + ".brp" );
+      domain.render_bridge_list(filename: domain.name);
 
       // objects file
       TRACE::log( flavor:"info", id:106, message:"rendering objects" );
@@ -827,7 +811,7 @@ elif ( "domain" == element )
           external_files = external_files + domain.name + "," + domain.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
         end if;
       end for;
-	  bridge_files = bridge_files + domain.render_bridges(bridge_files: bridge_files);
+      bridge_files = bridge_files + domain.render_bridges(bridge_files: bridge_files);
       // operations
       select many objects related by domain->object[R3708];
       for each object in objects
@@ -882,7 +866,7 @@ elif ( "domain" == element )
 
     end for;
   end if;
-elif ( "" == element )	// render from the root
+elif ( "" == element )    // render from the root
   select one root_element related by population->element[R3785];
   if ( not_empty root_element )
     root_element.render();

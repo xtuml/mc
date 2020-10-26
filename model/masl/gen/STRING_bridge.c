@@ -422,3 +422,22 @@ STRING_replace( c_t * p_original, c_t * p_replace, c_t * p_with )
     return result;
 }
 
+/*
+ * Bridge:  split
+ */
+c_t *
+STRING_split( c_t * p_delimiter, c_t * p_string)
+{
+	char *result;
+	if(p_string == "") {
+		result = strtok(NULL, p_delimiter);
+	} else {
+		result = strtok(p_string, p_delimiter);
+	}
+	if(result == NULL) {
+		return "";
+	} else {
+		return result;
+	}
+}
+

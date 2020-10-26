@@ -143,18 +143,20 @@ INSERT INTO O_TFR
 	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
 	'render_scenario_list',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
-	'  TRACE::log( flavor:"info", id:104, message:"rendering scenario list for project" );
-  T::include( file:"wasl/t.scenario_list_begin.wasl" );
-  select many domains related by self->domain[R3701.''configures''];
-  for each domain in domains
-  	scenarios = "";
-  	domain.render_scenario_definitions(scenarios: scenarios);
-  	T::b(s: scenarios);
-  end for;
-  T::include( file:"wasl/t.scenario_list_end.wasl" );
-  ',
+	'TRACE::log( flavor:"info", id:104, message:"rendering scenario list for project" );
+T::include( file:"wasl/t.scenario_list_begin.wasl" );
+scenario_outputs[1] = "";
+scenario_outputs[0] = ""; 
+select many domains related by self->domain[R3701.''configures''];
+for each domain in domains
+  domain.render_scenario_definitions(scenario_outputs: scenario_outputs);
+  T::b(s: scenario_outputs[0]);
+end for;
+T::include( file:"wasl/t.scenario_list_end.wasl" );
+return scenario_outputs[1];
+',
 	1,
 	'',
 	"90bfd5c6-91ad-47f3-af29-4e7fc6b977d7",
@@ -167,7 +169,15 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"wasl/t.domains_in_build_set_begin.wasl" );
+	'/**
+ *  For each terminator get the domain associated, and build
+ *  a relative path list
+ */
+T::include( file:"wasl/t.domains_in_build_set_begin.wasl" );
+select many domains related by self->domain[R3701];
+for each domain in domains
+  domain.render_references();
+end for;
 T::include( file:"wasl/t.domains_in_build_set_end.wasl" );',
 	1,
 	'',
@@ -218,7 +228,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"wasl/t.hcf.wasl" );',
+	'T::include( file:"wasl/t.project_hcf.wasl" );',
 	1,
 	'',
 	"8364e1a7-b457-4e15-999c-f0cbfbeeaec6",
@@ -231,18 +241,36 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many domains related by self->domain[R3701];
-bridge_files = "";
-for each domain in domains
-  bridge_files = bridge_files + domain.render_bridges(bridge_files: bridge_files);
+	'// Populate the file containerization before transforming and emitting the text.
+select many elements from instances of element;
+for each e in elements
+  if ( "project" == e.name )
+    genfile = genfile::populate( name:e.name );
+    relate genfile to e across R3795;
+  else
+    // no file needed
+  end if;
 end for;
 
+// render separate domain related files first
+select many domains related by self->domain[R3701];
+bridge_files = "";
+/* not sure this is required for the rendering project */
+for each domain in domains
+  select any terminator related by domain->terminator[R3702] where selected.name != "Sequence";
+  if(not_empty terminator)
+    bridge_files = bridge_files + domain.render_bridges(bridge_files: bridge_files);
+    domain.render_bridge_list(filename: self.key_letters);
+    domain.render_terminators_handcoded(filename: self.key_letters);
+  end if;
+end for;
+
+// now render the descriptive dump file
 T::include( file:"wasl/t.project_begin.wasl" );
-T::include( file:"wasl/t.build_sets_begin.wasl" );
-T::b(s:"--> Not sure what goes here <--\n");
-T::include( file:"wasl/t.build_sets_end.wasl" );
+T::include( file:"wasl/t.build_set_tags_begin.wasl" );
+T::include( file:"wasl/t.build_set_tags_end.wasl" );
 T::include( file:"wasl/t.scenario_list_spec.wasl" );
-self.render_scenario_list();
+scenario_list = self.render_scenario_list();
 self.render_hcf();
 self.render_domains_in_build_set();
 T::include( file:"wasl/t.bridge_data_types.wasl" );
@@ -250,19 +278,29 @@ self.render_bridges(bridge_files: bridge_files);
 self.render_cpr();
 select one genfile related by self->markable[R3783]->element[R3786]->genfile[R3795];
 if ( not_empty genfile )
-  // Projects our output as  wasl dump files, with a description
+  // Projects are output as  wasl dump files, with a description
   // of the content
   TRACE::log( flavor:"info", id:101, message:"rendering project dump file" );
   genfile.emit( name:self.name + ".dmp" );
+  // output the list of scenarios
+  T::b(s: scenario_list);
+  genfile = genfile::populate( name:"scenario_definition_file" );
+  genfile.emit( name:self.key_letters + ".scn" );
 end if;
 
 if ( param.structuralOnly == true )
   return;
 end if;
-
-// render all the activity files
-select many terminator_activities related by self->domain[R3701]->terminator[R3702]->routine[R3791]->activity[R3704];
-for each activity in terminator_activities
+/* Empty but file may need to exist for downstream tools */
+genfile = genfile::populate( name:"asl_file" );
+genfile.emit( name:self.key_letters + ".asl" );
+/* Empty but file may need to exist for downstream tools */
+genfile = genfile::populate( name:"cpr_file" );
+genfile.emit( name:self.key_letters + ".cpr" );
+// render all the activity files, which are not sequenced
+select many terminators related by self->domain[R3701]->terminator[R3702] where selected.name != "Sequence";
+select many activities related by terminators->routine[R3791]->activity[R3704];
+for each activity in activities
   select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
   if ( not_empty genfile )
     destination = genfile.getname();
