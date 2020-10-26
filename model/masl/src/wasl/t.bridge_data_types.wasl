@@ -1,0 +1,9 @@
+T_b("$");
+T_b("START_BRIDGE_DATA_TYPES");
+T_b("\n");
+T_b(self->key_letters);
+T_b(".brp");
+T_b("\n");
+T_b("$");
+T_b("END_BRIDGE_DATA_TYPES\n");
+T_b("\n");

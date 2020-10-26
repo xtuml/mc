@@ -3211,10 +3211,14 @@ d_depls = param.d_depls;
 for each d_depl in d_depls
 
   value[0] = d_depl.Name;
+  value[1] = d_depl.Key_Lett;
   out::populate( element:"project", value:value );
   
   select many d_terms related by d_depl->D_TERM[R1650];
+  select many sequenced_d_terms related by d_depl->D_TERM[R1650]->D_TSS[R1658]->D_TERM[R1658];
+  d_terms = d_terms - sequenced_d_terms;
   ::terminator2terminator( d_terms:d_terms );
+  ::sequencedterminator2terminator( d_terms: sequenced_d_terms );
 
   // Populate pragmas
   select one ep_pkg related by d_depl->PE_PE[R8001]->EP_PKG[R8000];
@@ -3330,53 +3334,31 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'terminatorservice2routine',
 	'',
-	'value[7] = ""; // initialize length
-emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+	'd_term = param.d_term;
 
-d_term = param.d_term;
-select one d_depl related by d_term->D_DEPL[R1650];
-value[0] = d_term.Domain_Name;
-value[1] = "";
-
-select many d_tsvcs related by d_term->D_TSVC[R1651];
-for each d_tsvc in d_tsvcs
-    
-  if ( ImplementationScope::Domain == d_tsvc.Implementation_Scope )
-    // A project can skip supplying a terminator service.  ''Domain'' scope means
-    // the implementation was provided in the domain implementation
-    continue;
-  end if;
-
-  value[2] = "public"; // Outbound messages are considered public.
-  value[3] = d_tsvc.Name;
-  out::populate( element:"routine", value:value );
-  
-  select any d_tsparm related by d_tsvc->D_TSPARM[R1652];
-  first_d_tsparm = d_tsparm;
-  while ( not_empty d_tsparm )
-    first_d_tsparm = d_tsparm;
-    select one d_tsparm related by d_tsparm->D_TSPARM[R1654.''succeeds''];
+/* handle sequenced services in order */
+select one d_tss related by d_term->D_TSS[R1658];
+if(not_empty d_tss)
+  select any d_sis related by d_tss->D_SIS[R1659];
+  first_d_sis = d_sis;
+  while(not_empty d_sis)
+    first_d_sis = d_sis;
+    select one d_sis related by d_sis->D_SIS[R1661.''succeeds''];
   end while;
-  select one domain_package related by d_term->D_DEPL[R1650]->PE_PE[R8001]->EP_PKG[R8000];
-  ::parameterD_TSPARM2parameter( d_tsparm:first_d_tsparm, domain_pkg:domain_package );
-  select one s_dt related by d_tsvc->S_DT[R1656];
-  ::type2typeref( s_dt:s_dt, domain_pkg:domain_package );
-  
-  // Populate the action langauge body.
-  if ( ( ActionDialect::masl == d_tsvc.Dialect ) or ( ActionDialect::asl == d_tsvc.Dialect ) )
-    ::body2code_block( name:"", text:STRING::unescapetics(s:d_tsvc.Action_Semantics_internal) );
-  end if;
+  next_d_sis = first_d_sis;
+  while(not_empty next_d_sis)
+    select one d_tsvc related by next_d_sis->D_TSVC[R1660];
+    ::populate_routine(d_tsvc: d_tsvc, implementation_system: d_tsvc.Implementation_System);
+    select one next_d_sis related by next_d_sis->D_SIS[R1661.''precedes''];
+  end while;
+else
+  select many d_tsvcs related by d_term->D_TSVC[R1651];
+  for each d_tsvc in d_tsvcs
+    ::populate_routine(d_tsvc: d_tsvc, implementation_system: d_tsvc.Implementation_System);
+  end for;
+end if;
 
-  // Populate pragmas
-  child = d_term.Name + "::" + ::terminatorservice_getsignature( flavor:1, d_tsvc:d_tsvc );
-  ::mark2pragma( markable:"Terminator Service", pathkey: ::deployment_get_path( d_depl:d_depl, child:child ) );
-
-  // output the description
-  ::Descrip2description( Descrip:d_tsvc.Descrip );
-
-  out::populate( element:"routine", value:emptyvalue );
-  
-end for;',
+',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
@@ -3621,6 +3603,149 @@ INSERT INTO S_DT_PROXY
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Deployment/Deployment.xtuml');
 INSERT INTO PE_PE
 	VALUES ("0c3443f0-4c27-4e4b-bdf3-8aeed98c603c",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("02e6a7fc-6fe8-4556-b24a-2b5b09c4940a",
+	"00000000-0000-0000-0000-000000000000",
+	'populate_routine',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+d_tsvc = param.d_tsvc;
+select one d_term related by d_tsvc->D_TERM[R1651];
+
+value[0] = d_term.Domain_Name;
+value[1] = "";
+
+select one d_depl related by d_term->D_DEPL[R1650];
+if ( ImplementationScope::Domain == d_tsvc.Implementation_Scope )
+  // A project can skip supplying a terminator service.''Domain'' scope means
+  // the implementation was provided in the domain implementation
+  //
+  // If the terminator is sequenced we do not want to skip
+  // implementation will be provided in the domain, but we
+  // need reference to terminator signatures
+  select one tss related by d_term->D_TSS[R1658];
+  if(empty tss)
+    return;
+  end if;
+end if;
+
+value[2] = "public"; // Outbound messages are considered public.
+value[3] = d_tsvc.Name;
+value[4] = STRING::itoa(i:d_tsvc.Numb);
+value[5] = param.implementation_system;
+out::populate( element:"routine", value:value );
+
+select any d_tsparm related by d_tsvc->D_TSPARM[R1652];
+first_d_tsparm = d_tsparm;
+while ( not_empty d_tsparm )
+first_d_tsparm = d_tsparm;
+select one d_tsparm related by d_tsparm->D_TSPARM[R1654.''succeeds''];
+end while;
+select one domain_package related by d_term->D_DEPL[R1650]->PE_PE[R8001]->EP_PKG[R8000];
+::parameterD_TSPARM2parameter( d_tsparm:first_d_tsparm, domain_pkg:domain_package );
+select one s_dt related by d_tsvc->S_DT[R1656];
+::type2typeref( s_dt:s_dt, domain_pkg:domain_package );
+
+// Populate the action langauge body.
+if ( ( ActionDialect::masl == d_tsvc.Dialect ) or ( ActionDialect::asl == d_tsvc.Dialect ) )
+::body2code_block( name:"", text:STRING::unescapetics(s:d_tsvc.Action_Semantics_internal) );
+end if;
+
+// Populate pragmas
+child = d_term.Name + "::" + ::terminatorservice_getsignature( flavor:1, d_tsvc:d_tsvc );
+::mark2pragma( markable:"Terminator Service", pathkey: ::deployment_get_path( d_depl:d_depl, child:child ) );
+
+// output the description
+::Descrip2description( Descrip:d_tsvc.Descrip );
+
+out::populate( element:"routine", value:emptyvalue );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("d7a3564d-1580-46e9-aec6-3453c4050ce3",
+	"02e6a7fc-6fe8-4556-b24a-2b5b09c4940a",
+	'd_tsvc',
+	"778a889a-58a1-43f7-bc1f-f3de2990fbf0",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8fab7712-4ced-428b-a140-3fe832190e13",
+	"02e6a7fc-6fe8-4556-b24a-2b5b09c4940a",
+	'implementation_system',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d7a3564d-1580-46e9-aec6-3453c4050ce3",
+	'');
+INSERT INTO PE_PE
+	VALUES ("02e6a7fc-6fe8-4556-b24a-2b5b09c4940a",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6e00d49c-26d3-4105-b7c0-d4014d4648bc",
+	"00000000-0000-0000-0000-000000000000",
+	'sequencedterminator2terminator',
+	'',
+	'/* sequenced terminators will be output in the proper order */
+value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+d_terms = param.d_terms;
+// get any terminator
+select any any_term from instances of D_TERM where false;
+for each d_term in d_terms
+  any_term = d_term;
+  break;
+end for;
+
+select one d_depl related by any_term->D_DEPL[R1650];
+  
+// populate the domain
+value[0] = any_term.Domain_Name;
+out::populate( element:"domain", value:value );
+  
+for each d_term in d_terms
+  select one d_depl related by d_term->D_DEPL[R1650];
+  value[0] = d_term.Terminator_Name;
+  out::populate( element:"terminator", value:value );
+  ::terminatorservice2routine( d_term:d_term );
+  ::mark2pragma( markable:"Terminator", pathkey: ::deployment_get_path( d_depl:d_depl, child:d_term.Name ) );
+  // output the description
+  ::Descrip2description( Descrip:d_term.Descrip );
+  // end terminator
+  out::populate( element:"terminator", value:emptyvalue );
+end for;
+
+out::populate( element:"domain", value:emptyvalue );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("03aab62d-0f6a-4731-8047-32f72b931f8c",
+	"6e00d49c-26d3-4105-b7c0-d4014d4648bc",
+	'd_terms',
+	"3421e149-5a7b-4178-b56c-361b79b9cb7a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6e00d49c-26d3-4105-b7c0-d4014d4648bc",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",

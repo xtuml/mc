@@ -69,7 +69,7 @@ end if;
 select one root_element related by population->element[R3785.''has root''];
 
 if ( "project" == element )
-  project = project::populate( name:value[0] );
+  project = project::populate( name:value[0], key_letters:value[1] );
   select one new_element related by project->markable[R3783]->element[R3786];
   population.push_element( new_element:new_element );
 elif ( "domain" == element )
@@ -78,7 +78,7 @@ elif ( "domain" == element )
     TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
     population.stack_trace();
   end if;
-  domain = domain::populate( name:value[0], key_letters:value[1], project:parent_project );
+  domain = domain::populate( name:value[0], key_letters:value[1], project:parent_project, referenced_project_name: value[2] );
   select one new_element related by domain->markable[R3783]->element[R3786];
   population.push_element( new_element:new_element );
 elif ( "object" == element )
@@ -118,7 +118,7 @@ elif ( "routine" == element )
     population.stack_trace();
   end if;
 
-  routine = routine::populate( visibility:value[2], name:value[3], number:value[4], parent_domain:parent_domain, parent_terminator:parent_terminator );
+  routine = routine::populate( visibility:value[2], name:value[3], number:value[4], parent_domain:parent_domain, parent_terminator:parent_terminator, implementation_system: value[5] );
   select one new_element related by routine->activity[R3704]->markable[R3783]->element[R3786];
   population.push_element( new_element:new_element );
 elif ( "operation" == element )

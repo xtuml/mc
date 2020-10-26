@@ -18,12 +18,14 @@ INSERT INTO O_TFR
 for each descrip in descrips
   descrip.render();
 end for;
-T::include( file:"masl/t.project_begin.masl" );
-select many domains related by self->domain[R3701.''configures''];
-for each domain in domains
-  domain.render_project();
-end for;
-T::include( file:"masl/t.project_end.masl" );
+if("MASL" == genfile::architecture())
+  T::include( file:"masl/t.project_begin.masl" );
+  select many domains related by self->domain[R3701.''configures''];
+  for each domain in domains
+    domain.render_project();
+  end for;
+  T::include( file:"masl/t.project_end.masl" );
+end if;
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
@@ -40,6 +42,7 @@ INSERT INTO O_TFR
 	0,
 	'create object instance project of project;
 project.name = param.name;
+project.key_letters = param.key_letters;
 markable = markable::populate( name:"project" );
 relate project to markable across R3783;
 return project;',
@@ -56,6 +59,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("5d56d5d2-1e30-4403-af6c-fbae5ccea94a",
+	"e2f67167-96b5-451c-8a07-34573a645fed",
+	'key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"62bade3b-9f5d-4083-8b3a-a6121ae6a4b4",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("f6bc1fc3-7c5a-4872-a359-b2e25e1712d9",
@@ -126,6 +138,193 @@ out::tostring( element:"project", value:emptyvalue );
 	"57484f67-1062-40d4-9042-c2cd834a94d5",
 	0,
 	0);
+INSERT INTO O_TFR
+	VALUES ("dccdc3b9-69ab-4b1b-81b4-f619d2637332",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render_scenario_list',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'TRACE::log( flavor:"info", id:104, message:"rendering scenario list for project" );
+T::include( file:"wasl/t.scenario_list_begin.wasl" );
+scenario_outputs[1] = "";
+scenario_outputs[0] = ""; 
+select many domains related by self->domain[R3701.''configures''];
+for each domain in domains
+  domain.render_scenario_definitions(scenario_outputs: scenario_outputs);
+  T::b(s: scenario_outputs[0]);
+end for;
+T::include( file:"wasl/t.scenario_list_end.wasl" );
+return scenario_outputs[1];
+',
+	1,
+	'',
+	"90bfd5c6-91ad-47f3-af29-4e7fc6b977d7",
+	0,
+	0);
+INSERT INTO O_TFR
+	VALUES ("b3aa7ab3-1647-40c2-b2e6-fb20eea00d5e",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render_domains_in_build_set',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'/**
+ *  For each terminator get the domain associated, and build
+ *  a relative path list
+ */
+T::include( file:"wasl/t.domains_in_build_set_begin.wasl" );
+select many domains related by self->domain[R3701];
+for each domain in domains
+  domain.render_references();
+end for;
+T::include( file:"wasl/t.domains_in_build_set_end.wasl" );',
+	1,
+	'',
+	"dccdc3b9-69ab-4b1b-81b4-f619d2637332",
+	0,
+	0);
+INSERT INTO O_TFR
+	VALUES ("c0a26bad-8df5-4230-b709-f138c4b7fe64",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render_bridges',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"wasl/t.bridges_begin.wasl" );
+T::b(s: param.bridge_files);
+T::include( file:"wasl/t.bridges_end.wasl" );',
+	1,
+	'',
+	"b3aa7ab3-1647-40c2-b2e6-fb20eea00d5e",
+	0,
+	0);
+INSERT INTO O_TPARM
+	VALUES ("31cc45fb-a468-45a8-8e7a-0d7fa9c91a0c",
+	"c0a26bad-8df5-4230-b709-f138c4b7fe64",
+	'bridge_files',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("8364e1a7-b457-4e15-999c-f0cbfbeeaec6",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render_cpr',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"wasl/t.cpr.wasl" );',
+	1,
+	'',
+	"c0a26bad-8df5-4230-b709-f138c4b7fe64",
+	0,
+	0);
+INSERT INTO O_TFR
+	VALUES ("c7780151-8b27-4f46-8bbb-b094bfa2c4de",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render_hcf',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"wasl/t.project_hcf.wasl" );',
+	1,
+	'',
+	"8364e1a7-b457-4e15-999c-f0cbfbeeaec6",
+	0,
+	0);
+INSERT INTO O_TFR
+	VALUES ("7e4c84be-327a-482e-b604-1e60e2c379e4",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render_wasl',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Populate the file containerization before transforming and emitting the text.
+select many elements from instances of element;
+for each e in elements
+  if ( "project" == e.name )
+    genfile = genfile::populate( name:e.name );
+    relate genfile to e across R3795;
+  else
+    // no file needed
+  end if;
+end for;
+
+// render separate domain related files first
+select many domains related by self->domain[R3701];
+bridge_files = "";
+/* not sure this is required for the rendering project */
+for each domain in domains
+  select any terminator related by domain->terminator[R3702] where selected.name != "Sequence";
+  if(not_empty terminator)
+    bridge_files = bridge_files + domain.render_bridges(bridge_files: bridge_files);
+    domain.render_bridge_list(filename: self.key_letters);
+    domain.render_terminators_handcoded(filename: self.key_letters);
+  end if;
+end for;
+
+// now render the descriptive dump file
+T::include( file:"wasl/t.project_begin.wasl" );
+T::include( file:"wasl/t.build_set_tags_begin.wasl" );
+T::include( file:"wasl/t.build_set_tags_end.wasl" );
+T::include( file:"wasl/t.scenario_list_spec.wasl" );
+scenario_list = self.render_scenario_list();
+self.render_hcf();
+self.render_domains_in_build_set();
+T::include( file:"wasl/t.bridge_data_types.wasl" );
+self.render_bridges(bridge_files: bridge_files);
+self.render_cpr();
+select one genfile related by self->markable[R3783]->element[R3786]->genfile[R3795];
+if ( not_empty genfile )
+  // Projects are output as  wasl dump files, with a description
+  // of the content
+  TRACE::log( flavor:"info", id:101, message:"rendering project dump file" );
+  genfile.emit( name:self.name + ".dmp" );
+  // output the list of scenarios
+  T::b(s: scenario_list);
+  genfile = genfile::populate( name:"scenario_definition_file" );
+  genfile.emit( name:self.key_letters + ".scn" );
+end if;
+
+if ( param.structuralOnly == true )
+  return;
+end if;
+/* Empty but file may need to exist for downstream tools */
+genfile = genfile::populate( name:"asl_file" );
+genfile.emit( name:self.key_letters + ".asl" );
+/* Empty but file may need to exist for downstream tools */
+genfile = genfile::populate( name:"cpr_file" );
+genfile.emit( name:self.key_letters + ".cpr" );
+// render all the activity files, which are not sequenced
+select many terminators related by self->domain[R3701]->terminator[R3702] where selected.name != "Sequence";
+select many activities related by terminators->routine[R3791]->activity[R3704];
+for each activity in activities
+  select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
+  if ( not_empty genfile )
+    destination = genfile.getname();
+    // Domain files go into a directory named after the domain.
+    genfile.gen( destination:destination );
+  end if;
+end for;
+
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"default" );',
+	1,
+	'',
+	"c7780151-8b27-4f46-8bbb-b094bfa2c4de",
+	0,
+	0);
+INSERT INTO O_TPARM
+	VALUES ("9e83e2b6-131d-4713-9d2f-221988c49b7f",
+	"7e4c84be-327a-482e-b604-1e60e2c379e4",
+	'structuralOnly',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("33280c57-b6f9-4c0a-85ca-27880c727a15",
 	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4");
@@ -140,6 +339,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("7c7f3134-f1ed-4f36-b113-2c6adc29994a",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4");
+INSERT INTO O_BATTR
+	VALUES ("7c7f3134-f1ed-4f36-b113-2c6adc29994a",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4");
+INSERT INTO O_ATTR
+	VALUES ("7c7f3134-f1ed-4f36-b113-2c6adc29994a",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	"33280c57-b6f9-4c0a-85ca-27880c727a15",
+	'key_letters',
+	'',
+	'',
+	'key_letters',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
