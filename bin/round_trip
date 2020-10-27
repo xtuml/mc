@@ -71,7 +71,7 @@ for arg in $@; do
         OUT_DIR=$arg
     elif [[ $DIRECTIVE == "-a" ]]; then                             # produce coverage statistics
         ARCHITECTURE=$arg
-    elif [[ $DIRECTIVE == "-noconvert" ]] then                      # source is xtuml, do not try to convert wasl
+    elif [[ $DIRECTIVE == "-noconvert" ]]; then                      # source is xtuml, do not try to convert wasl
         CONVERT="false"
     else
         print_usage
