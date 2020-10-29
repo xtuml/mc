@@ -1,0 +1,67 @@
+= Support singletons in C compiler
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+This note describes the initial analysis to support model singletons in the generated C source.
+
+== 2 Introduction and Background
+
+ClearMotion uses a proprietary tool that parses C source to generate an A2L description file.  The A2L file format follows a specification supporting runtime analysis and configuration of ECU components.
+
+== 3 Requirements
+
+- Estimate the amount of work to implement singletons.
+
+== 4 Analysis
+
+=== 4.1 Singletons
+==== For all implementations
+Selects shall return the singleton value.  In the cases of select many from instances, the singleton shall be returned.  Where clauses shall be treated the same, only querying against the singleton alone.
+
+==== 4.1 With union
+One attempt discusses was to make use of the C union.   This union would hold the extent as a member, as well as the singleton as a member.
+
+==== 4.2 Escher_CreateInstance
+Escher_CreateInstance shall return the first element if it exists, otherwise proceed to creation.
+
+==== 4.3 Without extent
+In this approach the classes marked as singleton would not participate in the escher extents.
+
+==== 4.4 Markings
+Two new marking types shall be added, SINGLETON.  They should be supported on a domain, in which case all classes would be generated to use the singleton approach.  And they should be supported on class names individually.
+
+== 5 Work Required
+=== 5.1 Singletons
+==== For all implementations
+===== Escher_CreateInstance
+When creating an instance if singleton, give a warning if the instance is already created.  Otherwise create the instance.
+
+Doing this allows for selects to behave according to section 4.
+
+== 6 Acceptance Test
+
+. Mark domain as singleton
+. All classes have singleton approach generated
+. Remove domain mark and add to two individual classes
+. The two classes are generated to make use of singleton approach
+. Select one, Select any, Select many on singleton always returns singleton
+. Queries on selects to singleton return empty when appropriate
+
+
+
+== 7 Document References
+
+In this section, list all the documents that the reader may need to refer to.
+Give the full path to reference a file.
+
+. [[dr-1]] https://support.onefact.net/issues/NNNNN[NNNNN - headline]
+. [[dr-2]] ...
+. [[dr-3]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
