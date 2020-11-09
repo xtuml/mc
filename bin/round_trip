@@ -21,7 +21,7 @@ print_usage () {
     echo "  - Specify the '-c' flag to enable and produce code coverage statistics.";
     echo "  - Specify the '-r' flag to force exit and relaunch of BridgePoint before export.";
     echo "  - Specify '-a <architecture>' to select a specific architecture (WASL) for model testing; MASL is the default.";
-    echo "  - Specify the '-noconvert' flag to indicate the test source is xtUML based.";
+    echo "  - Specify the '-depl' flag to indicate the test is against a deployment.";
     echo -e "\n";
 }
 
@@ -52,15 +52,17 @@ OUT_DIR=
 RELAUNCH=
 COVERAGE=
 ARCHITECTURE="MASL" # Default to MASL.
-CONVERT="true"
+DEPL="false"
 
 # parse arguments
 DIRECTIVE=
 for arg in $@; do
-    if [[ $arg == "-d" || $arg == "-p" || $arg == "-o" || $arg == "-a" || $arg == "-noconvert" ]]; then # set the directive
+    if [[ $arg == "-d" || $arg == "-p" || $arg == "-o" || $arg == "-a" ]]; then # set the directive
         DIRECTIVE=$arg
     elif [[ $arg == "-r" ]]; then                                   # relaunch BP before export
         RELAUNCH=$arg
+    elif [[ $arg == "-depl" ]]; then                                # deployments are not converted 
+        DEPL="true"
     elif [[ $arg == "-c" ]]; then                                   # produce coverage statistics
         COVERAGE=$arg
     elif [[ $DIRECTIVE == "-d" ]]; then                             # add a domain dir
@@ -69,10 +71,8 @@ for arg in $@; do
         PROJ_DIR=$arg
     elif [[ $DIRECTIVE == "-o" && $OUT_DIR == "" ]]; then           # only can set the output directory once
         OUT_DIR=$arg
-    elif [[ $DIRECTIVE == "-a" ]]; then                             # produce coverage statistics
+    elif [[ $DIRECTIVE == "-a" ]]; then                             # set expected architecture
         ARCHITECTURE=$arg
-    elif [[ $DIRECTIVE == "-noconvert" ]] then                      # source is xtuml, do not try to convert wasl
-        CONVERT="false"
     else
         print_usage
         exit 1
@@ -122,8 +122,8 @@ CONVERTDIR=$TMP/convertdir
 for domain in ${DOM_DIRS[*]}; do
     domname=$(basename $domain)
     rm -rf $CONVERTDIR/$domname
-    # if we are to convert
-    if [ $CONVERT == "true" ]; then
+    # if we are not handling deployment
+    if [ $DEPL == "false" ]; then
       masl2xtuml -a $ARCHITECTURE -d $domain -o $CONVERTDIR
     else
       # otherwise just copy
@@ -134,8 +134,8 @@ done
 if [[ $PROJ_DIR != "" ]]; then
   projname=$(basename $PROJ_DIR)
   rm -rf $CONVERTDIR/$projname
-  # if we are to convert
-  if [ $CONVERT == "true" ]; then
+  # if we are not handling deployment
+  if [ $DEPL == "false" ]; then
     masl2xtuml -a $ARCHITECTURE -p $PROJ_DIR -o $CONVERTDIR
   else
     # otherwise just copy
@@ -178,19 +178,23 @@ for domain in ${DOM_DIRS[*]}; do
     if [[ $PROJ_DIR == "" ]]; then
       # The component name (from the .mod file) may not be the same as the domain folder we
       # used during the processing.  So we calculate it from the .mod file name.
-      compfile=$(ls $domain/*.mod)
-      compname=$(basename -s .mod $compfile)
-      echo "Converting $compname from xtUML to" $ARCHITECTURE
-      if [[ -d $MODELOUTDIR ]]; then
-         rm -rf $MODELOUTDIR
-      fi
-      mkdir -p $MODELOUTDIR/$compname
+      # If no convert, we will not have masl output to determine
+      # naming
+      if [ $DEPL == "false" ]; then
+        compfile=$(ls $domain/*.mod)
+        compname=$(basename -s .mod $compfile)
+        echo "Converting $compname from xtUML to" $ARCHITECTURE
+        if [[ -d $MODELOUTDIR ]]; then
+          rm -rf $MODELOUTDIR
+        fi
+        mkdir -p $MODELOUTDIR/$compname
 
-      # Copy extra .int files to the output.  Note that we do this _before_ running 
-      # xtuml2masl so that xtuml2masl will overwrite the int for the domain being converted,
-      # which we want to happen so that we are checking the int created by the x2m process.
-      if [[ "MASL" == $ARCHITECTURE ]]; then
-        cp $domain/*.int $MODELOUTDIR/$compname
+        # Copy extra .int files to the output.  Note that we do this _before_ running 
+        # xtuml2masl so that xtuml2masl will overwrite the int for the domain being converted,
+        # which we want to happen so that we are checking the int created by the x2m process.
+        if [[ "MASL" == $ARCHITECTURE ]]; then
+          cp $domain/*.int $MODELOUTDIR/$compname
+        fi
       fi
 
       # Optionally relaunch BridgePoint before export
@@ -199,8 +203,15 @@ for domain in ${DOM_DIRS[*]}; do
         CLI.sh Launch
       fi
 
+      CMD="-d $compname"
+      if [[ $DEPL == "true" ]]; then
+        compname=$domname
+        CMD="-p $domname"
+      fi
+
       if [[ "WASL" == $ARCHITECTURE ]]; then
-        xtuml2masl $COVERAGE -i $WORKSPACE/$domProj/ -d $compname -o $MODELOUTDIR -a $ARCHITECTURE -xf
+        echo "xtuml2masl $COVERAGE -i $WORKSPACE/$domProj/ $CMD -o $MODELOUTDIR -a $ARCHITECTURE -xf"
+        xtuml2masl $COVERAGE -i $WORKSPACE/$domProj/ $CMD -o $MODELOUTDIR -a $ARCHITECTURE -xf
       else
         xtuml2masl $COVERAGE -i $WORKSPACE/$domProj/ -d $compname -o $MODELOUTDIR -a $ARCHITECTURE
       fi
@@ -208,6 +219,8 @@ for domain in ${DOM_DIRS[*]}; do
       # Now diff
       echo "Diff'ing input and output."
       if [[ "WASL" == $ARCHITECTURE ]]; then
+        ls $MODELOUTDIR/$compname
+        echo "wasldiff $domain/WASL $MODELOUTDIR/$compname > $TMP/diff_report.txt"
         wasldiff $domain/WASL $MODELOUTDIR/$compname > $TMP/diff_report.txt
       else
         masldiff $domain $MODELOUTDIR/$compname > $TMP/diff_report.txt
@@ -254,18 +267,22 @@ if [[ $PROJ_DIR != "" ]]; then
 
     # The component name (from the .prj file) may not be the same as the project folder we
     # used during the processing.  So we calculate it from the .prj file name.
-    compfile=$(ls $PROJ_DIR/*.prj)
-    compname=$(basename -s .prj $compfile)
-    echo "Converting $compname from xtUML to " $ARCHITECTURE
-    if [[ -d $MODELOUTDIR ]]; then
-       rm -rf $MODELOUTDIR
-    fi
-    mkdir -p $MODELOUTDIR/$compname
+    # If no convert, we will not have masl output to determine
+    # naming
+    if [ $DEPL == "false" ]; then
+      compfile=$(ls $PROJ_DIR/*.prj)
+      compname=$(basename -s .prj $compfile)
+      echo "Converting $compname from xtUML to " $ARCHITECTURE
+      if [[ -d $MODELOUTDIR ]]; then
+        rm -rf $MODELOUTDIR
+      fi
+      mkdir -p $MODELOUTDIR/$compname
 
-    # Copy extra INT files from the original source to the output dir 
-    if [[ "MASL" == $ARCHITECTURE ]]; then
-      echo "Copying $PROJ_DIR/*.int to $MODELOUTDIR/$compname"
-      cp $PROJ_DIR/*.int $MODELOUTDIR/$compname
+      # Copy extra INT files from the original source to the output dir 
+      if [[ "MASL" == $ARCHITECTURE ]]; then
+        echo "Copying $PROJ_DIR/*.int to $MODELOUTDIR/$compname"
+        cp $PROJ_DIR/*.int $MODELOUTDIR/$compname
+      fi
     fi
 
     # Optionally relaunch BridgePoint before export
