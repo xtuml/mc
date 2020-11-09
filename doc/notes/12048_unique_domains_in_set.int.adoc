@@ -37,6 +37,13 @@ model/masl/models/masl/masl/domain/domain.xtuml
 model/masl/models/masl/masl/project/project.xtuml
 ----
 
+- fork/repository:  travislondon/models
+- branch:  12048_unique_domains
+
+----
+masl/test/Test_Depl/WASL/Test_Depl.dmp
+----
+
 == 9 Document References
 
 . [[dr-1]] https://support.onefact.net/issues/12048[12048 - WASL: domains in build set not completely unique]

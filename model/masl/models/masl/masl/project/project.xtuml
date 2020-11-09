@@ -183,12 +183,13 @@ for each domain in domains
     if(STRING::indexof( haystack: implementation_systems, needle: unique_ref) == -1)
       implementation_systems = implementation_systems + "," + unique_ref;
     end if;
+    unique_ref = STRING::split( delimiter: ",", s: "" );
   end while;
 end for;
 unique_ref = STRING::split( delimiter: ",", s: implementation_systems );
 while(unique_ref != "")
   T::b( s:unique_ref + ",0," + unique_ref + "\n");
-  result = STRING::split( delimiter: ",", s: "" );
+  unique_ref = STRING::split( delimiter: ",", s: "" );
 end while;
 T::include( file:"wasl/t.domains_in_build_set_end.wasl" );',
 	1,
