@@ -173,11 +173,23 @@ INSERT INTO O_TFR
  *  For each terminator get the domain associated, and build
  *  a relative path list
  */
+implementation_systems = "";
 T::include( file:"wasl/t.domains_in_build_set_begin.wasl" );
 select many domains related by self->domain[R3701];
 for each domain in domains
-  domain.render_references();
+  domain_references = domain.render_references();
+  unique_ref = STRING::split( delimiter: ",", s: domain_references );
+  while(unique_ref != "")
+    if(STRING::indexof( haystack: implementation_systems, needle: unique_ref) == -1)
+      implementation_systems = implementation_systems + "," + unique_ref;
+    end if;
+  end while;
 end for;
+unique_ref = STRING::split( delimiter: ",", s: implementation_systems );
+while(unique_ref != "")
+  T::b( s:unique_ref + ",0," + unique_ref + "\n");
+  result = STRING::split( delimiter: ",", s: "" );
+end while;
 T::include( file:"wasl/t.domains_in_build_set_end.wasl" );',
 	1,
 	'',
