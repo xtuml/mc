@@ -1,0 +1,101 @@
+= Order Types by Reference
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+The order of types matters in the output WASL files.  This note documents
+enforcement of type ordering for the WASL exporter.
+
+== 2 Introduction and Background
+
+In many languages, types are referenced.  A type is defined and then
+referred to by other language (model) elements and especially other types.
+This is true in WASL.  Specifically, in WASL structured data types have
+members that refer to other types.  It is legal to "nest" types within
+structures.
+
+WASL is sensitive to type forward reference, and in fact, cannot tolerate
+it.  Types must be defined before being referenced.  This implies that the
+WASL exporter must take care to export a type with references only after
+the referred to types have already been exported.
+
+MASL has the same sensitivity.  MASL goes a step further and provides a
+special construct to make a forward declaration of a type.  This is because
+MASL allows circular type reference.  In fact, a type can recursively refer
+to itself.  Because of this, the MASL exporter has sophisticated type 
+ordering in place.  WASL can use this same logic, and in fact can reuse
+the same code.
+
+== 3 Requirements
+
+=== 3.1 Prevent Type Forward References
+
+The WASL exporter shall export types in an order that ensures that all
+types are defined before being referenced.
+
+== 4 Work Required
+
+Previously, the WASL type export skipped the type ordering and simply
+selected all types in the domain and interated through them rendering
+them.  Instead, the logic used by the MASL exporter will be leveraged.
+This logic detects references and resolves them before emitting the
+type definition.
+
+The MASL approach to detecting type references will not work for WASL.
+WASL structures have links to type references (`typeref`) and can use
+those directly.  This logic may be used by MASL at some point in the
+future.  In any case, the typerefs linked to structure members will
+be traversed to identify type dependencies and sequence accordingly.
+
+== 5 Implementation Comments
+
+=== 5.1 Deployment Artifacts
+
+There are a few elements from deployment refinement that are included
+in this branch.
+
+== 6 Unit Test
+
+=== 6.1 MASL Round Trip
+
+The MASL round trip tests shall continue to pass.
+
+=== 6.2 some_wasl_swats
+
+The SWATS test suite shall see no degradation.
+
+=== 6.3 `Struct`
+
+The Struct test case shall be manually interrogated to see that the
+unsorted version of `Struct.typ` contains no forward references.
+
+
+== 7 User Documentation
+
+N/A
+
+== 8 Code Changes
+
+- fork/repository:  mc/cortlandstarrett
+- branch:  12050_type_order
+
+----
+ doc/notes/11444_wasl/12050_type_order_int.adoc                      | 95 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ model/masl/gen/masl_type_class.c                                    | 46 ++++++++++++++++++++++++++-
+ model/masl/models/masl/maslpopulation/genfile/genfile.xtuml         |  5 +--
+ model/masl/models/masl/maslpopulation/requirement/requirement.xtuml |  5 +--
+ model/masl/models/masl/masltypes/type/type.xtuml                    | 13 ++++++--
+ model/masl/models/masl/masltypes/typeref/typeref.xtuml              |  8 +++--
+ 6 files changed, 158 insertions(+), 14 deletions(-)
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12050[12050 - order WASL types]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
