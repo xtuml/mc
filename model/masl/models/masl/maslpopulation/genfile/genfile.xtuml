@@ -757,10 +757,7 @@ elif ( "domain" == element )
 
       // types file
       TRACE::log( flavor:"info", id:114, message:"rendering types" );
-      select many types related by domain->type[R3719];
-      for each typ in types
-        typ.render();
-      end for;
+      type::render_all( domain:domain, scope:"private" );
       for each obj in objects
         obj.render_declaration();
       end for;

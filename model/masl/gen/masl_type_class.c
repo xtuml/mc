@@ -344,7 +344,7 @@ masl_type_op_tostring( masl_type * self)
 void
 masl_type_op_populate_references( masl_type * self)
 {
-  i_t i;
+  masl_typeref * typeref=0;i_t i;Escher_ObjectSet_s typerefs_space={0}; Escher_ObjectSet_s * typerefs = &typerefs_space;
   /* ASSIGN i = self.lcount */
   i = ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.lcount" ))->lcount;
   /* WHILE ( i > 0 ) */
@@ -373,6 +373,50 @@ masl_type_op_populate_references( masl_type * self)
       r = masl_reference_op_populate(referred_type, self);
     }
   }
+  /* TRACE::log( flavor:info, id:999, message:( adding references for  + self.name ) ) */
+  TRACE_log( "info", 999, ( Escher_stradd( "adding references for ", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.name" ))->name ) ) );
+  /* SELECT many typerefs RELATED BY self->structure[R3751]->member[R3752.has]->typeref[R3753] */
+  Escher_ClearSet( typerefs );
+  {  if ( 0 != self ) {
+  masl_structure * R3751_subtype = (masl_structure *) self->R3751_subtype;
+  if ( 0 != R3751_subtype )  if ( ( 0 != self ) && ( masl_structure_CLASS_NUMBER == self->R3751_object_id ) ) {
+  masl_member * member_R3752_has;
+  Escher_Iterator_s imember_R3752_has;
+  Escher_IteratorReset( &imember_R3752_has, &R3751_subtype->member_R3752_has );
+  while ( 0 != ( member_R3752_has = (masl_member *) Escher_IteratorNext( &imember_R3752_has ) ) ) {
+  {masl_typeref * typeref_R3753 = member_R3752_has->typeref_R3753;
+  if ( ! Escher_SetContains( (Escher_ObjectSet_s *) typerefs, typeref_R3753 ) ) {
+    Escher_SetInsertElement( (Escher_ObjectSet_s *) typerefs, typeref_R3753 );
+  }}}}}}
+  /* FOR EACH typeref IN typerefs */
+  { Escher_Iterator_s itertyperef;
+  masl_typeref * iityperef;
+  Escher_IteratorReset( &itertyperef, typerefs );
+  while ( (iityperef = (masl_typeref *)Escher_IteratorNext( &itertyperef )) != 0 ) {
+    typeref = iityperef; {
+    masl_type * referred_type=0;
+    /* SELECT any referred_type RELATED BY self->domain[R3719]->type[R3719] WHERE ( SELECTED.name == typeref.body ) */
+    referred_type = 0;
+    {    if ( 0 != self ) {
+    masl_domain * domain_R3719 = self->domain_R3719;
+    if ( 0 != domain_R3719 ) {
+    masl_type * selected;
+    Escher_Iterator_s itype_R3719_defines;
+    Escher_IteratorReset( &itype_R3719_defines, &domain_R3719->type_R3719_defines );
+    while ( 0 != ( selected = (masl_type *) Escher_IteratorNext( &itype_R3719_defines ) ) ) {
+      if ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.name" ))->name, ((masl_typeref *)xtUML_detect_empty_handle( typeref, "typeref", "typeref.body" ))->body ) == 0 ) {
+        referred_type = selected;
+        break;
+    }}
+}}}
+    /* IF ( not_empty referred_type ) */
+    if ( ( 0 != referred_type ) ) {
+      masl_reference * r;
+      /* ASSIGN r = reference::populate(child:referred_type, parent:self) */
+      r = masl_reference_op_populate(referred_type, self);
+    }
+  }}}
+  Escher_ClearSet( typerefs ); 
 }
 
 /*

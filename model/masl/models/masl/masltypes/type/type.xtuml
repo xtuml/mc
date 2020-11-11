@@ -217,7 +217,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'i = self.lcount;
+	'// First the MASL way.
+i = self.lcount;
 while ( i > 0 )
   i = i - 1;
   // Since name is a key, there can be only one type in this domain matching a given label.
@@ -225,7 +226,15 @@ while ( i > 0 )
   if ( not_empty referred_type )
     r = reference::populate( parent:self, child:referred_type );
   end if;
-end while;',
+end while;
+// Then the WASL way.
+select many typerefs related by self->structure[R3751]->member[R3752.''has'']->typeref[R3753];
+for each typeref in typerefs
+  select any referred_type related by self->domain[R3719]->type[R3719] where ( selected.name == typeref.body );
+  if ( not_empty referred_type )
+    r = reference::populate( parent:self, child:referred_type );
+  end if;
+end for;',
 	1,
 	'',
 	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
