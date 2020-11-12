@@ -75,10 +75,15 @@ T_emit( c_t * p_file )
     // Open file.
     if ( 0 == ( outputfile = fopen( p_file, "w" ) ) ) {
       T_print( "bad news could not open output file" );
+      T_print( p_file );
+      perror( 0 );
       T_exit( 1 );
     }
   }
   fprintf( outputfile, "%s", buffer );
+  if ( stdout != outputfile ) {
+    fclose( outputfile );
+  }
   T_clear();
 }
 
@@ -134,6 +139,7 @@ void
 T_exit( const i_t p_i )
 {
   Escher_run_flag = false;
+  exit(1);
 }
 
 

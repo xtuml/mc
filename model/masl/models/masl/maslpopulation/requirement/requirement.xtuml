@@ -19,8 +19,6 @@ INSERT INTO O_TFR
 //   - select any requirement with tag
 //   - see if it is 
 
-//if ( "WASL" == genfile::architecture() )
-
   body = param.body;
   element = param.element;
 
@@ -69,8 +67,7 @@ INSERT INTO O_TFR
     end if;
 
   end while;
-
-//end if;',
+',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
