@@ -50,12 +50,7 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
     print('MC-3020: Pre-building...')
     model = bridgepoint.load_metamodel(model_inputs)
     bridgepoint.prebuild_model(model)
-    try:
-        model_file = io.StringIO()
-        xtuml.persist_instances2(model, model_file)
-    except TypeError:
-        model_file = io.BytesIO()
-        xtuml.persist_instances2(model, model_file)
+    xtuml.persist_instances(model, os.path.join(gen_workspace, 'a.sql'))
 
     # execute code generation
     print('MC-3020: Generating code...')
@@ -64,7 +59,7 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
     model = xtuml.MetaModel(id_generator)
     loader = xtuml.ModelLoader()
     loader.filename_input(os.path.join(SCHEMADIR, 'sql', 'xtumlmc_schema.sql'))
-    loader.input(model_file.getvalue())
+    loader.filename_input(os.path.join(gen_workspace, 'a.sql'))
     loader.populate(model)
     rt = rsl.Runtime(model, 'change', True, None)
     ast = rsl.parse_file(os.path.join(gen_workspace, 'arc', 'sys.arc'))
