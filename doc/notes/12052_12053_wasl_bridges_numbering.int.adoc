@@ -1,0 +1,75 @@
+= 12052_12053 code changes
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+This note describes the code changes to support 12052 and 12053.
+
+== 2 Introduction and Background
+
+See <<dr-1>> and <<dr-2>>.
+
+== 3 Requirements
+
+See <<dr-1>> and <<dr-2>>.
+
+== 4 Work Required
+
+See <<dr-1>> and <<dr-2>>.
+
+== 5 Implementation Comments
+
+== 6 Unit Test
+
+See <<dr-1>> and <<dr-2>>.
+
+== 7 User Documentation
+
+
+== 8 Code Changes
+
+- fork/repository:  travislondon/bridgepoint
+- branch:  12052_12053
+
+----
+src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Component/Executable Property/Executable Property.xtuml
+src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Component/Interface/Interface.xtuml
+src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Component/Signal Provisions and Requirements/Provided Operation/Provided Operation.xtuml
+src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Component/Signal Provisions and Requirements/Provided Signal/Provided Signal.xtuml
+src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Component/Signal Provisions and Requirements/Required Operation/Required Operation.xtuml
+src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Component/Signal Provisions and Requirements/Required Signal/Required Signal.xtuml
+src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Deployment/Terminator Service/Terminator Service.xtuml
+src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Deployment/Terminator/Terminator.xtuml
+src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Domain/Function/Function.xtuml
+src/org.xtuml.bp.core/models/org.xtuml.bp.core/ooaofooa/Subsystem/Operation/Operation.xtuml
+
+----
+
+- fork/repository:  travislondon/mc
+- branch:  12052_12053
+
+----
+doc/notes/12052_12053_wasl_bridges_numbering.int.adoc
+doc/notes/12052_collect_from_all_domains.dnt.adoc
+doc/notes/12053_numbering.dnt.adoc
+model/masl/models/masl/masl/domain/domain.xtuml
+model/masl/models/masl/masl/project/project.xtuml
+model/masl/models/masl/maslpopulation/genfile/genfile.xtuml
+model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml
+model/mcooa/models/mcooa/ooaofooa/Component/Signal Provisions and Requirements/    Provided Operation/Provided Operation.xtuml
+model/mcooa/models/mcooa/ooaofooa/Component/Signal Provisions and Requirements/Provided Signal/Provided Signal.xtuml
+model/mcooa/models/mcooa/ooaofooa/Component/Signal Provisions and Requirements/Required Signal/Required Signal.xtuml
+
+----
+
+== 9 Document References
+
+. [[dr-1]] 12052_collect_from_all_domains.dnt.adoc
+. [[dr-2]] 12053_numbering.dnt.adoc
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

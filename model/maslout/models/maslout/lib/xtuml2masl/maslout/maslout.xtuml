@@ -3626,8 +3626,8 @@ if ( ImplementationScope::Domain == d_tsvc.Implementation_Scope )
   // A project can skip supplying a terminator service.''Domain'' scope means
   // the implementation was provided in the domain implementation
   //
-  // If the terminator is sequenced we do not want to skip
-  // implementation will be provided in the domain, but we
+  // If the terminator is sequenced we do not want to skip.
+  // Implementation will be provided in the domain, but we
   // need reference to terminator signatures
   select one tss related by d_term->D_TSS[R1658];
   if(empty tss)
