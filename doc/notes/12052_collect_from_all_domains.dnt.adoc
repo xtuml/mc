@@ -31,8 +31,6 @@ To produce the list required for bridges a string is built while outputting the 
 
 == 7 User Documentation
 
-- Added section about hand coded files.
-
 == 8 Unit Test
 
 - Existing automated Test_Depl model and expected results are updated to cover all issues in this issue.
