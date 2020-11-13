@@ -14,9 +14,9 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
 
     # setup build
     print('MC-3020: Setting up build environment...')
-    os.environ['ROX_MC_ARC_DIR'] = os.path.join(gen_workspace, 'arc')  # set archetype directory
     working_directory = os.path.abspath(working_directory)             # resolve working directory path
     gen_workspace = os.path.abspath(gen_workspace)                     # resolve gen workspace path
+    os.environ['ROX_MC_ARC_DIR'] = os.path.join(gen_workspace, 'arc')  # set archetype directory
     output_directory = os.path.abspath(output_directory)               # resolve output path
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
@@ -68,8 +68,11 @@ def run_build(working_directory='.', gen_workspace='code_generation', output_dir
     # copy generated sources to output directory
     print('MC-3020: Installing generated sources...')
     custom_implementations = []
-    with open(os.path.join(working_directory, 'custom.txt')) as f:
-        custom_implementations = list(map(lambda s: s.strip(), f.readlines()))
+    try:
+        with open(os.path.join(working_directory, 'custom.txt')) as f:
+            custom_implementations = list(map(lambda s: s.strip(), f.readlines()))
+    except:
+        print('MC-3020: No custom sources found...')
     for src_file in filter(lambda path: os.path.splitext(path)[1] in ['.h', '.c'], os.listdir(os.path.join(gen_workspace, '_ch'))):
         if src_file in custom_implementations:
             shutil.copyfile(os.path.join(gen_workspace, '_ch', src_file), os.path.join(output_directory, src_file + '.orig'))
