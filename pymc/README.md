@@ -32,5 +32,6 @@ python -m mc3020 -t sysc -d ~/git/myproject/gen -o src ../models   # from a fold
 ### Package for release
 
 ```
-tar cvzfh <version>.tar.gz *
+python setup.py sdist
+twine upload dist/*
 ```
