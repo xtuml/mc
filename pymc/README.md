@@ -1,9 +1,9 @@
-# pymc
+# pymc3020
 
 ### Install
 
 ```
-python setup.py install
+pip install pymc3020
 ```
 
 ### Usage
