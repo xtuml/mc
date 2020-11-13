@@ -28,3 +28,9 @@ Example:
 python -m mc3020 -o ../src ../models                               # from gen folder of project
 python -m mc3020 -t sysc -d ~/git/myproject/gen -o src ../models   # from a folder outside the project
 ```
+
+### Package for release
+
+```
+tar cvzfh <version>.tar.gz *
+```
