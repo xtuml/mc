@@ -265,6 +265,11 @@ for each e in elements
   end if;
 end for;
 
+// set all domains version to 0 - default for wasl
+select many domains related by self->domain[R3701.''configures''];
+for each domain in domains
+  domain.version = "0";
+end for;
 // render separate domain related files first
 bridge_files = self.render_domains();
 	
