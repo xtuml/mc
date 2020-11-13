@@ -623,7 +623,9 @@ elif ( "domain" == element )
       genfile.emit( name:domain.name + ".ter" );
 
       // hand coded files file
-      domain.render_terminators_handcoded(filename: domain.name);
+      domain.render_terminators_handcoded();
+      genfile = genfile::populate( name:"hand_coded_files" );
+      genfile.emit( name:domain.name + ".hcf" );
 
       // scenario list file
       TRACE::log( flavor:"info", id:103, message:"rendering scenario list" );
@@ -658,7 +660,11 @@ elif ( "domain" == element )
       genfile.emit( name:domain.name + ".fnp" );
 
       // bridge data types file
-      domain.render_bridge_list(filename: domain.name);
+      T::include( file:"wasl/t.START.wasl" );
+      domain.render_bridge_list();
+      T::include( file:"wasl/t.END.wasl" );
+      genfile = genfile::populate( name:"bridges" );
+	  genfile.emit( name:domain.name + ".brp" );
 
       // objects file
       TRACE::log( flavor:"info", id:106, message:"rendering objects" );
@@ -808,7 +814,7 @@ elif ( "domain" == element )
           external_files = external_files + domain.name + "," + domain.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
         end if;
       end for;
-      bridge_files = bridge_files + domain.render_bridges(bridge_files: bridge_files);
+      bridge_files = bridge_files + domain.render_bridges();
       // operations
       select many objects related by domain->object[R3708];
       for each object in objects

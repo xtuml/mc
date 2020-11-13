@@ -437,7 +437,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'// bridges
-bridge_files = param.bridge_files;
+bridge_files = "";
 select many terminators related by self->terminator[R3702] where ( selected.key_letters != "TIM" and selected.name != "Sequence");
 for each terminator in terminators
   select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "hand_coded" );
@@ -466,15 +466,6 @@ return bridge_files;',
 	"8a307794-75b1-4701-bf7c-1e0440cd1c2a",
 	0,
 	0);
-INSERT INTO O_TPARM
-	VALUES ("6ea1fa9c-6858-4cf9-8dd0-be5b3ca3ac79",
-	"f7d1987a-5ec4-4f88-bd78-5560c96807bd",
-	'bridge_files',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
 INSERT INTO O_TFR
 	VALUES ("31a85bcb-8232-4614-ad03-ce15827dc7ef",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
@@ -482,35 +473,20 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'TRACE::log( flavor:"info", id:105, message:"rendering bridge list" );
+	'TRACE::log( flavor:"info", id:105, message:"rendering domain bridge list" );
 select many terminators related by self->terminator[R3702] where ( selected.key_letters != "TIM" );
-if ( not_empty terminators )
-  T::include( file:"wasl/t.START.wasl" );
-  for each terminator in terminators
-    select many routines related by terminator->routine[R3791];
-    for each routine in routines
-      select one activity related by routine->activity[R3704];
-      routine.render( name:activity.name );
-    end for;
+for each terminator in terminators
+  select many routines related by terminator->routine[R3791];
+  for each routine in routines
+    select one activity related by routine->activity[R3704];
+    routine.render( name:activity.name );
   end for;
-  T::include( file:"wasl/t.END.wasl" );
-end if;
-genfile = genfile::populate( name:"bridges" );
-genfile.emit( name:param.filename + ".brp" );',
+end for;',
 	1,
 	'',
 	"f7d1987a-5ec4-4f88-bd78-5560c96807bd",
 	0,
 	0);
-INSERT INTO O_TPARM
-	VALUES ("c1494ed5-cef2-4d8f-9b2e-e193914dbf76",
-	"31a85bcb-8232-4614-ad03-ce15827dc7ef",
-	'filename',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
 INSERT INTO O_TFR
 	VALUES ("5382854f-9526-4cf6-b432-34b38d1300ab",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
@@ -518,30 +494,19 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'TRACE::log( flavor:"info", id:102, message:"rendering hand code file list" );
+	'TRACE::log( flavor:"info", id:102, message:"rendering domain hand code file list" );
 select many terminators related by self->terminator[R3702];
 for each terminator in terminators
   select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "hand_coded" );
   if ( not_empty pragma )
     terminator.render_handcoded();
   end if;
-end for;
-genfile = genfile::populate( name:"hand_coded_files" );
-genfile.emit( name:param.filename + ".hcf" );',
+end for;',
 	1,
 	'',
 	"31a85bcb-8232-4614-ad03-ce15827dc7ef",
 	0,
 	0);
-INSERT INTO O_TPARM
-	VALUES ("0194a9b3-b589-42cd-a3e4-c34c6a5affba",
-	"5382854f-9526-4cf6-b432-34b38d1300ab",
-	'filename',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
 INSERT INTO O_TFR
 	VALUES ("337615da-6b9e-41b3-9dd2-11d340148277",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",

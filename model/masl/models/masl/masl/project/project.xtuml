@@ -265,19 +265,14 @@ for each e in elements
   end if;
 end for;
 
-// render separate domain related files first
-select many domains related by self->domain[R3701];
-bridge_files = "";
-/* not sure this is required for the rendering project */
+// set all domains version to 0 - default for wasl
+select many domains related by self->domain[R3701.''configures''];
 for each domain in domains
-  select any terminator related by domain->terminator[R3702] where selected.name != "Sequence";
-  if(not_empty terminator)
-    bridge_files = bridge_files + domain.render_bridges(bridge_files: bridge_files);
-    domain.render_bridge_list(filename: self.key_letters);
-    domain.render_terminators_handcoded(filename: self.key_letters);
-  end if;
+  domain.version = "0";
 end for;
-
+// render separate domain related files first
+bridge_files = self.render_domains();
+	
 // now render the descriptive dump file
 T::include( file:"wasl/t.project_begin.wasl" );
 T::include( file:"wasl/t.build_set_tags_begin.wasl" );
@@ -338,6 +333,52 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO O_TFR
+	VALUES ("d9ba507e-2163-4ac2-9fad-02b9fc764b41",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'render_domains',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'select many domains related by self->domain[R3701];
+bridge_files = "";
+bridge_definitions = "";
+for each domain in domains
+  select any terminator related by domain->terminator[R3702] where selected.name != "Sequence";
+  if(not_empty terminator)
+    bridge_files = bridge_files + domain.render_bridges();
+  end if;
+end for;
+// build list of bridges from all domains
+T::include( file:"wasl/t.START.wasl" );
+for each domain in domains
+  select any terminator related by domain->terminator[R3702] where selected.name != "Sequence";
+  if(not_empty terminator)
+	domain.render_bridge_list();
+  end if;
+end for;
+T::include( file:"wasl/t.END.wasl" );
+// output bridge list
+genfile = genfile::populate( name:"bridges" );
+genfile.emit( name:self.key_letters + ".brp" );
+// build list of hand coded files from all domains
+for each domain in domains
+  select any terminator related by domain->terminator[R3702] where selected.name != "Sequence";
+  if(not_empty terminator)
+    domain.render_terminators_handcoded();
+  end if;
+end for;
+// output hand coded list
+genfile = genfile::populate( name:"hand_coded_files" );
+genfile.emit( name:self.key_letters + ".hcf" );
+
+// return bridge files collected for later output
+return bridge_files;',
+	1,
+	'',
+	"7e4c84be-327a-482e-b604-1e60e2c379e4",
+	0,
+	0);
 INSERT INTO O_NBATTR
 	VALUES ("33280c57-b6f9-4c0a-85ca-27880c727a15",
 	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4");
