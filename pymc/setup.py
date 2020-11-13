@@ -5,7 +5,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-setup(name='pymc',
+setup(name='pymc3020',
       version='1.0.0',
       description='Python executor for MC-3020',
       author='Levi Starrett',
