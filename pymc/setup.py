@@ -11,7 +11,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='pymc3020',
-      version='1.0.1',
+      version='1.0.2',
       description='Python executor for MC-3020',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -19,7 +19,7 @@ setup(name='pymc3020',
       author_email='levi@roxsoftware.com',
       url='https://github.com/xtuml/mc',
       license='Apache 2.0',
-      download_url='https://github.com/xtuml/mc/releases/download/1.0.1/pymc3020-1.0.1.tar.gz',
+      download_url='https://github.com/xtuml/mc/releases/download/1.0.2/pymc3020-1.0.2.tar.gz',
       keywords='xtuml bridgepoint',
       packages=['mc3020'],
       install_requires=['pyxtuml', 'pyrsl'],
