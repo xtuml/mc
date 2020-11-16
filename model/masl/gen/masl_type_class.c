@@ -373,8 +373,6 @@ masl_type_op_populate_references( masl_type * self)
       r = masl_reference_op_populate(referred_type, self);
     }
   }
-  /* TRACE::log( flavor:info, id:999, message:( adding references for  + self.name ) ) */
-  TRACE_log( "info", 999, ( Escher_stradd( "adding references for ", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.name" ))->name ) ) );
   /* SELECT many typerefs RELATED BY self->structure[R3751]->member[R3752.has]->typeref[R3753] */
   Escher_ClearSet( typerefs );
   {  if ( 0 != self ) {
