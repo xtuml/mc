@@ -660,9 +660,11 @@ elif ( "domain" == element )
       genfile.emit( name:domain.name + ".fnp" );
 
       // bridge data types file
-      T::include( file:"wasl/t.START.wasl" );
-      domain.render_bridge_list();
-      T::include( file:"wasl/t.END.wasl" );
+      if ( not_empty terminators )
+        T::include( file:"wasl/t.START.wasl" );
+        domain.render_bridge_list();
+        T::include( file:"wasl/t.END.wasl" );
+      end if;
       genfile = genfile::populate( name:"bridges" );
 	  genfile.emit( name:domain.name + ".brp" );
 
