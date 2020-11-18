@@ -495,13 +495,18 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'TRACE::log( flavor:"info", id:102, message:"rendering domain hand code file list" );
+rendered = false;
 select many terminators related by self->terminator[R3702];
 for each terminator in terminators
   select any pragma related by terminator->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "hand_coded" );
   if ( not_empty pragma )
     terminator.render_handcoded();
+    rendered = true;
   end if;
-end for;',
+end for;
+if ( rendered )
+  T::include( file:"wasl/t.newline.wasl" );
+end if;',
 	1,
 	'',
 	"31a85bcb-8232-4614-ad03-ce15827dc7ef",

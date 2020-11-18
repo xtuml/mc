@@ -1,3 +1,2 @@
 T_b(self->key_letters);
 T_b(",");
-T_b("\n");

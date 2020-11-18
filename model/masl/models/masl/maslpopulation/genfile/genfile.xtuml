@@ -797,9 +797,8 @@ elif ( "domain" == element )
       select many routines related by domain->routine[R3790] where ( selected.visibility == "private" );
       for each routine in routines
         select one activity related by routine->activity[R3704];
-        select one code_block related by activity->code_block[R3794];
         select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
-        if ( empty pragma or empty code_block ) // WASL wants scenario for external with no action. (12056)
+        if ( empty pragma )
           routine.render_definition( activity:activity );
           filename = domain.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
           TRACE::log( flavor:"info", id:117, message:"rendering scenario activity file:  " + filename );
