@@ -1356,7 +1356,7 @@ for each s_sync in s_syncs
   // Populate pragmas
   select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
   ::mark2pragma( markable:"Function", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: ::function_getsignature( flavor:1, s_sync:s_sync ) ) );
-  if ( ( "externals" == ep_pkg.Name ) and ( ActionDialect::asl == s_sync.Dialect ) )
+  if ( ( "externals" == ep_pkg.Name ) and ( ActionDialect::masl != s_sync.Dialect ) )
     // functions in externals package get a manufactured pragma for ASL
     value[0] = "external";
     value[1] = ""; value[2] = ""; value[3] = ""; value[4] = "";
