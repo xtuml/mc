@@ -1,0 +1,122 @@
+= Support singletons in C compiler
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+This note describes the initial analysis to support model singletons in the generated C source.
+
+== 2 Introduction and Background
+
+ClearMotion uses a proprietary tool that parses C source to generate an A2L description file.  The A2L file format follows a specification supporting runtime analysis and configuration of ECU components.
+
+== 3 Requirements
+
+- Estimate the amount of work to implement singletons.
+
+== 4 Analysis
+
+=== 4.1 Singletons
+==== For all implementations
+Selects shall return the singleton value.  In the cases of select many from instances, the singleton shall be returned.  Where clauses shall be treated the same, only querying against the singleton alone.
+
+==== 4.1 Singletons with extent
+This approach takes the minimal effort approach.  It would still leave extents as are and make use of them through existing select logic.  The modification to the current extent would be to always return the first element in the extent during creation.
+
+==== 4.1.1 Singleton in generated classes
+
+[source,c++]
+----
+A_ClassInComp * _singleton;
+
+A_ClassInComp * A_ClassInComp_Singleton() {
+	if(_singleton == NULL) {
+		// first check the instance extent
+		A_ClassInComp * existing = (A_ClassInComp *) Escher_SetGetAny( &pG_A_ClassInComp_extent.active );
+		if(existing != 0) {
+			_singleton = existing;
+		} else {
+			_singleton = (A_ClassInComp *) Escher_CreateInstance( A_DOMAIN_ID, A_ClassInComp_CLASS_NUMBER );
+		}
+	}
+	return _singleton;
+}
+----
+
+==== 4.1.2 Escher_CreateInstance_Singleton
+The key part here is commented below.  We are simply returning the first instance in the extent, or creating if no instance is present.
+
+[source, c++]
+----
+Escher_iHandle_t
+Escher_CreateInstance_Singleton(
+  const Escher_DomainNumber_t domain_num,
+  const Escher_ClassNumber_t class_num
+)
+{
+  Escher_SetElement_s * node;
+  Escher_iHandle_t instance;
+  Escher_Extent_t * dci = *(domain_class_info[ domain_num ] + class_num);
+  node = dci->inactive.head;
+
+  // return the first instance if it exists
+  Escher_SetElement_s * singleton = dci->active.head;
+  if(singleton != 0) {
+    // NOTE: give warning here
+	return (Escher_iHandle_t) singleton->object;
+  }
+
+  if ( 0 == node ) {
+    UserObjectPoolEmptyCallout( domain_num, class_num );
+  }
+
+  dci->inactive.head = dci->inactive.head->next;
+  instance = (Escher_iHandle_t) node->object;
+  if ( 0 != dci->initial_state ) {
+    instance->current_state = dci->initial_state;
+  }
+  Escher_SetInsertInstance( &dci->active, node );
+  return instance;
+}
+----
+
+==== 4.1.3 Initialize singletons
+===== 4.1.3.1 During main()
+We could initialize every singleton during the call to main.  This would however require memory before some instances may not be necessary.
+
+===== 4.1.3.2 During creation
+We could update the CreateInstance_Singleton to set the class variable to point at the singleton.  This would require knowledge of all singleton classes in the domain (include headers) and some sort of instance of?
+
+@Cort please advise here
+
+===== 4.1.3.3 During selects
+
+Modify selects to perform a call to <ClassName>_Singleton().
+
+==== 4.2 Without extent
+This approach would remove extends from the generated system, if marked as such at the domain level.  This may provide a better memory approach but would take a bit longer.
+
+Additionally, as in 4.1.3.3, we would need to modify all select behavior to call the singleton function rather than check the extent.
+
+==== 4.4 Markings
+Two new marking types shall be added, markSingletonClass(es).  They should be supported on a domain, in which case all classes would be generated to use the singleton approach.  They should also be supported on class names individually.
+
+== 5 Work Required
+See Analysis.
+
+== 6 Acceptance Test
+
+. Mark domain as singleton
+. All classes have singleton approach generated
+. Remove domain mark and add to two individual classes
+. The two classes are generated to make use of singleton approach
+. Select one, Select any, Select many on singleton always returns singleton
+. Queries on selects to singleton return empty when appropriate
+
+== 7 Document References
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
