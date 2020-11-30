@@ -44,9 +44,11 @@ INSERT INTO O_TFR
 // Every encounter with a type reference is a new instance.
 create object instance typeref of typeref;
 typeref.body = param.body;
-select any type related by domain->type[R3719] where ( selected.name == param.name );
-if ( not_empty type )
-  relate typeref to type across R3762.''refers to'';
+if ( "" != param.name )
+  select any referred_type related by domain->type[R3719] where ( selected.name == param.name );
+  if ( not_empty referred_type )
+    relate typeref to referred_type across R3762.''refers to'';
+  end if;
 end if;
 
 // relate to parent

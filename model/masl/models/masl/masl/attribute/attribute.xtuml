@@ -29,7 +29,7 @@ if ( "MASL" == genfile::architecture() )
     T::include( file:"masl/t.referentials_begin.masl" );
     separator = "";
     for each referential in referentials
-  	  T::b( s:separator );
+      T::b( s:separator );
       referential.render();
       separator = ", ";
     end for;
@@ -37,8 +37,8 @@ if ( "MASL" == genfile::architecture() )
   end if;
   attributetype.render();
   if ( not_empty expression )
-	  T::include( file:"masl/t.attribute_assign.masl" );
-	  expression.render();
+    T::include( file:"masl/t.attribute_assign.masl" );
+    expression.render();
   end if;
   T::include( file:"masl/t.attribute_end.masl" );
   select one markable related by self->markable[R3783];
@@ -60,10 +60,6 @@ elif ( "WASL" == genfile::architecture() )
     end for;
   else
     T::b( s:"()" );
-  end if;
-  if ( not_empty expression )
-    T::include( file:"wasl/t.attribute_assign.wasl" );
-    expression.render();
   end if;
   description = "";
   for each descrip in descrips
@@ -95,23 +91,23 @@ select any attribute from instances of attribute where false;
 if ( not_empty parent_object )
   select any attribute related by parent_object->attribute[R3709] where ( selected.name == param.name );
   if ( empty attribute )
-	create object instance attribute of attribute;
-	attribute.name = param.name;
-	relate parent_object to attribute across R3709.''is characterized by'';
-	markable = markable::populate( name:"attribute" );
-  	relate attribute to markable across R3783;
+    create object instance attribute of attribute;
+    attribute.name = param.name;
+    relate parent_object to attribute across R3709.''is characterized by'';
+    markable = markable::populate( name:"attribute" );
+    relate attribute to markable across R3783;
   end if;
   attribute.preferred = param.preferred;
   attribute.unique = param.unique;
 elif ( not_empty parent_identifier )
   select any attribute related by parent_identifier->object[R3711]->attribute[R3709] where ( selected.name == param.name );
   if ( empty attribute )
-	create object instance attribute of attribute;
-	attribute.name = param.name;
-	select one parent_object related by attribute->object[R3709];
-	relate parent_object to attribute across R3709.''is characterized by'';
-	markable = markable::populate( name:"attribute" );
-  	relate attribute to markable across R3783;
+    create object instance attribute of attribute;
+    attribute.name = param.name;
+    select one parent_object related by attribute->object[R3709];
+    relate parent_object to attribute across R3709.''is characterized by'';
+    markable = markable::populate( name:"attribute" );
+    relate attribute to markable across R3783;
   end if;
   relate attribute to parent_identifier across R3710;
 else

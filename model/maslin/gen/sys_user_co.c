@@ -16,6 +16,7 @@
 
 #include "maslin_sys_types.h"
 #include "sys_user_co.h"
+#include "sys_xtumlload.h"
 
 #ifdef SYS_USER_CO_PRINTF_ON
 #include <stdio.h>

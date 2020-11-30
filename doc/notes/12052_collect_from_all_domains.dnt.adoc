@@ -1,0 +1,46 @@
+= Collect data from all domains under a system
+
+xtUML Project Design Note
+
+
+== 1 Abstract
+
+This note describes changes which address a bug where desired output was not being collected for all domains under a system.
+
+== 2 Introduction and Background
+
+Deployment support for WASL requires a list of bridges as well as hand coded files in the WASL export.
+
+== 3 Requirements
+
+=== 3.1 All deployment bridges under all domains shall be listed in the .brp file
+=== 3.2 All deployment bridges under all domains shall be listed in the .dmp file
+=== 3.3 All hand coded files associated with all domains shall be listed in the .hcf file
+
+== 4 Analysis
+Two issues were found with WASL export.  One was that only a single domain's bridges were being output in the .brp file.  The other issue was that duplicate bridges were being listed under the bridge list in the .dmp file.  Investigation into these issues showed that the hand coded lists would show the same issues seen with bridges.
+
+== 5 Design
+===  5.1 Separate emit code
+In the case of the .brp bridge list the issue was that within the itereation of domains the list of bridges collected was emitted to the same file each pass.  The logic for collecting and emitting the bridge list is modified to have it own iteration loop.  Additionally the file emission is handled after iterating all domains. This changes is also made to the hand written file list output logic.
+
+=== 5.2 Prevent duplication in .dmp bridge list
+To produce the list required for bridges a string is built while outputting the bridge .br files.  The logic was passing the built string to an operation which would append the new bridges to the string and return it.  This is good except that in the calling operation the logic was appending the returned result with the last result.  This produced a list with duplicates.  The logic is changed to not pass the collection string and only append in the calling operation.
+
+== 6 Design Comments
+
+== 7 User Documentation
+
+== 8 Unit Test
+
+- Existing automated Test_Depl model and expected results are updated to cover all issues in this issue.
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12052[12052 - Collect data from all domains under a system]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

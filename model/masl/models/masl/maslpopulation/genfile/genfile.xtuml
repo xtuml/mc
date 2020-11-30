@@ -623,7 +623,9 @@ elif ( "domain" == element )
       genfile.emit( name:domain.name + ".ter" );
 
       // hand coded files file
-      domain.render_terminators_handcoded(filename: domain.name);
+      domain.render_terminators_handcoded();
+      genfile = genfile::populate( name:"hand_coded_files" );
+      genfile.emit( name:domain.name + ".hcf" );
 
       // scenario list file
       TRACE::log( flavor:"info", id:103, message:"rendering scenario list" );
@@ -631,7 +633,10 @@ elif ( "domain" == element )
       if ( not_empty routines )
         for each routine in routines
           select one activity related by routine->activity[R3704];
-          T::include( file:"wasl/t.scenario.wasl" );
+          select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
+          if ( not_empty pragma )
+            T::include( file:"wasl/t.scenario.wasl" );
+          end if;
         end for;
         genfile = genfile::populate( name:"scenarios" );
         genfile.emit( name:domain.name + ".scn" );
@@ -655,7 +660,13 @@ elif ( "domain" == element )
       genfile.emit( name:domain.name + ".fnp" );
 
       // bridge data types file
-      domain.render_bridge_list(filename: domain.name);
+      if ( not_empty terminators )
+        T::include( file:"wasl/t.START.wasl" );
+        domain.render_bridge_list();
+        T::include( file:"wasl/t.END.wasl" );
+      end if;
+      genfile = genfile::populate( name:"bridges" );
+	  genfile.emit( name:domain.name + ".brp" );
 
       // objects file
       TRACE::log( flavor:"info", id:106, message:"rendering objects" );
@@ -754,10 +765,7 @@ elif ( "domain" == element )
 
       // types file
       TRACE::log( flavor:"info", id:114, message:"rendering types" );
-      select many types related by domain->type[R3719];
-      for each typ in types
-        typ.render();
-      end for;
+      type::render_all( domain:domain, scope:"private" );
       for each obj in objects
         obj.render_declaration();
       end for;
@@ -789,25 +797,26 @@ elif ( "domain" == element )
       select many routines related by domain->routine[R3790] where ( selected.visibility == "private" );
       for each routine in routines
         select one activity related by routine->activity[R3704];
-        routine.render_definition( activity:activity );
         select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
         if ( empty pragma )
+          routine.render_definition( activity:activity );
           filename = domain.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
-          TRACE::log( flavor:"info", id:117, message:"rendering activity file:  " + filename );
+          TRACE::log( flavor:"info", id:117, message:"rendering scenario activity file:  " + filename );
           genfile = genfile::populate( name:filename );
           genfile.emit( name:filename );
           marking = routine.render_marking();
           scenario_files = scenario_files + domain.name + "," + domain.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
         else
+          routine.render_external( activity:activity );
           filename = domain.name + "_External" + STRING::itoa( i:routine.number ) + ".ext";
-          TRACE::log( flavor:"info", id:171, message:"rendering activity file:  " + filename );
+          TRACE::log( flavor:"info", id:171, message:"rendering external activity file:  " + filename );
           genfile = genfile::populate( name:filename );
           genfile.emit( name:filename );
           marking = routine.render_marking();
           external_files = external_files + domain.name + "," + domain.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
         end if;
       end for;
-      bridge_files = bridge_files + domain.render_bridges(bridge_files: bridge_files);
+      bridge_files = bridge_files + domain.render_bridges();
       // operations
       select many objects related by domain->object[R3708];
       for each object in objects
