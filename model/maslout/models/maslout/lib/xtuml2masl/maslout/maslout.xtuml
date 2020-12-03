@@ -641,7 +641,7 @@ for each o_obj in o_objs
   value[2] = STRING::itoa( i:o_obj.Numb );
   out::populate( element:"object", value:value );
   
-  // Link the attributes to each object.
+  // Link the attributes to each object. 
   ::attribute2attribute( c_c:c_c, o_obj:o_obj );
   
   // Set up the identifiers for this object.
@@ -3281,6 +3281,9 @@ while ( not_empty d_terms )
   
   // populate the domain
   value[0] = any_term.Domain_Name;
+  // key letters not present in Terminator
+  value[1] = "";
+  value[2] = any_term.Implementation_System;
   out::populate( element:"domain", value:value );
   
   // get all terminators with the same domain

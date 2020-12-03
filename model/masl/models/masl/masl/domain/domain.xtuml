@@ -17,6 +17,7 @@ INSERT INTO O_TFR
 	'project = param.project;
 create object instance domain of domain;
 domain.name = param.name;
+domain.implementation_system = param.implementation_system;
 domain.key_letters = param.key_letters;
 domain.version = "1";
 if ( not_empty project )
@@ -67,7 +68,7 @@ INSERT INTO O_TPARM
 INSERT INTO O_TPARM
 	VALUES ("22880c84-a9f2-412c-896f-ca6170e0ca8e",
 	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4",
-	'referenced_project_name',
+	'implementation_system',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
@@ -616,6 +617,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'reference_project_name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("110d8b33-78c5-4414-8d98-728e5006c745",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
+INSERT INTO O_BATTR
+	VALUES ("110d8b33-78c5-4414-8d98-728e5006c745",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
+INSERT INTO O_ATTR
+	VALUES ("110d8b33-78c5-4414-8d98-728e5006c745",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	"081f1e14-b574-4d1a-b1a8-5cff32364290",
+	'implementation_system',
+	'',
+	'',
+	'implementation_system',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
