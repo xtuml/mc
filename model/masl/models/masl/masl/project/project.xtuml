@@ -177,20 +177,12 @@ implementation_systems = "";
 T::include( file:"wasl/t.domains_in_build_set_begin.wasl" );
 select many domains related by self->domain[R3701];
 for each domain in domains
-  domain_references = domain.render_references();
-  unique_ref = STRING::split( delimiter: ",", s: domain_references );
-  while(unique_ref != "")
-    if(STRING::indexof( haystack: implementation_systems, needle: unique_ref) == -1)
-      implementation_systems = implementation_systems + "," + unique_ref;
-    end if;
-    unique_ref = STRING::split( delimiter: ",", s: "" );
-  end while;
+  select any terminator related by domain->terminator[R3702] where (selected.name == "Sequence");
+  if(empty terminator)
+    unique_ref = domain.implementation_system + "::" + domain.name;
+    T::b(s: unique_ref + "," + domain.version + "," + unique_ref + "\n");
+  end if;
 end for;
-unique_ref = STRING::split( delimiter: ",", s: implementation_systems );
-while(unique_ref != "")
-  T::b( s:unique_ref + ",0," + unique_ref + "\n");
-  unique_ref = STRING::split( delimiter: ",", s: "" );
-end while;
 T::include( file:"wasl/t.domains_in_build_set_end.wasl" );',
 	1,
 	'',
@@ -272,7 +264,7 @@ for each domain in domains
 end for;
 // render separate domain related files first
 bridge_files = self.render_domains();
-	
+
 // now render the descriptive dump file
 T::include( file:"wasl/t.project_begin.wasl" );
 T::include( file:"wasl/t.build_set_tags_begin.wasl" );
@@ -354,7 +346,7 @@ T::include( file:"wasl/t.START.wasl" );
 for each domain in domains
   select any terminator related by domain->terminator[R3702] where selected.name != "Sequence";
   if(not_empty terminator)
-	domain.render_bridge_list();
+    domain.render_bridge_list();
   end if;
 end for;
 T::include( file:"wasl/t.END.wasl" );
