@@ -177,8 +177,11 @@ implementation_systems = "";
 T::include( file:"wasl/t.domains_in_build_set_begin.wasl" );
 select many domains related by self->domain[R3701];
 for each domain in domains
-  unique_ref = domain.implementation_system + "::" + domain.name;
-  T::b(s: unique_ref + "," + domain.version + "," + unique_ref);
+  select any terminator related by domain->terminator[R3702] where (selected.name == "Sequence");
+  if(empty terminator)
+    unique_ref = domain.implementation_system + "::" + domain.name;
+    T::b(s: unique_ref + "," + domain.version + "," + unique_ref + "\n");
+  end if;
 end for;
 T::include( file:"wasl/t.domains_in_build_set_end.wasl" );',
 	1,
