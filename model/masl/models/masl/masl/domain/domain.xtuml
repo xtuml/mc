@@ -17,6 +17,7 @@ INSERT INTO O_TFR
 	'project = param.project;
 create object instance domain of domain;
 domain.name = param.name;
+domain.implementation_system = param.implementation_system;
 domain.key_letters = param.key_letters;
 domain.version = "1";
 if ( not_empty project )
@@ -67,7 +68,7 @@ INSERT INTO O_TPARM
 INSERT INTO O_TPARM
 	VALUES ("22880c84-a9f2-412c-896f-ca6170e0ca8e",
 	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4",
-	'referenced_project_name',
+	'implementation_system',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
@@ -512,42 +513,6 @@ end if;',
 	"31a85bcb-8232-4614-ad03-ce15827dc7ef",
 	0,
 	0);
-INSERT INTO O_TFR
-	VALUES ("337615da-6b9e-41b3-9dd2-11d340148277",
-	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
-	'render_references',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'/*
- * Path to WASL output for reference, we have to collect
- * each unique system_implemenation name from each routine
- * as sequences can come from many domains
- */
-implementation_systems = "";
-select many terminators related by self->terminator[R3702];
-for each terminator in terminators
-  select many routines related by terminator->routine[R3791];
-  for each routine in routines
-  	select one activity related by routine->activity[R3704];
-  	key = routine.implementation_system + "::" + self.name; 
-    if(STRING::indexof( haystack: terminator.name, needle: "Sequence") != -1)
-  	  // sequence terminators have the domain name in the terminator name
-  	  // need to get that out
-  	  domain_name = STRING::split( s:activity.name, delimiter: "::");
-  	  key = routine.implementation_system + "::" + domain_name;
-    end if;
-    if(STRING::indexof( haystack: implementation_systems, needle: key) == -1)
-      implementation_systems = implementation_systems + "," + key;
-    end if;
-  end for;
-end for;
-return implementation_systems;',
-	1,
-	'',
-	"5382854f-9526-4cf6-b432-34b38d1300ab",
-	0,
-	0);
 INSERT INTO O_NBATTR
 	VALUES ("4fc1a43d-5822-49e1-b600-7ff700768a17",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
@@ -603,19 +568,19 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("081f1e14-b574-4d1a-b1a8-5cff32364290",
+	VALUES ("110d8b33-78c5-4414-8d98-728e5006c745",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
 INSERT INTO O_BATTR
-	VALUES ("081f1e14-b574-4d1a-b1a8-5cff32364290",
+	VALUES ("110d8b33-78c5-4414-8d98-728e5006c745",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
 INSERT INTO O_ATTR
-	VALUES ("081f1e14-b574-4d1a-b1a8-5cff32364290",
+	VALUES ("110d8b33-78c5-4414-8d98-728e5006c745",
 	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
 	"bf9f98e2-eed3-4957-8e03-9067dc4b133f",
-	'reference_project_name',
+	'implementation_system',
 	'',
 	'',
-	'reference_project_name',
+	'implementation_system',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',

@@ -641,7 +641,7 @@ for each o_obj in o_objs
   value[2] = STRING::itoa( i:o_obj.Numb );
   out::populate( element:"object", value:value );
   
-  // Link the attributes to each object.
+  // Link the attributes to each object. 
   ::attribute2attribute( c_c:c_c, o_obj:o_obj );
   
   // Set up the identifiers for this object.
@@ -3281,6 +3281,9 @@ while ( not_empty d_terms )
   
   // populate the domain
   value[0] = any_term.Domain_Name;
+  // key letters not present in Terminator
+  value[1] = "";
+  value[2] = any_term.Implementation_System;
   out::populate( element:"domain", value:value );
   
   // get all terminators with the same domain
@@ -3348,13 +3351,13 @@ if(not_empty d_tss)
   next_d_sis = first_d_sis;
   while(not_empty next_d_sis)
     select one d_tsvc related by next_d_sis->D_TSVC[R1660];
-    ::populate_routine(d_tsvc: d_tsvc, implementation_system: d_tsvc.Implementation_System);
+    ::populate_routine(d_tsvc: d_tsvc);
     select one next_d_sis related by next_d_sis->D_SIS[R1661.''precedes''];
   end while;
 else
   select many d_tsvcs related by d_term->D_TSVC[R1651];
   for each d_tsvc in d_tsvcs
-    ::populate_routine(d_tsvc: d_tsvc, implementation_system: d_tsvc.Implementation_System);
+    ::populate_routine(d_tsvc: d_tsvc);
   end for;
 end if;
 
@@ -3638,7 +3641,6 @@ end if;
 value[2] = "public"; // Outbound messages are considered public.
 value[3] = d_tsvc.Name;
 value[4] = STRING::itoa(i:d_tsvc.Numb);
-value[5] = param.implementation_system;
 out::populate( element:"routine", value:value );
 
 select any d_tsparm related by d_tsvc->D_TSPARM[R1652];
@@ -3678,15 +3680,6 @@ INSERT INTO S_SPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("8fab7712-4ced-428b-a140-3fe832190e13",
-	"02e6a7fc-6fe8-4556-b24a-2b5b09c4940a",
-	'implementation_system',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"d7a3564d-1580-46e9-aec6-3453c4050ce3",
 	'');
 INSERT INTO PE_PE
 	VALUES ("02e6a7fc-6fe8-4556-b24a-2b5b09c4940a",
