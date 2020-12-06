@@ -3291,6 +3291,7 @@ while ( not_empty d_terms )
   for each d_term in domain_terms
     if (not d_term.Provider)
       value[0] = d_term.Terminator_Name;
+      value[1] = d_term.Key_Lett;
       out::populate( element:"terminator", value:value );
       ::terminatorservice2routine( d_term:d_term );
       ::mark2pragma( markable:"Terminator", pathkey: ::deployment_get_path( d_depl:d_depl, child:d_term.Name ) );
