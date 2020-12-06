@@ -187,6 +187,25 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("733b3c6e-8bb4-4b57-a344-81882eba7d4b",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_BATTR
+	VALUES ("733b3c6e-8bb4-4b57-a344-81882eba7d4b",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");
+INSERT INTO O_ATTR
+	VALUES ("733b3c6e-8bb4-4b57-a344-81882eba7d4b",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	"6bc7abb0-92e2-4242-b5aa-c2122b71a11d",
+	'Key_Lett',
+	'Full Name: Key Letters
+Description: Key letters from port deployed',
+	'',
+	'Key_Lett',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"ccc40fff-bb7a-4037-807a-37dd7e55bdab");

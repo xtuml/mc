@@ -384,12 +384,12 @@ if(not_empty terminator)
   for each routine in routines
   	TRACE::log( flavor:"info", id:104, message:"Processing routine for sequence terminator." );
   	select one activity related by routine->activity[R3704];
-    filename = activity.name + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
-    scenario_list = scenario_list + activity.name + STRING::itoa( i:routine.number ) + ".scn" + "\n";
+    filename = STRING::split(s:activity.name, delimiter:"::") + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
+    scenario_list = scenario_list + filename + "\n";
     select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
     if ( empty pragma )
       marking = routine.render_marking();
-      scenario_definitions = scenario_definitions + self.name + "," + self.version + "," + activity.name + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
+      scenario_definitions = scenario_definitions + self.name + "," + self.version + "," + STRING::split(s:activity.name, delimiter:"::") + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
     end if;
   end for;
 end if;
