@@ -429,7 +429,7 @@ c_t *
 STRING_split( c_t * p_delimiter, c_t * p_string)
 {
 	char *result;
-	if(p_string == "") {
+	if(0 == strcmp( p_string, "")) {
 		result = strtok(NULL, p_delimiter);
 	} else {
 		result = strtok(p_string, p_delimiter);

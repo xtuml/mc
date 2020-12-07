@@ -31,7 +31,6 @@ markable.render_marking( list:"default" );',
 	1,
 	'',
 	"e2f67167-96b5-451c-8a07-34573a645fed",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("e2f67167-96b5-451c-8a07-34573a645fed",
@@ -49,7 +48,6 @@ return project;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("62bade3b-9f5d-4083-8b3a-a6121ae6a4b4",
@@ -113,7 +111,6 @@ return valid;',
 	1,
 	'',
 	"777ea3b3-5800-4366-929f-6b25c189a72c",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("777ea3b3-5800-4366-929f-6b25c189a72c",
@@ -136,7 +133,6 @@ out::tostring( element:"project", value:emptyvalue );
 	1,
 	'',
 	"57484f67-1062-40d4-9042-c2cd834a94d5",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("dccdc3b9-69ab-4b1b-81b4-f619d2637332",
@@ -160,7 +156,6 @@ return scenario_outputs[1];
 	1,
 	'',
 	"90bfd5c6-91ad-47f3-af29-4e7fc6b977d7",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("b3aa7ab3-1647-40c2-b2e6-fb20eea00d5e",
@@ -179,15 +174,13 @@ select many domains related by self->domain[R3701];
 for each domain in domains
   select any terminator related by domain->terminator[R3702] where (selected.name == "Sequence");
   if(empty terminator)
-    unique_ref = domain.implementation_system + "::" + domain.name;
-    T::b(s: unique_ref + "," + domain.version + "," + unique_ref + "\n");
+    T::include( file:"wasl/t.domains_in_build_set.wasl" );
   end if;
 end for;
 T::include( file:"wasl/t.domains_in_build_set_end.wasl" );',
 	1,
 	'',
 	"dccdc3b9-69ab-4b1b-81b4-f619d2637332",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("c0a26bad-8df5-4230-b709-f138c4b7fe64",
@@ -202,7 +195,6 @@ T::include( file:"wasl/t.bridges_end.wasl" );',
 	1,
 	'',
 	"b3aa7ab3-1647-40c2-b2e6-fb20eea00d5e",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("31cc45fb-a468-45a8-8e7a-0d7fa9c91a0c",
@@ -224,7 +216,6 @@ INSERT INTO O_TFR
 	1,
 	'',
 	"c0a26bad-8df5-4230-b709-f138c4b7fe64",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("c7780151-8b27-4f46-8bbb-b094bfa2c4de",
@@ -237,7 +228,6 @@ INSERT INTO O_TFR
 	1,
 	'',
 	"8364e1a7-b457-4e15-999c-f0cbfbeeaec6",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("7e4c84be-327a-482e-b604-1e60e2c379e4",
@@ -314,7 +304,6 @@ markable.render_marking( list:"default" );',
 	1,
 	'',
 	"c7780151-8b27-4f46-8bbb-b094bfa2c4de",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("9e83e2b6-131d-4713-9d2f-221988c49b7f",
@@ -369,7 +358,6 @@ return bridge_files;',
 	1,
 	'',
 	"7e4c84be-327a-482e-b604-1e60e2c379e4",
-	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("33280c57-b6f9-4c0a-85ca-27880c727a15",
