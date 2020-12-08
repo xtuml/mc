@@ -29,7 +29,6 @@ return domain;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("11b21edf-33b3-49d7-8a2d-c247985704d7",
@@ -162,7 +161,6 @@ end if;',
 	1,
 	'',
 	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("923d7453-ca83-4d45-8c3f-abdabf2d922c",
@@ -246,7 +244,6 @@ return valid;',
 	1,
 	'',
 	"e6bc5a45-5a39-4d36-8cfb-9189cb568011",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("e6bc5a45-5a39-4d36-8cfb-9189cb568011",
@@ -293,7 +290,6 @@ out::tostring( element:"domain", value:emptyvalue );
 	1,
 	'',
 	"892cc2c0-a74a-40f1-99c2-f7a70d95e67f",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("892cc2c0-a74a-40f1-99c2-f7a70d95e67f",
@@ -320,7 +316,6 @@ markable.render_marking( list:"project" );',
 	1,
 	'',
 	"d2c1d212-d763-486a-80db-31abb17f92e1",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("d2c1d212-d763-486a-80db-31abb17f92e1",
@@ -365,7 +360,6 @@ markable.render_marking( list:"default" );',
 	1,
 	'',
 	"0d6eab48-8a19-474c-a54c-d16da938995b",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("8a307794-75b1-4701-bf7c-1e0440cd1c2a",
@@ -384,12 +378,14 @@ if(not_empty terminator)
   for each routine in routines
   	TRACE::log( flavor:"info", id:104, message:"Processing routine for sequence terminator." );
   	select one activity related by routine->activity[R3704];
-    filename = STRING::split(s:activity.name, delimiter:"::") + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
+    domainkeyletters = STRING::split( s:activity.name, delimiter:":" );
+    activityname = STRING::split( s:"", delimiter:":" );
+    filename = domainkeyletters + "_Scenario" + STRING::itoa( i:routine.number ) + ".scn";
     scenario_list = scenario_list + filename + "\n";
     select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
     if ( empty pragma )
       marking = routine.render_marking();
-      scenario_definitions = scenario_definitions + self.name + "," + self.version + "," + STRING::split(s:activity.name, delimiter:"::") + "," + STRING::itoa( i:routine.number ) + "," + filename + marking + "\n";
+      scenario_definitions = scenario_definitions + self.name + "," + self.version + "," + domainkeyletters + "," + STRING::itoa( i:routine.number ) + "," + activityname + "," + filename + marking + "\n";
     end if;
   end for;
 end if;
@@ -398,7 +394,6 @@ param.scenario_outputs[0] = scenario_definitions;',
 	1,
 	'',
 	"923d7453-ca83-4d45-8c3f-abdabf2d922c",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("e6cb428e-e6b4-4c22-a0be-b5716983869c",
@@ -465,7 +460,6 @@ return bridge_files;',
 	1,
 	'',
 	"8a307794-75b1-4701-bf7c-1e0440cd1c2a",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("31a85bcb-8232-4614-ad03-ce15827dc7ef",
@@ -486,7 +480,6 @@ end for;',
 	1,
 	'',
 	"f7d1987a-5ec4-4f88-bd78-5560c96807bd",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("5382854f-9526-4cf6-b432-34b38d1300ab",
@@ -511,7 +504,6 @@ end if;',
 	1,
 	'',
 	"31a85bcb-8232-4614-ad03-ce15827dc7ef",
-	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("4fc1a43d-5822-49e1-b600-7ff700768a17",
