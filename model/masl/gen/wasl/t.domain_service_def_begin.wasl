@@ -1,2 +1,2 @@
-define function ${domain.name}<NUM_HERE>::${activity.name}
-input
+define function  ${domain.name}$t{self.number}::${activity.name}
+input\

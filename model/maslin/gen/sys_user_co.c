@@ -16,6 +16,7 @@
 
 #include "maslin_sys_types.h"
 #include "sys_user_co.h"
+#include "sys_xtumlload.h"
 
 #ifdef SYS_USER_CO_PRINTF_ON
 #include <stdio.h>
@@ -78,8 +79,9 @@ UserPreOoaInitializationCalloutf( int argc, char ** argv )
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "i:o:g:" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "a:i:o:g:" ) ) != -1 ) {
       switch ( c ) {
+        case 'a':
         case 'i':
         case 'o':
           break;
@@ -120,8 +122,12 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     int c;
     opterr = 0;
     optind = 1;
-    while ( ( c = getopt ( argc, argv, "i:o:g:" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "a:i:o:g:" ) ) != -1 ) {
       switch ( c ) {
+        case 'a':
+          if ( !optarg ) abort();
+          else masl2xtuml_model_op_setoption( model, "actiondialect", optarg );
+          break;
         case 'i':
           if ( !optarg ) abort();
           else masl2xtuml_model_op_setoption( model, "projectroot", optarg );

@@ -298,6 +298,8 @@ Identifier                    : ( Letter | '_' ) ( Letter | Digit | '_' )*;
 
 
 Description                   : '//!' ~('\n'|'\r')* '\r'? '\n';
-Comment                       : '//' ~('\n'|'\r')* '\r'? '\n' { $channel=HIDDEN; };       
-Whitespace                    : (' ' | '\t' | '\f' | '\n' | '\r' )+ {$channel=HIDDEN;};
-
+Comment                       : '//' ~('\n'|'\r')* '\r'? '\n' { $channel=HIDDEN; };
+Whitespace                    : (' ' | '\t' | '\f' | '\n' | '\r' )+ { $channel=HIDDEN; };
+AslBegin                      : '#ASL-BEGIN';
+AslEnd                        : '#ASL-END';
+Asl                           : AslBegin ( options {greedy=false;} : . )* AslEnd;

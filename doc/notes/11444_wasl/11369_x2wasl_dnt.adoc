@@ -1,0 +1,36 @@
+= WASL Export and Automation
+
+xtUML Project Design Note
+
+== 1 Abstract
+
+This note documents conversion of xtUML Domains edited with BridgePoint
+into WASL for input into the WACA model compiler.
+
+== 2 Introduction and Background
+
+Analysis has been done on importing, exporting models created in iUML and
+used to produce Ada from the WACA model compiler.
+
+== 3 Requirements
+
+== 4 Analysis
+
+== 5 Design
+
+== 6 Design Comments
+
+== 7 User Documentation
+
+== 8 Unit Test
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11369[11369 - Export WASL Domain]
+. [[dr-2]] link:11444_wasl_ant.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

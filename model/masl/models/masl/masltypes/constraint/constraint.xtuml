@@ -14,12 +14,21 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.object_begin.masl" );
-T::include( file:"masl/t.object_end.masl" );
+	'select one type related by self->type[R3751];
+select one namedref related by self->namedref[R3774];
+if ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.constraint.wasl" );
+  namedref.render();
+else
+  //
+end if;
+select one range related by self->range[R3757];
+range.render();
 ',
 	1,
 	'',
 	"d7a18375-1d6b-43d1-a118-4ed7cc2f4ab6",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("d7a18375-1d6b-43d1-a118-4ed7cc2f4ab6",
@@ -29,17 +38,14 @@ INSERT INTO O_TFR
 	"a79d802c-e120-43ca-aaf9-8b923ef2e76f",
 	0,
 	'domain = param.domain;
-//select any constraint related by domain->constraint[R3799];
-select any constraint from instances of constraint; // DELETE THIS LINE
-if ( empty constraint )
-  create object instance constraint of constraint;
-  constraint.name = param.name;
-  //relate constraint to domain across R3799;
-end if;
+create object instance constraint of constraint;
+namedref = namedref::populate( name:param.name, domain:domain );
+relate namedref to constraint across R3774;
 return constraint;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("e6e011fb-f0bb-4147-81bf-f9da491a76e8",
@@ -94,6 +100,7 @@ return valid;
 	1,
 	'',
 	"544d8acc-62b1-4fe0-9054-4e93ba238eba",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("544d8acc-62b1-4fe0-9054-4e93ba238eba",
@@ -108,15 +115,49 @@ value[0] = self.name;
 	1,
 	'',
 	"f7512b48-37cf-4d2c-9c49-22b868393986",
+	0,
 	0);
-INSERT INTO O_NBATTR
-	VALUES ("02857bc9-7207-445c-a9d9-7bb041d1a22e",
-	"b24f500f-d829-4f18-8b80-f665c27b5ebe");
-INSERT INTO O_BATTR
-	VALUES ("02857bc9-7207-445c-a9d9-7bb041d1a22e",
-	"b24f500f-d829-4f18-8b80-f665c27b5ebe");
+INSERT INTO O_REF
+	VALUES ("b24f500f-d829-4f18-8b80-f665c27b5ebe",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	0,
+	"5e32207e-907b-433a-96bc-6d26e98067dc",
+	"29e83db2-2e9c-4787-8dde-161be67d6e39",
+	"0d9bcdcc-0b93-4a73-9528-47c7e043bb9d",
+	"07a976e9-ce7d-4160-bc9b-8d33c527155e",
+	"f91ab15d-3c3e-4852-b08a-b492237c6307",
+	"ea11b4b5-537b-4468-b699-d76b5bd65c8d",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'type',
+	'name',
+	'R3751');
+INSERT INTO R_RGO_PROXY
+	VALUES ("b24f500f-d829-4f18-8b80-f665c27b5ebe",
+	"29e83db2-2e9c-4787-8dde-161be67d6e39",
+	"0d9bcdcc-0b93-4a73-9528-47c7e043bb9d",
+	'../masltypes.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	0,
+	"29e83db2-2e9c-4787-8dde-161be67d6e39",
+	"07a976e9-ce7d-4160-bc9b-8d33c527155e",
+	'../masltypes.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("f91ab15d-3c3e-4852-b08a-b492237c6307",
+	"b24f500f-d829-4f18-8b80-f665c27b5ebe",
+	"5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	1,
+	'name');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'../type/type.xtuml');
 INSERT INTO O_ATTR
-	VALUES ("02857bc9-7207-445c-a9d9-7bb041d1a22e",
+	VALUES ("f91ab15d-3c3e-4852-b08a-b492237c6307",
 	"b24f500f-d829-4f18-8b80-f665c27b5ebe",
 	"00000000-0000-0000-0000-000000000000",
 	'name',
@@ -124,12 +165,17 @@ INSERT INTO O_ATTR
 	'',
 	'name',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"b24f500f-d829-4f18-8b80-f665c27b5ebe");
+INSERT INTO O_OIDA
+	VALUES ("f91ab15d-3c3e-4852-b08a-b492237c6307",
+	"b24f500f-d829-4f18-8b80-f665c27b5ebe",
+	0,
+	'name');
 INSERT INTO O_ID
 	VALUES (1,
 	"b24f500f-d829-4f18-8b80-f665c27b5ebe");

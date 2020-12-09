@@ -44,6 +44,7 @@ STRING_itoa( const i_t p_i )
   mapping[0] = Escher_strcpy( mapping[0], "0" );
   /* ASSIGN i = PARAM.i */
   i = p_i;
+  if ( 0 == i ) return "0";
   /* ASSIGN s =  */
   s = Escher_strcpy( s, "" );
   /* WHILE ( i >= 1 ) */

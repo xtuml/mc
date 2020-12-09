@@ -1,0 +1,54 @@
+= Support Functions and Scenarios with Identical Signatures
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+The SWATS test model TAGS has a domain function and a _scenario_ (function
+used for domain initialization) with identical signatures.  This note
+analyzes the impact of supporting this practice.
+
+== 2 Introduction and Background
+
+iUML distinguishes a domain function from a _scenario_.  BridgePoint
+supports the same concept with marking.
+
+== 3 Requirements
+
+=== 3.1 Allow for Functions with Identical Signatures
+
+== 4 Analysis
+
+* Maybe we keep the scenario marks?
+* Maybe we distinguish with 'private'?
+* Maybe we distinguish with a separate package?
+  ** I see that mergeDuplicates searches only the current package.
+
+When importing the .mod file, we get the marks.  So, we know the
+operation number.  We will also know that we have a scenario at that time
+but only after the creation work is done.
+
+. Create public functions in 'functions'.
+. Create private functions in 'scenarios'.
+. Do the merging of duplicates within the confines of a package.
+
+When importing the code blocks for the function definitions, we will need to notice
+whether it is a scenario.  If so, do something different.
+
+== 5 Work Required
+
+== 6 Acceptance Test
+
+=== 6.1 TAGS
+
+Run the TAGS model and see matching WASL.
+
+== 7 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11966[11966 - Support Functions and Scenarios with Matching Signatures]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

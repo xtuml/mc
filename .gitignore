@@ -10,3 +10,6 @@ mcmc/arlan/y.tab.h
 code_generation/
 
 *.oal_err
+
+# tmp history for visual code
+.history

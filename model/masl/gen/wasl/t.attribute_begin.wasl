@@ -1,4 +1,4 @@
-.if ( "preferred" == self.preferred )
+.if ( is_identifier_attribute or "preferred" == self.preferred )
 *\
 .else
 ..\

@@ -1,0 +1,2 @@
+define scenario  ${domain.name}_Scenario$t{routine.number}
+input\

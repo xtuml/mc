@@ -1,0 +1,8 @@
+T_b(self->tag);
+T_b(",");
+T_b(self->domain);
+T_b(",");
+T_b(field3);
+T_b(",");
+T_b(field4);
+T_b("\n");

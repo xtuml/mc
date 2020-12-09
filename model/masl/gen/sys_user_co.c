@@ -42,6 +42,33 @@ char *_strsep(char **stringp, const char *delim) {
     return start;
 }
 
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <ctype.h>
+#include "masl_url.h"
+#ifndef WIN
+#include <execinfo.h>
+#endif
+#include <signal.h>
+void masl_sig_handler(int sig) {
+  void *array[10];
+  size_t size;
+
+  // get void*'s for all entries on the stack
+#ifndef WIN
+  size = backtrace(array, 10);
+#endif
+
+  // print out all the frames to stderr
+  fprintf(stderr, "Error: signal %d:\n", sig);
+#ifndef WIN
+  backtrace_symbols_fd(array, size, STDERR_FILENO);
+#endif
+  exit(1);
+}
+
 /*
  * UserInitializationCallout
  *
@@ -83,18 +110,14 @@ UserPreOoaInitializationCalloutf( void )
  * When this callout function returns, the system dispatcher will allow the
  * xtUML application analysis state models to start consuming events.
  */
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <ctype.h>
-#include "masl_url.h"
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
   char s[ ESCHER_SYS_MAX_STRING_LEN ], v[ 8 ][ 64000 ];
   char * p, * q, * element, * value[8] = {v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7]};
   T_clear();
+  signal(SIGSEGV, masl_sig_handler);  // segfault
+  signal(SIGINT, masl_sig_handler);   // cntl-c
   while ( ( p = fgets( s, ESCHER_SYS_MAX_STRING_LEN, stdin ) ) != NULL ) {
     int i, j;
     i = 0;
