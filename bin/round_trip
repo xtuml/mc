@@ -22,6 +22,7 @@ print_usage () {
     echo "  - Specify the '-r' flag to force exit and relaunch of BridgePoint before export.";
     echo "  - Specify '-a <architecture>' to select a specific architecture (WASL) for model testing; MASL is the default.";
     echo "  - Specify the '-depl' flag to indicate the test is against a deployment.";
+    echo "  - Specify '-reconcileGraphics' to enable graphical data creation on import.";
     echo -e "\n";
 }
 
@@ -53,6 +54,7 @@ RELAUNCH=
 COVERAGE=
 ARCHITECTURE="MASL" # Default to MASL.
 DEPL="false"
+RECONCILE_GRAPHICS="false"
 
 # parse arguments
 DIRECTIVE=
@@ -63,6 +65,8 @@ for arg in $@; do
         RELAUNCH=$arg
     elif [[ $arg == "-depl" ]]; then                                # deployments are not converted 
         DEPL="true"
+    elif [[ $arg == "-reconcileGraphics" ]]; then                   # enable graphical reconciliation
+        RECONCILE_GRAPHICS="true"
     elif [[ $arg == "-c" ]]; then                                   # produce coverage statistics
         COVERAGE=$arg
     elif [[ $DIRECTIVE == "-d" ]]; then                             # add a domain dir
@@ -147,6 +151,11 @@ fi
 # Import, Export, Diff
 ###########################
 MODELOUTDIR=$TMP/modelout
+# Set reconcile graphics option
+RECONCILE_GRAPHICS_OPTION=""
+if [ $RECONCILE_GRAPHICS == "true" ]; then
+  RECONCILE_GRAPHICS_OPTION="-reconcileGraphics"
+fi
 
 domNum=0
 for domain in ${DOM_DIRS[*]}; do
@@ -158,11 +167,11 @@ for domain in ${DOM_DIRS[*]}; do
     domProj=d$domNum
 
     echo "Round trip is now importing"
-    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj -deleteExisting > $TMP/import_log_$domProj.txt 2>&1
+    CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj -deleteExisting $RECONCILE_GRAPHICS_OPTION > $TMP/import_log_$domProj.txt 2>&1
     if [[ ! -e $WORKSPACE/$domProj/models/$domProj/types/types.xtuml ]]; then
       # First import did not work. Import again.
       echo "Failed to import first time through.  Importing again."
-      CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj -deleteExisting >> $TMP/import_log_$domProj.txt 2>&1
+      CLI.sh Import -file $CONVERTDIR/$domname/$domname.xtuml -targetProject $domProj -deleteExisting $RECONCILE_GRAPHICS_OPTION >> $TMP/import_log_$domProj.txt 2>&1
     fi
 
     if [[ -f $CONVERTDIR/$domname/features.mark ]]; then
