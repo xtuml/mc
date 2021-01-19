@@ -3657,32 +3657,36 @@ value[7] = ""; // initialize length
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 d_terms = param.d_terms;
-// get any terminator
-select any any_term from instances of D_TERM where false;
-for each d_term in d_terms
-  any_term = d_term;
-  break;
-end for;
+if ( not_empty d_terms )
 
-select one d_depl related by any_term->D_DEPL[R1650];
-  
-// populate the domain
-value[0] = any_term.Domain_Name;
-out::populate( element:"domain", value:value );
-  
-for each d_term in d_terms
-  select one d_depl related by d_term->D_DEPL[R1650];
-  value[0] = d_term.Terminator_Name;
-  out::populate( element:"terminator", value:value );
-  ::terminatorservice2routine( d_term:d_term );
-  ::mark2pragma( markable:"Terminator", pathkey: ::deployment_get_path( d_depl:d_depl, child:d_term.Name ) );
-  // output the description
-  ::Descrip2description( Descrip:d_term.Descrip );
-  // end terminator
-  out::populate( element:"terminator", value:emptyvalue );
-end for;
+  // get any terminator
+  select any any_term from instances of D_TERM where false;
+  for each d_term in d_terms
+    any_term = d_term;
+    break;
+  end for;
 
-out::populate( element:"domain", value:emptyvalue );',
+  select one d_depl related by any_term->D_DEPL[R1650];
+
+  // populate the domain
+  value[0] = any_term.Domain_Name;
+  out::populate( element:"domain", value:value );
+  
+  for each d_term in d_terms
+    select one d_depl related by d_term->D_DEPL[R1650];
+    value[0] = d_term.Terminator_Name;
+    out::populate( element:"terminator", value:value );
+    ::terminatorservice2routine( d_term:d_term );
+    ::mark2pragma( markable:"Terminator", pathkey: ::deployment_get_path( d_depl:d_depl, child:d_term.Name ) );
+    // output the description
+    ::Descrip2description( Descrip:d_term.Descrip );
+    // end terminator
+    out::populate( element:"terminator", value:emptyvalue );
+  end for;
+
+  out::populate( element:"domain", value:emptyvalue );
+
+end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
