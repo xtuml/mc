@@ -134,6 +134,7 @@ else
     else
         # run the normal way
         $BPHOMEDIR/bridgepoint --launcher.suppressErrors -clean -noSplash -data $WORKSPACE -application $APPLICATION $2 "$3" $4 "$5" $6 "$7" $8 "$9"
+	exit $?
     fi
 fi
  
