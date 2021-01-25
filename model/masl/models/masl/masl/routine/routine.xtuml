@@ -40,7 +40,6 @@ return routine;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("ca8187cf-a56b-4110-a85f-8c1927ffb12f",
@@ -159,7 +158,6 @@ end if;',
 	1,
 	'',
 	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("50f1c918-0b50-448a-a847-0df4f6816afe",
@@ -208,7 +206,6 @@ return valid;',
 	1,
 	'',
 	"4df6f6c4-2af6-4c34-b213-dc3b0c830908",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("378ca2df-eca4-40ae-a536-94da7f32f53e",
@@ -233,7 +230,6 @@ delete object instance self;',
 	1,
 	'',
 	"8e678211-5bb7-4f1f-8485-4ab32c2a9867",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("e51aa789-c1e2-4b5d-9c5e-272cccfeee56",
@@ -326,7 +322,6 @@ end if;
 	1,
 	'',
 	"f9b377c0-d337-4e40-9132-58d2adc9509f",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("2192f0a0-a169-4253-ac46-2e54a7586ab7",
@@ -362,12 +357,15 @@ select any terminator_pragma related by self->terminator[R3791]->markable[R3783]
 if ( not_empty pragma or not_empty terminator_pragma )
   marking = ",PROCESSOR,TCA";
 end if;
+select any pragma related by self->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "oaid_derived" );
+if ( not_empty pragma )
+  marking = ",OAID_DERIVED,OAID_DERIVED";
+end if;
 return marking;
 ',
 	1,
 	'',
 	"c4ebf338-8569-4f87-a0a6-e55a162981c9",
-	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("c4ebf338-8569-4f87-a0a6-e55a162981c9",
@@ -397,7 +395,6 @@ end if;
 	1,
 	'',
 	"e51aa789-c1e2-4b5d-9c5e-272cccfeee56",
-	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("88c58383-e138-4c64-a9e2-47a031482be1",
