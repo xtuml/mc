@@ -1,0 +1,5 @@
+T_b("PERSISTENCY,");
+T_b(persist);
+T_b(",");
+T_b(persist_value);
+T_b("\n");

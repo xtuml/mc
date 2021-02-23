@@ -1,0 +1,84 @@
+= Export Requirements Tags
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+This note documents the implementation of the extraction of requirements
+tags from xtUML/ASL models into WASL formatted output.
+
+== 2 Introduction and Background
+
+(quoted from <<dr-2>>)
+
+Requirements tags are embedded in the existing iUML/ASL models associated
+with project Caledonia.  These requirements tags are carried forward into
+the xtUML/ASL models when converted and imported into BridgePoint.  It is
+the intent to continue embedding requirements tags into new model-based
+development projects in the BridgePoint environment.
+
+Existing tags and new tags are important for requirements tracing on existing
+as well as new projects.
+
+== 3 Requirements
+
+See <<dr-2>>.
+
+== 4 Work Required
+
+The work generally followed the Work Required section of <<dr-2>>.
+Virtually all of the changes were made in the `x2m` model.  The
+familiar population/render pattern was followed.  A new template
+was added to shape the output tag file which is formated into
+4 comma-separated fields.
+
+== 5 Implementation Comments
+
+=== 5.1 `masl2xtuml` for Cygwin
+
+A change was made to bin/masl2xtuml to support Cygwin.  This was done in
+another branch (11385_automate) and was merged into this branch.  That
+work did not merit a separate implementation note.
+
+== 6 Unit Test
+
+The TAGS model was updated with requirements tags on the several type of
+model elements that can be tagged.  This is part of WASL round-trip and
+must run cleanly.
+
+== 7 User Documentation
+
+N/A
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  11981_reqs
+
+----
+ bin/masl2xtuml                                                         |  12 ++-
+ doc/notes/11444_wasl/11981_reqs_ant.adoc                               | 157 ++++++++++++++++++++++++++++++++++
+ doc/notes/11444_wasl/11981_reqs_int.adoc                               |  56 +++++++++++++
+ doc/notes/11444_wasl/11992_import_deployments_ant.adoc                 | 219 +++++++++++++++++++++++++++++++++++++++++++++++
+ model/masl/gen/wasl/t.requirement.wasl                                 |   1 +
+ model/masl/models/masl/masl/relationship/relationship.xtuml            |  13 ++-
+ model/masl/models/masl/maslpopulation/genfile/genfile.xtuml            |  12 ++-
+ model/masl/models/masl/maslpopulation/maslpopulation.xtuml             | 434 ++++++++++++++++++++++---------------------------
+ model/masl/models/masl/maslpopulation/population/population.xtuml      |   7 +-
+ model/masl/models/masl/maslpopulation/requirement/requirement.xtuml    | 265 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ model/masl/models/masl/masltypes/member/member.xtuml                   |   8 +-
+ model/masl/src/wasl/t.requirement.wasl                                 |   8 ++
+ model/maslin/models/maslin/marking/ooapragma_item/ooapragma_item.xtuml | 110 +++++++++++++-----------
+ 13 files changed, 1017 insertions(+), 285 deletions(-)
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11981[11981 - export requirements tags]
+. [[dr-2]] link:11981_reqs_ant.adoc[xtUML Analysis Note - Export Requirements Tags]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

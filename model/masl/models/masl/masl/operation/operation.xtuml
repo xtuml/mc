@@ -38,6 +38,7 @@ return operation;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("142b5999-d38f-4ecf-accb-b92509be173a",
@@ -136,7 +137,7 @@ if ( "MASL" == genfile::architecture() )
   T::include( file:"masl/t.operation_begin.masl" );
   select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-    parameter.render( direction:"" );
+    r = parameter.render( direction:"" );
   end if;
   T::include( file:"masl/t.operation_end.masl" );
 
@@ -146,7 +147,6 @@ elif ( "WASL" == genfile::architecture() )
   T::include( file:"wasl/t.routine_begin.wasl" );
   select one activity related by self->activity[R3704];
   activity.render();
-  T::include( file:"wasl/t.routine_end.wasl" );
 
 else
   //
@@ -155,6 +155,7 @@ end if;
 	1,
 	'',
 	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("63f0e4a9-953d-4562-b089-ee7781ca3b32",
@@ -223,6 +224,7 @@ return valid;',
 	1,
 	'',
 	"1fa5810f-8b8a-4e1c-9f59-550b94128d55",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("854a4e74-62ba-4ac7-9701-206211294e8b",
@@ -242,6 +244,7 @@ delete object instance self;',
 	1,
 	'',
 	"3668380d-531d-4fe0-84c1-4d984a2aaa53",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("1fa5810f-8b8a-4e1c-9f59-550b94128d55",
@@ -264,7 +267,7 @@ if ( "MASL" == genfile::architecture() )
   // render parameters
   select one parameter related by activity->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-    parameter.render( direction:"" );
+    rdirection = parameter.render( direction:"" );
   end if;
   
   // render return
@@ -276,6 +279,12 @@ if ( "MASL" == genfile::architecture() )
   T::include( file:"masl/t.service_def_middle.masl" );
 
 elif ( "WASL" == genfile::architecture() )
+  
+  comment = "";
+  select any description related by activity->markable[R3783]->element[R3786]->description[R3796];
+  if ( not_empty description )
+    comment = STRING::trim( s: description.text );
+  end if;
   
   T::include( file:"wasl/t.operation_def_begin.wasl" );
 
@@ -300,10 +309,16 @@ end if;
 select one code_block related by activity->code_block[R3794];
 if ( not_empty code_block )
   code_block.render();
-end if;',
+end if;
+
+if ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.activity_def_end.wasl" );
+end if;
+',
 	1,
 	'',
 	"e889e439-cdfe-4477-b73a-7a33f6c3cbfc",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("da5f114b-32fd-4ba2-a828-593674109ea4",

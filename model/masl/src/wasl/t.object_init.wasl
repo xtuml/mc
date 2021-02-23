@@ -1,0 +1,5 @@
+T_b("DATA_INITIALISATION,");
+T_b(init);
+T_b(",");
+T_b(init_value);
+T_b("\n");

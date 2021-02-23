@@ -1,0 +1,56 @@
+= Unique domains in build set
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+This note describes the changes to guarantee a unique set of domains (no duplicates) in a deployment are exported.
+
+== 2 Introduction and Background
+
+The work for <<dr-2>> added output for domains that are referenced through a deployment.  Uniqueness was guaranteed per domain only, therefore leaving room for duplication when a component was referenced out of a squence as well as within.
+
+== 3 Requirements
+=== 3.1 Uniqueness is gauranteed across a deployment.
+
+== 4 Work Required
+=== 4.1 Move set creation a level up
+In domain.render_references() the output logic is moved to project.render_domains_in_build_set().
+
+The domain.render_references() operation is modified to return the unqiue string of referenced domains.
+
+In project.render_domains_in_build_set() the returned domain list items are appended to a global domain list if unique.  This global list is then output to the wasl dump file.
+
+== 5 Implementation Comments
+
+== 6 Unit Test
+=== 6.1 The test results in models/masl/test/Test_Depl are updated to account for the good uniqueness.
+
+== 7 User Documentation
+
+== 8 Code Changes
+
+- fork/repository:  travislondon/mc
+- branch:  12048_unique_domains
+
+----
+model/masl/models/masl/masl/domain/domain.xtuml
+model/masl/models/masl/masl/project/project.xtuml
+----
+
+- fork/repository:  travislondon/models
+- branch:  12048_unique_domains
+
+----
+masl/test/Test_Depl/WASL/Test_Depl.dmp
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12048[12048 - WASL: domains in build set not completely unique]
+. [[dr-2,Deployment Exports]] https://support.onefact.net/issues/11455[11455 - export deployment (build set)]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

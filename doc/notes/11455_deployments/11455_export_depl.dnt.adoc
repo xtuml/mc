@@ -1,0 +1,239 @@
+= Export Deployment (Build Set)
+
+xtUML Project Design Note
+
+== 1 Abstract
+
+This note describes the design to properly export Deployments, with sequenced terminator services, to WASL.
+
+== 2 Introduction and Background
+
+See <<dr-2>>.
+
+In addition sequenced terminator service support was added in Bridgepoint editor according to <<dr-3>>.
+
+== 3 Requirements
+
+See <<dr-2>>.
+
+== 4 Analysis
+
+See <<dr-2>>.
+
+
+== 5 Design
+
+=== 5.1 Add metamodel to mcooa
+
+The D_TSS and D_SIS classes and associations from <<dr-3>> are added to the mcooa model.
+
+=== 5.2 WASL Output
+
+==== 5.2.1 Add key letter support to masl
+
+WASL output makes use of project key letters.  <<dr-3>> added key letters to Deployments to support this.  In order to compile the model we must also add key letter support to the masl model project element.  The maslout model is modified to pass in key letters from xtUML through the populate port.  project.populate() is modified to accept a keyletters param and set it on the project instance created.
+
+==== 5.2.2 WASL descriptive files
+
+WASL build sets have a descriptive file named after the project key letters.  The file has an extension of dmp.
+
+This description contains build set information comprised of in place information as well as pointers to other files.  The other files contain further build set information, and in some cases the actual bridge implementations.
+
+==== 5.2.2.3 Build set/project information
+
+```
+$BUILD_SET_NAME <project.name>
+$BUILD_SET_VERSION 0
+$PROJECT_KEY_LETTER <project.keyletters>
+$PROJECT_VERSION 0
+```
+
+Added templates:
+
+* t.project_begin.wasl
+* t.project_end.wasl
+
+A new operation is added to project, render_wasl.  The genfile.render_wasl operation is updated to move all project related logic to the new operation.
+
+Calls to the two templates are added to render_wasl.  The project_end is output after all required description data is output.  For all cases below that are output to the description file, they are output inbetween the start and end project templates.
+
+==== 5.2.2.4 Build set tags
+
+Tags will not be used, so this will always be empty.
+
+Added templates:
+
+* t.build_set_tags_begin.wasl
+* t.build_set_tags_end.wasl
+
+```
+$START_BUILD_SET_TAGS
+$END_BUILD_SET_TAGS
+```
+
+==== 5.2.2.5 Scenario list
+
+A pointer to a file containing all scenarios in the build set.
+
+Added template:
+
+* t.scenario_list_spec.wasl
+
+```
+$START_SCENARIO_LIST
+<project.keyletters>.scn
+$END_SCENARIO_LIST
+```
+
+==== 5.2.2.5.1 <project.keyletters>.scn file
+
+This file is output with an ordered list of sequenced terminator services.  The list of these terminators is collected in the changes described in <<scenario_file>>.
+
+==== 5.2.2.6 Scenario list [[scenario_file]]
+
+An ordered list of scenarios that are executed in the build set.
+
+To support gathering the scenarios for output a new operation is added to project, render_scenario_list().  This operation will handle two things, collecting a filename list and collecting data according to the list definition below.  A new operation is also added to domain, render_scenario_definitions.  This operation handles production of the two collections required.  The data specified in the start scenarios tag is output in between the new templates below.
+
+Added templates:
+
+* t.scenario_list_begin.wasl
+* t.scenario_list_end.wasl
+
+```
+$START_SCENARIOS
+<project.name>,<project.version>,<project.name>::<activity.name>,<routine.number>,<project.name>::<activity.name>Scenario<routine.number>.scn
+$END_SCENARIOS
+```
+
+==== 5.2.2.7 Hand coded file pointer
+
+Added templates:
+
+* t.project_hcf.wasl
+
+```
+$START_
+<project.keyletters>.hcf
+$END_
+```
+
+==== 5.2.2.7.1 <project.keyletters>.hcf
+This file is output with a list of non-sequenced hand written terminators.  To support gathering the list of such files the code in genfile::render_wasl is refactored into a new operation, domain.render_terminators_handcoded().  This new operation is also called within the project.render_wasl() operation.
+
+==== 5.2.2.8 Domains in build set list
+Domain references are required when an impementation is not local to a deployment.  In this particular case scenarios are always functions implemented in some referenced domain.  WASL had a hard coded path to the actual iUML dumps for each domain referenced.  A better solution would be to use a relative path to such a location.  Further the best approach would be to output a model reference path.  If the downstream WASL build process can be modified to handle this approach it will be taken.
+
+The modeled reference path takes the form of, system::domain.  Given this information, and the fact that a relative location of the iUML output should be available, the build process can deduct the relative file path.  The resolved relative path would be something like:
+
+../../../system/wasl/domain/domain.dmp
+
+The ooaofooa is modified to add an attribute D_TSCV.system_implementation.  This attribute is set to the containing systems name during terminator service creation.
+
+The maslout model is updated to passing this value to masl population.  The masl routine class is updated to have the same attribute which is set by the value given during population.
+
+To support the domain reference output a new operation in domain is added, render_references.  This operation needs to build a set (no duplicates), that can be output between the two templates below.  When dealing with scenario based terminators there can be multiple domains referenced in a single terminator.
+
+To build the set, string operations are performed on a collected string of domains found.  The STRING::indexof() bridge is used to determine if a domain is present already, and only add it only if it is not.  A new bridge operation, STRING::split(), is added to support key creation and domain traversal on output.  To build the key the activity name is split on '::', and the first part of the string is used as the domain name.  The list of references is built using the comma as the separator.  When it is time to output the string is split on the comma, and each part is processed.
+
+Added template:
+
+* t.domains_in_build_set_begin.wasl
+* t.domains_in_build_set_end.wasl
+
+```
+$START_DOMAINS_IN_BUILD_SET
+$END_DOMAINS_IN_BUILD_SET
+```
+
+==== 5.2.2.9 Bridge Data Types
+A reference to a file containing a breakdown of the parameter types of each local terminator.
+
+These will map to non-sequenced Deployment scoped Terminators in xtUML.  Code that gathers this in the domain case already exists.  That code is refactored into a new operation on domain, render_bridges()[[render_bridges]].  This operation is called in genfile.render_wasl() as well as in project.render_wasl().
+
+Added templates:
+
+* t.bridge_data_types_start.wasl
+* t.bridge_data_types_end.wasl
+
+```
+$START_BRIDGE_DATA_TYPES
+<project.keyletters>.brp
+$END_BRIDGE_DATA_TYPES
+```
+
+==== 5.2.2.9.1 <project.keyletters>.brp
+A new operation is added to domain, render_bridge_list().  This operation renders each routine under the domain, and outputs the list into the file.
+
+==== 5.2.2.10 Bridges
+The domain.render_bridges() operation that was refactored in <<render_bridges>>, takes care of creating the required .br file for each non sequenced terminator service.  The operation is also written to collect the list of these terminators.  This list is passed to a new operation on the project class, render_bridges.  This operation simply outputs the given list between the templates below.
+
+Added templates:
+
+* t.bridges_begin.wasl
+* t.bridges_end.wasl
+
+```
+$START_BRIDGES
+<domain.name>,<project.version>,<domain.name>_<routine.number>_<activity.name>.br,<contains output ? Y : N>
+$END_BRIDGES
+```
+
+==== 5.2.2.11 Counterpart relationships
+
+These will never be present but an empty file will be created until decided downstream tools do not require it.
+
+```
+$START_
+<project.key_letters>.cpr
+$END_
+```
+== 6 Design Comments
+
+
+== 7 User Documentation
+
+
+== 8 Unit Test
+A new model is added that contains the following structure:
+
+* Test Project
+  ** Test_Depl
+  *** Key_Lett: TD
+  *** Terminator
+  **** Name: Test_Depl::Sequence
+  **** Terminator Service
+  ***** Name: TermServ2
+  **** Terminator Service
+  ***** Name: TermServ1
+  **** Terminator Service
+  ***** Name: TermServ3
+  *** Terminator
+  **** Name: TestComponet::Port1
+  **** Terminator Service
+  ***** Name: op1
+
+When the wasl builder is run the following structure is created:
+
+* Test Project
+  ** wasl
+  *** Test_Depl
+  **** TestComponent_0_op1.br
+  **** Test_Depl.asl <empty>
+  **** Test_Depl.brp <according to this note>
+  **** Test_Depl.cpr <empty>
+  **** Test_Depl.dmp <according to this note>
+  **** Test_Depl.hcf <empty>
+  **** Test_Depl.scn <according to this note>
+  
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/11455[11455 - Export project build set from deployment]
+. [[dr-3]] https://github.com/xtuml/mc/blob/Caledonia/doc/notes/11444_wasl/11455_export_depl_ant.adoc[11455 - Analysis Note]
+. [[dr-3]] https://github.com/travislondon/bridgepoint/tree/11455_deployment_creation/doc-bridgepoint/notes/11455_deployments/11455_deployments_scenarios.dnt.adoc[11455 - Scenario Design Note]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

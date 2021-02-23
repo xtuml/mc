@@ -20,6 +20,7 @@ parent_terminator = param.parent_terminator;
 activity = activity::populate( name:param.name );
 create object instance routine of routine;
 routine.visibility = param.visibility;
+routine.number = 0;
 if ( "" != param.number )
   // routine number is optional.
   routine.number = STRING::atoi( s:param.number );
@@ -28,6 +29,8 @@ if ( not_empty parent_terminator )
   relate routine to parent_terminator across R3791;
 elif ( not_empty parent_domain )
   relate routine to parent_domain across R3790;
+else
+  TRACE::log( flavor:"failure", id:73, message:"routine::populate no domain and no terminator" );
 end if;
 relate routine to activity across R3704;
 markable = markable::populate( name:"routine" );
@@ -125,7 +128,7 @@ if ( "MASL" == genfile::architecture() )
   T::include( file:"masl/t.routine_begin.masl" );
   select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-    parameter.render( direction:"" );
+    rdirection = parameter.render( direction:"" );
   end if;
   T::include( file:"masl/t.routine_end.masl" );
 
@@ -139,7 +142,7 @@ elif ( "WASL" == genfile::architecture() )
     select one terminator related by self->terminator[R3791];
     if ( not_empty terminator )
       select one domain related by self->terminator[R3791]->domain[R3702];
-      scope = domain.name + ";" + terminator.key_letters;
+      scope = domain.name + ";" + terminator.key_letters + STRING::itoa( i:self.number );
     end if;
   else
     scope = domain.name + STRING::itoa( i:self.number );
@@ -148,7 +151,6 @@ elif ( "WASL" == genfile::architecture() )
   T::include( file:"wasl/t.routine_begin.wasl" );
   select one activity related by self->activity[R3704];
   activity.render();
-  T::include( file:"wasl/t.routine_end.wasl" );
 
 else
   //
@@ -203,7 +205,7 @@ end if;
 return valid;',
 	1,
 	'',
-	"e51aa789-c1e2-4b5d-9c5e-272cccfeee56",
+	"4df6f6c4-2af6-4c34-b213-dc3b0c830908",
 	0);
 INSERT INTO O_TFR
 	VALUES ("378ca2df-eca4-40ae-a536-94da7f32f53e",
@@ -256,7 +258,7 @@ if ( "MASL" == genfile::architecture() )
   // render parameters
   select one parameter related by activity->parameter[R3705.''carries first''];
   if ( not_empty parameter )
-    parameter.render( direction:"" );
+    rdirection = parameter.render( direction:"" );
   end if;
   
   // render return
@@ -269,16 +271,28 @@ if ( "MASL" == genfile::architecture() )
 
 elif ( "WASL" == genfile::architecture() )
 
+  comment = "";
+  select any description related by activity->markable[R3783]->element[R3786]->description[R3796];
+  if ( not_empty description )
+    comment = description.text;
+  end if;
+  comment = STRING::trim( s: comment );
   if ( not_empty terminator and not_empty domain )
     T::include( file:"wasl/t.terminator_service_def_begin.wasl" );
   else
     select one domain related by self->domain[R3790];
     if ( not_empty domain )
-      T::include( file:"wasl/t.domain_service_def_begin.wasl" );
+      // TODO - public/private may not be a good mechanism to distinguish scenarios from functions
+      if ( "private" == self.visibility )
+        T::include( file:"wasl/t.scenario_def_begin.wasl" );
+      else
+        T::include( file:"wasl/t.domain_service_def_begin.wasl" );
+      end if;
     end if;
   end if;
 
   // render input parameters
+  rdirection = "";
   select one parameter related by activity->parameter[R3705.''carries first''];
   if ( not_empty parameter )
     parameter.render_definition( direction:"in" );
@@ -299,7 +313,12 @@ end if;
 select one code_block related by activity->code_block[R3794];
 if ( not_empty code_block )
   code_block.render();
-end if;',
+end if;
+
+if ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.activity_def_end.wasl" );
+end if;
+',
 	1,
 	'',
 	"f9b377c0-d337-4e40-9132-58d2adc9509f",
@@ -320,6 +339,72 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("4df6f6c4-2af6-4c34-b213-dc3b0c830908",
+	"669c9e5d-eb78-45b7-866e-089542dfb839",
+	'render_marking',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'marking = "";
+select any pragma related by self->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "cca" );
+select any terminator_pragma related by self->terminator[R3791]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "cca" );
+if ( not_empty pragma or not_empty terminator_pragma )
+  marking = ",PROCESSOR,CCA";
+end if;
+select any pragma related by self->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "tca" );
+select any terminator_pragma related by self->terminator[R3791]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "tca" );
+if ( not_empty pragma or not_empty terminator_pragma )
+  marking = ",PROCESSOR,TCA";
+end if;
+select any pragma related by self->activity[R3704]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "oaid_derived" );
+if ( not_empty pragma )
+  marking = ",OAID_DERIVED,OAID_DERIVED";
+end if;
+return marking;
+',
+	1,
+	'',
+	"c4ebf338-8569-4f87-a0a6-e55a162981c9",
+	0);
+INSERT INTO O_TFR
+	VALUES ("c4ebf338-8569-4f87-a0a6-e55a162981c9",
+	"669c9e5d-eb78-45b7-866e-089542dfb839",
+	'render_external',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'routine = self;
+activity = param.activity;
+
+if ( "MASL" == genfile::architecture() )
+  // not part of MASL
+elif ( "WASL" == genfile::architecture() )
+
+  T::include( file:"wasl/t.external_def_begin.wasl" );
+  // render code block
+  select one code_block related by activity->code_block[R3794];
+  if ( not_empty code_block )
+    code_block.render();
+  end if;
+  T::include( file:"wasl/t.external_def_end.wasl" );
+
+end if;  
+
+',
+	1,
+	'',
+	"e51aa789-c1e2-4b5d-9c5e-272cccfeee56",
+	0);
+INSERT INTO O_TPARM
+	VALUES ("88c58383-e138-4c64-a9e2-47a031482be1",
+	"c4ebf338-8569-4f87-a0a6-e55a162981c9",
+	'activity',
+	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("8aca0e9a-cee8-4a45-a146-5b9cd6bbe8af",
 	"669c9e5d-eb78-45b7-866e-089542dfb839");

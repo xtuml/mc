@@ -2,6 +2,8 @@ import java.io.*;
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 import java.util.regex.Pattern;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class MaslImportParser {
 
@@ -32,7 +34,7 @@ public class MaslImportParser {
     }
 
     // parse a MASL file
-    public void parse( String rule, String fn ) {
+    public void parse( String rule, String fn, String dialect ) {
         // check args and set current file
         if ( fn == null || rule == null )
             return;
@@ -47,7 +49,12 @@ public class MaslImportParser {
         MaslWalker              walker;
 
         try {
-            lex = new MaslLexer( new ANTLRFileStream( fn ) );
+            String fileString2 = new String( Files.readAllBytes( Paths.get( fn ) ) );
+            String fileString = fileString2.replaceAll( "\\r\\n", "\n" );
+            if ( dialect.equals( "WASL" ) && rule.equals( "activityDefinition" ) ) {
+              fileString = new String( fileString.replaceFirst( "(?m)\\) is$", "\\) is\n#ASL-BEGIN" ) ) + "#ASL-END;";
+            }
+            lex = new MaslLexer( new ANTLRStringStream( fileString ) );
         } catch ( IOException e ) {
             System.err.println( e );
             return;
@@ -73,7 +80,7 @@ public class MaslImportParser {
         switch ( rule ) {
             case "target":
                 try {
-                    walker.target();
+                    walker.target( dialect );
                 } catch ( RecognitionException e ) {
                     System.err.println( e );
                     return;
@@ -81,47 +88,7 @@ public class MaslImportParser {
                 break;
             case "activityDefinition":
                 try {
-                    walker.activityDefinition();
-                } catch ( RecognitionException e ) {
-                    System.err.println( e );
-                    return;
-                }
-                break;
-            case "objectServiceDefinition":
-                try {
-                    walker.objectServiceDefinition();
-                } catch ( RecognitionException e ) {
-                    System.err.println( e );
-                    return;
-                }
-                break;
-            case "stateDefinition":
-                try {
-                    walker.stateDefinition();
-                } catch ( RecognitionException e ) {
-                    System.err.println( e );
-                    return;
-                }
-                break;
-            case "domainServiceDefinition":
-                try {
-                    walker.domainServiceDefinition();
-                } catch ( RecognitionException e ) {
-                    System.err.println( e );
-                    return;
-                }
-                break;
-            case "terminatorServiceDefinition":
-                try {
-                    walker.terminatorServiceDefinition();
-                } catch ( RecognitionException e ) {
-                    System.err.println( e );
-                    return;
-                }
-                break;
-            case "projectTerminatorServiceDefinition":
-                try {
-                    walker.projectTerminatorServiceDefinition();
+                    walker.activityDefinition( dialect );
                 } catch ( RecognitionException e ) {
                     System.err.println( e );
                     return;
@@ -137,7 +104,7 @@ public class MaslImportParser {
     }
 
     // parse a single MASL file
-    public void parseFile( String rule, String fn, String out ) {
+    public void parseFile( String rule, String fn, String out, String dialect ) {
 
         PrintStream     output = System.out;
 
@@ -171,12 +138,12 @@ public class MaslImportParser {
         }
 
         // parse the file
-        parse( rule, fn );
+        parse( rule, fn, dialect );
 
         // done
     }
     // parse a MASL domain
-    public void parseDomain( String directory, String out ) {
+    public void parseDomain( String directory, String out, String dialect ) {
         File            dir;
         File[]          domainFiles;
         
@@ -228,7 +195,7 @@ public class MaslImportParser {
                 }
 
                 // parse the file
-                parse( "target", f.getPath() );
+                parse( "target", f.getPath(), dialect );
                 found_mod = true;
                 break;
             }
@@ -249,7 +216,7 @@ public class MaslImportParser {
                  Pattern.matches( ".*\\.tr", f.getName() ) ) {
                      
                 // parse the file
-                parse( "activityDefinition", f.getPath() );
+                parse( "activityDefinition", f.getPath(), dialect );
             }
         }
 
@@ -257,7 +224,7 @@ public class MaslImportParser {
     }
 
     // parse a MASL project
-    public void parseProject( String directory, String out ) {
+    public void parseProject( String directory, String out, String dialect ) {
         File            dir;
         File[]          projectFiles;
         
@@ -309,7 +276,7 @@ public class MaslImportParser {
                 }
 
                 // parse the file
-                parse( "target", f.getPath() );
+                parse( "target", f.getPath(), dialect );
                 found_prj = true;
                 break;
             }
@@ -324,7 +291,7 @@ public class MaslImportParser {
         for ( File f : projectFiles ) {
             if ( Pattern.matches( ".*\\.tr", f.getName() ) ) {
                 // parse the file
-                parse( "activityDefinition", f.getPath() );
+                parse( "activityDefinition", f.getPath(), dialect );
             }
         }
 
@@ -335,11 +302,11 @@ public class MaslImportParser {
     public void printUsage() {
         System.err.println("Usage:\n");
         System.err.println("Parse single MASL file:");
-        System.err.println("\tjava -cp <classpath> MaslImportParser -f <rule> <MASL file> [-o [file name] ]\n");
+        System.err.println("\tjava -cp <classpath> MaslImportParser -a <dialect> -f <rule> <MASL file> [-o [file name] ]\n");
         System.err.println("Parse MASL domain:");
-        System.err.println("\tjava -cp <classpath> MaslImportParser -d <domain directory> [-o [file name] ]\n");
+        System.err.println("\tjava -cp <classpath> MaslImportParser -a <dialect> -d <domain directory> [-o [file name] ]\n");
         System.err.println("Parse MASL project:");
-        System.err.println("\tjava -cp <classpath> MaslImportParser -p <project directory> [-o [file name] ]");
+        System.err.println("\tjava -cp <classpath> MaslImportParser -a <dialect> -p <project directory> [-o [file name] ]");
     }
 
     // main method
@@ -354,16 +321,16 @@ public class MaslImportParser {
             parser.printUsage();
         }
         else {
-            if ( args[0].equals( "-f" ) ) {             // parse single MASL file
+            if ( args[2].equals( "-f" ) ) {             // parse single MASL file
                 String out = null;
-                if ( args.length == 3 ) {
+                if ( args.length == 5 ) {
                     out = null;
                 }
-                else if ( args.length == 4 && args[3].equals( "-o" ) ) {
+                else if ( args.length == 6 && args[5].equals( "-o" ) ) {
                     out = "auto";
                 }
-                else if ( args.length == 5 && args[3].equals( "-o" ) ) {
-                    out = args[4];
+                else if ( args.length == 7 && args[5].equals( "-o" ) ) {
+                    out = args[6];
                 }
                 else {
                     // print usage
@@ -372,18 +339,18 @@ public class MaslImportParser {
                 }
 
                 // parse the file
-                parser.parseFile( args[1], args[2], out );
+                parser.parseFile( args[3], args[4], out, args[1] );
             }
-            else if ( args[0].equals( "-d" ) ) {        // parse MASL domain
+            else if ( args[2].equals( "-d" ) ) {        // parse MASL domain
                 String out = null;
-                if ( args.length == 2 ) {
+                if ( args.length == 4 ) {
                     out = null;
                 }
-                else if ( args.length == 3 && args[2].equals( "-o" ) ) {
+                else if ( args.length == 5 && args[4].equals( "-o" ) ) {
                     out = "auto";
                 }
-                else if ( args.length == 4 && args[2].equals( "-o" ) ) {
-                    out = args[3];
+                else if ( args.length == 6 && args[4].equals( "-o" ) ) {
+                    out = args[5];
                 }
                 else {
                     // print usage
@@ -392,18 +359,18 @@ public class MaslImportParser {
                 }
 
                 // parse the domain
-                parser.parseDomain( args[1], out );
+                parser.parseDomain( args[3], out, args[1] );
             }
-            else if ( args[0].equals( "-p" ) ) {        // parse MASL project
+            else if ( args[2].equals( "-p" ) ) {        // parse MASL project
                 String out = null;
-                if ( args.length == 2 ) {
+                if ( args.length == 4 ) {
                     out = null;
                 }
-                else if ( args.length == 3 && args[2].equals( "-o" ) ) {
+                else if ( args.length == 5 && args[4].equals( "-o" ) ) {
                     out = "auto";
                 }
-                else if ( args.length == 4 && args[2].equals( "-o" ) ) {
-                    out = args[3];
+                else if ( args.length == 6 && args[4].equals( "-o" ) ) {
+                    out = args[5];
                 }
                 else {
                     // print usage
@@ -412,7 +379,7 @@ public class MaslImportParser {
                 }
 
                 // parse the project
-                parser.parseProject( args[1], out );
+                parser.parseProject( args[3], out, args[1] );
             }
             else {
                 // print usage

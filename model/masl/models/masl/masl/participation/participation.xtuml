@@ -18,6 +18,7 @@ INSERT INTO O_TFR
 	1,
 	'',
 	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
@@ -84,6 +85,7 @@ return participation;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("8ecbb5ae-bc6e-4f7a-940f-65fcd5e5bad0",
@@ -247,6 +249,7 @@ return valid;',
 	1,
 	'',
 	"cf42fb5a-3aad-4c33-af67-0d26c26e746f",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("6e4199ac-c077-4cf0-bbf4-58f2ece2d2cc",

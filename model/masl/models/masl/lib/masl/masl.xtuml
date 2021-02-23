@@ -9,6 +9,7 @@ INSERT INTO C_C
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	0,
+	'',
 	'');
 INSERT INTO GD_MD
 	VALUES ("ac9fbb34-d079-4bc6-8197-3513b74594ef",
@@ -110,7 +111,7 @@ INSERT INTO GD_CON
 INSERT INTO GD_CTXT
 	VALUES ("f4e42e5d-8ef0-4783-b323-486cd29172bf",
 	"7706966f-adfe-4e06-8395-2dcf008d55d8",
-	1,
+	0,
 	0.000000,
 	0.000000);
 INSERT INTO DIM_ND
@@ -129,7 +130,7 @@ INSERT INTO DIM_ELE
 INSERT INTO GD_CTXT
 	VALUES ("e7dcb44c-aedd-4dd6-8961-b91ae455f650",
 	"7706966f-adfe-4e06-8395-2dcf008d55d8",
-	3,
+	2,
 	0.000000,
 	0.000000);
 INSERT INTO DIM_ND
@@ -148,7 +149,7 @@ INSERT INTO DIM_ELE
 INSERT INTO GD_CTXT
 	VALUES ("62711e90-3622-4886-a3a2-94694f5f31e2",
 	"7706966f-adfe-4e06-8395-2dcf008d55d8",
-	2,
+	1,
 	0.000000,
 	0.000000);
 INSERT INTO DIM_ND
@@ -258,7 +259,7 @@ INSERT INTO GD_CON
 INSERT INTO GD_CTXT
 	VALUES ("56480ea6-851c-4d88-8ff6-e20e5e146a74",
 	"7fd7c6fd-afdb-429a-8d63-560187c92e18",
-	1,
+	0,
 	0.000000,
 	0.000000);
 INSERT INTO DIM_ND
@@ -277,7 +278,7 @@ INSERT INTO DIM_ELE
 INSERT INTO GD_CTXT
 	VALUES ("dbc7940c-f379-4f3f-94c6-d2a4151cae09",
 	"7fd7c6fd-afdb-429a-8d63-560187c92e18",
-	3,
+	2,
 	0.000000,
 	0.000000);
 INSERT INTO DIM_ND
@@ -296,7 +297,7 @@ INSERT INTO DIM_ELE
 INSERT INTO GD_CTXT
 	VALUES ("aa33eb48-5a27-46d2-be3d-0063b3f43b10",
 	"7fd7c6fd-afdb-429a-8d63-560187c92e18",
-	2,
+	1,
 	0.000000,
 	0.000000);
 INSERT INTO DIM_ND
@@ -386,6 +387,7 @@ INSERT INTO C_EP_PROXY
 	-1,
 	'populate',
 	'',
+	0,
 	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
 INSERT INTO SPR_PEP
 	VALUES ("41a48e53-75d2-4595-873a-0f79d80be096",
@@ -404,6 +406,7 @@ INSERT INTO C_EP_PROXY
 	-1,
 	'end',
 	'',
+	0,
 	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
 INSERT INTO C_I_PROXY
 	VALUES ("c221853e-39ef-4a21-8a0f-9730c3b2f618",
@@ -452,6 +455,7 @@ INSERT INTO C_EP_PROXY
 	-1,
 	'render',
 	'',
+	0,
 	'../gen/gen.xtuml');
 INSERT INTO SPR_PEP
 	VALUES ("8507fe72-ecda-4eba-bf0e-3c1404f4c361",
@@ -467,7 +471,8 @@ INSERT INTO SPR_PS
     project.tostring();
   end if;
 elif ( "domain" == param.element )
-  select any domain from instances of domain where ( selected.name == param.name );
+  select any domain from instances of domain where
+    ( ( selected.name == param.name ) or ( selected.key_letters == param.name ) );
   if ( not_empty domain )
     domain.tostring();
   end if;
@@ -480,6 +485,7 @@ INSERT INTO C_EP_PROXY
 	-1,
 	'tostring',
 	'',
+	0,
 	'../gen/gen.xtuml');
 INSERT INTO SPR_PEP
 	VALUES ("de8c2480-5fcd-4ddf-8250-bb47fa815a2a",
@@ -498,6 +504,7 @@ INSERT INTO C_EP_PROXY
 	-1,
 	'validate',
 	'',
+	0,
 	'../gen/gen.xtuml');
 INSERT INTO SPR_PEP
 	VALUES ("a82c4d20-566c-4aa4-b32a-8d4ccd1acaba",
@@ -516,6 +523,7 @@ INSERT INTO C_EP_PROXY
 	-1,
 	'coverage',
 	'population::coverage();',
+	0,
 	'../gen/gen.xtuml');
 INSERT INTO C_I_PROXY
 	VALUES ("965609b5-99d9-40ca-bc70-74dd6acccf34",
