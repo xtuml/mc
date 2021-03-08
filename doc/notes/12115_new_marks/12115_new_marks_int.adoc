@@ -1,0 +1,94 @@
+= Add New Marks
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+This note documents additional marks added to BridgePoint to support features
+not previously specified but found in production models.
+
+== 2 Introduction and Background
+
+A mark joins a feature to a model element.  Some features exist in WACA
+that are not used by SWATS and that were not specified as part of
+Caledonia.  This work adds those features and marks.
+
+== 3 Requirements
+
+=== 3.1 oaid_derived_ols
+
+This mark follows the same pattern as oaid_derived.
+
+=== 3.2 product
+
+The 'product' mark can be applied to the following model elements:
+
+* terminator operation
+* class *
+* class operation
+* domain operation *
+* scenario *
+
+* There is routine.render_marking.
+* There is marking logic in the domain class operations.
+* Terminator operations are rendered through routine.marking.  So, I think
+  that terminator services, domain functions and scenarios can be added
+  through this.
+
+=== 3.3 initialised, non_initialised
+
+The 'initialised' and 'non_initialised' marks can be applied to classes.
+
+=== 3.4 system_address
+
+The 'system_address' mark can be applied to classes.  It takes a string
+argument indicating a based address for the class.
+
+== 4 Work Required
+
+=== 4.1 oaid_derived_ols
+
+Modify `routine.render_marking` to add support for this variation of the
+OAID configurations.
+
+=== 4.2 product
+
+=== 4.3 initialised, non_initialised
+
+Modify `object.render_marking` to add support for this variation of object
+memory placement and setup.  These tags also support a parameter which
+will be output following the tag group and tag name.
+
+=== 4.4 system_address
+
+. Modify `object.render_marking` to add support for this variation of object
+  memory initialization.
+. Add a template containing 'System_Address_Group,System_Address,<pragma
+  value>'.
+
+== 5 Implementation Comments
+
+Removed some tabs in activities touched.
+
+== 6 Unit Test
+
+== 7 User Documentation
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  12115_new_marks
+
+----
+ Put the file list here
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12115[12115 - Add additional marks not found in SWATS.]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
