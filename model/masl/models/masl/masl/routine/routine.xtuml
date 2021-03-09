@@ -380,7 +380,7 @@ if ( not_empty pragma )
     product_value = pragma_item.value;
   end if;
   product_value = STRING::substr( s:product_value, begin:1, end:STRING::strlen( s:product_value )-1 );
-  marking = "PRODUCT," + product_value;
+  marking = ",PRODUCT," + product_value;
 end if;
 
 return marking;
