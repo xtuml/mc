@@ -4,45 +4,44 @@ xtUML Project Implementation Note
 
 == 1 Abstract
 
-This note documents additional marks added to BridgePoint to support features
-not previously specified but found in production models.
+This note documents additional marks added to BridgePoint to support WACA
+(Ada model compiler) features not previously specified but found in production
+models.
 
 == 2 Introduction and Background
 
-A mark joins a feature to a model element.  Some features exist in WACA
-that are not used by SWATS and that were not specified as part of
-Caledonia.  This work adds those features and marks.
+A mark joins a model compiler feature to a model element.  Some features exist
+in WACA that are not used by SWATS and that were not specified as part of
+Caledonia.  This work adds those marks and feature associations.
 
 == 3 Requirements
 
 === 3.1 oaid_derived_ols
 
-This mark follows the same pattern as oaid_derived.
+'oaid_derived_ols' shall emit text following the pattern of the
+'oaid_derived' mark.
 
 === 3.2 product
 
-The 'product' mark can be applied to the following model elements:
+The 'product' mark shall be available to the following model elements:
 
-* terminator operation
-* class *
+* terminator service
+* class
 * class operation
-* domain operation *
-* scenario *
+* domain function
+* scenario
 
-* There is routine.render_marking.
-* There is marking logic in the domain class operations.
-* Terminator operations are rendered through routine.marking.  So, I think
-  that terminator services, domain functions and scenarios can be added
-  through this.
+Text shall be emitted that indicates 'PRODUCT' and the parametric product
+modifier.
 
 === 3.3 initialised, non_initialised
 
-The 'initialised' and 'non_initialised' marks can be applied to classes.
+The 'initialised' and 'non_initialised' marks shall be appliable to classes.
 
 === 3.4 system_address
 
-The 'system_address' mark can be applied to classes.  It takes a string
-argument indicating a based address for the class.
+The 'system_address' mark shall be supported against classes.  It takes a
+string argument indicating a base address for the class.
 
 == 4 Work Required
 
@@ -56,8 +55,8 @@ OAID configurations.
 === 4.3 initialised, non_initialised
 
 Modify `object.render_marking` to add support for this variation of object
-memory placement and setup.  These tags also support a parameter which
-will be output following the tag group and tag name.
+memory placement and setup.  These tags also support a parameter which, if
+present, will be output following the tag group and tag name.
 
 === 4.4 system_address
 
@@ -67,8 +66,6 @@ will be output following the tag group and tag name.
   value>'.
 
 == 5 Implementation Comments
-
-Removed some tabs in activities touched.
 
 == 6 Unit Test
 
