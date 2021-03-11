@@ -52,6 +52,12 @@ OAID configurations.
 
 === 4.2 product
 
+Modify the `render_marking` operations for `routine` and `operation`
+to recognize the product tag.
+
+Modify `masloout` to match `Required Operation` with only the executable
+property name (and not require a full signature).
+
 === 4.3 initialised, non_initialised
 
 Modify `object.render_marking` to add support for this variation of object
@@ -67,7 +73,17 @@ present, will be output following the tag group and tag name.
 
 == 5 Implementation Comments
 
+`maslout` required modification due to the behavior of the marking editor.
+When marking a Required or Provided Operation, only the name is required
+(and useful).  The marking editor provides a pathkey containing only the
+name and not the return type and parameters.
+
+I left the `message_getsignature` function in place, even though now it is
+not being used.  I suspect it will be needed at some point.
+
 == 6 Unit Test
+
+Test using the TAGS model supplied by user.
 
 == 7 User Documentation
 
@@ -77,7 +93,16 @@ present, will be output following the tag group and tag name.
 - branch:  12115_new_marks
 
 ----
- Put the file list here
+ doc/notes/12115_new_marks/12115_new_marks_int.adoc                | 107 ++++++++++++++++++++++++++
+ model/masl/gen/wasl/t.object_address.wasl                         |   1 +
+ model/masl/gen/wasl/t.object_product.wasl                         |   1 +
+ model/masl/models/masl/masl/object/object.xtuml                   |  35 ++++++++++++++++--
+ model/masl/models/masl/masl/routine/routine.xtuml                 |  24 +++++++++++++
+ model/masl/models/masl/maslpopulation/genfile/genfile.xtuml       |  14 +++++++-
+ model/masl/src/wasl/t.object_address.wasl                         |   3 ++
+ model/masl/src/wasl/t.object_product.wasl                         |   4 +++
+ model/maslout/models/maslout/lib/xtuml2masl/maslout/maslout.xtuml |  64 +++++++++++++++++++++-----
+ 9 files changed, 237 insertions(+), 16 deletions(-)
 ----
 
 == 9 Document References
