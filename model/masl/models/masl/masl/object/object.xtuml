@@ -391,18 +391,47 @@ if ( "" != multiplicity )
 end if;
 
 // Render initialization marking for class.
-init = ""; init_value = "";
+init = "";
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "initialised" );
+if ( not_empty pragma )
+	init = "INITIALISED";
+end if;
 select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "non_initialised" );
 if ( not_empty pragma )
 	init = "NON_INITIALISED";
+end if;
+if ( "" != init )
+  init_value = "";
 	select any pragma_item related by pragma->pragma_item[R3780];
 	if ( not_empty pragma_item )
 		init_value = pragma_item.value;
 	end if;
-end if;
-if ( "" != init )
   init_value = STRING::substr( s:init_value, begin:1, end:STRING::strlen( s:init_value )-1 );
   T::include( file:"wasl/t.object_init.wasl" );
+end if;
+
+// Render system address marking for class.
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "system_address" );
+if ( not_empty pragma )
+  address_value = "";
+	select any pragma_item related by pragma->pragma_item[R3780];
+	if ( not_empty pragma_item )
+		address_value = pragma_item.value;
+	end if;
+  address_value = STRING::substr( s:address_value, begin:1, end:STRING::strlen( s:address_value )-1 );
+  T::include( file:"wasl/t.object_address.wasl" );
+end if;
+
+// Render product marking for class.
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "product" );
+if ( not_empty pragma )
+  product_value = "";
+	select any pragma_item related by pragma->pragma_item[R3780];
+	if ( not_empty pragma_item )
+		product_value = pragma_item.value;
+	end if;
+  product_value = STRING::substr( s:product_value, begin:1, end:STRING::strlen( s:product_value )-1 );
+  T::include( file:"wasl/t.object_product.wasl" );
 end if;
 
 ',

@@ -1,0 +1,4 @@
+T_b("PRODUCT,");
+T_b(product_value);
+T_b(",");
+T_b("\n");

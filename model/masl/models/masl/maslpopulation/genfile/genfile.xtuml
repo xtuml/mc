@@ -831,7 +831,19 @@ elif ( "domain" == element )
             // Skip generaton of abstract operations.
             genfile = genfile::populate( name:filename );
             genfile.emit( name:filename );
-            function_files = function_files + filename + "\n";
+            // Render product marking for operation.
+            marking = "";
+            select any pragma related by activity->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "product" );
+            if ( not_empty pragma )
+              product_value = "";
+              select any pragma_item related by pragma->pragma_item[R3780];
+              if ( not_empty pragma_item )
+                product_value = pragma_item.value;
+              end if;
+              product_value = STRING::substr( s:product_value, begin:1, end:STRING::strlen( s:product_value )-1 );
+              marking = ",PRODUCT," + product_value;
+            end if;
+            function_files = function_files + filename + marking + "\n";
           end if;
         end for;
         // actions
