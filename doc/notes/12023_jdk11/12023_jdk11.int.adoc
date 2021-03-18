@@ -1,0 +1,112 @@
+= Upgrade Ciera to support JDK 11
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+This note describes the changes required to support generating JDK 11 compatible source.
+
+== 2 Introduction and Background
+
+<<dr-2>> moved BridgePoint to JDK 11.  It was determined that Ciera should make a similar move.
+
+== 3 Requirements
+=== 3.1 Ciera should generate source code that is compatible with JDK 11.
+=== 3.2 Ciera should compile generated code that is compatible with JDK 11.
+=== 3.3 Ciera should generate and compile itself with JDK 11.
+
+== 4 Analysis
+=== 4.1 Dependency updates
+In order to specify JDK 11 as a requirement in maven the maven-compiler-plugin version must be greater than or equal to 3.8.0.  Once that is specified you can configure the targeted JDK release.  The  following is added in the various pom files.
+
+```
+       <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-compiler-plugin</artifactId>
+         <version>3.8.0</version>
+         <configuration>
+            <release>11</release>
+         </configuration>
+      </plugin>
+```
+
+All places that previously specified JDK 1.8 are removed.
+```
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+```
+
+In order to configure Ciera to use JDK 11 we also must update maven-plugin-plugin to version 3.6.0.
+
+=== 4.2 Upgrades required to build Ciera with Ciera JDK 11
+==== 4.2.1 Hand written code referencing generics
+Generics were removed at some point.  Some hand written files were left referencing the old generic approach.  The changes are to Instance, Long, and ReeentrantLock.
+
+- Remove InstRefMapping, and extends IXtumlType generic specification
+- Remove value() override
+- Add promote() override
+
+==== 4.2.2 Import referenced class in where clause casts
+An issue shows itself in the PortImpl.java generated code when building Ciera with Ciera JDK 11.  The issue is not specific to JDK 11.
+
+If you have oal in an operation as follows:
+```
+select many objs related by self->OTH[R1] where (selected.id == 1)
+```
+Ciera will add an import in the generated implementation class for the class set that is being selected.  It will not however add an import for the generated cast in the where clause.
+```
+(((OTH)selected).id == 1)
+```
+In tool-core::transform::expression::transformSelectedReference(), the cast classes file is selected, and an import added to the statement's IMPL file.
+
+== 5 Implementation Comments
+
+== 6 Unit Test
+
+- Build Ciera with Ciera JDK11
+- R compiles with no error
+- Build MicrowaveOven example
+- R compiles with no error
+
+== 7 User Documentation
+
+
+== 8 Code Changes
+
+- fork/repository:  travislondon/ciera
+- branch:  12023-ImportCastTypes
+
+----
+examples/GPS/GPS_Watch/pom.xml
+examples/GPS/pom.xml
+examples/MicrowaveOven/pom.xml
+examples/pei/pom.xml
+
+src/ciera-maven-plugin/pom.xml
+src/pom.xml
+src/runtime/pom.xml
+src/tool-core/models/tool-core/transform/expression/expression.xtuml
+src/tool-core/pom.xml
+src/tool-core/src/main/java/ooaofooa/datatypes/Instance.java
+src/tool-core/src/main/java/ooaofooa/datatypes/Long.java
+src/tool-core/src/main/java/ooaofooa/datatypes/ReentrantLock.java
+src/tool-sql/pom.xml
+src/tool-sql/src/main/java/ooaofooa/datatypes/Instance.java
+src/tool-sql/src/main/java/ooaofooa/datatypes/Long.java
+src/tool-sql/src/main/java/ooaofooa/datatypes/ReentrantLock.java
+src/tool-template/pom.xml
+src/tool-template/src/main/java/ooaofooa/datatypes/Instance.java
+src/tool-template/src/main/java/ooaofooa/datatypes/Long.java
+src/tool-template/src/main/java/ooaofooa/datatypes/ReentrantLock.java
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12023[12023 - Upgrade Ciera to Java 11]
+. [[dr-2]] https://support.onefact.net/issues/12012[12012 - Support Java 11 and Eclipse 2020-6]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
