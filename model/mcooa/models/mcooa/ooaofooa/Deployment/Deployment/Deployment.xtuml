@@ -94,6 +94,24 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("e6119077-d515-47d8-b9b7-009acc78c632",
+	"9461de81-c1b8-4362-bee4-b5a93592e12c");
+INSERT INTO O_BATTR
+	VALUES ("e6119077-d515-47d8-b9b7-009acc78c632",
+	"9461de81-c1b8-4362-bee4-b5a93592e12c");
+INSERT INTO O_ATTR
+	VALUES ("e6119077-d515-47d8-b9b7-009acc78c632",
+	"9461de81-c1b8-4362-bee4-b5a93592e12c",
+	"cf5dba03-d4f8-4fa3-8d1f-4b0c0dbfe491",
+	'Key_Lett',
+	'Full Name: Deployment Key Letters',
+	'',
+	'Key_Lett',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"9461de81-c1b8-4362-bee4-b5a93592e12c");

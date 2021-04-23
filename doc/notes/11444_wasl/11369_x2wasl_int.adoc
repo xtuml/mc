@@ -1,0 +1,55 @@
+= Export MASL Domain
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+== 2 Introduction and Background
+
+== 3 Requirements
+
+== 4 Work Required
+
+. Merge regression_test and regression_wasl.
+  .. Merged regression_wasl into regression_test.  The only difference now is an architecture flag.
+  .. Removed regression_wasl.
+. Merge masl_round_trip and wasl_round_trip.
+  .. masl_round_trip and wasl_round_trip became round_trip with an architecture flag which defaults to MASL.  These two were so common that it makes no sense to maintain them independently.
+  .. Removed wasl_round_trip.
+. Figure out how to import ASL activities.
+  .. MaslImportParser does not have any sort of "ignore action body", but it could.
+     *** There is nothing inside the file that is useful other than the name of the service.
+     *** In the walker, the definition will have the file name.
+     *** In MASL, the file name is passed into m2x when then knows how to move/copy the file into BridgePoint.
+     *** m2x will change here and populate the Action_Semantics.
+     *** Set the dialect correctly.
+
+== 5 Implementation Comments
+
+== 6 Unit Test
+
+== 7 User Documentation
+
+== 8 Code Changes
+
+- fork/repository:  your_fork/repo_name
+- branch:  your_branch_name_here
+
+----
+ Put the file list here
+----
+
+== 9 Document References
+
+In this section, list all the documents that the reader may need to refer to.
+Give the full path to reference a file.
+
+. [[dr-1]] https://support.onefact.net/issues/NNNNN[NNNNN - headline]
+. [[dr-2]] ...
+. [[dr-3]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

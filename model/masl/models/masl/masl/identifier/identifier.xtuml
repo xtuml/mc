@@ -28,6 +28,7 @@ markable.render_marking( list:"default" );',
 	1,
 	'',
 	"3a62bad0-c0d0-4ab5-8e1c-b68f3d948c03",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("3a62bad0-c0d0-4ab5-8e1c-b68f3d948c03",
@@ -45,6 +46,7 @@ return identifier;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("4ae35a22-665a-4861-80bb-ebaaa618805e",
@@ -100,6 +102,7 @@ return valid;',
 	1,
 	'',
 	"f8bab69a-2ca8-422b-9895-3a2e74eb7083",
+	0,
 	0);
 INSERT INTO O_ID
 	VALUES (0,

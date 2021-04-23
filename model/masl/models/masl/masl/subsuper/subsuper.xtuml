@@ -52,6 +52,7 @@ end if;
 	1,
 	'',
 	"bf6b990a-0c43-4fcb-ab3f-c0ac06ee8ac7",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("bf6b990a-0c43-4fcb-ab3f-c0ac06ee8ac7",
@@ -70,6 +71,7 @@ return subsuper;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("85980317-2e31-48e5-9292-2f0f1460093a",
@@ -115,6 +117,7 @@ return valid;',
 	1,
 	'',
 	"4c2a935c-9f82-483a-8ea4-76b47f7b44ab",
+	0,
 	0);
 INSERT INTO O_ID
 	VALUES (0,

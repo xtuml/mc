@@ -77,6 +77,7 @@ end if;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("3629ab4c-2864-4724-acfb-4f85e4566e8b",
@@ -186,6 +187,7 @@ end if;',
 	1,
 	'',
 	"9514835b-6634-4671-b201-0b0b30efcc45",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("4b7089ff-de4d-41ab-adbe-9df84b21a069",
@@ -243,6 +245,7 @@ return ready;',
 	1,
 	'',
 	"fb4fa599-0ec4-4f7d-891b-e3b9d703b3b9",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("ad834b41-9452-49dd-900d-f842844cdb6e",

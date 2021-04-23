@@ -16,9 +16,6 @@
 #include "T_bridge.h"
 #include "TRACE_bridge.h"
 #include "V_bridge.h"
-#include "CSV_bridge.h"
-#include "maslout_sys_types.h"
-
 
 /*
  * Bridge:  readline
@@ -43,10 +40,10 @@ CSV_readline( c_t * p_filename, c_t * p_values[8] )
     if ( ( 0 == strchr( line, '#' ) ) && ( 0 != strchr( line, ',' ) ) ) {
       c_t * token = strtok( line, ",\n" );
       while ( NULL != token ) {
-        if ( 1000 < strnlen( token, ESCHER_SYS_MAX_STRING_LEN ) ) {
-          TRACE_log( "warning", 190, "detected marking value of more than 1000 bytes" );
+        if ( 2000 < Escher_strlen( token ) ) {
+          TRACE_log( "warning", 190, "detected marking value of more than 2000 bytes" );
         }
-        strncpy( p_values[ valuecount++ ], token, 1000 );
+        strncpy( p_values[ valuecount++ ], token, 2000 );
         token = strtok( NULL, ",\n" );
       }
       break;
@@ -75,14 +72,14 @@ CSV_writeline( c_t * p_filename, c_t * p_values[8] )
     }
   }
   /* write a line */
-  while ( 0 < strnlen( p_values[ valuecount ], ESCHER_SYS_MAX_STRING_LEN ) ) {
-    if ( valuecount > 0 ) strncat( line, ",", ESCHER_SYS_MAX_STRING_LEN );
-    strncat( line, p_values[ valuecount ], ESCHER_SYS_MAX_STRING_LEN );
+  while ( 0 < Escher_strlen( p_values[ valuecount ] ) ) {
+    if ( valuecount > 0 ) fputs( ",", f );
+    fputs( p_values[ valuecount ], f );
     valuecount++;
   }
   /* Write the file.  */
-  strncat( line, "\n", ESCHER_SYS_MAX_STRING_LEN );
   fputs( line, f );
+  fputs( "\n", f );
   return valuecount;
 }
 

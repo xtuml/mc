@@ -49,7 +49,7 @@ select many c_cs from instances of C_C where ( false );
 if ( ( "" == domain ) or ( "*" == domain ) )
   select many c_cs from instances of C_C;
 else
-  select many c_cs from instances of C_C where ( selected.Name == domain );
+  select many c_cs from instances of C_C where ( ( selected.Name == domain ) or ( selected.Key_Lett == domain ) );
 end if;
 if ( empty c_cs )
   TRACE::log( flavor:"failure", id:1, message:"ERROR:  Component/domain not found in model:  " + domain );
@@ -65,6 +65,7 @@ TRACE::log( flavor:"info", id:104, message:"Done." );
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("9c8d9c3a-c0a1-4d32-81e0-b96654392cc0",
@@ -125,6 +126,7 @@ TRACE::log( flavor:"info", id:102, message:"Done" );
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("df408732-1e8c-4be3-bbf2-6c34377e1afe",
@@ -162,6 +164,7 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 c_cs = param.c_cs;
 for each c_c in c_cs;
   value[0] = c_c.Name;
+  value[1] = c_c.Key_Lett;
   out::populate( element:"domain", value:value );
   
   if ( param.project )
@@ -200,6 +203,7 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("cf4db11c-a368-4494-9f14-382c45cdc747",
@@ -277,6 +281,7 @@ end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("e1434ed1-bb84-419d-aa6a-b3a6dcaae855",
@@ -327,38 +332,48 @@ for each c_po in c_pos
   select any provision related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009];
   if ( not param.project or ( param.project and not_empty provision ) )
 
-	value[0] = c_po.Name;
-	value[1] = c_po.Name + "KL_ToDo"; // CDS - TODO find an appropriate value here
-	out::populate( element:"terminator", value:value );
-	::message2routine( c_c:c_c, c_po:c_po, project:param.project );
+    value[0] = c_po.Name;
+    value[1] = c_po.Key_Lett;
+    // See if there is a mark for the key_letter.
+    select any markable from instances of Markable where ( selected.name == "Port" );
+    pathkey = ::component_get_path( c_c:c_c, child:c_po.Name );
+    select any mark related by markable->Mark[R2821] where ( ( selected.path == pathkey ) and ( selected.feature_name == "key_letter" ) );
+    if ( not_empty mark )
+      // Strip the double-quotes off.
+      i = STRING::strlen( s:mark.value );
+      value[1] = STRING::substr( s:mark.value, begin:1, end:i-1 );
+    end if;
+    out::populate( element:"terminator", value:value );
+    ::message2routine( c_c:c_c, c_po:c_po, project:param.project );
 
-	// Populate pragmas
-	if ( param.project )
+    // Populate pragmas
+    if ( param.project )
       select any c_p related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009];
-	  if ( not_empty c_p )
-	    if ( not param.kl )
-		  c_p.Descrip = ::remove_kl( s:c_p.Descrip );
-		end if;
+      if ( not_empty c_p )
+        if ( not param.kl )
+          c_p.Descrip = ::remove_kl( s:c_p.Descrip );
+        end if;
         ::mark2pragma( markable:"Provision", pathkey: ::component_get_path( c_c:c_c, child:c_p.Name ) );
 
-		// output the description
-		::Descrip2description( Descrip:c_p.Descrip );
-	  end if;
-	else
-	  select any c_r related by c_po->C_IR[R4016]->C_R[R4009];
-	  if ( not_empty c_r )
-	    if ( not param.kl )
-		  c_r.Descrip = ::remove_kl( s:c_r.Descrip );
-		end if;
+        // output the description
+        ::Descrip2description( Descrip:c_p.Descrip );
+      end if;
+    else
+      select any c_r related by c_po->C_IR[R4016]->C_R[R4009];
+      if ( not_empty c_r )
+        if ( not param.kl )
+          c_r.Descrip = ::remove_kl( s:c_r.Descrip );
+        end if;
         ::mark2pragma( markable:"Requirement", pathkey: ::component_get_path( c_c:c_c, child:c_r.Name ) );
 
-		// output the description
-		::Descrip2description( Descrip:c_r.Descrip );
-	  end if;
-	end if;
+        // output the description
+        ::Descrip2description( Descrip:c_r.Descrip );
+      end if;
+    end if;
 
-	// end terminator
-	out::populate( element:"terminator", value:emptyvalue );
+    ::mark2pragma( markable:"Port", pathkey:pathkey );
+    // end terminator
+    out::populate( element:"terminator", value:emptyvalue );
 
   end if;
 
@@ -369,6 +384,7 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("e557817d-dd43-43a1-b7c1-a522bda54d2a",
@@ -441,10 +457,7 @@ for each c_ep in c_eps
 
   value[2] = "public"; // Outbound messages are considered public.
   value[3] = c_ep.Name;
-  start_index = STRING::indexof( haystack:c_ep.Descrip, needle:"peration_number:" );
-  if ( 0 < start_index )
-    value[4] = STRING::substr( s:c_ep.Descrip, begin:start_index+16, end:start_index+18 );
-  end if;
+  value[4] = STRING::itoa( i:c_ep.Numb );
 
   out::populate( element:"routine", value:value );
   
@@ -473,24 +486,22 @@ for each c_ep in c_eps
     select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
     ::body2code_block( name:"", text:STRING::unescapetics(s:spr_po.Action_Semantics_internal) );
 
-	// Populate pragmas
-        select one c_ep related by spr_po->SPR_PEP[R4503]->C_EP[R4501];
-        child = c_po.Name + "::" + c_i.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
-        ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
+    // Populate pragmas
+    child = c_po.Name + "::" + c_i.Name + "::" + c_ep.Name;
+    ::mark2pragma( markable:"Provided Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
 
-	// output the description
-	::Descrip2description( Descrip:spr_po.Descrip );
+    // output the description
+    ::Descrip2description( Descrip:spr_po.Descrip );
   else
     select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
     ::body2code_block( name:"", text:STRING::unescapetics(s:spr_ro.Action_Semantics_internal) );
 
-	// Populate pragmas
-        select one c_ep related by spr_ro->SPR_REP[R4502]->C_EP[R4500];
-        child = c_po.Name + "::" + c_i.Name + "::" + ::message_getsignature( flavor:1, c_ep:c_ep );
-        ::mark2pragma( markable:"Required Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
+    // Populate pragmas
+    child = c_po.Name + "::" + c_i.Name + "::" + c_ep.Name;
+    ::mark2pragma( markable:"Required Operation", pathkey: ::component_get_path( c_c:c_c, child:child ) );
 
-	// output the description
-	::Descrip2description( Descrip:spr_ro.Descrip );
+    // output the description
+    ::Descrip2description( Descrip:spr_ro.Descrip );
   end if;
 
   out::populate( element:"routine", value:emptyvalue );
@@ -500,6 +511,7 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("8898a959-9ae1-44df-90ff-dcc22215a9db",
@@ -568,6 +580,7 @@ end if;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("a476bde7-fb21-4a1f-b22b-46b5fe763364",
@@ -626,7 +639,7 @@ for each o_obj in o_objs
   value[2] = STRING::itoa( i:o_obj.Numb );
   out::populate( element:"object", value:value );
   
-  // Link the attributes to each object.
+  // Link the attributes to each object. 
   ::attribute2attribute( c_c:c_c, o_obj:o_obj );
   
   // Set up the identifiers for this object.
@@ -672,6 +685,7 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("15b7c710-66b8-4afc-8a74-5728d734391a",
@@ -851,6 +865,7 @@ end while;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("4488e70f-8f35-4b8b-9c0b-8f144d9acacf",
@@ -904,92 +919,39 @@ c_c = param.c_c;
 select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
 select many pkg_s_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001];
 select many pkgref_s_dts related by ep_pkgs->EP_PKGREF[R1402.''refers to'']->EP_PKG[R1402.''refers to'']->PE_PE[R8000]->S_DT[R8001];
-s_dts = pkg_s_dts + pkgref_s_dts;
-for each s_dt in s_dts
-  select one s_irdt related by s_dt->S_IRDT[R17];
-  // Do not output type definitions for instance reference data types.
-  if ( empty s_irdt )
-    select one s_udt related by s_dt->S_UDT[R17];
-    select one s_edt related by s_dt->S_EDT[R17];
+private_s_dts = pkg_s_dts + pkgref_s_dts;
 
-    value[0] = s_dt.Name;
-    value[1] = "private";
-    
-    if ( not_empty s_udt )
-      // see what type the UDT is based on
-      select one base_s_dt related by s_udt->S_DT[R18];
-    
-      // get body of type
-      if ( s_udt.Definition != "" )
-        // handle case where there is a definition
-        value[2] = s_udt.Definition;
-      else
-        // There is no definition, use the underlying type.  If the underlying type
-        // is MASLtype, treat this as a typeref and do not output it.  Otherwise
-        // output using the underlying type as the definition.
-        if ( (base_s_dt.Name == "MASLtype") or (s_dt.Name == "MASLtype") )
-          continue;
-        else
-          value[2] = base_s_dt.Name;
-        end if;
-      end if;
-    elif ( not_empty s_edt )
-      select any s_enum from instances of S_ENUM where (false);
-      // get to the first entry
-      select any prev_s_enum related by s_edt->S_ENUM[R27];
-      while (not_empty prev_s_enum)
-        assign s_enum = prev_s_enum;
-        select one prev_s_enum related by s_enum->S_ENUM[R56.''succeeds''];
-      end while;
-      // now iterate over the entries building up the list
-      enum_definition = "enum (";
-      next_s_enum = s_enum;
-      first = true;
-      while (not_empty next_s_enum)
-        if (not first)
-          enum_definition = enum_definition + ", ";
-        end if;
-        first = false;
-        enum_definition = enum_definition + next_s_enum.Name;
-        assign s_enum = next_s_enum;
-        select one next_s_enum related by s_enum->S_ENUM[R56.''precedes''];
-      end while;
-      enum_definition = enum_definition + ")";      
-      value[2] = enum_definition;
-    else
-      continue;
-    end if;
-  
-    out::populate( element:"type", value:value );
-
-    select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
-    ::mark2pragma( markable:"User Data Type", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: s_dt.Name ) );
-
-    ::Descrip2description( Descrip:s_dt.Descrip );
-    out::populate( element:"type", value:emptyvalue );
-  end if;
-end for;
-
-// Data types in packages directly off of the system are considered public.
+// Data types in packages and sub-packages directly off of the system are considered public.
+select many public_s_dts from instances of S_DT where ( false );
 select many ep_pkgs related by c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1401] where ( selected.Name != "types" );
-for each ep_pkg in ep_pkgs
-  select many s_dts related by ep_pkg->PE_PE[R8000]->S_DT[R8001];
-  // Data types in subpackages of the system packages are also considered public
-  select many sub_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001];
-  while ( not_empty sub_pkgs )
-    select many sub_s_dts related by sub_pkgs->PE_PE[R8000]->S_DT[R8001];
-    s_dts = s_dts | sub_s_dts;
-    select many sub_pkgs related by sub_pkgs->PE_PE[R8000]->EP_PKG[R8001];
-  end while;
+while ( not_empty ep_pkgs )
+  select many pkg_s_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001];
+  public_s_dts = public_s_dts | pkg_s_dts;
+  select many sub_ep_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001];
+  ep_pkgs = sub_ep_pkgs; // MC-3020 weakness
+end while;
+
+// Iterate twice to loop through private and public types.
+i = 0;
+while ( i <= 1 )
+  s_dts = private_s_dts;
+  if ( 1 == i )
+    s_dts = public_s_dts;
+  end if;
   for each s_dt in s_dts
     select one s_irdt related by s_dt->S_IRDT[R17];
     // Do not output type definitions for instance reference data types.
     if ( empty s_irdt )
       select one s_udt related by s_dt->S_UDT[R17];
       select one s_edt related by s_dt->S_EDT[R17];
+      select one s_sdt related by s_dt->S_SDT[R17];
 
       value[0] = s_dt.Name;
-      value[1] = "public";
+      value[1] = "private";
+      if ( 1 == i )
+        value[1] = "public";
+      end if;
+      value[2] = "";
       
       if ( not_empty s_udt )
         // see what type the UDT is based on
@@ -1005,11 +967,26 @@ for each ep_pkg in ep_pkgs
           // output using the underlying type as the definition.
           if ( (base_s_dt.Name == "MASLtype") or (s_dt.Name == "MASLtype") )
             continue;
+          elif ( -1 < STRING::indexof( haystack:s_dt.Name, needle:" of " ) ) // blank-o-f-blank
+            continue;
           else
             value[2] = base_s_dt.Name;
           end if;
         end if;
+        out::populate( element:"type", value:value );
+        select one s_range related by s_udt->S_RANGE[R57];
+        if ( not_empty s_range )
+          value[0] = s_range.Min;
+          value[1] = s_range.Max;
+          value[2] = "";
+          out::populate( element:"range", value:value );
+          out::populate( element:"range", value:emptyvalue );
+        end if;
       elif ( not_empty s_edt )
+        out::populate( element:"type", value:value );
+        value[1] = "";
+        value[2] = "";
+        out::populate( element:"enumeration", value:value );
         select any s_enum from instances of S_ENUM where (false);
         // get to the first entry
         select any prev_s_enum related by s_edt->S_ENUM[R27];
@@ -1017,26 +994,44 @@ for each ep_pkg in ep_pkgs
           assign s_enum = prev_s_enum;
           select one prev_s_enum related by s_enum->S_ENUM[R56.''succeeds''];
         end while;
-        // now iterate over the entries building up the list
-        enum_definition = "enum (";
-        next_s_enum = s_enum;
-        first = true;
-        while (not_empty next_s_enum)
-          if (not first)
-            enum_definition = enum_definition + ", ";
-          end if;
-          first = false;
-          enum_definition = enum_definition + next_s_enum.Name;
-          assign s_enum = next_s_enum;
-          select one next_s_enum related by s_enum->S_ENUM[R56.''precedes''];
+        // now iterate over the enumerators
+        while (not_empty s_enum)
+          value[0] = s_enum.Name;
+          value[1] = "";
+          value[2] = "";
+          out::populate( element:"enumerator", value:value );
+          out::populate( element:"enumerator", value:emptyvalue );
+          select one s_enum related by s_enum->S_ENUM[R56.''precedes''];
         end while;
-        enum_definition = enum_definition + ")";      
-        value[2] = enum_definition;
+        out::populate( element:"enumeration", value:emptyvalue );
+      elif ( not_empty s_sdt )
+        out::populate( element:"type", value:value );
+        value[1] = "";
+        value[2] = "";
+        out::populate( element:"structure", value:value );
+        select any s_mbr from instances of S_MBR where (false);
+        // get to the first entry
+        select any prev_s_mbr related by s_sdt->S_MBR[R44];
+        while (not_empty prev_s_mbr)
+          assign s_mbr = prev_s_mbr;
+          select one prev_s_mbr related by s_mbr->S_MBR[R46.''succeeds''];
+        end while;
+        // now iterate over the members
+        while (not_empty s_mbr)
+          value[0] = s_mbr.Name;
+          value[1] = "";
+          value[2] = "";
+          out::populate( element:"member", value:value );
+          select one mbr_s_dt related by s_mbr->S_DT[R45];
+          select one ep_pkg related by mbr_s_dt->PE_PE[R8001]->EP_PKG[R8000];
+          ::type2typeref( s_dt:mbr_s_dt, domain_pkg:ep_pkg );
+          out::populate( element:"member", value:emptyvalue );
+          select one s_mbr related by s_mbr->S_MBR[R46.''precedes''];
+        end while;
+        out::populate( element:"structure", value:emptyvalue );
       else
         continue;
       end if;
-    
-      out::populate( element:"type", value:value );
 
       select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
       ::mark2pragma( markable:"User Data Type", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: s_dt.Name ) );
@@ -1045,11 +1040,13 @@ for each ep_pkg in ep_pkgs
       out::populate( element:"type", value:emptyvalue );
     end if;
   end for;
-end for;
+  i = i + 1;
+end while;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("07c30bd2-62a1-4290-9717-fc84fa995641",
@@ -1088,7 +1085,7 @@ for each r_rel in r_rels
   if ( not_empty r_simp )
     out::populate( element:"regularrel", value:value );
     ::simpleass2regularrel( c_c:c_c, r_simp:r_simp );
-    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + T::s( i:r_rel.Numb ) ) );
+    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + STRING::itoa( i:r_rel.Numb ) ) );
     // output the description
     ::Descrip2description( Descrip:r_rel.Descrip );
     out::populate( element:"regularrel", value:emptyvalue );
@@ -1103,7 +1100,7 @@ for each r_rel in r_rels
     out::populate( element:"associative", value:value );
     ::associative2associative( c_c:c_c, r_assoc:r_assoc );
     out::populate( element:"associative", value:value ); // 2nd call for using
-    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + T::s( i:r_rel.Numb ) ) );
+    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + STRING::itoa( i:r_rel.Numb ) ) );
     // output the description
     ::Descrip2description( Descrip:r_rel.Descrip );
     out::populate( element:"associative", value:emptyvalue );
@@ -1113,7 +1110,7 @@ for each r_rel in r_rels
   if ( not_empty r_subsup )
     out::populate( element:"subsuper", value:value );
     ::subsuper2subsuper( c_c:c_c, r_subsup:r_subsup );
-    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + T::s( i:r_rel.Numb ) ) );
+    ::mark2pragma( markable:"Association", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: "R" + STRING::itoa( i:r_rel.Numb ) ) );
     // output the description
     ::Descrip2description( Descrip:r_rel.Descrip );
     out::populate( element:"subsuper", value:emptyvalue );
@@ -1123,6 +1120,7 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("51c46f46-bc0f-4bf0-8fe4-af7d3be1667e",
@@ -1176,6 +1174,7 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("a84bec3f-93e6-496d-aa58-e382e6c4e593",
@@ -1270,6 +1269,7 @@ out::populate( element:"participation", value:emptyvalue );
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("11a9addd-1ac4-4fa9-abbd-0ff170d8e031",
@@ -1323,16 +1323,13 @@ for each s_sync in s_syncs
   value[2] = "private";
   // Find a provided port message with this same name.  If found, mark public.
   for each c_ep in c_eps
-    if ( c_ep.Name == s_sync.Name )
+    if ( ( c_ep.Name == s_sync.Name ) and ( c_ep.Numb == s_sync.Numb ) )
       value[2] = "public";
       break;
     end if;
   end for;
   value[3] = s_sync.Name;
-  start_index = STRING::indexof( haystack:s_sync.Descrip, needle:"peration_number:" );
-  if ( 0 < start_index )
-    value[4] = STRING::substr( s:s_sync.Descrip, begin:start_index+16, end:start_index+18 );
-  end if;
+  value[4] = STRING::itoa( i:s_sync.Numb );
   
   // Get the first parameter.
   select any s_sparm related by s_sync->S_SPARM[R24];
@@ -1349,7 +1346,7 @@ for each s_sync in s_syncs
   select one s_dt related by s_sync->S_DT[R25];
   ::type2typeref( s_dt:s_dt, domain_pkg:domain_pkg );
   
-  if ( ActionDialect::masl == s_sync.Dialect )
+  if ( ( ActionDialect::masl == s_sync.Dialect ) or ( ActionDialect::asl == s_sync.Dialect ) )
     // Populate the action langauge body.
     ::body2code_block( name:"", text:STRING::unescapetics(s:s_sync.Action_Semantics_internal) );
   end if;
@@ -1357,6 +1354,16 @@ for each s_sync in s_syncs
   // Populate pragmas
   select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
   ::mark2pragma( markable:"Function", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: ::function_getsignature( flavor:1, s_sync:s_sync ) ) );
+  if ( ( "externals" == ep_pkg.Name ) and ( ActionDialect::masl != s_sync.Dialect ) )
+    // functions in externals package get a manufactured pragma for ASL
+    value[0] = "external";
+    value[1] = ""; value[2] = ""; value[3] = ""; value[4] = "";
+    out::populate( element:"pragma", value:value );
+    value[0] = STRING::itoa( i:s_sync.Numb );
+    out::populate( element:"pragmaitem", value:value );
+    out::populate( element:"pragmaitem", value:emptyvalue );
+    out::populate( element:"pragma", value:emptyvalue );
+  end if;
 
   // output the description
   ::Descrip2description( Descrip:s_sync.Descrip );
@@ -1370,6 +1377,7 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("6f121837-e5ec-493f-a1f1-f42c2bc5c711",
@@ -1413,6 +1421,7 @@ end if;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("60fb8b97-7f20-4095-b943-e08c3a8e2e31",
@@ -1588,6 +1597,7 @@ end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("5276c784-1f5f-4e92-a593-1c486c8cf8af",
@@ -1701,6 +1711,7 @@ end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("9d4415e3-ad34-4d40-883c-8f8647a5f282",
@@ -1842,6 +1853,7 @@ end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("39e07600-0fc3-4419-bea9-f719b03957e9",
@@ -1899,6 +1911,7 @@ end if;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("3cc94496-ce2a-4ae7-a208-d9eb28187713",
@@ -1997,6 +2010,7 @@ out::populate( element:"participation", value:emptyvalue );
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("82f62d53-ef7e-4045-a8b7-e0fd0eeceec7",
@@ -2063,6 +2077,7 @@ out::populate( element:"participation", value:emptyvalue );
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("cf4ea895-58ef-476c-837b-8dfa3a918c5a",
@@ -2117,10 +2132,7 @@ for each o_tfr in o_tfrs
     value[4] = "instance";
   end if;
   value[5] = "";
-  start_index = STRING::indexof( haystack:o_tfr.Descrip, needle:"peration_number:" );
-  if ( 0 < start_index )
-    value[6] = STRING::substr( s:o_tfr.Descrip, begin:start_index+16, end:start_index+18 );
-  end if;
+  value[6] = STRING::itoa( i:o_tfr.Numb );
   
   // check for deferral -- if there is no action language or the dialect is none and subtypes have an operation with matching signature
   deferred = false;
@@ -2181,6 +2193,7 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("b20d9889-4d3c-4f25-a8db-c0753f2d6cac",
@@ -2233,6 +2246,7 @@ end if;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("79a8a289-1d1d-4dd0-8a5c-769e1ea19030",
@@ -2276,15 +2290,17 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 select any model from instances of model where ( selected.name == "maslout" );
 if ( empty model or ( not_empty model and "true" == model.getoption( name:"outputcodeblocks" ) ) )
 
-  //value[0] = param.name + ".masl";
-  value[0] = param.text;
-  out::populate( element:"codeblock", value:value );
-  out::populate( element:"codeblock", value:emptyvalue );
+  if ( "" != param.text )
+    value[0] = param.text;
+    out::populate( element:"codeblock", value:value );
+    out::populate( element:"codeblock", value:emptyvalue );
+  end if;
 
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("8dd08552-fe99-4071-95f5-32ada1023ceb",
@@ -2333,6 +2349,7 @@ end for;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("e7e87814-1a70-4e6e-a9fd-7725a64e6126",
@@ -2365,6 +2382,7 @@ end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("f2aa1161-9f0e-499c-8a7d-df804ac3f56a",
@@ -2477,6 +2495,7 @@ return signature;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("64bdae58-a63d-4347-9a1f-1157732b8fdb",
@@ -2692,6 +2711,7 @@ end if;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("70ae1d69-d2bf-4e80-84f5-ab2c1c7c9814",
@@ -2767,10 +2787,10 @@ if ( 1 == param.flavor )
   separator = "";
   parameter = first_param;
   while ( not_empty parameter )
-	select one type related by parameter->S_DT[R118];
-	signature = signature + separator + type.Name;
-	separator = ", ";
-	select one parameter related by parameter->O_TPARM[R124.''precedes''];
+	  select one type related by parameter->S_DT[R118];
+	  signature = signature + separator + type.Name;
+	  separator = " ";
+	  select one parameter related by parameter->O_TPARM[R124.''precedes''];
   end while;
   if( not_empty first_param )
 	signature = signature + ")";
@@ -2819,6 +2839,7 @@ return signature;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("561b683a-9821-4ef9-b121-5aae212d3c53",
@@ -2904,6 +2925,7 @@ end while;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("308fb1dc-110d-445b-a5de-a7d62bff457d",
@@ -2945,6 +2967,7 @@ return string;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("de5a1558-1109-424e-9d38-e853780dbfea",
@@ -2989,6 +3012,7 @@ end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("568d603f-636d-4311-910f-ef57c6a92bcb",
@@ -3027,7 +3051,7 @@ select any model from instances of model where ( selected.name == "maslout" );
 if ( not_empty model )
   i = 0; values[7] = "";
   while ( i < 8 )
-    values[i] = "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ";
+    values[i] = "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ";
     i = i + 1;
   end while;
   TRACE::log( flavor:"info", id:103, message:"Loading marking data." );
@@ -3037,6 +3061,7 @@ end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO PE_PE
 	VALUES ("12b0e811-e469-45bb-93a9-70c47457f5d8",
@@ -3126,6 +3151,11 @@ if ( not_empty s_dt )
       value[0] = "integer";
     elif ( s_dt.Name == "inst_ref<Timer>" ) // inst_ref<Timer> maps to MASL timer
       value[0] = "timer";
+    elif ( STRING::indexof( haystack:s_dt.Name, needle:"inst_ref<" ) > -1 )
+      // Convert inst_ref<class> to instance of class.
+      value[0] = "instance of " + STRING::substr( s:s_dt.Name, begin:9, end: STRING::strlen( s:s_dt.Name ) - 1 );
+    else
+      //
     end if;
     out::populate( element:"typeref", value:value );
     out::populate( element:"typeref", value:emptyvalue );
@@ -3134,6 +3164,7 @@ end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("a8ee1b9b-1d34-4718-b0d2-e06eaee133c2",
@@ -3178,10 +3209,14 @@ d_depls = param.d_depls;
 for each d_depl in d_depls
 
   value[0] = d_depl.Name;
+  value[1] = d_depl.Key_Lett;
   out::populate( element:"project", value:value );
   
   select many d_terms related by d_depl->D_TERM[R1650];
+  select many sequenced_d_terms related by d_depl->D_TERM[R1650]->D_TSS[R1658]->D_TERM[R1658];
+  d_terms = d_terms - sequenced_d_terms;
   ::terminator2terminator( d_terms:d_terms );
+  ::sequencedterminator2terminator( d_terms: sequenced_d_terms );
 
   // Populate pragmas
   select one ep_pkg related by d_depl->PE_PE[R8001]->EP_PKG[R8000];
@@ -3197,6 +3232,7 @@ end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("bdc9f917-fcb4-4d54-98e3-b54cff84fe28",
@@ -3243,6 +3279,9 @@ while ( not_empty d_terms )
   
   // populate the domain
   value[0] = any_term.Domain_Name;
+  // key letters not present in Terminator
+  value[1] = "";
+  value[2] = any_term.Implementation_System;
   out::populate( element:"domain", value:value );
   
   // get all terminators with the same domain
@@ -3250,6 +3289,7 @@ while ( not_empty d_terms )
   for each d_term in domain_terms
     if (not d_term.Provider)
       value[0] = d_term.Terminator_Name;
+      value[1] = d_term.Key_Lett;
       out::populate( element:"terminator", value:value );
       ::terminatorservice2routine( d_term:d_term );
       ::mark2pragma( markable:"Terminator", pathkey: ::deployment_get_path( d_depl:d_depl, child:d_term.Name ) );
@@ -3267,6 +3307,7 @@ end while;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("08d56b2b-9f8c-4589-8f5e-a20426a170c6",
@@ -3295,56 +3336,35 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'terminatorservice2routine',
 	'',
-	'value[7] = ""; // initialize length
-emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+	'd_term = param.d_term;
 
-d_term = param.d_term;
-select one d_depl related by d_term->D_DEPL[R1650];
-value[0] = d_term.Domain_Name;
-value[1] = "";
-
-select many d_tsvcs related by d_term->D_TSVC[R1651];
-for each d_tsvc in d_tsvcs
-    
-  if ( ImplementationScope::Domain == d_tsvc.Implementation_Scope )
-    // A project can skip supplying a terminator service.  ''Domain'' scope means
-    // the implementation was provided in the domain implementation
-    continue;
-  end if;
-
-  value[2] = "public"; // Outbound messages are considered public.
-  value[3] = d_tsvc.Name;
-  out::populate( element:"routine", value:value );
-  
-  select any d_tsparm related by d_tsvc->D_TSPARM[R1652];
-  first_d_tsparm = d_tsparm;
-  while ( not_empty d_tsparm )
-    first_d_tsparm = d_tsparm;
-    select one d_tsparm related by d_tsparm->D_TSPARM[R1654.''succeeds''];
+/* handle sequenced services in order */
+select one d_tss related by d_term->D_TSS[R1658];
+if(not_empty d_tss)
+  select any d_sis related by d_tss->D_SIS[R1659];
+  first_d_sis = d_sis;
+  while(not_empty d_sis)
+    first_d_sis = d_sis;
+    select one d_sis related by d_sis->D_SIS[R1661.''succeeds''];
   end while;
-  select one domain_package related by d_term->D_DEPL[R1650]->PE_PE[R8001]->EP_PKG[R8000];
-  ::parameterD_TSPARM2parameter( d_tsparm:first_d_tsparm, domain_pkg:domain_package );
-  select one s_dt related by d_tsvc->S_DT[R1656];
-  ::type2typeref( s_dt:s_dt, domain_pkg:domain_package );
-  
-  // Populate the action langauge body.
-  if ( ActionDialect::masl == d_tsvc.Dialect )
-    ::body2code_block( name:"", text:STRING::unescapetics(s:d_tsvc.Action_Semantics_internal) );
-  end if;
+  next_d_sis = first_d_sis;
+  while(not_empty next_d_sis)
+    select one d_tsvc related by next_d_sis->D_TSVC[R1660];
+    ::populate_routine(d_tsvc: d_tsvc);
+    select one next_d_sis related by next_d_sis->D_SIS[R1661.''precedes''];
+  end while;
+else
+  select many d_tsvcs related by d_term->D_TSVC[R1651];
+  for each d_tsvc in d_tsvcs
+    ::populate_routine(d_tsvc: d_tsvc);
+  end for;
+end if;
 
-  // Populate pragmas
-  child = d_term.Name + "::" + ::terminatorservice_getsignature( flavor:1, d_tsvc:d_tsvc );
-  ::mark2pragma( markable:"Terminator Service", pathkey: ::deployment_get_path( d_depl:d_depl, child:child ) );
-
-  // output the description
-  ::Descrip2description( Descrip:d_tsvc.Descrip );
-
-  out::populate( element:"routine", value:emptyvalue );
-  
-end for;',
+',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("78fa69cc-b4a3-4096-8c8e-dfd3bfec570e",
@@ -3395,6 +3415,7 @@ end if;
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("e292df87-7c25-4bee-a4ca-508560143c19",
@@ -3452,7 +3473,6 @@ if ( 2 != param.flavor and 3 != param.flavor )
   // Get return type
   select one returntype related by d_tsvc->S_DT[R1656];
   signature = signature + returntype.Name + " ";
-  signature = signature + "void ";
 end if;
  
 // Get name
@@ -3478,7 +3498,7 @@ if ( 1 == param.flavor )
   while ( not_empty parameter )
 	select one type related by parameter->S_DT[R1653];
 	signature = signature + separator + type.Name;
-	separator = ", ";
+	separator = " ";
 	select one parameter related by parameter->D_TSPARM[R1654.''precedes''];
   end while;
   if( not_empty first_param )
@@ -3511,7 +3531,7 @@ elif ( 0 == param.flavor )
     
     select one type related by curr_param->S_DT[R1653];
     signature = signature + separator + curr_param.Name + ":" + type.Name;
-    separator = ", ";
+    separator = " ";
 
     last_param = curr_param;
     select any curr_param from instances of D_TSPARM where false;
@@ -3537,7 +3557,7 @@ elif ( 2 == param.flavor )
   parameter = first_param;
   while ( not_empty parameter )
     signature = signature + separator + parameter.Name + ":";
-	separator = ", ";
+	separator = " ";
 	select one parameter related by parameter->D_TSPARM[R1654.''precedes''];
   end while;
   if( not_empty first_param )
@@ -3555,6 +3575,7 @@ return signature;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("41b34502-adf3-452e-9741-f72b77e44013",
@@ -3587,6 +3608,143 @@ INSERT INTO PE_PE
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("02e6a7fc-6fe8-4556-b24a-2b5b09c4940a",
+	"00000000-0000-0000-0000-000000000000",
+	'populate_routine',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+d_tsvc = param.d_tsvc;
+select one d_term related by d_tsvc->D_TERM[R1651];
+
+value[0] = d_term.Domain_Name;
+value[1] = "";
+
+select one d_depl related by d_term->D_DEPL[R1650];
+if ( ImplementationScope::Domain == d_tsvc.Implementation_Scope )
+  // A project can skip supplying a terminator service.''Domain'' scope means
+  // the implementation was provided in the domain implementation
+  //
+  // If the terminator is sequenced we do not want to skip.
+  // Implementation will be provided in the domain, but we
+  // need reference to terminator signatures
+  select one tss related by d_term->D_TSS[R1658];
+  if(empty tss)
+    return;
+  end if;
+end if;
+
+value[2] = "public"; // Outbound messages are considered public.
+value[3] = d_tsvc.Name;
+value[4] = STRING::itoa(i:d_tsvc.Numb);
+out::populate( element:"routine", value:value );
+
+select any d_tsparm related by d_tsvc->D_TSPARM[R1652];
+first_d_tsparm = d_tsparm;
+while ( not_empty d_tsparm )
+first_d_tsparm = d_tsparm;
+select one d_tsparm related by d_tsparm->D_TSPARM[R1654.''succeeds''];
+end while;
+select one domain_package related by d_term->D_DEPL[R1650]->PE_PE[R8001]->EP_PKG[R8000];
+::parameterD_TSPARM2parameter( d_tsparm:first_d_tsparm, domain_pkg:domain_package );
+select one s_dt related by d_tsvc->S_DT[R1656];
+::type2typeref( s_dt:s_dt, domain_pkg:domain_package );
+
+// Populate the action langauge body.
+if ( ( ActionDialect::masl == d_tsvc.Dialect ) or ( ActionDialect::asl == d_tsvc.Dialect ) )
+::body2code_block( name:"", text:STRING::unescapetics(s:d_tsvc.Action_Semantics_internal) );
+end if;
+
+// Populate pragmas
+child = d_term.Name + "::" + ::terminatorservice_getsignature( flavor:1, d_tsvc:d_tsvc );
+::mark2pragma( markable:"Terminator Service", pathkey: ::deployment_get_path( d_depl:d_depl, child:child ) );
+
+// output the description
+::Descrip2description( Descrip:d_tsvc.Descrip );
+
+out::populate( element:"routine", value:emptyvalue );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("d7a3564d-1580-46e9-aec6-3453c4050ce3",
+	"02e6a7fc-6fe8-4556-b24a-2b5b09c4940a",
+	'd_tsvc',
+	"778a889a-58a1-43f7-bc1f-f3de2990fbf0",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("02e6a7fc-6fe8-4556-b24a-2b5b09c4940a",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6e00d49c-26d3-4105-b7c0-d4014d4648bc",
+	"00000000-0000-0000-0000-000000000000",
+	'sequencedterminator2terminator',
+	'',
+	'/* sequenced terminators will be output in the proper order */
+value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+d_terms = param.d_terms;
+if ( not_empty d_terms )
+
+  // get any terminator
+  select any any_term from instances of D_TERM where false;
+  for each d_term in d_terms
+    any_term = d_term;
+    break;
+  end for;
+
+  select one d_depl related by any_term->D_DEPL[R1650];
+
+  // populate the domain
+  value[0] = any_term.Domain_Name;
+  out::populate( element:"domain", value:value );
+  
+  for each d_term in d_terms
+    select one d_depl related by d_term->D_DEPL[R1650];
+    value[0] = d_term.Terminator_Name;
+    out::populate( element:"terminator", value:value );
+    ::terminatorservice2routine( d_term:d_term );
+    ::mark2pragma( markable:"Terminator", pathkey: ::deployment_get_path( d_depl:d_depl, child:d_term.Name ) );
+    // output the description
+    ::Descrip2description( Descrip:d_term.Descrip );
+    // end terminator
+    out::populate( element:"terminator", value:emptyvalue );
+  end for;
+
+  out::populate( element:"domain", value:emptyvalue );
+
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("03aab62d-0f6a-4731-8047-32f72b931f8c",
+	"6e00d49c-26d3-4105-b7c0-d4014d4648bc",
+	'd_terms',
+	"3421e149-5a7b-4178-b56c-361b79b9cb7a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6e00d49c-26d3-4105-b7c0-d4014d4648bc",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	1,
@@ -3602,6 +3760,7 @@ INSERT INTO C_C_PROXY
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	0,
+	'',
 	'',
 	'../xtuml2masl.xtuml');
 INSERT INTO S_SYS_PROXY

@@ -10,7 +10,8 @@ INSERT INTO C_EP
 	"965609b5-99d9-40ca-bc70-74dd6acccf34",
 	-1,
 	'render',
-	'');
+	'',
+	0);
 INSERT INTO C_AS
 	VALUES ("bf2670be-70c3-4455-a751-ecc960ffedb8",
 	'render',
@@ -59,7 +60,8 @@ INSERT INTO C_EP
 	"965609b5-99d9-40ca-bc70-74dd6acccf34",
 	-1,
 	'tostring',
-	'');
+	'',
+	0);
 INSERT INTO C_AS
 	VALUES ("4f3928ea-6523-484f-8d57-340cf7fe859b",
 	'tostring',
@@ -89,7 +91,8 @@ INSERT INTO C_EP
 	"965609b5-99d9-40ca-bc70-74dd6acccf34",
 	-1,
 	'validate',
-	'');
+	'',
+	0);
 INSERT INTO C_AS
 	VALUES ("f49538b2-41b6-4418-8b44-e9e8230876a5",
 	'validate',
@@ -110,7 +113,8 @@ INSERT INTO C_EP
 	"965609b5-99d9-40ca-bc70-74dd6acccf34",
 	-1,
 	'coverage',
-	'population::coverage();');
+	'population::coverage();',
+	0);
 INSERT INTO C_AS
 	VALUES ("8ac11297-2622-4a30-9eec-fc2138b26abd",
 	'coverage',

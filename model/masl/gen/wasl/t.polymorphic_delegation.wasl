@@ -1,0 +1,1 @@
+${supertype_object.key_letters},$t{polymorphic_event.number},${supertype_object.key_letters}->${rel.name},${subtype_object.key_letters}

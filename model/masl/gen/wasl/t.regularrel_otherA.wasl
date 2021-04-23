@@ -1,0 +1,2 @@
+${relationship.name},${other_object.key_letters},A,${participation.otherconditionality},${participation.otherphrase},${participation.othermultiplicity},${one_object.key_letters},
+${relationship.name},${one_object.key_letters},B,${participation.oneconditionality},${participation.onephrase},${participation.onemultiplicity},${other_object.key_letters},

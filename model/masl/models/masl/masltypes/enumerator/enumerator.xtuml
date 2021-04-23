@@ -14,12 +14,25 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.object_begin.masl" );
-T::include( file:"masl/t.object_end.masl" );
+	'if ( "MASL" == genfile::architecture() )
+  T::include( file:"masl/t.enumerator.masl" );
+elif ( "WASL" == genfile::architecture() )
+  T::include( file:"wasl/t.enumerator.wasl" );
+else
+  //
+end if;
+select one next_enumerator related by self->enumerator[R3779.''precedes''];
+if ( not_empty next_enumerator )
+  if ( "WASL" == genfile::architecture() )
+    T::include( file:"wasl/t.comma.wasl" );
+  end if;
+  next_enumerator.render();
+end if;
 ',
 	1,
 	'',
 	"20b03792-8ed4-4da5-a9e7-859283ed503b",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("20b03792-8ed4-4da5-a9e7-859283ed503b",
@@ -28,18 +41,29 @@ INSERT INTO O_TFR
 	'',
 	"52fb3998-8864-45b4-8755-3a76bdedb748",
 	0,
-	'domain = param.domain;
-//select any enumerator related by domain->enumerator[R3799];
-select any enumerator from instances of enumerator; // DELETE THIS LINE
-if ( empty enumerator )
-  create object instance enumerator of enumerator;
-  enumerator.name = param.name;
-  //relate enumerator to domain across R3799;
-end if;
+	'enumeration = param.enumeration;
+create object instance enumerator of enumerator;
+enumerator.name = param.name;
+
+// Get the last enumerator.
+select any sibling related by enumeration->enumerator[R3755];
+last_enumerator = sibling;
+while ( not_empty sibling )
+  last_enumerator = sibling;
+  select one sibling related by sibling->enumerator[R3779.''precedes''];
+  if ( empty sibling )
+    relate enumerator to last_enumerator across R3779.''succeeds'';
+  end if;
+end while;
+
+relate enumerator to enumeration across R3755;
+unmarkable = unmarkable::populate( name:"enumerator" );
+relate enumerator to unmarkable across R3788;
 return enumerator;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("eb852628-bc85-4137-9a85-e36cdabf1702",
@@ -53,19 +77,28 @@ INSERT INTO O_TPARM
 INSERT INTO O_TPARM
 	VALUES ("e86bc107-e0e7-49ac-b98b-1b95bf2d3ed5",
 	"20b03792-8ed4-4da5-a9e7-859283ed503b",
-	'domain',
-	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	'enumeration',
+	"72d3ca34-9d23-4b92-b549-42f9eefce46c",
+	0,
+	'',
+	"bb96f32e-ee9c-404b-bc82-3c50264637a6",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("72d3ca34-9d23-4b92-b549-42f9eefce46c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<enumeration>',
+	'',
+	'',
+	'../masltypes.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("bb96f32e-ee9c-404b-bc82-3c50264637a6",
+	"20b03792-8ed4-4da5-a9e7-859283ed503b",
+	'expression',
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"eb852628-bc85-4137-9a85-e36cdabf1702",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<domain>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
 INSERT INTO S_DT_PROXY
 	VALUES ("52fb3998-8864-45b4-8755-3a76bdedb748",
 	"00000000-0000-0000-0000-000000000000",
@@ -94,6 +127,7 @@ return valid;
 	1,
 	'',
 	"eed7fd28-ce20-4141-b5dc-118a006b5e15",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("eed7fd28-ce20-4141-b5dc-118a006b5e15",
@@ -108,6 +142,7 @@ value[0] = self.name;
 	1,
 	'',
 	"88eae16e-e322-4e04-bd09-21fbc5853ae9",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("c64695bb-20cf-49bb-89bd-53235eea5cde",

@@ -1,0 +1,106 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("549a9c22-45db-4ef1-85d4-22863b6ed946",
+	'Terminator Service Sequence',
+	1654,
+	'D_TSS',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("0ece44db-0dac-4d5a-a62e-f0c6ec48400d",
+	"549a9c22-45db-4ef1-85d4-22863b6ed946");
+INSERT INTO O_BATTR
+	VALUES ("0ece44db-0dac-4d5a-a62e-f0c6ec48400d",
+	"549a9c22-45db-4ef1-85d4-22863b6ed946");
+INSERT INTO O_ATTR
+	VALUES ("0ece44db-0dac-4d5a-a62e-f0c6ec48400d",
+	"549a9c22-45db-4ef1-85d4-22863b6ed946",
+	"00000000-0000-0000-0000-000000000000",
+	'Seq_ID',
+	'',
+	'',
+	'Seq_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("549a9c22-45db-4ef1-85d4-22863b6ed946",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	0,
+	"7798bf23-d611-4f05-a71f-68fe5a775153",
+	"63f556f5-248a-426a-b1ce-26cb5ef0301a",
+	"9a79251a-15d5-46bf-9c95-c51b79fee3cc",
+	"54737f87-c4ef-4e5f-a18e-d05cce97b564",
+	"844f45b1-4633-41a6-8ed0-e5eee86f8c6b",
+	"47cae3c4-cf8f-44ae-96f2-f08a529bb6ce",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Terminator',
+	'Term_ID',
+	'R1658');
+INSERT INTO R_RGO_PROXY
+	VALUES ("549a9c22-45db-4ef1-85d4-22863b6ed946",
+	"63f556f5-248a-426a-b1ce-26cb5ef0301a",
+	"9a79251a-15d5-46bf-9c95-c51b79fee3cc",
+	'../Deployment.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("7798bf23-d611-4f05-a71f-68fe5a775153",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	0,
+	"63f556f5-248a-426a-b1ce-26cb5ef0301a",
+	"54737f87-c4ef-4e5f-a18e-d05cce97b564",
+	'../Deployment.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("844f45b1-4633-41a6-8ed0-e5eee86f8c6b",
+	"549a9c22-45db-4ef1-85d4-22863b6ed946",
+	"7798bf23-d611-4f05-a71f-68fe5a775153",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	1,
+	'Term_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("7798bf23-d611-4f05-a71f-68fe5a775153",
+	"ccc40fff-bb7a-4037-807a-37dd7e55bdab",
+	'../Terminator/Terminator.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("844f45b1-4633-41a6-8ed0-e5eee86f8c6b",
+	"549a9c22-45db-4ef1-85d4-22863b6ed946",
+	"0ece44db-0dac-4d5a-a62e-f0c6ec48400d",
+	'Term_ID',
+	'',
+	'',
+	'Term_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"549a9c22-45db-4ef1-85d4-22863b6ed946");
+INSERT INTO O_OIDA
+	VALUES ("0ece44db-0dac-4d5a-a62e-f0c6ec48400d",
+	"549a9c22-45db-4ef1-85d4-22863b6ed946",
+	0,
+	'Seq_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"549a9c22-45db-4ef1-85d4-22863b6ed946");
+INSERT INTO O_ID
+	VALUES (2,
+	"549a9c22-45db-4ef1-85d4-22863b6ed946");
+INSERT INTO PE_PE
+	VALUES ("549a9c22-45db-4ef1-85d4-22863b6ed946",
+	1,
+	"99c9f8cc-bdef-4ed2-9999-45efc2ec4752",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("99c9f8cc-bdef-4ed2-9999-45efc2ec4752",
+	"00000000-0000-0000-0000-000000000000",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	'Deployment',
+	'',
+	0,
+	'../Deployment.xtuml');

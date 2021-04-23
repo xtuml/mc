@@ -761,7 +761,7 @@ pragma                        : PRAGMA pragmaName
                               ;
 
 pragmaValue                   : identifier
-                              | literal
+                              | MINUS? literal
                               ;
 
 pragmaName                    : identifier                                                -> ^( PRAGMA_NAME
@@ -1087,13 +1087,14 @@ codeBlockStatement            : (DECLARE
                                                                                                 otherHandler? )
                               ;
 
-codeBlock                     :   variableDeclaration*
+codeBlock                     : Asl                                                       -> ^( CODE_BLOCK[$Asl] )
+                              | variableDeclaration*
                                 BEGIN
                                   statementList
                                 (EXCEPTION
                                   exceptionHandler*
                                   otherHandler?)?
-                                END                                                       -> ^( CODE_BLOCK[$BEGIN] 
+                                END                                                       -> ^( CODE_BLOCK[$BEGIN]
                                                                                                 variableDeclaration* 
                                                                                                 statementList 
                                                                                                 exceptionHandler* 

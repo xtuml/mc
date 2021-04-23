@@ -77,7 +77,9 @@ elif ( "WASL" == genfile::architecture() )
   end if;
 
   T::include( file:"wasl/t.object_begin.wasl" );
-
+  
+  self.render_marking();
+  
   select many attributes related by self->attribute[R3709.''is characterized by''];
   for each attribute in attributes
     attribute.render();
@@ -92,6 +94,7 @@ end if;
 	1,
 	'',
 	"08a62993-0de5-465c-bb72-ba84e7590350",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("08a62993-0de5-465c-bb72-ba84e7590350",
@@ -125,6 +128,7 @@ return object;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("fe0bf592-4377-4dcc-8d5c-806c966de9bb",
@@ -258,6 +262,7 @@ return valid;',
 	1,
 	'',
 	"5f2cb104-b641-4a62-a93f-91b78ab62058",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("62436e5d-b2f0-45bd-824c-bf910bc153d7",
@@ -278,6 +283,7 @@ end if;',
 	1,
 	'',
 	"94d08134-61ae-4921-adee-96a5ef2d9522",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("5f2cb104-b641-4a62-a93f-91b78ab62058",
@@ -323,7 +329,116 @@ out::tostring( element:"object", value:emptyvalue );
 ',
 	1,
 	'',
+	"2ce5c260-3cad-4f0a-9680-24d1b3c076e5",
+	0,
+	0);
+INSERT INTO O_TFR
+	VALUES ("2ce5c260-3cad-4f0a-9680-24d1b3c076e5",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	'render_marking',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Render processor marking for class.
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "cca" );
+if ( not_empty pragma )
+	processor = "CCA";
+  T::include( file:"wasl/t.object_processor.wasl" );
+end if;
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "tca" );
+if ( not_empty pragma )
+	processor = "TCA";
+  T::include( file:"wasl/t.object_processor.wasl" );
+end if;
+
+// Render persistence marking for class.
+persist = ""; persist_value = "";
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "static" );
+if ( not_empty pragma )
+	persist = "STATIC";
+	select any pragma_item related by pragma->pragma_item[R3780];
+	if ( not_empty pragma_item )
+		persist_value = pragma_item.value;
+	end if;
+end if;
+if ( "" != persist )
+  persist_value = STRING::substr( s:persist_value, begin:1, end:STRING::strlen( s:persist_value )-1 );
+  T::include( file:"wasl/t.object_persist.wasl" );
+end if;
+
+// Render multiplicity marking for class.
+multiplicity = ""; count = "";
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "multiple" );
+if ( not_empty pragma )
+	multiplicity = "ARRAY";
+	select any pragma_item related by pragma->pragma_item[R3780];
+	if ( not_empty pragma_item )
+		count = pragma_item.value;
+	end if;
+else
+	select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "singleton" );
+	if ( not_empty pragma )
+		multiplicity = "SINGLETON";
+		select any pragma_item related by pragma->pragma_item[R3780];
+		if ( not_empty pragma_item )
+			count = pragma_item.value;
+		end if;
+	end if;
+end if;
+if ( "" != multiplicity )
+  count = STRING::substr( s:count, begin:1, end:STRING::strlen( s:count )-1 );
+  T::include( file:"wasl/t.object_mult.wasl" );
+end if;
+
+// Render initialization marking for class.
+init = "";
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "initialised" );
+if ( not_empty pragma )
+	init = "INITIALISED";
+end if;
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "non_initialised" );
+if ( not_empty pragma )
+	init = "NON_INITIALISED";
+end if;
+if ( "" != init )
+  init_value = "";
+	select any pragma_item related by pragma->pragma_item[R3780];
+	if ( not_empty pragma_item )
+		init_value = pragma_item.value;
+	end if;
+  init_value = STRING::substr( s:init_value, begin:1, end:STRING::strlen( s:init_value )-1 );
+  T::include( file:"wasl/t.object_init.wasl" );
+end if;
+
+// Render system address marking for class.
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "system_address" );
+if ( not_empty pragma )
+  address_value = "";
+	select any pragma_item related by pragma->pragma_item[R3780];
+	if ( not_empty pragma_item )
+		address_value = pragma_item.value;
+	end if;
+  address_value = STRING::substr( s:address_value, begin:1, end:STRING::strlen( s:address_value )-1 );
+  T::include( file:"wasl/t.object_address.wasl" );
+end if;
+
+// Render product marking for class.
+select any pragma related by self->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "product" );
+if ( not_empty pragma )
+  product_value = "";
+	select any pragma_item related by pragma->pragma_item[R3780];
+	if ( not_empty pragma_item )
+		product_value = pragma_item.value;
+	end if;
+  product_value = STRING::substr( s:product_value, begin:1, end:STRING::strlen( s:product_value )-1 );
+  T::include( file:"wasl/t.object_product.wasl" );
+end if;
+
+',
+	1,
+	'',
 	"62436e5d-b2f0-45bd-824c-bf910bc153d7",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("e4200518-32d3-4bef-abc2-bcb823d3dfe9",

@@ -43,7 +43,7 @@ elif ( "WASL" == genfile::architecture() )
   select many start_states related by self->cell[R3743]->state[R3732];
   for each start_state in start_states
     state_number =  start_state.number;
-    start_state_name = "Non_Existent";
+    creation_star = "";
     select one start_state_activity related by start_state->activity[R3704];
     start_state_name = start_state_activity.name;
     select many cells related by start_state->cell[R3732];
@@ -58,7 +58,16 @@ elif ( "WASL" == genfile::architecture() )
         next_state_number = next_state.number;
         next_state_name = next_state_activity.name;
       end if;
+      if ( "terminal" == start_state.type )
+        transition = "Meaningless";
+        next_state_number = 0;
+      elif ( "creation" == start_state.type )
+        creation_star = "*";
+      else
+        //
+      end if;
       select one event related by cell->event[R3732];
+      select one event_object related by event->object[R3736];
       T::include( file:"wasl/t.stt_row.wasl" );
     end for;
 
@@ -71,6 +80,7 @@ end if;',
 	1,
 	'',
 	"8930d86e-438f-4a56-b595-3a8b60fe9123",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("8930d86e-438f-4a56-b595-3a8b60fe9123",
@@ -89,6 +99,7 @@ return state_machine;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("500de992-1102-49b2-9b91-9e17e6fc2154",
@@ -159,6 +170,7 @@ return valid;',
 	1,
 	'',
 	"bc4dbe48-4b74-418f-8d9a-0f3351e63b7d",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("00f174c6-bf44-4f67-a7bc-b665d72d4119",

@@ -22,6 +22,7 @@ T::b( s:"\n" );',
 	1,
 	'',
 	"dfc45d22-6737-433d-87a3-2b9da3a4c108",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("dfc45d22-6737-433d-87a3-2b9da3a4c108",
@@ -38,6 +39,7 @@ return pragma_list;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("d77c1061-a228-48bb-83f3-84535d403e4c",
@@ -100,6 +102,7 @@ return valid;',
 	1,
 	'',
 	"0ac83b8c-f011-4483-9f58-9cc3b3836bff",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("85851714-b158-4a69-8af4-11efa63aad7a",

@@ -1,0 +1,150 @@
+= Import and Export External Activities
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+External activities are domain functions tagged with an external mark.
+This note provides analysis, design and implementation details to support
+these within the WASL flow.
+
+== 2 Introduction and Background
+
+External activities are a different usage of normal domain functions.
+In iUML they were useful for model simulation.  Whether used in the future
+or not, there are a substantial number of them in the production models.
+
+No external activities are present in the SWATS models.  Unfortunately,
+this led to this missed requirement.
+
+Analysis has shown that exernals follow a pattern quite similar to that
+of scenarios.  The naming and packaging requirements are congruent.
+
+== 3 Requirements
+
+=== 3.1 Parse External Declaration
+
+Parse the `.mod` file and detect functions marked with pragma 'external'
+and harvest the number.
+
+=== 3.2 Import External Activity Files
+
+Parse and import `.ext` activity files into xtUML domain functions stored
+in a package called 'externals'.
+
+=== 3.3 Export External Activities
+
+Export xtuml domain functions stored in a package called 'externals' into
+files ending in '.ext' and named <domain>_External<operation number>.ext.
+
+== 4 Work Required
+
+=== 4.1 Parse External Declaration
+
+==== 4.1.1 Create Function from Signature
+
+Since `.ext` files are legal MASL, the MASL parser is able to parse them
+and convert them into xtUML domain functions.  The signature will be
+recognized while parsing the `.mod` file.  At this point, an empty function
+will be created in the 'scenarios' package, because the function is imported
+with 'private' visibility.
+
+==== 4.1.2 Detect Marking and Move Function
+
+After the function is created (in the 'scenarios' package), the marking pragma
+'external' will be detected.  This mark carries the external operation number.
+Functionality must be added to respond to this pragma.  Two things must happen.
+
+. The domain function number is set using the pragma item data carried on the
+  'external' pragma.
+. The function must be disconnected from the 'scenarios' package and moved
+  to the 'externals' package which must be created if it does not exist.
+
+=== 4.2 Import External Activity Files
+
+Once the signature has been imported and the empty function created, the body
+of the activity can be imported.  `masl2xtuml` will detect the `.ext` files,
+match the signature to the already created domain function.  The ASL from the
+body of the `.ext` file will be migrated into the Action Semantics of the xtUML
+domain function.
+
+=== 4.3 Export External Activities
+
+Exporting external activities poses challenges.  The containing package
+is not visible at the point of code generation.  The marking for scenarios
+is preserved, so one option is to distinguish as externals having no mark
+as a scenario.
+
+Options:
+
+==== 4.3.1 Skip Externals
+
+The import process does not currently detect externals.  It is a simple
+matter to detect the marking which exists as a pragma in the dumped
+MASL.  Upon detection, the external function could be omitted from
+import.  This would eliminate the interference currently seen with
+scenarios.
+
+==== 4.3.2 Detect Not Scenario
+
+At present scenario marks are being preserved during the import process.
+They are not being used during the export process.  They could be.  The
+scenario marking on a private function could be interrogated.  If it is
+absent, render an external.
+
+==== 4.3.3 Override Visibility
+
+It is possible to "mug" the 'visibility' attribute and allow for 'private',
+'public' (both legal keywords) and 'external' (not a legal element).
+We could consider also allowing 'scenario'.  However, both violate the
+Serial MASL specification <<dr-2>> and the existing metamodel.
+These new overrides would be transmitted based upon the containing
+package of the domain function ('scenarios' or 'externals').
+
+==== 4.3.4 Manufacture Pragma
+
+A pragma could be manufactured to mark externals on the back end.
+The xtUML to MASL process would produce these pragmas based upon the
+name of the package containing the function ('scenarios' or 'externals').
+
+This is the recommended approach.  The pragma will not be saved
+as a mark and is an appropriate means of distinguishing scenarios
+from externals and conforms with the underlying metamodel.
+
+== 5 Implementation Comments
+
+== 6 Unit Test
+
+One model is available which contains externals; the 'GSC' (old Petrol
+Station) does contain externals.  However, it was introduced into the
+models repository before the markings for operation numbers began to be
+dumped by the iUML dumper.  So, the value of this model is limited for
+these purposes.
+
+Testing will be done on production models at the user facility.  If
+problems are numerous, consideration will be made for crafting a new test
+model or extending an existing test (SWATS) model.
+
+== 7 User Documentation
+
+N/A
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  12013_external
+
+----
+ Put the file list here
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12013[12013 - Import and Export External Activities]
+. [[dr-2]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

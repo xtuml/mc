@@ -21,6 +21,7 @@ return activity;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	0,
 	0);
 INSERT INTO O_TPARM
 	VALUES ("a0bc78f5-fe93-4ba5-bee4-743fb96c6b5a",
@@ -69,14 +70,25 @@ INSERT INTO O_TFR
 
 elif ( "WASL" == genfile::architecture() )
 
-  // Input parameters must be rendered first.  Output parameters rendered next.
+  rdirection = "";
   select one parameter related by self->parameter[R3705.''carries first''];
   if ( empty parameter )
-    T::include( file:"wasl/t.routine_noinputs.wasl" );
+    T::include( file:"wasl/t.activity_noinputs.wasl" );
+    T::include( file:"wasl/t.field_delimiter.wasl" );
   else
-    parameter.render( direction:"in" );
-    parameter.render( direction:"out" );
+    // Input parameters must be rendered first.  Output parameters rendered next.
+    if ( "in" == parameter.direction )
+      rdirection = parameter.render( direction:"in" );
+    else
+      T::include( file:"wasl/t.activity_noinputs.wasl" );
+    end if;
+    T::include( file:"wasl/t.field_delimiter.wasl" );
+    rdirection = parameter.render( direction:"out" );
   end if;
+  if ( "out" != rdirection )
+    T::include( file:"wasl/t.activity_nooutputs.wasl" );
+  end if;
+  T::include( file:"wasl/t.activity_end.wasl" );
 
 else
   //
@@ -84,6 +96,7 @@ end if;',
 	1,
 	'',
 	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("4c53013a-af89-41b3-917d-8832a0def9ef",
@@ -124,6 +137,7 @@ return valid;',
 	1,
 	'',
 	"59878c70-2372-4cca-8e50-2da017c40ff6",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("59878c70-2372-4cca-8e50-2da017c40ff6",
@@ -140,15 +154,16 @@ else
   if ( not_empty operation )
     operation.render_definition( activity:self );
   else
-	select one state related by self->state[R3704];
-	if ( not_empty state )
-	  state.render_definition( activity:self );
-	end if;
+    select one state related by self->state[R3704];
+    if ( not_empty state )
+      state.render_definition( activity:self );
+    end if;
   end if;
 end if;',
 	1,
 	'',
 	"cce75d87-818b-4fc3-a50d-f92d030db143",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("5f25fd7e-5ed0-42f8-be06-c7eb4a9a0c81",
@@ -199,6 +214,7 @@ return signature;',
 	1,
 	'',
 	"4c53013a-af89-41b3-917d-8832a0def9ef",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("10b40a6e-08ac-4da1-a02e-e573acda7b07",
@@ -235,15 +251,17 @@ end if;
 
 for each activity in activities
  
-  select one act_routine related by self->routine[R3704];
-  select one act_operation related by self->operation[R3704];
-  select one act_state related by self->state[R3704];
+  select one act_routine related by activity->routine[R3704];
+  select one act_operation related by activity->operation[R3704];
+  select one act_state related by activity->state[R3704];
   
   // if the activity is duplicated
   if ( activity != self and self.get_signature() == activity.get_signature() and
        ( empty routine ) == ( empty act_routine ) and
        ( empty operation ) == ( empty act_operation ) and
        ( empty state ) )
+    if ( ( ( not_empty routine ) and ( routine.number == act_routine.number ) ) or
+       ( ( not_empty operation ) and ( operation.number == act_operation.number ) ) )
        
     // transfer codeblock relationship
     select one act_codeblock related by activity->code_block[R3794];
@@ -259,12 +277,14 @@ for each activity in activities
     // break from for loop
     break;
        
+    end if;
   end if;
 
 end for;',
 	1,
 	'',
 	"5f25fd7e-5ed0-42f8-be06-c7eb4a9a0c81",
+	0,
 	0);
 INSERT INTO O_TFR
 	VALUES ("a6ad3dd1-a91d-4c21-b6a3-dfc034492522",
@@ -303,6 +323,7 @@ delete object instance self;',
 	1,
 	'',
 	"10b40a6e-08ac-4da1-a02e-e573acda7b07",
+	0,
 	0);
 INSERT INTO O_NBATTR
 	VALUES ("27d8c431-aa99-4f85-8118-e3c78c95bcdb",

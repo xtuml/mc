@@ -1,0 +1,4 @@
+$$BUILD_SET_NAME ${self.name}
+$$BUILD_SET_VERSION 0
+$$PROJECT_KEY_LETTER ${self.key_letters}
+$$PROJECT_VERSION 0\n
