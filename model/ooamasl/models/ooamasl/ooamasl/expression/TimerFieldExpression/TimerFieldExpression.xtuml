@@ -1,0 +1,57 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("5db9683d-3565-4633-8cc4-91e09973c0fd",
+	'TimerFieldExpression',
+	5539,
+	'TimerFieldExpression',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("6d2bba8b-1118-4b69-a52a-a3b88b49bf19",
+	"5db9683d-3565-4633-8cc4-91e09973c0fd");
+INSERT INTO O_BATTR
+	VALUES ("6d2bba8b-1118-4b69-a52a-a3b88b49bf19",
+	"5db9683d-3565-4633-8cc4-91e09973c0fd");
+INSERT INTO O_ATTR
+	VALUES ("6d2bba8b-1118-4b69-a52a-a3b88b49bf19",
+	"5db9683d-3565-4633-8cc4-91e09973c0fd",
+	"00000000-0000-0000-0000-000000000000",
+	'field',
+	'',
+	'',
+	'field',
+	0,
+	"9a733b24-23eb-4767-a50c-4a61ca7c912e",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9a733b24-23eb-4767-a50c-4a61ca7c912e",
+	"00000000-0000-0000-0000-000000000000",
+	'Field',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"5db9683d-3565-4633-8cc4-91e09973c0fd");
+INSERT INTO O_ID
+	VALUES (1,
+	"5db9683d-3565-4633-8cc4-91e09973c0fd");
+INSERT INTO O_ID
+	VALUES (2,
+	"5db9683d-3565-4633-8cc4-91e09973c0fd");
+INSERT INTO PE_PE
+	VALUES ("5db9683d-3565-4633-8cc4-91e09973c0fd",
+	1,
+	"992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"00000000-0000-0000-0000-000000000000",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'expression',
+	'',
+	0,
+	'../expression.xtuml');
