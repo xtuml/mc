@@ -10615,7 +10615,7 @@ INSERT INTO O_OBJ_PROXY
 	VALUES ("02dcadc0-1b12-4fe0-a441-e90342aa7b62",
 	'CodeBlock',
 	5103,
-	'CodeBlock',
+	'CodeBlock2',
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'./CodeBlock/CodeBlock.xtuml');
@@ -11295,7 +11295,7 @@ INSERT INTO O_OBJ_PROXY
 	VALUES ("27d40a3e-e561-47b9-bbce-e4f655ae047d",
 	'Statement',
 	5124,
-	'Statement',
+	'Statement2',
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'./Statement/Statement.xtuml');
@@ -11574,7 +11574,7 @@ INSERT INTO O_OBJ_PROXY
 	VALUES ("19d0cbc2-0de3-4a0a-94fa-23b127a74935",
 	'Expression',
 	5516,
-	'Expression',
+	'Expression2',
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'../expression/Expression/Expression.xtuml');
@@ -14491,7 +14491,7 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'Expression',
-	'Expression');
+	'Expression2');
 INSERT INTO PE_PE
 	VALUES ("3615a7b2-5a90-4aba-bcc1-822df9250989",
 	1,

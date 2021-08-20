@@ -4,7 +4,7 @@ INSERT INTO O_OBJ
 	VALUES ("9eba5353-04a0-4a34-adb3-ba57ac8df4a0",
 	'UserDefinedType',
 	6240,
-	'UserDefinedType',
+	'UserDefinedType2',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_NBATTR
@@ -53,7 +53,7 @@ INSERT INTO O_ATTR
 INSERT INTO S_DT_PROXY
 	VALUES ("2f0bb20f-cbf4-4a9d-9486-a241f30df580",
 	"00000000-0000-0000-0000-000000000000",
-	'Visibility',
+	'Visibility2',
 	'',
 	'',
 	'../../Shared/Shared.xtuml');

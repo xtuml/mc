@@ -221,10 +221,10 @@ else
 	else
 		select any domain from instances of Domain where ( selected.name == param.domainname );
 		if ( not_empty domain )
-			select any user_defined_type related by domain->UserDefinedType[R6235] where ( selected.name == param.name );
+			select any user_defined_type related by domain->UserDefinedType2[R6235] where ( selected.name == param.name );
 			select one basic_type related by user_defined_type->BasicType[R6205];
 		else
-			select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
+			select any user_defined_type from instances of UserDefinedType2 where ( selected.name == param.name );
 			select one basic_type related by user_defined_type->BasicType[R6205];
 		end if;
 	end if;
@@ -378,7 +378,7 @@ create object instance numeric_type of NumericType;
 numeric_type.bits = 64;
 numeric_type.signed = true;
 // create and link to min and max expressions
-create object instance expression of Expression;
+create object instance expression of Expression2;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -387,7 +387,7 @@ relate expression to literal_expression across R5517;
 relate literal_expression to numeric_literal across R5700;
 relate numeric_literal to integer_literal across R5703;
 relate expression to numeric_type across R6222;
-create object instance expression of Expression;
+create object instance expression of Expression2;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -410,7 +410,7 @@ create object instance numeric_type of NumericType;
 numeric_type.bits = 64;
 numeric_type.signed = true;
 // create and link to min and max expressions
-create object instance expression of Expression;
+create object instance expression of Expression2;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -419,7 +419,7 @@ relate expression to literal_expression across R5517;
 relate literal_expression to numeric_literal across R5700;
 relate numeric_literal to integer_literal across R5703;
 relate expression to numeric_type across R6222;
-create object instance expression of Expression;
+create object instance expression of Expression2;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -442,7 +442,7 @@ create object instance numeric_type of NumericType;
 numeric_type.bits = 8;
 numeric_type.signed = false;
 // create and link to min and max expressions
-create object instance expression of Expression;
+create object instance expression of Expression2;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -451,7 +451,7 @@ relate expression to literal_expression across R5517;
 relate literal_expression to numeric_literal across R5700;
 relate numeric_literal to integer_literal across R5703;
 relate expression to numeric_type across R6222;
-create object instance expression of Expression;
+create object instance expression of Expression2;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -474,7 +474,7 @@ create object instance numeric_type of NumericType;
 numeric_type.bits = 32;
 numeric_type.signed = false;
 // create and link to min and max expressions
-create object instance expression of Expression;
+create object instance expression of Expression2;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -483,7 +483,7 @@ relate expression to literal_expression across R5517;
 relate literal_expression to numeric_literal across R5700;
 relate numeric_literal to integer_literal across R5703;
 relate expression to numeric_type across R6222;
-create object instance expression of Expression;
+create object instance expression of Expression2;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -576,7 +576,7 @@ INSERT INTO S_SYNC
 	'select_State_where_name',
 	'',
 	'object_declaration = param.object;
-select any ooastate related by object_declaration->State[R6105] where ( selected.name == param.name );
+select any ooastate related by object_declaration->State2[R6105] where ( selected.name == param.name );
 return ooastate;',
 	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
 	1,
@@ -756,7 +756,7 @@ INSERT INTO S_SYNC
 	'select_State_related_where_name',
 	'',
 	'object_declaration = param.object_declaration;
-select any state related by object_declaration->State[R6105] where ( selected.name == param.name );
+select any state related by object_declaration->State2[R6105] where ( selected.name == param.name );
 return state;',
 	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
 	1,
@@ -968,9 +968,9 @@ INSERT INTO S_SYNC
 	'select_UserDefinedType_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.domainname );
-select any user_defined_type related by domain->UserDefinedType[R6235] where ( selected.name == param.name );
+select any user_defined_type related by domain->UserDefinedType2[R6235] where ( selected.name == param.name );
 if ( empty user_defined_type )
-  select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
+  select any user_defined_type from instances of UserDefinedType2 where ( selected.name == param.name );
 end if;
 return user_defined_type;',
 	"5f5b21a5-3fd7-4b46-970e-812947d7a192",
@@ -1027,7 +1027,7 @@ message = "resolve_name( " + param.trace + ", " + d + "::" + n + ", ";
 if ( not_empty code_block )
   select one service related by code_block->Service[R5403];
   if ( empty service )
-    select one state related by code_block->State[R6115];
+    select one state related by code_block->State2[R6115];
     if ( empty state )
       LOG::LogFailure( message:"empty service and state" );
     else
@@ -1102,9 +1102,9 @@ if ( not_empty builtin_type )
   return basic_type;
 else
   select any domain from instances of Domain where ( selected.name == param.domainname );
-  select any user_defined_type from instances of UserDefinedType where ( selected.name == param.name );
+  select any user_defined_type from instances of UserDefinedType2 where ( selected.name == param.name );
   if ( not_empty domain )
-    select any user_defined_type related by domain->UserDefinedType[R6235] where ( selected.name == param.name );
+    select any user_defined_type related by domain->UserDefinedType2[R6235] where ( selected.name == param.name );
   end if;
   if ( not_empty user_defined_type )
     select one basic_type related by user_defined_type->BasicType[R6205];
@@ -1175,7 +1175,7 @@ if ( not_empty enumerate_item )
   relate enumerate_literal to literal_expression across R5700;
   relate enumerate_literal to enumerate_item across R5701;
   relate expression to literal_expression across R5517;
-  select any basic_type related by enumerate_item->EnumerateType[R6218]->FullTypeDefinition[R6219]->TypeDefinition[R6236]->TypeDeclaration[R6234]->UserDefinedType[R6241]->BasicType[R6205];
+  select any basic_type related by enumerate_item->EnumerateType[R6218]->FullTypeDefinition[R6219]->TypeDefinition[R6236]->TypeDeclaration[R6234]->UserDefinedType2[R6241]->BasicType[R6205];
   LOG::LogInfo( message: message + "enumerator." );
   return basic_type;
 end if;
@@ -1712,7 +1712,7 @@ if ( not_empty instance_type )
     else
       // function
       create object instance instance_function_invocation of InstanceFunctionInvocation;
-      create object instance function_invocation of FunctionInvocation;
+      create object instance function_invocation of FunctionInvocation2;
       relate instance_function_invocation to function_invocation across R5600;
     end if;
     LOG::LogInfo( message:"create_DotExpression:  object service invocation:  " + param.name );
@@ -1721,7 +1721,7 @@ if ( not_empty instance_type )
 end if;
 
 // Look for structure element.
-select one structure_type related by lhs_basic_type->UserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
+select one structure_type related by lhs_basic_type->UserDefinedType2[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
 if ( not_empty structure_type )
   select one structure_element related by structure_type->StructureElement[R6244];
   while ( not_empty structure_element )
@@ -1863,7 +1863,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'select_CodeBlock_empty',
 	'',
-	'select any code_block from instances of CodeBlock where ( false );
+	'select any code_block from instances of CodeBlock2 where ( false );
 return code_block;',
 	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
 	1,
@@ -2154,7 +2154,7 @@ INSERT INTO S_SYNC
 	'',
 	'ordering_expression = param.ordering_expression;
 
-select one child_basic_type related by ordering_expression->Expression[R5535]->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
+select one child_basic_type related by ordering_expression->Expression2[R5535]->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
 select one instance_ordering_expression related by ordering_expression->InstanceOrderingExpression[R5534];
 if ( not_empty instance_ordering_expression )
   select one instance_type related by child_basic_type->InstanceType[R6205];
@@ -2165,7 +2165,7 @@ if ( not_empty instance_ordering_expression )
   end if;
 else
   select one structure_ordering_expression related by ordering_expression->StructureOrderingExpression[R5534];
-  select one structure_type related by child_basic_type->UserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
+  select one structure_type related by child_basic_type->UserDefinedType2[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
   select one structure_element related by structure_type->StructureElement[R6244];
   while ( not_empty structure_element )
     if ( structure_element.name == param.name )

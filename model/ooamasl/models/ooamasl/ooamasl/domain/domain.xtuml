@@ -3747,7 +3747,7 @@ INSERT INTO O_OBJ_PROXY
 	VALUES ("02dcadc0-1b12-4fe0-a441-e90342aa7b62",
 	'CodeBlock',
 	5103,
-	'CodeBlock',
+	'CodeBlock2',
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'../statement/CodeBlock/CodeBlock.xtuml');
@@ -3802,7 +3802,7 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'CodeBlock',
-	'CodeBlock');
+	'CodeBlock2');
 INSERT INTO PE_PE
 	VALUES ("1312720f-eeaa-404e-bae1-e1b68d3c2809",
 	1,

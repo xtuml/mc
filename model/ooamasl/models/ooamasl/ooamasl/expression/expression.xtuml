@@ -16492,7 +16492,7 @@ INSERT INTO O_OBJ_PROXY
 	VALUES ("19d0cbc2-0de3-4a0a-94fa-23b127a74935",
 	'Expression',
 	5516,
-	'Expression',
+	'Expression2',
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'./Expression/Expression.xtuml');
@@ -17613,7 +17613,7 @@ INSERT INTO O_OBJ_PROXY
 	VALUES ("1e67e8ab-afbb-4a95-880d-cee9b40a075f",
 	'FunctionInvocation',
 	5601,
-	'FunctionInvocation',
+	'FunctionInvocation2',
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'../invocation/FunctionInvocation/FunctionInvocation.xtuml');
@@ -21041,7 +21041,7 @@ INSERT INTO O_OBJ_PROXY
 	VALUES ("058012fd-53b3-4066-be48-b2a05c7ebd22",
 	'State',
 	6102,
-	'State',
+	'State2',
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'../statemodel/State/State.xtuml');
@@ -21394,7 +21394,7 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'FunctionInvocation',
-	'FunctionInvocation');
+	'FunctionInvocation2');
 INSERT INTO PE_PE
 	VALUES ("c835a8cf-ccb2-4d9b-bef4-a4cedb993026",
 	1,
@@ -21576,7 +21576,7 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'State',
-	'State');
+	'State2');
 INSERT INTO PE_PE
 	VALUES ("c7533523-69e5-492f-b64a-3b331d6ab94a",
 	1,

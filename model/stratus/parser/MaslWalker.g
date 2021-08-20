@@ -282,8 +282,8 @@ returns [Object exception_reference]
 
 exceptionVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = "Visibility::private"; }
-                              | PUBLIC                      { $visibility = "Visibility::public"; }
+                              : PRIVATE                     { $visibility = "Visibility2::private"; }
+                              | PUBLIC                      { $visibility = "Visibility2::public"; }
                               ;
 
 //---------------------------------------------------------
@@ -302,7 +302,7 @@ returns [Object user_defined_type]
                                                                   if ( ((IModelInstance)$user_defined_type).isEmpty() ) {
                                                                     Object type_definition = loader.create( "TypeDefinition" );
                                                                     Object basic_type = loader.create( "BasicType" );
-                                                                    $user_defined_type = loader.create( "UserDefinedType" );
+                                                                    $user_defined_type = loader.create( "UserDefinedType2" );
                                                                     Object type_declaration = loader.create( "TypeDeclaration" );
                                                                     loader.relate( basic_type, type_definition, 6236, "" );
                                                                     loader.relate( $user_defined_type, basic_type, 6205, "" );
@@ -328,7 +328,7 @@ returns [Object user_defined_type]
                                                                   if ( ((IModelInstance)$user_defined_type).isEmpty() ) {
                                                                     Object type_definition = loader.create( "TypeDefinition" );
                                                                     Object basic_type = loader.create( "BasicType" );
-                                                                    $user_defined_type = loader.create( "UserDefinedType" );
+                                                                    $user_defined_type = loader.create( "UserDefinedType2" );
                                                                     type_declaration = loader.create( "TypeDeclaration" );
                                                                     loader.relate( basic_type, type_definition, 6236, "" );
                                                                     loader.relate( $user_defined_type, basic_type, 6205, "" );
@@ -408,8 +408,8 @@ returns [Object type_definition]
 
 typeVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = "Visibility::private"; }
-                              | PUBLIC                      { $visibility = "Visibility::public"; }
+                              : PRIVATE                     { $visibility = "Visibility2::private"; }
+                              | PUBLIC                      { $visibility = "Visibility2::public"; }
                               ;
 
 
@@ -1045,7 +1045,7 @@ returns [Object object_declaration]
                                                               try {
                                                                 if ( false == non_existent_exists ) {
                                                                   // Create a Non_Existent state.
-                                                                  Object ooastate = loader.create( "State" );
+                                                                  Object ooastate = loader.create( "State2" );
                                                                   loader.set_attribute( ooastate, "name", "Non_Existent" );
                                                                   loader.relate( ooastate, $object_declaration, 6105, "" );
                                                                   non_existent_exists = true;
@@ -1273,7 +1273,7 @@ returns [Object ooastate]
                                 )                           
                                                             {
                                                               try {
-                                                                $ooastate = loader.create( "State" );
+                                                                $ooastate = loader.create( "State2" );
                                                                 loader.set_attribute( $ooastate, "name", $stateName.name );
                                                                 if ( "assigner" == $stateType.type ) {
                                                                   loader.set_attribute( $ooastate, "flavor", "StateType::assigner" );
@@ -1369,7 +1369,7 @@ returns [Object transition_option]
                                                                 $transition_option = loader.create( "TransitionOption" );
                                                                 loader.set_attribute( $transition_option, "flavor", $endState.transition_type );
                                                                 loader.relate( $incomingEvent.event_declaration, $transition_option, 6108, "" );
-                                                                if ( "TransitionType::to_state" == $endState.transition_type ) {
+                                                                if ( "TransitionType2::to_state" == $endState.transition_type ) {
                                                                   Object ooastate = loader.call_function( "select_State_where_name", current_object, $endState.name );
                                                                   loader.relate( ooastate, $transition_option, 6109, "" );
                                                                 }
@@ -1392,9 +1392,9 @@ returns [String name]
 
 endState
 returns [String name, String transition_type]
-                              : stateName                   { $transition_type = "TransitionType::to_state"; $name = $stateName.name; }
-                              | IGNORE                      { $transition_type = "TransitionType::ignore"; $name = ""; }
-                              | CANNOT_HAPPEN               { $transition_type = "TransitionType::cannot_happen"; $name = ""; }
+                              : stateName                   { $transition_type = "TransitionType2::to_state"; $name = $stateName.name; }
+                              | IGNORE                      { $transition_type = "TransitionType2::ignore"; $name = ""; }
+                              | CANNOT_HAPPEN               { $transition_type = "TransitionType2::cannot_happen"; $name = ""; }
                               ;
 
 eventReference
@@ -1484,8 +1484,8 @@ returns [Object firstparameter]
 
 serviceVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = "Visibility::private"; }
-                              | PUBLIC                      { $visibility = "Visibility::public"; }
+                              : PRIVATE                     { $visibility = "Visibility2::private"; }
+                              | PUBLIC                      { $visibility = "Visibility2::public"; }
                               ;
 
 parameterMode
@@ -1655,8 +1655,8 @@ returns [boolean isconditional]
 
 multiplicity
 returns [String multiplicity]
-                              : ONE                         { $multiplicity = "Multiplicity::one"; }
-                              | MANY                        { $multiplicity = "Multiplicity::many"; }
+                              : ONE                         { $multiplicity = "Multiplicity2::one"; }
+                              | MANY                        { $multiplicity = "Multiplicity2::many"; }
                               ;
 
 
@@ -1863,7 +1863,7 @@ statement
 returns [Object st]
 @init                                                       {
                                                               try {
-                                                                $st = loader.create( "Statement" );
+                                                                $st = loader.create( "Statement2" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                               Object code_block = empty_code_block;
                                                             }
@@ -2516,7 +2516,7 @@ returns [Object code_block]
                               : ^( CODE_BLOCK
                                                             {
                                                               try {
-                                                                $code_block = loader.create( "CodeBlock" );
+                                                                $code_block = loader.create( "CodeBlock2" );
                                                                 current_code_block = $code_block;
                                                                 // TODO - nest the code_block instances.
                                                                 if ( null != current_service ) {
@@ -2634,7 +2634,7 @@ expression
 returns [Object expression, Object basic_type]
 @init                                                       {
                                                               try {
-                                                                $expression = loader.create( "Expression" );
+                                                                $expression = loader.create( "Expression2" );
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "expression:init" ); }
                                                             }
 @after                                                      {
@@ -3129,7 +3129,7 @@ returns [Object call_expression, Object basic_type]
                                                             {
                                                               try {
                                                                 $call_expression = loader.create( "CallExpression" );
-                                                                function_invocation = loader.create( "FunctionInvocation" );
+                                                                function_invocation = loader.create( "FunctionInvocation2" );
                                                                 loader.relate( function_invocation, $call_expression, 5500, "" );
                                                                 // TODO Use expression to resolve the subtype.
                                                                 // This logic can likely be completely in action language.
