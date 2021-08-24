@@ -1,0 +1,32 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("cbdc96fd-1acb-402d-be10-6280c99f6d40",
+	'EndlLiteral',
+	5704,
+	'EndlLiteral',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_ID
+	VALUES (0,
+	"cbdc96fd-1acb-402d-be10-6280c99f6d40");
+INSERT INTO O_ID
+	VALUES (1,
+	"cbdc96fd-1acb-402d-be10-6280c99f6d40");
+INSERT INTO O_ID
+	VALUES (2,
+	"cbdc96fd-1acb-402d-be10-6280c99f6d40");
+INSERT INTO PE_PE
+	VALUES ("cbdc96fd-1acb-402d-be10-6280c99f6d40",
+	1,
+	"ca0022f2-e86e-43dd-a1c5-f342fd4087db",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ca0022f2-e86e-43dd-a1c5-f342fd4087db",
+	"00000000-0000-0000-0000-000000000000",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'literal',
+	'',
+	0,
+	'../literal.xtuml');

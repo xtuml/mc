@@ -1,0 +1,83 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("1cbe4352-e697-497a-8720-3f39c028546f",
+	'DictionaryKeysExpression',
+	5510,
+	'DictionaryKeysExpression',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("a1ec4498-05c2-4ddc-becc-28825dfa47a0",
+	"1cbe4352-e697-497a-8720-3f39c028546f");
+INSERT INTO O_BATTR
+	VALUES ("a1ec4498-05c2-4ddc-becc-28825dfa47a0",
+	"1cbe4352-e697-497a-8720-3f39c028546f");
+INSERT INTO O_ATTR
+	VALUES ("a1ec4498-05c2-4ddc-becc-28825dfa47a0",
+	"1cbe4352-e697-497a-8720-3f39c028546f",
+	"00000000-0000-0000-0000-000000000000",
+	'my_dictionary',
+	'relationship?
+',
+	'',
+	'my_dictionary',
+	0,
+	"2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2033d2e1-8dee-4a52-95d9-624d8e82bbc4",
+	"00000000-0000-0000-0000-000000000000",
+	'iExpression',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("3911095e-a551-40ae-b89a-bebe61c72eb5",
+	"1cbe4352-e697-497a-8720-3f39c028546f");
+INSERT INTO O_BATTR
+	VALUES ("3911095e-a551-40ae-b89a-bebe61c72eb5",
+	"1cbe4352-e697-497a-8720-3f39c028546f");
+INSERT INTO O_ATTR
+	VALUES ("3911095e-a551-40ae-b89a-bebe61c72eb5",
+	"1cbe4352-e697-497a-8720-3f39c028546f",
+	"a1ec4498-05c2-4ddc-becc-28825dfa47a0",
+	'my_type',
+	'',
+	'',
+	'my_type',
+	0,
+	"92c8bfd4-eda5-4ba1-a2ff-5f0e41b6c5fa",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("92c8bfd4-eda5-4ba1-a2ff-5f0e41b6c5fa",
+	"00000000-0000-0000-0000-000000000000",
+	'iSetType',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"1cbe4352-e697-497a-8720-3f39c028546f");
+INSERT INTO O_ID
+	VALUES (1,
+	"1cbe4352-e697-497a-8720-3f39c028546f");
+INSERT INTO O_ID
+	VALUES (2,
+	"1cbe4352-e697-497a-8720-3f39c028546f");
+INSERT INTO PE_PE
+	VALUES ("1cbe4352-e697-497a-8720-3f39c028546f",
+	1,
+	"992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("992a0b4f-2d8c-42fa-8cec-c830de082ef5",
+	"00000000-0000-0000-0000-000000000000",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'expression',
+	'',
+	0,
+	'../expression.xtuml');

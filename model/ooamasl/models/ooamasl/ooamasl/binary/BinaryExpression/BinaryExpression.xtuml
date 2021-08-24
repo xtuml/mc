@@ -1,0 +1,57 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("7bf48008-baeb-48fc-8412-d6365f8fd50b",
+	'BinaryExpression',
+	5003,
+	'BinaryExpression',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("37c1d61f-f038-401d-ab2a-ac796ed843c3",
+	"7bf48008-baeb-48fc-8412-d6365f8fd50b");
+INSERT INTO O_BATTR
+	VALUES ("37c1d61f-f038-401d-ab2a-ac796ed843c3",
+	"7bf48008-baeb-48fc-8412-d6365f8fd50b");
+INSERT INTO O_ATTR
+	VALUES ("37c1d61f-f038-401d-ab2a-ac796ed843c3",
+	"7bf48008-baeb-48fc-8412-d6365f8fd50b",
+	"00000000-0000-0000-0000-000000000000",
+	'operator',
+	'',
+	'',
+	'operator',
+	0,
+	"766b5d8d-2e60-4295-a0c6-de1ee59cb168",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("766b5d8d-2e60-4295-a0c6-de1ee59cb168",
+	"00000000-0000-0000-0000-000000000000",
+	'Operator',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"7bf48008-baeb-48fc-8412-d6365f8fd50b");
+INSERT INTO O_ID
+	VALUES (1,
+	"7bf48008-baeb-48fc-8412-d6365f8fd50b");
+INSERT INTO O_ID
+	VALUES (2,
+	"7bf48008-baeb-48fc-8412-d6365f8fd50b");
+INSERT INTO PE_PE
+	VALUES ("7bf48008-baeb-48fc-8412-d6365f8fd50b",
+	1,
+	"94e1ca0a-9991-4708-95be-57ab7084b501",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("94e1ca0a-9991-4708-95be-57ab7084b501",
+	"00000000-0000-0000-0000-000000000000",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'binary',
+	'',
+	0,
+	'../binary.xtuml');
