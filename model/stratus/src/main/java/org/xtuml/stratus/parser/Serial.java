@@ -1,4 +1,4 @@
-package deploy.parser;
+package org.xtuml.stratus.parser;
 
 import java.io.*;
 

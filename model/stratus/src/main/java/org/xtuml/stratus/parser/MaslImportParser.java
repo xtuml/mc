@@ -1,4 +1,4 @@
-package deploy.parser;
+package org.xtuml.stratus.parser;
 
 import io.ciera.runtime.instanceloading.generic.IGenericLoader;
 import io.ciera.runtime.instanceloading.generic.util.LOAD;

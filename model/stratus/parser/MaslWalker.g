@@ -8,7 +8,7 @@ options
 
 @header
 {
-package deploy.parser;
+package org.xtuml.stratus.parser;
 
 import io.ciera.runtime.instanceloading.generic.util.LOAD;
 import io.ciera.runtime.summit.exceptions.XtumlException;

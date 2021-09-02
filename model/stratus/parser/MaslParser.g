@@ -96,7 +96,7 @@ tokens
 
 @header
 {
-package deploy.parser;
+package org.xtuml.stratus.parser;
 }
 
 @annotations

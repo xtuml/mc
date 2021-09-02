@@ -34,7 +34,7 @@
         <version>3.5.2</version>
         <configuration>
           <sourceDirectory>${project.basedir}/parser</sourceDirectory>
-          <outputDirectory>${project.build.directory}/generated-sources/java/deploy/parser</outputDirectory>
+          <outputDirectory>${project.build.directory}/generated-sources/java/org/xtuml/stratus/parser</outputDirectory>
         </configuration>
         <executions>
           <execution>
