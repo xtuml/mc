@@ -30,17 +30,13 @@
     <plugins>
       <plugin>
         <groupId>org.antlr</groupId>
-        <artifactId>antlr3-maven-plugin</artifactId>
-        <version>3.5.2</version>
-        <configuration>
-          <sourceDirectory>${project.basedir}/parser</sourceDirectory>
-          <outputDirectory>${project.build.directory}/generated-sources/java/deploy/parser</outputDirectory>
-        </configuration>
+        <artifactId>antlr4-maven-plugin</artifactId>
+        <version>4.9.1</version>
         <executions>
           <execution>
             <id>antlr</id>
             <goals>
-              <goal>antlr</goal>
+              <goal>antlr4</goal>
             </goals>
           </execution>
         </executions>
