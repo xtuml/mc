@@ -1,10 +1,9 @@
 package deploy.parser;
 
-import java.io.*;
+import java.io.PrintStream;
 
 public interface Serial {
 
-    // set output
     public void setOutput( PrintStream out );
 
 }

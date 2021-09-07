@@ -1,20 +1,18 @@
 package deploy.parser;
 
-import java.io.*;
-import java.util.regex.Matcher;
+import java.io.PrintStream;
 
 public class MaslSerial implements Serial {
 
-    private PrintStream     output;             // output stream
+    private PrintStream output;
 
-    // public constructor
     public MaslSerial() {
         output = System.out;
     }
 
     // set output stream
-    public void setOutput( PrintStream out ) {
-        if ( null != out ) {
+    public void setOutput(PrintStream out) {
+        if (null != out) {
             output = out;
         }
     }
