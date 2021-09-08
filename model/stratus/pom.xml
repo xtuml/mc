@@ -32,6 +32,10 @@
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-maven-plugin</artifactId>
         <version>4.9.1</version>
+        <configuration>
+          <listener>false</listener>
+          <visitor>true</visitor>
+        </configuration>
         <executions>
           <execution>
             <id>antlr</id>
@@ -41,7 +45,6 @@
           </execution>
         </executions>
       </plugin>
-      <!--
       <plugin>
         <groupId>io.ciera</groupId>
         <artifactId>ciera-maven-plugin</artifactId>
@@ -73,7 +76,6 @@
           </execution>
         </executions>
       </plugin>
-      -->
     </plugins>
     <resources>
       <resource>
