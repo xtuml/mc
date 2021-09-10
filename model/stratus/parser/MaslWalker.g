@@ -1,31 +1,6 @@
 tree grammar MaslWalker;
 
-options
-{
-  tokenVocab=MaslParser;
-  ASTLabelType=CommonTree;
-}
-
-@header
-{
-package deploy.parser;
-
-import io.ciera.runtime.instanceloading.generic.util.LOAD;
-import io.ciera.runtime.summit.exceptions.XtumlException;
-import io.ciera.runtime.summit.classes.IModelInstance;
-import java.io.*;
-}
-
-@annotations
-{
-@SuppressWarnings("all")
-}
-
-@members
-{
 // external interface
-private Serial serial = null;
-private LOAD loader = null;
 private Object empty_object = null;
 private Object empty_code_block = null;
 private Object current_project = empty_object;
@@ -36,53 +11,18 @@ private Object current_object = empty_object;
 private Object current_ooastate = empty_object;
 private Object current_code_block = empty_code_block;
 
-// parent masl parser
-private MaslImportParser masl_parser = null;
-
-// set the serial interface
-public void setInterface ( Serial serial, LOAD loader ) {
-    if ( serial != null )
-        this.serial = serial;
-    else
-        this.serial = null;
-    if ( loader != null )
-        this.loader = loader;
-    else
-        this.loader = null;
-}
-
-// set the parent masl parser
-public void setMaslParser( MaslImportParser p ) {
-    if ( p != null )
-        this.masl_parser = p;
-    else
-        this.masl_parser = null;
-}
-
-// get the current file
-private String getFile() {
-    if ( null == masl_parser ) return null;
-    File f = new File( masl_parser.getFile() );
-    return f.getName();
-}
-
 // trace routine
 private void xtuml_trace( XtumlException e, String message ) {
-  System.err.println( "xtuml_trace(" + message + ") - " + getFile() + ":  " + e );
+  System.err.println( "xtuml_trace(" + message + ") - " + /* TODO */ "getFile()" + ":  " + e );
   e.printStackTrace();
   System.exit( 1 );
 }
 
-}
 
 target
                               : definition+;
 
 definition
-@init{ try { empty_object = loader.call_function( "select_ObjectDeclaration_where_name", "false", "false" );
-             empty_code_block = loader.call_function( "select_CodeBlock_empty" );
-             current_code_block = empty_code_block;
-           } catch ( XtumlException e ) { xtuml_trace( e, "" ); } }
                               : projectDefinition
                               | domainDefinition
                               ;
@@ -94,29 +34,16 @@ definition
 
 identifier
 returns [String name]
-                              : Identifier                  {
-                                                              $name = $Identifier.text;
-                                                            }
+                              : Identifier                  
                               ;
 
 
 projectDefinition
 returns [Object project]
                               : ^( PROJECT
-                                   projectName              {
-                                                              try {
-                                                                $project = loader.create( "Project" );
-                                                                loader.set_attribute( $project, "name", $projectName.name );
-                                                                current_project = $project;
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                   projectName              
                                    description
                                    ( projectDomainDefinition
-                                                            {
-                                                              try {
-                                                                loader.relate( $projectDomainDefinition.project_domain, $project, 5900, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    )*
                                    pragmaList)              
                               ;
@@ -125,19 +52,8 @@ projectDomainDefinition
 returns [Object project_domain]
                               : ^( DOMAIN
                                    projectDomainReference   
-                                   description              {
-                                                              try {
-                                                                $project_domain = loader.create( "ProjectDomain" );
-                                                                loader.set_attribute( $project_domain, "name", $projectDomainReference.domainname );
-                                                                current_project_domain = $project_domain;
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                   description              
                                    ( projectTerminatorDefinition    
-                                                            {
-                                                              try {
-                                                                loader.relate( $projectTerminatorDefinition.project_terminator, $project_domain, 5902, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    )*
                                    pragmaList
                                  )                          
@@ -147,7 +63,7 @@ returns [Object project_domain]
 projectName
 returns [String name]
                               : ^( PROJECT_NAME
-                                   identifier               { $name = $identifier.name; }
+                                   identifier               
                                 )
                               ;
 
@@ -159,56 +75,16 @@ returns [String name]
 domainDefinition
 returns [Object domain]
                               : ^( DOMAIN
-                                   domainName               {
-                                                              try {
-                                                                // Some interface files declare the domain with test objects.  Allow it.
-                                                                $domain = loader.call_function( "select_Domain_where_name", $domainName.domainname );
-                                                                if ( ((IModelInstance)$domain).isEmpty() ) {
-                                                                  $domain = loader.create( "Domain" );
-                                                                  loader.set_attribute( $domain, "name", $domainName.domainname );
-                                                                }
-                                                                current_domain = $domain;
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                   domainName               
                                    description
                                    ( objectDeclaration           
-                                                            {
-                                                              try {
-                                                                loader.relate( $objectDeclaration.object_declaration, $domain, 5805, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | domainServiceDeclaration    
-                                                            {
-                                                              try {
-                                                                loader.relate( $domainServiceDeclaration.domain_service, $domain, 5303, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | domainTerminatorDefinition    
-                                                            {
-                                                              try {
-                                                                loader.relate( $domainTerminatorDefinition.domain_terminator, $domain, 5304, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | relationshipDefinition     
-                                                            {
-                                                              try {
-                                                                loader.relate( $relationshipDefinition.relationship_declaration, $domain, 6003, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | objectDefinition       // object related when declared (above)
                                    | typeDeclaration             
-                                                            {
-                                                              try {
-                                                                loader.relate( $typeDeclaration.user_defined_type, $domain, 6235, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | typeForwardDeclaration // leaving child unrelated until typeDeclaration
                                    | exceptionDeclaration        
-                                                            {
-                                                              try {
-                                                                loader.relate( $exceptionDeclaration.rejection, $domain, 5400, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    )*
                                    pragmaList
                                  )                              
@@ -217,24 +93,24 @@ returns [Object domain]
 domainName
 returns [String domainname]
                               : ^( DOMAIN_NAME
-                                   identifier               { $domainname = $identifier.name; }
+                                   identifier               
                                  )
                               ;
 
 domainReference
 returns [String domainname]
-                              : domainName                  { $domainname = $domainName.domainname; }
+                              : domainName                  
                               ;
 
 projectDomainReference
 returns [String domainname]
-                              : domainName                  { $domainname = $domainName.domainname; }
+                              : domainName                  
                               ;
 
 optionalDomainReference
 returns [String domainname, boolean defaulted]
-                              : domainReference             { $domainname = $domainReference.domainname; $defaulted = false; }
-                              | /* blank */                 { $domainname = ""; $defaulted = true;}
+                              : domainReference             
+                              | /* blank */                 
                               ;
 
 
@@ -249,41 +125,25 @@ returns [Object rejection]
                                    exceptionVisibility      
                                    pragmaList
                                  )                          
-                                                              {
-                                                                  try {
-                                                                    $rejection = loader.create( "ExceptionDeclaration" );
-                                                                    loader.set_attribute( $rejection, "name", $exceptionName.exceptionname );
-                                                                    loader.set_attribute( $rejection, "visibility", $exceptionVisibility.visibility );
-                                                                  } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                              }
                               ;
 
 exceptionName
 returns [ String exceptionname ]
                               : ^( EXCEPTION_NAME
-                                   identifier)              { $exceptionname = $identifier.name; }
+                                   identifier)              
                               ;
 
 exceptionReference
 returns [Object exception_reference]
                               : optionalDomainReference
                                 exceptionName               
-                                                              {
-                                                                try {
-                                                                  $exception_reference = loader.create( "ExceptionReference" );
-                                                                  Object builtin = loader.create( "BuiltinException" );
-                                                                  loader.relate( $exception_reference, builtin, 5401, "" );
-                                                                  Object exception_declaration = loader.call_function( "select_ExceptionDeclaration_where_name", $optionalDomainReference.domainname, $exceptionName.exceptionname );
-                                                                  loader.relate( $exception_reference, exception_declaration, 5402, "" );
-                                                                } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                              }
                               ;
                                 
 
 exceptionVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = "Visibility::private"; }
-                              | PUBLIC                      { $visibility = "Visibility::public"; }
+                              : PRIVATE                     
+                              | PUBLIC                      
                               ;
 
 //---------------------------------------------------------

@@ -23,10 +23,10 @@ projectDefinition             : description
                                 END PROJECT? SEMI pragmaList
                               ;
 
-projectItem                   : domainPrjDefinition
+projectItem                   : projectDomainDefinition
                               ;
 
-domainPrjDefinition
+projectDomainDefinition
                               : description
                                 DOMAIN domainName IS
                                   domainPrjItem*
@@ -613,7 +613,7 @@ returnStatement               : RETURN expression
 delayStatement                : DELAY expression
                               ;
 
-raiseStatement                : RAISE qualifiedExceptionName
+raiseStatement                : RAISE exceptionReference
                                       ( LPAREN expression? RPAREN )?
                               ;
 
@@ -741,13 +741,13 @@ variableDeclaration           : variableName COLON
                               ;
 
 
-exceptionHandler              : WHEN qualifiedExceptionName GOES_TO statementList
+exceptionHandler              : WHEN exceptionReference GOES_TO statementList
                               ;
 
 otherHandler                  : WHEN OTHERS GOES_TO statementList
                               ;
 
-qualifiedExceptionName        : (domainName SCOPE)? exceptionName
+exceptionReference            : (domainName SCOPE)? exceptionName
                               ;
 
 variableName                  : identifier
