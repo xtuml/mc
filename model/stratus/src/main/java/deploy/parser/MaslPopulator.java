@@ -1,10 +1,16 @@
 package deploy.parser;
 
+import deploy.stratus.ooamasl.domain.Domain;
 import deploy.stratus.ooamasl.domain.DomainService;
 import deploy.stratus.ooamasl.domain.DomainTerminator;
 import deploy.stratus.ooamasl.domain.ExceptionDeclaration;
+import deploy.stratus.ooamasl.object.AttributeDeclaration;
 import deploy.stratus.ooamasl.object.ObjectDeclaration;
+import deploy.stratus.ooamasl.object.ObjectService;
 import deploy.stratus.ooamasl.relationship.RelationshipDeclaration;
+import deploy.stratus.ooamasl.statemodel.EventDeclaration;
+import deploy.stratus.ooamasl.statemodel.State;
+import deploy.stratus.ooamasl.statemodel.TransitionTable;
 import deploy.stratus.ooamasl.type.UserDefinedType;
 import io.ciera.runtime.instanceloading.generic.util.LOAD;
 import io.ciera.runtime.summit.classes.IModelInstance;
@@ -20,6 +26,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     private Object currentDomain;
     private Object currentService;
     private Object currentObject;
+    private Object previousAttribute;
+    private Object currentAttribute;
     private Object currentOOAState;
     private Object currentCodeBlock;
 
@@ -402,8 +410,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitNamedTypeRef(MaslParser.NamedTypeRefContext ctx) {
         try {
-            Object basicType = loader.call_function("select_BasicType_where_name", (ctx.domainName() != null ? ctx.domainName().getText() : ""),
-                    ctx.typeName().getText());
+            Object basicType = loader.call_function("select_BasicType_where_name",
+                    (ctx.domainName() != null ? ctx.domainName().getText() : ""), ctx.typeName().getText());
             if (!((IModelInstance<?, ?>) basicType).isEmpty()) {
                 loader.set_attribute(basicType, "isanonymous", (ctx.ANONYMOUS() != null));
             } else {
@@ -539,6 +547,396 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 loader.relate(dictionaryType, stringBasicType, 6214, "");
             }
             return basicType;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitTerminatorDefinition(MaslParser.TerminatorDefinitionContext ctx) {
+        try {
+            if (currentProject == null) { // domain terminator
+                Object domainTerminator = loader.create("DomainTerminator");
+                loader.set_attribute(domainTerminator, "name", ctx.terminatorName().getText());
+                for (Object terminatorServiceDeclaration : ctx.terminatorItem().stream().map(o -> visit(o)).toArray()) {
+                    loader.relate(terminatorServiceDeclaration, domainTerminator, 5306, "");
+                }
+                return domainTerminator;
+            } else { // project terminator
+                Object projectTerminator = loader.create("ProjectTerminator");
+                loader.set_attribute(projectTerminator, "name", ctx.terminatorName().getText());
+                for (Object projectTerminatorServiceDeclaration : ctx.terminatorItem().stream().map(o -> visit(o))
+                        .toArray()) {
+                    loader.relate(projectTerminatorServiceDeclaration, projectTerminator, 5903, "");
+                }
+                return projectTerminator;
+            }
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitTerminatorServiceDeclaration(MaslParser.TerminatorServiceDeclarationContext ctx) {
+        try {
+            Object service = loader.create("Service");
+            currentService = service;
+            loader.set_attribute(service, "name", ctx.serviceName().getText());
+            loader.set_attribute(service, "visibility", visit(ctx.serviceVisibility()));
+            if (currentProject == null) { // domain terminator service
+                Object domainTerminatorService = loader.create("DomainTerminatorService");
+                loader.relate(domainTerminatorService, service, 5203, "");
+            } else { // project terminator service
+                Object projectTerminatorService = loader.create("ProjectTerminatorService");
+                loader.relate(projectTerminatorService, service, 5203, "");
+            }
+
+            Object firstParameter = visit(ctx.parameterList());
+            if (firstParameter != null) {
+                loader.relate(firstParameter, service, 5204, "");
+            }
+            if (ctx.returnType() != null) {
+
+                loader.relate(visit(ctx.returnType()), service, 5205, "");
+            }
+            return service;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitObjectReference(MaslParser.ObjectReferenceContext ctx) {
+        try {
+            return loader.call_function("select_ObjectDeclaration_where_name", "", ctx.objectName().getText());
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitFullObjectReference(MaslParser.FullObjectReferenceContext ctx) {
+        try {
+            return loader.call_function("select_ObjectDeclaration_where_name",
+                    ctx.domainName() != null ? ctx.domainName().getText() : "", ctx.objectName().getText());
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitObjectDeclaration(MaslParser.ObjectDeclarationContext ctx) {
+        try {
+            Object objectDeclaration = loader.create("ObjectDeclaration");
+            loader.set_attribute(objectDeclaration, "name", ctx.objectName().getText());
+            return objectDeclaration;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitObjectDefinition(MaslParser.ObjectDefinitionContext ctx) {
+        try {
+            Object objectDeclaration = loader.call_function("select_ObjectDeclaration_where_name",
+                    ((Domain) currentDomain).getName(), ctx.objectName().getText());
+            loader.set_attribute(objectDeclaration, "name", ctx.objectName().getText());
+            currentObject = objectDeclaration;
+            previousAttribute = null;
+            boolean nonExistentExists = false;
+            // object items
+            for (Object objectItem : ctx.objectItem().stream().map(o -> visit(o)).toArray()) {
+                if (objectItem instanceof AttributeDeclaration) {
+                    loader.relate(objectItem, objectDeclaration, 5802, "");
+                    previousAttribute = objectItem;
+                } else if (objectItem instanceof ObjectService) {
+                    loader.relate(objectItem, objectDeclaration, 5808, "");
+                } else if (objectItem instanceof EventDeclaration) {
+                    loader.relate(objectItem, objectDeclaration, 6101, "");
+                } else if (objectItem instanceof State) {
+                    if (!nonExistentExists) {
+                        // Create a Non_Existent state.
+                        Object ooastate = loader.create("State");
+                        loader.set_attribute(ooastate, "name", "Non_Existent");
+                        loader.relate(ooastate, objectDeclaration, 6105, "");
+                        nonExistentExists = true;
+                    }
+                    loader.relate(objectItem, objectDeclaration, 6105, "");
+                } else if (objectItem instanceof TransitionTable) {
+                    loader.relate(objectItem, objectDeclaration, 6113, "");
+                }
+            }
+
+            currentObject = emptyObject;
+            return objectDeclaration;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitAttributeDefinition(MaslParser.AttributeDefinitionContext ctx) {
+        try {
+            Object attributeDeclaration = loader.create("AttributeDeclaration");
+            loader.set_attribute(attributeDeclaration, "name", ctx.attributeName().getText());
+            currentAttribute = attributeDeclaration;
+            if (previousAttribute != null) {
+                loader.relate(attributeDeclaration, previousAttribute, 5809, "succeeds");
+            }
+            if (ctx.PREFERRED() != null) {
+                loader.set_attribute(attributeDeclaration, "isPreferredIdentifier", true);
+                // TODO Be sure we create it only for the first occurrence of the preferred key
+                // word.
+                // still not linking to ObjectDeclaration and being sure only one...
+                Object identifierDeclaration = loader.create("IdentifierDeclaration");
+                loader.set_attribute(identifierDeclaration, "ispreferred", true);
+                loader.relate(attributeDeclaration, identifierDeclaration, 5807, "");
+            }
+            if (ctx.UNIQUE() != null) {
+                loader.set_attribute(attributeDeclaration, "isUnique", true);
+            }
+            if (ctx.attReferentials() != null) {
+                visit(ctx.attReferentials());
+            }
+            loader.relate(attributeDeclaration, visit(ctx.typeReference()), 5803, "");
+
+            if (ctx.defaultValue != null) {
+                loader.relate(attributeDeclaration, visit(ctx.defaultValue), 5801, "");
+            }
+            currentAttribute = null;
+            return attributeDeclaration;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitAttReferential(MaslParser.AttReferentialContext ctx) {
+        try {
+            Object referentialAttributeDefinition = loader.create("ReferentialAttributeDefinition");
+            loader.set_attribute(referentialAttributeDefinition, "name", ctx.attributeName().getText());
+            // Link referential to itself until after all objects and attributes have been
+            // created.
+            loader.relate_using(currentAttribute, currentAttribute, referentialAttributeDefinition, 5800, "refers_to");
+            loader.relate(referentialAttributeDefinition, visit(ctx.relationshipSpec()), 5811, "");
+            return referentialAttributeDefinition;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitRelationshipSpec(MaslParser.RelationshipSpecContext ctx) {
+        try {
+            String objectOrRole = ctx.objOrRole != null ? ctx.objOrRole.getText() : "";
+            Object toObject = ctx.objectReference() != null ? visit(ctx.objectReference()) : emptyObject;
+            Object relationshipSpecification = loader.call_function("create_RelationshipSpecification",
+                    visit(ctx.relationshipReference()), currentObject, objectOrRole, toObject, true, false); // TODO
+                                                                                                             // allow_assoc,
+                                                                                                             // force_assoc
+            // TODO - know about whether we need a set or not
+            // if (((IModelInstance)to_object).isEmpty()) {
+            // to_object = loader.call_function( "select_ObjectDeclaration_where_name", "",
+            // object_or_role );
+            // }
+            // $basic_type = loader.call_function( "select_create_InstanceType", to_object,
+            // false ); TODO need this?
+            return relationshipSpecification;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitObjectServiceDeclaration(MaslParser.ObjectServiceDeclarationContext ctx) {
+        try {
+            Object service = loader.create("Service");
+            currentService = service;
+            loader.set_attribute(service, "name", ctx.serviceName().getText());
+            loader.set_attribute(service, "visibility", visit(ctx.serviceVisibility()));
+            Object objectService = loader.create("ObjectService");
+            loader.relate(objectService, service, 5203, "");
+            Object firstParameter = visit(ctx.parameterList());
+            if (firstParameter != null) {
+                loader.relate(firstParameter, service, 5204, "");
+            }
+            if (ctx.returnType() != null) {
+                loader.relate(visit(ctx.returnType()), service, 5205, "");
+            }
+            return objectService;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitIdentifierDefinition(MaslParser.IdentifierDefinitionContext ctx) {
+        try {
+            Object identifierDeclaration = loader.create("IdentifierDeclaration");
+            loader.set_attribute(identifierDeclaration, "ispreferred", false);
+            loader.relate(identifierDeclaration, currentObject, 5804, "");
+            for (Object attributeName : ctx.attributeName().stream().map(o -> o.getText()).toArray()) {
+                Object attributeDeclaration = loader.call_function("select_AttributeDeclaration_related_where_name",
+                        currentObject, attributeName);
+                loader.relate(attributeDeclaration, identifierDeclaration, 5807, "");
+            }
+            return identifierDeclaration;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitEventDefinition(MaslParser.EventDefinitionContext ctx) {
+        try {
+            Object eventDeclaration = loader.create("EventDeclaration");
+            loader.set_attribute(eventDeclaration, "name", ctx.eventName().getText());
+            loader.set_attribute(eventDeclaration, "flavor", visit(ctx.eventType()));
+            Object firstParameter = visit(ctx.parameterList());
+            if (firstParameter != null) {
+                loader.relate(eventDeclaration, firstParameter, 6100, "");
+            }
+            return eventDeclaration;
+
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitEventType(MaslParser.EventTypeContext ctx) {
+        if (ctx.ASSIGNER() != null) {
+            return "EventType::assigner";
+        } else if (ctx.CREATION() != null) {
+            return "EventType::creation";
+        } else {
+            return "EventType::normal";
+        }
+    }
+
+    @Override
+    public Object visitStateDeclaration(MaslParser.StateDeclarationContext ctx) {
+        try {
+            Object OOAState = loader.create("State");
+            loader.set_attribute(OOAState, "name", ctx.stateName().getText());
+            loader.set_attribute(OOAState, "flavor", visit(ctx.stateType()));
+            Object firstParameter = visit(ctx.parameterList());
+            if (firstParameter != null) {
+                loader.relate(OOAState, firstParameter, 6104, "");
+            }
+            return OOAState;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitStateType(MaslParser.StateTypeContext ctx) {
+        if (ctx.ASSIGNER() != null) {
+            return "StateType::assigner";
+        } else if (ctx.START() != null) {
+            return "StateType::assigner_start";
+        } else if (ctx.CREATION() != null) {
+            return "StateType::creation";
+        } else if (ctx.TERMINAL() != null) {
+            return "StateType::terminal";
+        } else {
+            return "StateType::normal";
+        }
+    }
+
+    @Override
+    public Object visitTransitionTable(MaslParser.TransitionTableContext ctx) {
+        try {
+            Object transitionTable = loader.create("TransitionTable");
+            loader.set_attribute(transitionTable, "isassigner", visit(ctx.transTableType()));
+            for (Object transitionRow : ctx.transitionRow().stream().map(o -> visit(o)).toArray()) {
+                loader.relate(transitionRow, transitionTable, 6114, "");
+            }
+            return transitionTable;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitTransTableType(MaslParser.TransTableTypeContext ctx) {
+        return ctx.ASSIGNER() != null;
+    }
+
+    @Override
+    public Object visitTransitionRow(MaslParser.TransitionRowContext ctx) {
+        try {
+            Object transitionRow = loader.create("TransitionRow");
+            Object OOAState = loader.call_function("select_State_where_name", currentObject, visit(ctx.startState()));
+            loader.relate(OOAState, transitionRow, 6111, "");
+            for (Object transitionOption : ctx.transitionOption().stream().map(o -> visit(o)).toArray()) {
+                loader.relate(transitionOption, transitionRow, 6112, "");
+            }
+            return transitionRow;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitTransitionOption(MaslParser.TransitionOptionContext ctx) {
+        try {
+            Object transitionOption = loader.create("TransitionOption");
+            Object endStateOrType = visit(ctx.endState());
+            loader.set_attribute(transitionOption, "flavor",
+                    !((String) endStateOrType).startsWith("TransitionType::") ? "TransitionType::to_state"
+                            : endStateOrType);
+            loader.relate(visit(ctx.eventReference()), transitionOption, 6108, "");
+            if (endStateOrType == "TransitionType::to_state") {
+                Object OOAState = loader.call_function("select_State_where_name", currentObject, endStateOrType);
+                loader.relate(OOAState, transitionOption, 6109, "");
+            }
+            return transitionOption;
+
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitStartState(MaslParser.StartStateContext ctx) {
+        return ctx.NON_EXISTENT() != null ? "Non_Existent" : ctx.stateName().getText();
+    }
+
+    @Override
+    public Object visitEndState(MaslParser.EndStateContext ctx) {
+        if (ctx.IGNORE() != null) {
+            return "TransitionType::ignore";
+        } else if (ctx.CANNOT_HAPPEN() != null) {
+            return "TransitionType::cannot_happen";
+        } else {
+            return ctx.stateName().getText();
+        }
+    }
+
+    @Override
+    public Object visitEventReference(MaslParser.EventReferenceContext ctx) {
+        try {
+            return loader.call_function("select_EventDeclaration_where_name",
+                    ctx.objectReference() != null ? visit(ctx.objectReference()) : "", ctx.eventName().getText());
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;

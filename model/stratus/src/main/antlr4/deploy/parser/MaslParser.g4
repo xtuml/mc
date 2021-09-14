@@ -286,12 +286,10 @@ objectItem                    : attributeDefinition
 
 attributeDefinition           : description
                                 attributeName COLON
-                                attModifiers attReferentials? typeReference
+                                PREFERRED? UNIQUE? attReferentials? typeReference
                                 (ASSIGN defaultValue=constExpression)?
                                 SEMI pragmaList
                               ;
-
-attModifiers                  : PREFERRED? UNIQUE?;
 
 attReferentials               : REFERENTIAL
                                 LPAREN
@@ -303,7 +301,7 @@ attReferential                : relationshipSpec
                                 DOT attributeName
                               ;
 
-relationshipSpec              : relationshipName
+relationshipSpec              : relationshipReference
                                   ( DOT objOrRole=identifier
                                     (DOT objectReference)?
                                   )?
@@ -332,6 +330,9 @@ eventDefinition               : description eventType EVENT eventName parameterL
 eventName                     : identifier
                               ;
 
+eventReference                : (objectReference DOT)? eventName
+                              ;
+
 eventType                     : ASSIGNER
                               | CREATION
                               | /* blank */
@@ -351,7 +352,7 @@ stateType                     : ASSIGNER
                               ;
 
 
-transitionTable               : transTableType st=TRANSITION IS
+transitionTable               : transTableType TRANSITION IS
                                   transitionRow+
                                 END TRANSITION SEMI pragmaList
                               ;
@@ -367,10 +368,7 @@ transitionRow                : startState
                                 RPAREN SEMI pragmaList
                               ;
 
-transitionOption              : incomingEvent GOES_TO endState
-                              ;
-
-incomingEvent                 : (objectReference DOT)? eventName
+transitionOption              : eventReference GOES_TO endState
                               ;
 
 startState                    : NON_EXISTENT
@@ -435,6 +433,9 @@ returnType                    : typeReference
 //---------------------------------------------------------
 
 relationshipName              : RelationshipName
+                              ;
+
+relationshipReference         : (domainName SCOPE)? relationshipName
                               ;
 
 relationshipDefinition        : description RELATIONSHIP relationshipName IS
