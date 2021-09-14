@@ -170,23 +170,14 @@ typeReference
                               : namedTypeRef
                               | instanceTypeRef
                               | collectionTypeRef
-                              | deprecatedType
                               ;
 
 typeReferenceWithCA           : typeReference
                               | constrainedArrayTypeRef
                               ;
 
-deprecatedType                : INSTANCE
-                              | EVENT
-                              | SERVICE
-                              ;
 
-
-qualifiedObjectName           : (domainName SCOPE)? objectName
-                              ;
-
-instanceTypeRef               : ANONYMOUS? INSTANCE OF qualifiedObjectName
+instanceTypeRef               : ANONYMOUS? INSTANCE OF fullObjectReference
                               ;
 
 namedTypeRef                  : ANONYMOUS? (domainName SCOPE)? typeName
@@ -206,12 +197,27 @@ arrayBounds                   : LPAREN expression RPAREN
 
 
 
-collectionTypeRef             : ANONYMOUS? SEQUENCE
+collectionTypeRef             : sequenceTypeRef             
+                              | arrayTypeRef                
+                              | setTypeRef                  
+                              | bagTypeRef                  
+                              | dictionaryTypeRef           
+                              ;
+
+sequenceTypeRef               : ANONYMOUS? SEQUENCE
                               (LPAREN expression RPAREN)? OF typeReference
-                              | ANONYMOUS? ARRAY arrayBounds OF typeReference
-                              | ANONYMOUS? SET OF typeReference
-                              | ANONYMOUS? BAG OF typeReference
-                              | ANONYMOUS? DICTIONARY
+                              ;
+
+arrayTypeRef                  : ANONYMOUS? ARRAY arrayBounds OF typeReference
+                              ;
+
+setTypeRef                    : ANONYMOUS? SET OF typeReference
+                              ;
+
+bagTypeRef                    : ANONYMOUS? BAG OF typeReference
+                              ;
+
+dictionaryTypeRef             : ANONYMOUS? DICTIONARY
                                 ( dictKeyType? OF dictValueType )?
                               ;
 
@@ -249,6 +255,12 @@ terminatorServiceDeclaration  : description serviceVisibility SERVICE serviceNam
 //---------------------------------------------------------
 
 objectName                    : identifier
+                              ;
+
+objectReference               : objectName
+                              ;
+
+fullObjectReference           : (domainName SCOPE)? objectName
                               ;
 
 attributeName                 : identifier
@@ -293,7 +305,7 @@ attReferential                : relationshipSpec
 
 relationshipSpec              : relationshipName
                                   ( DOT objOrRole=identifier
-                                    (DOT objectName)?
+                                    (DOT objectReference)?
                                   )?
                               ;
 
@@ -358,7 +370,7 @@ transitionRow                : startState
 transitionOption              : incomingEvent GOES_TO endState
                               ;
 
-incomingEvent                 : (objectName DOT)? eventName
+incomingEvent                 : (objectReference DOT)? eventName
                               ;
 
 startState                    : NON_EXISTENT
@@ -441,17 +453,17 @@ regularRelationshipDefinition : forwards=halfRelationshipDefinition COMMA
 
 assocRelationshipDefinition   : forwards=halfRelationshipDefinition COMMA
                                 backwards=halfRelationshipDefinition
-                                USING ONE? objectName
+                                USING ONE? objectReference
                               ;
 
-halfRelationshipDefinition    : from=objectName conditionality rolePhrase
-                                multiplicity to=objectName
+halfRelationshipDefinition    : from=objectReference conditionality rolePhrase
+                                multiplicity to=objectReference
                               ;
 
 
-subtypeRelationshipDefinition : supertype=objectName IS_A
+subtypeRelationshipDefinition : supertype=objectReference IS_A
                                 LPAREN
-                                  sub+=objectName ( COMMA sub+=objectName )*
+                                  sub+=objectReference ( COMMA sub+=objectReference )*
                                 RPAREN
                               ;
 
@@ -514,7 +526,7 @@ domainServiceDefinition       : description
 
 objectServiceDefinition       : description
                                 serviceVisibility INSTANCE? SERVICE
-                                  domainName SCOPE objectName DOT serviceName
+                                  domainName SCOPE objectReference DOT serviceName
                                   parameterList
                                   ( RETURN returnType )? IS codeBlock
                                 SERVICE? SEMI pragmaList
@@ -533,7 +545,7 @@ terminatorServiceDefinition   : description
 
 stateDefinition               : description
                                 stateType STATE
-                                domainName SCOPE objectName DOT stateName
+                                domainName SCOPE objectReference DOT stateName
                                 parameterList IS codeBlock
                                 STATE? SEMI pragmaList
                               ;
@@ -655,7 +667,7 @@ generateStatement             : GENERATE qualifiedEventName
                               ;
 
 
-qualifiedEventName            : (qualifiedObjectName DOT)? eventName
+qualifiedEventName            : (fullObjectReference DOT)? eventName
                               ;
 
 
@@ -850,7 +862,7 @@ sortOrder                     : LPAREN
 sortOrderComponent            : REVERSE? identifier
                               ;
 
-createExpression              : CREATE UNIQUE? objectName createArgumentList
+createExpression              : CREATE UNIQUE? objectReference createArgumentList
                               ;
 
 createArgumentList            : LPAREN

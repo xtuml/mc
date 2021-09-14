@@ -12,11 +12,6 @@ private Object current_ooastate = empty_object;
 private Object current_code_block = empty_code_block;
 
 // trace routine
-private void xtuml_trace( XtumlException e, String message ) {
-  System.err.println( "xtuml_trace(" + message + ") - " + /* TODO */ "getFile()" + ":  " + e );
-  e.printStackTrace();
-  System.exit( 1 );
-}
 
 
 target
@@ -99,7 +94,7 @@ returns [String domainname]
 
 domainReference
 returns [String domainname]
-                              : domainName                  
+                              : domainName                   
                               ;
 
 projectDomainReference
@@ -156,62 +151,18 @@ returns [Object user_defined_type]
                                    typeName                 
                                    typeVisibility
                                    pragmaList				
-                                                              {
-                                                                try {
-                                                                  $user_defined_type = loader.call_function( "select_UserDefinedType_where_name", "", $typeName.name );
-                                                                  if ( ((IModelInstance)$user_defined_type).isEmpty() ) {
-                                                                    Object type_definition = loader.create( "TypeDefinition" );
-                                                                    Object basic_type = loader.create( "BasicType" );
-                                                                    $user_defined_type = loader.create( "UserDefinedType" );
-                                                                    Object type_declaration = loader.create( "TypeDeclaration" );
-                                                                    loader.relate( basic_type, type_definition, 6236, "" );
-                                                                    loader.relate( $user_defined_type, basic_type, 6205, "" );
-                                                                    loader.relate( $user_defined_type, type_declaration, 6241, "" );
-                                                                    loader.set_attribute( $user_defined_type, "name", $typeName.name );
-                                                                    loader.set_attribute( $user_defined_type, "visibility", $typeVisibility.visibility );
-                                                                  }
-                                                                } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                              }
                                  )                          
                               ;
                               
 
 typeDeclaration
 returns [Object user_defined_type]
-@init{ Object type_declaration = null; boolean created = false; }
                               : ^( TYPE
                                    typeName                 
                                    typeVisibility
-                                                              {
-                                                                try {
-                                                                  $user_defined_type = loader.call_function( "select_UserDefinedType_where_name", "", $typeName.name );
-                                                                  if ( ((IModelInstance)$user_defined_type).isEmpty() ) {
-                                                                    Object type_definition = loader.create( "TypeDefinition" );
-                                                                    Object basic_type = loader.create( "BasicType" );
-                                                                    $user_defined_type = loader.create( "UserDefinedType" );
-                                                                    type_declaration = loader.create( "TypeDeclaration" );
-                                                                    loader.relate( basic_type, type_definition, 6236, "" );
-                                                                    loader.relate( $user_defined_type, basic_type, 6205, "" );
-                                                                    loader.relate( $user_defined_type, type_declaration, 6241, "" );
-                                                                    loader.set_attribute( $user_defined_type, "name", $typeName.name );
-                                                                    loader.set_attribute( $user_defined_type, "visibility", $typeVisibility.visibility );
-                                                                    created = true;
-                                                                  } else {
-                                                                    // declared forward
-                                                                    type_declaration = loader.call_function( "select_TypeDeclaration_related_UserDefinedType", $user_defined_type );
-                                                                  }
-                                                                } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                              }
                                    description
                                    pragmaList
                                    typeDefinition
-                                                              {
-                                                                if ( created ) { // TODO - this is needed until private/public is resolved.
-                                                                  try {
-                                                                    loader.relate( $typeDefinition.type_definition, type_declaration, 6234, "" );
-                                                                  } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                                }
-                                                              }
                                  )
                               ;
 
@@ -219,57 +170,16 @@ returns [Object user_defined_type]
 typeDefinition
 returns [Object type_definition]
                               : structureTypeDefinition
-                                                            {
-                                                              try {
-                                                                $type_definition = loader.create( "TypeDefinition" );
-                                                                Object full_type_definition = loader.create( "FullTypeDefinition" );
-                                                                loader.relate( full_type_definition, $type_definition, 6236, "" );
-                                                                loader.relate( $structureTypeDefinition.structure_type, full_type_definition, 6219, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | enumerationTypeDefinition   
-                                                            {
-                                                              try {
-                                                                $type_definition = loader.create( "TypeDefinition" );
-                                                                Object full_type_definition = loader.create( "FullTypeDefinition" );
-                                                                loader.relate( full_type_definition, $type_definition, 6236, "" );
-                                                                loader.relate( $enumerationTypeDefinition.enumerate_type, full_type_definition, 6219, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | constrainedTypeDefinition   
-                                                            {
-                                                              try {
-                                                                $type_definition = loader.create( "TypeDefinition" );
-                                                                Object full_type_definition = loader.create( "FullTypeDefinition" );
-                                                                loader.relate( full_type_definition, $type_definition, 6236, "" );
-                                                                loader.relate( $constrainedTypeDefinition.constrained_type, full_type_definition, 6219, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | typeReference               
-                                                            {
-                                                              try {
-                                                                $type_definition = loader.call_function( "select_TypeDefinition_related_BasicType", $typeReference.basic_type );
-                                                                if ( ((IModelInstance)$type_definition).isEmpty() ) {
-                                                                  $type_definition = loader.create( "TypeDefinition" );
-                                                                  loader.relate( $typeReference.basic_type, $type_definition, 6236, "" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | unconstrainedArrayDefinition
-                                                            {
-                                                              try {
-                                                                $type_definition = loader.create( "TypeDefinition" );
-                                                                Object full_type_definition = loader.create( "FullTypeDefinition" );
-                                                                loader.relate( full_type_definition, $type_definition, 6236, "" );
-                                                                loader.relate( $unconstrainedArrayDefinition.type, full_type_definition, 6219, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               ;
 
 typeVisibility
 returns [String visibility]
-                              : PRIVATE                     { $visibility = "Visibility::private"; }
-                              | PUBLIC                      { $visibility = "Visibility::public"; }
+                              : PRIVATE                     
+                              | PUBLIC                      
                               ;
 
 
@@ -280,50 +190,21 @@ returns [Object constrained_type]
                               : ^( CONSTRAINED_TYPE
                                    typeReference
                                    typeConstraint
-                                 )                          {
-                                                              try {
-                                                                $constrained_type = loader.create( "ConstrainedType" );
-                                                                loader.relate( $typeReference.basic_type, $constrained_type, 6210, "" );
-                                                                loader.relate( $typeConstraint.type_constraint, $constrained_type, 6209, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 typeConstraint
 returns [Object type_constraint]
                               : rangeConstraint
-                                                            {
-                                                              try {
-                                                                $type_constraint = loader.create( "TypeConstraint" );
-                                                                loader.relate( $rangeConstraint.range_constraint, $type_constraint, 6232, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | deltaConstraint             
-                                                            {
-                                                              try {
-                                                                $type_constraint = loader.create( "TypeConstraint" );
-                                                                loader.relate( $deltaConstraint.delta_constraint, $type_constraint, 6232, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | digitsConstraint            
-                                                            {
-                                                              try {
-                                                                $type_constraint = loader.create( "TypeConstraint" );
-                                                                loader.relate( $digitsConstraint.digits_constraint, $type_constraint, 6232, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               ;
 
 rangeConstraint
 returns [Object range_constraint]
                               : ^( RANGE
                                    expression
-                                 )                          {
-                                                              try {
-                                                                $range_constraint = loader.create( "RangeConstraint" );
-                                                                loader.relate( $expression.expression, $range_constraint, 6224, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 deltaConstraint
@@ -331,13 +212,7 @@ returns [Object delta_constraint]
                               : ^( DELTA
                                    expression
                                    rangeConstraint
-                                 )                          {
-                                                              try {
-                                                                $delta_constraint = loader.create( "DeltaConstraint" );
-                                                                loader.relate( $expression.expression, $delta_constraint, 6211, "" );
-                                                                loader.relate( $rangeConstraint.range_constraint, $delta_constraint, 6212, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 digitsConstraint
@@ -345,36 +220,14 @@ returns [Object digits_constraint]
                               : ^( DIGITS
                                    expression
                                    rangeConstraint
-                                 )                          {
-                                                              try {
-                                                                $digits_constraint = loader.create( "RangeConstraint" );
-                                                                loader.relate( $expression.expression, $digits_constraint, 6215, "" );
-                                                                loader.relate( $rangeConstraint.range_constraint, $digits_constraint, 6216, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 // Structure Type
 structureTypeDefinition
 returns [Object structure_type]
-@init{ Object previouscomponent = null; }
                               : ^( STRUCTURE
-                                                            {
-                                                              try {
-                                                                $structure_type = loader.create( "StructureType" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    ( structureComponentDefinition 
-                                                            {
-                                                              try {
-                                                                if ( null == previouscomponent ) {
-                                                                  loader.relate( $structureComponentDefinition.structure_element, $structure_type, 6244, "" );
-                                                                } else {
-                                                                  loader.relate( $structureComponentDefinition.structure_element, previouscomponent, 6243, "succeeds" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                              previouscomponent = $structureComponentDefinition.structure_element;
-                                                            }
                                    )+
                                  )                          
                               ;
@@ -388,47 +241,21 @@ returns [Object structure_element]
                                    expression?
                                    pragmaList
                                  )                          
-                                                            {
-                                                              try {
-                                                                $structure_element = loader.create( "StructureElement" );
-                                                                loader.set_attribute( $structure_element, "name", $componentName.componentname );
-                                                                loader.relate( $typeReference.basic_type, $structure_element, 6230, "" );
-                                                                if ( null != $expression.expression ) {
-                                                                  loader.relate( $expression.expression, $structure_element, 6229, "" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               ;
 
 componentName
 returns [String componentname]
                               : ^( COMPONENT_NAME
                                    identifier
-                                 )                          { $componentname = $identifier.name; }
+                                 )                          
                               ;
 
 
 // Enumeration Type
 enumerationTypeDefinition
 returns [Object enumerate_type]
-@init{ Object previousenumerator = null; }
                               : ^( ENUM
-                                                            {
-                                                              try {
-                                                                $enumerate_type = loader.create( "EnumerateType" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    ( enumerator             
-                                                            {
-                                                              try {
-                                                                if ( null == previousenumerator ) {
-                                                                  loader.relate( $enumerator.enumerate_item, $enumerate_type, 6218, "" );
-                                                                } else {
-                                                                  loader.relate( $enumerator.enumerate_item, previousenumerator, 6242, "succeeds" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                              previousenumerator = $enumerator.enumerate_item;
-                                                            }
                                    )+
                                  )                          
                               ;
@@ -438,21 +265,13 @@ returns [Object enumerate_item]
                               : ^( ENUMERATOR
                                    enumeratorName
                                    expression?
-                                 )                          {
-                                                              try {
-                                                                $enumerate_item = loader.create( "EnumerateItem" );
-                                                                loader.set_attribute( $enumerate_item, "name", $enumeratorName.enumeratorname );
-                                                                if ( null != $expression.expression ) {
-                                                                  loader.relate( $enumerate_item, $expression.expression, 6217, "" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 enumeratorName
 returns [String enumeratorname]         : ^( ENUMERATOR_NAME
                                    identifier
-                                 )                          { $enumeratorname = $identifier.name; }
+                                 )                          
                               ;
 
 
@@ -462,13 +281,7 @@ returns [Object type]
                               : ^( UNCONSTRAINED_ARRAY
                                    index=typeReference
                                    contained=typeReference
-                                 )                          {
-                                                              try {
-                                                                $type = loader.create( "UnconstrainedArrayType" );
-                                                                loader.relate( $index.basic_type, $type, 6239, "" );
-                                                                loader.relate( $contained.basic_type, $type, 6240, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 //---------------------------------------------------------
@@ -477,21 +290,14 @@ returns [Object type]
 
 typeReference
 returns [Object basic_type]
-@after{                                                     if ( ((IModelInstance)$basic_type).isEmpty() ) {
-                                                              System.err.println( "warning:  type reference to unlocated type, returning integer." );
-                                                              try {
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "integer" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-      }
-                                                            }
-                              : namedTypeRef                { $basic_type = $namedTypeRef.basic_type; }
-                              | constrainedArrayTypeRef     { $basic_type = $constrainedArrayTypeRef.basic_type; }
-                              | instanceTypeRef             { $basic_type = $instanceTypeRef.basic_type; }
-                              | sequenceTypeRef             { $basic_type = $sequenceTypeRef.basic_type; }
-                              | arrayTypeRef                { $basic_type = $arrayTypeRef.basic_type; }
-                              | setTypeRef                  { $basic_type = $setTypeRef.basic_type; }
-                              | bagTypeRef                  { $basic_type = $bagTypeRef.basic_type; }
-                              | dictionaryTypeRef           { $basic_type = $dictionaryTypeRef.basic_type; }
+                              : namedTypeRef                
+                              | constrainedArrayTypeRef     
+                              | instanceTypeRef             
+                              | sequenceTypeRef             
+                              | arrayTypeRef                
+                              | setTypeRef                  
+                              | bagTypeRef                  
+                              | dictionaryTypeRef           
                               ;
 
 instanceTypeRef
@@ -499,15 +305,7 @@ returns [Object basic_type]
                               : ^( INSTANCE
                                    objectReference
                                    ANONYMOUS?
-                                 )                          {
-                                                              try {
-                                                                $basic_type = loader.create( "BasicType" );
-                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
-                                                                Object instance_type = loader.create( "InstanceType" );
-                                                                loader.relate( instance_type, $basic_type, 6205, "" );
-                                                                loader.relate( instance_type, $objectReference.object_declaration, 6220, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 namedTypeRef
@@ -516,15 +314,7 @@ returns [Object basic_type]
                                    optionalDomainReference
                                    typeName
                                    ANONYMOUS?
-                                 )                          { 
-                                                              try {
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", $optionalDomainReference.domainname, $typeName.name );
-                                                                if ( !((IModelInstance)$basic_type).isEmpty() ) {
-                                                                  loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
-                                                                }
-                                                                else { System.err.println( "namedTypeRef failed with name:  " + $optionalDomainReference.domainname + "::" + $typeName.name ); }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 userDefinedTypeRef
@@ -532,11 +322,7 @@ returns [Object user_defined_type]
                               : ^( NAMED_TYPE
                                    optionalDomainReference
                                    typeName
-                                 )                          { 
-                                                              try {
-                                                                $user_defined_type = loader.call_function( "select_UserDefinedType_where_name", $optionalDomainReference.domainname, $typeName.name );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 constrainedArrayTypeRef
@@ -544,15 +330,7 @@ returns [Object basic_type]
                               : ^( CONSTRAINED_ARRAY
                                    userDefinedTypeRef
                                    arrayBounds
-                                 )                          { 
-                                                              try {
-                                                                $basic_type = loader.create( "BasicType" );
-                                                                Object unconstrained_array_subtype = loader.create( "UnconstrainedArraySubtype" );
-                                                                loader.relate( unconstrained_array_subtype, $basic_type, 6205, "" );
-                                                                loader.relate( unconstrained_array_subtype, $userDefinedTypeRef.user_defined_type, 6238, "" );
-                                                                loader.relate( unconstrained_array_subtype, $arrayBounds.expression, 6237, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 
@@ -562,20 +340,7 @@ returns [Object basic_type]
                                    typeReference
                                    expression?
                                    ANONYMOUS?
-                                 )                          {
-                                                              try {
-                                                                $basic_type = loader.create( "BasicType" );
-                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
-                                                                Object collection_type = loader.create( "CollectionType" );
-                                                                loader.relate( collection_type, $basic_type, 6205, "" );
-                                                                loader.relate( collection_type, $typeReference.basic_type, 6208, "" );
-                                                                Object sequence_type = loader.create( "SequenceType" );
-                                                                loader.relate( sequence_type, collection_type, 6207, "" );
-                                                                if ( null != $expression.expression ) {
-                                                                  loader.relate( sequence_type, $expression.expression, 6226, "" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 arrayTypeRef
@@ -584,18 +349,7 @@ returns [Object basic_type]
                                    typeReference
                                    arrayBounds
                                    ANONYMOUS?
-                                 )                          {
-                                                              try {
-                                                                $basic_type = loader.create( "BasicType" );
-                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
-                                                                Object collection_type = loader.create( "CollectionType" );
-                                                                loader.relate( collection_type, $basic_type, 6205, "" );
-                                                                loader.relate( collection_type, $typeReference.basic_type, 6208, "" );
-                                                                Object array_type = loader.create( "ArrayType" );
-                                                                loader.relate( array_type, collection_type, 6207, "" );
-                                                                loader.relate( array_type, $arrayBounds.expression, 6201, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 setTypeRef
@@ -603,17 +357,7 @@ returns [Object basic_type]
                               : ^( SET
                                    typeReference
                                    ANONYMOUS?
-                                 )                          {
-                                                              try {
-                                                                $basic_type = loader.create( "BasicType" );
-                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
-                                                                Object collection_type = loader.create( "CollectionType" );
-                                                                loader.relate( collection_type, $basic_type, 6205, "" );
-                                                                loader.relate( collection_type, $typeReference.basic_type, 6208, "" );
-                                                                Object set_type = loader.create( "SetType" );
-                                                                loader.relate( set_type, collection_type, 6207, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 bagTypeRef
@@ -621,17 +365,7 @@ returns [Object basic_type]
                               : ^( BAG
                                    typeReference
                                    ANONYMOUS?
-                                 )                          {
-                                                              try {
-                                                                $basic_type = loader.create( "BasicType" );
-                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
-                                                                Object collection_type = loader.create( "CollectionType" );
-                                                                loader.relate( collection_type, $basic_type, 6205, "" );
-                                                                loader.relate( collection_type, $typeReference.basic_type, 6208, "" );
-                                                                Object bag_type = loader.create( "BagType" );
-                                                                loader.relate( bag_type, collection_type, 6207, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )                          
                               ;
 
 dictionaryTypeRef
@@ -640,39 +374,17 @@ returns [Object basic_type]
                                    (^(KEY   key=typeReference))?
                                    (^(VALUE value=typeReference))?
                                    ANONYMOUS?
-                                 )                          {
-                                                              try {
-                                                                $basic_type = loader.create( "BasicType" );
-                                                                loader.set_attribute( $basic_type, "isanonymous", ( $ANONYMOUS != null ) );
-                                                                Object dictionary_type = loader.create( "DictionaryType" );
-                                                                loader.relate( dictionary_type, $basic_type, 6205, "" );
-                                                                // Link key and value.
-                                                                Object string_basic_type = loader.call_function( "select_BasicType_where_name", "", "string" );
-                                                                if ( null != $key.basic_type ) {
-                                                                  loader.relate( dictionary_type, $key.basic_type, 6213, "" );
-                                                                } else {
-                                                                  // No key provided.  Supply string.
-                                                                  loader.relate( dictionary_type, string_basic_type, 6213, "" );
-                                                                }
-                                                                if ( null != $value.basic_type ) {
-                                                                  loader.relate( dictionary_type, $value.basic_type, 6214, "" );
-                                                                } else {
-                                                                  // No value provided.  Supply string.
-                                                                  loader.relate( dictionary_type, string_basic_type, 6214, "" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               ;
 typeName
 returns [String name]
                               : ^( TYPE_NAME
-                                   identifier )             { $name = $identifier.name; }
+                                   identifier )             
                               ;
 
 arrayBounds
 returns [Object expression]
                               : ^( ARRAY_BOUNDS
-                                   expression )             { $expression = $expression.expression; }
+                                   expression )             
                               ;
 
 //---------------------------------------------------------
