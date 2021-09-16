@@ -943,4 +943,169 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         }
     }
 
+    @Override
+    public Object visitDomainServiceDeclaration(MaslParser.DomainServiceDeclarationContext ctx) {
+        try {
+            Object service = loader.create("Service");
+            currentService = service;
+            loader.set_attribute(service, "name", ctx.serviceName().getText());
+            loader.set_attribute(service, "visibility", visit(ctx.serviceVisibility()));
+            Object domainService = loader.create("DomainService");
+            loader.relate(domainService, service, 5203, "");
+            Object firstParameter = visit(ctx.parameterList());
+            if (firstParameter != null) {
+                loader.relate(firstParameter, service, 5204, "");
+            }
+            if (ctx.returnType() != null) {
+                loader.relate(visit(ctx.returnType()), service, 5205, "");
+            }
+            return domainService;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitParameterDefinition(MaslParser.ParameterDefinitionContext ctx) {
+        try {
+            Object parameter = loader.create("ParameterDefinition");
+            loader.set_attribute(parameter, "name", ctx.parameterName().getText());
+            loader.set_attribute(parameter, "mode", visit(ctx.parameterMode()));
+            loader.relate(visit(ctx.parameterType()), parameter, 5200, "");
+            return parameter;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitParameterList(MaslParser.ParameterListContext ctx) {
+        try {
+            Object previousParameter = null;
+            Object firstParameter = null;
+            for (Object parameterDefinition : ctx.parameterDefinition().stream().map(o -> visit(o)).toArray()) {
+                if (previousParameter == null) {
+                    firstParameter = parameterDefinition;
+                } else {
+                    loader.relate(parameterDefinition, previousParameter, 5208, "succeeds");
+                }
+                previousParameter = parameterDefinition;
+            }
+            return firstParameter;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitServiceVisibility(MaslParser.ServiceVisibilityContext ctx) {
+        return ctx.PRIVATE() != null ? "Visibility::private" : "Visibility::public";
+    }
+
+    @Override
+    public Object visitParameterMode(MaslParser.ParameterModeContext ctx) {
+        return ctx.IN() != null ? "Visibility::in" : "Visibility::out";
+    }
+
+    @Override
+    public Object visitRelationshipDefinition(MaslParser.RelationshipDefinitionContext ctx) {
+        try {
+            Object relationshipDeclaration = loader.create("RelationshipDeclaration");
+            loader.set_attribute(relationshipDeclaration, "name", ctx.relationshipName().getText());
+            if (ctx.regularRelationshipDefinition() != null) {
+                loader.relate(visit(ctx.regularRelationshipDefinition()), relationshipDeclaration, 6010, "");
+            } else if (ctx.assocRelationshipDefinition() != null) {
+                loader.relate(visit(ctx.assocRelationshipDefinition()), relationshipDeclaration, 6010, "");
+            } else if (ctx.subtypeRelationshipDefinition() != null) {
+                loader.relate(visit(ctx.subtypeRelationshipDefinition()), relationshipDeclaration, 6010, "");
+            }
+            return relationshipDeclaration;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitRegularRelationshipDefinition(MaslParser.RegularRelationshipDefinitionContext ctx) {
+        try {
+            Object normalRelationshipDeclaration = loader.create("NormalRelationshipDeclaration");
+            loader.relate(visit(ctx.forwards), normalRelationshipDeclaration, 6007, "");
+            loader.relate(visit(ctx.backwards), normalRelationshipDeclaration, 6008, "");
+            return normalRelationshipDeclaration;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitAssocRelationshipDefinition(MaslParser.AssocRelationshipDefinitionContext ctx) {
+        try {
+            Object associativeRelationshipDeclaration = loader.create("AssociativeRelationshipDeclaration");
+            loader.relate(visit(ctx.forwards), associativeRelationshipDeclaration, 6000, "");
+            loader.relate(visit(ctx.backwards), associativeRelationshipDeclaration, 6002, "");
+            loader.relate(visit(ctx.objectReference()), associativeRelationshipDeclaration, 6001, "");
+            return associativeRelationshipDeclaration;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitHalfRelationshipDefinition(MaslParser.HalfRelationshipDefinitionContext ctx) {
+        try {
+            Object halfRelationship = loader.create("HalfRelationship");
+            loader.set_attribute(halfRelationship, "isconditional", visit(ctx.conditionality()));
+            loader.set_attribute(halfRelationship, "role", ctx.rolePhrase().getText());
+            loader.set_attribute(halfRelationship, "multiplicity", visit(ctx.multiplicity()));
+            loader.relate(visit(ctx.from), halfRelationship, 6006, "");
+            loader.relate(visit(ctx.to), halfRelationship, 6004, "");
+            return halfRelationship;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitSubtypeRelationshipDefinition(MaslParser.SubtypeRelationshipDefinitionContext ctx) {
+        try {
+            Object subtypeRelationshipDeclaration = loader.create("SubtypeRelationshipDeclaration");
+            loader.relate(visit(ctx.supertype), subtypeRelationshipDeclaration, 6017, "");
+            for (Object subtype : ctx.subtype.stream().map(o -> visit(o)).toArray()) {
+                loader.relate(subtype, subtypeRelationshipDeclaration, 6016, "");
+            }
+            return subtypeRelationshipDeclaration;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitConditionality(MaslParser.ConditionalityContext ctx) {
+        return ctx.CONDITIONALLY() != null;
+    }
+
+    @Override
+    public Object visitMultiplicity(MaslParser.MultiplicityContext ctx) {
+        return ctx.ONE() != null ? "Multiplicity::one" : "Multiplicity::many";
+    }
+
+    @Override
+    public Object visitRelationshipReference(MaslParser.RelationshipReferenceContext ctx) {
+        try {
+            return loader.call_function("select_RelationshipDeclaration_where_name",
+                    ctx.domainName() != null ? ctx.domainName().getText() : "", ctx.relationshipName().getText());
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
 }

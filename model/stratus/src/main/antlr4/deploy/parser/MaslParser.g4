@@ -439,10 +439,11 @@ relationshipReference         : (domainName SCOPE)? relationshipName
                               ;
 
 relationshipDefinition        : description RELATIONSHIP relationshipName IS
-                                ( regularRelationshipDefinition SEMI pragmaList
-                                | assocRelationshipDefinition SEMI pragmaList
-                                | subtypeRelationshipDefinition SEMI pragmaList
+                                ( regularRelationshipDefinition
+                                | assocRelationshipDefinition
+                                | subtypeRelationshipDefinition
                                 )
+                                SEMI pragmaList
                               ;
 
 
@@ -464,7 +465,7 @@ halfRelationshipDefinition    : from=objectReference conditionality rolePhrase
 
 subtypeRelationshipDefinition : supertype=objectReference IS_A
                                 LPAREN
-                                  sub+=objectReference ( COMMA sub+=objectReference )*
+                                  subtype+=objectReference ( COMMA subtype+=objectReference )*
                                 RPAREN
                               ;
 
