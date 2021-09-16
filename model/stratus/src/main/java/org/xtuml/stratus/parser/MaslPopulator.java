@@ -1,17 +1,7 @@
 package org.xtuml.stratus.parser;
 
-import deploy.stratus.ooamasl.domain.Domain;
-import deploy.stratus.ooamasl.domain.DomainService;
-import deploy.stratus.ooamasl.domain.DomainTerminator;
-import deploy.stratus.ooamasl.domain.ExceptionDeclaration;
-import deploy.stratus.ooamasl.object.AttributeDeclaration;
-import deploy.stratus.ooamasl.object.ObjectDeclaration;
-import deploy.stratus.ooamasl.object.ObjectService;
-import deploy.stratus.ooamasl.relationship.RelationshipDeclaration;
-import deploy.stratus.ooamasl.statemodel.EventDeclaration;
-import deploy.stratus.ooamasl.statemodel.State;
-import deploy.stratus.ooamasl.statemodel.TransitionTable;
-import deploy.stratus.ooamasl.type.UserDefinedType;
+import java.util.stream.Stream;
+
 import io.ciera.runtime.instanceloading.generic.util.LOAD;
 import io.ciera.runtime.summit.classes.IModelInstance;
 import io.ciera.runtime.summit.exceptions.XtumlException;
@@ -30,6 +20,14 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     private Object currentAttribute;
     private Object currentOOAState;
     private Object currentCodeBlock;
+    
+    // utility method for checking type of an object
+    private static boolean instanceOf(Object o, String className) {
+        if (o != null) {
+            return Stream.of(o.getClass().getInterfaces()).anyMatch(iface -> iface.getName().equals(className));
+        }
+        return false;
+    }
 
     // trace routine
     private void xtumlTrace(XtumlException e, String message) {
@@ -106,17 +104,17 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentDomain = domain;
             // domain items
             for (Object domainItem : ctx.domainItem().stream().map(o -> visit(o)).toArray()) {
-                if (domainItem instanceof ObjectDeclaration) {
+                if (instanceOf(domainItem, "ObjectDeclaration")) {
                     loader.relate(domainItem, domain, 5805, "");
-                } else if (domainItem instanceof DomainService) {
+                } else if (instanceOf(domainItem, "DomainService")) {
                     loader.relate(domainItem, domain, 5303, "");
-                } else if (domainItem instanceof DomainTerminator) {
+                } else if (instanceOf(domainItem, "DomainTerminator")) {
                     loader.relate(domainItem, domain, 5304, "");
-                } else if (domainItem instanceof RelationshipDeclaration) {
+                } else if (instanceOf(domainItem, "RelationshipDeclaration")) {
                     loader.relate(domainItem, domain, 6003, "");
-                } else if (domainItem instanceof UserDefinedType) {
+                } else if (instanceOf(domainItem, "UserDefinedType")) {
                     loader.relate(domainItem, domain, 6235, "");
-                } else if (domainItem instanceof ExceptionDeclaration) {
+                } else if (instanceOf(domainItem, "ExceptionDeclaration")) {
                     loader.relate(domainItem, domain, 5400, "");
                 }
             }
@@ -645,21 +643,21 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitObjectDefinition(MaslParser.ObjectDefinitionContext ctx) {
         try {
             Object objectDeclaration = loader.call_function("select_ObjectDeclaration_where_name",
-                    ((Domain) currentDomain).getName(), ctx.objectName().getText());
+                    ((IModelInstance<?, ?>) currentDomain).getName(), ctx.objectName().getText());
             loader.set_attribute(objectDeclaration, "name", ctx.objectName().getText());
             currentObject = objectDeclaration;
             previousAttribute = null;
             boolean nonExistentExists = false;
             // object items
             for (Object objectItem : ctx.objectItem().stream().map(o -> visit(o)).toArray()) {
-                if (objectItem instanceof AttributeDeclaration) {
+                if (instanceOf(objectItem, "AttributeDeclaration")) {
                     loader.relate(objectItem, objectDeclaration, 5802, "");
                     previousAttribute = objectItem;
-                } else if (objectItem instanceof ObjectService) {
+                } else if (instanceOf(objectItem, "ObjectService")) {
                     loader.relate(objectItem, objectDeclaration, 5808, "");
-                } else if (objectItem instanceof EventDeclaration) {
+                } else if (instanceOf(objectItem, "EventDeclaration")) {
                     loader.relate(objectItem, objectDeclaration, 6101, "");
-                } else if (objectItem instanceof State) {
+                } else if (instanceOf(objectItem, "State")) {
                     if (!nonExistentExists) {
                         // Create a Non_Existent state.
                         Object ooastate = loader.create("State");
@@ -668,7 +666,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                         nonExistentExists = true;
                     }
                     loader.relate(objectItem, objectDeclaration, 6105, "");
-                } else if (objectItem instanceof TransitionTable) {
+                } else if (instanceOf(objectItem, "TransitionTable")) {
                     loader.relate(objectItem, objectDeclaration, 6113, "");
                 }
             }
