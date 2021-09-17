@@ -95,7 +95,7 @@ public class MaslImportParser implements IGenericLoader {
                     || Pattern.matches(".*\\.al", f.getName()) || Pattern.matches(".*\\.tr", f.getName())) {
 
                 // parse the file
-                parse(f.getPath());
+                //parse(f.getPath()); // TODO
             }
         }
 

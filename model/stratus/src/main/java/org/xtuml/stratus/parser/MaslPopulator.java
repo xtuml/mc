@@ -25,7 +25,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     // utility method for checking type of an object
     private static boolean instanceOf(Object o, String className) {
         if (o != null) {
-            return Stream.of(o.getClass().getInterfaces()).anyMatch(iface -> iface.getName().equals(className));
+            return Stream.of(o.getClass().getInterfaces()).anyMatch(iface -> iface.getSimpleName().equals(className));
         }
         return false;
     }
@@ -106,14 +106,14 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             // domain items
             for (Object domainItem : ctx.domainItem().stream().map(o -> visit(o)).toArray()) {
                 if (instanceOf(domainItem, "ObjectDeclaration")) {
-                    loader.relate(domainItem, domain, 5805, "");
+                    loader.call_function("relate_ObjectDeclaration_to_Domain", domainItem, domain);
                 } else if (instanceOf(domainItem, "DomainService")) {
                     loader.relate(domainItem, domain, 5303, "");
                 } else if (instanceOf(domainItem, "DomainTerminator")) {
                     loader.relate(domainItem, domain, 5304, "");
                 } else if (instanceOf(domainItem, "RelationshipDeclaration")) {
                     loader.relate(domainItem, domain, 6003, "");
-                } else if (instanceOf(domainItem, "UserDefinedType")) {
+                } else if (instanceOf(domainItem, "UserDefinedType2")) {
                     loader.relate(domainItem, domain, 6235, "");
                 } else if (instanceOf(domainItem, "ExceptionDeclaration")) {
                     loader.relate(domainItem, domain, 5400, "");
@@ -162,7 +162,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitExceptionVisibility(MaslParser.ExceptionVisibilityContext ctx) {
-        return ctx.PRIVATE() != null ? "Visibility::private" : "Visibility::public";
+        return ctx.PRIVATE() != null ? "Visibility2::private" : "Visibility2::public";
     }
 
     @Override
@@ -173,7 +173,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             if (((IModelInstance<?, ?>) userDefinedType).isEmpty()) {
                 Object typeDefinition = loader.create("TypeDefinition");
                 Object basicType = loader.create("BasicType");
-                userDefinedType = loader.create("UserDefinedType");
+                userDefinedType = loader.create("UserDefinedType2");
                 Object typeDeclaration = loader.create("TypeDeclaration");
                 loader.relate(basicType, typeDefinition, 6236, "");
                 loader.relate(userDefinedType, basicType, 6205, "");
@@ -199,7 +199,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             if (((IModelInstance<?, ?>) userDefinedType).isEmpty()) {
                 Object typeDefinition = loader.create("TypeDefinition");
                 Object basicType = loader.create("BasicType");
-                userDefinedType = loader.create("UserDefinedType");
+                userDefinedType = loader.create("UserDefinedType2");
                 typeDeclaration = loader.create("TypeDeclaration");
                 loader.relate(basicType, typeDefinition, 6236, "");
                 loader.relate(userDefinedType, basicType, 6205, "");
@@ -261,7 +261,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitTypeVisibility(MaslParser.TypeVisibilityContext ctx) {
-        return ctx.PRIVATE() != null ? "Visibility::private" : "Visibility::public";
+        return ctx.PRIVATE() != null ? "Visibility2::private" : "Visibility2::public";
     }
 
     @Override
@@ -584,23 +584,22 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentService = service;
             loader.set_attribute(service, "name", ctx.serviceName().getText());
             loader.set_attribute(service, "visibility", visit(ctx.serviceVisibility()));
-            if (currentProject == null) { // domain terminator service
-                Object domainTerminatorService = loader.create("DomainTerminatorService");
-                loader.relate(domainTerminatorService, service, 5203, "");
-            } else { // project terminator service
-                Object projectTerminatorService = loader.create("ProjectTerminatorService");
-                loader.relate(projectTerminatorService, service, 5203, "");
-            }
-
             Object firstParameter = visit(ctx.parameterList());
             if (firstParameter != null) {
                 loader.relate(firstParameter, service, 5204, "");
             }
             if (ctx.returnType() != null) {
-
                 loader.relate(visit(ctx.returnType()), service, 5205, "");
             }
-            return service;
+            if (currentProject == null) { // domain terminator service
+                Object domainTerminatorService = loader.create("DomainTerminatorService");
+                loader.relate(domainTerminatorService, service, 5203, "");
+                return domainTerminatorService;
+            } else { // project terminator service
+                Object projectTerminatorService = loader.create("ProjectTerminatorService");
+                loader.relate(projectTerminatorService, service, 5203, "");
+                return projectTerminatorService;
+            }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -643,7 +642,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitObjectDefinition(MaslParser.ObjectDefinitionContext ctx) {
         try {
-            String domainName = (String) currentDomain.getClass().getMethod("getName").invoke(currentDomain);
+            Object domainName = currentDomain.getClass().getMethod("getName").invoke(currentDomain);
             Object objectDeclaration = loader.call_function("select_ObjectDeclaration_where_name", domainName,
                     ctx.objectName().getText());
             loader.set_attribute(objectDeclaration, "name", ctx.objectName().getText());
@@ -651,7 +650,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             previousAttribute = null;
             boolean nonExistentExists = false;
             // object items
-            for (Object objectItem : ctx.objectItem().stream().map(o -> visit(o)).toArray()) {
+            for (MaslParser.ObjectItemContext ctx2 : ctx.objectItem()) {
+                Object objectItem = visit(ctx2);
                 if (instanceOf(objectItem, "AttributeDeclaration")) {
                     loader.relate(objectItem, objectDeclaration, 5802, "");
                     previousAttribute = objectItem;
@@ -659,10 +659,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     loader.relate(objectItem, objectDeclaration, 5808, "");
                 } else if (instanceOf(objectItem, "EventDeclaration")) {
                     loader.relate(objectItem, objectDeclaration, 6101, "");
-                } else if (instanceOf(objectItem, "State")) {
+                } else if (instanceOf(objectItem, "State2")) {
                     if (!nonExistentExists) {
                         // Create a Non_Existent state.
-                        Object ooastate = loader.create("State");
+                        Object ooastate = loader.create("State2");
                         loader.set_attribute(ooastate, "name", "Non_Existent");
                         loader.relate(ooastate, objectDeclaration, 6105, "");
                         nonExistentExists = true;
@@ -831,7 +831,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitStateDeclaration(MaslParser.StateDeclarationContext ctx) {
         try {
-            Object OOAState = loader.create("State");
+            Object OOAState = loader.create("State2");
             loader.set_attribute(OOAState, "name", ctx.stateName().getText());
             loader.set_attribute(OOAState, "flavor", visit(ctx.stateType()));
             Object firstParameter = visit(ctx.parameterList());
@@ -902,10 +902,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object transitionOption = loader.create("TransitionOption");
             Object endStateOrType = visit(ctx.endState());
             loader.set_attribute(transitionOption, "flavor",
-                    !((String) endStateOrType).startsWith("TransitionType::") ? "TransitionType::to_state"
+                    !((String) endStateOrType).startsWith("TransitionType2::") ? "TransitionType2::to_state"
                             : endStateOrType);
             loader.relate(visit(ctx.eventReference()), transitionOption, 6108, "");
-            if (endStateOrType == "TransitionType::to_state") {
+            if (endStateOrType == "TransitionType2::to_state") {
                 Object OOAState = loader.call_function("select_State_where_name", currentObject, endStateOrType);
                 loader.relate(OOAState, transitionOption, 6109, "");
             }
@@ -925,9 +925,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitEndState(MaslParser.EndStateContext ctx) {
         if (ctx.IGNORE() != null) {
-            return "TransitionType::ignore";
+            return "TransitionType2::ignore";
         } else if (ctx.CANNOT_HAPPEN() != null) {
-            return "TransitionType::cannot_happen";
+            return "TransitionType2::cannot_happen";
         } else {
             return ctx.stateName().getText();
         }
@@ -937,7 +937,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitEventReference(MaslParser.EventReferenceContext ctx) {
         try {
             return loader.call_function("select_EventDeclaration_where_name",
-                    ctx.objectReference() != null ? visit(ctx.objectReference()) : "", ctx.eventName().getText());
+                    ctx.objectReference() != null ? visit(ctx.objectReference()) : currentObject, ctx.eventName().getText());
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1003,12 +1003,12 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitServiceVisibility(MaslParser.ServiceVisibilityContext ctx) {
-        return ctx.PRIVATE() != null ? "Visibility::private" : "Visibility::public";
+        return ctx.PRIVATE() != null ? "Visibility2::private" : "Visibility2::public";
     }
 
     @Override
     public Object visitParameterMode(MaslParser.ParameterModeContext ctx) {
-        return ctx.IN() != null ? "Visibility::in" : "Visibility::out";
+        return ctx.IN() != null ? "ParameterMode::in" : "ParameterMode::out";
     }
 
     @Override
@@ -1095,15 +1095,17 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitMultiplicity(MaslParser.MultiplicityContext ctx) {
-        return ctx.ONE() != null ? "Multiplicity::one" : "Multiplicity::many";
+        return ctx.ONE() != null ? "Multiplicity2::one" : "Multiplicity2::many";
     }
 
     @Override
     public Object visitRelationshipReference(MaslParser.RelationshipReferenceContext ctx) {
         try {
+            Object domainName = currentDomain.getClass().getMethod("getName").invoke(currentDomain);
             return loader.call_function("select_RelationshipDeclaration_where_name",
-                    ctx.domainName() != null ? ctx.domainName().getText() : "", ctx.relationshipName().getText());
-        } catch (XtumlException e) {
+                    ctx.domainName() != null ? ctx.domainName().getText() : domainName, ctx.relationshipName().getText());
+        } catch (XtumlException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
             xtumlTrace(e, "");
             return null;
         }
