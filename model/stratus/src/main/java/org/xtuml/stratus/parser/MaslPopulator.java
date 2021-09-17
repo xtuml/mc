@@ -1,5 +1,6 @@
 package org.xtuml.stratus.parser;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Stream;
 
 import io.ciera.runtime.instanceloading.generic.util.LOAD;
@@ -20,7 +21,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     private Object currentAttribute;
     private Object currentOOAState;
     private Object currentCodeBlock;
-    
+
     // utility method for checking type of an object
     private static boolean instanceOf(Object o, String className) {
         if (o != null) {
@@ -30,7 +31,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     }
 
     // trace routine
-    private void xtumlTrace(XtumlException e, String message) {
+    private void xtumlTrace(Exception e, String message) {
         System.err.println("xtumlTrace(" + message + ") - " + /* TODO */ "getFile()" + ":  " + e);
         e.printStackTrace();
         System.exit(1);
@@ -642,8 +643,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitObjectDefinition(MaslParser.ObjectDefinitionContext ctx) {
         try {
-            Object objectDeclaration = loader.call_function("select_ObjectDeclaration_where_name",
-                    ((IModelInstance<?, ?>) currentDomain).getName(), ctx.objectName().getText());
+            String domainName = (String) currentDomain.getClass().getMethod("getName").invoke(currentDomain);
+            Object objectDeclaration = loader.call_function("select_ObjectDeclaration_where_name", domainName,
+                    ctx.objectName().getText());
             loader.set_attribute(objectDeclaration, "name", ctx.objectName().getText());
             currentObject = objectDeclaration;
             previousAttribute = null;
@@ -673,7 +675,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
             currentObject = emptyObject;
             return objectDeclaration;
-        } catch (XtumlException e) {
+        } catch (XtumlException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
             xtumlTrace(e, "");
             return null;
         }
