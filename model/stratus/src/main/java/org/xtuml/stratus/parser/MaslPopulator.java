@@ -906,7 +906,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     !((String) endStateOrType).startsWith("TransitionType2::") ? "TransitionType2::to_state"
                             : endStateOrType);
             loader.relate(visit(ctx.eventReference()), transitionOption, 6108, "");
-            if (endStateOrType == "TransitionType2::to_state") {
+            if (!((String) endStateOrType).startsWith("TransitionType2::")) {
                 Object OOAState = loader.call_function("select_State_where_name", currentObject, endStateOrType);
                 loader.relate(OOAState, transitionOption, 6109, "");
             }
