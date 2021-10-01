@@ -308,14 +308,14 @@ relationshipSpec              : relationshipReference
                               ;
 
 
-objectServiceDeclaration      : description serviceVisibility serviceType SERVICE serviceName
+objectServiceDeclaration      : description serviceVisibility (INSTANCE serviceDeferral?)? SERVICE serviceName
                                   parameterList
                                   ( RETURN returnType )?
                                   SEMI pragmaList
                               ;
 
 
-serviceType                   : (INSTANCE (DEFERRED LPAREN relationshipName RPAREN)?)?
+serviceDeferral               : DEFERRED LPAREN relationshipName RPAREN
                               ;
 
 identifierDefinition          : IDENTIFIER IS

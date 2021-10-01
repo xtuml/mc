@@ -766,6 +766,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.set_attribute(service, "name", ctx.serviceName().getText());
             loader.set_attribute(service, "visibility", visit(ctx.serviceVisibility()));
             Object objectService = loader.create("ObjectService");
+            loader.set_attribute(objectService, "isInstance", ctx.INSTANCE() != null);
             loader.relate(objectService, service, 5203, "");
             Object firstParameter = visit(ctx.parameterList());
             if (firstParameter != null) {
