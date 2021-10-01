@@ -1,0 +1,194 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("cf20d32f-ee33-4e4b-856b-a86d23675ef0",
+	"00000000-0000-0000-0000-000000000000",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'marking',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("ff8cc11a-8119-4709-8212-bacc5745527f",
+	112,
+	"cf20d32f-ee33-4e4b-856b-a86d23675ef0",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'stratus::load::marking');
+INSERT INTO DIM_DIA
+	VALUES ("ff8cc11a-8119-4709-8212-bacc5745527f",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("8571d425-71c5-41cd-ab81-39eff12761bf",
+	"00000000-0000-0000-0000-000000000000",
+	'mark_object',
+	'',
+	'object_declaration = param.object_declaration;
+select one domain related by object_declaration->Domain[R5805];
+path = domain.name + "::" + object_declaration.name;
+select any markable from instances of Markable where selected.name == "Object";
+select any feature related by markable->Feature[R2822] where selected.name == param.feature_name;
+::create_mark(markable:markable, feature:feature, path:path, value:param.value);',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	1);
+INSERT INTO S_SPARM
+	VALUES ("9c8f80cd-af83-4ee4-887a-dec69ac27d09",
+	"8571d425-71c5-41cd-ab81-39eff12761bf",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ccbbc697-c60c-4034-8e31-7a46032151eb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ObjectDeclaration>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/object/object.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("eb953221-26b7-4545-bcb4-0c2e5ee1fd7f",
+	"8571d425-71c5-41cd-ab81-39eff12761bf",
+	'feature_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9c8f80cd-af83-4ee4-887a-dec69ac27d09",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9053aea7-2549-4519-93f6-e3992c3a2878",
+	"8571d425-71c5-41cd-ab81-39eff12761bf",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"eb953221-26b7-4545-bcb4-0c2e5ee1fd7f",
+	'');
+INSERT INTO PE_PE
+	VALUES ("8571d425-71c5-41cd-ab81-39eff12761bf",
+	1,
+	"cf20d32f-ee33-4e4b-856b-a86d23675ef0",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("60459bdf-d18a-4609-8441-75ba6e2a0e80",
+	"00000000-0000-0000-0000-000000000000",
+	'create_mark',
+	'',
+	'markable = param.markable;
+feature = param.feature;
+if (not_empty markable and not_empty feature)
+  create object instance mark of Mark;
+  mark.path = param.path;
+  mark.value = param.value;
+  relate feature to markable across R2821 using mark;
+else
+  feature_name = "";
+  if (not_empty feature)
+    feature_name = feature.name;
+  end if;
+  markable_name = "";
+  if (not_empty markable)
+    markable_name = markable.name;
+  end if;
+  LOG::LogFailure(message:"Feature ''" + feature_name + "'' not available for markable type ''" + markable_name + "''");
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	2);
+INSERT INTO S_SPARM
+	VALUES ("a4e04a85-34d1-4b9b-b4fa-8fa96047f0c5",
+	"60459bdf-d18a-4609-8441-75ba6e2a0e80",
+	'markable',
+	"9c5116ae-9728-49ca-a871-21ea8b8a24c4",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9c5116ae-9728-49ca-a871-21ea8b8a24c4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Markable Element Type>',
+	'',
+	'',
+	'../../../../../org.xtuml.bp.ui.marking/models/org.xtuml.bp.ui.marking/ooaofmarking/ooaofmarking.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("9c935b21-ec8f-4674-8fc3-abbc04e09aea",
+	"60459bdf-d18a-4609-8441-75ba6e2a0e80",
+	'feature',
+	"1c853970-4617-4835-9981-3307a350267d",
+	0,
+	'',
+	"a4e04a85-34d1-4b9b-b4fa-8fa96047f0c5",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("1c853970-4617-4835-9981-3307a350267d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Feature>',
+	'',
+	'',
+	'../../../../../org.xtuml.bp.ui.marking/models/org.xtuml.bp.ui.marking/ooaofmarking/ooaofmarking.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("59df860d-1d2b-4cbc-a93c-0d6e35fb73aa",
+	"60459bdf-d18a-4609-8441-75ba6e2a0e80",
+	'path',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9c935b21-ec8f-4674-8fc3-abbc04e09aea",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("53fae7c0-4cd2-4c87-8bc5-d9c8a1cc9358",
+	"60459bdf-d18a-4609-8441-75ba6e2a0e80",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"59df860d-1d2b-4cbc-a93c-0d6e35fb73aa",
+	'');
+INSERT INTO PE_PE
+	VALUES ("60459bdf-d18a-4609-8441-75ba6e2a0e80",
+	1,
+	"cf20d32f-ee33-4e4b-856b-a86d23675ef0",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("cf20d32f-ee33-4e4b-856b-a86d23675ef0",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'load',
+	'',
+	0,
+	'../load.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'stratus',
+	1,
+	'../../stratus.xtuml');

@@ -21,6 +21,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     private Object currentAttribute;
     private Object currentOOAState;
     private Object currentCodeBlock;
+    private Object currentMarkable;
 
     // utility method for checking type of an object
     private static boolean instanceOf(Object o, String className) {
@@ -28,6 +29,12 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return Stream.of(o.getClass().getInterfaces()).anyMatch(iface -> iface.getSimpleName().equals(className));
         }
         return false;
+    }
+
+    private void createMark(String featureName, String value) throws XtumlException {
+        if (instanceOf(currentMarkable, "ObjectDeclaration")) {
+            loader.call_function("mark_object", currentMarkable, featureName, value);
+        }
     }
 
     // trace routine
@@ -54,6 +61,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentService = null;
             currentObject = null;
             currentOOAState = null;
+            currentMarkable = null;
             return visitChildren(ctx);
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -104,7 +112,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             currentDomain = domain;
             // domain items
-            for (Object domainItem : ctx.domainItem().stream().map(o -> visit(o)).toArray()) {
+            for (MaslParser.DomainItemContext ctx2 : ctx.domainItem()) {
+                Object domainItem = visit(ctx2);
                 if (instanceOf(domainItem, "ObjectDeclaration")) {
                     loader.call_function("relate_ObjectDeclaration_to_Domain", domainItem, domain);
                 } else if (instanceOf(domainItem, "DomainService")) {
@@ -672,7 +681,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     loader.relate(objectItem, objectDeclaration, 6113, "");
                 }
             }
-
+            currentMarkable = objectDeclaration;
+            visit(ctx.pragmaList());
+            currentMarkable = null;
             currentObject = emptyObject;
             return objectDeclaration;
         } catch (XtumlException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -1107,6 +1118,26 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     ctx.domainName() != null ? ctx.domainName().getText() : domainName, ctx.relationshipName().getText());
         } catch (XtumlException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
                 | NoSuchMethodException | SecurityException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitPragma(MaslParser.PragmaContext ctx) {
+        try {
+            String value = ctx.pragmaValue().stream().map(o -> {
+                String text = o.getText();
+                if (text.startsWith("\"") && text.endsWith("\"")) {
+                    return text.substring(1, text.length() - 1);
+
+                } else {
+                    return text;
+                }
+            }).reduce("", (a, b) -> "".equals(a) ? b : a + "," + b);
+            createMark(ctx.pragmaName().getText(), value);
+            return null;
+        } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
         }

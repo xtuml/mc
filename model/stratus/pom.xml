@@ -25,6 +25,11 @@
       <artifactId>ooamasl</artifactId>
       <version>1.0.1-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>org.xtuml</groupId>
+      <artifactId>org.xtuml.bp.ui.marking</artifactId>
+      <version>7.1.0</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
