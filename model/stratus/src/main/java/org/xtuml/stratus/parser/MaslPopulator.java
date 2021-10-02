@@ -33,7 +33,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     private void createMark(String featureName, String value) throws XtumlException {
         if (instanceOf(currentMarkable, "ObjectDeclaration")) {
-            loader.call_function("mark_object", currentMarkable, featureName, value);
+            loader.call_function("mark_object", currentDomain, currentMarkable, featureName, value);
+        } else if (instanceOf(currentMarkable, "DomainService")) {
+            loader.call_function("mark_domain_service", currentDomain, currentMarkable, featureName, value);
         }
     }
 
@@ -972,6 +974,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             if (ctx.returnType() != null) {
                 loader.relate(visit(ctx.returnType()), service, 5205, "");
             }
+            currentMarkable = domainService;
+            visit(ctx.pragmaList());
+            currentMarkable = null;
             return domainService;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
