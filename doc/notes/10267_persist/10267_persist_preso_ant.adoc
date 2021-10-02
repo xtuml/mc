@@ -1,0 +1,173 @@
+= Shlaer-Mellor Persistence
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+This note outlines key points of runtime persistent storage serving
+Shlaer-Mellor modeled applications.
+
+== 2 Introduction and Background
+
+Architectural and domain support for persistence is provided in many ways in
+Shlaer-Mellor (S-M) systems.  All S-M applications have data managed as
+instance populations interconnected through association links.  The platform
+specific nature of the storage varies from architecture to architecture.  Some
+applications require that part, some or all of the instance population and
+linkage be persisted.
+
+== 3 Requirements
+
+=== 3.1 Outline General Requirements for Persistence
+=== 3.2 Characterize Persistence
+=== 3.3 Enumerate Persistence Use Cases
+
+== 4 Analysis
+
+=== 4.1 Outline General Requirements for Persistence
+
+Persistence services have been modeled.  The persistence strategy (domain) can
+be approached independently of the persistence non-volatile storage (domain).
+
+Some or all of the following may be required by the application and
+architecture domains.
+
+. persist instances in non-volatile storage
+. persist the current state of instance state machines
+. persist links
+. persist in-flight events, timers and messages
+. trigger saves on particular time sequence boundaries
+. selectively persist only marked model elements
+. persist multiple copies/versions of instance populations
+. persist selectively in a circular fashion in a buffer (trace) 
+
+=== 4.2 Characterize Persistence
+
+Characteristics:
+
+. data granularity
+  .. domain (all elements in this domain)
+  .. subsystem (all classes in this subsystem (package))
+  .. class (instances)
+  .. attribute (partial attribute sets)
+  .. current state
+  .. association (links)
+  .. events
+  .. timers (delayed events)
+  .. inter-domain messages
+. time granularity
+  .. start-up/shut-down
+  .. always
+  .. cached and synchronized (e.g. on thread of control boundary)
+  .. state save (snapshot)
+
+==== 4.2.1 Data Granularity of Persistence
+
+Typically through marking, model elements are identified as being persistent.
+Architectures (model compilers) have been built which allow marking at the
+class, attribute and architectural element level.  The data granularity of
+persistence is defined by the metamodel (OOA of OOA) elements that can be
+marked for persistent storage.
+
+. data granularity
+  .. domain (all elements in this domain)
+  .. subsystem (all classes in this subsystem (package))
+  .. class (instances)
+  .. attribute (partial attribute sets)
+  .. current state
+  .. association (links)
+  .. events
+  .. timers (delayed events)
+  .. inter-domain messages
+
+==== 4.2.2 Time Granularity of Persistence
+
+. load and dump
++
+A simple form of persistence provides an application with a means of stopping
+and starting (and power cycling) without losing information.  The instance
+population and association links are loaded at start-up and dumped at
+shut-down.  Between start-up and shut-down, instances are not persisted.
+
+. write-through persistence
++
+Some applications have the requirement that all instance data and linkage be
+persistent at all times.  Instance creation, deletion and update (including
+change of state) are reflected in persistent storage.  Instance relation and
+unrelation must also be persisted.  In-flight events, ticking timers and sent
+messages may also be required to be maintained in non-volatile storage.
+
+. caching persistence
++
+More common are applications that persist on application or architectural
+boundaries such as start-up, shut-down, thread of control or some form of
+transaction boundary.  The in-memory instance population and linkage are
+"flushed" to persistent storage at these incremental time intervals.
+
+. state save
++
+A state save is a minor variation that supports synchronized snapshots of the
+instance population and linkage (and events and timers, etc) be saved.
+Multiple state saves may be accumulated for debug or analysis.
+
+=== 4.3 Enumerate Persistence Use Cases
+
+==== 4.3.1 Cooper Security
+
+Cooper Security built intrusion detection systems for home and commercial
+properties.  These systems were designed to be configurable.  A central
+controller can be configured with multiple motion detectors, magnetic
+door/window sensors, etc. applied to a property with multiple rooms adjacent
+to one another through various multiple passageways, etc.
+
+An interesting aspect of the application is that set-up was a more complex
+application than runtime intrusion detection.  The application used to
+configure the rooms, windows, doors, adjacency, detectors and alarms was
+equally or more complex than monitoring the state of the configured elements.
+In other words, setting up the pre-existing instances of the application was
+non-trivial.
+
+Cooper Security needed a system in which the population of rooms, windows,
+doors, detectors and adjacency could be configured and persisted (EEPROM).
+Then, the runtime instance population of the various states of the instance
+population could be ephemeral (RAM).  This implied an architecture that allowed
+for the marking of certain classes and subsets of their attributes and
+associations as persistent.  By default all unmarked classes were
+non-persistent.
+
+Commodity product and cost constraints meant this system was built with 8-bit
+microcontrollers and minimal RAM/EEPROM but with a robust PC-based user
+interface for system installation and configuration.
+
+==== 4.3.2 MASL C++
+
+==== 4.3.3 World View
+
+World View builds a high altitude aircraft (converted weather balloon) which
+acquires aerial photography.  The vehicle is navigable within the restrictions
+of balloon aircraft and maintains low and high bandwidth communication links
+with ground stations.  The missions of this vehicle can last for days, weeks
+and possibly months.  Due to distance, most often only the low bandwidth
+communication channel is available.  The requirement for persistence consists
+of state save and trace capabilities to remotely understand the behavior of
+the onboard system.
+
+Tooling generated from the model involved the persistence as well as the
+formatting of the resulting state save and trace collections.
+
+Size and weight constraints keep the platform to light-weight, low-power,
+single-board controllers.  Communication bandwidth constraints mean that state
+save and trace information must be exchanged in as few bytes as feasible.
+
+==== 4.3.4 AWS GPS (_DynamoDB_)
+
+== 5 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/10267[10267 - persistence]
+. [[dr-2]] http://roxsoftware.com/ug/index.html#Persistence-chapter[MC-3020 User Guide - Persistence Chapter]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
