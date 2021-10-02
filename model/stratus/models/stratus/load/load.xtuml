@@ -487,6 +487,14 @@ create object instance relationship_specification of RelationshipSpecification;
 relate relationship_specification to relationship_declaration across R6015;
 relate relationship_specification to from_object_declaration across R6014;
 
+// fill out the roll phrase if available
+if (object_or_role_string != "")
+  select any obj_decl from instances of ObjectDeclaration where selected.name == object_or_role;
+  if (empty obj_decl)
+    relationship_specification.role = object_or_role_string;
+  end if;
+end if;
+
 // Resolve with from and to object when available.
 if ( not_empty to_object_declaration )
   LOG::LogInfo( message:"create_RelationshipSpec " + from_object_declaration.name + " " + object_or_role_string + " " + to_object_declaration.name +" directly" );
