@@ -2295,16 +2295,6 @@ returns [Object literal_expression, Object basic_type]
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | StringLiteral
-                                                            {
-                                                              try {
-                                                                Object string_literal = loader.create( "StringLiteral" );
-                                                                loader.relate( string_literal, $literal_expression, 5700, "" );
-                                                                loader.set_attribute( string_literal, "original", $StringLiteral.text );
-                                                                // TODO - This is simplistic and needs to be extended to handle octal.
-                                                                //TODOloader.set_attribute( string_literal, "noQuotes", $StringLiteral.text.replaceAll("^\"|\"$", "") );
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "string" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | TimestampLiteral
                                                             {
                                                               try {
@@ -2381,11 +2371,4 @@ returns [Object literal_expression, Object basic_type]
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | CONSOLE
-                                                            {
-                                                              try {
-                                                                Object console_literal = loader.create( "ConsoleLiteral" );
-                                                                loader.relate( console_literal, $literal_expression, 5700, "" );
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "device" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               ; 

@@ -1294,4 +1294,239 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         }
     }
 
+    @Override
+    public Object visitRangeExpression(MaslParser.RangeExpressionContext ctx) {
+        try {
+            Object logicalOr = visit(ctx.logicalOr(0));
+            // TODO
+            if (false)
+                throw new XtumlException("");
+            return logicalOr;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitLogicalOr(MaslParser.LogicalOrContext ctx) {
+        try {
+            Object logicalXor = visit(ctx.logicalXor(0));
+            // TODO
+            if (false)
+                throw new XtumlException("");
+            return logicalXor;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitLogicalXor(MaslParser.LogicalXorContext ctx) {
+        try {
+            Object logicalAnd = visit(ctx.logicalAnd(0));
+            // TODO
+            if (false)
+                throw new XtumlException("");
+            return logicalAnd;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitLogicalAnd(MaslParser.LogicalAndContext ctx) {
+        try {
+            Object equality = visit(ctx.equality(0));
+            // TODO
+            if (false)
+                throw new XtumlException("");
+            return equality;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitEquality(MaslParser.EqualityContext ctx) {
+        try {
+            Object relationalExp = visit(ctx.relationalExp(0));
+            // TODO
+            if (false)
+                throw new XtumlException("");
+            return relationalExp;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitRelationalExp(MaslParser.RelationalExpContext ctx) {
+        try {
+            Object additiveExp = visit(ctx.additiveExp(0));
+            // TODO
+            if (false)
+                throw new XtumlException("");
+            return additiveExp;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitAdditiveExp(MaslParser.AdditiveExpContext ctx) {
+        try {
+            Object multExp = visit(ctx.multExp(0));
+            // TODO
+            if (false)
+                throw new XtumlException("");
+            return multExp;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitMultExp(MaslParser.MultExpContext ctx) {
+        try {
+            Object unaryExp = visit(ctx.unaryExp(0));
+            // TODO
+            if (false)
+                throw new XtumlException("");
+            return unaryExp;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitUnaryExp(MaslParser.UnaryExpContext ctx) {
+        try {
+            if (ctx.linkExpression() != null) {
+                return visit(ctx.linkExpression());
+            } else {
+                // TODO
+                if (false)
+                    throw new XtumlException("");
+                return null;
+            }
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitLinkExpression(MaslParser.LinkExpressionContext ctx) {
+        try {
+            if (ctx.navigateExpression() != null) {
+                return visit(ctx.navigateExpression(0));
+            } else {
+                // TODO
+                if (false)
+                    throw new XtumlException("");
+                return null;
+            }
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitNavigateExpression(MaslParser.NavigateExpressionContext ctx) {
+        try {
+            Object extendedExpression = visit(ctx.extendedExpression(0));
+            // TODO
+            if (false)
+                throw new XtumlException("");
+            return extendedExpression;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitExtendedExpression(MaslParser.ExtendedExpressionContext ctx) {
+        try {
+            if (ctx.postfixExpression() != null) {
+                return visit(ctx.postfixExpression());
+            } else {
+                // TODO
+                if (false)
+                    throw new XtumlException("");
+                return null;
+            }
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitPostfixExpression(MaslParser.PostfixExpressionContext ctx) {
+        try {
+            Object primaryExpression = visit(ctx.primaryExpression());
+            // TODO
+            if (false)
+                throw new XtumlException("");
+            return primaryExpression;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitPrimaryExpression(MaslParser.PrimaryExpressionContext ctx) {
+        try {
+            if (ctx.literal() != null) {
+                return visit(ctx.literal());
+            } else {
+                // TODO
+                if (false)
+                    throw new XtumlException("");
+                return null;
+            }
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitLiteral(MaslParser.LiteralContext ctx) {
+        try {
+            Object expression = loader.create("Expression");
+            Object literalExpression = loader.create("LiteralExpression");
+            loader.relate(literalExpression, expression, 5517, "");
+            if (ctx.StringLiteral() != null) {
+                Object stringLiteral = loader.create("StringLiteral");
+                loader.relate(stringLiteral, literalExpression, 5700, "");
+                String literalText = ctx.StringLiteral().getText();
+                loader.set_attribute(stringLiteral, "original", literalText);
+                loader.set_attribute(stringLiteral, "noQuotes", literalText.substring(1, literalText.length() - 1));
+                Object stringType = loader.call_function("select_BasicType_where_name", "", "string");
+                loader.relate(stringType, expression, 5570, "");
+            } else if (ctx.CONSOLE() != null) {
+                Object consoleLiteral = loader.create("ConsoleLiteral");
+                loader.relate(consoleLiteral, literalExpression, 5700, "");
+                Object deviceType = loader.call_function("select_BasicType_where_name", "", "device");
+                loader.relate(deviceType, expression, 5570, "");
+            }
+            // TODO
+            return expression;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
 }
