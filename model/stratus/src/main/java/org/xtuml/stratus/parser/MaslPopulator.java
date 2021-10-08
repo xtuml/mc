@@ -951,7 +951,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitEventReference(MaslParser.EventReferenceContext ctx) {
         try {
             return loader.call_function("select_EventDeclaration_where_name",
-                    ctx.objectReference() != null ? visit(ctx.objectReference()) : currentObject, ctx.eventName().getText());
+                    ctx.objectReference() != null ? visit(ctx.objectReference()) : currentObject,
+                    ctx.eventName().getText());
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1120,7 +1121,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         try {
             Object domainName = currentDomain.getClass().getMethod("getName").invoke(currentDomain);
             return loader.call_function("select_RelationshipDeclaration_where_name",
-                    ctx.domainName() != null ? ctx.domainName().getText() : domainName, ctx.relationshipName().getText());
+                    ctx.domainName() != null ? ctx.domainName().getText() : domainName,
+                    ctx.relationshipName().getText());
         } catch (XtumlException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
                 | NoSuchMethodException | SecurityException e) {
             xtumlTrace(e, "");
@@ -1145,6 +1147,150 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
+        }
+    }
+
+    @Override
+    public Object visitDomainServiceDefinition(MaslParser.DomainServiceDefinitionContext ctx) {
+        try {
+            // TODO - must deal with overloading by including parameter list in
+            // identification.
+            currentCodeBlock = emptyCodeBlock;
+            Object service = loader.call_function("select_Service_where_name", ctx.domainName().getText(),
+                    ctx.serviceName().getText());
+            currentService = service;
+            visit(ctx.codeBlock());
+            currentService = null;
+            return service;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitCodeBlock(MaslParser.CodeBlockContext ctx) {
+        try {
+            Object codeBlock = loader.create("CodeBlock");
+            // TODO - nest the code_block instances.
+            if (null != currentService) {
+                loader.relate(codeBlock, currentService, 5403, "");
+            } else {
+                loader.relate(codeBlock, currentOOAState, 6115, "");
+            }
+            currentCodeBlock = codeBlock;
+            // TODO for each variableDeclaration
+            // loader.relate( $variableDeclaration.variable_definition, $code_block, 5151,
+            // "" );
+            if (ctx.statementList() != null) {
+                loader.relate(visit(ctx.statementList()), codeBlock, 5150, "");
+            }
+            // TODO for each exceptionHandler
+            // loader.relate( $exceptionHandler.handler, code_block, 5149, "" );
+            // TODO other handler
+            // loader.relate( $exceptionHandler.handler, code_block, 5149, "" );
+            currentCodeBlock = emptyCodeBlock;
+            return codeBlock;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitStatementList(MaslParser.StatementListContext ctx) {
+        try {
+            Object firstStatement = null;
+            Object previousStatement = null;
+            for (MaslParser.StatementContext ctx2 : ctx.statement()) {
+                Object statement = visit(ctx2);
+                if (previousStatement == null) {
+                    firstStatement = statement;
+                } else {
+                    loader.relate(statement, previousStatement, 5155, "succeeds");
+                }
+                previousStatement = statement;
+            }
+            return firstStatement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitStatement(MaslParser.StatementContext ctx) {
+        try {
+            Object statement = loader.create("Statement");
+            if (ctx.assignStatement() != null) {
+                loader.relate(visit(ctx.assignStatement()), statement, 5135, "");
+            } else if (ctx.streamStatement() != null) {
+                loader.relate(visit(ctx.streamStatement()), statement, 5135, "");
+            } else if (ctx.callStatement() != null) {
+                loader.relate(visit(ctx.callStatement()), statement, 5135, "");
+            } else if (ctx.exitStatement() != null) {
+                loader.relate(visit(ctx.exitStatement()), statement, 5135, "");
+            } else if (ctx.returnStatement() != null) {
+                loader.relate(visit(ctx.returnStatement()), statement, 5135, "");
+            } else if (ctx.delayStatement() != null) {
+                loader.relate(visit(ctx.delayStatement()), statement, 5135, "");
+            } else if (ctx.raiseStatement() != null) {
+                loader.relate(visit(ctx.raiseStatement()), statement, 5135, "");
+            } else if (ctx.deleteStatement() != null) {
+                loader.relate(visit(ctx.deleteStatement()), statement, 5135, "");
+            } else if (ctx.eraseStatement() != null) {
+                loader.relate(visit(ctx.eraseStatement()), statement, 5135, "");
+            } else if (ctx.linkStatement() != null) {
+                loader.relate(visit(ctx.linkStatement()), statement, 5135, "");
+            } else if (ctx.scheduleStatement() != null) {
+                loader.relate(visit(ctx.scheduleStatement()), statement, 5135, "");
+            } else if (ctx.cancelTimerStatement() != null) {
+                loader.relate(visit(ctx.cancelTimerStatement()), statement, 5135, "");
+            } else if (ctx.generateStatement() != null) {
+                loader.relate(visit(ctx.generateStatement()), statement, 5135, "");
+            } else if (ctx.ifStatement() != null) {
+                loader.relate(visit(ctx.ifStatement()), statement, 5135, "");
+            } else if (ctx.caseStatement() != null) {
+                loader.relate(visit(ctx.caseStatement()), statement, 5135, "");
+            } else if (ctx.forStatement() != null) {
+                loader.relate(visit(ctx.forStatement()), statement, 5135, "");
+            } else if (ctx.whileStatement() != null) {
+                loader.relate(visit(ctx.whileStatement()), statement, 5135, "");
+            }
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitStreamStatement(MaslParser.StreamStatementContext ctx) {
+        try {
+            Object statement = loader.create("IOStreamStatement");
+            loader.relate(visit(ctx.lhs), statement, 5156, "");
+            loader.relate(visit(ctx.rhs.get(0)), statement, 5115, "");
+            loader.set_attribute(statement, "operator", visit(ctx.streamOperator(0)));
+            // TODO - I am not sure what to do with multiple different operators.
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitStreamOperator(MaslParser.StreamOperatorContext ctx) {
+        if (ctx.STREAM_IN() != null) {
+            return "IOop::in";
+        } else if (ctx.STREAM_OUT() != null) {
+            return "IOop::out";
+        } else if (ctx.STREAM_LINE_IN() != null) {
+            return "IOop::linein";
+        } else if (ctx.STREAM_LINE_OUT() != null) {
+            return "IOop::lineout";
+        } else {
+            return "";
         }
     }
 

@@ -602,10 +602,7 @@ streamOperator                : STREAM_IN
                               | STREAM_LINE_OUT
                               ;
 
-streamValue                   : streamOperator expression
-                              ;
-
-streamStatement               : expression streamValue+
+streamStatement               : lhs=expression (streamOperator rhs+=expression)+
                               ;
 
 callStatement                 : primaryExpression

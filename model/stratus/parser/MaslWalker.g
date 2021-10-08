@@ -694,7 +694,6 @@ returns [Object event_declaration]
 
 domainServiceDeclaration
 returns [Object domain_service]
-@init{ Object service = null; }
                               : ^( DOMAIN_SERVICE_DECLARATION
                                    serviceVisibility
                                    serviceName
@@ -915,13 +914,6 @@ returns [Object service]
                                    serviceName
                                    parameterList
                                    returnType?
-                                                            {
-                                                              try {
-                                                                // TODO - must deal with overloading by including parameter list in identification.
-                                                                $service = loader.call_function( "select_Service_where_name", $domainReference.domainname, $serviceName.name );
-                                                                current_service = $service;
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    codeBlock
                                    pragmaList
                                  )
@@ -1024,117 +1016,25 @@ returns [Object ooastate]
 
 statement
 returns [Object st]
-@init                                                       {
-                                                              try {
-                                                                $st = loader.create( "Statement" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                              Object code_block = empty_code_block;
-                                                            }
                               : ^( STATEMENT
                                    ( codeBlock
                                    | assignmentStatement    
-                                                            {
-                                                              try {
-                                                                loader.relate( $assignmentStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | streamStatement        
-                                                            {
-                                                              try {
-                                                                loader.relate( $streamStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | callStatement          
-                                                            {
-                                                              try {
-                                                                loader.relate( $callStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | exitStatement          
-                                                            {
-                                                              try {
-                                                                loader.relate( $exitStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | returnStatement        
-                                                            {
-                                                              try {
-                                                                loader.relate( $returnStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | delayStatement         
-                                                            {
-                                                              try {
-                                                                loader.relate( $delayStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | raiseStatement         
-                                                            {
-                                                              try {
-                                                                loader.relate( $raiseStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | deleteStatement        
-                                                            {
-                                                              try {
-                                                                loader.relate( $deleteStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | eraseStatement         
-                                                            {
-                                                              try {
-                                                                loader.relate( $eraseStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | linkStatement          
-                                                            {
-                                                              try {
-                                                                loader.relate( $linkStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | scheduleStatement      
-                                                            {
-                                                              try {
-                                                                loader.relate( $scheduleStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | cancelTimerStatement   
-                                                            {
-                                                              try {
-                                                                loader.relate( $cancelTimerStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | generateStatement      
-                                                            {
-                                                              try {
-                                                                loader.relate( $generateStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | ifStatement            
-                                                            {
-                                                              try {
-                                                                assert ( $ifStatement.st != null && $st != null ) : "ifStatement";
-                                                                loader.relate( $ifStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | caseStatement          
-                                                            {
-                                                              try {
-                                                                loader.relate( $caseStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | forStatement           
-                                                            {
-                                                              try {
-                                                                loader.relate( $forStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    | whileStatement         
-                                                            {
-                                                              try {
-                                                                loader.relate( $whileStatement.st, $st, 5135, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    |                        
                                    )
                                    pragmaList
@@ -1143,18 +1043,8 @@ returns [Object st]
 
 statementList
 returns [Object st]
-@init { Object previousstatement = null; }
                               : ^( STATEMENT_LIST
-                                   ( statement              {
-                                                              if ( null == previousstatement ) {
-                                                                st = $statement.st;
-                                                              } else {
-                                                                try {
-                                                                  loader.relate( $statement.st, previousstatement, 5155, "succeeds" );
-                                                                } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                              }
-                                                              previousstatement = $statement.st;
-                                                            }
+                                   ( statement              
                                    )*
                                  )
                               ;
@@ -1175,38 +1065,21 @@ returns [Object st]
 
 streamStatement
 returns [Object st]
-@init                                                       {
-                                                              try {
-                                                                $st = loader.create( "IOStreamStatement" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
 
                               : ^( STREAM_STATEMENT
                                    expression
-                                                            {
-                                                              try {
-                                                                loader.relate( $expression.expression, $st, 5156, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    ( streamOperator         
-                                                            {
-                                                              try {
-                                                                loader.relate( $streamOperator.expression, $st, 5115, "" );
-                                                                // TODO - I am not sure what to do with multiple different operators.
-                                                                loader.set_attribute( $st, "operator", $streamOperator.op );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    )+
                                  )                          
                               ;
 
 streamOperator
 returns [String op, Object expression]
-                              : ^( ( STREAM_IN              { $op = "IOop::in"; }
-                                   | STREAM_OUT             { $op = "IOop::out"; }
-                                   | STREAM_LINE_IN         { $op = "IOop::linein"; }
-                                   | STREAM_LINE_OUT        { $op = "IOop::lineout"; }
-                                   ) expression             { $expression = $expression.expression; }
+                              : ^( ( STREAM_IN              
+                                   | STREAM_OUT             
+                                   | STREAM_LINE_IN         
+                                   | STREAM_LINE_OUT        
+                                   ) expression             
                                  )                          
                               ;
 
@@ -1675,48 +1548,13 @@ returns [Object loop_spec]
 
 codeBlock
 returns [Object code_block]
-@after { current_code_block = empty_code_block; }
                               : ^( CODE_BLOCK
-                                                            {
-                                                              try {
-                                                                $code_block = loader.create( "CodeBlock" );
-                                                                current_code_block = $code_block;
-                                                                // TODO - nest the code_block instances.
-                                                                if ( null != current_service ) {
-                                                                  loader.relate( $codeBlock.code_block, current_service, 5403, "" );
-                                                                } else {
-                                                                  loader.relate( $codeBlock.code_block, current_ooastate, 6115, "" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
-                                  ( variableDeclaration     
-                                                            {
-                                                              try {
-                                                                loader.relate( $variableDeclaration.variable_definition, $code_block, 5151, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                   ( variableDeclaration     
                                   )*     
                                    statementList
-                                                            {
-                                                              try {
-                                                                if ( null != $statementList.st ) {
-                                                                  loader.relate( $statementList.st, $code_block, 5150, "" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                   ( exceptionHandler
-                                                            {
-                                                              try {
-                                                                loader.relate( $exceptionHandler.handler, code_block, 5149, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                   )*
                                   ( otherHandler            
-                                                            {
-                                                              try {
-                                                                loader.relate( $exceptionHandler.handler, code_block, 5149, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                   )?
                                 )
                               ;
