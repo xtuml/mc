@@ -1188,9 +1188,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 loader.relate(codeBlock, currentOOAState, 6115, "");
             }
             currentCodeBlock = codeBlock;
-            // TODO for each variableDeclaration
-            // loader.relate( $variableDeclaration.variable_definition, $code_block, 5151,
-            // "" );
+            for (MaslParser.VariableDeclarationContext ctx2 : ctx.variableDeclaration()) {
+                loader.relate(visit(ctx2), codeBlock, 5151, "");
+            }
             if (ctx.statementList() != null) {
                 loader.relate(visit(ctx.statementList()), codeBlock, 5150, "");
             }
@@ -1200,6 +1200,27 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             // loader.relate( $exceptionHandler.handler, code_block, 5149, "" );
             currentCodeBlock = emptyCodeBlock;
             return codeBlock;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitVariableDeclaration(MaslParser.VariableDeclarationContext ctx) {
+        try {
+            Object variableDefinition = loader.create("VariableDefinition");
+            loader.set_attribute(variableDefinition, "name", ctx.variableName().getText());
+            loader.set_attribute(variableDefinition, "isreadonly", ctx.READONLY() != null);
+            String actionText = input
+                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.getStop().getStopIndex()));
+            loader.set_attribute(variableDefinition, "actions", actionText);
+            loader.relate(visit(ctx.typeReferenceWithCA()), variableDefinition, 5137, "");
+            if (ctx.expression() != null) {
+                loader.relate(visit(ctx.expression()), variableDefinition, 5138, "");
+            }
+            return variableDefinition;
+
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;

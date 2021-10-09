@@ -1567,20 +1567,7 @@ returns [Object variable_definition]
                                    variableName
                                    READONLY?
                                    typeReference
-                                                            {
-                                                              try {
-                                                                $variable_definition = loader.create( "VariableDefinition" );
-                                                                loader.set_attribute( $variable_definition, "name", $variableName.name );
-                                                                loader.set_attribute( $variable_definition, "isreadonly", ( null != $READONLY ) );
-                                                                loader.relate( $typeReference.basic_type, $variable_definition, 5137, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    (expression
-                                                            {
-                                                              try {
-                                                                loader.relate( $expression.expression, $variable_definition, 5138, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    )?
                                    pragmaList )
                               ;

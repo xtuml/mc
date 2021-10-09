@@ -739,7 +739,7 @@ codeBlockStatement            : (DECLARE
                                 END
                               ;
 
-codeBlock                     :   variableDeclaration*
+codeBlock                     : variableDeclaration*
                                 BEGIN
                                   statementList
                                 (EXCEPTION
