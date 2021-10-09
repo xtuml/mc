@@ -1634,9 +1634,31 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object instType = loader.call_function("select_create_InstanceType", obj, false);
             loader.relate(createExpression, expression, 5517, "");
             loader.relate(instType, expression, 5570, "");
-            // for each create argument
-            // TODO
+            currentObject = obj;
+            visit(ctx.createArgumentList());
+            currentObject = emptyObject;
             return expression;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitCreateArgument(MaslParser.CreateArgumentContext ctx) {
+        try {
+            Object attributeInitialization = loader.create("AttributeInitialization");
+            if (ctx.attributeName() != null) {
+                Object attributeDeclaration = loader.call_function("select_AttributeDeclaration_related_where_name",
+                        currentObject, ctx.attributeName().getText());
+                loader.relate(attributeDeclaration, attributeInitialization, 5565, "");
+                loader.relate(visit(ctx.expression()), attributeInitialization, 5568, "");
+            } else {
+                Object ooastate = loader.call_function("select_State_related_where_name", currentObject,
+                        ctx.stateName().getText());
+                loader.relate(ooastate, attributeInitialization, 5567, "");
+            }
+            return attributeInitialization;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;

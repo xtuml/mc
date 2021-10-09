@@ -1637,12 +1637,6 @@ returns [Object expression, Object basic_type]
                                                               } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
                                                             }
                               | createExpression            
-                                                            {
-                                                              try {
-                                                                loader.relate( $createExpression.create_expression, $expression, 5517, "" );
-                                                                $basic_type = $createExpression.basic_type;
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | findExpression              
                                                             {
                                                               try {
@@ -1934,13 +1928,6 @@ createExpression
 returns [Object create_expression, Object basic_type]
                               : ^( CREATE
                                    objectReference 
-                                                            {
-                                                              try {
-                                                                $create_expression = loader.create( "CreateExpression" );
-                                                                loader.relate( $objectReference.object_declaration, $create_expression, 5511, "" );
-                                                                $basic_type = loader.call_function( "select_create_InstanceType", $objectReference.object_declaration, false );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    ( createArgument[$objectReference.object_declaration]
                                                             {
                                                               try {
@@ -1953,29 +1940,11 @@ returns [Object create_expression, Object basic_type]
 
 createArgument[Object object_declaration]
 returns [Object attribute_initialization]
-@init                                                       {
-                                                              try {
-                                                                $attribute_initialization = loader.create( "AttributeInitialization" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               : ^( CREATE_ARGUMENT
                                    attributeName
                                    expression )              
-                                                            {
-                                                              try {
-                                                                Object attribute_declaration = loader.call_function( "select_AttributeDeclaration_related_where_name", $object_declaration, $attributeName.name );
-                                                                loader.relate( attribute_declaration, $attribute_initialization, 5565, "" );
-                                                                loader.relate( $expression.expression, $attribute_initialization, 5568, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | ^( CURRENT_STATE
                                    stateName
-                                                            {
-                                                              try {
-                                                                Object ooastate = loader.call_function( "select_State_related_where_name", $object_declaration, $stateName.name );
-                                                                loader.relate( ooastate, $attribute_initialization, 5567, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                  )
                               ;
 
