@@ -1274,6 +1274,69 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("183c6254-c6e2-4d4e-a5f3-5011775222ab",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_NameExpression',
+	'',
+	'select any expr from instances of Expression2 where false;
+
+// search for local variable reference
+current_block = param.current_block;
+select any var related by current_block->VariableDefinition[R5151] where (selected.name == param.name);
+while (not_empty current_block and empty var)
+  select one current_block related by current_block->CodeBlock2[R5160.''nested_within''];
+  select any var related by current_block->VariableDefinition[R5151] where (selected.name == param.name);
+end while;
+if (not_empty var)
+  // create a new variable reference
+  create object instance expr of Expression2;
+  select one type related by var->BasicType[R5137];
+  relate type to expr across R5570;
+  create object instance var_ref of VariableNameExpression;
+  relate var_ref to expr across R5517;
+  relate var_ref to var across R5562;
+end if;
+
+return expr;',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	1,
+	'',
+	0,
+	2);
+INSERT INTO S_SPARM
+	VALUES ("fedc6e46-b6f0-48ac-9833-caf14c14d63e",
+	"183c6254-c6e2-4d4e-a5f3-5011775222ab",
+	'domain_name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("36951a0f-4c2a-4b7c-b397-52e2fb563a44",
+	"183c6254-c6e2-4d4e-a5f3-5011775222ab",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"fedc6e46-b6f0-48ac-9833-caf14c14d63e",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e71e8b02-8ca0-473b-b978-25e75c6c8e28",
+	"183c6254-c6e2-4d4e-a5f3-5011775222ab",
+	'current_block',
+	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	0,
+	'',
+	"36951a0f-4c2a-4b7c-b397-52e2fb563a44",
+	'');
+INSERT INTO PE_PE
+	VALUES ("183c6254-c6e2-4d4e-a5f3-5011775222ab",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	1,

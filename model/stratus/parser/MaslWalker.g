@@ -1054,13 +1054,7 @@ assignmentStatement
 returns [Object st]
                               : ^( ASSIGN
                                    lhs=expression rhs=expression
-                                 )                          {
-                                                              try {
-                                                                $st = loader.create( "AssignmentStatement" );
-                                                                loader.relate( $lhs.expression, $st, 5101, "" );
-                                                                loader.relate( $rhs.expression, $st, 5100, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
+                                 )
                               ;
 
 streamStatement

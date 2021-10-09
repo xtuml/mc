@@ -1187,6 +1187,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             } else {
                 loader.relate(codeBlock, currentOOAState, 6115, "");
             }
+            if (!((IModelInstance<?, ?>) currentCodeBlock).isEmpty()) {
+                loader.relate(codeBlock, currentCodeBlock, 5160, "nested_within");
+            }
+            Object oldCodeBlock = currentCodeBlock;
             currentCodeBlock = codeBlock;
             for (MaslParser.VariableDeclarationContext ctx2 : ctx.variableDeclaration()) {
                 loader.relate(visit(ctx2), codeBlock, 5151, "");
@@ -1198,7 +1202,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             // loader.relate( $exceptionHandler.handler, code_block, 5149, "" );
             // TODO other handler
             // loader.relate( $exceptionHandler.handler, code_block, 5149, "" );
-            currentCodeBlock = emptyCodeBlock;
+            currentCodeBlock = oldCodeBlock;
             return codeBlock;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -1290,6 +1294,19 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             } else if (ctx.whileStatement() != null) {
                 loader.relate(visit(ctx.whileStatement()), statement, 5135, "");
             }
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitAssignStatement(MaslParser.AssignStatementContext ctx) {
+        try {
+            Object statement = loader.create("AssignmentStatement");
+            loader.relate(visit(ctx.lhs), statement, 5101, "");
+            loader.relate(visit(ctx.rhs), statement, 5100, "");
             return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -1616,6 +1633,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.literal());
             } else if (ctx.parenthesisedExpression() != null) {
                 return visit(ctx.parenthesisedExpression());
+            } else if (ctx.nameExpression() != null) {
+                return visit(ctx.nameExpression());
             } else {
                 // TODO
                 if (false)
@@ -1624,6 +1643,29 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitNameExpression(MaslParser.NameExpressionContext ctx) {
+        try {
+            Object expression = loader.call_function("resolve_NameExpression",
+                    ctx.domainName() != null ? ctx.domainName().getText() : "", ctx.identifier().getText(),
+                    currentCodeBlock);
+            return expression;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitParenthesisedExpression(MaslParser.ParenthesisedExpressionContext ctx) {
+        if (ctx.expression().size() == 1) {
+            return visit(ctx.expression(0));
+        } else {
+            // TODO aggregate expression
             return null;
         }
     }
@@ -1702,16 +1744,6 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
-            return null;
-        }
-    }
-
-    @Override
-    public Object visitParenthesisedExpression(MaslParser.ParenthesisedExpressionContext ctx) {
-        if (ctx.expression().size() == 1) {
-            return visit(ctx.expression(0));
-        } else {
-            // TODO aggregate expression
             return null;
         }
     }
