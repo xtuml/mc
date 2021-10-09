@@ -1171,10 +1171,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitCodeBlock(MaslParser.CodeBlockContext ctx) {
         try {
-            Object codeBlock = loader.create("CodeBlock");
+            Object codeBlock = loader.create("CodeBlock2");
             loader.set_attribute(codeBlock, "actions", ctx.statementList().getText());
             // TODO - nest the code_block instances.
-            if (null != currentService) {
+            if (currentService != null) {
                 loader.relate(codeBlock, currentService, 5403, "");
             } else {
                 loader.relate(codeBlock, currentOOAState, 6115, "");
@@ -1223,7 +1223,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitStatement(MaslParser.StatementContext ctx) {
         try {
-            Object statement = loader.create("Statement");
+            Object statement = loader.create("Statement2");
             if (ctx.assignStatement() != null) {
                 loader.relate(visit(ctx.assignStatement()), statement, 5135, "");
             } else if (ctx.streamStatement() != null) {
@@ -1507,7 +1507,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitLiteral(MaslParser.LiteralContext ctx) {
         try {
-            Object expression = loader.create("Expression");
+            Object expression = loader.create("Expression2");
             Object literalExpression = loader.create("LiteralExpression");
             loader.relate(literalExpression, expression, 5517, "");
             if (ctx.StringLiteral() != null) {
