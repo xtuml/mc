@@ -14270,7 +14270,7 @@ INSERT INTO R_PART
 	"61089bbf-a276-4173-a495-f52fcbec41ad",
 	"d6c07daf-861c-4392-90b8-4c88cc6f6b8f",
 	0,
-	0,
+	1,
 	'may_execute_first');
 INSERT INTO R_RTO
 	VALUES ("27d40a3e-e561-47b9-bbce-e4f655ae047d",

@@ -1319,41 +1319,12 @@ returns [Object st]
 
 ifStatement
 returns [Object st]
-@init{ Object previousalternative = null; }
                               : ^( IF
                                    condition
                                    statementList            
-                                                            {
-                                                              try {
-                                                                $st = loader.create( "IfStatement" );
-                                                                loader.relate( $condition.expression, $st, 5143, "" );
-                                                                if ( null != $statementList.st ) {
-                                                                  loader.relate( $statementList.st, $st, 5144, "" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    ( elsifBlock             
-                                                            {
-                                                              try {
-                                                                assert ( $elsifBlock.alternative != null && $st != null ) : "ifStatement elif block";
-                                                                loader.relate( $elsifBlock.alternative, $st, 5145, "" );
-                                                                if ( null != previousalternative ) {
-                                                                  loader.relate( $elsifBlock.alternative, previousalternative, 5158, "succeeds" );
-                                                                }
-                                                                previousalternative = $elsifBlock.alternative;
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    )*              
                                    ( elseBlock              
-                                                            {
-                                                              try {
-                                                                assert ( $elseBlock.alternative != null && $st != null ) : "ifStatement else block";
-                                                                loader.relate( $elseBlock.alternative, $st, 5145, "" );
-                                                                if ( null != previousalternative ) {
-                                                                  loader.relate( $elsifBlock.alternative, previousalternative, 5158, "succeeds" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                                    )?
                                  )                          
                               ;
@@ -1364,32 +1335,13 @@ returns [Object alternative]
                               : ^( ELSIF
                                    condition
                                    statementList )          
-                                                            {
-                                                              try {
-                                                                $alternative = loader.create( "Alternative" );
-                                                                loader.set_attribute( $alternative, "else_otherwise", false );
-                                                                loader.relate( $condition.expression, $alternative, 5147, "" );
-                                                                if ( null != $statementList.st ) {
-                                                                  loader.relate( $statementList.st, $alternative, 5148, "" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
-                              ;
+                   ;
 
 elseBlock
 returns [Object alternative]
                               : ^( ELSE
                                    statementList )          
-                                                            {
-                                                              try {
-                                                                $alternative = loader.create( "Alternative" );
-                                                                loader.set_attribute( $alternative, "else_otherwise", true );
-                                                                if ( null != $statementList.st ) {
-                                                                  loader.relate( $statementList.st, $alternative, 5148, "" );
-                                                                }
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
-                              ;
+                                       ;
 
 
 whileStatement

@@ -30,13 +30,12 @@ public class MaslImportParser implements IGenericLoader {
             MaslLexer lexer = new MaslLexer(input);
             MaslParser parser = new MaslParser(new CommonTokenStream(lexer));
 
-                // Parse the file
-                ParserRuleContext ctx = parser.target();
+            // Parse the file
+            ParserRuleContext ctx = parser.target();
 
-                // Walk the parse tree
-                MaslPopulator listener = new MaslPopulator(input, loader);
-                listener.visit(ctx);
-
+            // Walk the parse tree
+            MaslPopulator listener = new MaslPopulator(input, loader);
+            listener.visit(ctx);
 
         } catch (IOException e) {
             // TODO error handling

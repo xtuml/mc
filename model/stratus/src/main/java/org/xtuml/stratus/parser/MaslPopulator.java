@@ -1347,7 +1347,79 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitIfStatement(MaslParser.IfStatementContext ctx) {
+        try {
+            Object previousAlternative = null;
+            Object statement = loader.create("IfStatement");
+            String actionText = input
+                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.THEN().getSymbol().getStopIndex()));
+            loader.set_attribute(statement, "actions", actionText);
+            loader.relate(visit(ctx.condition()), statement, 5143, "");
+            if (ctx.statementList() != null) {
+                loader.relate(visit(ctx.statementList()), statement, 5144, "");
+            }
+            for (MaslParser.ElsifBlockContext ctx2 : ctx.elsifBlock()) {
+                Object elseIfBlock = visit(ctx2);
+                loader.relate(elseIfBlock, statement, 5145, "");
+                if (previousAlternative != null) {
+                    loader.relate(elseIfBlock, previousAlternative, 5158, "succeeds");
+                }
+                previousAlternative = elseIfBlock;
+            }
+            if (ctx.elseBlock() != null) {
+                Object elseBlock = visit(ctx.elseBlock());
+                loader.relate(elseBlock, statement, 5145, "");
+                if (previousAlternative != null) {
+                    loader.relate(elseBlock, previousAlternative, 5158, "succeeds");
+                }
+            }
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitElsifBlock(MaslParser.ElsifBlockContext ctx) {
+        try {
+            Object alternative = loader.create("Alternative");
+            loader.set_attribute(alternative, "else_otherwise", false);
+            String actionText = input
+                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.THEN().getSymbol().getStopIndex()));
+            loader.set_attribute(alternative, "actions", actionText);
+            loader.relate(visit(ctx.condition()), alternative, 5147, "");
+            if (ctx.statementList() != null) {
+                loader.relate(visit(ctx.statementList()), alternative, 5148, "");
+            }
+            return alternative;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitElseBlock(MaslParser.ElseBlockContext ctx) {
+        try {
+            Object alternative = loader.create("Alternative");
+            loader.set_attribute(alternative, "else_otherwise", true);
+            String actionText = input
+                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.ELSE().getSymbol().getStopIndex()));
+            loader.set_attribute(alternative, "actions", actionText);
+            if (ctx.statementList() != null) {
+                loader.relate(visit(ctx.statementList()), alternative, 5148, "");
+            }
+            return alternative;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
     public Object visitRangeExpression(MaslParser.RangeExpressionContext ctx) {
+        System.out.println("LEVI " + ctx.getText());
         try {
             Object logicalOr = visit(ctx.logicalOr(0));
             // TODO
