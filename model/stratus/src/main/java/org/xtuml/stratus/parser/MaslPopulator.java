@@ -3,13 +3,18 @@ package org.xtuml.stratus.parser;
 import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Stream;
 
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.misc.Interval;
+
 import io.ciera.runtime.instanceloading.generic.util.LOAD;
 import io.ciera.runtime.summit.classes.IModelInstance;
 import io.ciera.runtime.summit.exceptions.XtumlException;
 
 public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
+    private CharStream input;
     private LOAD loader;
+
     private Object emptyObject;
     private Object emptyCodeBlock;
     private Object currentProject;
@@ -46,7 +51,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         System.exit(1);
     }
 
-    public MaslPopulator(LOAD loader) {
+    public MaslPopulator(CharStream input, LOAD loader) {
+        this.input = input;
         this.loader = loader;
     }
 
@@ -1172,7 +1178,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitCodeBlock(MaslParser.CodeBlockContext ctx) {
         try {
             Object codeBlock = loader.create("CodeBlock2");
-            loader.set_attribute(codeBlock, "actions", ctx.statementList().getText());
+            String actionText = input.getText(new Interval(ctx.statementList().getStart().getStartIndex(),
+                    ctx.statementList().getStop().getStopIndex()));
+            loader.set_attribute(codeBlock, "actions", actionText);
             // TODO - nest the code_block instances.
             if (currentService != null) {
                 loader.relate(codeBlock, currentService, 5403, "");
@@ -1205,7 +1213,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object previousStatement = null;
             for (MaslParser.StatementContext ctx2 : ctx.statement()) {
                 Object statement = visit(ctx2);
-                loader.set_attribute(statement, "actions", ctx2.getText());
+                String actionText = input
+                        .getText(new Interval(ctx2.getStart().getStartIndex(), ctx2.getStop().getStopIndex()));
+                loader.set_attribute(statement, "actions", actionText);
                 if (previousStatement == null) {
                     firstStatement = statement;
                 } else {

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -25,14 +26,15 @@ public class MaslImportParser implements IGenericLoader {
 
         try {
             // Tokenize the file
-            MaslLexer lexer = new MaslLexer(CharStreams.fromStream(new FileInputStream(fn)));
+            CharStream input = CharStreams.fromStream(new FileInputStream(fn));
+            MaslLexer lexer = new MaslLexer(input);
             MaslParser parser = new MaslParser(new CommonTokenStream(lexer));
 
                 // Parse the file
                 ParserRuleContext ctx = parser.target();
 
                 // Walk the parse tree
-                MaslPopulator listener = new MaslPopulator(loader);
+                MaslPopulator listener = new MaslPopulator(input, loader);
                 listener.visit(ctx);
 
 
