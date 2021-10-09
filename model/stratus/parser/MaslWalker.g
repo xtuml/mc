@@ -1693,12 +1693,6 @@ returns [Object expression, Object basic_type]
                                                               $basic_type = $nameExpression.basic_type;
                                                             }
                               | literalExpression           
-                                                            {
-                                                              try {
-                                                                loader.relate( $literalExpression.literal_expression, $expression, 5517, "" );
-                                                                $basic_type = $literalExpression.basic_type;
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "expression:literalExpression" ); }
-                                                            }
                               ;
 
 binaryExpression

@@ -1614,6 +1614,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         try {
             if (ctx.literal() != null) {
                 return visit(ctx.literal());
+            } else if (ctx.parenthesisedExpression() != null) {
+                return visit(ctx.parenthesisedExpression());
             } else {
                 // TODO
                 if (false)
@@ -1700,6 +1702,16 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitParenthesisedExpression(MaslParser.ParenthesisedExpressionContext ctx) {
+        if (ctx.expression().size() == 1) {
+            return visit(ctx.expression(0));
+        } else {
+            // TODO aggregate expression
             return null;
         }
     }
