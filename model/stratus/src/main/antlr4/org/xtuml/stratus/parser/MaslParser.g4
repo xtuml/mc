@@ -899,7 +899,7 @@ findType                      : FIND
 
 postfixExpression             : primaryExpression
                                 ( l=LPAREN argumentList RPAREN
-                                | DOT identifier
+                                | DOT dotId+=identifier
                                 | TERMINATOR_SCOPE identifier
                                 | LBRACKET expression RBRACKET
                                 | PRIME characteristic LPAREN al=argumentList RPAREN

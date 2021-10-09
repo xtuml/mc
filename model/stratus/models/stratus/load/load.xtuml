@@ -345,7 +345,7 @@ relate lhs to dot_expression across R5569;
 
 select any basic_type from instances of BasicType where ( false );
 
-select one lhs_basic_type related by expression->BasicType[R5570];
+select one lhs_basic_type related by lhs->BasicType[R5570];
 if ( empty lhs_basic_type )
   LOG::LogFailure( message:"create_DotExpression:  lhs has no type - " + param.name );
   return basic_type;
@@ -1190,7 +1190,6 @@ end if;
 select any attribute_declaration from instances of AttributeDeclaration where ( selected.name == param.name );
 if ( not_empty attribute_declaration )
   create object instance selected_attribute_expression of SelectedAttributeExpression;
-  relate expression to selected_attribute_expression across R5517;
   relate selected_attribute_expression to attribute_declaration across R5541;
   select one basic_type related by attribute_declaration->BasicType[R5803];
   LOG::LogInfo( message: message + "attribute." );

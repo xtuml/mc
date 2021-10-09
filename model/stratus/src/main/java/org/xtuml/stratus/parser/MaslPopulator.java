@@ -1646,11 +1646,17 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitPostfixExpression(MaslParser.PostfixExpressionContext ctx) {
         try {
+            // TODO this is hacky, needs to be revisited
             Object primaryExpression = visit(ctx.primaryExpression());
-            // TODO
-            if (false)
-                throw new XtumlException("");
-            return primaryExpression;
+            if (ctx.DOT().size() == 1) {
+                Object expression = loader.create("Expression2");
+                Object dotExpressionType = loader.call_function("create_DotExpression", expression, primaryExpression,
+                        ctx.dotId.get(0).getText());
+                loader.relate(dotExpressionType, expression, 5570, "");
+                return expression;
+            } else {
+                return primaryExpression;
+            }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;

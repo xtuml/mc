@@ -2019,11 +2019,7 @@ returns [Object basic_type]
                               : ^( DOT
                                    lhs=expression
                                    identifier
-                                 )                          {
-                                                              try {
-                                                                $basic_type = loader.call_function( "create_DotExpression", $expression.expression, $lhs.expression, $identifier.name );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "dotExpression" ); }
-                                                            }
+                                 )                          
                               ;
 
 terminatorServiceExpression
