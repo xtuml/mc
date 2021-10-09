@@ -2233,129 +2233,17 @@ returns [Object characteristic_expression, Object basic_type]
 
 literalExpression
 returns [Object literal_expression, Object basic_type]
-@init                                                       {
-                                                              try {
-                                                                $literal_expression = loader.create( "LiteralExpression" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               : IntegerLiteral
-                                                            {
-                                                              try {
-                                                                int value = 0; // TODO probably needs to be long
-                                                                Object numeric_literal = loader.create( "NumericLiteral" );
-                                                                loader.relate( numeric_literal, $literal_expression, 5700, "" );
-                                                                loader.set_attribute( numeric_literal, "text", $IntegerLiteral.text );
-                                                                Object integer_literal = loader.create( "IntegerLiteral" );
-                                                                loader.relate( integer_literal, numeric_literal, 5703, "" );
-                                                                try {
-                                                                  value = Integer.parseInt( $IntegerLiteral.text );
-                                                                } catch ( NumberFormatException e ) { System.err.println( e ); }
-                                                                loader.set_attribute( integer_literal, "value", value );
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "integer" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | RealLiteral
-                                                            {
-                                                              try {
-                                                                Double value = 0.0;
-                                                                Object numeric_literal = loader.create( "NumericLiteral" );
-                                                                loader.relate( numeric_literal, $literal_expression, 5700, "" );
-                                                                loader.set_attribute( numeric_literal, "text", $RealLiteral.text );
-                                                                Object real_literal = loader.create( "RealLiteral" );
-                                                                loader.relate( real_literal, numeric_literal, 5703, "" );
-                                                                try {
-                                                                  value = Double.parseDouble( $RealLiteral.text );
-                                                                } catch ( NumberFormatException e ) { System.err.println( e ); }
-                                                                loader.set_attribute( real_literal, "value", value );
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "real" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | CharacterLiteral
-                                                            {
-                                                              try {
-                                                                Object character_literal = loader.create( "CharacterLiteral" );
-                                                                loader.relate( character_literal, $literal_expression, 5700, "" );
-                                                                loader.set_attribute( character_literal, "original", $CharacterLiteral.text );
-                                                                // TODO - This is simplistic and needs to be extended to handle octal.
-                                                                //TODOloader.set_attribute( character_literal, "noQuotes", $CharacterLiteral.text.replaceAll("^\"|\"$", "") );
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "character" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | StringLiteral
                               | TimestampLiteral
-                                                            {
-                                                              try {
-                                                                Object timestamp_literal = loader.create( "TimestampLiteral" );
-                                                                loader.relate( timestamp_literal, $literal_expression, 5700, "" );
-                                                                loader.set_attribute( timestamp_literal, "original", $TimestampLiteral.text );
-                                                                // TODO - need to implement conversion.
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "timestamp" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | DurationLiteral
-                                                            {
-                                                              try {
-                                                                Object duration_literal = loader.create( "DurationLiteral" );
-                                                                loader.relate( duration_literal, $literal_expression, 5700, "" );
-                                                                loader.set_attribute( duration_literal, "literal", $DurationLiteral.text );
-                                                                // TODO - need to implement conversion.
-                                                                // TODO - maybe need to promote original to supertype LiteralExpression
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "duration" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | TRUE
-                                                            {
-                                                              try {
-                                                                Object boolean_literal = loader.create( "BooleanLiteral" );
-                                                                loader.relate( boolean_literal, $literal_expression, 5700, "" );
-                                                                loader.set_attribute( boolean_literal, "value", Boolean.valueOf( "true" ) );
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "boolean" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | FALSE
-                                                            {
-                                                              try {
-                                                                Object boolean_literal = loader.create( "BooleanLiteral" );
-                                                                loader.relate( boolean_literal, $literal_expression, 5700, "" );
-                                                                loader.set_attribute( boolean_literal, "value", Boolean.valueOf( "false" ) );
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "boolean" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | NULL
-                                                            {
-                                                              try {
-                                                                Object null_literal = loader.create( "NullLiteral" );
-                                                                loader.relate( null_literal, $literal_expression, 5700, "" );
-                                                                Object basic_type = loader.call_function( "select_BasicType_where_name", "", "instance" );
-                                                                loader.relate( null_literal, basic_type, 5702, "" );
-                                                                // TODO instance
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "instance" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | FLUSH
-                                                            {
-                                                              try {
-                                                                Object flush_literal = loader.create( "FlushLiteral" );
-                                                                loader.relate( flush_literal, $literal_expression, 5700, "" );
-                                                                // TODO instance
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "instance" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | ENDL
-                                                            {
-                                                              try {
-                                                                Object endl_literal = loader.create( "EndlLiteral" );
-                                                                loader.relate( endl_literal, $literal_expression, 5700, "" );
-                                                                $basic_type = loader.call_function( "select_BasicType_where_name", "", "character" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | THIS
-                                                            {
-                                                              try {
-                                                                Object this_literal = loader.create( "ThisLiteral" );
-                                                                loader.relate( this_literal, $literal_expression, 5700, "" );
-                                                                $basic_type = loader.call_function( "select_create_InstanceType", current_object, false );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
                               | CONSOLE
                               ; 

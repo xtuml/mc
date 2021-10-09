@@ -1560,21 +1560,71 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object expression = loader.create("Expression2");
             Object literalExpression = loader.create("LiteralExpression");
             loader.relate(literalExpression, expression, 5517, "");
-            if (ctx.StringLiteral() != null) {
+            String literalText = ctx.getText();
+            if (ctx.IntegerLiteral() != null) {
+                Object numericLiteral = loader.create("NumericLiteral");
+                loader.set_attribute(numericLiteral, "text", literalText); // TODO naive implementation does no
+                                                                           // conversion
+                loader.relate(numericLiteral, literalExpression, 5700, "");
+                Object integerLiteral = loader.create("IntegerLiteral");
+                loader.set_attribute(integerLiteral, "value", Integer.parseInt(literalText));
+                loader.relate(integerLiteral, numericLiteral, 5703, "");
+                Object intType = loader.call_function("select_BasicType_where_name", "", "integer");
+                loader.relate(intType, expression, 5570, "");
+            } else if (ctx.RealLiteral() != null) {
+                Object numericLiteral = loader.create("NumericLiteral");
+                loader.set_attribute(numericLiteral, "text", literalText); // TODO naive implementation does no
+                                                                           // conversion
+                loader.relate(numericLiteral, literalExpression, 5700, "");
+                Object realLiteral = loader.create("RealLiteral");
+                loader.set_attribute(realLiteral, "value", Double.parseDouble(literalText));
+                loader.relate(realLiteral, numericLiteral, 5703, "");
+                Object realType = loader.call_function("select_BasicType_where_name", "", "real");
+                loader.relate(realType, expression, 5570, "");
+            } else if (ctx.CharacterLiteral() != null) {
+                // TODO
+            } else if (ctx.StringLiteral() != null) {
                 Object stringLiteral = loader.create("StringLiteral");
                 loader.relate(stringLiteral, literalExpression, 5700, "");
-                String literalText = ctx.StringLiteral().getText();
                 loader.set_attribute(stringLiteral, "original", literalText);
                 loader.set_attribute(stringLiteral, "noQuotes", literalText.substring(1, literalText.length() - 1));
                 Object stringType = loader.call_function("select_BasicType_where_name", "", "string");
                 loader.relate(stringType, expression, 5570, "");
+            } else if (ctx.TimestampLiteral() != null) {
+                // TODO
+            } else if (ctx.DurationLiteral() != null) {
+                // TODO
+            } else if (ctx.TRUE() != null || ctx.FALSE() != null) {
+                Object booleanLiteral = loader.create("BooleanLiteral");
+                loader.relate(booleanLiteral, literalExpression, 5700, "");
+                loader.set_attribute(booleanLiteral, "value", ctx.TRUE() != null);
+                Object booleanType = loader.call_function("select_BasicType_where_name", "", "boolean");
+                loader.relate(booleanType, expression, 5570, "");
+            } else if (ctx.NULL() != null) {
+                Object nullLiteral = loader.create("NullLiteral");
+                loader.relate(nullLiteral, literalExpression, 5700, "");
+                Object instanceType = loader.call_function("select_BasicType_where_name", "", "instance");
+                loader.relate(instanceType, expression, 5570, "");
+            } else if (ctx.FLUSH() != null) {
+                Object flushLiteral = loader.create("FlushLiteral");
+                loader.relate(flushLiteral, literalExpression, 5700, "");
+                // special flush literal has no type
+            } else if (ctx.ENDL() != null) {
+                Object endlLiteral = loader.create("EndlLiteral");
+                loader.relate(endlLiteral, literalExpression, 5700, "");
+                Object stringType = loader.call_function("select_BasicType_where_name", "", "string");
+                loader.relate(stringType, expression, 5570, "");
+            } else if (ctx.THIS() != null) {
+                Object thisLiteral = loader.create("ThisLiteral");
+                loader.relate(thisLiteral, literalExpression, 5700, "");
+                Object instanceType = loader.call_function("select_create_InstanceType", currentObject, false);
+                loader.relate(instanceType, expression, 5570, "");
             } else if (ctx.CONSOLE() != null) {
                 Object consoleLiteral = loader.create("ConsoleLiteral");
                 loader.relate(consoleLiteral, literalExpression, 5700, "");
                 Object deviceType = loader.call_function("select_BasicType_where_name", "", "device");
                 loader.relate(deviceType, expression, 5570, "");
             }
-            // TODO
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
