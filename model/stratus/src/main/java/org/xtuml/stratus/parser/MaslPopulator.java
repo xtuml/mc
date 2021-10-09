@@ -1172,6 +1172,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitCodeBlock(MaslParser.CodeBlockContext ctx) {
         try {
             Object codeBlock = loader.create("CodeBlock");
+            loader.set_attribute(codeBlock, "actions", ctx.statementList().getText());
             // TODO - nest the code_block instances.
             if (null != currentService) {
                 loader.relate(codeBlock, currentService, 5403, "");
@@ -1204,6 +1205,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object previousStatement = null;
             for (MaslParser.StatementContext ctx2 : ctx.statement()) {
                 Object statement = visit(ctx2);
+                loader.set_attribute(statement, "actions", ctx2.getText());
                 if (previousStatement == null) {
                     firstStatement = statement;
                 } else {
