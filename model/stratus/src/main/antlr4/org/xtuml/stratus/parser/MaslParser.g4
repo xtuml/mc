@@ -170,10 +170,16 @@ typeReference
                               : namedTypeRef
                               | instanceTypeRef
                               | collectionTypeRef
+                              | deprecatedType
                               ;
 
 typeReferenceWithCA           : typeReference
                               | constrainedArrayTypeRef
+                              ;
+
+deprecatedType                : INSTANCE
+                              | EVENT
+                              | SERVICE
                               ;
 
 

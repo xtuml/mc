@@ -409,6 +409,17 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitDeprecatedType(MaslParser.DeprecatedTypeContext ctx) {
+        try {
+            Object basicType = loader.call_function("select_BasicType_where_name", "", ctx.getText());
+            return basicType;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
     public Object visitInstanceTypeRef(MaslParser.InstanceTypeRefContext ctx) {
         try {
             Object basicType = loader.create("BasicType");
@@ -1436,7 +1447,6 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitRangeExpression(MaslParser.RangeExpressionContext ctx) {
-        System.out.println("LEVI " + ctx.getText());
         try {
             Object logicalOr = visit(ctx.logicalOr(0));
             // TODO
@@ -1600,12 +1610,33 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         try {
             if (ctx.postfixExpression() != null) {
                 return visit(ctx.postfixExpression());
+            } else if (ctx.createExpression() != null) {
+                return visit(ctx.createExpression());
             } else {
                 // TODO
                 if (false)
                     throw new XtumlException("");
                 return null;
             }
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitCreateExpression(MaslParser.CreateExpressionContext ctx) {
+        try {
+            Object expression = loader.create("Expression2");
+            Object createExpression = loader.create("CreateExpression");
+            Object obj = visit(ctx.objectReference());
+            loader.relate(obj, createExpression, 5511, "");
+            Object instType = loader.call_function("select_create_InstanceType", obj, false);
+            loader.relate(createExpression, expression, 5517, "");
+            loader.relate(instType, expression, 5570, "");
+            // for each create argument
+            // TODO
+            return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
