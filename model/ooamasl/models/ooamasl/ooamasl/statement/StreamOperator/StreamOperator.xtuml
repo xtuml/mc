@@ -1,0 +1,75 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("1a46bb2b-f81d-434c-95b7-0ce20f195554",
+	'StreamOperator',
+	5140,
+	'StreamOperator',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("3ab56ca9-1f35-4c64-bac3-97a99b93d529",
+	"1a46bb2b-f81d-434c-95b7-0ce20f195554");
+INSERT INTO O_BATTR
+	VALUES ("3ab56ca9-1f35-4c64-bac3-97a99b93d529",
+	"1a46bb2b-f81d-434c-95b7-0ce20f195554");
+INSERT INTO O_ATTR
+	VALUES ("3ab56ca9-1f35-4c64-bac3-97a99b93d529",
+	"1a46bb2b-f81d-434c-95b7-0ce20f195554",
+	"00000000-0000-0000-0000-000000000000",
+	'operator',
+	'',
+	'',
+	'operator',
+	0,
+	"0d770fdc-63de-4eee-9f12-1038060f4d4b",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("0d770fdc-63de-4eee-9f12-1038060f4d4b",
+	"00000000-0000-0000-0000-000000000000",
+	'IOop',
+	'',
+	'',
+	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("515ff395-7911-4213-b2ff-36191e0d5bc9",
+	"1a46bb2b-f81d-434c-95b7-0ce20f195554");
+INSERT INTO O_BATTR
+	VALUES ("515ff395-7911-4213-b2ff-36191e0d5bc9",
+	"1a46bb2b-f81d-434c-95b7-0ce20f195554");
+INSERT INTO O_ATTR
+	VALUES ("515ff395-7911-4213-b2ff-36191e0d5bc9",
+	"1a46bb2b-f81d-434c-95b7-0ce20f195554",
+	"3ab56ca9-1f35-4c64-bac3-97a99b93d529",
+	'index',
+	'',
+	'',
+	'index',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"1a46bb2b-f81d-434c-95b7-0ce20f195554");
+INSERT INTO O_ID
+	VALUES (1,
+	"1a46bb2b-f81d-434c-95b7-0ce20f195554");
+INSERT INTO O_ID
+	VALUES (2,
+	"1a46bb2b-f81d-434c-95b7-0ce20f195554");
+INSERT INTO PE_PE
+	VALUES ("1a46bb2b-f81d-434c-95b7-0ce20f195554",
+	1,
+	"ad3ecc1c-9b44-4d18-8c98-a08987d8e9ab",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ad3ecc1c-9b44-4d18-8c98-a08987d8e9ab",
+	"00000000-0000-0000-0000-000000000000",
+	"42b7101a-9299-457e-aaa5-2bbee0d919f5",
+	'statement',
+	'',
+	0,
+	'../statement.xtuml');

@@ -1281,10 +1281,29 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         try {
             Object statement = loader.create("IOStreamStatement");
             loader.relate(visit(ctx.lhs), statement, 5156, "");
-            loader.relate(visit(ctx.rhs.get(0)), statement, 5115, "");
-            loader.set_attribute(statement, "operator", visit(ctx.streamOperator(0)));
-            // TODO - I am not sure what to do with multiple different operators.
+            Object previousStreamOperator = null;
+            for (int i = 0; i < ctx.streamValue().size(); i++) {
+                Object streamOperator = visit(ctx.streamValue(i));
+                loader.set_attribute(streamOperator, "index", i);
+                loader.relate_using(visit(ctx.streamValue(i).expression()), statement, streamOperator, 5115, null);
+                if (previousStreamOperator != null) {
+                    loader.relate(streamOperator, previousStreamOperator, 5159, "follows");
+                }
+                previousStreamOperator = streamOperator;
+            }
             return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitStreamValue(MaslParser.StreamValueContext ctx) {
+        try {
+            Object streamOperator = loader.create("StreamOperator");
+            loader.set_attribute(streamOperator, "operator", visit(ctx.streamOperator()));
+            return streamOperator;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
