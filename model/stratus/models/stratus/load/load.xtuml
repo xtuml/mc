@@ -1336,6 +1336,81 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("a638a541-62b0-4d67-9e02-a9cae42a5b4d",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_BinaryExpression_type',
+	'',
+	'expression = param.expression;
+lhs = param.lhs;
+rhs = param.rhs;
+
+select one l_type related by lhs->BasicType[R5570];
+select one r_type related by rhs->BasicType[R5570];
+
+// default to using the type of the left-hand-side
+binary_type = l_type;
+
+// handle numeric types
+select one l_numeric related by l_type->BuiltinType[R6205]->NumericType[R6206];
+select one r_numeric related by r_type->BuiltinType[R6205]->NumericType[R6206];
+if (not_empty l_numeric and not_empty r_numeric)
+  // if either of the types is real, promot to real otherwise take the left type
+  // only need to check the right-hand-side since LHS is the default
+  select one r_builtin related by r_numeric->BuiltinType[R6206];
+  if ("" + r_builtin.name == "real")
+    binary_type = r_type;
+  end if;
+end if;
+
+// comparison and logical binary expressions are always boolean
+select one comp_binary related by expression->BinaryExpression[R5517]->BinaryComparisonExpression[R5000];
+select one logical_binary related by expression->BinaryExpression[R5517]->BinaryLogicalExpression[R5000];
+if (not_empty comp_binary or not_empty logical_binary)
+  select any bool_type from instances of BuiltinType where selected.name == "boolean";
+  select one binary_type related by bool_type->BasicType[R6205];
+end if;
+
+// type the expression
+relate binary_type to expression across R5570;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	3);
+INSERT INTO S_SPARM
+	VALUES ("7afdb7d5-027f-4100-8b8a-950b3e27acc9",
+	"a638a541-62b0-4d67-9e02-a9cae42a5b4d",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c56f0b39-1c44-413d-85b5-dbd10fc56088",
+	"a638a541-62b0-4d67-9e02-a9cae42a5b4d",
+	'lhs',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"7afdb7d5-027f-4100-8b8a-950b3e27acc9",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3dd22e06-404d-462b-9415-49dab59f2fb9",
+	"a638a541-62b0-4d67-9e02-a9cae42a5b4d",
+	'rhs',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"c56f0b39-1c44-413d-85b5-dbd10fc56088",
+	'');
+INSERT INTO PE_PE
+	VALUES ("a638a541-62b0-4d67-9e02-a9cae42a5b4d",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	1,

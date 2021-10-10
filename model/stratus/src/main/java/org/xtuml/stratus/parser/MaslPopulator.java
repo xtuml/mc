@@ -1447,26 +1447,29 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitRangeExpression(MaslParser.RangeExpressionContext ctx) {
-        try {
-            Object logicalOr = visit(ctx.logicalOr(0));
-            // TODO
-            if (false)
-                throw new XtumlException("");
-            return logicalOr;
-        } catch (XtumlException e) {
-            xtumlTrace(e, "");
-            return null;
-        }
+        // TODO
+        return visit(ctx.logicalOr(0));
     }
 
     @Override
     public Object visitLogicalOr(MaslParser.LogicalOrContext ctx) {
         try {
-            Object logicalXor = visit(ctx.logicalXor(0));
-            // TODO
-            if (false)
-                throw new XtumlException("");
-            return logicalXor;
+            if (ctx.logicalOr() != null) {
+                Object expression = loader.create("Expression2");
+                Object binaryExpression = loader.create("BinaryExpression");
+                loader.relate(binaryExpression, expression, 5517, "");
+                Object logicalBinary = loader.create("BinaryLogicalExpression");
+                loader.relate(logicalBinary, binaryExpression, 5000, "");
+                loader.set_attribute(binaryExpression, "operator", "Operator::_or");
+                Object lhs = visit(ctx.lhs);
+                Object rhs = visit(ctx.rhs);
+                loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
+                loader.relate(binaryExpression, lhs, 5001, "");
+                loader.relate(binaryExpression, rhs, 5002, "");
+                return expression;
+            } else {
+                return visit(ctx.logicalXor());
+            }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1476,11 +1479,22 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitLogicalXor(MaslParser.LogicalXorContext ctx) {
         try {
-            Object logicalAnd = visit(ctx.logicalAnd(0));
-            // TODO
-            if (false)
-                throw new XtumlException("");
-            return logicalAnd;
+            if (ctx.logicalXor() != null) {
+                Object expression = loader.create("Expression2");
+                Object binaryExpression = loader.create("BinaryExpression");
+                loader.relate(binaryExpression, expression, 5517, "");
+                Object logicalBinary = loader.create("BinaryLogicalExpression");
+                loader.relate(logicalBinary, binaryExpression, 5000, "");
+                loader.set_attribute(binaryExpression, "operator", "Operator::xor");
+                Object lhs = visit(ctx.lhs);
+                Object rhs = visit(ctx.rhs);
+                loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
+                loader.relate(binaryExpression, lhs, 5001, "");
+                loader.relate(binaryExpression, rhs, 5002, "");
+                return expression;
+            } else {
+                return visit(ctx.logicalAnd());
+            }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1490,11 +1504,22 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitLogicalAnd(MaslParser.LogicalAndContext ctx) {
         try {
-            Object equality = visit(ctx.equality(0));
-            // TODO
-            if (false)
-                throw new XtumlException("");
-            return equality;
+            if (ctx.logicalAnd() != null) {
+                Object expression = loader.create("Expression2");
+                Object binaryExpression = loader.create("BinaryExpression");
+                loader.relate(binaryExpression, expression, 5517, "");
+                Object logicalBinary = loader.create("BinaryLogicalExpression");
+                loader.relate(logicalBinary, binaryExpression, 5000, "");
+                loader.set_attribute(binaryExpression, "operator", "Operator::_and");
+                Object lhs = visit(ctx.lhs);
+                Object rhs = visit(ctx.rhs);
+                loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
+                loader.relate(binaryExpression, lhs, 5001, "");
+                loader.relate(binaryExpression, rhs, 5002, "");
+                return expression;
+            } else {
+                return visit(ctx.equality());
+            }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1504,11 +1529,26 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitEquality(MaslParser.EqualityContext ctx) {
         try {
-            Object relationalExp = visit(ctx.relationalExp(0));
-            // TODO
-            if (false)
-                throw new XtumlException("");
-            return relationalExp;
+            if (ctx.equality() != null) {
+                Object expression = loader.create("Expression2");
+                Object binaryExpression = loader.create("BinaryExpression");
+                loader.relate(binaryExpression, expression, 5517, "");
+                Object compBinary = loader.create("BinaryComparisonExpression");
+                loader.relate(compBinary, binaryExpression, 5000, "");
+                if (ctx.EQUAL() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::equal");
+                } else if (ctx.NOT_EQUAL() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::notequal");
+                }
+                Object lhs = visit(ctx.lhs);
+                Object rhs = visit(ctx.rhs);
+                loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
+                loader.relate(binaryExpression, lhs, 5001, "");
+                loader.relate(binaryExpression, rhs, 5002, "");
+                return expression;
+            } else {
+                return visit(ctx.relationalExp());
+            }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1518,11 +1558,30 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitRelationalExp(MaslParser.RelationalExpContext ctx) {
         try {
-            Object additiveExp = visit(ctx.additiveExp(0));
-            // TODO
-            if (false)
-                throw new XtumlException("");
-            return additiveExp;
+            if (ctx.relationalExp() != null) {
+                Object expression = loader.create("Expression2");
+                Object binaryExpression = loader.create("BinaryExpression");
+                loader.relate(binaryExpression, expression, 5517, "");
+                Object compBinary = loader.create("BinaryComparisonExpression");
+                loader.relate(compBinary, binaryExpression, 5000, "");
+                if (ctx.LT() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::lessthan");
+                } else if (ctx.GT() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::greaterthan");
+                } else if (ctx.LTE() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::lessthanequal");
+                } else if (ctx.GTE() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::greaterthanequal");
+                }
+                Object lhs = visit(ctx.lhs);
+                Object rhs = visit(ctx.rhs);
+                loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
+                loader.relate(binaryExpression, lhs, 5001, "");
+                loader.relate(binaryExpression, rhs, 5002, "");
+                return expression;
+            } else {
+                return visit(ctx.additiveExp());
+            }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1532,11 +1591,37 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitAdditiveExp(MaslParser.AdditiveExpContext ctx) {
         try {
-            Object multExp = visit(ctx.multExp(0));
-            // TODO
-            if (false)
-                throw new XtumlException("");
-            return multExp;
+            if (ctx.additiveExp() != null) {
+                Object expression = loader.create("Expression2");
+                Object binaryExpression = loader.create("BinaryExpression");
+                loader.relate(binaryExpression, expression, 5517, "");
+                if (ctx.PLUS() != null || ctx.MINUS() != null) {
+                    Object addBinary = loader.create("BinaryAdditiveExpression");
+                    loader.relate(addBinary, binaryExpression, 5000, "");
+                } else {
+                    Object collectionBinary = loader.create("BinaryCollectionExpression");
+                    loader.relate(collectionBinary, binaryExpression, 5000, "");
+                }
+                if (ctx.PLUS() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::plus");
+                } else if (ctx.MINUS() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::minus");
+                } else if (ctx.CONCATENATE() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::concatenate");
+                } else if (ctx.UNION() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::union");
+                } else if (ctx.NOT_IN() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::notin");
+                }
+                Object lhs = visit(ctx.lhs);
+                Object rhs = visit(ctx.rhs);
+                loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
+                loader.relate(binaryExpression, lhs, 5001, "");
+                loader.relate(binaryExpression, rhs, 5002, "");
+                return expression;
+            } else {
+                return visit(ctx.multExp());
+            }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1546,11 +1631,41 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitMultExp(MaslParser.MultExpContext ctx) {
         try {
-            Object unaryExp = visit(ctx.unaryExp(0));
-            // TODO
-            if (false)
-                throw new XtumlException("");
-            return unaryExp;
+            if (ctx.multExp() != null) {
+                Object expression = loader.create("Expression2");
+                Object binaryExpression = loader.create("BinaryExpression");
+                loader.relate(binaryExpression, expression, 5517, "");
+                if (ctx.INTERSECTION() != null || ctx.DISUNION() != null) {
+                    Object collectionBinary = loader.create("BinaryCollectionExpression");
+                    loader.relate(collectionBinary, binaryExpression, 5000, "");
+                } else {
+                    Object multBinary = loader.create("BinaryMultiplicativeExpression");
+                    loader.relate(multBinary, binaryExpression, 5000, "");
+                }
+                if (ctx.TIMES() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::times");
+                } else if (ctx.DIVIDE() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::divide");
+                } else if (ctx.MOD() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::modulo");
+                } else if (ctx.POWER() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::power");
+                } else if (ctx.REM() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::rem");
+                } else if (ctx.INTERSECTION() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::intersection");
+                } else if (ctx.DISUNION() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::disunion");
+                }
+                Object lhs = visit(ctx.lhs);
+                Object rhs = visit(ctx.rhs);
+                loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
+                loader.relate(binaryExpression, lhs, 5001, "");
+                loader.relate(binaryExpression, rhs, 5002, "");
+                return expression;
+            } else {
+                return visit(ctx.unaryExp());
+            }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1745,6 +1860,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 loader.set_attribute(integerLiteral, "value", Integer.parseInt(literalText));
                 loader.relate(integerLiteral, numericLiteral, 5703, "");
                 Object intType = loader.call_function("select_BasicType_where_name", "", "integer");
+                System.out.println("LEVI here " + intType);
                 loader.relate(intType, expression, 5570, "");
             } else if (ctx.RealLiteral() != null) {
                 Object numericLiteral = loader.create("NumericLiteral");

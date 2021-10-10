@@ -792,7 +792,7 @@ INSERT INTO S_EDT
 	VALUES ("766b5d8d-2e60-4295-a0c6-de1ee59cb168");
 INSERT INTO S_ENUM
 	VALUES ("d60eddbd-0e87-4146-91d1-2a4b9325f738",
-	'and',
+	'_and',
 	'',
 	"766b5d8d-2e60-4295-a0c6-de1ee59cb168",
 	"fa431ffd-9cde-428b-9a88-89e24da0cbdd");
@@ -888,7 +888,7 @@ INSERT INTO S_ENUM
 	"fad4cd6e-bcb9-43ec-b4d6-35663eed243f");
 INSERT INTO S_ENUM
 	VALUES ("2bbd06c9-a077-4d15-9958-3630ff4e7e5e",
-	'or',
+	'_or',
 	'',
 	"766b5d8d-2e60-4295-a0c6-de1ee59cb168",
 	"1ada0833-43df-4381-a626-f7a47ecc7858");

@@ -814,20 +814,33 @@ expression                    : rangeExpression;
 
 rangeExpression               : logicalOr (RANGE_DOTS logicalOr)?;
 
-logicalOr                     : logicalXor ( OR logicalXor )*;
+logicalOr                     : lhs=logicalOr OR rhs=logicalXor
+                              | logicalXor
+                              ;
 
-logicalXor                    : logicalAnd ( XOR logicalAnd )*;
+logicalXor                    : lhs=logicalXor XOR rhs=logicalAnd
+                              | logicalAnd
+                              ;
 
-logicalAnd                    : equality   ( AND equality )*;
+logicalAnd                    : lhs=logicalAnd AND rhs=equality
+                              | equality
+                              ;
 
-equality                      : relationalExp ( ( EQUAL | NOT_EQUAL ) relationalExp )*;
+equality                      : lhs=equality ( EQUAL | NOT_EQUAL ) rhs=relationalExp
+                              | relationalExp
+                              ;
 
-relationalExp                 : additiveExp ( ( LT | GT | LTE | GTE ) additiveExp )*;
+relationalExp                 : lhs=relationalExp ( LT | GT | LTE | GTE ) rhs=additiveExp
+                              | additiveExp
+                              ;
 
-additiveExp                   : multExp ( ( PLUS | MINUS | CONCATENATE | UNION | NOT_IN ) multExp )*;
+additiveExp                   : lhs=additiveExp ( PLUS | MINUS | CONCATENATE | UNION | NOT_IN ) rhs=multExp
+                              | multExp
+                              ;
 
-
-multExp                       : unaryExp (( TIMES | DIVIDE | MOD | POWER | REM | INTERSECTION | DISUNION ) unaryExp )*;
+multExp                       : lhs=multExp ( TIMES | DIVIDE | MOD | POWER | REM | INTERSECTION | DISUNION ) rhs=unaryExp
+                              | unaryExp
+                              ;
 
 unaryExp                      : unaryOperator exp=unaryExp
                               | linkExpression
