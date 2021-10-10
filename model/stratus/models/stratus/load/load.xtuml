@@ -1357,6 +1357,18 @@ if (not_empty terminator)
   return expr;
 end if;
 
+// search for objects
+select any object_declaration related by domain->ObjectDeclaration[R5805] where selected.name == param.name;
+if (not_empty object_declaration)
+  create object instance expr of Expression2;
+  create object instance obj_name_expr of ObjectNameExpression;
+  relate obj_name_expr to expr across R5517;
+  relate object_declaration to obj_name_expr across R5533;
+  type = ::select_create_InstanceType(object_declaration:object_declaration, isset:true);
+  relate type to expr across R5570;
+  return expr;
+end if;
+
 LOG::LogFailure(message:"Could not resolve name expression: " + param.domain_name + ", " + param.name);
 select any expr from instances of Expression2 where false;
 return expr;',
@@ -1623,6 +1635,45 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("dafc5a91-48fd-4fcd-961a-350711f96eaf",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("52644604-406b-4908-8eec-87492d918120",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_FindExpression_type',
+	'',
+	'expression = param.expression;
+select one find_expression related by expression->FindExpression[R5517];
+if (not_empty find_expression)
+  // for now, assume the root expression is a set
+  select one root_type related by find_expression->Expression2[R5519]->BasicType[R5570];
+  if find_expression.flavor == FindType::find
+    relate root_type to expression across R5570;
+  elif find_expression.flavor == FindType::find_one
+    select one root_single_type related by root_type->CollectionType[R6205]->BasicType[R6208];
+    relate root_single_type to expression across R5570;
+  elif find_expression.flavor == FindType::find_only
+    // TODO
+  end if;
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	3);
+INSERT INTO S_SPARM
+	VALUES ("571e0577-84d0-458a-a437-c456b85fe7f1",
+	"52644604-406b-4908-8eec-87492d918120",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("52644604-406b-4908-8eec-87492d918120",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",

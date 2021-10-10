@@ -218,17 +218,16 @@ INSERT INTO S_SYNC
 	'// Look for an existing instance type (or set collection type) for this
 // object declaration.  If found use it, otherwise create and link one.
 object_declaration = param.object_declaration;
-if ( empty object_declaration )
+if (empty object_declaration)
   // TODO
-  LOG::LogFailure( message:"select_create_InstanceType:  empty object declaration" );
+  LOG::LogFailure(message:"select_create_InstanceType:  empty object declaration");
   select any object_declaration from instances of ObjectDeclaration;
 end if;
 select one basic_type related by object_declaration->InstanceType[R6220]->BasicType[R6205];
-if ( param.isset )
+if (param.isset)
   select any basic_type related by basic_type->CollectionType[R6208]->SetType[R6207]->CollectionType[R6207]->BasicType[R6205];
-  return basic_type;
 end if;
-if ( not_empty basic_type )
+if (not_empty basic_type)
   return basic_type;
 else
   // Instance type is not (yet) created, build it up.
@@ -238,7 +237,7 @@ else
   relate type_definition to basic_type across R6236;
   relate basic_type to instance_type across R6205;
   relate instance_type to object_declaration across R6220;
-  if ( param.isset )
+  if (param.isset)
     // build up the set
     create object instance set_type_definition of TypeDefinition;
     create object instance set_basic_type of BasicType;

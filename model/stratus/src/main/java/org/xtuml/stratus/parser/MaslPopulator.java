@@ -1806,20 +1806,12 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitExtendedExpression(MaslParser.ExtendedExpressionContext ctx) {
-        try {
-            if (ctx.postfixExpression() != null) {
-                return visit(ctx.postfixExpression());
-            } else if (ctx.createExpression() != null) {
-                return visit(ctx.createExpression());
-            } else {
-                // TODO
-                if (false)
-                    throw new XtumlException("");
-                return null;
-            }
-        } catch (XtumlException e) {
-            xtumlTrace(e, "");
-            return null;
+        if (ctx.postfixExpression() != null) {
+            return visit(ctx.postfixExpression());
+        } else if (ctx.createExpression() != null) {
+            return visit(ctx.createExpression());
+        } else {
+            return visit(ctx.findExpression());
         }
     }
 
@@ -1861,6 +1853,34 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
+        }
+    }
+
+    @Override
+    public Object visitFindExpression(MaslParser.FindExpressionContext ctx) {
+        try {
+            Object expression = loader.create("Expression2");
+            Object findExpression = loader.create("FindExpression");
+            loader.relate(findExpression, expression, 5517, "");
+            loader.set_attribute(findExpression, "flavor", visit(ctx.findType()));
+            loader.relate(visit(ctx.postfixNoCallExpression()), findExpression, 5519, "");
+            loader.call_function("resolve_FindExpression_type", expression);
+            // TODO where clause
+            return expression;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitFindType(MaslParser.FindTypeContext ctx) {
+        if (ctx.FIND() != null) {
+            return "FindType::find";
+        } else if (ctx.FIND_ONE() != null) {
+            return "FindType::find_one";
+        } else {
+            return "FindType::find_only";
         }
     }
 
@@ -1945,6 +1965,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitNameExpression(MaslParser.NameExpressionContext ctx) {
         try {
+            System.out.println(ctx.identifier().getText());
             Object expression = loader.call_function("resolve_NameExpression",
                     ctx.domainName() != null ? ctx.domainName().getText() : getName(currentDomain),
                     ctx.identifier().getText(), currentCodeBlock);
