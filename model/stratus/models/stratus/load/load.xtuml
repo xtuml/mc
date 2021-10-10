@@ -337,90 +337,79 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'create_DotExpression',
 	'',
-	'expression = param.expression;
-lhs = param.lhs;
-create object instance dot_expression of DotExpression;
-relate expression to dot_expression across R5517;
-relate lhs to dot_expression across R5569;
-
-select any basic_type from instances of BasicType where ( false );
+	'lhs = param.lhs;
+create object instance expression of Expression2;
 
 select one lhs_basic_type related by lhs->BasicType[R5570];
-if ( empty lhs_basic_type )
-  LOG::LogFailure( message:"create_DotExpression:  lhs has no type - " + param.name );
-  return basic_type;
+if (empty lhs_basic_type)
+  LOG::LogFailure(message:"create_DotExpression:  lhs has no type - " + param.name);
 end if;
 
 // TODO - provide subtyping maybe from DotExpression <- SelectedAttributeExpression, SelectedComponentExpression, TypeNameExpression, ObjectNameExpresion
 
 // Look for attribute access.
 select one instance_type related by lhs_basic_type->InstanceType[R6205];
-if ( not_empty instance_type )
-  select any attribute_declaration related by instance_type->ObjectDeclaration[R6220]->AttributeDeclaration[R5802] where ( selected.name == param.name );
-  if ( not_empty attribute_declaration )
+if (not_empty instance_type)
+  select any attribute_declaration related by instance_type->ObjectDeclaration[R6220]->AttributeDeclaration[R5802] where (selected.name == param.name);
+  if (not_empty attribute_declaration)
     // create selected attribute expression
     create object instance selected_attribute_expression of SelectedAttributeExpression;
+    relate lhs to selected_attribute_expression across R5569;
+    relate selected_attribute_expression to expression across R5517;
     relate selected_attribute_expression to attribute_declaration across R5541;
-    relate selected_attribute_expression to dot_expression across R5572;
     select one basic_type related by attribute_declaration->BasicType[R5803];
-    LOG::LogInfo( message:"create_DotExpression:  attribute:  " + param.name );
-    return basic_type;
+    relate basic_type to expression across R5570;
+    LOG::LogInfo(message:"create_DotExpression:  attribute:  " + param.name);
+    return expression;
   end if;
   // Look for instance operation access.
-  select any service related by instance_type->ObjectDeclaration[R6220]->ObjectService[R5808]->Service[R5203] where ( selected.name == param.name );
-  if ( not_empty service )
-    // TODO - link invocations to dot expression correctly
-		// service
-		create object instance instance_service_invocation of InstanceServiceInvocation;
+  select any service related by instance_type->ObjectDeclaration[R6220]->ObjectService[R5808]->Service[R5203] where (selected.name == param.name);
+  if (not_empty service)
+    create object instance call_expr of CallExpression;
+    relate call_expr to expression across R5517;
 		create object instance service_invocation of ServiceInvocation;
+		relate service_invocation to call_expr across R5500;
+		create object instance instance_service_invocation of InstanceServiceInvocation;
 		relate instance_service_invocation to service_invocation across R5610;
-    LOG::LogInfo( message:"create_DotExpression:  object service invocation:  " + param.name );
-    return basic_type;
+		relate lhs to instance_service_invocation across R5615;
+		select one object_service related by service->ObjectService[R5203];
+		relate object_service to instance_service_invocation across R5614;
+		select one basic_type related by service->BasicType[R5205];
+		if (not_empty basic_type)
+      relate basic_type to expression across R5570;
+    end if;
+    LOG::LogInfo(message:"create_DotExpression:  object service invocation:  " + param.name);
+    return expression;
   end if;
 end if;
 
 // Look for structure element.
+/* TODO
 select one structure_type related by lhs_basic_type->UserDefinedType2[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
-if ( not_empty structure_type )
+if (not_empty structure_type)
   select one structure_element related by structure_type->StructureElement[R6244];
-  while ( not_empty structure_element )
-    if ( param.name == structure_element.name )
+  while (not_empty structure_element)
+    if (param.name == structure_element.name)
       // create selected component expression
       create object instance selected_component_expression of SelectedComponentExpression;
       relate selected_component_expression to structure_element across R5543;
       relate selected_component_expression to dot_expression across R5571;
       select one basic_type related by structure_element->BasicType[R6230];
-      LOG::LogInfo( message:"create_DotExpression:  structure element:  " + param.name );
+      LOG::LogInfo(message:"create_DotExpression:  structure element:  " + param.name);
       return basic_type;
     end if;
     select one structure_element related by structure_element->StructureElement[R6243.''precedes''];
   end while;
 end if;
+*/
 
-LOG::LogFailure( message:"create_DotExpression:  found neither attribute access nor structure member access " + param.name );
-
-return basic_type;',
-	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+LOG::LogFailure(message:"create_DotExpression:  found neither attribute access nor structure member access " + param.name);
+return expression;',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	1,
 	'',
 	0,
 	0);
-INSERT INTO S_SPARM
-	VALUES ("9b9e1bf2-d4d9-4c0a-925c-fd14a4227960",
-	"8c5ed96e-e998-4395-bbf8-623ddde3eee9",
-	'expression',
-	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Expression>',
-	'',
-	'',
-	'../../../../ooamasl/models/ooamasl/ooamasl/expression/expression.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("8497859e-df75-4e8f-8b56-feeeb63e620c",
 	"8c5ed96e-e998-4395-bbf8-623ddde3eee9",
@@ -444,21 +433,21 @@ INSERT INTO S_SPARM
 	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	0,
 	'',
-	"9b9e1bf2-d4d9-4c0a-925c-fd14a4227960",
+	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Expression>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/expression/expression.xtuml');
 INSERT INTO PE_PE
 	VALUES ("8c5ed96e-e998-4395-bbf8-623ddde3eee9",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
-INSERT INTO S_DT_PROXY
-	VALUES ("f2470f88-fc4a-406d-ba1c-54179e448ed4",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<BasicType>',
-	'',
-	'',
-	'../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("090d9c1b-7f20-4e26-9d28-1d080b6dd7cf",
 	"00000000-0000-0000-0000-000000000000",
@@ -870,6 +859,13 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<BasicType>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("20183b0e-40fc-465f-94b7-5494d92bc624",
 	"00000000-0000-0000-0000-000000000000",
@@ -1488,8 +1484,6 @@ first_argument = param.first_argument;
 select one call_expr related by expression->CallExpression[R5517];
 if (not_empty call_expr and not_empty first_argument)
   relate first_argument to call_expr across R5575;
-else
-  LOG::LogInfo(message:"LEVI BAD");
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -1591,7 +1585,6 @@ if (not_empty service)
 
 	// unlink and link the terminator service
 	if existing_terminator_service != new_terminator_service
-		LOG::LogInfo(message:"LEVI relinking");
 		unrelate existing_terminator_service from terminator_service_invocation across R5612;
 		relate new_terminator_service to terminator_service_invocation across R5612;
 	end if;

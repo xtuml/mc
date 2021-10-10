@@ -1130,14 +1130,8 @@ returnStatement
 returns [Object st]
                               : ^( RETURN
                                    expression              
-                                 )                          {
-                                                              try {
-                                                                $st = loader.create( "ReturnStatement" );
-                                                                loader.relate( current_service, $st, 5127, "" );
-                                                                loader.relate( $expression.expression, $st, 5128, "" );
-                                                              } catch ( XtumlException e ) { xtuml_trace( e, "" ); }
-                                                            }
-                              ;
+                                 )          
+                                 ;
 
 delayStatement
 returns [Object st]

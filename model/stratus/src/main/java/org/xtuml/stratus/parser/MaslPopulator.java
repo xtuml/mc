@@ -1217,6 +1217,28 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitObjectServiceDefinition(MaslParser.ObjectServiceDefinitionContext ctx) {
+        try {
+            // TODO - must deal with overloading by including parameter list in
+            // identification.
+            currentCodeBlock = emptyCodeBlock;
+            currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
+            currentObject = visit(ctx.objectReference());
+            Object service = loader.call_function("select_ObjectService_where_name", currentObject,
+                    ctx.serviceName().getText());
+            currentService = service;
+            visit(ctx.codeBlock());
+            currentDomain = null;
+            currentObject = null;
+            currentService = null;
+            return service;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
     public Object visitCodeBlock(MaslParser.CodeBlockContext ctx) {
         try {
             Object codeBlock = loader.create("CodeBlock2");
@@ -1384,8 +1406,6 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object statement = loader.create("ServiceCall");
             Object expression = visit(ctx.root);
             Object firstArgument = visit(ctx.argumentList());
-            System.out.println("Levi " + ctx.postfixNoCallExpression().getText());
-            System.out.println("Levi " + firstArgument);
             if (firstArgument != null) {
                 loader.call_function("resolve_Expression_ArgumentList", expression, firstArgument);
             }
@@ -1849,10 +1869,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         try {
             if (ctx.root != null) {
                 if (ctx.DOT() != null) {
-                    Object expression = loader.create("Expression2");
-                    Object dotExpressionType = loader.call_function("create_DotExpression", expression, visit(ctx.root),
+                    Object expression = loader.call_function("create_DotExpression", visit(ctx.root),
                             ctx.identifier().getText());
-                    loader.relate(dotExpressionType, expression, 5570, "");
                     return expression;
                 } else if (ctx.serviceArgs != null) {
                     Object expression = visit(ctx.root);
@@ -1883,10 +1901,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         try {
             if (ctx.root != null) {
                 if (ctx.DOT() != null) {
-                    Object expression = loader.create("Expression2");
-                    Object dotExpressionType = loader.call_function("create_DotExpression", expression, visit(ctx.root),
+                    Object expression = loader.call_function("create_DotExpression", visit(ctx.root),
                             ctx.identifier().getText());
-                    loader.relate(dotExpressionType, expression, 5570, "");
                     return expression;
                 } else if (ctx.TERMINATOR_SCOPE() != null) {
                     Object expression = visit(ctx.root);
@@ -1989,7 +2005,6 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 loader.set_attribute(integerLiteral, "value", Integer.parseInt(literalText));
                 loader.relate(integerLiteral, numericLiteral, 5703, "");
                 Object intType = loader.call_function("select_BasicType_where_name", "", "integer");
-                System.out.println("LEVI here " + intType);
                 loader.relate(intType, expression, 5570, "");
             } else if (ctx.RealLiteral() != null) {
                 Object numericLiteral = loader.create("NumericLiteral");
