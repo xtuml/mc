@@ -36,6 +36,19 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         return false;
     }
 
+    private static Object getName(Object o) {
+        if (o != null) {
+            try {
+                return o.getClass().getMethod("getName").invoke(o);
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                    | NoSuchMethodException | SecurityException e) {
+                return "";
+            }
+        } else {
+            return "";
+        }
+    }
+
     private void createMark(String featureName, String value) throws XtumlException {
         if (instanceOf(currentMarkable, "ObjectDeclaration")) {
             loader.call_function("mark_object", currentDomain, currentMarkable, featureName, value);
@@ -670,9 +683,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitObjectDefinition(MaslParser.ObjectDefinitionContext ctx) {
         try {
-            Object domainName = currentDomain.getClass().getMethod("getName").invoke(currentDomain);
-            Object objectDeclaration = loader.call_function("select_ObjectDeclaration_where_name", domainName,
-                    ctx.objectName().getText());
+            Object objectDeclaration = loader.call_function("select_ObjectDeclaration_where_name",
+                    getName(currentDomain), ctx.objectName().getText());
             loader.set_attribute(objectDeclaration, "name", ctx.objectName().getText());
             currentObject = objectDeclaration;
             previousAttribute = null;
@@ -705,8 +717,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentMarkable = null;
             currentObject = emptyObject;
             return objectDeclaration;
-        } catch (XtumlException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                | NoSuchMethodException | SecurityException e) {
+        } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
         }
@@ -1136,12 +1147,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitRelationshipReference(MaslParser.RelationshipReferenceContext ctx) {
         try {
-            Object domainName = currentDomain.getClass().getMethod("getName").invoke(currentDomain);
             return loader.call_function("select_RelationshipDeclaration_where_name",
-                    ctx.domainName() != null ? ctx.domainName().getText() : domainName,
+                    ctx.domainName() != null ? ctx.domainName().getText() : getName(currentDomain),
                     ctx.relationshipName().getText());
-        } catch (XtumlException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                | NoSuchMethodException | SecurityException e) {
+        } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
         }
@@ -1173,11 +1182,15 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             // TODO - must deal with overloading by including parameter list in
             // identification.
             currentCodeBlock = emptyCodeBlock;
+            currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
             Object service = loader.call_function("select_Service_where_name", ctx.domainName().getText(),
                     ctx.serviceName().getText());
             currentService = service;
+            System.out.println("LEVI1 " + ctx.serviceName().getText());
+            System.out.println("LEVI2 " + getName(currentService));
             visit(ctx.codeBlock());
             currentService = null;
+            currentDomain = null;
             return service;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -1348,6 +1361,23 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitCallStatement(MaslParser.CallStatementContext ctx) {
+        try {
+            Object statement = loader.create("ServiceCall");
+            Object expression = visit(ctx.root);
+            Object firstArgument = visit(ctx.argumentList());
+            if (firstArgument != null) {
+                loader.call_function("resolve_Expression_ArgumentList", expression, firstArgument);
+            }
+            loader.call_function("resolve_ServiceCall", statement, expression);
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
     public Object visitStreamValue(MaslParser.StreamValueContext ctx) {
         try {
             Object streamOperator = loader.create("StreamOperator");
@@ -1372,6 +1402,20 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         } else {
             return "";
         }
+    }
+
+    @Override
+    public Object visitReturnStatement(MaslParser.ReturnStatementContext ctx) {
+        try {
+            Object statement = loader.create("ReturnStatement");
+            loader.relate(currentService, statement, 5127, "");
+            loader.relate(visit(ctx.expression()), statement, 5128, "");
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+
     }
 
     @Override
@@ -1783,16 +1827,49 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitPostfixExpression(MaslParser.PostfixExpressionContext ctx) {
         try {
-            // TODO this is hacky, needs to be revisited
-            Object primaryExpression = visit(ctx.primaryExpression());
-            if (ctx.DOT().size() == 1) {
-                Object expression = loader.create("Expression2");
-                Object dotExpressionType = loader.call_function("create_DotExpression", expression, primaryExpression,
-                        ctx.dotId.get(0).getText());
-                loader.relate(dotExpressionType, expression, 5570, "");
-                return expression;
+            if (ctx.root != null) {
+                if (ctx.DOT() != null) {
+                    Object expression = loader.create("Expression2");
+                    Object dotExpressionType = loader.call_function("create_DotExpression", expression, visit(ctx.root),
+                            ctx.identifier().getText());
+                    loader.relate(dotExpressionType, expression, 5570, "");
+                    return expression;
+                } else if (ctx.serviceArgs != null) {
+                    Object expression = visit(ctx.root);
+                    Object firstArgument = visit(ctx.serviceArgs);
+                    if (firstArgument != null) {
+                        loader.call_function("resolve_Expression_ArgumentList", expression, firstArgument);
+                    }
+                    return expression;
+                } else {
+                    System.err.println("Unsupported postfix expression");
+                    return null;
+                }
             } else {
-                return primaryExpression;
+                return visit(ctx.primaryExpression());
+            }
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitPostfixNoCallExpression(MaslParser.PostfixNoCallExpressionContext ctx) {
+        try {
+            if (ctx.root != null) {
+                if (ctx.DOT() != null) {
+                    Object expression = loader.create("Expression2");
+                    Object dotExpressionType = loader.call_function("create_DotExpression", expression, visit(ctx.root),
+                            ctx.identifier().getText());
+                    loader.relate(dotExpressionType, expression, 5570, "");
+                    return expression;
+                } else {
+                    System.err.println("Unsupported postfix expression");
+                    return null;
+                }
+            } else {
+                return visit(ctx.primaryExpression());
             }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -1825,8 +1902,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitNameExpression(MaslParser.NameExpressionContext ctx) {
         try {
             Object expression = loader.call_function("resolve_NameExpression",
-                    ctx.domainName() != null ? ctx.domainName().getText() : "", ctx.identifier().getText(),
-                    currentCodeBlock);
+                    ctx.domainName() != null ? ctx.domainName().getText() : getName(currentDomain),
+                    ctx.identifier().getText(), currentCodeBlock);
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -1840,6 +1917,30 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return visit(ctx.expression(0));
         } else {
             // TODO aggregate expression
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitArgumentList(MaslParser.ArgumentListContext ctx) {
+        try {
+            Object firstArgument = null;
+            Object previousArgument = null;
+            for (MaslParser.ExpressionContext ctx2 : ctx.expression()) {
+                Object expression = visit(ctx2);
+                Object argument = loader.create("Argument");
+                loader.relate(argument, expression, 5577, "");
+                if (firstArgument == null) {
+                    firstArgument = argument;
+                }
+                if (previousArgument != null) {
+                    loader.relate(argument, previousArgument, 5576, "follows");
+                }
+                previousArgument = argument;
+            }
+            return firstArgument;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
             return null;
         }
     }

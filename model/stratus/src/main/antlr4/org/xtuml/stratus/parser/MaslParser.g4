@@ -614,14 +614,8 @@ streamValue                   : streamOperator expression
 streamStatement               : lhs=expression streamValue+
                               ;
 
-callStatement                 : primaryExpression
-                                ( ( DOT identifier
-                                  | TERMINATOR_SCOPE identifier
-                                  | LBRACKET expression RBRACKET
-                                  | PRIME characteristic
-                                  )*
-                                 LPAREN argumentList RPAREN
-                                )+
+callStatement                 : root=postfixNoCallExpression
+                                LPAREN argumentList RPAREN
                               ;
 
 exitStatement                 : EXIT (WHEN condition)?
@@ -910,22 +904,24 @@ findType                      : FIND
                               | FIND_ONLY
                               ;
 
-postfixExpression             : primaryExpression
-                                ( l=LPAREN argumentList RPAREN
-                                | DOT dotId+=identifier
+postfixExpression             : root=postfixExpression
+                                ( LPAREN serviceArgs=argumentList RPAREN
+                                | DOT identifier
                                 | TERMINATOR_SCOPE identifier
                                 | LBRACKET expression RBRACKET
-                                | PRIME characteristic LPAREN al=argumentList RPAREN
+                                | PRIME characteristic LPAREN charArgs=argumentList RPAREN
                                 | PRIME characteristic
-                                )*
+                                )
+                              | primaryExpression
                               ;
 
-postfixNoCallExpression       : primaryExpression
+postfixNoCallExpression       : root=postfixNoCallExpression
                                 ( DOT identifier
                                 | TERMINATOR_SCOPE identifier
                                 | LBRACKET expression RBRACKET
                                 | PRIME characteristic
-                                )*
+                                )
+                              | primaryExpression
                               ;
 
 primaryExpression             : literal

@@ -370,18 +370,10 @@ if ( not_empty instance_type )
   select any service related by instance_type->ObjectDeclaration[R6220]->ObjectService[R5808]->Service[R5203] where ( selected.name == param.name );
   if ( not_empty service )
     // TODO - link invocations to dot expression correctly
-    select one basic_type related by service->BasicType[R5205];
-    if ( empty basic_type )
-      // service
-      create object instance instance_service_invocation of InstanceServiceInvocation;
-      create object instance service_invocation of ServiceInvocation;
-      relate instance_service_invocation to service_invocation across R5610;
-    else
-      // function
-      create object instance instance_function_invocation of InstanceFunctionInvocation;
-      create object instance function_invocation of FunctionInvocation2;
-      relate instance_function_invocation to function_invocation across R5600;
-    end if;
+		// service
+		create object instance instance_service_invocation of InstanceServiceInvocation;
+		create object instance service_invocation of ServiceInvocation;
+		relate instance_service_invocation to service_invocation across R5610;
     LOG::LogInfo( message:"create_DotExpression:  object service invocation:  " + param.name );
     return basic_type;
   end if;
@@ -1278,9 +1270,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'resolve_NameExpression',
 	'',
-	'select any expr from instances of Expression2 where false;
-
-// search for local variable reference
+	'// search for local variable reference
 current_block = param.current_block;
 select any var related by current_block->VariableDefinition[R5151] where (selected.name == param.name);
 while (not_empty current_block and empty var)
@@ -1295,8 +1285,31 @@ if (not_empty var)
   create object instance var_ref of VariableNameExpression;
   relate var_ref to expr across R5517;
   relate var_ref to var across R5562;
+  return expr;
 end if;
 
+// search for domain service reference
+select any domain from instances of Domain where selected.name == param.domain_name;
+select any service related by domain->DomainService[R5303]->Service[R5203] where selected.name == param.name;
+if (not_empty service)
+  create object instance expr of Expression2;
+  select one type related by service->BasicType[R5205];
+  if (not_empty type)
+    relate type to expr across R5570;
+  end if;
+  create object instance call_expr of CallExpression;
+  relate call_expr to expr across R5517;
+  create object instance service_invocation of ServiceInvocation;
+  relate service_invocation to call_expr across R5500;
+  create object instance domain_service_invocation of DomainServiceInvocation;
+  relate domain_service_invocation to service_invocation across R5610;
+  select one domain_service related by service->DomainService[R5203];
+  relate domain_service to domain_service_invocation across R5611;
+  return expr;
+end if;
+
+LOG::LogFailure(message:"Could not resolve name expression: " + param.domain_name + ", " + param.name);
+select any expr from instances of Expression2 where false;
 return expr;',
 	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	1,
@@ -1367,7 +1380,7 @@ end if;
 select one comp_binary related by expression->BinaryExpression[R5517]->BinaryComparisonExpression[R5000];
 select one logical_binary related by expression->BinaryExpression[R5517]->BinaryLogicalExpression[R5000];
 if (not_empty comp_binary or not_empty logical_binary)
-  select any bool_type from instances of BuiltinType where selected.name == "boolean";
+  select any bool_type from instances of BuiltinType where "" + selected.name == "boolean";
   select one binary_type related by bool_type->BasicType[R6205];
 end if;
 
@@ -1407,6 +1420,101 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("a638a541-62b0-4d67-9e02-a9cae42a5b4d",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9950c3b6-9aff-4add-b253-0ee4d87f10e5",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_CallExpression_ArgumentList',
+	'',
+	'expression = param.expression;
+first_argument = param.first_argument;
+
+select one call_expr related by expression->CallExpression[R5517];
+if (not_empty call_expr and not_empty first_argument)
+  relate first_argument to call_expr across R5575;
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	4);
+INSERT INTO S_SPARM
+	VALUES ("c02182a4-29f3-4906-bd55-fa851fcdcf28",
+	"9950c3b6-9aff-4add-b253-0ee4d87f10e5",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("372c7571-e9e3-4168-8e25-633579955a66",
+	"9950c3b6-9aff-4add-b253-0ee4d87f10e5",
+	'first_argument',
+	"55087eb6-f47a-4ad0-9d03-015c8f3c3663",
+	0,
+	'',
+	"c02182a4-29f3-4906-bd55-fa851fcdcf28",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("55087eb6-f47a-4ad0-9d03-015c8f3c3663",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Argument>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/expression/expression.xtuml');
+INSERT INTO PE_PE
+	VALUES ("9950c3b6-9aff-4add-b253-0ee4d87f10e5",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("93010171-646f-4498-b423-fab780cdb6fe",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_ServiceCall',
+	'',
+	'service_call = param.service_call;
+expression = param.expression;
+select one service_invocation related by expression->CallExpression[R5517]->ServiceInvocation[R5500];
+if (not_empty service_call and not_empty service_invocation)
+  relate service_call to service_invocation across R5161;
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	5);
+INSERT INTO S_SPARM
+	VALUES ("4ef35007-2a43-4084-94b6-4480118d5d51",
+	"93010171-646f-4498-b423-fab780cdb6fe",
+	'service_call',
+	"9e1e8ee5-e6f9-48b8-a8f3-324c684cde30",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9e1e8ee5-e6f9-48b8-a8f3-324c684cde30",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ServiceCall>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("bbbf6b59-e897-4a66-858b-0fb595d578e8",
+	"93010171-646f-4498-b423-fab780cdb6fe",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"4ef35007-2a43-4084-94b6-4480118d5d51",
+	'');
+INSERT INTO PE_PE
+	VALUES ("93010171-646f-4498-b423-fab780cdb6fe",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
