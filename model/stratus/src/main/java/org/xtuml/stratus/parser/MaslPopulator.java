@@ -1186,8 +1186,26 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object service = loader.call_function("select_Service_where_name", ctx.domainName().getText(),
                     ctx.serviceName().getText());
             currentService = service;
-            System.out.println("LEVI1 " + ctx.serviceName().getText());
-            System.out.println("LEVI2 " + getName(currentService));
+            visit(ctx.codeBlock());
+            currentService = null;
+            currentDomain = null;
+            return service;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitTerminatorServiceDefinition(MaslParser.TerminatorServiceDefinitionContext ctx) {
+        try {
+            // TODO - must deal with overloading by including parameter list in
+            // identification.
+            currentCodeBlock = emptyCodeBlock;
+            currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
+            Object service = loader.call_function("select_DomainTerminatorService_where_name",
+                    ctx.domainName().getText(), ctx.terminatorName().getText(), ctx.serviceName().getText());
+            currentService = service;
             visit(ctx.codeBlock());
             currentService = null;
             currentDomain = null;
@@ -1366,6 +1384,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object statement = loader.create("ServiceCall");
             Object expression = visit(ctx.root);
             Object firstArgument = visit(ctx.argumentList());
+            System.out.println("Levi " + ctx.postfixNoCallExpression().getText());
+            System.out.println("Levi " + firstArgument);
             if (firstArgument != null) {
                 loader.call_function("resolve_Expression_ArgumentList", expression, firstArgument);
             }
@@ -1841,6 +1861,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                         loader.call_function("resolve_Expression_ArgumentList", expression, firstArgument);
                     }
                     return expression;
+                } else if (ctx.TERMINATOR_SCOPE() != null) {
+                    Object expression = visit(ctx.root);
+                    loader.call_function("resolve_TerminatorServiceInvocation", expression, ctx.identifier().getText());
+                    return expression;
                 } else {
                     System.err.println("Unsupported postfix expression");
                     return null;
@@ -1863,6 +1887,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     Object dotExpressionType = loader.call_function("create_DotExpression", expression, visit(ctx.root),
                             ctx.identifier().getText());
                     loader.relate(dotExpressionType, expression, 5570, "");
+                    return expression;
+                } else if (ctx.TERMINATOR_SCOPE() != null) {
+                    Object expression = visit(ctx.root);
+                    loader.call_function("resolve_TerminatorServiceInvocation", expression, ctx.identifier().getText());
                     return expression;
                 } else {
                     System.err.println("Unsupported postfix expression");

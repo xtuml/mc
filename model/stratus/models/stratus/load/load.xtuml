@@ -1270,8 +1270,10 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'resolve_NameExpression',
 	'',
-	'// search for local variable reference
+	'select any domain from instances of Domain where selected.name == param.domain_name;
 current_block = param.current_block;
+
+// search for local variable reference
 select any var related by current_block->VariableDefinition[R5151] where (selected.name == param.name);
 while (not_empty current_block and empty var)
   select one current_block related by current_block->CodeBlock2[R5160.''nested_within''];
@@ -1288,8 +1290,41 @@ if (not_empty var)
   return expr;
 end if;
 
+// search for parameter reference
+current_block = param.current_block;
+select one current_service related by current_block->Service[R5403];
+select one current_state related by current_block->State2[R6115];
+while ((empty current_service and empty current_state) and not_empty current_block)
+  select one current_block related by current_block->CodeBlock2[R5160.''nested_within''];
+  select one current_service related by current_block->Service[R5403];
+  select one current_state related by current_block->State2[R6115];
+end while;
+select any ref_param from instances of ParameterDefinition where false;
+select one service_param related by current_service->ParameterDefinition[R5204];
+while (not_empty service_param and empty ref_param)
+  if (service_param.name == param.name)
+    ref_param = service_param;
+  end if;
+  select one service_param related by service_param->ParameterDefinition[R5208.''precedes''];
+end while;
+select one state_param related by current_state->ParameterDefinition[R6104];
+while (not_empty state_param and empty ref_param)
+  if (state_param.name == param.name)
+    ref_param = state_param;
+  end if;
+  select one state_param related by state_param->ParameterDefinition[R5208.''precedes''];
+end while;
+if (not_empty ref_param)
+  create object instance expr of Expression2;
+  create object instance param_ref of ParameterNameExpression;
+  relate param_ref to expr across R5517;
+  relate ref_param to param_ref across R5536;
+  select one type related by ref_param->BasicType[R5200];
+  relate type to expr across R5570;
+  return expr;
+end if;
+
 // search for domain service reference
-select any domain from instances of Domain where selected.name == param.domain_name;
 select any service related by domain->DomainService[R5303]->Service[R5203] where selected.name == param.name;
 if (not_empty service)
   create object instance expr of Expression2;
@@ -1305,6 +1340,24 @@ if (not_empty service)
   relate domain_service_invocation to service_invocation across R5610;
   select one domain_service related by service->DomainService[R5203];
   relate domain_service to domain_service_invocation across R5611;
+  return expr;
+end if;
+
+// search for terminators
+// we don''t have the service name yet, so we have to return a placeholder
+// service expression link any terminator service just to have a connection to
+// the terminator -- it will get relinked later.
+select any terminator related by domain->DomainTerminator[R5304];
+if (not_empty terminator)
+  create object instance expr of Expression2;
+  create object instance call_expr of CallExpression;
+  relate call_expr to expr across R5517;
+  create object instance service_invocation of ServiceInvocation;
+  relate service_invocation to call_expr across R5500;
+  create object instance terminator_service_invocation of TerminatorServiceInvocation;
+  relate terminator_service_invocation to service_invocation across R5610;
+  select any terminator_service related by terminator->DomainTerminatorService[R5306];
+  relate terminator_service to terminator_service_invocation across R5612;
   return expr;
 end if;
 
@@ -1427,7 +1480,7 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("9950c3b6-9aff-4add-b253-0ee4d87f10e5",
 	"00000000-0000-0000-0000-000000000000",
-	'resolve_CallExpression_ArgumentList',
+	'resolve_Expression_ArgumentList',
 	'',
 	'expression = param.expression;
 first_argument = param.first_argument;
@@ -1435,6 +1488,8 @@ first_argument = param.first_argument;
 select one call_expr related by expression->CallExpression[R5517];
 if (not_empty call_expr and not_empty first_argument)
   relate first_argument to call_expr across R5575;
+else
+  LOG::LogInfo(message:"LEVI BAD");
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -1515,6 +1570,66 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("93010171-646f-4498-b423-fab780cdb6fe",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("dafc5a91-48fd-4fcd-961a-350711f96eaf",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_TerminatorServiceInvocation',
+	'',
+	'expression = param.terminator_service_expression;
+service_name = param.service_name;
+
+// gather info
+select one terminator_service_invocation related by expression->CallExpression[R5517]->ServiceInvocation[R5500]->TerminatorServiceInvocation[R5610];
+select one existing_terminator_service related by terminator_service_invocation->DomainTerminatorService[R5612];
+select any service related by existing_terminator_service->DomainTerminator[R5306]->DomainTerminatorService[R5306]->Service[R5203] where selected.name == service_name;
+if (not_empty service)
+	select one new_terminator_service related by service->DomainTerminatorService[R5203];
+
+	// unlink and link the terminator service
+	if existing_terminator_service != new_terminator_service
+		LOG::LogInfo(message:"LEVI relinking");
+		unrelate existing_terminator_service from terminator_service_invocation across R5612;
+		relate new_terminator_service to terminator_service_invocation across R5612;
+	end if;
+
+	// link the type to the expression
+	select one type related by service->BasicType[R5205];
+	if (not_empty type)
+		relate type to expression across R5570;
+	end if;
+
+else
+  LOG::LogFailure(message:"Failed to resolve terminator service");
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	6);
+INSERT INTO S_SPARM
+	VALUES ("5553823a-ad3a-4fec-bdc0-9f7b728f8903",
+	"dafc5a91-48fd-4fcd-961a-350711f96eaf",
+	'terminator_service_expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0cfc70d6-e1ce-4570-b7ed-fadc2bbe88bf",
+	"dafc5a91-48fd-4fcd-961a-350711f96eaf",
+	'service_name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"5553823a-ad3a-4fec-bdc0-9f7b728f8903",
+	'');
+INSERT INTO PE_PE
+	VALUES ("dafc5a91-48fd-4fcd-961a-350711f96eaf",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
