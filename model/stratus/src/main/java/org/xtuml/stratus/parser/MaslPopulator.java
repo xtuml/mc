@@ -1450,6 +1450,34 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitLinkStatement(MaslParser.LinkStatementContext ctx) {
+        try {
+            Object statement = loader.create("LinkUnlinkStatement");
+            loader.set_attribute(statement, "isLink", visit(ctx.linkType()));
+            Object lhs = visit(ctx.lhs);
+            loader.relate(lhs, statement, 5122, "");
+            currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
+            loader.relate(visit(ctx.relationshipSpec()), statement, 5120, "");
+            if (ctx.rhs != null) {
+                loader.relate(visit(ctx.rhs), statement, 5119, "");
+                if (ctx.assoc != null) {
+                    loader.relate(visit(ctx.assoc), statement, 5121, "");
+                }
+            }
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+
+    }
+
+    @Override
+    public Object visitLinkType(MaslParser.LinkTypeContext ctx) {
+        return ctx.LINK() != null;
+    }
+
+    @Override
     public Object visitIfStatement(MaslParser.IfStatementContext ctx) {
         try {
             Object previousAlternative = null;
