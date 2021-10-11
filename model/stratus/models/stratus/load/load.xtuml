@@ -1435,6 +1435,23 @@ if (not_empty terminator)
   return expr;
 end if;
 
+// search for types
+// TODO need to understand cast rules more
+select any builtin from instances of BuiltinType where selected.name == param.name;
+if (not_empty builtin)
+  // create a new type cast expression
+  create object instance expr of Expression2;
+  select one type related by builtin->BasicType[R6205];
+  relate type to expr across R5570;
+  create object instance call_expr of CallExpression;
+  relate call_expr to expr across R5517;
+  create object instance cast of CastExpression;
+  relate cast to call_expr across R5500;
+  relate type to cast across R5501;
+  LOG::LogInfo(message:"resolved name [type cast]: ''" + param.name + "''");
+  return expr;
+end if;
+
 LOG::LogFailure(message:"Could not resolve name expression: " + param.domain_name + ", " + param.name);
 select any expr from instances of Expression2 where false;
 return expr;',
