@@ -664,14 +664,9 @@ scheduleType                  : AT
                               ;
 
 
-generateStatement             : GENERATE qualifiedEventName
+generateStatement             : GENERATE eventReference
                                 LPAREN argumentList RPAREN (TO expression)?
                               ;
-
-
-qualifiedEventName            : (fullObjectReference DOT)? eventName
-                              ;
-
 
 ifStatement                   : IF condition THEN
                                   statementList

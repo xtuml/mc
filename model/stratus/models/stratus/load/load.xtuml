@@ -1344,6 +1344,7 @@ if (not_empty var)
   create object instance var_ref of VariableNameExpression;
   relate var_ref to expr across R5517;
   relate var_ref to var across R5562;
+  LOG::LogInfo(message:"resolved name [variable]: ''" + param.name + "''");
   return expr;
 end if;
 
@@ -1378,6 +1379,7 @@ if (not_empty ref_param)
   relate ref_param to param_ref across R5536;
   select one type related by ref_param->BasicType[R5200];
   relate type to expr across R5570;
+  LOG::LogInfo(message:"resolved name [parameter]: ''" + param.name + "''");
   return expr;
 end if;
 
@@ -1397,24 +1399,7 @@ if (not_empty service)
   relate domain_service_invocation to service_invocation across R5610;
   select one domain_service related by service->DomainService[R5203];
   relate domain_service to domain_service_invocation across R5611;
-  return expr;
-end if;
-
-// search for terminators
-// we don''t have the service name yet, so we have to return a placeholder
-// service expression link any terminator service just to have a connection to
-// the terminator -- it will get relinked later.
-select any terminator related by domain->DomainTerminator[R5304];
-if (not_empty terminator)
-  create object instance expr of Expression2;
-  create object instance call_expr of CallExpression;
-  relate call_expr to expr across R5517;
-  create object instance service_invocation of ServiceInvocation;
-  relate service_invocation to call_expr across R5500;
-  create object instance terminator_service_invocation of TerminatorServiceInvocation;
-  relate terminator_service_invocation to service_invocation across R5610;
-  select any terminator_service related by terminator->DomainTerminatorService[R5306];
-  relate terminator_service to terminator_service_invocation across R5612;
+  LOG::LogInfo(message:"resolved name [domain service]: ''" + param.name + "''");
   return expr;
 end if;
 
@@ -1427,6 +1412,26 @@ if (not_empty object_declaration)
   relate object_declaration to obj_name_expr across R5533;
   type = ::select_create_InstanceType(object_declaration:object_declaration, isset:true);
   relate type to expr across R5570;
+  LOG::LogInfo(message:"resolved name [object]: ''" + param.name + "''");
+  return expr;
+end if;
+
+// search for terminators
+// we don''t have the service name yet, so we have to return a placeholder
+// service expression link any terminator service just to have a connection to
+// the terminator -- it will get relinked later.
+select any terminator related by domain->DomainTerminator[R5304] where selected.name == param.name;
+if (not_empty terminator)
+  create object instance expr of Expression2;
+  create object instance call_expr of CallExpression;
+  relate call_expr to expr across R5517;
+  create object instance service_invocation of ServiceInvocation;
+  relate service_invocation to call_expr across R5500;
+  create object instance terminator_service_invocation of TerminatorServiceInvocation;
+  relate terminator_service_invocation to service_invocation across R5610;
+  select any terminator_service related by terminator->DomainTerminatorService[R5306];
+  relate terminator_service to terminator_service_invocation across R5612;
+  LOG::LogInfo(message:"resolved name [terminator]: ''" + param.name + "''");
   return expr;
 end if;
 
