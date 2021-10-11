@@ -22,6 +22,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     private Object currentDomain;
     private Object currentService;
     private Object currentObject;
+    private Object currentBodyObject;
+    private Object currentRelToObject;
     private Object previousAttribute;
     private Object currentAttribute;
     private Object currentOOAState;
@@ -80,7 +82,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentProjectDomain = null;
             currentDomain = null;
             currentService = null;
-            currentObject = null;
+            currentObject = emptyObject;
+            currentBodyObject = emptyObject;
+            currentRelToObject = emptyObject;
             currentOOAState = null;
             currentMarkable = null;
             return visitChildren(ctx);
@@ -650,7 +654,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitObjectReference(MaslParser.ObjectReferenceContext ctx) {
         try {
-            return loader.call_function("select_ObjectDeclaration_where_name", "", ctx.objectName().getText());
+            return loader.call_function("select_ObjectDeclaration_where_name", getName(currentDomain),
+                    ctx.objectName().getText());
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -661,7 +666,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitFullObjectReference(MaslParser.FullObjectReferenceContext ctx) {
         try {
             return loader.call_function("select_ObjectDeclaration_where_name",
-                    ctx.domainName() != null ? ctx.domainName().getText() : "", ctx.objectName().getText());
+                    ctx.domainName() != null ? ctx.domainName().getText() : getName(currentDomain),
+                    ctx.objectName().getText());
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -780,7 +786,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitRelationshipSpec(MaslParser.RelationshipSpecContext ctx) {
         try {
             String objectOrRole = ctx.objOrRole != null ? ctx.objOrRole.getText() : "";
-            Object toObject = ctx.objectReference() != null ? visit(ctx.objectReference()) : emptyObject;
+            Object toObject = ctx.objectReference() != null ? visit(ctx.objectReference()) : currentRelToObject;
             Object relationshipSpecification = loader.call_function("create_RelationshipSpecification",
                     visit(ctx.relationshipReference()), currentObject, objectOrRole, toObject);
             return relationshipSpecification;
@@ -1170,17 +1176,11 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitDomainServiceDefinition(MaslParser.DomainServiceDefinitionContext ctx) {
         try {
-            // TODO - must deal with overloading by including parameter list in
-            // identification.
-            currentCodeBlock = emptyCodeBlock;
             currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
-            Object service = loader.call_function("select_Service_where_name", ctx.domainName().getText(),
+            currentService = loader.call_function("select_Service_where_name", ctx.domainName().getText(),
                     ctx.serviceName().getText());
-            currentService = service;
             visit(ctx.codeBlock());
-            currentService = null;
-            currentDomain = null;
-            return service;
+            return currentService;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1190,17 +1190,26 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitTerminatorServiceDefinition(MaslParser.TerminatorServiceDefinitionContext ctx) {
         try {
-            // TODO - must deal with overloading by including parameter list in
-            // identification.
-            currentCodeBlock = emptyCodeBlock;
             currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
-            Object service = loader.call_function("select_DomainTerminatorService_where_name",
+            currentService = loader.call_function("select_DomainTerminatorService_where_name",
                     ctx.domainName().getText(), ctx.terminatorName().getText(), ctx.serviceName().getText());
-            currentService = service;
             visit(ctx.codeBlock());
-            currentService = null;
-            currentDomain = null;
-            return service;
+            return currentService;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitStateDefinition(MaslParser.StateDefinitionContext ctx) {
+        try {
+            currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
+            currentBodyObject = visit(ctx.objectReference());
+            currentOOAState = loader.call_function("select_State_related_where_name", currentBodyObject,
+                    ctx.stateName().getText());
+            visit(ctx.codeBlock());
+            return currentOOAState;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1210,19 +1219,12 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitObjectServiceDefinition(MaslParser.ObjectServiceDefinitionContext ctx) {
         try {
-            // TODO - must deal with overloading by including parameter list in
-            // identification.
-            currentCodeBlock = emptyCodeBlock;
             currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
-            currentObject = visit(ctx.objectReference());
-            Object service = loader.call_function("select_ObjectService_where_name", currentObject,
+            currentBodyObject = visit(ctx.objectReference());
+            currentService = loader.call_function("select_ObjectService_where_name", currentBodyObject,
                     ctx.serviceName().getText());
-            currentService = service;
             visit(ctx.codeBlock());
-            currentDomain = null;
-            currentObject = null;
-            currentService = null;
-            return service;
+            return currentService;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1251,7 +1253,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 loader.relate(visit(ctx2), codeBlock, 5151, "");
             }
             if (ctx.statementList() != null) {
-                loader.relate(visit(ctx.statementList()), codeBlock, 5150, "");
+                Object firstStatement = visit(ctx.statementList());
+                if (firstStatement != null) {
+                    loader.relate(firstStatement, codeBlock, 5150, "");
+                }
             }
             // TODO for each exceptionHandler
             // loader.relate( $exceptionHandler.handler, code_block, 5149, "" );
@@ -1457,13 +1462,16 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object lhs = visit(ctx.lhs);
             loader.relate(lhs, statement, 5122, "");
             currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
-            loader.relate(visit(ctx.relationshipSpec()), statement, 5120, "");
             if (ctx.rhs != null) {
-                loader.relate(visit(ctx.rhs), statement, 5119, "");
+                Object rhs = visit(ctx.rhs);
+                loader.relate(rhs, statement, 5119, "");
+                currentRelToObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", rhs);
                 if (ctx.assoc != null) {
                     loader.relate(visit(ctx.assoc), statement, 5121, "");
                 }
             }
+            loader.relate(visit(ctx.relationshipSpec()), statement, 5120, "");
+            currentRelToObject = emptyObject;
             return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -1507,7 +1515,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.set_attribute(statement, "actions", actionText);
             loader.relate(visit(ctx.condition()), statement, 5143, "");
             if (ctx.statementList() != null) {
-                loader.relate(visit(ctx.statementList()), statement, 5144, "");
+                Object firstStatement = visit(ctx.statementList());
+                if (firstStatement != null) {
+                    loader.relate(firstStatement, statement, 5144, "");
+                }
             }
             for (MaslParser.ElsifBlockContext ctx2 : ctx.elsifBlock()) {
                 Object elseIfBlock = visit(ctx2);
@@ -1541,7 +1552,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.set_attribute(alternative, "actions", actionText);
             loader.relate(visit(ctx.condition()), alternative, 5147, "");
             if (ctx.statementList() != null) {
-                loader.relate(visit(ctx.statementList()), alternative, 5148, "");
+                Object firstStatement = visit(ctx.statementList());
+                if (firstStatement != null) {
+                    loader.relate(firstStatement, alternative, 5148, "");
+                }
             }
             return alternative;
         } catch (XtumlException e) {
@@ -1559,7 +1573,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     .getText(new Interval(ctx.getStart().getStartIndex(), ctx.ELSE().getSymbol().getStopIndex()));
             loader.set_attribute(alternative, "actions", actionText);
             if (ctx.statementList() != null) {
-                loader.relate(visit(ctx.statementList()), alternative, 5148, "");
+                Object firstStatement = visit(ctx.statementList());
+                if (firstStatement != null) {
+                    loader.relate(firstStatement, alternative, 5148, "");
+                }
             }
             return alternative;
         } catch (XtumlException e) {
@@ -1583,7 +1600,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 loader.relate(binaryExpression, expression, 5517, "");
                 Object logicalBinary = loader.create("BinaryLogicalExpression");
                 loader.relate(logicalBinary, binaryExpression, 5000, "");
-                loader.set_attribute(binaryExpression, "operator", "Operator::_or");
+                loader.set_attribute(binaryExpression, "operator", "Operator::or_");
                 Object lhs = visit(ctx.lhs);
                 Object rhs = visit(ctx.rhs);
                 loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
@@ -1633,7 +1650,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 loader.relate(binaryExpression, expression, 5517, "");
                 Object logicalBinary = loader.create("BinaryLogicalExpression");
                 loader.relate(logicalBinary, binaryExpression, 5000, "");
-                loader.set_attribute(binaryExpression, "operator", "Operator::_and");
+                loader.set_attribute(binaryExpression, "operator", "Operator::and_");
                 Object lhs = visit(ctx.lhs);
                 Object rhs = visit(ctx.rhs);
                 loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
@@ -2135,7 +2152,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             } else if (ctx.THIS() != null) {
                 Object thisLiteral = loader.create("ThisLiteral");
                 loader.relate(thisLiteral, literalExpression, 5700, "");
-                Object instanceType = loader.call_function("select_create_InstanceType", currentObject, false);
+                Object instanceType = loader.call_function("select_create_InstanceType", currentBodyObject, false);
                 loader.relate(instanceType, expression, 5570, "");
             } else if (ctx.CONSOLE() != null) {
                 Object consoleLiteral = loader.create("ConsoleLiteral");
