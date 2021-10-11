@@ -1801,14 +1801,27 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             if (ctx.linkExpression() != null) {
                 return visit(ctx.linkExpression());
             } else {
-                // TODO
-                if (false)
-                    throw new XtumlException("");
-                return null;
+                System.err.println("Unsupported unary expression: " + ctx.getText());
+                Object expression = visit(ctx.exp);
+                loader.call_function("resolve_NumericUnaryLiteral", expression, visit(ctx.unaryOperator()));
+                return expression;
             }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
+        }
+    }
+
+    @Override
+    public Object visitUnaryOperator(MaslParser.UnaryOperatorContext ctx) {
+        if (ctx.PLUS() != null) {
+            return "Operator::plus";
+        } else if (ctx.MINUS() != null) {
+            return "Operator::minus";
+        } else if (ctx.NOT() != null) {
+            return "Operator::not";
+        } else {
+            return "Operator::abs";
         }
     }
 

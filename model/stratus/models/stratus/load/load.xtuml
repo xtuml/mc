@@ -1786,6 +1786,48 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("fde2dcaf-3b9c-4652-818e-0b354fdc66fc",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_NumericUnaryLiteral',
+	'',
+	'expression = param.expression;
+op = param.op;
+
+select one numeric_literal related by expression->LiteralExpression[R5517]->NumericLiteral[R5700];
+if (not_empty numeric_literal and op == "Operator::minus")
+  numeric_literal.text = "-" + numeric_literal.text;
+  LOG::LogInfo(message:"Numeric negation applied to literal");
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	8);
+INSERT INTO S_SPARM
+	VALUES ("39393a9d-52b6-4c26-9721-018e5ecc16ed",
+	"fde2dcaf-3b9c-4652-818e-0b354fdc66fc",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5ee4b190-786c-4c3f-9e64-3803b49aa2af",
+	"fde2dcaf-3b9c-4652-818e-0b354fdc66fc",
+	'op',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"39393a9d-52b6-4c26-9721-018e5ecc16ed",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fde2dcaf-3b9c-4652-818e-0b354fdc66fc",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	1,
