@@ -455,155 +455,234 @@ INSERT INTO S_SYNC
 	'',
 	'relationship_declaration = param.relationship_declaration;
 from_object_declaration = param.from_object_declaration;
-object_or_role = from_object_declaration.name; // UDT strings
-object_or_role = param.object_or_role;
-object_or_role_string = param.object_or_role; // UDT strings
 to_object_declaration = param.to_object_declaration;
 
-// Create the RelationshipSpecification.
-// Link it to the RelationshipDeclaration.
-// Link it to the from-side and to-side ObjectDeclarations.
-// Populate the role phrase?  CDS
+// Create the relationship specification
 create object instance relationship_specification of RelationshipSpecification;
 relate relationship_specification to relationship_declaration across R6015;
 relate relationship_specification to from_object_declaration across R6014;
 
-// fill out the roll phrase if available
-if (object_or_role_string != "")
-  select any obj_decl from instances of ObjectDeclaration where selected.name == object_or_role;
-  if (empty obj_decl)
-    relationship_specification.role = object_or_role_string;
-  end if;
-end if;
 
-// Resolve with from and to object when available.
-if ( not_empty to_object_declaration )
-  LOG::LogInfo( message:"create_RelationshipSpec " + from_object_declaration.name + " " + object_or_role_string + " " + to_object_declaration.name +" directly" );
+// Resolve when all information is provided.
+if (not_empty to_object_declaration and param.object_or_role != "")
+  
+  // Fill out "to" object and role phrase
   relate relationship_specification to to_object_declaration across R6011;
-  return relationship_specification;
-end if;
+  relationship_specification.role = param.object_or_role;
 
-// Resolve with only relationship and from object when possible.
-// 1) Look across normal normal non-reflexive binary.
-// 2) Look for subtype.
-
-// normal binary non-reflexive
-select one object_declaration related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6007]->ObjectDeclaration[R6006];
-if ( not_empty object_declaration )
-  if ( from_object_declaration.name != object_declaration.name )
-    LOG::LogInfo( message: "normal ltr from " + from_object_declaration.name + "->" + object_declaration.name );
-    relate relationship_specification to object_declaration across R6011;
-    return relationship_specification;
-  end if;
-end if;
-select one object_declaration related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6007]->ObjectDeclaration[R6004];
-if ( not_empty object_declaration )
-  if ( from_object_declaration.name != object_declaration.name )
-    LOG::LogInfo( message: "normal ltr to " + from_object_declaration.name + "->" + object_declaration.name );
-    relate relationship_specification to object_declaration across R6011;
-    return relationship_specification;
-  end if;
-end if;
-// supertype
-select one object_declaration related by relationship_declaration->SubtypeRelationshipDeclaration[R6010]->ObjectDeclaration[R6017];
-if ( not_empty object_declaration )
-  LOG::LogInfo( message: "sub-super supertype " + from_object_declaration.name + "->" + object_declaration.name );
-  relate relationship_specification to object_declaration across R6011;
-  return relationship_specification;
-end if;
-// associative
-// TODO - handle navigation to associator
-if ( param.allow_assoc )
-  select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->ObjectDeclaration[R6001]
-    where ( ( selected.name == object_or_role ) and ( selected.name != from_object_declaration.name ) );
-  if ( not_empty object_declaration )
-    LOG::LogInfo( message: "6001 associative " + from_object_declaration.name + "->" + object_declaration.name );
-    relate relationship_specification to object_declaration across R6011;
-    return relationship_specification;
-  end if;
-end if;
-if ( not param.force_assoc )
-  select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6004] where ( selected.name != from_object_declaration.name );
-  if ( not_empty object_declaration )
-    LOG::LogInfo( message: "6000 6004 associative " + from_object_declaration.name + "->" + object_declaration.name );
-    relate relationship_specification to object_declaration across R6011;
-    return relationship_specification;
-  end if;
-  select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6006] where ( selected.name != from_object_declaration.name );
-  if ( not_empty object_declaration )
-    LOG::LogInfo( message: "6000 6006 associative " + from_object_declaration.name + "->" + object_declaration.name );
-    relate relationship_specification to object_declaration across R6011;
-    return relationship_specification;
-  end if;
-  select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6004] where ( selected.name != from_object_declaration.name );
-  if ( not_empty object_declaration )
-    LOG::LogInfo( message: "6002 6004 associative " + from_object_declaration.name + "->" + object_declaration.name );
-    relate relationship_specification to object_declaration across R6011;
-    return relationship_specification;
-  end if;
-  select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6006] where ( selected.name != from_object_declaration.name );
-  if ( not_empty object_declaration )
-    LOG::LogInfo( message: "6002 6006 associative " + from_object_declaration.name + "->" + object_declaration.name );
-    relate relationship_specification to object_declaration across R6011;
-    return relationship_specification;
-  end if;
-end if;
-
-if ( "" != object_or_role_string )
-
-  // Use the object_or_role as an object name.
-  select any object_declaration from instances of ObjectDeclaration where ( selected.name == object_or_role );
-  //on = "";
-  //select many object_declarations from instances of ObjectDeclaration;
-  //for each object_declaration in object_declarations;
-  //on = object_declaration.name;
-	//if ( on == object_or_role )
-	if ( not_empty object_declaration )
-		LOG::LogInfo( message: "object_or_role as object " + from_object_declaration.name + "->" + object_declaration.name );
-		relate relationship_specification to object_declaration across R6011;
+  // Find applicable half-relationship for binary and associative relationships.
+  // Binary
+	select one half_rel_1 related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6007];
+	select one to_object_1 related by half_rel_1->ObjectDeclaration[R6004];
+	if (not_empty to_object_1 and to_object_1.name == to_object_declaration.name and half_rel_1.role == param.object_or_role)
+		LOG::LogInfo(message: "normal ltr from " + from_object_declaration.name + "->" + to_object_declaration.name);
+		relate relationship_specification to half_rel_1 across R6013;
+		relationship_specification.multiplicity = half_rel_1.multiplicity;
+		relationship_specification.conditional = half_rel_1.isconditional;
 		return relationship_specification;
 	end if;
-	//end for;
+	select one half_rel_2 related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6008];
+	select one to_object_2 related by half_rel_2->ObjectDeclaration[R6004];
+	if (not_empty to_object_2 and to_object_2.name == to_object_declaration.name and half_rel_2.role == param.object_or_role)
+		LOG::LogInfo(message: "normal rtl from " + from_object_declaration.name + "->" + to_object_declaration.name);
+		relate relationship_specification to half_rel_2 across R6013;
+		relationship_specification.multiplicity = half_rel_2.multiplicity;
+		relationship_specification.conditional = half_rel_2.isconditional;
+		return relationship_specification;
+	end if;
+	
+	// Assoc
+	select one half_rel_1 related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000];
+	select one from_object_1 related by half_rel_1->ObjectDeclaration[R6006];
+	if (not_empty from_object_1 and from_object_1.name == from_object_declaration.name and half_rel_1.role == param.object_or_role)
+		LOG::LogInfo(message: "assoc ltr from " + from_object_declaration.name + "->" + to_object_declaration.name);
+		relate relationship_specification to half_rel_1 across R6013;
+		relationship_specification.multiplicity = half_rel_1.multiplicity;
+		relationship_specification.conditional = half_rel_1.isconditional;
+		return relationship_specification;
+	end if;
+	select one half_rel_2 related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002];
+	select one from_object_2 related by half_rel_2->ObjectDeclaration[R6006];
+	if (not_empty from_object_2 and from_object_2.name == from_object_declaration.name and half_rel_2.role == param.object_or_role)
+		LOG::LogInfo(message: "assoc rtl from " + from_object_declaration.name + "->" + to_object_declaration.name);
+		relate relationship_specification to half_rel_2 across R6013;
+		relationship_specification.multiplicity = half_rel_2.multiplicity;
+		relationship_specification.conditional = half_rel_2.isconditional;
+		return relationship_specification;
+	end if;
+	select one link_obj related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]
+	  ->ObjectDeclaration[R6001] where selected.name == from_object_declaration.name;
+	if (not_empty link_obj)  // from the associator to the one or other
+		select one half_rel_1 related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000];
+		select one to_object_1 related by half_rel_1->ObjectDeclaration[R6004];
+		if (not_empty to_object_1 and to_object_1.name == to_object_declaration.name and half_rel_1.role == param.object_or_role)
+			LOG::LogInfo(message: "assoc ltr from " + to_object_declaration.name + "->" + to_object_declaration.name);
+			relate relationship_specification to half_rel_1 across R6013;
+			relationship_specification.multiplicity = half_rel_1.multiplicity;
+			relationship_specification.conditional = half_rel_1.isconditional;
+			return relationship_specification;
+		end if;
+		select one half_rel_2 related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002];
+		select one to_object_2 related by half_rel_2->ObjectDeclaration[R6004];
+		if (not_empty to_object_2 and to_object_2.name == to_object_declaration.name and half_rel_2.role == param.object_or_role)
+			LOG::LogInfo(message: "assoc rtl from " + to_object_declaration.name + "->" + to_object_declaration.name);
+			relate relationship_specification to half_rel_2 across R6013;
+			relationship_specification.multiplicity = half_rel_2.multiplicity;
+			relationship_specification.conditional = half_rel_2.isconditional;
+			return relationship_specification;
+		end if;
+	end if;
+	
+	// sub-super
+  select one subsup related by relationship_declaration->SubtypeRelationshipDeclaration[R6010];
+  if (not_empty subsup)
+		relationship_specification.multiplicity = Multiplicity2::one;
+		relationship_specification.conditional = false;
+		return relationship_specification;
+  end if;
 
-  // Use the object_or_role as a role phrase.
-  select many half_relationships related by from_object_declaration->HalfRelationship[R6006] where ( selected.role == object_or_role_string );
-  select any object_declaration related by half_relationships->ObjectDeclaration[R6004];
-	if ( not_empty object_declaration )
-		LOG::LogInfo( message: "object_or_role as role " + from_object_declaration.name + "->" + object_declaration.name );
+// Resolve when the relationship name and either the object name or role phrase
+// is provided but not both.
+elif (empty to_object_declaration and param.object_or_role != "")
+  select any to_object_declaration related by relationship_declaration->Domain[R6003]
+    ->ObjectDeclaration[R5805] where "" + selected.name == param.object_or_role;
+
+	// Resolve when only the relationship name and to object name are provided.
+	// All non-reflexive binary and associative relationships and sub-super
+	// relationships can be resolved with this information.
+  if (not_empty to_object_declaration and to_object_declaration.name != from_object_declaration.name)
+
+		// Fill out "to" object
+		relate relationship_specification to to_object_declaration across R6011;
+
+		// Find applicable half-relationship for binary and associative relationships.
+		// Binary
+		select one half_rel_1 related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6007];
+		select one to_object_1 related by half_rel_1->ObjectDeclaration[R6004];
+		if (not_empty to_object_1 and to_object_1.name == to_object_declaration.name)
+			LOG::LogInfo(message: "normal ltr from " + from_object_declaration.name + "->" + to_object_declaration.name);
+			relate relationship_specification to half_rel_1 across R6013;
+			relationship_specification.multiplicity = half_rel_1.multiplicity;
+			relationship_specification.conditional = half_rel_1.isconditional;
+			relationship_specification.role = half_rel_1.role;
+			return relationship_specification;
+		end if;
+		select one half_rel_2 related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6008];
+		select one to_object_2 related by half_rel_2->ObjectDeclaration[R6004];
+		if (not_empty to_object_2 and to_object_2.name == to_object_declaration.name)
+			LOG::LogInfo(message: "normal rtl from " + from_object_declaration.name + "->" + to_object_declaration.name);
+			relate relationship_specification to half_rel_2 across R6013;
+			relationship_specification.multiplicity = half_rel_2.multiplicity;
+			relationship_specification.conditional = half_rel_2.isconditional;
+			relationship_specification.role = half_rel_2.role;
+			return relationship_specification;
+		end if;
+		
+		// Assoc
+		select one half_rel_1 related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000];
+		select one from_object_1 related by half_rel_1->ObjectDeclaration[R6006];
+		if (not_empty from_object_1 and from_object_1.name == from_object_declaration.name)
+			LOG::LogInfo(message: "assoc ltr from " + from_object_declaration.name + "->" + to_object_declaration.name);
+			relate relationship_specification to half_rel_1 across R6013;
+			relationship_specification.multiplicity = half_rel_1.multiplicity;
+			relationship_specification.conditional = half_rel_1.isconditional;
+			relationship_specification.role = half_rel_1.role;
+			return relationship_specification;
+		end if;
+		select one half_rel_2 related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002];
+		select one from_object_2 related by half_rel_2->ObjectDeclaration[R6006];
+		if (not_empty from_object_2 and from_object_2.name == from_object_declaration.name)
+			LOG::LogInfo(message: "assoc rtl from " + from_object_declaration.name + "->" + to_object_declaration.name);
+			relate relationship_specification to half_rel_2 across R6013;
+			relationship_specification.multiplicity = half_rel_2.multiplicity;
+			relationship_specification.conditional = half_rel_2.isconditional;
+			relationship_specification.role = half_rel_2.role;
+			return relationship_specification;
+		end if;
+		select one link_obj related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]
+			->ObjectDeclaration[R6001] where selected.name == from_object_declaration.name;
+		if (not_empty link_obj)  // from the associator to the one or other
+			select one half_rel_1 related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000];
+			select one to_object_1 related by half_rel_1->ObjectDeclaration[R6004];
+			if (not_empty to_object_1 and to_object_1.name == to_object_declaration.name)
+				LOG::LogInfo(message: "assoc ltr from " + to_object_declaration.name + "->" + to_object_declaration.name);
+				relate relationship_specification to half_rel_1 across R6013;
+				relationship_specification.multiplicity = half_rel_1.multiplicity;
+				relationship_specification.conditional = half_rel_1.isconditional;
+			  relationship_specification.role = half_rel_1.role;
+				return relationship_specification;
+			end if;
+			select one half_rel_2 related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002];
+			select one to_object_2 related by half_rel_2->ObjectDeclaration[R6004];
+			if (not_empty to_object_2 and to_object_2.name == to_object_declaration.name)
+				LOG::LogInfo(message: "assoc rtl from " + to_object_declaration.name + "->" + to_object_declaration.name);
+				relate relationship_specification to half_rel_2 across R6013;
+				relationship_specification.multiplicity = half_rel_2.multiplicity;
+				relationship_specification.conditional = half_rel_2.isconditional;
+			  relationship_specification.role = half_rel_2.role;
+				return relationship_specification;
+			end if;
+		end if;
+		
+		// sub-super
+		select one subsup related by relationship_declaration->SubtypeRelationshipDeclaration[R6010];
+		if (not_empty subsup)
+			relationship_specification.multiplicity = Multiplicity2::one;
+			relationship_specification.conditional = false;
+			relationship_specification.role = "is_a";
+			return relationship_specification;
+		end if;
+    
+	// Resolve when only the relationship name and role phrase are provided.
+	// Only binary relationships can be resolved with this information.
+  else
+    // TODO
+    LOG::LogFailure(message:"TODO rel spec with only rel num and phrase not supported");
+
+  end if;
+  
+// Resolve when only relationship name provided.
+// Only non-reflexive binary associations and sub->supertype associations can be
+// resolved with this little information.
+elif (empty to_object_declaration and param.object_or_role == "")
+
+	// normal binary non-reflexive
+	select one half_rel_1 related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6007];
+	select one object_declaration related by half_rel_1->ObjectDeclaration[R6004];
+	if (not_empty object_declaration and from_object_declaration.name != object_declaration.name)
+		LOG::LogInfo(message: "normal ltr from " + from_object_declaration.name + "->" + object_declaration.name);
+		relate relationship_specification to half_rel_1 across R6013;
 		relate relationship_specification to object_declaration across R6011;
+		relationship_specification.multiplicity = half_rel_1.multiplicity;
+		relationship_specification.conditional = half_rel_1.isconditional;
+		return relationship_specification;
+	end if;
+	select one half_rel_2 related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6008];
+	select one object_declaration related by half_rel_2->ObjectDeclaration[R6004];
+	if (not_empty object_declaration and from_object_declaration.name != object_declaration.name)
+		LOG::LogInfo(message: "normal rtl to " + from_object_declaration.name + "->" + object_declaration.name);
+		relate relationship_specification to half_rel_2 across R6013;
+		relate relationship_specification to object_declaration across R6011;
+		relationship_specification.multiplicity = half_rel_2.multiplicity;
+		relationship_specification.conditional = half_rel_2.isconditional;
+		return relationship_specification;
+	end if;
+
+	// supertype
+	select one object_declaration related by relationship_declaration->SubtypeRelationshipDeclaration[R6010]->ObjectDeclaration[R6017];
+	if (not_empty object_declaration and from_object_declaration.name != object_declaration.name)
+		LOG::LogInfo(message: "sub-super supertype " + from_object_declaration.name + "->" + object_declaration.name);
+		relate relationship_specification to object_declaration across R6011;
+		relationship_specification.multiplicity = Multiplicity2::one;
+		relationship_specification.conditional = false;
+	  relationship_specification.role = "is_a";
 		return relationship_specification;
 	end if;
 
 end if;
 
-// CDS choose one to avoid exceptions for now...
-select any to_object_declaration from instances of ObjectDeclaration;
-LOG::LogInfo( message: "TODO CDS defaulting to bogus lookup !!!!!! " + from_object_declaration.name + "->" + to_object_declaration.name );
-relate relationship_specification to to_object_declaration across R6011;
-return relationship_specification;
-
-/*
-select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->ObjectDeclaration[R6001];
-if ( not_empty object_declaration )
-  LOG::LogInfo( message: "assoc using from " + from_object_declaration.name + "->" + object_declaration.name );
-  relate relationship_specification to object_declaration across R6011;
-  return relationship_specification;
-end if;
-select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6000]->ObjectDeclaration[R6006];
-if ( not_empty object_declaration )
-  LOG::LogInfo( message: "assoc ltr from " + from_object_declaration.name + "->" + object_declaration.name );
-  relate relationship_specification to object_declaration across R6011;
-  return relationship_specification;
-end if;
-select one object_declaration related by relationship_declaration->AssociativeRelationshipDeclaration[R6010]->HalfRelationship[R6002]->ObjectDeclaration[R6006];
-if ( not_empty object_declaration )
-  LOG::LogInfo( message: "assoc rtl from " + from_object_declaration.name + "->" + object_declaration.name );
-  relate relationship_specification to object_declaration across R6011;
-  return relationship_specification;
-end if;
-
-return relationship_specification;
-*/',
+LOG::LogFailure(message:"Failed to resolve relationship specification");
+return relationship_specification;',
 	"47e32455-be33-4b7c-9e44-d3b8f4f9ad39",
 	1,
 	'',
@@ -658,24 +737,6 @@ INSERT INTO S_SPARM
 	0,
 	'',
 	"d7a813ed-b8ed-4aa3-afc3-5e9ddec62d42",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("427c6f40-aa53-4881-8544-230411c6a3a2",
-	"090d9c1b-7f20-4e26-9d28-1d080b6dd7cf",
-	'allow_assoc',
-	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
-	'',
-	"21e7b6d3-c7be-4951-9e8b-1a7ad83d3d2a",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("a1ad5bc9-296b-4356-b7f3-4c6631ec8c4c",
-	"090d9c1b-7f20-4e26-9d28-1d080b6dd7cf",
-	'force_assoc',
-	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
-	'',
-	"427c6f40-aa53-4881-8544-230411c6a3a2",
 	'');
 INSERT INTO PE_PE
 	VALUES ("090d9c1b-7f20-4e26-9d28-1d080b6dd7cf",
@@ -1674,6 +1735,48 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("52644604-406b-4908-8eec-87492d918120",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("01643d70-2092-460d-856a-f4ddca302cc7",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_NavigationExpression',
+	'',
+	'expression = param.expression;
+select one rel_spec related by expression->NavigationExpression[R5517]->RelationshipSpecification[R5531];
+select one lhs related by expression->NavigationExpression[R5517]->Expression2[R5532];
+select one lhs_type related by lhs->BasicType[R5570];
+select one lhs_collection related by lhs_type->CollectionType[R6205];
+
+select any nav_type from instances of BasicType where false;
+
+// if the rel spec is a "many" association or the lhs is a collection type,
+// assure that the type of the expression is an instance set
+if (rel_spec.multiplicity == Multiplicity2::many or not_empty lhs_collection)
+  select one obj_decl related by lhs_collection->BasicType[R6208]->InstanceType[R6205]->ObjectDeclaration[R6220];
+  nav_type = ::select_create_InstanceType(object_declaration:obj_decl, isset:true);
+else
+  nav_type = lhs_type;
+end if;
+relate nav_type to expression across R5570;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	7);
+INSERT INTO S_SPARM
+	VALUES ("da8d8905-9e8b-4627-9a36-e95419bc25d6",
+	"01643d70-2092-460d-856a-f4ddca302cc7",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("01643d70-2092-460d-856a-f4ddca302cc7",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",

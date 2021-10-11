@@ -782,16 +782,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             String objectOrRole = ctx.objOrRole != null ? ctx.objOrRole.getText() : "";
             Object toObject = ctx.objectReference() != null ? visit(ctx.objectReference()) : emptyObject;
             Object relationshipSpecification = loader.call_function("create_RelationshipSpecification",
-                    visit(ctx.relationshipReference()), currentObject, objectOrRole, toObject, true, false); // TODO
-                                                                                                             // allow_assoc,
-                                                                                                             // force_assoc
-            // TODO - know about whether we need a set or not
-            // if (((IModelInstance)to_object).isEmpty()) {
-            // to_object = loader.call_function( "select_ObjectDeclaration_where_name", "",
-            // object_or_role );
-            // }
-            // $basic_type = loader.call_function( "select_create_InstanceType", to_object,
-            // false ); TODO need this?
+                    visit(ctx.relationshipReference()), currentObject, objectOrRole, toObject);
             return relationshipSpecification;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -1793,11 +1784,22 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitNavigateExpression(MaslParser.NavigateExpressionContext ctx) {
         try {
-            Object extendedExpression = visit(ctx.extendedExpression(0));
-            // TODO
-            if (false)
-                throw new XtumlException("");
-            return extendedExpression;
+            if (ctx.lhs != null) {
+                // TODO where clause, correlated nav, orderby
+                Object expression = loader.create("Expression2");
+                Object navigationExpression = loader.create("NavigationExpression");
+                loader.relate(navigationExpression, expression, 5517, "");
+                Object lhs = visit(ctx.lhs);
+                loader.relate(lhs, navigationExpression, 5532, "");
+                currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
+                Object relSpec = visit(ctx.relationshipSpec());
+                loader.relate(relSpec, navigationExpression, 5531, "");
+                currentObject = emptyObject;
+                loader.call_function("resolve_NavigationExpression", expression);
+                return expression;
+            } else {
+                return visit(ctx.extendedExpression());
+            }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1965,7 +1967,6 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitNameExpression(MaslParser.NameExpressionContext ctx) {
         try {
-            System.out.println(ctx.identifier().getText());
             Object expression = loader.call_function("resolve_NameExpression",
                     ctx.domainName() != null ? ctx.domainName().getText() : getName(currentDomain),
                     ctx.identifier().getText(), currentCodeBlock);

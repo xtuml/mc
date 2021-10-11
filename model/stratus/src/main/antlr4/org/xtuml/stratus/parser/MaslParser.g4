@@ -853,13 +853,14 @@ linkExpression                : navigateExpression
                                 )
                               ;
 
-navigateExpression            : extendedExpression
+navigateExpression            : lhs=navigateExpression
                                 ( NAVIGATE relationshipSpec whereClause?
                                 | WITH rhs=extendedExpression
-                                  nav=NAVIGATE relationshipSpec
+                                  NAVIGATE relationshipSpec
                                 | ORDERED_BY sortOrder
                                 | REVERSE_ORDERED_BY sortOrder
-                                )*
+                                )
+                              | extendedExpression
                               ;
 
 extendedExpression            : postfixExpression
