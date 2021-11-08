@@ -4,7 +4,7 @@ INSERT INTO O_OBJ
 	VALUES ("19d0cbc2-0de3-4a0a-94fa-23b127a74935",
 	'Expression',
 	5516,
-	'Expression2',
+	'MaslExpression',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_ID

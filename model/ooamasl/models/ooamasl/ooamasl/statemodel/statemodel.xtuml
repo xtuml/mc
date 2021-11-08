@@ -1515,7 +1515,7 @@ INSERT INTO O_OBJ_PROXY
 	VALUES ("058012fd-53b3-4066-be48-b2a05c7ebd22",
 	'State',
 	6102,
-	'State2',
+	'MaslState',
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'./State/State.xtuml');
@@ -2203,7 +2203,7 @@ INSERT INTO O_OBJ_PROXY
 	VALUES ("02dcadc0-1b12-4fe0-a441-e90342aa7b62",
 	'CodeBlock',
 	5103,
-	'CodeBlock2',
+	'MaslCodeBlock',
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'../statement/CodeBlock/CodeBlock.xtuml');
@@ -2262,7 +2262,7 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'CodeBlock',
-	'CodeBlock2');
+	'MaslCodeBlock');
 INSERT INTO PE_PE
 	VALUES ("b549b5a6-2763-4b04-bca1-6b1402f26275",
 	1,

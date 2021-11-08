@@ -147,10 +147,10 @@ else
 	else
 		select any domain from instances of Domain where ( selected.name == param.domainname );
 		if ( not_empty domain )
-			select any user_defined_type related by domain->UserDefinedType2[R6235] where ( selected.name == param.name );
+			select any user_defined_type related by domain->MaslUserDefinedType[R6235] where ( selected.name == param.name );
 			select one basic_type related by user_defined_type->BasicType[R6205];
 		else
-			select any user_defined_type from instances of UserDefinedType2 where ( selected.name == param.name );
+			select any user_defined_type from instances of MaslUserDefinedType where ( selected.name == param.name );
 			select one basic_type related by user_defined_type->BasicType[R6205];
 		end if;
 	end if;
@@ -190,7 +190,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'select_CodeBlock_empty',
 	'',
-	'select any code_block from instances of CodeBlock2 where ( false );
+	'select any code_block from instances of MaslCodeBlock where ( false );
 return code_block;',
 	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
 	1,
@@ -810,7 +810,7 @@ INSERT INTO S_SYNC
 	'select_State_related_where_name',
 	'',
 	'object_declaration = param.object_declaration;
-select any state related by object_declaration->State2[R6105] where ( selected.name == param.name );
+select any state related by object_declaration->MaslState[R6105] where ( selected.name == param.name );
 return state;',
 	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
 	1,
@@ -854,7 +854,7 @@ INSERT INTO S_SYNC
 	'select_State_where_name',
 	'',
 	'object_declaration = param.object;
-select any ooastate related by object_declaration->State2[R6105] where ( selected.name == param.name );
+select any ooastate related by object_declaration->MaslState[R6105] where ( selected.name == param.name );
 return ooastate;',
 	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
 	1,
@@ -968,9 +968,9 @@ INSERT INTO S_SYNC
 	'select_UserDefinedType_where_name',
 	'',
 	'select any domain from instances of Domain where ( selected.name == param.domainname );
-select any user_defined_type related by domain->UserDefinedType2[R6235] where ( selected.name == param.name );
+select any user_defined_type related by domain->MaslUserDefinedType[R6235] where ( selected.name == param.name );
 if ( empty user_defined_type )
-  select any user_defined_type from instances of UserDefinedType2 where ( selected.name == param.name );
+  select any user_defined_type from instances of MaslUserDefinedType where ( selected.name == param.name );
 end if;
 return user_defined_type;',
 	"5f5b21a5-3fd7-4b46-970e-812947d7a192",

@@ -1,8 +1,6 @@
 package org.xtuml.stratus.parser;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.stream.Stream;
-
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.misc.Interval;
 
@@ -31,9 +29,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     private Object currentMarkable;
 
     // utility method for checking type of an object
-    private static boolean instanceOf(Object o, String className) {
+    private static boolean keyLettersAre(Object o, String keyLetters) {
         if (o != null) {
-            return Stream.of(o.getClass().getInterfaces()).anyMatch(iface -> iface.getSimpleName().equals(className));
+        	return ((IModelInstance<?, ?>) o).getKeyLetters().equals(keyLetters);
         }
         return false;
     }
@@ -52,9 +50,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     }
 
     private void createMark(String featureName, String value) throws XtumlException {
-        if (instanceOf(currentMarkable, "ObjectDeclaration")) {
+        if (keyLettersAre(currentMarkable, "ObjectDeclaration")) {
             loader.call_function("mark_object", currentDomain, currentMarkable, featureName, value);
-        } else if (instanceOf(currentMarkable, "DomainService")) {
+        } else if (keyLettersAre(currentMarkable, "DomainService")) {
             loader.call_function("mark_domain_service", currentDomain, currentMarkable, featureName, value);
         }
     }
@@ -139,17 +137,17 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             // domain items
             for (MaslParser.DomainItemContext ctx2 : ctx.domainItem()) {
                 Object domainItem = visit(ctx2);
-                if (instanceOf(domainItem, "ObjectDeclaration")) {
+                if (keyLettersAre(domainItem, "ObjectDeclaration")) {
                     loader.call_function("relate_ObjectDeclaration_to_Domain", domainItem, domain);
-                } else if (instanceOf(domainItem, "DomainService")) {
+                } else if (keyLettersAre(domainItem, "DomainService")) {
                     loader.relate(domainItem, domain, 5303, "");
-                } else if (instanceOf(domainItem, "DomainTerminator")) {
+                } else if (keyLettersAre(domainItem, "DomainTerminator")) {
                     loader.relate(domainItem, domain, 5304, "");
-                } else if (instanceOf(domainItem, "RelationshipDeclaration")) {
+                } else if (keyLettersAre(domainItem, "RelationshipDeclaration")) {
                     loader.relate(domainItem, domain, 6003, "");
-                } else if (instanceOf(domainItem, "UserDefinedType2")) {
+                } else if (keyLettersAre(domainItem, "MaslUserDefinedType")) {
                     loader.relate(domainItem, domain, 6235, "");
-                } else if (instanceOf(domainItem, "ExceptionDeclaration")) {
+                } else if (keyLettersAre(domainItem, "ExceptionDeclaration")) {
                     loader.relate(domainItem, domain, 5400, "");
                 }
             }
@@ -196,7 +194,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitExceptionVisibility(MaslParser.ExceptionVisibilityContext ctx) {
-        return ctx.PRIVATE() != null ? "Visibility2::private" : "Visibility2::public";
+        return ctx.PRIVATE() != null ? "MaslVisibility::private" : "MaslVisibility::public";
     }
 
     @Override
@@ -207,7 +205,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             if (((IModelInstance<?, ?>) userDefinedType).isEmpty()) {
                 Object typeDefinition = loader.create("TypeDefinition");
                 Object basicType = loader.create("BasicType");
-                userDefinedType = loader.create("UserDefinedType2");
+                userDefinedType = loader.create("MaslUserDefinedType");
                 Object typeDeclaration = loader.create("TypeDeclaration");
                 loader.relate(basicType, typeDefinition, 6236, "");
                 loader.relate(userDefinedType, basicType, 6205, "");
@@ -233,7 +231,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             if (((IModelInstance<?, ?>) userDefinedType).isEmpty()) {
                 Object typeDefinition = loader.create("TypeDefinition");
                 Object basicType = loader.create("BasicType");
-                userDefinedType = loader.create("UserDefinedType2");
+                userDefinedType = loader.create("MaslUserDefinedType");
                 typeDeclaration = loader.create("TypeDeclaration");
                 loader.relate(basicType, typeDefinition, 6236, "");
                 loader.relate(userDefinedType, basicType, 6205, "");
@@ -295,7 +293,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitTypeVisibility(MaslParser.TypeVisibilityContext ctx) {
-        return ctx.PRIVATE() != null ? "Visibility2::private" : "Visibility2::public";
+        return ctx.PRIVATE() != null ? "MaslVisibility::private" : "MaslVisibility::public";
     }
 
     @Override
@@ -698,23 +696,23 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             // object items
             for (MaslParser.ObjectItemContext ctx2 : ctx.objectItem()) {
                 Object objectItem = visit(ctx2);
-                if (instanceOf(objectItem, "AttributeDeclaration")) {
+                if (keyLettersAre(objectItem, "AttributeDeclaration")) {
                     loader.relate(objectItem, objectDeclaration, 5802, "");
                     previousAttribute = objectItem;
-                } else if (instanceOf(objectItem, "ObjectService")) {
+                } else if (keyLettersAre(objectItem, "ObjectService")) {
                     loader.relate(objectItem, objectDeclaration, 5808, "");
-                } else if (instanceOf(objectItem, "EventDeclaration")) {
+                } else if (keyLettersAre(objectItem, "EventDeclaration")) {
                     loader.relate(objectItem, objectDeclaration, 6101, "");
-                } else if (instanceOf(objectItem, "State2")) {
+                } else if (keyLettersAre(objectItem, "MaslState")) {
                     if (!nonExistentExists) {
                         // Create a Non_Existent state.
-                        Object ooastate = loader.create("State2");
+                        Object ooastate = loader.create("MaslState");
                         loader.set_attribute(ooastate, "name", "Non_Existent");
                         loader.relate(ooastate, objectDeclaration, 6105, "");
                         nonExistentExists = true;
                     }
                     loader.relate(objectItem, objectDeclaration, 6105, "");
-                } else if (instanceOf(objectItem, "TransitionTable")) {
+                } else if (keyLettersAre(objectItem, "TransitionTable")) {
                     loader.relate(objectItem, objectDeclaration, 6113, "");
                 }
             }
@@ -870,7 +868,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitStateDeclaration(MaslParser.StateDeclarationContext ctx) {
         try {
-            Object OOAState = loader.create("State2");
+            Object OOAState = loader.create("MaslState");
             loader.set_attribute(OOAState, "name", ctx.stateName().getText());
             loader.set_attribute(OOAState, "flavor", visit(ctx.stateType()));
             Object firstParameter = visit(ctx.parameterList());
@@ -941,10 +939,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object transitionOption = loader.create("TransitionOption");
             Object endStateOrType = visit(ctx.endState());
             loader.set_attribute(transitionOption, "flavor",
-                    !((String) endStateOrType).startsWith("TransitionType2::") ? "TransitionType2::to_state"
+                    !((String) endStateOrType).startsWith("MaslTransitionType::") ? "MaslTransitionType::to_state"
                             : endStateOrType);
             loader.relate(visit(ctx.eventReference()), transitionOption, 6108, "");
-            if (!((String) endStateOrType).startsWith("TransitionType2::")) {
+            if (!((String) endStateOrType).startsWith("MaslTransitionType::")) {
                 Object OOAState = loader.call_function("select_State_where_name", currentObject, endStateOrType);
                 loader.relate(OOAState, transitionOption, 6109, "");
             }
@@ -964,9 +962,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitEndState(MaslParser.EndStateContext ctx) {
         if (ctx.IGNORE() != null) {
-            return "TransitionType2::ignore";
+            return "MaslTransitionType::ignore";
         } else if (ctx.CANNOT_HAPPEN() != null) {
-            return "TransitionType2::cannot_happen";
+            return "MaslTransitionType::cannot_happen";
         } else {
             return ctx.stateName().getText();
         }
@@ -1046,7 +1044,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitServiceVisibility(MaslParser.ServiceVisibilityContext ctx) {
-        return ctx.PRIVATE() != null ? "Visibility2::private" : "Visibility2::public";
+        return ctx.PRIVATE() != null ? "MaslVisibility::private" : "MaslVisibility::public";
     }
 
     @Override
@@ -1138,7 +1136,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitMultiplicity(MaslParser.MultiplicityContext ctx) {
-        return ctx.ONE() != null ? "Multiplicity2::one" : "Multiplicity2::many";
+        return ctx.ONE() != null ? "MaslMultiplicity::one" : "MaslMultiplicity::many";
     }
 
     @Override
@@ -1234,7 +1232,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitCodeBlock(MaslParser.CodeBlockContext ctx) {
         try {
-            Object codeBlock = loader.create("CodeBlock2");
+            Object codeBlock = loader.create("MaslCodeBlock");
             String actionText = input.getText(new Interval(ctx.statementList().getStart().getStartIndex(),
                     ctx.statementList().getStop().getStopIndex()));
             loader.set_attribute(codeBlock, "actions", actionText);
@@ -1318,7 +1316,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitStatement(MaslParser.StatementContext ctx) {
         try {
-            Object statement = loader.create("Statement2");
+            Object statement = loader.create("MaslStatement");
             if (ctx.assignStatement() != null) {
                 loader.relate(visit(ctx.assignStatement()), statement, 5135, "");
             } else if (ctx.streamStatement() != null) {
@@ -1595,7 +1593,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitLogicalOr(MaslParser.LogicalOrContext ctx) {
         try {
             if (ctx.logicalOr() != null) {
-                Object expression = loader.create("Expression2");
+                Object expression = loader.create("MaslExpression");
                 Object binaryExpression = loader.create("BinaryExpression");
                 loader.relate(binaryExpression, expression, 5517, "");
                 Object logicalBinary = loader.create("BinaryLogicalExpression");
@@ -1620,7 +1618,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitLogicalXor(MaslParser.LogicalXorContext ctx) {
         try {
             if (ctx.logicalXor() != null) {
-                Object expression = loader.create("Expression2");
+                Object expression = loader.create("MaslExpression");
                 Object binaryExpression = loader.create("BinaryExpression");
                 loader.relate(binaryExpression, expression, 5517, "");
                 Object logicalBinary = loader.create("BinaryLogicalExpression");
@@ -1645,7 +1643,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitLogicalAnd(MaslParser.LogicalAndContext ctx) {
         try {
             if (ctx.logicalAnd() != null) {
-                Object expression = loader.create("Expression2");
+                Object expression = loader.create("MaslExpression");
                 Object binaryExpression = loader.create("BinaryExpression");
                 loader.relate(binaryExpression, expression, 5517, "");
                 Object logicalBinary = loader.create("BinaryLogicalExpression");
@@ -1670,7 +1668,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitEquality(MaslParser.EqualityContext ctx) {
         try {
             if (ctx.equality() != null) {
-                Object expression = loader.create("Expression2");
+                Object expression = loader.create("MaslExpression");
                 Object binaryExpression = loader.create("BinaryExpression");
                 loader.relate(binaryExpression, expression, 5517, "");
                 Object compBinary = loader.create("BinaryComparisonExpression");
@@ -1699,7 +1697,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitRelationalExp(MaslParser.RelationalExpContext ctx) {
         try {
             if (ctx.relationalExp() != null) {
-                Object expression = loader.create("Expression2");
+                Object expression = loader.create("MaslExpression");
                 Object binaryExpression = loader.create("BinaryExpression");
                 loader.relate(binaryExpression, expression, 5517, "");
                 Object compBinary = loader.create("BinaryComparisonExpression");
@@ -1732,7 +1730,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitAdditiveExp(MaslParser.AdditiveExpContext ctx) {
         try {
             if (ctx.additiveExp() != null) {
-                Object expression = loader.create("Expression2");
+                Object expression = loader.create("MaslExpression");
                 Object binaryExpression = loader.create("BinaryExpression");
                 loader.relate(binaryExpression, expression, 5517, "");
                 if (ctx.PLUS() != null || ctx.MINUS() != null) {
@@ -1772,7 +1770,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitMultExp(MaslParser.MultExpContext ctx) {
         try {
             if (ctx.multExp() != null) {
-                Object expression = loader.create("Expression2");
+                Object expression = loader.create("MaslExpression");
                 Object binaryExpression = loader.create("BinaryExpression");
                 loader.relate(binaryExpression, expression, 5517, "");
                 if (ctx.INTERSECTION() != null || ctx.DISUNION() != null) {
@@ -1864,7 +1862,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         try {
             if (ctx.lhs != null) {
                 // TODO where clause, correlated nav, orderby
-                Object expression = loader.create("Expression2");
+                Object expression = loader.create("MaslExpression");
                 Object navigationExpression = loader.create("NavigationExpression");
                 loader.relate(navigationExpression, expression, 5517, "");
                 Object lhs = visit(ctx.lhs);
@@ -1898,7 +1896,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitCreateExpression(MaslParser.CreateExpressionContext ctx) {
         try {
-            Object expression = loader.create("Expression2");
+            Object expression = loader.create("MaslExpression");
             Object createExpression = loader.create("CreateExpression");
             Object obj = visit(ctx.objectReference());
             loader.relate(obj, createExpression, 5511, "");
@@ -1939,7 +1937,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitFindExpression(MaslParser.FindExpressionContext ctx) {
         try {
-            Object expression = loader.create("Expression2");
+            Object expression = loader.create("MaslExpression");
             Object findExpression = loader.create("FindExpression");
             loader.relate(findExpression, expression, 5517, "");
             loader.set_attribute(findExpression, "flavor", visit(ctx.findType()));
@@ -2092,7 +2090,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitLiteral(MaslParser.LiteralContext ctx) {
         try {
-            Object expression = loader.create("Expression2");
+            Object expression = loader.create("MaslExpression");
             Object literalExpression = loader.create("LiteralExpression");
             loader.relate(literalExpression, expression, 5517, "");
             String literalText = ctx.getText();

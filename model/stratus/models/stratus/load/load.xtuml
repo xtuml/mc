@@ -193,7 +193,7 @@ create object instance numeric_type of NumericType;
 numeric_type.bits = 64;
 numeric_type.signed = true;
 // create and link to min and max expressions
-create object instance expression of Expression2;
+create object instance expression of MaslExpression;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -202,7 +202,7 @@ relate expression to literal_expression across R5517;
 relate literal_expression to numeric_literal across R5700;
 relate numeric_literal to integer_literal across R5703;
 relate expression to numeric_type across R6222;
-create object instance expression of Expression2;
+create object instance expression of MaslExpression;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -225,7 +225,7 @@ create object instance numeric_type of NumericType;
 numeric_type.bits = 64;
 numeric_type.signed = true;
 // create and link to min and max expressions
-create object instance expression of Expression2;
+create object instance expression of MaslExpression;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -234,7 +234,7 @@ relate expression to literal_expression across R5517;
 relate literal_expression to numeric_literal across R5700;
 relate numeric_literal to integer_literal across R5703;
 relate expression to numeric_type across R6222;
-create object instance expression of Expression2;
+create object instance expression of MaslExpression;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -257,7 +257,7 @@ create object instance numeric_type of NumericType;
 numeric_type.bits = 8;
 numeric_type.signed = false;
 // create and link to min and max expressions
-create object instance expression of Expression2;
+create object instance expression of MaslExpression;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -266,7 +266,7 @@ relate expression to literal_expression across R5517;
 relate literal_expression to numeric_literal across R5700;
 relate numeric_literal to integer_literal across R5703;
 relate expression to numeric_type across R6222;
-create object instance expression of Expression2;
+create object instance expression of MaslExpression;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -289,7 +289,7 @@ create object instance numeric_type of NumericType;
 numeric_type.bits = 32;
 numeric_type.signed = false;
 // create and link to min and max expressions
-create object instance expression of Expression2;
+create object instance expression of MaslExpression;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -298,7 +298,7 @@ relate expression to literal_expression across R5517;
 relate literal_expression to numeric_literal across R5700;
 relate numeric_literal to integer_literal across R5703;
 relate expression to numeric_type across R6222;
-create object instance expression of Expression2;
+create object instance expression of MaslExpression;
 create object instance literal_expression of LiteralExpression;
 create object instance numeric_literal of NumericLiteral;
 create object instance integer_literal of IntegerLiteral;
@@ -338,7 +338,7 @@ INSERT INTO S_SYNC
 	'create_DotExpression',
 	'',
 	'lhs = param.lhs;
-create object instance expression of Expression2;
+create object instance expression of MaslExpression;
 
 select one lhs_basic_type related by lhs->BasicType[R5570];
 if (empty lhs_basic_type)
@@ -385,7 +385,7 @@ end if;
 
 // Look for structure element.
 /* TODO
-select one structure_type related by lhs_basic_type->UserDefinedType2[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
+select one structure_type related by lhs_basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
 if (not_empty structure_type)
   select one structure_element related by structure_type->StructureElement[R6244];
   while (not_empty structure_element)
@@ -545,7 +545,7 @@ if (not_empty to_object_declaration and param.object_or_role != "")
 	// sub-super
   select one subsup related by relationship_declaration->SubtypeRelationshipDeclaration[R6010];
   if (not_empty subsup)
-		relationship_specification.multiplicity = Multiplicity2::one;
+		relationship_specification.multiplicity = MaslMultiplicity::one;
 		relationship_specification.conditional = false;
 		return relationship_specification;
   end if;
@@ -641,7 +641,7 @@ elif ((empty to_object_declaration and param.object_or_role != "") or
 			// sub-super
 			select one subsup related by relationship_declaration->SubtypeRelationshipDeclaration[R6010];
 			if (not_empty subsup)
-				relationship_specification.multiplicity = Multiplicity2::one;
+				relationship_specification.multiplicity = MaslMultiplicity::one;
 				relationship_specification.conditional = false;
 				relationship_specification.role = "is_a";
 				return relationship_specification;
@@ -687,7 +687,7 @@ elif (empty to_object_declaration and param.object_or_role == "")
 	if (not_empty object_declaration and from_object_declaration.name != object_declaration.name)
 		LOG::LogInfo(message: "sub-super supertype " + from_object_declaration.name + "->" + object_declaration.name);
 		relate relationship_specification to object_declaration across R6011;
-		relationship_specification.multiplicity = Multiplicity2::one;
+		relationship_specification.multiplicity = MaslMultiplicity::one;
 		relationship_specification.conditional = false;
 	  relationship_specification.role = "is_a";
 		return relationship_specification;
@@ -948,7 +948,7 @@ INSERT INTO S_SYNC
 	'',
 	'ordering_expression = param.ordering_expression;
 
-select one child_basic_type related by ordering_expression->Expression2[R5535]->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
+select one child_basic_type related by ordering_expression->MaslExpression[R5535]->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
 select one instance_ordering_expression related by ordering_expression->InstanceOrderingExpression[R5534];
 if ( not_empty instance_ordering_expression )
   select one instance_type related by child_basic_type->InstanceType[R6205];
@@ -959,7 +959,7 @@ if ( not_empty instance_ordering_expression )
   end if;
 else
   select one structure_ordering_expression related by ordering_expression->StructureOrderingExpression[R5534];
-  select one structure_type related by child_basic_type->UserDefinedType2[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
+  select one structure_type related by child_basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
   select one structure_element related by structure_type->StructureElement[R6244];
   while ( not_empty structure_element )
     if ( structure_element.name == param.name )
@@ -1120,7 +1120,7 @@ message = "resolve_name( " + param.trace + ", " + d + "::" + n + ", ";
 if ( not_empty code_block )
   select one service related by code_block->Service[R5403];
   if ( empty service )
-    select one state related by code_block->State2[R6115];
+    select one state related by code_block->MaslState[R6115];
     if ( empty state )
       LOG::LogFailure( message:"empty service and state" );
     else
@@ -1195,9 +1195,9 @@ if ( not_empty builtin_type )
   return basic_type;
 else
   select any domain from instances of Domain where ( selected.name == param.domainname );
-  select any user_defined_type from instances of UserDefinedType2 where ( selected.name == param.name );
+  select any user_defined_type from instances of MaslUserDefinedType where ( selected.name == param.name );
   if ( not_empty domain )
-    select any user_defined_type related by domain->UserDefinedType2[R6235] where ( selected.name == param.name );
+    select any user_defined_type related by domain->MaslUserDefinedType[R6235] where ( selected.name == param.name );
   end if;
   if ( not_empty user_defined_type )
     select one basic_type related by user_defined_type->BasicType[R6205];
@@ -1267,7 +1267,7 @@ if ( not_empty enumerate_item )
   relate enumerate_literal to literal_expression across R5700;
   relate enumerate_literal to enumerate_item across R5701;
   relate expression to literal_expression across R5517;
-  select any basic_type related by enumerate_item->EnumerateType[R6218]->FullTypeDefinition[R6219]->TypeDefinition[R6236]->TypeDeclaration[R6234]->UserDefinedType2[R6241]->BasicType[R6205];
+  select any basic_type related by enumerate_item->EnumerateType[R6218]->FullTypeDefinition[R6219]->TypeDefinition[R6236]->TypeDeclaration[R6234]->MaslUserDefinedType[R6241]->BasicType[R6205];
   LOG::LogInfo( message: message + "enumerator." );
   return basic_type;
 end if;
@@ -1347,12 +1347,12 @@ current_block = param.current_block;
 // search for local variable reference
 select any var related by current_block->VariableDefinition[R5151] where (selected.name == param.name);
 while (not_empty current_block and empty var)
-  select one current_block related by current_block->CodeBlock2[R5160.''nested_within''];
+  select one current_block related by current_block->MaslCodeBlock[R5160.''nested_within''];
   select any var related by current_block->VariableDefinition[R5151] where (selected.name == param.name);
 end while;
 if (not_empty var)
   // create a new variable reference
-  create object instance expr of Expression2;
+  create object instance expr of MaslExpression;
   select one type related by var->BasicType[R5137];
   relate type to expr across R5570;
   create object instance var_ref of VariableNameExpression;
@@ -1365,11 +1365,11 @@ end if;
 // search for parameter reference
 current_block = param.current_block;
 select one current_service related by current_block->Service[R5403];
-select one current_state related by current_block->State2[R6115];
+select one current_state related by current_block->MaslState[R6115];
 while ((empty current_service and empty current_state) and not_empty current_block)
-  select one current_block related by current_block->CodeBlock2[R5160.''nested_within''];
+  select one current_block related by current_block->MaslCodeBlock[R5160.''nested_within''];
   select one current_service related by current_block->Service[R5403];
-  select one current_state related by current_block->State2[R6115];
+  select one current_state related by current_block->MaslState[R6115];
 end while;
 select any ref_param from instances of ParameterDefinition where false;
 select one service_param related by current_service->ParameterDefinition[R5204];
@@ -1387,7 +1387,7 @@ while (not_empty state_param and empty ref_param)
   select one state_param related by state_param->ParameterDefinition[R5208.''precedes''];
 end while;
 if (not_empty ref_param)
-  create object instance expr of Expression2;
+  create object instance expr of MaslExpression;
   create object instance param_ref of ParameterNameExpression;
   relate param_ref to expr across R5517;
   relate ref_param to param_ref across R5536;
@@ -1400,7 +1400,7 @@ end if;
 // search for domain service reference
 select any service related by domain->DomainService[R5303]->Service[R5203] where selected.name == param.name;
 if (not_empty service)
-  create object instance expr of Expression2;
+  create object instance expr of MaslExpression;
   select one type related by service->BasicType[R5205];
   if (not_empty type)
     relate type to expr across R5570;
@@ -1420,7 +1420,7 @@ end if;
 // search for objects
 select any object_declaration related by domain->ObjectDeclaration[R5805] where selected.name == param.name;
 if (not_empty object_declaration)
-  create object instance expr of Expression2;
+  create object instance expr of MaslExpression;
   create object instance obj_name_expr of ObjectNameExpression;
   relate obj_name_expr to expr across R5517;
   relate object_declaration to obj_name_expr across R5533;
@@ -1436,7 +1436,7 @@ end if;
 // the terminator -- it will get relinked later.
 select any terminator related by domain->DomainTerminator[R5304] where selected.name == param.name;
 if (not_empty terminator)
-  create object instance expr of Expression2;
+  create object instance expr of MaslExpression;
   create object instance call_expr of CallExpression;
   relate call_expr to expr across R5517;
   create object instance service_invocation of ServiceInvocation;
@@ -1454,7 +1454,7 @@ end if;
 select any builtin from instances of BuiltinType where selected.name == param.name;
 if (not_empty builtin)
   // create a new type cast expression
-  create object instance expr of Expression2;
+  create object instance expr of MaslExpression;
   select one type related by builtin->BasicType[R6205];
   relate type to expr across R5570;
   create object instance call_expr of CallExpression;
@@ -1467,7 +1467,7 @@ if (not_empty builtin)
 end if;
 
 LOG::LogFailure(message:"Could not resolve name expression: " + param.domain_name + ", " + param.name);
-select any expr from instances of Expression2 where false;
+select any expr from instances of MaslExpression where false;
 return expr;',
 	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	1,
@@ -1745,7 +1745,7 @@ INSERT INTO S_SYNC
 select one find_expression related by expression->FindExpression[R5517];
 if (not_empty find_expression)
   // for now, assume the root expression is a set
-  select one root_type related by find_expression->Expression2[R5519]->BasicType[R5570];
+  select one root_type related by find_expression->MaslExpression[R5519]->BasicType[R5570];
   if find_expression.flavor == FindType::find
     relate root_type to expression across R5570;
   elif find_expression.flavor == FindType::find_one
@@ -1782,14 +1782,14 @@ INSERT INTO S_SYNC
 	'',
 	'expression = param.expression;
 select one rel_spec related by expression->NavigationExpression[R5517]->RelationshipSpecification[R5531];
-select one lhs_collection related by expression->NavigationExpression[R5517]->Expression2[R5532]->BasicType[R5570]->CollectionType[R6205];
+select one lhs_collection related by expression->NavigationExpression[R5517]->MaslExpression[R5532]->BasicType[R5570]->CollectionType[R6205];
 select one to_obj_decl related by rel_spec->ObjectDeclaration[R6011];
 
 select any nav_type from instances of BasicType where false;
 
 // if the rel spec is a "many" association or the lhs is a collection type,
 // assure that the type of the expression is an instance set
-if (rel_spec.multiplicity == Multiplicity2::many or not_empty lhs_collection)
+if (rel_spec.multiplicity == MaslMultiplicity::many or not_empty lhs_collection)
   nav_type = ::select_create_InstanceType(object_declaration:to_obj_decl, isset:true);
 else
   nav_type = ::select_create_InstanceType(object_declaration:to_obj_decl, isset:false);
