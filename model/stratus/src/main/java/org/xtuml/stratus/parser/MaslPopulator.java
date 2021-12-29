@@ -31,7 +31,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     // utility method for checking type of an object
     private static boolean keyLettersAre(Object o, String keyLetters) {
         if (o != null) {
-        	return ((IModelInstance<?, ?>) o).getKeyLetters().equals(keyLetters);
+            return ((IModelInstance<?, ?>) o).getKeyLetters().equals(keyLetters);
         }
         return false;
     }
@@ -2124,9 +2124,20 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 Object stringType = loader.call_function("select_BasicType_where_name", "", "string");
                 loader.relate(stringType, expression, 5570, "");
             } else if (ctx.TimestampLiteral() != null) {
-                // TODO
+                Object timestampLiteral = loader.create("TimestampLiteral");
+                loader.relate(timestampLiteral, literalExpression, 5700, "");
+                String timestampText = ctx.TimestampLiteral().getText();
+                loader.set_attribute(timestampLiteral, "original",
+                        timestampText.substring(1, timestampText.length() - 1));
+                Object timestampType = loader.call_function("select_BasicType_where_name", "", "timestamp");
+                loader.relate(timestampType, expression, 5570, "");
             } else if (ctx.DurationLiteral() != null) {
-                // TODO
+                Object durationLiteral = loader.create("DurationLiteral");
+                loader.relate(durationLiteral, literalExpression, 5700, "");
+                String durationText = ctx.DurationLiteral().getText();
+                loader.set_attribute(durationLiteral, "literal", durationText.substring(1, durationText.length() - 1));
+                Object durationType = loader.call_function("select_BasicType_where_name", "", "duration");
+                loader.relate(durationType, expression, 5570, "");
             } else if (ctx.TRUE() != null || ctx.FALSE() != null) {
                 Object booleanLiteral = loader.create("BooleanLiteral");
                 loader.relate(booleanLiteral, literalExpression, 5700, "");
@@ -2164,4 +2175,44 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return null;
         }
     }
+
+    @Override
+    public Object visitScheduleStatement(MaslParser.ScheduleStatementContext ctx) {
+        try {
+            Object statement = loader.create("ScheduleStatement");
+            loader.relate(visit(ctx.timerId), statement, 5132, "");
+            // create an orphaned statement to represent the generate
+            Object statement2 = loader.create("MaslStatement");
+            Object genStatement = visit(ctx.generateStatement());
+            loader.relate(genStatement, statement2, 5135, "");
+            loader.relate(genStatement, statement, 5129, "");
+            loader.set_attribute(statement, "isAbsolute", visit(ctx.scheduleType()));
+            loader.relate(visit(ctx.time), statement, 5130, "");
+            if (ctx.period != null) {
+                loader.relate(visit(ctx.period), statement, 5131, "");
+            }
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitScheduleType(MaslParser.ScheduleTypeContext ctx) {
+        return ctx.AT() != null;
+    }
+
+    @Override
+    public Object visitCancelTimerStatement(MaslParser.CancelTimerStatementContext ctx) {
+        try {
+            Object statement = loader.create("CancelTimerStatement");
+            loader.relate(visit(ctx.timerId), statement, 5102, "");
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
 }
