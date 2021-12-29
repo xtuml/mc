@@ -1857,6 +1857,61 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("d0c79f76-2f61-4609-950b-4c8fb05f3c31",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_CharacteristicExpression',
+	'',
+	'expression = param.expression;
+base_expression = param.base_expression;
+
+// relate the base expression
+select one characteristic related by expression->CallExpression[R5517]->CharacteristicExpression[R5500];
+relate base_expression to characteristic across R5504;
+
+// relate the type
+if characteristic.characteristic == "delta"
+  select any duration_builtin from instances of BuiltinType where "" + selected.name == "duration";
+  select one duration_type related by duration_builtin->BasicType[R6205];
+  relate duration_type to expression across R5570;
+elif characteristic.characteristic == "scheduled_at" or characteristic.characteristic == "expired_at"
+  select any timestamp_builtin from instances of BuiltinType where "" + selected.name == "timestamp";
+  select one timestamp_type related by timestamp_builtin->BasicType[R6205];
+  relate timestamp_type to expression across R5570;
+elif characteristic.characteristic == "scheduled" or characteristic.characteristic == "expired"
+  select any boolean_builtin from instances of BuiltinType where "" + selected.name == "boolean";
+  select one boolean_type related by boolean_builtin->BasicType[R6205];
+  relate boolean_type to expression across R5570;
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	6);
+INSERT INTO S_SPARM
+	VALUES ("4b4444c1-73b2-4a44-b5d0-462af20d03da",
+	"d0c79f76-2f61-4609-950b-4c8fb05f3c31",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a45c6504-266a-41e4-aaf9-f5a8a5e7606c",
+	"d0c79f76-2f61-4609-950b-4c8fb05f3c31",
+	'base_expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"4b4444c1-73b2-4a44-b5d0-462af20d03da",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d0c79f76-2f61-4609-950b-4c8fb05f3c31",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	1,

@@ -1970,9 +1970,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     Object expression = loader.call_function("create_DotExpression", visit(ctx.root),
                             ctx.identifier().getText());
                     return expression;
-                } else if (ctx.serviceArgs != null) {
+                } else if (ctx.argumentList() != null) {
                     Object expression = visit(ctx.root);
-                    Object firstArgument = visit(ctx.serviceArgs);
+                    Object firstArgument = visit(ctx.argumentList());
                     if (firstArgument != null) {
                         loader.call_function("resolve_Expression_ArgumentList", expression, firstArgument);
                     }
@@ -1980,6 +1980,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 } else if (ctx.TERMINATOR_SCOPE() != null) {
                     Object expression = visit(ctx.root);
                     loader.call_function("resolve_TerminatorServiceInvocation", expression, ctx.identifier().getText());
+                    return expression;
+                } else if (ctx.characteristic() != null) {
+                    Object expression = visit(ctx.characteristic());
+                    loader.call_function("resolve_CharacteristicExpression", expression, visit(ctx.root));
                     return expression;
                 } else {
                     System.err.println("Unsupported postfix expression");
@@ -2209,6 +2213,23 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object statement = loader.create("CancelTimerStatement");
             loader.relate(visit(ctx.timerId), statement, 5102, "");
             return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitCharacteristic(MaslParser.CharacteristicContext ctx) {
+        try {
+            Object expression = loader.create("MaslExpression");
+            Object call_expression = loader.create("CallExpression");
+            loader.relate(call_expression, expression, 5517, "");
+            Object characteristic = loader.create("CharacteristicExpression");
+            loader.relate(characteristic, call_expression, 5500, "");
+            loader.set_attribute(characteristic, "characteristic", ctx.Identifier() != null ? ctx.Identifier().getText()
+                    : ctx.RANGE() != null ? ctx.RANGE().getText() : ctx.DELTA().getText());
+            return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;

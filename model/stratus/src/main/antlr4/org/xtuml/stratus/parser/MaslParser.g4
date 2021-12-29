@@ -901,11 +901,10 @@ findType                      : FIND
                               ;
 
 postfixExpression             : root=postfixExpression
-                                ( LPAREN serviceArgs=argumentList RPAREN
+                                ( LPAREN argumentList RPAREN
                                 | DOT identifier
                                 | TERMINATOR_SCOPE identifier
                                 | LBRACKET expression RBRACKET
-                                | PRIME characteristic LPAREN charArgs=argumentList RPAREN
                                 | PRIME characteristic
                                 )
                               | primaryExpression
@@ -970,8 +969,6 @@ identifier                    : Identifier
 
 
 characteristic                : Identifier
-                              | characteristicRW
-                              ;
-
-characteristicRW              : RANGE | DELTA
+                              | RANGE
+                              | DELTA
                               ;
