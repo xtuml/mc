@@ -23,16 +23,9 @@ INSERT INTO O_ATTR
 	'',
 	'flavor',
 	0,
-	"bed5844b-9da7-42da-a307-cfd105c8beaf",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("bed5844b-9da7-42da-a307-cfd105c8beaf",
-	"00000000-0000-0000-0000-000000000000",
-	'ExceptionType',
-	'',
-	'',
-	'../../Shared/Shared.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"db4b1b1e-22b9-4609-bbe9-9e4cca02dee8");

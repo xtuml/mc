@@ -175,16 +175,18 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitExceptionReference(MaslParser.ExceptionReferenceContext ctx) {
         try {
             Object exceptionReference = loader.create("ExceptionReference");
-            Object builtin = loader.create("BuiltinException"); // TODO this is sketch.
-            /*
-             * hmm. i think i get it, however it seems as though R5401 may need to have
-             * another subtype for "UserDefinedException" and R5402 may need to be
-             * conditional on the 1 side...
-             */
-            loader.relate(exceptionReference, builtin, 5401, "");
             Object exceptionDeclaration = loader.call_function("select_ExceptionDeclaration_where_name",
-                    ctx.domainName().getText(), ctx.exceptionName().getText());
-            loader.relate(exceptionReference, exceptionDeclaration, 5402, "");
+                    ctx.domainName() != null ? ctx.domainName().getText() : getName(currentDomain),
+                    ctx.exceptionName().getText());
+            if (((IModelInstance<?, ?>) exceptionDeclaration).isEmpty()) {
+                Object builtin = loader.create("BuiltinException");
+                loader.relate(exceptionReference, builtin, 5401, "");
+                loader.set_attribute(builtin, "flavor", ctx.exceptionName().getText());
+            } else {
+                Object userException = loader.create("UserDefinedException");
+                loader.relate(exceptionReference, userException, 5401, "");
+                loader.relate(exceptionDeclaration, userException, 5402, "");
+            }
             return exceptionReference;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -1256,10 +1258,23 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     loader.relate(firstStatement, codeBlock, 5150, "");
                 }
             }
-            // TODO for each exceptionHandler
-            // loader.relate( $exceptionHandler.handler, code_block, 5149, "" );
-            // TODO other handler
-            // loader.relate( $exceptionHandler.handler, code_block, 5149, "" );
+            // exception handlers
+            Object previousExceptionHandler = null;
+            for (MaslParser.ExceptionHandlerContext ctx2 : ctx.exceptionHandler()) {
+                Object exceptionHandler = visit(ctx2);
+                loader.relate(exceptionHandler, codeBlock, 5149, "");
+                if (previousExceptionHandler != null) {
+                    loader.relate(exceptionHandler, previousExceptionHandler, 5162, "follows");
+                }
+                previousExceptionHandler = exceptionHandler;
+            }
+            if (ctx.otherHandler() != null) {
+                Object exceptionHandler = visit(ctx.otherHandler());
+                loader.relate(exceptionHandler, codeBlock, 5149, "");
+                if (previousExceptionHandler != null) {
+                    loader.relate(exceptionHandler, previousExceptionHandler, 5162, "follows");
+                }
+            }
             currentCodeBlock = oldCodeBlock;
             return codeBlock;
         } catch (XtumlException e) {
@@ -2230,6 +2245,54 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.set_attribute(characteristic, "characteristic", ctx.Identifier() != null ? ctx.Identifier().getText()
                     : ctx.RANGE() != null ? ctx.RANGE().getText() : ctx.DELTA().getText());
             return expression;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitRaiseStatement(MaslParser.RaiseStatementContext ctx) {
+        try {
+            Object statement = loader.create("RaiseStatement");
+            loader.relate(visit(ctx.exceptionReference()), statement, 5126, "");
+            if (ctx.expression() != null) {
+                loader.relate(visit(ctx.expression()), statement, 5125, "");
+            }
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitExceptionHandler(MaslParser.ExceptionHandlerContext ctx) {
+        try {
+            Object handler = loader.create("ExceptionHandler");
+            loader.set_attribute(handler, "isother", false);
+            loader.relate(visit(ctx.exceptionReference()), handler, 5108, "");
+            Object firstStatement = visit(ctx.statementList());
+            if (!((IModelInstance<?, ?>) firstStatement).isEmpty()) {
+                loader.relate(firstStatement, handler, 5152, "");
+            }
+            return handler;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitOtherHandler(MaslParser.OtherHandlerContext ctx) {
+        try {
+            Object handler = loader.create("ExceptionHandler");
+            loader.set_attribute(handler, "isother", true);
+            Object firstStatement = visit(ctx.statementList());
+            if (!((IModelInstance<?, ?>) firstStatement).isEmpty()) {
+                loader.relate(firstStatement, handler, 5152, "");
+            }
+            return handler;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
