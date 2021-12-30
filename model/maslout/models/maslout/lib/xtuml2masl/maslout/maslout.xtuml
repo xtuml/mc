@@ -458,6 +458,12 @@ for each c_ep in c_eps
   value[2] = "public"; // Outbound messages are considered public.
   value[3] = c_ep.Name;
   value[4] = STRING::itoa( i:c_ep.Numb );
+  select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
+  if ( ( not_empty spr_ro ) and ( spr_ro.Numb != c_ep.Numb ) )
+    // If the message operation number from the port is different than
+    // the one in the interface, use the one from the port (12273).
+    value[4] = STRING::itoa( i:spr_ro.Numb );
+  end if;
 
   out::populate( element:"routine", value:value );
   

@@ -89,6 +89,7 @@ control stop;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO PE_PE
 	VALUES ("bcbf2531-8a7b-4659-a445-5783771b5034",
@@ -110,6 +111,7 @@ return exception_declaration;',
 	"fcbc46ab-aa9a-4a5f-a61c-93953c3dcf03",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("d32d8ffd-ebfd-4c32-af00-1ce151ccfa83",
@@ -126,7 +128,7 @@ INSERT INTO S_DT_PROXY
 	'Name',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/Shared/Shared.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/Shared/Shared.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("3e66809c-318a-46b2-9900-a0c9a7986d23",
 	"104756a8-eda5-4d27-98a5-a2897716dbe4",
@@ -148,7 +150,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<ExceptionDeclaration>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/domain/domain.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("a4f99ef6-4473-4e79-9ffb-8e5539226811",
 	"00000000-0000-0000-0000-000000000000",
@@ -169,6 +171,7 @@ return object_declaration;
 	"ccbbc697-c60c-4034-8e31-7a46032151eb",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("1c5d3ef0-32d7-4744-a6d6-71c443e1b2dd",
@@ -200,7 +203,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<ObjectDeclaration>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/object/object.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/object/object.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("8861381d-eb56-404b-98fe-6c00df70f484",
 	"00000000-0000-0000-0000-000000000000",
@@ -230,6 +233,7 @@ return basic_type;',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("98cc16ad-6526-40fb-afdf-0eed9e278f96",
@@ -261,7 +265,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<BasicType>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("e4d401b5-9024-4c24-bd2a-9bb4ec9f79e2",
 	"00000000-0000-0000-0000-000000000000",
@@ -505,6 +509,7 @@ LOG::LogInfo( message:message );',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO PE_PE
 	VALUES ("e4d401b5-9024-4c24-bd2a-9bb4ec9f79e2",
@@ -533,6 +538,7 @@ T::emit( file:"metamodel.java" );',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO PE_PE
 	VALUES ("a81c5b52-8eee-477f-a996-c511f5630083",
@@ -556,6 +562,7 @@ T::emit( file: "hello.txt" );',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO PE_PE
 	VALUES ("b048a193-bfae-4034-b8e7-688095ab9738",
@@ -574,6 +581,7 @@ return ooastate;',
 	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("0bfa3c78-c3a7-46b3-8de7-8ed3a014404b",
@@ -605,7 +613,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<State>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/statemodel/statemodel.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/statemodel/statemodel.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("d87306a4-fa45-4798-934c-0f6a40eecdb6",
 	"00000000-0000-0000-0000-000000000000",
@@ -617,6 +625,7 @@ return event_declaration;',
 	"4cfcfee8-b8db-43f0-9290-af0d49e530d4",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("670ce977-1459-492c-86c8-12c263a5563f",
@@ -648,7 +657,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<EventDeclaration>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/statemodel/statemodel.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/statemodel/statemodel.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("697abf06-bfcf-413d-9cc8-3888bad6530f",
 	"00000000-0000-0000-0000-000000000000",
@@ -664,6 +673,7 @@ return relationship_declaration;
 	"fc9b3839-3ca6-48c8-b09a-c036f8335a12",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("e15180a4-cc60-488b-ba0e-3f06466c403b",
@@ -695,7 +705,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<RelationshipDeclaration>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/relationship/relationship.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/relationship/relationship.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("34096a33-e38c-48a7-8f33-0090899a4cb8",
 	"00000000-0000-0000-0000-000000000000",
@@ -707,6 +717,7 @@ return attribute_declaration;',
 	"bc9fb0af-6887-4a01-9bad-2412058db57c",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("6349a802-8f94-4ec7-ad64-7b4bdf679c3a",
@@ -738,7 +749,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<AttributeDeclaration>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/object/object.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/object/object.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("bbf24665-3f8a-4e80-924b-2412ffa8b25a",
 	"00000000-0000-0000-0000-000000000000",
@@ -750,6 +761,7 @@ return state;',
 	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("df6958c1-8d69-47e3-abb2-ac81ae1af5a0",
@@ -786,6 +798,7 @@ return service;',
 	"b907c2e2-2877-4506-8018-ad38c7be275a",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("84ad3f6c-09ef-4b76-8aff-06fd4a7f5bae",
@@ -817,7 +830,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Service>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/domain/domain.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("0947dd72-a3ae-4f99-814d-a417cd5958dc",
 	"00000000-0000-0000-0000-000000000000",
@@ -830,6 +843,7 @@ return service;',
 	"b907c2e2-2877-4506-8018-ad38c7be275a",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("db6409cb-4ea6-418e-bdfd-3d0678cf46ff",
@@ -876,6 +890,7 @@ return service;',
 	"b907c2e2-2877-4506-8018-ad38c7be275a",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("5b030c21-8c85-4217-97ee-e68fbe0b863f",
@@ -921,6 +936,7 @@ return service;',
 	"b907c2e2-2877-4506-8018-ad38c7be275a",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("4c18d07c-457f-478e-a8cc-7c7919c3e3b1",
@@ -960,6 +976,7 @@ return user_defined_type;',
 	"5f5b21a5-3fd7-4b46-970e-812947d7a192",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("c7f6a2d8-0453-46c6-8fa6-cd220d663978",
@@ -991,7 +1008,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<UserDefinedType>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
 	"00000000-0000-0000-0000-000000000000",
@@ -1167,6 +1184,7 @@ return basic_type;',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("f28b21aa-3bf5-4396-9da1-a6397cfcaa1b",
@@ -1192,7 +1210,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Expression>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/expression/expression.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/expression/expression.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("8d32c0cb-d75b-4bdc-9c9a-a89707310aad",
 	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
@@ -1217,7 +1235,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<CodeBlock>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/statement/statement.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("f9951fb6-dd73-41f2-a10b-f9c312bdf92c",
 	"1b8e3a77-1101-4680-a1cc-96f5dffafc5f",
@@ -1384,6 +1402,7 @@ return relationship_specification;
 	"47e32455-be33-4b7c-9e44-d3b8f4f9ad39",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("cc0f53db-7e83-4ce3-83bd-e88c810b1243",
@@ -1451,7 +1470,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<RelationshipSpecification>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/relationship/relationship.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/relationship/relationship.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("9219fa7c-383d-4c1f-8d8d-a67afdb697e7",
 	"00000000-0000-0000-0000-000000000000",
@@ -1463,6 +1482,7 @@ return type_definition;',
 	"e4b2bac4-c232-4da0-b89b-f6db4ad3b8ff",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("0eabd816-5519-4819-ac76-03b1efe91757",
@@ -1485,7 +1505,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<TypeDefinition>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("6fdbf838-5d5b-4536-926d-a926f7922352",
 	"00000000-0000-0000-0000-000000000000",
@@ -1566,6 +1586,7 @@ LOG::LogInfo( message:message );',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO PE_PE
 	VALUES ("6fdbf838-5d5b-4536-926d-a926f7922352",
@@ -1618,6 +1639,7 @@ return basic_type;',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("774efb11-e918-494b-b0fe-ba1dcebe2d3f",
@@ -1722,6 +1744,7 @@ return basic_type;',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("f1d594b3-7603-469a-9527-b56b7335152c",
@@ -1773,6 +1796,7 @@ return object_declaration;',
 	"ccbbc697-c60c-4034-8e31-7a46032151eb",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("66989b34-b3b9-40c7-9003-7131c1400ea7",
@@ -1826,6 +1850,7 @@ LOG::LogInfo( message:"RerentialAttribute_resolve ...done" );',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO PE_PE
 	VALUES ("7e16d0ec-cf38-43c4-8cef-4411b5e996a7",
@@ -1843,6 +1868,7 @@ return code_block;',
 	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO PE_PE
 	VALUES ("7303379d-9ea1-4635-815e-8b7d8d066f28",
@@ -1861,6 +1887,7 @@ return type_declaration;',
 	"1a85f47e-89ea-4d0e-9a09-afc952412df3",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("a50c6fc0-ea03-4354-bc03-e0d0673cdec0",
@@ -1883,7 +1910,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<TypeDeclaration>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/type/type.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("55fa57d5-d44f-48f8-8323-3cb337bcaec4",
 	"00000000-0000-0000-0000-000000000000",
@@ -1899,6 +1926,7 @@ return basic_type;',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("289a6fff-8b46-43c0-8136-eba6399f4e1f",
@@ -1927,6 +1955,7 @@ return domain_service;',
 	"ffebe79c-5289-41c4-9a6c-4c6b8346d989",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("09413ee9-a2d2-46e7-9f67-d5e5f6090aac",
@@ -1952,7 +1981,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Domain>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/domain/domain.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
 INSERT INTO PE_PE
 	VALUES ("f312e9b1-8c3c-461f-bada-efffcdee7f68",
 	1,
@@ -1965,7 +1994,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<DomainService>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/domain/domain.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("185f25e7-fb5f-41b3-91eb-7f360595cb95",
 	"00000000-0000-0000-0000-000000000000",
@@ -1977,6 +2006,7 @@ return domain_terminator;',
 	"d32c0dae-6ff9-4154-9607-21e8f5db2bb8",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("2a8e711a-f1aa-4919-8b01-3a60a3230113",
@@ -2008,7 +2038,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<DomainTerminator>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/domain/domain.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("3ad60fe9-9a57-4955-a8c9-3df3bb887e34",
 	"00000000-0000-0000-0000-000000000000",
@@ -2019,6 +2049,7 @@ return domain;',
 	"d467079c-c61e-4b05-8498-3fe2f24782a6",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("072ac875-33ed-4699-9b88-11b39fb1daa0",
@@ -2074,6 +2105,7 @@ return basic_type;',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("57dc5c23-4548-48db-84a0-4e96fc842d73",
@@ -2108,7 +2140,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<OrderingExpression>',
 	'',
 	'',
-	'../../../../../../ooamasl/models/ooamasl/expression/expression.xtuml');
+	'../../../../../../ooamasl/models/ooamasl/ooamasl/expression/expression.xtuml');
 INSERT INTO PE_PE
 	VALUES ("ff9cb924-1cfd-4c72-ba29-c0b2515d7a4f",
 	1,
@@ -2146,6 +2178,7 @@ end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
+	0,
 	0);
 INSERT INTO S_SPARM
 	VALUES ("efa67cc3-18fc-4810-a81a-04a468df16f0",
@@ -2195,6 +2228,7 @@ INSERT INTO C_C_PROXY
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	0,
+	'',
 	'',
 	'../stratus.xtuml');
 INSERT INTO S_SYS_PROXY
