@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("96361694-b459-40f2-a701-8c2db16a4f5f",
-	'UserDefinedException',
+	'UserDefinedExceptionReference',
 	5403,
-	'UserDefinedException',
+	'UserDefinedExceptionReference',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_ID

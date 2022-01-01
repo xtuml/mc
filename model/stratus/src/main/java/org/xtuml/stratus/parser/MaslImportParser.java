@@ -34,7 +34,7 @@ public class MaslImportParser implements IGenericLoader {
             ParserRuleContext ctx = parser.target();
 
             // Walk the parse tree
-            MaslPopulator listener = new MaslPopulator(input, loader);
+            MaslPopulator listener = new MaslPopulator(input, loader, new File(fn).getName());
             listener.visit(ctx);
 
         } catch (IOException e) {

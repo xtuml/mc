@@ -10,8 +10,9 @@ import io.ciera.runtime.summit.exceptions.XtumlException;
 
 public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
-    private CharStream input;
-    private LOAD loader;
+    private final CharStream input;
+    private final LOAD loader;
+    private final String filename;
 
     private Object emptyObject;
     private Object emptyCodeBlock;
@@ -64,9 +65,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         System.exit(1);
     }
 
-    public MaslPopulator(CharStream input, LOAD loader) {
+    public MaslPopulator(CharStream input, LOAD loader, String filename) {
         this.input = input;
         this.loader = loader;
+        this.filename = filename;
     }
 
     @Override
@@ -183,7 +185,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 loader.relate(exceptionReference, builtin, 5401, "");
                 loader.set_attribute(builtin, "flavor", ctx.exceptionName().getText());
             } else {
-                Object userException = loader.create("UserDefinedException");
+                Object userException = loader.create("UserDefinedExceptionReference");
                 loader.relate(exceptionReference, userException, 5401, "");
                 loader.relate(exceptionDeclaration, userException, 5402, "");
             }
@@ -1179,6 +1181,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
             currentService = loader.call_function("select_Service_where_name", ctx.domainName().getText(),
                     ctx.serviceName().getText());
+            loader.set_attribute(currentService, "filename", filename);
             visit(ctx.codeBlock());
             return currentService;
         } catch (XtumlException e) {
@@ -1193,6 +1196,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
             currentService = loader.call_function("select_DomainTerminatorService_where_name",
                     ctx.domainName().getText(), ctx.terminatorName().getText(), ctx.serviceName().getText());
+            loader.set_attribute(currentService, "filename", filename);
             visit(ctx.codeBlock());
             return currentService;
         } catch (XtumlException e) {
@@ -1208,6 +1212,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentBodyObject = visit(ctx.objectReference());
             currentOOAState = loader.call_function("select_State_related_where_name", currentBodyObject,
                     ctx.stateName().getText());
+            loader.set_attribute(currentOOAState, "filename", filename);
             visit(ctx.codeBlock());
             return currentOOAState;
         } catch (XtumlException e) {
@@ -1223,6 +1228,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentBodyObject = visit(ctx.objectReference());
             currentService = loader.call_function("select_ObjectService_where_name", currentBodyObject,
                     ctx.serviceName().getText());
+            loader.set_attribute(currentService, "filename", filename);
             visit(ctx.codeBlock());
             return currentService;
         } catch (XtumlException e) {
@@ -1235,9 +1241,6 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitCodeBlock(MaslParser.CodeBlockContext ctx) {
         try {
             Object codeBlock = loader.create("MaslCodeBlock");
-            String actionText = input.getText(new Interval(ctx.statementList().getStart().getStartIndex(),
-                    ctx.statementList().getStop().getStopIndex()));
-            loader.set_attribute(codeBlock, "actions", actionText);
             // TODO - nest the code_block instances.
             if (currentService != null) {
                 loader.relate(codeBlock, currentService, 5403, "");
@@ -1292,6 +1295,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             String actionText = input
                     .getText(new Interval(ctx.getStart().getStartIndex(), ctx.getStop().getStopIndex()));
             loader.set_attribute(variableDefinition, "actions", actionText);
+            loader.set_attribute(variableDefinition, "line_number", ctx.getStart().getLine());
             loader.relate(visit(ctx.typeReferenceWithCA()), variableDefinition, 5137, "");
             if (ctx.expression() != null) {
                 loader.relate(visit(ctx.expression()), variableDefinition, 5138, "");
@@ -1314,6 +1318,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 String actionText = input
                         .getText(new Interval(ctx2.getStart().getStartIndex(), ctx2.getStop().getStopIndex()));
                 loader.set_attribute(statement, "actions", actionText);
+                loader.set_attribute(statement, "line_number", ctx2.getStart().getLine());
                 if (previousStatement == null) {
                     firstStatement = statement;
                 } else {
@@ -2271,9 +2276,12 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         try {
             Object handler = loader.create("ExceptionHandler");
             loader.set_attribute(handler, "isother", false);
+            String actionText = input.getText(
+                    new Interval(ctx.WHEN().getSymbol().getStartIndex(), ctx.GOES_TO().getSymbol().getStopIndex()));
+            loader.set_attribute(handler, "actions", actionText);
             loader.relate(visit(ctx.exceptionReference()), handler, 5108, "");
             Object firstStatement = visit(ctx.statementList());
-            if (!((IModelInstance<?, ?>) firstStatement).isEmpty()) {
+            if (firstStatement != null) {
                 loader.relate(firstStatement, handler, 5152, "");
             }
             return handler;
@@ -2288,8 +2296,11 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         try {
             Object handler = loader.create("ExceptionHandler");
             loader.set_attribute(handler, "isother", true);
+            String actionText = input.getText(
+                    new Interval(ctx.WHEN().getSymbol().getStartIndex(), ctx.GOES_TO().getSymbol().getStopIndex()));
+            loader.set_attribute(handler, "actions", actionText);
             Object firstStatement = visit(ctx.statementList());
-            if (!((IModelInstance<?, ?>) firstStatement).isEmpty()) {
+            if (firstStatement != null) {
                 loader.relate(firstStatement, handler, 5152, "");
             }
             return handler;
