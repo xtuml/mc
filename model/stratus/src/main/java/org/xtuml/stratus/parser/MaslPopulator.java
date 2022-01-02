@@ -1315,16 +1315,18 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object previousStatement = null;
             for (MaslParser.StatementContext ctx2 : ctx.statement()) {
                 Object statement = visit(ctx2);
-                String actionText = input
-                        .getText(new Interval(ctx2.getStart().getStartIndex(), ctx2.getStop().getStopIndex()));
-                loader.set_attribute(statement, "actions", actionText);
-                loader.set_attribute(statement, "line_number", ctx2.getStart().getLine());
-                if (previousStatement == null) {
-                    firstStatement = statement;
-                } else {
-                    loader.relate(statement, previousStatement, 5155, "succeeds");
+                if (statement != null) {
+                    String actionText = input
+                            .getText(new Interval(ctx2.getStart().getStartIndex(), ctx2.getStop().getStopIndex()));
+                    loader.set_attribute(statement, "actions", actionText);
+                    loader.set_attribute(statement, "line_number", ctx2.getStart().getLine());
+                    if (previousStatement == null) {
+                        firstStatement = statement;
+                    } else {
+                        loader.relate(statement, previousStatement, 5155, "succeeds");
+                    }
+                    previousStatement = statement;
                 }
-                previousStatement = statement;
             }
             return firstStatement;
         } catch (XtumlException e) {
@@ -1336,7 +1338,11 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitStatement(MaslParser.StatementContext ctx) {
         try {
-            Object statement = loader.create("MaslStatement");
+            Object statement = null;
+            if (ctx.nullStatement() == null) {
+                // Don't create a statement for the "null" statement
+                statement = loader.create("MaslStatement");
+            }
             if (ctx.assignStatement() != null) {
                 loader.relate(visit(ctx.assignStatement()), statement, 5135, "");
             } else if (ctx.streamStatement() != null) {
@@ -1986,16 +1992,16 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitPostfixExpression(MaslParser.PostfixExpressionContext ctx) {
         try {
             if (ctx.root != null) {
-                if (ctx.DOT() != null) {
-                    Object expression = loader.call_function("create_DotExpression", visit(ctx.root),
-                            ctx.identifier().getText());
-                    return expression;
-                } else if (ctx.argumentList() != null) {
+                if (ctx.argumentList() != null) {
                     Object expression = visit(ctx.root);
                     Object firstArgument = visit(ctx.argumentList());
                     if (firstArgument != null) {
                         loader.call_function("resolve_Expression_ArgumentList", expression, firstArgument);
                     }
+                    return expression;
+                } else if (ctx.DOT() != null) {
+                    Object expression = loader.call_function("create_DotExpression", visit(ctx.root),
+                            ctx.identifier().getText());
                     return expression;
                 } else if (ctx.TERMINATOR_SCOPE() != null) {
                     Object expression = visit(ctx.root);
@@ -2030,6 +2036,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     Object expression = visit(ctx.root);
                     loader.call_function("resolve_TerminatorServiceInvocation", expression, ctx.identifier().getText());
                     return expression;
+                } else if (ctx.characteristic() != null) {
+                    Object expression = visit(ctx.characteristic());
+                    loader.call_function("resolve_CharacteristicExpression", expression, visit(ctx.root));
+                    return expression;
                 } else {
                     System.err.println("Unsupported postfix expression");
                     return null;
@@ -2045,21 +2055,14 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitPrimaryExpression(MaslParser.PrimaryExpressionContext ctx) {
-        try {
-            if (ctx.literal() != null) {
-                return visit(ctx.literal());
-            } else if (ctx.parenthesisedExpression() != null) {
-                return visit(ctx.parenthesisedExpression());
-            } else if (ctx.nameExpression() != null) {
-                return visit(ctx.nameExpression());
-            } else {
-                // TODO
-                if (false)
-                    throw new XtumlException("");
-                return null;
-            }
-        } catch (XtumlException e) {
-            xtumlTrace(e, "");
+        if (ctx.literal() != null) {
+            return visit(ctx.literal());
+        } else if (ctx.parenthesisedExpression() != null) {
+            return visit(ctx.parenthesisedExpression());
+        } else if (ctx.nameExpression() != null) {
+            return visit(ctx.nameExpression());
+        } else {
+            System.err.println("Unsupported primary expression");
             return null;
         }
     }
