@@ -2343,4 +2343,16 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         }
     }
 
+    @Override
+    public Object visitDelayStatement(MaslParser.DelayStatementContext ctx) {
+        try {
+            Object statement = loader.create("DelayStatement");
+            loader.relate(visit(ctx.expression()), statement, 5104, "");
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
 }
