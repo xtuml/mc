@@ -2313,4 +2313,34 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         }
     }
 
+    @Override
+    public Object visitExitStatement(MaslParser.ExitStatementContext ctx) {
+        try {
+            Object statement = loader.create("ExitStatement");
+            if (ctx.condition() != null) {
+                loader.relate(visit(ctx.condition()), statement, 5109, "");
+            }
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitWhileStatement(MaslParser.WhileStatementContext ctx) {
+        try {
+            Object statement = loader.create("WhileStatement");
+            loader.relate(visit(ctx.condition()), statement, 5142, "");
+            Object firstStatement = visit(ctx.statementList());
+            if (firstStatement != null) {
+                loader.relate(firstStatement, statement, 5141, "");
+            }
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
 }
