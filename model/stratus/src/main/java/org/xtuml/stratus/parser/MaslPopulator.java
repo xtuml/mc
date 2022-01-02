@@ -2355,4 +2355,16 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         }
     }
 
+    @Override
+    public Object visitDeleteStatement(MaslParser.DeleteStatementContext ctx) {
+        try {
+            Object statement = loader.create("DeleteStatement");
+            loader.relate(visit(ctx.expression()), statement, 5105, "");
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
 }
