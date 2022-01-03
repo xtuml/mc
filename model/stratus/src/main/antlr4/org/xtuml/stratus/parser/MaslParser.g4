@@ -588,12 +588,8 @@ statement                     : ( codeBlockStatement
                                 | caseStatement
                                 | forStatement
                                 | whileStatement
-                                | emptyStatement
                                 )
                                 SEMI pragmaList
-                              ;
-
-emptyStatement                :
                               ;
 
 nullStatement                 : NULL

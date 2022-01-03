@@ -347,6 +347,29 @@ end if;
 
 // TODO - provide subtyping maybe from DotExpression <- SelectedAttributeExpression, SelectedComponentExpression, TypeNameExpression, ObjectNameExpresion
 
+// Look for class based operation access.
+select one object_reference related by lhs->ObjectNameExpression[R5517];
+if (not_empty object_reference)
+  select many object_services related by object_reference->ObjectDeclaration[R5533]->ObjectService[R5808] where (not selected.isInstance);
+  select any service related by object_services->Service[R5203] where (selected.name == param.name);
+  if (not_empty service)
+    create object instance call_expr of CallExpression;
+    relate call_expr to expression across R5517;
+		create object instance service_invocation of ServiceInvocation;
+		relate service_invocation to call_expr across R5500;
+		create object instance object_service_invocation of ObjectServiceInvocation;
+		relate object_service_invocation to service_invocation across R5610;
+		select one object_service related by service->ObjectService[R5203];
+		relate object_service to object_service_invocation across R5613;
+		select one basic_type related by service->BasicType[R5205];
+		if (not_empty basic_type)
+      relate basic_type to expression across R5570;
+    end if;
+    LOG::LogInfo(message:"create_DotExpression:  object service invocation:  " + param.name);
+    return expression;
+  end if;
+end if;
+
 // Look for attribute access.
 select one instance_type related by lhs_basic_type->InstanceType[R6205];
 if (not_empty instance_type)
@@ -382,30 +405,7 @@ if (not_empty instance_type)
     return expression;
   end if;
 end if;
-
-// Look for class based operation access.
-select one object_reference related by lhs->ObjectNameExpression[R5517];
-if (not_empty object_reference)
-  select many object_services related by object_reference->ObjectDeclaration[R5533]->ObjectService[R5808] where (not selected.isInstance);
-  select any service related by object_services->Service[R5203] where (selected.name == param.name);
-  if (not_empty service)
-    create object instance call_expr of CallExpression;
-    relate call_expr to expression across R5517;
-		create object instance service_invocation of ServiceInvocation;
-		relate service_invocation to call_expr across R5500;
-		create object instance object_service_invocation of ObjectServiceInvocation;
-		relate object_service_invocation to service_invocation across R5610;
-		select one object_service related by service->ObjectService[R5203];
-		relate object_service to object_service_invocation across R5613;
-		select one basic_type related by service->BasicType[R5205];
-		if (not_empty basic_type)
-      relate basic_type to expression across R5570;
-    end if;
-    LOG::LogInfo(message:"create_DotExpression:  object service invocation:  " + param.name);
-    return expression;
-  end if;
-end if;
-  
+ 
 // Look for structure element.
 /* TODO
 select one structure_type related by lhs_basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
@@ -1447,6 +1447,8 @@ if (not_empty object_declaration)
   create object instance obj_name_expr of ObjectNameExpression;
   relate obj_name_expr to expr across R5517;
   relate object_declaration to obj_name_expr across R5533;
+  type = ::select_create_InstanceType(object_declaration:object_declaration, isset:true);
+  relate type to expr across R5570;
   LOG::LogInfo(message:"resolved name [object]: ''" + param.name + "''");
   return expr;
 end if;
