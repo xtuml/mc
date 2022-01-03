@@ -2367,4 +2367,41 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         }
     }
 
+    @Override
+    public Object visitForStatement(MaslParser.ForStatementContext ctx) {
+        try {
+            Object statement = loader.create("ForStatement");
+            loader.relate(visit(ctx.loopVariableSpec()), statement, 5110, "");
+            Object firstStatement = visit(ctx.statementList());
+            if (firstStatement != null) {
+                loader.relate(firstStatement, statement, 5153, "");
+            }
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitLoopVariableSpec(MaslParser.LoopVariableSpecContext ctx) {
+        try {
+            Object loopSpec = loader.create("LoopSpec");
+            loader.set_attribute(loopSpec, "isreverse", ctx.REVERSE() != null);
+            loader.set_attribute(loopSpec, "loopVariable", ctx.identifier().getText());
+            // Loop variables are implicitly declared. Create it.
+            Object variableDefinition = loader.create("VariableDefinition");
+            loader.set_attribute(variableDefinition, "name", ctx.identifier().getText());
+            loader.set_attribute(variableDefinition, "isreadonly", true);
+            loader.relate(variableDefinition, loopSpec, 5154, "");
+            loader.relate(variableDefinition, currentCodeBlock, 5151, "");
+            Object basicType = loader.call_function("resolve_LoopSpec", loopSpec, visit(ctx.expression()));
+            loader.relate(basicType, variableDefinition, 5137, "");
+            return loopSpec;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
 }

@@ -1905,7 +1905,9 @@ elif characteristic.characteristic == "scheduled" or characteristic.characterist
   select any boolean_builtin from instances of BuiltinType where "" + selected.name == "boolean";
   select one boolean_type related by boolean_builtin->BasicType[R6205];
   relate boolean_type to expression across R5570;
-end if;',
+end if;
+
+// TODO fill out for all characteristics',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
@@ -1931,6 +1933,102 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("d0c79f76-2f61-4609-950b-4c8fb05f3c31",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2b0f2e47-71e0-4f17-85f8-0aa79463d50a",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_LoopSpec',
+	'',
+	'loop_spec = param.loop_spec;
+expression = param.expression;
+
+// determine the flavor of loop expression.
+// resolve the subtype.
+// return the type of the loop variable
+
+select any basic_type from instances of BasicType where false;
+
+select one min_max_range related by expression->RangeExpression[R5517]->MinMaxRange[R5540];
+if not_empty min_max_range
+  create object instance from_to_range of FromToRange;
+  relate from_to_range to loop_spec across R5123;
+  relate min_max_range to from_to_range across R5111;
+  // the type of a min/max range expression is the type of the min or max epression
+  // (I arbitrarily choose max because that''s what the C++ model compiler does)
+  select one basic_type related by min_max_range->MaslExpression[R5528]->BasicType[R5570];
+else
+  select one characteristic_expression related by expression->CallExpression[R5517]->CharacteristicExpression[R5500];
+  if not_empty characteristic_expression and characteristic_expression.characteristic == "elements"
+    create object instance variable_elements of VariableElements;
+    relate variable_elements to loop_spec across R5123;
+    relate expression to variable_elements across R5139;
+    // the type of a variable elements expression is the base type of the collection
+    select one basic_type related by expression->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
+  elif not_empty characteristic_expression and characteristic_expression.characteristic == "range"
+    select one type_name_expression related by characteristic_expression->MaslExpression[R5504] where false; // TODO need to be able to reference types
+    if not_empty type_name_expression
+      // TODO
+    else
+      create object instance variable_range of VariableRange;
+      relate variable_range to loop_spec across R5123;
+      relate expression to variable_range across R5140;
+      // the type of a variable range expression is either the range type (if the variable is an array) or integer
+      select one basic_type related by expression->BasicType[R5570]->CollectionType[R6205]->ArrayType[R6207]->MaslExpression[R6201]->BasicType[R5570];
+      if empty basic_type
+        select any integer_type from instances of BuiltinType where "" + selected.name == "integer";
+        select one basic_type related by integer_type->BasicType[R6205];
+      end if;
+    end if;
+  else
+    select one collection_type related by expression->BasicType[R5570]->CollectionType[R6205];
+    if not_empty collection_type
+      create object instance variable_elements of VariableElements;
+      relate variable_elements to loop_spec across R5123;
+      relate expression to variable_elements across R5139;
+      // the type of a variable elements expression is the base type of the collection
+      select one basic_type related by expression->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
+    else
+      LOG::LogFailure(message:"Could not determine type of loop spec variable");
+    end if;
+  end if;
+end if;
+
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0,
+	9);
+INSERT INTO S_SPARM
+	VALUES ("616cce8b-3e85-4dc9-b80d-a0fa8bf41f36",
+	"2b0f2e47-71e0-4f17-85f8-0aa79463d50a",
+	'loop_spec',
+	"c60f6c86-bba8-4cc5-b3d8-ebf816da1798",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("c60f6c86-bba8-4cc5-b3d8-ebf816da1798",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<LoopSpec>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("1fffd28c-693f-4306-9f26-f85f62d96d68",
+	"2b0f2e47-71e0-4f17-85f8-0aa79463d50a",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"616cce8b-3e85-4dc9-b80d-a0fa8bf41f36",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2b0f2e47-71e0-4f17-85f8-0aa79463d50a",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",

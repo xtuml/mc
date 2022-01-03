@@ -92,45 +92,6 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../../../../ooamasl/models/ooamasl/ooamasl/object/object.xtuml');
 INSERT INTO S_SYNC
-	VALUES ("278ffe08-a5e0-47b1-abe4-12b974cc367a",
-	"00000000-0000-0000-0000-000000000000",
-	'select_BasicType_related_CollectionType',
-	'',
-	'collection_basic_type = param.collection_basic_type;
-select one basic_type related by collection_basic_type->CollectionType[R6205]->BasicType[R6208];
-// TODO - remove
-if ( empty basic_type )
-  return collection_basic_type;
-end if;
-return basic_type;',
-	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
-	1,
-	'',
-	0,
-	0);
-INSERT INTO S_SPARM
-	VALUES ("5dea213c-6959-4065-b7ad-a081ae4f31ac",
-	"278ffe08-a5e0-47b1-abe4-12b974cc367a",
-	'collection_basic_type',
-	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("f2470f88-fc4a-406d-ba1c-54179e448ed4",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<BasicType>',
-	'',
-	'',
-	'../../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
-INSERT INTO PE_PE
-	VALUES ("278ffe08-a5e0-47b1-abe4-12b974cc367a",
-	1,
-	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
 	VALUES ("00b78a59-4c87-4edd-a271-bda67bece0c8",
 	"00000000-0000-0000-0000-000000000000",
 	'select_BasicType_where_name',
