@@ -1245,19 +1245,19 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object oldCodeBlock = currentCodeBlock;
             currentCodeBlock = codeBlock;
             loader.set_attribute(codeBlock, "topLevel", true);
-            
+
             // link to the service or state as the top level block
             if (currentService != null) {
                 loader.relate(codeBlock, currentService, 5403, "");
             } else {
                 loader.relate(codeBlock, currentOOAState, 6115, "");
             }
-            
+
             // variable declarations
             for (MaslParser.VariableDeclarationContext ctx2 : ctx.variableDeclaration()) {
                 loader.relate(visit(ctx2), codeBlock, 5151, "");
             }
-            
+
             // statements
             if (ctx.statementList() != null) {
                 Object firstStatement = visit(ctx.statementList());
@@ -1283,7 +1283,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     loader.relate(exceptionHandler, previousExceptionHandler, 5162, "follows");
                 }
             }
-            
+
             // replace old current code block
             currentCodeBlock = oldCodeBlock;
             return codeBlock;
@@ -1303,7 +1303,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.set_attribute(codeBlock, "topLevel", false);
             Object statement = loader.create("CodeBlockStatement");
             loader.relate(statement, codeBlock, 5163, "");
-            
+
             // nest this code block within the current block
             loader.relate(codeBlock, oldCodeBlock, 5160, "nested_within");
 
@@ -2394,6 +2394,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitWhileStatement(MaslParser.WhileStatementContext ctx) {
         try {
             Object statement = loader.create("WhileStatement");
+            String actionText = input
+                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.LOOP(0).getSymbol().getStopIndex()));
+            loader.set_attribute(statement, "actions", actionText);
             loader.relate(visit(ctx.condition()), statement, 5142, "");
             Object firstStatement = visit(ctx.statementList());
             if (firstStatement != null) {
@@ -2434,6 +2437,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitForStatement(MaslParser.ForStatementContext ctx) {
         try {
             Object statement = loader.create("ForStatement");
+            String actionText = input
+                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.LOOP(0).getSymbol().getStopIndex()));
+            loader.set_attribute(statement, "actions", actionText);
             loader.relate(visit(ctx.loopVariableSpec()), statement, 5110, "");
             Object firstStatement = visit(ctx.statementList());
             if (firstStatement != null) {
