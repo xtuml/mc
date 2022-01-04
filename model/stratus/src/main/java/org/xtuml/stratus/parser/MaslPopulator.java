@@ -1240,27 +1240,32 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitCodeBlock(MaslParser.CodeBlockContext ctx) {
         try {
+            // create code block
             Object codeBlock = loader.create("MaslCodeBlock");
-            // TODO - nest the code_block instances.
+            Object oldCodeBlock = currentCodeBlock;
+            currentCodeBlock = codeBlock;
+            loader.set_attribute(codeBlock, "topLevel", true);
+            
+            // link to the service or state as the top level block
             if (currentService != null) {
                 loader.relate(codeBlock, currentService, 5403, "");
             } else {
                 loader.relate(codeBlock, currentOOAState, 6115, "");
             }
-            if (!((IModelInstance<?, ?>) currentCodeBlock).isEmpty()) {
-                loader.relate(codeBlock, currentCodeBlock, 5160, "nested_within");
-            }
-            Object oldCodeBlock = currentCodeBlock;
-            currentCodeBlock = codeBlock;
+            
+            // variable declarations
             for (MaslParser.VariableDeclarationContext ctx2 : ctx.variableDeclaration()) {
                 loader.relate(visit(ctx2), codeBlock, 5151, "");
             }
+            
+            // statements
             if (ctx.statementList() != null) {
                 Object firstStatement = visit(ctx.statementList());
                 if (firstStatement != null) {
                     loader.relate(firstStatement, codeBlock, 5150, "");
                 }
             }
+
             // exception handlers
             Object previousExceptionHandler = null;
             for (MaslParser.ExceptionHandlerContext ctx2 : ctx.exceptionHandler()) {
@@ -1278,8 +1283,64 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     loader.relate(exceptionHandler, previousExceptionHandler, 5162, "follows");
                 }
             }
+            
+            // replace old current code block
             currentCodeBlock = oldCodeBlock;
             return codeBlock;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitCodeBlockStatement(MaslParser.CodeBlockStatementContext ctx) {
+        try {
+            // create code block and statement
+            Object codeBlock = loader.create("MaslCodeBlock");
+            Object oldCodeBlock = currentCodeBlock;
+            currentCodeBlock = codeBlock;
+            loader.set_attribute(codeBlock, "topLevel", false);
+            Object statement = loader.create("CodeBlockStatement");
+            loader.relate(statement, codeBlock, 5163, "");
+            
+            // nest this code block within the current block
+            loader.relate(codeBlock, oldCodeBlock, 5160, "nested_within");
+
+            // variable declarations
+            for (MaslParser.VariableDeclarationContext ctx2 : ctx.variableDeclaration()) {
+                loader.relate(visit(ctx2), codeBlock, 5151, "");
+            }
+
+            // statements
+            if (ctx.statementList() != null) {
+                Object firstStatement = visit(ctx.statementList());
+                if (firstStatement != null) {
+                    loader.relate(firstStatement, codeBlock, 5150, "");
+                }
+            }
+
+            // exception handlers
+            Object previousExceptionHandler = null;
+            for (MaslParser.ExceptionHandlerContext ctx2 : ctx.exceptionHandler()) {
+                Object exceptionHandler = visit(ctx2);
+                loader.relate(exceptionHandler, codeBlock, 5149, "");
+                if (previousExceptionHandler != null) {
+                    loader.relate(exceptionHandler, previousExceptionHandler, 5162, "follows");
+                }
+                previousExceptionHandler = exceptionHandler;
+            }
+            if (ctx.otherHandler() != null) {
+                Object exceptionHandler = visit(ctx.otherHandler());
+                loader.relate(exceptionHandler, codeBlock, 5149, "");
+                if (previousExceptionHandler != null) {
+                    loader.relate(exceptionHandler, previousExceptionHandler, 5162, "follows");
+                }
+            }
+
+            // replace old current code block
+            currentCodeBlock = oldCodeBlock;
+            return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1377,6 +1438,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 loader.relate(visit(ctx.forStatement()), statement, 5135, "");
             } else if (ctx.whileStatement() != null) {
                 loader.relate(visit(ctx.whileStatement()), statement, 5135, "");
+            } else if (ctx.codeBlockStatement() != null) {
+                loader.relate(visit(ctx.codeBlockStatement()), statement, 5135, "");
             }
             return statement;
         } catch (XtumlException e) {
