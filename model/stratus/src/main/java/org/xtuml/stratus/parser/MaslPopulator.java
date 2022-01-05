@@ -1,6 +1,11 @@
 package org.xtuml.stratus.parser;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.stream.Collectors;
+
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.misc.Interval;
 
@@ -1637,7 +1642,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             String actionText = input
                     .getText(new Interval(ctx.getStart().getStartIndex(), ctx.THEN().getSymbol().getStopIndex()));
             loader.set_attribute(alternative, "actions", actionText);
-            loader.relate(visit(ctx.condition()), alternative, 5147, "");
+            loader.relate_using(visit(ctx.condition()), alternative, loader.create("AlternativeExpression"), 5147, null);
             if (ctx.statementList() != null) {
                 Object firstStatement = visit(ctx.statementList());
                 if (firstStatement != null) {
@@ -2471,6 +2476,91 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             xtumlTrace(e, "");
             return null;
         }
+    }
+
+    @Override
+    public Object visitCaseStatement(MaslParser.CaseStatementContext ctx) {
+        try {
+            Object statement = loader.create("CaseStatement");
+            loader.relate(visit(ctx.expression()), statement, 5103, "");
+            String actionText = input
+                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.IS().getSymbol().getStopIndex()));
+            loader.set_attribute(statement, "actions", actionText);
+            // handle discrete alternatives
+            Object previousAlternative = null;
+            for (MaslParser.CaseAlternativeContext ctx2 : ctx.caseAlternative()) {
+                Object alternative = visit(ctx2);
+                loader.relate(alternative, statement, 5146, "");
+                if (previousAlternative != null) {
+                    loader.relate(alternative, previousAlternative, 5158, "succeeds");
+                }
+                previousAlternative = alternative;
+            }
+            // handle default alternative
+            if (ctx.caseOthers() != null) {
+                Object alternative = visit(ctx.caseOthers());
+                loader.relate(alternative, statement, 5146, "");
+                if (previousAlternative != null) {
+                    loader.relate(alternative, previousAlternative, 5158, "succeeds");
+                }
+                previousAlternative = alternative;
+            }
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Object visitCaseAlternative(MaslParser.CaseAlternativeContext ctx) {
+        try {
+            Object alternative = loader.create("Alternative");
+            loader.set_attribute(alternative, "else_otherwise", false);
+            String actionText = input
+                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.GOES_TO().getSymbol().getStopIndex()));
+            loader.set_attribute(alternative, "actions", actionText);
+            // link all choices
+            for (ListIterator<Object> choices = ((List<Object>) visit(ctx.choiceList())).listIterator(); choices
+                    .hasNext();) {
+                Object altExpr = loader.create("AlternativeExpression");
+                loader.set_attribute(altExpr, "order", choices.nextIndex());
+                loader.relate_using(choices.next(), alternative, altExpr, 5147, null);
+            }
+            Object firstStatement = visit(ctx.statementList());
+            if (firstStatement != null) {
+                loader.relate(firstStatement, alternative, 5148, "");
+            }
+            return alternative;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitCaseOthers(MaslParser.CaseOthersContext ctx) {
+        try {
+            Object alternative = loader.create("Alternative");
+            loader.set_attribute(alternative, "else_otherwise", true);
+            String actionText = input
+                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.GOES_TO().getSymbol().getStopIndex()));
+            loader.set_attribute(alternative, "actions", actionText);
+            Object firstStatement = visit(ctx.statementList());
+            if (firstStatement != null) {
+                loader.relate(firstStatement, alternative, 5148, "");
+            }
+            return alternative;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitChoiceList(MaslParser.ChoiceListContext ctx) {
+        return ctx.expression().stream().map(o -> visit(o)).collect(Collectors.toList());
     }
 
 }

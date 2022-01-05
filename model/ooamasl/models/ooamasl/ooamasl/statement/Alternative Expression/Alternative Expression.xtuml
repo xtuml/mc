@@ -1,41 +1,41 @@
 -- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO O_OBJ
-	VALUES ("2e2fe47f-567e-4145-b61b-6aaf8d77526c",
-	'CaseStatement',
-	5102,
-	'CaseStatement',
+	VALUES ("c9eb3de1-3ddc-44e5-8787-d650d06092c5",
+	'Alternative Expression',
+	5143,
+	'AlternativeExpression',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_NBATTR
-	VALUES ("d4742ae2-5e05-4cda-aac9-e9d1e70bb2c8",
-	"2e2fe47f-567e-4145-b61b-6aaf8d77526c");
+	VALUES ("18e6ad87-2ca1-455b-bc4f-fbf75942c3c7",
+	"c9eb3de1-3ddc-44e5-8787-d650d06092c5");
 INSERT INTO O_BATTR
-	VALUES ("d4742ae2-5e05-4cda-aac9-e9d1e70bb2c8",
-	"2e2fe47f-567e-4145-b61b-6aaf8d77526c");
+	VALUES ("18e6ad87-2ca1-455b-bc4f-fbf75942c3c7",
+	"c9eb3de1-3ddc-44e5-8787-d650d06092c5");
 INSERT INTO O_ATTR
-	VALUES ("d4742ae2-5e05-4cda-aac9-e9d1e70bb2c8",
-	"2e2fe47f-567e-4145-b61b-6aaf8d77526c",
+	VALUES ("18e6ad87-2ca1-455b-bc4f-fbf75942c3c7",
+	"c9eb3de1-3ddc-44e5-8787-d650d06092c5",
 	"00000000-0000-0000-0000-000000000000",
-	'actions',
+	'order',
 	'',
 	'',
-	'actions',
+	'order',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	"2e2fe47f-567e-4145-b61b-6aaf8d77526c");
+	"c9eb3de1-3ddc-44e5-8787-d650d06092c5");
 INSERT INTO O_ID
 	VALUES (1,
-	"2e2fe47f-567e-4145-b61b-6aaf8d77526c");
+	"c9eb3de1-3ddc-44e5-8787-d650d06092c5");
 INSERT INTO O_ID
 	VALUES (2,
-	"2e2fe47f-567e-4145-b61b-6aaf8d77526c");
+	"c9eb3de1-3ddc-44e5-8787-d650d06092c5");
 INSERT INTO PE_PE
-	VALUES ("2e2fe47f-567e-4145-b61b-6aaf8d77526c",
+	VALUES ("c9eb3de1-3ddc-44e5-8787-d650d06092c5",
 	1,
 	"ad3ecc1c-9b44-4d18-8c98-a08987d8e9ab",
 	"00000000-0000-0000-0000-000000000000",
