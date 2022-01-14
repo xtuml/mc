@@ -27,10 +27,10 @@ void ${te_prefix.result}InitializeThreading( void )
   u1_t i;
   for ( i = 0; i < NUM_OF_TOTAL_THREADS; i++ ) {
     threadnumber[ i ] = i;
-    nonbusy_wait_cond[ i ] = CreateSemaphore( NULL, 0, 1, NULL );
+    nonbusy_wait_cond[ i ] = CreateSemaphore( NULL, 1, 1, NULL );
   }
   for ( i = 0; i < SEMAPHORE_FLAVOR_MAX; i++ ) {
-    mutices[i] = CreateSemaphore( NULL, 0, 1, NULL );
+    mutices[i] = CreateSemaphore( NULL, 1, 1, NULL );
   }
 }
 
