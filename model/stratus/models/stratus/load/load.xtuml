@@ -982,7 +982,7 @@ if ( not_empty instance_ordering_expression )
   end if;
 else
   select one structure_ordering_expression related by ordering_expression->StructureOrderingExpression[R5534];
-  select one structure_type related by child_basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
+  select one structure_type related by child_basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
   select one structure_element related by structure_type->StructureElement[R6244];
   while ( not_empty structure_element )
     if ( structure_element.name == param.name )

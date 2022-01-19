@@ -366,7 +366,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitStructureTypeDefinition(MaslParser.StructureTypeDefinitionContext ctx) {
         try {
             Object previousComponent = null;
-            Object structureType = loader.create("StructureType");
+            Object structureType = loader.create("MaslStructureType");
             for (Object structureComponentDefinition : ctx.structureComponentDefinition().stream().map(o -> visit(o))
                     .toArray()) {
                 if (previousComponent == null) {
