@@ -60,6 +60,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.call_function("mark_object", currentDomain, currentMarkable, featureName, value);
         } else if (keyLettersAre(currentMarkable, "DomainService")) {
             loader.call_function("mark_domain_service", currentDomain, currentMarkable, featureName, value);
+        } else if (keyLettersAre(currentMarkable, "Domain")) {
+            loader.call_function("mark_domain", currentMarkable, featureName, value);
         }
     }
 
@@ -158,6 +160,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     loader.relate(domainItem, domain, 5400, "");
                 }
             }
+            currentMarkable = domain;
+            visit(ctx.pragmaList());
+            currentMarkable = null;
             return domain;
         } catch (XtumlException e) {
             xtumlTrace(e, "");

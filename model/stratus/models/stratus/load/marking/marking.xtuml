@@ -237,6 +237,50 @@ INSERT INTO PE_PE
 	"cf20d32f-ee33-4e4b-856b-a86d23675ef0",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("75cb7021-4220-40c0-9c6d-ce547a1a3c15",
+	"00000000-0000-0000-0000-000000000000",
+	'mark_domain',
+	'',
+	'::create_mark(markable:"Domain", feature:param.feature_name, path:param.domain.name, value:param.value);',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	1);
+INSERT INTO S_SPARM
+	VALUES ("cccb968c-6196-402a-962d-5a0953b1467c",
+	"75cb7021-4220-40c0-9c6d-ce547a1a3c15",
+	'feature_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"f0f907ca-9287-4780-8e1c-ed6ef2bb1359",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0d57df90-51e6-4a33-894d-50616a4a4bd8",
+	"75cb7021-4220-40c0-9c6d-ce547a1a3c15",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"cccb968c-6196-402a-962d-5a0953b1467c",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f0f907ca-9287-4780-8e1c-ed6ef2bb1359",
+	"75cb7021-4220-40c0-9c6d-ce547a1a3c15",
+	'domain',
+	"d467079c-c61e-4b05-8498-3fe2f24782a6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("75cb7021-4220-40c0-9c6d-ce547a1a3c15",
+	1,
+	"cf20d32f-ee33-4e4b-856b-a86d23675ef0",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("cf20d32f-ee33-4e4b-856b-a86d23675ef0",
 	1,
