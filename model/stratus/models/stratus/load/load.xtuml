@@ -135,7 +135,7 @@ create object instance type_definition of TypeDefinition;
 create object instance basic_type of BasicType;
 create object instance builtin_type of BuiltinType;
 builtin_type.name = "event";
-create object instance event_type of EventType;
+create object instance event_type of MaslEventType;
 relate type_definition to basic_type across R6236;
 relate basic_type to builtin_type across R6205;
 relate builtin_type to event_type across R6206;
