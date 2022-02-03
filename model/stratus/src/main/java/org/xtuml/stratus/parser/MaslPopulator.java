@@ -1552,7 +1552,6 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.set_attribute(statement, "isLink", visit(ctx.linkType()));
             Object lhs = visit(ctx.lhs);
             loader.relate(lhs, statement, 5122, "");
-            currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
             if (ctx.rhs != null) {
                 Object rhs = visit(ctx.rhs);
                 loader.relate(rhs, statement, 5119, "");
@@ -1561,6 +1560,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     loader.relate(visit(ctx.assoc), statement, 5121, "");
                 }
             }
+            currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
             loader.relate(visit(ctx.relationshipSpec()), statement, 5120, "");
             currentRelToObject = emptyObject;
             return statement;
