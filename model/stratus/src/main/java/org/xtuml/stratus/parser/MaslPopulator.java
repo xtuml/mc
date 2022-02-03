@@ -706,7 +706,6 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.set_attribute(objectDeclaration, "name", ctx.objectName().getText());
             currentObject = objectDeclaration;
             previousAttribute = null;
-            boolean nonExistentExists = false;
             // object items
             for (MaslParser.ObjectItemContext ctx2 : ctx.objectItem()) {
                 Object objectItem = visit(ctx2);
@@ -718,14 +717,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 } else if (keyLettersAre(objectItem, "EventDeclaration")) {
                     loader.relate(objectItem, objectDeclaration, 6101, "");
                 } else if (keyLettersAre(objectItem, "MaslState")) {
-                    if (!nonExistentExists) {
-                        // Create a Non_Existent state.
-                        Object ooastate = loader.create("MaslState");
-                        loader.set_attribute(ooastate, "name", "Non_Existent");
-                        loader.relate(ooastate, objectDeclaration, 6105, "");
-                        nonExistentExists = true;
-                    }
                     loader.relate(objectItem, objectDeclaration, 6105, "");
+                    // create non-existent state if applicable
+                    loader.call_function("resolve_Non_Existent", objectDeclaration);
                 } else if (keyLettersAre(objectItem, "TransitionTable")) {
                     loader.relate(objectItem, objectDeclaration, 6113, "");
                 }
@@ -898,10 +892,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
     @Override
     public Object visitStateType(MaslParser.StateTypeContext ctx) {
-        if (ctx.ASSIGNER() != null) {
-            return "StateType::assigner";
-        } else if (ctx.START() != null) {
+        if (ctx.START() != null) {
             return "StateType::assigner_start";
+        } else if (ctx.ASSIGNER() != null) {
+            return "StateType::assigner";
         } else if (ctx.CREATION() != null) {
             return "StateType::creation";
         } else if (ctx.TERMINAL() != null) {

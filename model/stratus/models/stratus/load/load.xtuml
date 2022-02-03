@@ -2033,6 +2033,45 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("d7ab00cc-2a6d-4f76-b901-a5820120a218",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_Non_Existent',
+	'',
+	'object_declaration = param.object_declaration;
+
+select any ne_st related by object_declaration->MaslState[R6105] where "" + selected.name == "Non_Existent";
+if empty ne_st
+  // create the default Non_Existent state if there is at least one instance state
+  select any st related by object_declaration->MaslState[R6105]
+    where selected.flavor == StateType::creation or selected.flavor == StateType::terminal or selected.flavor == StateType::normal;
+  if not_empty st
+    create object instance ne_st of MaslState;
+    ne_st.name = "Non_Existent";
+    ne_st.flavor = StateType::normal;
+    relate ne_st to object_declaration across R6105;
+  end if;
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	10);
+INSERT INTO S_SPARM
+	VALUES ("2c774dea-0025-4e68-a193-43521a97e8e2",
+	"d7ab00cc-2a6d-4f76-b901-a5820120a218",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d7ab00cc-2a6d-4f76-b901-a5820120a218",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	1,
