@@ -19694,7 +19694,7 @@ INSERT INTO R_PART
 	"ba72170a-f76f-42fd-bf6e-ee4ad7b4851f",
 	"dffe8c8b-a4b8-4dd5-90f0-6af1bdd7a073",
 	0,
-	0,
+	1,
 	'sets');
 INSERT INTO R_RTO
 	VALUES ("dc4cc40d-cf97-4750-8395-80954b8e16a0",
@@ -19843,7 +19843,7 @@ INSERT INTO R_PART
 	"b451fe84-afa7-400d-9ee8-0b39096aef8e",
 	"f601be32-bd46-48a9-a3a9-aa5857e5550e",
 	0,
-	0,
+	1,
 	'assigns');
 INSERT INTO R_RTO
 	VALUES ("19d0cbc2-0de3-4a0a-94fa-23b127a74935",

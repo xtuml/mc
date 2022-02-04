@@ -1,10 +1,10 @@
 package org.xtuml.stratus.parser;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.misc.Interval;
@@ -1641,7 +1641,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             String actionText = input
                     .getText(new Interval(ctx.getStart().getStartIndex(), ctx.THEN().getSymbol().getStopIndex()));
             loader.set_attribute(alternative, "actions", actionText);
-            loader.relate_using(visit(ctx.condition()), alternative, loader.create("AlternativeExpression"), 5147, null);
+            loader.relate_using(visit(ctx.condition()), alternative, loader.create("AlternativeExpression"), 5147,
+                    null);
             if (ctx.statementList() != null) {
                 Object firstStatement = visit(ctx.statementList());
                 if (firstStatement != null) {
@@ -1986,6 +1987,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Object visitCreateExpression(MaslParser.CreateExpressionContext ctx) {
         try {
@@ -1997,13 +1999,20 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(createExpression, expression, 5517, "");
             loader.relate(instType, expression, 5570, "");
             currentObject = obj;
-            visit(ctx.createArgumentList());
+            for (Object attributeInitialization : (List<Object>) visit(ctx.createArgumentList())) {
+                loader.relate(attributeInitialization, createExpression, 5566, "");
+            }
             currentObject = emptyObject;
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
         }
+    }
+
+    @Override
+    public Object visitCreateArgumentList(MaslParser.CreateArgumentListContext ctx) {
+        return ctx.createArgument().stream().map(this::visit).collect(Collectors.toList());
     }
 
     @Override
