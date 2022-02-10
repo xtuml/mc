@@ -17932,7 +17932,7 @@ INSERT INTO R_PART
 	"ec6eb6cf-a29f-4d3a-95fa-af06fc9ee255",
 	"e3cb4454-2c50-4cff-9882-bf36121e6ac0",
 	0,
-	0,
+	1,
 	'is_conditioned_by');
 INSERT INTO R_RTO
 	VALUES ("19d0cbc2-0de3-4a0a-94fa-23b127a74935",
@@ -18324,7 +18324,7 @@ INSERT INTO R_PART
 	"beacd0f0-284d-4494-8ad7-58cd6440b63c",
 	"f3cb1eeb-ba9f-4861-9d75-9c4168a95db2",
 	0,
-	0,
+	1,
 	'is_conditioned_by');
 INSERT INTO R_RTO
 	VALUES ("19d0cbc2-0de3-4a0a-94fa-23b127a74935",

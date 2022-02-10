@@ -1777,11 +1777,9 @@ if (not_empty find_expression)
   select one root_type related by find_expression->MaslExpression[R5519]->BasicType[R5570];
   if find_expression.flavor == FindType::find
     relate root_type to expression across R5570;
-  elif find_expression.flavor == FindType::find_one
+  elif (find_expression.flavor == FindType::find_one or find_expression.flavor == FindType::find_only)
     select one root_single_type related by root_type->CollectionType[R6205]->BasicType[R6208];
     relate root_single_type to expression across R5570;
-  elif find_expression.flavor == FindType::find_only
-    // TODO
   end if;
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -1813,12 +1811,14 @@ INSERT INTO S_SYNC
 select one rel_spec related by expression->NavigationExpression[R5517]->RelationshipSpecification[R5531];
 select one lhs_collection related by expression->NavigationExpression[R5517]->MaslExpression[R5532]->BasicType[R5570]->CollectionType[R6205];
 select one to_obj_decl related by rel_spec->ObjectDeclaration[R6011];
+select one from_obj related by rel_spec->ObjectDeclaration[R6014];
+select one using_obj related by rel_spec->RelationshipDeclaration[R6015]->AssociativeRelationshipDeclaration[R6010]->ObjectDeclaration[R6001];
 
 select any nav_type from instances of BasicType where false;
 
 // if the rel spec is a "many" association or the lhs is a collection type,
 // assure that the type of the expression is an instance set
-if (rel_spec.multiplicity == MaslMultiplicity::many or not_empty lhs_collection)
+if not_empty lhs_collection or ((empty using_obj or using_obj != from_obj) and (rel_spec.multiplicity == MaslMultiplicity::many))
   nav_type = ::select_create_InstanceType(object_declaration:to_obj_decl, isset:true);
 else
   nav_type = ::select_create_InstanceType(object_declaration:to_obj_decl, isset:false);
@@ -2074,6 +2074,69 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("d7ab00cc-2a6d-4f76-b901-a5820120a218",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c323ddee-0396-411f-aefc-af182b646bd0",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_FindNameExpression',
+	'',
+	'current_object = param.current_object;
+
+// TODO structure components and array elements
+
+// search for find expression attribute reference
+select any attr_ref related by current_object->AttributeDeclaration[R5802] where selected.name == param.name;
+if not_empty attr_ref
+  create object instance expr of MaslExpression;
+  create object instance find_attr_ref of FindAttributeNameExpression;
+  relate find_attr_ref to expr across R5517;
+  relate attr_ref to find_attr_ref across R5518;
+  select one basic_type related by attr_ref->BasicType[R5803];
+  relate basic_type to expr across R5570;
+  LOG::LogInfo(message:"resolved name [selected attribute reference]: ''" + param.name + "''");
+  return expr;
+end if;
+
+LOG::LogFailure(message:"Could not resolve name expression: " + param.name + ", " + param.comp_name);
+select any expr from instances of MaslExpression where false;
+return expr;',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	1,
+	'',
+	0,
+	2);
+INSERT INTO S_SPARM
+	VALUES ("a23a4ba1-98db-4823-83b6-a409e1576505",
+	"c323ddee-0396-411f-aefc-af182b646bd0",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6c4353eb-d209-43c4-8516-8f5cee805dc6",
+	"c323ddee-0396-411f-aefc-af182b646bd0",
+	'current_object',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"aeb56ca8-2b1c-431c-a7de-77cb30306d2e",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("aeb56ca8-2b1c-431c-a7de-77cb30306d2e",
+	"c323ddee-0396-411f-aefc-af182b646bd0",
+	'comp_name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"a23a4ba1-98db-4823-83b6-a409e1576505",
+	'');
+INSERT INTO PE_PE
+	VALUES ("c323ddee-0396-411f-aefc-af182b646bd0",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",

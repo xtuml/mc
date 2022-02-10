@@ -1709,6 +1709,36 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitWhereClause(MaslParser.WhereClauseContext ctx) {
+        return ctx.findCondition() != null ? visit(ctx.findCondition()) : null;
+    }
+
+    @Override
+    public Object visitFindLogicalOr(MaslParser.FindLogicalOrContext ctx) {
+        try {
+            if (ctx.findLogicalOr() != null) {
+                Object expression = loader.create("MaslExpression");
+                Object binaryExpression = loader.create("BinaryExpression");
+                loader.relate(binaryExpression, expression, 5517, "");
+                Object logicalBinary = loader.create("BinaryLogicalExpression");
+                loader.relate(logicalBinary, binaryExpression, 5000, "");
+                loader.set_attribute(binaryExpression, "operator", "Operator::or_");
+                Object lhs = visit(ctx.lhs);
+                Object rhs = visit(ctx.rhs);
+                loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
+                loader.relate(binaryExpression, lhs, 5001, "");
+                loader.relate(binaryExpression, rhs, 5002, "");
+                return expression;
+            } else {
+                return visit(ctx.findLogicalXor());
+            }
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
     public Object visitLogicalXor(MaslParser.LogicalXorContext ctx) {
         try {
             if (ctx.logicalXor() != null) {
@@ -1726,6 +1756,31 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return expression;
             } else {
                 return visit(ctx.logicalAnd());
+            }
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitFindLogicalXor(MaslParser.FindLogicalXorContext ctx) {
+        try {
+            if (ctx.findLogicalXor() != null) {
+                Object expression = loader.create("MaslExpression");
+                Object binaryExpression = loader.create("BinaryExpression");
+                loader.relate(binaryExpression, expression, 5517, "");
+                Object logicalBinary = loader.create("BinaryLogicalExpression");
+                loader.relate(logicalBinary, binaryExpression, 5000, "");
+                loader.set_attribute(binaryExpression, "operator", "Operator::xor");
+                Object lhs = visit(ctx.lhs);
+                Object rhs = visit(ctx.rhs);
+                loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
+                loader.relate(binaryExpression, lhs, 5001, "");
+                loader.relate(binaryExpression, rhs, 5002, "");
+                return expression;
+            } else {
+                return visit(ctx.findLogicalAnd());
             }
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -1752,6 +1807,80 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             } else {
                 return visit(ctx.equality());
             }
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitFindLogicalAnd(MaslParser.FindLogicalAndContext ctx) {
+        try {
+            if (ctx.findLogicalAnd() != null) {
+                Object expression = loader.create("MaslExpression");
+                Object binaryExpression = loader.create("BinaryExpression");
+                loader.relate(binaryExpression, expression, 5517, "");
+                Object logicalBinary = loader.create("BinaryLogicalExpression");
+                loader.relate(logicalBinary, binaryExpression, 5000, "");
+                loader.set_attribute(binaryExpression, "operator", "Operator::and_");
+                Object lhs = visit(ctx.lhs);
+                Object rhs = visit(ctx.rhs);
+                loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
+                loader.relate(binaryExpression, lhs, 5001, "");
+                loader.relate(binaryExpression, rhs, 5002, "");
+                return expression;
+            } else {
+                return visit(ctx.findPrimary());
+            }
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitFindComparison(MaslParser.FindComparisonContext ctx) {
+        try {
+            Object expression = loader.create("MaslExpression");
+            Object binaryExpression = loader.create("BinaryExpression");
+            loader.relate(binaryExpression, expression, 5517, "");
+            Object compBinary = loader.create("BinaryComparisonExpression");
+            loader.relate(compBinary, binaryExpression, 5000, "");
+            if (ctx.EQUAL() != null) {
+                loader.set_attribute(binaryExpression, "operator", "Operator::equal");
+            } else if (ctx.NOT_EQUAL() != null) {
+                loader.set_attribute(binaryExpression, "operator", "Operator::notequal");
+            } else if (ctx.LT() != null) {
+                loader.set_attribute(binaryExpression, "operator", "Operator::lessthan");
+            } else if (ctx.GT() != null) {
+                loader.set_attribute(binaryExpression, "operator", "Operator::greaterthan");
+            } else if (ctx.LTE() != null) {
+                loader.set_attribute(binaryExpression, "operator", "Operator::lessthanequal");
+            } else if (ctx.GTE() != null) {
+                loader.set_attribute(binaryExpression, "operator", "Operator::greaterthanequal");
+            }
+            Object lhs = visit(ctx.lhs);
+            Object rhs = visit(ctx.rhs);
+            loader.call_function("resolve_BinaryExpression_type", expression, lhs, rhs);
+            loader.relate(binaryExpression, lhs, 5001, "");
+            loader.relate(binaryExpression, rhs, 5002, "");
+            return expression;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+
+    }
+
+    @Override
+    public Object visitFindName(MaslParser.FindNameContext ctx) {
+        try {
+            Object expression = loader.call_function("resolve_FindNameExpression", ctx.att.getText(),
+                    ctx.comp != null ? ctx.comp.getText() : "", currentObject);
+            if (ctx.expression() != null) {
+                // TODO handle array element expression
+            }
+            return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
             return null;
@@ -1961,11 +2090,17 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 loader.relate(navigationExpression, expression, 5517, "");
                 Object lhs = visit(ctx.lhs);
                 loader.relate(lhs, navigationExpression, 5532, "");
+                Object prevCurrentObject = currentObject;
                 currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
                 Object relSpec = visit(ctx.relationshipSpec());
                 loader.relate(relSpec, navigationExpression, 5531, "");
-                currentObject = emptyObject;
                 loader.call_function("resolve_NavigationExpression", expression);
+                currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", expression);
+                Object whereClause = ctx.whereClause() != null ? visit(ctx.whereClause()) : null;
+                if (whereClause != null) {
+                    loader.relate(whereClause, navigationExpression, 5530, "");
+                }
+                currentObject = prevCurrentObject;
                 return expression;
             } else {
                 return visit(ctx.extendedExpression());
@@ -2043,9 +2178,16 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object findExpression = loader.create("FindExpression");
             loader.relate(findExpression, expression, 5517, "");
             loader.set_attribute(findExpression, "flavor", visit(ctx.findType()));
-            loader.relate(visit(ctx.postfixNoCallExpression()), findExpression, 5519, "");
+            Object lhs = visit(ctx.postfixNoCallExpression());
+            loader.relate(lhs, findExpression, 5519, "");
             loader.call_function("resolve_FindExpression_type", expression);
-            // TODO where clause
+            Object prevCurrentObject = currentObject;
+            currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
+            Object whereClause = visit(ctx.whereClause());
+            if (whereClause != null) {
+                loader.relate(whereClause, findExpression, 5520, "");
+            }
+            currentObject = prevCurrentObject;
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "");

@@ -765,11 +765,17 @@ variableName                  : identifier
 
 findCondition                     : findLogicalOr;
 
-findLogicalOr                     : findLogicalXor ( OR findLogicalXor )*;
+findLogicalOr                     : lhs=findLogicalOr OR rhs=findLogicalXor
+                                  | findLogicalXor
+                                  ;
 
-findLogicalXor                    : findLogicalAnd ( XOR findLogicalAnd )*;
+findLogicalXor                    : lhs=findLogicalXor XOR rhs=findLogicalAnd
+                                  | findLogicalAnd
+                                  ;
 
-findLogicalAnd                    : findPrimary ( AND findPrimary )*;
+findLogicalAnd                    : lhs=findLogicalAnd AND rhs=findPrimary
+                                  | findPrimary
+                                  ;
 
 
 findPrimary                       : findComparison
@@ -780,7 +786,7 @@ findUnary                         : NOT findUnary
                                   | LPAREN findCondition RPAREN
                                   ;
 
-findComparison                    : findName ( EQUAL | NOT_EQUAL | LT | GT | LTE | GTE  ) additiveExp;
+findComparison                    : lhs=findName ( EQUAL | NOT_EQUAL | LT | GT | LTE | GTE  ) rhs=additiveExp;
 
 findName                          : att=identifier
                                     ( DOT comp=identifier
