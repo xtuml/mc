@@ -887,9 +887,12 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'OrderingExpression_initialize',
 	'',
-	'ordering_expression = param.ordering_expression;
-child_expression = param.child_expression;
+	'child_expression = param.child_expression;
 
+create object instance expr of MaslExpression;
+
+create object instance ordering_expression of OrderingExpression;
+relate ordering_expression to expr across R5517;
 ordering_expression.isreverse = param.isreverse;
 relate ordering_expression to child_expression across R5535;
 
@@ -917,8 +920,10 @@ relate collection_type to basic_type across R6205;
 relate sequence_type to collection_type across R6207;
 relate collection_type to child_basic_type across R6208;
 
-return basic_type;',
-	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+relate basic_type to expr across R5570;
+
+return expr;',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	1,
 	'',
 	0,
@@ -930,7 +935,7 @@ INSERT INTO S_SPARM
 	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	0,
 	'',
-	"8d4c77d4-fe17-4711-a5fb-652acb129024",
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
 	VALUES ("98ec35b4-1347-4a64-a5a6-e3bc8505da11",
@@ -941,58 +946,41 @@ INSERT INTO S_SPARM
 	'',
 	"88d37daf-bb85-43d0-8d37-5a7979ca6cc0",
 	'');
-INSERT INTO S_SPARM
-	VALUES ("8d4c77d4-fe17-4711-a5fb-652acb129024",
-	"ece8c43b-0559-4bc6-91f2-4805bacb8b63",
-	'ordering_expression',
-	"c91ad4ef-f132-440a-8a85-a39814523746",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("c91ad4ef-f132-440a-8a85-a39814523746",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<OrderingExpression>',
-	'',
-	'',
-	'../../../../ooamasl/models/ooamasl/ooamasl/expression/expression.xtuml');
 INSERT INTO PE_PE
 	VALUES ("ece8c43b-0559-4bc6-91f2-4805bacb8b63",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
-INSERT INTO S_DT_PROXY
-	VALUES ("f2470f88-fc4a-406d-ba1c-54179e448ed4",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<BasicType>',
-	'',
-	'',
-	'../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("20183b0e-40fc-465f-94b7-5494d92bc624",
 	"00000000-0000-0000-0000-000000000000",
 	'OrderingExpression_sort',
 	'',
-	'ordering_expression = param.ordering_expression;
+	'expression = param.expression;
 
-select one child_basic_type related by ordering_expression->MaslExpression[R5535]->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
-select one instance_ordering_expression related by ordering_expression->InstanceOrderingExpression[R5534];
+select one child_basic_type related by expression->OrderingExpression[R5517]->MaslExpression[R5535]->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
+select one instance_ordering_expression related by expression->OrderingExpression[R5517]->InstanceOrderingExpression[R5534];
 if ( not_empty instance_ordering_expression )
   select one instance_type related by child_basic_type->InstanceType[R6205];
   select one object_declaration related by instance_type->ObjectDeclaration[R6220];
   select any attribute_declaration related by object_declaration->AttributeDeclaration[R5802] where ( selected.name == param.name );
   if ( not_empty attribute_declaration )
-    relate attribute_declaration to instance_ordering_expression across R5563;
+    create object instance key of AttributeOrderingKey;
+    key.order = param.index;
+    key.isreverse = param.isreverse;
+    relate attribute_declaration to instance_ordering_expression across R5563 using key;
   end if;
 else
-  select one structure_ordering_expression related by ordering_expression->StructureOrderingExpression[R5534];
+  select one structure_ordering_expression related by expression->OrderingExpression[R5517]->StructureOrderingExpression[R5534];
   select one structure_type related by child_basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
   select one structure_element related by structure_type->StructureElement[R6244];
   while ( not_empty structure_element )
     if ( structure_element.name == param.name )
-      relate structure_element to structure_ordering_expression across R5564;
+      create object instance key of StructureElementOrderingKey;
+      key.order = param.index;
+      key.isreverse = param.isreverse;
+      relate structure_element to structure_ordering_expression across R5564 using key;
       break;
     end if;
     select one structure_element related by structure_element->StructureElement[R6243.''precedes''];
@@ -1006,8 +994,8 @@ end if;',
 INSERT INTO S_SPARM
 	VALUES ("120e9147-178e-45ac-8fb9-475ad8821729",
 	"20183b0e-40fc-465f-94b7-5494d92bc624",
-	'ordering_expression',
-	"c91ad4ef-f132-440a-8a85-a39814523746",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
@@ -1022,13 +1010,22 @@ INSERT INTO S_SPARM
 	"120e9147-178e-45ac-8fb9-475ad8821729",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("090f6775-958f-4976-b78a-4b38c717dd32",
+	VALUES ("616cebf9-3b36-4725-86b0-49abb45c5ede",
 	"20183b0e-40fc-465f-94b7-5494d92bc624",
 	'isreverse',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'',
 	"df97b1a7-79bb-468e-9dc2-dade0205c464",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c2cf44e3-bdae-4707-a7ae-6edd2394f6aa",
+	"20183b0e-40fc-465f-94b7-5494d92bc624",
+	'index',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"616cebf9-3b36-4725-86b0-49abb45c5ede",
 	'');
 INSERT INTO PE_PE
 	VALUES ("20183b0e-40fc-465f-94b7-5494d92bc624",
@@ -1365,6 +1362,13 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<BasicType>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("183c6254-c6e2-4d4e-a5f3-5011775222ab",
 	"00000000-0000-0000-0000-000000000000",

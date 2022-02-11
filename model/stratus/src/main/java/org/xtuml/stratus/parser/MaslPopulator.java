@@ -2080,11 +2080,13 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Object visitNavigateExpression(MaslParser.NavigateExpressionContext ctx) {
         try {
             if (ctx.lhs != null) {
                 // TODO where clause, correlated nav, orderby
+                if (ctx.ORDERED_BY() == null && ctx.REVERSE_ORDERED_BY() == null) {
                 Object expression = loader.create("MaslExpression");
                 Object navigationExpression = loader.create("NavigationExpression");
                 loader.relate(navigationExpression, expression, 5517, "");
@@ -2102,6 +2104,15 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 }
                 currentObject = prevCurrentObject;
                 return expression;
+                } else {
+                    Object expression = loader.call_function("OrderingExpression_initialize", visit(ctx.lhs), ctx.REVERSE_ORDERED_BY() != null);
+                    int index = 1;
+                    for (Object[] sortComponent : ((Stream<Object[]>) visit(ctx.sortOrder())).collect(Collectors.toList())) {
+                        loader.call_function("OrderingExpression_sort", expression, sortComponent[1], sortComponent[0], index);
+                        index++;
+                    }
+                    return expression;
+                }
             } else {
                 return visit(ctx.extendedExpression());
             }
@@ -2110,6 +2121,17 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return null;
         }
     }
+    
+    @Override
+    public Object visitSortOrder(MaslParser.SortOrderContext ctx) {
+        return ctx.sortOrderComponent().stream().map(this::visit);
+    }
+    
+    @Override
+    public Object visitSortOrderComponent(MaslParser.SortOrderComponentContext ctx) {
+        return new Object[] { ctx.REVERSE() != null, ctx.identifier().getText() };
+    }
+    
 
     @Override
     public Object visitExtendedExpression(MaslParser.ExtendedExpressionContext ctx) {
