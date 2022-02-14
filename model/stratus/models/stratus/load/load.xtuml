@@ -2145,6 +2145,47 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("e93ae7d3-47cb-4beb-8d53-ad43ee89cb9a",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_CorrelatedNavExpression',
+	'',
+	'expression = param.expression;
+select one rel_spec related by expression->CorrelatedNavExpression[R5517]->RelationshipSpecification[R5507];
+select one lhs_collection related by expression->CorrelatedNavExpression[R5517]->MaslExpression[R5506]->BasicType[R5570]->CollectionType[R6205];
+select one rhs_collection related by expression->CorrelatedNavExpression[R5517]->MaslExpression[R5508]->BasicType[R5570]->CollectionType[R6205];
+select one using_obj_decl related by rel_spec->RelationshipDeclaration[R6015]->AssociativeRelationshipDeclaration[R6010]->ObjectDeclaration[R6001];
+
+select any nav_type from instances of BasicType where false;
+
+// if the rel spec is a "many" association or the lhs is a collection type,
+// assure that the type of the expression is an instance set
+if not_empty lhs_collection or not_empty rhs_collection
+  nav_type = ::select_create_InstanceType(object_declaration:using_obj_decl, isset:true);
+else
+  nav_type = ::select_create_InstanceType(object_declaration:using_obj_decl, isset:false);
+end if;
+relate nav_type to expression across R5570;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	7);
+INSERT INTO S_SPARM
+	VALUES ("e419d58f-f189-4072-81ad-f898450674af",
+	"e93ae7d3-47cb-4beb-8d53-ad43ee89cb9a",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e93ae7d3-47cb-4beb-8d53-ad43ee89cb9a",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	1,

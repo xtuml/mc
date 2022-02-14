@@ -2085,32 +2085,46 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitNavigateExpression(MaslParser.NavigateExpressionContext ctx) {
         try {
             if (ctx.lhs != null) {
-                // TODO where clause, correlated nav, orderby
-                if (ctx.ORDERED_BY() == null && ctx.REVERSE_ORDERED_BY() == null) {
-                Object expression = loader.create("MaslExpression");
-                Object navigationExpression = loader.create("NavigationExpression");
-                loader.relate(navigationExpression, expression, 5517, "");
-                Object lhs = visit(ctx.lhs);
-                loader.relate(lhs, navigationExpression, 5532, "");
-                Object prevCurrentObject = currentObject;
-                currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
-                Object relSpec = visit(ctx.relationshipSpec());
-                loader.relate(relSpec, navigationExpression, 5531, "");
-                loader.call_function("resolve_NavigationExpression", expression);
-                currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", expression);
-                Object whereClause = ctx.whereClause() != null ? visit(ctx.whereClause()) : null;
-                if (whereClause != null) {
-                    loader.relate(whereClause, navigationExpression, 5530, "");
-                }
-                currentObject = prevCurrentObject;
-                return expression;
-                } else {
+                if (ctx.WITH() != null) {
+                    Object expression = loader.create("MaslExpression");
+                    Object correlatedNavExpression = loader.create("CorrelatedNavExpression");
+                    loader.relate(correlatedNavExpression, expression, 5517, "");
+                    Object lhs = visit(ctx.lhs);
+                    loader.relate(lhs, correlatedNavExpression, 5506, "");
+                    Object rhs = visit(ctx.rhs);
+                    loader.relate(rhs, correlatedNavExpression, 5508, "");
+                    Object prevCurrentObject = currentObject;
+                    currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
+                    Object relSpec = visit(ctx.relationshipSpec());
+                    loader.relate(relSpec, correlatedNavExpression, 5507, "");
+                    loader.call_function("resolve_CorrelatedNavExpression", expression);
+                    currentObject = prevCurrentObject;
+                    return expression;
+                } else if (ctx.ORDERED_BY() != null || ctx.REVERSE_ORDERED_BY() != null) {
                     Object expression = loader.call_function("OrderingExpression_initialize", visit(ctx.lhs), ctx.REVERSE_ORDERED_BY() != null);
                     int index = 1;
                     for (Object[] sortComponent : ((Stream<Object[]>) visit(ctx.sortOrder())).collect(Collectors.toList())) {
                         loader.call_function("OrderingExpression_sort", expression, sortComponent[1], sortComponent[0], index);
                         index++;
                     }
+                    return expression;
+                } else {
+                    Object expression = loader.create("MaslExpression");
+                    Object navigationExpression = loader.create("NavigationExpression");
+                    loader.relate(navigationExpression, expression, 5517, "");
+                    Object lhs = visit(ctx.lhs);
+                    loader.relate(lhs, navigationExpression, 5532, "");
+                    Object prevCurrentObject = currentObject;
+                    currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
+                    Object relSpec = visit(ctx.relationshipSpec());
+                    loader.relate(relSpec, navigationExpression, 5531, "");
+                    loader.call_function("resolve_NavigationExpression", expression);
+                    currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", expression);
+                    Object whereClause = ctx.whereClause() != null ? visit(ctx.whereClause()) : null;
+                    if (whereClause != null) {
+                        loader.relate(whereClause, navigationExpression, 5530, "");
+                    }
+                    currentObject = prevCurrentObject;
                     return expression;
                 }
             } else {
@@ -2121,17 +2135,17 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return null;
         }
     }
-    
+
     @Override
     public Object visitSortOrder(MaslParser.SortOrderContext ctx) {
         return ctx.sortOrderComponent().stream().map(this::visit);
     }
-    
+
     @Override
     public Object visitSortOrderComponent(MaslParser.SortOrderComponentContext ctx) {
         return new Object[] { ctx.REVERSE() != null, ctx.identifier().getText() };
     }
-    
+
 
     @Override
     public Object visitExtendedExpression(MaslParser.ExtendedExpressionContext ctx) {
