@@ -281,6 +281,79 @@ INSERT INTO PE_PE
 	"cf20d32f-ee33-4e4b-856b-a86d23675ef0",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("aa91eb74-49f3-4eba-984d-55b91283b4a4",
+	"00000000-0000-0000-0000-000000000000",
+	'mark_attribute',
+	'',
+	'domain = param.domain;
+object_declaration = param.object_declaration;
+attribute_declaration = param.attribute_declaration;
+path = domain.name + "::" + object_declaration.name + "::" + attribute_declaration.name;
+::create_mark(markable:"Attribute", feature:param.feature_name, path:path, value:param.value);',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	1);
+INSERT INTO S_SPARM
+	VALUES ("71bc170c-451c-4826-a2aa-14c8c2d08625",
+	"aa91eb74-49f3-4eba-984d-55b91283b4a4",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"1fd9ffde-9355-43db-8605-4957ca85e8e8",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1923660a-2248-4806-934e-ee192bfab3d2",
+	"aa91eb74-49f3-4eba-984d-55b91283b4a4",
+	'feature_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"550ed11b-94d7-4877-a72c-00428b7b8a41",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("241a97ee-81cb-4884-b9a6-79e86d952287",
+	"aa91eb74-49f3-4eba-984d-55b91283b4a4",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"1923660a-2248-4806-934e-ee192bfab3d2",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1fd9ffde-9355-43db-8605-4957ca85e8e8",
+	"aa91eb74-49f3-4eba-984d-55b91283b4a4",
+	'domain',
+	"d467079c-c61e-4b05-8498-3fe2f24782a6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("550ed11b-94d7-4877-a72c-00428b7b8a41",
+	"aa91eb74-49f3-4eba-984d-55b91283b4a4",
+	'attribute_declaration',
+	"bc9fb0af-6887-4a01-9bad-2412058db57c",
+	0,
+	'',
+	"71bc170c-451c-4826-a2aa-14c8c2d08625",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("bc9fb0af-6887-4a01-9bad-2412058db57c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<AttributeDeclaration>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/object/object.xtuml');
+INSERT INTO PE_PE
+	VALUES ("aa91eb74-49f3-4eba-984d-55b91283b4a4",
+	1,
+	"cf20d32f-ee33-4e4b-856b-a86d23675ef0",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("cf20d32f-ee33-4e4b-856b-a86d23675ef0",
 	1,

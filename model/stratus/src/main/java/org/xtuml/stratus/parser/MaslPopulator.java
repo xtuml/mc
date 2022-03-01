@@ -62,6 +62,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.call_function("mark_domain_service", currentDomain, currentMarkable, featureName, value);
         } else if (keyLettersAre(currentMarkable, "Domain")) {
             loader.call_function("mark_domain", currentMarkable, featureName, value);
+        } else if (keyLettersAre(currentMarkable, "AttributeDeclaration")) {
+            loader.call_function("mark_attribute", currentDomain, currentObject, currentMarkable, featureName, value);
         }
     }
 
@@ -739,6 +741,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitAttributeDefinition(MaslParser.AttributeDefinitionContext ctx) {
         try {
             Object attributeDeclaration = loader.create("AttributeDeclaration");
+            currentMarkable = attributeDeclaration;
             loader.set_attribute(attributeDeclaration, "name", ctx.attributeName().getText());
             currentAttribute = attributeDeclaration;
             if (previousAttribute != null) {
@@ -764,6 +767,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             if (ctx.defaultValue != null) {
                 loader.relate(attributeDeclaration, visit(ctx.defaultValue), 5801, "");
             }
+            currentMarkable = attributeDeclaration;
+            visit(ctx.pragmaList());
+            currentMarkable = null;
             currentAttribute = null;
             return attributeDeclaration;
         } catch (XtumlException e) {
