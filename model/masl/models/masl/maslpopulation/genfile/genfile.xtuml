@@ -61,7 +61,7 @@ if ( "project" == element )
         select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
         if ( not_empty genfile )
           destination = genfile.getname();
-          // Domain files go into a directory named after the domain.
+          // Project files go into a directory named after the project.
           genfile.directory( name:project.name );
           genfile.gen( destination:destination );
         end if;
@@ -82,8 +82,8 @@ elif ( "domain" == element )
       domain.render();
       select one genfile related by domain->markable[R3783]->element[R3786]->genfile[R3795];
       if ( not_empty genfile )
-        // Domain files go into a directory named after the domain.
-        genfile.directory( name:domain.name );
+        // Domain files go into a directory named after the domain with the "_OOA" suffix.
+        genfile.directory( name:domain.name + "_OOA" );
         genfile.emit( name:domain.name + ".mod" );
         domain.render_interface();
         genfile.emit( name:domain.name + ".int" );
@@ -104,8 +104,8 @@ elif ( "domain" == element )
         select one genfile related by activity->markable[R3783]->element[R3786]->genfile[R3795];
         if ( not_empty genfile )
           destination = genfile.getname();
-          // Domain files go into a directory named after the domain.
-          genfile.directory( name:domain.name );
+          // Domain files go into a directory named after the domain with the "_OOA" suffix.
+          genfile.directory( name:domain.name + "_OOA" );
           select one class_op related by activity->operation[R3704];
           select one deferral related by class_op->subsuper[R3793];
           if ( empty class_op or ( not_empty class_op and empty deferral ) )
