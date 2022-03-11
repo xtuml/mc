@@ -2186,6 +2186,261 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("dbb0edb8-a6e0-4ac6-b7d0-3e5716714f8b",
+	"00000000-0000-0000-0000-000000000000",
+	'get_domain_activities',
+	'',
+	'domain = param.domain;
+i = 0;
+
+// TODO consider overloading
+
+// domain services
+select many domain_services related by domain->DomainService[R5303]->Service[R5203] where SORT::ascending(attr:"name");
+for each domain_service in domain_services
+  extension = ".svc";
+  select any scenario_mark from instances of Mark where selected.markable_name == "DomainService" and
+    selected.feature_name == "scenario" and selected.path == "" + domain.name + "::" + domain_service.name;
+  select any external_mark from instances of Mark where selected.markable_name == "DomainService" and
+    selected.feature_name == "external" and selected.path == "" + domain.name + "::" + domain_service.name;
+  if not_empty scenario_mark
+    extension = ".scn";
+  elif not_empty external_mark
+    extension = ".ext";
+  else
+  end if;
+  param.filenames[i] = "" + domain_service.name + extension;
+  i = i + 1;
+end for;
+
+// terminator services
+select many terminators related by domain->DomainTerminator[R5304] where SORT::ascending(attr:"name");
+for each terminator in terminators
+  select many terminator_services related by terminator->DomainTerminatorService[R5306]->Service[R5203] where SORT::ascending(attr:"name");
+  for each terminator_service in terminator_services
+    term_name = "" + terminator.name;
+    select any key_letter_mark from instances of Mark where selected.markable_name == "DomainTerminator" and
+      selected.feature_name == "key_letter" and selected.path == "" + domain.name + "::" + terminator.name;
+    if not_empty key_letter_mark
+      term_name = key_letter_mark.value;
+    end if;
+    param.filenames[i] = term_name + "_" + terminator_service.name + ".tr";
+    i = i + 1;
+  end for;
+end for;
+
+select many objs related by domain->ObjectDeclaration[R5805] where SORT::ascending(attr:"name");
+for each obj in objs
+  obj_name = "" + obj.name;
+  select any key_letter_mark from instances of Mark where selected.markable_name == "Object" and
+    selected.feature_name == "key_letter" and selected.path == "" + domain.name + "::" + obj.name;
+  if not_empty key_letter_mark
+    obj_name = key_letter_mark.value;
+  end if;
+ 
+  // object and instance services
+  select many object_services related by obj->ObjectService[R5808]->Service[R5203] where SORT::ascending(attr:"name");
+  for each object_service in object_services
+    param.filenames[i] = obj_name + "_" + object_service.name + ".svc";
+    i = i + 1;
+  end for;
+
+  // states
+  select many object_states related by obj->MaslState[R6105] where "" + selected.name != "Non_Existent" and SORT::ascending(attr:"name");
+  for each object_state in object_states
+    sep = "_";
+    if object_state.flavor == StateType::assigner or object_state.flavor == StateType::assigner_start
+      sep = "-A_";
+    end if;
+    param.filenames[i] = obj_name + sep + object_state.name + ".al";
+    i = i + 1;
+  end for;
+end for;
+
+return param.filenames;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'[]',
+	0,
+	11);
+INSERT INTO S_SPARM
+	VALUES ("8d8e6df6-d04a-4727-bc97-fffddbe354c3",
+	"dbb0edb8-a6e0-4ac6-b7d0-3e5716714f8b",
+	'domain',
+	"d467079c-c61e-4b05-8498-3fe2f24782a6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6eb13365-4345-4014-aab4-9034b2009c29",
+	"dbb0edb8-a6e0-4ac6-b7d0-3e5716714f8b",
+	'filenames',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'[]',
+	"8d8e6df6-d04a-4727-bc97-fffddbe354c3",
+	'');
+INSERT INTO S_DIM
+	VALUES (0,
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	"6eb13365-4345-4014-aab4-9034b2009c29",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"9e4f9ca3-d051-43d8-9c59-1c4c65a7e72e",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DIM
+	VALUES (0,
+	0,
+	"dbb0edb8-a6e0-4ac6-b7d0-3e5716714f8b",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"920b87a5-4f6b-461e-8335-8dc3fe683387",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("dbb0edb8-a6e0-4ac6-b7d0-3e5716714f8b",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e07b20ae-d318-4371-8a3d-25598d8c7348",
+	"00000000-0000-0000-0000-000000000000",
+	'get_project_activities',
+	'',
+	'project = param.project;
+i = 0;
+
+// TODO consider overloading
+
+select many project_domains related by project->ProjectDomain[R5900];
+for each project_domain in project_domains
+  select one domain related by project_domain->Domain[R5901];
+
+  // terminator services
+  select many terminators related by project_domain->ProjectTerminator[R5902] where SORT::ascending(attr:"name");
+  for each terminator in terminators
+    select many terminator_services related by terminator->ProjectTerminatorService[R5903]->Service[R5203] where SORT::ascending(attr:"name");
+    for each terminator_service in terminator_services
+      term_name = "" + terminator.name;
+      select any key_letter_mark from instances of Mark where selected.markable_name == "ProjectTerminator" and
+        selected.feature_name == "key_letter" and selected.path == "" + project.name + "::" + domain.name + "::" + terminator.name;
+      if not_empty key_letter_mark
+        term_name = key_letter_mark.value;
+      end if;
+      param.filenames[i] = "" + domain.name + "_" + term_name + "_" + terminator_service.name + ".tr";
+      i = i + 1;
+    end for;
+  end for;
+
+end for;
+
+return param.filenames;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'[]',
+	0,
+	11);
+INSERT INTO S_SPARM
+	VALUES ("9a245058-496c-450d-b34c-37f45bd5e55c",
+	"e07b20ae-d318-4371-8a3d-25598d8c7348",
+	'project',
+	"441f24d5-1449-4a86-a093-cf7c331418a3",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("441f24d5-1449-4a86-a093-cf7c331418a3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Project>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/project/project.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("c5f07d37-497a-4ef6-b1a8-05d3bcb69b9d",
+	"e07b20ae-d318-4371-8a3d-25598d8c7348",
+	'filenames',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'[]',
+	"9a245058-496c-450d-b34c-37f45bd5e55c",
+	'');
+INSERT INTO S_DIM
+	VALUES (0,
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	"c5f07d37-497a-4ef6-b1a8-05d3bcb69b9d",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"113f6080-99f2-424c-8515-c2278b733370",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DIM
+	VALUES (0,
+	0,
+	"e07b20ae-d318-4371-8a3d-25598d8c7348",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"d3621d02-96f9-436b-a031-77cd3ffebd07",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("e07b20ae-d318-4371-8a3d-25598d8c7348",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	1,

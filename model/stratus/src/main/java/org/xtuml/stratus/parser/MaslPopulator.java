@@ -1,8 +1,10 @@
 package org.xtuml.stratus.parser;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,11 +20,11 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     private final CharStream input;
     private final LOAD loader;
     private final String filename;
+    private final MaslImportParser maslParser;
 
     private Object emptyObject;
     private Object emptyCodeBlock;
     private Object currentProject;
-    private Object currentProjectDomain;
     private Object currentDomain;
     private Object currentService;
     private Object currentObject;
@@ -64,6 +66,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.call_function("mark_domain", currentMarkable, featureName, value);
         } else if (keyLettersAre(currentMarkable, "AttributeDeclaration")) {
             loader.call_function("mark_attribute", currentDomain, currentObject, currentMarkable, featureName, value);
+        } else if (keyLettersAre(currentMarkable, "DomainTerminator")) {
+            loader.call_function("mark_domain_terminator", currentDomain, currentMarkable, featureName, value);
+        } else if (keyLettersAre(currentMarkable, "ProjectTerminator")) {
+            loader.call_function("mark_project_terminator", currentProject, currentDomain, currentMarkable, featureName, value);
         }
     }
 
@@ -74,10 +80,11 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         System.exit(1);
     }
 
-    public MaslPopulator(CharStream input, LOAD loader, String filename) {
+    public MaslPopulator(MaslImportParser maslParser, LOAD loader, CharStream input, String filename) {
         this.input = input;
         this.loader = loader;
         this.filename = filename;
+        this.maslParser = maslParser;
     }
 
     @Override
@@ -88,7 +95,6 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             emptyCodeBlock = loader.call_function("select_CodeBlock_empty");
             currentCodeBlock = emptyCodeBlock;
             currentProject = null;
-            currentProjectDomain = null;
             currentDomain = null;
             currentService = null;
             currentObject = emptyObject;
@@ -112,8 +118,22 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             for (Object projectDomainDefinition : ctx.projectItem().stream().map(o -> visit(o)).toArray()) {
                 loader.relate(projectDomainDefinition, project, 5900, "");
             }
+            // find and parse all project activities
+            final String[] filenames = new String[100];
+            final String[] activityFiles = (String[]) loader.call_function("get_project_activities", project, filenames);
+            for (String activityFile : activityFiles) {
+                if (activityFile != null) {
+                    try {
+                        final String filename = maslParser.findFile(activityFile);
+                        maslParser.parseFile(filename);
+                    } catch (NoSuchElementException e) {
+                        System.err.println("WARNING: Could not find activity file '" + activityFile + "' for project: " + ctx.projectName().getText());
+                    }
+                }
+            }
+            currentProject = null;
             return project;
-        } catch (XtumlException e) {
+        } catch (XtumlException | IOException e) {
             xtumlTrace(e, "");
             return null;
         }
@@ -123,11 +143,13 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitProjectDomainDefinition(MaslParser.ProjectDomainDefinitionContext ctx) {
         try {
             Object projectDomain = loader.create("ProjectDomain");
-            loader.set_attribute(projectDomain, "name", ctx.domainName().getText());
-            currentProjectDomain = projectDomain;
+            Object domain = loader.call_function("select_Domain_where_name", visit(ctx.domainReference()));
+            loader.relate(domain, projectDomain, 5901, "");
+            currentDomain = domain;
             for (Object projectTerminatorDefinition : ctx.domainPrjItem().stream().map(o -> visit(o)).toArray()) {
                 loader.relate(projectTerminatorDefinition, projectDomain, 5902, "");
             }
+            currentDomain = null;
             return projectDomain;
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -139,10 +161,12 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitDomainDefinition(MaslParser.DomainDefinitionContext ctx) {
         try {
             // Some interface files declare the domain with test objects. Allow it.
-            Object domain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
+            final String domainName = ctx.domainName().getText();
+            Object domain = loader.call_function("select_Domain_where_name", domainName);
             if (((IModelInstance<?, ?>) domain).isEmpty()) {
                 domain = loader.create("Domain");
-                loader.set_attribute(domain, "name", ctx.domainName().getText());
+                loader.set_attribute(domain, "name", domainName);
+                loader.set_attribute(domain, "interface", filename.endsWith(".int"));
             }
             currentDomain = domain;
             // domain items
@@ -165,13 +189,53 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentMarkable = domain;
             visit(ctx.pragmaList());
             currentMarkable = null;
+            
+            // find and parse all domain activities
+            if (filename.endsWith(".mod")) {
+                final String[] filenames = new String[100];
+                final String[] activityFiles = (String[]) loader.call_function("get_domain_activities", domain, filenames);
+                for (String activityFile : activityFiles) {
+                    if (activityFile != null) {
+                        try {
+                            final String filename = maslParser.findFile(domainName, activityFile);
+                            maslParser.parseFile(filename);
+                        } catch (NoSuchElementException e) {
+                            System.err.println("WARNING: Could not find activity file '" + activityFile + "' for domain: " + domainName);
+                        }
+                    }
+                }
+            }
+
             return domain;
-        } catch (XtumlException e) {
+        } catch (XtumlException | IOException e) {
             xtumlTrace(e, "");
             return null;
         }
     }
-
+    
+    @Override
+    public Object visitDomainReference(MaslParser.DomainReferenceContext ctx) {
+        try {
+            final String domainName = ctx.domainName().getText();
+            Object domain = loader.call_function("select_Domain_where_name", domainName);
+            if (((IModelInstance<?, ?>) domain).isEmpty()) {
+                // Find and parse the domain interface
+                try {
+                    final String filename = maslParser.findFile(domainName, domainName + ".int");
+                    maslParser.parseFile(filename);
+                } catch (NoSuchElementException e) {
+                    System.err.println("Could not find interface file '" + domainName + ".int' for domain: " + domainName);
+                    xtumlTrace(e, "");
+                    return null;
+                }
+            }
+            return domainName;
+        } catch (XtumlException | IOException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+    
     @Override
     public Object visitExceptionDeclaration(MaslParser.ExceptionDeclarationContext ctx) {
         try {
@@ -190,7 +254,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         try {
             Object exceptionReference = loader.create("ExceptionReference");
             Object exceptionDeclaration = loader.call_function("select_ExceptionDeclaration_where_name",
-                    ctx.domainName() != null ? ctx.domainName().getText() : getName(currentDomain),
+                    ctx.domainReference() != null ? visit(ctx.domainReference()) : getName(currentDomain),
                     ctx.exceptionName().getText());
             if (((IModelInstance<?, ?>) exceptionDeclaration).isEmpty()) {
                 Object builtin = loader.create("BuiltinException");
@@ -281,14 +345,19 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 Object fullTypeDefinition = loader.create("FullTypeDefinition");
                 loader.relate(fullTypeDefinition, typeDefinition, 6236, "");
                 loader.relate(visit(ctx.structureTypeDefinition()), fullTypeDefinition, 6219, "");
-            } else if (ctx.constrainedTypeDefinition() != null) {
+            } else if (ctx.enumerationTypeDefinition() != null) {
                 typeDefinition = loader.create("TypeDefinition");
                 Object fullTypeDefinition = loader.create("FullTypeDefinition");
                 loader.relate(fullTypeDefinition, typeDefinition, 6236, "");
                 loader.relate(visit(ctx.enumerationTypeDefinition()), fullTypeDefinition, 6219, "");
+            } else if (ctx.constrainedTypeDefinition() != null) {
+                typeDefinition = loader.create("TypeDefinition");
+                Object fullTypeDefinition = loader.create("FullTypeDefinition");
+                loader.relate(fullTypeDefinition, typeDefinition, 6236, "");
+                loader.relate(visit(ctx.constrainedTypeDefinition()), fullTypeDefinition, 6219, "");
             } else if (ctx.typeReferenceWithCA() != null) {
                 Object typeReference = visit(ctx.typeReferenceWithCA());
-                typeDefinition = loader.call_function("select_TypeDefinitionRelated_BasicType", typeReference);
+                typeDefinition = loader.call_function("select_TypeDefinition_related_BasicType", typeReference);
                 if (((IModelInstance<?, ?>) typeDefinition).isEmpty()) {
                     typeDefinition = loader.create("TypeDefinition");
                     loader.relate(typeReference, typeDefinition, 6236, "");
@@ -469,11 +538,11 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitNamedTypeRef(MaslParser.NamedTypeRefContext ctx) {
         try {
             Object basicType = loader.call_function("select_BasicType_where_name",
-                    (ctx.domainName() != null ? ctx.domainName().getText() : ""), ctx.typeName().getText());
+                    (ctx.domainReference() != null ? visit(ctx.domainReference()) : ""), ctx.typeName().getText());
             if (!((IModelInstance<?, ?>) basicType).isEmpty()) {
                 loader.set_attribute(basicType, "isanonymous", (ctx.ANONYMOUS() != null));
             } else {
-                System.err.println("namedTypeRef failed with name:  " + ctx.domainName().getText() + "::"
+                System.err.println("namedTypeRef failed with name:  " + visit(ctx.domainReference()) + "::"
                         + ctx.typeName().getText());
             }
             return basicType;
@@ -486,7 +555,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitUserDefinedTypeRef(MaslParser.UserDefinedTypeRefContext ctx) {
         try {
-            return loader.call_function("select_UserDefinedType_where_name", ctx.domainName().getText(),
+            return loader.call_function("select_UserDefinedType_where_name", visit(ctx.domainReference()),
                     ctx.typeName().getText());
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -620,6 +689,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 for (Object terminatorServiceDeclaration : ctx.terminatorItem().stream().map(o -> visit(o)).toArray()) {
                     loader.relate(terminatorServiceDeclaration, domainTerminator, 5306, "");
                 }
+                currentMarkable = domainTerminator;
+                visit(ctx.pragmaList());
+                currentMarkable = null;
                 return domainTerminator;
             } else { // project terminator
                 Object projectTerminator = loader.create("ProjectTerminator");
@@ -628,6 +700,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                         .toArray()) {
                     loader.relate(projectTerminatorServiceDeclaration, projectTerminator, 5903, "");
                 }
+                currentMarkable = projectTerminator;
+                visit(ctx.pragmaList());
+                currentMarkable = null;
                 return projectTerminator;
             }
         } catch (XtumlException e) {
@@ -680,7 +755,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitFullObjectReference(MaslParser.FullObjectReferenceContext ctx) {
         try {
             return loader.call_function("select_ObjectDeclaration_where_name",
-                    ctx.domainName() != null ? ctx.domainName().getText() : getName(currentDomain),
+                    ctx.domainReference() != null ? visit(ctx.domainReference()) : getName(currentDomain),
                     ctx.objectName().getText());
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -1157,7 +1232,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitRelationshipReference(MaslParser.RelationshipReferenceContext ctx) {
         try {
             return loader.call_function("select_RelationshipDeclaration_where_name",
-                    ctx.domainName() != null ? ctx.domainName().getText() : getName(currentDomain),
+                    ctx.domainReference() != null ? visit(ctx.domainReference()) : getName(currentDomain),
                     ctx.relationshipName().getText());
         } catch (XtumlException e) {
             xtumlTrace(e, "");
@@ -1188,8 +1263,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitDomainServiceDefinition(MaslParser.DomainServiceDefinitionContext ctx) {
         try {
-            currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
-            currentService = loader.call_function("select_Service_where_name", ctx.domainName().getText(),
+            currentDomain = loader.call_function("select_Domain_where_name", visit(ctx.domainReference()));
+            currentService = loader.call_function("select_Service_where_name", visit(ctx.domainReference()),
                     ctx.serviceName().getText());
             loader.set_attribute(currentService, "filename", filename);
             visit(ctx.codeBlock());
@@ -1203,9 +1278,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitTerminatorServiceDefinition(MaslParser.TerminatorServiceDefinitionContext ctx) {
         try {
-            currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
+            currentDomain = loader.call_function("select_Domain_where_name", visit(ctx.domainReference()));
             currentService = loader.call_function("select_DomainTerminatorService_where_name",
-                    ctx.domainName().getText(), ctx.terminatorName().getText(), ctx.serviceName().getText());
+                    visit(ctx.domainReference()), ctx.terminatorName().getText(), ctx.serviceName().getText());
             loader.set_attribute(currentService, "filename", filename);
             visit(ctx.codeBlock());
             return currentService;
@@ -1218,7 +1293,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitStateDefinition(MaslParser.StateDefinitionContext ctx) {
         try {
-            currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
+            currentDomain = loader.call_function("select_Domain_where_name", visit(ctx.domainReference()));
             currentBodyObject = visit(ctx.objectReference());
             currentOOAState = loader.call_function("select_State_related_where_name", currentBodyObject,
                     ctx.stateName().getText());
@@ -1234,7 +1309,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     @Override
     public Object visitObjectServiceDefinition(MaslParser.ObjectServiceDefinitionContext ctx) {
         try {
-            currentDomain = loader.call_function("select_Domain_where_name", ctx.domainName().getText());
+            currentDomain = loader.call_function("select_Domain_where_name", visit(ctx.domainReference()));
             currentBodyObject = visit(ctx.objectReference());
             currentService = loader.call_function("select_ObjectService_where_name", currentBodyObject,
                     ctx.serviceName().getText());
@@ -2331,7 +2406,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitNameExpression(MaslParser.NameExpressionContext ctx) {
         try {
             Object expression = loader.call_function("resolve_NameExpression",
-                    ctx.domainName() != null ? ctx.domainName().getText() : getName(currentDomain),
+                    ctx.domainReference() != null ? visit(ctx.domainReference()) : getName(currentDomain),
                     ctx.identifier().getText(), currentCodeBlock);
             return expression;
         } catch (XtumlException e) {

@@ -28,7 +28,7 @@ projectItem                   : projectDomainDefinition
 
 projectDomainDefinition
                               : description
-                                DOMAIN domainName IS
+                                DOMAIN domainReference IS
                                   domainPrjItem*
                                 END DOMAIN? SEMI pragmaList
                               ;
@@ -62,6 +62,9 @@ domainItem                    : objectDeclaration
                               ;
 
 domainName                    : identifier
+                              ;
+
+domainReference               : domainName
                               ;
 
 
@@ -186,10 +189,10 @@ deprecatedType                : INSTANCE
 instanceTypeRef               : ANONYMOUS? INSTANCE OF fullObjectReference
                               ;
 
-namedTypeRef                  : ANONYMOUS? (domainName SCOPE)? typeName
+namedTypeRef                  : ANONYMOUS? (domainReference SCOPE)? typeName
                               ;
 
-userDefinedTypeRef            : (domainName SCOPE)? typeName
+userDefinedTypeRef            : (domainReference SCOPE)? typeName
                               ;
 
 constrainedArrayTypeRef       : userDefinedTypeRef arrayBounds
@@ -266,7 +269,7 @@ objectName                    : identifier
 objectReference               : objectName
                               ;
 
-fullObjectReference           : (domainName SCOPE)? objectName
+fullObjectReference           : (domainReference SCOPE)? objectName
                               ;
 
 attributeName                 : identifier
@@ -441,7 +444,7 @@ returnType                    : typeReference
 relationshipName              : RelationshipName
                               ;
 
-relationshipReference         : (domainName SCOPE)? relationshipName
+relationshipReference         : (domainReference SCOPE)? relationshipName
                               ;
 
 relationshipDefinition        : description RELATIONSHIP relationshipName IS
@@ -523,7 +526,7 @@ description                   : Description*
 
 domainServiceDefinition       : description
                                 serviceVisibility SERVICE
-                                domainName SCOPE serviceName
+                                domainReference SCOPE serviceName
                                 parameterList
                                 ( RETURN returnType )? IS
                                 codeBlock
@@ -534,7 +537,7 @@ domainServiceDefinition       : description
 
 objectServiceDefinition       : description
                                 serviceVisibility INSTANCE? SERVICE
-                                  domainName SCOPE objectReference DOT serviceName
+                                  domainReference SCOPE objectReference DOT serviceName
                                   parameterList
                                   ( RETURN returnType )? IS codeBlock
                                 SERVICE? SEMI pragmaList
@@ -542,7 +545,7 @@ objectServiceDefinition       : description
 
 terminatorServiceDefinition   : description
                                 serviceVisibility SERVICE
-                                domainName SCOPE terminatorName TERMINATOR_SCOPE serviceName
+                                domainReference SCOPE terminatorName TERMINATOR_SCOPE serviceName
                                 parameterList
                                 ( RETURN returnType )? IS
                                 codeBlock
@@ -553,7 +556,7 @@ terminatorServiceDefinition   : description
 
 stateDefinition               : description
                                 stateType STATE
-                                domainName SCOPE objectReference DOT stateName
+                                domainReference SCOPE objectReference DOT stateName
                                 parameterList IS codeBlock
                                 STATE? SEMI pragmaList
                               ;
@@ -752,7 +755,7 @@ exceptionHandler              : WHEN exceptionReference GOES_TO statementList
 otherHandler                  : WHEN OTHERS GOES_TO statementList
                               ;
 
-exceptionReference            : (domainName SCOPE)? exceptionName
+exceptionReference            : (domainReference SCOPE)? exceptionName
                               ;
 
 variableName                  : identifier
@@ -932,7 +935,7 @@ typeNameExpression            : instanceTypeRef
                               | collectionTypeRef
                               ;
 
-nameExpression                : (domainName SCOPE)? identifier
+nameExpression                : (domainReference SCOPE)? identifier
                               ;
 
 parenthesisedExpression

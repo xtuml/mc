@@ -3,180 +3,99 @@ package org.xtuml.stratus.parser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.regex.Pattern;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
+
 import io.ciera.runtime.instanceloading.generic.IGenericLoader;
 import io.ciera.runtime.instanceloading.generic.util.LOAD;
+import io.ciera.runtime.summit.exceptions.XtumlException;
+import io.ciera.runtime.summit.util.CommandLine;
 
 public class MaslImportParser implements IGenericLoader {
 
-    // private fields
-    private LOAD loader; // OOA API
+    private LOAD loader;
+    private File currentFile;
+    private String[] domainPath;
 
     // parse a MASL file
-    public void parse(String fn) {
-        // check args and set current file
-        if (fn == null) {
-            return;
-        }
+    public void parseFile(final String filename) throws IOException {
+        final File prevFile = currentFile;
+        currentFile = new File(filename);
 
-        try {
-            // Tokenize the file
-            CharStream input = CharStreams.fromStream(new FileInputStream(fn));
-            MaslLexer lexer = new MaslLexer(input);
-            MaslParser parser = new MaslParser(new CommonTokenStream(lexer));
+        System.out.println("Parsing file: " + filename);
 
-            // Parse the file
-            ParserRuleContext ctx = parser.target();
+        // Tokenize the file
+        CharStream input = CharStreams.fromStream(new FileInputStream(currentFile));
+        MaslLexer lexer = new MaslLexer(input);
+        MaslParser parser = new MaslParser(new CommonTokenStream(lexer));
 
-            // Walk the parse tree
-            MaslPopulator listener = new MaslPopulator(input, loader, new File(fn).getName());
-            listener.visit(ctx);
+        // Parse the file
+        ParserRuleContext ctx = parser.target();
 
-        } catch (IOException e) {
-            // TODO error handling
-            e.printStackTrace();
-        }
+        // Walk the parse tree
+        MaslPopulator listener = new MaslPopulator(this, loader, input, currentFile.getName());
+        listener.visit(ctx);
 
+        currentFile = prevFile;
     }
 
-    // parse a MASL domain
-    public void parseDomain(String directory) {
-        File dir, modFile = null;
-        File[] domainFiles;
-
-        // check args
-        if (directory == null) {
-            System.err.println("-parse: ERROR null directory");
-            return;
-        }
-
-        // read the directory
-        dir = new File(directory);
-        domainFiles = dir.listFiles();
-        if (domainFiles == null) {
-            System.err.println("-parseDomain: ERROR listFiles() returned null");
-            return;
-        }
-
-        // find the domain (.mod) file
-        for (File f : domainFiles) {
-            if (Pattern.matches(".*\\.mod", f.getName())) {
-                modFile = f;
-                break;
-            }
-        }
-
-        // parse interface files not matching the mod file and then the mod file
-        if (modFile != null) {
-            String[] modFileTokens = modFile.getName().split("\\.(?=[^\\.]+$)");
-            for (File f : domainFiles) {
-                if (Pattern.matches(".*\\.int", f.getName())) {
-                    String[] intFileTokens = f.getName().split("\\.(?=[^\\.]+$)");
-                    if (!intFileTokens[0].equals(modFileTokens[0])) {
-                        parse(f.getPath());
-                    }
-                }
-            }
-            // parse the domain (mod) file
-            parse(modFile.getPath());
-        } else {
-            System.err.println("-parseDomain: ERROR no '.mod' file found in directory");
-            return;
-        }
-
-        // parse all activities ( according the defined file extension convention )
-        for (File f : domainFiles) {
-            if (Pattern.matches(".*\\.svc", f.getName()) || Pattern.matches(".*\\.fn", f.getName())
-                    || Pattern.matches(".*\\.ext", f.getName()) || Pattern.matches(".*\\.scn", f.getName())
-                    || Pattern.matches(".*\\.al", f.getName()) || Pattern.matches(".*\\.tr", f.getName())) {
-
-                // parse the file
-                parse(f.getPath());
-            }
-        }
-
-        // done
+    public String findFile(final String fileName) {
+        return findFile(null, fileName);
     }
 
-    // parse a MASL project
-    public void parseProject(String directory) {
-        File dir;
-        File[] projectFiles;
+    public String findFile(final String domainName, final String fileName) {
+        // Look in the directory of the current file
+        Stream<File> localFiles = Stream.of(currentFile.getParentFile().listFiles());
 
-        // check args
-        if (directory == null) {
-            System.err.println("-parse: ERROR null directory");
-            return;
-        }
+        // Look in each domain path entry for the file
+        Stream<File> domainPathFiles = Stream.of(domainPath)
+                .flatMap(p -> Stream.of(Optional.ofNullable(new File(p).listFiles()).orElse(new File[0])));
 
-        // read the directory
-        dir = new File(directory);
-        projectFiles = dir.listFiles();
-        if (projectFiles == null) {
-            System.err.println("-parseProject: ERROR listFiles() returned null");
-            return;
-        }
+        // Look in each domain path entry + domain directory for the file
+        Stream<File> domainPathFiles2 = domainName != null ? Stream.of(domainPath).flatMap(p -> Stream.of(Optional
+                .ofNullable(new File(p + File.separator + domainName + "_OOA").listFiles()).orElse(new File[0])))
+                : Stream.of();
 
-        // parse the project file
-        boolean foundPrj = false;
-        for (File f : projectFiles) {
-            if (Pattern.matches(".*\\.prj", f.getName())) {
-                parse(f.getPath());
-                foundPrj = true;
-                break;
-            }
-        }
-
-        if (!foundPrj) {
-            System.err.println("-parseProject: ERROR no '.prj' file found in directory");
-            return;
-        }
-
-        // parse all activities ( according the defined file extension convention )
-        for (File f : projectFiles) {
-            if (Pattern.matches(".*\\.tr", f.getName())) {
-                // parse the file
-                parse(f.getPath());
-            }
-        }
-
-        // done
+        // return the first match
+        return Stream.of(localFiles, domainPathFiles, domainPathFiles2).flatMap(s -> s)
+                .filter(f -> f.getName().equals(fileName)).findAny().orElseThrow().getAbsolutePath();
     }
 
-    // print usage
-    public void printUsage() {
-        System.err.println("Usage:\n");
-        System.err.println("Parse MASL domain:");
-        System.err.println("\tjava -cp <classpath> MaslImportParser -d <domain directory> [-o [file name] ]\n");
-        System.err.println("Parse MASL project:");
-        System.err.println("\tjava -cp <classpath> MaslImportParser -p <project directory> [-o [file name] ]");
-    }
-
-    // main method
+    // main load
     public void load(LOAD loader, String args[]) {
-
         this.loader = loader;
-
-        // check input args
-        if (args.length < 2) {
-            // print usage
-            this.printUsage();
-        } else {
-            if (args[0].equals("-d")) { // parse MASL domain
-                this.parseDomain(args[1]);
-            } else if (args[0].equals("-p")) { // parse MASL project
-                this.parseProject(args[1]);
+        try {
+            // parse command line arguments
+            CommandLine cli = new CommandLine(args);
+            cli.register_value("mod", "mod_file", "Path to the domain model file", "", false);
+            cli.register_value("prj", "prj_file", "Path to the project model file", "", false);
+            cli.register_value("domainpath", "domain_path", "Colon delimited path to dependency domain interfaces", "",
+                    false);
+            cli.read_command_line();
+            String modFile = cli.get_value("mod");
+            String prjFile = cli.get_value("prj");
+            domainPath = Stream.of(cli.get_value("domainpath").split(":")).filter(Predicate.not(String::isBlank))
+                    .toArray(String[]::new);
+            if (!modFile.isBlank() && prjFile.isBlank()) {
+                // parse domain model
+                parseFile(modFile);
+            } else if (modFile.isBlank() && !prjFile.isBlank()) {
+                // parse project model
+                parseFile(prjFile);
+            } else if (!modFile.isBlank() && !prjFile.isBlank()) {
+                throw new XtumlException("Cannot specify both domain and project file");
             } else {
-                // print usage
-                this.printUsage();
+                throw new XtumlException("No model file specified");
             }
+        } catch (IOException | XtumlException e) {
+            throw new RuntimeException(e);
         }
-
     }
 
     // main method

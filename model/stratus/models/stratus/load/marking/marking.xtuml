@@ -110,20 +110,19 @@ INSERT INTO S_SYNC
 	'',
 	'select any markable from instances of Markable where selected.name == param.markable;
 select any feature related by markable->Feature[R2822] where selected.name == param.feature;
+if (empty markable)
+  markable = Markable::populate(name:param.markable);
+end if;
+if (empty feature)
+  feature = Feature::populate(name:param.feature);
+  relate feature to markable across R2822;
+end if;
 if (not_empty markable and not_empty feature)
   create object instance mark of Mark;
   mark.path = param.path;
   mark.value = param.value;
   relate feature to markable across R2821 using mark;
 else
-  feature_name = "";
-  if (not_empty feature)
-    feature_name = feature.name;
-  end if;
-  markable_name = "";
-  if (not_empty markable)
-    markable_name = markable.name;
-  end if;
   LOG::LogFailure(message:"Feature ''" + param.feature + "'' not available for markable type ''" + param.markable + "''");
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -350,6 +349,149 @@ INSERT INTO S_DT_PROXY
 	'../../../../../ooamasl/models/ooamasl/ooamasl/object/object.xtuml');
 INSERT INTO PE_PE
 	VALUES ("aa91eb74-49f3-4eba-984d-55b91283b4a4",
+	1,
+	"cf20d32f-ee33-4e4b-856b-a86d23675ef0",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c0b534ed-ab84-4742-8df2-df69b5ef9f1f",
+	"00000000-0000-0000-0000-000000000000",
+	'mark_domain_terminator',
+	'',
+	'domain = param.domain;
+domain_terminator = param.domain_terminator;
+path = domain.name + "::" + domain_terminator.name;
+::create_mark(markable:"DomainTerminator", feature:param.feature_name, path:path, value:param.value);',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	1);
+INSERT INTO S_SPARM
+	VALUES ("d2e9e89b-bd9c-4f28-bd4c-e0abeecaa166",
+	"c0b534ed-ab84-4742-8df2-df69b5ef9f1f",
+	'domain_terminator',
+	"d32c0dae-6ff9-4154-9607-21e8f5db2bb8",
+	0,
+	'',
+	"398899cb-74bd-4d40-888e-983ad0ce79d8",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("d32c0dae-6ff9-4154-9607-21e8f5db2bb8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<DomainTerminator>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("480986c8-c1e9-408b-9729-68bc8f0914bf",
+	"c0b534ed-ab84-4742-8df2-df69b5ef9f1f",
+	'feature_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d2e9e89b-bd9c-4f28-bd4c-e0abeecaa166",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cc6c4fbf-01e3-4bff-becf-57c73ef529e8",
+	"c0b534ed-ab84-4742-8df2-df69b5ef9f1f",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"480986c8-c1e9-408b-9729-68bc8f0914bf",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("398899cb-74bd-4d40-888e-983ad0ce79d8",
+	"c0b534ed-ab84-4742-8df2-df69b5ef9f1f",
+	'domain',
+	"d467079c-c61e-4b05-8498-3fe2f24782a6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("c0b534ed-ab84-4742-8df2-df69b5ef9f1f",
+	1,
+	"cf20d32f-ee33-4e4b-856b-a86d23675ef0",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c3c1dbac-e102-4d3c-9c85-3302b506a851",
+	"00000000-0000-0000-0000-000000000000",
+	'mark_project_terminator',
+	'',
+	'project = param.project;
+domain = param.domain;
+project_terminator = param.project_terminator;
+path = project.name + "::" + domain.name + "::" + project_terminator.name;
+::create_mark(markable:"ProjectTerminator", feature:param.feature_name, path:path, value:param.value);',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	1);
+INSERT INTO S_SPARM
+	VALUES ("8934e64f-6d02-46b6-a712-21a136ba5356",
+	"c3c1dbac-e102-4d3c-9c85-3302b506a851",
+	'project_terminator',
+	"4b9202a7-2be1-45d8-87d5-2f1aee2f06be",
+	0,
+	'',
+	"5d55f313-6206-446a-9a39-9ef0c1d8c94c",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4b9202a7-2be1-45d8-87d5-2f1aee2f06be",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ProjectTerminator>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/project/project.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("ee57a385-e39a-4115-92c3-54aefb32fe25",
+	"c3c1dbac-e102-4d3c-9c85-3302b506a851",
+	'feature_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"8934e64f-6d02-46b6-a712-21a136ba5356",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("854fd9ca-08f7-4eed-ae37-e2990ad79df5",
+	"c3c1dbac-e102-4d3c-9c85-3302b506a851",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ee57a385-e39a-4115-92c3-54aefb32fe25",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5d55f313-6206-446a-9a39-9ef0c1d8c94c",
+	"c3c1dbac-e102-4d3c-9c85-3302b506a851",
+	'domain',
+	"d467079c-c61e-4b05-8498-3fe2f24782a6",
+	0,
+	'',
+	"b8ce0125-0ac5-48f7-99ea-67f09f04d496",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b8ce0125-0ac5-48f7-99ea-67f09f04d496",
+	"c3c1dbac-e102-4d3c-9c85-3302b506a851",
+	'project',
+	"441f24d5-1449-4a86-a093-cf7c331418a3",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("441f24d5-1449-4a86-a093-cf7c331418a3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Project>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/project/project.xtuml');
+INSERT INTO PE_PE
+	VALUES ("c3c1dbac-e102-4d3c-9c85-3302b506a851",
 	1,
 	"cf20d32f-ee33-4e4b-856b-a86d23675ef0",
 	"00000000-0000-0000-0000-000000000000",
