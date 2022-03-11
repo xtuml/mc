@@ -67,18 +67,27 @@
             <goals>
               <goal>core</goal>
             </goals>
-            <configuration>
-              <output>${project.build.directory}/b.xtuml</output>
-            </configuration>
           </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
           <execution>
-            <id>ciera-template</id>
+            <phase>package</phase>
             <goals>
-              <goal>template</goal>
+              <goal>single</goal>
             </goals>
             <configuration>
-              <input>${project.build.directory}/b.xtuml</input>
-              <templateDirs>${project.basedir}/templates</templateDirs>
+              <archive>
+                <manifest>
+                  <mainClass>stratus.StratusApplication</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
             </configuration>
           </execution>
         </executions>
