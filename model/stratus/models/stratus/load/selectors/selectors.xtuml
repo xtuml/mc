@@ -146,6 +146,13 @@ INSERT INTO PE_PE
 	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<BasicType>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("10b722ac-e149-4d32-9146-96e813f54661",
 	"00000000-0000-0000-0000-000000000000",
@@ -367,12 +374,33 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SYNC
 	VALUES ("768a5e41-6c28-447d-994b-1c144fe40316",
 	"00000000-0000-0000-0000-000000000000",
-	'select_DomainTerminatorService_where_name',
+	'select_TerminatorService_where_name',
 	'',
-	'select any domain from instances of Domain where ( selected.name == param.domainname );
-select any domain_terminator related by domain->DomainTerminator[R5304] where ( selected.name == param.terminatorname );
-select any service related by domain_terminator->DomainTerminatorService[R5306]->Service[R5203] where ( selected.name == param.name );
-return service;',
+	'select any project from instances of Project;
+if not_empty project
+  
+  // Project terminator service
+  select many project_domains related by project->ProjectDomain[R5900];
+  for each project_domain in project_domains
+    select one domain related by project_domain->Domain[R5901];
+    if domain.name == param.domainname
+      select any project_terminator related by project_domain->ProjectTerminator[R5902] where ( selected.name == param.terminatorname );
+      select any service related by project_terminator->ProjectTerminatorService[R5903]->Service[R5203] where ( selected.name == param.name );
+      return service;
+    end if;
+  end for;
+
+else
+
+  // Domain terminator service
+  select any domain from instances of Domain where ( selected.name == param.domainname );
+  select any domain_terminator related by domain->DomainTerminator[R5304] where ( selected.name == param.terminatorname );
+  select any service related by domain_terminator->DomainTerminatorService[R5306]->Service[R5203] where ( selected.name == param.name );
+  return service;
+  
+end if;
+select any empty_service from instances of Service where false;
+return empty_service;',
 	"b907c2e2-2877-4506-8018-ad38c7be275a",
 	1,
 	'',

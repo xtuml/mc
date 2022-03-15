@@ -1279,8 +1279,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     public Object visitTerminatorServiceDefinition(MaslParser.TerminatorServiceDefinitionContext ctx) {
         try {
             currentDomain = loader.call_function("select_Domain_where_name", visit(ctx.domainReference()));
-            currentService = loader.call_function("select_DomainTerminatorService_where_name",
-                    visit(ctx.domainReference()), ctx.terminatorName().getText(), ctx.serviceName().getText());
+            currentService = loader.call_function("select_TerminatorService_where_name", visit(ctx.domainReference()),
+                    ctx.terminatorName().getText(), ctx.serviceName().getText());
             loader.set_attribute(currentService, "filename", filename);
             visit(ctx.codeBlock());
             return currentService;
