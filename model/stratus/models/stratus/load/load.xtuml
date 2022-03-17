@@ -665,7 +665,6 @@ elif ((empty to_object_declaration and object_or_role != "") or
 					return relationship_specification;
 				end if;
 			end if;
-		end if;
 			
 			// sub-super
 			select one subsup related by relationship_declaration->SubtypeRelationshipDeclaration[R6010];
@@ -675,12 +674,40 @@ elif ((empty to_object_declaration and object_or_role != "") or
 				relationship_specification.role = "is_a";
 				return relationship_specification;
 			end if;
+
+		end if;
     
 	// Resolve when only the relationship name and role phrase are provided.
 	// Only binary relationships can be resolved with this information.
   else
-    // TODO
-    LOG::LogFailure(message:"TODO rel spec with only rel num and phrase not supported");
+    
+	  relationship_specification.role = object_or_role;
+
+		// normal binary
+		select one half_rel_1 related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6007]
+		  where selected.role == object_or_role;
+		select one object_declaration related by half_rel_1->ObjectDeclaration[R6004];
+		if (not_empty object_declaration)
+			LOG::LogInfo(message: "normal ltr from " + from_object_declaration.name + "->" + object_declaration.name);
+			relate relationship_specification to half_rel_1 across R6013;
+			relate relationship_specification to object_declaration across R6011;
+			relationship_specification.multiplicity = half_rel_1.multiplicity;
+			relationship_specification.conditional = half_rel_1.isconditional;
+			return relationship_specification;
+		end if;
+		select one half_rel_2 related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6008]
+		  where selected.role == object_or_role;
+		select one object_declaration related by half_rel_2->ObjectDeclaration[R6004];
+		if (not_empty object_declaration)
+			LOG::LogInfo(message: "normal rtl to " + from_object_declaration.name + "->" + object_declaration.name);
+			relate relationship_specification to half_rel_2 across R6013;
+			relate relationship_specification to object_declaration across R6011;
+			relationship_specification.multiplicity = half_rel_2.multiplicity;
+			relationship_specification.conditional = half_rel_2.isconditional;
+			return relationship_specification;
+		end if;
+		
+		// TODO from link class to one or other
 
   end if;
   
@@ -698,6 +725,7 @@ elif (empty to_object_declaration and object_or_role == "")
 		relate relationship_specification to object_declaration across R6011;
 		relationship_specification.multiplicity = half_rel_1.multiplicity;
 		relationship_specification.conditional = half_rel_1.isconditional;
+	  relationship_specification.role = half_rel_1.role;
 		return relationship_specification;
 	end if;
 	select one half_rel_2 related by relationship_declaration->NormalRelationshipDeclaration[R6010]->HalfRelationship[R6008];
@@ -708,6 +736,7 @@ elif (empty to_object_declaration and object_or_role == "")
 		relate relationship_specification to object_declaration across R6011;
 		relationship_specification.multiplicity = half_rel_2.multiplicity;
 		relationship_specification.conditional = half_rel_2.isconditional;
+	  relationship_specification.role = half_rel_2.role;
 		return relationship_specification;
 	end if;
 
