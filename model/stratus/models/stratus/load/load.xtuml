@@ -1459,6 +1459,23 @@ if (not_empty ref_param)
   return expr;
 end if;
 
+// search for literal enumerators
+select any enumer related by domain->MaslUserDefinedType[R6235]->TypeDeclaration[R6241]->TypeDefinition[R6234]
+  ->FullTypeDefinition[R6236]->EnumerateType[R6219]->EnumerateItem[R6245] where selected.name == param.name;
+if not_empty enumer
+  create object instance expr of MaslExpression;
+  select any type related by enumer->EnumerateType[R6245]->FullTypeDefinition[R6219]->TypeDefinition[R6236]
+    ->TypeDeclaration[R6234]->MaslUserDefinedType[R6241]->BasicType[R6205];
+  relate type to expr across R5570;
+  create object instance literal_expr of LiteralExpression;
+  relate literal_expr to expr across R5517;
+  create object instance enum_expr of EnumerateLiteral;
+  relate enum_expr to literal_expr across R5700;
+  relate enumer to enum_expr across R5701;
+  LOG::LogInfo(message:"resolved name [enumerator]: ''" + param.name + "''");
+  return expr;
+end if;
+
 // search for domain service reference
 select any service related by domain->DomainService[R5303]->Service[R5203] where selected.name == param.name;
 if (not_empty service)
@@ -1944,6 +1961,10 @@ elif characteristic.characteristic == "scheduled" or characteristic.characterist
   select any boolean_builtin from instances of BuiltinType where "" + selected.name == "boolean";
   select one boolean_type related by boolean_builtin->BasicType[R6205];
   relate boolean_type to expression across R5570;
+elif characteristic.characteristic == "length"
+  select any integer_builtin from instances of BuiltinType where "" + selected.name == "integer";
+  select one integer_type related by integer_builtin->BasicType[R6205];
+  relate integer_type to expression across R5570;
 end if;
 
 // TODO fill out for all characteristics',

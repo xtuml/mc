@@ -470,6 +470,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 } else {
                     loader.relate(enumerator, previousEnumerator, 6242, "succeeds");
                 }
+                loader.relate(enumerator, enumerateType, 6245, "");
                 previousEnumerator = enumerator;
             }
             return enumerateType;

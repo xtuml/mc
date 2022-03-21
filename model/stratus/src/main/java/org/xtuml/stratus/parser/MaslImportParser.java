@@ -7,10 +7,14 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import io.ciera.runtime.instanceloading.generic.IGenericLoader;
 import io.ciera.runtime.instanceloading.generic.util.LOAD;
@@ -34,6 +38,14 @@ public class MaslImportParser implements IGenericLoader {
         CharStream input = CharStreams.fromStream(new FileInputStream(currentFile));
         MaslLexer lexer = new MaslLexer(input);
         MaslParser parser = new MaslParser(new CommonTokenStream(lexer));
+        parser.removeErrorListeners();
+        parser.addErrorListener(new BaseErrorListener() {
+            @Override
+            public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line,
+                    int charPositionInLine, String msg, RecognitionException e) throws ParseCancellationException {
+                throw new ParseCancellationException(currentFile.getName() + ": line " + line + ":" + charPositionInLine + " " + msg);
+            }
+        });
 
         // Parse the file
         ParserRuleContext ctx = parser.target();
