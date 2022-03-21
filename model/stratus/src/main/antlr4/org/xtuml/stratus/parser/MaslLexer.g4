@@ -180,7 +180,7 @@ IntegerLiteral                :  Digit Digit? '#' BasedDigit+
 
 
 RealLiteral                   : Digit+ 
-                                ( ('.' Digit)
+                                ( ('.' Digit+)
                                 | UnbasedExponent
                                 )
                               | '.' Digit+ UnbasedExponent?
