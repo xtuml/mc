@@ -23,7 +23,9 @@ else
 end if;
 select one next_enumerator related by self->enumerator[R3779.''precedes''];
 if ( not_empty next_enumerator )
-  if ( "WASL" == genfile::architecture() )
+  if ( "MASL" == genfile::architecture() )
+    T::include( file:"masl/t.comma.masl" );
+  elif ( "WASL" == genfile::architecture() )
     T::include( file:"wasl/t.comma.wasl" );
   end if;
   next_enumerator.render();
