@@ -2121,10 +2121,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             if (ctx.linkExpression() != null) {
                 return visit(ctx.linkExpression());
             } else {
-                System.err.println("Unsupported unary expression: " + ctx.getText());
-                Object expression = visit(ctx.exp);
-                loader.call_function("resolve_NumericUnaryLiteral", expression, visit(ctx.unaryOperator()));
-                return expression;
+                return loader.call_function("resolve_UnaryExpression", visit(ctx.exp), visit(ctx.unaryOperator()));
             }
         } catch (XtumlException e) {
             xtumlTrace(e, "");

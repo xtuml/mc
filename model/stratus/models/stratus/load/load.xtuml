@@ -1897,17 +1897,35 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("fde2dcaf-3b9c-4652-818e-0b354fdc66fc",
 	"00000000-0000-0000-0000-000000000000",
-	'resolve_NumericUnaryLiteral',
+	'resolve_UnaryExpression',
 	'',
-	'expression = param.expression;
+	'operand = param.operand;
 op = param.op;
 
-select one numeric_literal related by expression->LiteralExpression[R5517]->NumericLiteral[R5700];
-if (not_empty numeric_literal and op == "Operator::minus")
+// if the operator is PLUS, it''s a pass through
+if op == Operator::plus
+  return operand;
+end if;
+
+// if the operator is MINUS and this is a numeric literal, simply prepend the literal text
+select one numeric_literal related by operand->LiteralExpression[R5517]->NumericLiteral[R5700];
+if not_empty numeric_literal and op == Operator::minus
   numeric_literal.text = "-" + numeric_literal.text;
   LOG::LogInfo(message:"Numeric negation applied to literal");
-end if;',
-	"ba5eda7a-def5-0000-0000-000000000000",
+  return operand;
+end if;
+
+// create unary operation
+create object instance expression of MaslExpression;
+select one basic_type related by operand->BasicType[R5570];
+relate basic_type to expression across R5570;
+create object instance unary_exp of UnaryExpression;
+relate unary_exp to expression across R5517;
+unary_exp.operator = op;
+relate operand to unary_exp across R5561;
+
+return expression;',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	1,
 	'',
 	0,
@@ -1915,7 +1933,7 @@ end if;',
 INSERT INTO S_SPARM
 	VALUES ("39393a9d-52b6-4c26-9721-018e5ecc16ed",
 	"fde2dcaf-3b9c-4652-818e-0b354fdc66fc",
-	'expression',
+	'operand',
 	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	0,
 	'',
@@ -1925,11 +1943,18 @@ INSERT INTO S_SPARM
 	VALUES ("5ee4b190-786c-4c3f-9e64-3803b49aa2af",
 	"fde2dcaf-3b9c-4652-818e-0b354fdc66fc",
 	'op',
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"766b5d8d-2e60-4295-a0c6-de1ee59cb168",
 	0,
 	'',
 	"39393a9d-52b6-4c26-9721-018e5ecc16ed",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("766b5d8d-2e60-4295-a0c6-de1ee59cb168",
+	"00000000-0000-0000-0000-000000000000",
+	'Operator',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/Shared/Shared.xtuml');
 INSERT INTO PE_PE
 	VALUES ("fde2dcaf-3b9c-4652-818e-0b354fdc66fc",
 	1,
