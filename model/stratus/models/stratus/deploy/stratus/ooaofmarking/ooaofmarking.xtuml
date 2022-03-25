@@ -1,0 +1,69 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("b8a5b1c8-2732-42c1-b8d7-b29193a24666",
+	"00000000-0000-0000-0000-000000000000",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'ooaofmarking',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("c80bdeba-2af9-44f1-bb75-97c33dff42fb",
+	112,
+	"b8a5b1c8-2732-42c1-b8d7-b29193a24666",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'stratus::deploy::stratus::ooaofmarking');
+INSERT INTO DIM_DIA
+	VALUES ("c80bdeba-2af9-44f1-bb75-97c33dff42fb",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("b8a5b1c8-2732-42c1-b8d7-b29193a24666",
+	"b97268c4-66eb-4387-8dbb-2d7d7751f166");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("b97268c4-66eb-4387-8dbb-2d7d7751f166",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'ooaofmarking',
+	'',
+	0,
+	'../../../../../../org.xtuml.bp.ui.marking/models/org.xtuml.bp.ui.marking/ooaofmarking/ooaofmarking.xtuml');
+INSERT INTO PE_PE
+	VALUES ("b8a5b1c8-2732-42c1-b8d7-b29193a24666",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'stratus',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'',
+	'../stratus.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'stratus',
+	1,
+	'../../../stratus.xtuml');

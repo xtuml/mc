@@ -32,6 +32,24 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../Shared/Shared.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("3296ebc4-ecb5-488c-97e0-c89f5aa54291",
+	"43897b6d-681c-4da2-be1f-b79631529199");
+INSERT INTO O_BATTR
+	VALUES ("3296ebc4-ecb5-488c-97e0-c89f5aa54291",
+	"43897b6d-681c-4da2-be1f-b79631529199");
+INSERT INTO O_ATTR
+	VALUES ("3296ebc4-ecb5-488c-97e0-c89f5aa54291",
+	"43897b6d-681c-4da2-be1f-b79631529199",
+	"077f9404-c0b0-4de4-9785-b2c7c747f894",
+	'interface',
+	'',
+	'',
+	'interface',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"43897b6d-681c-4da2-be1f-b79631529199");

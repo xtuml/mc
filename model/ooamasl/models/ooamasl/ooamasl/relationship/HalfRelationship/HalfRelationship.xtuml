@@ -64,7 +64,7 @@ INSERT INTO O_ATTR
 INSERT INTO S_DT_PROXY
 	VALUES ("fa2f8f5d-939e-4a92-befa-ed42bba34a65",
 	"00000000-0000-0000-0000-000000000000",
-	'Multiplicity',
+	'MaslMultiplicity',
 	'',
 	'',
 	'../../Shared/Shared.xtuml');

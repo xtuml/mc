@@ -1,3 +1,2 @@
 *,RootPackage,*,stratus::deploy
-*,TemplateDir,*,templates
 deploy::stratus,InitFunction,Component,init

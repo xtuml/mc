@@ -128,7 +128,7 @@ INSERT INTO GD_GE
 	"2f0bb20f-cbf4-4a9d-9486-a241f30df580",
 	52,
 	0,
-	'ooamasl::ooamasl::Shared::Visibility');
+	'ooamasl::ooamasl::Shared::MaslVisibility');
 INSERT INTO GD_SHP
 	VALUES ("69e39e78-d386-498b-9246-257dd048d1ec");
 INSERT INTO GD_NCS
@@ -296,7 +296,7 @@ INSERT INTO GD_GE
 	"d8aae913-0271-4abb-95da-790b7be72930",
 	52,
 	0,
-	'ooamasl::ooamasl::Shared::TransitionType');
+	'ooamasl::ooamasl::Shared::MaslTransitionType');
 INSERT INTO GD_SHP
 	VALUES ("a1511363-3da6-4b2e-b5e3-5a16b3488495");
 INSERT INTO GD_NCS
@@ -368,7 +368,7 @@ INSERT INTO GD_GE
 	"fa2f8f5d-939e-4a92-befa-ed42bba34a65",
 	52,
 	0,
-	'ooamasl::ooamasl::Shared::Multiplicity');
+	'ooamasl::ooamasl::Shared::MaslMultiplicity');
 INSERT INTO GD_SHP
 	VALUES ("9545bda9-0677-47cd-bf6b-0744507a133c");
 INSERT INTO GD_NCS
@@ -663,7 +663,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("2f0bb20f-cbf4-4a9d-9486-a241f30df580",
 	"00000000-0000-0000-0000-000000000000",
-	'Visibility',
+	'MaslVisibility',
 	'',
 	'');
 INSERT INTO S_EDT
@@ -792,7 +792,7 @@ INSERT INTO S_EDT
 	VALUES ("766b5d8d-2e60-4295-a0c6-de1ee59cb168");
 INSERT INTO S_ENUM
 	VALUES ("d60eddbd-0e87-4146-91d1-2a4b9325f738",
-	'and',
+	'and_',
 	'',
 	"766b5d8d-2e60-4295-a0c6-de1ee59cb168",
 	"fa431ffd-9cde-428b-9a88-89e24da0cbdd");
@@ -888,7 +888,7 @@ INSERT INTO S_ENUM
 	"fad4cd6e-bcb9-43ec-b4d6-35663eed243f");
 INSERT INTO S_ENUM
 	VALUES ("2bbd06c9-a077-4d15-9958-3630ff4e7e5e",
-	'or',
+	'or_',
 	'',
 	"766b5d8d-2e60-4295-a0c6-de1ee59cb168",
 	"1ada0833-43df-4381-a626-f7a47ecc7858");
@@ -1025,7 +1025,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("d8aae913-0271-4abb-95da-790b7be72930",
 	"00000000-0000-0000-0000-000000000000",
-	'TransitionType',
+	'MaslTransitionType',
 	'',
 	'');
 INSERT INTO S_EDT
@@ -1091,7 +1091,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("fa2f8f5d-939e-4a92-befa-ed42bba34a65",
 	"00000000-0000-0000-0000-000000000000",
-	'Multiplicity',
+	'MaslMultiplicity',
 	'',
 	'');
 INSERT INTO S_EDT

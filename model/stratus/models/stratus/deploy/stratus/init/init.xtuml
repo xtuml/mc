@@ -1,0 +1,138 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("5c561ba5-f4c2-4f8d-b63a-17f9e07b8976",
+	"00000000-0000-0000-0000-000000000000",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'init',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("ef517407-b8a2-45b0-b050-36fe864ceef6",
+	112,
+	"5c561ba5-f4c2-4f8d-b63a-17f9e07b8976",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'stratus::deploy::stratus::init');
+INSERT INTO DIM_DIA
+	VALUES ("ef517407-b8a2-45b0-b050-36fe864ceef6",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("bd788380-0111-441a-a02f-bd233899458c",
+	"00000000-0000-0000-0000-000000000000",
+	'init',
+	'',
+	'LOG::LogInfo( message:"stratus starting init" );
+
+// Set up command line for input MASL file.
+CMD::register_value(name:"mod", value_name:"mod_file", usage:"Path to a MASL domain file", default_value:"", required:false);
+CMD::register_value(name:"prj", value_name:"prj_file", usage:"Path to a MASL project file", default_value:"", required:false);
+CMD::register_value(name:"domainpath", value_name:"domain_path", usage:"Colon separated domain path", default_value:"", required:false);
+CMD::read_command_line();
+
+// Create the preexisting instances
+::BuiltinType_populate();
+::InternalType_populate();
+
+// Parse and load input MASL.
+LOG::LogInfo( message: "stratus loading MASL" );
+args[3] = CMD::get_value(name:"domainpath");
+args[2] = "--domainpath";
+if CMD::get_value(name:"prj") != ""
+  args[1] = CMD::get_value(name:"prj");
+  args[0] = "--prj";
+else
+  args[1] = CMD::get_value(name:"mod");
+  args[0] = "--mod";
+end if;
+LOAD::load(java_class:"org.xtuml.stratus.parser.MaslImportParser", args:args);
+
+// Resolve referential attribute linkage.
+::ReferentialAttribute_resolve();
+
+// Print out a project summary
+LOG::LogInfo(message:"Project summary:");
+select many projects from instances of Project where SORT::ascending(attr:"name");
+for each project in projects
+  LOG::LogInfo(message:"  " + project.name);
+  // domains
+  select many domains related by project->ProjectDomain[R5900];
+  LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality domains) + " domains");
+end for;
+
+// Print out a domain summary
+LOG::LogInfo(message:"Domain summary:");
+select many domains from instances of Domain where SORT::ascending(attr:"name");
+for each domain in domains
+  LOG::LogInfo(message:"  " + domain.name);
+  // objects
+  select many objs related by domain->ObjectDeclaration[R5805];
+  LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality objs) + " objects");
+  // services
+  select many svcs related by domain->DomainService[R5303];
+  LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality svcs) + " domain services");
+  // terminators
+  select many terms related by domain->DomainTerminator[R5304];
+  LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality terms) + " terminators");
+  // relationships
+  select many rels related by domain->RelationshipDeclaration[R6003];
+  LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality rels) + " relationships");
+  // types
+  select many types related by domain->MaslUserDefinedType[R6235];
+  LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality types) + " types");
+  // exceptions
+  select many exps related by domain->ExceptionDeclaration[R5400];
+  LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality exps) + " exceptions");
+end for;
+
+control stop;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO PE_PE
+	VALUES ("bd788380-0111-441a-a02f-bd233899458c",
+	1,
+	"5c561ba5-f4c2-4f8d-b63a-17f9e07b8976",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("5c561ba5-f4c2-4f8d-b63a-17f9e07b8976",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'stratus',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'',
+	'../stratus.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'stratus',
+	1,
+	'../../../stratus.xtuml');

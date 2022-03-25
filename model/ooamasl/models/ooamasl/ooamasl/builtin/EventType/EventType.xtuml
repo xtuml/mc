@@ -4,7 +4,7 @@ INSERT INTO O_OBJ
 	VALUES ("c935041d-c49e-4b81-9b4a-797adbf7a986",
 	'EventType',
 	6218,
-	'EventType',
+	'MaslEventType',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_ID

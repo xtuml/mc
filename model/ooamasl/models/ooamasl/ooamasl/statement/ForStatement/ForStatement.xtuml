@@ -7,6 +7,24 @@ INSERT INTO O_OBJ
 	'ForStatement',
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("8af9ad12-881c-4bae-be45-21a34a4d777d",
+	"ef2a0b4a-b2ef-47e3-bd58-4c80208d9f20");
+INSERT INTO O_BATTR
+	VALUES ("8af9ad12-881c-4bae-be45-21a34a4d777d",
+	"ef2a0b4a-b2ef-47e3-bd58-4c80208d9f20");
+INSERT INTO O_ATTR
+	VALUES ("8af9ad12-881c-4bae-be45-21a34a4d777d",
+	"ef2a0b4a-b2ef-47e3-bd58-4c80208d9f20",
+	"00000000-0000-0000-0000-000000000000",
+	'actions',
+	'',
+	'',
+	'actions',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"ef2a0b4a-b2ef-47e3-bd58-4c80208d9f20");
