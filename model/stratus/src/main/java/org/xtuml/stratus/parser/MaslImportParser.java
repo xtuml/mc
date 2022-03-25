@@ -1,10 +1,16 @@
 package org.xtuml.stratus.parser;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.Optional;
+import java.util.Stack;
 import java.util.function.Predicate;
+import java.util.jar.JarFile;
 import java.util.stream.Stream;
 
 import org.antlr.v4.runtime.BaseErrorListener;
@@ -24,59 +30,96 @@ import io.ciera.runtime.summit.util.CommandLine;
 public class MaslImportParser implements IGenericLoader {
 
     private LOAD loader;
-    private File currentFile;
+    private Stack<URI> parsingResources;
     private String[] domainPath;
 
-    // parse a MASL file
-    public void parseFile(final String filename) throws IOException {
-        final File prevFile = currentFile;
-        currentFile = new File(filename);
-
-        System.out.println("Parsing file: " + filename);
-
-        // Tokenize the file
-        CharStream input = CharStreams.fromStream(new FileInputStream(currentFile));
-        MaslLexer lexer = new MaslLexer(input);
-        MaslParser parser = new MaslParser(new CommonTokenStream(lexer));
-        parser.removeErrorListeners();
-        parser.addErrorListener(new BaseErrorListener() {
-            @Override
-            public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line,
-                    int charPositionInLine, String msg, RecognitionException e) throws ParseCancellationException {
-                throw new ParseCancellationException(currentFile.getName() + ": line " + line + ":" + charPositionInLine + " " + msg);
-            }
-        });
-
-        // Parse the file
-        ParserRuleContext ctx = parser.target();
-
-        // Walk the parse tree
-        MaslPopulator listener = new MaslPopulator(this, loader, input, currentFile.getName());
-        listener.visit(ctx);
-
-        currentFile = prevFile;
+    public MaslImportParser() {
+        parsingResources = new Stack<>();
     }
 
-    public String findFile(final String fileName) {
+    // parse a MASL file
+    public void parseFile(final URI fileURI) throws IOException {
+        parsingResources.push(fileURI);
+        System.out.println("Parsing resource: " + fileURI);
+
+        try (InputStream is = fileURI.toURL().openConnection().getInputStream()) {
+            final String filename = Path.of(fileURI.toURL().getPath()).getFileName().toString();
+
+            // Tokenize the file
+            CharStream input = CharStreams.fromStream(is);
+            MaslLexer lexer = new MaslLexer(input);
+            MaslParser parser = new MaslParser(new CommonTokenStream(lexer));
+            parser.removeErrorListeners();
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line,
+                        int charPositionInLine, String msg, RecognitionException e) throws ParseCancellationException {
+                    throw new ParseCancellationException(
+                            filename + ": line " + line + ":" + charPositionInLine + " " + msg);
+                }
+            });
+
+            // Parse the file
+            ParserRuleContext ctx = parser.target();
+
+            // Walk the parse tree
+            MaslPopulator listener = new MaslPopulator(this, loader, input, filename);
+            listener.visit(ctx);
+
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        } finally {
+            parsingResources.pop();
+        }
+
+    }
+
+    public URI findFile(final String fileName) {
         return findFile(null, fileName);
     }
 
-    public String findFile(final String domainName, final String fileName) {
-        // Look in the directory of the current file
-        Stream<File> localFiles = Stream.of(currentFile.getParentFile().listFiles());
+    public URI findFile(final String domainName, final String fileName) {
+        // look for resources on the local file system
+        try {
+            final File currentFile = new File(parsingResources.peek());
 
-        // Look in each domain path entry for the file
-        Stream<File> domainPathFiles = Stream.of(domainPath)
-                .flatMap(p -> Stream.of(Optional.ofNullable(new File(p).listFiles()).orElse(new File[0])));
+            // Look in the directory of the current file
+            Stream<File> localFiles = Stream.of(currentFile.getParentFile().listFiles());
 
-        // Look in each domain path entry + domain directory for the file
-        Stream<File> domainPathFiles2 = domainName != null ? Stream.of(domainPath).flatMap(p -> Stream.of(Optional
-                .ofNullable(new File(p + File.separator + domainName + "_OOA").listFiles()).orElse(new File[0])))
-                : Stream.of();
+            // Look in each domain path entry for the file
+            Stream<File> domainPathFiles = Stream.of(domainPath)
+                    .flatMap(p -> Stream.of(Optional.ofNullable(new File(p).listFiles()).orElse(new File[0])));
 
-        // return the first match
-        return Stream.of(localFiles, domainPathFiles, domainPathFiles2).flatMap(s -> s)
-                .filter(f -> f.getName().equals(fileName)).findAny().orElseThrow().getAbsolutePath();
+            // Look in each domain path entry + domain directory for the file
+            Stream<File> domainPathFiles2 = domainName != null ? Stream.of(domainPath).flatMap(p -> Stream.of(Optional
+                    .ofNullable(new File(p + File.separator + domainName + "_OOA").listFiles()).orElse(new File[0])))
+                    : Stream.of();
+
+            // return the first match
+            Optional<URI> localURI = Stream.of(localFiles, domainPathFiles, domainPathFiles2).flatMap(s -> s)
+                    .filter(f -> f.getName().equals(fileName)).map(File::toURI).findAny();
+            if (localURI.isPresent()) {
+                return localURI.orElseThrow();
+            }
+        } catch (IllegalArgumentException e) {
+            // not a local file
+        }
+
+        // Look in "masl/" folder within JAR files
+        return Stream.of(domainPath).filter(p -> p.endsWith(".jar")).filter(path -> {
+            try (JarFile jarFile = new JarFile(path)) {
+                return jarFile.getEntry("masl/" + fileName) != null;
+            } catch (IOException e1) {
+                return false;
+            }
+        }).map(path -> String.format("jar:file:%s!/masl/%s", path, fileName)).map(t -> {
+            try {
+                return new URI(t);
+            } catch (URISyntaxException e2) {
+                throw new RuntimeException(e2);
+            }
+        }).findAny().orElseThrow();
+
     }
 
     // main load
@@ -96,10 +139,10 @@ public class MaslImportParser implements IGenericLoader {
                     .toArray(String[]::new);
             if (!modFile.isBlank() && prjFile.isBlank()) {
                 // parse domain model
-                parseFile(modFile);
+                parseFile(new File(modFile).toURI());
             } else if (modFile.isBlank() && !prjFile.isBlank()) {
                 // parse project model
-                parseFile(prjFile);
+                parseFile(new File(prjFile).toURI());
             } else if (!modFile.isBlank() && !prjFile.isBlank()) {
                 throw new XtumlException("Cannot specify both domain and project file");
             } else {

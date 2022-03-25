@@ -2,6 +2,7 @@ package org.xtuml.stratus.parser;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
@@ -124,8 +125,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             for (String activityFile : activityFiles) {
                 if (activityFile != null) {
                     try {
-                        final String filename = maslParser.findFile(activityFile);
-                        maslParser.parseFile(filename);
+                        final URI fileURI = maslParser.findFile(activityFile);
+                        maslParser.parseFile(fileURI);
                     } catch (NoSuchElementException e) {
                         System.err.println("WARNING: Could not find activity file '" + activityFile + "' for project: " + ctx.projectName().getText());
                     }
@@ -197,8 +198,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 for (String activityFile : activityFiles) {
                     if (activityFile != null) {
                         try {
-                            final String filename = maslParser.findFile(domainName, activityFile);
-                            maslParser.parseFile(filename);
+                            final URI fileURI = maslParser.findFile(domainName, activityFile);
+                            maslParser.parseFile(fileURI);
                         } catch (NoSuchElementException e) {
                             System.err.println("WARNING: Could not find activity file '" + activityFile + "' for domain: " + domainName);
                         }
@@ -221,8 +222,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             if (((IModelInstance<?, ?>) domain).isEmpty()) {
                 // Find and parse the domain interface
                 try {
-                    final String filename = maslParser.findFile(domainName, domainName + ".int");
-                    maslParser.parseFile(filename);
+                    final URI fileURI = maslParser.findFile(domainName, domainName + ".int");
+                    maslParser.parseFile(fileURI);
                 } catch (NoSuchElementException e) {
                     System.err.println("Could not find interface file '" + domainName + ".int' for domain: " + domainName);
                     xtumlTrace(e, "");
