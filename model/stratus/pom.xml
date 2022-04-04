@@ -50,7 +50,6 @@
           </execution>
         </executions>
       </plugin>
-      <!-- uncomment to build executable example
       <plugin>
         <groupId>io.ciera</groupId>
         <artifactId>ciera-maven-plugin</artifactId>
@@ -92,7 +91,16 @@
           </execution>
         </executions>
       </plugin>
-      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <links>
+            <link>https://javadoc.io/doc/io.ciera/runtime/2.6.2/</link>
+            <link>https://javadoc.io/doc/org.antlr/antlr4-runtime/4.9.1/</link>
+          </links>
+        </configuration>
+      </plugin>
     </plugins>
     <resources>
       <resource>

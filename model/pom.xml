@@ -54,7 +54,11 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.1.1</version>
+            <version>3.3.2</version>
+            <configuration>
+              <!-- Remove this once everything is documented -->
+              <additionalJOption>-Xdoclint:none</additionalJOption>
+            </configuration>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
