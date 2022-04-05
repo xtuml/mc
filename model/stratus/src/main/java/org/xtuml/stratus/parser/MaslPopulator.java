@@ -461,6 +461,22 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitStructureComponentDefinition(MaslParser.StructureComponentDefinitionContext ctx) {
+        try {
+            Object structureComponent = loader.create("StructureElement");
+            loader.set_attribute(structureComponent, "name", ctx.componentName().getText());
+            loader.relate(structureComponent, visit(ctx.typeReference()), 6230, "");
+            if (ctx.defaultValue != null) {
+                loader.relate(structureComponent, visit(ctx.defaultValue), 6229, "");
+            }
+            return structureComponent;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "");
+            return null;
+        }
+    }
+
+    @Override
     public Object visitEnumerationTypeDefinition(MaslParser.EnumerationTypeDefinitionContext ctx) {
         try {
             Object previousEnumerator = null;
