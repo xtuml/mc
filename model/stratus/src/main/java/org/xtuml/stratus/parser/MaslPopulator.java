@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
 
 import io.ciera.runtime.instanceloading.generic.util.LOAD;
@@ -75,8 +76,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     }
 
     // trace routine
-    private void xtumlTrace(Exception e, String message) {
-        System.err.println("xtumlTrace(" + message + ") - " + /* TODO */ "getFile()" + ":  " + e);
+    private void xtumlTrace(Exception e, String message, ParserRuleContext ctx) {
+        System.err.println("xtumlTrace(" + message + ") - " + filename + ":" + ctx.getStart().getLine());
         e.printStackTrace();
         System.exit(1);
     }
@@ -105,7 +106,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentMarkable = null;
             return visitChildren(ctx);
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -135,7 +136,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentProject = null;
             return project;
         } catch (XtumlException | IOException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -153,7 +154,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentDomain = null;
             return projectDomain;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -209,7 +210,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 
             return domain;
         } catch (XtumlException | IOException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -226,13 +227,13 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     maslParser.parseFile(fileURI);
                 } catch (NoSuchElementException e) {
                     System.err.println("Could not find interface file '" + domainName + ".int' for domain: " + domainName);
-                    xtumlTrace(e, "");
+                    xtumlTrace(e, "", ctx);
                     return null;
                 }
             }
             return domainName;
         } catch (XtumlException | IOException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -245,7 +246,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.set_attribute(rejection, "visibility", visit(ctx.exceptionVisibility()));
             return rejection;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -268,7 +269,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return exceptionReference;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -297,7 +298,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return userDefinedType;
 
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -332,7 +333,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return userDefinedType;
 
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -372,7 +373,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return typeDefinition;
 
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -390,7 +391,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.typeConstraint()), constrainedType, 6209, "");
             return constrainedType;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -408,7 +409,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return typeConstraint;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -421,7 +422,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.rangeConstraint()), deltaConstraint, 6212, "");
             return deltaConstraint;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -434,7 +435,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.rangeConstraint()), digitsConstraint, 6216, "");
             return digitsConstraint;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -455,7 +456,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return structureType;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -471,7 +472,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return structureComponent;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -492,7 +493,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return enumerateType;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -508,7 +509,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return enumerateItem;
 
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -521,7 +522,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.arrayOf), type, 6240, "");
             return type;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -532,7 +533,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             Object basicType = loader.call_function("select_BasicType_where_name", "", ctx.getText());
             return basicType;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -547,7 +548,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(instanceType, visit(ctx.fullObjectReference()), 6220, "");
             return basicType;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -565,7 +566,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return basicType;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -576,7 +577,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return loader.call_function("select_UserDefinedType_where_name", visit(ctx.domainReference()),
                     ctx.typeName().getText());
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -591,7 +592,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(unconstrainedArraySubtype, visit(ctx.arrayBounds()), 6237, "");
             return basicType;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -612,7 +613,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return basicType;
 
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -631,7 +632,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return basicType;
 
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -648,7 +649,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(setType, collectionType, 6207, "");
             return basicType;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -665,7 +666,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(bagType, collectionType, 6207, "");
             return basicType;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -693,7 +694,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return basicType;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -724,7 +725,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return projectTerminator;
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -753,7 +754,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return projectTerminatorService;
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -764,7 +765,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return loader.call_function("select_ObjectDeclaration_where_name", getName(currentDomain),
                     ctx.objectName().getText());
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -776,7 +777,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     ctx.domainReference() != null ? visit(ctx.domainReference()) : getName(currentDomain),
                     ctx.objectName().getText());
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -788,7 +789,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.set_attribute(objectDeclaration, "name", ctx.objectName().getText());
             return objectDeclaration;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -825,7 +826,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentObject = emptyObject;
             return objectDeclaration;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -866,7 +867,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentAttribute = null;
             return attributeDeclaration;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -882,7 +883,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(referentialAttributeDefinition, visit(ctx.relationshipSpec()), 5811, "");
             return referentialAttributeDefinition;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -896,7 +897,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     visit(ctx.relationshipReference()), currentObject, objectOrRole, toObject);
             return relationshipSpecification;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -920,7 +921,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return objectService;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -938,7 +939,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return identifierDeclaration;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -956,7 +957,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return eventDeclaration;
 
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -984,7 +985,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return OOAState;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1014,7 +1015,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return transitionTable;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1035,7 +1036,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return transitionRow;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1056,7 +1057,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return transitionOption;
 
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1084,7 +1085,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     ctx.objectReference() != null ? visit(ctx.objectReference()) : currentObject,
                     ctx.eventName().getText());
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1110,7 +1111,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentMarkable = null;
             return domainService;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1124,7 +1125,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.parameterType()), parameter, 5200, "");
             return parameter;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1144,7 +1145,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return firstParameter;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1173,7 +1174,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return relationshipDeclaration;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1186,7 +1187,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.backwards), normalRelationshipDeclaration, 6008, "");
             return normalRelationshipDeclaration;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1200,7 +1201,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.objectReference()), associativeRelationshipDeclaration, 6001, "");
             return associativeRelationshipDeclaration;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1216,7 +1217,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.to), halfRelationship, 6004, "");
             return halfRelationship;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1231,7 +1232,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return subtypeRelationshipDeclaration;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1253,7 +1254,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     ctx.domainReference() != null ? visit(ctx.domainReference()) : getName(currentDomain),
                     ctx.relationshipName().getText());
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1273,7 +1274,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             createMark(ctx.pragmaName().getText(), value);
             return null;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1288,7 +1289,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             visit(ctx.codeBlock());
             return currentService;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1303,7 +1304,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             visit(ctx.codeBlock());
             return currentService;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1319,7 +1320,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             visit(ctx.codeBlock());
             return currentOOAState;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1335,7 +1336,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             visit(ctx.codeBlock());
             return currentService;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1391,7 +1392,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentCodeBlock = oldCodeBlock;
             return codeBlock;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1445,7 +1446,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentCodeBlock = oldCodeBlock;
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1467,7 +1468,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             return variableDefinition;
 
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1494,7 +1495,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return firstStatement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1546,7 +1547,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1559,7 +1560,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.rhs), statement, 5100, "");
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1581,7 +1582,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1598,7 +1599,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.call_function("resolve_ServiceCall", statement, expression);
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1610,7 +1611,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.set_attribute(streamOperator, "operator", visit(ctx.streamOperator()));
             return streamOperator;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1638,7 +1639,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.expression()), statement, 5128, "");
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
 
@@ -1664,7 +1665,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentRelToObject = emptyObject;
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
 
@@ -1690,7 +1691,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1727,7 +1728,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1750,7 +1751,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return alternative;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1771,7 +1772,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return alternative;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1802,7 +1803,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.logicalXor());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1832,7 +1833,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.findLogicalXor());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1857,7 +1858,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.logicalAnd());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1882,7 +1883,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.findLogicalAnd());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1907,7 +1908,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.equality());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1932,7 +1933,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.findPrimary());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -1965,7 +1966,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(binaryExpression, rhs, 5002, "");
             return expression;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
 
@@ -1981,7 +1982,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return expression;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2010,7 +2011,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.relationalExp());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2043,7 +2044,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.additiveExp());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2083,7 +2084,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.multExp());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2127,7 +2128,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.unaryExp());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2141,7 +2142,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return loader.call_function("resolve_UnaryExpression", visit(ctx.exp), visit(ctx.unaryOperator()));
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2171,7 +2172,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return null;
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2227,7 +2228,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.extendedExpression());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2272,7 +2273,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentObject = emptyObject;
             return expression;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2298,7 +2299,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return attributeInitialization;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2322,7 +2323,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             currentObject = prevCurrentObject;
             return expression;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2369,7 +2370,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.primaryExpression());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2398,7 +2399,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 return visit(ctx.primaryExpression());
             }
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2425,7 +2426,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     ctx.identifier().getText(), currentCodeBlock);
             return expression;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2459,7 +2460,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return firstArgument;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2548,7 +2549,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return expression;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2570,7 +2571,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2587,7 +2588,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.timerId), statement, 5102, "");
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2604,7 +2605,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     : ctx.RANGE() != null ? ctx.RANGE().getText() : ctx.DELTA().getText());
             return expression;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2619,7 +2620,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2639,7 +2640,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return handler;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2658,7 +2659,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return handler;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2672,7 +2673,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2691,7 +2692,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2703,7 +2704,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.expression()), statement, 5104, "");
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2715,7 +2716,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(visit(ctx.expression()), statement, 5105, "");
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2734,7 +2735,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2755,7 +2756,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.relate(basicType, variableDefinition, 5137, "");
             return loopSpec;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2789,7 +2790,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return statement;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2816,7 +2817,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return alternative;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
@@ -2835,7 +2836,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             }
             return alternative;
         } catch (XtumlException e) {
-            xtumlTrace(e, "");
+            xtumlTrace(e, "", ctx);
             return null;
         }
     }
