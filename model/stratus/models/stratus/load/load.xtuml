@@ -1159,247 +1159,6 @@ INSERT INTO PE_PE
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("2a726c91-8ada-4a55-a49a-4b424f6dbcb2",
-	"00000000-0000-0000-0000-000000000000",
-	'resolve_name',
-	'',
-	'/*
-AttributeDeclaration
-EventDeclaration
-EnumeratorItem
-*/ 
-expression = param.expression;
-code_block = param.code_block;
-message = ""; d = ""; n = ""; s = ""; // string UDTs
-d = param.domainname; n = param.name;
-message = "resolve_name( " + param.trace + ", " + d + "::" + n + ", ";
-if ( not_empty code_block )
-  select one service related by code_block->Service[R5403];
-  if ( empty service )
-    select one state related by code_block->MaslState[R6115];
-    if ( empty state )
-      LOG::LogFailure( message:"empty service and state" );
-    else
-      s = state.name;
-    end if;
-  else
-    s = service.name;
-  end if;
-  message = message + "true(" + s + ")";
-else
-  message = message + "false";
-end if;
-message = message + " ) - ";
-LOG::LogInfo( message: message + "starting..." );
-// TODO not sure I need this
-select any basic_type from instances of BasicType where ( false );
-
-// charactistics
-if ( "elements" == n ) // UDT strings
-  select one basic_type related by expression->BasicType[R5570];
-  select one instance_type related by basic_type->InstanceType[R6205];
-  if ( not_empty instance_type )
-    LOG::LogInfo( message: message + "elements instance type" );
-    return basic_type;
-  end if;
-  select one collection_type related by basic_type->CollectionType[R6205];
-  if ( not_empty collection_type )
-    LOG::LogInfo( message: message + "elements collection type" );
-    return basic_type;
-  else
-    LOG::LogFailure( message: message + "was not a collection type" );
-  end if;
-elif ( "first" == n ) // UDT strings
-elif ( "last" == n ) // UDT strings
-else
-end if;
-
-// variable
-if ( not_empty code_block )
-  select any variable_definition related by code_block->VariableDefinition[R5151] where ( selected.name == param.name );
-  if ( not_empty variable_definition )
-    create object instance variable_name_expression of VariableNameExpression;
-    relate expression to variable_name_expression across R5517;
-    select one basic_type related by variable_definition->BasicType[R5137];
-    relate variable_name_expression to variable_definition across R5562;
-    LOG::LogInfo( message: message + "variable." );
-    return basic_type;
-  end if;
-end if;
-
-// parameter
-if ( not_empty code_block )
-  select one parameter_definition related by code_block->Service[R5403]->ParameterDefinition[R5204];
-  while ( not_empty parameter_definition )
-    if ( parameter_definition.name == param.name )
-      create object instance parameter_name_expression of ParameterNameExpression;
-      relate expression to parameter_name_expression across R5517;
-      relate parameter_name_expression to parameter_definition across R5536;
-      select one basic_type related by parameter_definition->BasicType[R5200];
-      LOG::LogInfo( message: message + "parameter." );
-      return basic_type;
-    end if;
-    select one parameter_definition related by parameter_definition->ParameterDefinition[R5208.''precedes''];
-  end while;
-end if;
-
-// type
-select any builtin_type from instances of BuiltinType where ( selected.name == param.name );
-if ( not_empty builtin_type )
-  select one basic_type related by builtin_type->BasicType[R6205];
-  LOG::LogInfo( message: message + "builtin type." );
-  return basic_type;
-else
-  select any domain from instances of Domain where ( selected.name == param.domainname );
-  select any user_defined_type from instances of MaslUserDefinedType where ( selected.name == param.name );
-  if ( not_empty domain )
-    select any user_defined_type related by domain->MaslUserDefinedType[R6235] where ( selected.name == param.name );
-  end if;
-  if ( not_empty user_defined_type )
-    select one basic_type related by user_defined_type->BasicType[R6205];
-    LOG::LogInfo( message: message + "user type." );
-    return basic_type;
-  end if;
-end if;
-
-// service
-// TODO full signature
-select any service from instances of Service where ( selected.name == param.name );
-if ( not_empty service )
-  select any service_overload related by service->ServiceOverload[R5207];
-  create object instance service_expression of ServiceExpression;
-  relate expression to service_expression across R5517;
-  //relate service_expression to service_overload across R5545;
-  select one basic_type related by service->BasicType[R5205];
-  LOG::LogInfo( message: message + "service." );
-  return basic_type;
-end if;
-
-// object
-select any object_declaration from instances of ObjectDeclaration where ( selected.name == param.name );
-if ( not_empty object_declaration )
-  create object instance object_name_expression of ObjectNameExpression;
-  relate expression to object_name_expression across R5517;
-  relate object_name_expression to object_declaration across R5533;
-  // TODO - may need to know that we need a set
-  basic_type = ::select_create_InstanceType( object_declaration: object_declaration, isset: false );
-  if ( empty basic_type )
-    LOG::LogFailure( message: message + "before object... basic_type is empty" );
-  end if;
-  LOG::LogInfo( message: message + "object." );
-  return basic_type;
-end if;
-
-// terminator
-select any domain_terminator from instances of DomainTerminator where ( selected.name == param.name );
-if ( not_empty domain_terminator )
-  create object instance terminator_name_expression of TerminatorNameExpression;
-  relate expression to terminator_name_expression across R5517;
-  relate terminator_name_expression to domain_terminator across R5555;
-  t = param.name; // string UDTs
-  t = "terminator";
-  select any internal_type from instances of InternalType where ( selected.name == t );
-  select one basic_type related by internal_type->BasicType[R6205];
-  LOG::LogInfo( message: message + "terminator." );
-  return basic_type;
-end if;
-
-// attribute
-// TODO I think this will be moved/duplicated in a routine used to resolve DotExpression.
-select any attribute_declaration from instances of AttributeDeclaration where ( selected.name == param.name );
-if ( not_empty attribute_declaration )
-  create object instance selected_attribute_expression of SelectedAttributeExpression;
-  relate selected_attribute_expression to attribute_declaration across R5541;
-  select one basic_type related by attribute_declaration->BasicType[R5803];
-  LOG::LogInfo( message: message + "attribute." );
-  return basic_type;
-end if;
-
-// enumerator
-select any enumerate_item from instances of EnumerateItem where ( selected.name == param.name );
-if ( not_empty enumerate_item )
-  create object instance literal_expression of LiteralExpression;
-  create object instance enumerate_literal of EnumerateLiteral;
-  relate enumerate_literal to literal_expression across R5700;
-  relate enumerate_literal to enumerate_item across R5701;
-  relate expression to literal_expression across R5517;
-  select any basic_type related by enumerate_item->EnumerateType[R6218]->FullTypeDefinition[R6219]->TypeDefinition[R6236]->TypeDeclaration[R6234]->MaslUserDefinedType[R6241]->BasicType[R6205];
-  LOG::LogInfo( message: message + "enumerator." );
-  return basic_type;
-end if;
-
-return basic_type;',
-	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
-	1,
-	'',
-	0,
-	0);
-INSERT INTO S_SPARM
-	VALUES ("d12ba210-f6c0-44f9-b7b5-025dbb423d12",
-	"2a726c91-8ada-4a55-a49a-4b424f6dbcb2",
-	'name',
-	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
-	0,
-	'',
-	"1aad90a0-c186-4cb7-8b6f-c68499439519",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("5e9ba6eb-30d8-4682-955f-fca77cb8391b",
-	"2a726c91-8ada-4a55-a49a-4b424f6dbcb2",
-	'expression',
-	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
-	0,
-	'',
-	"5e844c88-314b-44fe-82d6-9d9f1fa58688",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("1aad90a0-c186-4cb7-8b6f-c68499439519",
-	"2a726c91-8ada-4a55-a49a-4b424f6dbcb2",
-	'domainname',
-	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
-	0,
-	'',
-	"5e9ba6eb-30d8-4682-955f-fca77cb8391b",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("5e844c88-314b-44fe-82d6-9d9f1fa58688",
-	"2a726c91-8ada-4a55-a49a-4b424f6dbcb2",
-	'code_block',
-	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("a76746ea-c05f-42fd-bfbf-00a70b069bb6",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<CodeBlock>',
-	'',
-	'',
-	'../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("3aa7cff8-ae53-4666-b575-887685c25d55",
-	"2a726c91-8ada-4a55-a49a-4b424f6dbcb2",
-	'trace',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"d12ba210-f6c0-44f9-b7b5-025dbb423d12",
-	'');
-INSERT INTO PE_PE
-	VALUES ("2a726c91-8ada-4a55-a49a-4b424f6dbcb2",
-	1,
-	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_DT_PROXY
-	VALUES ("f2470f88-fc4a-406d-ba1c-54179e448ed4",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<BasicType>',
-	'',
-	'',
-	'../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
-INSERT INTO S_SYNC
 	VALUES ("183c6254-c6e2-4d4e-a5f3-5011775222ab",
 	"00000000-0000-0000-0000-000000000000",
 	'resolve_NameExpression',
@@ -1473,7 +1232,7 @@ if not_empty enumer
   create object instance enum_expr of EnumerateLiteral;
   relate enum_expr to literal_expr across R5700;
   relate enumer to enum_expr across R5701;
-  LOG::LogInfo(message:"resolved name [enumerator]: ''" + param.name + "''");
+  LOG::LogInfo(message:"resolved name [enumerator]: ''" + param.domain_name + "::" + param.name + "''");
   return expr;
 end if;
 
@@ -1493,7 +1252,7 @@ if (not_empty service)
   relate domain_service_invocation to service_invocation across R5610;
   select one domain_service related by service->DomainService[R5203];
   relate domain_service to domain_service_invocation across R5611;
-  LOG::LogInfo(message:"resolved name [domain service]: ''" + param.name + "''");
+  LOG::LogInfo(message:"resolved name [domain service]: ''" + param.domain_name + "::" + param.name + "''");
   return expr;
 end if;
 
@@ -1506,7 +1265,7 @@ if (not_empty object_declaration)
   relate object_declaration to obj_name_expr across R5533;
   type = ::select_create_InstanceType(object_declaration:object_declaration, isset:true);
   relate type to expr across R5570;
-  LOG::LogInfo(message:"resolved name [object]: ''" + param.name + "''");
+  LOG::LogInfo(message:"resolved name [object]: ''" + param.domain_name + "::" + param.name + "''");
   return expr;
 end if;
 
@@ -1525,24 +1284,29 @@ if (not_empty terminator)
   relate terminator_service_invocation to service_invocation across R5610;
   select any terminator_service related by terminator->DomainTerminatorService[R5306];
   relate terminator_service to terminator_service_invocation across R5612;
-  LOG::LogInfo(message:"resolved name [terminator]: ''" + param.name + "''");
+  LOG::LogInfo(message:"resolved name [terminator]: ''" + param.domain_name + "::" + param.name + "''");
   return expr;
 end if;
 
-// search for types
-// TODO need to understand cast rules more
+// search for types (for characteristics and type casting)
 select any builtin from instances of BuiltinType where selected.name == param.name;
-if (not_empty builtin)
-  // create a new type cast expression
+select one basic_type related by builtin->BasicType[R6205];
+if empty basic_type
+  select any udt related by domain->MaslUserDefinedType[R6235] where selected.name == param.name;
+  select one basic_type related by udt->BasicType[R6205];
+end if;
+if not_empty basic_type
+  // create a new type type name expression
   create object instance expr of MaslExpression;
-  select one type related by builtin->BasicType[R6205];
-  relate type to expr across R5570;
-  create object instance call_expr of CallExpression;
-  relate call_expr to expr across R5517;
-  create object instance cast of CastExpression;
-  relate cast to call_expr across R5500;
-  relate type to cast across R5501;
-  LOG::LogInfo(message:"resolved name [type cast]: ''" + param.name + "''");
+  relate basic_type to expr across R5570;
+  create object instance type_name_expr of TypeNameExpression;
+  relate type_name_expr to expr across R5517;
+  relate basic_type to type_name_expr across R5578;
+  log_name = param.name;
+  if empty builtin
+    log_name = param.domain_name + "::" + log_name;
+  end if;
+  LOG::LogInfo(message:"resolved name [type reference]: ''" + log_name + "''");
   return expr;
 end if;
 
@@ -1581,6 +1345,13 @@ INSERT INTO S_SPARM
 	'',
 	"36951a0f-4c2a-4b7c-b397-52e2fb563a44",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<CodeBlock>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
 INSERT INTO PE_PE
 	VALUES ("183c6254-c6e2-4d4e-a5f3-5011775222ab",
 	1,
@@ -1669,9 +1440,28 @@ INSERT INTO S_SYNC
 	'',
 	'expression = param.expression;
 first_argument = param.first_argument;
-
+ 
 select one call_expr related by expression->CallExpression[R5517];
-if (not_empty call_expr and not_empty first_argument)
+
+// if this is a type name expression, perform a subtype migration to convert to
+// a cast expression
+select one type_name_expr related by expression->TypeNameExpression[R5517];
+if not_empty type_name_expr
+  select one basic_type related by type_name_expr->BasicType[R5578];
+  // unhook and dispose the type name expression
+  unrelate basic_type from type_name_expr across R5578;
+  unrelate type_name_expr from expression across R5517;
+  delete object instance type_name_expr;
+  // create the cast expression
+  create object instance call_expr of CallExpression;
+  relate call_expr to expression across R5517;
+  create object instance cast of CastExpression;
+  relate cast to call_expr across R5500;
+  relate basic_type to cast across R5501;
+end if;
+
+// link the first argument to the call expression
+if not_empty call_expr and not_empty first_argument
   relate first_argument to call_expr across R5575;
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -2119,6 +1909,13 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<BasicType>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("d7ab00cc-2a6d-4f76-b901-a5820120a218",
 	"00000000-0000-0000-0000-000000000000",
