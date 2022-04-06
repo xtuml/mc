@@ -2362,6 +2362,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     Object expression = visit(ctx.characteristic());
                     loader.call_function("resolve_CharacteristicExpression", expression, visit(ctx.root));
                     return expression;
+                } else if (ctx.LBRACKET() != null) {
+                    return loader.call_function("resolve_SliceExpression", visit(ctx.root), visit(ctx.expression()));
                 } else {
                     System.err.println("Unsupported postfix expression");
                     return null;

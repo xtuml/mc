@@ -939,16 +939,19 @@ else
   relate structure_ordering_expression to ordering_expression across R5534;
 end if;
 
-// Create an anonymous sequence of the same element as the child expression.
-create object instance type_definition of TypeDefinition;
-create object instance basic_type of BasicType;
-basic_type.isanonymous = true;
-create object instance collection_type of CollectionType;
-create object instance sequence_type of SequenceType;
-relate basic_type to type_definition across R6236;
-relate collection_type to basic_type across R6205;
-relate sequence_type to collection_type across R6207;
-relate collection_type to child_basic_type across R6208;
+// Find or create an anonymous sequence of the same element as the child expression.
+select any basic_type related by child_basic_type->CollectionType[R6208]->SequenceType[R6207]->CollectionType[R6207]->BasicType[R6205];
+if empty basic_type
+  create object instance type_definition of TypeDefinition;
+  create object instance basic_type of BasicType;
+  basic_type.isanonymous = true;
+  create object instance collection_type of CollectionType;
+  create object instance sequence_type of SequenceType;
+  relate basic_type to type_definition across R6236;
+  relate collection_type to basic_type across R6205;
+  relate sequence_type to collection_type across R6207;
+  relate collection_type to child_basic_type across R6208;
+end if;
 
 relate basic_type to expr across R5570;
 
@@ -1763,25 +1766,110 @@ base_expression = param.base_expression;
 // relate the base expression
 select one characteristic related by expression->CallExpression[R5517]->CharacteristicExpression[R5500];
 relate base_expression to characteristic across R5504;
+select one base_type related by base_expression->BasicType[R5570];
 
-// relate the type
-if characteristic.characteristic == "delta"
-  select any duration_builtin from instances of BuiltinType where "" + selected.name == "duration";
-  select one duration_type related by duration_builtin->BasicType[R6205];
-  relate duration_type to expression across R5570;
-elif characteristic.characteristic == "scheduled_at" or characteristic.characteristic == "expired_at"
-  select any timestamp_builtin from instances of BuiltinType where "" + selected.name == "timestamp";
-  select one timestamp_type related by timestamp_builtin->BasicType[R6205];
-  relate timestamp_type to expression across R5570;
-elif characteristic.characteristic == "scheduled" or characteristic.characteristic == "expired"
-  select any boolean_builtin from instances of BuiltinType where "" + selected.name == "boolean";
-  select one boolean_type related by boolean_builtin->BasicType[R6205];
-  relate boolean_type to expression across R5570;
+
+// resolve the result type for characteristic
+
+if characteristic.characteristic == "parse"
+
+  // the result type is the type referenced by the base expression
+  relate base_type to expression across R5570;
+  
+elif characteristic.characteristic == "elements"
+  
+  // the result type is the sequence type of the given collection type
+	select one base_collection related by base_type->CollectionType[R6205];
+	if not_empty base_collection
+		select one base_element_type related by base_collection->BasicType[R6208];
+		select any basic_type related by base_element_type->CollectionType[R6208]->SequenceType[R6207]->CollectionType[R6207]->BasicType[R6205];
+		if empty basic_type
+			create object instance type_definition of TypeDefinition;
+			create object instance basic_type of BasicType;
+			basic_type.isanonymous = true;
+			create object instance collection_type of CollectionType;
+			create object instance sequence_type of SequenceType;
+			relate basic_type to type_definition across R6236;
+			relate collection_type to basic_type across R6205;
+			relate sequence_type to collection_type across R6207;
+			relate collection_type to base_element_type across R6208;
+		end if;
+		relate basic_type to expression across R5570;
+	end if;
+
 elif characteristic.characteristic == "length"
-  select any integer_builtin from instances of BuiltinType where "" + selected.name == "integer";
-  select one integer_type related by integer_builtin->BasicType[R6205];
-  relate integer_type to expression across R5570;
+  
+  // the result type is always integer (only valid for collections)
+	select one base_collection related by base_type->CollectionType[R6205];
+	if not_empty base_collection
+    select any integer_builtin from instances of BuiltinType where "" + selected.name == "integer";
+    select one integer_type related by integer_builtin->BasicType[R6205];
+    relate integer_type to expression across R5570;
+  end if;
+
+elif characteristic.characteristic == "image"
+
+  // the result type is always string (valid for all types)
+  select any string_builtin from instances of BuiltinType where "" + selected.name == "string";
+  select one string_type related by string_builtin->BasicType[R6205];
+  relate string_type to expression across R5570;
+
+elif characteristic.characteristic == "first" or characteristic.characteristic == "last"
+  
+  // the result type is integer (only valid for sequences, arrays, and strings)
+  select one base_builtin related by base_type->BuiltinType[R6205];
+  select one base_collection related by base_type->CollectionType[R6205];
+  select one base_sequence related by base_collection->SequenceType[R6207];
+  select one base_array related by base_collection->ArrayType[R6207];
+  if not_empty base_sequence or not_empty base_array or (not_empty base_builtin and "" + base_builtin.name == "string")
+    select any integer_builtin from instances of BuiltinType where "" + selected.name == "integer";
+    select one integer_type related by integer_builtin->BasicType[R6205];
+    relate integer_type to expression across R5570;
+  end if;
+
+elif characteristic.characteristic == "now"
+  
+  // the result type is a timestamp (only valid for type timestamp)
+  select one base_builtin related by base_type->BuiltinType[R6205];
+  if not_empty base_builtin and "" + base_builtin.name == "timestamp"
+    relate base_type to expression across R5570;
+  end if;
+
+elif characteristic.characteristic == "seconds"
+  
+  // the result type is integer (only valid for timestamp and duration)
+  select one base_builtin related by base_type->BuiltinType[R6205];
+  if not_empty base_builtin and ("" + base_builtin.name == "timestamp" or "" + base_builtin.name == "duration")
+    select any integer_builtin from instances of BuiltinType where "" + selected.name == "integer";
+    select one integer_type related by integer_builtin->BasicType[R6205];
+    relate integer_type to expression across R5570;
+  end if;
+
 end if;
+
+
+// timer specific characteristics
+select one base_builtin related by base_type->BuiltinType[R6205];
+if not_empty base_builtin and "" + base_builtin.name == "timer"
+  if characteristic.characteristic == "delta"
+    select any duration_builtin from instances of BuiltinType where "" + selected.name == "duration";
+    select one duration_type related by duration_builtin->BasicType[R6205];
+    relate duration_type to expression across R5570;
+  elif characteristic.characteristic == "scheduled_at" or characteristic.characteristic == "expired_at"
+    select any timestamp_builtin from instances of BuiltinType where "" + selected.name == "timestamp";
+    select one timestamp_type related by timestamp_builtin->BasicType[R6205];
+    relate timestamp_type to expression across R5570;
+  elif characteristic.characteristic == "scheduled" or characteristic.characteristic == "expired"
+    select any boolean_builtin from instances of BuiltinType where "" + selected.name == "boolean";
+    select one boolean_type related by boolean_builtin->BasicType[R6205];
+    relate boolean_type to expression across R5570;
+  elif characteristic.characteristic == "length"
+    select any integer_builtin from instances of BuiltinType where "" + selected.name == "integer";
+    select one integer_type related by integer_builtin->BasicType[R6205];
+    relate integer_type to expression across R5570;
+  end if;
+end if;
+
 
 // TODO fill out for all characteristics',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -2310,6 +2398,89 @@ INSERT INTO S_DIM
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO PE_PE
 	VALUES ("e07b20ae-d318-4371-8a3d-25598d8c7348",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4f5b7c96-aba1-4f90-974b-ff2812008342",
+	"00000000-0000-0000-0000-000000000000",
+	'resolve_SliceExpression',
+	'',
+	'root = param.root;
+access_expr = param.access_expr;
+
+// resolve a square bracket access.
+
+select one root_type related by root->BasicType[R5570];
+select one access_type related by access_expr->BasicType[R5570];
+
+select one root_collection_type related by root_type->CollectionType[R6205];
+select one root_sequence_type related by root_collection_type->SequenceType[R6207];
+select one root_array_type related by root_collection_type->ArrayType[R6207];
+select one root_string_type related by root_type->BuiltinType[R6205] where "" + selected.name == "string";
+select one root_dict_type related by root_type->DictionaryType[R6205];
+
+select one access_range_type related by access_type->CollectionType[R6205]->RangeType[R6207];
+select one access_int_type related by access_type->BuiltinType[R6205] where "" + selected.name == "integer";
+
+
+if (not_empty root_sequence_type or not_empty root_array_type or not_empty root_string_type)
+
+  if not_empty access_range_type
+    // TODO slice expression
+
+  elif not_empty access_int_type
+    // indexed name expression
+    create object instance expr of MaslExpression;
+    select one basic_type related by root_collection_type->BasicType[R6208];
+    if empty basic_type
+      select any char_type from instances of BuiltinType where "" + selected.name == "character";
+      select one basic_type related by char_type->BasicType[R6205];
+    end if;
+    relate basic_type to expr across R5570;
+    create object instance indexed_name_expr of IndexedNameExpression;
+    relate indexed_name_expr to expr across R5517;
+    relate root to indexed_name_expr across R5523;
+    relate access_expr to indexed_name_expr across R5522;
+    return expr;
+  end if;
+  
+elif not_empty root_dict_type
+  
+  // TODO dictionary access
+  
+end if;
+
+
+LOG::LogFailure(message:"Failed to resolve square bracket access");
+select any empty_expr from instances of MaslExpression;
+return empty_expr;',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	1,
+	'',
+	0,
+	12);
+INSERT INTO S_SPARM
+	VALUES ("97c3703a-6687-4176-aaca-381433ea76ea",
+	"4f5b7c96-aba1-4f90-974b-ff2812008342",
+	'root',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("86483cd5-aa8d-4892-b7fc-cdd237f88abc",
+	"4f5b7c96-aba1-4f90-974b-ff2812008342",
+	'access_expr',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"97c3703a-6687-4176-aaca-381433ea76ea",
+	'');
+INSERT INTO PE_PE
+	VALUES ("4f5b7c96-aba1-4f90-974b-ff2812008342",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
