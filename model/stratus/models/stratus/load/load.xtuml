@@ -407,24 +407,25 @@ if (not_empty instance_type)
 end if;
  
 // Look for structure element.
-/* TODO
-select one structure_type related by lhs_basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->StructureType[R6219];
+select one structure_type related by lhs_basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
 if (not_empty structure_type)
   select one structure_element related by structure_type->StructureElement[R6244];
   while (not_empty structure_element)
     if (param.name == structure_element.name)
       // create selected component expression
       create object instance selected_component_expression of SelectedComponentExpression;
+      relate lhs to selected_component_expression across R5544;
+      relate selected_component_expression to expression across R5517;
       relate selected_component_expression to structure_element across R5543;
-      relate selected_component_expression to dot_expression across R5571;
       select one basic_type related by structure_element->BasicType[R6230];
+      relate basic_type to expression across R5570;
       LOG::LogInfo(message:"create_DotExpression:  structure element:  " + param.name);
-      return basic_type;
+      return expression;
     end if;
     select one structure_element related by structure_element->StructureElement[R6243.''precedes''];
   end while;
+else
 end if;
-*/
 
 LOG::LogFailure(message:"create_DotExpression: failed to resolve dot expression: " + param.name);
 return expression;',
