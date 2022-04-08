@@ -105,17 +105,19 @@ public class MaslImportParser implements IGenericLoader {
             // not a local file
         }
 
-        // Look in "masl/" folder within JAR files
+        // Look in ".int" files within JAR files
         return Stream.of(domainPath).filter(p -> p.endsWith(".jar")).filter(path -> {
             try (JarFile jarFile = new JarFile(path)) {
-                return jarFile.getEntry("masl/" + fileName) != null;
+                return jarFile.stream().anyMatch(e -> e.getName().endsWith(fileName));
             } catch (IOException e1) {
                 return false;
             }
-        }).map(path -> String.format("jar:file:%s!/masl/%s", path, fileName)).map(t -> {
-            try {
+        }).map(path -> {
+            try (JarFile jarFile = new JarFile(path)) {
+                final String t = String.format("jar:file:%s!/%s", path,
+                        jarFile.stream().filter(e -> e.getName().endsWith(fileName)).findAny().orElseThrow());
                 return new URI(t);
-            } catch (URISyntaxException e2) {
+            } catch (IOException | URISyntaxException e2) {
                 throw new RuntimeException(e2);
             }
         }).findAny().orElseThrow();
