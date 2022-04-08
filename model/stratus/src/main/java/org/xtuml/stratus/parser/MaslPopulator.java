@@ -2495,7 +2495,12 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                 Object realType = loader.call_function("select_BasicType_where_name", "", "real");
                 loader.relate(realType, expression, 5570, "");
             } else if (ctx.CharacterLiteral() != null) {
-                // TODO
+                Object charLiteral = loader.create("CharacterLiteral");
+                loader.relate(charLiteral, literalExpression, 5700, "");
+                loader.set_attribute(charLiteral, "original", literalText);
+                loader.set_attribute(charLiteral, "noQuotes", literalText.substring(1, literalText.length() - 1));
+                Object charType = loader.call_function("select_BasicType_where_name", "", "character");
+                loader.relate(charType, expression, 5570, "");
             } else if (ctx.StringLiteral() != null) {
                 Object stringLiteral = loader.create("StringLiteral");
                 loader.relate(stringLiteral, literalExpression, 5700, "");
