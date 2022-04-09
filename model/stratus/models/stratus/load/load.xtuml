@@ -1367,18 +1367,21 @@ INSERT INTO S_SYNC
 	'resolve_BinaryExpression_type',
 	'',
 	'expression = param.expression;
+select one binary related by expression->BinaryExpression[R5517];
 lhs = param.lhs;
 rhs = param.rhs;
 
 select one l_type related by lhs->BasicType[R5570];
 select one r_type related by rhs->BasicType[R5570];
+select one l_builtin related by l_type->BuiltinType[R6205];
+select one l_numeric related by l_builtin->NumericType[R6206];
+select one r_builtin related by r_type->BuiltinType[R6205];
+select one r_numeric related by r_builtin->NumericType[R6206];
 
 // default to using the type of the left-hand-side
 binary_type = l_type;
 
 // handle numeric types
-select one l_numeric related by l_type->BuiltinType[R6205]->NumericType[R6206];
-select one r_numeric related by r_type->BuiltinType[R6205]->NumericType[R6206];
 if (not_empty l_numeric and not_empty r_numeric)
   // if either of the types is real, promot to real otherwise take the left type
   // only need to check the right-hand-side since LHS is the default
@@ -1395,6 +1398,46 @@ if (not_empty comp_binary or not_empty logical_binary)
   select any bool_type from instances of BuiltinType where "" + selected.name == "boolean";
   select one binary_type related by bool_type->BasicType[R6205];
 end if;
+
+// Time arithmetic
+if not_empty l_builtin and not_empty r_builtin
+  select any timestamp_type from instances of BuiltinType where "" + selected.name == "timestamp";
+  select any duration_type from instances of BuiltinType where "" + selected.name == "duration";
+
+  if "" + l_builtin.name == "timestamp"
+    // timestamp + duration = timestamp
+    if binary.operator == Operator::plus and "" + r_builtin.name == "duration"
+      select one binary_type related by timestamp_type->BasicType[R6205];
+    // timestamp - duration = timestamp
+    elif binary.operator == Operator::minus and "" + r_builtin.name == "duration"
+      select one binary_type related by timestamp_type->BasicType[R6205];
+    // timetamp - timestamp = duration
+    elif binary.operator == Operator::minus and "" + r_builtin.name == "timestamp"
+      select one binary_type related by duration_type->BasicType[R6205];
+    end if;
+  end if;
+  
+  if "" + l_builtin.name == "duration"
+    // duration + timestamp = timestamp
+    if binary.operator == Operator::plus and "" + r_builtin.name == "timestamp"
+      select one binary_type related by timestamp_type->BasicType[R6205];
+    // duration + duration = duration
+    elif binary.operator == Operator::plus and "" + r_builtin.name == "duration"
+      select one binary_type related by duration_type->BasicType[R6205];
+    // duration - duration = duration
+    elif binary.operator == Operator::minus and "" + r_builtin.name == "duration"
+      select one binary_type related by duration_type->BasicType[R6205];
+    // duration * numeric = duration
+    elif binary.operator == Operator::times
+      select one binary_type related by duration_type->BasicType[R6205];
+    // duration / numeric = duration
+    elif binary.operator == Operator::divide
+      select one binary_type related by duration_type->BasicType[R6205];
+    end if;
+  end if;
+
+end if;
+
 
 // type the expression
 relate binary_type to expression across R5570;',
