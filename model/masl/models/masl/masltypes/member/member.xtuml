@@ -23,6 +23,9 @@ else
 end if;
 select one typeref related by self->typeref[R3753];
 typeref.render();
+if ( "MASL" == genfile::architecture() )
+  T::include( file:"masl/t.field_delimiter.masl" );
+end if;
 select one next_member related by self->member[R3778.''precedes''];
 if ( not_empty next_member )
   if ( "WASL" == genfile::architecture() )
