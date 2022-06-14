@@ -63,8 +63,8 @@ public class AslImportParser implements IGenericLoader {
             ParserRuleContext ctx = parser.target();
 
             // Walk the parse tree
-            AslPopulator listener = new AslPopulator(this, loader, input, filename);
-            listener.visit(ctx);
+            //CDS AslPopulator listener = new AslPopulator(this, loader, input, filename);
+            //listener.visit(ctx);
 
         } catch (IOException e) {
             throw new UncheckedIOException(e);

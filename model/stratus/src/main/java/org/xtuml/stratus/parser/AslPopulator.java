@@ -86,7 +86,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
         this.input = input;
         this.loader = loader;
         this.filename = filename;
-        this.aslParser = maslParser;
+        this.aslParser = aslParser;
     }
 
     @Override

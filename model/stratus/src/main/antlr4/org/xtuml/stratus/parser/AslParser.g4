@@ -167,7 +167,7 @@ scenarioDefinition            : DEFINE SCENARIO scenarioName NEWLINE+
 blockInput                    : INPUT parameterList NEWLINE+;
 blockOutput                   : OUTPUT parameterList NEWLINE+;
 bridgeName                    : identifier COLON identifier COLON identifier;  // TODO refine this
-functionName                  : identifier DOUBLE_COLON identifier; // TODO see if this can be aligned
+functionName                  : identifier SCOPE identifier; // TODO see if this can be aligned
 objectServiceName             : identifier COLON identifier; // TODO see if this can be aligned
 scenarioName                  : identifier;
 
@@ -203,13 +203,13 @@ statement                     : (
                                 NEWLINE
                               ;
 
-assignStatement               : lhs=postfixExpression EQUALS rhs=expression
+assignStatement               : lhs=postfixExpression EQUAL rhs=expression
                               ;
 
-enumValueAssignStatement      : identifier OF identifier EQUALS EnumerationLiteral // TODO:  refine
+enumValueAssignStatement      : identifier OF identifier EQUAL EnumerationLiteral // TODO:  refine
                               ;
 
-callStatement                 : root=sequence EQUALS
+callStatement                 : root=sequence EQUAL
                                 ( nameExpression | CREATE_TIMER | DELETE_TIMER | GET_TIME_REMAINING )
                                 LBRACKET argumentList RBRACKET
                                 ( ON identifier )?
@@ -235,7 +235,7 @@ linkType                      : LINK
                               | UNASSOCIATE
                               ;
 
-createTimer                   : sequence EQUALS root=CREATE_TIMER LBRACKET argumentList RBRACKET
+createTimer                   : sequence EQUAL root=CREATE_TIMER LBRACKET argumentList RBRACKET
                               ;
 
 
@@ -323,7 +323,7 @@ findUnary                         : NOT findUnary
                                   | LPAREN findCondition RPAREN
                                   ;
 
-findComparison                    : lhs=findName ( EQUALS | NOT_EQUALS | LESS_THAN | GREATER_THAN | LESS_THAN_OR_EQUAL_TO | GREATER_THAN_OR_EQUAL_TO  ) rhs=additiveExp;
+findComparison                    : lhs=findName ( EQUAL | NOT_EQUAL | LT | GT | LTE | GTE  ) rhs=additiveExp;
 
 findName                          : att=identifier
                                     ( DOT comp=identifier
@@ -340,7 +340,7 @@ constExpression               : expression;
 
 expression                    : rangeExpression;
 
-rangeExpression               : logicalOr (DOUBLE_DOT logicalOr)?;
+rangeExpression               : logicalOr (RANGE_DOTS logicalOr)?;
 
 logicalOr                     : lhs=logicalOr OR rhs=logicalXor
                               | logicalXor
@@ -354,11 +354,11 @@ logicalAnd                    : lhs=logicalAnd AND rhs=equality
                               | equality
                               ;
 
-equality                      : lhs=equality ( EQUALS | NOT_EQUALS ) rhs=relationalExp
+equality                      : lhs=equality ( EQUAL | NOT_EQUAL ) rhs=relationalExp
                               | relationalExp
                               ;
 
-relationalExp                 : lhs=relationalExp ( LESS_THAN | GREATER_THAN | LESS_THAN_OR_EQUAL_TO | GREATER_THAN_OR_EQUAL_TO ) rhs=additiveExp
+relationalExp                 : lhs=relationalExp ( LT | GT | LTE | GTE ) rhs=additiveExp
                               | additiveExp
                               ;
 
@@ -366,7 +366,7 @@ additiveExp                   : lhs=additiveExp ( PLUS | MINUS ) rhs=multExp
                               | multExp
                               ;
 
-multExp                       : lhs=multExp ( STAR | SLASH | CARAT ) rhs=unaryExp // multiplication, division, exponentiation
+multExp                       : lhs=multExp ( TIMES | DIVIDE | CARAT ) rhs=unaryExp // multiplication, division, exponentiation
                               | unaryExp
                               ;
 
@@ -396,7 +396,7 @@ extendedExpression            :
                               | primaryExpression
                               ;
 
-sortOrder                     : REVERSE? ORDERED BY sortOrderComponent
+sortOrder                     : REVERSE? ORDERED_BY sortOrderComponent
                                 ( AND sortOrderComponent )*
                               ;
 
@@ -410,7 +410,7 @@ createArgumentList            :
                                 (createArgument ( AND createArgument )*)?
                               ;
 
-createArgument                : attributeName EQUALS expression
+createArgument                : attributeName EQUAL expression
                               ;
 
 findExpression                : findType objectReference
@@ -443,7 +443,7 @@ primaryExpression             : literal
 sequence                      : LBRACKET argumentList RBRACKET
                               ;
 
-nameExpression                : ( operationName DOUBLE_COLON )? identifier
+nameExpression                : ( operationName SCOPE )? identifier
                               | ( operationName COLON )? identifier
                               | identifier
                               ;

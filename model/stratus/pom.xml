@@ -40,6 +40,9 @@
         <configuration>
           <listener>false</listener>
           <visitor>true</visitor>
+          <libDirectory>
+          ${project.basedir}/src/main/antlr4/org/xtuml/stratus/parser
+          </libDirectory>
         </configuration>
         <executions>
           <execution>
