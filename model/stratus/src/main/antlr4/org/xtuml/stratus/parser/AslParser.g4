@@ -65,7 +65,7 @@ attributeName                 : identifier
                               ;
 
 relationshipSpec              : relationshipReference
-                                  ( DOT ( objectReference | rolePhrase )
+                                  ( DOT ( objOrRole=objectReference | rolePhrase )
                                     (DOT objectReference)?
                                   )?
                               ;
@@ -128,7 +128,7 @@ domainServiceDefinition       : DEFINE FUNCTION functionName NEWLINE+
                                 ( INSTANCE THIS COLON objectName NEWLINE )?
                                 blockInput
                                 blockOutput
-                                statementList
+                                codeBlock
                                 ENDDEFINE
                               ;
 
@@ -137,14 +137,14 @@ domainServiceDefinition       : DEFINE FUNCTION functionName NEWLINE+
 objectServiceDefinition       : DEFINE FUNCTION objectServiceName NEWLINE+
                                 blockInput
                                 blockOutput
-                                statementList
+                                codeBlock
                                 ENDDEFINE
                               ;
 
 terminatorServiceDefinition   : DEFINE BRIDGE bridgeName NEWLINE+
                                 blockInput
                                 blockOutput
-                                statementList
+                                codeBlock
                                 ENDDEFINE
                               ;
 
@@ -153,14 +153,14 @@ terminatorServiceDefinition   : DEFINE BRIDGE bridgeName NEWLINE+
 stateDefinition               : DEFINE ACTION stateName NEWLINE+
                                 blockInput
                                 blockOutput
-                                statementList
+                                codeBlock
                                 ENDDEFINE
                               ;
 
 scenarioDefinition            : DEFINE SCENARIO scenarioName NEWLINE+
                                 blockInput
                                 blockOutput
-                                statementList
+                                codeBlock
                                 ENDDEFINE
                               ;
 
@@ -296,6 +296,8 @@ endDomainContext              : ENDUSE;
 // Code Blocks
 //---------------------------------------------------------
 
+codeBlock                     : statementList
+                              ;
 //---------------------------------------------------------
 // Find Condition Definition
 //---------------------------------------------------------
