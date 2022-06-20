@@ -53,14 +53,21 @@ LBRACKET                      : '[';
 RBRACKET                      : ']';
 
 SCOPE                         : '::';
+SEMI                          : ';';
+
+NAVIGATE                      : '->';
+TERMINATOR_SCOPE              : '~>';
+
 // Keywords
 ACTION                        : 'action';
+ANONYMOUS                     : 'anonymous';
 ADA_INLINE                    : '#$ADA_INLINE'; // eat Ada incline code
 ALREADY_DEFINED               : 'ALREADY_DEFINED';
 APPEND                        : 'append';
+ASSIGNER                      : 'assigner';
 ASSOCIATE                     : 'associate';
 ASSOCIATION                   : '-A';
-BOOLEAN                       : 'Boolean';
+BEGIN                         : 'begin';
 BREAK                         : 'break';
 BREAKIF                       : 'breakif';
 BRIDGE                        : 'bridge';
@@ -68,6 +75,7 @@ CARAT                         : '^';
 CASE                          : 'case';
 COUNTOF                       : 'countof';
 CREATE                        : 'create';
+CREATION                      : 'creation';
 CREATE_TIMER                  : 'Create_Timer';
 CURRENT_DATE                  : 'current-date';
 CURRENT_TIME                  : 'current-time';
@@ -87,6 +95,7 @@ ENDINLINE                     : '$ENDINLINE';
 ENDLOOP                       : 'endloop';
 ENDSWITCH                     : 'endswitch';
 ENDUSE                        : '$ENDUSE';
+END                           : 'end';
 ERROR                         : 'ERROR';
 FIND                          : 'find';
 FIND_ONE                      : 'find-one';
@@ -94,7 +103,6 @@ FIND_ONLY                     : 'find-only';
 FIND_ALL                      : 'find-all';
 FOR                           : 'for';
 FROM                          : 'from';
-FUNCTION                      : 'function';
 GENERATE                      : 'generate';
 GET_TIME_REMAINING            : 'Get_Time_Remaining';
 IF                            : 'if';
@@ -103,7 +111,6 @@ INCLUDE_HEADER                : '$INCLUDE_HEADER'; // eat header lines
 INLINE                        : '$INLINE'; // eat C inline code
 INPUT                         : 'input';
 INSTANCE                      : 'instance';
-INTEGER                       : 'Base_Integer_Type';
 IS                            : 'is';
 LEFT_BRACE                    : '{';
 LINK                          : 'link' | 'link-counterpart';      // could separate these
@@ -114,17 +121,24 @@ ONE                           : 'one-of';
 ORDERED_BY                    : 'ordered' (' ')+ 'by';
 ON                            : 'on';
 ONLY                          : 'only';
+OUT                           : 'out';
 OUTPUT                        : 'output';
-POINTER                       : '->';
-REAL                          : 'Base_Float_Type';
+PRAGMA                        : 'pragma';
+PRIVATE                       : 'private';
+PUBLIC                        : 'public';
 RESET_TIMER                   : 'TIM2:Reset_Timer';
+RETURN                        : 'return';
 REVERSE                       : 'reverse';
 RIGHT_BRACE                   : '}';
 SCENARIO                      : 'scenario';
+SEQUENCE                      : 'sequence';
+SERVICE                       : 'service' | 'function';
 SET_TIMER                     : 'TIM1:Set_Timer';
+START                         : 'start';
+STATE                         : 'state';
 STRUCTURE                     : 'structure';
 SWITCH                        : 'switch';
-TEXT                          : 'Base_Text_Type';
+TERMINAL                      : 'terminal';
 THEN                          : 'then';
 THIS                          : 'this';
 TO                            : 'to';
@@ -137,6 +151,7 @@ USE                           : '$USE';
 USING                         : 'using';
 WHERE                         : 'where';
 WITH                          : 'with';
+NULL                          : 'null';
 TRUE                          : 'TRUE';
 FALSE                         : 'FALSE';
 
@@ -179,6 +194,8 @@ Identifier                    : ( Letter | '_' ) ( Letter | Digit | '_' )*;
 
 
 SetIdentifier                 : '{' ( Letter | '_' ) ( Letter | Digit | '_' )* '}';
-Description                   : '#$DESCRIPTION' .*? '#$END_DESCRIPTION'; // TODO:  parse req IDs
+DescriptionASL                : '#$DESCRIPTION' .*? '#$END_DESCRIPTION'; // TODO:  parse req IDs
+Description                   : '//!' ~('\n'|'\r')* '\r'? '\n';
 Comment                       : '#' ~[\r\n]* NEWLINE -> skip;
 Whitespace                    : (' ' | '\t' | '\f' )+ -> skip;
+

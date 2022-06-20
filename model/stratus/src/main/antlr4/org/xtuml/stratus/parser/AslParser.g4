@@ -1,4 +1,3 @@
-// TODO:  Check expression recursion differences.
 // TODO:  names - may need to recognise key letters and function/operation numbers
 parser grammar AslParser;
 
@@ -8,11 +7,11 @@ options {tokenVocab=AslLexer;}
 target                        : definition;
 
 definition                    :
-                              | scenarioDefinition
-                              | objectServiceDefinition
-                              | stateDefinition
-                              | domainServiceDefinition
-                              | terminatorServiceDefinition
+                              | scenarioDefinitionASL
+                              | objectServiceDefinition | objectServiceDefinitionASL
+                              | stateDefinition | stateDefinitionASL
+                              | domainServiceDefinition | domainServiceDefinitionASL
+                              | terminatorServiceDefinition | terminatorServiceDefinitionASL
                               ;
 
 //---------------------------------------------------------
@@ -24,6 +23,11 @@ definition                    :
 
 domainName                    : identifier
                               ;
+
+domainReference               : domainName
+                              ;
+
+
 //---------------------------------------------------------
 // Exception Declaration
 //---------------------------------------------------------
@@ -36,21 +40,35 @@ domainName                    : identifier
 
 typeReference
                               : namedTypeRef
+                              | instanceTypeRef
+                              | collectionTypeRef
                               ;
 
-namedTypeRef                  : typeName
-                              | TEXT
-                              | INTEGER
-                              | REAL
-                              | BOOLEAN
+
+instanceTypeRef               : ANONYMOUS? INSTANCE OF objectReference
+                              ;
+
+namedTypeRef                  : ANONYMOUS? typeName
                               ;
 
 typeName                      : identifier
                               ;
 
+collectionTypeRef             : sequenceTypeRef
+                              ;
+
+sequenceTypeRef               : ANONYMOUS? SEQUENCE
+                              (LPAREN expression RPAREN)? OF typeReference
+                              ;
+
+
 //---------------------------------------------------------
 // Terminator Definition
 //---------------------------------------------------------
+
+terminatorName                : identifier
+                              ;
+
 //---------------------------------------------------------
 // Object Definition
 //---------------------------------------------------------
@@ -76,16 +94,38 @@ eventName                     : identifier
 stateName                     : identifier
                               ;
 
+stateType                     : ASSIGNER
+                              | ASSIGNER START
+                              | CREATION
+                              | TERMINAL
+                              | /* blank */
+                              ;
 
 //---------------------------------------------------------
 // Service Declaration
 //---------------------------------------------------------
 
-parameterList                 :
+parameterList                 : LPAREN
                                   parameterDefinition? ( COMMA NEWLINE? parameterDefinition )*
+                                RPAREN
                               ;
 
-parameterDefinition           : parameterName COLON parameterType
+
+parameterDefinition           : parameterName COLON parameterMode parameterType
+                              ;
+
+
+serviceVisibility             : PRIVATE
+                              | PUBLIC
+                              | /* blank */
+                              ;
+
+parameterMode                 : IN
+                              | OUT
+                              ;
+
+
+serviceName                   : identifier
                               ;
 
 parameterName                 : identifier
@@ -93,6 +133,14 @@ parameterName                 : identifier
 
 parameterType                 : typeReference
                               ;
+
+returnType                    : typeReference
+                              ;
+
+
+
+
+
 
 //---------------------------------------------------------
 // Relationship Definition
@@ -111,11 +159,29 @@ rolePhrase                    : StringLiteral
 //---------------------------------------------------------
 // Pragma Definition
 //---------------------------------------------------------
+
+
+pragmaList                    : (pragma SEMI)*
+                              ;
+
+pragma                        : PRAGMA pragmaName
+                                LPAREN
+                                  (pragmaValue (COMMA pragmaValue)*)?
+                                RPAREN
+                              ;
+
+pragmaValue                   : identifier
+                              | literal
+                              ;
+
+pragmaName                    : identifier
+                              ;
+
 //---------------------------------------------------------
 // Descriptions
 //---------------------------------------------------------
 
-description                   : Description
+description                   : ( Description | DescriptionASL )*
                               ;
 
 //---------------------------------------------------------
@@ -124,7 +190,16 @@ description                   : Description
 
 
 
-domainServiceDefinition       : DEFINE FUNCTION functionName NEWLINE+
+domainServiceDefinition       : description
+                                serviceVisibility SERVICE
+                                domainReference SCOPE serviceName
+                                parameterList
+                                ( RETURN returnType )? IS
+                                codeBlock
+                                SERVICE? SEMI? pragmaList
+                              ;
+
+domainServiceDefinitionASL    : DEFINE SERVICE functionName NEWLINE+
                                 ( INSTANCE THIS COLON objectName NEWLINE )?
                                 blockInput
                                 blockOutput
@@ -134,14 +209,31 @@ domainServiceDefinition       : DEFINE FUNCTION functionName NEWLINE+
 
 
 
-objectServiceDefinition       : DEFINE FUNCTION objectServiceName NEWLINE+
+objectServiceDefinition       : description
+                                serviceVisibility INSTANCE? SERVICE
+                                  domainReference SCOPE objectReference DOT serviceName
+                                  parameterList
+                                  ( RETURN returnType )? IS codeBlock
+                                SERVICE? SEMI? pragmaList
+                              ;
+
+objectServiceDefinitionASL    : DEFINE SERVICE objectServiceName NEWLINE+
                                 blockInput
                                 blockOutput
                                 codeBlock
                                 ENDDEFINE
                               ;
 
-terminatorServiceDefinition   : DEFINE BRIDGE bridgeName NEWLINE+
+terminatorServiceDefinition   : description
+                                serviceVisibility SERVICE
+                                domainReference SCOPE terminatorName TERMINATOR_SCOPE serviceName
+                                parameterList
+                                ( RETURN returnType )? IS
+                                codeBlock
+                                SERVICE? SEMI? pragmaList
+                              ;
+
+terminatorServiceDefinitionASL : DEFINE BRIDGE bridgeName NEWLINE+
                                 blockInput
                                 blockOutput
                                 codeBlock
@@ -150,22 +242,29 @@ terminatorServiceDefinition   : DEFINE BRIDGE bridgeName NEWLINE+
 
 
 
-stateDefinition               : DEFINE ACTION stateName NEWLINE+
+stateDefinition               : description
+                                stateType STATE
+                                domainReference SCOPE objectReference DOT stateName
+                                parameterList IS codeBlock
+                                STATE? SEMI? pragmaList
+                              ;
+
+stateDefinitionASL            : DEFINE ACTION stateName NEWLINE+
                                 blockInput
                                 blockOutput
                                 codeBlock
                                 ENDDEFINE
                               ;
 
-scenarioDefinition            : DEFINE SCENARIO scenarioName NEWLINE+
+scenarioDefinitionASL         : DEFINE SCENARIO scenarioName NEWLINE+
                                 blockInput
                                 blockOutput
                                 codeBlock
                                 ENDDEFINE
                               ;
 
-blockInput                    : INPUT parameterList NEWLINE+;
-blockOutput                   : OUTPUT parameterList NEWLINE+;
+blockInput                    : INPUT ( parameterName COLON parameterType )? ( COMMA NEWLINE? parameterName COLON parameterType )* NEWLINE+;
+blockOutput                   : OUTPUT ( parameterName COLON parameterType )? ( COMMA NEWLINE? parameterName COLON parameterType )* NEWLINE+;
 bridgeName                    : identifier COLON identifier COLON identifier;  // TODO refine this
 functionName                  : identifier SCOPE identifier; // TODO see if this can be aligned
 objectServiceName             : identifier COLON identifier; // TODO see if this can be aligned
@@ -183,6 +282,7 @@ statementList                 : statement*
 statement                     : (
                                 | assignStatement
                                 | enumValueAssignStatement
+                                | nullStatement
                                 | callStatement
                                 | exitStatement
                                 | deleteStatement
@@ -201,6 +301,9 @@ statement                     : (
                                 | Inline
                                 )
                                 NEWLINE
+                              ;
+
+nullStatement                 : BEGIN NEWLINE? NULL SEMI NEWLINE? END SEMI
                               ;
 
 assignStatement               : lhs=postfixExpression EQUAL rhs=expression
@@ -386,7 +489,7 @@ linkExpression                : navigateExpression
                               ;
 
 navigateExpression            : lhs=navigateExpression
-                                ( POINTER relationshipSpec whereClause?
+                                ( NAVIGATE relationshipSpec whereClause?
                                 )
                               | objectName whereClause
                               | postfixExpression
