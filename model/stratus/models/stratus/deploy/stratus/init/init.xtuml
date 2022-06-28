@@ -44,6 +44,7 @@ INSERT INTO S_SYNC
 CMD::register_value(name:"mod", value_name:"mod_file", usage:"Path to a MASL domain file", default_value:"", required:false);
 CMD::register_value(name:"prj", value_name:"prj_file", usage:"Path to a MASL project file", default_value:"", required:false);
 CMD::register_value(name:"domainpath", value_name:"domain_path", usage:"Colon separated domain path", default_value:"", required:false);
+CMD::register_flag(name:"asl", usage:"Parse ASL domain");
 CMD::read_command_line();
 
 // Create the preexisting instances
@@ -61,7 +62,11 @@ else
   args[1] = CMD::get_value(name:"mod");
   args[0] = "--mod";
 end if;
-LOAD::load(java_class:"org.xtuml.stratus.parser.MaslImportParser", args:args);
+if CMD::get_flag(name:"asl")
+  LOAD::load(java_class:"org.xtuml.stratus.parser.AslImportParser", args:args);
+else
+  LOAD::load(java_class:"org.xtuml.stratus.parser.MaslImportParser", args:args);
+end if;
 
 // Resolve referential attribute linkage.
 ::ReferentialAttribute_resolve();

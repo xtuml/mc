@@ -29,9 +29,9 @@ import io.ciera.runtime.summit.util.CommandLine;
 
 public class MaslImportParser implements IGenericLoader {
 
-    private LOAD loader;
-    private Stack<URI> parsingResources;
-    private String[] domainPath;
+    protected LOAD loader;
+    protected Stack<URI> parsingResources;
+    protected String[] domainPath;
 
     public MaslImportParser() {
         parsingResources = new Stack<>();
