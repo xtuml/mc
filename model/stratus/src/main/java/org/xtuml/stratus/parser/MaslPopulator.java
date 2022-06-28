@@ -23,6 +23,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     private final LOAD loader;
     private final String filename;
     private final MaslImportParser maslParser;
+    private final AslImportParser aslParser;
 
     private Object emptyObject;
     private Object emptyCodeBlock;
@@ -87,6 +88,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         this.loader = loader;
         this.filename = filename;
         this.maslParser = maslParser;
+        this.aslParser = null;
     }
 
     @Override
