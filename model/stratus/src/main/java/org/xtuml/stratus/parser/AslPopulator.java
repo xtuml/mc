@@ -85,6 +85,28 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitDomainReference(AslParser.DomainReferenceContext ctx) {
+        try {
+            final String domainName = ctx.domainName().getText();
+            Object domain = loader.call_function("select_Domain_where_name", domainName);
+            if (((IModelInstance<?, ?>) domain).isEmpty()) {
+                // Find and parse the domain interface
+                try {
+                    System.err.println("NOT LOOKING FOR interface file '" + domainName + ".int' for domain: " + domainName);
+                } catch (NoSuchElementException e) {
+                    System.err.println("Could not find interface file '" + domainName + ".int' for domain: " + domainName);
+                    xtumlTrace(e, "", ctx);
+                    return null;
+                }
+            }
+            return domainName;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "", ctx);
+            return null;
+        }
+    }
+
+    @Override
     public Object visitParameterDefinition(AslParser.ParameterDefinitionContext ctx) {
         try {
             Object parameter = loader.create("ParameterDefinition");
