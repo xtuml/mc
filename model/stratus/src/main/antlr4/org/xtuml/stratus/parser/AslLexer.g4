@@ -27,6 +27,7 @@ NOT_IN                        : 'not-in';
 DIVIDE                        : '/';
 TIMES                         : '*';
 INTERSECTION                  : 'intersection-of';
+POWER                         : '^';
 
 // Equality Operators
 EQUAL                         : '=' | 'equals';
@@ -71,7 +72,6 @@ BEGIN                         : 'begin';
 BREAK                         : 'break';
 BREAKIF                       : 'breakif';
 BRIDGE                        : 'bridge';
-CARAT                         : '^';
 CASE                          : 'case';
 COUNTOF                       : 'countof';
 CREATE                        : 'create';
