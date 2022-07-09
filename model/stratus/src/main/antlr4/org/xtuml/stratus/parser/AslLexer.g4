@@ -83,7 +83,7 @@ DEFAULT                       : 'default';
 DEFINE                        : 'define';
 DELETE                        : 'delete';
 DELETE_TIMER                  : 'Delete_Timer';
-DISUNION_OF                   : 'disunion-of';
+DISUNION                      : 'disunion-of';
 DO                            : 'do';
 DQUOTE                        : '"';
 ELSE                          : 'else';
@@ -144,7 +144,7 @@ THIS                          : 'this';
 TO                            : 'to';
 UNASSOCIATE                   : 'unassociate';
 UNDEFINED                     : 'UNDEFINED';
-UNION_OF                      : 'union-of';
+UNION                         : 'union-of';
 UNIQUE                        : 'unique';
 UNLINK                        : 'unlink' | 'unlink-counterpart';  // could separate these
 USE                           : '$USE';

@@ -1169,6 +1169,7 @@ INSERT INTO S_SYNC
 	'select any domain from instances of Domain where selected.name == param.domain_name;
 current_block = param.current_block;
 
+LOG::LogInfo(message:"RESOLVING name: ''" + param.name + "''");
 // search for local variable reference
 select any var related by current_block->VariableDefinition[R5151] where (selected.name == param.name);
 while (not_empty current_block and empty var)
@@ -1314,8 +1315,25 @@ if not_empty basic_type
 end if;
 
 LOG::LogFailure(message:"Could not resolve name expression: " + param.domain_name + ", " + param.name);
-select any expr from instances of MaslExpression where false;
-return expr;',
+//select any expr from instances of MaslExpression where false;
+//return expr;
+
+create object instance var of VariableDefinition;
+var.name = param.name;
+relate var to current_block across R5151;
+// create a new variable reference
+create object instance expr of MaslExpression;
+// CDS Relate to a random type for now.  This will get changed in Assignment.
+select any builtin_type from instances of BuiltinType;
+select one type related by builtin_type->BasicType[R6205];
+relate type to var across R5137;
+relate type to expr across R5570;
+create object instance var_ref of VariableNameExpression;
+relate var_ref to expr across R5517;
+relate var_ref to var across R5562;
+LOG::LogInfo(message:"created variable and resolved name [variable]: ''" + param.name + "''");
+return expr;
+',
 	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	1,
 	'',
@@ -2524,6 +2542,54 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("4f5b7c96-aba1-4f90-974b-ff2812008342",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7ccb3b77-1990-48c5-b466-39dbbd6a4fd6",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_assignment_relink_type',
+	'',
+	'// ASL supports implicit typing of local variables.
+// When a new name is discovered, it is linked to a random type.
+// Here we link the lhs expression to the correct type.
+// This may be benignly redundant in cases where the lhs is not a simple name expression.
+
+lhs = param.lhs;
+rhs = param.rhs;
+
+select one rhs_basic_type related by rhs->BasicType[R5570];
+select one lhs_basic_type related by lhs->BasicType[R5570];
+unrelate lhs from lhs_basic_type across R5570;
+relate lhs to rhs_basic_type across R5570;
+
+LOG::LogInfo( message:"Unlinked and relinked type of lhs in assignment statement." );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	13);
+INSERT INTO S_SPARM
+	VALUES ("102ba935-fe21-49ae-84c0-e6a03fa62417",
+	"7ccb3b77-1990-48c5-b466-39dbbd6a4fd6",
+	'lhs',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3848c7d8-000e-4c0c-a711-a73f05f97a68",
+	"7ccb3b77-1990-48c5-b466-39dbbd6a4fd6",
+	'rhs',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"102ba935-fe21-49ae-84c0-e6a03fa62417",
+	'');
+INSERT INTO PE_PE
+	VALUES ("7ccb3b77-1990-48c5-b466-39dbbd6a4fd6",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",

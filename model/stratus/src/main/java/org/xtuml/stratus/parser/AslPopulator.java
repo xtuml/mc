@@ -768,9 +768,9 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return null;
         }
     }
-/*
+
     @Override
-    public Object visitFullObjectReference(MaslParser.FullObjectReferenceContext ctx) {
+    public Object visitFullObjectReference(AslParser.FullObjectReferenceContext ctx) {
         try {
             return loader.call_function("select_ObjectDeclaration_where_name",
                     ctx.domainReference() != null ? visit(ctx.domainReference()) : getName(currentDomain),
@@ -780,7 +780,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return null;
         }
     }
-
+/*
     @Override
     public Object visitObjectDeclaration(MaslParser.ObjectDeclarationContext ctx) {
         try {
@@ -1546,8 +1546,11 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     public Object visitAssignStatement(AslParser.AssignStatementContext ctx) {
         try {
             Object statement = loader.create("AssignmentStatement");
-            loader.relate(visit(ctx.lhs), statement, 5101, "");
-            loader.relate(visit(ctx.rhs), statement, 5100, "");
+            Object lhs, rhs;
+            loader.relate(lhs=visit(ctx.lhs), statement, 5101, "");
+            loader.relate(rhs=visit(ctx.rhs), statement, 5100, "");
+            // Unlink type from lhs and connect to type from rhs.
+            loader.call_function("ASL_assignment_relink_type", lhs, rhs);
             return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
@@ -2088,8 +2091,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                     loader.set_attribute(binaryExpression, "operator", "Operator::times");
                 } else if (ctx.DIVIDE() != null) {
                     loader.set_attribute(binaryExpression, "operator", "Operator::divide");
-                //CDS} else if (ctx.POWER() != null) {
-                    //CDSloader.set_attribute(binaryExpression, "operator", "Operator::power");
+                } else if (ctx.POWER() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::power");
                 }
                 Object lhs = visit(ctx.lhs);
                 Object rhs = visit(ctx.rhs);
@@ -2197,10 +2200,9 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                     currentObject = prevCurrentObject;
                     return expression;
                 //}
-            /* } else {
-                return visit(ctx.extendedExpression()); */
+            } else {
+                return visit(ctx.extendedExpression());
             }
-            return null; // CDS
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
             return null;
@@ -2220,8 +2222,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
 
     @Override
     public Object visitExtendedExpression(AslParser.ExtendedExpressionContext ctx) {
-        if (ctx.primaryExpression() != null) {
-            return visit(ctx.primaryExpression());
+        if (ctx.postfixExpression() != null) {
+            return visit(ctx.postfixExpression());
         } else if (ctx.createExpression() != null) {
             return visit(ctx.createExpression());
         } else {
@@ -2333,7 +2335,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                     return null;
                 }
             } else {
-                return visit(ctx.extendedExpression());
+                return visit(ctx.primaryExpression());
             }
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
@@ -2378,6 +2380,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return visit(ctx.parenthesisedExpression());
         } else if (ctx.nameExpression() != null) {
             return visit(ctx.nameExpression());
+        } else if (ctx.sequence() != null) {
+            return visit(ctx.sequence());
         } else {
             System.err.println("Unsupported primary expression");
             return null;
@@ -2386,16 +2390,15 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
 
     @Override
     public Object visitNameExpression(AslParser.NameExpressionContext ctx) {
-        /* CDS try {
-            /* CDS Object expression = loader.call_function("resolve_NameExpression",
-                    ctx.domainReference() != null ? visit(ctx.domainReference()) : getName(currentDomain),
+        try {
+            Object expression = loader.call_function("resolve_NameExpression",
+                    getName(currentDomain),
                     ctx.identifier().getText(), currentCodeBlock);
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
             return null;
-        } */
-        return null;
+        }
     }
 
     @Override
@@ -2651,9 +2654,9 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     public Object visitForStatement(AslParser.ForStatementContext ctx) {
         try {
             Object statement = loader.create("ForStatement");
-            // CDS String actionText = input
-                    // CDS .getText(new Interval(ctx.getStart().getStartIndex(), ctx.LOOP(0).getSymbol().getStopIndex()));
-            // CDS loader.set_attribute(statement, "actions", actionText);
+            String actionText = input
+                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.DO().getSymbol().getStopIndex()));
+            loader.set_attribute(statement, "actions", actionText);
             loader.relate(visit(ctx.loopVariableSpec()), statement, 5110, "");
             Object firstStatement = visit(ctx.statementList());
             if (firstStatement != null) {

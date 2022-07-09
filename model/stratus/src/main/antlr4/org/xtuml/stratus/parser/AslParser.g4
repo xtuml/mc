@@ -329,7 +329,6 @@ exitStatement                 : BREAK
                               ;
 
 deleteStatement               : DELETE expression
-                              | DELETE objectName WHERE whereClause
                               ;
 linkStatement                 : linkType
                                 lhs=navigateExpression relationshipSpec
@@ -367,7 +366,7 @@ whileStatement                : LOOP NEWLINE
                                 ENDLOOP
                               ;
 
-condition                     : logicalOr // TODO
+condition                     : expression
                               ;
 
 
@@ -406,6 +405,8 @@ endDomainContext              : ENDUSE;
 
 codeBlock                     : statementList
                               ;
+
+
 //---------------------------------------------------------
 // Find Condition Definition
 //---------------------------------------------------------
@@ -488,6 +489,11 @@ unaryOperator                 : MINUS
                               | PLUS
                               | NOT
                               | COUNTOF
+                              | UNIQUE
+                              | UNION
+                              | DISUNION
+                              | INTERSECTION
+                              | NOT_IN
                               ;
 
 linkExpression                : navigateExpression
@@ -496,21 +502,19 @@ linkExpression                : navigateExpression
 navigateExpression            : lhs=navigateExpression
                                 ( NAVIGATE relationshipSpec whereClause?
                                 )
-                              | objectName whereClause
-                              | postfixExpression
+                              | extendedExpression
                               ;
 
-extendedExpression            :
+extendedExpression            : postfixExpression
                               | createExpression
                               | findExpression
-                              | primaryExpression
                               ;
 
 sortOrder                     : REVERSE? ORDERED_BY sortOrderComponent
                                 ( AND sortOrderComponent )*
                               ;
 
-sortOrderComponent            : attributeName
+sortOrderComponent            : REVERSE? attributeName
                               ;
 
 createExpression              : CREATE UNIQUE? objectReference ( WITH createArgumentList )?
@@ -541,7 +545,7 @@ postfixExpression             : root=postfixExpression
                                 ( LPAREN argumentList RPAREN
                                 | DOT identifier
                                 )
-                              | extendedExpression
+                              | primaryExpression
                               ;
 
 primaryExpression             : literal
@@ -553,12 +557,12 @@ primaryExpression             : literal
 sequence                      : LBRACKET argumentList RBRACKET
                               ;
 
-nameExpression                : ( operationName SCOPE )? identifier
-                              | ( operationName COLON )? identifier
+nameExpression                : ( operationName SCOPE )? identifier // domain function
+                              | ( operationName COLON )? identifier // class and object operations
                               | identifier
                               ;
 
-operationName                 : identifier; // TODO:  omit?
+operationName                 : identifier; // CDS TODO:  deal with operation numbers
 
 parenthesisedExpression
                               : LPAREN expression
