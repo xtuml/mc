@@ -289,7 +289,6 @@ statement                     : (
                                 | assignStatement
                                 | enumValueAssignStatement
                                 | nullStatement
-                                | callStatement
                                 | exitStatement
                                 | deleteStatement
                                 | linkStatement
@@ -318,17 +317,11 @@ assignStatement               : lhs=postfixExpression EQUAL rhs=expression
 enumValueAssignStatement      : identifier OF identifier EQUAL EnumerationLiteral // TODO:  refine
                               ;
 
-callStatement                 : root=sequence EQUAL
-                                ( nameExpression | CREATE_TIMER | DELETE_TIMER | GET_TIME_REMAINING )
-                                LBRACKET argumentList RBRACKET
-                                ( ON identifier )?
-                              ;
-
 exitStatement                 : BREAK
                               | BREAKIF condition
                               ;
 
-deleteStatement               : DELETE expression
+deleteStatement               : DELETE expression whereClause?
                               ;
 linkStatement                 : linkType
                                 lhs=navigateExpression relationshipSpec
@@ -341,9 +334,6 @@ linkStatement                 : linkType
 linkType                      : LINK
                               | UNLINK
                               | UNASSOCIATE
-                              ;
-
-createTimer                   : sequence EQUAL root=CREATE_TIMER LBRACKET argumentList RBRACKET
                               ;
 
 
@@ -510,6 +500,7 @@ extendedExpression            : postfixExpression
                               | findExpression
                               ;
 
+
 sortOrder                     : REVERSE? ORDERED_BY sortOrderComponent
                                 ( AND sortOrderComponent )*
                               ;
@@ -544,8 +535,10 @@ findType                      : FIND
 postfixExpression             : root=postfixExpression
                                 ( LPAREN argumentList RPAREN
                                 | DOT identifier
+                                | LBRACKET argumentList RBRACKET ( ON identifier )?
                                 )
                               | primaryExpression
+                              | CREATE_TIMER | DELETE_TIMER | GET_TIME_REMAINING
                               ;
 
 primaryExpression             : literal

@@ -1516,8 +1516,6 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             }
             if (ctx.assignStatement() != null) {
                 loader.relate(visit(ctx.assignStatement()), statement, 5135, "");
-            } else if (ctx.callStatement() != null) {
-                loader.relate(visit(ctx.callStatement()), statement, 5135, "");
             } else if (ctx.exitStatement() != null) {
                 loader.relate(visit(ctx.exitStatement()), statement, 5135, "");
             } else if (ctx.deleteStatement() != null) {
@@ -1546,11 +1544,12 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     public Object visitAssignStatement(AslParser.AssignStatementContext ctx) {
         try {
             Object statement = loader.create("AssignmentStatement");
-            Object lhs, rhs;
-            loader.relate(lhs=visit(ctx.lhs), statement, 5101, "");
-            loader.relate(rhs=visit(ctx.rhs), statement, 5100, "");
+            Object lhs = visit(ctx.lhs);
+            Object rhs = visit(ctx.rhs);
+            if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
+            if ( null != rhs ) loader.relate(rhs, statement, 5100, "");
             // Unlink type from lhs and connect to type from rhs.
-            loader.call_function("ASL_assignment_relink_type", lhs, rhs);
+            if ( null != lhs && null != rhs ) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
             return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
@@ -1579,7 +1578,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return null;
         }
     }
-*/
+
     @Override
     public Object visitCallStatement(AslParser.CallStatementContext ctx) {
         try {
@@ -1596,7 +1595,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return null;
         }
     }
-/*
+
     @Override
     public Object visitStreamValue(MaslParser.StreamValueContext ctx) {
         try {

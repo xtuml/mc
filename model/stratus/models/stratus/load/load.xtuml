@@ -2561,7 +2561,11 @@ rhs = param.rhs;
 
 select one rhs_basic_type related by rhs->BasicType[R5570];
 select one lhs_basic_type related by lhs->BasicType[R5570];
-unrelate lhs from lhs_basic_type across R5570;
+if ( empty lhs_basic_type )
+  LOG::LogInfo( message:"ASL_assignment_relink_type:  no type found on lhs." );
+else
+  unrelate lhs from lhs_basic_type across R5570;
+end if;
 relate lhs to rhs_basic_type across R5570;
 
 LOG::LogInfo( message:"Unlinked and relinked type of lhs in assignment statement." );',
