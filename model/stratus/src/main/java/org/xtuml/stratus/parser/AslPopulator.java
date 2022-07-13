@@ -1516,6 +1516,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             }
             if (ctx.assignStatement() != null) {
                 loader.relate(visit(ctx.assignStatement()), statement, 5135, "");
+            } else if (ctx.callStatement() != null) {
+                loader.relate(visit(ctx.callStatement()), statement, 5135, "");
             } else if (ctx.exitStatement() != null) {
                 loader.relate(visit(ctx.exitStatement()), statement, 5135, "");
             } else if (ctx.deleteStatement() != null) {
@@ -1578,7 +1580,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return null;
         }
     }
-
+*/
     @Override
     public Object visitCallStatement(AslParser.CallStatementContext ctx) {
         try {
@@ -1595,7 +1597,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return null;
         }
     }
-
+/*
     @Override
     public Object visitStreamValue(MaslParser.StreamValueContext ctx) {
         try {
@@ -2286,11 +2288,11 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             Object findExpression = loader.create("FindExpression");
             loader.relate(findExpression, expression, 5517, "");
             loader.set_attribute(findExpression, "flavor", visit(ctx.findType()));
-            // CDS Object lhs = visit(ctx.postfixNoCallExpression());
-            // CDS loader.relate(lhs, findExpression, 5519, "");
-            // CDS loader.call_function("resolve_FindExpression_type", expression);
+            Object lhs = visit(ctx.primaryExpression());
+            loader.relate(lhs, findExpression, 5519, "");
+            loader.call_function("resolve_FindExpression_type", expression);
             Object prevCurrentObject = currentObject;
-            // CDS currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
+            currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
             Object whereClause = visit(ctx.whereClause());
             if (whereClause != null) {
                 loader.relate(whereClause, findExpression, 5520, "");
@@ -2481,36 +2483,36 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return null;
         }
     }
-/*
+
     @Override
-    public Object visitScheduleStatement(MaslParser.ScheduleStatementContext ctx) {
+    public Object visitScheduleStatement(AslParser.ScheduleStatementContext ctx) {
         try {
             Object statement = loader.create("ScheduleStatement");
             loader.relate(visit(ctx.timerId), statement, 5132, "");
             // create an orphaned statement to represent the generate
-            Object statement2 = loader.create("MaslStatement");
-            Object genStatement = visit(ctx.generateStatement());
-            loader.relate(genStatement, statement2, 5135, "");
-            loader.relate(genStatement, statement, 5129, "");
-            loader.set_attribute(statement, "isAbsolute", visit(ctx.scheduleType()));
-            loader.relate(visit(ctx.time), statement, 5130, "");
-            if (ctx.period != null) {
-                loader.relate(visit(ctx.period), statement, 5131, "");
-            }
+            //CDS Object statement2 = loader.create("MaslStatement");
+            //CDS Object genStatement = visit(ctx.generateStatement());
+            //CDS loader.relate(genStatement, statement2, 5135, "");
+            //CDS loader.relate(genStatement, statement, 5129, "");
+            //CDS loader.set_attribute(statement, "isAbsolute", visit(ctx.scheduleType()));
+            //CDS loader.relate(visit(ctx.time), statement, 5130, "");
+            //CDS if (ctx.period != null) {
+            //CDS     loader.relate(visit(ctx.period), statement, 5131, "");
+            //CDS }
             return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
             return null;
         }
     }
-
+/*
     @Override
     public Object visitScheduleType(MaslParser.ScheduleTypeContext ctx) {
         return ctx.AT() != null;
     }
-
+*/
     @Override
-    public Object visitCancelTimerStatement(MaslParser.CancelTimerStatementContext ctx) {
+    public Object visitCancelTimerStatement(AslParser.CancelTimerStatementContext ctx) {
         try {
             Object statement = loader.create("CancelTimerStatement");
             loader.relate(visit(ctx.timerId), statement, 5102, "");
@@ -2520,7 +2522,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return null;
         }
     }
-
+/*
     @Override
     public Object visitCharacteristic(MaslParser.CharacteristicContext ctx) {
         try {

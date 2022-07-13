@@ -289,9 +289,12 @@ statement                     : (
                                 | assignStatement
                                 | enumValueAssignStatement
                                 | nullStatement
+                                | callStatement
                                 | exitStatement
                                 | deleteStatement
                                 | linkStatement
+                                | scheduleStatement
+                                | cancelTimerStatement
                                 | generateStatement
                                 | ifStatement
                                 | caseStatement
@@ -311,10 +314,15 @@ statement                     : (
 nullStatement                 : BEGIN NEWLINE? NULL SEMI NEWLINE? END SEMI
                               ;
 
-assignStatement               : lhs=postfixExpression EQUAL rhs=expression
+assignStatement               : lhs=expression EQUAL rhs=expression
                               ;
 
 enumValueAssignStatement      : identifier OF identifier EQUAL EnumerationLiteral // TODO:  refine
+                              ;
+
+callStatement                 : LBRACKET RBRACKET EQUAL root=nameExpression
+                                LBRACKET argumentList RBRACKET
+                                ( ON identifier )?
                               ;
 
 exitStatement                 : BREAK
@@ -333,8 +341,16 @@ linkStatement                 : linkType
 
 linkType                      : LINK
                               | UNLINK
-                              | UNASSOCIATE
                               ;
+
+
+scheduleStatement             : LBRACKET timerId=expression RBRACKET EQUAL
+                                CREATE_TIMER LBRACKET RBRACKET
+                              ;
+
+cancelTimerStatement          : LBRACKET RBRACKET EQUAL DELETE_TIMER LBRACKET timerId=expression RBRACKET
+                              ;
+
 
 
 generateStatement             : GENERATE eventReference
@@ -518,7 +534,7 @@ createArgumentList            :
 createArgument                : attributeName EQUAL expression
                               ;
 
-findExpression                : findType objectReference
+findExpression                : findType primaryExpression
                                 whereClause?
                                 sortOrder?
                               ;
@@ -538,7 +554,7 @@ postfixExpression             : root=postfixExpression
                                 | LBRACKET argumentList RBRACKET ( ON identifier )?
                                 )
                               | primaryExpression
-                              | CREATE_TIMER | DELETE_TIMER | GET_TIME_REMAINING
+                              | GET_TIME_REMAINING
                               ;
 
 primaryExpression             : literal
