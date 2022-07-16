@@ -1320,6 +1320,7 @@ LOG::LogFailure(message:"Could not resolve name expression: " + param.domain_nam
 
 create object instance var of VariableDefinition;
 var.name = param.name;
+var.isreadonly = false;
 relate var to current_block across R5151;
 // create a new variable reference
 create object instance expr of MaslExpression;
@@ -1685,6 +1686,9 @@ if (not_empty find_expression)
   elif (find_expression.flavor == FindType::find_one or find_expression.flavor == FindType::find_only)
     select one root_single_type related by root_type->CollectionType[R6205]->BasicType[R6208];
     relate root_single_type to expression across R5570;
+  else
+    // default to set for ASL find-all
+    relate root_type to expression across R5570;
   end if;
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -2016,7 +2020,7 @@ else
       // the type of a variable elements expression is the base type of the collection
       select one basic_type related by expression->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
     else
-      LOG::LogFailure(message:"Could not determine type of loop spec variable");
+      LOG::LogFailure(message:"Could not determine type of loop spec variable:  " + loop_spec.loopVariable);
     end if;
   end if;
 end if;

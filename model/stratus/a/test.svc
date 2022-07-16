@@ -1,0 +1,6 @@
+public service a::test() is
+  {seto} = find o
+  for oneo in {seto} do
+    x = 1
+  endfor
+end service;

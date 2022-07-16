@@ -2293,7 +2293,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             loader.call_function("resolve_FindExpression_type", expression);
             Object prevCurrentObject = currentObject;
             currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", lhs);
-            Object whereClause = visit(ctx.whereClause());
+            Object whereClause = null;
+            if ( ctx.whereClause() != null ) whereClause = visit(ctx.whereClause());
             if (whereClause != null) {
                 loader.relate(whereClause, findExpression, 5520, "");
             }
@@ -2311,6 +2312,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return "FindType::find";
         } else if (ctx.FIND_ONE() != null) {
             return "FindType::find_one";
+        } else if (ctx.FIND_ALL() != null) {
+            return "FindType::find_all";
         } else {
             return "FindType::find_only";
         }
@@ -2682,8 +2685,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             loader.set_attribute(variableDefinition, "isreadonly", true);
             loader.relate(variableDefinition, loopSpec, 5154, "");
             loader.relate(variableDefinition, currentCodeBlock, 5151, "");
-            // CDS Object basicType = loader.call_function("resolve_LoopSpec", loopSpec, visit(ctx.expression()));
-            // CDS loader.relate(basicType, variableDefinition, 5137, "");
+            Object basicType = loader.call_function("resolve_LoopSpec", loopSpec, visit(ctx.expression()));
+            loader.relate(basicType, variableDefinition, 5137, "");
             return loopSpec;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
