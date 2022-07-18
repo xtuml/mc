@@ -2557,22 +2557,37 @@ INSERT INTO S_SYNC
 	'',
 	'// ASL supports implicit typing of local variables.
 // When a new name is discovered, it is linked to a random type.
-// Here we link the lhs expression to the correct type.
-// This may be benignly redundant in cases where the lhs is not a simple name expression.
+// Here we link the lhs expression and the variable definition to the correct type.
 
 lhs = param.lhs;
 rhs = param.rhs;
 
-select one rhs_basic_type related by rhs->BasicType[R5570];
-select one lhs_basic_type related by lhs->BasicType[R5570];
-if ( empty lhs_basic_type )
-  LOG::LogInfo( message:"ASL_assignment_relink_type:  no type found on lhs." );
-else
-  unrelate lhs from lhs_basic_type across R5570;
-end if;
-relate lhs to rhs_basic_type across R5570;
+select one var_def related by lhs->VariableNameExpression[R5517]->VariableDefinition[R5562];
+if not_empty var_def then
 
-LOG::LogInfo( message:"Unlinked and relinked type of lhs in assignment statement." );',
+  select one rhs_basic_type related by rhs->BasicType[R5570];
+  select one lhs_basic_type related by lhs->BasicType[R5570];
+  select one var_basic_type related by var_def->BasicType[R5137];
+
+  // relink the expression type
+  if ( empty lhs_basic_type ) then
+    LOG::LogInfo( message:"ASL_assignment_relink_type:  no type found on lhs." );
+  else
+    unrelate lhs from lhs_basic_type across R5570;
+  end if;
+  relate lhs to rhs_basic_type across R5570;
+
+  // relink the variable type
+  if ( empty var_basic_type ) then
+    LOG::LogInfo( message:"ASL_assignment_relink_type:  no type found on var." );
+  else
+    unrelate var_def from var_basic_type across R5137;
+  end if;
+  relate var_def to rhs_basic_type across R5137;
+  
+  LOG::LogInfo( message:"Unlinked and relinked type of lhs in assignment statement." );
+  
+end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
