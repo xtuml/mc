@@ -1,5 +1,5 @@
 public service a::test() is
-  {seto} = find o
+  {seto} = find o where ( n = 1 & id = 2 )
   for oneo in {seto} do
     x = 1
   endfor

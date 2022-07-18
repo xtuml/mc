@@ -5,6 +5,7 @@ domain a is
 
   object o is 
     id : preferred integer;
+    n : integer;
   end object;
 
 end domain;

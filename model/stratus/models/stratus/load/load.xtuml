@@ -2563,14 +2563,14 @@ lhs = param.lhs;
 rhs = param.rhs;
 
 select one var_def related by lhs->VariableNameExpression[R5517]->VariableDefinition[R5562];
-if not_empty var_def then
+if not_empty var_def
 
   select one rhs_basic_type related by rhs->BasicType[R5570];
   select one lhs_basic_type related by lhs->BasicType[R5570];
   select one var_basic_type related by var_def->BasicType[R5137];
 
   // relink the expression type
-  if ( empty lhs_basic_type ) then
+  if ( empty lhs_basic_type )
     LOG::LogInfo( message:"ASL_assignment_relink_type:  no type found on lhs." );
   else
     unrelate lhs from lhs_basic_type across R5570;
@@ -2578,7 +2578,7 @@ if not_empty var_def then
   relate lhs to rhs_basic_type across R5570;
 
   // relink the variable type
-  if ( empty var_basic_type ) then
+  if ( empty var_basic_type )
     LOG::LogInfo( message:"ASL_assignment_relink_type:  no type found on var." );
   else
     unrelate var_def from var_basic_type across R5137;

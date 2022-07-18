@@ -341,6 +341,8 @@ linkStatement                 : linkType
 
 linkType                      : LINK
                               | UNLINK
+                              | ASSOCIATE
+                              | UNASSOCIATE
                               ;
 
 
