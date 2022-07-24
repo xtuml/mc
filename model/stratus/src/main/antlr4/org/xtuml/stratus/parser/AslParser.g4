@@ -596,6 +596,8 @@ literal
                               ;
 
 
-identifier                    : Identifier | SetIdentifier
+//identifier                    : CHARACTERS DIGITS?
+identifier                    : Identifier
+                              | SetIdentifier
                               ;
 

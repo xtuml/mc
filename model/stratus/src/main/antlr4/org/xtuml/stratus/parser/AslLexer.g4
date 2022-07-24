@@ -191,6 +191,8 @@ RelationshipName              : ( 'R' | 'CPR' | 'cpr' ) '1'..'9' Digit*
                               ;
 
 Identifier                    : ( Letter | '_' ) ( Letter | Digit | '_' )*;
+//CHARACTERS                    : ( Letter | '_' )+;
+//DIGITS                        : Digit+;
 
 
 SetIdentifier                 : '{' ( Letter | '_' ) ( Letter | Digit | '_' )* '}';
