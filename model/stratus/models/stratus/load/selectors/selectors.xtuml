@@ -991,6 +991,76 @@ INSERT INTO PE_PE
 	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("e6c17163-e6e2-45ca-a73b-f4ad462ecc3e",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_select_EventDeclaration_where_keyletters_name',
+	'',
+	'// Get ObjectDeclaration from marked keyletters and then navigate to event.
+
+event_name = "";
+event_name = "" + param.name; // TODO:  remove UDT hack
+select any event_declaration from instances of EventDeclaration where ( selected.name == param.name );
+select any object_declaration from instances of ObjectDeclaration where ( false );
+select any markable from instances of Markable where ( selected.name == "Object" );
+if ( not_empty markable )
+  select any feature related by markable->Feature[R2822] where ( selected.name == "key_letter" );
+  if ( not_empty feature )
+    select any mark related by feature->Mark[R2821] where ( selected.value == param.object_keyletters );
+    if ( not_empty mark )
+      // Parse out the object name.
+      s = mark.path;
+      prefix = "";
+      suffix = s;
+      dcolon_index = STRING::indexof(haystack:s, needle:"::");
+      split_index = dcolon_index;
+      while ( dcolon_index > -1 )
+        prefix = STRING::substr(s:s, begin:0, end:split_index);
+        suffix = STRING::substr(s:s, begin:split_index + 1, end:-1);
+        dcolon_index = STRING::indexof(haystack:suffix, needle:"::");
+        split_index = STRING::strlen(s:prefix) + 1 + dcolon_index;
+      end while;
+      select any object_declaration from instances of ObjectDeclaration where ( ( "" + selected.name ) == suffix );
+    end if;
+  end if;
+end if;
+if ( not_empty object_declaration )
+  select any event_declaration related by object_declaration->EventDeclaration[R6101] where ( ( "" + selected.name ) == event_name );
+else
+  LOG::LogFailure( message:"ASL_select_EventDeclaration_where_keyletters_name:  DID NOT FIND mark for ObjectDeclaration keyletters of:" + param.object_keyletters );
+end if;
+return event_declaration;
+
+',
+	"4cfcfee8-b8db-43f0-9290-af0d49e530d4",
+	1,
+	'',
+	0,
+	1);
+INSERT INTO S_SPARM
+	VALUES ("87b8489b-1d62-41fe-a517-3413f5809487",
+	"e6c17163-e6e2-45ca-a73b-f4ad462ecc3e",
+	'object_keyletters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8e25fdb1-e6c4-4c34-98b1-b8ba7cefa303",
+	"e6c17163-e6e2-45ca-a73b-f4ad462ecc3e",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"87b8489b-1d62-41fe-a517-3413f5809487",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e6c17163-e6e2-45ca-a73b-f4ad462ecc3e",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("d253fd26-846d-41fa-866d-36f9d01a0fa1",
 	1,

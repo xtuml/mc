@@ -1083,8 +1083,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     @Override
     public Object visitEventReference(AslParser.EventReferenceContext ctx) {
         try {
-            return loader.call_function("select_EventDeclaration_where_name",
-                    ctx.objectReference() != null ? visit(ctx.objectReference()) : currentObject,
+            return loader.call_function("ASL_select_EventDeclaration_where_keyletters_name",
+                    ctx.Word() != null ? ctx.Word().getText() : "",
                     ctx.eventName().getText());
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
