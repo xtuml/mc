@@ -2272,10 +2272,10 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
                         currentObject, ctx.attributeName().getText());
                 loader.relate(attributeDeclaration, attributeInitialization, 5565, "");
                 loader.relate(visit(ctx.primaryExpression()), attributeInitialization, 5568, "");
-            /* CDS } else {
+            } else {
                 Object ooastate = loader.call_function("select_State_related_where_name", currentObject,
-                        ctx.stateName().getText());
-                loader.relate(ooastate, attributeInitialization, 5567, ""); */
+                        ctx.EnumerationLiteral().getText());
+                //CDS loader.relate(ooastate, attributeInitialization, 5567, "");
             }
             return attributeInitialization;
         } catch (XtumlException e) {
@@ -2291,7 +2291,7 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
             Object findExpression = loader.create("FindExpression");
             loader.relate(findExpression, expression, 5517, "");
             loader.set_attribute(findExpression, "flavor", visit(ctx.findType()));
-            Object lhs = visit(ctx.primaryExpression());
+            Object lhs = visit(ctx.postfixNoCallExpression());
             loader.relate(lhs, findExpression, 5519, "");
             loader.call_function("resolve_FindExpression_type", expression);
             Object prevCurrentObject = currentObject;
@@ -2347,22 +2347,14 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
             return null;
         }
     }
-/*
+
     @Override
-    public Object visitPostfixNoCallExpression(MaslParser.PostfixNoCallExpressionContext ctx) {
+    public Object visitPostfixNoCallExpression(AslParser.PostfixNoCallExpressionContext ctx) {
         try {
             if (ctx.root != null) {
                 if (ctx.DOT() != null) {
                     Object expression = loader.call_function("create_DotExpression", visit(ctx.root),
                             ctx.identifier().getText());
-                    return expression;
-                } else if (ctx.TERMINATOR_SCOPE() != null) {
-                    Object expression = visit(ctx.root);
-                    loader.call_function("resolve_TerminatorServiceInvocation", expression, ctx.identifier().getText());
-                    return expression;
-                } else if (ctx.characteristic() != null) {
-                    Object expression = visit(ctx.characteristic());
-                    loader.call_function("resolve_CharacteristicExpression", expression, visit(ctx.root));
                     return expression;
                 } else {
                     System.err.println("Unsupported postfix expression");
@@ -2376,7 +2368,7 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
             return null;
         }
     }
-*/
+
     @Override
     public Object visitPrimaryExpression(AslParser.PrimaryExpressionContext ctx) {
         if (ctx.literal() != null) {

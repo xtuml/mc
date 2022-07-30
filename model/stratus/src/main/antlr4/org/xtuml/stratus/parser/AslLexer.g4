@@ -78,6 +78,7 @@ CREATE                        : 'create';
 CREATION                      : 'creation';
 CREATE_TIMER                  : 'Create_Timer';
 CURRENT_DATE                  : 'current-date';
+CURRENT_STATE                 : 'Current_State' | 'current_state' | 'CURRENT_STATE';
 CURRENT_TIME                  : 'current-time';
 DEFAULT                       : 'default';
 DEFINE                        : 'define';
@@ -185,6 +186,7 @@ MultilineComment              : '#{' .*? '}#' NEWLINE -> skip;
 
 StringLiteral                 : '"' ( ~('\\'|'"') )* '"'
                               ;
+
 
 // identifiers
 RelationshipName              : ( 'R' | 'CPR' | 'cpr' ) '1'..'9' Digit*

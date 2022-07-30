@@ -313,7 +313,7 @@ statement                     : (
 nullStatement                 : BEGIN NEWLINE? NULL SEMI NEWLINE? END SEMI
                               ;
 
-assignStatement               : lhs=nameExpression EQUAL rhs=expression
+assignStatement               : lhs=postfixNoCallExpression EQUAL rhs=expression
                               ;
 
 enumValueAssignStatement      : identifier OF identifier EQUAL EnumerationLiteral // TODO:  refine
@@ -533,12 +533,16 @@ createArgumentList            :
                               ;
 
 createArgument                : attributeName EQUAL primaryExpression
+                              | CURRENT_STATE EQUAL EnumerationLiteral
                               ;
 
-findExpression                : findType primaryExpression
+
+
+findExpression                : findType postfixNoCallExpression
                                 whereClause?
                                 sortOrder?
                               ;
+
 
 whereClause                   : WHERE findCondition
                               ;
@@ -549,13 +553,19 @@ findType                      : FIND
                               | FIND_ONLY
                               ;
 
-postfixExpression             : root=postfixExpression
+postfixExpression             : root=primaryExpression
                                 ( LPAREN argumentList RPAREN
                                 | DOT identifier
                                 | LBRACKET argumentList RBRACKET ( ON identifier )?
                                 )
                               | primaryExpression
                               | GET_TIME_REMAINING
+                              ;
+
+postfixNoCallExpression       : root=postfixNoCallExpression
+                                ( DOT identifier
+                                )
+                              | primaryExpression
                               ;
 
 primaryExpression             : literal
