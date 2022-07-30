@@ -85,7 +85,7 @@ attributeName                 : identifier
                               ;
 
 relationshipSpec              : relationshipReference
-                                  ( DOT ( objOrRole=objectReference | rolePhrase )
+                                  ( DOT objOrRole=identifier // | rolePhrase ) CDS TODO This needs fixing.
                                     (DOT objectReference)?
                                   )?
                               ;
@@ -313,7 +313,7 @@ statement                     : (
 nullStatement                 : BEGIN NEWLINE? NULL SEMI NEWLINE? END SEMI
                               ;
 
-assignStatement               : lhs=expression EQUAL rhs=expression
+assignStatement               : lhs=nameExpression EQUAL rhs=expression
                               ;
 
 enumValueAssignStatement      : identifier OF identifier EQUAL EnumerationLiteral // TODO:  refine
@@ -331,10 +331,10 @@ exitStatement                 : BREAK
 deleteStatement               : DELETE expression whereClause?
                               ;
 linkStatement                 : linkType
-                                lhs=navigateExpression relationshipSpec
+                                lhs=nameExpression relationshipSpec
                                 (
-                                  rhs=navigateExpression
-                                  ( ( USING | FROM ) assoc=navigateExpression)?
+                                  rhs=nameExpression
+                                  ( ( USING | FROM ) assoc=nameExpression)?
                                 )
                               ;
 
@@ -402,7 +402,7 @@ loopVariableSpec              : ( identifier | sequence ) IN expression
                               ;
 
 structureInstantiation        : SetIdentifier IS typeName;
-structureAssembly             : APPEND sequence TO SetIdentifier;
+structureAssembly             : APPEND sequence TO SetIdentifier; // TODO
 startDomainContext            : USE domainName;
 endDomainContext              : ENDUSE;
 
@@ -506,7 +506,7 @@ unaryOperator                 : MINUS
 linkExpression                : navigateExpression
                               ;
 
-navigateExpression            : lhs=navigateExpression
+navigateExpression            : lhs=nameExpression
                                 ( NAVIGATE relationshipSpec whereClause?
                                 )
                               | extendedExpression
@@ -529,10 +529,10 @@ createExpression              : CREATE UNIQUE? objectReference ( WITH createArgu
                               ;
 
 createArgumentList            :
-                                (createArgument ( AND createArgument )*)?
+                                createArgument ( AND createArgument )*
                               ;
 
-createArgument                : attributeName EQUAL expression
+createArgument                : attributeName EQUAL primaryExpression
                               ;
 
 findExpression                : findType primaryExpression

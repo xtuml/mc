@@ -88,9 +88,9 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
         this.filename = filename;
         this.aslParser = aslParser;
     }
-/*
+
     @Override
-    public Object visitDefinition(MaslParser.DefinitionContext ctx) {
+    public Object visitDefinition(AslParser.DefinitionContext ctx) {
         try {
             // initialize instance fields
             emptyObject = loader.call_function("select_ObjectDeclaration_where_name", "false", "false");
@@ -110,7 +110,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return null;
         }
     }
-
+/*
     @Override
     public Object visitProjectDefinition(MaslParser.ProjectDefinitionContext ctx) {
         try {
@@ -889,19 +889,18 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
 */
     @Override
     public Object visitRelationshipSpec(AslParser.RelationshipSpecContext ctx) {
-        /* CDS
         try {
             String objectOrRole = ctx.objOrRole != null ? ctx.objOrRole.getText() : "";
             Object toObject = ctx.objectReference() != null ? visit(ctx.objectReference()) : currentRelToObject;
+System.err.println("visitRELATIONSHIP_SPEC " + objectOrRole );
             Object relationshipSpecification = loader.call_function("create_RelationshipSpecification",
                     visit(ctx.relationshipReference()), currentObject, objectOrRole, toObject);
+System.err.println("AFTER visitRELATIONSHIP_SPEC " + objectOrRole );
             return relationshipSpecification;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
             return null;
         }
-        CDS */
-        return null;
     }
 /*
     @Override
@@ -1547,11 +1546,13 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
         try {
             Object statement = loader.create("AssignmentStatement");
             Object lhs = visit(ctx.lhs);
+if ( lhs == null ) System.err.println("EMPTY lhs"); // CDS void call
             Object rhs = visit(ctx.rhs);
+if ( rhs == null ) System.err.println("EMPTY rhs");
             if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
             if ( null != rhs ) loader.relate(rhs, statement, 5100, "");
             // Unlink type from lhs and connect to type from rhs.
-            if ( null != lhs && null != rhs ) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
+            if ((null != lhs ) && (null != rhs)) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
             return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
@@ -2244,8 +2245,10 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             loader.relate(createExpression, expression, 5517, "");
             loader.relate(instType, expression, 5570, "");
             currentObject = obj;
+            if ( ctx.WITH() != null ) {
             for (Object attributeInitialization : (List<Object>) visit(ctx.createArgumentList())) {
                 loader.relate(attributeInitialization, createExpression, 5566, "");
+            }
             }
             currentObject = emptyObject;
             return expression;
@@ -2268,7 +2271,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                 Object attributeDeclaration = loader.call_function("select_AttributeDeclaration_related_where_name",
                         currentObject, ctx.attributeName().getText());
                 loader.relate(attributeDeclaration, attributeInitialization, 5565, "");
-                loader.relate(visit(ctx.expression()), attributeInitialization, 5568, "");
+                loader.relate(visit(ctx.primaryExpression()), attributeInitialization, 5568, "");
             /* CDS } else {
                 Object ooastate = loader.call_function("select_State_related_where_name", currentObject,
                         ctx.stateName().getText());
@@ -2676,7 +2679,12 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
         try {
             Object loopSpec = loader.create("LoopSpec");
             // CDS loader.set_attribute(loopSpec, "isreverse", ctx.REVERSE() != null);
-            loader.set_attribute(loopSpec, "loopVariable", ctx.identifier().getText());
+            // CDS sequence needs to be added here.
+            // CDS sequences will already exist, so there is no implicit declaration.
+            if ( ctx.sequence() != null ) {
+              loader.set_attribute(loopSpec, "loopVariable", ctx.sequence().getText());
+            } else {
+              loader.set_attribute(loopSpec, "loopVariable", ctx.identifier().getText());
             // Loop variables are implicitly declared. Create it.
             Object variableDefinition = loader.create("VariableDefinition");
             loader.set_attribute(variableDefinition, "name", ctx.identifier().getText());
@@ -2685,6 +2693,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             loader.relate(variableDefinition, currentCodeBlock, 5151, "");
             Object basicType = loader.call_function("resolve_LoopSpec", loopSpec, visit(ctx.expression()));
             loader.relate(basicType, variableDefinition, 5137, "");
+            }
             return loopSpec;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
