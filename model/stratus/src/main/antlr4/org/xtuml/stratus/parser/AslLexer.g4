@@ -187,7 +187,6 @@ MultilineComment              : '#{' .*? '}#' NEWLINE -> skip;
 StringLiteral                 : '"' ( ~('\\'|'"') )* '"'
                               ;
 
-
 // identifiers
 RelationshipName              : ( 'R' | 'CPR' | 'cpr' ) '1'..'9' Digit*
                               ;

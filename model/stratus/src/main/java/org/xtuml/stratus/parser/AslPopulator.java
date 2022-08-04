@@ -2271,7 +2271,7 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
                 Object attributeDeclaration = loader.call_function("select_AttributeDeclaration_related_where_name",
                         currentObject, ctx.attributeName().getText());
                 loader.relate(attributeDeclaration, attributeInitialization, 5565, "");
-                loader.relate(visit(ctx.primaryExpression()), attributeInitialization, 5568, "");
+                loader.relate(visit(ctx.postfixNoCallExpression()), attributeInitialization, 5568, "");
             } else {
                 Object ooastate = loader.call_function("select_State_related_where_name", currentObject,
                         ctx.EnumerationLiteral().getText());

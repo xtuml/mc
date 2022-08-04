@@ -331,10 +331,10 @@ exitStatement                 : BREAK
 deleteStatement               : DELETE expression whereClause?
                               ;
 linkStatement                 : linkType
-                                lhs=nameExpression relationshipSpec
+                                lhs=primaryExpression relationshipSpec
                                 (
-                                  rhs=nameExpression
-                                  ( ( USING | FROM ) assoc=nameExpression)?
+                                  rhs=primaryExpression
+                                  ( ( USING | FROM ) assoc=primaryExpression)?
                                 )
                               ;
 
@@ -441,7 +441,7 @@ findUnary                         : NOT findUnary
                                   | LPAREN findCondition RPAREN
                                   ;
 
-findComparison                    : lhs=findName ( EQUAL | NOT_EQUAL | LT | GT | LTE | GTE  ) rhs=additiveExp;
+findComparison                    : lhs=findName ( EQUAL | NOT_EQUAL | LT | GT | LTE | GTE  ) rhs=primaryExpression;
 
 findName                          : att=identifier
                                     ( DOT comp=identifier
@@ -506,7 +506,7 @@ unaryOperator                 : MINUS
 linkExpression                : navigateExpression
                               ;
 
-navigateExpression            : lhs=nameExpression
+navigateExpression            : lhs=navigateExpression
                                 ( NAVIGATE relationshipSpec whereClause?
                                 )
                               | extendedExpression
@@ -532,7 +532,7 @@ createArgumentList            :
                                 createArgument ( AND createArgument )*
                               ;
 
-createArgument                : attributeName EQUAL primaryExpression
+createArgument                : attributeName EQUAL postfixNoCallExpression
                               | CURRENT_STATE EQUAL EnumerationLiteral
                               ;
 
@@ -555,16 +555,15 @@ findType                      : FIND
 
 postfixExpression             : root=primaryExpression
                                 ( LPAREN argumentList RPAREN
-                                | DOT identifier
+                                | DOT ( identifier | CURRENT_STATE )
                                 | LBRACKET argumentList RBRACKET ( ON identifier )?
                                 )
                               | primaryExpression
-                              | GET_TIME_REMAINING
+                              | GET_TIME_REMAINING LBRACKET identifier RBRACKET
                               ;
 
 postfixNoCallExpression       : root=postfixNoCallExpression
-                                ( DOT identifier
-                                )
+                                DOT ( identifier | CURRENT_STATE )
                               | primaryExpression
                               ;
 
