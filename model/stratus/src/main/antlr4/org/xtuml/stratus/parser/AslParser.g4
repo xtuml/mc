@@ -93,7 +93,7 @@ relationshipSpec              : relationshipReference
 eventName                     : identifier
                               ;
 
-eventReference                : (Word IntegerLiteral COLON eventName) | SET_TIMER | RESET_TIMER
+eventReference                : (identifier COLON eventName) | SET_TIMER | RESET_TIMER
                               ;
 
 stateName                     : identifier
@@ -579,7 +579,7 @@ sequence                      : LBRACKET argumentList RBRACKET
 nameExpression                : ( operationName ( SCOPE | COLON ) )? identifier
                               ;
 
-operationName                 : Word ( Word | IntegerLiteral )* IntegerLiteral;
+operationName                 : identifier;
 
 parenthesisedExpression
                               : LPAREN expression
@@ -604,7 +604,7 @@ literal
                               ;
 
 
-identifier                    : Word ( IntegerLiteral | Word )*
+identifier                    : Identifier
                               | SetIdentifier
                               ;
 

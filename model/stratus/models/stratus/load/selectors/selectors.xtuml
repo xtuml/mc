@@ -1020,6 +1020,10 @@ if ( not_empty markable )
         dcolon_index = STRING::indexof(haystack:suffix, needle:"::");
         split_index = STRING::strlen(s:prefix) + 1 + dcolon_index;
       end while;
+      if ( STRING::strlen(s:suffix) > 2 )
+        // Skip past the remaining ::.
+        suffix = STRING::substr(s:suffix, begin:1, end:-1);
+      end if;
       select any object_declaration from instances of ObjectDeclaration where ( ( "" + selected.name ) == suffix );
     end if;
   end if;

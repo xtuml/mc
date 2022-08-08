@@ -8,6 +8,8 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -892,10 +894,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
         try {
             String objectOrRole = ctx.objOrRole != null ? ctx.objOrRole.getText() : "";
             Object toObject = ctx.objectReference() != null ? visit(ctx.objectReference()) : currentRelToObject;
-System.err.println("visitRELATIONSHIP_SPEC " + objectOrRole );
             Object relationshipSpecification = loader.call_function("create_RelationshipSpecification",
                     visit(ctx.relationshipReference()), currentObject, objectOrRole, toObject);
-System.err.println("AFTER visitRELATIONSHIP_SPEC " + objectOrRole );
             return relationshipSpecification;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
@@ -1082,8 +1082,17 @@ System.err.println("AFTER visitRELATIONSHIP_SPEC " + objectOrRole );
     @Override
     public Object visitEventReference(AslParser.EventReferenceContext ctx) {
         try {
+            String key_letters = "", num;
+            if (ctx.identifier() != null) {
+                Pattern re = Pattern.compile("([a-zA-Z0-9_]+?)([0-9]*)");
+                Matcher m = re.matcher(ctx.identifier().getText());
+                if (m.matches()) {
+                    key_letters = m.group(1);
+                    num = m.group(2);
+                }
+            }
             return loader.call_function("ASL_select_EventDeclaration_where_keyletters_name",
-                    ctx.Word() != null ? ctx.Word().getText() : "",
+                    key_letters,
                     ctx.eventName().getText());
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
@@ -2333,7 +2342,7 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
                     return expression;
                 } else if (ctx.DOT() != null) {
                     Object expression = loader.call_function("create_DotExpression", visit(ctx.root),
-                            ctx.identifier().getText());
+                            ctx.identifier() != null ? ctx.identifier().getText() : ctx.CURRENT_STATE().getText());
                     return expression;
                 } else {
                     System.err.println("Unsupported postfix expression");
@@ -2354,7 +2363,7 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
             if (ctx.root != null) {
                 if (ctx.DOT() != null) {
                     Object expression = loader.call_function("create_DotExpression", visit(ctx.root),
-                            ctx.identifier().getText());
+                            ctx.identifier() != null ? ctx.identifier().getText() : ctx.CURRENT_STATE().getText());
                     return expression;
                 } else {
                     System.err.println("Unsupported postfix expression");
@@ -2608,9 +2617,9 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
     public Object visitWhileStatement(AslParser.WhileStatementContext ctx) {
         try {
             Object statement = loader.create("WhileStatement");
-            // CDS String actionText = input
-                    // CDS .getText(new Interval(ctx.getStart().getStartIndex(), ctx.LOOP(0).getSymbol().getStopIndex()));
-            // CDS loader.set_attribute(statement, "actions", actionText);
+            String actionText = input
+                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.ENDLOOP().getSymbol().getStopIndex()));
+            loader.set_attribute(statement, "actions", actionText);
             // CDS loader.relate(visit(ctx.condition()), statement, 5142, "");
             Object firstStatement = visit(ctx.statementList());
             if (firstStatement != null) {

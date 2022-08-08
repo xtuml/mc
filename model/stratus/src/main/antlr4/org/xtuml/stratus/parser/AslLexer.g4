@@ -188,12 +188,10 @@ StringLiteral                 : '"' ( ~('\\'|'"') )* '"'
                               ;
 
 // identifiers
-RelationshipName              : ( 'R' | 'CPR' | 'cpr' ) '1'..'9' Digit*
-                              ;
-
-Word                          : ( Letter | '_' )+;
-
+RelationshipName              : ( 'R' | 'CPR' | 'cpr' ) '1'..'9' Digit*;
+Identifier                    : ( Letter | '_' ) ( Letter | Digit | '_' )*;
 SetIdentifier                 : '{' ( Letter | '_' ) ( Letter | Digit | '_' )* '}';
+
 DescriptionASL                : '#$DESCRIPTION' .*? '#$END_DESCRIPTION'; // TODO:  parse req IDs
 Description                   : '//!' ~('\n'|'\r')* '\r'? '\n';
 Comment                       : '#' ~[\r\n]* NEWLINE -> skip;
