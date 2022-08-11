@@ -44,7 +44,7 @@ typeReference
                               ;
 
 
-instanceTypeRef               : ANONYMOUS? INSTANCE OF fullObjectReference
+instanceTypeRef               : ANONYMOUS? INSTANCE (OF fullObjectReference)?
                               ;
 
 namedTypeRef                  : ANONYMOUS? (domainReference SCOPE)? typeName
@@ -85,7 +85,7 @@ attributeName                 : identifier
                               ;
 
 relationshipSpec              : relationshipReference
-                                  ( DOT objOrRole=identifier // | rolePhrase ) CDS TODO This needs fixing.
+                                  ( DOT ( identifier | rolePhrase )
                                     (DOT objectReference)?
                                   )?
                               ;
@@ -93,7 +93,7 @@ relationshipSpec              : relationshipReference
 eventName                     : identifier
                               ;
 
-eventReference                : (identifier COLON eventName) | SET_TIMER | RESET_TIMER
+eventReference                : identifier COLON eventName
                               ;
 
 stateName                     : identifier

@@ -892,7 +892,10 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     @Override
     public Object visitRelationshipSpec(AslParser.RelationshipSpecContext ctx) {
         try {
-            String objectOrRole = ctx.objOrRole != null ? ctx.objOrRole.getText() : "";
+            String objectOrRole = ctx.identifier() != null ? ctx.identifier().getText() : "";
+            if ( ctx.rolePhrase() != null ) {
+                objectOrRole = ctx.rolePhrase().getText().replaceAll("\"","");
+            }
             Object toObject = ctx.objectReference() != null ? visit(ctx.objectReference()) : currentRelToObject;
             Object relationshipSpecification = loader.call_function("create_RelationshipSpecification",
                     visit(ctx.relationshipReference()), currentObject, objectOrRole, toObject);
