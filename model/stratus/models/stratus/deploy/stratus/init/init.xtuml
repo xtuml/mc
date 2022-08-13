@@ -106,6 +106,62 @@ for each domain in domains
   LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality exps) + " exceptions");
 end for;
 
+// Print out a ASL summary.
+LOG::LogInfo(message:"ASL summary:");
+select many assignment_statements from instances of AssignmentStatement;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality assignment_statements) + " assignment_statements");
+
+select many switch_statements from instances of CaseStatement;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality switch_statements) + " switch_statements");
+
+select many delete_statements from instances of DeleteStatement;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality delete_statements) + " delete_statements");
+
+select many break_statements from instances of ExitStatement;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality break_statements) + " break_statements");
+
+select many for_statements from instances of ForStatement;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality for_statements) + " for_statements");
+
+select many generate_statements from instances of GenerateStatement;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality generate_statements) + " generate_statements");
+
+select many if_statements from instances of IfStatement;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality if_statements) + " if_statements");
+
+select many link_unlink_statements from instances of LinkUnlinkStatement;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality link_unlink_statements) + " link_unlink_statements");
+
+select many loop_statements from instances of WhileStatement;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality loop_statements) + " loop_statements");
+
+select many create_timer_statements from instances of ScheduleStatement;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality create_timer_statements) + " create_timer_statements");
+
+select many cancel_timer_statements from instances of CancelTimerStatement;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality cancel_timer_statements) + " cancel_timer_statements");
+
+select many create_expressions from instances of CreateExpression;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality create_expressions) + " create_expressions");
+
+select many find_expressions from instances of FindExpression;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality find_expressions) + " find_expressions");
+
+select many domain_service_invocation from instances of DomainServiceInvocation;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality domain_service_invocation) + " domain_service_invocation");
+
+select many class_service_invocation from instances of ObjectServiceInvocation;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality class_service_invocation) + " class_service_invocation");
+
+select many instance_service_invocation from instances of InstanceServiceInvocation;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality instance_service_invocation) + " instance_service_invocation");
+
+select many terminator_service_invocation from instances of TerminatorServiceInvocation;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality terminator_service_invocation) + " terminator_service_invocation");
+
+select many call_expressions from instances of CallExpression;
+LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality call_expressions) + " call_expressions");
+
 control stop;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,

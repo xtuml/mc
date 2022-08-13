@@ -286,7 +286,6 @@ statementList                 : statement*
 
 statement                     : (
                                 | assignStatement
-                                | enumValueAssignStatement
                                 | nullStatement
                                 | callStatement
                                 | exitStatement
@@ -314,9 +313,6 @@ nullStatement                 : BEGIN NEWLINE? NULL SEMI NEWLINE? END SEMI
                               ;
 
 assignStatement               : lhs=postfixNoCallExpression EQUAL rhs=expression
-                              ;
-
-enumValueAssignStatement      : identifier OF identifier EQUAL EnumerationLiteral // TODO:  refine
                               ;
 
 callStatement                 : LBRACKET RBRACKET EQUAL root=nameExpression
@@ -571,6 +567,10 @@ primaryExpression             : literal
                               | parenthesisedExpression
                               | nameExpression
                               | sequence
+                              | enumValue
+                              ;
+
+enumValue                     : identifier OF identifier
                               ;
 
 sequence                      : LBRACKET argumentList RBRACKET

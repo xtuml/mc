@@ -1273,23 +1273,45 @@ if (not_empty object_declaration)
   return expr;
 end if;
 
-// search for terminators
-// we don''t have the service name yet, so we have to return a placeholder
-// service expression link any terminator service just to have a connection to
-// the terminator -- it will get relinked later.
-select any terminator related by domain->DomainTerminator[R5304] where selected.name == param.name;
-if (not_empty terminator)
+// search for terminator service reference
+if ( ":" == param.scope )
+select any service related by domain->DomainTerminator[R5304]->DomainTerminatorService[R5306]->Service[R5203] where selected.name == param.name;
+if (not_empty service)
   create object instance expr of MaslExpression;
+  select one type related by service->BasicType[R5205];
+  if (not_empty type)
+    relate type to expr across R5570;
+  end if;
   create object instance call_expr of CallExpression;
   relate call_expr to expr across R5517;
   create object instance service_invocation of ServiceInvocation;
   relate service_invocation to call_expr across R5500;
   create object instance terminator_service_invocation of TerminatorServiceInvocation;
   relate terminator_service_invocation to service_invocation across R5610;
-  select any terminator_service related by terminator->DomainTerminatorService[R5306];
+  select one terminator_service related by service->DomainTerminatorService[R5203];
   relate terminator_service to terminator_service_invocation across R5612;
-  LOG::LogInfo(message:"resolved name [terminator]: ''" + param.domain_name + "::" + param.name + "''");
+  LOG::LogInfo(message:"resolved name [terminator service]: ''" + param.domain_name + "::" + param.name + "'' with key_letters:" + param.base_name);
   return expr;
+end if;
+// search for object service reference
+select any service related by domain->ObjectDeclaration[R5805]->ObjectService[R5808]->Service[R5203] where selected.name == param.name;
+if (not_empty service)
+  create object instance expr of MaslExpression;
+  select one type related by service->BasicType[R5205];
+  if (not_empty type)
+    relate type to expr across R5570;
+  end if;
+  create object instance call_expr of CallExpression;
+  relate call_expr to expr across R5517;
+  create object instance service_invocation of ServiceInvocation;
+  relate service_invocation to call_expr across R5500;
+  create object instance object_service_invocation of ObjectServiceInvocation;
+  relate object_service_invocation to service_invocation across R5610;
+  select one object_service related by service->ObjectService[R5203];
+  relate object_service to object_service_invocation across R5613;
+  LOG::LogInfo(message:"resolved name [object service]: ''" + param.domain_name + "::" + param.name + "'' with key_letters:" + param.base_name);
+  return expr;
+end if;
 end if;
 
 // search for types (for characteristics and type casting)
@@ -1374,6 +1396,33 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("0a53e771-8261-4c53-80ee-3a0fc2c4242d",
+	"183c6254-c6e2-4d4e-a5f3-5011775222ab",
+	'scope',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e71e8b02-8ca0-473b-b978-25e75c6c8e28",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ccd94894-5ff5-4bd2-a57a-d795cb861033",
+	"183c6254-c6e2-4d4e-a5f3-5011775222ab",
+	'base_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0a53e771-8261-4c53-80ee-3a0fc2c4242d",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4cc1bb9e-271f-4ee3-982a-f35bd469bbcf",
+	"183c6254-c6e2-4d4e-a5f3-5011775222ab",
+	'number',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ccd94894-5ff5-4bd2-a57a-d795cb861033",
+	'');
 INSERT INTO PE_PE
 	VALUES ("183c6254-c6e2-4d4e-a5f3-5011775222ab",
 	1,

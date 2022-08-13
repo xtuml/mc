@@ -2391,6 +2391,8 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
             return visit(ctx.nameExpression());
         } else if (ctx.sequence() != null) {
             return visit(ctx.sequence());
+        } else if (ctx.enumValue() != null) {
+            return visit(ctx.enumValue());
         } else {
             System.err.println("Unsupported primary expression");
             return null;
@@ -2400,9 +2402,20 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
     @Override
     public Object visitNameExpression(AslParser.NameExpressionContext ctx) {
         try {
+            String scope = "", base_name = "", number = "";
+            if (ctx.operationName() != null) {
+                scope = ctx.SCOPE() != null ? ctx.SCOPE().getText() : ctx.COLON().getText();
+                Pattern re = Pattern.compile("([a-zA-Z0-9_]+?)([0-9]*)");
+                Matcher m = re.matcher(ctx.operationName().getText());
+                if (m.matches()) {
+                    base_name = m.group(1);
+                    number = m.group(2);
+                }
+            }
             Object expression = loader.call_function("resolve_NameExpression",
                     getName(currentDomain),
-                    ctx.identifier().getText(), currentCodeBlock);
+                    ctx.identifier().getText(), currentCodeBlock,
+                    scope, base_name, number);
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
