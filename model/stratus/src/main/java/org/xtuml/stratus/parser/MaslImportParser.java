@@ -43,7 +43,7 @@ public class MaslImportParser implements IGenericLoader {
         System.out.println("Parsing resource: " + fileURI);
 
         try (InputStream is = fileURI.toURL().openConnection().getInputStream()) {
-            final String filename = Path.of(fileURI.toURL().getPath()).getFileName().toString();
+            final String filename = new File(fileURI.getPath()).getName();
 
             // Tokenize the file
             CharStream input = CharStreams.fromStream(is);

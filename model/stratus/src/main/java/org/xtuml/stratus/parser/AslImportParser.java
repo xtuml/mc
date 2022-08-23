@@ -1,5 +1,6 @@
 package org.xtuml.stratus.parser;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -26,38 +27,37 @@ public class AslImportParser extends MaslImportParser implements IGenericLoader 
             // Use the MASL parser for structural files
             super.parseFile(fileURI);
         } else {
-            parsingResources.push(fileURI);
-            System.out.println("Parsing resource: " + fileURI);
+        parsingResources.push(fileURI);
+        System.out.println("Parsing resource: " + fileURI);
 
-            try (InputStream is = fileURI.toURL().openConnection().getInputStream()) {
-                final String filename = Path.of(fileURI.toURL().getPath()).getFileName().toString();
+        try (InputStream is = fileURI.toURL().openConnection().getInputStream()) {
+            final String filename = new File(fileURI.getPath()).getName();
 
-                // Tokenize the file
-                CharStream input = CharStreams.fromStream(is);
-                AslLexer lexer = new AslLexer(input);
-                AslParser parser = new AslParser(new CommonTokenStream(lexer));
-                parser.removeErrorListeners();
-                parser.addErrorListener(new BaseErrorListener() {
-                    @Override
-                    public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line,
-                            int charPositionInLine, String msg, RecognitionException e)
-                            throws ParseCancellationException {
-                        throw new ParseCancellationException(
-                                filename + ": line " + line + ":" + charPositionInLine + " " + msg);
-                    }
-                });
+            // Tokenize the file
+            CharStream input = CharStreams.fromStream(is);
+            AslLexer lexer = new AslLexer(input);
+            AslParser parser = new AslParser(new CommonTokenStream(lexer));
+            parser.removeErrorListeners();
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line,
+                        int charPositionInLine, String msg, RecognitionException e) throws ParseCancellationException {
+                    throw new ParseCancellationException(
+                            filename + ": line " + line + ":" + charPositionInLine + " " + msg);
+                }
+            });
 
-                // Parse the file
-                ParserRuleContext ctx = parser.target();
+            // Parse the file
+            ParserRuleContext ctx = parser.target();
 
-                // Walk the parse tree
-                AslPopulator listener = new AslPopulator(this, loader, input, filename);
-                listener.visit(ctx);
+            // Walk the parse tree
+            AslPopulator listener = new AslPopulator(this, loader, input, filename);
+            listener.visit(ctx);
 
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            } finally {
-                parsingResources.pop();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        } finally {
+            parsingResources.pop();
             }
         }
 
