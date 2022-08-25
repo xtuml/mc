@@ -111,7 +111,7 @@ stateType                     : ASSIGNER
 //---------------------------------------------------------
 
 parameterList                 : LPAREN
-                                  parameterDefinition? ( COMMA NEWLINE? parameterDefinition )*
+                                  parameterDefinition? ( COMMA NEWLINE* parameterDefinition )*
                                 RPAREN
                               ;
 
@@ -268,8 +268,8 @@ scenarioDefinitionASL         : DEFINE SCENARIO scenarioName NEWLINE+
                                 ENDDEFINE
                               ;
 
-blockInput                    : INPUT ( parameterName COLON parameterType )? ( COMMA NEWLINE? parameterName COLON parameterType )* NEWLINE+;
-blockOutput                   : OUTPUT ( parameterName COLON parameterType )? ( COMMA NEWLINE? parameterName COLON parameterType )* NEWLINE+;
+blockInput                    : INPUT ( parameterName COLON parameterType )? ( COMMA NEWLINE* parameterName COLON parameterType )* NEWLINE+;
+blockOutput                   : OUTPUT ( parameterName COLON parameterType )? ( COMMA NEWLINE* parameterName COLON parameterType )* NEWLINE+;
 bridgeName                    : operationName COLON identifier COLON identifier;  // TODO refine this
 functionName                  : operationName SCOPE identifier; // TODO see if this can be aligned
 objectServiceName             : operationName COLON identifier; // TODO see if this can be aligned
@@ -309,7 +309,7 @@ statement                     : (
                                 NEWLINE
                               ;
 
-nullStatement                 : BEGIN NEWLINE? NULL SEMI NEWLINE? END SEMI
+nullStatement                 : BEGIN NEWLINE* NULL SEMI NEWLINE* END SEMI
                               ;
 
 assignStatement               : lhs=postfixNoCallExpression EQUAL rhs=expression

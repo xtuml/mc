@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.URI;
 import java.nio.file.Path;
+import java.nio.file.Files;
 
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CharStream;
@@ -32,9 +33,12 @@ public class AslImportParser extends MaslImportParser implements IGenericLoader 
 
         try (InputStream is = fileURI.toURL().openConnection().getInputStream()) {
             final String filename = new File(fileURI.getPath()).getName();
+            Path filePath = Path.of(fileURI).normalize();
+            // The following is a work-around for activity files with no end-of-line <EOL> character on the last line.
+            String s = Files.readString(filePath) + "\n";
 
             // Tokenize the file
-            CharStream input = CharStreams.fromStream(is);
+            CharStream input = CharStreams.fromString(s);
             AslLexer lexer = new AslLexer(input);
             AslParser parser = new AslParser(new CommonTokenStream(lexer));
             parser.removeErrorListeners();
