@@ -157,11 +157,11 @@ FALSE                         : 'FALSE';
 EnumerationLiteral            : '\'' ( Letter | Digit | '_' )+ '\'';
 
 // Numeric Literals
-IntegerLiteral                : Digit+
+IntegerLiteral                : '-'? Digit+
                               ;
 
 
-RealLiteral                   : Digit+ 
+RealLiteral                   : '-'? Digit+ 
                                 ( ('.' Digit+)
                                 | UnbasedExponent
                                 )

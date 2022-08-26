@@ -1506,6 +1506,17 @@ if not_empty l_builtin and not_empty r_builtin
 
 end if;
 
+// ASL correlated navigation uses _and_ to combine instances to the associative on the RHS.
+select one instance_type related by r_type->InstanceType[R6205];
+if ( not_empty instance_type )
+  binary_type = r_type;
+  select one object_declaration related by instance_type->ObjectDeclaration[R6220.''references''];
+else
+  select one basic_type related by r_type->CollectionType[R6205]->BasicType[R6208];
+  if ( not_empty basic_type )
+    binary_type = basic_type;
+  end if;
+end if;
 
 // type the expression
 relate binary_type to expression across R5570;',
