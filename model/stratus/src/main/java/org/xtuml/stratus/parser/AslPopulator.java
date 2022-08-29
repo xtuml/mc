@@ -2351,6 +2351,16 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
                     System.err.println("Unsupported postfix expression");
                     return null;
                 }
+            } else if (ctx.GET_TIME_REMAINING() != null) {
+                // TODO - This is a placeholder for the return from Get_Time_Remaining.
+                Object expression = loader.create("MaslExpression");
+                Object literalExpression = loader.create("LiteralExpression");
+                loader.relate(literalExpression, expression, 5517, "");
+                Object durationLiteral = loader.create("DurationLiteral");
+                loader.relate(durationLiteral, literalExpression, 5700, "");
+                Object durationType = loader.call_function("select_BasicType_where_name", "", "duration");
+                loader.relate(durationType, expression, 5570, "");
+                return expression;
             } else {
                 return visit(ctx.primaryExpression());
             }
@@ -2390,11 +2400,31 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
         } else if (ctx.nameExpression() != null) {
             return visit(ctx.nameExpression());
         } else if (ctx.sequence() != null) {
-            return visit(ctx.sequence());
+            return = visit(ctx.sequence());
         } else if (ctx.enumValue() != null) {
             return visit(ctx.enumValue());
         } else {
             System.err.println("Unsupported primary expression");
+            return null;
+        }
+    }
+
+    @Override
+    public Object visitSequence(AslParser.SequenceContext ctx) {
+        // TODO:  This may be a bit feeble.  We may need an actual sequence collection type and sequence expression.
+        if (ctx.argumentList() != null) {
+            Object argument = visit(ctx.argumentList());
+            if ( argument != null ) {
+                try {
+                    return loader.call_function("ASL_select_Expression_related_by_Argument_R5577", argument);
+                } catch (XtumlException e) {
+                    xtumlTrace(e, "", ctx);
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } else {
             return null;
         }
     }

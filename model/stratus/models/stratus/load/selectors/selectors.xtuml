@@ -1031,7 +1031,11 @@ end if;
 if ( not_empty object_declaration )
   select any event_declaration related by object_declaration->EventDeclaration[R6101] where ( ( "" + selected.name ) == event_name );
 else
-  LOG::LogFailure( message:"ASL_select_EventDeclaration_where_keyletters_name:  DID NOT FIND mark for ObjectDeclaration keyletters of:" + param.object_keyletters );
+  if ( "TIM" == param.object_keyletters )
+    create object instance event_declaration of EventDeclaration; // TODO - hack for ASL for now
+  else
+    LOG::LogFailure( message:"ASL_select_EventDeclaration_where_keyletters_name:  DID NOT FIND mark for ObjectDeclaration keyletters of:" + param.object_keyletters );
+  end if;
 end if;
 return event_declaration;
 
@@ -1061,6 +1065,41 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("e6c17163-e6e2-45ca-a73b-f4ad462ecc3e",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("38b72c42-74ac-4a13-8b67-0ffe915edecd",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_select_Expression_related_by_Argument_R5577',
+	'',
+	'argument = param.argument;
+select one expression related by argument->MaslExpression[R5577];
+return expression;',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	1,
+	'',
+	0,
+	2);
+INSERT INTO S_SPARM
+	VALUES ("67b1b490-4a24-4d1e-9790-540e15cb0ecd",
+	"38b72c42-74ac-4a13-8b67-0ffe915edecd",
+	'argument',
+	"55087eb6-f47a-4ad0-9d03-015c8f3c3663",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("55087eb6-f47a-4ad0-9d03-015c8f3c3663",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Argument>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/expression/expression.xtuml');
+INSERT INTO PE_PE
+	VALUES ("38b72c42-74ac-4a13-8b67-0ffe915edecd",
 	1,
 	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
 	"00000000-0000-0000-0000-000000000000",

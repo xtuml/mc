@@ -1241,6 +1241,7 @@ if not_empty enumer
 end if;
 
 // search for domain service reference
+if ( "" != param.scope )
 select any service related by domain->DomainService[R5303]->Service[R5203] where selected.name == param.name;
 if (not_empty service)
   create object instance expr of MaslExpression;
@@ -1258,6 +1259,7 @@ if (not_empty service)
   relate domain_service to domain_service_invocation across R5611;
   LOG::LogInfo(message:"resolved name [domain service]: ''" + param.domain_name + "::" + param.name + "''");
   return expr;
+end if;
 end if;
 
 // search for objects
