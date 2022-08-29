@@ -123,7 +123,16 @@ static int ${te_prefix.result}xtUML_load_file( const char * filepath, const stru
   if ( 0 == filepath ) {
     xtumlfile = stdin;
   } else {
-    if ( !strstr( filepath, ".xtuml" ) ) {
+    ${te_prefix.type}size_t len = ${te_prefix.result}strlen(filepath);
+    /*
+     * Only process files with names ending in .xtuml.
+     */
+    if ( !( '.' == filepath[len-6] &&
+            'x' == filepath[len-5] &&
+            't' == filepath[len-4] &&
+            'u' == filepath[len-3] &&
+            'm' == filepath[len-2] &&
+            'l' == filepath[len-1] ) ) {
       return 0; // not a model source file
     } else {
       if ( (xtumlfile = fopen( filepath, "r" )) == 0 ) {

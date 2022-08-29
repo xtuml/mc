@@ -148,7 +148,12 @@ static int ${te_prefix.result}MASL_load_file( const char * filepath, const struc
   /*
    * Open the named file for reading.
    */
-  if ( !strstr( filepath, ".masl" ) ) {
+  ${te_prefix.type}size_t len = ${te_prefix.result}strlen(filepath);
+  if ( !( '.' == filepath[len-5] &&
+          'm' == filepath[len-4] &&
+          'a' == filepath[len-3] &&
+          's' == filepath[len-2] &&
+          'l' == filepath[len-1] ) ) {
     return 0; // not a masl source file
   } else {
     if ( (xtumlfile = fopen( filepath, "r" )) == 0 ) {
