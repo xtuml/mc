@@ -1248,6 +1248,19 @@ if (not_empty service)
   select one type related by service->BasicType[R5205];
   if (not_empty type)
     relate type to expr across R5570;
+  else
+    // ASL-specific, find out parameter to serve as call_expression type
+    select one parameter_definition related by service->ParameterDefinition[R5204];
+    while (not_empty parameter_definition)
+      if ( parameter_definition.mode == ParameterMode::out )
+        select one type related by parameter_definition->BasicType[R5200];
+        if (not_empty type)
+          relate type to expr across R5570;
+          break;
+        end if;
+      end if;
+      select one parameter_definition related by parameter_definition->ParameterDefinition[R5208.''precedes''];
+    end while;
   end if;
   create object instance call_expr of CallExpression;
   relate call_expr to expr across R5517;
@@ -1283,6 +1296,19 @@ if (not_empty service)
   select one type related by service->BasicType[R5205];
   if (not_empty type)
     relate type to expr across R5570;
+  else
+    // ASL-specific, find out parameter to serve as call_expression type
+    select one parameter_definition related by service->ParameterDefinition[R5204];
+    while (not_empty parameter_definition)
+      if ( parameter_definition.mode == ParameterMode::out )
+        select one type related by parameter_definition->BasicType[R5200];
+        if (not_empty type)
+          relate type to expr across R5570;
+          break;
+        end if;
+      end if;
+      select one parameter_definition related by parameter_definition->ParameterDefinition[R5208.''precedes''];
+    end while;
   end if;
   create object instance call_expr of CallExpression;
   relate call_expr to expr across R5517;
@@ -1302,6 +1328,19 @@ if (not_empty service)
   select one type related by service->BasicType[R5205];
   if (not_empty type)
     relate type to expr across R5570;
+  else
+    // ASL-specific, find out parameter to serve as call_expression type
+    select one parameter_definition related by service->ParameterDefinition[R5204];
+    while (not_empty parameter_definition)
+      if ( parameter_definition.mode == ParameterMode::out )
+        select one type related by parameter_definition->BasicType[R5200];
+        if (not_empty type)
+          relate type to expr across R5570;
+          break;
+        end if;
+      end if;
+      select one parameter_definition related by parameter_definition->ParameterDefinition[R5208.''precedes''];
+    end while;
   end if;
   create object instance call_expr of CallExpression;
   relate call_expr to expr across R5517;
@@ -2631,6 +2670,12 @@ if not_empty var_def
   select one lhs_basic_type related by lhs->BasicType[R5570];
   select one var_basic_type related by var_def->BasicType[R5137];
 
+if ( empty rhs )
+  LOG::LogInfo( message:"ASL_assignment_relink_type:  no type found on rhs." );
+end if;
+if ( empty rhs_basic_type )
+  LOG::LogInfo( message:"ASL_assignment_relink_type:  no basic type found on rhs." );
+end if;
   // relink the expression type
   if ( empty lhs_basic_type )
     LOG::LogInfo( message:"ASL_assignment_relink_type:  no type found on lhs." );

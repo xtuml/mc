@@ -549,7 +549,7 @@ findType                      : FIND
                               | FIND_ONLY
                               ;
 
-postfixExpression             : root=primaryExpression
+postfixExpression             : root=postfixExpression
                                 ( LPAREN argumentList RPAREN
                                 | DOT ( identifier | CURRENT_STATE )
                                 | LBRACKET argumentList RBRACKET ( ON identifier )?

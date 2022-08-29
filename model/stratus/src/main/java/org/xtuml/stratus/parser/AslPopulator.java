@@ -2400,7 +2400,7 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
         } else if (ctx.nameExpression() != null) {
             return visit(ctx.nameExpression());
         } else if (ctx.sequence() != null) {
-            return = visit(ctx.sequence());
+            return visit(ctx.sequence());
         } else if (ctx.enumValue() != null) {
             return visit(ctx.enumValue());
         } else {
