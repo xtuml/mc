@@ -1,0 +1,85 @@
+= WASL Exporter File Sensitivity
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+This note documents a small change to enhance the file system traversal
+in `x2m` to be more selective, avoiding files placed in the `/models`
+folder by other processes, such as configuration management (ClearCase).
+
+== 2 Introduction and Background
+
+It was reported that the WASL Exporter emitted erroneous data when
+non-BridgePoint files had been added to the project in the `/models`
+folder.  Upon closer investigation, it was isolated to a mechanism
+in ClearCase which copies user files and appends a special extension
+(`.contrib` or something like that) to the file.  For example, if
+`DomainA.xtuml` had been modified, ClearCase may keep a copy of that file
+named `DomainA.xtuml.contrib`.
+
+Additional investigation found that the `x2m` process recursively
+navigates the models folder matching files with '.xtuml' in the name.
+Both files above match this criteria.
+
+It is clear that this file matching must be made to match '.xtuml' only at
+the _end_ of the file name.
+
+== 3 Requirements
+
+=== 3.1 File Matching in `x2m`
+
+Match files with '.xtuml' in the name and only at the end of the name.
+
+== 4 Work Required
+
+The change is in the MC-3020 model compiler.  The file loader template
+shall be udpated to be more selective.
+
+== 5 Implementation Comments
+
+=== 5.1 MASL File Loader
+
+The exact same pattern occurs in the MASL file loader.  MASL files are
+matched with '.masl' in the name (not necessarily at the end), in the same
+way that '.xtuml' files are matched.  This work shall fix the weakness in
+this spot, too.
+
+== 6 Unit Test
+
+=== 6.1 MASL Round Trip
+
+Get clean results on MASL Round Trip.
+
+=== 6.2 Inject Erroneous Files
+
+. Run the WASL Exporter on a model.
+. See good results.
+. Copy `DomainA.xtuml` to DomainA.xtuml.contrib` with junk in the file.
+. See the same good results.
+
+== 7 User Documentation
+
+No documentation changes are necessary.
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  12562_wasl_sensitive
+
+----
+ arc/t.sys_maslload.c                    |  7 ++++++-
+ arc/t.sys_xtumlload.c                   | 11 +++++++++-
+ doc/notes/12562_wasl_sensitive_int.adoc | 87 ++++++++++++++++++++++++++++
+ 3 files changed, 103 insertions(+), 2 deletions(-)
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12562[12562 - WASL Exporter sensitive to additional files in the xtUML model]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
