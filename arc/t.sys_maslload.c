@@ -148,13 +148,19 @@ static int ${te_prefix.result}MASL_load_file( const char * filepath, const struc
   /*
    * Open the named file for reading.
    */
-  if ( !strstr( filepath, ".masl" ) ) {
-    return 0; // not a masl source file
-  } else {
+  ${te_prefix.type}size_t len = ${te_prefix.result}strlen(filepath);
+  if ( ( len > 5 ) &&
+       ( '.' == filepath[len-5] &&
+         'm' == filepath[len-4] &&
+         'a' == filepath[len-3] &&
+         's' == filepath[len-2] &&
+         'l' == filepath[len-1] ) ) {
     if ( (xtumlfile = fopen( filepath, "r" )) == 0 ) {
       fprintf( stderr, "Could not open file:  %s\n", filepath );
       return 1;
     }
+  } else {
+    return 0; // not a masl source file
   }
   init();               /* Initialize the parser storage area.  */
   /*
