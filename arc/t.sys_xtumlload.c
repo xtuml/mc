@@ -127,18 +127,19 @@ static int ${te_prefix.result}xtUML_load_file( const char * filepath, const stru
     /*
      * Only process files with names ending in .xtuml.
      */
-    if ( !( '.' == filepath[len-6] &&
-            'x' == filepath[len-5] &&
-            't' == filepath[len-4] &&
-            'u' == filepath[len-3] &&
-            'm' == filepath[len-2] &&
-            'l' == filepath[len-1] ) ) {
-      return 0; // not a model source file
-    } else {
+    if ( ( len > 6 ) &&
+         ( '.' == filepath[len-6] &&
+           'x' == filepath[len-5] &&
+           't' == filepath[len-4] &&
+           'u' == filepath[len-3] &&
+           'm' == filepath[len-2] &&
+           'l' == filepath[len-1] ) ) {
       if ( (xtumlfile = fopen( filepath, "r" )) == 0 ) {
         fprintf( stderr, "Could not open file:  %s\n", filepath );
         return 1;
       }
+    } else {
+      return 0; // not a model source file
     }
   }
   init();               /* Initialize the parser storage area.  */
