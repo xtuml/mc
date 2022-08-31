@@ -1948,6 +1948,20 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
     }
 
     @Override
+    public Object visitFindUnary(AslParser.FindUnaryContext ctx) {
+        try {
+            if (ctx.NOT() != null) {
+                return loader.call_function("resolve_UnaryExpression", visit(ctx.findUnary()), "Operator::not");
+            } else {
+                return visit(ctx.findCondition());
+            }
+        } catch (XtumlException e) {
+            xtumlTrace(e, "", ctx);
+            return null;
+        }
+    }
+
+    @Override
     public Object visitFindComparison(AslParser.FindComparisonContext ctx) {
         try {
             Object expression = loader.create("MaslExpression");
