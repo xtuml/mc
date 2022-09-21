@@ -397,7 +397,7 @@ forStatement                  : FOR loopVariableSpec
 loopVariableSpec              : ( identifier | sequence ) IN expression
                               ;
 
-structureInstantiation        : SetIdentifier IS typeName;
+structureInstantiation        : SetIdentifier IS typeReference;
 structureAssembly             : APPEND sequence TO SetIdentifier; // TODO
 startDomainContext            : USE domainName;
 endDomainContext              : ENDUSE;

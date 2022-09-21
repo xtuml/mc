@@ -1188,6 +1188,12 @@ if (not_empty var)
   return expr;
 end if;
 
+strip_braces = param.name;
+right_brace_position = STRING::indexof(haystack:strip_braces, needle:"}");
+if ( right_brace_position > 1 ) // not at beginning and not simply {}
+  strip_braces = STRING::substr(s:strip_braces, begin:1, end:right_brace_position);
+  LOG::LogInfo(message:"resolved name stripped braces from " + param.name + " to get " + strip_braces );
+end if;
 // search for parameter reference
 current_block = param.current_block;
 select one current_service related by current_block->Service[R5403];
@@ -1202,6 +1208,9 @@ select one service_param related by current_service->ParameterDefinition[R5204];
 while (not_empty service_param and empty ref_param)
   if (service_param.name == param.name)
     ref_param = service_param;
+  elif (service_param.name == strip_braces)
+    ref_param = service_param;
+    LOG::LogInfo(message:"resolving name with stripped braces");
   end if;
   select one service_param related by service_param->ParameterDefinition[R5208.''precedes''];
 end while;
@@ -2078,6 +2087,7 @@ expression = param.expression;
 // determine the flavor of loop expression.
 // resolve the subtype.
 // return the type of the loop variable
+LOG::LogInfo(message:"resolve_LoopSpec with LoopVariable:" + loop_spec.loopVariable );
 
 select any basic_type from instances of BasicType where false;
 
@@ -2720,6 +2730,48 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("7ccb3b77-1990-48c5-b466-39dbbd6a4fd6",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4ec2754e-fec2-44fb-8563-407f995a6ad0",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_structure_instantiation',
+	'',
+	'// Create a collection type to carry members of the input (structure) basic type.
+
+member_basic_type = param.basic_type;
+
+create object instance type_definition of TypeDefinition;
+create object instance sequence_basic_type of BasicType;
+sequence_basic_type.isanonymous = true;
+create object instance collection_type of CollectionType;
+create object instance sequence_type of SequenceType;
+
+relate type_definition to sequence_basic_type across R6236;
+relate sequence_basic_type to collection_type across R6205;
+relate collection_type to sequence_type across R6207;
+
+relate collection_type to member_basic_type across R6208;
+
+return sequence_basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0,
+	14);
+INSERT INTO S_SPARM
+	VALUES ("261c7217-b922-42a4-96fb-0ea1a9ed4821",
+	"4ec2754e-fec2-44fb-8563-407f995a6ad0",
+	'basic_type',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("4ec2754e-fec2-44fb-8563-407f995a6ad0",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",

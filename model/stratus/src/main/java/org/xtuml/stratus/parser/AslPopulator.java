@@ -1467,21 +1467,22 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return null;
         }
     }
-
+*/
     @Override
-    public Object visitVariableDeclaration(MaslParser.VariableDeclarationContext ctx) {
+    public Object visitStructureInstantiation(AslParser.StructureInstantiationContext ctx) {
+System.err.println("visitStructureInstantiation");
         try {
             Object variableDefinition = loader.create("VariableDefinition");
-            loader.set_attribute(variableDefinition, "name", ctx.variableName().getText());
-            loader.set_attribute(variableDefinition, "isreadonly", ctx.READONLY() != null);
-            String actionText = input
-                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.getStop().getStopIndex()));
-            loader.set_attribute(variableDefinition, "actions", actionText);
+            loader.set_attribute(variableDefinition, "name", ctx.SetIdentifier().getText());
+System.err.println("visitStructureInstantiation: " + ctx.SetIdentifier().getText());
             loader.set_attribute(variableDefinition, "line_number", ctx.getStart().getLine());
-            loader.relate(visit(ctx.typeReferenceWithCA()), variableDefinition, 5137, "");
-            if (ctx.expression() != null) {
-                loader.relate(visit(ctx.expression()), variableDefinition, 5138, "");
-            }
+            // A structure instantiation automatically creates an empty set of structures.
+            // Pass in the basic type and wrap a collection type (sequence) around it.
+            // Return the collection type (basic type) to be related to the variableDefinition.
+            Object member_type_reference = visit(ctx.typeReference());
+            Object sequence_type_reference = loader.call_function("ASL_structure_instantiation", member_type_reference);
+            loader.relate(sequence_type_reference, variableDefinition, 5137, "");
+            loader.relate(variableDefinition, currentCodeBlock, 5151, "");
             return variableDefinition;
 
         } catch (XtumlException e) {
@@ -1489,7 +1490,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             return null;
         }
     }
-*/
+
     @Override
     public Object visitStatementList(AslParser.StatementListContext ctx) {
         try {
@@ -1527,6 +1528,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             }
             if (ctx.assignStatement() != null) {
                 loader.relate(visit(ctx.assignStatement()), statement, 5135, "");
+            } else if (ctx.structureInstantiation() != null) {
+                visit(ctx.structureInstantiation());
             } else if (ctx.callStatement() != null) {
                 loader.relate(visit(ctx.callStatement()), statement, 5135, "");
             } else if (ctx.exitStatement() != null) {
@@ -2739,22 +2742,17 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
     public Object visitLoopVariableSpec(AslParser.LoopVariableSpecContext ctx) {
         try {
             Object loopSpec = loader.create("LoopSpec");
-            // CDS loader.set_attribute(loopSpec, "isreverse", ctx.REVERSE() != null);
-            // CDS sequence needs to be added here.
-            // CDS sequences will already exist, so there is no implicit declaration.
-            if ( ctx.sequence() != null ) {
-              loader.set_attribute(loopSpec, "loopVariable", ctx.sequence().getText());
-            } else {
-              loader.set_attribute(loopSpec, "loopVariable", ctx.identifier().getText());
+            // loader.set_attribute(loopSpec, "isreverse", ctx.REVERSE() != null);
+            String loop_variable_name = ( ctx.sequence() != null ) ? ctx.sequence().getText() : ctx.identifier().getText();
+            loader.set_attribute(loopSpec, "loopVariable", loop_variable_name);
             // Loop variables are implicitly declared. Create it.
             Object variableDefinition = loader.create("VariableDefinition");
-            loader.set_attribute(variableDefinition, "name", ctx.identifier().getText());
+            loader.set_attribute(variableDefinition, "name", loop_variable_name);
             loader.set_attribute(variableDefinition, "isreadonly", true);
             loader.relate(variableDefinition, loopSpec, 5154, "");
             loader.relate(variableDefinition, currentCodeBlock, 5151, "");
             Object basicType = loader.call_function("resolve_LoopSpec", loopSpec, visit(ctx.expression()));
             loader.relate(basicType, variableDefinition, 5137, "");
-            }
             return loopSpec;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
