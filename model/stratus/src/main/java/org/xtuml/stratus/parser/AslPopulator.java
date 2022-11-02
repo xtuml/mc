@@ -2340,7 +2340,7 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
 
     @Override
     public Object visitFindType(AslParser.FindTypeContext ctx) {
-        if (ctx.FIND() != null  || ctx.FIND_ALL() != null) {
+        if (ctx.FIND() != null) {
             return "FindType::find";
         } else if (ctx.FIND_ONE() != null) {
             return "FindType::find_one";

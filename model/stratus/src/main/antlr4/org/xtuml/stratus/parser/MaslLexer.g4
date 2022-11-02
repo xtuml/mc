@@ -25,7 +25,7 @@ CONCATENATE                   : '&';
 UNION                         : 'union';
 NOT_IN                        : 'not_in';
 
-// Multiplicactive Operators
+// Multiplicative Operators
 DIVIDE                        : '/';
 TIMES                         : '*';
 INTERSECTION                  : 'intersection';

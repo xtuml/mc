@@ -336,8 +336,6 @@ linkStatement                 : linkType
 
 linkType                      : LINK
                               | UNLINK
-                              | ASSOCIATE
-                              | UNASSOCIATE
                               ;
 
 
@@ -398,7 +396,7 @@ loopVariableSpec              : ( identifier | sequence ) IN expression
                               ;
 
 structureInstantiation        : SetIdentifier IS typeReference;
-structureAssembly             : APPEND sequence TO SetIdentifier; // TODO
+structureAssembly             : CONCATENATE sequence TO SetIdentifier; // TODO
 startDomainContext            : USE domainName;
 endDomainContext              : ENDUSE;
 
@@ -476,11 +474,11 @@ relationalExp                 : lhs=relationalExp ( LT | GT | LTE | GTE ) rhs=ad
                               | additiveExp
                               ;
 
-additiveExp                   : lhs=additiveExp ( PLUS | MINUS ) rhs=multExp
+additiveExp                   : lhs=additiveExp ( PLUS | MINUS | UNION | NOT_IN ) rhs=multExp
                               | multExp
                               ;
 
-multExp                       : lhs=multExp ( TIMES | DIVIDE | POWER ) rhs=unaryExp
+multExp                       : lhs=multExp ( TIMES | DIVIDE | POWER | INTERSECTION | DISUNION ) rhs=unaryExp
                               | unaryExp
                               ;
 
@@ -491,12 +489,7 @@ unaryExp                      : unaryOperator exp=unaryExp
 unaryOperator                 : MINUS
                               | PLUS
                               | NOT
-                              | COUNTOF
-                              | UNIQUE
-                              | UNION
-                              | DISUNION
-                              | INTERSECTION
-                              | NOT_IN
+                              | ABS
                               ;
 
 linkExpression                : navigateExpression
@@ -544,7 +537,6 @@ whereClause                   : WHERE findCondition
                               ;
 
 findType                      : FIND
-                              | FIND_ALL
                               | FIND_ONE
                               | FIND_ONLY
                               ;

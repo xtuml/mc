@@ -17,10 +17,12 @@ XOR                           : 'xor';
 // Unary and Additive Operators (Keep in this order to 
 // improve efficiency so unary and additive can be looked 
 // for as ranges) 
-
+ABS                           : 'countof';
 NOT                           : '!' | 'not';
 PLUS                          : '+';
 MINUS                         : '-';
+CONCATENATE                   : 'append';
+UNION                         : 'union-of';
 NOT_IN                        : 'not-in';
 
 // Multiplicative Operators
@@ -28,6 +30,7 @@ DIVIDE                        : '/';
 TIMES                         : '*';
 INTERSECTION                  : 'intersection-of';
 POWER                         : '^';
+DISUNION                      : 'disunion-of';
 
 // Equality Operators
 EQUAL                         : '=' | 'equals';
@@ -64,16 +67,13 @@ ACTION                        : 'action';
 ANONYMOUS                     : 'anonymous';
 ADA_INLINE                    : '#$ADA_INLINE'; // eat Ada incline code
 ALREADY_DEFINED               : 'ALREADY_DEFINED';
-APPEND                        : 'append';
 ASSIGNER                      : 'assigner';
-ASSOCIATE                     : 'associate';
 ASSOCIATION                   : '-A';
 BEGIN                         : 'begin';
 BREAK                         : 'break';
 BREAKIF                       : 'breakif';
 BRIDGE                        : 'bridge';
 CASE                          : 'case';
-COUNTOF                       : 'countof';
 CREATE                        : 'create';
 CREATION                      : 'creation';
 CREATE_TIMER                  : 'Create_Timer';
@@ -84,7 +84,6 @@ DEFAULT                       : 'default';
 DEFINE                        : 'define';
 DELETE                        : 'delete';
 DELETE_TIMER                  : 'Delete_Timer';
-DISUNION                      : 'disunion-of';
 DO                            : 'do';
 DQUOTE                        : '"';
 ELSE                          : 'else';
@@ -98,10 +97,9 @@ ENDSWITCH                     : 'endswitch';
 ENDUSE                        : '$ENDUSE';
 END                           : 'end';
 ERROR                         : 'ERROR';
-FIND                          : 'find';
+FIND                          : 'find' | 'find-all';
 FIND_ONE                      : 'find-one';
 FIND_ONLY                     : 'find-only';
-FIND_ALL                      : 'find-all';
 FOR                           : 'for';
 FROM                          : 'from';
 GENERATE                      : 'generate';
@@ -114,7 +112,7 @@ INPUT                         : 'input';
 INSTANCE                      : 'instance';
 IS                            : 'is';
 LEFT_BRACE                    : '{';
-LINK                          : 'link' | 'link-counterpart';      // could separate these
+LINK                          : 'link' | 'associate' | 'link-counterpart';      // could separate these
 LOOP                          : 'loop';
 NEWLINE                       : [\r\n];
 OF                            : 'of';
@@ -141,11 +139,9 @@ TERMINAL                      : 'terminal';
 THEN                          : 'then';
 THIS                          : 'this';
 TO                            : 'to';
-UNASSOCIATE                   : 'unassociate';
 UNDEFINED                     : 'UNDEFINED';
-UNION                         : 'union-of';
 UNIQUE                        : 'unique';
-UNLINK                        : 'unlink' | 'unlink-counterpart';  // could separate these
+UNLINK                        : 'unlink' | 'unassociate' | 'unlink-counterpart';  // could separate these
 USE                           : '$USE';
 USING                         : 'using';
 WHERE                         : 'where';
