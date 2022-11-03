@@ -395,8 +395,8 @@ forStatement                  : FOR loopVariableSpec
 loopVariableSpec              : ( identifier | sequence ) IN expression
                               ;
 
-structureInstantiation        : SetIdentifier IS typeReference;
-structureAssembly             : CONCATENATE sequence TO SetIdentifier; // TODO
+structureInstantiation        : LEFT_BRACE identifier RIGHT_BRACE IS typeReference;
+structureAssembly             : CONCATENATE additiveExp;
 startDomainContext            : USE domainName;
 endDomainContext              : ENDUSE;
 
@@ -474,7 +474,7 @@ relationalExp                 : lhs=relationalExp ( LT | GT | LTE | GTE ) rhs=ad
                               | additiveExp
                               ;
 
-additiveExp                   : lhs=additiveExp ( PLUS | MINUS | UNION | NOT_IN ) rhs=multExp
+additiveExp                   : lhs=additiveExp ( PLUS | MINUS | TO | UNION | NOT_IN ) rhs=multExp
                               | multExp
                               ;
 
@@ -569,6 +569,7 @@ sequence                      : LBRACKET argumentList RBRACKET
                               ;
 
 nameExpression                : ( operationName ( SCOPE | COLON ) )? identifier
+                              | LEFT_BRACE identifier RIGHT_BRACE
                               ;
 
 operationName                 : identifier;
@@ -597,6 +598,5 @@ literal
 
 
 identifier                    : Identifier
-                              | SetIdentifier
                               ;
 

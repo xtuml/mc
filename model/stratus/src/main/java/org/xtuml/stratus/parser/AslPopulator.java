@@ -1473,8 +1473,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
 System.err.println("visitStructureInstantiation");
         try {
             Object variableDefinition = loader.create("VariableDefinition");
-            loader.set_attribute(variableDefinition, "name", ctx.SetIdentifier().getText());
-System.err.println("visitStructureInstantiation: " + ctx.SetIdentifier().getText());
+            loader.set_attribute(variableDefinition, "name", ctx.identifier().getText());
+System.err.println("visitStructureInstantiation: " + ctx.identifier().getText());
             loader.set_attribute(variableDefinition, "line_number", ctx.getStart().getLine());
             // A structure instantiation automatically creates an empty set of structures.
             // Pass in the basic type and wrap a collection type (sequence) around it.
@@ -1489,6 +1489,19 @@ System.err.println("visitStructureInstantiation: " + ctx.SetIdentifier().getText
             xtumlTrace(e, "", ctx);
             return null;
         }
+    }
+
+    @Override
+    public Object visitStructureAssembly(AslParser.StructureAssemblyContext ctx) {
+System.err.println("visitStructureAssembly");
+        /*
+        try {
+        } catch (XtumlException e) {
+            xtumlTrace(e, "", ctx);
+            return null;
+        }
+        */
+        return null;
     }
 
     @Override
@@ -1529,7 +1542,10 @@ System.err.println("visitStructureInstantiation: " + ctx.SetIdentifier().getText
             if (ctx.assignStatement() != null) {
                 loader.relate(visit(ctx.assignStatement()), statement, 5135, "");
             } else if (ctx.structureInstantiation() != null) {
+                //loader.relate(visit(ctx.structureInstantiation()), statement, 5135, "");
                 visit(ctx.structureInstantiation());
+            } else if (ctx.structureAssembly() != null) {
+                visit(ctx.structureAssembly());
             } else if (ctx.callStatement() != null) {
                 loader.relate(visit(ctx.callStatement()), statement, 5135, "");
             } else if (ctx.exitStatement() != null) {
