@@ -1,0 +1,121 @@
+= Support shared types for ASL
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+ASL and the WACA code generator do not currently support the use of types shared
+between domains. This analysis explores strategies to support shared types in
+BridgePoint models targeted to WACA.
+
+== 2 Introduction and Background
+
+Currently, to share types between domains in WACA, the modeler must assure that
+the each domain which plans to use the type contains a type with matching name
+and identical definition.
+
+MASL supports sharing types between domains using domain scoped identifiers
+(e.g. "DomainA::Type1"). In BridgePoint, this is done by creating a single type
+definition in the owner domain and then creating a "type reference type" in the
+consuming domain with the correct scoped name. The MASL exporter recognizes this
+type as a reference to another type and inserts the scoped name in the correct
+location.
+
+"WASL" refers to the model format consisting of a set of tabular files
+representing the model along with text files containing ASL actions. WASL is the
+input format for the WACA code generator.
+
+== 3 Requirements
+
+=== 3.1 BridgePoint shall supply a mechanism to maintain shared types for WACA models
+
+==== 3.1.1 A modeler shall not be required to update a type definition in more than one location
+
+==== 3.1.2 The implementation shall be compatible with the MASL paradigm for shared types
+
+=== 3.2 Documentation shall be created to capture the recommended pattern for shared types
+
+
+== 4 Analysis
+
+=== 4.1 MASL paradigm
+
+Since MASL already has a well established pattern for shared types (see <<2 Introduction and Background>>),
+there is no point in changing usage paradigm. It will be assumed that any type
+in a domain of the form `<Domain Name>::<Type Name>` is a shared type referring
+to a type in the named domain. This paradigm may be extended to support the
+implementation, but it shall remain compatible with MASL.
+
+=== 4.2 High level strategy
+
+Since WACA does not have a mechanism for referencing types outside of a domain,
+it is necessary to inject a copy of any foreign type definition during export in
+order to emulate the beahvior of shared types.
+
+There are multiple ways this can be done:
+
+. Copies of shared types can be maintained automatically by BridgePoint in the
+  model source itself
+. The type could be scraped out of the `.typ` file of the source domain and
+  concatenated to the `.typ` file of the consuming domain
+. The xtUML to WASL exporter (`x2m`) could be extended to inject the type
+  definitions to the stream of SMASL during export
+
+The first option is too expensive and invasive will not be considered.
+
+=== 4.3 Text processing approach
+
+The current pipeline for generating WASL from an xtUML model is as follows:
+
+. Load the xtUML model and emit a stream of SMASL elements (`x2m`)
+. Populate the model of MASL from the SMASL stream and then walk the model to
+  render WASL (`masl`)
+
+A third link could be added to the chain to post-process the `.typ` file
+produced by `masl` and augment it with any types referenced from other domains.
+
+One challenge with this approach is that the `.typ` file from the source domain
+would have to already exist and the code generator would have to know where to
+find it. Some dependency mechanism would be needed to assure that any source
+domain was generated first.
+
+=== 4.4 Export of shared types as part of `x2m`
+
+The `x2m` exporter could be extended to find the referred to type based on the
+naming convention and include the definition from the source in the output
+stream of SMASL. This approach is not without its own problems.
+
+First, the current `x2m` is not aware of dialect. A new command line flag would
+be needed to determine when to include full definitions of referred to types.
+
+A more fundamental problem is that this approach would require `x2m` to have
+access to the source domain model data during export. By design the "MASL-idiom"
+domain models are totally independent. In fact, prebuilder does not run as part
+of the export and the `x2m` exporter expects all model data to be located within
+a single `models/` directory. To support shared types, the prebuilder would need
+to be used to gather model data from the source project. This would require
+extra work to maintain the functionality of the command line utility for export.
+
+=== 4.X Editing experience
+
+TODO
+
+== 5 Work Required
+
+TODO
+
+== 6 Acceptance Test
+
+TODO
+
+== 7 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/NNNNN[NNNNN - headline]
+. [[dr-2]] ...
+. [[dr-3]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
