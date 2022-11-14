@@ -1188,12 +1188,6 @@ if (not_empty var)
   return expr;
 end if;
 
-strip_braces = param.name;
-right_brace_position = STRING::indexof(haystack:strip_braces, needle:"}");
-if ( right_brace_position > 1 ) // not at beginning and not simply {}
-  strip_braces = STRING::substr(s:strip_braces, begin:1, end:right_brace_position);
-  LOG::LogInfo(message:"resolved name stripped braces from " + param.name + " to get " + strip_braces );
-end if;
 // search for parameter reference
 current_block = param.current_block;
 select one current_service related by current_block->Service[R5403];
@@ -1208,9 +1202,6 @@ select one service_param related by current_service->ParameterDefinition[R5204];
 while (not_empty service_param and empty ref_param)
   if (service_param.name == param.name)
     ref_param = service_param;
-  elif (service_param.name == strip_braces)
-    ref_param = service_param;
-    LOG::LogInfo(message:"resolving name with stripped braces");
   end if;
   select one service_param related by service_param->ParameterDefinition[R5208.''precedes''];
 end while;
@@ -1396,7 +1387,7 @@ var.isreadonly = false;
 relate var to current_block across R5151;
 // create a new variable reference
 create object instance expr of MaslExpression;
-// CDS Relate to a random type for now.  This will get changed in Assignment.
+// Relate to a random type for now.  This will get changed in Assignment and LoopSpec.
 select any builtin_type from instances of BuiltinType;
 select one type related by builtin_type->BasicType[R6205];
 relate type to var across R5137;
@@ -2083,6 +2074,7 @@ INSERT INTO S_SYNC
 	'',
 	'loop_spec = param.loop_spec;
 expression = param.expression;
+current_code_block = param.current_code_block;
 
 // determine the flavor of loop expression.
 // resolve the subtype.
@@ -2125,11 +2117,67 @@ else
   else
     select one collection_type related by expression->BasicType[R5570]->CollectionType[R6205];
     if not_empty collection_type
+      LOG::LogInfo(message:"resolve_LoopSpec FOUND collection:  " + loop_spec.loopVariable);
       create object instance variable_elements of VariableElements;
       relate variable_elements to loop_spec across R5123;
       relate expression to variable_elements across R5139;
-      // the type of a variable elements expression is the base type of the collection
+      // The type of a variable elements expression is the base type of the collection.
       select one basic_type related by expression->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
+      // Find the VariableDefinition that was created for the loop variable.
+      select any variable_definition related by current_code_block->VariableDefinition[R5151] where ( selected.name == loop_spec.loopVariable );
+      if ( not_empty variable_definition )
+        LOG::LogInfo(message:"resolve_LoopSpec FOUND existing loopVariable:  " + loop_spec.loopVariable);
+      else
+        LOG::LogInfo(message:"resolve_LoopSpec DID NOT FIND existing loopVariable:  " + loop_spec.loopVariable);
+        create object instance variable_definition of VariableDefinition;
+        variable_definition.name = loop_spec.loopVariable;
+        variable_definition.isreadonly = true;
+        relate basic_type to variable_definition across R5137;
+        relate variable_definition to current_code_block across R5151;
+      end if;
+      relate loop_spec to variable_definition across R5154;
+      // ASL does structure unpacking.
+      // Check to see if the collection is a set of structures.  If so, we need to unpack it.
+      select one structure_type related by basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
+      if ( not_empty structure_type )
+        // Now, unpack and assign types to the input loop variable tuple.
+        LOG::LogInfo(message:"FOUND set of STRUCTURES:  " + loop_spec.loopVariable);
+        // Loop through the argument list and the structure members.
+        // Assign the types as we go.
+        argument_expression = param.argument_list_expression;
+        select one structure_element related by structure_type->StructureElement[R6244];
+        while ( not_empty structure_element and not_empty argument_expression ) 
+          // Unrelate the argument_expression BasicType and link the one found on the structure element.
+          select one element_basic_type related by structure_element->BasicType[R6230];
+          select one argument_basic_type related by argument_expression->BasicType[R5570];
+          unrelate argument_basic_type from argument_expression across R5570;
+          relate element_basic_type to argument_expression across R5570;
+          ::ASL_basic_type_info( basic_type:element_basic_type, label:"resolve_Loop and checking reassigned type" );
+          select one argument_basic_type related by argument_expression->BasicType[R5570];
+          ::ASL_basic_type_info( basic_type:argument_basic_type, label:"resolve_Loop and checking if reassigned type actually stuck" );
+          select one udt related by element_basic_type->MaslUserDefinedType[R6205];
+          if ( not_empty udt )
+            LOG::LogInfo(message:"LOOPing and linked type:  " + udt.name);
+          end if;
+          if ( empty element_basic_type or empty argument_basic_type )
+            LOG::LogInfo(message:"LOOPeen EMPTY type:  " );
+          end if;
+          // Find the name of the tuple member.
+          select one variable_definition related by argument_expression->VariableNameExpression[R5517]->VariableDefinition[R5562];
+          if ( not_empty variable_definition )
+            variable_definition.isreadonly = true;
+            LOG::LogInfo(message:"LOOPing and FOUND VariableNameExpression :  " + variable_definition.name);
+            relate variable_definition to loop_spec across R5154;
+            select one basic_type related by variable_definition->BasicType[R5137];
+            unrelate basic_type from variable_definition across R5137;
+            relate element_basic_type to variable_definition across R5137;
+          end if;
+          LOG::LogInfo(message:"LOOPING through argument list and structure members:  " + structure_element.name);
+          select one structure_element related by structure_element->StructureElement[R6243.''precedes''];
+          select one argument_expression related by argument_expression->Argument[R5577]->Argument[R5576.''precedes'']->MaslExpression[R5577];
+        end while;
+      else
+      end if;
     else
       LOG::LogFailure(message:"Could not determine type of loop spec variable:  " + loop_spec.loopVariable);
     end if;
@@ -2166,6 +2214,24 @@ INSERT INTO S_SPARM
 	0,
 	'',
 	"616cce8b-3e85-4dc9-b80d-a0fa8bf41f36",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9baeb8ad-2be3-4704-a381-118b52a779dd",
+	"2b0f2e47-71e0-4f17-85f8-0aa79463d50a",
+	'argument_list_expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"1fffd28c-693f-4306-9f26-f85f62d96d68",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6373fb09-e558-4dae-b790-632ba705c6b4",
+	"2b0f2e47-71e0-4f17-85f8-0aa79463d50a",
+	'current_code_block',
+	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	0,
+	'',
+	"9baeb8ad-2be3-4704-a381-118b52a779dd",
 	'');
 INSERT INTO PE_PE
 	VALUES ("2b0f2e47-71e0-4f17-85f8-0aa79463d50a",
@@ -2772,6 +2838,68 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("4ec2754e-fec2-44fb-8563-407f995a6ad0",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("efe36786-4b7a-45a0-a64d-a502444a81d1",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_basic_type_info',
+	'',
+	'basic_type = param.basic_type;
+label = param.label;
+LOG::LogInfo( message:"basic_type_info:  " + label );
+
+select one udt related by basic_type->MaslUserDefinedType[R6205];
+if ( not_empty udt )
+  LOG::LogInfo( message:"basic_type_info:  UDT.name:  " + udt.name );
+else
+select one instance_type related by basic_type->InstanceType[R6205];
+if ( not_empty instance_type )
+  LOG::LogInfo( message:"basic_type_info:  found instance type" );
+else
+select one collection_type related by basic_type->CollectionType[R6205];
+if ( not_empty collection_type )
+  LOG::LogInfo( message:"basic_type_info:  found collection type" );
+else
+select one builtin_type related by basic_type->BuiltinType[R6205];
+if ( not_empty builtin_type )
+  LOG::LogInfo( message:"basic_type_info:  found builtin type:  " +builtin_type.name );
+else
+end if;
+end if;
+end if;
+end if;
+select any udt related by basic_type->TypeDefinition[R6236]->TypeDeclaration[R6234]->MaslUserDefinedType[R6241];
+if ( not_empty udt )
+  LOG::LogInfo( message:"basic_type_info:  upwards UDT.name:  " + udt.name );
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	15);
+INSERT INTO S_SPARM
+	VALUES ("5ba809ef-a797-40e6-9555-4cfb8bfd961f",
+	"efe36786-4b7a-45a0-a64d-a502444a81d1",
+	'basic_type',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("72acccb5-6961-46c1-8858-e3acc1164a97",
+	"efe36786-4b7a-45a0-a64d-a502444a81d1",
+	'label',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"5ba809ef-a797-40e6-9555-4cfb8bfd961f",
+	'');
+INSERT INTO PE_PE
+	VALUES ("efe36786-4b7a-45a0-a64d-a502444a81d1",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",

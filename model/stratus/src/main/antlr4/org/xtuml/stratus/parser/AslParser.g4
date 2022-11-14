@@ -392,7 +392,7 @@ forStatement                  : FOR loopVariableSpec
                                 ENDFOR
                               ;
 
-loopVariableSpec              : ( identifier | sequence ) IN expression
+loopVariableSpec              : ( identifier | tuple ) IN expression
                               ;
 
 structureInstantiation        : LEFT_BRACE identifier RIGHT_BRACE IS typeReference;
@@ -474,11 +474,11 @@ relationalExp                 : lhs=relationalExp ( LT | GT | LTE | GTE ) rhs=ad
                               | additiveExp
                               ;
 
-additiveExp                   : lhs=additiveExp ( PLUS | MINUS | TO | UNION | NOT_IN ) rhs=multExp
+additiveExp                   : lhs=additiveExp ( PLUS | MINUS | TO | NOT_IN ) rhs=multExp
                               | multExp
                               ;
 
-multExp                       : lhs=multExp ( TIMES | DIVIDE | POWER | INTERSECTION | DISUNION ) rhs=unaryExp
+multExp                       : lhs=multExp ( TIMES | DIVIDE | POWER ) rhs=unaryExp
                               | unaryExp
                               ;
 
@@ -490,6 +490,10 @@ unaryOperator                 : MINUS
                               | PLUS
                               | NOT
                               | ABS
+                              | UNIQUE
+                              | UNION
+                              | DISUNION
+                              | INTERSECTION
                               ;
 
 linkExpression                : navigateExpression
@@ -558,14 +562,14 @@ postfixNoCallExpression       : root=postfixNoCallExpression
 primaryExpression             : literal
                               | parenthesisedExpression
                               | nameExpression
-                              | sequence
+                              | tuple
                               | enumValue
                               ;
 
 enumValue                     : identifier OF identifier
                               ;
 
-sequence                      : LBRACKET argumentList RBRACKET
+tuple                         : LBRACKET argumentList RBRACKET
                               ;
 
 nameExpression                : ( operationName ( SCOPE | COLON ) )? identifier

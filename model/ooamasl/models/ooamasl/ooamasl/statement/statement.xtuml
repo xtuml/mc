@@ -15221,7 +15221,7 @@ INSERT INTO R_PART
 	VALUES ("89d9699a-2871-4406-9103-fb0f6267ad34",
 	"52dac6a0-58b3-4ce1-b4bd-fbc7e0bec5f6",
 	"829b43f2-bc04-4b15-bf0d-4281c36b6cf4",
-	0,
+	1,
 	1,
 	'is_defined_in');
 INSERT INTO R_RTO
@@ -15238,7 +15238,7 @@ INSERT INTO R_PART
 	VALUES ("53e90b46-1f71-470a-ae37-a5a714a565ad",
 	"52dac6a0-58b3-4ce1-b4bd-fbc7e0bec5f6",
 	"1a5bea38-a0ac-4d37-9039-fbc92b4e3143",
-	0,
+	1,
 	0,
 	'defines');
 INSERT INTO R_RTO
@@ -15647,7 +15647,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'Service',
-	'Service');
+	'Service',
+	1);
 INSERT INTO PE_PE
 	VALUES ("2bef9644-2361-4031-a9ca-6a3db2ab64ee",
 	1,
@@ -15660,7 +15661,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'BasicType',
-	'BasicType');
+	'BasicType',
+	1);
 INSERT INTO PE_PE
 	VALUES ("65b44fbf-77f6-45e2-bade-3a0b264c1576",
 	1,
@@ -15673,7 +15675,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'ExceptionReference',
-	'ExceptionReference');
+	'ExceptionReference',
+	1);
 INSERT INTO PE_PE
 	VALUES ("b8c0a0a8-adfd-4241-9b18-45c53661367b",
 	1,
@@ -15686,7 +15689,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'MinMaxRange',
-	'MinMaxRange');
+	'MinMaxRange',
+	1);
 INSERT INTO PE_PE
 	VALUES ("7a670862-326e-46ac-94bc-2a630df46d05",
 	1,
@@ -15699,7 +15703,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'RelationshipSpecification',
-	'RelationshipSpecification');
+	'RelationshipSpecification',
+	1);
 INSERT INTO PE_PE
 	VALUES ("dd86e6f0-d6ca-469f-aa7d-09c1deef50fc",
 	1,
@@ -15712,7 +15717,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'Expression',
-	'MaslExpression');
+	'MaslExpression',
+	1);
 INSERT INTO PE_PE
 	VALUES ("3615a7b2-5a90-4aba-bcc1-822df9250989",
 	1,
@@ -15725,7 +15731,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'ServiceInvocation',
-	'ServiceInvocation');
+	'ServiceInvocation',
+	1);
 INSERT INTO PE_PE
 	VALUES ("4cb24602-0ddd-4e0c-8602-0585d81f6b8a",
 	1,
@@ -15738,7 +15745,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'EventDeclaration',
-	'EventDeclaration');
+	'EventDeclaration',
+	1);
 INSERT INTO PE_PE
 	VALUES ("0bb77cca-b60f-443d-8e0f-52eaffc487f1",
 	1,
@@ -15751,7 +15759,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'Argument',
-	'Argument');
+	'Argument',
+	1);
 INSERT INTO PE_PE
 	VALUES ("d58266cc-9e9a-43f6-b52b-26d804fcd890",
 	1,

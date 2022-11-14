@@ -1470,7 +1470,6 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
 */
     @Override
     public Object visitStructureInstantiation(AslParser.StructureInstantiationContext ctx) {
-System.err.println("visitStructureInstantiation");
         try {
             Object variableDefinition = loader.create("VariableDefinition");
             loader.set_attribute(variableDefinition, "name", ctx.identifier().getText());
@@ -1542,9 +1541,9 @@ System.err.println("visitStructureAssembly");
             if (ctx.assignStatement() != null) {
                 loader.relate(visit(ctx.assignStatement()), statement, 5135, "");
             } else if (ctx.structureInstantiation() != null) {
-                //loader.relate(visit(ctx.structureInstantiation()), statement, 5135, "");
                 visit(ctx.structureInstantiation());
             } else if (ctx.structureAssembly() != null) {
+                //loader.relate(visit(ctx.structureAssembly()), statement, 5135, "");
                 visit(ctx.structureAssembly());
             } else if (ctx.callStatement() != null) {
                 loader.relate(visit(ctx.callStatement()), statement, 5135, "");
@@ -2187,7 +2186,7 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
     public Object visitLinkExpression(AslParser.LinkExpressionContext ctx) {
         try {
             if (ctx.navigateExpression() != null) {
-                return visit(ctx.navigateExpression()); //CDS
+                return visit(ctx.navigateExpression());
             } else {
                 // TODO
                 if (false)
@@ -2320,7 +2319,6 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
             } else {
                 Object ooastate = loader.call_function("select_State_related_where_name", currentObject,
                         ctx.EnumerationLiteral().getText());
-                //CDS loader.relate(ooastate, attributeInitialization, 5567, "");
             }
             return attributeInitialization;
         } catch (XtumlException e) {
@@ -2432,8 +2430,8 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
             return visit(ctx.parenthesisedExpression());
         } else if (ctx.nameExpression() != null) {
             return visit(ctx.nameExpression());
-        } else if (ctx.sequence() != null) {
-            return visit(ctx.sequence());
+        } else if (ctx.tuple() != null) {
+            return visit(ctx.tuple());
         } else if (ctx.enumValue() != null) {
             return visit(ctx.enumValue());
         } else {
@@ -2443,8 +2441,7 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
     }
 
     @Override
-    public Object visitSequence(AslParser.SequenceContext ctx) {
-        // TODO:  This may be a bit feeble.  We may need an actual sequence collection type and sequence expression.
+    public Object visitTuple(AslParser.TupleContext ctx) {
         if (ctx.argumentList() != null) {
             Object argument = visit(ctx.argumentList());
             if ( argument != null ) {
@@ -2574,15 +2571,6 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
             Object statement = loader.create("ScheduleStatement");
             loader.relate(visit(ctx.timerId), statement, 5132, "");
             // create an orphaned statement to represent the generate
-            //CDS Object statement2 = loader.create("MaslStatement");
-            //CDS Object genStatement = visit(ctx.generateStatement());
-            //CDS loader.relate(genStatement, statement2, 5135, "");
-            //CDS loader.relate(genStatement, statement, 5129, "");
-            //CDS loader.set_attribute(statement, "isAbsolute", visit(ctx.scheduleType()));
-            //CDS loader.relate(visit(ctx.time), statement, 5130, "");
-            //CDS if (ctx.period != null) {
-            //CDS     loader.relate(visit(ctx.period), statement, 5131, "");
-            //CDS }
             return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
@@ -2758,17 +2746,19 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
     public Object visitLoopVariableSpec(AslParser.LoopVariableSpecContext ctx) {
         try {
             Object loopSpec = loader.create("LoopSpec");
+            Object expression = visit(ctx.expression());
+            Object first_argument_expression = expression; // just to get the correct type
             // loader.set_attribute(loopSpec, "isreverse", ctx.REVERSE() != null);
-            String loop_variable_name = ( ctx.sequence() != null ) ? ctx.sequence().getText() : ctx.identifier().getText();
+            String loop_variable_name = "ASL_PARSE_PLACEHOLDER";
+            if ( ctx.tuple() != null ) {
+                // Loop variables are implicitly declared.  A tuple of destructure fields gets created while resolving the names.
+                first_argument_expression = visit(ctx.tuple());
+            } else {
+                loop_variable_name = ctx.identifier().getText();
+                // Loop variables are implicitly declared.  Create one in the resolve_LoopSpec routine.
+            }
             loader.set_attribute(loopSpec, "loopVariable", loop_variable_name);
-            // Loop variables are implicitly declared. Create it.
-            Object variableDefinition = loader.create("VariableDefinition");
-            loader.set_attribute(variableDefinition, "name", loop_variable_name);
-            loader.set_attribute(variableDefinition, "isreadonly", true);
-            loader.relate(variableDefinition, loopSpec, 5154, "");
-            loader.relate(variableDefinition, currentCodeBlock, 5151, "");
-            Object basicType = loader.call_function("resolve_LoopSpec", loopSpec, visit(ctx.expression()));
-            loader.relate(basicType, variableDefinition, 5137, "");
+            Object basicType = loader.call_function("resolve_LoopSpec", loopSpec, expression, first_argument_expression, currentCodeBlock);
             return loopSpec;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
