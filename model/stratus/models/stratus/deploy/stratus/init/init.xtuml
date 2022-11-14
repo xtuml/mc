@@ -135,12 +135,6 @@ LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality link_unlink_statements)
 select many loop_statements from instances of WhileStatement;
 LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality loop_statements) + " loop_statements");
 
-select many create_timer_statements from instances of ScheduleStatement;
-LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality create_timer_statements) + " create_timer_statements");
-
-select many cancel_timer_statements from instances of CancelTimerStatement;
-LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality cancel_timer_statements) + " cancel_timer_statements");
-
 select many create_expressions from instances of CreateExpression;
 LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality create_expressions) + " create_expressions");
 
