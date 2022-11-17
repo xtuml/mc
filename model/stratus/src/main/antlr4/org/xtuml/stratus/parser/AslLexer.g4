@@ -162,6 +162,7 @@ RealLiteral                   : '-'? Digit+
                                 | UnbasedExponent
                                 )
                               | '.' Digit+ UnbasedExponent?
+                              | '-'? Digit+ '.' Digit+ UnbasedExponent
                               ;
 
 fragment UnbasedExponent      : ('e'|'E')('+'|'-')? Digit+
@@ -171,6 +172,7 @@ fragment Digit                : '0'..'9';
 fragment Letter               : 'A'..'Z' | 'a'..'z';
 ContinueLine                  : '\\' (' ' | '\t' | '\f' | '\r' )* NEWLINE -> skip;
 Inline                        : INLINE .*? ENDINLINE -> skip;
+IncludeHeader                 : INCLUDE_HEADER .*? NEWLINE -> skip;
 AdaInline                     : ADA_INLINE .*? END_ADAINLINE -> skip;
 TokenH                        : '#$TOKENH' .*? '#$END_TOKENH' NEWLINE -> skip; // TODO:  eat stuff?
 TokenL                        : '#$TOKENL' .*? '#$END_TOKENL' NEWLINE -> skip; // TODO:  eat stuff?

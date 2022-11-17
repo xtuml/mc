@@ -2440,6 +2440,24 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
         }
     }
 
+/*
+    @Override
+    public Object visitEnumValue(AslParser.EnumValueContext ctx) {
+        try {
+            Object v = visit(ctx.v);
+            Object t = visit(ctx.t);
+            loader.relate(instType, expression, 5570, "");
+if ( t == null ) System.err.println("EMPTY t in EnumValue");
+            // Unlink type from lhs and connect to type from rhs.
+            if ((null != lhs ) && (null != rhs)) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
+            return statement;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "", ctx);
+            return null;
+        }
+    }
+*/
+
     @Override
     public Object visitTuple(AslParser.TupleContext ctx) {
         if (ctx.argumentList() != null) {
@@ -2525,7 +2543,7 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
                                                                            // conversion
                 loader.relate(numericLiteral, literalExpression, 5700, "");
                 Object integerLiteral = loader.create("IntegerLiteral");
-                loader.set_attribute(integerLiteral, "value", Integer.parseInt(literalText));
+                // Since ASL supports large integers, rely on the textual representation in the supertype and convert at render time.
                 loader.relate(integerLiteral, numericLiteral, 5703, "");
                 Object intType = loader.call_function("select_BasicType_where_name", "", "integer");
                 loader.relate(intType, expression, 5570, "");

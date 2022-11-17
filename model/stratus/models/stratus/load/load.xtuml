@@ -1167,15 +1167,12 @@ INSERT INTO S_SYNC
 	'resolve_NameExpression',
 	'',
 	'select any domain from instances of Domain where selected.name == param.domain_name;
-current_block = param.current_block;
+root_code_block = ::select_CodeBlock_root( code_block:param.current_block );
 
 LOG::LogInfo(message:"RESOLVING name: ''" + param.name + "''");
 // search for local variable reference
-select any var related by current_block->VariableDefinition[R5151] where (selected.name == param.name);
-while (not_empty current_block and empty var)
-  select one current_block related by current_block->MaslCodeBlock[R5160.''nested_within''];
-  select any var related by current_block->VariableDefinition[R5151] where (selected.name == param.name);
-end while;
+// Notice that ASL has one scope for all local variables.  It is the root CodeBlock of the activity.
+select any var related by root_code_block->VariableDefinition[R5151] where (selected.name == param.name);
 if (not_empty var)
   // create a new variable reference
   create object instance expr of MaslExpression;
@@ -1189,14 +1186,8 @@ if (not_empty var)
 end if;
 
 // search for parameter reference
-current_block = param.current_block;
-select one current_service related by current_block->Service[R5403];
-select one current_state related by current_block->MaslState[R6115];
-while ((empty current_service and empty current_state) and not_empty current_block)
-  select one current_block related by current_block->MaslCodeBlock[R5160.''nested_within''];
-  select one current_service related by current_block->Service[R5403];
-  select one current_state related by current_block->MaslState[R6115];
-end while;
+select one current_service related by root_code_block->Service[R5403];
+select one current_state related by root_code_block->MaslState[R6115];
 select any ref_param from instances of ParameterDefinition where false;
 select one service_param related by current_service->ParameterDefinition[R5204];
 while (not_empty service_param and empty ref_param)
@@ -1384,7 +1375,8 @@ LOG::LogFailure(message:"Could not resolve name expression: " + param.domain_nam
 create object instance var of VariableDefinition;
 var.name = param.name;
 var.isreadonly = false;
-relate var to current_block across R5151;
+// ASL has a flat scope for activities.  Relate to outer level CodeBlock.
+relate var to root_code_block across R5151;
 // create a new variable reference
 create object instance expr of MaslExpression;
 // Relate to a random type for now.  This will get changed in Assignment and LoopSpec.
@@ -2074,7 +2066,7 @@ INSERT INTO S_SYNC
 	'',
 	'loop_spec = param.loop_spec;
 expression = param.expression;
-current_code_block = param.current_code_block;
+root_code_block = ::select_CodeBlock_root( code_block:param.current_code_block );
 
 // determine the flavor of loop expression.
 // resolve the subtype.
@@ -2124,7 +2116,7 @@ else
       // The type of a variable elements expression is the base type of the collection.
       select one basic_type related by expression->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
       // Find the VariableDefinition that was created for the loop variable.
-      select any variable_definition related by current_code_block->VariableDefinition[R5151] where ( selected.name == loop_spec.loopVariable );
+      select any variable_definition related by root_code_block->VariableDefinition[R5151] where ( selected.name == loop_spec.loopVariable );
       if ( not_empty variable_definition )
         LOG::LogInfo(message:"resolve_LoopSpec FOUND existing loopVariable:  " + loop_spec.loopVariable);
       else
@@ -2133,7 +2125,7 @@ else
         variable_definition.name = loop_spec.loopVariable;
         variable_definition.isreadonly = true;
         relate basic_type to variable_definition across R5137;
-        relate variable_definition to current_code_block across R5151;
+        relate variable_definition to root_code_block across R5151;
       end if;
       relate loop_spec to variable_definition across R5154;
       // ASL does structure unpacking.

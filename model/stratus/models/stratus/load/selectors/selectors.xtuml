@@ -1104,6 +1104,38 @@ INSERT INTO PE_PE
 	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("f9b09bec-510d-4d08-a922-7e0882b7b72c",
+	"00000000-0000-0000-0000-000000000000",
+	'select_CodeBlock_root',
+	'',
+	'code_block = param.code_block;
+parent_code_block = code_block;
+while ( not_empty parent_code_block )
+  code_block = parent_code_block;
+  select one parent_code_block related by code_block->MaslCodeBlock[R5160.''nested_within''];
+end while;
+return code_block;',
+	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	1,
+	'',
+	0,
+	3);
+INSERT INTO S_SPARM
+	VALUES ("e82190b9-36ba-47bd-bb34-858d9a51cd40",
+	"f9b09bec-510d-4d08-a922-7e0882b7b72c",
+	'code_block',
+	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f9b09bec-510d-4d08-a922-7e0882b7b72c",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("d253fd26-846d-41fa-866d-36f9d01a0fa1",
 	1,
