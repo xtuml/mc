@@ -150,7 +150,7 @@ NULL                          : 'null';
 TRUE                          : 'TRUE';
 FALSE                         : 'FALSE';
 
-EnumerationLiteral            : '\'' ( Letter | Digit | '_' )+ '\'';
+Enumerator                    : '\'' ( Letter | Digit | '_' )+ '\'';
 
 // Numeric Literals
 IntegerLiteral                : '-'? Digit+

@@ -526,7 +526,7 @@ createArgumentList            :
                               ;
 
 createArgument                : attributeName EQUAL unaryExp
-                              | CURRENT_STATE EQUAL EnumerationLiteral
+                              | CURRENT_STATE EQUAL Enumerator
                               ;
 
 
@@ -592,7 +592,7 @@ argumentList                  : (expression ( COMMA expression )*)?
 literal
                               : IntegerLiteral
                               | RealLiteral
-                              | EnumerationLiteral
+                              | Enumerator
                               | StringLiteral
                               | TRUE
                               | FALSE

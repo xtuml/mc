@@ -2318,7 +2318,7 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
                 loader.relate(visit(ctx.unaryExp()), attributeInitialization, 5568, "");
             } else {
                 Object ooastate = loader.call_function("select_State_related_where_name", currentObject,
-                        ctx.EnumerationLiteral().getText());
+                        ctx.Enumerator().getText());
             }
             return attributeInitialization;
         } catch (XtumlException e) {
@@ -2570,6 +2570,11 @@ if ( t == null ) System.err.println("EMPTY t in EnumValue");
                 loader.set_attribute(booleanLiteral, "value", ctx.TRUE() != null);
                 Object booleanType = loader.call_function("select_BasicType_where_name", "", "boolean");
                 loader.relate(booleanType, expression, 5570, "");
+            } else if (ctx.UNDEFINED() != null) {
+                Object nullLiteral = loader.create("NullLiteral");
+                loader.relate(nullLiteral, literalExpression, 5700, "");
+                Object instanceType = loader.call_function("select_BasicType_where_name", "", "instance");
+                loader.relate(instanceType, expression, 5570, "");
             } else if (ctx.THIS() != null) {
                 Object thisLiteral = loader.create("ThisLiteral");
                 loader.relate(thisLiteral, literalExpression, 5700, "");
