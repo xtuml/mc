@@ -2440,23 +2440,21 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
         }
     }
 
-/*
     @Override
     public Object visitEnumValue(AslParser.EnumValueContext ctx) {
         try {
-            Object v = visit(ctx.v);
-            Object t = visit(ctx.t);
-            loader.relate(instType, expression, 5570, "");
-if ( t == null ) System.err.println("EMPTY t in EnumValue");
-            // Unlink type from lhs and connect to type from rhs.
-            if ((null != lhs ) && (null != rhs)) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
-            return statement;
+System.err.println("visitEnumValue:  " + ctx.v.getText() + " " + ctx.t.getText());
+            Object expression = loader.call_function("resolve_NameExpression",
+                    getName(currentDomain),
+                    ctx.v.getText(), currentCodeBlock,
+                    "", "", "");
+            loader.call_function("ASL_enumerator_relink_type", expression, ctx.t.getText());
+            return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
             return null;
         }
     }
-*/
 
     @Override
     public Object visitTuple(AslParser.TupleContext ctx) {
@@ -2557,6 +2555,11 @@ if ( t == null ) System.err.println("EMPTY t in EnumValue");
                 loader.relate(realLiteral, numericLiteral, 5703, "");
                 Object realType = loader.call_function("select_BasicType_where_name", "", "real");
                 loader.relate(realType, expression, 5570, "");
+            } else if (ctx.Enumerator() != null) {
+                Object enumLiteral = loader.create("EnumerateLiteral");
+                loader.relate(enumLiteral, literalExpression, 5700, "");
+                Object intType = loader.call_function("select_BasicType_where_name", "", "integer");
+                loader.relate(intType, expression, 5570, "");
             } else if (ctx.StringLiteral() != null) {
                 Object stringLiteral = loader.create("StringLiteral");
                 loader.relate(stringLiteral, literalExpression, 5700, "");

@@ -2896,6 +2896,53 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("4b618769-988a-420d-9e25-82dd38a026fb",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_enumerator_relink_type',
+	'',
+	'// ASL enumerator variables can be typed or not on second usage.
+// Here we link the lhs expression and the variable definition to the correct type.
+
+variable_expression = param.variable_expression;
+type_name = param.type_name;
+enum_basic_type = ::select_BasicType_where_name( domainname:"", name:type_name );
+select one existing_basic_type related by variable_expression->BasicType[R5570];
+if ( not_empty existing_basic_type )
+  unrelate existing_basic_type from variable_expression across R5570;
+end if;
+relate enum_basic_type to variable_expression across R5570;
+
+LOG::LogInfo( message:"Unlinked and relinked type of enumeration expression." );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	16);
+INSERT INTO S_SPARM
+	VALUES ("52deab9d-05b3-44e7-8229-ca098b6a978d",
+	"4b618769-988a-420d-9e25-82dd38a026fb",
+	'variable_expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("34370e25-911a-4f6d-b348-265e6602b08f",
+	"4b618769-988a-420d-9e25-82dd38a026fb",
+	'type_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"52deab9d-05b3-44e7-8229-ca098b6a978d",
+	'');
+INSERT INTO PE_PE
+	VALUES ("4b618769-988a-420d-9e25-82dd38a026fb",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	1,

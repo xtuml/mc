@@ -566,7 +566,7 @@ primaryExpression             : literal
                               | enumValue
                               ;
 
-enumValue                     : identifier OF identifier
+enumValue                     : v=identifier OF t=identifier
                               ;
 
 tuple                         : LBRACKET argumentList RBRACKET
@@ -596,8 +596,8 @@ literal
                               | StringLiteral
                               | TRUE
                               | FALSE
-                              | THIS
                               | UNDEFINED
+                              | THIS
                               ;
 
 
