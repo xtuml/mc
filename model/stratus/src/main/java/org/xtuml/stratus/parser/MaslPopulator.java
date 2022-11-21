@@ -196,7 +196,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             
             // find and parse all domain activities
             if (filename.endsWith(".mod")) {
-                final String[] filenames = new String[400];
+                final String[] filenames = new String[800];
                 final String[] activityFiles = (String[]) loader.call_function("get_domain_activities", domain, filenames);
                 for (String activityFile : activityFiles) {
                     if (activityFile != null) {
