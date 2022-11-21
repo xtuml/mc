@@ -981,8 +981,37 @@ while ( i <= 1 )
           // output using the underlying type as the definition.
           if ( (base_s_dt.Name == "MASLtype") or (s_dt.Name == "MASLtype") )
             continue;
-          elif ( -1 < STRING::indexof( haystack:s_dt.Name, needle:" of " ) ) // blank-o-f-blank
+          elif ( -1 < STRING::indexof( haystack:s_dt.Name, needle:" of " ) ) // blank-of-blank
             continue;
+
+          elif ( -1 < STRING::indexof( haystack:s_dt.Name, needle:"::" ) ) // domain scoped type reference
+            value[0] = STRING::substr(s:s_dt.Name, begin:STRING::indexof( haystack:s_dt.Name, needle:"::" ) + 2, end:-1);
+			select one s_edt related by base_s_dt->S_EDT[R17];
+			if not_empty s_edt
+				out::populate( element:"type", value:value );
+				value[1] = "";
+				value[2] = "";
+				out::populate( element:"enumeration", value:value );
+				select any s_enum from instances of S_ENUM where (false);
+				// get to the first entry
+				select any prev_s_enum related by s_edt->S_ENUM[R27];
+				while (not_empty prev_s_enum)
+				  assign s_enum = prev_s_enum;
+				  select one prev_s_enum related by s_enum->S_ENUM[R56.''succeeds''];
+				end while;
+				// now iterate over the enumerators
+				while (not_empty s_enum)
+				  value[0] = s_enum.Name;
+				  value[1] = "";
+				  value[2] = "";
+				  out::populate( element:"enumerator", value:value );
+				  out::populate( element:"enumerator", value:emptyvalue );
+				  select one s_enum related by s_enum->S_ENUM[R56.''precedes''];
+				end while;
+				out::populate( element:"enumeration", value:emptyvalue );
+			end if;
+            continue;
+
           else
             value[2] = base_s_dt.Name;
           end if;
