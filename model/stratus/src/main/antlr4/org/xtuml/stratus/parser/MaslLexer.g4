@@ -157,15 +157,15 @@ TYPE                          : 'type' | 'subtype';
 UNCONDITIONALLY               : 'unconditionally';         
 UNIQUE                        : 'unique';
 UNLINK                        : 'unlink';
-USING                         : 'using';  
+USING                         : 'using';
 WHEN                          : 'when';
 WHILE                         : 'while';
 WITH                          : 'with';
 NULL                          : 'null';
 FLUSH                         : 'flush';
 ENDL                          : 'endl';
-TRUE                          : 'true';
-FALSE                         : 'false';
+TRUE                          : 'true' | 'TRUE'; // These are ASL support for initialization expressions.
+FALSE                         : 'false' | 'FALSE';
 
 
 

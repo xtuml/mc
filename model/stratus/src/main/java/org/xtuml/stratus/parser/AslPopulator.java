@@ -2443,7 +2443,6 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
     @Override
     public Object visitEnumValue(AslParser.EnumValueContext ctx) {
         try {
-System.err.println("visitEnumValue:  " + ctx.v.getText() + " " + ctx.t.getText());
             Object expression = loader.call_function("resolve_NameExpression",
                     getName(currentDomain),
                     ctx.v.getText(), currentCodeBlock,
@@ -2797,27 +2796,27 @@ System.err.println("visitEnumValue:  " + ctx.v.getText() + " " + ctx.t.getText()
         try {
             Object statement = loader.create("CaseStatement");
             loader.relate(visit(ctx.expression()), statement, 5103, "");
-            // CDS String actionText = input
-                    // CDS .getText(new Interval(ctx.getStart().getStartIndex(), ctx.IS().getSymbol().getStopIndex()));
-            // CDS loader.set_attribute(statement, "actions", actionText);
+            String actionText = ""; //input
+                    //.getText(new Interval(ctx.getStart().getStartIndex(), ctx.NEWLINE().getSymbol().getStopIndex()));
+            loader.set_attribute(statement, "actions", actionText);
             // handle discrete alternatives
-            /* CDS Object previousAlternative = null;
-            for (MaslParser.CaseAlternativeContext ctx2 : ctx.caseAlternative()) {
+            Object previousAlternative = null;
+            for (AslParser.CaseAlternativeContext ctx2 : ctx.caseAlternative()) {
                 Object alternative = visit(ctx2);
                 loader.relate(alternative, statement, 5146, "");
                 if (previousAlternative != null) {
                     loader.relate(alternative, previousAlternative, 5158, "succeeds");
                 }
                 previousAlternative = alternative;
-            } */
+            }
             // handle default alternative
             if (ctx.caseOthers() != null) {
                 Object alternative = visit(ctx.caseOthers());
                 loader.relate(alternative, statement, 5146, "");
-                // CDS if (previousAlternative != null) {
-                    // CDS loader.relate(alternative, previousAlternative, 5158, "succeeds");
-                // CDS }
-                // CDS previousAlternative = alternative;
+                if (previousAlternative != null) {
+                    loader.relate(alternative, previousAlternative, 5158, "succeeds");
+                }
+                previousAlternative = alternative;
             }
             return statement;
         } catch (XtumlException e) {
@@ -2832,16 +2831,14 @@ System.err.println("visitEnumValue:  " + ctx.v.getText() + " " + ctx.t.getText()
         try {
             Object alternative = loader.create("Alternative");
             loader.set_attribute(alternative, "else_otherwise", false);
-            String actionText = input
-                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.NEWLINE().getSymbol().getStopIndex()));
+            String actionText = ""; //input
+                    //.getText(new Interval(ctx.getStart().getStartIndex(), ctx.NEWLINE().getSymbol().getStopIndex()));
             loader.set_attribute(alternative, "actions", actionText);
             // link all choices
-            for (ListIterator<Object> choices = ((List<Object>) visit(ctx.choiceList())).listIterator(); choices
-                    .hasNext();) {
+                visit(ctx.choiceList());
                 Object altExpr = loader.create("AlternativeExpression");
-                loader.set_attribute(altExpr, "order", choices.nextIndex());
-                loader.relate_using(choices.next(), alternative, altExpr, 5147, null);
-            }
+                //loader.set_attribute(altExpr, "order", choices.nextIndex());
+                //loader.relate_using(choices.next(), alternative, altExpr, 5147, null);
             Object firstStatement = visit(ctx.statementList());
             if (firstStatement != null) {
                 loader.relate(firstStatement, alternative, 5148, "");
@@ -2858,8 +2855,8 @@ System.err.println("visitEnumValue:  " + ctx.v.getText() + " " + ctx.t.getText()
         try {
             Object alternative = loader.create("Alternative");
             loader.set_attribute(alternative, "else_otherwise", true);
-            String actionText = input
-                    .getText(new Interval(ctx.getStart().getStartIndex(), ctx.NEWLINE().getSymbol().getStopIndex()));
+            String actionText = ""; //input
+                    //.getText(new Interval(ctx.getStart().getStartIndex(), ctx.NEWLINE().getSymbol().getStopIndex()));
             loader.set_attribute(alternative, "actions", actionText);
             Object firstStatement = visit(ctx.statementList());
             if (firstStatement != null) {
@@ -2874,8 +2871,7 @@ System.err.println("visitEnumValue:  " + ctx.v.getText() + " " + ctx.t.getText()
 
     @Override
     public Object visitChoiceList(AslParser.ChoiceListContext ctx) {
-        // CDS return ctx.expression().stream().map(o -> visit(o)).collect(Collectors.toList());
-        return null;
+        return visit(ctx.expression());
     }
 
 }
