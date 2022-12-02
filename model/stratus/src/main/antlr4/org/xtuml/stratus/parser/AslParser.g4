@@ -199,7 +199,7 @@ domainServiceDefinition       : description
                                 serviceVisibility SERVICE
                                 domainReference SCOPE serviceName
                                 parameterList
-                                ( RETURN returnType )? IS
+                                ( RETURN returnType )? IS NEWLINE+
                                 codeBlock
                                 SERVICE? SEMI? pragmaList
                               ;
@@ -218,7 +218,7 @@ objectServiceDefinition       : description
                                 serviceVisibility INSTANCE? SERVICE
                                   domainReference SCOPE objectReference DOT serviceName
                                   parameterList
-                                  ( RETURN returnType )? IS codeBlock
+                                  ( RETURN returnType )? IS NEWLINE+ codeBlock
                                 SERVICE? SEMI? pragmaList
                               ;
 
@@ -233,7 +233,7 @@ terminatorServiceDefinition   : description
                                 serviceVisibility SERVICE
                                 domainReference SCOPE terminatorName TERMINATOR_SCOPE serviceName
                                 parameterList
-                                ( RETURN returnType )? IS
+                                ( RETURN returnType )? IS NEWLINE+
                                 codeBlock
                                 SERVICE? SEMI? pragmaList
                               ;
@@ -250,7 +250,7 @@ terminatorServiceDefinitionASL : DEFINE BRIDGE bridgeName NEWLINE+
 stateDefinition               : description
                                 stateType STATE
                                 domainReference SCOPE objectReference DOT stateName
-                                parameterList IS codeBlock
+                                parameterList IS NEWLINE+ codeBlock
                                 STATE? SEMI? pragmaList
                               ;
 
@@ -285,7 +285,7 @@ statementList                 : statement*
 
 
 statement                     : (
-                                | assignStatement
+                                  assignStatement
                                 | nullStatement
                                 | callStatement
                                 | exitStatement
@@ -306,7 +306,7 @@ statement                     : (
                                 | AdaInline
                                 | Inline
                                 )
-                                NEWLINE
+                                NEWLINE+
                               ;
 
 nullStatement                 : BEGIN NEWLINE* NULL SEMI NEWLINE* END SEMI

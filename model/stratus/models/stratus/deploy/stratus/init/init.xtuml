@@ -156,6 +156,8 @@ LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality terminator_service_invo
 select many call_expressions from instances of CallExpression;
 LOG::LogInfo(message:"    " + STRING::itoa(i:cardinality call_expressions) + " call_expressions");
 
+::asl2masl();
+
 control stop;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,

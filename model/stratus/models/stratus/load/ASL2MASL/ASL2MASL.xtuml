@@ -1,0 +1,242 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'ASL2MASL',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("8425ebfe-16db-40c0-aac2-e3e6d62adce8",
+	112,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'stratus::load::ASL2MASL');
+INSERT INTO DIM_DIA
+	VALUES ("8425ebfe-16db-40c0-aac2-e3e6d62adce8",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("a2a9df06-e666-484b-8c5b-6cbb5c13d477",
+	"00000000-0000-0000-0000-000000000000",
+	'asl2masl',
+	'',
+	'::trace( i:1, s:"ASL2MASL" );
+select many domains from instances of Domain;
+for each domain in domains
+  select many services related by domain->DomainService[R5303]->Service[R5203];
+  for each service in services
+    ::trace( i:2, s:"domain service name is:  " + service.name );
+    // Declare the local variables.
+    select one code_block related by service->MaslCodeBlock[R5403];
+    ::ASL_locals( code_block:code_block );
+    select one statement related by service->MaslCodeBlock[R5403]->MaslStatement[R5150];
+    if ( not_empty statement )
+      ::ASL_statement( statement:statement, level:0 );
+      select one statement related by statement->MaslStatement[R5155.''precedes''];
+    end if;
+  end for;
+  select many services related by domain->DomainTerminator[R5304]->DomainTerminatorService[R5306]->Service[R5203];
+  for each service in services
+    //::trace( i:3, s:"terminator service name is:  " + service.name );
+  end for;
+  select many services related by domain->ObjectDeclaration[R5805]->ObjectService[R5808]->Service[R5203];
+  for each service in services
+    //::trace( i:3, s:"object service name is:  " + service.name );
+  end for;
+  select many states related by domain->ObjectDeclaration[R5805]->MaslState[R6105];
+  for each state in states
+    //::trace( i:3, s:"state name is:  " + state.name );
+  end for;
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	1);
+INSERT INTO PE_PE
+	VALUES ("a2a9df06-e666-484b-8c5b-6cbb5c13d477",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f6b1ef62-b790-4b97-9bbb-180281722d8f",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_statement',
+	'',
+	'// Process an input statement.  Then select the next one and process it recursively.
+statement = param.statement;
+level = param.level;
+
+// Establish indention.
+indent = "";
+while ( level > 0 )
+  indent = indent + "  ";
+  level = level - 1;
+end while;
+
+select one for_statement related by statement->ForStatement[R5135];
+if ( not_empty for_statement )
+  ::trace( i:11, s:indent + "for" );
+  select one nested_statement related by for_statement->MaslStatement[R5153];
+  if ( not_empty nested_statement )
+    ::ASL_statement( statement:nested_statement, level:param.level+1 );
+  end if;
+else
+select one while_statement related by statement->WhileStatement[R5135];
+if ( not_empty while_statement )
+  ::trace( i:12, s:indent + "while" );
+  select one nested_statement related by while_statement->MaslStatement[R5141];
+  if ( not_empty nested_statement )
+    ::ASL_statement( statement:nested_statement, level:param.level+1 );
+  end if;
+else
+select one if_statement related by statement->IfStatement[R5135];
+if ( not_empty if_statement )
+  ::trace( i:13, s:indent + "if" );
+  select one nested_statement related by if_statement->MaslStatement[R5144];
+  if ( not_empty nested_statement )
+    ::ASL_statement( statement:nested_statement, level:param.level+1 );
+  end if;
+else
+select one case_statement related by statement->CaseStatement[R5135];
+if ( not_empty case_statement )
+  ::trace( i:14, s:indent + "case" );
+  // alternates and then nested statements
+else
+  // Recognize descriptions.
+  if ( true )
+  and ( 0 <= STRING::indexof(haystack:statement.actions, needle:"//!") )
+    ::trace( i:15, s:indent + "description:  " + statement.actions );
+  else
+    ::trace( i:16, s:indent + "normal statement:  " + statement.actions );
+  end if;
+end if;
+end if;
+end if;
+end if;
+
+// Process next statement.
+select one statement related by statement->MaslStatement[R5155.''precedes''];
+if ( not_empty statement )
+  ::ASL_statement( statement:statement, level:param.level );
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	2);
+INSERT INTO S_SPARM
+	VALUES ("b61a1505-6543-4876-b5ab-64a3f6b6fae5",
+	"f6b1ef62-b790-4b97-9bbb-180281722d8f",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("05890c89-f4eb-4163-9007-b5abcf03a719",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Statement>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("3599be7b-d8e6-4923-b235-74895310f588",
+	"f6b1ef62-b790-4b97-9bbb-180281722d8f",
+	'level',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"b61a1505-6543-4876-b5ab-64a3f6b6fae5",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f6b1ef62-b790-4b97-9bbb-180281722d8f",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f6bf0283-0ffc-48b2-a1b7-127d99e5fd39",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_locals',
+	'',
+	'code_block = param.code_block;
+select many variables related by code_block->VariableDefinition[R5151];
+for each variable in variables
+  select one basic_type related by variable->BasicType[R5137];
+  select one builtin_type related by basic_type->BuiltinType[R6205];
+  if ( not_empty builtin_type )
+    ::trace( i:21, s:variable.name + " : " + builtin_type.name );
+  else
+  select one user_defined_type related by basic_type->MaslUserDefinedType[R6205];
+  if ( not_empty user_defined_type )
+    ::trace( i:22, s:variable.name + " : " + user_defined_type.name );
+  end if;
+  end if;
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	3);
+INSERT INTO S_SPARM
+	VALUES ("d2bcfa33-cc21-4f7d-b0d6-4506bf1c7b64",
+	"f6bf0283-0ffc-48b2-a1b7-127d99e5fd39",
+	'code_block',
+	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<CodeBlock>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f6bf0283-0ffc-48b2-a1b7-127d99e5fd39",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'load',
+	'',
+	0,
+	'../load.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'stratus',
+	1,
+	'../../stratus.xtuml');
