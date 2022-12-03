@@ -46,10 +46,11 @@ for each domain in domains
     ::trace( i:2, s:"domain service name is:  " + service.name );
     // Declare the local variables.
     select one code_block related by service->MaslCodeBlock[R5403];
-    ::ASL_locals( code_block:code_block );
+    s = ::locals( code_block:code_block );
     select one statement related by service->MaslCodeBlock[R5403]->MaslStatement[R5150];
     if ( not_empty statement )
-      ::ASL_statement( statement:statement, level:0 );
+      s = s + ::statement( statement:statement, d:0 );
+      ::trace( i:1, s:s );
       select one statement related by statement->MaslStatement[R5155.''precedes''];
     end if;
   end for;
@@ -80,55 +81,33 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("f6b1ef62-b790-4b97-9bbb-180281722d8f",
 	"00000000-0000-0000-0000-000000000000",
-	'ASL_statement',
+	'statement',
 	'',
 	'// Process an input statement.  Then select the next one and process it recursively.
 statement = param.statement;
-level = param.level;
 
-// Establish indention.
-indent = "";
-while ( level > 0 )
-  indent = indent + "  ";
-  level = level - 1;
-end while;
-
-select one for_statement related by statement->ForStatement[R5135];
-if ( not_empty for_statement )
-  ::trace( i:11, s:indent + "for" );
-  select one nested_statement related by for_statement->MaslStatement[R5153];
-  if ( not_empty nested_statement )
-    ::ASL_statement( statement:nested_statement, level:param.level+1 );
-  end if;
+s = ::statement_if( statement:statement, d:param.d );
+if ( "" != s )
+  s = ::indent( d:param.d ) + s;
 else
-select one while_statement related by statement->WhileStatement[R5135];
-if ( not_empty while_statement )
-  ::trace( i:12, s:indent + "while" );
-  select one nested_statement related by while_statement->MaslStatement[R5141];
-  if ( not_empty nested_statement )
-    ::ASL_statement( statement:nested_statement, level:param.level+1 );
-  end if;
+s = ::statement_for( statement:statement, d:param.d );
+if ( "" != s )
+  s = ::indent( d:param.d ) + s;
 else
-select one if_statement related by statement->IfStatement[R5135];
-if ( not_empty if_statement )
-  ::trace( i:13, s:indent + "if" );
-  select one nested_statement related by if_statement->MaslStatement[R5144];
-  if ( not_empty nested_statement )
-    ::ASL_statement( statement:nested_statement, level:param.level+1 );
-  end if;
+s = ::statement_while( statement:statement, d:param.d );
+if ( "" != s )
+  s = ::indent( d:param.d ) + s;
 else
-select one case_statement related by statement->CaseStatement[R5135];
-if ( not_empty case_statement )
-  ::trace( i:14, s:indent + "case" );
-  // alternates and then nested statements
+s = ::statement_case( statement:statement, d:param.d );
+if ( "" != s )
+  s = ::indent( d:param.d ) + s;
 else
-  // Recognize descriptions.
-  if ( true )
-  and ( 0 <= STRING::indexof(haystack:statement.actions, needle:"//!") )
-    ::trace( i:15, s:indent + "description:  " + statement.actions );
-  else
-    ::trace( i:16, s:indent + "normal statement:  " + statement.actions );
-  end if;
+// Recognize descriptions.
+if ( true ) and ( 0 <= STRING::indexof(haystack:statement.actions, needle:"//!") )
+  s = statement.actions;
+else
+  s = ::indent(d:param.d) + "normal statement:  " + statement.actions;
+end if;
 end if;
 end if;
 end if;
@@ -137,9 +116,10 @@ end if;
 // Process next statement.
 select one statement related by statement->MaslStatement[R5155.''precedes''];
 if ( not_empty statement )
-  ::ASL_statement( statement:statement, level:param.level );
-end if;',
-	"ba5eda7a-def5-0000-0000-000000000000",
+  s = s + ::statement( statement:statement, d:param.d );
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
 	0,
@@ -163,7 +143,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_SPARM
 	VALUES ("3599be7b-d8e6-4923-b235-74895310f588",
 	"f6b1ef62-b790-4b97-9bbb-180281722d8f",
-	'level',
+	'd',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
@@ -178,23 +158,30 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("f6bf0283-0ffc-48b2-a1b7-127d99e5fd39",
 	"00000000-0000-0000-0000-000000000000",
-	'ASL_locals',
+	'locals',
 	'',
-	'code_block = param.code_block;
+	's = "";
+code_block = param.code_block;
 select many variables related by code_block->VariableDefinition[R5151];
 for each variable in variables
   select one basic_type related by variable->BasicType[R5137];
   select one builtin_type related by basic_type->BuiltinType[R6205];
   if ( not_empty builtin_type )
-    ::trace( i:21, s:variable.name + " : " + builtin_type.name );
+    s = s + variable.name + " : " + builtin_type.name + ";\n";
   else
   select one user_defined_type related by basic_type->MaslUserDefinedType[R6205];
   if ( not_empty user_defined_type )
-    ::trace( i:22, s:variable.name + " : " + user_defined_type.name );
+    s = s + variable.name + " : " + user_defined_type.name + ";\n";
+  else
+  select one object_declaration related by basic_type->InstanceType[R6205]->ObjectDeclaration[R6220];
+  if ( not_empty object_declaration )
+    s = s + variable.name + " : instance of " + object_declaration.name + ";\n";
   end if;
   end if;
-end for;',
-	"ba5eda7a-def5-0000-0000-000000000000",
+  end if;
+end for;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
 	0,
@@ -217,6 +204,529 @@ INSERT INTO S_DT_PROXY
 	'../../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
 INSERT INTO PE_PE
 	VALUES ("f6bf0283-0ffc-48b2-a1b7-127d99e5fd39",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b0664ce7-0d93-4ed8-a21b-f08bfd69161d",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_for',
+	'',
+	'// Render for statement.
+statement = param.statement;
+s = "";
+select one for_statement related by statement->ForStatement[R5135];
+if ( not_empty for_statement )
+  select one loopspec related by for_statement->LoopSpec[R5110];
+  s = s + ::indent(d:param.d) + "for " + loopspec.loopVariable + " in \n";
+  select one nested_statement related by for_statement->MaslStatement[R5153];
+  if ( not_empty nested_statement )
+    s = s + ::statement( statement:nested_statement, d:param.d+1 );
+  end if;
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	4);
+INSERT INTO S_SPARM
+	VALUES ("7ddaf81e-5988-4161-b613-c28141e244f7",
+	"b0664ce7-0d93-4ed8-a21b-f08bfd69161d",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1e4902a5-660f-48ac-8f2c-0d933069f85b",
+	"b0664ce7-0d93-4ed8-a21b-f08bfd69161d",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"7ddaf81e-5988-4161-b613-c28141e244f7",
+	'');
+INSERT INTO PE_PE
+	VALUES ("b0664ce7-0d93-4ed8-a21b-f08bfd69161d",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e9a9f3f9-5540-461a-b79a-b936538cb8a8",
+	"00000000-0000-0000-0000-000000000000",
+	'indent',
+	'',
+	'd = param.d;
+// Establish indention.
+indent = "";
+while ( d > 0 )
+  indent = indent + "  ";
+  d = d - 1;
+end while;
+return indent;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	5);
+INSERT INTO S_SPARM
+	VALUES ("b5d439ec-48f1-4e85-bd31-48fea4047add",
+	"e9a9f3f9-5540-461a-b79a-b936538cb8a8",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e9a9f3f9-5540-461a-b79a-b936538cb8a8",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2db2d30d-95d2-42b9-8ef2-60b2d9587171",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_while',
+	'',
+	'// Render while statement.
+statement = param.statement;
+s = "";
+select one while_statement related by statement->WhileStatement[R5135];
+if ( not_empty while_statement )
+  s = ::indent(d:param.d) + "while ( \n";
+  select one nested_statement related by while_statement->MaslStatement[R5141];
+  if ( not_empty nested_statement )
+    s = s + ::statement( statement:nested_statement, d:param.d+1 );
+  end if;
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	6);
+INSERT INTO S_SPARM
+	VALUES ("5993ed1d-69ae-4206-88d9-5217c02c808c",
+	"2db2d30d-95d2-42b9-8ef2-60b2d9587171",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("381a0725-6d46-4472-8ef7-b93290411841",
+	"2db2d30d-95d2-42b9-8ef2-60b2d9587171",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"5993ed1d-69ae-4206-88d9-5217c02c808c",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2db2d30d-95d2-42b9-8ef2-60b2d9587171",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("dd95c4b9-dc64-4a4f-a0cc-3e7046030f2c",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_if',
+	'',
+	'// Render if statement.
+statement = param.statement;
+s = "";
+select one if_statement related by statement->IfStatement[R5135];
+if ( not_empty if_statement )
+  select one condition related by if_statement->MaslExpression[R5143];
+  s = "if ( " + ::expression( expression:condition ) + " ) then\n";
+  select one nested_statement related by if_statement->MaslStatement[R5144];
+  if ( not_empty nested_statement )
+    s = s + ::statement( statement:nested_statement, d:param.d+1 );
+  end if;
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	7);
+INSERT INTO S_SPARM
+	VALUES ("e3067891-9aa9-4f44-be60-72d07de4b954",
+	"dd95c4b9-dc64-4a4f-a0cc-3e7046030f2c",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("10705487-3bd8-46a8-bb46-d4c2aabe6c76",
+	"dd95c4b9-dc64-4a4f-a0cc-3e7046030f2c",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"e3067891-9aa9-4f44-be60-72d07de4b954",
+	'');
+INSERT INTO PE_PE
+	VALUES ("dd95c4b9-dc64-4a4f-a0cc-3e7046030f2c",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("acfbc8ee-b3a9-4e71-88a1-f6145b6bf000",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_case',
+	'',
+	'// Render case (from switch) statement.
+statement = param.statement;
+s = "";
+select one case_statement related by statement->CaseStatement[R5135];
+if ( not_empty case_statement )
+  s = ::indent(d:param.d) + "case\n";
+  // Find alternates and nested statement lists.
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	8);
+INSERT INTO S_SPARM
+	VALUES ("d67b4b86-e955-46ed-b28b-07ee145d9092",
+	"acfbc8ee-b3a9-4e71-88a1-f6145b6bf000",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4d55ad50-b2b9-42ed-8edf-5deb537065ce",
+	"acfbc8ee-b3a9-4e71-88a1-f6145b6bf000",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"d67b4b86-e955-46ed-b28b-07ee145d9092",
+	'');
+INSERT INTO PE_PE
+	VALUES ("acfbc8ee-b3a9-4e71-88a1-f6145b6bf000",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e399eb02-f482-4b0d-b2fe-c9bae983c292",
+	"00000000-0000-0000-0000-000000000000",
+	'expression',
+	'',
+	'// Process an expression.
+expression = param.expression;
+
+s = ::expression_variable_name( expression:expression );
+if ( "" != s )
+  return s;
+else
+s = ::expression_parameter_name( expression:expression );
+if ( "" != s )
+  return s;
+else
+s = ::expression_binary( expression:expression );
+if ( "" != s )
+  return s;
+else
+s = ::expression_literal( expression:expression );
+if ( "" != s )
+  return s;
+else
+  //
+end if;
+end if;
+end if;
+end if;
+return "";',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	9);
+INSERT INTO S_SPARM
+	VALUES ("f8cd4f95-3839-47b8-a21d-109623b37bfd",
+	"e399eb02-f482-4b0d-b2fe-c9bae983c292",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Expression>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/expression/expression.xtuml');
+INSERT INTO PE_PE
+	VALUES ("e399eb02-f482-4b0d-b2fe-c9bae983c292",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("20a5c4b8-f8e7-4a5c-a2b7-238872727fcb",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_variable_name',
+	'',
+	'expression = param.expression;
+select one variable_name_expression related by expression->VariableNameExpression[R5517]->VariableDefinition[R5562];
+if ( not_empty variable_name_expression )
+  return variable_name_expression.name;
+end if;
+return "";',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	10);
+INSERT INTO S_SPARM
+	VALUES ("a60fdc5f-4c6d-4257-a456-08a143c69ac7",
+	"20a5c4b8-f8e7-4a5c-a2b7-238872727fcb",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("20a5c4b8-f8e7-4a5c-a2b7-238872727fcb",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("399fc8f1-6dcc-4e45-a81a-3bf7edae78e0",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_parameter_name',
+	'',
+	'expression = param.expression;
+select one parameter_name_expression related by expression->ParameterNameExpression[R5517]->ParameterDefinition[R5536];
+if ( not_empty parameter_name_expression )
+  return parameter_name_expression.name;
+end if;
+return "";',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	11);
+INSERT INTO S_SPARM
+	VALUES ("552502e4-7e2a-4fbf-88b0-4e9545670aee",
+	"399fc8f1-6dcc-4e45-a81a-3bf7edae78e0",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("399fc8f1-6dcc-4e45-a81a-3bf7edae78e0",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("78f59d41-6ba2-4f09-b8d0-b4973809d230",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_binary',
+	'',
+	'expression = param.expression;
+select one binary_expression related by expression->BinaryExpression[R5517];
+if ( not_empty binary_expression )
+  select one lhs related by binary_expression->MaslExpression[R5001];
+  select one rhs related by binary_expression->MaslExpression[R5002];
+  sl = ::expression( expression:lhs );
+  sr = ::expression( expression:rhs );
+  return sl + ::operator( op:binary_expression.operator ) + sr;
+end if;
+return "";',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	12);
+INSERT INTO S_SPARM
+	VALUES ("afa0e5c3-2e77-46ab-aeba-ab157c718e95",
+	"78f59d41-6ba2-4f09-b8d0-b4973809d230",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("78f59d41-6ba2-4f09-b8d0-b4973809d230",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5c3ce1a1-9ac8-435d-a0d5-065991f24f43",
+	"00000000-0000-0000-0000-000000000000",
+	'operator',
+	'',
+	's = "UNRECOGNIZED OPERATOR";
+if ( param.op == Operator::abs )
+  s = "abs";
+elif ( param.op == Operator::and_ )
+  s = "and";
+elif ( param.op == Operator::concatenate )
+  s = "&";
+elif ( param.op == Operator::disunion )
+  s = "disunion";
+elif ( param.op == Operator::divide )
+  s = "/";
+elif ( param.op == Operator::equal )
+  s = "=";
+elif ( param.op == Operator::greaterthan )
+  s = ">";
+elif ( param.op == Operator::greaterthanequal )
+  s = ">=";
+elif ( param.op == Operator::intersection )
+  s = "intersection";
+elif ( param.op == Operator::lessthan )
+  s = "<";
+elif ( param.op == Operator::lessthanequal )
+  s = "<=";
+elif ( param.op == Operator::minus )
+  s = "-";
+elif ( param.op == Operator::modulo )
+  s = "mod";
+elif ( param.op == Operator::not )
+  s = "not";
+elif ( param.op == Operator::notequal )
+  s = "/=";
+elif ( param.op == Operator::notin )
+  s = "not_in";
+elif ( param.op == Operator::or_ )
+  s = "or";
+elif ( param.op == Operator::plus )
+  s = "+";
+elif ( param.op == Operator::power )
+  s = "**";
+elif ( param.op == Operator::rem )
+  s = "rem";
+elif ( param.op == Operator::times )
+  s = "*";
+elif ( param.op == Operator::unaryminus )
+  s = "-";
+elif ( param.op == Operator::unaryplus )
+  s = "+";
+elif ( param.op == Operator::union )
+  s = "union";
+elif ( param.op == Operator::xor )
+  s = "xor";
+else
+  ::trace( i:50, s:"ERROR:  unrecognized operator" );
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	13);
+INSERT INTO S_SPARM
+	VALUES ("ab31c6cc-3cb1-4f5d-aa85-b4be648e4835",
+	"5c3ce1a1-9ac8-435d-a0d5-065991f24f43",
+	'op',
+	"766b5d8d-2e60-4295-a0c6-de1ee59cb168",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("766b5d8d-2e60-4295-a0c6-de1ee59cb168",
+	"00000000-0000-0000-0000-000000000000",
+	'Operator',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/Shared/Shared.xtuml');
+INSERT INTO PE_PE
+	VALUES ("5c3ce1a1-9ac8-435d-a0d5-065991f24f43",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("3c2aa505-e75d-44b4-be62-7786d432091b",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_literal',
+	'',
+	'expression = param.expression;
+select one literal_expression related by expression->LiteralExpression[R5517];
+if ( not_empty literal_expression )
+  select one boolean_literal related by literal_expression->BooleanLiteral[R5700];
+  if ( not_empty boolean_literal )
+    if ( boolean_literal.value )
+      return "true";
+    else
+      return "false";
+    end if;
+  else
+  select one character_literal related by literal_expression->CharacterLiteral[R5700];
+  if ( not_empty character_literal )
+    return character_literal.original;
+  else
+  select one duration_literal related by literal_expression->DurationLiteral[R5700];
+  if ( not_empty duration_literal )
+    return duration_literal.literal;
+  else
+  // TODO enumeration literal
+  select one numeric_literal related by literal_expression->NumericLiteral[R5700];
+  if ( not_empty numeric_literal )
+    return numeric_literal.text;
+  else
+  select one string_literal related by literal_expression->StringLiteral[R5700];
+  if ( not_empty string_literal )
+    return string_literal.original;
+  else
+  select one timestamp_literal related by literal_expression->TimestampLiteral[R5700];
+  if ( not_empty timestamp_literal )
+    return timestamp_literal.original;
+  else
+    ::trace( i:60, s:"ERROR:  unrecognized literal expression" );
+end if;
+end if;
+end if;
+end if;
+end if;
+end if;
+end if;
+return "";',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	14);
+INSERT INTO S_SPARM
+	VALUES ("811d8388-3a78-44d0-92c0-f1238a3b7e6b",
+	"3c2aa505-e75d-44b4-be62-7786d432091b",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("3c2aa505-e75d-44b4-be62-7786d432091b",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
