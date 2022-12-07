@@ -51,7 +51,6 @@ for each domain in domains
     if ( not_empty statement )
       s = s + ::statement( statement:statement, d:0 );
       ::trace( i:1, s:s );
-      select one statement related by statement->MaslStatement[R5155.''precedes''];
     end if;
   end for;
   select many services related by domain->DomainTerminator[R5304]->DomainTerminatorService[R5306]->Service[R5203];
@@ -87,26 +86,21 @@ INSERT INTO S_SYNC
 statement = param.statement;
 
 s = ::statement_if( statement:statement, d:param.d );
-if ( "" != s )
-  s = ::indent( d:param.d ) + s;
-else
+if ( "" == s )
 s = ::statement_for( statement:statement, d:param.d );
-if ( "" != s )
-  s = ::indent( d:param.d ) + s;
-else
+if ( "" == s )
 s = ::statement_while( statement:statement, d:param.d );
-if ( "" != s )
-  s = ::indent( d:param.d ) + s;
-else
+if ( "" == s )
 s = ::statement_case( statement:statement, d:param.d );
-if ( "" != s )
-  s = ::indent( d:param.d ) + s;
-else
+if ( "" == s )
+s = ::statement_assign( statement:statement, d:param.d );
+if ( "" == s )
 // Recognize descriptions.
 if ( true ) and ( 0 <= STRING::indexof(haystack:statement.actions, needle:"//!") )
   s = statement.actions;
 else
   s = ::indent(d:param.d) + "normal statement:  " + statement.actions;
+end if;
 end if;
 end if;
 end if;
@@ -345,11 +339,22 @@ s = "";
 select one if_statement related by statement->IfStatement[R5135];
 if ( not_empty if_statement )
   select one condition related by if_statement->MaslExpression[R5143];
-  s = "if ( " + ::expression( expression:condition ) + " ) then\n";
+  s = ::indent( d:param.d ) + "if ( " + ::expression( expression:condition ) + " ) then\n";
   select one nested_statement related by if_statement->MaslStatement[R5144];
   if ( not_empty nested_statement )
     s = s + ::statement( statement:nested_statement, d:param.d+1 );
   end if;
+  // TODO - support MASL elsif.
+  select any alternative related by if_statement->Alternative[R5145];
+  if ( not_empty alternative )
+    // For ASL, there is no else_if.
+    s = s + ::indent( d:param.d ) + "else\n";
+    select one nested_statement related by alternative->MaslStatement[R5148];
+    if ( not_empty nested_statement )
+      s = s + ::statement( statement:nested_statement, d:param.d+1 );
+    end if;
+  end if;
+  s = s + ::indent( d:param.d ) + "end if;\n";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -433,27 +438,22 @@ INSERT INTO S_SYNC
 expression = param.expression;
 
 s = ::expression_variable_name( expression:expression );
-if ( "" != s )
-  return s;
-else
+if ( "" == s )
 s = ::expression_parameter_name( expression:expression );
-if ( "" != s )
-  return s;
-else
+if ( "" == s )
 s = ::expression_binary( expression:expression );
-if ( "" != s )
-  return s;
-else
+if ( "" == s )
 s = ::expression_literal( expression:expression );
-if ( "" != s )
-  return s;
-else
-  //
+if ( "" == s )
+s = ::expression_create( expression:expression );
+if ( "" == s )
+s = ::expression_find( expression:expression );
 end if;
 end if;
 end if;
 end if;
-return "";',
+end if;
+return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
@@ -727,6 +727,130 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("3c2aa505-e75d-44b4-be62-7786d432091b",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fbe6f126-d399-4bd0-bf13-cc6766ad25cc",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_assign',
+	'',
+	'// Render assign statement.
+statement = param.statement;
+s = "";
+select one assign_statement related by statement->AssignmentStatement[R5135];
+if ( not_empty assign_statement )
+  select one lhs related by assign_statement->MaslExpression[R5101];
+  select one rhs related by assign_statement->MaslExpression[R5100];
+  s = ::indent( d:param.d ) + ::expression( expression:lhs ) + " := " + ::expression( expression:rhs ) + ";\n";
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	15);
+INSERT INTO S_SPARM
+	VALUES ("2f1ec80a-592d-4535-bb89-b878ee73932e",
+	"fbe6f126-d399-4bd0-bf13-cc6766ad25cc",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("239fb804-2ba4-4339-893b-5f2b1d85ea4f",
+	"fbe6f126-d399-4bd0-bf13-cc6766ad25cc",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"2f1ec80a-592d-4535-bb89-b878ee73932e",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fbe6f126-d399-4bd0-bf13-cc6766ad25cc",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("24f777f8-c2ec-4d10-891c-ec0d1478754e",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_create',
+	'',
+	'expression = param.expression;
+s = "";
+select one create_expression related by expression->CreateExpression[R5517];
+if ( not_empty create_expression )
+  select one object_declaration related by create_expression->ObjectDeclaration[R5511];
+  s = "create " + object_declaration.name + " ( ";
+  select many attribute_initializations related by create_expression->AttributeInitialization[R5566];
+  delim = "";
+  for each attribute_initialization in attribute_initializations
+    select one attribute_declaration related by attribute_initialization->AttributeDeclaration[R5565];
+    select one initialization related by attribute_initialization->MaslExpression[R5568];
+    s = s + delim + attribute_declaration.name + " => " + ::expression( expression:initialization );
+    delim = ", ";
+  end for;
+  s = s + " )";
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	16);
+INSERT INTO S_SPARM
+	VALUES ("7cda1d96-ed01-4a56-b97a-197c73c22a28",
+	"24f777f8-c2ec-4d10-891c-ec0d1478754e",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("24f777f8-c2ec-4d10-891c-ec0d1478754e",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9ee40816-86f3-4d92-8ac2-0b9c54c20a2b",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_find',
+	'',
+	'expression = param.expression;
+s = "";
+select one find_expression related by expression->FindExpression[R5517];
+if ( not_empty find_expression )
+  if ( find_expression.flavor == FindType::find )
+    s = s + "find ";
+  elif ( find_expression.flavor == FindType::find_one )
+    s = s + "find-one ";
+  elif ( find_expression.flavor == FindType::find_only )
+    s = s + "find-only ";
+  end if;
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	17);
+INSERT INTO S_SPARM
+	VALUES ("867b57b0-ddbd-4c41-950d-bad7e1530c56",
+	"9ee40816-86f3-4d92-8ac2-0b9c54c20a2b",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("9ee40816-86f3-4d92-8ac2-0b9c54c20a2b",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
