@@ -1193,7 +1193,7 @@ INSERT INTO S_SYNC
 	'select any domain from instances of Domain where selected.name == param.domain_name;
 root_code_block = ::select_CodeBlock_root( code_block:param.current_block );
 
-LOG::LogInfo(message:"RESOLVING name: ''" + param.name + "''");
+::trace(i:0,s:"RESOLVING name: ''" + param.name + "''");
 // search for local variable reference
 // Notice that ASL has one scope for all local variables.  It is the root CodeBlock of the activity.
 select any var related by root_code_block->VariableDefinition[R5151] where (selected.name == param.name);
@@ -1205,7 +1205,7 @@ if (not_empty var)
   create object instance var_ref of VariableNameExpression;
   relate var_ref to expr across R5517;
   relate var_ref to var across R5562;
-  LOG::LogInfo(message:"resolved name [variable]: ''" + param.name + "''");
+  ::trace(i:1,s:"resolved name [variable]: ''" + param.name + "''");
   return expr;
 end if;
 
@@ -2319,11 +2319,11 @@ if not_empty attr_ref
   relate attr_ref to find_attr_ref across R5518;
   select one basic_type related by attr_ref->BasicType[R5803];
   relate basic_type to expr across R5570;
-  LOG::LogInfo(message:"resolved name [selected attribute reference]: ''" + param.name + "''");
+  LOG::LogInfo(message:"resolved find name [selected attribute reference]: ''" + param.name + "''");
   return expr;
 end if;
 
-LOG::LogFailure(message:"Could not resolve name expression: " + param.name + ", " + param.comp_name);
+LOG::LogFailure(message:"Could not resolve find name expression: " + param.name + ", " + param.comp_name);
 select any expr from instances of MaslExpression where false;
 return expr;',
 	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",

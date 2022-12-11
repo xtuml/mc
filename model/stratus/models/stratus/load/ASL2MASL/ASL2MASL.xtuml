@@ -43,7 +43,7 @@ select many domains from instances of Domain;
 for each domain in domains
   select many services related by domain->DomainService[R5303]->Service[R5203];
   for each service in services
-    ::trace( i:2, s:"domain service name is:  " + service.name );
+    ::trace( i:2, s:"domain service name is:  " + service.name + " filename is:  " + service.filename );
     // Declare the local variables.
     select one code_block related by service->MaslCodeBlock[R5403];
     s = ::locals( code_block:code_block );
@@ -448,6 +448,15 @@ if ( "" == s )
 s = ::expression_create( expression:expression );
 if ( "" == s )
 s = ::expression_find( expression:expression );
+if ( "" == s )
+s = ::expression_object_name( expression:expression );
+if ( "" == s )
+s = ::expression_find_attribute_name( expression:expression );
+if ( "" == s )
+s = ::expression_selected_attribute( expression:expression );
+end if;
+end if;
+end if;
 end if;
 end if;
 end if;
@@ -637,6 +646,7 @@ elif ( param.op == Operator::xor )
 else
   ::trace( i:50, s:"ERROR:  unrecognized operator" );
 end if;
+s = " " + s + " ";
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
@@ -833,6 +843,13 @@ if ( not_empty find_expression )
   elif ( find_expression.flavor == FindType::find_only )
     s = s + "find-only ";
   end if;
+  select one search_expression related by find_expression->MaslExpression[R5519];
+  s = s + ::expression( expression:search_expression ) + "( ";
+  select one condition related by find_expression->MaslExpression[R5520];
+  if ( not_empty condition )
+    s = s + ::expression( expression:condition );
+  end if;
+  s = s + " )";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -851,6 +868,105 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("9ee40816-86f3-4d92-8ac2-0b9c54c20a2b",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a8c75bfb-6b32-4b4a-878a-6db6cb4a5ef4",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_object_name',
+	'',
+	'expression = param.expression;
+s = "";
+select one object_declaration related by expression->ObjectNameExpression[R5517]->ObjectDeclaration[R5533];
+if ( not_empty object_declaration )
+  s = object_declaration.name;
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	18);
+INSERT INTO S_SPARM
+	VALUES ("1c375459-a3fa-49cc-85b7-f342ee67d866",
+	"a8c75bfb-6b32-4b4a-878a-6db6cb4a5ef4",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("a8c75bfb-6b32-4b4a-878a-6db6cb4a5ef4",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("df4dbb16-36b7-4c23-8d63-d26d1fb5e25b",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_find_attribute_name',
+	'',
+	'expression = param.expression;
+s = "";
+select one attribute_declaration related by expression->FindAttributeNameExpression[R5517]->AttributeDeclaration[R5518];
+if ( not_empty attribute_declaration )
+  s = attribute_declaration.name;
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	19);
+INSERT INTO S_SPARM
+	VALUES ("38f7a147-4ac0-4eae-b35d-4fd098ed7921",
+	"df4dbb16-36b7-4c23-8d63-d26d1fb5e25b",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("df4dbb16-36b7-4c23-8d63-d26d1fb5e25b",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("016b9f59-a7ba-4d23-b619-c642e8956fca",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_selected_attribute',
+	'',
+	'expression = param.expression;
+s = "";
+select one selected_attribute_expression related by expression->SelectedAttributeExpression[R5517];
+if ( not_empty selected_attribute_expression )
+  select one root_expression related by selected_attribute_expression->MaslExpression[R5569];
+  s = s + ::expression( expression:root_expression );
+  select one attribute_declaration related by selected_attribute_expression->AttributeDeclaration[R5541];
+  s = s + "." + attribute_declaration.name;
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	20);
+INSERT INTO S_SPARM
+	VALUES ("16b44b9c-50b7-4711-b215-5dda81e74bad",
+	"016b9f59-a7ba-4d23-b619-c642e8956fca",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("016b9f59-a7ba-4d23-b619-c642e8956fca",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
