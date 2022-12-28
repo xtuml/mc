@@ -55,15 +55,18 @@ for each domain in domains
   end for;
   select many services related by domain->DomainTerminator[R5304]->DomainTerminatorService[R5306]->Service[R5203];
   for each service in services
-    //::trace( i:3, s:"terminator service name is:  " + service.name );
+    ::trace( i:3, s:"terminator service name is:  " + service.name + " filename is:  " + service.filename );
   end for;
   select many services related by domain->ObjectDeclaration[R5805]->ObjectService[R5808]->Service[R5203];
   for each service in services
-    //::trace( i:3, s:"object service name is:  " + service.name );
+    ::trace( i:4, s:"object service name is:  " + service.name + " filename is:  " + service.filename );
   end for;
-  select many states related by domain->ObjectDeclaration[R5805]->MaslState[R6105];
-  for each state in states
-    //::trace( i:3, s:"state name is:  " + state.name );
+  select many object_declarations related by domain->ObjectDeclaration[R5805];
+  for each object_declaration in object_declarations
+    select many states related by object_declaration->MaslState[R6105];
+    for each state in states
+      ::trace( i:5, s:"state name is:  " + state.name + " filename is:  " + state.filename );
+    end for;
   end for;
 end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -681,36 +684,58 @@ INSERT INTO S_SYNC
 	'expression_literal',
 	'',
 	'expression = param.expression;
+s = "";
 select one literal_expression related by expression->LiteralExpression[R5517];
 if ( not_empty literal_expression )
   select one boolean_literal related by literal_expression->BooleanLiteral[R5700];
   if ( not_empty boolean_literal )
     if ( boolean_literal.value )
-      return "true";
+      s = "true";
     else
-      return "false";
+      s = "false";
     end if;
   else
   select one character_literal related by literal_expression->CharacterLiteral[R5700];
   if ( not_empty character_literal )
-    return character_literal.original;
+    s = character_literal.original;
+  else
+  select one console_literal related by literal_expression->ConsoleLiteral[R5700];
+  if ( not_empty console_literal )
+    s = "console";
   else
   select one duration_literal related by literal_expression->DurationLiteral[R5700];
   if ( not_empty duration_literal )
-    return duration_literal.literal;
+    s = duration_literal.literal;
   else
-  // TODO enumeration literal
+  select one end_literal related by literal_expression->EndlLiteral[R5700];
+  if ( not_empty duration_literal )
+    s = "end";
+  else
+  select one enumerate_literal related by literal_expression->EnumerateLiteral[R5700];
+  if ( not_empty enumerate_literal )
+    select one enumerate_item related by enumerate_literal->EnumerateItem[R5701];
+    select any user_defined_type related by enumerate_item->EnumerateType[R6245]->FullTypeDefinition[R6219]->TypeDefinition[R6236]->TypeDeclaration[R6234]->MaslUserDefinedType[R6241];
+    if ( not_empty enumerate_item and not_empty user_defined_type )
+      s = user_defined_type.name + "." + enumerate_item.name;
+    else
+      ::trace( i:61, s:"ERROR:  incorrect enumerate literal expression" );
+    end if;
+  else
+  select one null_literal related by literal_expression->NullLiteral[R5700];
+  if ( not_empty null_literal )
+    s = "UNDEFINED";
+  else
   select one numeric_literal related by literal_expression->NumericLiteral[R5700];
   if ( not_empty numeric_literal )
-    return numeric_literal.text;
+    s = numeric_literal.text;
   else
   select one string_literal related by literal_expression->StringLiteral[R5700];
   if ( not_empty string_literal )
-    return string_literal.original;
+    s = string_literal.original;
   else
   select one timestamp_literal related by literal_expression->TimestampLiteral[R5700];
   if ( not_empty timestamp_literal )
-    return timestamp_literal.original;
+    s = timestamp_literal.original;
   else
     ::trace( i:60, s:"ERROR:  unrecognized literal expression" );
 end if;
@@ -720,7 +745,11 @@ end if;
 end if;
 end if;
 end if;
-return "";',
+end if;
+end if;
+end if;
+end if;
+return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
@@ -799,9 +828,14 @@ if ( not_empty create_expression )
   select many attribute_initializations related by create_expression->AttributeInitialization[R5566];
   delim = "";
   for each attribute_initialization in attribute_initializations
+    // TODO - deal with Current_State
     select one attribute_declaration related by attribute_initialization->AttributeDeclaration[R5565];
     select one initialization related by attribute_initialization->MaslExpression[R5568];
-    s = s + delim + attribute_declaration.name + " => " + ::expression( expression:initialization );
+    if ( not_empty attribute_declaration and not_empty initialization )
+      s = s + delim + attribute_declaration.name + " => " + ::expression( expression:initialization );
+    else
+      ::trace( i:80, s:"expression_create:  could not figure out attribute initialization" );
+    end if;
     delim = ", ";
   end for;
   s = s + " )";

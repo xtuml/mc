@@ -138,6 +138,7 @@ SWITCH                        : 'switch';
 TERMINAL                      : 'terminal';
 THEN                          : 'then';
 THIS                          : 'this';
+TICMARK                       : '\'';
 TO                            : 'to';
 UNDEFINED                     : 'UNDEFINED';
 UNIQUE                        : 'unique';
@@ -149,8 +150,6 @@ WITH                          : 'with';
 NULL                          : 'null';
 TRUE                          : 'TRUE';
 FALSE                         : 'FALSE';
-
-Enumerator                    : '\'' ( Letter | Digit | '_' )+ '\'';
 
 // Numeric Literals
 IntegerLiteral                : '-'? Digit+
@@ -186,7 +185,6 @@ StringLiteral                 : '"' ( ~('\\'|'"') )* '"'
 // identifiers
 RelationshipName              : ( 'R' | 'CPR' | 'cpr' ) '1'..'9' Digit*;
 Identifier                    : ( Letter | '_' ) ( Letter | Digit | '_' )*;
-// SetIdentifier                 : '{' ( Letter | '_' ) ( Letter | Digit | '_' )* '}';
 
 DescriptionASL                : '#$DESCRIPTION' .*? '#$END_DESCRIPTION'; // TODO:  parse req IDs
 Description                   : '//!' ~('\n'|'\r')* '\r'? '\n';

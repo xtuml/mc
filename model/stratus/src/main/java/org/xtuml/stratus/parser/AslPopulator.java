@@ -2315,10 +2315,12 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
                 Object attributeDeclaration = loader.call_function("select_AttributeDeclaration_related_where_name",
                         currentObject, ctx.attributeName().getText());
                 loader.relate(attributeDeclaration, attributeInitialization, 5565, "");
+                // Use unaryExp, because of ambiguous AND.
                 loader.relate(visit(ctx.unaryExp()), attributeInitialization, 5568, "");
             } else {
                 Object ooastate = loader.call_function("select_State_related_where_name", currentObject,
-                        ctx.Enumerator().getText());
+                        ctx.stateName().getText());
+                loader.relate(ooastate, attributeInitialization, 5567, "");
             }
             return attributeInitialization;
         } catch (XtumlException e) {
@@ -2554,11 +2556,6 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
                 loader.relate(realLiteral, numericLiteral, 5703, "");
                 Object realType = loader.call_function("select_BasicType_where_name", "", "real");
                 loader.relate(realType, expression, 5570, "");
-            } else if (ctx.Enumerator() != null) {
-                Object enumLiteral = loader.create("EnumerateLiteral");
-                loader.relate(enumLiteral, literalExpression, 5700, "");
-                Object intType = loader.call_function("select_BasicType_where_name", "", "integer");
-                loader.relate(intType, expression, 5570, "");
             } else if (ctx.StringLiteral() != null) {
                 Object stringLiteral = loader.create("StringLiteral");
                 loader.relate(stringLiteral, literalExpression, 5700, "");

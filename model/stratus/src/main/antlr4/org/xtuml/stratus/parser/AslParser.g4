@@ -526,7 +526,7 @@ createArgumentList            :
                               ;
 
 createArgument                : attributeName EQUAL unaryExp
-                              | CURRENT_STATE EQUAL Enumerator
+                              | CURRENT_STATE EQUAL TICMARK stateName TICMARK
                               ;
 
 
@@ -574,6 +574,7 @@ tuple                         : LBRACKET argumentList RBRACKET
 
 nameExpression                : ( operationName ( SCOPE | COLON ) )? identifier
                               | LEFT_BRACE identifier RIGHT_BRACE
+                              | TICMARK identifier TICMARK
                               ;
 
 operationName                 : identifier;
@@ -592,7 +593,6 @@ argumentList                  : (expression ( COMMA expression )*)?
 literal
                               : IntegerLiteral
                               | RealLiteral
-                              | Enumerator
                               | StringLiteral
                               | TRUE
                               | FALSE
