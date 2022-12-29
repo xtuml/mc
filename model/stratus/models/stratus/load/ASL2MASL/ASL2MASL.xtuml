@@ -45,14 +45,7 @@ for each domain in domains
   select many services related by domain->DomainService[R5303]->Service[R5203];
   for each service in services
     ::trace( i:2, s:"domain service name is:  " + service.name + " filename is:  " + service.filename );
-    // Declare the local variables.
-    select one code_block related by service->MaslCodeBlock[R5403];
-    s = ::locals( code_block:code_block );
-    select one statement related by service->MaslCodeBlock[R5403]->MaslStatement[R5150];
-    if ( not_empty statement )
-      s = s + ::statement( statement:statement, d:0 );
-      ::trace( i:1, s:s );
-    end if;
+    s = ::service( service:service );
     if ( "" != service.filename )
       T::append( s:s );
       T::emit( file:service.filename );
@@ -228,6 +221,7 @@ if ( not_empty for_statement )
   if ( not_empty nested_statement )
     s = s + ::statement( statement:nested_statement, d:param.d+1 );
   end if;
+  s = s + ::indent(d:param.d) + "end for;\n";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -302,11 +296,12 @@ statement = param.statement;
 s = "";
 select one while_statement related by statement->WhileStatement[R5135];
 if ( not_empty while_statement )
-  s = ::indent(d:param.d) + "while ( \n";
+  s = ::indent(d:param.d) + "while ( true ) loop\n";
   select one nested_statement related by while_statement->MaslStatement[R5141];
   if ( not_empty nested_statement )
     s = s + ::statement( statement:nested_statement, d:param.d+1 );
   end if;
+  s = s + ::indent(d:param.d) + "end loop;\n";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -889,7 +884,7 @@ if ( not_empty find_expression )
     s = s + "find-only ";
   end if;
   select one search_expression related by find_expression->MaslExpression[R5519];
-  s = s + ::expression( expression:search_expression ) + "( ";
+  s = s + ::expression( expression:search_expression ) + " ( ";
   select one condition related by find_expression->MaslExpression[R5520];
   if ( not_empty condition )
     s = s + ::expression( expression:condition );
@@ -1012,6 +1007,209 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("016b9f59-a7ba-4d23-b619-c642e8956fca",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c982f811-ca0a-4991-81ae-206cdd6f30af",
+	"00000000-0000-0000-0000-000000000000",
+	'service_signature',
+	'',
+	's = "";
+service = param.service;
+if ( MaslVisibility::private == service.visibility )
+  s = s + "private ";
+elif ( MaslVisibility::public == service.visibility )
+  s = s + "public ";
+else
+  ::trace( i:110, s:"ERROR - invalid service visibility" );
+end if;
+s = s + "service " + service.name + " ( ";
+select one parameter_definition related by service->ParameterDefinition[R5204];
+if ( not_empty parameter_definition )
+  s = s + ::parameter_definition_render( parameter_definition:parameter_definition );
+end if;
+s = s + ")";
+select one basic_type related by service->BasicType[R5205];
+if ( not_empty basic_type )
+  s = s + " return " + ::basic_type_render( basic_type:basic_type );
+end if;
+s = s + " is\n";
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	21);
+INSERT INTO S_SPARM
+	VALUES ("d0806887-27b3-4d5b-8808-c6bafcf1b5c4",
+	"c982f811-ca0a-4991-81ae-206cdd6f30af",
+	'service',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("b907c2e2-2877-4506-8018-ad38c7be275a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Service>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
+INSERT INTO PE_PE
+	VALUES ("c982f811-ca0a-4991-81ae-206cdd6f30af",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d60ab3b9-cadf-4016-bfba-218acf6eb7ee",
+	"00000000-0000-0000-0000-000000000000",
+	'basic_type_render',
+	'',
+	'basic_type = param.basic_type;
+s = "";
+select one user_defined_type related by basic_type->MaslUserDefinedType[R6205];
+if ( not_empty user_defined_type )
+  s = s + user_defined_type.name;
+else
+select one instance_type related by basic_type->InstanceType[R6205];
+if ( not_empty instance_type )
+  s = s + "instance of ...";
+else
+select one collection_type related by basic_type->CollectionType[R6205];
+if ( not_empty collection_type )
+  s = s + "collection of ...";
+else
+select one builtin_type related by basic_type->BuiltinType[R6205];
+if ( not_empty builtin_type )
+  s = s + builtin_type.name;
+else
+select one internal_type related by basic_type->InternalType[R6205];
+if ( not_empty internal_type )
+  s = s + "internal_" + internal_type.name;
+else
+select any udt related by basic_type->TypeDefinition[R6236]->TypeDeclaration[R6234]->MaslUserDefinedType[R6241];
+if ( not_empty udt )
+  s = s + "udtup_" + udt.name;
+end if;
+end if;
+end if;
+end if;
+end if;
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	22);
+INSERT INTO S_SPARM
+	VALUES ("c0b707f5-8283-4d55-b086-ca6c1b24d7c7",
+	"d60ab3b9-cadf-4016-bfba-218acf6eb7ee",
+	'basic_type',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<BasicType>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
+INSERT INTO PE_PE
+	VALUES ("d60ab3b9-cadf-4016-bfba-218acf6eb7ee",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("aa121b82-7448-44f9-b879-da808c231280",
+	"00000000-0000-0000-0000-000000000000",
+	'parameter_definition_render',
+	'',
+	'parameter_definition = param.parameter_definition;
+s = parameter_definition.name + ": ";
+if ( ParameterMode::in == parameter_definition.mode )
+  s = s + "in ";
+elif ( ParameterMode::out == parameter_definition.mode )
+  s = s + "out ";
+else
+  ::trace( i:111, s:"ERROR - incorrect parameter mode for:  " + parameter_definition.name );
+end if;
+select one basic_type related by parameter_definition->BasicType[R5200];
+s = s + ::basic_type_render( basic_type:basic_type );
+select one parameter_definition related by parameter_definition->ParameterDefinition[R5208.''precedes''];
+if ( not_empty parameter_definition )
+  s = s + ", " + ::parameter_definition_render( parameter_definition:parameter_definition );
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	23);
+INSERT INTO S_SPARM
+	VALUES ("8fa3ccc7-1832-4efb-a90a-8e15a86f32ff",
+	"aa121b82-7448-44f9-b879-da808c231280",
+	'parameter_definition',
+	"f4d42a8f-58ea-4bca-ac49-ea1239d45a52",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f4d42a8f-58ea-4bca-ac49-ea1239d45a52",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ParameterDefinition>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
+INSERT INTO PE_PE
+	VALUES ("aa121b82-7448-44f9-b879-da808c231280",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2a725f5e-9939-452a-ac6e-2496ef73425a",
+	"00000000-0000-0000-0000-000000000000",
+	'service',
+	'',
+	'service = param.service;
+s = ::service_signature( service:service );
+// Declare the local variables.
+select one code_block related by service->MaslCodeBlock[R5403];
+s = s + ::locals( code_block:code_block );
+s = s + "begin\n";
+select one statement related by service->MaslCodeBlock[R5403]->MaslStatement[R5150];
+if ( not_empty statement )
+  s = s + ::statement( statement:statement, d:0 );
+  ::trace( i:1, s:s );
+end if;
+s = s + "end service;\n";
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	24);
+INSERT INTO S_SPARM
+	VALUES ("103bc4c1-aa74-4515-acb9-5001dee47c5f",
+	"2a725f5e-9939-452a-ac6e-2496ef73425a",
+	'service',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2a725f5e-9939-452a-ac6e-2496ef73425a",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
