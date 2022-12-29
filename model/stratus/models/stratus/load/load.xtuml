@@ -2430,6 +2430,7 @@ for each domain_service in domain_services
   else
   end if;
   param.filenames[i] = "" + domain_service.name + extension;
+  ::trace( i:102, s:"get_domain_services:  " + domain_service.name + "  filename:" + param.filenames[i] );
   i = i + 1;
 end for;
 

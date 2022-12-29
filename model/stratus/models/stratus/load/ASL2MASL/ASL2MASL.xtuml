@@ -39,6 +39,7 @@ INSERT INTO S_SYNC
 	'asl2masl',
 	'',
 	'::trace( i:1, s:"ASL2MASL" );
+T::set_output_directory( dir:"gen/masl" );
 select many domains from instances of Domain;
 for each domain in domains
   select many services related by domain->DomainService[R5303]->Service[R5203];
@@ -51,6 +52,12 @@ for each domain in domains
     if ( not_empty statement )
       s = s + ::statement( statement:statement, d:0 );
       ::trace( i:1, s:s );
+    end if;
+    if ( "" != service.filename )
+      T::append( s:s );
+      T::emit( file:service.filename );
+    else
+      ::trace( i:6, s:"WARNING - Empty filename detected for " + service.name + ".  Perhaps there is a duplicate." );
     end if;
   end for;
   select many services related by domain->DomainTerminator[R5304]->DomainTerminatorService[R5306]->Service[R5203];
@@ -828,13 +835,17 @@ if ( not_empty create_expression )
   select many attribute_initializations related by create_expression->AttributeInitialization[R5566];
   delim = "";
   for each attribute_initialization in attribute_initializations
-    // TODO - deal with Current_State
     select one attribute_declaration related by attribute_initialization->AttributeDeclaration[R5565];
     select one initialization related by attribute_initialization->MaslExpression[R5568];
     if ( not_empty attribute_declaration and not_empty initialization )
       s = s + delim + attribute_declaration.name + " => " + ::expression( expression:initialization );
     else
-      ::trace( i:80, s:"expression_create:  could not figure out attribute initialization" );
+    select one masl_state related by attribute_initialization->MaslState[R5567];
+    if ( not_empty masl_state )
+      s = s + delim + "Current_State => " + masl_state.name;
+    else
+      ::trace( i:80, s:"ERROR - expression_create:  incorrect attribute initialization" );
+    end if;
     end if;
     delim = ", ";
   end for;
