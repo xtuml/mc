@@ -39,9 +39,9 @@ INSERT INTO S_SYNC
 	'asl2masl',
 	'',
 	'::trace( i:1, s:"ASL2MASL" );
-T::set_output_directory( dir:"gen/masl" );
 select many domains from instances of Domain;
 for each domain in domains
+T::set_output_directory( dir:"gen/masl/" + domain.name );
   select many services related by domain->DomainService[R5303]->Service[R5203];
   for each service in services
     ::trace( i:2, s:"domain service name is:  " + service.name + " filename is:  " + service.filename );
@@ -56,16 +56,25 @@ for each domain in domains
   select many services related by domain->DomainTerminator[R5304]->DomainTerminatorService[R5306]->Service[R5203];
   for each service in services
     ::trace( i:3, s:"terminator service name is:  " + service.name + " filename is:  " + service.filename );
+    s = ::service( service:service );
+    T::append( s:s );
+    T::emit( file:service.filename );
   end for;
   select many services related by domain->ObjectDeclaration[R5805]->ObjectService[R5808]->Service[R5203];
   for each service in services
     ::trace( i:4, s:"object service name is:  " + service.name + " filename is:  " + service.filename );
+    s = ::service( service:service );
+    T::append( s:s );
+    T::emit( file:service.filename );
   end for;
   select many object_declarations related by domain->ObjectDeclaration[R5805];
   for each object_declaration in object_declarations
-    select many states related by object_declaration->MaslState[R6105];
+    select many states related by object_declaration->MaslState[R6105] where ( ( "" + selected.name ) != "Non_Existent" );
     for each state in states
       ::trace( i:5, s:"state name is:  " + state.name + " filename is:  " + state.filename );
+      s = ::state_action( state:state );
+      T::append( s:s );
+      T::emit( file:state.filename );
     end for;
   end for;
 end for;',
@@ -1025,7 +1034,27 @@ elif ( MaslVisibility::public == service.visibility )
 else
   ::trace( i:110, s:"ERROR - invalid service visibility" );
 end if;
-s = s + "service " + service.name + " ( ";
+select one domain related by service->DomainService[R5203]->Domain[R5303];
+if ( not_empty domain )
+  s = s + "service " + domain.name + "::" + service.name + " (";
+else
+  select one domain_terminator related by service->DomainTerminatorService[R5203]->DomainTerminator[R5306];
+  if ( not_empty domain_terminator )
+    select one domain related by domain_terminator->Domain[R5304];
+    s = s + "service " + domain.name + "::" + domain_terminator.name + "~>" + service.name + " (";
+  else
+    select one object_service related by service->ObjectService[R5203];
+    if ( not_empty object_service )
+      select one object_declaration related by object_service->ObjectDeclaration[R5808];
+      instance_based = "";
+      if ( object_service.isInstance )
+        instance_based = "instance ";
+      end if;
+      select one domain related by object_declaration->Domain[R5805];
+      s = s + "service " + instance_based + domain.name + "::" + object_declaration.name + "." + service.name + " (";
+    end if;
+  end if;
+end if;
 select one parameter_definition related by service->ParameterDefinition[R5204];
 if ( not_empty parameter_definition )
   s = s + ::parameter_definition_render( parameter_definition:parameter_definition );
@@ -1191,6 +1220,8 @@ select one statement related by service->MaslCodeBlock[R5403]->MaslStatement[R51
 if ( not_empty statement )
   s = s + ::statement( statement:statement, d:0 );
   ::trace( i:1, s:s );
+else
+  s = s + "  null;\n";
 end if;
 s = s + "end service;\n";
 return s;',
@@ -1210,6 +1241,63 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("2a725f5e-9939-452a-ac6e-2496ef73425a",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5eab76e8-5636-4795-8e4a-b70bfbfe480b",
+	"00000000-0000-0000-0000-000000000000",
+	'state_action',
+	'',
+	's = "";
+state = param.state;
+select one object_declaration related by state->ObjectDeclaration[R6105];
+select one domain related by object_declaration->Domain[R5805];
+s = s + "state " + domain.name + "::" + object_declaration.name + "." + state.name + " (";
+select one parameter_definition related by state->ParameterDefinition[R6104];
+if ( not_empty parameter_definition )
+  s = s + ::parameter_definition_render( parameter_definition:parameter_definition );
+end if;
+s = s + ") is\n";
+// Declare the local variables.
+select one code_block related by state->MaslCodeBlock[R6115];
+s = s + ::locals( code_block:code_block );
+s = s + "begin\n";
+select one statement related by code_block->MaslStatement[R5150];
+if ( not_empty statement )
+  s = s + ::statement( statement:statement, d:0 );
+  ::trace( i:1, s:s );
+else
+  s = s + "  null;\n";
+end if;
+s = s + "end state;\n";
+return s;
+
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	25);
+INSERT INTO S_SPARM
+	VALUES ("2c448c7f-4443-4e52-b1d5-cec8b532bec1",
+	"5eab76e8-5636-4795-8e4a-b70bfbfe480b",
+	'state',
+	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/statemodel/statemodel.xtuml');
+INSERT INTO PE_PE
+	VALUES ("5eab76e8-5636-4795-8e4a-b70bfbfe480b",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
