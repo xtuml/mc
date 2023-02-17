@@ -1,0 +1,76 @@
+= WASL Requirement Tags for Deployments
+
+xtUML Project Implementation Note
+
+== 1 Abstract
+
+This note documents the addition of support for requirement tag
+export from within deployment projects.
+
+== 2 Introduction and Background
+
+Requirement tags are specially shaped strings (identified with '@@')
+that can be embedded in code blocks or descriptions.  The WASL Exporter
+detects requirement tags in domain models and exports them to a special
+WASL file for the purpose.  However, this was not supported (missing
+requirement) in the WASL Exporter.  This work adds that capability.
+
+== 3 Requirements
+
+=== 3.1 Requirement Tag Detection
+
+Detect requirement tags in deployment project activities and descriptions.
+
+== 4 Requirement Tag File
+
+Export the requirement tags into the proper file.
+
+== 5 Implementation Comments
+
+. In requirement::populate, detect 'project' as a parent element.
+. In requirement::render, clean up tab characters.
+. In genfile::render_wasl, use 'tag_owner' change (instead of domain).
+. In project::render_wasl, copy OAL from genfile::render_wasl that emits req tags near the end of the file (before marking).
+. In project::render_wasl, fix a few spacing problems.
+. In requirement, change requirement.domain to requirement.tag_owner.
+. In `t.requirement.wasl`, change self.domain to self.tag_owner.
+
+== 6 Unit Test
+
+=== 6.1 MASL Round Trip
+
+Get clean results on MASL Round Trip.
+
+=== 6.2 Inject Erroneous Files
+
+. Run the WASL Exporter on a deployment project with requirement tags.
+. See resulting `.req` file in the exported WASL.
+
+== 7 User Documentation
+
+No documentation changes are necessary.
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  12558_wasl_req_depl
+
+----
+ doc/notes/12558_wasl_req_depl_int.adoc                      | 73 +++++++++++++++++++++++++++
+ model/masl/gen/wasl/t.requirement.wasl                      |  2 +-
+ model/masl/models/masl/masl/project/project.xtuml           | 24 ++++++++-
+ model/masl/models/masl/maslpopulation/genfile/genfile.xtuml |  2 +-
+ .../masl/maslpopulation/requirement/requirement.xtuml       | 28 ++++++----
+ model/masl/src/wasl/t.requirement.wasl                      |  2 +-
+ 6 files changed, 116 insertions(+), 15 deletions(-)
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12558[12558 - Produce WASL .req file for Deployment projects as well as for Domain projects]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---

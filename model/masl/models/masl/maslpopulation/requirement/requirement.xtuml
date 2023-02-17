@@ -25,9 +25,13 @@ INSERT INTO O_TFR
 	// Find the domain parent and link the requirement.
   parent_element = element;
   select any domain from instances of domain where ( false );
+  select any project from instances of project where ( false );
   while ( not_empty parent_element );
     if ( "domain" == parent_element.name )
       select one domain related by parent_element->markable[R3786]->domain[R3783];
+      break;
+    elif ( "project" == parent_element.name )
+      select one project related by parent_element->markable[R3786]->project[R3783];
       break;
     end if;
     select one parent_element related by parent_element->element[R3787.''child of''];
@@ -60,7 +64,9 @@ INSERT INTO O_TFR
       create object instance requirement of requirement;
       requirement.tag = tag;
       if ( not_empty domain )
-        requirement.domain = domain.name;
+        requirement.tag_owner = domain.name;
+      elif ( not_empty project )
+        requirement.tag_owner = project.name;
       end if;
       relate requirement to element across R3798;
 
@@ -124,20 +130,20 @@ INSERT INTO O_TFR
         if ( not_empty terminator )
           // terminator service
           field3 = terminator.key_letters;
-		      field4 = "Terminator_Service_" + STRING::itoa( i:routine.number ) + "_" + activity.name;
+          field4 = "Terminator_Service_" + STRING::itoa( i:routine.number ) + "_" + activity.name;
         else
-  			  if ( "private" == routine.visibility )
+          if ( "private" == routine.visibility )
             // scenario
-				    field4 = "Initialisation_Segment_" + STRING::itoa( i:routine.number ) + "_" + activity.name;
-			    else
+            field4 = "Initialisation_Segment_" + STRING::itoa( i:routine.number ) + "_" + activity.name;
+          else
             // domain service
-				    field4 = "Domain_Operation_" + STRING::itoa( i:routine.number ) + "_" + activity.name;
-			    end if;
-			  end if;
+            field4 = "Domain_Operation_" + STRING::itoa( i:routine.number ) + "_" + activity.name;
+          end if;
+        end if;
       elif ( not_empty state )
         select one object related by state->object[R3750];
         field3 = object.key_letters;
-		    field4 = "State_" + STRING::itoa( i:state.number ) + "_" + activity.name;
+        field4 = "State_" + STRING::itoa( i:state.number ) + "_" + activity.name;
       else
         //
       end if;
@@ -229,10 +235,10 @@ INSERT INTO O_ATTR
 	VALUES ("eac8dd3b-42c6-46c7-91a1-07dec472108f",
 	"4147a4b3-7064-4198-862a-dab6374d3cbb",
 	"46b5d323-391a-4fec-a039-44b883707f6a",
-	'domain',
+	'tag_owner',
 	'',
 	'',
-	'domain',
+	'tag_owner',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
