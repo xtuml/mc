@@ -25,13 +25,9 @@ INSERT INTO O_TFR
 	// Find the domain parent and link the requirement.
   parent_element = element;
   select any domain from instances of domain where ( false );
-  select any project from instances of project where ( false );
   while ( not_empty parent_element );
     if ( "domain" == parent_element.name )
       select one domain related by parent_element->markable[R3786]->domain[R3783];
-      break;
-    elif ( "project" == parent_element.name )
-      select one project related by parent_element->markable[R3786]->project[R3783];
       break;
     end if;
     select one parent_element related by parent_element->element[R3787.''child of''];
@@ -65,8 +61,6 @@ INSERT INTO O_TFR
       requirement.tag = tag;
       if ( not_empty domain )
         requirement.tag_owner = domain.name;
-      elif ( not_empty project )
-        requirement.tag_owner = project.name;
       end if;
       relate requirement to element across R3798;
 

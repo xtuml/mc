@@ -305,7 +305,7 @@ end for;
 
 // requirements tags file
 TRACE::log( flavor:"info", id:102, message:"rendering project requirements file" );
-select many requirements from instances of requirement where ( selected.tag_owner == self.name );
+select many requirements from instances of requirement;
 if ( not_empty requirements )
   for each requirement in requirements
     requirement.render();

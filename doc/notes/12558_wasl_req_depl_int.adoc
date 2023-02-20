@@ -27,7 +27,6 @@ Export the requirement tags into the proper file.
 
 == 5 Implementation Comments
 
-. In requirement::populate, detect 'project' as a parent element.
 . In requirement::render, clean up tab characters.
 . In genfile::render_wasl, use 'tag_owner' change (instead of domain).
 . In project::render_wasl, copy OAL from genfile::render_wasl that emits req tags near the end of the file (before marking).
