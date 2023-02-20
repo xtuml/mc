@@ -24,6 +24,8 @@ end for;
 T::include( file:"masl/t.object_begin.masl" );
 
 // Get first attribute.
+// Bad data is possible.  Duplicate attributes names are allowed in the editor.  Protect here.
+guard_counter = 0;
 select any attribute related by self->attribute[R3709.''is characterized by''];
 while ( not_empty attribute )
   select one prev_attribute related by attribute->attribute[R3797.''succeeds''];
@@ -31,11 +33,22 @@ while ( not_empty attribute )
     break;
   end if;
   assign attribute = prev_attribute;
+  if ( guard_counter > 500 )
+    TRACE::log( flavor:"error", id:191, message:"problem (duplicate?) with attributes in:  " + self.name );
+    break;
+  end if;
+  guard_counter = guard_counter + 1;
 end while;
 // Iterate in order.
+guard_counter = 0;
 while ( not_empty attribute )
   attribute.render();
   select one attribute related by attribute->attribute[R3797.''precedes''];
+  if ( guard_counter > 500 )
+    TRACE::log( flavor:"error", id:192, message:"problem (duplicate?) with attributes in:  " + self.name );
+    break;
+  end if;
+  guard_counter = guard_counter + 1;
 end while;
 
 select many identifiers related by self->identifier[R3711];
