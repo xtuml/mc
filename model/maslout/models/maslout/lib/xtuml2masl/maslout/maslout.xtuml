@@ -764,7 +764,15 @@ while ( not_empty o_attr )
   if ( ( "current_state" == o_attr.Name ) and ( "state<State_Model>" == s_dt.Name ) )
     // Do not populate a current_state attribute with type state<State_Model>.
   else
-    value[0] = o_attr.Name;
+    // Detect an attribute with the same name as another.  This happens easily but needs to produce an error.
+    select any duplicate_o_attr related by o_attr->O_OBJ[R102]->O_ATTR[R102]
+      where ( selected.Name == o_attr.Name and selected.Attr_ID != o_attr.Attr_ID );
+    if ( not_empty duplicate_o_attr )
+      TRACE::log( flavor:"failure", id:63, message:"ERROR:  Duplicate attribute found:  " + o_obj.Name + "." + o_attr.Name );
+      value[0] = o_attr.Name + "DUPLICATE";
+    else
+      value[0] = o_attr.Name;
+    end if;
     value[1] = "";
     // See if this attribute is in the primary identifier.
     select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 0 );
