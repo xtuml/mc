@@ -410,8 +410,42 @@ statement = param.statement;
 s = "";
 select one case_statement related by statement->CaseStatement[R5135];
 if ( not_empty case_statement )
-  s = ::indent(d:param.d) + "case\n";
-  // Find alternates and nested statement lists.
+  select one discrimination related by case_statement->MaslExpression[R5103];
+  s = ::indent(d:param.d) + "case " + ::expression( expression:discrimination ) + " is\n";
+  // Find first alternative.
+  select any prev_alternative related by case_statement->Alternative[R5146];
+  alternative = prev_alternative;
+  while ( not_empty prev_alternative )
+    alternative = prev_alternative;
+    select one prev_alternative related by prev_alternative->Alternative[R5158.''succeeds''];
+  end while;
+  // Find alternatives and nested statement lists.
+  while ( not_empty alternative )
+    if ( not alternative.else_otherwise )
+      select any alternative_expression related by alternative->AlternativeExpression[R5147];
+      select one condition related by alternative_expression->MaslExpression[R5147];
+      if ( empty alternative_expression ) or ( empty condition )
+        ::trace( i:32, s:"ERROR:  case statement without alternative expression or condition" );
+      end if;
+      s = s + ::indent( d:param.d+1 ) + "when " + ::expression( expression:condition ) + " =>\n";
+      select one nested_statement related by alternative->MaslStatement[R5148];
+      s = s + ::indent( d:param.d+2 ) + "begin\n";
+      if ( not_empty nested_statement )
+        s = s + ::statement( statement:nested_statement, d:param.d+3 );
+      end if;
+      s = s + ::indent( d:param.d+2 ) + "end;\n";
+    else
+      s = s + ::indent( d:param.d+1 ) + "otherwise =>\n";
+      select one nested_statement related by alternative->MaslStatement[R5148];
+      s = s + ::indent( d:param.d+2 ) + "begin\n";
+      if ( not_empty nested_statement )
+        s = s + ::statement( statement:nested_statement, d:param.d+3 );
+      end if;
+      s = s + ::indent( d:param.d+2 ) + "end;\n";
+    end if;
+    select one alternative related by alternative->Alternative[R5158.''precedes''];
+  end while;
+  s = s + "end case;\n";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",

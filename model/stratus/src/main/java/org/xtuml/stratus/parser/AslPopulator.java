@@ -2832,10 +2832,10 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
                     //.getText(new Interval(ctx.getStart().getStartIndex(), ctx.NEWLINE().getSymbol().getStopIndex()));
             loader.set_attribute(alternative, "actions", actionText);
             // link all choices
-                visit(ctx.choiceList());
+                Object choice = visit(ctx.choiceList());
                 Object altExpr = loader.create("AlternativeExpression");
                 //loader.set_attribute(altExpr, "order", choices.nextIndex());
-                //loader.relate_using(choices.next(), alternative, altExpr, 5147, null);
+                loader.relate_using(choice, alternative, altExpr, 5147, null);
             Object firstStatement = visit(ctx.statementList());
             if (firstStatement != null) {
                 loader.relate(firstStatement, alternative, 5148, "");
