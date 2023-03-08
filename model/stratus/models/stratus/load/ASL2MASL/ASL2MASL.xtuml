@@ -97,21 +97,30 @@ INSERT INTO S_SYNC
 	'// Process an input statement.  Then select the next one and process it recursively.
 statement = param.statement;
 
+s = ::statement_assign( statement:statement, d:param.d );
+if ( "" == s )
+s = ::statement_case( statement:statement, d:param.d );
+if ( "" == s )
+s = ::statement_delete( statement:statement, d:param.d );
+if ( "" == s )
+s = ::statement_exit( statement:statement, d:param.d );
+if ( "" == s )
 s = ::statement_if( statement:statement, d:param.d );
 if ( "" == s )
 s = ::statement_for( statement:statement, d:param.d );
 if ( "" == s )
+s = ::statement_link_unlink( statement:statement, d:param.d );
+if ( "" == s )
 s = ::statement_while( statement:statement, d:param.d );
-if ( "" == s )
-s = ::statement_case( statement:statement, d:param.d );
-if ( "" == s )
-s = ::statement_assign( statement:statement, d:param.d );
 if ( "" == s )
 // Recognize descriptions.
 if ( true ) and ( 0 <= STRING::indexof(haystack:statement.actions, needle:"//!") )
   s = statement.actions;
 else
   s = ::indent(d:param.d) + "normal statement:  " + statement.actions;
+end if;
+end if;
+end if;
 end if;
 end if;
 end if;
@@ -781,11 +790,16 @@ if ( not_empty literal_expression )
   if ( not_empty string_literal )
     s = string_literal.original;
   else
+  select one this_literal related by literal_expression->ThisLiteral[R5700];
+  if ( not_empty this_literal )
+    s = "this";
+  else
   select one timestamp_literal related by literal_expression->TimestampLiteral[R5700];
   if ( not_empty timestamp_literal )
     s = timestamp_literal.original;
   else
     ::trace( i:60, s:"ERROR:  unrecognized literal expression" );
+end if;
 end if;
 end if;
 end if;
@@ -872,7 +886,7 @@ s = "";
 select one create_expression related by expression->CreateExpression[R5517];
 if ( not_empty create_expression )
   select one object_declaration related by create_expression->ObjectDeclaration[R5511];
-  s = "create " + object_declaration.name + " ( ";
+  s = "create " + object_declaration.name + "( ";
   select many attribute_initializations related by create_expression->AttributeInitialization[R5566];
   delim = "";
   for each attribute_initialization in attribute_initializations
@@ -930,12 +944,12 @@ if ( not_empty find_expression )
     s = s + "find-only ";
   end if;
   select one search_expression related by find_expression->MaslExpression[R5519];
-  s = s + ::expression( expression:search_expression ) + " ( ";
+  s = s + ::expression( expression:search_expression ) + "(";
   select one condition related by find_expression->MaslExpression[R5520];
   if ( not_empty condition )
-    s = s + ::expression( expression:condition );
+    s = s + " " + ::expression( expression:condition ) + " ";
   end if;
-  s = s + " )";
+  s = s + ")";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -1400,6 +1414,160 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("23e5314b-472d-4310-986a-88073453afc1",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d6c8ba39-13e2-40ff-a061-48d9d964ac8e",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_link_unlink',
+	'',
+	'// Render link/unlink statement.
+statement = param.statement;
+s = "";
+select one link_statement related by statement->LinkUnlinkStatement[R5135];
+if ( not_empty link_statement )
+  s = s + ::indent( d:param.d );
+  if ( link_statement.isLink )
+    s = s + "link ";
+  else
+    s = s + "unlink ";
+  end if;
+  select one rel_spec related by link_statement->RelationshipSpecification[R5120];
+  select one relationship_declaration related by rel_spec->RelationshipDeclaration[R6015];
+  select one subtype_relationship related by relationship_declaration->SubtypeRelationshipDeclaration[R6010];
+  select one lhs_expression related by link_statement->MaslExpression[R5122];
+  select one rhs_expression related by link_statement->MaslExpression[R5119];
+  select one using_expression related by link_statement->MaslExpression[R5121];
+  s = s + ::expression( expression:lhs_expression );
+  s = s + " " + relationship_declaration.name;
+  // Skip the role phrase for super/subs.
+  if ( empty subtype_relationship )
+    s = s + "." + rel_spec.role;
+  end if;
+  s = s + " " + ::expression( expression:rhs_expression );
+  if ( not_empty using_expression )
+    s = s + " using " + ::expression( expression:using_expression );
+  end if;
+  s = s + ";\n";
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	27);
+INSERT INTO S_SPARM
+	VALUES ("7983154c-6961-4dce-b8dd-b52733c6dc38",
+	"d6c8ba39-13e2-40ff-a061-48d9d964ac8e",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("eae28b0b-0f99-4939-8760-7421e701b573",
+	"d6c8ba39-13e2-40ff-a061-48d9d964ac8e",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"7983154c-6961-4dce-b8dd-b52733c6dc38",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d6c8ba39-13e2-40ff-a061-48d9d964ac8e",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d598af76-b7f8-4281-939a-b9458c7dc1a2",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_exit',
+	'',
+	'// Render exit (break) statement.
+statement = param.statement;
+s = "";
+select one exit_statement related by statement->ExitStatement[R5135];
+if ( not_empty exit_statement )
+  s = ::indent(d:param.d) + "exit ";
+  select one condition related by exit_statement->MaslExpression[R5109];
+  if ( not_empty condition )
+    s = s + "when " + ::expression( expression:condition );
+  end if;
+  s = s + ";\n";
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	28);
+INSERT INTO S_SPARM
+	VALUES ("70b2ce09-0e27-423f-816d-12a9196955a1",
+	"d598af76-b7f8-4281-939a-b9458c7dc1a2",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7193b3e1-5ea8-4a96-81e4-a80352e17fac",
+	"d598af76-b7f8-4281-939a-b9458c7dc1a2",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"70b2ce09-0e27-423f-816d-12a9196955a1",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d598af76-b7f8-4281-939a-b9458c7dc1a2",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("106f243f-672f-4a47-beba-21c897b3c256",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_delete',
+	'',
+	'// Render delete statement.
+statement = param.statement;
+s = "";
+select one delete_statement related by statement->DeleteStatement[R5135];
+if ( not_empty delete_statement )
+  select one expression related by delete_statement->MaslExpression[R5105];
+  s = s + ::indent(d:param.d) + "delete " + ::expression( expression:expression ) + ";\n";
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	29);
+INSERT INTO S_SPARM
+	VALUES ("7ef72dbb-a04c-446f-8b67-7b2cbfebbfba",
+	"106f243f-672f-4a47-beba-21c897b3c256",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("af5f85cd-b6c6-4474-aec4-6998c9ea336a",
+	"106f243f-672f-4a47-beba-21c897b3c256",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"7ef72dbb-a04c-446f-8b67-7b2cbfebbfba",
+	'');
+INSERT INTO PE_PE
+	VALUES ("106f243f-672f-4a47-beba-21c897b3c256",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
