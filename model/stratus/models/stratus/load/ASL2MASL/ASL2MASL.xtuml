@@ -491,6 +491,8 @@ s = ::expression_parameter_name( expression:expression );
 if ( "" == s )
 s = ::expression_binary( expression:expression );
 if ( "" == s )
+s = ::expression_call( expression:expression );
+if ( "" == s )
 s = ::expression_literal( expression:expression );
 if ( "" == s )
 s = ::expression_create( expression:expression );
@@ -502,6 +504,7 @@ if ( "" == s )
 s = ::expression_find_attribute_name( expression:expression );
 if ( "" == s )
 s = ::expression_selected_attribute( expression:expression );
+end if;
 end if;
 end if;
 end if;
@@ -1332,6 +1335,71 @@ INSERT INTO S_DT_PROXY
 	'../../../../../ooamasl/models/ooamasl/ooamasl/statemodel/statemodel.xtuml');
 INSERT INTO PE_PE
 	VALUES ("5eab76e8-5636-4795-8e4a-b70bfbfe480b",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("23e5314b-472d-4310-986a-88073453afc1",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_call',
+	'',
+	'expression = param.expression;
+s = "";
+select one call_expression related by expression->CallExpression[R5517];
+if ( not_empty call_expression )
+  select one service_invocation related by call_expression->ServiceInvocation[R5500];
+  // several subtypes of service invocation
+  select one terminator_service_invocation related by service_invocation->TerminatorServiceInvocation[R5610];
+  select one domain_service_invocation related by service_invocation->DomainServiceInvocation[R5610];
+  select one object_service_invocation related by service_invocation->ObjectServiceInvocation[R5610];
+  select one instance_service_invocation related by service_invocation->InstanceServiceInvocation[R5610];
+  if ( not_empty domain_service_invocation )
+    select one domain related by domain_service_invocation->DomainService[R5611]->Domain[R5303];
+    select one service related by domain_service_invocation->DomainService[R5611]->Service[R5203];
+    s = s + domain.name + "::" + service.name + "( ";
+  elif ( not_empty terminator_service_invocation )
+    select one terminator related by terminator_service_invocation->DomainTerminatorService[R5612]->DomainTerminator[R5306];
+    select one service related by terminator_service_invocation->DomainTerminatorService[R5612]->Service[R5203];
+    s = s + terminator.name + "~>" + service.name + "( ";
+  elif ( not_empty object_service_invocation )
+    select one object_declaration related by object_service_invocation->ObjectService[R5613]->ObjectDeclaration[R5808];
+    select one service related by object_service_invocation->ObjectService[R5613]->Service[R5203];
+    s = s + object_declaration.name + "." + service.name + "( ";
+  elif ( not_empty instance_service_invocation )
+    select one object_declaration related by instance_service_invocation->ObjectService[R5614]->ObjectDeclaration[R5808];
+    select one service related by instance_service_invocation->ObjectService[R5614]->Service[R5203];
+    s = s + object_declaration.name + "." + service.name + "( ";
+  else
+    ::trace( i:75, s:"ERROR:  malformed call expression" );
+  end if;
+  delim = "";
+  select one argument related by call_expression->Argument[R5575];
+  while ( not_empty argument )
+    select one argument_expression related by argument->MaslExpression[R5577];
+    s = s + delim + ::expression( expression:argument_expression );
+    delim = ", ";
+    select one argument related by argument->Argument[R5576.''precedes''];
+  end while;
+  s = s + " )";
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	26);
+INSERT INTO S_SPARM
+	VALUES ("0b4f54a5-8de0-401e-90f0-9b0adc4c44ed",
+	"23e5314b-472d-4310-986a-88073453afc1",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("23e5314b-472d-4310-986a-88073453afc1",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
