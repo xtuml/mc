@@ -57,15 +57,23 @@ T::set_output_directory( dir:"gen/masl/" + domain.name );
   for each service in services
     ::trace( i:3, s:"terminator service name is:  " + service.name + " filename is:  " + service.filename );
     s = ::service( service:service );
-    T::append( s:s );
-    T::emit( file:service.filename );
+    if ( "" != service.filename )
+      T::append( s:s );
+      T::emit( file:service.filename );
+    else
+      ::trace( i:7, s:"WARNING - Empty filename detected for " + service.name + ".  missing mark?" );
+    end if;
   end for;
   select many services related by domain->ObjectDeclaration[R5805]->ObjectService[R5808]->Service[R5203];
   for each service in services
     ::trace( i:4, s:"object service name is:  " + service.name + " filename is:  " + service.filename );
     s = ::service( service:service );
-    T::append( s:s );
-    T::emit( file:service.filename );
+    if ( "" != service.filename )
+      T::append( s:s );
+      T::emit( file:service.filename );
+    else
+      ::trace( i:8, s:"WARNING - Empty filename detected for " + service.name + "." );
+    end if;
   end for;
   select many object_declarations related by domain->ObjectDeclaration[R5805];
   for each object_declaration in object_declarations
@@ -73,8 +81,12 @@ T::set_output_directory( dir:"gen/masl/" + domain.name );
     for each state in states
       ::trace( i:5, s:"state name is:  " + state.name + " filename is:  " + state.filename );
       s = ::state_action( state:state );
-      T::append( s:s );
-      T::emit( file:state.filename );
+      if ( "" != state.filename )
+        T::append( s:s );
+        T::emit( file:state.filename );
+      else
+        ::trace( i:9, s:"WARNING - Empty filename detected for " + state.name + "." );
+      end if;
     end for;
   end for;
 end for;',
@@ -105,6 +117,8 @@ s = ::statement_delete( statement:statement, d:param.d );
 if ( "" == s )
 s = ::statement_exit( statement:statement, d:param.d );
 if ( "" == s )
+s = ::statement_generate( statement:statement, d:param.d );
+if ( "" == s )
 s = ::statement_if( statement:statement, d:param.d );
 if ( "" == s )
 s = ::statement_for( statement:statement, d:param.d );
@@ -118,6 +132,7 @@ if ( true ) and ( 0 <= STRING::indexof(haystack:statement.actions, needle:"//!")
   s = statement.actions;
 else
   s = ::indent(d:param.d) + "normal statement:  " + statement.actions;
+end if;
 end if;
 end if;
 end if;
@@ -280,7 +295,7 @@ INSERT INTO S_SYNC
 // Establish indention.
 indent = "";
 while ( d > 0 )
-  indent = indent + "  ";
+  indent = indent + "   ";
   d = d - 1;
 end while;
 return indent;',
@@ -765,7 +780,7 @@ if ( not_empty literal_expression )
     s = duration_literal.literal;
   else
   select one end_literal related by literal_expression->EndlLiteral[R5700];
-  if ( not_empty duration_literal )
+  if ( not_empty end_literal )
     s = "end";
   else
   select one enumerate_literal related by literal_expression->EnumerateLiteral[R5700];
@@ -780,7 +795,7 @@ if ( not_empty literal_expression )
   else
   select one null_literal related by literal_expression->NullLiteral[R5700];
   if ( not_empty null_literal )
-    s = "UNDEFINED";
+    s = "null";
   else
   select one numeric_literal related by literal_expression->NumericLiteral[R5700];
   if ( not_empty numeric_literal )
@@ -842,9 +857,15 @@ statement = param.statement;
 s = "";
 select one assign_statement related by statement->AssignmentStatement[R5135];
 if ( not_empty assign_statement )
+  s = s + ::indent( d:param.d );
   select one lhs related by assign_statement->MaslExpression[R5101];
+  lhs_expression = ::expression( expression:lhs );
+  if ( "" != lhs_expression )
+    // ASL assigns a void function to an empty sequence.
+    s = s + lhs_expression + " := ";
+  end if;
   select one rhs related by assign_statement->MaslExpression[R5100];
-  s = ::indent( d:param.d ) + ::expression( expression:lhs ) + " := " + ::expression( expression:rhs ) + ";\n";
+  s = s + ::expression( expression:rhs ) + ";\n";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -886,25 +907,29 @@ s = "";
 select one create_expression related by expression->CreateExpression[R5517];
 if ( not_empty create_expression )
   select one object_declaration related by create_expression->ObjectDeclaration[R5511];
-  s = "create " + object_declaration.name + "( ";
+  s = "create " + object_declaration.name + "(";
   select many attribute_initializations related by create_expression->AttributeInitialization[R5566];
+  args = "";
   delim = "";
   for each attribute_initialization in attribute_initializations
     select one attribute_declaration related by attribute_initialization->AttributeDeclaration[R5565];
     select one initialization related by attribute_initialization->MaslExpression[R5568];
     if ( not_empty attribute_declaration and not_empty initialization )
-      s = s + delim + attribute_declaration.name + " => " + ::expression( expression:initialization );
+      args = args + delim + attribute_declaration.name + " => " + ::expression( expression:initialization );
     else
-    select one masl_state related by attribute_initialization->MaslState[R5567];
-    if ( not_empty masl_state )
-      s = s + delim + "Current_State => " + masl_state.name;
-    else
-      ::trace( i:80, s:"ERROR - expression_create:  incorrect attribute initialization" );
-    end if;
+      select one masl_state related by attribute_initialization->MaslState[R5567];
+      if ( not_empty masl_state )
+        args = args + delim + "Current_State => " + masl_state.name;
+      else
+        ::trace( i:80, s:"ERROR - expression_create:  incorrect attribute initialization" );
+      end if;
     end if;
     delim = ", ";
   end for;
-  s = s + " )";
+  if ( "" != args )
+    s = s + " " + args + " ";
+  end if;
+  s = s + ")";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -1269,7 +1294,7 @@ s = s + ::locals( code_block:code_block );
 s = s + "begin\n";
 select one statement related by service->MaslCodeBlock[R5403]->MaslStatement[R5150];
 if ( not_empty statement )
-  s = s + ::statement( statement:statement, d:0 );
+  s = s + ::statement( statement:statement, d:1 );
   ::trace( i:1, s:s );
 else
   s = s + "  null;\n";
@@ -1371,31 +1396,35 @@ if ( not_empty call_expression )
   if ( not_empty domain_service_invocation )
     select one domain related by domain_service_invocation->DomainService[R5611]->Domain[R5303];
     select one service related by domain_service_invocation->DomainService[R5611]->Service[R5203];
-    s = s + domain.name + "::" + service.name + "( ";
+    s = s + domain.name + "::" + service.name + "(";
   elif ( not_empty terminator_service_invocation )
     select one terminator related by terminator_service_invocation->DomainTerminatorService[R5612]->DomainTerminator[R5306];
     select one service related by terminator_service_invocation->DomainTerminatorService[R5612]->Service[R5203];
-    s = s + terminator.name + "~>" + service.name + "( ";
+    s = s + terminator.name + "~>" + service.name + "(";
   elif ( not_empty object_service_invocation )
     select one object_declaration related by object_service_invocation->ObjectService[R5613]->ObjectDeclaration[R5808];
     select one service related by object_service_invocation->ObjectService[R5613]->Service[R5203];
-    s = s + object_declaration.name + "." + service.name + "( ";
+    s = s + object_declaration.name + "." + service.name + "(";
   elif ( not_empty instance_service_invocation )
     select one object_declaration related by instance_service_invocation->ObjectService[R5614]->ObjectDeclaration[R5808];
     select one service related by instance_service_invocation->ObjectService[R5614]->Service[R5203];
-    s = s + object_declaration.name + "." + service.name + "( ";
+    s = s + object_declaration.name + "." + service.name + "(";
   else
     ::trace( i:75, s:"ERROR:  malformed call expression" );
   end if;
+  args = "";
   delim = "";
   select one argument related by call_expression->Argument[R5575];
   while ( not_empty argument )
     select one argument_expression related by argument->MaslExpression[R5577];
-    s = s + delim + ::expression( expression:argument_expression );
+    args = args + delim + ::expression( expression:argument_expression );
     delim = ", ";
     select one argument related by argument->Argument[R5576.''precedes''];
   end while;
-  s = s + " )";
+  if ( "" != args )
+    s = s + " " + args + " ";
+  end if;
+  s = s + ")";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -1568,6 +1597,63 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("106f243f-672f-4a47-beba-21c897b3c256",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4eeab108-2cb7-40dd-8c89-c6bd96efc9c4",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_generate',
+	'',
+	'// Render generate statement.
+statement = param.statement;
+s = "";
+select one generate_statement related by statement->GenerateStatement[R5135];
+if ( not_empty generate_statement )
+  select one event_declaration related by generate_statement->EventDeclaration[R5112];
+  select one object_declaration related by event_declaration->ObjectDeclaration[R6101];
+  s = s + ::indent(d:param.d) + "generate " + object_declaration.name + "." + event_declaration.name + "(";
+  args = "";
+  delim = "";
+  select one argument related by generate_statement->Argument[R5114];
+  while ( not_empty argument )
+    select one argument_expression related by argument->MaslExpression[R5577];
+    args = args + delim + ::expression( expression:argument_expression );
+    delim = ", ";
+    select one argument related by argument->Argument[R5576.''precedes''];
+  end while;
+  if ( "" != args )
+    s = s + " " + args + " ";
+  end if;
+  s = s + ");\n";
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	30);
+INSERT INTO S_SPARM
+	VALUES ("70709e82-9bc9-4194-9047-082fba2426af",
+	"4eeab108-2cb7-40dd-8c89-c6bd96efc9c4",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5ff34453-cafd-4517-838f-5feda1f2fe9b",
+	"4eeab108-2cb7-40dd-8c89-c6bd96efc9c4",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"70709e82-9bc9-4194-9047-082fba2426af",
+	'');
+INSERT INTO PE_PE
+	VALUES ("4eeab108-2cb7-40dd-8c89-c6bd96efc9c4",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",

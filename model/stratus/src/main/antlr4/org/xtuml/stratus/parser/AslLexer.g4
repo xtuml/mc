@@ -188,6 +188,6 @@ Identifier                    : ( Letter | '_' ) ( Letter | Digit | '_' )*;
 
 DescriptionASL                : '#$DESCRIPTION' .*? '#$END_DESCRIPTION'; // TODO:  parse req IDs
 Description                   : '//!' ~('\n'|'\r')* '\r'? '\n';
-Comment                       : '#' ~[\r\n]* NEWLINE -> skip;
+Comment                       : '#' ~[\r\n]* NEWLINE;
 Whitespace                    : (' ' | '\t' | '\f' )+ -> skip;
 

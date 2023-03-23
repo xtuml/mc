@@ -1563,6 +1563,8 @@ System.err.println("visitStructureAssembly");
                 loader.relate(visit(ctx.forStatement()), statement, 5135, "");
             } else if (ctx.whileStatement() != null) {
                 loader.relate(visit(ctx.whileStatement()), statement, 5135, "");
+            } else if (ctx.comment() != null) {
+                loader.relate(visit(ctx.comment()), statement, 5135, "");
             }
             return statement;
         } catch (XtumlException e) {
@@ -2869,6 +2871,20 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
     @Override
     public Object visitChoiceList(AslParser.ChoiceListContext ctx) {
         return visit(ctx.expression());
+    }
+
+    @Override
+    public Object visitComment(AslParser.CommentContext ctx) {
+        try {
+            Object comment = loader.create("Comment");
+            loader.set_attribute(comment, "text", ctx.getText());
+System.err.println("COMMENT");
+System.err.println(ctx.getText());
+            return comment;
+        } catch (XtumlException e) {
+            xtumlTrace(e, "", ctx);
+            return null;
+        }
     }
 
 }

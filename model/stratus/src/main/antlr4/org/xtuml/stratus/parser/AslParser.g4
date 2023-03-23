@@ -303,6 +303,7 @@ statement                     : (
                                 | startDomainContext
                                 | endDomainContext
                                 | description
+                                | comment
                                 | AdaInline
                                 | Inline
                                 )
@@ -602,5 +603,8 @@ literal
 
 
 identifier                    : Identifier
+                              ;
+
+comment                       : Comment+
                               ;
 
