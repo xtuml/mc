@@ -366,7 +366,7 @@ create object instance expression of MaslExpression;
 
 select one lhs_basic_type related by lhs->BasicType[R5570];
 if (empty lhs_basic_type)
-  LOG::LogInfo(message:"create_DotExpression:  lhs has no type - " + param.name);
+  ::trace(i:20,s:"create_DotExpression:  lhs has no type - " + param.name);
 end if;
 
 // TODO - provide subtyping maybe from DotExpression <- SelectedAttributeExpression, SelectedComponentExpression, TypeNameExpression, ObjectNameExpresion
@@ -389,7 +389,7 @@ if (not_empty object_reference)
 		if (not_empty basic_type)
       relate basic_type to expression across R5570;
     end if;
-    LOG::LogInfo(message:"create_DotExpression:  object service invocation:  " + param.name);
+    ::trace(i:21,s:"create_DotExpression:  object service invocation:  " + param.name);
     return expression;
   end if;
 end if;
@@ -406,7 +406,7 @@ if (not_empty instance_type)
     relate selected_attribute_expression to attribute_declaration across R5541;
     select one basic_type related by attribute_declaration->BasicType[R5803];
     relate basic_type to expression across R5570;
-    LOG::LogInfo(message:"create_DotExpression:  attribute:  " + param.name);
+    ::trace(i:22,s:"create_DotExpression:  attribute:  " + param.name);
     return expression;
   end if;
   // Look for instance operation access.
@@ -425,7 +425,7 @@ if (not_empty instance_type)
 		if (not_empty basic_type)
       relate basic_type to expression across R5570;
     end if;
-    LOG::LogInfo(message:"create_DotExpression:  instance service invocation:  " + param.name);
+    ::trace(i:23,s:"create_DotExpression:  instance service invocation:  " + param.name);
     return expression;
   end if;
 end if;
@@ -443,7 +443,7 @@ if (not_empty structure_type)
       relate selected_component_expression to structure_element across R5543;
       select one basic_type related by structure_element->BasicType[R6230];
       relate basic_type to expression across R5570;
-      LOG::LogInfo(message:"create_DotExpression:  structure element:  " + param.name);
+      ::trace(i:24,s:"create_DotExpression:  structure element:  " + param.name);
       return expression;
     end if;
     select one structure_element related by structure_element->StructureElement[R6243.''precedes''];
@@ -451,7 +451,7 @@ if (not_empty structure_type)
 else
 end if;
 
-LOG::LogFailure(message:"create_DotExpression: failed to resolve dot expression: " + param.name);
+::trace(i:25,s:"ERROR:create_DotExpression: failed to resolve dot expression: " + param.name);
 return expression;',
 	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	1,
@@ -1193,7 +1193,6 @@ INSERT INTO S_SYNC
 	'select any domain from instances of Domain where selected.name == param.domain_name;
 root_code_block = ::select_CodeBlock_root( code_block:param.current_block );
 
-::trace(i:0,s:"RESOLVING name: ''" + param.name + "''");
 // search for local variable reference
 // Notice that ASL has one scope for all local variables.  It is the root CodeBlock of the activity.
 select any var related by root_code_block->VariableDefinition[R5151] where (selected.name == param.name);
@@ -1205,7 +1204,6 @@ if (not_empty var)
   create object instance var_ref of VariableNameExpression;
   relate var_ref to expr across R5517;
   relate var_ref to var across R5562;
-  ::trace(i:1,s:"resolved name [variable]: ''" + param.name + "''");
   return expr;
 end if;
 
@@ -1234,7 +1232,6 @@ if (not_empty ref_param)
   relate ref_param to param_ref across R5536;
   select one type related by ref_param->BasicType[R5200];
   relate type to expr across R5570;
-  LOG::LogInfo(message:"resolved name [parameter]: ''" + param.name + "''");
   return expr;
 end if;
 
@@ -1251,7 +1248,6 @@ if not_empty enumer
   create object instance enum_expr of EnumerateLiteral;
   relate enum_expr to literal_expr across R5700;
   relate enumer to enum_expr across R5701;
-  LOG::LogInfo(message:"resolved name [enumerator]: ''" + param.domain_name + "::" + param.name + "''");
   return expr;
 end if;
 
@@ -1285,7 +1281,6 @@ if (not_empty service)
   relate domain_service_invocation to service_invocation across R5610;
   select one domain_service related by service->DomainService[R5203];
   relate domain_service to domain_service_invocation across R5611;
-  LOG::LogInfo(message:"resolved name [domain service]: ''" + param.domain_name + "::" + param.name + "''");
   return expr;
 end if;
 end if;
@@ -1299,7 +1294,6 @@ if (not_empty object_declaration)
   relate object_declaration to obj_name_expr across R5533;
   type = ::select_create_InstanceType(object_declaration:object_declaration, isset:true);
   relate type to expr across R5570;
-  LOG::LogInfo(message:"resolved name [object]: ''" + param.domain_name + "::" + param.name + "''");
   return expr;
 end if;
 
@@ -1333,7 +1327,6 @@ if (not_empty service)
   relate terminator_service_invocation to service_invocation across R5610;
   select one terminator_service related by service->DomainTerminatorService[R5203];
   relate terminator_service to terminator_service_invocation across R5612;
-  LOG::LogInfo(message:"resolved name [terminator service]: ''" + param.domain_name + "::" + param.name + "'' with key_letters:" + param.base_name);
   return expr;
 end if;
 // search for object service reference
@@ -1365,7 +1358,6 @@ if (not_empty service)
   relate object_service_invocation to service_invocation across R5610;
   select one object_service related by service->ObjectService[R5203];
   relate object_service to object_service_invocation across R5613;
-  LOG::LogInfo(message:"resolved name [object service]: ''" + param.domain_name + "::" + param.name + "'' with key_letters:" + param.base_name);
   return expr;
 end if;
 end if;
@@ -1388,13 +1380,10 @@ if not_empty basic_type
   if empty builtin
     log_name = param.domain_name + "::" + log_name;
   end if;
-  LOG::LogInfo(message:"resolved name [type reference]: ''" + log_name + "''");
   return expr;
 end if;
 
-LOG::LogFailure(message:"Could not resolve name expression: " + param.domain_name + ", " + param.name);
-//select any expr from instances of MaslExpression where false;
-//return expr;
+// ASL is implicitly typed.  Create a variable for this unrecognized name.
 
 create object instance var of VariableDefinition;
 var.name = param.name;
@@ -1411,7 +1400,7 @@ relate type to expr across R5570;
 create object instance var_ref of VariableNameExpression;
 relate var_ref to expr across R5517;
 relate var_ref to var across R5562;
-LOG::LogInfo(message:"created variable and resolved name [variable]: ''" + param.name + "''");
+::trace(i:10,s:"created variable and resolved name [variable]: ''" + param.name + "''");
 return expr;
 ',
 	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
@@ -1887,7 +1876,7 @@ end if;
 select one numeric_literal related by operand->LiteralExpression[R5517]->NumericLiteral[R5700];
 if not_empty numeric_literal and op == Operator::minus
   numeric_literal.text = "-" + numeric_literal.text;
-  LOG::LogInfo(message:"Numeric negation applied to literal");
+  ::trace(i:44,s:"Numeric negation applied to literal");
   return operand;
 end if;
 
@@ -2319,11 +2308,10 @@ if not_empty attr_ref
   relate attr_ref to find_attr_ref across R5518;
   select one basic_type related by attr_ref->BasicType[R5803];
   relate basic_type to expr across R5570;
-  LOG::LogInfo(message:"resolved find name [selected attribute reference]: ''" + param.name + "''");
   return expr;
 end if;
 
-LOG::LogFailure(message:"Could not resolve find name expression: " + param.name + ", " + param.comp_name);
+::trace(i:30,s:"Could not resolve find name expression: " + param.name + ", " + param.comp_name);
 select any expr from instances of MaslExpression where false;
 return expr;',
 	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
@@ -2764,14 +2752,14 @@ if not_empty var_def
   select one var_basic_type related by var_def->BasicType[R5137];
 
 if ( empty rhs )
-  LOG::LogInfo( message:"ASL_assignment_relink_type:  no type found on rhs." );
+  ::trace(i:11,s:"ASL_assignment_relink_type:  no type found on rhs." );
 end if;
 if ( empty rhs_basic_type )
-  LOG::LogInfo( message:"ASL_assignment_relink_type:  no basic type found on rhs." );
+  ::trace(i:12,s:"ASL_assignment_relink_type:  no basic type found on rhs." );
 end if;
   // relink the expression type
   if ( empty lhs_basic_type )
-    LOG::LogInfo( message:"ASL_assignment_relink_type:  no type found on lhs." );
+    ::trace(i:13,s:"ASL_assignment_relink_type:  no type found on lhs." );
   else
     unrelate lhs from lhs_basic_type across R5570;
   end if;
@@ -2779,13 +2767,11 @@ end if;
 
   // relink the variable type
   if ( empty var_basic_type )
-    LOG::LogInfo( message:"ASL_assignment_relink_type:  no type found on var." );
+    ::trace(i:14,s:"ASL_assignment_relink_type:  no type found on var." );
   else
     unrelate var_def from var_basic_type across R5137;
   end if;
   relate var_def to rhs_basic_type across R5137;
-  
-  LOG::LogInfo( message:"Unlinked and relinked type of lhs in assignment statement." );
   
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",

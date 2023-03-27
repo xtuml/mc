@@ -1580,9 +1580,7 @@ System.err.println("visitStructureAssembly");
         try {
             Object statement = loader.create("AssignmentStatement");
             Object lhs = visit(ctx.lhs);
-if ( lhs == null ) System.err.println("EMPTY lhs"); // CDS void call
             Object rhs = visit(ctx.rhs);
-if ( rhs == null ) System.err.println("EMPTY rhs");
             if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
             if ( null != rhs ) loader.relate(rhs, statement, 5100, "");
             // Unlink type from lhs and connect to type from rhs.

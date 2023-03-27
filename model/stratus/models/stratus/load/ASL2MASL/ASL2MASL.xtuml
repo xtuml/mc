@@ -536,6 +536,9 @@ if ( "" == s )
 s = ::expression_find_attribute_name( expression:expression );
 if ( "" == s )
 s = ::expression_selected_attribute( expression:expression );
+if ( "" == s )
+s = ::expression_unary( expression:expression );
+end if;
 end if;
 end if;
 end if;
@@ -1304,7 +1307,6 @@ s = s + "begin\n";
 select one statement related by service->MaslCodeBlock[R5403]->MaslStatement[R5150];
 if ( not_empty statement )
   s = s + ::statement( statement:statement, d:1 );
-  ::trace( i:1, s:s );
 else
   s = s + "  null;\n";
 end if;
@@ -1353,7 +1355,6 @@ s = s + "begin\n";
 select one statement related by code_block->MaslStatement[R5150];
 if ( not_empty statement )
   s = s + ::statement( statement:statement, d:1 );
-  ::trace( i:1, s:s );
 else
   s = s + "  null;\n";
 end if;
@@ -1714,6 +1715,42 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("84b65847-7cb3-4e35-99f2-800c069f81b2",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("066f227d-654f-4bb5-bb9c-a2e3190755bb",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_unary',
+	'',
+	's = "";
+expression = param.expression;
+select one unary_expression related by expression->UnaryExpression[R5517];
+if ( not_empty unary_expression )
+  // TODO - may need to get type of sub_expression to determine operator.
+  select one sub_expression related by unary_expression->MaslExpression[R5561];
+  if ( Operator::abs == unary_expression.operator )
+    s = ::expression( expression:sub_expression ) + "''length";
+  end if;
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	32);
+INSERT INTO S_SPARM
+	VALUES ("01591393-d977-4a0c-b576-ba5053dc1a3f",
+	"066f227d-654f-4bb5-bb9c-a2e3190755bb",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("066f227d-654f-4bb5-bb9c-a2e3190755bb",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
