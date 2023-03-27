@@ -1,9 +1,0 @@
-public service a::test() is
-  a = find-one o where n = 30 & (m = 1)
-  #a = find-one o where n = 4 & m = 2
-  #b = create o with n = 7 & m = 4
-  #b.n = 5
-  #[] = BIGA1:myfunction[1,b,3,c]
-  #[d] = BIGA1:myfunction[1,b,3]
-  #an_instanceD = find-one o where n = 30 & (ReferenceD = 1 | ReferenceD = 2)
-  #an_instanceO = find-one o where m = 5 | ( m = 3 & n = 2 )

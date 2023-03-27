@@ -306,8 +306,9 @@ statement                     : (
                                 | comment
                                 | AdaInline
                                 | Inline
+                                | NEWLINE
                                 )
-                                NEWLINE+
+                                NEWLINE
                               ;
 
 nullStatement                 : BEGIN NEWLINE* NULL SEMI NEWLINE* END SEMI
@@ -605,6 +606,6 @@ literal
 identifier                    : Identifier
                               ;
 
-comment                       : Comment+
+comment                       : Comment
                               ;
 

@@ -113,6 +113,8 @@ s = ::statement_assign( statement:statement, d:param.d );
 if ( "" == s )
 s = ::statement_case( statement:statement, d:param.d );
 if ( "" == s )
+s = ::statement_comment( statement:statement, d:param.d );
+if ( "" == s )
 s = ::statement_delete( statement:statement, d:param.d );
 if ( "" == s )
 s = ::statement_exit( statement:statement, d:param.d );
@@ -131,7 +133,8 @@ if ( "" == s )
 if ( true ) and ( 0 <= STRING::indexof(haystack:statement.actions, needle:"//!") )
   s = statement.actions;
 else
-  s = ::indent(d:param.d) + "normal statement:  " + statement.actions;
+  s = "\n";
+end if;
 end if;
 end if;
 end if;
@@ -249,7 +252,12 @@ s = "";
 select one for_statement related by statement->ForStatement[R5135];
 if ( not_empty for_statement )
   select one loopspec related by for_statement->LoopSpec[R5110];
-  s = s + ::indent(d:param.d) + "for " + loopspec.loopVariable + " in \n";
+  s = s + ::indent(d:param.d) + "for " + loopspec.loopVariable + " in ";
+  select one set_expression related by loopspec->VariableElements[R5123]->MaslExpression[R5139];
+  if ( not_empty set_expression )
+    s = s + ::expression( expression:set_expression );
+  end if;
+  s = s + " loop\n";
   select one nested_statement related by for_statement->MaslStatement[R5153];
   if ( not_empty nested_statement )
     s = s + ::statement( statement:nested_statement, d:param.d+1 );
@@ -329,7 +337,7 @@ statement = param.statement;
 s = "";
 select one while_statement related by statement->WhileStatement[R5135];
 if ( not_empty while_statement )
-  s = ::indent(d:param.d) + "while ( true ) loop\n";
+  s = ::indent(d:param.d) + "while true loop\n";
   select one nested_statement related by while_statement->MaslStatement[R5141];
   if ( not_empty nested_statement )
     s = s + ::statement( statement:nested_statement, d:param.d+1 );
@@ -377,7 +385,7 @@ s = "";
 select one if_statement related by statement->IfStatement[R5135];
 if ( not_empty if_statement )
   select one condition related by if_statement->MaslExpression[R5143];
-  s = ::indent( d:param.d ) + "if ( " + ::expression( expression:condition ) + " ) then\n";
+  s = ::indent( d:param.d ) + "if " + ::expression( expression:condition ) + " then\n";
   select one nested_statement related by if_statement->MaslStatement[R5144];
   if ( not_empty nested_statement )
     s = s + ::statement( statement:nested_statement, d:param.d+1 );
@@ -469,7 +477,7 @@ if ( not_empty case_statement )
     end if;
     select one alternative related by alternative->Alternative[R5158.''precedes''];
   end while;
-  s = s + "end case;\n";
+  s = s + ::indent( d:param.d ) + "end case;\n";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -1103,6 +1111,7 @@ INSERT INTO S_SYNC
 	'',
 	's = "";
 service = param.service;
+s = s + service.description;
 if ( MaslVisibility::private == service.visibility )
   s = s + "private ";
 elif ( MaslVisibility::public == service.visibility )
@@ -1135,7 +1144,7 @@ select one parameter_definition related by service->ParameterDefinition[R5204];
 if ( not_empty parameter_definition )
   s = s + ::parameter_definition_render( parameter_definition:parameter_definition );
 end if;
-s = s + ")";
+s = s + " )";
 select one basic_type related by service->BasicType[R5205];
 if ( not_empty basic_type )
   s = s + " return " + ::basic_type_render( basic_type:basic_type );
@@ -1239,7 +1248,7 @@ INSERT INTO S_SYNC
 	'parameter_definition_render',
 	'',
 	'parameter_definition = param.parameter_definition;
-s = parameter_definition.name + ": ";
+s = "\n" + ::indent( d:1 ) + parameter_definition.name + ": ";
 if ( ParameterMode::in == parameter_definition.mode )
   s = s + "in ";
 elif ( ParameterMode::out == parameter_definition.mode )
@@ -1328,6 +1337,7 @@ INSERT INTO S_SYNC
 	'',
 	's = "";
 state = param.state;
+s = s + state.description;
 select one object_declaration related by state->ObjectDeclaration[R6105];
 select one domain related by object_declaration->Domain[R5805];
 s = s + "state " + domain.name + "::" + object_declaration.name + "." + state.name + " (";
@@ -1342,7 +1352,7 @@ s = s + ::locals( code_block:code_block );
 s = s + "begin\n";
 select one statement related by code_block->MaslStatement[R5150];
 if ( not_empty statement )
-  s = s + ::statement( statement:statement, d:0 );
+  s = s + ::statement( statement:statement, d:1 );
   ::trace( i:1, s:s );
 else
   s = s + "  null;\n";
@@ -1626,7 +1636,14 @@ if ( not_empty generate_statement )
   if ( "" != args )
     s = s + " " + args + " ";
   end if;
-  s = s + ");\n";
+  s = s + ")";
+  select one target_instance related by generate_statement->MaslExpression[R5113];
+  if ( not_empty target_instance )
+    s = s + " to " + ::expression( expression:target_instance );
+  else
+    ::trace( i:911, s:"GENERATE without target instance" );
+  end if;
+  s = s + ";\n";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -1654,6 +1671,49 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("4eeab108-2cb7-40dd-8c89-c6bd96efc9c4",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("84b65847-7cb3-4e35-99f2-800c069f81b2",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_comment',
+	'',
+	'// Render line comment.
+statement = param.statement;
+s = "";
+select one comment related by statement->Comment[R5135];
+if ( not_empty comment )
+  s = ::indent(d:param.d) + "//" + STRING::substr(s:comment.text, begin:1, end:-1);
+  s = s + "\n";
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	31);
+INSERT INTO S_SPARM
+	VALUES ("05f1a247-303c-49c1-a581-b7e314355a58",
+	"84b65847-7cb3-4e35-99f2-800c069f81b2",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"e102b8d0-7380-4924-b4fb-ca181c69a247",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e102b8d0-7380-4924-b4fb-ca181c69a247",
+	"84b65847-7cb3-4e35-99f2-800c069f81b2",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("84b65847-7cb3-4e35-99f2-800c069f81b2",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",

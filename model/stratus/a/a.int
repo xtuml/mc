@@ -1,3 +1,0 @@
-domain a is
-  public service test();
-end domain;

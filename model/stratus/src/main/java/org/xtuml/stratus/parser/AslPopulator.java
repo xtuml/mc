@@ -1299,6 +1299,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             currentService = loader.call_function("select_Service_where_name", visit(ctx.domainReference()),
                     ctx.serviceName().getText());
             loader.set_attribute(currentService, "filename", filename);
+            loader.set_attribute(currentService, "description", ctx.description().getText());
             visit(ctx.codeBlock());
             return currentService;
         } catch (XtumlException e) {
@@ -1330,6 +1331,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             currentOOAState = loader.call_function("select_State_related_where_name", currentBodyObject,
                     ctx.stateName().getText());
             loader.set_attribute(currentOOAState, "filename", filename);
+            loader.set_attribute(currentOOAState, "description", ctx.description().getText());
             visit(ctx.codeBlock());
             return currentOOAState;
         } catch (XtumlException e) {
@@ -2878,8 +2880,6 @@ if ( rhs == null ) System.err.println("EMPTY rhs");
         try {
             Object comment = loader.create("Comment");
             loader.set_attribute(comment, "text", ctx.getText());
-System.err.println("COMMENT");
-System.err.println(ctx.getText());
             return comment;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
