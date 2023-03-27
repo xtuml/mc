@@ -3696,17 +3696,22 @@ if ( empty s_irdt )
       // There is no definition, use the underlying type.  If the underlying type
       // is MASLtype, treat this as a typeref and do not output it.  Otherwise
       // output using the underlying type as the definition.
-      if ( (base_s_dt.Name == "MASLtype") or (s_dt.Name == "MASLtype") )
-        return;
-      elif ( -1 < STRING::indexof( haystack:s_dt.Name, needle:" of " ) ) // blank-of-blank
-        return;
+      if not_empty base_s_dt
+        if ( (base_s_dt.Name == "MASLtype") or (s_dt.Name == "MASLtype") )
+          return;
+        elif ( -1 < STRING::indexof( haystack:s_dt.Name, needle:" of " ) ) // blank-of-blank
+          return;
 
-      elif ( -1 < STRING::indexof( haystack:s_dt.Name, needle:"::" ) ) // domain scoped type reference
-        ::type2type( s_dt:base_s_dt, i:i );
-        return;
+        elif ( -1 < STRING::indexof( haystack:s_dt.Name, needle:"::" ) ) // domain scoped type reference
+          ::type2type( s_dt:base_s_dt, i:i );
+          return;
 
+        else
+          value[2] = base_s_dt.Name;
+        end if;
       else
-        value[2] = base_s_dt.Name;
+        TRACE::log( flavor:"warning", id:91, message:"No base type found for ''" + s_dt.Name + "''. Check that IPRs are allowed and prebuild is enabled." );
+        return;
       end if;
     end if;
     out::populate( element:"type", value:value );
