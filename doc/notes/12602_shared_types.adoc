@@ -11,15 +11,15 @@ BridgePoint models targeted to WACA.
 == 2 Introduction and Background
 
 Currently, to share types between domains in WACA, the modeler must assure that
-the each domain which plans to use the type contains a type with matching name
-and identical definition.
+each domain which plans to use the type contains a type with matching name and
+identical definition.
 
 MASL supports sharing types between domains using domain scoped identifiers
 (e.g. "DomainA::Type1"). In BridgePoint, this is done by creating a single type
 definition in the owner domain and then creating a "type reference type" in the
-consuming domain with the correct scoped name. The MASL exporter recognizes this
-type as a reference to another type and inserts the scoped name in the correct
-location.
+consuming domain with the correctly scoped name. The MASL exporter recognizes
+this type as a reference to another type and inserts the scoped name in the
+correct location.
 
 "WASL" refers to the model format consisting of a set of tabular files
 representing the model along with text files containing ASL actions. WASL is the
@@ -49,8 +49,8 @@ implementation, but it shall remain compatible with MASL.
 === 4.2 High level strategy
 
 Since WACA does not have a mechanism for referencing types outside of a domain,
-it is necessary to inject a copy of any foreign type definition during export in
-order to emulate the beahvior of shared types.
+it is necessary to inject a copy of any foreign type definition during export
+in order to emulate the behavior of shared types.
 
 There are multiple ways this can be done:
 
@@ -96,23 +96,94 @@ a single `models/` directory. To support shared types, the prebuilder would need
 to be used to gather model data from the source project. This would require
 extra work to maintain the functionality of the command line utility for export.
 
-=== 4.X Editing experience
+== 5 Design
 
-TODO
+The alternative described in section 4.4 was chosen for the design.
 
-== 5 Work Required
+5.1 Editing paradigm
 
-TODO
+In order to declare a shared type in a domain which is a reference to a type
+defined in another domain, a modeler should create a user defined type called
+`<source domain>::<type name>` in the `Shared` package of the referring domain.
+Any usages of the foreign type in the referring domain should be typed with
+this newly defined reference type.
+
+For MASL projects, the base type of this newly defined type should be
+`MASLtype`. This indicates to the exporter that the type is merely a type
+reference and should not be generated into MASL code on export. For WASL
+projects, the base type should be set to the type which the modeler intends to
+duplicate into the referring domain. This connection serves two purposes:
+
+1. The connection indicates to the exporter which type's definition should be 
+   duplicated into the generated WASL on export.
+2. The explicit link in the model causes BridgePoint prebuilder to include the
+   model data from the referred to project in the exported xtUML data for the
+   exporter.
+
+Note that IPRs must be enabled on the referring project in order for this
+connection to be made.
+
+If a WASL style referred type is used in the project, the export must be done
+with BridgePoint prebuilder enabled. When building from BridgePoint, this is
+controlled with a preference checkbox in the project preferences. BridgePoint
+prebuild is enabled by default for builds within BridgePoint. From the command
+line utility, this is done by passing the `-P` flag to the command line
+utility.
+
+5.2 Updates to `x2m`
+
+The `x2m` model has been updated to detect `::` in the type name of domain
+types as they are exported. If `::` is present in the type name _and_ the type
+is not based on `MASLtype`, the type export routine is recursively called on
+the base type meaning the exporter treats such a type as identical to the type
+definition on which it is based.
+
+Since the explicit model link was used to create this connection `x2m`
+continues to be agnostic of output architecture.
+
+5.3 Execution of BridgePoint prebuilder
+
+Some time ago, `x2m` was migrated _away_ from using the BridgePoint prebuilder
+in favor of a simple walk of the `models/` directory. This has the benefit of
+speed and independence from the Eclipse workbench itself, however it does not
+know how to manage dependencies between models in separate projects.
+
+The MASL export plugin was updated to reintroduce the execution of BridgePoint
+prebuilder prior to an export. A preference was added to the export settings to
+allow the user to disable prebuilder if desired.
+
+The CLI script was updated to respect the `-P` flag to invoke prebuilder when
+using the commandline utility.
+
+Most of this work was building on existing code, however some maintenance was
+required especially to fully support Windows.
 
 == 6 Acceptance Test
 
-TODO
+6.1 Code generation
 
-== 7 Document References
+An example model was created based on `DomainA` and `DomainB` in the SWATS set
+of test models <<dr-2>>. `DomainB` was set up to refer to a type defined in
+`DomainA`. Code generation tests were performed from within a BridgePoint
+workspace as well as from the CLI for both MacOS and Windows. Testing included
+expected success cases and expected failure cases.
 
-. [[dr-1]] https://support.onefact.net/issues/NNNNN[NNNNN - headline]
-. [[dr-2]] ...
-. [[dr-3]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+6.2 New preference
+
+The new preference for running BridgePoint prebuild was visually inspected. The
+preference was functionally tested as part of the code generation tests.
+
+== 7 User Documentation
+
+The `xtuml2masl` reference page was updated in the BridgePoint help. The usage
+string printed by the command line utility was updated to reflect the changes
+as well. A YouTube video was produced to demonstrate the new capabilities: <<dr-3>>
+
+== 8 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12602[#12602 - Support shared types for ASL]
+. [[dr-2]] https://github.com/xtuml/models/tree/12602/shared-types/masl/SWATS[Example test model]
+. [[dr-3]] https://youtu.be/0HFn_J42CWs[Demo/tutorial video]
 
 ---
 
