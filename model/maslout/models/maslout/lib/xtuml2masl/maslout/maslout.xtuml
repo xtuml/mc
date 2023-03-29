@@ -171,7 +171,7 @@ for each c_c in c_cs;
     ::port2terminator( c_c:c_c, project:param.project, kl:param.kl );
   else
     ::class2objectdeclaration( c_c:c_c );
-    ::type2type( c_c:c_c );
+    ::types2types( c_c:c_c );
     ::exception2exception( c_c:c_c );
     ::function2routine( c_c:c_c );
     ::port2terminator( c_c:c_c, project:param.project, kl:param.kl );
@@ -915,7 +915,7 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("2f0e3a99-9a8b-44dc-9428-f75cfbd83fdd",
 	"00000000-0000-0000-0000-000000000000",
-	'type2type',
+	'types2types',
 	'',
 	'value[7] = ""; // initialize length
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
@@ -953,106 +953,7 @@ while ( i <= 1 )
     s_dts = public_s_dts;
   end if;
   for each s_dt in s_dts
-    select one s_irdt related by s_dt->S_IRDT[R17];
-    // Do not output type definitions for instance reference data types.
-    if ( empty s_irdt )
-      select one s_udt related by s_dt->S_UDT[R17];
-      select one s_edt related by s_dt->S_EDT[R17];
-      select one s_sdt related by s_dt->S_SDT[R17];
-
-      value[0] = s_dt.Name;
-      value[1] = "private";
-      if ( 1 == i )
-        value[1] = "public";
-      end if;
-      value[2] = "";
-      
-      if ( not_empty s_udt )
-        // see what type the UDT is based on
-        select one base_s_dt related by s_udt->S_DT[R18];
-      
-        // get body of type
-        if ( s_udt.Definition != "" )
-          // handle case where there is a definition
-          value[2] = s_udt.Definition;
-        else
-          // There is no definition, use the underlying type.  If the underlying type
-          // is MASLtype, treat this as a typeref and do not output it.  Otherwise
-          // output using the underlying type as the definition.
-          if ( (base_s_dt.Name == "MASLtype") or (s_dt.Name == "MASLtype") )
-            continue;
-          elif ( -1 < STRING::indexof( haystack:s_dt.Name, needle:" of " ) ) // blank-o-f-blank
-            continue;
-          else
-            value[2] = base_s_dt.Name;
-          end if;
-        end if;
-        out::populate( element:"type", value:value );
-        select one s_range related by s_udt->S_RANGE[R57];
-        if ( not_empty s_range )
-          value[0] = s_range.Min;
-          value[1] = s_range.Max;
-          value[2] = "";
-          out::populate( element:"range", value:value );
-          out::populate( element:"range", value:emptyvalue );
-        end if;
-      elif ( not_empty s_edt )
-        out::populate( element:"type", value:value );
-        value[1] = "";
-        value[2] = "";
-        out::populate( element:"enumeration", value:value );
-        select any s_enum from instances of S_ENUM where (false);
-        // get to the first entry
-        select any prev_s_enum related by s_edt->S_ENUM[R27];
-        while (not_empty prev_s_enum)
-          assign s_enum = prev_s_enum;
-          select one prev_s_enum related by s_enum->S_ENUM[R56.''succeeds''];
-        end while;
-        // now iterate over the enumerators
-        while (not_empty s_enum)
-          value[0] = s_enum.Name;
-          value[1] = "";
-          value[2] = "";
-          out::populate( element:"enumerator", value:value );
-          out::populate( element:"enumerator", value:emptyvalue );
-          select one s_enum related by s_enum->S_ENUM[R56.''precedes''];
-        end while;
-        out::populate( element:"enumeration", value:emptyvalue );
-      elif ( not_empty s_sdt )
-        out::populate( element:"type", value:value );
-        value[1] = "";
-        value[2] = "";
-        out::populate( element:"structure", value:value );
-        select any s_mbr from instances of S_MBR where (false);
-        // get to the first entry
-        select any prev_s_mbr related by s_sdt->S_MBR[R44];
-        while (not_empty prev_s_mbr)
-          assign s_mbr = prev_s_mbr;
-          select one prev_s_mbr related by s_mbr->S_MBR[R46.''succeeds''];
-        end while;
-        // now iterate over the members
-        while (not_empty s_mbr)
-          value[0] = s_mbr.Name;
-          value[1] = "";
-          value[2] = "";
-          out::populate( element:"member", value:value );
-          select one mbr_s_dt related by s_mbr->S_DT[R45];
-          select one ep_pkg related by mbr_s_dt->PE_PE[R8001]->EP_PKG[R8000];
-          ::type2typeref( s_dt:mbr_s_dt, domain_pkg:ep_pkg );
-          out::populate( element:"member", value:emptyvalue );
-          select one s_mbr related by s_mbr->S_MBR[R46.''precedes''];
-        end while;
-        out::populate( element:"structure", value:emptyvalue );
-      else
-        continue;
-      end if;
-
-      select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
-      ::mark2pragma( markable:"User Data Type", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: s_dt.Name ) );
-
-      ::Descrip2description( Descrip:s_dt.Descrip );
-      out::populate( element:"type", value:emptyvalue );
-    end if;
+    ::type2type( s_dt:s_dt, i:i );
   end for;
   i = i + 1;
 end while;
@@ -3755,6 +3656,156 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("6e00d49c-26d3-4105-b7c0-d4014d4648bc",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b4884fcd-0aa8-4416-aae8-23e4556d99ad",
+	"00000000-0000-0000-0000-000000000000",
+	'type2type',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+s_dt = param.s_dt;
+i = param.i;
+
+select one s_irdt related by s_dt->S_IRDT[R17];
+// Do not output type definitions for instance reference data types.
+if ( empty s_irdt )
+  select one s_udt related by s_dt->S_UDT[R17];
+  select one s_edt related by s_dt->S_EDT[R17];
+  select one s_sdt related by s_dt->S_SDT[R17];
+
+  value[0] = s_dt.Name;
+  value[1] = "private";
+  if ( 1 == i )
+    value[1] = "public";
+  end if;
+  value[2] = "";
+  
+  if ( not_empty s_udt )
+    // see what type the UDT is based on
+    select one base_s_dt related by s_udt->S_DT[R18];
+  
+    // get body of type
+    if ( s_udt.Definition != "" )
+      // handle case where there is a definition
+      value[2] = s_udt.Definition;
+    else
+      // There is no definition, use the underlying type.  If the underlying type
+      // is MASLtype, treat this as a typeref and do not output it.  Otherwise
+      // output using the underlying type as the definition.
+      if not_empty base_s_dt
+        if ( (base_s_dt.Name == "MASLtype") or (s_dt.Name == "MASLtype") )
+          return;
+        elif ( -1 < STRING::indexof( haystack:s_dt.Name, needle:" of " ) ) // blank-of-blank
+          return;
+
+        elif ( -1 < STRING::indexof( haystack:s_dt.Name, needle:"::" ) ) // domain scoped type reference
+          ::type2type( s_dt:base_s_dt, i:i );
+          return;
+
+        else
+          value[2] = base_s_dt.Name;
+        end if;
+      else
+        TRACE::log( flavor:"warning", id:91, message:"No base type found for ''" + s_dt.Name + "''. Check that IPRs are allowed and prebuild is enabled." );
+        return;
+      end if;
+    end if;
+    out::populate( element:"type", value:value );
+    select one s_range related by s_udt->S_RANGE[R57];
+    if ( not_empty s_range )
+      value[0] = s_range.Min;
+      value[1] = s_range.Max;
+      value[2] = "";
+      out::populate( element:"range", value:value );
+      out::populate( element:"range", value:emptyvalue );
+    end if;
+  elif ( not_empty s_edt )
+    out::populate( element:"type", value:value );
+    value[1] = "";
+    value[2] = "";
+    out::populate( element:"enumeration", value:value );
+    select any s_enum from instances of S_ENUM where (false);
+    // get to the first entry
+    select any prev_s_enum related by s_edt->S_ENUM[R27];
+    while (not_empty prev_s_enum)
+      assign s_enum = prev_s_enum;
+      select one prev_s_enum related by s_enum->S_ENUM[R56.''succeeds''];
+    end while;
+    // now iterate over the enumerators
+    while (not_empty s_enum)
+      value[0] = s_enum.Name;
+      value[1] = "";
+      value[2] = "";
+      out::populate( element:"enumerator", value:value );
+      out::populate( element:"enumerator", value:emptyvalue );
+      select one s_enum related by s_enum->S_ENUM[R56.''precedes''];
+    end while;
+    out::populate( element:"enumeration", value:emptyvalue );
+  elif ( not_empty s_sdt )
+    out::populate( element:"type", value:value );
+    value[1] = "";
+    value[2] = "";
+    out::populate( element:"structure", value:value );
+    select any s_mbr from instances of S_MBR where (false);
+    // get to the first entry
+    select any prev_s_mbr related by s_sdt->S_MBR[R44];
+    while (not_empty prev_s_mbr)
+      assign s_mbr = prev_s_mbr;
+      select one prev_s_mbr related by s_mbr->S_MBR[R46.''succeeds''];
+    end while;
+    // now iterate over the members
+    while (not_empty s_mbr)
+      value[0] = s_mbr.Name;
+      value[1] = "";
+      value[2] = "";
+      out::populate( element:"member", value:value );
+      select one mbr_s_dt related by s_mbr->S_DT[R45];
+      select one ep_pkg related by mbr_s_dt->PE_PE[R8001]->EP_PKG[R8000];
+      ::type2typeref( s_dt:mbr_s_dt, domain_pkg:ep_pkg );
+      out::populate( element:"member", value:emptyvalue );
+      select one s_mbr related by s_mbr->S_MBR[R46.''precedes''];
+    end while;
+    out::populate( element:"structure", value:emptyvalue );
+  else
+    return;
+  end if;
+
+  select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000];
+  ::mark2pragma( markable:"User Data Type", pathkey: ::package_get_path( ep_pkg:ep_pkg, child: s_dt.Name ) );
+
+  ::Descrip2description( Descrip:s_dt.Descrip );
+  out::populate( element:"type", value:emptyvalue );
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("1b919e2e-918c-4f81-aee9-49b08e83b36a",
+	"b4884fcd-0aa8-4416-aae8-23e4556d99ad",
+	's_dt',
+	"4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5e8d4d18-9eb2-4a8e-a840-01aa7a238b03",
+	"b4884fcd-0aa8-4416-aae8-23e4556d99ad",
+	'i',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"1b919e2e-918c-4f81-aee9-49b08e83b36a",
+	'');
+INSERT INTO PE_PE
+	VALUES ("b4884fcd-0aa8-4416-aae8-23e4556d99ad",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
