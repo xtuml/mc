@@ -258,6 +258,25 @@ if ( not_empty for_statement )
     s = s + ::expression( expression:set_expression );
   end if;
   s = s + " loop\n";
+  // Do structure disassembly.
+  // select for structure type
+  // if structure type, select the fields.
+  // for each field set the local with that field to the field in the iterator.
+  // 
+  // The tuple variables will be declared as they are found.
+  // resolve_Loopspec attempts to relink them to structure fields.
+  // They should exist; they just need to be initialized at the top of the loop body.
+  select one basic_type related by set_expression->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
+  select one structure_type related by basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
+  if ( not_empty structure_type )
+    select one field related by structure_type->StructureElement[R6244];
+    select one loopvar related by loopspec->VariableDefinition[R5154];
+    while ( not_empty field and not_empty loopvar )
+      s = s + ::indent(d:param.d+1) + loopvar.name + " := " + loopspec.loopVariable + "." + field.name + ";\n";
+      select one field related by field->StructureElement[R6243.''precedes''];
+      select one loopvar related by loopvar->VariableDefinition[R5164.''precedes''];
+    end while;
+  end if;
   select one nested_statement related by for_statement->MaslStatement[R5153];
   if ( not_empty nested_statement )
     s = s + ::statement( statement:nested_statement, d:param.d+1 );
@@ -517,27 +536,27 @@ INSERT INTO S_SYNC
 	'// Process an expression.
 expression = param.expression;
 
-s = ::expression_variable_name( expression:expression );
-if ( "" == s )
-s = ::expression_parameter_name( expression:expression );
-if ( "" == s )
 s = ::expression_binary( expression:expression );
 if ( "" == s )
 s = ::expression_call( expression:expression );
-if ( "" == s )
-s = ::expression_literal( expression:expression );
 if ( "" == s )
 s = ::expression_create( expression:expression );
 if ( "" == s )
 s = ::expression_find( expression:expression );
 if ( "" == s )
+s = ::expression_find_attribute_name( expression:expression );
+if ( "" == s )
+s = ::expression_literal( expression:expression );
+if ( "" == s )
 s = ::expression_object_name( expression:expression );
 if ( "" == s )
-s = ::expression_find_attribute_name( expression:expression );
+s = ::expression_parameter_name( expression:expression );
 if ( "" == s )
 s = ::expression_selected_attribute( expression:expression );
 if ( "" == s )
 s = ::expression_unary( expression:expression );
+if ( "" == s )
+s = ::expression_variable_name( expression:expression );
 end if;
 end if;
 end if;
@@ -1194,11 +1213,13 @@ if ( not_empty user_defined_type )
 else
 select one instance_type related by basic_type->InstanceType[R6205];
 if ( not_empty instance_type )
-  s = s + "instance of ...";
+  select one object_declaration related by instance_type->ObjectDeclaration[R6220];
+  s = s + "instance of " + object_declaration.name;
 else
 select one collection_type related by basic_type->CollectionType[R6205];
 if ( not_empty collection_type )
-  s = s + "collection of ...";
+  select one collection_basic_type related by collection_type->BasicType[R6208];
+  s = s + "sequence of " + ::basic_type_render( basic_type:collection_basic_type );
 else
 select one builtin_type related by basic_type->BuiltinType[R6205];
 if ( not_empty builtin_type )
@@ -1732,6 +1753,8 @@ if ( not_empty unary_expression )
   select one sub_expression related by unary_expression->MaslExpression[R5561];
   if ( Operator::abs == unary_expression.operator )
     s = ::expression( expression:sub_expression ) + "''length";
+  else
+    s = ::operator( op:unary_expression.operator ) + " " + ::expression( expression:sub_expression );
   end if;
 end if;
 return s;',

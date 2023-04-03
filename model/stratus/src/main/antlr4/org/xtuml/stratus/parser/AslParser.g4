@@ -299,7 +299,6 @@ statement                     : (
                                 | forStatement
                                 | whileStatement
                                 | structureInstantiation
-                                | structureAssembly
                                 | startDomainContext
                                 | endDomainContext
                                 | description
@@ -315,6 +314,7 @@ nullStatement                 : BEGIN NEWLINE* NULL SEMI NEWLINE* END SEMI
                               ;
 
 assignStatement               : lhs=postfixNoCallExpression EQUAL rhs=expression
+                              | CONCATENATE additiveExp // structureAssembly
                               ;
 
 callStatement                 : LBRACKET RBRACKET EQUAL root=nameExpression
@@ -397,8 +397,7 @@ forStatement                  : FOR loopVariableSpec
 loopVariableSpec              : ( identifier | tuple ) IN expression
                               ;
 
-structureInstantiation        : LEFT_BRACE identifier RIGHT_BRACE IS typeReference;
-structureAssembly             : CONCATENATE additiveExp;
+structureInstantiation        : LEFT_BRACE nameExpression RIGHT_BRACE IS typeReference;
 startDomainContext            : USE domainName;
 endDomainContext              : ENDUSE;
 

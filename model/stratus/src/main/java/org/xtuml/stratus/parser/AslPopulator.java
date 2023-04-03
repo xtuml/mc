@@ -1472,37 +1472,23 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
 */
     @Override
     public Object visitStructureInstantiation(AslParser.StructureInstantiationContext ctx) {
-        try {
-            Object variableDefinition = loader.create("VariableDefinition");
-            loader.set_attribute(variableDefinition, "name", ctx.identifier().getText());
-System.err.println("visitStructureInstantiation: " + ctx.identifier().getText());
-            loader.set_attribute(variableDefinition, "line_number", ctx.getStart().getLine());
+        //try {
+System.err.println("visitStructureInstantiation");
+            Object expression = visit(ctx.nameExpression());
             // A structure instantiation automatically creates an empty set of structures.
             // Pass in the basic type and wrap a collection type (sequence) around it.
             // Return the collection type (basic type) to be related to the variableDefinition.
-            Object member_type_reference = visit(ctx.typeReference());
-            Object sequence_type_reference = loader.call_function("ASL_structure_instantiation", member_type_reference);
-            loader.relate(sequence_type_reference, variableDefinition, 5137, "");
-            loader.relate(variableDefinition, currentCodeBlock, 5151, "");
-            return variableDefinition;
+            //Object member_type_reference = visit(ctx.typeReference());
+            //Object sequence_type_reference = loader.call_function("ASL_structure_instantiation", member_type_reference);
+            //loader.relate(sequence_type_reference, variableDefinition, 5137, "");
+            //Object root_code_block = loader.call_function("select_CodeBlock_root", currentCodeBlock);
+            //loader.relate(variableDefinition, root_code_block, 5151, "");
+            return expression;
 
-        } catch (XtumlException e) {
-            xtumlTrace(e, "", ctx);
-            return null;
-        }
-    }
-
-    @Override
-    public Object visitStructureAssembly(AslParser.StructureAssemblyContext ctx) {
-System.err.println("visitStructureAssembly");
-        /*
-        try {
-        } catch (XtumlException e) {
-            xtumlTrace(e, "", ctx);
-            return null;
-        }
-        */
-        return null;
+        //} catch (XtumlException e) {
+            //xtumlTrace(e, "", ctx);
+            //return null;
+        //}
     }
 
     @Override
@@ -1544,9 +1530,6 @@ System.err.println("visitStructureAssembly");
                 loader.relate(visit(ctx.assignStatement()), statement, 5135, "");
             } else if (ctx.structureInstantiation() != null) {
                 visit(ctx.structureInstantiation());
-            } else if (ctx.structureAssembly() != null) {
-                //loader.relate(visit(ctx.structureAssembly()), statement, 5135, "");
-                visit(ctx.structureAssembly());
             } else if (ctx.callStatement() != null) {
                 loader.relate(visit(ctx.callStatement()), statement, 5135, "");
             } else if (ctx.exitStatement() != null) {
@@ -1579,12 +1562,21 @@ System.err.println("visitStructureAssembly");
     public Object visitAssignStatement(AslParser.AssignStatementContext ctx) {
         try {
             Object statement = loader.create("AssignmentStatement");
-            Object lhs = visit(ctx.lhs);
-            Object rhs = visit(ctx.rhs);
-            if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
-            if ( null != rhs ) loader.relate(rhs, statement, 5100, "");
-            // Unlink type from lhs and connect to type from rhs.
-            if ((null != lhs ) && (null != rhs)) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
+            if (ctx.EQUAL() != null) {
+                Object lhs = visit(ctx.lhs);
+                Object rhs = visit(ctx.rhs);
+                if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
+                if ( null != rhs ) loader.relate(rhs, statement, 5100, "");
+                // Unlink type from lhs and connect to type from rhs.
+                if ((null != lhs ) && (null != rhs)) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
+            } else if (ctx.CONCATENATE() != null) {
+                Object rhs = visit(ctx.additiveExp());
+                Object lhs = loader.call_function("ASL_structure_assembly", rhs);
+                if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
+                if ( null != rhs ) loader.relate(rhs, statement, 5100, "");
+                // Unlink type from lhs and connect to type from rhs.
+                if ((null != lhs ) && (null != rhs)) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
+            }
             return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
@@ -2110,6 +2102,8 @@ System.err.println("visitStructureAssembly");
                     loader.set_attribute(binaryExpression, "operator", "Operator::plus");
                 } else if (ctx.MINUS() != null) {
                     loader.set_attribute(binaryExpression, "operator", "Operator::minus");
+                } else if (ctx.TO() != null) {
+                    loader.set_attribute(binaryExpression, "operator", "Operator::concatenate");
                 }
                 Object lhs = visit(ctx.lhs);
                 Object rhs = visit(ctx.rhs);
@@ -2773,7 +2767,7 @@ System.err.println("visitStructureAssembly");
             Object expression = visit(ctx.expression());
             Object first_argument_expression = expression; // just to get the correct type
             // loader.set_attribute(loopSpec, "isreverse", ctx.REVERSE() != null);
-            String loop_variable_name = "ASL_PARSE_PLACEHOLDER";
+            String loop_variable_name = "asl_loopvar" + ctx.getStart().getLine(); // unique variable name
             if ( ctx.tuple() != null ) {
                 // Loop variables are implicitly declared.  A tuple of destructure fields gets created while resolving the names.
                 first_argument_expression = visit(ctx.tuple());

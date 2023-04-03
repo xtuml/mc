@@ -2084,7 +2084,7 @@ root_code_block = ::select_CodeBlock_root( code_block:param.current_code_block )
 // determine the flavor of loop expression.
 // resolve the subtype.
 // return the type of the loop variable
-LOG::LogInfo(message:"resolve_LoopSpec with LoopVariable:" + loop_spec.loopVariable );
+::trace(i:75,s:"resolve_LoopSpec with LoopVariable:" + loop_spec.loopVariable );
 
 select any basic_type from instances of BasicType where false;
 
@@ -2122,7 +2122,7 @@ else
   else
     select one collection_type related by expression->BasicType[R5570]->CollectionType[R6205];
     if not_empty collection_type
-      LOG::LogInfo(message:"resolve_LoopSpec FOUND collection:  " + loop_spec.loopVariable);
+      ::trace(i:76,s:"resolve_LoopSpec FOUND collection:  " + loop_spec.loopVariable);
       create object instance variable_elements of VariableElements;
       relate variable_elements to loop_spec across R5123;
       relate expression to variable_elements across R5139;
@@ -2131,9 +2131,9 @@ else
       // Find the VariableDefinition that was created for the loop variable.
       select any variable_definition related by root_code_block->VariableDefinition[R5151] where ( selected.name == loop_spec.loopVariable );
       if ( not_empty variable_definition )
-        LOG::LogInfo(message:"resolve_LoopSpec FOUND existing loopVariable:  " + loop_spec.loopVariable);
+        ::trace(i:77,s:"resolve_LoopSpec FOUND existing loopVariable:  " + loop_spec.loopVariable);
       else
-        LOG::LogInfo(message:"resolve_LoopSpec DID NOT FIND existing loopVariable:  " + loop_spec.loopVariable);
+        ::trace(i:78,s:"resolve_LoopSpec DID NOT FIND existing loopVariable:  " + loop_spec.loopVariable);
         create object instance variable_definition of VariableDefinition;
         variable_definition.name = loop_spec.loopVariable;
         variable_definition.isreadonly = true;
@@ -2146,11 +2146,13 @@ else
       select one structure_type related by basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
       if ( not_empty structure_type )
         // Now, unpack and assign types to the input loop variable tuple.
-        LOG::LogInfo(message:"FOUND set of STRUCTURES:  " + loop_spec.loopVariable);
+        ::trace(i:79,s:"FOUND set of STRUCTURES:  " + loop_spec.loopVariable);
         // Loop through the argument list and the structure members.
         // Assign the types as we go.
         argument_expression = param.argument_list_expression;
         select one structure_element related by structure_type->StructureElement[R6244];
+        first = true;
+        select any previous_variable_definition from instances of VariableDefinition where false;
         while ( not_empty structure_element and not_empty argument_expression ) 
           // Unrelate the argument_expression BasicType and link the one found on the structure element.
           select one element_basic_type related by structure_element->BasicType[R6230];
@@ -2162,29 +2164,48 @@ else
           ::ASL_basic_type_info( basic_type:argument_basic_type, label:"resolve_Loop and checking if reassigned type actually stuck" );
           select one udt related by element_basic_type->MaslUserDefinedType[R6205];
           if ( not_empty udt )
-            LOG::LogInfo(message:"LOOPing and linked type:  " + udt.name);
+            ::trace(i:80,s:"LOOPing and linked type:  " + udt.name);
           end if;
           if ( empty element_basic_type or empty argument_basic_type )
-            LOG::LogInfo(message:"LOOPeen EMPTY type:  " );
+            ::trace(i:81,s:"LOOPing EMPTY type:  " );
           end if;
           // Find the name of the tuple member.
           select one variable_definition related by argument_expression->VariableNameExpression[R5517]->VariableDefinition[R5562];
           if ( not_empty variable_definition )
             variable_definition.isreadonly = true;
-            LOG::LogInfo(message:"LOOPing and FOUND VariableNameExpression :  " + variable_definition.name);
-            relate variable_definition to loop_spec across R5154;
+            ::trace(i:82,s:"LOOPing and FOUND VariableNameExpression :  " + variable_definition.name);
+            if ( first )
+              ::trace(i:91,s:"first variable_definition " + variable_definition.name);
+              relate variable_definition to loop_spec across R5154;
+              first = false;
+            else
+              ::trace(i:91,s:"following variable_definition " + variable_definition.name + "->" + previous_variable_definition.name );
+              if ( empty variable_definition )
+                ::trace(i:92,s:"empty variable_definition" );
+              end if;
+              if ( empty previous_variable_definition )
+                ::trace(i:93,s:"empty previous_variable_definition" );
+              end if;
+              if ( previous_variable_definition == variable_definition )
+                ::trace(i:94,s:"empty previous_variable_definition" );
+              end if;
+              relate variable_definition to previous_variable_definition across R5164.''succeeds'';
+            end if;
+            previous_variable_definition = variable_definition;
             select one basic_type related by variable_definition->BasicType[R5137];
             unrelate basic_type from variable_definition across R5137;
             relate element_basic_type to variable_definition across R5137;
+          else
+            ::trace(i:83,s:"LOOPING not finding variable_definition" );
           end if;
-          LOG::LogInfo(message:"LOOPING through argument list and structure members:  " + structure_element.name);
+          ::trace(i:84,s:"LOOPING through argument list and structure members:  " + structure_element.name);
           select one structure_element related by structure_element->StructureElement[R6243.''precedes''];
           select one argument_expression related by argument_expression->Argument[R5577]->Argument[R5576.''precedes'']->MaslExpression[R5577];
         end while;
       else
       end if;
     else
-      LOG::LogFailure(message:"Could not determine type of loop spec variable:  " + loop_spec.loopVariable);
+      ::trace(i:85,s:"Could not determine type of loop spec variable:  " + loop_spec.loopVariable);
     end if;
   end if;
 end if;
@@ -2986,6 +3007,37 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("45378197-fd9e-4ed8-93a0-726f09e20a7d",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2b12a7bd-91e2-4dfe-b231-76668bfdcf74",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_structure_assembly',
+	'',
+	'expression = param.expression;
+select one rhs_expression related by expression->BinaryExpression[R5517]->MaslExpression[R5002.''has_rhs''];
+if ( empty rhs_expression )
+  ::trace( i:106, s:"ASL_structure_assembly:  failed to find rhs_expression" );
+end if;
+return rhs_expression;',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	1,
+	'',
+	0,
+	18);
+INSERT INTO S_SPARM
+	VALUES ("66787805-a66a-475f-a331-27d4de60e333",
+	"2b12a7bd-91e2-4dfe-b231-76668bfdcf74",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2b12a7bd-91e2-4dfe-b231-76668bfdcf74",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
