@@ -1085,7 +1085,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     @Override
     public Object visitEventReference(AslParser.EventReferenceContext ctx) {
         try {
-            String key_letters = "", num;
+            String key_letters = "", num = "";
             if (ctx.identifier() != null) {
                 Pattern re = Pattern.compile("([a-zA-Z0-9_]+?)([0-9]*)");
                 Matcher m = re.matcher(ctx.identifier().getText());
@@ -1096,6 +1096,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             }
             return loader.call_function("ASL_select_EventDeclaration_where_keyletters_name",
                     key_letters,
+                    num,
                     ctx.eventName().getText());
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
@@ -1563,19 +1564,27 @@ System.err.println("visitStructureInstantiation");
         try {
             Object statement = loader.create("AssignmentStatement");
             if (ctx.EQUAL() != null) {
-                Object lhs = visit(ctx.lhs);
-                Object rhs = visit(ctx.rhs);
-                if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
-                if ( null != rhs ) loader.relate(rhs, statement, 5100, "");
-                // Unlink type from lhs and connect to type from rhs.
-                if ((null != lhs ) && (null != rhs)) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
+                if (ctx.CREATE_TIMER() != null) {
+                  Object timer_expr = visit(ctx.timer_expr);
+                  // The following will create a declaration for the
+                  // timer variable.
+                  if ( null != timer_expr ) loader.relate(timer_expr, statement, 5101, "");
+                  if (null != timer_expr ) loader.call_function("ASL_link_timer_type", timer_expr);
+                } else {
+                  Object lhs = visit(ctx.lhs);
+                  Object rhs = visit(ctx.rhs);
+                  if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
+                  if ( null != rhs ) loader.relate(rhs, statement, 5100, "");
+                  // Unlink type from lhs and connect to type from rhs.
+                  if ((null != lhs ) && (null != rhs)) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
+                }
             } else if (ctx.CONCATENATE() != null) {
-                Object rhs = visit(ctx.additiveExp());
-                Object lhs = loader.call_function("ASL_structure_assembly", rhs);
+                Object rhs2 = visit(ctx.additiveExp());
+                Object lhs = loader.call_function("ASL_structure_assembly", rhs2);
                 if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
-                if ( null != rhs ) loader.relate(rhs, statement, 5100, "");
-                // Unlink type from lhs and connect to type from rhs.
-                if ((null != lhs ) && (null != rhs)) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
+                if ( null != rhs2 ) loader.relate(rhs2, statement, 5100, "");
+                // Unlink type from lhs and connect to type from rhs2.
+                if ((null != lhs ) && (null != rhs2)) loader.call_function("ASL_assignment_relink_type", lhs, rhs2);
             }
             return statement;
         } catch (XtumlException e) {
@@ -2380,16 +2389,6 @@ System.err.println("visitStructureInstantiation");
                     System.err.println("Unsupported postfix expression");
                     return null;
                 }
-            } else if (ctx.GET_TIME_REMAINING() != null) {
-                // TODO - This is a placeholder for the return from Get_Time_Remaining.
-                Object expression = loader.create("MaslExpression");
-                Object literalExpression = loader.create("LiteralExpression");
-                loader.relate(literalExpression, expression, 5517, "");
-                Object durationLiteral = loader.create("DurationLiteral");
-                loader.relate(durationLiteral, literalExpression, 5700, "");
-                Object durationType = loader.call_function("select_BasicType_where_name", "", "duration");
-                loader.relate(durationType, expression, 5570, "");
-                return expression;
             } else {
                 return visit(ctx.primaryExpression());
             }
@@ -2588,7 +2587,6 @@ System.err.println("visitStructureInstantiation");
         try {
             Object statement = loader.create("ScheduleStatement");
             loader.relate(visit(ctx.timerId), statement, 5132, "");
-            // create an orphaned statement to represent the generate
             return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);

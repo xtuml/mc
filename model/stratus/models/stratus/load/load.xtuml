@@ -379,14 +379,14 @@ if (not_empty object_reference)
   if (not_empty service)
     create object instance call_expr of CallExpression;
     relate call_expr to expression across R5517;
-		create object instance service_invocation of ServiceInvocation;
-		relate service_invocation to call_expr across R5500;
-		create object instance object_service_invocation of ObjectServiceInvocation;
-		relate object_service_invocation to service_invocation across R5610;
-		select one object_service related by service->ObjectService[R5203];
-		relate object_service to object_service_invocation across R5613;
-		select one basic_type related by service->BasicType[R5205];
-		if (not_empty basic_type)
+    create object instance service_invocation of ServiceInvocation;
+    relate service_invocation to call_expr across R5500;
+    create object instance object_service_invocation of ObjectServiceInvocation;
+    relate object_service_invocation to service_invocation across R5610;
+    select one object_service related by service->ObjectService[R5203];
+    relate object_service to object_service_invocation across R5613;
+    select one basic_type related by service->BasicType[R5205];
+    if (not_empty basic_type)
       relate basic_type to expression across R5570;
     end if;
     ::trace(i:21,s:"create_DotExpression:  object service invocation:  " + param.name);
@@ -414,15 +414,15 @@ if (not_empty instance_type)
   if (not_empty service)
     create object instance call_expr of CallExpression;
     relate call_expr to expression across R5517;
-		create object instance service_invocation of ServiceInvocation;
-		relate service_invocation to call_expr across R5500;
-		create object instance instance_service_invocation of InstanceServiceInvocation;
-		relate instance_service_invocation to service_invocation across R5610;
-		relate lhs to instance_service_invocation across R5615;
-		select one object_service related by service->ObjectService[R5203];
-		relate object_service to instance_service_invocation across R5614;
-		select one basic_type related by service->BasicType[R5205];
-		if (not_empty basic_type)
+    create object instance service_invocation of ServiceInvocation;
+    relate service_invocation to call_expr across R5500;
+    create object instance instance_service_invocation of InstanceServiceInvocation;
+    relate instance_service_invocation to service_invocation across R5610;
+    relate lhs to instance_service_invocation across R5615;
+    select one object_service related by service->ObjectService[R5203];
+    relate object_service to instance_service_invocation across R5614;
+    select one basic_type related by service->BasicType[R5205];
+    if (not_empty basic_type)
       relate basic_type to expression across R5570;
     end if;
     ::trace(i:23,s:"create_DotExpression:  instance service invocation:  " + param.name);
@@ -1329,6 +1329,7 @@ if (not_empty service)
   relate terminator_service to terminator_service_invocation across R5612;
   return expr;
 end if;
+
 // search for object service reference
 select any service related by domain->ObjectDeclaration[R5805]->ObjectService[R5808]->Service[R5203] where selected.name == param.name;
 if (not_empty service)
@@ -1383,6 +1384,25 @@ if not_empty basic_type
   return expr;
 end if;
 
+// ASL will coerce an invocation to Get_Time_Remaining to a call expression with a characteristic.
+if ( "Get_Time_Remaining" == "" + param.name )
+  ::trace(i:11,s:"created Get_Remaining_Time call expression" );
+  create object instance expr of MaslExpression;
+  create object instance call_expr of CallExpression;
+  relate call_expr to expr across R5517;
+  select any builtin_type from instances of BuiltinType where ( "" + selected.name == "integer" );
+  select one basic_type related by builtin_type->BasicType[R6205];
+  if (not_empty basic_type)
+    relate basic_type to expr across R5570;
+  end if;
+  create object instance characteristic_expression of CharacteristicExpression;
+  characteristic_expression.characteristic = "delta";
+  characteristic_expression.number_of_arguments = 0;
+  characteristic_expression.allowAsPrefix = false;
+  relate characteristic_expression to call_expr across R5500;
+  return expr;
+end if;
+  
 // ASL is implicitly typed.  Create a variable for this unrecognized name.
 
 create object instance var of VariableDefinition;
@@ -2173,13 +2193,11 @@ else
           select one variable_definition related by argument_expression->VariableNameExpression[R5517]->VariableDefinition[R5562];
           if ( not_empty variable_definition )
             variable_definition.isreadonly = true;
-            ::trace(i:82,s:"LOOPing and FOUND VariableNameExpression :  " + variable_definition.name);
             if ( first )
               ::trace(i:91,s:"first variable_definition " + variable_definition.name);
               relate variable_definition to loop_spec across R5154;
               first = false;
             else
-              ::trace(i:91,s:"following variable_definition " + variable_definition.name + "->" + previous_variable_definition.name );
               if ( empty variable_definition )
                 ::trace(i:92,s:"empty variable_definition" );
               end if;
@@ -2187,9 +2205,14 @@ else
                 ::trace(i:93,s:"empty previous_variable_definition" );
               end if;
               if ( previous_variable_definition == variable_definition )
-                ::trace(i:94,s:"empty previous_variable_definition" );
+                ::trace(i:94,s:"variable_definition == previous_variable_definition" );
               end if;
-              relate variable_definition to previous_variable_definition across R5164.''succeeds'';
+              // Check to see if this tuple member is already related to the next one.
+              // This is dubious reuse of the loop variables from a previous context.
+              select one link_check related by variable_definition->VariableDefinition[R5164.''succeeds''];
+              if ( empty link_check )
+                relate variable_definition to previous_variable_definition across R5164.''succeeds'';
+              end if;
             end if;
             previous_variable_definition = variable_definition;
             select one basic_type related by variable_definition->BasicType[R5137];
@@ -3038,6 +3061,60 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("2b12a7bd-91e2-4dfe-b231-76668bfdcf74",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6a9a6ea0-db8d-41bf-9e0d-1428bc04789c",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_link_timer_type',
+	'',
+	'// Relink input expression basic type to timer type.
+
+lhs = param.lhs;
+
+select one var_def related by lhs->VariableNameExpression[R5517]->VariableDefinition[R5562];
+if not_empty var_def
+
+  select one lhs_basic_type related by lhs->BasicType[R5570];
+  select one var_basic_type related by var_def->BasicType[R5137];
+
+  // relink the expression type
+  if ( empty lhs_basic_type )
+    ::trace(i:13,s:"ASL_link_timer_type:  no type found on lhs." );
+  else
+    unrelate lhs from lhs_basic_type across R5570;
+  end if;
+  select any builtin_type from instances of BuiltinType where ( ( "" + selected.name ) == "timer" );
+  select one timer_basic_type related by builtin_type->BasicType[R6205];
+  relate lhs to timer_basic_type across R5570;
+
+  // relink the variable type
+  if ( empty var_basic_type )
+    ::trace(i:14,s:"ASL_link_timer_type:  no type found on var." );
+  else
+    unrelate var_def from var_basic_type across R5137;
+  end if;
+  relate var_def to timer_basic_type across R5137;
+  
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	19);
+INSERT INTO S_SPARM
+	VALUES ("8bf62fb7-4782-4c34-a14c-60f26396b05f",
+	"6a9a6ea0-db8d-41bf-9e0d-1428bc04789c",
+	'lhs',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6a9a6ea0-db8d-41bf-9e0d-1428bc04789c",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",

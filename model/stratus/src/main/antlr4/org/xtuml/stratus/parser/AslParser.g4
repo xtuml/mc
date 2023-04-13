@@ -291,7 +291,7 @@ statement                     : (
                                 | exitStatement
                                 | deleteStatement
                                 | linkStatement
-                                | scheduleStatement
+                               // scheduleStatement
                                 | cancelTimerStatement
                                 | generateStatement
                                 | ifStatement
@@ -315,6 +315,8 @@ nullStatement                 : BEGIN NEWLINE* NULL SEMI NEWLINE* END SEMI
 
 assignStatement               : lhs=postfixNoCallExpression EQUAL rhs=expression
                               | CONCATENATE additiveExp // structureAssembly
+                              | LBRACKET timer_expr=nameExpression RBRACKET EQUAL
+                                CREATE_TIMER LBRACKET RBRACKET
                               ;
 
 callStatement                 : LBRACKET RBRACKET EQUAL root=nameExpression
@@ -552,7 +554,6 @@ postfixExpression             : root=postfixExpression
                                 | LBRACKET argumentList RBRACKET ( ON identifier )?
                                 )
                               | primaryExpression
-                              | GET_TIME_REMAINING LBRACKET identifier RBRACKET
                               ;
 
 postfixNoCallExpression       : root=postfixNoCallExpression

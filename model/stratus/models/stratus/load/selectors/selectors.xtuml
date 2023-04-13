@@ -1033,6 +1033,10 @@ if ( not_empty object_declaration )
 else
   if ( "TIM" == param.object_keyletters )
     create object instance event_declaration of EventDeclaration; // TODO - hack for ASL for now
+    s = event_declaration.name;
+    s = s + "TIM" + param.num;
+    event_declaration.name = s;
+    ::trace(i:115, s:"ASL created bogus event declaration" );
   else
     LOG::LogFailure( message:"ASL_select_EventDeclaration_where_keyletters_name:  DID NOT FIND mark for ObjectDeclaration keyletters of:" + param.object_keyletters );
   end if;
@@ -1059,6 +1063,15 @@ INSERT INTO S_SPARM
 	"e6c17163-e6e2-45ca-a73b-f4ad462ecc3e",
 	'name',
 	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"11f1f634-a62c-4be6-b7b7-feb492dff050",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("11f1f634-a62c-4be6-b7b7-feb492dff050",
+	"e6c17163-e6e2-45ca-a73b-f4ad462ecc3e",
+	'num',
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"87b8489b-1d62-41fe-a517-3413f5809487",

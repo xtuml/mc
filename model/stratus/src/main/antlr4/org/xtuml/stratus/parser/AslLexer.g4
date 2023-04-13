@@ -103,7 +103,6 @@ FIND_ONLY                     : 'find-only';
 FOR                           : 'for';
 FROM                          : 'from';
 GENERATE                      : 'generate';
-GET_TIME_REMAINING            : 'Get_Time_Remaining';
 IF                            : 'if';
 IN                            : 'in';
 INCLUDE_HEADER                : '$INCLUDE_HEADER'; // eat header lines

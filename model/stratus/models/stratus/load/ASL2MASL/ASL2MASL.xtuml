@@ -887,6 +887,11 @@ statement = param.statement;
 s = "";
 select one assign_statement related by statement->AssignmentStatement[R5135];
 if ( not_empty assign_statement )
+  select one rhs related by assign_statement->MaslExpression[R5100];
+  if ( empty rhs )
+    // In ASL, this can occur in [t] = Create_Timer().
+    return s;
+  end if;
   s = s + ::indent( d:param.d );
   select one lhs related by assign_statement->MaslExpression[R5101];
   lhs_expression = ::expression( expression:lhs );
@@ -894,7 +899,6 @@ if ( not_empty assign_statement )
     // ASL assigns a void function to an empty sequence.
     s = s + lhs_expression + " := ";
   end if;
-  select one rhs related by assign_statement->MaslExpression[R5100];
   s = s + ::expression( expression:rhs ) + ";\n";
 end if;
 return s;',
@@ -1442,7 +1446,17 @@ if ( not_empty call_expression )
     select one service related by instance_service_invocation->ObjectService[R5614]->Service[R5203];
     s = s + object_declaration.name + "." + service.name + "(";
   else
-    ::trace( i:75, s:"ERROR:  malformed call expression" );
+    select one characteristic_expression related by call_expression->CharacteristicExpression[R5500];
+    if ( not_empty characteristic_expression )
+      select one argument related by call_expression->Argument[R5575];
+      select one argument_expression related by call_expression->Argument[R5575]->MaslExpression[R5577];
+      // The only characteristic expression used by ASL is delta from Get_Time_Remaining.
+      s = s + ::expression( expression:argument_expression );
+      s = s + "''" + characteristic_expression.characteristic;
+      return s;
+    else
+      ::trace( i:75, s:"ERROR:  malformed call expression" );
+    end if;
   end if;
   args = "";
   delim = "";
@@ -1643,9 +1657,6 @@ statement = param.statement;
 s = "";
 select one generate_statement related by statement->GenerateStatement[R5135];
 if ( not_empty generate_statement )
-  select one event_declaration related by generate_statement->EventDeclaration[R5112];
-  select one object_declaration related by event_declaration->ObjectDeclaration[R6101];
-  s = s + ::indent(d:param.d) + "generate " + object_declaration.name + "." + event_declaration.name + "(";
   args = "";
   delim = "";
   select one argument related by generate_statement->Argument[R5114];
@@ -1655,15 +1666,43 @@ if ( not_empty generate_statement )
     delim = ", ";
     select one argument related by argument->Argument[R5576.''precedes''];
   end while;
-  if ( "" != args )
-    s = s + " " + args + " ";
-  end if;
-  s = s + ")";
-  select one target_instance related by generate_statement->MaslExpression[R5113];
-  if ( not_empty target_instance )
-    s = s + " to " + ::expression( expression:target_instance );
+  select one event_declaration related by generate_statement->EventDeclaration[R5112];
+  name = ""; name = event_declaration.name; // work-around
+  if ( "TIM1" == name )
+    // Set_Timer/schedule
+    select one arg1 related by generate_statement->Argument[R5114];
+    select one arg2 related by arg1->Argument[R5576.''precedes''];
+    select one arg3 related by arg2->Argument[R5576.''precedes''];
+    select one arg4 related by arg3->Argument[R5576.''precedes''];
+    select one arg5 related by arg4->Argument[R5576.''precedes''];
+    select one arg1_expression related by arg1->MaslExpression[R5577];
+    select one arg2_expression related by arg2->MaslExpression[R5577];
+    select one arg3_expression related by arg3->MaslExpression[R5577];
+    select one arg4_expression related by arg4->MaslExpression[R5577];
+    select one arg5_expression related by arg5->MaslExpression[R5577];
+    s = ::indent( d:param.d ) + "schedule " + ::expression( expression:arg1_expression );
+    s = s + " generate " + ::expression( expression:arg4_expression ) + "()";
+    s = s + " to " + ::expression( expression:arg5_expression );
+    s = s + " delay 2:" + ::expression( expression:arg2_expression );
+    s = s + " 3:" + ::expression( expression:arg3_expression );
+  elif ( "TIM2" == name )
+    // Reset_Timer/cancel
+    s = ::indent( d:param.d ) + "cancel " + args;
   else
-    ::trace( i:911, s:"GENERATE without target instance" );
+    select one object_declaration related by event_declaration->ObjectDeclaration[R6101];
+    s = s + ::indent(d:param.d) + "generate " + object_declaration.name + "." + event_declaration.name;
+    if ( "" != args )
+      args = args + "( " + args + " )";
+    else
+      args = "()";
+    end if;
+    s = s + args;
+    select one target_instance related by generate_statement->MaslExpression[R5113];
+    if ( not_empty target_instance )
+      s = s + " to " + ::expression( expression:target_instance );
+    else
+      ::trace( i:911, s:"GENERATE without target instance" );
+    end if;
   end if;
   s = s + ";\n";
 end if;
