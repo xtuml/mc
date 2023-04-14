@@ -1406,7 +1406,6 @@ if ( "Get_Time_Remaining" == "" + param.name )
 end if;
 if ( "event" == "" + param.name )
   // work-around for event() keyword in ASL generate statement
-  ::trace(i:12,s:"saw event as name" );
   create object instance expr of MaslExpression;
   create object instance call_expr of CallExpression;
   relate call_expr to expr across R5517;

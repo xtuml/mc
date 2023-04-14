@@ -999,10 +999,7 @@ INSERT INTO S_SYNC
 	'// Get ObjectDeclaration from marked keyletters and then navigate to event.
 
 event_name = "" + param.name; // TODO:  remove UDT hack
-::trace(i:116, s:"ASL_select_Event where:" + param.object_keyletters + "-" + param.num + "-" + event_name );
 
-
-// TODO - hack
 if ( "TIM" == param.object_keyletters )
   create object instance event_declaration of EventDeclaration; // TODO - hack for ASL for now
   s = event_declaration.name;
@@ -1065,15 +1062,12 @@ if ( not_empty markable )
       s = mark.path;
       dcolon_index = STRING::indexof(haystack:s, needle:"::");
       domain_keyletters = STRING::substr(s:s, begin:0, end:dcolon_index);
-      ::trace(i:1, s:"domain_keyletters:" + domain_keyletters);
       // Object name is next in the path.
       s = STRING::substr(s:s, begin:dcolon_index + 2, end:-1);
       dcolon_index = STRING::indexof(haystack:s, needle:"::");
       object_name = STRING::substr(s:s, begin:0, end:dcolon_index);
-      ::trace(i:1, s:"object_name:" + object_name);
       // Event name is next in the path.
       event_name = STRING::substr(s:s, begin:dcolon_index + 2, end:-1);
-      ::trace(i:1, s:"event_name:" + event_name);
       if ( "" + object_declaration.name == object_name )
         select any event_declaration related by object_declaration->EventDeclaration[R6101] where ( "" + selected.name == event_name );
         if ( empty event_declaration )

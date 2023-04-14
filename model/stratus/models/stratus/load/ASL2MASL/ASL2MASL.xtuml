@@ -548,6 +548,8 @@ s = ::expression_find_attribute_name( expression:expression );
 if ( "" == s )
 s = ::expression_literal( expression:expression );
 if ( "" == s )
+s = ::expression_navigation( expression:expression );
+if ( "" == s )
 s = ::expression_object_name( expression:expression );
 if ( "" == s )
 s = ::expression_parameter_name( expression:expression );
@@ -557,6 +559,7 @@ if ( "" == s )
 s = ::expression_unary( expression:expression );
 if ( "" == s )
 s = ::expression_variable_name( expression:expression );
+end if;
 end if;
 end if;
 end if;
@@ -998,9 +1001,9 @@ if ( not_empty find_expression )
   if ( find_expression.flavor == FindType::find )
     s = s + "find ";
   elif ( find_expression.flavor == FindType::find_one )
-    s = s + "find-one ";
+    s = s + "find_one ";
   elif ( find_expression.flavor == FindType::find_only )
-    s = s + "find-only ";
+    s = s + "find_only ";
   end if;
   select one search_expression related by find_expression->MaslExpression[R5519];
   s = s + ::expression( expression:search_expression ) + "(";
@@ -1692,11 +1695,13 @@ if ( not_empty generate_statement )
     select one arg3_expression related by arg3->MaslExpression[R5577];
     select one arg4_expression related by arg4->MaslExpression[R5577];
     select one arg5_expression related by arg5->MaslExpression[R5577];
+    base = ::expression( expression:arg2_expression );
+    units = ::expression( expression:arg3_expression );
+    duration = ::ASL_convert_time( base:base, units:units );
     s = ::indent( d:param.d ) + "schedule " + ::expression( expression:arg1_expression );
     s = s + " generate " + ::expression( expression:arg4_expression ) + "()";
     s = s + " to " + ::expression( expression:arg5_expression );
-    s = s + " delay 2:" + ::expression( expression:arg2_expression );
-    s = s + " 3:" + ::expression( expression:arg3_expression );
+    s = s + " delay " + duration;
   elif ( "TIM2" == name )
     // Reset_Timer/cancel
     s = ::indent( d:param.d ) + "cancel " + args;
@@ -1704,7 +1709,7 @@ if ( not_empty generate_statement )
     select one object_declaration related by event_declaration->ObjectDeclaration[R6101];
     s = s + ::indent(d:param.d) + "generate " + object_declaration.name + "." + event_declaration.name;
     if ( "" != args )
-      args = args + "( " + args + " )";
+      args = "( " + args + " )";
     else
       args = "()";
     end if;
@@ -1825,6 +1830,124 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("066f227d-654f-4bb5-bb9c-a2e3190755bb",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("3885212c-283d-4dec-af83-7b5f26651664",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_convert_time',
+	'',
+	'// Convert ASL base + units to MASL duration.
+units = param.units;
+base = param.base;
+s = "";
+
+index = STRING::indexof( haystack:units, needle:"MICROSECOND" );
+if ( index > 0 )
+  s = "duration''microseconds(" + base + ")";
+else
+index = STRING::indexof( haystack:units, needle:"MILLISECOND" );
+if ( index > 0 )
+  s = "duration''milliseconds(" + base + ")";
+else
+index = STRING::indexof( haystack:units, needle:"SECOND" );
+if ( index > 0 )
+  s = "duration''seconds(" + base + ")";
+else
+index = STRING::indexof( haystack:units, needle:"MINUTE" );
+if ( index > 0 )
+  s = "@PT" + base + "M@";
+else
+index = STRING::indexof( haystack:units, needle:"HOUR" );
+if ( index > 0 )
+  s = "@PT" + base + "H@";
+else
+index = STRING::indexof( haystack:units, needle:"DAY" );
+if ( index > 0 )
+  s = "@P" + base + "D@";
+else
+end if;
+end if;
+end if;
+end if;
+end if;
+end if;
+
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	33);
+INSERT INTO S_SPARM
+	VALUES ("f557014f-d2b5-4b82-a125-31f11fb1fd0b",
+	"3885212c-283d-4dec-af83-7b5f26651664",
+	'base',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("bee5e1e1-e77a-4e19-9b1d-42c55f6daf92",
+	"3885212c-283d-4dec-af83-7b5f26651664",
+	'units',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"f557014f-d2b5-4b82-a125-31f11fb1fd0b",
+	'');
+INSERT INTO PE_PE
+	VALUES ("3885212c-283d-4dec-af83-7b5f26651664",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a851ee69-58bf-4595-8b75-9801d9d98318",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_navigation',
+	'',
+	'expression = param.expression;
+s = "";
+select one navigation_expression related by expression->NavigationExpression[R5517];
+if ( not_empty navigation_expression )
+  select one lhs_expression related by navigation_expression->MaslExpression[R5532];
+  s = s + ::expression( expression:lhs_expression );
+  s = s + " -> ";
+  select one rel_spec related by navigation_expression->RelationshipSpecification[R5531];
+  select one relationship_declaration related by rel_spec->RelationshipDeclaration[R6015];
+  select one subtype_relationship related by relationship_declaration->SubtypeRelationshipDeclaration[R6010];
+  s = s + relationship_declaration.name;
+  // Skip the role phrase for super/subs.
+  if ( not_empty subtype_relationship )
+  else
+    s = s + "." + rel_spec.role;
+  end if;
+  select one object_declaration related by rel_spec->ObjectDeclaration[R6011];
+  s = s + "." + object_declaration.name;
+end if;
+return s;
+
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	34);
+INSERT INTO S_SPARM
+	VALUES ("9f01f255-9e00-4ca5-a9b5-378dd3d7c569",
+	"a851ee69-58bf-4595-8b75-9801d9d98318",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("a851ee69-58bf-4595-8b75-9801d9d98318",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
