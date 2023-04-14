@@ -998,9 +998,26 @@ INSERT INTO S_SYNC
 	'',
 	'// Get ObjectDeclaration from marked keyletters and then navigate to event.
 
-event_name = "";
 event_name = "" + param.name; // TODO:  remove UDT hack
-select any event_declaration from instances of EventDeclaration where ( selected.name == param.name );
+::trace(i:116, s:"ASL_select_Event where:" + param.object_keyletters + "-" + param.num + "-" + event_name );
+
+
+// TODO - hack
+if ( "TIM" == param.object_keyletters )
+  create object instance event_declaration of EventDeclaration; // TODO - hack for ASL for now
+  s = event_declaration.name;
+  s = s + "TIM" + param.num;
+  event_declaration.name = s;
+  ::trace(i:115, s:"ASL created bogus event declaration" );
+  return event_declaration;
+end if;
+
+// Find the object with the input key_letters.
+// Then find events marked with the input number.  Parse out the object name and event name.
+// While looping through the marked events, find the event related to the found object.
+
+
+// Find the object with the input key letters.
 select any object_declaration from instances of ObjectDeclaration where ( false );
 select any markable from instances of Markable where ( selected.name == "Object" );
 if ( not_empty markable )
@@ -1025,22 +1042,51 @@ if ( not_empty markable )
         suffix = STRING::substr(s:suffix, begin:1, end:-1);
       end if;
       select any object_declaration from instances of ObjectDeclaration where ( ( "" + selected.name ) == suffix );
+      if ( empty object_declaration )
+        ::trace(i:116, s:"ASL_select_Event - failed to find object declaration where:" + param.object_keyletters + "-" + param.num + "-" + event_name );
+      end if;
     end if;
   end if;
-end if;
-if ( not_empty object_declaration )
-  select any event_declaration related by object_declaration->EventDeclaration[R6101] where ( ( "" + selected.name ) == event_name );
 else
-  if ( "TIM" == param.object_keyletters )
-    create object instance event_declaration of EventDeclaration; // TODO - hack for ASL for now
-    s = event_declaration.name;
-    s = s + "TIM" + param.num;
-    event_declaration.name = s;
-    ::trace(i:115, s:"ASL created bogus event declaration" );
-  else
-    LOG::LogFailure( message:"ASL_select_EventDeclaration_where_keyletters_name:  DID NOT FIND mark for ObjectDeclaration keyletters of:" + param.object_keyletters );
-  end if;
+  ::trace(i:117, s:"ASL_select_Event - failed to find markable where:" + param.object_keyletters + "-" + param.num + "-" + event_name );
 end if;
+
+// Find the event with marked event number related to the object we just found.
+select any event_declaration from instances of EventDeclaration where false;
+select any markable from instances of Markable where ( selected.name == "Event" );
+if ( not_empty markable )
+  select any feature related by markable->Feature[R2822] where ( selected.name == "event_number" );
+  if ( not_empty feature )
+    select many marks related by feature->Mark[R2821] where ( selected.value == param.num );
+    for each mark in marks
+      // Parse out the object name and the event name.
+      // <domain key letters>::<object name>::<event name>
+      // Domain key letters are first in the path.
+      s = mark.path;
+      dcolon_index = STRING::indexof(haystack:s, needle:"::");
+      domain_keyletters = STRING::substr(s:s, begin:0, end:dcolon_index);
+      ::trace(i:1, s:"domain_keyletters:" + domain_keyletters);
+      // Object name is next in the path.
+      s = STRING::substr(s:s, begin:dcolon_index + 2, end:-1);
+      dcolon_index = STRING::indexof(haystack:s, needle:"::");
+      object_name = STRING::substr(s:s, begin:0, end:dcolon_index);
+      ::trace(i:1, s:"object_name:" + object_name);
+      // Event name is next in the path.
+      event_name = STRING::substr(s:s, begin:dcolon_index + 2, end:-1);
+      ::trace(i:1, s:"event_name:" + event_name);
+      if ( "" + object_declaration.name == object_name )
+        select any event_declaration related by object_declaration->EventDeclaration[R6101] where ( "" + selected.name == event_name );
+        if ( empty event_declaration )
+          ::trace(i:116, s:"ASL_select_Event - failed to find event declaration where:" + param.object_keyletters + "-" + param.num + "-" + event_name );
+        end if;
+        break;
+      end if;
+    end for;
+  end if;
+else
+  ::trace(i:119, s:"ASL_select_Event - failed to find event markable where:" + param.object_keyletters + "-" + param.num + "-" + event_name );
+end if;
+
 return event_declaration;
 
 ',

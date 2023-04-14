@@ -35,6 +35,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
     private Object currentRelToObject;
     private Object previousAttribute;
     private Object currentAttribute;
+    private Object currentEvent;
     private Object currentOOAState;
     private Object currentCodeBlock;
     private Object currentMarkable;
@@ -69,6 +70,8 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             loader.call_function("mark_domain", currentMarkable, featureName, value);
         } else if (keyLettersAre(currentMarkable, "AttributeDeclaration")) {
             loader.call_function("mark_attribute", currentDomain, currentObject, currentMarkable, featureName, value);
+        } else if (keyLettersAre(currentMarkable, "EventDeclaration")) {
+            loader.call_function("mark_event", currentDomain, currentObject, currentMarkable, featureName, value);
         } else if (keyLettersAre(currentMarkable, "DomainTerminator")) {
             loader.call_function("mark_domain_terminator", currentDomain, currentMarkable, featureName, value);
         } else if (keyLettersAre(currentMarkable, "ProjectTerminator")) {
@@ -956,6 +959,10 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             if (firstParameter != null) {
                 loader.relate(eventDeclaration, firstParameter, 6100, "");
             }
+            currentMarkable = eventDeclaration;
+            visit(ctx.pragmaList());
+            currentMarkable = null;
+            currentEvent = null;
             return eventDeclaration;
 
         } catch (XtumlException e) {

@@ -1450,9 +1450,21 @@ if ( not_empty call_expression )
     if ( not_empty characteristic_expression )
       select one argument related by call_expression->Argument[R5575];
       select one argument_expression related by call_expression->Argument[R5575]->MaslExpression[R5577];
-      // The only characteristic expression used by ASL is delta from Get_Time_Remaining.
+      // The only characteristic expressions used by ASL are delta from Get_Time_Remaining
+      // and event from Set_Timer.
       s = s + ::expression( expression:argument_expression );
-      s = s + "''" + characteristic_expression.characteristic;
+      if ( "delta" == characteristic_expression.characteristic )
+        s = s + "''" + characteristic_expression.characteristic;
+      elif ( "event" == characteristic_expression.characteristic )
+        slen = STRING::strlen(s:s);
+        s = STRING::substr(s:s, begin:1, end:slen-1);
+        slen = STRING::strlen(s:s);
+        key_letters = STRING::substr(s:s, begin:0, end:slen-1);
+        number = STRING::substr(s:s, begin:slen-1, end:-1);
+        s = "key" + key_letters + "num" + number;
+        ed = ::ASL_select_EventDeclaration_where_keyletters_name( object_keyletters:key_letters, num:number, name:"" );
+        s = ed.name;
+      end if;
       return s;
     else
       ::trace( i:75, s:"ERROR:  malformed call expression" );

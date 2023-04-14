@@ -1364,6 +1364,7 @@ end if;
 end if;
 
 // search for types (for characteristics and type casting)
+if ( false ) // ASL does not have type expressions.
 select any builtin from instances of BuiltinType where selected.name == param.name;
 select one basic_type related by builtin->BasicType[R6205];
 if empty basic_type
@@ -1383,6 +1384,7 @@ if not_empty basic_type
   end if;
   return expr;
 end if;
+end if; // ASL
 
 // ASL will coerce an invocation to Get_Time_Remaining to a call expression with a characteristic.
 if ( "Get_Time_Remaining" == "" + param.name )
@@ -1397,6 +1399,24 @@ if ( "Get_Time_Remaining" == "" + param.name )
   end if;
   create object instance characteristic_expression of CharacteristicExpression;
   characteristic_expression.characteristic = "delta";
+  characteristic_expression.number_of_arguments = 0;
+  characteristic_expression.allowAsPrefix = false;
+  relate characteristic_expression to call_expr across R5500;
+  return expr;
+end if;
+if ( "event" == "" + param.name )
+  // work-around for event() keyword in ASL generate statement
+  ::trace(i:12,s:"saw event as name" );
+  create object instance expr of MaslExpression;
+  create object instance call_expr of CallExpression;
+  relate call_expr to expr across R5517;
+  select any builtin_type from instances of BuiltinType where ( "" + selected.name == "event" );
+  select one basic_type related by builtin_type->BasicType[R6205];
+  if (not_empty basic_type)
+    relate basic_type to expr across R5570;
+  end if;
+  create object instance characteristic_expression of CharacteristicExpression;
+  characteristic_expression.characteristic = "event";
   characteristic_expression.number_of_arguments = 0;
   characteristic_expression.allowAsPrefix = false;
   relate characteristic_expression to call_expr across R5500;
