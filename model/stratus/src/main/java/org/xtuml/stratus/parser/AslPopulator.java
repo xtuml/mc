@@ -2739,6 +2739,11 @@ System.err.println("visitStructureInstantiation");
         try {
             Object statement = loader.create("DeleteStatement");
             loader.relate(visit(ctx.expression()), statement, 5105, "");
+            Object whereClause = null; //ctx.whereClause() != null ? visit(ctx.whereClause()) : null;
+            if (whereClause != null) {
+                // TODO - support delete with where clause
+                //loader.relate(whereClause, statement, ????, "");
+            }
             return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);

@@ -1922,6 +1922,10 @@ end if;
 // create unary operation
 create object instance expression of MaslExpression;
 select one basic_type related by operand->BasicType[R5570];
+if ( op == Operator::abs )
+  select any builtin_type from instances of BuiltinType where ( "" + selected.name == "integer" );
+  select one basic_type related by builtin_type->BasicType[R6205];
+end if;
 relate basic_type to expression across R5570;
 create object instance unary_exp of UnaryExpression;
 relate unary_exp to expression across R5517;

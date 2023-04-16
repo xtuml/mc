@@ -331,10 +331,10 @@ exitStatement                 : BREAK
 deleteStatement               : DELETE expression whereClause?
                               ;
 linkStatement                 : linkType
-                                lhs=primaryExpression relationshipSpec
+                                lhs=navigateExpression relationshipSpec
                                 (
-                                  rhs=primaryExpression
-                                  ( ( USING | FROM ) assoc=primaryExpression)?
+                                  rhs=navigateExpression
+                                  ( ( USING | FROM ) assoc=navigateExpression)?
                                 )
                               ;
 

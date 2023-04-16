@@ -198,20 +198,10 @@ code_block = param.code_block;
 select many variables related by code_block->VariableDefinition[R5151];
 for each variable in variables
   select one basic_type related by variable->BasicType[R5137];
-  select one builtin_type related by basic_type->BuiltinType[R6205];
-  if ( not_empty builtin_type )
-    s = s + variable.name + " : " + builtin_type.name + ";\n";
-  else
-  select one user_defined_type related by basic_type->MaslUserDefinedType[R6205];
-  if ( not_empty user_defined_type )
-    s = s + variable.name + " : " + user_defined_type.name + ";\n";
-  else
-  select one object_declaration related by basic_type->InstanceType[R6205]->ObjectDeclaration[R6220];
-  if ( not_empty object_declaration )
-    s = s + variable.name + " : instance of " + object_declaration.name + ";\n";
+  if ( empty basic_type )
+    ::trace( i:222, s:"locals - did not find basic_type for " + variable.name );
   end if;
-  end if;
-  end if;
+  s = s + variable.name + " : " + ::basic_type_render( basic_type:basic_type ) + ";\n";
 end for;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -281,7 +271,7 @@ if ( not_empty for_statement )
   if ( not_empty nested_statement )
     s = s + ::statement( statement:nested_statement, d:param.d+1 );
   end if;
-  s = s + ::indent(d:param.d) + "end for;\n";
+  s = s + ::indent(d:param.d) + "end loop;\n";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -486,7 +476,7 @@ if ( not_empty case_statement )
       end if;
       s = s + ::indent( d:param.d+2 ) + "end;\n";
     else
-      s = s + ::indent( d:param.d+1 ) + "otherwise =>\n";
+      s = s + ::indent( d:param.d+1 ) + "when others =>\n";
       select one nested_statement related by alternative->MaslStatement[R5148];
       s = s + ::indent( d:param.d+2 ) + "begin\n";
       if ( not_empty nested_statement )
@@ -1922,8 +1912,7 @@ if ( not_empty navigation_expression )
   select one subtype_relationship related by relationship_declaration->SubtypeRelationshipDeclaration[R6010];
   s = s + relationship_declaration.name;
   // Skip the role phrase for super/subs.
-  if ( not_empty subtype_relationship )
-  else
+  if ( empty subtype_relationship )
     s = s + "." + rel_spec.role;
   end if;
   select one object_declaration related by rel_spec->ObjectDeclaration[R6011];
