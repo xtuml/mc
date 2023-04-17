@@ -1517,9 +1517,16 @@ if ( not_empty link_statement )
   select one rel_spec related by link_statement->RelationshipSpecification[R5120];
   select one relationship_declaration related by rel_spec->RelationshipDeclaration[R6015];
   select one subtype_relationship related by relationship_declaration->SubtypeRelationshipDeclaration[R6010];
+  select one associative_relationship related by relationship_declaration->AssociativeRelationshipDeclaration[R6010];
   select one lhs_expression related by link_statement->MaslExpression[R5122];
   select one rhs_expression related by link_statement->MaslExpression[R5119];
   select one using_expression related by link_statement->MaslExpression[R5121];
+  // ASL links/unlinks ternary relationships in 2 steps.  MASL does it in one step.
+  // For ASL, we need to omit the one to other step.
+  if ( not_empty associative_relationship and empty using_expression )
+    s = "";
+    return s;
+  end if;
   s = s + ::expression( expression:lhs_expression );
   s = s + " " + relationship_declaration.name;
   // Skip the role phrase for super/subs.
