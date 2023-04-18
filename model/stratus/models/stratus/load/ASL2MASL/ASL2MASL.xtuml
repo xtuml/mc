@@ -1627,7 +1627,12 @@ s = "";
 select one delete_statement related by statement->DeleteStatement[R5135];
 if ( not_empty delete_statement )
   select one expression related by delete_statement->MaslExpression[R5105];
-  s = s + ::indent(d:param.d) + "delete " + ::expression( expression:expression ) + ";\n";
+  select one where_clause related by delete_statement->MaslExpression[R5116];
+  if ( not_empty where_clause )
+    s = s + ::indent(d:param.d) + "delete find " + ::expression( expression:expression ) + "( " + ::expression( expression:where_clause ) + " );\n";
+  else
+    s = s + ::indent(d:param.d) + "delete " + ::expression( expression:expression ) + ";\n";
+  end if;
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",

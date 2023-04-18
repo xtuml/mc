@@ -2738,11 +2738,15 @@ System.err.println("visitStructureInstantiation");
     public Object visitDeleteStatement(AslParser.DeleteStatementContext ctx) {
         try {
             Object statement = loader.create("DeleteStatement");
-            loader.relate(visit(ctx.expression()), statement, 5105, "");
-            Object whereClause = null; //ctx.whereClause() != null ? visit(ctx.whereClause()) : null;
-            if (whereClause != null) {
-                // TODO - support delete with where clause
-                //loader.relate(whereClause, statement, ????, "");
+            Object expression = visit(ctx.expression());
+            loader.relate(expression, statement, 5105, "");
+            if ( ctx.whereClause() != null ) {
+                // ASL delete with where clause
+                Object prevCurrentObject = currentObject;
+                currentObject = loader.call_function("select_ObjectDeclaration_related_by_Expression", expression);
+                Object whereClause = visit(ctx.whereClause());
+                loader.relate(whereClause, statement, 5116, "");
+                currentObject = prevCurrentObject;
             }
             return statement;
         } catch (XtumlException e) {
