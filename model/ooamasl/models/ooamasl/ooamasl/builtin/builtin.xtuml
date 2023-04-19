@@ -3342,7 +3342,7 @@ INSERT INTO O_OBJ_PROXY
 	VALUES ("19d0cbc2-0de3-4a0a-94fa-23b127a74935",
 	'Expression',
 	5516,
-	'Expression',
+	'MaslExpression',
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'../expression/Expression/Expression.xtuml');
@@ -3405,7 +3405,7 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'Expression',
-	'Expression');
+	'MaslExpression');
 INSERT INTO PE_PE
 	VALUES ("918c0f8a-61ae-4d68-950f-1754823969bb",
 	1,

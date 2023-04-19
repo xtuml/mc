@@ -1,1 +1,1 @@
-${self.tag},${self.domain},${field3},${field4}
+${self.tag},${self.tag_owner},${field3},${field4}

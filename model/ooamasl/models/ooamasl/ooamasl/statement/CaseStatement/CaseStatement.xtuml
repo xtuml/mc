@@ -7,6 +7,24 @@ INSERT INTO O_OBJ
 	'CaseStatement',
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("d4742ae2-5e05-4cda-aac9-e9d1e70bb2c8",
+	"2e2fe47f-567e-4145-b61b-6aaf8d77526c");
+INSERT INTO O_BATTR
+	VALUES ("d4742ae2-5e05-4cda-aac9-e9d1e70bb2c8",
+	"2e2fe47f-567e-4145-b61b-6aaf8d77526c");
+INSERT INTO O_ATTR
+	VALUES ("d4742ae2-5e05-4cda-aac9-e9d1e70bb2c8",
+	"2e2fe47f-567e-4145-b61b-6aaf8d77526c",
+	"00000000-0000-0000-0000-000000000000",
+	'actions',
+	'',
+	'',
+	'actions',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"2e2fe47f-567e-4145-b61b-6aaf8d77526c");

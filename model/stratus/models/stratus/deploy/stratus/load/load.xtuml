@@ -1,0 +1,69 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("d7aacbda-452b-4624-b746-1a567dc8a341",
+	"00000000-0000-0000-0000-000000000000",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'load',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("f533db47-5c66-44ee-98e1-986c620e401a",
+	112,
+	"d7aacbda-452b-4624-b746-1a567dc8a341",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'stratus::deploy::stratus::load');
+INSERT INTO DIM_DIA
+	VALUES ("f533db47-5c66-44ee-98e1-986c620e401a",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO EP_PKGREF
+	VALUES ("d7aacbda-452b-4624-b746-1a567dc8a341",
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501");
+INSERT INTO EP_PKG_PROXY
+	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'load',
+	'',
+	0,
+	'../../../load/load.xtuml');
+INSERT INTO PE_PE
+	VALUES ("d7aacbda-452b-4624-b746-1a567dc8a341",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("6e5faf70-6b26-4223-9c6b-3185b8ee866d",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'stratus',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'',
+	'../stratus.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'stratus',
+	1,
+	'../../../stratus.xtuml');

@@ -1,1 +1,1 @@
-  ${type.visibility} type ${type.name} is
+  ${type.visibility} type ${type.name} is structure

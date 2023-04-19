@@ -1,0 +1,1012 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'selectors',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("35a84efd-5b20-43a6-827d-c10ec2749045",
+	112,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'stratus::load::selectors');
+INSERT INTO DIM_DIA
+	VALUES ("35a84efd-5b20-43a6-827d-c10ec2749045",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("f0f0e47c-1f39-47c7-a6b7-9e4fcb5fa5ac",
+	"00000000-0000-0000-0000-000000000000",
+	'select_AttributeDeclaration_related_where_name',
+	'',
+	'object_declaration = param.object_declaration;
+select any attribute_declaration related by object_declaration->AttributeDeclaration[R5802] where ( selected.name == param.name );
+return attribute_declaration;',
+	"bc9fb0af-6887-4a01-9bad-2412058db57c",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("d462f8fa-34ba-4c47-b74c-b5f0b962a7b2",
+	"f0f0e47c-1f39-47c7-a6b7-9e4fcb5fa5ac",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ccbbc697-c60c-4034-8e31-7a46032151eb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ObjectDeclaration>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/object/object.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("be620031-0fd3-4489-8f4d-1e86d187dc3a",
+	"f0f0e47c-1f39-47c7-a6b7-9e4fcb5fa5ac",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"d462f8fa-34ba-4c47-b74c-b5f0b962a7b2",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	"00000000-0000-0000-0000-000000000000",
+	'Name',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/Shared/Shared.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f0f0e47c-1f39-47c7-a6b7-9e4fcb5fa5ac",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("bc9fb0af-6887-4a01-9bad-2412058db57c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<AttributeDeclaration>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/object/object.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("00b78a59-4c87-4edd-a271-bda67bece0c8",
+	"00000000-0000-0000-0000-000000000000",
+	'select_BasicType_where_name',
+	'',
+	'// If a domain name is supplied, use it to search (only) for UDTs.
+select any basic_type from instances of BasicType where ( false );
+select any builtin_type from instances of BuiltinType where ( selected.name == param.name );
+if ( not_empty builtin_type )
+	select one basic_type related by builtin_type->BasicType[R6205];
+else
+	select any internal_type from instances of InternalType where ( selected.name == param.name );
+	if ( not_empty internal_type )
+		select one basic_type related by internal_type->BasicType[R6205];
+	else
+		select any domain from instances of Domain where ( selected.name == param.domainname );
+		if ( not_empty domain )
+			select any user_defined_type related by domain->MaslUserDefinedType[R6235] where ( selected.name == param.name );
+			select one basic_type related by user_defined_type->BasicType[R6205];
+		else
+			select any user_defined_type from instances of MaslUserDefinedType where ( selected.name == param.name );
+			select one basic_type related by user_defined_type->BasicType[R6205];
+		end if;
+	end if;
+end if;
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("36b78eb9-21b4-493f-85d8-d1c0781dc64f",
+	"00b78a59-4c87-4edd-a271-bda67bece0c8",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3f17bc10-9fba-4e5e-8bdf-1360dacd5fe2",
+	"00b78a59-4c87-4edd-a271-bda67bece0c8",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"36b78eb9-21b4-493f-85d8-d1c0781dc64f",
+	'');
+INSERT INTO PE_PE
+	VALUES ("00b78a59-4c87-4edd-a271-bda67bece0c8",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<BasicType>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("10b722ac-e149-4d32-9146-96e813f54661",
+	"00000000-0000-0000-0000-000000000000",
+	'select_CodeBlock_empty',
+	'',
+	'select any code_block from instances of MaslCodeBlock where ( false );
+return code_block;',
+	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO PE_PE
+	VALUES ("10b722ac-e149-4d32-9146-96e813f54661",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<CodeBlock>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("2303e4e6-dfda-49e4-849b-8abafea7c2f0",
+	"00000000-0000-0000-0000-000000000000",
+	'select_create_InstanceType',
+	'',
+	'// Look for an existing instance type (or set collection type) for this
+// object declaration.  If found use it, otherwise create and link one.
+object_declaration = param.object_declaration;
+if (empty object_declaration)
+  // TODO
+  LOG::LogFailure(message:"select_create_InstanceType:  empty object declaration");
+  select any object_declaration from instances of ObjectDeclaration;
+end if;
+select one basic_type related by object_declaration->InstanceType[R6220]->BasicType[R6205];
+if (param.isset)
+  select any basic_type related by basic_type->CollectionType[R6208]->SetType[R6207]->CollectionType[R6207]->BasicType[R6205];
+end if;
+if (not_empty basic_type)
+  return basic_type;
+else
+  // Instance type is not (yet) created, build it up.
+  create object instance type_definition of TypeDefinition;
+  create object instance basic_type of BasicType;
+  create object instance instance_type of InstanceType;
+  relate type_definition to basic_type across R6236;
+  relate basic_type to instance_type across R6205;
+  relate instance_type to object_declaration across R6220;
+  if (param.isset)
+    // build up the set
+    create object instance set_type_definition of TypeDefinition;
+    create object instance set_basic_type of BasicType;
+    create object instance set_collection_type of CollectionType;
+    create object instance set_type of SetType;
+    relate set_type_definition to set_basic_type across R6236;
+    relate set_basic_type to set_collection_type across R6205;
+    relate set_collection_type to set_type across R6207;
+    relate set_collection_type to basic_type across R6208;
+    return set_basic_type;
+  end if;
+end if;
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("7c612187-79f6-43c4-a0f5-eeceb08b1efa",
+	"2303e4e6-dfda-49e4-849b-8abafea7c2f0",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6ef15f80-385b-4bf8-bfd1-c74a6cc68231",
+	"2303e4e6-dfda-49e4-849b-8abafea7c2f0",
+	'isset',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"7c612187-79f6-43c4-a0f5-eeceb08b1efa",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2303e4e6-dfda-49e4-849b-8abafea7c2f0",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e01cfc99-5456-4a15-ae48-502abd96dd30",
+	"00000000-0000-0000-0000-000000000000",
+	'select_Domain_where_name',
+	'',
+	'select any domain from instances of Domain where ( selected.name == param.name );
+return domain;',
+	"d467079c-c61e-4b05-8498-3fe2f24782a6",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("8561072c-1c35-4bcd-81d8-77e94bb783d2",
+	"e01cfc99-5456-4a15-ae48-502abd96dd30",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e01cfc99-5456-4a15-ae48-502abd96dd30",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("d467079c-c61e-4b05-8498-3fe2f24782a6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Domain>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("717c56c9-db87-400e-9f2f-b24828ca85a3",
+	"00000000-0000-0000-0000-000000000000",
+	'select_DomainService_where_name',
+	'',
+	'domain = param.domain;
+select any service related by domain->DomainService[R5303]->Service[R5203] where ( selected.name == param.name );
+select one domain_service related by service->DomainService[R5203];
+return domain_service;',
+	"ffebe79c-5289-41c4-9a6c-4c6b8346d989",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("2388a565-cfa0-4d3a-9593-2ac5ca692fca",
+	"717c56c9-db87-400e-9f2f-b24828ca85a3",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"398904ae-3147-4d2d-b611-1084ae877ab1",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("398904ae-3147-4d2d-b611-1084ae877ab1",
+	"717c56c9-db87-400e-9f2f-b24828ca85a3",
+	'domain',
+	"d467079c-c61e-4b05-8498-3fe2f24782a6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("717c56c9-db87-400e-9f2f-b24828ca85a3",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("ffebe79c-5289-41c4-9a6c-4c6b8346d989",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<DomainService>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("4df4d465-dea1-40ba-805d-dda4094257dc",
+	"00000000-0000-0000-0000-000000000000",
+	'select_DomainTerminator_where_name',
+	'',
+	'domain = param.domain;
+select any domain_terminator related by domain->DomainTerminator[R5304] where ( selected.name == param.name );
+return domain_terminator;',
+	"d32c0dae-6ff9-4154-9607-21e8f5db2bb8",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("7bd959a4-7f2f-4e6f-adab-d66557d134d4",
+	"4df4d465-dea1-40ba-805d-dda4094257dc",
+	'domain',
+	"d467079c-c61e-4b05-8498-3fe2f24782a6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a2ebd063-4064-46a2-9a20-654251470c57",
+	"4df4d465-dea1-40ba-805d-dda4094257dc",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"7bd959a4-7f2f-4e6f-adab-d66557d134d4",
+	'');
+INSERT INTO PE_PE
+	VALUES ("4df4d465-dea1-40ba-805d-dda4094257dc",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("d32c0dae-6ff9-4154-9607-21e8f5db2bb8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<DomainTerminator>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("768a5e41-6c28-447d-994b-1c144fe40316",
+	"00000000-0000-0000-0000-000000000000",
+	'select_TerminatorService_where_name',
+	'',
+	'select any project from instances of Project;
+if not_empty project
+  
+  // Project terminator service
+  select many project_domains related by project->ProjectDomain[R5900];
+  for each project_domain in project_domains
+    select one domain related by project_domain->Domain[R5901];
+    if domain.name == param.domainname
+      select any project_terminator related by project_domain->ProjectTerminator[R5902] where ( selected.name == param.terminatorname );
+      select any service related by project_terminator->ProjectTerminatorService[R5903]->Service[R5203] where ( selected.name == param.name );
+      return service;
+    end if;
+  end for;
+
+else
+
+  // Domain terminator service
+  select any domain from instances of Domain where ( selected.name == param.domainname );
+  select any domain_terminator related by domain->DomainTerminator[R5304] where ( selected.name == param.terminatorname );
+  select any service related by domain_terminator->DomainTerminatorService[R5306]->Service[R5203] where ( selected.name == param.name );
+  return service;
+  
+end if;
+select any empty_service from instances of Service where false;
+return empty_service;',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("37e3e927-ea45-452b-92eb-720545b5fff6",
+	"768a5e41-6c28-447d-994b-1c144fe40316",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e4d48c0c-66c7-4375-8d98-46f14c990522",
+	"768a5e41-6c28-447d-994b-1c144fe40316",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"8e76539d-4bf7-4cf3-8190-bf5212b3acaa",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8e76539d-4bf7-4cf3-8190-bf5212b3acaa",
+	"768a5e41-6c28-447d-994b-1c144fe40316",
+	'terminatorname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"37e3e927-ea45-452b-92eb-720545b5fff6",
+	'');
+INSERT INTO PE_PE
+	VALUES ("768a5e41-6c28-447d-994b-1c144fe40316",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("b907c2e2-2877-4506-8018-ad38c7be275a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Service>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("385d24d8-5a1b-4d27-baf5-e3f2caee0621",
+	"00000000-0000-0000-0000-000000000000",
+	'select_EventDeclaration_where_name',
+	'',
+	'object_declaration = param.object;
+select any event_declaration related by object_declaration->EventDeclaration[R6101] where ( selected.name == param.name );
+return event_declaration;',
+	"4cfcfee8-b8db-43f0-9290-af0d49e530d4",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("ba3e8402-b8f9-41a9-83f2-7ec95ecbb0c7",
+	"385d24d8-5a1b-4d27-baf5-e3f2caee0621",
+	'object',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2bfc5f0d-d3d2-49eb-ae31-8a9ddd092be1",
+	"385d24d8-5a1b-4d27-baf5-e3f2caee0621",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"ba3e8402-b8f9-41a9-83f2-7ec95ecbb0c7",
+	'');
+INSERT INTO PE_PE
+	VALUES ("385d24d8-5a1b-4d27-baf5-e3f2caee0621",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("4cfcfee8-b8db-43f0-9290-af0d49e530d4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<EventDeclaration>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/statemodel/statemodel.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("6645240d-841d-4b3c-9c21-763249c6eb3a",
+	"00000000-0000-0000-0000-000000000000",
+	'select_ExceptionDeclaration_where_name',
+	'',
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any exception_declaration related by domain->ExceptionDeclaration[R5400] where ( selected.name == param.name );
+if ( not_empty exception_declaration )
+  select any exception_declaration from instances of ExceptionDeclaration where ( selected.name == param.name );
+end if;
+return exception_declaration;',
+	"fcbc46ab-aa9a-4a5f-a61c-93953c3dcf03",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("973728a8-763f-46a9-b403-79a98ea484b9",
+	"6645240d-841d-4b3c-9c21-763249c6eb3a",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"661a86de-e45d-4cc5-a807-07a92d5e93bb",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("661a86de-e45d-4cc5-a807-07a92d5e93bb",
+	"6645240d-841d-4b3c-9c21-763249c6eb3a",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6645240d-841d-4b3c-9c21-763249c6eb3a",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("fcbc46ab-aa9a-4a5f-a61c-93953c3dcf03",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ExceptionDeclaration>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("cc44d6e0-96f2-4f8a-9dc0-eed9b1327f88",
+	"00000000-0000-0000-0000-000000000000",
+	'select_ObjectDeclaration_related_by_Expression',
+	'',
+	'expression = param.expression;
+select one object_declaration related by expression->BasicType[R5570]->InstanceType[R6205]->ObjectDeclaration[R6220];
+if ( empty object_declaration )
+  select one object_declaration related by expression->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208]->InstanceType[R6205]->ObjectDeclaration[R6220];
+  if ( empty object_declaration )
+    LOG::LogFailure( message:"select_any_ObjectDeclaration_related_by_Expression:  empty object_declaration" );
+  end if;
+end if;
+return object_declaration;',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("426df980-d719-4f38-97aa-0772edfe37cc",
+	"cc44d6e0-96f2-4f8a-9dc0-eed9b1327f88",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Expression>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/expression/expression.xtuml');
+INSERT INTO PE_PE
+	VALUES ("cc44d6e0-96f2-4f8a-9dc0-eed9b1327f88",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b3f881fc-a6a6-4157-858f-079876fff9c8",
+	"00000000-0000-0000-0000-000000000000",
+	'select_ObjectDeclaration_where_name',
+	'',
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any object_declaration related by domain->ObjectDeclaration[R5805] where ( selected.name == param.name );
+if ( empty object_declaration )
+  select any object_declaration from instances of ObjectDeclaration where ( selected.name == param.name );
+end if;
+splat = param.name; // string UDTs
+splat = "*";
+if ( ( splat == param.domainname ) and ( splat == param.name ) )
+  select any object_declaration from instances of ObjectDeclaration;
+end if;
+return object_declaration;
+',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("03e18c66-2a27-49a1-a55c-ddc56dbcc571",
+	"b3f881fc-a6a6-4157-858f-079876fff9c8",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c2db04e6-6378-49c1-9ce7-63d9164a3bbc",
+	"b3f881fc-a6a6-4157-858f-079876fff9c8",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"03e18c66-2a27-49a1-a55c-ddc56dbcc571",
+	'');
+INSERT INTO PE_PE
+	VALUES ("b3f881fc-a6a6-4157-858f-079876fff9c8",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4307f29b-2918-4532-9b49-effdfab50b92",
+	"00000000-0000-0000-0000-000000000000",
+	'select_ObjectService_where_name',
+	'',
+	'object_declaration = param.object_declaration;
+select any service related by object_declaration->ObjectService[R5808]->Service[R5203] where ( selected.name == param.name );
+return service;',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("624a11e0-505d-413f-ae28-c442c9b9f92e",
+	"4307f29b-2918-4532-9b49-effdfab50b92",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("087de0b5-3348-4e03-a51b-35f618e17ecc",
+	"4307f29b-2918-4532-9b49-effdfab50b92",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"624a11e0-505d-413f-ae28-c442c9b9f92e",
+	'');
+INSERT INTO PE_PE
+	VALUES ("4307f29b-2918-4532-9b49-effdfab50b92",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2bbcf42a-63a3-4793-9b0b-4abbe0e87b06",
+	"00000000-0000-0000-0000-000000000000",
+	'select_ProjectTerminatorService_where_name',
+	'',
+	'select any domain from instances of Domain where ( selected.name == param.projectdomainname );
+select any project_terminator related by domain->ProjectDomain[R5901]->ProjectTerminator[R5902] where ( selected.name == param.termintorname );
+select any service related by project_terminator->ProjectTerminatorService[R5903]->Service[R5203] where ( selected.name == param.name );
+return service;',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("264d8e35-109d-4a67-aa0a-db1b12dd8e40",
+	"2bbcf42a-63a3-4793-9b0b-4abbe0e87b06",
+	'projectdomainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f42e3e57-92c4-4e20-84c9-2221a7d17352",
+	"2bbcf42a-63a3-4793-9b0b-4abbe0e87b06",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"ec3980ff-93b9-45e0-8e22-bd15b5e9072a",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ec3980ff-93b9-45e0-8e22-bd15b5e9072a",
+	"2bbcf42a-63a3-4793-9b0b-4abbe0e87b06",
+	'termintorname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"264d8e35-109d-4a67-aa0a-db1b12dd8e40",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2bbcf42a-63a3-4793-9b0b-4abbe0e87b06",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a6065075-38c5-4c9c-ab7e-fb93b2103e70",
+	"00000000-0000-0000-0000-000000000000",
+	'select_RelationshipDeclaration_where_name',
+	'',
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any relationship_declaration related by domain->RelationshipDeclaration[R6003] where ( selected.name == param.name );
+if ( empty relationship_declaration )
+  select any relationship_declaration from instances of RelationshipDeclaration where ( selected.name == param.name );
+end if;
+return relationship_declaration;
+',
+	"fc9b3839-3ca6-48c8-b09a-c036f8335a12",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("01b0bab6-e622-4273-a27d-0e5177f7ea8b",
+	"a6065075-38c5-4c9c-ab7e-fb93b2103e70",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("fbd700b5-5055-4ba0-ba50-0c3582458ceb",
+	"a6065075-38c5-4c9c-ab7e-fb93b2103e70",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"01b0bab6-e622-4273-a27d-0e5177f7ea8b",
+	'');
+INSERT INTO PE_PE
+	VALUES ("a6065075-38c5-4c9c-ab7e-fb93b2103e70",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("fc9b3839-3ca6-48c8-b09a-c036f8335a12",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<RelationshipDeclaration>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/relationship/relationship.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("199728d0-d0e8-47ed-86df-3f7e0a37d8fa",
+	"00000000-0000-0000-0000-000000000000",
+	'select_Service_where_name',
+	'',
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any service related by domain->DomainService[R5303]->Service[R5203] where ( selected.name == param.name );
+return service;',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("65b4c6dc-7841-4d2b-97dd-e2f2d3898cc3",
+	"199728d0-d0e8-47ed-86df-3f7e0a37d8fa",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0577bcf7-ff88-4913-aac3-357a2cb4d7b0",
+	"199728d0-d0e8-47ed-86df-3f7e0a37d8fa",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"65b4c6dc-7841-4d2b-97dd-e2f2d3898cc3",
+	'');
+INSERT INTO PE_PE
+	VALUES ("199728d0-d0e8-47ed-86df-3f7e0a37d8fa",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7928ea07-b0f1-4d6f-a820-ed7b31c10c07",
+	"00000000-0000-0000-0000-000000000000",
+	'select_State_related_where_name',
+	'',
+	'object_declaration = param.object_declaration;
+select any state related by object_declaration->MaslState[R6105] where ( selected.name == param.name );
+return state;',
+	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("c1fbe0bf-2c97-41e8-af43-867b94badc8a",
+	"7928ea07-b0f1-4d6f-a820-ed7b31c10c07",
+	'object_declaration',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8107e05a-45d3-4ac5-b3a8-a9b6cd8bd4b5",
+	"7928ea07-b0f1-4d6f-a820-ed7b31c10c07",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"c1fbe0bf-2c97-41e8-af43-867b94badc8a",
+	'');
+INSERT INTO PE_PE
+	VALUES ("7928ea07-b0f1-4d6f-a820-ed7b31c10c07",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/statemodel/statemodel.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("9555c14f-dc49-47bd-a2fb-7dd876a8ca57",
+	"00000000-0000-0000-0000-000000000000",
+	'select_State_where_name',
+	'',
+	'object_declaration = param.object;
+select any ooastate related by object_declaration->MaslState[R6105] where ( selected.name == param.name );
+return ooastate;',
+	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("12ffe0cb-4d13-4803-a95c-4391201e1dc8",
+	"9555c14f-dc49-47bd-a2fb-7dd876a8ca57",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"b1049e70-676b-4a64-b1ed-290659f9f390",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b1049e70-676b-4a64-b1ed-290659f9f390",
+	"9555c14f-dc49-47bd-a2fb-7dd876a8ca57",
+	'object',
+	"ccbbc697-c60c-4034-8e31-7a46032151eb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("9555c14f-dc49-47bd-a2fb-7dd876a8ca57",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4081e52b-dd2d-4063-8650-e08e81fee1e5",
+	"00000000-0000-0000-0000-000000000000",
+	'select_TypeDeclaration_related_UserDefinedType',
+	'',
+	'user_defined_type = param.user_defined_type;
+select one type_declaration related by user_defined_type->TypeDeclaration[R6241];
+return type_declaration;',
+	"1a85f47e-89ea-4d0e-9a09-afc952412df3",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("8113046c-8a4c-446f-a04d-be065e70f037",
+	"4081e52b-dd2d-4063-8650-e08e81fee1e5",
+	'user_defined_type',
+	"5f5b21a5-3fd7-4b46-970e-812947d7a192",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5f5b21a5-3fd7-4b46-970e-812947d7a192",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<UserDefinedType>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4081e52b-dd2d-4063-8650-e08e81fee1e5",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("1a85f47e-89ea-4d0e-9a09-afc952412df3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<TypeDeclaration>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("e03f3388-be8f-4cb5-9922-e994e1079c80",
+	"00000000-0000-0000-0000-000000000000",
+	'select_TypeDefinition_related_BasicType',
+	'',
+	'basic_type = param.basic_type;
+select one type_definition related by basic_type->TypeDefinition[R6236];
+return type_definition;',
+	"e4b2bac4-c232-4da0-b89b-f6db4ad3b8ff",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("2c98ccb8-c87b-4c9b-a829-d30f0d4259e4",
+	"e03f3388-be8f-4cb5-9922-e994e1079c80",
+	'basic_type',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e03f3388-be8f-4cb5-9922-e994e1079c80",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("e4b2bac4-c232-4da0-b89b-f6db4ad3b8ff",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<TypeDefinition>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/type/type.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("1f5c6281-1847-4076-a53c-b80ac2d34248",
+	"00000000-0000-0000-0000-000000000000",
+	'select_UserDefinedType_where_name',
+	'',
+	'select any domain from instances of Domain where ( selected.name == param.domainname );
+select any user_defined_type related by domain->MaslUserDefinedType[R6235] where ( selected.name == param.name );
+if ( empty user_defined_type )
+  select any user_defined_type from instances of MaslUserDefinedType where ( selected.name == param.name );
+end if;
+return user_defined_type;',
+	"5f5b21a5-3fd7-4b46-970e-812947d7a192",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO S_SPARM
+	VALUES ("31b12dea-554a-4c54-aab8-efa0fe596ff2",
+	"1f5c6281-1847-4076-a53c-b80ac2d34248",
+	'domainname',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8f221c14-0476-486c-bb0b-16c2c16f5c00",
+	"1f5c6281-1847-4076-a53c-b80ac2d34248",
+	'name',
+	"18a1a0a5-c53e-4a43-a5bc-f75ee1a2abe2",
+	0,
+	'',
+	"31b12dea-554a-4c54-aab8-efa0fe596ff2",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1f5c6281-1847-4076-a53c-b80ac2d34248",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'load',
+	'',
+	0,
+	'../load.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'stratus',
+	1,
+	'../../stratus.xtuml');
