@@ -885,14 +885,32 @@ if ( not_empty assign_statement )
     // In ASL, this can occur in [t] = Create_Timer().
     return s;
   end if;
-  s = s + ::indent( d:param.d );
   select one lhs related by assign_statement->MaslExpression[R5101];
-  lhs_expression = ::expression( expression:lhs );
-  if ( "" != lhs_expression )
-    // ASL assigns a void function to an empty sequence.
-    s = s + lhs_expression + " := ";
+  s = s + ::indent( d:param.d );
+  // Look for a call expression.  If so, there will be no assignment, just the invocation.
+  outargs = "";
+  select one call_expression related by rhs->CallExpression[R5517];
+  if ( not_empty call_expression )
+    // Check for arguments on the LHS.  If so, these are output parameters to an ASL call expression.
+    select one argument related by lhs->Argument[R5577];
+    delim = ", ";
+    while ( not_empty argument )
+      select one argument_expression related by argument->MaslExpression[R5577];
+      outargs = outargs + delim + ::expression( expression:argument_expression );
+      delim = ", ";
+      select one argument related by argument->Argument[R5576.''precedes''];
+    end while;
+    if ( "" == outargs )
+      outargs = outargs + ")";
+    else
+      outargs = outargs + " )";
+    end if;
+  else
+    lhs_expression = ::expression( expression:lhs );
+    s = s + lhs_expression;
+    s = s + " := ";
   end if;
-  s = s + ::expression( expression:rhs ) + ";\n";
+  s = s + ::expression( expression:rhs ) + outargs + ";\n";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -1473,9 +1491,9 @@ if ( not_empty call_expression )
     select one argument related by argument->Argument[R5576.''precedes''];
   end while;
   if ( "" != args )
-    s = s + " " + args + " ";
+    s = s + " " + args;
   end if;
-  s = s + ")";
+  //s = s + ")";  This gets appended in statement_assign.
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
