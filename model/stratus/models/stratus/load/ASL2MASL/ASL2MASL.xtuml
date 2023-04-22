@@ -893,9 +893,28 @@ if ( not_empty assign_statement )
   if ( not_empty call_expression )
     // Check for arguments on the LHS.  If so, these are output parameters to an ASL call expression.
     select one argument related by lhs->Argument[R5577];
+    position = 0;
     delim = ", ";
     while ( not_empty argument )
       select one argument_expression related by argument->MaslExpression[R5577];
+      select one argument_basic_type related by argument_expression->BasicType[R5570];
+      // Relink the argument expression to the basic type of the parameter definition.
+      basic_type = ::ASL_get_out_parameter_basic_type( call_expression:call_expression, position:position );
+      if ( empty basic_type )
+        break;
+      end if;
+      position = position + 1;
+      // Look for a variable related to the argument.  If found, relink its type.
+      // There is not always a variable; sometimes there is a passed parameter.
+      select one variable_definition related by argument_expression->VariableNameExpression[R5517]->VariableDefinition[R5562];
+      if not_empty variable_definition
+        // relink the variable type
+        select one var_basic_type related by variable_definition->BasicType[R5137];
+        if ( not_empty var_basic_type )
+          unrelate variable_definition from var_basic_type across R5137;
+        end if;
+        relate variable_definition to basic_type across R5137;
+      end if;
       outargs = outargs + delim + ::expression( expression:argument_expression );
       delim = ", ";
       select one argument related by argument->Argument[R5576.''precedes''];
@@ -1335,11 +1354,8 @@ INSERT INTO S_SYNC
 	'service',
 	'',
 	'service = param.service;
-s = ::service_signature( service:service );
-// Declare the local variables.
-select one code_block related by service->MaslCodeBlock[R5403];
-s = s + ::locals( code_block:code_block );
-s = s + "begin\n";
+signature = ::service_signature( service:service );
+s = "begin\n";
 select one statement related by service->MaslCodeBlock[R5403]->MaslStatement[R5150];
 if ( not_empty statement )
   s = s + ::statement( statement:statement, d:1 );
@@ -1347,6 +1363,10 @@ else
   s = s + "  null;\n";
 end if;
 s = s + "end service;\n";
+// Declare the local variables.  Do this last to allow for type rationalization.
+select one code_block related by service->MaslCodeBlock[R5403];
+locals = ::locals( code_block:code_block );
+s = signature + locals + s;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
@@ -1551,6 +1571,8 @@ if ( not_empty link_statement )
   if ( empty subtype_relationship )
     s = s + "." + rel_spec.role;
   end if;
+  select one object_declaration related by rel_spec->ObjectDeclaration[R6011];
+  s = s + "." + object_declaration.name;
   s = s + " " + ::expression( expression:rhs_expression );
   if ( not_empty using_expression )
     s = s + " using " + ::expression( expression:using_expression );
@@ -1967,6 +1989,82 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("a851ee69-58bf-4595-8b75-9801d9d98318",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a3d5cb1b-b843-4fae-b2bf-45f8e0b5dc32",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_get_out_parameter_basic_type',
+	'',
+	'call_expression = param.call_expression;
+position = param.position;
+select any basic_type from instances of BasicType where false;
+
+// Get the service.
+select one service_invocation related by call_expression->ServiceInvocation[R5500];
+select one service related by service_invocation->DomainServiceInvocation[R5610]->DomainService[R5611]->Service[R5203];
+if ( empty service )
+  select one service related by service_invocation->TerminatorServiceInvocation[R5610]->DomainTerminatorService[R5612]->Service[R5203];
+if ( empty service )
+  select one service related by service_invocation->InstanceServiceInvocation[R5610]->ObjectService[R5614]->Service[R5203];
+if ( empty service )
+  select one service related by service_invocation->ObjectServiceInvocation[R5610]->ObjectService[R5613]->Service[R5203];
+else
+  ::trace( i:112, s:"ASL_get_out_parameter_basic_type:  could not find service" );
+end if;
+end if;
+end if;
+
+counter = 0;
+select one parameter related by service->ParameterDefinition[R5204];
+while ( not_empty parameter )
+  // Get past input parameters.
+  if ( parameter.mode == ParameterMode::out )
+    if ( counter == position )
+      select one basic_type related by parameter->BasicType[R5200];
+      return basic_type;
+    end if;
+    counter = counter + 1;
+  end if;
+  select one parameter related by parameter->ParameterDefinition[R5208.''precedes''];
+end while;
+
+::trace( i:113, s:"ASL_get_out_parameter_basic_type:  failed to find out parameter" );
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0,
+	35);
+INSERT INTO S_SPARM
+	VALUES ("fcb8e1b8-14f2-4fdb-8b6a-7bed8eb84570",
+	"a3d5cb1b-b843-4fae-b2bf-45f8e0b5dc32",
+	'call_expression',
+	"11c510b7-7d65-427b-b237-d125229df9a5",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("11c510b7-7d65-427b-b237-d125229df9a5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<CallExpression>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/expression/expression.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("e6525fb2-a8ef-4aa5-9096-380ebce32671",
+	"a3d5cb1b-b843-4fae-b2bf-45f8e0b5dc32",
+	'position',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"fcb8e1b8-14f2-4fdb-8b6a-7bed8eb84570",
+	'');
+INSERT INTO PE_PE
+	VALUES ("a3d5cb1b-b843-4fae-b2bf-45f8e0b5dc32",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
