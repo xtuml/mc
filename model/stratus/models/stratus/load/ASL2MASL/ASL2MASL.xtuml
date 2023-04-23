@@ -893,8 +893,13 @@ if ( not_empty assign_statement )
   if ( not_empty call_expression )
     // Check for arguments on the LHS.  If so, these are output parameters to an ASL call expression.
     select one argument related by lhs->Argument[R5577];
+    // Check for arguments on the call expression.  This will indicate need of a delimiter.
+    delim = " ";
+    select one input_argument related by call_expression->Argument[R5575];
+    if ( not_empty input_argument )
+      delim = ", ";
+    end if;
     position = 0;
-    delim = ", ";
     while ( not_empty argument )
       select one argument_expression related by argument->MaslExpression[R5577];
       select one argument_basic_type related by argument_expression->BasicType[R5570];
@@ -1192,7 +1197,7 @@ else
         instance_based = "instance ";
       end if;
       select one domain related by object_declaration->Domain[R5805];
-      s = s + "service " + instance_based + domain.name + "::" + object_declaration.name + "." + service.name + " (";
+      s = s + instance_based + "service " + domain.name + "::" + object_declaration.name + "." + service.name + " (";
     end if;
   end if;
 end if;

@@ -1481,7 +1481,6 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     @Override
     public Object visitStructureInstantiation(AslParser.StructureInstantiationContext ctx) {
         //try {
-System.err.println("visitStructureInstantiation");
             Object expression = visit(ctx.nameExpression());
             // A structure instantiation automatically creates an empty set of structures.
             // Pass in the basic type and wrap a collection type (sequence) around it.
