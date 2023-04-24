@@ -662,7 +662,11 @@ if ( not_empty binary_expression )
   select one rhs related by binary_expression->MaslExpression[R5002];
   sl = ::expression( expression:lhs );
   sr = ::expression( expression:rhs );
-  return sl + ::operator( op:binary_expression.operator ) + sr;
+  op = ::operator( op:binary_expression.operator );
+  if ( Operator::concatenate == binary_expression.operator )
+    s = ::expression_structure_assembly( lhs:lhs, rhs:rhs );
+  end if;
+  return sl + op + sr;
 end if;
 return "";',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -2070,6 +2074,69 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("a3d5cb1b-b843-4fae-b2bf-45f8e0b5dc32",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2e08ae1e-dc81-44de-b268-331a1db5aed6",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_structure_assembly',
+	'',
+	'lhs = param.lhs;
+rhs = param.rhs;
+s = "";
+
+  // Do structure assembly.
+  // select for structure type
+  // if structure type, select the fields.
+  // for each field set the local with that field to the field in the iterator.
+  // 
+  // The tuple variables will be declared as they are found.
+  // resolve_Loopspec attempts to relink them to structure fields.
+  // They should exist; they just need to be initialized at the top of the loop body.
+  /*
+  select one basic_type related by set_expression->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
+  select one structure_type related by basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
+  if ( not_empty structure_type )
+    select one field related by structure_type->StructureElement[R6244];
+    select one loopvar related by loopspec->VariableDefinition[R5154];
+    while ( not_empty field and not_empty loopvar )
+      s = s + ::indent(d:param.d+1) + loopvar.name + " := " + loopspec.loopVariable + "." + field.name + ";\n";
+      select one field related by field->StructureElement[R6243.''precedes''];
+      select one loopvar related by loopvar->VariableDefinition[R5164.''precedes''];
+    end while;
+  end if;
+  */
+
+
+
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	36);
+INSERT INTO S_SPARM
+	VALUES ("8304abd2-0134-4d18-890d-9f3b06946073",
+	"2e08ae1e-dc81-44de-b268-331a1db5aed6",
+	'lhs',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2a9161e9-58e2-4399-9628-3eb72a558688",
+	"2e08ae1e-dc81-44de-b268-331a1db5aed6",
+	'rhs',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"8304abd2-0134-4d18-890d-9f3b06946073",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2e08ae1e-dc81-44de-b268-331a1db5aed6",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
