@@ -246,6 +246,8 @@ if ( not_empty for_statement )
   select one set_expression related by loopspec->VariableElements[R5123]->MaslExpression[R5139];
   if ( not_empty set_expression )
     s = s + ::expression( expression:set_expression );
+  else
+    ::trace( i:201, s:"ERROR:  For loop without set expression" );
   end if;
   s = s + " loop\n";
   // Do structure disassembly.
@@ -664,7 +666,8 @@ if ( not_empty binary_expression )
   sr = ::expression( expression:rhs );
   op = ::operator( op:binary_expression.operator );
   if ( Operator::concatenate == binary_expression.operator )
-    s = ::expression_structure_assembly( lhs:lhs, rhs:rhs );
+    // structure assembly does its own thing.
+    return ::expression_structure_assembly( lhs:lhs, rhs:rhs );
   end if;
   return sl + op + sr;
 end if;
@@ -880,6 +883,10 @@ INSERT INTO S_SYNC
 	'statement_assign',
 	'',
 	'// Render assign statement.
+// Assignment is complicated in ASL, because a few different constructs are handled here.
+// Call expressions look like assignments.
+// Some timer operations need special casing.
+// And the most complex is structure assembly.
 statement = param.statement;
 s = "";
 select one assign_statement related by statement->AssignmentStatement[R5135];
@@ -934,9 +941,13 @@ if ( not_empty assign_statement )
       outargs = outargs + " )";
     end if;
   else
-    lhs_expression = ::expression( expression:lhs );
-    s = s + lhs_expression;
-    s = s + " := ";
+    // Omit assignment in case of structure assembly.  The structure assembly expression will make the assignment.
+    select one binary_expression related by rhs->BinaryExpression[R5517] where ( selected.operator == Operator::concatenate );
+    if ( empty binary_expression )
+       lhs_expression = ::expression( expression:lhs );
+       s = s + lhs_expression;
+       s = s + " := ";
+    end if;
   end if;
   s = s + ::expression( expression:rhs ) + outargs + ";\n";
 end if;
@@ -2086,30 +2097,39 @@ INSERT INTO S_SYNC
 	'lhs = param.lhs;
 rhs = param.rhs;
 s = "";
+structure_name = "UNRESOLVED_STRUCTURE_TYPE_NAME1"; // ugly names in case we do not find it
+temp_name = "UNRESOLVED_STRUCTURE_TEMP_NAME2";
+empty_name = "UNRESOLVED_STRUCTURE_TYPE_NAME3";
 
-  // Do structure assembly.
-  // select for structure type
-  // if structure type, select the fields.
-  // for each field set the local with that field to the field in the iterator.
-  // 
-  // The tuple variables will be declared as they are found.
-  // resolve_Loopspec attempts to relink them to structure fields.
-  // They should exist; they just need to be initialized at the top of the loop body.
-  /*
-  select one basic_type related by set_expression->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
-  select one structure_type related by basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
-  if ( not_empty structure_type )
-    select one field related by structure_type->StructureElement[R6244];
-    select one loopvar related by loopspec->VariableDefinition[R5154];
-    while ( not_empty field and not_empty loopvar )
-      s = s + ::indent(d:param.d+1) + loopvar.name + " := " + loopspec.loopVariable + "." + field.name + ";\n";
-      select one field related by field->StructureElement[R6243.''precedes''];
-      select one loopvar related by loopvar->VariableDefinition[R5164.''precedes''];
-    end while;
-  end if;
-  */
+// Check for arguments on the LHS.  If so, these are output parameters to an ASL call expression.
+select one argument related by lhs->Argument[R5577];
+select one basic_type related by rhs->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
+select one structure_user_defined_type related by basic_type->MaslUserDefinedType[R6205];
+if ( not_empty structure_user_defined_type )
+  structure_name = structure_user_defined_type.name;
+  temp_name = "temp_" + structure_name;
+  empty_name = "empty_" + structure_name;
+end if;
+select one structure_type related by basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
+if ( not_empty argument and not_empty structure_type )
+  s = temp_name + " := " + empty_name + ";\n";
+  select one field related by structure_type->StructureElement[R6244];
+  // Build up a parallel assignment of individual field assignments.
+  while ( not_empty argument and not_empty field )
+    select one argument_expression related by argument->MaslExpression[R5577];
+    // Arbitrarily indent by 4 increments.  This does not look too bad.  I do not have access to the statement indent.
+    s = s + ::indent( d:4 ) + temp_name + "." + field.name + " := " + ::expression( expression:argument_expression ) + ";\n";
+    select one argument related by argument->Argument[R5576.''precedes''];
+    select one field related by field->StructureElement[R6243.''precedes''];
+  end while;
+  rhs_string = ::expression( expression:rhs );
+  s = s + ::indent( d:4 ) + rhs_string + " := " + rhs_string + " & " + temp_name;
+end if;
 
-
+select one statement related by rhs->AssignmentStatement[R5101]->MaslStatement[R5135];
+if ( not_empty statement )
+  ::trace( i:90, s:"ASSEMBLY found statement" );
+end if;
 
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",

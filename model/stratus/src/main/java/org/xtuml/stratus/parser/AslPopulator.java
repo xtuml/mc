@@ -1480,22 +1480,17 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
 */
     @Override
     public Object visitStructureInstantiation(AslParser.StructureInstantiationContext ctx) {
-        //try {
+        try {
             Object expression = visit(ctx.nameExpression());
             // A structure instantiation automatically creates an empty set of structures.
             // Pass in the basic type and wrap a collection type (sequence) around it.
-            // Return the collection type (basic type) to be related to the variableDefinition.
-            //Object member_type_reference = visit(ctx.typeReference());
-            //Object sequence_type_reference = loader.call_function("ASL_structure_instantiation", member_type_reference);
-            //loader.relate(sequence_type_reference, variableDefinition, 5137, "");
-            //Object root_code_block = loader.call_function("select_CodeBlock_root", currentCodeBlock);
-            //loader.relate(variableDefinition, root_code_block, 5151, "");
+            Object member_basic_type = visit(ctx.typeReference());
+            Object sequence_type_reference = loader.call_function("ASL_structure_instantiation", member_basic_type, expression);
             return expression;
-
-        //} catch (XtumlException e) {
-            //xtumlTrace(e, "", ctx);
-            //return null;
-        //}
+        } catch (XtumlException e) {
+            xtumlTrace(e, "", ctx);
+            return null;
+        }
     }
 
     @Override
@@ -1586,11 +1581,9 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                 }
             } else if (ctx.CONCATENATE() != null) {
                 Object rhs2 = visit(ctx.additiveExp());
-                Object lhs = loader.call_function("ASL_structure_assembly", rhs2);
+                Object lhs = loader.call_function("ASL_structure_assembly", rhs2, currentCodeBlock);
                 if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
                 if ( null != rhs2 ) loader.relate(rhs2, statement, 5100, "");
-                // Unlink type from lhs and connect to type from rhs2.
-                if ((null != lhs ) && (null != rhs2)) loader.call_function("ASL_assignment_relink_type", lhs, rhs2);
             }
             return statement;
         } catch (XtumlException e) {

@@ -2165,7 +2165,6 @@ else
   else
     select one collection_type related by expression->BasicType[R5570]->CollectionType[R6205];
     if not_empty collection_type
-      ::trace(i:76,s:"resolve_LoopSpec FOUND collection:  " + loop_spec.loopVariable);
       create object instance variable_elements of VariableElements;
       relate variable_elements to loop_spec across R5123;
       relate expression to variable_elements across R5139;
@@ -2174,9 +2173,8 @@ else
       // Find the VariableDefinition that was created for the loop variable.
       select any variable_definition related by root_code_block->VariableDefinition[R5151] where ( selected.name == loop_spec.loopVariable );
       if ( not_empty variable_definition )
-        ::trace(i:77,s:"resolve_LoopSpec FOUND existing loopVariable:  " + loop_spec.loopVariable);
+        ::trace(i:77,s:"resolve_LoopSpec found existing loopVariable:  " + loop_spec.loopVariable);
       else
-        ::trace(i:78,s:"resolve_LoopSpec DID NOT FIND existing loopVariable:  " + loop_spec.loopVariable);
         create object instance variable_definition of VariableDefinition;
         variable_definition.name = loop_spec.loopVariable;
         variable_definition.isreadonly = true;
@@ -2189,7 +2187,6 @@ else
       select one structure_type related by basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
       if ( not_empty structure_type )
         // Now, unpack and assign types to the input loop variable tuple.
-        ::trace(i:79,s:"FOUND set of STRUCTURES:  " + loop_spec.loopVariable);
         // Loop through the argument list and the structure members.
         // Assign the types as we go.
         argument_expression = param.argument_list_expression;
@@ -2202,15 +2199,13 @@ else
           select one argument_basic_type related by argument_expression->BasicType[R5570];
           unrelate argument_basic_type from argument_expression across R5570;
           relate element_basic_type to argument_expression across R5570;
-          ::ASL_basic_type_info( basic_type:element_basic_type, label:"resolve_Loop and checking reassigned type" );
           select one argument_basic_type related by argument_expression->BasicType[R5570];
-          ::ASL_basic_type_info( basic_type:argument_basic_type, label:"resolve_Loop and checking if reassigned type actually stuck" );
           select one udt related by element_basic_type->MaslUserDefinedType[R6205];
           if ( not_empty udt )
-            ::trace(i:80,s:"LOOPing and linked type:  " + udt.name);
+            //::trace(i:80,s:"LOOPing and linked type:  " + udt.name);
           end if;
           if ( empty element_basic_type or empty argument_basic_type )
-            ::trace(i:81,s:"LOOPing EMPTY type:  " );
+            //::trace(i:81,s:"LOOPing EMPTY type:  " );
           end if;
           // Find the name of the tuple member.
           select one variable_definition related by argument_expression->VariableNameExpression[R5517]->VariableDefinition[R5562];
@@ -2242,16 +2237,17 @@ else
             unrelate basic_type from variable_definition across R5137;
             relate element_basic_type to variable_definition across R5137;
           else
-            ::trace(i:83,s:"LOOPING not finding variable_definition" );
+            ::trace(i:83,s:"looping not finding variable_definition" );
           end if;
-          ::trace(i:84,s:"LOOPING through argument list and structure members:  " + structure_element.name);
+          ::trace(i:84,s:"resolve_LoopSpec:  looping through argument list and structure members:  " + structure_element.name);
           select one structure_element related by structure_element->StructureElement[R6243.''precedes''];
           select one argument_expression related by argument_expression->Argument[R5577]->Argument[R5576.''precedes'']->MaslExpression[R5577];
         end while;
       else
+        ::trace(i:86,s:"resolve_LoopSpec:  did not find set of structures:  " + loop_spec.loopVariable);
       end if;
     else
-      ::trace(i:85,s:"Could not determine type of loop spec variable:  " + loop_spec.loopVariable);
+      ::trace(i:85,s:"resolve_LoopSpec:  Could not determine type of loop spec variable:  " + loop_spec.loopVariable);
     end if;
   end if;
 end if;
@@ -2878,20 +2874,41 @@ INSERT INTO S_SYNC
 	'// Create a collection type to carry members of the input (structure) basic type.
 
 member_basic_type = param.basic_type;
+expression = param.expression;
 
+// The expression will have a randomly assigned built-in type.  Unlink it.
+select one variable_definition related by expression->VariableNameExpression[R5517]->VariableDefinition[R5562];
+if not_empty variable_definition
+  select one expression_basic_type related by expression->BasicType[R5570];
+  select one var_basic_type related by variable_definition->BasicType[R5137];
+  unrelate expression from expression_basic_type across R5570;
+  unrelate variable_definition from var_basic_type across R5137;
+else
+  ::trace( i:213, s:"structure instantiation:  did not find variable definition" );
+end if;
+
+select one structure_type related by member_basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
+if ( empty structure_type )
+  ::trace( i:214, s:"structure instantiation:  no structure" );
+end if;
+
+// Create a collection type to wrap around the member basic type.
 create object instance type_definition of TypeDefinition;
-create object instance sequence_basic_type of BasicType;
-sequence_basic_type.isanonymous = true;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
 create object instance collection_type of CollectionType;
 create object instance sequence_type of SequenceType;
-
-relate type_definition to sequence_basic_type across R6236;
-relate sequence_basic_type to collection_type across R6205;
+relate type_definition to basic_type across R6236;
+relate basic_type to collection_type across R6205;
 relate collection_type to sequence_type across R6207;
-
 relate collection_type to member_basic_type across R6208;
 
-return sequence_basic_type;',
+// (Re)link the expression to the newly created collection.
+relate expression to basic_type across R5570;
+relate variable_definition to basic_type across R5137;
+
+return basic_type;
+',
 	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
 	1,
 	'',
@@ -2905,6 +2922,15 @@ INSERT INTO S_SPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c8134667-5ff3-4e9d-a543-250649b1e751",
+	"4ec2754e-fec2-44fb-8563-407f995a6ad0",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"261c7217-b922-42a4-96fb-0ea1a9ed4821",
 	'');
 INSERT INTO PE_PE
 	VALUES ("4ec2754e-fec2-44fb-8563-407f995a6ad0",
@@ -2932,6 +2958,8 @@ else
 select one collection_type related by basic_type->CollectionType[R6205];
 if ( not_empty collection_type )
   LOG::LogInfo( message:"basic_type_info:  found collection type" );
+  select one collection_basic_type related by collection_type->BasicType[R6208];
+  ::ASL_basic_type_info( basic_type:collection_basic_type, label:"drilling down" );
 else
 select one builtin_type related by basic_type->BuiltinType[R6205];
 if ( not_empty builtin_type )
@@ -3063,10 +3091,56 @@ INSERT INTO S_SYNC
 	'ASL_structure_assembly',
 	'',
 	'expression = param.expression;
-select one rhs_expression related by expression->BinaryExpression[R5517]->MaslExpression[R5002.''has_rhs''];
+current_code_block = param.current_block;
+select one rhs_expression related by expression->BinaryExpression[R5517]->MaslExpression[R5002];
 if ( empty rhs_expression )
   ::trace( i:106, s:"ASL_structure_assembly:  failed to find rhs_expression" );
 end if;
+select one rhs_basic_type related by rhs_expression->BasicType[R5570];
+if ( empty rhs_basic_type )
+  ::trace( i:106, s:"ASL_structure_assembly:  failed to find rhs_basic_type" );
+end if;
+select one structure_basic_type related by rhs_expression->BasicType[R5570]->CollectionType[R6205]->BasicType[R6208];
+if ( empty structure_basic_type )
+  ::trace( i:106, s:"ASL_structure_assembly:  failed to find structure_basic_type" );
+  ::ASL_basic_type_info( basic_type:rhs_basic_type, label:"ASL_structure_assembly rhs_basic_type" );
+end if;
+select one structure_user_defined_type related by structure_basic_type->MaslUserDefinedType[R6205];
+if ( not_empty structure_user_defined_type )
+  // Create a variable definition and expression for temporary structure.
+  root_code_block = ::select_CodeBlock_root( code_block:param.current_block );
+  select any var_defn related by root_code_block->VariableDefinition[R5151.''scopes''] where ( "" + selected.name == "temp_" + structure_user_defined_type.name );
+  if ( empty var_defn )
+    create object instance variable_definition of VariableDefinition;
+    variable_definition.name = "temp_" + structure_user_defined_type.name;
+    variable_definition.isreadonly = false;
+    // ASL has a flat scope for activities.  Relate to outer level CodeBlock.
+    relate variable_definition to root_code_block across R5151;
+    // create a new variable reference
+    create object instance expr of MaslExpression;
+    relate structure_basic_type to variable_definition across R5137;
+    relate structure_basic_type to expr across R5570;
+    create object instance var_ref of VariableNameExpression;
+    relate var_ref to expr across R5517;
+    relate var_ref to variable_definition across R5562;
+    // Create a variable definition and expression for empty structure.
+    create object instance variable_definition of VariableDefinition;
+    variable_definition.name = "empty_" + structure_user_defined_type.name;
+    variable_definition.isreadonly = false;
+    // ASL has a flat scope for activities.  Relate to outer level CodeBlock.
+    relate variable_definition to root_code_block across R5151;
+    // create a new variable reference
+    create object instance expr of MaslExpression;
+    relate structure_basic_type to variable_definition across R5137;
+    relate structure_basic_type to expr across R5570;
+    create object instance var_ref of VariableNameExpression;
+    relate var_ref to expr across R5517;
+    relate var_ref to variable_definition across R5562;
+  end if;
+else
+  ::trace( i:108, s:"ASL_structure_assembly:  no structure UDT found" );
+end if;
+
 return rhs_expression;',
 	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	1,
@@ -3081,6 +3155,15 @@ INSERT INTO S_SPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("fd060124-5874-41d3-9bfd-69e4faeb30d4",
+	"2b12a7bd-91e2-4dfe-b231-76668bfdcf74",
+	'current_block',
+	"a76746ea-c05f-42fd-bfbf-00a70b069bb6",
+	0,
+	'',
+	"66787805-a66a-475f-a331-27d4de60e333",
 	'');
 INSERT INTO PE_PE
 	VALUES ("2b12a7bd-91e2-4dfe-b231-76668bfdcf74",
