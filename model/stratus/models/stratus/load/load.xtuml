@@ -1195,6 +1195,7 @@ root_code_block = ::select_CodeBlock_root( code_block:param.current_block );
 
 // search for local variable reference
 // Notice that ASL has one scope for all local variables.  It is the root CodeBlock of the activity.
+if ( "" == param.scope )
 select any var related by root_code_block->VariableDefinition[R5151] where (selected.name == param.name);
 if (not_empty var)
   // create a new variable reference
@@ -1238,6 +1239,11 @@ end if;
 // search for literal enumerators
 select any enumer related by domain->MaslUserDefinedType[R6235]->TypeDeclaration[R6241]->TypeDefinition[R6234]
   ->FullTypeDefinition[R6236]->EnumerateType[R6219]->EnumerateItem[R6245] where selected.name == param.name;
+if ( "" != param.base_name )
+  select any user_defined_type related by domain->MaslUserDefinedType[R6235] where ( "" + selected.name == param.base_name );
+  select any enumer related by user_defined_type->TypeDeclaration[R6241]->TypeDefinition[R6234]
+    ->FullTypeDefinition[R6236]->EnumerateType[R6219]->EnumerateItem[R6245] where selected.name == param.name;
+end if;
 if not_empty enumer
   create object instance expr of MaslExpression;
   select any type related by enumer->EnumerateType[R6245]->FullTypeDefinition[R6219]->TypeDefinition[R6236]
@@ -1250,9 +1256,10 @@ if not_empty enumer
   relate enumer to enum_expr across R5701;
   return expr;
 end if;
+end if;
 
 // search for domain service reference
-if ( "" != param.scope )
+if ( "::" == param.scope )
 select any service related by domain->DomainService[R5303]->Service[R5203] where selected.name == param.name;
 if (not_empty service)
   create object instance expr of MaslExpression;
@@ -2814,12 +2821,13 @@ if not_empty var_def
   select one lhs_basic_type related by lhs->BasicType[R5570];
   select one var_basic_type related by var_def->BasicType[R5137];
 
-if ( empty rhs )
-  ::trace(i:11,s:"ASL_assignment_relink_type:  no type found on rhs." );
-end if;
-if ( empty rhs_basic_type )
-  ::trace(i:12,s:"ASL_assignment_relink_type:  no basic type found on rhs." );
-end if;
+  if ( empty rhs )
+    ::trace(i:11,s:"ASL_assignment_relink_type:  no type found on rhs." );
+  end if;
+  if ( empty rhs_basic_type )
+    ::trace(i:12,s:"ASL_assignment_relink_type:  no basic type found on rhs." );
+  end if;
+  
   // relink the expression type
   if ( empty lhs_basic_type )
     ::trace(i:13,s:"ASL_assignment_relink_type:  no type found on lhs." );
@@ -2836,7 +2844,8 @@ end if;
   end if;
   relate var_def to rhs_basic_type across R5137;
   
-end if;',
+end if;
+',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',

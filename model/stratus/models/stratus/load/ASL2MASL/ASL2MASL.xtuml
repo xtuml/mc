@@ -2161,6 +2161,49 @@ INSERT INTO PE_PE
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("246b70fa-ec58-4de8-b130-e8d4785a0979",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_get_enumeration_from_attribute',
+	'',
+	'// For ASL, get the text of the UDT for an enumeration.
+attribute_declaration = param.attribue_declaration;
+s = "";
+select one user_defined_type related by attribute_declaration->BasicType[R5803.''is_typed_by'']->MaslUserDefinedType[R6205];
+if ( not_empty user_defined_type )
+  select one enumerate_type related by user_defined_type->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->EnumerateType[R6219];
+  if ( not_empty enumerate_type )
+    s = user_defined_type.name;
+  end if;
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	37);
+INSERT INTO S_SPARM
+	VALUES ("b027619c-b2b2-4b63-ab32-bb94591cd43d",
+	"246b70fa-ec58-4de8-b130-e8d4785a0979",
+	'attribue_declaration',
+	"bc9fb0af-6887-4a01-9bad-2412058db57c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("bc9fb0af-6887-4a01-9bad-2412058db57c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<AttributeDeclaration>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/object/object.xtuml');
+INSERT INTO PE_PE
+	VALUES ("246b70fa-ec58-4de8-b130-e8d4785a0979",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	1,

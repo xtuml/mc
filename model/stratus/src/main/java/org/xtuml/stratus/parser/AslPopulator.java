@@ -40,6 +40,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     private Object currentOOAState;
     private Object currentCodeBlock;
     private Object currentMarkable;
+    private String currentEnumeration = "";
 
     // utility method for checking type of an object
     private static boolean keyLettersAre(Object o, String keyLetters) {
@@ -2319,8 +2320,11 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                 Object attributeDeclaration = loader.call_function("select_AttributeDeclaration_related_where_name",
                         currentObject, ctx.attributeName().getText());
                 loader.relate(attributeDeclaration, attributeInitialization, 5565, "");
+                // Get the name of the UDT if it is an enumeration.  Pass forward to resolve_NameExpression.
+                currentEnumeration = (String) loader.call_function("ASL_get_enumeration_from_attribute", attributeDeclaration);
                 // Use unaryExp, because of ambiguous AND.
                 loader.relate(visit(ctx.unaryExp()), attributeInitialization, 5568, "");
+                currentEnumeration = "";
             } else {
                 Object ooastate = loader.call_function("select_State_related_where_name", currentObject,
                         ctx.stateName().getText());
@@ -2443,7 +2447,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                     getName(currentDomain),
                     ctx.v.getText(), currentCodeBlock,
                     "", "", "");
-            loader.call_function("ASL_enumerator_relink_type", expression, ctx.t.getText());
+            currentEnumeration = ctx.t.getText();
+            loader.call_function("ASL_enumerator_relink_type", expression, currentEnumeration);
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
@@ -2483,10 +2488,12 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                     number = m.group(2);
                 }
             }
+            if ( "" == base_name ) base_name = currentEnumeration;
             Object expression = loader.call_function("resolve_NameExpression",
                     getName(currentDomain),
                     ctx.identifier().getText(), currentCodeBlock,
                     scope, base_name, number);
+            currentEnumeration = "";
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
