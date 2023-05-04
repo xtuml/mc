@@ -1374,7 +1374,7 @@ INSERT INTO S_SYNC
 	'service',
 	'',
 	'service = param.service;
-signature = ::service_signature( service:service );
+signature = service.description + ::service_signature( service:service );
 s = "begin\n";
 select one statement related by service->MaslCodeBlock[R5403]->MaslStatement[R5150];
 if ( not_empty statement )
@@ -1415,26 +1415,26 @@ INSERT INTO S_SYNC
 	'',
 	's = "";
 state = param.state;
-s = s + state.description;
+signature = state.description;
 select one object_declaration related by state->ObjectDeclaration[R6105];
 select one domain related by object_declaration->Domain[R5805];
-s = s + "state " + domain.name + "::" + object_declaration.name + "." + state.name + " (";
+signature = signature + "state " + domain.name + "::" + object_declaration.name + "." + state.name + " (";
 select one parameter_definition related by state->ParameterDefinition[R6104];
 if ( not_empty parameter_definition )
-  s = s + ::parameter_definition_render( parameter_definition:parameter_definition );
+  signature = signature + ::parameter_definition_render( parameter_definition:parameter_definition );
 end if;
-s = s + ") is\n";
-// Declare the local variables.
-select one code_block related by state->MaslCodeBlock[R6115];
-s = s + ::locals( code_block:code_block );
+signature = signature + ") is\n";
 s = s + "begin\n";
+select one code_block related by state->MaslCodeBlock[R6115];
 select one statement related by code_block->MaslStatement[R5150];
 if ( not_empty statement )
   s = s + ::statement( statement:statement, d:1 );
 else
   s = s + "  null;\n";
 end if;
-s = s + "end state;\n";
+// Declare the local variables.  Do this last to allow variables to be typed.
+locals = ::locals( code_block:code_block );
+s = signature + locals + s + "end state;\n";
 return s;
 
 ',
