@@ -668,6 +668,12 @@ if ( not_empty binary_expression )
   if ( Operator::concatenate == binary_expression.operator )
     // structure assembly does its own thing.
     return ::expression_structure_assembly( lhs:lhs, rhs:rhs );
+  elif ( Operator::and_ == binary_expression.operator )
+    // Check for instance types in correlated navigation.
+    select one instance_type related by lhs->BasicType[R5570]->InstanceType[R6205];
+    if ( not_empty instance_type )
+      op = " with ";
+    end if;
   end if;
   return sl + op + sr;
 end if;
