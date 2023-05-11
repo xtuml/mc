@@ -1486,7 +1486,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             // A structure instantiation automatically creates an empty set of structures.
             // Pass in the basic type and wrap a collection type (sequence) around it.
             Object member_basic_type = visit(ctx.typeReference());
-            Object sequence_type_reference = loader.call_function("ASL_structure_instantiation", member_basic_type, expression);
+            loader.call_function("ASL_structure_instantiation", member_basic_type, expression);
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);

@@ -2894,6 +2894,9 @@ if not_empty variable_definition
   unrelate variable_definition from var_basic_type across R5137;
 else
   ::trace( i:213, s:"structure instantiation:  did not find variable definition" );
+  // This must be a re-instantiation.  I will need to produce an initialization.
+  // But for now just return.
+  return;
 end if;
 
 select one structure_type related by member_basic_type->MaslUserDefinedType[R6205]->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
@@ -2916,9 +2919,8 @@ relate collection_type to member_basic_type across R6208;
 relate expression to basic_type across R5570;
 relate variable_definition to basic_type across R5137;
 
-return basic_type;
-',
-	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+return;',
+	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
 	0,
