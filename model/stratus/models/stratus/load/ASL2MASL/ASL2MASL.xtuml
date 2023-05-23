@@ -926,17 +926,6 @@ if ( not_empty assign_statement )
         break;
       end if;
       position = position + 1;
-      // Look for a variable related to the argument.  If found, relink its type.
-      // There is not always a variable; sometimes there is a passed parameter.
-      select one variable_definition related by argument_expression->VariableNameExpression[R5517]->VariableDefinition[R5562];
-      if not_empty variable_definition
-        // relink the variable type
-        select one var_basic_type related by variable_definition->BasicType[R5137];
-        if ( not_empty var_basic_type )
-          unrelate variable_definition from var_basic_type across R5137;
-        end if;
-        relate variable_definition to basic_type across R5137;
-      end if;
       outargs = outargs + delim + ::expression( expression:argument_expression );
       delim = ", ";
       select one argument related by argument->Argument[R5576.''precedes''];
