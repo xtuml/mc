@@ -1486,8 +1486,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             // A structure instantiation automatically creates an empty set of structures.
             // Pass in the basic type and wrap a collection type (sequence) around it.
             Object member_basic_type = visit(ctx.typeReference());
-            loader.call_function("ASL_structure_instantiation", member_basic_type, expression);
-            return expression;
+            return loader.call_function("ASL_structure_instantiation", member_basic_type, expression, currentCodeBlock);
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
             return null;
@@ -1532,7 +1531,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             if (ctx.assignStatement() != null) {
                 loader.relate(visit(ctx.assignStatement()), statement, 5135, "");
             } else if (ctx.structureInstantiation() != null) {
-                visit(ctx.structureInstantiation());
+                loader.relate(visit(ctx.structureInstantiation()), statement, 5135, "");
             } else if (ctx.callStatement() != null) {
                 loader.relate(visit(ctx.callStatement()), statement, 5135, "");
             } else if (ctx.exitStatement() != null) {
