@@ -504,7 +504,7 @@ pragma                        : PRAGMA pragmaName
                                 RPAREN
                               ;
 
-pragmaValue                   : unaryExp
+pragmaValue                   : constExpression
                               ;
 
 pragmaName                    : identifier
