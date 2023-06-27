@@ -1467,6 +1467,7 @@ INSERT INTO S_SYNC
 	'',
 	'expression = param.expression;
 s = "";
+select any service from instances of Service where false;
 select one call_expression related by expression->CallExpression[R5517];
 if ( not_empty call_expression )
   select one service_invocation related by call_expression->ServiceInvocation[R5500];
@@ -1518,11 +1519,40 @@ if ( not_empty call_expression )
   end if;
   args = "";
   delim = "";
+  position = 0;
   select one argument related by call_expression->Argument[R5575];
   while ( not_empty argument )
+    // Because enumerations are not fully resolvable by name alone, some types
+    // will be mislinked.  The following will render to the correct types.
+    // Get the type of the argument from the service signature.
+    // Keep track of the position and use it to get the type positionally.
+    // Render from the signature UDT + the literal enumerate item.
+    this_argument = "";
     select one argument_expression related by argument->MaslExpression[R5577];
-    args = args + delim + ::expression( expression:argument_expression );
+    select one literal_expression related by argument_expression->LiteralExpression[R5517];
+    if ( not_empty literal_expression )
+      select one enumerate_literal related by literal_expression->EnumerateLiteral[R5700];
+      if ( not_empty enumerate_literal )
+        // We have an enumerate literal, so we know that we need to use the signature UDT.
+        select one enumerate_item related by enumerate_literal->EnumerateItem[R5701];
+        parameter_basic_type = ::ASL_get_parameter_basic_type( service:service, position:position );
+        if ( not_empty parameter_basic_type )
+          select one parameter_user_defined_type related by parameter_basic_type->MaslUserDefinedType[R6205];
+          if ( not_empty parameter_user_defined_type )
+            this_argument = parameter_user_defined_type.name + "." + enumerate_item.name;
+          else
+            ::trace( i:76, s:"ERROR:  did not find parameter user defined type" );
+          end if;
+        end if;
+      end if;
+    end if;
+    if ( "" != this_argument )
+      args = args + delim + this_argument;
+    else
+      args = args + delim + ::expression( expression:argument_expression );
+    end if;
     delim = ", ";
+    position = position + 1;
     select one argument related by argument->Argument[R5576.''precedes''];
   end while;
   if ( "" != args )
@@ -2195,6 +2225,57 @@ INSERT INTO S_DT_PROXY
 	'../../../../../ooamasl/models/ooamasl/ooamasl/object/object.xtuml');
 INSERT INTO PE_PE
 	VALUES ("246b70fa-ec58-4de8-b130-e8d4785a0979",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("0b88817a-d67b-446f-8cd5-dd30f65d6e93",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_get_parameter_basic_type',
+	'',
+	'service = param.service;
+position = param.position;
+select any basic_type from instances of BasicType where false;
+
+counter = 0;
+select one parameter related by service->ParameterDefinition[R5204];
+while ( not_empty parameter )
+  if ( counter == position )
+    select one basic_type related by parameter->BasicType[R5200];
+    return basic_type;
+  end if;
+  counter = counter + 1;
+  select one parameter related by parameter->ParameterDefinition[R5208.''precedes''];
+end while;
+
+::trace( i:114, s:"ASL_get_parameter_basic_type:  failed to find out parameter" );
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0,
+	38);
+INSERT INTO S_SPARM
+	VALUES ("5110a887-25fb-4f0b-bf59-6b660dcbf592",
+	"0b88817a-d67b-446f-8cd5-dd30f65d6e93",
+	'service',
+	"b907c2e2-2877-4506-8018-ad38c7be275a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("49cf9c12-7a4b-4d41-ae02-f02499f0b337",
+	"0b88817a-d67b-446f-8cd5-dd30f65d6e93",
+	'position',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"5110a887-25fb-4f0b-bf59-6b660dcbf592",
+	'');
+INSERT INTO PE_PE
+	VALUES ("0b88817a-d67b-446f-8cd5-dd30f65d6e93",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
