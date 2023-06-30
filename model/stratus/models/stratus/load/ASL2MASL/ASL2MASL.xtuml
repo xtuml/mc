@@ -674,6 +674,15 @@ if ( not_empty binary_expression )
     if ( not_empty instance_type )
       op = " with ";
     end if;
+  else
+    cast = ::ASL_assignment_cast( lhs:lhs, rhs:rhs );
+    if ( "" != cast )
+      sr = cast + "(" + sr + ")";
+    end if;
+    cast = ::ASL_assignment_cast( lhs:rhs, rhs:lhs );
+    if ( "" != cast )
+      sl = cast + "(" + sl + ")";
+    end if;
   end if;
   return sl + op + sr;
 end if;
@@ -944,7 +953,12 @@ if ( not_empty assign_statement )
        s = s + " := ";
     end if;
   end if;
-  s = s + ::expression( expression:rhs ) + outargs + ";\n";
+  rhs_expression = ::expression( expression:rhs );
+  cast = ::ASL_assignment_cast( lhs:lhs, rhs:rhs );
+  if ( "" != cast )
+    rhs_expression = cast + "(" + rhs_expression + ")";
+  end if;
+  s = s + rhs_expression + outargs + ";\n";
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -2142,8 +2156,24 @@ if ( not_empty argument and not_empty structure_type )
   // Build up a parallel assignment of individual field assignments.
   while ( not_empty argument and not_empty field )
     select one argument_expression related by argument->MaslExpression[R5577];
+    
+    // Get type of field.
+    // Get type of argument expression.
+    // If type of field is UDT and type of expression is builtin, then cast.
+    cast = "";
+    select one field_user_defined_type related by field->BasicType[R6230]->MaslUserDefinedType[R6205];
+    select one argument_builtin_type related by argument_expression->BasicType[R5570]->BuiltinType[R6205];
+    if ( not_empty field_user_defined_type and not_empty argument_builtin_type )
+      // need to cast
+      cast = field_user_defined_type.name;
+    end if;
+    rhs_string = ::expression( expression:argument_expression );
+    if ( "" != cast )
+      rhs_string = cast + "(" + rhs_string + ")";
+    end if;
+
     // Arbitrarily indent by 4 increments.  This does not look too bad.  I do not have access to the statement indent.
-    s = s + ::indent( d:4 ) + temp_name + "." + field.name + " := " + ::expression( expression:argument_expression ) + ";\n";
+    s = s + ::indent( d:4 ) + temp_name + "." + field.name + " := " + rhs_string + ";\n";
     select one argument related by argument->Argument[R5576.''precedes''];
     select one field related by field->StructureElement[R6243.''precedes''];
   end while;
@@ -2156,7 +2186,10 @@ if ( not_empty statement )
   ::trace( i:90, s:"ASSEMBLY found statement" );
 end if;
 
-return s;',
+return s;
+
+
+',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
@@ -2276,6 +2309,54 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("0b88817a-d67b-446f-8cd5-dd30f65d6e93",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f2732090-76a8-4e24-8230-7e84df358e66",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_assignment_cast',
+	'',
+	'// In MASL, an assignment of a UDT to a built-in requires a cast.
+
+lhs = param.lhs;
+rhs = param.rhs;
+
+select one lhs_basic_type related by lhs->BasicType[R5570];
+select one rhs_basic_type related by rhs->BasicType[R5570];
+
+select one user_defined_type related by lhs_basic_type->MaslUserDefinedType[R6205];
+select one builtin_type related by rhs_basic_type->BuiltinType[R6205];
+if ( not_empty user_defined_type and not_empty builtin_type )
+  return user_defined_type.name; 
+end if;
+return "";',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	39);
+INSERT INTO S_SPARM
+	VALUES ("bb689b69-9ca3-4cd8-8b3c-0ab594a6b3b7",
+	"f2732090-76a8-4e24-8230-7e84df358e66",
+	'lhs',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4355a5ca-a9d0-447e-9f5b-93c21d1a3f21",
+	"f2732090-76a8-4e24-8230-7e84df358e66",
+	'rhs',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"bb689b69-9ca3-4cd8-8b3c-0ab594a6b3b7",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f2732090-76a8-4e24-8230-7e84df358e66",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",
