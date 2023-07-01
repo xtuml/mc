@@ -1,0 +1,108 @@
+= xtuml2masl Pragma Switch
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+This note documents a feature to automatically emit marking pragmas into
+the generated `.mod` file from 'xtuml2masl'.
+
+== 2 Introduction and Background
+
+'xtuml2masl' converts an xtUML model into compilable MASL.  'xtuml2masl'
+is a shell script which invokes 3 subcomponents:  'Xtuml2Masl' (Java
+plugin), 'x2m', 'masl' and 'MaslFormatter'.
+
+'Xtuml2Masl' is a Java plugin that serves as the command and control
+portion of the utility.  It invokes invokes the other subcomponents.
+
+'x2m' is a modeled model compiler that serializes xtUML into serial MASL.
+serial MASL is an intermediate form used to populate a model of MASL.
+'x2m' also reads from the model of marking and serializes them into serial
+MASL.  It produces serial MASL pragmas for elements marked in
+`application.mark` only.
+
+'masl' is a modeled model compiler which is populated from a stream of
+serial MASL.  It then emits MASL or WASL based upon command line flags.
+
+'MaslFormatter' formats MASL into a consistent (and comparable) form.
+
+== 3 Requirements
+
+=== 3.1 Feature Activation
+
+The new feature shall be activated under the control of the user.
+
+=== 3.2 Additional Pragmas
+
+Additional pragmas shall be emitted into the `.mod` file beyond those that
+are marked.
+
+==== 3.2.1 List of Required Pragmas
+
+* public domain fuctions (Provided Operations):  domain_operation_number
+* private domain fuctions (Provided Operations):  scenario number
+* terminator services (Required Operations):  terminator_operation_number
+* terminator (Required Port):  key_letter
+* terminator (Required Port):  key_letter
+* relationship:  Class_A/Class_B ("One_To_One_Left_Side");
+* object service:  operation_number
+* state:  state_number
+* event:  event_number
+* object:  id
+* object:  key_letter
+* domain:  number
+* domain:  name
+* domain:  kl
+* domain:  version
+
+== 4 Analysis
+
+== 4.1 Alternatives
+
+There are a few ways this functionality could be implemented.
+
+=== 4.1.1 'masl'-centric Design
+
+This alternative is implemented mostly in 'masl'.  A query would be added
+to create instances of 'pragmaList', 'pragma' and 'pragmaItem' for the
+required pragma outputs.
+
+=== 4.1.2 'x2m'-centric Design
+
+This alternative is implemented mostly in 'x2m' ('maslout').  A query
+would be added to provide additional serial MASL pragmas for the required
+additional pragmas.
+
+This option has the advantage of visibility the model of marking.
+
+=== 4.1.3 Activation Alternatives
+
+==== 4.1.3.1 Command Line Switch
+
+A command line switch could be provided to enable the new functionality
+for emitting additional pragmas beyond those that are marked.
+
+==== 4.1.3.2 Mark
+
+A special mark could be used to enable the new functionality.
+
+== 5 Work Required
+
+== 6 Acceptance Test
+
+=== 6.1 SWATS Test Suite
+
+Run SWATS test models and see that all pragmas necessary are produced for
+the 'asl2masl' conversion utility.
+
+== 7 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12669[12669 - Switch Additional Pragmas]
+. [[dr-2]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
