@@ -5,7 +5,10 @@ xtUML Project Analysis Note
 == 1 Abstract
 
 This note documents a feature to automatically emit marking pragmas into
-the generated `.mod` file from 'xtuml2masl'.
+the generated `.mod` file from 'xtuml2masl'.  The purpose of this feature
+is to produce an adequately annotated (marked) `.mod` for ingestion by the
+ASL2MASL application.  Pragmas not necessary for the MASL Exporter are
+needed by the ASL-to-MASL conversion program.
 
 == 2 Introduction and Background
 
@@ -46,7 +49,7 @@ The following pragmas shall be emitted for the associated model elements.
 * private domain fuction (Provided Operation):  scenario number
 * terminator service (Required Operation):  terminator_operation_number
 * terminator (Required Port):  key_letter
-* relationship:  Class_A/Class_B
+* relationship:  Class_A/Class_B (may or may not be needed)
 * object service:  operation_number
 * state:  state_number
 * event:  event_number
@@ -55,7 +58,9 @@ The following pragmas shall be emitted for the associated model elements.
 * domain:  number
 * domain:  name
 * domain:  kl
-* domain:  version
+* domain:  version (may be useful to recognize ASL-idiom models)
+
+Here is a brainstorm query fragment targeted to the 'masl' model:
 
   select many domains from instances of domain;
   for each domain in domain
@@ -74,6 +79,9 @@ The following pragmas shall be emitted for the associated model elements.
   end for;
 
 == 4 Analysis
+
+It is noted that this functionality is extremely niche.  It is used only
+in the conversion of ASL-idiom xtUML models being converted to the MASL-idiom.
 
 == 4.1 Alternatives
 
