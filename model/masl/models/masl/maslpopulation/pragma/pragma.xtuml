@@ -225,11 +225,15 @@ for each domain in domains
     // Emit state_number for all object states.
     select many object_states related by domain_object->state[R3750];
     for each object_state in object_states
-      select one markable related by object_state->activity[R3704]->markable[R3783];
-      select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "state_number" );
-      if ( empty pragma )
-        pragma = pragma::populate( name:"state_number", list:"", element:markable );
-        pragma_item::populate( value:STRING::itoa( i:object_state.number ), pragma:pragma );
+
+      select one state_activity related by object_state->activity[R3704];
+      if ( "Non_Existent" != state_activity.name )
+        select one markable related by object_state->activity[R3704]->markable[R3783];
+        select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "state_number" );
+        if ( empty pragma )
+          pragma = pragma::populate( name:"state_number", list:"", element:markable );
+          pragma_item::populate( value:STRING::itoa( i:object_state.number ), pragma:pragma );
+        end if;
       end if;
     end for;
 
@@ -262,7 +266,6 @@ for each domain in domains
 
   end for;
 
-
   // Mark the domain itself.
   select one markable related by domain->markable[R3783];
 
@@ -293,7 +296,8 @@ for each domain in domains
     pragma_item::populate( value:domain.version, pragma:pragma );
   end if;
 
-end for;',
+end for;
+',
 	1,
 	'',
 	"75a7df50-2388-4bb4-b569-d82c95666375",

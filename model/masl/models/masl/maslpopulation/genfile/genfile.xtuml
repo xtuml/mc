@@ -78,6 +78,11 @@ elif ( "domain" == element )
   if ( empty domains )
     TRACE::log( flavor:"error", id:52, message:"could not render domain:  " + name );
   else
+    select any pragma related by domains->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "version" );
+    if ( not_empty pragma )
+      // Use the domain version mark to detect ASL idiom models that need the extra pragmas.
+      pragma::asl_extras(); // populate additional pragmas needed for ASL-to-MASL (ASL2MASL) conversion.
+    end if;
     for each domain in domains
       domain.render();
       select one genfile related by domain->markable[R3783]->element[R3786]->genfile[R3795];
