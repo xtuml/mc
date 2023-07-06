@@ -134,6 +134,171 @@ return valid;',
 	"26e558f4-4c8e-4ddf-a140-8b13409ffb34",
 	0,
 	0);
+INSERT INTO O_TFR
+	VALUES ("c157056f-c992-4343-84e9-0c346c37ad28",
+	"bd654b77-3ff1-445c-bca4-df6599e92ed2",
+	'asl_extras',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'// Populate pragmas for elements required in ASL-to-MASL (ASL2MASL) conversion.
+
+/*
+public domain fuction (Provided Operation):  domain_operation_number
+private domain fuction (Provided Operation):  scenario number
+terminator service (Required Operation):  terminator_operation_number
+terminator (Required Port):  key_letter
+relationship:  Class_A/Class_B
+object service:  operation_number
+state:  state_number
+event:  event_number
+object:  id
+object:  key_letter
+domain:  number
+domain:  name
+domain:  kl
+domain:  version
+*/
+
+select many domains from instances of domain;
+for each domain in domains
+
+  // Emit domain_operation_number for public domain functions.
+  select many public_routines related by domain->routine[R3790] where ( selected.visibility == "public" );
+  for each public_routine in public_routines
+    select one markable related by public_routine->activity[R3704]->markable[R3783];
+    select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "domain_operation_number" );
+    if ( empty pragma )
+      pragma = pragma::populate( name:"domain_operation_number", list:"", element:markable );
+      pragma_item::populate( value:STRING::itoa( i: public_routine.number ), pragma:pragma );
+    end if;
+  end for;
+
+  // Emit scenario number for private domain functions.
+  select many private_routines related by domain->routine[R3790] where ( selected.visibility == "private" );
+  for each private_routine in private_routines
+    select one markable related by private_routine->activity[R3704]->markable[R3783];
+    select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
+    if ( empty pragma )
+      pragma = pragma::populate( name:"scenario", list:"", element:markable );
+      pragma_item::populate( value:STRING::itoa( i: private_routine.number ), pragma:pragma );
+    end if;
+  end for;
+
+  // Emit terminator_operation_number for all terminator services.
+  select many terminator_routines related by domain->terminator[R3702]->routine[R3791];
+  for each terminator_routine in terminator_routines
+    select one markable related by terminator_routine->activity[R3704]->markable[R3783];
+    select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "terminator_operation_number" );
+    if ( empty pragma )
+      pragma = pragma::populate( name:"terminator_operation_number", list:"", element:markable );
+      pragma_item::populate( value:STRING::itoa( i: terminator_routine.number ), pragma:pragma );
+    end if;
+  end for;
+
+  // Emit terminator key letters for all terminators.
+  select many terminators related by domain->terminator[R3702];
+  for each terminator in terminators
+    select one markable related by terminator->markable[R3783];
+    select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
+    if ( empty pragma )
+      pragma = pragma::populate( name:"key_letter", list:"", element:markable );
+      pragma_item::populate( value:terminator.key_letters, pragma:pragma );
+    end if;
+  end for;
+
+  // Populate pragmas for object related elements.
+  select many domain_objects related by domain->object[R3708];
+  for each domain_object in domain_objects
+
+    // Emit operation_number for all object services.
+    select many operations related by domain_object->operation[R3749];
+    for each operation in operations
+      select one markable related by operation->activity[R3704]->markable[R3783];
+      select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "operation_number" );
+      if ( empty pragma )
+        pragma = pragma::populate( name:"operation_number", list:"", element:markable );
+        pragma_item::populate( value:STRING::itoa( i:operation.number ), pragma:pragma );
+      end if;
+    end for;
+
+    // Emit state_number for all object states.
+    select many object_states related by domain_object->state[R3750];
+    for each object_state in object_states
+      select one markable related by object_state->activity[R3704]->markable[R3783];
+      select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "state_number" );
+      if ( empty pragma )
+        pragma = pragma::populate( name:"state_number", list:"", element:markable );
+        pragma_item::populate( value:STRING::itoa( i:object_state.number ), pragma:pragma );
+      end if;
+    end for;
+
+    // Emit event_number for all object events.
+    select many object_events related by domain_object->event[R3736];
+    for each object_event in object_events
+      select one markable related by object_event->markable[R3783];
+      select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "event_number" );
+      if ( empty pragma )
+        pragma = pragma::populate( name:"event_number", list:"", element:markable );
+        pragma_item::populate( value:STRING::itoa( i:object_event.number ), pragma:pragma );
+      end if;
+    end for;
+
+    // Emit key letters for object.
+    select one markable related by domain_object->markable[R3783];
+    select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
+    if ( empty pragma )
+      pragma = pragma::populate( name:"key_letter", list:"", element:markable );
+      pragma_item::populate( value:domain_object.key_letters, pragma:pragma );
+    end if;
+
+    // Emit number for object.
+    select one markable related by domain_object->markable[R3783];
+    select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "number" );
+    if ( empty pragma )
+      pragma = pragma::populate( name:"number", list:"", element:markable );
+      pragma_item::populate( value:STRING::itoa( i:domain_object.number ), pragma:pragma );
+    end if;
+
+  end for;
+
+
+  // Mark the domain itself.
+  select one markable related by domain->markable[R3783];
+
+  // Emit domain name.
+  select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "name" );
+  if ( empty pragma )
+    pragma = pragma::populate( name:"name", list:"", element:markable );
+    pragma_item::populate( value:domain.name, pragma:pragma );
+  end if;
+  // Emit domain key letters.
+  select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "kl" );
+  if ( empty pragma )
+    pragma = pragma::populate( name:"key_letter", list:"", element:markable );
+    pragma_item::populate( value:domain.key_letters, pragma:pragma );
+  end if;
+
+  // Emit domain number.
+  select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "number" );
+  if ( empty pragma )
+    pragma = pragma::populate( name:"number", list:"", element:markable );
+    pragma_item::populate( value:"1", pragma:pragma ); // TODO:  hard-coded
+  end if;
+
+  // Emit domain version.
+  select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "version" );
+  if ( empty pragma )
+    pragma = pragma::populate( name:"version", list:"", element:markable );
+    pragma_item::populate( value:domain.version, pragma:pragma );
+  end if;
+
+end for;',
+	1,
+	'',
+	"75a7df50-2388-4bb4-b569-d82c95666375",
+	0,
+	1);
 INSERT INTO O_NBATTR
 	VALUES ("3d6ffc15-15cb-4df1-a30a-8828c3961885",
 	"bd654b77-3ff1-445c-bca4-df6599e92ed2");

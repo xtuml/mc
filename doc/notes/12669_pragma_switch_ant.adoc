@@ -10,15 +10,15 @@ the generated `.mod` file from 'xtuml2masl'.
 == 2 Introduction and Background
 
 'xtuml2masl' converts an xtUML model into compilable MASL.  'xtuml2masl'
-is a shell script which invokes 3 subcomponents:  'Xtuml2Masl' (Java
+is a shell script which invokes 4 subcomponents:  'Xtuml2Masl' (Java
 plugin), 'x2m', 'masl' and 'MaslFormatter'.
 
 'Xtuml2Masl' is a Java plugin that serves as the command and control
-portion of the utility.  It invokes invokes the other subcomponents.
+portion of the utility.  It invokes the other subcomponents.
 
 'x2m' is a modeled model compiler that serializes xtUML into serial MASL.
-serial MASL is an intermediate form used to populate a model of MASL.
-'x2m' also reads from the model of marking and serializes them into serial
+Serial MASL is an intermediate form used to populate a model of MASL.
+'x2m' also reads from the model of marking and serializes marks into serial
 MASL.  It produces serial MASL pragmas for elements marked in
 `application.mark` only.
 
@@ -40,12 +40,13 @@ are marked.
 
 ==== 3.2.1 List of Required Pragmas
 
-* public domain fuctions (Provided Operations):  domain_operation_number
-* private domain fuctions (Provided Operations):  scenario number
-* terminator services (Required Operations):  terminator_operation_number
+The following pragmas shall be emitted for the associated model elements.
+
+* public domain fuction (Provided Operation):  domain_operation_number
+* private domain fuction (Provided Operation):  scenario number
+* terminator service (Required Operation):  terminator_operation_number
 * terminator (Required Port):  key_letter
-* terminator (Required Port):  key_letter
-* relationship:  Class_A/Class_B ("One_To_One_Left_Side");
+* relationship:  Class_A/Class_B
 * object service:  operation_number
 * state:  state_number
 * event:  event_number
@@ -55,6 +56,22 @@ are marked.
 * domain:  name
 * domain:  kl
 * domain:  version
+
+  select many domains from instances of domain;
+  for each domain in domain
+    select many routines related by domain->routine;
+    for each routine in routines
+      ...
+    enf for;
+    // Mark the domain itself.
+    select one markable related by domain->markable;
+    select any pragma related by markable->pragma_list->pragma where ( selected.name == "kl" );
+    if ( empty pragma )
+      select one element related by markable->element;
+      pragma = pragma::populate( name:"key_letter", list:"", element );
+      pragma_item::populate( item:domain.key_letters, pragra:pragma );
+    end if;
+  end for;
 
 == 4 Analysis
 
@@ -71,10 +88,10 @@ required pragma outputs.
 === 4.1.2 'x2m'-centric Design
 
 This alternative is implemented mostly in 'x2m' ('maslout').  A query
-would be added to provide additional serial MASL pragmas for the required
+would be added to provide additional serial MASL for the required
 additional pragmas.
 
-This option has the advantage of visibility the model of marking.
+This option has the advantage of visibility to the model of marking.
 
 === 4.1.3 Activation Alternatives
 
@@ -88,6 +105,30 @@ for emitting additional pragmas beyond those that are marked.
 A special mark could be used to enable the new functionality.
 
 == 5 Work Required
+
+=== 5.1 Reproduce Prior Results
+
+. Generate code and compare to previously generated code.
+. Compile, run and get same results with the 'Events' SWATS model.
+
+=== 5.2 Update 'masl' Query
+
+. Add capability in 'masl' to populate the needed pragmas.
+. Use pragma::populate.
+. Consider the current element stack, although I think this linkage could
+  be handled in the query.
+. Consider how to avoid remarking elements already marked.
+
+=== 5.3 Update 'masl' Command Line
+
+. Update `sys_user_co.c` to parse a command line option to cause
+  additional pragmas to be generated.
+
+=== 5.4 Update 'Xtuml2Masl' Command Line
+
+. Update the 'Xtuml2Masl' command line parser to manage the option to
+  generate additional pragmas.
+. Pass the command line option to 'masl'.
 
 == 6 Acceptance Test
 
