@@ -145,7 +145,29 @@ A special mark could be used to enable the new functionality.
 Run SWATS test models and see that all pragmas necessary are produced for
 the 'asl2masl' conversion utility.
 
-== 7 Document References
+== 7 Implementation Comments
+
+. I skipped updating 'Xtuml2Masl' and `sys_user_co.c` for command line
+  switching.  Instead, I simply am assuming that there will be a pragma
+  "version" on the domain for ASL-idiom models using the MASL Exporter.
+. Class_A/Class_B is not addressed.  I do not think it is necessary.
+. String pragma items are not quoted.  This will be tested.
+. Rename `mcmc` to `_mcmc` in BP installation to get the build (on MacOS ARM).
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  12669_pragma_switch
+
+----
+ doc/notes/12669_pragma_switch_ant.adoc                      | 175 ++++++++++++++++++++++++++++++
+ model/masl/models/masl/maslpopulation/genfile/genfile.xtuml |   5 ++
+ model/masl/models/masl/maslpopulation/maslpopulation.xtuml  |  69 ++++++++++++++-------
+ model/masl/models/masl/maslpopulation/pragma/pragma.xtuml   | 169 ++++++++++++++++++++++++++++++
+ 4 files changed, 395 insertions(+), 23 deletions(-)
+----
+
+== 9 Document References
 
 . [[dr-1]] https://support.onefact.net/issues/12669[12669 - Switch Additional Pragmas]
 . [[dr-2]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
