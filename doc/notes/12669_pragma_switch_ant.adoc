@@ -6,7 +6,7 @@ xtUML Project Analysis Note
 
 This note documents a feature to automatically emit marking pragmas into
 the generated `.mod` file from 'xtuml2masl'.  The purpose of this feature
-is to produce an adequately annotated (marked) `.mod` for ingestion by the
+is to produce an adequately annotated (marked) `.mod` file for ingestion by the
 ASL2MASL application.  Pragmas not necessary for the MASL Exporter are
 needed by the ASL-to-MASL conversion program.
 
@@ -93,6 +93,8 @@ This alternative is implemented mostly in 'masl'.  A query would be added
 to create instances of 'pragmaList', 'pragma' and 'pragmaItem' for the
 required pragma outputs.
 
+This is the alternative selected for deployment.
+
 === 4.1.2 'x2m'-centric Design
 
 This alternative is implemented mostly in 'x2m' ('maslout').  A query
@@ -112,6 +114,11 @@ for emitting additional pragmas beyond those that are marked.
 
 A special mark could be used to enable the new functionality.
 
+This is the alternative selected for activation.  The 'version' mark on
+the 'domain' (Component) is common for ASL projects.  It is not present in
+MASL projects.  Therefore, it is an effective mechanism to recognise
+models needing the additional pragmas.
+
 == 5 Work Required
 
 === 5.1 Reproduce Prior Results
@@ -126,19 +133,8 @@ A special mark could be used to enable the new functionality.
 . Consider the current element stack, although I think this linkage could
   be handled in the query.
 . Consider how to avoid remarking elements already marked.
-
-=== 5.3 Update 'masl' Command Line
-
-. Update `sys_user_co.c` to parse a command line option to cause
-  additional pragmas to be generated.
-
-=== 5.4 Update 'Xtuml2Masl' Command Line
-
-. Update the 'Xtuml2Masl' command line parser to manage the option to
-  generate additional pragmas.
-. Pass the command line option to 'masl'.
-
-== 6 Acceptance Test
+. Recognise 'domain' : 'version' marking as the switch to output
+  additional pragmas.
 
 === 6.1 SWATS Test Suite
 
@@ -147,11 +143,9 @@ the 'asl2masl' conversion utility.
 
 == 7 Implementation Comments
 
-. I skipped updating 'Xtuml2Masl' and `sys_user_co.c` for command line
-  switching.  Instead, I simply am assuming that there will be a pragma
-  "version" on the domain for ASL-idiom models using the MASL Exporter.
 . Class_A/Class_B is not addressed.  I do not think it is necessary.
-. String pragma items are not quoted.  This will be tested.
+. String pragma items are not quoted.  This will be tested (and likely
+  quotes added).
 . Rename `mcmc` to `_mcmc` in BP installation to get the build (on MacOS ARM).
 
 == 8 Code Changes
