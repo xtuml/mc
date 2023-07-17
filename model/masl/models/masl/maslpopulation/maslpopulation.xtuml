@@ -7299,7 +7299,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'type',
-	'type');
+	'type',
+	1);
 INSERT INTO PE_PE
 	VALUES ("3e6c076e-7376-48f8-bc30-dc52cd01deb6",
 	1,
@@ -7312,7 +7313,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'terminator',
-	'terminator');
+	'terminator',
+	1);
 INSERT INTO PE_PE
 	VALUES ("a7750f0c-bc92-4f88-b6c9-3aa2dc709c97",
 	1,
@@ -7325,7 +7327,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'member',
-	'member');
+	'member',
+	1);
 INSERT INTO PE_PE
 	VALUES ("87e73c4e-ac65-4a06-8a3a-589a71216449",
 	1,
@@ -7338,7 +7341,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'activity',
-	'activity');
+	'activity',
+	1);
 INSERT INTO PE_PE
 	VALUES ("946dd2a2-ac06-4aaa-b817-499afdd06226",
 	1,
@@ -7351,7 +7355,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'project',
-	'project');
+	'project',
+	1);
 INSERT INTO PE_PE
 	VALUES ("ffa58fde-fe21-47b1-9ca1-e3199c6dccac",
 	1,
@@ -7364,7 +7369,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'domain',
-	'domain');
+	'domain',
+	1);
 INSERT INTO PE_PE
 	VALUES ("eb125df2-88f2-4525-bdda-86c859512424",
 	1,
@@ -7377,7 +7383,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'exception',
-	'exception');
+	'exception',
+	1);
 INSERT INTO PE_PE
 	VALUES ("518e50be-20bf-4159-a27b-5872b2b36b13",
 	1,
@@ -7390,7 +7397,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'identifier',
-	'identifier');
+	'identifier',
+	1);
 INSERT INTO PE_PE
 	VALUES ("f3f46b9a-9963-4926-acb0-670b60042be7",
 	1,
@@ -7403,7 +7411,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'event',
-	'event');
+	'event',
+	1);
 INSERT INTO PE_PE
 	VALUES ("c10c7721-2024-4d68-9798-c8c6f661f160",
 	1,
@@ -7416,7 +7425,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'state_machine',
-	'state_machine');
+	'state_machine',
+	1);
 INSERT INTO PE_PE
 	VALUES ("d7ba666e-3238-439e-b502-e0ae02cfc8b5",
 	1,
@@ -7429,7 +7439,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'relationship',
-	'relationship');
+	'relationship',
+	1);
 INSERT INTO PE_PE
 	VALUES ("a34b271a-b291-4870-b347-78debac466e1",
 	1,
@@ -7442,7 +7453,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'object',
-	'object');
+	'object',
+	1);
 INSERT INTO PE_PE
 	VALUES ("2005e6fb-ef8a-420b-b218-03aa5b7b0f10",
 	1,
@@ -7455,7 +7467,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'attribute',
-	'attribute');
+	'attribute',
+	1);
 INSERT INTO PE_PE
 	VALUES ("9a42fa70-7790-4ec1-8a40-cee69c46e9bd",
 	1,
@@ -7468,7 +7481,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'parameter',
-	'parameter');
+	'parameter',
+	1);
 INSERT INTO PE_PE
 	VALUES ("bc4f3835-9c22-4bc5-a531-97e8666538d9",
 	1,
@@ -7481,7 +7495,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'participation',
-	'participation');
+	'participation',
+	1);
 INSERT INTO PE_PE
 	VALUES ("f3412451-c69e-435f-873d-75824a5457e5",
 	1,
@@ -7494,7 +7509,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'typeref',
-	'typeref');
+	'typeref',
+	1);
 INSERT INTO PE_PE
 	VALUES ("55871fd8-f403-4bf5-896d-d0ea355ab902",
 	1,
@@ -7507,7 +7523,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'referential',
-	'referential');
+	'referential',
+	1);
 INSERT INTO PE_PE
 	VALUES ("2bef79e2-e4e2-4348-be66-043d3e8d47fb",
 	1,
@@ -7520,7 +7537,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'cell',
-	'cell');
+	'cell',
+	1);
 INSERT INTO PE_PE
 	VALUES ("6e7ecb00-69ae-47ea-b4a1-3858f54671c6",
 	1,
@@ -7533,7 +7551,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'code_block',
-	'code_block');
+	'code_block',
+	1);
 INSERT INTO PE_PE
 	VALUES ("ba2ea091-6ba0-42bb-87cf-b49872a62666",
 	1,
@@ -7546,7 +7565,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'enumeration',
-	'enumeration');
+	'enumeration',
+	1);
 INSERT INTO PE_PE
 	VALUES ("79fe1893-4fd5-4649-8d25-8792da4ff526",
 	1,
@@ -7559,7 +7579,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'enumerator',
-	'enumerator');
+	'enumerator',
+	1);
 INSERT INTO PE_PE
 	VALUES ("b0483fd9-3fe3-4bb8-a838-7a18af33dc51",
 	1,
@@ -7572,7 +7593,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'structure',
-	'structure');
+	'structure',
+	1);
 INSERT INTO PE_PE
 	VALUES ("9892bb47-5c9c-400d-8851-567fd2c8a6fe",
 	1,
@@ -7585,7 +7607,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'range',
-	'range');
+	'range',
+	1);
 INSERT INTO PE_PE
 	VALUES ("2c90d560-f4ca-4005-9870-c8a17f2b8288",
 	1,
