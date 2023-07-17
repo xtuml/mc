@@ -203,7 +203,7 @@ for each domain in domains
     select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
     if ( empty pragma )
       pragma = pragma::populate( name:"key_letter", list:"", element:markable );
-      pragma_item::populate( value:terminator.key_letters, pragma:pragma );
+      pragma_item::populate( value:STRING::quote() + terminator.key_letters + STRING::quote(), pragma:pragma );
     end if;
   end for;
 
@@ -253,7 +253,7 @@ for each domain in domains
     select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
     if ( empty pragma )
       pragma = pragma::populate( name:"key_letter", list:"", element:markable );
-      pragma_item::populate( value:domain_object.key_letters, pragma:pragma );
+      pragma_item::populate( value: STRING::quote() + domain_object.key_letters + STRING::quote(), pragma:pragma );
     end if;
 
     // Emit number for object.
@@ -273,13 +273,13 @@ for each domain in domains
   select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "name" );
   if ( empty pragma )
     pragma = pragma::populate( name:"name", list:"", element:markable );
-    pragma_item::populate( value:domain.name, pragma:pragma );
+    pragma_item::populate( value:STRING::quote() + domain.name + STRING::quote(), pragma:pragma );
   end if;
   // Emit domain key letters.
   select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "kl" );
   if ( empty pragma )
     pragma = pragma::populate( name:"key_letter", list:"", element:markable );
-    pragma_item::populate( value:domain.key_letters, pragma:pragma );
+    pragma_item::populate( value:STRING::quote() + domain.key_letters + STRING::quote(), pragma:pragma );
   end if;
 
   // Emit domain number.
