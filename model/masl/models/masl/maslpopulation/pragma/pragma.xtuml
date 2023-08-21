@@ -178,8 +178,10 @@ for each domain in domains
   select many private_routines related by domain->routine[R3790] where ( selected.visibility == "private" );
   for each private_routine in private_routines
     select one markable related by private_routine->activity[R3704]->markable[R3783];
-    select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
-    if ( empty pragma )
+    select any scenario_pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "scenario" );
+    // Skip scenario pragma for externals.
+    select any external_pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "external" );
+    if ( empty scenario_pragma and empty external_pragma )
       pragma = pragma::populate( name:"scenario", list:"", element:markable );
       pragma_item::populate( value:STRING::itoa( i: private_routine.number ), pragma:pragma );
     end if;
@@ -272,14 +274,16 @@ for each domain in domains
   // Emit domain name.
   select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "name" );
   if ( empty pragma )
+    // TODO - name and key letters get switched for ASL
     pragma = pragma::populate( name:"name", list:"", element:markable );
-    pragma_item::populate( value:STRING::quote() + domain.name + STRING::quote(), pragma:pragma );
+    pragma_item::populate( value:STRING::quote() + domain.key_letters + STRING::quote(), pragma:pragma );
   end if;
   // Emit domain key letters.
   select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "kl" );
   if ( empty pragma )
-    pragma = pragma::populate( name:"key_letter", list:"", element:markable );
-    pragma_item::populate( value:STRING::quote() + domain.key_letters + STRING::quote(), pragma:pragma );
+    // TODO - name and key letters get switched for ASL
+    pragma = pragma::populate( name:"kl", list:"", element:markable );
+    pragma_item::populate( value:STRING::quote() + domain.name + STRING::quote(), pragma:pragma );
   end if;
 
   // Emit domain number.
