@@ -8994,7 +8994,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'expression',
-	'expression');
+	'expression',
+	1);
 INSERT INTO PE_PE
 	VALUES ("2e7e4e1e-ef9b-4da4-9ac4-f07712dd8c75",
 	1,
@@ -9007,7 +9008,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'domain',
-	'domain');
+	'domain',
+	1);
 INSERT INTO PE_PE
 	VALUES ("503dac3c-dfcf-498c-886b-492660e7f3a9",
 	1,
@@ -9020,7 +9022,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'object',
-	'object');
+	'object',
+	1);
 INSERT INTO PE_PE
 	VALUES ("e670082d-404d-4403-9d74-4465fe5af706",
 	1,

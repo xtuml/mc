@@ -9260,7 +9260,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'typeref',
-	'typeref');
+	'typeref',
+	1);
 INSERT INTO PE_PE
 	VALUES ("0c2f34af-b9e1-4dd9-9923-105cf05eb24f",
 	1,
@@ -9273,7 +9274,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'type',
-	'type');
+	'type',
+	1);
 INSERT INTO PE_PE
 	VALUES ("1be0d27b-d7f1-41ce-9d81-2ab26b093679",
 	1,

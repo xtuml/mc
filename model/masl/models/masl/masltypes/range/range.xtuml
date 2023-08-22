@@ -38,6 +38,16 @@ create object instance range of range;
 relate range to constraint across R3757;
 range.minimum = param.minimum;
 range.maximum = param.maximum;
+
+// Populate constraint pragmas for constrained types.
+select one markable related by parent_type->markable[R3783];
+select any pragma related by markable->pragma_list[R3782]->pragma[R3781] where ( selected.name == "type_range" );
+if ( empty pragma )
+  pragma = pragma::populate( name:"type_range", list:"", element:markable );
+  pragma_item::populate( value:range.minimum, pragma:pragma );
+  pragma_item::populate( value:range.maximum, pragma:pragma );
+end if;
+
 return range;',
 	1,
 	'',

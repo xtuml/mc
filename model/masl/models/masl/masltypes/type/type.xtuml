@@ -39,22 +39,18 @@ elif ( not_empty structure )
   structure.render();
 else
   // UDTs
+  if ( "MASL" == genfile::architecture() )
+    T::include( file:"masl/t.type_begin.masl" );
+  end if;
   select one constraint related by self->constraint[R3751];
   if ( not_empty constraint )
-    constraint.render();
-  else
-    if ( "MASL" == genfile::architecture() )
-      T::include( file:"masl/t.type_begin.masl" );
-      T::include( file:"masl/t.type_end.masl" );
-    elif ( "WASL" == genfile::architecture() )
-      // WASL does not support unconstrained UDTs.
-      if ( "Timer_ID" != self.name ) and ( false )
-        T::include( file:"wasl/t.type_begin.wasl" );
-        T::include( file:"wasl/t.type_end.wasl" );
-      end if;
-    else
-      //
+    // MASL does not support MASL native type constraints, only marked with pragmas.
+    if ( "WASL" == genfile::architecture() )
+      constraint.render();
     end if;
+  end if;
+  if ( "MASL" == genfile::architecture() )
+    T::include( file:"masl/t.type_end.masl" );
   end if;
 end if;
 

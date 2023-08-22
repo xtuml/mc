@@ -18,10 +18,8 @@ INSERT INTO O_TFR
 select one namedref related by self->namedref[R3774];
 if ( "WASL" == genfile::architecture() )
   T::include( file:"wasl/t.constraint.wasl" );
-  namedref.render();
-else
-  //
 end if;
+namedref.render();
 select one range related by self->range[R3757];
 range.render();
 ',
