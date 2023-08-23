@@ -15,10 +15,10 @@
 
 extern bool Escher_run_flag;
 #define T_number_of_bufs 4
-#define T_tbuf_size 256000
+#define T_tbuf_size 1024000
 static i_t current_tbuf = 0;
 static i_t buffer_index = 0;
-static char buffer[ 1024000 ];
+static char buffer[ 4096000 ];
 static char tbuf[ T_number_of_bufs ][ T_tbuf_size ];
 FILE * outputfile;
 
