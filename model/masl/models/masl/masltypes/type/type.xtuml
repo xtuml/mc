@@ -54,7 +54,9 @@ else
   end if;
 end if;
 
-markable.render_marking( list:"default" );
+if ( "MASL" == genfile::architecture() )
+  markable.render_marking( list:"default" );
+end if;
 ',
 	1,
 	'',
