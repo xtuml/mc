@@ -32,7 +32,9 @@ select one markable related by self->markable[R3783];
 select one enumeration related by self->enumeration[R3751];
 select one structure related by self->structure[R3751];
 if ( not_empty enumeration )
-  if ( "Time_Unit" != self.name )
+  if ( ( "Time_Unit" == self.name ) and ( "WASL" == genfile::architecture() ) )
+    // Skip Time_Unit in WASL.
+  else
     enumeration.render();
   end if;
 elif ( not_empty structure )

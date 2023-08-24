@@ -124,8 +124,10 @@ masl_type_op_render( masl_type * self)
   if ( ( 0 != self ) && ( masl_structure_CLASS_NUMBER == self->R3751_object_id ) )  structure = ( 0 != self ) ? (masl_structure *) self->R3751_subtype : 0;
   /* IF ( not_empty enumeration ) */
   if ( ( 0 != enumeration ) ) {
-    /* IF ( Time_Unit != self.name ) */
-    if ( Escher_strcmp( "Time_Unit", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.name" ))->name ) != 0 ) {
+    /* IF ( ( Time_Unit == self.name ) and ( WASL == genfile::architecture() ) ) */
+    if ( ( Escher_strcmp( "Time_Unit", ((masl_type *)xtUML_detect_empty_handle( self, "type", "self.name" ))->name ) == 0 ) && ( Escher_strcmp( "WASL", masl_genfile_op_architecture() ) == 0 ) ) {
+    }
+    else {
       /* enumeration.render() */
       masl_enumeration_op_render( enumeration );
     }
@@ -158,8 +160,11 @@ masl_type_op_render( masl_type * self)
 #include "masl/t.type_end.masl"
     }
   }
-  /* markable.render_marking( list:default ) */
-  masl_markable_op_render_marking( markable,  "default" );
+  /* IF ( MASL == genfile::architecture() ) */
+  if ( Escher_strcmp( "MASL", masl_genfile_op_architecture() ) == 0 ) {
+    /* markable.render_marking( list:default ) */
+    masl_markable_op_render_marking( markable,  "default" );
+  }
   Escher_ClearSet( references ); 
 }
 
