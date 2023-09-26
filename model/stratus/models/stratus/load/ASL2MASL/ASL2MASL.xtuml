@@ -1518,11 +1518,19 @@ if ( not_empty call_expression )
         s = s + "''" + characteristic_expression.characteristic;
       elif ( "event" == characteristic_expression.characteristic )
         slen = STRING::strlen(s:s);
+        // omit of quotation marks
         s = STRING::substr(s:s, begin:1, end:slen-1);
         slen = STRING::strlen(s:s);
-        key_letters = STRING::substr(s:s, begin:0, end:slen-1);
-        number = STRING::substr(s:s, begin:slen-1, end:-1);
-        s = "key" + key_letters + "num" + number;
+        // input is ABC123, output is key_letters, number
+        number = "";
+        i = 1;
+        n = STRING::substr(s:s, begin:slen-i, end:slen-i+1); // get last character/number
+        while ( STRING::indexof( haystack:"0123456789", needle:n ) > -1 )
+          number = n + number;
+          i = i + 1;
+          n = STRING::substr(s:s, begin:slen-i, end:slen-i+1);
+        end while;
+        key_letters = STRING::substr(s:s, begin:0, end:slen-i+1);
         ed = ::ASL_select_EventDeclaration_where_keyletters_name( object_keyletters:key_letters, num:number, name:"" );
         s = ed.name;
       end if;
@@ -2179,11 +2187,6 @@ if ( not_empty argument and not_empty structure_type )
   end while;
   rhs_string = ::expression( expression:rhs );
   s = s + ::indent( d:4 ) + rhs_string + " := " + rhs_string + " & " + temp_name;
-end if;
-
-select one statement related by rhs->AssignmentStatement[R5101]->MaslStatement[R5135];
-if ( not_empty statement )
-  ::trace( i:90, s:"ASSEMBLY found statement" );
 end if;
 
 return s;

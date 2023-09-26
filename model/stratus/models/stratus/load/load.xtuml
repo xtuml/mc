@@ -2254,7 +2254,8 @@ else
         ::trace(i:86,s:"resolve_LoopSpec:  did not find set of structures:  " + loop_spec.loopVariable);
       end if;
     else
-      ::trace(i:85,s:"resolve_LoopSpec:  Could not determine type of loop spec variable:  " + loop_spec.loopVariable);
+      ::trace(i:85,s:"resolve_LoopSpec:  ERROR - Could not determine type of loop spec variable:  " + loop_spec.loopVariable);
+      ::trace(i:85,s:"resolve_LoopSpec:  Perhaps missing collection type?");
     end if;
   end if;
 end if;
