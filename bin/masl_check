@@ -1,37 +1,66 @@
 #!/bin/bash
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 BP_PLUGIN_DIR=$DIR/../../../plugins
 CLASSPATH=''
 
 function addToClasspath {
-  for file in $BP_PLUGIN_DIR/$1_*.jar ; do
-    if [ -z $CLASSPATH ] ; then
-      CLASSPATH=$file
-    else
-      CLASSPATH=$CLASSPATH:$file
-    fi
-  done
+	for file in $BP_PLUGIN_DIR/$1_*.jar; do
+		if [ -z $CLASSPATH ]; then
+			CLASSPATH=$file
+		else
+			CLASSPATH=$CLASSPATH:$file
+		fi
+	done
 }
 
 addToClasspath 'org.xtuml.bp.xtext.masl'
-addToClasspath 'org.eclipse.xtext'
-addToClasspath 'org.eclipse.xtext.xbase'
-addToClasspath 'org.eclipse.equinox.common'
-addToClasspath 'org.eclipse.emf.ecore'
-addToClasspath 'org.eclipse.xtext.xbase.lib'
+addToClasspath 'com.google.guava'
+addToClasspath 'com.google.guava.failureaccess'
+addToClasspath 'com.google.inject'
+addToClasspath 'com.ibm.icu'
+addToClasspath 'jakarta.inject.jakarta.inject-api'
 addToClasspath 'org.antlr.runtime'
-addToClasspath 'org.eclipse.xtext.util'
-addToClasspath 'org.eclipse.xtend.lib'
-addToClasspath 'org.eclipse.emf.common'
-addToClasspath 'org.eclipse.emf.ecore.xmi'
-addToClasspath 'org.eclipse.xtext.xbase'
-addToClasspath 'org.eclipse.xtext.common.types'
+addToClasspath 'org.apache.commons.cli'
 addToClasspath 'org.apache.commons.logging'
 addToClasspath 'org.apache.log4j'
-addToClasspath 'com.ibm.icu'
-addToClasspath 'com.google.inject'
-addToClasspath 'com.google.guava'
-addToClasspath 'javax.inject'
+addToClasspath 'org.eclipse.core.contenttype'
+addToClasspath 'org.eclipse.core.jobs'
+addToClasspath 'org.eclipse.core.runtime'
+addToClasspath 'org.eclipse.emf.codegen'
+addToClasspath 'org.eclipse.emf.codegen.ecore'
+addToClasspath 'org.eclipse.emf.codegen.ecore.xtext'
+addToClasspath 'org.eclipse.emf.common'
+addToClasspath 'org.eclipse.emf.ecore'
+addToClasspath 'org.eclipse.emf.ecore.xcore'
+addToClasspath 'org.eclipse.emf.ecore.xcore.lib'
+addToClasspath 'org.eclipse.emf.ecore.xmi'
+addToClasspath 'org.eclipse.emf.mwe.core'
+addToClasspath 'org.eclipse.emf.mwe.utils'
+addToClasspath 'org.eclipse.emf.mwe2.language'
+addToClasspath 'org.eclipse.emf.mwe2.launch'
+addToClasspath 'org.eclipse.emf.mwe2.lib'
+addToClasspath 'org.eclipse.emf.mwe2.runtime'
+addToClasspath 'org.eclipse.equinox.app'
+addToClasspath 'org.eclipse.equinox.common'
+addToClasspath 'org.eclipse.equinox.preferences'
+addToClasspath 'org.eclipse.equinox.registry'
+addToClasspath 'org.eclipse.osgi'
+addToClasspath 'org.eclipse.osgi.compatibility.state'
+addToClasspath 'org.eclipse.xtend.lib'
+addToClasspath 'org.eclipse.xtend.lib.macro'
+addToClasspath 'org.eclipse.xtext'
+addToClasspath 'org.eclipse.xtext.common.types'
+addToClasspath 'org.eclipse.xtext.ecore'
+addToClasspath 'org.eclipse.xtext.util'
+addToClasspath 'org.eclipse.xtext.xbase'
+addToClasspath 'org.eclipse.xtext.xbase.lib'
+addToClasspath 'org.eclipse.xtext.xtext.generator'
+addToClasspath 'org.objectweb.asm'
+addToClasspath 'org.osgi.annotation.bundle'
+addToClasspath 'org.osgi.annotation.versioning'
+addToClasspath 'org.osgi.service.component.annotations'
+addToClasspath 'org.osgi.service.metatype.annotations'
+addToClasspath 'org.osgi.service.prefs'
 
 java -cp $CLASSPATH org/xtuml/bp/xtext/masl/cli/MaslCliChecker $@
