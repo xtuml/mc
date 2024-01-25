@@ -15,7 +15,7 @@ def launch(port_file, opts, debug):
     # fork and launch a CLI process
     addr, port = server.getsockname()
     if debug:
-        print port
+        print( port )
     else:
         proc = subprocess.Popen( "$BPHOME/bridgepoint --launcher.suppressErrors -clean -noSplash -data $WORKSPACE -application org.xtuml.bp.cli.Launch -port " + str(port) + " " + opts, shell=True )
         output += "PID: " + str(proc.pid) + "\n"
@@ -48,7 +48,7 @@ def cmd(cmd, port):
     try:
         sock.connect( ("localhost", port) )
     except socket.error:
-        print "Connection refused"
+        print( "Connection refused" )
         return 1
 
     # send the command
@@ -96,10 +96,10 @@ def recvline(sock):
 
 def usage(incorrect=""):
     if "" != incorrect:
-        print "Incorrect usage '" + incorrect + "'"
-    print "Usage:"
-    print "    python " + sys.argv[0] + " launch"
-    print "    python " + sys.argv[0] + " cmd <port> <command>"
+        print( "Incorrect usage '" + incorrect + "'" )
+    print( "Usage:" )
+    print( "    python " + sys.argv[0] + " launch" )
+    print( "    python " + sys.argv[0] + " cmd <port> <command>" )
     sys.exit(1)
 
 if len(sys.argv) > 2:
