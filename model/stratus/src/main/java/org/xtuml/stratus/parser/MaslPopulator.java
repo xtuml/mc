@@ -562,10 +562,11 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                     (ctx.domainReference() != null ? visit(ctx.domainReference()) : ""), ctx.typeName().getText());
             if (!((IModelInstance<?, ?>) basicType).isEmpty()) {
                 loader.set_attribute(basicType, "isanonymous", (ctx.ANONYMOUS() != null));
-            } else {
-                System.err.println("namedTypeRef failed with name:  " + visit(ctx.domainReference()) + "::"
-                        + ctx.typeName().getText());
-            }
+			} else {
+				System.err.println("namedTypeRef failed with name:  "
+						+ (ctx.domainReference() != null ? visit(ctx.domainReference()) + "::" : "")
+						+ ctx.typeName().getText());
+			}
             return basicType;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
