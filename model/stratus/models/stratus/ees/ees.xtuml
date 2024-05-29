@@ -1,0 +1,114 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("956db92b-6104-4657-b2f9-ae30d69ee5a8",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	"e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'ees',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("288a75dd-78a4-47d4-b1bf-6743799f6ff1",
+	112,
+	"956db92b-6104-4657-b2f9-ae30d69ee5a8",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'stratus::ees');
+INSERT INTO GD_GE
+	VALUES ("a7ff2c93-aae8-410c-9490-5dfa9905a5ff",
+	"288a75dd-78a4-47d4-b1bf-6743799f6ff1",
+	"bbb4ac46-4ae7-4266-a939-ec389e873063",
+	12,
+	0,
+	'stratus::ees::Files');
+INSERT INTO GD_SHP
+	VALUES ("a7ff2c93-aae8-410c-9490-5dfa9905a5ff");
+INSERT INTO GD_NCS
+	VALUES ("a7ff2c93-aae8-410c-9490-5dfa9905a5ff");
+INSERT INTO DIM_ND
+	VALUES (200.000000,
+	150.000000,
+	"a7ff2c93-aae8-410c-9490-5dfa9905a5ff");
+INSERT INTO DIM_GE
+	VALUES (250.000000,
+	0.000000,
+	"a7ff2c93-aae8-410c-9490-5dfa9905a5ff",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("a7ff2c93-aae8-410c-9490-5dfa9905a5ff",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_DIA
+	VALUES ("288a75dd-78a4-47d4-b1bf-6743799f6ff1",
+	'',
+	1.000000,
+	0.000000,
+	0.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_EE
+	VALUES ("bbb4ac46-4ae7-4266-a939-ec389e873063",
+	'Files',
+	'',
+	'Files',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Files',
+	1);
+INSERT INTO S_BRG
+	VALUES ("98fd57d2-ffbd-499d-9e85-fb88bf277e2a",
+	"bbb4ac46-4ae7-4266-a939-ec389e873063",
+	'copyFile',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	3,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("be786c47-f570-44b6-99a7-315b2aa670d3",
+	"98fd57d2-ffbd-499d-9e85-fb88bf277e2a",
+	'src',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("31e17e89-1c6b-43bd-a175-63f3d757c6f8",
+	"98fd57d2-ffbd-499d-9e85-fb88bf277e2a",
+	'dst',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"be786c47-f570-44b6-99a7-315b2aa670d3",
+	'');
+INSERT INTO PE_PE
+	VALUES ("bbb4ac46-4ae7-4266-a939-ec389e873063",
+	1,
+	"956db92b-6104-4657-b2f9-ae30d69ee5a8",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO PE_PE
+	VALUES ("956db92b-6104-4657-b2f9-ae30d69ee5a8",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO S_SYS_PROXY
+	VALUES ("e1ca632b-b51d-48ee-b1a8-9539fcd49828",
+	'stratus',
+	1,
+	'../stratus.xtuml');

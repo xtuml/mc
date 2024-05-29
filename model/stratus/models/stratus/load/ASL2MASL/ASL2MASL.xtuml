@@ -41,7 +41,9 @@ INSERT INTO S_SYNC
 	'::trace( i:1, s:"ASL2MASL" );
 select many domains from instances of Domain;
 for each domain in domains
-T::set_output_directory( dir:"gen/masl/" + domain.name );
+
+  output_directory = CMD::get_value(name: "o") + "/" + domain.name;
+  T::set_output_directory(dir: output_directory);
   select many services related by domain->DomainService[R5303]->Service[R5203];
   for each service in services
     ::trace( i:2, s:"domain service name is:  " + service.name + " filename is:  " + service.filename );
@@ -89,6 +91,13 @@ T::set_output_directory( dir:"gen/masl/" + domain.name );
       end if;
     end for;
   end for;
+
+  // Copy the .mod or .prj file to the output location
+  mod_file = CMD::get_value(name:"mod");
+  if mod_file != ""
+    Files::copyFile(src: mod_file, dst: output_directory + "/" + domain.name + ".mod");
+  end if;
+
 end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,

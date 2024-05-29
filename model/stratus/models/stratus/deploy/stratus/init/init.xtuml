@@ -44,6 +44,7 @@ INSERT INTO S_SYNC
 CMD::register_value(name:"mod", value_name:"mod_file", usage:"Path to a MASL domain file", default_value:"", required:false);
 CMD::register_value(name:"prj", value_name:"prj_file", usage:"Path to a MASL project file", default_value:"", required:false);
 CMD::register_value(name:"domainpath", value_name:"domain_path", usage:"Colon separated domain path", default_value:"", required:false);
+CMD::register_value(name:"o", value_name:"output_directory", usage:"Location of generated MASL output", default_value:"gen/masl", required:false);
 CMD::register_flag(name:"asl", usage:"Parse ASL domain");
 CMD::read_command_line();
 
