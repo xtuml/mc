@@ -12996,7 +12996,7 @@ INSERT INTO GD_GE
 	"bc75feea-4e2e-4616-8a25-3be797da25c3",
 	23,
 	0,
-	'ooamasl::ooamasl::expression::StructureElement');
+	'ooamasl::ooamasl::expression::StructureElement 2');
 INSERT INTO GD_SHP
 	VALUES ("1c015a26-59e5-4690-9b73-f08cae4f6877");
 INSERT INTO GD_NCS
@@ -20120,7 +20120,7 @@ INSERT INTO R_PART
 	VALUES ("3a9d9ea8-20d3-4650-aed9-ea015074c8cc",
 	"cdfb9b44-3baa-4c62-a81c-b96a7518b00d",
 	"e70d0143-cdf2-4c7f-96da-139be377e3ed",
-	0,
+	1,
 	1,
 	'defines');
 INSERT INTO R_RTO
@@ -20861,7 +20861,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'BinaryExpression',
-	'BinaryExpression');
+	'BinaryExpression',
+	1);
 INSERT INTO PE_PE
 	VALUES ("350d2339-6b45-4f6d-9b67-1efb6fa2acca",
 	1,
@@ -20874,7 +20875,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'LiteralExpression',
-	'LiteralExpression');
+	'LiteralExpression',
+	1);
 INSERT INTO PE_PE
 	VALUES ("aa87a8e7-7ade-4b34-91a3-98ff29d59bf1",
 	1,
@@ -20887,7 +20889,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'AttributeDeclaration',
-	'AttributeDeclaration');
+	'AttributeDeclaration',
+	1);
 INSERT INTO PE_PE
 	VALUES ("95c853e8-b963-49b0-a298-10b01fbebfb6",
 	1,
@@ -20900,7 +20903,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'BasicType',
-	'BasicType');
+	'BasicType',
+	1);
 INSERT INTO PE_PE
 	VALUES ("03cfe3c1-c6e5-438e-99cf-5d46450db9c5",
 	1,
@@ -20913,7 +20917,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'DomainTerminator',
-	'DomainTerminator');
+	'DomainTerminator',
+	1);
 INSERT INTO PE_PE
 	VALUES ("e490a122-e585-4eca-a22e-85778c76326d",
 	1,
@@ -20926,7 +20931,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'StructureElement',
-	'StructureElement');
+	'StructureElement',
+	1);
 INSERT INTO PE_PE
 	VALUES ("8ea38d8b-6ecc-4423-b075-99a33c3fab2a",
 	1,
@@ -20939,7 +20945,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'EventDeclaration',
-	'EventDeclaration');
+	'EventDeclaration',
+	1);
 INSERT INTO PE_PE
 	VALUES ("6059e9aa-b109-4ebc-9413-6efe24249909",
 	1,
@@ -20952,7 +20959,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'ObjectDeclaration',
-	'ObjectDeclaration');
+	'ObjectDeclaration',
+	1);
 INSERT INTO PE_PE
 	VALUES ("08ca73db-9a90-4a57-a747-04a7295f4c03",
 	1,
@@ -20965,7 +20973,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'ParameterDefinition',
-	'ParameterDefinition');
+	'ParameterDefinition',
+	1);
 INSERT INTO PE_PE
 	VALUES ("57ee5d2f-ce4a-4297-a7f2-d7b28cad2e3c",
 	1,
@@ -20978,7 +20987,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'RelationshipSpecification',
-	'RelationshipSpecification');
+	'RelationshipSpecification',
+	1);
 INSERT INTO PE_PE
 	VALUES ("8b08e549-e8eb-4fb4-8f98-93034ade0f4d",
 	1,
@@ -20991,7 +21001,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'ServiceOverload',
-	'ServiceOverload');
+	'ServiceOverload',
+	1);
 INSERT INTO PE_PE
 	VALUES ("4bec283e-79c8-4d75-ac24-4e2200259534",
 	1,
@@ -21004,7 +21015,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'VariableDefinition',
-	'VariableDefinition');
+	'VariableDefinition',
+	1);
 INSERT INTO PE_PE
 	VALUES ("4025e594-2686-4f02-96e8-fba3a753e604",
 	1,
@@ -21017,7 +21029,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'StructureElement',
-	'StructureElement');
+	'StructureElement',
+	2);
 INSERT INTO PE_PE
 	VALUES ("bc75feea-4e2e-4616-8a25-3be797da25c3",
 	1,
@@ -21030,7 +21043,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'State',
-	'MaslState');
+	'MaslState',
+	1);
 INSERT INTO PE_PE
 	VALUES ("c7533523-69e5-492f-b64a-3b331d6ab94a",
 	1,
@@ -21043,7 +21057,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'ServiceInvocation',
-	'ServiceInvocation');
+	'ServiceInvocation',
+	1);
 INSERT INTO PE_PE
 	VALUES ("7b75704f-421d-447c-9229-9b5ed3d6bfa1",
 	1,

@@ -69,9 +69,6 @@ else
   LOAD::load(java_class:"org.xtuml.stratus.parser.MaslImportParser", args:args);
 end if;
 
-// Resolve referential attribute linkage.
-::ReferentialAttribute_resolve();
-
 // Print out a project summary
 LOG::LogInfo(message:"Project summary:");
 select many projects from instances of Project where SORT::ascending(attr:"name");

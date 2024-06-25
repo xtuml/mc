@@ -68,6 +68,28 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../Shared/Shared.xtuml');
+INSERT INTO O_DBATTR
+	VALUES ("4585db4e-6c5e-45b4-95ec-a43a300a7c61",
+	"dc4cc40d-cf97-4750-8395-80954b8e16a0",
+	'select any id related by self->IdentifierDeclaration[R5807];
+self.isIdentifier = not empty id;',
+	1,
+	0);
+INSERT INTO O_BATTR
+	VALUES ("4585db4e-6c5e-45b4-95ec-a43a300a7c61",
+	"dc4cc40d-cf97-4750-8395-80954b8e16a0");
+INSERT INTO O_ATTR
+	VALUES ("4585db4e-6c5e-45b4-95ec-a43a300a7c61",
+	"dc4cc40d-cf97-4750-8395-80954b8e16a0",
+	"3bd6b643-9b53-4374-a245-61855a12db3e",
+	'isIdentifier',
+	'',
+	'',
+	'isIdentifier',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"dc4cc40d-cf97-4750-8395-80954b8e16a0");

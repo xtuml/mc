@@ -3322,6 +3322,258 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("9a356292-4fab-46e0-9de4-b50847ebf3d8",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_resolve_inferred_referential_identifiers',
+	'',
+	'// This operation attempts to infer referential identifier attribute
+// initializations based on a ''link'' statement later in the same body. This
+// operation only supports single instance handles (not sets) and only when the
+// instance handle is a transient variable
+
+statement = param.statement;
+
+// search through the code block for create statements
+while not empty statement
+  select one link_statement related by statement->LinkUnlinkStatement[R5135] where selected.isLink;
+  if not empty link_statement
+    select one link_rel related by link_statement->RelationshipSpecification[R5120]->RelationshipDeclaration[R6015];
+    
+    select one lhs related by link_statement->MaslExpression[R5122];
+    select one lhs_var related by lhs->VariableNameExpression[R5517]->VariableDefinition[R5562];
+    select one rhs related by link_statement->MaslExpression[R5119];
+    select one rhs_var related by rhs->VariableNameExpression[R5517]->VariableDefinition[R5562];
+    select one uses related by link_statement->MaslExpression[R5121];
+    select one uses_var related by uses->VariableNameExpression[R5517]->VariableDefinition[R5562];
+    
+    // resolve creates associated with the left hand side
+    select many lhs_creates related by lhs_var->VariableNameExpression[R5562]->MaslExpression[R5517]->AssignmentStatement[R5101]->MaslExpression[R5100]->CreateExpression[R5517];
+    if cardinality lhs_creates == 1
+      for each lhs_create in lhs_creates
+        select one lhs_object related by lhs_create->ObjectDeclaration[R5511];
+        select many lhs_attrs related by lhs_object->AttributeDeclaration[R5802] where selected.isIdentifier;
+        for each lhs_attr in lhs_attrs
+		  select any lhs_attr_init_attr related by lhs_create->AttributeInitialization[R5566]->AttributeDeclaration[R5565] where selected.name == lhs_attr.name;
+		  if empty lhs_attr_init_attr
+		    // An identifier attribute has not been initialized. See if we can find a value in the object to link
+		    select many rhs_vars from instances of VariableDefinition where false;
+		    rhs_vars = rhs_vars | rhs_var;
+		    ::create_inferred_attribute_initialization( create_expr: lhs_create, ref_id_attr: lhs_attr, rhs_vars: rhs_vars, link_rel: link_rel);
+		  end if;
+        end for;
+      end for;
+    elif cardinality lhs_creates > 1
+      ::trace(i: 120, s: "ASL_resolve_inferred_referential_identifiers - more than one ''create'' found for local variable: " + lhs_var.name);
+    end if;
+
+    // resolve creates associated with the right hand side
+    select many rhs_creates related by rhs_var->VariableNameExpression[R5562]->MaslExpression[R5517]->AssignmentStatement[R5101]->MaslExpression[R5100]->CreateExpression[R5517];
+    if cardinality rhs_creates == 1
+      for each rhs_create in rhs_creates
+        select one rhs_object related by rhs_create->ObjectDeclaration[R5511];
+        select many rhs_attrs related by rhs_object->AttributeDeclaration[R5802] where selected.isIdentifier;
+        for each rhs_attr in rhs_attrs
+		  select any rhs_attr_init_attr related by rhs_create->AttributeInitialization[R5566]->AttributeDeclaration[R5565] where selected.name == rhs_attr.name;
+		  if empty rhs_attr_init_attr
+		    // An identifier attribute has not been initialized. See if we can find a value in the object to link
+		    select many rhs_vars from instances of VariableDefinition where false;
+		    rhs_vars = rhs_vars | lhs_var;
+		    ::create_inferred_attribute_initialization( create_expr: rhs_create, ref_id_attr: rhs_attr, rhs_vars: rhs_vars, link_rel: link_rel);
+		  end if;
+        end for;
+      end for;
+    elif cardinality rhs_creates > 1
+      ::trace(i: 121, s: "ASL_resolve_inferred_referential_identifiers - more than one ''create'' found for local variable: " + rhs_var.name);
+    end if;
+
+    // resolve creates associated with the associator instance
+    select many uses_creates related by uses_var->VariableNameExpression[R5562]->MaslExpression[R5517]->AssignmentStatement[R5101]->MaslExpression[R5100]->CreateExpression[R5517];
+    if cardinality uses_creates == 1
+      for each uses_create in uses_creates
+        select one uses_object related by uses_create->ObjectDeclaration[R5511];
+        select many uses_attrs related by uses_object->AttributeDeclaration[R5802] where selected.isIdentifier;
+        for each uses_attr in uses_attrs
+		  select any uses_attr_init_attr related by uses_create->AttributeInitialization[R5566]->AttributeDeclaration[R5565] where selected.name == uses_attr.name;
+		  if empty uses_attr_init_attr
+		    // An identifier attribute has not been initialized. See if we can find a value in the object to link
+		    select many rhs_vars from instances of VariableDefinition where false;
+		    rhs_vars = rhs_vars | lhs_var | rhs_var;
+		    ::create_inferred_attribute_initialization( create_expr: uses_create, ref_id_attr: uses_attr, rhs_vars: rhs_vars, link_rel: link_rel);
+		  end if;
+        end for;
+      end for;
+    elif cardinality uses_creates > 1
+      ::trace(i: 122, s: "ASL_resolve_inferred_referential_identifiers - more than one ''create'' found for local variable: " + uses_var.name);
+    end if;
+
+  end if;
+  
+  // if statements
+  select one sub_statement related by statement->IfStatement[R5135]->MaslStatement[R5144];
+  if not empty sub_statement
+    ::ASL_resolve_inferred_referential_identifiers(statement: sub_statement);
+  end if;
+  
+  // if statement alternatives (elif, else)
+  select many sub_statements related by statement->IfStatement[R5135]->Alternative[R5145]->MaslStatement[R5148];
+  for each sub_statement in sub_statements
+    ::ASL_resolve_inferred_referential_identifiers(statement: sub_statement);
+  end for;
+
+  // case statement alternatives
+  select many sub_statements related by statement->CaseStatement[R5135]->Alternative[R5146]->MaslStatement[R5148];
+  for each sub_statement in sub_statements
+    ::ASL_resolve_inferred_referential_identifiers(statement: sub_statement);
+  end for;
+
+  // for statement
+  select one sub_statement related by statement->ForStatement[R5135]->MaslStatement[R5153];
+  if not empty sub_statement
+    ::ASL_resolve_inferred_referential_identifiers(statement: sub_statement);
+  end if;
+
+  // while statement
+  select one sub_statement related by statement->WhileStatement[R5135]->MaslStatement[R5141];
+  if not empty sub_statement
+    ::ASL_resolve_inferred_referential_identifiers(statement: sub_statement);
+  end if;
+
+  // code block statement
+  select one sub_statement related by statement->CodeBlockStatement[R5135]->MaslCodeBlock[R5163]->MaslStatement[R5150];
+  if not empty sub_statement
+    ::ASL_resolve_inferred_referential_identifiers(statement: sub_statement);
+  end if;
+
+  select one statement related by statement->MaslStatement[R5155.''precedes''];
+end while;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	20);
+INSERT INTO S_SPARM
+	VALUES ("eb81cf0c-3c58-43f6-b9dc-eded617b0651",
+	"9a356292-4fab-46e0-9de4-b50847ebf3d8",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("05890c89-f4eb-4163-9007-b5abcf03a719",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Statement>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
+INSERT INTO PE_PE
+	VALUES ("9a356292-4fab-46e0-9de4-b50847ebf3d8",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("907dd3fa-94c8-40c6-bc63-595e3d2704cc",
+	"00000000-0000-0000-0000-000000000000",
+	'create_inferred_attribute_initialization',
+	'',
+	'create_expr = param.create_expr;
+ref_id_attr = param.ref_id_attr;
+rhs_vars = param.rhs_vars;
+link_rel = param.link_rel;
+
+select one lhs_object related by ref_id_attr->ObjectDeclaration[R5802];
+select any current_block related by rhs_vars->MaslCodeBlock[R5151];
+
+// An identifier attribute has not been initialized. See if we can find a value in the object to link
+for each rhs_var in rhs_vars
+  select one rhs_object related by rhs_var->BasicType[R5137]->InstanceType[R6205]->ObjectDeclaration[R6220];
+  select many rhs_attr_refs related by rhs_object->AttributeDeclaration[R5802]->ReferentialAttributeDefinition[R5800.''is_referenced_by''];
+  for each rhs_attr_ref in rhs_attr_refs
+    select one rel related by rhs_attr_ref->RelationshipSpecification[R5811]->RelationshipDeclaration[R6015];
+    select one referring_attr related by rhs_attr_ref->AttributeDeclaration[R5800.''is_referenced_by''];
+    select one referring_obj related by referring_attr->ObjectDeclaration[R5802];
+    if rel.name == link_rel.name and referring_attr.name == ref_id_attr.name and referring_obj.name == lhs_object.name
+  	// found a match. create a new attribute initializer
+  	var_ref_expr = ::resolve_NameExpression(domain_name: "", name: rhs_var.name, current_block: current_block, scope: "", base_name: "", number: "");
+  	attr_ref_expr = ::create_DotExpression(lhs: var_ref_expr, name: referring_attr.name);
+  	create object instance new_attr_init of AttributeInitialization;
+  	relate new_attr_init to attr_ref_expr across R5568;
+  	relate new_attr_init to referring_attr across R5565;
+  	relate new_attr_init to create_expr across R5566;
+    end if;
+  end for;
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	21);
+INSERT INTO S_SPARM
+	VALUES ("eb30e82d-108a-46a0-8b46-d8a56af1ee07",
+	"907dd3fa-94c8-40c6-bc63-595e3d2704cc",
+	'create_expr',
+	"5cf91f22-7d2b-48cf-aed2-8f35dd414190",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5cf91f22-7d2b-48cf-aed2-8f35dd414190",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<CreateExpression>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/expression/expression.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("2481294f-5701-4439-9e46-8e9326d650c7",
+	"907dd3fa-94c8-40c6-bc63-595e3d2704cc",
+	'ref_id_attr',
+	"bc9fb0af-6887-4a01-9bad-2412058db57c",
+	0,
+	'',
+	"eb30e82d-108a-46a0-8b46-d8a56af1ee07",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("bc9fb0af-6887-4a01-9bad-2412058db57c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<AttributeDeclaration>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/object/object.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("e892ed6d-dabb-44aa-ab3c-8e86566baf06",
+	"907dd3fa-94c8-40c6-bc63-595e3d2704cc",
+	'rhs_vars',
+	"edbae1ce-6fdd-4814-999e-35fec1435572",
+	0,
+	'',
+	"2481294f-5701-4439-9e46-8e9326d650c7",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("edbae1ce-6fdd-4814-999e-35fec1435572",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<VariableDefinition>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("33127950-5741-49bb-962c-dc8f3f635ac5",
+	"907dd3fa-94c8-40c6-bc63-595e3d2704cc",
+	'link_rel',
+	"fc9b3839-3ca6-48c8-b09a-c036f8335a12",
+	0,
+	'',
+	"e892ed6d-dabb-44aa-ab3c-8e86566baf06",
+	'');
+INSERT INTO PE_PE
+	VALUES ("907dd3fa-94c8-40c6-bc63-595e3d2704cc",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	1,

@@ -197,6 +197,9 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             visit(ctx.pragmaList());
             currentMarkable = null;
             
+            // resolve referentials
+            loader.call_function("ReferentialAttribute_resolve");
+            
             // find and parse all domain activities
             if (filename.endsWith(".mod")) {
                 final String[] filenames = new String[800];

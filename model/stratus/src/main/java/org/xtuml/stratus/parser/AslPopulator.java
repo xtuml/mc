@@ -1393,6 +1393,9 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                 Object firstStatement = visit(ctx.statementList());
                 if (firstStatement != null) {
                     loader.relate(firstStatement, codeBlock, 5150, "");
+
+					// resolve missing referential attribute as identifier references
+					loader.call_function("ASL_resolve_inferred_referential_identifiers", firstStatement);
                 }
             }
 
