@@ -3352,7 +3352,7 @@ while not empty statement
     if cardinality lhs_creates == 1
       for each lhs_create in lhs_creates
         select one lhs_object related by lhs_create->ObjectDeclaration[R5511];
-        select many lhs_attrs related by lhs_object->AttributeDeclaration[R5802] where selected.isIdentifier;
+        select many lhs_attrs related by lhs_object->AttributeDeclaration[R5802] where selected.isIdentifier and not selected.isUnique;
         for each lhs_attr in lhs_attrs
 		  select any lhs_attr_init_attr related by lhs_create->AttributeInitialization[R5566]->AttributeDeclaration[R5565] where selected.name == lhs_attr.name;
 		  if empty lhs_attr_init_attr
@@ -3372,7 +3372,7 @@ while not empty statement
     if cardinality rhs_creates == 1
       for each rhs_create in rhs_creates
         select one rhs_object related by rhs_create->ObjectDeclaration[R5511];
-        select many rhs_attrs related by rhs_object->AttributeDeclaration[R5802] where selected.isIdentifier;
+        select many rhs_attrs related by rhs_object->AttributeDeclaration[R5802] where selected.isIdentifier and not selected.isUnique;
         for each rhs_attr in rhs_attrs
 		  select any rhs_attr_init_attr related by rhs_create->AttributeInitialization[R5566]->AttributeDeclaration[R5565] where selected.name == rhs_attr.name;
 		  if empty rhs_attr_init_attr
@@ -3392,7 +3392,7 @@ while not empty statement
     if cardinality uses_creates == 1
       for each uses_create in uses_creates
         select one uses_object related by uses_create->ObjectDeclaration[R5511];
-        select many uses_attrs related by uses_object->AttributeDeclaration[R5802] where selected.isIdentifier;
+        select many uses_attrs related by uses_object->AttributeDeclaration[R5802] where selected.isIdentifier and not selected.isUnique;
         for each uses_attr in uses_attrs
 		  select any uses_attr_init_attr related by uses_create->AttributeInitialization[R5566]->AttributeDeclaration[R5565] where selected.name == uses_attr.name;
 		  if empty uses_attr_init_attr
@@ -3570,6 +3570,38 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("907dd3fa-94c8-40c6-bc63-595e3d2704cc",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fdb4dc6f-3111-41b6-abd0-6b08be436f68",
+	"00000000-0000-0000-0000-000000000000",
+	'audit_create_unique',
+	'',
+	'create_expr = param.create_expr;
+select one obj related by create_expr->ObjectDeclaration[R5511];
+select any non_unique_id_attr related by obj->AttributeDeclaration[R5802] where selected.isIdentifier and not selected.isUnique;
+if not empty non_unique_id_attr
+  select one domain related by obj->Domain[R5805];
+  ::trace(i: 125, s: "WARNING: object " + domain.name + "::" + obj.name + " used in a ''create unique'' expression contains a non-unique identifier attribute");
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	22);
+INSERT INTO S_SPARM
+	VALUES ("ae8db941-9829-451a-9ddd-b46c80003f5c",
+	"fdb4dc6f-3111-41b6-abd0-6b08be436f68",
+	'create_expr',
+	"5cf91f22-7d2b-48cf-aed2-8f35dd414190",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fdb4dc6f-3111-41b6-abd0-6b08be436f68",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",

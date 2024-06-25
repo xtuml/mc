@@ -69,6 +69,16 @@ else
   LOAD::load(java_class:"org.xtuml.stratus.parser.MaslImportParser", args:args);
 end if;
 
+// model data audits
+select many objs from instances of ObjectDeclaration;
+for each obj in objs
+  select any id_attr related by obj->AttributeDeclaration[R5802] where selected.isIdentifier;
+  if empty id_attr
+    select one domain related by obj->Domain[R5805];
+    ::trace( i: 124, s:"WARNING: object " + domain.name + "::" + obj.name + " does not have an identifier.");
+  end if;
+end for;
+
 // Print out a project summary
 LOG::LogInfo(message:"Project summary:");
 select many projects from instances of Project where SORT::ascending(attr:"name");

@@ -2297,9 +2297,13 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             loader.relate(instType, expression, 5570, "");
             currentObject = obj;
             if ( ctx.WITH() != null ) {
-            for (Object attributeInitialization : (List<Object>) visit(ctx.createArgumentList())) {
-                loader.relate(attributeInitialization, createExpression, 5566, "");
+                for (Object attributeInitialization : (List<Object>) visit(ctx.createArgumentList())) {
+                    loader.relate(attributeInitialization, createExpression, 5566, "");
+                }
             }
+            // if this is a create unique, make sure the indentifier is a unique attribute
+            if (ctx.UNIQUE() != null) {
+            	loader.call_function("audit_create_unique", createExpression);
             }
             currentObject = emptyObject;
             return expression;
