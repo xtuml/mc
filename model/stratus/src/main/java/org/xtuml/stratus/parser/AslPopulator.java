@@ -15,6 +15,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
 
+import deploy.stratus.ooamasl.expression.Expression;
 import io.ciera.runtime.instanceloading.generic.util.LOAD;
 import io.ciera.runtime.summit.classes.IModelInstance;
 import io.ciera.runtime.summit.exceptions.XtumlException;
@@ -2500,6 +2501,23 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                     ctx.identifier().getText(), currentCodeBlock,
                     scope, base_name, number);
             currentEnumeration = "";
+            // audit collection types
+            if (ctx.LEFT_BRACE() != null && ((Expression) expression).R5570_is_typed_by_BasicType().R6205_is_a_CollectionType().isEmpty()) {
+            	// if this is a variable declaration, let it slide
+            	if (((Expression) expression).R5517_is_a_VariableNameExpression().isEmpty() || ((Expression) expression).R5517_is_a_VariableNameExpression().R5562_has_as_definition_VariableDefinition().R5562_defines_VariableNameExpression().size() != 1) {
+					String path = getName(currentDomain) + "::";
+					if (currentObject != null && !currentObject.equals(emptyObject)) {
+						path += getName(currentObject) + ".";
+					}
+					if (currentOOAState != null) {
+						path += getName(currentOOAState);
+					} else if (currentService != null) {
+						path += getName(currentService);
+					}
+					System.err.printf("127: %s: Reference '%s' expected to be collection type but is not. %s\n",
+							path, ctx.identifier().getText(), filename);
+            	}
+            }
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
