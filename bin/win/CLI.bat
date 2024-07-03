@@ -59,7 +59,7 @@ call %BPHOMEDIR%\MinGW\mingwgnu.bat
 
 :: Run command line action
 cd %BPHOMEDIR%
-set COMMAND=eclipsec.exe --launcher.suppressErrors -vm -clean -noSplash -data %WORKSPACE% -application %APPLICATION% %2 %3 %4 %5 %6 %7 %8 %9
+set COMMAND=bridgepoint.exe --launcher.suppressErrors -vm -clean -noSplash -data %WORKSPACE% -application %APPLICATION% %2 %3 %4 %5 %6 %7 %8 %9
 echo %COMMAND%
 %COMMAND%
 

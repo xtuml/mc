@@ -1,0 +1,173 @@
+= xtuml2masl Pragma Switch
+
+xtUML Project Analysis Note
+
+== 1 Abstract
+
+This note documents a feature to automatically emit marking pragmas into
+the generated `.mod` file from 'xtuml2masl'.  The purpose of this feature
+is to produce an adequately annotated (marked) `.mod` file for ingestion by the
+ASL2MASL application.  Pragmas not necessary for the MASL Exporter are
+needed by the ASL-to-MASL conversion program.
+
+== 2 Introduction and Background
+
+'xtuml2masl' converts an xtUML model into compilable MASL.  'xtuml2masl'
+is a shell script which invokes 4 subcomponents:  'Xtuml2Masl' (Java
+plugin), 'x2m', 'masl' and 'MaslFormatter'.
+
+'Xtuml2Masl' is a Java plugin that serves as the command and control
+portion of the utility.  It invokes the other subcomponents.
+
+'x2m' is a modeled model compiler that serializes xtUML into serial MASL.
+Serial MASL is an intermediate form used to populate a model of MASL.
+'x2m' also reads from the model of marking and serializes marks into serial
+MASL.  It produces serial MASL pragmas for elements marked in
+`application.mark` only.
+
+'masl' is a modeled model compiler which is populated from a stream of
+serial MASL.  It then emits MASL or WASL based upon command line flags.
+
+'MaslFormatter' formats MASL into a consistent (and comparable) form.
+
+== 3 Requirements
+
+=== 3.1 Feature Activation
+
+The new feature shall be activated under the control of the user.
+
+=== 3.2 Additional Pragmas
+
+Additional pragmas shall be emitted into the `.mod` file beyond those that
+are marked.
+
+==== 3.2.1 List of Required Pragmas
+
+The following pragmas shall be emitted for the associated model elements.
+
+* public domain fuction (Provided Operation):  domain_operation_number
+* private domain fuction (Provided Operation):  scenario number
+* terminator service (Required Operation):  terminator_operation_number
+* terminator (Required Port):  key_letter
+* relationship:  Class_A/Class_B (may or may not be needed)
+* object service:  operation_number
+* state:  state_number
+* event:  event_number
+* object:  id
+* object:  key_letter
+* domain:  number
+* domain:  name
+* domain:  kl
+* domain:  version (may be useful to recognize ASL-idiom models)
+
+Here is a brainstorm query fragment targeted to the 'masl' model:
+
+  select many domains from instances of domain;
+  for each domain in domain
+    select many routines related by domain->routine;
+    for each routine in routines
+      ...
+    enf for;
+    // Mark the domain itself.
+    select one markable related by domain->markable;
+    select any pragma related by markable->pragma_list->pragma where ( selected.name == "kl" );
+    if ( empty pragma )
+      select one element related by markable->element;
+      pragma = pragma::populate( name:"key_letter", list:"", element );
+      pragma_item::populate( item:domain.key_letters, pragra:pragma );
+    end if;
+  end for;
+
+== 4 Analysis
+
+It is noted that this functionality is extremely niche.  It is used only
+in the conversion of ASL-idiom xtUML models being converted to the MASL-idiom.
+
+== 4.1 Alternatives
+
+There are a few ways this functionality could be implemented.
+
+=== 4.1.1 'masl'-centric Design
+
+This alternative is implemented mostly in 'masl'.  A query would be added
+to create instances of 'pragmaList', 'pragma' and 'pragmaItem' for the
+required pragma outputs.
+
+This is the alternative selected for deployment.
+
+=== 4.1.2 'x2m'-centric Design
+
+This alternative is implemented mostly in 'x2m' ('maslout').  A query
+would be added to provide additional serial MASL for the required
+additional pragmas.
+
+This option has the advantage of visibility to the model of marking.
+
+=== 4.1.3 Activation Alternatives
+
+==== 4.1.3.1 Command Line Switch
+
+A command line switch could be provided to enable the new functionality
+for emitting additional pragmas beyond those that are marked.
+
+==== 4.1.3.2 Mark
+
+A special mark could be used to enable the new functionality.
+
+This is the alternative selected for activation.  The 'version' mark on
+the 'domain' (Component) is common for ASL projects.  It is not present in
+MASL projects.  Therefore, it is an effective mechanism to recognise
+models needing the additional pragmas.
+
+== 5 Work Required
+
+=== 5.1 Reproduce Prior Results
+
+. Generate code and compare to previously generated code.
+. Compile, run and get same results with the 'Events' SWATS model.
+
+=== 5.2 Update 'masl' Query
+
+. Add capability in 'masl' to populate the needed pragmas.
+. Use pragma::populate.
+. Consider the current element stack, although I think this linkage could
+  be handled in the query.
+. Consider how to avoid remarking elements already marked.
+. Recognise 'domain' : 'version' marking as the switch to output
+  additional pragmas.
+
+=== 6.1 SWATS Test Suite
+
+Run SWATS test models and see that all pragmas necessary are produced for
+the 'asl2masl' conversion utility.
+
+== 7 Implementation Comments
+
+. Class_A/Class_B is not addressed.  I do not think it is necessary.
+. String pragma items are not quoted.  This will be tested (and likely
+  quotes added).
+. Rename `mcmc` to `_mcmc` in BP installation to get the build (on MacOS ARM).
+
+== 8 Code Changes
+
+- fork/repository:  cortlandstarrett/mc
+- branch:  12669_pragma_switch
+
+----
+ doc/notes/12669_pragma_switch_ant.adoc                      | 175 ++++++++++++++++++++++++++++++
+ model/masl/models/masl/maslpopulation/genfile/genfile.xtuml |   5 ++
+ model/masl/models/masl/maslpopulation/maslpopulation.xtuml  |  69 ++++++++++++++-------
+ model/masl/models/masl/maslpopulation/pragma/pragma.xtuml   | 169 ++++++++++++++++++++++++++++++
+ 4 files changed, 395 insertions(+), 23 deletions(-)
+----
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12669[12669 - Switch Additional Pragmas]
+. [[dr-2]] link:../8073_masl_parser/8277_serial_masl_spec.md[Serial MASL (SMASL) Specification]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
