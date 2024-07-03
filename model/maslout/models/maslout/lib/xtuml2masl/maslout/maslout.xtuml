@@ -3062,7 +3062,7 @@ if ( not_empty s_dt )
       // already has qualifier
     end if;
     // special mappings
-    if ( s_dt.Name == "MASLunique" )  // MASLunique is always an integer
+    if ( s_dt.Name == "MASLunique" or s_dt.Name == "unique_id" )  // MASLunique is always an integer
       value[0] = "integer";
     elif ( s_dt.Name == "inst_ref<Timer>" ) // inst_ref<Timer> maps to MASL timer
       value[0] = "timer";
