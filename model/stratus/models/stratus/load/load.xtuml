@@ -3606,6 +3606,115 @@ INSERT INTO PE_PE
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("3c642ebf-38a0-4ca1-8cdb-5ebdaf34ac5c",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_resolve_inferred_initial_state',
+	'',
+	'state = param.state;
+statement = param.statement;
+
+select one obj related by state->ObjectDeclaration[R6105];
+    
+// get the first statement
+if empty statement
+  select one statement related by state->MaslCodeBlock[R6115]->MaslStatement[R5150];
+end if;
+
+// if this is a creation state, search through for create expressions and fill in missing initial state assignments
+if state.flavor == StateType::creation
+    
+  while not empty statement
+      
+    // in MASL converted from ASL, create expressions will always be the RHS of an assignment statement
+    select one create_expr related by statement->AssignmentStatement[R5135]->MaslExpression[R5100]->CreateExpression[R5517];
+    if not empty create_expr
+      select one create_obj related by create_expr->ObjectDeclaration[R5511];
+      select any initial_state related by create_expr->AttributeInitialization[R5566]->MaslState[R5567];
+      if create_obj.name == obj.name and empty initial_state
+        // create the initialization
+        create object instance state_initialization of AttributeInitialization;
+        relate state to state_initialization across R5567;
+        relate state_initialization to create_expr across R5566;
+      end if;
+    end if;
+
+    // if statements
+    select one sub_statement related by statement->IfStatement[R5135]->MaslStatement[R5144];
+    if not empty sub_statement
+      ::ASL_resolve_inferred_initial_state(state: state, statement: sub_statement);
+    end if;
+    
+    // if statement alternatives (elif, else)
+    select many sub_statements related by statement->IfStatement[R5135]->Alternative[R5145]->MaslStatement[R5148];
+    for each sub_statement in sub_statements
+      ::ASL_resolve_inferred_initial_state(state: state, statement: sub_statement);
+    end for;
+
+    // case statement alternatives
+    select many sub_statements related by statement->CaseStatement[R5135]->Alternative[R5146]->MaslStatement[R5148];
+    for each sub_statement in sub_statements
+      ::ASL_resolve_inferred_initial_state(state: state, statement: sub_statement);
+    end for;
+
+    // for statement
+    select one sub_statement related by statement->ForStatement[R5135]->MaslStatement[R5153];
+    if not empty sub_statement
+      ::ASL_resolve_inferred_initial_state(state: state, statement: sub_statement);
+    end if;
+
+    // while statement
+    select one sub_statement related by statement->WhileStatement[R5135]->MaslStatement[R5141];
+    if not empty sub_statement
+      ::ASL_resolve_inferred_initial_state(state: state, statement: sub_statement);
+    end if;
+
+    // code block statement
+    select one sub_statement related by statement->CodeBlockStatement[R5135]->MaslCodeBlock[R5163]->MaslStatement[R5150];
+    if not empty sub_statement
+      ::ASL_resolve_inferred_initial_state(state: state, statement: sub_statement);
+    end if;
+
+    select one statement related by statement->MaslStatement[R5155.''precedes''];
+  end while;
+    
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	20);
+INSERT INTO S_SPARM
+	VALUES ("f9b7c97a-8d38-4247-9015-e5cc49f0010f",
+	"3c642ebf-38a0-4ca1-8cdb-5ebdaf34ac5c",
+	'state',
+	"640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("640e9a30-074e-45fd-aa2b-fdcc3fc56f5b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/statemodel/statemodel.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("e3a018b5-3f43-43b8-a28f-2e7bd5114436",
+	"3c642ebf-38a0-4ca1-8cdb-5ebdaf34ac5c",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"f9b7c97a-8d38-4247-9015-e5cc49f0010f",
+	'');
+INSERT INTO PE_PE
+	VALUES ("3c642ebf-38a0-4ca1-8cdb-5ebdaf34ac5c",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	1,

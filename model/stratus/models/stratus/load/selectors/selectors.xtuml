@@ -1189,6 +1189,31 @@ INSERT INTO PE_PE
 	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("26213949-abb5-4eea-8909-22835a3dc552",
+	"00000000-0000-0000-0000-000000000000",
+	'select_Statement_empty',
+	'',
+	'select any statement from instances of MaslStatement where false;
+return statement;',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	1,
+	'',
+	0,
+	4);
+INSERT INTO PE_PE
+	VALUES ("26213949-abb5-4eea-8909-22835a3dc552",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("05890c89-f4eb-4163-9007-b5abcf03a719",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Statement>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
 INSERT INTO PE_PE
 	VALUES ("d253fd26-846d-41fa-866d-36f9d01a0fa1",
 	1,

@@ -1343,6 +1343,8 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             loader.set_attribute(currentOOAState, "filename", filename);
             loader.set_attribute(currentOOAState, "description", ctx.description().getText());
             visit(ctx.codeBlock());
+            // resolve inferred initial state for creation states
+            loader.call_function("ASL_resolve_inferred_initial_state", currentOOAState, loader.call_function("select_Statement_empty"));
             return currentOOAState;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
