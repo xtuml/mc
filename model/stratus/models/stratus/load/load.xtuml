@@ -3348,63 +3348,72 @@ while not empty statement
     select one uses_var related by uses->VariableNameExpression[R5517]->VariableDefinition[R5562];
     
     // resolve creates associated with the left hand side
-    select many lhs_creates related by lhs_var->VariableNameExpression[R5562]->MaslExpression[R5517]->AssignmentStatement[R5101]->MaslExpression[R5100]->CreateExpression[R5517];
-    if cardinality lhs_creates == 1
-      for each lhs_create in lhs_creates
-        select one lhs_object related by lhs_create->ObjectDeclaration[R5511];
-        select many lhs_attrs related by lhs_object->AttributeDeclaration[R5802] where selected.isIdentifier and not selected.isUnique;
-        for each lhs_attr in lhs_attrs
-		  select any lhs_attr_init_attr related by lhs_create->AttributeInitialization[R5566]->AttributeDeclaration[R5565] where selected.name == lhs_attr.name;
-		  if empty lhs_attr_init_attr
-		    // An identifier attribute has not been initialized. See if we can find a value in the object to link
-		    select many rhs_vars from instances of VariableDefinition where false;
-		    rhs_vars = rhs_vars | rhs_var;
-		    ::create_inferred_attribute_initialization( create_expr: lhs_create, ref_id_attr: lhs_attr, rhs_vars: rhs_vars, link_rel: link_rel);
-		  end if;
-        end for;
+    select many lhs_create_smts related by lhs_var->VariableNameExpression[R5562]->MaslExpression[R5517]->AssignmentStatement[R5101]->MaslExpression[R5100]->CreateExpression[R5517]->MaslExpression[R5517]->AssignmentStatement[R5100]->MaslStatement[R5135];
+    select any lhs_closest_create from instances of MaslStatement where false;
+    for each lhs_create_smt in lhs_create_smts
+      if lhs_create_smt.line_number < statement.line_number and (empty lhs_closest_create or lhs_create_smt.line_number > lhs_closest_create.line_number)
+        lhs_closest_create = lhs_create_smt;
+      end if;
+    end for;
+    select one lhs_create related by lhs_closest_create->AssignmentStatement[R5135]->MaslExpression[R5100]->CreateExpression[R5517];
+    if not empty lhs_create
+      select one lhs_object related by lhs_create->ObjectDeclaration[R5511];
+      select many lhs_attrs related by lhs_object->AttributeDeclaration[R5802] where selected.isIdentifier and not selected.isUnique;
+      for each lhs_attr in lhs_attrs
+	    select any lhs_attr_init_attr related by lhs_create->AttributeInitialization[R5566]->AttributeDeclaration[R5565] where selected.name == lhs_attr.name;
+	    if empty lhs_attr_init_attr
+	      // An identifier attribute has not been initialized. See if we can find a value in the object to link
+	      select many rhs_vars from instances of VariableDefinition where false;
+	      rhs_vars = rhs_vars | rhs_var;
+	      ::create_inferred_attribute_initialization( create_expr: lhs_create, ref_id_attr: lhs_attr, rhs_vars: rhs_vars, link_rel: link_rel);
+	    end if;
       end for;
-    elif cardinality lhs_creates > 1
-      ::trace(i: 120, s: "ASL_resolve_inferred_referential_identifiers - more than one ''create'' found for local variable: " + lhs_var.name);
     end if;
 
     // resolve creates associated with the right hand side
-    select many rhs_creates related by rhs_var->VariableNameExpression[R5562]->MaslExpression[R5517]->AssignmentStatement[R5101]->MaslExpression[R5100]->CreateExpression[R5517];
-    if cardinality rhs_creates == 1
-      for each rhs_create in rhs_creates
-        select one rhs_object related by rhs_create->ObjectDeclaration[R5511];
-        select many rhs_attrs related by rhs_object->AttributeDeclaration[R5802] where selected.isIdentifier and not selected.isUnique;
-        for each rhs_attr in rhs_attrs
-		  select any rhs_attr_init_attr related by rhs_create->AttributeInitialization[R5566]->AttributeDeclaration[R5565] where selected.name == rhs_attr.name;
-		  if empty rhs_attr_init_attr
-		    // An identifier attribute has not been initialized. See if we can find a value in the object to link
-		    select many rhs_vars from instances of VariableDefinition where false;
-		    rhs_vars = rhs_vars | lhs_var;
-		    ::create_inferred_attribute_initialization( create_expr: rhs_create, ref_id_attr: rhs_attr, rhs_vars: rhs_vars, link_rel: link_rel);
-		  end if;
-        end for;
+    select many rhs_create_smts related by rhs_var->VariableNameExpression[R5562]->MaslExpression[R5517]->AssignmentStatement[R5101]->MaslExpression[R5100]->CreateExpression[R5517]->MaslExpression[R5517]->AssignmentStatement[R5100]->MaslStatement[R5135];
+    select any rhs_closest_create from instances of MaslStatement where false;
+    for each rhs_create_smt in rhs_create_smts
+      if rhs_create_smt.line_number < statement.line_number and (empty rhs_closest_create or rhs_create_smt.line_number > rhs_closest_create.line_number)
+        rhs_closest_create = rhs_create_smt;
+      end if;
+    end for;
+    select one rhs_create related by rhs_closest_create->AssignmentStatement[R5135]->MaslExpression[R5100]->CreateExpression[R5517];
+    if not empty rhs_create
+      select one rhs_object related by rhs_create->ObjectDeclaration[R5511];
+      select many rhs_attrs related by rhs_object->AttributeDeclaration[R5802] where selected.isIdentifier and not selected.isUnique;
+      for each rhs_attr in rhs_attrs
+	    select any rhs_attr_init_attr related by rhs_create->AttributeInitialization[R5566]->AttributeDeclaration[R5565] where selected.name == rhs_attr.name;
+	    if empty rhs_attr_init_attr
+	      // An identifier attribute has not been initialized. See if we can find a value in the object to link
+	      select many rhs_vars from instances of VariableDefinition where false;
+	      rhs_vars = rhs_vars | lhs_var;
+	      ::create_inferred_attribute_initialization( create_expr: rhs_create, ref_id_attr: rhs_attr, rhs_vars: rhs_vars, link_rel: link_rel);
+	    end if;
       end for;
-    elif cardinality rhs_creates > 1
-      ::trace(i: 121, s: "ASL_resolve_inferred_referential_identifiers - more than one ''create'' found for local variable: " + rhs_var.name);
     end if;
 
     // resolve creates associated with the associator instance
-    select many uses_creates related by uses_var->VariableNameExpression[R5562]->MaslExpression[R5517]->AssignmentStatement[R5101]->MaslExpression[R5100]->CreateExpression[R5517];
-    if cardinality uses_creates == 1
-      for each uses_create in uses_creates
-        select one uses_object related by uses_create->ObjectDeclaration[R5511];
-        select many uses_attrs related by uses_object->AttributeDeclaration[R5802] where selected.isIdentifier and not selected.isUnique;
-        for each uses_attr in uses_attrs
-		  select any uses_attr_init_attr related by uses_create->AttributeInitialization[R5566]->AttributeDeclaration[R5565] where selected.name == uses_attr.name;
-		  if empty uses_attr_init_attr
-		    // An identifier attribute has not been initialized. See if we can find a value in the object to link
-		    select many rhs_vars from instances of VariableDefinition where false;
-		    rhs_vars = rhs_vars | lhs_var | rhs_var;
-		    ::create_inferred_attribute_initialization( create_expr: uses_create, ref_id_attr: uses_attr, rhs_vars: rhs_vars, link_rel: link_rel);
-		  end if;
-        end for;
+    select many uses_create_smts related by uses_var->VariableNameExpression[R5562]->MaslExpression[R5517]->AssignmentStatement[R5101]->MaslExpression[R5100]->CreateExpression[R5517]->MaslExpression[R5517]->AssignmentStatement[R5100]->MaslStatement[R5135];
+    select any uses_closest_create from instances of MaslStatement where false;
+    for each uses_create_smt in uses_create_smts
+      if uses_create_smt.line_number < statement.line_number and (empty uses_closest_create or uses_create_smt.line_number > uses_closest_create.line_number)
+        uses_closest_create = uses_create_smt;
+      end if;
+    end for;
+    select one uses_create related by uses_closest_create->AssignmentStatement[R5135]->MaslExpression[R5100]->CreateExpression[R5517];
+    if not empty uses_create
+      select one uses_object related by uses_create->ObjectDeclaration[R5511];
+      select many uses_attrs related by uses_object->AttributeDeclaration[R5802] where selected.isIdentifier and not selected.isUnique;
+      for each uses_attr in uses_attrs
+	    select any uses_attr_init_attr related by uses_create->AttributeInitialization[R5566]->AttributeDeclaration[R5565] where selected.name == uses_attr.name;
+	    if empty uses_attr_init_attr
+	      // An identifier attribute has not been initialized. See if we can find a value in the object to link
+	      select many rhs_vars from instances of VariableDefinition where false;
+	      rhs_vars = rhs_vars | lhs_var | rhs_var;
+	      ::create_inferred_attribute_initialization( create_expr: uses_create, ref_id_attr: uses_attr, rhs_vars: rhs_vars, link_rel: link_rel);
+	    end if;
       end for;
-    elif cardinality uses_creates > 1
-      ::trace(i: 122, s: "ASL_resolve_inferred_referential_identifiers - more than one ''create'' found for local variable: " + uses_var.name);
     end if;
 
   end if;
