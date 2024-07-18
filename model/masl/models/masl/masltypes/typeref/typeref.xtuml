@@ -22,6 +22,12 @@ elif ( "WASL" == genfile::architecture() )
     // WASL uses classname_IH for instance handles.
     mybody = STRING::substr( s:mybody, begin:12, end:STRING::strlen( s:mybody ) );
     mybody = mybody + "_IH";
+  elif ( STRING::indexof( haystack:mybody, needle:"sequence of " ) > -1 )
+  	// WASL does not have sequence and set types directly. Collections are implied by the use of a structure
+    mybody = STRING::substr( s:mybody, begin: STRING::strlen( s:"sequence of " ), end:STRING::strlen( s:mybody ) );
+  elif ( STRING::indexof( haystack:mybody, needle:"set of " ) > -1 )
+  	// WASL does not have sequence and set types directly. Collections are implied by the use of a structure
+    mybody = STRING::substr( s:mybody, begin: STRING::strlen( s:"set of " ), end:STRING::strlen( s:mybody ) );
   else
     doublecolon = STRING::indexof( haystack:mybody, needle:"::" );
     if ( doublecolon > -1 )
