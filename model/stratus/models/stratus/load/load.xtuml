@@ -3501,17 +3501,19 @@ for each rhs_var in rhs_vars
   select one rhs_object related by rhs_var->BasicType[R5137]->InstanceType[R6205]->ObjectDeclaration[R6220];
   select many rhs_attr_refs related by rhs_object->AttributeDeclaration[R5802]->ReferentialAttributeDefinition[R5800.''is_referenced_by''];
   for each rhs_attr_ref in rhs_attr_refs
+    select one referred_to_attr related by rhs_attr_ref->AttributeDeclaration[R5800.''refers_to''];
     select one rel related by rhs_attr_ref->RelationshipSpecification[R5811]->RelationshipDeclaration[R6015];
     select one referring_attr related by rhs_attr_ref->AttributeDeclaration[R5800.''is_referenced_by''];
     select one referring_obj related by referring_attr->ObjectDeclaration[R5802];
     if rel.name == link_rel.name and referring_attr.name == ref_id_attr.name and referring_obj.name == lhs_object.name
-  	// found a match. create a new attribute initializer
-  	var_ref_expr = ::resolve_NameExpression(domain_name: "", name: rhs_var.name, current_block: current_block, scope: "", base_name: "", number: "");
-  	attr_ref_expr = ::create_DotExpression(lhs: var_ref_expr, name: referring_attr.name);
-  	create object instance new_attr_init of AttributeInitialization;
-  	relate new_attr_init to attr_ref_expr across R5568;
-  	relate new_attr_init to referring_attr across R5565;
-  	relate new_attr_init to create_expr across R5566;
+      // found a match. create a new attribute initializer
+      var_ref_expr = ::resolve_NameExpression(domain_name: "", name: rhs_var.name, current_block: current_block, scope: "", base_name: "", number: "");
+      attr_ref_expr = ::create_DotExpression(lhs: var_ref_expr, name: referred_to_attr.name);
+      create object instance new_attr_init of AttributeInitialization;
+      relate new_attr_init to attr_ref_expr across R5568;
+      relate new_attr_init to referring_attr across R5565;
+      relate new_attr_init to create_expr across R5566;
+      return;
     end if;
   end for;
 end for;',
