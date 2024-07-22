@@ -923,9 +923,11 @@ if ( not_empty assign_statement )
   select one lhs related by assign_statement->MaslExpression[R5101];
   s = s + ::indent( d:param.d );
   // Look for a call expression.  If so, there will be no assignment, just the invocation.
+  // The exception to this rule is the calls to characteristics ''delta and ''event.
   outargs = "";
   select one call_expression related by rhs->CallExpression[R5517];
-  if ( not_empty call_expression )
+  select one characteristic_expression related by call_expression->CharacteristicExpression[R5500];
+  if ( not_empty call_expression and empty characteristic_expression )
     // Check for arguments on the LHS.  If so, these are output parameters to an ASL call expression.
     select one argument related by lhs->Argument[R5577];
     // Check for arguments on the call expression.  This will indicate need of a delimiter.
