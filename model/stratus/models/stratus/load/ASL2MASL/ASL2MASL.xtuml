@@ -670,9 +670,10 @@ INSERT INTO S_SYNC
 select one binary_expression related by expression->BinaryExpression[R5517];
 if ( not_empty binary_expression )
   select one lhs related by binary_expression->MaslExpression[R5001];
+  select one lhs_type related by lhs->BasicType[R5570];
   select one rhs related by binary_expression->MaslExpression[R5002];
   sl = ::expression( expression:lhs );
-  sr = ::expression( expression:rhs );
+  sr = ::ASL_assignment_cast(lhs_type: lhs_type, rhs_expr: rhs);
   op = ::operator( op:binary_expression.operator );
   if ( Operator::concatenate == binary_expression.operator )
     // structure assembly does its own thing.
@@ -682,15 +683,6 @@ if ( not_empty binary_expression )
     select one instance_type related by lhs->BasicType[R5570]->InstanceType[R6205];
     if ( not_empty instance_type )
       op = " with ";
-    end if;
-  else
-    cast = ::ASL_assignment_cast( lhs:lhs, rhs:rhs );
-    if ( "" != cast )
-      sr = cast + "(" + sr + ")";
-    end if;
-    cast = ::ASL_assignment_cast( lhs:rhs, rhs:lhs );
-    if ( "" != cast )
-      sl = cast + "(" + sl + ")";
     end if;
   end if;
   return sl + op + sr;
@@ -921,6 +913,7 @@ if ( not_empty assign_statement )
     return s;
   end if;
   select one lhs related by assign_statement->MaslExpression[R5101];
+  select one lhs_type related by lhs->BasicType[R5570];
   s = s + ::indent( d:param.d );
   // Look for a call expression.  If so, there will be no assignment, just the invocation.
   // The exception to this rule is the calls to characteristics ''delta and ''event.
@@ -964,11 +957,7 @@ if ( not_empty assign_statement )
        s = s + " := ";
     end if;
   end if;
-  rhs_expression = ::expression( expression:rhs );
-  cast = ::ASL_assignment_cast( lhs:lhs, rhs:rhs );
-  if ( "" != cast )
-    rhs_expression = cast + "(" + rhs_expression + ")";
-  end if;
+  rhs_expression = ::ASL_assignment_cast(lhs_type: lhs_type, rhs_expr: rhs);
   s = s + rhs_expression + outargs + ";\n";
 end if;
 return s;',
@@ -1563,12 +1552,12 @@ if ( not_empty call_expression )
     this_argument = "";
     select one argument_expression related by argument->MaslExpression[R5577];
     select one literal_expression related by argument_expression->LiteralExpression[R5517];
+    parameter_basic_type = ::ASL_get_parameter_basic_type( service:service, position:position );
     if ( not_empty literal_expression )
       select one enumerate_literal related by literal_expression->EnumerateLiteral[R5700];
       if ( not_empty enumerate_literal )
         // We have an enumerate literal, so we know that we need to use the signature UDT.
         select one enumerate_item related by enumerate_literal->EnumerateItem[R5701];
-        parameter_basic_type = ::ASL_get_parameter_basic_type( service:service, position:position );
         if ( not_empty parameter_basic_type )
           select one parameter_user_defined_type related by parameter_basic_type->MaslUserDefinedType[R6205];
           if ( not_empty parameter_user_defined_type )
@@ -1582,7 +1571,7 @@ if ( not_empty call_expression )
     if ( "" != this_argument )
       args = args + delim + this_argument;
     else
-      args = args + delim + ::expression( expression:argument_expression );
+      args = args + delim + ::ASL_assignment_cast(lhs_type: parameter_basic_type, rhs_expr: argument_expression);
     end if;
     delim = ", ";
     position = position + 1;
@@ -1792,16 +1781,19 @@ statement = param.statement;
 s = "";
 select one generate_statement related by statement->GenerateStatement[R5135];
 if ( not_empty generate_statement )
+  select one event_declaration related by generate_statement->EventDeclaration[R5112];
   args = "";
   delim = "";
+  position = 0;
   select one argument related by generate_statement->Argument[R5114];
   while ( not_empty argument )
     select one argument_expression related by argument->MaslExpression[R5577];
-    args = args + delim + ::expression( expression:argument_expression );
+    argument_type = ::ASL_get_event_parameter_basic_type(evt: event_declaration, position: position);
+    args = args + delim + ::ASL_assignment_cast(lhs_type: argument_type, rhs_expr: argument_expression);
     delim = ", ";
     select one argument related by argument->Argument[R5576.''precedes''];
+    position = position + 1;
   end while;
-  select one event_declaration related by generate_statement->EventDeclaration[R5112];
   name = ""; name = event_declaration.name; // work-around
   if ( "TIM1" == name )
     // Set_Timer/schedule
@@ -2332,45 +2324,105 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'ASL_assignment_cast',
 	'',
-	'// In MASL, an assignment of a UDT to a built-in requires a cast.
+	'// In MASL, an assignment of a different type requires a cast
 
-lhs = param.lhs;
-rhs = param.rhs;
+lhs_basic_type = param.lhs_type;
+rhs = param.rhs_expr;
 
-select one lhs_basic_type related by lhs->BasicType[R5570];
 select one rhs_basic_type related by rhs->BasicType[R5570];
+select one lhs_udt related by lhs_basic_type->MaslUserDefinedType[R6205];
+select one lhs_builtin related by lhs_basic_type->BuiltinType[R6205];
 
-select one user_defined_type related by lhs_basic_type->MaslUserDefinedType[R6205];
-select one builtin_type related by rhs_basic_type->BuiltinType[R6205];
-if ( not_empty user_defined_type and not_empty builtin_type )
-  return user_defined_type.name; 
-end if;
-return "";',
+if not empty lhs_udt and lhs_basic_type != rhs_basic_type
+  return lhs_udt.name + "(" + ::expression( expression: rhs) + ")";
+elif not empty lhs_builtin and lhs_basic_type != rhs_basic_type
+  return lhs_builtin.name + "(" + ::expression( expression: rhs) + ")";
+else
+  return ::expression( expression: rhs );
+end if;',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'',
 	0,
 	39);
 INSERT INTO S_SPARM
-	VALUES ("bb689b69-9ca3-4cd8-8b3c-0ab594a6b3b7",
+	VALUES ("62c9f6e1-3a56-45e7-9a4b-e721e9d097b2",
 	"f2732090-76a8-4e24-8230-7e84df358e66",
-	'lhs',
-	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	'lhs_type',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4355a5ca-a9d0-447e-9f5b-93c21d1a3f21",
+	VALUES ("ce4fc209-804b-4554-a2c1-41ae35b2d141",
 	"f2732090-76a8-4e24-8230-7e84df358e66",
-	'rhs',
+	'rhs_expr',
 	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
 	0,
 	'',
-	"bb689b69-9ca3-4cd8-8b3c-0ab594a6b3b7",
+	"62c9f6e1-3a56-45e7-9a4b-e721e9d097b2",
 	'');
 INSERT INTO PE_PE
 	VALUES ("f2732090-76a8-4e24-8230-7e84df358e66",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2a655879-e399-4d23-a019-effa1439e432",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_get_event_parameter_basic_type',
+	'',
+	'evt = param.evt;
+position = param.position;
+select any basic_type from instances of BasicType where false;
+
+counter = 0;
+select one parameter related by evt->ParameterDefinition[R6100];
+while ( not_empty parameter )
+  if ( counter == position )
+    select one basic_type related by parameter->BasicType[R5200];
+    return basic_type;
+  end if;
+  counter = counter + 1;
+  select one parameter related by parameter->ParameterDefinition[R5208.''precedes''];
+end while;
+
+::trace( i:114, s:"ASL_get_event_parameter_basic_type:  failed to find parameter type" );
+return basic_type;',
+	"f2470f88-fc4a-406d-ba1c-54179e448ed4",
+	1,
+	'',
+	0,
+	38);
+INSERT INTO S_SPARM
+	VALUES ("f6b75323-3c63-4dc7-91d7-c3b6765c6fc7",
+	"2a655879-e399-4d23-a019-effa1439e432",
+	'evt',
+	"4cfcfee8-b8db-43f0-9290-af0d49e530d4",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4cfcfee8-b8db-43f0-9290-af0d49e530d4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<EventDeclaration>',
+	'',
+	'',
+	'../../../../../ooamasl/models/ooamasl/ooamasl/statemodel/statemodel.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("742155c1-f7f9-429d-af2c-8db384935ceb",
+	"2a655879-e399-4d23-a019-effa1439e432",
+	'position',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"f6b75323-3c63-4dc7-91d7-c3b6765c6fc7",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2a655879-e399-4d23-a019-effa1439e432",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",

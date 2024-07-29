@@ -917,6 +917,14 @@ internal_type.name = "type";
 relate type_definition to basic_type across R6236;
 relate basic_type to internal_type across R6205;
 
+create object instance type_definition of TypeDefinition;
+create object instance basic_type of BasicType;
+basic_type.isanonymous = true;
+create object instance internal_type of InternalType;
+internal_type.name = "unknown_type";
+relate type_definition to basic_type across R6236;
+relate basic_type to internal_type across R6205;
+
 /* Comment out the logging if not desired.
  */
 select many internal_types from instances of InternalType where ( SORT::ascending( attr:"name" ) );
@@ -1438,9 +1446,9 @@ var.isreadonly = false;
 relate var to root_code_block across R5151;
 // create a new variable reference
 create object instance expr of MaslExpression;
-// Relate to a random type for now.  This will get changed in Assignment and LoopSpec.
-select any builtin_type from instances of BuiltinType;
-select one type related by builtin_type->BasicType[R6205];
+// Relate to ''unknown_type'' for now.  This will get changed in Assignment and LoopSpec.
+select any unknown_type from instances of InternalType where ("" + selected.name) == "unknown_type";
+select one type related by unknown_type->BasicType[R6205];
 relate type to var across R5137;
 relate type to expr across R5570;
 create object instance var_ref of VariableNameExpression;
@@ -2815,55 +2823,30 @@ INSERT INTO S_SYNC
 lhs = param.lhs;
 rhs = param.rhs;
 
-select one var_def related by lhs->VariableNameExpression[R5517]->VariableDefinition[R5562];
-if not_empty var_def
+// Look for a call expression.  If so, there will be no assignment, just the invocation.
+select one call_expression related by rhs->CallExpression[R5517];
+if ( not_empty call_expression )
 
-  select one rhs_basic_type related by rhs->BasicType[R5570];
-  select one lhs_basic_type related by lhs->BasicType[R5570];
-  select one var_basic_type related by var_def->BasicType[R5137];
-
-  if ( empty rhs )
-    ::trace(i:11,s:"ASL_assignment_relink_type:  no type found on rhs." );
-  end if;
-  if ( empty rhs_basic_type )
-    ::trace(i:12,s:"ASL_assignment_relink_type:  no basic type found on rhs." );
-  end if;
-  
-  // relink the expression type
-  if ( empty lhs_basic_type )
-    ::trace(i:13,s:"ASL_assignment_relink_type:  no type found on lhs." );
-  else
-    unrelate lhs from lhs_basic_type across R5570;
-  end if;
-  relate lhs to rhs_basic_type across R5570;
-
-  // relink the variable type
-  if ( empty var_basic_type )
-    ::trace(i:14,s:"ASL_assignment_relink_type:  no type found on var." );
-  else
-    unrelate var_def from var_basic_type across R5137;
-  end if;
-  relate var_def to rhs_basic_type across R5137;
-  
-  // Look for a call expression.  If so, there will be no assignment, just the invocation.
-  select one call_expression related by rhs->CallExpression[R5517];
-  if ( not_empty call_expression )
-    // Check for arguments on the LHS.  If so, these are output parameters to an ASL call expression.
-    select one argument related by lhs->Argument[R5577];
-    position = 0;
-    while ( not_empty argument )
-      select one argument_expression related by argument->MaslExpression[R5577];
-      select one argument_basic_type related by argument_expression->BasicType[R5570];
-      // Relink the argument expression to the basic type of the parameter definition.
-      basic_type = ::ASL_get_out_parameter_basic_type( call_expression:call_expression, position:position );
-      if ( empty basic_type )
-        break;
-      end if;
-      position = position + 1;
-      // Look for a variable related to the argument.  If found, relink its type.
-      // There is not always a variable; sometimes there is a passed parameter.
-      select one variable_definition related by argument_expression->VariableNameExpression[R5517]->VariableDefinition[R5562];
-      if not_empty variable_definition
+  // Check for arguments on the LHS.  If so, these are output parameters to an ASL call expression.
+  select one argument related by lhs->Argument[R5577];
+  position = 0;
+  while ( not_empty argument )
+    select one argument_expression related by argument->MaslExpression[R5577];
+    select one argument_basic_type related by argument_expression->BasicType[R5570];
+    // Relink the argument expression to the basic type of the parameter definition.
+    basic_type = ::ASL_get_out_parameter_basic_type( call_expression:call_expression, position:position );
+    if ( empty basic_type )
+      break;
+    end if;
+    position = position + 1;
+    // Look for a variable related to the argument.  If found, relink its type.
+    // There is not always a variable; sometimes there is a passed parameter.
+    select one variable_definition related by argument_expression->VariableNameExpression[R5517]->VariableDefinition[R5562];
+    select one var_basic_type related by variable_definition->BasicType[R5137];
+    if not_empty variable_definition
+      // only perform the relinking if the variable type is ''unknown_type''
+      select one var_internal_type related by var_basic_type->InternalType[R6205];
+      if not empty var_internal_type and ("" + var_internal_type.name) == "unknown_type"
         // relink the variable type
         select one var_basic_type related by variable_definition->BasicType[R5137];
         if ( not_empty var_basic_type )
@@ -2871,14 +2854,56 @@ if not_empty var_def
         end if;
         relate variable_definition to basic_type across R5137;
       else
-        ::trace( i:113, s:"ASL_assignment_relink_type did not find variable_definition" );
+        ::trace( i:114, s:"ASL_assignment_relink_type variable type has already been relinked" );
       end if;
-      select one argument related by argument->Argument[R5576.''precedes''];
-    end while;
+    else
+      ::trace( i:113, s:"ASL_assignment_relink_type did not find variable_definition" );
+    end if;
+    select one argument related by argument->Argument[R5576.''precedes''];
+  end while;
+  
+else
+
+  select one var_def related by lhs->VariableNameExpression[R5517]->VariableDefinition[R5562];
+  if not_empty var_def
+  
+    select one rhs_basic_type related by rhs->BasicType[R5570];
+    select one lhs_basic_type related by lhs->BasicType[R5570];
+    select one var_basic_type related by var_def->BasicType[R5137];
+    
+    // only perform the relinking if the variable type is ''unknown_type''
+    select one var_internal_type related by var_basic_type->InternalType[R6205];
+    if empty var_internal_type or ("" + var_internal_type.name) != "unknown_type"
+      ::trace( i:114, s:"ASL_assignment_relink_type variable type has already been relinked" );
+      return;
+    end if;
+  
+    if ( empty rhs )
+      ::trace(i:11,s:"ASL_assignment_relink_type:  no type found on rhs." );
+    end if;
+    if ( empty rhs_basic_type )
+      ::trace(i:12,s:"ASL_assignment_relink_type:  no basic type found on rhs." );
+    end if;
+    
+    // relink the expression type
+    if ( empty lhs_basic_type )
+      ::trace(i:13,s:"ASL_assignment_relink_type:  no type found on lhs." );
+    else
+      unrelate lhs from lhs_basic_type across R5570;
+    end if;
+    relate lhs to rhs_basic_type across R5570;
+  
+    // relink the variable type
+    if ( empty var_basic_type )
+      ::trace(i:14,s:"ASL_assignment_relink_type:  no type found on var." );
+    else
+      unrelate var_def from var_basic_type across R5137;
+    end if;
+    relate var_def to rhs_basic_type across R5137;
+  
   end if;
 
-end if;
-',
+end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
