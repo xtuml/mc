@@ -390,8 +390,17 @@ masl_type_op_populate_references( masl_type * self)
   Escher_IteratorReset( &itertyperef, typerefs );
   while ( (iityperef = (masl_typeref *)Escher_IteratorNext( &itertyperef )) != 0 ) {
     typeref = iityperef; {
-    masl_type * referred_type=0;
-    /* SELECT any referred_type RELATED BY self->domain[R3719]->type[R3719] WHERE ( SELECTED.name == typeref.body ) */
+    c_t * referred_type_name=0;masl_type * referred_type=0;
+    /* ASSIGN referred_type_name = typeref.body */
+    referred_type_name = Escher_strcpy( referred_type_name, ((masl_typeref *)xtUML_detect_empty_handle( typeref, "typeref", "typeref.body" ))->body );
+    /* ASSIGN i = STRING::indexof(haystack:typeref.body, needle: of ) */
+    i = STRING_indexof( ((masl_typeref *)xtUML_detect_empty_handle( typeref, "typeref", "typeref.body" ))->body, " of " );
+    /* IF ( i != - 1 ) */
+    if ( i != -1 ) {
+      /* ASSIGN referred_type_name = STRING::substr(begin:( i + 4 ), end:- 1, s:typeref.body) */
+      referred_type_name = Escher_strcpy( referred_type_name, STRING_substr( ( i + 4 ), -1, ((masl_typeref *)xtUML_detect_empty_handle( typeref, "typeref", "typeref.body" ))->body ) );
+    }
+    /* SELECT any referred_type RELATED BY self->domain[R3719]->type[R3719] WHERE ( SELECTED.name == referred_type_name ) */
     referred_type = 0;
     {    if ( 0 != self ) {
     masl_domain * domain_R3719 = self->domain_R3719;
@@ -400,7 +409,7 @@ masl_type_op_populate_references( masl_type * self)
     Escher_Iterator_s itype_R3719_defines;
     Escher_IteratorReset( &itype_R3719_defines, &domain_R3719->type_R3719_defines );
     while ( 0 != ( selected = (masl_type *) Escher_IteratorNext( &itype_R3719_defines ) ) ) {
-      if ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.name" ))->name, ((masl_typeref *)xtUML_detect_empty_handle( typeref, "typeref", "typeref.body" ))->body ) == 0 ) {
+      if ( Escher_strcmp( ((masl_type *)xtUML_detect_empty_handle( selected, "type", "SELECTED.name" ))->name, referred_type_name ) == 0 ) {
         referred_type = selected;
         break;
     }}
