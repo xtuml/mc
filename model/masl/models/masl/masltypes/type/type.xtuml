@@ -230,7 +230,13 @@ end while;
 // Then the WASL way.
 select many typerefs related by self->structure[R3751]->member[R3752.''has'']->typeref[R3753];
 for each typeref in typerefs
-  select any referred_type related by self->domain[R3719]->type[R3719] where ( selected.name == typeref.body );
+  referred_type_name = typeref.body;
+  // consider complex type references
+  i = STRING::indexof(haystack: typeref.body, needle: " of ");
+  if i != -1
+    referred_type_name = STRING::substr(s: typeref.body, begin: i+4, end: -1);
+  end if;
+  select any referred_type related by self->domain[R3719]->type[R3719] where ( selected.name == referred_type_name );
   if ( not_empty referred_type )
     r = reference::populate( parent:self, child:referred_type );
   end if;
