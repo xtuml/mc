@@ -2214,7 +2214,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     public Object visitNavigateExpression(AslParser.NavigateExpressionContext ctx) {
         try {
             if (ctx.lhs != null) {
-            /*  if (ctx.WITH() != null) {
+            	if (ctx.AND() != null) {
                     Object expression = loader.create("MaslExpression");
                     Object correlatedNavExpression = loader.create("CorrelatedNavExpression");
                     loader.relate(correlatedNavExpression, expression, 5517, "");
@@ -2229,15 +2229,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                     loader.call_function("resolve_CorrelatedNavExpression", expression);
                     currentObject = prevCurrentObject;
                     return expression;
-                } else if (ctx.ORDERED_BY() != null || ctx.REVERSE_ORDERED_BY() != null) {
-                    Object expression = loader.call_function("OrderingExpression_initialize", visit(ctx.lhs), ctx.REVERSE_ORDERED_BY() != null);
-                    int index = 1;
-                    for (Object[] sortComponent : ((Stream<Object[]>) visit(ctx.sortOrder())).collect(Collectors.toList())) {
-                        loader.call_function("OrderingExpression_sort", expression, sortComponent[1], sortComponent[0], index);
-                        index++;
-                    }
-                    return expression;
-                } else { */
+                } else {
                     Object expression = loader.create("MaslExpression");
                     Object navigationExpression = loader.create("NavigationExpression");
                     loader.relate(navigationExpression, expression, 5517, "");
@@ -2255,7 +2247,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                     }
                     currentObject = prevCurrentObject;
                     return expression;
-                //}
+                }
             } else {
                 return visit(ctx.extendedExpression());
             }

@@ -504,6 +504,8 @@ linkExpression                : navigateExpression
 
 navigateExpression            : lhs=navigateExpression
                                 ( NAVIGATE relationshipSpec whereClause?
+                                | AND rhs=extendedExpression
+                                  NAVIGATE relationshipSpec
                                 )
                               | extendedExpression
                               ;
