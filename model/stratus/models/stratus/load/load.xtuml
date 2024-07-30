@@ -2946,13 +2946,14 @@ current_block = param.current_block;
 
 // 1. Create an assignement statement to be returned and linked to supertype statement.
 // 2. Link the expression to the LHS of the assignment.
-// 3. if it does not already exist, declare an empty_ variable for zeroing with a set wrapped around it.
-// 4. Create an expression to be associated with the empty_set_ variable.
+// 3. If it does not already exist, declare an _empty_set_ variable for zeroing with a set wrapped around it.
+// 4. Create an expression to be associated with the _empty_set_ variable.
 // 5. link the expression to the RHS of the assignment.
 // 6. A variable or parameter for the LHS will exist.  If variable, unlink and relink to correct type.
 
 // 1. Create an assignement statement to be returned and linked to supertype statement.
 create object instance assignment_statement of AssignmentStatement;
+
 // 2. Link the expression to the LHS of the assignment.
 relate expression to assignment_statement across R5101;
 select one lhs_basic_type related by expression->BasicType[R5570];
@@ -2960,17 +2961,17 @@ select one lhs_basic_type related by expression->BasicType[R5570];
 select one structure_user_defined_type related by structure_basic_type->MaslUserDefinedType[R6205];
 select one structure_type related by structure_user_defined_type->TypeDeclaration[R6241]->TypeDefinition[R6234]->FullTypeDefinition[R6236]->MaslStructureType[R6219];
 if ( empty structure_type )
-  ::trace( i:214, s:"structure instantiation:  no structure" );
+  ::trace( i:214, s:"ERROR structure instantiation:  no structure" );
 end if;
 
-// 3. if it does not already exist, declare an empty_set_ variable for zeroing with a set wrapped around it.
+// 3. if it does not already exist, declare an _empty_set_ variable for zeroing with a set wrapped around it.
 root_code_block = ::select_CodeBlock_root( code_block:param.current_block );
-select any empty_variable_definition related by root_code_block->VariableDefinition[R5151] where ( "" + selected.name == "empty_set_" + structure_user_defined_type.name );
+select any empty_variable_definition related by root_code_block->VariableDefinition[R5151] where ( "" + selected.name == "_empty_set_" + structure_user_defined_type.name );
 if ( empty empty_variable_definition )
   ::trace( i:215, s:"structure instantiation:  empty_ being created" );
   // Create a variable definition and expression for empty structure.
   create object instance empty_variable_definition of VariableDefinition;
-  empty_variable_definition.name = "empty_set_" + structure_user_defined_type.name;
+  empty_variable_definition.name = "_empty_set_" + structure_user_defined_type.name;
   empty_variable_definition.isreadonly = false;
   relate empty_variable_definition to root_code_block across R5151;
   // Create a collection type to wrap around the structure basic type.
@@ -2983,20 +2984,21 @@ if ( empty empty_variable_definition )
   relate basic_type to collection_type across R6205;
   relate collection_type to sequence_type across R6207;
   relate collection_type to structure_basic_type across R6208;
-  // 4. Create an expression to be associated with the empty_ variable.
-  create object instance expr of MaslExpression;
   relate basic_type to empty_variable_definition across R5137;
-  relate basic_type to expr across R5570;
   lhs_basic_type = basic_type;
-  create object instance var_ref of VariableNameExpression;
-  // 5. link the expression to the RHS of the assignment.
-  relate var_ref to expr across R5517;
-  relate var_ref to empty_variable_definition across R5562;
-  relate expr to assignment_statement across R5100;
 else
   ::trace( i:216, s:"structure instantiation:  empty_ already exists" );
   select one lhs_basic_type related by empty_variable_definition->BasicType[R5137];
 end if;
+
+// 4. Create an expression to be associated with the _empty_set_ variable.
+create object instance expr of MaslExpression;
+relate lhs_basic_type to expr across R5570;
+create object instance var_ref of VariableNameExpression;
+relate var_ref to expr across R5517;
+relate var_ref to empty_variable_definition across R5562;
+// 5. link the expression to the RHS of the assignment.
+relate expr to assignment_statement across R5100;
 
 // 6. A variable or parameter for the LHS will exist.  If variable, relink to correct type.
 select one lhs_variable_definition related by expression->VariableNameExpression[R5517]->VariableDefinition[R5562];
