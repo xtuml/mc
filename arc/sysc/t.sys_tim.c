@@ -61,13 +61,27 @@ TIM::timer_start(
   const ${te_prefix.type}uSec_t ee_microseconds )
 {
   /* Insert implementation specific code here.  */
-  ETimer_t * t = start( ee_microseconds/USEC_CONVERT, ee_event_inst );
+  ETimer_t * t = 0;
 .if ( te_tim.keyed_timer_support )
-  ${te_prefix.type}Timer_t result = { t, t->accesskey };
+  ${te_prefix.type}Timer_t result = { 0, 0 };
 .end if
+  if ( 0 == ee_microseconds ) {
+    /* This is the Zero-duration Timer Idiom which is circumventing
+       the expedited event to self rule.  */
+    ${te_eq.non_self}( ee_event_inst );
+  } else {
+    /* Note the ceiling function calculation to make sure that our timer
+       ticks for at least as long as the given duration accounting for
+       the truncation of the division.  */
+    t = timer_start( (ee_microseconds + USEC_CONVERT - 1)/USEC_CONVERT, ee_event_inst );
 .if ( te_tim.recurring_timer_support )
-  t->recurrence = 0;
+    t->recurrence = 0;
 .end if
+.if ( te_tim.keyed_timer_support )
+    result.timer = t;
+    result.key = t->accesskey;
+.end if  
+  }
 .if ( te_tim.keyed_timer_support )
   return result;
 .else
@@ -434,15 +448,8 @@ TIM::start(
     t->event = event;
     /*---------------------------------------------------------------*/
     /* Calculate the timer expiration time.                          */
-  .if ( "SystemC" == te_thread.flavor )
     /*---------------------------------------------------------------*/
     t->expiration = ETimer_msec_time() + duration;
-  .else
-    /* Note:  Add one to the duration to make sure that delay is     */
-    /* at least as long as duration.                                 */
-    /*---------------------------------------------------------------*/
-    t->expiration = ETimer_msec_time() + duration + 1UL;
-  .end if
   .if ( te_tim.keyed_timer_support )
     timer_access_key = timer_access_key + 1 ? timer_access_key + 1 : 1;
     t->accesskey = timer_access_key;
@@ -477,14 +484,14 @@ TIM::timer_insert_sorted(
     animate = t;
   } else {
     ETimer_time_t poptime = t->expiration;
-    if ( poptime <= animate->expiration ) {          /* before head  */
+    if ( poptime < animate->expiration ) {          /* before head  */
       t->next = animate;
       animate = t;         
     } else {                                         /* find bigger  */
       ETimer_t * prev = animate;
       ETimer_t * cursor;
       while ( ( cursor = prev->next ) != 0 ) {
-        if ( poptime <= cursor->expiration ) {
+        if ( poptime < cursor->expiration ) {
           break;
         }
         prev = cursor;

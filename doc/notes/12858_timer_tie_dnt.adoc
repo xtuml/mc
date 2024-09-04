@@ -109,7 +109,7 @@ circumvent the expedited event to self rule by assigning 'self' to a
 transient variable before generating the event.  This is fine as long as
 MC-3020 is the only architecture being used by the model.  This does not
 work in Verifier, Ciera and MASL, because those architectures check the
-identifiers of the sending and receiving instances and expedites in all
+identifiers of the sending and receiving instances and expedite in all
 cases that the identifiers are equal to each other.
 
 .circumventing the expedited event to self rule in MC-3020 (benchmark model)
