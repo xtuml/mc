@@ -1,0 +1,203 @@
+= Zero Duration Idiom and Timer Tie
+
+xtUML Project Design Note
+
+== 1 Abstract
+
+This note documents two idioms of circumventing the Shlaer-Mellor OOA
+expedited event to self rule.  Changes to support this idiom are
+described.  A separate change to the behavior of equal expiration timers
+is also documented.
+
+== 2 Introduction and Background
+
+Shlaer-Mellor timers, delayed events, alarms, current clock and anyting
+associated with time have subtle nuances.  The rule relating to
+__expedited event to self__ is especially troublesome.
+
+The following questions are addressed in this note:
+
+* Does a timer with a zero duration mean something special?
+* Is a delayed event to self expedited?
+* Can/should the modeler control when an event to self is expedited?
+* If a timer is started and has an expiration that matches an existing
+  timer, does it matter whether it expires before or after the existing
+  timer?
+
+Answers provided below.
+
+=== 2.1 Expedited Event to Self
+
+In some literature we find "_accelerated_ event to self".  The OOA '96
+Report <<dr-2>> uses the term _expedited_.
+
+[quote,OOA '96 Report]
+RULE (expedite self-directed events): If an instance of an object sends an
+event to itself, that event will be accepted before any other events that
+have yet to be accepted by the same instance.
+
+The rule to expedite events to self seems to have assumed that this is
+necessary and desireable in all cases.  However, modelers circumvent the
+rule intentionally.  This is because the rule is undesirable in some
+cases.  One case is a state machine that needs to repetitively operate for
+a specific duration of time.
+
+==== 2.1.1 Interruptible Self-Stimulating State Machine
+
+A common pattern in Shlaer-Mellor modeling is the "interruptible
+self-stimulating state machine".  This is a pattern in which a state
+machine operates "as fast as it can" for a period of time or until another
+state machine interrupts it.  After the prescribed duration or external
+notification, the object stops or does something different.
+
+"Self-stimulating" in this context implies events directed to 'self'.
+
+An example is a chess-playing 'bot which is allowed a specific, limited
+amount of time to determine a best choice next move.  The algorithm
+"thinks" "as fast as it can" for a specified duration.  When the time is
+expired, it must play.  The algorithm is an object state machine which is
+looking ahead and generating events to itself to explore as many
+possibilities as architecturally achievable in the allotted time.  When
+the prescribed time is up, it must be interrupted by a timer event that
+triggers a transition into a state in which the 'bot will play the best
+candidate move it has identified in the allotted time.  This timer event
+must interrupt the object state machine, even though it is sending events
+to 'self'.  The self events effectively "lock out" the timer event.
+
+It could be argued that if timer events to self were also expedited, such
+timer events would be delivered (interleaved with the self events).
+However, this would only solve interruption by a timer event to self.  It
+would still leave the state machine deaf to events from other instances
+that wished to make the interruption.
+
+== 3 Requirements
+
+=== 3.1 Document Idioms
+
+Explain the two known idioms for circumventing the expedited event to self
+rule.
+
+=== 3.2 Support Non-expedited Event Idioms in MC-3020
+
+Support the Zero-duration Timer idiom for circumventing the expedited
+event to self rule in MC-3020.
+
+=== 3.3 Refine Timer Ordering
+
+A bug has been identified in MC-3020 around the ordering of timers with
+identical expirations.  Correct this bug.
+
+== 4 Analysis
+
+=== 4.1 Modeller Control of Expedition
+
+Modelers have been circumventing the expedited event to self rule for many
+years.  This note hopes to raise awareness of this practice and begin
+settling on an agreed idiom.
+
+=== 4.1.1 Idioms of Expedited Self-Directed Events
+
+This author is aware of two idioms used to circumvent the expedited event
+to self rule.  The first works only in MC-3020; the second looks clunky
+but is more generally effective.
+
+=== 4.1.1.1 Omission of 'self' Keyword
+
+MC-3020 keys off of the 'self' keyword when tranlating a statement which
+generates a delayed event.  By knowing this fact, the modeler can
+circumvent the expedited event to self rule by assigning 'self' to a
+transient variable before generating the event.  This is fine as long as
+MC-3020 is the only architecture being used by the model.  This does not
+work in Verifier, Ciera and MASL, because those architectures check the
+identifiers of the sending and receiving instances and expedite in all
+cases that the identifiers are equal to each other.
+
+.circumventing the expedited event to self rule in MC-3020 (benchmark model)
+----
+// Generate event as non-self so timer can pop.
+loop = self;
+generate LOOP1:go() to loop;
+----
+
+=== 4.1.1.2 Zero-duration Timer
+
+An uglier but more universally effective trick for circumventing the
+expedited event to self rule is to schedule a delayed event with a
+duration of zero.  This makes an (generally true) assumption that timer
+events are never expedited.  This technique works in all known
+architectures but may result in a small non-zero delay (which will be
+corrected in MC-3020 by this work).
+
+.circumventing the expedited event to self rule (AEOrdering model)
+----
+schedule this.workerTimer generate Worker.reportHeartbeat() to this delay @PT0S@;
+----
+
+=== 4.2 Tie-break of Equal Expiration Timers
+
+A loosely related bug was discovered in MC-3020 while investigating this
+issue.  In the case in which a single instance has multiple timers waiting
+to deliver delayed events, there is an ordering issue.  MC-3020 currently
+(Summer 2024) queues a new timer _ahead_ of an existing timer when the
+expiration times are identical.  It is marginally more efficient to do so,
+because MC-3020 uses a linked list to maintain the sequence of ticking
+timers.  However, it seems more natural to expire the existing timer ahead
+of a new timer with the same expiration to maintain the order of
+installation.  A modeler may make an assumption that the timer installed
+first gets fired first when two timers have identical expiration times.
+This may not be a good assumption by the modeler, but it seems natural.
+
+This work will adjust this practice to align order of event delivery with
+order of installation on timers with identical expirations.
+
+== 5 Design
+
+=== 5.1 Support of Zero-duration Timer Idiom
+
+MC-3020 will be changed to detect a duration of zero.  In such cases,
+installation of an actual timer will be skipped.  The event on the timer
+will be queued immediately to the tail of the non-expedited event queue.
+
+=== 5.2 Tie-break of Equal Expiration Timers
+
+MC-3020 will be changed to order a new timer to follow an existing timer
+with the same expiration.
+
+== 6 Design Comments
+
+Does a timer with a zero duration mean something special?::
+Yes.  It means that the modeler is circumventing the expedited event to
+self rule.  Such timers may be optimized to simply deliver the event
+immediately but without expediting.
+
+Is a delayed event to self expedited?::
+No.  Since modelers use zero-duration delayed events to circumvent the
+expedited event to self rule, timer events must never be expedited.
+
+Can/should the modeler control when an event to self is expedited?::
+Yes.  It should be the exception, but for certain patterns (one described
+above), it is difficult and clumsy to build a model without the ability to
+circumvent this rule.
+
+If a timer is started and has an expiration that matches an existing timer, does it matter whether it expires before or after the existing timer?::
+Yes.  The order of event generation should be maintained in the order of
+event delivery.  This may not be architecturally mandated, but it may be
+reasonably assumed by modelers.  And since the order would not technically
+matter, it seems reasonable to keep the ordering.
+
+== 7 User Documentation
+
+N/A
+
+== 8 Unit Test
+
+== 9 Document References
+
+. [[dr-1]] https://support.onefact.net/issues/12858[12858 - MC-3020 TIM inserting timers with the same expiration]
+. [[dr-2]] http://ooatool.com/docs/OOA96.pdf[OOA '96 Report]
+
+---
+
+This work is licensed under the Creative Commons CC0 License
+
+---
