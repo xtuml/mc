@@ -1529,37 +1529,42 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     @Override
     public Object visitStatement(AslParser.StatementContext ctx) {
         try {
-            Object statement = null;
+        	Object smtSubtype = null;
             if (ctx.nullStatement() == null) {
                 // Don't create a statement for the "null" statement
-                statement = loader.create("MaslStatement");
             }
             if (ctx.assignStatement() != null) {
-                loader.relate(visit(ctx.assignStatement()), statement, 5135, "");
+                smtSubtype = visit(ctx.assignStatement());
             } else if (ctx.structureInstantiation() != null) {
-                loader.relate(visit(ctx.structureInstantiation()), statement, 5135, "");
+                smtSubtype = visit(ctx.structureInstantiation());
             } else if (ctx.callStatement() != null) {
-                loader.relate(visit(ctx.callStatement()), statement, 5135, "");
+                smtSubtype = visit(ctx.callStatement());
             } else if (ctx.exitStatement() != null) {
-                loader.relate(visit(ctx.exitStatement()), statement, 5135, "");
+                smtSubtype = visit(ctx.exitStatement());
             } else if (ctx.deleteStatement() != null) {
-                loader.relate(visit(ctx.deleteStatement()), statement, 5135, "");
+                smtSubtype = visit(ctx.deleteStatement());
             } else if (ctx.linkStatement() != null) {
-                loader.relate(visit(ctx.linkStatement()), statement, 5135, "");
+                smtSubtype = visit(ctx.linkStatement());
             } else if (ctx.generateStatement() != null) {
-                loader.relate(visit(ctx.generateStatement()), statement, 5135, "");
+                smtSubtype = visit(ctx.generateStatement());
             } else if (ctx.ifStatement() != null) {
-                loader.relate(visit(ctx.ifStatement()), statement, 5135, "");
+                smtSubtype = visit(ctx.ifStatement());
             } else if (ctx.caseStatement() != null) {
-                loader.relate(visit(ctx.caseStatement()), statement, 5135, "");
+                smtSubtype = visit(ctx.caseStatement());
             } else if (ctx.forStatement() != null) {
-                loader.relate(visit(ctx.forStatement()), statement, 5135, "");
+                smtSubtype = visit(ctx.forStatement());
             } else if (ctx.whileStatement() != null) {
-                loader.relate(visit(ctx.whileStatement()), statement, 5135, "");
+                smtSubtype = visit(ctx.whileStatement());
             } else if (ctx.comment() != null) {
-                loader.relate(visit(ctx.comment()), statement, 5135, "");
+                smtSubtype = visit(ctx.comment());
             }
-            return statement;
+            if (smtSubtype != null) {
+                Object statement = loader.create("MaslStatement");
+                loader.relate(smtSubtype, statement, 5135, "");
+                return statement;
+            } else {
+            	return null;
+            }
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
             return null;
@@ -1569,29 +1574,36 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     @Override
     public Object visitAssignStatement(AslParser.AssignStatementContext ctx) {
         try {
-            Object statement = loader.create("AssignmentStatement");
             if (ctx.EQUAL() != null) {
-                if (ctx.CREATE_TIMER() != null) {
-                  Object timer_expr = visit(ctx.timer_expr);
-                  // The following will create a declaration for the
-                  // timer variable.
-                  if ( null != timer_expr ) loader.relate(timer_expr, statement, 5101, "");
-                  if (null != timer_expr ) loader.call_function("ASL_link_timer_type", timer_expr);
+                Object lhs = visit(ctx.lhs);
+                Object rhs = visit(ctx.rhs);
+                if (rhs != null && !((IModelInstance<?, ?>)rhs).isEmpty()) {
+                	Object statement = loader.create("AssignmentStatement");
+					if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
+					if ( null != rhs ) loader.relate(rhs, statement, 5100, "");
+					// Unlink type from lhs and connect to type from rhs.
+					if ((null != lhs ) && (null != rhs)) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
+					return statement;
                 } else {
-                  Object lhs = visit(ctx.lhs);
-                  Object rhs = visit(ctx.rhs);
-                  if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
-                  if ( null != rhs ) loader.relate(rhs, statement, 5100, "");
-                  // Unlink type from lhs and connect to type from rhs.
-                  if ((null != lhs ) && (null != rhs)) loader.call_function("ASL_assignment_relink_type", lhs, rhs);
+                	String actionText = input.getText(new Interval(ctx.getStart().getStartIndex(), ctx.getStop().getStopIndex()));
+                	if (actionText.contains("Create_Timer")) {
+                		Object comment = loader.create("Comment");
+                		loader.set_attribute(comment, "text", " " + actionText);
+                		return comment;
+                	} else {
+                		return null;
+                	}
                 }
             } else if (ctx.CONCATENATE() != null) {
+            	Object statement = loader.create("AssignmentStatement");
                 Object rhs2 = visit(ctx.additiveExp());
                 Object lhs = loader.call_function("ASL_structure_assembly", rhs2, currentCodeBlock);
                 if ( null != lhs ) loader.relate(lhs, statement, 5101, "");
                 if ( null != rhs2 ) loader.relate(rhs2, statement, 5100, "");
+                return statement;
+            } else {
+            	return null;
             }
-            return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
             return null;

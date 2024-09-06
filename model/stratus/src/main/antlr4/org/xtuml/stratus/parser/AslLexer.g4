@@ -76,7 +76,6 @@ BRIDGE                        : 'bridge';
 CASE                          : 'case';
 CREATE                        : 'create';
 CREATION                      : 'creation';
-CREATE_TIMER                  : 'Create_Timer';
 CURRENT_DATE                  : 'current-date';
 CURRENT_STATE                 : 'Current_State' | 'current_state' | 'CURRENT_STATE';
 CURRENT_TIME                  : 'current-time';

@@ -315,8 +315,6 @@ nullStatement                 : BEGIN NEWLINE* NULL SEMI NEWLINE* END SEMI
 
 assignStatement               : lhs=postfixNoCallExpression EQUAL rhs=expression
                               | CONCATENATE additiveExp // structureAssembly
-                              | LBRACKET timer_expr=nameExpression RBRACKET EQUAL
-                                CREATE_TIMER LBRACKET RBRACKET
                               ;
 
 callStatement                 : LBRACKET RBRACKET EQUAL root=nameExpression

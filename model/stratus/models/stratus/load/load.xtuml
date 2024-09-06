@@ -1436,6 +1436,12 @@ if ( "event" == "" + param.name )
   relate characteristic_expression to call_expr across R5500;
   return expr;
 end if;
+
+// Call to Create_Timer is ignored as timers are initialized by instance creation in MASL
+if ( "Create_Timer" == "" + param.name )
+  select any expr from instances of MaslExpression where false;
+  return expr;
+end if;
   
 // ASL is implicitly typed.  Create a variable for this unrecognized name.
 
