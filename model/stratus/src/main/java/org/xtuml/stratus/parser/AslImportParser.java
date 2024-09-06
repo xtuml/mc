@@ -25,7 +25,7 @@ public class AslImportParser extends MaslImportParser implements IGenericLoader 
     // parse an ASL activity file
     @Override
     public void parseFile(final URI fileURI) throws IOException {
-        if (fileURI.toString().endsWith(".mod") || fileURI.toString().endsWith(".int")) {
+        if (fileURI.toString().endsWith(".mod") || fileURI.toString().endsWith(".int") || fileURI.toString().endsWith(".prj")) {
             // Use the MASL parser for structural files
             super.parseFile(fileURI);
         } else {
