@@ -937,11 +937,6 @@ if ( not_empty assign_statement )
       delim = ", ";
       select one argument related by argument->Argument[R5576.''precedes''];
     end while;
-    if ( "" == outargs )
-      outargs = outargs + ")";
-    else
-      outargs = outargs + " )";
-    end if;
   else
     // Omit assignment in case of structure assembly.  The structure assembly expression will make the assignment.
     select one binary_expression related by rhs->BinaryExpression[R5517] where ( selected.operator == Operator::concatenate );
@@ -952,7 +947,12 @@ if ( not_empty assign_statement )
     end if;
   end if;
   rhs_expression = ::ASL_assignment_cast(lhs_type: lhs_type, rhs_expr: rhs);
-  s = s + rhs_expression + outargs + ";\n";
+  if ( "" != outargs )
+    // insert the output args before the closing paren of the invocation
+    s = s + STRING::substr(s: rhs_expression, begin: 0, end: STRING::strlen(s: rhs_expression) - 1) + outargs + ");\n";
+  else
+    s = s + rhs_expression + ";\n";
+  end if;
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -1484,59 +1484,36 @@ if ( not_empty call_expression )
   select one domain_service_invocation related by service_invocation->DomainServiceInvocation[R5610];
   select one object_service_invocation related by service_invocation->ObjectServiceInvocation[R5610];
   select one instance_service_invocation related by service_invocation->InstanceServiceInvocation[R5610];
+  select one characteristic_expression related by call_expression->CharacteristicExpression[R5500];
   if ( not_empty domain_service_invocation )
     select one domain related by domain_service_invocation->DomainService[R5611]->Domain[R5303];
     select one service related by domain_service_invocation->DomainService[R5611]->Service[R5203];
-    s = s + domain.name + "::" + service.name + "(";
+    s = s + domain.name + "::" + service.name;
   elif ( not_empty terminator_service_invocation )
     select one terminator related by terminator_service_invocation->DomainTerminatorService[R5612]->DomainTerminator[R5306];
     select one service related by terminator_service_invocation->DomainTerminatorService[R5612]->Service[R5203];
-    s = s + terminator.name + "~>" + service.name + "(";
+    s = s + terminator.name + "~>" + service.name;
   elif ( not_empty object_service_invocation )
     select one object_declaration related by object_service_invocation->ObjectService[R5613]->ObjectDeclaration[R5808];
     select one service related by object_service_invocation->ObjectService[R5613]->Service[R5203];
-    s = s + object_declaration.name + "." + service.name + "(";
+    s = s + object_declaration.name + "." + service.name;
+  /*  TODO instance-based service calls are not supported
   elif ( not_empty instance_service_invocation )
     select one object_declaration related by instance_service_invocation->ObjectService[R5614]->ObjectDeclaration[R5808];
     select one service related by instance_service_invocation->ObjectService[R5614]->Service[R5203];
-    s = s + object_declaration.name + "." + service.name + "(";
-  else
-    select one characteristic_expression related by call_expression->CharacteristicExpression[R5500];
-    if ( not_empty characteristic_expression )
-      select one argument related by call_expression->Argument[R5575];
-      select one argument_expression related by call_expression->Argument[R5575]->MaslExpression[R5577];
-      // The only characteristic expressions used by ASL are delta from Get_Time_Remaining
-      // and event from Set_Timer.
-      s = s + ::expression( expression:argument_expression );
-      if ( "delta" == characteristic_expression.characteristic )
-        s = s + "''" + characteristic_expression.characteristic;
-      elif ( "event" == characteristic_expression.characteristic )
-        slen = STRING::strlen(s:s);
-        // omit of quotation marks
-        s = STRING::substr(s:s, begin:1, end:slen-1);
-        slen = STRING::strlen(s:s);
-        // input is ABC123, output is key_letters, number
-        number = "";
-        i = 1;
-        n = STRING::substr(s:s, begin:slen-i, end:slen-i+1); // get last character/number
-        while ( STRING::indexof( haystack:"0123456789", needle:n ) > -1 )
-          number = n + number;
-          i = i + 1;
-          n = STRING::substr(s:s, begin:slen-i, end:slen-i+1);
-        end while;
-        key_letters = STRING::substr(s:s, begin:0, end:slen-i+1);
-        ed = ::ASL_select_EventDeclaration_where_keyletters_name( object_keyletters:key_letters, num:number, name:"" );
-        s = ed.name;
-      end if;
-      return s;
-    else
-      ::trace( i:75, s:"ERROR:  malformed call expression" );
-    end if;
+    s = s + object_declaration.name + "." + service.name;
+  */
+  elif ( not_empty characteristic_expression )
+    select one base_expression related by characteristic_expression->MaslExpression[R5504];
+    s = s + ::expression(expression: base_expression) + "''" + characteristic_expression.characteristic;
   end if;
   args = "";
   delim = "";
   position = 0;
   select one argument related by call_expression->Argument[R5575];
+  if ( not_empty argument or empty characteristic_expression )  // characteristics with no arguments to not have parentheses
+    s = s + "(";
+  end if;
   while ( not_empty argument )
     // Because enumerations are not fully resolvable by name alone, some types
     // will be mislinked.  The following will render to the correct types.
@@ -1574,7 +1551,9 @@ if ( not_empty call_expression )
   if ( "" != args )
     s = s + " " + args;
   end if;
-  //s = s + ")";  This gets appended in statement_assign.
+  if ( "" != args or empty characteristic_expression )
+    s = s + ")";
+  end if;
 end if;
 return s;',
 	"ba5eda7a-def5-0000-0000-000000000004",
@@ -1789,43 +1768,19 @@ if ( not_empty generate_statement )
     position = position + 1;
   end while;
   name = ""; name = event_declaration.name; // work-around
-  if ( "TIM1" == name )
-    // Set_Timer/schedule
-    select one arg1 related by generate_statement->Argument[R5114];
-    select one arg2 related by arg1->Argument[R5576.''precedes''];
-    select one arg3 related by arg2->Argument[R5576.''precedes''];
-    select one arg4 related by arg3->Argument[R5576.''precedes''];
-    select one arg5 related by arg4->Argument[R5576.''precedes''];
-    select one arg1_expression related by arg1->MaslExpression[R5577];
-    select one arg2_expression related by arg2->MaslExpression[R5577];
-    select one arg3_expression related by arg3->MaslExpression[R5577];
-    select one arg4_expression related by arg4->MaslExpression[R5577];
-    select one arg5_expression related by arg5->MaslExpression[R5577];
-    base = ::expression( expression:arg2_expression );
-    units = ::expression( expression:arg3_expression );
-    duration = ::ASL_convert_time( base:base, units:units );
-    s = ::indent( d:param.d ) + "schedule " + ::expression( expression:arg1_expression );
-    s = s + " generate " + ::expression( expression:arg4_expression ) + "()";
-    s = s + " to " + ::expression( expression:arg5_expression );
-    s = s + " delay " + duration;
-  elif ( "TIM2" == name )
-    // Reset_Timer/cancel
-    s = ::indent( d:param.d ) + "cancel " + args;
+  select one object_declaration related by event_declaration->ObjectDeclaration[R6101];
+  s = s + ::indent(d:param.d) + "generate " + object_declaration.name + "." + event_declaration.name;
+  if ( "" != args )
+    args = "( " + args + " )";
   else
-    select one object_declaration related by event_declaration->ObjectDeclaration[R6101];
-    s = s + ::indent(d:param.d) + "generate " + object_declaration.name + "." + event_declaration.name;
-    if ( "" != args )
-      args = "( " + args + " )";
-    else
-      args = "()";
-    end if;
-    s = s + args;
-    select one target_instance related by generate_statement->MaslExpression[R5113];
-    if ( not_empty target_instance )
-      s = s + " to " + ::expression( expression:target_instance );
-    else
-      ::trace( i:911, s:"GENERATE without target instance" );
-    end if;
+    args = "()";
+  end if;
+  s = s + args;
+  select one target_instance related by generate_statement->MaslExpression[R5113];
+  if ( not_empty target_instance )
+    s = s + " to " + ::expression( expression:target_instance );
+  else
+    ::trace( i:911, s:"GENERATE without target instance" );
   end if;
   s = s + ";\n";
 end if;

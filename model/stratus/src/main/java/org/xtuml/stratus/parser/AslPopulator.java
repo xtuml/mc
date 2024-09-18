@@ -1642,6 +1642,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                 loader.call_function("resolve_Expression_ArgumentList", expression, firstArgument);
             }
             loader.call_function("resolve_ServiceCall", statement, expression);
+            // TODO instance based service calls are not supported
             return statement;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
