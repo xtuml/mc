@@ -2473,7 +2473,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
             Object expression = loader.call_function("resolve_NameExpression",
                     getName(currentDomain),
                     ctx.v.getText(), currentCodeBlock,
-                    "", "", "");
+                    "", "", "", false);
             currentEnumeration = ctx.t.getText();
             loader.call_function("ASL_enumerator_relink_type", expression, currentEnumeration);
             return expression;
@@ -2516,11 +2516,10 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                 }
             }
             if ( "" == base_name ) base_name = currentEnumeration;
-            String name = ctx.operationName() != null ? ctx.identifier().getText() : ctx.getText();
             Object expression = loader.call_function("resolve_NameExpression",
                     getName(currentDomain),
-                    name, currentCodeBlock,
-                    scope, base_name, number);
+                    ctx.identifier().getText(), currentCodeBlock,
+                    scope, base_name, number, !ctx.TICMARK().isEmpty());
             currentEnumeration = "";
             // audit collection types
             if (ctx.LEFT_BRACE() != null && ((Expression) expression).R5570_is_typed_by_BasicType().R6205_is_a_CollectionType().isEmpty()) {

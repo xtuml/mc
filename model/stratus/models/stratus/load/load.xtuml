@@ -1486,7 +1486,7 @@ if ( "Create_Timer" == "" + param.name )
 end if;
 
 // ASL "SECOND" and "MILLISECOND" name expressions are interpereted as literal strings for schedule statements 
-if ( "''SECOND''" == "" + param.name or "''MILLISECOND''" == "" + param.name )
+if ( param.has_tics and "SECOND" == "" + param.name or "MILLISECOND" == "" + param.name )
   create object instance expr of MaslExpression;
   create object instance literal_expr of LiteralExpression;
   relate literal_expr to expr across R5517;
@@ -1587,6 +1587,15 @@ INSERT INTO S_SPARM
 	0,
 	'',
 	"ccd94894-5ff5-4bd2-a57a-d795cb861033",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e2129817-7dca-44e0-8f7a-c6b045e77c8f",
+	"183c6254-c6e2-4d4e-a5f3-5011775222ab",
+	'has_tics',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"4cc1bb9e-271f-4ee3-982a-f35bd469bbcf",
 	'');
 INSERT INTO PE_PE
 	VALUES ("183c6254-c6e2-4d4e-a5f3-5011775222ab",
@@ -3643,7 +3652,7 @@ for each rhs_var in rhs_vars
     select one referring_obj related by referring_attr->ObjectDeclaration[R5802];
     if rel.name == link_rel.name and referring_attr.name == ref_id_attr.name and referring_obj.name == lhs_object.name
       // found a match. create a new attribute initializer
-      var_ref_expr = ::resolve_NameExpression(domain_name: "", name: rhs_var.name, current_block: current_block, scope: "", base_name: "", number: "");
+      var_ref_expr = ::resolve_NameExpression(domain_name: "", name: rhs_var.name, current_block: current_block, scope: "", base_name: "", number: "", has_tics: false);
       attr_ref_expr = ::create_DotExpression(lhs: var_ref_expr, name: referred_to_attr.name);
       create object instance new_attr_init of AttributeInitialization;
       relate new_attr_init to attr_ref_expr across R5568;

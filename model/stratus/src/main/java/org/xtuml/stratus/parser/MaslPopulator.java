@@ -2438,7 +2438,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
         try {
             Object expression = loader.call_function("resolve_NameExpression",
                     ctx.domainReference() != null ? visit(ctx.domainReference()) : getName(currentDomain),
-                    ctx.identifier().getText(), currentCodeBlock);
+                    ctx.identifier().getText(), currentCodeBlock, "", "", "", false);
             return expression;
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
