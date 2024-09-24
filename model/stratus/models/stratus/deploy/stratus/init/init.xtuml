@@ -69,6 +69,9 @@ else
   LOAD::load(java_class:"org.xtuml.stratus.parser.MaslImportParser", args:args);
 end if;
 
+// resolve Get_Time_Remaining units
+::ASL_resolve_schedule_time_units();
+
 // model data audits
 select many objs from instances of ObjectDeclaration;
 for each obj in objs

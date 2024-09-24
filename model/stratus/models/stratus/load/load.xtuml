@@ -1404,42 +1404,101 @@ end if; // ASL
 // ASL will coerce an invocation to Get_Time_Remaining to a call expression with a characteristic.
 if ( "Get_Time_Remaining" == "" + param.name )
   ::trace(i:11,s:"created Get_Remaining_Time call expression" );
-  create object instance expr of MaslExpression;
-  create object instance call_expr of CallExpression;
-  relate call_expr to expr across R5517;
-  select any builtin_type from instances of BuiltinType where ( "" + selected.name == "integer" );
-  select one basic_type related by builtin_type->BasicType[R6205];
-  if (not_empty basic_type)
-    relate basic_type to expr across R5570;
-  end if;
-  create object instance characteristic_expression of CharacteristicExpression;
-  characteristic_expression.characteristic = "delta";
-  characteristic_expression.number_of_arguments = 0;
-  characteristic_expression.allowAsPrefix = false;
-  relate characteristic_expression to call_expr across R5500;
-  return expr;
+  // create an expression tree that corresponds to the following:
+  // (<timer_handle>''scheduled_at - timestamp''now)''seconds
+  // (<timer_handle>''scheduled_at - timestamp''now)''milliseconds
+  // the <timer_handle> expression will be resolved in
+  // ''resolve_Expression_ArgumentList'' once the arguments are processed
+  
+  // create the outer characteristic expression
+  create object instance expr1 of MaslExpression;
+  create object instance call_expr1 of CallExpression;
+  create object instance characteristic_expr1 of CharacteristicExpression;
+  relate characteristic_expr1 to call_expr1 across R5500;
+  relate call_expr1 to expr1 across R5517;
+  characteristic_expr1.characteristic = "milliseconds";  // this is a placeholder, but when the timer is processed it may change
+  select any int_builtin_type from instances of BuiltinType where ( "" + selected.name == "integer" );
+  select one int_basic_type related by int_builtin_type->BasicType[R6205];
+  relate int_basic_type to expr1 across R5570;
+  
+  // create the binary expression which is the root of the characteristic expression
+  create object instance expr1_1 of MaslExpression;
+  create object instance binary_expr of BinaryExpression;
+  binary_expr.operator = Operator::minus;
+  create object instance bae of BinaryAdditiveExpression;
+  relate bae to binary_expr across R5000;
+  relate binary_expr to expr1_1 across R5517;
+  select any duration_builtin_type from instances of BuiltinType where ( "" + selected.name == "duration" );
+  select one duration_basic_type related by duration_builtin_type->BasicType[R6205];
+  relate duration_basic_type to expr1_1 across R5570;
+  relate expr1_1 to characteristic_expr1 across R5504;
+  
+  // create the LHS of the binary expression -- leave the root of this characteristic expression blank
+  create object instance expr1_1_1 of MaslExpression;
+  create object instance call_expr2 of CallExpression;
+  create object instance characteristic_expr2 of CharacteristicExpression;
+  relate characteristic_expr2 to call_expr2 across R5500;
+  relate call_expr2 to expr1_1_1 across R5517;
+  characteristic_expr2.characteristic = "scheduled_at";
+  select any timestamp_builtin_type from instances of BuiltinType where ( "" + selected.name == "timestamp" );
+  select one timestamp_basic_type related by timestamp_builtin_type->BasicType[R6205];
+  relate timestamp_basic_type to expr1_1_1 across R5570;
+  relate expr1_1_1 to binary_expr across R5001;
+
+  // create the RHS of the binary expression
+  create object instance expr1_1_2 of MaslExpression;
+  create object instance call_expr3 of CallExpression;
+  create object instance characteristic_expr3 of CharacteristicExpression;
+  relate characteristic_expr3 to call_expr3 across R5500;
+  relate call_expr3 to expr1_1_2 across R5517;
+  characteristic_expr3.characteristic = "now";
+  relate timestamp_basic_type to expr1_1_2 across R5570;
+  relate expr1_1_2 to binary_expr across R5002;
+  
+  // create the root of the RHS characteristic expression
+  create object instance expr1_1_2_1 of MaslExpression;
+  create object instance type_name_expr of TypeNameExpression;
+  relate type_name_expr to expr1_1_2_1 across R5517;
+  relate timestamp_basic_type to type_name_expr across R5578;
+  relate timestamp_basic_type to expr1_1_2_1 across R5570;
+  relate expr1_1_2_1 to characteristic_expr3 across R5504;
+
+  return expr1;
 end if;
+
 if ( "event" == "" + param.name )
-  // work-around for event() keyword in ASL generate statement
+  // create an event expression, but do not relate the event until it is parsed as the parameter
   create object instance expr of MaslExpression;
-  create object instance call_expr of CallExpression;
-  relate call_expr to expr across R5517;
+  create object instance event_expr of EventExpression;
+  relate event_expr to expr across R5517;
   select any builtin_type from instances of BuiltinType where ( "" + selected.name == "event" );
   select one basic_type related by builtin_type->BasicType[R6205];
   if (not_empty basic_type)
     relate basic_type to expr across R5570;
   end if;
-  create object instance characteristic_expression of CharacteristicExpression;
-  characteristic_expression.characteristic = "event";
-  characteristic_expression.number_of_arguments = 0;
-  characteristic_expression.allowAsPrefix = false;
-  relate characteristic_expression to call_expr across R5500;
   return expr;
 end if;
 
 // Call to Create_Timer is ignored as timers are initialized by instance creation in MASL
 if ( "Create_Timer" == "" + param.name )
   select any expr from instances of MaslExpression where false;
+  return expr;
+end if;
+
+// ASL "SECOND" and "MILLISECOND" name expressions are interpereted as literal strings for schedule statements 
+if ( "''SECOND''" == "" + param.name or "''MILLISECOND''" == "" + param.name )
+  create object instance expr of MaslExpression;
+  create object instance literal_expr of LiteralExpression;
+  relate literal_expr to expr across R5517;
+  create object instance string_literal of StringLiteral;
+  relate string_literal to literal_expr across R5700;
+  string_literal.original = "" + STRING::substr(s: param.name, begin: 1, end: STRING::strlen(s: param.name) - 1);
+  string_literal.noQuotes = "" + STRING::substr(s: param.name, begin: 1, end: STRING::strlen(s: param.name) - 1);
+  select any builtin_type from instances of BuiltinType where ( "" + selected.name == "string" );
+  select one basic_type related by builtin_type->BasicType[R6205];
+  if (not_empty basic_type)
+    relate basic_type to expr across R5570;
+  end if;
   return expr;
 end if;
   
@@ -1671,29 +1730,72 @@ INSERT INTO S_SYNC
 	'',
 	'expression = param.expression;
 first_argument = param.first_argument;
- 
+
+select one event_expr related by expression->EventExpression[R5517];
 select one call_expr related by expression->CallExpression[R5517];
 
-// if this is a type name expression, perform a subtype migration to convert to
-// a cast expression
-select one type_name_expr related by expression->TypeNameExpression[R5517];
-if not_empty type_name_expr
-  select one basic_type related by type_name_expr->BasicType[R5578];
-  // unhook and dispose the type name expression
-  unrelate basic_type from type_name_expr across R5578;
-  unrelate type_name_expr from expression across R5517;
-  delete object instance type_name_expr;
-  // create the cast expression
-  create object instance call_expr of CallExpression;
-  relate call_expr to expression across R5517;
-  create object instance cast of CastExpression;
-  relate cast to call_expr across R5500;
-  relate basic_type to cast across R5501;
-end if;
+// this handles "Set_Timer" ASL calls where the event is given in the form ''event("KL1")''
+if not_empty event_expr
+    
+  select one event_declaration related by event_expr->EventDeclaration[R5516];
+  select one string_literal related by first_argument->MaslExpression[R5577]->LiteralExpression[R5517]->StringLiteral[R5700];
+  
+  if empty event_declaration and not_empty string_literal
+    i = STRING::strlen(s: string_literal.noQuotes);
+    while i > 0
+      if STRING::indexof(haystack: "0123456789", needle: STRING::substr(s: string_literal.noQuotes, begin: i - 1, end: i)) == -1
+        // i is the last non-numeric character
+        break;
+      end if;
+      i = i - 1;
+    end while;
+    kl = STRING::substr(s: string_literal.noQuotes, begin: 0, end: i);
+    num = STRING::substr(s: string_literal.noQuotes, begin: i, end: -1);
+    event_declaration = ::ASL_select_EventDeclaration_where_keyletters_name(object_keyletters: kl, num: num, name: "");
+    if not_empty event_declaration
+      relate event_declaration to event_expr across R5516;
+    end if;
+  end if;
+    
+elif not empty call_expr
+    
+  // handle an invocation of Get_Time_Remaining
+  select one root_characteristic related by call_expr->CharacteristicExpression[R5500];
+  select one lhs_characteristic related by root_characteristic->MaslExpression[R5504]->BinaryExpression[R5517]->MaslExpression[R5001]->CallExpression[R5517]->CharacteristicExpression[R5500];
+  select one lhs_base related by lhs_characteristic->MaslExpression[R5504];
+  if not empty lhs_characteristic and lhs_characteristic.characteristic == "scheduled_at" and empty lhs_base
+      
+      // link the timer handle passed as an argument to the base of the characteristic
+      select one lhs_base related by first_argument->MaslExpression[R5577];
+      unrelate lhs_base from first_argument across R5577;
+      relate lhs_base to lhs_characteristic across R5504;
+      
+  else
+  
+    // if this is a type name expression, perform a subtype migration to convert to
+    // a cast expression
+    select one type_name_expr related by expression->TypeNameExpression[R5517];
+    if not_empty type_name_expr
+      select one basic_type related by type_name_expr->BasicType[R5578];
+      // unhook and dispose the type name expression
+      unrelate basic_type from type_name_expr across R5578;
+      unrelate type_name_expr from expression across R5517;
+      delete object instance type_name_expr;
+      // create the cast expression
+      create object instance call_expr of CallExpression;
+      relate call_expr to expression across R5517;
+      create object instance cast of CastExpression;
+      relate cast to call_expr across R5500;
+      relate basic_type to cast across R5501;
+    end if;
+    
+    // link the first argument to the call expression
+    if not_empty call_expr and not_empty first_argument
+      relate first_argument to call_expr across R5575;
+    end if;
+  
+  end if;
 
-// link the first argument to the call expression
-if not_empty call_expr and not_empty first_argument
-  relate first_argument to call_expr across R5575;
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -2829,9 +2931,10 @@ INSERT INTO S_SYNC
 lhs = param.lhs;
 rhs = param.rhs;
 
-// Look for a call expression.  If so, there will be no assignment, just the invocation.
+// Look for a service call expression.  If so, there will be no assignment, just the invocation.
 select one call_expression related by rhs->CallExpression[R5517];
-if ( not_empty call_expression )
+select one service_invocation related by call_expression->ServiceInvocation[R5500];
+if ( not_empty service_invocation )
 
   // Check for arguments on the LHS.  If so, these are output parameters to an ASL call expression.
   select one argument related by lhs->Argument[R5577];
@@ -3755,6 +3858,177 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("3c642ebf-38a0-4ca1-8cdb-5ebdaf34ac5c",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5245f3d5-3b14-447e-95a1-52f1b06c2779",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_resolve_schedule_statement',
+	'',
+	'select any schedule_statement from instances of ScheduleStatement where false;
+arg = param.first_argument;
+
+// gather arguments
+// Arg 1 = timer expression
+select any prev_arg from instances of Argument where false;
+select one timer_expr related by arg->MaslExpression[R5577];
+if not empty prev_arg
+  unrelate arg from prev_arg across R5576.''follows'';
+end if;
+
+// Arg 2 = delay as an integer
+prev_arg = arg;
+select one arg related by arg->Argument[R5576.''precedes''];
+select one delay_expr related by arg->MaslExpression[R5577]->LiteralExpression[R5517]->NumericLiteral[R5700]->IntegerLiteral[R5703];
+if not empty prev_arg
+  unrelate arg from prev_arg across R5576.''follows'';
+end if;
+
+// Arg 3 time unit as a string literal - either "MILLISECOND" or "SECOND"
+prev_arg = arg;
+select one arg related by arg->Argument[R5576.''precedes''];
+select one unit_expr related by arg->MaslExpression[R5577]->LiteralExpression[R5517]->StringLiteral[R5700];
+if not empty prev_arg
+  unrelate arg from prev_arg across R5576.''follows'';
+end if;
+
+// Arg 4 = event to generate as an event expression
+prev_arg = arg;
+select one arg related by arg->Argument[R5576.''precedes''];
+select one event_expr related by arg->MaslExpression[R5577]->EventExpression[R5517];
+if not empty prev_arg
+  unrelate arg from prev_arg across R5576.''follows'';
+end if;
+
+// Arg 5 = target instance
+prev_arg = arg;
+select one arg related by arg->Argument[R5576.''precedes''];
+select one target_expr related by arg->MaslExpression[R5577];
+if not empty prev_arg
+  unrelate arg from prev_arg across R5576.''follows'';
+end if;
+
+// if all required arguments are present, create the schedule statement
+if not empty timer_expr and not empty delay_expr and not empty unit_expr and not empty event_expr and not empty target_expr
+    
+  create object instance schedule_statement of ScheduleStatement;
+  schedule_statement.isAbsolute = false;
+  schedule_statement.timeUnit = unit_expr.noQuotes;
+  
+  // link to the timer handle
+  relate timer_expr to schedule_statement across R5132;
+  
+  // create the duration expression from the delay value and unit
+  create object instance duration_expr of MaslExpression;
+  create object instance call_expr of CallExpression;
+  relate call_expr to duration_expr across R5517;
+  select any builtin_type from instances of BuiltinType where ( "" + selected.name == "duration" );
+  select one basic_type related by builtin_type->BasicType[R6205];
+  relate basic_type to duration_expr across R5570;
+  create object instance characteristic_expression of CharacteristicExpression;
+  if schedule_statement.timeUnit == "SECOND"
+    characteristic_expression.characteristic = "seconds";
+  elif schedule_statement.timeUnit == "MILLISECOND"
+    characteristic_expression.characteristic = "milliseconds";
+  else
+    characteristic_expression.characteristic = schedule_statement.timeUnit;
+    ::trace(i:302,s:"ASL_resolve_schedule_statement:  ERROR - Unrecognized time unit: " + schedule_statement.timeUnit);
+  end if;
+  characteristic_expression.number_of_arguments = 1;
+  characteristic_expression.allowAsPrefix = false;
+  relate characteristic_expression to call_expr across R5500;
+  create object instance type_expr of MaslExpression;
+  create object instance duration_type_expr of TypeNameExpression;
+  relate duration_type_expr to type_expr across R5517;
+  relate basic_type to duration_type_expr across R5578;
+  relate type_expr to characteristic_expression across R5504;
+  select one duration_arg related by delay_expr->NumericLiteral[R5703]->LiteralExpression[R5700]->MaslExpression[R5517]->Argument[R5577];
+  relate duration_arg to call_expr across R5575;
+  relate duration_expr to schedule_statement across R5130;
+  
+  // create the generate statement
+  create object instance smt of MaslStatement;
+  create object instance generate_smt of GenerateStatement;
+  relate generate_smt to smt across R5135;
+  relate generate_smt to schedule_statement across R5129;
+  
+  // link the event declaration
+  select one event_decl related by event_expr->EventDeclaration[R5516];
+  relate event_decl to generate_smt across R5112;
+  
+  // link the target expression
+  relate target_expr to generate_smt across R5113;
+  
+  // ASL timed events never have arguments
+    
+else
+  ::trace(i:301,s:"ASL_resolve_schedule_statement:  ERROR - Malformed ''generate TIM1:Set_Timer'' statement");
+end if;
+
+return schedule_statement;',
+	"3308c2f3-61d3-4fc1-8818-9897c77e99fe",
+	1,
+	'',
+	0,
+	23);
+INSERT INTO S_SPARM
+	VALUES ("da18bd87-2969-4a80-a7fa-701afa61f688",
+	"5245f3d5-3b14-447e-95a1-52f1b06c2779",
+	'first_argument',
+	"55087eb6-f47a-4ad0-9d03-015c8f3c3663",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("5245f3d5-3b14-447e-95a1-52f1b06c2779",
+	1,
+	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("3308c2f3-61d3-4fc1-8818-9897c77e99fe",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ScheduleStatement>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("a5b75b86-1d5e-4ac7-b64f-ba2b9e4e87f9",
+	"00000000-0000-0000-0000-000000000000",
+	'ASL_resolve_schedule_time_units',
+	'',
+	'// find any characteristic ''scheduled_at'' expressions. Navigate up to the top
+// level characteristic expression and modify the time unit.
+
+select many scheduled_at_characteristics from instances of CharacteristicExpression where selected.characteristic == "scheduled_at";
+for each scheduled_at_characteristic in scheduled_at_characteristics
+    
+  select one root_characteristic related by scheduled_at_characteristic->CallExpression[R5500]->MaslExpression[R5517]->BinaryExpression[R5001]->MaslExpression[R5517]->CharacteristicExpression[R5504];
+  if not empty root_characteristic
+      
+    // assume that timer expressions for Get_Time_Remaining and Set_Timer are only attribute accesses
+    select any schedule_smt related by scheduled_at_characteristic->MaslExpression[R5504]->SelectedAttributeExpression[R5517]->AttributeDeclaration[R5541]->SelectedAttributeExpression[R5541]->MaslExpression[R5517]->ScheduleStatement[R5132];
+    if not empty schedule_smt
+      if schedule_smt.timeUnit == "SECOND"
+        root_characteristic.characteristic = "seconds";
+      elif schedule_smt.timeUnit == "MILLISECOND"
+        root_characteristic.characteristic = "milliseconds";
+      end if;
+    end if;
+
+  end if;
+    
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	24);
+INSERT INTO PE_PE
+	VALUES ("a5b75b86-1d5e-4ac7-b64f-ba2b9e4e87f9",
 	1,
 	"fa715298-1ee7-4f4d-9dc6-ff741962c501",
 	"00000000-0000-0000-0000-000000000000",

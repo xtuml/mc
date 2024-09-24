@@ -1095,18 +1095,20 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     public Object visitEventReference(AslParser.EventReferenceContext ctx) {
         try {
             String key_letters = "", num = "";
-            if (ctx.identifier() != null) {
-                Pattern re = Pattern.compile("([a-zA-Z0-9_]+?)([0-9]*)");
-                Matcher m = re.matcher(ctx.identifier().getText());
-                if (m.matches()) {
-                    key_letters = m.group(1);
-                    num = m.group(2);
-                }
-            }
-            return loader.call_function("ASL_select_EventDeclaration_where_keyletters_name",
-                    key_letters,
-                    num,
-                    ctx.eventName().getText());
+			Pattern re = Pattern.compile("([a-zA-Z0-9_]+?)([0-9]*)");
+			Matcher m = re.matcher(ctx.identifier().getText());
+			if (m.matches()) {
+				key_letters = m.group(1);
+				num = m.group(2);
+			}
+			if ("TIM".equals(key_letters) && ("1".equals(num) || "2".equals(num))) {
+				return key_letters + num;
+			} else {
+				return loader.call_function("ASL_select_EventDeclaration_where_keyletters_name",
+						key_letters,
+						num,
+						ctx.eventName().getText());
+			}
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
             return null;
@@ -1725,17 +1727,28 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     @Override
     public Object visitGenerateStatement(AslParser.GenerateStatementContext ctx) {
         try {
-            Object statement = loader.create("GenerateStatement");
-            loader.relate(visit(ctx.eventReference()), statement, 5112, "");
-
-            Object firstArgument = visit(ctx.argumentList());
-            if (firstArgument != null) {
-                loader.relate(visit(ctx.argumentList()), statement, 5114, "");
-            }
-            if (ctx.expression() != null) {
-                loader.relate(visit(ctx.expression()), statement, 5113, "");
-            }
-            return statement;
+        	Object eventRef = visit(ctx.eventReference());
+        	if ("TIM1".equals(eventRef)) {
+        		// handle schedule statement
+        		return loader.call_function("ASL_resolve_schedule_statement", visit(ctx.argumentList()));
+        	} else if ("TIM2".equals(eventRef)) {
+        		// handle timer cancel statement
+				Object timerExpression = visit(ctx.argumentList().expression(0));
+				Object statement = loader.create("CancelTimerStatement");
+				loader.relate(statement, timerExpression, 5102, "");
+        		return statement;
+        	} else {
+				Object statement = loader.create("GenerateStatement");
+				loader.relate(eventRef, statement, 5112, "");
+				Object firstArgument = visit(ctx.argumentList());
+				if (firstArgument != null) {
+					loader.relate(firstArgument, statement, 5114, "");
+				}
+				if (ctx.expression() != null) {
+					loader.relate(visit(ctx.expression()), statement, 5113, "");
+				}
+				return statement;
+        	}
         } catch (XtumlException e) {
             xtumlTrace(e, "", ctx);
             return null;
@@ -2503,9 +2516,10 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
                 }
             }
             if ( "" == base_name ) base_name = currentEnumeration;
+            String name = ctx.operationName() != null ? ctx.identifier().getText() : ctx.getText();
             Object expression = loader.call_function("resolve_NameExpression",
                     getName(currentDomain),
-                    ctx.identifier().getText(), currentCodeBlock,
+                    name, currentCodeBlock,
                     scope, base_name, number);
             currentEnumeration = "";
             // audit collection types

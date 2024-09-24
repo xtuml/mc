@@ -130,6 +130,10 @@ s = ::statement_exit( statement:statement, d:param.d );
 if ( "" == s )
 s = ::statement_generate( statement:statement, d:param.d );
 if ( "" == s )
+s = ::statement_cancel( statement:statement, d:param.d );
+if ( "" == s )
+s = ::statement_schedule( statement:statement, d:param.d );
+if ( "" == s )
 s = ::statement_if( statement:statement, d:param.d );
 if ( "" == s )
 s = ::statement_for( statement:statement, d:param.d );
@@ -143,6 +147,8 @@ if ( true ) and ( 0 <= STRING::indexof(haystack:statement.actions, needle:"//!")
   s = statement.actions;
 else
   s = "\n";
+end if;
+end if;
 end if;
 end if;
 end if;
@@ -560,6 +566,9 @@ if ( "" == s )
 s = ::expression_unary( expression:expression );
 if ( "" == s )
 s = ::expression_variable_name( expression:expression );
+if ( "" == s )
+s = ::expression_type_name( expression:expression );
+end if;
 end if;
 end if;
 end if;
@@ -949,7 +958,7 @@ if ( not_empty assign_statement )
   rhs_expression = ::ASL_assignment_cast(lhs_type: lhs_type, rhs_expr: rhs);
   if ( "" != outargs )
     // insert the output args before the closing paren of the invocation
-    s = s + STRING::substr(s: rhs_expression, begin: 0, end: STRING::strlen(s: rhs_expression) - 1) + outargs + ");\n";
+    s = s + STRING::substr(s: rhs_expression, begin: 0, end: STRING::strlen(s: rhs_expression) - 1) + outargs + " );\n";
   else
     s = s + rhs_expression + ";\n";
   end if;
@@ -1505,7 +1514,12 @@ if ( not_empty call_expression )
   */
   elif ( not_empty characteristic_expression )
     select one base_expression related by characteristic_expression->MaslExpression[R5504];
-    s = s + ::expression(expression: base_expression) + "''" + characteristic_expression.characteristic;
+    base_expr = ::expression(expression: base_expression);
+    select one binary_base related by base_expression->BinaryExpression[R5517];
+    if not empty binary_base
+      base_expr = "( " + base_expr + " )";
+    end if;
+    s = s + base_expr + "''" + characteristic_expression.characteristic;
   end if;
   args = "";
   delim = "";
@@ -1552,7 +1566,7 @@ if ( not_empty call_expression )
     s = s + " " + args;
   end if;
   if ( "" != args or empty characteristic_expression )
-    s = s + ")";
+    s = s + " )";
   end if;
 end if;
 return s;',
@@ -2387,6 +2401,135 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("2a655879-e399-4d23-a019-effa1439e432",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("165dec2b-d361-471c-be9c-b2d0d37e13bc",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_cancel',
+	'',
+	'// Render timer cancel statement.
+statement = param.statement;
+s = "";
+select one cancel_smt related by statement->CancelTimerStatement[R5135];
+if ( not_empty cancel_smt )
+  select one timer_expr related by cancel_smt->MaslExpression[R5102];
+  s = ::indent(d:param.d) + "cancel " + ::expression(expression: timer_expr) + ";\n";
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	31);
+INSERT INTO S_SPARM
+	VALUES ("4712e561-0866-4c76-95b8-25546a8921a0",
+	"165dec2b-d361-471c-be9c-b2d0d37e13bc",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"19837427-78d2-434c-a1eb-71d4eee9a08c",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("19837427-78d2-434c-a1eb-71d4eee9a08c",
+	"165dec2b-d361-471c-be9c-b2d0d37e13bc",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("165dec2b-d361-471c-be9c-b2d0d37e13bc",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d7df9a4f-b480-40a8-905f-7f7104c294a9",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_schedule',
+	'',
+	'// Render schedule statement.
+statement = param.statement;
+s = "";
+select one schedule_smt related by statement->ScheduleStatement[R5135];
+if ( not_empty schedule_smt )
+  select one timer_expr related by schedule_smt->MaslExpression[R5132];
+  select one delay_expr related by schedule_smt->MaslExpression[R5130];
+  select one generate_smt related by schedule_smt->GenerateStatement[R5129]->MaslStatement[R5135];
+  generate_smt_string = ::statement_generate(statement: generate_smt, d: 0);
+  s = ::indent(d:param.d) + "schedule " + ::expression(expression: timer_expr) + " " + 
+        STRING::substr(s: generate_smt_string, begin: 0, end: STRING::strlen(s: generate_smt_string) - 2) +
+        " delay " + ::expression(expression: delay_expr) + ";\n";
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	31);
+INSERT INTO S_SPARM
+	VALUES ("49fd32a6-ed26-492e-a569-044da11ad72f",
+	"d7df9a4f-b480-40a8-905f-7f7104c294a9",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"265a34ad-a986-4f6a-b47d-f9e5d38c331f",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("265a34ad-a986-4f6a-b47d-f9e5d38c331f",
+	"d7df9a4f-b480-40a8-905f-7f7104c294a9",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d7df9a4f-b480-40a8-905f-7f7104c294a9",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("be486feb-ad79-461f-8916-ac6bb31d2c67",
+	"00000000-0000-0000-0000-000000000000",
+	'expression_type_name',
+	'',
+	'expression = param.expression;
+select one basic_type related by expression->TypeNameExpression[R5517]->BasicType[R5578];
+if ( not_empty basic_type )
+  select one builtin_type related by basic_type->BuiltinType[R6205];
+  if not empty builtin_type
+    return builtin_type.name;
+  end if;
+  select one udt related by basic_type->MaslUserDefinedType[R6205];
+  if not empty udt
+    return udt.name;
+  end if;
+end if;
+return "";',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	10);
+INSERT INTO S_SPARM
+	VALUES ("7afccaf2-813d-4f8e-afc3-ad2111aecce9",
+	"be486feb-ad79-461f-8916-ac6bb31d2c67",
+	'expression',
+	"0f86953a-c0a1-4f83-b7e4-af32c53c2d6d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("be486feb-ad79-461f-8916-ac6bb31d2c67",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",

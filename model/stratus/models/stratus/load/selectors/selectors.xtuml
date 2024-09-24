@@ -1000,15 +1000,6 @@ INSERT INTO S_SYNC
 
 event_name = "" + param.name; // TODO:  remove UDT hack
 
-if ( "TIM" == param.object_keyletters )
-  create object instance event_declaration of EventDeclaration; // TODO - hack for ASL for now
-  s = event_declaration.name;
-  s = s + "TIM" + param.num;
-  event_declaration.name = s;
-  ::trace(i:115, s:"ASL created bogus event declaration" );
-  return event_declaration;
-end if;
-
 // Find the object with the input key_letters.
 // Then find events marked with the input number.  Parse out the object name and event name.
 // While looping through the marked events, find the event related to the found object.
