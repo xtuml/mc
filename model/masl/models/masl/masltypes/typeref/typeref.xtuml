@@ -24,10 +24,13 @@ elif ( "WASL" == genfile::architecture() )
     mybody = mybody + "_IH";
   elif ( STRING::indexof( haystack:mybody, needle:"sequence of " ) > -1 )
   	// WASL does not have sequence and set types directly. Collections are implied by the use of a structure
-    mybody = STRING::substr( s:mybody, begin: STRING::strlen( s:"sequence of " ), end:STRING::strlen( s:mybody ) );
+    mybody = STRING::substr(s:mybody, begin: STRING::indexof(haystack: mybody, needle: "sequence of ") + STRING::strlen( s:"sequence of " ), end: -1);
   elif ( STRING::indexof( haystack:mybody, needle:"set of " ) > -1 )
   	// WASL does not have sequence and set types directly. Collections are implied by the use of a structure
-    mybody = STRING::substr( s:mybody, begin: STRING::strlen( s:"set of " ), end:STRING::strlen( s:mybody ) );
+    mybody = STRING::substr(s:mybody, begin: STRING::indexof(haystack: mybody, needle: "set of ") + STRING::strlen( s:"set of " ), end: -1);
+  elif ( self.body == "timer" )
+  	// Timer reference types map to timer IDs (integer) in WASL
+  	self.body = "integer";
   else
     doublecolon = STRING::indexof( haystack:mybody, needle:"::" );
     if ( doublecolon > -1 )
