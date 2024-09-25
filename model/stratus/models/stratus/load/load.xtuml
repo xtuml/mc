@@ -1244,6 +1244,23 @@ if (not_empty ref_param)
   return expr;
 end if;
 
+// ASL "SECOND" and "MILLISECOND" name expressions are interpereted as literal strings for schedule statements 
+if ( param.has_tics and ("SECOND" == "" + param.name or "MILLISECOND" == "" + param.name) )
+  create object instance expr of MaslExpression;
+  create object instance literal_expr of LiteralExpression;
+  relate literal_expr to expr across R5517;
+  create object instance string_literal of StringLiteral;
+  relate string_literal to literal_expr across R5700;
+  string_literal.original = "" + param.name;
+  string_literal.noQuotes = "" + param.name;
+  select any builtin_type from instances of BuiltinType where ( "" + selected.name == "string" );
+  select one basic_type related by builtin_type->BasicType[R6205];
+  if (not_empty basic_type)
+    relate basic_type to expr across R5570;
+  end if;
+  return expr;
+end if;
+
 // search for literal enumerators
 select any enumer related by domain->MaslUserDefinedType[R6235]->TypeDeclaration[R6241]->TypeDefinition[R6234]
   ->FullTypeDefinition[R6236]->EnumerateType[R6219]->EnumerateItem[R6245] where selected.name == param.name;
@@ -1485,23 +1502,6 @@ if ( "Create_Timer" == "" + param.name )
   return expr;
 end if;
 
-// ASL "SECOND" and "MILLISECOND" name expressions are interpereted as literal strings for schedule statements 
-if ( param.has_tics and "SECOND" == "" + param.name or "MILLISECOND" == "" + param.name )
-  create object instance expr of MaslExpression;
-  create object instance literal_expr of LiteralExpression;
-  relate literal_expr to expr across R5517;
-  create object instance string_literal of StringLiteral;
-  relate string_literal to literal_expr across R5700;
-  string_literal.original = "" + STRING::substr(s: param.name, begin: 1, end: STRING::strlen(s: param.name) - 1);
-  string_literal.noQuotes = "" + STRING::substr(s: param.name, begin: 1, end: STRING::strlen(s: param.name) - 1);
-  select any builtin_type from instances of BuiltinType where ( "" + selected.name == "string" );
-  select one basic_type related by builtin_type->BasicType[R6205];
-  if (not_empty basic_type)
-    relate basic_type to expr across R5570;
-  end if;
-  return expr;
-end if;
-  
 // ASL is implicitly typed.  Create a variable for this unrecognized name.
 
 create object instance var of VariableDefinition;
