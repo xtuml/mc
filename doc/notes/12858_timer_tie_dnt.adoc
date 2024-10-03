@@ -103,7 +103,7 @@ but is more generally effective.
 
 === 4.1.1.1 Omission of 'self' Keyword
 
-MC-3020 keys off of the 'self' keyword when tranlating a statement which
+MC-3020 keys off of the 'self' keyword when translating a statement which
 generates a delayed event.  By knowing this fact, the modeler can
 circumvent the expedited event to self rule by assigning 'self' to a
 transient variable before generating the event.  This is fine as long as
