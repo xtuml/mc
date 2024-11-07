@@ -48,20 +48,20 @@ A common pattern in Shlaer-Mellor modeling is the "interruptible
 self-stimulating state machine".  This is a pattern in which a state
 machine operates "as fast as it can" for a period of time or until another
 state machine interrupts it.  After the prescribed duration or external
-notification, the object stops or does something different.
+notification, the instance stops or does something different.
 
 "Self-stimulating" in this context implies events directed to 'self'.
 
 An example is a chess-playing 'bot which is allowed a specific, limited
 amount of time to determine a best choice next move.  The algorithm
 "thinks" "as fast as it can" for a specified duration.  When the time is
-expired, it must play.  The algorithm is an object state machine which is
+expired, it must play.  The algorithm is an instance state machine which is
 looking ahead and generating events to itself to explore as many
 possibilities as architecturally achievable in the allotted time.  When
 the prescribed time is up, it must be interrupted by a timer event that
 triggers a transition into a state in which the 'bot will play the best
 candidate move it has identified in the allotted time.  This timer event
-must interrupt the object state machine, even though it is sending events
+must interrupt the instance state machine, even though it is sending events
 to 'self'.  The self events effectively "lock out" the timer event.
 
 It could be argued that if timer events to self were also expedited, such
@@ -108,7 +108,7 @@ generates a delayed event.  By knowing this fact, the modeler can
 circumvent the expedited event to self rule by assigning 'self' to a
 transient variable before generating the event.  This is fine as long as
 MC-3020 is the only architecture being used by the model.  This does not
-work in Verifier, Ciera and MASL, because those architectures check the
+work in Verifier, Ciera and MASL {cpp}, because those architectures check the
 identifiers of the sending and receiving instances and expedite in all
 cases that the identifiers are equal to each other.
 
@@ -180,8 +180,8 @@ above), it is difficult and clumsy to build a model without the ability to
 circumvent this rule.
 
 If a timer is started and has an expiration that matches an existing timer, does it matter whether it expires before or after the existing timer?::
-Yes.  The order of event generation should be maintained in the order of
-event delivery.  This may not be architecturally mandated, but it may be
+Yes.  The order of event delivery shall be the same as the order in which the timers were instantiated/created.
+This may not be mandated by the Method, but it may be
 reasonably assumed by modelers.  And since the order would not technically
 matter, it seems reasonable to keep the ordering.
 
