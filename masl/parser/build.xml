@@ -23,7 +23,8 @@
 
     <target name="generate" depends="init" description="generate the language artifacts">
         <echo>Generating classes from grammars</echo>
-        <java classname="org.antlr.Tool">
+        <java classname="org.antlr.Tool" fork="true">
+            <jvmarg value="-Djava.security.manager=allow" />
             <classpath>
                 <fileset dir="${lib}">
                     <include name="**/*.jar" />
