@@ -39,66 +39,95 @@ INSERT INTO S_SYNC
 	'asl2masl',
 	'',
 	'::trace( i:1, s:"ASL2MASL" );
-select many domains from instances of Domain;
-for each domain in domains
+mod_file = CMD::get_value(name:"mod");
+prj_file = CMD::get_value(name:"prj");
 
-  output_directory = CMD::get_value(name: "o") + "/" + domain.name;
-  T::set_output_directory(dir: output_directory);
-  select many services related by domain->DomainService[R5303]->Service[R5203];
-  for each service in services
-    ::trace( i:2, s:"domain service name is:  " + service.name + " filename is:  " + service.filename );
-    s = ::service( service:service );
-    if ( "" != service.filename )
-      T::append( s:s );
-      T::emit( file:service.filename );
-    else
-      ::trace( i:6, s:"WARNING - Empty filename detected for " + service.name + ".  Perhaps there is a duplicate." );
-    end if;
-  end for;
-  select many services related by domain->DomainTerminator[R5304]->DomainTerminatorService[R5306]->Service[R5203];
-  for each service in services
-    ::trace( i:3, s:"terminator service name is:  " + service.name + " filename is:  " + service.filename );
-    s = ::service( service:service );
-    if ( "" != service.filename )
-      T::append( s:s );
-      T::emit( file:service.filename );
-    else
-      ::trace( i:7, s:"WARNING - Empty filename detected for " + service.name + ".  missing mark?" );
-    end if;
-  end for;
-  select many services related by domain->ObjectDeclaration[R5805]->ObjectService[R5808]->Service[R5203];
-  for each service in services
-    ::trace( i:4, s:"object service name is:  " + service.name + " filename is:  " + service.filename );
-    s = ::service( service:service );
-    if ( "" != service.filename )
-      T::append( s:s );
-      T::emit( file:service.filename );
-    else
-      ::trace( i:8, s:"WARNING - Empty filename detected for " + service.name + "." );
-    end if;
-  end for;
-  select many object_declarations related by domain->ObjectDeclaration[R5805];
-  for each object_declaration in object_declarations
-    select many states related by object_declaration->MaslState[R6105] where ( ( "" + selected.name ) != "Non_Existent" );
-    for each state in states
-      ::trace( i:5, s:"state name is:  " + state.name + " filename is:  " + state.filename );
-      s = ::state_action( state:state );
-      if ( "" != state.filename )
+if mod_file != ""
+  select many domains from instances of Domain;
+  for each domain in domains
+  
+    output_directory = CMD::get_value(name: "o") + "/" + domain.name;
+    T::set_output_directory(dir: output_directory);
+    select many services related by domain->DomainService[R5303]->Service[R5203];
+    for each service in services
+      ::trace( i:2, s:"domain service name is:  " + service.name + " filename is:  " + service.filename );
+      s = ::service( service:service );
+      if ( "" != service.filename )
         T::append( s:s );
-        T::emit( file:state.filename );
+        T::emit( file:service.filename );
       else
-        ::trace( i:9, s:"WARNING - Empty filename detected for " + state.name + "." );
+        ::trace( i:6, s:"WARNING - Empty filename detected for " + service.name + ".  Perhaps there is a duplicate." );
       end if;
     end for;
-  end for;
-
-  // Copy the .mod or .prj file to the output location
-  mod_file = CMD::get_value(name:"mod");
-  if mod_file != ""
+    select many services related by domain->DomainTerminator[R5304]->DomainTerminatorService[R5306]->Service[R5203];
+    for each service in services
+      ::trace( i:3, s:"terminator service name is:  " + service.name + " filename is:  " + service.filename );
+      s = ::service( service:service );
+      if ( "" != service.filename )
+        T::append( s:s );
+        T::emit( file:service.filename );
+      else
+        ::trace( i:7, s:"WARNING - Empty filename detected for " + service.name + ".  missing mark?" );
+      end if;
+    end for;
+    select many services related by domain->ObjectDeclaration[R5805]->ObjectService[R5808]->Service[R5203];
+    for each service in services
+      ::trace( i:4, s:"object service name is:  " + service.name + " filename is:  " + service.filename );
+      s = ::service( service:service );
+      if ( "" != service.filename )
+        T::append( s:s );
+        T::emit( file:service.filename );
+      else
+        ::trace( i:8, s:"WARNING - Empty filename detected for " + service.name + "." );
+      end if;
+    end for;
+    select many object_declarations related by domain->ObjectDeclaration[R5805];
+    for each object_declaration in object_declarations
+      select many states related by object_declaration->MaslState[R6105] where ( ( "" + selected.name ) != "Non_Existent" );
+      for each state in states
+        ::trace( i:5, s:"state name is:  " + state.name + " filename is:  " + state.filename );
+        s = ::state_action( state:state );
+        if ( "" != state.filename )
+          T::append( s:s );
+          T::emit( file:state.filename );
+        else
+          ::trace( i:9, s:"WARNING - Empty filename detected for " + state.name + "." );
+        end if;
+      end for;
+    end for;
+  
+    // Copy the .mod file to the output location
     Files::copyFile(src: mod_file, dst: output_directory + "/" + domain.name + ".mod");
-  end if;
+  
+  end for;
+elif prj_file != ""
+  select many projects from instances of Project;
+  for each project in projects
+    output_directory = CMD::get_value(name: "o") + "/" + project.name;
+    T::set_output_directory(dir: output_directory);
 
-end for;',
+    select many domains related by project->ProjectDomain[R5900];
+    for each domain in domains
+    
+      select many services related by domain->ProjectTerminator[R5902]->ProjectTerminatorService[R5903]->Service[R5203];
+      for each service in services
+        ::trace( i:3, s:"terminator service name is:  " + service.name + " filename is:  " + service.filename );
+        s = ::service( service:service );
+        if ( "" != service.filename )
+          T::append( s:s );
+          T::emit( file:service.filename );
+        else
+          ::trace( i:7, s:"WARNING - Empty filename detected for " + service.name + ".  missing mark?" );
+        end if;
+      end for;
+    
+    end for;
+
+    // Copy the .prj file to the output location
+    Files::copyFile(src: prj_file, dst: output_directory + "/" + project.name + ".prj");
+
+  end for;
+end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
@@ -1216,15 +1245,21 @@ else
     select one domain related by domain_terminator->Domain[R5304];
     s = s + "service " + domain.name + "::" + domain_terminator.name + "~>" + service.name + " (";
   else
-    select one object_service related by service->ObjectService[R5203];
-    if ( not_empty object_service )
-      select one object_declaration related by object_service->ObjectDeclaration[R5808];
-      instance_based = "";
-      if ( object_service.isInstance )
-        instance_based = "instance ";
+    select one project_terminator related by service->ProjectTerminatorService[R5203]->ProjectTerminator[R5903];
+    if ( not_empty project_terminator )
+      select one domain related by project_terminator->ProjectDomain[R5902]->Domain[R5901];
+      s = s + "service " + domain.name + "::" + project_terminator.name + "~>" + service.name + " (";
+    else
+      select one object_service related by service->ObjectService[R5203];
+      if ( not_empty object_service )
+        select one object_declaration related by object_service->ObjectDeclaration[R5808];
+        instance_based = "";
+        if ( object_service.isInstance )
+          instance_based = "instance ";
+        end if;
+        select one domain related by object_declaration->Domain[R5805];
+        s = s + instance_based + "service " + domain.name + "::" + object_declaration.name + "." + service.name + " (";
       end if;
-      select one domain related by object_declaration->Domain[R5805];
-      s = s + instance_based + "service " + domain.name + "::" + object_declaration.name + "." + service.name + " (";
     end if;
   end if;
 end if;
