@@ -27,6 +27,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     private final String filename;
     private final AslImportParser aslParser;
 
+    private Object emptyDomain;
     private Object emptyObject;
     private Object emptyCodeBlock;
     private Object currentProject;
@@ -100,6 +101,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     public Object visitDefinition(AslParser.DefinitionContext ctx) {
         try {
             // initialize instance fields
+            emptyDomain = loader.call_function("select_Domain_empty");
             emptyObject = loader.call_function("select_ObjectDeclaration_where_name", "false", "false");
             emptyCodeBlock = loader.call_function("select_CodeBlock_empty");
             currentCodeBlock = emptyCodeBlock;
@@ -2505,20 +2507,35 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
     @Override
     public Object visitNameExpression(AslParser.NameExpressionContext ctx) {
         try {
+        	Object domain = emptyDomain;
             String scope = "", base_name = "", number = "";
-            if (ctx.operationName() != null) {
+            if (ctx.baseName != null) {
                 scope = ctx.SCOPE() != null ? ctx.SCOPE().getText() : ctx.COLON().getText();
                 Pattern re = Pattern.compile("([a-zA-Z0-9_]+?)([0-9]*)");
-                Matcher m = re.matcher(ctx.operationName().getText());
+                Matcher m = re.matcher(ctx.baseName.getText());
                 if (m.matches()) {
                     base_name = m.group(1);
                     number = m.group(2);
+                    if (scope.equals("::")) {  // search for a domain matching the base name
+						domain = loader.call_function("select_Domain_where_name", base_name);
+						if (((IModelInstance<?, ?>) domain).isEmpty()) {
+							try {
+								final URI fileURI = aslParser.findFile(base_name, base_name + ".int");
+								aslParser.parseFile(fileURI);
+								domain = loader.call_function("select_Domain_where_name", base_name);
+							} catch (IOException e) {
+								// do nothing
+							}
+						}
+					}
                 }
             }
-            if ( "" == base_name ) base_name = currentEnumeration;
+            if (base_name.equals("")) {
+            	base_name = currentEnumeration;
+            }
             Object expression = loader.call_function("resolve_NameExpression",
-                    getName(currentDomain),
-                    ctx.identifier().getText(), currentCodeBlock,
+                	!((IModelInstance<?, ?>) domain).isEmpty() ? getName(domain) : getName(currentDomain),
+                    ctx.name.getText(), currentCodeBlock,
                     scope, base_name, number, !ctx.TICMARK().isEmpty());
             currentEnumeration = "";
             // audit collection types
@@ -2535,7 +2552,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
 						path += getName(currentService);
 					}
 					System.err.printf("127: %s: Reference '%s' expected to be collection type but is not. %s\n",
-							path, ctx.identifier().getText(), filename);
+							path, ctx.name.getText(), filename);
             	}
             }
             return expression;

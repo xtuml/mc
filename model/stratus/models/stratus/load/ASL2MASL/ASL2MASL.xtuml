@@ -43,7 +43,7 @@ mod_file = CMD::get_value(name:"mod");
 prj_file = CMD::get_value(name:"prj");
 
 if mod_file != ""
-  select many domains from instances of Domain;
+  select many domains from instances of Domain where not selected.interface;
   for each domain in domains
   
     output_directory = CMD::get_value(name: "o") + "/" + domain.name;

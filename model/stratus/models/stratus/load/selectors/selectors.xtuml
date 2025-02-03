@@ -1205,6 +1205,24 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../ooamasl/models/ooamasl/ooamasl/statement/statement.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("b52d6a20-5a8c-4ae2-98b7-70d2b4526f9a",
+	"00000000-0000-0000-0000-000000000000",
+	'select_Domain_empty',
+	'',
+	'select any domain from instances of Domain where false;
+return domain;',
+	"d467079c-c61e-4b05-8498-3fe2f24782a6",
+	1,
+	'',
+	0,
+	0);
+INSERT INTO PE_PE
+	VALUES ("b52d6a20-5a8c-4ae2-98b7-70d2b4526f9a",
+	1,
+	"d253fd26-846d-41fa-866d-36f9d01a0fa1",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("d253fd26-846d-41fa-866d-36f9d01a0fa1",
 	1,

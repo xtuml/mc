@@ -574,9 +574,9 @@ enumValue                     : v=identifier OF t=identifier
 tuple                         : LBRACKET argumentList RBRACKET
                               ;
 
-nameExpression                : ( operationName ( SCOPE | COLON ) )? identifier
-                              | LEFT_BRACE identifier RIGHT_BRACE
-                              | TICMARK identifier TICMARK
+nameExpression                : ( baseName=identifier ( SCOPE | COLON ) )? name=identifier
+                              | LEFT_BRACE name=identifier RIGHT_BRACE
+                              | TICMARK name=identifier TICMARK
                               ;
 
 operationName                 : identifier;

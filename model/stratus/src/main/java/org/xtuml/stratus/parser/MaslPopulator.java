@@ -197,11 +197,12 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
             visit(ctx.pragmaList());
             currentMarkable = null;
             
-            // resolve referentials
-            loader.call_function("ReferentialAttribute_resolve");
-            
-            // find and parse all domain activities
             if (filename.endsWith(".mod")) {
+
+				// resolve referentials
+				loader.call_function("ReferentialAttribute_resolve");
+            
+				// find and parse all domain activities
                 final String[] filenames = new String[800];
                 final String[] activityFiles = (String[]) loader.call_function("get_domain_activities", domain, filenames);
                 for (String activityFile : activityFiles) {
@@ -214,6 +215,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
                         }
                     }
                 }
+
             }
 
             return domain;
