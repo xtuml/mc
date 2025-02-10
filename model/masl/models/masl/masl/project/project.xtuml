@@ -22,9 +22,21 @@ if("MASL" == genfile::architecture())
   T::include( file:"masl/t.project_begin.masl" );
   select many domains related by self->domain[R3701.''configures''];
   for each domain in domains
-    domain.render_project();
+
+    // A domain named the same as the project with a single terminator called
+    // "Sequence" is a special construct which represents the sequence of
+    // scenarios to run and should be exported as a schedule file
+    select many terminators related by domain->terminator[R3702];
+    select any sequence related by domain->terminator[R3702] where selected.name == "Sequence";
+    if domain.name == self.name and not empty sequence and cardinality terminators == 1 then
+      sequence.render_schedule();
+    else
+      domain.render_project();
+    end if;
+
   end for;
   T::include( file:"masl/t.project_end.masl" );
+
 end if;
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
