@@ -1,0 +1,1 @@
+RUN SCENARIO ${domain_name} ${scenario_num} "${scenario_name}"

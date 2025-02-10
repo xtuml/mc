@@ -1,0 +1,7 @@
+T_b("RUN SCENARIO ");
+T_b(domain_name);
+T_b(" ");
+T_b(T_s(scenario_num));
+T_b(" \"");
+T_b(scenario_name);
+T_b("\"\n");
