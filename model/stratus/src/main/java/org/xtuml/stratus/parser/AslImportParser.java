@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.io.UncheckedIOException;
 import java.net.URI;
-import java.nio.file.Path;
 
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CharStream;
@@ -22,54 +21,57 @@ import io.ciera.runtime.instanceloading.generic.IGenericLoader;
 
 public class AslImportParser extends MaslImportParser implements IGenericLoader {
 
-    // parse an ASL activity file
-    @Override
-    public void parseFile(final URI fileURI) throws IOException {
-        if (fileURI.toString().endsWith(".mod") || fileURI.toString().endsWith(".int") || fileURI.toString().endsWith(".prj")) {
-            // Use the MASL parser for structural files
-            super.parseFile(fileURI);
-        } else {
-        parsingResources.push(fileURI);
-        System.out.println("Parsing resource: " + fileURI);
+	// parse an ASL activity file
+	@Override
+	public void parseFile(final URI fileURI) throws IOException {
+		if (fileURI.toString().endsWith(".mod") || fileURI.toString().endsWith(".int")
+				|| fileURI.toString().endsWith(".prj")) {
+			// Use the MASL parser for structural files
+			super.parseFile(fileURI);
+		} else {
+			parsingResources.push(fileURI);
+			System.out.println("Parsing resource: " + fileURI);
 
-        try (InputStream is = fileURI.toURL().openConnection().getInputStream()) {
-            final String filename = new File(fileURI.getPath()).getName();
-            // The following is a work-around for activity files with no end-of-line <EOL> character on the last line.
-            SequenceInputStream is2 = new SequenceInputStream( is, new ByteArrayInputStream( "\n".getBytes() ) );
+			try (InputStream is = fileURI.toURL().openConnection().getInputStream()) {
+				final String filename = new File(fileURI.getPath()).getName();
+				// The following is a work-around for activity files with no end-of-line <EOL>
+				// character on the last line.
+				SequenceInputStream is2 = new SequenceInputStream(is, new ByteArrayInputStream("\n".getBytes()));
 
-            // Tokenize the file
-            CharStream input = CharStreams.fromStream(is2);
-            AslLexer lexer = new AslLexer(input);
-            AslParser parser = new AslParser(new CommonTokenStream(lexer));
-            parser.removeErrorListeners();
-            parser.addErrorListener(new BaseErrorListener() {
-                @Override
-                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line,
-                        int charPositionInLine, String msg, RecognitionException e) throws ParseCancellationException {
-                    throw new ParseCancellationException(
-                            filename + ": line " + line + ":" + charPositionInLine + " " + msg);
-                }
-            });
+				// Tokenize the file
+				CharStream input = CharStreams.fromStream(is2);
+				AslLexer lexer = new AslLexer(input);
+				AslParser parser = new AslParser(new CommonTokenStream(lexer));
+				parser.removeErrorListeners();
+				parser.addErrorListener(new BaseErrorListener() {
+					@Override
+					public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line,
+							int charPositionInLine, String msg, RecognitionException e)
+							throws ParseCancellationException {
+						throw new ParseCancellationException(
+								filename + ": line " + line + ":" + charPositionInLine + " " + msg);
+					}
+				});
 
-            // Parse the file
-            ParserRuleContext ctx = parser.target();
+				// Parse the file
+				ParserRuleContext ctx = parser.target();
 
-            // Walk the parse tree
-            AslPopulator listener = new AslPopulator(this, loader, input, filename);
-            listener.visit(ctx);
+				// Walk the parse tree
+				AslPopulator listener = new AslPopulator(this, loader, input, filename);
+				listener.visit(ctx);
 
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } finally {
-            parsingResources.pop();
-            }
-        }
+			} catch (IOException e) {
+				throw new UncheckedIOException(e);
+			} finally {
+				parsingResources.pop();
+			}
+		}
 
-    }
+	}
 
-    // main method
-    public static void main(String args[]) {
-        AslImportParser parser = new AslImportParser(); // create new parser
-        parser.load(null, args);
-    }
+	// main method
+	public static void main(String args[]) {
+		AslImportParser parser = new AslImportParser(); // create new parser
+		parser.load(null, args);
+	}
 }
