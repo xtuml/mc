@@ -2624,11 +2624,6 @@ for each terminator in terminators
   select many terminator_services related by terminator->DomainTerminatorService[R5306]->Service[R5203] where SORT::ascending(attr:"name");
   for each terminator_service in terminator_services
     term_name = "" + terminator.name;
-    select any key_letter_mark from instances of Mark where selected.markable_name == "DomainTerminator" and
-      selected.feature_name == "key_letter" and selected.path == "" + domain.name + "::" + terminator.name;
-    if not_empty key_letter_mark
-      term_name = key_letter_mark.value;
-    end if;
     param.filenames[i] = term_name + "_" + terminator_service.name + ".tr";
     i = i + 1;
   end for;
@@ -2637,11 +2632,6 @@ end for;
 select many objs related by domain->ObjectDeclaration[R5805] where SORT::ascending(attr:"name");
 for each obj in objs
   obj_name = "" + obj.name;
-  select any key_letter_mark from instances of Mark where selected.markable_name == "Object" and
-    selected.feature_name == "key_letter" and selected.path == "" + domain.name + "::" + obj.name;
-  if not_empty key_letter_mark
-    obj_name = key_letter_mark.value;
-  end if;
  
   // object and instance services
   select many object_services related by obj->ObjectService[R5808]->Service[R5203] where SORT::ascending(attr:"name");
@@ -2754,11 +2744,6 @@ for each project_domain in project_domains
     select many terminator_services related by terminator->ProjectTerminatorService[R5903]->Service[R5203] where SORT::ascending(attr:"name");
     for each terminator_service in terminator_services
       term_name = "" + terminator.name;
-      select any key_letter_mark from instances of Mark where selected.markable_name == "ProjectTerminator" and
-        selected.feature_name == "key_letter" and selected.path == "" + project.name + "::" + domain.name + "::" + terminator.name;
-      if not_empty key_letter_mark
-        term_name = key_letter_mark.value;
-      end if;
       param.filenames[i] = "" + domain.name + "_" + term_name + "_" + terminator_service.name + ".tr";
       i = i + 1;
     end for;
