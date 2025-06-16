@@ -98,6 +98,12 @@ if mod_file != ""
   
     // Copy the .mod file to the output location
     Files::copyFile(src: mod_file, dst: output_directory + "/" + domain.name + ".mod");
+    int_file = STRING::substr(s: mod_file, begin: 0, end: STRING::strlen(s: mod_file) - 4) + ".int";
+    if Files::fileExists(path: int_file)
+      Files::copyFile(src: int_file, dst: output_directory + "/" + domain.name + ".int");
+    else
+      Files::copyFile(src: mod_file, dst: output_directory + "/" + domain.name + ".int");
+    end if;
   
   end for;
 elif prj_file != ""

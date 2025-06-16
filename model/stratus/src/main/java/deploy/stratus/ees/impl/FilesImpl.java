@@ -15,12 +15,18 @@ public class FilesImpl<C extends IComponent<C>> extends Utility<C> implements Fi
 		super(context);
 	}
 
+	@Override
 	public void copyFile(final String p_src, final String p_dst) {
 		try {
 			java.nio.file.Files.copy(Path.of(p_src), Path.of(p_dst), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
+	}
+
+	@Override
+	public boolean fileExists(final String p_path) {
+		return java.nio.file.Files.exists(Path.of(p_path));
 	}
 
 }

@@ -95,6 +95,26 @@ INSERT INTO S_BPARM
 	'',
 	"be786c47-f570-44b6-99a7-315b2aa670d3",
 	'');
+INSERT INTO S_BRG
+	VALUES ("5be8eceb-d199-49cd-a4e9-a1074c1ed1a6",
+	"bbb4ac46-4ae7-4266-a939-ec389e873063",
+	'fileExists',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	3,
+	'',
+	0);
+INSERT INTO S_BPARM
+	VALUES ("791ec484-4a5d-4f08-a160-c8fa8c979c0e",
+	"5be8eceb-d199-49cd-a4e9-a1074c1ed1a6",
+	'path',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO PE_PE
 	VALUES ("bbb4ac46-4ae7-4266-a939-ec389e873063",
 	1,
