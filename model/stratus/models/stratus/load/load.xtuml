@@ -1107,10 +1107,13 @@ INSERT INTO S_SYNC
 // are fully defined.  During the first pass, the referentials were linked
 // to themselves.
 
-LOG::LogInfo( message:"RerentialAttribute_resolve starting..." );
+domain = param.domain;
+
+LOG::LogInfo( message:"RerentialAttribute_resolve starting for " + domain.name + "..." );
 
 o_referring = ""; o_referenced = ""; // string UDTs
-select many referential_attribute_definitions from instances of ReferentialAttributeDefinition;
+select many referential_attribute_definitions related by domain->ObjectDeclaration[R5805]->AttributeDeclaration[R5802]->ReferentialAttributeDefinition[R5800.''refers_to''];
+LOG::LogInfo(message: "Num refs: " + STRING::itoa(i: cardinality referential_attribute_definitions));
 for each referential_attribute_definition in referential_attribute_definitions
   select one referring_attribute_declaration related by referential_attribute_definition->AttributeDeclaration[R5800.''is_referenced_by''];
   select one referring_object_declaration related by referring_attribute_declaration->ObjectDeclaration[R5802];
@@ -1137,6 +1140,22 @@ LOG::LogInfo( message:"RerentialAttribute_resolve ...done" );',
 	'',
 	0,
 	0);
+INSERT INTO S_SPARM
+	VALUES ("2d4378c0-8132-457e-acad-0b3314baf139",
+	"90e0a8bb-2227-4ea2-a3cd-74317453fb69",
+	'domain',
+	"d467079c-c61e-4b05-8498-3fe2f24782a6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("d467079c-c61e-4b05-8498-3fe2f24782a6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Domain>',
+	'',
+	'',
+	'../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
 INSERT INTO PE_PE
 	VALUES ("90e0a8bb-2227-4ea2-a3cd-74317453fb69",
 	1,
@@ -1180,13 +1199,6 @@ INSERT INTO S_SPARM
 	'',
 	"a99c4e53-1924-4627-afe7-b9f6789f1cf7",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("d467079c-c61e-4b05-8498-3fe2f24782a6",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Domain>',
-	'',
-	'',
-	'../../../../ooamasl/models/ooamasl/ooamasl/domain/domain.xtuml');
 INSERT INTO PE_PE
 	VALUES ("833efa7d-504f-41aa-86e3-501de92ef97c",
 	1,

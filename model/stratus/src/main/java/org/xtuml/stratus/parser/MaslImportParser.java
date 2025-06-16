@@ -37,7 +37,7 @@ public class MaslImportParser implements IGenericLoader {
 	}
 
 	// parse a MASL file
-	public void parseFile(final URI fileURI) throws IOException {
+	public void parseFile(final URI fileURI, boolean parseActivities) throws IOException {
 		parsingResources.push(fileURI);
 		System.out.println("Parsing resource: " + fileURI);
 
@@ -62,7 +62,7 @@ public class MaslImportParser implements IGenericLoader {
 			ParserRuleContext ctx = parser.target();
 
 			// Walk the parse tree
-			MaslPopulator listener = new MaslPopulator(this, loader, input, filename);
+			MaslPopulator listener = new MaslPopulator(this, loader, input, filename, parseActivities);
 			listener.visit(ctx);
 
 		} catch (IOException e) {
@@ -140,10 +140,10 @@ public class MaslImportParser implements IGenericLoader {
 					.toArray(String[]::new);
 			if (!modFile.isBlank() && prjFile.isBlank()) {
 				// parse domain model
-				parseFile(new File(modFile).toURI());
+				parseFile(new File(modFile).toURI(), true);
 			} else if (modFile.isBlank() && !prjFile.isBlank()) {
 				// parse project model
-				parseFile(new File(prjFile).toURI());
+				parseFile(new File(prjFile).toURI(), true);
 			} else if (!modFile.isBlank() && !prjFile.isBlank()) {
 				throw new XtumlException("Cannot specify both domain and project file");
 			} else {

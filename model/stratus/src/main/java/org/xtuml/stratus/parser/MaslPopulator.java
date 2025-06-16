@@ -24,6 +24,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 	private final String filename;
 	private final MaslImportParser maslParser;
 	private final AslImportParser aslParser;
+	private final boolean parseActivities;
 
 	private Object emptyObject;
 	private Object emptyCodeBlock;
@@ -87,12 +88,13 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 		System.exit(1);
 	}
 
-	public MaslPopulator(MaslImportParser maslParser, LOAD loader, CharStream input, String filename) {
+	public MaslPopulator(MaslImportParser maslParser, LOAD loader, CharStream input, String filename, boolean parseActivities) {
 		this.input = input;
 		this.loader = loader;
 		this.filename = filename;
 		this.maslParser = maslParser;
 		this.aslParser = null;
+		this.parseActivities = parseActivities;
 	}
 
 	@Override
@@ -126,21 +128,25 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 			for (Object projectDomainDefinition : ctx.projectItem().stream().map(o -> visit(o)).toArray()) {
 				loader.relate(projectDomainDefinition, project, 5900, "");
 			}
+
 			// find and parse all project activities
-			final String[] filenames = new String[100];
-			final String[] activityFiles = (String[]) loader.call_function("get_project_activities", project,
-					filenames);
-			for (String activityFile : activityFiles) {
-				if (activityFile != null) {
-					try {
-						final URI fileURI = maslParser.findFile(activityFile);
-						maslParser.parseFile(fileURI);
-					} catch (NoSuchElementException e) {
-						System.err.println("WARNING: Could not find activity file '" + activityFile + "' for project: "
-								+ ctx.projectName().getText());
+			if (parseActivities) {
+				final String[] filenames = new String[100];
+				final String[] activityFiles = (String[]) loader.call_function("get_project_activities", project,
+						filenames);
+				for (String activityFile : activityFiles) {
+					if (activityFile != null) {
+						try {
+							final URI fileURI = maslParser.findFile(activityFile);
+							maslParser.parseFile(fileURI, false);
+						} catch (NoSuchElementException e) {
+							System.err.println("WARNING: Could not find activity file '" + activityFile
+									+ "' for project: " + ctx.projectName().getText());
+						}
 					}
 				}
 			}
+
 			currentProject = null;
 			return project;
 		} catch (XtumlException | IOException e) {
@@ -200,12 +206,11 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 			visit(ctx.pragmaList());
 			currentMarkable = null;
 
-			if (filename.endsWith(".mod")) {
+			// resolve referentials
+			loader.call_function("ReferentialAttribute_resolve", currentDomain);
 
-				// resolve referentials
-				loader.call_function("ReferentialAttribute_resolve");
-
-				// find and parse all domain activities
+			// find and parse all domain activities
+			if (parseActivities) {
 				final String[] filenames = new String[800];
 				final String[] activityFiles = (String[]) loader.call_function("get_domain_activities", domain,
 						filenames);
@@ -213,14 +218,13 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 					if (activityFile != null) {
 						try {
 							final URI fileURI = maslParser.findFile(domainName, activityFile);
-							maslParser.parseFile(fileURI);
+							maslParser.parseFile(fileURI, false);
 						} catch (NoSuchElementException e) {
 							System.err.println("WARNING: Could not find activity file '" + activityFile
 									+ "' for domain: " + domainName);
 						}
 					}
 				}
-
 			}
 
 			return domain;
@@ -239,7 +243,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 				// Find and parse the domain interface
 				try {
 					final URI fileURI = maslParser.findFile(domainName, domainName + ".int");
-					maslParser.parseFile(fileURI);
+					maslParser.parseFile(fileURI, false);
 				} catch (NoSuchElementException e) {
 					System.err.println(
 							"Could not find interface file '" + domainName + ".int' for domain: " + domainName);

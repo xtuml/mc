@@ -2111,7 +2111,7 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
 						if (((IModelInstance<?, ?>) domain).isEmpty()) {
 							try {
 								final URI fileURI = aslParser.findFile(base_name, base_name + ".int");
-								aslParser.parseFile(fileURI);
+								aslParser.parseFile(fileURI, false);
 								domain = loader.call_function("select_Domain_where_name", base_name);
 							} catch (IOException e) {
 								// do nothing
