@@ -73,11 +73,11 @@ public class MaslImportParser implements IGenericLoader {
 
 	}
 
-	public URI findFile(final String fileName) {
+	public Optional<URI> findFile(final String fileName) {
 		return findFile(null, fileName);
 	}
 
-	public URI findFile(final String domainName, final String fileName) {
+	public Optional<URI> findFile(final String domainName, final String fileName) {
 		// look for resources on the local file system
 		try {
 			final File currentFile = new File(parsingResources.peek());
@@ -98,7 +98,7 @@ public class MaslImportParser implements IGenericLoader {
 			Optional<URI> localURI = Stream.of(localFiles, domainPathFiles, domainPathFiles2).flatMap(s -> s)
 					.filter(f -> f.getName().equals(fileName)).map(File::toURI).findAny();
 			if (localURI.isPresent()) {
-				return localURI.orElseThrow();
+				return localURI;
 			}
 		} catch (IllegalArgumentException e) {
 			// not a local file
@@ -119,7 +119,7 @@ public class MaslImportParser implements IGenericLoader {
 			} catch (IOException | URISyntaxException e2) {
 				throw new RuntimeException(e2);
 			}
-		}).findAny().orElseThrow();
+		}).findAny();
 
 	}
 

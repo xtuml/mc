@@ -137,7 +137,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 				for (String activityFile : activityFiles) {
 					if (activityFile != null) {
 						try {
-							final URI fileURI = maslParser.findFile(activityFile);
+							final URI fileURI = maslParser.findFile(activityFile).orElseThrow();
 							maslParser.parseFile(fileURI, false);
 						} catch (NoSuchElementException e) {
 							System.err.println("WARNING: Could not find activity file '" + activityFile
@@ -217,7 +217,7 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 				for (String activityFile : activityFiles) {
 					if (activityFile != null) {
 						try {
-							final URI fileURI = maslParser.findFile(domainName, activityFile);
+							final URI fileURI = maslParser.findFile(domainName, activityFile).orElseThrow();
 							maslParser.parseFile(fileURI, false);
 						} catch (NoSuchElementException e) {
 							System.err.println("WARNING: Could not find activity file '" + activityFile
@@ -242,11 +242,11 @@ public class MaslPopulator extends MaslParserBaseVisitor<Object> {
 			if (((IModelInstance<?, ?>) domain).isEmpty()) {
 				// Find and parse the domain interface
 				try {
-					final URI fileURI = maslParser.findFile(domainName, domainName + ".int");
+					final URI fileURI = maslParser.findFile(domainName, domainName + ".mod").or(() -> maslParser.findFile(domainName, domainName + ".int")).orElseThrow();
 					maslParser.parseFile(fileURI, false);
 				} catch (NoSuchElementException e) {
 					System.err.println(
-							"Could not find interface file '" + domainName + ".int' for domain: " + domainName);
+							"Could not find interface file for domain: " + domainName);
 					xtumlTrace(e, "", ctx);
 					return null;
 				}

@@ -2110,9 +2110,10 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
 						domain = loader.call_function("select_Domain_where_name", base_name);
 						if (((IModelInstance<?, ?>) domain).isEmpty()) {
 							try {
-								final URI fileURI = aslParser.findFile(base_name, base_name + ".int");
+								final String domainName = base_name;
+								final URI fileURI = aslParser.findFile(domainName, domainName + ".mod").or(() -> aslParser.findFile(domainName, domainName + ".int")).orElseThrow();
 								aslParser.parseFile(fileURI, false);
-								domain = loader.call_function("select_Domain_where_name", base_name);
+								domain = loader.call_function("select_Domain_where_name", domainName);
 							} catch (IOException e) {
 								// do nothing
 							}
