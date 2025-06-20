@@ -92,6 +92,7 @@ ENDFOR                        : 'endfor';
 ENDIF                         : 'endif';
 ENDINLINE                     : '$ENDINLINE';
 ENDLOOP                       : 'endloop';
+ENDMASLINLINE                 : '$ENDMASLINLINE';
 ENDSWITCH                     : 'endswitch';
 ENDUSE                        : '$ENDUSE';
 END                           : 'end';
@@ -112,6 +113,7 @@ IS                            : 'is';
 LEFT_BRACE                    : '{';
 LINK                          : 'link' | 'associate' | 'link-counterpart';      // could separate these
 LOOP                          : 'loop';
+MASLINLINE                    : '$MASLINLINE';
 NEWLINE                       : [\r\n];
 OF                            : 'of';
 ONE                           : 'one-of';
@@ -171,6 +173,7 @@ ContinueLine                  : '\\' (' ' | '\t' | '\f' | '\r' )* NEWLINE -> ski
 Inline                        : INLINE .*? ENDINLINE -> skip;
 IncludeHeader                 : INCLUDE_HEADER .*? NEWLINE -> skip;
 AdaInline                     : ADA_INLINE .*? END_ADAINLINE -> skip;
+MaslInline                    : MASLINLINE .*? ENDMASLINLINE;
 TokenH                        : '#$TOKENH' .*? '#$END_TOKENH' NEWLINE -> skip; // TODO:  eat stuff?
 TokenL                        : '#$TOKENL' .*? '#$END_TOKENL' NEWLINE -> skip; // TODO:  eat stuff?
 MultilineComment              : '#{' .*? '}#' NEWLINE -> skip;

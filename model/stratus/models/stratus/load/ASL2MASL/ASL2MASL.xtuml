@@ -177,11 +177,14 @@ s = ::statement_link_unlink( statement:statement, d:param.d );
 if ( "" == s )
 s = ::statement_while( statement:statement, d:param.d );
 if ( "" == s )
+s = ::statement_inlinemasl( statement:statement, d:param.d );
+if ( "" == s )
 // Recognize descriptions.
 if ( true ) and ( 0 <= STRING::indexof(haystack:statement.actions, needle:"//!") )
   s = statement.actions;
 else
   s = "\n";
+end if;
 end if;
 end if;
 end if;
@@ -2571,6 +2574,47 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("be486feb-ad79-461f-8916-ac6bb31d2c67",
+	1,
+	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f8faaa1c-824c-4c99-bb31-627a896ec8c5",
+	"00000000-0000-0000-0000-000000000000",
+	'statement_inlinemasl',
+	'',
+	'statement = param.statement;
+s = "";
+select one inline_masl related by statement->InlineMasl[R5135];
+if ( not_empty inline_masl )
+  s = inline_masl.text;
+end if;
+return s;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'',
+	0,
+	15);
+INSERT INTO S_SPARM
+	VALUES ("64b58b07-b634-4ddb-bef9-1e75f9fba421",
+	"f8faaa1c-824c-4c99-bb31-627a896ec8c5",
+	'statement',
+	"05890c89-f4eb-4163-9007-b5abcf03a719",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("fd78fbfe-d201-49ea-8193-e7574c925596",
+	"f8faaa1c-824c-4c99-bb31-627a896ec8c5",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"64b58b07-b634-4ddb-bef9-1e75f9fba421",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f8faaa1c-824c-4c99-bb31-627a896ec8c5",
 	1,
 	"f2c7a380-21fe-4c0d-9f05-1bf86680e190",
 	"00000000-0000-0000-0000-000000000000",

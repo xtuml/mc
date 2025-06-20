@@ -1185,6 +1185,10 @@ public class AslPopulator extends AslParserBaseVisitor<Object> {
 				smtSubtype = visit(ctx.whileStatement());
 			} else if (ctx.comment() != null) {
 				smtSubtype = visit(ctx.comment());
+			} else if (ctx.MaslInline() != null) {
+				smtSubtype = loader.create("InlineMasl");
+				final String maslText = ctx.MaslInline().getText().substring("$MASLINLINE".length(), ctx.MaslInline().getText().length() - "$ENDMASLINLINE".length()).strip();
+				loader.set_attribute(smtSubtype, "text", maslText);
 			}
 			if (smtSubtype != null) {
 				Object statement = loader.create("MaslStatement");

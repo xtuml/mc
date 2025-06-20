@@ -304,6 +304,7 @@ statement                     : (
                                 | description
                                 | comment
                                 | AdaInline
+                                | MaslInline
                                 | Inline
                                 | NEWLINE
                                 )
