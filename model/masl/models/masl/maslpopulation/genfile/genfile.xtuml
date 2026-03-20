@@ -465,32 +465,44 @@ if ( not_empty activity )
           key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
         end if;
         if ( empty project ) // domain terminator
-          name = key_letters + "_" + activity.name + ".tr";
+          if ("WASL" == genfile::architecture())
+            name = key_letters + "_" + activity.name + ".tr";
+          else
+            name = terminator.name + "_" + activity.name + ".tr";
+          end if;
         else // project terminator
           select one domain related by terminator->domain[R3702];
-          name = domain.name + "_" + key_letters + "_" + activity.name + ".tr";
+          if ("WASL" == genfile::architecture())
+            name = domain.name + "_" + key_letters + "_" + activity.name + ".tr";
+          else
+            name = domain.name + "_" + terminator.name + "_" + activity.name + ".tr";
+          end if;
         end if;
       end if;
     elif ( not_empty operation )
       select one returntype related by operation->typeref[R3741];
-      select any pragma related by operation->object[R3749]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
-      select any pragma_item related by pragma->pragma_item[R3780];
-      key_letters = "";
-      if ( empty pragma_item )
-        select one obj related by operation->object[R3749];
-        key_letters = obj.name;
+      select one obj related by operation->object[R3749];
+      if ("WASL" == genfile::architecture())
+        select any pragma related by operation->object[R3749]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
+        select any pragma_item related by pragma->pragma_item[R3780];
+        key_letters = "";
+        if ( empty pragma_item )
+          key_letters = obj.name;
+        else
+          kl_len = STRING::strlen( s:pragma_item.value );
+          key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
+        end if;
+        name = key_letters + "_" + activity.name + ".svc";
       else
-        kl_len = STRING::strlen( s:pragma_item.value );
-        key_letters = STRING::substr( s:pragma_item.value, begin: 1, end: kl_len - 1 );
+        name = obj.name + "_" + activity.name + ".svc";
       end if;
-      name = key_letters + "_" + activity.name + ".svc";
     elif ( not_empty state )
       select one returntype related by operation->typeref[R3741];
+      select one obj related by state->object[R3750];
       select any pragma related by state->object[R3750]->markable[R3783]->pragma_list[R3782]->pragma[R3781] where ( selected.name == "key_letter" );
       select any pragma_item related by pragma->pragma_item[R3780];
       key_letters = "";
       if ( empty pragma_item )
-        select one obj related by state->object[R3750];
         key_letters = obj.name;
       else
         kl_len = STRING::strlen( s:pragma_item.value );
@@ -498,9 +510,18 @@ if ( not_empty activity )
       end if;
       if ( "assigner" == state.type or "assigner start" == state.type )
         // add -A for assigner states
-        name = key_letters + "-A_" + activity.name + ".al";
+        if ("WASL" == genfile::architecture())
+          name = key_letters + "-A_" + activity.name + ".al";
+        else
+          name = obj.name + "-A_" + activity.name + ".al";
+        end if;
       else
-        name = key_letters + "_" + activity.name + ".al";
+        name = obj.name + "_" + activity.name + ".al";
+        if ("WASL" == genfile::architecture())
+          name = key_letters + "_" + activity.name + ".al";
+        else
+          name = obj.name + "_" + activity.name + ".al";
+        end if;
       end if;
     end if;
   
@@ -829,7 +850,10 @@ elif ( "domain" == element )
         for each operation in operations
           select one activity related by operation->activity[R3704];
           operation.render_definition( activity:activity );
-          filename = domain.name + "_" + object.key_letters + STRING::itoa( i:operation.number ) + "_" + activity.name + ".fn";
+          filename = domain.name + "_" + object.name + STRING::itoa( i:operation.number ) + "_" + activity.name + ".fn";
+          if ("WASL" == genfile::architecture())
+            filename = domain.name + "_" + object.key_letters + STRING::itoa( i:operation.number ) + "_" + activity.name + ".fn";
+          end if;
           TRACE::log( flavor:"info", id:119, message:"rendering activity file:  " + filename );
           select one deferral related by operation->subsuper[R3793];
           if ( empty deferral )
@@ -860,7 +884,10 @@ elif ( "domain" == element )
           select any cell related by state->cell[R3731];
           if ( not_empty cell )
             state.render_definition( activity:activity );
-            sname = domain.name + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
+            sname = domain.name + "_" + object.name + "_" + STRING::itoa( i:state.number );
+            if ("WASL" == genfile::architecture())
+              sname = domain.name + "_" + object.key_letters + "_" + STRING::itoa( i:state.number );
+            end if;
             TRACE::log( flavor:"info", id:120, message:"rendering state action:  " + sname );
             genfile = genfile::populate( name:sname );
             genfile.emit( name:sname + ".al" );
